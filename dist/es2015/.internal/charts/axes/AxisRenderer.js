@@ -36,7 +36,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     /**
      * Constructor.
      *
-     * @param {Axis} axis Related axis
+     * @param axis Related axis
      */
     function AxisRenderer() {
         var _this = 
@@ -44,8 +44,6 @@ var AxisRenderer = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * A related chart.
-         *
-         * @type {MutableValueDisposer}
          */
         _this._chart = new MutableValueDisposer();
         _this.className = "AxisRenderer";
@@ -150,7 +148,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         /**
          * Returns actual length of the Axis, in pixels.
          *
-         * @return {number} Length (px)
+         * @return Length (px)
          */
         get: function () {
             // This is a placeholder method for extending classes to override.
@@ -163,8 +161,8 @@ var AxisRenderer = /** @class */ (function (_super) {
      * Re-positions an element to new coordinates.
      *
      * @ignore Exclude from docs
-     * @param {Sprite}  item   A target element
-     * @param {IPoint}  point  New coordinates
+     * @param item   A target element
+     * @param point  New coordinates
      */
     AxisRenderer.prototype.positionItem = function (item, point) {
         if (item) {
@@ -175,8 +173,8 @@ var AxisRenderer = /** @class */ (function (_super) {
      * Converts relative position on axis to point coordinates.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position (0-1)
-     * @return {IPoint}            Point
+     * @param position  Position (0-1)
+     * @return Point
      */
     AxisRenderer.prototype.positionToPoint = function (position) {
         // This is a placeholder method for extending classes to override.
@@ -187,8 +185,8 @@ var AxisRenderer = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review / units)
-     * @param  {number}  position  Position (0-1)
-     * @return {number}            Angle
+     * @param position  Position (0-1)
+     * @return Angle
      */
     AxisRenderer.prototype.positionToAngle = function (position) {
         // This is a placeholder method for extending classes to override.
@@ -197,8 +195,8 @@ var AxisRenderer = /** @class */ (function (_super) {
     /**
      * Converts relative position (0-1) on axis to a pixel coordinate.
      *
-     * @param  {number}  position  Position (0-1)
-     * @return {number}            Coordinate (px)
+     * @param position  Position (0-1)
+     * @return Coordinate (px)
      */
     AxisRenderer.prototype.positionToCoordinate = function (position) {
         var coordinate;
@@ -237,8 +235,8 @@ var AxisRenderer = /** @class */ (function (_super) {
     /**
      * Converts a coordinate in pixels to a relative position. (0-1)
      *
-     * @param  {number}  coordinate  Coordinate (px)
-     * @return {number}              Position (0-1)
+     * @param coordinate  Coordinate (px)
+     * @return Position (0-1)
      */
     AxisRenderer.prototype.coordinateToPosition = function (coordinate) {
         var position;
@@ -257,8 +255,8 @@ var AxisRenderer = /** @class */ (function (_super) {
      * on the axis.
      *
      * @ignore Exclude from docs
-     * @param  {IPoint}  point  Point
-     * @return {number}         Position (0-1)
+     * @param point  Point
+     * @return Position (0-1)
      */
     AxisRenderer.prototype.pointToPosition = function (point) {
         // This is a placeholder method for extending classes to override.
@@ -269,9 +267,9 @@ var AxisRenderer = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}  startPosition  Starting position
-     * @param  {number}  endPosition    End position
-     * @return {string}                 SVG path
+     * @param startPosition  Starting position
+     * @param endPosition    End position
+     * @return SVG path
      */
     AxisRenderer.prototype.getPositionRangePath = function (startPosition, endPosition) {
         return "";
@@ -292,9 +290,9 @@ var AxisRenderer = /** @class */ (function (_super) {
      * Updates and positions a grid element.
      *
      * @ignore Exclude from docs
-     * @param {Grid}    grid         Grid element
-     * @param {number}  position     Starting position
-     * @param {number}  endPosition  End position
+     * @param grid         Grid element
+     * @param position     Starting position
+     * @param endPosition  End position
      */
     AxisRenderer.prototype.updateGridElement = function (grid, position, endPosition) {
         // This is a placeholder method for extending classes to override.
@@ -303,9 +301,9 @@ var AxisRenderer = /** @class */ (function (_super) {
      * Updates and positions a tick element.
      *
      * @ignore Exclude from docs
-     * @param {AxisTick}  tick         Tick element
-     * @param {number}    position     Starting position
-     * @param {number}    endPosition  End position
+     * @param tick         Tick element
+     * @param position     Starting position
+     * @param endPosition  End position
      */
     AxisRenderer.prototype.updateTickElement = function (tick, position, endPosition) {
         // This is a placeholder method for extending classes to override.
@@ -314,9 +312,9 @@ var AxisRenderer = /** @class */ (function (_super) {
      * Updates and positions a label element.
      *
      * @ignore Exclude from docs
-     * @param {AxisLabel}  label        Label element
-     * @param {number}     position     Starting position
-     * @param {number}     endPosition  Ending position
+     * @param label        Label element
+     * @param position     Starting position
+     * @param endPosition  Ending position
      */
     AxisRenderer.prototype.updateLabelElement = function (label, position, endPosition, location) {
         // This is a placeholder method for extending classes to override.
@@ -325,9 +323,9 @@ var AxisRenderer = /** @class */ (function (_super) {
      * Updates and positions the axis fill element.
      *
      * @ignore Exclude from docs
-     * @param {AxisFill}  fill         Fill element
-     * @param {number}    position     Starting position
-     * @param {number}    endPosition  Ending position
+     * @param fill         Fill element
+     * @param position     Starting position
+     * @param endPosition  Ending position
      */
     AxisRenderer.prototype.updateFillElement = function (fill, position, endPosition) {
         fill.startPosition = position;
@@ -353,7 +351,7 @@ var AxisRenderer = /** @class */ (function (_super) {
      * Updates and positions an axis break element.
      *
      * @ignore Exclude from docs
-     * @param {AxisBreak} axisBreak Break element
+     * @param axisBreak Break element
      */
     AxisRenderer.prototype.updateBreakElement = function (axisBreak) {
         this.positionItem(axisBreak.startLine, axisBreak.startPoint);
@@ -363,7 +361,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisRenderer.prototype, "minGridDistance", {
         /**
-         * @return {number} Min distance (px)
+         * @return Min distance (px)
          */
         get: function () {
             return this.getPropertyValue("minGridDistance");
@@ -371,7 +369,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         /**
          * Minimum distance in pixels between grid elements.
          *
-         * @param {number}  value  Min distance (px)
+         * @param value  Min distance (px)
          */
         set: function (value) {
             if (this.setPropertyValue("minGridDistance", value)) {
@@ -386,7 +384,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     Object.defineProperty(AxisRenderer.prototype, "chart", {
         /**
          * @ignore Exclude from docs
-         * @return {Chart} Chart
+         * @return Chart
          */
         get: function () {
             return this._chart.get();
@@ -395,7 +393,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          * A chart, associated with the Axis.
          *
          * @ignore Exclude from docs
-         * @param {Chart}  value  Chart
+         * @param value  Chart
          */
         set: function (value) {
             this._chart.set(value, null);
@@ -410,10 +408,10 @@ var AxisRenderer = /** @class */ (function (_super) {
      * E.g. labels based on `minLabelPosition` and `maxLabelPosition`.
      *
      * @ignore Exclude from docs
-     * @param {Sprite}  sprite       An element to toggle
-     * @param {number}  position     Elements current position
-     * @param {number}  minPosition  Min position setting
-     * @param {number}  maxPosition  Max position setting
+     * @param sprite       An element to toggle
+     * @param position     Elements current position
+     * @param minPosition  Min position setting
+     * @param maxPosition  Max position setting
      */
     AxisRenderer.prototype.toggleVisibility = function (sprite, position, minPosition, maxPosition) {
         var axis = this.axis;
@@ -432,7 +430,7 @@ var AxisRenderer = /** @class */ (function (_super) {
      * Creates visual elements for and axis break.
      *
      * @ignore Exclude from docs
-     * @param {AxisBreak} axisBreak Axis break
+     * @param axisBreak Axis break
      */
     AxisRenderer.prototype.createBreakSprites = function (axisBreak) {
         // This is a placeholder method for extending classes to override.
@@ -468,7 +466,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          * ```
          *
          * @see {@link https://www.amcharts.com/docs/v4/tutorials/alternated-axis-fills/} this tutorial for more info.
-         * @return {ListTemplate} Fill elements
+         * @return Fill elements
          */
         get: function () {
             if (!this._axisFills) {
@@ -487,7 +485,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     /**
      * Returns a new fill element, suitable for this Axis Renderer type.
      *
-     * @return {AxisFill} Fill element
+     * @return Fill element
      */
     AxisRenderer.prototype.createFill = function (axis) {
         return new AxisFill(axis);
@@ -496,7 +494,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         /**
          * A list of Axis' Grid elements.
          *
-         * @return {ListTemplate} Grid elements
+         * @return Grid elements
          */
         get: function () {
             if (!this._grid) {
@@ -515,7 +513,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     /**
      * Returns a new grid element, suitable for this Axis Renderer type.
      *
-     * @return {Grid} Grid element
+     * @return Grid element
      */
     AxisRenderer.prototype.createGrid = function () {
         return new Grid();
@@ -547,7 +545,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          * }
          * ```
          *
-         * @return {ListTemplate} Tick elements
+         * @return Tick elements
          */
         get: function () {
             if (!this._ticks) {
@@ -567,7 +565,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     /**
      * Returns a new tick element, suitable for this Axis Renderer type.
      *
-     * @return {AxisTick} Tick element
+     * @return Tick element
      */
     AxisRenderer.prototype.createTick = function () {
         return new AxisTick();
@@ -576,7 +574,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         /**
          * A list of Axis' Label elements.
          *
-         * @return {ListTemplate} Label elements
+         * @return Label elements
          */
         get: function () {
             if (!this._labels) {
@@ -595,14 +593,14 @@ var AxisRenderer = /** @class */ (function (_super) {
     /**
      * Returns a new label element, suitable for this Axis Renderer type.
      *
-     * @return {AxisLabel} Label element
+     * @return Label element
      */
     AxisRenderer.prototype.createLabel = function () {
         return new AxisLabel();
     };
     Object.defineProperty(AxisRenderer.prototype, "inside", {
         /**
-         * @return {boolean} Labels inside?
+         * @return Labels inside?
          */
         get: function () {
             return this.getPropertyValue("inside");
@@ -612,7 +610,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          *
          * Does not work with all renderers, like AxisRendererRadial.
          *
-         * @param {boolean}  value  Labels inside?
+         * @param value  Labels inside?
          */
         set: function (value) {
             if (this.setPropertyValue("inside", value)) {
@@ -634,7 +632,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "opposite", {
         /**
-         * @return {boolean} Draw axis on opposite side?
+         * @return Draw axis on opposite side?
          */
         get: function () {
             return this.getPropertyValue("opposite");
@@ -646,7 +644,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          * Does not work with all renderers, like [[AxisRendererRadial]] and
          * [[AxisRenderer Circular].
          *
-         * @param {boolean}  value  Draw axis on opposite side?
+         * @param value  Draw axis on opposite side?
          */
         set: function (value) {
             this.setPropertyValue("opposite", value);
@@ -656,7 +654,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "fullWidthTooltip", {
         /**
-         * @return {boolean} Full width tooltip?
+         * @return Full width tooltip?
          */
         get: function () {
             return this.getPropertyValue("fullWidthTooltip");
@@ -667,7 +665,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          *
          * NOTE: this setting is ignored on circular axis types.
          *
-         * @param {boolean} value Full width tooltip?
+         * @param value Full width tooltip?
          */
         set: function (value) {
             this.setPropertyValue("fullWidthTooltip", value);
@@ -677,7 +675,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "tooltipLocation", {
         /**
-         * @return {number} Tooltip location
+         * @return Tooltip location
          */
         get: function () {
             return this.getPropertyValue("tooltipLocation");
@@ -689,7 +687,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          * 0.5 - show right in the middle
          * 1 - show at the end
          *
-         * @param {number} value Tooltip location
+         * @param value Tooltip location
          */
         set: function (value) {
             this.setPropertyValue("tooltipLocation", value);
@@ -699,7 +697,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "cellStartLocation", {
         /**
-         * @return {number} Cell start (0-1)
+         * @return Cell start (0-1)
          */
         get: function () {
             return this.getPropertyValue("cellStartLocation");
@@ -724,7 +722,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          * This is used to limit a space occupied by series like column.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
-         * @param {number} value Cell start (0-1)
+         * @param value Cell start (0-1)
          */
         set: function (value) {
             if (this.setPropertyValue("cellStartLocation", value)) {
@@ -738,7 +736,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "cellEndLocation", {
         /**
-         * @return {number} Cell end (0-1)
+         * @return Cell end (0-1)
          */
         get: function () {
             return this.getPropertyValue("cellEndLocation");
@@ -763,7 +761,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          * This is used to limit a space occupied by series like column.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
-         * @param {number} value Cell end (0-1)
+         * @param value Cell end (0-1)
          */
         set: function (value) {
             if (this.setPropertyValue("cellEndLocation", value)) {
@@ -777,7 +775,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "inversed", {
         /**
-         * @return {boolean} Flip axis?
+         * @return Flip axis?
          */
         get: function () {
             return this.getPropertyValue("inversed");
@@ -785,7 +783,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         /**
          * Indicates if the scale of the axis should be flipped.
          *
-         * @param {boolean} value Flip axis?
+         * @param value Flip axis?
          */
         set: function (value) {
             this.setPropertyValue("inversed", value);
@@ -795,7 +793,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "minLabelPosition", {
         /**
-         * @return {number} Min label position (0-1)
+         * @return Min label position (0-1)
          */
         get: function () {
             return this.getPropertyValue("minLabelPosition");
@@ -813,7 +811,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          * got any extra margins.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
-         * @param {number}  value  Min label position (0-1)
+         * @param value  Min label position (0-1)
          */
         set: function (value) {
             this.setPropertyValue("minLabelPosition", value, true);
@@ -823,7 +821,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "maxLabelPosition", {
         /**
-         * @return {number} Max label position (0-1)
+         * @return Max label position (0-1)
          */
         get: function () {
             return this.getPropertyValue("maxLabelPosition");
@@ -841,7 +839,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          * got any extra margins.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
-         * @param {number}  value  Max label position (0-1)
+         * @param value  Max label position (0-1)
          */
         set: function (value) {
             this.setPropertyValue("maxLabelPosition", value, true);
@@ -853,7 +851,7 @@ var AxisRenderer = /** @class */ (function (_super) {
      * Copies all settings and related items from another object of the same
      * type.
      *
-     * @param {this}  source  Source object
+     * @param source  Source object
      */
     AxisRenderer.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

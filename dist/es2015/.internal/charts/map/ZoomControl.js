@@ -39,8 +39,6 @@ var ZoomControl = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * A target map.
-         *
-         * @type {MutableValueDisposer<MapChart>}
          */
         _this._chart = new MutableValueDisposer();
         _this.className = "ZoomControl";
@@ -134,7 +132,7 @@ var ZoomControl = /** @class */ (function (_super) {
      * Handles zoom operation after clicking on the slider background.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["hit"]}  event  Event
+     * @param event  Event
      */
     ZoomControl.prototype.handleBackgroundClick = function (event) {
         var sprite = event.target;
@@ -148,7 +146,7 @@ var ZoomControl = /** @class */ (function (_super) {
     };
     Object.defineProperty(ZoomControl.prototype, "chart", {
         /**
-         * @return {MapChart} Map/chart
+         * @return Map/chart
          */
         get: function () {
             return this._chart.get();
@@ -156,7 +154,7 @@ var ZoomControl = /** @class */ (function (_super) {
         /**
          * A main chart/map that this zoom control is for.
          *
-         * @param {MapChart}  chart  Map/chart
+         * @param chart  Map/chart
          */
         set: function (chart) {
             var _this = this;
@@ -268,7 +266,7 @@ var ZoomControl = /** @class */ (function (_super) {
          * zoom level settings.
          *
          * @ignore Exclude from docs
-         * @return {number} Step count
+         * @return Step count
          */
         get: function () {
             return Math.log(this.chart.maxZoomLevel) / Math.LN2 - Math.log(this.chart.minZoomLevel) / Math.LN2;
@@ -280,7 +278,7 @@ var ZoomControl = /** @class */ (function (_super) {
      * Creates a background element for slider control.
      *
      * @ignore Exclude from docs
-     * @return {this} Background
+     * @return Background
      */
     ZoomControl.prototype.createBackground = function () {
         return new RoundedRectangle();

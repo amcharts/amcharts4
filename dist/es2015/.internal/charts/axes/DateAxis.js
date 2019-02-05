@@ -44,7 +44,7 @@ var DateAxisDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(DateAxisDataItem.prototype, "date", {
         /**
-         * @return {Date} Date
+         * @return Date
          */
         get: function () {
             return this.dates["date"];
@@ -52,7 +52,7 @@ var DateAxisDataItem = /** @class */ (function (_super) {
         /**
          * Date position of the data item.
          *
-         * @param {Date}  date  Date
+         * @param date  Date
          */
         set: function (date) {
             this.setDate("date", date);
@@ -63,7 +63,7 @@ var DateAxisDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(DateAxisDataItem.prototype, "endDate", {
         /**
-         * @return {Date} End date
+         * @return End date
          */
         get: function () {
             return this.dates["endDate"];
@@ -71,7 +71,7 @@ var DateAxisDataItem = /** @class */ (function (_super) {
         /**
          * End date for data item.
          *
-         * @param {Date} date End date
+         * @param date End date
          */
         set: function (date) {
             this.setDate("endDate", date);
@@ -176,8 +176,6 @@ var DateAxis = /** @class */ (function (_super) {
          *  { timeUnit: "year", count: 100 }
          * ]
          * ```
-         *
-         * @type {List<ITimeInterval>}
          */
         _this.gridIntervals = new List();
         /**
@@ -205,7 +203,6 @@ var DateAxis = /** @class */ (function (_super) {
          * ```
          *
          * @see {@link DateFormatter}
-         * @type {Dictionary<TimeUnit, string>}
          */
         _this.dateFormats = new Dictionary();
         /**
@@ -226,21 +223,16 @@ var DateAxis = /** @class */ (function (_super) {
          * `Jan - 1 - 2 - 3 - ...`
          *
          * This can be disabled by setting `markUnitChange = false`.
-         *
-         * @type {Dictionary<TimeUnit, string>}
          */
         _this.periodChangeDateFormats = new Dictionary();
         /**
          * Actual interval (granularity) derived from the actual data.
-         *
-         * @type {ITimeInterval}
          */
         _this._baseIntervalReal = { timeUnit: "day", count: 1 };
         /**
          * [_minDifference description]
          *
          * @todo Description
-         * @type {number}
          */
         _this._minDifference = {};
         _this.className = "DateAxis";
@@ -379,7 +371,7 @@ var DateAxis = /** @class */ (function (_super) {
      * Returns a new/empty [[DataItem]] of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {DateAxisDataItem} Data Item
+     * @return Data Item
      */
     DateAxis.prototype.createDataItem = function () {
         return new DateAxisDataItem();
@@ -387,7 +379,7 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Returns a new/empty [[AxisBreak]] of the appropriate type.
      *
-     * @return {DateAxisBreak} Axis break
+     * @return Axis break
      */
     DateAxis.prototype.createAxisBreak = function () {
         return new DateAxisBreak();
@@ -514,7 +506,7 @@ var DateAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {XYSeriesDataItem} dataItem Data item
+     * @param dataItem Data item
      */
     DateAxis.prototype.postProcessSeriesDataItem = function (dataItem) {
         // we need to do this for all series data items not only added recently, as baseInterval might change
@@ -607,9 +599,9 @@ var DateAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {Date}    date           [description]
-     * @param  {number}  intervalCount  [description]
-     * @return {Date}                   [description]
+     * @param date           [description]
+     * @param intervalCount  [description]
+     * @return [description]
      */
     DateAxis.prototype.getGridDate = function (date, intervalCount) {
         var timeUnit = this._gridInterval.timeUnit;
@@ -645,10 +637,10 @@ var DateAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {DateAxisBreak}  axisBreak  [description]
-     * @param  {TimeUnit}       timeUnit   [description]
-     * @param  {number}         count      [description]
-     * @return {Date}                      [description]
+     * @param axisBreak  [description]
+     * @param timeUnit   [description]
+     * @param count      [description]
+     * @return [description]
      */
     DateAxis.prototype.getBreaklessDate = function (axisBreak, timeUnit, count) {
         var date = new Date(axisBreak.endValue);
@@ -756,7 +748,7 @@ var DateAxis = /** @class */ (function (_super) {
      * Validates Axis data item.
      *
      * @ignore Exclude from docs
-     * @param {DateAxisDataItem} dataItem Data item
+     * @param dataItem Data item
      */
     DateAxis.prototype.validateDataElement = function (dataItem) {
         //super.validateDataElement(dataItem);
@@ -812,7 +804,7 @@ var DateAxis = /** @class */ (function (_super) {
         /**
          * A duration in milliseconds of the `baseInterval`.
          *
-         * @return {number} Duration (ms)
+         * @return Duration (ms)
          */
         get: function () {
             return $time.getDuration(this.baseInterval.timeUnit, this.baseInterval.count);
@@ -825,9 +817,9 @@ var DateAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs.
      * @todo Description (review)
-     * @param  {number}       min  Min timestamp
-     * @param  {number}       max  Max timestamp
-     * @return {IMinMaxStep}       Adjusted min/max step
+     * @param min  Min timestamp
+     * @param max  Max timestamp
+     * @return Adjusted min/max step
      */
     DateAxis.prototype.adjustMinMax = function (min, max) {
         return { min: min, max: max, step: this.baseDuration };
@@ -835,8 +827,8 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Adjusts the minimum timestamp as per cell start location.
      *
-     * @param  {number}  value  Value
-     * @return {number}         Adjusted value
+     * @param value  Value
+     * @return Adjusted value
      */
     DateAxis.prototype.fixMin = function (value) {
         // like this because months are not equal
@@ -847,8 +839,8 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Adjusts the maximum timestamp as per cell start location.
      *
-     * @param  {number}  value  Value
-     * @return {number}         Adjusted value
+     * @param value  Value
+     * @return Adjusted value
      */
     DateAxis.prototype.fixMax = function (value) {
         // like this because months are not equal
@@ -861,10 +853,10 @@ var DateAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs.
      * @todo Description
-     * @param  {number}         index      [description]
-     * @param  {number}         duration   [description]
-     * @param  {number}         gridCount  [description]
-     * @return {ITimeInterval}             [description]
+     * @param index      [description]
+     * @param duration   [description]
+     * @param gridCount  [description]
+     * @return [description]
      */
     DateAxis.prototype.chooseInterval = function (index, duration, gridCount) {
         var gridIntervals = this.gridIntervals;
@@ -893,8 +885,8 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Formats the value according to axis' own [[DateFormatter]].
      *
-     * @param  {number}  value  Source value
-     * @return {string}         Formatted value
+     * @param value  Source value
+     * @return Formatted value
      */
     DateAxis.prototype.formatLabel = function (value) {
         return this.dateFormatter.format(value);
@@ -902,8 +894,8 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Converts a Date to an asbolute pixel position within Axis.
      *
-     * @param  {Date}    date  Date
-     * @return {number}        Position (px)
+     * @param date  Date
+     * @return Position (px)
      */
     DateAxis.prototype.dateToPosition = function (date) {
         return this.valueToPosition(date.getTime());
@@ -911,8 +903,8 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Converts a numeric timestamp or a `Date` to a relative position on axis.
      *
-     * @param  {Date | number}  date  Date or a timestamp
-     * @return {number}               Relative position
+     * @param date  Date or a timestamp
+     * @return Relative position
      */
     DateAxis.prototype.anyToPosition = function (date) {
         if (date instanceof Date) {
@@ -925,8 +917,8 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Converts date to orientation point (x, y, angle) on axis
      *
-     * @param  {Date}  date Date
-     * @return {IOrientationPoint} IOrientationPoint
+     * @param date Date
+     * @return IOrientationPoint
      */
     DateAxis.prototype.dateToPoint = function (date) {
         var position = this.dateToPosition(date);
@@ -937,8 +929,8 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Converts a numeric value to orientation (x, y, angle) point on axis
      *
-     * @param  {number}  value  Value
-     * @return {IOrientationPoint}  Orientation point
+     * @param value  Value
+     * @return Orientation point
      */
     DateAxis.prototype.anyToPoint = function (date) {
         if (date instanceof Date) {
@@ -951,8 +943,8 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Converts pixel position within Axis to a corresponding Date.
      *
-     * @param  {number}  position  Position (px)
-     * @return {Date}              Date
+     * @param position  Position (px)
+     * @return Date
      */
     DateAxis.prototype.positionToDate = function (position) {
         return new Date(this.positionToValue(position));
@@ -962,10 +954,10 @@ var DateAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}            key       Data field to get value from
-     * @param  {number}            location  Location (0-1)
-     * @return {number}                      X coordinate (px)
+     * @param dataItem  Data item
+     * @param key       Data field to get value from
+     * @param location  Location (0-1)
+     * @return X coordinate (px)
      */
     DateAxis.prototype.getX = function (dataItem, key, location) {
         var value = this.getTimeByLocation(dataItem, key, location);
@@ -980,10 +972,10 @@ var DateAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}            key       Data field to get value from
-     * @param  {number}            location  Location (0-1)
-     * @return {number}                      Y coordinate (px)
+     * @param dataItem  Data item
+     * @param key       Data field to get value from
+     * @param location  Location (0-1)
+     * @return Y coordinate (px)
      */
     DateAxis.prototype.getY = function (dataItem, key, location) {
         var value = this.getTimeByLocation(dataItem, key, location);
@@ -998,11 +990,11 @@ var DateAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}            key       Data field to get value from
-     * @param  {number}            location  Location (0-1)
-     * @param  {string}            stackKey  Stack ID
-     * @return {number}                      Angle
+     * @param dataItem  Data item
+     * @param key       Data field to get value from
+     * @param location  Location (0-1)
+     * @param stackKey  Stack ID
+     * @return Angle
      */
     DateAxis.prototype.getAngle = function (dataItem, key, location, stackKey) {
         var value = this.getTimeByLocation(dataItem, key, location);
@@ -1017,10 +1009,10 @@ var DateAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {XYSeriesDataItem}  dataItem  [description]
-     * @param  {string}            key       [description]
-     * @param  {number}            location  [description]
-     * @return {number}                      [description]
+     * @param dataItem  [description]
+     * @param key       [description]
+     * @param location  [description]
+     * @return [description]
      */
     DateAxis.prototype.getTimeByLocation = function (dataItem, key, location) {
         if (!$type.hasValue(key)) {
@@ -1043,7 +1035,7 @@ var DateAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {XYSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     DateAxis.prototype.processSeriesDataItem = function (dataItem, axisLetter) {
         var series = dataItem.component;
@@ -1108,7 +1100,7 @@ var DateAxis = /** @class */ (function (_super) {
     };
     Object.defineProperty(DateAxis.prototype, "baseInterval", {
         /**
-         * @return {ITimeInterval} Base interval
+         * @return Base interval
          */
         get: function () {
             if (this._baseInterval) {
@@ -1129,7 +1121,7 @@ var DateAxis = /** @class */ (function (_super) {
          * If not set, the Axis will try to determine the setting by its own, looking
          * at actual data.
          *
-         * @param {ITimeInterval} timeInterval base interval
+         * @param timeInterval base interval
          */
         set: function (timeInterval) {
             if (JSON.stringify(this._baseInterval) != JSON.stringify(timeInterval)) {
@@ -1143,7 +1135,7 @@ var DateAxis = /** @class */ (function (_super) {
     });
     Object.defineProperty(DateAxis.prototype, "skipEmptyPeriods", {
         /**
-         * @return {boolean} Remove empty stretches of time?
+         * @return Remove empty stretches of time?
          */
         get: function () {
             return this.getPropertyValue("skipEmptyPeriods");
@@ -1167,7 +1159,7 @@ var DateAxis = /** @class */ (function (_super) {
          * * Setting this to `true` will reset appearance of breaks. If you want to modify appearance, do it *after* you set `skipEmptyPeriods`.
          *
          * @default false
-         * @param {boolean}  value  Remove empty stretches of time?
+         * @param value  Remove empty stretches of time?
          */
         set: function (value) {
             if (this.setPropertyValue("skipEmptyPeriods", value)) {
@@ -1186,7 +1178,7 @@ var DateAxis = /** @class */ (function (_super) {
     });
     Object.defineProperty(DateAxis.prototype, "tooltipDateFormat", {
         /**
-         * @return {string} Date format
+         * @return Date format
          */
         get: function () {
             return this.getPropertyValue("tooltipDateFormat");
@@ -1196,7 +1188,7 @@ var DateAxis = /** @class */ (function (_super) {
          *
          * Will use same format as for labels, if not set.
          *
-         * @param {string}  value  Date format
+         * @param value  Date format
          */
         set: function (value) {
             this.setPropertyValue("tooltipDateFormat", value);
@@ -1206,7 +1198,7 @@ var DateAxis = /** @class */ (function (_super) {
     });
     Object.defineProperty(DateAxis.prototype, "markUnitChange", {
         /**
-         * @return {boolean} Use different format for period beginning?
+         * @return Use different format for period beginning?
          */
         get: function () {
             return this.getPropertyValue("markUnitChange");
@@ -1216,7 +1208,7 @@ var DateAxis = /** @class */ (function (_super) {
          * label in bigger time unit.
          *
          * @default true
-         * @param {boolean}  value  Use different format for period beginning?
+         * @param value  Use different format for period beginning?
          */
         set: function (value) {
             if (this.setPropertyValue("markUnitChange", value)) {
@@ -1234,8 +1226,8 @@ var DateAxis = /** @class */ (function (_super) {
      * chart, or explicitly for this Axis.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position
-     * @return {string}            Label (formatted date)
+     * @param position  Position
+     * @return Label (formatted date)
      */
     DateAxis.prototype.getTooltipText = function (position) {
         var text;
@@ -1259,9 +1251,9 @@ var DateAxis = /** @class */ (function (_super) {
      * Takes an absolute position within axis and adjust it to a specific position within base interval. (cell)
      *
      * @ignore Exclude from docs
-     * @param  {number}            position Source position
-     * @param  {AxisItemLocation}  location  Location in the cell
-     * @return {number}            Adjusted position
+     * @param position Source position
+     * @param location  Location in the cell
+     * @return Adjusted position
      */
     DateAxis.prototype.roundPosition = function (position, location) {
         var baseInterval = this.baseInterval;
@@ -1287,8 +1279,8 @@ var DateAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {number}  position  Relative position
-     * @return {number}            Cell start relative position
+     * @param position  Relative position
+     * @return Cell start relative position
      */
     DateAxis.prototype.getCellStartPosition = function (position) {
         return this.roundPosition(position, 0);
@@ -1298,8 +1290,8 @@ var DateAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {number}  position  Relative position
-     * @return {number}            Cell end relative position
+     * @param position  Relative position
+     * @return Cell end relative position
      */
     DateAxis.prototype.getCellEndPosition = function (position) {
         return this.roundPosition(position, 1);
@@ -1313,10 +1305,10 @@ var DateAxis = /** @class */ (function (_super) {
      * to locate nearest available data item if none is found directly under
      * `position`.
      *
-     * @param  {XYSeries}          series       Series
-     * @param  {number}            position     Position (px)
-     * @param  {boolean}           findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
-     * @return {XYSeriesDataItem}               Data item
+     * @param series       Series
+     * @param position     Position (px)
+     * @param findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
+     * @return Data item
      */
     DateAxis.prototype.getSeriesDataItem = function (series, position, findNearest) {
         var value = this.positionToValue(position);
@@ -1392,8 +1384,8 @@ var DateAxis = /** @class */ (function (_super) {
      * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
      *
      * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
-     * @param  {number}  position  Relative position on axis (0-1)
-     * @return {string}            Position label
+     * @param position  Relative position on axis (0-1)
+     * @return Position label
      */
     DateAxis.prototype.getPositionLabel = function (position) {
         // @todo Better format recognition
@@ -1403,7 +1395,7 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Returns label date format based on currently used time units
      *
-     * @return {string}  Format
+     * @return Format
      */
     DateAxis.prototype.getCurrentLabelFormat = function () {
         return this.dateFormats.getKey(this._gridInterval ? this._gridInterval.timeUnit : "day");
@@ -1429,7 +1421,7 @@ var DateAxis = /** @class */ (function (_super) {
          * Coordinates of the actual axis start.
          *
          * @ignore Exclude from docs
-         * @return {IPoint} Base point
+         * @return Base point
          */
         get: function () {
             return { x: 0, y: 0 };
@@ -1440,10 +1432,10 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Zooms axis to specific Dates.
      *
-     * @param {Date}     startDate       Start date
-     * @param {Date}     endValue        End date
-     * @param {boolean}  skipRangeEvent  Do not invoke events
-     * @param {boolean}  instantly       Do not play zoom animations
+     * @param startDate       Start date
+     * @param endValue        End date
+     * @param skipRangeEvent  Do not invoke events
+     * @param instantly       Do not play zoom animations
      */
     DateAxis.prototype.zoomToDates = function (startDate, endDate, skipRangeEvent, instantly) {
         startDate = this.dateFormatter.parse(startDate);
@@ -1453,8 +1445,8 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Adds `baseInterval` to "as is" fields.
      *
-     * @param  {string}   field  Field name
-     * @return {boolean}         Assign as is?
+     * @param field  Field name
+     * @return Assign as is?
      */
     DateAxis.prototype.asIs = function (field) {
         return field == "baseInterval" || _super.prototype.asIs.call(this, field);
@@ -1462,7 +1454,7 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Copies all properties and related data from a different instance of Axis.
      *
-     * @param {this} source Source Axis
+     * @param source Source Axis
      */
     DateAxis.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
@@ -1475,8 +1467,8 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Shows Axis tooltip at specific relative position within Axis. (0-1)
      *
-     * @param {number} position Position (0-1)
-     * @param {boolean} local or global position
+     * @param position Position (0-1)
+     * @param local or global position
      */
     DateAxis.prototype.showTooltipAtPosition = function (position, local) {
         var _this = this;
@@ -1510,6 +1502,7 @@ var DateAxis = /** @class */ (function (_super) {
             if (closestDate_1) {
                 var closestTime_1 = closestDate_1.getTime();
                 closestDate_1 = $time.round(new Date(closestTime_1), this.baseInterval.timeUnit, this.baseInterval.count);
+                closestTime_1 = closestDate_1.getTime();
                 closestDate_1 = new Date(closestDate_1.getTime() + this.baseDuration / 2);
                 position = this.dateToPosition(closestDate_1);
                 var seriesPoints_1 = [];
@@ -1527,7 +1520,7 @@ var DateAxis = /** @class */ (function (_super) {
     };
     Object.defineProperty(DateAxis.prototype, "snapTooltip", {
         /**
-         * @return {boolean} Should snap?
+         * @return Should snap?
          */
         get: function () {
             return this.getPropertyValue("snapTooltip");
@@ -1537,7 +1530,7 @@ var DateAxis = /** @class */ (function (_super) {
          * current cursor position.
          *
          * @default true
-         * @param {boolean}  value  Should snap?
+         * @param value  Should snap?
          */
         set: function (value) {
             this.setPropertyValue("snapTooltip", value);

@@ -56,22 +56,16 @@ export class Rectangle extends Sprite {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IRectangleProperties}
 	 */
 	public _properties!: IRectangleProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IRectangleAdapters}
 	 */
 	public _adapter!: IRectangleAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IRectangleEvents}
 	 */
 	public _events!: IRectangleEvents;
 
@@ -116,14 +110,13 @@ export class Rectangle extends Sprite {
 	 * @ignore Exclude from docs
 	 */
 	public measureElement(): void {
-		
-	}	
+
+	}
 
 	/**
 	 * Returns bounding box (square) for this element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {IRectangle}
 	 */
 	public get bbox(): IRectangle {
 		if (this.definedBBox) {

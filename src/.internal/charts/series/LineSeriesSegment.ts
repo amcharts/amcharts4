@@ -64,22 +64,16 @@ export class LineSeriesSegment extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ILineSeriesSegmentPropertiess}
 	 */
 	public _properties!: ILineSeriesSegmentProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ILineSeriesSegmentAdapters}
 	 */
 	public _adapter!: ILineSeriesSegmentAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ILineSeriesSegmentEvents}
 	 */
 	public _events!: ILineSeriesSegmentEvents;
 
@@ -87,7 +81,6 @@ export class LineSeriesSegment extends Container {
 	 * Segment's line element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public strokeSprite: Sprite;
 
@@ -95,7 +88,6 @@ export class LineSeriesSegment extends Container {
 	 * Segment's fill element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public fillSprite: Sprite;
 
@@ -135,10 +127,10 @@ export class LineSeriesSegment extends Container {
 	 * Draws the series segment.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IPoint[]}  points       Points to connect
-	 * @param {IPoint[]}  closePoints  ?
-	 * @param {number}    smoothnessX  Horizontal bezier setting (?)
-	 * @param {number}    smoothnessY  Vertical bezier setting (?)
+	 * @param points       Points to connect
+	 * @param closePoints  ?
+	 * @param smoothnessX  Horizontal bezier setting (?)
+	 * @param smoothnessY  Vertical bezier setting (?)
 	 */
 	public drawSegment(points: IPoint[], closePoints: IPoint[], smoothnessX: number, smoothnessY: number): void {
 		if (!this.disabled) {
@@ -171,7 +163,7 @@ export class LineSeriesSegment extends Container {
 	/**
 	 * Copies properties from a [[Sprite]] to both line and fill elements.
 	 *
-	 * @param {Sprite} source Source [[Sprite]] to copy properties from
+	 * @param source Source [[Sprite]] to copy properties from
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);

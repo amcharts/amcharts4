@@ -43,7 +43,7 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
          * A [[MapPolygon]] element related to this data item.
          *
          * @readonly
-         * @return {MapPolygon} Element
+         * @return Element
          */
         get: function () {
             var _this = this;
@@ -65,7 +65,7 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapPolygonSeriesDataItem.prototype, "polygon", {
         /**
-         * @return {number[]} Coordinates
+         * @return Coordinates
          */
         get: function () {
             return this._polygon;
@@ -85,7 +85,7 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
          * ]
          * ```
          *
-         * @param {number[][][]}  polygon  Coordinates
+         * @param polygon  Coordinates
          */
         set: function (polygon) {
             this._polygon = polygon;
@@ -96,7 +96,7 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapPolygonSeriesDataItem.prototype, "multiPolygon", {
         /**
-         * @return {number[]} Coordinates
+         * @return Coordinates
          */
         get: function () {
             return this._multiPolygon;
@@ -130,7 +130,7 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
          * ]
          * ```
          *
-         * @param {number[][][]}  multiPolygon  Coordinates
+         * @param multiPolygon  Coordinates
          */
         set: function (multiPolygon) {
             this._multiPolygon = multiPolygon;
@@ -141,7 +141,7 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapPolygonSeriesDataItem.prototype, "geoPolygon", {
         /**
-         * @return {IGeoPoint[]} Coordinates
+         * @return Coordinates
          */
         get: function () {
             return this._geoPolygon;
@@ -161,7 +161,7 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
          * ```
          *
          * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.6} GeoJSON Polygon reference
-         * @param {IGeoPoint[][]}  geoPolygon  Coordinates
+         * @param geoPolygon  Coordinates
          */
         set: function (geoPolygon) {
             this._geoPolygon = geoPolygon;
@@ -172,7 +172,7 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapPolygonSeriesDataItem.prototype, "multiGeoPolygon", {
         /**
-         * @return {IGeoPoint[]} Coordinates
+         * @return Coordinates
          */
         get: function () {
             return this._multiGeoPolygon;
@@ -204,7 +204,7 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
          * ```
          *
          * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.7} GeoJSON MultiPolygon reference
-         * @param {IGeoPoint[][][]}  multiGeoPolygon  Coordinates
+         * @param multiGeoPolygon  Coordinates
          */
         set: function (multiGeoPolygon) {
             this._multiGeoPolygon = multiGeoPolygon;
@@ -219,7 +219,7 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
      * North, and South-most points.
      *
      * @ignore Exclude from docs
-     * @param {IGeoPoint[]}  geoPoints  Points of the element
+     * @param geoPoints  Points of the element
      */
     MapPolygonSeriesDataItem.prototype.updateAreaExtremes = function (multiGeoPolygon) {
         for (var i = 0, len = multiGeoPolygon.length; i < len; i++) {
@@ -268,7 +268,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {MapPolygonSeriesDataItem} Data Item
+     * @return Data Item
      */
     MapPolygonSeries.prototype.createDataItem = function () {
         return new MapPolygonSeriesDataItem();
@@ -383,7 +383,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
         /**
          * List of polygon elements in the series.
          *
-         * @return {ListTemplate<MapPolygon>} Polygon list
+         * @return Polygon list
          */
         get: function () {
             if (!this._mapPolygons) {
@@ -402,7 +402,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
     });
     /**
      * returns MapPolygon by id in geoJSON file
-     * @param {string} polygon id
+     * @param polygon id
      * @return {MapPolygon}
      */
     MapPolygonSeries.prototype.getPolygonById = function (id) {
@@ -414,7 +414,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
     /**
      * Copies all properties from another instance of [[Series]].
      *
-     * @param {Series}  source  Source series
+     * @param source  Source series
      */
     MapPolygonSeries.prototype.copyFrom = function (source) {
         this.mapPolygons.template.copyFrom(source.mapPolygons.template);

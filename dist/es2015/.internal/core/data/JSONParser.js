@@ -22,15 +22,12 @@ var JSONParser = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         /**
          * Content-type suitable for JSON format.
-         *
-         * @type {string}
          */
         _this.contentType = "application/json";
         /**
          * Parser options.
          *
          * @see {@link IJSONOptions} for description of each option
-         * @type {IJSONOptions}
          */
         _this.options = {};
         return _this;
@@ -38,8 +35,8 @@ var JSONParser = /** @class */ (function (_super) {
     /**
      * Tests if the data is valid JSON.
      *
-     * @param  {string}   data  Source data
-     * @return {boolean}        Is it JSON?
+     * @param data  Source data
+     * @return Is it JSON?
      */
     JSONParser.isJSON = function (data) {
         try {
@@ -55,8 +52,8 @@ var JSONParser = /** @class */ (function (_super) {
     /**
      * Parses and returns data.
      *
-     * @param  {string}  data  Unparsed data
-     * @return {any}           Parsed data
+     * @param data  Unparsed data
+     * @return Parsed data
      */
     JSONParser.prototype.parse = function (data) {
         var _this = this;

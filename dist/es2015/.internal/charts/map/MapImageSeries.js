@@ -43,7 +43,7 @@ var MapImageSeriesDataItem = /** @class */ (function (_super) {
         /**
          * A [[MapImage]] element related to this data item.
          *
-         * @return {MapImage} Element
+         * @return Element
          */
         get: function () {
             var _this = this;
@@ -65,7 +65,7 @@ var MapImageSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapImageSeriesDataItem.prototype, "point", {
         /**
-         * @return {number[]} [description]
+         * @return [description]
          */
         get: function () {
             return this._point;
@@ -74,7 +74,7 @@ var MapImageSeriesDataItem = /** @class */ (function (_super) {
          * [point description]
          *
          * @todo Description
-         * @param {number[]} point [description]
+         * @param point [description]
          */
         set: function (point) {
             this._point = point;
@@ -85,7 +85,7 @@ var MapImageSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapImageSeriesDataItem.prototype, "geoPoint", {
         /**
-         * @return {IGeoPoint} Image coordinates
+         * @return Image coordinates
          */
         get: function () {
             return this._geoPoint;
@@ -93,7 +93,7 @@ var MapImageSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Geographical coordinates (lat/long) image is placed at.
          *
-         * @param {IGeoPoint} geoPoint Image coordinates
+         * @param geoPoint Image coordinates
          */
         set: function (geoPoint) {
             this._geoPoint = geoPoint;
@@ -143,7 +143,7 @@ var MapImageSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {MapImageSeriesDataItem} Data Item
+     * @return Data Item
      */
     MapImageSeries.prototype.createDataItem = function () {
         return new MapImageSeriesDataItem();
@@ -231,7 +231,7 @@ var MapImageSeries = /** @class */ (function (_super) {
         /**
          * A list of map images in the series.
          *
-         * @return {ListTemplate<MapImage>} Map images
+         * @return Map images
          */
         get: function () {
             if (!this._mapImages) {
@@ -252,7 +252,7 @@ var MapImageSeries = /** @class */ (function (_super) {
      * (Re)validates data element, effectively triggering its redrawal.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     MapImageSeries.prototype.validateDataElement = function (dataItem) {
         _super.prototype.validateDataElement.call(this, dataItem);
@@ -272,7 +272,7 @@ var MapImageSeries = /** @class */ (function (_super) {
     /**
      * Copies all properties from another instance of [[Series]].
      *
-     * @param {Series}  source  Source series
+     * @param source  Source series
      */
     MapImageSeries.prototype.copyFrom = function (source) {
         this.mapImages.template.copyFrom(source.mapImages.template);

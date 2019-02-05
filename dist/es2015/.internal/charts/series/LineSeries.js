@@ -76,7 +76,6 @@ var LineSeries = /** @class */ (function (_super) {
          * This allows acceptable performance with huge amounts of data points.
          *
          * @default 0.5
-         * @type {number}
          */
         _this.minDistance = 0.5;
         _this.segments = new ListTemplate(_this.createSegment());
@@ -120,7 +119,7 @@ var LineSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {LineSeriesDataItem} Data Item
+     * @return Data Item
      */
     LineSeries.prototype.createDataItem = function () {
         return new LineSeriesDataItem();
@@ -128,8 +127,8 @@ var LineSeries = /** @class */ (function (_super) {
     /**
      * Inits data item's working values.
      *
-     * @param {this["_dataItem"]}  dataItem  Data item
-     * @param {number}             index     Data item's index
+     * @param dataItem  Data item
+     * @param index     Data item's index
      */
     LineSeries.prototype.setInitialWorkingValues = function (dataItem) {
         // this makes data items animate when added
@@ -173,7 +172,7 @@ var LineSeries = /** @class */ (function (_super) {
      * Updates corresponding legend data item with current values.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     LineSeries.prototype.updateLegendValue = function (dataItem) {
         _super.prototype.updateLegendValue.call(this, dataItem);
@@ -256,8 +255,8 @@ var LineSeries = /** @class */ (function (_super) {
      * [openSegment description]
      *
      * @todo Description
-     * @param {number}        openIndex  [description]
-     * @param {AxisDataItem}  axisRange  [description]
+     * @param openIndex  [description]
+     * @param axisRange  [description]
      */
     LineSeries.prototype.openSegment = function (openIndex, axisRange) {
         var points = [];
@@ -317,11 +316,11 @@ var LineSeries = /** @class */ (function (_super) {
      * [addPoints description]
      *
      * @todo Description
-     * @param {IPoint[]}          points    [description]
-     * @param {this["_dataItem"]} dataItem  [description]
-     * @param {string}            xField    [description]
-     * @param {string}            yField    [description]
-     * @param {boolean}           backwards [description]
+     * @param points    [description]
+     * @param dataItem  [description]
+     * @param xField    [description]
+     * @param yField    [description]
+     * @param backwards [description]
      */
     LineSeries.prototype.addPoints = function (points, dataItem, xField, yField, backwards) {
         var point = this.getPoint(dataItem, xField, yField, dataItem.workingLocations[xField], dataItem.workingLocations[yField]);
@@ -334,11 +333,11 @@ var LineSeries = /** @class */ (function (_super) {
      * [closeSegment description]
      *
      * @todo Description
-     * @param {LineSeriesSegment} segment    [description]
-     * @param {IPoint[]}          points     [description]
-     * @param {number}            openIndex  [description]
-     * @param {number}            closeIndex [description]
-     * @param {AxisDataItem}      axisRange  [description]
+     * @param segment    [description]
+     * @param points     [description]
+     * @param openIndex  [description]
+     * @param closeIndex [description]
+     * @param axisRange  [description]
      */
     LineSeries.prototype.closeSegment = function (segment, points, openIndex, closeIndex, axisRange) {
         var closePoints = [];
@@ -374,9 +373,9 @@ var LineSeries = /** @class */ (function (_super) {
     /**
      * Draws the line segment.
      *
-     * @param {LineSeriesSegment}  segment     Segment
-     * @param {IPoint[]}           points      Segment points
-     * @param {IPoint[]}           closePoints Segment close points
+     * @param segment     Segment
+     * @param points      Segment points
+     * @param closePoints Segment close points
      */
     LineSeries.prototype.drawSegment = function (segment, points, closePoints) {
         segment.drawSegment(points, closePoints, this.tensionX, this.tensionY);
@@ -389,9 +388,9 @@ var LineSeries = /** @class */ (function (_super) {
      * `hasProperties` is set to `true` on data item (this means it can contain
      * some properties set).
      *
-     * @param  {object}             itemProperties  Item properties
-     * @param  {LineSeriesSegment}  segment         Segment
-     * @return {boolean}                            Properties changed?
+     * @param itemProperties  Item properties
+     * @param segment         Segment
+     * @return Properties changed?
      */
     LineSeries.prototype.updateSegmentProperties = function (itemProperties, segment, checkOnly) {
         var changed = false;
@@ -434,7 +433,7 @@ var LineSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(LineSeries.prototype, "connect", {
         /**
-         * @return {boolean} Connect?
+         * @return Connect?
          */
         get: function () {
             return this.getPropertyValue("connect");
@@ -451,7 +450,7 @@ var LineSeries = /** @class */ (function (_super) {
          *
          * @see {@link https://www.amcharts.com/docs/v4/chart-types/xy-chart/#Line_series_with_gaps} for more information about this feature
          * @default true
-         * @param {boolean}  value  Connect?
+         * @param value  Connect?
          */
         set: function (value) {
             if (this.setPropertyValue("connect", value)) {
@@ -463,7 +462,7 @@ var LineSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(LineSeries.prototype, "tensionX", {
         /**
-         * @return {number} Horizontal tension (0-1)
+         * @return Horizontal tension (0-1)
          */
         get: function () {
             return this.getPropertyValue("tensionX");
@@ -487,7 +486,7 @@ var LineSeries = /** @class */ (function (_super) {
          * vertical bending as well, use `tensionY`.
          *
          * @default 1
-         * @param {number}  value  Horizontal tension (0-1)
+         * @param value  Horizontal tension (0-1)
          */
         set: function (value) {
             this.setPropertyValue("tensionX", value, true);
@@ -497,7 +496,7 @@ var LineSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(LineSeries.prototype, "tensionY", {
         /**
-         * @return {number} Vertical tension (0-1)
+         * @return Vertical tension (0-1)
          */
         get: function () {
             return this.getPropertyValue("tensionY");
@@ -521,7 +520,7 @@ var LineSeries = /** @class */ (function (_super) {
          * smoothed line series.
          *
          * @default 1
-         * @param {number}  value  Vertical tension (0-1)
+         * @param value  Vertical tension (0-1)
          */
         set: function (value) {
             this.setPropertyValue("tensionY", value, true);
@@ -543,7 +542,7 @@ var LineSeries = /** @class */ (function (_super) {
      * Series.
      *
      * @ignore Exclude from docs
-     * @param {Container}  marker  Legend item container
+     * @param marker  Legend item container
      */
     LineSeries.prototype.createLegendMarker = function (marker) {
         var _this = this;

@@ -17,9 +17,9 @@ import * as $array from "./Array";
 /**
  * Copies all properties of one object to the other, omitting undefined.
  *
- * @param  {Object}   fromObject  Source object
- * @param  {Object}   toObject    Target object
- * @return {Object}               Updated target object
+ * @param fromObject  Source object
+ * @param toObject    Target object
+ * @return Updated target object
  * @todo Maybe consolidate with utils.copy?
  */
 export function copyProperties(source, target) {
@@ -34,9 +34,9 @@ export function copyProperties(source, target) {
 /**
  * Copies all properties of one object to the other, omitting undefined, but only if property in target object doesn't have a value set.
  *
- * @param  {Object}   fromObject  Source object
- * @param  {Object}   toObject    Target object
- * @return {Object}               Updated target object
+ * @param fromObject  Source object
+ * @param toObject    Target object
+ * @return Updated target object
  * @todo Maybe consolidate with utils.copy?
  */
 export function softCopyProperties(source, target) {
@@ -51,9 +51,9 @@ export function softCopyProperties(source, target) {
 /**
  * Copies all properties of one object to the other.
  *
- * @param  {Object}  source     Source object
- * @param  {Object}  recipient  Target object
- * @return {Object}             Updated target object
+ * @param source     Source object
+ * @param recipient  Target object
+ * @return Updated target object
  */
 export function copy(source, target) {
     $object.each(source, function (key, value) {
@@ -64,8 +64,8 @@ export function copy(source, target) {
 /**
  * Checks if value is not empty (undefined or zero-length string).
  *
- * @param  {Optional<string>}  value  Value to check
- * @return {boolean}                  `true` if value is not "empty"
+ * @param value  Value to check
+ * @return `true` if value is not "empty"
  */
 export function isNotEmpty(value) {
     return $type.hasValue(value) && (value.toString() !== "");
@@ -75,9 +75,9 @@ export function isNotEmpty(value) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {$type.Optional<number | Percent>}  percent  [description]
- * @param  {number}                            full     [description]
- * @return {number}                                     [description]
+ * @param percent  [description]
+ * @param full     [description]
+ * @return [description]
  */
 export function relativeToValue(percent, full) {
     if ($type.isNumber(percent)) {
@@ -98,10 +98,10 @@ export function relativeToValue(percent, full) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {$type.Optional<number | Percent>}  percent             [description]
- * @param  {number}                            full                [description]
- * @param  {boolean}                           subtractIfNegative  [description]
- * @return {number}                                                [description]
+ * @param percent             [description]
+ * @param full                [description]
+ * @param subtractIfNegative  [description]
+ * @return [description]
  */
 export function relativeRadiusToValue(percent, full, subtractIfNegative) {
     var value;
@@ -126,9 +126,9 @@ export function relativeRadiusToValue(percent, full, subtractIfNegative) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {number | Percent}  value  [description]
- * @param  {number}            full   [description]
- * @return {number}                   [description]
+ * @param value  [description]
+ * @param full   [description]
+ * @return [description]
  */
 export function valueToRelative(value, full) {
     if (value instanceof Percent) {
@@ -141,7 +141,7 @@ export function valueToRelative(value, full) {
 /**
  * Returns pixel ratio of the current screen (used on retina displays).
  *
- * @return {number} Pixel ratio
+ * @return Pixel ratio
  */
 export function getPixelRatio() {
     var ratio = window.devicePixelRatio || 1;
@@ -157,8 +157,8 @@ export function getPixelRatio() {
  * Converts camelCased text to dashed version:
  * ("thisIsString" > "this-is-string")
  *
- * @param  {string}  str  Input
- * @return {string}       Output
+ * @param str  Input
+ * @return Output
  */
 export function camelToDashed(str) {
     return str.replace(/\W+/g, '-').replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCase();
@@ -166,8 +166,8 @@ export function camelToDashed(str) {
 /**
  * Converts tring to uppercase.
  *
- * @param  {string}  str  String to convert
- * @return {string}       uppercased string
+ * @param str  String to convert
+ * @return uppercased string
  * @todo Maybe make it better
  */
 export function capitalize(str) {
@@ -178,8 +178,8 @@ export function capitalize(str) {
 /**
  * Converts any value into its string representation.
  *
- * @param  {any}     value  Value
- * @return {string}         String represantation of the value
+ * @param value  Value
+ * @return String represantation of the value
  */
 export function stringify(value) {
     return JSON.stringify(value);
@@ -187,8 +187,8 @@ export function stringify(value) {
 /**
  * Escapes string so it can safely be used in a Regex.
  *
- * @param  {string}  value  Unsescaped string
- * @return {string}         Escaped string
+ * @param value  Unsescaped string
+ * @return Escaped string
  */
 export function escapeForRgex(value) {
     return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -198,9 +198,9 @@ export function escapeForRgex(value) {
  * Prioretizes splitting on spaces and punctuation. Falls back on splitting
  * mid-word if there's no other option.
  *
- * @param  {string}    text      Text
- * @param  {number}    maxChars  Maximum number of characters per line
- * @return {string[]}            An array of split text
+ * @param text      Text
+ * @param maxChars  Maximum number of characters per line
+ * @return An array of split text
  */
 export function splitTextByCharCount(text, maxChars, fullWords, rtl) {
     // Maybe the text fits?
@@ -291,12 +291,12 @@ export function splitTextByCharCount(text, maxChars, fullWords, rtl) {
  *
  * For RTL support, pass in the fifth parameter as `true`.
  *
- * @param  {string}   text       Input text
- * @param  {number}   maxChars   Maximum character count of output
- * @param  {string}   ellipsis   Ellipsis string, i.e. "..."
- * @param  {boolean}  fullWords  If `true`, will not break mid-word, unless there's a single word and it does not with into `maxChars`
- * @param  {boolean}  rtl        Is this an RTL text?
- * @return {string}              Truncated text
+ * @param text       Input text
+ * @param maxChars   Maximum character count of output
+ * @param ellipsis   Ellipsis string, i.e. "..."
+ * @param fullWords  If `true`, will not break mid-word, unless there's a single word and it does not with into `maxChars`
+ * @param rtl        Is this an RTL text?
+ * @return Truncated text
  */
 export function truncateWithEllipsis(text, maxChars, ellipsis, fullWords, rtl) {
     if (text.length <= maxChars) {
@@ -316,8 +316,8 @@ export function truncateWithEllipsis(text, maxChars, ellipsis, fullWords, rtl) {
 /**
  * Removes whitespace from beginning and end of the string.
  *
- * @param  {string}  str  Input
- * @return {string}       Output
+ * @param str  Input
+ * @return Output
  */
 export function trim(str) {
     return str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
@@ -326,8 +326,8 @@ export function trim(str) {
 /**
  * Removes whitespace from end of the string.
  *
- * @param  {string}  str  Input
- * @return {string}       Output
+ * @param str  Input
+ * @return Output
  */
 export function rtrim(str) {
     return str.replace(/[\s\uFEFF\xA0]+$/g, "");
@@ -336,8 +336,8 @@ export function rtrim(str) {
 /**
  * Removes whitespace from beginning of the string.
  *
- * @param  {string}  str  Input
- * @return {string}       Output
+ * @param str  Input
+ * @return Output
  */
 export function ltrim(str) {
     return str.replace(/^[\s\uFEFF\xA0]+/g, "");
@@ -346,8 +346,8 @@ export function ltrim(str) {
 /**
  * Reverses string.
  *
- * @param  {string}  str  Input
- * @return {string}       Output
+ * @param str  Input
+ * @return Output
  */
 export function reverseString(str) {
     return str.split("").reverse().join("");
@@ -355,8 +355,8 @@ export function reverseString(str) {
 /**
  * Removes quotes from the string.
  *
- * @param  {string}  str  Input
- * @return {string}       Output
+ * @param str  Input
+ * @return Output
  */
 export function unquote(str) {
     var res = str.trim();
@@ -369,10 +369,10 @@ export function unquote(str) {
 /**
  * Pads a string with additional characters to certain length.
  *
- * @param  {any}            value  A numeric value
- * @param  {number = 0}     len    Result string length in characters
- * @param  {string = "0"}   char   A character to use for padding
- * @return {string}                Padded value as string
+ * @param value  A numeric value
+ * @param len    Result string length in characters
+ * @param char   A character to use for padding
+ * @return Padded value as string
  */
 export function padString(value, len, char) {
     if (len === void 0) { len = 0; }
@@ -385,8 +385,8 @@ export function padString(value, len, char) {
  * Tries to determine format type.
  *
  * @ignore Exclude from docs
- * @param {string}   format  Format string
- * @return {string}          Format type ("string" | "number" | "date" | "duration")
+ * @param format  Format string
+ * @return Format type ("string" | "number" | "date" | "duration")
  */
 export function getFormat(format) {
     // Undefined?
@@ -429,8 +429,8 @@ export function getFormat(format) {
  * * Strips out formatter hints
  *
  * @ignore Exclude from docs
- * @param  {string}  format  Format
- * @return {string}          Cleaned format
+ * @param format  Format
+ * @return Cleaned format
  */
 export function cleanFormat(format) {
     return format.replace(/\/(date|number|duration)$/i, "");
@@ -438,8 +438,8 @@ export function cleanFormat(format) {
 /**
  * Strips all tags from the string.
  *
- * @param  {string}  text  Source string
- * @return {string}        String without tags
+ * @param text  Source string
+ * @return String without tags
  */
 export function stripTags(text) {
     return text ? text.replace(/<[^>]*>/g, "") : text;
@@ -447,8 +447,8 @@ export function stripTags(text) {
 /**
  * Removes new lines and tags from a string.
  *
- * @param  {string}  text  String to conver
- * @return {string}        Converted string
+ * @param text  String to conver
+ * @return Converted string
  */
 export function plainText(text) {
     return text ? stripTags(text.replace(/[\n\r]+/g, ". ")) : text;
@@ -463,8 +463,8 @@ export function plainText(text) {
  * Converts numeric value into string. Deals with large or small numbers that
  * would otherwise use exponents.
  *
- * @param  {number}  value  Numeric value
- * @return {string}         Numeric value as string
+ * @param value  Numeric value
+ * @return Numeric value as string
  */
 export function numberToString(value) {
     // TODO handle Infinity and -Infinity
@@ -519,8 +519,8 @@ export function numberToString(value) {
 /**
  * Converts anything to Date object.
  *
- * @param  {Date | number | string}  value  A value of any type
- * @return {Date}                           Date object representing a value
+ * @param value  A value of any type
+ * @return Date object representing a value
  */
 export function anyToDate(value) {
     if ($type.isDate(value)) {
@@ -544,8 +544,8 @@ export function anyToDate(value) {
 /**
  * Tries converting any value to a number.
  *
- * @param  {any}     value  Source value
- * @return {number}         Number
+ * @param value  Source value
+ * @return Number
  */
 export function anyToNumber(value) {
     if ($type.isDate(value)) {
@@ -575,9 +575,9 @@ export function anyToNumber(value) {
 /**
  * Returns a year day.
  *
- * @param  {Date}     date  Date
- * @param  {boolean}  utc   Assume UTC dates?
- * @return {number}         Year day
+ * @param date  Date
+ * @param utc   Assume UTC dates?
+ * @return Year day
  * @todo Account for UTC
  */
 export function getYearDay(date, utc) {
@@ -588,9 +588,9 @@ export function getYearDay(date, utc) {
 /**
  * Returns week number for a given date.
  *
- * @param  {Date}     date  Date
- * @param  {boolean}  utc   Assume UTC dates?
- * @return {number}         Week number
+ * @param date  Date
+ * @param utc   Assume UTC dates?
+ * @return Week number
  * @todo Account for UTC
  */
 export function getWeek(date, utc) {
@@ -608,9 +608,9 @@ export function getWeek(date, utc) {
 /**
  * Returns a week number in the month.
  *
- * @param  {Date}     date  Source Date
- * @param  {boolean}  utc   Assume UTC dates?
- * @return {number}         Week number in month
+ * @param date  Source Date
+ * @param utc   Assume UTC dates?
+ * @return Week number in month
  */
 export function getMonthWeek(date, utc) {
     if (utc === void 0) { utc = false; }
@@ -624,11 +624,11 @@ export function getMonthWeek(date, utc) {
 /**
  * Returns a year day out of the given week number.
  *
- * @param  {number}   week     Week
- * @param  {number}   year     Year
- * @param  {number}   weekday  Weekday
- * @param  {boolean}  utc      Assume UTC dates
- * @return {number}            Day in a year
+ * @param week     Week
+ * @param year     Year
+ * @param weekday  Weekday
+ * @param utc      Assume UTC dates
+ * @return Day in a year
  */
 export function getDayFromWeek(week, year, weekday, utc) {
     if (weekday === void 0) { weekday = 1; }
@@ -643,8 +643,8 @@ export function getDayFromWeek(week, year, weekday, utc) {
 /**
  * Returns 12-hour representation out of the 24-hour hours.
  *
- * @param  {number}  hours  24-hour number
- * @return {number}         12-hour number
+ * @param hours  24-hour number
+ * @return 12-hour number
  */
 export function get12Hours(hours, base) {
     if (hours > 12) {
@@ -658,11 +658,11 @@ export function get12Hours(hours, base) {
 /**
  * Returns a string name of the tome zone.
  *
- * @param  {Date}     date     Date object
- * @param  {boolean}  long     Should return long ("Pacific Standard Time") or short abbreviation ("PST")
- * @param  {boolean}  savings  Include information if it's in daylight savings mode
- * @param  {boolean}  utc      Assume UTC dates
- * @return {string}            Time zone name
+ * @param date     Date object
+ * @param long     Should return long ("Pacific Standard Time") or short abbreviation ("PST")
+ * @param savings  Include information if it's in daylight savings mode
+ * @param utc      Assume UTC dates
+ * @return Time zone name
  */
 export function getTimeZone(date, long, savings, utc) {
     if (long === void 0) { long = false; }
@@ -688,9 +688,9 @@ export function getTimeZone(date, long, savings, utc) {
 /**
  * Returns a random number between `from` and `to`.
  *
- * @param  {number}  from  From number
- * @param  {number}  to    To number
- * @return {number}        Random number
+ * @param from  From number
+ * @param to    To number
+ * @return Random number
  */
 export function random(from, to) {
     return Math.floor(Math.random() * to) + from;
@@ -698,10 +698,10 @@ export function random(from, to) {
 /**
  * Fits the number into specific `min` and `max` bounds.
  *
- * @param  {number}  value  Input value
- * @param  {number}  min    Minimum value
- * @param  {number}  max    Maximum value
- * @return {number}         Possibly adjusted value
+ * @param value  Input value
+ * @param min    Minimum value
+ * @param max    Maximum value
+ * @return Possibly adjusted value
  */
 export function fitNumber(value, min, max) {
     if (value > max) {
@@ -724,10 +724,10 @@ export function fitNumber(value, min, max) {
  *
  * The output of regular `fitNumber()` would return 8 instead.
  *
- * @param  {number}  value  Input value
- * @param  {number}  min    Minimum value
- * @param  {number}  max    Maximum value
- * @return {number}         Possibly adjusted value
+ * @param value  Input value
+ * @param min    Minimum value
+ * @param max    Maximum value
+ * @return Possibly adjusted value
  */
 export function fitNumberRelative(value, min, max) {
     var gap = max - min;
@@ -748,9 +748,9 @@ export function fitNumberRelative(value, min, max) {
 /**
  * Converts SVG element coordinates to coordinates within specific [[Sprite]].
  *
- * @param  {IPoint}  point   SVG coordinates
- * @param  {Sprite}  sprite  Sprite
- * @return {IPoint}         Sprite coordinates
+ * @param point   SVG coordinates
+ * @param sprite  Sprite
+ * @return Sprite coordinates
  */
 export function svgPointToSprite(point, sprite) {
     var x = point.x;
@@ -783,9 +783,9 @@ export function svgPointToSprite(point, sprite) {
  * Converts coordinates within [[Sprite]] to coordinates relative to the whole
  * SVG element.
  *
- * @param  {IPoint}  point   Sprite coordinates
- * @param  {Sprite}  sprite  Sprite
- * @return {IPoint}          SVG coordinates
+ * @param point   Sprite coordinates
+ * @param sprite  Sprite
+ * @return SVG coordinates
  */
 export function spritePointToSvg(point, sprite) {
     var x = point.x;
@@ -813,10 +813,10 @@ export function spritePointToSvg(point, sprite) {
 /**
  * Converts coordinates of one sprite to another.
  *
- * @param  {IPoint}  point   Sprite coordinates
- * @param  {Sprite}  sprite  Sprite
- * @param  {Sprite}  toSprite  Sprite
- * @return {IPoint}  converted coordinates
+ * @param point   Sprite coordinates
+ * @param sprite  Sprite
+ * @param toSprite  Sprite
+ * @return converted coordinates
  */
 export function spritePointToSprite(point, sprite, toSprite) {
     return svgPointToSprite(spritePointToSvg(point, sprite), toSprite);
@@ -825,9 +825,9 @@ export function spritePointToSprite(point, sprite, toSprite) {
  * Converts a rectangle expressed in SVG element coordinates to coordinates
  * within specific [[Sprite]].
  *
- * @param  {IRectangle}  rect    SVG rectangle
- * @param  {Sprite}      sprite  Sprite
- * @return {IRectangle}          Sprite rectangle
+ * @param rect    SVG rectangle
+ * @param sprite  Sprite
+ * @return Sprite rectangle
  */
 export function svgRectToSprite(rect, sprite) {
     var p1 = svgPointToSprite(rect, sprite);
@@ -837,9 +837,9 @@ export function svgRectToSprite(rect, sprite) {
 /**
  * Converts a rectangle expressed in [[Sprite]] coordinates to SVG coordinates.
  *
- * @param  {IRectangle}  rect    Sprite rectangle
- * @param  {Sprite}      sprite  Sprite
- * @return {IRectangle}          SVG rectangle
+ * @param rect    Sprite rectangle
+ * @param sprite  Sprite
+ * @return SVG rectangle
  */
 export function spriteRectToSvg(rect, sprite) {
     var p1 = spritePointToSvg(rect, sprite);
@@ -849,9 +849,9 @@ export function spriteRectToSvg(rect, sprite) {
 /**
  * Converts global document-wide coordinates to coordinates within SVG element.
  *
- * @param  {IPoint}       point         Global coordinates
- * @param  {HTMLElement}  svgContainer  SVG element
- * @return {IPoint}                     SVG coordinates
+ * @param point         Global coordinates
+ * @param svgContainer  SVG element
+ * @return SVG coordinates
  */
 export function documentPointToSvg(point, svgContainer, cssScale) {
     var bbox = svgContainer.getBoundingClientRect();
@@ -866,9 +866,9 @@ export function documentPointToSvg(point, svgContainer, cssScale) {
 /**
  * Converts SVG coordinates to global document-wide coordinates.
  *
- * @param  {IPoint}       point         SVG coordinates
- * @param  {HTMLElement}  svgContainer  SVG element
- * @return {IPoint}                     Global coordinates
+ * @param point         SVG coordinates
+ * @param svgContainer  SVG element
+ * @return Global coordinates
  */
 export function svgPointToDocument(point, svgContainer) {
     var bbox = svgContainer.getBoundingClientRect();
@@ -881,9 +881,9 @@ export function svgPointToDocument(point, svgContainer) {
  * Converts document-wide global coordinates to coordinates within specific
  * [[Sprite]].
  *
- * @param  {IPoint}  point   Global coordinates
- * @param  {Sprite}  sprite  Sprite
- * @return {IPoint}          Sprite coordinates
+ * @param point   Global coordinates
+ * @param sprite  Sprite
+ * @return Sprite coordinates
  */
 export function documentPointToSprite(point, sprite) {
     if (sprite) {
@@ -897,9 +897,9 @@ export function documentPointToSprite(point, sprite) {
 /**
  * Converts coordinates within [[Sprite]] to global document coordinates.
  *
- * @param  {IPoint}  point   Sprite coordinates
- * @param  {Sprite}  sprite  Sprite
- * @return {IPoint}          Global coordinates
+ * @param point   Sprite coordinates
+ * @param sprite  Sprite
+ * @return Global coordinates
  */
 export function spritePointToDocument(point, sprite) {
     if (sprite) {
@@ -921,8 +921,8 @@ export function spritePointToDocument(point, sprite) {
  * Returns element's width.
  *
  * @ignore Exclude from docs
- * @param  {HTMLElement}  element  Element
- * @return {number}                Width (px)
+ * @param element  Element
+ * @return Width (px)
  * @deprecated Not used anywhere
  */
 export function width(element) {
@@ -932,8 +932,8 @@ export function width(element) {
  * Returns element's height.
  *
  * @ignore Exclude from docs
- * @param  {HTMLElement}  element  Element
- * @return {number}                Height (px)
+ * @param element  Element
+ * @return Height (px)
  * @deprecated Not used anywhere
  */
 export function height(element) {
@@ -943,8 +943,8 @@ export function height(element) {
  * Returns number of decimals
  *
  * @ignore Exclude from docs
- * @param  {number}  number  Input number
- * @return {number}          Number of decimals
+ * @param number  Input number
+ * @return Number of decimals
  */
 export function decimalPlaces(number) {
     var match = ('' + number).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);

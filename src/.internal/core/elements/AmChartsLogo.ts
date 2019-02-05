@@ -65,22 +65,16 @@ export class AmChartsLogo extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IAmChartsLogoProperties}
 	 */
 	public _properties!: IAmChartsLogoProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IAmChartsLogoAdapters}
 	 */
 	public _adapter!: IAmChartsLogoAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IAmChartsLogoEvents}
 	 */
 	public _events!: IAmChartsLogoEvents;
 

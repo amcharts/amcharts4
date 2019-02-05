@@ -62,22 +62,16 @@ export class ErrorBullet extends Bullet {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IErrorBulletProperties}
 	 */
 	public _properties!: IErrorBulletProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IErrorBulletAdapters}
 	 */
 	public _adapter!: IErrorBulletAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IErrorBulletEvents}
 	 */
 	public _events!: IErrorBulletEvents;
 
@@ -111,7 +105,7 @@ export class ErrorBullet extends Bullet {
 	 * Copies all proprities and related stuff from another instance of
 	 * [[ErrorBullet]].
 	 *
-	 * @param {this}  source  Source element
+	 * @param source  Source element
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);

@@ -23,8 +23,6 @@ import { PieSeries3D } from "../series/PieSeries3D";
 export declare class PieChart3DDataItem extends PieChartDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {PieChart3D}
      */
     _component: PieChart3D;
     /**
@@ -49,14 +47,10 @@ export interface IPieChart3DDataFields extends IPieChartDataFields {
 export interface IPieChart3DProperties extends IPieChartProperties {
     /**
      * Pie's "depth" or "height" in pixels.
-     *
-     * @type {number}
      */
     depth?: number;
     /**
      * Pie's angle at which we are looking at it. (degrees)
-     *
-     * @type {number}
      */
     angle?: number;
 }
@@ -165,32 +159,22 @@ export interface IPieChart3DAdapters extends IPieChartAdapters, IPieChart3DPrope
 export declare class PieChart3D extends PieChart {
     /**
      * Available data fields.
-     *
-     * @type {IPieChart3DDataFields}
      */
     _dataFields: IPieChart3DDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IPieChart3DProperties}
      */
     _properties: IPieChart3DProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IPieChart3DAdapters}
      */
     _adapter: IPieChart3DAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IPieChart3DEvents}
      */
     _events: IPieChart3DEvents;
     /**
      * Defines a type of series that this chart uses.
-     *
-     * @type {PieSeries3D}
      */
     _seriesType: PieSeries3D;
     /**
@@ -198,7 +182,7 @@ export declare class PieChart3D extends PieChart {
      */
     constructor();
     /**
-     * @return {number} Depth (px)
+     * @return Depth (px)
      */
     /**
      * Depth of the 3D pie in pixels.
@@ -206,23 +190,23 @@ export declare class PieChart3D extends PieChart {
      * This will determine "height" of the pie.
      *
      * @default 20
-     * @param {number}  value  Depth (px)
+     * @param value  Depth (px)
      */
     depth: number;
     /**
-     * @return {number} Angle (degrees)
+     * @return Angle (degrees)
      */
     /**
      * An angle of a "point of view" in degrees. Possible range 0 - 90.
      *
      * @default 10
-     * @param {number}  value  Angle (degrees)
+     * @param value  Angle (degrees)
      */
     angle: number;
     /**
      * Creates and returns a new Series.
      *
-     * @return {PieSeries3D} New series
+     * @return New series
      */
     protected createSeries(): this["_seriesType"];
 }

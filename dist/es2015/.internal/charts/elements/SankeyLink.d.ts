@@ -15,49 +15,42 @@ export interface ISankeyLinkProperties extends IFlowDiagramLinkProperties {
      * [tension description]
      *
      * @todo Description
-     * @type {number}
      */
     tension?: number;
     /**
      * [startX description]
      *
      * @todo Description
-     * @type {number}
      */
     startX?: number;
     /**
      * [startY description]
      *
      * @todo Description
-     * @type {number}
      */
     startY?: number;
     /**
      * [endX description]
      *
      * @todo Description
-     * @type {number}
      */
     endX?: number;
     /**
      * [endY description]
      *
      * @todo Description
-     * @type {number}
      */
     endY?: number;
     /**
      * [linkWidth description]
      *
      * @todo Description
-     * @type {number}
      */
     linkWidth?: number;
     /**
      * [controlPointDistance description]
      *
      * @todo Description
-     * @type {number}
      */
     controlPointDistance?: number;
 }
@@ -90,31 +83,22 @@ export interface ISankeyLinkAdapters extends IFlowDiagramLinkAdapters, ISankeyLi
 export declare class SankeyLink extends FlowDiagramLink {
     /**
      * Defines available properties.
-     *
-     * @type {ISankeyLinkProperties}
      */
     _properties: ISankeyLinkProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ISankeyLinkAdapters}
      */
     _adapter: ISankeyLinkAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ISankeyLinkEvents}
      */
     _events: ISankeyLinkEvents;
     /**
      * Defines a type of data item used by this class.
-     *
-     * @type {SankeyDiagramDataItem}
      */
     _dataItem: SankeyDiagramDataItem;
     /**
      * Spline which goes through the middle of a link, used to calculate bullet and tooltip positions, invisible by default
-     * @type Polyspline
      */
     middleLine: Polyspline;
     /**
@@ -128,71 +112,71 @@ export declare class SankeyLink extends FlowDiagramLink {
      */
     validate(): void;
     /**
-     * @return {number} Start X
+     * @return Start X
      */
     /**
      * [startX description]
      *
      * @todo Description
-     * @param {number}  value  Start X
+     * @param value  Start X
      */
     startX: number;
     /**
-     * @return {number} End X
+     * @return End X
      */
     /**
      * [endX description]
      *
      * @todo Description
-     * @param {number} value  End X
+     * @param value  End X
      */
     endX: number;
     /**
-     * @return {number} Start Y
+     * @return Start Y
      */
     /**
      * [startY description]
      *
      * @todo Description
-     * @param {number}  value  Start Y
+     * @param value  Start Y
      */
     startY: number;
     /**
-     * @return {number} End Y
+     * @return End Y
      */
     /**
      * [endY description]
      *
      * @todo Description
-     * @param {number} value End Y
+     * @param value End Y
      */
     endY: number;
     /**
-     * @return {number} [description]
+     * @return [description]
      */
     /**
      * [linkWidth description]
      *
      * @todo Description
-     * @param {number} value [description]
+     * @param value [description]
      */
     linkWidth: number;
     /**
-     * @return {number} relative control point distance
+     * @return relative control point distance
      */
     /**
      * Distance of control point of a link, defines relative distance from a node at which linke should bend
      * @default 0.2
-     * @param {number}  value
+     * @param value
      */
     controlPointDistance: number;
     /**
-     * @return {number} tension value
+     * @return tension value
      */
     /**
      * Tension of a spline, 1 would make the link to have sharp edges
      * @default 0.8
-     * @param {number} value
+     * @param value
      */
     tension: number;
 }

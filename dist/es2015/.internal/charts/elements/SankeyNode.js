@@ -44,7 +44,6 @@ var SankeyNode = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @type {number}
          */
         _this.nextInCoord = 0;
         /**
@@ -52,7 +51,6 @@ var SankeyNode = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @type {number}
          */
         _this.nextOutCoord = 0;
         _this.className = "SankeyNode";
@@ -214,7 +212,7 @@ var SankeyNode = /** @class */ (function (_super) {
     /**
      * Positions the bullet so it is centered within the node element.
      *
-     * @param {LabelBullet}  bullet  Target bullet
+     * @param bullet  Target bullet
      */
     SankeyNode.prototype.positionBullet = function (bullet) {
         if (bullet) {
@@ -224,7 +222,7 @@ var SankeyNode = /** @class */ (function (_super) {
     };
     Object.defineProperty(SankeyNode.prototype, "level", {
         /**
-         * @return {number} Level
+         * @return Level
          */
         get: function () {
             return this.getPropertyValue("level");
@@ -238,7 +236,7 @@ var SankeyNode = /** @class */ (function (_super) {
          *
          * Nodes in second column - `level = 1`, etc.
          *
-         * @param {number}  value  Level
+         * @param value  Level
          */
         set: function (value) {
             this.setPropertyValue("level", value, true);
@@ -249,7 +247,7 @@ var SankeyNode = /** @class */ (function (_super) {
     /**
      * Copies properties and labels from another [[SankeyNode]].
      *
-     * @param {SankeyNode}  source  Source node
+     * @param source  Source node
      */
     SankeyNode.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

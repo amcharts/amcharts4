@@ -25,13 +25,10 @@ import { CurvedColumn } from "../elements/CurvedColumn";
 export declare class CurvedColumnSeriesDataItem extends ColumnSeriesDataItem {
     /**
      * A sprite used to draw the column.
-     * @type {ConeColumn}
      */
     _column: CurvedColumn;
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {CurvedColumnSeries}
      */
     _component: CurvedColumnSeries;
     /**
@@ -83,38 +80,26 @@ export interface ICurvedColumnSeriesAdapters extends IColumnSeriesAdapters, ICur
 export declare class CurvedColumnSeries extends ColumnSeries {
     /**
      * Dfines type of the column.
-     *
-     * @type {CurvedColumn}
      */
     _column: CurvedColumn;
     /**
      * Defines type of the data item.
-     *
-     * @type {CurvedColumnSeriesDataItem}
      */
     _dataItem: CurvedColumnSeriesDataItem;
     /**
      * Defines the type of data fields used for the series.
-     *
-     * @type {ICurvedColumnSeriesDataFields}
      */
     _dataFields: ICurvedColumnSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {ICurvedColumnSeriesProperties}
      */
     _properties: ICurvedColumnSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ICurvedColumnSeriesAdapters}
      */
     _adapter: ICurvedColumnSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ICurvedColumnSeriesEvents}
      */
     _events: ICurvedColumnSeriesEvents;
     /**
@@ -125,14 +110,14 @@ export declare class CurvedColumnSeries extends ColumnSeries {
      * Returns an element to use for the curved column.
      *
      * @ignore Exclude from docs
-     * @return {this["_column"]} Element.
+     * @return Element.
      */
     protected createColumnTemplate(): this["_column"];
     /**
      * Validates data item's elements.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     validateDataElementReal(dataItem: this["_dataItem"]): void;
 }

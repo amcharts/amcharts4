@@ -93,7 +93,7 @@ var Trapezoid = /** @class */ (function (_super) {
     };
     Object.defineProperty(Trapezoid.prototype, "topSide", {
         /**
-         * @return {number} Width
+         * @return Width
          */
         get: function () {
             return this.getPropertyValue("topSide");
@@ -102,7 +102,7 @@ var Trapezoid = /** @class */ (function (_super) {
          * Wdith of the top side. Absolute (px) or relative ([[Percent]]).
          *
          * @default Percent(100)
-         * @param {number | Percent}  value  Width
+         * @param value  Width
          */
         set: function (value) {
             this.setPercentProperty("topSide", value, true, false, 10, false);
@@ -112,7 +112,7 @@ var Trapezoid = /** @class */ (function (_super) {
     });
     Object.defineProperty(Trapezoid.prototype, "bottomSide", {
         /**
-         * @return {number} Width
+         * @return Width
          */
         get: function () {
             return this.getPropertyValue("bottomSide");
@@ -121,7 +121,7 @@ var Trapezoid = /** @class */ (function (_super) {
          * Wdith of the bottom side. Absolute (px) or relative ([[Percent]]).
          *
          * @default Percent(100)
-         * @param {number | Percent}  value  Width
+         * @param value  Width
          */
         set: function (value) {
             this.setPercentProperty("bottomSide", value, true, false, 10, false);
@@ -131,7 +131,7 @@ var Trapezoid = /** @class */ (function (_super) {
     });
     Object.defineProperty(Trapezoid.prototype, "leftSide", {
         /**
-         * @return {number} Height
+         * @return Height
          */
         get: function () {
             return this.getPropertyValue("leftSide");
@@ -140,7 +140,7 @@ var Trapezoid = /** @class */ (function (_super) {
          * Height of the left side. Absolute (px) or relative ([[Percent]]).
          *
          * @default Percent(100)
-         * @param {number | Percent}  value  Height
+         * @param value  Height
          */
         set: function (value) {
             this.setPercentProperty("leftSide", value, true, false, 10, false);
@@ -150,7 +150,7 @@ var Trapezoid = /** @class */ (function (_super) {
     });
     Object.defineProperty(Trapezoid.prototype, "rightSide", {
         /**
-         * @return {number} Height
+         * @return Height
          */
         get: function () {
             return this.getPropertyValue("rightSide");
@@ -159,7 +159,7 @@ var Trapezoid = /** @class */ (function (_super) {
          * Height of the right side. Absolute (px) or relative ([[Percent]]).
          *
          * @default Percent(100)
-         * @param {number | Percent}  value  Height
+         * @param value  Height
          */
         set: function (value) {
             this.setPercentProperty("rightSide", value, true, false, 10, false);
@@ -169,7 +169,7 @@ var Trapezoid = /** @class */ (function (_super) {
     });
     Object.defineProperty(Trapezoid.prototype, "horizontalNeck", {
         /**
-         * @return {Percent} Horizontal neck position
+         * @return Horizontal neck position
          */
         get: function () {
             return this.getPropertyValue("horizontalNeck");
@@ -179,7 +179,7 @@ var Trapezoid = /** @class */ (function (_super) {
          * are of different width, and `horizontalNeck` is set, a choke point
          * will be created at that position, creating a funnel shape.
          *
-         * @param {Percent}  value  Horizontal neck position
+         * @param value  Horizontal neck position
          */
         set: function (value) {
             this.setPropertyValue("horizontalNeck", value, true);
@@ -189,7 +189,7 @@ var Trapezoid = /** @class */ (function (_super) {
     });
     Object.defineProperty(Trapezoid.prototype, "verticalNeck", {
         /**
-         * @return {Percent} Vertical neck position
+         * @return Vertical neck position
          */
         get: function () {
             return this.getPropertyValue("verticalNeck");
@@ -199,7 +199,7 @@ var Trapezoid = /** @class */ (function (_super) {
          * are of different height, and `verticalNeck` is set, a choke point
          * will be created at that position, creating a funnel shape.
          *
-         * @param {Percent}  value  Vertical neck position
+         * @param value  Vertical neck position
          */
         set: function (value) {
             this.setPropertyValue("verticalNeck", value, true);

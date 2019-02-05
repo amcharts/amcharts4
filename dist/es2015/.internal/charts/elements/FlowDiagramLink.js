@@ -80,7 +80,6 @@ var FlowDiagramLink = /** @class */ (function (_super) {
     Object.defineProperty(FlowDiagramLink.prototype, "bulletsContainer", {
         /**
          * Bullets container
-         * @type Container
          */
         get: function () {
             if (!this._bulletsContainer) {
@@ -96,8 +95,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagramLink.prototype, "bulletsMask", {
         /**
-         * Bullets mask spite
-         * @type Sprite
+         * Bullets mask sprite
          */
         get: function () {
             if (!this._bulletsMask) {
@@ -139,7 +137,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
     };
     Object.defineProperty(FlowDiagramLink.prototype, "startAngle", {
         /**
-         * @return {number} Start angle
+         * @return Start angle
          */
         get: function () {
             return this.getPropertyValue("startAngle");
@@ -148,7 +146,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
          * [startAngle description]
          *
          * @todo Description
-         * @param {number}  value  Start angle
+         * @param value  Start angle
          */
         set: function (value) {
             this.setPropertyValue("startAngle", value, true);
@@ -158,7 +156,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagramLink.prototype, "endAngle", {
         /**
-         * @return {number} End angle
+         * @return End angle
          */
         get: function () {
             return this.getPropertyValue("endAngle");
@@ -167,7 +165,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
          * [endAngle description]
          *
          * @todo Description
-         * @param {number}  value  End angle
+         * @param value  End angle
          */
         set: function (value) {
             this.setPropertyValue("endAngle", value, true);
@@ -177,7 +175,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagramLink.prototype, "colorMode", {
         /**
-         * @type {"solid" | "gradient"} Fill mode
+         * Fill mode
          */
         get: function () {
             return this.getPropertyValue("colorMode");
@@ -186,7 +184,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
          * Should link be filled with a solid color, color of from node, color of toNode or gradient between node colors.
          * Some of the links, like ChordLink does not support gradiens well.
          *
-         * @param {"solid" | "gradient" | "fromNode" | "toNode"}  value  Fill mode
+         * @param value  Fill mode
          */
         set: function (value) {
             if (value == "gradient") {
@@ -206,7 +204,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagramLink.prototype, "maskBullets", {
         /**
-         * @return {boolean} mask bullets value
+         * @return mask bullets value
          */
         get: function () {
             return this.getPropertyValue("maskBullets");
@@ -214,7 +212,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
         /**
          * Should link bullets be masked or not
          *
-         * @param {boolean}  value
+         * @param value
          * @default false;
          */
         set: function (value) {
@@ -225,7 +223,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagramLink.prototype, "tooltipLocation", {
         /**
-         * @type {number} tooltip location value
+         * Tooltip location value
          */
         get: function () {
             return this.getPropertyValue("tooltipLocation");
@@ -234,7 +232,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
          * Relative location of a tooltip.
          * @default 0.5
          *
-         * @param {number} value
+         * @param value
          */
         set: function (value) {
             this.setPropertyValue("tooltipLocation", value, true);
@@ -245,7 +243,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
     /**
      * Adds color steps in the link gradient.
      *
-     * @param {Color | Pattern | LinearGradient | RadialGradient}  value  Fill option
+     * @param value  Fill option
      */
     FlowDiagramLink.prototype.setFill = function (value) {
         _super.prototype.setFill.call(this, value);
@@ -267,7 +265,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
         /**
          * List of bullets
          *
-         * @return {ListTemplate<Bullet>} [description]
+         * @return [description]
          */
         get: function () {
             var _this = this;
@@ -291,7 +289,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
     /**
      * Copies properties from another [[FlowDiagramLink]].
      *
-     * @param {FlowDiagramLink}  source  Source link
+     * @param source  Source link
      */
     FlowDiagramLink.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
@@ -309,7 +307,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
     };
     /**
      * @ignore Exclude from docs
-     * @return {number} Tooltip X (px)
+     * @return Tooltip X (px)
      */
     FlowDiagramLink.prototype.getTooltipX = function () {
         if (this.middleLine) {
@@ -318,7 +316,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
     };
     /**
      * @ignore Exclude from docs
-     * @return {number} Tooltip Y (px)
+     * @return Tooltip Y (px)
      */
     FlowDiagramLink.prototype.getTooltipY = function () {
         if (this.middleLine) {
@@ -329,8 +327,6 @@ var FlowDiagramLink = /** @class */ (function (_super) {
         /**
          * A gradiend instance that is used to provided colored gradient fills for
          * the Flow link.
-         *
-         * @type {LinearGradient}
          */
         get: function () {
             if (!this._gradient) {

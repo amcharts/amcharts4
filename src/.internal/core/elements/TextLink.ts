@@ -58,22 +58,16 @@ export class TextLink extends Label {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ITextLinkProperties}
 	 */
 	public _properties!: ITextLinkProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ITextLinkAdapters}
 	 */
 	public _adapter!: ITextLinkAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ITextLinkEvents}
 	 */
 	public _events!: ITextLinkEvents;
 

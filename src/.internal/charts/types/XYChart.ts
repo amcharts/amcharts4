@@ -14,6 +14,7 @@ import { Container } from "../../core/Container";
 import { IComponentEvents } from "../../core/Component";
 import { List, IListEvents } from "../../core/utils/List";
 import { Axis } from "../axes/Axis";
+import { DateAxis } from "../axes/DateAxis";
 import { Optional } from "../../core/utils/Type";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { AxisRendererX } from "../axes/AxisRendererX";
@@ -55,8 +56,6 @@ export class XYChartDataItem extends SerialChartDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {XYChart}
 	 */
 	public _component!: XYChart;
 
@@ -92,8 +91,6 @@ export interface IXYChartProperties extends ISerialChartProperties {
 	/**
 	 * A container that is used as a maske for bullets so that they can't
 	 * "spill" outside of the plot area.
-	 *
-	 * @type {[type]}
 	 */
 	maskBullets?: boolean;
 
@@ -103,6 +100,14 @@ export interface IXYChartProperties extends ISerialChartProperties {
 	 * @default "none"
 	 */
 	mouseWheelBehavior?: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
+
+	/**
+	 * Specifies if chart should arrange series tooltips so that they won't
+	 * overlap.
+	 *
+	 * @default true
+	 */
+	arrangeTooltips?: boolean;
 }
 
 /**
@@ -254,57 +259,42 @@ export class XYChart extends SerialChart {
 
 	/**
 	 * Defines available data fields.
-	 *
-	 * @type {IXYChartDataFields}
 	 */
 	public _dataFields: IXYChartDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IXYChartProperties}
 	 */
 	public _properties!: IXYChartProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IXYChartAdapters}
 	 */
 	public _adapter!: IXYChartAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IXYChartEvents}
 	 */
 	public _events!: IXYChartEvents;
 
 	/**
 	 * Defines a type of series that this chart uses.
-	 *
-	 * @type {XYSeries}
 	 */
 	public _seriesType: XYSeries;
 
 	/**
 	 * A list of horizontal axes.
-	 *
-	 * @type {List<Axis<AxisRendererX>>}
 	 */
 	protected _xAxes: List<Axis<this["_xAxisRendererType"]>>;
 
 	/**
 	 * A list of vertical axes.
-	 *
-	 * @type {List<Axis<AxisRendererX>>}
 	 */
 	protected _yAxes: List<Axis<this["_yAxisRendererType"]>>;
 
 	/**
 	 * A container that holds vertical axes and plot area.
 	 *
-	 * @ignore Exclude from docs
 	 * @type {Container}
 	 */
 	public yAxesAndPlotContainer: Container
@@ -312,7 +302,6 @@ export class XYChart extends SerialChart {
 	/**
 	 * A container that holds top axes.
 	 *
-	 * @ignore Exclude from docs
 	 * @type {Container}
 	 */
 	public topAxesContainer: Container;
@@ -320,7 +309,6 @@ export class XYChart extends SerialChart {
 	/**
 	 * A container that holds bottom axes.
 	 *
-	 * @ignore Exclude from docs
 	 * @type {Container}
 	 */
 	public bottomAxesContainer: Container;
@@ -328,7 +316,6 @@ export class XYChart extends SerialChart {
 	/**
 	 * A container that holds left axes.
 	 *
-	 * @ignore Exclude from docs
 	 * @type {Container}
 	 */
 	public leftAxesContainer: Container;
@@ -336,7 +323,6 @@ export class XYChart extends SerialChart {
 	/**
 	 * A container that holds right axes.
 	 *
-	 * @ignore Exclude from docs
 	 * @type {Container}
 	 */
 	public rightAxesContainer: Container;
@@ -344,78 +330,58 @@ export class XYChart extends SerialChart {
 	/**
 	 * A container for plot area.
 	 *
-	 * @type {Container}
+	 * @type {Container}	 
 	 */
 	public plotContainer: Container;
 
 	/**
 	 * A reference to horizontal [[Scrollbar]].
-	 *
-	 * @type {Scrollbar}
 	 */
 	protected _scrollbarX: Scrollbar;
 
 	/**
 	 * A reference to vertical [[Scrollbar]].
-	 *
-	 * @type {Scrollbar}
 	 */
 	protected _scrollbarY: Scrollbar;
 
 	/**
 	 * A reference to chart's cursor.
-	 *
-	 * @type {XYCursor}
 	 */
 	public _cursor: XYCursor;
 
 	/**
 	 * A container that chart's cursor is placed in.
-	 *
-	 * @type {Container}
 	 */
 	protected _cursorContainer: Container;
 
 	/**
 	 * Defines the type of horizontal axis rederer.
-	 *
-	 * @type {typeof AxisRendererX}
 	 */
 	protected _axisRendererX: typeof AxisRendererX = AxisRendererX;
 
 	/**
 	 * Defines the type of vertical axis rederer.
-	 *
-	 * @type {typeof AxisRendererY}
 	 */
 	protected _axisRendererY: typeof AxisRendererY = AxisRendererY;
 
 	/**
 	 * Defines the type horizontal axis renderer.
-	 *
-	 * @type {AxisRendererX}
 	 */
 	public _xAxisRendererType: AxisRendererX;
 
 	/**
 	 * Defines the type of vertical axis renderer.
-	 *
-	 * @type {AxisRendererY}
 	 */
 	public _yAxisRendererType: AxisRendererY;
 
 	/**
 	 * A button which is used to zoom out the chart.
-	 *
-	 * @type {Button}
 	 */
 	protected _zoomOutButton: Button;
 
 	/**
 	 * An element that is used as a mask to contain bullets from spilling out of
 	 * the plot area.
-	 *
-	 * @type {Sprite}
 	 */
 	protected _bulletMask: Sprite;
 
@@ -444,6 +410,7 @@ export class XYChart extends SerialChart {
 		// Set defaults
 		//this.margin(10, 10, 10, 10);
 		this.maskBullets = true;
+		this.arrangeTooltips = true;
 
 		// Create main chart container
 		let chartContainer = this.chartContainer;
@@ -633,7 +600,7 @@ export class XYChart extends SerialChart {
 	 * change.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AMEvent<Axis, ISpriteEvents>["propertychanged"]} event An event object
+	 * @param event An event object
 	 */
 	public handleXAxisChange(event: AMEvent<AxisRenderer, ISpriteEvents>["propertychanged"]) {
 		this.updateXAxis(event.target);
@@ -644,7 +611,7 @@ export class XYChart extends SerialChart {
 	 * change.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AMEvent<Axis, ISpriteEvents>["propertychanged"]} event An event object
+	 * @param event An event object
 	 */
 	public handleYAxisChange(event: AMEvent<AxisRenderer, ISpriteEvents>["propertychanged"]) {
 		this.updateYAxis(event.target);
@@ -654,7 +621,7 @@ export class XYChart extends SerialChart {
 	 * Sets up a new horizontal (X) axis when it is added to the chart.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IListEvents<Axis>["inserted"]}  event  Axis insert event
+	 * @param event  Axis insert event
 	 */
 	public processXAxis(event: IListEvents<Axis>["inserted"]): void {
 
@@ -682,7 +649,7 @@ export class XYChart extends SerialChart {
 	 * Sets up a new vertical (Y) axis when it is added to the chart.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IListEvents<Axis>["inserted"]} event Axis insert event
+	 * @param event Axis insert event
 	 */
 	public processYAxis(event: IListEvents<Axis>["inserted"]): void {
 
@@ -786,8 +753,8 @@ export class XYChart extends SerialChart {
 	/**
 	 * Updates a relative scrollbar whenever data range of the axis changes.
 	 *
-	 * @param {Scrollbar}  scrollbar  Scrollbar instance
-	 * @param {IRange}     range      New data (values) range of the axis
+	 * @param scrollbar  Scrollbar instance
+	 * @param range      New data (values) range of the axis
 	 */
 	protected updateScrollbar(scrollbar: Scrollbar, range: IRange): void {
 		if (scrollbar) {
@@ -803,8 +770,8 @@ export class XYChart extends SerialChart {
 	 * This is used to synchronize the zoom between multiple axes.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {List<Axis>}  axes  A list of axes
-	 * @return {IRange}            Common value range
+	 * @param axes  A list of axes
+	 * @return Common value range
 	 */
 	public getCommonAxisRange(axes: List<Axis>): IRange {
 		let start: Optional<number>;
@@ -834,7 +801,7 @@ export class XYChart extends SerialChart {
 	 * Triggers (re)rendering of the horizontal (X) axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Axis}  axis  Axis
+	 * @param axis  Axis
 	 */
 	public updateXAxis(renderer: AxisRenderer) {
 		let axis = renderer.axis;
@@ -855,7 +822,7 @@ export class XYChart extends SerialChart {
 	 * Triggers (re)rendering of the vertical (Y) axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Axis}  axis  Axis
+	 * @param axis  Axis
 	 */
 	public updateYAxis(renderer: AxisRenderer) {
 		let axis = renderer.axis;
@@ -876,7 +843,7 @@ export class XYChart extends SerialChart {
 	 * Decorates an Axis for use with this chart, e.g. sets proper renderer
 	 * and containers for placement.
 	 *
-	 * @param {Axis}  axis  Axis
+	 * @param axis  Axis
 	 */
 	protected processAxis(axis: Axis): void {
 		// Value axis does not use data directly, only category axis does
@@ -907,7 +874,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * A list of horizontal (X) axes.
 	 *
-	 * @return {List<Axis>} List of axes
+	 * @return List of axes
 	 */
 	public get xAxes(): List<Axis<this["_xAxisRendererType"]>> {
 		if (!this._xAxes) {
@@ -933,7 +900,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * A list of vertical (Y) axes.
 	 *
-	 * @return {List<Axis>} List of axes
+	 * @return List of axes
 	 */
 	public get yAxes(): List<Axis<this["_yAxisRendererType"]>> {
 		if (!this._yAxes) {
@@ -950,7 +917,7 @@ export class XYChart extends SerialChart {
 	 * added to the chart.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IListEvents<XYSeries>["inserted"]}  event  Event
+	 * @param event  Event
 	 */
 	public handleSeriesAdded(event: IListEvents<XYSeries>["inserted"]): void {
 		try {
@@ -975,7 +942,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * Chart's [[Cursor]].
 	 *
-	 * @param {XYCursor}  cursor  Cursor
+	 * @param cursor  Cursor
 	 */
 	public set cursor(cursor: this["_cursor"]) {
 		if (this._cursor != cursor) {
@@ -1004,7 +971,7 @@ export class XYChart extends SerialChart {
 	}
 
 	/**
-	 * @return {XYCursor} Cursor
+	 * @return Cursor
 	 */
 	public get cursor(): this["_cursor"] {
 		return this._cursor;
@@ -1013,7 +980,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * Creates and returns a new [[Cursor]] suitable for this chart type.
 	 *
-	 * @return {this} New cursor
+	 * @return New cursor
 	 */
 	protected createCursor(): this["_cursor"] {
 		return new XYCursor();
@@ -1038,16 +1005,16 @@ export class XYChart extends SerialChart {
 				y: yPosition
 			});
 
-			let exceptAxis:Axis;
+			let exceptAxis: Axis;
 			let snapToSeries = cursor.snapToSeries;
-			if(snapToSeries){
-				if(snapToSeries.baseAxis == snapToSeries.xAxis){
+			if (snapToSeries) {
+				if (snapToSeries.baseAxis == snapToSeries.xAxis) {
 					exceptAxis = snapToSeries.yAxis;
 				}
-				if(snapToSeries.baseAxis == snapToSeries.yAxis){
+				if (snapToSeries.baseAxis == snapToSeries.yAxis) {
 					exceptAxis = snapToSeries.xAxis;
 				}
-			}	
+			}
 
 			this.showAxisTooltip(this.xAxes, xPosition, exceptAxis);
 			this.showAxisTooltip(this.yAxes, yPosition, exceptAxis);
@@ -1082,7 +1049,7 @@ export class XYChart extends SerialChart {
 	 * Hides a tooltip for a list of objects.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {List<Sprite>}  sprites  A list of sprites to hide tooltip for
+	 * @param sprites  A list of sprites to hide tooltip for
 	 */
 	public hideObjectTooltip(sprites: List<Sprite>): void {
 		$iter.each(sprites.iterator(), (sprite) => {
@@ -1098,7 +1065,7 @@ export class XYChart extends SerialChart {
 	 * actual data point's position, overlapping with other tooltips, etc.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IPoint}  position  Reference point
+	 * @param position  Reference point
 	 */
 	public showSeriesTooltip(position?: IPoint): void {
 
@@ -1113,36 +1080,43 @@ export class XYChart extends SerialChart {
 		let sum = 0;
 		this.series.each((series) => {
 			//if (series.tooltipText || series.tooltipHTML) { // not good, bullets are not hovered then
-			
-			let point = series.showTooltipAtPosition(position.x, position.y);
-			if(point){
-				series.tooltip.setBounds({ x: 0, y: 0, width: this.pixelWidth, height: this.pixelHeight });	
-				seriesPoints.push({series:series, point:point});
+
+			if ((series.xAxis instanceof DateAxis && series.xAxis.snapTooltip) || (series.yAxis instanceof DateAxis && series.yAxis.snapTooltip)) {
+				// void
+			}
+			else {
+				let point = series.showTooltipAtPosition(position.x, position.y);
+				if (point) {
+					series.tooltip.setBounds({ x: 0, y: 0, width: this.pixelWidth, height: this.pixelHeight });
+					seriesPoints.push({ series: series, point: point });
+				}
 			}
 
 			//}
 		});
 
-		this.sortSeriesTooltips(seriesPoints);
+		if (this.arrangeTooltips) {
+			this.sortSeriesTooltips(seriesPoints);
+		}
 	}
 
 
 	/**
 	 * @ignore
 	 */
-	public sortSeriesTooltips(seriesPoints:{ point: IPoint, series: XYSeries }[]){
+	public sortSeriesTooltips(seriesPoints: { point: IPoint, series: XYSeries }[]) {
 
 		let topLeft = $utils.spritePointToSvg({ x: -0.5, y: -0.5 }, this.plotContainer);
 		let bottomRight = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth + 0.5, y: this.plotContainer.pixelHeight + 0.5 }, this.plotContainer);
 
 		let sum = 0;
-		let filteredSeriesPoints:{ point: IPoint, series: XYSeries }[] = [];
-		$array.each(seriesPoints, (seriesPoint)=>{
+		let filteredSeriesPoints: { point: IPoint, series: XYSeries }[] = [];
+		$array.each(seriesPoints, (seriesPoint) => {
 			let point = seriesPoint.point;
 			if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
 				filteredSeriesPoints.push({ point: point, series: seriesPoint.series });
 				sum += point.y;
-			}			
+			}
 		})
 
 		seriesPoints = filteredSeriesPoints;
@@ -1211,7 +1185,7 @@ export class XYChart extends SerialChart {
 					nextY = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY + tooltip.label.measuredHeight - tooltip.pixelY + pointY + tooltip.pixelMarginBottom }, tooltip).y;
 				}
 			}
-		}		
+		}
 	}
 
 	/**
@@ -1221,13 +1195,13 @@ export class XYChart extends SerialChart {
 	 * vertical axes.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {List<Axis>}  axes      List of axes to show tooltip on
-	 * @param {number}      position  Position (px)
+	 * @param axes      List of axes to show tooltip on
+	 * @param position  Position (px)
 	 */
-	public showAxisTooltip(axes: List<Axis>, position: number, except?:Axis): void {
+	public showAxisTooltip(axes: List<Axis>, position: number, except?: Axis): void {
 		$iter.each(axes.iterator(), (axis) => {
-			if(axis != except){
-				if (this.dataItems.length > 0 || axis.dataItems.length > 0) {				
+			if (axis != except) {
+				if (this.dataItems.length > 0 || axis.dataItems.length > 0) {
 					axis.showTooltipAtPosition(position);
 				}
 			}
@@ -1237,9 +1211,9 @@ export class XYChart extends SerialChart {
 	/**
 	 * Recalculates the value range for the axis taking into account zoom level & inversed.
 	 *
-	 * @param  {Axis}    axis   Axis
-	 * @param  {IRange}  range  Range
-	 * @return {IRange}         Modified range
+	 * @param axis   Axis
+	 * @param range  Range
+	 * @return Modified range
 	 */
 	public getUpdatedRange(axis: Axis<this["_xAxisRendererType"]>, range: IRange): IRange {
 
@@ -1278,7 +1252,7 @@ export class XYChart extends SerialChart {
 	 * Performs zoom and other operations when user finishes zooming using chart
 	 * cursor, e.g. zooms axes.
 	 *
-	 * @param {IXYCursorEvents["zoomended"]} event Cursor's event
+	 * @param event Cursor's event
 	 */
 	protected handleCursorZoomEnd(event: IXYCursorEvents["zoomended"]): void {
 		let cursor: XYCursor = this.cursor;
@@ -1308,7 +1282,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * Performs zoom and other operations when user is panning chart plot using chart cursor.
 	 *
-	 * @param {IXYCursorEvents["panning"]} event Cursor's event
+	 * @param event Cursor's event
 	 */
 	protected handleCursorPanStart(event: IXYCursorEvents["panning"]): void {
 		let xAxis = this.xAxes.getIndex(0);
@@ -1325,7 +1299,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * Performs zoom and other operations when user ends panning
 	 *
-	 * @param {IXYCursorEvents["panning"]} event Cursor's event
+	 * @param event Cursor's event
 	 */
 	protected handleCursorPanEnd(event: IXYCursorEvents["panning"]): void {
 		let cursor: XYCursor = this.cursor;
@@ -1369,7 +1343,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * Performs zoom and other operations when user is panning chart plot using chart cursor.
 	 *
-	 * @param {IXYCursorEvents["panning"]} event Cursor's event
+	 * @param event Cursor's event
 	 */
 	protected handleCursorPanning(event: IXYCursorEvents["panning"]): void {
 		let cursor: XYCursor = this.cursor;
@@ -1435,7 +1409,7 @@ export class XYChart extends SerialChart {
 	 * Performs zoom and other operations when user starts zooming using chart
 	 * cursor, e.g. zooms axes.
 	 *
-	 * @param {IXYCursorEvents["zoomended"]} event Cursor's event
+	 * @param event Cursor's event
 	 */
 	protected handleCursorZoomStart(event: IXYCursorEvents["zoomstarted"]): void {
 
@@ -1448,7 +1422,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * Horizontal (X) scrollbar.
 	 *
-	 * @param {Scrollbar} scrollbar Scrollbar
+	 * @param scrollbar Scrollbar
 	 */
 	public set scrollbarX(scrollbar: Scrollbar) {
 		if (this._scrollbarX) {
@@ -1476,7 +1450,7 @@ export class XYChart extends SerialChart {
 	}
 
 	/**
-	 * @return {Scrollbar} Scrollbar
+	 * @return Scrollbar
 	 */
 	public get scrollbarX(): Scrollbar {
 		return this._scrollbarX;
@@ -1485,7 +1459,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * Vertical (Y) scrollbar.
 	 *
-	 * @param {Scrollbar} scrollbar Scrollbar
+	 * @param scrollbar Scrollbar
 	 */
 	public set scrollbarY(scrollbar: Scrollbar) {
 		if (this._scrollbarY) {
@@ -1513,7 +1487,7 @@ export class XYChart extends SerialChart {
 	}
 
 	/**
-	 * @return {Scrollbar} Scrollbar
+	 * @return Scrollbar
 	 */
 	public get scrollbarY(): Scrollbar {
 		return this._scrollbarY;
@@ -1523,18 +1497,18 @@ export class XYChart extends SerialChart {
 	 * Zooms axes affected by the horizontal (X) scrollbar when the selection
 	 * on it changes.
 	 *
-	 * @param {AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]} event Scrollbar range change event
+	 * @param event Scrollbar range change event
 	 */
 	protected handleXScrollbarChange(event: AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]): void {
-		if(this.inited){
+		if (this.inited) {
 			let scrollbar: Scrollbar = event.target;
 			let range = scrollbar.range;
-			if(range.end == 1){
+			if (range.end == 1) {
 				range.priority = "end";
 			}
-			if(range.start == 0){
+			if (range.start == 0) {
 				range.priority = "start";
-			}		
+			}
 			range = this.zoomAxes(this.xAxes, range);
 			scrollbar.fixRange(range);
 		}
@@ -1544,18 +1518,18 @@ export class XYChart extends SerialChart {
 	 * Zooms axes affected by the vertical (Y) scrollbar when the selection
 	 * on it changes.
 	 *
-	 * @param {AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]} event Scrollbar range change event
+	 * @param event Scrollbar range change event
 	 */
 	protected handleYScrollbarChange(event: AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]): void {
-		if(this.inited){
+		if (this.inited) {
 			let scrollbar: Scrollbar = event.target;
 			let range = scrollbar.range;
-			if(range.end == 1){
+			if (range.end == 1) {
 				range.priority = "end";
 			}
-			if(range.start == 0){
+			if (range.start == 0) {
 				range.priority = "start";
-			}		
+			}
 			range = this.zoomAxes(this.yAxes, range);
 			scrollbar.fixRange(range);
 		}
@@ -1565,12 +1539,12 @@ export class XYChart extends SerialChart {
 	/**
 	 * Zooms axes that are affected by to specific relative range.
 	 *
-	 * @param  {List<Axis>}  axes       List of axes to zoom
-	 * @param  {IRange}      range      Range of values to zoom to (0-1)
-	 * @param  {boolean}     instantly  If set to `true` will skip zooming animation
-	 * @return {IRange}                 Recalculated range that is common to all involved axes
+	 * @param axes       List of axes to zoom
+	 * @param range      Range of values to zoom to (0-1)
+	 * @param instantly  If set to `true` will skip zooming animation
+	 * @return Recalculated range that is common to all involved axes
 	 */
-	protected zoomAxes(axes: List<Axis<this["_xAxisRendererType"]>>, range: IRange, instantly?: boolean, round?: boolean, declination?:number): IRange {
+	protected zoomAxes(axes: List<Axis<this["_xAxisRendererType"]>>, range: IRange, instantly?: boolean, round?: boolean, declination?: number): IRange {
 		let realRange: IRange = { start: 0, end: 1 };
 
 		this.showSeriesTooltip(); // hides
@@ -1608,24 +1582,49 @@ export class XYChart extends SerialChart {
 	 * will be clipped off. Settting to `false` will allow bullets to "spill out"
 	 * of the plot area so they are not cut off.
 	 *
-	 * @param {boolean} value Mask bullet container?
+	 * @param value Mask bullet container?
 	 */
 	public set maskBullets(value: boolean) {
 		this.setPropertyValue("maskBullets", value, true);
 	}
 
 	/**
-	 * @return {boolean} Mask bullet container?
+	 * @return Mask bullet container?
 	 */
 	public get maskBullets(): boolean {
 		return this.getPropertyValue("maskBullets");
+	}
+
+	/**
+	 * Indicates if chart should arrange series tooltips so that they would not
+	 * overlap.
+	 *
+	 * If set to `true` (default), the chart will adjust vertical positions of
+	 * all simultaneously shown tooltips to avoid overlapping.
+	 *
+	 * However, if you have a vertically-arranged chart, it might not make sense,
+	 * because tooltips would most probably not be aligned horizontally. In this
+	 * case it would probably be a good idea to set this setting to `false`.
+	 *
+	 * @default true
+	 * @param value Arrange tooltips?
+	 */
+	public set arrangeTooltips(value: boolean) {
+		this.setPropertyValue("arrangeTooltips", value, true);
+	}
+
+	/**
+	 * @return Arrange tooltips?
+	 */
+	public get arrangeTooltips(): boolean {
+		return this.getPropertyValue("arrangeTooltips");
 	}
 
 
 	/**
 	 * Handles mouse wheel event.
 	 *
-	 * @param {AMEvent<Sprite, ISpriteEvents>["wheel"]}  event  Original event
+	 * @param event  Original event
 	 */
 	protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]) {
 		let plotContainer = this.plotContainer;
@@ -1709,7 +1708,7 @@ export class XYChart extends SerialChart {
 	 * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"` (default).
 	 *
 	 * @default "none"
-	 * @param {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"} mouse wheel behavior
+	 * @param mouse wheel behavior
 	 */
 	public set mouseWheelBehavior(value: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none") {
 
@@ -1729,7 +1728,7 @@ export class XYChart extends SerialChart {
 	}
 
 	/**
-	 * @return {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"}  Mouse wheel behavior
+	 * @return Mouse wheel behavior
 	 */
 	public get mouseWheelBehavior(): "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none" {
 		return this.getPropertyValue("mouseWheelBehavior");
@@ -1740,8 +1739,8 @@ export class XYChart extends SerialChart {
 	 * so that particular chart types can popuplate this setting with their
 	 * own type-speicifc data fields so they are parsed properly.
 	 *
-	 * @param  {string[]}  fields  Array of date fields
-	 * @return {string[]}          Array of date fields populated with chart's date fields
+	 * @param fields  Array of date fields
+	 * @return Array of date fields populated with chart's date fields
 	 */
 	protected dataSourceDateFields(fields: string[]): string[] {
 		// Process parent
@@ -1764,8 +1763,8 @@ export class XYChart extends SerialChart {
 	 * so that particular chart types can popuplate this setting with their
 	 * own type-specific data fields so they are parsed properly.
 	 *
-	 * @param  {string[]}  value  Array of number fields
-	 * @return {string[]}         Array of number fields populated with chart's number fields
+	 * @param value  Array of number fields
+	 * @return Array of number fields populated with chart's number fields
 	 */
 	protected dataSourceNumberFields(fields: string[]): string[] {
 		fields = super.dataSourceDateFields(fields);
@@ -1786,7 +1785,7 @@ export class XYChart extends SerialChart {
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 
@@ -1877,9 +1876,9 @@ export class XYChart extends SerialChart {
 	 * the end.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {string}  a  Element 1
-	 * @param  {string}  b  Element 2
-	 * @return {Ordering}   Sorting number
+	 * @param a  Element 1
+	 * @param b  Element 2
+	 * @return Sorting number
 	 */
 	protected configOrder(a: string, b: string): Ordering {
 		if (a == b) {
@@ -1912,7 +1911,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * Creates a new Series of type suitable for this chart.
 	 *
-	 * @return {this} New series
+	 * @return New series
 	 */
 	protected createSeries(): this["_seriesType"] {
 		return new XYSeries();
@@ -1924,7 +1923,7 @@ export class XYChart extends SerialChart {
 	 * This button appears only when chart is zoomed in, and disappears
 	 * autoamatically when it is zoome dout.
 	 *
-	 * @param {Button}  button  Zoom out button
+	 * @param button  Zoom out button
 	 */
 	public set zoomOutButton(button: Button) {
 		this._zoomOutButton = button;
@@ -1937,7 +1936,7 @@ export class XYChart extends SerialChart {
 	}
 
 	/**
-	 * @return {Button} Zoom out button
+	 * @return Zoom out button
 	 */
 	public get zoomOutButton(): Button {
 		return this._zoomOutButton;
@@ -1947,7 +1946,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * Copies all parameters from another [[XYChart]].
 	 *
-	 * @param {XYChart} source Source XYChart
+	 * @param source Source XYChart
 	 */
 	public copyFrom(source: this) {
 		super.copyFrom(source);
@@ -1986,7 +1985,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * Adds one or several (array) of data items to the existing data.
 	 *
-	 * @param {Object | Object[]} rawDataItem One or many raw data item objects
+	 * @param rawDataItem One or many raw data item objects
 	 */
 	public addData(rawDataItem: Object | Object[], removeCount?: number): void {
 		super.addData(rawDataItem, removeCount);

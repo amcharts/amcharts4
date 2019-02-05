@@ -34,15 +34,11 @@ import * as $type from "./utils/Type";
 export class System {
 	/**
 	 * A flag indicating if the system is on pause.
-	 *
-	 * @type {boolean}
 	 */
 	protected _isPaused: boolean = false;
 
 	/**
 	 * Unique ID of the object.
-	 *
-	 * @type {string}
 	 */
 	public uid: string = registry.getUniqueId();
 
@@ -52,22 +48,19 @@ export class System {
 	 * This follows npm's semver specification.
 	 *
 	 * @see {@link https://docs.npmjs.com/misc/semver}
-	 * @type {string}
 	 */
-	static VERSION: string = "4.1.1";
+	static VERSION: string = "4.1.2";
 
 	/**
 	 * @todo Description
 	 * @todo Needed?
 	 * @ignore Exclude from docs
-	 * @type {number}
 	 */
 	public dummyCounter: number = 0;
 
 	/**
 	 * @todo Description
 	 * @ignore Exclude from docs
-	 * @type {number}
 	 */
 	public time: number;
 
@@ -92,8 +85,8 @@ export class System {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Needed?
-	 * @param {string}   msg    Message to report in console
-	 * @param {boolean}  reset  Reset time counter
+	 * @param msg    Message to report in console
+	 * @param reset  Reset time counter
 	 */
 	public reportTime(msg: string, reset?: boolean): void {
 		if (this.dummyCounter < 6) {
@@ -510,7 +503,7 @@ export class System {
 	/**
 	 * Outputs string to console if `verbose` is `true`.
 	 *
-	 * @param {any} value Message to output to console
+	 * @param value Message to output to console
 	 */
 	public log(value: any): void {
 		if (options.verbose) {
@@ -523,7 +516,7 @@ export class System {
 	/**
 	 * Pauses all the processes of all the amCharts objects on the page
 	 *
-	 * @return {boolean} is paused?
+	 * @return is paused?
 	 */
 	public set isPaused(value: boolean) {
 		this._isPaused = value;
@@ -534,7 +527,7 @@ export class System {
 	}
 
 	/**
-	 * @return {boolean} Is system on pause?
+	 * @return Is system on pause?
 	 */
 	public get isPaused(): boolean {
 		return this._isPaused;

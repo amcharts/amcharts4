@@ -71,7 +71,7 @@ var RadarColumnSeries = /** @class */ (function (_super) {
     /**
      * Creates and returns a RadarColumn element to use as column in radar chart.
      *
-     * @return {this["_column"]} RadarColumn.
+     * @return RadarColumn.
      */
     RadarColumnSeries.prototype.createColumnTemplate = function () {
         return new RadarColumn();
@@ -92,7 +92,7 @@ var RadarColumnSeries = /** @class */ (function (_super) {
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
-     * @param {RadarColumnSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     RadarColumnSeries.prototype.validateDataElementReal = function (dataItem) {
         var _this = this;
@@ -188,13 +188,13 @@ var RadarColumnSeries = /** @class */ (function (_super) {
      * [getPoint description]
      *
      * @todo Description
-     * @param {RadarColumnSeriesDataItem} dataItem  [description]
-     * @param {string}                    xKey      [description]
-     * @param {string}                    yKey      [description]
-     * @param {number}                    locationX [description]
-     * @param {number}                    locationY [description]
-     * @param {string}                    stackKeyX [description]
-     * @param {string}                    stackKeyY [description]
+     * @param dataItem  [description]
+     * @param xKey      [description]
+     * @param yKey      [description]
+     * @param locationX [description]
+     * @param locationY [description]
+     * @param stackKeyX [description]
+     * @param stackKeyY [description]
      */
     RadarColumnSeries.prototype.getPoint = function (dataItem, xKey, yKey, locationX, locationY, stackKeyX, stackKeyY) {
         if (!stackKeyX) {
@@ -216,7 +216,7 @@ var RadarColumnSeries = /** @class */ (function (_super) {
     /**
      * Returns an SVG path to be used as a mask for the series.
      *
-     * @return {string} SVG path
+     * @return SVG path
      */
     RadarColumnSeries.prototype.getMaskPath = function () {
         var renderer = this.yAxis.renderer;

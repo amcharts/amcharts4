@@ -42,70 +42,51 @@ export interface IAxisRendererProperties extends IContainerProperties {
 
 	/**
 	 * Minimum distance in pixels between grid elements.
-	 *
-	 * @type {number}
 	 */
 	minGridDistance?: number;
 
 	/**
 	 * Draw axis labels inside axis.
-	 *
-	 * @type {boolean}
 	 */
 	inside?: boolean;
 
 	/**
 	 * Draw axis on opposite side of the plot area?
-	 *
-	 * @type {boolean}
 	 */
 	opposite?: boolean;
 
 	/**
 	 * Inverse the order of the scale for the Axis.
-	 *
-	 * @type {boolean}
 	 */
 	inversed?: boolean;
 
 	/**
 	 * Location of the cell start. (0-1)
-	 *
-	 * @type {number}
 	 */
 	cellStartLocation?: number;
 
 	/**
 	 * Location of the cell end. (0-1)
-	 * @type {number}
 	 */
 	cellEndLocation?: number;
 
 	/**
 	 * Location of the axis tooltip. (0-1)
-	 *
-	 * @type {number}
 	 */
 	tooltipLocation?: number;
 
 	/**
 	 * Resize axis tooltip to the full width of the cell.
-	 *
-	 * @type {boolean}
 	 */
 	fullWidthTooltip?: boolean;
 
 	/**
 	 * Labels with position less than this will be hidden.
-	 *
-	 * @type {number}
 	 */
 	minLabelPosition?: number;
 
 	/**
 	 * Labels with position bigger than this will be hidden.
-	 *
-	 * @type {number}
 	 */
 	maxLabelPosition?: number;
 
@@ -141,36 +122,26 @@ export class AxisRenderer extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IAxisRendererProperties}
 	 */
 	public _properties!: IAxisRendererProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IAxisRendererAdapters}
 	 */
 	public _adapter!: IAxisRendererAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IAxisRendererEvents}
 	 */
 	public _events!: IAxisRendererEvents;
 
 	/**
 	 * A related Axis.
-	 *
-	 * @type {Axis}
 	 */
 	protected _axis: Axis;
 
 	/**
 	 * A line object of the related axis.
-	 *
-	 * @type {AxisLine}
 	 */
 	public line: AxisLine;
 
@@ -182,56 +153,41 @@ export class AxisRenderer extends Container {
 	 * For category/date axis it is added at the end of the last item/date.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public baseGrid: Sprite;
 
 	/**
 	 * A [[Container]] holding all of the [[Grid]] elements.
-	 *
-	 * @type {Container}
 	 */
 	public gridContainer: Container;
 
 	/**
 	 * A [[Container]] holding all of the [[AxisBreak]] elements.
-	 *
-	 * @type {Container}
 	 */
 	public breakContainer: Container;
 
 	/**
 	 * A related chart.
-	 *
-	 * @type {MutableValueDisposer}
 	 */
 	protected _chart = new MutableValueDisposer<Chart>();
 
 	/**
 	 * Defines type of the grid elements.
-	 *
-	 * @type {Grid}
 	 */
 	public _gridType: Grid;
 
 	/**
 	 * Defines type for the fill elements.
-	 *
-	 * @type {AxisFill}
 	 */
 	public _fillType: AxisFill;
 
 	/**
 	 * Defines type for tick elements.
-	 *
-	 * @type {AxisTick}
 	 */
 	public _tickType: AxisTick;
 
 	/**
 	 * Defines type for the label elements.
-	 *
-	 * @type {AxisLabel}
 	 */
 	public _labelType: AxisLabel;
 
@@ -259,7 +215,7 @@ export class AxisRenderer extends Container {
 	/**
 	 * Constructor.
 	 *
-	 * @param {Axis} axis Related axis
+	 * @param axis Related axis
 	 */
 	constructor() {
 
@@ -378,7 +334,7 @@ export class AxisRenderer extends Container {
 	/**
 	 * Returns actual length of the Axis, in pixels.
 	 *
-	 * @return {number} Length (px)
+	 * @return Length (px)
 	 */
 	public get axisLength(): number {
 		// This is a placeholder method for extending classes to override.
@@ -389,8 +345,8 @@ export class AxisRenderer extends Container {
 	 * Re-positions an element to new coordinates.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Sprite}  item   A target element
-	 * @param {IPoint}  point  New coordinates
+	 * @param item   A target element
+	 * @param point  New coordinates
 	 */
 	public positionItem(item: Sprite, point: IPoint): void {
 		if (item) {
@@ -402,8 +358,8 @@ export class AxisRenderer extends Container {
 	 * Converts relative position on axis to point coordinates.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {number}  position  Position (0-1)
-	 * @return {IPoint}            Point
+	 * @param position  Position (0-1)
+	 * @return Point
 	 */
 	public positionToPoint(position: number): IPoint {
 		// This is a placeholder method for extending classes to override.
@@ -415,8 +371,8 @@ export class AxisRenderer extends Container {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review / units)
-	 * @param  {number}  position  Position (0-1)
-	 * @return {number}            Angle
+	 * @param position  Position (0-1)
+	 * @return Angle
 	 */
 	public positionToAngle(position: number): number {
 		// This is a placeholder method for extending classes to override.
@@ -426,8 +382,8 @@ export class AxisRenderer extends Container {
 	/**
 	 * Converts relative position (0-1) on axis to a pixel coordinate.
 	 *
-	 * @param  {number}  position  Position (0-1)
-	 * @return {number}            Coordinate (px)
+	 * @param position  Position (0-1)
+	 * @return Coordinate (px)
 	 */
 	public positionToCoordinate(position: number): number {
 		let coordinate: number;
@@ -446,7 +402,7 @@ export class AxisRenderer extends Container {
 
 	public updateGridContainer(){
 
-	}	
+	}
 
 
 	protected getHeight(): number {
@@ -475,8 +431,8 @@ export class AxisRenderer extends Container {
 	/**
 	 * Converts a coordinate in pixels to a relative position. (0-1)
 	 *
-	 * @param  {number}  coordinate  Coordinate (px)
-	 * @return {number}              Position (0-1)
+	 * @param coordinate  Coordinate (px)
+	 * @return Position (0-1)
 	 */
 	public coordinateToPosition(coordinate: number): number {
 		let position: number;
@@ -498,8 +454,8 @@ export class AxisRenderer extends Container {
 	 * on the axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {IPoint}  point  Point
-	 * @return {number}         Position (0-1)
+	 * @param point  Point
+	 * @return Position (0-1)
 	 */
 	public pointToPosition(point: IPoint): number {
 		// This is a placeholder method for extending classes to override.
@@ -511,9 +467,9 @@ export class AxisRenderer extends Container {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {number}  startPosition  Starting position
-	 * @param  {number}  endPosition    End position
-	 * @return {string}                 SVG path
+	 * @param startPosition  Starting position
+	 * @param endPosition    End position
+	 * @return SVG path
 	 */
 	public getPositionRangePath(startPosition: number, endPosition: number): string {
 		return "";
@@ -536,9 +492,9 @@ export class AxisRenderer extends Container {
 	 * Updates and positions a grid element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Grid}    grid         Grid element
-	 * @param {number}  position     Starting position
-	 * @param {number}  endPosition  End position
+	 * @param grid         Grid element
+	 * @param position     Starting position
+	 * @param endPosition  End position
 	 */
 	public updateGridElement(grid: Sprite, position: number, endPosition: number): void {
 		// This is a placeholder method for extending classes to override.
@@ -548,9 +504,9 @@ export class AxisRenderer extends Container {
 	 * Updates and positions a tick element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisTick}  tick         Tick element
-	 * @param {number}    position     Starting position
-	 * @param {number}    endPosition  End position
+	 * @param tick         Tick element
+	 * @param position     Starting position
+	 * @param endPosition  End position
 	 */
 	public updateTickElement(tick: AxisTick, position: number, endPosition: number): void {
 		// This is a placeholder method for extending classes to override.
@@ -560,9 +516,9 @@ export class AxisRenderer extends Container {
 	 * Updates and positions a label element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisLabel}  label        Label element
-	 * @param {number}     position     Starting position
-	 * @param {number}     endPosition  Ending position
+	 * @param label        Label element
+	 * @param position     Starting position
+	 * @param endPosition  Ending position
 	 */
 	public updateLabelElement(label: AxisLabel, position: number, endPosition: number, location?: number): void {
 		// This is a placeholder method for extending classes to override.
@@ -572,9 +528,9 @@ export class AxisRenderer extends Container {
 	 * Updates and positions the axis fill element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisFill}  fill         Fill element
-	 * @param {number}    position     Starting position
-	 * @param {number}    endPosition  Ending position
+	 * @param fill         Fill element
+	 * @param position     Starting position
+	 * @param endPosition  Ending position
 	 */
 	public updateFillElement(fill: AxisFill, position: number, endPosition: number): void {
 		fill.startPosition = position;
@@ -603,7 +559,7 @@ export class AxisRenderer extends Container {
 	 * Updates and positions an axis break element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisBreak} axisBreak Break element
+	 * @param axisBreak Break element
 	 */
 	public updateBreakElement(axisBreak: AxisBreak): void {
 		this.positionItem(axisBreak.startLine, axisBreak.startPoint);
@@ -615,7 +571,7 @@ export class AxisRenderer extends Container {
 	/**
 	 * Minimum distance in pixels between grid elements.
 	 *
-	 * @param {number}  value  Min distance (px)
+	 * @param value  Min distance (px)
 	 */
 	public set minGridDistance(value: number) {
 		if (this.setPropertyValue("minGridDistance", value)) {
@@ -626,7 +582,7 @@ export class AxisRenderer extends Container {
 	}
 
 	/**
-	 * @return {number} Min distance (px)
+	 * @return Min distance (px)
 	 */
 	public get minGridDistance(): number {
 		return this.getPropertyValue("minGridDistance");
@@ -636,7 +592,7 @@ export class AxisRenderer extends Container {
 	 * A chart, associated with the Axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Chart}  value  Chart
+	 * @param value  Chart
 	 */
 	public set chart(value: Chart) {
 		this._chart.set(value, null);
@@ -644,7 +600,7 @@ export class AxisRenderer extends Container {
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {Chart} Chart
+	 * @return Chart
 	 */
 	public get chart(): Chart {
 		return this._chart.get();
@@ -657,10 +613,10 @@ export class AxisRenderer extends Container {
 	 * E.g. labels based on `minLabelPosition` and `maxLabelPosition`.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Sprite}  sprite       An element to toggle
-	 * @param {number}  position     Elements current position
-	 * @param {number}  minPosition  Min position setting
-	 * @param {number}  maxPosition  Max position setting
+	 * @param sprite       An element to toggle
+	 * @param position     Elements current position
+	 * @param minPosition  Min position setting
+	 * @param maxPosition  Max position setting
 	 */
 	protected toggleVisibility(sprite: Sprite, position: number, minPosition: number, maxPosition: number): void {
 		let axis = this.axis;
@@ -682,7 +638,7 @@ export class AxisRenderer extends Container {
 	 * Creates visual elements for and axis break.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisBreak} axisBreak Axis break
+	 * @param axisBreak Axis break
 	 */
 	public createBreakSprites(axisBreak: AxisBreak) {
 		// This is a placeholder method for extending classes to override.
@@ -718,7 +674,7 @@ export class AxisRenderer extends Container {
 	 * ```
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/alternated-axis-fills/} this tutorial for more info.
-	 * @return {ListTemplate} Fill elements
+	 * @return Fill elements
 	 */
 	public get axisFills(): ListTemplate<this["_fillType"]> {
 		if (!this._axisFills) {
@@ -735,7 +691,7 @@ export class AxisRenderer extends Container {
 	/**
 	 * Returns a new fill element, suitable for this Axis Renderer type.
 	 *
-	 * @return {AxisFill} Fill element
+	 * @return Fill element
 	 */
 	public createFill(axis: Axis): this["_fillType"] {
 		return new AxisFill(axis);
@@ -744,7 +700,7 @@ export class AxisRenderer extends Container {
 	/**
 	 * A list of Axis' Grid elements.
 	 *
-	 * @return {ListTemplate} Grid elements
+	 * @return Grid elements
 	 */
 	public get grid(): ListTemplate<this["_gridType"]> {
 		if (!this._grid) {
@@ -761,7 +717,7 @@ export class AxisRenderer extends Container {
 	/**
 	 * Returns a new grid element, suitable for this Axis Renderer type.
 	 *
-	 * @return {Grid} Grid element
+	 * @return Grid element
 	 */
 	public createGrid(): this["_gridType"] {
 		return new Grid();
@@ -793,7 +749,7 @@ export class AxisRenderer extends Container {
 	 * }
 	 * ```
 	 *
-	 * @return {ListTemplate} Tick elements
+	 * @return Tick elements
 	 */
 	public get ticks(): ListTemplate<this["_tickType"]> {
 		if (!this._ticks) {
@@ -811,7 +767,7 @@ export class AxisRenderer extends Container {
 	/**
 	 * Returns a new tick element, suitable for this Axis Renderer type.
 	 *
-	 * @return {AxisTick} Tick element
+	 * @return Tick element
 	 */
 	public createTick(): this["_tickType"] {
 		return new AxisTick();
@@ -820,7 +776,7 @@ export class AxisRenderer extends Container {
 	/**
 	 * A list of Axis' Label elements.
 	 *
-	 * @return {ListTemplate} Label elements
+	 * @return Label elements
 	 */
 	public get labels(): ListTemplate<this["_labelType"]> {
 		if (!this._labels) {
@@ -837,7 +793,7 @@ export class AxisRenderer extends Container {
 	/**
 	 * Returns a new label element, suitable for this Axis Renderer type.
 	 *
-	 * @return {AxisLabel} Label element
+	 * @return Label element
 	 */
 	public createLabel(): this["_labelType"] {
 		return new AxisLabel();
@@ -848,7 +804,7 @@ export class AxisRenderer extends Container {
 	 *
 	 * Does not work with all renderers, like AxisRendererRadial.
 	 *
-	 * @param {boolean}  value  Labels inside?
+	 * @param value  Labels inside?
 	 */
 	public set inside(value: boolean) {
 
@@ -869,7 +825,7 @@ export class AxisRenderer extends Container {
 	}
 
 	/**
-	 * @return {boolean} Labels inside?
+	 * @return Labels inside?
 	 */
 	public get inside(): boolean {
 		return this.getPropertyValue("inside");
@@ -882,14 +838,14 @@ export class AxisRenderer extends Container {
 	 * Does not work with all renderers, like [[AxisRendererRadial]] and
 	 * [[AxisRenderer Circular].
 	 *
-	 * @param {boolean}  value  Draw axis on opposite side?
+	 * @param value  Draw axis on opposite side?
 	 */
 	public set opposite(value: boolean) {
 		this.setPropertyValue("opposite", value);
 	}
 
 	/**
-	 * @return {boolean} Draw axis on opposite side?
+	 * @return Draw axis on opposite side?
 	 */
 	public get opposite(): boolean {
 		return this.getPropertyValue("opposite");
@@ -901,14 +857,14 @@ export class AxisRenderer extends Container {
 	 *
 	 * NOTE: this setting is ignored on circular axis types.
 	 *
-	 * @param {boolean} value Full width tooltip?
+	 * @param value Full width tooltip?
 	 */
 	public set fullWidthTooltip(value: boolean) {
 		this.setPropertyValue("fullWidthTooltip", value);
 	}
 
 	/**
-	 * @return {boolean} Full width tooltip?
+	 * @return Full width tooltip?
 	 */
 	public get fullWidthTooltip(): boolean {
 		return this.getPropertyValue("fullWidthTooltip");
@@ -921,14 +877,14 @@ export class AxisRenderer extends Container {
 	 * 0.5 - show right in the middle
 	 * 1 - show at the end
 	 *
-	 * @param {number} value Tooltip location
+	 * @param value Tooltip location
 	 */
 	public set tooltipLocation(value: number) {
 		this.setPropertyValue("tooltipLocation", value);
 	}
 
 	/**
-	 * @return {number} Tooltip location
+	 * @return Tooltip location
 	 */
 	public get tooltipLocation(): number {
 		return this.getPropertyValue("tooltipLocation");
@@ -954,7 +910,7 @@ export class AxisRenderer extends Container {
 	 * This is used to limit a space occupied by series like column.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
-	 * @param {number} value Cell start (0-1)
+	 * @param value Cell start (0-1)
 	 */
 	public set cellStartLocation(value: number) {
 		if (this.setPropertyValue("cellStartLocation", value)) {
@@ -965,7 +921,7 @@ export class AxisRenderer extends Container {
 	}
 
 	/**
-	 * @return {number} Cell start (0-1)
+	 * @return Cell start (0-1)
 	 */
 	public get cellStartLocation(): number {
 		return this.getPropertyValue("cellStartLocation");
@@ -991,7 +947,7 @@ export class AxisRenderer extends Container {
 	 * This is used to limit a space occupied by series like column.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
-	 * @param {number} value Cell end (0-1)
+	 * @param value Cell end (0-1)
 	 */
 	public set cellEndLocation(value: number) {
 		if (this.setPropertyValue("cellEndLocation", value)) {
@@ -1002,7 +958,7 @@ export class AxisRenderer extends Container {
 	}
 
 	/**
-	 * @return {number} Cell end (0-1)
+	 * @return Cell end (0-1)
 	 */
 	public get cellEndLocation(): number {
 		return this.getPropertyValue("cellEndLocation");
@@ -1011,14 +967,14 @@ export class AxisRenderer extends Container {
 	/**
 	 * Indicates if the scale of the axis should be flipped.
 	 *
-	 * @param {boolean} value Flip axis?
+	 * @param value Flip axis?
 	 */
 	public set inversed(value: boolean) {
 		this.setPropertyValue("inversed", value);
 	}
 
 	/**
-	 * @return {boolean} Flip axis?
+	 * @return Flip axis?
 	 */
 	public get inversed(): boolean {
 		return this.getPropertyValue("inversed");
@@ -1037,14 +993,14 @@ export class AxisRenderer extends Container {
 	 * got any extra margins.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
-	 * @param {number}  value  Min label position (0-1)
+	 * @param value  Min label position (0-1)
 	 */
 	public set minLabelPosition(value: number) {
 		this.setPropertyValue("minLabelPosition", value, true);
 	}
 
 	/**
-	 * @return {number} Min label position (0-1)
+	 * @return Min label position (0-1)
 	 */
 	public get minLabelPosition(): number {
 		return this.getPropertyValue("minLabelPosition");
@@ -1063,14 +1019,14 @@ export class AxisRenderer extends Container {
 	 * got any extra margins.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
-	 * @param {number}  value  Max label position (0-1)
+	 * @param value  Max label position (0-1)
 	 */
 	public set maxLabelPosition(value: number) {
 		this.setPropertyValue("maxLabelPosition", value, true);
 	}
 
 	/**
-	 * @return {number} Max label position (0-1)
+	 * @return Max label position (0-1)
 	 */
 	public get maxLabelPosition(): number {
 		return this.getPropertyValue("maxLabelPosition");
@@ -1080,7 +1036,7 @@ export class AxisRenderer extends Container {
 	 * Copies all settings and related items from another object of the same
 	 * type.
 	 *
-	 * @param {this}  source  Source object
+	 * @param source  Source object
 	 */
 	public copyFrom(source: this) {
 		super.copyFrom(source);

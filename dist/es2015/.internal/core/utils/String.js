@@ -9,9 +9,9 @@
  *
  * @ignore Exclude from docs
  * @todo Use localeCompare
- * @param  {string}    a  Item 1
- * @param  {string}    b  Item 2
- * @return {Ordering}     Result
+ * @param a  Item 1
+ * @param b  Item 2
+ * @return Result
  */
 export function order(a, b) {
     if (a === b) {
@@ -35,9 +35,9 @@ export function order(a, b) {
  *
  * @ignore Exclude from docs
  * @todo Make this faster
- * @param  {string}  string  Source string
- * @param  {number}  amount  Number of times to repeat string
- * @return {string}          New string
+ * @param string  Source string
+ * @param amount  Number of times to repeat string
+ * @return New string
  */
 export function repeat(string, amount) {
     return new Array(amount + 1).join(string);
@@ -45,8 +45,8 @@ export function repeat(string, amount) {
 /**
  * Generates a random string `characters` length.
  *
- * @param  {number}  chars  Number of characters
- * @return {string}         Random string
+ * @param chars  Number of characters
+ * @return Random string
  */
 export function random(chars) {
     var res = "";

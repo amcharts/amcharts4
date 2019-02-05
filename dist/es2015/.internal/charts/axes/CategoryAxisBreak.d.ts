@@ -21,14 +21,10 @@ import { CategoryAxis } from "./CategoryAxis";
 export interface ICategoryAxisBreakProperties extends IAxisBreakProperties {
     /**
      * Category break starts on.
-     *
-     * @type {string}
      */
     startCategory?: string;
     /**
      * Category break ends on.
-     *
-     * @type {string}
      */
     endCategory?: string;
 }
@@ -58,26 +54,18 @@ export interface ICategoryAxisBreakAdapters extends IAxisBreakAdapters, ICategor
 export declare class CategoryAxisBreak extends AxisBreak {
     /**
      * Defines available properties.
-     *
-     * @type {ICategoryAxisBreakProperties}
      */
     _properties: ICategoryAxisBreakProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ICategoryAxisBreakAdapters}
      */
     _adapter: ICategoryAxisBreakAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ICategoryAxisBreakEvents}
      */
     _events: ICategoryAxisBreakEvents;
     /**
      * Defines the type of the Axis this break is used for.
-     *
-     * @type {Axis}
      */
     _axisType: CategoryAxis;
     /**
@@ -87,51 +75,51 @@ export declare class CategoryAxisBreak extends AxisBreak {
     /**
      * Pixel position of the break's start.
      *
-     * @return {number} Position (px)
+     * @return Position (px)
      * @readonly
      */
     readonly startPosition: number;
     /**
      * Pixel position of the break's end.
      *
-     * @return {number} Position (px)
+     * @return Position (px)
      * @readonly
      */
     readonly endPosition: number;
     /**
-     * @return {string} Start category
+     * @return Start category
      */
     /**
      * A category break starts on.
      *
-     * @param {string}  value Start category
+     * @param value Start category
      */
     startCategory: string;
     /**
-     * @return {string} End category
+     * @return End category
      */
     /**
      * A category break ends on.
      *
-     * @param {string}  value  End category
+     * @param value  End category
      */
     endCategory: string;
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * An index of start category.
      *
-     * @param {number}  value  Value
+     * @param value  Value
      */
     startValue: number;
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * An index of end category or a end value.
      *
-     * @param {number}  value  Value
+     * @param value  Value
      */
     endValue: number;
 }

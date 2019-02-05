@@ -57,50 +57,41 @@ var ExportMenu = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * An [[Adapter]].
-         *
-         * @type {Adapter<ExportMenu, IExportMenuAdapters>}
          */
         _this.adapter = new Adapter(_this);
         /**
          * How many milliseconds to hold menu/sub-menu open after it loses focus or
          * hover, before auto-closing it.
-         *
-         * @type {number}
          */
         _this.closeDelay = 1000;
         /**
          * An instance of [[Language]].
          *
          * @ignore Exclude from docs
-         * @type {MutableValueDisposer<Language>}
          */
         _this._language = new MutableValueDisposer();
         /**
          * What HTML tags to use to build menu.
          *
          * @ignore Exclude from docs
-         * @type {string}
          */
         _this._menuTag = "ul";
         /**
          * Which tag to use to enclose individual menu items.
          *
          * @ignore Exclude from docs
-         * @type {string}
          */
         _this._itemTag = "li";
         /**
          * Tag to wrap menu item labels in.
          *
          * @ignore Exclude from docs
-         * @type {string}
          */
         _this._labelTag = "a";
         /**
          * Prefix for class names applied to menu elements.
          *
          * @ignore Exclude from docs
-         * @type {string}
          */
         _this._classPrefix = "amexport";
         /**
@@ -108,42 +99,36 @@ var ExportMenu = /** @class */ (function (_super) {
          * instantiated.
          *
          * @ignore Exclude from docs
-         * @type {boolean}
          */
         _this._defaultStyles = true;
         /**
          * Horizontal positioning.
          *
          * @ignore Exclude from docs
-         * @type {Align}
          */
         _this._align = "right";
         /**
          * Vertical positioning.
          *
          * @ignore Exclude from docs
-         * @type {VerticalAlign}
          */
         _this._verticalAlign = "top";
         /**
          * A tabindex to apply to Export Menu.
          *
          * @ignore Exclude from docs
-         * @type {number}
          */
         _this._tabindex = 0;
         /**
          * Whether next menu close event should be ignored.
          *
          * @ignore Exclude from docs
-         * @type {boolean}
          */
         _this._ignoreNextClose = false;
         /**
          * Default menu items.
          *
          * @ignore Exclude from docs
-         * @type {Array<IExportMenuItem>}
          */
         _this._items = [
             {
@@ -251,9 +236,9 @@ var ExportMenu = /** @class */ (function (_super) {
      * building multi-level menus.
      *
      * @ignore Exclude from docs
-     * @param {HTMLElement}     container Container to put branch elements in
-     * @param {IExportMenuItem} branch    Menu item
-     * @param {number}          level     Current nesting level
+     * @param container Container to put branch elements in
+     * @param branch    Menu item
+     * @param level     Current nesting level
      */
     ExportMenu.prototype.drawBranch = function (container, branch, level) {
         var _this = this;
@@ -404,8 +389,8 @@ var ExportMenu = /** @class */ (function (_super) {
      * tag.
      *
      * @ignore Exclude from docs
-     * @param  {number}       level  Current nesting level
-     * @return {HTMLElement}         HTML element reference
+     * @param level  Current nesting level
+     * @return HTML element reference
      */
     ExportMenu.prototype.createMenuElement = function (level) {
         var element = document.createElement(this.menuTag);
@@ -420,8 +405,8 @@ var ExportMenu = /** @class */ (function (_super) {
      * Generates a class name for the menu element based on its nesting level.
      *
      * @ignore Exclude from docs
-     * @param  {number}  level  Current nesting level
-     * @return {string}         Class name(s)
+     * @param level  Current nesting level
+     * @return Class name(s)
      */
     ExportMenu.prototype.getMenuItemClass = function (level) {
         var className = this.classPrefix + "-menu " + this.classPrefix + "-menu-level-" + level;
@@ -440,9 +425,9 @@ var ExportMenu = /** @class */ (function (_super) {
      * into this element.
      *
      * @ignore Exclude from docs
-     * @param  {number}       level  Current nesting level
-     * @param  {string}       type   Type of the menu item
-     * @return {HTMLElement}         HTML element reference
+     * @param level  Current nesting level
+     * @param type   Type of the menu item
+     * @return HTML element reference
      */
     ExportMenu.prototype.createItemElement = function (level, type) {
         var element = document.createElement(this.itemTag);
@@ -461,9 +446,9 @@ var ExportMenu = /** @class */ (function (_super) {
      * content.
      *
      * @ignore Exclude from docs
-     * @param  {number}       level  Current nesting level
-     * @param  {string}       type   Type of the menu item
-     * @return {HTMLElement}         An HTML Element
+     * @param level  Current nesting level
+     * @param type   Type of the menu item
+     * @return An HTML Element
      */
     ExportMenu.prototype.createLabelElement = function (level, type) {
         var element = document.createElement(this.labelTag);
@@ -498,8 +483,8 @@ var ExportMenu = /** @class */ (function (_super) {
      * Checks whether menu item type is supposed to be clickable.
      *
      * @ignore Exclude from docs
-     * @param  {string}   type  Menu item type
-     * @return {boolean}        Is clickable?
+     * @param type  Menu item type
+     * @return Is clickable?
      */
     ExportMenu.prototype.typeClickable = function (type) {
         return $type.hasValue(type);
@@ -508,8 +493,8 @@ var ExportMenu = /** @class */ (function (_super) {
      * Checks whether menu item has any sub-items.
      *
      * @ignore Exclude from docs
-     * @param  {IExportMenuItem}  branch  A menu item
-     * @return {boolean}                  Has sub-items?
+     * @param branch  A menu item
+     * @return Has sub-items?
      */
     ExportMenu.prototype.hasSubMenu = function (branch) {
         return (branch.menu && branch.menu.length) ? true : false;
@@ -518,8 +503,8 @@ var ExportMenu = /** @class */ (function (_super) {
      * Returns sub-items (if they exist).
      *
      * @ignore Exclude from docs
-     * @param  {IExportMenuItem}                   branch  A menu item
-     * @return {Optional<Array<IExportMenuItem>>}          Submenus
+     * @param branch  A menu item
+     * @return Submenus
      */
     ExportMenu.prototype.getSubMenu = function (branch) {
         if (branch.menu && branch.menu.length) {
@@ -530,9 +515,9 @@ var ExportMenu = /** @class */ (function (_super) {
      * Generates and returns an applicable label to be used for screen readers.
      *
      * @ignore Exclude from docs
-     * @param  {IExportMenuItem}  item   A menu item instance
-     * @param  {string}           label  Current label
-     * @return {string}                  Reader text
+     * @param item   A menu item instance
+     * @param label  Current label
+     * @return Reader text
      */
     ExportMenu.prototype.getReaderLabel = function (branch, label) {
         // Strip any HTML from the label
@@ -554,7 +539,7 @@ var ExportMenu = /** @class */ (function (_super) {
     };
     Object.defineProperty(ExportMenu.prototype, "container", {
         /**
-         * @return {HTMLElement} Container
+         * @return Container
          */
         get: function () {
             return this._container;
@@ -568,7 +553,7 @@ var ExportMenu = /** @class */ (function (_super) {
          * A container must be an HTML element, because menu itself is HTML, and
          * cannot be placed into SVG.
          *
-         * @param {Optional<HTMLElement>} container Reference to container element
+         * @param container Reference to container element
          * @todo Check if menu is already build. If it is, just move it to a new container
          */
         set: function (container) {
@@ -580,7 +565,7 @@ var ExportMenu = /** @class */ (function (_super) {
     });
     Object.defineProperty(ExportMenu.prototype, "items", {
         /**
-         * @return {Array<IExportMenuItem>} Menu items
+         * @return Menu items
          */
         get: function () {
             return this._items;
@@ -588,7 +573,7 @@ var ExportMenu = /** @class */ (function (_super) {
         /**
          * A list of menu items. Can be nested.
          *
-         * @param {Array<IExportMenuItem>}  items  Menu items
+         * @param items  Menu items
          */
         set: function (items) {
             this._items = items;
@@ -608,7 +593,7 @@ var ExportMenu = /** @class */ (function (_super) {
          * If set to "div", menu items will be wrapped in `<div>` tags.
          *
          * @default "ul"
-         * @param {"ul" | "div"} tag Tag to use for menu
+         * @param tag Tag to use for menu
          */
         set: function (tag) {
             this._menuTag = tag;
@@ -623,7 +608,7 @@ var ExportMenu = /** @class */ (function (_super) {
          * Returns current menu tag.
          *
          * @ignore Exclude from docs
-         * @return {string} Menu tag (item that contains sub-items)
+         * @return Menu tag (item that contains sub-items)
          */
         get: function () {
             return this.adapter.apply("menuTag", {
@@ -638,7 +623,7 @@ var ExportMenu = /** @class */ (function (_super) {
          * Returns tag to wrap items into.
          *
          * @ignore Exclude from docs
-         * @return {string} Item tag
+         * @return Item tag
          */
         get: function () {
             return this.adapter.apply("itemTag", {
@@ -653,7 +638,7 @@ var ExportMenu = /** @class */ (function (_super) {
          * Returns menu label tag.
          *
          * @ignore Exclude from docs
-         * @return {string} Label tag
+         * @return Label tag
          */
         get: function () {
             return this.adapter.apply("labelTag", {
@@ -665,7 +650,7 @@ var ExportMenu = /** @class */ (function (_super) {
     });
     Object.defineProperty(ExportMenu.prototype, "align", {
         /**
-         * @return {Align} Horizontal alignment
+         * @return Horizontal alignment
          */
         get: function () {
             return this.adapter.apply("align", {
@@ -675,7 +660,7 @@ var ExportMenu = /** @class */ (function (_super) {
         /**
          * A horizontal alignment for the menu placement.
          *
-         * @param {Align} value Horizontal alignment
+         * @param value Horizontal alignment
          */
         set: function (value) {
             this._align = value;
@@ -686,7 +671,7 @@ var ExportMenu = /** @class */ (function (_super) {
     });
     Object.defineProperty(ExportMenu.prototype, "verticalAlign", {
         /**
-         * @return {VerticalAlign} Vertical alignment
+         * @return Vertical alignment
          */
         get: function () {
             return this.adapter.apply("verticalAlign", {
@@ -696,7 +681,7 @@ var ExportMenu = /** @class */ (function (_super) {
         /**
          * A vertical alignment for the menu placement.
          *
-         * @param {VerticalAlign} value Vertical alignment
+         * @param value Vertical alignment
          */
         set: function (value) {
             this._verticalAlign = value;
@@ -707,7 +692,7 @@ var ExportMenu = /** @class */ (function (_super) {
     });
     Object.defineProperty(ExportMenu.prototype, "classPrefix", {
         /**
-         * @return {string} Class name prefix
+         * @return Class name prefix
          */
         get: function () {
             return this.adapter.apply("classPrefix", {
@@ -718,7 +703,7 @@ var ExportMenu = /** @class */ (function (_super) {
          * Class name prefix.
          *
          * @default "amexport"
-         * @param {string} value Class name prefix
+         * @param value Class name prefix
          */
         set: function (value) {
             this._classPrefix = value;
@@ -729,7 +714,7 @@ var ExportMenu = /** @class */ (function (_super) {
     });
     Object.defineProperty(ExportMenu.prototype, "defaultStyles", {
         /**
-         * @return {boolean} Should ExportMenu load its own CSS?
+         * @return Should ExportMenu load its own CSS?
          */
         get: function () {
             return this.adapter.apply("defaultStyles", {
@@ -743,7 +728,7 @@ var ExportMenu = /** @class */ (function (_super) {
          * external CSS.
          *
          * @default true
-         * @param {string} Should ExportMenu load its own CSS?
+         * @param Should ExportMenu load its own CSS?
          */
         set: function (value) {
             if (this._defaultStyles != value) {
@@ -770,7 +755,7 @@ var ExportMenu = /** @class */ (function (_super) {
     };
     Object.defineProperty(ExportMenu.prototype, "tabindex", {
         /**
-         * @return {number} Tab index
+         * @return Tab index
          */
         get: function () {
             return this.adapter.apply("tabindex", {
@@ -783,7 +768,7 @@ var ExportMenu = /** @class */ (function (_super) {
          * Tab index will influence the order in which elements on the chart and
          * the whole page are selected when pressing TAB key.
          *
-         * @param {number} value Tab index
+         * @param value Tab index
          */
         set: function (value) {
             this._tabindex = value;
@@ -794,7 +779,7 @@ var ExportMenu = /** @class */ (function (_super) {
     });
     Object.defineProperty(ExportMenu.prototype, "language", {
         /**
-         * @return {Language} A [[Language]] instance to be used
+         * @return A [[Language]] instance to be used
          */
         get: function () {
             var _this = this;
@@ -811,7 +796,7 @@ var ExportMenu = /** @class */ (function (_super) {
         /**
          * A [[Language]] instance.
          *
-         * @param {Language} value An instance of [[Language]]
+         * @param value An instance of [[Language]]
          */
         set: function (value) {
             var _this = this;
@@ -861,7 +846,7 @@ var ExportMenu = /** @class */ (function (_super) {
      * Handles closing of currently open branch.
      *
      * @ignore Exclude from docs
-     * @param {IExportMenuItem} branch Branch to select
+     * @param branch Branch to select
      */
     ExportMenu.prototype.selectBranch = function (branch) {
         var _this = this;
@@ -904,8 +889,8 @@ var ExportMenu = /** @class */ (function (_super) {
      * Unselects a branch. Also selects a branch one level up if necessary.
      *
      * @ignore Exclude from docs
-     * @param {IExportMenuItem} branch Branch to unselect
-     * @param {boolean}         simple If `true`, only the branch will be unselected without selecting parent branch
+     * @param branch Branch to unselect
+     * @param simple If `true`, only the branch will be unselected without selecting parent branch
      */
     ExportMenu.prototype.unselectBranch = function (branch, simple) {
         // Remove active class
@@ -929,8 +914,8 @@ var ExportMenu = /** @class */ (function (_super) {
      * place if the branch or its children regain focus.
      *
      * @ignore Exclude from docs
-     * @param {IExportMenuItem} branch Branch to unselect
-     * @param {boolean}         simple If `true`, only the branch will be unselected without selecting parent branch
+     * @param branch Branch to unselect
+     * @param simple If `true`, only the branch will be unselected without selecting parent branch
      */
     ExportMenu.prototype.delayUnselectBranch = function (branch, simple) {
         var _this = this;
@@ -957,7 +942,7 @@ var ExportMenu = /** @class */ (function (_super) {
      * Navigates the menu based on which direction kayboard key was pressed.
      *
      * @ignore Exclude from docs
-     * @param {KeyboardKeys} key A key that was pressed
+     * @param key A key that was pressed
      */
     ExportMenu.prototype.moveSelection = function (key) {
         // Check if there's a current selection
@@ -996,8 +981,8 @@ var ExportMenu = /** @class */ (function (_super) {
      * Returns all siblings of a menu item, including this same menu item.
      *
      * @ignore Exclude from docs
-     * @param  {IExportMenuItem}         branch  Menu item
-     * @return {Array<IExportMenuItem>}          List of sibling menu items
+     * @param branch  Menu item
+     * @return List of sibling menu items
      */
     ExportMenu.prototype.getSiblings = function (branch) {
         var parent = this.getParentItem(branch);
@@ -1012,8 +997,8 @@ var ExportMenu = /** @class */ (function (_super) {
      * Returns menu items parent item.
      *
      * @ignore Exclude from docs
-     * @param  {IExportMenuItem}            branch  Menu item
-     * @return {Optional<IExportMenuItem>}          Parent menu item
+     * @param branch  Menu item
+     * @return Parent menu item
      */
     ExportMenu.prototype.getParentItem = function (branch) {
         if (branch.ascendants && branch.ascendants.length) {
@@ -1029,8 +1014,8 @@ var ExportMenu = /** @class */ (function (_super) {
      * returned. Unsupported menu items are skipped.
      *
      * @ignore Exclude from docs
-     * @param  {IExportMenuItem}  branch  Menu item to search siblings for
-     * @return {IExportMenuItem}          Menu item
+     * @param branch  Menu item to search siblings for
+     * @return Menu item
      */
     ExportMenu.prototype.getNextSibling = function (branch) {
         var siblings = this.getSiblings(branch);
@@ -1049,8 +1034,8 @@ var ExportMenu = /** @class */ (function (_super) {
      * returned. Unsupported menu items are skipped.
      *
      * @ignore Exclude from docs
-     * @param  {IExportMenuItem}  branch  Menu item to search siblings for
-     * @return {IExportMenuItem}          Menu item
+     * @param branch  Menu item to search siblings for
+     * @return Menu item
      */
     ExportMenu.prototype.getPrevSibling = function (branch) {
         var siblings = this.getSiblings(branch);
@@ -1067,7 +1052,7 @@ var ExportMenu = /** @class */ (function (_super) {
      * Attempts to set focus on particular menu element.
      *
      * @ignore Exclude from docs
-     * @param {IExportMenuItem} branch Menu item
+     * @param branch Menu item
      */
     ExportMenu.prototype.setFocus = function (branch) {
         if (branch.interactions) {
@@ -1078,7 +1063,7 @@ var ExportMenu = /** @class */ (function (_super) {
      * Attempts to remove focus from the menu element.
      *
      * @ignore Exclude from docs
-     * @param {IExportMenuItem} branch Menu item
+     * @param branch Menu item
      */
     ExportMenu.prototype.setBlur = function (branch) {
         if (branch.interactions) {

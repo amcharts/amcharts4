@@ -37,7 +37,7 @@ var MapSeriesDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(MapSeriesDataItem.prototype, "value", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values.value.value;
@@ -47,7 +47,7 @@ var MapSeriesDataItem = /** @class */ (function (_super) {
          *
          * Value may be used in heat-map calculations.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("value", value);
@@ -60,7 +60,7 @@ var MapSeriesDataItem = /** @class */ (function (_super) {
      * North, and South-most points.
      *
      * @ignore Exclude from docs
-     * @param {IGeoPoint[]}  geoPoints  Points of the element
+     * @param geoPoints  Points of the element
      */
     MapSeriesDataItem.prototype.updateExtremes = function (geoPoints) {
         for (var s = 0; s < geoPoints.length; s++) {
@@ -82,7 +82,7 @@ var MapSeriesDataItem = /** @class */ (function (_super) {
     };
     Object.defineProperty(MapSeriesDataItem.prototype, "zoomLevel", {
         /**
-         * @return {number} Zoom level
+         * @return Zoom level
          */
         get: function () {
             return this.properties["zoomLevel"];
@@ -91,7 +91,7 @@ var MapSeriesDataItem = /** @class */ (function (_super) {
          * When `zoomToMapObject()` is called the map will either calculate suitable
          * zoom level itself or use object's `zoomLevel` if set.
          *
-         * @param {number}  value  Zoom level
+         * @param value  Zoom level
          */
         set: function (value) {
             this.setProperty("zoomLevel", value);
@@ -101,7 +101,7 @@ var MapSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapSeriesDataItem.prototype, "zoomGeoPoint", {
         /**
-         * @return {IGeoPoint} Zoom geo point
+         * @return Zoom geo point
          */
         get: function () {
             return this.properties["zoomGeoPoint"];
@@ -110,7 +110,7 @@ var MapSeriesDataItem = /** @class */ (function (_super) {
          * When `zoomToMapObject()` is called the map will either calculate suitable
          * center position itself or use object's `zoomGeoPoint` if set.
          *
-         * @param {IGeoPoint}  value  Zoom geo point
+         * @param value  Zoom geo point
          */
         set: function (value) {
             this.setProperty("zoomGeoPoint", value);
@@ -157,7 +157,7 @@ var MapSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {MapSeriesDataItem} Data Item
+     * @return Data Item
      */
     MapSeries.prototype.createDataItem = function () {
         return new MapSeriesDataItem();
@@ -192,10 +192,10 @@ var MapSeries = /** @class */ (function (_super) {
     /**
      * Checks whether object should be included in series.
      *
-     * @param  {string[]}  includes  A list of explicitly included ids
-     * @param  {string[]}  excludes  A list of explicitly excluded ids
-     * @param  {string}    id        Id of the object
-     * @return {boolean}             Include?
+     * @param includes  A list of explicitly included ids
+     * @param excludes  A list of explicitly excluded ids
+     * @param id        Id of the object
+     * @return Include?
      */
     MapSeries.prototype.checkInclude = function (includes, excludes, id) {
         if (includes) {
@@ -217,7 +217,7 @@ var MapSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(MapSeries.prototype, "useGeodata", {
         /**
-         * @return {boolean} Use GeoJSON data?
+         * @return Use GeoJSON data?
          */
         get: function () {
             return this.getPropertyValue("useGeodata");
@@ -234,7 +234,7 @@ var MapSeries = /** @class */ (function (_super) {
          * map infor in GeoJSON format.
          *
          * @default false
-         * @param {boolean}  value  Use GeoJSON data?
+         * @param value  Use GeoJSON data?
          */
         set: function (value) {
             if (this.setPropertyValue("useGeodata", value)) {
@@ -246,7 +246,7 @@ var MapSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapSeries.prototype, "include", {
         /**
-         * @return {string[]} Included objects
+         * @return Included objects
          */
         get: function () {
             return this.getPropertyValue("include");
@@ -264,7 +264,7 @@ var MapSeries = /** @class */ (function (_super) {
          *
          * The above will show only France, Spain, and Germany out of the whole map.
          *
-         * @param {string[]}  value  Included objects
+         * @param value  Included objects
          */
         set: function (value) {
             if (this.setPropertyValue("include", value)) {
@@ -283,7 +283,7 @@ var MapSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(MapSeries.prototype, "exclude", {
         /**
-         * @return {string[]} Excluded ids
+         * @return Excluded ids
          */
         get: function () {
             return this.getPropertyValue("exclude");
@@ -296,7 +296,7 @@ var MapSeries = /** @class */ (function (_super) {
          *
          * You'd leave `include` empty, and set `exclude = ["AQ"]`.
          *
-         * @param {string[]}  value  Excluded ids
+         * @param value  Excluded ids
          */
         set: function (value) {
             if (this.setPropertyValue("exclude", value)) {
@@ -309,7 +309,7 @@ var MapSeries = /** @class */ (function (_super) {
     /**
      * Decorates a newly added object.
      *
-     * @param {IListEvents<MapObject>["inserted"]} event [description]
+     * @param event [description]
      */
     MapSeries.prototype.handleObjectAdded = function (event) {
         var mapObject = event.newValue;
@@ -319,7 +319,7 @@ var MapSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(MapSeries.prototype, "geodata", {
         /**
-         * @return {Object} GeoJSON data
+         * @return GeoJSON data
          */
         get: function () {
             return this._geodata;
@@ -331,7 +331,7 @@ var MapSeries = /** @class */ (function (_super) {
          * `Polygon`, `MultiPoint`, `MultiLineString`, and `MultiPolygon`.
          *
          * @see {@link http://geojson.org/} Official GeoJSON format specification
-         * @param {Object} geoJSON GeoJSON data
+         * @param geoJSON GeoJSON data
          */
         set: function (geodata) {
             if (geodata != this._geodata) {
@@ -349,7 +349,7 @@ var MapSeries = /** @class */ (function (_super) {
         /**
          * Returns a [[DataSource]] specifically for loading Component's data.
          *
-         * @return {DataSource} Data source
+         * @return Data source
          */
         get: function () {
             if (!this._dataSources["geodata"]) {
@@ -360,7 +360,7 @@ var MapSeries = /** @class */ (function (_super) {
         /**
          * Sets a [[DataSource]] to be used for loading Component's data.
          *
-         * @param {DataSource} value Data source
+         * @param value Data source
          */
         set: function (value) {
             var _this = this;

@@ -36,8 +36,6 @@ export interface ISankeyNodeProperties extends IFlowDiagramNodeProperties {
 
 	/**
 	 * A level node is at. (0 - ...)
-	 *
-	 * @type {number}
 	 */
 	level?: number;
 }
@@ -78,22 +76,16 @@ export class SankeyNode extends FlowDiagramNode {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ISankeyNodeProperties}
 	 */
 	public _properties!: ISankeyNodeProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ISankeyNodeAdapters}
 	 */
 	public _adapter!: ISankeyNodeAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ISankeyNodeEvents}
 	 */
 	public _events!: ISankeyNodeEvents;
 
@@ -103,7 +95,6 @@ export class SankeyNode extends FlowDiagramNode {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @type {number}
 	 */
 	public nextInCoord: number = 0;
 
@@ -112,36 +103,27 @@ export class SankeyNode extends FlowDiagramNode {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @type {number}
 	 */
 	public nextOutCoord: number = 0;
 
 	/**
 	 * A chart instance this node is added to.
-	 *
-	 * @type {SankeyDiagram}
 	 */
 	public chart: SankeyDiagram;
 
 
 	/**
 	 * Defines the type of the [[SankeyDiagramDataItem]] used in the class.
-	 *
-	 * @type {SankeyDiagramDataItem}
 	 */
 	public _dataItem: SankeyDiagramDataItem;
 
 	/**
 	 * A label element which shows node's value.
-	 *
-	 * @type {LabelBullet}
 	 */
 	public valueLabel: LabelBullet;
 
 	/**
 	 * A label element which shows node's name.
-	 *
-	 * @type {LabelBullet}
 	 */
 	public nameLabel: LabelBullet;
 
@@ -333,7 +315,7 @@ export class SankeyNode extends FlowDiagramNode {
 	/**
 	 * Positions the bullet so it is centered within the node element.
 	 *
-	 * @param {LabelBullet}  bullet  Target bullet
+	 * @param bullet  Target bullet
 	 */
 	protected positionBullet(bullet: LabelBullet) {
 		if (bullet) {
@@ -351,14 +333,14 @@ export class SankeyNode extends FlowDiagramNode {
 	 *
 	 * Nodes in second column - `level = 1`, etc.
 	 *
-	 * @param {number}  value  Level
+	 * @param value  Level
 	 */
 	public set level(value: number) {
 		this.setPropertyValue("level", value, true);
 	}
 
 	/**
-	 * @return {number} Level
+	 * @return Level
 	 */
 	public get level(): number {
 		return this.getPropertyValue("level");
@@ -367,7 +349,7 @@ export class SankeyNode extends FlowDiagramNode {
 	/**
 	 * Copies properties and labels from another [[SankeyNode]].
 	 *
-	 * @param {SankeyNode}  source  Source node
+	 * @param source  Source node
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);

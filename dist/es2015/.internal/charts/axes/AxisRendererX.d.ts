@@ -52,26 +52,20 @@ export interface IAxisRendererXAdapters extends IAxisRendererAdapters, IAxisRend
 export declare class AxisRendererX extends AxisRenderer {
     /**
      * Defines available properties.
-     *
-     * @type {IAxisRendererXProperties}
      */
     _properties: IAxisRendererXProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IAxisRendererXAdapters}
      */
     _adapter: IAxisRendererXAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IAxisRendererXEvents}
      */
     _events: IAxisRendererXEvents;
     /**
      * Constructor.
      *
-     * @param {Axis} axis Related axis
+     * @param axis Related axis
      */
     constructor();
     /**
@@ -107,30 +101,30 @@ export declare class AxisRendererX extends AxisRenderer {
      * Updates and positions a label element.
      *
      * @ignore Exclude from docs
-     * @param {AxisLabel}  label        Label element
-     * @param {number}     position     Starting position
-     * @param {number}     endPosition  Ending position
+     * @param label        Label element
+     * @param position     Starting position
+     * @param endPosition  Ending position
      */
     updateLabelElement(label: AxisLabel, position: number, endPosition: number, location?: number): void;
     /**
      * Returns actual length of the Axis, in pixels.
      *
-     * @return {number} Length (px)
+     * @return Length (px)
      */
     readonly axisLength: number;
     /**
      * Converts relative position on axis to point coordinates.
      *
-     * @param  {number}  position  Position (0-1)
-     * @return {IPoint}            Point
+     * @param position  Position (0-1)
+     * @return Point
      */
     positionToPoint(position: number): IPoint;
     /**
      * Converts a point at specific coordinates to a relative position (0-1)
      * on the axis.
      *
-     * @param  {IPoint}  point  Point
-     * @return {number}         Position (0-1)
+     * @param point  Point
+     * @return Position (0-1)
      */
     pointToPosition(point: IPoint): number;
     /**
@@ -138,34 +132,34 @@ export declare class AxisRendererX extends AxisRenderer {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}  startPosition  Starting position
-     * @param  {number}  endPosition    End position
-     * @return {string}                 SVG path
+     * @param startPosition  Starting position
+     * @param endPosition    End position
+     * @return SVG path
      */
     getPositionRangePath(startPosition: number, endPosition: number): string;
     /**
      * Updates and positions an axis break element.
      *
      * @ignore Exclude from docs
-     * @param {AxisBreak} axisBreak Break element
+     * @param axisBreak Break element
      */
     updateBreakElement(axisBreak: AxisBreak): void;
     /**
      * Updates and positions a grid element.
      *
      * @ignore Exclude from docs
-     * @param {Grid}    grid         Grid element
-     * @param {number}  position     Starting position
-     * @param {number}  endPosition  End position
+     * @param grid         Grid element
+     * @param position     Starting position
+     * @param endPosition  End position
      */
     updateGridElement(grid: Grid, position: number, endPosition: number): void;
     /**
      * Updates and positions a tick element.
      *
      * @ignore Exclude from docs
-     * @param {AxisTick}  tick         Tick element
-     * @param {number}    position     Starting position
-     * @param {number}    endPosition  End position
+     * @param tick         Tick element
+     * @param position     Starting position
+     * @param endPosition  End position
      */
     updateTickElement(tick: AxisTick, position: number, endPosition: number): void;
     /**
@@ -184,7 +178,7 @@ export declare class AxisRendererX extends AxisRenderer {
      * Creates visual elements for and axis break.
      *
      * @ignore Exclude from docs
-     * @param {AxisBreak} axisBreak Axis break
+     * @param axisBreak Axis break
      */
     createBreakSprites(axisBreak: AxisBreak): void;
 }

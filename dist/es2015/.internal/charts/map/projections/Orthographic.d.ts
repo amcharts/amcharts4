@@ -50,9 +50,9 @@ export declare class Orthographic extends Projection {
     /**
      * Converts geographical coordinates to screen coordinates.
      *
-     * @param  {number}  lambda  Lambda parameter
-     * @param  {number}  phi     Phi parameter
-     * @return {IPoint}          Screen coordinates
+     * @param lambda  Lambda parameter
+     * @param phi     Phi parameter
+     * @return Screen coordinates
      */
     project(lambda: number, phi: number): IPoint;
     getClipRectangle1(): IGeoPoint[];

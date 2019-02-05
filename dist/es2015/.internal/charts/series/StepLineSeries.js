@@ -68,7 +68,7 @@ var StepLineSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {StepLineSeriesDataItem} Data Item
+     * @return Data Item
      */
     StepLineSeries.prototype.createDataItem = function () {
         return new StepLineSeriesDataItem();
@@ -77,11 +77,11 @@ var StepLineSeries = /** @class */ (function (_super) {
      * [addPoints description]
      *
      * @todo Description
-     * @param {IPoint[]}           points     [description]
-     * @param {this["_dataItem"]}  dataItem   [description]
-     * @param {string}             xField     [description]
-     * @param {string}             yField     [description]
-     * @param {boolean}            backwards  [description]
+     * @param points     [description]
+     * @param dataItem   [description]
+     * @param xField     [description]
+     * @param yField     [description]
+     * @param backwards  [description]
      */
     StepLineSeries.prototype.addPoints = function (points, dataItem, xField, yField, backwards) {
         var startLocation = this.startLocation;
@@ -128,9 +128,9 @@ var StepLineSeries = /** @class */ (function (_super) {
     /**
      * Draws the line segment.
      *
-     * @param {LineSeriesSegment}  segment     Segment
-     * @param {IPoint[]}           points      Segment points
-     * @param {IPoint[]}           closePoints Segment close points
+     * @param segment     Segment
+     * @param points      Segment points
+     * @param closePoints Segment close points
      */
     StepLineSeries.prototype.drawSegment = function (segment, points, closePoints) {
         var vertical = false;
@@ -147,7 +147,7 @@ var StepLineSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(StepLineSeries.prototype, "noRisers", {
         /**
-         * @return {boolean} No risers
+         * @return No risers
          */
         get: function () {
             return this.getPropertyValue("noRisers");
@@ -158,7 +158,7 @@ var StepLineSeries = /** @class */ (function (_super) {
          * vertical (or horizontal) lines.
          *
          * @default false
-         * @param {boolean}  value  No risers
+         * @param value  No risers
          */
         set: function (value) {
             this.setPropertyValue("noRisers", value, true);
@@ -168,7 +168,7 @@ var StepLineSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(StepLineSeries.prototype, "startLocation", {
         /**
-         * @return {number} Location (0-1)
+         * @return Location (0-1)
          */
         get: function () {
             return this.getPropertyValue("startLocation");
@@ -176,7 +176,7 @@ var StepLineSeries = /** @class */ (function (_super) {
         /**
          * start location of the step
          *
-         * @param {number} value Location (0-1)
+         * @param value Location (0-1)
          * @default 0
          */
         set: function (value) {
@@ -187,7 +187,7 @@ var StepLineSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(StepLineSeries.prototype, "endLocation", {
         /**
-         * @return {number} Location (0-1)
+         * @return Location (0-1)
          */
         get: function () {
             return this.getPropertyValue("endLocation");
@@ -195,7 +195,7 @@ var StepLineSeries = /** @class */ (function (_super) {
         /**
          * Step end location.
          *
-         * @param {number} value Location (0-1)
+         * @param value Location (0-1)
          * #default 1
          */
         set: function (value) {

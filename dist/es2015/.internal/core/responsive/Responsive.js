@@ -60,44 +60,30 @@ var Responsive = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * Holds a list of responsive rules organized by object type.
-         *
-         * @type {List<IResponsiveRule>}
          */
         _this._rules = new List();
         /**
          * Holds the list of the default responsive rules.
-         *
-         * @type {List<IResponsiveRule>}
          */
         _this._defaultRules = new List();
         /**
          * Holds the list of currently applied rules.
-         *
-         * @type {object}
          */
         _this._appliedRules = {};
         /**
          * Use default rules in addition to the user-defined ones?
-         *
-         * @type {Boolean}
          */
         _this._useDefault = true;
         /**
          * Adapter.
-         *
-         * @type {Adapter<Responsive, IResponsiveAdapters>}
          */
         _this.adapter = new Adapter(_this);
         /**
          * Indicates of responsive rules application is enabled.
-         *
-         * @type {Boolean}
          */
         _this._enabled = false;
         /**
          * Collection of objects and state ids that do not have any properties set.
-         *
-         * @type {string[]}
          */
         _this._noStates = [];
         _this.className = "Responsive";
@@ -111,7 +97,7 @@ var Responsive = /** @class */ (function (_super) {
     }
     Object.defineProperty(Responsive.prototype, "component", {
         /**
-         * @return {Optional<Component>} Target object
+         * @return Target object
          */
         get: function () {
             return this._component;
@@ -119,7 +105,7 @@ var Responsive = /** @class */ (function (_super) {
         /**
          * A target object that responsive rules will need to be applied to.
          *
-         * @param {Optional<Component>}  value  Target object
+         * @param value  Target object
          */
         set: function (value) {
             // Check if it's the same
@@ -143,7 +129,7 @@ var Responsive = /** @class */ (function (_super) {
     });
     Object.defineProperty(Responsive.prototype, "enabled", {
         /**
-         * @return {boolean} Apply responsive rules?
+         * @return Apply responsive rules?
          */
         get: function () {
             return this.adapter.apply("enabled", this._enabled);
@@ -152,7 +138,7 @@ var Responsive = /** @class */ (function (_super) {
          * Should responsive rules be checked against and applied?
          *
          * @default false
-         * @param {boolean}  value  Apply responsive rules?
+         * @param value  Apply responsive rules?
          */
         set: function (value) {
             if (this._enabled != value) {
@@ -166,7 +152,7 @@ var Responsive = /** @class */ (function (_super) {
     });
     Object.defineProperty(Responsive.prototype, "useDefault", {
         /**
-         * @return {boolean} Use default rules?
+         * @return Use default rules?
          */
         get: function () {
             return this.adapter.apply("useDefault", this._useDefault);
@@ -179,7 +165,7 @@ var Responsive = /** @class */ (function (_super) {
          * produce conflicting settings.
          *
          * @default true
-         * @param {boolean}  value  Use default rules?
+         * @param value  Use default rules?
          */
         set: function (value) {
             if (this._useDefault != value) {
@@ -193,7 +179,7 @@ var Responsive = /** @class */ (function (_super) {
     });
     Object.defineProperty(Responsive.prototype, "rules", {
         /**
-         * @return {List<IResponsiveRule>} User-defined rules
+         * @return User-defined rules
          */
         get: function () {
             return this.adapter.apply("rules", this._rules);
@@ -207,7 +193,7 @@ var Responsive = /** @class */ (function (_super) {
          * Use `allRules` to get all applicable rules including default and
          * user-defined ones.
          *
-         * @param {List<IResponsiveRule>}  value  User-defined rules
+         * @param value  User-defined rules
          */
         set: function (value) {
             this._rules = value;
@@ -222,7 +208,7 @@ var Responsive = /** @class */ (function (_super) {
          * Default responsive rules.
          *
          * @readonly
-         * @return {List<IResponsiveRule>} List of responsive rules
+         * @return List of responsive rules
          */
         get: function () {
             return this.adapter.apply("defaultRules", this._defaultRules);
@@ -236,7 +222,7 @@ var Responsive = /** @class */ (function (_super) {
          * user-defined ones.
          *
          * @readonly
-         * @return {List<IResponsiveRule>} List of all applicable rules
+         * @return List of all applicable rules
          */
         get: function () {
             // Create empty list
@@ -257,8 +243,8 @@ var Responsive = /** @class */ (function (_super) {
     /**
      * Checks if rule by the particular id currently applied.
      *
-     * @param  {string}   ruleId  Rule ID
-     * @return {boolean}          Is currently applied?
+     * @param ruleId  Rule ID
+     * @return Is currently applied?
      */
     Responsive.prototype.isApplied = function (ruleId) {
         var rule = this._appliedRules[ruleId];
@@ -312,7 +298,7 @@ var Responsive = /** @class */ (function (_super) {
      * Applies current rules to the object.
      *
      * @ignore Exclude from docs
-     * @param {any} target Target object
+     * @param target Target object
      * @todo Better type check
      */
     Responsive.prototype.applyRules = function (target) {
@@ -358,8 +344,8 @@ var Responsive = /** @class */ (function (_super) {
      * Applies specific oresponsive overrides to the element.
      *
      * @ignore Exclude from docs
-     * @param {IResponsiveRule}  rule    Responsive rule
-     * @param {any}              target  Target element
+     * @param rule    Responsive rule
+     * @param target  Target element
      * @deprecated
      * @hidden
      */
@@ -384,9 +370,9 @@ var Responsive = /** @class */ (function (_super) {
      * Returns a relative state for the rule/target, or `undefined` if no state is
      * needed.
      *
-     * @param  {IResponsiveRule}  rule    [description]
-     * @param  {any}              target  [description]
-     * @return {Optional}                 [description]
+     * @param rule    [description]
+     * @param target  [description]
+     * @return [description]
      */
     Responsive.prototype.getState = function (rule, target) {
         var stateId = "responsive-" + rule.id;
@@ -409,9 +395,9 @@ var Responsive = /** @class */ (function (_super) {
      * Gets a value from an element.
      *
      * @ignore Exclude from docs
-     * @param  {any}     target    Target object
-     * @param  {string}  property  Property
-     * @return {any}               Property value
+     * @param target    Target object
+     * @param property  Property
+     * @return Property value
      */
     Responsive.prototype.getValue = function (target, property) {
         // This is a bit hacky, first we check if the property exist.
@@ -426,7 +412,7 @@ var Responsive = /** @class */ (function (_super) {
      * Loads default responsive rules.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Responsive rules
+     * @return Responsive rules
      */
     Responsive.prototype.loadDefaultRules = function () {
         return import(/* webpackChunkName: "responsivedefaults" */ "./ResponsiveDefaults");

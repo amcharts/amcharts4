@@ -94,8 +94,6 @@ export interface IDataSourceAdapters {
 
 	/**
 	 * Applied to a data source URL before it is loaded.
-	 *
-	 * @type {string}
 	 */
 	url: string;
 
@@ -104,77 +102,56 @@ export interface IDataSourceAdapters {
 	 *
 	 * Can be used to supply different parser than the one set/determined by
 	 * Data Loader.
-	 *
-	 * @type {DataParser}
 	 */
 	parser: DataParser;
 
 	/**
 	 * Applied to the timeout setting.
-	 *
-	 * @type {number}
 	 */
 	reloadTimeout: number;
 
 	/**
 	 * Applied to the loaded data **before** it is passed to parser.
-	 *
-	 * @type {string}
 	 */
 	unparsedData: string;
 
 	/**
 	 * Applied to the loaded data **after** it was parsed by a parser.
-	 * @type {any}
 	 */
 	parsedData: any;
 
 	/**
 	 * Applied to `incremental` setting.
-	 *
-	 * @type {boolean}
 	 */
 	incremental: boolean;
 
 	/**
 	 * Applied to `incrementalParams` setting.
-	 *
-	 * @type {string}
 	 */
 	incrementalParams: { [index: string]: string };
 
 	/**
 	 * Applied to `keepCount` setting.
-	 *
-	 * @type {boolean}
 	 */
 	keepCount: boolean;
 
 	/**
 	 * Applied to parser options.
-	 *
-	 * @type {any}
 	 */
 	parserOptions: any;
 
 	/**
 	 * Applied to the array that lists fields in data that hold date-based values.
-	 *
-	 * @type {string[]}
 	 */
 	dateFields: string[];
 
 	/**
 	 * Applied to the array that lists fields in data that hold numeric values.
-	 *
-	 * @type {string[]}
 	 */
 	numberFields: string[];
 
 	/**
 	 * Applied to the custom request options object.
-	 *
-	 * @type {INetRequestOptions}
 	 */
 	requestOptions: INetRequestOptions;
 
@@ -218,86 +195,62 @@ export class DataSource extends BaseObjectEvents {
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IDataSourceEvents}
 	 */
 	public _events!: IDataSourceEvents;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IExportAdapters}
 	 */
 	public _adapter!: IDataSourceAdapters;
 
 	/**
 	 * Adapter.
-	 *
-	 * @type {Adapter<DataSource, IDataSourceAdapters>}
 	 */
 	public adapter: Adapter<DataSource, IDataSourceAdapters> = new Adapter<DataSource, IDataSourceAdapters>(this);
 
 	/**
 	 * A [[Component]] recipient of the data.
-	 *
-	 * @type {Component}
 	 */
 	public component: Component;
 
 	/**
 	 * An instance of [[Language]].
-	 *
-	 * @type {Language}
 	 */
 	protected _language: Language;
 
 	/**
 	 * An instance of [[DateFormatter]].
-	 *
-	 * @type {DateFormatter}
 	 */
 	protected _dateFormatter: DateFormatter;
 
 	/**
 	 * An instance of parser class that can understand and parse data from the
 	 * source URL.
-	 *
-	 * @type {DataParser}
 	 */
 	protected _parser: DataParser;
 
 	/**
 	 * An URL of the data source.
-	 *
-	 * @type {string}
 	 */
 	protected _url: string;
 
 	/**
 	 * Custom options for HTTP(S) request.
-	 *
-	 * @type {INetRequestOptions}
 	 */
 	protected _requestOptions: INetRequestOptions = {};
 
 	/**
 	 * Reload full data source every X ms.
-	 *
-	 * @type {number}
 	 */
 	protected _reloadFrequency: number;
 
 	/**
 	 * Holds timeout reference for next reload.
-	 *
-	 * @type {any}
 	 */
 	protected _reloadTimeout: any;
 
 	/**
 	 * Holds disposer for the reload event handler.
-	 * 
-	 * @type {IDisposer}
 	 */
 	private _reloadDisposer: IDisposer;
 
@@ -310,7 +263,6 @@ export class DataSource extends BaseObjectEvents {
 	 * work with any other externally-loadable data property.
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	protected _incremental: boolean = false;
 
@@ -329,36 +281,27 @@ export class DataSource extends BaseObjectEvents {
 	 * of data items.
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	protected _keepCount: boolean = false;
 
 	/**
 	 * Holds the date of the last load.
-	 *
-	 * @type {Date}
 	 */
 	public lastLoad: Date;
 
 	/**
 	 * If set to `true` it will timestamp all requested URLs to work around
 	 * browser cache.
-	 *
-	 * @type {boolean}
 	 */
 	public disableCache: boolean;
 
 	/**
 	 * Will show loading indicator when loading files.
-	 *
-	 * @type {boolean}
 	 */
 	public showPreloader: boolean = true;
 
 	/**
 	 * Loaded and parsed data.
-	 *
-	 * @type {string}
 	 */
 	public data: any;
 
@@ -392,8 +335,8 @@ export class DataSource extends BaseObjectEvents {
 	 * Processes the loaded data.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {string}  data         Raw (unparsed) data
-	 * @param {string}  contentType  Content type of the loaded data (optional)
+	 * @param data         Raw (unparsed) data
+	 * @param contentType  Content type of the loaded data (optional)
 	 */
 	public processData(data: string, contentType?: string): void {
 		// Parsing started
@@ -470,14 +413,14 @@ export class DataSource extends BaseObjectEvents {
 	/**
 	 * URL of the data source.
 	 *
-	 * @param {string}  value  URL
+	 * @param value  URL
 	 */
 	public set url(value: string) {
 		this._url = value;
 	}
 
 	/**
-	 * @return {string} URL
+	 * @return URL
 	 */
 	public get url(): string {
 
@@ -530,14 +473,14 @@ export class DataSource extends BaseObjectEvents {
 	 * NOTE: setting this options on an-already loaded DataSource will not
 	 * trigger a reload.
 	 *
-	 * @param {INetRequestOptions}  value  Options
+	 * @param value  Options
 	 */
 	public set requestOptions(value: INetRequestOptions) {
 		this._requestOptions = value;
 	}
 
 	/**
-	 * @return {INetRequestOptions} Options
+	 * @return Options
 	 */
 	public get requestOptions(): INetRequestOptions {
 		return this.adapter.apply("requestOptions", this._requestOptions);
@@ -566,14 +509,14 @@ export class DataSource extends BaseObjectEvents {
 	 * ```
 	 *
 	 * @default JSONParser
-	 * @param {DataParser}  value  Data parser
+	 * @param value  Data parser
 	 */
 	public set parser(value: DataParser) {
 		this._parser = value;
 	}
 
 	/**
-	 * @return {DataParser} Data parser
+	 * @return Data parser
 	 */
 	public get parser(): DataParser {
 		if (!this._parser) {
@@ -587,7 +530,7 @@ export class DataSource extends BaseObjectEvents {
 	 *
 	 * If set, it will reload the same URL every X milliseconds.
 	 *
-	 * @param {number} value Reload frequency (ms)
+	 * @param value Reload frequency (ms)
 	 */
 	public set reloadFrequency(value: number) {
 		if (this._reloadFrequency != value) {
@@ -611,7 +554,7 @@ export class DataSource extends BaseObjectEvents {
 	}
 
 	/**
-	 * @return {number} Reload frequency (ms)
+	 * @return Reload frequency (ms)
 	 */
 	public get reloadFrequency(): number {
 		return this.adapter.apply("reloadTimeout", this._reloadFrequency);
@@ -632,14 +575,14 @@ export class DataSource extends BaseObjectEvents {
 	 * work with any other externally-loadable data property.
 	 *
 	 * @default false
-	 * @param {boolean} Incremental load?
+	 * @param Incremental load?
 	 */
 	public set incremental(value: boolean) {
 		this._incremental = value;
 	}
 
 	/**
-	 * @return {boolean} Incremental load?
+	 * @return Incremental load?
 	 */
 	public get incremental(): boolean {
 		return this.adapter.apply("incremental", this._incremental);
@@ -649,14 +592,14 @@ export class DataSource extends BaseObjectEvents {
 	 * An object consisting of key/value pairs to apply to an URL when data
 	 * source is making an incremental request.
 	 *
-	 * @param {object}  value  Incremental request parameters
+	 * @param value  Incremental request parameters
 	 */
 	public set incrementalParams(value: { [index: string]: string }) {
 		this._incrementalParams = value;
 	}
 
 	/**
-	 * @return {object} Incremental request parameters
+	 * @return Incremental request parameters
 	 */
 	public get incrementalParams(): { [index: string]: string } {
 		return this.adapter.apply("incrementalParams", this._incrementalParams);
@@ -671,14 +614,14 @@ export class DataSource extends BaseObjectEvents {
 	 * of data items.
 	 *
 	 * @default false
-	 * @param {boolean} Keep record count?
+	 * @param Keep record count?
 	 */
 	public set keepCount(value: boolean) {
 		this._keepCount = value;
 	}
 
 	/**
-	 * @return {boolean} keepCount load?
+	 * @return keepCount load?
 	 */
 	public get keepCount(): boolean {
 		return this.adapter.apply("keepCount", this._keepCount);
@@ -689,14 +632,14 @@ export class DataSource extends BaseObjectEvents {
 	 *
 	 * Will inherit and use chart's language, if not set.
 	 *
-	 * @param {Language} value An instance of Language
+	 * @param value An instance of Language
 	 */
 	public set language(value: Language) {
 		this._language = value;
 	}
 
 	/**
-	 * @return {Language} A [[Language]] instance to be used
+	 * @return A [[Language]] instance to be used
 	 */
 	public get language(): Language {
 		if (this._language) {
@@ -715,14 +658,14 @@ export class DataSource extends BaseObjectEvents {
 	 *
 	 * Will inherit and use chart's DateFormatter if not ser.
 	 *
-	 * @param {DateFormatter} value An instance of [[DateFormatter]]
+	 * @param value An instance of [[DateFormatter]]
 	 */
 	public set dateFormatter(value: DateFormatter) {
 		this._dateFormatter = value;
 	}
 
 	/**
-	 * @return {DateFormatter} A [[DateFormatter]] instance to be used
+	 * @return A [[DateFormatter]] instance to be used
 	 */
 	public get dateFormatter(): DateFormatter {
 		if (this._dateFormatter) {
@@ -739,8 +682,8 @@ export class DataSource extends BaseObjectEvents {
 	/**
 	 * Adds current timestamp to the URL.
 	 *
-	 * @param  {string}  url  Source URL
-	 * @return {string}       Timestamped URL
+	 * @param url  Source URL
+	 * @return Timestamped URL
 	 */
 	public timestampUrl(url: string): string {
 		let tstamp = new Date().getTime().toString();
@@ -777,10 +720,10 @@ export class DataSource extends BaseObjectEvents {
 	/**
 	 * Adds parameters to `url` as query strings. Will take care of proper
 	 * separators.
-	 * 
-	 * @param  {string}  url     Source URL
-	 * @param  {object}  params  Parameters
-	 * @return {string}          New URL
+	 *
+	 * @param url     Source URL
+	 * @param params  Parameters
+	 * @return New URL
 	 */
 	public addUrlParams(url: string, params: { [index: string]: string }): string {
 		let join = url.match(/\?/) ? "&" : "?";
@@ -803,7 +746,7 @@ export class DataSource extends BaseObjectEvents {
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 

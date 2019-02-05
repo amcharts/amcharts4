@@ -43,7 +43,7 @@ var DesaturateFilter = /** @class */ (function (_super) {
     }
     Object.defineProperty(DesaturateFilter.prototype, "saturation", {
         /**
-         * @return {number} Saturation (0-1)
+         * @return Saturation (0-1)
          */
         get: function () {
             return this.properties["saturation"];
@@ -54,7 +54,7 @@ var DesaturateFilter = /** @class */ (function (_super) {
          * 0 - completely desaturated.
          * 1 - fully saturated (gray).
          *
-         * @param {number}  value  Saturation (0-1)
+         * @param value  Saturation (0-1)
          */
         set: function (value) {
             this.properties["saturation"] = value;

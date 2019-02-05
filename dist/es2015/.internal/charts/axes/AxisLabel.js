@@ -40,7 +40,7 @@ var AxisLabel = /** @class */ (function (_super) {
     }
     Object.defineProperty(AxisLabel.prototype, "location", {
         /**
-         * @return {AxisItemLocation} Location (0-1)
+         * @return Location (0-1)
          */
         get: function () {
             return this.getPropertyValue("location");
@@ -48,7 +48,7 @@ var AxisLabel = /** @class */ (function (_super) {
         /**
          * Relative location of the label. (0-1)
          *
-         * @param {AxisItemLocation}  value  Location (0-1)
+         * @param value  Location (0-1)
          */
         set: function (value) {
             this.setPropertyValue("location", value, true);
@@ -60,7 +60,7 @@ var AxisLabel = /** @class */ (function (_super) {
         /**
          * Returns if label is set to be drawn inside axis.
          *
-         * @return {boolean} Inside?
+         * @return Inside?
          */
         get: function () {
             return this.getPropertyValue("inside");
@@ -68,7 +68,7 @@ var AxisLabel = /** @class */ (function (_super) {
         /**
          * Sets if label should be drawn inside axis.
          *
-         * @param {boolean}  value  Inside?
+         * @param value  Inside?
          */
         set: function (value) {
             this.setPropertyValue("inside", value, true);

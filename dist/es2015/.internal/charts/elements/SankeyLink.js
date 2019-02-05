@@ -148,7 +148,7 @@ var SankeyLink = /** @class */ (function (_super) {
     };
     Object.defineProperty(SankeyLink.prototype, "startX", {
         /**
-         * @return {number} Start X
+         * @return Start X
          */
         get: function () {
             return this.getPropertyValue("startX");
@@ -157,7 +157,7 @@ var SankeyLink = /** @class */ (function (_super) {
          * [startX description]
          *
          * @todo Description
-         * @param {number}  value  Start X
+         * @param value  Start X
          */
         set: function (value) {
             this.setPropertyValue("startX", value, true);
@@ -167,7 +167,7 @@ var SankeyLink = /** @class */ (function (_super) {
     });
     Object.defineProperty(SankeyLink.prototype, "endX", {
         /**
-         * @return {number} End X
+         * @return End X
          */
         get: function () {
             return this.getPropertyValue("endX");
@@ -176,7 +176,7 @@ var SankeyLink = /** @class */ (function (_super) {
          * [endX description]
          *
          * @todo Description
-         * @param {number} value  End X
+         * @param value  End X
          */
         set: function (value) {
             this.setPropertyValue("endX", value, true);
@@ -186,7 +186,7 @@ var SankeyLink = /** @class */ (function (_super) {
     });
     Object.defineProperty(SankeyLink.prototype, "startY", {
         /**
-         * @return {number} Start Y
+         * @return Start Y
          */
         get: function () {
             return this.getPropertyValue("startY");
@@ -195,7 +195,7 @@ var SankeyLink = /** @class */ (function (_super) {
          * [startY description]
          *
          * @todo Description
-         * @param {number}  value  Start Y
+         * @param value  Start Y
          */
         set: function (value) {
             this.setPropertyValue("startY", value, true);
@@ -205,7 +205,7 @@ var SankeyLink = /** @class */ (function (_super) {
     });
     Object.defineProperty(SankeyLink.prototype, "endY", {
         /**
-         * @return {number} End Y
+         * @return End Y
          */
         get: function () {
             return this.getPropertyValue("endY");
@@ -214,7 +214,7 @@ var SankeyLink = /** @class */ (function (_super) {
          * [endY description]
          *
          * @todo Description
-         * @param {number} value End Y
+         * @param value End Y
          */
         set: function (value) {
             this.setPropertyValue("endY", value, true);
@@ -224,7 +224,7 @@ var SankeyLink = /** @class */ (function (_super) {
     });
     Object.defineProperty(SankeyLink.prototype, "linkWidth", {
         /**
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             return this.getPropertyValue("linkWidth");
@@ -233,7 +233,7 @@ var SankeyLink = /** @class */ (function (_super) {
          * [linkWidth description]
          *
          * @todo Description
-         * @param {number} value [description]
+         * @param value [description]
          */
         set: function (value) {
             this.setPropertyValue("linkWidth", value, true);
@@ -243,7 +243,7 @@ var SankeyLink = /** @class */ (function (_super) {
     });
     Object.defineProperty(SankeyLink.prototype, "controlPointDistance", {
         /**
-         * @return {number} relative control point distance
+         * @return relative control point distance
          */
         get: function () {
             return this.getPropertyValue("controlPointDistance");
@@ -251,7 +251,7 @@ var SankeyLink = /** @class */ (function (_super) {
         /**
          * Distance of control point of a link, defines relative distance from a node at which linke should bend
          * @default 0.2
-         * @param {number}  value
+         * @param value
          */
         set: function (value) {
             this.setPropertyValue("controlPointDistance", value, true);
@@ -261,7 +261,7 @@ var SankeyLink = /** @class */ (function (_super) {
     });
     Object.defineProperty(SankeyLink.prototype, "tension", {
         /**
-         * @return {number} tension value
+         * @return tension value
          */
         get: function () {
             return this.getPropertyValue("tension");
@@ -269,7 +269,7 @@ var SankeyLink = /** @class */ (function (_super) {
         /**
          * Tension of a spline, 1 would make the link to have sharp edges
          * @default 0.8
-         * @param {number} value
+         * @param value
          */
         set: function (value) {
             this.setPropertyValue("tension", value, true);

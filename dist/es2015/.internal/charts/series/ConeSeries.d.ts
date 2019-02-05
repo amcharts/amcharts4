@@ -24,13 +24,10 @@ import { ConeColumn } from "../elements/ConeColumn";
 export declare class ConeSeriesDataItem extends ColumnSeriesDataItem {
     /**
      * A sprite used to draw the column.
-     * @type {ConeColumn}
      */
     _column: ConeColumn;
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {ConeSeries}
      */
     _component: ConeSeries;
     /**
@@ -87,26 +84,18 @@ export declare class ConeSeries extends ColumnSeries {
     _dataItem: ConeSeriesDataItem;
     /**
      * Defines the type of data fields used for the series.
-     *
-     * @type {IConeSeriesDataFields}
      */
     _dataFields: IConeSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IConeSeriesProperties}
      */
     _properties: IConeSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IConeSeriesAdapters}
      */
     _adapter: IConeSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IConeSeriesEvents}
      */
     _events: IConeSeriesEvents;
     /**
@@ -116,20 +105,20 @@ export declare class ConeSeries extends ColumnSeries {
     /**
      * Returns an element to use for Candlestick
      * @ignore
-     * @return {this["_column"]} Element.
+     * @return Element.
      */
     protected createColumnTemplate(): this["_column"];
     /**
      * Returns an SVG path to use as series mask.
      *
-     * @return {string} SVG path
+     * @return SVG path
      */
     protected getMaskPath(): string;
     /**
      * Validates data item's elements.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     validateDataElementReal(dataItem: this["_dataItem"]): void;
 }

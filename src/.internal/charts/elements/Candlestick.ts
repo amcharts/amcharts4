@@ -58,34 +58,26 @@ export class Candlestick extends Column {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ICandlestickProperties}
 	 */
 	public _properties!: ICandlestickProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ICandlestickAdapters}
 	 */
 	public _adapter!: ICandlestickAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ICandlestickEvents}
 	 */
 	public _events!: ICandlestickEvents;
 
 	/**
 	 * Low line element
-	 * @type {Line}
 	 */
 	public lowLine: Line;
 
 	/**
 	 * High line element
-	 * @type {Line}
 	 */
 	public highLine: Line;
 
@@ -114,7 +106,7 @@ export class Candlestick extends Column {
 	/**
 	 * Copies all parameters from another [[Candlestick]].
 	 *
-	 * @param {Candlestick} source Source Candlestick
+	 * @param source Source Candlestick
 	 */
 	public copyFrom(source: this) {
 		super.copyFrom(source)

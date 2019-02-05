@@ -49,7 +49,7 @@ var FlowDiagramDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(FlowDiagramDataItem.prototype, "fromName", {
         /**
-         * @return {string} name
+         * @return name
          */
         get: function () {
             return this.properties.fromName;
@@ -57,7 +57,7 @@ var FlowDiagramDataItem = /** @class */ (function (_super) {
         /**
          * Source node's name.
          *
-         * @param {string}  value  Name
+         * @param value  Name
          */
         set: function (value) {
             this.setProperty("fromName", value);
@@ -67,7 +67,7 @@ var FlowDiagramDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagramDataItem.prototype, "toName", {
         /**
-         * @return {string} name
+         * @return name
          */
         get: function () {
             return this.properties.toName;
@@ -75,7 +75,7 @@ var FlowDiagramDataItem = /** @class */ (function (_super) {
         /**
          * Destination node's name.
          *
-         * @param {string}  value  Name
+         * @param value  Name
          */
         set: function (value) {
             this.setProperty("toName", value);
@@ -85,7 +85,7 @@ var FlowDiagramDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagramDataItem.prototype, "color", {
         /**
-         * @return {string} color
+         * @return color
          */
         get: function () {
             return this.properties.color;
@@ -93,7 +93,7 @@ var FlowDiagramDataItem = /** @class */ (function (_super) {
         /**
          * Node color
          *
-         * @param {string}  value  Name
+         * @param value  Name
          */
         set: function (value) {
             this.setProperty("color", toColor(value));
@@ -103,7 +103,7 @@ var FlowDiagramDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagramDataItem.prototype, "value", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values.value.value;
@@ -111,7 +111,7 @@ var FlowDiagramDataItem = /** @class */ (function (_super) {
         /**
          * Link's value.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("value", value);
@@ -127,7 +127,7 @@ var FlowDiagramDataItem = /** @class */ (function (_super) {
          * `value` of the source node.
          *
          * @readonly
-         * @return {FlowDiagramLink} Link element
+         * @return Link element
          */
         get: function () {
             var _this = this;
@@ -173,8 +173,6 @@ var FlowDiagram = /** @class */ (function (_super) {
         /**
          * A Color Set to use when applying/generating colors for each subsequent
          * node.
-         *
-         * @type {ColorSet}
          */
         _this.colors = new ColorSet();
         _this.className = "FlowDiagram";
@@ -322,7 +320,7 @@ var FlowDiagram = /** @class */ (function (_super) {
      * A node's value is determined by summing values of all of the incoming
      * links or all of the outgoing links, whichever results in bigger number.
      *
-     * @param {FlowDiagramNode}  node  Node value
+     * @param node  Node value
      */
     FlowDiagram.prototype.getNodeValue = function (node) {
         // todo: totalIncomming totalOutgoing, total
@@ -368,14 +366,14 @@ var FlowDiagram = /** @class */ (function (_super) {
     /**
      * Creates and returns a new data item.
      *
-     * @return {this} Data item
+     * @return Data item
      */
     FlowDiagram.prototype.createDataItem = function () {
         return new FlowDiagramDataItem();
     };
     Object.defineProperty(FlowDiagram.prototype, "nodePadding", {
         /**
-         * @return {number} Padding (px)
+         * @return Padding (px)
          */
         get: function () {
             return this.getPropertyValue("nodePadding");
@@ -385,7 +383,7 @@ var FlowDiagram = /** @class */ (function (_super) {
          *
          * Padding will add extra space around node's name label.
          *
-         * @param {number} value Padding (px)
+         * @param value Padding (px)
          */
         set: function (value) {
             this.setPropertyValue("nodePadding", value, true);
@@ -395,7 +393,7 @@ var FlowDiagram = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagram.prototype, "sortBy", {
         /**
-         * @returns {"none" | name" | "value"} Node sorting
+         * @returns Node sorting
          */
         get: function () {
             return this.getPropertyValue("sortBy");
@@ -403,7 +401,7 @@ var FlowDiagram = /** @class */ (function (_super) {
         /**
          * Sort nodes by "name" or "value" or do not sort at all. If not sorted, nodes will appear in the same order as they are in the data.
          * @default "none"
-         * @param {"none" | "name" | "value"}  value  Node sorting
+         * @param value  Node sorting
          */
         set: function (value) {
             this.setPropertyValue("sortBy", value);
@@ -414,7 +412,7 @@ var FlowDiagram = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagram.prototype, "minNodeSize", {
         /**
-         * @returns {number} min node size
+         * @returns min node size
          */
         get: function () {
             return this.getPropertyValue("minNodeSize");
@@ -423,7 +421,7 @@ var FlowDiagram = /** @class */ (function (_super) {
          * Sometimes nodes can get very small if their value is little. With this setting you
          * can set min size of a node (this is relative value from the total size of all nodes)
          * @default 0.02
-         * @param {"none" | "name" | "value"}  value  Node sorting
+         * @param value  Node sorting
          */
         set: function (value) {
             this.setPropertyValue("minNodeSize", value, true);

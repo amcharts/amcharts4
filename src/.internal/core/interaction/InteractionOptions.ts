@@ -12,34 +12,26 @@ import { IStyleProperty } from "../defs/IStyleProperty";
 export interface IInertiaOptions {
 
 	/**
-	 * When calculating inertia direction and speed, we look back at the log of 
+	 * When calculating inertia direction and speed, we look back at the log of
 	 * coordinates. This setting holds number of milliseconds to check back to.
-	 * 
-	 * @type {number}
 	 */
 	time?: number;
 
 	/**
 	 * How long should inertia animation play out.
-	 * 
-	 * @type {number}
 	 */
 	duration?: number;
 
 	/**
-	 * How far should object go by inertia counting from its reference point in 
-	 * trail and its release point. I.e. if there are 100 pixels between reference 
+	 * How far should object go by inertia counting from its reference point in
+	 * trail and its release point. I.e. if there are 100 pixels between reference
 	 * point and drop point, then  it will go another `100 x inertiaFactor` pixels
 	 * by inertia.
-	 * 
-	 * @type {number}
 	 */
 	factor?: number;
 
 	/**
 	 * Easing function to be used for inertia animation.
-	 * 
-	 * @type {(value: number) => number}
 	 */
 	easing?: (value: number) => number;
 }
@@ -52,17 +44,13 @@ export interface IHitOptions {
 	/**
 	 * If there were less than this milliseconds between two consecutive clicks
 	 * consider it a double-hit.
-	 * 
-	 * @type {number}
 	 */
 	doubleHitTime?: number;
 
 	/**
-	 * Maximum number of pixels a pointer can move from its original position 
-	 * while holding down mouse/touch to still consider it a click rather than 
+	 * Maximum number of pixels a pointer can move from its original position
+	 * while holding down mouse/touch to still consider it a click rather than
 	 * some other gesture.
-	 * 
-	 * @type {number}
 	 */
 	hitTolerance?: number;
 
@@ -71,8 +59,6 @@ export interface IHitOptions {
 	 * to move focus on a clicked/touched element. This prevents items to become
 	 * focused (and highlighted) on click/touch, but still make them focusable
 	 * using keyboard for accessibility.
-	 * 
-	 * @type {boolean}
 	 */
 	noFocus?: boolean;
 
@@ -95,15 +81,12 @@ export interface IHoverOptions {
 	 * interaction takes place somewhere elese.
 	 *
 	 * @default "leave"
-	 * @type {number}
 	 */
 	touchOutBehavior?: "removed" | "delay" | "leave";
 
 	/**
 	 * How long in milliseconds should "out" event be delayed when the element
 	 * is not longer being touched. Works only if `touchOutBehavior = "delay"`.
-	 * 
-	 * @type {number}
 	 */
 	touchOutDelay?: number;
 
@@ -116,23 +99,17 @@ export interface ISwipeOptions {
 
 	/**
 	 * Time limit in milliseconds for swipe to occur.
-	 * 
-	 * @type {number}
 	 */
 	time?: number;
 
 	/**
-	 * Vertical limit in pixels. Gesture deviating more than that will cancel 
+	 * Vertical limit in pixels. Gesture deviating more than that will cancel
 	 * swipe.
-	 * 
-	 * @type {number}
 	 */
 	verticalThreshold?: number;
 
 	/**
 	 * Minimum number of pixels to move horizontally for swipe to register.
-	 * 
-	 * @type {number}
 	 */
 	horizontalThreshold?: number;
 
@@ -145,22 +122,16 @@ export interface ICursorOptions {
 
 	/**
 	 * CSS to apply to cursor when neutral.
-	 * 
-	 * @type {Array<IStyleProperty>}
 	 */
 	defaultStyle?: Array<IStyleProperty>;
 
 	/**
 	 * CSS to apply to cursor when hovering over element.
-	 * 
-	 * @type {Array<IStyleProperty>}
 	 */
 	overStyle?: Array<IStyleProperty>;
 
 	/**
 	 * CSS to apply to cursor when mouse button is down.
-	 * 
-	 * @type {Array<IStyleProperty>}
 	 */
 	downStyle?: Array<IStyleProperty>;
 }
@@ -174,25 +145,19 @@ export interface IKeyboardOptions {
 
 	/**
 	 * Number of pixels to move per millisecond.
-	 * 
-	 * @type {number}
 	 */
 	speed?: number;
 
 	/**
 	 * A multiplication factor for move speed growth per second
-	 * For example if the initial speed is 10px/s (0.01px/ms) and accelleration 
-	 * is 0.5, pressing and holding arrow key will make the element move at 
+	 * For example if the initial speed is 10px/s (0.01px/ms) and accelleration
+	 * is 0.5, pressing and holding arrow key will make the element move at
 	 * 10px/s, then will accellerate to 15px/s after 1s, and so on.
-	 * 
-	 * @type {number}
 	 */
 	accelleration?: number;
 
 	/**
 	 * Number of milliseconds before accelleration kicks in.
-	 * 
-	 * @type {number}
 	 */
 	accellerationDelay?: number;
 

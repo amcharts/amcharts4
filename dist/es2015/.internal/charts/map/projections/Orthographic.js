@@ -54,9 +54,9 @@ var Orthographic = /** @class */ (function (_super) {
     /**
      * Converts geographical coordinates to screen coordinates.
      *
-     * @param  {number}  lambda  Lambda parameter
-     * @param  {number}  phi     Phi parameter
-     * @return {IPoint}          Screen coordinates
+     * @param lambda  Lambda parameter
+     * @param phi     Phi parameter
+     * @return Screen coordinates
      */
     Orthographic.prototype.project = function (lambda, phi) {
         return { x: Math.cos(phi) * Math.sin(lambda), y: Math.sin(phi) };

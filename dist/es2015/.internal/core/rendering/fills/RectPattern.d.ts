@@ -18,7 +18,6 @@ import * as $type from "../../utils/Type";
  */
 /**
  * Defines properties for rectangular pattern
- * @type {[type]}
  */
 export interface RectPatternProperties extends PatternProperties {
     rectWidth: number;
@@ -36,14 +35,10 @@ export interface RectPatternProperties extends PatternProperties {
 export declare class RectPattern extends Pattern {
     /**
      * Reference to `<rect>` element used in pattern.
-     *
-     * @type {Optional<AMElement>}
      */
     protected _rect: $type.Optional<AMElement>;
     /**
      * Defines property types.
-     *
-     * @type {RectPatternProperties}
      */
     _properties: RectPatternProperties;
     /**
@@ -55,21 +50,21 @@ export declare class RectPattern extends Pattern {
      */
     protected draw(): void;
     /**
-     * @return {number} Width (px)
+     * @return Width (px)
      */
     /**
      * Rectangle width in pixels.
      *
-     * @param {number} value Width (px)
+     * @param value Width (px)
      */
     rectWidth: number;
     /**
-     * @return {number} Height (px)
+     * @return Height (px)
      */
     /**
      * Rectangle height in pixels.
      *
-     * @param {number} value Height (px)
+     * @param value Height (px)
      */
     rectHeight: number;
 }

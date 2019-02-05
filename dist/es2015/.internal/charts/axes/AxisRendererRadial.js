@@ -32,7 +32,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     /**
      * Constructor.
      *
-     * @param {Axis} axis Related axis
+     * @param axis Related axis
      */
     function AxisRendererRadial() {
         var _this = 
@@ -40,8 +40,6 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * A related chart.
-         *
-         * @type {MutableValueDisposer}
          */
         _this._chart = new MutableValueDisposer();
         /**
@@ -80,7 +78,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         /**
          * Returns actual length of the Axis, in pixels.
          *
-         * @return {number} Length (px)
+         * @return Length (px)
          */
         get: function () {
             return this.pixelRadius - this.pixelInnerRadius;
@@ -90,7 +88,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererRadial.prototype, "radius", {
         /**
-         * @return {number | Percent} Outer radius
+         * @return Outer radius
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -100,7 +98,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
          *
          * Can be absolute (px) or relative ([[Percent]]).
          *
-         * @param {number | Percent}  value  Outer radius
+         * @param value  Outer radius
          */
         set: function (value) {
             this.setPercentProperty("radius", value, false, false, 10, false);
@@ -112,7 +110,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         /**
          * Outer radius in pixels.
          *
-         * @return {number} Outer radius (px)
+         * @return Outer radius (px)
          */
         get: function () {
             return $utils.relativeRadiusToValue(this.radius, this.pixelRadiusReal) || 0;
@@ -122,7 +120,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererRadial.prototype, "innerRadius", {
         /**
-         * @return {number | Percent} Inner radius
+         * @return Inner radius
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
@@ -132,7 +130,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
          *
          * Can be absolute (px) or relative ([[Percent]]).
          *
-         * @param {number | Percent}  value  Outer radius
+         * @param value  Outer radius
          */
         set: function (value) {
             this.setPercentProperty("innerRadius", value, false, false, 10, false);
@@ -144,7 +142,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         /**
          * Inner radius in pixels.
          *
-         * @return {number} Inner radius (px)
+         * @return Inner radius (px)
          */
         get: function () {
             return $utils.relativeRadiusToValue(this.innerRadius, this.pixelRadiusReal) || 0;
@@ -155,7 +153,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     Object.defineProperty(AxisRendererRadial.prototype, "chart", {
         /**
          * @ignore Exclude from docs
-         * @return {RadarChart} Chart
+         * @return Chart
          */
         get: function () {
             return this._chart.get();
@@ -164,7 +162,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
          * Chart, associated with the Axis.
          *
          * @ignore Exclude from docs
-         * @param {RadarChart} value Chart
+         * @param value Chart
          */
         set: function (chart) {
             this._chart.set(chart, null);
@@ -175,8 +173,8 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     /**
      * Converts relative position on axis to point coordinates.
      *
-     * @param  {number}  position  Position (0-1)
-     * @return {IPoint}            Point
+     * @param position  Position (0-1)
+     * @return Point
      */
     AxisRendererRadial.prototype.positionToPoint = function (position) {
         var radius = $math.fitToRange(this.positionToCoordinate(position), 0, Infinity);
@@ -211,9 +209,9 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      * Updates and positions a grid element.
      *
      * @ignore Exclude from docs
-     * @param {Grid}    grid         Grid element
-     * @param {number}  position     Starting position
-     * @param {number}  endPosition  End position
+     * @param grid         Grid element
+     * @param position     Starting position
+     * @param endPosition  End position
      */
     AxisRendererRadial.prototype.updateGridElement = function (grid, position, endPosition) {
         position = position + (endPosition - position) * grid.location;
@@ -252,9 +250,9 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      * Updates and positions a label element.
      *
      * @ignore Exclude from docs
-     * @param {AxisLabel}  label        Label element
-     * @param {number}     position     Starting position
-     * @param {number}     endPosition  Ending position
+     * @param label        Label element
+     * @param position     Starting position
+     * @param endPosition  Ending position
      */
     AxisRendererRadial.prototype.updateLabelElement = function (label, position, endPosition, location) {
         if (!$type.hasValue(location)) {
@@ -277,15 +275,15 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      * Checks if point is within bounds of a container.
      *
      * @ignore Exclude from docs
-     * @param  {IPoint}   point Point coordinates
-     * @return {boolean}         Fits?
+     * @param point Point coordinates
+     * @return Fits?
      */
     AxisRendererRadial.prototype.fitsToBounds = function (point) {
         return true;
     };
     Object.defineProperty(AxisRendererRadial.prototype, "startAngle", {
         /**
-         * @return {number} Start angle
+         * @return Start angle
          */
         get: function () {
             return this.getPropertyValue("startAngle");
@@ -293,7 +291,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         /**
          * Start angle of the axis in degrees. (0-360)
          *
-         * @param {number}  value  Start angle
+         * @param value  Start angle
          */
         set: function (value) {
             // do not normalize angle here!
@@ -306,7 +304,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererRadial.prototype, "endAngle", {
         /**
-         * @return {number} End angle
+         * @return End angle
          */
         get: function () {
             return this.getPropertyValue("endAngle");
@@ -314,7 +312,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         /**
          * End angle of the axis in degrees. (0-360)
          *
-         * @param {number}  value  End angle
+         * @param value  End angle
          */
         set: function (value) {
             // do not normalize angel here!
@@ -327,7 +325,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererRadial.prototype, "axisAngle", {
         /**
-         * @return {number} Axis angle
+         * @return Axis angle
          */
         get: function () {
             return this.getPropertyValue("axisAngle");
@@ -336,7 +334,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         /**
          * Angle of the radial axis in degrees. (0-360)
          *
-         * @param {number}  value  Axis angle
+         * @param value  Axis angle
          */
         set: function (value) {
             this.setPropertyValue("axisAngle", $math.normalizeAngle(value));
@@ -347,7 +345,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererRadial.prototype, "gridType", {
         /**
-         * @type {"circles" | "polygons"} Grid type
+         * Grid type
          */
         get: function () {
             var axis = this.chart.xAxes.getIndex(0);
@@ -366,7 +364,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
          * straight lines ("polygons").
          *
          * @default "circles"
-         * @param {"circles" | "polygons"}  value  Grid type
+         * @param value  Grid type
          */
         set: function (value) {
             this.setPropertyValue("gridType", value, true);
@@ -379,9 +377,9 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}  startPosition  Starting position
-     * @param  {number}  endPosition    End position
-     * @return {string}                 SVG path
+     * @param startPosition  Starting position
+     * @param endPosition    End position
+     * @return SVG path
      */
     AxisRendererRadial.prototype.getPositionRangePath = function (startPosition, endPosition) {
         var pixelInnerRadius = this.pixelInnerRadius;
@@ -425,7 +423,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      * Updates and positions an axis break element.
      *
      * @ignore Exclude from docs
-     * @param {AxisBreak} axisBreak Break element
+     * @param axisBreak Break element
      */
     AxisRendererRadial.prototype.updateBreakElement = function (axisBreak) {
         // @todo: someday we might need axis break when gridType is polygons
@@ -443,7 +441,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      * Creates visual elements for and axis break.
      *
      * @ignore Exclude from docs
-     * @param {AxisBreak} axisBreak Axis break
+     * @param axisBreak Axis break
      */
     AxisRendererRadial.prototype.createBreakSprites = function (axisBreak) {
         axisBreak.startLine = new WavedCircle();
@@ -480,8 +478,8 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      * Updates and positions a tick element.
      *
      * @ignore Exclude from docs
-     * @param {AxisTick}  tick      Tick element
-     * @param {number}    position  Position
+     * @param tick      Tick element
+     * @param position  Position
      */
     AxisRendererRadial.prototype.updateTickElement = function (tick, position) {
         var point = this.positionToPoint(position);
@@ -506,8 +504,8 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      * Converts a position on the axis to a coordinate in pixels.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position (0-1)
-     * @return {number}            Coordinate (px)
+     * @param position  Position (0-1)
+     * @return Coordinate (px)
      */
     AxisRendererRadial.prototype.positionToCoordinate = function (position) {
         var coordinate;
@@ -526,8 +524,8 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      * Converts a point at specific coordinates to a relative position (0-1)
      * on the axis.
      *
-     * @param  {IPoint}  point  Point
-     * @return {number}         Position (0-1)
+     * @param point  Point
+     * @return Position (0-1)
      */
     AxisRendererRadial.prototype.pointToPosition = function (point) {
         var coordinate = ($math.getDistance(point) - this.pixelInnerRadius);

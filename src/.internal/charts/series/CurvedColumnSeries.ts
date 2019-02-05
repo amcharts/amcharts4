@@ -1,6 +1,6 @@
 /**
  * CurvedColumnSeries module.
- * 
+ *
  * Not recommended using if you use scrollbars or your chart is zoomable in some other way.
  */
 
@@ -34,15 +34,12 @@ export class CurvedColumnSeriesDataItem extends ColumnSeriesDataItem {
 
 	/**
 	 * A sprite used to draw the column.
-	 * @type {ConeColumn}
 	 */
 	public _column: CurvedColumn;
 
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {CurvedColumnSeries}
 	 */
 	public _component!: CurvedColumnSeries;
 
@@ -106,43 +103,31 @@ export class CurvedColumnSeries extends ColumnSeries {
 
 	/**
 	 * Dfines type of the column.
-	 * 
-	 * @type {CurvedColumn}
 	 */
 	public _column: CurvedColumn;
 
 	/**
 	 * Defines type of the data item.
-	 *
-	 * @type {CurvedColumnSeriesDataItem}
 	 */
 	public _dataItem: CurvedColumnSeriesDataItem;
 
 	/**
 	 * Defines the type of data fields used for the series.
-	 *
-	 * @type {ICurvedColumnSeriesDataFields}
 	 */
 	public _dataFields: ICurvedColumnSeriesDataFields
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ICurvedColumnSeriesProperties}
 	 */
 	public _properties!: ICurvedColumnSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ICurvedColumnSeriesAdapters}
 	 */
 	public _adapter!: ICurvedColumnSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ICurvedColumnSeriesEvents}
 	 */
 	public _events!: ICurvedColumnSeriesEvents;
 
@@ -158,9 +143,9 @@ export class CurvedColumnSeries extends ColumnSeries {
 
 	/**
 	 * Returns an element to use for the curved column.
-	 * 
+	 *
 	 * @ignore Exclude from docs
-	 * @return {this["_column"]} Element.
+	 * @return Element.
 	 */
 	protected createColumnTemplate(): this["_column"] {
 		return new CurvedColumn();
@@ -171,7 +156,7 @@ export class CurvedColumnSeries extends ColumnSeries {
 	 * Validates data item's elements.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {this["_dataItem"]}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public validateDataElementReal(dataItem: this["_dataItem"]): void {
 

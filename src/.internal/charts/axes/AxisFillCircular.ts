@@ -28,22 +28,16 @@ export interface IAxisFillCircularProperties extends IAxisFillProperties {
 
 	/**
 	 * Inner radius. Relative ir absolute.
-	 *
-	 * @type {number | Percent}
 	 */
 	innerRadius?: number | Percent;
 
 	/**
 	 * Outer radius. Relative or absolute.
-	 *
-	 * @type {number | Percent}
 	 */
 	radius?: number | Percent;
 
 	/**
 	 * Corner radius for the fill. In pixels.
-	 *
-	 * @type {number}
 	 */
 	cornerRadius?: number;
 
@@ -80,22 +74,16 @@ export class AxisFillCircular extends AxisFill {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IAxisFillCircularProperties}
 	 */
 	public _properties!: IAxisFillCircularProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IAxisFillCircularAdapters}
 	 */
 	public _adapter!: IAxisFillCircularAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IAxisFillCircularEvents}
 	 */
 	public _events!: IAxisFillCircularEvents;
 
@@ -104,14 +92,13 @@ export class AxisFillCircular extends AxisFill {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @type {string}
 	 */
 	public fillPath: string;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param {Axis} axis Axis
+	 * @param axis Axis
 	 */
 	constructor(axis: Axis) {
 		super(axis);
@@ -142,14 +129,14 @@ export class AxisFillCircular extends AxisFill {
 	/**
 	 * Inner radius of the fill. Relative ([[Percent]]) or absolute (pixels).
 	 *
-	 * @param {number | Percent}  value  Inner radius
+	 * @param value  Inner radius
 	 */
 	public set innerRadius(value: number | Percent) {
 		this.setPercentProperty("innerRadius", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Inner radius
+	 * @return Inner radius
 	 */
 	public get innerRadius(): number | Percent {
 		return this.getPropertyValue("innerRadius");
@@ -158,14 +145,14 @@ export class AxisFillCircular extends AxisFill {
 	/**
 	 * Outer radius of the fill. Relative ([[Percent]]) or absolute (pixels).
 	 *
-	 * @param {number | Percent}  value  Outer radius
+	 * @param value  Outer radius
 	 */
 	public set radius(value: number | Percent) {
 		this.setPercentProperty("radius", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Outer radius
+	 * @return Outer radius
 	 */
 	public get radius(): number | Percent {
 		return this.getPropertyValue("radius");
@@ -174,14 +161,14 @@ export class AxisFillCircular extends AxisFill {
 	/**
 	 * Corner radius for the fill. In pixels.
 	 *
-	 * @param {number}  value  Corner radius (px)
+	 * @param value  Corner radius (px)
 	 */
 	public set cornerRadius(value: number) {
 		this.setPropertyValue("cornerRadius", value, true);
 	}
 
 	/**
-	 * @return {number} Corner radius (px)
+	 * @return Corner radius (px)
 	 */
 	public get cornerRadius(): number {
 		return this.getPropertyValue("cornerRadius");

@@ -65,8 +65,8 @@ var MapLine = /** @class */ (function (_super) {
      *
      * 0 indicates start of the line, 0.5 - middle, while 1 indicates the end.
      *
-     * @param  {number}             position  Position (0-1)
-     * @return {IOrientationPoint}            Coordinates
+     * @param position  Position (0-1)
+     * @return Coordinates
      */
     MapLine.prototype.positionToPoint = function (position) {
         if (this.line) {
@@ -76,7 +76,7 @@ var MapLine = /** @class */ (function (_super) {
     };
     Object.defineProperty(MapLine.prototype, "multiGeoLine", {
         /**
-         * @return {IGeoPoint[]} [description]
+         * @return [description]
          */
         get: function () {
             return this.getPropertyValue("multiGeoLine");
@@ -85,7 +85,7 @@ var MapLine = /** @class */ (function (_super) {
          * [multiGeoLine description]
          *
          * @todo Description
-         * @param {IGeoPoint[][]} multiGeoLine [description]
+         * @param multiGeoLine [description]
          */
         set: function (multiGeoLine) {
             this.setPropertyValue("multiGeoLine", $geo.normalizeMultiline(multiGeoLine), true);
@@ -107,7 +107,7 @@ var MapLine = /** @class */ (function (_super) {
          * Parameter is an array that can hold string `id`'s to of the images, or
          * references to actual [[MapImage]] objects.
          *
-         * @param {MapImages[]}  images  Images
+         * @param images  Images
          */
         set: function (images) {
             var _this = this;
@@ -196,6 +196,7 @@ var MapLine = /** @class */ (function (_super) {
         $iter.each(this.lineObjects.iterator(), function (x) {
             x.validatePosition();
         });
+        this.handleGlobalScale();
         _super.prototype.validate.call(this);
         var e_1, _c;
     };
@@ -207,7 +208,7 @@ var MapLine = /** @class */ (function (_super) {
     };
     Object.defineProperty(MapLine.prototype, "shortestDistance", {
         /**
-         * @return {boolean} Real path?
+         * @return Real path?
          */
         get: function () {
             return this.getPropertyValue("shortestDistance");
@@ -220,7 +221,7 @@ var MapLine = /** @class */ (function (_super) {
          * `MapSplice` don't.
          *
          * @default false
-         * @param {boolean}  value  Real path?
+         * @param value  Real path?
          */
         set: function (value) {
             this.setPropertyValue("shortestDistance", value, true);
@@ -234,7 +235,7 @@ var MapLine = /** @class */ (function (_super) {
          *
          * @todo Description (review)
          * @readonly
-         * @return {ListTemplate<MapLineObject>} List of line objects
+         * @return List of line objects
          */
         get: function () {
             if (!this._lineObjects) {
@@ -251,7 +252,7 @@ var MapLine = /** @class */ (function (_super) {
     /**
      * Decorate a [[LineObject]] when it is added to the line.
      *
-     * @param {IListEvents<MapLineObject>["inserted"]}  event  Event
+     * @param event  Event
      */
     MapLine.prototype.handleLineObjectAdded = function (event) {
         var mapLineObject = event.newValue;
@@ -261,7 +262,7 @@ var MapLine = /** @class */ (function (_super) {
     };
     Object.defineProperty(MapLine.prototype, "arrow", {
         /**
-         * @return {MapLineObject} Arrow element
+         * @return Arrow element
          */
         get: function () {
             if (!this._arrow) {
@@ -289,7 +290,7 @@ var MapLine = /** @class */ (function (_super) {
          * Just accessing this property will create a default arrowhead on the line
          * automatically.
          *
-         * @param {MapLineObject}  arrow  Arrow element
+         * @param arrow  Arrow element
          */
         set: function (arrow) {
             this._arrow = arrow;
@@ -303,7 +304,7 @@ var MapLine = /** @class */ (function (_super) {
      * Copies line properties and other attributes, like arrow, from another
      * instance of [[MapLine]].
      *
-     * @param {MapLineObject}  source  Source map line
+     * @param source  Source map line
      */
     MapLine.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
@@ -318,7 +319,7 @@ var MapLine = /** @class */ (function (_super) {
          * Latitude of the line center.
          *
          * @readonly
-         * @return {number} Latitude
+         * @return Latitude
          */
         get: function () {
             var dataItem = this.dataItem;
@@ -332,7 +333,7 @@ var MapLine = /** @class */ (function (_super) {
          * Longitude of the line center.
          *
          * @readonly
-         * @return {number} Latitude
+         * @return Latitude
          */
         get: function () {
             var dataItem = this.dataItem;
@@ -344,7 +345,7 @@ var MapLine = /** @class */ (function (_super) {
     /**
      * X coordinate for the slice tooltip.
      *
-     * @return {number} X
+     * @return X
      */
     MapLine.prototype.getTooltipX = function () {
         return this.line.positionToPoint(0.5).x;
@@ -352,7 +353,7 @@ var MapLine = /** @class */ (function (_super) {
     /**
      * Y coordinate for the slice tooltip.
      *
-     * @return {number} Y
+     * @return Y
      */
     MapLine.prototype.getTooltipY = function () {
         return this.line.positionToPoint(0.5).y;

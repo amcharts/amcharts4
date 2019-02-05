@@ -1,6 +1,5 @@
 ﻿/**
  * Defines available accessibility roles
- * @type {string}
  */
 export type Roles =
 	"alert"
@@ -80,6 +79,5 @@ export type Roles =
 
 /**
  * Available options for `aria-live` attribute
- * @type {string}
  */
 export type AriaLive = "off" | "polite" | "assertive";

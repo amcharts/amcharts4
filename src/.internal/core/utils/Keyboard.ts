@@ -13,8 +13,6 @@ import * as $type from "./Type";
 
 /**
  * Represents named (usually frequently used) keyboard keys for easy referece.
- * 
- * @type {string}
  */
 export type KeyboardKeys =
 	"up"
@@ -50,9 +48,9 @@ export class Keyboard {
 	/**
 	 * Returns a named key based on information contained in the event or
 	 * "other".
-	 * 
-	 * @param  {KeyboardEvent}  ev  A keyboard event
-	 * @return {KeyboardKeys}       Keyboard named key
+	 *
+	 * @param ev  A keyboard event
+	 * @return Keyboard named key
 	 */
 	public getEventKey(ev: KeyboardEvent): KeyboardKeys {
 
@@ -91,10 +89,10 @@ export class Keyboard {
 
 	/**
 	 * Checks if event key is one or more of the selected named keys.
-	 * 
-	 * @param  {KeyboardEvent}      ev   Keyboard event
-	 * @param  {string | string[]}  key  Named key or array of keys
-	 * @return {boolean}                 Is event key one of the list?
+	 *
+	 * @param ev   Keyboard event
+	 * @param key  Named key or array of keys
+	 * @return Is event key one of the list?
 	 */
 	public isKey(ev: KeyboardEvent, key: string | string[]): boolean {
 		let eventKey = this.getEventKey(ev);
@@ -106,9 +104,9 @@ export class Keyboard {
 
 	/**
 	 * Returns `true` if shift key was presset at the moment of the event.
-	 * 
-	 * @param  {KeyboardEvent | MouseEvent}  ev  Event object
-	 * @return {boolean}                         Was shift pressed?
+	 *
+	 * @param ev  Event object
+	 * @return Was shift pressed?
 	 */
 	public shiftKey(ev: KeyboardEvent | MouseEvent): boolean {
 		return ev.shiftKey;
@@ -116,9 +114,9 @@ export class Keyboard {
 
 	/**
 	 * Returns `true` if ctrl key was presset at the moment of the event.
-	 * 
-	 * @param  {KeyboardEvent | MouseEvent}  ev  Event object
-	 * @return {boolean}                         Was ctrl pressed?
+	 *
+	 * @param ev  Event object
+	 * @return Was ctrl pressed?
 	 */
 	public ctrlKey(ev: KeyboardEvent | MouseEvent): boolean {
 		return ev.ctrlKey;
@@ -126,8 +124,8 @@ export class Keyboard {
 
 	/**
 	 * Returns `true` if alt key was presset at the moment of the event
-	 * @param  {KeyboardEvent | MouseEvent}  ev  Event object
-	 * @return {boolean}                         Was alt pressed?
+	 * @param ev  Event object
+	 * @return Was alt pressed?
 	 */
 	public altKey(ev: KeyboardEvent | MouseEvent): boolean {
 		return ev.altKey;
@@ -135,8 +133,8 @@ export class Keyboard {
 
 	/**
 	 * Returns `true` if meta key was presset at the moment of the event
-	 * @param  {KeyboardEvent | MouseEvent}  ev  Event object
-	 * @return {boolean}                         Was meta pressed?
+	 * @param ev  Event object
+	 * @return Was meta pressed?
 	 */
 	public metaKey(ev: KeyboardEvent | MouseEvent): boolean {
 		return ev.metaKey;

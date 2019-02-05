@@ -27,22 +27,16 @@ export interface IBulletProperties extends IContainerProperties {
 
 	/**
 	 * Relative horizontal location within cell. (0-1)
-	 *
-	 * @type {number}
 	 */
 	locationX?: number;
 
 	/**
 	 * Relative vertical location within cell. (0-1)
-	 *
-	 * @type {number}
 	 */
 	locationY?: number;
 
 	/**
 	 * Specifies if bullet needs to be redrawn if the underlying data changes.
-	 *
-	 * @type {boolean}
 	 */
 	isDynamic?: boolean;
 
@@ -50,7 +44,6 @@ export interface IBulletProperties extends IContainerProperties {
 	 * [string description]
 	 *
 	 * @todo Description
-	 * @type {string}
 	 */
 	xField?: string;
 
@@ -58,7 +51,6 @@ export interface IBulletProperties extends IContainerProperties {
 	 * [string description]
 	 *
 	 * @todo Description
-	 * @type {string}
 	 */
 	yField?: string;
 
@@ -101,22 +93,16 @@ export class Bullet extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IBulletProperties}
 	 */
 	public _properties!: IBulletProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IBulletAdapters}
 	 */
 	public _adapter!: IBulletAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IBulletEvents}
 	 */
 	public _events!: IBulletEvents;
 
@@ -139,14 +125,14 @@ export class Bullet extends Container {
 	/**
 	 * Relative horizontal location within cell. (0-1)
 	 *
-	 * @param {number}  value  Location (0-1)
+	 * @param value  Location (0-1)
 	 */
 	public set locationX(value: number) {
 		this.setPropertyValue("locationX", value, false, true);
 	}
 
 	/**
-	 * @return {number} Location (0-1)
+	 * @return Location (0-1)
 	 */
 	public get locationX(): number {
 		return this.getPropertyValue("locationX");
@@ -155,14 +141,14 @@ export class Bullet extends Container {
 	/**
 	 * Relative vertical location within cell. (0-1)
 	 *
-	 * @param {number}  value  Location (0-1)
+	 * @param value  Location (0-1)
 	 */
 	public set locationY(value: number) {
 		this.setPropertyValue("locationY", value, false, true);
 	}
 
 	/**
-	 * @return {number} Location (0-1)
+	 * @return Location (0-1)
 	 */
 	public get locationY(): number {
 		return this.getPropertyValue("locationY");
@@ -172,14 +158,14 @@ export class Bullet extends Container {
 	 * [xField description]
 	 *
 	 * @todo Description
-	 * @param {string}  value  [description]
+	 * @param value  [description]
 	 */
 	public set xField(value: string) {
 		this.setPropertyValue("xField", value, true);
 	}
 
 	/**
-	 * @return {string} [description]
+	 * @return [description]
 	 */
 	public get xField(): string {
 		return this.getPropertyValue("xField");
@@ -189,14 +175,14 @@ export class Bullet extends Container {
 	 * [yField description]
 	 *
 	 * Description
-	 * @param {string}  value  [description]
+	 * @param value  [description]
 	 */
 	public set yField(value: string) {
 		this.setPropertyValue("yField", value, true);
 	}
 
 	/**
-	 * @return {string} [description]
+	 * @return [description]
 	 */
 	public get yField(): string {
 		return this.getPropertyValue("yField");
@@ -215,14 +201,14 @@ export class Bullet extends Container {
 	 * time data changes. Regular bullets will be reused as they are.
 	 *
 	 * @default false
-	 * @param {boolean}  value  Redraw on data change?
+	 * @param value  Redraw on data change?
 	 */
 	public set isDynamic(value: boolean) {
 		this.setPropertyValue("isDynamic", value, true);
 	}
 
 	/**
-	 * @return {boolean} Redraw on data change?
+	 * @return Redraw on data change?
 	 */
 	public get isDynamic(): boolean {
 		return this.getPropertyValue("isDynamic");
@@ -233,14 +219,14 @@ export class Bullet extends Container {
 	 * Indicates if the bullet should be copied to legend marker
 	 *
 	 * @default false
-	 * @param {boolean}  value  Redraw on data change?
+	 * @param value  Redraw on data change?
 	 */
 	public set copyToLegendMarker(value: boolean) {
 		this.setPropertyValue("copyToLegendMarker", value);
 	}
 
 	/**
-	 * @return {boolean} Redraw on data change?
+	 * @return Redraw on data change?
 	 */
 	public get copyToLegendMarker(): boolean {
 		return this.getPropertyValue("copyToLegendMarker");

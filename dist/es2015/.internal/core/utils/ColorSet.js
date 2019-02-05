@@ -34,30 +34,22 @@ var ColorSet = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * Holds the list of the colors in this set. (preset or auto-generated)
-         *
-         * @type {Color[]}
          */
         _this._list = [];
         /**
          * Current step in a color generator's cycle.
-         *
-         * @type {number}
          */
         _this._currentStep = 0;
         /**
          * Current pass in the color generator's cycle. Normally a generator would
          * cycle through all available hue range, then repeat it, alternating other
          * color properties, to generate distinctive colors.
-         *
-         * @type {number}
          */
         _this._currentPass = 0;
         /**
          * A base color. If there are no colors pre-set in the color list, ColorSet
          * will use this color as a base when generating new ones, applying
          * `stepOptions` and `passOptions` to this base color.
-         *
-         * @type {Color}
          */
         _this.baseColor = new Color({
             r: 103,
@@ -66,8 +58,6 @@ var ColorSet = /** @class */ (function (_super) {
         });
         /**
          * Modifications to apply with each new generated color.
-         *
-         * @type {Partial<IColorSetStepOptions>}
          */
         _this.stepOptions = {};
         /**
@@ -75,8 +65,6 @@ var ColorSet = /** @class */ (function (_super) {
          * color generation.
          *
          * A "pass" is when ColorSet generates `minColors` number of colors.
-         *
-         * @type {Partial<IColorSetStepOptions>}
          */
         _this.passOptions = {
             brighten: -0.2
@@ -96,8 +84,6 @@ var ColorSet = /** @class */ (function (_super) {
          *
          * However, having bigger number will mean that `next()` iterator will go
          * through the list quicker, and the generator will kick sooner.
-         *
-         * @type {number}
          */
         _this.step = 1;
         /**
@@ -106,27 +92,19 @@ var ColorSet = /** @class */ (function (_super) {
          * This setting can be automatically overridden, if ColorSet has a list of
          * pre-set colors. In such case ColorSet will generate exactly the same
          * number of colors with each pass as there were colors in original set.
-         *
-         * @type {number}
          */
         _this.minColors = 20;
         /**
          * Do not let the "lightness" of generated color to fall below this
          * threshold.
-         *
-         * @type {number}
          */
         _this.minLightness = 0.2;
         /**
          * Do not let the "lightness" of generated color to get above this threshold.
-         *
-         * @type {number}
          */
         _this.maxLightness = 0.9;
         /**
          * Randomly shuffle generated colors.
-         *
-         * @type {boolean}
          */
         _this.shuffle = false;
         /**
@@ -143,15 +121,11 @@ var ColorSet = /** @class */ (function (_super) {
          * If set to `false` it will stop there and cap lightness at whatever level
          * we hit `minLightness` or `maxLightness`, which may result in a number of
          * the same colors.
-         *
-         * @type {boolean}
          */
         _this.wrap = true;
         /**
          * Re-use same colors in the pre-set list, when ColorSet runs out of colors,
          * rather than start generating new ones.
-         *
-         * @type {boolean}
          */
         _this.reuse = false;
         /**
@@ -160,8 +134,6 @@ var ColorSet = /** @class */ (function (_super) {
          *
          * It is recommended to set this in theme, as changing it at run time won't
          * make the items to redraw and change color.
-         *
-         * @type {boolean}
          */
         _this.saturation = 1;
         _this.className = "ColorSet";
@@ -175,7 +147,7 @@ var ColorSet = /** @class */ (function (_super) {
          * If there are none, a new list of colors is generated, based on various
          * ColorSet settings.
          *
-         * @return {Color[]} Color list
+         * @return Color list
          */
         get: function () {
             if (!this._list) {
@@ -186,7 +158,7 @@ var ColorSet = /** @class */ (function (_super) {
         /**
          * Sets a list of pre-defined colors to use for the iterator.
          *
-         * @param {Color[]} value Color list
+         * @param value Color list
          */
         set: function (value) {
             this._list = value;
@@ -200,7 +172,7 @@ var ColorSet = /** @class */ (function (_super) {
      * If `step` is set to something other than 1, it may return other color than
      * exact next one in the list.
      *
-     * @return {Color} Color
+     * @return Color
      */
     ColorSet.prototype.next = function () {
         if (this.list.length <= this._currentStep) {
@@ -216,8 +188,8 @@ var ColorSet = /** @class */ (function (_super) {
     /**
      * Returns a color at specific index in the list.
      *
-     * @param  {number}  i  Index
-     * @return {Color}      Color
+     * @param i  Index
+     * @return Color
      */
     ColorSet.prototype.getIndex = function (i) {
         if (this.list.length <= i) {
@@ -240,7 +212,7 @@ var ColorSet = /** @class */ (function (_super) {
     };
     Object.defineProperty(ColorSet.prototype, "currentStep", {
         /**
-         * @return {number} Step
+         * @return Step
          */
         get: function () {
             return this._currentStep;
@@ -252,7 +224,7 @@ var ColorSet = /** @class */ (function (_super) {
          *
          * Please note that the number is zero-based.
          *
-         * @param {number}  value  Step
+         * @param value  Step
          */
         set: function (value) {
             this._currentStep = value;
@@ -263,7 +235,7 @@ var ColorSet = /** @class */ (function (_super) {
     /**
      * Generates colors based on the various ColorSet settings.
      *
-     * @param {number} count Number of colors to generate
+     * @param count Number of colors to generate
      */
     ColorSet.prototype.generate = function (count) {
         // Init
@@ -342,7 +314,7 @@ var ColorSet = /** @class */ (function (_super) {
          * Returns current last color. It's either the last color in the list of
          * colors, or `baseColor` if list is empty.
          *
-         * @return {Color} Color
+         * @return Color
          */
         get: function () {
             if (this._list.length == 0) {
@@ -358,10 +330,10 @@ var ColorSet = /** @class */ (function (_super) {
     /**
      * Generates modifiers for color, based on what step and pass.
      *
-     * @param {iHSL}                  hsl   Curren HSL value of the color to modify
-     * @param {IColorSetStepOptions}  base  The modifiers that were before modification to use as a base
-     * @param {number}                step  Current step
-     * @param {number}                pass  Current pass
+     * @param hsl   Curren HSL value of the color to modify
+     * @param base  The modifiers that were before modification to use as a base
+     * @param step  Current step
+     * @param pass  Current pass
      */
     ColorSet.prototype.applyStepOptions = function (hsl, base, step, pass) {
         // Process lightness
@@ -389,7 +361,7 @@ var ColorSet = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     ColorSet.prototype.processConfig = function (config) {
         if (config) {

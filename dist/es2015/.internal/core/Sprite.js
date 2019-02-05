@@ -48,7 +48,7 @@ import { Percent } from "./utils/Percent";
 /**
  * Defines list ofvisual properties
  */
-export var visualProperties = ["fill", "fillOpacity", "stroke", "strokeOpacity", "strokeWidth", "strokeDasharray"]; // do not add opacity here, as it is used for showing/hiding
+export var visualProperties = ["fill", "fillOpacity", "stroke", "strokeOpacity", "strokeWidth", "strokeDasharray", "strokeDashoffset"]; // do not add opacity here, as it is used for showing/hiding
 ;
 /**
  * ============================================================================
@@ -93,17 +93,15 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this.properties = {};
         /**
-         * Event dispacther.
+         * Event dispatcher.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/event-listeners/} for more info about Events
-         * @type {SpriteEventDispatcher<AMEvent<Sprite, ISpriteEvents>>} Event dispatcher instance
          */
         _this.events = new SpriteEventDispatcher(_this);
         /**
          * Holds Adapter.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/adapters/} for more info about Adapters
-         * @type {Adapter<Sprite, ISpriteAdapters>}
          */
         _this.adapter = new Adapter(_this);
         /**
@@ -116,21 +114,18 @@ var Sprite = /** @class */ (function (_super) {
          * other Sprites from and should not be treated as full-fledged element.
          *
          * @ignore Exclude from docs
-         * @type {Optional<boolean>}
          */
         _this._isTemplate = false;
         /**
          * Holds indicator whether this sprite was already initialized.
          *
          * @ignore Exclude from docs
-         * @type {boolean}
          */
         _this._inited = false;
         /**
          * Holds indicator whether this sprite was already initialized and ready.
          *
          * @ignore Exclude from docs
-         * @type {boolean}
          */
         _this._ready = false;
         /**
@@ -138,24 +133,18 @@ var Sprite = /** @class */ (function (_super) {
          * `transitionDuration > 0`, we set `isHiding` flag to `true` in order to
          * avoid restarting animations in case `hide()` method is called multiple
          * times.
-         *
-         * @type {boolean}
          */
         _this.isHiding = false;
         /**
          * If `sprite.hide()` is called, we set isHidden to true when sprite is hidden.
          * This was added becaus hidden state might have visibility set to true and so
          * there would not be possible to find out if a sprite is technically hidden or not.
-         *
-         * @type {boolean}
          */
         _this._isHidden = false;
         /**
          * This property indicates if Sprite is currently being revealed from hidden
          * state. This is used to prevent multiple calls to `sprite.show()` to
          * restart reveal animation. (if enabled)
-         *
-         * @type {boolean}
          */
         _this.isShowing = false;
         /**
@@ -164,69 +153,59 @@ var Sprite = /** @class */ (function (_super) {
          * set of controls like Preloader, Export, etc.
          *
          * @ignore Exclude from docs
-         * @type {boolean}
          */
         _this.isStandaloneInstance = false;
         /**
          * Indicates if togglable Sprite is currently active (toggled on).
          *
          * @ignore Exclude from docs
-         * @type {boolean}
          */
         _this._isActive = false;
         /**
          * A Sprite element to use as a mask for this Sprite.
          *
          * @ignore Exclude from docs
-         * @type {MutableValueDisposer}
          */
         _this._mask = new MutableValueDisposer();
         /**
          * @ignore Exclude from docs
          * @todo Description
-         * @type {number}
          */
         _this._positionPrecision = 3;
         /**
          * An instance of [[Language]].
          *
          * @ignore Exclude from docs
-         * @type {Language}
          */
         _this._language = new MutableValueDisposer();
         /**
          * Indicates if the chart should follow right-to-left rules.
          *
          * @ignore Exclude from docs
-         * @type {boolean}
          */
         _this._rtl = false;
         /**
          * Holds [[Export]] object.
          *
          * @ignore Exclude from docs
-         * @type {Export}
          */
         _this._exporting = new MutableValueDisposer();
         /**
          * Defines bounding box (square) for this element.
          *
          * @ignore Exclude from docs
-         * @type {IRectangle}
          */
         _this._bbox = { x: 0, y: 0, width: 0, height: 0 };
         /**
          * Indicates if this element is invalid and should be re-validated (redrawn).
          *
          * @ignore Exclude from docs
-         * @type {boolean}
          */
         _this.invalid = false;
         /**
          * Indicates if this elements position is invalid and should be repositioned
          *
          * @ignore Exclude from docs
-         * @type {boolean}
          */
         _this.positionInvalid = false;
         /**
@@ -241,7 +220,6 @@ var Sprite = /** @class */ (function (_super) {
          * bindings.
          *
          * @see {@link SpriteState}
-         * @type {Object}
          */
         _this.propertyFields = {};
         /**
@@ -275,7 +253,6 @@ var Sprite = /** @class */ (function (_super) {
         _this._isDragged = false;
         /**
          * @deprecated Moved to [[SpriteProperties]]
-         * @type {boolean}
          */
         _this._disabled = false;
         _this._internalDisabled = false;
@@ -283,7 +260,6 @@ var Sprite = /** @class */ (function (_super) {
         _this._internalDefaultsApplied = false;
         /**
          * Time in milliseconds after which rollout event happens when user rolls-out of the sprite. This helps to avoid flickering in some cases.
-         * @type {number}
          */
         _this.rollOutDelay = 0;
         /**
@@ -298,8 +274,6 @@ var Sprite = /** @class */ (function (_super) {
          * Indicates whether this sprite should be cloned when cloning its parent
          * container. We set this to `false` in those cases when a sprite is created
          * by the class, so that when cloning a duplicate sprite would not appear.
-         *
-         * @type {boolean}
          */
         _this.shouldClone = true;
         /**
@@ -309,7 +283,6 @@ var Sprite = /** @class */ (function (_super) {
          * In case `showOnInit = false`, `appeared` is set to `true` on init.
          *
          * @readonly
-         * @type {boolean}
          */
         _this.appeared = false;
         /**
@@ -317,7 +290,6 @@ var Sprite = /** @class */ (function (_super) {
          *
          * @todo Description
          * @ignore
-         * @type {number}
          */
         _this.ex = 0;
         /**
@@ -325,7 +297,6 @@ var Sprite = /** @class */ (function (_super) {
          *
          * @todo Description
          * @ignore
-         * @type {number}
          */
         _this.ey = 0;
         _this.className = "Sprite";
@@ -419,7 +390,7 @@ var Sprite = /** @class */ (function (_super) {
      * Returns theme(s) used by this object either set explicitly on this
      * element, inherited from parent, or inherited from [[System]].
      *
-     * @return {ITheme} An array of theme references
+     * @return An array of theme references
      */
     Sprite.prototype.getCurrentThemes = function () {
         var themes = this._themes;
@@ -610,6 +581,7 @@ var Sprite = /** @class */ (function (_super) {
                         case "strokeWidth":
                         case "shapeRendering":
                         case "strokeDasharray":
+                        case "strokeDashoffset":
                         case "textDecoration":
                         case "fontSize":
                         case "fontFamily":
@@ -710,7 +682,7 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * Copies all parameters from another [[Sprite]].
      *
-     * @param {Sprite} source Source Sprite
+     * @param source Source Sprite
      */
     Sprite.prototype.copyFrom = function (source) {
         var _this = this;
@@ -788,6 +760,7 @@ var Sprite = /** @class */ (function (_super) {
             }
             if (this._interactionDisposer) {
                 this._interactionDisposer.dispose();
+                this._interactionDisposer = undefined;
             }
             if (this._urlDisposer) {
                 this._urlDisposer.dispose();
@@ -829,7 +802,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "isTemplate", {
         /**
          * @ignore Exclude from docs
-         * @return {boolean} Is template?
+         * @return Is template?
          */
         get: function () {
             return this._isTemplate;
@@ -844,7 +817,7 @@ var Sprite = /** @class */ (function (_super) {
          * otherwise are processed.
          *
          * @ignore Exclude from docs
-         * @param {boolean} value Is template?
+         * @param value Is template?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -869,7 +842,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "showSystemTooltip", {
         /**
-         * @return {boolean} Show system tooltip?
+         * @return Show system tooltip?
          */
         get: function () {
             if (!$type.hasValue(this._showSystemTooltip)) {
@@ -886,7 +859,7 @@ var Sprite = /** @class */ (function (_super) {
          * Indicates whether the element should attempt to construct itself in a way
          * so that system tooltip is shown if its `readerTitle` is set.
          *
-         * @param {boolean} value Show system tooltip?
+         * @param value Show system tooltip?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -907,7 +880,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * In most cases that will be a Chart.
          *
-         * @return {Optional<Container>} Top-level ascendant
+         * @return Top-level ascendant
          */
         get: function () {
             if (this._topParent) {
@@ -931,7 +904,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "parent", {
         /**
-         * @return {Optional<Container>} Parent container
+         * @return Parent container
          */
         get: function () {
             return this._parent;
@@ -939,7 +912,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Elements' parent [[Container]].
          *
-         * @param {Optional<Container>}  parent  Parent container
+         * @param parent  Parent container
          */
         set: function (parent) {
             if (this._isTemplate) {
@@ -977,7 +950,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "virtualParent", {
         /**
-         * @return {Optional<Container>} Virtual parent
+         * @return Virtual parent
          */
         get: function () {
             return this._virtualParent;
@@ -995,7 +968,7 @@ var Sprite = /** @class */ (function (_super) {
          * for it to inherit series' formatters.
          *
          * @ignore Exclude from docs
-         * @param {Sprite}  value  Virtual parent
+         * @param value  Virtual parent
          */
         set: function (value) {
             this._virtualParent = value;
@@ -1054,7 +1027,7 @@ var Sprite = /** @class */ (function (_super) {
          * console.log(mySprite.map.getKey("myid"));
          * ```
          *
-         * @return {Dictionary<string, any>} Map collection
+         * @return Map collection
          */
         get: function () {
             var top = this.topParent;
@@ -1071,7 +1044,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "id", {
         /**
-         * @return {string} ID
+         * @return ID
          */
         get: function () {
             return this._id;
@@ -1087,7 +1060,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * Make sure the IDs are unique.
          *
-         * @param {string} value ID
+         * @param value ID
          */
         set: function (value) {
             if (this._id != value) {
@@ -1117,7 +1090,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns DOM element reference associated with this element.
          *
          * @readonly
-         * @return {SVGSVGElement} DOM element
+         * @return DOM element
          */
         get: function () {
             return this.group.node;
@@ -1128,7 +1101,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "paper", {
         /**
          * @ignore Exclude from docs
-         * @return {Paper} Paper
+         * @return Paper
          */
         get: function () {
             if (this._paper) {
@@ -1154,7 +1127,7 @@ var Sprite = /** @class */ (function (_super) {
          * [[Paper]] instance itself.
          *
          * @ignore Exclude from docs
-         * @param {Paper}  paper  Paper
+         * @param paper  Paper
          */
         set: function (paper) {
             this.setPaper(paper);
@@ -1165,8 +1138,8 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * Sets [[Paper]] instance to use to draw elements.
      * @ignore
-     * @param {Paper} paper Paper
-     * @return {boolean} true if paper was changed, false, if it's the same
+     * @param paper Paper
+     * @return true if paper was changed, false, if it's the same
      */
     Sprite.prototype.setPaper = function (paper) {
         var oldPaper = this._paper;
@@ -1179,7 +1152,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "htmlContainer", {
         /**
-         * @return {Optional<HTMLElement>} HTML element
+         * @return HTML element
          */
         get: function () {
             if (this._htmlContainer) {
@@ -1197,7 +1170,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * This is the same for **all** elements within the same chart.
          *
-         * @param {Optional<HTMLElement>} htmlContainer HTML element
+         * @param htmlContainer HTML element
          */
         set: function (htmlContainer) {
             this._htmlContainer = htmlContainer;
@@ -1210,7 +1183,7 @@ var Sprite = /** @class */ (function (_super) {
          * Creates (if not yet created) and returns element's `<title>` element.
          *
          * @ignore Exclude from docs
-         * @return {AMElement} Title element
+         * @return Title element
          */
         get: function () {
             if (!this._titleElement) {
@@ -1227,7 +1200,7 @@ var Sprite = /** @class */ (function (_super) {
          * Creates (if not yet created) and returns element's `<desc>` element.
          *
          * @ignore Exclude from docs
-         * @return {AMElement} Desc element
+         * @return Desc element
          */
         get: function () {
             if (!this._descriptionElement) {
@@ -1245,7 +1218,7 @@ var Sprite = /** @class */ (function (_super) {
          * list is not yet initilized, creates and returns an empty one.
          * Note, not all filters combine well with one another. We recommend using one filter per sprite.
          *
-         * @return {List<Filter>} List of filters
+         * @return List of filters
          */
         get: function () {
             if (!this._filters) {
@@ -1273,6 +1246,7 @@ var Sprite = /** @class */ (function (_super) {
         this.strokeOpacity = this.strokeOpacity;
         this.shapeRendering = this.shapeRendering;
         this.strokeDasharray = this.strokeDasharray;
+        this.strokeDashoffset = this.strokeDashoffset;
         this.focusable = this.focusable;
         this.tabindex = this.tabindex;
         this.role = this.role;
@@ -1281,7 +1255,7 @@ var Sprite = /** @class */ (function (_super) {
      * Sets an attribute directly on an SVG element.
      *
      * @ignore Exclude from docs
-     * @param {ISVGAttribute} attribute Attribute object
+     * @param attribute Attribute object
      */
     Sprite.prototype.setSVGAttribute = function (attribute) {
         this.group.attr(attribute);
@@ -1289,7 +1263,7 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * Removes an attribute directly from SVG element.
      *
-     * @param {string} attribute Attribute key to remove
+     * @param attribute Attribute key to remove
      */
     Sprite.prototype.removeSVGAttribute = function (attribute) {
         this.group.removeAttr(attribute);
@@ -1316,7 +1290,7 @@ var Sprite = /** @class */ (function (_super) {
      * Adds an `id` attribute the the element and returns the id.
      *
      * @ignore Exclude from docs
-     * @return {string} Element's ID
+     * @return Element's ID
      */
     Sprite.prototype.uidAttr = function () {
         this.setSVGAttribute({ "id": this.uid });
@@ -1444,7 +1418,7 @@ var Sprite = /** @class */ (function (_super) {
      *
      * @ignore
      * @todo Description
-     * @param {AMElement} element [description]
+     * @param element [description]
      */
     Sprite.prototype.setElement = function (element) {
         this.element = element;
@@ -1453,7 +1427,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "element", {
         /**
-         * @return {AMElement} Element
+         * @return Element
          */
         get: function () {
             return this._element;
@@ -1463,7 +1437,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * All other sub-elements are created in it.
          *
-         * @param {Optional<AMElement>}  element  Element
+         * @param element  Element
          */
         set: function (element) {
             // Destroy previous element if there was one before
@@ -1492,7 +1466,7 @@ var Sprite = /** @class */ (function (_super) {
          * HTML container (`<div>`) which is used to place chart's `<svg>` element
          * in.
          *
-         * @return {Optional<SVGContainer>} Container for chart elements
+         * @return Container for chart elements
          */
         get: function () {
             if (this._svgContainer) {
@@ -1507,7 +1481,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Sets HTML container to add SVG and other chart elements to.
          *
-         * @param {Optional<SVGContainer>} svgContainer Container for chart elements
+         * @param svgContainer Container for chart elements
          */
         set: function (svgContainer) {
             this._svgContainer = svgContainer;
@@ -1617,7 +1591,7 @@ var Sprite = /** @class */ (function (_super) {
      * Returns `true` if the size has changed from the last measurement.
      *
      * @ignore Exclude from docs
-     * @return {boolean} Did the size changed from the last measurement?
+     * @return Did the size changed from the last measurement?
      */
     Sprite.prototype.measure = function () {
         this.updateCenter();
@@ -1693,8 +1667,8 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * Insert this element before sibling element.
      *
-     * @param  {Sprite}  sprite  Target element
-     * @return {Sprite}          This element
+     * @param sprite  Target element
+     * @return This element
      */
     Sprite.prototype.insertBefore = function (sprite) {
         var parent = this.parent;
@@ -1710,8 +1684,8 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * Insert this element after sibling element.
      *
-     * @param  {Sprite}  sprite  Target element
-     * @return {Sprite}          This element
+     * @param sprite  Target element
+     * @return This element
      */
     Sprite.prototype.insertAfter = function (sprite) {
         var parent = this.parent;
@@ -1745,8 +1719,8 @@ var Sprite = /** @class */ (function (_super) {
      * A relative value is a hundredth of a percent. So 100% would result in a 1
      * as relative value.
      *
-     * @param  {number | Percent}  value  Absolute or relative X coordinate
-     * @return {number}                   Relative value
+     * @param value  Absolute or relative X coordinate
+     * @return Relative value
      */
     Sprite.prototype.getRelativeX = function (value) {
         if (value instanceof Percent) {
@@ -1763,8 +1737,8 @@ var Sprite = /** @class */ (function (_super) {
      * A relative value is a hundredth of a percent. So 100% would result in a 1
      * as relative value.
      *
-     * @param  {number | Percent}  value  Absolute or relative Y coordinate
-     * @return {number}                   Relative value
+     * @param value  Absolute or relative Y coordinate
+     * @return Relative value
      */
     Sprite.prototype.getRelativeY = function (value) {
         if (value instanceof Percent) {
@@ -1783,8 +1757,8 @@ var Sprite = /** @class */ (function (_super) {
      *
      * If [[Percent]] is passed in, it will be recalculated to pixels.
      *
-     * @param  {number | Percent}  value  Absolute or relative X coordinate
-     * @return {number}                   X coordinate in pixels
+     * @param value  Absolute or relative X coordinate
+     * @return X coordinate in pixels
      */
     Sprite.prototype.getPixelX = function (value) {
         // we don't use $utils.valueToRelative as this would mean that we should access parent.innerWidth
@@ -1809,8 +1783,8 @@ var Sprite = /** @class */ (function (_super) {
      *
      * If [[Percent]] is passed in, it will be recalculated to pixels.
      *
-     * @param  {number | Percent}  value  Absolute or relative Y coordinate
-     * @return {number}                   Y coordinate in pixels
+     * @param value  Absolute or relative Y coordinate
+     * @return Y coordinate in pixels
      */
     Sprite.prototype.getPixelY = function (value) {
         // we don't use $utils.valueToRelative as this would mean that we should access parent.innerWidth
@@ -1840,9 +1814,9 @@ var Sprite = /** @class */ (function (_super) {
      * Besides moving the element, you can also at the same time scale and
      * rotate the element.
      *
-     * @param {IPoint}  point     New coordinates
-     * @param {number}  rotation  New rotation
-     * @param {number}  scale     New Scale
+     * @param point     New coordinates
+     * @param rotation  New rotation
+     * @param scale     New Scale
      */
     Sprite.prototype.moveTo = function (point, rotation, scale, isDragged) {
         if (this.isDragged && !isDragged) {
@@ -1870,7 +1844,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns [[Sprite]] element currently used as mask for this element.
          *
          * @ignore Exclude from docs
-         * @return {Optional<Sprite>} A [[Sprite]] to use as mask
+         * @return A [[Sprite]] to use as mask
          */
         get: function () {
             return this.adapter.apply("mask", this._mask.get());
@@ -1879,7 +1853,7 @@ var Sprite = /** @class */ (function (_super) {
          * Sets another [[Sprite]] element as this elements mask.
          *
          * @ignore Exclude from docs
-         * @param {Optional<Sprite>} mask A [[Sprite]] to use as mask
+         * @param mask A [[Sprite]] to use as mask
          */
         set: function (mask) {
             var _this = this;
@@ -1922,7 +1896,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "maskRectangle", {
         /**
          * @ignore Exclude from docs
-         * @return {IRectangle} Mask Rectangle
+         * @return Mask Rectangle
          */
         get: function () {
             return this._maskRectangle;
@@ -1936,7 +1910,7 @@ var Sprite = /** @class */ (function (_super) {
          * rectangle.
          *
          * @ignore Exclude from docs
-         * @param {IRectangle} rect Mask Rectangle
+         * @param rect Mask Rectangle
          */
         set: function (rect) {
             if (rect) {
@@ -1959,7 +1933,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "isMeasured", {
         /**
          * @ignore Exclude from docs
-         * @return {boolean} Was element already measured?
+         * @return Was element already measured?
          */
         get: function () {
             return this._isMeasured;
@@ -1968,7 +1942,7 @@ var Sprite = /** @class */ (function (_super) {
          * Indicates if this element was already measured.
          *
          * @ignore Exclude from docs
-         * @param {boolean} value Was element already measured?
+         * @param value Was element already measured?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -1991,8 +1965,8 @@ var Sprite = /** @class */ (function (_super) {
      * element.
      *
      * @todo Description (review)
-     * @param  {Sprite}   sprite  Second element to test again
-     * @return {boolean}          Overlapping?
+     * @param sprite  Second element to test again
+     * @return Overlapping?
      */
     Sprite.prototype.hitTest = function (sprite) {
         // validate, otherwise we will not know measuredWidth and measuredHeight
@@ -2022,7 +1996,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Returns `true` if Sprite has already finished initializing.
          *
-         * @return {boolean} Initialized?
+         * @return Initialized?
          */
         get: function () {
             return this._inited;
@@ -2036,7 +2010,7 @@ var Sprite = /** @class */ (function (_super) {
      * If this object is a [[Container]] it will wait for all of its children
      * are ready before becoming ready itself and firing a `"ready"` event.
      *
-     * @return {boolean} is ready?
+     * @return is ready?
      */
     Sprite.prototype.isReady = function () {
         return this._ready;
@@ -2046,7 +2020,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns a collection of element's available [[SpriteState]] entries.
          *
          * @see {@link SpriteState}
-         * @return {DictionaryTemplate<string, SpriteState>} States
+         * @return States
          */
         get: function () {
             if (!this._states) {
@@ -2070,7 +2044,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * This is a shortcut to `this.states.getKey("hidden")`.
          *
-         * @return {SpriteState} Hidden state
+         * @return Hidden state
          */
         get: function () {
             if (!this.states.getKey("hidden")) {
@@ -2089,7 +2063,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * This is a shortcut to `this.states.getKey("default")`.
          *
-         * @return {SpriteState} Hidden state
+         * @return Hidden state
          */
         get: function () {
             if (!this.states.getKey("default")) {
@@ -2109,7 +2083,7 @@ var Sprite = /** @class */ (function (_super) {
      * make it "clickable".
      *
      * @ignore Exclude from docs
-     * @param {IDictionaryEvents<string, SpriteState>["insertKey" | "setKey"]} event An event which caused state list update
+     * @param event An event which caused state list update
      */
     Sprite.prototype.processState = function (event) {
         var state = event.newValue;
@@ -2142,7 +2116,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * If the list has not been initialized it is created.
          *
-         * @return {Array<Animation>} List of animations
+         * @return List of animations
          */
         get: function () {
             if (!this._animations) {
@@ -2158,8 +2132,8 @@ var Sprite = /** @class */ (function (_super) {
      * Converts element's local coordinates to the coordinates within the main
      * chart container.
      *
-     * @param  {IPoint}  point  Local point
-     * @return {IPoint}         Global point
+     * @param point  Local point
+     * @return Global point
      */
     Sprite.prototype.getSvgPoint = function (point) {
         // Calculate SVG point
@@ -2173,10 +2147,10 @@ var Sprite = /** @class */ (function (_super) {
      * Creates and starts an [[Animation]] with given `animationOptions`.
      *
      * @see {@link Animation} for additional information about available options
-     * @param  {ISpriteAnimationOptions[] | ISpriteAnimationOptions}  animationOptions  Animation options
-     * @param  {number}                                               duration          Duration in milliseconds
-     * @param  {(number) => number}                                   easing            Easing function
-     * @return {Animation}                                                              Animation instance
+     * @param animationOptions  Animation options
+     * @param duration          Duration in milliseconds
+     * @param easing            Easing function
+     * @return Animation instance
      */
     Sprite.prototype.animate = function (animationOptions, duration, easing) {
         return new Animation(this, animationOptions, duration, easing).start();
@@ -2192,9 +2166,9 @@ var Sprite = /** @class */ (function (_super) {
      * element, i.e. are in the `properties` array.
      *
      * @see {@link SpriteState}
-     * @param {string | SpriteState} value               A state - name key or instance
-     * @param {number}               transitionDuration  Duration of the transition between current and new state
-     * @param {number) => number}    easing              An easing function
+     * @param value               A state - name key or instance
+     * @param transitionDuration  Duration of the transition between current and new state
+     * @param easing              An easing function
      */
     Sprite.prototype.setState = function (value, transitionDuration, easing) {
         var state;
@@ -2250,8 +2224,8 @@ var Sprite = /** @class */ (function (_super) {
      * Returns an [[Animation]] object, which is handling gradual transition from
      * current values of properties, to the new target state(s).
      *
-     * @param  {number}     duration  Duration for the animation (ms)
-     * @return {Optional<Animation>}  [[Animation]] object which is handling the transition
+     * @param duration  Duration for the animation (ms)
+     * @return [[Animation]] object which is handling the transition
      */
     Sprite.prototype.applyCurrentState = function (duration) {
         //if (!this.isHidden) { // this was done for hover state not to take effect if "hidden" is actually visible, need to think about it.
@@ -2277,10 +2251,10 @@ var Sprite = /** @class */ (function (_super) {
      * set in `state`.
      *
      * @ignore Exclude from docs
-     * @param  {SpriteState}         state     Target State
-     * @param  {number}              duration  Duration in milliseconds
-     * @param  {(number) => number}  easing    Easing function
-     * @return {Animation}                     Transition Animation
+     * @param state     Target State
+     * @param duration  Duration in milliseconds
+     * @param easing    Easing function
+     * @return Transition Animation
      */
     Sprite.prototype.transitTo = function (state, duration, easing) {
         var _this = this;
@@ -2348,7 +2322,7 @@ var Sprite = /** @class */ (function (_super) {
      * Returns `true` if Sprite is currently transiting from one state/value to
      * another.
      *
-     * @return {boolean} Is in transition?
+     * @return Is in transition?
      */
     Sprite.prototype.isInTransition = function () {
         return this.animations.length > 0;
@@ -2358,7 +2332,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns indicator if this element has a mouse pointer currently hovering
          * over it, or if it has any touch pointers pressed on it.
          *
-         * @return {boolean} Is hovered?
+         * @return Is hovered?
          */
         get: function () {
             if (this.isInteractive()) {
@@ -2370,7 +2344,7 @@ var Sprite = /** @class */ (function (_super) {
          * Indicates if this element has a mouse pointer currently hovering
          * over it, or if it has any touch pointers pressed on it.
          *
-         * @param {boolean} value Is hovered?
+         * @param value Is hovered?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -2393,7 +2367,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Returns indicator if this element is being dragged at the moment.
          *
-         * @return {boolean} Is dragged?
+         * @return Is dragged?
          */
         get: function () {
             return this._isDragged;
@@ -2403,7 +2377,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "isDown", {
         /**
-         * @return {boolean} Is down?
+         * @return Is down?
          */
         get: function () {
             if (this.isInteractive()) {
@@ -2415,7 +2389,7 @@ var Sprite = /** @class */ (function (_super) {
          * Indicates if this element has any pointers (mouse or touch) pressing down
          * on it.
          *
-         * @param {boolean} value Is down?
+         * @param value Is down?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -2434,7 +2408,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "isFocused", {
         /**
-         * @return {boolean} Is focused?
+         * @return Is focused?
          */
         get: function () {
             if (this.isInteractive()) {
@@ -2445,7 +2419,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Indicates if this element is focused (possibly by tab navigation).
          *
-         * @param {boolean} value Is focused?
+         * @param value Is focused?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -2466,7 +2440,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "isActive", {
         /**
-         * @return {boolean} Is active?
+         * @return Is active?
          */
         get: function () {
             return this._isActive;
@@ -2475,7 +2449,7 @@ var Sprite = /** @class */ (function (_super) {
          * Indicates if this element is currently active (toggled on) or not
          * (toggled off).
          *
-         * @param {boolean} value Is active?
+         * @param value Is active?
          */
         set: function (value) {
             this.setActive(value);
@@ -2501,7 +2475,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "disabled", {
         /**
-         * @return {boolean} Disabled?
+         * @return Disabled?
          */
         get: function () {
             //if(this._internalDisabled){
@@ -2530,7 +2504,7 @@ var Sprite = /** @class */ (function (_super) {
          * The element itself is not destroyed, though. Setting this back to `false`,
          * will "resurrect" the element.
          *
-         * @param {boolean}  value  Disabled?
+         * @param value  Disabled?
          */
         set: function (value) {
             this.setDisabled(value);
@@ -2576,7 +2550,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "__disabled", {
         /**
          * @ignore
-         * @return {boolean} Disabled?
+         * @return Disabled?
          */
         get: function () {
             return this._internalDisabled;
@@ -2587,7 +2561,7 @@ var Sprite = /** @class */ (function (_super) {
          * Do not use it for disabling elements. Use `disabled` accessor instead.
          *
          * @ignore Exclude from docs
-         * @param {boolean} value Disabled?
+         * @param value Disabled?
          */
         set: function (value) {
             if (this._internalDisabled != value) {
@@ -2601,7 +2575,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "numberFormatter", {
         /**
-         * @return {NumberFormatter} A [[NumberFormatter]] instance to be used
+         * @return A [[NumberFormatter]] instance to be used
          */
         get: function () {
             if (this._numberFormatter) {
@@ -2650,7 +2624,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          *
          * @see {@link NumberFormatter} for more info on formatting numbers
-         * @param {NumberFormatter}  value  An instance of NumberFormatter
+         * @param value  An instance of NumberFormatter
          */
         set: function (value) {
             this._numberFormatter = value;
@@ -2661,7 +2635,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "dateFormatter", {
         /**
-         * @return {DateFormatter} An instance of DateFormatter
+         * @return An instance of DateFormatter
          */
         get: function () {
             if (this._dateFormatter) {
@@ -2703,7 +2677,7 @@ var Sprite = /** @class */ (function (_super) {
          * all the way up to the chart itself.
          *
          * @see {@link DateFormatter} for more info on dates formatting
-         * @param {DateFormatter}  value  An instance of DateFormatter
+         * @param value  An instance of DateFormatter
          */
         set: function (value) {
             this._dateFormatter = value;
@@ -2714,7 +2688,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "durationFormatter", {
         /**
-         * @return {DurationFormatter} An instance of DurationFormatter
+         * @return An instance of DurationFormatter
          */
         get: function () {
             if (this._durationFormatter) {
@@ -2741,7 +2715,7 @@ var Sprite = /** @class */ (function (_super) {
          * all the way up to the chart itself.
          *
          * @see {@link DurationFormatter} for more info on durations
-         * @param {DurationFormatter}  value  An instance of DurationFormatter
+         * @param value  An instance of DurationFormatter
          */
         set: function (value) {
             this._durationFormatter = value;
@@ -2752,7 +2726,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "language", {
         /**
-         * @return {Language} An instance of Language
+         * @return An instance of Language
          */
         get: function () {
             var language = this._language.get();
@@ -2777,7 +2751,7 @@ var Sprite = /** @class */ (function (_super) {
          * All other element child elements will automatically re-use that language
          * object.
          *
-         * @param {Language}  value  An instance of Language
+         * @param value  An instance of Language
          */
         set: function (value) {
             var _this = this;
@@ -2823,9 +2797,9 @@ var Sprite = /** @class */ (function (_super) {
      * * Parent's properties
      *
      * @ignore Exclude from docs
-     * @param  {string}    string            A string to format
-     * @param  {DataItem}  dataItem          DataItem
-     * @return {string}                      Formatted string
+     * @param string            A string to format
+     * @param dataItem          DataItem
+     * @return Formatted string
      */
     Sprite.prototype.populateString = function (string, dataItem) {
         if ($type.hasValue(string)) {
@@ -2862,10 +2836,10 @@ var Sprite = /** @class */ (function (_super) {
      * @see {@link NumberFormatter}
      * @see {@link DateFormatter}
      * @see {@link DurationFormatter}
-     * @param  {string}    tagName           Tag name to replace
-     * @param  {string}    format            Format to use
-     * @param  {DataItem}  dataItem          DataItem
-     * @return {string}                      Formatted value
+     * @param tagName           Tag name to replace
+     * @param format            Format to use
+     * @param dataItem          DataItem
+     * @return Formatted value
      */
     Sprite.prototype.getTagValue = function (tagName, format, dataItem) {
         var value;
@@ -2939,10 +2913,10 @@ var Sprite = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (improve)
-     * @param  {any[]}   parts   Properties ant methods to access
-     * @param  {any}     object  Source object
-     * @param  {string}  format  A specific format to apply
-     * @return {any}             Formatted value
+     * @param parts   Properties ant methods to access
+     * @param object  Source object
+     * @param format  A specific format to apply
+     * @return Formatted value
      */
     Sprite.prototype.getTagValueFromObject = function (parts, object, format) {
         var current = object;
@@ -3040,7 +3014,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "dataItem", {
         /**
-         * @return {this} [[DataItem]]
+         * @return [[DataItem]]
          */
         get: function () {
             if (!this._dataItem) {
@@ -3057,7 +3031,7 @@ var Sprite = /** @class */ (function (_super) {
          * A [[DataItem]] to use as element's data source.
          *
          * @todo Review type
-         * @param {this["_dataItem"]}  dataItem  DataItem
+         * @param dataItem  DataItem
          */
         set: function (dataItem) {
             //an not use this["_dataItem"] here, as we return parent data item if this sprite doesn't have one.
@@ -3073,7 +3047,7 @@ var Sprite = /** @class */ (function (_super) {
      * If the element has also `configField` set, it will also look for any
      * config in DataItem's data context to apply to this element.
      *
-     * @param {DataItem} dataItem DataItem
+     * @param dataItem DataItem
      */
     Sprite.prototype.setDataItem = function (dataItem) {
         var _this = this;
@@ -3109,8 +3083,8 @@ var Sprite = /** @class */ (function (_super) {
      *
      * Will also apply any adapters bound to `propertyName`.
      *
-     * @param  {ISpriteProperties}  propertyName  Property name
-     * @return {any}                              Property value
+     * @param propertyName  Property name
+     * @return Property value
      */
     Sprite.prototype.getPropertyValue = function (propertyName) {
         var propValue = this.properties[propertyName];
@@ -3150,11 +3124,11 @@ var Sprite = /** @class */ (function (_super) {
      * Sets elements's property value. Will also propagate the same property value
      * on all element's clones.
      *
-     * @param  {this["_properties"]}  property    Property
-     * @param  {any}                  value       Value
-     * @param  {boolean}              invalidate  Should the sprite be invalidated, cause it's re-rendering
-     * @param  {boolean}              transform   Re-apply positioning of the element
-     * @return {boolean}                          Did the value change? It will return `true` if the new value and the old value of the property are not the same
+     * @param property    Property
+     * @param value       Value
+     * @param invalidate  Should the sprite be invalidated, cause it's re-rendering
+     * @param transform   Re-apply positioning of the element
+     * @return Did the value change? It will return `true` if the new value and the old value of the property are not the same
      * @todo Review propagation to clones. Right now we simply check if clone is disposed before setting the same property on it. It's better to remove from clone list altogether.
      */
     Sprite.prototype.setPropertyValue = function (property, value, invalidate, transform) {
@@ -3215,10 +3189,10 @@ var Sprite = /** @class */ (function (_super) {
      * or properties.
      *
      * @ignore Exclude from docs
-     * @param   {string | string[]}  property  Element's property name
-     * @param   {function}           listener  Handler function
-     * @param   {C}                  context   Context for handler function
-     * @returns {IDisposer}                    Event Disposer
+     * @param property  Element's property name
+     * @param listener  Handler function
+     * @param context   Context for handler function
+     * @returns Event Disposer
      */
     Sprite.prototype.observe = function (property, listener, context) {
         var _this = this;
@@ -3352,7 +3326,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "readerTitle", {
         /**
-         * @return {string} Title
+         * @return Title
          */
         get: function () {
             return this.getPropertyValue("readerTitle");
@@ -3360,7 +3334,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Screen reader title of the element.
          *
-         * @param {string} value Title
+         * @param value Title
          */
         set: function (value) {
             value = $type.toText(value);
@@ -3373,7 +3347,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "readerDescription", {
         /**
-         * @return {string} Description
+         * @return Description
          */
         get: function () {
             return this.getPropertyValue("readerDescription");
@@ -3381,7 +3355,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Screen reader description of the element.
          *
-         * @param {string} value Description
+         * @param value Description
          */
         set: function (value) {
             value = $type.toText(value);
@@ -3394,7 +3368,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "role", {
         /**
-         * @return {Roles} Role
+         * @return Role
          */
         get: function () {
             return this.getPropertyValue("role");
@@ -3403,7 +3377,7 @@ var Sprite = /** @class */ (function (_super) {
          * A WAI-ARIA role for the element.
          *
          * @see {@link https://www.w3.org/TR/wai-aria-1.1/#role_definitions} for more information on WAI-ARIA roles
-         * @param {Roles}  value  Role
+         * @param value  Role
          */
         set: function (value) {
             value = $type.toText(value);
@@ -3416,7 +3390,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "readerHidden", {
         /**
-         * @return {boolean} Hidden?
+         * @return Hidden?
          */
         get: function () {
             return this.getPropertyValue("readerHidden");
@@ -3425,7 +3399,7 @@ var Sprite = /** @class */ (function (_super) {
          * Controls if element should be hidden from screen readers.
          *
          * @see {@link https://www.w3.org/TR/wai-aria-1.1/#aria-hidden} for more information
-         * @param {boolean}  value  Hidden?
+         * @param value  Hidden?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -3439,7 +3413,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "readerChecked", {
         /**
          * @ignore Exclude from docs
-         * @return {boolean} Checked?
+         * @return Checked?
          */
         get: function () {
             return this.getPropertyValue("readerChecked");
@@ -3449,7 +3423,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @see {@link https://www.w3.org/TR/wai-aria-1.1/#aria-checked} for more information
-         * @param {boolean} value Checked?
+         * @param value Checked?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -3463,7 +3437,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "readerControls", {
         /**
          * @ignore Exclude from docs
-         * @return {string} Setting value
+         * @return Setting value
          */
         get: function () {
             return this.getPropertyValue("readerControls");
@@ -3473,7 +3447,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @see {@link https://www.w3.org/TR/wai-aria-1.1/#aria-controls} for more information
-         * @param {string} value Setting value
+         * @param value Setting value
          */
         set: function (value) {
             value = $type.toText(value);
@@ -3487,7 +3461,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "readerLive", {
         /**
          * @ignore Exclude from docs
-         * @return {AriaLive} Setting value
+         * @return Setting value
          */
         get: function () {
             return this.getPropertyValue("readerLive");
@@ -3497,7 +3471,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @see {@link https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions} for more information
-         * @param {AriaLive} value Setting value
+         * @param value Setting value
          */
         set: function (value) {
             value = $type.toText(value);
@@ -3511,7 +3485,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "readerLabelledBy", {
         /**
          * @ignore Exclude from docs
-         * @return {Sprite} Target element
+         * @return Target element
          */
         get: function () {
             return this.getPropertyValue("readerLabelledBy");
@@ -3521,7 +3495,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @see {@link https://www.w3.org/TR/wai-aria-1.1/#aria-labelledby} for more information
-         * @param {Sprite} value Target element
+         * @param value Target element
          */
         set: function (value) {
             value = $type.toText(value);
@@ -3535,7 +3509,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "readerDescribedBy", {
         /**
          * @ignore Exclude from docs
-         * @return {Sprite} Target element
+         * @return Target element
          */
         get: function () {
             return this.getPropertyValue("readerDescribedBy");
@@ -3545,7 +3519,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @see {@link https://www.w3.org/TR/wai-aria-1.1/#aria-describedby} for more information
-         * @param {Sprite} value Target element
+         * @param value Target element
          */
         set: function (value) {
             value = $type.toText(value);
@@ -3566,7 +3540,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Returns elements keyboard options.
          *
-         * @return {IKeyboardOptions} Keyboard options
+         * @return Keyboard options
          */
         get: function () {
             if (!this.interactions.keyboardOptions) {
@@ -3590,7 +3564,7 @@ var Sprite = /** @class */ (function (_super) {
          * [[InteractionObject]] is used to attach all kinds of user-interactions to
          * the element, e.g. click/touch, dragging, hovering, and similar events.
          *
-         * @return {InteractionObject} Interaction object
+         * @return Interaction object
          */
         get: function () {
             if (!this._interaction) {
@@ -3614,7 +3588,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     /**
      * Returns true if interactions object was created. Mostly used just to avoid creating interactions object if not needed.
-     * @return {boolean} Is Sprite interactive?
+     * @return Is Sprite interactive?
      */
     Sprite.prototype.isInteractive = function () {
         if (this._interaction) {
@@ -3626,7 +3600,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "focusable", {
         /**
-         * @return {Optional<boolean>} Can element be focused?
+         * @return Can element be focused?
          */
         get: function () {
             return this.getPropertyValue("focusable");
@@ -3652,7 +3626,7 @@ var Sprite = /** @class */ (function (_super) {
          * are not focusable, except certain items like buttons, legend items, etc.
          *
          * @default undefined (auto)
-         * @param {Optional<boolean>}  value  Can element be focused?
+         * @param value  Can element be focused?
          */
         set: function (value) {
             var _this = this;
@@ -3684,7 +3658,7 @@ var Sprite = /** @class */ (function (_super) {
      * Applies filters (if set) when element gains focus.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["focus"]} ev Original event
+     * @param ev Original event
      */
     Sprite.prototype.handleFocus = function (ev) {
         if (this.focusable) {
@@ -3707,7 +3681,7 @@ var Sprite = /** @class */ (function (_super) {
      * Removes focus filter (if set) when elementloses focus.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["blur"]} ev Original event
+     * @param ev Original event
      */
     Sprite.prototype.handleBlur = function (ev) {
         if (this.focusable) {
@@ -3758,7 +3732,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * @see {@link Filter}
          * @ignore Exclude from docs
-         * @return {Optional<Filter>} Focused element filter
+         * @return Focused element filter
          * @todo This is still experimental, use at your own risk.
          */
         get: function () {
@@ -3793,7 +3767,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "hoverOnFocus", {
         /**
-         * @return {boolean} Trigger hover on focus?
+         * @return Trigger hover on focus?
          */
         get: function () {
             return this.getPropertyValue("hoverOnFocus");
@@ -3806,7 +3780,7 @@ var Sprite = /** @class */ (function (_super) {
          * Useful as an accessibility feature to display rollover tooltips on items
          * selected via keyboard.
          *
-         * @param {boolean}  value  Trigger hover on focus?
+         * @param value  Trigger hover on focus?
          * @default false
          */
         set: function (value) {
@@ -3821,7 +3795,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Returns current TAB index for focusable item.
          *
-         * @return {number} TAB index
+         * @return TAB index
          */
         get: function () {
             var index = this._tabindex;
@@ -3846,7 +3820,7 @@ var Sprite = /** @class */ (function (_super) {
          * setting tab indexes, as it affects the user experience for the whole
          * web page.
          *
-         * @param {number} value TAB index
+         * @param value TAB index
          */
         set: function (value) {
             value = $type.toNumber(value);
@@ -3884,7 +3858,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * Check [[IInertiaOptions]] for how you tweak inertia animations.
          *
-         * @return {Dictionary<InertiaTypes, IInertiaOptions>} Inertia options
+         * @return Inertia options
          */
         get: function () {
             if (!this.interactions.inertiaOptions) {
@@ -3899,7 +3873,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "draggable", {
         /**
-         * @return {boolean} `true` if element can be dragged
+         * @return `true` if element can be dragged
          */
         get: function () {
             return this.getPropertyValue("draggable");
@@ -3907,7 +3881,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Controls if the element is draggable.
          *
-         * @param {boolean}  value  `true` if element can be dragged
+         * @param value  `true` if element can be dragged
          */
         set: function (value) {
             var _this = this;
@@ -3961,7 +3935,7 @@ var Sprite = /** @class */ (function (_super) {
      * might happen if you have several objects being dragged on a touch device.
      *
      * @ignore Exclude from docs
-     * @param {IPointer} pointer Pointer to use for movement
+     * @param pointer Pointer to use for movement
      */
     Sprite.prototype.dragStart = function (pointer) {
         //this.dragStop(pointer);
@@ -3983,7 +3957,7 @@ var Sprite = /** @class */ (function (_super) {
      * Stops manually initiated dragging of the element.
      *
      * @ignore Exclude from docs
-     * @param {IPointer} pointer Pointer to use as a reference
+     * @param pointer Pointer to use as a reference
      */
     Sprite.prototype.dragStop = function (pointer) {
         //this.draggable = false;
@@ -3995,7 +3969,7 @@ var Sprite = /** @class */ (function (_super) {
      * Executes when {Sprite} is being dragged.
      *
      * @ignore Exclude from docs
-     * @param {InteractionEvent} ev Event object
+     * @param ev Event object
      * @todo Implement parent position offset calculation
      */
     Sprite.prototype.handleDragMove = function (ev) {
@@ -4008,7 +3982,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "inert", {
         /**
-         * @return {boolean} `true` if element should use inertia when animated
+         * @return `true` if element should use inertia when animated
          */
         get: function () {
             return this.getPropertyValue("inert");
@@ -4021,7 +3995,7 @@ var Sprite = /** @class */ (function (_super) {
          * reducing in speed until finally stops.
          *
          * @default false
-         * @param {boolean} value `true` if element should use inertia when animated
+         * @param value `true` if element should use inertia when animated
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -4048,7 +4022,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns Sprite's hover options.
          *
          * @see {@link IHoverOptions} for available options.
-         * @return {IHoverOptions} Options
+         * @return Options
          */
         get: function () {
             if (!this.interactions.hoverOptions) {
@@ -4066,7 +4040,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "hoverable", {
         /**
-         * @return {boolean} `true` if element is hoverable
+         * @return `true` if element is hoverable
          */
         get: function () {
             return this.getPropertyValue("hoverable");
@@ -4077,7 +4051,7 @@ var Sprite = /** @class */ (function (_super) {
          * Use `over` and `out` events, to watch for those respective actions.
          *
          * @default false
-         * @param {boolean} value `true` if element can be hovered
+         * @param value `true` if element can be hovered
          */
         set: function (value) {
             var _this = this;
@@ -4106,7 +4080,7 @@ var Sprite = /** @class */ (function (_super) {
      * * Applies "hover" state
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["over"]} ev Event object
+     * @param ev Event object
      */
     Sprite.prototype.handleOver = function (ev) {
         if (this._outTimeout) {
@@ -4140,7 +4114,7 @@ var Sprite = /** @class */ (function (_super) {
      * * Applies default state
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["out"]} ev [description]
+     * @param ev [description]
      */
     Sprite.prototype.handleOut = function (ev) {
         this.hideTooltip();
@@ -4170,7 +4144,7 @@ var Sprite = /** @class */ (function (_super) {
          * Click (hit) options control things like double-click, timeouts, etc.
          *
          * @see {@link IHitOptions} for available options.
-         * @return {IHitOptions} Options
+         * @return Options
          */
         get: function () {
             if (!this.interactions.hitOptions) {
@@ -4190,7 +4164,7 @@ var Sprite = /** @class */ (function (_super) {
      * Prepares element's after `down` event.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["down"]} ev Event
+     * @param ev Event
      */
     Sprite.prototype.handleDown = function (ev) {
         if (this.interactions.downPointers.length === 1) {
@@ -4209,7 +4183,7 @@ var Sprite = /** @class */ (function (_super) {
      * Prepares element's after `up` event.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["up"]} ev Event
+     * @param ev Event
      */
     Sprite.prototype.handleUp = function (ev) {
         /*if (!this.isDown) {
@@ -4238,7 +4212,7 @@ var Sprite = /** @class */ (function (_super) {
          * Use `hit`, `doublehit`, `up`, `down`, `toggled` events to watch for
          * respective click/touch actions.
          *
-         * @param {boolean} value `true` if element can be clicked
+         * @param value `true` if element can be clicked
          */
         set: function (value) {
             var _this = this;
@@ -4263,7 +4237,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "togglable", {
         /**
-         * @return {boolean} Is togglable?
+         * @return Is togglable?
          */
         get: function () {
             return this.getPropertyValue("togglable");
@@ -4274,7 +4248,7 @@ var Sprite = /** @class */ (function (_super) {
          * Togglable element will alternate its `isActive` property between `true`
          * and `false` with each click.
          *
-         * @param {boolean} value Is togglable?
+         * @param value Is togglable?
          */
         set: function (value) {
             var _this = this;
@@ -4296,14 +4270,14 @@ var Sprite = /** @class */ (function (_super) {
      * Handles toggling of the element.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["hit"]} ev Event
+     * @param ev Event
      */
     Sprite.prototype.handleToggle = function (ev) {
         this.isActive = !this.isActive;
     };
     Object.defineProperty(Sprite.prototype, "url", {
         /**
-         * @return {Optional<string>} URL
+         * @return URL
          */
         get: function () {
             return this.getPropertyValue("url");
@@ -4335,7 +4309,7 @@ var Sprite = /** @class */ (function (_super) {
          * }
          * ```
          *
-         * @param {Optional<string>} value URL
+         * @param value URL
          */
         set: function (value) {
             if (this.setPropertyValue("url", value)) {
@@ -4379,7 +4353,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "urlTarget", {
         /**
-         * @return {string} URL target
+         * @return URL target
          */
         get: function () {
             return this.getPropertyValue("urlTarget");
@@ -4395,7 +4369,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * Ignored if `url` is not set.
          *
-         * @param {string} value URL target
+         * @param value URL target
          */
         set: function (value) {
             this.setPropertyValue("urlTarget", value);
@@ -4407,7 +4381,7 @@ var Sprite = /** @class */ (function (_super) {
      * Handles URL transition on element click.
      *
      * @ignore Exclude from docs
-     * @param {InteractionEvent} ev An event object
+     * @param ev An event object
      */
     Sprite.prototype.urlHandler = function (ev) {
         // Is URL set?
@@ -4432,7 +4406,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Returns element's swipe gesture options.
          *
-         * @return {ISwipeOptions} Swipe gesture options
+         * @return Swipe gesture options
          */
         get: function () {
             if (!this.interactions.swipeOptions) {
@@ -4450,7 +4424,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "swipeable", {
         /**
-         * @return {boolean} Element swipable?
+         * @return Element swipable?
          */
         get: function () {
             return this.getPropertyValue("swipeable");
@@ -4464,7 +4438,7 @@ var Sprite = /** @class */ (function (_super) {
          * Please note that combining swipe and drag is possible, however will incur
          * a slight but noticeable delay in drag start.
          *
-         * @param {boolean}  value  Element swipable?
+         * @param value  Element swipable?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -4484,7 +4458,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "trackable", {
         /**
-         * @return {boolean} Track cursor movement over element?
+         * @return Track cursor movement over element?
          */
         get: function () {
             return this.getPropertyValue("trackable");
@@ -4505,7 +4479,7 @@ var Sprite = /** @class */ (function (_super) {
          * Please note, touch devices will also invoke `track` events when touch
          * point is moved while holding down on a trackable element.
          *
-         * @param {boolean} value Track cursor movement over element?
+         * @param value Track cursor movement over element?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -4525,7 +4499,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "wheelable", {
         /**
-         * @return {boolean} Mouse wheel events enabled?
+         * @return Mouse wheel events enabled?
          */
         get: function () {
             return this.getPropertyValue("wheelable");
@@ -4542,7 +4516,7 @@ var Sprite = /** @class */ (function (_super) {
          * Will invoke `wheel`, `wheelup`, `wheeldown`, `wheelleft`, and `wheelright`
          * events when using mouse wheel over the element.
          *
-         * @param {boolean} value Mouse wheel events enabled?
+         * @param value Mouse wheel events enabled?
          */
         set: function (value) {
             if (this.setPropertyValue("wheelable", value)) {
@@ -4561,7 +4535,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "resizable", {
         /**
-         * @return {boolean} Element resizable?
+         * @return Element resizable?
          */
         get: function () {
             return this.getPropertyValue("resizable");
@@ -4586,7 +4560,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * Will invoke `resize` event every time the size of the element changes.
          *
-         * @param {boolean}  value  Element resizable?
+         * @param value  Element resizable?
          */
         set: function (value) {
             var _this = this;
@@ -4616,7 +4590,7 @@ var Sprite = /** @class */ (function (_super) {
      * this method to implement their own resize logic.
      *
      * @ignore Exclude from docs
-     * @param {InteractionEvent} ev Event object
+     * @param ev Event object
      */
     Sprite.prototype.handleResize = function (ev) {
         this.scale = this.interactions.originalScale * ev.scale;
@@ -4662,7 +4636,7 @@ var Sprite = /** @class */ (function (_super) {
          * them set explicitly.
          *
          * @see {@link ICursorOptions} for a list of available options
-         * @return {ICursorOptions} Cursor options
+         * @return Cursor options
          */
         get: function () {
             if (!this.interactions.cursorOptions) {
@@ -4702,7 +4676,7 @@ var Sprite = /** @class */ (function (_super) {
          * }
          * ```
          *
-         * @param {Array<IStyleProperty>} style An array of styles to apply onhover
+         * @param style An array of styles to apply onhover
          */
         set: function (style) {
             this.cursorOptions.overStyle = style;
@@ -4735,7 +4709,7 @@ var Sprite = /** @class */ (function (_super) {
          * }
          * ```
          *
-         * @param {Array<IStyleProperty>} style An array of styles to apply onhover
+         * @param style An array of styles to apply onhover
          */
         set: function (style) {
             this.cursorOptions.downStyle = style;
@@ -4764,7 +4738,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "interactionsEnabled", {
         /**
-         * @return {boolean} Is interaction enabled for this element?
+         * @return Is interaction enabled for this element?
          */
         get: function () {
             var value = this.getPropertyValue("interactionsEnabled");
@@ -4783,7 +4757,7 @@ var Sprite = /** @class */ (function (_super) {
          * Setting this to `false` will effectively disable all interactivity on the
          * element.
          *
-         * @param {boolean}  value  Is interaction enabled for this element?
+         * @param value  Is interaction enabled for this element?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -4804,7 +4778,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "exporting", {
         /**
-         * @return {Export} Export instance
+         * @return Export instance
          */
         get: function () {
             return this.getExporting();
@@ -4827,7 +4801,7 @@ var Sprite = /** @class */ (function (_super) {
          * default settings, what in most cases is just enough.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/} for more info about exporting
-         * @param {Export}  exp  Export
+         * @param exp  Export
          */
         set: function (exp) {
             this._exporting.set(exp, exp);
@@ -4838,7 +4812,7 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * This is here as a method so that inheriting classes could override it.
      *
-     * @return {Export} Export instance
+     * @return Export instance
      */
     Sprite.prototype.getExporting = function () {
         var _export = this._exporting.get();
@@ -4862,7 +4836,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "exportable", {
         /**
-         * @return {boolean} Export?
+         * @return Export?
          */
         get: function () {
             var svgContainer = this.svgContainer;
@@ -4873,7 +4847,7 @@ var Sprite = /** @class */ (function (_super) {
          * to an image.
          *
          * @default true
-         * @param {boolean}  value  Export?
+         * @param value  Export?
          */
         set: function (value) {
             var svgContainer = this.svgContainer;
@@ -4898,7 +4872,7 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * Private method to be used for "classPrefix" adapter for modals/popups.
      *
-     * @param {string}  value  Prefix
+     * @param value  Prefix
      */
     Sprite.prototype.modalPrefix = function (value) {
         value = options.classNamePrefix + value;
@@ -4913,7 +4887,7 @@ var Sprite = /** @class */ (function (_super) {
          * `showModal()` method.
          *
          * @see {@link Modal} for more information about using Modal windows
-         * @return {Modal} Modal instance
+         * @return Modal instance
          */
         get: function () {
             var svgContainer = this.svgContainer;
@@ -4935,8 +4909,8 @@ var Sprite = /** @class */ (function (_super) {
      * The `text` parameter can contain HTML content.
      *
      * @see {@link Modal} for more information about using Modal windows
-     * @param {string}  text   Modal contents
-     * @param {string}  title  Title for the modal window
+     * @param text   Modal contents
+     * @param title  Title for the modal window
      */
     Sprite.prototype.openModal = function (text, title) {
         var svgContainer = this.svgContainer;
@@ -4957,7 +4931,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * A list of popups for this chart.
          *
-         * @return {ListTemplate<Popup>} Popups
+         * @return Popups
          */
         get: function () {
             var svgContainer = this.svgContainer;
@@ -4980,9 +4954,9 @@ var Sprite = /** @class */ (function (_super) {
      *
      * `title` is currently not supported.
      *
-     * @param  {string}  text   Popup contents
-     * @param  {string}  title  Popup title
-     * @return {Popup}          Popup instance
+     * @param text   Popup contents
+     * @param title  Popup title
+     * @return Popup instance
      */
     Sprite.prototype.openPopup = function (text, title) {
         var svgContainer = this.svgContainer;
@@ -5001,7 +4975,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "x", {
         /**
-         * @return {number | Percent} X coordinate
+         * @return X coordinate
          */
         get: function () {
             return this.getPropertyValue("x");
@@ -5018,7 +4992,7 @@ var Sprite = /** @class */ (function (_super) {
          * If setting both X and Y, please consider using `moveTo()` method instead,
          * as it will be faster to set both coordinates at once.
          *
-         * @param {number | Percent} value X coordinate
+         * @param value X coordinate
          */
         set: function (value) {
             if (!this.isDragged) {
@@ -5033,7 +5007,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns element's current absolute X coordinate in pixels.
          *
          * @readonly
-         * @return {number} X coordinate (px)
+         * @return X coordinate (px)
          */
         get: function () {
             return this.adapter.apply("pixelX", $math.fitToRange(this.getPixelX(this.x), this.minX, this.maxX));
@@ -5045,7 +5019,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Returns element's current relative X coordinate in [[Percent]].
          *
-         * @return {number} X coordinate ([[Percent]])
+         * @return X coordinate ([[Percent]])
          */
         get: function () {
             return this.adapter.apply("relativeX", this.getRelativeX(this.x));
@@ -5056,7 +5030,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "minX", {
         /**
          * @ignore Exclude from docs
-         * @return {number} Min X (px)
+         * @return Min X (px)
          */
         get: function () {
             return this.getPropertyValue("minX");
@@ -5067,7 +5041,7 @@ var Sprite = /** @class */ (function (_super) {
          * This is used to contain element movement within certain boundaries.
          *
          * @ignore Exclude from docs
-         * @param {number} value Min X (px)
+         * @param value Min X (px)
          */
         set: function (value) {
             if ($type.isNumber(value)) {
@@ -5081,7 +5055,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "maxX", {
         /**
          * @ignore Exclude from docs
-         * @return {number} Max X (px)
+         * @return Max X (px)
          */
         get: function () {
             return this.getPropertyValue("maxX");
@@ -5092,7 +5066,7 @@ var Sprite = /** @class */ (function (_super) {
          * This is used to contain element movement within certain boundaries.
          *
          * @ignore Exclude from docs
-         * @param {number} value Max X (px)
+         * @param value Max X (px)
          */
         set: function (value) {
             if ($type.isNumber(value)) {
@@ -5105,7 +5079,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "y", {
         /**
-         * @return {number | Percent} Y coordinate
+         * @return Y coordinate
          */
         get: function () {
             return this.getPropertyValue("y");
@@ -5116,7 +5090,7 @@ var Sprite = /** @class */ (function (_super) {
          * If setting both X and Y, please consider using `moveTo()` method instead,
          * as it will be faster to set both coordinates at once.
          *
-         * @param {number | Percent}  value  Y coordinate
+         * @param value  Y coordinate
          */
         set: function (value) {
             if (!this.isDragged) {
@@ -5131,7 +5105,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns element's current absolute Y coordinate in pixels.
          *
          * @readonly
-         * @return {number} Y coordinate (px)
+         * @return Y coordinate (px)
          */
         get: function () {
             return this.adapter.apply("pixelY", $math.fitToRange(this.getPixelY(this.y), this.minY, this.maxY));
@@ -5144,7 +5118,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns element's current relative Y coordinate in [[Percent]].
          *
          * @readonly
-         * @return {number} Y coordinate ([[Percent]])
+         * @return Y coordinate ([[Percent]])
          */
         get: function () {
             return this.adapter.apply("relativeY", this.getRelativeX(this.y));
@@ -5155,7 +5129,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "minY", {
         /**
          * @ignore Exclude from docs
-         * @return {number} Min Y (px)
+         * @return Min Y (px)
          */
         get: function () {
             return this.getPropertyValue("minY");
@@ -5166,7 +5140,7 @@ var Sprite = /** @class */ (function (_super) {
          * This is used to contain element movement within certain boundaries.
          *
          * @ignore Exclude from docs
-         * @param {number} value Min Y (px)
+         * @param value Min Y (px)
          */
         set: function (value) {
             if ($type.isNumber(value)) {
@@ -5180,7 +5154,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "maxY", {
         /**
          * @ignore Exclude from docs
-         * @return {number} Max Y (px)
+         * @return Max Y (px)
          */
         get: function () {
             return this.getPropertyValue("maxY");
@@ -5191,7 +5165,7 @@ var Sprite = /** @class */ (function (_super) {
          * This is used to contain element movement within certain boundaries.
          *
          * @ignore Exclude from docs
-         * @param {number}  value  Max Y (px)
+         * @param value  Max Y (px)
          */
         set: function (value) {
             if ($type.isNumber(value)) {
@@ -5204,7 +5178,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "dx", {
         /**
-         * @return {number} Horizontal offset (px)
+         * @return Horizontal offset (px)
          */
         get: function () {
             return this.getPropertyValue("dx");
@@ -5214,7 +5188,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * Can be negative value for offset to the left.
          *
-         * @param {number}  value  Horizontal offset (px)
+         * @param value  Horizontal offset (px)
          */
         set: function (value) {
             if ($type.isNumber(value)) {
@@ -5227,7 +5201,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "dy", {
         /**
-         * @return {number} Vertical offset (px)
+         * @return Vertical offset (px)
          */
         get: function () {
             return this.getPropertyValue("dy");
@@ -5237,7 +5211,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * Can be negative value for offset upwards.
          *
-         * @param {number}  value  Vertical offset (px)
+         * @param value  Vertical offset (px)
          */
         set: function (value) {
             if ($type.isNumber(value)) {
@@ -5250,7 +5224,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "rotation", {
         /**
-         * @return {number} Rotation (0-360)
+         * @return Rotation (0-360)
          */
         get: function () {
             return this.getPropertyValue("rotation");
@@ -5258,7 +5232,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Rotation of the element in degrees. (0-360)
          *
-         * @param {number}  value  Rotation (0-360)
+         * @param value  Rotation (0-360)
          */
         set: function (value) {
             value = $type.toNumber(value);
@@ -5272,7 +5246,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "align", {
         /**
-         * @return {Align} Horizontal align
+         * @return Horizontal align
          */
         get: function () {
             return this.getPropertyValue("align");
@@ -5282,7 +5256,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * This is used by parent [[Container]] when layouting its children.
          *
-         * @param {Align}  value  Horizontal align
+         * @param value  Horizontal align
          */
         set: function (value) {
             value = $type.toText(value);
@@ -5297,7 +5271,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "valign", {
         /**
-         * @return {VerticalAlign} Vertical align
+         * @return Vertical align
          */
         get: function () {
             return this.getPropertyValue("valign");
@@ -5307,7 +5281,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * This is used by parent [[Container]] when layouting its children.
          *
-         * @param {VerticalAlign}  value  Vertical align
+         * @param value  Vertical align
          */
         set: function (value) {
             value = $type.toText(value);
@@ -5322,7 +5296,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "horizontalCenter", {
         /**
-         * @return {HorizontalCenter} Horizontal center
+         * @return Horizontal center
          */
         get: function () {
             return this.getPropertyValue("horizontalCenter");
@@ -5333,7 +5307,7 @@ var Sprite = /** @class */ (function (_super) {
          * The setting will be used when positioning, resizing and rotating the
          * element.
          *
-         * @param {HorizontalCenter}  value  Horizontal center
+         * @param value  Horizontal center
          */
         set: function (value) {
             value = $type.toText(value);
@@ -5346,7 +5320,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "verticalCenter", {
         /**
-         * @return {VerticalCenter} Vertical center
+         * @return Vertical center
          */
         get: function () {
             return this.getPropertyValue("verticalCenter");
@@ -5357,7 +5331,7 @@ var Sprite = /** @class */ (function (_super) {
          * The setting will be used when positioning, resizing and rotating the
          * element.
          *
-         * @param {VerticalCenter}  value  Vertical center
+         * @param value  Vertical center
          */
         set: function (value) {
             value = $type.toText(value);
@@ -5370,7 +5344,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "maxWidth", {
         /**
-         * @return {number} Maximum width (px)
+         * @return Maximum width (px)
          */
         get: function () {
             var maxWidth = this.getPropertyValue("maxWidth");
@@ -5390,7 +5364,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Maximum allowed width for the element in pixels.
          *
-         * @param {number}  value  Maximum width (px)
+         * @param value  Maximum width (px)
          */
         set: function (value) {
             this.setMaxWidth(value);
@@ -5416,7 +5390,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "maxHeight", {
         /**
-         * @return {number} Maximum height (px)
+         * @return Maximum height (px)
          */
         get: function () {
             var maxHeight = this.getPropertyValue("maxHeight");
@@ -5430,7 +5404,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Maximum allowed height for the element in pixels.
          *
-         * @param {number}  value  Maximum height (px)
+         * @param value  Maximum height (px)
          */
         set: function (value) {
             this.setMaxHeight(value);
@@ -5456,7 +5430,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "minWidth", {
         /**
-         * @return {Optional<number>} Minimum width (px)
+         * @return Minimum width (px)
          */
         get: function () {
             return this.getPropertyValue("minWidth");
@@ -5466,7 +5440,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * Set to `undefined` to remove the limit.
          *
-         * @param {Optional<number>}  value  Minimum width (px)
+         * @param value  Minimum width (px)
          */
         set: function (value) {
             this.setPropertyValue("minWidth", value, true);
@@ -5476,7 +5450,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "minHeight", {
         /**
-         * @return {Optional<number>} Minimum height (px)
+         * @return Minimum height (px)
          */
         get: function () {
             return this.getPropertyValue("minHeight");
@@ -5486,7 +5460,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * Set to `undefined` to remove the limit.
          *
-         * @param {Optional<number>}  value  Minimum height (px)
+         * @param value  Minimum height (px)
          */
         set: function (value) {
             this.setPropertyValue("minHeight", value, true);
@@ -5496,7 +5470,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "width", {
         /**
-         * @return {number | Percent} Width (absolute or relative)
+         * @return Width (absolute or relative)
          */
         get: function () {
             return this.getPropertyValue("width");
@@ -5510,7 +5484,7 @@ var Sprite = /** @class */ (function (_super) {
          * Relative width will be calculated using closest measured ancestor
          * [[Container]].
          *
-         * @param {number | Percent}  value  Width (numeric in pixels or relative)
+         * @param value  Width (numeric in pixels or relative)
          */
         set: function (value) {
             var changed = this.setPercentProperty("width", value, true, false, this._positionPrecision, true);
@@ -5537,7 +5511,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "height", {
         /**
-         * @return {number | Percent} height (absolute or relative)
+         * @return height (absolute or relative)
          */
         get: function () {
             return this.getPropertyValue("height");
@@ -5551,7 +5525,7 @@ var Sprite = /** @class */ (function (_super) {
          * Relative height will be calculated using closest measured ancestor
          * [[Container]].
          *
-         * @param {number | Percent}  value  Height (numeric in pixels or relative)
+         * @param value  Height (numeric in pixels or relative)
          */
         set: function (value) {
             var changed = this.setPercentProperty("height", value, true, false, this._positionPrecision, true);
@@ -5581,7 +5555,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns element's width in pixels, if width was set. For actual width use measuredWidth property.
          *
          * @readonly
-         * @return {number} Width (px)
+         * @return Width (px)
          */
         get: function () {
             var width;
@@ -5608,7 +5582,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns element's height in pixels. For actual height use measuredHeight property.
          *
          * @readonly
-         * @return {number} Height (px)
+         * @return Height (px)
          */
         get: function () {
             var height;
@@ -5632,7 +5606,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "relativeWidth", {
         /**
-         * @return {$type.Optional<number>} Relative width
+         * @return Relative width
          * @ignore
          */
         get: function () {
@@ -5645,7 +5619,7 @@ var Sprite = /** @class */ (function (_super) {
          * Element's relative width in [[Percent]].
          * @ignore
          *
-         * @param {$type.Optional<number>}  value  Relative width
+         * @param value  Relative width
          */
         set: function (value) {
             if (this._relativeWidth != value) {
@@ -5658,7 +5632,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "relativeHeight", {
         /**
-         * @return {$type.Optional<number>} Relative height
+         * @return Relative height
          * @ignore
          */
         get: function () {
@@ -5670,7 +5644,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Element's relative height in [[Percent]].
          *
-         * @param {$type.Optional<number>}  value  Relative height
+         * @param value  Relative height
          * @ignore
          */
         set: function (value) {
@@ -5690,7 +5664,7 @@ var Sprite = /** @class */ (function (_super) {
          * rotation and scale is taken into account.
          *
          * @readonly
-         * @return {number} Width (px)
+         * @return Width (px)
          */
         get: function () {
             if (this.disabled || this.__disabled) {
@@ -5711,7 +5685,7 @@ var Sprite = /** @class */ (function (_super) {
          * rotation and scale taken into account.
          *
          * @readonly
-         * @return {number} Height (px)
+         * @return Height (px)
          */
         get: function () {
             if (this.disabled || this.__disabled) {
@@ -5730,7 +5704,7 @@ var Sprite = /** @class */ (function (_super) {
          * pixels.
          *
          * @readonly
-         * @return {number} Outer width (px)
+         * @return Outer width (px)
          */
         get: function () {
             return this.adapter.apply("outerWidth", this.pixelWidth + this.pixelMarginRight + this.pixelMarginLeft);
@@ -5744,7 +5718,7 @@ var Sprite = /** @class */ (function (_super) {
          * pixels.
          *
          * @readonly
-         * @return {number} Outer height (px)
+         * @return Outer height (px)
          */
         get: function () {
             return this.adapter.apply("outerHeight", this.pixelHeight + this.pixelMarginTop + this.pixelMarginBottom);
@@ -5760,7 +5734,7 @@ var Sprite = /** @class */ (function (_super) {
          * minus horizontal padding.
          *
          * @readonly
-         * @return {number} Inner width (px)
+         * @return Inner width (px)
          */
         get: function () {
             return this.adapter.apply("innerWidth", Math.max(0, this.pixelWidth - this.pixelPaddingRight - this.pixelPaddingLeft));
@@ -5776,7 +5750,7 @@ var Sprite = /** @class */ (function (_super) {
          * minus vertical padding.
          *
          * @readonly
-         * @return {number} Inner height (px)
+         * @return Inner height (px)
          */
         get: function () {
             return this.adapter.apply("innerHeight", Math.max(0, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom));
@@ -5794,7 +5768,7 @@ var Sprite = /** @class */ (function (_super) {
          * the child's `globalScale` will be 4. (a multitude of `2 x 2`)
          *
          * @readonly
-         * @return {number} Global scale
+         * @return Global scale
          */
         get: function () {
             var scale = this.scale;
@@ -5808,7 +5782,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "scale", {
         /**
-         * @return {number} Scale (0-1)
+         * @return Scale (0-1)
          */
         get: function () {
             return this.getPropertyValue("scale");
@@ -5822,7 +5796,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * Etc.
          *
-         * @param {number}  value  Scale (0-1)
+         * @param value  Scale (0-1)
          */
         set: function (value) {
             value = $type.toNumber(value);
@@ -5842,11 +5816,11 @@ var Sprite = /** @class */ (function (_super) {
      *
      * Margins are set in pixels.
      *
-     * @param  {number}  top     Top margin
-     * @param  {number}  right   Right margin
-     * @param  {number}  bottom  Bottom margin
-     * @param  {number}  left    Left margin
-     * @return {Sprite}          Current element
+     * @param top     Top margin
+     * @param right   Right margin
+     * @param bottom  Bottom margin
+     * @param left    Left margin
+     * @return Current element
      */
     Sprite.prototype.margin = function (top, right, bottom, left) {
         this.marginTop = top;
@@ -5857,7 +5831,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "marginLeft", {
         /**
-         * @return {number | Percent} Margin value
+         * @return Margin value
          */
         get: function () {
             return this.getPropertyValue("marginLeft");
@@ -5865,7 +5839,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Left margin - absolute (px) or relative ([[Percent]]).
          *
-         * @param {number | Percent}  value  Margin value
+         * @param value  Margin value
          */
         set: function (value) {
             this.setPercentProperty("marginLeft", value, true, true, this._positionPrecision, true);
@@ -5875,7 +5849,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "marginRight", {
         /**
-         * @return {number | Percent} Margin value
+         * @return Margin value
          */
         get: function () {
             return this.getPropertyValue("marginRight");
@@ -5883,7 +5857,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Right margin - absolute (px) or relative ([[Percent]]).
          *
-         * @param {number | Percent}  value  Margin value
+         * @param value  Margin value
          */
         set: function (value) {
             this.setPercentProperty("marginRight", value, true, true, this._positionPrecision, true);
@@ -5893,7 +5867,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "marginTop", {
         /**
-         * @return {number | Percent} Margin value
+         * @return Margin value
          */
         get: function () {
             return this.getPropertyValue("marginTop");
@@ -5901,7 +5875,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Top margin - absolute (px) or relative ([[Percent]]).
          *
-         * @param {number | Percent}  value  Margin value
+         * @param value  Margin value
          */
         set: function (value) {
             this.setPercentProperty("marginTop", value, true, true, this._positionPrecision, true);
@@ -5911,7 +5885,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "marginBottom", {
         /**
-         * @return {number | Percent} Margin value
+         * @return Margin value
          */
         get: function () {
             return this.getPropertyValue("marginBottom");
@@ -5919,7 +5893,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Bottom margin - absolute (px) or relative ([[Percent]]).
          *
-         * @param {number | Percent}  value  Margin value
+         * @param value  Margin value
          */
         set: function (value) {
             this.setPercentProperty("marginBottom", value, true, true, this._positionPrecision, true);
@@ -5932,7 +5906,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current right margin in pixels.
          *
          * @readonly
-         * @return {number} Right margin (px)
+         * @return Right margin (px)
          */
         get: function () {
             return this.adapter.apply("pixelMarginRight", this.getPixelX(this.marginRight));
@@ -5945,7 +5919,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current relative right margin.
          *
          * @readonly
-         * @return {number} Relative right margin
+         * @return Relative right margin
          */
         get: function () {
             // @todo Maybe use [[Percent]]?
@@ -5959,7 +5933,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current left margin in pixels.
          *
          * @readonly
-         * @return {number} Left margin (px)
+         * @return Left margin (px)
          */
         get: function () {
             return this.adapter.apply("pixelMarginLeft", this.getPixelX(this.marginLeft));
@@ -5972,7 +5946,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current relative left margin.
          *
          * @readonly
-         * @return {number} Relative left margin
+         * @return Relative left margin
          */
         get: function () {
             //@todo Maybe use [[Percent]]?
@@ -5986,7 +5960,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current top margin in pixels.
          *
          * @readonly
-         * @return {number} Top margin (px)
+         * @return Top margin (px)
          */
         get: function () {
             return this.adapter.apply("pixelMarginTop", this.getPixelY(this.marginTop));
@@ -5999,7 +5973,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current relative top margin.
          *
          * @readonly
-         * @return {number} Relative top margin
+         * @return Relative top margin
          */
         get: function () {
             // @todo Maybe use [[Percent]]?
@@ -6013,7 +5987,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current bottom margin in pixels.
          *
          * @readonly
-         * @return {number} Bottom margin (px)
+         * @return Bottom margin (px)
          */
         get: function () {
             return this.adapter.apply("pixelMarginBottom", this.getPixelY(this.marginBottom));
@@ -6026,7 +6000,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current relative bottom margin.
          *
          * @readonly
-         * @return {number} Relative bottom margin
+         * @return Relative bottom margin
          */
         get: function () {
             // @todo Maybe use [[Percent]]?
@@ -6038,11 +6012,11 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * Sets padding for the element in pixels.
      *
-     * @param  {number}  top     Top padding (px)
-     * @param  {number}  right   Right padding (px)
-     * @param  {number}  bottom  Bottom padding (px)
-     * @param  {number}  left    Left padding (px)
-     * @return {Sprite}          Element
+     * @param top     Top padding (px)
+     * @param right   Right padding (px)
+     * @param bottom  Bottom padding (px)
+     * @param left    Left padding (px)
+     * @return Element
      */
     Sprite.prototype.padding = function (top, right, bottom, left) {
         this.paddingTop = top;
@@ -6053,7 +6027,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "paddingLeft", {
         /**
-         * @return {number | Percent} Padding value
+         * @return Padding value
          */
         get: function () {
             return this.getPropertyValue("paddingLeft");
@@ -6061,7 +6035,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Left padding - absolute (px) or relative ([[Percent]]).
          *
-         * @param {number | Percent}  value  Padding value
+         * @param value  Padding value
          */
         set: function (value) {
             this.setPercentProperty("paddingLeft", value, true, true, this._positionPrecision, true);
@@ -6071,7 +6045,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "paddingRight", {
         /**
-         * @return {number | Percent} Padding value
+         * @return Padding value
          */
         get: function () {
             return this.getPropertyValue("paddingRight");
@@ -6079,7 +6053,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Right padding - absolute (px) or relative ([[Percent]]).
          *
-         * @param {number | Percent}  value  Padding value
+         * @param value  Padding value
          */
         set: function (value) {
             this.setPercentProperty("paddingRight", value, true, true, this._positionPrecision, true);
@@ -6089,7 +6063,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "paddingTop", {
         /**
-         * @return {number | Percent} Padding value
+         * @return Padding value
          */
         get: function () {
             return this.getPropertyValue("paddingTop");
@@ -6097,7 +6071,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Top padding - absolute (px) or relative ([[Percent]]).
          *
-         * @param {number | Percent}  value  Padding value
+         * @param value  Padding value
          */
         set: function (value) {
             this.setPercentProperty("paddingTop", value, true, true, this._positionPrecision, true);
@@ -6107,7 +6081,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "paddingBottom", {
         /**
-         * @return {number | Percent} Padding value
+         * @return Padding value
          */
         get: function () {
             return this.getPropertyValue("paddingBottom");
@@ -6115,7 +6089,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Bottom padding - absolute (px) or relative ([[Percent]]).
          *
-         * @param {number | Percent}  value  Padding value
+         * @param value  Padding value
          */
         set: function (value) {
             this.setPercentProperty("paddingBottom", value, true, true, this._positionPrecision, true);
@@ -6128,7 +6102,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current right padding in pixels.
          *
          * @readonly
-         * @return {number} Right padding (px)
+         * @return Right padding (px)
          */
         get: function () {
             return this.getPixelX(this.paddingRight);
@@ -6141,7 +6115,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current relative right padding.
          *
          * @readonly
-         * @return {number} Relative right padding
+         * @return Relative right padding
          */
         get: function () {
             // @todo Maybe use [[Percent]]?
@@ -6155,7 +6129,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current left padding in pixels.
          *
          * @readonly
-         * @return {number} Left padding (px)
+         * @return Left padding (px)
          */
         get: function () {
             return this.getPixelX(this.paddingLeft);
@@ -6168,7 +6142,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current relative left padding.
          *
          * @readonly
-         * @return {number} Relative left padding
+         * @return Relative left padding
          */
         get: function () {
             // @todo Maybe use [[Percent]]?
@@ -6182,7 +6156,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current top padding in pixels.
          *
          * @readonly
-         * @return {number} Top padding (px)
+         * @return Top padding (px)
          */
         get: function () {
             return this.getPixelY(this.paddingTop);
@@ -6195,7 +6169,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current relative top padding.
          *
          * @readonly
-         * @return {number} Relative top padding
+         * @return Relative top padding
          */
         get: function () {
             // @todo Maybe use [[Percent]]?
@@ -6209,7 +6183,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current bottom padding in pixels.
          *
          * @readonly
-         * @return {number} Bottom padding (px)
+         * @return Bottom padding (px)
          */
         get: function () {
             return this.getPixelY(this.paddingBottom);
@@ -6222,7 +6196,7 @@ var Sprite = /** @class */ (function (_super) {
          * Returns current relative bottom padding.
          *
          * @readonly
-         * @return {number} Relative bottom padding
+         * @return Relative bottom padding
          */
         get: function () {
             // @todo Maybe use [[Percent]]?
@@ -6233,8 +6207,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "path", {
         /**
-         * Path of a tick element
-         * @type {string}
+         * @return Path of a Tick element
          */
         get: function () {
             return this.getPropertyValue("path");
@@ -6246,8 +6219,7 @@ var Sprite = /** @class */ (function (_super) {
          * @hidden
          */
         /**
-         * Path of a sprite element
-         * @type {string}
+         * Path of a Tick element
          */
         set: function (value) {
             if (this.setPropertyValue("path", value)) {
@@ -6267,7 +6239,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "fillModifier", {
         /**
-         * @return {ColorModifier} Fill color modifier
+         * @return Fill color modifier
          */
         get: function () {
             return this.getPropertyValue("fillModifier");
@@ -6276,7 +6248,7 @@ var Sprite = /** @class */ (function (_super) {
          * [[ColorModifier]] that can be used to modify color and pattern of the
          * element's fill, e.g. create gradients.
          *
-         * @param {ColorModifier}  value  Fill color modifiier
+         * @param value  Fill color modifiier
          */
         set: function (value) {
             if (this.setPropertyValue("fillModifier", value)) {
@@ -6288,7 +6260,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "strokeModifier", {
         /**
-         * @return {ColorModifier} Stroke color modifier
+         * @return Stroke color modifier
          */
         get: function () {
             return this.getPropertyValue("strokeModifier");
@@ -6297,7 +6269,7 @@ var Sprite = /** @class */ (function (_super) {
          * [[ColorModifier]] that can be used to modify color and pattern of the
          * element's stroke (outline), e.g. create gradients.
          *
-         * @param {ColorModifier}  value  Stroke color modifier
+         * @param value  Stroke color modifier
          */
         set: function (value) {
             this.setPropertyValue("strokeModifier", value, true);
@@ -6307,7 +6279,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "fillOpacity", {
         /**
-         * @return {number} Opacity (0-9)
+         * @return Opacity (0-9)
          */
         get: function () {
             return this.getPropertyValue("fillOpacity");
@@ -6317,7 +6289,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * Opacity ranges from 0 (fully transparent) to 1 (fully opaque).
          *
-         * @param {number}  value  Opacity (0-1)
+         * @param value  Opacity (0-1)
          */
         set: function (value) {
             value = $math.toNumberRange(value, 0, 1);
@@ -6330,7 +6302,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "fill", {
         /**
-         * @return {Color} Fill
+         * @return Fill
          */
         get: function () {
             return this.getPropertyValue("fill");
@@ -6338,7 +6310,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Element's fill color or pattern.
          *
-         * @param {Optional<Color | Pattern | LinearGradient | RadialGradient>}  value  Fill
+         * @param value  Fill
          */
         set: function (value) {
             this.setFill(value);
@@ -6351,7 +6323,7 @@ var Sprite = /** @class */ (function (_super) {
      * modifiers.
      *
      * @ignore Exclude from docs
-     * @param {Optional<Color | Pattern | LinearGradient | RadialGradient>}  value  Fill
+     * @param value  Fill
      */
     Sprite.prototype.setFill = function (value) {
         if (!$type.isObject(value)) {
@@ -6381,7 +6353,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "opacity", {
         /**
-         * @return {number} Opacity (0-1)
+         * @return Opacity (0-1)
          */
         get: function () {
             return this.getPropertyValue("opacity");
@@ -6401,7 +6373,7 @@ var Sprite = /** @class */ (function (_super) {
          * Or, use properties `fillOpacity` and `strokeOpacity`, if you need to make
          * the element semi-transparent.
          *
-         * @param {number} value Opacity (0-1)
+         * @param value Opacity (0-1)
          */
         set: function (value) {
             value = $math.toNumberRange(value, 0, 1);
@@ -6414,7 +6386,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "stroke", {
         /**
-         * @return {Color} Stroke setting
+         * @return Stroke setting
          */
         get: function () {
             return this.getPropertyValue("stroke");
@@ -6422,7 +6394,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Element's stroke (outline) color or pattern.
          *
-         * @param {Color | Pattern | LinearGradient | RadialGradient}  value  Stroke setting
+         * @param value  Stroke setting
          */
         set: function (value) {
             this.setStroke(value);
@@ -6435,7 +6407,7 @@ var Sprite = /** @class */ (function (_super) {
      * color modifiers.
      *
      * @ignore Exclude from docs
-     * @param {Color | Pattern | LinearGradient | RadialGradient} value Stroke setting
+     * @param value Stroke setting
      */
     Sprite.prototype.setStroke = function (value) {
         if (!$type.isObject(value)) {
@@ -6469,7 +6441,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "strokeOpacity", {
         /**
-         * @return {number} Opacity (0-1)
+         * @return Opacity (0-1)
          */
         get: function () {
             return this.getPropertyValue("strokeOpacity");
@@ -6479,7 +6451,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * The values may range from 0 (fully transparent) to 1 (fully opaque).
          *
-         * @param {number}  value  Opacity (0-1)
+         * @param value  Opacity (0-1)
          */
         set: function (value) {
             value = $math.toNumberRange(value, 0, 1);
@@ -6492,7 +6464,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "nonScalingStroke", {
         /**
-         * @return {boolean} Do not scale stroke (outline)
+         * @return Do not scale stroke (outline)
          */
         get: function () {
             return this.getPropertyValue("nonScalingStroke");
@@ -6501,7 +6473,7 @@ var Sprite = /** @class */ (function (_super) {
          * Controls if the element's stroke (outline) should remain keep constant
          * thicnkess and do not scale when the whole element is resized.
          *
-         * @param {boolean}  value  Do not scale stroke (outline)
+         * @param value  Do not scale stroke (outline)
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -6514,7 +6486,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "nonScaling", {
         /**
-         * @return {boolean} Is element scaleable?
+         * @return Is element scaleable?
          */
         get: function () {
             return this.getPropertyValue("nonScaling");
@@ -6523,7 +6495,7 @@ var Sprite = /** @class */ (function (_super) {
          * Controls if element should keep constant size and not scale even if there is
          * space available, or it does not fit.
          *
-         * @param {boolean}  value  Is element scaleable?
+         * @param value  Is element scaleable?
          */
         set: function (value) {
             // @todo Description (review)
@@ -6535,7 +6507,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "strokeWidth", {
         /**
-         * @return {number} Thickness (px)
+         * @return Thickness (px)
          */
         get: function () {
             return this.getPropertyValue("strokeWidth");
@@ -6543,7 +6515,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Stroke (outline) thickness in pixels.
          *
-         * @param {number}  value  Thickness (px)
+         * @param value  Thickness (px)
          */
         set: function (value) {
             value = $type.toNumber(value);
@@ -6561,7 +6533,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "strokeDasharray", {
         /**
-         * @return {string} `stroke-dasharray`
+         * @return `stroke-dasharray`
          */
         get: function () {
             return this.getPropertyValue("strokeDasharray");
@@ -6572,7 +6544,7 @@ var Sprite = /** @class */ (function (_super) {
          * "Dasharray" allows setting rules to make lines dashed, dotted, etc.
          *
          * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray} for more info on `stroke-dasharray`
-         * @param {string}  value  `stroke-dasharray`
+         * @param value  `stroke-dasharray`
          */
         set: function (value) {
             value = $type.toText(value);
@@ -6583,9 +6555,34 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Sprite.prototype, "strokeDashoffset", {
+        /**
+         * @return `stroke-dashoffset`
+         */
+        get: function () {
+            return this.getPropertyValue("strokeDashoffset");
+        },
+        /**
+         * A `stroke-dashoffset` for the stroke (outline).
+         *
+         * "Dashoffset" allows setting the start position of the dashes if
+         * `strokeDasharray` is used.
+         *
+         * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dashoffset} for more info on `stroke-dashoffset`
+         * @param value  `stroke-dashoffset`
+         */
+        set: function (value) {
+            value = $type.toNumber(value);
+            if (this.setPropertyValue("strokeDashoffset", value)) {
+                this.setSVGAttribute({ "stroke-dashoffset": value });
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Sprite.prototype, "shapeRendering", {
         /**
-         * @return {ShapeRendering} 'shape-rendering' value
+         * @return 'shape-rendering' value
          */
         get: function () {
             return this.getPropertyValue("shapeRendering");
@@ -6597,7 +6594,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/shape-rendering} for more information about `shape-rendering`
          * @default "auto"
-         * @param {ShapeRendering}  value  'shape-rendering' value
+         * @param value  'shape-rendering' value
          */
         set: function (value) {
             value = $type.toText(value);
@@ -6610,7 +6607,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "pixelPerfect", {
         /**
-         * @return {boolean} Use pixel perfect?
+         * @return Use pixel perfect?
          */
         get: function () {
             return this.getPropertyValue("pixelPerfect");
@@ -6627,7 +6624,7 @@ var Sprite = /** @class */ (function (_super) {
          * We recommend leaving this at their default settings, unless there's a
          * specific need.
          *
-         * @param {boolean}  value  Use pixel perfect?
+         * @param value  Use pixel perfect?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -6644,7 +6641,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "rtl", {
         /**
-         * @return {boolean} RTL?
+         * @return RTL?
          */
         get: function () {
             if ($type.hasValue(this._rtl)) {
@@ -6664,7 +6661,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * RTL may affect alignment, text, and other visual properties.
          *
-         * @param {DateFormatter}  value  `true` for to use RTL
+         * @param value  `true` for to use RTL
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -6686,8 +6683,8 @@ var Sprite = /** @class */ (function (_super) {
      *
      * If `duration` is not specified, it will use default.
      *
-     * @param  {number}  duration  Fade in duration (ms)
-     * @return {Optional<Animation>} Animation object if such object was created
+     * @param duration  Fade in duration (ms)
+     * @return Animation object if such object was created
      */
     Sprite.prototype.show = function (duration) {
         return this.showReal(duration);
@@ -6696,8 +6693,8 @@ var Sprite = /** @class */ (function (_super) {
      * Performs actual operations to reveal this element.
      *
      * @ignore Exclude from docs
-     * @param  {number} duration Fade in duration (ms)
-     * @return {number}          Fade in duration (ms)
+     * @param duration Fade in duration (ms)
+     * @return Fade in duration (ms)
      */
     Sprite.prototype.showReal = function (duration) {
         var _this = this;
@@ -6751,7 +6748,7 @@ var Sprite = /** @class */ (function (_super) {
      * Initiates hiding of Sprite.
      * When called it will fade out the the Sprite to transparency, then make it
      * invisible.
-     * @param {number} duration Duration in millisecons
+     * @param duration Duration in millisecons
      */
     /**
      * Hides the element, by applying `hidden` state.
@@ -6765,8 +6762,8 @@ var Sprite = /** @class */ (function (_super) {
      *
      * When element is hidden, its `visible` property will resolve to `false`.
      *
-     * @param  {number}  duration  Fade out duration (ms)
-     * @return {Optional<Animation>} hide Animation object if such object was created
+     * @param duration  Fade out duration (ms)
+     * @return hide Animation object if such object was created
      */
     Sprite.prototype.hide = function (duration) {
         return this.hideReal(duration);
@@ -6774,8 +6771,8 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * Hides actual SVG elements and handles hiding animations.
      *
-     * @param  {number}  duration  Fade out duration (ms)
-     * @return {Animation}            Fade out duration (ms)
+     * @param duration  Fade out duration (ms)
+     * @return Fade out duration (ms)
      * @ignore
      */
     Sprite.prototype.hideReal = function (duration) {
@@ -6835,7 +6832,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Returns current visibility of the element.
          *
-         * @return {boolean} Visible?
+         * @return Visible?
          */
         get: function () {
             return this.getVisibility();
@@ -6843,7 +6840,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Sets visibility of the element.
          *
-         * @param {boolean} value Visible?
+         * @param value Visible?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -6869,8 +6866,8 @@ var Sprite = /** @class */ (function (_super) {
      * * `true` - visible
      * * `false` - hidden
      *
-     * @param  {boolean}  value  true - visible, false - hidden
-     * @return {string}          Current visibility
+     * @param value  true - visible, false - hidden
+     * @return Current visibility
      */
     Sprite.prototype.setVisibility = function (value) {
         if (this.setPropertyValue("visible", value)) {
@@ -6893,7 +6890,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "zIndex", {
         /**
-         * @return {number} zIndex
+         * @return zIndex
          */
         get: function () {
             return this.getPropertyValue("zIndex");
@@ -6906,7 +6903,7 @@ var Sprite = /** @class */ (function (_super) {
          * Higher "zIndex" will mean the element will be draw on top of elements
          * with lower "zIndexes".
          *
-         * @param {number}  value  zIndex
+         * @param value  zIndex
          */
         set: function (value) {
             value = $type.toNumber(value);
@@ -6941,7 +6938,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "tooltip", {
         /**
-         * @return {Optional<Tooltip>} Tooltip
+         * @return Tooltip
          */
         get: function () {
             if (this._tooltip) {
@@ -6964,7 +6961,7 @@ var Sprite = /** @class */ (function (_super) {
          * A [[Tooltip]] object to be used when displayed rollover information for
          * the element.
          *
-         * @param {Tooltip}  tooltip  Tooltip
+         * @param tooltip  Tooltip
          */
         set: function (tooltip) {
             if (this._tooltip) {
@@ -6981,7 +6978,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "tooltipDataItem", {
         /**
-         * @return {DataItem} Tooltip data item
+         * @return Tooltip data item
          */
         get: function () {
             var tooltipDataItem = this._tooltipDataItem;
@@ -6998,7 +6995,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * @see {@link Tooltip}
          * @see {@link DataItem}
-         * @param {DataItem}  value  Tooltip data item
+         * @param value  Tooltip data item
          */
         set: function (value) {
             // important: do not dispose tooltip dataItem, as it is some actual data item from data!
@@ -7009,7 +7006,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "tooltipColorSource", {
         /**
-         * @return {Optional<Sprite>} Tooltip color source
+         * @return Tooltip color source
          */
         get: function () {
             return this._tooltipColorSource;
@@ -7020,7 +7017,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * @see {@link Tooltip}
          * @see {@link Sprite}
-         * @param {Optional<Sprite>}  sprite Sprite
+         * @param sprite Sprite
          */
         set: function (sprite) {
             this._tooltipColorSource = sprite;
@@ -7035,8 +7032,8 @@ var Sprite = /** @class */ (function (_super) {
      * `tooltipText` as well as data in `tooltipDataItem`.
      *
      * @see {@link Tooltip}
-     * @param {point} optional point (sprite-related) to which tooltip must point.
-     * @return {boolean} returns true if the tooltip was shown and false if it wasn't (no text was found)
+     * @param optional point (sprite-related) to which tooltip must point.
+     * @return returns true if the tooltip was shown and false if it wasn't (no text was found)
      */
     Sprite.prototype.showTooltip = function (point) {
         // do not show if hidden
@@ -7166,6 +7163,9 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.updateTooltipPosition = function (point) {
         var _this = this;
         if (this.tooltipPosition == "pointer") {
+            if (this._interactionDisposer) {
+                this._interactionDisposer.dispose();
+            }
             this._interactionDisposer = getInteraction().body.events.on("track", function (ev) {
                 return _this.pointTooltipTo($utils.documentPointToSvg(ev.point, _this.svgContainer.SVGContainer, _this.svgContainer.cssScale), true);
             });
@@ -7185,8 +7185,8 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * Sets the point the [[Tooltip]] should point to.
      *
-     * @param {IPoint}   point      Coordinates to point to
-     * @param {boolean}  instantly  Move instantly without animation
+     * @param point      Coordinates to point to
+     * @param instantly  Move instantly without animation
      */
     Sprite.prototype.pointTooltipTo = function (point, instantly) {
         var tooltip = this.tooltip;
@@ -7209,12 +7209,13 @@ var Sprite = /** @class */ (function (_super) {
             tooltip.hide(duration);
             if (this._interactionDisposer) {
                 this._interactionDisposer.dispose();
+                this._interactionDisposer = undefined;
             }
         }
     };
     Object.defineProperty(Sprite.prototype, "tooltipHTML", {
         /**
-         * @return {string} Tooltip HTML content template
+         * @return Tooltip HTML content template
          */
         get: function () {
             return this.getPropertyValue("tooltipHTML");
@@ -7226,7 +7227,7 @@ var Sprite = /** @class */ (function (_super) {
          * for any data values to be replaced with the values from respective data
          * items.
          *
-         * @param {string} value Tooltip HTML content template
+         * @param value Tooltip HTML content template
          */
         set: function (value) {
             value = $type.toText(value);
@@ -7244,7 +7245,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "tooltipText", {
         /**
-         * @return {string} Tooltip content template
+         * @return Tooltip content template
          */
         get: function () {
             return this.getPropertyValue("tooltipText");
@@ -7258,7 +7259,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * This template will also be parsed for any special formatting tags.
          *
-         * @param {string} value Tooltip content template
+         * @param value Tooltip content template
          * @see {@link TextFormatter}
          */
         set: function (value) {
@@ -7280,7 +7281,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "tooltipContainer", {
         /**
          * @ignore Exclude from docs
-         * @return {Optional<Container>} Container
+         * @return Container
          */
         get: function () {
             if (this._tooltipContainer) {
@@ -7297,7 +7298,7 @@ var Sprite = /** @class */ (function (_super) {
          * Will use parent's container if does not have one set.
          *
          * @ignore Exclude from docs
-         * @param {Container} value Container
+         * @param value Container
          * @todo Dispose of the old _tooltipContainer ?
          */
         set: function (value) {
@@ -7309,7 +7310,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "tooltipX", {
         /**
          * @ignore Exclude from docs
-         * @return {number} Tooltip X (px)
+         * @return Tooltip X (px)
          */
         get: function () {
             return this.getTooltipX();
@@ -7318,7 +7319,7 @@ var Sprite = /** @class */ (function (_super) {
          * X coordinate the [[Tooltip]] should be shown at.
          *
          * @ignore Exclude from docs
-         * @param {number}  value  Tooltip X (px)
+         * @param value  Tooltip X (px)
          */
         set: function (value) {
             value = $type.toNumber(value);
@@ -7331,7 +7332,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "tooltipPosition", {
         /**
-         * @type {"fixed" | "pointer"} Position
+         * Position
          */
         get: function () {
             return this.getPropertyValue("tooltipPosition");
@@ -7340,7 +7341,7 @@ var Sprite = /** @class */ (function (_super) {
          * Specifies if [[Tooltip]] should follow the mouse or touch pointer or stay
          * at the fixed position.
          *
-         * @param { "fixed" | "pointer" }  value  Position
+         * @param value  Position
          */
         set: function (value) {
             this.setPropertyValue("tooltipPosition", value);
@@ -7351,7 +7352,7 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "tooltipY", {
         /**
          * @ignore Exclude from docs
-         * @return {number} Tooltip Y (px)
+         * @return Tooltip Y (px)
          */
         get: function () {
             return this.getTooltipY();
@@ -7360,7 +7361,7 @@ var Sprite = /** @class */ (function (_super) {
          * Y coordinate the [[Tooltip]] should be shown at.
          *
          * @ignore Exclude from docs
-         * @param {number}  value  Tooltip Y (px)
+         * @param value  Tooltip Y (px)
          */
         set: function (value) {
             value = $type.toNumber(value);
@@ -7375,7 +7376,7 @@ var Sprite = /** @class */ (function (_super) {
      * Returns Tooltip X coordinate if it's set, or middle of the element.
      *
      * @ignore Exclude from docs
-     * @return {number} X (px)
+     * @return X (px)
      */
     Sprite.prototype.getTooltipX = function () {
         var x = this.getPropertyValue("tooltipX");
@@ -7388,7 +7389,7 @@ var Sprite = /** @class */ (function (_super) {
      * Returns Tooltip Y coordinate if it's set, or middle of the element.
      *
      * @ignore Exclude from docs
-     * @return {number} Y (px)
+     * @return Y (px)
      */
     Sprite.prototype.getTooltipY = function () {
         var y = this.getPropertyValue("tooltipY");
@@ -7402,7 +7403,7 @@ var Sprite = /** @class */ (function (_super) {
      * processing of this item.
      *
      * @ignore Exclude from docs
-     * @param {Error} e Error
+     * @param e Error
      * @todo Implement from applying further actions to this item
      */
     Sprite.prototype.raiseCriticalError = function (e) {
@@ -7420,7 +7421,7 @@ var Sprite = /** @class */ (function (_super) {
  * Processes JSON-based config before it is applied to the object.
  *
  * @ignore Exclude from docs
- * @param {object}  config  Config
+ * @param config  Config
  */
     Sprite.prototype.processConfig = function (config) {
         if (config) {
@@ -7449,8 +7450,8 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * Converts string name of the cursor into actual [[MouseCursorStyle]].
      *
-     * @param  {string}                      style  Cursor type
-     * @return {Optional<MouseCursorStyle>}         Cursor definition
+     * @param style  Cursor type
+     * @return Cursor definition
      */
     Sprite.prototype.getCursorStyle = function (style) {
         switch (style) {
@@ -7474,9 +7475,9 @@ var Sprite = /** @class */ (function (_super) {
      * the end.
      *
      * @ignore Exclude from docs
-     * @param  {string}  a  Element 1
-     * @param  {string}  b  Element 2
-     * @return {Ordering}   Sorting number
+     * @param a  Element 1
+     * @param b  Element 2
+     * @return Sorting number
      */
     Sprite.prototype.configOrder = function (a, b) {
         if (a == b) {
@@ -7498,8 +7499,6 @@ var Sprite = /** @class */ (function (_super) {
          * If `sprite.hide()` is called, we set isHidden to true when sprite is hidden.
          * This was added becaus hidden state might have visibility set to true and so
          * there would not be possible to find out if a sprite is technically hidden or not.
-         *
-         * @type {boolean}
          */
         get: function () {
             if (this._isHidden) {
@@ -7515,7 +7514,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "showOnInit", {
         /**
-         * @return {boolean} Show on init?
+         * @return Show on init?
          */
         get: function () {
             return this.getPropertyValue("showOnInit");
@@ -7531,7 +7530,7 @@ var Sprite = /** @class */ (function (_super) {
          * initially, set `sprite.hidden = true`. Setting `sprite.visible = false`
          * will not prevent the animation and the sprite will be shown.
          *
-         * @param {boolean}  value show on init?
+         * @param value show on init?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -7600,7 +7599,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "hidden", {
         /**
-         * @return {boolean} Is initially hidden?
+         * @return Is initially hidden?
          */
         get: function () {
             return this.getPropertyValue("hidden");
@@ -7610,7 +7609,7 @@ var Sprite = /** @class */ (function (_super) {
          * "default" state when initialized. To prevent this but keep
          * `showOnInit = true`, you can set `sprite.hidden = true`.
          *
-         * @param {boolean}  value initially hidden?
+         * @param value initially hidden?
          */
         set: function (value) {
             value = $type.toBoolean(value);
@@ -7624,7 +7623,6 @@ var Sprite = /** @class */ (function (_super) {
          * Returns bounding box (square) for this element.
          *
          * @ignore Exclude from docs
-         * @type {IRectangle}
          */
         get: function () {
             if (this.definedBBox) {

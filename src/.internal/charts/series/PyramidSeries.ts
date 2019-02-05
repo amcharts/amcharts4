@@ -53,8 +53,6 @@ export class PyramidSeriesDataItem extends FunnelSeriesDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {PyramidSeries}
 	 */
 	public _component!: PyramidSeries;
 
@@ -90,22 +88,16 @@ export interface IPyramidSeriesProperties extends IFunnelSeriesProperties {
 
 	/**
 	 * Bottom width in pixels or percent
-	 *
-	 * @type {number | Percent}
 	 */
 	bottomWidth?: number | Percent;
 
 	/**
 	 * Top width in pixels or percent
-	 *
-	 * @type {number | Percent}
 	 */
 	topWidth?: number | Percent;
 
 	/**
 	 * Height of pyramid
-	 *
-	 * @type {number | Percent}
 	 */
 	pyramidHeight?: number | Percent;
 
@@ -114,7 +106,6 @@ export interface IPyramidSeriesProperties extends IFunnelSeriesProperties {
 	 * size.
 	 *
 	 * @default "area"
-	 * @type {"height" | "area"}
 	 */
 	valueIs?: "height" | "area";
 }
@@ -151,36 +142,26 @@ export class PyramidSeries extends FunnelSeries {
 
 	/**
 	 * Defines the type of data fields used for the series.
-	 *
-	 * @type {IPyramidSeriesDataFields}
 	 */
 	public _dataFields: IPyramidSeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPyramidSeriesProperties}
 	 */
 	public _properties!: IPyramidSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IPyramidSeriesAdapters}
 	 */
 	public _adapter!: IPyramidSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPyramidSeriesEvents}
 	 */
 	public _events!: IPyramidSeriesEvents;
 
 	/**
 	 * Defines the type of data item.
-	 *
-	 * @type {PyramidSeriesDataItem}
 	 */
 	public _dataItem: PyramidSeriesDataItem;
 
@@ -188,7 +169,6 @@ export class PyramidSeries extends FunnelSeries {
 	 * [_nextWidth description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	protected _nextWidth: number;
 
@@ -230,7 +210,7 @@ export class PyramidSeries extends FunnelSeries {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {PyramidSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new PyramidSeriesDataItem();
@@ -250,8 +230,8 @@ export class PyramidSeries extends FunnelSeries {
 	 * [getNextValue description]
 	 *
 	 * @todo Description
-	 * @param  {FunnelSeriesDataItem} dataItem [description]
-	 * @return {number}                        [description]
+	 * @param dataItem [description]
+	 * @return [description]
 	 */
 	protected getNextValue(dataItem: FunnelSeriesDataItem): number {
 		let index = dataItem.index;
@@ -268,7 +248,7 @@ export class PyramidSeries extends FunnelSeries {
 
 	/**
 	 * [validateDataElements description]
-	 * 
+	 *
 	 * @todo Description
 	 * @ignore Exclude from docs
 	 */
@@ -311,7 +291,7 @@ export class PyramidSeries extends FunnelSeries {
 	 * [decorateSlice description]
 	 *
 	 * @todo Description
-	 * @param {this["_dataItem"]} dataItem [description]
+	 * @param dataItem [description]
 	 */
 	protected decorateSlice(dataItem: this["_dataItem"]) {
 
@@ -387,7 +367,7 @@ export class PyramidSeries extends FunnelSeries {
 			sliceLink.bottomWidth = slice.bottomWidth;
 
 			slice.y = this._nextY;
-			//slice.x = maxWidth / 2;			
+			//slice.x = maxWidth / 2;
 
 			if (!this.alignLabels) {
 				label.x = maxWidth / 2;
@@ -441,14 +421,14 @@ export class PyramidSeries extends FunnelSeries {
 			sliceLink.bottomWidth = slice.bottomWidth;
 
 			slice.x = this._nextY;
-			
+
 			if (!this.alignLabels) {
 				label.y = maxHeight / 2;
 			}
 			else{
 				label.y = this.labelsContainer.measuredHeight;
 			}
-			
+
 			label.x = slice.pixelX + slice.pixelWidth * tick.locationX;
 
 			this._nextY += slice.pixelWidth + linkWidth * workingValue / dataItem.value;
@@ -515,7 +495,7 @@ export class PyramidSeries extends FunnelSeries {
 	 *
 	 * If you need the downward-pointing pyramid, you might want to `topWidth` to
 	 * `100%` and `bottomWidth` to `0%`.
-	 * 
+	 *
 	 * @param {number | Percent}
 	 */
 	public set bottomWidth(value: number | Percent) {

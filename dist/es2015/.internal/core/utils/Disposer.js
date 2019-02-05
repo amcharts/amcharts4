@@ -16,7 +16,7 @@ var Disposer = /** @class */ (function () {
     /**
      * Constructor.
      *
-     * @param {function}  dispose  Function that disposes object
+     * @param dispose  Function that disposes object
      */
     function Disposer(dispose) {
         this._disposed = false;
@@ -25,7 +25,7 @@ var Disposer = /** @class */ (function () {
     /**
      * Checks if object is disposed.
      *
-     * @return {boolean} Disposed?
+     * @return Disposed?
      */
     Disposer.prototype.isDisposed = function () {
         return this._disposed;
@@ -85,7 +85,7 @@ var MutableValueDisposer = /** @class */ (function (_super) {
     /**
      * Returns current value.
      *
-     * @return {Optional<T>} Value
+     * @return Value
      */
     MutableValueDisposer.prototype.get = function () {
         return this._value;
@@ -93,8 +93,8 @@ var MutableValueDisposer = /** @class */ (function (_super) {
     /**
      * Sets value and disposes previous disposer if it was set.
      *
-     * @param {Optional<T>}          value     New value
-     * @param {Optional<IDisposer>}  disposer  Disposer
+     * @param value     New value
+     * @param disposer  Disposer
      */
     MutableValueDisposer.prototype.set = function (value, disposer) {
         if ($type.hasValue(this._disposer)) {
@@ -124,7 +124,6 @@ var CounterDisposer = /** @class */ (function (_super) {
          * [_counter description]
          *
          * @todo Description
-         * @type {number}
          */
         _this._counter = 0;
         return _this;

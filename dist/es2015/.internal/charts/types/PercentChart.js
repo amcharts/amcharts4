@@ -116,7 +116,7 @@ var PercentChart = /** @class */ (function (_super) {
     /**
      * Creates a new [[PercentSeries]].
      *
-     * @return {PercentSeries} New series
+     * @return New series
      */
     PercentChart.prototype.createSeries = function () {
         return new PercentSeries();

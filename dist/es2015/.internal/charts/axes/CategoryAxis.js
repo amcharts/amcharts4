@@ -36,8 +36,6 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * Holds Adapter.
-         *
-         * @type {Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>}
          */
         _this.adapter = new Adapter(_this);
         _this.className = "CategoryAxisDataItem";
@@ -49,7 +47,7 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(CategoryAxisDataItem.prototype, "category", {
         /**
-         * @return {string} Category
+         * @return Category
          */
         get: function () {
             if (this.adapter.isEnabled("category")) {
@@ -60,7 +58,7 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
         /**
          * Category.
          *
-         * @param {string}  value  Category
+         * @param value  Category
          */
         set: function (value) {
             this.setProperty("category", value);
@@ -70,7 +68,7 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(CategoryAxisDataItem.prototype, "endCategory", {
         /**
-         * @return {string} End category
+         * @return End category
          */
         get: function () {
             return this.properties["endCategory"];
@@ -80,7 +78,7 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
          *
          * Used for items that span several categories, like [[CategoryAxisBreak]].
          *
-         * @param {string}  value  End category
+         * @param value  End category
          */
         set: function (value) {
             this.setProperty("endCategory", value);
@@ -138,8 +136,6 @@ var CategoryAxis = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * A collection that holds Axis' data items sorted by each category.
-         *
-         * @type {Dictionary}
          */
         _this.dataItemsByCategory = new Dictionary();
         _this.className = "CategoryAxis";
@@ -156,7 +152,7 @@ var CategoryAxis = /** @class */ (function (_super) {
      * Returns a new/empty [[DataItem]] of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {CategoryAxisDataItem} Data Item
+     * @return Data Item
      */
     CategoryAxis.prototype.createDataItem = function () {
         return new CategoryAxisDataItem();
@@ -164,7 +160,7 @@ var CategoryAxis = /** @class */ (function (_super) {
     /**
      * Returns a new/empty [[AxisBreak]] of the appropriate type.
      *
-     * @return {CategoryAxisBreak} Axis break
+     * @return Axis break
      */
     CategoryAxis.prototype.createAxisBreak = function () {
         return new CategoryAxisBreak();
@@ -183,8 +179,33 @@ var CategoryAxis = /** @class */ (function (_super) {
                 series.invalidateDataRange();
             }
             else {
-                var firstSeriesDataItem = _this.getSeriesDataItem(series, _this.start);
-                var lastSeriesDataItem = _this.getSeriesDataItem(series, _this.end, true);
+                var firstSeriesDataItem = void 0;
+                var lastSeriesDataItem = void 0;
+                var startIndex = _this.positionToIndex(_this.start);
+                var endIndex = _this.positionToIndex(_this.end);
+                for (var i = startIndex; i <= endIndex; i++) {
+                    var dataItem = _this.dataItems.getIndex(i);
+                    if (dataItem) {
+                        var fdi = _this.getFirstSeriesDataItem(series, dataItem.category);
+                        if (fdi) {
+                            if (!firstSeriesDataItem) {
+                                firstSeriesDataItem = fdi;
+                            }
+                            if (firstSeriesDataItem && fdi.index < firstSeriesDataItem.index) {
+                                firstSeriesDataItem = fdi;
+                            }
+                        }
+                        var ldi = _this.getLastSeriesDataItem(series, dataItem.category);
+                        if (ldi) {
+                            if (!lastSeriesDataItem) {
+                                lastSeriesDataItem = ldi;
+                            }
+                            if (lastSeriesDataItem && ldi.index > lastSeriesDataItem.index) {
+                                lastSeriesDataItem = ldi;
+                            }
+                        }
+                    }
+                }
                 if (firstSeriesDataItem) {
                     series.startIndex = firstSeriesDataItem.index;
                 }
@@ -297,8 +318,8 @@ var CategoryAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {CategoryAxisDataItem}  dataItem   [description]
-     * @param {number}                itemIndex  [description]
+     * @param dataItem   [description]
+     * @param itemIndex  [description]
      */
     CategoryAxis.prototype.validateDataElement = function (dataItem, itemIndex, index) {
         _super.prototype.validateDataElement.call(this, dataItem);
@@ -363,15 +384,15 @@ var CategoryAxis = /** @class */ (function (_super) {
      * Processes the axis data item.
      *
      * @ignore Exclude from docs
-     * @param {CategoryAxisDataItem}  dataItem     Data item
-     * @param {Object}                dataContext  The raw data that corresponds to this data item
+     * @param dataItem     Data item
+     * @param dataContext  The raw data that corresponds to this data item
      */
     CategoryAxis.prototype.processDataItem = function (dataItem, dataContext) {
         // creat a collection for fast access
         _super.prototype.processDataItem.call(this, dataItem, dataContext);
         // check if such category already exists
         var existingDataItem = this.dataItemsByCategory.getKey(dataItem.category);
-        if (existingDataItem != dataItem) {
+        if (existingDataItem && existingDataItem != dataItem) {
             this.dataItems.remove(existingDataItem);
         }
         this.dataItemsByCategory.setKey(dataItem.category, dataItem);
@@ -382,9 +403,9 @@ var CategoryAxis = /** @class */ (function (_super) {
      * `location` identifies relative location within category. 0 - beginning,
      * 0.5 - middle, 1 - end, and anything inbetween.
      *
-     * @param  {number}                     index     Index
-     * @param  {AxisItemLocation | number}  location  Location (0-1)
-     * @return {number}                               Position (px)
+     * @param index     Index
+     * @param location  Location (0-1)
+     * @return Position (px)
      */
     CategoryAxis.prototype.indexToPosition = function (index, location) {
         if (!$type.isNumber(location)) {
@@ -430,9 +451,9 @@ var CategoryAxis = /** @class */ (function (_super) {
      * `location` identifies relative location within category. 0 - beginning,
      * 0.5 - middle, 1 - end, and anything inbetween.
      *
-     * @param  {string}            category  Category name
-     * @param  {AxisItemLocation}  location  Location (0-1)
-     * @return {number}                      Position
+     * @param category  Category name
+     * @param location  Location (0-1)
+     * @return Position
      */
     CategoryAxis.prototype.categoryToPosition = function (category, location) {
         var index = this.categoryToIndex(category);
@@ -443,9 +464,9 @@ var CategoryAxis = /** @class */ (function (_super) {
      *
      * `location` identifies relative location within category. 0 - beginning,
      * 0.5 - middle, 1 - end, and anything inbetween.
-     * @param  {string}            category  Category name
-     * @param  {AxisItemLocation}  location  Location (0-1)
-     * @return {IOrientationPoint}  Orientation point
+     * @param category  Category name
+     * @param location  Location (0-1)
+     * @return Orientation point
      */
     CategoryAxis.prototype.categoryToPoint = function (category, location) {
         var position = this.categoryToPosition(category, location);
@@ -458,9 +479,9 @@ var CategoryAxis = /** @class */ (function (_super) {
      *
      * `location` identifies relative location within category. 0 - beginning,
      * 0.5 - middle, 1 - end, and anything inbetween.
-     * @param  {string}            category  Category name
-     * @param  {AxisItemLocation}  location  Location (0-1)
-     * @return {IOrientationPoint}  Orientation point
+     * @param category  Category name
+     * @param location  Location (0-1)
+     * @return Orientation point
      */
     CategoryAxis.prototype.anyToPoint = function (category, location) {
         return this.categoryToPoint(category, location);
@@ -470,9 +491,9 @@ var CategoryAxis = /** @class */ (function (_super) {
      *
      * An alias to `categoryToPosition()`.
      *
-     * @param  {string}            category  Category name
-     * @param  {AxisItemLocation}  location  Location (0-1)
-     * @return {number}                      Relative position
+     * @param category  Category name
+     * @param location  Location (0-1)
+     * @return Relative position
      */
     CategoryAxis.prototype.anyToPosition = function (category, location) {
         return this.categoryToPosition(category, location);
@@ -480,8 +501,8 @@ var CategoryAxis = /** @class */ (function (_super) {
     /**
      * Converts named category to an index of data item it corresponds to.
      *
-     * @param  {string}  category  Category
-     * @return {number}            Data item index
+     * @param category  Category
+     * @return Data item index
      */
     CategoryAxis.prototype.categoryToIndex = function (category) {
         if ($type.hasValue(category)) {
@@ -494,8 +515,8 @@ var CategoryAxis = /** @class */ (function (_super) {
     /**
      * Zooms the axis to specific named ctaegories.
      *
-     * @param {string}  startCategory  Start category
-     * @param {string}  endCategory    End category
+     * @param startCategory  Start category
+     * @param endCategory    End category
      */
     CategoryAxis.prototype.zoomToCategories = function (startCategory, endCategory) {
         this.zoomToIndexes(this.categoryToIndex(startCategory), this.categoryToIndex(endCategory) + 1);
@@ -505,11 +526,11 @@ var CategoryAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {string}           start         [description]
-     * @param  {string}           end           [description]
-     * @param  {AxisItemLocation} startLocation [description]
-     * @param  {AxisItemLocation} endLocation   [description]
-     * @return {string}                         [description]
+     * @param start         [description]
+     * @param end           [description]
+     * @param startLocation [description]
+     * @param endLocation   [description]
+     * @return [description]
      */
     CategoryAxis.prototype.getAnyRangePath = function (start, end, startLocation, endLocation) {
         var startPos = this.categoryToPosition(start, startLocation);
@@ -520,75 +541,111 @@ var CategoryAxis = /** @class */ (function (_super) {
      * Takes an absolute position (px) within axis and adjust it to a specific
      * `location` within category it corresponds to.
      *
-     * @param  {number}            position  Source position (px)
-     * @param  {AxisItemLocation}  location  Location within category (0-1)
-     * @return {number}                      Adjusted position (px)
+     * @param position  Source position (px)
+     * @param location  Location within category (0-1)
+     * @return Adjusted position (px)
      */
     CategoryAxis.prototype.roundPosition = function (position, location) {
         var index = this.positionToIndex(position);
         return this.indexToPosition(index, location);
     };
     /**
+     * Finds and returns first series data item with specific category
+     * @param series    Target series
+     * @param category  Category
+     * @return XYSeriesDataItem data item
+     */
+    CategoryAxis.prototype.getFirstSeriesDataItem = function (series, category) {
+        var sdi;
+        for (var i = 0; i < series.dataItems.length; i++) {
+            var dataItem = series.dataItems.getIndex(i);
+            if (series.xAxis == this) {
+                if (dataItem.categoryX == category) {
+                    return dataItem;
+                }
+            }
+            if (series.yAxis == this) {
+                if (dataItem.categoryY == category) {
+                    return dataItem;
+                }
+            }
+        }
+    };
+    /**
+     * Finds and returns last series data item with specific category.
+     * @param series    Target series
+     * @param category  Category
+     * @return XYSeriesDataItem data item
+     */
+    CategoryAxis.prototype.getLastSeriesDataItem = function (series, category) {
+        var sdi;
+        for (var i = series.dataItems.length - 1; i >= 0; i--) {
+            var dataItem = series.dataItems.getIndex(i);
+            if (series.xAxis == this) {
+                if (dataItem.categoryX == category) {
+                    return dataItem;
+                }
+            }
+            if (series.yAxis == this) {
+                if (dataItem.categoryY == category) {
+                    return dataItem;
+                }
+            }
+        }
+    };
+    /**
      * Returns a data item from Series that corresponds to a specific absolute
      * position on the Axis.
      *
-     * @param  {XYSeries}          series    Target series
-     * @param  {number}            position  Position (px)
-     * @return {XYSeriesDataItem}            Series data item
+     * @param series    Target series
+     * @param position  Position (px)
+     * @return XYSeriesDataItem data item
      */
-    CategoryAxis.prototype.getSeriesDataItem = function (series, position, last) {
+    CategoryAxis.prototype.getSeriesDataItem = function (series, position, findNearest) {
         var _this = this;
         if ($type.isNumber(position)) {
-            var index = this.positionToIndex(position);
-            var dataItem = this.dataItems.getIndex(index);
+            var index_1 = this.positionToIndex(position);
+            var dataItem = this.dataItems.getIndex(index_1);
             if (dataItem) {
                 var category_1 = dataItem.category;
                 var sdi_1;
-                //try the same index first
-                if (!last) {
-                    var seriesDataItem = series.dataItems.getIndex(index);
-                    if (series.xAxis == this) {
-                        if (seriesDataItem.categoryX == category_1) {
-                            return seriesDataItem;
-                        }
-                    }
-                    if (series.yAxis == this) {
-                        if (seriesDataItem.categoryY == category_1) {
-                            return seriesDataItem;
-                        }
-                    }
-                    $iter.eachContinue(series.dataItems.iterator(), function (dataItem) {
-                        if (series.xAxis == _this) {
-                            if (dataItem.categoryX == category_1) {
-                                sdi_1 = dataItem;
-                                return false;
-                            }
-                        }
-                        if (series.yAxis == _this) {
-                            if (dataItem.categoryY == category_1) {
-                                sdi_1 = dataItem;
-                                return false;
-                            }
-                        }
-                        return true;
-                    });
-                    return sdi_1;
-                }
-                else {
-                    for (var i = series.dataItems.length - 1; i >= 0; i--) {
-                        var dataItem_1 = series.dataItems.getIndex(i);
-                        if (series.xAxis == this) {
-                            if (dataItem_1.categoryX == category_1) {
-                                return dataItem_1;
-                            }
-                        }
-                        if (series.yAxis == this) {
-                            if (dataItem_1.categoryY == category_1) {
-                                return dataItem_1;
-                            }
-                        }
+                var seriesDataItem = series.dataItems.getIndex(index_1);
+                if (series.xAxis == this) {
+                    if (seriesDataItem.categoryX == category_1) {
+                        return seriesDataItem;
                     }
                 }
+                if (series.yAxis == this) {
+                    if (seriesDataItem.categoryY == category_1) {
+                        return seriesDataItem;
+                    }
+                }
+                series.dataItems.each(function (dataItem) {
+                    if (series.xAxis == _this) {
+                        if (dataItem.categoryX == category_1) {
+                            if (!sdi_1) {
+                                sdi_1 = dataItem;
+                            }
+                            if (Math.abs(index_1 - sdi_1.index) > Math.abs(index_1 - dataItem.index)) {
+                                sdi_1 = dataItem;
+                            }
+                        }
+                    }
+                    if (series.yAxis == _this) {
+                        if (dataItem.categoryY == category_1) {
+                            if (!sdi_1) {
+                                sdi_1 = dataItem;
+                            }
+                            if (Math.abs(index_1 - sdi_1.index) > Math.abs(index_1 - dataItem.index)) {
+                                sdi_1 = dataItem;
+                            }
+                        }
+                    }
+                });
+                //@todo
+                if (findNearest) {
+                }
+                return sdi_1;
             }
         }
     };
@@ -597,10 +654,10 @@ var CategoryAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {SeriesDataItem}  dataItem  Data item
-     * @param  {string}          key       Category
-     * @param  {number}          location  Location (0-1)
-     * @return {number}                    X coordinate (px)
+     * @param dataItem  Data item
+     * @param key       Category
+     * @param location  Location (0-1)
+     * @return X coordinate (px)
      */
     CategoryAxis.prototype.getX = function (dataItem, key, location) {
         var position;
@@ -619,10 +676,10 @@ var CategoryAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {SeriesDataItem}  dataItem  Data item
-     * @param  {string}          key       Category
-     * @param  {number}          location  Location (0-1)
-     * @return {number}                    Y coordinate (px)
+     * @param dataItem  Data item
+     * @param key       Category
+     * @param location  Location (0-1)
+     * @return Y coordinate (px)
      */
     CategoryAxis.prototype.getY = function (dataItem, key, location) {
         var position;
@@ -641,11 +698,11 @@ var CategoryAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}            key       Category
-     * @param  {number}            location  Location (0-1)
-     * @param  {string}            stackKey  Stack key (?)
-     * @return {number}                      Angle
+     * @param dataItem  Data item
+     * @param key       Category
+     * @param location  Location (0-1)
+     * @param stackKey  Stack key (?)
+     * @return Angle
      */
     CategoryAxis.prototype.getAngle = function (dataItem, key, location, stackKey) {
         return this.positionToAngle(this.categoryToPosition(dataItem.categories[key], location));
@@ -656,8 +713,8 @@ var CategoryAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {number}  position  Position (px)
-     * @return {number}            Cell start position (px)
+     * @param position  Position (px)
+     * @return Cell start position (px)
      */
     CategoryAxis.prototype.getCellStartPosition = function (position) {
         return this.roundPosition(position, 0);
@@ -668,8 +725,8 @@ var CategoryAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {number}  position  Position (px)
-     * @return {number}            Cell end position (px)
+     * @param position  Position (px)
+     * @return Cell end position (px)
      */
     CategoryAxis.prototype.getCellEndPosition = function (position) {
         return this.roundPosition(position, 1);
@@ -679,8 +736,8 @@ var CategoryAxis = /** @class */ (function (_super) {
      * within axis.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position (px)
-     * @return {string}            Label (category)
+     * @param position  Position (px)
+     * @return Label (category)
      */
     CategoryAxis.prototype.getTooltipText = function (position) {
         var dataItem = this.dataItems.getIndex(this.positionToIndex(position));
@@ -692,8 +749,8 @@ var CategoryAxis = /** @class */ (function (_super) {
      * Returns an index of the category that corresponds to specific pixel
      * position within axis.
      *
-     * @param  {number}  position  Position (px)
-     * @return {number}            Category index
+     * @param position  Position (px)
+     * @return Category index
      */
     CategoryAxis.prototype.positionToIndex = function (position) {
         position = $math.round(position, 10);
@@ -747,12 +804,12 @@ var CategoryAxis = /** @class */ (function (_super) {
      * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
      *
      * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
-     * @param  {number}  position  Relative position on axis (0-1)
-     * @return {string}            Position label
+     * @param position  Relative position on axis (0-1)
+     * @return Position label
      */
     CategoryAxis.prototype.getPositionLabel = function (position) {
         var dataItem = this.dataItems.getIndex(this.positionToIndex(position));
-        if (dataItem) { // @martynas todo: added this check, but this means that some aria label might not be received?
+        if (dataItem) {
             return dataItem.category;
         }
     };
@@ -761,7 +818,7 @@ var CategoryAxis = /** @class */ (function (_super) {
          * Coordinates of the actual axis start.
          *
          * @ignore Exclude from docs
-         * @return {IPoint} Base point
+         * @return Base point
          */
         get: function () {
             // This makes base grid to be drawn at the end of the axis and adds extra

@@ -27,8 +27,6 @@ export interface LightenFilterProperties extends FilterProperties {
 
 	/**
 	 * Lightness.
-	 *
-	 * @type {number}
 	 */
 	lightness: number;
 
@@ -49,15 +47,12 @@ export class LightenFilter extends Filter {
 
 	/**
 	 * Defines property types.
-	 *
-	 * @type {LightenFilterProperties}
 	 */
 	public _properties!: LightenFilterProperties;
 
 	/**
 	 * A storage for Filter property/value pairs.
 	 * @see [@link LightenFilterProperties]
-	 * @type {Dictionary<LightenFilterProperties, any>}
 	 */
 	//public propertyValues: Dictionary<LightenFilterProperties, any>;
 
@@ -65,7 +60,6 @@ export class LightenFilter extends Filter {
 	 * Reference to the `<feColorMatrix>` element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {AMElement}
 	 */
 	public feColorMatrix: AMElement;
 
@@ -98,7 +92,7 @@ export class LightenFilter extends Filter {
 	 *
 	 * If `lightness` is negative, colors will be darkened.
 	 *
-	 * @param {number}  value  Lightness
+	 * @param value  Lightness
 	 */
 	public set lightness(value: number) {
 		this.properties["lightness"] = value;
@@ -107,7 +101,7 @@ export class LightenFilter extends Filter {
 	}
 
 	/**
-	 * @return {number} Lightness
+	 * @return Lightness
 	 */
 	public get lightness(): number {
 		return this.properties["lightness"];

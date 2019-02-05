@@ -53,38 +53,26 @@ export interface IMapPolygonAdapters extends IMapObjectAdapters, IMapPolygonProp
 export declare class MapPolygon extends MapObject {
     /**
      * Defines available properties.
-     *
-     * @type {IMapPolygonProperties}
      */
     _properties: IMapPolygonProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IMapPolygonAdapters}
      */
     _adapter: IMapPolygonAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IMapPolygonEvents}
      */
     _events: IMapPolygonEvents;
     /**
      * A visual polygon element.
-     *
-     * @type {Polygon}
      */
     polygon: Polygon;
     /**
      * A related data item.
-     *
-     * @type {MapPolygonSeriesDataItem}
      */
     _dataItem: MapPolygonSeriesDataItem;
     /**
      * A map series this object belongs to.
-     *
-     * @type {MapPolygonSeries}
      */
     series: MapPolygonSeries;
     /**
@@ -92,12 +80,12 @@ export declare class MapPolygon extends MapObject {
      */
     constructor();
     /**
-     * @return {IGeoPoint[]} Polygon coordinates
+     * @return Polygon coordinates
      */
     /**
      * Set of coordinates for the polygon.
      *
-     * @param {IGeoPoint[][][]}  multiGeoPolygon  Polygon coordinates
+     * @param multiGeoPolygon  Polygon coordinates
      */
     multiGeoPolygon: IGeoPoint[][][];
     /**
@@ -114,14 +102,14 @@ export declare class MapPolygon extends MapObject {
      * Calculated polygon center latitude.
      *
      * @readonly
-     * @return {number} Center latitude
+     * @return Center latitude
      */
     readonly latitude: number;
     /**
      * Calculated polygon center longitude.
      *
      * @readonly
-     * @return {number} Center longitude
+     * @return Center longitude
      */
     readonly longitude: number;
     /**
@@ -134,14 +122,14 @@ export declare class MapPolygon extends MapObject {
      * Element's width in pixels.
      *
      * @readonly
-     * @return {number} Width (px)
+     * @return Width (px)
      */
     readonly pixelWidth: number;
     /**
      * Element's height in pixels.
      *
      * @readonly
-     * @return {number} Width (px)
+     * @return Width (px)
      */
     readonly pixelHeight: number;
 }

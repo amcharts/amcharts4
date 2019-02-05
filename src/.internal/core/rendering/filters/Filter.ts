@@ -38,7 +38,6 @@ import * as $type from "../../utils/Type";
 
 /**
  * Defines properties for a base filter
- * @type {string}
  */
 export interface FilterProperties {
 
@@ -46,7 +45,6 @@ export interface FilterProperties {
 	 * Width of the filter in percent.
 	 *
 	 * @default 120
-	 * @type {number}
 	 */
 	width: number;
 
@@ -54,7 +52,6 @@ export interface FilterProperties {
 	 * Height of the filter in percent.
 	 *
 	 * @default 120
-	 * @type {number}
 	 */
 	height: number;
 
@@ -88,8 +85,6 @@ export class Filter extends BaseObject implements IAnimatable {
 
 	/**
 	 * List of animations currently running for the filter.
-	 *
-	 * @type {Optional<Array<Animation>>}
 	 */
 	protected _animations: $type.Optional<Array<Animation>>;
 
@@ -97,14 +92,11 @@ export class Filter extends BaseObject implements IAnimatable {
 	 * Contains a list of filter primitives (effects) applied by the filter.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {List<AMElement>}
 	 */
 	public filterPrimitives: List<AMElement>;
 
 	/**
 	 * Defines property types.
-	 *
-	 * @type {FilterProperties}
 	 */
 	public _properties!: FilterProperties;
 
@@ -113,30 +105,23 @@ export class Filter extends BaseObject implements IAnimatable {
 	 *
 	 * @ignore Exclude from docs
 	 * @see {@link FilterProperties}
-	 * @type {FilterProperties}
 	 */
 	public properties: this["_properties"] = <any>{};
 	//public propertyValues = new Dictionary<FilterProperties, any>();
 
 	/**
 	 * An SVG `<group>` element hold primitive (effect) definitions.
-	 *
-	 * @type {Optional<Group>}
 	 */
 	public filterElement: $type.Optional<Group>;
 
 	/**
 	 * Identifies if this object is a "template" and should not be treated as
 	 * real object that is drawn or actually used in the chart.
-	 *
-	 * @type {boolean}
 	 */
 	public isTemplate: boolean = false;
 
 	/**
 	 * A Paper instance to add element to.
-	 *
-	 * @type {Paper}
 	 */
 	protected _paper: $type.Optional<Paper>;
 
@@ -144,7 +129,6 @@ export class Filter extends BaseObject implements IAnimatable {
 	 * [_scale description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	protected _scale: number = 1;
 
@@ -152,7 +136,6 @@ export class Filter extends BaseObject implements IAnimatable {
 	 * [_nonScaling description]
 	 *
 	 * @todo Description
-	 * @type {boolean}
 	 */
 	protected _nonScaling: boolean = true;
 
@@ -196,7 +179,7 @@ export class Filter extends BaseObject implements IAnimatable {
 	 * Appends actual filter elements to the filter group.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Group} filterElement An SVG `<group>` element to add filter element to
+	 * @param filterElement An SVG `<group>` element to add filter element to
 	 */
 	public appendPrimitives(filterElement: Group): void {
 		$iter.each(this.filterPrimitives.iterator(), (filterPrimitive) => {
@@ -209,10 +192,10 @@ export class Filter extends BaseObject implements IAnimatable {
 	 * smoothly appear filter, rather than it pop into effect.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {IAnimationOptions[] | IAnimationOptions}  animationOptions  Animation options
-	 * @param  {number}                                   duration          Duration in milliseconds
-	 * @param  {(number) => number}                       easing            Easing function
-	 * @return {Animation}                                                  Animation instance
+	 * @param animationOptions  Animation options
+	 * @param duration          Duration in milliseconds
+	 * @param easing            Easing function
+	 * @return Animation instance
 	 */
 	public animate(animationOptions: IAnimationOptions[] | IAnimationOptions, duration: number, easing?: (value: number) => number): Animation {
 		let animation: Animation = new Animation(this, animationOptions, duration, easing).start();
@@ -227,14 +210,14 @@ export class Filter extends BaseObject implements IAnimatable {
 	 * non-fitting parts will be clipped.
 	 *
 	 * @default 120
-	 * @param {number} value Width (px)
+	 * @param value Width (px)
 	 */
 	public set width(value: number) {
 		this.properties["width"] = value;
 	}
 
 	/**
-	 * @return {number} Width (%)
+	 * @return Width (%)
 	 */
 	public get width(): number {
 		return this.properties["width"];
@@ -248,14 +231,14 @@ export class Filter extends BaseObject implements IAnimatable {
 	 * non-fitting parts will be clipped.
 	 *
 	 * @default 120
-	 * @param {number} value Height (%)
+	 * @param value Height (%)
 	 */
 	public set height(value: number) {
 		this.properties["height"] = value;
 	}
 
 	/**
-	 * @return {number} Height
+	 * @return Height
 	 */
 	public get height(): number {
 		return this.properties["height"];
@@ -264,7 +247,7 @@ export class Filter extends BaseObject implements IAnimatable {
 	/**
 	 * Copies properties from another [[Filter]] object.
 	 *
-	 * @param {Filter} filter Source [[Filter]] object
+	 * @param filter Source [[Filter]] object
 	 */
 	public copyFrom(filter: this): void {
 		super.copyFrom(filter);
@@ -277,7 +260,7 @@ export class Filter extends BaseObject implements IAnimatable {
 	 * Sets [[Paper]] instance to create filter's elements in.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Paper}  paper  Paper
+	 * @param paper  Paper
 	 */
 	public set paper(paper: Paper) {
 		if (this._paper != paper) {
@@ -286,7 +269,7 @@ export class Filter extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {Paper} Paper
+	 * @return Paper
 	 */
 	public get paper(): Paper {
 		if (this._paper) {
@@ -299,7 +282,7 @@ export class Filter extends BaseObject implements IAnimatable {
 	 * All animations currently in play.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {Array<Animation>} List of animations
+	 * @return List of animations
 	 */
 	public get animations(): Array<Animation> {
 		if (!this._animations) {
@@ -340,7 +323,7 @@ export class Filter extends BaseObject implements IAnimatable {
 	 * scaled, otherwise filter will scale together with a [[Sprite]].
 	 *
 	 * @default false
-	 * @param {boolean}  value  Non scaling?
+	 * @param value  Non scaling?
 	 */
 	public set nonScaling(value: boolean) {
 		this._nonScaling = value;
@@ -351,7 +334,7 @@ export class Filter extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {boolean} Non scaling?
+	 * @return Non scaling?
 	 */
 	public get nonScaling(): boolean {
 		return this._nonScaling;
@@ -365,7 +348,7 @@ export class Filter extends BaseObject implements IAnimatable {
 	 * the new one.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Sprite}  value  Target element
+	 * @param value  Target element
 	 */
 	public set sprite(value: Sprite) {
 		this.setSprite(value);
@@ -375,7 +358,7 @@ export class Filter extends BaseObject implements IAnimatable {
 	 * Sets filter's target element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Sprite}  value  Element filter is being attached to
+	 * @param value  Element filter is being attached to
 	 */
 	protected setSprite(value: Sprite): void {
 		if (this._sprite && this._sprite != value) {

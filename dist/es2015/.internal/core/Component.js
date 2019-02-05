@@ -52,15 +52,12 @@ var Component = /** @class */ (function (_super) {
          *
          * Data fields define connection beween [[DataItem]] and actual properties
          * in raw data.
-         *
-         * @type {IComponentDataFields}
          */
         _this.dataFields = {};
         /**
          * A list of [[DataSource]] definitions of external data source.
          *
          * @ignore Exclude from docs
-         * @type {Object}
          */
         _this._dataSources = {};
         /**
@@ -68,35 +65,29 @@ var Component = /** @class */ (function (_super) {
          * method).
          *
          * @ignore Exclude from docs
-         * @type {number}
          */
         _this._parseDataFrom = 0;
         /**
          * Holds the disposers for the dataItems and dataUsers
          *
          * @ignore Exclude from docs
-         * @type {Array<IDisposer>}
          */
         _this._dataDisposers = [];
         /**
          * [_start description]
          *
          * @ignore Exclude from docs
-         * @type {number}
          */
         _this._start = 0;
         /**
          * [_end description]
          *
          * @ignore Exclude from docs
-         * @type {number}
          */
         _this._end = 1;
         /**
          * If set to `true`, changing data range in element will not trigger
          * `daterangechanged` event.
-         *
-         * @type {boolean}
          */
         _this.skipRangeEvent = false;
         /**
@@ -113,7 +104,6 @@ var Component = /** @class */ (function (_super) {
          *
          * @default 0
          * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-         * @type {number}
          */
         _this.rangeChangeDuration = 0;
         /**
@@ -121,7 +111,6 @@ var Component = /** @class */ (function (_super) {
          *
          * @see {@link Ease}
          * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-         * @type {function}
          */
         _this.rangeChangeEasing = $ease.cubicOut;
         /**
@@ -130,8 +119,6 @@ var Component = /** @class */ (function (_super) {
          * sets are used. This setting will control how many milliseconds should pass
          * when parsing data until parser stops for a brief moment to let other
          * processes catch up.
-         *
-         * @type {number}
          */
         _this.parsingStepDuration = 50;
         /**
@@ -139,7 +126,6 @@ var Component = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @type {boolean}
          */
         _this.dataInvalid = false;
         /**
@@ -152,7 +138,6 @@ var Component = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @type {boolean}
          */
         _this.dataRangeInvalid = false;
         /**
@@ -160,7 +145,6 @@ var Component = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @type {boolean}
          */
         _this.dataItemsInvalid = false;
         /**
@@ -174,7 +158,6 @@ var Component = /** @class */ (function (_super) {
          *
          * @default 0
          * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-         * @type {number}
          */
         _this.interpolationDuration = 0;
         /**
@@ -184,7 +167,6 @@ var Component = /** @class */ (function (_super) {
          * @default cubicOut
          * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
          * @see {@link Ease}
-         * @type {function}
          */
         _this.interpolationEasing = $ease.cubicOut;
         /**
@@ -194,7 +176,6 @@ var Component = /** @class */ (function (_super) {
          *
          * @default true
          * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-         * @type {boolean}
          */
         _this.sequencedInterpolation = true;
         /**
@@ -205,14 +186,12 @@ var Component = /** @class */ (function (_super) {
          *
          * @default 0
          * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-         * @type {number}
          */
         _this.sequencedInterpolationDelay = 0;
         /**
          * A progress (0-1) for the data validation process.
          *
          * @ignore Exclude from docs
-         * @type {number}
          */
         _this.dataValidationProgress = 0;
         _this._addAllDataItems = true;
@@ -239,7 +218,7 @@ var Component = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {DataItem} Data Item
+     * @return Data Item
      */
     Component.prototype.createDataItem = function () {
         return new DataItem();
@@ -249,7 +228,7 @@ var Component = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {IListEvents<Component>["inserted"]} event Event object
+     * @param event Event object
      */
     Component.prototype.handleDataUserAdded = function (event) {
         var dataUser = event.newValue;
@@ -301,7 +280,7 @@ var Component = /** @class */ (function (_super) {
      * object, a corresponding value on passed in `dataItem` is set.
      *
      * @ignore Exclude from docs
-     * @param {Object} item
+     * @param item
      */
     Component.prototype.processDataItem = function (dataItem, dataContext) {
         var _this = this;
@@ -368,7 +347,7 @@ var Component = /** @class */ (function (_super) {
      * When validating raw data, instead of processing data item, we update it
      *
      * @ignore Exclude from docs
-     * @param {Object} item
+     * @param item
      */
     Component.prototype.updateDataItem = function (dataItem) {
         var _this = this;
@@ -437,14 +416,14 @@ var Component = /** @class */ (function (_super) {
      * [validateDataElement description]
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]} dataItem [description]
+     * @param dataItem [description]
      */
     Component.prototype.validateDataElement = function (dataItem) {
     };
     /**
      * Adds one or several (array) of data items to the existing data.
      *
-     * @param {Object | Object[]} rawDataItem One or many raw data item objects
+     * @param rawDataItem One or many raw data item objects
      */
     Component.prototype.addData = function (rawDataItem, removeCount) {
         var _this = this;
@@ -467,7 +446,7 @@ var Component = /** @class */ (function (_super) {
     /**
      * Removes elements from the beginning of data
      *
-     * @param {Optional<number>} count number of elements to remove
+     * @param count number of elements to remove
      */
     Component.prototype.removeData = function (count) {
         if ($type.isNumber(count)) {
@@ -771,7 +750,7 @@ var Component = /** @class */ (function (_super) {
         /**
          * Returns element's source (raw) data.
          *
-         * @return {any[]} Data
+         * @return Data
          */
         get: function () {
             if (!this._data) {
@@ -783,7 +762,7 @@ var Component = /** @class */ (function (_super) {
          * Sets source (raw) data for the element. The "data" is always an `Array`
          * of objects.
          *
-         * @param {any[]} value Data
+         * @param value Data
          */
         set: function (value) {
             // array might be the same, but there might be items added
@@ -806,8 +785,8 @@ var Component = /** @class */ (function (_super) {
      * For example if I want to bind `data` to an external JSON file, I'd create
      * a DataSource for it.
      *
-     * @param  {string}      property  Property to bind external data to
-     * @return {DataSource}            A DataSource for property
+     * @param property  Property to bind external data to
+     * @return A DataSource for property
      */
     Component.prototype.getDataSource = function (property) {
         var _this = this;
@@ -829,7 +808,7 @@ var Component = /** @class */ (function (_super) {
     };
     Object.defineProperty(Component.prototype, "dataSource", {
         /**
-         * @return {DataSource} Data source
+         * @return Data source
          */
         get: function () {
             if (!this._dataSources["data"]) {
@@ -841,7 +820,7 @@ var Component = /** @class */ (function (_super) {
          *A [[DataSource]] to be used for loading Component's data.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/loading-external-data/} for more on loading external data
-         * @param {DataSource}  value  Data source
+         * @param value  Data source
          */
         set: function (value) {
             var _this = this;
@@ -872,8 +851,8 @@ var Component = /** @class */ (function (_super) {
      * own type-speicifc data fields so they are parsed properly.
      *
      * @ignore Exclude from docs
-     * @param  {string[]}  value  Array of date fields
-     * @return {string[]}         Array of date fields populated with chart's date fields
+     * @param value  Array of date fields
+     * @return Array of date fields populated with chart's date fields
      */
     Component.prototype.dataSourceDateFields = function (value) {
         return value;
@@ -884,8 +863,8 @@ var Component = /** @class */ (function (_super) {
      * own type-speicifc data fields so they are parsed properly.
      *
      * @ignore Exclude from docs
-     * @param  {string[]}  value  Array of number fields
-     * @return {string[]}         Array of number fields populated with chart's number fields
+     * @param value  Array of number fields
+     * @return Array of number fields populated with chart's number fields
      */
     Component.prototype.dataSourceNumberFields = function (value) {
         return value;
@@ -894,10 +873,10 @@ var Component = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {string[]}  list        [description]
-     * @param  {object}    dataFields  [description]
-     * @param  {string[]}  targetList  [description]
-     * @return {string[]}              [description]
+     * @param list        [description]
+     * @param dataFields  [description]
+     * @param targetList  [description]
+     * @return [description]
      */
     Component.prototype.populateDataSourceFields = function (list, dataFields, targetList) {
         $array.each(targetList, function (value) {
@@ -972,7 +951,7 @@ var Component = /** @class */ (function (_super) {
     };
     Object.defineProperty(Component.prototype, "responsive", {
         /**
-         * @return {DataSource} Data source
+         * @return Data source
          */
         get: function () {
             if (!this._responsive) {
@@ -988,7 +967,7 @@ var Component = /** @class */ (function (_super) {
          * NOTE: Responsive features are currently in development and may not work
          * as expected, if at all.
          *
-         * @param {Responsive}  value  Data source
+         * @param value  Data source
          */
         set: function (value) {
             this._responsive = value;
@@ -1009,10 +988,10 @@ var Component = /** @class */ (function (_super) {
      *
      * To zoom the chart use `zoom*` methods on its respective axes.
      *
-     * @param  {IRange}  range          Range
-     * @param  {boolean} skipRangeEvent Should rangechanged event not be triggered?
-     * @param  {boolean} instantly      Do not animate?
-     * @return {IRange}                 Actual modidied range (taking `maxZoomFactor` into account)
+     * @param range          Range
+     * @param skipRangeEvent Should rangechanged event not be triggered?
+     * @param instantly      Do not animate?
+     * @return Actual modidied range (taking `maxZoomFactor` into account)
      */
     Component.prototype.zoom = function (range, skipRangeEvent, instantly, declination) {
         var _this = this;
@@ -1109,10 +1088,10 @@ var Component = /** @class */ (function (_super) {
      *
      * To zoom the chart use `zoom*` methods on its respective axes.
      *
-     * @param {number}  startIndex     Index of the starting data item
-     * @param {number}  endIndex       Index of the ending data item
-     * @param {boolean} skipRangeEvent Should rangechanged event not be triggered?
-     * @param {boolean} instantly      Do not animate?
+     * @param startIndex     Index of the starting data item
+     * @param endIndex       Index of the ending data item
+     * @param skipRangeEvent Should rangechanged event not be triggered?
+     * @param instantly      Do not animate?
      */
     Component.prototype.zoomToIndexes = function (startIndex, endIndex, skipRangeEvent, instantly) {
         if (!$type.isNumber(startIndex) || !$type.isNumber(endIndex)) {
@@ -1127,7 +1106,7 @@ var Component = /** @class */ (function (_super) {
          * A current zoom factor (0-1). 1 meaning fully zoomed out. (showing all of
          * the available data)
          *
-         * @return {number} Zoom factor
+         * @return Zoom factor
          */
         get: function () {
             return $math.fitToRange(1 / (this.end - this.start), 1, this.maxZoomFactor);
@@ -1137,7 +1116,7 @@ var Component = /** @class */ (function (_super) {
     });
     Object.defineProperty(Component.prototype, "maxZoomFactor", {
         /**
-         * @return {number} Maximum zoomFactor
+         * @return Maximum zoomFactor
          */
         get: function () {
             return this.getPropertyValue("maxZoomFactor");
@@ -1159,7 +1138,7 @@ var Component = /** @class */ (function (_super) {
          *
          * Feel free to modify it to allow bigger zoom or to restrict zooming.
          *
-         * @param {number}  value  Maximum zoomFactor
+         * @param value  Maximum zoomFactor
          */
         set: function (value) {
             if (this.setPropertyValue("maxZoomFactor", value)) {
@@ -1175,7 +1154,7 @@ var Component = /** @class */ (function (_super) {
     Object.defineProperty(Component.prototype, "maxZoomDeclination", {
         /**
          * @ignore
-         * @return {number} Maximum zoom declination
+         * @return Maximum zoom declination
          */
         get: function () {
             return this.getPropertyValue("maxZoomDeclination");
@@ -1185,7 +1164,7 @@ var Component = /** @class */ (function (_super) {
          *
          * @ignore
          * @default 1
-         * @param {number}  value  Maximum zoom declination
+         * @param value  Maximum zoom declination
          */
         set: function (value) {
             if (this.setPropertyValue("maxZoomDeclination", value)) {
@@ -1199,7 +1178,7 @@ var Component = /** @class */ (function (_super) {
         /**
          * Current starting index.
          *
-         * @return {number} Start index
+         * @return Start index
          */
         get: function () {
             if (!$type.isNumber(this._startIndex)) {
@@ -1211,7 +1190,7 @@ var Component = /** @class */ (function (_super) {
          * Sets current starting index.
          *
          * @ignore Exclude from docs
-         * @param {number} value Start index
+         * @param value Start index
          */
         set: function (value) {
             this._startIndex = $math.fitToRange(Math.round(value), 0, this.dataItems.length);
@@ -1225,7 +1204,7 @@ var Component = /** @class */ (function (_super) {
      * @ignore
      * @todo:review description
      * returns item's relative position by the index of the item
-     * @param {number} index
+     * @param index
      */
     Component.prototype.indexToPosition = function (index) {
         return index / this.dataItems.length;
@@ -1234,7 +1213,7 @@ var Component = /** @class */ (function (_super) {
         /**
          * Current ending index.
          *
-         * @return {number} End index
+         * @return End index
          */
         get: function () {
             if (!$type.isNumber(this._endIndex)) {
@@ -1246,7 +1225,7 @@ var Component = /** @class */ (function (_super) {
          * Sets current ending index.
          *
          * @ignore Exclude from docs
-         * @param {number} value End index
+         * @param value End index
          */
         set: function (value) {
             this._endIndex = $math.fitToRange(Math.round(value), 0, this.dataItems.length);
@@ -1260,7 +1239,7 @@ var Component = /** @class */ (function (_super) {
         /**
          * Current relative starting position of the data range (zoom).
          *
-         * @return {number} Start (0-1)
+         * @return Start (0-1)
          */
         get: function () {
             return this._start;
@@ -1269,7 +1248,7 @@ var Component = /** @class */ (function (_super) {
          * Sets start of the current data range (zoom).
          *
          * @ignore Exclude from docs
-         * @param {number} value Start (0-1)
+         * @param value Start (0-1)
          */
         set: function (value) {
             // value = $math.round(value, 10); not good
@@ -1292,7 +1271,7 @@ var Component = /** @class */ (function (_super) {
         /**
          * Current relative ending position fo the data range (zoom).
          *
-         * @return {number} End (0-1)
+         * @return End (0-1)
          */
         get: function () {
             return this._end;
@@ -1301,7 +1280,7 @@ var Component = /** @class */ (function (_super) {
          * Sets end of the current data range (zoom).
          *
          * @ignore Exclude from docs
-         * @param {number} value End (0-1)
+         * @param value End (0-1)
          */
         set: function (value) {
             // value = $math.round(value, 10); // not good
@@ -1336,7 +1315,7 @@ var Component = /** @class */ (function (_super) {
         /**
          * Returns a list of source [[DataItem]] objects.
          *
-         * @return {OrderedListTemplate} List of data items
+         * @return List of data items
          */
         get: function () {
             return this._dataItems;
@@ -1360,7 +1339,7 @@ var Component = /** @class */ (function (_super) {
      * Processes newly added [[DataItem]] as well as triggers data re-validation.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<DataItem>["inserted"]} event [description]
+     * @param event [description]
      */
     Component.prototype.handleDataItemAdded = function (event) {
         event.newValue.component = this;
@@ -1373,10 +1352,10 @@ var Component = /** @class */ (function (_super) {
      * removes [[DataItem]] as well as triggers data re-validation.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<DataItem>["inserted"]} event [description]
+     * @param event [description]
      */
     Component.prototype.handleDataItemRemoved = function (event) {
-        event.oldValue.component = undefined;
+        //		event.oldValue.component = undefined; // not good, as some items might be not removed from component lists
         this._updateDataItemIndexes(event.index);
         if (!this.dataItemsInvalid) {
             this.invalidateDataItems();
@@ -1389,7 +1368,7 @@ var Component = /** @class */ (function (_super) {
          * @ignore Exclude from docs
          * @todo Description
          * @deprecated Not used?
-         * @param {Dictionary} List of data methods
+         * @param List of data methods
          */
         get: function () {
             if (!this._dataMethods) {
@@ -1410,8 +1389,8 @@ var Component = /** @class */ (function (_super) {
      * values.
      *
      * @todo Example
-     * @param {Key}                       field  Field name
-     * @param {this["_dataFields"][Key]}  value  Field name in data
+     * @param field  Field name
+     * @param value  Field name in data
      */
     Component.prototype.bindDataField = function (field, value) {
         this.dataFields[field] = value;
@@ -1443,7 +1422,7 @@ var Component = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description (review)
-         * @return {List<Component>} [description]
+         * @return [description]
          */
         get: function () {
             var _this = this;
@@ -1466,7 +1445,7 @@ var Component = /** @class */ (function (_super) {
     /**
      * Returns a clone of this element.
      *
-     * @return {this} Clone
+     * @return Clone
      */
     Component.prototype.clone = function () {
         var component = _super.prototype.clone.call(this);
@@ -1476,7 +1455,7 @@ var Component = /** @class */ (function (_super) {
     /**
      * Copies all parameters from another [[Component]].
      *
-     * @param {Component} source Source Component
+     * @param source Source Component
      */
     Component.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
@@ -1499,7 +1478,7 @@ var Component = /** @class */ (function (_super) {
     /**
      * Add an adapter for data.
      *
-     * @return {Export} Exporting
+     * @return Exporting
      */
     Component.prototype.getExporting = function () {
         var _export = _super.prototype.getExporting.call(this);
@@ -1550,7 +1529,7 @@ var Component = /** @class */ (function (_super) {
     };
     Object.defineProperty(Component.prototype, "minZoomCount", {
         /**
-         * @return {number} Min zoom count
+         * @return Min zoom count
          */
         get: function () {
             return this.getPropertyValue("minZoomCount");
@@ -1562,7 +1541,7 @@ var Component = /** @class */ (function (_super) {
          * intervals.
          *
          * @default 1
-         * @param {number}  value  Min zoom count
+         * @param value  Min zoom count
          */
         set: function (value) {
             this.setPropertyValue("minZoomCount", value);

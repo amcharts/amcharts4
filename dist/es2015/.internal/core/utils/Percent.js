@@ -11,7 +11,7 @@ var Percent = /** @class */ (function () {
     /**
      * Constructor.
      *
-     * @param {number}  percent  Percent value
+     * @param percent  Percent value
      */
     function Percent(percent) {
         this._value = percent;
@@ -36,7 +36,7 @@ var Percent = /** @class */ (function () {
          * ```
          *
          * @readonly
-         * @return {number} Relative value
+         * @return Relative value
          */
         get: function () {
             return this._value / 100;
@@ -48,7 +48,7 @@ var Percent = /** @class */ (function () {
         /**
          * Value in percent.
          *
-         * @return {number} Percent
+         * @return Percent
          */
         get: function () {
             return this._value;
@@ -72,8 +72,8 @@ export { Percent };
  * pieSeries.radius = am4core.percent(80);
  * ```
  *
- * @param  {number}   value  Percent
- * @return {Percent}         Percent object
+ * @param value  Percent
+ * @return Percent object
  */
 export function percent(value) {
     return new Percent(value);
@@ -82,8 +82,8 @@ export function percent(value) {
  * Checks if value is a [[Percent]] object.
  *
  * @ignore Exclude from docs
- * @param  {any}      value  Input value
- * @return {boolean}         Is percent?
+ * @param value  Input value
+ * @return Is percent?
  */
 export function isPercent(value) {
     return value instanceof Percent;

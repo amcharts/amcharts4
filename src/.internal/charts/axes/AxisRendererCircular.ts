@@ -37,15 +37,11 @@ export interface IAxisRendererCircularProperties extends IAxisRendererProperties
 
 	/**
 	 * Start angle of the circular axis in degrees (0-360).
-	 *
-	 * @type {number}
 	 */
 	startAngle?: number;
 
 	/**
 	 * End angle of the circular axis in degrees (0-360).
-	 *
-	 * @type {number}
 	 */
 	endAngle?: number;
 
@@ -53,8 +49,6 @@ export interface IAxisRendererCircularProperties extends IAxisRendererProperties
 	 * Outer radius of the circular axis.
 	 *
 	 * Can either be absolute (pixels) or relative ([[Percent]]).
-	 *
-	 * @type {number | Percent}
 	 */
 	radius?: number | Percent;
 
@@ -62,15 +56,11 @@ export interface IAxisRendererCircularProperties extends IAxisRendererProperties
 	 * Inner radius of the circular axis.
 	 *
 	 * Can either be absolute (pixels) or relative ([[Percent]]).
-	 *
-	 * @type {number | Percent}
 	 */
 	innerRadius?: number | Percent;
 
 	/**
 	 * Specifies if axis should use it's own start/end angles or the ones set on chart.
-	 *
-	 * @type {boolean}
 	 */
 	useChartAngles?: boolean;
 
@@ -103,43 +93,31 @@ export class AxisRendererCircular extends AxisRenderer {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IAxisRendererProperties}
 	 */
 	public _properties!: IAxisRendererCircularProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IAxisRendererAdapters}
 	 */
 	public _adapter!: IAxisRendererCircularAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IAxisRendererCircularEvents}
 	 */
 	public _events!: IAxisRendererCircularEvents;
 
 	/**
 	 * Defines type of the grid elements.
-	 *
-	 * @type {GridCircular}
 	 */
 	public _gridType: GridCircular;
 
 	/**
 	 * Defines type for the fill elements.
-	 *
-	 * @type {AxisFillCircular}
 	 */
 	public _fillType: AxisFillCircular;
 
 	/**
 	 * Defines type for the label elements.
-	 *
-	 * @type {AxisLabelCircular}
 	 */
 	public _labelType: AxisLabelCircular;
 
@@ -151,7 +129,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	/**
 	 * Constructor.
 	 *
-	 * @param {Axis} axis Related axis
+	 * @param axis Related axis
 	 */
 	constructor() {
 
@@ -223,7 +201,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	/**
 	 * Returns actual length of the Axis, in pixels.
 	 *
-	 * @return {number} Length (px)
+	 * @return Length (px)
 	 */
 	public get axisLength(): number {
 		return 2 * Math.PI * this.pixelRadius;
@@ -234,7 +212,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	 *
 	 * Can be absolute (px) or relative ([[Percent]]).
 	 *
-	 * @param {number | Percent}  value  Outer radius
+	 * @param value  Outer radius
 	 */
 	public set radius(value: number | Percent) {
 		if (this.setPercentProperty("radius", value, false, false, 10, false)) {
@@ -245,7 +223,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	}
 
 	/**
-	 * @return {number | Percent} Outer radius
+	 * @return Outer radius
 	 */
 	public get radius(): number | Percent {
 		return this.getPropertyValue("radius");
@@ -254,7 +232,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	/**
 	 * Outer radius in pixels.
 	 *
-	 * @return {number} Outer radius (px)
+	 * @return Outer radius (px)
 	 */
 	public get pixelRadius(): number {
 		return $utils.relativeRadiusToValue(this.radius, this.pixelRadiusReal) || 0;
@@ -265,7 +243,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	 *
 	 * Can be absolute (px) or relative ([[Percent]]).
 	 *
-	 * @param {number | Percent}  value  Inner radius
+	 * @param value  Inner radius
 	 */
 	public set innerRadius(value: number | Percent) {
 		if (this.setPercentProperty("innerRadius", value, false, false, 10, false)) {
@@ -276,7 +254,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	}
 
 	/**
-	 * @return {number | Percent} Inner radius
+	 * @return Inner radius
 	 */
 	public get innerRadius(): number | Percent {
 		return this.getPropertyValue("innerRadius");
@@ -287,14 +265,14 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * inherit them from relative properties from chart.
 	 *
 	 * @default false
-	 * @param {boolean}  value  Use chart's angles
+	 * @param value  Use chart's angles
 	 */
 	public set useChartAngles(value: boolean) {
 		this.setPropertyValue("useChartAngles", value);
 	}
 
 	/**
-	 * @return {boolean} Use chart angles
+	 * @return Use chart angles
 	 */
 	public get useChartAngles(): boolean {
 		return this.getPropertyValue("useChartAngles");
@@ -303,7 +281,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	/**
 	 * Inner radius in pixels.
 	 *
-	 * @return {number} Inner radius (px)
+	 * @return Inner radius (px)
 	 */
 	public get pixelInnerRadius(): number {
 		return $utils.relativeRadiusToValue(this.innerRadius, this.pixelRadiusReal) || 0;
@@ -312,8 +290,8 @@ export class AxisRendererCircular extends AxisRenderer {
 	/**
 	 * Converts relative position on axis to point coordinates.
 	 *
-	 * @param  {number}  position  Position (0-1)
-	 * @return {IPoint}            Point
+	 * @param position  Position (0-1)
+	 * @return Point
 	 */
 	public positionToPoint(position: number): IPoint {
 		let coordinate: number = this.positionToCoordinate(position);
@@ -324,8 +302,8 @@ export class AxisRendererCircular extends AxisRenderer {
 	/**
 	 * Converts relative position (0-1) on axis to angle in degrees (0-360).
 	 *
-	 * @param  {number}  position  Position (0-1)
-	 * @return {number}            Angle (0-360)
+	 * @param position  Position (0-1)
+	 * @return Angle (0-360)
 	 */
 	public positionToAngle(position: number): number {
 		let axis: Axis = this.axis;
@@ -362,9 +340,9 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * Updates and positions a grid element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Grid}    grid         Grid element
-	 * @param {number}  position     Starting position
-	 * @param {number}  endPosition  End position
+	 * @param grid         Grid element
+	 * @param position     Starting position
+	 * @param endPosition  End position
 	 */
 	public updateGridElement(grid: GridCircular, position: number, endPosition: number) {
 		position = position + (endPosition - position) * grid.location;
@@ -387,9 +365,9 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * Updates and positions a tick element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisTick}  tick         Tick element
-	 * @param {number}    position     Starting position
-	 * @param {number}    endPosition  End position
+	 * @param tick         Tick element
+	 * @param position     Starting position
+	 * @param endPosition  End position
 	 */
 	public updateTickElement(tick: AxisTick, position: number, endPosition: number) {
 
@@ -415,9 +393,9 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * Updates and positions a label element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisLabel}  label        Label element
-	 * @param {number}     position     Starting position
-	 * @param {number}     endPosition  Ending position
+	 * @param label        Label element
+	 * @param position     Starting position
+	 * @param endPosition  Ending position
 	 */
 	public updateLabelElement(label: this["_labelType"], position: number, endPosition: number, location?: number) {
 
@@ -437,8 +415,8 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * Checks if point is within bounds of a container.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {IPoint}   point Point coordinates
-	 * @return {boolean}         Fits?
+	 * @param point Point coordinates
+	 * @return Fits?
 	 */
 	public fitsToBounds(point: IPoint): boolean {
 		return true;
@@ -447,7 +425,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	/**
 	 * Start angle of the axis in degrees (0-360).
 	 *
-	 * @param {number}  value  Start angle
+	 * @param value  Start angle
 	 */
 	public set startAngle(value: number) {
 		// do not normalize angel here!
@@ -460,7 +438,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	}
 
 	/**
-	 * @return {number} Start angle
+	 * @return Start angle
 	 */
 	public get startAngle(): number {
 		return this.getPropertyValue("startAngle");
@@ -469,7 +447,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	/**
 	 * End angle of the axis in degrees (0-360).
 	 *
-	 * @param {number}  value  End angle
+	 * @param value  End angle
 	 */
 	public set endAngle(value: number) {
 		// do not normalize angel here!
@@ -482,7 +460,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	}
 
 	/**
-	 * @return {number} End angle
+	 * @return End angle
 	 */
 	public get endAngle(): number {
 		return this.getPropertyValue("endAngle");
@@ -494,9 +472,9 @@ export class AxisRendererCircular extends AxisRenderer {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {number}  startPosition  Starting position
-	 * @param  {number}  endPosition    End position
-	 * @return {string}                 SVG path
+	 * @param startPosition  Starting position
+	 * @param endPosition    End position
+	 * @return SVG path
 	 */
 	public getPositionRangePath(startPosition: number, endPosition: number, radius?: number | Percent, innerRadius?: number | Percent, cornerRadius?: number): string {
 		let path: string = "";
@@ -530,7 +508,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	/**
 	 * Returns a new grid element, suitable for this Axis Renderer type.
 	 *
-	 * @return {GridCircular} Grid element
+	 * @return Grid element
 	 */
 	public createGrid(): this["_gridType"] {
 		return new GridCircular();
@@ -539,7 +517,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	/**
 	 * Returns a new fill element, suitable for this Axis Renderer type.
 	 *
-	 * @return {AxisFillCircular} Fill element
+	 * @return Fill element
 	 */
 	public createFill(axis: Axis): this["_fillType"] {
 		return new AxisFillCircular(axis);
@@ -548,7 +526,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	/**
 	 * Returns a new label element, suitable for this Axis Renderer type.
 	 *
-	 * @return {AxisLabelCircular} Label element
+	 * @return Label element
 	 */
 	public createLabel(): this["_labelType"] {
 		return new AxisLabelCircular();
@@ -559,8 +537,8 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * Converts a point at specific coordinates to a relative position (0-1)
 	 * on the axis.
 	 *
-	 * @param  {IPoint}  point  Point
-	 * @return {number}         Position (0-1)
+	 * @param point  Point
+	 * @return Position (0-1)
 	 */
 	public pointToPosition(point: IPoint) {
 		let angle = $math.fitAngleToRange($math.getAngle(point), this.startAngle, this.endAngle);

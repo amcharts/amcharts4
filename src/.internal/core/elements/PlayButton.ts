@@ -59,22 +59,16 @@ export class PlayButton extends Button {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPlayButtonProperties}
 	 */
 	public _properties!: IPlayButtonProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IPlayButtonAdapters}
 	 */
 	public _adapter!: IPlayButtonAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPlayButtonEvents}
 	 */
 	public _events!: IPlayButtonEvents;
 

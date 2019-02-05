@@ -119,7 +119,7 @@ var Rectangle3D = /** @class */ (function (_super) {
     };
     Object.defineProperty(Rectangle3D.prototype, "depth", {
         /**
-         * @return {number} Depth (px)
+         * @return Depth (px)
          */
         get: function () {
             return this.getPropertyValue("depth");
@@ -128,7 +128,7 @@ var Rectangle3D = /** @class */ (function (_super) {
          * Depth (Z dimension) of the 3D rectangle in pixels.
          *
          * @default 30
-         * @param {number}  value  Depth (px)
+         * @param value  Depth (px)
          */
         set: function (value) {
             this.setPropertyValue("depth", value, true);
@@ -138,7 +138,7 @@ var Rectangle3D = /** @class */ (function (_super) {
     });
     Object.defineProperty(Rectangle3D.prototype, "angle", {
         /**
-         * @return {number} Angle
+         * @return Angle
          */
         get: function () {
             return this.getPropertyValue("angle");
@@ -147,7 +147,7 @@ var Rectangle3D = /** @class */ (function (_super) {
          * Angle of the point of view to the 3D element. (0-360)
          *
          * @default 30
-         * @param {number}  value  Angle
+         * @param value  Angle
          */
         set: function (value) {
             this.setPropertyValue("angle", value, true);

@@ -59,29 +59,22 @@ export class RadarColumn extends Column {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IRadarColumnProperties}
 	 */
 	public _properties!: IRadarColumnProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IRadarColumnAdapters}
 	 */
 	public _adapter!: IRadarColumnAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IRadarColumnEvents}
 	 */
 	public _events!: IRadarColumnEvents;
 
 
 	/**
 	 * Radar column element
-	 * @type {Slice}
 	 */
 	public radarColumn: Slice;
 
@@ -107,7 +100,7 @@ export class RadarColumn extends Column {
 	/**
 	 * Copies all parameters from another [[RadarColumn]].
 	 *
-	 * @param {RadarColumn} source Source RadarColumn
+	 * @param source Source RadarColumn
 	 */
 	public copyFrom(source: this) {
 		super.copyFrom(source)
@@ -120,7 +113,7 @@ export class RadarColumn extends Column {
 	/**
 	 * X coordinate for the slice tooltip.
 	 *
-	 * @return {number} X
+	 * @return X
 	 */
 	protected getTooltipX(): number {
 		let value = this.getPropertyValue("tooltipX");
@@ -133,7 +126,7 @@ export class RadarColumn extends Column {
 	/**
 	 * Y coordinate for the slice tooltip.
 	 *
-	 * @return {number} Y
+	 * @return Y
 	 */
 	protected getTooltipY(): number {
 		let value = this.getPropertyValue("tooltipX");

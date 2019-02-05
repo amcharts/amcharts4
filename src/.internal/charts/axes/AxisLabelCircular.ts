@@ -14,6 +14,7 @@ import { IPoint } from "../../core/defs/IPoint";
 import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
+import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
 import { percent, Percent } from "../../core/utils/Percent";
 
@@ -31,17 +32,20 @@ export interface IAxisLabelCircularProperties extends IAxisLabelProperties {
 
 	/**
 	 * Rotation angle of the label in relation to circle line.
-	 *
-	 * @type {number}
 	 */
 	relativeRotation?: number;
 
 	/**
 	 * Distance of the label from circle line.
-	 *
-	 * @type {number}
 	 */
 	radius?: number;
+
+	/**
+	 * Specifies if label should be bent along the circle
+	 *
+	 * @type {boolean}
+	 */
+	bent?: boolean;
 }
 
 /**
@@ -74,42 +78,32 @@ export class AxisLabelCircular extends AxisLabel {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IAxisLabelCircularProperties}
 	 */
 	public _properties!: IAxisLabelCircularProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IAxisLabelCircularAdapters}
 	 */
 	public _adapter!: IAxisLabelCircularAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IAxisLabelCircularEvents}
 	 */
 	public _events!: IAxisLabelCircularEvents;
 
 	/**
 	 * Related data item.
-	 *
-	 * @type {any}
 	 */
 	public _dataItem: any;
 
 	/**
 	 *
-	 * @type {number}
 	 * @ignore
 	 */
 	public fdx: number = 0;
 
 	/**
 	 *
-	 * @type {number}
 	 * @ignore
 	 */
 	public fdy: number = 0;
@@ -133,14 +127,14 @@ export class AxisLabelCircular extends AxisLabel {
 	 * It is an angle to circle. In case 90, labels will be positioned like rays
 	 * of light, if 0 - positione along the circle.
 	 *
-	 * @param {number} value Rotation angle
+	 * @param value Rotation angle
 	 */
 	public set relativeRotation(value: number) {
 		this.setPropertyValue("relativeRotation", value, true);
 	}
 
 	/**
-	 * @return {number} Rotation angle
+	 * @return Rotation angle
 	 */
 	public get relativeRotation(): number {
 		return this.getPropertyValue("relativeRotation");
@@ -149,21 +143,44 @@ export class AxisLabelCircular extends AxisLabel {
 	/**
 	 * Distance from axis circle to label in pixels or percent.
 	 *
-	 * @param {number} value Distance (px or percent)
+	 * @param value Distance (px or percent)
 	 */
 	public set radius(value: number | Percent) {
 		this.setPercentProperty("radius", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Distance (px)
+	 * @return Distance (px)
 	 */
 	public get radius(): number | Percent {
 		return this.getPropertyValue("radius");
 	}
 
 	/**
-	 * returns label radius in pixels
+	 * Specifies if label should be bent along the circle.
+	 *
+	 * IMPORTANT: Use this with caution, since it is quite CPU-greedy.
+	 *
+	 * @since 4.1.2
+	 * @default false
+	 * @param {boolean} value Bent?
+	 */
+	public set bent(value: boolean) {
+		this.setPropertyValue("bent", value, true);
+		if (value) {
+			this.textAlign = "middle";
+		}
+	}
+
+	/**
+	 * @return {number} Bent?
+	 */
+	public get bent(): boolean {
+		return this.getPropertyValue("bent");
+	}
+
+	/**
+	 * Returns label radius in pixels.
 	 */
 	public pixelRadius(axisRadius: number): number {
 		let sign: number = 1;
@@ -175,7 +192,7 @@ export class AxisLabelCircular extends AxisLabel {
 	}
 
 	/**
-	 * returns label radius in pixels
+	 * Returns label horizontal radius in pixels.
 	 */
 	public pixelRadiusY(axisRadius: number, axisRadiusY: number): number {
 		let sign: number = 1;
@@ -199,8 +216,8 @@ export class AxisLabelCircular extends AxisLabel {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {IPoint}  point       Label affixation point
-	 * @param  {number}  axisRadius  Distance from point (px)
+	 * @param point       Label affixation point
+	 * @param axisRadius  Distance from point (px)
 	 */
 	public fixPosition(angle: number, axisRadius: number, axisRadiusY?: number, dx?: number, dy?: number) {
 		if (!$type.isNumber(axisRadiusY)) {
@@ -234,11 +251,18 @@ export class AxisLabelCircular extends AxisLabel {
 		let relativeRotation = this.relativeRotation;
 		let labelRadius = this.pixelRadius(axisRadius);
 
+		if (this.bent) {
+			let point = { x: axisRadius * $math.cos(angle + 180), y: axisRadiusY * $math.sin(angle + 180) };
+			this.path = $path.moveTo(point) + $path.arcTo(angle + 180, 360, axisRadius + labelRadius, axisRadiusY + labelRadius * axisRadiusY / axisRadius);
+			this.locationOnPath = 0.5;
+			return;
+		}
+
 		// WHEN ROTATED
 		if ($type.isNumber(relativeRotation)) {
 
 			this.horizontalCenter = "none";
-			this.verticalCenter = "none";			
+			this.verticalCenter = "none";
 
 			angle = $math.fitAngleToRange(angle, -180, 180);
 
@@ -248,7 +272,7 @@ export class AxisLabelCircular extends AxisLabel {
 			let pixelPaddingBottom = this.pixelPaddingBottom;
 			let pixelPaddingTop = this.pixelPaddingTop;
 			let pixelPaddingLeft = this.pixelPaddingLeft;
-			let pixelPaddingRight = this.pixelPaddingRight;			
+			let pixelPaddingRight = this.pixelPaddingRight;
 
 			if (angle > 90 || angle < -90) {
 				if (relativeRotation == -90) {

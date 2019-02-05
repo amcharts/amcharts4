@@ -59,20 +59,16 @@ export class AxisTick extends Tick {
 
 	/**
 	 * Defines available properties
-	 * @type {AxisTicPkroperties}
 	 */
 	public _properties!: IAxisTickProperties;
 
 	/**
 	 * Defines available adapters
-	 * @type {IAxisTickAdapters}
 	 */
 	public _adapter!: IAxisTickAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IAxisTickEvents}
 	 */
 	public _events!: IAxisTickEvents;
 
@@ -80,10 +76,8 @@ export class AxisTick extends Tick {
 
 	/**
 	 * A referecent to Axis element this fill is applied to.
-	 *
-	 * @type {Axis}
 	 */
-	public axis: Axis;	
+	public axis: Axis;
 
 	constructor() {
 		super();
@@ -131,7 +125,7 @@ export class AxisTick extends Tick {
 			this.axis.invalidateDataItems();
 		}
 		return changed;
-	}	
+	}
 }
 
 

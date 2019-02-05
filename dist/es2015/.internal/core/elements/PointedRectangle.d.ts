@@ -22,7 +22,6 @@ export interface IPointedRectangleProperties extends IPointedShapeProperties {
      * Radius of rectangle's border in pixels.
      *
      * @default 0
-     * @type {number}
      */
     cornerRadius?: number;
 }
@@ -53,20 +52,14 @@ export interface IPointedRectangleAdapters extends IPointedShapeAdapters, IPoint
 export declare class PointedRectangle extends PointedShape {
     /**
      * Defines available properties.
-     *
-     * @type {IPointedRectangleProperties}
      */
     _properties: IPointedRectangleProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IPointedRectangleAdapters}
      */
     _adapter: IPointedRectangleAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IPointedRectangleEvents}
      */
     _events: IPointedRectangleEvents;
     /**
@@ -80,13 +73,13 @@ export declare class PointedRectangle extends PointedShape {
      */
     draw(): void;
     /**
-     * @return {number} Corner radius (px)
+     * @return Corner radius (px)
      */
     /**
      * Radius of rectangle's border in pixels.
      *
      * @default 0
-     * @param {number}  value  Corner radius (px)
+     * @param value  Corner radius (px)
      */
     cornerRadius: number;
 }

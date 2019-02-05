@@ -27,8 +27,6 @@ export interface ITickProperties extends ISpriteProperties {
 
 	/**
 	 * Length of the tick (px).
-	 *
-	 * @type {number}
 	 */
 	length?: number;
 }
@@ -67,22 +65,16 @@ export class Tick extends Sprite {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ITickProperties}
 	 */
 	public _properties!: ITickProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ITickAdapters}
 	 */
 	public _adapter!: ITickAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ITickEvents}
 	 */
 	public _events!: ITickEvents;
 
@@ -108,14 +100,14 @@ export class Tick extends Sprite {
 	/**
 	 * Length of the tick in pixels.
 	 *
-	 * @param {number}  value  Length (px)
+	 * @param value  Length (px)
 	 */
 	public set length(value: number) {
 		this.setPropertyValue("length", value, true);
 	}
 
 	/**
-	 * @return {number} Length (px)
+	 * @return Length (px)
 	 */
 	public get length(): number {
 		if (this.disabled) {

@@ -49,35 +49,26 @@ export interface IOHLCAdapters extends ICandlestickAdapters, IOHLCProperties {
 export declare class OHLC extends Candlestick {
     /**
      * Defines available properties.
-     *
-     * @type {IOHLCProperties}
      */
     _properties: IOHLCProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IOHLCAdapters}
      */
     _adapter: IOHLCAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IOHLCEvents}
      */
     _events: IOHLCEvents;
     /**
      * Open line element
-     * @type {Line}
      */
     openLine: Line;
     /**
      * Close line element
-     * @type {Line}
      */
     closeLine: Line;
     /**
      * High-low line element
-     * @type {Line}
      */
     highLowLine: Line;
     /**
@@ -91,7 +82,7 @@ export declare class OHLC extends Candlestick {
     /**
      * Copies all parameters from another [[OHLC]].
      *
-     * @param {OHLC} source Source OHLC
+     * @param source Source OHLC
      */
     copyFrom(source: this): void;
 }

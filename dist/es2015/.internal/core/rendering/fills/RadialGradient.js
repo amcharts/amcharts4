@@ -33,8 +33,6 @@ var RadialGradient = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * List of colors switch definitions in a gradient.
-         *
-         * @type {List<IGradientStop>}
          */
         _this._stops = new List();
         _this.element = _this.paper.addGroup("radialGradient");
@@ -100,9 +98,9 @@ var RadialGradient = /** @class */ (function (_super) {
     /**
      * Adds a color step to the gradient.
      *
-     * @param {Color}   color    Color (hex code or named color)
-     * @param {number}  opacity  Opacity (value from 0 to 1; 0 completely transaprent, 1 fully opaque)
-     * @param {number}  offset   Position of color in the gradient (value 0 to 1; 0 meaning start of the gradient and 1 end)
+     * @param color    Color (hex code or named color)
+     * @param opacity  Opacity (value from 0 to 1; 0 completely transaprent, 1 fully opaque)
+     * @param offset   Position of color in the gradient (value 0 to 1; 0 meaning start of the gradient and 1 end)
      */
     RadialGradient.prototype.addColor = function (color, opacity, offset) {
         this._stops.push({ color: color, opacity: opacity, offset: offset });
@@ -111,7 +109,7 @@ var RadialGradient = /** @class */ (function (_super) {
     Object.defineProperty(RadialGradient.prototype, "paper", {
         /**
          * @ignore Exclude from docs
-         * @return {Paper} Paper
+         * @return Paper
          */
         get: function () {
             if (this._paper) {
@@ -123,7 +121,7 @@ var RadialGradient = /** @class */ (function (_super) {
          * A [[Paper]] instace to use for the gradient.
          *
          * @ignore Exclude from docs
-         * @param {Paper}  paper  Paper
+         * @param paper  Paper
          */
         set: function (paper) {
             if (this._paper != paper) {
@@ -142,7 +140,7 @@ var RadialGradient = /** @class */ (function (_super) {
         /**
          * Center x coordinate of the gradient, can be set as number or Percent
          *
-         * @param {Optional<number | Percent>}  point  Center point
+         * @param point  Center point
          */
         set: function (value) {
             this._cx = value;
@@ -158,7 +156,7 @@ var RadialGradient = /** @class */ (function (_super) {
         /**
          * Center y coordinate of the gradient, can be set as number or Percent
          *
-         * @param {Optional<number | Percent>}  point  Center point
+         * @param point  Center point
          */
         set: function (value) {
             this._cy = value;
@@ -174,7 +172,7 @@ var RadialGradient = /** @class */ (function (_super) {
         /**
          * y coordinate of the focal point of a gradient, can be set in pixels or as Percent
          *
-         * @param {Optional<number | Percent>}  point  Center point
+         * @param point  Center point
          */
         set: function (value) {
             this._fx = value;
@@ -190,7 +188,7 @@ var RadialGradient = /** @class */ (function (_super) {
         /**
          * y coordinate of the focal point of a gradient, can be set in pixels or as Percent
          *
-         * @param {Optional<number | Percent>}  point  Center point
+         * @param point  Center point
          */
         set: function (value) {
             this._fy = value;
@@ -211,7 +209,7 @@ var RadialGradient = /** @class */ (function (_super) {
         /**
          * A list of color stops in the gradient.
          *
-         * @return {List<IGradientStop>} Stops
+         * @return Stops
          */
         get: function () {
             return this._stops;

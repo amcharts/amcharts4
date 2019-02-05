@@ -85,15 +85,15 @@ export declare class InterfaceColorSet extends BaseObject {
      * console.log(uicolors.getFor("stroke"));
      * ```
      *
-     * @param  {keyof IColorPurpose}  purpose  Color use purpuse
-     * @return {Color}                        Color
+     * @param purpose  Color use purpuse
+     * @return Color
      */
     getFor(purpose: keyof IColorPurpose): Color;
     /**
      * Sets color to be used for the specific purpose.
      *
-     * @param {keyof IColorPurpose}  purpose  Color use purpose
-     * @param {Color}               color    Color
+     * @param purpose  Color use purpose
+     * @param color    Color
      */
     setFor(purpose: keyof IColorPurpose, color: Color): void;
 }

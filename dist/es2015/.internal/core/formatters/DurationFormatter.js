@@ -28,15 +28,12 @@ var DurationFormatter = /** @class */ (function (_super) {
         /**
          * A base value for negative numbers. Will treat all numbers below this value
          * as negative numbers.
-         *
-         * @type {number}
          */
         _this._negativeBase = 0;
         /**
          * A base unit to consider values are in.
          *
          * @default "s"
-         * @type {TimeUnit}
          */
         _this._baseUnit = "second";
         /**
@@ -47,13 +44,10 @@ var DurationFormatter = /** @class */ (function (_super) {
          * Available options: svg, html.
          *
          * @default "svg"
-         * @type {string}
          */
         _this._outputFormat = "svg";
         /**
          * How many milliseconds each unit represents.
-         *
-         * @type {Object}
          */
         _this._unitValues = {
             "millisecond": 1,
@@ -67,8 +61,6 @@ var DurationFormatter = /** @class */ (function (_super) {
         };
         /**
          * Collection of aliases for units.
-         *
-         * @type {Object}
          */
         _this._unitAliases = {
             "Y": "y",
@@ -89,10 +81,10 @@ var DurationFormatter = /** @class */ (function (_super) {
      * 16 minutes and 40 seconds.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Tutorial on duration formatting
-     * @param  {number | string}  value   Value to format
-     * @param  {string}           format  Format to apply
-     * @param  {TimeUnit}         base    Override base unit
-     * @return {string}                   Formatted number
+     * @param value   Value to format
+     * @param format  Format to apply
+     * @param base    Override base unit
+     * @return Formatted number
      */
     DurationFormatter.prototype.format = function (value, format, base) {
         // no language?
@@ -150,9 +142,9 @@ var DurationFormatter = /** @class */ (function (_super) {
      * Parses supplied format into structured object which can be used to format
      * the number.
      *
-     * @param  {string}    format  Format string, i.e. "#,###.00"
-     * @param  {TimeUnit}  base    Override base unit
-     * @return {any}               Parsed information
+     * @param format  Format string, i.e. "#,###.00"
+     * @param base    Override base unit
+     * @return Parsed information
      */
     DurationFormatter.prototype.parseFormat = function (format, base) {
         var _this = this;
@@ -277,9 +269,9 @@ var DurationFormatter = /** @class */ (function (_super) {
     /**
      * Applies parsed format to a numeric value.
      *
-     * @param  {number}  value    Value
-     * @param  {any}     details  Parsed format as returned by {parseFormat}
-     * @return {string}           Formatted duration
+     * @param value    Value
+     * @param details  Parsed format as returned by {parseFormat}
+     * @return Formatted duration
      */
     DurationFormatter.prototype.applyFormat = function (value, details) {
         // Use absolute values
@@ -310,9 +302,9 @@ var DurationFormatter = /** @class */ (function (_super) {
     /**
      * Converts numeric value to timestamp in milliseconds.
      *
-     * @param  {number}    value     A source value
-     * @param  {TimeUnit}  baseUnit  Base unit the source value is in: "q", "s", "i", "h", "d", "w", "m", "y"
-     * @return {number}              Value representation as a timestamp in milliseconds
+     * @param value     A source value
+     * @param baseUnit  Base unit the source value is in: "q", "s", "i", "h", "d", "w", "m", "y"
+     * @return Value representation as a timestamp in milliseconds
      */
     DurationFormatter.prototype.toTimeStamp = function (value, baseUnit) {
         return value * this._unitValues[baseUnit];
@@ -348,7 +340,7 @@ var DurationFormatter = /** @class */ (function (_super) {
     };
     Object.defineProperty(DurationFormatter.prototype, "baseUnit", {
         /**
-         * @return {string} Base unit
+         * @return Base unit
          */
         get: function () {
             return this._baseUnit;
@@ -371,7 +363,7 @@ var DurationFormatter = /** @class */ (function (_super) {
          * * "year"
          *
          * @default "s"
-         * @param {TimeUnit}  baseUnit  A base unit
+         * @param baseUnit  A base unit
          */
         set: function (baseUnit) {
             this._baseUnit = baseUnit;
@@ -385,7 +377,7 @@ var DurationFormatter = /** @class */ (function (_super) {
          * Getter for output format.
          *
          * @ignore Exclude from docs
-         * @return {string} Output format
+         * @return Output format
          */
         get: function () {
             return this._outputFormat;
@@ -394,7 +386,7 @@ var DurationFormatter = /** @class */ (function (_super) {
          * Setter for output format: "svg" or "html.
          *
          * @ignore Exclude from docs
-         * @param {string}  value  Output format
+         * @param value  Output format
          */
         set: function (outputFormat) {
             this._outputFormat = outputFormat.toLowerCase();
@@ -417,10 +409,10 @@ var DurationFormatter = /** @class */ (function (_super) {
      * values, including small ones will use format with minutes, e.g.:
      * `00:10`, `00:50`, `12: 30`, etc.
      *
-     * @param  {number}    value     Value to format
-     * @param  {number}    maxValue  Maximum value to be used to determine format
-     * @param  {TimeUnit}  baseUnit  Base unit of the value
-     * @return {string}              Format
+     * @param value     Value to format
+     * @param maxValue  Maximum value to be used to determine format
+     * @param baseUnit  Base unit of the value
+     * @return Format
      */
     DurationFormatter.prototype.getFormat = function (value, maxValue, baseUnit) {
         // Is format override set?
@@ -448,9 +440,9 @@ var DurationFormatter = /** @class */ (function (_super) {
      * Returns value's closest denominator time unit, e.g 100 seconds is
      * `"minute"`, while 59 seconds would still be `second`.
      *
-     * @param  {number}    value     Source duration value
-     * @param  {TimeUnit}  baseUnit  Base unit
-     * @return {TimeUnit}            Denominator
+     * @param value     Source duration value
+     * @param baseUnit  Base unit
+     * @return Denominator
      */
     DurationFormatter.prototype.getValueUnit = function (value, baseUnit) {
         // Get base unit
@@ -478,9 +470,9 @@ var DurationFormatter = /** @class */ (function (_super) {
     /**
      * Converts value to milliseconds according to `baseUnit`.
      *
-     * @param  {number}    value     Source duration value
-     * @param  {TimeUnit}  baseUnit  Base unit
-     * @return {number}              Value in milliseconds
+     * @param value     Source duration value
+     * @param baseUnit  Base unit
+     * @return Value in milliseconds
      */
     DurationFormatter.prototype.getMilliseconds = function (value, baseUnit) {
         // Get base unit
@@ -491,7 +483,7 @@ var DurationFormatter = /** @class */ (function (_super) {
     };
     Object.defineProperty(DurationFormatter.prototype, "durationFormat", {
         /**
-         * @return {Optional<string>} Format
+         * @return Format
          */
         get: function () {
             return this._durationFormat;
@@ -501,7 +493,7 @@ var DurationFormatter = /** @class */ (function (_super) {
          * based on the basedUnit and range of values.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Available fomatting codes
-         * @param {string}  value  Format
+         * @param value  Format
          */
         set: function (value) {
             if (this._durationFormat != value) {
@@ -514,7 +506,7 @@ var DurationFormatter = /** @class */ (function (_super) {
     });
     Object.defineProperty(DurationFormatter.prototype, "durationFormats", {
         /**
-         * @return {Partial} Formats
+         * @return Formats
          */
         get: function () {
             if (!this._durationFormats) {
@@ -578,7 +570,7 @@ var DurationFormatter = /** @class */ (function (_super) {
         /**
          * Duration formats for various combination of base units.
          *
-         * @param {Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>}  value  Formats
+         * @param value  Formats
          */
         set: function (value) {
             this._durationFormats = value;

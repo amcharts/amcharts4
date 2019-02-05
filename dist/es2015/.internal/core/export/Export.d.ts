@@ -52,8 +52,6 @@ export declare type ExportOperation = {
 };
 /**
  * Defines image formats available for export.
- *
- * @type {string}
  */
 export declare type imageFormats = "png" | "gif" | "jpg";
 /**
@@ -62,8 +60,6 @@ export declare type imageFormats = "png" | "gif" | "jpg";
 export interface IExportImageOptions {
     /**
      * Quality of the exported image. (0-1)
-     *
-     * @type {number}
      */
     quality?: number;
     /**
@@ -74,7 +70,6 @@ export interface IExportImageOptions {
      * Number bigger than 1 will scale up the image.
      *
      * @default 1
-     * @type {number}
      */
     scale?: number;
     /**
@@ -88,7 +83,6 @@ export interface IExportImageOptions {
      * so use with caution.
      *
      * @default false
-     * @type {boolean}
      */
     keepTainted?: boolean;
 }
@@ -99,8 +93,6 @@ export interface IExportSVGOptions {
 }
 /**
  * Available PDF page sizes.
- *
- * @type {string}
  */
 export declare type pageSizes = "4A0" | "2A0" | "A0" | "A1" | "A2" | "A3" | "A4" | "A5" | "A6" | "A7" | "A8" | "A9" | "A10" | "B0" | "B1" | "B2" | "B3" | "B4" | "B5" | "B6" | "B7" | "B8" | "B9" | "B10" | "C0" | "C1" | "C2" | "C3" | "C4" | "C5" | "C6" | "C7" | "C8" | "C9" | "C10" | "RA0" | "RA1" | "RA2" | "RA3" | "RA4" | "SRA0" | "SRA1" | "SRA2" | "SRA3" | "SRA4" | "EXECUTIVE" | "FOLIO" | "LEGAL" | "LETTER" | "TABLOID";
 /**
@@ -109,22 +101,17 @@ export declare type pageSizes = "4A0" | "2A0" | "A0" | "A1" | "A2" | "A3" | "A4"
 export interface IExportPDFOptions extends IExportImageOptions {
     /**
      * Font size to use for all texts.
-     *
-     * @type {number}
      */
     fontSize?: number;
     /**
      * An image format to use for embedded images in PDF.
      *
      * See `imageFormats` in [[Export_module]].
-     *
-     * @type {string}
      */
     imageFormat?: imageFormats;
     /**
      * Whether to add a URL of the web page the chart has been exported from.
      *
-     * @type {boolean}
      * @default true
      */
     addURL?: boolean;
@@ -132,8 +119,6 @@ export interface IExportPDFOptions extends IExportImageOptions {
      * Page size of the exported PDF.
      *
      * See `pageSizes` in [[Export_module]].
-     *
-     * @type {string}
      */
     pageSize?: pageSizes;
     /**
@@ -162,7 +147,6 @@ export interface IExportCSVOptions {
      * Separator string to separate columns with.
      *
      * @default ","
-     * @type {string}
      */
     separator?: string;
     /**
@@ -173,7 +157,6 @@ export interface IExportCSVOptions {
      * quotes.
      *
      * @default false
-     * @type {boolean}
      */
     forceQuotes?: boolean;
     /**
@@ -184,21 +167,18 @@ export interface IExportCSVOptions {
      * bound to specific data fields.
      *
      * @default true
-     * @type {boolean}
      */
     addColumnNames?: boolean;
     /**
      * Add rows in reverse order.
      *
      * @default false
-     * @type {boolean}
      */
     reverse?: boolean;
     /**
      * Use timestamps instead of formatted date/time values.
      *
      * @default false
-     * @type {boolean}
      */
     useTimestamps?: boolean;
     /**
@@ -206,14 +186,12 @@ export interface IExportCSVOptions {
      * settings.
      *
      * @default true
-     * @type {boolean}
      */
     useLocale?: boolean;
     /**
      * Replace missing values with this.
      *
      * @default "" (empty string)
-     * @type {any}
      */
     emptyAs?: any;
 }
@@ -225,7 +203,6 @@ export interface IExportJSONOptions {
      * Use timestamps instead of formatted date/time values.
      *
      * @default false
-     * @type {boolean}
      */
     useTimestamps?: boolean;
     /**
@@ -233,14 +210,12 @@ export interface IExportJSONOptions {
      * settings.
      *
      * @default true
-     * @type {boolean}
      */
     useLocale?: boolean;
     /**
      * Sets indent size for each hierarchical elements.
      *
      * @default "  "
-     * @type {number}
      */
     indent?: number;
 }
@@ -256,14 +231,12 @@ export interface IExportExcelOptions {
      * bound to specific data fields.
      *
      * @default true
-     * @type {boolean}
      */
     addColumnNames?: boolean;
     /**
      * Use timestamps instead of formatted date/time values.
      *
      * @default false
-     * @type {boolean}
      */
     useTimestamps?: boolean;
     /**
@@ -271,14 +244,12 @@ export interface IExportExcelOptions {
      * settings.
      *
      * @default true
-     * @type {boolean}
      */
     useLocale?: boolean;
     /**
      * Replace missing values with this.
      *
      * @default "" (empty string)
-     * @type {any}
      */
     emptyAs?: any;
 }
@@ -293,7 +264,6 @@ export interface IExportPrintOptions extends IExportImageOptions {
      * print dialog kicks in.
      *
      * @default 500
-     * @type {number}
      */
     delay?: number;
     /**
@@ -315,8 +285,6 @@ export interface IExportCustomOptions {
     /**
      * A callback function reference that will be called when this custom item
      * is clicked.
-     *
-     * @type {function}
      */
     callback?: (branch?: any) => any;
 }
@@ -326,15 +294,11 @@ export interface IExportCustomOptions {
 export interface IExportRemovedObject {
     /**
      * Element that was removed out of DOM.
-     *
-     * @type {Node}
      */
     element: Node;
     /**
      * A placeholder element that was placed instead of removed element so that
      * we know where to put removed element back in.
-     *
-     * @type {Node}
      */
     placeholder: Node;
 }
@@ -376,28 +340,20 @@ export interface IExportEvents {
      *
      * You can use event handlers here to modify config before actual export
      * starts.
-     *
-     * @type {ExportOperation}
      */
     exportstarted: ExportOperation;
     /**
      * Invoked when export operation finishes.
-     *
-     * @type {ExportOperation}
      */
     exportfinished: ExportOperation;
     /**
      * Invoked when export operation encounters error.
-     *
-     * @type {ExportOperation}
      */
     error: ExportOperation;
     /**
      * Invoked when export operation times out.
      *
      * Use Export's `timeoutDelay` setting to set timeout. (default: 2000ms)
-     *
-     * @type {ExportOperation}
      */
     exporttimedout: ExportOperation;
 }
@@ -580,67 +536,54 @@ export declare class Export extends Validatable {
      * XLINK namespace definition.
      *
      * @ignore Exclude from docs
-     * @type {string}
      */
     static XLINK: string;
     /**
      * Defines available events.
-     *
-     * @type {IExportEvents}
      */
     _events: IExportEvents;
     /**
      * Defines available adapters.
-     *
-     * @type {IExportAdapters}
      */
     _adapter: IExportAdapters;
     /**
      * Adapter.
-     *
-     * @type {Adapter<Export, IExportAdapters>}
      */
     adapter: Adapter<Export, IExportAdapters>;
     /**
      * Holds options for each format.
      *
      * @ignore Exclude from docs
-     * @type {Dictionary<string, ExportOptions>}
      */
     private _formatOptions;
     /**
      * An instance of [[Language]].
      *
      * @ignore Exclude from docs
-     * @type {Language}
      */
     protected _language: $type.Optional<Language>;
     /**
      * An instance of [[ExportMenu]].
      *
      * @ignore Exclude from docs
-     * @type {Optional<ExportMenu>}
      */
     protected _menu: $type.Optional<ExportMenu>;
     /**
      * Reference to main container to place menu in.
      *
      * @ignore Exclude from docs
-     * @type {HTMLElement}
      */
     protected _container: HTMLElement;
     /**
      * [[Sprite]] instance to be used when converting to image.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Sprite>}
      */
     protected _sprite: $type.Optional<Sprite>;
     /**
      * Data storage to be used when exporting to data formats.
      *
      * @ignore Exclude from docs
-     * @type {any}
      */
     protected _data: any;
     /**
@@ -648,14 +591,12 @@ export declare class Export extends Validatable {
      * exporting to data formats.
      *
      * @ignore Exclude from docs
-     * @type {any}
      */
     protected _dataFields: any;
     /**
      * A reference to [[DateFormatter]].
      *
      * @ignore Exclude from docs
-     * @type {Optional<DateFormatter>}
      */
     protected _dateFormatter: $type.Optional<DateFormatter>;
     /**
@@ -663,35 +604,30 @@ export declare class Export extends Validatable {
      * formats.
      *
      * @ignore Exclude from docs
-     * @type {Optional<string>}
      */
     protected _dateFormat: $type.Optional<string>;
     /**
      * A list of column keys that hold date values.
      *
      * @ignore Exclude from docs
-     * @type {Optional<List<string>>}
      */
     protected _dateFields: $type.Optional<List<string>>;
     /**
      * A reference to [[DurationFormatter]].
      *
      * @ignore Exclude from docs
-     * @type {Optional<DurationFormatter>}
      */
     protected _durationFormatter: $type.Optional<DurationFormatter>;
     /**
      * A duration format to be used when formatting numeric values.
      *
      * @ignore Exclude from docs
-     * @type {Optional<string>}
      */
     protected _durationFormat: $type.Optional<string>;
     /**
      * A list of column keys that hold duration values.
      *
      * @ignore Exclude from docs
-     * @type {Optional<List<string>>}
      */
     protected _durationFields: $type.Optional<List<string>>;
     /**
@@ -700,21 +636,17 @@ export declare class Export extends Validatable {
      * would otherwise prevent SVG to be converted to canvas.
      *
      * @ignore Exclude from docs
-     * @type {List<IExportRemovedObject>}
      */
     protected _removedObjects: List<IExportRemovedObject>;
     /**
      * Holds references to the objects that were temporarily hidden when export
      * started, so that we can reveal them back when export ends.
-     *
-     * @type {Sprite[]}
      */
     protected _hiddenObjects: Sprite[];
     /**
      * Exported files will be prefixed with whatever it is set here.
      *
      * @ignore Exclude from docs
-     * @type {string}
      */
     protected _filePrefix: string;
     /**
@@ -722,7 +654,6 @@ export declare class Export extends Validatable {
      * override it and use some other color, set this property.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Color>}
      */
     protected _backgroundColor: $type.Optional<Color>;
     /**
@@ -730,7 +661,6 @@ export declare class Export extends Validatable {
      * A document.title will be used if not set.
      *
      * @ignore Exclude from docs
-     * @type {Optional<string>}
      */
     protected _title: $type.Optional<string>;
     /**
@@ -743,7 +673,6 @@ export declare class Export extends Validatable {
      * This setting can be used to disable or enable this functionality.
      *
      * @default true
-     * @type {boolean}
      */
     useWebFonts: boolean;
     /**
@@ -758,35 +687,28 @@ export declare class Export extends Validatable {
      * If you'd rather export images without change in size, set this to `false`.
      *
      * @default true
-     * @type {boolean}
      */
     useRetina: boolean;
     /**
      * If export operation takes longer than milliseconds in this second, we will
      * show a modal saying export operation took longer than expected.
-     *
-     * @type {number}
      */
     timeoutDelay: number;
     /**
      * A reference to export timeout.
      *
      * @ignore Exclude from docs
-     * @type {Optional<number>}
      */
     protected _timeoutTimeout: $type.Optional<IDisposer>;
     /**
      * Holds reference to [[Modal]] instance.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Modal>}
      */
     protected _modal: $type.Optional<Modal>;
     /**
      * Used to log original value of `interactionsEnabled` so that it can be restored
      * after temporarily disabling it.
-     *
-     * @type {Optional<boolean>}
      */
     private _spriteInteractionsEnabled;
     /**
@@ -794,7 +716,7 @@ export declare class Export extends Validatable {
      */
     constructor(container: HTMLElement);
     /**
-     * @return {Optional<ExportMenu>} ExportMenu instance
+     * @return ExportMenu instance
      */
     /**
      * An instance of [[ExportMenu]].
@@ -817,35 +739,34 @@ export declare class Export extends Validatable {
      * }
      * ```
      *
-     * @param {Optional<ExportMenu>}  menu  ExportMenu instance
+     * @param menu  ExportMenu instance
      */
     menu: $type.Optional<ExportMenu>;
     /**
      * Checks if this specific menu item type is supported by current system.
      *
-     * @param  {string}   type  Menu item type
-     * @return {boolean}        `false` if not supported
+     * @param type  Menu item type
+     * @return `false` if not supported
      */
     typeSupported<Key extends keyof IExportOptions>(type: Key): boolean;
     /**
      * Checks if data is available.
      *
-     * @return {boolean} Has data?
+     * @return Has data?
      */
     private _hasData();
     /**
      * Get function to handle export for particular format.
      *
      * @ignore Exclude from docs
-     * @type {this}
      */
     private _getFunction<Key>(type);
     /**
      * Initiates export procedure.
      *
-     * @param  {string}   type     Export type
-     * @param  {Object}   options  Options
-     * @return {boolean}           `true` if export was successful
+     * @param type     Export type
+     * @param options  Options
+     * @return `true` if export was successful
      * @async
      */
     export<Key extends keyof IExportOptions>(type: Key, options?: IExportOptions[Key]): Promise<boolean>;
@@ -853,9 +774,9 @@ export declare class Export extends Validatable {
      * A function that should handle unsupported export types.
      *
      * @ignore Exclude from docs
-     * @param  {string}              type     Export type
-     * @param  {IExportImageOptions} options  Options
-     * @return {Promise<string>}               Promise
+     * @param type     Export type
+     * @param options  Options
+     * @return Promise
      * @async
      */
     unsupported<Key extends keyof IExportOptions>(type: Key, options?: IExportOptions[Key]): Promise<string>;
@@ -865,15 +786,15 @@ export declare class Export extends Validatable {
      * Basically, if it has "callback" enabled, it will be called. Nothing else.
      *
      * @ignore Exclude from docs
-     * @param {IExportCustomOptions}  options  Options
+     * @param options  Options
      */
     handleCustom(options: IExportCustomOptions): void;
     /**
      * Requests a Print of the chart.
      *
-     * @param  {string}               type     Export type
-     * @param  {IExportImageOptions}  options  Options
-     * @return {Promise<string>}               Promise
+     * @param type     Export type
+     * @param options  Options
+     * @return Promise
      * @async
      */
     getPrint(type: string, options?: IExportPrintOptions): Promise<string>;
@@ -881,7 +802,7 @@ export declare class Export extends Validatable {
      * A function that returns data: URI encoded @font-family, so that way it can be embedded into SVG.
      *
      * @ignore Exclude from docs
-     * @return {Promise<string>} String which can be embedded directly into a <style> element.
+     * @return String which can be embedded directly into a <style> element.
      * @async
      */
     getFontFamilies(): Promise<{
@@ -916,9 +837,9 @@ export declare class Export extends Validatable {
      * } );
      * ```
      *
-     * @param  {string}               type     Image format
-     * @param  {IExportImageOptions}  options  Options
-     * @return {Promise<string>}               Promise
+     * @param type     Image format
+     * @param options  Options
+     * @return Promise
      */
     getImage<Key extends imageFormats>(type: Key, options?: IExportImageOptions): Promise<string>;
     /**
@@ -928,27 +849,27 @@ export declare class Export extends Validatable {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param {string}               type     Image format
-     * @param {IExportImageOptions}  options  Options
-     * @return {Promise<string>}              Data uri
+     * @param type     Image format
+     * @param options  Options
+     * @return Data uri
      */
     getImageAdvanced(type: imageFormats, options?: IExportImageOptions): Promise<string>;
     /**
      * Creates a `<canvas>` element and returns it.
      *
-     * @return {HTMLCanvasElement} Canvas element
+     * @return Canvas element
      */
     protected getDisposableCanvas(): HTMLCanvasElement;
     /**
      * Removes canvas.
      *
-     * @param {HTMLCanvasElement}  canvas  Canvas element
+     * @param canvas  Canvas element
      */
     protected disposeCanvas(canvas: HTMLCanvasElement): void;
     /**
      * Returns pixel ratio for retina displays.
      *
-     * @return {number} Pixel ratio
+     * @return Pixel ratio
      */
     protected getPixelRatio(): number;
     /**
@@ -959,9 +880,9 @@ export declare class Export extends Validatable {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @param  {SVGSVGElement}        el       SVG node
-     * @param  {IExportImageOptions}  options  Options
-     * @return {Promise<void>}                 Promise
+     * @param el       SVG node
+     * @param options  Options
+     * @return Promise
      */
     imagesToDataURI(el: SVGSVGElement, options?: IExportImageOptions): Promise<void>;
     /**
@@ -973,9 +894,9 @@ export declare class Export extends Validatable {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @param  {SVGSVGElement}        el       SVG node
-     * @param  {IExportImageOptions}  options  Options
-     * @return {Promise<void>}                 Promise
+     * @param el       SVG node
+     * @param options  Options
+     * @return Promise
      */
     prepForeignObjects(el: SVGSVGElement, options?: IExportImageOptions): Promise<void>;
     /**
@@ -986,8 +907,8 @@ export declare class Export extends Validatable {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @param {SVGImageElement}     el       SVG element
-     * @param {IExportImageOptions} options  Options
+     * @param el       SVG element
+     * @param options  Options
      */
     imageToDataURI(el: SVGImageElement, options?: IExportImageOptions): Promise<string>;
     /**
@@ -998,8 +919,8 @@ export declare class Export extends Validatable {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @param {SVGImageElement}     el        An SVG element
-     * @param {IExportImageOptions} options   Options
+     * @param el        An SVG element
+     * @param options   Options
      */
     svgToDataURI(el: SVGImageElement, options?: IExportImageOptions): Promise<string>;
     /**
@@ -1010,7 +931,7 @@ export declare class Export extends Validatable {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @param {Node} el Node
+     * @param el Node
      */
     temporarilyRemoveObject(el: Node, placeholder?: SVGSVGElement): void;
     /**
@@ -1028,25 +949,25 @@ export declare class Export extends Validatable {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @return {boolean} `true` if simplified export can be used
+     * @return `true` if simplified export can be used
      */
     simplifiedImageExport(): Promise<boolean>;
     /**
      * Returns a new `<image>` element.
      *
      * @ignore Exclude from docs
-     * @param  {string}                     url          URL of the image
-     * @param  {number}                     width        Width (px)
-     * @param  {number}                     height       Height (px)
-     * @param  {string}                     crossOrigin  Cross-Origin setting
-     * @return {Promise<HTMLImageElement>}               Promise
+     * @param url          URL of the image
+     * @param width        Width (px)
+     * @param height       Height (px)
+     * @param crossOrigin  Cross-Origin setting
+     * @return Promise
      */
     loadNewImage(url: string, width?: number, height?: number, crossOrigin?: string): Promise<HTMLImageElement>;
     /**
      * Returns current DOM URL.
      *
      * @ignore Exclude from docs
-     * @return {any} URL
+     * @return URL
      */
     getDOMURL(): any;
     /**
@@ -1055,9 +976,9 @@ export declare class Export extends Validatable {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param {string}             type     Type of the export
-     * @param {IExportSVGOptions}  options  Options
-     * @return {Promise<string>}            Promise
+     * @param type     Type of the export
+     * @param options  Options
+     * @return Promise
      */
     getSVG(type: "svg", options?: IExportSVGOptions): Promise<string>;
     /**
@@ -1065,13 +986,13 @@ export declare class Export extends Validatable {
      * necessary.
      *
      * @ignore Exclude from docs
-     * @param  {string}             svg       Input SVG
-     * @param  {IExportSVGOptions}  options   Options
-     * @param  {number}             width     Width of the SVG viewport
-     * @param  {number}             height    Height of the SVG viewport
-     * @param  {string}             font      Font family to use as a base
-     * @param  {string}             fontSize  Font size to use as a base
-     * @return {string}                       Output SVG
+     * @param svg       Input SVG
+     * @param options   Options
+     * @param width     Width of the SVG viewport
+     * @param height    Height of the SVG viewport
+     * @param font      Font family to use as a base
+     * @param fontSize  Font size to use as a base
+     * @return Output SVG
      * @todo Add style params to existing <svg>
      */
     normalizeSVG(svg: string, options?: IExportSVGOptions, width?: number, height?: number, font?: string, fontSize?: string, background?: Color): string;
@@ -1079,8 +1000,8 @@ export declare class Export extends Validatable {
      * Serializes an element and returns its contents.
      *
      * @ignore Exclude from docs
-     * @param  {HTMLElement | SVGSVGElement}  element  An element to serialize
-     * @return {string}                                A serialized XML
+     * @param element  An element to serialize
+     * @return A serialized XML
      */
     serializeElement(element: HTMLElement | SVGSVGElement | SVGDefsElement): string;
     /**
@@ -1089,9 +1010,9 @@ export declare class Export extends Validatable {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param {string}             type     Type of the export
-     * @param {IExportPDFOptions}  options  Options
-     * @return {Promise<string>}            Promise
+     * @param type     Type of the export
+     * @param options  Options
+     * @return Promise
      * @async
      * @todo Account for header when calculating vertical fit
      */
@@ -1100,8 +1021,8 @@ export declare class Export extends Validatable {
      * Returns fit dimensions for available page sizes.
      *
      * @ignore Exclude from docs
-     * @param  {pageSizes} pageSize Page size
-     * @return {number[]}           `[width, height]` in pixels
+     * @param pageSize Page size
+     * @return `[width, height]` in pixels
      */
     getPageSizeFit(pageSize: pageSizes, margins?: number | number[]): number[];
     /**
@@ -1110,9 +1031,9 @@ export declare class Export extends Validatable {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param {string}               type     Type of the export
-     * @param {IExportExcelOptions}  options  Options
-     * @return {Promise<string>}              Promise
+     * @param type     Type of the export
+     * @param options  Options
+     * @return Promise
      * @async
      * @todo Handle dates
      * @todo Support for multi-sheet
@@ -1121,18 +1042,18 @@ export declare class Export extends Validatable {
     /**
      * This is needed to work around Excel limitations.
      *
-     * @param  {string}  name  Source name
-     * @return {string}        Normalized name
+     * @param name  Source name
+     * @return Normalized name
      */
     private normalizeExcelSheetName(name);
     /**
      * Rertuns an array of values to be used as Excel row.
      *
      * @ignore Exclude from docs
-     * @param  {any}                  row         Row data
-     * @param  {IExportExcelOptions}  options     Options
-     * @param  {any}                  dataFields  Data fields
-     * @return {any[]}                            Array of values
+     * @param row         Row data
+     * @param options     Options
+     * @param dataFields  Data fields
+     * @return Array of values
      */
     getExcelRow(row: any, options?: IExportExcelOptions, dataFields?: any): any[];
     /**
@@ -1141,9 +1062,9 @@ export declare class Export extends Validatable {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param {string}             type     Type of the export
-     * @param {IExportCSVOptions}  options  Options
-     * @return {Promise<string>}            Promise
+     * @param type     Type of the export
+     * @param options  Options
+     * @return Promise
      * @async
      */
     getCSV(type: "csv", options?: IExportCSVOptions): Promise<string>;
@@ -1151,10 +1072,10 @@ export declare class Export extends Validatable {
      * Formats a row of CSV data.
      *
      * @ignore Exclude from docs
-     * @param  {any}                row         An object holding data for the row
-     * @param  {IExportCSVOptions}  options     Options
-     * @param  {any}                dataFields  Data fields
-     * @return {string}                         Formated CSV line
+     * @param row         An object holding data for the row
+     * @param options     Options
+     * @param dataFields  Data fields
+     * @return Formated CSV line
      */
     getCSVRow(row: any, options?: IExportCSVOptions, dataFields?: any): string;
     /**
@@ -1163,9 +1084,9 @@ export declare class Export extends Validatable {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param {string}              type     Type of the export
-     * @param {IExportJSONOptions}  options  Options
-     * @return {Promise<string>}             Promise
+     * @param type     Type of the export
+     * @param options  Options
+     * @return Promise
      * @async
      */
     getJSON(type: "json", options?: IExportJSONOptions): Promise<string>;
@@ -1173,18 +1094,17 @@ export declare class Export extends Validatable {
      * Converts the value to proper date format.
      *
      * @ignore Exclude from docs
-     * @param  {string}                                  field       Field name
-     * @param  {any}                                     value       Value
-     * @param  {IExportCSVOptions | IExportJSONOptions}  options     Options
-     * @param  {boolean}                                 keepAsDate  Will ignore formatting and will keep as Date object if set
-     * @return {any}                                                 Formatted date value or unmodified value
+     * @param field       Field name
+     * @param value       Value
+     * @param options     Options
+     * @param keepAsDate  Will ignore formatting and will keep as Date object if set
+     * @return Formatted date value or unmodified value
      */
     convertToDateOrDuration<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key], keepAsDate?: boolean): any;
     /**
      * Converts empty value based on `emptyAs` option.
      *
      * @ignore Exclude from docs
-     * @type {string}
      */
     convertEmptyValue<Key extends "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key]): any;
     /**
@@ -1193,9 +1113,9 @@ export declare class Export extends Validatable {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param  {string}            uri       Data URI with file content
-     * @param  {string}            fileName  File name
-     * @return {Promise<boolean>}            Promise
+     * @param uri       Data URI with file content
+     * @param fileName  File name
+     * @return Promise
      * @async
      */
     download(uri: string, fileName: string): Promise<boolean>;
@@ -1203,28 +1123,28 @@ export declare class Export extends Validatable {
      * Returns `true` if browser has any supported methods to trigger download
      * of a binary file.
      *
-     * @return {boolean} Supports downloads?
+     * @return Supports downloads?
      */
     downloadSupport(): boolean;
     /**
      * Checks if the browser supports "download" attribute on links.
      *
      * @ignore Exclude from docs
-     * @return {boolean} Browser supports triggering downloads?
+     * @return Browser supports triggering downloads?
      */
     linkDownloadSupport(): boolean;
     /**
      * Checks if the browser supports download via `msBlob`.
      *
      * @ignore Exclude from docs
-     * @return {boolean} Browser supports triggering downloads?
+     * @return Browser supports triggering downloads?
      */
     blobDownloadSupport(): boolean;
     /**
      * Checks if this is a legacy version of IE.
      *
      * @ignore Exclude from docs
-     * @return {boolean} IE9 or less?
+     * @return IE9 or less?
      */
     legacyIE(): boolean;
     /**
@@ -1233,10 +1153,10 @@ export declare class Export extends Validatable {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param {string}               data     Data URI for the image
-     * @param {IExportPrintOptions}  options  Options
-     * @param {string}               title    Optional title to use (uses window's title by default)
-     * @return {Promise<boolean>}             Promise
+     * @param data     Data URI for the image
+     * @param options  Options
+     * @param title    Optional title to use (uses window's title by default)
+     * @return Promise
      * @async
      */
     print(data: string, options?: IExportPrintOptions, title?: string): Promise<boolean>;
@@ -1247,8 +1167,8 @@ export declare class Export extends Validatable {
      * up the DOM hierarchy to find a parent element that does.
      *
      * @ignore Exclude from docs
-     * @param  {Element}  element Element
-     * @return {Color}            Color code
+     * @param element Element
+     * @return Color code
      */
     findBackgroundColor(element: Element): Color;
     /**
@@ -1256,8 +1176,8 @@ export declare class Export extends Validatable {
      * computed/inherited).
      *
      * @ignore Exclude from docs
-     * @param  {Element}  element  Element
-     * @return {string}            Font family
+     * @param element  Element
+     * @return Font family
      */
     findFont(element: Element): string;
     /**
@@ -1265,103 +1185,103 @@ export declare class Export extends Validatable {
      * computed/inherited).
      *
      * @ignore Exclude from docs
-     * @param  {Element}  element  Element
-     * @return {string}            Font family
+     * @param element  Element
+     * @return Font family
      */
     findFontSize(element: Element): string;
     /**
-     * @return {HTMLElement} Reference
+     * @return Reference
      */
     /**
      * A reference to a container to be used to place [[ExportMenu]] in.
      *
-     * @param {HTMLElement} value Reference
+     * @param value Reference
      */
     container: HTMLElement;
     /**
-     * @return {Sprite} Sprite
+     * @return Sprite
      */
     /**
      * A reference to [[Sprite]] to export. Can be any Sprite, including some
      * internal elements.
      *
-     * @param {Sprite} value Sprite
+     * @param value Sprite
      */
     sprite: Sprite;
     /**
-     * @return {any} Data
+     * @return Data
      */
     /**
      * Data to export.
      *
-     * @param {any} value Data
+     * @param value Data
      */
     data: any;
     /**
-     * @return {any} Field names `{ field: fieldName }`
+     * @return Field names `{ field: fieldName }`
      */
     /**
      * Data fields in `{ field: fieldName }` format. Those are used for
      * exporting in data formats to name the columns.
      *
-     * @param {any} value Field names
+     * @param value Field names
      */
     dataFields: any;
     /**
-     * @return {any} A DateFormatter instance
+     * @return A DateFormatter instance
      */
     /**
      * A [[DateFormatter]] to use when formatting dates when exporting data.
      *
-     * @param {any} value DateFormatter instance
+     * @param value DateFormatter instance
      */
     dateFormatter: any;
     /**
-     * @return {Optional<string>} Date format
+     * @return Date format
      */
     /**
      * A date format to use for exporting dates. Will use [[DateFormatter]]
      * format if not set.
      *
-     * @param {Optional<string>} value Date format
+     * @param value Date format
      */
     dateFormat: $type.Optional<string>;
     /**
-     * @return {List<string>} Date field list
+     * @return Date field list
      */
     /**
      * A list of fields that hold date values.
      *
-     * @param {List<string>} value Date field list
+     * @param value Date field list
      */
     dateFields: List<string>;
     /**
-     * @return {any} A DurationFormatter instance
+     * @return A DurationFormatter instance
      */
     /**
      * A [[DurationFormatter]] to use when formatting duration values when
      * exporting data.
      *
-     * @param {any}  value  DurationFormatter instance
+     * @param value  DurationFormatter instance
      */
     durationFormatter: any;
     /**
-     * @return {Optional<string>} Duration format
+     * @return Duration format
      */
     /**
      * A format to use when formatting values from `durationFields`.
      * Will use [[DurationFormatter]] format if not set.
      *
-     * @param {Optional<string>} value Duration format
+     * @param value Duration format
      */
     durationFormat: $type.Optional<string>;
     /**
-     * @return {List<string>} Duration field list
+     * @return Duration field list
      */
     /**
      * A list of fields that hold duration values.
      *
-     * @param {List<string>} value Duration field list
+     * @param value Duration field list
      */
     durationFields: List<string>;
     /**
@@ -1375,9 +1295,9 @@ export declare class Export extends Validatable {
      * dates.
      *
      * @ignore Exclude from docs
-     * @param  {string}        field   Field name
-     * @param  {IExportOptions} options Options
-     * @return {boolean}               `true` if it's a date field
+     * @param field   Field name
+     * @param options Options
+     * @return `true` if it's a date field
      */
     isDateField(field: string): boolean;
     /**
@@ -1385,20 +1305,20 @@ export declare class Export extends Validatable {
      * dates.
      *
      * @ignore Exclude from docs
-     * @param  {string}        field   Field name
-     * @param  {IExportOptions} options Options
-     * @return {boolean}               `true` if it's a date field
+     * @param field   Field name
+     * @param options Options
+     * @return `true` if it's a date field
      */
     isDurationField(field: string): boolean;
     /**
      * Returns proper content type for the export type.
      *
-     * @param  {string}  type  Export format/type
-     * @return {string}        Proper content type, i.e. "image/jpeg"
+     * @param type  Export format/type
+     * @return Proper content type, i.e. "image/jpeg"
      */
     getContentType<Key extends keyof IExportOptions>(type: Key): string;
     /**
-     * @return {string} File prefix
+     * @return File prefix
      */
     /**
      * A file prefix to be used for all exported formats.
@@ -1406,26 +1326,26 @@ export declare class Export extends Validatable {
      * Export will apply format-related extension to it. E.g. if this is set to
      * "myExport", the file name of the PNG exported image will be "myExport.png".
      *
-     * @param {string} value File prefix
+     * @param value File prefix
      */
     filePrefix: string;
     /**
-     * @return {Optional<Color>} Background color
+     * @return Background color
      */
     /**
      * A background color to be used for exported images. If set, this will
      * override the automatically acquired background color.
      *
-     * @param {Optional<Color>} value Color
+     * @param value Color
      */
     backgroundColor: $type.Optional<Color>;
     /**
-     * @return {Optional<string>} Title
+     * @return Title
      */
     /**
      * A title to be used when printing.
      *
-     * @param {Optional<string>} value Title
+     * @param value Title
      */
     title: $type.Optional<string>;
     /**
@@ -1445,7 +1365,7 @@ export declare class Export extends Validatable {
      * Returns a an instance of [[Preloader]] associated with the Sprite being
      * exported.
      *
-     * @return {Preloader} Preloader
+     * @return Preloader
      */
     readonly preloader: Preloader;
     /**
@@ -1461,26 +1381,26 @@ export declare class Export extends Validatable {
      */
     hideTimeout(): void;
     /**
-     * @return {Language} A [[Language]] instance to be used
+     * @return A [[Language]] instance to be used
      */
     /**
      * A [[Language]] instance to be used for translations.
      *
-     * @param {Language} value An instance of [[Language]]
+     * @param value An instance of [[Language]]
      */
     language: Language;
     /**
      * Returns (and creates) [[Modal]].
      *
      * @ignore Exclude from docs
-     * @return {Modal} Modal instance
+     * @return Modal instance
      */
     readonly modal: Modal;
     /**
      * Shows [[Modal]] with specific text.
      *
      * @ignore Exclude from docs
-     * @param {string} text Modal contents
+     * @param text Modal contents
      */
     showModal(text: string, title?: string): void;
     /**
@@ -1496,7 +1416,7 @@ export declare class Export extends Validatable {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Instance of canvg
+     * @return Instance of canvg
      * @async
      */
     private _canvg();
@@ -1504,7 +1424,7 @@ export declare class Export extends Validatable {
      * Returns canvg instance.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Instance of canvg
+     * @return Instance of canvg
      */
     readonly canvg: Promise<any>;
     /**
@@ -1514,7 +1434,7 @@ export declare class Export extends Validatable {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Instance of pdfmake
+     * @return Instance of pdfmake
      * @async
      */
     private _pdfmake();
@@ -1522,7 +1442,7 @@ export declare class Export extends Validatable {
      * Returns pdfmake instance.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Instance of pdfmake
+     * @return Instance of pdfmake
      */
     readonly pdfmake: Promise<any>;
     /**
@@ -1532,7 +1452,7 @@ export declare class Export extends Validatable {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Instance of pdfmake
+     * @return Instance of pdfmake
      * @async
      */
     private _xlsx();
@@ -1540,13 +1460,11 @@ export declare class Export extends Validatable {
      * Returns xlsx instance.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Instance of pdfmake
+     * @return Instance of pdfmake
      */
     readonly xlsx: Promise<any>;
     /**
      * Sets options for a format.
-     *
-     * @type {Key}
      */
     setFormatOptions<Key extends keyof IExportOptions>(type: Key, options: IExportOptions[Key]): void;
     /**
@@ -1573,7 +1491,7 @@ export declare class Export extends Validatable {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     processConfig(config?: {
         [index: string]: any;

@@ -64,7 +64,7 @@ var MapArcSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {MapArcSeriesDataItem} Data Item
+     * @return Data Item
      */
     MapArcSeries.prototype.createDataItem = function () {
         return new MapArcSeriesDataItem();
@@ -72,7 +72,7 @@ var MapArcSeries = /** @class */ (function (_super) {
     /**
      * Returns a new line instance of suitable type.
      *
-     * @return {MapArc} New line
+     * @return New line
      */
     MapArcSeries.prototype.createLine = function () {
         return new MapArc();

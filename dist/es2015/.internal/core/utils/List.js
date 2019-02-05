@@ -10,9 +10,9 @@ var IndexedIterable = /** @class */ (function () {
     /**
      * Constructor.
      *
-     * @param {Array<A>}  array  List items
-     * @param {number}    start  Start index
-     * @param {number}    end    End index
+     * @param array  List items
+     * @param start  Start index
+     * @param end    End index
      */
     function IndexedIterable(array, start, end) {
         this._array = array;
@@ -22,7 +22,7 @@ var IndexedIterable = /** @class */ (function () {
     /**
      * Returns a list item iterator.
      *
-     * @return {Iterator} Iterator
+     * @return Iterator
      */
     IndexedIterable.prototype.iterator = function () {
         var _this = this;
@@ -48,7 +48,7 @@ var IndexedIterable = /** @class */ (function () {
     /**
      * Returns an interable list sorted backwards than current list.
      *
-     * @return {IndexedIterable<A>} List
+     * @return List
      */
     IndexedIterable.prototype.backwards = function () {
         return new IndexedIterable(this._array, this._end, this._start);
@@ -57,9 +57,9 @@ var IndexedIterable = /** @class */ (function () {
      * Returns a new list consisting only of specific range of items between
      * `start` and `end` indexes.
      *
-     * @param  {number}              start  Start index
-     * @param  {number}              end    End index
-     * @return {IndexedIterable<A>}         List
+     * @param start  Start index
+     * @param end    End index
+     * @return List
      */
     IndexedIterable.prototype.range = function (start, end) {
         if (start <= end) {
@@ -119,8 +119,6 @@ var ListGrouper = /** @class */ (function (_super) {
         ]) || this;
         /**
          * Grouping keys.
-         *
-         * @type {Array<number>}
          */
         _this._keys = [];
         /**
@@ -137,9 +135,9 @@ var ListGrouper = /** @class */ (function (_super) {
     /**
      * Inserts an item (`x`) to a specific group (`key`) and specific `index`.
      *
-     * @param {A}       x      Item
-     * @param {number}  key    Group name
-     * @param {number}  index  Index
+     * @param x      Item
+     * @param key    Group name
+     * @param index  Index
      */
     ListGrouper.prototype._insert = function (x, key, index) {
         if (this._groups[key] == null) {
@@ -163,7 +161,7 @@ var ListGrouper = /** @class */ (function (_super) {
     /**
      * Removes an item from the list.
      *
-     * @param {A} x Item to remove
+     * @param x Item to remove
      */
     ListGrouper.prototype._remove = function (x) {
         var key = this._getKey(x);
@@ -187,7 +185,7 @@ var ListGrouper = /** @class */ (function (_super) {
      *
      * The iterator will iterate through all items in all groups.
      *
-     * @return {.Iterator<A>} Iterator
+     * @return Iterator
      */
     ListGrouper.prototype.iterator = function () {
         var _this = this;
@@ -224,8 +222,8 @@ export { ListDisposer };
 /**
  * Checks if specific index fits into length.
  *
- * @param {number}  index  Index
- * @param {number}  len    Length
+ * @param index  Index
+ * @param len    Length
  */
 function checkBounds(index, len) {
     if (!(index >= 0 && index < len)) {
@@ -239,14 +237,12 @@ var List = /** @class */ (function () {
     /**
      * Constructor
      *
-     * @param {Array<T>}  initial  Inital list of values to add to list
+     * @param initial  Inital list of values to add to list
      */
     function List(initial) {
         if (initial === void 0) { initial = []; }
         /**
          * Event dispatcher.
-         *
-         * @type {EventDispatcher<AMEvent<this, IListEvents<T>>>}
          */
         this.events = new EventDispatcher();
         this._values = initial;
@@ -259,7 +255,7 @@ var List = /** @class */ (function () {
          * `push()`, `removeIndex()`, etc.
          *
          * @readonly
-         * @return {Array<T>} List values
+         * @return List values
          */
         get: function () {
             return this._values;
@@ -270,8 +266,8 @@ var List = /** @class */ (function () {
     /**
      * Checks if list contains specific item reference.
      *
-     * @param  {T}        item  Item to search for
-     * @return {boolean}        `true` if found, `false` if not found
+     * @param item  Item to search for
+     * @return `true` if found, `false` if not found
      */
     List.prototype.contains = function (value) {
         return this._values.indexOf(value) !== -1;
@@ -279,7 +275,7 @@ var List = /** @class */ (function () {
     /**
      * Removes specific item from the list.
      *
-     * @param {T} item An item to remove
+     * @param item An item to remove
      */
     List.prototype.removeValue = function (value) {
         var i = 0;
@@ -298,8 +294,8 @@ var List = /** @class */ (function () {
     /**
      * Searches the list for specific item and returns its index.
      *
-     * @param  {T}       item  An item to search for
-     * @return {number}        Index or -1 if not found
+     * @param item  An item to search for
+     * @return Index or -1 if not found
      */
     List.prototype.indexOf = function (value) {
         return $array.indexOf(this._values, value);
@@ -309,7 +305,7 @@ var List = /** @class */ (function () {
          * Number of items in list.
          *
          * @readonly
-         * @return {number} Number of items
+         * @return Number of items
          */
         get: function () {
             return this._values.length;
@@ -320,8 +316,8 @@ var List = /** @class */ (function () {
     /**
      * Checks if there's a value at specific index.
      *
-     * @param  {number}   index  Index
-     * @return {boolean}         Value exists?
+     * @param index  Index
+     * @return Value exists?
      */
     List.prototype.hasIndex = function (index) {
         return index >= 0 && index < this._values.length;
@@ -329,8 +325,8 @@ var List = /** @class */ (function () {
     /**
      * Returns an item at specified index.
      *
-     * @param  {number}  index  Index
-     * @return {T}              List item
+     * @param index  Index
+     * @return List item
      */
     List.prototype.getIndex = function (index) {
         return this._values[index];
@@ -340,9 +336,9 @@ var List = /** @class */ (function () {
      *
      * If there's already a value at the index, it is overwritten.
      *
-     * @param  {number}  index  Index
-     * @param  {T}       value  New value
-     * @return {T}              New value
+     * @param index  Index
+     * @param value  New value
+     * @return New value
      */
     List.prototype.setIndex = function (index, value) {
         checkBounds(index, this._values.length);
@@ -380,8 +376,8 @@ var List = /** @class */ (function () {
      * Adds an item to the list at a specific index, which pushes all the other
      * items further down the list.
      *
-     * @param  {number} index Index
-     * @param  {T}      item  An item to add
+     * @param index Index
+     * @param item  An item to add
      */
     List.prototype.insertIndex = function (index, value) {
         checkBounds(index, this._values.length + 1);
@@ -406,9 +402,9 @@ var List = /** @class */ (function () {
      * [_sortQuicksort description]
      *
      * @todo Description
-     * @param {number}    low    [description]
-     * @param {number}    high   [description]
-     * @param {function}  order  [description]
+     * @param low    [description]
+     * @param high   [description]
+     * @param order  [description]
      */
     List.prototype._sortQuicksort = function (low, high, order) {
         if (low < high) {
@@ -421,10 +417,10 @@ var List = /** @class */ (function () {
      * [_sortPartition description]
      *
      * @todo Description
-     * @param  {number}    low    [description]
-     * @param  {number}    high   [description]
-     * @param  {function}  order  [description]
-     * @return {number}           [description]
+     * @param low    [description]
+     * @param high   [description]
+     * @param order  [description]
+     * @return [description]
      */
     List.prototype._sortPartition = function (low, high, order) {
         var values = this._values;
@@ -449,7 +445,7 @@ var List = /** @class */ (function () {
     /**
      * Reorders list items according to specific ordering function.
      *
-     * @param {T) => Ordering}  order  Ordering function
+     * @param order  Ordering function
      */
     List.prototype.sort = function (order) {
         // https://en.wikipedia.org/wiki/Quicksort#Hoare_partition_scheme
@@ -460,8 +456,8 @@ var List = /** @class */ (function () {
     /**
      * Swaps indexes of two items in the list.
      *
-     * @param {number}  a  Item 1
-     * @param {number}  b  Item 2
+     * @param a  Item 1
+     * @param b  Item 2
      */
     List.prototype.swap = function (a, b) {
         var len = this._values.length;
@@ -495,8 +491,8 @@ var List = /** @class */ (function () {
     /**
      * Removes a value at specific index.
      *
-     * @param  {number}  index  Index of value to remove
-     * @return {T}              Removed value
+     * @param index  Index of value to remove
+     * @return Removed value
      */
     List.prototype.removeIndex = function (index) {
         checkBounds(index, this._values.length);
@@ -525,8 +521,8 @@ var List = /** @class */ (function () {
      * If the index is not specified it will move the item to the end of the
      * list.
      *
-     * @param {T}       value  Item to move
-     * @param {number}  index  Index to place item at
+     * @param value  Item to move
+     * @param index  Index to place item at
      */
     List.prototype.moveValue = function (value, toIndex) {
         // TODO don't do anything if the desired index is the same as the current index
@@ -572,7 +568,7 @@ var List = /** @class */ (function () {
     /**
      * Adds an item to the end of the list.
      *
-     * @param  {T}  item  An item to add
+     * @param item  An item to add
      */
     List.prototype.push = function (value) {
         var index = this._values.push(value) - 1;
@@ -596,7 +592,7 @@ var List = /** @class */ (function () {
     /**
      * Adds an item as a first item in the list.
      *
-     * @param  {T}  item  An item to add
+     * @param item  An item to add
      */
     List.prototype.unshift = function (value) {
         return this.insertIndex(0, value);
@@ -604,7 +600,7 @@ var List = /** @class */ (function () {
     /**
      * Adds multiple items to the list.
      *
-     * @param {Array<T>}  items  An Array of items to add
+     * @param items  An Array of items to add
      */
     List.prototype.pushAll = function (values) {
         var _this = this;
@@ -615,7 +611,7 @@ var List = /** @class */ (function () {
     /**
      * Copies and adds items from abother list.
      *
-     * @param {List<T>}  source  A list top copy items from
+     * @param source  A list top copy items from
      */
     List.prototype.copyFrom = function (source) {
         this.pushAll(source._values);
@@ -623,7 +619,7 @@ var List = /** @class */ (function () {
     /**
      * Returns the last item from the list, and removes it.
      *
-     * @return {T} Item
+     * @return Item
      */
     List.prototype.pop = function () {
         var index = this._values.length - 1;
@@ -632,7 +628,7 @@ var List = /** @class */ (function () {
     /**
      * Returns the first item from the list, and removes it.
      *
-     * @return {T} Item
+     * @return Item
      */
     List.prototype.shift = function () {
         return this._values.length ? this.removeIndex(0) : undefined;
@@ -642,7 +638,7 @@ var List = /** @class */ (function () {
      *
      * All current items are removed.
      *
-     * @param {Array<T>}  newArray  New items
+     * @param newArray  New items
      */
     List.prototype.setAll = function (newArray) {
         var _this = this;
@@ -688,7 +684,7 @@ var List = /** @class */ (function () {
     /**
      * Returns a list iterator.
      *
-     * @return {Iterator} Iterator
+     * @return Iterator
      */
     List.prototype.iterator = function () {
         return $iter.fromArray(this._values);
@@ -731,9 +727,9 @@ var List = /** @class */ (function () {
      *
      * @ignore Exclude from docs
      * @todo Code duplication with IndexedIterable
-     * @param  {number}              start  Start index
-     * @param  {number}              end    End index
-     * @return {IndexedIterable<T>}         Range
+     * @param start  Start index
+     * @param end    End index
+     * @return Range
      */
     List.prototype.range = function (start, end) {
         if (start <= end) {
@@ -750,7 +746,7 @@ var List = /** @class */ (function () {
      * Returns an iterator that has list items sorted backwards.
      *
      * @ignore Exclude from docs
-     * @return {IndexedIterable<T>} List
+     * @return List
      */
     List.prototype.backwards = function () {
         return new IndexedIterable(this._values, this._values.length, 0);
@@ -773,7 +769,7 @@ var ListTemplate = /** @class */ (function (_super) {
     /**
      * Constructor
      *
-     * @param {T} t Template object
+     * @param t Template object
      */
     function ListTemplate(t) {
         var _this = _super.call(this) || this;
@@ -782,7 +778,7 @@ var ListTemplate = /** @class */ (function (_super) {
     }
     Object.defineProperty(ListTemplate.prototype, "template", {
         /**
-         * @return {T} Template object
+         * @return Template object
          */
         get: function () {
             return this._template;
@@ -791,7 +787,7 @@ var ListTemplate = /** @class */ (function (_super) {
          * A "template" object to copy all properties from when creating new list
          * items.
          *
-         * @param {T}  v  Template object
+         * @param v  Template object
          */
         set: function (v) {
             v.isTemplate = true;
@@ -803,7 +799,7 @@ var ListTemplate = /** @class */ (function (_super) {
     /**
      * Copies all elements from other list.
      *
-     * @param {ListTemplate}  source  Source list
+     * @param source  Source list
      */
     ListTemplate.prototype.copyFrom = function (source) {
         var _this = this;
@@ -821,7 +817,7 @@ var ListTemplate = /** @class */ (function (_super) {
     /**
      * Creates an exact clone of the list, including its items and template.
      *
-     * @return {ListTemplate<T>} New list
+     * @return New list
      */
     ListTemplate.prototype.clone = function () {
         var out = new ListTemplate(this.template);

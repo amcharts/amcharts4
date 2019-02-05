@@ -19,25 +19,18 @@ import * as $type from "../../core/utils/Type";
 export declare class SankeyDiagramDataItem extends FlowDiagramDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {SankeyDiagram}
      */
     _component: SankeyDiagram;
     /**
      * An a link element, connecting two nodes.
-     * @type {SankeyLink}
      */
     _link: SankeyLink;
     /**
      * An origin node.
-     *
-     * @type {SankeyNode}
      */
     fromNode: SankeyNode;
     /**
      * A destination node.
-     *
-     * @type {SankeyNode}
      */
     toNode: SankeyNode;
     /**
@@ -57,26 +50,18 @@ export declare class SankeyDiagramDataItem extends FlowDiagramDataItem {
 export interface ISankeyDiagramDataFields extends IFlowDiagramDataFields {
     /**
      * Name of the source node.
-     *
-     * @type {string}
      */
     fromName?: string;
     /**
      * Name of the target node.
-     *
-     * @type {string}
      */
     toName?: string;
     /**
      * Value of the link between two nodes.
-     *
-     * @type {string}
      */
     value?: string;
     /**
      * Color of a from node
-     *
-     * @type {string}
      */
     color?: string;
 }
@@ -86,14 +71,10 @@ export interface ISankeyDiagramDataFields extends IFlowDiagramDataFields {
 export interface ISankeyDiagramProperties extends IFlowDiagramProperties {
     /**
      * Sort nodes by name or value or do not sort at all
-     *
-     * @type {"top" | "bottom" | "middle"}
      */
     nodeAlign?: "top" | "bottom" | "middle";
     /**
      * Orientation of the chart.
-     *
-     * @type {Orientation}
      */
     orientation?: Orientation;
 }
@@ -126,37 +107,26 @@ export interface ISankeyDiagramAdapters extends IFlowDiagramAdapters, ISankeyDia
 export declare class SankeyDiagram extends FlowDiagram {
     /**
      * Defines a type for the DataItem.
-     *
-     * @type {SankeyDiagramDataItem}
      */
     _dataItem: SankeyDiagramDataItem;
     /**
      * Defines available data fields.
-     *
-     * @type {ISankeyDiagramDataFields}
      */
     _dataFields: ISankeyDiagramDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {ISankeyDiagramProperties}
      */
     _properties: ISankeyDiagramProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {SeriesAdapters}
      */
     _adapter: ISankeyDiagramAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ISankeyDiagramEvents}
      */
     _events: ISankeyDiagramEvents;
     /**
      * An a link element, connecting two nodes.
-     * @type {SankeyLink}
      */
     _link: SankeyLink;
     /**
@@ -179,7 +149,6 @@ export declare class SankeyDiagram extends FlowDiagram {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {number}
      */
     maxSum: number;
     /**
@@ -191,20 +160,16 @@ export declare class SankeyDiagram extends FlowDiagram {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {number}
      */
     protected _valueHeight: number;
     /**
      * A total number of levels, present on this chart.
-     *
-     * @type {number}
      */
     protected _levelCount: number;
     /**
      * Sorted nodes iterator.
      *
      * @ignore
-     * @type {Iterator}
      */
     protected _sorted: $iter.Iterator<[string, this["_node"]]>;
     protected _heightAnimation: Animation;
@@ -221,9 +186,9 @@ export declare class SankeyDiagram extends FlowDiagram {
     /**
      * Returns node's highest level.
      *
-     * @param  {this["_node"]}  node   Node
-     * @param  {number}        level  Current level
-     * @return {number}               New level
+     * @param node   Node
+     * @param level  Current level
+     * @return New level
      */
     protected getNodeLevel(node: this["_node"], level: number): number;
     /**
@@ -243,8 +208,8 @@ export declare class SankeyDiagram extends FlowDiagram {
      * Performs actual operations to reveal this element.
      *
      * @ignore Exclude from docs
-     * @param  {number} duration Fade in duration (ms)
-     * @return {number}          Fade in duration (ms)
+     * @param duration Fade in duration (ms)
+     * @return Fade in duration (ms)
      */
     protected showReal(duration?: number): $type.Optional<Animation>;
     /**
@@ -261,25 +226,25 @@ export declare class SankeyDiagram extends FlowDiagram {
     /**
      * Creates and returns a new data item.
      *
-     * @return {this} Data item
+     * @return Data item
      */
     protected createDataItem(): this["_dataItem"];
     /**
-     * @returns {"top" | "middle" | "bottom"} Returns nodeAlign value
+     * @returns Returns nodeAlign value
      */
     /**
      * How to align nodes. In case layout is vertical, top means left and bottom means right
      *
-     * @param {"top" | "middle" | "bottom"}  value  Node sorting
+     * @param value  Node sorting
      */
     nodeAlign: "top" | "middle" | "bottom";
     /**
-     * @return {Orientation} Orientation
+     * @return Orientation
      */
     /**
      * Orientation of the chart: "horizontal" or "vertical";
      *
-     * @param {Orientation} value Orientation
+     * @param value Orientation
      */
     orientation: Orientation;
     /**

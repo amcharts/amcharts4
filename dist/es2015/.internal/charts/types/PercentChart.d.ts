@@ -24,8 +24,6 @@ import { Legend } from "../Legend";
 export declare class PercentChartDataItem extends SerialChartDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {PercentChart}
      */
     _component: PercentChart;
     /**
@@ -78,32 +76,22 @@ export interface IPercentChartAdapters extends ISerialChartAdapters, IPercentCha
 export declare class PercentChart extends SerialChart {
     /**
      * Defines available data fields.
-     *
-     * @type {IPercentChartDataFields}
      */
     _dataFields: IPercentChartDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IPercentChartProperties}
      */
     _properties: IPercentChartProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {SeriesAdapters}
      */
     _adapter: IPercentChartAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IPercentChartEvents}
      */
     _events: IPercentChartEvents;
     /**
      * Defines a type of series that this chart uses.
-     *
-     * @type {PercentSeries}
      */
     _seriesType: PercentSeries;
     /**
@@ -124,7 +112,7 @@ export declare class PercentChart extends SerialChart {
     /**
      * Creates a new [[PercentSeries]].
      *
-     * @return {PercentSeries} New series
+     * @return New series
      */
     protected createSeries(): this["_seriesType"];
     /**

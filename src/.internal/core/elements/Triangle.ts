@@ -57,22 +57,16 @@ export class Triangle extends Sprite {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ITriangleProperties}
 	 */
 	public _properties!: ITriangleProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ITriangleAdapters}
 	 */
 	public _adapter!: ITriangleAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ITriangleEvents}
 	 */
 	public _events!: ITriangleEvents;
 
@@ -134,7 +128,7 @@ export class Triangle extends Sprite {
 	/**
 	 * Sets direction of a triangle
 	 *
-	 * @param {"left" | "right" | "top" | "bottom"} value
+	 * @param value
 	 */
 	public set direction(value: "left" | "right" | "top" | "bottom") {
 		this.setPropertyValue("direction", value, true);
@@ -144,7 +138,7 @@ export class Triangle extends Sprite {
 	/**
 	 * Returns direction of a triangle
 	 *
-	 * @return {"left" | "right" | "top" | "bottom"} value
+	 * @return value
 	 */
 	public get direction(): "left" | "right" | "top" | "bottom" {
 		return this.getPropertyValue("direction");

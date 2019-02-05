@@ -11,8 +11,6 @@ import * as $math from "./Math";
 import * as $type from "./Type";
 /**
  * Define named colors for easy resolution to RGB.
- *
- * @type {Object}
  */
 var namedColors = {
     aliceblue: { r: 240, g: 248, b: 255 },
@@ -168,8 +166,8 @@ var namedColors = {
  * Tries to resolve a named color into a hex color representation.
  *
  * @ignore Exclude from docs
- * @param  {string}  value  Color name
- * @return {string}         Color
+ * @param value  Color name
+ * @return Color
  * @deprecated
  * @hidden
  */
@@ -182,9 +180,9 @@ var namedColors = {
  * black is returned.
  *
  * @ignore Exclude from docs
- * @param  {string}  color  Color code
- * @param  {number}  alpha  Alpha (0-1)
- * @return {iRGB}           RGB
+ * @param color  Color code
+ * @param alpha  Alpha (0-1)
+ * @return RGB
  */
 export function rgb(color, alpha) {
     // Init return value
@@ -216,8 +214,8 @@ export function rgb(color, alpha) {
  * Converts a hex color code (i.e. "#FF5500") to an [[iRGB]] object.
  *
  * @ignore Exclude from docs
- * @param  {string}  hex  Hex color code
- * @return {iRGB}         RGB
+ * @param hex  Hex color code
+ * @return RGB
  */
 export function hexToRgb(hex) {
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
@@ -236,8 +234,8 @@ export function hexToRgb(hex) {
  * Converts color strings in format like `rgb()` and `rgba()` to [[iRGB]].
  *
  * @ignore Exclude from docs
- * @param  {string}  color  Color code
- * @return {iRGB}           RGB
+ * @param color  Color code
+ * @return RGB
  */
 export function rgbaToRgb(color) {
     // Init
@@ -264,8 +262,8 @@ export function rgbaToRgb(color) {
  * Converts an [[iRGB]] object into a hex color code.
  *
  * @ignore Exclude from docs
- * @param  {iRGB}    rgb  RGB
- * @return {string}       Hex color code
+ * @param rgb  RGB
+ * @return Hex color code
  */
 export function rgbToHex(rgb) {
     return "#" + pad2(rgb.r.toString(16)) + pad2(rgb.g.toString(16)) + pad2(rgb.b.toString(16));
@@ -274,8 +272,8 @@ export function rgbToHex(rgb) {
  * Converts an [[iRGB]] object into its `rgb()` or `rgba()` representation.
  *
  * @ignore Exclude from docs
- * @param  {iRGB}    rgb  RGB
- * @return {string}       `rgba()` syntax
+ * @param rgb  RGB
+ * @return `rgba()` syntax
  */
 export function rgbToRGBA(rgb) {
     if ($type.hasValue(rgb.a) && rgb.a !== 1) {
@@ -289,8 +287,8 @@ export function rgbToRGBA(rgb) {
  * Pads a 1-digit string with a zero.
  *
  * @ignore Exclude from docs
- * @param  {string}  c  Input string
- * @return {string}     Padded string
+ * @param c  Input string
+ * @return Padded string
  */
 export function pad2(c) {
     return c.length == 1 ? "0" + c : "" + c;
@@ -301,10 +299,10 @@ export function pad2(c) {
  * resulting color will be closest to the first reference color.
  *
  * @ignore Exclude from docs
- * @param  {Optional<iRGB>}    color1   First reference color
- * @param  {Optional<iRGB>}    color2   Second reference color
- * @param  {number}            percent  Relative position (0-1)
- * @return {Optional<iRGB>}             Interpolated color
+ * @param color1   First reference color
+ * @param color2   Second reference color
+ * @param percent  Relative position (0-1)
+ * @return Interpolated color
  */
 export function interpolate(rgb1, rgb2, percent) {
     percent = $math.fitToRange(percent, 0, 1);
@@ -332,9 +330,9 @@ export function interpolate(rgb1, rgb2, percent) {
  * Returns a color that is `percent` brighter than the reference color.
  *
  * @ignore Exclude from docs
- * @param  {iRGB}    color    Reference color
- * @param  {number}  percent  Brightness percent
- * @return {iRGB}             Hex code of the new color
+ * @param color    Reference color
+ * @param percent  Brightness percent
+ * @return Hex code of the new color
  */
 export function lighten(rgb, percent) {
     if (rgb) {
@@ -355,9 +353,9 @@ export function lighten(rgb, percent) {
  * Gets lightness step.
  *
  * @ignore Exclude from docs
- * @param  {number}  value    Value
- * @param  {number}  percent  Percent
- * @return {number}           Step
+ * @param value    Value
+ * @param percent  Percent
+ * @return Step
  */
 export function getLightnessStep(value, percent) {
     var base = percent > 0 ? 255 - value : value;
@@ -367,9 +365,9 @@ export function getLightnessStep(value, percent) {
  * Returns a color that is `percent` brighter than the source `color`.
  *
  * @ignore Exclude from docs
- * @param  {iRGB}    color    Source color
- * @param  {number}  percent  Brightness percent
- * @return {iRGB}             New color
+ * @param color    Source color
+ * @param percent  Brightness percent
+ * @return New color
  */
 export function brighten(rgb, percent) {
     if (rgb) {
@@ -393,9 +391,9 @@ export function brighten(rgb, percent) {
  * Returns brightness step.
  *
  * @ignore Exclude from docs
- * @param  {number}  value    Value
- * @param  {number}  percent  Percent
- * @return {number}           Step
+ * @param value    Value
+ * @param percent  Percent
+ * @return Step
  */
 export function getBrightnessStep(value, percent) {
     var base = 255; //percent > 0 ? 255 - value : value;
@@ -409,9 +407,9 @@ export function getBrightnessStep(value, percent) {
  * saturated).
  *
  * @ignore Exclude from docs
- * @param  {iRGB}    color       Base color
- * @param  {number}  saturation  Saturation (0-1)
- * @return {iRGB}                New color
+ * @param color       Base color
+ * @param saturation  Saturation (0-1)
+ * @return New color
  */
 export function saturate(rgb, saturation) {
     if (rgb == null || saturation == 1) {
@@ -450,10 +448,10 @@ export function rgbToMatrix(rgb: iRGB): string {
  * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
  *
  * @ignore Exclude from docs
- * @param   {number}  h       The hue
- * @param   {number}  s       The saturation
- * @param   {number}  l       The lightness
- * @return  {Array}           The RGB representation
+ * @param h       The hue
+ * @param s       The saturation
+ * @param l       The lightness
+ * @return The RGB representation
  */
 export function hslToRgb(color) {
     var r, g, b;
@@ -499,10 +497,10 @@ export function hslToRgb(color) {
  * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
  *
  * @ignore Exclude from docs
- * @param   {number}  r       The red color value
- * @param   {number}  g       The green color value
- * @param   {number}  b       The blue color value
- * @return  {Array}           The HSL representation
+ * @param r       The red color value
+ * @param g       The green color value
+ * @param b       The blue color value
+ * @return The HSL representation
  */
 export function rgbToHsl(color) {
     var r = color.r / 255;
@@ -639,8 +637,8 @@ export function hsvToRgb(color) {
  * black text over light background, and vice versa.
  *
  * @ignore Exclude from docs
- * @param  {iRGB}     color  Source color
- * @return {boolean}         Light?
+ * @param color  Source color
+ * @return Light?
  */
 export function isLight(color) {
     return ((color.r * 299) + (color.g * 587) + (color.b * 114)) / 1000 >= 128;

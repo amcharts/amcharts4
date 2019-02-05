@@ -21,14 +21,10 @@ import { ValueAxis } from "./ValueAxis";
 export interface IValueAxisBreakProperties extends IAxisBreakProperties {
     /**
      * Value break starts on.
-     *
-     * @type {number}
      */
     startValue?: number;
     /**
      * Value break ends on.
-     *
-     * @type {number}
      */
     endValue?: number;
 }
@@ -65,26 +61,18 @@ export interface IValueAxisBreakAdapters extends IAxisBreakAdapters, IValueAxisB
 export declare class ValueAxisBreak extends AxisBreak {
     /**
      * Defines available properties.
-     *
-     * @type {IValueAxisBreakProperties}
      */
     _properties: IValueAxisBreakProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IValueAxisBreakAdapters}
      */
     _adapter: IValueAxisBreakAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IValueAxisBreakEvents}
      */
     _events: IValueAxisBreakEvents;
     /**
      * Defines the type of the Axis this break is used for.
-     *
-     * @type {ValueAxis}
      */
     _axisType: ValueAxis;
     /**
@@ -92,7 +80,6 @@ export declare class ValueAxisBreak extends AxisBreak {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {number}
      */
     adjustedStep: number;
     /**
@@ -100,7 +87,6 @@ export declare class ValueAxisBreak extends AxisBreak {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {number}
      */
     adjustedMin: number;
     /**
@@ -108,7 +94,6 @@ export declare class ValueAxisBreak extends AxisBreak {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {number}
      */
     adjustedMax: number;
     /**
@@ -118,14 +103,14 @@ export declare class ValueAxisBreak extends AxisBreak {
     /**
      * Pixel position of the break's start.
      *
-     * @return {number} Position (px)
+     * @return Position (px)
      * @readonly
      */
     readonly startPosition: number;
     /**
      * Pixel position of the break's end.
      *
-     * @return {number} Position (px)
+     * @return Position (px)
      * @readonly
      */
     readonly endPosition: number;

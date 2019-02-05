@@ -53,34 +53,26 @@ export interface ILineSeriesSegmentAdapters extends IContainerAdapters, ILineSer
 export declare class LineSeriesSegment extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {ILineSeriesSegmentPropertiess}
      */
     _properties: ILineSeriesSegmentProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ILineSeriesSegmentAdapters}
      */
     _adapter: ILineSeriesSegmentAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ILineSeriesSegmentEvents}
      */
     _events: ILineSeriesSegmentEvents;
     /**
      * Segment's line element.
      *
      * @ignore Exclude from docs
-     * @type {Sprite}
      */
     strokeSprite: Sprite;
     /**
      * Segment's fill element.
      *
      * @ignore Exclude from docs
-     * @type {Sprite}
      */
     fillSprite: Sprite;
     /**
@@ -91,16 +83,16 @@ export declare class LineSeriesSegment extends Container {
      * Draws the series segment.
      *
      * @ignore Exclude from docs
-     * @param {IPoint[]}  points       Points to connect
-     * @param {IPoint[]}  closePoints  ?
-     * @param {number}    smoothnessX  Horizontal bezier setting (?)
-     * @param {number}    smoothnessY  Vertical bezier setting (?)
+     * @param points       Points to connect
+     * @param closePoints  ?
+     * @param smoothnessX  Horizontal bezier setting (?)
+     * @param smoothnessY  Vertical bezier setting (?)
      */
     drawSegment(points: IPoint[], closePoints: IPoint[], smoothnessX: number, smoothnessY: number): void;
     /**
      * Copies properties from a [[Sprite]] to both line and fill elements.
      *
-     * @param {Sprite} source Source [[Sprite]] to copy properties from
+     * @param source Source [[Sprite]] to copy properties from
      */
     copyFrom(source: this): void;
 }

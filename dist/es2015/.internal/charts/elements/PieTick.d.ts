@@ -49,32 +49,22 @@ export interface IPieTickAdapters extends ITickAdapters, IPieTickProperties {
 export declare class PieTick extends Tick {
     /**
      * Defines available properties.
-     *
-     * @type {IPieTickProperties}
      */
     _properties: IPieTickProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IPieTickAdapters}
      */
     _adapter: IPieTickAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IPieTickEvents}
      */
     _events: IPieTickEvents;
     /**
      * A label element this tick is attached to.
-     *
-     * @type {MutableValueDisposer}
      */
     protected _label: MutableValueDisposer<AxisLabelCircular>;
     /**
      * A slice element this tick is attached to.
-     *
-     * @type {MutableValueDisposer}
      */
     protected _slice: MutableValueDisposer<Slice>;
     /**
@@ -88,21 +78,21 @@ export declare class PieTick extends Tick {
      */
     draw(): void;
     /**
-     * @return {Slice} Slice
+     * @return Slice
      */
     /**
      * Slice element tick is attached to.
      *
-     * @param {Slice}  slice  Slice
+     * @param slice  Slice
      */
     slice: Slice;
     /**
-     * @return {AxisLabelCircular} Label
+     * @return Label
      */
     /**
      * Label element tick is attached to.
      *
-     * @param {AxisLabelCircular}  label  Label
+     * @param label  Label
      */
     label: AxisLabelCircular;
 }

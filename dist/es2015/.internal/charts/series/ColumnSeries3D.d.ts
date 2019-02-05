@@ -20,7 +20,6 @@ import { Column3D } from "../elements/Column3D";
 export declare class ColumnSeries3DDataItem extends ColumnSeriesDataItem {
     /**
      * A sprite used to draw the column.
-     * @type {Column3D}
      */
     _column: Column3D;
     /**
@@ -47,14 +46,12 @@ export interface IColumnSeries3DProperties extends IColumnSeriesProperties {
      * Depth (height) of the slices in the series in pixels.
      *
      * @ignore Exclude from docs
-     * @type {number}
      */
     depth?: number;
     /**
      * Angle of view for the slices in series. (0-360)
      *
      * @ignore Exclude from docs
-     * @type {number}
      */
     angle?: number;
 }
@@ -93,26 +90,18 @@ export declare class ColumnSeries3D extends ColumnSeries {
     _column: Column3D;
     /**
      * Defines the type for data fields.
-     *
-     * @type {IColumnSeries3DDataFields}
      */
     _dataFields: IColumnSeries3DDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IColumnSeries3DProperties}
      */
     _properties: IColumnSeries3DProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IColumnSeries3DAdapters}
      */
     _adapter: IColumnSeries3DAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IColumnSeries3DEvents}
      */
     _events: IColumnSeries3DEvents;
     /**
@@ -121,13 +110,10 @@ export declare class ColumnSeries3D extends ColumnSeries {
      * Internal use only.
      *
      * @ignore Exclude from docs
-     * @type {number}
      */
     depthIndex: number;
     /**
      * A chart series belongs to.
-     *
-     * @type {XYChart3D}
      */
     _chart: XYChart3D;
     /**
@@ -142,7 +128,7 @@ export declare class ColumnSeries3D extends ColumnSeries {
      * Validates data item's elements.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     validateDataElementReal(dataItem: this["_dataItem"]): void;
     /**
@@ -154,29 +140,29 @@ export declare class ColumnSeries3D extends ColumnSeries {
     /**
      * Returns an element to use for 3D bar.
      * @ignore
-     * @return {this["_column"]} Element.
+     * @return Element.
      */
     protected createColumnTemplate(): this["_column"];
     /**
      * @ignore Exclude from docs
-     * @return {number} Depth (px)
+     * @return Depth (px)
      */
     /**
      * Depth (height) of the slices in the series in pixels.
      *
      * @ignore Exclude from docs
-     * @param {number}  value  Depth (px)
+     * @param value  Depth (px)
      */
     depth: number;
     /**
      * @ignore Exclude from docs
-     * @return {number} Angle (0-360)
+     * @return Angle (0-360)
      */
     /**
      * Angle of view for the slices in series. (0-360)
      *
      * @ignore Exclude from docs
-     * @param {number}  value  Angle (0-360)
+     * @param value  Angle (0-360)
      */
     angle: number;
 }

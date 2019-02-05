@@ -56,45 +56,32 @@ export interface IXYChartScrollbarAdapters extends IScrollbarAdapters, IXYChartS
 export declare class XYChartScrollbar extends Scrollbar {
     /**
      * Defines available properties.
-     *
-     * @type {IXYChartScrollbarProperties}
      */
     _properties: IXYChartScrollbarProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IXYChartScrollbarAdapters}
      */
     _adapter: IXYChartScrollbarAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IXYChartScrollbarEvents}
      */
     _events: IXYChartScrollbarEvents;
     /**
      * An [[XYSeries]] used to draw a graph on the Scrollbar.
-     *
-     * @type {List<XYSeries>}
      */
     protected _series: List<XYSeries>;
     /**
      * A chart element Scrollbar is for.
-     *
-     * @type {MutableValueDisposer}
      */
     protected _chart: MutableValueDisposer<XYChart>;
     /**
      * A chart instance that shows mini-chart within Scrollbar.
-     *
-     * @type {XYChart}
      */
     protected _scrollbarChart: XYChart;
     /**
      * [_unselectedOverlay description]
      *
      * @todo Description
-     * @type {Sprite}
      */
     protected _unselectedOverlay: Sprite;
     /**
@@ -105,13 +92,13 @@ export declare class XYChartScrollbar extends Scrollbar {
      * A list of series that are used to draw graph(s) on the scrollbar.
      *
      * @readonly
-     * @return {List<XYSeries>} Series
+     * @return Series
      */
     readonly series: List<XYSeries>;
     /**
      * Decorates a new series when they are pushed into a `series` list.
      *
-     * @param {IListEvents<XYSeries>["inserted"]} event Event
+     * @param event Event
      */
     protected handleSeriesAdded(event: IListEvents<XYSeries>["inserted"]): void;
     /**
@@ -121,7 +108,7 @@ export declare class XYChartScrollbar extends Scrollbar {
     /**
      * Cleans up after series are removed from Scrollbar.
      *
-     * @param {IListEvents<XYSeries>["removed"]}  event  Event
+     * @param event  Event
      */
     protected handleSeriesRemoved(event: IListEvents<XYSeries>["removed"]): void;
     /**
@@ -133,16 +120,16 @@ export declare class XYChartScrollbar extends Scrollbar {
      * It can be configured just like any other [[XYChart]].
      *
      * @readonly
-     * @return {XYChart} Scrollbar's internal chart
+     * @return Scrollbar's internal chart
      */
     readonly scrollbarChart: XYChart;
     /**
-     * @return {XYChart} Chart
+     * @return Chart
      */
     /**
      * A chart that Scrollbar belongs to.
      *
-     * @param {XYChart} chart  Chart
+     * @param chart  Chart
      */
     chart: XYChart;
     /**
@@ -164,7 +151,7 @@ export declare class XYChartScrollbar extends Scrollbar {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     processConfig(config?: {
         [index: string]: any;

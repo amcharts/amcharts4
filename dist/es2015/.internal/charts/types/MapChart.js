@@ -74,19 +74,14 @@ var MapChart = /** @class */ (function (_super) {
          * A ratio to be used when scaling the map shapes.
          *
          * @readonly
-         * @type {number}
          */
         _this.scaleRatio = 1;
         /**
          * Default duration of zoom animations (ms).
-         *
-         * @type {number}
          */
         _this.zoomDuration = 1000;
         /**
          * Default zooming animation easing function.
-         *
-         * @type {function}
          */
         _this.zoomEasing = $ease.cubicOut;
         /**
@@ -96,7 +91,6 @@ var MapChart = /** @class */ (function (_super) {
          * NOTE: Should be power of 2.
          *
          * @default 1
-         * @type {number}
          */
         _this.minZoomLevel = 1;
         /**
@@ -106,14 +100,12 @@ var MapChart = /** @class */ (function (_super) {
          * NOTE: Should be power of 2.
          *
          * @default 32
-         * @type {number}
          */
         _this.maxZoomLevel = 32;
         /**
          * [_prevZoomGeoPoint description]
          *
          * @todo Description
-         * @type {IGeoPoint}
          */
         _this._prevZoomGeoPoint = { latitude: 0, longitude: 0 };
         _this.className = "MapChart";
@@ -268,7 +260,7 @@ var MapChart = /** @class */ (function (_super) {
      * Handles the event when user doubleclicks or dooubletaps the map: zooms
      * in on the reference point.
      *
-     * @param {AMEvent<Sprite, ISpriteEvents>["doublehit"]}  event  Original event
+     * @param event  Original event
      */
     MapChart.prototype.handleDoubleHit = function (event) {
         var svgPoint = $utils.documentPointToSvg(event.point, this.htmlContainer, this.svgContainer.cssScale);
@@ -279,7 +271,7 @@ var MapChart = /** @class */ (function (_super) {
      * Handles mouse wheel event, e.g. user rotates mouse wheel while over the
      * map: zooms in or out depending on the direction of the wheel turn.
      *
-     * @param {AMEvent<Sprite, ISpriteEvents>["wheel"]}  event  Original event
+     * @param event  Original event
      */
     MapChart.prototype.handleWheel = function (event) {
         var svgPoint = $utils.documentPointToSvg(event.point, this.htmlContainer, this.svgContainer.cssScale);
@@ -293,7 +285,7 @@ var MapChart = /** @class */ (function (_super) {
     };
     Object.defineProperty(MapChart.prototype, "mouseWheelBehavior", {
         /**
-         * @return { "zoom" | "none"}  mouse wheel behavior
+         * @return mouse wheel behavior
          */
         get: function () {
             return this.getPropertyValue("mouseWheelBehavior");
@@ -301,7 +293,7 @@ var MapChart = /** @class */ (function (_super) {
         /**
          * Specifies what should chart do if when mouse wheel is rotated.
          *
-         * @param {"zoom" | "none"} mouse wheel behavior
+         * @param mouse wheel behavior
          * @default zoomX
          */
         set: function (value) {
@@ -323,7 +315,7 @@ var MapChart = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapChart.prototype, "projection", {
         /**
-         * @return {Projection} Projection
+         * @return Projection
          */
         get: function () {
             return this.getPropertyValue("projection");
@@ -351,7 +343,7 @@ var MapChart = /** @class */ (function (_super) {
          * }
          * ```
          *
-         * @param {Projection}  projection  Projection
+         * @param projection  Projection
          */
         set: function (projection) {
             projection.deltaLongitude = this.deltaLongitude;
@@ -475,8 +467,8 @@ var MapChart = /** @class */ (function (_super) {
      * Converts a point within map container to geographical (lat/long)
      * coordinates.
      *
-     * @param  {IPoint}     point  Source point
-     * @return {IGeoPoint}         Geo-point
+     * @param point  Source point
+     * @return Geo-point
      */
     MapChart.prototype.svgPointToGeo = function (point) {
         var series = this.series.getIndex(0);
@@ -489,8 +481,8 @@ var MapChart = /** @class */ (function (_super) {
      * Converts geographical (lat/long) coordinates to an X/Y point within map's
      * container.
      *
-     * @param  {IGeoPoint}  point  Source geo-point
-     * @return {IPoint}            Point
+     * @param point  Source geo-point
+     * @return Point
      */
     MapChart.prototype.geoPointToSVG = function (point) {
         var series = this.series.getIndex(0);
@@ -503,8 +495,8 @@ var MapChart = /** @class */ (function (_super) {
      * Converts a point (X/Y) within actual objects of the map to geographical
      * (lat/long) coordinates.
      *
-     * @param  {IPoint}     point  Source point
-     * @return {IGeoPoint}         Geo-point
+     * @param point  Source point
+     * @return Geo-point
      */
     MapChart.prototype.seriesPointToGeo = function (point) {
         return this.projection.invert(point);
@@ -513,15 +505,15 @@ var MapChart = /** @class */ (function (_super) {
      * Converts geographical (lat/long) coordinates to an X/Y point within
      * actual elements/objects of the maps.
      *
-     * @param  {IGeoPoint}  point  Source geo-point
-     * @return {IPoint}            Point
+     * @param point  Source geo-point
+     * @return Point
      */
     MapChart.prototype.geoPointToSeries = function (point) {
         return this.projection.convert(point);
     };
     Object.defineProperty(MapChart.prototype, "geodata", {
         /**
-         * @return {Object} GeoJSON data
+         * @return GeoJSON data
          */
         get: function () {
             return this._geodata;
@@ -533,7 +525,7 @@ var MapChart = /** @class */ (function (_super) {
          * `Polygon`, `MultiPoint`, `MultiLineString`, and `MultiPolygon`.
          *
          * @see {@link http://geojson.org/} Official GeoJSON format specification
-         * @param {Object} geoJSON GeoJSON data
+         * @param geoJSON GeoJSON data
          */
         set: function (geodata) {
             if (geodata != this._geodata) {
@@ -551,11 +543,11 @@ var MapChart = /** @class */ (function (_super) {
      * Zooms the map to particular zoom level and centers on a latitude/longitude
      * coordinate.
      *
-     * @param  {IGeoPoint}  point      Center coordinate
-     * @param  {number}     zoomLevel  Zoom level
-     * @param  {boolean}    center     Center on the given coordinate?
-     * @param  {number}     duration   Duration for zoom animation (ms)
-     * @return {Animation}             Zoom animation
+     * @param point      Center coordinate
+     * @param zoomLevel  Zoom level
+     * @param center     Center on the given coordinate?
+     * @param duration   Duration for zoom animation (ms)
+     * @return Zoom animation
      */
     MapChart.prototype.zoomToGeoPoint = function (point, zoomLevel, center, duration) {
         var _this = this;
@@ -598,11 +590,11 @@ var MapChart = /** @class */ (function (_super) {
     /**
      * Zooms the map to a particular map object.
      *
-     * @param  {MapObject}  mapObject  Target map object
-     * @param  {number}     zoomLevel  Zoom level
-     * @param  {boolean}    center     Center on the given coordinate?
-     * @param  {number}     duration   Duration for zoom animation (ms)
-     * @return {Animation}             Zoom animation
+     * @param mapObject  Target map object
+     * @param zoomLevel  Zoom level
+     * @param center     Center on the given coordinate?
+     * @param duration   Duration for zoom animation (ms)
+     * @return Zoom animation
      */
     MapChart.prototype.zoomToMapObject = function (mapObject, zoomLevel, center, duration) {
         if (center == undefined) {
@@ -646,14 +638,14 @@ var MapChart = /** @class */ (function (_super) {
      * `level` is not actual zoom level. The map will determine the zoom level
      * required to accommodated such zoom, and will adjust it by `level` if set.
      *
-     * @param  {number}     north     Latitude of the North-most boundary
-     * @param  {number}     east      Longitude of the East-most boundary
-     * @param  {number}     south     Latitude of the South-most boundary
-     * @param  {number}     west      Longitude of the West-most boundary
-     * @param  {number}     level     Adjust zoom level
-     * @param  {boolean}    center    Center on the given coordinate?
-     * @param  {number}     duration  Duration for zoom animation (ms)
-     * @return {Animation}            Zoom animation
+     * @param north     Latitude of the North-most boundary
+     * @param east      Longitude of the East-most boundary
+     * @param south     Latitude of the South-most boundary
+     * @param west      Longitude of the West-most boundary
+     * @param level     Adjust zoom level
+     * @param center    Center on the given coordinate?
+     * @param duration  Duration for zoom animation (ms)
+     * @return Zoom animation
      */
     MapChart.prototype.zoomToRectangle = function (north, east, south, west, level, center, duration) {
         if ($type.isNaN(level)) {
@@ -666,9 +658,9 @@ var MapChart = /** @class */ (function (_super) {
      * Zooms in the map, optionally centering on particular latitude/longitude
      * point.
      *
-     * @param  {IGeoPoint}  geoPoint  Optional center point
-     * @param  {number}     duration  Duration for zoom animation (ms)
-     * @return {Animation}            Zoom animation
+     * @param geoPoint  Optional center point
+     * @param duration  Duration for zoom animation (ms)
+     * @return Zoom animation
      */
     MapChart.prototype.zoomIn = function (geoPoint, duration) {
         return this.zoomToGeoPoint(geoPoint, this.zoomLevel * this.zoomStep, false, duration);
@@ -677,9 +669,9 @@ var MapChart = /** @class */ (function (_super) {
      * Zooms out the map, optionally centering on particular latitude/longitude
      * point.
      *
-     * @param  {IGeoPoint}  geoPoint  Optional center point
-     * @param  {number}     duration  Duration for zoom animation (ms)
-     * @return {Animation}            Zoom animation
+     * @param geoPoint  Optional center point
+     * @param duration  Duration for zoom animation (ms)
+     * @return Zoom animation
      */
     MapChart.prototype.zoomOut = function (geoPoint, duration) {
         return this.zoomToGeoPoint(geoPoint, this.zoomLevel / this.zoomStep, false, duration);
@@ -696,8 +688,8 @@ var MapChart = /** @class */ (function (_super) {
      *
      * The above will move the map by 10% to the right, and by 10% upwards.
      *
-     * @param {IPoint}  shift     Vertical and horizontal shift
-     * @param {number}  duration  Pan animation duration (ms)
+     * @param shift     Vertical and horizontal shift
+     * @param duration  Pan animation duration (ms)
      */
     MapChart.prototype.pan = function (shift, duration) {
         var point = this.geoPointToSVG(this.zoomGeoPoint);
@@ -711,7 +703,7 @@ var MapChart = /** @class */ (function (_super) {
          * zoom reference point)
          *
          * @readonly
-         * @return {IGeoPoint} Coordinates
+         * @return Coordinates
          */
         get: function () {
             var point = $utils.spritePointToSvg({ x: this.pixelWidth / 2, y: this.pixelHeight / 2 }, this);
@@ -725,7 +717,7 @@ var MapChart = /** @class */ (function (_super) {
          * Current zoom level.
          *
          * @readonly
-         * @return {number} Zoom level
+         * @return Zoom level
          */
         get: function () {
             return this.seriesContainer.scale;
@@ -750,7 +742,7 @@ var MapChart = /** @class */ (function (_super) {
     };
     Object.defineProperty(MapChart.prototype, "smallMap", {
         /**
-         * @return {SmallMap} Small map
+         * @return Small map
          */
         get: function () {
             if (!this._smallMap) {
@@ -781,7 +773,7 @@ var MapChart = /** @class */ (function (_super) {
          * }
          * ```
          *
-         * @param {SmallMap}  smallMap  Small map
+         * @param smallMap  Small map
          */
         set: function (smallMap) {
             if (this._smallMap) {
@@ -796,7 +788,7 @@ var MapChart = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapChart.prototype, "zoomControl", {
         /**
-         * @return {ZoomControl} Zoom control
+         * @return Zoom control
          */
         get: function () {
             return this._zoomControl;
@@ -823,7 +815,7 @@ var MapChart = /** @class */ (function (_super) {
          * }
          * ```
          *
-         * @param {ZoomControl}  zoomControl  Zoom control
+         * @param zoomControl  Zoom control
          */
         set: function (zoomControl) {
             if (this._zoomControl) {
@@ -839,14 +831,14 @@ var MapChart = /** @class */ (function (_super) {
     /**
      * Creates and returns a map series of appropriate type.
      *
-     * @return {MapSeries} Map series
+     * @return Map series
      */
     MapChart.prototype.createSeries = function () {
         return new MapSeries();
     };
     Object.defineProperty(MapChart.prototype, "deltaLongitude", {
         /**
-         * @return {number} Map center shift
+         * @return Map center shift
          */
         get: function () {
             return this.getPropertyValue("deltaLongitude");
@@ -857,7 +849,7 @@ var MapChart = /** @class */ (function (_super) {
          * E.g. if set to -160, the longitude 20 will become a new center, creating
          * a Pacific-centered map.
          *
-         * @param {number}  value  Map center shift
+         * @param value  Map center shift
          */
         set: function (value) {
             if (this.setPropertyValue("deltaLongitude", $geo.wrapAngleTo180(value))) {
@@ -869,7 +861,7 @@ var MapChart = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapChart.prototype, "maxPanOut", {
         /**
-         * @return {number} Max pan out
+         * @return Max pan out
          */
         get: function () {
             return this.getPropertyValue("maxPanOut");
@@ -883,7 +875,7 @@ var MapChart = /** @class */ (function (_super) {
          * 0.5 will allow half of the map to be outside viewable area.
          *
          * @default 0.7
-         * @param {number}  value  Max pan out
+         * @param value  Max pan out
          */
         set: function (value) {
             this.setPropertyValue("maxPanOut", value);
@@ -893,7 +885,7 @@ var MapChart = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapChart.prototype, "homeGeoPoint", {
         /**
-         * @return {IGeoPoint} Home geo point
+         * @return Home geo point
          */
         get: function () {
             return this.getPropertyValue("homeGeoPoint");
@@ -904,7 +896,7 @@ var MapChart = /** @class */ (function (_super) {
          * The map will also be centered to this point when you call `goHome()`
          * method.
          *
-         * @param {IGeoPoint}  value  Home geo point
+         * @param value  Home geo point
          */
         set: function (value) {
             this.setPropertyValue("homeGeoPoint", value);
@@ -914,7 +906,7 @@ var MapChart = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapChart.prototype, "homeZoomLevel", {
         /**
-         * @return {number} Home zoom level
+         * @return Home zoom level
          */
         get: function () {
             return this.getPropertyValue("homeZoomLevel");
@@ -925,7 +917,7 @@ var MapChart = /** @class */ (function (_super) {
          * The map will also be set to this zoom level when you call `goHome()`
          * method.
          *
-         * @param {number}  value  Home zoom level
+         * @param value  Home zoom level
          */
         set: function (value) {
             this.setPropertyValue("homeZoomLevel", value);
@@ -935,7 +927,7 @@ var MapChart = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapChart.prototype, "zoomStep", {
         /**
-         * @return {number} Zoom factor
+         * @return Zoom factor
          */
         get: function () {
             return this.getPropertyValue("zoomStep");
@@ -945,7 +937,7 @@ var MapChart = /** @class */ (function (_super) {
          * by value of this setting.
          *
          * @default 2
-         * @param {number}  value  Zoom factor
+         * @param value  Zoom factor
          */
         set: function (value) {
             this.setPropertyValue("zoomStep", value);
@@ -968,7 +960,7 @@ var MapChart = /** @class */ (function (_super) {
         /**
          * Returns a [[DataSource]] specifically for loading Component's data.
          *
-         * @return {DataSource} Data source
+         * @return Data source
          */
         get: function () {
             if (!this._dataSources["geodata"]) {
@@ -979,7 +971,7 @@ var MapChart = /** @class */ (function (_super) {
         /**
          * Sets a [[DataSource]] to be used for loading Component's data.
          *
-         * @param {DataSource} value Data source
+         * @param value Data source
          */
         set: function (value) {
             var _this = this;
@@ -1000,7 +992,7 @@ var MapChart = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     MapChart.prototype.processConfig = function (config) {
         // Instantiate projection
@@ -1023,9 +1015,9 @@ var MapChart = /** @class */ (function (_super) {
  * the end.
  *
  * @ignore Exclude from docs
- * @param  {string}  a  Element 1
- * @param  {string}  b  Element 2
- * @return {number}     Sorting number
+ * @param a  Element 1
+ * @param b  Element 2
+ * @return Sorting number
  */
     MapChart.prototype.configOrder = function (a, b) {
         if (a == b) {
@@ -1051,8 +1043,8 @@ var MapChart = /** @class */ (function (_super) {
     /**
      * Adds `projection` to "as is" fields.
      *
-     * @param  {string}   field  Field name
-     * @return {boolean}         Assign as is?
+     * @param field  Field name
+     * @return Assign as is?
      */
     MapChart.prototype.asIs = function (field) {
         return field == "projection" || _super.prototype.asIs.call(this, field);
@@ -1062,7 +1054,6 @@ var MapChart = /** @class */ (function (_super) {
          * Geo point of map center
          *
          * @readonly
-         * @type {IPoint}
          */
         get: function () {
             return this._centerGeoPoint;
@@ -1085,8 +1076,8 @@ var MapChart = /** @class */ (function (_super) {
     /**
      * Sets [[Paper]] instance to use to draw elements.
      * @ignore
-     * @param {Paper} paper Paper
-     * @return {boolean} true if paper was changed, false, if it's the same
+     * @param paper Paper
+     * @return true if paper was changed, false, if it's the same
      */
     MapChart.prototype.setPaper = function (paper) {
         if (this.svgContainer) {
@@ -1097,7 +1088,7 @@ var MapChart = /** @class */ (function (_super) {
     /**
      * Prepares the legend instance for use in this chart.
      *
-     * @param {Legend}  legend  Legend
+     * @param legend  Legend
      */
     MapChart.prototype.setLegend = function (legend) {
         _super.prototype.setLegend.call(this, legend);

@@ -44,7 +44,6 @@ var Cursor = /** @class */ (function (_super) {
         /**
          * Current cursor position during selection.
          *
-         * @type {IPoint}
          * @todo Better description
          */
         _this.point = { x: 0, y: 0 };
@@ -75,7 +74,7 @@ var Cursor = /** @class */ (function (_super) {
      * Handle pointer movement in document and update cursor position as needed.
      *
      * @ignore Exclude from docs
-     * @param {IInteractionObjectEvents["track"]} event Event
+     * @param event Event
      */
     Cursor.prototype.handleCursorMove = function (event) {
         if (!this.interactionsEnabled) {
@@ -103,8 +102,8 @@ var Cursor = /** @class */ (function (_super) {
     /**
      * Hides actual SVG elements and handles hiding animations.
      *
-     * @param  {number}  duration  Fade out duration (ms)
-     * @return {Animation}            Fade out duration (ms)
+     * @param duration  Fade out duration (ms)
+     * @return Fade out duration (ms)
      * @ignore
      */
     Cursor.prototype.hideReal = function (duration) {
@@ -128,8 +127,8 @@ var Cursor = /** @class */ (function (_super) {
      * `"hard"` - cursor will stay in place no matter what, until it is moved by
      * another `triggerMove()` call.
      *
-     * @param {IPoint}                    point  Point to place cursor at
-     * @param {"hard" | "soft" | "none"}  stick  Level of cursor stickiness to the place
+     * @param point  Point to place cursor at
+     * @param stick  Level of cursor stickiness to the place
      */
     Cursor.prototype.triggerMove = function (point, stick) {
         point.x = $math.round(point.x, 1);
@@ -145,7 +144,7 @@ var Cursor = /** @class */ (function (_super) {
     /**
      * Places the cursor at specific point.
      *
-     * @param {IPoint}  point Point to place cursor at
+     * @param point Point to place cursor at
      */
     Cursor.prototype.triggerMoveReal = function (point) {
         if (this.point.x != point.x || this.point.y != point.y) {
@@ -170,7 +169,7 @@ var Cursor = /** @class */ (function (_super) {
     /**
      * Simulates pressing down (click/touch) action by a cursor.
      *
-     * @param {IPoint}   point               Point of action
+     * @param point               Point of action
      */
     Cursor.prototype.triggerDown = function (point) {
         this.triggerDownReal(point);
@@ -178,7 +177,7 @@ var Cursor = /** @class */ (function (_super) {
     /**
      * Simulates pressing down (click/touch) action by a cursor.
      *
-     * @param {IPoint}   point               Point of action
+     * @param point               Point of action
      */
     Cursor.prototype.triggerDownReal = function (point) {
         switch (this._generalBehavior) {
@@ -197,7 +196,7 @@ var Cursor = /** @class */ (function (_super) {
     /**
      * Simulates the action of release of the mouse down / touch.
      *
-     * @param {IPoint}   point               Point of action
+     * @param point               Point of action
      */
     Cursor.prototype.triggerUp = function (point) {
         this.triggerUpReal(point);
@@ -205,7 +204,7 @@ var Cursor = /** @class */ (function (_super) {
     /**
      * Simulates the action of release of the mouse down / touch.
      *
-     * @param {IPoint}   point               Point of action
+     * @param point               Point of action
      */
     Cursor.prototype.triggerUpReal = function (point) {
         this.updatePoint(this.upPoint);
@@ -251,7 +250,7 @@ var Cursor = /** @class */ (function (_super) {
      * Handles pointer down event so we can start zoom or selection.
      *
      * @ignore Exclude from docs
-     * @param {IInteractionEvents["down"]} event Original event
+     * @param event Original event
      */
     Cursor.prototype.handleCursorDown = function (event) {
         if (!this.interactionsEnabled || !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
@@ -278,7 +277,7 @@ var Cursor = /** @class */ (function (_super) {
      * Handles pointer up event - finishes zoom or selection action.
      *
      * @ignore Exclude from docs
-     * @param {IInteractionEvents["up"]} event Original event
+     * @param event Original event
      */
     Cursor.prototype.handleCursorUp = function (event) {
         if (!this.interactionsEnabled) {
@@ -294,7 +293,7 @@ var Cursor = /** @class */ (function (_super) {
     };
     Object.defineProperty(Cursor.prototype, "chart", {
         /**
-         * @return {Chart} Chart
+         * @return Chart
          */
         get: function () {
             return this._chart;
@@ -302,7 +301,7 @@ var Cursor = /** @class */ (function (_super) {
         /**
          * A reference to a [[Chart]] the cursor belongs to.
          *
-         * @param {Chart}  value  Chart
+         * @param value  Chart
          */
         set: function (value) {
             this._chart = value;

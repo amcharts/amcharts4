@@ -112,7 +112,7 @@ var SerialChart = /** @class */ (function (_super) {
         /**
          * A list of chart's series.
          *
-         * @return {List} Chart's series
+         * @return Chart's series
          */
         get: function () {
             var _this = this;
@@ -145,7 +145,7 @@ var SerialChart = /** @class */ (function (_super) {
      * added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Series>["inserted"]}  event  Event
+     * @param event  Event
      */
     SerialChart.prototype.handleSeriesAdded = function (event) {
         var _this = this;
@@ -179,14 +179,14 @@ var SerialChart = /** @class */ (function (_super) {
     /**
      * Creates and returns a new Series, suitable for this chart type.
      *
-     * @return {this} New series
+     * @return New series
      */
     SerialChart.prototype.createSeries = function () {
         return new Series();
     };
     Object.defineProperty(SerialChart.prototype, "colors", {
         /**
-         * @return {ColorSet} Color list
+         * @return Color list
          */
         get: function () {
             return this.getPropertyValue("colors");
@@ -203,7 +203,7 @@ var SerialChart = /** @class */ (function (_super) {
          *
          * A theme you are using may override default pre-defined colors.
          *
-         * @param {ColorSet} value Color list
+         * @param value Color list
          */
         set: function (value) {
             this.setPropertyValue("colors", value, true);
@@ -214,7 +214,7 @@ var SerialChart = /** @class */ (function (_super) {
     /**
      * Copies all parameters from another [[SerialChart]].
      *
-     * @param {SerialChart} source Source SerialChart
+     * @param source Source SerialChart
      */
     SerialChart.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

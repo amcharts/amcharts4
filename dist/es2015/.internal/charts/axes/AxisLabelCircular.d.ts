@@ -21,16 +21,18 @@ import { Percent } from "../../core/utils/Percent";
 export interface IAxisLabelCircularProperties extends IAxisLabelProperties {
     /**
      * Rotation angle of the label in relation to circle line.
-     *
-     * @type {number}
      */
     relativeRotation?: number;
     /**
      * Distance of the label from circle line.
-     *
-     * @type {number}
      */
     radius?: number;
+    /**
+     * Specifies if label should be bent along the circle
+     *
+     * @type {boolean}
+     */
+    bent?: boolean;
 }
 /**
  * Defines events for [[AxisLabelCircular]].
@@ -59,37 +61,27 @@ export interface IAxisLabelCircularAdapters extends IAxisLabelAdapters, IAxisLab
 export declare class AxisLabelCircular extends AxisLabel {
     /**
      * Defines available properties.
-     *
-     * @type {IAxisLabelCircularProperties}
      */
     _properties: IAxisLabelCircularProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IAxisLabelCircularAdapters}
      */
     _adapter: IAxisLabelCircularAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IAxisLabelCircularEvents}
      */
     _events: IAxisLabelCircularEvents;
     /**
      * Related data item.
-     *
-     * @type {any}
      */
     _dataItem: any;
     /**
      *
-     * @type {number}
      * @ignore
      */
     fdx: number;
     /**
      *
-     * @type {number}
      * @ignore
      */
     fdy: number;
@@ -98,7 +90,7 @@ export declare class AxisLabelCircular extends AxisLabel {
      */
     constructor();
     /**
-     * @return {number} Rotation angle
+     * @return Rotation angle
      */
     /**
      * Relative rotation of the label.
@@ -106,24 +98,37 @@ export declare class AxisLabelCircular extends AxisLabel {
      * It is an angle to circle. In case 90, labels will be positioned like rays
      * of light, if 0 - positione along the circle.
      *
-     * @param {number} value Rotation angle
+     * @param value Rotation angle
      */
     relativeRotation: number;
     /**
-     * @return {number} Distance (px)
+     * @return Distance (px)
      */
     /**
      * Distance from axis circle to label in pixels or percent.
      *
-     * @param {number} value Distance (px or percent)
+     * @param value Distance (px or percent)
      */
     radius: number | Percent;
     /**
-     * returns label radius in pixels
+     * @return {number} Bent?
+     */
+    /**
+     * Specifies if label should be bent along the circle.
+     *
+     * IMPORTANT: Use this with caution, since it is quite CPU-greedy.
+     *
+     * @since 4.1.2
+     * @default false
+     * @param {boolean} value Bent?
+     */
+    bent: boolean;
+    /**
+     * Returns label radius in pixels.
      */
     pixelRadius(axisRadius: number): number;
     /**
-     * returns label radius in pixels
+     * Returns label horizontal radius in pixels.
      */
     pixelRadiusY(axisRadius: number, axisRadiusY: number): number;
     /**
@@ -131,8 +136,8 @@ export declare class AxisLabelCircular extends AxisLabel {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {IPoint}  point       Label affixation point
-     * @param  {number}  axisRadius  Distance from point (px)
+     * @param point       Label affixation point
+     * @param axisRadius  Distance from point (px)
      */
     fixPosition(angle: number, axisRadius: number, axisRadiusY?: number, dx?: number, dy?: number): void;
 }

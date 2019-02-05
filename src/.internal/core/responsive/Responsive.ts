@@ -45,8 +45,6 @@ export interface IResponsiveRule {
 	 *
 	 * Whenever the chrt size changes, this function will be run to determine
 	 * whether this rule needs to be applied.
-	 *
-	 * @type {function}
 	 */
 	relevant(target: Container): boolean;
 
@@ -58,15 +56,11 @@ export interface IResponsiveRule {
 	 *
 	 * Once state is created, it is added to the Sprite's available states and
 	 * applied as necessary.
-	 *
-	 * @type {function}
 	 */
 	state(target: Sprite, stateId: string): Optional<SpriteState<ISpriteProperties, ISpriteAdapters>>;
 
 	/**
 	 * ID of the rule.
-	 *
-	 * @type {string}
 	 */
 	id?: string;
 
@@ -90,8 +84,6 @@ export interface IResponsiveEvents extends IBaseObjectEvents {
 
 		/**
 		 * A rule that was just applied.
-		 *
-		 * @type {IResponsiveRule}
 		 */
 		"rule": IResponsiveRule
 
@@ -110,8 +102,6 @@ export interface IResponsiveAdapters {
 
 	/**
 	 * Are responsive features enabled?
-	 *
-	 * @type {boolean}
 	 */
 	enabled: boolean;
 
@@ -119,29 +109,21 @@ export interface IResponsiveAdapters {
 	 * Use default rules?
 	 *
 	 * If this is set `false`, only user-defined rules will be applied.
-	 *
-	 * @type {boolean}
 	 */
 	useDefault: boolean;
 
 	/**
 	 * A list of user-defined rules.
-	 *
-	 * @type {List<IResponsiveRule>}
 	 */
 	rules: List<IResponsiveRule>;
 
 	/**
 	 * A list of default rules.
-	 *
-	 * @type {List<IResponsiveRule>}
 	 */
 	defaultRules: List<IResponsiveRule>;
 
 	/**
 	 * A list of **all** rules - user-defined and default combined.
-	 *
-	 * @type {List<IResponsiveRule>}
 	 */
 	allRules: List<IResponsiveRule>;
 
@@ -187,78 +169,56 @@ export class Responsive extends BaseObjectEvents {
 
 	/**
 	 * Holds a list of responsive rules organized by object type.
-	 *
-	 * @type {List<IResponsiveRule>}
 	 */
 	protected _rules = new List<IResponsiveRule>();
 
 	/**
 	 * Holds the list of the default responsive rules.
-	 *
-	 * @type {List<IResponsiveRule>}
 	 */
 	protected _defaultRules = new List<IResponsiveRule>();
 
 	/**
 	 * Holds the list of currently applied rules.
-	 *
-	 * @type {object}
 	 */
 	protected _appliedRules: { [index: string]: boolean } = {};
 
 	/**
 	 * Use default rules in addition to the user-defined ones?
-	 *
-	 * @type {Boolean}
 	 */
 	protected _useDefault = true;
 
 	/**
 	 * A target object responsive rules apply to.
-	 *
-	 * @type {Component}
 	 */
 	protected _component: $type.Optional<Component>;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IResponsiveEvents}
 	 */
 	public _events!: IResponsiveEvents;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IExportAdapters}
 	 */
 	public _adapter!: IResponsiveAdapters;
 
 	/**
 	 * Adapter.
-	 *
-	 * @type {Adapter<Responsive, IResponsiveAdapters>}
 	 */
 	public adapter = new Adapter<this, IResponsiveAdapters>(this);
 
 	/**
 	 * Indicates of responsive rules application is enabled.
-	 *
-	 * @type {Boolean}
 	 */
 	protected _enabled = false;
 
 	/**
 	 * Holds a disposer for size events.
-	 *
-	 * @type {IDisposer}
 	 */
 	private _sizeEventDisposer: $type.Optional<IDisposer>;
 
 	/**
 	 * Collection of objects and state ids that do not have any properties set.
-	 *
-	 * @type {string[]}
 	 */
 	private _noStates: string[] = [];
 
@@ -284,7 +244,7 @@ export class Responsive extends BaseObjectEvents {
 	/**
 	 * A target object that responsive rules will need to be applied to.
 	 *
-	 * @param {Optional<Component>}  value  Target object
+	 * @param value  Target object
 	 */
 	public set component(value: $type.Optional<Component>) {
 
@@ -311,7 +271,7 @@ export class Responsive extends BaseObjectEvents {
 	}
 
 	/**
-	 * @return {Optional<Component>} Target object
+	 * @return Target object
 	 */
 	public get component(): $type.Optional<Component> {
 		return this._component;
@@ -321,7 +281,7 @@ export class Responsive extends BaseObjectEvents {
 	 * Should responsive rules be checked against and applied?
 	 *
 	 * @default false
-	 * @param {boolean}  value  Apply responsive rules?
+	 * @param value  Apply responsive rules?
 	 */
 	public set enabled(value: boolean) {
 		if (this._enabled != value) {
@@ -333,7 +293,7 @@ export class Responsive extends BaseObjectEvents {
 	}
 
 	/**
-	 * @return {boolean} Apply responsive rules?
+	 * @return Apply responsive rules?
 	 */
 	public get enabled(): boolean {
 		return this.adapter.apply("enabled", this._enabled);
@@ -347,7 +307,7 @@ export class Responsive extends BaseObjectEvents {
 	 * produce conflicting settings.
 	 *
 	 * @default true
-	 * @param {boolean}  value  Use default rules?
+	 * @param value  Use default rules?
 	 */
 	public set useDefault(value: boolean) {
 		if (this._useDefault != value) {
@@ -359,7 +319,7 @@ export class Responsive extends BaseObjectEvents {
 	}
 
 	/**
-	 * @return {boolean} Use default rules?
+	 * @return Use default rules?
 	 */
 	public get useDefault(): boolean {
 		return this.adapter.apply("useDefault", this._useDefault);
@@ -374,7 +334,7 @@ export class Responsive extends BaseObjectEvents {
 	 * Use `allRules` to get all applicable rules including default and
 	 * user-defined ones.
 	 *
-	 * @param {List<IResponsiveRule>}  value  User-defined rules
+	 * @param value  User-defined rules
 	 */
 	public set rules(value: List<IResponsiveRule>) {
 		this._rules = value;
@@ -383,7 +343,7 @@ export class Responsive extends BaseObjectEvents {
 	}
 
 	/**
-	 * @return {List<IResponsiveRule>} User-defined rules
+	 * @return User-defined rules
 	 */
 	public get rules(): List<IResponsiveRule> {
 		return this.adapter.apply("rules", this._rules);
@@ -393,7 +353,7 @@ export class Responsive extends BaseObjectEvents {
 	 * Default responsive rules.
 	 *
 	 * @readonly
-	 * @return {List<IResponsiveRule>} List of responsive rules
+	 * @return List of responsive rules
 	 */
 	public get defaultRules(): List<IResponsiveRule> {
 		return this.adapter.apply("defaultRules", this._defaultRules);
@@ -404,7 +364,7 @@ export class Responsive extends BaseObjectEvents {
 	 * user-defined ones.
 	 *
 	 * @readonly
-	 * @return {List<IResponsiveRule>} List of all applicable rules
+	 * @return List of all applicable rules
 	 */
 	public get allRules(): List<IResponsiveRule> {
 
@@ -427,8 +387,8 @@ export class Responsive extends BaseObjectEvents {
 	/**
 	 * Checks if rule by the particular id currently applied.
 	 *
-	 * @param  {string}   ruleId  Rule ID
-	 * @return {boolean}          Is currently applied?
+	 * @param ruleId  Rule ID
+	 * @return Is currently applied?
 	 */
 	protected isApplied(ruleId: string): boolean {
 		const rule = this._appliedRules[ruleId];
@@ -494,7 +454,7 @@ export class Responsive extends BaseObjectEvents {
 	 * Applies current rules to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {any} target Target object
+	 * @param target Target object
 	 * @todo Better type check
 	 */
 	public applyRules(target?: Container): void {
@@ -549,8 +509,8 @@ export class Responsive extends BaseObjectEvents {
 	 * Applies specific oresponsive overrides to the element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IResponsiveRule}  rule    Responsive rule
-	 * @param {any}              target  Target element
+	 * @param rule    Responsive rule
+	 * @param target  Target element
 	 * @deprecated
 	 * @hidden
 	 */
@@ -576,9 +536,9 @@ export class Responsive extends BaseObjectEvents {
 	 * Returns a relative state for the rule/target, or `undefined` if no state is
 	 * needed.
 	 *
-	 * @param  {IResponsiveRule}  rule    [description]
-	 * @param  {any}              target  [description]
-	 * @return {Optional}                 [description]
+	 * @param rule    [description]
+	 * @param target  [description]
+	 * @return [description]
 	 */
 	protected getState(rule: IResponsiveRule, target: any): Optional<SpriteState<any, any>> {
 		let stateId = "responsive-" + rule.id;
@@ -602,9 +562,9 @@ export class Responsive extends BaseObjectEvents {
 	 * Gets a value from an element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {any}     target    Target object
-	 * @param  {string}  property  Property
-	 * @return {any}               Property value
+	 * @param target    Target object
+	 * @param property  Property
+	 * @return Property value
 	 */
 	public getValue(target: any, property: string): any {
 		// This is a bit hacky, first we check if the property exist.
@@ -620,7 +580,7 @@ export class Responsive extends BaseObjectEvents {
 	 * Loads default responsive rules.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {Promise<any>} Responsive rules
+	 * @return Responsive rules
 	 */
 	public loadDefaultRules(): Promise<any> {
 		return import(/* webpackChunkName: "responsivedefaults" */ "./ResponsiveDefaults");

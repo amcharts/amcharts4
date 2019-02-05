@@ -22,7 +22,6 @@ export interface IPolyarcProperties extends IPolylineProperties {
      * Relative position along the line the control point is. (0-1)
      *
      * @default 0.5
-     * @type {number}
      */
     controlPointPosition: number;
     /**
@@ -31,7 +30,6 @@ export interface IPolyarcProperties extends IPolylineProperties {
      * Default is half the length of the line. (0.5)
      *
      * @default 0.5
-     * @type {number}
      */
     controlPointDistance: number;
 }
@@ -62,20 +60,14 @@ export interface IPolyarcAdapters extends IPolylineAdapters, IPolyarcProperties 
 export declare class Polyarc extends Polyline {
     /**
      * Defines available properties.
-     *
-     * @type {IPolyarcProperties}
      */
     _properties: IPolyarcProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IPolyarcAdapters}
      */
     _adapter: IPolyarcAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IPolyarcEvents}
      */
     _events: IPolyarcEvents;
     /**
@@ -89,17 +81,17 @@ export declare class Polyarc extends Polyline {
      */
     makePath(): void;
     /**
-     * @return {number} Position (0-1)
+     * @return Position (0-1)
      */
     /**
      * Relative position along the line the control point is. (0-1)
      *
      * @default 0.5
-     * @param {number}  value  Position (0-1)
+     * @param value  Position (0-1)
      */
     controlPointPosition: number;
     /**
-     * @return {number} Distance (0-1)
+     * @return Distance (0-1)
      */
     /**
      * Relative distance of the control point. (0-1)
@@ -107,7 +99,7 @@ export declare class Polyarc extends Polyline {
      * Default is half the length of the line. (0.5)
      *
      * @default 0.5
-     * @param {number}  value  Distance (0-1)
+     * @param value  Distance (0-1)
      */
     controlPointDistance: number;
 }

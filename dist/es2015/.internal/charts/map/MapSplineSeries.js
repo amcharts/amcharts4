@@ -63,7 +63,7 @@ var MapSplineSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {MapSplineSeriesDataItem} Data Item
+     * @return Data Item
      */
     MapSplineSeries.prototype.createDataItem = function () {
         return new MapSplineSeriesDataItem();
@@ -71,7 +71,7 @@ var MapSplineSeries = /** @class */ (function (_super) {
     /**
      * Returns a new line instance of suitable type.
      *
-     * @return {MapSpline} New line
+     * @return New line
      */
     MapSplineSeries.prototype.createLine = function () {
         return new MapSpline();

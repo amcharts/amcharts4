@@ -47,7 +47,7 @@ var Grid = /** @class */ (function (_super) {
     }
     Object.defineProperty(Grid.prototype, "location", {
         /**
-         * @return {AxisItemLocation} Location (0-1)
+         * @return Location (0-1)
          */
         get: function () {
             return this.getPropertyValue("location");
@@ -59,7 +59,7 @@ var Grid = /** @class */ (function (_super) {
          * * 0.5 - middle
          * * 1 - end
          *
-         * @param {AxisItemLocation}  value  Location (0-1)
+         * @param value  Location (0-1)
          */
         set: function (value) {
             this.setPropertyValue("location", value, true);

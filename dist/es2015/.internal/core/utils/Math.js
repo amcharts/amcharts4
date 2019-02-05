@@ -17,10 +17,10 @@ export var DEGREES = 180 / PI;
 /**
  * Converts any value and fits it into a specific value range.
  *
- * @param  {any}     value  Source value
- * @param  {number}  min    Minimum allowable value
- * @param  {number}  max    Maximum allowable value
- * @return {number}         Number
+ * @param value  Source value
+ * @param min    Minimum allowable value
+ * @param max    Maximum allowable value
+ * @return Number
  */
 export function toNumberRange(value, min, max) {
     if ($type.hasValue(value)) {
@@ -32,10 +32,10 @@ export function toNumberRange(value, min, max) {
 /**
  * Rounds the numeric value to whole number or specific precision of set.
  *
- * @param  {number} value      Value
- * @param  {number} precision  Precision (number of decimal points)
- * @param  {boolean} floor  In case value ends with 0.5 and precision is 0, we might need to floor the value instead of ceiling it.
- * @return {number}            Rounded value
+ * @param value      Value
+ * @param precision  Precision (number of decimal points)
+ * @param floor  In case value ends with 0.5 and precision is 0, we might need to floor the value instead of ceiling it.
+ * @return Rounded value
  */
 export function round(value, precision, floor) {
     if (!$type.isNumber(precision) || precision <= 0) {
@@ -55,9 +55,9 @@ export function round(value, precision, floor) {
 /**
  * Ceils the numeric value to whole number or specific precision of set.
  *
- * @param  {number} value      Value
- * @param  {number} precision  Precision (number of decimal points)
- * @return {number}            Rounded value
+ * @param value      Value
+ * @param precision  Precision (number of decimal points)
+ * @return Rounded value
  */
 export function ceil(value, precision) {
     if (!$type.isNumber(precision) || precision <= 0) {
@@ -71,10 +71,10 @@ export function ceil(value, precision) {
 /**
  * Stretches `t` so that it will always be between `from` and `to`.
  *
- * @param  {number} t     Number from 0 to 1
- * @param  {number} from  Lowest possible value
- * @param  {number} to    Highest possible value
- * @return {number}       Adjusted value
+ * @param t     Number from 0 to 1
+ * @param from  Lowest possible value
+ * @param to    Highest possible value
+ * @return Adjusted value
  */
 export function stretch(t, from, to) {
     return (t * (to - from)) + from;
@@ -82,10 +82,10 @@ export function stretch(t, from, to) {
 /**
  * Adjust numeric value so it fits to specific value range.
  *
- * @param  {number} value     Value
- * @param  {Optional<number>} minValue  Lowest possible value
- * @param  {Optional<number>} maxValue  Highest possible value
- * @return {number}                     Adjusted value
+ * @param value     Value
+ * @param minValue  Lowest possible value
+ * @param maxValue  Highest possible value
+ * @return Adjusted value
  */
 export function fitToRange(value, minValue, maxValue) {
     if ($type.isNumber(minValue)) {
@@ -108,8 +108,8 @@ export function fitToRange(value, minValue, maxValue) {
 /**
  * Returns sine of a number.
  *
- * @param  {number} value  Value
- * @return {number}        Sine
+ * @param value  Value
+ * @return Sine
  */
 export function sin(value) {
     return round(Math.sin(RADIANS * value), 10);
@@ -117,8 +117,8 @@ export function sin(value) {
 /**
  * Returns tan of a number.
  *
- * @param  {number} value  Value
- * @return {number}        Sine
+ * @param value  Value
+ * @return Sine
  */
 export function tan(value) {
     return round(Math.tan(RADIANS * value), 10);
@@ -126,8 +126,8 @@ export function tan(value) {
 /**
  * Returns cosine of a number.
  *
- * @param  {number} value  Value
- * @return {number}        Cosine
+ * @param value  Value
+ * @return Cosine
  */
 export function cos(value) {
     return round(Math.cos(RADIANS * value), 10);
@@ -177,9 +177,9 @@ export function min(left, right) {
 /**
  * Returns the closest value from the array of values to the reference value.
  *
- * @param  {number[]}  values  Array of values
- * @param  {number}    value   Reference value
- * @return {number}            Closes value from the array
+ * @param values  Array of values
+ * @param value   Reference value
+ * @return Closes value from the array
  */
 export function closest(values, referenceValue) {
     return values.reduce(function (prev, curr) {
@@ -189,9 +189,9 @@ export function closest(values, referenceValue) {
 /**
  * Checks whether two ranges of values intersect.
  *
- * @param {IRange}    range1  Range 1
- * @param {IRange}    range2  Range 2
- * @return {boolean}          Any intersecting numbers?
+ * @param range1  Range 1
+ * @param range2  Range 2
+ * @return Any intersecting numbers?
  */
 export function intersect(range1, range2) {
     var start1 = $type.getValue(range1.start);
@@ -203,7 +203,7 @@ export function intersect(range1, range2) {
 /**
  * Inverts the range of values.
  *
- * @param {IRange}  range  Range
+ * @param range  Range
  */
 export function invertRange(range) {
     var start = $type.getValue(range.start);
@@ -213,9 +213,9 @@ export function invertRange(range) {
 /**
  * Returns an intersection range between two ranges of values.
  *
- * @param  {IRange}  range1  Range 1
- * @param  {IRange}  range2  Range 2
- * @return {IRange}          Intersecting value range
+ * @param range1  Range 1
+ * @param range2  Range 2
+ * @return Intersecting value range
  */
 export function intersection(range1, range2) {
     var start1 = $type.getValue(range1.start);
@@ -237,9 +237,9 @@ export function intersection(range1, range2) {
  * If second point is not specified, distance from {x:0, y:0} point is
  * calculated.
  *
- * @param  {IPoint}  point1  Point 1
- * @param  {IPoint}  point2  Point 2
- * @return {number}          Distance in relative pixels
+ * @param point1  Point 1
+ * @param point2  Point 2
+ * @return Distance in relative pixels
  */
 export function getDistance(point1, point2) {
     if (!point1) {
@@ -253,11 +253,11 @@ export function getDistance(point1, point2) {
 /**
  * Returns scale based on original and end position of the two points.
  *
- * @param  {IPoint}  point1       Current position of point 1
- * @param  {IPoint}  startPoint1  Start position of point 1
- * @param  {IPoint}  point2       Current position of point 1
- * @param  {IPoint}  startPoint2  Start position of point 2
- * @return {number}  Scale        Calculated scale
+ * @param point1       Current position of point 1
+ * @param startPoint1  Start position of point 1
+ * @param point2       Current position of point 1
+ * @param startPoint2  Start position of point 2
+ * @return Scale        Calculated scale
  */
 export function getScale(point1, startPoint1, point2, startPoint2) {
     var initialDistance = getDistance(startPoint1, startPoint2);
@@ -267,9 +267,9 @@ export function getScale(point1, startPoint1, point2, startPoint2) {
 /**
  * Returns an exact mid point between two points.
  *
- * @param  {IPoint}  point1     Position of point 1
- * @param  {IPoint}  point2     Position of point 2
- * @return {IPoint}  Mid point  Position of mid-point
+ * @param point1     Position of point 1
+ * @param point2     Position of point 2
+ * @return Mid point  Position of mid-point
  */
 export function getMidPoint(point1, point2, position) {
     if (!$type.isNumber(position)) {
@@ -284,11 +284,11 @@ export function getMidPoint(point1, point2, position) {
  * Returns difference in angles between starting and ending position of two
  * vectors.
  *
- * @param  {IPoint}  point1       Current position of point 1
- * @param  {IPoint}  startPoint1  Start position of point 1
- * @param  {IPoint}  point2       Current position of point 1
- * @param  {IPoint}  startPoint2  Start position of point 2
- * @return {number}               Angle difference in degrees
+ * @param point1       Current position of point 1
+ * @param startPoint1  Start position of point 1
+ * @param point2       Current position of point 1
+ * @param startPoint2  Start position of point 2
+ * @return Angle difference in degrees
  */
 export function getRotation(point1, startPoint1, point2, startPoint2) {
     // Get start and end angles
@@ -304,9 +304,9 @@ export function getRotation(point1, startPoint1, point2, startPoint2) {
 /**
  * Calculates angle of the vector based on two or one point.
  *
- * @param  {IPoint}  point1  Point 1
- * @param  {IPoint}  point2  Point 2
- * @return {number}          Angle in degrees
+ * @param point1  Point 1
+ * @param point2  Point 2
+ * @return Angle in degrees
  */
 export function getAngle(point1, point2) {
     if (!point2) {
@@ -324,12 +324,12 @@ export function getAngle(point1, point2) {
  * Returns the shift in coordinates of the center when item is rotated, moved
  * and scaled at the same time.
  *
- * @param  {IPoint}  center       Current center
- * @param  {IPoint}  point1       Frst reference point
- * @param  {IPoint}  startPoint1  Original position of the first reference point
- * @param  {IPoint}  point2       Second reference point
- * @param  {IPoint}  startPoint2  Original position of the first reference point
- * @return {IPoint}               Shift in center point coordinates
+ * @param center       Current center
+ * @param point1       Frst reference point
+ * @param startPoint1  Original position of the first reference point
+ * @param point2       Second reference point
+ * @param startPoint2  Original position of the first reference point
+ * @return Shift in center point coordinates
  */
 export function getCenterShift(center, point1, startPoint1, point2, startPoint2) {
     // Get angle
@@ -353,8 +353,8 @@ export function getCenterShift(center, point1, startPoint1, point2, startPoint2)
  *
  * Array can contain any number of points.
  *
- * @param  {IPoint[]}              points  Points
- * @return {Optional<IRectangle>}          Bounding box rectangle
+ * @param points  Points
+ * @return Bounding box rectangle
  */
 export function getBBox(points) {
     if (points) {
@@ -388,8 +388,8 @@ export function getBBox(points) {
  * Returns a [[IRectangle]] object representing a common rectangle that fits
  * all passed in rectangles in it.
  *
- * @param {IRectangle[]}           rectangles  An array of rectangles
- * @return {Optional<IRectangle>}              Common rectangle
+ * @param rectangles  An array of rectangles
+ * @return Common rectangle
  */
 export function getCommonRectangle(rectangles) {
     var length = rectangles.length;
@@ -413,11 +413,11 @@ export function getCommonRectangle(rectangles) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {IPoint}  pointA        [description]
- * @param  {IPoint}  pointB        [description]
- * @param  {IPoint}  controlPoint  [description]
- * @param  {number}  position      [description]
- * @return {IPoint}                [description]
+ * @param pointA        [description]
+ * @param pointB        [description]
+ * @param controlPoint  [description]
+ * @param position      [description]
+ * @return [description]
  */
 export function getPointOnQuadraticCurve(pointA, pointB, controlPoint, position) {
     var x = (1 - position) * (1 - position) * pointA.x + 2 * (1 - position) * position * controlPoint.x + position * position * pointB.x;
@@ -429,12 +429,12 @@ export function getPointOnQuadraticCurve(pointA, pointB, controlPoint, position)
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {IPoint}  pointA         [description]
- * @param  {IPoint}  pointB         [description]
- * @param  {IPoint}  controlPointA  [description]
- * @param  {IPoint}  controlPointB  [description]
- * @param  {number}  position       [description]
- * @return {IPoint}                 [description]
+ * @param pointA         [description]
+ * @param pointB         [description]
+ * @param controlPointA  [description]
+ * @param controlPointB  [description]
+ * @param position       [description]
+ * @return [description]
  */
 export function getPointOnCubicCurve(pointA, pointB, controlPointA, controlPointB, position) {
     var point = { x: 0, y: 0 };
@@ -450,13 +450,13 @@ export function getPointOnCubicCurve(pointA, pointB, controlPointA, controlPoint
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {IPoint}  p0        [description]
- * @param  {IPoint}  p1        [description]
- * @param  {IPoint}  p2        [description]
- * @param  {IPoint}  p3        [description]
- * @param  {number}  tensionX  [description]
- * @param  {number}  tensionY  [description]
- * @return {IPoint}            [description]
+ * @param p0        [description]
+ * @param p1        [description]
+ * @param p2        [description]
+ * @param p3        [description]
+ * @param tensionX  [description]
+ * @param tensionY  [description]
+ * @return [description]
  */
 export function getCubicControlPointA(p0, p1, p2, p3, tensionX, tensionY) {
     tensionX = adjustTension(tensionX);
@@ -468,13 +468,13 @@ export function getCubicControlPointA(p0, p1, p2, p3, tensionX, tensionY) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {IPoint}  p0        [description]
- * @param  {IPoint}  p1        [description]
- * @param  {IPoint}  p2        [description]
- * @param  {IPoint}  p3        [description]
- * @param  {number}  tensionX  [description]
- * @param  {number}  tensionY  [description]
- * @return {IPoint}            [description]
+ * @param p0        [description]
+ * @param p1        [description]
+ * @param p2        [description]
+ * @param p3        [description]
+ * @param tensionX  [description]
+ * @param tensionY  [description]
+ * @return [description]
  */
 export function getCubicControlPointB(p0, p1, p2, p3, tensionX, tensionY) {
     tensionX = adjustTension(tensionX);
@@ -486,8 +486,8 @@ export function getCubicControlPointB(p0, p1, p2, p3, tensionX, tensionY) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {number}  tension  [description]
- * @return {number}           [description]
+ * @param tension  [description]
+ * @return [description]
  */
 export function adjustTension(tension) {
     return 1 - tension + 0.00001;
@@ -497,8 +497,8 @@ export function adjustTension(tension) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {number}  value  [description]
- * @return {number}         [description]
+ * @param value  [description]
+ * @return [description]
  */
 export function normalizeAngle(value) {
     if (value == 360) {
@@ -512,10 +512,10 @@ export function normalizeAngle(value) {
  * @ignore Exclude from docs
  * @todo Description
  * @todo review this with various angles, can be tested on radar chart with custom start/end angles
- * @param {number}   value       [description]
- * @param {number}   startAngle  [description]
- * @param {number}   endAngle    [description]
- * @return {number}              [description]
+ * @param value       [description]
+ * @param startAngle  [description]
+ * @param endAngle    [description]
+ * @return [description]
  */
 export function fitAngleToRange(value, startAngle, endAngle) {
     if (startAngle > endAngle) {
@@ -560,10 +560,10 @@ export function fitAngleToRange(value, startAngle, endAngle) {
  * Used to find out max radius of an arc.
  *
  * @ignore Exclude from docs
- * @param  {number}      startAngle  Start angle
- * @param  {number}      endAngle    End angle
- * @param  {number}      radius    	 Relative radius
- * @return {IRectangle}              Rectangle
+ * @param startAngle  Start angle
+ * @param endAngle    End angle
+ * @param radius    	 Relative radius
+ * @return Rectangle
  */
 export function getArcRect(startAngle, endAngle, radius) {
     var minX = Number.MAX_VALUE;
@@ -603,9 +603,9 @@ export function getArcRect(startAngle, endAngle, radius) {
 /**
  * Returns point on arc
  *
- * @param  {IPoint}  center point
- * @param  {number}  radius
- * @param  {number}  arc
+ * @param center point
+ * @param radius
+ * @param arc
  * @return {boolean}
  */
 export function getArcPoint(radius, arc) {
@@ -614,8 +614,8 @@ export function getArcPoint(radius, arc) {
 /**
  * Returns true if a point is within rectangle
  *
- * @param  {IPoint}      point
- * @param  {IRectangle}  rectangle
+ * @param point
+ * @param rectangle
  * @return {boolean}
  */
 export function isInRectangle(point, rectangle) {

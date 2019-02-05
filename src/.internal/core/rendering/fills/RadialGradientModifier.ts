@@ -58,8 +58,6 @@ import * as $type from "../../utils/Type";
 export class RadialGradientModifier extends GradientModifier {
 	/**
 	 * A reference to the gradient instance that this modifier is used for.
-	 *
-	 * @type {RadialGradient}
 	 */
 	public gradient: RadialGradient;
 	/**
@@ -76,7 +74,7 @@ export class RadialGradientModifier extends GradientModifier {
 	public copyFrom(source: this) {
 		super.copyFrom(source);
 		this.gradient = source.gradient.clone();
-	}		
+	}
 }
 
 /**

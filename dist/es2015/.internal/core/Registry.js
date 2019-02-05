@@ -20,15 +20,11 @@ var Registry = /** @class */ (function () {
     function Registry() {
         /**
          * Event dispacther.
-         *
-         * @type {EventDispatcher}
          */
         this.events = new EventDispatcher();
         /**
          * All currently applied themes. All new chart instances created will
          * automatically inherit and retain System's themes.
-         *
-         * @type {ITheme}
          */
         this.themes = [];
         /**
@@ -42,7 +38,6 @@ var Registry = /** @class */ (function () {
          * An indeternal counter used to generate unique IDs.
          *
          * @ignore Exclude from docs
-         * @type {number}
          */
         this._uidCount = 0;
         /**
@@ -61,7 +56,6 @@ var Registry = /** @class */ (function () {
      * during next cycle.
      *
      * @ignore Exclude from docs
-     * @type { [index: string]: Array<Sprite> }
      */
         this.invalidSprites = {};
         /**
@@ -69,7 +63,6 @@ var Registry = /** @class */ (function () {
          * a new one or data is added/removed from their data provider.
          *
          * @ignore Exclude from docs
-         * @type { [index: string]: Array<Component> }
          */
         this.invalidDatas = {};
         /**
@@ -77,7 +70,6 @@ var Registry = /** @class */ (function () {
          * Used when we want a smooth animation from one set of values to another.
          *
          * @ignore Exclude from docs
-         * @type {Array<Component>}
          */
         this.invalidRawDatas = [];
         /**
@@ -85,7 +77,6 @@ var Registry = /** @class */ (function () {
          * (but not data provider itself).
          *
          * @ignore Exclude from docs
-         * @type {Array<Component>}
          */
         this.invalidDataItems = [];
         /**
@@ -93,7 +84,6 @@ var Registry = /** @class */ (function () {
          * changed, e.g. zoomed.
          *
          * @ignore Exclude from docs
-         * @type {Array<Component>}
          */
         this.invalidDataRange = [];
         /**
@@ -101,14 +91,12 @@ var Registry = /** @class */ (function () {
          * to be recalculated.
          *
          * @ignore Exclude from docs
-         * @type { [index: string]: Array<Sprite>}
          */
         this.invalidPositions = {};
         /**
          * A list of [[Container]] objects with invalid(ated) layouts.
          *
          * @ignore Exclude from docs
-         * @type { [index: string]: Array<Container>}
          */
         this.invalidLayouts = {};
         /**
@@ -116,8 +104,6 @@ var Registry = /** @class */ (function () {
          *
          * When, for example, a new chart is created, its instance will be added to
          * this array, and will be removed when the chart is disposed.
-         *
-         * @type {Array<Sprite>}
          */
         this.baseSprites = [];
         this.baseSpritesByUid = {};
@@ -130,7 +116,7 @@ var Registry = /** @class */ (function () {
     /**
      * Generates a unique chart system-wide ID.
      *
-     * @return {string} Generated ID
+     * @return Generated ID
      */
     Registry.prototype.getUniqueId = function () {
         var uid = this._uidCount;
@@ -142,7 +128,7 @@ var Registry = /** @class */ (function () {
          * Returns a universal collection for mapping ids with objects.
          *
          * @ignore Exclude from docs
-         * @return {Dictionary<string, any>} Map collection
+         * @return Map collection
          */
         get: function () {
             if (!this._map) {
@@ -157,9 +143,9 @@ var Registry = /** @class */ (function () {
      * Caches value in object's cache.
      *
      * @ignore Exclude from docs
-     * @param {string}  key    Key
-     * @param {any}     value  Value
-     * @param {number}  ttl    TTL in seconds
+     * @param key    Key
+     * @param value  Value
+     * @param ttl    TTL in seconds
      */
     Registry.prototype.setCache = function (key, value, ttl) {
         cache.set(this.uid, key, value, ttl);
@@ -168,9 +154,9 @@ var Registry = /** @class */ (function () {
      * Retrieves cached value.
      *
      * @ignore Exclude from docs
-     * @param  {string}  key    Key
-     * @param  {any}     value  Value to return if cache is not available
-     * @return {any}            Value
+     * @param key    Key
+     * @param value  Value to return if cache is not available
+     * @return Value
      */
     Registry.prototype.getCache = function (key, value) {
         if (value === void 0) { value = undefined; }
@@ -182,8 +168,8 @@ var Registry = /** @class */ (function () {
      * It also checks if there are any handlers registered for this sepecific
      * event.
      *
-     * @param {Key} eventType Event type (name)
-     * @param {any}    data      Data to pass into event handler(s)
+     * @param eventType Event type (name)
+     * @param data      Data to pass into event handler(s)
      */
     Registry.prototype.dispatch = function (eventType, data) {
         // @todo Implement proper type check
@@ -208,8 +194,8 @@ var Registry = /** @class */ (function () {
      * Works like `dispatch`, except event is triggered immediately, without
      * waiting for the next frame cycle.
      *
-     * @param {Key} eventType Event type (name)
-     * @param {any}    data      Data to pass into event handler(s)
+     * @param eventType Event type (name)
+     * @param data      Data to pass into event handler(s)
      */
     Registry.prototype.dispatchImmediately = function (eventType, data) {
         // @todo Implement proper type check
@@ -230,8 +216,8 @@ var Registry = /** @class */ (function () {
     /**
      * Returns a unique placeholder suitable for the key.
      *
-     * @param  {string}  key  Key
-     * @return {string}       Random string to be used as placeholder
+     * @param key  Key
+     * @return Random string to be used as placeholder
      */
     Registry.prototype.getPlaceholder = function (key) {
         if ($type.hasValue(this._placeholders[key])) {

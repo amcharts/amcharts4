@@ -52,15 +52,12 @@ var DataItem = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * Holds Adapter.
-         *
-         * @type {Adapter<DataItem, IDataItemAdapters>}
          */
         _this.adapter = new Adapter(_this);
         /**
          * This Data Item is currently disabled.
          *
          * @ignore Exclude from docs
-         * @type {boolean}
          */
         _this._disabled = false;
         /**
@@ -69,8 +66,6 @@ var DataItem = /** @class */ (function (_super) {
          * If it does not have any, the code can use this property to check whether
          * they need to apply costly operation of re-applying properties, whenever
          * Data Item-related element is redrawn, e.g. series.
-         *
-         * @type {boolean}
          */
         _this.hasProperties = false;
         /**
@@ -123,43 +118,35 @@ var DataItem = /** @class */ (function (_super) {
          *
          * Data Item keeps track of all of them, so it can toggle all related visual
          * elements when it itself is toggled.
-         *
-         * @type {Sprite[]}
          */
         _this.sprites = [];
         /**
          * Identifies if this object is a "template" and should not be treated as
          * real object that is drawn or actually used in the chart.
-         *
-         * @type {boolean}
          */
         _this.isTemplate = false;
         /**
          * The current index within the dataItems
          *
          * @ignore Exclude from docs
-         * @type {number | null}
          */
         _this._index = null;
         /**
          * Is Data Item currently visible?
          *
          * @ignore Exclude from docs
-         * @type {boolean}
          */
         _this._visible = true;
         /**
          * Is Data Item currently hidden?
          *
          * @ignore Exclude from docs
-         * @type {boolean}
          */
         _this._hidden = false;
         /**
          * Should this Data Item be used when calculating data ranges and scales?
          *
          * @ignore Exclude from docs
-         * @type {boolean}
          */
         _this._ignoreMinMax = false;
         /**
@@ -173,8 +160,6 @@ var DataItem = /** @class */ (function (_super) {
         /**
          * Indicates whether Data Item is currently animiting from visible to hidden
          * state.
-         *
-         * @type {boolean}
          */
         _this.isHiding = false;
         /**
@@ -195,7 +180,7 @@ var DataItem = /** @class */ (function (_super) {
         /**
          * Data Item's position index in Component's data.
          *
-         * @return {number} Index
+         * @return Index
          */
         get: function () {
             if (this.component) {
@@ -217,7 +202,7 @@ var DataItem = /** @class */ (function (_super) {
         /**
          * A list of [[Animations]] objects currently mutating Data Item's values.
          *
-         * @return {Array<Animation>} [description]
+         * @return [description]
          */
         get: function () {
             if (!this._animations) {
@@ -233,7 +218,7 @@ var DataItem = /** @class */ (function (_super) {
         /**
          * Returns `true` if this Data Item is currently visible.
          *
-         * @return {boolean} Visible?
+         * @return Visible?
          */
         get: function () {
             if (this._hidden) {
@@ -244,7 +229,7 @@ var DataItem = /** @class */ (function (_super) {
         /**
          * Sets visibility of the Data Item.
          *
-         * @param {boolean} value Visible?
+         * @param value Visible?
          */
         set: function (value) {
             if (value) {
@@ -261,7 +246,7 @@ var DataItem = /** @class */ (function (_super) {
         /**
          * Returns `true` if this Data Item is currently hidden.
          *
-         * @return {boolean} Hidden?
+         * @return Hidden?
          */
         get: function () {
             return this._hidden;
@@ -269,7 +254,7 @@ var DataItem = /** @class */ (function (_super) {
         /**
          * Sets hidden flag for data item. Mostly used to initially hide data item.
          *
-         * @param {boolean} value Hidden?
+         * @param value Hidden?
          */
         set: function (value) {
             if (this._hidden != value) {
@@ -315,7 +300,7 @@ var DataItem = /** @class */ (function (_super) {
     /**
      * Sets visibility of the Data Item.
      *
-     * @param {boolean} value Data Item
+     * @param value Data Item
      */
     DataItem.prototype.setVisibility = function (value, noChangeValues) {
         $array.each(this.sprites, function (sprite) {
@@ -344,9 +329,9 @@ var DataItem = /** @class */ (function (_super) {
     /**
      * Shows the Data Item and related visual elements.
      *
-     * @param {number}    duration  Animation duration (ms)
-     * @param {number}    delay     Delay animation (ms)
-     * @param {string[]}  fields    A list of fields to set values of
+     * @param duration  Animation duration (ms)
+     * @param delay     Delay animation (ms)
+     * @param fields    A list of fields to set values of
      */
     DataItem.prototype.show = function (duration, delay, fields) {
         var _this = this;
@@ -387,10 +372,10 @@ var DataItem = /** @class */ (function (_super) {
     /**
      * Hides the Data Item and related visual elements.
      *
-     * @param {number}    duration  Animation duration (ms)
-     * @param {number}    delay     Delay animation (ms)
-     * @param {number}    toValue   A value to set to `fields` when hiding
-     * @param {string[]}  fields    A list of data fields to set value to `toValue`
+     * @param duration  Animation duration (ms)
+     * @param delay     Delay animation (ms)
+     * @param toValue   A value to set to `fields` when hiding
+     * @param fields    A list of data fields to set value to `toValue`
      */
     DataItem.prototype.hide = function (duration, delay, toValue, fields) {
         var _this = this;
@@ -437,8 +422,8 @@ var DataItem = /** @class */ (function (_super) {
      * If the duration is not specified via parameter, this method will try to
      * request a default duration from the related `Component`.
      *
-     * @param  {number}  duration  Default duration (ms)
-     * @return {number}            Duration (ms)
+     * @param duration  Default duration (ms)
+     * @return Duration (ms)
      */
     DataItem.prototype.getDuration = function (duration) {
         if (!$type.isNumber(duration)) {
@@ -459,9 +444,9 @@ var DataItem = /** @class */ (function (_super) {
      *
      * If `calculated` is set, it will return a pre-calculated specific value.
      *
-     * @param  {string}           name        Data field name
-     * @param  {CalculatedValue}  calculated  A calculated value name
-     * @return {Optional<number>}             Value
+     * @param name        Data field name
+     * @param calculated  A calculated value name
+     * @return Value
      */
     DataItem.prototype.getValue = function (name, calculated) {
         if (name && this.component) {
@@ -492,9 +477,9 @@ var DataItem = /** @class */ (function (_super) {
      * `getWorkingValue()` returns current value, which is usually different if
      * Data Item is animating from one state to another.
      *
-     * @param  {string}           name        Data field name
-     * @param  {CalculatedValue}  calculated  A calculated value name
-     * @return {Optional<number>}             Value
+     * @param name        Data field name
+     * @param calculated  A calculated value name
+     * @return Value
      */
     DataItem.prototype.getWorkingValue = function (name) {
         if (name && this.component) {
@@ -511,11 +496,11 @@ var DataItem = /** @class */ (function (_super) {
     /**
      * Sets a numeric value for specific data field.
      *
-     * @param {string}           name        Data field name
-     * @param {number}           value       Value
-     * @param {CalculatedValue}  calculated  Calculated data field name
-     * @param {number}           duration    Duration (ms) to animate to new value to
-     * @param {number}           delay       Delay animation (ms)
+     * @param name        Data field name
+     * @param value       Value
+     * @param calculated  Calculated data field name
+     * @param duration    Duration (ms) to animate to new value to
+     * @param delay       Delay animation (ms)
      */
     DataItem.prototype.setValue = function (name, value, duration, delay) {
         var currentValue = this.values[name].value;
@@ -557,12 +542,12 @@ var DataItem = /** @class */ (function (_super) {
     /**
      * Set current working numeric value for a specific data field.
      *
-     * @param  {string}           name        Data field name
-     * @param  {number}           value       Value
-     * @param  {CalculatedValue}  calculated  Calculated data field name
-     * @param  {number}           duration    Duration (ms) to animate to new value to
-     * @param  {number}           delay       Delay animation (ms)
-     * @return {Optional<Animation>}          An [[Animation]] object used for transition to new values
+     * @param name        Data field name
+     * @param value       Value
+     * @param calculated  Calculated data field name
+     * @param duration    Duration (ms) to animate to new value to
+     * @param delay       Delay animation (ms)
+     * @return An [[Animation]] object used for transition to new values
      */
     DataItem.prototype.setWorkingValue = function (name, value, duration, delay) {
         if ($type.isNumber(this.values[name].value)) {
@@ -615,10 +600,10 @@ var DataItem = /** @class */ (function (_super) {
      * 0.5 middle and 1 end.
      *
      * @todo Rewiew description
-     * @param {string}  name      Data field name
-     * @param {number}  value     Location (0-1)
-     * @param {number}  duration  Duration (ms) to animate to new value to
-     * @param {number}  delay     Delay animation (ms)
+     * @param name      Data field name
+     * @param value     Location (0-1)
+     * @param duration  Duration (ms) to animate to new value to
+     * @param delay     Delay animation (ms)
      */
     DataItem.prototype.setLocation = function (name, value, duration, delay) {
         var currentLocation = this.locations[name];
@@ -642,10 +627,10 @@ var DataItem = /** @class */ (function (_super) {
      * Sets a current working location for a data field.
      *
      * @todo Rewiew description
-     * @param {string}  name      Data field name
-     * @param {number}  value     Location (0-1)
-     * @param {number}  duration  Duration (ms) to animate to new value to
-     * @param {number}  delay     Delay animation (ms)
+     * @param name      Data field name
+     * @param value     Location (0-1)
+     * @param duration  Duration (ms) to animate to new value to
+     * @param delay     Delay animation (ms)
      */
     DataItem.prototype.setWorkingLocation = function (name, value, duration, delay) {
         var newDuration = this.getDuration(duration);
@@ -692,9 +677,9 @@ var DataItem = /** @class */ (function (_super) {
     /**
      * Sets Date value to a data field.
      *
-     * @param {string}  name      Data field name
-     * @param {Date}    date      Date object
-     * @param {number}  duration  Duration (ms) to animate to new value to
+     * @param name      Data field name
+     * @param date      Date object
+     * @param duration  Duration (ms) to animate to new value to
      */
     DataItem.prototype.setDate = function (name, date, duration) {
         if (!$type.isDate(date) && this.component) {
@@ -709,8 +694,8 @@ var DataItem = /** @class */ (function (_super) {
     /**
      * Returns a Date value of the data field.
      *
-     * @param  {string}  name  Data field name
-     * @return {Date}          Date object
+     * @param name  Data field name
+     * @return Date object
      */
     DataItem.prototype.getDate = function (name) {
         return this.adapter.apply("date", {
@@ -721,8 +706,8 @@ var DataItem = /** @class */ (function (_super) {
     /**
      * Sets a Data Item-specific visual properties to apply to related elements.
      *
-     * @param {string}  name   Property name
-     * @param {any}     value  Property value
+     * @param name   Property name
+     * @param value  Property value
      */
     DataItem.prototype.setProperty = function (name, value) {
         if (this.properties[name] !== value) {
@@ -746,8 +731,8 @@ var DataItem = /** @class */ (function (_super) {
      * Sets a related category for this Data Item.
      *
      * @todo Review description
-     * @param {string}  name   Data field name
-     * @param {string}  value  Category
+     * @param name   Data field name
+     * @param value  Category
      */
     DataItem.prototype.setCategory = function (name, value) {
         if (!$type.isString(value)) {
@@ -760,7 +745,7 @@ var DataItem = /** @class */ (function (_super) {
     /**
      * Clones the Data Item, including all related data.
      *
-     * @return {this} New Data Item clone
+     * @return New Data Item clone
      */
     DataItem.prototype.clone = function (cloneId) {
         var dataItem = _super.prototype.clone.call(this, cloneId);
@@ -784,7 +769,7 @@ var DataItem = /** @class */ (function (_super) {
         /**
          * Sets opacity for all Data Item's related elements (Sprites).
          *
-         * @param {number} value Opacity (0-1)
+         * @param value Opacity (0-1)
          */
         set: function (value) {
             $array.each(this.sprites, function (sprite) {
@@ -797,7 +782,7 @@ var DataItem = /** @class */ (function (_super) {
     Object.defineProperty(DataItem.prototype, "ignoreMinMax", {
         /**
          * Exclude from min/max calculations?
-         * @return {boolean} Exclude from min/max calculations?
+         * @return Exclude from min/max calculations?
          */
         get: function () {
             return this._ignoreMinMax;
@@ -809,7 +794,7 @@ var DataItem = /** @class */ (function (_super) {
          * E.g. some we may want to exclude a particular data point from influencing
          * [[ValueAxis]] scale.
          *
-         * @param {boolean}  value  Exclude from min/max calculations?
+         * @param value  Exclude from min/max calculations?
          */
         set: function (value) {
             this._ignoreMinMax = value;
@@ -834,10 +819,10 @@ var DataItem = /** @class */ (function (_super) {
      * properties and/or values.
      *
      * @see {@link Animation}
-     * @param  {IAnimationOptions[] | IAnimationOptions}  animationOptions  Animation options
-     * @param  {number}                                   duration          Animation duration (ms)
-     * @param  {function}                                 easing            Easing function
-     * @return {Animation}                                                  Animation
+     * @param animationOptions  Animation options
+     * @param duration          Animation duration (ms)
+     * @param easing            Easing function
+     * @return Animation
      */
     DataItem.prototype.animate = function (animationOptions, duration, easing) {
         return new Animation(this, animationOptions, duration, easing).start();
@@ -847,7 +832,7 @@ var DataItem = /** @class */ (function (_super) {
      * one value to another.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Animation, IAnimationEvents>["animationstarted" | "animationended" | "animationprogress"]} event Event object
+     * @param event Event object
      */
     DataItem.prototype.handleInterpolationProgress = function (event) {
         var animation = event.target;
@@ -872,8 +857,8 @@ var DataItem = /** @class */ (function (_super) {
      * supplied via argument.
      *
      * @ignore Exclude from docs
-     * @param  {string[]}  fields  Field list to check
-     * @return {boolean}           Has values for all fields?
+     * @param fields  Field list to check
+     * @return Has values for all fields?
      */
     DataItem.prototype.hasValue = function (fields) {
         // todo: what about categories?
@@ -891,7 +876,7 @@ var DataItem = /** @class */ (function (_super) {
          * In nested data structures, like TreeMap, this indicates the level this
          * data point is at, in relation to the parent Data Item.
          *
-         * @return {number} Depth
+         * @return Depth
          */
         get: function () {
             if (!this.parent) {
@@ -908,7 +893,7 @@ var DataItem = /** @class */ (function (_super) {
         /**
          * Sets to a reference to an original object from Component's data.
          *
-         * @return {Object} [description]
+         * @return [description]
          */
         get: function () {
             return this._dataContext;
@@ -917,7 +902,7 @@ var DataItem = /** @class */ (function (_super) {
          * A reference to an original object in Component's data, that this Data Item
          * is derived from.
          *
-         * @param {Object} value Original data object
+         * @param value Original data object
          */
         set: function (value) {
             this._dataContext = value;

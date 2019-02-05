@@ -52,7 +52,6 @@ var SeriesDataItem = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo review description
-         * @type {Dictionary}
          */
         _this.bullets = new Dictionary();
         _this.className = "SeriesDataItem";
@@ -72,7 +71,7 @@ var SeriesDataItem = /** @class */ (function (_super) {
     };
     Object.defineProperty(SeriesDataItem.prototype, "value", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values.value.value;
@@ -80,7 +79,7 @@ var SeriesDataItem = /** @class */ (function (_super) {
         /**
          * data items's numeric value.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("value", value);
@@ -115,14 +114,12 @@ var Series = /** @class */ (function (_super) {
          * Should this series excluded from the axis scale calculations?
          *
          * @default false
-         * @type {boolean}
          */
         _this._ignoreMinMax = false;
         /**
          * Should series' bullets?
          *
          * @default true
-         * @type {boolean}
          */
         _this._showBullets = true;
         /**
@@ -131,26 +128,18 @@ var Series = /** @class */ (function (_super) {
         _this.legendSettings = new LegendSettings();
         /**
          * Lowest overal values by type.
-         *
-         * @type {Dictionary}
          */
         _this._tmin = new Dictionary();
         /**
          * Highest overal values by type.
-         *
-         * @type {Dictionary}
          */
         _this._tmax = new Dictionary();
         /**
          * Lowest values in current selection by type.
-         *
-         * @type {Dictionary}
          */
         _this._smin = new Dictionary();
         /**
          * Highest values in current selection by type.
-         *
-         * @type {Dictionary}
          */
         _this._smax = new Dictionary();
         /**
@@ -160,7 +149,6 @@ var Series = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @type {Dictionary}
          */
         _this.dataItemsByAxis = new Dictionary();
         /**
@@ -174,15 +162,12 @@ var Series = /** @class */ (function (_super) {
          * detailed information display, such as HTML table.
          *
          * Different series might have different threshold defaults.
-         *
-         * @type {Number}
          */
         _this.skipFocusThreshold = 20;
         /**
          * As calculating totals is expensive operation and not often needed, by default we do not do it. In case you use percent for your charts, you must set this to true.
          * Pie chart, which uses percent sets this to true by default.
          * @todo review description
-         * @type {boolean}
          */
         _this.calculatePercent = false;
         /**
@@ -191,11 +176,21 @@ var Series = /** @class */ (function (_super) {
          */
         _this.autoDispose = true;
         /**
-         * When working value of dataItem changes, we must process all the values to calculate sum, min, max etc. Also update stack values. This is quite expensive operation.
-         * Unfortunately we do not know if user needs this processed values or not. By setting simplifiedProcessing = true you disable this processing and in case working
-         * value changes, we only redraw the particular column. Do not do this if you have staked chart or use calculated values in bullets or in tooltips.
+         * When chart/series' data is processed, all kinds of derivative values are
+         * calculated. E.g. sum, min, max, change, etc. This is a potentially
+         * time-consuming operation, especially prominent in data-heavy charts.
          *
-         * @type {boolean}
+         * If your chart does not need those values, and you have a lot of data,
+         * setting this to `true` might give a dramatic increase in initial chart
+         * load speed.
+         *
+         * Please note, regular column and line series usage scenarios do not
+         * require derivative values. Those come into play only when you do advanced
+         * functionality like coloring segments of charts in different colors
+         * depending on change between open and close values, have stacked series, or
+         * display any of the derived values, like percent, in tooltips or bullets.
+         *
+         * @default false
          */
         _this.simplifiedProcessing = false;
         _this.className = "Series";
@@ -245,14 +240,14 @@ var Series = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {SeriesDataItem} Data Item
+     * @return Data Item
      */
     Series.prototype.createDataItem = function () {
         return new SeriesDataItem();
     };
     Object.defineProperty(Series.prototype, "chart", {
         /**
-         * @return {this} Chart
+         * @return Chart
          */
         get: function () {
             return this._chart;
@@ -260,7 +255,7 @@ var Series = /** @class */ (function (_super) {
         /**
          * Chart series is used on.
          *
-         * @param {this["_chart"]}  value  Chart
+         * @param value  Chart
          */
         set: function (value) {
             this._chart = value;
@@ -271,7 +266,7 @@ var Series = /** @class */ (function (_super) {
     /**
      * Positions bullet.
      *
-     * @param {Bullet}  bullet  Bullet
+     * @param bullet  Bullet
      */
     Series.prototype.positionBullet = function (bullet) {
         // Placeholder method for extending classes to override.
@@ -279,7 +274,7 @@ var Series = /** @class */ (function (_super) {
     /**
      * Decorates newly created bullet after it has been instert into the list.
      *
-     * @param {IListEvents<Bullet>["inserted"]}  event  List event
+     * @param event  List event
      * @todo investigate why itemReaderText is undefined
      */
     Series.prototype.processBullet = function (event) {
@@ -294,7 +289,7 @@ var Series = /** @class */ (function (_super) {
     /**
      * removes bullets
      *
-     * @param {IListEvents<Bullet>["inserted"]}  event  List event
+     * @param event  List event
      */
     Series.prototype.removeBullet = function (event) {
         var bullet = event.oldValue;
@@ -318,8 +313,8 @@ var Series = /** @class */ (function (_super) {
     /**
      * Returns first value for the specific key in the series.
      *
-     * @param  {string}  key  Key
-     * @return {number}       Value
+     * @param key  Key
+     * @return Value
      * @todo Description
      * @todo Convert to propert object property iterator
      */
@@ -364,7 +359,7 @@ var Series = /** @class */ (function (_super) {
      *
      * @todo Description
      * @todo Convert to propert object property iterator
-     * @param {OrderedList<this["_dataItem"]>} dataItems [description]
+     * @param dataItems [description]
      */
     Series.prototype.processValues = function (working) {
         var _this = this;
@@ -559,7 +554,7 @@ var Series = /** @class */ (function (_super) {
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
-     * @param {SeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     Series.prototype.validateDataElement = function (dataItem) {
         var _this = this;
@@ -632,7 +627,7 @@ var Series = /** @class */ (function (_super) {
     };
     Object.defineProperty(Series.prototype, "ignoreMinMax", {
         /**
-         * @return {boolean} Exclude from calculations?
+         * @return Exclude from calculations?
          */
         get: function () {
             return this._ignoreMinMax;
@@ -641,7 +636,7 @@ var Series = /** @class */ (function (_super) {
          * Should this series excluded from the axis scale calculations?
          *
          * @default false
-         * @param {boolean}  value  Exclude from calculations?
+         * @param value  Exclude from calculations?
          */
         set: function (value) {
             this._ignoreMinMax = value;
@@ -661,7 +656,7 @@ var Series = /** @class */ (function (_super) {
     /**
      * Process axis range after it has been added to the list.
      *
-     * @param {IListEvents<AxisDataItem>["inserted"]}  event  Event
+     * @param event  Event
      */
     Series.prototype.processAxisRange = function (event) {
         // create container if not existing
@@ -681,8 +676,8 @@ var Series = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {Axis}    axis  [description]
-     * @return {string}        [description]
+     * @param axis  [description]
+     * @return [description]
      */
     Series.prototype.getAxisField = function (axis) {
         return;
@@ -691,15 +686,15 @@ var Series = /** @class */ (function (_super) {
      * Shows the tooltip at specific position.
      *
      * @ignore Exclude from docs
-     * @param {number}  xPosition  X
-     * @param {number}  yPosition  Y
+     * @param xPosition  X
+     * @param yPosition  Y
      */
     Series.prototype.showTooltipAtPosition = function (xPosition, yPosition) {
         // Placeholder method for extending classes to override.
     };
     Object.defineProperty(Series.prototype, "minBulletDistance", {
         /**
-         * @return {number} Distance (px)
+         * @return Distance (px)
          */
         get: function () {
             return this.getPropertyValue("minBulletDistance");
@@ -712,7 +707,7 @@ var Series = /** @class */ (function (_super) {
          * This allows to avoid crammed up graphs wil a lot of bullets.
          *
          * @default 0
-         * @param {number}  value  Distance (px)
+         * @param value  Distance (px)
          */
         set: function (value) {
             this.setPropertyValue("minBulletDistance", value, true);
@@ -730,7 +725,7 @@ var Series = /** @class */ (function (_super) {
          * items, including their properties, events, etc.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/bullets/} for more info about the concept of Bullets
-         * @return {ListTemplate<Bullet>} List of bullets.
+         * @return List of bullets.
          */
         get: function () {
             if (!this._bullets) {
@@ -751,14 +746,14 @@ var Series = /** @class */ (function (_super) {
      * settings.
      *
      * @ignore Exclude from docs
-     * @param {Container}  marker  Legend item container
+     * @param marker  Legend item container
      */
     Series.prototype.createLegendMarker = function (marker) {
         // This is a placeholder method for extending classes to override.
     };
     Object.defineProperty(Series.prototype, "hiddenInLegend", {
         /**
-         * @return {boolean} Hidden in legend?
+         * @return Hidden in legend?
          */
         get: function () {
             return this.getPropertyValue("hiddenInLegend");
@@ -766,7 +761,7 @@ var Series = /** @class */ (function (_super) {
         /**
          * Should the series be hidden in legend?
          *
-         * @param {boolean} value Hidden in legend?
+         * @param value Hidden in legend?
          */
         set: function (value) {
             if (this.setPropertyValue("hiddenInLegend", value)) {
@@ -780,7 +775,7 @@ var Series = /** @class */ (function (_super) {
     });
     Object.defineProperty(Series.prototype, "name", {
         /**
-         * @return {string} Name
+         * @return Name
          */
         get: function () {
             return this.adapter.apply("name", this._title);
@@ -788,7 +783,7 @@ var Series = /** @class */ (function (_super) {
         /**
          * Series' name.
          *
-         * @param {string}  value  Name
+         * @param value  Name
          */
         set: function (value) {
             this._title = value;
@@ -799,7 +794,7 @@ var Series = /** @class */ (function (_super) {
     });
     Object.defineProperty(Series.prototype, "itemReaderText", {
         /**
-         * @return {string} Screen reader text template
+         * @return Screen reader text template
          */
         get: function () {
             // Get explicitly set reader text
@@ -825,7 +820,7 @@ var Series = /** @class */ (function (_super) {
          *
          * Any text formatting options, e.g. `[bold]` will be ignored.
          *
-         * @param {string} value Screen reader text template
+         * @param value Screen reader text template
          */
         set: function (value) {
             this._itemReaderText = value;
@@ -838,14 +833,14 @@ var Series = /** @class */ (function (_super) {
      * count and should not be available for TAB-through.
      *
      * @ignore Exclude from docs
-     * @return {boolean} Items focusable?
+     * @return Items focusable?
      */
     Series.prototype.itemsFocusable = function () {
         return this.dataItems.length >= this.skipFocusThreshold ? false : true;
     };
     Object.defineProperty(Series.prototype, "legendDataItem", {
         /**
-         * @return {LegendDataItem<Series, ISeriesEvents>} Data item
+         * @return Data item
          */
         get: function () {
             return this._legendDataItem;
@@ -853,7 +848,7 @@ var Series = /** @class */ (function (_super) {
         /**
          * Legend data item that corresponds to this series.
          *
-         * @param {LegendDataItem<Series, ISeriesEvents>}  value  Data item
+         * @param value  Data item
          */
         set: function (value) {
             this._legendDataItem = value;
@@ -866,7 +861,7 @@ var Series = /** @class */ (function (_super) {
      * Updates corresponding legend data item with current values.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     Series.prototype.updateLegendValue = function (dataItem) {
         // if this series has legend item
@@ -910,7 +905,7 @@ var Series = /** @class */ (function (_super) {
     /**
      * Copies all properties from another instance of [[Series]].
      *
-     * @param {Series}  source  Source series
+     * @param source  Source series
      */
     Series.prototype.copyFrom = function (source) {
         this.bullets.copyFrom(source.bullets);
@@ -922,7 +917,7 @@ var Series = /** @class */ (function (_super) {
      * Displays a modal or console message with error, and halts any further
      * processing of this element.
      *
-     * @param {Error} e Error
+     * @param e Error
      */
     Series.prototype.raiseCriticalError = function (e) {
         this._chart.modal.content = e.message;
@@ -1083,7 +1078,7 @@ var Series = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     Series.prototype.processConfig = function (config) {
         var heatRules;
@@ -1168,9 +1163,9 @@ var Series = /** @class */ (function (_super) {
      * the end.
      *
      * @ignore Exclude from docs
-     * @param  {string}  a  Element 1
-     * @param  {string}  b  Element 2
-     * @return {Ordering}   Sorting number
+     * @param a  Element 1
+     * @param b  Element 2
+     * @return Sorting number
      */
     Series.prototype.configOrder = function (a, b) {
         if (a == b) {

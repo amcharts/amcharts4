@@ -26,8 +26,6 @@ export interface IMapLineObjectProperties extends IContainerProperties {
      *
      * Any intermediate number will place the object at some point within the
      * line.
-     *
-     * @type {number}
      */
     position?: number;
     /**
@@ -38,7 +36,6 @@ export interface IMapLineObjectProperties extends IContainerProperties {
      * direction of the line.
      *
      * @default false
-     * @type {boolean}
      */
     adjustRotation?: boolean;
 }
@@ -69,27 +66,20 @@ export interface IMapLineObjectAdapters extends IContainerAdapters, IMapLineObje
 export declare class MapLineObject extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IMapLineObjectProperties}
      */
     _properties: IMapLineObjectProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IMapLineObjectAdapters}
      */
     _adapter: IMapLineObjectAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IMapLineObjectEvents}
      */
     _events: IMapLineObjectEvents;
     /**
      * A reference to the [[MapLine]] object this object is attached to.
      *
      * @todo Review if necessary (same as parent)
-     * @type {MapLine}
      */
     mapLine: MapLine;
     /**
@@ -103,7 +93,7 @@ export declare class MapLineObject extends Container {
      */
     validatePosition(): void;
     /**
-     * @return {number} Position within the line
+     * @return Position within the line
      */
     /**
      * Sets object's relative position (0-1) within the line.
@@ -113,11 +103,11 @@ export declare class MapLineObject extends Container {
      * Any intermediate number will place the object at some point within the
      * line.
      *
-     * @param {number}  value  Position within the line (0-1)
+     * @param value  Position within the line (0-1)
      */
     position: number;
     /**
-     * @return {boolean} Auto-rotate
+     * @return Auto-rotate
      */
     /**
      * If set to `true`, the object will be automatically rotated to face the
@@ -127,7 +117,7 @@ export declare class MapLineObject extends Container {
      * direction of the line.
      *
      * @default false
-     * @param {boolean}  value  Auto-rotate
+     * @param value  Auto-rotate
      */
     adjustRotation: boolean;
 }

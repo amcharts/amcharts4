@@ -21,8 +21,8 @@ var Keyboard = /** @class */ (function () {
      * Returns a named key based on information contained in the event or
      * "other".
      *
-     * @param  {KeyboardEvent}  ev  A keyboard event
-     * @return {KeyboardKeys}       Keyboard named key
+     * @param ev  A keyboard event
+     * @return Keyboard named key
      */
     Keyboard.prototype.getEventKey = function (ev) {
         // Get the key code
@@ -101,9 +101,9 @@ var Keyboard = /** @class */ (function () {
     /**
      * Checks if event key is one or more of the selected named keys.
      *
-     * @param  {KeyboardEvent}      ev   Keyboard event
-     * @param  {string | string[]}  key  Named key or array of keys
-     * @return {boolean}                 Is event key one of the list?
+     * @param ev   Keyboard event
+     * @param key  Named key or array of keys
+     * @return Is event key one of the list?
      */
     Keyboard.prototype.isKey = function (ev, key) {
         var eventKey = this.getEventKey(ev);
@@ -115,8 +115,8 @@ var Keyboard = /** @class */ (function () {
     /**
      * Returns `true` if shift key was presset at the moment of the event.
      *
-     * @param  {KeyboardEvent | MouseEvent}  ev  Event object
-     * @return {boolean}                         Was shift pressed?
+     * @param ev  Event object
+     * @return Was shift pressed?
      */
     Keyboard.prototype.shiftKey = function (ev) {
         return ev.shiftKey;
@@ -124,24 +124,24 @@ var Keyboard = /** @class */ (function () {
     /**
      * Returns `true` if ctrl key was presset at the moment of the event.
      *
-     * @param  {KeyboardEvent | MouseEvent}  ev  Event object
-     * @return {boolean}                         Was ctrl pressed?
+     * @param ev  Event object
+     * @return Was ctrl pressed?
      */
     Keyboard.prototype.ctrlKey = function (ev) {
         return ev.ctrlKey;
     };
     /**
      * Returns `true` if alt key was presset at the moment of the event
-     * @param  {KeyboardEvent | MouseEvent}  ev  Event object
-     * @return {boolean}                         Was alt pressed?
+     * @param ev  Event object
+     * @return Was alt pressed?
      */
     Keyboard.prototype.altKey = function (ev) {
         return ev.altKey;
     };
     /**
      * Returns `true` if meta key was presset at the moment of the event
-     * @param  {KeyboardEvent | MouseEvent}  ev  Event object
-     * @return {boolean}                         Was meta pressed?
+     * @param ev  Event object
+     * @return Was meta pressed?
      */
     Keyboard.prototype.metaKey = function (ev) {
         return ev.metaKey;

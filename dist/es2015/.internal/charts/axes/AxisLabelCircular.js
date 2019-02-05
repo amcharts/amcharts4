@@ -12,6 +12,7 @@ import { AxisLabel } from "./AxisLabel";
 import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
+import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
 import { Percent } from "../../core/utils/Percent";
 /**
@@ -35,13 +36,11 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          *
-         * @type {number}
          * @ignore
          */
         _this.fdx = 0;
         /**
          *
-         * @type {number}
          * @ignore
          */
         _this.fdy = 0;
@@ -55,7 +54,7 @@ var AxisLabelCircular = /** @class */ (function (_super) {
     }
     Object.defineProperty(AxisLabelCircular.prototype, "relativeRotation", {
         /**
-         * @return {number} Rotation angle
+         * @return Rotation angle
          */
         get: function () {
             return this.getPropertyValue("relativeRotation");
@@ -66,7 +65,7 @@ var AxisLabelCircular = /** @class */ (function (_super) {
          * It is an angle to circle. In case 90, labels will be positioned like rays
          * of light, if 0 - positione along the circle.
          *
-         * @param {number} value Rotation angle
+         * @param value Rotation angle
          */
         set: function (value) {
             this.setPropertyValue("relativeRotation", value, true);
@@ -76,7 +75,7 @@ var AxisLabelCircular = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisLabelCircular.prototype, "radius", {
         /**
-         * @return {number} Distance (px)
+         * @return Distance (px)
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -84,7 +83,7 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         /**
          * Distance from axis circle to label in pixels or percent.
          *
-         * @param {number} value Distance (px or percent)
+         * @param value Distance (px or percent)
          */
         set: function (value) {
             this.setPercentProperty("radius", value, true, false, 10, false);
@@ -92,8 +91,33 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(AxisLabelCircular.prototype, "bent", {
+        /**
+         * @return {number} Bent?
+         */
+        get: function () {
+            return this.getPropertyValue("bent");
+        },
+        /**
+         * Specifies if label should be bent along the circle.
+         *
+         * IMPORTANT: Use this with caution, since it is quite CPU-greedy.
+         *
+         * @since 4.1.2
+         * @default false
+         * @param {boolean} value Bent?
+         */
+        set: function (value) {
+            this.setPropertyValue("bent", value, true);
+            if (value) {
+                this.textAlign = "middle";
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
-     * returns label radius in pixels
+     * Returns label radius in pixels.
      */
     AxisLabelCircular.prototype.pixelRadius = function (axisRadius) {
         var sign = 1;
@@ -103,7 +127,7 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         return $utils.relativeToValue(this.radius, axisRadius) * sign;
     };
     /**
-     * returns label radius in pixels
+     * Returns label horizontal radius in pixels.
      */
     AxisLabelCircular.prototype.pixelRadiusY = function (axisRadius, axisRadiusY) {
         var sign = 1;
@@ -124,8 +148,8 @@ var AxisLabelCircular = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {IPoint}  point       Label affixation point
-     * @param  {number}  axisRadius  Distance from point (px)
+     * @param point       Label affixation point
+     * @param axisRadius  Distance from point (px)
      */
     AxisLabelCircular.prototype.fixPosition = function (angle, axisRadius, axisRadiusY, dx, dy) {
         if (!$type.isNumber(axisRadiusY)) {
@@ -151,6 +175,12 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         }
         var relativeRotation = this.relativeRotation;
         var labelRadius = this.pixelRadius(axisRadius);
+        if (this.bent) {
+            var point_1 = { x: axisRadius * $math.cos(angle + 180), y: axisRadiusY * $math.sin(angle + 180) };
+            this.path = $path.moveTo(point_1) + $path.arcTo(angle + 180, 360, axisRadius + labelRadius, axisRadiusY + labelRadius * axisRadiusY / axisRadius);
+            this.locationOnPath = 0.5;
+            return;
+        }
         // WHEN ROTATED
         if ($type.isNumber(relativeRotation)) {
             this.horizontalCenter = "none";

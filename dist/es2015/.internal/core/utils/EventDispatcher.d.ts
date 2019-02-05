@@ -52,7 +52,7 @@ export declare class EventDispatcher<T> implements IDisposer {
     /**
      * Returns if this object has been already disposed.
      *
-     * @return {boolean} Disposed?
+     * @return Disposed?
      */
     isDisposed(): boolean;
     /**
@@ -62,13 +62,13 @@ export declare class EventDispatcher<T> implements IDisposer {
     /**
      * Checks if this particular event dispatcher has any listeners set.
      *
-     * @return {boolean} Has listeners?
+     * @return Has listeners?
      */
     hasListeners(): boolean;
     /**
      * Checks if this particular event dispatcher has any particular listeners set.
      *
-     * @return {boolean} Has particular event listeners?
+     * @return Has particular event listeners?
      */
     hasListenersByType<Key extends keyof T>(type: Key): boolean;
     /**
@@ -84,7 +84,7 @@ export declare class EventDispatcher<T> implements IDisposer {
      * Enable dispatching particular event, if it was disabled before by
      * `disableType()`.
      *
-     * @param {Key} type Event type
+     * @param type Event type
      */
     enableType<Key extends keyof T>(type: Key): void;
     /**
@@ -93,8 +93,8 @@ export declare class EventDispatcher<T> implements IDisposer {
      * Optionally, can set how many dispatches to skip before automatically
      * re-enabling the dispatching.
      *
-     * @param {Key}                type    Event type
-     * @param {number = Infinity}  amount  Number of event dispatches to skip
+     * @param type    Event type
+     * @param amount  Number of event dispatches to skip
      */
     disableType<Key extends keyof T>(type: Key, amount?: number): void;
     /**
@@ -102,39 +102,39 @@ export declare class EventDispatcher<T> implements IDisposer {
      *
      * Will throw an exception if such listener does not exists.
      *
-     * @param {EventListener<T>} listener Listener to remove
+     * @param listener Listener to remove
      */
     protected _removeListener(listener: EventListener<T>): void;
     /**
      * Removes existing listener by certain parameters.
      *
-     * @param {boolean}     once         Listener's once setting
-     * @param {Key | null}  type         Listener's type
-     * @param {A}           callback     Callback function
-     * @param {B}           context      Callback context
+     * @param once         Listener's once setting
+     * @param type         Listener's type
+     * @param callback     Callback function
+     * @param context      Callback context
      */
     protected _removeExistingListener<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B): void;
     /**
      * Checks if dispatching for particular event type is enabled.
      *
-     * @param  {Key}      type  Event type
-     * @return {boolean}        Enabled?
+     * @param type  Event type
+     * @return Enabled?
      */
     isEnabled<Key extends keyof T>(type: Key): boolean;
     /**
      * Checks if there's already a listener with specific parameters.
      *
-     * @param   {Key | null}  type      Listener's type
-     * @param   {A}           callback  Callback function
-     * @param   {B}           context   Callback context
-     * @return {boolean}                Has listener?
+     * @param type      Listener's type
+     * @param callback  Callback function
+     * @param context   Callback context
+     * @return Has listener?
      */
     has<C, Key extends keyof T>(type: Key, callback?: (this: C, event: T[Key]) => void, context?: C): boolean;
     /**
      * Checks whether event of the particular type should be dispatched.
      *
-     * @param  {Key}   type  Event type
-     * @return {boolean}        Dispatch?
+     * @param type  Event type
+     * @return Dispatch?
      */
     protected _shouldDispatch<Key extends keyof T>(type: Key): boolean;
     /**
@@ -143,22 +143,22 @@ export declare class EventDispatcher<T> implements IDisposer {
      * All of this extra code is needed when a listener is removed while iterating
      *
      * @todo Description
-     * @param {EventListener<T>) => void} fn [description]
+     * @param fn [description]
      */
     protected _eachListener(fn: (listener: EventListener<T>) => void): void;
     /**
      * Dispatches an event immediately without waiting for next cycle.
      *
-     * @param {Key}     type   Event type
-     * @param {T[Key]}  event  Event object
+     * @param type   Event type
+     * @param event  Event object
      * @todo automatically add in type and target properties if they are missing
      */
     dispatchImmediately<Key extends keyof T>(type: Key, event: T[Key]): void;
     /**
      * Shelves the event to be dispatched within next update cycle.
      *
-     * @param {Key}     type   Event type
-     * @param {T[Key]}  event  Event object
+     * @param type   Event type
+     * @param event  Event object
      * @todo automatically add in type and target properties if they are missing
      */
     dispatch<Key extends keyof T>(type: Key, event: T[Key]): void;
@@ -167,22 +167,22 @@ export declare class EventDispatcher<T> implements IDisposer {
      *
      * Event listener can be disposed.
      *
-     * @param   {boolean}     once         Listener's once setting
-     * @param   {Key | null}  type         Listener's type
-     * @param   {A}           callback     Callback function
-     * @param   {B}           context      Callback context
-     * @param   {boolean}     shouldClone  Whether the listener should be copied when the EventDispatcher is copied
-     * @param   {function}    dispatch
-     * @returns {EventListener} An event listener
+     * @param once         Listener's once setting
+     * @param type         Listener's type
+     * @param callback     Callback function
+     * @param context      Callback context
+     * @param shouldClone  Whether the listener should be copied when the EventDispatcher is copied
+     * @param dispatch
+     * @returns An event listener
      */
     protected _on<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B, shouldClone: boolean, dispatch: (type: Key, event: T[Key]) => void): EventListener<T>;
     /**
      * Creates an event listener to be invoked on **any** event.
      *
-     * @param   {A}           callback     Callback function
-     * @param   {B}           context      Callback context
-     * @param   {boolean}     shouldClone  Whether the listener should be copied when the EventDispatcher is copied
-     * @returns {IDisposer}                A disposable event listener
+     * @param callback     Callback function
+     * @param context      Callback context
+     * @param shouldClone  Whether the listener should be copied when the EventDispatcher is copied
+     * @returns A disposable event listener
      * @todo what if `listen` is called on the same function twice ?
      */
     onAll<C, Key extends keyof T>(callback: (this: C, type: Key, event: T[Key]) => void, context?: C, shouldClone?: boolean): IDisposer;
@@ -216,11 +216,11 @@ export declare class EventDispatcher<T> implements IDisposer {
      * The above will invoke our custom event handler whenever series we put
      * event on is hidden.
      *
-     * @param   {Key | null}  type         Listener's type
-     * @param   {A}           callback     Callback function
-     * @param   {B}           context      Callback context
-     * @param   {boolean}     shouldClone  Whether the listener should be copied when the EventDispatcher is copied
-     * @returns {IDisposer}                A disposable event listener
+     * @param type         Listener's type
+     * @param callback     Callback function
+     * @param context      Callback context
+     * @param shouldClone  Whether the listener should be copied when the EventDispatcher is copied
+     * @returns A disposable event listener
      * @todo what if `listen` is called on the same function twice ?
      */
     on<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C, shouldClone?: boolean): IDisposer;
@@ -256,27 +256,27 @@ export declare class EventDispatcher<T> implements IDisposer {
      * The above will invoke our custom event handler the first time series we
      * put event on is hidden.
      *
-     * @param   {Key | null}  type         Listener's type
-     * @param   {A}           callback     Callback function
-     * @param   {B}           context      Callback context
-     * @param   {boolean}     shouldClone  Whether the listener should be copied when the EventDispatcher is copied
-     * @returns {IDisposer}                A disposable event listener
+     * @param type         Listener's type
+     * @param callback     Callback function
+     * @param context      Callback context
+     * @param shouldClone  Whether the listener should be copied when the EventDispatcher is copied
+     * @returns A disposable event listener
      * @todo what if `listen` is called on the same function twice ?
      */
     once<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C, shouldClone?: boolean): IDisposer;
     /**
      * Removes the event listener with specific parameters.
      *
-     * @param   {Key | null}  type         Listener's type
-     * @param   {A}           callback     Callback function
-     * @param   {B}           context      Callback context
+     * @param type         Listener's type
+     * @param callback     Callback function
+     * @param context      Callback context
      */
     off<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C): void;
     /**
      * Copies all dispatcher parameters, including listeners, from another event
      * dispatcher.
      *
-     * @param {this} source Source event dispatcher
+     * @param source Source event dispatcher
      */
     copyFrom(source: this): void;
 }
@@ -284,27 +284,24 @@ export declare class EventDispatcher<T> implements IDisposer {
  * A version of the [[EventDispatcher]] that dispatches events for a specific
  * target object.
  *
- * @type {[type]}
  * @important
  */
 export declare class TargetedEventDispatcher<Target, T> extends EventDispatcher<T> {
     /**
      * A target object which is originating events using this dispatcher.
-     *
-     * @type {Target}
      */
     target: Target;
     /**
      * Constructor
      *
-     * @param {Target} target Event dispatcher target
+     * @param target Event dispatcher target
      */
     constructor(target: Target);
     /**
      * Copies all dispatcher parameters, including listeners, from another event
      * dispatcher.
      *
-     * @param {this} source Source event dispatcher
+     * @param source Source event dispatcher
      */
     copyFrom(source: this): void;
 }

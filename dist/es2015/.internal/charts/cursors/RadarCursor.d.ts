@@ -22,27 +22,19 @@ export interface IRadarCursorProperties extends IXYCursorProperties {
     /**
      * Inner radius of the cursor's circular line.
      * Absolute (px) or relative ([[Percent]]).
-     *
-     * @type {number | Percent}
      */
     innerRadius: number | Percent;
     /**
      * Outer radius of the cursor's circular line.
      * Absolute (px) or relative ([[Percent]]).
-     *
-     * @type {number | Percent}
      */
     radius: number | Percent;
     /**
      * Starting angle of the cursor's radial line.
-     *
-     * @type {number}
      */
     startAngle: number;
     /**
      * Ending angle of the cursor's radial line.
-     *
-     * @type {number}
      */
     endAngle: number;
 }
@@ -73,24 +65,18 @@ export interface IRadarCursorAdapters extends IXYCursorAdapters, IRadarCursorPro
 export declare class RadarCursor extends XYCursor {
     /**
      * Defines available properties
-     * @type {IRadarCursorProperties}
      */
     _properties: IRadarCursorProperties;
     /**
      * Defines available adapters
-     * @type {IRadarCursorAdapters}
      */
     _adapter: IRadarCursorAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IRadarCursorEvents}
      */
     _events: IRadarCursorEvents;
     /**
      * A reference to chart cursor belongs to.
-     *
-     * @type {Chart}
      */
     _chart: RadarChart;
     protected _prevAngle: number;
@@ -102,39 +88,39 @@ export declare class RadarCursor extends XYCursor {
      * Checks if point is within bounds of a container.
      *
      * @ignore Exclude from docs
-     * @param  {IPoint}   point  Point to check
-     * @return {boolean}         Fits within container?
+     * @param point  Point to check
+     * @return Fits within container?
      */
     fitsToBounds(point: IPoint): boolean;
     /**
-     * @return {number} Start angle
+     * @return Start angle
      */
     /**
      * Starting angle of the cursor's radial line.
      *
-     * @param {number} value Start angle
+     * @param value Start angle
      */
     startAngle: number;
     /**
-     * @return {number} End angle
+     * @return End angle
      */
     /**
      * End angle of the cursor's radial line.
      *
-     * @param {number} value End angle
+     * @param value End angle
      */
     endAngle: number;
     protected triggerMoveReal(point: IPoint): void;
     /**
      * (Re)draws the horizontal (circular) cursor's line.
      *
-     * @param {IPoint} point New target point
+     * @param point New target point
      */
     protected updateLineX(point: IPoint): void;
     /**
      * (Re)draws the vertical (radial) cursor's line.
      *
-     * @param {IPoint} point New target point
+     * @param point New target point
      */
     protected updateLineY(point: IPoint): void;
     /**
@@ -156,14 +142,14 @@ export declare class RadarCursor extends XYCursor {
     /**
      * Updates Cursor's position when axis tooltip changes horizontal position.
      *
-     * @param {ISpriteEvents["positionchanged"]} event Axis event
+     * @param event Axis event
      */
     protected handleXTooltipPosition(event: ISpriteEvents["positionchanged"]): void;
     /**
      * Updates Cursor's position when axis tooltip changes vertical position.
      *
      * @todo Description
-     * @param {ISpriteEvents["positionchanged"]} event Axis event
+     * @param event Axis event
      */
     protected handleYTooltipPosition(event: ISpriteEvents["positionchanged"]): void;
     /**
@@ -187,19 +173,19 @@ export declare class RadarCursor extends XYCursor {
      */
     updateSize(): void;
     /**
-     * @return {number} Outer radius
+     * @return Outer radius
      */
     /**
      * Outer radius of the cursor's circular line.
      * Absolute (px) or relative ([[Percent]]).
      *
-     * @param {number | Percent}  value  Outer radius
+     * @param value  Outer radius
      */
     radius: number | Percent;
     /**
      * Outer radius of the circular line in pixels.
      *
-     * @return {number} Outer radius (px)
+     * @return Outer radius (px)
      * @readonly
      */
     readonly pixelRadius: number;
@@ -207,24 +193,24 @@ export declare class RadarCursor extends XYCursor {
      * [truePixelRadius description]
      *
      * @todo Description
-     * @return {number} Outer radius (px)
+     * @return Outer radius (px)
      * @readonly
      */
     readonly truePixelRadius: number;
     /**
-     * @return {number} Inner radius
+     * @return Inner radius
      */
     /**
      * Inner radius of the cursor's circular line.
      * Absolute (px) or relative ([[Percent]]).
      *
-     * @param {number | Percent}  value  Inner radius
+     * @param value  Inner radius
      */
     innerRadius: number | Percent;
     /**
      * Inner radius of the circular line in pixels.
      *
-     * @return {number} Inner radius (px)
+     * @return Inner radius (px)
      * @readonly
      */
     readonly pixelInnerRadius: number;

@@ -189,7 +189,7 @@ var PieChart = /** @class */ (function (_super) {
      * added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Series>["inserted"]}  event  Event
+     * @param event  Event
      */
     PieChart.prototype.handleSeriesAdded = function (event) {
         _super.prototype.handleSeriesAdded.call(this, event);
@@ -248,7 +248,7 @@ var PieChart = /** @class */ (function (_super) {
     };
     Object.defineProperty(PieChart.prototype, "radius", {
         /**
-         * @return {number} Radius (px or relative)
+         * @return Radius (px or relative)
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -278,7 +278,7 @@ var PieChart = /** @class */ (function (_super) {
          * }
          * ```
          *
-         * @param {number | Percent}  value  Radius (px or relative)
+         * @param value  Radius (px or relative)
          */
         set: function (value) {
             if (this.setPercentProperty("radius", value, true, false, 10, false)) {
@@ -290,7 +290,7 @@ var PieChart = /** @class */ (function (_super) {
     });
     Object.defineProperty(PieChart.prototype, "innerRadius", {
         /**
-         * @return {number} Relative inner radius (0-1)
+         * @return Relative inner radius (0-1)
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
@@ -303,7 +303,7 @@ var PieChart = /** @class */ (function (_super) {
          * * 0.5 - hole is half the radius of the pie;
          * * 1 - does not make sense, because the hole will take up the whole radius.
          *
-         * @param {number | Percent}  value  Relative inner radius (0-1)
+         * @param value  Relative inner radius (0-1)
          * @todo Setting things like `innerRadius` modifies `slice.radius` and it then looks like it is not the same value as in default state
          */
         set: function (value) {
@@ -315,14 +315,14 @@ var PieChart = /** @class */ (function (_super) {
     /**
      * Creates a new [[PieSeries]].
      *
-     * @return {PieSeries} New series
+     * @return New series
      */
     PieChart.prototype.createSeries = function () {
         return new PieSeries();
     };
     Object.defineProperty(PieChart.prototype, "startAngle", {
         /**
-         * @return {number} Start angle (degrees)
+         * @return Start angle (degrees)
          */
         get: function () {
             return this.getPropertyValue("startAngle");
@@ -349,7 +349,7 @@ var PieChart = /** @class */ (function (_super) {
          * NOTE: This setting is not supported in a 3D pie chart.
          *
          * @default -90
-         * @param {number}  value  Start angle (degrees)
+         * @param value  Start angle (degrees)
          */
         set: function (value) {
             if (this.setPropertyValue("startAngle", value)) {
@@ -362,7 +362,7 @@ var PieChart = /** @class */ (function (_super) {
     });
     Object.defineProperty(PieChart.prototype, "endAngle", {
         /**
-         * @return {number} End angle (degrees)
+         * @return End angle (degrees)
          */
         get: function () {
             return this.getPropertyValue("endAngle");
@@ -387,7 +387,7 @@ var PieChart = /** @class */ (function (_super) {
          * NOTE: This setting is not supported in a 3D pie chart.
          *
          * @default 270
-         * @param {number}  value  End angle (degrees)
+         * @param value  End angle (degrees)
          */
         set: function (value) {
             if (this.setPropertyValue("endAngle", value)) {

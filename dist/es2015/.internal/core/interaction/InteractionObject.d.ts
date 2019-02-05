@@ -41,8 +41,6 @@ export { IInteractionObjectEvents, InteractionObjectEventDispatcher };
 export declare class InteractionObject extends BaseObjectEvents {
     /**
      * Defines available events.
-     *
-     * @type {IInteractionObjectEvents}
      */
     _events: IInteractionObjectEvents;
     /**
@@ -51,8 +49,6 @@ export declare class InteractionObject extends BaseObjectEvents {
     events: InteractionObjectEventDispatcher<AMEvent<this, this["_events"]>>;
     /**
      * A related [[Sprite]] if any.
-     *
-     * @type {Adapter<Sprite, ISpriteAdapters>}
      */
     sprite: Sprite;
     /**
@@ -60,7 +56,6 @@ export declare class InteractionObject extends BaseObjectEvents {
      * when the whole InteractionObject is disposed)
      *
      * @ignore Exclude from docs
-     * @type {Dictionary<string, IDisposer>}
      */
     eventDisposers: Dictionary<string, IDisposer>;
     /**
@@ -69,7 +64,6 @@ export declare class InteractionObject extends BaseObjectEvents {
      * replaced them is done.
      *
      * @ignore Exclude from docs
-     * @type {Dictionary<string, string>}
      */
     replacedStyles: Dictionary<string, string>;
     protected _clickable: boolean;
@@ -84,61 +78,43 @@ export declare class InteractionObject extends BaseObjectEvents {
     protected _tabindex: Optional<number>;
     /**
      * Element to attach events to.
-     *
-     * @type {HTMLElement}
      */
     private _element;
     /**
      * Original coordinates for the [[InteractionObject]]. (before application
      * of the drag)
-     *
-     * @type {IPoint}
      */
     _originalPosition: Optional<IPoint>;
     /**
      * Original angle for the [[InteractionObject]]. (before rotation started)
-     *
-     * @type {Optional<number>}
      */
     _originalAngle: $type.Optional<number>;
     /**
      * Original scale of the [[InteractionObject]]. (before resizing started)
-     * @type {Optional<number>}
      */
     _originalScale: $type.Optional<number>;
     /**
      * List of pointers current over element.
-     *
-     * @type {Optional<List<IPointer>>}
      */
     protected _overPointers: $type.Optional<List<IPointer>>;
     /**
      * List of pointer currently pressing down on element.
-     *
-     * @type {Optional<List<IPointer>>}
      */
     protected _downPointers: $type.Optional<List<IPointer>>;
     /**
      * Is element currently hovered?
-     *
-     * @type {boolean}
      */
     protected _isHover: boolean;
     /**
      * Is the element hovered by touch pointer?
-     *
-     * @type {boolean}
      */
     protected _isHoverByTouch: boolean;
     /**
      * Has element got any pointers currently pressing down on it?
-     * @type {boolean}
      */
     protected _isDown: boolean;
     /**
      * Does element have focus?
-     *
-     * @type {boolean}
      */
     protected _isFocused: boolean;
     /**
@@ -147,7 +123,6 @@ export declare class InteractionObject extends BaseObjectEvents {
      * Used to calculate double-hit.
      *
      * @ignore Exclude from docs
-     * @type {Optional<number>}
      */
     lastHit: $type.Optional<number>;
     /**
@@ -157,57 +132,42 @@ export declare class InteractionObject extends BaseObjectEvents {
      *
      * @ignore Exclude from docs
      * @todo still needed?
-     * @type {Optional<IPointer>}
      */
     lastHitPointer: $type.Optional<IPointer>;
     /**
      * Indicates whether object has delayed events initiated by touch.
      *
      * @ignore Exclude from docs
-     * @type {boolean}
      */
     hasDelayedOut?: boolean;
     /**
      * Options used for inertia functionality.
-     *
-     * @type {Dictionary<InertiaTypes, IInertiaOptions>}
      */
     private _inertiaOptions;
     /**
      * A collection of different inertia types, currently playing out.
      *
      * @ignore Exclude from docs
-     * @type {Dictionary<InertiaTypes, Inertia>}
      */
     inertias: Dictionary<InertiaTypes, Inertia>;
     /**
      * Click/tap options.
-     *
-     * @type {IHitOptions}
      */
     private _hitOptions;
     /**
      * Hover options.
-     *
-     * @type {IHoverOptions}
      */
     private _hoverOptions;
     /**
      * Swipe gesture options.
-     *
-     * @type {ISwipeOptions}
      */
     private _swipeOptions;
     /**
      * Keyboard options.
-     *
-     * @type {IKeyboarOptions}
      */
     private _keyboardOptions;
     /**
      * Cursor options.
-     *
-     * @type {ICursorOptions}
      */
     private _cursorOptions;
     /**
@@ -217,276 +177,276 @@ export declare class InteractionObject extends BaseObjectEvents {
     /**
      * Returns if this element is currently hovered.
      *
-     * @return {boolean} Hovered?
+     * @return Hovered?
      */
     /**
      * Sets if this element is currently hovered.
      *
-     * @param {boolean} value Hovered?
+     * @param value Hovered?
      */
     isHover: boolean;
     /**
      * Returns if this element is currently hovered.
      *
-     * @return {boolean} Hovered?
+     * @return Hovered?
      */
     /**
      * Sets if this element is currently hovered.
      *
-     * @param {boolean} value Hovered?
+     * @param value Hovered?
      */
     isHoverByTouch: boolean;
     /**
      * Returns a list of pointers currently over the element.
      *
      * @see {@link Pointer}
-     * @return {List<IPointer>} List if pointers currently hovering the element
+     * @return List if pointers currently hovering the element
      */
     readonly overPointers: List<IPointer>;
     /**
      * Returns if this element has currently any pointers pressing on it.
      *
-     * @return {boolean} Has down pointers?
+     * @return Has down pointers?
      */
     /**
      * Sets if this element has currently any pointers pressing on it.
      *
-     * @param {boolean} value Has down pointers?
+     * @param value Has down pointers?
      */
     isDown: boolean;
     /**
      * Returns a list of pointers currently pressing down on this element.
      *
      * @see {@link Pointer}
-     * @return {List<IPointer>} List of down pointers
+     * @return List of down pointers
      */
     readonly downPointers: List<IPointer>;
     /**
      * Returns if this element is currently focused.
      *
-     * @return {boolean} Focused?
+     * @return Focused?
      */
     /**
      * Sets if this element is currently focused.
      *
-     * @param {boolean} value Focused?
+     * @param value Focused?
      */
     isFocused: boolean;
     /**
      * Returns if element is currently set as clickable.
      *
-     * @return {boolean} Clickable?
+     * @return Clickable?
      */
     /**
      * Is element clickable? Clickable elements will generate "hit" events when
      * clicked or tapped.
      *
-     * @param {boolean} value Clickable?
+     * @param value Clickable?
      */
     clickable: boolean;
     /**
      * Returns if element is currently set to generate hover events.
      *
-     * @return {boolean} Hoverable?
+     * @return Hoverable?
      */
     /**
      * Sets if element should generate hover events.
      *
-     * @param {boolean} value Hoverable?
+     * @param value Hoverable?
      */
     hoverable: boolean;
     /**
      * Returns if element is set to track pointer movement over it.
      *
-     * @return {boolean} Track pointer?
+     * @return Track pointer?
      */
     /**
      * Sets if pointer movement over element should be tracked.
      *
-     * @param {boolean} value Track pointer?
+     * @param value Track pointer?
      */
     trackable: boolean;
     /**
      * Returns if element is currently set as draggable.
      *
-     * @return {boolean} Draggable?
+     * @return Draggable?
      */
     /**
      * Sets if element can be dragged. (moved)
      *
-     * @param {boolean} value Draggable?
+     * @param value Draggable?
      */
     draggable: boolean;
     /**
      * Returns if element is currently set to track swipe gesture.
      *
-     * @return {boolean} Track swipe?
+     * @return Track swipe?
      */
     /**
      * Sets whether element should react to swipe gesture.
      *
-     * @param {boolean} value Track swipe?
+     * @param value Track swipe?
      */
     swipeable: boolean;
     /**
      * Returns if element is currently set as resizeable.
      *
-     * @return {boolean} Resizeble?
+     * @return Resizeble?
      */
     /**
      * Sets if element can be resized.
      *
-     * @param {boolean} value Resizeable?
+     * @param value Resizeable?
      */
     resizable: boolean;
     /**
-     * @return {boolean} Track wheel?
+     * @return Track wheel?
      */
     /**
      * Indicates whether track moouse wheel rotation over element.
      *
-     * @param {boolean} value Track wheel?
+     * @param value Track wheel?
      */
     wheelable: boolean;
     /**
      * Returns if element is currently set as inert.
      *
-     * @return {boolean} Inert?
+     * @return Inert?
      */
     /**
      * Sets if element is inert, i.e. if it should carry movement momentum after
      * it is dragged and released.
      *
-     * @param {boolean} value Inert?
+     * @param value Inert?
      */
     inert: boolean;
     /**
      * Returns if element is currently set as focusable.
      *
-     * @return {Optional<boolean>} Focusable?
+     * @return Focusable?
      */
     /**
      * Sets if element can gain focus.
      *
-     * @param {Optional<boolean>} value Focusable?
+     * @param value Focusable?
      */
     focusable: $type.Optional<boolean>;
     /**
      * Returns element's current tab index.
      *
-     * @return {number} Tab index
+     * @return Tab index
      */
     /**
      * Sets element's tab index.
      *
-     * @param {number} value Tab index
+     * @param value Tab index
      */
     tabindex: number;
     /**
      * Returns DOM element associated with this element
-     * @return {HTMLElement | SVGSVGElement} Element
+     * @return Element
      */
     /**
      * Sets DOM element associated with this element
-     * @param {HTMLElement | SVGSVGElement} element Element
+     * @param element Element
      */
     element: HTMLElement | SVGSVGElement;
     /**
      * Returns element's original position.
      *
      * @ignore Exclude from docs
-     * @return {Optional<IPoint>} Position.
+     * @return Position.
      */
     /**
      * Sets element's original position.
      *
      * @ignore Exclude from docs
-     * @param {Optional<IPoint>} value Position
+     * @param value Position
      */
     originalPosition: Optional<IPoint>;
     /**
      * Returns element's original scale.
      *
-     * @return {number} Scale
+     * @return Scale
      */
     /**
      * Sets element's original scale.
      *
      * @ignore Exclude from docs
-     * @param {number} value Scale
+     * @param value Scale
      */
     originalScale: number;
     /**
      * Returns element's original angle.
      *
-     * @return {number} Angle
+     * @return Angle
      */
     /**
      * Sets element's original angle.
      *
      * @ignore Exclude from docs
-     * @param {number} value Angle
+     * @param value Angle
      */
     originalAngle: number;
     /**
-     * @return {Dictionary<InertiaTypes, IInertiaOptions>} Options
+     * @return Options
      */
     /**
      * Inertia options.
      *
-     * @param {Dictionary<InertiaTypes, IInertiaOptions>}  value  Options
+     * @param value  Options
      */
     inertiaOptions: Dictionary<InertiaTypes, IInertiaOptions>;
     /**
-     * @return {IHitOptions} Options
+     * @return Options
      */
     /**
      * Hit options.
      *
-     * @param {IHitOptions}  value  Options
+     * @param value  Options
      */
     hitOptions: IHitOptions;
     /**
-     * @return {IHoverOptions} Options
+     * @return Options
      */
     /**
      * Hover options.
      *
-     * @param {IHoverOptions}  value  Options
+     * @param value  Options
      */
     hoverOptions: IHoverOptions;
     /**
-     * @return {ISwipeOptions} Options
+     * @return Options
      */
     /**
      * Swipe options.
      *
-     * @param {ISwipeOptions}  value  Options
+     * @param value  Options
      */
     swipeOptions: ISwipeOptions;
     /**
-     * @return {IKeyboardOptions} Options
+     * @return Options
      */
     /**
      * Keyboard options.
      *
-     * @param {IKeyboardOptions}  value  Options
+     * @param value  Options
      */
     keyboardOptions: IKeyboardOptions;
     /**
-     * @return {ICursorOptions} Options
+     * @return Options
      */
     /**
      * Cursor options.
      *
-     * @param {ICursorOptions}  value  Options
+     * @param value  Options
      */
     cursorOptions: ICursorOptions;
     /**
      * Copies all properties and related assets from another object of the same
      * type.
      *
-     * @param {this} source Source object
+     * @param source Source object
      */
     copyFrom(source: this): void;
     /**

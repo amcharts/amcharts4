@@ -9,8 +9,6 @@
  */
 /**
  * Defines values that ordering functions can return.
- *
- * @type {number}
  */
 export declare type Ordering = -1 | 0 | 1;
 /**
@@ -18,8 +16,8 @@ export declare type Ordering = -1 | 0 | 1;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {Ordering}  a  [description]
- * @return {Ordering}     [description]
+ * @param a  [description]
+ * @return [description]
  */
 export declare function reverse(a: Ordering): Ordering;
 /**
@@ -27,8 +25,8 @@ export declare function reverse(a: Ordering): Ordering;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {Ordering}  a  Item 1
- * @param  {Ordering}  b  Item 2
- * @return {Ordering}     [description]
+ * @param a  Item 1
+ * @param b  Item 2
+ * @return [description]
  */
 export declare function or(a: Ordering, b: Ordering): Ordering;

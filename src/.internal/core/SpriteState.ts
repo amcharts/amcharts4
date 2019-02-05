@@ -104,36 +104,26 @@ export class SpriteState<P, A> extends BaseObject {
 
 	/**
 	 * Defines property types.
-	 *
-	 * @type {ISpriteProperties}
 	 */
 	public _properties!: P;
 
 	/**
 	 * Defines adapter types.
-	 *
-	 * @type {SpriteAdapters}
 	 */
 	public _adapter!: A;
 
 	/**
 	 * Title of the state, i.e. "default", "hidden", etc.
-	 *
-	 * @type {string}
 	 */
 	public name: string;
 
 	/**
 	 * Reference to [[Sprite]] element this State is for.
-	 *
-	 * @type {Optional<Sprite>}
 	 */
 	public sprite: $type.Optional<Sprite>;
 
 	/**
 	 * Holds Adapter.
-	 *
-	 * @type {Adapter<Sprite, SpriteAdapters>}
 	 */
 	public adapter = new Adapter<this, A>(this);
 
@@ -144,7 +134,6 @@ export class SpriteState<P, A> extends BaseObject {
 	 *
 	 * @default 0
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-	 * @type {number}
 	 */
 	public transitionDuration: number = 0;
 
@@ -154,7 +143,6 @@ export class SpriteState<P, A> extends BaseObject {
 	 * @default cubicOut
 	 * @see {@link Ease}
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-	 * @type {(number) => number}
 	 */
 	public transitionEasing: (value: number) => number = $ease.cubicOut;
 
@@ -164,8 +152,6 @@ export class SpriteState<P, A> extends BaseObject {
 	 *
 	 * The property values set on a [[SpriteState]] will override the ones set
 	 * directly on a [[Sprite]].
-	 *
-	 * @type {Dictionary<string, any>}
 	 */
 	public properties: P = <P>{};
 
@@ -183,7 +169,6 @@ export class SpriteState<P, A> extends BaseObject {
 	 * state object.
 	 *
 	 * @see {@link Sprite}
-	 * @type {Object}
 	 */
 	public propertyFields: { [index in keyof this["_properties"]]?: string } = {};
 	//public propertyFields: Dictionary<keyof this["_properties"], string> = new Dictionary<keyof this["_properties"], string>();;
@@ -199,8 +184,6 @@ export class SpriteState<P, A> extends BaseObject {
 	/**
 	 * Identifies if this object is a "template" and should not be treated as
 	 * real object that is drawn or actually used in the chart.
-	 *
-	 * @type {boolean}
 	 */
 	public isTemplate: boolean = false;
 
@@ -235,8 +218,8 @@ export class SpriteState<P, A> extends BaseObject {
 	 * Will check if there are any bindings with [[DataItem]] and if there are
 	 * any method callbacks set up for the specific property.
 	 *
-	 * @param  {Properties}  propertyName  Property name
-	 * @return {any}                       Property value
+	 * @param propertyName  Property name
+	 * @return Property value
 	 */
 	public getPropertyValue<Key extends keyof P>(propertyName: Key): P[Key] {
 		let propValue: any = this.properties[propertyName];
@@ -278,7 +261,7 @@ export class SpriteState<P, A> extends BaseObject {
 	/**
 	 * Copies all property and style values from another [[SpriteState]] object.
 	 *
-	 * @param {SpriteState}  source  Source [[SpriteState]]
+	 * @param source  Source [[SpriteState]]
 	 */
 	public copyFrom(source: this) {
 		if (source && source != this) {
@@ -298,7 +281,7 @@ export class SpriteState<P, A> extends BaseObject {
 	 * It takes adapters into account.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {ISpriteProperties} Properties
+	 * @return Properties
 	 * @todo Add adapter values
 	 * @todo proper type this["_properties"]
 	 */
@@ -343,7 +326,7 @@ export class SpriteState<P, A> extends BaseObject {
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 

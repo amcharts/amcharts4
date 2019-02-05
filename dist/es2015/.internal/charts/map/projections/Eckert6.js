@@ -53,9 +53,9 @@ var Eckert6 = /** @class */ (function (_super) {
     /**
      * Converts screen coordinates to latitude/longitude.
      *
-     * @param  {number}     x  X
-     * @param  {number}     y  Y
-     * @return {IGeoPoint}     Geographical coordinates in radians
+     * @param x  X
+     * @param y  Y
+     * @return Geographical coordinates in radians
      */
     Eckert6.prototype.unproject = function (x, y) {
         var j = 1 + Math.PI / 2, k = Math.sqrt(j / 2);
@@ -67,9 +67,9 @@ var Eckert6 = /** @class */ (function (_super) {
     /**
      * Converts geographical coordinates to screen coordinates.
      *
-     * @param  {number}  lambda  Lambda parameter
-     * @param  {number}  phi     Phi parameter
-     * @return {IPoint}          Screen coordinates
+     * @param lambda  Lambda parameter
+     * @param phi     Phi parameter
+     * @return Screen coordinates
      */
     Eckert6.prototype.project = function (lambda, phi) {
         var k = (1 + Math.PI / 2) * Math.sin(phi);

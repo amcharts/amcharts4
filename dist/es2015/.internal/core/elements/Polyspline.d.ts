@@ -24,7 +24,6 @@ export interface IPolysplineProperties extends IPolylineProperties {
      * Used by the line smoothing algorithm.
      *
      * @default 0.5
-     * @type {number}
      */
     tensionX: number;
     /**
@@ -33,7 +32,6 @@ export interface IPolysplineProperties extends IPolylineProperties {
      * Used by the line smoothing algorithm.
      *
      * @default 0.5
-     * @type {number}
      */
     tensionY: number;
 }
@@ -66,20 +64,16 @@ export declare class Polyspline extends Polyline {
      * Defines available properties.
      *
      * @todo Description
-     * @type {IPolysplineProperties}
      */
     _properties: IPolysplineProperties;
     /**
      * Defines available adapters.
      *
      * @todo Description
-     * @type {IPolysplineAdapters}
      */
     _adapter: IPolysplineAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IPolysplineEvents}
      */
     _events: IPolysplineEvents;
     /**
@@ -93,7 +87,7 @@ export declare class Polyspline extends Polyline {
      */
     makePath(): void;
     /**
-     * @return {number} Tension
+     * @return Tension
      */
     /**
      * Horizontal tension for the spline.
@@ -101,11 +95,11 @@ export declare class Polyspline extends Polyline {
      * Used by the line smoothing algorithm.
      *
      * @default 0.5
-     * @param {number}  value  Tension
+     * @param value  Tension
      */
     tensionX: number;
     /**
-     * @return {number} Tension
+     * @return Tension
      */
     /**
      * Vertical tension for the spline.
@@ -113,7 +107,7 @@ export declare class Polyspline extends Polyline {
      * Used by the line smoothing algorithm.
      *
      * @default 0.5
-     * @param {number}  value  Tensions
+     * @param value  Tensions
      */
     tensionY: number;
 }

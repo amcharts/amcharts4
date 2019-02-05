@@ -66,44 +66,32 @@ export class MapPolygon extends MapObject {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IMapPolygonProperties}
 	 */
 	public _properties!: IMapPolygonProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IMapPolygonAdapters}
 	 */
 	public _adapter!: IMapPolygonAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IMapPolygonEvents}
 	 */
 	public _events!: IMapPolygonEvents;
 
 	/**
 	 * A visual polygon element.
-	 *
-	 * @type {Polygon}
 	 */
 	public polygon: Polygon;
 
 	/**
 	 * A related data item.
-	 *
-	 * @type {MapPolygonSeriesDataItem}
 	 */
 	public _dataItem: MapPolygonSeriesDataItem;
 
 
 	/**
 	 * A map series this object belongs to.
-	 *
-	 * @type {MapPolygonSeries}
 	 */
 	public series: MapPolygonSeries;
 
@@ -132,14 +120,14 @@ export class MapPolygon extends MapObject {
 	/**
 	 * Set of coordinates for the polygon.
 	 *
-	 * @param {IGeoPoint[][][]}  multiGeoPolygon  Polygon coordinates
+	 * @param multiGeoPolygon  Polygon coordinates
 	 */
 	public set multiGeoPolygon(multiGeoPolygon: IGeoPoint[][][]) {
 		this.setPropertyValue("multiGeoPolygon", multiGeoPolygon, true);
 	}
 
 	/**
-	 * @return {IGeoPoint[]} Polygon coordinates
+	 * @return Polygon coordinates
 	 */
 	public get multiGeoPolygon(): IGeoPoint[][][] {
 		return this.getPropertyValue("multiGeoPolygon");
@@ -169,7 +157,7 @@ export class MapPolygon extends MapObject {
 	 * Calculated polygon center latitude.
 	 *
 	 * @readonly
-	 * @return {number} Center latitude
+	 * @return Center latitude
 	 */
 	public get latitude(): number {
 		let dataItem = this.dataItem;
@@ -180,7 +168,7 @@ export class MapPolygon extends MapObject {
 	 * Calculated polygon center longitude.
 	 *
 	 * @readonly
-	 * @return {number} Center longitude
+	 * @return Center longitude
 	 */
 	public get longitude(): number {
 		let dataItem = this.dataItem;
@@ -198,7 +186,7 @@ export class MapPolygon extends MapObject {
 	 * Element's width in pixels.
 	 *
 	 * @readonly
-	 * @return {number} Width (px)
+	 * @return Width (px)
 	 */
 	public get pixelWidth(): number {
 		return this.polygon.pixelWidth;
@@ -208,7 +196,7 @@ export class MapPolygon extends MapObject {
 	 * Element's height in pixels.
 	 *
 	 * @readonly
-	 * @return {number} Width (px)
+	 * @return Width (px)
 	 */
 	public get pixelHeight(): number {
 		return this.polygon.pixelHeight;

@@ -10,8 +10,6 @@ var MouseCursorStyle = /** @class */ (function () {
     }
     /**
      * Styles for "grab" mouse cursor.
-     *
-     * @type {Array<IStyleProperty>}
      */
     MouseCursorStyle.grab = [{
             "property": "cursor",
@@ -28,8 +26,6 @@ var MouseCursorStyle = /** @class */ (function () {
         }];
     /**
      * Styles for "grabbing" mouse cursor.
-     *
-     * @type {Array<IStyleProperty>}
      */
     MouseCursorStyle.grabbing = [{
             "property": "cursor",
@@ -46,8 +42,6 @@ var MouseCursorStyle = /** @class */ (function () {
         }];
     /**
      * Styles for "pointer" mouse cursor. (usually used for links)
-     *
-     * @type {Array<IStyleProperty>}
      */
     MouseCursorStyle.pointer = [{
             "property": "cursor",
@@ -55,8 +49,6 @@ var MouseCursorStyle = /** @class */ (function () {
         }];
     /**
      * Styles for default mouse cursor. (browser determines style)
-     *
-     * @type {Array<IStyleProperty>}
      */
     MouseCursorStyle.default = [{
             "property": "cursor",
@@ -64,8 +56,6 @@ var MouseCursorStyle = /** @class */ (function () {
         }];
     /**
      * Styles for horizontal bi-directional resize mouse cursor.
-     *
-     * @type {Array<IStyleProperty>}
      */
     MouseCursorStyle.horizontalResize = [{
             "property": "cursor",
@@ -73,8 +63,6 @@ var MouseCursorStyle = /** @class */ (function () {
         }];
     /**
      * Styles for vertical bi-directional mouse cursor.
-     *
-     * @type {Array<IStyleProperty>}
      */
     MouseCursorStyle.verticalResize = [{
             "property": "cursor",

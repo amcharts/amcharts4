@@ -27,7 +27,6 @@ export interface IPointedShapeProperties extends ISpriteProperties {
 	 * A width of the pinter's (stem's) thick end (base) in pixels.
 	 *
 	 * @default 15
-	 * @type {number}
 	 */
 	pointerBaseWidth?: number;
 
@@ -35,21 +34,16 @@ export interface IPointedShapeProperties extends ISpriteProperties {
 	 * A length of the pinter (stem) in pixels.
 	 *
 	 * @default 10
-	 * @type {number}
 	 */
 	pointerLength?: number;
 
 	/**
 	 * X coordinate the shape is pointing to.
-	 *
-	 * @type {number}
 	 */
 	pointerX?: number;
 
 	/**
 	 * Y coordinate the shape is pointing to.
-	 *
-	 * @type {number}
 	 */
 	pointerY?: number;
 
@@ -85,22 +79,16 @@ export class PointedShape extends Sprite {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPointedShapeProperties}
 	 */
 	public _properties!: IPointedShapeProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IPointedShapeAdapters}
 	 */
 	public _adapter!: IPointedShapeAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPointedShapeEvents}
 	 */
 	public _events!: IPointedShapeEvents;
 
@@ -135,7 +123,7 @@ export class PointedShape extends Sprite {
 	 * A width of the pinter's (stem's) thick end (base) in pixels.
 	 *
 	 * @default 15
-	 * @param {number}  value  Width (px)
+	 * @param value  Width (px)
 	 */
 	public set pointerBaseWidth(value: number) {
 		this.setPropertyValue("pointerBaseWidth", value, true);
@@ -145,21 +133,21 @@ export class PointedShape extends Sprite {
 	 * A length of the pinter (stem) in pixels.
 	 *
 	 * @default 10
-	 * @param {number}  value  Length (px)
+	 * @param value  Length (px)
 	 */
 	public set pointerLength(value: number) {
 		this.setPropertyValue("pointerLength", value);
 	}
 
 	/**
-	 * @return {number} Length (px)
+	 * @return Length (px)
 	 */
 	public get pointerLength(): number {
 		return this.getPropertyValue("pointerLength");
 	}
 
 	/**
-	 * @return {number} Width (px)
+	 * @return Width (px)
 	 */
 	public get pointerBaseWidth(): number {
 		return this.getPropertyValue("pointerBaseWidth");
@@ -168,14 +156,14 @@ export class PointedShape extends Sprite {
 	/**
 	 * X coordinate the shape is pointing to.
 	 *
-	 * @param {number}  value  X
+	 * @param value  X
 	 */
 	public set pointerX(value: number) {
 		this.setPropertyValue("pointerX", value, true);
 	}
 
 	/**
-	 * @return {number} X
+	 * @return X
 	 */
 	public get pointerX(): number {
 		return this.getPropertyValue("pointerX");
@@ -184,14 +172,14 @@ export class PointedShape extends Sprite {
 	/**
 	 * Y coordinate the shape is pointing to.
 	 *
-	 * @param {number}  value  Y
+	 * @param value  Y
 	 */
 	public set pointerY(value: number) {
 		this.setPropertyValue("pointerY", value, true);
 	}
 
 	/**
-	 * @return {number} Y
+	 * @return Y
 	 */
 	public get pointerY(): number {
 		return this.getPropertyValue("pointerY");

@@ -27,20 +27,14 @@ var DateFormatter = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * Date format.
-         *
-         * @type {string}
          */
         _this._dateFormat = "yyyy-MM-dd";
         /**
          * Input date format.
-         *
-         * @type {string}
          */
         _this._inputDateFormat = "yyyy-MM-dd";
         /**
          * Assume UTC time zone.
-         *
-         * @type {boolean}
          */
         _this._utc = false;
         /**
@@ -50,14 +44,10 @@ var DateFormatter = /** @class */ (function (_super) {
          * 1 - Monday
          *
          * Etc.
-         *
-         * @type {number}
          */
         _this._firstDayOfWeek = 1;
         /**
          * A list of month names.
-         *
-         * @type {Array<MonthNames>}
          */
         _this._months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         /**
@@ -68,14 +58,10 @@ var DateFormatter = /** @class */ (function (_super) {
         _this._monthsShort = ["Jan", "Feb", "Mar", "Apr", "May(short)", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         /**
          * A list of weekday names.
-         *
-         * @type {Array<Weekdays>}
          */
         _this._weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         /**
          * A list of short weekday names.
-         *
-         * @type {Array<ShortWeekdays>}
          */
         _this._weekdaysShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
         /**
@@ -86,14 +72,12 @@ var DateFormatter = /** @class */ (function (_super) {
          * Available options: svg, html.
          *
          * @default "svg"
-         * @type {string}
          */
         _this._outputFormat = "svg";
         /**
          * Should the first letter of the formatted date be capitalized?
          *
          * @default true
-         * @type {boolean}
          */
         _this.capitalize = true;
         _this.className = "DateFormatter";
@@ -104,9 +88,9 @@ var DateFormatter = /** @class */ (function (_super) {
      * Formats the date value according to specified format.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-date-time/} Tutorial on date/time formatting
-     * @param  {any}     source  Date value
-     * @param  {string}  format  Format
-     * @return {string}          Formatted date string
+     * @param source  Date value
+     * @param format  Format
+     * @return Formatted date string
      */
     DateFormatter.prototype.format = function (source, format) {
         // No language?
@@ -145,7 +129,7 @@ var DateFormatter = /** @class */ (function (_super) {
     /**
      * Parses format into structured infromation.
      *
-     * @param {string} format Format template
+     * @param format Format template
      */
     DateFormatter.prototype.parseFormat = function (format) {
         // Check cache
@@ -190,10 +174,10 @@ var DateFormatter = /** @class */ (function (_super) {
     /**
      * Applies format to Date.
      *
-     * @param  {Date}            date      Date object
-     * @param  {DateFormatInfo}  info      Parsed format information
-     * @param  {Language}        language  Language
-     * @return {string}                    Formatted date string
+     * @param date      Date object
+     * @param info      Parsed format information
+     * @param language  Language
+     * @return Formatted date string
      */
     DateFormatter.prototype.applyFormat = function (date, info, language) {
         // Init return value
@@ -426,6 +410,10 @@ var DateFormatter = /** @class */ (function (_super) {
                     var tz = Math.abs(offset) / 60;
                     var tzh = Math.floor(tz);
                     var tzm = tz * 60 - tzh * 60;
+                    if (this.utc) {
+                        tzh = 0;
+                        tzm = 0;
+                    }
                     if (info.parts[i] == "Z") {
                         value = "GMT";
                         value += offset > 0 ? "-" : "+";
@@ -451,9 +439,9 @@ var DateFormatter = /** @class */ (function (_super) {
      * Parses any input value into Date object.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-date-time/#Parsing_Dates} Tutorial on date/time parsing
-     * @param  {any}     source  Source value
-     * @param  {string}  format  Source format
-     * @return {Date}            Date object
+     * @param source  Source value
+     * @param format  Source format
+     * @return Date object
      */
     DateFormatter.prototype.parse = function (source, format) {
         // Format set?
@@ -937,8 +925,8 @@ var DateFormatter = /** @class */ (function (_super) {
     /**
      * Resolves month name (i.e. "December") into a month number (11).
      *
-     * @param  {MonthNames}  value  Month name
-     * @return {number}             Month number
+     * @param value  Month name
+     * @return Month number
      */
     DateFormatter.prototype.resolveMonth = function (value) {
         // Let's try English first
@@ -958,8 +946,8 @@ var DateFormatter = /** @class */ (function (_super) {
     /**
      * Resolves short month name (i.e. "Dec") into a month number.
      *
-     * @param  {ShortMonthNames}  value  Short month name
-     * @return {number}                  Month number
+     * @param value  Short month name
+     * @return Month number
      */
     DateFormatter.prototype.resolveShortMonth = function (value) {
         // Let's try English first
@@ -980,8 +968,8 @@ var DateFormatter = /** @class */ (function (_super) {
      * Checks if passed in string represents AM/PM notation in many of its
      * versions.
      *
-     * @param  {string}   value  Source string
-     * @return {boolean}         Is it AM/PM?
+     * @param value  Source string
+     * @return Is it AM/PM?
      */
     DateFormatter.prototype.isAm = function (value) {
         var list = this.getStringList(["AM", "A.M.", "A"]);
@@ -998,8 +986,8 @@ var DateFormatter = /** @class */ (function (_super) {
     /**
      * Translates list of strings.
      *
-     * @param  {Array<keyof ILocaleProperties>}  list  Source strings
-     * @return {Array<string>}                         Translated strings
+     * @param list  Source strings
+     * @return Translated strings
      */
     DateFormatter.prototype.getStringList = function (list) {
         var res = [];
@@ -1014,7 +1002,7 @@ var DateFormatter = /** @class */ (function (_super) {
     };
     Object.defineProperty(DateFormatter.prototype, "dateFormat", {
         /**
-         * @return {string} Date format
+         * @return Date format
          */
         get: function () {
             return this._dateFormat;
@@ -1026,7 +1014,7 @@ var DateFormatter = /** @class */ (function (_super) {
          * used.
          *
          * @default "yyyy-MM-dd"
-         * @param {string} value Date format
+         * @param value Date format
          */
         set: function (value) {
             this._dateFormat = value;
@@ -1037,7 +1025,7 @@ var DateFormatter = /** @class */ (function (_super) {
     });
     Object.defineProperty(DateFormatter.prototype, "inputDateFormat", {
         /**
-         * @return {string} Date format
+         * @return Date format
          */
         get: function () {
             return this._inputDateFormat;
@@ -1046,7 +1034,7 @@ var DateFormatter = /** @class */ (function (_super) {
          * Date format to use when parsing dates.
          *
          * @default "yyyy-MM-dd"
-         * @param {string} value Date format
+         * @param value Date format
          */
         set: function (value) {
             this._inputDateFormat = value;
@@ -1057,7 +1045,7 @@ var DateFormatter = /** @class */ (function (_super) {
     });
     Object.defineProperty(DateFormatter.prototype, "utc", {
         /**
-         * @return {boolean} Use UTC?
+         * @return Use UTC?
          */
         get: function () {
             return this._utc;
@@ -1068,7 +1056,7 @@ var DateFormatter = /** @class */ (function (_super) {
          * If UTC is used, all date/time values will be independent on client's
          * time zone.
          *
-         * @param {boolean} value Use UTC?
+         * @param value Use UTC?
          */
         set: function (value) {
             this._utc = value;
@@ -1079,7 +1067,7 @@ var DateFormatter = /** @class */ (function (_super) {
     });
     Object.defineProperty(DateFormatter.prototype, "firstDayOfWeek", {
         /**
-         * @return {number} First day of week
+         * @return First day of week
          */
         get: function () {
             return this._firstDayOfWeek;
@@ -1093,7 +1081,7 @@ var DateFormatter = /** @class */ (function (_super) {
          *
          * Etc.
          *
-         * @param {number} value First day of week
+         * @param value First day of week
          */
         set: function (value) {
             this._firstDayOfWeek = value;
@@ -1105,7 +1093,7 @@ var DateFormatter = /** @class */ (function (_super) {
     Object.defineProperty(DateFormatter.prototype, "outputFormat", {
         /**
          * @ignore Exclude from docs
-         * @return {string} Format
+         * @return Format
          */
         get: function () {
             return this._outputFormat;
@@ -1114,7 +1102,7 @@ var DateFormatter = /** @class */ (function (_super) {
          * Output format for the formatted date.
          *
          * @ignore Exclude from docs
-         * @param {string}  value  Format
+         * @param value  Format
          */
         set: function (value) {
             this._outputFormat = value.toLowerCase();

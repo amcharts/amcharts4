@@ -28,7 +28,7 @@ export class Group extends AMElement {
 	/**
 	 * Constructor.
 	 *
-	 * @param {string} elementName Element type (should be "g")
+	 * @param elementName Element type (should be "g")
 	 */
 	constructor(elementName: string) {
 		super(elementName);
@@ -39,7 +39,7 @@ export class Group extends AMElement {
 	 *
 	 * This will manipulate DOM. `element` will be physically moved into group.
 	 *
-	 * @param {AMElement}  element  Element
+	 * @param element  Element
 	 */
 	public add(element: AMElement): void {
 		if (element) {
@@ -52,7 +52,7 @@ export class Group extends AMElement {
 	 *
 	 * This will manipulate DOM. `element` will be physically moved into group.
 	 *
-	 * @param {AMElement}  element  Element
+	 * @param element  Element
 	 */
 	public addToBack(element: AMElement): void {
 		if (element) {
@@ -74,7 +74,7 @@ export class Group extends AMElement {
 	 * Please note that this will not dispose the element itself, it will just
 	 * remove it from the group.
 	 *
-	 * @param {AMElement}  element  Element
+	 * @param element  Element
 	 */
 	public removeElement(element: AMElement): void {
 		// todo: not sure about the speed, need to investigate, maybe it's faster to check if node is a child
@@ -94,7 +94,7 @@ export class Group extends AMElement {
 	/**
 	 * Checks if this group already has the child element added
 	 *
-	 * @param {AMElement}  element
+	 * @param element
 	 * @return {boolean}
 	 */
 	public hasChild(element:AMElement):boolean {
@@ -104,21 +104,21 @@ export class Group extends AMElement {
 			}
 		}
 		return false;
-	}	
+	}
 
 	/**
 	 * Content of the group element.
 	 *
 	 * Can be used to add a lot of proprietary SVG markup into group.
 	 *
-	 * @param {string}  value  SVG markup
+	 * @param value  SVG markup
 	 */
 	public set content(value: string) {
 		this.node.innerHTML = value;
 	}
 
 	/**
-	 * @return {string} SVG markup
+	 * @return SVG markup
 	 */
 	public get content(): string {
 		return this.node.innerHTML;

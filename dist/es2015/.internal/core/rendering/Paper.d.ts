@@ -25,7 +25,6 @@ import { Group } from "./Group";
 /**
  * Represents available SVG elements that can be added to paper.
  *
- * @type {string}
  * @todo Review if we can remove commented out methods
  */
 export declare type SVGElementNames = "a" | "altGlyph" | "altGlyphDef" | "altGlyphItem" | "animate" | "animateColor" | "animateMotion" | "animateTransform" | "circle" | "clipPath" | "color-profile" | "cursor" | "defs" | "desc" | "ellipse" | "feBlend" | "feColorMatrix" | "feComponentTransfer" | "feComposite" | "feConvolveMatrix" | "feDiffuseLighting" | "feDisplacementMap" | "feDistantLight" | "feFlood" | "feFuncA" | "feFuncB" | "feFuncG" | "feFuncR" | "feGaussianBlur" | "feImage" | "feMerge" | "feMergeNode" | "feMorphology" | "feOffset" | "fePointLight" | "feSpecularLighting" | "feSpotLight" | "feTile" | "feTurbulence" | "feConvolveMatrix" | "filter" | "font" | "font-face" | "font-face-format" | "font-face-name" | "font-face-src" | "font-face-uri" | "foreignObject" | "g" | "glyph" | "glyphRef" | "hkern" | "image" | "line" | "linearGradient" | "marker" | "mask" | "metadata" | "missing-glyph" | "mpath" | "path" | "pattern" | "polygon" | "polyline" | "radialGradient" | "rect" | "script" | "set" | "stop" | "style" | "svg" | "switch" | "symbol" | "text" | "textPath" | "title" | "tref" | "tspan" | "use" | "view" | "vkern";
@@ -44,71 +43,63 @@ export declare type SVGElementNames = "a" | "altGlyph" | "altGlyphDef" | "altGly
 export declare class Paper {
     /**
      * A reference `<svg>` element.
-     *
-     * @type {SVGSVGElement}
      */
     svg: SVGSVGElement;
     /**
      * A reference to the HTML container the `<svg>` element is placed in.
-     *
-     * @type {HTMLElement}
      */
     container: HTMLElement;
     /**
      * A reference to the `<defs>` element.
-     *
-     * @type {SVGDefsElement}
      */
     defs: SVGDefsElement;
     /**
      * An id of the element.
-     *
-     * @type {string}
      */
     id: string;
     /**
      * Creates main `<svg>` container and related elements.
      *
-     * @param {HTMLElement} container A reference to HTML element to create `<svg>` in
+     * @param container A reference to HTML element to create `<svg>` in
      */
     constructor(container: HTMLElement, id: string);
     /**
      * Creates and returns a new element. Does not attach it to Paper yet.
      *
-     * @param  {SVGElementNames}  elementName  Element name
-     * @return {AMElement}                     New element
+     * @param elementName  Element name
+     * @return New element
      */
     add(elementName: SVGElementNames): AMElement;
     /**
      * Creates and returns a new Group element. Does not attach it to Paper.
      *
-     * @param  {SVGElementNames}  groupName  Element name
-     * @return {Group}                       New Group
+     * @param groupName  Element name
+     * @return New Group
      */
     addGroup(groupName: SVGElementNames): Group;
     /**
      * Appends an element to Paper.
      *
-     * @param {AMElement} element Element to append
+     * @param element Element to append
      */
     append(element: AMElement): void;
     /**
      * Appends an element to `<defs>` block of the Paper.
      *
-     * @param {AMElement}  element  Element
+     * @param element  Element
      */
     appendDef(element: AMElement): void;
     /**
      * Creates and returns new `<foreignObject>` element. Does not append it to
      * Paper.
      *
-     * @return {AMElement} A foreignObject element
+     * @return A foreignObject element
      */
     foreignObject(): AMElement;
     /**
      * Checks if browser supports `<foreignObject>` elements.
      *
-     * @return {boolean} Supports `foreignObject`?
+     * @return Supports `foreignObject`?
      */
     supportsForeignObject(): boolean;
 }
@@ -117,6 +108,5 @@ export declare class Paper {
  * placed in visible DOM.
  *
  * @ignore Exclude from docs
- * @type {Paper}
  */
 export declare function getGhostPaper(): Paper;

@@ -43,7 +43,6 @@ var TreeMapDataItem = /** @class */ (function (_super) {
          * Required for squarify functionality.
          *
          * @ignore Exclude from docs
-         * @type {TreeMapDataItem[]}
          */
         _this.rows = [];
         _this.className = "TreeMapDataItem";
@@ -58,7 +57,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(TreeMapDataItem.prototype, "value", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             var value = this.values["value"].workingValue;
@@ -77,7 +76,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
         /**
          * Numeric value of the item.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("value", value);
@@ -97,7 +96,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(TreeMapDataItem.prototype, "x0", {
         /**
-         * @return {number} X
+         * @return X
          */
         get: function () {
             return this.values.x0.value;
@@ -107,7 +106,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description (review)
-         * @param {number}  value  X
+         * @param value  X
          */
         set: function (value) {
             this.setValue("x0", value);
@@ -117,7 +116,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(TreeMapDataItem.prototype, "x1", {
         /**
-         * @return {number} X
+         * @return X
          */
         get: function () {
             return this.values.x1.value;
@@ -127,7 +126,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description (review)
-         * @param {number}  value  X
+         * @param value  X
          */
         set: function (value) {
             this.setValue("x1", value);
@@ -137,7 +136,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(TreeMapDataItem.prototype, "y0", {
         /**
-         * @return {number} Y
+         * @return Y
          */
         get: function () {
             return this.values.y0.value;
@@ -147,7 +146,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description (review)
-         * @param {number}  value  Y
+         * @param value  Y
          */
         set: function (value) {
             this.setValue("y0", value);
@@ -157,7 +156,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(TreeMapDataItem.prototype, "y1", {
         /**
-         * @return {number} Y
+         * @return Y
          */
         get: function () {
             return this.values.y1.value;
@@ -167,7 +166,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description (review)
-         * @param {number}  value  Y
+         * @param value  Y
          */
         set: function (value) {
             this.setValue("y1", value);
@@ -177,7 +176,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(TreeMapDataItem.prototype, "name", {
         /**
-         * @return {string} Name
+         * @return Name
          */
         get: function () {
             return this.properties.name;
@@ -185,7 +184,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
         /**
          * Item's name.
          *
-         * @param {string}  name  Name
+         * @param name  Name
          */
         set: function (name) {
             this.setProperty("name", name);
@@ -195,7 +194,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(TreeMapDataItem.prototype, "children", {
         /**
-         * @return {OrderedListTemplate<TreeMapDataItem>} Item's children
+         * @return Item's children
          */
         get: function () {
             return this.properties.children;
@@ -209,7 +208,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
          *
          * Treemap can have any level of nesting.
          *
-         * @param {OrderedListTemplate<TreeMapDataItem>}  children  Item's children
+         * @param children  Item's children
          */
         set: function (children) {
             this.setProperty("children", children);
@@ -225,7 +224,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
          * level 1, and so on.
          *
          * @readonly
-         * @return {number} Level
+         * @return Level
          */
         get: function () {
             if (!this.parent) {
@@ -240,7 +239,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(TreeMapDataItem.prototype, "color", {
         /**
-         * @return {Color} Color
+         * @return Color
          */
         get: function () {
             var color = this.properties.color;
@@ -262,7 +261,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
          * If not set, will use parent's color, or, if that is not set either,
          * automatically assigned color from chart's color set. (`chart.colors`)
          *
-         * @param {Color}  value  Color
+         * @param value  Color
          */
         set: function (value) {
             this.setProperty("color", value);
@@ -335,7 +334,6 @@ var TreeMap = /** @class */ (function (_super) {
          *
          * @see {@link https://www.amcharts.com/docs/v4/chart-types/treemap/#Area_division_methods} For more info and examples.
          * @default squarify
-         * @type {function}
          */
         _this.layoutAlgorithm = _this.squarify;
         /**
@@ -345,7 +343,6 @@ var TreeMap = /** @class */ (function (_super) {
          * drill-down to sub-items when click on their parent item.
          *
          * @default true
-         * @type {boolean}
          */
         _this.zoomable = true;
         _this.className = "TreeMap";
@@ -407,8 +404,6 @@ var TreeMap = /** @class */ (function (_super) {
         /**
          * A navigation bar used to show "breadcrumb" control, indicating current
          * drill-down path.
-         *
-         * @type {NavigationBar}
          */
         set: function (navigationBar) {
             var _this = this;
@@ -463,7 +458,7 @@ var TreeMap = /** @class */ (function (_super) {
      * `layoutAlgorithm`.
      *
      * @ignore Exclude from docs
-     * @param {TreeMapDataItem}  parent  Parent data item
+     * @param parent  Parent data item
      */
     TreeMap.prototype.layoutItems = function (parent, sorting) {
         if (parent) {
@@ -495,7 +490,7 @@ var TreeMap = /** @class */ (function (_super) {
      * Creates and returns a new treemap series.
      *
      * @todo Description
-     * @param {TreeMapDataItem}  dataItem  Data item to create series out of
+     * @param dataItem  Data item to create series out of
      */
     TreeMap.prototype.createTreeSeries = function (dataItem) {
         var _this = this;
@@ -526,7 +521,7 @@ var TreeMap = /** @class */ (function (_super) {
      * [createTreeSeriesReal description]
      *
      * @todo Description
-     * @param {TreeMapDataItem} dataItem [description]
+     * @param dataItem [description]
      */
     TreeMap.prototype.createTreeSeriesReal = function (dataItem) {
         if (dataItem.children) {
@@ -553,7 +548,7 @@ var TreeMap = /** @class */ (function (_super) {
      * Initializes the treemap series.
      *
      * @todo Description
-     * @param {TreeMapDataItem}  dataItem  Chart data item
+     * @param dataItem  Chart data item
      */
     TreeMap.prototype.initSeries = function (dataItem) {
         var _this = this;
@@ -612,7 +607,7 @@ var TreeMap = /** @class */ (function (_super) {
      * Toggles bullets so that labels that belong to current drill level are
      * shown.
      *
-     * @param {number}  duration  Animation duration (ms)
+     * @param duration  Animation duration (ms)
      */
     TreeMap.prototype.toggleBullets = function (duration) {
         var _this = this;
@@ -636,7 +631,7 @@ var TreeMap = /** @class */ (function (_super) {
     /**
      * Zooms to particular item in series.
      *
-     * @param {TreeMapSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     TreeMap.prototype.zoomToSeriesDataItem = function (dataItem) {
         this.zoomToChartDataItem(dataItem.treeMapDataItem);
@@ -645,7 +640,7 @@ var TreeMap = /** @class */ (function (_super) {
      * Zooms to particular item.
      *
      * @ignore Exclude from docs
-     * @param {TreeMapDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     TreeMap.prototype.zoomToChartDataItem = function (dataItem) {
         var _this = this;
@@ -684,14 +679,14 @@ var TreeMap = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {XYSeriesDataItem} Data Item
+     * @return Data Item
      */
     TreeMap.prototype.createDataItem = function () {
         return new TreeMapDataItem();
     };
     Object.defineProperty(TreeMap.prototype, "maxLevels", {
         /**
-         * @return {number} Maximum drill-down level
+         * @return Maximum drill-down level
          */
         get: function () {
             return this.getPropertyValue("maxLevels");
@@ -704,7 +699,7 @@ var TreeMap = /** @class */ (function (_super) {
          *
          * Set to `1` to disable drill down functionality.
          *
-         * @param {number}  value  Maximum drill-down level
+         * @param value  Maximum drill-down level
          */
         set: function (value) {
             this.setPropertyValue("maxLevels", value, true);
@@ -714,7 +709,7 @@ var TreeMap = /** @class */ (function (_super) {
     });
     Object.defineProperty(TreeMap.prototype, "currentLevel", {
         /**
-         * @return {number} Current level
+         * @return Current level
          */
         get: function () {
             return this.getPropertyValue("currentLevel");
@@ -722,7 +717,7 @@ var TreeMap = /** @class */ (function (_super) {
         /**
          * Current drill-down level the chart is at.
          *
-         * @param {number}  value  Current level
+         * @param value  Current level
          */
         set: function (value) {
             this.setPropertyValue("currentLevel", value, true);
@@ -740,7 +735,7 @@ var TreeMap = /** @class */ (function (_super) {
          * Available options: "none", "ascending", and "descending" (default).
          *
          * @default "descending"
-         * @param {"none" | "ascending" | "descending"} value [description]
+         * @param value [description]
          */
         set: function (value) {
             this.setPropertyValue("sorting", value, true);
@@ -751,14 +746,14 @@ var TreeMap = /** @class */ (function (_super) {
     /**
      * Creates and returns a new series of the suitable type.
      *
-     * @return {this} new series
+     * @return new series
      */
     TreeMap.prototype.createSeries = function () {
         return new TreeMapSeries();
     };
     Object.defineProperty(TreeMap.prototype, "homeText", {
         /**
-         * @return {string} Home text
+         * @return Home text
          */
         get: function () {
             return this._homeText;
@@ -767,7 +762,7 @@ var TreeMap = /** @class */ (function (_super) {
          * A text displayed on the "home" button which is used to go back to level 0
          * after drill into sub-items.
          *
-         * @param {string}  value  Home text
+         * @param value  Home text
          */
         set: function (value) {
             this._homeText = value;
@@ -782,7 +777,7 @@ var TreeMap = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     TreeMap.prototype.processConfig = function (config) {
         if (config) {
@@ -884,7 +879,7 @@ var TreeMap = /** @class */ (function (_super) {
      * Treemap layout algorithm: binaryTree.
      *
      * @ignore Exclude from docs
-     * @param {TreeMapDataItem}  parent  Data item
+     * @param parent  Data item
      */
     TreeMap.prototype.binaryTree = function (parent) {
         var nodes = parent.children, i, n = nodes.length, sum, sums = new Array(n + 1);
@@ -926,7 +921,7 @@ var TreeMap = /** @class */ (function (_super) {
      * Treemap layout algorithm: slice.
      *
      * @ignore Exclude from docs
-     * @param {TreeMapDataItem}  parent  Data item
+     * @param parent  Data item
      */
     TreeMap.prototype.slice = function (parent) {
         var x0 = parent.x0;
@@ -943,7 +938,7 @@ var TreeMap = /** @class */ (function (_super) {
      * Treemap layout algorithm: dice.
      *
      * @ignore Exclude from docs
-     * @param {TreeMapDataItem}  parent  Data item
+     * @param parent  Data item
      */
     TreeMap.prototype.dice = function (parent) {
         var x0 = parent.x0;
@@ -960,7 +955,7 @@ var TreeMap = /** @class */ (function (_super) {
      * Treemap layout algorithm: slideDice.
      *
      * @ignore Exclude from docs
-     * @param {TreeMapDataItem}  parent  Data item
+     * @param parent  Data item
      */
     TreeMap.prototype.sliceDice = function (parent) {
         parent.level & 1 ? this.slice(parent) : this.dice(parent);
@@ -969,7 +964,7 @@ var TreeMap = /** @class */ (function (_super) {
      * Treemap layout algorithm: squarify.
      *
      * @ignore Exclude from docs
-     * @param {TreeMapDataItem}  parent  Data item
+     * @param parent  Data item
      */
     TreeMap.prototype.squarify = function (parent) {
         var ratio = (1 + Math.sqrt(5)) / 2;

@@ -37,8 +37,6 @@ export class ChartDataItem extends DataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {Chart}
 	 */
 	public _component!: Chart;
 
@@ -101,57 +99,42 @@ export class Chart extends Component {
 
 	/**
 	 * Available data fields.
-	 *
-	 * @type {IChartDataFields}
 	 */
 	public _dataFields: IChartDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IChartProperties}
 	 */
 	public _properties!: IChartProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IChartAdapters}
 	 */
 	public _adapter!: IChartAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IChartEvents}
 	 */
 	public _events!: IChartEvents;
 
 	/**
 	 * A List of chart titles.
-	 *
-	 * @type {List<Label>}
 	 */
 	public titles: ListTemplate<Label>;
 
 	/**
 	 * Container that holds the chart itself.
-	 *
-	 * @type {Container}
 	 */
 	public chartContainer: Container;
 
 	/**
 	 * A reference to a container that holds both the chart and the legend.
-	 *
-	 * @type {Container}
 	 */
 	public chartAndLegendContainer: Container;
 
 	/**
 	 * A reference to chart's [[Legend]].
 	 * @ignore
-	 * @type {Legend}
 	 */
 	protected _legend = new MutableValueDisposer<Legend>();
 
@@ -298,8 +281,8 @@ export class Chart extends Component {
 	/**
 	 * Adds a new title to the chart when it is inserted into chart's titles
 	 * list.
-	 * @param  {IListEvents<Label>["inserted"]}  event  An event object which is triggered when inserting into titles list
-	 * @return {Label}                               Label object
+	 * @param event  An event object which is triggered when inserting into titles list
+	 * @return Label object
 	 */
 	protected processTitle(event: IListEvents<Label>["inserted"]): Label {
 		let title: Label = event.newValue;
@@ -339,14 +322,14 @@ export class Chart extends Component {
 	 * Holds the instance of chart's [[Leged]].
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/legend/} for more information about legends
-	 * @param {Legend} Legend
+	 * @param Legend
 	 */
 	public set legend(legend: Legend) {
 		this.setLegend(legend);
 	}
 
 	/**
-	 * @return {Legend} Legend
+	 * @return Legend
 	 */
 	public get legend(): Legend {
 		return this._legend.get();
@@ -355,7 +338,7 @@ export class Chart extends Component {
 	/**
 	 * Prepares the legend instance for use in this chart.
 	 *
-	 * @param {Legend}  legend  Legend
+	 * @param legend  Legend
 	 */
 	protected setLegend(legend: Legend) {
 		if (this._legend.get() !== legend) {
@@ -381,7 +364,7 @@ export class Chart extends Component {
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 
@@ -401,7 +384,7 @@ export class Chart extends Component {
 	/**
 	 * Copies all properties from another instance of [[Series]].
 	 *
-	 * @param {Series}  source  Source series
+	 * @param source  Source series
 	 */
 	public copyFrom(source: this) {
 		this.titles.copyFrom(source.titles);

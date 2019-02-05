@@ -19,50 +19,50 @@ import { IRectangle } from "../defs/IRectangle";
  * Returns an SVG path from a number of points.
  *
  * @ignore Exclude from docs
- * @param  {IPoint[]}  points  An array of line elbow points
- * @return {string}            SVG path
+ * @param points  An array of line elbow points
+ * @return SVG path
  */
 export declare function polyline(points: IPoint[]): string;
 /**
  * Returns a starting point of an SVG path.
  *
  * @ignore Exclude from docs
- * @param  {IPoint}  point  Starting point
- * @return {string}         SVG path
+ * @param point  Starting point
+ * @return SVG path
  */
 export declare function moveTo(point: IPoint): string;
 /**
  * Returns a line part of SVG path.
  *
  * @ignore Exclude from docs
- * @param  {IPoint}  point  SVG path
- * @return {string}         SVG path
+ * @param point  SVG path
+ * @return SVG path
  */
 export declare function lineTo(point: IPoint): string;
 /**
  * Returns a quadratic curve part of an SVG path.
  *
  * @ignore Exclude from docs
- * @param  {IPoint}  point         End point of the curve
- * @param  {IPoint}  controlPoint  Control point
- * @return {string}                SVG path
+ * @param point         End point of the curve
+ * @param controlPoint  Control point
+ * @return SVG path
  */
 export declare function quadraticCurveTo(point: IPoint, controlPoint: IPoint): string;
 /**
  * Returns a cubic curve part of an SVG path.
  *
  * @ignore Exclude from docs
- * @param  {IPoint}  point          End point of the curve
- * @param  {IPoint}  controlPointA  Control point A
- * @param  {IPoint}  controlPointB  Control point B
- * @return {string}                 SVG path
+ * @param point          End point of the curve
+ * @param controlPointA  Control point A
+ * @param controlPointB  Control point B
+ * @return SVG path
  */
 export declare function cubicCurveTo(point: IPoint, controlPointA: IPoint, controlPointB: IPoint): string;
 /**
  * Returns a terminator for an SVG path.
  *
  * @ignore Exclude from docs
- * @return {string} SVG path
+ * @return SVG path
  */
 export declare function closePath(): string;
 /**
@@ -70,11 +70,11 @@ export declare function closePath(): string;
  *
  * @ignore Exclude from docs
  * @todo Better parameter descriptions
- * @param  {number}  startAngle  Starting angle
- * @param  {number}  arc         Arc
- * @param  {number}  radius      Radius
- * @param  {number}  radiusY     Vertical radius
- * @return {string}              SVG path
+ * @param startAngle  Starting angle
+ * @param arc         Arc
+ * @param radius      Radius
+ * @param radiusY     Vertical radius
+ * @return SVG path
  */
 export declare function arcTo(startAngle: number, arc: number, radius: number, radiusY?: number): string;
 /**
@@ -82,14 +82,14 @@ export declare function arcTo(startAngle: number, arc: number, radius: number, r
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {number}  startAngle         [description]
- * @param  {number}  arc                [description]
- * @param  {number}  radius             [description]
- * @param  {number}  innerRadius        [description]
- * @param  {number}  radiusY            [description]
- * @param  {number}  cornerRadius       [description]
- * @param  {number}  innerCornerRadius  [description]
- * @return {string}                     SVG path
+ * @param startAngle         [description]
+ * @param arc                [description]
+ * @param radius             [description]
+ * @param innerRadius        [description]
+ * @param radiusY            [description]
+ * @param cornerRadius       [description]
+ * @param innerCornerRadius  [description]
+ * @return SVG path
  */
 export declare function arc(startAngle: number, arc: number, radius: number, innerRadius?: number, radiusY?: number, cornerRadius?: number, innerCornerRadius?: number): string;
 /**
@@ -97,33 +97,33 @@ export declare function arc(startAngle: number, arc: number, radius: number, inn
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {IPoint}  point         Reference point
- * @param  {number}  radius        Radius
- * @param  {number}  radiusY       Vertical radius (for skewed arcs)
- * @param  {boolean} sweepFlag     [description]
- * @param  {boolean} largeArcFlag  [description]
- * @param  {number}  xAxisRotation [description]
- * @return {string}                Arc path
+ * @param point         Reference point
+ * @param radius        Radius
+ * @param radiusY       Vertical radius (for skewed arcs)
+ * @param sweepFlag     [description]
+ * @param largeArcFlag  [description]
+ * @param xAxisRotation [description]
+ * @return Arc path
  */
 export declare function arcToPoint(point: IPoint, radius: number, radiusY?: number, sweepFlag?: boolean, largeArcFlag?: boolean, xAxisRotation?: number): string;
 /**
  * Creates a new rectangle.
  *
  * @ignore Exclude from docs
- * @param  {number}  width   Width (px)
- * @param  {number}  height  Height (px)
- * @param  {number}  x       X position
- * @param  {number}  y       Y position
- * @return {string}          Rectangle
+ * @param width   Width (px)
+ * @param height  Height (px)
+ * @param x       X position
+ * @param y       Y position
+ * @return Rectangle
  */
 export declare function rectangle(width: number, height: number, x?: number, y?: number): string;
 /**
  * Converts a rectangle to an SVG path.
  *
  * @ignore Exclude from docs
- * @param  {IRectangle}  rect  Rectangle
- * @param  {boolean}     ccw   Counter-clockwise?
- * @return {string}            SVG path
+ * @param rect  Rectangle
+ * @param ccw   Counter-clockwise?
+ * @return SVG path
  */
 export declare function rectToPath(rect: IRectangle, ccw?: boolean): string;
 /**

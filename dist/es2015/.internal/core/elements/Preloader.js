@@ -98,7 +98,7 @@ var Preloader = /** @class */ (function (_super) {
     }
     Object.defineProperty(Preloader.prototype, "progress", {
         /**
-         * @return {number} Progress (0-1)
+         * @return Progress (0-1)
          */
         get: function () {
             return this.getPropertyValue("progress");
@@ -113,7 +113,7 @@ var Preloader = /** @class */ (function (_super) {
          * Setting this to a value less than 1, will automatically reveal the
          * preloader, while setting it to 1 (100%) will hide it.
          *
-         * @param {number} value Progress (0-1)
+         * @param value Progress (0-1)
          */
         set: function (value) {
             var _this = this;
@@ -170,7 +170,7 @@ var Preloader = /** @class */ (function (_super) {
     });
     Object.defineProperty(Preloader.prototype, "delay", {
         /**
-         * @return {number} Delay (ms)
+         * @return Delay (ms)
          */
         get: function () {
             return this.getPropertyValue("delay");
@@ -184,7 +184,7 @@ var Preloader = /** @class */ (function (_super) {
          * This is used to avoid brief flashing of the preload for very quick loads.
          *
          * @default 1000
-         * @param {number}  value  Delay (ms)
+         * @param value  Delay (ms)
          */
         set: function (value) {
             this.setPropertyValue("delay", value);

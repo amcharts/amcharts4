@@ -44,26 +44,18 @@ var XYCursor = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * Vertical cursor line element.
-         *
-         * @type {MutableValueDisposer<Sprite>}
          */
         _this._lineX = new MutableValueDisposer();
         /**
          * Horizontal cursor line element.
-         *
-         * @type {MutableValueDisposer<Sprite>}
          */
         _this._lineY = new MutableValueDisposer();
         /**
          * Horizontal [[Axis]].
-         *
-         * @type {MutableValueDisposer<Axis>}
          */
         _this._xAxis = new MutableValueDisposer();
         /**
          * Vertical [[Axis]].
-         *
-         * @type {MutableValueDisposer<Axis>}
          */
         _this._yAxis = new MutableValueDisposer();
         _this.className = "XYCursor";
@@ -191,7 +183,7 @@ var XYCursor = /** @class */ (function (_super) {
     /**
      * Places the cursor at specific point.
      *
-     * @param {IPoint}   point Point to place cursor at
+     * @param point Point to place cursor at
      */
     XYCursor.prototype.triggerMoveReal = function (point) {
         _super.prototype.triggerMoveReal.call(this, point);
@@ -326,7 +318,7 @@ var XYCursor = /** @class */ (function (_super) {
     };
     Object.defineProperty(XYCursor.prototype, "behavior", {
         /**
-         * @type {"zoomX" | "zoomY" | "zoomXY" | "selectX" | "selectY" | "selectXY" | "panX" | "panY" | "panXY" | "none"} Bheavior
+         * Behavior
          */
         get: function () {
             return this.getPropertyValue("behavior");
@@ -348,7 +340,7 @@ var XYCursor = /** @class */ (function (_super) {
          * E.g. "zoomXY" will mean that pressing a mouse (or touching) over plot area
          * and dragging it will start zooming the chart.
          *
-         * @param {"zoomX" | "zoomY" | "zoomXY" | "selectX" | "selectY" | "selectXY" | "panX" | "panY" | "panXY" | "none"} value Bheavior
+         * @param value Bheavior
          */
         set: function (value) {
             this.setPropertyValue("behavior", value, true);
@@ -371,7 +363,7 @@ var XYCursor = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYCursor.prototype, "fullWidthLineX", {
         /**
-         * @return {boolean} Full width?
+         * @return Full width?
          */
         get: function () {
             return this.getPropertyValue("fullWidthLineX");
@@ -383,7 +375,7 @@ var XYCursor = /** @class */ (function (_super) {
          * NOTE: this setting will work properly if `xAxis` is set and only in case
          * `xAxis` is [[CategoryAxis]] or [[DateAxis]].
          *
-         * @param {boolean} value Full width?
+         * @param value Full width?
          */
         set: function (value) {
             this.setPropertyValue("fullWidthLineX", value);
@@ -393,7 +385,7 @@ var XYCursor = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYCursor.prototype, "fullWidthLineY", {
         /**
-         * @return {boolean} Full width?
+         * @return Full width?
          */
         get: function () {
             return this.getPropertyValue("fullWidthLineY");
@@ -405,7 +397,7 @@ var XYCursor = /** @class */ (function (_super) {
          * NOTE: this setting will work properly if `yAxis` is set and only in case
          * `yAxis` is [[CategoryAxis]] or [[DateAxis]].
          *
-         * @param {boolean} value Full width?
+         * @param value Full width?
          */
         set: function (value) {
             this.setPropertyValue("fullWidthLineY", value);
@@ -415,7 +407,7 @@ var XYCursor = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYCursor.prototype, "maxPanOut", {
         /**
-         * @return {number} Full width?
+         * @return Full width?
          */
         get: function () {
             return this.getPropertyValue("maxPanOut");
@@ -424,7 +416,7 @@ var XYCursor = /** @class */ (function (_super) {
          * If cursor behavior is panX or panY, we allow to pan plot out of it's max bounds for a better user experience.
          * This setting specifies relative value by how much we can pan out the plot
          *
-         * @param {number} value
+         * @param value
          */
         set: function (value) {
             this.setPropertyValue("maxPanOut", value);
@@ -434,7 +426,7 @@ var XYCursor = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYCursor.prototype, "xAxis", {
         /**
-         * @return {Axis} X axis
+         * @return X axis
          */
         get: function () {
             return this._xAxis.get();
@@ -450,7 +442,7 @@ var XYCursor = /** @class */ (function (_super) {
          * [[ValueAxis]].
          *
          * @todo Description (review)
-         * @param {Axis} axis X axis
+         * @param axis X axis
          */
         set: function (axis) {
             if (this._xAxis.get() != axis) {
@@ -465,7 +457,7 @@ var XYCursor = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYCursor.prototype, "yAxis", {
         /**
-         * @return {Axis} Y Axis
+         * @return Y Axis
          */
         get: function () {
             return this._yAxis.get();
@@ -481,7 +473,7 @@ var XYCursor = /** @class */ (function (_super) {
          * [[ValueAxis]].
          *
          * @todo Description (review)
-         * @param {Axis} axis Y axis
+         * @param axis Y axis
          */
         set: function (axis) {
             if (this._yAxis.get() != axis) {
@@ -498,7 +490,7 @@ var XYCursor = /** @class */ (function (_super) {
      * Updates Cursor's position when axis tooltip changes position.
      *
      * @ignore Exclude from docs
-     * @param {ISpriteEvents["positionchanged"]} event Original Axis event
+     * @param event Original Axis event
      */
     XYCursor.prototype.handleXTooltipPosition = function (event) {
         var tooltip = this.xAxis.tooltip;
@@ -524,7 +516,7 @@ var XYCursor = /** @class */ (function (_super) {
      * Updates Cursor's position when Y axis changes position or scale.
      *
      * @ignore Exclude from docs
-     * @param {ISpriteEvents["positionchanged"]} event Original Axis event
+     * @param event Original Axis event
      */
     XYCursor.prototype.handleYTooltipPosition = function (event) {
         var tooltip = this.yAxis.tooltip;
@@ -548,7 +540,7 @@ var XYCursor = /** @class */ (function (_super) {
     };
     Object.defineProperty(XYCursor.prototype, "lineX", {
         /**
-         * @return {Sprite} Line element
+         * @return Line element
          */
         get: function () {
             return this._lineX.get();
@@ -556,7 +548,7 @@ var XYCursor = /** @class */ (function (_super) {
         /**
          * A Line element to use for X axis.
          *
-         * @param {Sprite} lineX Line
+         * @param lineX Line
          */
         set: function (lineX) {
             if (lineX) {
@@ -574,7 +566,7 @@ var XYCursor = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYCursor.prototype, "lineY", {
         /**
-         * @return {Sprite} Line element
+         * @return Line element
          */
         get: function () {
             return this._lineY.get();
@@ -582,7 +574,7 @@ var XYCursor = /** @class */ (function (_super) {
         /**
          * A Line element to use Y axis.
          *
-         * @param {Sprite} lineY Line
+         * @param lineY Line
          */
         set: function (lineY) {
             if (lineY) {
@@ -600,7 +592,7 @@ var XYCursor = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYCursor.prototype, "selection", {
         /**
-         * @return {Sprite} Selection rectangle
+         * @return Selection rectangle
          */
         get: function () {
             return this._selection;
@@ -608,7 +600,7 @@ var XYCursor = /** @class */ (function (_super) {
         /**
          * A selection element ([[Sprite]]).
          *
-         * @param {Sprite} selection Selection rectangle
+         * @param selection Selection rectangle
          */
         set: function (selection) {
             this._selection = selection;
@@ -627,7 +619,7 @@ var XYCursor = /** @class */ (function (_super) {
      * with real references.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     XYCursor.prototype.processConfig = function (config) {
         if (config) {

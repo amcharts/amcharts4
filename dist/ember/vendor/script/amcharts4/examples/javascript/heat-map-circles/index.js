@@ -883,3 +883,11 @@ chart.data = [
 		"value": 2625
 	}
 ];
+
+
+// this changes data each 5 seconds
+setInterval(function(){
+    series.dataItems.each(function(dataItem){
+        dataItem.value += Math.round((Math.random() * 5000));        
+    })
+}, 3000)

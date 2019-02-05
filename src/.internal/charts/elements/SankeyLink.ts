@@ -42,7 +42,6 @@ export interface ISankeyLinkProperties extends IFlowDiagramLinkProperties {
 	 * [tension description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	tension?: number;
 
@@ -50,7 +49,6 @@ export interface ISankeyLinkProperties extends IFlowDiagramLinkProperties {
 	 * [startX description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	startX?: number;
 
@@ -58,7 +56,6 @@ export interface ISankeyLinkProperties extends IFlowDiagramLinkProperties {
 	 * [startY description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	startY?: number;
 
@@ -66,7 +63,6 @@ export interface ISankeyLinkProperties extends IFlowDiagramLinkProperties {
 	 * [endX description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	endX?: number;
 
@@ -74,7 +70,6 @@ export interface ISankeyLinkProperties extends IFlowDiagramLinkProperties {
 	 * [endY description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	endY?: number;
 
@@ -82,7 +77,6 @@ export interface ISankeyLinkProperties extends IFlowDiagramLinkProperties {
 	 * [linkWidth description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	linkWidth?: number;
 
@@ -90,7 +84,6 @@ export interface ISankeyLinkProperties extends IFlowDiagramLinkProperties {
 	 * [controlPointDistance description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	controlPointDistance?: number;
 }
@@ -127,35 +120,26 @@ export class SankeyLink extends FlowDiagramLink {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ISankeyLinkProperties}
 	 */
 	public _properties!: ISankeyLinkProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ISankeyLinkAdapters}
 	 */
 	public _adapter!: ISankeyLinkAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ISankeyLinkEvents}
 	 */
 	public _events!: ISankeyLinkEvents;
 
 	/**
 	 * Defines a type of data item used by this class.
-	 *
-	 * @type {SankeyDiagramDataItem}
 	 */
 	public _dataItem: SankeyDiagramDataItem;
 
 	/**
 	 * Spline which goes through the middle of a link, used to calculate bullet and tooltip positions, invisible by default
-	 * @type Polyspline
      */
 	public middleLine: Polyspline;
 
@@ -330,14 +314,14 @@ export class SankeyLink extends FlowDiagramLink {
 	 * [startX description]
 	 *
 	 * @todo Description
-	 * @param {number}  value  Start X
+	 * @param value  Start X
 	 */
 	public set startX(value: number) {
 		this.setPropertyValue("startX", value, true);
 	}
 
 	/**
-	 * @return {number} Start X
+	 * @return Start X
 	 */
 	public get startX(): number {
 		return this.getPropertyValue("startX");
@@ -347,14 +331,14 @@ export class SankeyLink extends FlowDiagramLink {
 	 * [endX description]
 	 *
 	 * @todo Description
-	 * @param {number} value  End X
+	 * @param value  End X
 	 */
 	public set endX(value: number) {
 		this.setPropertyValue("endX", value, true);
 	}
 
 	/**
-	 * @return {number} End X
+	 * @return End X
 	 */
 	public get endX(): number {
 		return this.getPropertyValue("endX");
@@ -364,14 +348,14 @@ export class SankeyLink extends FlowDiagramLink {
 	 * [startY description]
 	 *
 	 * @todo Description
-	 * @param {number}  value  Start Y
+	 * @param value  Start Y
 	 */
 	public set startY(value: number) {
 		this.setPropertyValue("startY", value, true);
 	}
 
 	/**
-	 * @return {number} Start Y
+	 * @return Start Y
 	 */
 	public get startY(): number {
 		return this.getPropertyValue("startY");
@@ -381,14 +365,14 @@ export class SankeyLink extends FlowDiagramLink {
 	 * [endY description]
 	 *
 	 * @todo Description
-	 * @param {number} value End Y
+	 * @param value End Y
 	 */
 	public set endY(value: number) {
 		this.setPropertyValue("endY", value, true);
 	}
 
 	/**
-	 * @return {number} End Y
+	 * @return End Y
 	 */
 	public get endY(): number {
 		return this.getPropertyValue("endY");
@@ -398,14 +382,14 @@ export class SankeyLink extends FlowDiagramLink {
 	 * [linkWidth description]
 	 *
 	 * @todo Description
-	 * @param {number} value [description]
+	 * @param value [description]
 	 */
 	public set linkWidth(value: number) {
 		this.setPropertyValue("linkWidth", value, true);
 	}
 
 	/**
-	 * @return {number} [description]
+	 * @return [description]
 	 */
 	public get linkWidth(): number {
 		return this.getPropertyValue("linkWidth");
@@ -414,14 +398,14 @@ export class SankeyLink extends FlowDiagramLink {
 	/**
 	 * Distance of control point of a link, defines relative distance from a node at which linke should bend
 	 * @default 0.2
-	 * @param {number}  value
+	 * @param value
 	 */
 	public set controlPointDistance(value: number) {
 		this.setPropertyValue("controlPointDistance", value, true);
 	}
 
 	/**
-	 * @return {number} relative control point distance
+	 * @return relative control point distance
 	 */
 	public get controlPointDistance(): number {
 		return this.getPropertyValue("controlPointDistance");
@@ -430,14 +414,14 @@ export class SankeyLink extends FlowDiagramLink {
 	/**
 	 * Tension of a spline, 1 would make the link to have sharp edges
 	 * @default 0.8
-	 * @param {number} value
+	 * @param value
 	 */
 	public set tension(value: number) {
 		this.setPropertyValue("tension", value, true);
 	}
 
 	/**
-	 * @return {number} tension value
+	 * @return tension value
 	 */
 	public get tension(): number {
 		return this.getPropertyValue("tension");

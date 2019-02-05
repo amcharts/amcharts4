@@ -105,7 +105,7 @@ var Cone = /** @class */ (function (_super) {
     };
     Object.defineProperty(Cone.prototype, "angle", {
         /**
-         * @return {number} Angle
+         * @return Angle
          */
         get: function () {
             return this.getPropertyValue("angle");
@@ -114,7 +114,7 @@ var Cone = /** @class */ (function (_super) {
          * Angle of the point of view to the 3D element. (0-360)
          *
          * @default 30
-         * @param {number}  value  Angle
+         * @param value  Angle
          */
         set: function (value) {
             this.setPropertyValue("angle", value, true);
@@ -124,7 +124,7 @@ var Cone = /** @class */ (function (_super) {
     });
     Object.defineProperty(Cone.prototype, "radius", {
         /**
-         * @return {Percent} Bottom radius
+         * @return Bottom radius
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -135,7 +135,7 @@ var Cone = /** @class */ (function (_super) {
          * It is relevant to the inner width or height of the element.
          *
          * @default Percent(100)
-         * @param {Percent}  value  Bottom radius
+         * @param value  Bottom radius
          */
         set: function (value) {
             this.setPropertyValue("radius", value, true);
@@ -145,7 +145,7 @@ var Cone = /** @class */ (function (_super) {
     });
     Object.defineProperty(Cone.prototype, "topRadius", {
         /**
-         * @return {Percent} Top radius
+         * @return Top radius
          */
         get: function () {
             return this.getPropertyValue("topRadius");
@@ -156,7 +156,7 @@ var Cone = /** @class */ (function (_super) {
          * It is relevant to the inner width or height of the element.
          *
          * @default Percent(0)
-         * @param {Percent}  value  Top radius
+         * @param value  Top radius
          */
         set: function (value) {
             this.setPropertyValue("topRadius", value, true);
@@ -166,7 +166,7 @@ var Cone = /** @class */ (function (_super) {
     });
     Object.defineProperty(Cone.prototype, "orientation", {
         /**
-         * @type {Orientation} Orientation
+         * Orientation
          */
         get: function () {
             return this.getPropertyValue("orientation");
@@ -175,7 +175,7 @@ var Cone = /** @class */ (function (_super) {
          * Orientation of the cone
          *
          * @default "vertical"
-         * @param {Orientation}  value  Orientation
+         * @param value  Orientation
          */
         set: function (value) {
             this.setPropertyValue("orientation", value, true);

@@ -7,8 +7,8 @@ import * as $math from "../../core/utils/Math";
  * Normalizes a geo-point.
  *
  * @ignore Exclude from docs
- * @param  {IGeoPoint}  geoPoint  Source geo-point
- * @return {IGeoPoint}            Normalized geo-point
+ * @param geoPoint  Source geo-point
+ * @return Normalized geo-point
  */
 export function normalizePoint(geoPoint) {
     var longitude = wrapAngleTo180(geoPoint.longitude);
@@ -25,8 +25,8 @@ export function normalizePoint(geoPoint) {
  * Normalizes all points of a geo-line.
  *
  * @ignore Exclude from docs
- * @param  {IGeoPoint[][]}  multiline  Source geo-line
- * @return {IGeoPoint[]}               Normalized geo-line
+ * @param multiline  Source geo-line
+ * @return Normalized geo-line
  */
 export function normalizeMultiline(multiline) {
     try {
@@ -62,8 +62,8 @@ export function normalizeMultiline(multiline) {
  *
  * @todo Description
  * @ignore Exclude from docs
- * @param  {number}  angle  Angle
- * @return {number}         Angle
+ * @param angle  Angle
+ * @return Angle
  */
 export function wrapAngleTo180(angle) {
     angle = angle % 360;
@@ -79,8 +79,8 @@ export function wrapAngleTo180(angle) {
  * Converts a geo point to a regular point object.
  *
  * @ignore Exclude from docs
- * @param  {IGeoPoint}  geoPoint  Source geo point
- * @return {IPoint}               Point
+ * @param geoPoint  Source geo point
+ * @return Point
  */
 export function geoToPoint(geoPoint) {
     return { x: geoPoint.longitude, y: geoPoint.latitude };

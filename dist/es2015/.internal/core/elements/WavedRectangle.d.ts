@@ -23,21 +23,18 @@ export interface IWavedRectangleProperties extends IRectangleProperties {
      * Wave length in pixels.
      *
      * @default 16
-     * @type {number}
      */
     waveHeight?: number;
     /**
      * Wave height in pixels.
      *
      * @default 4
-     * @type {number}
      */
     waveLength?: number;
     /**
      * Wave tension.
      *
      * @default 0.8
-     * @type {number}
      */
     tension?: number;
 }
@@ -68,44 +65,30 @@ export interface IWavedRectangleAdapters extends IRectangleAdapters, IWavedRecta
 export declare class WavedRectangle extends Rectangle implements IWavedShape {
     /**
      * Defines available properties.
-     *
-     * @type {IWavedRectangleProperties}
      */
     _properties: IWavedRectangleProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IWavedRectangleAdapters}
      */
     _adapter: IWavedRectangleAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IWavedRectangleEvents}
      */
     _events: IWavedRectangleEvents;
     /**
      * Top waved?
-     *
-     * @type {boolean}
      */
     protected _twaved: boolean;
     /**
      * Right side waved?
-     *
-     * @type {boolean}
      */
     protected _rwaved: boolean;
     /**
      * Bottom waved?
-     *
-     * @type {boolean}
      */
     protected _bwaved: boolean;
     /**
      * Left side waved?
-     *
-     * @type {boolean}
      */
     protected _lwaved: boolean;
     /**
@@ -119,43 +102,43 @@ export declare class WavedRectangle extends Rectangle implements IWavedShape {
      */
     draw(): void;
     /**
-     * @return {number} Wave length (px)
+     * @return Wave length (px)
      */
     /**
      * Wave length in pixels.
      *
      * @default 16
-     * @param {number}  value  Wave length (px)
+     * @param value  Wave length (px)
      */
     waveLength: number;
     /**
-     * @return {number} Wave height (px)
+     * @return Wave height (px)
      */
     /**
      * Wave height in pixels.
      *
      * @default 4
-     * @param {number}  value  Wave height (px)
+     * @param value  Wave height (px)
      */
     waveHeight: number;
     /**
      * Sets which side should be waved or not. If particular side is set to
      * `false`, a straight line will be drawn on that side.
      *
-     * @param {boolean}  top     Top waved?
-     * @param {boolean}  right   Right side waved?
-     * @param {boolean}  bottom  Bottom Waved?
-     * @param {boolean}  left    Left side waved?
+     * @param top     Top waved?
+     * @param right   Right side waved?
+     * @param bottom  Bottom Waved?
+     * @param left    Left side waved?
      */
     setWavedSides(top: boolean, right: boolean, bottom: boolean, left: boolean): void;
     /**
-     * @return {number} Tension
+     * @return Tension
      */
     /**
      * Tension of the wave.
      *
      * @default 0.8
-     * @param {number}  value  Tension
+     * @param value  Tension
      */
     tension: number;
 }

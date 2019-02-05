@@ -64,7 +64,7 @@ var LabelBullet = /** @class */ (function (_super) {
      * Copies all proprities and related stuff from another instance of
      * [[LabelBullet]].
      *
-     * @param {this}  source  Source element
+     * @param source  Source element
      */
     LabelBullet.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

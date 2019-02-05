@@ -207,15 +207,12 @@ var Export = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * Adapter.
-         *
-         * @type {Adapter<Export, IExportAdapters>}
          */
         _this.adapter = new Adapter(_this);
         /**
          * Holds options for each format.
          *
          * @ignore Exclude from docs
-         * @type {Dictionary<string, ExportOptions>}
          */
         _this._formatOptions = new Dictionary();
         /**
@@ -224,21 +221,17 @@ var Export = /** @class */ (function (_super) {
          * would otherwise prevent SVG to be converted to canvas.
          *
          * @ignore Exclude from docs
-         * @type {List<IExportRemovedObject>}
          */
         _this._removedObjects = new List();
         /**
          * Holds references to the objects that were temporarily hidden when export
          * started, so that we can reveal them back when export ends.
-         *
-         * @type {Sprite[]}
          */
         _this._hiddenObjects = [];
         /**
          * Exported files will be prefixed with whatever it is set here.
          *
          * @ignore Exclude from docs
-         * @type {string}
          */
         _this._filePrefix = "amCharts";
         /**
@@ -251,7 +244,6 @@ var Export = /** @class */ (function (_super) {
          * This setting can be used to disable or enable this functionality.
          *
          * @default true
-         * @type {boolean}
          */
         _this.useWebFonts = true;
         /**
@@ -266,14 +258,11 @@ var Export = /** @class */ (function (_super) {
          * If you'd rather export images without change in size, set this to `false`.
          *
          * @default true
-         * @type {boolean}
          */
         _this.useRetina = true;
         /**
          * If export operation takes longer than milliseconds in this second, we will
          * show a modal saying export operation took longer than expected.
-         *
-         * @type {number}
          */
         _this.timeoutDelay = 2000;
         _this._container = container;
@@ -324,7 +313,7 @@ var Export = /** @class */ (function (_super) {
     }
     Object.defineProperty(Export.prototype, "menu", {
         /**
-         * @return {Optional<ExportMenu>} ExportMenu instance
+         * @return ExportMenu instance
          */
         get: function () {
             return this._menu;
@@ -350,7 +339,7 @@ var Export = /** @class */ (function (_super) {
          * }
          * ```
          *
-         * @param {Optional<ExportMenu>}  menu  ExportMenu instance
+         * @param menu  ExportMenu instance
          */
         set: function (menu) {
             var _this = this;
@@ -397,8 +386,8 @@ var Export = /** @class */ (function (_super) {
     /**
      * Checks if this specific menu item type is supported by current system.
      *
-     * @param  {string}   type  Menu item type
-     * @return {boolean}        `false` if not supported
+     * @param type  Menu item type
+     * @return `false` if not supported
      */
     Export.prototype.typeSupported = function (type) {
         var supported = true;
@@ -422,7 +411,7 @@ var Export = /** @class */ (function (_super) {
     /**
      * Checks if data is available.
      *
-     * @return {boolean} Has data?
+     * @return Has data?
      */
     Export.prototype._hasData = function () {
         return this.data && this.data.length;
@@ -431,7 +420,6 @@ var Export = /** @class */ (function (_super) {
      * Get function to handle export for particular format.
      *
      * @ignore Exclude from docs
-     * @type {this}
      */
     Export.prototype._getFunction = function (type) {
         switch (type) {
@@ -458,9 +446,9 @@ var Export = /** @class */ (function (_super) {
     /**
      * Initiates export procedure.
      *
-     * @param  {string}   type     Export type
-     * @param  {Object}   options  Options
-     * @return {boolean}           `true` if export was successful
+     * @param type     Export type
+     * @param options  Options
+     * @return `true` if export was successful
      * @async
      */
     Export.prototype.export = function (type, options) {
@@ -572,9 +560,9 @@ var Export = /** @class */ (function (_super) {
      * A function that should handle unsupported export types.
      *
      * @ignore Exclude from docs
-     * @param  {string}              type     Export type
-     * @param  {IExportImageOptions} options  Options
-     * @return {Promise<string>}               Promise
+     * @param type     Export type
+     * @param options  Options
+     * @return Promise
      * @async
      */
     Export.prototype.unsupported = function (type, options) {
@@ -591,7 +579,7 @@ var Export = /** @class */ (function (_super) {
      * Basically, if it has "callback" enabled, it will be called. Nothing else.
      *
      * @ignore Exclude from docs
-     * @param {IExportCustomOptions}  options  Options
+     * @param options  Options
      */
     Export.prototype.handleCustom = function (options) {
         if ($type.hasValue(options.callback)) {
@@ -601,9 +589,9 @@ var Export = /** @class */ (function (_super) {
     /**
      * Requests a Print of the chart.
      *
-     * @param  {string}               type     Export type
-     * @param  {IExportImageOptions}  options  Options
-     * @return {Promise<string>}               Promise
+     * @param type     Export type
+     * @param options  Options
+     * @return Promise
      * @async
      */
     Export.prototype.getPrint = function (type, options) {
@@ -617,7 +605,7 @@ var Export = /** @class */ (function (_super) {
      * A function that returns data: URI encoded @font-family, so that way it can be embedded into SVG.
      *
      * @ignore Exclude from docs
-     * @return {Promise<string>} String which can be embedded directly into a <style> element.
+     * @return String which can be embedded directly into a <style> element.
      * @async
      */
     Export.prototype.getFontFamilies = function () {
@@ -726,9 +714,9 @@ var Export = /** @class */ (function (_super) {
      * } );
      * ```
      *
-     * @param  {string}               type     Image format
-     * @param  {IExportImageOptions}  options  Options
-     * @return {Promise<string>}               Promise
+     * @param type     Image format
+     * @param options  Options
+     * @return Promise
      */
     Export.prototype.getImage = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -827,9 +815,9 @@ var Export = /** @class */ (function (_super) {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param {string}               type     Image format
-     * @param {IExportImageOptions}  options  Options
-     * @return {Promise<string>}              Data uri
+     * @param type     Image format
+     * @param options  Options
+     * @return Data uri
      */
     Export.prototype.getImageAdvanced = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -879,7 +867,7 @@ var Export = /** @class */ (function (_super) {
     /**
      * Creates a `<canvas>` element and returns it.
      *
-     * @return {HTMLCanvasElement} Canvas element
+     * @return Canvas element
      */
     Export.prototype.getDisposableCanvas = function () {
         var canvas = document.createElement("canvas");
@@ -891,7 +879,7 @@ var Export = /** @class */ (function (_super) {
     /**
      * Removes canvas.
      *
-     * @param {HTMLCanvasElement}  canvas  Canvas element
+     * @param canvas  Canvas element
      */
     Export.prototype.disposeCanvas = function (canvas) {
         document.body.removeChild(canvas);
@@ -899,7 +887,7 @@ var Export = /** @class */ (function (_super) {
     /**
      * Returns pixel ratio for retina displays.
      *
-     * @return {number} Pixel ratio
+     * @return Pixel ratio
      */
     Export.prototype.getPixelRatio = function () {
         return this.useRetina ? $utils.getPixelRatio() : 1;
@@ -912,9 +900,9 @@ var Export = /** @class */ (function (_super) {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @param  {SVGSVGElement}        el       SVG node
-     * @param  {IExportImageOptions}  options  Options
-     * @return {Promise<void>}                 Promise
+     * @param el       SVG node
+     * @param options  Options
+     * @return Promise
      */
     Export.prototype.imagesToDataURI = function (el, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -964,9 +952,9 @@ var Export = /** @class */ (function (_super) {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @param  {SVGSVGElement}        el       SVG node
-     * @param  {IExportImageOptions}  options  Options
-     * @return {Promise<void>}                 Promise
+     * @param el       SVG node
+     * @param options  Options
+     * @return Promise
      */
     Export.prototype.prepForeignObjects = function (el, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -991,8 +979,8 @@ var Export = /** @class */ (function (_super) {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @param {SVGImageElement}     el       SVG element
-     * @param {IExportImageOptions} options  Options
+     * @param el       SVG element
+     * @param options  Options
      */
     Export.prototype.imageToDataURI = function (el, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -1056,8 +1044,8 @@ var Export = /** @class */ (function (_super) {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @param {SVGImageElement}     el        An SVG element
-     * @param {IExportImageOptions} options   Options
+     * @param el        An SVG element
+     * @param options   Options
      */
     Export.prototype.svgToDataURI = function (el, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -1108,7 +1096,7 @@ var Export = /** @class */ (function (_super) {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @param {Node} el Node
+     * @param el Node
      */
     Export.prototype.temporarilyRemoveObject = function (el, placeholder) {
         // Get parent
@@ -1161,7 +1149,7 @@ var Export = /** @class */ (function (_super) {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @return {boolean} `true` if simplified export can be used
+     * @return `true` if simplified export can be used
      */
     Export.prototype.simplifiedImageExport = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -1211,11 +1199,11 @@ var Export = /** @class */ (function (_super) {
      * Returns a new `<image>` element.
      *
      * @ignore Exclude from docs
-     * @param  {string}                     url          URL of the image
-     * @param  {number}                     width        Width (px)
-     * @param  {number}                     height       Height (px)
-     * @param  {string}                     crossOrigin  Cross-Origin setting
-     * @return {Promise<HTMLImageElement>}               Promise
+     * @param url          URL of the image
+     * @param width        Width (px)
+     * @param height       Height (px)
+     * @param crossOrigin  Cross-Origin setting
+     * @return Promise
      */
     Export.prototype.loadNewImage = function (url, width, height, crossOrigin) {
         return new Promise(function (success, error) {
@@ -1268,7 +1256,7 @@ var Export = /** @class */ (function (_super) {
      * Returns current DOM URL.
      *
      * @ignore Exclude from docs
-     * @return {any} URL
+     * @return URL
      */
     Export.prototype.getDOMURL = function () {
         return self.URL || self.webkitURL || self;
@@ -1279,9 +1267,9 @@ var Export = /** @class */ (function (_super) {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param {string}             type     Type of the export
-     * @param {IExportSVGOptions}  options  Options
-     * @return {Promise<string>}            Promise
+     * @param type     Type of the export
+     * @param options  Options
+     * @return Promise
      */
     Export.prototype.getSVG = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -1307,13 +1295,13 @@ var Export = /** @class */ (function (_super) {
      * necessary.
      *
      * @ignore Exclude from docs
-     * @param  {string}             svg       Input SVG
-     * @param  {IExportSVGOptions}  options   Options
-     * @param  {number}             width     Width of the SVG viewport
-     * @param  {number}             height    Height of the SVG viewport
-     * @param  {string}             font      Font family to use as a base
-     * @param  {string}             fontSize  Font size to use as a base
-     * @return {string}                       Output SVG
+     * @param svg       Input SVG
+     * @param options   Options
+     * @param width     Width of the SVG viewport
+     * @param height    Height of the SVG viewport
+     * @param font      Font family to use as a base
+     * @param fontSize  Font size to use as a base
+     * @return Output SVG
      * @todo Add style params to existing <svg>
      */
     Export.prototype.normalizeSVG = function (svg, options, width, height, font, fontSize, background) {
@@ -1368,8 +1356,8 @@ var Export = /** @class */ (function (_super) {
      * Serializes an element and returns its contents.
      *
      * @ignore Exclude from docs
-     * @param  {HTMLElement | SVGSVGElement}  element  An element to serialize
-     * @return {string}                                A serialized XML
+     * @param element  An element to serialize
+     * @return A serialized XML
      */
     Export.prototype.serializeElement = function (element) {
         return new XMLSerializer().serializeToString(element);
@@ -1380,9 +1368,9 @@ var Export = /** @class */ (function (_super) {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param {string}             type     Type of the export
-     * @param {IExportPDFOptions}  options  Options
-     * @return {Promise<string>}            Promise
+     * @param type     Type of the export
+     * @param options  Options
+     * @return Promise
      * @async
      * @todo Account for header when calculating vertical fit
      */
@@ -1451,8 +1439,8 @@ var Export = /** @class */ (function (_super) {
      * Returns fit dimensions for available page sizes.
      *
      * @ignore Exclude from docs
-     * @param  {pageSizes} pageSize Page size
-     * @return {number[]}           `[width, height]` in pixels
+     * @param pageSize Page size
+     * @return `[width, height]` in pixels
      */
     Export.prototype.getPageSizeFit = function (pageSize, margins) {
         // Check margins
@@ -1531,9 +1519,9 @@ var Export = /** @class */ (function (_super) {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param {string}               type     Type of the export
-     * @param {IExportExcelOptions}  options  Options
-     * @return {Promise<string>}              Promise
+     * @param type     Type of the export
+     * @param options  Options
+     * @return Promise
      * @async
      * @todo Handle dates
      * @todo Support for multi-sheet
@@ -1584,8 +1572,8 @@ var Export = /** @class */ (function (_super) {
     /**
      * This is needed to work around Excel limitations.
      *
-     * @param  {string}  name  Source name
-     * @return {string}        Normalized name
+     * @param name  Source name
+     * @return Normalized name
      */
     Export.prototype.normalizeExcelSheetName = function (name) {
         name = name.replace(/([:\\\/?*\[\]]+)/g, " ");
@@ -1595,10 +1583,10 @@ var Export = /** @class */ (function (_super) {
      * Rertuns an array of values to be used as Excel row.
      *
      * @ignore Exclude from docs
-     * @param  {any}                  row         Row data
-     * @param  {IExportExcelOptions}  options     Options
-     * @param  {any}                  dataFields  Data fields
-     * @return {any[]}                            Array of values
+     * @param row         Row data
+     * @param options     Options
+     * @param dataFields  Data fields
+     * @return Array of values
      */
     Export.prototype.getExcelRow = function (row, options, dataFields) {
         var _this = this;
@@ -1626,9 +1614,9 @@ var Export = /** @class */ (function (_super) {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param {string}             type     Type of the export
-     * @param {IExportCSVOptions}  options  Options
-     * @return {Promise<string>}            Promise
+     * @param type     Type of the export
+     * @param options  Options
+     * @return Promise
      * @async
      */
     Export.prototype.getCSV = function (type, options) {
@@ -1669,10 +1657,10 @@ var Export = /** @class */ (function (_super) {
      * Formats a row of CSV data.
      *
      * @ignore Exclude from docs
-     * @param  {any}                row         An object holding data for the row
-     * @param  {IExportCSVOptions}  options     Options
-     * @param  {any}                dataFields  Data fields
-     * @return {string}                         Formated CSV line
+     * @param row         An object holding data for the row
+     * @param options     Options
+     * @param dataFields  Data fields
+     * @return Formated CSV line
      */
     Export.prototype.getCSVRow = function (row, options, dataFields) {
         var _this = this;
@@ -1712,9 +1700,9 @@ var Export = /** @class */ (function (_super) {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param {string}              type     Type of the export
-     * @param {IExportJSONOptions}  options  Options
-     * @return {Promise<string>}             Promise
+     * @param type     Type of the export
+     * @param options  Options
+     * @return Promise
      * @async
      */
     Export.prototype.getJSON = function (type, options) {
@@ -1747,11 +1735,11 @@ var Export = /** @class */ (function (_super) {
      * Converts the value to proper date format.
      *
      * @ignore Exclude from docs
-     * @param  {string}                                  field       Field name
-     * @param  {any}                                     value       Value
-     * @param  {IExportCSVOptions | IExportJSONOptions}  options     Options
-     * @param  {boolean}                                 keepAsDate  Will ignore formatting and will keep as Date object if set
-     * @return {any}                                                 Formatted date value or unmodified value
+     * @param field       Field name
+     * @param value       Value
+     * @param options     Options
+     * @param keepAsDate  Will ignore formatting and will keep as Date object if set
+     * @return Formatted date value or unmodified value
      */
     Export.prototype.convertToDateOrDuration = function (field, value, options, keepAsDate) {
         // Is this a timestamp or duration?
@@ -1782,7 +1770,6 @@ var Export = /** @class */ (function (_super) {
      * Converts empty value based on `emptyAs` option.
      *
      * @ignore Exclude from docs
-     * @type {string}
      */
     Export.prototype.convertEmptyValue = function (field, value, options) {
         return $type.hasValue(value) ? value : options.emptyAs;
@@ -1793,14 +1780,14 @@ var Export = /** @class */ (function (_super) {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param  {string}            uri       Data URI with file content
-     * @param  {string}            fileName  File name
-     * @return {Promise<boolean>}            Promise
+     * @param uri       Data URI with file content
+     * @param fileName  File name
+     * @return Promise
      * @async
      */
     Export.prototype.download = function (uri, fileName) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var link, parts, contentType, decoded, chars, i, charCode, blob, parts, contentType, iframe, idoc;
+            var link, parts, contentType, decoded, blob_1, chars, i, charCode, blob, parts, contentType, iframe, idoc;
             return tslib_1.__generator(this, function (_a) {
                 //if (window.navigator.msSaveOrOpenBlob === undefined) {
                 if (this.linkDownloadSupport() && !this.blobDownloadSupport()) {
@@ -1826,6 +1813,11 @@ var Export = /** @class */ (function (_super) {
                             // Error occurred, meaning string was not Base64-encoded. Do nothing.
                             return [2 /*return*/, false];
                         }
+                    }
+                    else {
+                        blob_1 = new Blob([uri], { type: contentType });
+                        window.navigator.msSaveBlob(blob_1, fileName);
+                        return [2 /*return*/, true];
                     }
                     chars = new Array(uri.length);
                     for (i = 0; i < uri.length; ++i) {
@@ -1884,7 +1876,7 @@ var Export = /** @class */ (function (_super) {
      * Returns `true` if browser has any supported methods to trigger download
      * of a binary file.
      *
-     * @return {boolean} Supports downloads?
+     * @return Supports downloads?
      */
     Export.prototype.downloadSupport = function () {
         return this.linkDownloadSupport() || this.blobDownloadSupport();
@@ -1893,7 +1885,7 @@ var Export = /** @class */ (function (_super) {
      * Checks if the browser supports "download" attribute on links.
      *
      * @ignore Exclude from docs
-     * @return {boolean} Browser supports triggering downloads?
+     * @return Browser supports triggering downloads?
      */
     Export.prototype.linkDownloadSupport = function () {
         // Do we have this cached?
@@ -1910,7 +1902,7 @@ var Export = /** @class */ (function (_super) {
      * Checks if the browser supports download via `msBlob`.
      *
      * @ignore Exclude from docs
-     * @return {boolean} Browser supports triggering downloads?
+     * @return Browser supports triggering downloads?
      */
     Export.prototype.blobDownloadSupport = function () {
         return $type.hasValue(window.navigator.msSaveOrOpenBlob);
@@ -1919,7 +1911,7 @@ var Export = /** @class */ (function (_super) {
      * Checks if this is a legacy version of IE.
      *
      * @ignore Exclude from docs
-     * @return {boolean} IE9 or less?
+     * @return IE9 or less?
      */
     Export.prototype.legacyIE = function () {
         // Create a temporary <div> with conditional tags in it an an <i> tag.
@@ -1934,10 +1926,10 @@ var Export = /** @class */ (function (_super) {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param {string}               data     Data URI for the image
-     * @param {IExportPrintOptions}  options  Options
-     * @param {string}               title    Optional title to use (uses window's title by default)
-     * @return {Promise<boolean>}             Promise
+     * @param data     Data URI for the image
+     * @param options  Options
+     * @param title    Optional title to use (uses window's title by default)
+     * @return Promise
      * @async
      */
     Export.prototype.print = function (data, options, title) {
@@ -2064,8 +2056,8 @@ var Export = /** @class */ (function (_super) {
      * up the DOM hierarchy to find a parent element that does.
      *
      * @ignore Exclude from docs
-     * @param  {Element}  element Element
-     * @return {Color}            Color code
+     * @param element Element
+     * @return Color code
      */
     Export.prototype.findBackgroundColor = function (element) {
         // Check if element has styles set
@@ -2099,8 +2091,8 @@ var Export = /** @class */ (function (_super) {
      * computed/inherited).
      *
      * @ignore Exclude from docs
-     * @param  {Element}  element  Element
-     * @return {string}            Font family
+     * @param element  Element
+     * @return Font family
      */
     Export.prototype.findFont = function (element) {
         // Check if element has styles set
@@ -2130,8 +2122,8 @@ var Export = /** @class */ (function (_super) {
      * computed/inherited).
      *
      * @ignore Exclude from docs
-     * @param  {Element}  element  Element
-     * @return {string}            Font family
+     * @param element  Element
+     * @return Font family
      */
     Export.prototype.findFontSize = function (element) {
         // Check if element has styles set
@@ -2158,7 +2150,7 @@ var Export = /** @class */ (function (_super) {
     };
     Object.defineProperty(Export.prototype, "container", {
         /**
-         * @return {HTMLElement} Reference
+         * @return Reference
          */
         get: function () {
             return this.adapter.apply("container", {
@@ -2168,7 +2160,7 @@ var Export = /** @class */ (function (_super) {
         /**
          * A reference to a container to be used to place [[ExportMenu]] in.
          *
-         * @param {HTMLElement} value Reference
+         * @param value Reference
          */
         set: function (value) {
             this._container = value;
@@ -2178,7 +2170,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "sprite", {
         /**
-         * @return {Sprite} Sprite
+         * @return Sprite
          */
         get: function () {
             return this.adapter.apply("sprite", {
@@ -2189,7 +2181,7 @@ var Export = /** @class */ (function (_super) {
          * A reference to [[Sprite]] to export. Can be any Sprite, including some
          * internal elements.
          *
-         * @param {Sprite} value Sprite
+         * @param value Sprite
          */
         set: function (value) {
             this._sprite = value;
@@ -2199,7 +2191,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "data", {
         /**
-         * @return {any} Data
+         * @return Data
          */
         get: function () {
             return this.adapter.apply("data", {
@@ -2209,7 +2201,7 @@ var Export = /** @class */ (function (_super) {
         /**
          * Data to export.
          *
-         * @param {any} value Data
+         * @param value Data
          */
         set: function (value) {
             this._data = value;
@@ -2219,7 +2211,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "dataFields", {
         /**
-         * @return {any} Field names `{ field: fieldName }`
+         * @return Field names `{ field: fieldName }`
          */
         get: function () {
             if (!this._dataFields) {
@@ -2233,7 +2225,7 @@ var Export = /** @class */ (function (_super) {
          * Data fields in `{ field: fieldName }` format. Those are used for
          * exporting in data formats to name the columns.
          *
-         * @param {any} value Field names
+         * @param value Field names
          */
         set: function (value) {
             this._dataFields = value;
@@ -2243,7 +2235,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "dateFormatter", {
         /**
-         * @return {any} A DateFormatter instance
+         * @return A DateFormatter instance
          */
         get: function () {
             if (!this._dateFormatter) {
@@ -2256,7 +2248,7 @@ var Export = /** @class */ (function (_super) {
         /**
          * A [[DateFormatter]] to use when formatting dates when exporting data.
          *
-         * @param {any} value DateFormatter instance
+         * @param value DateFormatter instance
          */
         set: function (value) {
             this._dateFormatter = value;
@@ -2266,7 +2258,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "dateFormat", {
         /**
-         * @return {Optional<string>} Date format
+         * @return Date format
          */
         get: function () {
             return this.adapter.apply("dateFormat", {
@@ -2277,7 +2269,7 @@ var Export = /** @class */ (function (_super) {
          * A date format to use for exporting dates. Will use [[DateFormatter]]
          * format if not set.
          *
-         * @param {Optional<string>} value Date format
+         * @param value Date format
          */
         set: function (value) {
             this._dateFormat = value;
@@ -2287,7 +2279,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "dateFields", {
         /**
-         * @return {List<string>} Date field list
+         * @return Date field list
          */
         get: function () {
             if (!this._dateFields) {
@@ -2300,7 +2292,7 @@ var Export = /** @class */ (function (_super) {
         /**
          * A list of fields that hold date values.
          *
-         * @param {List<string>} value Date field list
+         * @param value Date field list
          */
         set: function (value) {
             this._dateFields = value;
@@ -2310,7 +2302,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "durationFormatter", {
         /**
-         * @return {any} A DurationFormatter instance
+         * @return A DurationFormatter instance
          */
         get: function () {
             if (!this._durationFormatter) {
@@ -2324,7 +2316,7 @@ var Export = /** @class */ (function (_super) {
          * A [[DurationFormatter]] to use when formatting duration values when
          * exporting data.
          *
-         * @param {any}  value  DurationFormatter instance
+         * @param value  DurationFormatter instance
          */
         set: function (value) {
             this._durationFormatter = value;
@@ -2334,7 +2326,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "durationFormat", {
         /**
-         * @return {Optional<string>} Duration format
+         * @return Duration format
          */
         get: function () {
             return this.adapter.apply("durationFormat", {
@@ -2345,7 +2337,7 @@ var Export = /** @class */ (function (_super) {
          * A format to use when formatting values from `durationFields`.
          * Will use [[DurationFormatter]] format if not set.
          *
-         * @param {Optional<string>} value Duration format
+         * @param value Duration format
          */
         set: function (value) {
             this._durationFormat = value;
@@ -2355,7 +2347,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "durationFields", {
         /**
-         * @return {List<string>} Duration field list
+         * @return Duration field list
          */
         get: function () {
             if (!this._durationFields) {
@@ -2368,7 +2360,7 @@ var Export = /** @class */ (function (_super) {
         /**
          * A list of fields that hold duration values.
          *
-         * @param {List<string>} value Duration field list
+         * @param value Duration field list
          */
         set: function (value) {
             this._durationFields = value;
@@ -2402,9 +2394,9 @@ var Export = /** @class */ (function (_super) {
      * dates.
      *
      * @ignore Exclude from docs
-     * @param  {string}        field   Field name
-     * @param  {IExportOptions} options Options
-     * @return {boolean}               `true` if it's a date field
+     * @param field   Field name
+     * @param options Options
+     * @return `true` if it's a date field
      */
     Export.prototype.isDateField = function (field) {
         return this.adapter.apply("isDateField", {
@@ -2417,9 +2409,9 @@ var Export = /** @class */ (function (_super) {
      * dates.
      *
      * @ignore Exclude from docs
-     * @param  {string}        field   Field name
-     * @param  {IExportOptions} options Options
-     * @return {boolean}               `true` if it's a date field
+     * @param field   Field name
+     * @param options Options
+     * @return `true` if it's a date field
      */
     Export.prototype.isDurationField = function (field) {
         return this.adapter.apply("isDurationField", {
@@ -2430,8 +2422,8 @@ var Export = /** @class */ (function (_super) {
     /**
      * Returns proper content type for the export type.
      *
-     * @param  {string}  type  Export format/type
-     * @return {string}        Proper content type, i.e. "image/jpeg"
+     * @param type  Export format/type
+     * @return Proper content type, i.e. "image/jpeg"
      */
     Export.prototype.getContentType = function (type) {
         var contentType = "";
@@ -2466,7 +2458,7 @@ var Export = /** @class */ (function (_super) {
     };
     Object.defineProperty(Export.prototype, "filePrefix", {
         /**
-         * @return {string} File prefix
+         * @return File prefix
          */
         get: function () {
             return this.adapter.apply("filePrefix", {
@@ -2479,7 +2471,7 @@ var Export = /** @class */ (function (_super) {
          * Export will apply format-related extension to it. E.g. if this is set to
          * "myExport", the file name of the PNG exported image will be "myExport.png".
          *
-         * @param {string} value File prefix
+         * @param value File prefix
          */
         set: function (value) {
             this._filePrefix = value;
@@ -2489,7 +2481,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "backgroundColor", {
         /**
-         * @return {Optional<Color>} Background color
+         * @return Background color
          */
         get: function () {
             return this.adapter.apply("backgroundColor", {
@@ -2500,7 +2492,7 @@ var Export = /** @class */ (function (_super) {
          * A background color to be used for exported images. If set, this will
          * override the automatically acquired background color.
          *
-         * @param {Optional<Color>} value Color
+         * @param value Color
          */
         set: function (value) {
             this._backgroundColor = value;
@@ -2510,7 +2502,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "title", {
         /**
-         * @return {Optional<string>} Title
+         * @return Title
          */
         get: function () {
             return this.adapter.apply("title", {
@@ -2520,7 +2512,7 @@ var Export = /** @class */ (function (_super) {
         /**
          * A title to be used when printing.
          *
-         * @param {Optional<string>} value Title
+         * @param value Title
          */
         set: function (value) {
             this._title = value;
@@ -2557,7 +2549,7 @@ var Export = /** @class */ (function (_super) {
          * Returns a an instance of [[Preloader]] associated with the Sprite being
          * exported.
          *
-         * @return {Preloader} Preloader
+         * @return Preloader
          */
         get: function () {
             return this._sprite && this._sprite.parent && this._sprite.parent.preloader ?
@@ -2591,7 +2583,7 @@ var Export = /** @class */ (function (_super) {
     };
     Object.defineProperty(Export.prototype, "language", {
         /**
-         * @return {Language} A [[Language]] instance to be used
+         * @return A [[Language]] instance to be used
          */
         get: function () {
             if (!this._language) {
@@ -2602,7 +2594,7 @@ var Export = /** @class */ (function (_super) {
         /**
          * A [[Language]] instance to be used for translations.
          *
-         * @param {Language} value An instance of [[Language]]
+         * @param value An instance of [[Language]]
          */
         set: function (value) {
             this._language = value;
@@ -2615,7 +2607,7 @@ var Export = /** @class */ (function (_super) {
          * Returns (and creates) [[Modal]].
          *
          * @ignore Exclude from docs
-         * @return {Modal} Modal instance
+         * @return Modal instance
          */
         get: function () {
             if (!this._modal) {
@@ -2635,7 +2627,7 @@ var Export = /** @class */ (function (_super) {
      * Shows [[Modal]] with specific text.
      *
      * @ignore Exclude from docs
-     * @param {string} text Modal contents
+     * @param text Modal contents
      */
     Export.prototype.showModal = function (text, title) {
         // Hide previous modal and preloader
@@ -2665,7 +2657,7 @@ var Export = /** @class */ (function (_super) {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Instance of canvg
+     * @return Instance of canvg
      * @async
      */
     Export.prototype._canvg = function () {
@@ -2683,7 +2675,7 @@ var Export = /** @class */ (function (_super) {
          * Returns canvg instance.
          *
          * @ignore Exclude from docs
-         * @return {Promise<any>} Instance of canvg
+         * @return Instance of canvg
          */
         get: function () {
             return this._canvg();
@@ -2698,7 +2690,7 @@ var Export = /** @class */ (function (_super) {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Instance of pdfmake
+     * @return Instance of pdfmake
      * @async
      */
     Export.prototype._pdfmake = function () {
@@ -2728,7 +2720,7 @@ var Export = /** @class */ (function (_super) {
          * Returns pdfmake instance.
          *
          * @ignore Exclude from docs
-         * @return {Promise<any>} Instance of pdfmake
+         * @return Instance of pdfmake
          */
         get: function () {
             return this._pdfmake();
@@ -2743,7 +2735,7 @@ var Export = /** @class */ (function (_super) {
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Instance of pdfmake
+     * @return Instance of pdfmake
      * @async
      */
     Export.prototype._xlsx = function () {
@@ -2761,7 +2753,7 @@ var Export = /** @class */ (function (_super) {
          * Returns xlsx instance.
          *
          * @ignore Exclude from docs
-         * @return {Promise<any>} Instance of pdfmake
+         * @return Instance of pdfmake
          */
         get: function () {
             return this._xlsx();
@@ -2771,8 +2763,6 @@ var Export = /** @class */ (function (_super) {
     });
     /**
      * Sets options for a format.
-     *
-     * @type {Key}
      */
     Export.prototype.setFormatOptions = function (type, options) {
         this._formatOptions.setKey(type, options);
@@ -2828,7 +2818,7 @@ var Export = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     Export.prototype.processConfig = function (config) {
         registry.registeredClasses["ExportMenu"] = ExportMenu;
@@ -2844,7 +2834,6 @@ var Export = /** @class */ (function (_super) {
      * XLINK namespace definition.
      *
      * @ignore Exclude from docs
-     * @type {string}
      */
     Export.XLINK = "http://www.w3.org/1999/xlink";
     return Export;

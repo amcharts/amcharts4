@@ -59,22 +59,16 @@ export class ResizeButton extends Button {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IResizeButtonProperties}
 	 */
 	public _properties!: IResizeButtonProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IResizeButtonAdapters}
 	 */
 	public _adapter!: IResizeButtonAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IResizeButtonEvents}
 	 */
 	public _events!: IResizeButtonEvents;
 
@@ -82,7 +76,6 @@ export class ResizeButton extends Button {
 	 * Orientation of the resize direction.
 	 *
 	 * @deprecated Not used
-	 * @type {Orientation}
 	 */
 	protected _orientation: Orientation;
 
@@ -137,7 +130,7 @@ export class ResizeButton extends Button {
 	 *
 	 * Available options: "horizontal", "vertical".
 	 *
-	 * @param {Orientation} value Orientation
+	 * @param value Orientation
 	 */
 	public set orientation(value: Orientation) {
 		let icon = this.icon;

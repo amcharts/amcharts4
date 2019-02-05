@@ -34,8 +34,6 @@ export interface IMapLineObjectProperties extends IContainerProperties {
 	 *
 	 * Any intermediate number will place the object at some point within the
 	 * line.
-	 * 
-	 * @type {number}
 	 */
 	position?: number;
 
@@ -47,7 +45,6 @@ export interface IMapLineObjectProperties extends IContainerProperties {
 	 * direction of the line.
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	adjustRotation?: boolean;
 
@@ -83,22 +80,16 @@ export class MapLineObject extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IMapLineObjectProperties}
 	 */
 	public _properties!: IMapLineObjectProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IMapLineObjectAdapters}
 	 */
 	public _adapter!: IMapLineObjectAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IMapLineObjectEvents}
 	 */
 	public _events!: IMapLineObjectEvents;
 
@@ -106,7 +97,6 @@ export class MapLineObject extends Container {
 	 * A reference to the [[MapLine]] object this object is attached to.
 	 *
 	 * @todo Review if necessary (same as parent)
-	 * @type {MapLine}
 	 */
 	public mapLine: MapLine;
 
@@ -155,14 +145,14 @@ export class MapLineObject extends Container {
 	 * Any intermediate number will place the object at some point within the
 	 * line.
 	 *
-	 * @param {number}  value  Position within the line (0-1)
+	 * @param value  Position within the line (0-1)
 	 */
 	public set position(value: number) {
 		this.setPropertyValue("position", value, false, true);
 	}
 
 	/**
-	 * @return {number} Position within the line
+	 * @return Position within the line
 	 */
 	public get position(): number {
 		return this.getPropertyValue("position");
@@ -176,14 +166,14 @@ export class MapLineObject extends Container {
 	 * direction of the line.
 	 *
 	 * @default false
-	 * @param {boolean}  value  Auto-rotate
+	 * @param value  Auto-rotate
 	 */
 	public set adjustRotation(value: boolean) {
 		this.setPropertyValue("adjustRotation", value, false, true);
 	}
 
 	/**
-	 * @return {boolean} Auto-rotate
+	 * @return Auto-rotate
 	 */
 	public get adjustRotation(): boolean {
 		return this.getPropertyValue("adjustRotation");

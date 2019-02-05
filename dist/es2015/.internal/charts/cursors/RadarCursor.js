@@ -39,8 +39,8 @@ var RadarCursor = /** @class */ (function (_super) {
      * Checks if point is within bounds of a container.
      *
      * @ignore Exclude from docs
-     * @param  {IPoint}   point  Point to check
-     * @return {boolean}         Fits within container?
+     * @param point  Point to check
+     * @return Fits within container?
      */
     RadarCursor.prototype.fitsToBounds = function (point) {
         var radius = $math.getDistance(point);
@@ -55,7 +55,7 @@ var RadarCursor = /** @class */ (function (_super) {
     };
     Object.defineProperty(RadarCursor.prototype, "startAngle", {
         /**
-         * @return {number} Start angle
+         * @return Start angle
          */
         get: function () {
             return this.getPropertyValue("startAngle");
@@ -63,7 +63,7 @@ var RadarCursor = /** @class */ (function (_super) {
         /**
          * Starting angle of the cursor's radial line.
          *
-         * @param {number} value Start angle
+         * @param value Start angle
          */
         set: function (value) {
             this.setPropertyValue("startAngle", value, true);
@@ -73,7 +73,7 @@ var RadarCursor = /** @class */ (function (_super) {
     });
     Object.defineProperty(RadarCursor.prototype, "endAngle", {
         /**
-         * @return {number} End angle
+         * @return End angle
          */
         get: function () {
             return this.getPropertyValue("endAngle");
@@ -81,7 +81,7 @@ var RadarCursor = /** @class */ (function (_super) {
         /**
          * End angle of the cursor's radial line.
          *
-         * @param {number} value End angle
+         * @param value End angle
          */
         set: function (value) {
             this.setPropertyValue("endAngle", value, true);
@@ -102,7 +102,7 @@ var RadarCursor = /** @class */ (function (_super) {
     /**
      * (Re)draws the horizontal (circular) cursor's line.
      *
-     * @param {IPoint} point New target point
+     * @param point New target point
      */
     RadarCursor.prototype.updateLineX = function (point) {
         var radius = this.pixelRadius;
@@ -154,7 +154,7 @@ var RadarCursor = /** @class */ (function (_super) {
     /**
      * (Re)draws the vertical (radial) cursor's line.
      *
-     * @param {IPoint} point New target point
+     * @param point New target point
      */
     RadarCursor.prototype.updateLineY = function (point) {
         if (this.lineY && this.lineY.visible) {
@@ -253,7 +253,7 @@ var RadarCursor = /** @class */ (function (_super) {
     /**
      * Updates Cursor's position when axis tooltip changes horizontal position.
      *
-     * @param {ISpriteEvents["positionchanged"]} event Axis event
+     * @param event Axis event
      */
     RadarCursor.prototype.handleXTooltipPosition = function (event) {
         if (this.xAxis.cursorTooltipEnabled) {
@@ -265,7 +265,7 @@ var RadarCursor = /** @class */ (function (_super) {
      * Updates Cursor's position when axis tooltip changes vertical position.
      *
      * @todo Description
-     * @param {ISpriteEvents["positionchanged"]} event Axis event
+     * @param event Axis event
      */
     RadarCursor.prototype.handleYTooltipPosition = function (event) {
         if (this.yAxis.cursorTooltipEnabled) {
@@ -333,7 +333,7 @@ var RadarCursor = /** @class */ (function (_super) {
     RadarCursor.prototype.updateSize = function () { };
     Object.defineProperty(RadarCursor.prototype, "radius", {
         /**
-         * @return {number} Outer radius
+         * @return Outer radius
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -342,7 +342,7 @@ var RadarCursor = /** @class */ (function (_super) {
          * Outer radius of the cursor's circular line.
          * Absolute (px) or relative ([[Percent]]).
          *
-         * @param {number | Percent}  value  Outer radius
+         * @param value  Outer radius
          */
         set: function (value) {
             this.setPercentProperty("radius", value, false, false, 10, false);
@@ -354,7 +354,7 @@ var RadarCursor = /** @class */ (function (_super) {
         /**
          * Outer radius of the circular line in pixels.
          *
-         * @return {number} Outer radius (px)
+         * @return Outer radius (px)
          * @readonly
          */
         get: function () {
@@ -368,7 +368,7 @@ var RadarCursor = /** @class */ (function (_super) {
          * [truePixelRadius description]
          *
          * @todo Description
-         * @return {number} Outer radius (px)
+         * @return Outer radius (px)
          * @readonly
          */
         get: function () {
@@ -379,7 +379,7 @@ var RadarCursor = /** @class */ (function (_super) {
     });
     Object.defineProperty(RadarCursor.prototype, "innerRadius", {
         /**
-         * @return {number} Inner radius
+         * @return Inner radius
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
@@ -388,7 +388,7 @@ var RadarCursor = /** @class */ (function (_super) {
          * Inner radius of the cursor's circular line.
          * Absolute (px) or relative ([[Percent]]).
          *
-         * @param {number | Percent}  value  Inner radius
+         * @param value  Inner radius
          */
         set: function (value) {
             this.setPercentProperty("innerRadius", value, false, false, 10, false);
@@ -400,7 +400,7 @@ var RadarCursor = /** @class */ (function (_super) {
         /**
          * Inner radius of the circular line in pixels.
          *
-         * @return {number} Inner radius (px)
+         * @return Inner radius (px)
          * @readonly
          */
         get: function () {

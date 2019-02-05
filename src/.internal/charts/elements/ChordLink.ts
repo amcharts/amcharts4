@@ -42,7 +42,6 @@ export interface IChordLinkProperties extends IFlowDiagramLinkProperties {
 	 * [radius description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	radius?: number;
 
@@ -51,7 +50,6 @@ export interface IChordLinkProperties extends IFlowDiagramLinkProperties {
 	 * [arc description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	arc?: number;
 }
@@ -88,35 +86,26 @@ export class ChordLink extends FlowDiagramLink {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IChordLinkProperties}
 	 */
 	public _properties!: IChordLinkProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IChordLinkAdapters}
 	 */
 	public _adapter!: IChordLinkAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IChordLinkEvents}
 	 */
 	public _events!: IChordLinkEvents;
 
 	/**
 	 * Defines a type of data item used by this class.
-	 *
-	 * @type {ChordDiagramDataItem}
 	 */
 	public _dataItem: ChordDiagramDataItem;
 
 	/**
 	 * Spline which goes through the middle of a link, used to calculate bullet and tooltip positions, invisible by default
-	 * @type Polyspline
      */
 	public middleLine: QuadraticCurve;
 
@@ -220,7 +209,7 @@ export class ChordLink extends FlowDiagramLink {
 
 				middleLine.stroke = this.fill;
 
-				this.positionBullets();				
+				this.positionBullets();
 			}
 		}
 	}
@@ -228,14 +217,14 @@ export class ChordLink extends FlowDiagramLink {
 	 * [radius description]
 	 *
 	 * @todo Description
-	 * @param {number} value End Y
+	 * @param value End Y
 	 */
 	public set radius(value: number) {
 		this.setPropertyValue("radius", value, true);
 	}
 
 	/**
-	 * @return {number} End Y
+	 * @return End Y
 	 */
 	public get radius(): number {
 		return this.getPropertyValue("radius");
@@ -245,14 +234,14 @@ export class ChordLink extends FlowDiagramLink {
 	 * [arc description]
 	 *
 	 * @todo Description
-	 * @param {number} value [description]
+	 * @param value [description]
 	 */
 	public set arc(value: number) {
 		this.setPropertyValue("arc", value, true);
 	}
 
 	/**
-	 * @return {number} [description]
+	 * @return [description]
 	 */
 	public get arc(): number {
 		return this.getPropertyValue("arc");

@@ -37,36 +37,26 @@ export class MapSeriesDataItem extends SeriesDataItem {
 
 	/**
 	 * Longitude of the East-most point of the element.
-	 *
-	 * @type {number}
 	 */
 	public east: number;
 
 	/**
 	 * Longitude of the West-most point of the element.
-	 *
-	 * @type {number}
 	 */
 	public west: number;
 
 	/**
 	 * Latitude of the South-most point of the element.
-	 *
-	 * @type {number}
 	 */
 	public south: number;
 
 	/**
 	 * Latitude of the North-most point of the element.
-	 *
-	 * @type {number}
 	 */
 	public north: number;
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {Component}
 	 */
 	public _component!: MapSeries;
 
@@ -85,14 +75,14 @@ export class MapSeriesDataItem extends SeriesDataItem {
 	 *
 	 * Value may be used in heat-map calculations.
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set value(value: number) {
 		this.setValue("value", value);
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get value(): number {
 		return this.values.value.value;
@@ -103,7 +93,7 @@ export class MapSeriesDataItem extends SeriesDataItem {
 	 * North, and South-most points.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IGeoPoint[]}  geoPoints  Points of the element
+	 * @param geoPoints  Points of the element
 	 */
 	public updateExtremes(geoPoints: IGeoPoint[]): void {
 		for (let s: number = 0; s < geoPoints.length; s++) {
@@ -129,15 +119,15 @@ export class MapSeriesDataItem extends SeriesDataItem {
 	/**
 	 * When `zoomToMapObject()` is called the map will either calculate suitable
 	 * zoom level itself or use object's `zoomLevel` if set.
-	 * 
-	 * @param {number}  value  Zoom level
+	 *
+	 * @param value  Zoom level
 	 */
 	public set zoomLevel(value: number) {
 		this.setProperty("zoomLevel", value);
 	}
 
 	/**
-	 * @return {number} Zoom level
+	 * @return Zoom level
 	 */
 	public get zoomLevel(): number {
 		return this.properties["zoomLevel"];
@@ -146,15 +136,15 @@ export class MapSeriesDataItem extends SeriesDataItem {
 	/**
 	 * When `zoomToMapObject()` is called the map will either calculate suitable
 	 * center position itself or use object's `zoomGeoPoint` if set.
-	 * 
-	 * @param {IGeoPoint}  value  Zoom geo point
+	 *
+	 * @param value  Zoom geo point
 	 */
 	public set zoomGeoPoint(value: IGeoPoint) {
 		this.setProperty("zoomGeoPoint", value);
 	}
 
 	/**
-	 * @return {IGeoPoint} Zoom geo point
+	 * @return Zoom geo point
 	 */
 	public get zoomGeoPoint(): IGeoPoint {
 		return this.properties["zoomGeoPoint"];
@@ -172,7 +162,6 @@ export class MapSeriesDataItem extends SeriesDataItem {
 /**
  * [GEOJSONGeometry description]
  *
- * @type {string}
  * @todo Description
  */
 export type GEOJSONGeometry = "Point" | "LineString" | "Polygon" | "MultiPoint" | "MultiLineString" | "MultiPolygon";
@@ -186,22 +175,16 @@ export interface IMapSeriesDataFields extends ISeriesDataFields {
 
 	/**
 	 * A field name in data for a numeric value of the map object.
-	 *
-	 * @type {string}
 	 */
 	value?: string;
 
 	/**
 	 * A field name in data for a `zoomLevel` of the map object.
-	 *
-	 * @type {string}
 	 */
 	zoomLevel?: string;
 
 	/**
 	 * A field name in data for a `zoomGeoPoint` of the map object.
-	 *
-	 * @type {string}
 	 */
 	zoomGeoPoint?: string;
 
@@ -216,21 +199,16 @@ export interface IMapSeriesProperties extends ISeriesProperties {
 	 * A flag telling if the series should get data from `geodata` or not
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	useGeodata?: boolean;
 
 	/**
 	 * A list of object ids to include from the series.
-	 *
-	 * @type {string[]}
 	 */
 	include?: string[];
 
 	/**
 	 * A list of object ids to exclude from the series.
-	 *
-	 * @type {string[]}
 	 */
 	exclude?: string[];
 }
@@ -266,71 +244,51 @@ export class MapSeries extends Series {
 
 	/**
 	 * Defines available data fields.
-	 *
-	 * @type {IMapSeriesDataFields}
 	 */
 	public _dataFields: IMapSeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IMapSeriesProperties}
 	 */
 	public _properties!: IMapSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IMapSeriesAdapters}
 	 */
 	public _adapter!: IMapSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IMapSeriesEvents}
 	 */
 	public _events!: IMapSeriesEvents;
 
 	/**
 	 * Defines the type of data item.
-	 *
-	 * @type {MapSeriesDataItem}
 	 */
 	public _dataItem: MapSeriesDataItem;
 
 	/**
 	 * The longitude of the East-most point in the series. (out of all elements)
-	 *
-	 * @type {number}
 	 */
 	public east: number;
 
 	/**
 	 * The longitude of the West-most point in the series. (out of all elements)
-	 *
-	 * @type {number}
 	 */
 	public west: number;
 
 	/**
 	 * The latitude of the South-most point in the series. (out of all elements)
-	 *
-	 * @type {number}
 	 */
 	public south: number;
 
 	/**
 	 * The latitude of the North-most point in the series. (out of all elements)
-	 *
-	 * @type {number}
 	 */
 	public north: number;
 
 	/**
 	 * A chart series belongs to.
-	 *
-	 * @type {MapChart}
 	 */
 	public _chart: MapChart;
 
@@ -339,7 +297,6 @@ export class MapSeries extends Series {
 	 * Map data in GeoJSON format.
 	 *
 	 * @see {@link http://geojson.org/} GeoJSON official specification
-	 * @type {Object}
 	 */
 	protected _geodata: Object;
 
@@ -368,7 +325,7 @@ export class MapSeries extends Series {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {MapSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new MapSeriesDataItem();
@@ -405,10 +362,10 @@ export class MapSeries extends Series {
 	/**
 	 * Checks whether object should be included in series.
 	 *
-	 * @param  {string[]}  includes  A list of explicitly included ids
-	 * @param  {string[]}  excludes  A list of explicitly excluded ids
-	 * @param  {string}    id        Id of the object
-	 * @return {boolean}             Include?
+	 * @param includes  A list of explicitly included ids
+	 * @param excludes  A list of explicitly excluded ids
+	 * @param id        Id of the object
+	 * @return Include?
 	 */
 	protected checkInclude(includes: string[], excludes: string[], id: string): boolean {
 		if (includes) {
@@ -442,7 +399,7 @@ export class MapSeries extends Series {
 	 * map infor in GeoJSON format.
 	 *
 	 * @default false
-	 * @param {boolean}  value  Use GeoJSON data?
+	 * @param value  Use GeoJSON data?
 	 */
 	public set useGeodata(value: boolean) {
 		if (this.setPropertyValue("useGeodata", value)) {
@@ -451,7 +408,7 @@ export class MapSeries extends Series {
 	}
 
 	/**
-	 * @return {boolean} Use GeoJSON data?
+	 * @return Use GeoJSON data?
 	 */
 	public get useGeodata(): boolean {
 		return this.getPropertyValue("useGeodata");
@@ -470,7 +427,7 @@ export class MapSeries extends Series {
 	 *
 	 * The above will show only France, Spain, and Germany out of the whole map.
 	 *
-	 * @param {string[]}  value  Included objects
+	 * @param value  Included objects
 	 */
 	public set include(value: string[]) {
 		if (this.setPropertyValue("include", value)) {
@@ -487,7 +444,7 @@ export class MapSeries extends Series {
 	}
 
 	/**
-	 * @return {string[]} Included objects
+	 * @return Included objects
 	 */
 	public get include(): string[] {
 		return this.getPropertyValue("include");
@@ -501,7 +458,7 @@ export class MapSeries extends Series {
 	 *
 	 * You'd leave `include` empty, and set `exclude = ["AQ"]`.
 	 *
-	 * @param {string[]}  value  Excluded ids
+	 * @param value  Excluded ids
 	 */
 	public set exclude(value: string[]) {
 		if (this.setPropertyValue("exclude", value)) {
@@ -510,7 +467,7 @@ export class MapSeries extends Series {
 	}
 
 	/**
-	 * @return {string[]} Excluded ids
+	 * @return Excluded ids
 	 */
 	public get exclude(): string[] {
 		return this.getPropertyValue("exclude");
@@ -519,13 +476,13 @@ export class MapSeries extends Series {
 	/**
 	 * Decorates a newly added object.
 	 *
-	 * @param {IListEvents<MapObject>["inserted"]} event [description]
+	 * @param event [description]
 	 */
 	protected handleObjectAdded(event: IListEvents<MapObject>["inserted"]) {
 		let mapObject: MapObject = event.newValue;
 		mapObject.parent = this;
 		mapObject.series = this;
-		mapObject.strokeWidth = mapObject.strokeWidth;		
+		mapObject.strokeWidth = mapObject.strokeWidth;
 	}
 
 	/**
@@ -535,7 +492,7 @@ export class MapSeries extends Series {
 	 * `Polygon`, `MultiPoint`, `MultiLineString`, and `MultiPolygon`.
 	 *
 	 * @see {@link http://geojson.org/} Official GeoJSON format specification
-	 * @param {Object} geoJSON GeoJSON data
+	 * @param geoJSON GeoJSON data
 	 */
 	public set geodata(geodata: Object) {
 		if (geodata != this._geodata) {
@@ -549,7 +506,7 @@ export class MapSeries extends Series {
 	}
 
 	/**
-	 * @return {Object} GeoJSON data
+	 * @return GeoJSON data
 	 */
 	public get geodata(): Object {
 		return this._geodata;
@@ -558,7 +515,7 @@ export class MapSeries extends Series {
 	/**
 	 * Sets a [[DataSource]] to be used for loading Component's data.
 	 *
-	 * @param {DataSource} value Data source
+	 * @param value Data source
 	 */
 	public set geodataSource(value: DataSource) {
 		if (this._dataSources["geodata"]) {
@@ -575,7 +532,7 @@ export class MapSeries extends Series {
 	/**
 	 * Returns a [[DataSource]] specifically for loading Component's data.
 	 *
-	 * @return {DataSource} Data source
+	 * @return Data source
 	 */
 	public get geodataSource(): DataSource {
 		if (!this._dataSources["geodata"]) {

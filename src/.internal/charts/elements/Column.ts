@@ -61,28 +61,21 @@ export class Column extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IColumnProperties}
 	 */
 	public _properties!: IColumnProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IColumnAdapters}
 	 */
 	public _adapter!: IColumnAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IColumnEvents}
 	 */
 	public _events!: IColumnEvents;
 
 	/**
 	 * column element
-	 * @type {RoundedRectangle}
 	 */
 	public column: RoundedRectangle;
 
@@ -161,13 +154,13 @@ export class Column extends Container {
 			column.height = $math.min(this.pixelHeight, this.maxHeight);
 			if(column.invalid){
 				column.validate(); // important!
-			}			
+			}
 		}
 	}
 	/**
 	 * Copies all parameters from another [[Column]].
 	 *
-	 * @param {Column} source Source Column
+	 * @param source Source Column
 	 */
 	public copyFrom(source: this) {
 		super.copyFrom(source);
@@ -181,7 +174,6 @@ export class Column extends Container {
 	 * Returns bounding box (square) for this element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {IRectangle}
 	 */
 	public get bbox(): IRectangle {
 		if (this.definedBBox) {

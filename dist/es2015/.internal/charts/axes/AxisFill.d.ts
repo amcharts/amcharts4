@@ -18,19 +18,14 @@ import { Axis, AxisItemLocation, AxisDataItem } from "./Axis";
 export interface IAxisFillProperties extends ISpriteProperties {
     /**
      * Start position. (0-1)
-     *
-     * @type {number}
      */
     startPosition?: number;
     /**
      * End position. (0-1)
-     * @type {number}
      */
     endPosition?: number;
     /**
      * Location within the axis.
-     *
-     * @type {number}
      */
     location?: number;
 }
@@ -65,26 +60,18 @@ export interface IAxisFillAdapters extends ISpriteAdapters, IAxisFillProperties 
 export declare class AxisFill extends Sprite {
     /**
      * Defines available properties.
-     *
-     * @type {IAxisFillProperties}
      */
     _properties: IAxisFillProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IAxisFillAdapters}
      */
     _adapter: IAxisFillAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IAxisFillEvents}
      */
     _events: IAxisFillEvents;
     /**
      * A referecent to Axis element this fill is applied to.
-     *
-     * @type {Axis}
      */
     axis: Axis;
     /**
@@ -92,7 +79,6 @@ export declare class AxisFill extends Sprite {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @type {string}
      */
     fillPath: string;
     /**
@@ -101,13 +87,12 @@ export declare class AxisFill extends Sprite {
      * Not sure what this is doing here?
      *
      * @todo Description
-     * @type {AxisDataItem}
      */
     _dataItem: AxisDataItem;
     /**
      * Constructor.
      *
-     * @param {Axis} axis Axis
+     * @param axis Axis
      */
     constructor(axis: Axis);
     /**
@@ -121,30 +106,30 @@ export declare class AxisFill extends Sprite {
      */
     draw(): void;
     /**
-     * @return {number} Start position
+     * @return Start position
      */
     /**
      * An actual starting position of the fill.
      *
-     * @param {number}  value  Starting position
+     * @param value  Starting position
      */
     startPosition: number;
     /**
-     * @return {number} End position
+     * @return End position
      */
     /**
      * An actual end position of the fill.
      *
-     * @param {number} value End position
+     * @param value End position
      */
     endPosition: number;
     /**
-     * @return {AxisItemLocation} Location (0-1)
+     * @return Location (0-1)
      */
     /**
      * Relative location of the fill. (0-1)
      *
-     * @param {number} value Location (0-1)
+     * @param value Location (0-1)
      */
     location: AxisItemLocation;
 }

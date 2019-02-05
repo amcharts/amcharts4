@@ -119,14 +119,11 @@ export class GlobalAdapter {
 
 	/**
 	 * Callback id iterator.
-	 *
-	 * @type {number}
 	 */
 	private _callbackId: number = 0;
 
 	/**
 	 * A list of if callbacks (adapters).
-	 *
 	 */
 	private _callbacks = new SortedList<IGlobalAdapterCallback>((left, right) => {
 		return $order.or($number.order(left.priority, right.priority),
@@ -153,11 +150,11 @@ export class GlobalAdapter {
 	 * Whenever an adapter in any object of the specific class type is invoked
 	 * global adapters will kick in.
 	 *
-	 * @param {any}         type      Class type
-	 * @param {any}         key       Adapter key
-	 * @param {any}         callback  Callback function
-	 * @param {number = 0}  priority  Priority (higher priority meaning adapter will be applied later)
-	 * @param {any}         scope     Callback function scaope
+	 * @param type      Class type
+	 * @param key       Adapter key
+	 * @param callback  Callback function
+	 * @param priority  Priority (higher priority meaning adapter will be applied later)
+	 * @param scope     Callback function scaope
 	 */
 	public addAll(type: any, key: any, callback: any, priority: number = 0, scope?: any): void {
 		this._callbacks.insert({
@@ -173,8 +170,8 @@ export class GlobalAdapter {
 	/**
 	 * Returns if there are adapters for specific type available.
 	 *
-	 * @param  {Target}   type  Adapter type
-	 * @param  {Key}      key   Adapter key
+	 * @param type  Adapter type
+	 * @param key   Adapter key
 	 * @return {boolean}
 	 */
 	public isEnabled<T, Target, Key extends keyof T>(type: Target, key: Key): boolean {
@@ -185,9 +182,9 @@ export class GlobalAdapter {
 	/**
 	 * Applies global adapters for the object of the specific type.
 	 *
-	 * @param {any}  type   Class type
-	 * @param {any}  key    Adapter key
-	 * @param {any}  value  Value
+	 * @param type   Class type
+	 * @param key    Adapter key
+	 * @param value  Value
 	 */
 	public applyAll<T, Target, Key extends keyof T = keyof T>(type: Target, key: Key, value: T[Key]): T[Key] {
 		// This is needed to improve the performance and reduce garbage collection
@@ -287,16 +284,14 @@ export class Adapter<Target, T> {
 
 	/**
 	 * Internal counter for callback ids.
-	 *
-	 * @type {number}
 	 */
 	private _callbackId: number = 0;
 
 	/**
 	 * A list of adapter callbacks.
 	 *
-	 * @param {[type]} $number.order(left.priority, right.priority) [description]
-	 * @param {[type]} $number.order(left.id,       right.id));	}  [description]
+	 * @param $number.order(left.priority, right.priority) [description]
+	 * @param $number.order(left.id,       right.id));	}  [description]
 	 */
 	private _callbacks = new SortedList<IAdapterCallback<Target, T>>((left, right) => {
 		return $order.or($number.order(left.priority, right.priority),
@@ -305,8 +300,6 @@ export class Adapter<Target, T> {
 
 	/**
 	 * Holds an object reference this Adapter is for.
-	 *
-	 * @type {T}
 	 */
 	public object: Target;
 
@@ -321,7 +314,7 @@ export class Adapter<Target, T> {
 	/**
 	 * Constructor, sets the object referece this Adapter should be used for.
 	 *
-	 * @param {T} c Object
+	 * @param c Object
 	 */
 	constructor(c: Target) {
 		this.object = c;
@@ -375,10 +368,10 @@ export class Adapter<Target, T> {
 	 *
 	 * The heigher the `priority`, the later in the game adapter will be applied.
 	 *
-	 * @param {string}         key       Key
-	 * @param {any[]) => any}  callback  A callback function
-	 * @param {number}         priority  The higher priority, the more chance the adapter will be applied last
-	 * @param {any}            scope     Scope for the callback function
+	 * @param key       Key
+	 * @param callback  A callback function
+	 * @param priority  The higher priority, the more chance the adapter will be applied last
+	 * @param scope     Scope for the callback function
 	 */
 	public add<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target, key: Key) => T[Key], priority: number = 0, scope?: C): void {
 		this._callbacks.insert({
@@ -393,10 +386,10 @@ export class Adapter<Target, T> {
 	/**
 	 * Checks whether specific adapter is already set.
 	 *
-	 * @param   {string}         key       Key
-	 * @param   {any[]) => any}  callback  A callback function
-	 * @param   {number}         priority  The higher priority, the more chance the adapter will be applied last
-	 * @param   {any}            scope     Scope for the callback function
+	 * @param key       Key
+	 * @param callback  A callback function
+	 * @param priority  The higher priority, the more chance the adapter will be applied last
+	 * @param scope     Scope for the callback function
 	 * @returns                            Adapter set?
 	 */
 	public has<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target, key: Key) => T[Key], priority: number = 0, scope?: C): boolean {
@@ -409,8 +402,8 @@ export class Adapter<Target, T> {
 	 *
 	 * If `priority` is specified, only callbacks for that priority are removed.
 	 *
-	 * @param {string} key      Key
-	 * @param {number} priority Priority
+	 * @param key      Key
+	 * @param priority Priority
 	 * @todo Implement
 	 */
 	public remove(key: string, priority?: number): void {
@@ -427,7 +420,7 @@ export class Adapter<Target, T> {
 	/**
 	 * Returns if there are any adapters set for the specific `key`.
 	 *
-	 * @returns {boolean} Are there any adapters for the key?
+	 * @returns Are there any adapters for the key?
 	 */
 	public isEnabled<Key extends keyof T>(key: Key): boolean {
 		// TODO check the key
@@ -437,10 +430,10 @@ export class Adapter<Target, T> {
 	/**
 	 * Passes the input value through all the callbacks for the defined `key`.
 	 *
-	 * @param  {string}  key      Key
-	 * @param  {any}     value    Input value
-	 * @param  {any[]}   ...rest  Rest of the parameters to be passed into callback
-	 * @return {any}              Output value
+	 * @param key      Key
+	 * @param value    Input value
+	 * @param ...rest  Rest of the parameters to be passed into callback
+	 * @return Output value
 	 */
 	public apply<Key extends keyof T>(key: Key, value: T[Key]): T[Key] {
 		// This is needed to improve the performance and reduce garbage collection
@@ -466,7 +459,7 @@ export class Adapter<Target, T> {
 	/**
 	 * Returns all adapter keys that are currently in effect.
 	 *
-	 * @return {string[]} Adapter keys
+	 * @return Adapter keys
 	 */
 	public keys(): Array<string> {
 		// TODO inefficient
@@ -477,7 +470,7 @@ export class Adapter<Target, T> {
 	/**
 	 * Copies all the adapter callbacks from `source`.
 	 *
-	 * @param {Adapter<Target, T>}  source  An Adapter to copy items from
+	 * @param source  An Adapter to copy items from
 	 */
 	public copyFrom(source: this): void {
 		$iter.each(source._callbacks.iterator(), (x) => {

@@ -23,32 +23,22 @@ import { Color } from "../../utils/Color";
 export interface DropShadowFilterProperties extends FilterProperties {
     /**
      * Horizontal offset in pixels.
-     *
-     * @type {number}
      */
     dx: number;
     /**
      * Vertical offset in pixels.
-     *
-     * @type {number}
      */
     dy: number;
     /**
      * Blur.
-     *
-     * @type {number}
      */
     blur: number;
     /**
      * Shadow opacity. (0-1)
-     *
-     * @type {number}
      */
     opacity: number;
     /**
      * Shadow color.
-     *
-     * @type {Color}
      */
     color: Color;
 }
@@ -64,49 +54,41 @@ export interface DropShadowFilterProperties extends FilterProperties {
 export declare class DropShadowFilter extends Filter {
     /**
      * Defines property types.
-     *
-     * @type {DropShadowFilterProperties}
      */
     _properties: DropShadowFilterProperties;
     /**
      * A storage for Filter property/value pairs.
      *
      * @see [@link DropShadowFilterProperties]
-     * @type {Dictionary<DropShadowFilterProperties, any>}
      */
     /**
      * Reference to the `<feGaussianBlur>` element.
      *
      * @ignore Exclude from docs
-     * @type {AMElement}
      */
     feGaussianBlur: AMElement;
     /**
      * Reference to the `<feOffset>` element.
      *
      * @ignore Exclude from docs
-     * @type {AMElement}
      */
     feOffset: AMElement;
     /**
      * Reference to the `<feFlood>` element.
      *
      * @ignore Exclude from docs
-     * @type {AMElement}
      */
     feFlood: AMElement;
     /**
      * Reference to the `<feFlood>` element.
      *
      * @ignore Exclude from docs
-     * @type {AMElement}
      */
     feComposite: AMElement;
     /**
      * Reference to the `<feMerge>` element.
      *
      * @ignore Exclude from docs
-     * @type {Group}
      */
     feMerge: Group;
     /**
@@ -114,48 +96,48 @@ export declare class DropShadowFilter extends Filter {
      */
     constructor();
     /**
-     * @return {Color} Color
+     * @return Color
      */
     /**
      * Shadow color.
      *
-     * @param {Color}  value  Color
+     * @param value  Color
      */
     color: Color;
     /**
-     * @return {number} Opacity (0-1)
+     * @return Opacity (0-1)
      */
     /**
      * Opacity of the shadow. (0-1)
      *
-     * @param {number}  value  Opacity (0-1)
+     * @param value  Opacity (0-1)
      */
     opacity: number;
     /**
-     * @return {number} Horizontal offset (px)
+     * @return Horizontal offset (px)
      */
     /**
      * Horizontal offset in pixels.
      *
-     * @param {number}  value  Horizontal offset (px)
+     * @param value  Horizontal offset (px)
      */
     dx: number;
     /**
-     * @return {number} Vertical offset (px)
+     * @return Vertical offset (px)
      */
     /**
      * Vertical offset in pixels.
      *
-     * @param {number} value Vertical offset (px)
+     * @param value Vertical offset (px)
      */
     dy: number;
     /**
-     * @return {number} Blur
+     * @return Blur
      */
     /**
      * Blur.
      *
-     * @param {number}  value  Blur
+     * @param value  Blur
      */
     blur: number;
     /**

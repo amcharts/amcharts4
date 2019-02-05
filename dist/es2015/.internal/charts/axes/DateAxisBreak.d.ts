@@ -25,14 +25,10 @@ import { ITimeInterval } from "../../core/defs/ITimeInterval";
 export interface IDateAxisBreakProperties extends IValueAxisBreakProperties {
     /**
      * A `Date` break starts on.
-     *
-     * @type {Date}
      */
     startDate?: Date;
     /**
      * A `Date` break ends on.
-     *
-     * @type {Date}
      */
     endDate?: Date;
 }
@@ -67,26 +63,18 @@ export interface IDateAxisBreakAdapters extends IValueAxisBreakAdapters, IDateAx
 export declare class DateAxisBreak extends ValueAxisBreak {
     /**
      * Defines available properties.
-     *
-     * @type {IDateAxisBreakProperties}
      */
     _properties: IDateAxisBreakProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IDateAxisBreakAdapters}
      */
     _adapter: IDateAxisBreakAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IDateAxisBreakEvents}
      */
     _events: IDateAxisBreakEvents;
     /**
      * Defines the type of the Axis this break is used for.
-     *
-     * @type {ValueAxis}
      */
     _axisType: DateAxis;
     /**
@@ -94,14 +82,12 @@ export declare class DateAxisBreak extends ValueAxisBreak {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {ITimeInterval}
      */
     gridInterval: ITimeInterval;
     /**
      * [gridDate description]
      *
      * @ignore Exclude from docs
-     * @type {Date}
      * @todo Description
      */
     gridDate: Date;
@@ -110,21 +96,21 @@ export declare class DateAxisBreak extends ValueAxisBreak {
      */
     constructor();
     /**
-     * @return {Date} Start date
+     * @return Start date
      */
     /**
      * Starting date for the break.
      *
-     * @param {Date} value Start date
+     * @param value Start date
      */
     startDate: Date;
     /**
-     * @return {Date} End date
+     * @return End date
      */
     /**
      * Ending date for the break.
      *
-     * @param {Date} value End date
+     * @param value End date
      */
     endDate: Date;
 }

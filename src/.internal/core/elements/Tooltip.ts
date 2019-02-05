@@ -31,8 +31,6 @@ import * as $type from "../utils/Type";
 
 /**
  * Represents options for tooltip pointer (arrow) orientation.
- *
- * @type {string}
  */
 export type PointerOrientation = "horizontal" | "vertical";
 
@@ -45,7 +43,6 @@ export interface ITooltipProperties extends IContainerProperties {
 	 * Pointer orientation: "horizontal" or "vertical".
 	 *
 	 * @default "vertical"
-	 * @type {PointerOrientation}
 	 */
 	pointerOrientation?: PointerOrientation;
 
@@ -59,7 +56,6 @@ export interface ITooltipProperties extends IContainerProperties {
 	 * a speed determined by this setting.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-	 * @type {number}
 	 */
 	animationDuration?: number;
 
@@ -67,31 +63,24 @@ export interface ITooltipProperties extends IContainerProperties {
 	 * An easing function to use when animating Tooltip position.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-	 * @type {(value: number) => number}
 	 */
 	animationEasing?: (value: number) => number;
 
 	/**
 	 * Specifies if tooltip background should get stroke color from the sprite
 	 * it is pointing to.
-	 *
-	 * @type {boolean}
 	 */
 	getStrokeFromObject?: boolean;
 
 	/**
 	 * Specifies if tooltip background should get fill color from the sprite it
 	 * is pointing to.
-	 *
-	 * @type {boolean}
 	 */
 	getFillFromObject?: boolean;
 
 	/**
 	 * Specifies if text color should be chosen automatically for a better
 	 * readability.
-	 *
-	 * @type {boolean}
 	 */
 	autoTextColor?: boolean;
 }
@@ -126,29 +115,21 @@ export class Tooltip extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ITooltipProperties}
 	 */
 	public _properties!: ITooltipProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ITooltipAdapters}
 	 */
 	public _adapter!: ITooltipAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ITooltipEvents}
 	 */
 	public _events!: ITooltipEvents;
 
 	/**
 	 * A type for the background element.
-	 *
-	 * @type {PointedRectangle}
 	 */
 	public _background: PointedRectangle;
 
@@ -162,22 +143,16 @@ export class Tooltip extends Container {
 	 * bounding container is used to calculate numeric boundaries
 	 * (`boundingRect`). It is used to constrain the Tooltip to specific area on
 	 * the chart, like for example cursor tooltip in plot area.
-	 *
-	 * @type {Container}
 	 */
 	protected _boundingContainer: Container;
 
 	/**
 	 * Holds numeric boundary values. Calculated from the `boundingContainer`.
-	 *
-	 * @type {IRectangle}
 	 */
 	protected _boundingRect: IRectangle = { x: -40000, y: -40000, width: 80000, height: 80000 };
 
 	/**
 	 * Coordinates tooltip's pointer (stem) should point to.
-	 *
-	 * @type {IPoint}
 	 */
 	protected _pointTo: IPoint = { x: 0, y: 0 };
 
@@ -186,14 +161,11 @@ export class Tooltip extends Container {
 	 * Tooltip's width or height depending on pointer's orientation.
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	public fitPointerToBounds: boolean = false;
 
 	/**
 	 * If tooltipOrientation is vertical, it can be drawn below or above point. We need to know this when solving overlapping
-	 *
-	 * @type "up" | "down"
 	 */
 	protected _verticalOrientation: "up" | "down" = "up";
 
@@ -293,7 +265,7 @@ export class Tooltip extends Container {
 	/**
 	 * Specifies if tooltip background should get stroke color from the sprite it is pointing to.
 	 *
-	 * @param {value} value boolean
+	 * @param value boolean
 	 */
 	public set getStrokeFromObject(value: boolean) {
 		this.setPropertyValue("getStrokeFromObject", value, true);
@@ -311,7 +283,7 @@ export class Tooltip extends Container {
 	 * using `tooltip.label.fill` property.
 	 *
 	 *
-	 * @param {value} value boolean
+	 * @param value boolean
 	 */
 	public set autoTextColor(value: boolean) {
 		this.setPropertyValue("autoTextColor", value, true);
@@ -336,7 +308,7 @@ export class Tooltip extends Container {
 	}
 
 	/**
-	 * @param {value} value boolean
+	 * @param value boolean
 	 */
 	public set getFillFromObject(value: boolean) {
 		this.setPropertyValue("getFillFromObject", value, true);
@@ -347,7 +319,7 @@ export class Tooltip extends Container {
 	 * Creates and returns a background element.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {PointedRectangle} Background
+	 * @return Background
 	 */
 	public createBackground(): this["_background"] {
 		return new PointedRectangle();
@@ -357,14 +329,14 @@ export class Tooltip extends Container {
 	 * Pointer orientation: "horizontal" or "vertical".
 	 *
 	 * @default "vertical"
-	 * @param {PointerOrientation}  value  Orientation
+	 * @param value  Orientation
 	 */
 	public set pointerOrientation(value: PointerOrientation) {
 		this.setPropertyValue("pointerOrientation", value, true);
 	}
 
 	/**
-	 * @return {PointerOrientation} Orientation
+	 * @return Orientation
 	 */
 	public get pointerOrientation(): PointerOrientation {
 		return this.getPropertyValue("pointerOrientation");
@@ -375,14 +347,14 @@ export class Tooltip extends Container {
 	 * is moving from one place to another.
 	 *
 	 * @default 0
-	 * @param {number}  value  number
+	 * @param value  number
 	 */
 	public set animationDuration(value: number) {
 		this.setPropertyValue("animationDuration", value);
 	}
 
 	/**
-	 * @return {PointerOrientation} Orientation
+	 * @return Orientation
 	 */
 	public get animationDuration(): number {
 		return this.getPropertyValue("animationDuration");
@@ -392,7 +364,7 @@ export class Tooltip extends Container {
 	 * Tooltip animation (moving from one place to another) easing function.
 	 *
 	 * @default $ease.cubicOut
-	 * @param {Function}  value (value: number) => number
+	 * @param value (value: number) => number
 	 */
 	public set animationEasing(value: (value: number) => number) {
 		this.setPropertyValue("animationEasing", value);
@@ -411,7 +383,7 @@ export class Tooltip extends Container {
 	 * Provided value will be used as is, without applying any further
 	 * formatting to it.
 	 *
-	 * @param {string}  value  HTML content
+	 * @param value  HTML content
 	 */
 	public set html(value: string) {
 		if (this.label.html != value) {
@@ -421,7 +393,7 @@ export class Tooltip extends Container {
 	}
 
 	/**
-	 * @return {string} HTML content
+	 * @return HTML content
 	 */
 	public get html(): string {
 		return this.label.html;
@@ -433,7 +405,7 @@ export class Tooltip extends Container {
 	 * Text can have a number of formatting options supported by
 	 * [[TextFormatter]].
 	 *
-	 * @param {string}  value  SVG text
+	 * @param value  SVG text
 	 */
 	public set text(value: string) {
 		if (this.label.text != value) {
@@ -443,7 +415,7 @@ export class Tooltip extends Container {
 	}
 
 	/**
-	 * @return {string} SVG text
+	 * @return SVG text
 	 */
 	public get text(): string {
 		return this.label.text;
@@ -582,8 +554,8 @@ export class Tooltip extends Container {
 	/**
 	 * Set nes tooltip's anchor point and moves whole tooltip.
 	 *
-	 * @param {number}  x  X coordinate
-	 * @param {number}  y  Y coordinate
+	 * @param x  X coordinate
+	 * @param y  Y coordinate
 	 */
 	public pointTo(point: IPoint, instantly?: boolean): void {
 		if (this._pointTo.x != point.x || this._pointTo.y != point.y) {
@@ -617,7 +589,7 @@ export class Tooltip extends Container {
 	 * specific area).
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IRectangle} rectangle Boundary rectangle
+	 * @param rectangle Boundary rectangle
 	 */
 	public setBounds(rectangle: IRectangle): void {
 		let oldRect = this._boundingRect;
@@ -632,7 +604,7 @@ export class Tooltip extends Container {
 	 * boundaries for the Tooltip.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Container}  container  Boundary container
+	 * @param container  Boundary container
 	 */
 	public set boundingContainer(container: Container) {
 		this._boundingContainer = container;
@@ -679,7 +651,7 @@ export class Tooltip extends Container {
 	/**
 	 * Copies properties and other attributes.
 	 *
-	 * @param {Tooltip}  source  Source
+	 * @param source  Source
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);

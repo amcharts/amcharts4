@@ -31,36 +31,26 @@ export interface DropShadowFilterProperties extends FilterProperties {
 
 	/**
 	 * Horizontal offset in pixels.
-	 *
-	 * @type {number}
 	 */
 	dx: number;
 
 	/**
 	 * Vertical offset in pixels.
-	 *
-	 * @type {number}
 	 */
 	dy: number;
 
 	/**
 	 * Blur.
-	 *
-	 * @type {number}
 	 */
 	blur: number;
 
 	/**
 	 * Shadow opacity. (0-1)
-	 *
-	 * @type {number}
 	 */
 	opacity: number;
 
 	/**
 	 * Shadow color.
-	 *
-	 * @type {Color}
 	 */
 	color: Color;
 
@@ -80,8 +70,6 @@ export class DropShadowFilter extends Filter {
 
 	/**
 	 * Defines property types.
-	 *
-	 * @type {DropShadowFilterProperties}
 	 */
 	public _properties!: DropShadowFilterProperties;
 
@@ -89,7 +77,6 @@ export class DropShadowFilter extends Filter {
 	 * A storage for Filter property/value pairs.
 	 *
 	 * @see [@link DropShadowFilterProperties]
-	 * @type {Dictionary<DropShadowFilterProperties, any>}
 	 */
 	//public propertyValues: Dictionary<DropShadowFilterProperties, any>;
 
@@ -98,7 +85,6 @@ export class DropShadowFilter extends Filter {
 	 * Reference to the `<feGaussianBlur>` element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {AMElement}
 	 */
 	public feGaussianBlur: AMElement;
 
@@ -106,7 +92,6 @@ export class DropShadowFilter extends Filter {
 	 * Reference to the `<feOffset>` element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {AMElement}
 	 */
 	public feOffset: AMElement;
 
@@ -114,7 +99,6 @@ export class DropShadowFilter extends Filter {
 	 * Reference to the `<feFlood>` element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {AMElement}
 	 */
 	public feFlood: AMElement;
 
@@ -122,7 +106,6 @@ export class DropShadowFilter extends Filter {
 	 * Reference to the `<feFlood>` element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {AMElement}
 	 */
 	public feComposite: AMElement;
 
@@ -130,7 +113,6 @@ export class DropShadowFilter extends Filter {
 	 * Reference to the `<feMerge>` element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Group}
 	 */
 	public feMerge: Group;
 
@@ -186,7 +168,7 @@ export class DropShadowFilter extends Filter {
 	/**
 	 * Shadow color.
 	 *
-	 * @param {Color}  value  Color
+	 * @param value  Color
 	 */
 	public set color(value: Color) {
 		this.properties.color = value;
@@ -196,7 +178,7 @@ export class DropShadowFilter extends Filter {
 	}
 
 	/**
-	 * @return {Color} Color
+	 * @return Color
 	 */
 	public get color(): Color {
 		return this.properties.color;
@@ -205,7 +187,7 @@ export class DropShadowFilter extends Filter {
 	/**
 	 * Opacity of the shadow. (0-1)
 	 *
-	 * @param {number}  value  Opacity (0-1)
+	 * @param value  Opacity (0-1)
 	 */
 	public set opacity(value: number) {
 		this.properties.opacity = value;
@@ -213,7 +195,7 @@ export class DropShadowFilter extends Filter {
 	}
 
 	/**
-	 * @return {number} Opacity (0-1)
+	 * @return Opacity (0-1)
 	 */
 	public get opacity(): number {
 		return this.properties.opacity;
@@ -222,7 +204,7 @@ export class DropShadowFilter extends Filter {
 	/**
 	 * Horizontal offset in pixels.
 	 *
-	 * @param {number}  value  Horizontal offset (px)
+	 * @param value  Horizontal offset (px)
 	 */
 	public set dx(value: number) {
 		this.properties.dx = value;
@@ -230,7 +212,7 @@ export class DropShadowFilter extends Filter {
 	}
 
 	/**
-	 * @return {number} Horizontal offset (px)
+	 * @return Horizontal offset (px)
 	 */
 	public get dx(): number {
 		return this.properties.dx;
@@ -239,7 +221,7 @@ export class DropShadowFilter extends Filter {
 	/**
 	 * Vertical offset in pixels.
 	 *
-	 * @param {number} value Vertical offset (px)
+	 * @param value Vertical offset (px)
 	 */
 	public set dy(value: number) {
 		this.properties.dy = value;
@@ -247,7 +229,7 @@ export class DropShadowFilter extends Filter {
 	}
 
 	/**
-	 * @return {number} Vertical offset (px)
+	 * @return Vertical offset (px)
 	 */
 	public get dy(): number {
 		return this.properties.dy;
@@ -256,7 +238,7 @@ export class DropShadowFilter extends Filter {
 	/**
 	 * Blur.
 	 *
-	 * @param {number}  value  Blur
+	 * @param value  Blur
 	 */
 	public set blur(value: number) {
 		this.properties.blur = value;
@@ -264,7 +246,7 @@ export class DropShadowFilter extends Filter {
 	}
 
 	/**
-	 * @return {number} Blur
+	 * @return Blur
 	 */
 	public get blur(): number {
 		return this.properties.blur;

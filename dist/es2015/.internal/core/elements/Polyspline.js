@@ -96,7 +96,7 @@ var Polyspline = /** @class */ (function (_super) {
     };
     Object.defineProperty(Polyspline.prototype, "tensionX", {
         /**
-         * @return {number} Tension
+         * @return Tension
          */
         get: function () {
             return this.getPropertyValue("tensionX");
@@ -107,7 +107,7 @@ var Polyspline = /** @class */ (function (_super) {
          * Used by the line smoothing algorithm.
          *
          * @default 0.5
-         * @param {number}  value  Tension
+         * @param value  Tension
          */
         set: function (value) {
             this.setPropertyValue("tensionX", value);
@@ -118,7 +118,7 @@ var Polyspline = /** @class */ (function (_super) {
     });
     Object.defineProperty(Polyspline.prototype, "tensionY", {
         /**
-         * @return {number} Tension
+         * @return Tension
          */
         get: function () {
             return this.getPropertyValue("tensionY");
@@ -129,7 +129,7 @@ var Polyspline = /** @class */ (function (_super) {
          * Used by the line smoothing algorithm.
          *
          * @default 0.5
-         * @param {number}  value  Tensions
+         * @param value  Tensions
          */
         set: function (value) {
             this.setPropertyValue("tensionY", value, true);

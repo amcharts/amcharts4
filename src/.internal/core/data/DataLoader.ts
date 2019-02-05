@@ -67,15 +67,11 @@ export class DataLoader {
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IExportAdapters}
 	 */
 	public _adapter!: IDataLoaderAdapters;
 
 	/**
 	 * Adapter.
-	 *
-	 * @type {Adapter<DataLoader, IDataLoaderAdapters>}
 	 */
 	public adapter: Adapter<DataLoader, IDataLoaderAdapters> = new Adapter<DataLoader, IDataLoaderAdapters>(this);
 
@@ -83,7 +79,7 @@ export class DataLoader {
 	 * Loads a supplied [[DataSource]] or an array of data sources, then calls
 	 * their respective `parse` methods.
 	 *
-	 * @param  {DataSource | DataSource[]}  source  A single data source or an array of multiple of data sources
+	 * @param source  A single data source or an array of multiple of data sources
 	 */
 	public load(source: DataSource | DataSource[]): void {
 		let sources = Array.isArray(source) ? source : [source];
@@ -156,8 +152,8 @@ export class DataLoader {
 	 * * "csv" or "text/csv"
 	 * * "json" or "application/json"
 	 *
-	 * @param  {string}      contentType  A format type
-	 * @return {DataParser}               A parser object
+	 * @param contentType  A format type
+	 * @return A parser object
 	 */
 	public getParserByType(contentType: string): DataParser {
 
@@ -182,9 +178,9 @@ export class DataLoader {
 	/**
 	 * Tries to determine a parser out of content type and/or actual data.
 	 *
-	 * @param  {string}      data         Data
-	 * @param  {string}      contentType  Content-type
-	 * @return {DataParser}               Parser instance
+	 * @param data         Data
+	 * @param contentType  Content-type
+	 * @return Parser instance
 	 */
 	public getParserByData(data: string, contentType?: string): DataParser {
 

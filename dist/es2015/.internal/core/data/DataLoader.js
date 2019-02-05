@@ -32,8 +32,6 @@ var DataLoader = /** @class */ (function () {
     function DataLoader() {
         /**
          * Adapter.
-         *
-         * @type {Adapter<DataLoader, IDataLoaderAdapters>}
          */
         this.adapter = new Adapter(this);
     }
@@ -41,7 +39,7 @@ var DataLoader = /** @class */ (function () {
      * Loads a supplied [[DataSource]] or an array of data sources, then calls
      * their respective `parse` methods.
      *
-     * @param  {DataSource | DataSource[]}  source  A single data source or an array of multiple of data sources
+     * @param source  A single data source or an array of multiple of data sources
      */
     DataLoader.prototype.load = function (source) {
         var sources = Array.isArray(source) ? source : [source];
@@ -98,8 +96,8 @@ var DataLoader = /** @class */ (function () {
      * * "csv" or "text/csv"
      * * "json" or "application/json"
      *
-     * @param  {string}      contentType  A format type
-     * @return {DataParser}               A parser object
+     * @param contentType  A format type
+     * @return A parser object
      */
     DataLoader.prototype.getParserByType = function (contentType) {
         // Let some plugin decide
@@ -121,9 +119,9 @@ var DataLoader = /** @class */ (function () {
     /**
      * Tries to determine a parser out of content type and/or actual data.
      *
-     * @param  {string}      data         Data
-     * @param  {string}      contentType  Content-type
-     * @return {DataParser}               Parser instance
+     * @param data         Data
+     * @param contentType  Content-type
+     * @return Parser instance
      */
     DataLoader.prototype.getParserByData = function (data, contentType) {
         // Let some plugin decide

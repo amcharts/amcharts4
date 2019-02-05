@@ -59,7 +59,7 @@ var MapLineObject = /** @class */ (function (_super) {
     };
     Object.defineProperty(MapLineObject.prototype, "position", {
         /**
-         * @return {number} Position within the line
+         * @return Position within the line
          */
         get: function () {
             return this.getPropertyValue("position");
@@ -72,7 +72,7 @@ var MapLineObject = /** @class */ (function (_super) {
          * Any intermediate number will place the object at some point within the
          * line.
          *
-         * @param {number}  value  Position within the line (0-1)
+         * @param value  Position within the line (0-1)
          */
         set: function (value) {
             this.setPropertyValue("position", value, false, true);
@@ -82,7 +82,7 @@ var MapLineObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapLineObject.prototype, "adjustRotation", {
         /**
-         * @return {boolean} Auto-rotate
+         * @return Auto-rotate
          */
         get: function () {
             return this.getPropertyValue("adjustRotation");
@@ -95,7 +95,7 @@ var MapLineObject = /** @class */ (function (_super) {
          * direction of the line.
          *
          * @default false
-         * @param {boolean}  value  Auto-rotate
+         * @param value  Auto-rotate
          */
         set: function (value) {
             this.setPropertyValue("adjustRotation", value, false, true);

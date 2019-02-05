@@ -29,7 +29,6 @@ export interface IClockHandProperties extends IContainerProperties {
      * Absolute (px) or relative ([[Percent]]).
      *
      * @default Percent(100)
-     * @type {number | Percent}
      */
     radius: number | Percent;
     /**
@@ -38,26 +37,22 @@ export interface IClockHandProperties extends IContainerProperties {
      * Absolute (px) or relative ([[Percent]]).
      *
      * @default Percent(0)
-     * @type {number | Percent}
      */
     innerRadius: number | Percent;
     /**
      * Width, in pixels, of the clock hand's tip.
      *
      * @default 1
-     * @type {number}
      */
     endWidth: number;
     /**
      * Width, in pixels, of the clock hand's base.
      *
      * @default 5
-     * @type {number}
      */
     startWidth: number;
     /**
      * rotation direction
-     * @type {"any" | "clockWise" | "CounterClockWise"}
      * @default "any"
      */
     rotationDirection: "any" | "clockWise" | "CounterClockWise";
@@ -92,44 +87,30 @@ export interface IClockHandAdapters extends IContainerAdapters, IClockHandProper
 export declare class ClockHand extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IClockHandProperties}
      */
     _properties: IClockHandProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IClockHandAdapters}
      */
     _adapter: IClockHandAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IClockHandEvents}
      */
     _events: IClockHandEvents;
     /**
      * A circle element used as hand's base.
-     *
-     * @type {Circle}
      */
     protected _pin: Circle;
     /**
      * A trapezoid shape used for hand itself.
-     *
-     * @type {Trapezoid}
      */
     protected _hand: Trapezoid;
     /**
      * An Axis hand is related to.
-     *
-     * @type {MutableValueDisposer<Axis>}
      */
     protected _axis: MutableValueDisposer<Axis>;
     /**
      * Hand's current value.
-     *
-     * @type {any}
      */
     protected _value: any;
     /**
@@ -143,16 +124,16 @@ export declare class ClockHand extends Container {
      */
     validate(): void;
     /**
-     * @return {Circle} Pin element
+     * @return Pin element
      */
     /**
      * A circle element used as hand's base. (pin)
      *
-     * @param {Circle}  pin  Pin element
+     * @param pin  Pin element
      */
     pin: Circle;
     /**
-     * @return {Trapezoid} Hand element
+     * @return Hand element
      */
     /**
      * A trapezoid shape used for hand itself.
@@ -162,11 +143,11 @@ export declare class ClockHand extends Container {
      *
      * Set `endWidth` to 1 (px) to make it pointy.
      *
-     * @param {Trapezoid}  hand  Hand element
+     * @param hand  Hand element
      */
     hand: Trapezoid;
     /**
-     * @return {number} Radius
+     * @return Radius
      */
     /**
      * Radius of the hand's outer end. (tip)
@@ -174,11 +155,11 @@ export declare class ClockHand extends Container {
      * Absolute (px) or relative ([[Percent]]).
      *
      * @default Percent(0)
-     * @param {number | Percent}  value  Radius
+     * @param value  Radius
      */
     radius: number | Percent;
     /**
-     * @return {number} Radius
+     * @return Radius
      */
     /**
      * Radius of the hand's inner end. (base)
@@ -186,37 +167,37 @@ export declare class ClockHand extends Container {
      * Absolute (px) or relative ([[Percent]]).
      *
      * @default Percent(0)
-     * @param {number | Percent}  value  Radius
+     * @param value  Radius
      */
     innerRadius: number | Percent;
     /**
-     * @return {number} Width (px)
+     * @return Width (px)
      */
     /**
      * Width, in pixels, of the clock hand's inner end. (base)
      *
      * @default 5
-     * @param {number}  value  Width (px)
+     * @param value  Width (px)
      */
     startWidth: number;
     /**
-     * @return {number} Width (px)
+     * @return Width (px)
      */
     /**
      * Width, in pixels, of the clock hand's outer end. (tip)
      *
      * @default 1
-     * @param {number}  value  Width (px)
+     * @param value  Width (px)
      */
     endWidth: number;
     /**
-     * @return {"any" | "clockWise" | "counterClockWise"} rotationDirection
+     * @return rotationDirection
      */
     /**
      * Rotation direction
      *
      * @default any
-     * @param {"any" | "clockWise" | "counterClockWise"}  value
+     * @param value
      */
     rotationDirection: "any" | "clockWise" | "counterClockWise";
     /**
@@ -227,29 +208,29 @@ export declare class ClockHand extends Container {
      *
      * Alternatively, you can also set `value` directly.
      *
-     * @param {any}     value     New value
-     * @param {number}  duration  Animation duration (ms)
-     * @param {(value:number)=>number}  easing  Animation easing function
+     * @param value     New value
+     * @param duration  Animation duration (ms)
+     * @param easing  Animation easing function
      */
     showValue(value: any, duration?: number, easing?: (value: number) => number): void;
     /**
-     * @return {any} Value
+     * @return Value
      */
     /**
      * A current value clock hand is pointing to.
      *
-     * @param {any}  value  Value
+     * @param value  Value
      */
     value: any;
     /**
-     * @return {Axis} Axis
+     * @return Axis
      */
     /**
      * An Axis clock hand is associated with.
      *
      * Hand's `value` relates to values on the Axis.
      *
-     * @param {Axis}  axis  Axis
+     * @param axis  Axis
      */
     axis: Axis;
     /**
@@ -263,7 +244,7 @@ export declare class ClockHand extends Container {
  * Processes JSON-based config before it is applied to the object.
  *
  * @ignore Exclude from docs
- * @param {object}  config  Config
+ * @param config  Config
  */
     processConfig(config?: {
         [index: string]: any;

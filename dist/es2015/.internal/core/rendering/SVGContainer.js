@@ -20,7 +20,6 @@ import ResizeSensor from "css-element-queries/src/ResizeSensor";
  * A array of all SVG Containers (one SVG container per chart instance).
  *
  * @ignore Exclude from docs
- * @type {Array<SVGContainer>}
  */
 export var svgContainers = [];
 /**
@@ -39,15 +38,11 @@ var SVGContainer = /** @class */ (function () {
          * destruction/disposal code should take this into account when deciding
          * wheter to run potentially costly disposal operations if they already have
          * been run.
-         *
-         * @type {boolean}
          */
         this._disposed = false;
         /**
          * If this component is in a separate HTML container, `autoResize` means the
          * module will constantly measure container's size and adopt contents to it.
-         *
-         * @type {Boolean}
          */
         this.autoResize = true;
         /**
@@ -55,13 +50,10 @@ var SVGContainer = /** @class */ (function () {
          * when exporting chart to an image.
          *
          * @ignore
-         * @type {Sprite[]}
          */
         this.nonExportableSprites = [];
         /**
          * List of objects that need to be disposed when this one is disposed.
-         *
-         * @type {Disposer[]}
          */
         this._disposers = [];
         this.cssScale = 1;
@@ -120,7 +112,7 @@ var SVGContainer = /** @class */ (function () {
     };
     Object.defineProperty(SVGContainer.prototype, "container", {
         /**
-         * @return {Optional<Container>} Container
+         * @return Container
          */
         get: function () {
             return this._container;
@@ -128,7 +120,7 @@ var SVGContainer = /** @class */ (function () {
         /**
          * A [[Container]] element which is placed into container.
          *
-         * @param {Optional<Container>}  container  Container
+         * @param container  Container
          */
         set: function (container) {
             this._container = container;
@@ -140,7 +132,7 @@ var SVGContainer = /** @class */ (function () {
     /**
      * Returns if this object has been already been disposed.
      *
-     * @return {boolean} Is disposed?
+     * @return Is disposed?
      */
     SVGContainer.prototype.isDisposed = function () {
         return this._disposed;
@@ -203,7 +195,7 @@ var SVGContainer = /** @class */ (function () {
          * `showModal()` method.
          *
          * @see {@link Modal} for more information about using Modal windows
-         * @return {Modal} Modal instance
+         * @return Modal instance
          */
         get: function () {
             if (!$type.hasValue(this._modal)) {
@@ -225,8 +217,8 @@ var SVGContainer = /** @class */ (function () {
      * The `text` parameter can contain HTML content.
      *
      * @see {@link Modal} for more information about using Modal windows
-     * @param {string}  text   Modal contents
-     * @param {string}  title  Title for the modal window
+     * @param text   Modal contents
+     * @param title  Title for the modal window
      */
     SVGContainer.prototype.openModal = function (text, title) {
         // Hide previous modal
@@ -250,7 +242,7 @@ var SVGContainer = /** @class */ (function () {
         /**
          * A list of popups for this chart.
          *
-         * @return {ListTemplate<Popup>} Popups
+         * @return Popups
          */
         get: function () {
             if (!$type.hasValue(this._popups)) {
@@ -275,9 +267,9 @@ var SVGContainer = /** @class */ (function () {
      *
      * `title` is currently not supported.
      *
-     * @param  {string}  text   Popup contents
-     * @param  {string}  title  Popup title
-     * @return {Popup}          Popup instance
+     * @param text   Popup contents
+     * @param title  Popup title
+     * @return Popup instance
      */
     SVGContainer.prototype.openPopup = function (text, title) {
         var popup = this.popups.create();

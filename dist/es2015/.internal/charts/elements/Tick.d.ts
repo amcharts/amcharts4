@@ -20,8 +20,6 @@ import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../..
 export interface ITickProperties extends ISpriteProperties {
     /**
      * Length of the tick (px).
-     *
-     * @type {number}
      */
     length?: number;
 }
@@ -56,20 +54,14 @@ export interface ITickAdapters extends ISpriteAdapters, ITickProperties {
 export declare class Tick extends Sprite {
     /**
      * Defines available properties.
-     *
-     * @type {ITickProperties}
      */
     _properties: ITickProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ITickAdapters}
      */
     _adapter: ITickAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ITickEvents}
      */
     _events: ITickEvents;
     /**
@@ -77,12 +69,12 @@ export declare class Tick extends Sprite {
      */
     constructor();
     /**
-     * @return {number} Length (px)
+     * @return Length (px)
      */
     /**
      * Length of the tick in pixels.
      *
-     * @param {number}  value  Length (px)
+     * @param value  Length (px)
      */
     length: number;
 }

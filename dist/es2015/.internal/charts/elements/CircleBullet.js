@@ -47,7 +47,7 @@ var CircleBullet = /** @class */ (function (_super) {
      * Copies all proprities and related stuff from another instance of
      * [[CircleBullet]].
      *
-     * @param {this}  source  Source element
+     * @param source  Source element
      */
     CircleBullet.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

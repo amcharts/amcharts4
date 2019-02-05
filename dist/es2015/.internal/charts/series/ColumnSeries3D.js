@@ -77,7 +77,7 @@ var ColumnSeries3D = /** @class */ (function (_super) {
      * Validates data item's elements.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     ColumnSeries3D.prototype.validateDataElementReal = function (dataItem) {
         _super.prototype.validateDataElementReal.call(this, dataItem);
@@ -100,7 +100,7 @@ var ColumnSeries3D = /** @class */ (function (_super) {
     /**
      * Returns an element to use for 3D bar.
      * @ignore
-     * @return {this["_column"]} Element.
+     * @return Element.
      */
     ColumnSeries3D.prototype.createColumnTemplate = function () {
         return new Column3D();
@@ -108,7 +108,7 @@ var ColumnSeries3D = /** @class */ (function (_super) {
     Object.defineProperty(ColumnSeries3D.prototype, "depth", {
         /**
          * @ignore Exclude from docs
-         * @return {number} Depth (px)
+         * @return Depth (px)
          */
         get: function () {
             return this.getPropertyValue("depth");
@@ -117,7 +117,7 @@ var ColumnSeries3D = /** @class */ (function (_super) {
          * Depth (height) of the slices in the series in pixels.
          *
          * @ignore Exclude from docs
-         * @param {number}  value  Depth (px)
+         * @param value  Depth (px)
          */
         set: function (value) {
             this.setPropertyValue("depth", value, true);
@@ -130,7 +130,7 @@ var ColumnSeries3D = /** @class */ (function (_super) {
     Object.defineProperty(ColumnSeries3D.prototype, "angle", {
         /**
          * @ignore Exclude from docs
-         * @return {number} Angle (0-360)
+         * @return Angle (0-360)
          */
         get: function () {
             return this.getPropertyValue("angle");
@@ -139,7 +139,7 @@ var ColumnSeries3D = /** @class */ (function (_super) {
          * Angle of view for the slices in series. (0-360)
          *
          * @ignore Exclude from docs
-         * @param {number}  value  Angle (0-360)
+         * @param value  Angle (0-360)
          */
         set: function (value) {
             this.setPropertyValue("angle", value);

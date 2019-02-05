@@ -28,7 +28,7 @@ var AxisRendererY3D = /** @class */ (function (_super) {
     /**
      * Constructor.
      *
-     * @param {Axis} axis Related axis
+     * @param axis Related axis
      */
     function AxisRendererY3D() {
         var _this = _super.call(this) || this;
@@ -36,7 +36,6 @@ var AxisRendererY3D = /** @class */ (function (_super) {
          * A related chart.
          *
          * @todo Description
-         * @type {MutableValueDisposer}
          */
         _this._chart = new MutableValueDisposer();
         _this.className = "AxisRendererY3D";
@@ -48,9 +47,9 @@ var AxisRendererY3D = /** @class */ (function (_super) {
      * Updates and positions a grid element.
      *
      * @ignore Exclude from docs
-     * @param {Grid}    grid         Grid element
-     * @param {number}  position     Starting position
-     * @param {number}  endPosition  End position
+     * @param grid         Grid element
+     * @param position     Starting position
+     * @param endPosition  End position
      */
     AxisRendererY3D.prototype.updateGridElement = function (grid, position, endPosition) {
         position = position + (endPosition - position) * grid.location;
@@ -79,7 +78,7 @@ var AxisRendererY3D = /** @class */ (function (_super) {
     Object.defineProperty(AxisRendererY3D.prototype, "chart", {
         /**
          * @ignore Exclude from docs
-         * @return {XYChart3D} Chart
+         * @return Chart
          */
         get: function () {
             return this._chart.get();
@@ -88,7 +87,7 @@ var AxisRendererY3D = /** @class */ (function (_super) {
          * Chart, associated with the Axis.
          *
          * @ignore Exclude from docs
-         * @param {XYChart3D}  value  Chart
+         * @param value  Chart
          */
         set: function (chart) {
             if (chart) {
@@ -101,7 +100,7 @@ var AxisRendererY3D = /** @class */ (function (_super) {
     /**
      * Invoked when 3D-related settings change, like depth or angle.
      *
-     * @param {AMEvent<Sprite, ISpriteEvents>["propertychanged"]} event Event
+     * @param event Event
      */
     AxisRendererY3D.prototype.handle3DChanged = function (event) {
         if (event.property == "depth" || event.property == "angle") {

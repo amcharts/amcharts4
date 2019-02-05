@@ -20,8 +20,8 @@ export declare let timeUnitDurations: {
  * E.g. "hour" is the next unit after "minute", etc.
  *
  * @ignore Exclude from docs
- * @param  {TimeUnit}            unit  Source time unit
- * @return {Optional<TimeUnit>}        Next time unit
+ * @param unit  Source time unit
+ * @return Next time unit
  */
 export declare function getNextUnit(unit: TimeUnit): $type.Optional<TimeUnit>;
 /**
@@ -31,29 +31,29 @@ export declare function getNextUnit(unit: TimeUnit): $type.Optional<TimeUnit>;
  * "month", and "year".
  *
  * @ignore Exclude from docs
- * @param  {TimeUnit}  unit   Time unit
- * @param  {number}    count  Number of units
- * @return {number}           Milliseconds
+ * @param unit   Time unit
+ * @param count  Number of units
+ * @return Milliseconds
  */
 export declare function getDuration(unit: TimeUnit, count?: number): number;
 /**
  * Returns current `Date` object.
  *
- * @return {Date} Current date
+ * @return Current date
  */
 export declare function now(): Date;
 /**
  * Returns current timestamp.
  *
- * @return {Date} Current timestamp
+ * @return Current timestamp
  */
 export declare function getTime(): number;
 /**
  * Returns a copy of the `Date` object.
  *
  * @ignore Exclude from docs
- * @param  {Date}  date  Source date
- * @return {Date}        Copy
+ * @param date  Source date
+ * @return Copy
  */
 export declare function copy(date: Date): Date;
 /**
@@ -61,30 +61,30 @@ export declare function copy(date: Date): Date;
  * represent a "range" of time, rather the same time date.
  *
  * @ignore Exclude from docs
- * @param  {Date}      dateOne  Date 1
- * @param  {Date}      dateTwo  Date 2
- * @param  {TimeUnit}  unit     Time unit to check
- * @return {boolean}            Range?
+ * @param dateOne  Date 1
+ * @param dateTwo  Date 2
+ * @param unit     Time unit to check
+ * @return Range?
  */
 export declare function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit): boolean;
 /**
  * Adds `count` of time `unit` to the source date. Returns a modified `Date` object.
  *
  * @ignore Exclude from docs
- * @param  {Date}      date   Source date
- * @param  {TimeUnit}  unit   Time unit
- * @param  {number}    count  Number of units to add
- * @return {Date}             Modified date
+ * @param date   Source date
+ * @param unit   Time unit
+ * @param count  Number of units to add
+ * @return Modified date
  */
 export declare function add(date: Date, unit: TimeUnit, count: number): Date;
 /**
  * "Rounds" the date to specific time unit.
  *
  * @ignore Exclude from docs
- * @param  {Date}      date             Source date
- * @param  {TimeUnit}  unit             Time unit
- * @param  {number}    count            Number of units to round to
- * @param  {number}    firstDateOfWeek  First day of week
- * @return {Date}                       New date
+ * @param date             Source date
+ * @param unit             Time unit
+ * @param count            Number of units to round to
+ * @param firstDateOfWeek  First day of week
+ * @return New date
  */
 export declare function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek?: number): Date;

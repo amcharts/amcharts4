@@ -81,8 +81,8 @@ var InterfaceColorSet = /** @class */ (function (_super) {
      * console.log(uicolors.getFor("stroke"));
      * ```
      *
-     * @param  {keyof IColorPurpose}  purpose  Color use purpuse
-     * @return {Color}                        Color
+     * @param purpose  Color use purpuse
+     * @return Color
      */
     InterfaceColorSet.prototype.getFor = function (purpose) {
         return this._purposes[purpose];
@@ -90,8 +90,8 @@ var InterfaceColorSet = /** @class */ (function (_super) {
     /**
      * Sets color to be used for the specific purpose.
      *
-     * @param {keyof IColorPurpose}  purpose  Color use purpose
-     * @param {Color}               color    Color
+     * @param purpose  Color use purpose
+     * @param color    Color
      */
     InterfaceColorSet.prototype.setFor = function (purpose, color) {
         this._purposes[purpose] = color;

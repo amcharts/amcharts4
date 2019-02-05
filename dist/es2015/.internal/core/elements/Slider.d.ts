@@ -46,20 +46,14 @@ export interface ISliderAdapters extends IScrollbarAdapters, ISliderProperties {
 export declare class Slider extends Scrollbar {
     /**
      * Defines available properties.
-     *
-     * @type {ISliderProperties}
      */
     _properties: ISliderProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ISliderAdapters}
      */
     _adapter: ISliderAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ISliderEvents}
      */
     _events: ISliderEvents;
     /**
@@ -67,25 +61,25 @@ export declare class Slider extends Scrollbar {
      */
     constructor();
     /**
-     * @return {number} [description]
+     * @return [description]
      */
     protected __end: number;
     /**
-     * @return {number} [description]
+     * @return [description]
      */
     /**
      * Relative position (0-1) of the end grip.
      *
-     * @param {number}  position  Position (0-1)
+     * @param position  Position (0-1)
      */
     end: number;
     /**
-     * @return {number} Position (0-1)
+     * @return Position (0-1)
      */
     /**
      * Relative position (0-1) of the start grip.
      *
-     * @param {number}  position  Position (0-1)
+     * @param position  Position (0-1)
      */
     start: number;
 }

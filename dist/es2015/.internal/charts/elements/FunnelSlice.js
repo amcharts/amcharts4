@@ -133,7 +133,7 @@ var FunnelSlice = /** @class */ (function (_super) {
     };
     Object.defineProperty(FunnelSlice.prototype, "bottomWidth", {
         /**
-         * @return {number} bottom width
+         * @return bottom width
          */
         get: function () {
             return this.getPropertyValue("bottomWidth");
@@ -145,7 +145,7 @@ var FunnelSlice = /** @class */ (function (_super) {
          * as a standalone element. If it's a part of [[FunnelSeries]] this setting
          * becomes read-only as it will be automatically reset by series.
          *
-         * @param {number}  value  Bottom width
+         * @param value  Bottom width
          */
         set: function (value) {
             this.setPercentProperty("bottomWidth", value, true, false, 10, false);
@@ -155,7 +155,7 @@ var FunnelSlice = /** @class */ (function (_super) {
     });
     Object.defineProperty(FunnelSlice.prototype, "topWidth", {
         /**
-         * @return {number} Top width
+         * @return Top width
          */
         get: function () {
             return this.getPropertyValue("topWidth");
@@ -167,7 +167,7 @@ var FunnelSlice = /** @class */ (function (_super) {
          * as a standalone element. If it's a part of [[FunnelSeries]] this setting
          * becomes read-only as it will be automatically reset by series.
          *
-         * @param {number}  value  Top width
+         * @param value  Top width
          */
         set: function (value) {
             this.setPercentProperty("topWidth", value, true, false, 10, false);
@@ -177,7 +177,7 @@ var FunnelSlice = /** @class */ (function (_super) {
     });
     Object.defineProperty(FunnelSlice.prototype, "orientation", {
         /**
-         * @return {Orientation} Orientation
+         * @return Orientation
          */
         get: function () {
             return this.getPropertyValue("orientation");
@@ -189,7 +189,7 @@ var FunnelSlice = /** @class */ (function (_super) {
          * as a standalone element. If it's a part of [[FunnelSeries]] this setting
          * becomes read-only as it will be automatically reset by series.
          *
-         * @param {Orientation}  value  Orientation
+         * @param value  Orientation
          */
         set: function (value) {
             this.setPropertyValue("orientation", value, true);
@@ -199,7 +199,7 @@ var FunnelSlice = /** @class */ (function (_super) {
     });
     Object.defineProperty(FunnelSlice.prototype, "expandDistance", {
         /**
-         * @return {number} expandDistance
+         * @return expandDistance
          */
         get: function () {
             return this.getPropertyValue("expandDistance");
@@ -226,7 +226,7 @@ var FunnelSlice = /** @class */ (function (_super) {
     /**
      * Copies all parameters from another [[Sprite]].
      *
-     * @param {Sprite} source Source Sprite
+     * @param source Source Sprite
      */
     FunnelSlice.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

@@ -70,10 +70,10 @@ var RoundedRectangle = /** @class */ (function (_super) {
      *
      * All numbers are in pixels.
      *
-     * @param {number}  tl  Top-left corner
-     * @param {number}  tr  Top-right corner
-     * @param {number}  bl  Bottom-left corner
-     * @param {number}  br  Bottom-right corner
+     * @param tl  Top-left corner
+     * @param tr  Top-right corner
+     * @param bl  Bottom-left corner
+     * @param br  Bottom-right corner
      */
     RoundedRectangle.prototype.cornerRadius = function (tl, tr, bl, br) {
         this.cornerRadiusTopLeft = tl;
@@ -83,7 +83,7 @@ var RoundedRectangle = /** @class */ (function (_super) {
     };
     Object.defineProperty(RoundedRectangle.prototype, "cornerRadiusTopLeft", {
         /**
-         * @return {number} Radius (px)
+         * @return Radius (px)
          */
         get: function () {
             return this.getPropertyValue("cornerRadiusTopLeft");
@@ -92,7 +92,7 @@ var RoundedRectangle = /** @class */ (function (_super) {
          * Radius of the top-left corner in pixels.
          *
          * @default 3
-         * @param {number}  value  Radius (px)
+         * @param value  Radius (px)
          */
         set: function (value) {
             this.setPropertyValue("cornerRadiusTopLeft", value, true);
@@ -102,7 +102,7 @@ var RoundedRectangle = /** @class */ (function (_super) {
     });
     Object.defineProperty(RoundedRectangle.prototype, "cornerRadiusTopRight", {
         /**
-         * @return {number} Radius (px)
+         * @return Radius (px)
          */
         get: function () {
             return this.getPropertyValue("cornerRadiusTopRight");
@@ -111,7 +111,7 @@ var RoundedRectangle = /** @class */ (function (_super) {
          * Radius of the top-right corner in pixels.
          *
          * @default 3
-         * @param {number}  value  Radius (px)
+         * @param value  Radius (px)
          */
         set: function (value) {
             this.setPropertyValue("cornerRadiusTopRight", value, true);
@@ -121,7 +121,7 @@ var RoundedRectangle = /** @class */ (function (_super) {
     });
     Object.defineProperty(RoundedRectangle.prototype, "cornerRadiusBottomRight", {
         /**
-         * @return {number} Radius (px)
+         * @return Radius (px)
          */
         get: function () {
             return this.getPropertyValue("cornerRadiusBottomRight");
@@ -130,7 +130,7 @@ var RoundedRectangle = /** @class */ (function (_super) {
          * Radius of the bottom-right corner in pixels.
          *
          * @default 3
-         * @param {number}  value  Radius (px)
+         * @param value  Radius (px)
          */
         set: function (value) {
             this.setPropertyValue("cornerRadiusBottomRight", value, true);
@@ -140,7 +140,7 @@ var RoundedRectangle = /** @class */ (function (_super) {
     });
     Object.defineProperty(RoundedRectangle.prototype, "cornerRadiusBottomLeft", {
         /**
-         * @return {number} Radius (px)
+         * @return Radius (px)
          */
         get: function () {
             return this.getPropertyValue("cornerRadiusBottomLeft");
@@ -149,7 +149,7 @@ var RoundedRectangle = /** @class */ (function (_super) {
          * Radius of the bottom-left corner in pixels.
          *
          * @default 3
-         * @param {number}  value  Radius (px)
+         * @param value  Radius (px)
          */
         set: function (value) {
             this.setPropertyValue("cornerRadiusBottomLeft", value, true);
@@ -169,7 +169,6 @@ var RoundedRectangle = /** @class */ (function (_super) {
          * Returns bounding box (square) for this element.
          *
          * @ignore Exclude from docs
-         * @type {IRectangle}
          */
         get: function () {
             if (this.definedBBox) {

@@ -47,7 +47,7 @@ var Tick = /** @class */ (function (_super) {
     }
     Object.defineProperty(Tick.prototype, "length", {
         /**
-         * @return {number} Length (px)
+         * @return Length (px)
          */
         get: function () {
             if (this.disabled) {
@@ -58,7 +58,7 @@ var Tick = /** @class */ (function (_super) {
         /**
          * Length of the tick in pixels.
          *
-         * @param {number}  value  Length (px)
+         * @param value  Length (px)
          */
         set: function (value) {
             this.setPropertyValue("length", value, true);

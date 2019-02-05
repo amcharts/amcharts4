@@ -34,14 +34,10 @@ var FunnelTick = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * A label element this tick is attached to.
-         *
-         * @type {MutableValueDisposer}
          */
         _this._label = new MutableValueDisposer();
         /**
          * A slice element this tick is attached to.
-         *
-         * @type {MutableValueDisposer}
          */
         _this._slice = new MutableValueDisposer();
         _this.className = "FunnelTick";
@@ -83,7 +79,7 @@ var FunnelTick = /** @class */ (function (_super) {
     };
     Object.defineProperty(FunnelTick.prototype, "slice", {
         /**
-         * @return {FunnelSlice} FunnelSlice
+         * @return FunnelSlice
          */
         get: function () {
             return this._slice.get();
@@ -91,7 +87,7 @@ var FunnelTick = /** @class */ (function (_super) {
         /**
          * [[FunnelSlice]] element tick is attached to.
          *
-         * @param {FunnelSlice}  slice  Slice
+         * @param slice  Slice
          */
         set: function (slice) {
             this._slice.set(slice, new MultiDisposer([
@@ -104,7 +100,7 @@ var FunnelTick = /** @class */ (function (_super) {
     });
     Object.defineProperty(FunnelTick.prototype, "label", {
         /**
-         * @return {AxisLabelCircular} Label
+         * @return Label
          */
         get: function () {
             return this._label.get();
@@ -112,7 +108,7 @@ var FunnelTick = /** @class */ (function (_super) {
         /**
          * [[Label]] element tick is attached to.
          *
-         * @param {Label}  label  Label
+         * @param label  Label
          */
         set: function (label) {
             this._label.set(label, label.events.on("transformed", this.invalidate, this, false));
@@ -122,7 +118,7 @@ var FunnelTick = /** @class */ (function (_super) {
     });
     Object.defineProperty(FunnelTick.prototype, "locationX", {
         /**
-         * @return {number} Location (0-1)
+         * @return Location (0-1)
          */
         get: function () {
             return this.getPropertyValue("locationX");
@@ -137,7 +133,7 @@ var FunnelTick = /** @class */ (function (_super) {
          * of the slice), or outside 0-1 range, which will put tick anchor position
          * outside target element.
          *
-         * @param {number}  value  Location (0-1)
+         * @param value  Location (0-1)
          */
         set: function (value) {
             this.setPropertyValue("locationX", value, false, true);
@@ -147,7 +143,7 @@ var FunnelTick = /** @class */ (function (_super) {
     });
     Object.defineProperty(FunnelTick.prototype, "locationY", {
         /**
-         * @return {number} Location (0-1)
+         * @return Location (0-1)
          */
         get: function () {
             return this.getPropertyValue("locationY");
@@ -162,7 +158,7 @@ var FunnelTick = /** @class */ (function (_super) {
          * of the slice), or outside 0-1 range, which will put tick anchor position
          * outside target element.
          *
-         * @param {number}  value  Location (0-1)
+         * @param value  Location (0-1)
          */
         set: function (value) {
             this.setPropertyValue("locationY", value, false, true);

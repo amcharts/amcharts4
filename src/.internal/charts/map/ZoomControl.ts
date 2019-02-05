@@ -64,63 +64,46 @@ export class ZoomControl extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IZoomControlProperties}
 	 */
 	public _properties!: IZoomControlProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IZoomControlAdapters}
 	 */
 	public _adapter!: IZoomControlAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IZoomControlEvents}
 	 */
 	public _events!: IZoomControlEvents;
 
 	/**
 	 * Zoom in button element.
-	 *
-	 * @type {Button}
 	 */
 	public plusButton: Button;
 
 	/**
 	 * Zoom out button element.
-	 *
-	 * @type {Button}
 	 */
 	public minusButton: Button;
 
 	/**
 	 * A zoom slider background element.
-	 *
-	 * @type {Container}
 	 */
 	public slider: Container;
 
 	/**
 	 * A zoom slider thumb element.
-	 * @type {Button}
 	 */
 	public thumb: Button;
 
 	/**
 	 * A target map.
-	 *
-	 * @type {MutableValueDisposer<MapChart>}
 	 */
 	protected _chart: MutableValueDisposer<MapChart> = new MutableValueDisposer<MapChart>();
 
 	/**
 	 * A type to use for the background element for zoom control.
-	 *
-	 * @type {RoundedRectangle}
 	 */
 	public _background: RoundedRectangle;
 
@@ -236,7 +219,7 @@ export class ZoomControl extends Container {
 	 * Handles zoom operation after clicking on the slider background.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AMEvent<Sprite, ISpriteEvents>["hit"]}  event  Event
+	 * @param event  Event
 	 */
 	public handleBackgroundClick(event: AMEvent<Sprite, ISpriteEvents>["hit"]): void {
 		let sprite: Sprite = event.target;
@@ -254,13 +237,13 @@ export class ZoomControl extends Container {
 	/**
 	 * A main chart/map that this zoom control is for.
 	 *
-	 * @param {MapChart}  chart  Map/chart
+	 * @param chart  Map/chart
 	 */
 	public set chart(chart: MapChart) {
 		this._chart.set(chart, new MultiDisposer([
 			chart.events.on("maxsizechanged", this.updateThumbSize, this, false),
 			chart.events.on("zoomlevelchanged", this.updateThumb, this, false),
-			
+
 			this.minusButton.events.on("hit", () => { chart.zoomOut(chart.zoomGeoPoint) }, chart, false),
 
 			getInteraction().body.events.on("keyup", (ev) => {
@@ -286,7 +269,7 @@ export class ZoomControl extends Container {
 	}
 
 	/**
-	 * @return {MapChart} Map/chart
+	 * @return Map/chart
 	 */
 	public get chart(): MapChart {
 		return this._chart.get();
@@ -382,7 +365,7 @@ export class ZoomControl extends Container {
 	 * zoom level settings.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {number} Step count
+	 * @return Step count
 	 */
 	public get stepCount(): number {
 		return Math.log(this.chart.maxZoomLevel) / Math.LN2 - Math.log(this.chart.minZoomLevel) / Math.LN2;
@@ -392,7 +375,7 @@ export class ZoomControl extends Container {
 	 * Creates a background element for slider control.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {this} Background
+	 * @return Background
 	 */
 	public createBackground(): this["_background"] {
 		return new RoundedRectangle();

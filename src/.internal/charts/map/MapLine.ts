@@ -48,8 +48,6 @@ export interface IMapLineProperties extends IMapObjectProperties {
 	/**
 	 * If `true` it line will be arched in the way to simulate shortest path
 	 * over curvature of Earth's surface, based on currently used on projection.
-	 *
-	 * @type {boolean}
 	 */
 	shortestDistance?: boolean;
 
@@ -89,29 +87,21 @@ export class MapLine extends MapObject {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IMapLineProperties}
 	 */
 	public _properties!: IMapLineProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IMapLineAdapters}
 	 */
 	public _adapter!: IMapLineAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IMapLineEvents}
 	 */
 	public _events!: IMapLineEvents;
 
 	/**
 	 * A line visual element.
-	 *
-	 * @type {Polyline}
 	 */
 	public line: Polyline;
 
@@ -119,7 +109,6 @@ export class MapLine extends MapObject {
 	 * [_lineObjects description]
 	 *
 	 * @todo Description
-	 * @type {ListTemplate<MapLineObject>}
 	 */
 	protected _lineObjects: ListTemplate<MapLineObject>;
 
@@ -127,7 +116,6 @@ export class MapLine extends MapObject {
 	 * [_arrow description]
 	 *
 	 * @todo Description
-	 * @type {MapLineObject}
 	 */
 	protected _arrow: MapLineObject;
 
@@ -135,21 +123,16 @@ export class MapLine extends MapObject {
 	 * [_distance description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	protected _distance: number;
 
 	/**
 	 * Related data item.
-	 *
-	 * @type {MapLineSeriesDataItem}
 	 */
 	public _dataItem: MapLineSeriesDataItem;
 
 	/**
 	 * A map series this object belongs to.
-	 *
-	 * @type {MapLineSeries}
 	 */
 	public series: MapLineSeries;
 
@@ -169,7 +152,7 @@ export class MapLine extends MapObject {
 		this.className = "MapLine";
 
 		this.createLine();
-		this.line.stroke = color();	
+		this.line.stroke = color();
 		this.line.parent = this;
 		this.strokeOpacity = 1;
 
@@ -197,8 +180,8 @@ export class MapLine extends MapObject {
 	 *
 	 * 0 indicates start of the line, 0.5 - middle, while 1 indicates the end.
 	 *
-	 * @param  {number}             position  Position (0-1)
-	 * @return {IOrientationPoint}            Coordinates
+	 * @param position  Position (0-1)
+	 * @return Coordinates
 	 */
 	public positionToPoint(position: number): IOrientationPoint {
 		if (this.line) {
@@ -211,14 +194,14 @@ export class MapLine extends MapObject {
 	 * [multiGeoLine description]
 	 *
 	 * @todo Description
-	 * @param {IGeoPoint[][]} multiGeoLine [description]
+	 * @param multiGeoLine [description]
 	 */
 	public set multiGeoLine(multiGeoLine: IGeoPoint[][]) {
 		this.setPropertyValue("multiGeoLine", $geo.normalizeMultiline(multiGeoLine), true);
 	}
 
 	/**
-	 * @return {IGeoPoint[]} [description]
+	 * @return [description]
 	 */
 	public get multiGeoLine(): IGeoPoint[][] {
 		return this.getPropertyValue("multiGeoLine");
@@ -231,7 +214,7 @@ export class MapLine extends MapObject {
 	 * Parameter is an array that can hold string `id`'s to of the images, or
 	 * references to actual [[MapImage]] objects.
 	 *
-	 * @param {MapImages[]}  images  Images
+	 * @param images  Images
 	 */
 	public set imagesToConnect(images: MapImage[] | string[]) {
 		//@todo dispose listeners if previous imagesToConnect exists
@@ -326,7 +309,9 @@ export class MapLine extends MapObject {
 		$iter.each(this.lineObjects.iterator(), (x) => {
 			x.validatePosition();
 		});
-		
+
+		this.handleGlobalScale();
+
 		super.validate();
 	}
 
@@ -345,14 +330,14 @@ export class MapLine extends MapObject {
 	 * `MapSplice` don't.
 	 *
 	 * @default false
-	 * @param {boolean}  value  Real path?
+	 * @param value  Real path?
 	 */
 	public set shortestDistance(value: boolean) {
 		this.setPropertyValue("shortestDistance", value, true);
 	}
 
 	/**
-	 * @return {boolean} Real path?
+	 * @return Real path?
 	 */
 	public get shortestDistance(): boolean {
 		return this.getPropertyValue("shortestDistance");
@@ -363,7 +348,7 @@ export class MapLine extends MapObject {
 	 *
 	 * @todo Description (review)
 	 * @readonly
-	 * @return {ListTemplate<MapLineObject>} List of line objects
+	 * @return List of line objects
 	 */
 	public get lineObjects(): ListTemplate<MapLineObject> {
 		if (!this._lineObjects) {
@@ -379,11 +364,11 @@ export class MapLine extends MapObject {
 	/**
 	 * Decorate a [[LineObject]] when it is added to the line.
 	 *
-	 * @param {IListEvents<MapLineObject>["inserted"]}  event  Event
+	 * @param event  Event
 	 */
 	protected handleLineObjectAdded(event: IListEvents<MapLineObject>["inserted"]) {
 		let mapLineObject: MapLineObject = event.newValue;
-		mapLineObject.mapLine = this;		
+		mapLineObject.mapLine = this;
 		mapLineObject.shouldClone = false;
 		mapLineObject.parent = this;
 	}
@@ -394,7 +379,7 @@ export class MapLine extends MapObject {
 	 * Just accessing this property will create a default arrowhead on the line
 	 * automatically.
 	 *
-	 * @param {MapLineObject}  arrow  Arrow element
+	 * @param arrow  Arrow element
 	 */
 	public set arrow(arrow: MapLineObject) {
 		this._arrow = arrow;
@@ -403,7 +388,7 @@ export class MapLine extends MapObject {
 	}
 
 	/**
-	 * @return {MapLineObject} Arrow element
+	 * @return Arrow element
 	 */
 	public get arrow(): MapLineObject {
 		if (!this._arrow) {
@@ -431,7 +416,7 @@ export class MapLine extends MapObject {
 	 * Copies line properties and other attributes, like arrow, from another
 	 * instance of [[MapLine]].
 	 *
-	 * @param {MapLineObject}  source  Source map line
+	 * @param source  Source map line
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);
@@ -446,7 +431,7 @@ export class MapLine extends MapObject {
 	 * Latitude of the line center.
 	 *
 	 * @readonly
-	 * @return {number} Latitude
+	 * @return Latitude
 	 */
 	public get latitude(): number {
 		let dataItem = this.dataItem;
@@ -457,7 +442,7 @@ export class MapLine extends MapObject {
 	 * Longitude of the line center.
 	 *
 	 * @readonly
-	 * @return {number} Latitude
+	 * @return Latitude
 	 */
 	public get longitude(): number {
 		let dataItem = this.dataItem;
@@ -467,7 +452,7 @@ export class MapLine extends MapObject {
 	/**
 	 * X coordinate for the slice tooltip.
 	 *
-	 * @return {number} X
+	 * @return X
 	 */
 	protected getTooltipX(): number {
 		return this.line.positionToPoint(0.5).x;
@@ -476,7 +461,7 @@ export class MapLine extends MapObject {
 	/**
 	 * Y coordinate for the slice tooltip.
 	 *
-	 * @return {number} Y
+	 * @return Y
 	 */
 	protected getTooltipY(): number {
 		return this.line.positionToPoint(0.5).y;

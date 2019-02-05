@@ -25,14 +25,11 @@ var NumberFormatter = /** @class */ (function (_super) {
         /**
          * A base value for negative numbers. Will treat all numbers below this value
          * as negative numbers.
-         *
-         * @type {number}
          */
         _this._negativeBase = 0;
         /**
          * Holds number format.
          *
-         * @type {string}
          * @default #,###.#####
          */
         _this._numberFormat = "#,###.#####";
@@ -44,7 +41,6 @@ var NumberFormatter = /** @class */ (function (_super) {
          * Available options: svg, html.
          *
          * @default "svg"
-         * @type {string}
          */
         _this._outputFormat = "svg";
         _this.className = "NumberFormatter";
@@ -59,7 +55,7 @@ var NumberFormatter = /** @class */ (function (_super) {
     };
     Object.defineProperty(NumberFormatter.prototype, "language", {
         /**
-         * @return {Language} Language
+         * @return Language
          */
         get: function () {
             if (!this._language) {
@@ -78,7 +74,7 @@ var NumberFormatter = /** @class */ (function (_super) {
          * Formatter will use language to translate various items, like number
          * suffixes, etc.
          *
-         * @param {Language}  value  Language
+         * @param value  Language
          */
         set: function (value) {
             this._language = value;
@@ -89,9 +85,9 @@ var NumberFormatter = /** @class */ (function (_super) {
     /**
      * Formats the number according to specific format.
      *
-     * @param  {number | string}  value   Value to format
-     * @param  {string}           format  Format to apply
-     * @return {string}                   Formatted number
+     * @param value   Value to format
+     * @param format  Format to apply
+     * @return Formatted number
      */
     NumberFormatter.prototype.format = function (value, format) {
         // no format passed in or "Number"
@@ -124,8 +120,8 @@ var NumberFormatter = /** @class */ (function (_super) {
      * Parses supplied format into structured object which can be used to format
      * the number.
      *
-     * @param {string} format Format string, i.e. "#,###.00"
-     * @param {Language} language Language
+     * @param format Format string, i.e. "#,###.00"
+     * @param language Language
      */
     NumberFormatter.prototype.parseFormat = function (format, language) {
         var _this = this;
@@ -300,9 +296,9 @@ var NumberFormatter = /** @class */ (function (_super) {
     /**
      * Applies parsed format to a numeric value.
      *
-     * @param  {number}  value    Value
-     * @param  {any}     details  Parsed format as returned by {parseFormat}
-     * @return {string}          Formatted number
+     * @param value    Value
+     * @param details  Parsed format as returned by {parseFormat}
+     * @return Formatted number
      */
     NumberFormatter.prototype.applyFormat = function (value, details) {
         // Use absolute values
@@ -416,9 +412,9 @@ var NumberFormatter = /** @class */ (function (_super) {
     /**
      * Chooses appropriate prefix and suffix based on the passed in rules.
      *
-     * @param  {number}  value     Value
-     * @param  {any[]}   prefixes  Prefix array
-     * @return {any}               Result
+     * @param value     Value
+     * @param prefixes  Prefix array
+     * @return Result
      */
     NumberFormatter.prototype.applyPrefix = function (value, prefixes) {
         var newvalue = value, prefix = "", suffix = "";
@@ -446,7 +442,7 @@ var NumberFormatter = /** @class */ (function (_super) {
     };
     Object.defineProperty(NumberFormatter.prototype, "numberFormat", {
         /**
-         * @return {string} A format to use for number formatting
+         * @return A format to use for number formatting
          */
         get: function () {
             return this._numberFormat;
@@ -455,7 +451,7 @@ var NumberFormatter = /** @class */ (function (_super) {
          * Number format.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
-         * @param {string}  format  A format to use for number formatting
+         * @param format  A format to use for number formatting
          */
         set: function (format) {
             this._numberFormat = format;
@@ -465,7 +461,7 @@ var NumberFormatter = /** @class */ (function (_super) {
     });
     Object.defineProperty(NumberFormatter.prototype, "bigNumberPrefixes", {
         /**
-         * @return {INumberSuffix[]} Prefixes for big numbers
+         * @return Prefixes for big numbers
          */
         get: function () {
             if (!$type.hasValue(this._bigNumberPrefixes)) {
@@ -515,7 +511,7 @@ var NumberFormatter = /** @class */ (function (_super) {
          * ```
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
-         * @param {INumberSuffix[]}  prefixes  Prefixes for big numbers
+         * @param prefixes  Prefixes for big numbers
          */
         set: function (prefixes) {
             this._bigNumberPrefixes = prefixes;
@@ -525,7 +521,7 @@ var NumberFormatter = /** @class */ (function (_super) {
     });
     Object.defineProperty(NumberFormatter.prototype, "smallNumberPrefixes", {
         /**
-         * @return {INumberSuffix[]} Prefixes for small numbers
+         * @return Prefixes for small numbers
          */
         get: function () {
             if (!$type.hasValue(this._smallNumberPrefixes)) {
@@ -578,7 +574,7 @@ var NumberFormatter = /** @class */ (function (_super) {
          * from the smallest number and work towards bigger ones.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
-         * @param {INumberSuffix[]}  prefixes  Prefixes for small numbers
+         * @param prefixes  Prefixes for small numbers
          */
         set: function (prefixes) {
             this._smallNumberPrefixes = prefixes;
@@ -588,7 +584,7 @@ var NumberFormatter = /** @class */ (function (_super) {
     });
     Object.defineProperty(NumberFormatter.prototype, "bytePrefixes", {
         /**
-         * @return {INumberSuffix[]} Prefixes for byte-size formatting
+         * @return Prefixes for byte-size formatting
          */
         get: function () {
             if (!$type.hasValue(this._bytePrefixes)) {
@@ -616,7 +612,7 @@ var NumberFormatter = /** @class */ (function (_super) {
          * The above `2048` will change to `2K`.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
-         * @param {INumberSuffix[]}  prefixes  Prefixes for byte-size formatting
+         * @param prefixes  Prefixes for byte-size formatting
          */
         set: function (prefixes) {
             this._bytePrefixes = prefixes;
@@ -627,7 +623,7 @@ var NumberFormatter = /** @class */ (function (_super) {
     Object.defineProperty(NumberFormatter.prototype, "outputFormat", {
         /**
          * @ignore Exclude from docs
-         * @return {string} Output format
+         * @return Output format
          */
         get: function () {
             return this._outputFormat;
@@ -636,7 +632,7 @@ var NumberFormatter = /** @class */ (function (_super) {
          * Ooutput format: "svg" or "html".
          *
          * @ignore Exclude from docs
-         * @param {string}  value  Output format
+         * @param value  Output format
          */
         set: function (outputFormat) {
             this._outputFormat = outputFormat.toLowerCase();
@@ -649,8 +645,8 @@ var NumberFormatter = /** @class */ (function (_super) {
      * Replaces brackets with temporary placeholders.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text  Input text
-     * @return {string}        Escaped text
+     * @param text  Input text
+     * @return Escaped text
      */
     NumberFormatter.prototype.escape = function (text) {
         return text.replace("||", $strings.PLACEHOLDER2);
@@ -659,8 +655,8 @@ var NumberFormatter = /** @class */ (function (_super) {
      * Replaces placeholders back to brackets.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text  Escaped text
-     * @return {string}        Unescaped text
+     * @param text  Escaped text
+     * @return Unescaped text
      */
     NumberFormatter.prototype.unescape = function (text) {
         return text.replace($strings.PLACEHOLDER2, "|");

@@ -73,7 +73,7 @@ var Button = /** @class */ (function (_super) {
     }
     Object.defineProperty(Button.prototype, "icon", {
         /**
-         * @return {Sprite} Icon Sprite
+         * @return Icon Sprite
          */
         get: function () {
             return this.getPropertyValue("icon");
@@ -81,7 +81,7 @@ var Button = /** @class */ (function (_super) {
         /**
          * A [[Sprite]] to be used as an icon on button.
          *
-         * @param {Sprite} icon Icon Sprite
+         * @param icon Icon Sprite
          */
         set: function (icon) {
             var currentIcon = this.getPropertyValue("icon");
@@ -103,7 +103,7 @@ var Button = /** @class */ (function (_super) {
     });
     Object.defineProperty(Button.prototype, "iconPosition", {
         /**
-         * @return {"left" | "right"} Icon position
+         * @return Icon position
          */
         get: function () {
             return this.getPropertyValue("iconPosition");
@@ -112,7 +112,7 @@ var Button = /** @class */ (function (_super) {
          * Icon position: "left" or "right".
          *
          * @default "left"
-         * @param {"left" | "right"}  position  Icon position
+         * @param position  Icon position
          */
         set: function (position) {
             this.setPropertyValue("iconPosition", position);
@@ -130,7 +130,7 @@ var Button = /** @class */ (function (_super) {
     });
     Object.defineProperty(Button.prototype, "label", {
         /**
-         * @return {Optional<Label>} Label element
+         * @return Label element
          */
         get: function () {
             return this._label;
@@ -138,7 +138,7 @@ var Button = /** @class */ (function (_super) {
         /**
          * [[Label]] element to be used for text.
          *
-         * @param {Optional<Label>}  label element
+         * @param label element
          */
         set: function (label) {
             if (this._label) {
@@ -159,7 +159,7 @@ var Button = /** @class */ (function (_super) {
      * Creates a background element for the button.
      *
      * @ignore Exclude from docs
-     * @return {RoundedRectangle} Background element
+     * @return Background element
      */
     Button.prototype.createBackground = function () {
         return new RoundedRectangle();

@@ -22,7 +22,7 @@ export declare class Group extends AMElement {
     /**
      * Constructor.
      *
-     * @param {string} elementName Element type (should be "g")
+     * @param elementName Element type (should be "g")
      */
     constructor(elementName: string);
     /**
@@ -30,7 +30,7 @@ export declare class Group extends AMElement {
      *
      * This will manipulate DOM. `element` will be physically moved into group.
      *
-     * @param {AMElement}  element  Element
+     * @param element  Element
      */
     add(element: AMElement): void;
     /**
@@ -38,7 +38,7 @@ export declare class Group extends AMElement {
      *
      * This will manipulate DOM. `element` will be physically moved into group.
      *
-     * @param {AMElement}  element  Element
+     * @param element  Element
      */
     addToBack(element: AMElement): void;
     /**
@@ -47,25 +47,25 @@ export declare class Group extends AMElement {
      * Please note that this will not dispose the element itself, it will just
      * remove it from the group.
      *
-     * @param {AMElement}  element  Element
+     * @param element  Element
      */
     removeElement(element: AMElement): void;
     /**
      * Checks if this group already has the child element added
      *
-     * @param {AMElement}  element
+     * @param element
      * @return {boolean}
      */
     hasChild(element: AMElement): boolean;
     /**
-     * @return {string} SVG markup
+     * @return SVG markup
      */
     /**
      * Content of the group element.
      *
      * Can be used to add a lot of proprietary SVG markup into group.
      *
-     * @param {string}  value  SVG markup
+     * @param value  SVG markup
      */
     content: string;
     /**

@@ -11,6 +11,7 @@ import * as tslib_1 from "tslib";
 import { SerialChart, SerialChartDataItem } from "./SerialChart";
 import { Container } from "../../core/Container";
 import { List } from "../../core/utils/List";
+import { DateAxis } from "../axes/DateAxis";
 import { AxisRendererX } from "../axes/AxisRendererX";
 import { AxisRendererY } from "../axes/AxisRendererY";
 import { CategoryAxis } from "../axes/CategoryAxis";
@@ -193,20 +194,17 @@ var XYChart = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * Defines the type of horizontal axis rederer.
-         *
-         * @type {typeof AxisRendererX}
          */
         _this._axisRendererX = AxisRendererX;
         /**
          * Defines the type of vertical axis rederer.
-         *
-         * @type {typeof AxisRendererY}
          */
         _this._axisRendererY = AxisRendererY;
         _this.className = "XYChart";
         // Set defaults
         //this.margin(10, 10, 10, 10);
         _this.maskBullets = true;
+        _this.arrangeTooltips = true;
         // Create main chart container
         var chartContainer = _this.chartContainer;
         chartContainer.layout = "vertical";
@@ -363,7 +361,7 @@ var XYChart = /** @class */ (function (_super) {
      * change.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Axis, ISpriteEvents>["propertychanged"]} event An event object
+     * @param event An event object
      */
     XYChart.prototype.handleXAxisChange = function (event) {
         this.updateXAxis(event.target);
@@ -373,7 +371,7 @@ var XYChart = /** @class */ (function (_super) {
      * change.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Axis, ISpriteEvents>["propertychanged"]} event An event object
+     * @param event An event object
      */
     XYChart.prototype.handleYAxisChange = function (event) {
         this.updateYAxis(event.target);
@@ -382,7 +380,7 @@ var XYChart = /** @class */ (function (_super) {
      * Sets up a new horizontal (X) axis when it is added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["inserted"]}  event  Axis insert event
+     * @param event  Axis insert event
      */
     XYChart.prototype.processXAxis = function (event) {
         var axis = event.newValue;
@@ -403,7 +401,7 @@ var XYChart = /** @class */ (function (_super) {
      * Sets up a new vertical (Y) axis when it is added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["inserted"]} event Axis insert event
+     * @param event Axis insert event
      */
     XYChart.prototype.processYAxis = function (event) {
         var axis = event.newValue;
@@ -493,8 +491,8 @@ var XYChart = /** @class */ (function (_super) {
     /**
      * Updates a relative scrollbar whenever data range of the axis changes.
      *
-     * @param {Scrollbar}  scrollbar  Scrollbar instance
-     * @param {IRange}     range      New data (values) range of the axis
+     * @param scrollbar  Scrollbar instance
+     * @param range      New data (values) range of the axis
      */
     XYChart.prototype.updateScrollbar = function (scrollbar, range) {
         if (scrollbar) {
@@ -509,8 +507,8 @@ var XYChart = /** @class */ (function (_super) {
      * This is used to synchronize the zoom between multiple axes.
      *
      * @ignore Exclude from docs
-     * @param  {List<Axis>}  axes  A list of axes
-     * @return {IRange}            Common value range
+     * @param axes  A list of axes
+     * @return Common value range
      */
     XYChart.prototype.getCommonAxisRange = function (axes) {
         var start;
@@ -535,7 +533,7 @@ var XYChart = /** @class */ (function (_super) {
      * Triggers (re)rendering of the horizontal (X) axis.
      *
      * @ignore Exclude from docs
-     * @param {Axis}  axis  Axis
+     * @param axis  Axis
      */
     XYChart.prototype.updateXAxis = function (renderer) {
         var axis = renderer.axis;
@@ -555,7 +553,7 @@ var XYChart = /** @class */ (function (_super) {
      * Triggers (re)rendering of the vertical (Y) axis.
      *
      * @ignore Exclude from docs
-     * @param {Axis}  axis  Axis
+     * @param axis  Axis
      */
     XYChart.prototype.updateYAxis = function (renderer) {
         var axis = renderer.axis;
@@ -575,7 +573,7 @@ var XYChart = /** @class */ (function (_super) {
      * Decorates an Axis for use with this chart, e.g. sets proper renderer
      * and containers for placement.
      *
-     * @param {Axis}  axis  Axis
+     * @param axis  Axis
      */
     XYChart.prototype.processAxis = function (axis) {
         var _this = this;
@@ -602,7 +600,7 @@ var XYChart = /** @class */ (function (_super) {
         /**
          * A list of horizontal (X) axes.
          *
-         * @return {List<Axis>} List of axes
+         * @return List of axes
          */
         get: function () {
             if (!this._xAxes) {
@@ -629,7 +627,7 @@ var XYChart = /** @class */ (function (_super) {
         /**
          * A list of vertical (Y) axes.
          *
-         * @return {List<Axis>} List of axes
+         * @return List of axes
          */
         get: function () {
             if (!this._yAxes) {
@@ -647,7 +645,7 @@ var XYChart = /** @class */ (function (_super) {
      * added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<XYSeries>["inserted"]}  event  Event
+     * @param event  Event
      */
     XYChart.prototype.handleSeriesAdded = function (event) {
         try {
@@ -668,7 +666,7 @@ var XYChart = /** @class */ (function (_super) {
     };
     Object.defineProperty(XYChart.prototype, "cursor", {
         /**
-         * @return {XYCursor} Cursor
+         * @return Cursor
          */
         get: function () {
             return this._cursor;
@@ -676,7 +674,7 @@ var XYChart = /** @class */ (function (_super) {
         /**
          * Chart's [[Cursor]].
          *
-         * @param {XYCursor}  cursor  Cursor
+         * @param cursor  Cursor
          */
         set: function (cursor) {
             if (this._cursor != cursor) {
@@ -707,7 +705,7 @@ var XYChart = /** @class */ (function (_super) {
     /**
      * Creates and returns a new [[Cursor]] suitable for this chart type.
      *
-     * @return {this} New cursor
+     * @return New cursor
      */
     XYChart.prototype.createCursor = function () {
         return new XYCursor();
@@ -766,7 +764,7 @@ var XYChart = /** @class */ (function (_super) {
      * Hides a tooltip for a list of objects.
      *
      * @ignore Exclude from docs
-     * @param {List<Sprite>}  sprites  A list of sprites to hide tooltip for
+     * @param sprites  A list of sprites to hide tooltip for
      */
     XYChart.prototype.hideObjectTooltip = function (sprites) {
         $iter.each(sprites.iterator(), function (sprite) {
@@ -781,7 +779,7 @@ var XYChart = /** @class */ (function (_super) {
      * actual data point's position, overlapping with other tooltips, etc.
      *
      * @ignore Exclude from docs
-     * @param {IPoint}  position  Reference point
+     * @param position  Reference point
      */
     XYChart.prototype.showSeriesTooltip = function (position) {
         var _this = this;
@@ -795,14 +793,21 @@ var XYChart = /** @class */ (function (_super) {
         var sum = 0;
         this.series.each(function (series) {
             //if (series.tooltipText || series.tooltipHTML) { // not good, bullets are not hovered then
-            var point = series.showTooltipAtPosition(position.x, position.y);
-            if (point) {
-                series.tooltip.setBounds({ x: 0, y: 0, width: _this.pixelWidth, height: _this.pixelHeight });
-                seriesPoints.push({ series: series, point: point });
+            if ((series.xAxis instanceof DateAxis && series.xAxis.snapTooltip) || (series.yAxis instanceof DateAxis && series.yAxis.snapTooltip)) {
+                // void
+            }
+            else {
+                var point = series.showTooltipAtPosition(position.x, position.y);
+                if (point) {
+                    series.tooltip.setBounds({ x: 0, y: 0, width: _this.pixelWidth, height: _this.pixelHeight });
+                    seriesPoints.push({ series: series, point: point });
+                }
             }
             //}
         });
-        this.sortSeriesTooltips(seriesPoints);
+        if (this.arrangeTooltips) {
+            this.sortSeriesTooltips(seriesPoints);
+        }
     };
     /**
      * @ignore
@@ -879,8 +884,8 @@ var XYChart = /** @class */ (function (_super) {
      * vertical axes.
      *
      * @ignore Exclude from docs
-     * @param {List<Axis>}  axes      List of axes to show tooltip on
-     * @param {number}      position  Position (px)
+     * @param axes      List of axes to show tooltip on
+     * @param position  Position (px)
      */
     XYChart.prototype.showAxisTooltip = function (axes, position, except) {
         var _this = this;
@@ -895,9 +900,9 @@ var XYChart = /** @class */ (function (_super) {
     /**
      * Recalculates the value range for the axis taking into account zoom level & inversed.
      *
-     * @param  {Axis}    axis   Axis
-     * @param  {IRange}  range  Range
-     * @return {IRange}         Modified range
+     * @param axis   Axis
+     * @param range  Range
+     * @return Modified range
      */
     XYChart.prototype.getUpdatedRange = function (axis, range) {
         if (!axis) {
@@ -928,7 +933,7 @@ var XYChart = /** @class */ (function (_super) {
      * Performs zoom and other operations when user finishes zooming using chart
      * cursor, e.g. zooms axes.
      *
-     * @param {IXYCursorEvents["zoomended"]} event Cursor's event
+     * @param event Cursor's event
      */
     XYChart.prototype.handleCursorZoomEnd = function (event) {
         var cursor = this.cursor;
@@ -954,7 +959,7 @@ var XYChart = /** @class */ (function (_super) {
     /**
      * Performs zoom and other operations when user is panning chart plot using chart cursor.
      *
-     * @param {IXYCursorEvents["panning"]} event Cursor's event
+     * @param event Cursor's event
      */
     XYChart.prototype.handleCursorPanStart = function (event) {
         var xAxis = this.xAxes.getIndex(0);
@@ -969,7 +974,7 @@ var XYChart = /** @class */ (function (_super) {
     /**
      * Performs zoom and other operations when user ends panning
      *
-     * @param {IXYCursorEvents["panning"]} event Cursor's event
+     * @param event Cursor's event
      */
     XYChart.prototype.handleCursorPanEnd = function (event) {
         var cursor = this.cursor;
@@ -1008,7 +1013,7 @@ var XYChart = /** @class */ (function (_super) {
     /**
      * Performs zoom and other operations when user is panning chart plot using chart cursor.
      *
-     * @param {IXYCursorEvents["panning"]} event Cursor's event
+     * @param event Cursor's event
      */
     XYChart.prototype.handleCursorPanning = function (event) {
         var cursor = this.cursor;
@@ -1060,7 +1065,7 @@ var XYChart = /** @class */ (function (_super) {
      * Performs zoom and other operations when user starts zooming using chart
      * cursor, e.g. zooms axes.
      *
-     * @param {IXYCursorEvents["zoomended"]} event Cursor's event
+     * @param event Cursor's event
      */
     XYChart.prototype.handleCursorZoomStart = function (event) {
         // Nothing here
@@ -1069,7 +1074,7 @@ var XYChart = /** @class */ (function (_super) {
     };
     Object.defineProperty(XYChart.prototype, "scrollbarX", {
         /**
-         * @return {Scrollbar} Scrollbar
+         * @return Scrollbar
          */
         get: function () {
             return this._scrollbarX;
@@ -1077,7 +1082,7 @@ var XYChart = /** @class */ (function (_super) {
         /**
          * Horizontal (X) scrollbar.
          *
-         * @param {Scrollbar} scrollbar Scrollbar
+         * @param scrollbar Scrollbar
          */
         set: function (scrollbar) {
             var _this = this;
@@ -1108,7 +1113,7 @@ var XYChart = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYChart.prototype, "scrollbarY", {
         /**
-         * @return {Scrollbar} Scrollbar
+         * @return Scrollbar
          */
         get: function () {
             return this._scrollbarY;
@@ -1116,7 +1121,7 @@ var XYChart = /** @class */ (function (_super) {
         /**
          * Vertical (Y) scrollbar.
          *
-         * @param {Scrollbar} scrollbar Scrollbar
+         * @param scrollbar Scrollbar
          */
         set: function (scrollbar) {
             var _this = this;
@@ -1149,7 +1154,7 @@ var XYChart = /** @class */ (function (_super) {
      * Zooms axes affected by the horizontal (X) scrollbar when the selection
      * on it changes.
      *
-     * @param {AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]} event Scrollbar range change event
+     * @param event Scrollbar range change event
      */
     XYChart.prototype.handleXScrollbarChange = function (event) {
         if (this.inited) {
@@ -1169,7 +1174,7 @@ var XYChart = /** @class */ (function (_super) {
      * Zooms axes affected by the vertical (Y) scrollbar when the selection
      * on it changes.
      *
-     * @param {AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]} event Scrollbar range change event
+     * @param event Scrollbar range change event
      */
     XYChart.prototype.handleYScrollbarChange = function (event) {
         if (this.inited) {
@@ -1188,10 +1193,10 @@ var XYChart = /** @class */ (function (_super) {
     /**
      * Zooms axes that are affected by to specific relative range.
      *
-     * @param  {List<Axis>}  axes       List of axes to zoom
-     * @param  {IRange}      range      Range of values to zoom to (0-1)
-     * @param  {boolean}     instantly  If set to `true` will skip zooming animation
-     * @return {IRange}                 Recalculated range that is common to all involved axes
+     * @param axes       List of axes to zoom
+     * @param range      Range of values to zoom to (0-1)
+     * @param instantly  If set to `true` will skip zooming animation
+     * @return Recalculated range that is common to all involved axes
      */
     XYChart.prototype.zoomAxes = function (axes, range, instantly, round, declination) {
         var realRange = { start: 0, end: 1 };
@@ -1218,7 +1223,7 @@ var XYChart = /** @class */ (function (_super) {
     };
     Object.defineProperty(XYChart.prototype, "maskBullets", {
         /**
-         * @return {boolean} Mask bullet container?
+         * @return Mask bullet container?
          */
         get: function () {
             return this.getPropertyValue("maskBullets");
@@ -1230,7 +1235,7 @@ var XYChart = /** @class */ (function (_super) {
          * will be clipped off. Settting to `false` will allow bullets to "spill out"
          * of the plot area so they are not cut off.
          *
-         * @param {boolean} value Mask bullet container?
+         * @param value Mask bullet container?
          */
         set: function (value) {
             this.setPropertyValue("maskBullets", value, true);
@@ -1238,10 +1243,37 @@ var XYChart = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(XYChart.prototype, "arrangeTooltips", {
+        /**
+         * @return Arrange tooltips?
+         */
+        get: function () {
+            return this.getPropertyValue("arrangeTooltips");
+        },
+        /**
+         * Indicates if chart should arrange series tooltips so that they would not
+         * overlap.
+         *
+         * If set to `true` (default), the chart will adjust vertical positions of
+         * all simultaneously shown tooltips to avoid overlapping.
+         *
+         * However, if you have a vertically-arranged chart, it might not make sense,
+         * because tooltips would most probably not be aligned horizontally. In this
+         * case it would probably be a good idea to set this setting to `false`.
+         *
+         * @default true
+         * @param value Arrange tooltips?
+         */
+        set: function (value) {
+            this.setPropertyValue("arrangeTooltips", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Handles mouse wheel event.
      *
-     * @param {AMEvent<Sprite, ISpriteEvents>["wheel"]}  event  Original event
+     * @param event  Original event
      */
     XYChart.prototype.handleWheel = function (event) {
         var plotContainer = this.plotContainer;
@@ -1297,7 +1329,7 @@ var XYChart = /** @class */ (function (_super) {
     };
     Object.defineProperty(XYChart.prototype, "mouseWheelBehavior", {
         /**
-         * @return {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"}  Mouse wheel behavior
+         * @return Mouse wheel behavior
          */
         get: function () {
             return this.getPropertyValue("mouseWheelBehavior");
@@ -1308,7 +1340,7 @@ var XYChart = /** @class */ (function (_super) {
          * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"` (default).
          *
          * @default "none"
-         * @param {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"} mouse wheel behavior
+         * @param mouse wheel behavior
          */
         set: function (value) {
             if (this.setPropertyValue("mouseWheelBehavior", value)) {
@@ -1333,8 +1365,8 @@ var XYChart = /** @class */ (function (_super) {
      * so that particular chart types can popuplate this setting with their
      * own type-speicifc data fields so they are parsed properly.
      *
-     * @param  {string[]}  fields  Array of date fields
-     * @return {string[]}          Array of date fields populated with chart's date fields
+     * @param fields  Array of date fields
+     * @return Array of date fields populated with chart's date fields
      */
     XYChart.prototype.dataSourceDateFields = function (fields) {
         var _this = this;
@@ -1351,8 +1383,8 @@ var XYChart = /** @class */ (function (_super) {
      * so that particular chart types can popuplate this setting with their
      * own type-specific data fields so they are parsed properly.
      *
-     * @param  {string[]}  value  Array of number fields
-     * @return {string[]}         Array of number fields populated with chart's number fields
+     * @param value  Array of number fields
+     * @return Array of number fields populated with chart's number fields
      */
     XYChart.prototype.dataSourceNumberFields = function (fields) {
         var _this = this;
@@ -1367,7 +1399,7 @@ var XYChart = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     XYChart.prototype.processConfig = function (config) {
         if (config) {
@@ -1447,9 +1479,9 @@ var XYChart = /** @class */ (function (_super) {
      * the end.
      *
      * @ignore Exclude from docs
-     * @param  {string}  a  Element 1
-     * @param  {string}  b  Element 2
-     * @return {Ordering}   Sorting number
+     * @param a  Element 1
+     * @param b  Element 2
+     * @return Sorting number
      */
     XYChart.prototype.configOrder = function (a, b) {
         if (a == b) {
@@ -1481,14 +1513,14 @@ var XYChart = /** @class */ (function (_super) {
     /**
      * Creates a new Series of type suitable for this chart.
      *
-     * @return {this} New series
+     * @return New series
      */
     XYChart.prototype.createSeries = function () {
         return new XYSeries();
     };
     Object.defineProperty(XYChart.prototype, "zoomOutButton", {
         /**
-         * @return {Button} Zoom out button
+         * @return Zoom out button
          */
         get: function () {
             return this._zoomOutButton;
@@ -1499,7 +1531,7 @@ var XYChart = /** @class */ (function (_super) {
          * This button appears only when chart is zoomed in, and disappears
          * autoamatically when it is zoome dout.
          *
-         * @param {Button}  button  Zoom out button
+         * @param button  Zoom out button
          */
         set: function (button) {
             var _this = this;
@@ -1517,7 +1549,7 @@ var XYChart = /** @class */ (function (_super) {
     /**
      * Copies all parameters from another [[XYChart]].
      *
-     * @param {XYChart} source Source XYChart
+     * @param source Source XYChart
      */
     XYChart.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
@@ -1549,7 +1581,7 @@ var XYChart = /** @class */ (function (_super) {
     /**
      * Adds one or several (array) of data items to the existing data.
      *
-     * @param {Object | Object[]} rawDataItem One or many raw data item objects
+     * @param rawDataItem One or many raw data item objects
      */
     XYChart.prototype.addData = function (rawDataItem, removeCount) {
         _super.prototype.addData.call(this, rawDataItem, removeCount);

@@ -38,13 +38,11 @@ export class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
 
 	/**
 	 * A sprite used to draw the column.
-	 * @type {Candlestick}
 	 */
 	public _column: Candlestick;
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for
-	 * @type {CandlestickSeries}
 	 * @todo Disabled to work around TS bug (see if we can re-enable it again)
 	 */
 	//public _component!: CandlestickSeries;
@@ -68,14 +66,14 @@ export class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
 	/**
 	 * Low value for horizontal axis.
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set lowValueX(value: number) {
 		this.setValue("lowValueX", value);
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get lowValueX(): number {
 		return this.values.lowValueX.value;
@@ -84,14 +82,14 @@ export class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
 	/**
 	 * Low value for vertical axis.
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set lowValueY(value: number) {
 		this.setValue("lowValueY", value);
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get lowValueY(): number {
 		return this.values.lowValueY.value;
@@ -100,14 +98,14 @@ export class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
 	/**
 	 * High value for horizontal axis.
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set highValueX(value: number) {
 		this.setValue("highValueX", value);
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get highValueX(): number {
 		return this.values.highValueX.value;
@@ -116,14 +114,14 @@ export class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
 	/**
 	 * High value for vertical axis.
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set highValueY(value: number) {
 		this.setValue("highValueY", value);
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get highValueY(): number {
 		return this.values.highValueY.value;
@@ -134,14 +132,14 @@ export class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
 	 *
 	 * This is an alias for `valueX` added for convenience only.
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set closeValueX(value: number) {
 		this.setValue("valueX", value);
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get closeValueX(): number {
 		return this.values.valueX.value;
@@ -152,14 +150,14 @@ export class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
 	 *
 	 * This is an alias for `valueX` added for convenience only.
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set closeValueY(value: number) {
 		this.setValue("valueY", value);
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get closeValueY(): number {
 		return this.values.valueY.value;
@@ -181,57 +179,41 @@ export interface ICandlestickSeriesDataFields extends IColumnSeriesDataFields {
 
 	/**
 	 * Field name in data which holds low numeric value for horizontal axis.
-	 *
-	 * @type {number}
 	 */
 	lowValueX?: string;
 
 	/**
 	 * Field name in data which holds low numeric value for vertical axis.
-	 *
-	 * @type {number}
 	 */
 	lowValueY?: string;
 
 	/**
 	 * Field name in data which holds high numeric value for horizontal axis.
-	 *
-	 * @type {number}
 	 */
 	highValueX?: string;
 
 	/**
 	 * Field name in data which holds low numeric value for vertical axis.
-	 *
-	 * @type {number}
 	 */
 	highValueY?: string;
 
 	/**
 	 * Field name in data which holds low date for horizontal axis.
-	 *
-	 * @type {number}
 	 */
 	lowDateX?: string;
 
 	/**
 	 * Field name in data which holds low date for vertical axis.
-	 *
-	 * @type {number}
 	 */
 	lowDateY?: string;
 
 	/**
 	 * Field name in data which holds high date for horizontal axis.
-	 *
-	 * @type {number}
 	 */
 	highDateX?: string;
 
 	/**
 	 * Field name in data which holds high date for vertical axis.
-	 *
-	 * @type {number}
 	 */
 	highDateY?: string;
 
@@ -274,8 +256,6 @@ export class CandlestickSeries extends ColumnSeries {
 
 	/**
 	 * Defines the type of data item.
-	 *
-	 * @type {CandlestickSeriesDataItem}
 	 */
 	public _dataItem: CandlestickSeriesDataItem;
 
@@ -286,29 +266,21 @@ export class CandlestickSeries extends ColumnSeries {
 
 	/**
 	 * Defines available data fields.
-	 *
-	 * @type {ICandlestickSeriesDataFields}
 	 */
 	public _dataFields: ICandlestickSeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ICandlestickSeriesProperties}
 	 */
 	public _properties!: ICandlestickSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ICandlestickSeriesAdapters}
 	 */
 	public _adapter!: ICandlestickSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ICandlestickSeriesEvents}
 	 */
 	public _events!: ICandlestickSeriesEvents;
 
@@ -369,7 +341,7 @@ export class CandlestickSeries extends ColumnSeries {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {CandlestickSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new CandlestickSeriesDataItem();
@@ -379,7 +351,7 @@ export class CandlestickSeries extends ColumnSeries {
 	 * Validates data item's element, effectively redrawing it.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {CandlestickSeriesDataItem}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public validateDataElementReal(dataItem: this["_dataItem"]): void {
 		super.validateDataElementReal(dataItem);
@@ -479,7 +451,7 @@ export class CandlestickSeries extends ColumnSeries {
 	 * A data field to look for "low" value for horizontal axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {string} Field name
+	 * @return Field name
 	 */
 	public get xLowField(): string {
 		return this._xLowField;
@@ -489,7 +461,7 @@ export class CandlestickSeries extends ColumnSeries {
 	 * A data field to look for "low" value for vertical axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {string} Field name
+	 * @return Field name
 	 */
 	public get yLowField(): string {
 		return this._yLowField;
@@ -499,7 +471,7 @@ export class CandlestickSeries extends ColumnSeries {
 	 * A data field to look for "high" value for horizontal axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {string} Field name
+	 * @return Field name
 	 */
 	public get xHighField(): string {
 		return this._xHighField;
@@ -509,7 +481,7 @@ export class CandlestickSeries extends ColumnSeries {
 	 * A data field to look for "high" value for vertical axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {string} Field name
+	 * @return Field name
 	 */
 	public get yHighField(): string {
 		return this._yHighField;
@@ -545,7 +517,7 @@ export class CandlestickSeries extends ColumnSeries {
 	 * Series.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Container}  marker  Legend item container
+	 * @param marker  Legend item container
 	 */
 	public createLegendMarker(marker: Container): void {
 
@@ -604,7 +576,7 @@ export class CandlestickSeries extends ColumnSeries {
 	/**
 	 * Returns an element to use for Candlestick
 	 * @ignore
-	 * @return {this["_column"]} Element.
+	 * @return Element.
 	 */
 	protected createColumnTemplate(): this["_column"] {
 		return new Candlestick();

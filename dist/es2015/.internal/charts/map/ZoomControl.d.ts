@@ -52,55 +52,38 @@ export interface IZoomControlAdapters extends IContainerAdapters, IZoomControlPr
 export declare class ZoomControl extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IZoomControlProperties}
      */
     _properties: IZoomControlProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IZoomControlAdapters}
      */
     _adapter: IZoomControlAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IZoomControlEvents}
      */
     _events: IZoomControlEvents;
     /**
      * Zoom in button element.
-     *
-     * @type {Button}
      */
     plusButton: Button;
     /**
      * Zoom out button element.
-     *
-     * @type {Button}
      */
     minusButton: Button;
     /**
      * A zoom slider background element.
-     *
-     * @type {Container}
      */
     slider: Container;
     /**
      * A zoom slider thumb element.
-     * @type {Button}
      */
     thumb: Button;
     /**
      * A target map.
-     *
-     * @type {MutableValueDisposer<MapChart>}
      */
     protected _chart: MutableValueDisposer<MapChart>;
     /**
      * A type to use for the background element for zoom control.
-     *
-     * @type {RoundedRectangle}
      */
     _background: RoundedRectangle;
     /**
@@ -112,16 +95,16 @@ export declare class ZoomControl extends Container {
      * Handles zoom operation after clicking on the slider background.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["hit"]}  event  Event
+     * @param event  Event
      */
     handleBackgroundClick(event: AMEvent<Sprite, ISpriteEvents>["hit"]): void;
     /**
-     * @return {MapChart} Map/chart
+     * @return Map/chart
      */
     /**
      * A main chart/map that this zoom control is for.
      *
-     * @param {MapChart}  chart  Map/chart
+     * @param chart  Map/chart
      */
     chart: MapChart;
     /**
@@ -147,14 +130,14 @@ export declare class ZoomControl extends Container {
      * zoom level settings.
      *
      * @ignore Exclude from docs
-     * @return {number} Step count
+     * @return Step count
      */
     readonly stepCount: number;
     /**
      * Creates a background element for slider control.
      *
      * @ignore Exclude from docs
-     * @return {this} Background
+     * @return Background
      */
     createBackground(): this["_background"];
 }

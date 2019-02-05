@@ -64,22 +64,16 @@ export class StepLineSeriesSegment extends LineSeriesSegment {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IStepLineSeriesSegmentProperties}
 	 */
 	public _properties!: IStepLineSeriesSegmentProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IStepLineSeriesSegmentAdapters}
 	 */
 	public _adapter!: IStepLineSeriesSegmentAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IStepLineSeriesSegmentEvents}
 	 */
 	public _events!: IStepLineSeriesSegmentEvents;
 
@@ -87,7 +81,6 @@ export class StepLineSeriesSegment extends LineSeriesSegment {
 	 * Segment's line element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public strokeSprite: Sprite;
 
@@ -95,7 +88,6 @@ export class StepLineSeriesSegment extends LineSeriesSegment {
 	 * Segment's fill element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public fillSprite: Sprite;
 
@@ -113,10 +105,10 @@ export class StepLineSeriesSegment extends LineSeriesSegment {
 	 * Draws the series segment.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IPoint[]}  points       Points to connect
-	 * @param {IPoint[]}  closePoints  ?
-	 * @param {number}    smoothnessX  Horizontal bezier setting (?)
-	 * @param {number}    smoothnessY  Vertical bezier setting (?)
+	 * @param points       Points to connect
+	 * @param closePoints  ?
+	 * @param smoothnessX  Horizontal bezier setting (?)
+	 * @param smoothnessY  Vertical bezier setting (?)
 	 */
 	public drawSegment(points: IPoint[], closePoints: IPoint[], smoothnessX: number, smoothnessY: number, noRisers?: boolean, vertical?: boolean): void {
 		if (points.length > 0 && closePoints.length > 0) {

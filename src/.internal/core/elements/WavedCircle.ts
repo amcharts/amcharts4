@@ -36,7 +36,6 @@ export interface IWavedCircleProperties extends ICircleProperties {
 	 * Wave length in pixels.
 	 *
 	 * @default 16
-	 * @type {number}
 	 */
 	waveLength?: number;
 
@@ -44,7 +43,6 @@ export interface IWavedCircleProperties extends ICircleProperties {
 	 * Wave height in pixels.
 	 *
 	 * @default 4
-	 * @type {number}
 	 */
 	waveHeight?: number;
 
@@ -52,14 +50,11 @@ export interface IWavedCircleProperties extends ICircleProperties {
 	 * Wave tension.
 	 *
 	 * @default 0.8
-	 * @type {number}
 	 */
 	tension?: number;
 
 	/**
 	 * Inner radius of the circle in pixels.
-	 *
-	 * @type {number | Percent}
 	 */
 	innerRadius?: number | Percent;
 
@@ -95,22 +90,16 @@ export class WavedCircle extends Circle implements IWavedShape {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IWavedCircleProperties}
 	 */
 	public _properties!: IWavedCircleProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IWavedCircleAdapters}
 	 */
 	public _adapter!: IWavedCircleAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IWavedCircleEvents}
 	 */
 	public _events!: IWavedCircleEvents;
 
@@ -159,8 +148,8 @@ export class WavedCircle extends Circle implements IWavedShape {
 	/**
 	 * Returns points that circle consists of.
 	 *
-	 * @param  {number}    radius  Radius (px)
-	 * @return {IPoint[]}          Points
+	 * @param radius  Radius (px)
+	 * @return Points
 	 */
 	protected getPoints(radius: number): IPoint[] {
 		let circleLength: number = radius * Math.PI * 2;
@@ -185,7 +174,7 @@ export class WavedCircle extends Circle implements IWavedShape {
 	/**
 	 * Inner radius of the circle in pixels (absolute) or [[Percent]] (relative).
 	 *
-	 * @param {number | Percent}  value  Inner radius
+	 * @param value  Inner radius
 	 */
 	public set innerRadius(value: number | Percent) {
 		this.setPercentProperty("innerRadius", value, true, false, 10, false);
@@ -193,7 +182,7 @@ export class WavedCircle extends Circle implements IWavedShape {
 	}
 
 	/**
-	 * @return {number} Inner radius
+	 * @return Inner radius
 	 */
 	public get innerRadius(): number | Percent {
 		return this.getPropertyValue("innerRadius");
@@ -203,7 +192,7 @@ export class WavedCircle extends Circle implements IWavedShape {
 	 * Calculated inner radius of the circle in pixels.
 	 *
 	 * @readonly
-	 * @return {number} Inner radius (px)
+	 * @return Inner radius (px)
 	 */
 	public get pixelInnerRadius(): number {
 		return $utils.relativeToValue(this.innerRadius, $math.min(this.innerWidth / 2, this.innerHeight / 2));
@@ -213,7 +202,7 @@ export class WavedCircle extends Circle implements IWavedShape {
 	 * Wave length in pixels.
 	 *
 	 * @default 16
-	 * @param {number}  value  Wave length (px)
+	 * @param value  Wave length (px)
 	 */
 	public set waveLength(value: number) {
 		this.setPropertyValue("waveLength", value);
@@ -221,7 +210,7 @@ export class WavedCircle extends Circle implements IWavedShape {
 	}
 
 	/**
-	 * @return {number} Wave length (px)
+	 * @return Wave length (px)
 	 */
 	public get waveLength(): number {
 		return this.getPropertyValue("waveLength");
@@ -231,7 +220,7 @@ export class WavedCircle extends Circle implements IWavedShape {
 	 * Wave height in pixels.
 	 *
 	 * @default 4
-	 * @param {number}  value  Wave height (px)
+	 * @param value  Wave height (px)
 	 */
 	public set waveHeight(value: number) {
 		this.setPropertyValue("waveHeight", value);
@@ -239,7 +228,7 @@ export class WavedCircle extends Circle implements IWavedShape {
 	}
 
 	/**
-	 * @return {number} Wave height (px)
+	 * @return Wave height (px)
 	 */
 	public get waveHeight(): number {
 		return this.getPropertyValue("waveHeight");
@@ -249,7 +238,7 @@ export class WavedCircle extends Circle implements IWavedShape {
 	 * Tension of the wave.
 	 *
 	 * @default 0.8
-	 * @param {number}  value  Tension
+	 * @param value  Tension
 	 */
 	public set tension(value: number) {
 		this.setPropertyValue("tension", value);
@@ -257,7 +246,7 @@ export class WavedCircle extends Circle implements IWavedShape {
 	}
 
 	/**
-	 * @return {number} Tension
+	 * @return Tension
 	 */
 	public get tension(): number {
 		return this.getPropertyValue("tension");

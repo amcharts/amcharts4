@@ -16,14 +16,10 @@ import * as $type from "./Type";
 export declare class Cache<A> {
     /**
      * Storage for cache items.
-     *
-     * @type {Object}
      */
     private _storage;
     /**
      * Default TTL in milliseconds.
-     *
-     * @type {number}
      */
     ttl: number;
     /**
@@ -31,25 +27,25 @@ export declare class Cache<A> {
      *
      * If `ttl` is set to zero, item will never expire.
      *
-     * @param {string}  owner  An id of the object that owns this cache
-     * @param {string}  key    Index key
-     * @param {A}       value  Value
-     * @param {number}  ttl    TTL of the cache to live in milliseconds
+     * @param owner  An id of the object that owns this cache
+     * @param key    Index key
+     * @param value  Value
+     * @param ttl    TTL of the cache to live in milliseconds
      */
     set(owner: string, key: string, value: A, ttl?: number): void;
     /**
      * Rerturns cached item, respecting TTL.
      *
-     * @param  {string}  owner  An id of the object that owns this cache
-     * @param  {string}  key    Index key
-     * @param  {string}  value  Value to return if cache not available
-     * @return {A}              Value, or `undefined` if not set
+     * @param owner  An id of the object that owns this cache
+     * @param key    Index key
+     * @param value  Value to return if cache not available
+     * @return Value, or `undefined` if not set
      */
     get(owner: string, key: string, value?: any): $type.Optional<A>;
     /**
      * Clears cache for specific owner or everything.
      *
-     * @param {string} owner Owner to clear cache for
+     * @param owner Owner to clear cache for
      */
     clear(owner?: string): void;
 }

@@ -39,14 +39,10 @@ var AxisBreak = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * Reference to parent Axis.
-         *
-         * @type {MutableValueDisposer}
          */
         _this._axis = new MutableValueDisposer();
         /**
          * A list of axis data items which fall within this break.
-         *
-         * @type {List<AxisDataItem>}
          */
         _this.dataItems = new List();
         _this.className = "AxisBreak";
@@ -96,7 +92,7 @@ var AxisBreak = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisBreak.prototype, "startLine", {
         /**
-         * @return {IWavedShape} Element
+         * @return Element
          */
         get: function () {
             return this._startLine;
@@ -104,7 +100,7 @@ var AxisBreak = /** @class */ (function (_super) {
         /**
          * An element used for the starting line of the break.
          *
-         * @param {IWavedShape}  sprite  Element
+         * @param sprite  Element
          */
         set: function (sprite) {
             if (this._startLine) {
@@ -118,7 +114,7 @@ var AxisBreak = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisBreak.prototype, "endLine", {
         /**
-         * @return {IWavedShape} Element
+         * @return Element
          */
         get: function () {
             return this._endLine;
@@ -126,7 +122,7 @@ var AxisBreak = /** @class */ (function (_super) {
         /**
          * An element used for the end line of the break.
          *
-         * @param {IWavedShape} sprite Element
+         * @param sprite Element
          */
         set: function (sprite) {
             if (this._endLine) {
@@ -140,7 +136,7 @@ var AxisBreak = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisBreak.prototype, "fillShape", {
         /**
-         * @return {IWavedShape} Element
+         * @return Element
          */
         get: function () {
             return this._fillShape;
@@ -148,7 +144,7 @@ var AxisBreak = /** @class */ (function (_super) {
         /**
          * An element used for fill of the break.
          *
-         * @param {IWavedShape} sprite Element
+         * @param sprite Element
          */
         set: function (sprite) {
             if (this._fillShape) {
@@ -165,7 +161,7 @@ var AxisBreak = /** @class */ (function (_super) {
      * [[Container]].
      *
      * @ignore Exclude from docs
-     * @param {IWavedShape} sprite Element to add
+     * @param sprite Element to add
      */
     AxisBreak.prototype.addBreakSprite = function (sprite) {
         sprite.parent = this;
@@ -174,7 +170,7 @@ var AxisBreak = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisBreak.prototype, "axis", {
         /**
-         * @return {Axis} Axis
+         * @return Axis
          */
         get: function () {
             return this._axis.get();
@@ -182,7 +178,7 @@ var AxisBreak = /** @class */ (function (_super) {
         /**
          * An Axis this Break is associated with.
          *
-         * @param {Axis}  axis  Axis
+         * @param axis  Axis
          */
         set: function (axis) {
             if (this._axis.get() !== axis) {
@@ -200,7 +196,7 @@ var AxisBreak = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisBreak.prototype, "breakSize", {
         /**
-         * @return {number} Relative axis break
+         * @return Relative axis break
          */
         get: function () {
             return this.getPropertyValue("breakSize");
@@ -216,7 +212,7 @@ var AxisBreak = /** @class */ (function (_super) {
          * effectively useless.
          *
          * @default 0.01
-         * @param {number}  value  Relative axis break
+         * @param value  Relative axis break
          */
         set: function (value) {
             if (this.setPropertyValue("breakSize", value)) {
@@ -233,7 +229,7 @@ var AxisBreak = /** @class */ (function (_super) {
         /**
          * Returns pixel coordinates of axis break's start.
          *
-         * @return {IPoint} Start point
+         * @return Start point
          */
         get: function () {
             var renderer = this.axis.renderer;
@@ -248,7 +244,7 @@ var AxisBreak = /** @class */ (function (_super) {
         /**
          * Returns pixel coordinates of axis break's end.
          *
-         * @return {IPoint} End point
+         * @return End point
          */
         get: function () {
             var renderer = this.axis.renderer;
@@ -266,7 +262,7 @@ var AxisBreak = /** @class */ (function (_super) {
          * This is a calculated position, meaning it shows relative position of the
          * break after break is applied.
          *
-         * @return {number} Start position
+         * @return Start position
          */
         get: function () {
             return;
@@ -281,7 +277,7 @@ var AxisBreak = /** @class */ (function (_super) {
          * This is a calculated position, meaning it shows relative position of the
          * break after break is applied.
          *
-         * @return {number} End position
+         * @return End position
          */
         get: function () {
             return;
@@ -303,7 +299,7 @@ var AxisBreak = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisBreak.prototype, "startValue", {
         /**
-         * @return {number} Starting value
+         * @return Starting value
          */
         get: function () {
             return this.getPropertyValue("startValue");
@@ -311,7 +307,7 @@ var AxisBreak = /** @class */ (function (_super) {
         /**
          * A starting value for the break.
          *
-         * @param {number}  value  Starting value
+         * @param value  Starting value
          */
         set: function (value) {
             if (this.setPropertyValue("startValue", value)) {
@@ -326,7 +322,7 @@ var AxisBreak = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisBreak.prototype, "endValue", {
         /**
-         * @return {number} End value
+         * @return End value
          */
         get: function () {
             return this.getPropertyValue("endValue");
@@ -334,7 +330,7 @@ var AxisBreak = /** @class */ (function (_super) {
         /**
          * An end value for the break.
          *
-         * @param {number}  value  End value
+         * @param value  End value
          */
         set: function (value) {
             if (this.setPropertyValue("endValue", value)) {

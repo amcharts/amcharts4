@@ -40,14 +40,10 @@ var Tooltip = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * Holds numeric boundary values. Calculated from the `boundingContainer`.
-         *
-         * @type {IRectangle}
          */
         _this._boundingRect = { x: -40000, y: -40000, width: 80000, height: 80000 };
         /**
          * Coordinates tooltip's pointer (stem) should point to.
-         *
-         * @type {IPoint}
          */
         _this._pointTo = { x: 0, y: 0 };
         /**
@@ -55,13 +51,10 @@ var Tooltip = /** @class */ (function (_super) {
          * Tooltip's width or height depending on pointer's orientation.
          *
          * @default false
-         * @type {boolean}
          */
         _this.fitPointerToBounds = false;
         /**
          * If tooltipOrientation is vertical, it can be drawn below or above point. We need to know this when solving overlapping
-         *
-         * @type "up" | "down"
          */
         _this._verticalOrientation = "up";
         _this.className = "Tooltip";
@@ -130,7 +123,7 @@ var Tooltip = /** @class */ (function (_super) {
         /**
          * Specifies if tooltip background should get stroke color from the sprite it is pointing to.
          *
-         * @param {value} value boolean
+         * @param value boolean
          */
         set: function (value) {
             this.setPropertyValue("getStrokeFromObject", value, true);
@@ -158,7 +151,7 @@ var Tooltip = /** @class */ (function (_super) {
          * using `tooltip.label.fill` property.
          *
          *
-         * @param {value} value boolean
+         * @param value boolean
          */
         set: function (value) {
             this.setPropertyValue("autoTextColor", value, true);
@@ -177,7 +170,7 @@ var Tooltip = /** @class */ (function (_super) {
             return this.getPropertyValue("getFillFromObject");
         },
         /**
-         * @param {value} value boolean
+         * @param value boolean
          */
         set: function (value) {
             this.setPropertyValue("getFillFromObject", value, true);
@@ -189,14 +182,14 @@ var Tooltip = /** @class */ (function (_super) {
      * Creates and returns a background element.
      *
      * @ignore Exclude from docs
-     * @return {PointedRectangle} Background
+     * @return Background
      */
     Tooltip.prototype.createBackground = function () {
         return new PointedRectangle();
     };
     Object.defineProperty(Tooltip.prototype, "pointerOrientation", {
         /**
-         * @return {PointerOrientation} Orientation
+         * @return Orientation
          */
         get: function () {
             return this.getPropertyValue("pointerOrientation");
@@ -205,7 +198,7 @@ var Tooltip = /** @class */ (function (_super) {
          * Pointer orientation: "horizontal" or "vertical".
          *
          * @default "vertical"
-         * @param {PointerOrientation}  value  Orientation
+         * @param value  Orientation
          */
         set: function (value) {
             this.setPropertyValue("pointerOrientation", value, true);
@@ -215,7 +208,7 @@ var Tooltip = /** @class */ (function (_super) {
     });
     Object.defineProperty(Tooltip.prototype, "animationDuration", {
         /**
-         * @return {PointerOrientation} Orientation
+         * @return Orientation
          */
         get: function () {
             return this.getPropertyValue("animationDuration");
@@ -225,7 +218,7 @@ var Tooltip = /** @class */ (function (_super) {
          * is moving from one place to another.
          *
          * @default 0
-         * @param {number}  value  number
+         * @param value  number
          */
         set: function (value) {
             this.setPropertyValue("animationDuration", value);
@@ -244,7 +237,7 @@ var Tooltip = /** @class */ (function (_super) {
          * Tooltip animation (moving from one place to another) easing function.
          *
          * @default $ease.cubicOut
-         * @param {Function}  value (value: number) => number
+         * @param value (value: number) => number
          */
         set: function (value) {
             this.setPropertyValue("animationEasing", value);
@@ -254,7 +247,7 @@ var Tooltip = /** @class */ (function (_super) {
     });
     Object.defineProperty(Tooltip.prototype, "html", {
         /**
-         * @return {string} HTML content
+         * @return HTML content
          */
         get: function () {
             return this.label.html;
@@ -265,7 +258,7 @@ var Tooltip = /** @class */ (function (_super) {
          * Provided value will be used as is, without applying any further
          * formatting to it.
          *
-         * @param {string}  value  HTML content
+         * @param value  HTML content
          */
         set: function (value) {
             if (this.label.html != value) {
@@ -278,7 +271,7 @@ var Tooltip = /** @class */ (function (_super) {
     });
     Object.defineProperty(Tooltip.prototype, "text", {
         /**
-         * @return {string} SVG text
+         * @return SVG text
          */
         get: function () {
             return this.label.text;
@@ -289,7 +282,7 @@ var Tooltip = /** @class */ (function (_super) {
          * Text can have a number of formatting options supported by
          * [[TextFormatter]].
          *
-         * @param {string}  value  SVG text
+         * @param value  SVG text
          */
         set: function (value) {
             if (this.label.text != value) {
@@ -405,8 +398,8 @@ var Tooltip = /** @class */ (function (_super) {
     /**
      * Set nes tooltip's anchor point and moves whole tooltip.
      *
-     * @param {number}  x  X coordinate
-     * @param {number}  y  Y coordinate
+     * @param x  X coordinate
+     * @param y  Y coordinate
      */
     Tooltip.prototype.pointTo = function (point, instantly) {
         if (this._pointTo.x != point.x || this._pointTo.y != point.y) {
@@ -438,7 +431,7 @@ var Tooltip = /** @class */ (function (_super) {
      * specific area).
      *
      * @ignore Exclude from docs
-     * @param {IRectangle} rectangle Boundary rectangle
+     * @param rectangle Boundary rectangle
      */
     Tooltip.prototype.setBounds = function (rectangle) {
         var oldRect = this._boundingRect;
@@ -453,7 +446,7 @@ var Tooltip = /** @class */ (function (_super) {
          * boundaries for the Tooltip.
          *
          * @ignore Exclude from docs
-         * @param {Container}  container  Boundary container
+         * @param container  Boundary container
          */
         set: function (container) {
             this._boundingContainer = container;
@@ -507,7 +500,7 @@ var Tooltip = /** @class */ (function (_super) {
     /**
      * Copies properties and other attributes.
      *
-     * @param {Tooltip}  source  Source
+     * @param source  Source
      */
     Tooltip.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

@@ -90,7 +90,7 @@ var Polyarc = /** @class */ (function (_super) {
     };
     Object.defineProperty(Polyarc.prototype, "controlPointPosition", {
         /**
-         * @return {number} Position (0-1)
+         * @return Position (0-1)
          */
         get: function () {
             return this.getPropertyValue("controlPointPosition");
@@ -99,7 +99,7 @@ var Polyarc = /** @class */ (function (_super) {
          * Relative position along the line the control point is. (0-1)
          *
          * @default 0.5
-         * @param {number}  value  Position (0-1)
+         * @param value  Position (0-1)
          */
         set: function (value) {
             this.setPropertyValue("controlPointPosition", value);
@@ -110,7 +110,7 @@ var Polyarc = /** @class */ (function (_super) {
     });
     Object.defineProperty(Polyarc.prototype, "controlPointDistance", {
         /**
-         * @return {number} Distance (0-1)
+         * @return Distance (0-1)
          */
         get: function () {
             return this.getPropertyValue("controlPointDistance");
@@ -121,7 +121,7 @@ var Polyarc = /** @class */ (function (_super) {
          * Default is half the length of the line. (0.5)
          *
          * @default 0.5
-         * @param {number}  value  Distance (0-1)
+         * @param value  Distance (0-1)
          */
         set: function (value) {
             this.setPropertyValue("controlPointDistance", value);

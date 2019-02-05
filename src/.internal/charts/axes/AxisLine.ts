@@ -1,5 +1,4 @@
 ﻿/**
- *
  */
 
 /**
@@ -56,22 +55,16 @@ export class AxisLine extends Sprite {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IAxisLineProperties}
 	 */
 	public _properties!: IAxisLineProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IAxisLineAdapters}
 	 */
 	public _adapter!: IAxisLineAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IAxisLineEvents}
 	 */
 	public _events!: IAxisLineEvents;
 

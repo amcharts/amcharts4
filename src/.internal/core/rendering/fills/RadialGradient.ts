@@ -37,8 +37,6 @@ export class RadialGradient extends BaseObject {
 
 	/**
 	 * List of colors switch definitions in a gradient.
-	 *
-	 * @type {List<IGradientStop>}
 	 */
 	protected _stops: List<IGradientStop> = new List<IGradientStop>();
 
@@ -46,42 +44,31 @@ export class RadialGradient extends BaseObject {
 	 * An SVG `<group>` element used to draw gradient.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Group}
 	 */
 	public element: Group;
 
 	/**
 	 * Reference to Paper to add element to.
-	 *
-	 * @type {Optional<Paper>}
 	 */
 	protected _paper: $type.Optional<Paper>;
 
 	/**
 	 * A center x coordinate for the radial gradient, can be set in pixels or as Percent
-	 *
-	 * @type {Optional<number | Percent>}
 	 */
 	protected _cx: $type.Optional<number | Percent>;
 
 	/**
 	 * A center y coordinate for the radial gradient, can be set in pixels or as Percent
-	 *
-	 * @type {Optional<number | Percent>}
 	 */
 	protected _cy: $type.Optional<number | Percent>;
 
 	/**
 	 * A y coordinate of the focal point of a gradient, can be set in pixels or as Percent
-	 *
-	 * @type {Optional<number | Percent>}
 	 */
 	protected _fx: $type.Optional<number | Percent>;
 
 	/**
 	 * A y coordinate of the focal point of a gradient, can be set in pixels or as Percent
-	 *
-	 * @type {Optional<number | Percent>}
 	 */
 	protected _fy: $type.Optional<number | Percent>;
 
@@ -166,9 +153,9 @@ export class RadialGradient extends BaseObject {
 	/**
 	 * Adds a color step to the gradient.
 	 *
-	 * @param {Color}   color    Color (hex code or named color)
-	 * @param {number}  opacity  Opacity (value from 0 to 1; 0 completely transaprent, 1 fully opaque)
-	 * @param {number}  offset   Position of color in the gradient (value 0 to 1; 0 meaning start of the gradient and 1 end)
+	 * @param color    Color (hex code or named color)
+	 * @param opacity  Opacity (value from 0 to 1; 0 completely transaprent, 1 fully opaque)
+	 * @param offset   Position of color in the gradient (value 0 to 1; 0 meaning start of the gradient and 1 end)
 	 */
 	public addColor(color: Color, opacity?: number, offset?: number): void {
 		this._stops.push({ color: color, opacity: opacity, offset: offset });
@@ -179,7 +166,7 @@ export class RadialGradient extends BaseObject {
 	 * A [[Paper]] instace to use for the gradient.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Paper}  paper  Paper
+	 * @param paper  Paper
 	 */
 	public set paper(paper: Paper) {
 		if (this._paper != paper) {
@@ -191,7 +178,7 @@ export class RadialGradient extends BaseObject {
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {Paper} Paper
+	 * @return Paper
 	 */
 	public get paper(): Paper {
 		if (this._paper) {
@@ -203,7 +190,7 @@ export class RadialGradient extends BaseObject {
 	/**
 	 * Center x coordinate of the gradient, can be set as number or Percent
 	 *
-	 * @param {Optional<number | Percent>}  point  Center point
+	 * @param point  Center point
 	 */
 	public set cx(value: $type.Optional<number | Percent>) {
 		this._cx = value;
@@ -217,7 +204,7 @@ export class RadialGradient extends BaseObject {
 	/**
 	 * Center y coordinate of the gradient, can be set as number or Percent
 	 *
-	 * @param {Optional<number | Percent>}  point  Center point
+	 * @param point  Center point
 	 */
 	public set cy(value: $type.Optional<number | Percent>) {
 		this._cy = value;
@@ -232,7 +219,7 @@ export class RadialGradient extends BaseObject {
 	/**
 	 * y coordinate of the focal point of a gradient, can be set in pixels or as Percent
 	 *
-	 * @param {Optional<number | Percent>}  point  Center point
+	 * @param point  Center point
 	 */
 	public set fx(value: $type.Optional<number | Percent>) {
 		this._fx = value;
@@ -246,7 +233,7 @@ export class RadialGradient extends BaseObject {
 	/**
 	 * y coordinate of the focal point of a gradient, can be set in pixels or as Percent
 	 *
-	 * @param {Optional<number | Percent>}  point  Center point
+	 * @param point  Center point
 	 */
 	public set fy(value: $type.Optional<number | Percent>) {
 		this._fy = value;
@@ -274,7 +261,7 @@ export class RadialGradient extends BaseObject {
 	/**
 	 * A list of color stops in the gradient.
 	 *
-	 * @return {List<IGradientStop>} Stops
+	 * @return Stops
 	 */
 	public get stops(): List<IGradientStop> {
 		return this._stops;

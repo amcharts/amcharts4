@@ -39,8 +39,6 @@ export class PieChartDataItem extends PercentChartDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {PieChart}
 	 */
 	public _component!: PieChart;
 
@@ -75,15 +73,11 @@ export interface IPieChartProperties extends IPercentChartProperties {
 
 	/**
 	 * Outer radius of the pie.
-	 *
-	 * @type {number | Percent}
 	 */
 	radius?: number | Percent;
 
 	/**
 	 * Relative inner radius (0-1).
-	 *
-	 * @type {number}
 	 */
 	innerRadius?: number;
 
@@ -91,7 +85,6 @@ export interface IPieChartProperties extends IPercentChartProperties {
 	 * An angle pie starts on. (degrees)
 	 *
 	 * @default -90
-	 * @type {number}
 	 */
 	startAngle?: number;
 
@@ -99,7 +92,6 @@ export interface IPieChartProperties extends IPercentChartProperties {
 	 * An angle pie ends on. (degrees)
 	 *
 	 * @default 270
-	 * @type {number}
 	 */
 	endAngle?: number;
 
@@ -213,36 +205,26 @@ export class PieChart extends PercentChart {
 
 	/**
 	 * Defines available data fields.
-	 *
-	 * @type {IPieChartDataFields}
 	 */
 	public _dataFields: IPieChartDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPieChartProperties}
 	 */
 	public _properties!: IPieChartProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {SeriesAdapters}
 	 */
 	public _adapter!: IPieChartAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPieChartEvents}
 	 */
 	public _events!: IPieChartEvents;
 
 	/**
 	 * Defines a type of series that this chart uses.
-	 *
-	 * @type {PieSeries}
 	 */
 	public _seriesType: PieSeries;
 
@@ -275,7 +257,7 @@ export class PieChart extends PercentChart {
 		// so that the pie is always drawn, even the legend wants all the space
 		this.chartContainer.minHeight = 50;
 		this.chartContainer.minWidth = 50;
-	
+
 		this.chartContainer.events.on("maxsizechanged", this.updateRadius, this, false); // need this for the chart to change radius if legend is removed/disabled
 
 		// Apply theme
@@ -312,19 +294,19 @@ export class PieChart extends PercentChart {
 	 * added to the chart.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IListEvents<Series>["inserted"]}  event  Event
+	 * @param event  Event
 	 */
 	public handleSeriesAdded(event: IListEvents<PieSeries>["inserted"]): void {
 		super.handleSeriesAdded(event);
 		this.updateSeriesAngles();
-	}	
+	}
 
 	protected updateSeriesAngles(){
 		this.series.each((series)=>{
 			series.startAngle = this.startAngle;
 			series.endAngle = this.endAngle;
 			series.defaultState.properties.startAngle = this.startAngle;
-			series.defaultState.properties.endAngle = this.endAngle;			
+			series.defaultState.properties.endAngle = this.endAngle;
 		})
 	}
 
@@ -411,7 +393,7 @@ export class PieChart extends PercentChart {
 	 * }
 	 * ```
 	 *
-	 * @param {number | Percent}  value  Radius (px or relative)
+	 * @param value  Radius (px or relative)
 	 */
 	public set radius(value: number | Percent) {
 		if(this.setPercentProperty("radius", value, true, false, 10, false)){
@@ -420,7 +402,7 @@ export class PieChart extends PercentChart {
 	}
 
 	/**
-	 * @return {number} Radius (px or relative)
+	 * @return Radius (px or relative)
 	 */
 	public get radius(): number | Percent {
 		return this.getPropertyValue("radius");
@@ -434,7 +416,7 @@ export class PieChart extends PercentChart {
 	 * * 0.5 - hole is half the radius of the pie;
 	 * * 1 - does not make sense, because the hole will take up the whole radius.
 	 *
-	 * @param {number | Percent}  value  Relative inner radius (0-1)
+	 * @param value  Relative inner radius (0-1)
 	 * @todo Setting things like `innerRadius` modifies `slice.radius` and it then looks like it is not the same value as in default state
 	 */
 	public set innerRadius(value: number | Percent) {
@@ -442,7 +424,7 @@ export class PieChart extends PercentChart {
 	}
 
 	/**
-	 * @return {number} Relative inner radius (0-1)
+	 * @return Relative inner radius (0-1)
 	 */
 	public get innerRadius(): number | Percent {
 		return this.getPropertyValue("innerRadius");
@@ -451,7 +433,7 @@ export class PieChart extends PercentChart {
 	/**
 	 * Creates a new [[PieSeries]].
 	 *
-	 * @return {PieSeries} New series
+	 * @return New series
 	 */
 	protected createSeries(): this["_seriesType"] {
 		return new PieSeries();
@@ -479,7 +461,7 @@ export class PieChart extends PercentChart {
 	 * NOTE: This setting is not supported in a 3D pie chart.
 	 *
 	 * @default -90
-	 * @param {number}  value  Start angle (degrees)
+	 * @param value  Start angle (degrees)
 	 */
 	public set startAngle(value: number) {
 		if(this.setPropertyValue("startAngle", value)){
@@ -489,7 +471,7 @@ export class PieChart extends PercentChart {
 	}
 
 	/**
-	 * @return {number} Start angle (degrees)
+	 * @return Start angle (degrees)
 	 */
 	public get startAngle(): number {
 		return this.getPropertyValue("startAngle");
@@ -511,21 +493,21 @@ export class PieChart extends PercentChart {
 	 *
 	 * E.g. `startAngle = -90` with `endAngle = 0` will create a Pie chart that
 	 * looks like a quarter of a circle.
-	 * 
+	 *
 	 * NOTE: This setting is not supported in a 3D pie chart.
 	 *
 	 * @default 270
-	 * @param {number}  value  End angle (degrees)
+	 * @param value  End angle (degrees)
 	 */
 	public set endAngle(value: number) {
 		if(this.setPropertyValue("endAngle", value)){
 			this.updateRadius();
 			this.updateSeriesAngles()
-		}		
+		}
 	}
 
 	/**
-	 * @return {number} End angle (degrees)
+	 * @return End angle (degrees)
 	 */
 	public get endAngle(): number {
 		return this.getPropertyValue("endAngle");

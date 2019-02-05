@@ -50,28 +50,21 @@ export class ChordDiagramDataItem extends FlowDiagramDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {ChordDiagram}
 	 */
 	public _component!: ChordDiagram;
 
 	/**
 	 * An a link element, connecting two nodes.
-	 * @type {ChordLink}
 	 */
 	public _link: ChordLink;
 
 	/**
 	 * An origin node.
-	 *
-	 * @type {ChordNode}
 	 */
 	public fromNode: ChordNode;
 
 	/**
 	 * A destination node.
-	 *
-	 * @type {ChordNode}
 	 */
 	public toNode: ChordNode;
 
@@ -100,29 +93,21 @@ export interface IChordDiagramDataFields extends IFlowDiagramDataFields {
 
 	/**
 	 * Name of the source node.
-	 *
-	 * @type {string}
 	 */
 	fromName?: string;
 
 	/**
 	 * Name of the target node.
-	 *
-	 * @type {string}
 	 */
 	toName?: string;
 
 	/**
 	 * Value of the link between two nodes.
-	 *
-	 * @type {string}
 	 */
 	value?: string;
 
 	/**
 	 * Color of a from node
-	 *
-	 * @type {string}
 	 */
 	color?: string;
 }
@@ -133,15 +118,11 @@ export interface IChordDiagramDataFields extends IFlowDiagramDataFields {
 export interface IChordDiagramProperties extends IFlowDiagramProperties {
 	/**
 	 * Radius of the Chord. Absolute or relative.
-	 *
-	 * @type {number | Percent}
 	 */
 	radius?: number | Percent;
 
 	/**
 	 * Inner radius of the Chord nodes. Absolute or relative. Negative value means that the inner radius will be calculated from the radius, not from the center.
-	 *
-	 * @type {number | Percent}
 	 */
 	innerRadius?: number | Percent;
 
@@ -149,7 +130,6 @@ export interface IChordDiagramProperties extends IFlowDiagramProperties {
 	 * An angle radar face starts on. (degrees)
 	 *
 	 * @default -90
-	 * @type {number}
 	 */
 	startAngle?: number;
 
@@ -157,7 +137,6 @@ export interface IChordDiagramProperties extends IFlowDiagramProperties {
 	 * An angle radar face ends on. (degrees)
 	 *
 	 * @default 270
-	 * @type {number}
 	 */
 	endAngle?: number;
 
@@ -166,7 +145,6 @@ export interface IChordDiagramProperties extends IFlowDiagramProperties {
 	 * If you set this to true, all the lines will be of the same width.
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	nonRibbon?: boolean;
 }
@@ -203,36 +181,26 @@ export class ChordDiagram extends FlowDiagram {
 
 	/**
 	 * Defines a type for the DataItem.
-	 *
-	 * @type {ChordDiagramDataItem}
 	 */
 	public _dataItem: ChordDiagramDataItem;
 
 	/**
 	 * Defines available data fields.
-	 *
-	 * @type {IChordDiagramDataFields}
 	 */
 	public _dataFields: IChordDiagramDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IChordDiagramProperties}
 	 */
 	public _properties!: IChordDiagramProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {SeriesAdapters}
 	 */
 	public _adapter!: IChordDiagramAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IChordDiagramEvents}
 	 */
 	public _events!: IChordDiagramEvents;
 
@@ -245,7 +213,6 @@ export class ChordDiagram extends FlowDiagram {
 
 	/**
 	 * An a link element, connecting two nodes.
-	 * @type {ChordLink}
 	 */
 	public _link: ChordLink;
 
@@ -253,7 +220,6 @@ export class ChordDiagram extends FlowDiagram {
 	 * Sorted nodes iterator.
 	 *
 	 * @ignore
-	 * @type {Iterator}
 	 */
 	protected _sorted: $iter.Iterator<[string, ChordNode]>;
 
@@ -262,14 +228,11 @@ export class ChordDiagram extends FlowDiagram {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @type {number}
 	 */
 	public valueAngle: number = 0;
 
 	/**
 	 * A container for chord elemens.
-	 *
-	 * @type {Container}
 	 */
 	public chordContainer:Container;
 
@@ -306,7 +269,7 @@ export class ChordDiagram extends FlowDiagram {
 		this.nodesContainer.parent = chordContainer;
 		this.linksContainer.parent = chordContainer;
 
-		this.chartContainer.events.on("maxsizechanged", this.invalidate, this, false); 
+		this.chartContainer.events.on("maxsizechanged", this.invalidate, this, false);
 
 		// Apply theme
 		this.applyTheme();
@@ -391,7 +354,7 @@ export class ChordDiagram extends FlowDiagram {
 		this.chordContainer.definedBBox = { x: radius * rect.x, y: radius * rect.y, width: radius * rect.width, height: radius * rect.height };
 		this.chordContainer.invalidateLayout();
 
-		super.validate();		
+		super.validate();
 	}
 
 	/**
@@ -412,7 +375,7 @@ export class ChordDiagram extends FlowDiagram {
 	/**
 	 * Creates and returns a new data item.
 	 *
-	 * @return {this} Data item
+	 * @return Data item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new ChordDiagramDataItem();
@@ -439,14 +402,14 @@ export class ChordDiagram extends FlowDiagram {
 	 * looks like a quarter of a circle.
 	 *
 	 * @default -90
-	 * @param {number}  value  Start angle (degrees)
+	 * @param value  Start angle (degrees)
 	 */
 	public set startAngle(value: number) {
 		this.setPropertyValue("startAngle", value, true);
 	}
 
 	/**
-	 * @return {number} Start angle (degrees)
+	 * @return Start angle (degrees)
 	 */
 	public get startAngle(): number {
 		return this.getPropertyValue("startAngle");
@@ -473,14 +436,14 @@ export class ChordDiagram extends FlowDiagram {
 	 * looks like a quarter of a circle.
 	 *
 	 * @default -90
-	 * @param {number}  value  End angle (degrees)
+	 * @param value  End angle (degrees)
 	 */
 	public set endAngle(value: number) {
 		this.setPropertyValue("endAngle", value, true);
 	}
 
 	/**
-	 * @return {number} End angle (degrees)
+	 * @return End angle (degrees)
 	 */
 	public get endAngle(): number {
 		return this.getPropertyValue("endAngle");
@@ -491,14 +454,14 @@ export class ChordDiagram extends FlowDiagram {
 	 *
 	 * This can either be in absolute pixel value, or relative [[Percent]].
 	 *
-	 * @param {number | Percent}  value  Outer radius
+	 * @param value  Outer radius
 	 */
 	public set radius(value: number | Percent) {
 		this.setPercentProperty("radius", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Outer radius
+	 * @return Outer radius
 	 */
 	public get radius(): number | Percent {
 		return this.getPropertyValue("radius");
@@ -509,14 +472,14 @@ export class ChordDiagram extends FlowDiagram {
 	 *
 	 * This can either be in absolute pixel value, or relative [[Percent]].
 	 *
-	 * @param {number | Percent}  value  Outer radius
+	 * @param value  Outer radius
 	 */
 	public set innerRadius(value: number | Percent) {
 		this.setPercentProperty("innerRadius", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Inner radius
+	 * @return Inner radius
 	 */
 	public get innerRadius(): number | Percent {
 		return this.getPropertyValue("innerRadius");
@@ -528,7 +491,7 @@ export class ChordDiagram extends FlowDiagram {
 	 *
 	 * If you set this to true, all the lines will be of the same width. This is done by making middleLine of a ChordLink visible.
 	 *
-	 * @param {boolean}  value
+	 * @param value
 	 */
 	public set nonRibbon(value: boolean) {
 		this.setPropertyValue("nonRibbon", value, true);
@@ -537,7 +500,7 @@ export class ChordDiagram extends FlowDiagram {
 	}
 
 	/**
-	 * @return {boolean} Non-ribbon
+	 * @return Non-ribbon
 	 */
 	public get nonRibbon(): boolean {
 		return this.getPropertyValue("nonRibbon");

@@ -5,8 +5,8 @@
  * Converts a multi-part polygon in X/Y coordinates to a geo-multipolygon in
  * geo-points (lat/long).
  *
- * @param  {number[][][][]}  multiPolygon  Source multi-polygon
- * @return {IGeoPoint[]}                   Geo-multipolygon
+ * @param multiPolygon  Source multi-polygon
+ * @return Geo-multipolygon
  */
 export function multiPolygonToGeo(multiPolygon) {
     var multiGeoArea = [];
@@ -28,8 +28,8 @@ export function multiPolygonToGeo(multiPolygon) {
  * Converts a multiline in X/Y coordinates to a geo-multiline in geo-points
  * (lat/long).
  *
- * @param  {number[][][]}  multiLine  Source multiline
- * @return {IGeoPoint[]}              Geo-multiline
+ * @param multiLine  Source multiline
+ * @return Geo-multiline
  */
 export function multiLineToGeo(multiLine) {
     var multiGeoLine = [];
@@ -41,8 +41,8 @@ export function multiLineToGeo(multiLine) {
 /**
  * Converts multiple X/Y points into a lat/long geo-points.
  *
- * @param  {number[][]}   points  Source points
- * @return {IGeoPoint[]}          Geo-points
+ * @param points  Source points
+ * @return Geo-points
  */
 export function multiPointToGeo(points) {
     var geoPoints = [];
@@ -54,8 +54,8 @@ export function multiPointToGeo(points) {
 /**
  * Converts X/Y point into a lat/long geo-point.
  *
- * @param  {number[]}   point  Source point
- * @return {IGeoPoint}         Geo-point
+ * @param point  Source point
+ * @return Geo-point
  */
 export function pointToGeo(point) {
     return { longitude: point[0], latitude: point[1] };

@@ -50,8 +50,6 @@ export class RadarChartDataItem extends XYChartDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {RadarChart}
 	 */
 	public _component!: RadarChart;
 
@@ -86,8 +84,6 @@ export interface IRadarChartProperties extends IXYChartProperties {
 
 	/**
 	 * Radius of the Radar face. Absolute or relative.
-	 *
-	 * @type {number | Percent}
 	 */
 	radius?: number | Percent;
 
@@ -95,7 +91,6 @@ export interface IRadarChartProperties extends IXYChartProperties {
 	 * Inner radius of the Radar face. Percent value is relative to radius.
 	 *
 	 * @todo review desc
-	 * @type {number | Percent}
 	 */
 	innerRadius?: number | Percent;
 
@@ -103,7 +98,6 @@ export interface IRadarChartProperties extends IXYChartProperties {
 	 * An angle radar face starts on. (degrees)
 	 *
 	 * @default -90
-	 * @type {number}
 	 */
 	startAngle?: number;
 
@@ -111,7 +105,6 @@ export interface IRadarChartProperties extends IXYChartProperties {
 	 * An angle radar face ends on. (degrees)
 	 *
 	 * @default 270
-	 * @type {number}
 	 */
 	endAngle?: number;
 
@@ -149,64 +142,46 @@ export class RadarChart extends XYChart {
 
 	/**
 	 * Defines available data fields.
-	 *
-	 * @type {IRadarChartDataFields}
 	 */
 	public _dataFields: IRadarChartDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IRadarChartProperties}
 	 */
 	public _properties!: IRadarChartProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {SeriesAdapters}
 	 */
 	public _adapter!: IRadarChartAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IRadarChartEvents}
 	 */
 	public _events!: IRadarChartEvents;
 
 	/**
 	 * Defines a type of series that this chart uses.
-	 *
-	 * @type {RadarSeries | RadarColumnSeries}
 	 */
 	public _seriesType: RadarSeries | RadarColumnSeries;
 
 	/**
 	 * Defines X axis renderer type.
-	 *
-	 * @type {AxisRendererCircular}
 	 */
 	public _xAxisRendererType: AxisRendererCircular;
 
 	/**
 	 * Defines Y axis renderer type.
-	 *
-	 * @type {AxisRendererRadial}
 	 */
 	public _yAxisRendererType: AxisRendererRadial;
 
 	/**
 	 * Defines X axis renderer type.
-	 *
-	 * @type {AxisRendererCircular}
 	 */
 	protected _axisRendererX: typeof AxisRendererCircular = AxisRendererCircular;
 
 	/**
 	 * Defines Y axis renderer type.
-	 *
-	 * @type {AxisRendererRadial}
 	 */
 	protected _axisRendererY: typeof AxisRendererRadial = AxisRendererRadial;
 
@@ -214,14 +189,11 @@ export class RadarChart extends XYChart {
 	 * [_cursor description]
 	 *
 	 * @todo Description
-	 * @type {RadarCursor}
 	 */
 	public _cursor: RadarCursor;
 
 	/**
 	 * A container that holds Radar visual elements.
-	 *
-	 * @type {Container}
 	 */
 	public radarContainer: Container;
 
@@ -295,7 +267,7 @@ export class RadarChart extends XYChart {
 	/**
 	 * Decorates Axis with required properties for this chart.
 	 *
-	 * @param {Axis}  axis  Axis
+	 * @param axis  Axis
 	 */
 	protected processAxis(axis: Axis): void {
 		super.processAxis(axis);
@@ -329,7 +301,7 @@ export class RadarChart extends XYChart {
 	/**
 	 * Creates and returns a new Cursor, of type suitable for RadarChart.
 	 *
-	 * @return {RadarCursor} Cursor
+	 * @return Cursor
 	 */
 	protected createCursor(): this["_cursor"] {
 		return new RadarCursor();
@@ -339,7 +311,7 @@ export class RadarChart extends XYChart {
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 
@@ -455,7 +427,7 @@ export class RadarChart extends XYChart {
 	/**
 	 * Creates and returns a new Series, suitable for RadarChart.
 	 *
-	 * @return {RadarSeries} New Series
+	 * @return New Series
 	 */
 	protected createSeries(): this["_seriesType"] {
 		return new RadarSeries();
@@ -482,14 +454,14 @@ export class RadarChart extends XYChart {
 	 * looks like a quarter of a circle.
 	 *
 	 * @default -90
-	 * @param {number}  value  Start angle (degrees)
+	 * @param value  Start angle (degrees)
 	 */
 	public set startAngle(value: number) {
 		this.setPropertyValue("startAngle", value, true);
 	}
 
 	/**
-	 * @return {number} Start angle (degrees)
+	 * @return Start angle (degrees)
 	 */
 	public get startAngle(): number {
 		return this.getPropertyValue("startAngle");
@@ -516,14 +488,14 @@ export class RadarChart extends XYChart {
 	 * looks like a quarter of a circle.
 	 *
 	 * @default -90
-	 * @param {number}  value  End angle (degrees)
+	 * @param value  End angle (degrees)
 	 */
 	public set endAngle(value: number) {
 		this.setPropertyValue("endAngle", value, true);
 	}
 
 	/**
-	 * @return {number} End angle (degrees)
+	 * @return End angle (degrees)
 	 */
 	public get endAngle(): number {
 		return this.getPropertyValue("endAngle");
@@ -534,21 +506,21 @@ export class RadarChart extends XYChart {
 	 *
 	 * This can either be in absolute pixel value, or relative [[Percent]].
 	 *
-	 * @param {number | Percent}  value  Outer radius
+	 * @param value  Outer radius
 	 */
 	public set radius(value: number | Percent) {
 		this.setPercentProperty("radius", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Outer radius
+	 * @return Outer radius
 	 */
 	public get radius(): number | Percent {
 		return this.getPropertyValue("radius");
 	}
 
 	/**
-	 * @return {number} Inner radius in pixels
+	 * @return Inner radius in pixels
 	 */
 	public get pixelInnerRadius(): number {
 		return this._pixelInnerRadius;
@@ -561,14 +533,14 @@ export class RadarChart extends XYChart {
 	 *
 	 * If set in Percent, it will be relative to `radius`. (outer radius)
 	 *
-	 * @param {number | Percent} value Inner radius
+	 * @param value Inner radius
 	 */
 	public set innerRadius(value: number | Percent) {
 		this.setPercentProperty("innerRadius", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Inner radius
+	 * @return Inner radius
 	 */
 	public get innerRadius(): number | Percent {
 		return this.getPropertyValue("innerRadius");
@@ -578,7 +550,7 @@ export class RadarChart extends XYChart {
 	 * Triggers (re)rendering of the horizontal (X) axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Axis} axis Axis
+	 * @param axis Axis
 	 */
 	public updateXAxis(renderer: AxisRenderer) {
 		//do not call super!
@@ -591,7 +563,7 @@ export class RadarChart extends XYChart {
 	 * Triggers (re)rendering of the vertical (Y) axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Axis} axis Axis
+	 * @param axis Axis
 	 */
 	public updateYAxis(renderer: AxisRenderer) {
 		// do not call super!

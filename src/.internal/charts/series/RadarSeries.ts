@@ -36,8 +36,6 @@ export class RadarSeriesDataItem extends LineSeriesDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {RadarSeries}
 	 */
 	public _component!: RadarSeries;
 
@@ -82,7 +80,6 @@ export interface IRadarSeriesProperties extends ILineSeriesProperties {
 	 * closed circle?
 	 *
 	 * @default true
-	 * @type {boolean}
 	 */
 	connectEnds?: boolean;
 
@@ -120,43 +117,31 @@ export class RadarSeries extends LineSeries {
 
 	/**
 	 * Defines the type of data fields used for the series.
-	 *
-	 * @type {IRadarSeriesDataFields}
 	 */
 	public _dataFields: IRadarSeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IRadarSeriesProperties}
 	 */
 	public _properties!: IRadarSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IRadarSeriesAdapters}
 	 */
 	public _adapter!: IRadarSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IRadarSeriesEvents}
 	 */
 	public _events!: IRadarSeriesEvents;
 
 	/**
 	 * Defines the type of data item.
-	 *
-	 * @type {RadarSeriesDataItem}
 	 */
 	public _dataItem: RadarSeriesDataItem;
 
 	/**
 	 * A chart series belongs to.
-	 *
-	 * @type {RadarChart}
 	 */
 	public _chart: RadarChart;
 
@@ -189,7 +174,7 @@ export class RadarSeries extends LineSeries {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {RadarSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new RadarSeriesDataItem();
@@ -199,13 +184,13 @@ export class RadarSeries extends LineSeries {
 	 * [getPoint description]
 	 *
 	 * @todo Description
-	 * @param {RadarSeriesDataItem} dataItem  [description]
-	 * @param {string}              xKey      [description]
-	 * @param {string}              yKey      [description]
-	 * @param {number}              locationX [description]
-	 * @param {number}              locationY [description]
-	 * @param {string}              stackKeyX [description]
-	 * @param {string}              stackKeyY [description]
+	 * @param dataItem  [description]
+	 * @param xKey      [description]
+	 * @param yKey      [description]
+	 * @param locationX [description]
+	 * @param locationY [description]
+	 * @param stackKeyX [description]
+	 * @param stackKeyY [description]
 	 */
 	protected getPoint(dataItem: RadarSeriesDataItem, xKey: string, yKey: string, locationX?: number, locationY?: number, stackKeyX?: string, stackKeyY?: string) {
 		if (!stackKeyX) {
@@ -223,7 +208,7 @@ export class RadarSeries extends LineSeries {
 		// hack to be able to determine angle later
 		if(radius == 0){
 			radius = 0.00001;
-		}		
+		}
 
 		let angle: number = this.xAxis.getAngle(dataItem, xKey, locationX, stackKeyX);
 
@@ -244,11 +229,11 @@ export class RadarSeries extends LineSeries {
 	 * [addPoints description]
 	 *
 	 * @todo Description
-	 * @param {IPoint[]}          points    [description]
-	 * @param {this["_dataItem"]} dataItem  [description]
-	 * @param {string}            xField    [description]
-	 * @param {string}            yField    [description]
-	 * @param {boolean}           backwards [description]
+	 * @param points    [description]
+	 * @param dataItem  [description]
+	 * @param xField    [description]
+	 * @param yField    [description]
+	 * @param backwards [description]
 	 */
 	protected addPoints(points: IPoint[], dataItem: this["_dataItem"], xField: string, yField: string, backwards?: boolean): void {
 		let point = this.getPoint(dataItem, xField, yField, dataItem.locations[xField], dataItem.locations[yField]);
@@ -260,7 +245,7 @@ export class RadarSeries extends LineSeries {
 	/**
 	 * Returns an SVG path to be used as a mask for the series.
 	 *
-	 * @return {string} SVG path
+	 * @return SVG path
 	 */
 	protected getMaskPath(): string {
 		let renderer: AxisRendererRadial = <AxisRendererRadial>this.yAxis.renderer;
@@ -271,9 +256,9 @@ export class RadarSeries extends LineSeries {
 	 * [drawSegment description]
 	 *
 	 * @todo Description
-	 * @param {LineSeriesSegment}  segment      [description]
-	 * @param {IPoint[]}           points       [description]
-	 * @param {IPoint[]}           closePoints  [description]
+	 * @param segment      [description]
+	 * @param points       [description]
+	 * @param closePoints  [description]
 	 */
 	protected drawSegment(segment: LineSeriesSegment, points: IPoint[], closePoints: IPoint[]): void {
 		let axis: Axis = this.yAxis;
@@ -298,14 +283,14 @@ export class RadarSeries extends LineSeries {
 	 * closed circle?
 	 *
 	 * @default true
-	 * @param {boolean}  value  Connect?
+	 * @param value  Connect?
 	 */
 	public set connectEnds(value: boolean) {
-		this.setPropertyValue("connectEnds", value, true);		
+		this.setPropertyValue("connectEnds", value, true);
 	}
 
 	/**
-	 * @return {boolean} Connect?
+	 * @return Connect?
 	 */
 	public get connectEnds(): boolean {
 		return this.getPropertyValue("connectEnds");

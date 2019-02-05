@@ -41,13 +41,13 @@ var TreeMapSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Data for the this particular item.
          *
-         * @param {Object}  value  Item's data
+         * @param value  Item's data
          */
         //public set dataContext(value: Object) {
         //	this._dataContext = value;
         //}
         /**
-         * @return {Object} Item's data
+         * @return Item's data
          */
         /*
        public get dataContext(): Object {
@@ -59,7 +59,7 @@ var TreeMapSeriesDataItem = /** @class */ (function (_super) {
         /**
          * The name of the item's parent item.
          *
-         * @return {string} Parent name
+         * @return Parent name
          */
         get: function () {
             var treeMapDataItem = this.treeMapDataItem;
@@ -75,7 +75,7 @@ var TreeMapSeriesDataItem = /** @class */ (function (_super) {
          * Item's numeric value.
          *
          * @readonly
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.treeMapDataItem.value;
@@ -88,7 +88,7 @@ var TreeMapSeriesDataItem = /** @class */ (function (_super) {
          * A corresponding data item from the tree map.
          *
          * @readonly
-         * @return {TreeMapDataItem} Data item
+         * @return Data item
          */
         get: function () {
             return this._dataContext;
@@ -142,9 +142,9 @@ var TreeMapSeries = /** @class */ (function (_super) {
     /**
      * Processes data item.
      *
-     * @param {TreeMapSeriesDataItem}  dataItem     Data item
-     * @param {Object}                 dataContext  Raw data
-     * @param {number}                 index        Index of the data item
+     * @param dataItem     Data item
+     * @param dataContext  Raw data
+     * @param index        Index of the data item
      */
     TreeMapSeries.prototype.processDataItem = function (dataItem, dataContext) {
         dataContext.seriesDataItem = dataItem; // save a reference here. dataContext is TreeMapDataItem and we need to know dataItem sometimes
@@ -154,7 +154,7 @@ var TreeMapSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {TreeMapSeriesDataItem} Data Item
+     * @return Data Item
      */
     TreeMapSeries.prototype.createDataItem = function () {
         return new TreeMapSeriesDataItem();
@@ -162,8 +162,8 @@ var TreeMapSeries = /** @class */ (function (_super) {
     /**
      * Shows series.
      *
-     * @param  {number}     duration  Duration of fade in (ms)
-     * @return {Animation}            Animation
+     * @param duration  Duration of fade in (ms)
+     * @return Animation
      */
     TreeMapSeries.prototype.show = function (duration) {
         var interpolationDuration = this.defaultState.transitionDuration;
@@ -191,8 +191,8 @@ var TreeMapSeries = /** @class */ (function (_super) {
     /**
      * Hides series.
      *
-     * @param  {number}     duration  Duration of fade out (ms)
-     * @return {Animation}            Animation
+     * @param duration  Duration of fade out (ms)
+     * @return Animation
      */
     TreeMapSeries.prototype.hide = function (duration) {
         var interpolationDuration = this.defaultState.transitionDuration;
@@ -234,7 +234,7 @@ var TreeMapSeries = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     TreeMapSeries.prototype.processConfig = function (config) {
         if (config) {
@@ -251,7 +251,7 @@ var TreeMapSeries = /** @class */ (function (_super) {
      * Series.
      *
      * @ignore Exclude from docs
-     * @param {Container}  marker  Legend item container
+     * @param marker  Legend item container
      */
     TreeMapSeries.prototype.createLegendMarker = function (marker) {
         var w = marker.pixelWidth;

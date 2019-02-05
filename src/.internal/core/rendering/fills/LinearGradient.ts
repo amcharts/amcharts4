@@ -34,8 +34,6 @@ export interface IGradientStop {
 
 	/**
 	 * Color.
-	 *
-	 * @type {string}
 	 */
 	color: Color;
 
@@ -43,15 +41,11 @@ export interface IGradientStop {
 	 * Offset defines where in the gradient the color should kick in. Values
 	 * from 0 to 1 are possible with 0 meaning start, 0.5 half-way through the
 	 * gradient, etc.
-	 *
-	 * @type {Optional<number>}
 	 */
 	offset?: number;
 
 	/**
 	 * Transparency of the color. 0 - completely transparent, 1 - fully opaque.
-	 *
-	 * @type {Optional<number>}
 	 */
 	opacity?: number;
 
@@ -72,29 +66,21 @@ export class LinearGradient extends BaseObject {
 
 	/**
 	 * List of colors switch definitions in a gradient.
-	 *
-	 * @type {List<IGradientStop>}
 	 */
 	protected _stops: List<IGradientStop> = new List<IGradientStop>();
 
 	/**
 	 * An SVG `<group>` element used to draw gradient.
-	 *
-	 * @type {Group}
 	 */
 	public element: Group;
 
 	/**
 	 * Reference to Paper to add element to.
-	 *
-	 * @type {Paper}
 	 */
 	protected _paper: $type.Optional<Paper>;
 
 	/**
 	 * Gradient direction.
-	 *
-	 * @type {number}
 	 */
 	protected _rotation: number = 0;
 
@@ -175,9 +161,9 @@ export class LinearGradient extends BaseObject {
 	/**
 	 * Adds a color step to the gradient.
 	 *
-	 * @param {Color}   color    Color (hex code or named color)
-	 * @param {number}  opacity  Opacity (value from 0 to 1; 0 completely transaprent, 1 fully opaque)
-	 * @param {number}  offset   Position of color in the gradient (value 0 to 1; 0 meaning start of the gradient and 1 end)
+	 * @param color    Color (hex code or named color)
+	 * @param opacity  Opacity (value from 0 to 1; 0 completely transaprent, 1 fully opaque)
+	 * @param offset   Position of color in the gradient (value 0 to 1; 0 meaning start of the gradient and 1 end)
 	 */
 	public addColor(color: Color, opacity?: number, offset?: number): void {
 		this._stops.push({ color: color, opacity: opacity, offset: offset });
@@ -186,7 +172,7 @@ export class LinearGradient extends BaseObject {
 	/**
 	 * A list of color stops in the gradient.
 	 *
-	 * @return {List<IGradientStop>} Stops
+	 * @return Stops
 	 */
 	public get stops(): List<IGradientStop> {
 		return this._stops;
@@ -196,7 +182,7 @@ export class LinearGradient extends BaseObject {
 	 * [[Paper]] instace to use for the gradient.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Paper}  paper  Paper
+	 * @param paper  Paper
 	 */
 	public set paper(paper: Paper) {
 		if (this._paper != paper) {
@@ -208,7 +194,7 @@ export class LinearGradient extends BaseObject {
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {Paper} Paper
+	 * @return Paper
 	 */
 	public get paper(): Paper {
 		if (this._paper) {
@@ -220,7 +206,7 @@ export class LinearGradient extends BaseObject {
 	/**
 	 * Rotation (direction) of the gradient in degrees.
 	 *
-	 * @param {number}  value  Rotation
+	 * @param value  Rotation
 	 */
 	public set rotation(value: number) {
 		//this.element.attr({ "gradientTransform": "rotate(" + value + " 10 100)" });
@@ -229,7 +215,7 @@ export class LinearGradient extends BaseObject {
 	}
 
 	/**
-	 * @return {number} Rotation
+	 * @return Rotation
 	 */
 	public get rotation(): number {
 		return this._rotation;
@@ -238,7 +224,7 @@ export class LinearGradient extends BaseObject {
 
 	public copyFrom(source:this){
 		super.copyFrom(source);
-		
+
 		this.stops.copyFrom(source.stops);
 
 		this._rotation = source.rotation;

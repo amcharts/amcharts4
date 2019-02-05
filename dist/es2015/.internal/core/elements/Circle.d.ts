@@ -23,7 +23,6 @@ export interface ICircleProperties extends ISpriteProperties {
      * Radius of the circle.
      *
      * Can be either absolute (pixels) or relative ([Percent]).
-     * @type {number | Percent}
      */
     radius?: number | Percent;
 }
@@ -53,20 +52,14 @@ export interface ICircleAdapters extends ISpriteAdapters, ICircleProperties {
 export declare class Circle extends Sprite {
     /**
      * Defines available properties.
-     *
-     * @type {ICircleProperties}
      */
     _properties: ICircleProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ICircleAdapters}
      */
     _adapter: ICircleAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ICircleEvents}
      */
     _events: ICircleEvents;
     /**
@@ -78,14 +71,14 @@ export declare class Circle extends Sprite {
      */
     protected draw(): void;
     /**
-     * @return {number} Radius
+     * @return Radius
      */
     /**
      * Radius of the circle.
      *
      * Can be either absolute (pixels) or relative ([Percent]).
      *
-     * @param {number | Percent}  value  Radius
+     * @param value  Radius
      */
     radius: number | Percent;
     /**
@@ -95,7 +88,7 @@ export declare class Circle extends Sprite {
      * property.
      *
      * @readonly
-     * @return {number} Radius (px)
+     * @return Radius (px)
      */
     readonly pixelRadius: number;
     /**

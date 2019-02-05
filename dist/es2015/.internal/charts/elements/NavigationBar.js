@@ -41,7 +41,7 @@ var NavigationBarDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(NavigationBarDataItem.prototype, "name", {
         /**
-         * @return {string} Name
+         * @return Name
          */
         get: function () {
             return this.properties["name"];
@@ -49,7 +49,7 @@ var NavigationBarDataItem = /** @class */ (function (_super) {
         /**
          * Name of the navigation bar item.
          *
-         * @param {string}  value  Name
+         * @param value  Name
          */
         set: function (value) {
             this.setProperty("name", value);
@@ -135,7 +135,7 @@ var NavigationBar = /** @class */ (function (_super) {
      * Creates a visual element for a data item (nav item).
      *
      * @ignore Exclude from docs
-     * @param {NavigationBarDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     NavigationBar.prototype.validateDataElement = function (dataItem) {
         _super.prototype.validateDataElement.call(this, dataItem);

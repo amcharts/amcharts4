@@ -44,15 +44,11 @@ import { system } from "./System";
 
 /**
  * Defines available font weights.
- *
- * @type {string}
  */
 export type FontWeight = "normal" | "bold" | "bolder" | "lighter" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
 
 /**
  * Defines available text decorations.
- *
- * @type {string}
  */
 export type TextDecoration = "none" | "underline" | "overline" | "line-through" | "blink";
 
@@ -76,7 +72,6 @@ export type TextDecoration = "none" | "underline" | "overline" | "line-through" 
 
 /**
  * Defines available [[Container]] layout types
- * @type {string}
  */
 export type ContainerLayout = "absolute" | "vertical" | "horizontal" | "grid" | "none";
 
@@ -91,7 +86,6 @@ export interface IContainerProperties extends ISpriteProperties {
 	 * Options: "absolute" (default), "vertical", "horizontal", or "grid".
 	 *
 	 * @default "absolute"
-	 * @type {ContainerLayout}
 	 */
 	layout?: ContainerLayout;
 
@@ -99,21 +93,16 @@ export interface IContainerProperties extends ISpriteProperties {
 	 * Default font weight.
 	 *
 	 * @default "normal"
-	 * @type {FontWeight}
 	 */
 	fontWeight?: FontWeight;
 
 	/**
 	 * Font size for the text.
-	 *
-	 * @type {number}
 	 */
 	fontSize?: number;
 
 	/**
 	 * Font family for the text.
-	 *
-	 * @type {string}
 	 */
 	fontFamily?: string;
 
@@ -121,14 +110,11 @@ export interface IContainerProperties extends ISpriteProperties {
 	 * Default font decoration.
 	 *
 	 * @default "none"
-	 * @type {TextDecoration}
 	 */
 	textDecoration?: TextDecoration;
 
 	/**
 	 * Horizontal alignment of Container's items.
-	 * 
-	 * @type {Optional<Align>}
 	 */
 	contentAlign?: Align;
 
@@ -136,7 +122,6 @@ export interface IContainerProperties extends ISpriteProperties {
 	 * Vertical alignment of Container's items.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Optional<VerticalAlign>}
 	 */
 	contentValign?: VerticalAlign;
 
@@ -145,14 +130,11 @@ export interface IContainerProperties extends ISpriteProperties {
 	 * will be equally sized.
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	fixedWidthGrid?: boolean;
 
 	/**
 	 * Maximum number of columns (when using `"grid"` layout).
-	 * 
-	 * @type {boolean}
 	 */
 	maxColumns?: boolean;
 
@@ -161,7 +143,6 @@ export interface IContainerProperties extends ISpriteProperties {
 	 * order.
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	reverseOrder?: boolean;
 
@@ -170,7 +151,6 @@ export interface IContainerProperties extends ISpriteProperties {
 	 * should be applied to container's children as well as `background`.
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	setStateOnChildren?: boolean
 }
@@ -222,22 +202,16 @@ export class Container extends Sprite {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IContainerProperties}
 	 */
 	public _properties!: IContainerProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IContainerAdapters}
 	 */
 	public _adapter!: IContainerAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IContainerEvents}
 	 */
 	public _events!: IContainerEvents;
 
@@ -245,7 +219,6 @@ export class Container extends Sprite {
 	 * Container children. (sorted by layout)
 	 *
 	 * @ignore Exclude from docs
-	 * @type {List<Sprite>}
 	 */
 	protected _childrenByLayout: Sprite[] = [];
 
@@ -253,7 +226,6 @@ export class Container extends Sprite {
 	 * Available width (px).
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Optional<number>}
 	 */
 	protected _availableWidth: $type.Optional<number>;
 
@@ -261,7 +233,6 @@ export class Container extends Sprite {
 	 * Available height (px).
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Optional<number>}
 	 */
 	protected _availableHeight: $type.Optional<number>;
 
@@ -269,7 +240,6 @@ export class Container extends Sprite {
 	 * Container's child elements. (sorded by their `zIndex`)
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Optional<List<Sprite>>}
 	 */
 	protected _children: $type.Optional<List<Sprite>>;
 
@@ -277,7 +247,6 @@ export class Container extends Sprite {
 	 * Container's disposers for its child elements.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Dictionary<string, IDisposer>}
 	 */
 	protected _childrenDisposers: Dictionary<string, IDisposer> = new Dictionary();
 
@@ -286,7 +255,6 @@ export class Container extends Sprite {
 	 * A [[Sprite]] instance to use as Container's background.
 	 *
 	 * @todo Make it protected
-	 * @type {Sprite}
 	 */
 	public _background: Sprite;
 
@@ -295,23 +263,18 @@ export class Container extends Sprite {
 	 * itself.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Optional<Preloader>}
 	 */
 	protected _preloader: $type.Optional<Preloader>;
 
 	/**
 	 * Indicates if this container contains any focused elements, including
 	 * itself.
-	 *
-	 * @type {boolean}
 	 */
 	public hasFocused: boolean = false;
 
 	/**
 	 * An array of references to elements the state should be set, when it is set
 	 * on this element.
-	 *
-	 * @type {Sprite[]}
 	 */
 	public setStateOnSprites: Sprite[] = [];
 
@@ -330,7 +293,6 @@ export class Container extends Sprite {
 	 * Please note that it might be bigger than width of the Container.
 	 *
 	 * @readonly
-	 * @type {number}
 	 */
 	public contentWidth: number;
 
@@ -340,7 +302,6 @@ export class Container extends Sprite {
 	 * Please note that it might be bigger than height of the Container.
 	 *
 	 * @readonly
-	 * @type {number}
 	 */
 	public contentHeight: number;
 
@@ -385,7 +346,7 @@ export class Container extends Sprite {
 	 * affect the whole layout so it needs to be revalidated.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IListEvents<Sprite>["inserted"]} event Event object
+	 * @param event Event object
 	 * @todo Throw an exception on adding a disposed object. Of course it's better NOT TO add disposed objects, so that what we should focus on.
 	 */
 	public handleChildAdded(event: IListEvents<Sprite>["inserted"]): void {
@@ -434,7 +395,7 @@ export class Container extends Sprite {
 	 * whole layout of the Container, hence layout needs to be invalidated.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IListEvents<Sprite>["removed"]} event Event object
+	 * @param event Event object
 	 */
 	public handleChildRemoved(event: IListEvents<Sprite>["removed"]): void {
 		let child: Sprite = event.oldValue;
@@ -459,7 +420,7 @@ export class Container extends Sprite {
 	 * whole layout of the Container, hence layout needs to be invalidated.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AMEvent<Sprite, ISpriteEvents>["transformed"]} event Event object
+	 * @param event Event object
 	 */
 	public handleChildTransform(event: AMEvent<Sprite, ISpriteEvents>["transformed"] | AMEvent<Sprite, ISpriteEvents>["sizechanged"]): void {
 		let child: Sprite = event.target;
@@ -524,7 +485,7 @@ export class Container extends Sprite {
 	 * Returns a list of the child [[Sprite]] elements contained in this
 	 * Container.
 	 *
-	 * @return {List<Sprite>} List of child elements (Sprites)
+	 * @return List of child elements (Sprites)
 	 */
 	public get children(): List<Sprite> {
 		// @todo Review if we can add all children to disposers
@@ -539,7 +500,7 @@ export class Container extends Sprite {
 	 * Minimum width (px) for the Container. A container will not
 	 * auto-shrink beyond this value, even if child elements are smaller.
 	 *
-	 * @param {Optional<number>}  value  Width (px)
+	 * @param value  Width (px)
 	 */
 	public set minWidth(value: Optional<number>) {
 		if (this.setPropertyValue("minWidth", value)) {
@@ -548,7 +509,7 @@ export class Container extends Sprite {
 	}
 
 	/**
-	 * @return {Optional<number>} Width (px)
+	 * @return Width (px)
 	 */
 	public get minWidth(): Optional<number> {
 		return this.getPropertyValue("minWidth");
@@ -558,7 +519,7 @@ export class Container extends Sprite {
 	 * Minimum height (px) for the Container. A container will not
 	 * auto-shrink beyond this value, even if child elements are smaller.
 	 *
-	 * @param {Optional<number>}  value  Height (px)
+	 * @param value  Height (px)
 	 */
 	public set minHeight(value: Optional<number>) {
 		if (this.setPropertyValue("minHeight", value)) {
@@ -567,7 +528,7 @@ export class Container extends Sprite {
 	}
 
 	/**
-	 * @return {Optional<number>} Height (px)
+	 * @return Height (px)
 	 */
 	public get minHeight(): Optional<number> {
 		return this.getPropertyValue("minHeight");
@@ -760,8 +721,8 @@ export class Container extends Sprite {
 	 * Creates a new element of specific type and assigns as a child to the
 	 * Container.
 	 *
-	 * @param  {T extends Sprite}  Class type for the new element
-	 * @return {T}                 New element
+	 * @param Class type for the new element
+	 * @return New element
 	 */
 	public createChild<T extends Sprite>(classType: { new(): T; }): T {
 		let sprite = new classType();
@@ -802,7 +763,7 @@ export class Container extends Sprite {
 	/**
 	 * An element to use as container background.
 	 *
-	 * @param {Sprite}  background  Background element
+	 * @param background  Background element
 	 */
 	public set background(background: this["_background"]) {
 		if (this._background && this.background != background) {
@@ -832,14 +793,14 @@ export class Container extends Sprite {
 	 * Creates and returns a [[Rectangle]] to use as a background for Container.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {this} Background Rectangle element
+	 * @return Background Rectangle element
 	 */
 	public createBackground(): this["_background"] {
 		return <any>new Rectangle();
 	}
 
 	/**
-	 * @return {Rectangle} Background element
+	 * @return Background element
 	 */
 	public get background(): this["_background"] {
 		if (!this._background) {
@@ -1577,9 +1538,9 @@ export class Container extends Sprite {
 	 * Returns widths of all columns in a horizontal Container layout.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {number}    columnCount   Number of columns
-	 * @param  {number}    maxCellWidth  Maximum width of one grid cell
-	 * @return {number[]}                An array of column widths
+	 * @param columnCount   Number of columns
+	 * @param maxCellWidth  Maximum width of one grid cell
+	 * @return An array of column widths
 	 */
 	public getColumnWidth(children: Sprite[], columnCount: number, maxCellWidth: number): number[] {
 		let columnWidth: number[] = [];
@@ -1613,7 +1574,7 @@ export class Container extends Sprite {
 	 * Use "none" as much as you can as it's most cpu-saving layout.
 	 *
 	 * @default "absolute"
-	 * @param {ContainerLayout} value Layout
+	 * @param value Layout
 	 */
 	public set layout(value: ContainerLayout) {
 		if (this.setPropertyValue("layout", value)) {
@@ -1622,7 +1583,7 @@ export class Container extends Sprite {
 	}
 
 	/**
-	 * @return {ContainerLayout} Layout
+	 * @return Layout
 	 */
 	public get layout(): ContainerLayout {
 		return this.getPropertyValue("layout");
@@ -1633,14 +1594,14 @@ export class Container extends Sprite {
 	 *
 	 * This is used when Container is larger than the height of all its children.
 	 *
-	 * @param {VerticalAlign} value vertical alignment
+	 * @param value vertical alignment
 	 */
 	public set contentValign(value: VerticalAlign) {
 		this.setPropertyValue("contentValign", value, true);
 	}
 
 	/**
-	 * @return {VerticalAlign} Vertical alignment
+	 * @return Vertical alignment
 	 */
 	public get contentValign(): VerticalAlign {
 		return this.getPropertyValue("contentValign");
@@ -1651,14 +1612,14 @@ export class Container extends Sprite {
 	 *
 	 * This is used when Container is larger than the height of all its children.
 	 *
-	 * @param {Align}  value  Horizontal alignment
+	 * @param value  Horizontal alignment
 	 */
 	public set contentAlign(value: Align) {
 		this.setPropertyValue("contentAlign", value, true);
 	}
 
 	/**
-	 * @return {Align} Horizontal alignment
+	 * @return Horizontal alignment
 	 */
 	public get contentAlign(): Align {
 		return this.getPropertyValue("contentAlign");
@@ -1670,14 +1631,14 @@ export class Container extends Sprite {
 	 * adapting to actual child sizes or size requirements.
 	 *
 	 * @default false
-	 * @param {boolean}  value  Should use fixed width grid?
+	 * @param value  Should use fixed width grid?
 	 */
 	public set fixedWidthGrid(value: boolean) {
 		this.setPropertyValue("fixedWidthGrid", value, true);
 	}
 
 	/**
-	 * @return {boolean} Should use fixed width grid?
+	 * @return Should use fixed width grid?
 	 */
 	public get fixedWidthGrid(): boolean {
 		return this.getPropertyValue("fixedWidthGrid");
@@ -1686,14 +1647,14 @@ export class Container extends Sprite {
 	/**
 	 * Maximum number of columns (when using `"grid"` layout).
 	 *
-	 * @param {Optional<number>}  value  Should use fixed width grid?
+	 * @param value  Should use fixed width grid?
 	 */
 	public set maxColumns(value: Optional<number>) {
 		this.setPropertyValue("maxColumns", value, true);
 	}
 
 	/**
-	 * @return {Optional<number>} Should use fixed width grid?
+	 * @return Should use fixed width grid?
 	 */
 	public get maxColumns(): Optional<number> {
 		return this.getPropertyValue("maxColumns");
@@ -1704,14 +1665,14 @@ export class Container extends Sprite {
 	 * order.
 	 *
 	 * @default false
-	 * @param {Optional<boolean>}  value  Reverse children?
+	 * @param value  Reverse children?
 	 */
 	public set reverseOrder(value: Optional<boolean>) {
 		this.setPropertyValue("reverseOrder", value, true);
 	}
 
 	/**
-	 * @return {Optional<boolean>} Reverse children?
+	 * @return Reverse children?
 	 */
 	public get reverseOrder(): Optional<boolean> {
 		return this.getPropertyValue("reverseOrder");
@@ -1722,14 +1683,14 @@ export class Container extends Sprite {
 	 * should be applied to container's children as well as `background`.
 	 *
 	 * @default false
-	 * @param {boolean}  value  Set state on children
+	 * @param value  Set state on children
 	 */
 	public set setStateOnChildren(value: boolean) {
 		this.setPropertyValue("setStateOnChildren", value, true);
 	}
 
 	/**
-	 * @return {boolean} Set state on children
+	 * @return Set state on children
 	 */
 	public get setStateOnChildren(): boolean {
 		return this.getPropertyValue("setStateOnChildren");
@@ -1738,8 +1699,8 @@ export class Container extends Sprite {
 	/**
 	 * Checks if point is within bounds of a container.
 	 *
-	 * @param  {IPoint}   point  A coordinate to check
-	 * @return {boolean}         `true` if it fits within container
+	 * @param point  A coordinate to check
+	 * @return `true` if it fits within container
 	 */
 	public fitsToBounds(point: IPoint): boolean {
 		let x = point.x;
@@ -1757,7 +1718,7 @@ export class Container extends Sprite {
 	 * Copies all properties from different Container, including background
 	 * clone.
 	 *
-	 * @param {this}  source  Source Container to copy from
+	 * @param source  Source Container to copy from
 	 */
 	public copyFrom(source: this) {
 		super.copyFrom(source);
@@ -1780,7 +1741,7 @@ export class Container extends Sprite {
 	/**
 	 * A [[Preloader]] instance to be used when Container is busy.
 	 *
-	 * @param {Optional<Preloader>}  preloader  Preloader instance
+	 * @param preloader  Preloader instance
 	 */
 	public set preloader(preloader: $type.Optional<Preloader>) {
 		if (this._preloader) {
@@ -1794,7 +1755,7 @@ export class Container extends Sprite {
 	}
 
 	/**
-	 * @return {Optional<Preloader>} Preloader instance
+	 * @return Preloader instance
 	 */
 	public get preloader(): $type.Optional<Preloader> {
 		const preloader = this._preloader;
@@ -1810,8 +1771,8 @@ export class Container extends Sprite {
 	/**
 	 * Sets [[Paper]] instance to use to draw elements.
 	 * @ignore
-	 * @param {Paper} paper Paper
-	 * @return {boolean} true if paper was changed, false, if it's the same
+	 * @param paper Paper
+	 * @return true if paper was changed, false, if it's the same
 	 */
 	public setPaper(paper: Paper): boolean {
 		let changed = super.setPaper(paper);
@@ -1843,7 +1804,7 @@ export class Container extends Sprite {
 	 * Sets a [[DataItem]] to be used as data for the Container.
 	 *
 	 * @todo Description
-	 * @param {DataItem} dataItem DataItem
+	 * @param dataItem DataItem
 	 */
 	protected setDataItem(dataItem: DataItem) {
 		// this place is potentially dangerous, as if we set datItem for some dummy container, all children dataItems will be overriden
@@ -1878,7 +1839,7 @@ export class Container extends Sprite {
 	 * Returns Tooltip X coordinate if it's set, or middle of the element.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {number} X (px)
+	 * @return X (px)
 	 */
 	protected getTooltipX(): number {
 		return super.getTooltipX();
@@ -1888,7 +1849,7 @@ export class Container extends Sprite {
 	 * Returns Tooltip Y coordinate if it's set, or middle of the element.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {number} Y (px)
+	 * @return Y (px)
 	 */
 	protected getTooltipY(): number {
 		return super.getTooltipY();
@@ -1900,7 +1861,7 @@ export class Container extends Sprite {
 	 *
 	 * Parts of the text may override this setting using in-line formatting.
 	 *
-	 * @param {string} value Font family value
+	 * @param value Font family value
 	 */
 	public set fontFamily(value: string) {
 		if (this.setPropertyValue("fontFamily", value, true)) {
@@ -1910,7 +1871,7 @@ export class Container extends Sprite {
 	}
 
 	/**
-	 * @return {any} Font family
+	 * @return Font family
 	 */
 	public get fontFamily(): string {
 		return this.getPropertyValue("fontFamily");
@@ -1922,7 +1883,7 @@ export class Container extends Sprite {
 	 *
 	 * Parts of the text may override this setting using in-line formatting.
 	 *
-	 * @param {any} value Font size value
+	 * @param value Font size value
 	 */
 	public set fontSize(value: any) {
 		if (this.setPropertyValue("fontSize", value, true)) {
@@ -1932,7 +1893,7 @@ export class Container extends Sprite {
 	}
 
 	/**
-	 * @return {any} Font size
+	 * @return Font size
 	 */
 	public get fontSize(): any {
 		return this.getPropertyValue("fontSize");
@@ -1958,7 +1919,7 @@ export class Container extends Sprite {
 	 *
 	 * Parts of the text may override this setting using in-line formatting.
 	 *
-	 * @param {FontWeight} value Font weight
+	 * @param value Font weight
 	 */
 	public set fontWeight(value: FontWeight) {
 		this.setPropertyValue("fontWeight", value);
@@ -1966,7 +1927,7 @@ export class Container extends Sprite {
 	}
 
 	/**
-	 * @return {FontWeight} Font weight
+	 * @return Font weight
 	 */
 	public get fontWeight(): FontWeight {
 		return this.getPropertyValue("fontWeight");
@@ -1977,7 +1938,7 @@ export class Container extends Sprite {
 	 *
 	 * Parts of the text may override this setting using in-line formatting.
 	 *
-	 * @param {TextDecoration}  value  Decoration
+	 * @param value  Decoration
 	 */
 	public set textDecoration(value: TextDecoration) {
 		this.setPropertyValue("textDecoration", value);
@@ -1985,7 +1946,7 @@ export class Container extends Sprite {
 	}
 
 	/**
-	 * @return {TextDecoration} Decoration
+	 * @return Decoration
 	 */
 	public get textDecoration(): TextDecoration {
 		return this.getPropertyValue("textDecoration");
@@ -2014,9 +1975,9 @@ export class Container extends Sprite {
 	 * element, that is are listed in its respective `properties` array.
 	 *
 	 * @see {@link SpriteState}
-	 * @param {string | SpriteState} value               A state - name key or instance
-	 * @param {number}               transitionDuration  Duration of the transition between current and new state
-	 * @param {number) => number}    easing              An easing function
+	 * @param value               A state - name key or instance
+	 * @param transitionDuration  Duration of the transition between current and new state
+	 * @param easing              An easing function
 	 */
 	public setState(value: string | SpriteState<this["_properties"], this["_adapter"]>, transitionDuration?: number, easing?: (value: number) => number): $type.Optional<Animation> {
 
@@ -2082,7 +2043,7 @@ export class Container extends Sprite {
 				registry.events.once("exitframe", ()=>{
 					this.dispatchReady();
 					system.requestFrame();
-				}, undefined, false);				
+				}, undefined, false);
 			}
 		}
 	}

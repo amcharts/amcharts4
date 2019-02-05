@@ -45,7 +45,7 @@ var RectPattern = /** @class */ (function (_super) {
     };
     Object.defineProperty(RectPattern.prototype, "rectWidth", {
         /**
-         * @return {number} Width (px)
+         * @return Width (px)
          */
         get: function () {
             return this.properties["rectWidth"];
@@ -53,7 +53,7 @@ var RectPattern = /** @class */ (function (_super) {
         /**
          * Rectangle width in pixels.
          *
-         * @param {number} value Width (px)
+         * @param value Width (px)
          */
         set: function (value) {
             this.properties["rectWidth"] = value;
@@ -64,7 +64,7 @@ var RectPattern = /** @class */ (function (_super) {
     });
     Object.defineProperty(RectPattern.prototype, "rectHeight", {
         /**
-         * @return {number} Height (px)
+         * @return Height (px)
          */
         get: function () {
             return this.properties["rectHeight"];
@@ -72,7 +72,7 @@ var RectPattern = /** @class */ (function (_super) {
         /**
          * Rectangle height in pixels.
          *
-         * @param {number} value Height (px)
+         * @param value Height (px)
          */
         set: function (value) {
             this.properties["rectHeight"] = value;

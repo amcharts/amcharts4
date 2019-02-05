@@ -59,8 +59,6 @@ export class LinearGradientModifier extends GradientModifier {
 
 	/**
 	 * A reference to the gradient instance that this modifier is used for.
-	 *
-	 * @type {LinearGradient}
 	 */
 	public gradient: LinearGradient;
 
@@ -78,7 +76,7 @@ export class LinearGradientModifier extends GradientModifier {
 	public copyFrom(source: this) {
 		super.copyFrom(source);
 		this.gradient = source.gradient.clone();
-	}	
+	}
 }
 
 /**

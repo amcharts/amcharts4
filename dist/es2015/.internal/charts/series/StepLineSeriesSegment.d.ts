@@ -53,34 +53,26 @@ export interface IStepLineSeriesSegmentAdapters extends ILineSeriesSegmentAdapte
 export declare class StepLineSeriesSegment extends LineSeriesSegment {
     /**
      * Defines available properties.
-     *
-     * @type {IStepLineSeriesSegmentProperties}
      */
     _properties: IStepLineSeriesSegmentProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IStepLineSeriesSegmentAdapters}
      */
     _adapter: IStepLineSeriesSegmentAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IStepLineSeriesSegmentEvents}
      */
     _events: IStepLineSeriesSegmentEvents;
     /**
      * Segment's line element.
      *
      * @ignore Exclude from docs
-     * @type {Sprite}
      */
     strokeSprite: Sprite;
     /**
      * Segment's fill element.
      *
      * @ignore Exclude from docs
-     * @type {Sprite}
      */
     fillSprite: Sprite;
     /**
@@ -91,10 +83,10 @@ export declare class StepLineSeriesSegment extends LineSeriesSegment {
      * Draws the series segment.
      *
      * @ignore Exclude from docs
-     * @param {IPoint[]}  points       Points to connect
-     * @param {IPoint[]}  closePoints  ?
-     * @param {number}    smoothnessX  Horizontal bezier setting (?)
-     * @param {number}    smoothnessY  Vertical bezier setting (?)
+     * @param points       Points to connect
+     * @param closePoints  ?
+     * @param smoothnessX  Horizontal bezier setting (?)
+     * @param smoothnessY  Vertical bezier setting (?)
      */
     drawSegment(points: IPoint[], closePoints: IPoint[], smoothnessX: number, smoothnessY: number, noRisers?: boolean, vertical?: boolean): void;
 }

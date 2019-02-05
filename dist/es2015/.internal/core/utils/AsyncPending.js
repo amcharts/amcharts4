@@ -19,7 +19,6 @@ var fps = 1000 / 60;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export var raf = (typeof requestAnimationFrame === "function"
     ? function (fn) {
@@ -73,7 +72,7 @@ function pendFrame() {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {Listener} fn [description]
+ * @param fn [description]
  */
 export function nextFrame(fn) {
     nextQueue.push(fn);
@@ -84,7 +83,7 @@ export function nextFrame(fn) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {Listener} fn [description]
+ * @param fn [description]
  */
 export function readFrame(fn) {
     readQueue.push(fn);
@@ -95,7 +94,7 @@ export function readFrame(fn) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {Listener} fn [description]
+ * @param fn [description]
  */
 export function writeFrame(fn) {
     writeQueue.push(fn);
@@ -106,7 +105,7 @@ export function writeFrame(fn) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {Listener} fn [description]
+ * @param fn [description]
  */
 export function whenIdle(fn) {
     idleQueue.push(fn);

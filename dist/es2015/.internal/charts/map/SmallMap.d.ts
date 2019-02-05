@@ -56,45 +56,32 @@ export interface ISmallMapAdapters extends IContainerAdapters, ISmallMapProperti
 export declare class SmallMap extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {SmallMaPproperties}
      */
     _properties: ISmallMapProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ISmallMapAdapters}
      */
     _adapter: ISmallMapAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ISmallMapEvents}
      */
     _events: ISmallMapEvents;
     /**
      * A target map.
-     *
-     * @type {MutableValueDisposer<MapChart>}
      */
     protected _chart: MutableValueDisposer<MapChart>;
     /**
      * A container that holds the visual elements for the mini-map.
      *
      * @ignore Exclude from docs
-     * @type {Container}
      */
     seriesContainer: Container;
     /**
      * The rectangle element which highlights current viewport.
-     *
-     * @type {Rectangle}
      */
     rectangle: Rectangle;
     /**
      * A list of map series used to draw the mini-map.
-     *
-     * @type {List<MapSeries>}
      */
     protected _series: List<MapSeries>;
     /**
@@ -105,35 +92,35 @@ export declare class SmallMap extends Container {
      * A list of map series used to draw the mini-map.
      *
      * @readonly
-     * @return {List<MapSeries>} Series
+     * @return Series
      */
     readonly series: List<MapSeries>;
     /**
      * Decorates a new series when they are pushed into a `series` list.
      *
-     * @param {IListEvents<MapSeries>["inserted"]} event Event
+     * @param event Event
      */
     protected handleSeriesAdded(event: IListEvents<MapSeries>["inserted"]): void;
     /**
      * Cleans up after series are removed from Scrollbar.
      *
-     * @param {IListEvents<XYSeries>["removed"]}  event  Event
+     * @param event  Event
      */
     protected handleSeriesRemoved(event: IListEvents<MapSeries>["removed"]): void;
     /**
      * Moves main map pan position after click on the small map.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["hit"]}  event  Event
+     * @param event  Event
      */
     moveToPosition(event: AMEvent<Sprite, ISpriteEvents>["hit"]): void;
     /**
-     * @return {MapChart} Chart/map
+     * @return Chart/map
      */
     /**
      * A chart/map that this control is meant for.
      *
-     * @param {MapChart}  chart  Chart/map
+     * @param chart  Chart/map
      */
     chart: MapChart;
     /**
@@ -157,7 +144,7 @@ export declare class SmallMap extends Container {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     processConfig(config?: {
         [index: string]: any;

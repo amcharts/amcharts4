@@ -47,8 +47,6 @@ var Dictionary = /** @class */ (function () {
     function Dictionary() {
         /**
          * Event dispatcher.
-         *
-         * @type {EventDispatcher<AMEvent<Dictionary<Key, T>, IDictionaryEvents<Key, T>>>}
          */
         this.events = new EventDispatcher();
         this._dictionary = {};
@@ -56,8 +54,8 @@ var Dictionary = /** @class */ (function () {
     /**
      * Returns `true` if key exists in Dictionary.
      *
-     * @param  {Key}      key  The key to search for
-     * @return {boolean}       `true` if key exists, `false` if it doesn't
+     * @param key  The key to search for
+     * @return `true` if key exists, `false` if it doesn't
      */
     Dictionary.prototype.hasKey = function (key) {
         return $object.hasKey(this._dictionary, key);
@@ -65,8 +63,8 @@ var Dictionary = /** @class */ (function () {
     /**
      * Returns the value for a specific key.
      *
-     * @param  {Key}          key  The key to search for
-     * @return {Optional<T>}       Value for the key, or `undefined` if it doesn't exist
+     * @param key  The key to search for
+     * @return Value for the key, or `undefined` if it doesn't exist
      */
     Dictionary.prototype.getKey = function (key) {
         return this._dictionary[key];
@@ -76,8 +74,8 @@ var Dictionary = /** @class */ (function () {
      *
      * Will thrown an exception if the key already exists in the dictionary.
      *
-     * @param {Key}  key    Key
-     * @param {T}    value  Value
+     * @param key    Key
+     * @param value  Value
      */
     Dictionary.prototype.insertKey = function (key, value) {
         if ($object.hasKey(this._dictionary, key)) {
@@ -102,8 +100,8 @@ var Dictionary = /** @class */ (function () {
      *
      * If the new value is exactly the same as the old value (using ===), it won't do anything.
      *
-     * @param  {Key}  key    Key
-     * @param  {T}    value  Value
+     * @param key    Key
+     * @param value  Value
      */
     Dictionary.prototype.setKey = function (key, value) {
         if ($object.hasKey(this._dictionary, key)) {
@@ -149,8 +147,8 @@ var Dictionary = /** @class */ (function () {
      * If the new value is exactly the same as the old value (using ===), it won't do anything.
      *
      * @ignore Exclude from docs
-     * @param {Key}       key  Key
-     * @param {function}  fn   Function to transform the value
+     * @param key  Key
+     * @param fn   Function to transform the value
      */
     Dictionary.prototype.updateKey = function (key, fn) {
         if ($object.hasKey(this._dictionary, key)) {
@@ -183,7 +181,7 @@ var Dictionary = /** @class */ (function () {
     /**
      * Removes value at specific `key` from dictionary.
      *
-     * @param {Key}  key  Key to remove
+     * @param key  Key to remove
      */
     Dictionary.prototype.removeKey = function (key) {
         if ($object.hasKey(this._dictionary, key)) {
@@ -211,9 +209,9 @@ var Dictionary = /** @class */ (function () {
      *
      * @ignore Exclude from docs
      * @todo description
-     * @param  {Key}       key      [description]
-     * @param  {function}  ifEmpty  [description]
-     * @return {T}                  [description]
+     * @param key      [description]
+     * @param ifEmpty  [description]
+     * @return [description]
      */
     Dictionary.prototype.insertKeyIfEmpty = function (key, ifEmpty) {
         if (!this.hasKey(key)) {
@@ -247,7 +245,7 @@ var Dictionary = /** @class */ (function () {
     /**
      * Copies items from another Dictionary.
      *
-     * @param {Dictionary<Key, T>}  source  A Dictionary to copy items from
+     * @param source  A Dictionary to copy items from
      */
     Dictionary.prototype.copyFrom = function (source) {
         var _this = this;
@@ -260,7 +258,7 @@ var Dictionary = /** @class */ (function () {
      * Returns an interator that can be used to iterate through all items in
      * the dictionary.
      *
-     * @return {Iterator} Iterator
+     * @return Iterator
      */
     Dictionary.prototype.iterator = function () {
         // @todo fix this type after the Iterator bug is fixed
@@ -309,7 +307,7 @@ var Dictionary = /** @class */ (function () {
      * the dictionary, ordered by key.
      *
      * @ignore Exclude from docs
-     * @return {Iterator} Iterator
+     * @return Iterator
      */
     Dictionary.prototype.sortedIterator = function () {
         return $iter.sort(this.iterator(), function (x, y) { return $string.order(x[0], y[0]); });
@@ -332,7 +330,7 @@ var DictionaryTemplate = /** @class */ (function (_super) {
     /**
      * Constructor
      *
-     * @param {T} t Template object
+     * @param t Template object
      */
     function DictionaryTemplate(t) {
         var _this = _super.call(this) || this;
@@ -341,7 +339,7 @@ var DictionaryTemplate = /** @class */ (function (_super) {
     }
     Object.defineProperty(DictionaryTemplate.prototype, "template", {
         /**
-         * @return {T} Template object
+         * @return Template object
          */
         get: function () {
             return this._template;
@@ -350,7 +348,7 @@ var DictionaryTemplate = /** @class */ (function (_super) {
          * A "template" object to copy all properties from when creating new list
          * items.
          *
-         * @param {T}  v  Template object
+         * @param v  Template object
          */
         set: function (v) {
             v.isTemplate = true;
@@ -362,7 +360,7 @@ var DictionaryTemplate = /** @class */ (function (_super) {
     /**
      * Copies all elements from other dictionary.
      *
-     * @param {DictionaryTemplate}  source  Source dictionary
+     * @param source  Source dictionary
      */
     DictionaryTemplate.prototype.copyFrom = function (source) {
         var _this = this;

@@ -43,7 +43,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
          * A [[MapLine]] element related to this data item.
          *
          * @readonly
-         * @return {MapLine} Element
+         * @return Element
          */
         get: function () {
             var _this = this;
@@ -65,7 +65,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapLineSeriesDataItem.prototype, "line", {
         /**
-         * @return {number[]} Coordinates
+         * @return Coordinates
          */
         get: function () {
             return this._line;
@@ -80,7 +80,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
          * ]
          * ```
          *
-         * @param {number[][]}  line  Coordinates
+         * @param line  Coordinates
          */
         set: function (line) {
             this._line = line;
@@ -91,7 +91,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapLineSeriesDataItem.prototype, "multiLine", {
         /**
-         * @return {number[]} Coordinates
+         * @return Coordinates
          */
         get: function () {
             return this._multiLine;
@@ -115,7 +115,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
          * ]
          * ```
          *
-         * @param {number[][]}  multiLine  Coordinates
+         * @param multiLine  Coordinates
          */
         set: function (multiLine) {
             this._multiLine = multiLine;
@@ -126,7 +126,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapLineSeriesDataItem.prototype, "geoLine", {
         /**
-         * @return {IGeoPoint[]} Coordinates
+         * @return Coordinates
          */
         get: function () {
             return this._geoLine;
@@ -142,7 +142,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
          * ```
          *
          * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.4} GeoJSON LineString reference
-         * @param {IGeoPoint[][]}  geoLine  Coordinates
+         * @param geoLine  Coordinates
          */
         set: function (geoLine) {
             this._geoLine = geoLine;
@@ -153,7 +153,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapLineSeriesDataItem.prototype, "multiGeoLine", {
         /**
-         * @return {IGeoPoint[]} Coordinates
+         * @return Coordinates
          */
         get: function () {
             return this._multiGeoLine;
@@ -178,7 +178,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
          * ```
          *
          * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.5} GeoJSON MultiLineString reference
-         * @param {IGeoPoint[][]}  multiGeoLine  Coordinates
+         * @param multiGeoLine  Coordinates
          */
         set: function (multiGeoLine) {
             this._multiGeoLine = multiGeoLine;
@@ -193,7 +193,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
      * North, and South-most points.
      *
      * @ignore Exclude from docs
-     * @param {IGeoPoint[]}  geoPoints  Points of the element
+     * @param geoPoints  Points of the element
      */
     MapLineSeriesDataItem.prototype.updateLineExtremes = function (multiGeoLine) {
         for (var i = 0, len = multiGeoLine.length; i < len; i++) {
@@ -240,7 +240,7 @@ var MapLineSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {MapLineSeriesDataItem} Data Item
+     * @return Data Item
      */
     MapLineSeries.prototype.createDataItem = function () {
         return new MapLineSeriesDataItem();
@@ -323,7 +323,7 @@ var MapLineSeries = /** @class */ (function (_super) {
         /**
          * A list of lines in the series.
          *
-         * @return {ListTemplate} Lines
+         * @return Lines
          */
         get: function () {
             if (!this._mapLines) {
@@ -342,7 +342,7 @@ var MapLineSeries = /** @class */ (function (_super) {
     /**
      * Returns a new line instance of suitable type.
      *
-     * @return {MapLine} New line
+     * @return New line
      */
     MapLineSeries.prototype.createLine = function () {
         return new MapLine();
@@ -361,7 +361,7 @@ var MapLineSeries = /** @class */ (function (_super) {
     /**
      * Copies all properties from another instance of [[Series]].
      *
-     * @param {Series}  source  Source series
+     * @param source  Source series
      */
     MapLineSeries.prototype.copyFrom = function (source) {
         this.mapLines.template.copyFrom(source.mapLines.template);

@@ -83,7 +83,7 @@ var CurvedColumn = /** @class */ (function (_super) {
     /**
      * Copies all parameters from another [[CurvedColumn]].
      *
-     * @param {CurvedColumn}  source  Source CurvedColumn
+     * @param source  Source CurvedColumn
      */
     CurvedColumn.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
@@ -93,7 +93,7 @@ var CurvedColumn = /** @class */ (function (_super) {
     };
     Object.defineProperty(CurvedColumn.prototype, "tension", {
         /**
-         * @return {number} Tension (0-1)
+         * @return Tension (0-1)
          */
         get: function () {
             return this.getPropertyValue("tension");
@@ -109,7 +109,7 @@ var CurvedColumn = /** @class */ (function (_super) {
          * The smaller the tension th wider the column will be.
          *
          * @default 0.7
-         * @param {number}  value tension (0-1)
+         * @param value tension (0-1)
          */
         set: function (value) {
             this.setPropertyValue("tension", value, true);
@@ -119,7 +119,7 @@ var CurvedColumn = /** @class */ (function (_super) {
     });
     Object.defineProperty(CurvedColumn.prototype, "orientation", {
         /**
-         * @type {Orientation} Orientation
+         * Orientation
          */
         get: function () {
             return this.getPropertyValue("orientation");
@@ -130,7 +130,7 @@ var CurvedColumn = /** @class */ (function (_super) {
          * Available options: "vertical" (default) and "horizontal".
          *
          * @default "vertical"
-         * @param {Orientation}  value  Orientation
+         * @param value  Orientation
          */
         set: function (value) {
             this.setPropertyValue("orientation", value, true);

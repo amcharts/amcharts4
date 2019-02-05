@@ -28,7 +28,6 @@ export class ColumnSeries3DDataItem extends ColumnSeriesDataItem {
 
 	/**
 	 * A sprite used to draw the column.
-	 * @type {Column3D}
 	 */
 	public _column: Column3D;
 
@@ -65,7 +64,6 @@ export interface IColumnSeries3DProperties extends IColumnSeriesProperties {
 	 * Depth (height) of the slices in the series in pixels.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {number}
 	 */
 	depth?: number;
 
@@ -73,7 +71,6 @@ export interface IColumnSeries3DProperties extends IColumnSeriesProperties {
 	 * Angle of view for the slices in series. (0-360)
 	 *
 	 * @ignore Exclude from docs
-	 * @type {number}
 	 */
 	angle?: number;
 
@@ -119,29 +116,21 @@ export class ColumnSeries3D extends ColumnSeries {
 
 	/**
 	 * Defines the type for data fields.
-	 *
-	 * @type {IColumnSeries3DDataFields}
 	 */
 	public _dataFields: IColumnSeries3DDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IColumnSeries3DProperties}
 	 */
 	public _properties!: IColumnSeries3DProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IColumnSeries3DAdapters}
 	 */
 	public _adapter!: IColumnSeries3DAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IColumnSeries3DEvents}
 	 */
 	public _events!: IColumnSeries3DEvents;
 
@@ -151,14 +140,11 @@ export class ColumnSeries3D extends ColumnSeries {
 	 * Internal use only.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {number}
 	 */
 	public depthIndex: number;
 
 	/**
 	 * A chart series belongs to.
-	 *
-	 * @type {XYChart3D}
 	 */
 	public _chart: XYChart3D;
 
@@ -192,7 +178,7 @@ export class ColumnSeries3D extends ColumnSeries {
 	 * Validates data item's elements.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {this["_dataItem"]}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public validateDataElementReal(dataItem: this["_dataItem"]): void {
 		super.validateDataElementReal(dataItem);
@@ -200,7 +186,7 @@ export class ColumnSeries3D extends ColumnSeries {
 			dataItem.column.dx = this.dx;
 			dataItem.column.dy = this.dy;
 		}
-	}	
+	}
 
 
 	/**
@@ -211,14 +197,14 @@ export class ColumnSeries3D extends ColumnSeries {
 	public validateDataElements(): void {
 		super.validateDataElements();
 		if(this.chart){
-			this.chart.invalidateLayout();	
-		}		
-	}		
+			this.chart.invalidateLayout();
+		}
+	}
 
 	/**
 	 * Returns an element to use for 3D bar.
 	 * @ignore
-	 * @return {this["_column"]} Element.
+	 * @return Element.
 	 */
 	protected createColumnTemplate(): this["_column"] {
 		return new Column3D();
@@ -230,7 +216,7 @@ export class ColumnSeries3D extends ColumnSeries {
 	 * Depth (height) of the slices in the series in pixels.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {number}  value  Depth (px)
+	 * @param value  Depth (px)
 	 */
 	public set depth(value: number) {
 		this.setPropertyValue("depth", value, true);
@@ -240,7 +226,7 @@ export class ColumnSeries3D extends ColumnSeries {
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {number} Depth (px)
+	 * @return Depth (px)
 	 */
 	public get depth(): number {
 		return this.getPropertyValue("depth");
@@ -250,7 +236,7 @@ export class ColumnSeries3D extends ColumnSeries {
 	 * Angle of view for the slices in series. (0-360)
 	 *
 	 * @ignore Exclude from docs
-	 * @param {number}  value  Angle (0-360)
+	 * @param value  Angle (0-360)
 	 */
 	public set angle(value: number) {
 		this.setPropertyValue("angle", value);
@@ -260,7 +246,7 @@ export class ColumnSeries3D extends ColumnSeries {
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {number} Angle (0-360)
+	 * @return Angle (0-360)
 	 */
 	public get angle(): number {
 		return this.getPropertyValue("angle");

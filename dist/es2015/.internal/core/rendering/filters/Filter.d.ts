@@ -31,21 +31,18 @@ import * as $type from "../../utils/Type";
  */
 /**
  * Defines properties for a base filter
- * @type {string}
  */
 export interface FilterProperties {
     /**
      * Width of the filter in percent.
      *
      * @default 120
-     * @type {number}
      */
     width: number;
     /**
      * Height of the filter in percent.
      *
      * @default 120
-     * @type {number}
      */
     height: number;
 }
@@ -74,21 +71,16 @@ export interface FilterProperties {
 export declare class Filter extends BaseObject implements IAnimatable {
     /**
      * List of animations currently running for the filter.
-     *
-     * @type {Optional<Array<Animation>>}
      */
     protected _animations: $type.Optional<Array<Animation>>;
     /**
      * Contains a list of filter primitives (effects) applied by the filter.
      *
      * @ignore Exclude from docs
-     * @type {List<AMElement>}
      */
     filterPrimitives: List<AMElement>;
     /**
      * Defines property types.
-     *
-     * @type {FilterProperties}
      */
     _properties: FilterProperties;
     /**
@@ -96,40 +88,31 @@ export declare class Filter extends BaseObject implements IAnimatable {
      *
      * @ignore Exclude from docs
      * @see {@link FilterProperties}
-     * @type {FilterProperties}
      */
     properties: this["_properties"];
     /**
      * An SVG `<group>` element hold primitive (effect) definitions.
-     *
-     * @type {Optional<Group>}
      */
     filterElement: $type.Optional<Group>;
     /**
      * Identifies if this object is a "template" and should not be treated as
      * real object that is drawn or actually used in the chart.
-     *
-     * @type {boolean}
      */
     isTemplate: boolean;
     /**
      * A Paper instance to add element to.
-     *
-     * @type {Paper}
      */
     protected _paper: $type.Optional<Paper>;
     /**
      * [_scale description]
      *
      * @todo Description
-     * @type {number}
      */
     protected _scale: number;
     /**
      * [_nonScaling description]
      *
      * @todo Description
-     * @type {boolean}
      */
     protected _nonScaling: boolean;
     /**
@@ -148,7 +131,7 @@ export declare class Filter extends BaseObject implements IAnimatable {
      * Appends actual filter elements to the filter group.
      *
      * @ignore Exclude from docs
-     * @param {Group} filterElement An SVG `<group>` element to add filter element to
+     * @param filterElement An SVG `<group>` element to add filter element to
      */
     appendPrimitives(filterElement: Group): void;
     /**
@@ -156,14 +139,14 @@ export declare class Filter extends BaseObject implements IAnimatable {
      * smoothly appear filter, rather than it pop into effect.
      *
      * @ignore Exclude from docs
-     * @param  {IAnimationOptions[] | IAnimationOptions}  animationOptions  Animation options
-     * @param  {number}                                   duration          Duration in milliseconds
-     * @param  {(number) => number}                       easing            Easing function
-     * @return {Animation}                                                  Animation instance
+     * @param animationOptions  Animation options
+     * @param duration          Duration in milliseconds
+     * @param easing            Easing function
+     * @return Animation instance
      */
     animate(animationOptions: IAnimationOptions[] | IAnimationOptions, duration: number, easing?: (value: number) => number): Animation;
     /**
-     * @return {number} Width (%)
+     * @return Width (%)
      */
     /**
      * Width of the filter element in percent.
@@ -173,11 +156,11 @@ export declare class Filter extends BaseObject implements IAnimatable {
      * non-fitting parts will be clipped.
      *
      * @default 120
-     * @param {number} value Width (px)
+     * @param value Width (px)
      */
     width: number;
     /**
-     * @return {number} Height
+     * @return Height
      */
     /**
      * Height of the filter element in percent.
@@ -187,30 +170,30 @@ export declare class Filter extends BaseObject implements IAnimatable {
      * non-fitting parts will be clipped.
      *
      * @default 120
-     * @param {number} value Height (%)
+     * @param value Height (%)
      */
     height: number;
     /**
      * Copies properties from another [[Filter]] object.
      *
-     * @param {Filter} filter Source [[Filter]] object
+     * @param filter Source [[Filter]] object
      */
     copyFrom(filter: this): void;
     /**
-     * @return {Paper} Paper
+     * @return Paper
      */
     /**
      * Sets [[Paper]] instance to create filter's elements in.
      *
      * @ignore Exclude from docs
-     * @param {Paper}  paper  Paper
+     * @param paper  Paper
      */
     paper: Paper;
     /**
      * All animations currently in play.
      *
      * @ignore Exclude from docs
-     * @return {Array<Animation>} List of animations
+     * @return List of animations
      */
     readonly animations: Array<Animation>;
     /**
@@ -229,14 +212,14 @@ export declare class Filter extends BaseObject implements IAnimatable {
      */
     protected updateScale(): void;
     /**
-     * @return {boolean} Non scaling?
+     * @return Non scaling?
      */
     /**
      * If a filter is non scaling, it will look the same even if the sprite is
      * scaled, otherwise filter will scale together with a [[Sprite]].
      *
      * @default false
-     * @param {boolean}  value  Non scaling?
+     * @param value  Non scaling?
      */
     nonScaling: boolean;
     /**
@@ -247,14 +230,14 @@ export declare class Filter extends BaseObject implements IAnimatable {
      * the new one.
      *
      * @ignore Exclude from docs
-     * @param {Sprite}  value  Target element
+     * @param value  Target element
      */
     sprite: Sprite;
     /**
      * Sets filter's target element.
      *
      * @ignore Exclude from docs
-     * @param {Sprite}  value  Element filter is being attached to
+     * @param value  Element filter is being attached to
      */
     protected setSprite(value: Sprite): void;
 }

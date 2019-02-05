@@ -23,8 +23,6 @@ import { FunnelSeries } from "../series/FunnelSeries";
 export declare class SlicedChartDataItem extends PercentChartDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {SlicedChart}
      */
     _component: SlicedChart;
     /**
@@ -77,32 +75,22 @@ export interface ISlicedChartAdapters extends IPercentChartAdapters, ISlicedChar
 export declare class SlicedChart extends PercentChart {
     /**
      * Defines available data fields.
-     *
-     * @type {ISlicedChartDataFields}
      */
     _dataFields: ISlicedChartDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {ISlicedChartProperties}
      */
     _properties: ISlicedChartProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {SeriesAdapters}
      */
     _adapter: ISlicedChartAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ISlicedChartEvents}
      */
     _events: ISlicedChartEvents;
     /**
      * Defines a type of series that this chart uses.
-     *
-     * @type {FunnelSeries}
      */
     _seriesType: FunnelSeries;
     /**

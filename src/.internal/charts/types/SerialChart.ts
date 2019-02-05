@@ -36,8 +36,6 @@ export class SerialChartDataItem extends ChartDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {SerialChart}
 	 */
 	public _component!: SerialChart;
 
@@ -72,8 +70,6 @@ export interface ISerialChartProperties extends IChartProperties {
 
 	/**
 	 * A set of colors to be used for chart elements, like Series, Slices, etc.
-	 *
-	 * @type {ColorSet}
 	 */
 	colors?: ColorSet;
 
@@ -111,36 +107,26 @@ export class SerialChart extends Chart {
 
 	/**
 	 * Defines data fields.
-	 *
-	 * @type {ISerialChartDataFields}
 	 */
 	public _dataFields: ISerialChartDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ISerialChartProperties}
 	 */
 	public _properties!: ISerialChartProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ISerialChartAdapters}
 	 */
 	public _adapter!: ISerialChartAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ISerialChartEvents}
 	 */
 	public _events!: ISerialChartEvents;
 
 	/**
 	 * Defines a type of series that this chart uses.
-	 *
-	 * @type {Series}
 	 */
 	public _seriesType: Series;
 
@@ -151,15 +137,11 @@ export class SerialChart extends Chart {
 
 	/**
 	 * Holds the reference to the container actual series are drawn in.
-	 *
-	 * @type {Container}
 	 */
 	public readonly seriesContainer: Container;
 
 	/**
 	 * Holds a reference to the container series' bullets are drawn in.
-	 *
-	 * @type {Container}
 	 */
 	public readonly bulletsContainer: Container;
 
@@ -225,7 +207,7 @@ export class SerialChart extends Chart {
 	/**
 	 * A list of chart's series.
 	 *
-	 * @return {List} Chart's series
+	 * @return Chart's series
 	 */
 	public get series(): ListTemplate<this["_seriesType"]> {
 		if (!this._series) {
@@ -255,7 +237,7 @@ export class SerialChart extends Chart {
 	 * added to the chart.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IListEvents<Series>["inserted"]}  event  Event
+	 * @param event  Event
 	 */
 	public handleSeriesAdded(event: IListEvents<Series>["inserted"]): void {
 		let series: Series = event.newValue;
@@ -267,7 +249,7 @@ export class SerialChart extends Chart {
 		this._dataUsers.moveValue(series);
 		series.addDisposer(new Disposer(()=>{
 			this.dataUsers.removeValue(series);
-		}))		
+		}))
 
 
 		this.feedLegend();
@@ -297,7 +279,7 @@ export class SerialChart extends Chart {
 	/**
 	 * Creates and returns a new Series, suitable for this chart type.
 	 *
-	 * @return {this} New series
+	 * @return New series
 	 */
 	protected createSeries(): this["_seriesType"] {
 		return new Series();
@@ -315,14 +297,14 @@ export class SerialChart extends Chart {
 	 *
 	 * A theme you are using may override default pre-defined colors.
 	 *
-	 * @param {ColorSet} value Color list
+	 * @param value Color list
 	 */
 	public set colors(value: ColorSet) {
 		this.setPropertyValue("colors", value, true);
 	}
 
 	/**
-	 * @return {ColorSet} Color list
+	 * @return Color list
 	 */
 	public get colors(): ColorSet {
 		return this.getPropertyValue("colors");
@@ -331,7 +313,7 @@ export class SerialChart extends Chart {
 	/**
 	 * Copies all parameters from another [[SerialChart]].
 	 *
-	 * @param {SerialChart} source Source SerialChart
+	 * @param source Source SerialChart
 	 */
 	public copyFrom(source: this) {
 		super.copyFrom(source);

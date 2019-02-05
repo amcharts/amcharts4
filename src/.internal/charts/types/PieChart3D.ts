@@ -32,8 +32,6 @@ export class PieChart3DDataItem extends PieChartDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {PieChart3D}
 	 */
 	public _component!: PieChart3D;
 
@@ -68,15 +66,11 @@ export interface IPieChart3DProperties extends IPieChartProperties {
 
 	/**
 	 * Pie's "depth" or "height" in pixels.
-	 *
-	 * @type {number}
 	 */
 	depth?: number;
 
 	/**
 	 * Pie's angle at which we are looking at it. (degrees)
-	 *
-	 * @type {number}
 	 */
 	angle?: number;
 
@@ -190,36 +184,26 @@ export class PieChart3D extends PieChart {
 
 	/**
 	 * Available data fields.
-	 *
-	 * @type {IPieChart3DDataFields}
 	 */
 	public _dataFields: IPieChart3DDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPieChart3DProperties}
 	 */
 	public _properties!: IPieChart3DProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IPieChart3DAdapters}
 	 */
 	public _adapter!: IPieChart3DAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPieChart3DEvents}
 	 */
 	public _events!: IPieChart3DEvents;
 
 	/**
 	 * Defines a type of series that this chart uses.
-	 *
-	 * @type {PieSeries3D}
 	 */
 	public _seriesType: PieSeries3D;
 
@@ -246,16 +230,16 @@ export class PieChart3D extends PieChart {
 	 * This will determine "height" of the pie.
 	 *
 	 * @default 20
-	 * @param {number}  value  Depth (px)
+	 * @param value  Depth (px)
 	 */
 	public set depth(value: number) {
-		if (this.setPropertyValue("depth", value)) {			
+		if (this.setPropertyValue("depth", value)) {
 			this.invalidateDataUsers();
 		}
 	}
 
 	/**
-	 * @return {number} Depth (px)
+	 * @return Depth (px)
 	 */
 	public get depth(): number {
 		return this.getPropertyValue("depth");
@@ -265,7 +249,7 @@ export class PieChart3D extends PieChart {
 	 * An angle of a "point of view" in degrees. Possible range 0 - 90.
 	 *
 	 * @default 10
-	 * @param {number}  value  Angle (degrees)
+	 * @param value  Angle (degrees)
 	 */
 	public set angle(value: number) {
 		value = $math.fitToRange(value, 0, 90);
@@ -275,7 +259,7 @@ export class PieChart3D extends PieChart {
 	}
 
 	/**
-	 * @return {number} Angle (degrees)
+	 * @return Angle (degrees)
 	 */
 	public get angle(): number {
 		return this.getPropertyValue("angle");
@@ -284,7 +268,7 @@ export class PieChart3D extends PieChart {
 	/**
 	 * Creates and returns a new Series.
 	 *
-	 * @return {PieSeries3D} New series
+	 * @return New series
 	 */
 	protected createSeries(): this["_seriesType"] {
 		return new PieSeries3D();

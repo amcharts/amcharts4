@@ -50,7 +50,6 @@ export interface IComponentProperties extends IContainerProperties {
      * intervals.
      *
      * @default 1
-     * @type {number}
      */
     minZoomCount?: number;
 }
@@ -138,8 +137,6 @@ export interface IComponentAdapters extends IContainerAdapters, IComponentProper
 export declare class Component extends Container {
     /**
      * Defines available data fields.
-     *
-     * @type {IComponentDataFields}
      */
     _dataFields: IComponentDataFields;
     /**
@@ -147,47 +144,35 @@ export declare class Component extends Container {
      *
      * Data fields define connection beween [[DataItem]] and actual properties
      * in raw data.
-     *
-     * @type {IComponentDataFields}
      */
     dataFields: this["_dataFields"];
     /**
      * Defines available properties.
-     *
-     * @type {IComponentProperties}
      */
     _properties: IComponentProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IComponentAdapters}
      */
     _adapter: IComponentAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IComponentEvents}
      */
     _events: IComponentEvents;
     /**
      * Holds the data for the component.
      *
      * @ignore Exclude from docs
-     * @type {Optional<any[]>}
      */
     protected _data: $type.Optional<any[]>;
     /**
      * A [[Component]] which provides data to this component (like Chart provides
      * data for Series).
-     *
-     * @type {Optional<Component>}
      */
     dataProvider: $type.Optional<Component>;
     /**
      * A list of [[DataSource]] definitions of external data source.
      *
      * @ignore Exclude from docs
-     * @type {Object}
      */
     protected _dataSources: {
         [index: string]: DataSource;
@@ -196,7 +181,6 @@ export declare class Component extends Container {
      * An instance of [[Responsive]].
      *
      * @ignore Exclude from docs
-     * @type {Optional<Responsive>}
      */
     protected _responsive: $type.Optional<Responsive>;
     /**
@@ -204,21 +188,18 @@ export declare class Component extends Container {
      * method).
      *
      * @ignore Exclude from docs
-     * @type {number}
      */
     protected _parseDataFrom: number;
     /**
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {Optional<List<Component>>}
      */
     protected _dataUsers: $type.Optional<List<Component>>;
     /**
      * Holds the disposers for the dataItems and dataUsers
      *
      * @ignore Exclude from docs
-     * @type {Array<IDisposer>}
      */
     protected _dataDisposers: Array<IDisposer>;
     /**
@@ -226,13 +207,10 @@ export declare class Component extends Container {
      * @ignore Exclude from docs
      * @todo Description
      * @deprecated Not used?
-     * @type {Optional<Dictionary>}
      */
     protected _dataMethods: $type.Optional<Dictionary<string, (value: number) => number>>;
     /**
      * Identifies the type of the [[DataItem]] used in this element.
-     *
-     * @type {DataItem}
      */
     _dataItem: DataItem;
     /**
@@ -245,49 +223,41 @@ export declare class Component extends Container {
      * [_startIndex description]
      *
      * @ignore Exclude from docs
-     * @type {Optional<number>}
      */
     protected _startIndex: $type.Optional<number>;
     /**
      * [_endIndex description]
      *
      * @ignore Exclude from docs
-     * @type {Optional<number>}
      */
     protected _endIndex: $type.Optional<number>;
     /**
      * [_start description]
      *
      * @ignore Exclude from docs
-     * @type {number}
      */
     protected _start: number;
     /**
      * [_end description]
      *
      * @ignore Exclude from docs
-     * @type {number}
      */
     protected _end: number;
     /**
      * [_finalStart description]
      *
      * @ignore Exclude from docs
-     * @type {Optional<number>}
      */
     protected _finalStart: $type.Optional<number>;
     /**
      * [_finalEnd description]
      *
      * @ignore Exclude from docs
-     * @type {Optional<number>}
      */
     protected _finalEnd: $type.Optional<number>;
     /**
      * If set to `true`, changing data range in element will not trigger
      * `daterangechanged` event.
-     *
-     * @type {boolean}
      */
     skipRangeEvent: boolean;
     /**
@@ -304,7 +274,6 @@ export declare class Component extends Container {
      *
      * @default 0
      * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-     * @type {number}
      */
     rangeChangeDuration: number;
     /**
@@ -312,14 +281,12 @@ export declare class Component extends Container {
      *
      * @see {@link Ease}
      * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-     * @type {function}
      */
     rangeChangeEasing: (value: number) => number;
     /**
      * A reference to a currently playing range change [[Animation]] object.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Animation>}
      */
     rangeChangeAnimation: $type.Optional<Animation>;
     /**
@@ -328,8 +295,6 @@ export declare class Component extends Container {
      * sets are used. This setting will control how many milliseconds should pass
      * when parsing data until parser stops for a brief moment to let other
      * processes catch up.
-     *
-     * @type {number}
      */
     parsingStepDuration: number;
     /**
@@ -337,7 +302,6 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {boolean}
      */
     dataInvalid: boolean;
     /**
@@ -350,7 +314,6 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {boolean}
      */
     dataRangeInvalid: boolean;
     /**
@@ -358,7 +321,6 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {boolean}
      */
     dataItemsInvalid: boolean;
     /**
@@ -372,7 +334,6 @@ export declare class Component extends Container {
      *
      * @default 0
      * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-     * @type {number}
      */
     interpolationDuration: number;
     /**
@@ -382,7 +343,6 @@ export declare class Component extends Container {
      * @default cubicOut
      * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
      * @see {@link Ease}
-     * @type {function}
      */
     interpolationEasing: (value: number) => number;
     /**
@@ -392,7 +352,6 @@ export declare class Component extends Container {
      *
      * @default true
      * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-     * @type {boolean}
      */
     sequencedInterpolation: boolean;
     /**
@@ -403,14 +362,12 @@ export declare class Component extends Container {
      *
      * @default 0
      * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-     * @type {number}
      */
     sequencedInterpolationDelay: number;
     /**
      * A progress (0-1) for the data validation process.
      *
      * @ignore Exclude from docs
-     * @type {number}
      */
     dataValidationProgress: number;
     /**
@@ -418,7 +375,6 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {Optional<number>}
      */
     protected _prevStartIndex: $type.Optional<number>;
     /**
@@ -426,7 +382,6 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {Optional<number>}
      */
     protected _prevEndIndex: $type.Optional<number>;
     /**
@@ -441,7 +396,6 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {Optional<number>}
      */
     protected _workingStartIndex: $type.Optional<number>;
     /**
@@ -449,7 +403,6 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {Optional<number>}
      */
     protected _workingEndIndex: $type.Optional<number>;
     protected _addAllDataItems: boolean;
@@ -462,7 +415,7 @@ export declare class Component extends Container {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {DataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
@@ -470,7 +423,7 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {IListEvents<Component>["inserted"]} event Event object
+     * @param event Event object
      */
     protected handleDataUserAdded(event: IListEvents<Component>["inserted"]): void;
     /**
@@ -511,7 +464,7 @@ export declare class Component extends Container {
      * object, a corresponding value on passed in `dataItem` is set.
      *
      * @ignore Exclude from docs
-     * @param {Object} item
+     * @param item
      */
     protected processDataItem(dataItem: this["_dataItem"], dataContext?: Object): void;
     /**
@@ -519,7 +472,7 @@ export declare class Component extends Container {
      * When validating raw data, instead of processing data item, we update it
      *
      * @ignore Exclude from docs
-     * @param {Object} item
+     * @param item
      */
     protected updateDataItem(dataItem: this["_dataItem"]): void;
     /**
@@ -539,19 +492,19 @@ export declare class Component extends Container {
      * [validateDataElement description]
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]} dataItem [description]
+     * @param dataItem [description]
      */
     validateDataElement(dataItem: this["_dataItem"]): void;
     /**
      * Adds one or several (array) of data items to the existing data.
      *
-     * @param {Object | Object[]} rawDataItem One or many raw data item objects
+     * @param rawDataItem One or many raw data item objects
      */
     addData(rawDataItem: Object | Object[], removeCount?: number): void;
     /**
      * Removes elements from the beginning of data
      *
-     * @param {Optional<number>} count number of elements to remove
+     * @param count number of elements to remove
      */
     removeData(count: $type.Optional<number>): void;
     /**
@@ -637,13 +590,13 @@ export declare class Component extends Container {
     /**
      * Returns element's source (raw) data.
      *
-     * @return {any[]} Data
+     * @return Data
      */
     /**
      * Sets source (raw) data for the element. The "data" is always an `Array`
      * of objects.
      *
-     * @param {any[]} value Data
+     * @param value Data
      */
     data: any[];
     /**
@@ -653,18 +606,18 @@ export declare class Component extends Container {
      * For example if I want to bind `data` to an external JSON file, I'd create
      * a DataSource for it.
      *
-     * @param  {string}      property  Property to bind external data to
-     * @return {DataSource}            A DataSource for property
+     * @param property  Property to bind external data to
+     * @return A DataSource for property
      */
     getDataSource(property: string): DataSource;
     /**
-     * @return {DataSource} Data source
+     * @return Data source
      */
     /**
      *A [[DataSource]] to be used for loading Component's data.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/loading-external-data/} for more on loading external data
-     * @param {DataSource}  value  Data source
+     * @param value  Data source
      */
     dataSource: DataSource;
     /**
@@ -679,8 +632,8 @@ export declare class Component extends Container {
      * own type-speicifc data fields so they are parsed properly.
      *
      * @ignore Exclude from docs
-     * @param  {string[]}  value  Array of date fields
-     * @return {string[]}         Array of date fields populated with chart's date fields
+     * @param value  Array of date fields
+     * @return Array of date fields populated with chart's date fields
      */
     protected dataSourceDateFields(value: string[]): string[];
     /**
@@ -689,18 +642,18 @@ export declare class Component extends Container {
      * own type-speicifc data fields so they are parsed properly.
      *
      * @ignore Exclude from docs
-     * @param  {string[]}  value  Array of number fields
-     * @return {string[]}         Array of number fields populated with chart's number fields
+     * @param value  Array of number fields
+     * @return Array of number fields populated with chart's number fields
      */
     protected dataSourceNumberFields(value: string[]): string[];
     /**
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {string[]}  list        [description]
-     * @param  {object}    dataFields  [description]
-     * @param  {string[]}  targetList  [description]
-     * @return {string[]}              [description]
+     * @param list        [description]
+     * @param dataFields  [description]
+     * @param targetList  [description]
+     * @return [description]
      */
     protected populateDataSourceFields(list: string[], dataFields: {
         [index: string]: string;
@@ -712,7 +665,7 @@ export declare class Component extends Container {
      */
     protected setDataSourceEvents(ds: DataSource, property?: string): void;
     /**
-     * @return {DataSource} Data source
+     * @return Data source
      */
     /**
      * A [[Responsive]] instance to be used when applying conditional
@@ -721,7 +674,7 @@ export declare class Component extends Container {
      * NOTE: Responsive features are currently in development and may not work
      * as expected, if at all.
      *
-     * @param {Responsive}  value  Data source
+     * @param value  Data source
      */
     responsive: Responsive;
     /**
@@ -736,10 +689,10 @@ export declare class Component extends Container {
      *
      * To zoom the chart use `zoom*` methods on its respective axes.
      *
-     * @param  {IRange}  range          Range
-     * @param  {boolean} skipRangeEvent Should rangechanged event not be triggered?
-     * @param  {boolean} instantly      Do not animate?
-     * @return {IRange}                 Actual modidied range (taking `maxZoomFactor` into account)
+     * @param range          Range
+     * @param skipRangeEvent Should rangechanged event not be triggered?
+     * @param instantly      Do not animate?
+     * @return Actual modidied range (taking `maxZoomFactor` into account)
      */
     zoom(range: IRange, skipRangeEvent?: boolean, instantly?: boolean, declination?: number): IRange;
     /**
@@ -751,21 +704,21 @@ export declare class Component extends Container {
      *
      * To zoom the chart use `zoom*` methods on its respective axes.
      *
-     * @param {number}  startIndex     Index of the starting data item
-     * @param {number}  endIndex       Index of the ending data item
-     * @param {boolean} skipRangeEvent Should rangechanged event not be triggered?
-     * @param {boolean} instantly      Do not animate?
+     * @param startIndex     Index of the starting data item
+     * @param endIndex       Index of the ending data item
+     * @param skipRangeEvent Should rangechanged event not be triggered?
+     * @param instantly      Do not animate?
      */
     zoomToIndexes(startIndex: number, endIndex: number, skipRangeEvent?: boolean, instantly?: boolean): void;
     /**
      * A current zoom factor (0-1). 1 meaning fully zoomed out. (showing all of
      * the available data)
      *
-     * @return {number} Zoom factor
+     * @return Zoom factor
      */
     readonly zoomFactor: number;
     /**
-     * @return {number} Maximum zoomFactor
+     * @return Maximum zoomFactor
      */
     /**
      * Max available `zoomFactor`.
@@ -784,74 +737,74 @@ export declare class Component extends Container {
      *
      * Feel free to modify it to allow bigger zoom or to restrict zooming.
      *
-     * @param {number}  value  Maximum zoomFactor
+     * @param value  Maximum zoomFactor
      */
     maxZoomFactor: number;
     /**
      * @ignore
-     * @return {number} Maximum zoom declination
+     * @return Maximum zoom declination
      */
     /**
      * Max zoom declination.
      *
      * @ignore
      * @default 1
-     * @param {number}  value  Maximum zoom declination
+     * @param value  Maximum zoom declination
      */
     maxZoomDeclination: number;
     /**
      * Current starting index.
      *
-     * @return {number} Start index
+     * @return Start index
      */
     /**
      * Sets current starting index.
      *
      * @ignore Exclude from docs
-     * @param {number} value Start index
+     * @param value Start index
      */
     startIndex: number;
     /**
      * @ignore
      * @todo:review description
      * returns item's relative position by the index of the item
-     * @param {number} index
+     * @param index
      */
     indexToPosition(index: number): number;
     /**
      * Current ending index.
      *
-     * @return {number} End index
+     * @return End index
      */
     /**
      * Sets current ending index.
      *
      * @ignore Exclude from docs
-     * @param {number} value End index
+     * @param value End index
      */
     endIndex: number;
     /**
      * Current relative starting position of the data range (zoom).
      *
-     * @return {number} Start (0-1)
+     * @return Start (0-1)
      */
     /**
      * Sets start of the current data range (zoom).
      *
      * @ignore Exclude from docs
-     * @param {number} value Start (0-1)
+     * @param value Start (0-1)
      */
     start: number;
     /**
      * Current relative ending position fo the data range (zoom).
      *
-     * @return {number} End (0-1)
+     * @return End (0-1)
      */
     /**
      * Sets end of the current data range (zoom).
      *
      * @ignore Exclude from docs
-     * @param {number} value End (0-1)
+     * @param value End (0-1)
      */
     end: number;
     /**
@@ -864,7 +817,7 @@ export declare class Component extends Container {
     /**
      * Returns a list of source [[DataItem]] objects.
      *
-     * @return {OrderedListTemplate} List of data items
+     * @return List of data items
      */
     readonly dataItems: OrderedListTemplate<this["_dataItem"]>;
     /**
@@ -877,14 +830,14 @@ export declare class Component extends Container {
      * Processes newly added [[DataItem]] as well as triggers data re-validation.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<DataItem>["inserted"]} event [description]
+     * @param event [description]
      */
     protected handleDataItemAdded(event: ISortedListEvents<DataItem>["inserted"]): void;
     /**
      * removes [[DataItem]] as well as triggers data re-validation.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<DataItem>["inserted"]} event [description]
+     * @param event [description]
      */
     protected handleDataItemRemoved(event: ISortedListEvents<DataItem>["removed"]): void;
     /**
@@ -893,7 +846,7 @@ export declare class Component extends Container {
      * @ignore Exclude from docs
      * @todo Description
      * @deprecated Not used?
-     * @param {Dictionary} List of data methods
+     * @param List of data methods
      */
     readonly dataMethods: Dictionary<string, (value: number) => number>;
     /**
@@ -906,8 +859,8 @@ export declare class Component extends Container {
      * values.
      *
      * @todo Example
-     * @param {Key}                       field  Field name
-     * @param {this["_dataFields"][Key]}  value  Field name in data
+     * @param field  Field name
+     * @param value  Field name in data
      */
     bindDataField<Key extends keyof this["_dataFields"]>(field: Key, value: this["_dataFields"][Key]): void;
     /**
@@ -929,19 +882,19 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @return {List<Component>} [description]
+     * @return [description]
      */
     readonly dataUsers: List<Component>;
     /**
      * Returns a clone of this element.
      *
-     * @return {this} Clone
+     * @return Clone
      */
     clone(): this;
     /**
      * Copies all parameters from another [[Component]].
      *
-     * @param {Component} source Source Component
+     * @param source Source Component
      */
     copyFrom(source: this): void;
     /**
@@ -954,7 +907,7 @@ export declare class Component extends Container {
     /**
      * Add an adapter for data.
      *
-     * @return {Export} Exporting
+     * @return Exporting
      */
     protected getExporting(): Export;
     private _exportData(arg);
@@ -965,7 +918,7 @@ export declare class Component extends Container {
     protected setShowOnInit(value: boolean): void;
     protected setBaseId(value: string): void;
     /**
-     * @return {number} Min zoom count
+     * @return Min zoom count
      */
     /**
      * Use this for [[CategoryAxis]] or [[DateAxis]].
@@ -974,7 +927,7 @@ export declare class Component extends Container {
      * intervals.
      *
      * @default 1
-     * @param {number}  value  Min zoom count
+     * @param value  Min zoom count
      */
     minZoomCount: number;
 }

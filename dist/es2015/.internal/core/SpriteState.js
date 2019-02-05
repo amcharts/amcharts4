@@ -107,8 +107,6 @@ var SpriteState = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * Holds Adapter.
-         *
-         * @type {Adapter<Sprite, SpriteAdapters>}
          */
         _this.adapter = new Adapter(_this);
         /**
@@ -118,7 +116,6 @@ var SpriteState = /** @class */ (function (_super) {
          *
          * @default 0
          * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-         * @type {number}
          */
         _this.transitionDuration = 0;
         /**
@@ -127,7 +124,6 @@ var SpriteState = /** @class */ (function (_super) {
          * @default cubicOut
          * @see {@link Ease}
          * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-         * @type {(number) => number}
          */
         _this.transitionEasing = $ease.cubicOut;
         /**
@@ -136,8 +132,6 @@ var SpriteState = /** @class */ (function (_super) {
          *
          * The property values set on a [[SpriteState]] will override the ones set
          * directly on a [[Sprite]].
-         *
-         * @type {Dictionary<string, any>}
          */
         _this.properties = {};
         /**
@@ -154,7 +148,6 @@ var SpriteState = /** @class */ (function (_super) {
          * state object.
          *
          * @see {@link Sprite}
-         * @type {Object}
          */
         _this.propertyFields = {};
         //public propertyFields: Dictionary<keyof this["_properties"], string> = new Dictionary<keyof this["_properties"], string>();;
@@ -168,8 +161,6 @@ var SpriteState = /** @class */ (function (_super) {
         /**
          * Identifies if this object is a "template" and should not be treated as
          * real object that is drawn or actually used in the chart.
-         *
-         * @type {boolean}
          */
         _this.isTemplate = false;
         _this.className = "SpriteState";
@@ -193,8 +184,8 @@ var SpriteState = /** @class */ (function (_super) {
      * Will check if there are any bindings with [[DataItem]] and if there are
      * any method callbacks set up for the specific property.
      *
-     * @param  {Properties}  propertyName  Property name
-     * @return {any}                       Property value
+     * @param propertyName  Property name
+     * @return Property value
      */
     SpriteState.prototype.getPropertyValue = function (propertyName) {
         var propValue = this.properties[propertyName];
@@ -230,7 +221,7 @@ var SpriteState = /** @class */ (function (_super) {
     /**
      * Copies all property and style values from another [[SpriteState]] object.
      *
-     * @param {SpriteState}  source  Source [[SpriteState]]
+     * @param source  Source [[SpriteState]]
      */
     SpriteState.prototype.copyFrom = function (source) {
         if (source && source != this) {
@@ -249,7 +240,7 @@ var SpriteState = /** @class */ (function (_super) {
          * It takes adapters into account.
          *
          * @ignore Exclude from docs
-         * @return {ISpriteProperties} Properties
+         * @return Properties
          * @todo Add adapter values
          * @todo proper type this["_properties"]
          */
@@ -289,7 +280,7 @@ var SpriteState = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     SpriteState.prototype.processConfig = function (config) {
         if ($type.hasValue(config) && $type.hasValue(config["properties"])) {

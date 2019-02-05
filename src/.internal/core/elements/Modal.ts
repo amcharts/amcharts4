@@ -25,15 +25,11 @@ export class Modal extends Popup {
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IExportAdapters}
 	 */
 	public _adapter!: IModalAdapters;
 
 	/**
 	 * Adapter.
-	 *
-	 * @type {Adapter<Modal, IModalAdapters>}
 	 */
 	public adapter: Adapter<Modal, IModalAdapters> = new Adapter<Modal, IModalAdapters>(this);
 

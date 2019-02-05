@@ -21,8 +21,6 @@ import { AxisItemLocation, AxisDataItem, Axis } from "./Axis";
 export interface IGridProperties extends ISpriteProperties {
     /**
      * Location of the grid item within cell. (0-1)
-     *
-     * @type {AxisItemLocation}
      */
     location?: AxisItemLocation;
 }
@@ -55,32 +53,22 @@ export interface IGridAdapters extends ISpriteAdapters, IGridProperties {
 export declare class Grid extends Sprite {
     /**
      * Defines available properties.
-     *
-     * @type {IGridProperties}
      */
     _properties: IGridProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IGridAdapters}
      */
     _adapter: IGridAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IGridEvents}
      */
     _events: IGridEvents;
     /**
      * An axis data item that corresponds to the this grid element.
-     *
-     * @type {AxisDataItem}
      */
     _dataItem: AxisDataItem;
     /**
      * A referecent to Axis element this fill is applied to.
-     *
-     * @type {Axis}
      */
     axis: Axis;
     /**
@@ -88,7 +76,7 @@ export declare class Grid extends Sprite {
      */
     constructor();
     /**
-     * @return {AxisItemLocation} Location (0-1)
+     * @return Location (0-1)
      */
     /**
      * Location within axis cell to place grid line on.
@@ -97,7 +85,7 @@ export declare class Grid extends Sprite {
      * * 0.5 - middle
      * * 1 - end
      *
-     * @param {AxisItemLocation}  value  Location (0-1)
+     * @param value  Location (0-1)
      */
     location: AxisItemLocation;
     /**

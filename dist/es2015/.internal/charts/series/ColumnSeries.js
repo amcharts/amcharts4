@@ -53,7 +53,7 @@ var ColumnSeriesDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(ColumnSeriesDataItem.prototype, "column", {
         /**
-         * @return {Column} Column
+         * @return Column
          */
         get: function () {
             return this._column;
@@ -61,7 +61,7 @@ var ColumnSeriesDataItem = /** @class */ (function (_super) {
         /**
          * A column used to draw a column for this data item.
          *
-         * @param {Column}  column
+         * @param column
          */
         set: function (column) {
             this.setColumn(column);
@@ -93,8 +93,6 @@ var ColumnSeriesDataItem = /** @class */ (function (_super) {
     Object.defineProperty(ColumnSeriesDataItem.prototype, "rangesColumns", {
         /**
          * A dictionary storing axes ranges columns by axis uid
-         *
-         * @type {Dictionary<string, this["_column"]>}
          */
         get: function () {
             if (!this._rangesColumns) {
@@ -131,14 +129,10 @@ var ColumnSeries = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * Start location within cell for columns.
-         *
-         * @type {number}
          */
         _this._startLocation = 0;
         /**
          * End location within cell for columns.
-         *
-         * @type {number}
          */
         _this._endLocation = 1;
         _this.className = "ColumnSeries";
@@ -184,7 +178,7 @@ var ColumnSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {ColumnSeriesDataItem} Data Item
+     * @return Data Item
      */
     ColumnSeries.prototype.createDataItem = function () {
         return new ColumnSeriesDataItem();
@@ -233,7 +227,7 @@ var ColumnSeries = /** @class */ (function (_super) {
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
-     * @param {ColumnSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     ColumnSeries.prototype.validateDataElement = function (dataItem) {
         // important oder here, first real, then super. we need this to know size
@@ -243,8 +237,8 @@ var ColumnSeries = /** @class */ (function (_super) {
     /**
      * Returns relative start location for the data item.
      *
-     * @param  {this["_dataItem"]}  dataItem  Data item
-     * @return {number}                       Location (0-1)
+     * @param dataItem  Data item
+     * @return Location (0-1)
      */
     ColumnSeries.prototype.getStartLocation = function (dataItem) {
         var startLocation = this._startLocation;
@@ -272,8 +266,8 @@ var ColumnSeries = /** @class */ (function (_super) {
     /**
      * Returns relative end location for the data item.
      *
-     * @param  {this["_dataItem"]}  dataItem  Data item
-     * @return {number}                       Location (0-1)
+     * @param dataItem  Data item
+     * @return Location (0-1)
      */
     ColumnSeries.prototype.getEndLocation = function (dataItem) {
         var endLocation = this._endLocation;
@@ -289,7 +283,7 @@ var ColumnSeries = /** @class */ (function (_super) {
      * Validates data item's elements.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     ColumnSeries.prototype.validateDataElementReal = function (dataItem) {
         var _this = this;
@@ -566,7 +560,7 @@ var ColumnSeries = /** @class */ (function (_super) {
     /**
      * Apply different state/coloring to columns based on the change value.
      *
-     * @param {Sprite}  sprite  Sprite to apply state to
+     * @param sprite  Sprite to apply state to
      * @todo Do not apply accessibility to wicks of the candlesticks
      */
     ColumnSeries.prototype.setColumnStates = function (sprite) {
@@ -615,7 +609,7 @@ var ColumnSeries = /** @class */ (function (_super) {
         /**
          * A list of column elements in the series.
          *
-         * @return {ListTemplate<this["_column"]>} Columns
+         * @return Columns
          */
         get: function () {
             if (!this._columns) {
@@ -631,14 +625,14 @@ var ColumnSeries = /** @class */ (function (_super) {
     /**
      * Creates and returns a column element to use as a template.
      *
-     * @return {this["_column"]} Column template
+     * @return Column template
      */
     ColumnSeries.prototype.createColumnTemplate = function () {
         return new Column();
     };
     Object.defineProperty(ColumnSeries.prototype, "clustered", {
         /**
-         * @return {boolean} Clustered?
+         * @return Clustered?
          */
         get: function () {
             return this.getPropertyValue("clustered");
@@ -646,10 +640,10 @@ var ColumnSeries = /** @class */ (function (_super) {
         /**
          * Cluster this series columns?
          *
-         * Setting to `false` will make columns overlap with pther series.
+         * Setting to `false` will make columns overlap with other series.
          *
          * @default true
-         * @param {boolean}  value  Clustered?
+         * @param value  Clustered?
          */
         set: function (value) {
             this.setPropertyValue("clustered", value, true);
@@ -666,7 +660,7 @@ var ColumnSeries = /** @class */ (function (_super) {
          * NOTE: this will work only if at least one axis is [[ValueAxis]].
          *
          * @readonly You can modify state object, but can't overwrite it
-         * @return {SpriteState} State
+         * @return State
          */
         get: function () {
             if (!this._dropFromOpenState) {
@@ -685,7 +679,7 @@ var ColumnSeries = /** @class */ (function (_super) {
          * Can be used to differentiate appearance based on value relations.
          *
          * @readonly You can modify state object, but can't overwrite it
-         * @return {SpriteState} State
+         * @return State
          */
         get: function () {
             if (!this._dropFromPreviousState) {
@@ -706,7 +700,7 @@ var ColumnSeries = /** @class */ (function (_super) {
          * NOTE: this will work only if at least one axis is [[ValueAxis]].
          *
          * @readonly You can modify state object, but can't overwrite it
-         * @return {SpriteState} State
+         * @return State
          */
         get: function () {
             if (!this._riseFromOpenState) {
@@ -725,7 +719,7 @@ var ColumnSeries = /** @class */ (function (_super) {
          * Can be used to differentiate appearance based on value relations.
          *
          * @readonly You can modify state object, but can't overwrite it
-         * @return {SpriteState} State
+         * @return State
          */
         get: function () {
             if (!this._riseFromPreviousState) {
@@ -740,7 +734,7 @@ var ColumnSeries = /** @class */ (function (_super) {
      * Updates value of the related legend item.
      *
      * @ignore Exclude from docs
-     * @param {ColumnSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     ColumnSeries.prototype.updateLegendValue = function (dataItem) {
         var _this = this;
@@ -781,7 +775,7 @@ var ColumnSeries = /** @class */ (function (_super) {
      * Series.
      *
      * @ignore Exclude from docs
-     * @param {Container}  marker  Legend item container
+     * @param marker  Legend item container
      */
     ColumnSeries.prototype.createLegendMarker = function (marker) {
         var w = marker.pixelWidth;
@@ -801,7 +795,7 @@ var ColumnSeries = /** @class */ (function (_super) {
     /**
      * Copies all properties from another instance of [[ColumnSeries]].
      *
-     * @param {ColumnSeries}  source  Source series
+     * @param source  Source series
      */
     ColumnSeries.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

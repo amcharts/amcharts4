@@ -41,67 +41,47 @@ import * as $iter from "../../core/utils/Iterator";
 export declare class AxisDataItem extends DataItem {
     /**
      * Reference to a related [[Grid]] element.
-     *
-     * @type {Grid}
      */
     protected _grid: Grid;
     /**
      * Reference to a related [[AxisTick]] element.
-     *
-     * @type {AxisTick}
      */
     protected _tick: AxisTick;
     /**
      * Reference to a related [[AxisLabel]] element.
-     *
-     * @type {AxisLabel}
      */
     protected _label: AxisLabel;
     /**
      * Reference to a related [[AxisFill]] element.
-     *
-     * @type {AxisFill}
      */
     protected _axisFill: AxisFill;
     /**
      * A mask for axis. We're using [[AxisFill]] since the mask, basically, has
      * the same shape and features.
-     *
-     * @type {AxisFill}
      */
     protected _mask: AxisFill;
     /**
      * Container which might be used to hold some extra items, like series
      * segments when data item is used for axis range.
-     *
-     * @type {Container}
      */
     protected _contents: Container;
     /**
      * A text to be used as label for this data item.
-     *
-     * @type {string}
      */
     protected _text: string;
     /**
      * Holds a physical position of the grid line associated with this data item,
      * so that it can be used when measuring distance between points, and hiding
      * some of them so they don't overlap.
-     *
-     * @type {IPoint}
      */
     point: IPoint;
     /**
      * If the data item is within an existing [[AxisBreak]] this property will
      * hold a reference to that [[AxisBreak]].
-     *
-     * @type {AxisBreak}
      */
     _axisBreak: AxisBreak;
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {Axis}
      */
     _component: Axis;
     /**
@@ -109,7 +89,6 @@ export declare class AxisDataItem extends DataItem {
      * used for ranges, like `series.axisRanges` or `axis.axisRanges`.
      *
      * @ignore Exclude from docs
-     * @type {boolean}
      */
     isRange: boolean;
     /**
@@ -121,7 +100,7 @@ export declare class AxisDataItem extends DataItem {
      */
     constructor();
     /**
-     * @return {Grid} Grid element
+     * @return Grid element
      */
     /**
      * A [[Grid]] element associated with this data item.
@@ -129,11 +108,11 @@ export declare class AxisDataItem extends DataItem {
      * If there is no grid element associated with data item, a new one is
      * created and returned.
      *
-     * @param {Grid}  grid  Grid element
+     * @param grid  Grid element
      */
     grid: Grid;
     /**
-     * @return {AxisTick} Tick element
+     * @return Tick element
      */
     /**
      * An [[AxisTick]] element associated with this data item.
@@ -141,11 +120,11 @@ export declare class AxisDataItem extends DataItem {
      * If there is no tick element associated with data item, a new one is
      * created and returned.
      *
-     * @param {AxisTick}  tick  Tick element
+     * @param tick  Tick element
      */
     tick: AxisTick;
     /**
-     * @return {AxisLabel} Label element
+     * @return Label element
      */
     /**
      * An [[AxisLabel]] element associated with this data item.
@@ -153,11 +132,11 @@ export declare class AxisDataItem extends DataItem {
      * If there is no label element associated with data item, a new one is
      * created and returned.
      *
-     * @param {AxisLabel} label Label element
+     * @param label Label element
      */
     label: AxisLabel;
     /**
-     * @return {AxisFill} Label element
+     * @return Label element
      */
     /**
      * An [[AxisFill]] associated element with this data item.
@@ -165,22 +144,22 @@ export declare class AxisDataItem extends DataItem {
      * If there is no fill element associated with data item, a new one is
      * created and returned.
      *
-     * @param {AxisFill} label Label element
+     * @param label Label element
      */
     axisFill: AxisFill;
     /**
-     * @return {string} Text label
+     * @return Text label
      */
     /**
      * Text to be used as data item's label.
      *
-     * @param {string} text Text label
+     * @param text Text label
      */
     text: string;
     /**
      * Data item's mask.
      *
-     * @return {AxisFill} Mask
+     * @return Mask
      */
     readonly mask: AxisFill;
     /**
@@ -189,16 +168,16 @@ export declare class AxisDataItem extends DataItem {
      *
      * If there is no Container, a new one is created.
      *
-     * @return {Container} Contents container
+     * @return Contents container
      */
     readonly contents: Container;
     /**
-     * @return {AxisBreak} Axis break
+     * @return Axis break
      */
     /**
      * An [[AxisBreak]] this data item falls within.
      *
-     * @param {AxisBreak} axisBreak Axis break
+     * @param axisBreak Axis break
      */
     axisBreak: this["_axisBreak"];
     /**
@@ -216,22 +195,22 @@ export declare class AxisDataItem extends DataItem {
     /**
      * Ordering function used in JSON setup.
      *
-     * @param  {string}  a  Item A
-     * @param  {string}  b  Item B
-     * @return {Ordering}   Order
+     * @param a  Item A
+     * @param b  Item B
+     * @return Order
      */
     protected configOrder(a: string, b: string): Ordering;
     /**
      * Checks if data item has particular property set.
      *
-     * @param  {string}   prop  Property name
-     * @return {boolean}        Property set?
+     * @param prop  Property name
+     * @return Property set?
      */
     protected hasProperty(prop: string): boolean;
     /**
      * Copies all parameters from another [[AxisDataItem]].
      *
-     * @param {AxisDataItem} source Source AxisDataItem
+     * @param source Source AxisDataItem
      */
     copyFrom(source: this): void;
 }
@@ -272,7 +251,7 @@ export interface IAxisProperties extends IComponentProperties {
      * * 0.5 - Half of the first cell is shown.
      * * 1 - Full first cell is shown.
      *
-     * @param {number} value Location (0-1)
+     * @param value Location (0-1)
      */
     startLocation?: number;
     /**
@@ -282,13 +261,11 @@ export interface IAxisProperties extends IComponentProperties {
      * * 0.5 - Half of the last cell is shown.
      * * 1 - Full last cell is shown.
      *
-     * @param {number} value Location (0-1)
+     * @param value Location (0-1)
      */
     endLocation?: number;
     /**
      * Indicates if cusor's tooltip should be shown on this Axis.
-     *
-     * @type {boolean}
      */
     cursorTooltipEnabled?: boolean;
 }
@@ -310,8 +287,6 @@ export interface IAxisEvents extends IComponentEvents {
 export interface IAxisAdapters extends IComponentAdapters, IAxisProperties {
     /**
      * Applied to the tooltip text before it is shown.
-     *
-     * @type {string}
      */
     getTooltipText: string;
 }
@@ -330,26 +305,18 @@ export interface IAxisAdapters extends IComponentAdapters, IAxisProperties {
 export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
     /**
      * Defines list of data fields.
-     *
-     * @type {IAxisDataFields}
      */
     _dataFields: IAxisDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IAxisProperties}
      */
     _properties: IAxisProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IAxisAdapters}
      */
     _adapter: IAxisAdapters;
     /**
      * Defines the type of the [[DataItem]] used in the class.
-     *
-     * @type {AxisDataItem}
      */
     _dataItem: AxisDataItem;
     /**
@@ -358,20 +325,14 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     protected _axisRanges: ListTemplate<this["_dataItem"]>;
     /**
      * Defines the type of the axis breaks.
-     *
-     * @type {AxisBreak}
      */
     _axisBreak: AxisBreak;
     /**
      * Defines available events.
-     *
-     * @type {IAxisEvents}
      */
     _events: IAxisEvents;
     /**
      * A [[Label]] instance that is used for Axis title label.
-     *
-     * @type {Label}
      */
     title: Label;
     /**
@@ -381,37 +342,27 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * items it should use.
      *
      * @ignore Exclude from docs
-     * @type {string}
      */
     axisLetter: string;
     /**
      * A reference to chart the axis is for.
-     *
-     * @type {Chart}
      */
     protected _chart: Chart;
     /**
      * A type for renderer used for this Axis.
-     * @type {T}
      */
     _renderer: T;
     /**
      * Number of Grid elements on the axis.
-     *
-     * @type {number}
      */
     protected _gridCount: number;
     /**
      * A list of [[XYSeries]] that are using this Axis.
-     *
-     * @type {List<XYSeries>}
      */
     protected _series: List<XYSeries>;
     /**
      * Holds the length of the Axis, so that we can check if it changed after
      * other changes and we need to update layouts.
-     *
-     * @type {number}
      */
     protected _prevLength: number;
     /**
@@ -426,21 +377,18 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * A name of the data field this Axis looks for its data in, e.g. "category".
      *
      * @ignore Exclude from docs
-     * @type {string}
      */
     axisFieldName: string;
     /**
      * [currentItemStartPoint description]
      *
      * @ignore Exclude from docs
-     * @type {IPoint}
      */
     currentItemStartPoint: IPoint;
     /**
      * [currentItemEndPoint description]
      *
      * @ignore Exclude from docs
-     * @type {IPoint}
      */
     currentItemEndPoint: IPoint;
     /**
@@ -460,15 +408,12 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * Full length of the axis, in pixels.
      *
      * @readonly
-     * @type {number}
      */
     axisFullLength: number;
     /**
      * Ghost label is used to prevent chart shrinking/expanding when zooming or
      * when data is invalidated. You can set custom text on it so that it would
      * be bigger/smaller,
-     *
-     * @type {AxisLabel}
      */
     ghostLabel: AxisLabel;
     /**
@@ -476,7 +421,6 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * chart's axis list.
      *
      * @default true
-     * @type {boolean}
      */
     autoDispose: boolean;
     /**
@@ -487,7 +431,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {AxisDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
@@ -498,7 +442,6 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     invalidateLayout(): void;
     /**
      * Invalidates series of this axis.
-     *
      */
     invalidateSeries(): void;
     /**
@@ -525,7 +468,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     /**
      * Adds a data item to the Axis.
      *
-     * @param {this["_dataItem"]} dataItem Data item
+     * @param dataItem Data item
      */
     appendDataItem(dataItem: this["_dataItem"]): void;
     /**
@@ -551,7 +494,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * `axisBreaks`.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<this["_axisBreak"]>["inserted"]} event Event
+     * @param event Event
      */
     processBreak(event: IListEvents<this["_axisBreak"]>["inserted"]): void;
     /**
@@ -560,12 +503,12 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * Returns a [[Disposer]] for all events, added to Series for watching
      * changes in Axis, and vice versa.
      * @ignore
-     * @param  {XYSeries}     series  Series
-     * @return {IDisposer}          Event disposer
+     * @param series  Series
+     * @return Event disposer
      */
     registerSeries(series: XYSeries): IDisposer;
     /**
-     * @return {this["_renderer"]} Renderer
+     * @return Renderer
      */
     /**
      * An [[AxisRenderer]] to be used to render this Axis.
@@ -587,21 +530,21 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * ```
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/} for more info
-     * @param {this["_renderer"]}  renderer  Renderer
+     * @param renderer  Renderer
      */
     renderer: this["_renderer"];
     /**
      * Converts a relative position to angle. (for circular axes)
      *
-     * @param  {number} position Position (0-1)
-     * @return {number}          Angle
+     * @param position Position (0-1)
+     * @return Angle
      */
     positionToAngle(position: number): number;
     /**
      * Converts pixel coordinates to a relative position. (0-1)
      *
-     * @param {IPoint}   point  Coorinates (px)
-     * @return {number}         Position (0-1)
+     * @param point  Coorinates (px)
+     * @return Position (0-1)
      */
     pointToPosition(point: IPoint): number;
     /**
@@ -609,25 +552,25 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {any}     start  [description]
-     * @param  {any}     end    [description]
-     * @return {string}         [description]
+     * @param start  [description]
+     * @param end    [description]
+     * @return [description]
      */
     getAnyRangePath(start: any, end: any): string;
     /**
      * Converts any positional parameter to a relative position on axis.
      *
      * @todo Description (review)
-     * @param  {any}     value  Pisition
-     * @return {number}         Position (0-1)
+     * @param value  Pisition
+     * @return Position (0-1)
      */
     anyToPosition(value: any): number;
     /**
      * Converts any positional parameter to a relative position on axis.
      *
      * @todo Description (review)
-     * @param  {any}     value  Pisition
-     * @return {IOrientationPoint}  Orientation point
+     * @param value  Pisition
+     * @return Orientation point
      */
     anyToPoint(value: any): IOrientationPoint;
     /**
@@ -635,47 +578,47 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number} startPosition [description]
-     * @param  {number} endPosition   [description]
-     * @return {string}               [description]
+     * @param startPosition [description]
+     * @param endPosition   [description]
+     * @return [description]
      */
     getPositionRangePath(startPosition: number, endPosition: number): string;
     /**
      * Actual axis length in pixels.
      *
-     * @return {number} Axis length (px)
+     * @return Axis length (px)
      */
     readonly axisLength: number;
     /**
-     * @return {boolean} Display tooltip?
+     * @return Display tooltip?
      */
     /**
      * Indicates if axis should display a tooltip for chart's cursor.
      *
-     * @param {boolean} value Display tooltip?
+     * @param value Display tooltip?
      */
     cursorTooltipEnabled: boolean;
     /**
      * Shows Axis tooltip at specific relative position within Axis. (0-1)
      *
-     * @param {number} position Position (0-1)
-     * @param {boolean} local or global position
+     * @param position Position (0-1)
+     * @param local or global position
      */
     showTooltipAtPosition(position: number, local?: boolean): void;
     /**
      * Converts relative position (0-1) to Axis position with zoom level and
      * inversed taken into account.
      *
-     * @param  {number} position Global position (0-1)
-     * @return {number}          Position within Axis (0-1)
+     * @param position Global position (0-1)
+     * @return Position within Axis (0-1)
      */
     toAxisPosition(position: number): number;
     /**
      * Converts position on the axis with zoom level and
      * inversed taken into account to global position.
      *
-     * @param  {number} position Axis position (0-1)
-     * @return {number}          Global position (0-1)
+     * @param position Axis position (0-1)
+     * @return Global position (0-1)
      */
     toGlobalPosition(position: number): number;
     /**
@@ -684,8 +627,8 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * This is a placeholder to override for extending classes.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position coordinate (px)
-     * @return {string}            Label text
+     * @param position  Position coordinate (px)
+     * @return Label text
      */
     getTooltipText(position: number): string;
     /**
@@ -693,8 +636,8 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * place.
      *
      * @ignore Exclude from docs
-     * @param {PointerOrientation}  pointerOrientation  Pointer (stem) orientation
-     * @param {IRectangle}          boundingRectangle   A rectangle for tooltip to fit within
+     * @param pointerOrientation  Pointer (stem) orientation
+     * @param boundingRectangle   A rectangle for tooltip to fit within
      */
     updateTooltip(pointerOrientation: PointerOrientation, boundingRectangle: IRectangle): void;
     /**
@@ -702,9 +645,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}            position  Relative position
-     * @param  {AxisItemLocation}  location  Location on axis
-     * @return {number}                      Rounded position
+     * @param position  Relative position
+     * @param location  Location on axis
+     * @return Rounded position
      */
     roundPosition(position: number, location: AxisItemLocation): number;
     /**
@@ -712,8 +655,8 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number} position [description]
-     * @return {number}          [description]
+     * @param position [description]
+     * @return [description]
      */
     getCellStartPosition(position: number): number;
     /**
@@ -721,38 +664,38 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number} position [description]
-     * @return {number}          [description]
+     * @param position [description]
+     * @return [description]
      */
     getCellEndPosition(position: number): number;
     /**
      * A list of axis ranges for this Axis.
      *
-     * @return {ListTemplate} Axis ranges
+     * @return Axis ranges
      */
     readonly axisRanges: ListTemplate<this["_dataItem"]>;
     /**
      * Decorates an axis range after it has been added to the axis range list.
      *
-     * @param {IListEvents<this["_dataItem"]>["inserted"]} event Event
+     * @param event Event
      */
     protected processAxisRange(event: IListEvents<this["_dataItem"]>["inserted"]): void;
     /**
      * A list of axis breaks on this Axis.
      *
-     * @return {SortedListTemplate} Axis breaks.
+     * @return Axis breaks.
      */
     readonly axisBreaks: SortedListTemplate<this["_axisBreak"]>;
     /**
      * Creates a new axis break.
      *
-     * @return {this["_axisBreak"]} Axis break
+     * @return Axis break
      */
     protected createAxisBreak(): this["_axisBreak"];
     /**
      * A list of Series currently associated with this Axis.
      *
-     * @return {List<XYSeries>} Series
+     * @return Series
      */
     readonly series: List<XYSeries>;
     /**
@@ -769,7 +712,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * This is a placeholder to override for extending classes.
      *
      * @ignore Exclude from docs
-     * @param {XYSeriesDataItem} dataItem Data item
+     * @param dataItem Data item
      */
     processSeriesDataItem(dataItem: XYSeriesDataItem, axisLetter?: string): void;
     /**
@@ -786,7 +729,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * This is a placeholder to override for extending classes.
      *
      * @ignore Exclude from docs
-     * @param {XYSeriesDataItem} dataItem Data item
+     * @param dataItem Data item
      */
     postProcessSeriesDataItem(dataItem: XYSeriesDataItem): void;
     /**
@@ -811,10 +754,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * This is a placeholder to override for extending classes.
      *
      * @ignore Exclude from docs
-     * @param  {Series}          series    Series
-     * @param  {number}          position  Position (0-1)
-     * @param  {boolean}         findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
-     * @return {XYSeriesDataItem}            Data item
+     * @param series    Series
+     * @param position  Position (0-1)
+     * @param findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
+     * @return Data item
      */
     getSeriesDataItem(series: XYSeries, position: number, findNearest?: boolean): XYSeriesDataItem;
     /**
@@ -824,11 +767,11 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}          key       ???
-     * @param  {number}          location  Location
-     * @param  {string}          stackKey  ???
-     * @return {number}                    Angle
+     * @param dataItem  Data item
+     * @param key       ???
+     * @param location  Location
+     * @param stackKey  ???
+     * @return Angle
      */
     getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
     /**
@@ -838,11 +781,11 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem} dataItem [description]
-     * @param  {string}         key      [description]
-     * @param  {number}         location [description]
-     * @param  {string}         stackKey [description]
-     * @return {number}                  [description]
+     * @param dataItem [description]
+     * @param key      [description]
+     * @param location [description]
+     * @param stackKey [description]
+     * @return [description]
      */
     getX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
     /**
@@ -852,18 +795,18 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem} dataItem [description]
-     * @param  {string}         key      [description]
-     * @param  {number}         location [description]
-     * @param  {string}         stackKey [description]
-     * @return {number}                  [description]
+     * @param dataItem [description]
+     * @param key      [description]
+     * @param location [description]
+     * @param stackKey [description]
+     * @return [description]
      */
     getY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
     /**
      * Coordinates of the actual axis start.
      *
      * @ignore Exclude from docs
-     * @return {IPoint} Base point coordinates
+     * @return Base point coordinates
      */
     readonly basePoint: IPoint;
     /**
@@ -888,9 +831,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {number}  min  Start value
-     * @param  {number}  max  End value
-     * @return {number}       Spread o
+     * @param min  Start value
+     * @param max  End value
+     * @return Spread o
      */
     protected adjustDifference(min: number, max: number): number;
     /**
@@ -898,8 +841,8 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * Returns [[AxisBreak]] the value falls into.
      *
-     * @param  {number}     value  Value to check
-     * @return {this["_axisBreak"]}         Axis break
+     * @param value  Value to check
+     * @return Axis break
      */
     protected isInBreak(value: number): this["_axisBreak"];
     /**
@@ -911,7 +854,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     protected fixAxisBreaks(): void;
     /**
      * @ignore Exclude from docs
-     * @return {number} [description]
+     * @return [description]
      */
     /**
      * We need start/end indexes of axes to be 0 - `dataItems.length`.
@@ -927,19 +870,19 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {number} value [description]
+     * @param value [description]
      */
     startIndex: number;
     /**
      * @ignore Exclude from docs
-     * @return {number} [description]
+     * @return [description]
      */
     /**
      * [endIndex description]
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {number} value [description]
+     * @param value [description]
      */
     endIndex: number;
     /**
@@ -954,30 +897,30 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
      *
      * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
-     * @param  {number}  position  Relative position on axis (0-1)
-     * @return {string}            Position label
+     * @param position  Relative position on axis (0-1)
+     * @return Position label
      */
     getPositionLabel(position: number): string;
     /**
-     * @return {Chart} Chart
+     * @return Chart
      */
     /**
      * A Chart this Axis belongs to.
      *
-     * @param {Chart}  value  Chart
+     * @param value  Chart
      */
     chart: Chart;
     /**
      * Creates a data item for a Series range.
      *
-     * @param  {XYSeries}  series  Target Series
-     * @return {this}            Range data item
+     * @param series  Target Series
+     * @return Range data item
      */
     createSeriesRange(series: XYSeries): this["_dataItem"];
     /**
      * Copies all properties and related data from a different instance of Axis.
      *
-     * @param {this} source Source Axis
+     * @param source Source Axis
      */
     copyFrom(source: this): void;
     /**
@@ -988,13 +931,13 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     processConfig(config?: {
         [index: string]: any;
     }): void;
     /**
-     * @return {number} Location (0-1)
+     * @return Location (0-1)
      */
     /**
      * Axis start location. Works on Date/Category axis, doesn't work on Value axis.
@@ -1003,11 +946,11 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * * 0.5 - Half of first cell is shown.
      * * 1 - None of the first cell is visible. (you probably don't want that)
      *
-     * @param {number} value Location (0-1)
+     * @param value Location (0-1)
      */
     startLocation: number;
     /**
-     * @return {number} Location (0-1)
+     * @return Location (0-1)
      */
     /**
      * Axis end location. Works on Date/Category axis, doesn't work on Value axis.
@@ -1016,7 +959,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * * 0.5 - Half of the last cell is shown.
      * * 1 - Full last cell is shown.
      *
-     * @param {number} value Location (0-1)
+     * @param value Location (0-1)
      */
     endLocation: number;
 }

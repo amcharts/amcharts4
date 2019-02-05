@@ -21,20 +21,14 @@ import { IRectangle } from "../defs/IRectangle";
 export interface IImageProperties extends ISpriteProperties {
     /**
      * A URI of the image.
-     *
-     * @type {string}
      */
     href?: string;
     /**
      * Sets image `width` in relation to its `height`.
-     *
-     * @type {number}
      */
     widthRatio?: number;
     /**
      * Sets image `height` in relation to its `width`.
-     *
-     * @type {number}
      */
     heightRatio?: number;
 }
@@ -65,20 +59,14 @@ export interface IImageAdapters extends ISpriteAdapters, IImageProperties {
 export declare class Image extends Sprite {
     /**
      * Defines available properties.
-     *
-     * @type {IImageProperties}
      */
     _properties: IImageProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IImageAdapters}
      */
     _adapter: IImageAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IImageEvents}
      */
     _events: IImageEvents;
     /**
@@ -92,16 +80,16 @@ export declare class Image extends Sprite {
      */
     draw(): void;
     /**
-     * @return {string} Image URI
+     * @return Image URI
      */
     /**
      * An image URI.
      *
-     * @param {string}  value  Image URI
+     * @param value  Image URI
      */
     href: string;
     /**
-     * @return {number} Ratio
+     * @return Ratio
      */
     /**
      * Sets image `width` relatively to its `height`.
@@ -109,11 +97,11 @@ export declare class Image extends Sprite {
      * If image's `height = 100` and `widthRatio = 0.5` the actual width will be
      * `50`.
      *
-     * @param {number}  value  Ratio
+     * @param value  Ratio
      */
     widthRatio: number;
     /**
-     * @return {number} Ratio
+     * @return Ratio
      */
     /**
      * Sets image `height` relatively to its `width`.
@@ -121,14 +109,13 @@ export declare class Image extends Sprite {
      * If image's `width = 100` and `heightRatio = 0.5` the actual height will be
      * `50`.
      *
-     * @param {number}  value  Ratio
+     * @param value  Ratio
      */
     heightRatio: number;
     /**
      * Returns bounding box (square) for this element.
      *
      * @ignore Exclude from docs
-     * @type {IRectangle}
      */
     readonly bbox: IRectangle;
 }

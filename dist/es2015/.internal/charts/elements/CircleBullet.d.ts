@@ -52,26 +52,18 @@ export interface ICircleBulletAdapters extends IBulletAdapters, ICircleBulletPro
 export declare class CircleBullet extends Bullet {
     /**
      * Defines available properties.
-     *
-     * @type {ICircleBulletProperties}
      */
     _properties: ICircleBulletProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ICircleBulletAdapters}
      */
     _adapter: ICircleBulletAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ICircleBulletEvents}
      */
     _events: ICircleBulletEvents;
     /**
      * A label (textual) element for the bullet.
-     *
-     * @type {Circle}
      */
     circle: Circle;
     /**
@@ -82,7 +74,7 @@ export declare class CircleBullet extends Bullet {
      * Copies all proprities and related stuff from another instance of
      * [[CircleBullet]].
      *
-     * @param {this}  source  Source element
+     * @param source  Source element
      */
     copyFrom(source: this): void;
 }

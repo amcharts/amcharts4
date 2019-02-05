@@ -66,8 +66,8 @@ var WavedCircle = /** @class */ (function (_super) {
     /**
      * Returns points that circle consists of.
      *
-     * @param  {number}    radius  Radius (px)
-     * @return {IPoint[]}          Points
+     * @param radius  Radius (px)
+     * @return Points
      */
     WavedCircle.prototype.getPoints = function (radius) {
         var circleLength = radius * Math.PI * 2;
@@ -87,7 +87,7 @@ var WavedCircle = /** @class */ (function (_super) {
     };
     Object.defineProperty(WavedCircle.prototype, "innerRadius", {
         /**
-         * @return {number} Inner radius
+         * @return Inner radius
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
@@ -95,7 +95,7 @@ var WavedCircle = /** @class */ (function (_super) {
         /**
          * Inner radius of the circle in pixels (absolute) or [[Percent]] (relative).
          *
-         * @param {number | Percent}  value  Inner radius
+         * @param value  Inner radius
          */
         set: function (value) {
             this.setPercentProperty("innerRadius", value, true, false, 10, false);
@@ -109,7 +109,7 @@ var WavedCircle = /** @class */ (function (_super) {
          * Calculated inner radius of the circle in pixels.
          *
          * @readonly
-         * @return {number} Inner radius (px)
+         * @return Inner radius (px)
          */
         get: function () {
             return $utils.relativeToValue(this.innerRadius, $math.min(this.innerWidth / 2, this.innerHeight / 2));
@@ -119,7 +119,7 @@ var WavedCircle = /** @class */ (function (_super) {
     });
     Object.defineProperty(WavedCircle.prototype, "waveLength", {
         /**
-         * @return {number} Wave length (px)
+         * @return Wave length (px)
          */
         get: function () {
             return this.getPropertyValue("waveLength");
@@ -128,7 +128,7 @@ var WavedCircle = /** @class */ (function (_super) {
          * Wave length in pixels.
          *
          * @default 16
-         * @param {number}  value  Wave length (px)
+         * @param value  Wave length (px)
          */
         set: function (value) {
             this.setPropertyValue("waveLength", value);
@@ -139,7 +139,7 @@ var WavedCircle = /** @class */ (function (_super) {
     });
     Object.defineProperty(WavedCircle.prototype, "waveHeight", {
         /**
-         * @return {number} Wave height (px)
+         * @return Wave height (px)
          */
         get: function () {
             return this.getPropertyValue("waveHeight");
@@ -148,7 +148,7 @@ var WavedCircle = /** @class */ (function (_super) {
          * Wave height in pixels.
          *
          * @default 4
-         * @param {number}  value  Wave height (px)
+         * @param value  Wave height (px)
          */
         set: function (value) {
             this.setPropertyValue("waveHeight", value);
@@ -159,7 +159,7 @@ var WavedCircle = /** @class */ (function (_super) {
     });
     Object.defineProperty(WavedCircle.prototype, "tension", {
         /**
-         * @return {number} Tension
+         * @return Tension
          */
         get: function () {
             return this.getPropertyValue("tension");
@@ -168,7 +168,7 @@ var WavedCircle = /** @class */ (function (_super) {
          * Tension of the wave.
          *
          * @default 0.8
-         * @param {number}  value  Tension
+         * @param value  Tension
          */
         set: function (value) {
             this.setPropertyValue("tension", value);

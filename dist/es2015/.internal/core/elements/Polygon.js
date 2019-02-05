@@ -41,7 +41,7 @@ var Polygon = /** @class */ (function (_super) {
     }
     Object.defineProperty(Polygon.prototype, "points", {
         /**
-         * @return {IPoint[]} Polygon points
+         * @return Polygon points
          */
         get: function () {
             return this.getPropertyValue("points");
@@ -50,7 +50,7 @@ var Polygon = /** @class */ (function (_super) {
          * An array of X/Y coordinates for each elbow of the polygon.
          *
          * @todo Example
-         * @param {IPoint[][][]}  points  Polygon points
+         * @param points  Polygon points
          */
         set: function (points) {
             this.setPropertyValue("points", points, true);
@@ -61,7 +61,7 @@ var Polygon = /** @class */ (function (_super) {
     });
     Object.defineProperty(Polygon.prototype, "currentPoints", {
         /**
-         * @return {IPoint[]} Polygon points
+         * @return Polygon points
          */
         get: function () {
             return this._currentPoints;
@@ -70,7 +70,7 @@ var Polygon = /** @class */ (function (_super) {
          * Current points. Used when morphing the element, so that original `points`
          * are not overwritten.
          *
-         * @param {IPoint[][][]}  points  Polygon points
+         * @param points  Polygon points
          */
         set: function (points) {
             if (this._currentPoints != points) {
@@ -150,7 +150,7 @@ var Polygon = /** @class */ (function (_super) {
          * A calculated center point for the shape.
          *
          * @readonly
-         * @return {IPoint} Center
+         * @return Center
          */
         get: function () {
             return { x: this.bbox.x + this.bbox.width / 2, y: this.bbox.y + this.bbox.height / 2 };
@@ -164,7 +164,7 @@ var Polygon = /** @class */ (function (_super) {
          * shape.
          *
          * @readonly
-         * @return {Morpher} Morpher instance
+         * @return Morpher instance
          */
         get: function () {
             if (!this._morpher) {

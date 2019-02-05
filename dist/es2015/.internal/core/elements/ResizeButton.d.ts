@@ -47,27 +47,20 @@ export interface IResizeButtonAdapters extends IButtonAdapters, IResizeButtonPro
 export declare class ResizeButton extends Button {
     /**
      * Defines available properties.
-     *
-     * @type {IResizeButtonProperties}
      */
     _properties: IResizeButtonProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IResizeButtonAdapters}
      */
     _adapter: IResizeButtonAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IResizeButtonEvents}
      */
     _events: IResizeButtonEvents;
     /**
      * Orientation of the resize direction.
      *
      * @deprecated Not used
-     * @type {Orientation}
      */
     protected _orientation: Orientation;
     /**
@@ -79,7 +72,7 @@ export declare class ResizeButton extends Button {
      *
      * Available options: "horizontal", "vertical".
      *
-     * @param {Orientation} value Orientation
+     * @param value Orientation
      */
     orientation: Orientation;
 }

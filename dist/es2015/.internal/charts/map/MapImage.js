@@ -1,5 +1,4 @@
 /**
- *
  */
 import * as tslib_1 from "tslib";
 /**
@@ -36,7 +35,7 @@ var MapImage = /** @class */ (function (_super) {
     }
     Object.defineProperty(MapImage.prototype, "latitude", {
         /**
-         * @return {number} Latitude
+         * @return Latitude
          */
         get: function () {
             return this.getPropertyValue("latitude");
@@ -44,7 +43,7 @@ var MapImage = /** @class */ (function (_super) {
         /**
          * Latitude image is placed at.
          *
-         * @param {number}  value  Latitude
+         * @param value  Latitude
          */
         set: function (value) {
             this.setPropertyValue("latitude", value, false, true);
@@ -54,7 +53,7 @@ var MapImage = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapImage.prototype, "longitude", {
         /**
-         * @return {number} Longitude
+         * @return Longitude
          */
         get: function () {
             return this.getPropertyValue("longitude");
@@ -62,7 +61,7 @@ var MapImage = /** @class */ (function (_super) {
         /**
          * Longitude image is placed on.
          *
-         * @param {number}  value  Longitude
+         * @param value  Longitude
          */
         set: function (value) {
             this.setPropertyValue("longitude", value, false, true);

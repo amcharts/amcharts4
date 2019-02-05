@@ -73,22 +73,16 @@ export class ChordNode extends FlowDiagramNode {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IChordNodeProperties}
 	 */
 	public _properties!: IChordNodeProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IChordNodeAdapters}
 	 */
 	public _adapter!: IChordNodeAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IChordNodeEvents}
 	 */
 	public _events!: IChordNodeEvents;
 
@@ -97,8 +91,6 @@ export class ChordNode extends FlowDiagramNode {
 	 * up.
 	 *
 	 * These are what ingoing links are build out of.
-	 *
-	 * @type {List<ChordDiagramDataItem>}
 	 */
 	protected _incomingDataItems: List<ChordDiagramDataItem>;
 
@@ -106,50 +98,38 @@ export class ChordNode extends FlowDiagramNode {
 	 * A list of data items of the items going out of the node.
 	 *
 	 * These are what outgoing links are build out of.
-	 *
-	 * @type {List<ChordDiagramDataItem>}
 	 */
 	protected _outgoingDataItems: List<ChordDiagramDataItem>;
 
 	/**
 	 * Sorted list of incoming items.
-	 *
-	 * @type {Iterator<ChordDiagramDataItem>}
 	 */
 	protected _incomingSorted: $iter.Iterator<ChordDiagramDataItem>;
 
 	/**
 	 * Sorted list of outgoing items.
-	 * @type {Iterator<ChordDiagramDataItem>}
 	 */
 	protected _outgoingSorted: $iter.Iterator<ChordDiagramDataItem>;
 
 	/**
 	 * A chart instance this node is added to.
-	 *
-	 * @type {ChordDiagram}
 	 */
 	public chart: ChordDiagram;
 
 
 	/**
 	 * Defines the type of the [[ChordDiagramDataItem]] used in the class.
-	 *
-	 * @type {ChordDiagramDataItem}
 	 */
 	public _dataItem: ChordDiagramDataItem;
 
 
 	/**
 	 * Slice sprite of a node
-	 * @type {Slice}
 	 */
 	public slice: Slice;
 
 	/**
 	 * A label element which shows node's name.
-	 *
-	 * @type {AxisLabelCircular}
 	 */
 	public label: AxisLabelCircular;
 
@@ -351,7 +331,7 @@ export class ChordNode extends FlowDiagramNode {
 	/**
 	 * Copies properties and labels from another [[ChordNode]].
 	 *
-	 * @param {ChordNode}  source  Source node
+	 * @param source  Source node
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);

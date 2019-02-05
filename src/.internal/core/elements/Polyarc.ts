@@ -32,7 +32,6 @@ export interface IPolyarcProperties extends IPolylineProperties {
 	 * Relative position along the line the control point is. (0-1)
 	 *
 	 * @default 0.5
-	 * @type {number}
 	 */
 	controlPointPosition: number;
 
@@ -42,7 +41,6 @@ export interface IPolyarcProperties extends IPolylineProperties {
 	 * Default is half the length of the line. (0.5)
 	 *
 	 * @default 0.5
-	 * @type {number}
 	 */
 	controlPointDistance: number;
 
@@ -78,22 +76,16 @@ export class Polyarc extends Polyline {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPolyarcProperties}
 	 */
 	public _properties!: IPolyarcProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IPolyarcAdapters}
 	 */
 	public _adapter!: IPolyarcAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPolyarcEvents}
 	 */
 	public _events!: IPolyarcEvents;
 
@@ -174,7 +166,7 @@ export class Polyarc extends Polyline {
 	 * Relative position along the line the control point is. (0-1)
 	 *
 	 * @default 0.5
-	 * @param {number}  value  Position (0-1)
+	 * @param value  Position (0-1)
 	 */
 	public set controlPointPosition(value: number) {
 		this.setPropertyValue("controlPointPosition", value);
@@ -182,7 +174,7 @@ export class Polyarc extends Polyline {
 	}
 
 	/**
-	 * @return {number} Position (0-1)
+	 * @return Position (0-1)
 	 */
 	public get controlPointPosition(): number {
 		return this.getPropertyValue("controlPointPosition");
@@ -194,7 +186,7 @@ export class Polyarc extends Polyline {
 	 * Default is half the length of the line. (0.5)
 	 *
 	 * @default 0.5
-	 * @param {number}  value  Distance (0-1)
+	 * @param value  Distance (0-1)
 	 */
 	public set controlPointDistance(value: number) {
 		this.setPropertyValue("controlPointDistance", value);
@@ -202,7 +194,7 @@ export class Polyarc extends Polyline {
 	}
 
 	/**
-	 * @return {number} Distance (0-1)
+	 * @return Distance (0-1)
 	 */
 	public get controlPointDistance(): number {
 		return this.getPropertyValue("controlPointDistance");

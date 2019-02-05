@@ -25,8 +25,6 @@ import { ILocale } from "./utils/Language";
 export interface Options {
 	/**
 	 * Console output enabled.
-	 *
-	 * @type {boolean}
 	 */
 	verbose: boolean;
 
@@ -38,8 +36,6 @@ export interface Options {
 	/**
 	 * amCharts will add `class` property to some elements. All those class names
 	 * will be prefixed by `classNamePrefix`.
-	 *
-	 * @type {string}
 	 */
 	classNamePrefix: string;
 
@@ -56,14 +52,11 @@ export interface Options {
 	 * E.g. `"amcharts-button"`.
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	autoSetClassName: boolean;
 
 	/**
 	 * A default locale to auto-apply to all new charts created.
-	 * 
-	 * @type {ILocale}
 	 */
 	defaultLocale?: ILocale;
 }

@@ -44,8 +44,6 @@ import { GradientModifier } from "./GradientModifier";
 export declare class RadialGradientModifier extends GradientModifier {
     /**
      * A reference to the gradient instance that this modifier is used for.
-     *
-     * @type {RadialGradient}
      */
     gradient: RadialGradient;
     /**

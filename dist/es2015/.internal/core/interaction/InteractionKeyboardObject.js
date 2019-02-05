@@ -20,7 +20,7 @@ var InteractionKeyboardObject = /** @class */ (function () {
     /**
      * Constructor.
      *
-     * @param {InteractionObject} io An InteractionObject
+     * @param io An InteractionObject
      */
     function InteractionKeyboardObject(io, ev) {
         /**
@@ -28,8 +28,6 @@ var InteractionKeyboardObject = /** @class */ (function () {
          * destruction/disposal code should take this into account when deciding
          * wheter to run potentially costly disposal operations if they already have
          * been run.
-         *
-         * @type {boolean}
          */
         this._disposed = false;
         /**
@@ -38,7 +36,6 @@ var InteractionKeyboardObject = /** @class */ (function () {
          * 0 - not moving horizontally
          * 1 - moving right
          * -1 - moving left
-         * @type {number}
          */
         this.directionX = 0;
         /**
@@ -47,7 +44,6 @@ var InteractionKeyboardObject = /** @class */ (function () {
          * 0 - not moving vertically
          * 1 - moving down
          * -1 - moving up
-         * @type {number}
          */
         this.directionY = 0;
         this.interaction = io;
@@ -99,7 +95,7 @@ var InteractionKeyboardObject = /** @class */ (function () {
     /**
      * Returns if this object has been already been disposed.
      *
-     * @return {boolean} Is disposed?
+     * @return Is disposed?
      */
     InteractionKeyboardObject.prototype.isDisposed = function () {
         return this._disposed;

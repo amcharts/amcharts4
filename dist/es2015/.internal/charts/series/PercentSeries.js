@@ -53,10 +53,10 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
     /**
      * Hide the data item (and corresponding visual elements).
      *
-     * @param {number}    duration  Duration (ms)
-     * @param {number}    delay     Delay hiding (ms)
-     * @param {number}    toValue   Target value for animation
-     * @param {string[]}  fields    Fields to animate while hiding
+     * @param duration  Duration (ms)
+     * @param delay     Delay hiding (ms)
+     * @param toValue   Target value for animation
+     * @param fields    Fields to animate while hiding
      */
     PercentSeriesDataItem.prototype.hide = function (duration, delay, toValue, fields) {
         if (!fields) {
@@ -67,7 +67,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
     /**
      * Sets visibility of the Data Item.
      *
-     * @param {boolean} value Data Item
+     * @param value Data Item
      */
     PercentSeriesDataItem.prototype.setVisibility = function (value, noChangeValues) {
         if (!noChangeValues) {
@@ -83,9 +83,9 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
     /**
      * Show hidden data item (and corresponding cisual elements).
      *
-     * @param {number}    duration  Duration (ms)
-     * @param {number}    delay     Delay hiding (ms)
-     * @param {string[]}  fields    Fields to animate while hiding
+     * @param duration  Duration (ms)
+     * @param delay     Delay hiding (ms)
+     * @param fields    Fields to animate while hiding
      */
     PercentSeriesDataItem.prototype.show = function (duration, delay, fields) {
         if (!fields) {
@@ -95,7 +95,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
     };
     Object.defineProperty(PercentSeriesDataItem.prototype, "category", {
         /**
-         * @return {string} Category
+         * @return Category
          */
         get: function () {
             return this.properties.category;
@@ -103,7 +103,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Category.
          *
-         * @param {string}  value  Category
+         * @param value  Category
          */
         set: function (value) {
             this.setProperty("category", value);
@@ -115,14 +115,14 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
      * Creates a marker used in the legend for this slice.
      *
      * @ignore Exclude from docs
-     * @param {Container}  marker  Marker container
+     * @param marker  Marker container
      */
     PercentSeriesDataItem.prototype.createLegendMarker = function (marker) {
         this.component.createLegendMarker(marker, this);
     };
     Object.defineProperty(PercentSeriesDataItem.prototype, "legendDataItem", {
         /**
-         * @return {LegendDataItem<DataItem, IDataItemEvents>} Legend data item
+         * @return Legend data item
          */
         get: function () {
             return this._legendDataItem;
@@ -130,7 +130,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
         /**
          * A legend's data item, that corresponds to this data item.
          *
-         * @param {LegendDataItem<DataItem, IDataItemEvents>}  value  Legend data item
+         * @param value  Legend data item
          */
         set: function (value) {
             this._legendDataItem = value;
@@ -149,7 +149,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
          * A Tick element, related to this data item. (slice)
          *
          * @readonly
-         * @return {this["_tick"]} Tick element
+         * @return Tick element
          */
         get: function () {
             var _this = this;
@@ -176,7 +176,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
          * A Label element, related to this data item. (slice)
          *
          * @readonly
-         * @return {this["_label"]} Label element
+         * @return Label element
          */
         get: function () {
             var _this = this;
@@ -203,7 +203,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
          * An element, related to this data item. (slice)
          *
          * @readonly
-         * @return {Sprite} Slice element
+         * @return Slice element
          */
         get: function () {
             var _this = this;
@@ -252,7 +252,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(PercentSeriesDataItem.prototype, "hiddenInLegend", {
         /**
-         * @return {boolean} Disabled in legend?
+         * @return Disabled in legend?
          */
         get: function () {
             return this.properties.hiddenInLegend;
@@ -260,7 +260,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Should dataItem (slice) be hidden in legend?
          *
-         * @param {boolean} value Visible in legend?
+         * @param value Visible in legend?
          */
         set: function (value) {
             this.setProperty("hiddenInLegend", value);
@@ -325,7 +325,7 @@ var PercentSeries = /** @class */ (function (_super) {
     /**
      * Creates a slice element.
      *
-     * @return {FunnelSlice} Slice
+     * @return Slice
      */
     PercentSeries.prototype.createSlice = function () {
         return new Sprite();
@@ -333,7 +333,7 @@ var PercentSeries = /** @class */ (function (_super) {
     /**
      * Creates a tick element.
      *
-     * @return {Tick} Tick
+     * @return Tick
      */
     PercentSeries.prototype.createTick = function () {
         return new Tick();
@@ -341,7 +341,7 @@ var PercentSeries = /** @class */ (function (_super) {
     /**
      * Sreates label element.
      *
-     * @return {Label} label
+     * @return label
      */
     PercentSeries.prototype.createLabel = function () {
         return new Label();
@@ -395,7 +395,7 @@ var PercentSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {PercentSeriesDataItem} Data Item
+     * @return Data Item
      */
     PercentSeries.prototype.createDataItem = function () {
         return new PercentSeriesDataItem();
@@ -403,8 +403,8 @@ var PercentSeries = /** @class */ (function (_super) {
     /**
      * Creates and returns a new slice element.
      *
-     * @param  {typeof Slice}  sliceType  Type of the slice element
-     * @return {Slice}                    Slice
+     * @param sliceType  Type of the slice element
+     * @return Slice
      */
     PercentSeries.prototype.initSlice = function (slice) {
     };
@@ -419,7 +419,7 @@ var PercentSeries = /** @class */ (function (_super) {
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
-     * @param {PercentSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     PercentSeries.prototype.validateDataElement = function (dataItem) {
         var slice = dataItem.slice;
@@ -459,7 +459,7 @@ var PercentSeries = /** @class */ (function (_super) {
      * Arranges slice labels according to position settings.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"][]}  dataItems  Data items
+     * @param dataItems  Data items
      */
     PercentSeries.prototype.arrangeLabels = function (dataItems) {
         for (var i = 0, len = dataItems.length; i < len; i++) {
@@ -482,9 +482,9 @@ var PercentSeries = /** @class */ (function (_super) {
     /**
      * Returns the next label according to `index`.
      *
-     * @param  {number}              index      Current index
-     * @param  {PieSerisDataItem[]}  dataItems  Data items
-     * @return {AxisLabelCircular}              Label element
+     * @param index      Current index
+     * @param dataItems  Data items
+     * @return Label element
      */
     PercentSeries.prototype.getNextLabel = function (index, dataItems) {
         if (dataItems.length >= index) {
@@ -501,7 +501,7 @@ var PercentSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(PercentSeries.prototype, "colors", {
         /**
-         * @return {ColorSet} Color set
+         * @return Color set
          */
         get: function () {
             return this.getPropertyValue("colors");
@@ -512,7 +512,7 @@ var PercentSeries = /** @class */ (function (_super) {
          * For each new subsequent slice, the chart will assign the next color in
          * this set.
          *
-         * @param {ColorSet}  value  Color set
+         * @param value  Color set
          */
         set: function (value) {
             this.setPropertyValue("colors", value, true);
@@ -525,8 +525,8 @@ var PercentSeries = /** @class */ (function (_super) {
      * settings.
      *
      * @ignore Exclude from docs
-     * @param {Container}          marker    Container
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param marker    Container
+     * @param dataItem  Data item
      */
     PercentSeries.prototype.createLegendMarker = function (marker, dataItem) {
         $iter.each(marker.children.iterator(), function (child) {
@@ -568,7 +568,7 @@ var PercentSeries = /** @class */ (function (_super) {
      * Repositions bullets when slice's size changes.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
+     * @param event  Event
      */
     PercentSeries.prototype.handleSliceScale = function (event) {
         var _this = this;
@@ -583,14 +583,14 @@ var PercentSeries = /** @class */ (function (_super) {
      * Repositions bullet and labels when slice moves.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
+     * @param event  Event
      */
     PercentSeries.prototype.handleSliceMove = function (event) {
     };
     /**
      * Copies all properties from another instance of [[PercentSeries]].
      *
-     * @param {ColumnSeries}  source  Source series
+     * @param source  Source series
      */
     PercentSeries.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
@@ -600,7 +600,7 @@ var PercentSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(PercentSeries.prototype, "alignLabels", {
         /**
-         * @return {boolean} Align labels?
+         * @return Align labels?
          */
         get: function () {
             return this.getPropertyValue("alignLabels");
@@ -617,7 +617,7 @@ var PercentSeries = /** @class */ (function (_super) {
          * and may, in some cases, overlap.
          *
          * @default true
-         * @param {boolean}  value  Align labels?
+         * @param value  Align labels?
          */
         set: function (value) {
             this.setAlignLabels(value);

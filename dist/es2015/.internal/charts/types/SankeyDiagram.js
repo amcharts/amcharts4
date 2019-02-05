@@ -89,9 +89,9 @@ var SankeyDiagram = /** @class */ (function (_super) {
     /**
      * Returns node's highest level.
      *
-     * @param  {this["_node"]}  node   Node
-     * @param  {number}        level  Current level
-     * @return {number}               New level
+     * @param node   Node
+     * @param level  Current level
+     * @return New level
      */
     SankeyDiagram.prototype.getNodeLevel = function (node, level) {
         var _this = this;
@@ -242,8 +242,8 @@ var SankeyDiagram = /** @class */ (function (_super) {
      * Performs actual operations to reveal this element.
      *
      * @ignore Exclude from docs
-     * @param  {number} duration Fade in duration (ms)
-     * @return {number}          Fade in duration (ms)
+     * @param duration Fade in duration (ms)
+     * @return Fade in duration (ms)
      */
     SankeyDiagram.prototype.showReal = function (duration) {
         var _this = this;
@@ -334,14 +334,14 @@ var SankeyDiagram = /** @class */ (function (_super) {
     /**
      * Creates and returns a new data item.
      *
-     * @return {this} Data item
+     * @return Data item
      */
     SankeyDiagram.prototype.createDataItem = function () {
         return new SankeyDiagramDataItem();
     };
     Object.defineProperty(SankeyDiagram.prototype, "nodeAlign", {
         /**
-         * @returns {"top" | "middle" | "bottom"} Returns nodeAlign value
+         * @returns Returns nodeAlign value
          */
         get: function () {
             return this.getPropertyValue("nodeAlign");
@@ -349,7 +349,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
         /**
          * How to align nodes. In case layout is vertical, top means left and bottom means right
          *
-         * @param {"top" | "middle" | "bottom"}  value  Node sorting
+         * @param value  Node sorting
          */
         set: function (value) {
             this.setPropertyValue("nodeAlign", value);
@@ -360,7 +360,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
     });
     Object.defineProperty(SankeyDiagram.prototype, "orientation", {
         /**
-         * @return {Orientation} Orientation
+         * @return Orientation
          */
         get: function () {
             return this.getPropertyValue("orientation");
@@ -368,7 +368,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
         /**
          * Orientation of the chart: "horizontal" or "vertical";
          *
-         * @param {Orientation} value Orientation
+         * @param value Orientation
          */
         set: function (value) {
             this.setPropertyValue("orientation", value, true);

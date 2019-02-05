@@ -50,40 +50,35 @@ export interface IAxisRendererX3DAdapters extends IAxisRendererXAdapters, IAxisR
 export declare class AxisRendererX3D extends AxisRendererX {
     /**
      * Defines available properties
-     * @type {IAxisRendererX3DProperties}
      */
     _properties: IAxisRendererX3DProperties;
     /**
      * Defines available adapters
-     * @type {AxisRendererAdapters}
      */
     _adapter: IAxisRendererX3DAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IAxisRendererX3DEvents}
      */
     _events: IAxisRendererX3DEvents;
     /**
      * A related chart.
      *
      * @todo Description
-     * @type {MutableValueDisposer}
      */
     protected _chart: MutableValueDisposer<XYChart3D>;
     /**
      * Constructor.
      *
-     * @param {Axis} axis Related axis
+     * @param axis Related axis
      */
     constructor();
     /**
      * Updates and positions a grid element.
      *
      * @ignore Exclude from docs
-     * @param {Grid}    grid         Grid element
-     * @param {number}  position     Starting position
-     * @param {number}  endPosition  End position
+     * @param grid         Grid element
+     * @param position     Starting position
+     * @param endPosition  End position
      */
     updateGridElement(grid: Grid, position: number, endPosition: number): void;
     /**
@@ -94,19 +89,19 @@ export declare class AxisRendererX3D extends AxisRendererX {
     updateBaseGridElement(): void;
     /**
      * @ignore Exclude from docs
-     * @return {XYChart3D} Chart
+     * @return Chart
      */
     /**
      * Chart, associated with the Axis.
      *
      * @ignore Exclude from docs
-     * @param {XYChart3D} value Chart
+     * @param value Chart
      */
     chart: XYChart3D;
     /**
      * Invoked when 3D-related settings change, like depth or angle.
      *
-     * @param {AMEvent<Sprite, ISpriteEvents>["propertychanged"]} event Event
+     * @param event Event
      */
     protected handle3DChanged(event: AMEvent<Sprite, ISpriteEvents>["propertychanged"]): void;
 }

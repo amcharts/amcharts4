@@ -48,38 +48,26 @@ export interface IMapSplineAdapters extends IMapLineAdapters, IMapSplineProperti
 export declare class MapSpline extends MapLine {
     /**
      * Defines available properties.
-     *
-     * @type {IMapSplineProperties}
      */
     _properties: IMapSplineProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IMapSplineAdapters}
      */
     _adapter: IMapSplineAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IMapSplineEvents}
      */
     _events: IMapSplineEvents;
     /**
      * A visual element for the spline.
-     *
-     * @type {Polyspline}
      */
     line: Polyspline;
     /**
      * A related data item.
-     *
-     * @type {MapSplineSeriesDataItem}
      */
     _dataItem: MapSplineSeriesDataItem;
     /**
      * A map series this object belongs to.
-     *
-     * @type {MapSplineSeries}
      */
     series: MapSplineSeries;
     /**
@@ -93,7 +81,7 @@ export declare class MapSpline extends MapLine {
     /**
      * ShortestDistance = true is not supported by MapSpline, only MapLine does support it
      * @default false
-     * @param {boolean}  value
+     * @param value
      * @todo: review description
      */
     shortestDistance: boolean;

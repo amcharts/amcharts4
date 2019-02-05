@@ -67,22 +67,16 @@ export class Resize extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IResizeProperties}
 	 */
 	public _properties!: IResizeProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IResizeAdapters}
 	 */
 	public _adapter!: IResizeAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IResizeEvents}
 	 */
 	public _events!: IResizeEvents;
 
@@ -106,7 +100,7 @@ export class Resize extends Container {
 	protected _startHeight:number;
 
 	protected _startX:number;
-	protected _startY:number;	
+	protected _startY:number;
 
 	/**
 	 * Constructor
@@ -140,7 +134,7 @@ export class Resize extends Container {
 		tlGrip.horizontalCenter = "middle";
 		tlGrip.draggable = true;
 		this.tlGrip = tlGrip;
-		
+
 		tlGrip.events.on("drag", this.handleGrips, this, true);
 		tlGrip.events.on("dragstart", this.handleStartResize, this, true);
 
@@ -189,13 +183,13 @@ export class Resize extends Container {
 			let point = $utils.spritePointToSprite({ x: sprite.pixelX + sprite.maxLeft, y: sprite.pixelY + sprite.maxTop }, sprite.parent, this.parent);
 			this.x = point.x;
 			this.y = point.y;
-			
+
 			this.tlGrip.x = 0;
 			this.tlGrip.y = 0;
 
 			this.trGrip.x = w;
 			this.trGrip.y = 0;
-			
+
 			this.brGrip.x = w;
 			this.brGrip.y = h;
 

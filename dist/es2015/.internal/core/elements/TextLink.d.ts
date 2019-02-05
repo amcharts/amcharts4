@@ -46,20 +46,14 @@ export interface ITextLinkAdapters extends ILabelAdapters, ITextLinkProperties {
 export declare class TextLink extends Label {
     /**
      * Defines available properties.
-     *
-     * @type {ITextLinkProperties}
      */
     _properties: ITextLinkProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ITextLinkAdapters}
      */
     _adapter: ITextLinkAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ITextLinkEvents}
      */
     _events: ITextLinkEvents;
     /**

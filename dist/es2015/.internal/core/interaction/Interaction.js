@@ -62,14 +62,10 @@ var Interaction = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * An indicator of global events were already initialized.
-         *
-         * @type {boolean}
          */
         _this._globalEventsAdded = false;
         /**
          * Holds which mouse event listeners to use.
-         *
-         * @type {Object}
          */
         _this._pointerEvents = {
             "pointerdown": "mousedown",
@@ -84,56 +80,38 @@ var Interaction = /** @class */ (function (_super) {
          * Indicates if Interaction should use only "pointer" type events, like
          * "pointermove", available in all modern browsers, ignoring "legacy"
          * events, like "touchmove".
-         *
-         * @type {boolean}
          */
         _this._usePointerEventsOnly = false;
         /**
          * Use only touch events (for touch only devices such as tablets and phones)
-         *
-         * @type {boolean}
          */
         _this._useTouchEventsOnly = false;
         /**
          * Indicates if passive mode options is supported by this browser.
-         *
-         * @type {boolean}
          */
         _this._passiveSupported = false;
         /**
          * Holds list of delayed events
-         *
-         * @type {IDelayedEvent[]}
          */
         _this._delayedEvents = { out: [] };
         /**
          * List of objects that current have a pointer hovered over them.
-         *
-         * @type {List<InteractionObject>}
          */
         _this.overObjects = new List();
         /**
          * List of objects that currently has a pressed pointer.
-         *
-         * @type {List<InteractionObject>}
          */
         _this.downObjects = new List();
         /**
          * List of objects that need mouse position to be reported to them.
-         *
-         * @type {List<InteractionObject>}
          */
         _this.trackedObjects = new List();
         /**
          * List of objects that are currently being dragged.
-         *
-         * @type {List<InteractionObject>}
          */
         _this.transformedObjects = new List();
         /**
          * Holds all known pointers.
-         *
-         * @type {Dictionary<string, IPointer>}
          */
         _this.pointers = new Dictionary();
         /**
@@ -142,15 +120,11 @@ var Interaction = /** @class */ (function (_super) {
          *
          * This is just a default, which can and probably will be overridden by
          * actual elements.
-         *
-         * @type {Dictionary}
          */
         _this.inertiaOptions = new Dictionary();
         /**
          * Default options for click events. These can be overridden in
          * [[InteractionObject]].
-         *
-         * @type {IHitOptions}
          */
         _this.hitOptions = {
             //"holdTime": 1000,
@@ -162,8 +136,6 @@ var Interaction = /** @class */ (function (_super) {
         /**
          * Default options for hover events. These can be overridden in
          * [[InteractionObject]].
-         *
-         * @type {IHoverOptions}
          */
         _this.hoverOptions = {
             "touchOutBehavior": "leave",
@@ -172,8 +144,6 @@ var Interaction = /** @class */ (function (_super) {
         /**
          * Default options for detecting a swipe gesture. These can be overridden in
          * [[InteractionObject]].
-         *
-         * @type {ISwipeOptions}
          */
         _this.swipeOptions = {
             "time": 500,
@@ -183,8 +153,6 @@ var Interaction = /** @class */ (function (_super) {
         /**
          * Default options for keyboard operations. These can be overridden in
          * [[InteractionObject]].
-         *
-         * @type {IKeyboarOptions}
          */
         _this.keyboardOptions = {
             "speed": 0.1,
@@ -280,7 +248,7 @@ var Interaction = /** @class */ (function (_super) {
      *
      * On iOS, Firefox uses different userAgent, so we don't have to detect iOS.
      *
-     * @return {boolean} Full Firefox?
+     * @return Full Firefox?
      */
     Interaction.prototype.fullFF = function () {
         return (window.navigator.userAgent.match(/Firefox/)) && !(window.navigator.userAgent.match(/Android/));
@@ -325,7 +293,7 @@ var Interaction = /** @class */ (function (_super) {
      * Sets if [[InteractionObject]] is clickable.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject} io [[InteractionObject]] instance
+     * @param io [[InteractionObject]] instance
      */
     Interaction.prototype.processClickable = function (io) {
         // Add or remove touch events
@@ -335,7 +303,7 @@ var Interaction = /** @class */ (function (_super) {
      * Sets if [[InteractionObject]] is hoverable.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject} io [[InteractionObject]] instance
+     * @param io [[InteractionObject]] instance
      */
     Interaction.prototype.processHoverable = function (io) {
         var _this = this;
@@ -370,7 +338,7 @@ var Interaction = /** @class */ (function (_super) {
      * transformation, e.g. drag, swipe, resize, track.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io  Element
+     * @param io  Element
      */
     Interaction.prototype.processMovable = function (io) {
         // Add unified events
@@ -389,7 +357,7 @@ var Interaction = /** @class */ (function (_super) {
      * Checks if [[InteractionObject]] is trackable and sets relative events.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io  Element
+     * @param io  Element
      */
     Interaction.prototype.processTrackable = function (io) {
         this.processHoverable(io);
@@ -405,7 +373,7 @@ var Interaction = /** @class */ (function (_super) {
      * Checks if [[InteractionObject]] is draggable.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io  Element
+     * @param io  Element
      */
     Interaction.prototype.processDraggable = function (io) {
         this.processMovable(io);
@@ -418,7 +386,7 @@ var Interaction = /** @class */ (function (_super) {
      * overridden in sprites [[swipeOptions]].
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io  Element
+     * @param io  Element
      */
     Interaction.prototype.processSwipeable = function (io) {
         this.processMovable(io);
@@ -428,7 +396,7 @@ var Interaction = /** @class */ (function (_super) {
      * to it.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io  Element
+     * @param io  Element
      */
     Interaction.prototype.processResizable = function (io) {
         this.processMovable(io);
@@ -438,7 +406,7 @@ var Interaction = /** @class */ (function (_super) {
      * and prepares it to catch those events.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io  Element
+     * @param io  Element
      */
     Interaction.prototype.processWheelable = function (io) {
         var _this = this;
@@ -475,7 +443,7 @@ var Interaction = /** @class */ (function (_super) {
      * events to it.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io  Element
+     * @param io  Element
      */
     Interaction.prototype.processFocusable = function (io) {
         var _this = this;
@@ -502,7 +470,7 @@ var Interaction = /** @class */ (function (_super) {
      * whatsoever: mouse click, touch screen tap, swipe, drag, resize, etc.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io  Element
+     * @param io  Element
      */
     Interaction.prototype.processTouchable = function (io) {
         var _this = this;
@@ -544,8 +512,8 @@ var Interaction = /** @class */ (function (_super) {
      * Dispatches "focus" event when element gains focus.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io  Element
-     * @param {FocusEvent}         ev  Original event
+     * @param io  Element
+     * @param ev  Original event
      */
     Interaction.prototype.handleFocus = function (io, ev) {
         if (!io.focusable) {
@@ -567,8 +535,8 @@ var Interaction = /** @class */ (function (_super) {
      *
      * This should not be called by "focus" handlers.
      *
-     * @param {InteractionObject}  io  Element
-     * @param {MouseEvent | TouchEvent}         ev  Original event
+     * @param io  Element
+     * @param ev  Original event
      */
     Interaction.prototype.handleFocusBlur = function (io, ev) {
         if (io.focusable !== false && this.getHitOption(io, "noFocus")) {
@@ -583,8 +551,8 @@ var Interaction = /** @class */ (function (_super) {
      * Dispatches "blur" event when element loses focus.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io  Element
-     * @param {FocusEvent}         ev  Original event
+     * @param io  Element
+     * @param ev  Original event
      */
     Interaction.prototype.handleBlur = function (io, ev) {
         if (!io.focusable) {
@@ -613,7 +581,7 @@ var Interaction = /** @class */ (function (_super) {
      * creates an object to simulate movement of dragable element with keyboard.
      *
      * @ignore Exclude from docs
-     * @param {KeyboardEvent} ev An original keyboard event
+     * @param ev An original keyboard event
      */
     Interaction.prototype.handleGlobalKeyDown = function (ev) {
         if (this.focusedObject) {
@@ -657,7 +625,7 @@ var Interaction = /** @class */ (function (_super) {
      * Dispatches related events when the keyboard key is realeasd.
      *
      * @ignore Exclude from docs
-     * @param {KeyboardEvent} ev An original keyboard event
+     * @param ev An original keyboard event
      */
     Interaction.prototype.handleGlobalKeyUp = function (ev) {
         var disposerKey = "interactionKeyboardObject";
@@ -682,7 +650,7 @@ var Interaction = /** @class */ (function (_super) {
      * Handler for a global "pointermove" event.
      *
      * @ignore Exclude from docs
-     * @param {MouseEvent} ev Event object
+     * @param ev Event object
      */
     Interaction.prototype.handleGlobalPointerMove = function (ev) {
         // Get pointer
@@ -708,7 +676,7 @@ var Interaction = /** @class */ (function (_super) {
      * Handler for a global "pointerdown" event.
      *
      * @ignore Exclude from docs
-     * @param {MouseEvent} ev Event object
+     * @param ev Event object
      */
     Interaction.prototype.handleGlobalPointerDown = function (ev) {
         // Remove delayed hovers
@@ -730,7 +698,7 @@ var Interaction = /** @class */ (function (_super) {
      * Prevents touch action from firing.
      *
      * @ignore Exclude from docs
-     * @param {MouseEvent} ev Event
+     * @param ev Event
      */
     Interaction.prototype.preventTouchAction = function (ev) {
         if (!ev.defaultPrevented) {
@@ -741,7 +709,7 @@ var Interaction = /** @class */ (function (_super) {
      * Handler for a global "pointerup" event.
      *
      * @ignore Exclude from docs
-     * @param {MouseEvent} ev Event object
+     * @param ev Event object
      */
     Interaction.prototype.handleGlobalPointerUp = function (ev, cancelled) {
         if (cancelled === void 0) { cancelled = false; }
@@ -769,7 +737,7 @@ var Interaction = /** @class */ (function (_super) {
      * Handler for a global "touchmove" event.
      *
      * @ignore Exclude from docs
-     * @param {TouchEvent} ev Event object
+     * @param ev Event object
      */
     Interaction.prototype.handleGlobalTouchMove = function (ev) {
         // Process each changed touch point
@@ -798,7 +766,7 @@ var Interaction = /** @class */ (function (_super) {
      * Handler for a global "touchstart" event.
      *
      * @ignore Exclude from docs
-     * @param {TouchEvent} ev Event object
+     * @param ev Event object
      */
     Interaction.prototype.handleGlobalTouchStart = function (ev) {
         // Remove delayed hovers
@@ -823,7 +791,7 @@ var Interaction = /** @class */ (function (_super) {
      * Handler for a global "touchend" event.
      *
      * @ignore Exclude from docs
-     * @param {TouchEvent} ev Event object
+     * @param ev Event object
      */
     Interaction.prototype.handleGlobalTouchEnd = function (ev) {
         // Process each changed touch point
@@ -855,8 +823,8 @@ var Interaction = /** @class */ (function (_super) {
      * pressed.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}          io  Element
-     * @param {MouseEvent | PointerEvent}  ev  Original event
+     * @param io  Element
+     * @param ev  Original event
      */
     Interaction.prototype.handlePointerDown = function (io, ev) {
         // Stop further propagation so we don't get multiple triggers on hybrid
@@ -882,8 +850,8 @@ var Interaction = /** @class */ (function (_super) {
      * Handles event when [[InteractionObject]] is hovered by a mouse pointer.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io  Element
-     * @param {MouseEvent}         ev  Original event
+     * @param io  Element
+     * @param ev  Original event
      */
     Interaction.prototype.handlePointerOver = function (io, ev) {
         // Get pointer
@@ -895,8 +863,8 @@ var Interaction = /** @class */ (function (_super) {
      * Handles event when [[InteractionObject]] loses hover from a mouse pointer.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io  Element
-     * @param {MouseEvent}         ev  Original event
+     * @param io  Element
+     * @param ev  Original event
      */
     Interaction.prototype.handlePointerOut = function (io, ev) {
         // Get pointer
@@ -908,8 +876,8 @@ var Interaction = /** @class */ (function (_super) {
      * Handles event when mouse wheel is crolled over the [[InteractionObject]].
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io  Element
-     * @param {WheelEvent}         ev  Original event
+     * @param io  Element
+     * @param ev  Original event
      * @todo Investigate more-cross browser stuff https://developer.mozilla.org/en-US/docs/Web/Events/wheel
      */
     Interaction.prototype.handleMouseWheel = function (io, ev) {
@@ -948,8 +916,8 @@ var Interaction = /** @class */ (function (_super) {
       * device.
       *
       * @ignore Exclude from docs
-      * @param {InteractionObject}  io  Element
-      * @param {TouchEvent}         ev  Original event
+      * @param io  Element
+      * @param ev  Original event
       */
     Interaction.prototype.handleTouchDown = function (io, ev) {
         // Stop further propagation so we don't get multiple triggers on hybrid
@@ -976,9 +944,9 @@ var Interaction = /** @class */ (function (_super) {
      * Handles click/tap. Checks for doublehit.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io       Interaction object
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
+     * @param io       Interaction object
+     * @param pointer  Pointer
+     * @param ev       Original event
      */
     Interaction.prototype.handleHit = function (io, pointer, ev) {
         // Check if this is a double-hit
@@ -1039,10 +1007,10 @@ var Interaction = /** @class */ (function (_super) {
      * Handles pointer hovering over [[InteractionObject]].
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io       Interaction object
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
-     * @param {boolean}                  soft     Invoked by helper function
+     * @param io       Interaction object
+     * @param pointer  Pointer
+     * @param ev       Original event
+     * @param soft     Invoked by helper function
      */
     Interaction.prototype.handleOver = function (io, pointer, ev, soft) {
         if (soft === void 0) { soft = false; }
@@ -1082,11 +1050,11 @@ var Interaction = /** @class */ (function (_super) {
      * run additional checks before unhovering the object.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io       Interaction object
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
-     * @param {boolean}                  soft     Invoked by helper function
-     * @param {boolean}                  force    Force imediate out
+     * @param io       Interaction object
+     * @param pointer  Pointer
+     * @param ev       Original event
+     * @param soft     Invoked by helper function
+     * @param force    Force imediate out
      */
     Interaction.prototype.handleOut = function (io, pointer, ev, soft, force) {
         var _this = this;
@@ -1178,9 +1146,9 @@ var Interaction = /** @class */ (function (_super) {
      * Performs tasks on pointer down.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io       Element
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
+     * @param io       Element
+     * @param pointer  Pointer
+     * @param ev       Original event
      */
     Interaction.prototype.handleDown = function (io, pointer, ev) {
         // Need to prevent default event from happening on transformable objects
@@ -1228,8 +1196,8 @@ var Interaction = /** @class */ (function (_super) {
      * Performs tasks on pointer up.
      *
      * @ignore Exclude from docs
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
+     * @param pointer  Pointer
+     * @param ev       Original event
      */
     Interaction.prototype.handleGlobalUp = function (pointer, ev, cancelled) {
         var _this = this;
@@ -1247,9 +1215,9 @@ var Interaction = /** @class */ (function (_super) {
      * Handles when [[InteractionObject]] is no longer hovered.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io       Interaction object
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
+     * @param io       Interaction object
+     * @param pointer  Pointer
+     * @param ev       Original event
      */
     Interaction.prototype.handleUp = function (io, pointer, ev, cancelled) {
         if (cancelled === void 0) { cancelled = false; }
@@ -1313,8 +1281,8 @@ var Interaction = /** @class */ (function (_super) {
      * Checks if event needs to be prevented on draggable and such items, so that
      * touch gestures like navigation and scroll do not kick in.
      *
-     * @param {InteractionObject}        io  Object
-     * @param {MouseEvent | TouchEvent}  ev  Event
+     * @param io  Object
+     * @param ev  Event
      */
     Interaction.prototype.maybePreventDefault = function (io, ev) {
         if ($type.hasValue(ev) && (io.draggable || io.swipeable || io.trackable || io.resizable) && !this.isGlobalElement(io)) {
@@ -1325,8 +1293,8 @@ var Interaction = /** @class */ (function (_super) {
      * Handles pointer move.
      *
      * @ignore Exclude from docs
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
+     * @param pointer  Pointer
+     * @param ev       Original event
      */
     Interaction.prototype.handleGlobalMove = function (pointer, ev) {
         var _this = this;
@@ -1375,10 +1343,10 @@ var Interaction = /** @class */ (function (_super) {
      * Handles reporting of pointer movement.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io        Element
-     * @param {IPointer}                 pointer    Pointer
-     * @param {MouseEvent | TouchEvent}  ev         Original event
-     * @param {boolean}                  skipCheck  Sould we skip check if cursor actually moved
+     * @param io        Element
+     * @param pointer    Pointer
+     * @param ev         Original event
+     * @param skipCheck  Sould we skip check if cursor actually moved
      */
     Interaction.prototype.handleTrack = function (io, pointer, ev, skipCheck) {
         if (skipCheck === void 0) { skipCheck = false; }
@@ -1402,9 +1370,9 @@ var Interaction = /** @class */ (function (_super) {
      * Handles swipe action.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io       Element
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
+     * @param io       Element
+     * @param pointer  Pointer
+     * @param ev       Original event
      */
     Interaction.prototype.handleSwipe = function (io, pointer, ev) {
         // We pass in InteractionEvent with shift in mouse coordinates
@@ -1442,11 +1410,11 @@ var Interaction = /** @class */ (function (_super) {
      * Handles event triggering for wheel rotation.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io       Element
-     * @param {IPointer}           pointer  Pointer
-     * @param {number}             deltaX   Horizontal shift
-     * @param {number}             deltaY   Vertical shift
-     * @param {WheelEvent}         ev       Original event
+     * @param io       Element
+     * @param pointer  Pointer
+     * @param deltaX   Horizontal shift
+     * @param deltaY   Vertical shift
+     * @param ev       Original event
      */
     Interaction.prototype.handleWheel = function (io, pointer, deltaX, deltaY, ev) {
         var shift = {
@@ -1516,8 +1484,8 @@ var Interaction = /** @class */ (function (_super) {
      * drag, resize.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}   sprite
-     * @param {IPointer}            pointer
+     * @param sprite
+     * @param pointer
      */
     Interaction.prototype.handleInertia = function (io, pointer) {
         if (io.draggable && io.downPointers.length === 0) {
@@ -1532,8 +1500,8 @@ var Interaction = /** @class */ (function (_super) {
      * when `inert` and `draggable` object is dragged and then released.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io       Element
-     * @param {IPointer}           pointer  Pointer
+     * @param io       Element
+     * @param pointer  Pointer
      */
     Interaction.prototype.handleMoveInertia = function (io, pointer) {
         var interaction = io;
@@ -1579,8 +1547,8 @@ var Interaction = /** @class */ (function (_super) {
      * is implemented, yet.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io       Element
-     * @param {IPointer}           pointer  Pointer
+     * @param io       Element
+     * @param pointer  Pointer
      */
     Interaction.prototype.handleResizeInertia = function (io, pointer) {
         // Some day, folks. Some day...
@@ -1590,8 +1558,8 @@ var Interaction = /** @class */ (function (_super) {
      * all its related pointers.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io  Element
-     * @param {MouseEvent | TouchEvent}  ev  Original event
+     * @param io  Element
+     * @param ev  Original event
      */
     Interaction.prototype.handleTransform = function (io, ev) {
         // Get primary pointer and its respective points
@@ -1666,11 +1634,11 @@ var Interaction = /** @class */ (function (_super) {
      * Handles movement of the dragged element.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}                        io            Element
-     * @param {IPoint}                                   point         Current point of the pointer
-     * @param {IPoint}                                   startPoint    Starting point of the pointer
-     * @param {MouseEvent | TouchEvent | KeyboardEvent}  ev            Original event
-     * @param {boolean}                                  pointerMoved  Did pointer move?
+     * @param io            Element
+     * @param point         Current point of the pointer
+     * @param startPoint    Starting point of the pointer
+     * @param ev            Original event
+     * @param pointerMoved  Did pointer move?
      */
     Interaction.prototype.handleTransformMove = function (io, point, startPoint, ev, pointerMoved) {
         if (pointerMoved) {
@@ -1694,13 +1662,13 @@ var Interaction = /** @class */ (function (_super) {
      * Handles resizing of the element.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io            Element
-     * @param {IPoint}                   point1        Current position of reference point #1
-     * @param {IPoint}                   startPoint1   Original position of reference point #1
-     * @param {IPoint}                   point2        Current position of reference point #2
-     * @param {IPoint}                   startPoint2   Original position of reference point #2
-     * @param {MouseEvent | TouchEvent}  ev            Original event
-     * @param {boolean}                  pointerMoved  Did pointer move?
+     * @param io            Element
+     * @param point1        Current position of reference point #1
+     * @param startPoint1   Original position of reference point #1
+     * @param point2        Current position of reference point #2
+     * @param startPoint2   Original position of reference point #2
+     * @param ev            Original event
+     * @param pointerMoved  Did pointer move?
      */
     Interaction.prototype.handleTransformResize = function (io, point1, startPoint1, point2, startPoint2, ev, pointerMoved) {
         if (io.events.isEnabled("resize") && !system.isPaused) {
@@ -1721,9 +1689,9 @@ var Interaction = /** @class */ (function (_super) {
      * Handles all the preparations of the element when it starts to be dragged.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io       Element
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
+     * @param io       Element
+     * @param pointer  Pointer
+     * @param ev       Original event
      */
     Interaction.prototype.processDragStart = function (io, pointer, ev) {
         // Add to draggedObjects
@@ -1758,9 +1726,9 @@ var Interaction = /** @class */ (function (_super) {
      * Finishes up element drag operation.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io       Element
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
+     * @param io       Element
+     * @param pointer  Pointer
+     * @param ev       Original event
      */
     Interaction.prototype.processDragStop = function (io, pointer, ev) {
         // Pointer set?
@@ -1790,9 +1758,9 @@ var Interaction = /** @class */ (function (_super) {
      * Handles all the preparations of the element when it starts to be resized.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io       Element
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
+     * @param io       Element
+     * @param pointer  Pointer
+     * @param ev       Original event
      */
     Interaction.prototype.processResizeStart = function (io, pointer, ev) {
         // Add to draggedObjects
@@ -1802,9 +1770,9 @@ var Interaction = /** @class */ (function (_super) {
      * Finishes up element drag operation.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io       Element
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
+     * @param io       Element
+     * @param pointer  Pointer
+     * @param ev       Original event
      */
     Interaction.prototype.processResizeStop = function (io, pointer, ev) {
         // Removed from transformedObjects
@@ -1825,8 +1793,8 @@ var Interaction = /** @class */ (function (_super) {
      * to determine which pointer to attach to. However, it's better to specify
      * it explicitly.
      *
-     * @param {InteractionObject}  io       Element
-     * @param {IPointer}           pointer  Pointer
+     * @param io       Element
+     * @param pointer  Pointer
      */
     Interaction.prototype.dragStart = function (io, pointer) {
         if (pointer || (pointer = this.getDragPointer(io))) {
@@ -1836,8 +1804,8 @@ var Interaction = /** @class */ (function (_super) {
     /**
      * Manually ends drag on the element.
      *
-     * @param {InteractionObject}  io       Element
-     * @param {IPointer}           pointer  Pointer
+     * @param io       Element
+     * @param pointer  Pointer
      */
     Interaction.prototype.dragStop = function (io, pointer) {
         if (pointer || (pointer = this.getDragPointer(io))) {
@@ -1849,8 +1817,8 @@ var Interaction = /** @class */ (function (_super) {
      * Beware that this is not a rock-solid solution. If there are a few objects
      * being dragged at the same time, you may get unexepected results.
      *
-     * @param  {InteractionObject}   io  InteractionObject to get pointers from
-     * @return {Optional<IPointer>}      Pointer currently being used for dragging
+     * @param io  InteractionObject to get pointers from
+     * @return Pointer currently being used for dragging
      */
     Interaction.prototype.getDragPointer = function (io) {
         if (io) {
@@ -1875,8 +1843,8 @@ var Interaction = /** @class */ (function (_super) {
     /**
      * Returns pointer id for the given event object.
      *
-     * @param  {any}     ev  Event
-     * @return {string}      Pointer ID
+     * @param ev  Event
+     * @return Pointer ID
      */
     Interaction.prototype.getPointerId = function (ev) {
         var id = "";
@@ -1894,8 +1862,8 @@ var Interaction = /** @class */ (function (_super) {
     /**
      * Returns a cursor position of the event.
      *
-     * @param  {MouseEvent | Touch}  ev  Original event
-     * @return {IPoint}                  Event point
+     * @param ev  Original event
+     * @return Event point
      */
     Interaction.prototype.getPointerPoint = function (ev) {
         return {
@@ -1908,8 +1876,8 @@ var Interaction = /** @class */ (function (_super) {
      *
      * If no such [[Pointer]] object exists, it is created.
      *
-     * @param  {MouseEvent | Touch}  ev  Event
-     * @return {IPointer}                Pointer
+     * @param ev  Event
+     * @return Pointer
      */
     Interaction.prototype.getPointer = function (ev) {
         // Get pointer id
@@ -1952,8 +1920,8 @@ var Interaction = /** @class */ (function (_super) {
     /**
      * Determines if pointer event originated from a touch pointer or mouse.
      *
-     * @param  {MouseEvent | Touch}  ev  Original event
-     * @return {boolean}                 Touch pointer?
+     * @param ev  Original event
+     * @return Touch pointer?
      */
     Interaction.prototype.isPointerTouch = function (ev) {
         if (typeof Touch !== "undefined" && ev instanceof Touch) {
@@ -1983,7 +1951,7 @@ var Interaction = /** @class */ (function (_super) {
      * Resets the poiner to original state, i.e. cleans movement information,
      * starting point, etc.
      *
-     * @param {IPointer} pointer Pointer
+     * @param pointer Pointer
      */
     Interaction.prototype.resetPointer = function (pointer, ev) {
         // Get current coordinates
@@ -2000,8 +1968,8 @@ var Interaction = /** @class */ (function (_super) {
     /**
      * Adds a "breadcrumb" point to the [[Pointer]] to log its movement path.
      *
-     * @param {IPointer}  pointer  Pointer
-     * @param {IPoint}    point    Point coordinates
+     * @param pointer  Pointer
+     * @param point    Point coordinates
      */
     Interaction.prototype.addBreadCrumb = function (pointer, point) {
         pointer.track.push({
@@ -2063,10 +2031,10 @@ var Interaction = /** @class */ (function (_super) {
      * Checks if top element at pointer's position belongs to the SVG.
      *
      * @ignore Exlude from docs
-     * @param  {IPointer}       pointer  Pointer
-     * @param  {SVGSVGElement}  svg      The <svg> element
-     * @param  {id}             id       A unique identifier of the object that is checking for locality
-     * @return {boolean}                 Belongs to SVG
+     * @param pointer  Pointer
+     * @param svg      The <svg> element
+     * @param id       A unique identifier of the object that is checking for locality
+     * @return Belongs to SVG
      */
     Interaction.prototype.isLocalElement = function (pointer, svg, id) {
         var cached = this.getCache("local_pointer_" + pointer.id);
@@ -2082,8 +2050,8 @@ var Interaction = /** @class */ (function (_super) {
      * A function that cancels mouse wheel scroll.
      *
      * @ignore Exclude from docs
-     * @param  {Event}  ev  Event object
-     * @return {boolean}         Returns `false` to cancel
+     * @param ev  Event object
+     * @return Returns `false` to cancel
      */
     Interaction.prototype.wheelLockEvent = function (ev) {
         ev.preventDefault();
@@ -2094,8 +2062,8 @@ var Interaction = /** @class */ (function (_super) {
      * can be restored later.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}           io      Element
-     * @param {Dictionary<string, string>}  styles  A Dictionary of style property and values
+     * @param io      Element
+     * @param styles  A Dictionary of style property and values
      */
     Interaction.prototype.prepElement = function (io, permanent) {
         var el = io.element;
@@ -2123,9 +2091,9 @@ var Interaction = /** @class */ (function (_super) {
      * Returns an option associated with hit events.
      *
      * @ignore Exclude from docs
-     * @param  {InteractionObject}  io      Element
-     * @param  {string}             option  Option key
-     * @return {any}                        Option value
+     * @param io      Element
+     * @param option  Option key
+     * @return Option value
      */
     Interaction.prototype.getHitOption = function (io, option) {
         var res = io.hitOptions[option];
@@ -2138,9 +2106,9 @@ var Interaction = /** @class */ (function (_super) {
      * Returns an option associated with hover events.
      *
      * @ignore Exclude from docs
-     * @param  {InteractionObject}  io      Element
-     * @param  {string}             option  Option key
-     * @return {any}                        Option value
+     * @param io      Element
+     * @param option  Option key
+     * @return Option value
      */
     Interaction.prototype.getHoverOption = function (io, option) {
         var res = io.hoverOptions[option];
@@ -2153,9 +2121,9 @@ var Interaction = /** @class */ (function (_super) {
      * Returns an option associated with swipe events.
      *
      * @ignore Exclude from docs
-     * @param  {InteractionObject}  io      Element
-     * @param  {string}             option  Option key
-     * @return {any}                        Option value
+     * @param io      Element
+     * @param option  Option key
+     * @return Option value
      */
     Interaction.prototype.getSwipeOption = function (io, option) {
         var res = io.swipeOptions[option];
@@ -2168,9 +2136,9 @@ var Interaction = /** @class */ (function (_super) {
      * Returns an option for keyboard.
      *
      * @ignore Exclude from docs
-     * @param  {InteractionObject}  io      Element
-     * @param  {string}             option  Option key
-     * @return {any}                        Option value
+     * @param io      Element
+     * @param option  Option key
+     * @return Option value
      */
     Interaction.prototype.getKeyboardOption = function (io, option) {
         var res = io.keyboardOptions[option];
@@ -2183,10 +2151,10 @@ var Interaction = /** @class */ (function (_super) {
      * Returns an option associated with inertia.
      *
      * @ignore Exclude from docs
-     * @param  {InteractionObject}  io      Element
-     * @param  {InertiaTypes}       type    Inertia type
-     * @param  {string}             option  Option key
-     * @return {any}                        Option value
+     * @param io      Element
+     * @param type    Inertia type
+     * @param option  Option key
+     * @return Option value
      */
     Interaction.prototype.getInertiaOption = function (io, type, option) {
         var options = io.inertiaOptions.getKey(type);
@@ -2203,7 +2171,7 @@ var Interaction = /** @class */ (function (_super) {
      * Stops currently going on inertia. Useful if inertia is currently being
      * animated and the object is being interacted with.
      *
-     * @param {InteractionObject} io Element
+     * @param io Element
      */
     Interaction.prototype.stopInertia = function (io) {
         var x;
@@ -2224,9 +2192,9 @@ var Interaction = /** @class */ (function (_super) {
     /**
      * Check if swiping is currently being performed on an object.
      *
-     * @param  {InteractionObject}  io       Element
-     * @param  {IPointer}           pointer  Pointer to check
-     * @return {boolean}                     `true` if swiping
+     * @param io       Element
+     * @param pointer  Pointer to check
+     * @return `true` if swiping
      */
     Interaction.prototype.swiping = function (io, pointer) {
         var now = $time.getTime();
@@ -2244,9 +2212,9 @@ var Interaction = /** @class */ (function (_super) {
     /**
      * Returns `true` if a successfull swipe action was performed on an element.
      *
-     * @param  {InteractionObject}  io       Element
-     * @param  {IPointer}           pointer  Pointer
-     * @return {boolean}                     Swiped?
+     * @param io       Element
+     * @param pointer  Pointer
+     * @return Swiped?
      */
     Interaction.prototype.swiped = function (io, pointer) {
         var now = $time.getTime();
@@ -2267,7 +2235,7 @@ var Interaction = /** @class */ (function (_super) {
      * [[InteractionObject]].
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}   Element
+     * @param Element
      */
     Interaction.prototype.applyCursorOverStyle = function (io) {
         // Get sprite's cursor ooptions
@@ -2285,8 +2253,8 @@ var Interaction = /** @class */ (function (_super) {
      * [[InteractionObject]].
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io       Element
-     * @param {IPointer}           pointer  Pointer
+     * @param io       Element
+     * @param pointer  Pointer
      */
     Interaction.prototype.applyCursorDownStyle = function (io, pointer) {
         // Not applicable for touch pointers since they don't display a cursor
@@ -2307,8 +2275,8 @@ var Interaction = /** @class */ (function (_super) {
      * Restores original cursor style for the element.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}  io       Element
-     * @param {IPointer}           pointer  Pointer
+     * @param io       Element
+     * @param pointer  Pointer
      */
     Interaction.prototype.restoreCursorDownStyle = function (io, pointer) {
         // Not applicable for touch pointers since they don't display a cursor
@@ -2329,7 +2297,7 @@ var Interaction = /** @class */ (function (_super) {
      * Sets style on the body of the document.
      *
      * @ignore Exclude from docs
-     * @param {Array<IStyleProperty> | IStyleProperty}  style  Style definitions
+     * @param style  Style definitions
      */
     Interaction.prototype.setGlobalStyle = function (style) {
         var body = getInteraction().body;
@@ -2342,7 +2310,7 @@ var Interaction = /** @class */ (function (_super) {
      * Restores style on the body of the document.
      *
      * @ignore Exclude from docs
-     * @param {Array<IStyleProperty> | IStyleProperty}  style  Style definitions
+     * @param style  Style definitions
      */
     Interaction.prototype.restoreGlobalStyle = function (style) {
         var body = getInteraction().body;
@@ -2354,8 +2322,8 @@ var Interaction = /** @class */ (function (_super) {
     /**
      * Checks if element is a non-cahrt element.
      *
-     * @param  {InteractionObject}  io  InteractionObject
-     * @return {boolean}                Global element?
+     * @param io  InteractionObject
+     * @return Global element?
      */
     Interaction.prototype.isGlobalElement = function (io) {
         return document.body === io.element;
@@ -2363,10 +2331,10 @@ var Interaction = /** @class */ (function (_super) {
     /**
      * Checks if pointer has moved since it was created.
      *
-     * @param  {IPointer}  pointer    Pointer
-     * @param  {number}    tolerance  Tolerance in pixels
-     * @param  {number}    minTime    Minimum time required for the pointer to be down to be considered moved
-     * @return {boolean}              `true` if the pointer has moved
+     * @param pointer    Pointer
+     * @param tolerance  Tolerance in pixels
+     * @param minTime    Minimum time required for the pointer to be down to be considered moved
+     * @return `true` if the pointer has moved
      */
     Interaction.prototype.moved = function (pointer, tolerance, minTime) {
         /*// If there was more time, we don't care if cursor actually moved
@@ -2384,8 +2352,8 @@ var Interaction = /** @class */ (function (_super) {
      * X milliseconds.
      *
      * @ignore
-     * @param  {IPointer}  pointer  Pointer
-     * @param  {number}    minTime  Minimum time to consider pointer old
+     * @param pointer  Pointer
+     * @param minTime  Minimum time to consider pointer old
      * @return {boolean}
      */
     Interaction.prototype.old = function (pointer, minTime) {
@@ -2396,8 +2364,8 @@ var Interaction = /** @class */ (function (_super) {
      * Returns total a shift in pointers coordinates between its original
      * position and now.
      *
-     * @param  {IPointer}  pointer  Pointer
-     * @return {IPoint}             Shift in coordinates (x/y)
+     * @param pointer  Pointer
+     * @return Shift in coordinates (x/y)
      */
     Interaction.prototype.getShift = function (pointer) {
         return {
@@ -2408,9 +2376,9 @@ var Interaction = /** @class */ (function (_super) {
     /**
      * Returns a point from [[Pointer]]'s move history at a certain timetamp.
      *
-     * @param  {IPointer}               pointer    Pointer
-     * @param  {number}                 timestamp  Timestamp
-     * @return {Optional<IBreadcrumb>}             Point
+     * @param pointer    Pointer
+     * @param timestamp  Timestamp
+     * @return Point
      */
     Interaction.prototype.getTrailPoint = function (pointer, timestamp) {
         var res;
@@ -2425,9 +2393,9 @@ var Interaction = /** @class */ (function (_super) {
     /**
      * Checks if same pointer already exists in the list.
      *
-     * @param  {List<IPointer>}  list     List to check agains
-     * @param  {IPointer}        pointer  Pointer
-     * @return {boolean}                  Exists?
+     * @param list     List to check agains
+     * @param pointer  Pointer
+     * @return Exists?
      */
     Interaction.prototype.pointerExists = function (list, pointer) {
         var exists = false;
@@ -2445,8 +2413,8 @@ var Interaction = /** @class */ (function (_super) {
      * You can use this on any HTML or SVG element, to add interactive features
      * to it.
      *
-     * @param  {HTMLElement | SVGSVGElement}  element  Element
-     * @return {InteractionObject}                     InteractionObject
+     * @param element  Element
+     * @return InteractionObject
      */
     Interaction.prototype.getInteraction = function (element) {
         return new InteractionObject(element);
@@ -2456,9 +2424,9 @@ var Interaction = /** @class */ (function (_super) {
      * later with [[restoreStyle]].
      *
      * @see {@link restoreStyle}
-     * @param {InteractionObject}  io        Element
-     * @param {string}             property  Property
-     * @param {string}             value     Value
+     * @param io        Element
+     * @param property  Property
+     * @param value     Value
      */
     Interaction.prototype.setTemporaryStyle = function (io, property, value) {
         // Get element
@@ -2474,8 +2442,8 @@ var Interaction = /** @class */ (function (_super) {
     /**
      * Restores specific style on an element.
      *
-     * @param {InteractionObject}  io        Element
-     * @param {string}             property  Style property
+     * @param io        Element
+     * @param property  Style property
      */
     Interaction.prototype.restoreStyle = function (io, property) {
         // Reset style
@@ -2490,7 +2458,7 @@ var Interaction = /** @class */ (function (_super) {
     /**
      * Restore temporarily reset styles on an element.
      *
-     * @param {InteractionObject} io Element
+     * @param io Element
      */
     Interaction.prototype.restoreAllStyles = function (io) {
         $iter.each(io.replacedStyles.iterator(), function (a) {
@@ -2504,7 +2472,7 @@ var Interaction = /** @class */ (function (_super) {
      * Disposes this object and cleans up after itself.
      */
     Interaction.prototype.dispose = function () {
-        if (!this.isDisposed) {
+        if (!this.isDisposed()) {
             _super.prototype.dispose.call(this);
             this.restoreAllStyles(this.body);
             this.unlockWheel();

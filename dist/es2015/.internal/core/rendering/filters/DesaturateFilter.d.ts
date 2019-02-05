@@ -21,8 +21,6 @@ import { AMElement } from "../AMElement";
 export interface DesaturateFilterProperties extends FilterProperties {
     /**
      * Saturation. (0-1)
-     *
-     * @type {number}
      */
     saturation: number;
 }
@@ -38,20 +36,16 @@ export interface DesaturateFilterProperties extends FilterProperties {
 export declare class DesaturateFilter extends Filter {
     /**
      * Defines property types.
-     *
-     * @type {DesaturateFilterProperties}
      */
     _properties: DesaturateFilterProperties;
     /**
      * A storage for Filter property/value pairs.
      * @see [@link DesaturateFilterProperties]
-     * @type {Dictionary<DesaturateFilterProperties, any>}
      */
     /**
      * Reference to the `<feColorMatrix>` element.
      *
      * @ignore Exclude from docs
-     * @type {AMElement}
      */
     feColorMatrix: AMElement;
     /**
@@ -59,7 +53,7 @@ export declare class DesaturateFilter extends Filter {
      */
     constructor();
     /**
-     * @return {number} Saturation (0-1)
+     * @return Saturation (0-1)
      */
     /**
      * Saturation.
@@ -67,7 +61,7 @@ export declare class DesaturateFilter extends Filter {
      * 0 - completely desaturated.
      * 1 - fully saturated (gray).
      *
-     * @param {number}  value  Saturation (0-1)
+     * @param value  Saturation (0-1)
      */
     saturation: number;
 }

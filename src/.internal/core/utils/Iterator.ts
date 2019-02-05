@@ -84,7 +84,6 @@ export function toArray<A>(iter: Iterator<A>): Array<A> {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export function eachContinue<A>(iter: Iterator<A>, fn: (value: A) => boolean): void {
 	return iter(fn);
@@ -95,7 +94,6 @@ export function eachContinue<A>(iter: Iterator<A>, fn: (value: A) => boolean): v
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export function each<A>(iter: Iterator<A>, fn: (value: A) => void): void {
 	return iter((value) => {
@@ -109,7 +107,6 @@ export function each<A>(iter: Iterator<A>, fn: (value: A) => void): void {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export function sort<A>(iter: Iterator<A>, fn: (left: A, right: A) => Ordering): Iterator<A> {
 	return fromArray(toArray(iter).sort(fn));
@@ -120,7 +117,6 @@ export function sort<A>(iter: Iterator<A>, fn: (left: A, right: A) => Ordering):
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export function map<A, B>(iter: Iterator<A>, fn: (value: A) => B): Iterator<B> {
 	return (push) => iter((value) => push(fn(value)));
@@ -131,7 +127,6 @@ export function map<A, B>(iter: Iterator<A>, fn: (value: A) => B): Iterator<B> {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export function filter<A>(iter: Iterator<A>, fn: (value: A) => boolean): Iterator<A> {
 	return (push) => iter((value) => {
@@ -188,7 +183,6 @@ export function flatten<A>(iter: Iterator<Iterator<A>>): Iterator<A> {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export function indexed<A>(iter: Iterator<A>): Iterator<[number, A]> {
 	return (push) => {
@@ -203,7 +197,6 @@ export function indexed<A>(iter: Iterator<A>): Iterator<[number, A]> {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export function findIndex<A>(iter: Iterator<A>, matches: (value: A) => boolean): number {
 	let found = false;
@@ -228,7 +221,6 @@ export function findIndex<A>(iter: Iterator<A>, matches: (value: A) => boolean):
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export function find<A>(iter: Iterator<A>, matches: (value: A) => boolean): A | undefined {
 	let output;
@@ -251,7 +243,6 @@ export function find<A>(iter: Iterator<A>, matches: (value: A) => boolean): A | 
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export function findMap<A, B>(iter: Iterator<A>, matches: (value: A) => B | null): B | undefined {
 	let output;
@@ -276,7 +267,6 @@ export function findMap<A, B>(iter: Iterator<A>, matches: (value: A) => B | null
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export function contains<A>(iter: Iterator<A>, matches: (value: A) => boolean): boolean {
 	let output = false;
@@ -299,7 +289,6 @@ export function contains<A>(iter: Iterator<A>, matches: (value: A) => boolean): 
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export function foldl<A, B>(iter: Iterator<A>, init: B, fn: (state: B, value: A) => B): B {
 	iter((value) => {
@@ -315,9 +304,9 @@ export function foldl<A, B>(iter: Iterator<A>, init: B, fn: (state: B, value: A)
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {number |     null}        left [description]
- * @param  {number}    right [description]
- * @return {number}          [description]
+ * @param left [description]
+ * @param right [description]
+ * @return [description]
  */
 function min2(left: number | null, right: number): number {
 	if (left == null || right < left) {
@@ -334,8 +323,8 @@ function min2(left: number | null, right: number): number {
  * @ignore Exclude from docs
  * @todo Verify that this works correctly
  * @todo Description
- * @param  {Iterator<number>} a [description]
- * @return {number}             [description]
+ * @param a [description]
+ * @return [description]
  */
 export function min(a: Iterator<number>): number | null {
 	return foldl(a, null, min2);
@@ -346,9 +335,9 @@ export function min(a: Iterator<number>): number | null {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {number |     null}        left [description]
- * @param  {number}    right [description]
- * @return {number}          [description]
+ * @param left [description]
+ * @param right [description]
+ * @return [description]
  */
 function max2(left: number | null, right: number): number {
 	if (left == null || right > left) {
@@ -365,8 +354,8 @@ function max2(left: number | null, right: number): number {
  * @ignore Exclude from docs
  * @todo Verify that this works correctly
  * @todo Description
- * @param  {Iterator<number>} a [description]
- * @return {number}             [description]
+ * @param a [description]
+ * @return [description]
  */
 export function max(a: Iterator<number>): number | null {
 	return foldl(a, null, max2);
@@ -378,9 +367,9 @@ export function max(a: Iterator<number>): number | null {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {Iterator<string>} iter [description]
- * @param  {string        =    ""}          separator [description]
- * @return {string}                [description]
+ * @param iter [description]
+ * @param separator [description]
+ * @return [description]
  */
 export function join(iter: Iterator<string>, separator: string = ""): string {
 	let first = true;
@@ -417,9 +406,9 @@ export class ListIterator<T extends IClone<T>> {
 
 	/**
 	 * Constructor
-	 * 
-	 * @param {Iterable<T>} list [description]
-	 * @param {()       =>   T}           create [description]
+	 *
+	 * @param list [description]
+	 * @param create [description]
 	 */
 	constructor(list: Iterable<T>, create: () => T) {
 		this.list = list;

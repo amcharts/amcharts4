@@ -34,21 +34,16 @@ var System = /** @class */ (function () {
     function System() {
         /**
          * A flag indicating if the system is on pause.
-         *
-         * @type {boolean}
          */
         this._isPaused = false;
         /**
          * Unique ID of the object.
-         *
-         * @type {string}
          */
         this.uid = registry.getUniqueId();
         /**
          * @todo Description
          * @todo Needed?
          * @ignore Exclude from docs
-         * @type {number}
          */
         this.dummyCounter = 0;
         this._frameRequested = false;
@@ -60,8 +55,8 @@ var System = /** @class */ (function () {
      *
      * @ignore Exclude from docs
      * @todo Needed?
-     * @param {string}   msg    Message to report in console
-     * @param {boolean}  reset  Reset time counter
+     * @param msg    Message to report in console
+     * @param reset  Reset time counter
      */
     System.prototype.reportTime = function (msg, reset) {
         if (this.dummyCounter < 6) {
@@ -421,7 +416,7 @@ var System = /** @class */ (function () {
     /**
      * Outputs string to console if `verbose` is `true`.
      *
-     * @param {any} value Message to output to console
+     * @param value Message to output to console
      */
     System.prototype.log = function (value) {
         if (options.verbose) {
@@ -432,7 +427,7 @@ var System = /** @class */ (function () {
     };
     Object.defineProperty(System.prototype, "isPaused", {
         /**
-         * @return {boolean} Is system on pause?
+         * @return Is system on pause?
          */
         get: function () {
             return this._isPaused;
@@ -440,7 +435,7 @@ var System = /** @class */ (function () {
         /**
          * Pauses all the processes of all the amCharts objects on the page
          *
-         * @return {boolean} is paused?
+         * @return is paused?
          */
         set: function (value) {
             this._isPaused = value;
@@ -458,9 +453,8 @@ var System = /** @class */ (function () {
      * This follows npm's semver specification.
      *
      * @see {@link https://docs.npmjs.com/misc/semver}
-     * @type {string}
      */
-    System.VERSION = "4.1.1";
+    System.VERSION = "4.1.2";
     return System;
 }());
 export { System };

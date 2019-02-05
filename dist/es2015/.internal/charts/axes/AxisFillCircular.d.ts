@@ -19,20 +19,14 @@ import { Percent } from "../../core/utils/Percent";
 export interface IAxisFillCircularProperties extends IAxisFillProperties {
     /**
      * Inner radius. Relative ir absolute.
-     *
-     * @type {number | Percent}
      */
     innerRadius?: number | Percent;
     /**
      * Outer radius. Relative or absolute.
-     *
-     * @type {number | Percent}
      */
     radius?: number | Percent;
     /**
      * Corner radius for the fill. In pixels.
-     *
-     * @type {number}
      */
     cornerRadius?: number;
 }
@@ -64,20 +58,14 @@ export interface IAxisFillCircularAdapters extends IAxisFillAdapters, IAxisFillC
 export declare class AxisFillCircular extends AxisFill {
     /**
      * Defines available properties.
-     *
-     * @type {IAxisFillCircularProperties}
      */
     _properties: IAxisFillCircularProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IAxisFillCircularAdapters}
      */
     _adapter: IAxisFillCircularAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IAxisFillCircularEvents}
      */
     _events: IAxisFillCircularEvents;
     /**
@@ -85,13 +73,12 @@ export declare class AxisFillCircular extends AxisFill {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @type {string}
      */
     fillPath: string;
     /**
      * Constructor.
      *
-     * @param {Axis} axis Axis
+     * @param axis Axis
      */
     constructor(axis: Axis);
     /**
@@ -101,30 +88,30 @@ export declare class AxisFillCircular extends AxisFill {
      */
     draw(): void;
     /**
-     * @return {number} Inner radius
+     * @return Inner radius
      */
     /**
      * Inner radius of the fill. Relative ([[Percent]]) or absolute (pixels).
      *
-     * @param {number | Percent}  value  Inner radius
+     * @param value  Inner radius
      */
     innerRadius: number | Percent;
     /**
-     * @return {number} Outer radius
+     * @return Outer radius
      */
     /**
      * Outer radius of the fill. Relative ([[Percent]]) or absolute (pixels).
      *
-     * @param {number | Percent}  value  Outer radius
+     * @param value  Outer radius
      */
     radius: number | Percent;
     /**
-     * @return {number} Corner radius (px)
+     * @return Corner radius (px)
      */
     /**
      * Corner radius for the fill. In pixels.
      *
-     * @param {number}  value  Corner radius (px)
+     * @param value  Corner radius (px)
      */
     cornerRadius: number;
 }

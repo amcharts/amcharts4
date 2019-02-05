@@ -24,8 +24,6 @@ var Modal = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * Adapter.
-         *
-         * @type {Adapter<Modal, IModalAdapters>}
          */
         _this.adapter = new Adapter(_this);
         _this.className = "Modal";

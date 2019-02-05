@@ -47,20 +47,14 @@ export interface ITriangleAdapters extends ISpriteAdapters, ITriangleProperties 
 export declare class Triangle extends Sprite {
     /**
      * Defines available properties.
-     *
-     * @type {ITriangleProperties}
      */
     _properties: ITriangleProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ITriangleAdapters}
      */
     _adapter: ITriangleAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ITriangleEvents}
      */
     _events: ITriangleEvents;
     /**
@@ -76,12 +70,12 @@ export declare class Triangle extends Sprite {
     /**
      * Returns direction of a triangle
      *
-     * @return {"left" | "right" | "top" | "bottom"} value
+     * @return value
      */
     /**
      * Sets direction of a triangle
      *
-     * @param {"left" | "right" | "top" | "bottom"} value
+     * @param value
      */
     direction: "left" | "right" | "top" | "bottom";
 }

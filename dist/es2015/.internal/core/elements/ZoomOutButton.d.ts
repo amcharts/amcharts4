@@ -46,20 +46,14 @@ export interface IZoomOutButtonAdapters extends IButtonAdapters, IZoomOutButtonP
 export declare class ZoomOutButton extends Button {
     /**
      * Defines available properties.
-     *
-     * @type {IZoomOutButtonProperties}
      */
     _properties: IZoomOutButtonProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IZoomOutButtonAdapters}
      */
     _adapter: IZoomOutButtonAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IZoomOutButtonEvents}
      */
     _events: IZoomOutButtonEvents;
     /**

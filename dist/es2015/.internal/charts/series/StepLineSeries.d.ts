@@ -24,8 +24,6 @@ import { IPoint } from "../../core/defs/IPoint";
 export declare class StepLineSeriesDataItem extends LineSeriesDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {StepLineSeries}
      */
     _component: StepLineSeries;
     /**
@@ -81,32 +79,22 @@ export interface IStepLineSeriesAdapters extends ILineSeriesAdapters, IStepLineS
 export declare class StepLineSeries extends LineSeries {
     /**
      * Defines the type of data fields used for the series.
-     *
-     * @type {IStepLineSeriesDataFields}
      */
     _dataFields: IStepLineSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IStepLineSeriesProperties}
      */
     _properties: IStepLineSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IStepLineSeriesAdapters}
      */
     _adapter: IStepLineSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IStepLineSeriesEvents}
      */
     _events: IStepLineSeriesEvents;
     /**
      * Defines the type of data item.
-     *
-     * @type {StepLineSeriesDataItem}
      */
     _dataItem: StepLineSeriesDataItem;
     /**
@@ -120,26 +108,26 @@ export declare class StepLineSeries extends LineSeries {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {StepLineSeriesDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
      * [addPoints description]
      *
      * @todo Description
-     * @param {IPoint[]}           points     [description]
-     * @param {this["_dataItem"]}  dataItem   [description]
-     * @param {string}             xField     [description]
-     * @param {string}             yField     [description]
-     * @param {boolean}            backwards  [description]
+     * @param points     [description]
+     * @param dataItem   [description]
+     * @param xField     [description]
+     * @param yField     [description]
+     * @param backwards  [description]
      */
     protected addPoints(points: IPoint[], dataItem: this["_dataItem"], xField: string, yField: string, backwards?: boolean): void;
     /**
      * Draws the line segment.
      *
-     * @param {LineSeriesSegment}  segment     Segment
-     * @param {IPoint[]}           points      Segment points
-     * @param {IPoint[]}           closePoints Segment close points
+     * @param segment     Segment
+     * @param points      Segment points
+     * @param closePoints Segment close points
      */
     protected drawSegment(segment: StepLineSeriesSegment, points: IPoint[], closePoints: IPoint[]): void;
     /**
@@ -147,7 +135,7 @@ export declare class StepLineSeries extends LineSeries {
      */
     protected createSegment(): this["_segment"];
     /**
-     * @return {boolean} No risers
+     * @return No risers
      */
     /**
      * Specifies if step line series should draw only horizontal (or only
@@ -155,26 +143,26 @@ export declare class StepLineSeries extends LineSeries {
      * vertical (or horizontal) lines.
      *
      * @default false
-     * @param {boolean}  value  No risers
+     * @param value  No risers
      */
     noRisers: boolean;
     /**
-     * @return {number} Location (0-1)
+     * @return Location (0-1)
      */
     /**
      * start location of the step
      *
-     * @param {number} value Location (0-1)
+     * @param value Location (0-1)
      * @default 0
      */
     startLocation: number;
     /**
-     * @return {number} Location (0-1)
+     * @return Location (0-1)
      */
     /**
      * Step end location.
      *
-     * @param {number} value Location (0-1)
+     * @param value Location (0-1)
      * #default 1
      */
     endLocation: number;

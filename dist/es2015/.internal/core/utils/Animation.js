@@ -26,9 +26,9 @@ import { system } from "../System";
  * @todo Needed?
  * @deprecated Not used anywhere
  * @ignore Exclude from docs
- * @param  {number}     duration  Duration (ms)
- * @param  {function}   callback  Callback function
- * @return {IDisposer}            Disposer
+ * @param duration  Duration (ms)
+ * @param callback  Callback function
+ * @return Disposer
  */
 export function animate(duration, callback) {
     var disposed = false;
@@ -55,16 +55,15 @@ export function animate(duration, callback) {
  * Holds the list of currently playing animations.
  *
  * @ignore Exclude from docs
- * @type {Array<IAnimationObject>}
  */
 export var animations = [];
 /**
  * Returns numeric value accoring to progress between start and end values.
  *
- * @param  {number}  progress  Progress (0-1)
- * @param  {number}  from
- * @param  {number}  to
- * @return {number}            Value according to progress
+ * @param progress  Progress (0-1)
+ * @param from
+ * @param to
+ * @return Value according to progress
  */
 function getProgressNumber(progress, from, to) {
     return from + ((to - from) * progress);
@@ -73,10 +72,10 @@ function getProgressNumber(progress, from, to) {
  * Returns [[Percent]] value accoring to progress between start and end
  * values.
  *
- * @param  {number}   progress  Progress (0-1)
- * @param  {Percent}  from
- * @param  {Percent}  to
- * @return {number}             Value according to progress
+ * @param progress  Progress (0-1)
+ * @param from
+ * @param to
+ * @return Value according to progress
  */
 function getProgressPercent(progress, from, to) {
     return new Percent(getProgressNumber(progress, from.percent, to.percent));
@@ -84,10 +83,10 @@ function getProgressPercent(progress, from, to) {
 /**
  * Returns color value accoring to progress between start and end values.
  *
- * @param  {number}  progress  Progress (0-1)
- * @param  {Color}   from
- * @param  {Color}   to
- * @return {string}            Color according to progress
+ * @param progress  Progress (0-1)
+ * @param from
+ * @param to
+ * @return Color according to progress
  */
 function getProgressColor(progress, from, to) {
     return new Color($colors.interpolate(from.rgb, to.rgb, progress));
@@ -96,9 +95,9 @@ function getProgressColor(progress, from, to) {
  * [getHybridProperty description]
  *
  * @todo Description
- * @param  {string}     property [description]
- * @param  {"pixel" |        "relative"}  type [description]
- * @return {string}              [description]
+ * @param property [description]
+ * @param type [description]
+ * @return [description]
  */
 function getHybridProperty(property, type) {
     return type + property.charAt(0).toUpperCase() + property.substr(1);
@@ -221,10 +220,10 @@ var Animation = /** @class */ (function (_super) {
     /**
      * Constructor
      *
-     * @param {IAnimatable}                              object            An object animation should run on
-     * @param {IAnimationOptions[] | IAnimationOptions}  animationOptions  One or several (array) of animation options
-     * @param {number}                                   duration          Duration (ms)
-     * @param {(number) => number}                       easing            Easing function
+     * @param object            An object animation should run on
+     * @param animationOptions  One or several (array) of animation options
+     * @param duration          Duration (ms)
+     * @param easing            Easing function
      */
     function Animation(object, animationOptions, duration, easing) {
         var _this = 
@@ -232,45 +231,32 @@ var Animation = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * Duration of the animation in milliseconds.
-         *
-         * @type {number}
          */
         _this.duration = 0;
         /**
          * Easing function to use.
          *
          * @see {@link Ease}
-         * @type {(value: number) => number}
          */
         _this.easing = $ease.linear;
         /**
          * Contains progress of the current animation: 0 (start) to 1 (end).
-         *
-         * @type {number}
          */
         _this.progress = 0;
         /**
          * Indicated how many times animation should loop.
-         *
-         * @type {number}
          */
         _this._loop = 0;
         /**
          * Animation is paused.
-         *
-         * @type {boolean}
          */
         _this._pause = false;
         /**
          * Holds reference to timeout for delayed play.
-         *
-         * @type {IDisposer}
          */
         _this._delayTimeout = null;
         /**
          * Elapsed time in currently playing animation.
-         *
-         * @type {number}
          */
         _this._time = 0;
         _this._isFinished = false;
@@ -305,8 +291,8 @@ var Animation = /** @class */ (function (_super) {
     /**
      * Delays animation start by X milliseconds.
      *
-     * @param  {number}     delay  Delay (ms)
-     * @return {Animation}         Animation
+     * @param delay  Delay (ms)
+     * @return Animation
      */
     Animation.prototype.delay = function (delay) {
         var _this = this;
@@ -347,7 +333,7 @@ var Animation = /** @class */ (function (_super) {
     /**
      * Starts animation.
      *
-     * @return {Animation} Animation
+     * @return Animation
      */
     Animation.prototype.start = function () {
         this._start();
@@ -451,8 +437,8 @@ var Animation = /** @class */ (function (_super) {
      * Sets loop count for the animation. If parameter is not a valid number the
      * animation will keep on looping indefinitely.
      *
-     * @param  {number}     count  Number of times to loop animation
-     * @return {Animation}         Animation
+     * @param count  Number of times to loop animation
+     * @return Animation
      */
     Animation.prototype.loop = function (count) {
         if (!$type.isNumber(count)) {
@@ -464,7 +450,7 @@ var Animation = /** @class */ (function (_super) {
     /**
      * Pauses animation.
      *
-     * @return {Animation} Animation
+     * @return Animation
      */
     Animation.prototype.pause = function () {
         this._pause = true;
@@ -479,7 +465,7 @@ var Animation = /** @class */ (function (_super) {
     /**
      * Resumes paused animation.
      *
-     * @return {Animation} Animation
+     * @return Animation
      */
     Animation.prototype.resume = function () {
         this._start();
@@ -490,7 +476,7 @@ var Animation = /** @class */ (function (_super) {
      * Jumps to animation end. If animation is set to loop, this will start
      * another round of animation from start.
      *
-     * @return {Animation} Animation
+     * @return Animation
      */
     Animation.prototype.end = function () {
         // Pause and complete the progress
@@ -526,7 +512,7 @@ var Animation = /** @class */ (function (_super) {
     /**
      * Returns indicator if this animation is finished or not
      *
-     * @return {boolean} Is finished?
+     * @return Is finished?
      */
     Animation.prototype.isFinished = function () {
         return this._isFinished;
@@ -551,8 +537,8 @@ var Animation = /** @class */ (function (_super) {
      * When animation is stopped, the properties of the target object will remain
      * where they were at the moment when `stop()` was called.
      *
-     * @param  {boolean}    skipEvent  Do not trigger `animationstopped` event
-     * @return {Animation}             Animation
+     * @param skipEvent  Do not trigger `animationstopped` event
+     * @return Animation
      */
     Animation.prototype.stop = function (skipEvent) {
         this.pause();
@@ -571,7 +557,7 @@ var Animation = /** @class */ (function (_super) {
     /**
      * Sets current progress and updates object's numeric and color values.
      *
-     * @param {number} progress Progress (0-1)
+     * @param progress Progress (0-1)
      */
     Animation.prototype.setProgress = function (progress) {
         var _this = this;
@@ -602,7 +588,7 @@ var Animation = /** @class */ (function (_super) {
      * Tracks and sets progress according to time or frames.
      *
      * @ignore Exclude from docs
-     * @return {Animation} Animation
+     * @return Animation
      */
     Animation.prototype.update = function () {
         if (!this._pause) {
@@ -625,7 +611,7 @@ var Animation = /** @class */ (function (_super) {
          * Returns `true` if this animation is delayed.
          *
          * @readonly
-         * @return {boolean} [description]
+         * @return [description]
          */
         get: function () {
             return this._delayTimeout ? true : false;

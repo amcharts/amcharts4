@@ -46,7 +46,7 @@ var FunnelSeriesDataItem = /** @class */ (function (_super) {
          * A [[FunnelSlice]] element, related to this data item ([[FunnelSlice]]).
          *
          * @readonly
-         * @return {FunnelSlice} Slice element
+         * @return Slice element
          */
         get: function () {
             var _this = this;
@@ -106,7 +106,7 @@ var FunnelSeries = /** @class */ (function (_super) {
     /**
      * Creates a [[FunnelSlice]] element.
      *
-     * @return {FunnelSlice} Slice
+     * @return Slice
      */
     FunnelSeries.prototype.createSlice = function () {
         return new FunnelSlice();
@@ -114,7 +114,7 @@ var FunnelSeries = /** @class */ (function (_super) {
     /**
      * Creates a [[FunnelTick]] element.
      *
-     * @return {FunnelTick} Tick
+     * @return Tick
      */
     FunnelSeries.prototype.createTick = function () {
         return new FunnelTick();
@@ -133,7 +133,7 @@ var FunnelSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {FunnelSeriesDataItem} Data Item
+     * @return Data Item
      */
     FunnelSeries.prototype.createDataItem = function () {
         return new FunnelSeriesDataItem();
@@ -141,7 +141,7 @@ var FunnelSeries = /** @class */ (function (_super) {
     /**
      * Inits FunnelSlice.
      *
-     * @param  {FunnelSlice} slice to init
+     * @param slice to init
      */
     FunnelSeries.prototype.initSlice = function (slice) {
         slice.isMeasured = false;
@@ -156,7 +156,7 @@ var FunnelSeries = /** @class */ (function (_super) {
      * [initLabel description]
      *
      * @todo Description
-     * @param {this["_label"]} label [description]
+     * @param label [description]
      */
     FunnelSeries.prototype.initLabel = function (label) {
         _super.prototype.initLabel.call(this, label);
@@ -227,8 +227,8 @@ var FunnelSeries = /** @class */ (function (_super) {
      * [getNextValue description]
      *
      * @todo Description
-     * @param  {FunnelSeriesDataItem}  dataItem  [description]
-     * @return {number}                          [description]
+     * @param dataItem  [description]
+     * @return [description]
      */
     FunnelSeries.prototype.getNextValue = function (dataItem) {
         var index = dataItem.index;
@@ -253,7 +253,7 @@ var FunnelSeries = /** @class */ (function (_super) {
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
-     * @param {FunnelSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     FunnelSeries.prototype.validateDataElement = function (dataItem) {
         var percentValue = dataItem.values.value.percent;
@@ -280,7 +280,7 @@ var FunnelSeries = /** @class */ (function (_super) {
      * [decorateSlice description]
      *
      * @todo Description
-     * @param {this["_dataItem"]} dataItem [description]
+     * @param dataItem [description]
      */
     FunnelSeries.prototype.decorateSlice = function (dataItem) {
         var slice = dataItem.slice;
@@ -351,7 +351,7 @@ var FunnelSeries = /** @class */ (function (_super) {
                 var lastLabel = this.labels.getIndex(count - 1);
                 var lastY = lastLabel.pixelY;
                 var lastX = lastLabel.pixelX;
-                if (this.labels.length > 1) {
+                if (count > 1) {
                     for (var i = count - 2; i >= 0; i--) {
                         var label = this.labels.getIndex(i);
                         if (label.visible) {
@@ -404,7 +404,7 @@ var FunnelSeries = /** @class */ (function (_super) {
      * Positions series bullet.
      *
      * @ignore Exclude from docs
-     * @param {Bullet}  bullet  Bullet
+     * @param bullet  Bullet
      */
     FunnelSeries.prototype.positionBullet = function (bullet) {
         _super.prototype.positionBullet.call(this, bullet);
@@ -423,7 +423,7 @@ var FunnelSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(FunnelSeries.prototype, "orientation", {
         /**
-         * @return {Orientation} Orientation
+         * @return Orientation
          */
         get: function () {
             return this.getPropertyValue("orientation");
@@ -432,7 +432,7 @@ var FunnelSeries = /** @class */ (function (_super) {
          * Orientation of the funnel slices: "horizontal" or "vertical" (default).
          *
          * @default "vertical"
-         * @param {Orientation} value Orientation
+         * @param value Orientation
          */
         set: function (value) {
             if (this.setPropertyValue("orientation", value)) {
@@ -521,7 +521,7 @@ var FunnelSeries = /** @class */ (function (_super) {
          * }
          * ```
          *
-         * @return {ListTemplate} Funnel links
+         * @return Funnel links
          */
         get: function () {
             if (!this._sliceLinks) {
@@ -542,8 +542,8 @@ var FunnelSeries = /** @class */ (function (_super) {
     /**
      * Shows hidden series.
      *
-     * @param  {number}     duration  Duration of reveal animation (ms)
-     * @return {Animation}            Animation
+     * @param duration  Duration of reveal animation (ms)
+     * @return Animation
      */
     FunnelSeries.prototype.show = function (duration) {
         var _this = this;
@@ -568,8 +568,8 @@ var FunnelSeries = /** @class */ (function (_super) {
     /**
      * Hides series.
      *
-     * @param  {number}     duration  Duration of hiding animation (ms)
-     * @return {Animation}            Animation
+     * @param duration  Duration of hiding animation (ms)
+     * @return Animation
      */
     FunnelSeries.prototype.hide = function (duration) {
         var _this = this;

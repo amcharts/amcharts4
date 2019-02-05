@@ -45,8 +45,6 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * A chart element Scrollbar is for.
-         *
-         * @type {MutableValueDisposer}
          */
         _this._chart = new MutableValueDisposer();
         _this.className = "XYChartScrollbar";
@@ -94,7 +92,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
          * A list of series that are used to draw graph(s) on the scrollbar.
          *
          * @readonly
-         * @return {List<XYSeries>} Series
+         * @return Series
          */
         get: function () {
             if (!this._series) {
@@ -110,7 +108,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
     /**
      * Decorates a new series when they are pushed into a `series` list.
      *
-     * @param {IListEvents<XYSeries>["inserted"]} event Event
+     * @param event Event
      */
     XYChartScrollbar.prototype.handleSeriesAdded = function (event) {
         var sourceSeries = event.newValue;
@@ -232,7 +230,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
     /**
      * Cleans up after series are removed from Scrollbar.
      *
-     * @param {IListEvents<XYSeries>["removed"]}  event  Event
+     * @param event  Event
      */
     XYChartScrollbar.prototype.handleSeriesRemoved = function (event) {
         var sourceSeries = event.oldValue;
@@ -248,7 +246,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
          * It can be configured just like any other [[XYChart]].
          *
          * @readonly
-         * @return {XYChart} Scrollbar's internal chart
+         * @return Scrollbar's internal chart
          */
         get: function () {
             return this._scrollbarChart;
@@ -258,7 +256,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYChartScrollbar.prototype, "chart", {
         /**
-         * @return {XYChart} Chart
+         * @return Chart
          */
         get: function () {
             return this._chart.get();
@@ -266,7 +264,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         /**
          * A chart that Scrollbar belongs to.
          *
-         * @param {XYChart} chart  Chart
+         * @param chart  Chart
          */
         set: function (chart) {
             if (this._chart.get() !== chart) {
@@ -349,7 +347,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     XYChartScrollbar.prototype.processConfig = function (config) {
         if (config) {

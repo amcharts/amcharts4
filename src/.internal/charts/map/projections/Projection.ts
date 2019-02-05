@@ -226,8 +226,8 @@ export class Projection {
 
 	/**
 	 * Converts a geographical point (lat/long) to a screen point (x/y)
-	 * @param  {IGeoPoint} geoPoint Geo point (lat/long)
-	 * @return {IPoint}             Screen point (x/y)
+	 * @param geoPoint Geo point (lat/long)
+	 * @return Screen point (x/y)
 	 */
 	public convert(geoPoint: IGeoPoint): IPoint {
 		geoPoint = $geo.normalizePoint(geoPoint);
@@ -241,8 +241,8 @@ export class Projection {
 
 	/**
 	 * Converts a screen point (x/y) to a geographical point (lat/long)
-	 * @param  {IPoint}    point Screen point (x/y)
-	 * @return {IGeoPoint}       Geo point (lat/long)
+	 * @param point Screen point (x/y)
+	 * @return Geo point (lat/long)
 	 */
 	public invert(point: IPoint): IGeoPoint {
 		let pointInRadians: IGeoPoint = this.unproject((point.x / this.scale + this.centerPoint.x) * $math.RADIANS, (-point.y / this.scale - this.centerPoint.y) * $math.RADIANS);
@@ -258,9 +258,9 @@ export class Projection {
 	 * Returns X/Y coordinates.
 	 * Individual projections will override this method to apply their own
 	 * projection logic.
-	 * @param  {number} lambda [description]
-	 * @param  {number} phi    [description]
-	 * @return {IPoint}        X/Y coordinates
+	 * @param lambda [description]
+	 * @param phi    [description]
+	 * @return X/Y coordinates
 	 * @todo Needs description
 	 */
 	public project(lambda: number, phi: number): IPoint {
@@ -271,9 +271,9 @@ export class Projection {
 	 * Returns geographical coordinates (lat/long).
 	 * Individual projections will override this method to apply their own
 	 * projection logic.
-	 * @param  {number}    x X coordinate
-	 * @param  {number}    y Y coordinate
-	 * @return {IGeoPoint}   Geographical point
+	 * @param x X coordinate
+	 * @param y Y coordinate
+	 * @return Geographical point
 	 * @todo Needs description
 	 */
 	public unproject(x: number, y: number): IGeoPoint {

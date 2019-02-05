@@ -332,43 +332,31 @@ export class AMElement implements IDisposer {
 
 	/**
 	 * Indicates if the element was already disposed.
-	 *
-	 * @type {boolean}
 	 */
 	protected _isDisposed: boolean = false;
 
 	/**
 	 * An SVG node of the element.
-	 *
-	 * @type {SVGSVGElement}
 	 */
 	public node: SVGSVGElement;
 
 	/**
 	 * Current X coordinate.
-	 *
-	 * @type {number}
 	 */
 	private _x: number = 0;
 
 	/**
 	 * Current Y coordinate.
-	 *
-	 * @type {number}
 	 */
 	private _y: number = 0;
 
 	/**
 	 * Current rotation.
-	 *
-	 * @type {number}
 	 */
 	private _rotation: number = 0;
 
 	/**
 	 * Current scale.
-	 *
-	 * @type {number}
 	 */
 	private _scale: number = 1;
 
@@ -380,7 +368,7 @@ export class AMElement implements IDisposer {
 	/**
 	 * Constructor creates a new element or uses the one that was passed in.
 	 *
-	 * @param {string | SVGSVGElement} element Element reference node type
+	 * @param element Element reference node type
 	 */
 	constructor(element: string | SVGSVGElement) {
 		if (typeof element === "string") {
@@ -406,7 +394,7 @@ export class AMElement implements IDisposer {
 	 * Returns `transform` attribute of the element.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {Optional<string>} Transform attribute value
+	 * @return Transform attribute value
 	 */
 	public get transformString(): $type.Optional<string> {
 		if (this.node) {
@@ -450,7 +438,7 @@ export class AMElement implements IDisposer {
 	 * ATTENTION: Bounding box calculations are extremely costly so should be
 	 * used sparingly and cached whenever possible.
 	 *
-	 * @return {IRectangle} Bounding rectangle
+	 * @return Bounding rectangle
 	 */
 	public getBBox(): IRectangle {
 		let bbox: IRectangle = {
@@ -481,8 +469,8 @@ export class AMElement implements IDisposer {
 	/**
 	 * Moves the element to new coordinates.
 	 *
-	 * @param {number}  x  Target X
-	 * @param {number}  y  Target Y
+	 * @param x  Target X
+	 * @param y  Target Y
 	 */
 	public moveTo(point: IPoint): void {
 		if (point) {
@@ -499,7 +487,7 @@ export class AMElement implements IDisposer {
 	/**
 	 * Element's SVG contents.
 	 *
-	 * @param {string} value Contents
+	 * @param value Contents
 	 */
 	public set content(value: string) {
 		// @todo Do not use `innerHTML` as this is not reliable and will not work on all browsers
@@ -509,7 +497,7 @@ export class AMElement implements IDisposer {
 	/**
 	 * Returns element's contents as SVG markup.
 	 *
-	 * @return {string} Contents
+	 * @return Contents
 	 */
 	public get content(): string {
 		// @todo Do not use `innerHTML` as this is not reliable and will not work on all browsers
@@ -519,14 +507,14 @@ export class AMElement implements IDisposer {
 	/**
 	 * Text contents of the SVG element.
 	 *
-	 * @param {string} value Text contents
+	 * @param value Text contents
 	 */
 	public set textContent(value: string) {
 		this.node.textContent = value;
 	}
 
 	/**
-	 * @return {string} Text contents
+	 * @return Text contents
 	 */
 	public get textContent(): string {
 		return this.node.textContent || "";
@@ -535,7 +523,7 @@ export class AMElement implements IDisposer {
 	/**
 	 * Element's X position in pixels.
 	 *
-	 * @param {number}  value  X coordinate (px)
+	 * @param value  X coordinate (px)
 	 */
 	public set x(value: number) {
 		if (this._x != value) {
@@ -545,7 +533,7 @@ export class AMElement implements IDisposer {
 	}
 
 	/**
-	 * @return {number} X coordinate (px)
+	 * @return X coordinate (px)
 	 */
 	public get x(): number {
 		return this._x;
@@ -554,7 +542,7 @@ export class AMElement implements IDisposer {
 	/**
 	 * Element's Y position in pixels.
 	 *
-	 * @param {number} value Y coordinate (px)
+	 * @param value Y coordinate (px)
 	 */
 	public set y(value: number) {
 		if (this._y != value) {
@@ -564,7 +552,7 @@ export class AMElement implements IDisposer {
 	}
 
 	/**
-	 * @return {number} Y coordinate (px)
+	 * @return Y coordinate (px)
 	 */
 	public get y(): number {
 		return this._y;
@@ -573,7 +561,7 @@ export class AMElement implements IDisposer {
 	/**
 	 * Element's rotation in degrees.
 	 *
-	 * @param {number} value Rotation
+	 * @param value Rotation
 	 */
 	public set rotation(angle: number) {
 		if (this._rotation != angle) {
@@ -583,7 +571,7 @@ export class AMElement implements IDisposer {
 	}
 
 	/**
-	 * @return {number} Rotation
+	 * @return Rotation
 	 */
 	public get rotation(): number {
 		return this._rotation;
@@ -595,7 +583,7 @@ export class AMElement implements IDisposer {
 	 * Setting to 0.5 will reduce element's size by 50%, 2 will make element
 	 * twice as large, etc.
 	 *
-	 * @param {number} value Scale
+	 * @param value Scale
 	 */
 	public set scale(value: number) {
 		if (this._scale != value) {
@@ -605,7 +593,7 @@ export class AMElement implements IDisposer {
 	}
 
 	/**
-	 * @return {number} Scale
+	 * @return Scale
 	 */
 	public get scale(): number {
 		return this._scale;
@@ -614,7 +602,7 @@ export class AMElement implements IDisposer {
 	/**
 	 * Removes an attribute from element.
 	 *
-	 * @param {string}  attribute  Attribute to remove
+	 * @param attribute  Attribute to remove
 	 */
 	public removeAttr(attribute: string): void {
 		this.node.removeAttribute(attribute);
@@ -623,8 +611,8 @@ export class AMElement implements IDisposer {
 	/**
 	 * Sets a set of attributes on a element.
 	 *
-	 * @param  {ISVGAttribute}  attributes  An object with attribute names (key) and values
-	 * @return {AMElement}                  The same element
+	 * @param attributes  An object with attribute names (key) and values
+	 * @return The same element
 	 */
 	public attr(attributes: ISVGAttribute): AMElement {
 		$object.each(attributes, (attributeName, attributeValue) => {
@@ -645,8 +633,8 @@ export class AMElement implements IDisposer {
 	/**
 	 * Returns a value of a node attribute.
 	 *
-	 * @param  {string}         attribute  Attribute name
-	 * @return {string | null}             Attribute value
+	 * @param attribute  Attribute name
+	 * @return Attribute value
 	 */
 	public getAttr(attribute: string): string | null {
 		return this.node.getAttribute(attribute);
@@ -655,10 +643,10 @@ export class AMElement implements IDisposer {
 	/**
 	 * Sets a single attribute of the element's node using namesspace.
 	 *
-	 * @param  {string}     ns         Namespace
-	 * @param  {string}     attribute  Attribute
-	 * @param  {string}     value      Value
-	 * @return {AMElement}             The same element
+	 * @param ns         Namespace
+	 * @param attribute  Attribute
+	 * @param value      Value
+	 * @return The same element
 	 */
 	public attrNS(ns: string, attribute: string, value: string): AMElement {
 		this.node.setAttributeNS(ns, attribute, value);
@@ -668,9 +656,9 @@ export class AMElement implements IDisposer {
 	/**
 	 * Returns a namespaced attribute value from node.
 	 *
-	 * @param  {string}  ns         Namespace
-	 * @param  {string}  attribute  Attribute
-	 * @return {string}             Attribute value
+	 * @param ns         Namespace
+	 * @param attribute  Attribute
+	 * @return Attribute value
 	 */
 	public getAttrNS(ns: string, attribute: string): string {
 		return this.node.getAttributeNS(ns, attribute);
@@ -679,7 +667,7 @@ export class AMElement implements IDisposer {
 	/**
 	 * Removes `style` attribute from node.
 	 *
-	 * @param {string}  attribute  Attribute to remove
+	 * @param attribute  Attribute to remove
 	 */
 	public removeStyle(attribute: string): void {
 		// @todo Review because it's a bit messy and maybe not needed (pratically not used)
@@ -689,8 +677,8 @@ export class AMElement implements IDisposer {
 	/**
 	 * Returns style attribute value.
 	 *
-	 * @param  {string}  attribute  Style attribute value
-	 * @return {string}             Attribute value
+	 * @param attribute  Style attribute value
+	 * @return Attribute value
 	 */
 	public getStyle(attribute: string): string {
 		// @todo Review because it's a bit messy and maybe not needed (pratically not used)
@@ -700,8 +688,8 @@ export class AMElement implements IDisposer {
 	/**
 	 * Adds style attributes to element's node.
 	 *
-	 * @param  {Object}     attributes  Object containing attribute: value pairs
-	 * @return {AMElement}              The same element
+	 * @param attributes  Object containing attribute: value pairs
+	 * @return The same element
 	 */
 	public addStyle(attributes: Object): AMElement {
 		// @todo Review because it's a bit messy and maybe not needed (pratically not used)
@@ -719,7 +707,7 @@ export class AMElement implements IDisposer {
 	/**
 	 * Adds a class to element.
 	 *
-	 * @param {string}  name  Class name
+	 * @param name  Class name
 	 */
 	public addClass(name: string): void {
 		$dom.addClass(this.node, name);
@@ -728,7 +716,7 @@ export class AMElement implements IDisposer {
 	/**
 	 * Removes a class from element.
 	 *
-	 * @param {string} name Class name
+	 * @param name Class name
 	 */
 	public removeClass(name: string): void {
 		$dom.removeClass(this.node, name);
@@ -737,7 +725,7 @@ export class AMElement implements IDisposer {
 	/**
 	 * Sets a class name on element.
 	 *
-	 * @param {string}  name  Class name
+	 * @param name  Class name
 	 */
 	public setClass(name: string): void {
 		this.node.setAttribute("class", name);
@@ -756,7 +744,7 @@ export class AMElement implements IDisposer {
 	/**
 	 * Was this element already been disposed?
 	 *
-	 * @return {boolean} Disposed?
+	 * @return Disposed?
 	 */
 	public isDisposed(): boolean {
 		return this._isDisposed;

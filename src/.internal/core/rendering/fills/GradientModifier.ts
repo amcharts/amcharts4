@@ -59,29 +59,21 @@ export class GradientModifier extends ColorModifier {
 
 	/**
 	 * A reference to the gradient instance that this modifier is used for.
-	 *
-	 * @type {LinearGradient | RadialGradient}
 	 */
 	public gradient: LinearGradient | RadialGradient;
 
 	/**
 	 * An array of lightness values for each step.
-	 *
-	 * @type {number[]}
 	 */
 	protected _lightnesses!: number[];
 
 	/**
 	 * An array of brightness values for each step.
-	 *
-	 * @type {number[]}
 	 */
 	protected _brightnesses!: number[];
 
 	/**
 	 * An array of opacity values for each step.
-	 *
-	 * @type {number[]}
 	 */
 	protected _opacities!: number[];
 
@@ -89,8 +81,6 @@ export class GradientModifier extends ColorModifier {
 	 * An array of relative position (0-1) for each step.
 	 *
 	 * If not set, all steps will be of equal relative length.
-	 *
-	 * @type {number[]}
 	 */
 	protected _offsets!: number[];
 
@@ -110,7 +100,7 @@ export class GradientModifier extends ColorModifier {
 	/**
 	 * An array of lightness values for each step.
 	 *
-	 * @param {number[]}  value  Lightness values
+	 * @param value  Lightness values
 	 */
 	public set lightnesses(value: number[]) {
 		this._lightnesses = value;
@@ -118,7 +108,7 @@ export class GradientModifier extends ColorModifier {
 	}
 
 	/**
-	 * @return {number[]} Lightness values
+	 * @return Lightness values
 	 */
 	public get lightnesses(): number[] {
 		return this._lightnesses;
@@ -127,7 +117,7 @@ export class GradientModifier extends ColorModifier {
 	/**
 	 * An array of brightness values for each step.
 	 *
-	 * @param {number[]}  value  Brightness values
+	 * @param value  Brightness values
 	 */
 	public set brightnesses(value: number[]) {
 		this._brightnesses = value;
@@ -135,7 +125,7 @@ export class GradientModifier extends ColorModifier {
 	}
 
 	/**
-	 * @return {number[]} Brightness values
+	 * @return Brightness values
 	 */
 	public get brightnesses(): number[] {
 		return this._brightnesses;
@@ -144,14 +134,14 @@ export class GradientModifier extends ColorModifier {
 	/**
 	 * An array of opacity values for each step.
 	 *
-	 * @param {number[]}  value  Opacity values
+	 * @param value  Opacity values
 	 */
 	public set opacities(value: number[]) {
 		this._opacities = value;
 	}
 
 	/**
-	 * @return {number[]} Opacity values
+	 * @return Opacity values
 	 */
 	public get opacities(): number[] {
 		return this._opacities;
@@ -162,14 +152,14 @@ export class GradientModifier extends ColorModifier {
 	 *
 	 * If not set, all steps will be of equal relative length.
 	 *
-	 * @param {number[]}  value  Offsets
+	 * @param value  Offsets
 	 */
 	public set offsets(value: number[]) {
 		this._offsets = value;
 	}
 
 	/**
-	 * @return {number[]} Offsets
+	 * @return Offsets
 	 */
 	public get offsets(): number[] {
 		return this._offsets;
@@ -179,8 +169,8 @@ export class GradientModifier extends ColorModifier {
 	 * Modifies the color based on step setting.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {Color}  value  Source color
-	 * @return {Color}         A gradient that matches set modification rules
+	 * @param value  Source color
+	 * @return A gradient that matches set modification rules
 	 */
 	public modify(value: Color): Color | LinearGradient | RadialGradient {
 

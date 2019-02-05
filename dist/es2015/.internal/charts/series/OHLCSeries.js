@@ -30,7 +30,6 @@ var OHLCSeriesDataItem = /** @class */ (function (_super) {
     tslib_1.__extends(OHLCSeriesDataItem, _super);
     /**
      * Defines a type of [[Component]] this data item is used for
-     * @type {OHLCSeries}
      * @todo Disabled to work around TS bug (see if we can re-enable it again)
      */
     //public _component!: OHLCSeries;
@@ -85,7 +84,7 @@ var OHLCSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {OHLCSeriesDataItem} Data Item
+     * @return Data Item
      */
     OHLCSeries.prototype.createDataItem = function () {
         return new OHLCSeriesDataItem();
@@ -171,7 +170,7 @@ var OHLCSeries = /** @class */ (function (_super) {
      * Series.
      *
      * @ignore Exclude from docs
-     * @param {Container}  marker  Legend item container
+     * @param marker  Legend item container
      */
     OHLCSeries.prototype.createLegendMarker = function (marker) {
         var w = marker.pixelWidth;
@@ -219,7 +218,7 @@ var OHLCSeries = /** @class */ (function (_super) {
     /**
      * Returns an element to use for Candlestick
      * @ignore
-     * @return {this["_column"]} Element.
+     * @return Element.
      */
     OHLCSeries.prototype.createColumnTemplate = function () {
         return new OHLC();

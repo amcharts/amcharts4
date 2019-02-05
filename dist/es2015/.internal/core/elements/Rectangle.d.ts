@@ -47,20 +47,14 @@ export interface IRectangleAdapters extends ISpriteAdapters, IRectanglePropertie
 export declare class Rectangle extends Sprite {
     /**
      * Defines available properties.
-     *
-     * @type {IRectangleProperties}
      */
     _properties: IRectangleProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IRectangleAdapters}
      */
     _adapter: IRectangleAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IRectangleEvents}
      */
     _events: IRectangleEvents;
     /**
@@ -85,7 +79,6 @@ export declare class Rectangle extends Sprite {
      * Returns bounding box (square) for this element.
      *
      * @ignore Exclude from docs
-     * @type {IRectangle}
      */
     readonly bbox: IRectangle;
 }

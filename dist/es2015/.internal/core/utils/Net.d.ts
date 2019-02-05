@@ -4,38 +4,26 @@
 export interface INetLoadResult<A> {
     /**
      * A reference to original [[XMLHttpRequest]].
-     *
-     * @type {XMLHttpRequest}
      */
     xhr: XMLHttpRequest;
     /**
      * Request response body.
-     *
-     * @type {string}
      */
     response?: string;
     /**
      * Request response as Blob. (if set `responseType = "blob"`)
-     *
-     * @type {Blob}
      */
     blob?: Blob;
     /**
      * Response `Content-Type`.
-     *
-     * @type {string | null}
      */
     type: string | null;
     /**
      * Was there an error?
-     *
-     * @type {boolean}
      */
     error: boolean;
     /**
      * A target object that made the net load request.
-     *
-     * @type {A}
      */
     target?: A;
 }
@@ -51,7 +39,6 @@ export interface INetRequestOptions {
      * Specify expected response type.
      *
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType} for more info
-     * @type {XMLHttpRequestResponseType}
      */
     responseType?: XMLHttpRequestResponseType;
     /**
@@ -88,9 +75,9 @@ export interface INetRequestOptions {
  * ```
  *
  * @async
- * @param  {string}                      url      URL for the file to load
- * @param  {A}                           target   A target element that is requesting the net load
- * @param  {INetRequestOptions}          options  Request options
- * @return {Promise<INetLoadResult<A>>}           Result (Promise)
+ * @param url      URL for the file to load
+ * @param target   A target element that is requesting the net load
+ * @param options  Request options
+ * @return Result (Promise)
  */
 export declare function load<A>(url: string, target?: A, options?: INetRequestOptions): Promise<INetLoadResult<A>>;

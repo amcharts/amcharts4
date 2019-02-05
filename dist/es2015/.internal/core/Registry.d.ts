@@ -40,29 +40,22 @@ export interface IRegistryEvents {
 export declare class Registry {
     /**
      * Unique ID of the object.
-     *
-     * @type {string}
      */
     uid: string;
     /**
      * Event dispacther.
-     *
-     * @type {EventDispatcher}
      */
     events: EventDispatcher<AMEvent<Registry, IRegistryEvents>>;
     /**
      * Holds a universal mapping collection, so that elements and their children
      * can create and look up all kinds of relations between id and object.
      *
-     * @type {Dictionary<string, any>}
      * @ignore Exclude from docs
      */
     protected _map: $type.Optional<Dictionary<string, any>>;
     /**
      * All currently applied themes. All new chart instances created will
      * automatically inherit and retain System's themes.
-     *
-     * @type {ITheme}
      */
     themes: ITheme[];
     /**
@@ -78,7 +71,6 @@ export declare class Registry {
      * An indeternal counter used to generate unique IDs.
      *
      * @ignore Exclude from docs
-     * @type {number}
      */
     protected _uidCount: number;
     /**
@@ -101,7 +93,6 @@ export declare class Registry {
  * during next cycle.
  *
  * @ignore Exclude from docs
- * @type { [index: string]: Array<Sprite> }
  */
     invalidSprites: {
         [index: string]: Array<Sprite>;
@@ -111,7 +102,6 @@ export declare class Registry {
      * a new one or data is added/removed from their data provider.
      *
      * @ignore Exclude from docs
-     * @type { [index: string]: Array<Component> }
      */
     invalidDatas: {
         [index: string]: Array<Component>;
@@ -121,7 +111,6 @@ export declare class Registry {
      * Used when we want a smooth animation from one set of values to another.
      *
      * @ignore Exclude from docs
-     * @type {Array<Component>}
      */
     invalidRawDatas: Array<Component>;
     /**
@@ -129,7 +118,6 @@ export declare class Registry {
      * (but not data provider itself).
      *
      * @ignore Exclude from docs
-     * @type {Array<Component>}
      */
     invalidDataItems: Array<Component>;
     /**
@@ -137,7 +125,6 @@ export declare class Registry {
      * changed, e.g. zoomed.
      *
      * @ignore Exclude from docs
-     * @type {Array<Component>}
      */
     invalidDataRange: Array<Component>;
     /**
@@ -145,7 +132,6 @@ export declare class Registry {
      * to be recalculated.
      *
      * @ignore Exclude from docs
-     * @type { [index: string]: Array<Sprite>}
      */
     invalidPositions: {
         [index: string]: Array<Sprite>;
@@ -154,7 +140,6 @@ export declare class Registry {
      * A list of [[Container]] objects with invalid(ated) layouts.
      *
      * @ignore Exclude from docs
-     * @type { [index: string]: Array<Container>}
      */
     invalidLayouts: {
         [index: string]: Array<Container>;
@@ -164,8 +149,6 @@ export declare class Registry {
      *
      * When, for example, a new chart is created, its instance will be added to
      * this array, and will be removed when the chart is disposed.
-     *
-     * @type {Array<Sprite>}
      */
     baseSprites: Array<Sprite>;
     baseSpritesByUid: {
@@ -175,32 +158,32 @@ export declare class Registry {
     /**
      * Generates a unique chart system-wide ID.
      *
-     * @return {string} Generated ID
+     * @return Generated ID
      */
     getUniqueId(): string;
     /**
      * Returns a universal collection for mapping ids with objects.
      *
      * @ignore Exclude from docs
-     * @return {Dictionary<string, any>} Map collection
+     * @return Map collection
      */
     readonly map: Dictionary<string, any>;
     /**
      * Caches value in object's cache.
      *
      * @ignore Exclude from docs
-     * @param {string}  key    Key
-     * @param {any}     value  Value
-     * @param {number}  ttl    TTL in seconds
+     * @param key    Key
+     * @param value  Value
+     * @param ttl    TTL in seconds
      */
     setCache(key: string, value: any, ttl?: number): void;
     /**
      * Retrieves cached value.
      *
      * @ignore Exclude from docs
-     * @param  {string}  key    Key
-     * @param  {any}     value  Value to return if cache is not available
-     * @return {any}            Value
+     * @param key    Key
+     * @param value  Value to return if cache is not available
+     * @return Value
      */
     getCache(key: string, value?: any): any;
     /**
@@ -209,23 +192,23 @@ export declare class Registry {
      * It also checks if there are any handlers registered for this sepecific
      * event.
      *
-     * @param {Key} eventType Event type (name)
-     * @param {any}    data      Data to pass into event handler(s)
+     * @param eventType Event type (name)
+     * @param data      Data to pass into event handler(s)
      */
     dispatch<Key extends keyof IRegistryEvents>(eventType: Key, data?: any): void;
     /**
      * Works like `dispatch`, except event is triggered immediately, without
      * waiting for the next frame cycle.
      *
-     * @param {Key} eventType Event type (name)
-     * @param {any}    data      Data to pass into event handler(s)
+     * @param eventType Event type (name)
+     * @param data      Data to pass into event handler(s)
      */
     dispatchImmediately<Key extends keyof IRegistryEvents>(eventType: Key, data?: any): void;
     /**
      * Returns a unique placeholder suitable for the key.
      *
-     * @param  {string}  key  Key
-     * @return {string}       Random string to be used as placeholder
+     * @param key  Key
+     * @return Random string to be used as placeholder
      */
     getPlaceholder(key: string): string;
     /**

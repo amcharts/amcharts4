@@ -15,14 +15,12 @@ export interface IChordLinkProperties extends IFlowDiagramLinkProperties {
      * [radius description]
      *
      * @todo Description
-     * @type {number}
      */
     radius?: number;
     /**
      * [arc description]
      *
      * @todo Description
-     * @type {number}
      */
     arc?: number;
 }
@@ -55,31 +53,22 @@ export interface IChordLinkAdapters extends IFlowDiagramLinkAdapters, IChordLink
 export declare class ChordLink extends FlowDiagramLink {
     /**
      * Defines available properties.
-     *
-     * @type {IChordLinkProperties}
      */
     _properties: IChordLinkProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IChordLinkAdapters}
      */
     _adapter: IChordLinkAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IChordLinkEvents}
      */
     _events: IChordLinkEvents;
     /**
      * Defines a type of data item used by this class.
-     *
-     * @type {ChordDiagramDataItem}
      */
     _dataItem: ChordDiagramDataItem;
     /**
      * Spline which goes through the middle of a link, used to calculate bullet and tooltip positions, invisible by default
-     * @type Polyspline
      */
     middleLine: QuadraticCurve;
     /**
@@ -93,23 +82,23 @@ export declare class ChordLink extends FlowDiagramLink {
      */
     validate(): void;
     /**
-     * @return {number} End Y
+     * @return End Y
      */
     /**
      * [radius description]
      *
      * @todo Description
-     * @param {number} value End Y
+     * @param value End Y
      */
     radius: number;
     /**
-     * @return {number} [description]
+     * @return [description]
      */
     /**
      * [arc description]
      *
      * @todo Description
-     * @param {number} value [description]
+     * @param value [description]
      */
     arc: number;
 }

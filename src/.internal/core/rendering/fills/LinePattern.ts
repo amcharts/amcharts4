@@ -23,8 +23,6 @@ export class LinePattern extends Pattern {
 
 	/**
 	 * SVG `<line>` element used for pattern.
-	 * 
-	 * @type {AMElement}
 	 */
 	protected _line: AMElement;
 

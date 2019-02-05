@@ -71,8 +71,8 @@ var FlowDiagramNode = /** @class */ (function (_super) {
     /**
      * Shows hidden node.
      *
-     * @param  {number}     duration  Duration of reveal animation (ms)
-     * @return {Animation}            Animation
+     * @param duration  Duration of reveal animation (ms)
+     * @return Animation
      */
     FlowDiagramNode.prototype.show = function (duration) {
         var animation = _super.prototype.show.call(this, duration);
@@ -91,8 +91,8 @@ var FlowDiagramNode = /** @class */ (function (_super) {
     /**
      * Hides node.
      *
-     * @param  {number}     duration  Duration of hiding animation (ms)
-     * @return {Animation}            Animation
+     * @param duration  Duration of hiding animation (ms)
+     * @return Animation
      */
     FlowDiagramNode.prototype.hide = function (duration) {
         var animation = _super.prototype.hide.call(this, duration);
@@ -158,7 +158,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
          * List of incoming items (links).
          *
          * @readonly
-         * @return {List<FlowDiagramDataItem>} Incoming items
+         * @return Incoming items
          */
         get: function () {
             var _this = this;
@@ -187,7 +187,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
          * List of outgoing items (links).
          *
          * @readonly
-         * @return {List<FlowDiagramDataItem>} Outgoing items
+         * @return Outgoing items
          */
         get: function () {
             var _this = this;
@@ -213,7 +213,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagramNode.prototype, "name", {
         /**
-         * @return {string} Name
+         * @return Name
          */
         get: function () {
             return this.getPropertyValue("name");
@@ -221,7 +221,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
         /**
          * A name of the node.
          *
-         * @param {string}  value  Name
+         * @param value  Name
          */
         set: function (value) {
             this.setPropertyValue("name", value, true);
@@ -231,7 +231,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagramNode.prototype, "total", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.getPropertyValue("total");
@@ -239,7 +239,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
         /**
          * Sum of all incoming+outgoing link values
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setPropertyValue("total", value, true);
@@ -249,7 +249,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagramNode.prototype, "totalIncoming", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.getPropertyValue("totalIncoming");
@@ -257,7 +257,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
         /**
          * Sum of all incomming link values.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setPropertyValue("totalIncoming", value, true);
@@ -267,7 +267,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagramNode.prototype, "totalOutgoing", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.getPropertyValue("totalOutgoing");
@@ -275,7 +275,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
         /**
          * Sum of all outgoing link values.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setPropertyValue("totalOutgoing", value, true);
@@ -285,7 +285,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
     });
     Object.defineProperty(FlowDiagramNode.prototype, "color", {
         /**
-         * @return {Color} Color
+         * @return Color
          */
         get: function () {
             return this.getPropertyValue("color");
@@ -293,7 +293,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
         /**
          * Node's color.
          *
-         * @param {Color}  value  Color
+         * @param value  Color
          */
         set: function (value) {
             this.setColorProperty("color", value);
@@ -310,7 +310,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
      * Series.
      *
      * @ignore Exclude from docs
-     * @param {Container}  marker  Legend item container
+     * @param marker  Legend item container
      */
     FlowDiagramNode.prototype.createLegendMarker = function (marker) {
         var w = marker.pixelWidth;
@@ -330,7 +330,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
     };
     Object.defineProperty(FlowDiagramNode.prototype, "legendDataItem", {
         /**
-         * @return {LegendDataItem<Series, ISeriesEvents>} Data item
+         * @return Data item
          */
         get: function () {
             return this._legendDataItem;
@@ -338,7 +338,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
         /**
          * Legend data item that corresponds to this series.
          *
-         * @param {LegendDataItem<Series, ISeriesEvents>}  value  Data item
+         * @param value  Data item
          */
         set: function (value) {
             this._legendDataItem = value;

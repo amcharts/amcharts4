@@ -43,7 +43,7 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(PieSeriesDataItem.prototype, "radiusValue", {
         /**
-         * @return {number} Radius
+         * @return Radius
          */
         get: function () {
             return this.values.radiusValue.value;
@@ -51,7 +51,7 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Slice's radius, if other than default.
          *
-         * @param {number}  value  Radius
+         * @param value  Radius
          */
         set: function (value) {
             this.setValue("radiusValue", value);
@@ -62,10 +62,10 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
     /**
      * Hide the data item (and corresponding visual elements).
      *
-     * @param {number}    duration  Duration (ms)
-     * @param {number}    delay     Delay hiding (ms)
-     * @param {number}    toValue   Target value for animation
-     * @param {string[]}  fields    Fields to animate while hiding
+     * @param duration  Duration (ms)
+     * @param delay     Delay hiding (ms)
+     * @param toValue   Target value for animation
+     * @param fields    Fields to animate while hiding
      */
     PieSeriesDataItem.prototype.hide = function (duration, delay, toValue, fields) {
         return _super.prototype.hide.call(this, duration, delay, 0, ["value", "radiusValue"]);
@@ -73,9 +73,9 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
     /**
      * Show hidden data item (and corresponding cisual elements).
      *
-     * @param {number}    duration  Duration (ms)
-     * @param {number}    delay     Delay hiding (ms)
-     * @param {string[]}  fields    Fields to animate while hiding
+     * @param duration  Duration (ms)
+     * @param delay     Delay hiding (ms)
+     * @param fields    Fields to animate while hiding
      */
     PieSeriesDataItem.prototype.show = function (duration, delay, fields) {
         return _super.prototype.show.call(this, duration, delay, ["value", "radiusValue"]);
@@ -144,7 +144,7 @@ var PieSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {PieSeriesDataItem} Data Item
+     * @return Data Item
      */
     PieSeries.prototype.createDataItem = function () {
         return new PieSeriesDataItem();
@@ -152,7 +152,7 @@ var PieSeries = /** @class */ (function (_super) {
     /**
      * Inits slice.
      *
-     * @param  {Slice} slice to init
+     * @param slice to init
      */
     PieSeries.prototype.initSlice = function (slice) {
         slice.isMeasured = false;
@@ -231,7 +231,7 @@ var PieSeries = /** @class */ (function (_super) {
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
-     * @param {PieSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     PieSeries.prototype.validateDataElement = function (dataItem) {
         if (this.pixelRadius > 0) {
@@ -292,7 +292,7 @@ var PieSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(PieSeries.prototype, "radius", {
         /**
-         * @return {number | Percent} Radius
+         * @return Radius
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -300,7 +300,7 @@ var PieSeries = /** @class */ (function (_super) {
         /**
          * Outer radius for the series' slices in pixels or [[Percent]].
          *
-         * @param {number | Percent}  value  Radius
+         * @param value  Radius
          */
         set: function (value) {
             if (this.setPercentProperty("radius", value, true, false, 10, false)) {
@@ -312,7 +312,7 @@ var PieSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(PieSeries.prototype, "pixelRadius", {
         /**
-         * @return {number} Radius
+         * @return Radius
          * @ignore
          */
         get: function () {
@@ -332,7 +332,7 @@ var PieSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(PieSeries.prototype, "pixelInnerRadius", {
         /**
-         * @return {number} Pixel inner radius
+         * @return Pixel inner radius
          * @ignore
          */
         get: function () {
@@ -353,7 +353,7 @@ var PieSeries = /** @class */ (function (_super) {
     Object.defineProperty(PieSeries.prototype, "innerRadius", {
         /**
          * @ignore Exclude from docs
-         * @return {number | Percent} Radius
+         * @return Radius
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
@@ -363,7 +363,7 @@ var PieSeries = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Redo so that users can set it
-         * @param {number | Percent}  value  Radius
+         * @param value  Radius
          */
         set: function (value) {
             this.setPercentProperty("innerRadius", value, true, false, 10, false);
@@ -374,7 +374,7 @@ var PieSeries = /** @class */ (function (_super) {
     Object.defineProperty(PieSeries.prototype, "startAngle", {
         /**
          * @ignore Exclude from docs
-         * @return {number} Angle
+         * @return Angle
          */
         get: function () {
             return this.getPropertyValue("startAngle");
@@ -384,7 +384,7 @@ var PieSeries = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Redo so that users can set it
-         * @param {number}  value  Angle
+         * @param value  Angle
          */
         set: function (value) {
             this.setPropertyValue("startAngle", $math.normalizeAngle(value), true);
@@ -395,7 +395,7 @@ var PieSeries = /** @class */ (function (_super) {
     Object.defineProperty(PieSeries.prototype, "endAngle", {
         /**
          * @ignore Exclude from docs
-         * @return {number} Angle
+         * @return Angle
          */
         get: function () {
             return this.getPropertyValue("endAngle");
@@ -405,7 +405,7 @@ var PieSeries = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Redo so that users can set it
-         * @param {number}  value  Angle
+         * @param value  Angle
          */
         set: function (value) {
             this.setPropertyValue("endAngle", value, true);
@@ -417,7 +417,7 @@ var PieSeries = /** @class */ (function (_super) {
      * Positions series bullet.
      *
      * @ignore Exclude from docs
-     * @param {Bullet}  bullet  Bullet
+     * @param bullet  Bullet
      */
     PieSeries.prototype.positionBullet = function (bullet) {
         _super.prototype.positionBullet.call(this, bullet);
@@ -439,7 +439,7 @@ var PieSeries = /** @class */ (function (_super) {
      * Repositions bullet and labels when slice moves.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
+     * @param event  Event
      */
     PieSeries.prototype.handleSliceMove = function (event) {
         if (!this.alignLabels) {
@@ -461,7 +461,6 @@ var PieSeries = /** @class */ (function (_super) {
          * Returns bounding box (square) for this element.
          *
          * @ignore Exclude from docs
-         * @type {IRectangle}
          */
         get: function () {
             if (this.definedBBox) {

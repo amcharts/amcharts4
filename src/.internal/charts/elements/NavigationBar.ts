@@ -36,8 +36,6 @@ export class NavigationBarDataItem extends DataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {NavigationBar}
 	 */
 	public _component!: NavigationBar;
 
@@ -53,14 +51,14 @@ export class NavigationBarDataItem extends DataItem {
 	/**
 	 * Name of the navigation bar item.
 	 *
-	 * @param {string}  value  Name
+	 * @param value  Name
 	 */
 	public set name(value: string) {
 		this.setProperty("name", value);
 	}
 
 	/**
-	 * @return {string} Name
+	 * @return Name
 	 */
 	public get name(): string {
 		return this.properties["name"];
@@ -83,8 +81,6 @@ export interface INavigationBarDataFields extends IComponentDataFields {
 
 	/**
 	 * Name of nav var item.
-	 *
-	 * @type {string}
 	 */
 	name?: string;
 
@@ -130,36 +126,26 @@ export class NavigationBar extends Component {
 
 	/**
 	 * Defines data fields.
-	 *
-	 * @type {NavigationBarDataFIelds}
 	 */
 	public _dataFields: INavigationBarDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {INavigationBarProperties}
 	 */
 	public _properties!: INavigationBarProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {INavigationBarAdapters}
 	 */
 	public _adapter!: INavigationBarAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {INavigationBarEvents}
 	 */
 	public _events!: INavigationBarEvents;
 
 	/**
 	 * A list of breadcrumbs (links) in the nav bar.
-	 *
-	 * @type {ListTemplate<TextLink>}
 	 */
 	public links: ListTemplate<TextLink>;
 
@@ -167,7 +153,6 @@ export class NavigationBar extends Component {
 	 * [_linksIterator description]
 	 *
 	 * @todo Description
-	 * @type {.ListIterator<TextLink>}
 	 */
 	protected _linksIterator: $iter.ListIterator<TextLink>;
 
@@ -175,28 +160,21 @@ export class NavigationBar extends Component {
 	 * [_separatorsIterator description]
 	 *
 	 * @todo Description
-	 * @type {.ListIterator<Sprite>}
 	 */
 	protected _separatorsIterator: $iter.ListIterator<Sprite>;
 
 	/**
 	 * A reference to the link which is currently active.
-	 *
-	 * @type {TextLink}
 	 */
 	public activeLink: TextLink;
 
 	/**
 	 * A list of elements used as nav bar item separators.
-	 *
-	 * @type {ListTemplate<Triangle>}
 	 */
 	public separators: ListTemplate<Triangle>;
 
 	/**
 	 * Identifies the type of the [[DataItem]] used in this element.
-	 *
-	 * @type {NavigationBarDataItem}
 	 */
 	public _dataItem!: NavigationBarDataItem;
 
@@ -269,7 +247,7 @@ export class NavigationBar extends Component {
 	 * Creates a visual element for a data item (nav item).
 	 *
 	 * @ignore Exclude from docs
-	 * @param {NavigationBarDataItem}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
 		super.validateDataElement(dataItem);

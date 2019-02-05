@@ -166,8 +166,8 @@ var Projection = /** @class */ (function () {
     };
     /**
      * Converts a geographical point (lat/long) to a screen point (x/y)
-     * @param  {IGeoPoint} geoPoint Geo point (lat/long)
-     * @return {IPoint}             Screen point (x/y)
+     * @param geoPoint Geo point (lat/long)
+     * @return Screen point (x/y)
      */
     Projection.prototype.convert = function (geoPoint) {
         geoPoint = $geo.normalizePoint(geoPoint);
@@ -180,8 +180,8 @@ var Projection = /** @class */ (function () {
     };
     /**
      * Converts a screen point (x/y) to a geographical point (lat/long)
-     * @param  {IPoint}    point Screen point (x/y)
-     * @return {IGeoPoint}       Geo point (lat/long)
+     * @param point Screen point (x/y)
+     * @return Geo point (lat/long)
      */
     Projection.prototype.invert = function (point) {
         var pointInRadians = this.unproject((point.x / this.scale + this.centerPoint.x) * $math.RADIANS, (-point.y / this.scale - this.centerPoint.y) * $math.RADIANS);
@@ -193,9 +193,9 @@ var Projection = /** @class */ (function () {
      * Returns X/Y coordinates.
      * Individual projections will override this method to apply their own
      * projection logic.
-     * @param  {number} lambda [description]
-     * @param  {number} phi    [description]
-     * @return {IPoint}        X/Y coordinates
+     * @param lambda [description]
+     * @param phi    [description]
+     * @return X/Y coordinates
      * @todo Needs description
      */
     Projection.prototype.project = function (lambda, phi) {
@@ -205,9 +205,9 @@ var Projection = /** @class */ (function () {
      * Returns geographical coordinates (lat/long).
      * Individual projections will override this method to apply their own
      * projection logic.
-     * @param  {number}    x X coordinate
-     * @param  {number}    y Y coordinate
-     * @return {IGeoPoint}   Geographical point
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @return Geographical point
      * @todo Needs description
      */
     Projection.prototype.unproject = function (x, y) {

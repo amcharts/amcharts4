@@ -62,15 +62,13 @@ export class Color {
 
 	/**
 	 * Holds RGB value of the color.
-	 *
-	 * @type {iRGB}
 	 */
 	protected _value: $type.Optional<iRGB>;
 
 	/**
 	 * Constructor
 	 *
-	 * @param {iRGB} color Source color
+	 * @param color Source color
 	 */
 	constructor(color: $type.Optional<iRGB>) {
 		this._value = color;
@@ -79,7 +77,7 @@ export class Color {
 	/**
 	 * Returns [[iRGB]] representation of the color.
 	 *
-	 * @return {iRGB} RGB object
+	 * @return RGB object
 	 */
 	public get rgb(): $type.Optional<iRGB> {
 		return this._value;
@@ -88,7 +86,7 @@ export class Color {
 	/**
 	 * Returns color hex value string, e.g. "#FF0000".
 	 *
-	 * @return {string} Hex color code
+	 * @return Hex color code
 	 */
 	public get hex(): string {
 		return this._value ? $colors.rgbToHex(this._value) : "none";
@@ -98,7 +96,7 @@ export class Color {
 	 * Returns an `rgba()` representation of the color, e.g.:
 	 * `rgba(255, 0, 0, 0.5)`.
 	 *
-	 * @return {string} rgba color string
+	 * @return rgba color string
 	 */
 	public get rgba(): string {
 		return this._value ? $colors.rgbToRGBA(this._value) : "none";
@@ -107,7 +105,7 @@ export class Color {
 	/**
 	 * Set alpha (transparency) of the color.
 	 *
-	 * @param {number} value Alpha (0-1)
+	 * @param value Alpha (0-1)
 	 */
 	public set alpha(value: number) {
 		if (this._value) {
@@ -118,7 +116,7 @@ export class Color {
 	/**
 	 * Returns current transparency.
 	 *
-	 * @return {number} Alpha (0-1)
+	 * @return Alpha (0-1)
 	 */
 	public get alpha(): number {
 		if (this._value != null && this._value.a != null) {
@@ -132,7 +130,7 @@ export class Color {
 	/**
 	 * Sets "light" color. Used when determining contrasting color.
 	 *
-	 * @param {Color} color Color
+	 * @param color Color
 	 */
 	public set lightColor(color: Color) {
 		this._lightColor = color;
@@ -141,7 +139,7 @@ export class Color {
 	/**
 	 * Returns current light color setting.
 	 *
-	 * @return {Color} Color
+	 * @return Color
 	 */
 	public get lightColor(): Color {
 		if (!this._lightColor) {
@@ -153,7 +151,7 @@ export class Color {
 	/**
 	 * Sets "dark" color. Used when determining contrasting color.
 	 *
-	 * @param {Color} color Color
+	 * @param color Color
 	 */
 	public set darkColor(color: Color) {
 		this._darkColor = color;
@@ -162,7 +160,7 @@ export class Color {
 	/**
 	 * Returns current dark color setting.
 	 *
-	 * @return {Color} Color
+	 * @return Color
 	 */
 	public get darkColor(): Color {
 		if (!this._darkColor) {
@@ -176,7 +174,7 @@ export class Color {
 	 * string.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {string} String represantion of color (usable in CSS)
+	 * @return String represantion of color (usable in CSS)
 	 */
 	public toString(): string {
 		return this.alpha < 1 ? this.rgba : this.hex;
@@ -188,8 +186,8 @@ export class Color {
 	 *
 	 * Parameter is in the scale of -1 to 1.
 	 *
-	 * @param  {number}  percent  Increase/decrease lightness by X
-	 * @return {Color}            New Color
+	 * @param percent  Increase/decrease lightness by X
+	 * @return New Color
 	 */
 	public lighten(percent: number): Color {
 		return new Color($colors.lighten(this.rgb, percent));
@@ -201,8 +199,8 @@ export class Color {
 	 *
 	 * Parameter is in the scale of -1 to 1.
 	 *
-	 * @param  {number}  percent  Increase/decrease brightness by X
-	 * @return {Color}            New Color
+	 * @param percent  Increase/decrease brightness by X
+	 * @return New Color
 	 */
 	public brighten(percent: number): Color {
 		return new Color($colors.brighten(this.rgb, percent));
@@ -215,8 +213,8 @@ export class Color {
 	 * `saturation` can be in the range of 0 (fully desaturated) to 1 (fully
 	 * saturated).
 	 *
-	 * @param  {number}  saturation  Saturation (0-1)
-	 * @return {Color}               New (saturated) color
+	 * @param saturation  Saturation (0-1)
+	 * @return New (saturated) color
 	 */
 	public saturate(saturation: number): Color {
 		return new Color($colors.saturate(this.rgb, saturation));
@@ -232,7 +230,7 @@ export class Color {
 	 * Useful when determining which color label should be on a colored
 	 * background, so that it stands out.
 	 *
-	 * @return {Color} Contrasting color
+	 * @return Contrasting color
 	 */
 	public get alternative(): Color {
 		if (this.rgb != null) {
@@ -248,9 +246,9 @@ export class Color {
  * Resolves an input variable to a normal [[iRGB]] color and creates [[Color]]
  * object for it.
  *
- * @param  {string | iRGB | Color}  value  Input value
- * @param  {number}                 alpha  Alpha (0-1)
- * @return {Color}                         Color object
+ * @param value  Input value
+ * @param alpha  Alpha (0-1)
+ * @return Color object
  */
 export function color(value?: string | iRGB | Color, alpha?: number): Color {
 
@@ -289,8 +287,8 @@ export function color(value?: string | iRGB | Color, alpha?: number): Color {
 /**
  * Checks if supplied argument is instance of [[Color]].
  *
- * @param  {any}      value  Input value
- * @return {boolean}         Is Color?
+ * @param value  Input value
+ * @return Is Color?
  */
 export function isColor(value: any): boolean {
 	return value instanceof Color;
@@ -299,8 +297,8 @@ export function isColor(value: any): boolean {
 /**
  * Converts any value to [[Color]].
  *
- * @param  {any}    value  Input value
- * @return {Color}         Color
+ * @param value  Input value
+ * @return Color
  */
 export function castColor(value: any): Color {
 	return color(value);
@@ -309,8 +307,8 @@ export function castColor(value: any): Color {
 /**
  * Converts any value into a [[Color]].
  *
- * @param  {any}    value  Source value
- * @return {Color}         Color object
+ * @param value  Source value
+ * @return Color object
  */
 export function toColor(value: any): Color {
 	if ($type.hasValue(value) && !isColor(value)) {

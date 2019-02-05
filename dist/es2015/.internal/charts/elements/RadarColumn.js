@@ -50,7 +50,7 @@ var RadarColumn = /** @class */ (function (_super) {
     /**
      * Copies all parameters from another [[RadarColumn]].
      *
-     * @param {RadarColumn} source Source RadarColumn
+     * @param source Source RadarColumn
      */
     RadarColumn.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
@@ -61,7 +61,7 @@ var RadarColumn = /** @class */ (function (_super) {
     /**
      * X coordinate for the slice tooltip.
      *
-     * @return {number} X
+     * @return X
      */
     RadarColumn.prototype.getTooltipX = function () {
         var value = this.getPropertyValue("tooltipX");
@@ -73,7 +73,7 @@ var RadarColumn = /** @class */ (function (_super) {
     /**
      * Y coordinate for the slice tooltip.
      *
-     * @return {number} Y
+     * @return Y
      */
     RadarColumn.prototype.getTooltipY = function () {
         var value = this.getPropertyValue("tooltipX");

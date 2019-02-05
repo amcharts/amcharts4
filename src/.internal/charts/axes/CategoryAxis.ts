@@ -25,6 +25,7 @@ import { IDisposer } from "../../core/utils/Disposer";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
+import * as $array from "../../core/utils/Array";
 import { Adapter } from "../../core/utils/Adapter";
 
 /**
@@ -43,15 +44,11 @@ export class CategoryAxisDataItem extends AxisDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {CategoryAxis}
 	 */
 	public _component!: CategoryAxis;
 
 	/**
 	 * Holds Adapter.
-	 *
-	 * @type {Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>}
 	 */
 	public adapter = new Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>(this);
 
@@ -72,14 +69,14 @@ export class CategoryAxisDataItem extends AxisDataItem {
 	/**
 	 * Category.
 	 *
-	 * @param {string}  value  Category
+	 * @param value  Category
 	 */
 	public set category(value: string) {
 		this.setProperty("category", value);
 	}
 
 	/**
-	 * @return {string} Category
+	 * @return Category
 	 */
 	public get category(): string {
 		if (this.adapter.isEnabled("category")) {
@@ -93,14 +90,14 @@ export class CategoryAxisDataItem extends AxisDataItem {
 	 *
 	 * Used for items that span several categories, like [[CategoryAxisBreak]].
 	 *
-	 * @param {string}  value  End category
+	 * @param value  End category
 	 */
 	public set endCategory(value: string) {
 		this.setProperty("endCategory", value);
 	}
 
 	/**
-	 * @return {string} End category
+	 * @return End category
 	 */
 	public get endCategory(): string {
 		return this.properties["endCategory"];
@@ -126,14 +123,11 @@ export interface ICategoryAxisDataItemAdapters extends IAxisDataItemAdapters {
 
 /**
  * Defines data fields for [[CategoryAxis]].
- *
  */
 export interface ICategoryAxisDataFields extends IAxisDataFields {
 
 	/**
 	 * A field that holds category information.
-	 *
-	 * @type {string}
 	 */
 	category?: string;
 
@@ -141,13 +135,11 @@ export interface ICategoryAxisDataFields extends IAxisDataFields {
 
 /**
  * Defines properties for [[CategoryAxis]].
- *
  */
 export interface ICategoryAxisProperties extends IAxisProperties { }
 
 /**
  * Defines events for [[CategoryAxis]].
- *
  */
 export interface ICategoryAxisEvents extends IAxisEvents { }
 
@@ -200,64 +192,46 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 
 	/**
 	 * Defines data fields.
-	 *
-	 * @type {CategoryAxisDataFIelds}
 	 */
 	public _dataFields: ICategoryAxisDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ICategoryAxisProperties}
 	 */
 	public _properties!: ICategoryAxisProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ICategoryAxisAdapters}
 	 */
 	public _adapter!: ICategoryAxisAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ICategoryAxisEvents}
 	 */
 	public _events!: ICategoryAxisEvents;
 
 	/**
 	 * Defines the type of the Date Items.
-	 *
-	 * @type {CategoryAxisDataItem}
 	 */
 	public _dataItem: CategoryAxisDataItem;
 
 	/**
 	 * Defines the type of the axis breaks.
-	 *
-	 * @type {CategoryAxisBreak}
 	 */
 	public _axisBreak: CategoryAxisBreak;
 
 	/**
 	 * A reference to chart the axis is for.
-	 *
-	 * @type {SerialChart}
 	 */
 	public chart: SerialChart;
 
 	/**
 	 * Frequency of the labels on axis.
-	 *
-	 * @type {number}
 	 */
 	protected _frequency: number;
 
 	/**
 	 * A collection that holds Axis' data items sorted by each category.
-	 *
-	 * @type {Dictionary}
 	 */
 	public dataItemsByCategory: Dictionary<string, this["_dataItem"]> = new Dictionary<string, this["_dataItem"]>();
 
@@ -293,7 +267,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * Returns a new/empty [[DataItem]] of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {CategoryAxisDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new CategoryAxisDataItem();
@@ -302,7 +276,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	/**
 	 * Returns a new/empty [[AxisBreak]] of the appropriate type.
 	 *
-	 * @return {CategoryAxisBreak} Axis break
+	 * @return Axis break
 	 */
 	protected createAxisBreak(): this["_axisBreak"] {
 		return new CategoryAxisBreak();
@@ -323,9 +297,39 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				series.invalidateDataRange();
 			}
 			else {
+				let firstSeriesDataItem: XYSeriesDataItem;
+				let lastSeriesDataItem: XYSeriesDataItem;
+				
+				let startIndex = this.positionToIndex(this.start);
+				let endIndex = this.positionToIndex(this.end);
 
-				let firstSeriesDataItem = this.getSeriesDataItem(series, this.start);
-				let lastSeriesDataItem = this.getSeriesDataItem(series, this.end, true);
+				for(let i = startIndex; i <= endIndex; i++){
+					let dataItem = this.dataItems.getIndex(i);
+					if(dataItem){
+						let fdi = this.getFirstSeriesDataItem(series, dataItem.category);
+						if(fdi){
+							if (!firstSeriesDataItem) {
+								firstSeriesDataItem = fdi;
+							}
+
+							if (firstSeriesDataItem && fdi.index < firstSeriesDataItem.index) {
+								firstSeriesDataItem = fdi;
+							}
+						}
+
+						let ldi = this.getLastSeriesDataItem(series, dataItem.category);
+						if(ldi){
+							if (!lastSeriesDataItem) {
+								lastSeriesDataItem = ldi;
+							}
+
+							if (lastSeriesDataItem && ldi.index > lastSeriesDataItem.index) {
+								lastSeriesDataItem = ldi;
+							}
+						}
+					}
+				}
+
 				if (firstSeriesDataItem) {
 					series.startIndex = firstSeriesDataItem.index;
 				}
@@ -465,8 +469,8 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param {CategoryAxisDataItem}  dataItem   [description]
-	 * @param {number}                itemIndex  [description]
+	 * @param dataItem   [description]
+	 * @param itemIndex  [description]
 	 */
 	public validateDataElement(dataItem: this["_dataItem"], itemIndex?: number, index?: number): void {
 		super.validateDataElement(dataItem);
@@ -552,15 +556,15 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * Processes the axis data item.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {CategoryAxisDataItem}  dataItem     Data item
-	 * @param {Object}                dataContext  The raw data that corresponds to this data item
+	 * @param dataItem     Data item
+	 * @param dataContext  The raw data that corresponds to this data item
 	 */
 	public processDataItem(dataItem: this["_dataItem"], dataContext: Object): void {
 		// creat a collection for fast access
 		super.processDataItem(dataItem, dataContext);
 		// check if such category already exists
 		let existingDataItem: CategoryAxisDataItem = this.dataItemsByCategory.getKey(dataItem.category);
-		if (existingDataItem != dataItem) {
+		if (existingDataItem && existingDataItem != dataItem) {
 			this.dataItems.remove(existingDataItem);
 		}
 
@@ -573,9 +577,9 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * `location` identifies relative location within category. 0 - beginning,
 	 * 0.5 - middle, 1 - end, and anything inbetween.
 	 *
-	 * @param  {number}                     index     Index
-	 * @param  {AxisItemLocation | number}  location  Location (0-1)
-	 * @return {number}                               Position (px)
+	 * @param index     Index
+	 * @param location  Location (0-1)
+	 * @return Position (px)
 	 */
 	public indexToPosition(index: number, location?: AxisItemLocation | number): number {
 		if (!$type.isNumber(location)) {
@@ -635,9 +639,9 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * `location` identifies relative location within category. 0 - beginning,
 	 * 0.5 - middle, 1 - end, and anything inbetween.
 	 *
-	 * @param  {string}            category  Category name
-	 * @param  {AxisItemLocation}  location  Location (0-1)
-	 * @return {number}                      Position
+	 * @param category  Category name
+	 * @param location  Location (0-1)
+	 * @return Position
 	 */
 	public categoryToPosition(category: string, location?: AxisItemLocation): number {
 		let index: number = this.categoryToIndex(category);
@@ -649,9 +653,9 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 *
 	 * `location` identifies relative location within category. 0 - beginning,
 	 * 0.5 - middle, 1 - end, and anything inbetween.
-	 * @param  {string}            category  Category name
-	 * @param  {AxisItemLocation}  location  Location (0-1)
-	 * @return {IOrientationPoint}  Orientation point
+	 * @param category  Category name
+	 * @param location  Location (0-1)
+	 * @return Orientation point
 	 */
 	public categoryToPoint(category: string, location?: AxisItemLocation): IOrientationPoint {
 		let position = this.categoryToPosition(category, location);
@@ -666,9 +670,9 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 *
 	 * `location` identifies relative location within category. 0 - beginning,
 	 * 0.5 - middle, 1 - end, and anything inbetween.
-	 * @param  {string}            category  Category name
-	 * @param  {AxisItemLocation}  location  Location (0-1)
-	 * @return {IOrientationPoint}  Orientation point
+	 * @param category  Category name
+	 * @param location  Location (0-1)
+	 * @return Orientation point
 	 */
 	anyToPoint(category: string, location?: AxisItemLocation): IOrientationPoint {
 		return this.categoryToPoint(category, location);
@@ -680,9 +684,9 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 *
 	 * An alias to `categoryToPosition()`.
 	 *
-	 * @param  {string}            category  Category name
-	 * @param  {AxisItemLocation}  location  Location (0-1)
-	 * @return {number}                      Relative position
+	 * @param category  Category name
+	 * @param location  Location (0-1)
+	 * @return Relative position
 	 */
 	public anyToPosition(category: string, location?: AxisItemLocation): number {
 		return this.categoryToPosition(category, location);
@@ -691,8 +695,8 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	/**
 	 * Converts named category to an index of data item it corresponds to.
 	 *
-	 * @param  {string}  category  Category
-	 * @return {number}            Data item index
+	 * @param category  Category
+	 * @return Data item index
 	 */
 	public categoryToIndex(category: string): number {
 		if ($type.hasValue(category)) {
@@ -706,8 +710,8 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	/**
 	 * Zooms the axis to specific named ctaegories.
 	 *
-	 * @param {string}  startCategory  Start category
-	 * @param {string}  endCategory    End category
+	 * @param startCategory  Start category
+	 * @param endCategory    End category
 	 */
 	public zoomToCategories(startCategory: string, endCategory: string): void {
 		this.zoomToIndexes(this.categoryToIndex(startCategory), this.categoryToIndex(endCategory) + 1);
@@ -718,11 +722,11 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {string}           start         [description]
-	 * @param  {string}           end           [description]
-	 * @param  {AxisItemLocation} startLocation [description]
-	 * @param  {AxisItemLocation} endLocation   [description]
-	 * @return {string}                         [description]
+	 * @param start         [description]
+	 * @param end           [description]
+	 * @param startLocation [description]
+	 * @param endLocation   [description]
+	 * @return [description]
 	 */
 	public getAnyRangePath(start: string, end: string, startLocation?: AxisItemLocation, endLocation?: AxisItemLocation): string {
 		let startPos: number = this.categoryToPosition(start, startLocation);
@@ -734,9 +738,9 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * Takes an absolute position (px) within axis and adjust it to a specific
 	 * `location` within category it corresponds to.
 	 *
-	 * @param  {number}            position  Source position (px)
-	 * @param  {AxisItemLocation}  location  Location within category (0-1)
-	 * @return {number}                      Adjusted position (px)
+	 * @param position  Source position (px)
+	 * @param location  Location within category (0-1)
+	 * @return Adjusted position (px)
 	 */
 	public roundPosition(position: number, location?: AxisItemLocation): number {
 		let index: number = this.positionToIndex(position);
@@ -744,70 +748,121 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	}
 
 	/**
+	 * Finds and returns first series data item with specific category
+	 * @param series    Target series
+	 * @param category  Category
+	 * @return XYSeriesDataItem data item	 
+	 */
+	public getFirstSeriesDataItem(series: XYSeries, category: string): XYSeriesDataItem {
+
+		let sdi: XYSeriesDataItem;
+
+		for (let i = 0; i < series.dataItems.length; i++) {
+			let dataItem = series.dataItems.getIndex(i);
+			if (series.xAxis == this) {
+				if (dataItem.categoryX == category) {
+					return dataItem;
+				}
+			}
+			if (series.yAxis == this) {
+				if (dataItem.categoryY == category) {
+					return dataItem;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Finds and returns last series data item with specific category.
+	 * @param series    Target series
+	 * @param category  Category
+	 * @return XYSeriesDataItem data item		 
+	 */
+	public getLastSeriesDataItem(series: XYSeries, category: string): XYSeriesDataItem {
+
+		let sdi: XYSeriesDataItem;
+
+
+		for (let i = series.dataItems.length - 1; i >= 0; i--) {
+			let dataItem = series.dataItems.getIndex(i);
+			if (series.xAxis == this) {
+				if (dataItem.categoryX == category) {
+					return dataItem;
+				}
+			}
+			if (series.yAxis == this) {
+				if (dataItem.categoryY == category) {
+					return dataItem;
+				}
+			}
+		}
+
+	}
+
+
+	/**
 	 * Returns a data item from Series that corresponds to a specific absolute
 	 * position on the Axis.
 	 *
-	 * @param  {XYSeries}          series    Target series
-	 * @param  {number}            position  Position (px)
-	 * @return {XYSeriesDataItem}            Series data item
+	 * @param series    Target series
+	 * @param position  Position (px)
+	 * @return XYSeriesDataItem data item
 	 */
-	public getSeriesDataItem(series: XYSeries, position: number, last?: boolean): XYSeriesDataItem {
+	public getSeriesDataItem(series: XYSeries, position: number, findNearest?: boolean): XYSeriesDataItem {
 
 		if ($type.isNumber(position)) {
+
 			let index = this.positionToIndex(position);
 
 			let dataItem = this.dataItems.getIndex(index);
+
 			if (dataItem) {
 				let category = dataItem.category;
-
 				let sdi: XYSeriesDataItem;
-				//try the same index first
-				if (!last) {
-					let seriesDataItem = series.dataItems.getIndex(index);
+
+				let seriesDataItem = series.dataItems.getIndex(index);
+				if (series.xAxis == this) {
+					if (seriesDataItem.categoryX == category) {
+						return seriesDataItem;
+					}
+				}
+				if (series.yAxis == this) {
+					if (seriesDataItem.categoryY == category) {
+						return seriesDataItem;
+					}
+				}
+				
+
+				series.dataItems.each((dataItem) => {
 					if (series.xAxis == this) {
-						if (seriesDataItem.categoryX == category) {
-							return seriesDataItem;
+						if (dataItem.categoryX == category) {
+							if(!sdi){
+								sdi = dataItem;
+							}
+							if(Math.abs(index - sdi.index) > Math.abs(index - dataItem.index)) {
+								sdi = dataItem;
+							}
+							
 						}
 					}
 					if (series.yAxis == this) {
-						if (seriesDataItem.categoryY == category) {
-							return seriesDataItem;
-						}
-					}
-
-					$iter.eachContinue(series.dataItems.iterator(), (dataItem) => {
-						if (series.xAxis == this) {
-							if (dataItem.categoryX == category) {
+						if (dataItem.categoryY == category) {
+							if(!sdi){
 								sdi = dataItem;
-								return false;
 							}
-						}
-						if (series.yAxis == this) {
-							if (dataItem.categoryY == category) {
+							if(Math.abs(index - sdi.index) > Math.abs(index - dataItem.index)) {
 								sdi = dataItem;
-								return false;
-							}
-						}
-						return true;
-					})
-
-					return sdi;
-				}
-				else {
-					for (let i = series.dataItems.length - 1; i >= 0; i--) {
-						let dataItem = series.dataItems.getIndex(i);
-						if (series.xAxis == this) {
-							if (dataItem.categoryX == category) {
-								return dataItem;
-							}
-						}
-						if (series.yAxis == this) {
-							if (dataItem.categoryY == category) {
-								return dataItem;
 							}
 						}
 					}
+				})
+
+				//@todo
+				if(findNearest){
+
 				}
+
+				return sdi;
 			}
 		}
 	}
@@ -817,10 +872,10 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param  {SeriesDataItem}  dataItem  Data item
-	 * @param  {string}          key       Category
-	 * @param  {number}          location  Location (0-1)
-	 * @return {number}                    X coordinate (px)
+	 * @param dataItem  Data item
+	 * @param key       Category
+	 * @param location  Location (0-1)
+	 * @return X coordinate (px)
 	 */
 	public getX(dataItem: XYSeriesDataItem, key?: string, location?: number): number {
 		let position;
@@ -840,10 +895,10 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param  {SeriesDataItem}  dataItem  Data item
-	 * @param  {string}          key       Category
-	 * @param  {number}          location  Location (0-1)
-	 * @return {number}                    Y coordinate (px)
+	 * @param dataItem  Data item
+	 * @param key       Category
+	 * @param location  Location (0-1)
+	 * @return Y coordinate (px)
 	 */
 	public getY(dataItem: XYSeriesDataItem, key?: string, location?: number): number {
 		let position;
@@ -863,11 +918,11 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param  {XYSeriesDataItem}  dataItem  Data item
-	 * @param  {string}            key       Category
-	 * @param  {number}            location  Location (0-1)
-	 * @param  {string}            stackKey  Stack key (?)
-	 * @return {number}                      Angle
+	 * @param dataItem  Data item
+	 * @param key       Category
+	 * @param location  Location (0-1)
+	 * @param stackKey  Stack key (?)
+	 * @return Angle
 	 */
 	public getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number {
 		return this.positionToAngle(this.categoryToPosition(dataItem.categories[key], location));
@@ -879,8 +934,8 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param  {number}  position  Position (px)
-	 * @return {number}            Cell start position (px)
+	 * @param position  Position (px)
+	 * @return Cell start position (px)
 	 */
 	public getCellStartPosition(position: number): number {
 		return this.roundPosition(position, 0);
@@ -892,8 +947,8 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param  {number}  position  Position (px)
-	 * @return {number}            Cell end position (px)
+	 * @param position  Position (px)
+	 * @return Cell end position (px)
 	 */
 	public getCellEndPosition(position: number): number {
 		return this.roundPosition(position, 1);
@@ -904,8 +959,8 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * within axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {number}  position  Position (px)
-	 * @return {string}            Label (category)
+	 * @param position  Position (px)
+	 * @return Label (category)
 	 */
 	public getTooltipText(position: number): string {
 		let dataItem: this["_dataItem"] = this.dataItems.getIndex(this.positionToIndex(position));
@@ -918,8 +973,8 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * Returns an index of the category that corresponds to specific pixel
 	 * position within axis.
 	 *
-	 * @param  {number}  position  Position (px)
-	 * @return {number}            Category index
+	 * @param position  Position (px)
+	 * @return Category index
 	 */
 	public positionToIndex(position: number): number {
 		position = $math.round(position, 10);
@@ -987,12 +1042,12 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
-	 * @param  {number}  position  Relative position on axis (0-1)
-	 * @return {string}            Position label
+	 * @param position  Relative position on axis (0-1)
+	 * @return Position label
 	 */
 	public getPositionLabel(position: number): string {
 		let dataItem: this["_dataItem"] = this.dataItems.getIndex(this.positionToIndex(position));
-		if (dataItem) { // @martynas todo: added this check, but this means that some aria label might not be received?
+		if (dataItem) {
 			return dataItem.category;
 		}
 	}
@@ -1001,7 +1056,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * Coordinates of the actual axis start.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {IPoint} Base point
+	 * @return Base point
 	 */
 	public get basePoint(): IPoint {
 		// This makes base grid to be drawn at the end of the axis and adds extra

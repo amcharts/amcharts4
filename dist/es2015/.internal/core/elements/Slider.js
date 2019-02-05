@@ -43,7 +43,7 @@ var Slider = /** @class */ (function (_super) {
     }
     Object.defineProperty(Slider.prototype, "__end", {
         /**
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             return this._start;
@@ -55,7 +55,7 @@ var Slider = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slider.prototype, "end", {
         /**
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             return this._start;
@@ -63,7 +63,7 @@ var Slider = /** @class */ (function (_super) {
         /**
          * Relative position (0-1) of the end grip.
          *
-         * @param {number}  position  Position (0-1)
+         * @param position  Position (0-1)
          */
         set: function (position) {
         },
@@ -72,7 +72,7 @@ var Slider = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slider.prototype, "start", {
         /**
-         * @return {number} Position (0-1)
+         * @return Position (0-1)
          */
         get: function () {
             return this._start;
@@ -80,7 +80,7 @@ var Slider = /** @class */ (function (_super) {
         /**
          * Relative position (0-1) of the start grip.
          *
-         * @param {number}  position  Position (0-1)
+         * @param position  Position (0-1)
          */
         set: function (position) {
             if (!this._isBusy) {

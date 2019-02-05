@@ -68,7 +68,6 @@ var Rectangle = /** @class */ (function (_super) {
          * Returns bounding box (square) for this element.
          *
          * @ignore Exclude from docs
-         * @type {IRectangle}
          */
         get: function () {
             if (this.definedBBox) {

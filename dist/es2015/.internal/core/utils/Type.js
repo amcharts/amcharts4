@@ -19,8 +19,8 @@ import { percent, isPercent } from "./Percent";
 /**
  * Returns `true` if value is not a number (NaN).
  *
- * @param  {number}  value Input value
- * @return {boolean}       Is NaN?
+ * @param value Input value
+ * @return Is NaN?
  * @deprecated Is not used anywhere. JS built-in isNaN is used everywhere. Maybe we don't need this, or if we do, then we should use it everywhere
  */
 export function isNaN(value) {
@@ -29,8 +29,8 @@ export function isNaN(value) {
 /**
  * Returns a type of the value.
  *
- * @param  {any}   value  Input value
- * @return {Type}         Type of the value
+ * @param value  Input value
+ * @return Type of the value
  */
 export function getType(value) {
     return ({}).toString.call(value);
@@ -38,9 +38,9 @@ export function getType(value) {
 /**
  * Returns a default value if the passed in value is empty.
  *
- * @param  {any}   value     Input value
- * @param  {any}   optional  Default value
- * @return {any}             Value or default value whichever is available
+ * @param value     Input value
+ * @param optional  Default value
+ * @return Value or default value whichever is available
  * @deprecated Not used anywhere
  */
 export function getDefault(value, optional) {
@@ -49,8 +49,8 @@ export function getDefault(value, optional) {
 /**
  * Checks if the passed in value is a string.
  *
- * @param  {any}   value  Value
- * @return {value}        Is string?
+ * @param value  Value
+ * @return Is string?
  * @throws {Error}
  * @deprecated Not used anywhere
  */
@@ -65,8 +65,8 @@ export function checkString(value) {
 /**
  * Checks if the passed in value is a boolean.
  *
- * @param  {any}   value  Value
- * @return {value}        Is boolean?
+ * @param value  Value
+ * @return Is boolean?
  * @throws {Error}
  * @deprecated Not used anywhere
  */
@@ -81,8 +81,8 @@ export function checkBoolean(value) {
 /**
  * Checks if the passed in value is a number.
  *
- * @param  {any}   value  Value
- * @return {value}        Is number?
+ * @param value  Value
+ * @return Is number?
  * @throws {Error}
  */
 export function checkNumber(value) {
@@ -99,8 +99,8 @@ export function checkNumber(value) {
 /**
  * Checks if the passed in value is an object.
  *
- * @param  {any}   value  Value
- * @return {value}        Is object?
+ * @param value  Value
+ * @return Is object?
  * @throws {Error}
  * @todo Is the input type correct?
  * @deprecated Not used anywhere
@@ -117,8 +117,8 @@ export function checkObject(value) {
 /**
  * Checks if the passed in value is an array.
  *
- * @param  {any}   value  Value
- * @return {value}        Is array?
+ * @param value  Value
+ * @return Is array?
  * @throws {Error}
  * @deprecated Not used anywhere
  */
@@ -133,8 +133,8 @@ export function checkArray(value) {
 /**
  * Checks if the passed in value is a Date object.
  *
- * @param  {any}   value  Value
- * @return {value}        Is Date object?
+ * @param value  Value
+ * @return Is Date object?
  * @throws {Error}
  * @deprecated Not used anywhere
  */
@@ -156,8 +156,8 @@ export function checkDate(value) {
 /**
  * Casts string or a number into string.
  *
- * @param  {string | number}  value  Input
- * @return {string}                  String value
+ * @param value  Input
+ * @return String value
  * @deprecated Not used anywhere
  */
 export function castString(value) {
@@ -174,8 +174,8 @@ export function castString(value) {
 /**
  * Casts string or a number into a number.
  *
- * @param  {string | number | Date}  value   Input value
- * @return {number}                  Number  value
+ * @param value   Input value
+ * @return Number  value
  * @throws {Error}
  */
 export function castNumber(value) {
@@ -209,8 +209,8 @@ export function castNumber(value) {
 /**
  * Casts number, string or Date into a Date object.
  *
- * @param  {string | number | Date}   value  Input value
- * @return {Date}                            Date object
+ * @param value  Input value
+ * @return Date object
  * @deprecated Not used anywhere
  * @throws {Error}
  * @hidden
@@ -246,8 +246,8 @@ export function castNumber(value) {
 /**
  * Converts any value into `boolean`.
  *
- * @param  {any}      value  Source value
- * @return {boolean}         `true` or `false`
+ * @param value  Source value
+ * @return `true` or `false`
  */
 export function toBoolean(value) {
     return value ? true : false;
@@ -255,8 +255,8 @@ export function toBoolean(value) {
 /**
  * Converts any value into a `number`.
  *
- * @param  {any}     value  Source value
- * @return {number}         Number representation of value
+ * @param value  Source value
+ * @return Number representation of value
  */
 export function toNumber(value) {
     if (hasValue(value) && !isNumber(value)) {
@@ -271,8 +271,8 @@ export function toNumber(value) {
 /**
  * Converts any value into a string (text).
  *
- * @param  {any}     value  Source value
- * @return {string}         String representation of the input
+ * @param value  Source value
+ * @return String representation of the input
  */
 export function toText(value) {
     if (hasValue(value) && !isString(value)) {
@@ -293,8 +293,8 @@ export function toText(value) {
  *
  * Otherwise, it will convert into a number.
  *
- * @param {number | Percent}   value  Number or percent
- * @return {number | Percent}         Percent object
+ * @param value  Number or percent
+ * @return Percent object
  */
 export function toNumberOrPercent(value) {
     if (!hasValue(value) || isNumber(value) || isPercent(value)) {
@@ -308,7 +308,7 @@ export function toNumberOrPercent(value) {
 /**
  * Checks if a variable has a value.
  *
- * @param {Optional<A> | null}  a  Input value
+ * @param a  Input value
  * @returns                        Has value?
  */
 export function hasValue(a) {
@@ -318,7 +318,7 @@ export function hasValue(a) {
  * Returns a value or throws an {Error} exception if the variable has not
  * value.
  *
- * @param {Optional<A> | null}  a  Input value
+ * @param a  Input value
  * @returns                        Value
  */
 export function getValue(a) {
@@ -332,7 +332,7 @@ export function getValue(a) {
 /**
  * Returns a value, or returns the default value if it doesn't have a value.
  *
- * @param {Optional<A> | null}  a  Input value
+ * @param a  Input value
  * @returns                        Value
  */
 export function getValueDefault(a, defaultValue) {
@@ -352,8 +352,8 @@ export function getValueDefault(a, defaultValue) {
 /**
  * Checks if parameter is `Date`.
  *
- * @param  {any}    value  Input value
- * @return {value}         Is Date?
+ * @param value  Input value
+ * @return Is Date?
  */
 export function isDate(value) {
     return getType(value) === "[object Date]";
@@ -361,8 +361,8 @@ export function isDate(value) {
 /**
  * Checks if parameter is `string`.
  *
- * @param  {any}    value  Input value
- * @return {value}         Is string?
+ * @param value  Input value
+ * @return Is string?
  */
 export function isString(value) {
     return typeof value === "string";
@@ -370,8 +370,8 @@ export function isString(value) {
 /**
  * Checks if parameter is `number`.
  *
- * @param  {any}    value  Input value
- * @return {value}         Is number?
+ * @param value  Input value
+ * @return Is number?
  */
 export function isNumber(value) {
     return typeof value === "number" && Number(value) == value;
@@ -379,8 +379,8 @@ export function isNumber(value) {
 /**
  * Checks if parameter is `object`.
  *
- * @param  {any}    value  Input value
- * @return {value}         Is object?
+ * @param value  Input value
+ * @return Is object?
  */
 export function isObject(value) {
     return typeof value === "object";
@@ -388,8 +388,8 @@ export function isObject(value) {
 /**
  * Checks if parameter is `Array`.
  *
- * @param  {any}    value  Input value
- * @return {value}         Is Array?
+ * @param value  Input value
+ * @return Is Array?
  */
 export function isArray(value) {
     return Array.isArray(value);

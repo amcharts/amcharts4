@@ -17,7 +17,6 @@ export interface ICSVOptions extends IDataParserOptions {
      * A delimiter character for columns.
      *
      * @default ','
-     * @type {string}
      */
     delimiter?: string;
     /**
@@ -27,7 +26,6 @@ export interface ICSVOptions extends IDataParserOptions {
      * passing back the data.
      *
      * @default false
-     * @type {number}
      */
     reverse?: boolean;
     /**
@@ -36,7 +34,6 @@ export interface ICSVOptions extends IDataParserOptions {
      * Useful if your data contains non-data headers, such as column names.
      *
      * @default 0
-     * @type {number}
      */
     skipRows?: number;
     /**
@@ -46,7 +43,6 @@ export interface ICSVOptions extends IDataParserOptions {
      * in data.
      *
      * @default true
-     * @type {boolean}
      */
     skipEmpty?: boolean;
     /**
@@ -58,29 +54,22 @@ export interface ICSVOptions extends IDataParserOptions {
      * actual column names.
      *
      * @default false
-     * @type {boolean}
      */
     useColumnNames?: boolean;
     /**
      * A list of fields that should be treaded as numeric.
      *
      * Any information container in such fields will be converted to `number`.
-     *
-     * @type {string[]}
      */
     numberFields?: string[];
     /**
      * A list of fields that hold date/time infromation.
      *
      * Parser will try to convert such fields into `Date` objects.
-     *
-     * @type {string[]}
      */
     dateFields?: string[];
     /**
      * A date formatted to be used when parsing dates.
-     *
-     * @type {DateFormatter}
      */
     dateFormatter?: DateFormatter;
 }
@@ -93,35 +82,32 @@ export declare class CSVParser extends DataParser {
     /**
      * Tests if the format is CSV.
      *
-     * @param  {string}   data  Source data
-     * @return {boolean}        Is it CSV?
+     * @param data  Source data
+     * @return Is it CSV?
      */
     static isCSV(data: string): boolean;
     /**
      * Tries to determine a column separator.
      *
-     * @param  {string}  data  Source data
-     * @return {string}        Separator
+     * @param data  Source data
+     * @return Separator
      */
     static getDelimiterFromData(data: string): string;
     /**
      * Content-type suitable for CSV format.
-     *
-     * @type {string}
      */
     contentType: string;
     /**
      * Parser options.
      *
      * @see {@link ICSVOptions} for description of each option
-     * @type {ICSVOptions}
      */
     options: ICSVOptions;
     /**
      * Parses and returns data.
      *
-     * @param  {string}  data  Unparsed data
-     * @return {any}           Parsed data
+     * @param data  Unparsed data
+     * @return Parsed data
      */
     parse(csv: string): any[];
     /**
@@ -130,9 +116,9 @@ export declare class CSVParser extends DataParser {
      * The functionality of this function is taken from here:
      * http://www.bennadel.com/blog/1504-ask-ben-parsing-csv-strings-with-javascript-exec-regular-expression-command.htm
      *
-     * @param  {string}  data       Source data
-     * @param  {string}  delimiter  Column delimiter
-     * @return {any[]}              Parsed array
+     * @param data       Source data
+     * @param delimiter  Column delimiter
+     * @return Parsed array
      */
     CSVToArray(data: string, delimiter: string): any[];
 }

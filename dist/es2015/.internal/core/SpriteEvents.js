@@ -7,7 +7,6 @@ import * as $object from "./utils/Object";
 /**
  * An [[EventDispatcher]] for [[Sprite]].
  *
- * @type {TargetedEventDispatcher}
  * @important
  */
 var SpriteEventDispatcher = /** @class */ (function (_super) {
@@ -18,7 +17,6 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
          * [_interactionEvents description]
          *
          * @todo Description
-         * @type {Dictionary}
          */
         _this._interactionEvents = new Dictionary();
         return _this;
@@ -27,7 +25,6 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
      * [_dispatchSpriteEvent description]
      *
      * @todo Description
-     * @type {[type]}
      */
     SpriteEventDispatcher.prototype._dispatchSpriteEvent = function (ev) {
         if (this.target.disabled || this.target.isTemplate) {
@@ -45,7 +42,6 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
      * [_dispatchSpritePointEvent description]
      *
      * @todo Description
-     * @type {[type]}
      */
     SpriteEventDispatcher.prototype._dispatchSpritePointEvent = function (ev) {
         if (this.target.disabled || this.target.isTemplate) {
@@ -65,7 +61,6 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
      * [_addInteractionObjectEvent description]
      *
      * @todo Description
-     * @type {[type]}
      */
     SpriteEventDispatcher.prototype._addInteractionObjectEvent = function (type, callback, context, shouldClone) {
         var _this = this;
@@ -82,7 +77,6 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
      * [_on description]
      *
      * @todo Description
-     * @type {[type]}
      */
     SpriteEventDispatcher.prototype._on = function (once, type, callback, context, shouldClone, dispatch) {
         var info = _super.prototype._on.call(this, once, type, callback, context, shouldClone, dispatch);

@@ -34,19 +34,14 @@ export interface IAxisBreakProperties extends IContainerProperties {
      * effectively useless.
      *
      * @default 0.01
-     * @type {number}
      */
     breakSize?: number;
     /**
      * Starting value.
-     *
-     * @type {number}
      */
     startValue?: number;
     /**
      * End value.
-     *
-     * @type {number}
      */
     endValue?: number;
 }
@@ -78,56 +73,38 @@ export interface IAxisBreakAdapters extends IContainerAdapters, IAxisBreakProper
 export declare class AxisBreak extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IAxisBreakProperties}
      */
     _properties: IAxisBreakProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IAxisBreakAdapters}
      */
     _adapter: IAxisBreakAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IAxisBreakEvents}
      */
     _events: IAxisBreakEvents;
     /**
      * Defines the type of the Axis this break is used for.
-     *
-     * @type {Axis}
      */
     _axisType: Axis;
     /**
      * Reference to parent Axis.
-     *
-     * @type {MutableValueDisposer}
      */
     protected _axis: MutableValueDisposer<this["_axisType"]>;
     /**
      * A reference to starting line element.
-     *
-     * @type {IWavedShape}
      */
     protected _startLine: IWavedShape;
     /**
      * A reference to ending line element.
-     *
-     * @type {IWavedShape}
      */
     protected _endLine: IWavedShape;
     /**
      * A reference to fill shape.
-     *
-     * @type {IWavedShape}
      */
     protected _fillShape: IWavedShape;
     /**
      * A list of axis data items which fall within this break.
-     *
-     * @type {List<AxisDataItem>}
      */
     dataItems: List<AxisDataItem>;
     /**
@@ -135,8 +112,6 @@ export declare class AxisBreak extends Container {
      *
      * Start and end values need to be adjusted so that they do not overlap with
      * adjacent breaks.
-     *
-     * @type {number}
      */
     adjustedStartValue: number;
     /**
@@ -144,8 +119,6 @@ export declare class AxisBreak extends Container {
      *
      * Start and end values need to be adjusted so that they do not overlap with
      * adjacent breaks.
-     *
-     * @type {number}
      */
     adjustedEndValue: number;
     /**
@@ -154,30 +127,30 @@ export declare class AxisBreak extends Container {
     constructor();
     dispose(): void;
     /**
-     * @return {IWavedShape} Element
+     * @return Element
      */
     /**
      * An element used for the starting line of the break.
      *
-     * @param {IWavedShape}  sprite  Element
+     * @param sprite  Element
      */
     startLine: IWavedShape;
     /**
-     * @return {IWavedShape} Element
+     * @return Element
      */
     /**
      * An element used for the end line of the break.
      *
-     * @param {IWavedShape} sprite Element
+     * @param sprite Element
      */
     endLine: IWavedShape;
     /**
-     * @return {IWavedShape} Element
+     * @return Element
      */
     /**
      * An element used for fill of the break.
      *
-     * @param {IWavedShape} sprite Element
+     * @param sprite Element
      */
     fillShape: IWavedShape;
     /**
@@ -185,20 +158,20 @@ export declare class AxisBreak extends Container {
      * [[Container]].
      *
      * @ignore Exclude from docs
-     * @param {IWavedShape} sprite Element to add
+     * @param sprite Element to add
      */
     addBreakSprite(sprite: IWavedShape): void;
     /**
-     * @return {Axis} Axis
+     * @return Axis
      */
     /**
      * An Axis this Break is associated with.
      *
-     * @param {Axis}  axis  Axis
+     * @param axis  Axis
      */
     axis: this["_axisType"];
     /**
-     * @return {number} Relative axis break
+     * @return Relative axis break
      */
     /**
      * A size of the break relative to the actual size of the scope break spans.
@@ -211,19 +184,19 @@ export declare class AxisBreak extends Container {
      * effectively useless.
      *
      * @default 0.01
-     * @param {number}  value  Relative axis break
+     * @param value  Relative axis break
      */
     breakSize: number;
     /**
      * Returns pixel coordinates of axis break's start.
      *
-     * @return {IPoint} Start point
+     * @return Start point
      */
     readonly startPoint: IPoint;
     /**
      * Returns pixel coordinates of axis break's end.
      *
-     * @return {IPoint} End point
+     * @return End point
      */
     readonly endPoint: IPoint;
     /**
@@ -232,7 +205,7 @@ export declare class AxisBreak extends Container {
      * This is a calculated position, meaning it shows relative position of the
      * break after break is applied.
      *
-     * @return {number} Start position
+     * @return Start position
      */
     readonly startPosition: number;
     /**
@@ -241,7 +214,7 @@ export declare class AxisBreak extends Container {
      * This is a calculated position, meaning it shows relative position of the
      * break after break is applied.
      *
-     * @return {number} End position
+     * @return End position
      */
     readonly endPosition: number;
     /**
@@ -251,21 +224,21 @@ export declare class AxisBreak extends Container {
      */
     draw(): void;
     /**
-     * @return {number} Starting value
+     * @return Starting value
      */
     /**
      * A starting value for the break.
      *
-     * @param {number}  value  Starting value
+     * @param value  Starting value
      */
     startValue: number;
     /**
-     * @return {number} End value
+     * @return End value
      */
     /**
      * An end value for the break.
      *
-     * @param {number}  value  End value
+     * @param value  End value
      */
     endValue: number;
 }

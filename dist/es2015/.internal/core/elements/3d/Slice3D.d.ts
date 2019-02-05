@@ -18,14 +18,12 @@ export interface ISlice3DProperties extends ISliceProperties {
      * Depth (height) of the 3D slice in pixels.
      *
      * @default 20
-     * @type {number}
      */
     depth?: number;
     /**
      * Angle of the point of view to the 3D element. (0-360)
      *
      * @default 30
-     * @type {number}
      */
     angle?: number;
 }
@@ -56,41 +54,32 @@ export interface ISlice3DAdapters extends ISliceAdapters, ISlice3DProperties {
 export declare class Slice3D extends Slice {
     /**
      * Defines available properties.
-     *
-     * @type {ISlice3DProperties}
      */
     _properties: ISlice3DProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ISlice3DAdapters}
      */
     _adapter: ISlice3DAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ISlice3DEvents}
      */
     _events: ISlice3DEvents;
     /**
      * Container element for elements of the 3D sides.
      *
      * @ignore Exclude from docs
-     * @type {Container}
      */
     edge: Container;
     /**
      * Side element.
      *
      * @ignore Exclude from docs
-     * @type {Sprite}
      */
     sideA: Sprite;
     /**
      * Side element.
      *
      * @ignore Exclude from docs
-     * @type {Sprite}
      */
     sideB: Sprite;
     /**
@@ -104,27 +93,27 @@ export declare class Slice3D extends Slice {
      */
     draw(): void;
     /**
-     * @return {number} Depth (px)
+     * @return Depth (px)
      */
     /**
      * Depth (height) of the 3D slice in pixels.
      *
      * @default 20
-     * @param {number}  depth  Depth (px)
+     * @param depth  Depth (px)
      */
     depth: number;
     /**
-     * @return {number} Angle
+     * @return Angle
      */
     /**
      * Angle of the point of view to the 3D element. (0-360)
      *
      * @default 30
-     * @param {number}  value  Angle
+     * @param value  Angle
      */
     angle: number;
     /**
-     * @return {number} Vertical radius (0-1)
+     * @return Vertical radius (0-1)
      */
     /**
      * Vertical radius for creating skewed slices.
@@ -132,13 +121,13 @@ export declare class Slice3D extends Slice {
      * This is relevant to `radius`, e.g. 0.5 will set vertical radius to half
      * the `radius`.
      *
-     * @param {number} value Vertical radius (0-1)
+     * @param value Vertical radius (0-1)
      */
     radiusY: number;
     /**
      * Copies all properties and related data from a different instance of Axis.
      *
-     * @param {this} source Source Axis
+     * @param source Source Axis
      */
     copyFrom(source: this): void;
 }

@@ -47,18 +47,15 @@ export class LineSeriesDataItem extends XYSeriesDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {LineSeries}
 	 */
 	public _component!: LineSeries;
 
 	/**
 	 * Point of line series data item
-	 * @type {IPoint}
 	 */
 	public point: IPoint;
 
-	/**	 
+	/**
 	 * A reference to a segment object, used for getting proper colors for tooltips
 	 */
 	public segment: LineSeriesSegment;
@@ -99,7 +96,6 @@ export interface ILineSeriesProperties extends IXYSeriesProperties {
 	 * Used for smoothed lines.
 	 *
 	 * @default 1
-	 * @type {number}
 	 */
 	tensionX?: number;
 
@@ -109,7 +105,6 @@ export interface ILineSeriesProperties extends IXYSeriesProperties {
 	 * Used for smoothed lines.
 	 *
 	 * @default 1
-	 * @type {number}
 	 */
 	tensionY?: number;
 
@@ -117,7 +112,6 @@ export interface ILineSeriesProperties extends IXYSeriesProperties {
 	 * Connect the lines over empty data points?
 	 *
 	 * @default true
-	 * @type {boolean}
 	 */
 	connect?: boolean;
 
@@ -155,36 +149,26 @@ export class LineSeries extends XYSeries {
 
 	/**
 	 * Defines the type of data fields used for the series.
-	 *
-	 * @type {ILineSeriesDataFields}
 	 */
 	public _dataFields: ILineSeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ILineSeriesProperties}
 	 */
 	public _properties!: ILineSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ILineSeriesAdapters}
 	 */
 	public _adapter!: ILineSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ILineSeriesEvents}
 	 */
 	public _events!: ILineSeriesEvents;
 
 	/**
 	 * Defines the type of data item.
-	 *
-	 * @type {LineSeriesDataItem}
 	 */
 	public _dataItem: LineSeriesDataItem;
 
@@ -195,8 +179,6 @@ export class LineSeries extends XYSeries {
 	 *
 	 * * When we want to change the appearance of a part of the line series;
 	 * * When we have an axis range.
-	 *
-	 * @type {ListTemplate<this["_segment"]>}
 	 */
 	public segments: ListTemplate<this["_segment"]>;
 
@@ -209,7 +191,6 @@ export class LineSeries extends XYSeries {
 	 * A container for segment elements.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Container}
 	 */
 	public segmentsContainer: Container;
 
@@ -221,14 +202,11 @@ export class LineSeries extends XYSeries {
 	 * This allows acceptable performance with huge amounts of data points.
 	 *
 	 * @default 0.5
-	 * @type {number}
 	 */
 	public minDistance: number = 0.5;
 
 	/**
 	 * Iterator for segments.
-	 *
-	 * @type {ListIterator<LineSeriesSegment>}
 	 */
 	protected _segmentsIterator: $iter.ListIterator<this["_segment"]>;
 
@@ -293,7 +271,7 @@ export class LineSeries extends XYSeries {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {LineSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new LineSeriesDataItem();
@@ -302,8 +280,8 @@ export class LineSeries extends XYSeries {
 	/**
 	 * Inits data item's working values.
 	 *
-	 * @param {this["_dataItem"]}  dataItem  Data item
-	 * @param {number}             index     Data item's index
+	 * @param dataItem  Data item
+	 * @param index     Data item's index
 	 */
 
 	protected setInitialWorkingValues(dataItem: this["_dataItem"]): void {
@@ -357,9 +335,9 @@ export class LineSeries extends XYSeries {
 
 	/**
 	 * Updates corresponding legend data item with current values.
-	 * 
+	 *
 	 * @ignore Exclude from docs
-	 * @param {this["_dataItem"]}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public updateLegendValue(dataItem?: this["_dataItem"]) {
 		super.updateLegendValue(dataItem);
@@ -452,8 +430,8 @@ export class LineSeries extends XYSeries {
 	 * [openSegment description]
 	 *
 	 * @todo Description
-	 * @param {number}        openIndex  [description]
-	 * @param {AxisDataItem}  axisRange  [description]
+	 * @param openIndex  [description]
+	 * @param axisRange  [description]
 	 */
 	protected openSegment(openIndex: number, axisRange?: AxisDataItem): void {
 		let points: IPoint[] = [];
@@ -526,11 +504,11 @@ export class LineSeries extends XYSeries {
 	 * [addPoints description]
 	 *
 	 * @todo Description
-	 * @param {IPoint[]}          points    [description]
-	 * @param {this["_dataItem"]} dataItem  [description]
-	 * @param {string}            xField    [description]
-	 * @param {string}            yField    [description]
-	 * @param {boolean}           backwards [description]
+	 * @param points    [description]
+	 * @param dataItem  [description]
+	 * @param xField    [description]
+	 * @param yField    [description]
+	 * @param backwards [description]
 	 */
 	protected addPoints(points: IPoint[], dataItem: this["_dataItem"], xField: string, yField: string, backwards?: boolean) {
 		let point = this.getPoint(dataItem, xField, yField, dataItem.workingLocations[xField], dataItem.workingLocations[yField]);
@@ -544,11 +522,11 @@ export class LineSeries extends XYSeries {
 	 * [closeSegment description]
 	 *
 	 * @todo Description
-	 * @param {LineSeriesSegment} segment    [description]
-	 * @param {IPoint[]}          points     [description]
-	 * @param {number}            openIndex  [description]
-	 * @param {number}            closeIndex [description]
-	 * @param {AxisDataItem}      axisRange  [description]
+	 * @param segment    [description]
+	 * @param points     [description]
+	 * @param openIndex  [description]
+	 * @param closeIndex [description]
+	 * @param axisRange  [description]
 	 */
 	protected closeSegment(segment: LineSeriesSegment, points: IPoint[], openIndex: number, closeIndex: number, axisRange?: AxisDataItem) {
 
@@ -590,9 +568,9 @@ export class LineSeries extends XYSeries {
 	/**
 	 * Draws the line segment.
 	 *
-	 * @param {LineSeriesSegment}  segment     Segment
-	 * @param {IPoint[]}           points      Segment points
-	 * @param {IPoint[]}           closePoints Segment close points
+	 * @param segment     Segment
+	 * @param points      Segment points
+	 * @param closePoints Segment close points
 	 */
 	protected drawSegment(segment: LineSeriesSegment, points: IPoint[], closePoints: IPoint[]): void {
 		segment.drawSegment(points, closePoints, this.tensionX, this.tensionY);
@@ -606,9 +584,9 @@ export class LineSeries extends XYSeries {
 	 * `hasProperties` is set to `true` on data item (this means it can contain
 	 * some properties set).
 	 *
-	 * @param  {object}             itemProperties  Item properties
-	 * @param  {LineSeriesSegment}  segment         Segment
-	 * @return {boolean}                            Properties changed?
+	 * @param itemProperties  Item properties
+	 * @param segment         Segment
+	 * @return Properties changed?
 	 */
 	protected updateSegmentProperties(itemProperties: { [index: string]: any }, segment: LineSeriesSegment, checkOnly?: boolean): boolean {
 		let changed: boolean = false;
@@ -667,7 +645,7 @@ export class LineSeries extends XYSeries {
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/chart-types/xy-chart/#Line_series_with_gaps} for more information about this feature
 	 * @default true
-	 * @param {boolean}  value  Connect?
+	 * @param value  Connect?
 	 */
 	public set connect(value: boolean) {
 		if (this.setPropertyValue("connect", value)) {
@@ -676,7 +654,7 @@ export class LineSeries extends XYSeries {
 	}
 
 	/**
-	 * @return {boolean} Connect?
+	 * @return Connect?
 	 */
 	public get connect(): boolean {
 		return this.getPropertyValue("connect");
@@ -701,14 +679,14 @@ export class LineSeries extends XYSeries {
 	 * vertical bending as well, use `tensionY`.
 	 *
 	 * @default 1
-	 * @param {number}  value  Horizontal tension (0-1)
+	 * @param value  Horizontal tension (0-1)
 	 */
 	public set tensionX(value: number) {
 		this.setPropertyValue("tensionX", value, true);
 	}
 
 	/**
-	 * @return {number} Horizontal tension (0-1)
+	 * @return Horizontal tension (0-1)
 	 */
 	public get tensionX(): number {
 		return this.getPropertyValue("tensionX");
@@ -733,14 +711,14 @@ export class LineSeries extends XYSeries {
 	 * smoothed line series.
 	 *
 	 * @default 1
-	 * @param {number}  value  Vertical tension (0-1)
+	 * @param value  Vertical tension (0-1)
 	 */
 	public set tensionY(value: number) {
 		this.setPropertyValue("tensionY", value, true);
 	}
 
 	/**
-	 * @return {number} Vertical tension (0-1)
+	 * @return Vertical tension (0-1)
 	 */
 	public get tensionY(): number {
 		return this.getPropertyValue("tensionY");
@@ -762,7 +740,7 @@ export class LineSeries extends XYSeries {
 	 * Series.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Container}  marker  Legend item container
+	 * @param marker  Legend item container
 	 */
 	public createLegendMarker(marker: Container): void {
 

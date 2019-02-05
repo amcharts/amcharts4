@@ -25,8 +25,6 @@ export interface IEllipseProperties extends ICircleProperties {
      *
      * E.g. 0.8 will mean the height of the ellipsis will be 80% of it's
      * horizontal radius.
-     *
-     * @type {number}
      */
     radiusY?: number;
 }
@@ -56,20 +54,14 @@ export interface IEllipseAdapters extends ICircleAdapters, IEllipseProperties {
 export declare class Ellipse extends Circle {
     /**
      * Defines available properties.
-     *
-     * @type {IEllipseProperties}
      */
     _properties: IEllipseProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IEllipseAdapters}
      */
     _adapter: IEllipseAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IEllipseEvents}
      */
     _events: IEllipseEvents;
     /**
@@ -81,7 +73,7 @@ export declare class Ellipse extends Circle {
      */
     protected draw(): void;
     /**
-     * @return {number} Vertical radius
+     * @return Vertical radius
      */
     /**
      * Vertical radius.
@@ -91,16 +83,16 @@ export declare class Ellipse extends Circle {
      * E.g. 0.8 will mean the height of the ellipsis will be 80% of it's
      * horizontal radius.
      *
-     * @param {number}  value  Vertical radius
+     * @param value  Vertical radius
      */
     radiusY: number;
     /**
-     * @return {number} Horizontal radius
+     * @return Horizontal radius
      */
     /**
      * Horizontal radius.
      *
-     * @param {number}  value  Horizontal radius
+     * @param value  Horizontal radius
      */
     radius: number;
 }

@@ -24,13 +24,10 @@ import { RadarColumn } from "../elements/RadarColumn";
 export declare class RadarColumnSeriesDataItem extends ColumnSeriesDataItem {
     /**
      * A sprite used to draw the column.
-     * @type {Slice}
      */
     _column: RadarColumn;
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {RadarColumnSeries}
      */
     _component: RadarColumnSeries;
     /**
@@ -89,32 +86,22 @@ export declare class RadarColumnSeries extends ColumnSeries {
     _column: RadarColumn;
     /**
      * Defines the type of data fields used for the series.
-     *
-     * @type {IRadarColumnSeriesDataFields}
      */
     _dataFields: IRadarColumnSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IRadarColumnSeriesProperties}
      */
     _properties: IRadarColumnSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IRadarColumnSeriesAdapters}
      */
     _adapter: IRadarColumnSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IRadarColumnSeriesEvents}
      */
     _events: IRadarColumnSeriesEvents;
     /**
      * A chart series belongs to.
-     *
-     * @type {RadarChart}
      */
     _chart: RadarChart;
     /**
@@ -124,7 +111,7 @@ export declare class RadarColumnSeries extends ColumnSeries {
     /**
      * Creates and returns a RadarColumn element to use as column in radar chart.
      *
-     * @return {this["_column"]} RadarColumn.
+     * @return RadarColumn.
      */
     protected createColumnTemplate(): this["_column"];
     /**
@@ -137,20 +124,20 @@ export declare class RadarColumnSeries extends ColumnSeries {
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
-     * @param {RadarColumnSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     validateDataElementReal(dataItem: this["_dataItem"]): void;
     /**
      * [getPoint description]
      *
      * @todo Description
-     * @param {RadarColumnSeriesDataItem} dataItem  [description]
-     * @param {string}                    xKey      [description]
-     * @param {string}                    yKey      [description]
-     * @param {number}                    locationX [description]
-     * @param {number}                    locationY [description]
-     * @param {string}                    stackKeyX [description]
-     * @param {string}                    stackKeyY [description]
+     * @param dataItem  [description]
+     * @param xKey      [description]
+     * @param yKey      [description]
+     * @param locationX [description]
+     * @param locationY [description]
+     * @param stackKeyX [description]
+     * @param stackKeyY [description]
      */
     protected getPoint(dataItem: RadarColumnSeriesDataItem, xKey: string, yKey: string, locationX?: number, locationY?: number, stackKeyX?: string, stackKeyY?: string): {
         x: number;
@@ -159,7 +146,7 @@ export declare class RadarColumnSeries extends ColumnSeries {
     /**
      * Returns an SVG path to be used as a mask for the series.
      *
-     * @return {string} SVG path
+     * @return SVG path
      */
     protected getMaskPath(): string;
 }

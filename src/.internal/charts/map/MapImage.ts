@@ -1,5 +1,4 @@
 /**
- *
  */
 
 /**
@@ -29,15 +28,11 @@ export interface IMapImageProperties extends IMapObjectProperties {
 
 	/**
 	 * Latitude of the image location.
-	 *
-	 * @type {number}
 	 */
 	latitude?: number;
 
 	/**
 	 * Longitude of the mage location.
-	 *
-	 * @type {number}
 	 */
 	longitude?: number;
 
@@ -73,36 +68,26 @@ export class MapImage extends MapObject {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IMapImageProperties}
 	 */
 	public _properties!: IMapImageProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IMapImageAdapters}
 	 */
 	public _adapter!: IMapImageAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IMapImageEvents}
 	 */
 	public _events!: IMapImageEvents;
 
 	/**
 	 * A related data item.
-	 *
-	 * @type {MapImageSeriesDataItem}
 	 */
 	public _dataItem: MapImageSeriesDataItem;
 
 	/**
 	 * A map series this object belongs to.
-	 *
-	 * @type {MapImageSeries}
 	 */
 	public series: MapImageSeries;
 
@@ -119,14 +104,14 @@ export class MapImage extends MapObject {
 	/**
 	 * Latitude image is placed at.
 	 *
-	 * @param {number}  value  Latitude
+	 * @param value  Latitude
 	 */
 	public set latitude(value: number) {
 		this.setPropertyValue("latitude", value, false, true);
 	}
 
 	/**
-	 * @return {number} Latitude
+	 * @return Latitude
 	 */
 	public get latitude(): number {
 		return this.getPropertyValue("latitude");
@@ -135,14 +120,14 @@ export class MapImage extends MapObject {
 	/**
 	 * Longitude image is placed on.
 	 *
-	 * @param {number}  value  Longitude
+	 * @param value  Longitude
 	 */
 	public set longitude(value: number) {
 		this.setPropertyValue("longitude", value, false, true);
 	}
 
 	/**
-	 * @return {number} Longitude
+	 * @return Longitude
 	 */
 	public get longitude(): number {
 		return this.getPropertyValue("longitude");

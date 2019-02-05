@@ -23,15 +23,12 @@ import * as $type from "../../utils/Type";
 export interface ColorizeFilterProperties extends FilterProperties {
     /**
      * Color.
-     *
-     * @type {Color}
      */
     color?: Color;
     /**
      * Intensity. (0-1)
      *
      * @default 1
-     * @type {number}
      */
     intensity: number;
 }
@@ -47,20 +44,16 @@ export interface ColorizeFilterProperties extends FilterProperties {
 export declare class ColorizeFilter extends Filter {
     /**
      * Defines property types.
-     *
-     * @type {ColorizeFilterProperties}
      */
     _properties: ColorizeFilterProperties;
     /**
      * A storage for Filter property/value pairs.
      * @see [@link ColorizeFilterProperties]
-     * @type {Dictionary<ColorizeFilterProperties, any>}
      */
     /**
      * Reference to the `<feColorMatrix>` element.
      *
      * @ignore Exclude from docs
-     * @type {AMElement}
      */
     feColorMatrix: AMElement;
     /**
@@ -75,7 +68,7 @@ export declare class ColorizeFilter extends Filter {
      */
     applyFilter(): void;
     /**
-     * @return {Color} Color
+     * @return Color
      */
     /**
      * Target color to apply to the element.
@@ -85,11 +78,11 @@ export declare class ColorizeFilter extends Filter {
      *
      * E.g. setting to `am4core.color("greener")` will make all colors greener.
      *
-     * @param {Color}  value  Color
+     * @param value  Color
      */
     color: $type.Optional<Color>;
     /**
-     * @return {number} Intensity (0-1)
+     * @return Intensity (0-1)
      */
     /**
      * Intensity of the color (0-1).
@@ -100,7 +93,7 @@ export declare class ColorizeFilter extends Filter {
      * 1 means all colors will become the target `color`.
      *
      * @default 1
-     * @param {number}  value  Intensity (0-1)
+     * @param value  Intensity (0-1)
      */
     intensity: number;
 }

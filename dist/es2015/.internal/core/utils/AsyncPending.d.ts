@@ -3,7 +3,6 @@
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export declare type Listener = (now: number) => void;
 /**
@@ -11,7 +10,6 @@ export declare type Listener = (now: number) => void;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export declare const raf: (fn: () => void) => void;
 /**
@@ -19,7 +17,7 @@ export declare const raf: (fn: () => void) => void;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {Listener} fn [description]
+ * @param fn [description]
  */
 export declare function nextFrame(fn: Listener): void;
 /**
@@ -27,7 +25,7 @@ export declare function nextFrame(fn: Listener): void;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {Listener} fn [description]
+ * @param fn [description]
  */
 export declare function readFrame(fn: Listener): void;
 /**
@@ -35,7 +33,7 @@ export declare function readFrame(fn: Listener): void;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {Listener} fn [description]
+ * @param fn [description]
  */
 export declare function writeFrame(fn: Listener): void;
 /**
@@ -43,7 +41,7 @@ export declare function writeFrame(fn: Listener): void;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {Listener} fn [description]
+ * @param fn [description]
  */
 export declare function whenIdle(fn: Listener): void;
 /**

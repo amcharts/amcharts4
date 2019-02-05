@@ -33,8 +33,8 @@ var ColorModifier = /** @class */ (function (_super) {
      * Modifies color value.
      *
      * @ignore Exclude from docs
-     * @param  {Color}  value  Original color
-     * @return {Color}         Modified
+     * @param value  Original color
+     * @return Modified
      */
     ColorModifier.prototype.modify = function (value) {
         return value;

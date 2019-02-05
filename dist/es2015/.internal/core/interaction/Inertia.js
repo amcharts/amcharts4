@@ -35,8 +35,6 @@ var Inertia = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * List of animations currently playing.
-         *
-         * @type {List<Animation>}
          */
         _this.animations = [];
         _this.className = "Inertia";
@@ -52,7 +50,7 @@ var Inertia = /** @class */ (function (_super) {
         /**
          * Returns current X coordinate.
          *
-         * @return {number} X
+         * @return X
          */
         get: function () {
             return this.point.x;
@@ -62,7 +60,7 @@ var Inertia = /** @class */ (function (_super) {
          *
          * Will trigger "drag" event for the target element.
          *
-         * @param {number} value X
+         * @param value X
          */
         set: function (value) {
             if ($type.isNumber(value)) {
@@ -77,7 +75,7 @@ var Inertia = /** @class */ (function (_super) {
         /**
          * Returns current Y coordinate.
          *
-         * @return {number} Y
+         * @return Y
          */
         get: function () {
             return this.point.y;
@@ -87,7 +85,7 @@ var Inertia = /** @class */ (function (_super) {
          *
          * Will trigger "drag" event for the target element.
          *
-         * @param {number} value Y
+         * @param value Y
          */
         set: function (value) {
             if ($type.isNumber(value)) {

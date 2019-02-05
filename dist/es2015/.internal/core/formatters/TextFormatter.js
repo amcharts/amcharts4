@@ -30,8 +30,6 @@ var TextFormatter = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * Adapter.
-         *
-         * @type {Adapter<TextFormatter, ITextFormatterAdapters>}
          */
         _this.adapter = new Adapter(_this);
         _this.className = "TextFormatter";
@@ -42,9 +40,9 @@ var TextFormatter = /** @class */ (function (_super) {
     /**
      * Formats the text according to specifications passed in.
      *
-     * @param  {string}  text    Text to format
-     * @param  {string}  output  Output format (svg, html)
-     * @return {string}          Formatted text
+     * @param text    Text to format
+     * @param output  Output format (svg, html)
+     * @return Formatted text
      */
     TextFormatter.prototype.format = function (text, output) {
         // Apply default
@@ -90,8 +88,8 @@ var TextFormatter = /** @class */ (function (_super) {
      * Replaces brackets with temporary placeholders.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text  Input text
-     * @return {string}        Escaped text
+     * @param text  Input text
+     * @return Escaped text
      */
     TextFormatter.prototype.escape = function (text) {
         return text.
@@ -105,8 +103,8 @@ var TextFormatter = /** @class */ (function (_super) {
      * Replaces placeholders back to brackets.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text  Escaped text
-     * @return {string}        Unescaped text
+     * @param text  Escaped text
+     * @return Unescaped text
      */
     TextFormatter.prototype.unescape = function (text) {
         return text.
@@ -120,8 +118,8 @@ var TextFormatter = /** @class */ (function (_super) {
      * Cleans up the text text for leftover double square brackets.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text  Input text
-     * @return {string}        Cleaned up text
+     * @param text  Input text
+     * @return Cleaned up text
      */
     TextFormatter.prototype.cleanUp = function (text) {
         return text.
@@ -135,10 +133,10 @@ var TextFormatter = /** @class */ (function (_super) {
      * Wraps text into corresponding tags.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text   Text to wrap
-     * @param  {string}  style  Styles
-     * @param  {string}  output  Format to output in (svg, html)
-     * @return {string}          Formatted string
+     * @param text   Text to wrap
+     * @param style  Styles
+     * @param output  Format to output in (svg, html)
+     * @return Formatted string
      */
     TextFormatter.prototype.wrap = function (text, style, output) {
         if (style === "" || style === "/") {
@@ -156,9 +154,9 @@ var TextFormatter = /** @class */ (function (_super) {
      * Wraps text in styled SVG tag.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text   Text to wrap
-     * @param  {string}  style  Style property
-     * @return {string}         Formatted tag
+     * @param text   Text to wrap
+     * @param style  Style property
+     * @return Formatted tag
      */
     TextFormatter.prototype.wrapSvg = function (text, style) {
         if (style === "") {
@@ -172,9 +170,9 @@ var TextFormatter = /** @class */ (function (_super) {
      * Returns an SVG `<tspan>` element.
      *
      * @ignore Exclude from docs
-     * @param  {string}     text   Text
-     * @param  {string}     style  Style
-     * @return {AMElement}         Element
+     * @param text   Text
+     * @param style  Style
+     * @return Element
      */
     TextFormatter.prototype.getSvgElement = function (text, style) {
         var element = new AMElement("tspan");
@@ -188,9 +186,9 @@ var TextFormatter = /** @class */ (function (_super) {
      * Wraps text in HTML <span> tag.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text   Text to wrap
-     * @param  {string}  style  Style property
-     * @return {string}         Formatted tag
+     * @param text   Text to wrap
+     * @param style  Style property
+     * @return Formatted tag
      * @todo Translate SVG styles into HTML ones
      */
     TextFormatter.prototype.wrapHtml = function (text, style) {
@@ -205,9 +203,9 @@ var TextFormatter = /** @class */ (function (_super) {
      * Returns an HTML `<span>` element.
      *
      * @ignore Exclude from docs
-     * @param  {string}       text   Text/HTML
-     * @param  {string}       style  Style definition
-     * @return {HTMLElement}         HTML element
+     * @param text   Text/HTML
+     * @param style  Style definition
+     * @return HTML element
      */
     TextFormatter.prototype.getHtmlElement = function (text, style) {
         var element = document.createElement("span");
@@ -221,8 +219,8 @@ var TextFormatter = /** @class */ (function (_super) {
      * Trabslates SVG CSS into HTML CSS.
      *
      * @ignore Exclude from docs
-     * @param  {string}  style  SVG CSS
-     * @return {string}         HTML CSS
+     * @param style  SVG CSS
+     * @return HTML CSS
      * @todo Implement actual translation
      */
     TextFormatter.prototype.styleSvgToHtml = function (style) {
@@ -235,8 +233,8 @@ var TextFormatter = /** @class */ (function (_super) {
      * "#f00" => "fill: #f00"
      *
      * @ignore Exclude from docs
-     * @param  {string}  style  Untranslated style
-     * @return {string}         Translated style
+     * @param style  Untranslated style
+     * @return Translated style
      * @todo Implement actual translation
      */
     TextFormatter.prototype.translateStyleShortcuts = function (style) {
@@ -288,10 +286,10 @@ var TextFormatter = /** @class */ (function (_super) {
      * output.
      *
      * @ignore Exclude from docs
-     * @param  {string}    text          Text to chunk
-     * @param  {boolean}   quotedBlocks  Use quoted blocks
-     * @param  {boolean}   noFormatting  Formatting blocks will be treated as regular text
-     * @return {string[]}                Array of string chunks
+     * @param text          Text to chunk
+     * @param quotedBlocks  Use quoted blocks
+     * @param noFormatting  Formatting blocks will be treated as regular text
+     * @return Array of string chunks
      */
     TextFormatter.prototype.chunk = function (text, quotedBlocks, noFormatting) {
         if (quotedBlocks === void 0) { quotedBlocks = false; }
@@ -380,8 +378,8 @@ var TextFormatter = /** @class */ (function (_super) {
      * I.e.: `[img: myImage.png]`
      *
      * @ignore Exclude from docs
-     * @param  {string}   text  Format
-     * @return {boolean}        `true` if it is an image
+     * @param text  Format
+     * @return `true` if it is an image
      */
     TextFormatter.prototype.isImage = function (text) {
         return text.match(/img[ ]?:/) ? true : false;
@@ -395,8 +393,6 @@ var formatter;
  *
  * All classes and instances should reuse this universal text formatter,
  * rather than create their own instance of it.
- *
- * @type {TextFormatter}
  */
 export function getTextFormatter() {
     if (formatter == null) {

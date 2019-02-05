@@ -37,42 +37,31 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 
 	/**
 	 * A [[MapPolygon]] element related to this data item.
-	 *
-	 * @type {MapPolygon}
 	 */
 	protected _mapPolygon: MapPolygon;
 
 	/**
 	 * A collection of X/Y coordinates for a single polygon.
-	 *
-	 * @type {number[][][]}
 	 */
 	protected _polygon: number[][][];
 
 	/**
 	 * A collection of X/Y coordinates for a multi-part polygon.
-	 *
-	 * @type {number[][][][]}
 	 */
 	protected _multiPolygon: number[][][][];
 
 	/**
 	 * A collection of lat/long coordinates for a single polygon.
-	 *
-	 * @type {IGeoPoint[][]}
 	 */
 	protected _geoPolygon: IGeoPoint[][];
 
 	/**
 	 * A collection of lat/long coordinates for a multi-part polygon.
-	 *
-	 * @type {IGeoPoint[][][]}
 	 */
 	protected _multiGeoPolygon: IGeoPoint[][][];
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for
-	 * @type {MapPolygonSeries}
 	 */
 	public _component!: MapPolygonSeries;
 
@@ -89,7 +78,7 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	 * A [[MapPolygon]] element related to this data item.
 	 *
 	 * @readonly
-	 * @return {MapPolygon} Element
+	 * @return Element
 	 */
 	public get mapPolygon(): MapPolygon {
 		if (!this._mapPolygon) {
@@ -122,7 +111,7 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	 * ]
 	 * ```
 	 *
-	 * @param {number[][][]}  polygon  Coordinates
+	 * @param polygon  Coordinates
 	 */
 	public set polygon(polygon: number[][][]) {
 		this._polygon = polygon;
@@ -130,7 +119,7 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	}
 
 	/**
-	 * @return {number[]} Coordinates
+	 * @return Coordinates
 	 */
 	public get polygon(): number[][][] {
 		return this._polygon;
@@ -165,7 +154,7 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	 * ]
 	 * ```
 	 *
-	 * @param {number[][][]}  multiPolygon  Coordinates
+	 * @param multiPolygon  Coordinates
 	 */
 	public set multiPolygon(multiPolygon: number[][][][]) {
 		this._multiPolygon = multiPolygon;
@@ -173,7 +162,7 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	}
 
 	/**
-	 * @return {number[]} Coordinates
+	 * @return Coordinates
 	 */
 	public get multiPolygon(): number[][][][] {
 		return this._multiPolygon;
@@ -194,7 +183,7 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	 * ```
 	 *
 	 * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.6} GeoJSON Polygon reference
-	 * @param {IGeoPoint[][]}  geoPolygon  Coordinates
+	 * @param geoPolygon  Coordinates
 	 */
 	public set geoPolygon(geoPolygon: IGeoPoint[][]) {
 		this._geoPolygon = geoPolygon;
@@ -202,7 +191,7 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	}
 
 	/**
-	 * @return {IGeoPoint[]} Coordinates
+	 * @return Coordinates
 	 */
 	public get geoPolygon(): IGeoPoint[][] {
 		return this._geoPolygon;
@@ -235,7 +224,7 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	 * ```
 	 *
 	 * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.7} GeoJSON MultiPolygon reference
-	 * @param {IGeoPoint[][][]}  multiGeoPolygon  Coordinates
+	 * @param multiGeoPolygon  Coordinates
 	 */
 	public set multiGeoPolygon(multiGeoPolygon: IGeoPoint[][][]) {
 		this._multiGeoPolygon = multiGeoPolygon;
@@ -244,7 +233,7 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	}
 
 	/**
-	 * @return {IGeoPoint[]} Coordinates
+	 * @return Coordinates
 	 */
 	public get multiGeoPolygon(): IGeoPoint[][][] {
 		return this._multiGeoPolygon;
@@ -255,7 +244,7 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	 * North, and South-most points.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IGeoPoint[]}  geoPoints  Points of the element
+	 * @param geoPoints  Points of the element
 	 */
 	public updateAreaExtremes(multiGeoPolygon: IGeoPoint[][][]): void {
 		for (let i = 0, len = multiGeoPolygon.length; i < len; i++) {
@@ -282,29 +271,21 @@ export interface IMapPolygonSeriesDataFields extends IMapSeriesDataFields {
 
 	/**
 	 * Field name that holds polygon pixels.
-	 *
-	 * @type {string}
 	 */
 	polygon?: string;
 
 	/**
 	 * Field name that holds multi-polygon pixels.
-	 *
-	 * @type {string}
 	 */
 	multiPolygon?: string;
 
 	/**
 	 * Field name that holds polygon data in Geo coordinates.
-	 *
-	 * @type {string}
 	 */
 	geoPolygon?: string;
 
 	/**
 	 * Field name that holds poly-polygon data in Geo coordinates.
-	 *
-	 * @type {string}
 	 */
 	multiGeoPolygon?: string;
 
@@ -346,50 +327,36 @@ export class MapPolygonSeries extends MapSeries {
 
 	/**
 	 * Defines available data fields.
-	 *
-	 * @type {IMapPolygonSeriesDataFields}
 	 */
 	public _dataFields: IMapPolygonSeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IMapPolygonSeriesProperties}
 	 */
 	public _properties!: IMapPolygonSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IMapPolygonSeriesAdapters}
 	 */
 	public _adapter!: IMapPolygonSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IMapPolygonSeriesEvents}
 	 */
 	public _events!: IMapPolygonSeriesEvents;
 
 	/**
 	 * Defines the type of data item.
-	 *
-	 * @type {MapPolygonSeriesDataItem}
 	 */
 	public _dataItem: MapPolygonSeriesDataItem;
 
 	/**
 	 * A related chart/map object, this element is drawn on.
-	 *
-	 * @type {MapChart}
 	 */
 	public chart: MapChart;
 
 	/**
 	 * A list of map polygons in the series.
-	 *
-	 * @type {ListTemplate<MapImage>}
 	 */
 	protected _mapPolygons: ListTemplate<MapPolygon>;
 
@@ -421,7 +388,7 @@ export class MapPolygonSeries extends MapSeries {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {MapPolygonSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new MapPolygonSeriesDataItem();
@@ -544,7 +511,7 @@ export class MapPolygonSeries extends MapSeries {
 	 */
 	public validate() {
 		super.validate();
-		$iter.each(this.mapPolygons.iterator(), (mapPolygon) => {			
+		$iter.each(this.mapPolygons.iterator(), (mapPolygon) => {
 			mapPolygon.validate();
 		})
 	}
@@ -552,7 +519,7 @@ export class MapPolygonSeries extends MapSeries {
 	/**
 	 * List of polygon elements in the series.
 	 *
-	 * @return {ListTemplate<MapPolygon>} Polygon list
+	 * @return Polygon list
 	 */
 	public get mapPolygons(): ListTemplate<MapPolygon> {
 
@@ -572,7 +539,7 @@ export class MapPolygonSeries extends MapSeries {
 
 	/**
 	 * returns MapPolygon by id in geoJSON file
-	 * @param {string} polygon id
+	 * @param polygon id
 	 * @return {MapPolygon}
 	 */
 	public getPolygonById(id: string): MapPolygon {
@@ -585,7 +552,7 @@ export class MapPolygonSeries extends MapSeries {
 	/**
 	 * Copies all properties from another instance of [[Series]].
 	 *
-	 * @param {Series}  source  Source series
+	 * @param source  Source series
 	 */
 	public copyFrom(source: this) {
 		this.mapPolygons.template.copyFrom(source.mapPolygons.template);

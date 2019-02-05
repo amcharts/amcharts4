@@ -18,14 +18,10 @@ export interface ISortedListEvents<A> {
     inserted: {
         /**
          * Index where the element was inserted.
-         *
-         * @type {number}
          */
         index: number;
         /**
          * Inserted value.
-         *
-         * @type {A}
          */
         newValue: A;
     };
@@ -35,14 +31,10 @@ export interface ISortedListEvents<A> {
     removed: {
         /**
          * Index of the element which was removed.
-         *
-         * @type {number}
          */
         index: number;
         /**
          * Removed value.
-         *
-         * @type {A}
          */
         oldValue: A;
     };
@@ -53,20 +45,16 @@ export interface ISortedListEvents<A> {
 export declare class OrderedList<T> {
     /**
      * Holds list values.
-     *
-     * @type {Array<T>}
      */
     protected _values: Array<T>;
     /**
      * Event dispatcher.
-     *
-     * @type {EventDispatcher<AMEvent<OrderedList<T>, ISortedListEvents<T>>>}
      */
     events: EventDispatcher<AMEvent<OrderedList<T>, ISortedListEvents<T>>>;
     /**
      * Constructor
      *
-     * @param {Array<T>}  initial  Inital list of values to add to list
+     * @param initial  Inital list of values to add to list
      */
     constructor(initial?: Array<T>);
     /**
@@ -75,20 +63,20 @@ export declare class OrderedList<T> {
      * Do not modify the list directly. Rather use `insert()` and `remove()`
      * methods.
      *
-     * @return {Array<T>} List values
+     * @return List values
      */
     readonly values: Array<T>;
     /**
      * Inserts a value into list item array.
      *
-     * @param {T}  value  Value
+     * @param value  Value
      */
     protected _insert(value: T): number;
     /**
      * Number of items in the list.
      *
      * @readonly
-     * @return {number} Length
+     * @return Length
      */
     readonly length: number;
     /**
@@ -96,46 +84,46 @@ export declare class OrderedList<T> {
      *
      * -1 if not found.
      *
-     * @param  {T}       value  Value
-     * @return {number}        Index
+     * @param value  Value
+     * @return Index
      */
     indexOf(value: T): number;
     /**
      * Checks if list contains the `value`.
      *
-     * @param  {T}        value  Value
-     * @return {boolean}         In the list?
+     * @param value  Value
+     * @return In the list?
      */
     contains(value: T): boolean;
     /**
      * Returns an item at specific `index`.
      *
-     * @param  {number}  index  Index
-     * @return {T}              Item
+     * @param index  Index
+     * @return Item
      */
     getIndex(index: number): T | undefined;
     /**
      * First item in the list.
      *
-     * @return {T} Item
+     * @return Item
      */
     readonly first: T | undefined;
     /**
      * Last item in the list.
      *
-     * @return {T} Item
+     * @return Item
      */
     readonly last: T | undefined;
     /**
      * Inserts a value into list.
      *
-     * @param {T}  value  Value
+     * @param value  Value
      */
     insert(value: T): void;
     /**
      * Removes an item with the `value` from the list.
      *
-     * @param {T}  value  Value
+     * @param value  Value
      */
     remove(value: T): void;
     /**
@@ -143,7 +131,7 @@ export declare class OrderedList<T> {
      *
      * All current items are removed.
      *
-     * @param {Array<T>}  newArray  New items
+     * @param newArray  New items
      */
     setAll(newArray: Array<T>): void;
     /**
@@ -154,25 +142,25 @@ export declare class OrderedList<T> {
      * Returns part of the list between `start` and `end` indexes, as a new
      * [[OrderedList]].
      *
-     * @param  {number}          start  Start index
-     * @param  {number}          end    End index
-     * @return {OrderedList<T>}         Items in range
+     * @param start  Start index
+     * @param end    End index
+     * @return Items in range
      */
     slice(start: number, end: number): OrderedList<T>;
     /**
      * Finds a closest available index to the `value` in specified direction.
      *
      * @ignore exclude from docs
-     * @param  {number}                      value      value to search for
-     * @param  {function}                    fn         A callback function that returns value of the item
-     * @param  {"left" | "right" |  "any" }  direction  Direciton
-     * @return {number}                                 Index
+     * @param value      value to search for
+     * @param fn         A callback function that returns value of the item
+     * @param direction  Direciton
+     * @return Index
      */
     findClosestIndex(value: number, fn: (value: T) => number, direction?: "left" | "right" | "any"): number;
     /**
      * Returns a list iterator.
      *
-     * @return {Iterator} Iterator
+     * @return Iterator
      */
     iterator(): $iter.Iterator<T>;
     /**
@@ -192,20 +180,18 @@ export declare class OrderedList<T> {
 export declare class SortedList<T> extends OrderedList<T> {
     /**
      * A reference to the ordering function.
-     *
-     * @type {(left: T, right: T) => Ordering}
      */
     private _ordering;
     /**
      * Constructor.
      *
-     * @param {T) => Ordering}  sort  Ordering function
+     * @param sort  Ordering function
      */
     constructor(sort: (left: T, right: T) => Ordering);
     /**
      * Inserts item into the list.
      *
-     * @param {T}  value  Item
+     * @param value  Item
      */
     protected _insert(value: T): number;
     /**
@@ -213,8 +199,8 @@ export declare class SortedList<T> extends OrderedList<T> {
      *
      * -1 if item is not in the list.
      *
-     * @param  {T}       value  Item to search for
-     * @return {number}         Index
+     * @param value  Item to search for
+     * @return Index
      */
     indexOf(value: T): number;
     /**
@@ -222,7 +208,7 @@ export declare class SortedList<T> extends OrderedList<T> {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {T} value [description]
+     * @param value [description]
      */
     update(value: T): void;
 }
@@ -243,38 +229,37 @@ export declare class OrderedListTemplate<T extends IClone<T> & {
      * A template object.
      *
      * @todo Make this private
-     * @type {T}
      */
     _template: T;
     /**
      * Constructor
      *
-     * @param {T} t Template object
+     * @param t Template object
      */
     constructor(t: T);
     /**
-     * @return {T} Template object
+     * @return Template object
      */
     /**
      * A "template" object to copy all properties from when creating new list
      * items.
      *
-     * @param {T}  v  Template object
+     * @param v  Template object
      */
     template: T;
     /**
      * Copies all elements from other list.
      *
-     * @param {OrderedListTemplate}  source  Source list
+     * @param source  Source list
      */
     copyFrom(source: this): void;
     /**
      * Returns part of the list, starting at `start` and ending at `end` indexes,
      * as a new [[OrderedListTemplate]].
      *
-     * @param  {number}                  start  Start index
-     * @param  {number}                  end    End index
-     * @return {OrderedListTemplate<T>}         New list
+     * @param start  Start index
+     * @param end    End index
+     * @return New list
      */
     slice(start: number, end: number): OrderedListTemplate<T>;
     /**
@@ -306,30 +291,29 @@ export declare class SortedListTemplate<T extends IClone<T> & {
      * A template object.
      *
      * @todo Make this private
-     * @type {T}
      */
     _template: T;
     /**
      * Constructor
      *
-     * @param {T}         t     Template object
-     * @param {function}  sort  Ordering function
+     * @param t     Template object
+     * @param sort  Ordering function
      */
     constructor(t: T, sort: (left: T, right: T) => Ordering);
     /**
-     * @return {T} Template object
+     * @return Template object
      */
     /**
      * A "template" object to copy all properties from when creating new list
      * items.
      *
-     * @param {T}  v  Template object
+     * @param v  Template object
      */
     template: T;
     /**
      * Copies all elements from other list.
      *
-     * @param {SortedListTemplate}  source  Source list
+     * @param source  Source list
      */
     copyFrom(source: this): void;
     /**

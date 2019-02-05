@@ -271,33 +271,23 @@ export interface ILanguageAdapters {
 export declare class Language extends BaseObjectEvents {
     /**
      * Defines type used in the Sprite.
-     *
-     * @type {ILanguageAdapters}
      */
     _adapter: ILanguageAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ILanguageEvents}
      */
     _events: ILanguageEvents;
     /**
      * Adapter.
-     *
-     * @type {Adapter<this, this["_adapter"]>}
      */
     adapter: Adapter<this, this["_adapter"]>;
     /**
      * Current locale.
-     *
-     * @type {ILocale}
      */
     protected _locale: ILocale;
     /**
      * Default locale. A locale to fall back to if none is specified, or
      * if there's no translation for the prompt for the current language.
-     *
-     * @type {ILocaleDefault}
      */
     protected _defaultLocale: ILocaleDefault;
     /**
@@ -307,8 +297,8 @@ export declare class Language extends BaseObjectEvents {
     /**
      * Returns locale that is currently used.
      *
-     * @param  {ILocale}  locale  Force locale. Will use current language if not set.
-     * @return {string}           Locale
+     * @param locale  Force locale. Will use current language if not set.
+     * @return Locale
      */
     protected getLocale(locale?: ILocale): ILocale;
     /**
@@ -330,10 +320,10 @@ export declare class Language extends BaseObjectEvents {
      * chart.language.translate("This is a %1 translation %2", null, "first", "test");
      * ```
      *
-     * @param  {Key}            prompt   A string to translate
-     * @param  {ILocale}        locale   Force translation into specific locale, e.g. fr_FR
-     * @param  {Array<string>}  ...rest  Parameters to replace in string
-     * @return {string}                  Translation
+     * @param prompt   A string to translate
+     * @param locale   Force translation into specific locale, e.g. fr_FR
+     * @param ...rest  Parameters to replace in string
+     * @return Translation
      */
     translate<Key extends keyof ILocaleProperties>(prompt: Key, locale?: ILocale, ...rest: Array<string>): string;
     /**
@@ -342,10 +332,10 @@ export declare class Language extends BaseObjectEvents {
      * If translation is empty, it will return empty string, which is a different
      * behavior than that of regular `translate`.
      *
-     * @param  {Key}            prompt   A string to translate
-     * @param  {ILocale}        locale   Force translation into specific locale, e.g. fr_FR
-     * @param  {Array<string>}  ...rest  Parameters to replace in string
-     * @return {string}                  Translation
+     * @param prompt   A string to translate
+     * @param locale   Force translation into specific locale, e.g. fr_FR
+     * @param ...rest  Parameters to replace in string
+     * @return Translation
      */
     translateEmpty<Key extends keyof ILocaleProperties>(prompt: Key, locale?: ILocale, ...rest: Array<string>): string;
     /**
@@ -354,33 +344,33 @@ export declare class Language extends BaseObjectEvents {
      * This method will return a function reference, but will not run it. It's
      * up to the caller script to run the function.
      *
-     * @param  {Key}                    prompt  A function id to translate
-     * @param  {ILocale}                locale  Force translation into specific locale. e.g. fr_FR
-     * @return {ILocaleFunctions[Key]}          A language-specific version of the function
+     * @param prompt  A function id to translate
+     * @param locale  Force translation into specific locale. e.g. fr_FR
+     * @return A language-specific version of the function
      * @todo Apply adapter
      */
     translateFunc<Key extends keyof ILocaleFunctions>(prompt: Key, locale?: ILocale): ILocaleFunctions[Key];
     /**
      * Translates a list of prompts in one go.
      *
-     * @param  {Array<Key>}     list    An array of strings to translate
-     * @param  {ILocale}        locale  Force translation into specific locale. e.g. fr_FR
-     * @return {Array<string>}          An array of translated strings in the same order as source list
+     * @param list    An array of strings to translate
+     * @param locale  Force translation into specific locale. e.g. fr_FR
+     * @return An array of translated strings in the same order as source list
      */
     translateAll<Key extends keyof ILocaleProperties>(list: Array<Key>, locale?: ILocale): Array<string>;
     /**
      * Returns `true` if the currently selected locale is a default locale.
      *
-     * @return {boolean} `true` if locale is default; `false` if it is not.
+     * @return `true` if locale is default; `false` if it is not.
      */
     isDefault(): boolean;
     /**
-     * @return {ILocale} Locale definition
+     * @return Locale definition
      */
     /**
      * Current locale.
      *
-     * @param {ILocale}  value  Locale definition (translations)
+     * @param value  Locale definition (translations)
      */
     locale: ILocale;
     /**
@@ -388,8 +378,8 @@ export declare class Language extends BaseObjectEvents {
      *
      * @ignore
      * @deprecated
-     * @param  {ILocale}        locale  Locale
-     * @return {ILocale}        Translations
+     * @param locale  Locale
+     * @return Translations
      */
     getTranslations(locale: ILocale): ILocale;
 }

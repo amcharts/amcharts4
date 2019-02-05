@@ -25,7 +25,6 @@ import ResizeSensor from "css-element-queries/src/ResizeSensor";
  * A array of all SVG Containers (one SVG container per chart instance).
  *
  * @ignore Exclude from docs
- * @type {Array<SVGContainer>}
  */
 export declare const svgContainers: Array<SVGContainer>;
 /**
@@ -37,52 +36,37 @@ export declare class SVGContainer implements IDisposer {
      * destruction/disposal code should take this into account when deciding
      * wheter to run potentially costly disposal operations if they already have
      * been run.
-     *
-     * @type {boolean}
      */
     protected _disposed: boolean;
     /**
      * Width of HTML element.
-     *
-     * @type {Optional<number>}
      */
     width: $type.Optional<number>;
     /**
      * Height of HTML element.
-     *
-     * @type {Optional<number>}
      */
     height: $type.Optional<number>;
     /**
      * A [[Container]] element which is placed into container.
-     *
-     * @type {Optional<Container>}
      */
     protected _container: $type.Optional<Container>;
     /**
      * A parent HTML container that SVG wrapper element is placed in.
-     *
-     * @type {HTMLElement}
      */
     htmlElement: HTMLElement;
     /**
      * If this component is in a separate HTML container, `autoResize` means the
      * module will constantly measure container's size and adopt contents to it.
-     *
-     * @type {Boolean}
      */
     autoResize: Boolean;
     /**
      * A `<div>` element which acts as a wrapper/holder for the SVG element.
-     *
-     * @type {HTMLDivElement}
      */
     SVGContainer: HTMLDivElement;
     /**
      * A reference to ResizeSensor object which monitors changes of div size.
      *
      * @ignore
-     * @type {ResizeSensor}
      */
     resizeSensor: ResizeSensor;
     /**
@@ -90,27 +74,22 @@ export declare class SVGContainer implements IDisposer {
      * when exporting chart to an image.
      *
      * @ignore
-     * @type {Sprite[]}
      */
     nonExportableSprites: Sprite[];
     /**
      * Holds [[Modal]] object.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Modal>}
      */
     protected _modal: $type.Optional<Modal>;
     /**
      * Holds [[Popup]] objects.
      *
      * @ignore Exclude from docs
-     * @type {Optional<ListTemplate<Popup>>}
      */
     protected _popups: $type.Optional<ListTemplate<Popup>>;
     /**
      * List of objects that need to be disposed when this one is disposed.
-     *
-     * @type {Disposer[]}
      */
     protected _disposers: Array<IDisposer>;
     cssScale: number;
@@ -127,18 +106,18 @@ export declare class SVGContainer implements IDisposer {
      */
     measure(): void;
     /**
-     * @return {Optional<Container>} Container
+     * @return Container
      */
     /**
      * A [[Container]] element which is placed into container.
      *
-     * @param {Optional<Container>}  container  Container
+     * @param container  Container
      */
     container: $type.Optional<Container>;
     /**
      * Returns if this object has been already been disposed.
      *
-     * @return {boolean} Is disposed?
+     * @return Is disposed?
      */
     isDisposed(): boolean;
     /**
@@ -180,7 +159,7 @@ export declare class SVGContainer implements IDisposer {
      * `showModal()` method.
      *
      * @see {@link Modal} for more information about using Modal windows
-     * @return {Modal} Modal instance
+     * @return Modal instance
      */
     readonly modal: Modal;
     /**
@@ -190,8 +169,8 @@ export declare class SVGContainer implements IDisposer {
      * The `text` parameter can contain HTML content.
      *
      * @see {@link Modal} for more information about using Modal windows
-     * @param {string}  text   Modal contents
-     * @param {string}  title  Title for the modal window
+     * @param text   Modal contents
+     * @param title  Title for the modal window
      */
     openModal(text: string, title?: string): Modal;
     /**
@@ -201,7 +180,7 @@ export declare class SVGContainer implements IDisposer {
     /**
      * A list of popups for this chart.
      *
-     * @return {ListTemplate<Popup>} Popups
+     * @return Popups
      */
     readonly popups: ListTemplate<Popup>;
     /**
@@ -211,9 +190,9 @@ export declare class SVGContainer implements IDisposer {
      *
      * `title` is currently not supported.
      *
-     * @param  {string}  text   Popup contents
-     * @param  {string}  title  Popup title
-     * @return {Popup}          Popup instance
+     * @param text   Popup contents
+     * @param title  Popup title
+     * @return Popup instance
      */
     openPopup(text: string, title?: string): Popup;
     /**

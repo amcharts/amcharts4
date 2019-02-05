@@ -32,29 +32,21 @@ export interface ILineProperties extends ISpriteProperties {
 
 	/**
 	 * X coordinate of first end.
-	 *
-	 * @type {number}
 	 */
 	x1?: number;
 
 	/**
 	 * Y coordinate of first end.
-	 *
-	 * @type {number}
 	 */
 	y1?: number;
 
 	/**
 	 * X coordinate of second end.
-	 *
-	 * @type {number}
 	 */
 	x2?: number;
 
 	/**
 	 * Y coordinate of second end.
-	 *
-	 * @type {number}
 	 */
 	y2?: number;
 
@@ -90,22 +82,16 @@ export class Line extends Sprite {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ILineProperties}
 	 */
 	public _properties!: ILineProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ILineAdapters}
 	 */
 	public _adapter!: ILineAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ILineEvents}
 	 */
 	public _events!: ILineEvents;
 
@@ -148,7 +134,7 @@ export class Line extends Sprite {
 	/**
 	 * X coordinate of first end.
 	 *
-	 * @param {number} value X
+	 * @param value X
 	 */
 	public set x1(value: number) {
 		if (!$type.isNumber(value)) {
@@ -164,7 +150,7 @@ export class Line extends Sprite {
 	}
 
 	/**
-	 * @return {number} X
+	 * @return X
 	 */
 	public get x1(): number {
 		return this.getPropertyValue("x1");
@@ -173,7 +159,7 @@ export class Line extends Sprite {
 	/**
 	 * X coordinate of second end.
 	 *
-	 * @param {number} value X
+	 * @param value X
 	 */
 	public set x2(value: number) {
 		if (!$type.isNumber(value)) {
@@ -184,7 +170,7 @@ export class Line extends Sprite {
 	}
 
 	/**
-	 * @return {number} X
+	 * @return X
 	 */
 	public get x2(): number {
 		let value = this.getPropertyValue("x2");
@@ -197,7 +183,7 @@ export class Line extends Sprite {
 	/**
 	 * Y coordinate of first end.
 	 *
-	 * @param {number} value Y
+	 * @param value Y
 	 */
 	public set y1(value: number) {
 		if (!$type.isNumber(value)) {
@@ -214,7 +200,7 @@ export class Line extends Sprite {
 	}
 
 	/**
-	 * @return {number} Y
+	 * @return Y
 	 */
 	public get y1(): number {
 		return this.getPropertyValue("y1");
@@ -223,7 +209,7 @@ export class Line extends Sprite {
 	/**
 	 * Y coordinate of second end.
 	 *
-	 * @param {number} value Y
+	 * @param value Y
 	 */
 	public set y2(value: number) {
 		if (!$type.isNumber(value)) {
@@ -234,7 +220,7 @@ export class Line extends Sprite {
 	}
 
 	/**
-	 * @return {number} Y
+	 * @return Y
 	 */
 	public get y2(): number {
 		let value = this.getPropertyValue("y2");
@@ -247,8 +233,8 @@ export class Line extends Sprite {
 	/**
 	 * Converts relative position along the line (0-1) into pixel coordinates.
 	 *
-	 * @param  {number}             position  Position (0-1)
-	 * @return {IOrientationPoint}            Coordinates
+	 * @param position  Position (0-1)
+	 * @return Coordinates
 	 */
 	public positionToPoint(position: number): IOrientationPoint {
 		let point1 = { x: this.x1, y: this.y1 };

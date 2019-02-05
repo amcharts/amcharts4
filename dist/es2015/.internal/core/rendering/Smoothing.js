@@ -15,7 +15,7 @@ import * as $math from "../utils/Math";
  * @ignore Exclude from docs
  * @todo Description
  * @todo Move this someplace else
- * @param {number} x [description]
+ * @param x [description]
  */
 function sign(x) {
     return x < 0 ? -1 : 1;
@@ -25,12 +25,12 @@ function sign(x) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {number} x0 [description]
- * @param  {number} x1 [description]
- * @param  {number} y0 [description]
- * @param  {number} y1 [description]
- * @param  {number} t  [description]
- * @return {number}    [description]
+ * @param x0 [description]
+ * @param x1 [description]
+ * @param y0 [description]
+ * @param y1 [description]
+ * @param t  [description]
+ * @return [description]
  */
 function slope2(x0, x1, y0, y1, t) {
     var h = x1 - x0;
@@ -41,13 +41,13 @@ function slope2(x0, x1, y0, y1, t) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {number} x0 [description]
- * @param  {number} x1 [description]
- * @param  {number} y0 [description]
- * @param  {number} y1 [description]
- * @param  {number} x2 [description]
- * @param  {number} y2 [description]
- * @return {number}    [description]
+ * @param x0 [description]
+ * @param x1 [description]
+ * @param y0 [description]
+ * @param y1 [description]
+ * @param x2 [description]
+ * @param y2 [description]
+ * @return [description]
  */
 function slope3(x0, x1, y0, y1, x2, y2) {
     var h0 = x1 - x0;
@@ -65,8 +65,8 @@ var Tension = /** @class */ (function () {
     /**
      * Constructor.
      *
-     * @param {number} tensionX [description]
-     * @param {number} tensionY [description]
+     * @param tensionX [description]
+     * @param tensionY [description]
      */
     function Tension(tensionX, tensionY) {
         this._tensionX = tensionX;
@@ -77,8 +77,8 @@ var Tension = /** @class */ (function () {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {Array<IPoint>}  points  [description]
-     * @return {string}                 [description]
+     * @param points  [description]
+     * @return [description]
      */
     Tension.prototype.smooth = function (points) {
         var tensionX = this._tensionX;
@@ -128,12 +128,12 @@ export { Tension };
  * Returns a waved line SVG path between two points.
  *
  * @ignore Exclude from docs
- * @param  {IPoint}   point1            Starting point
- * @param  {IPoint}   point2            Ending point
- * @param  {number}   waveLength        Wave length
- * @param  {number}   waveHeight        Wave height
- * @param  {boolean}  adjustWaveLength  Adjust wave length based on the actual line length
- * @return {string}                     SVG path
+ * @param point1            Starting point
+ * @param point2            Ending point
+ * @param waveLength        Wave length
+ * @param waveHeight        Wave height
+ * @param adjustWaveLength  Adjust wave length based on the actual line length
+ * @return SVG path
  */
 export function wavedLine(point1, point2, waveLength, waveHeight, tension, adjustWaveLength) {
     var x1 = point1.x;
@@ -189,7 +189,7 @@ var Basis = /** @class */ (function () {
     /**
      * Constructor.
      *
-     * @param {object}  info  [description]
+     * @param info  [description]
      */
     function Basis(info) {
         this._closed = info.closed;
@@ -199,8 +199,8 @@ var Basis = /** @class */ (function () {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {Array<IPoint>}  points  [description]
-     * @return {string}                 [description]
+     * @param points  [description]
+     * @return [description]
      */
     Basis.prototype.smooth = function (points) {
         var _this = this;

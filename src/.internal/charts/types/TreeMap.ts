@@ -49,29 +49,21 @@ export class TreeMapDataItem extends XYChartDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {TreeMap}
 	 */
 	public _component!: TreeMap;
 
 	/**
 	 * A treemap level this data item is displayed at.
-	 *
-	 * @type {number}
 	 */
 	protected _level: number;
 
 	/**
 	 * Related series.
-	 *
-	 * @type {TreeMapSeries}
 	 */
 	protected _series: TreeMapSeries;
 
 	/**
 	 * Related series data item.
-	 *
-	 * @type {TreeMapSeriesDataItem}
 	 */
 	public seriesDataItem: TreeMapSeriesDataItem;
 
@@ -79,7 +71,6 @@ export class TreeMapDataItem extends XYChartDataItem {
 	 * Required for squarify functionality.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {TreeMapDataItem[]}
 	 */
 	public rows: TreeMapDataItem[] = [];
 
@@ -87,7 +78,6 @@ export class TreeMapDataItem extends XYChartDataItem {
 	 * Required for squarify functionality.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {number}
 	 */
 	public rowsRatio: number;
 
@@ -95,7 +85,6 @@ export class TreeMapDataItem extends XYChartDataItem {
 	 * Required for squarify functionality.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {boolean}
 	 */
 	public dice: boolean;
 
@@ -124,14 +113,14 @@ export class TreeMapDataItem extends XYChartDataItem {
 	/**
 	 * Numeric value of the item.
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set value(value: number) {
 		this.setValue("value", value);
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get value(): number {
 		let value = this.values["value"].workingValue;
@@ -161,14 +150,14 @@ export class TreeMapDataItem extends XYChartDataItem {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param {number}  value  X
+	 * @param value  X
 	 */
 	public set x0(value: number) {
 		this.setValue("x0", value);
 	}
 
 	/**
-	 * @return {number} X
+	 * @return X
 	 */
 	public get x0(): number {
 		return this.values.x0.value;
@@ -179,14 +168,14 @@ export class TreeMapDataItem extends XYChartDataItem {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param {number}  value  X
+	 * @param value  X
 	 */
 	public set x1(value: number) {
 		this.setValue("x1", value);
 	}
 
 	/**
-	 * @return {number} X
+	 * @return X
 	 */
 	public get x1(): number {
 		return this.values.x1.value;
@@ -197,14 +186,14 @@ export class TreeMapDataItem extends XYChartDataItem {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param {number}  value  Y
+	 * @param value  Y
 	 */
 	public set y0(value: number) {
 		this.setValue("y0", value);
 	}
 
 	/**
-	 * @return {number} Y
+	 * @return Y
 	 */
 	public get y0(): number {
 		return this.values.y0.value;
@@ -215,14 +204,14 @@ export class TreeMapDataItem extends XYChartDataItem {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param {number}  value  Y
+	 * @param value  Y
 	 */
 	public set y1(value: number) {
 		this.setValue("y1", value);
 	}
 
 	/**
-	 * @return {number} Y
+	 * @return Y
 	 */
 	public get y1(): number {
 		return this.values.y1.value;
@@ -231,14 +220,14 @@ export class TreeMapDataItem extends XYChartDataItem {
 	/**
 	 * Item's name.
 	 *
-	 * @param {string}  name  Name
+	 * @param name  Name
 	 */
 	public set name(name: string) {
 		this.setProperty("name", name);
 	}
 
 	/**
-	 * @return {string} Name
+	 * @return Name
 	 */
 	public get name(): string {
 		return this.properties.name;
@@ -253,14 +242,14 @@ export class TreeMapDataItem extends XYChartDataItem {
 	 *
 	 * Treemap can have any level of nesting.
 	 *
-	 * @param {OrderedListTemplate<TreeMapDataItem>}  children  Item's children
+	 * @param children  Item's children
 	 */
 	public set children(children: OrderedListTemplate<TreeMapDataItem>) {
 		this.setProperty("children", children);
 	}
 
 	/**
-	 * @return {OrderedListTemplate<TreeMapDataItem>} Item's children
+	 * @return Item's children
 	 */
 	public get children(): OrderedListTemplate<TreeMapDataItem> {
 		return this.properties.children;
@@ -273,7 +262,7 @@ export class TreeMapDataItem extends XYChartDataItem {
 	 * level 1, and so on.
 	 *
 	 * @readonly
-	 * @return {number} Level
+	 * @return Level
 	 */
 	public get level(): number {
 		if (!this.parent) {
@@ -290,14 +279,14 @@ export class TreeMapDataItem extends XYChartDataItem {
 	 * If not set, will use parent's color, or, if that is not set either,
 	 * automatically assigned color from chart's color set. (`chart.colors`)
 	 *
-	 * @param {Color}  value  Color
+	 * @param value  Color
 	 */
 	public set color(value: Color) {
 		this.setProperty("color", value);
 	}
 
 	/**
-	 * @return {Color} Color
+	 * @return Color
 	 */
 	public get color(): Color {
 		let color = this.properties.color;
@@ -348,22 +337,16 @@ export interface ITreeMapDataFields extends IXYChartDataFields {
 
 	/**
 	 * A name of the field in data that holds item's numeric value.
-	 *
-	 * @type {string}
 	 */
 	value?: string;
 
 	/**
 	 * A name of the field in data that holds item's sub-items.
-	 *
-	 * @type {string}
 	 */
 	children?: string;
 
 	/**
 	 * A name of the field in data that holds item's name.
-	 *
-	 * @type {string}
 	 */
 	name?: string;
 
@@ -372,8 +355,6 @@ export interface ITreeMapDataFields extends IXYChartDataFields {
 	 *
 	 * If not set, a new color will be automatically assigned to each item as
 	 * defined by theme.
-	 *
-	 * @type {string}
 	 */
 	color?: string;
 
@@ -388,14 +369,11 @@ export interface ITreeMapProperties extends IXYChartProperties {
 	 * Maximum levels the chart will allow drilling down to.
 	 *
 	 * @default 2
-	 * @type {number}
 	 */
 	maxLevels?: number;
 
 	/**
 	 * Current drill-down level the treemap is at.
-	 *
-	 * @type {number}
 	 */
 	currentLevel?: number;
 
@@ -403,7 +381,6 @@ export interface ITreeMapProperties extends IXYChartProperties {
 	 * Sorting direction of treemap items.
 	 *
 	 * @default "descending"
-	 * @type {"none" | "ascending" | "descending"}
 	 */
 	sorting?: "none" | "ascending" | "descending";
 
@@ -440,36 +417,26 @@ export class TreeMap extends XYChart {
 
 	/**
 	 * Defines a type of the data item used for this chart.
-	 *
-	 * @type {TreeMapDataItem}
 	 */
 	public _dataItem: TreeMapDataItem;
 
 	/**
 	 * Defines available data fields.
-	 *
-	 * @type {ITreeMapDataFields}
 	 */
 	public _dataFields: ITreeMapDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ITreeMapProperties}
 	 */
 	public _properties!: ITreeMapProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {SeriesAdapters}
 	 */
 	public _adapter!: ITreeMapAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ITreeMapEvents}
 	 */
 	public _events!: ITreeMapEvents;
 
@@ -480,8 +447,6 @@ export class TreeMap extends XYChart {
 	 * horizontal value axes.
 	 *
 	 * As with any XY-based chart, it can be zoomed.
-	 *
-	 * @type {ValueAxis}
 	 */
 	public xAxis: ValueAxis;
 
@@ -492,8 +457,6 @@ export class TreeMap extends XYChart {
 	 * horizontal value axes.
 	 *
 	 * As with any XY-based chart, it can be zoomed.
-	 *
-	 * @type {ValueAxis}
 	 */
 	public yAxis: ValueAxis;
 
@@ -518,14 +481,11 @@ export class TreeMap extends XYChart {
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/chart-types/treemap/#Area_division_methods} For more info and examples.
 	 * @default squarify
-	 * @type {function}
 	 */
 	public layoutAlgorithm: (parent: TreeMapDataItem) => void = this.squarify;
 
 	/**
 	 * Defines a type of series that this chart uses.
-	 *
-	 * @type {PieSeries}
 	 */
 	public _seriesType: TreeMapSeries;
 
@@ -533,7 +493,6 @@ export class TreeMap extends XYChart {
 	 * [_homeDataItem description]
 	 *
 	 * @todo Description
-	 * @type {TreeMapDataItem}
 	 */
 	protected _homeDataItem: TreeMapDataItem;
 
@@ -541,22 +500,17 @@ export class TreeMap extends XYChart {
 	 * [_tempSeries description]
 	 *
 	 * @todo Description
-	 * @type {TreeMapSeries[]}
 	 */
 	protected _tempSeries: TreeMapSeries[];
 
 	/**
 	 * A text dispalyed on the home button in breadcurmb nav control.
-	 *
-	 * @type {string}
 	 */
 	protected _homeText: string;
 
 	/**
 	 * A set of colors to be applied autoamtically to each new chart item, if
 	 * not explicitly set.
-	 *
-	 * @type {ColorSet}
 	 */
 	public colors: ColorSet;
 
@@ -568,7 +522,7 @@ export class TreeMap extends XYChart {
 	 * Etc.
 	 *
 	 * @todo Description
-	 * @param {DictionaryTemplate<string, TreeMapSeries>} Templates for each level
+	 * @param Templates for each level
 	 */
 	public seriesTemplates: DictionaryTemplate<string, this["_seriesType"]>;
 
@@ -579,7 +533,6 @@ export class TreeMap extends XYChart {
 	 * drill-down to sub-items when click on their parent item.
 	 *
 	 * @default true
-	 * @type {boolean}
 	 */
 	public zoomable: boolean = true;
 
@@ -587,14 +540,11 @@ export class TreeMap extends XYChart {
 	/**
 	 * A navigation bar used to show "breadcrumb" control, indicating current
 	 * drill-down path.
-	 *
-	 * @type {NavigationBar}
 	 */
 	protected _navigationBar: NavigationBar;
 
 	/**
 	 * Currently selected data item.
-	 * @type {TreeMapDataItem}
 	 * @readonly
 	 */
 	public currentlyZoomed: TreeMapDataItem;
@@ -669,8 +619,6 @@ export class TreeMap extends XYChart {
 	/**
 	 * A navigation bar used to show "breadcrumb" control, indicating current
 	 * drill-down path.
-	 *
-	 * @type {NavigationBar}
 	 */
 	public set navigationBar(navigationBar: NavigationBar) {
 		if (this._navigationBar != navigationBar) {
@@ -746,7 +694,7 @@ export class TreeMap extends XYChart {
 	 * `layoutAlgorithm`.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {TreeMapDataItem}  parent  Parent data item
+	 * @param parent  Parent data item
 	 */
 	public layoutItems(parent: TreeMapDataItem, sorting?: "none" | "ascending" | "descending"): void {
 		if (parent) {
@@ -787,7 +735,7 @@ export class TreeMap extends XYChart {
 	 * Creates and returns a new treemap series.
 	 *
 	 * @todo Description
-	 * @param {TreeMapDataItem}  dataItem  Data item to create series out of
+	 * @param dataItem  Data item to create series out of
 	 */
 	protected createTreeSeries(dataItem: TreeMapDataItem) {
 		this._tempSeries = [];
@@ -824,7 +772,7 @@ export class TreeMap extends XYChart {
 	 * [createTreeSeriesReal description]
 	 *
 	 * @todo Description
-	 * @param {TreeMapDataItem} dataItem [description]
+	 * @param dataItem [description]
 	 */
 	protected createTreeSeriesReal(dataItem: TreeMapDataItem) {
 		if (dataItem.children) {
@@ -858,7 +806,7 @@ export class TreeMap extends XYChart {
 	 * Initializes the treemap series.
 	 *
 	 * @todo Description
-	 * @param {TreeMapDataItem}  dataItem  Chart data item
+	 * @param dataItem  Chart data item
 	 */
 	protected initSeries(dataItem: TreeMapDataItem) {
 		if (!dataItem.series) {
@@ -928,7 +876,7 @@ export class TreeMap extends XYChart {
 	 * Toggles bullets so that labels that belong to current drill level are
 	 * shown.
 	 *
-	 * @param {number}  duration  Animation duration (ms)
+	 * @param duration  Animation duration (ms)
 	 */
 	protected toggleBullets(duration?: number): void {
 		// hide all series which are not in tempSeries
@@ -953,7 +901,7 @@ export class TreeMap extends XYChart {
 	/**
 	 * Zooms to particular item in series.
 	 *
-	 * @param {TreeMapSeriesDataItem}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public zoomToSeriesDataItem(dataItem: TreeMapSeriesDataItem): void {
 		this.zoomToChartDataItem(dataItem.treeMapDataItem);
@@ -963,7 +911,7 @@ export class TreeMap extends XYChart {
 	 * Zooms to particular item.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {TreeMapDataItem}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public zoomToChartDataItem(dataItem: TreeMapDataItem): void {
 		if (dataItem && dataItem.children) {
@@ -1009,7 +957,7 @@ export class TreeMap extends XYChart {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {XYSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new TreeMapDataItem();
@@ -1023,14 +971,14 @@ export class TreeMap extends XYChart {
 	 *
 	 * Set to `1` to disable drill down functionality.
 	 *
-	 * @param {number}  value  Maximum drill-down level
+	 * @param value  Maximum drill-down level
 	 */
 	public set maxLevels(value: number) {
 		this.setPropertyValue("maxLevels", value, true);
 	}
 
 	/**
-	 * @return {number} Maximum drill-down level
+	 * @return Maximum drill-down level
 	 */
 	public get maxLevels(): number {
 		return this.getPropertyValue("maxLevels");
@@ -1039,14 +987,14 @@ export class TreeMap extends XYChart {
 	/**
 	 * Current drill-down level the chart is at.
 	 *
-	 * @param {number}  value  Current level
+	 * @param value  Current level
 	 */
 	public set currentLevel(value: number) {
 		this.setPropertyValue("currentLevel", value, true);
 	}
 
 	/**
-	 * @return {number} Current level
+	 * @return Current level
 	 */
 	public get currentLevel(): number {
 		return this.getPropertyValue("currentLevel");
@@ -1058,7 +1006,7 @@ export class TreeMap extends XYChart {
 	 * Available options: "none", "ascending", and "descending" (default).
 	 *
 	 * @default "descending"
-	 * @param {"none" | "ascending" | "descending"} value [description]
+	 * @param value [description]
 	 */
 	public set sorting(value: "none" | "ascending" | "descending") {
 		this.setPropertyValue("sorting", value, true);
@@ -1071,7 +1019,7 @@ export class TreeMap extends XYChart {
 	/**
 	 * Creates and returns a new series of the suitable type.
 	 *
-	 * @return {this} new series
+	 * @return new series
 	 */
 	protected createSeries(): this["_seriesType"] {
 		return new TreeMapSeries();
@@ -1081,7 +1029,7 @@ export class TreeMap extends XYChart {
 	 * A text displayed on the "home" button which is used to go back to level 0
 	 * after drill into sub-items.
 	 *
-	 * @param {string}  value  Home text
+	 * @param value  Home text
 	 */
 	public set homeText(value: string) {
 		this._homeText = value;
@@ -1091,7 +1039,7 @@ export class TreeMap extends XYChart {
 	}
 
 	/**
-	 * @return {string} Home text
+	 * @return Home text
 	 */
 	public get homeText(): string {
 		return this._homeText;
@@ -1101,7 +1049,7 @@ export class TreeMap extends XYChart {
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 
@@ -1216,7 +1164,7 @@ export class TreeMap extends XYChart {
 	 * Treemap layout algorithm: binaryTree.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {TreeMapDataItem}  parent  Data item
+	 * @param parent  Data item
 	 */
 	public binaryTree(parent: TreeMapDataItem): void {
 		let nodes = parent.children,
@@ -1269,7 +1217,7 @@ export class TreeMap extends XYChart {
 	 * Treemap layout algorithm: slice.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {TreeMapDataItem}  parent  Data item
+	 * @param parent  Data item
 	 */
 	public slice(parent: TreeMapDataItem): void {
 		let x0 = parent.x0;
@@ -1293,7 +1241,7 @@ export class TreeMap extends XYChart {
 	 * Treemap layout algorithm: dice.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {TreeMapDataItem}  parent  Data item
+	 * @param parent  Data item
 	 */
 	public dice(parent: TreeMapDataItem): void {
 		let x0 = parent.x0;
@@ -1317,7 +1265,7 @@ export class TreeMap extends XYChart {
 	 * Treemap layout algorithm: slideDice.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {TreeMapDataItem}  parent  Data item
+	 * @param parent  Data item
 	 */
 	public sliceDice(parent: TreeMapDataItem): void {
 		parent.level & 1 ? this.slice(parent) : this.dice(parent);
@@ -1327,7 +1275,7 @@ export class TreeMap extends XYChart {
 	 * Treemap layout algorithm: squarify.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {TreeMapDataItem}  parent  Data item
+	 * @param parent  Data item
 	 */
 	public squarify(parent: TreeMapDataItem): void {
 		let ratio = (1 + Math.sqrt(5)) / 2;

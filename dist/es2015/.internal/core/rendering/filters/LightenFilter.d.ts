@@ -21,8 +21,6 @@ import { AMElement } from "../AMElement";
 export interface LightenFilterProperties extends FilterProperties {
     /**
      * Lightness.
-     *
-     * @type {number}
      */
     lightness: number;
 }
@@ -38,20 +36,16 @@ export interface LightenFilterProperties extends FilterProperties {
 export declare class LightenFilter extends Filter {
     /**
      * Defines property types.
-     *
-     * @type {LightenFilterProperties}
      */
     _properties: LightenFilterProperties;
     /**
      * A storage for Filter property/value pairs.
      * @see [@link LightenFilterProperties]
-     * @type {Dictionary<LightenFilterProperties, any>}
      */
     /**
      * Reference to the `<feColorMatrix>` element.
      *
      * @ignore Exclude from docs
-     * @type {AMElement}
      */
     feColorMatrix: AMElement;
     /**
@@ -59,7 +53,7 @@ export declare class LightenFilter extends Filter {
      */
     constructor();
     /**
-     * @return {number} Lightness
+     * @return Lightness
      */
     /**
      * Lightness of the target colors.
@@ -69,7 +63,7 @@ export declare class LightenFilter extends Filter {
      *
      * If `lightness` is negative, colors will be darkened.
      *
-     * @param {number}  value  Lightness
+     * @param value  Lightness
      */
     lightness: number;
 }

@@ -19,7 +19,6 @@ export { AMEvent };
 /**
  * An [[EventDispatcher]] for [[Sprite]].
  *
- * @type {TargetedEventDispatcher}
  * @important
  */
 export declare class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> extends TargetedEventDispatcher<Sprite, T> {
@@ -27,60 +26,47 @@ export declare class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEven
      * [_interactionEvents description]
      *
      * @todo Description
-     * @type {Dictionary}
      */
     private _interactionEvents;
     /**
      * [_dispatchSpriteEvent description]
      *
      * @todo Description
-     * @type {[type]}
      */
     private _dispatchSpriteEvent<Key>(ev);
     /**
      * [_dispatchSpritePointEvent description]
      *
      * @todo Description
-     * @type {[type]}
      */
     private _dispatchSpritePointEvent<Key>(ev);
     /**
      * [_addInteractionObjectEvent description]
      *
      * @todo Description
-     * @type {[type]}
      */
     private _addInteractionObjectEvent<C, Key>(type, callback, context, shouldClone);
     /**
      * [_on description]
      *
      * @todo Description
-     * @type {[type]}
      */
     protected _on<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B, shouldClone: boolean, dispatch: (type: Key, event: T[Key]) => void): EventListener<T>;
 }
 /**
  * Defines property set for a [[Sprite]] event that contains point information.
- *
- * @type {Object}
  */
 export declare type SpritePointEvent = {
     /**
      * Event point in global (document) coordinates.
-     *
-     * @type {IPoint}
      */
     point: IPoint;
     /**
      * Event point in local Sprite coordinates.
-     *
-     * @type {IPoint}
      */
     spritePoint: IPoint;
     /**
      * Event point with chart (svg) coodinates.
-     *
-     * @type {IPoint}
      */
     svgPoint: IPoint;
 };
@@ -90,36 +76,26 @@ export declare type SpritePointEvent = {
 export declare type SpritePointerEvent = {
     /**
      * Coordinates of the primary cursor position.
-     *
-     * @type {Pointer}
      */
     pointer: IPointer;
 };
 /**
  * Defines property set for a [[Sprite]] event that contains mouse or touch
  * event.
- *
- * @type {Object}
  */
 export declare type SpriteMouseTouchEvent = {
     /**
      * Original mouse/touch event.
-     *
-     * @type {MouseEvent | TouchEvent}
      */
     event: MouseEvent | TouchEvent;
 };
 /**
  * Defines property set for a [[Sprite]] event that contains coordinate shift
  * information, such as drag events.
- *
- * @type {Object}
  */
 export declare type SpriteShiftEvent = {
     /**
      * Shift in coordinates after dragging.
-     *
-     * @type {IPoint}
      */
     shift: IPoint;
 };
@@ -149,7 +125,6 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
     transformed: {
         /**
          * [string description]
-         * @type {string}
          * @todo Needs description
          */
         dummyData?: string;
@@ -207,8 +182,6 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
     propertychanged: {
         /**
          * Property key.
-         *
-         * @type {string}
          */
         property: string;
     };
@@ -236,8 +209,6 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
     wheel: SpritePointEvent & SpriteShiftEvent & {
         /**
          * Original JavaScript event.
-         *
-         * @type {WheelEvent}
          */
         event: WheelEvent;
     };
@@ -247,7 +218,6 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
     wheelup: SpritePointEvent & SpriteShiftEvent & {
         /**
          * Original JavaScript event
-         * @type {WheelEvent}
          */
         event: WheelEvent;
     };
@@ -257,8 +227,6 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
     wheeldown: SpritePointEvent & SpriteShiftEvent & {
         /**
          * Original JavaScript event.
-         *
-         * @type {WheelEvent}
          */
         event: WheelEvent;
     };
@@ -268,7 +236,6 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
     wheelleft: SpritePointEvent & SpriteShiftEvent & {
         /**
          * Original JavaScript event
-         * @type {WheelEvent}
          */
         event: WheelEvent;
     };
@@ -278,8 +245,6 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
     wheelright: SpritePointEvent & SpriteShiftEvent & {
         /**
          * Original JavaScript event.
-         *
-         * @type {WheelEvent}
          */
         event: WheelEvent;
     };

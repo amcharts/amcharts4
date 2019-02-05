@@ -33,30 +33,22 @@ export interface IRadarCursorProperties extends IXYCursorProperties {
 	/**
 	 * Inner radius of the cursor's circular line.
 	 * Absolute (px) or relative ([[Percent]]).
-	 *
-	 * @type {number | Percent}
 	 */
 	innerRadius: number | Percent;
 
 	/**
 	 * Outer radius of the cursor's circular line.
 	 * Absolute (px) or relative ([[Percent]]).
-	 *
-	 * @type {number | Percent}
 	 */
 	radius: number | Percent;
 
 	/**
 	 * Starting angle of the cursor's radial line.
-	 *
-	 * @type {number}
 	 */
 	startAngle: number;
 
 	/**
 	 * Ending angle of the cursor's radial line.
-	 *
-	 * @type {number}
 	 */
 	endAngle: number;
 
@@ -92,27 +84,21 @@ export class RadarCursor extends XYCursor {
 
 	/**
 	 * Defines available properties
-	 * @type {IRadarCursorProperties}
 	 */
 	public _properties!: IRadarCursorProperties;
 
 	/**
 	 * Defines available adapters
-	 * @type {IRadarCursorAdapters}
 	 */
 	public _adapter!: IRadarCursorAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IRadarCursorEvents}
 	 */
 	public _events!: IRadarCursorEvents;
 
 	/**
 	 * A reference to chart cursor belongs to.
-	 *
-	 * @type {Chart}
 	 */
 	public _chart: RadarChart;
 
@@ -140,8 +126,8 @@ export class RadarCursor extends XYCursor {
 	 * Checks if point is within bounds of a container.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {IPoint}   point  Point to check
-	 * @return {boolean}         Fits within container?
+	 * @param point  Point to check
+	 * @return Fits within container?
 	 */
 	public fitsToBounds(point: IPoint): boolean {
 		let radius = $math.getDistance(point);
@@ -159,14 +145,14 @@ export class RadarCursor extends XYCursor {
 	/**
 	 * Starting angle of the cursor's radial line.
 	 *
-	 * @param {number} value Start angle
+	 * @param value Start angle
 	 */
 	public set startAngle(value: number) {
 		this.setPropertyValue("startAngle", value, true);
 	}
 
 	/**
-	 * @return {number} Start angle
+	 * @return Start angle
 	 */
 	public get startAngle(): number {
 		return this.getPropertyValue("startAngle");
@@ -175,14 +161,14 @@ export class RadarCursor extends XYCursor {
 	/**
 	 * End angle of the cursor's radial line.
 	 *
-	 * @param {number} value End angle
+	 * @param value End angle
 	 */
 	public set endAngle(value: number) {
 		this.setPropertyValue("endAngle", value, true);
 	}
 
 	/**
-	 * @return {number} End angle
+	 * @return End angle
 	 */
 	public get endAngle(): number {
 		return this.getPropertyValue("endAngle");
@@ -205,7 +191,7 @@ export class RadarCursor extends XYCursor {
 	/**
 	 * (Re)draws the horizontal (circular) cursor's line.
 	 *
-	 * @param {IPoint} point New target point
+	 * @param point New target point
 	 */
 	protected updateLineX(point: IPoint) {
 
@@ -271,7 +257,7 @@ export class RadarCursor extends XYCursor {
 	/**
 	 * (Re)draws the vertical (radial) cursor's line.
 	 *
-	 * @param {IPoint} point New target point
+	 * @param point New target point
 	 */
 	protected updateLineY(point: IPoint) {
 		if (this.lineY && this.lineY.visible) {
@@ -397,7 +383,7 @@ export class RadarCursor extends XYCursor {
 	/**
 	 * Updates Cursor's position when axis tooltip changes horizontal position.
 	 *
-	 * @param {ISpriteEvents["positionchanged"]} event Axis event
+	 * @param event Axis event
 	 */
 	protected handleXTooltipPosition(event: ISpriteEvents["positionchanged"]): void {
 		if (this.xAxis.cursorTooltipEnabled) {
@@ -410,7 +396,7 @@ export class RadarCursor extends XYCursor {
 	 * Updates Cursor's position when axis tooltip changes vertical position.
 	 *
 	 * @todo Description
-	 * @param {ISpriteEvents["positionchanged"]} event Axis event
+	 * @param event Axis event
 	 */
 	protected handleYTooltipPosition(event: ISpriteEvents["positionchanged"]): void {
 		if (this.yAxis.cursorTooltipEnabled) {
@@ -495,14 +481,14 @@ export class RadarCursor extends XYCursor {
 	 * Outer radius of the cursor's circular line.
 	 * Absolute (px) or relative ([[Percent]]).
 	 *
-	 * @param {number | Percent}  value  Outer radius
+	 * @param value  Outer radius
 	 */
 	public set radius(value: number | Percent) {
 		this.setPercentProperty("radius", value, false, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Outer radius
+	 * @return Outer radius
 	 */
 	public get radius(): number | Percent {
 		return this.getPropertyValue("radius");
@@ -511,7 +497,7 @@ export class RadarCursor extends XYCursor {
 	/**
 	 * Outer radius of the circular line in pixels.
 	 *
-	 * @return {number} Outer radius (px)
+	 * @return Outer radius (px)
 	 * @readonly
 	 */
 	public get pixelRadius(): number {
@@ -522,7 +508,7 @@ export class RadarCursor extends XYCursor {
 	 * [truePixelRadius description]
 	 *
 	 * @todo Description
-	 * @return {number} Outer radius (px)
+	 * @return Outer radius (px)
 	 * @readonly
 	 */
 	public get truePixelRadius(): number {
@@ -533,14 +519,14 @@ export class RadarCursor extends XYCursor {
 	 * Inner radius of the cursor's circular line.
 	 * Absolute (px) or relative ([[Percent]]).
 	 *
-	 * @param {number | Percent}  value  Inner radius
+	 * @param value  Inner radius
 	 */
 	public set innerRadius(value: number | Percent) {
 		this.setPercentProperty("innerRadius", value, false, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Inner radius
+	 * @return Inner radius
 	 */
 	public get innerRadius(): number | Percent {
 		return this.getPropertyValue("innerRadius");
@@ -549,7 +535,7 @@ export class RadarCursor extends XYCursor {
 	/**
 	 * Inner radius of the circular line in pixels.
 	 *
-	 * @return {number} Inner radius (px)
+	 * @return Inner radius (px)
 	 * @readonly
 	 */
 	public get pixelInnerRadius(): number {

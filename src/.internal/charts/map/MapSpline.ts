@@ -57,43 +57,31 @@ export class MapSpline extends MapLine {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IMapSplineProperties}
 	 */
 	public _properties!: IMapSplineProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IMapSplineAdapters}
 	 */
 	public _adapter!: IMapSplineAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IMapSplineEvents}
 	 */
 	public _events!: IMapSplineEvents;
 
 	/**
 	 * A visual element for the spline.
-	 *
-	 * @type {Polyspline}
 	 */
 	public line: Polyspline;
 
 	/**
 	 * A related data item.
-	 *
-	 * @type {MapSplineSeriesDataItem}
 	 */
 	public _dataItem: MapSplineSeriesDataItem;
 
 	/**
 	 * A map series this object belongs to.
-	 *
-	 * @type {MapSplineSeries}
 	 */
 	public series: MapSplineSeries;
 
@@ -117,14 +105,14 @@ export class MapSpline extends MapLine {
 	protected createLine(){
 		this.line = new Polyspline();
 		this.line.tensionX = 0.8;
-		this.line.tensionY = 0.8;		
-	}	
+		this.line.tensionY = 0.8;
+	}
 
 
 	/**
 	 * ShortestDistance = true is not supported by MapSpline, only MapLine does support it
 	 * @default false
-	 * @param {boolean}  value
+	 * @param value
 	 * @todo: review description
 	 */
 	public get shortestDistance(): boolean {

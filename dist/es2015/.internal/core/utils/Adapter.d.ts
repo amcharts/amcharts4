@@ -14,13 +14,10 @@ import { EventDispatcher } from "./EventDispatcher";
 export declare class GlobalAdapter {
     /**
      * Callback id iterator.
-     *
-     * @type {number}
      */
     private _callbackId;
     /**
      * A list of if callbacks (adapters).
-     *
      */
     private _callbacks;
     addAll<T, Target, Key extends keyof T>(type: {
@@ -32,17 +29,17 @@ export declare class GlobalAdapter {
     /**
      * Returns if there are adapters for specific type available.
      *
-     * @param  {Target}   type  Adapter type
-     * @param  {Key}      key   Adapter key
+     * @param type  Adapter type
+     * @param key   Adapter key
      * @return {boolean}
      */
     isEnabled<T, Target, Key extends keyof T>(type: Target, key: Key): boolean;
     /**
      * Applies global adapters for the object of the specific type.
      *
-     * @param {any}  type   Class type
-     * @param {any}  key    Adapter key
-     * @param {any}  value  Value
+     * @param type   Class type
+     * @param key    Adapter key
+     * @param value  Value
      */
     applyAll<T, Target, Key extends keyof T = keyof T>(type: Target, key: Key, value: T[Key]): T[Key];
 }
@@ -117,21 +114,17 @@ export declare let globalAdapter: GlobalAdapter;
 export declare class Adapter<Target, T> {
     /**
      * Internal counter for callback ids.
-     *
-     * @type {number}
      */
     private _callbackId;
     /**
      * A list of adapter callbacks.
      *
-     * @param {[type]} $number.order(left.priority, right.priority) [description]
-     * @param {[type]} $number.order(left.id,       right.id));	}  [description]
+     * @param $number.order(left.priority, right.priority) [description]
+     * @param $number.order(left.id,       right.id));	}  [description]
      */
     private _callbacks;
     /**
      * Holds an object reference this Adapter is for.
-     *
-     * @type {T}
      */
     object: Target;
     /**
@@ -144,7 +137,7 @@ export declare class Adapter<Target, T> {
     /**
      * Constructor, sets the object referece this Adapter should be used for.
      *
-     * @param {T} c Object
+     * @param c Object
      */
     constructor(c: Target);
     /**
@@ -192,19 +185,19 @@ export declare class Adapter<Target, T> {
      *
      * The heigher the `priority`, the later in the game adapter will be applied.
      *
-     * @param {string}         key       Key
-     * @param {any[]) => any}  callback  A callback function
-     * @param {number}         priority  The higher priority, the more chance the adapter will be applied last
-     * @param {any}            scope     Scope for the callback function
+     * @param key       Key
+     * @param callback  A callback function
+     * @param priority  The higher priority, the more chance the adapter will be applied last
+     * @param scope     Scope for the callback function
      */
     add<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target, key: Key) => T[Key], priority?: number, scope?: C): void;
     /**
      * Checks whether specific adapter is already set.
      *
-     * @param   {string}         key       Key
-     * @param   {any[]) => any}  callback  A callback function
-     * @param   {number}         priority  The higher priority, the more chance the adapter will be applied last
-     * @param   {any}            scope     Scope for the callback function
+     * @param key       Key
+     * @param callback  A callback function
+     * @param priority  The higher priority, the more chance the adapter will be applied last
+     * @param scope     Scope for the callback function
      * @returns                            Adapter set?
      */
     has<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target, key: Key) => T[Key], priority?: number, scope?: C): boolean;
@@ -213,36 +206,36 @@ export declare class Adapter<Target, T> {
      *
      * If `priority` is specified, only callbacks for that priority are removed.
      *
-     * @param {string} key      Key
-     * @param {number} priority Priority
+     * @param key      Key
+     * @param priority Priority
      * @todo Implement
      */
     remove(key: string, priority?: number): void;
     /**
      * Returns if there are any adapters set for the specific `key`.
      *
-     * @returns {boolean} Are there any adapters for the key?
+     * @returns Are there any adapters for the key?
      */
     isEnabled<Key extends keyof T>(key: Key): boolean;
     /**
      * Passes the input value through all the callbacks for the defined `key`.
      *
-     * @param  {string}  key      Key
-     * @param  {any}     value    Input value
-     * @param  {any[]}   ...rest  Rest of the parameters to be passed into callback
-     * @return {any}              Output value
+     * @param key      Key
+     * @param value    Input value
+     * @param ...rest  Rest of the parameters to be passed into callback
+     * @return Output value
      */
     apply<Key extends keyof T>(key: Key, value: T[Key]): T[Key];
     /**
      * Returns all adapter keys that are currently in effect.
      *
-     * @return {string[]} Adapter keys
+     * @return Adapter keys
      */
     keys(): Array<string>;
     /**
      * Copies all the adapter callbacks from `source`.
      *
-     * @param {Adapter<Target, T>}  source  An Adapter to copy items from
+     * @param source  An Adapter to copy items from
      */
     copyFrom(source: this): void;
     /**

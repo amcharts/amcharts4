@@ -48,7 +48,7 @@ var ConeColumn = /** @class */ (function (_super) {
     /**
      * Copies all parameters from another [[ConeColumn]].
      *
-     * @param {ConeColumn} source Source ConeColumn
+     * @param source Source ConeColumn
      */
     ConeColumn.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

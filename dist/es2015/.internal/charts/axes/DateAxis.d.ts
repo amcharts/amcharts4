@@ -32,8 +32,6 @@ import { DateAxisBreak } from "./DateAxisBreak";
 export declare class DateAxisDataItem extends ValueAxisDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {DateAxis}
      */
     _component: DateAxis;
     /**
@@ -41,21 +39,21 @@ export declare class DateAxisDataItem extends ValueAxisDataItem {
      */
     constructor();
     /**
-     * @return {Date} Date
+     * @return Date
      */
     /**
      * Date position of the data item.
      *
-     * @param {Date}  date  Date
+     * @param date  Date
      */
     date: Date;
     /**
-     * @return {Date} End date
+     * @return End date
      */
     /**
      * End date for data item.
      *
-     * @param {Date} date End date
+     * @param date End date
      */
     endDate: Date;
 }
@@ -71,8 +69,6 @@ export declare class DateAxisDataItem extends ValueAxisDataItem {
 export interface IDateAxisDataFields extends IValueAxisDataFields {
     /**
      * Date.
-     *
-     * @type {string}
      */
     date?: string;
 }
@@ -85,7 +81,6 @@ export interface IDateAxisProperties extends IValueAxisProperties {
      * periods of time, i.e. weekends.
      *
      * @default false
-     * @type {boolean}
      */
     skipEmptyPeriods?: boolean;
     /**
@@ -93,7 +88,7 @@ export interface IDateAxisProperties extends IValueAxisProperties {
      * label in bigger time unit.
      *
      * @default true
-     * @param {boolean}  value  Use different format for period beginning?
+     * @param value  Use different format for period beginning?
      */
     markUnitChange?: boolean;
     /**
@@ -101,15 +96,12 @@ export interface IDateAxisProperties extends IValueAxisProperties {
      * current cursor position.
      *
      * @default true
-     * @type {boolean}
      */
     snapTooltip?: boolean;
     /**
      * A special date format to apply axis tooltips.
      *
      * Will use same format as for labels, if not set.
-     *
-     * @type {string}
      */
     tooltipDateFormat?: string;
 }
@@ -164,38 +156,26 @@ export interface IDateAxisAdapters extends IValueAxisAdapters, IDateAxisProperti
 export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T> {
     /**
      * Defines data fields.
-     *
-     * @type {IDateAxisDataFields}
      */
     _dataFields: IDateAxisDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IDateAxisProperties}
      */
     _properties: IDateAxisProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IDateAxisAdapters}
      */
     _adapter: IDateAxisAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IDateAxisEvents}
      */
     _events: IDateAxisEvents;
     /**
      * Defines the type of the Date Items.
-     *
-     * @type {DateAxisDataItem}
      */
     _dataItem: DateAxisDataItem;
     /**
      * Defines the type of the axis breaks.
-     *
-     * @type {DateAxisBreak}
      */
     _axisBreak: DateAxisBreak;
     /**
@@ -246,8 +226,6 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *  { timeUnit: "year", count: 100 }
      * ]
      * ```
-     *
-     * @type {List<ITimeInterval>}
      */
     gridIntervals: List<ITimeInterval>;
     /**
@@ -275,7 +253,6 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * ```
      *
      * @see {@link DateFormatter}
-     * @type {Dictionary<TimeUnit, string>}
      */
     dateFormats: Dictionary<TimeUnit, string>;
     /**
@@ -296,58 +273,45 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * `Jan - 1 - 2 - 3 - ...`
      *
      * This can be disabled by setting `markUnitChange = false`.
-     *
-     * @type {Dictionary<TimeUnit, string>}
      */
     periodChangeDateFormats: Dictionary<TimeUnit, string>;
     /**
      * At which intervals grid elements are displayed.
-     *
-     * @type {ITimeInterval}
      */
     protected _gridInterval: ITimeInterval;
     /**
      * [_intervalDuration description]
      *
      * @todo Description
-     * @type {number}
      */
     protected _intervalDuration: number;
     /**
      * [_gridDate description]
      *
      * @todo Description
-     * @type {Date}
      */
     protected _gridDate: Date;
     /**
      * [_nextGridUnit description]
      *
      * @todo Description
-     * @type {TimeUnit}
      */
     protected _nextGridUnit: TimeUnit;
     /**
      * User-defined granularity of data.
-     *
-     * @type {ITimeInterval}
      */
     protected _baseInterval: ITimeInterval;
     /**
      * Actual interval (granularity) derived from the actual data.
-     *
-     * @type {ITimeInterval}
      */
     protected _baseIntervalReal: ITimeInterval;
     /**
-     * @type {number}
      */
     protected _prevSeriesTime: number;
     /**
      * [_minDifference description]
      *
      * @todo Description
-     * @type {number}
      */
     protected _minDifference: {
         [index: string]: number;
@@ -377,13 +341,13 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * Returns a new/empty [[DataItem]] of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {DateAxisDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
      * Returns a new/empty [[AxisBreak]] of the appropriate type.
      *
-     * @return {DateAxisBreak} Axis break
+     * @return Axis break
      */
     protected createAxisBreak(): this["_axisBreak"];
     /**
@@ -435,7 +399,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {XYSeriesDataItem} dataItem Data item
+     * @param dataItem Data item
      */
     postProcessSeriesDataItem(dataItem: XYSeriesDataItem): void;
     /**
@@ -461,9 +425,9 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {Date}    date           [description]
-     * @param  {number}  intervalCount  [description]
-     * @return {Date}                   [description]
+     * @param date           [description]
+     * @param intervalCount  [description]
+     * @return [description]
      */
     getGridDate(date: Date, intervalCount: number): Date;
     /**
@@ -471,10 +435,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {DateAxisBreak}  axisBreak  [description]
-     * @param  {TimeUnit}       timeUnit   [description]
-     * @param  {number}         count      [description]
-     * @return {Date}                      [description]
+     * @param axisBreak  [description]
+     * @param timeUnit   [description]
+     * @param count      [description]
+     * @return [description]
      */
     getBreaklessDate(axisBreak: DateAxisBreak, timeUnit: TimeUnit, count: number): Date;
     /**
@@ -488,13 +452,13 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * Validates Axis data item.
      *
      * @ignore Exclude from docs
-     * @param {DateAxisDataItem} dataItem Data item
+     * @param dataItem Data item
      */
     validateDataElement(dataItem: this["_dataItem"]): void;
     /**
      * A duration in milliseconds of the `baseInterval`.
      *
-     * @return {number} Duration (ms)
+     * @return Duration (ms)
      */
     readonly baseDuration: number;
     /**
@@ -502,23 +466,23 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @ignore Exclude from docs.
      * @todo Description (review)
-     * @param  {number}       min  Min timestamp
-     * @param  {number}       max  Max timestamp
-     * @return {IMinMaxStep}       Adjusted min/max step
+     * @param min  Min timestamp
+     * @param max  Max timestamp
+     * @return Adjusted min/max step
      */
     adjustMinMax(min: number, max: number): IMinMaxStep;
     /**
      * Adjusts the minimum timestamp as per cell start location.
      *
-     * @param  {number}  value  Value
-     * @return {number}         Adjusted value
+     * @param value  Value
+     * @return Adjusted value
      */
     protected fixMin(value: number): number;
     /**
      * Adjusts the maximum timestamp as per cell start location.
      *
-     * @param  {number}  value  Value
-     * @return {number}         Adjusted value
+     * @param value  Value
+     * @return Adjusted value
      */
     protected fixMax(value: number): number;
     /**
@@ -526,52 +490,52 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @ignore Exclude from docs.
      * @todo Description
-     * @param  {number}         index      [description]
-     * @param  {number}         duration   [description]
-     * @param  {number}         gridCount  [description]
-     * @return {ITimeInterval}             [description]
+     * @param index      [description]
+     * @param duration   [description]
+     * @param gridCount  [description]
+     * @return [description]
      */
     chooseInterval(index: number, duration: number, gridCount: number): ITimeInterval;
     /**
      * Formats the value according to axis' own [[DateFormatter]].
      *
-     * @param  {number}  value  Source value
-     * @return {string}         Formatted value
+     * @param value  Source value
+     * @return Formatted value
      */
     formatLabel(value: number): string;
     /**
      * Converts a Date to an asbolute pixel position within Axis.
      *
-     * @param  {Date}    date  Date
-     * @return {number}        Position (px)
+     * @param date  Date
+     * @return Position (px)
      */
     dateToPosition(date: Date): number;
     /**
      * Converts a numeric timestamp or a `Date` to a relative position on axis.
      *
-     * @param  {Date | number}  date  Date or a timestamp
-     * @return {number}               Relative position
+     * @param date  Date or a timestamp
+     * @return Relative position
      */
     anyToPosition(date: Date | number): number;
     /**
      * Converts date to orientation point (x, y, angle) on axis
      *
-     * @param  {Date}  date Date
-     * @return {IOrientationPoint} IOrientationPoint
+     * @param date Date
+     * @return IOrientationPoint
      */
     dateToPoint(date: Date): IOrientationPoint;
     /**
      * Converts a numeric value to orientation (x, y, angle) point on axis
      *
-     * @param  {number}  value  Value
-     * @return {IOrientationPoint}  Orientation point
+     * @param value  Value
+     * @return Orientation point
      */
     anyToPoint(date: Date | number): IOrientationPoint;
     /**
      * Converts pixel position within Axis to a corresponding Date.
      *
-     * @param  {number}  position  Position (px)
-     * @return {Date}              Date
+     * @param position  Position (px)
+     * @return Date
      */
     positionToDate(position: number): Date;
     /**
@@ -579,10 +543,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}            key       Data field to get value from
-     * @param  {number}            location  Location (0-1)
-     * @return {number}                      X coordinate (px)
+     * @param dataItem  Data item
+     * @param key       Data field to get value from
+     * @param location  Location (0-1)
+     * @return X coordinate (px)
      */
     getX(dataItem: XYSeriesDataItem, key: string, location?: number): number;
     /**
@@ -590,10 +554,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}            key       Data field to get value from
-     * @param  {number}            location  Location (0-1)
-     * @return {number}                      Y coordinate (px)
+     * @param dataItem  Data item
+     * @param key       Data field to get value from
+     * @param location  Location (0-1)
+     * @return Y coordinate (px)
      */
     getY(dataItem: XYSeriesDataItem, key: string, location?: number): number;
     /**
@@ -601,11 +565,11 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}            key       Data field to get value from
-     * @param  {number}            location  Location (0-1)
-     * @param  {string}            stackKey  Stack ID
-     * @return {number}                      Angle
+     * @param dataItem  Data item
+     * @param key       Data field to get value from
+     * @param location  Location (0-1)
+     * @param stackKey  Stack ID
+     * @return Angle
      */
     getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
     /**
@@ -613,10 +577,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {XYSeriesDataItem}  dataItem  [description]
-     * @param  {string}            key       [description]
-     * @param  {number}            location  [description]
-     * @return {number}                      [description]
+     * @param dataItem  [description]
+     * @param key       [description]
+     * @param location  [description]
+     * @return [description]
      */
     protected getTimeByLocation(dataItem: XYSeriesDataItem, key: string, location: number): number;
     /**
@@ -624,7 +588,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {XYSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     processSeriesDataItem(dataItem: XYSeriesDataItem, axisLetter?: string): void;
     /**
@@ -635,7 +599,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     updateAxisBySeries(): void;
     /**
-     * @return {ITimeInterval} Base interval
+     * @return Base interval
      */
     /**
      * A base interval (granularity) of data.
@@ -648,11 +612,11 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * If not set, the Axis will try to determine the setting by its own, looking
      * at actual data.
      *
-     * @param {ITimeInterval} timeInterval base interval
+     * @param timeInterval base interval
      */
     baseInterval: ITimeInterval;
     /**
-     * @return {boolean} Remove empty stretches of time?
+     * @return Remove empty stretches of time?
      */
     /**
      * If enabled, axis will automatically collapse empty (without data points)
@@ -673,29 +637,29 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * * Setting this to `true` will reset appearance of breaks. If you want to modify appearance, do it *after* you set `skipEmptyPeriods`.
      *
      * @default false
-     * @param {boolean}  value  Remove empty stretches of time?
+     * @param value  Remove empty stretches of time?
      */
     skipEmptyPeriods: boolean;
     /**
-     * @return {string} Date format
+     * @return Date format
      */
     /**
      * A special date format to apply axis tooltips.
      *
      * Will use same format as for labels, if not set.
      *
-     * @param {string}  value  Date format
+     * @param value  Date format
      */
     tooltipDateFormat: string;
     /**
-     * @return {boolean} Use different format for period beginning?
+     * @return Use different format for period beginning?
      */
     /**
      * Use `periodChangeDateFormats` to apply different formats to the first
      * label in bigger time unit.
      *
      * @default true
-     * @param {boolean}  value  Use different format for period beginning?
+     * @param value  Use different format for period beginning?
      */
     markUnitChange: boolean;
     /**
@@ -706,17 +670,17 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * chart, or explicitly for this Axis.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position
-     * @return {string}            Label (formatted date)
+     * @param position  Position
+     * @return Label (formatted date)
      */
     getTooltipText(position: number): string;
     /**
      * Takes an absolute position within axis and adjust it to a specific position within base interval. (cell)
      *
      * @ignore Exclude from docs
-     * @param  {number}            position Source position
-     * @param  {AxisItemLocation}  location  Location in the cell
-     * @return {number}            Adjusted position
+     * @param position Source position
+     * @param location  Location in the cell
+     * @return Adjusted position
      */
     roundPosition(position: number, location?: AxisItemLocation): number;
     /**
@@ -724,8 +688,8 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {number}  position  Relative position
-     * @return {number}            Cell start relative position
+     * @param position  Relative position
+     * @return Cell start relative position
      */
     getCellStartPosition(position: number): number;
     /**
@@ -733,8 +697,8 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {number}  position  Relative position
-     * @return {number}            Cell end relative position
+     * @param position  Relative position
+     * @return Cell end relative position
      */
     getCellEndPosition(position: number): number;
     /**
@@ -745,10 +709,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * to locate nearest available data item if none is found directly under
      * `position`.
      *
-     * @param  {XYSeries}          series       Series
-     * @param  {number}            position     Position (px)
-     * @param  {boolean}           findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
-     * @return {XYSeriesDataItem}               Data item
+     * @param series       Series
+     * @param position     Position (px)
+     * @param findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
+     * @return Data item
      */
     getSeriesDataItem(series: XYSeries, position: number, findNearest?: boolean): XYSeriesDataItem;
     /**
@@ -760,14 +724,14 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
      *
      * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
-     * @param  {number}  position  Relative position on axis (0-1)
-     * @return {string}            Position label
+     * @param position  Relative position on axis (0-1)
+     * @return Position label
      */
     getPositionLabel(position: number): string;
     /**
      * Returns label date format based on currently used time units
      *
-     * @return {string}  Format
+     * @return Format
      */
     protected getCurrentLabelFormat(): string;
     /**
@@ -780,47 +744,47 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * Coordinates of the actual axis start.
      *
      * @ignore Exclude from docs
-     * @return {IPoint} Base point
+     * @return Base point
      */
     readonly basePoint: IPoint;
     /**
      * Zooms axis to specific Dates.
      *
-     * @param {Date}     startDate       Start date
-     * @param {Date}     endValue        End date
-     * @param {boolean}  skipRangeEvent  Do not invoke events
-     * @param {boolean}  instantly       Do not play zoom animations
+     * @param startDate       Start date
+     * @param endValue        End date
+     * @param skipRangeEvent  Do not invoke events
+     * @param instantly       Do not play zoom animations
      */
     zoomToDates(startDate: Date, endDate: Date, skipRangeEvent?: boolean, instantly?: boolean): void;
     /**
      * Adds `baseInterval` to "as is" fields.
      *
-     * @param  {string}   field  Field name
-     * @return {boolean}         Assign as is?
+     * @param field  Field name
+     * @return Assign as is?
      */
     protected asIs(field: string): boolean;
     /**
      * Copies all properties and related data from a different instance of Axis.
      *
-     * @param {this} source Source Axis
+     * @param source Source Axis
      */
     copyFrom(source: this): void;
     /**
      * Shows Axis tooltip at specific relative position within Axis. (0-1)
      *
-     * @param {number} position Position (0-1)
-     * @param {boolean} local or global position
+     * @param position Position (0-1)
+     * @param local or global position
      */
     showTooltipAtPosition(position: number, local?: boolean): void;
     /**
-     * @return {boolean} Should snap?
+     * @return Should snap?
      */
     /**
      * Should the nearest tooltip be shown if no data item is found on the
      * current cursor position.
      *
      * @default true
-     * @param {boolean}  value  Should snap?
+     * @param value  Should snap?
      */
     snapTooltip: boolean;
 }

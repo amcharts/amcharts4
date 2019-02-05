@@ -32,23 +32,17 @@ export class DurationFormatter extends BaseObject {
 
 	/**
 	 * If set will force this format to be used, regardless of the scale.
-	 * 
-	 * @type {string}
 	 */
 	protected _durationFormat: string;
 
 	/**
 	 * Holds duration formats for various possible scenarios.
-	 * 
-	 * @type {Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>}
 	 */
 	protected _durationFormats: Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>;
 
 	/**
 	 * A base value for negative numbers. Will treat all numbers below this value
 	 * as negative numbers.
-	 *
-	 * @type {number}
 	 */
 	protected _negativeBase: number = 0;
 
@@ -56,7 +50,6 @@ export class DurationFormatter extends BaseObject {
 	 * A base unit to consider values are in.
 	 *
 	 * @default "s"
-	 * @type {TimeUnit}
 	 */
 	protected _baseUnit: TimeUnit = "second";
 
@@ -68,15 +61,12 @@ export class DurationFormatter extends BaseObject {
 	 * Available options: svg, html.
 	 *
 	 * @default "svg"
-	 * @type {string}
 	 */
 	protected _outputFormat: string = "svg";
 
 
 	/**
 	 * How many milliseconds each unit represents.
-	 *
-	 * @type {Object}
 	 */
 	protected _unitValues: Record<TimeUnit, number> = {
 		"millisecond": 1,
@@ -91,8 +81,6 @@ export class DurationFormatter extends BaseObject {
 
 	/**
 	 * Collection of aliases for units.
-	 *
-	 * @type {Object}
 	 */
 	protected _unitAliases: { [index: string]: string } = {
 		"Y": "y",
@@ -105,15 +93,11 @@ export class DurationFormatter extends BaseObject {
 
 	/**
 	 * Holds reference to parent [[Sprite]] object.
-	 *
-	 * @type {Optional<Sprite>}
 	 */
 	public sprite: $type.Optional<Sprite>;
 
 	/**
 	 * Holds reference to [[Language]] object.
-	 *
-	 * @type {Optional<Language>}
 	 */
 	public language: $type.Optional<Language>;
 
@@ -133,10 +117,10 @@ export class DurationFormatter extends BaseObject {
 	 * 16 minutes and 40 seconds.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Tutorial on duration formatting
-	 * @param  {number | string}  value   Value to format
-	 * @param  {string}           format  Format to apply
-	 * @param  {TimeUnit}         base    Override base unit
-	 * @return {string}                   Formatted number
+	 * @param value   Value to format
+	 * @param format  Format to apply
+	 * @param base    Override base unit
+	 * @return Formatted number
 	 */
 	public format(value: number | string, format?: string, base?: TimeUnit): string {
 
@@ -206,9 +190,9 @@ export class DurationFormatter extends BaseObject {
 	 * Parses supplied format into structured object which can be used to format
 	 * the number.
 	 *
-	 * @param  {string}    format  Format string, i.e. "#,###.00"
-	 * @param  {TimeUnit}  base    Override base unit
-	 * @return {any}               Parsed information
+	 * @param format  Format string, i.e. "#,###.00"
+	 * @param base    Override base unit
+	 * @return Parsed information
 	 */
 	protected parseFormat(format: string, base?: TimeUnit): any {
 
@@ -358,9 +342,9 @@ export class DurationFormatter extends BaseObject {
 	/**
 	 * Applies parsed format to a numeric value.
 	 *
-	 * @param  {number}  value    Value
-	 * @param  {any}     details  Parsed format as returned by {parseFormat}
-	 * @return {string}           Formatted duration
+	 * @param value    Value
+	 * @param details  Parsed format as returned by {parseFormat}
+	 * @return Formatted duration
 	 */
 	protected applyFormat(value: number, details: any): string {
 
@@ -401,9 +385,9 @@ export class DurationFormatter extends BaseObject {
 	/**
 	 * Converts numeric value to timestamp in milliseconds.
 	 *
-	 * @param  {number}    value     A source value
-	 * @param  {TimeUnit}  baseUnit  Base unit the source value is in: "q", "s", "i", "h", "d", "w", "m", "y"
-	 * @return {number}              Value representation as a timestamp in milliseconds
+	 * @param value     A source value
+	 * @param baseUnit  Base unit the source value is in: "q", "s", "i", "h", "d", "w", "m", "y"
+	 * @return Value representation as a timestamp in milliseconds
 	 */
 	public toTimeStamp(value: number, baseUnit: TimeUnit): number {
 		return value * this._unitValues[baseUnit];
@@ -457,7 +441,7 @@ export class DurationFormatter extends BaseObject {
 	 * * "year"
 	 *
 	 * @default "s"
-	 * @param {TimeUnit}  baseUnit  A base unit
+	 * @param baseUnit  A base unit
 	 */
 	public set baseUnit(baseUnit: TimeUnit) {
 		this._baseUnit = baseUnit;
@@ -465,7 +449,7 @@ export class DurationFormatter extends BaseObject {
 	}
 
 	/**
-	 * @return {string} Base unit
+	 * @return Base unit
 	 */
 	public get baseUnit(): TimeUnit {
 		return this._baseUnit;
@@ -475,7 +459,7 @@ export class DurationFormatter extends BaseObject {
 	 * Setter for output format: "svg" or "html.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {string}  value  Output format
+	 * @param value  Output format
 	 */
 	public set outputFormat(outputFormat: string) {
 		this._outputFormat = outputFormat.toLowerCase();
@@ -486,7 +470,7 @@ export class DurationFormatter extends BaseObject {
 	 * Getter for output format.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {string} Output format
+	 * @return Output format
 	 */
 	public get outputFormat(): string {
 		return this._outputFormat;
@@ -506,10 +490,10 @@ export class DurationFormatter extends BaseObject {
 	 * values, including small ones will use format with minutes, e.g.:
 	 * `00:10`, `00:50`, `12: 30`, etc.
 	 *
-	 * @param  {number}    value     Value to format
-	 * @param  {number}    maxValue  Maximum value to be used to determine format
-	 * @param  {TimeUnit}  baseUnit  Base unit of the value
-	 * @return {string}              Format
+	 * @param value     Value to format
+	 * @param maxValue  Maximum value to be used to determine format
+	 * @param baseUnit  Base unit of the value
+	 * @return Format
 	 */
 	public getFormat(value: number, maxValue?: number, baseUnit?: TimeUnit): string {
 
@@ -542,9 +526,9 @@ export class DurationFormatter extends BaseObject {
 	 * Returns value's closest denominator time unit, e.g 100 seconds is
 	 * `"minute"`, while 59 seconds would still be `second`.
 	 *
-	 * @param  {number}    value     Source duration value
-	 * @param  {TimeUnit}  baseUnit  Base unit
-	 * @return {TimeUnit}            Denominator
+	 * @param value     Source duration value
+	 * @param baseUnit  Base unit
+	 * @return Denominator
 	 */
 	public getValueUnit(value: number, baseUnit?: TimeUnit): TimeUnit {
 
@@ -575,10 +559,10 @@ export class DurationFormatter extends BaseObject {
 
 	/**
 	 * Converts value to milliseconds according to `baseUnit`.
-	 * 
-	 * @param  {number}    value     Source duration value
-	 * @param  {TimeUnit}  baseUnit  Base unit
-	 * @return {number}              Value in milliseconds
+	 *
+	 * @param value     Source duration value
+	 * @param baseUnit  Base unit
+	 * @return Value in milliseconds
 	 */
 	public getMilliseconds(value: number, baseUnit?: TimeUnit): number {
 
@@ -595,7 +579,7 @@ export class DurationFormatter extends BaseObject {
 	 * based on the basedUnit and range of values.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Available fomatting codes
-	 * @param {string}  value  Format
+	 * @param value  Format
 	 */
 	public set durationFormat(value: string) {
 		if (this._durationFormat != value) {
@@ -605,7 +589,7 @@ export class DurationFormatter extends BaseObject {
 	}
 
 	/**
-	 * @return {Optional<string>} Format
+	 * @return Format
 	 */
 	public get durationFormat(): Optional<string> {
 		return this._durationFormat;
@@ -613,8 +597,8 @@ export class DurationFormatter extends BaseObject {
 
 	/**
 	 * Duration formats for various combination of base units.
-	 * 
-	 * @param {Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>}  value  Formats
+	 *
+	 * @param value  Formats
 	 */
 	public set durationFormats(value: Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>) {
 		this._durationFormats = value;
@@ -622,7 +606,7 @@ export class DurationFormatter extends BaseObject {
 	}
 
 	/**
-	 * @return {Partial} Formats
+	 * @return Formats
 	 */
 	public get durationFormats(): Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>> {
 		if (!this._durationFormats) {

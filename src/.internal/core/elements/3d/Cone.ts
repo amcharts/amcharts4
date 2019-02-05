@@ -34,7 +34,6 @@ export interface IConeProperties extends IContainerProperties {
 	 * Angle of the point of view to the 3D element. (0-360)
 	 *
 	 * @default 30
-	 * @type {number}
 	 */
 	angle?: number;
 
@@ -44,7 +43,6 @@ export interface IConeProperties extends IContainerProperties {
 	 * It is relevant to the inner width or height of the element.
 	 *
 	 * @default Percent(100)
-	 * @type {Percent}
 	 */
 	radius?: Percent;
 
@@ -54,7 +52,6 @@ export interface IConeProperties extends IContainerProperties {
 	 * It is relevant to the inner width or height of the element.
 	 *
 	 * @default Percent(0)
-	 * @type {Percent}
 	 */
 	topRadius?: Percent;
 
@@ -62,7 +59,6 @@ export interface IConeProperties extends IContainerProperties {
 	 * Orientation of the cone
 	 *
 	 * @default "vertical"
-	 * @type {Orientation}
 	 */
 	orientation?: Orientation;
 
@@ -98,22 +94,16 @@ export class Cone extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IConeProperties}
 	 */
 	public _properties!: IConeProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IConeAdapters}
 	 */
 	public _adapter!: IConeAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IConeEvents}
 	 */
 	public _events!: IConeEvents;
 
@@ -121,7 +111,6 @@ export class Cone extends Container {
 	 * Bottom ellement.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Ellipse}
 	 */
 	public bottom: Ellipse;
 
@@ -129,7 +118,6 @@ export class Cone extends Container {
 	 * Top element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Ellipse}
 	 */
 	public top: Ellipse;
 
@@ -137,14 +125,11 @@ export class Cone extends Container {
 	 * Body element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public body: Sprite;
 
 	/**
 	 * Gradient for the fill of the body.
-	 *
-	 * @type {LinearGradientModifier}
 	 */
 	public bodyFillModifier: LinearGradientModifier;
 
@@ -245,14 +230,14 @@ export class Cone extends Container {
 	 * Angle of the point of view to the 3D element. (0-360)
 	 *
 	 * @default 30
-	 * @param {number}  value  Angle
+	 * @param value  Angle
 	 */
 	public set angle(value: number) {
 		this.setPropertyValue("angle", value, true);
 	}
 
 	/**
-	 * @return {number} Angle
+	 * @return Angle
 	 */
 	public get angle(): number {
 		return this.getPropertyValue("angle");
@@ -264,14 +249,14 @@ export class Cone extends Container {
 	 * It is relevant to the inner width or height of the element.
 	 *
 	 * @default Percent(100)
-	 * @param {Percent}  value  Bottom radius
+	 * @param value  Bottom radius
 	 */
 	public set radius(value: Percent) {
 		this.setPropertyValue("radius", value, true);
 	}
 
 	/**
-	 * @return {Percent} Bottom radius
+	 * @return Bottom radius
 	 */
 	public get radius(): Percent {
 		return this.getPropertyValue("radius");
@@ -283,14 +268,14 @@ export class Cone extends Container {
 	 * It is relevant to the inner width or height of the element.
 	 *
 	 * @default Percent(0)
-	 * @param {Percent}  value  Top radius
+	 * @param value  Top radius
 	 */
 	public set topRadius(value: Percent) {
 		this.setPropertyValue("topRadius", value, true);
 	}
 
 	/**
-	 * @return {Percent} Top radius
+	 * @return Top radius
 	 */
 	public get topRadius(): Percent {
 		return this.getPropertyValue("topRadius");
@@ -300,14 +285,14 @@ export class Cone extends Container {
 	 * Orientation of the cone
 	 *
 	 * @default "vertical"
-	 * @param {Orientation}  value  Orientation
+	 * @param value  Orientation
 	 */
 	public set orientation(value: Orientation) {
 		this.setPropertyValue("orientation", value, true);
 	}
 
 	/**
-	 * @type {Orientation} Orientation
+	 * Orientation
 	 */
 	public get orientation(): Orientation {
 		return this.getPropertyValue("orientation");

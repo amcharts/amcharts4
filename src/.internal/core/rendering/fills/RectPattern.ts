@@ -23,7 +23,6 @@ import * as $type from "../../utils/Type";
 
 /**
  * Defines properties for rectangular pattern
- * @type {[type]}
  */
 export interface RectPatternProperties extends PatternProperties {
 	rectWidth: number;
@@ -45,15 +44,11 @@ export class RectPattern extends Pattern {
 
 	/**
 	 * Reference to `<rect>` element used in pattern.
-	 *
-	 * @type {Optional<AMElement>}
 	 */
 	protected _rect: $type.Optional<AMElement>;
 
 	/**
 	 * Defines property types.
-	 *
-	 * @type {RectPatternProperties}
 	 */
 	public _properties!: RectPatternProperties;
 
@@ -84,7 +79,7 @@ export class RectPattern extends Pattern {
 	/**
 	 * Rectangle width in pixels.
 	 *
-	 * @param {number} value Width (px)
+	 * @param value Width (px)
 	 */
 	public set rectWidth(value: number) {
 		this.properties["rectWidth"] = value;
@@ -92,7 +87,7 @@ export class RectPattern extends Pattern {
 	}
 
 	/**
-	 * @return {number} Width (px)
+	 * @return Width (px)
 	 */
 	public get rectWidth(): number {
 		return this.properties["rectWidth"];
@@ -101,7 +96,7 @@ export class RectPattern extends Pattern {
 	/**
 	 * Rectangle height in pixels.
 	 *
-	 * @param {number} value Height (px)
+	 * @param value Height (px)
 	 */
 	public set rectHeight(value: number) {
 		this.properties["rectHeight"] = value;
@@ -109,7 +104,7 @@ export class RectPattern extends Pattern {
 	}
 
 	/**
-	 * @return {number} Height (px)
+	 * @return Height (px)
 	 */
 	public get rectHeight(): number {
 		return this.properties["rectHeight"];

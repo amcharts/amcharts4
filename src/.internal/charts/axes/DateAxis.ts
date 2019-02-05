@@ -49,8 +49,6 @@ export class DateAxisDataItem extends ValueAxisDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {DateAxis}
 	 */
 	public _component!: DateAxis;
 
@@ -69,7 +67,7 @@ export class DateAxisDataItem extends ValueAxisDataItem {
 	/**
 	 * Date position of the data item.
 	 *
-	 * @param {Date}  date  Date
+	 * @param date  Date
 	 */
 	public set date(date: Date) {
 		this.setDate("date", date);
@@ -77,7 +75,7 @@ export class DateAxisDataItem extends ValueAxisDataItem {
 	}
 
 	/**
-	 * @return {Date} Date
+	 * @return Date
 	 */
 	public get date(): Date {
 		return this.dates["date"];
@@ -87,7 +85,7 @@ export class DateAxisDataItem extends ValueAxisDataItem {
 	/**
 	 * End date for data item.
 	 *
-	 * @param {Date} date End date
+	 * @param date End date
 	 */
 	public set endDate(date: Date) {
 		this.setDate("endDate", date);
@@ -95,7 +93,7 @@ export class DateAxisDataItem extends ValueAxisDataItem {
 	}
 
 	/**
-	 * @return {Date} End date
+	 * @return End date
 	 */
 	public get endDate(): Date {
 		return this.dates["endDate"];
@@ -118,8 +116,6 @@ export interface IDateAxisDataFields extends IValueAxisDataFields {
 
 	/**
 	 * Date.
-	 *
-	 * @type {string}
 	 */
 	date?: string;
 
@@ -135,7 +131,6 @@ export interface IDateAxisProperties extends IValueAxisProperties {
 	 * periods of time, i.e. weekends.
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	skipEmptyPeriods?: boolean;
 
@@ -144,7 +139,7 @@ export interface IDateAxisProperties extends IValueAxisProperties {
 	 * label in bigger time unit.
 	 *
 	 * @default true
-	 * @param {boolean}  value  Use different format for period beginning?
+	 * @param value  Use different format for period beginning?
 	 */
 	markUnitChange?: boolean;
 
@@ -153,7 +148,6 @@ export interface IDateAxisProperties extends IValueAxisProperties {
 	 * current cursor position.
 	 *
 	 * @default true
-	 * @type {boolean}
 	 */
 	snapTooltip?: boolean;
 
@@ -161,8 +155,6 @@ export interface IDateAxisProperties extends IValueAxisProperties {
 	 * A special date format to apply axis tooltips.
 	 *
 	 * Will use same format as for labels, if not set.
-	 *
-	 * @type {string}
 	 */
 	tooltipDateFormat?: string;
 }
@@ -221,43 +213,31 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 	/**
 	 * Defines data fields.
-	 *
-	 * @type {IDateAxisDataFields}
 	 */
 	public _dataFields: IDateAxisDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IDateAxisProperties}
 	 */
 	public _properties!: IDateAxisProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IDateAxisAdapters}
 	 */
 	public _adapter!: IDateAxisAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IDateAxisEvents}
 	 */
 	public _events!: IDateAxisEvents;
 
 	/**
 	 * Defines the type of the Date Items.
-	 *
-	 * @type {DateAxisDataItem}
 	 */
 	public _dataItem: DateAxisDataItem;
 
 	/**
 	 * Defines the type of the axis breaks.
-	 *
-	 * @type {DateAxisBreak}
 	 */
 	public _axisBreak: DateAxisBreak;
 
@@ -309,8 +289,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *  { timeUnit: "year", count: 100 }
 	 * ]
 	 * ```
-	 *
-	 * @type {List<ITimeInterval>}
 	 */
 	public gridIntervals: List<ITimeInterval> = new List<ITimeInterval>();
 
@@ -339,7 +317,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * ```
 	 *
 	 * @see {@link DateFormatter}
-	 * @type {Dictionary<TimeUnit, string>}
 	 */
 	public dateFormats: Dictionary<TimeUnit, string> = new Dictionary<TimeUnit, string>();
 
@@ -361,15 +338,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * `Jan - 1 - 2 - 3 - ...`
 	 *
 	 * This can be disabled by setting `markUnitChange = false`.
-	 *
-	 * @type {Dictionary<TimeUnit, string>}
 	 */
 	public periodChangeDateFormats: Dictionary<TimeUnit, string> = new Dictionary<TimeUnit, string>();
 
 	/**
 	 * At which intervals grid elements are displayed.
-	 *
-	 * @type {ITimeInterval}
 	 */
 	protected _gridInterval: ITimeInterval;
 
@@ -377,7 +350,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * [_intervalDuration description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	protected _intervalDuration: number;
 
@@ -385,7 +357,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * [_gridDate description]
 	 *
 	 * @todo Description
-	 * @type {Date}
 	 */
 	protected _gridDate: Date;
 
@@ -393,26 +364,20 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * [_nextGridUnit description]
 	 *
 	 * @todo Description
-	 * @type {TimeUnit}
 	 */
 	protected _nextGridUnit: TimeUnit;
 
 	/**
 	 * User-defined granularity of data.
-	 *
-	 * @type {ITimeInterval}
 	 */
 	protected _baseInterval: ITimeInterval;
 
 	/**
 	 * Actual interval (granularity) derived from the actual data.
-	 *
-	 * @type {ITimeInterval}
 	 */
 	protected _baseIntervalReal: ITimeInterval = { timeUnit: "day", count: 1 };
 
 	/**
-	 * @type {number}
 	 */
 	protected _prevSeriesTime: number;
 
@@ -420,7 +385,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * [_minDifference description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	protected _minDifference: { [index: string]: number } = {};
 
@@ -579,7 +543,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * Returns a new/empty [[DataItem]] of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {DateAxisDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new DateAxisDataItem();
@@ -588,7 +552,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Returns a new/empty [[AxisBreak]] of the appropriate type.
 	 *
-	 * @return {DateAxisBreak} Axis break
+	 * @return Axis break
 	 */
 	protected createAxisBreak(): this["_axisBreak"] {
 		return new DateAxisBreak();
@@ -732,7 +696,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param {XYSeriesDataItem} dataItem Data item
+	 * @param dataItem Data item
 	 */
 	public postProcessSeriesDataItem(dataItem: XYSeriesDataItem): void {
 		// we need to do this for all series data items not only added recently, as baseInterval might change
@@ -836,9 +800,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {Date}    date           [description]
-	 * @param  {number}  intervalCount  [description]
-	 * @return {Date}                   [description]
+	 * @param date           [description]
+	 * @param intervalCount  [description]
+	 * @return [description]
 	 */
 	public getGridDate(date: Date, intervalCount: number): Date {
 		let timeUnit: TimeUnit = this._gridInterval.timeUnit;
@@ -881,10 +845,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {DateAxisBreak}  axisBreak  [description]
-	 * @param  {TimeUnit}       timeUnit   [description]
-	 * @param  {number}         count      [description]
-	 * @return {Date}                      [description]
+	 * @param axisBreak  [description]
+	 * @param timeUnit   [description]
+	 * @param count      [description]
+	 * @return [description]
 	 */
 	public getBreaklessDate(axisBreak: DateAxisBreak, timeUnit: TimeUnit, count: number): Date {
 		let date = new Date(axisBreak.endValue);
@@ -1011,7 +975,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * Validates Axis data item.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {DateAxisDataItem} dataItem Data item
+	 * @param dataItem Data item
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
 		//super.validateDataElement(dataItem);
@@ -1079,7 +1043,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * A duration in milliseconds of the `baseInterval`.
 	 *
-	 * @return {number} Duration (ms)
+	 * @return Duration (ms)
 	 */
 	public get baseDuration(): number {
 		return $time.getDuration(this.baseInterval.timeUnit, this.baseInterval.count);
@@ -1090,9 +1054,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @ignore Exclude from docs.
 	 * @todo Description (review)
-	 * @param  {number}       min  Min timestamp
-	 * @param  {number}       max  Max timestamp
-	 * @return {IMinMaxStep}       Adjusted min/max step
+	 * @param min  Min timestamp
+	 * @param max  Max timestamp
+	 * @return Adjusted min/max step
 	 */
 	public adjustMinMax(min: number, max: number): IMinMaxStep {
 		return { min: min, max: max, step: this.baseDuration };
@@ -1101,8 +1065,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Adjusts the minimum timestamp as per cell start location.
 	 *
-	 * @param  {number}  value  Value
-	 * @return {number}         Adjusted value
+	 * @param value  Value
+	 * @return Adjusted value
 	 */
 	protected fixMin(value: number) {
 		// like this because months are not equal
@@ -1114,8 +1078,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Adjusts the maximum timestamp as per cell start location.
 	 *
-	 * @param  {number}  value  Value
-	 * @return {number}         Adjusted value
+	 * @param value  Value
+	 * @return Adjusted value
 	 */
 	protected fixMax(value: number) {
 		// like this because months are not equal
@@ -1129,10 +1093,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @ignore Exclude from docs.
 	 * @todo Description
-	 * @param  {number}         index      [description]
-	 * @param  {number}         duration   [description]
-	 * @param  {number}         gridCount  [description]
-	 * @return {ITimeInterval}             [description]
+	 * @param index      [description]
+	 * @param duration   [description]
+	 * @param gridCount  [description]
+	 * @return [description]
 	 */
 	public chooseInterval(index: number, duration: number, gridCount: number): ITimeInterval {
 		let gridIntervals: List<ITimeInterval> = this.gridIntervals;
@@ -1166,8 +1130,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Formats the value according to axis' own [[DateFormatter]].
 	 *
-	 * @param  {number}  value  Source value
-	 * @return {string}         Formatted value
+	 * @param value  Source value
+	 * @return Formatted value
 	 */
 	public formatLabel(value: number): string {
 		return this.dateFormatter.format(value);
@@ -1176,8 +1140,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Converts a Date to an asbolute pixel position within Axis.
 	 *
-	 * @param  {Date}    date  Date
-	 * @return {number}        Position (px)
+	 * @param date  Date
+	 * @return Position (px)
 	 */
 	public dateToPosition(date: Date): number {
 		return this.valueToPosition(date.getTime());
@@ -1186,8 +1150,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Converts a numeric timestamp or a `Date` to a relative position on axis.
 	 *
-	 * @param  {Date | number}  date  Date or a timestamp
-	 * @return {number}               Relative position
+	 * @param date  Date or a timestamp
+	 * @return Relative position
 	 */
 	public anyToPosition(date: Date | number): number {
 		if (date instanceof Date) {
@@ -1201,8 +1165,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Converts date to orientation point (x, y, angle) on axis
 	 *
-	 * @param  {Date}  date Date
-	 * @return {IOrientationPoint} IOrientationPoint
+	 * @param date Date
+	 * @return IOrientationPoint
 	 */
 	public dateToPoint(date: Date): IOrientationPoint {
 		let position = this.dateToPosition(date);
@@ -1215,8 +1179,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Converts a numeric value to orientation (x, y, angle) point on axis
 	 *
-	 * @param  {number}  value  Value
-	 * @return {IOrientationPoint}  Orientation point
+	 * @param value  Value
+	 * @return Orientation point
 	 */
 	public anyToPoint(date: Date | number): IOrientationPoint {
 		if (date instanceof Date) {
@@ -1230,8 +1194,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Converts pixel position within Axis to a corresponding Date.
 	 *
-	 * @param  {number}  position  Position (px)
-	 * @return {Date}              Date
+	 * @param position  Position (px)
+	 * @return Date
 	 */
 	public positionToDate(position: number): Date {
 		return new Date(this.positionToValue(position));
@@ -1242,10 +1206,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param  {XYSeriesDataItem}  dataItem  Data item
-	 * @param  {string}            key       Data field to get value from
-	 * @param  {number}            location  Location (0-1)
-	 * @return {number}                      X coordinate (px)
+	 * @param dataItem  Data item
+	 * @param key       Data field to get value from
+	 * @param location  Location (0-1)
+	 * @return X coordinate (px)
 	 */
 	public getX(dataItem: XYSeriesDataItem, key: string, location?: number): number {
 		let value: number = this.getTimeByLocation(dataItem, key, location);
@@ -1263,10 +1227,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param  {XYSeriesDataItem}  dataItem  Data item
-	 * @param  {string}            key       Data field to get value from
-	 * @param  {number}            location  Location (0-1)
-	 * @return {number}                      Y coordinate (px)
+	 * @param dataItem  Data item
+	 * @param key       Data field to get value from
+	 * @param location  Location (0-1)
+	 * @return Y coordinate (px)
 	 */
 	public getY(dataItem: XYSeriesDataItem, key: string, location?: number): number {
 		let value: number = this.getTimeByLocation(dataItem, key, location);
@@ -1284,11 +1248,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param  {XYSeriesDataItem}  dataItem  Data item
-	 * @param  {string}            key       Data field to get value from
-	 * @param  {number}            location  Location (0-1)
-	 * @param  {string}            stackKey  Stack ID
-	 * @return {number}                      Angle
+	 * @param dataItem  Data item
+	 * @param key       Data field to get value from
+	 * @param location  Location (0-1)
+	 * @param stackKey  Stack ID
+	 * @return Angle
 	 */
 	public getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number {
 		let value: number = this.getTimeByLocation(dataItem, key, location);
@@ -1306,10 +1270,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {XYSeriesDataItem}  dataItem  [description]
-	 * @param  {string}            key       [description]
-	 * @param  {number}            location  [description]
-	 * @return {number}                      [description]
+	 * @param dataItem  [description]
+	 * @param key       [description]
+	 * @param location  [description]
+	 * @return [description]
 	 */
 	protected getTimeByLocation(dataItem: XYSeriesDataItem, key: string, location: number): number {
 		if (!$type.hasValue(key)) {
@@ -1337,7 +1301,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param {XYSeriesDataItem}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public processSeriesDataItem(dataItem: XYSeriesDataItem, axisLetter?: string): void {
 
@@ -1425,7 +1389,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * If not set, the Axis will try to determine the setting by its own, looking
 	 * at actual data.
 	 *
-	 * @param {ITimeInterval} timeInterval base interval
+	 * @param timeInterval base interval
 	 */
 	public set baseInterval(timeInterval: ITimeInterval) {
 		if (JSON.stringify(this._baseInterval) != JSON.stringify(timeInterval)) {
@@ -1436,7 +1400,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	}
 
 	/**
-	 * @return {ITimeInterval} Base interval
+	 * @return Base interval
 	 */
 	public get baseInterval(): ITimeInterval {
 		if (this._baseInterval) {
@@ -1466,7 +1430,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * * Setting this to `true` will reset appearance of breaks. If you want to modify appearance, do it *after* you set `skipEmptyPeriods`.
 	 *
 	 * @default false
-	 * @param {boolean}  value  Remove empty stretches of time?
+	 * @param value  Remove empty stretches of time?
 	 */
 	public set skipEmptyPeriods(value: boolean) {
 		if (this.setPropertyValue("skipEmptyPeriods", value)) {
@@ -1483,7 +1447,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	}
 
 	/**
-	 * @return {boolean} Remove empty stretches of time?
+	 * @return Remove empty stretches of time?
 	 */
 	public get skipEmptyPeriods(): boolean {
 		return this.getPropertyValue("skipEmptyPeriods");
@@ -1494,14 +1458,14 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * Will use same format as for labels, if not set.
 	 *
-	 * @param {string}  value  Date format
+	 * @param value  Date format
 	 */
 	public set tooltipDateFormat(value: string) {
 		this.setPropertyValue("tooltipDateFormat", value);
 	}
 
 	/**
-	 * @return {string} Date format
+	 * @return Date format
 	 */
 	public get tooltipDateFormat(): string {
 		return this.getPropertyValue("tooltipDateFormat");
@@ -1512,7 +1476,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * label in bigger time unit.
 	 *
 	 * @default true
-	 * @param {boolean}  value  Use different format for period beginning?
+	 * @param value  Use different format for period beginning?
 	 */
 	public set markUnitChange(value: boolean) {
 		if (this.setPropertyValue("markUnitChange", value)) {
@@ -1521,7 +1485,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	}
 
 	/**
-	 * @return {boolean} Use different format for period beginning?
+	 * @return Use different format for period beginning?
 	 */
 	public get markUnitChange(): boolean {
 		return this.getPropertyValue("markUnitChange");
@@ -1535,8 +1499,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * chart, or explicitly for this Axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {number}  position  Position
-	 * @return {string}            Label (formatted date)
+	 * @param position  Position
+	 * @return Label (formatted date)
 	 */
 	public getTooltipText(position: number): string {
 		let text: string;
@@ -1562,9 +1526,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * Takes an absolute position within axis and adjust it to a specific position within base interval. (cell)
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {number}            position Source position
-	 * @param  {AxisItemLocation}  location  Location in the cell
-	 * @return {number}            Adjusted position
+	 * @param position Source position
+	 * @param location  Location in the cell
+	 * @return Adjusted position
 	 */
 	public roundPosition(position: number, location?: AxisItemLocation): number {
 		let baseInterval = this.baseInterval;
@@ -1596,8 +1560,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param  {number}  position  Relative position
-	 * @return {number}            Cell start relative position
+	 * @param position  Relative position
+	 * @return Cell start relative position
 	 */
 	public getCellStartPosition(position: number): number {
 		return this.roundPosition(position, 0);
@@ -1608,8 +1572,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param  {number}  position  Relative position
-	 * @return {number}            Cell end relative position
+	 * @param position  Relative position
+	 * @return Cell end relative position
 	 */
 	public getCellEndPosition(position: number): number {
 		return this.roundPosition(position, 1);
@@ -1624,10 +1588,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * to locate nearest available data item if none is found directly under
 	 * `position`.
 	 *
-	 * @param  {XYSeries}          series       Series
-	 * @param  {number}            position     Position (px)
-	 * @param  {boolean}           findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
-	 * @return {XYSeriesDataItem}               Data item
+	 * @param series       Series
+	 * @param position     Position (px)
+	 * @param findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
+	 * @return Data item
 	 */
 	public getSeriesDataItem(series: XYSeries, position: number, findNearest?: boolean): XYSeriesDataItem {
 
@@ -1712,8 +1676,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
-	 * @param  {number}  position  Relative position on axis (0-1)
-	 * @return {string}            Position label
+	 * @param position  Relative position on axis (0-1)
+	 * @return Position label
 	 */
 	public getPositionLabel(position: number): string {
 		// @todo Better format recognition
@@ -1724,7 +1688,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Returns label date format based on currently used time units
 	 *
-	 * @return {string}  Format
+	 * @return Format
 	 */
 	protected getCurrentLabelFormat(): string {
 		return this.dateFormats.getKey(this._gridInterval ? this._gridInterval.timeUnit : "day");
@@ -1751,7 +1715,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * Coordinates of the actual axis start.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {IPoint} Base point
+	 * @return Base point
 	 */
 	public get basePoint(): IPoint {
 		return { x: 0, y: 0 };
@@ -1761,10 +1725,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Zooms axis to specific Dates.
 	 *
-	 * @param {Date}     startDate       Start date
-	 * @param {Date}     endValue        End date
-	 * @param {boolean}  skipRangeEvent  Do not invoke events
-	 * @param {boolean}  instantly       Do not play zoom animations
+	 * @param startDate       Start date
+	 * @param endValue        End date
+	 * @param skipRangeEvent  Do not invoke events
+	 * @param instantly       Do not play zoom animations
 	 */
 	public zoomToDates(startDate: Date, endDate: Date, skipRangeEvent?: boolean, instantly?: boolean): void {
 		startDate = this.dateFormatter.parse(startDate);
@@ -1775,8 +1739,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Adds `baseInterval` to "as is" fields.
 	 *
-	 * @param  {string}   field  Field name
-	 * @return {boolean}         Assign as is?
+	 * @param field  Field name
+	 * @return Assign as is?
 	 */
 	protected asIs(field: string): boolean {
 		return field == "baseInterval" || super.asIs(field);
@@ -1785,7 +1749,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Copies all properties and related data from a different instance of Axis.
 	 *
-	 * @param {this} source Source Axis
+	 * @param source Source Axis
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);
@@ -1800,8 +1764,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Shows Axis tooltip at specific relative position within Axis. (0-1)
 	 *
-	 * @param {number} position Position (0-1)
-	 * @param {boolean} local or global position
+	 * @param position Position (0-1)
+	 * @param local or global position
 	 */
 	public showTooltipAtPosition(position: number, local?: boolean) {
 
@@ -1840,6 +1804,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			if (closestDate) {
 				let closestTime = closestDate.getTime();
 				closestDate = $time.round(new Date(closestTime), this.baseInterval.timeUnit, this.baseInterval.count);
+				closestTime = closestDate.getTime();
 				closestDate = new Date(closestDate.getTime() + this.baseDuration / 2);
 				position = this.dateToPosition(closestDate);
 
@@ -1865,14 +1830,14 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * current cursor position.
 	 *
 	 * @default true
-	 * @param {boolean}  value  Should snap?
+	 * @param value  Should snap?
 	 */
 	public set snapTooltip(value: boolean) {
 		this.setPropertyValue("snapTooltip", value);
 	}
 
 	/**
-	 * @return {boolean} Should snap?
+	 * @return Should snap?
 	 */
 	public get snapTooltip(): boolean {
 		return this.getPropertyValue("snapTooltip");

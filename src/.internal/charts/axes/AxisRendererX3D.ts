@@ -61,20 +61,16 @@ export class AxisRendererX3D extends AxisRendererX {
 
 	/**
 	 * Defines available properties
-	 * @type {IAxisRendererX3DProperties}
 	 */
 	public _properties!: IAxisRendererX3DProperties;
 
 	/**
 	 * Defines available adapters
-	 * @type {AxisRendererAdapters}
 	 */
 	public _adapter!: IAxisRendererX3DAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IAxisRendererX3DEvents}
 	 */
 	public _events!: IAxisRendererX3DEvents;
 
@@ -82,14 +78,13 @@ export class AxisRendererX3D extends AxisRendererX {
 	 * A related chart.
 	 *
 	 * @todo Description
-	 * @type {MutableValueDisposer}
 	 */
 	protected _chart = new MutableValueDisposer<XYChart3D>();
 
 	/**
 	 * Constructor.
 	 *
-	 * @param {Axis} axis Related axis
+	 * @param axis Related axis
 	 */
 	constructor() {
 		super();
@@ -104,9 +99,9 @@ export class AxisRendererX3D extends AxisRendererX {
 	 * Updates and positions a grid element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Grid}    grid         Grid element
-	 * @param {number}  position     Starting position
-	 * @param {number}  endPosition  End position
+	 * @param grid         Grid element
+	 * @param position     Starting position
+	 * @param endPosition  End position
 	 */
 	public updateGridElement(grid: Grid, position: number, endPosition: number) {
 		position = position + (endPosition - position) * grid.location;
@@ -144,7 +139,7 @@ export class AxisRendererX3D extends AxisRendererX {
 	 * Chart, associated with the Axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {XYChart3D} value Chart
+	 * @param value Chart
 	 */
 	public set chart(chart: XYChart3D) {
 		if (chart) {
@@ -154,7 +149,7 @@ export class AxisRendererX3D extends AxisRendererX {
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {XYChart3D} Chart
+	 * @return Chart
 	 */
 	public get chart(): XYChart3D {
 		return this._chart.get();
@@ -163,7 +158,7 @@ export class AxisRendererX3D extends AxisRendererX {
 	/**
 	 * Invoked when 3D-related settings change, like depth or angle.
 	 *
-	 * @param {AMEvent<Sprite, ISpriteEvents>["propertychanged"]} event Event
+	 * @param event Event
 	 */
 	protected handle3DChanged(event: AMEvent<Sprite, ISpriteEvents>["propertychanged"]): void {
 		if (event.property == "depth" || event.property == "angle") {

@@ -24,26 +24,18 @@ import * as $type from "../../utils/Type";
 export interface FocusFilterProperties extends FilterProperties {
     /**
      * Opacity of the outline. (0-1)
-     *
-     * @type {number}
      */
     opacity?: number;
     /**
      * Stroke (outline) color.
-     *
-     * @type {Color}
      */
     stroke?: Color;
     /**
      * Stroke (outline) thickness in pixels.
-     *
-     * @type {number}
      */
     strokeWidth?: number;
     /**
      * Stroke (outline) opacity. (0-1)
-     *
-     * @type {number}
      */
     strokeOpacity?: number;
 }
@@ -59,48 +51,40 @@ export interface FocusFilterProperties extends FilterProperties {
 export declare class FocusFilter extends Filter {
     /**
      * Defines property types.
-     *
-     * @type {FocusFilterProperties}
      */
     _properties: FocusFilterProperties;
     /**
      * A storage for Filter property/value pairs.
      * @see [@link FocusFilterProperties]
-     * @type {Dictionary<FocusFilterProperties, any>}
      */
     /**
      * Reference to the `<feFlood>` element.
      *
      * @ignore Exclude from docs
-     * @type {AMElement}
      */
     feFlood: AMElement;
     /**
      * Reference to the `<feMorphology>` element.
      *
      * @ignore Exclude from docs
-     * @type {AMElement}
      */
     feMorphology: AMElement;
     /**
      * Reference to the `<feFlood>` element.
      *
      * @ignore Exclude from docs
-     * @type {AMElement}
      */
     feColorMatrix: AMElement;
     /**
      * Reference to the `<feComposite>` element.
      *
      * @ignore Exclude from docs
-     * @type {AMElement}
      */
     feComposite: AMElement;
     /**
      * Reference to the `<feFlood>` element.
      *
      * @ignore Exclude from docs
-     * @type {AMElement}
      */
     feBlend: AMElement;
     /**
@@ -108,30 +92,30 @@ export declare class FocusFilter extends Filter {
      */
     constructor();
     /**
-     * @return {Optional<Color>} Color
+     * @return Color
      */
     /**
      * Stroke (outline) color.
      *
-     * @param {Color}  value  Color
+     * @param value  Color
      */
     stroke: $type.Optional<Color>;
     /**
-     * @return {number} Outline thickness (px)
+     * @return Outline thickness (px)
      */
     /**
      * Stroke (outline) thickness in pixels.
      *
-     * @param {number}  value  Outline thickness (px)
+     * @param value  Outline thickness (px)
      */
     strokeWidth: $type.Optional<number>;
     /**
-     * @return {number} Outline opacity (0-1)
+     * @return Outline opacity (0-1)
      */
     /**
      * Opacity of the outline. (0-1)
      *
-     * @param {number}  value  Outline opacity (0-1)
+     * @param value  Outline opacity (0-1)
      */
     opacity: $type.Optional<number>;
     /**
@@ -141,7 +125,7 @@ export declare class FocusFilter extends Filter {
      * filter is applied to.
      *
      * @ignore Exclude from docs
-     * @param {Sprite}  value  Element filter is being attached to
+     * @param value  Element filter is being attached to
      */
     protected setSprite(value: Sprite): void;
 }

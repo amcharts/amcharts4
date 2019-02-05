@@ -53,7 +53,7 @@ var LegendDataItem = /** @class */ (function (_super) {
         /**
          * A legend item's [[Label]] element.
          *
-         * @return {Label} Label
+         * @return Label
          */
         get: function () {
             var _this = this;
@@ -76,7 +76,7 @@ var LegendDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(LegendDataItem.prototype, "color", {
         /**
-         * @return {Color | Pattern | LinearGradient | RadialGradient} Main color
+         * @return Main color
          */
         get: function () {
             return this.properties.color;
@@ -108,7 +108,7 @@ var LegendDataItem = /** @class */ (function (_super) {
          * ```
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/legend/#Legend_labels} For more information about configuring legend labels.
-         * @param {Color | Pattern | LinearGradient | RadialGradient}  value  Main color
+         * @param value  Main color
          */
         set: function (value) {
             this.setProperty("color", value);
@@ -120,7 +120,7 @@ var LegendDataItem = /** @class */ (function (_super) {
         /**
          * A legend item's [[Label]] element for "value label".
          *
-         * @return {Label} Label
+         * @return Label
          */
         get: function () {
             var _this = this;
@@ -146,7 +146,7 @@ var LegendDataItem = /** @class */ (function (_super) {
          * A reference to the main [[Container]] that holds legend item's elements:
          * marker and labels.
          *
-         * @return {Container} Item container
+         * @return Item container
          */
         get: function () {
             var _this = this;
@@ -202,7 +202,7 @@ var LegendDataItem = /** @class */ (function (_super) {
         /**
          * A [[Container]] that holds legend item's marker element.
          *
-         * @return {Container} Marker
+         * @return Marker
          */
         get: function () {
             var _this = this;
@@ -245,8 +245,6 @@ var LegendSettings = /** @class */ (function () {
     function LegendSettings() {
         /**
          * Should marker be created for each legend item.
-         *
-         * @type {boolean}
          */
         this.createMarker = true;
     }
@@ -389,7 +387,7 @@ var Legend = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {LegendDataItem} Data Item
+     * @return Data Item
      */
     Legend.prototype.createDataItem = function () {
         return new LegendDataItem();
@@ -398,7 +396,7 @@ var Legend = /** @class */ (function (_super) {
      * [validateDataElement description]
      *
      * @ignore Exclude from docs
-     * @param {LegendDataItem} dataItem Data item
+     * @param dataItem Data item
      * @todo Description
      * @todo Figure out how to update appearance of legend item without losing focus
      * @todo Update legend marker appearance as apperance of related series changes
@@ -452,7 +450,7 @@ var Legend = /** @class */ (function (_super) {
     };
     Object.defineProperty(Legend.prototype, "position", {
         /**
-         * @return {LegendPosition} Position
+         * @return Position
          */
         get: function () {
             return this.getPropertyValue("position");
@@ -469,7 +467,7 @@ var Legend = /** @class */ (function (_super) {
          * `"right"`) and `valign` (`"top"` or `"bottom"`) properties instead.
          *
          * @default "bottom"
-         * @param {LegendPosition}  value  Position
+         * @param value  Position
          */
         set: function (value) {
             if (this.setPropertyValue("position", value)) {
@@ -496,7 +494,7 @@ var Legend = /** @class */ (function (_super) {
     });
     Object.defineProperty(Legend.prototype, "useDefaultMarker", {
         /**
-         * @return {boolean} Use default marker?
+         * @return Use default marker?
          */
         get: function () {
             return this.getPropertyValue("useDefaultMarker");
@@ -512,7 +510,7 @@ var Legend = /** @class */ (function (_super) {
          * same thickness, color, and will use the same bullets if series have them.
          *
          * @default false
-         * @param {boolean} value Use default marker?
+         * @param value Use default marker?
          */
         set: function (value) {
             this.setPropertyValue("useDefaultMarker", value, true);
@@ -524,7 +522,7 @@ var Legend = /** @class */ (function (_super) {
      * Toggles a legend item.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]} item Legend item
+     * @param item Legend item
      * @todo Maybe do it with togglable instead
      */
     Legend.prototype.toggleDataItem = function (item) {
@@ -559,7 +557,7 @@ var Legend = /** @class */ (function (_super) {
          * own preloader.
          *
          * @ignore Exclude from docs
-         * @return {Preloader} Always `undefined`
+         * @return Always `undefined`
          */
         get: function () {
             return;

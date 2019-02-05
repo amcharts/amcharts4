@@ -25,12 +25,10 @@ import * as $type from "../../core/utils/Type";
 export declare class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
     /**
      * A sprite used to draw the column.
-     * @type {Candlestick}
      */
     _column: Candlestick;
     /**
      * Defines a type of [[Component]] this data item is used for
-     * @type {CandlestickSeries}
      * @todo Disabled to work around TS bug (see if we can re-enable it again)
      */
     /**
@@ -38,61 +36,61 @@ export declare class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
      */
     constructor();
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * Low value for horizontal axis.
      *
-     * @param {number}  value  Value
+     * @param value  Value
      */
     lowValueX: number;
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * Low value for vertical axis.
      *
-     * @param {number}  value  Value
+     * @param value  Value
      */
     lowValueY: number;
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * High value for horizontal axis.
      *
-     * @param {number}  value  Value
+     * @param value  Value
      */
     highValueX: number;
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * High value for vertical axis.
      *
-     * @param {number}  value  Value
+     * @param value  Value
      */
     highValueY: number;
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * Close value for horizontal axis.
      *
      * This is an alias for `valueX` added for convenience only.
      *
-     * @param {number}  value  Value
+     * @param value  Value
      */
     closeValueX: number;
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * Close value for vertical axis.
      *
      * This is an alias for `valueX` added for convenience only.
      *
-     * @param {number}  value  Value
+     * @param value  Value
      */
     closeValueY: number;
 }
@@ -108,50 +106,34 @@ export declare class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
 export interface ICandlestickSeriesDataFields extends IColumnSeriesDataFields {
     /**
      * Field name in data which holds low numeric value for horizontal axis.
-     *
-     * @type {number}
      */
     lowValueX?: string;
     /**
      * Field name in data which holds low numeric value for vertical axis.
-     *
-     * @type {number}
      */
     lowValueY?: string;
     /**
      * Field name in data which holds high numeric value for horizontal axis.
-     *
-     * @type {number}
      */
     highValueX?: string;
     /**
      * Field name in data which holds low numeric value for vertical axis.
-     *
-     * @type {number}
      */
     highValueY?: string;
     /**
      * Field name in data which holds low date for horizontal axis.
-     *
-     * @type {number}
      */
     lowDateX?: string;
     /**
      * Field name in data which holds low date for vertical axis.
-     *
-     * @type {number}
      */
     lowDateY?: string;
     /**
      * Field name in data which holds high date for horizontal axis.
-     *
-     * @type {number}
      */
     highDateX?: string;
     /**
      * Field name in data which holds high date for vertical axis.
-     *
-     * @type {number}
      */
     highDateY?: string;
 }
@@ -189,8 +171,6 @@ export interface ICandlestickSeriesAdapters extends IColumnSeriesAdapters, ICand
 export declare class CandlestickSeries extends ColumnSeries {
     /**
      * Defines the type of data item.
-     *
-     * @type {CandlestickSeriesDataItem}
      */
     _dataItem: CandlestickSeriesDataItem;
     /**
@@ -198,26 +178,18 @@ export declare class CandlestickSeries extends ColumnSeries {
     _column: Candlestick;
     /**
      * Defines available data fields.
-     *
-     * @type {ICandlestickSeriesDataFields}
      */
     _dataFields: ICandlestickSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {ICandlestickSeriesProperties}
      */
     _properties: ICandlestickSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ICandlestickSeriesAdapters}
      */
     _adapter: ICandlestickSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ICandlestickSeriesEvents}
      */
     _events: ICandlestickSeriesEvents;
     /**
@@ -249,14 +221,14 @@ export declare class CandlestickSeries extends ColumnSeries {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {CandlestickSeriesDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
-     * @param {CandlestickSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     validateDataElementReal(dataItem: this["_dataItem"]): void;
     protected validateCandlestick(dataItem: this["dataItem"]): void;
@@ -264,28 +236,28 @@ export declare class CandlestickSeries extends ColumnSeries {
      * A data field to look for "low" value for horizontal axis.
      *
      * @ignore Exclude from docs
-     * @return {string} Field name
+     * @return Field name
      */
     readonly xLowField: string;
     /**
      * A data field to look for "low" value for vertical axis.
      *
      * @ignore Exclude from docs
-     * @return {string} Field name
+     * @return Field name
      */
     readonly yLowField: string;
     /**
      * A data field to look for "high" value for horizontal axis.
      *
      * @ignore Exclude from docs
-     * @return {string} Field name
+     * @return Field name
      */
     readonly xHighField: string;
     /**
      * A data field to look for "high" value for vertical axis.
      *
      * @ignore Exclude from docs
-     * @return {string} Field name
+     * @return Field name
      */
     readonly yHighField: string;
     /**
@@ -297,13 +269,13 @@ export declare class CandlestickSeries extends ColumnSeries {
      * Series.
      *
      * @ignore Exclude from docs
-     * @param {Container}  marker  Legend item container
+     * @param marker  Legend item container
      */
     createLegendMarker(marker: Container): void;
     /**
      * Returns an element to use for Candlestick
      * @ignore
-     * @return {this["_column"]} Element.
+     * @return Element.
      */
     protected createColumnTemplate(): this["_column"];
 }

@@ -50,25 +50,18 @@ export interface IRadarColumnAdapters extends IColumnAdapters, IRadarColumnPrope
 export declare class RadarColumn extends Column {
     /**
      * Defines available properties.
-     *
-     * @type {IRadarColumnProperties}
      */
     _properties: IRadarColumnProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IRadarColumnAdapters}
      */
     _adapter: IRadarColumnAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IRadarColumnEvents}
      */
     _events: IRadarColumnEvents;
     /**
      * Radar column element
-     * @type {Slice}
      */
     radarColumn: Slice;
     /**
@@ -82,19 +75,19 @@ export declare class RadarColumn extends Column {
     /**
      * Copies all parameters from another [[RadarColumn]].
      *
-     * @param {RadarColumn} source Source RadarColumn
+     * @param source Source RadarColumn
      */
     copyFrom(source: this): void;
     /**
      * X coordinate for the slice tooltip.
      *
-     * @return {number} X
+     * @return X
      */
     protected getTooltipX(): number;
     /**
      * Y coordinate for the slice tooltip.
      *
-     * @return {number} Y
+     * @return Y
      */
     protected getTooltipY(): number;
 }

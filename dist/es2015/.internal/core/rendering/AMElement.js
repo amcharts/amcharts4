@@ -19,37 +19,27 @@ var AMElement = /** @class */ (function () {
     /**
      * Constructor creates a new element or uses the one that was passed in.
      *
-     * @param {string | SVGSVGElement} element Element reference node type
+     * @param element Element reference node type
      */
     function AMElement(element) {
         /**
          * Indicates if the element was already disposed.
-         *
-         * @type {boolean}
          */
         this._isDisposed = false;
         /**
          * Current X coordinate.
-         *
-         * @type {number}
          */
         this._x = 0;
         /**
          * Current Y coordinate.
-         *
-         * @type {number}
          */
         this._y = 0;
         /**
          * Current rotation.
-         *
-         * @type {number}
          */
         this._rotation = 0;
         /**
          * Current scale.
-         *
-         * @type {number}
          */
         this._scale = 1;
         if (typeof element === "string") {
@@ -74,7 +64,7 @@ var AMElement = /** @class */ (function () {
          * Returns `transform` attribute of the element.
          *
          * @ignore Exclude from docs
-         * @return {Optional<string>} Transform attribute value
+         * @return Transform attribute value
          */
         get: function () {
             if (this.node) {
@@ -113,7 +103,7 @@ var AMElement = /** @class */ (function () {
      * ATTENTION: Bounding box calculations are extremely costly so should be
      * used sparingly and cached whenever possible.
      *
-     * @return {IRectangle} Bounding rectangle
+     * @return Bounding rectangle
      */
     AMElement.prototype.getBBox = function () {
         var bbox = {
@@ -141,8 +131,8 @@ var AMElement = /** @class */ (function () {
     /**
      * Moves the element to new coordinates.
      *
-     * @param {number}  x  Target X
-     * @param {number}  y  Target Y
+     * @param x  Target X
+     * @param y  Target Y
      */
     AMElement.prototype.moveTo = function (point) {
         if (point) {
@@ -159,7 +149,7 @@ var AMElement = /** @class */ (function () {
         /**
          * Returns element's contents as SVG markup.
          *
-         * @return {string} Contents
+         * @return Contents
          */
         get: function () {
             // @todo Do not use `innerHTML` as this is not reliable and will not work on all browsers
@@ -168,7 +158,7 @@ var AMElement = /** @class */ (function () {
         /**
          * Element's SVG contents.
          *
-         * @param {string} value Contents
+         * @param value Contents
          */
         set: function (value) {
             // @todo Do not use `innerHTML` as this is not reliable and will not work on all browsers
@@ -179,7 +169,7 @@ var AMElement = /** @class */ (function () {
     });
     Object.defineProperty(AMElement.prototype, "textContent", {
         /**
-         * @return {string} Text contents
+         * @return Text contents
          */
         get: function () {
             return this.node.textContent || "";
@@ -187,7 +177,7 @@ var AMElement = /** @class */ (function () {
         /**
          * Text contents of the SVG element.
          *
-         * @param {string} value Text contents
+         * @param value Text contents
          */
         set: function (value) {
             this.node.textContent = value;
@@ -197,7 +187,7 @@ var AMElement = /** @class */ (function () {
     });
     Object.defineProperty(AMElement.prototype, "x", {
         /**
-         * @return {number} X coordinate (px)
+         * @return X coordinate (px)
          */
         get: function () {
             return this._x;
@@ -205,7 +195,7 @@ var AMElement = /** @class */ (function () {
         /**
          * Element's X position in pixels.
          *
-         * @param {number}  value  X coordinate (px)
+         * @param value  X coordinate (px)
          */
         set: function (value) {
             if (this._x != value) {
@@ -218,7 +208,7 @@ var AMElement = /** @class */ (function () {
     });
     Object.defineProperty(AMElement.prototype, "y", {
         /**
-         * @return {number} Y coordinate (px)
+         * @return Y coordinate (px)
          */
         get: function () {
             return this._y;
@@ -226,7 +216,7 @@ var AMElement = /** @class */ (function () {
         /**
          * Element's Y position in pixels.
          *
-         * @param {number} value Y coordinate (px)
+         * @param value Y coordinate (px)
          */
         set: function (value) {
             if (this._y != value) {
@@ -239,7 +229,7 @@ var AMElement = /** @class */ (function () {
     });
     Object.defineProperty(AMElement.prototype, "rotation", {
         /**
-         * @return {number} Rotation
+         * @return Rotation
          */
         get: function () {
             return this._rotation;
@@ -247,7 +237,7 @@ var AMElement = /** @class */ (function () {
         /**
          * Element's rotation in degrees.
          *
-         * @param {number} value Rotation
+         * @param value Rotation
          */
         set: function (angle) {
             if (this._rotation != angle) {
@@ -260,7 +250,7 @@ var AMElement = /** @class */ (function () {
     });
     Object.defineProperty(AMElement.prototype, "scale", {
         /**
-         * @return {number} Scale
+         * @return Scale
          */
         get: function () {
             return this._scale;
@@ -271,7 +261,7 @@ var AMElement = /** @class */ (function () {
          * Setting to 0.5 will reduce element's size by 50%, 2 will make element
          * twice as large, etc.
          *
-         * @param {number} value Scale
+         * @param value Scale
          */
         set: function (value) {
             if (this._scale != value) {
@@ -285,7 +275,7 @@ var AMElement = /** @class */ (function () {
     /**
      * Removes an attribute from element.
      *
-     * @param {string}  attribute  Attribute to remove
+     * @param attribute  Attribute to remove
      */
     AMElement.prototype.removeAttr = function (attribute) {
         this.node.removeAttribute(attribute);
@@ -293,8 +283,8 @@ var AMElement = /** @class */ (function () {
     /**
      * Sets a set of attributes on a element.
      *
-     * @param  {ISVGAttribute}  attributes  An object with attribute names (key) and values
-     * @return {AMElement}                  The same element
+     * @param attributes  An object with attribute names (key) and values
+     * @return The same element
      */
     AMElement.prototype.attr = function (attributes) {
         var _this = this;
@@ -315,8 +305,8 @@ var AMElement = /** @class */ (function () {
     /**
      * Returns a value of a node attribute.
      *
-     * @param  {string}         attribute  Attribute name
-     * @return {string | null}             Attribute value
+     * @param attribute  Attribute name
+     * @return Attribute value
      */
     AMElement.prototype.getAttr = function (attribute) {
         return this.node.getAttribute(attribute);
@@ -324,10 +314,10 @@ var AMElement = /** @class */ (function () {
     /**
      * Sets a single attribute of the element's node using namesspace.
      *
-     * @param  {string}     ns         Namespace
-     * @param  {string}     attribute  Attribute
-     * @param  {string}     value      Value
-     * @return {AMElement}             The same element
+     * @param ns         Namespace
+     * @param attribute  Attribute
+     * @param value      Value
+     * @return The same element
      */
     AMElement.prototype.attrNS = function (ns, attribute, value) {
         this.node.setAttributeNS(ns, attribute, value);
@@ -336,9 +326,9 @@ var AMElement = /** @class */ (function () {
     /**
      * Returns a namespaced attribute value from node.
      *
-     * @param  {string}  ns         Namespace
-     * @param  {string}  attribute  Attribute
-     * @return {string}             Attribute value
+     * @param ns         Namespace
+     * @param attribute  Attribute
+     * @return Attribute value
      */
     AMElement.prototype.getAttrNS = function (ns, attribute) {
         return this.node.getAttributeNS(ns, attribute);
@@ -346,7 +336,7 @@ var AMElement = /** @class */ (function () {
     /**
      * Removes `style` attribute from node.
      *
-     * @param {string}  attribute  Attribute to remove
+     * @param attribute  Attribute to remove
      */
     AMElement.prototype.removeStyle = function (attribute) {
         // @todo Review because it's a bit messy and maybe not needed (pratically not used)
@@ -355,8 +345,8 @@ var AMElement = /** @class */ (function () {
     /**
      * Returns style attribute value.
      *
-     * @param  {string}  attribute  Style attribute value
-     * @return {string}             Attribute value
+     * @param attribute  Style attribute value
+     * @return Attribute value
      */
     AMElement.prototype.getStyle = function (attribute) {
         // @todo Review because it's a bit messy and maybe not needed (pratically not used)
@@ -365,8 +355,8 @@ var AMElement = /** @class */ (function () {
     /**
      * Adds style attributes to element's node.
      *
-     * @param  {Object}     attributes  Object containing attribute: value pairs
-     * @return {AMElement}              The same element
+     * @param attributes  Object containing attribute: value pairs
+     * @return The same element
      */
     AMElement.prototype.addStyle = function (attributes) {
         var _this = this;
@@ -384,7 +374,7 @@ var AMElement = /** @class */ (function () {
     /**
      * Adds a class to element.
      *
-     * @param {string}  name  Class name
+     * @param name  Class name
      */
     AMElement.prototype.addClass = function (name) {
         $dom.addClass(this.node, name);
@@ -392,7 +382,7 @@ var AMElement = /** @class */ (function () {
     /**
      * Removes a class from element.
      *
-     * @param {string} name Class name
+     * @param name Class name
      */
     AMElement.prototype.removeClass = function (name) {
         $dom.removeClass(this.node, name);
@@ -400,7 +390,7 @@ var AMElement = /** @class */ (function () {
     /**
      * Sets a class name on element.
      *
-     * @param {string}  name  Class name
+     * @param name  Class name
      */
     AMElement.prototype.setClass = function (name) {
         this.node.setAttribute("class", name);
@@ -417,7 +407,7 @@ var AMElement = /** @class */ (function () {
     /**
      * Was this element already been disposed?
      *
-     * @return {boolean} Disposed?
+     * @return Disposed?
      */
     AMElement.prototype.isDisposed = function () {
         return this._isDisposed;

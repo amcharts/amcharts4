@@ -22,26 +22,20 @@ export interface IPointedShapeProperties extends ISpriteProperties {
      * A width of the pinter's (stem's) thick end (base) in pixels.
      *
      * @default 15
-     * @type {number}
      */
     pointerBaseWidth?: number;
     /**
      * A length of the pinter (stem) in pixels.
      *
      * @default 10
-     * @type {number}
      */
     pointerLength?: number;
     /**
      * X coordinate the shape is pointing to.
-     *
-     * @type {number}
      */
     pointerX?: number;
     /**
      * Y coordinate the shape is pointing to.
-     *
-     * @type {number}
      */
     pointerY?: number;
 }
@@ -72,20 +66,14 @@ export interface IPointedShapeAdapters extends ISpriteAdapters, IPointedShapePro
 export declare class PointedShape extends Sprite {
     /**
      * Defines available properties.
-     *
-     * @type {IPointedShapeProperties}
      */
     _properties: IPointedShapeProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IPointedShapeAdapters}
      */
     _adapter: IPointedShapeAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IPointedShapeEvents}
      */
     _events: IPointedShapeEvents;
     /**
@@ -99,41 +87,41 @@ export declare class PointedShape extends Sprite {
      */
     draw(): void;
     /**
-     * @return {number} Width (px)
+     * @return Width (px)
      */
     /**
      * A width of the pinter's (stem's) thick end (base) in pixels.
      *
      * @default 15
-     * @param {number}  value  Width (px)
+     * @param value  Width (px)
      */
     pointerBaseWidth: number;
     /**
-     * @return {number} Length (px)
+     * @return Length (px)
      */
     /**
      * A length of the pinter (stem) in pixels.
      *
      * @default 10
-     * @param {number}  value  Length (px)
+     * @param value  Length (px)
      */
     pointerLength: number;
     /**
-     * @return {number} X
+     * @return X
      */
     /**
      * X coordinate the shape is pointing to.
      *
-     * @param {number}  value  X
+     * @param value  X
      */
     pointerX: number;
     /**
-     * @return {number} Y
+     * @return Y
      */
     /**
      * Y coordinate the shape is pointing to.
      *
-     * @param {number}  value  Y
+     * @param value  Y
      */
     pointerY: number;
 }

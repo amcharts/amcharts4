@@ -37,8 +37,6 @@ import { Ordering } from "../../core/utils/Order";
 export declare class XYChartDataItem extends SerialChartDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {XYChart}
      */
     _component: XYChart;
     /**
@@ -64,8 +62,6 @@ export interface IXYChartProperties extends ISerialChartProperties {
     /**
      * A container that is used as a maske for bullets so that they can't
      * "spill" outside of the plot area.
-     *
-     * @type {[type]}
      */
     maskBullets?: boolean;
     /**
@@ -74,6 +70,13 @@ export interface IXYChartProperties extends ISerialChartProperties {
      * @default "none"
      */
     mouseWheelBehavior?: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
+    /**
+     * Specifies if chart should arrange series tooltips so that they won't
+     * overlap.
+     *
+     * @default true
+     */
+    arrangeTooltips?: boolean;
 }
 /**
  * Defines events for [[XYChart]].
@@ -221,78 +224,59 @@ export interface IXYChartAdapters extends ISerialChartAdapters, IXYChartProperti
 export declare class XYChart extends SerialChart {
     /**
      * Defines available data fields.
-     *
-     * @type {IXYChartDataFields}
      */
     _dataFields: IXYChartDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IXYChartProperties}
      */
     _properties: IXYChartProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IXYChartAdapters}
      */
     _adapter: IXYChartAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IXYChartEvents}
      */
     _events: IXYChartEvents;
     /**
      * Defines a type of series that this chart uses.
-     *
-     * @type {XYSeries}
      */
     _seriesType: XYSeries;
     /**
      * A list of horizontal axes.
-     *
-     * @type {List<Axis<AxisRendererX>>}
      */
     protected _xAxes: List<Axis<this["_xAxisRendererType"]>>;
     /**
      * A list of vertical axes.
-     *
-     * @type {List<Axis<AxisRendererX>>}
      */
     protected _yAxes: List<Axis<this["_yAxisRendererType"]>>;
     /**
      * A container that holds vertical axes and plot area.
      *
-     * @ignore Exclude from docs
      * @type {Container}
      */
     yAxesAndPlotContainer: Container;
     /**
      * A container that holds top axes.
      *
-     * @ignore Exclude from docs
      * @type {Container}
      */
     topAxesContainer: Container;
     /**
      * A container that holds bottom axes.
      *
-     * @ignore Exclude from docs
      * @type {Container}
      */
     bottomAxesContainer: Container;
     /**
      * A container that holds left axes.
      *
-     * @ignore Exclude from docs
      * @type {Container}
      */
     leftAxesContainer: Container;
     /**
      * A container that holds right axes.
      *
-     * @ignore Exclude from docs
      * @type {Container}
      */
     rightAxesContainer: Container;
@@ -304,63 +288,43 @@ export declare class XYChart extends SerialChart {
     plotContainer: Container;
     /**
      * A reference to horizontal [[Scrollbar]].
-     *
-     * @type {Scrollbar}
      */
     protected _scrollbarX: Scrollbar;
     /**
      * A reference to vertical [[Scrollbar]].
-     *
-     * @type {Scrollbar}
      */
     protected _scrollbarY: Scrollbar;
     /**
      * A reference to chart's cursor.
-     *
-     * @type {XYCursor}
      */
     _cursor: XYCursor;
     /**
      * A container that chart's cursor is placed in.
-     *
-     * @type {Container}
      */
     protected _cursorContainer: Container;
     /**
      * Defines the type of horizontal axis rederer.
-     *
-     * @type {typeof AxisRendererX}
      */
     protected _axisRendererX: typeof AxisRendererX;
     /**
      * Defines the type of vertical axis rederer.
-     *
-     * @type {typeof AxisRendererY}
      */
     protected _axisRendererY: typeof AxisRendererY;
     /**
      * Defines the type horizontal axis renderer.
-     *
-     * @type {AxisRendererX}
      */
     _xAxisRendererType: AxisRendererX;
     /**
      * Defines the type of vertical axis renderer.
-     *
-     * @type {AxisRendererY}
      */
     _yAxisRendererType: AxisRendererY;
     /**
      * A button which is used to zoom out the chart.
-     *
-     * @type {Button}
      */
     protected _zoomOutButton: Button;
     /**
      * An element that is used as a mask to contain bullets from spilling out of
      * the plot area.
-     *
-     * @type {Sprite}
      */
     protected _bulletMask: Sprite;
     protected _panStartXRange: IRange;
@@ -407,7 +371,7 @@ export declare class XYChart extends SerialChart {
      * change.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Axis, ISpriteEvents>["propertychanged"]} event An event object
+     * @param event An event object
      */
     handleXAxisChange(event: AMEvent<AxisRenderer, ISpriteEvents>["propertychanged"]): void;
     /**
@@ -415,21 +379,21 @@ export declare class XYChart extends SerialChart {
      * change.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Axis, ISpriteEvents>["propertychanged"]} event An event object
+     * @param event An event object
      */
     handleYAxisChange(event: AMEvent<AxisRenderer, ISpriteEvents>["propertychanged"]): void;
     /**
      * Sets up a new horizontal (X) axis when it is added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["inserted"]}  event  Axis insert event
+     * @param event  Axis insert event
      */
     processXAxis(event: IListEvents<Axis>["inserted"]): void;
     /**
      * Sets up a new vertical (Y) axis when it is added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["inserted"]} event Axis insert event
+     * @param event Axis insert event
      */
     processYAxis(event: IListEvents<Axis>["inserted"]): void;
     /**
@@ -455,8 +419,8 @@ export declare class XYChart extends SerialChart {
     /**
      * Updates a relative scrollbar whenever data range of the axis changes.
      *
-     * @param {Scrollbar}  scrollbar  Scrollbar instance
-     * @param {IRange}     range      New data (values) range of the axis
+     * @param scrollbar  Scrollbar instance
+     * @param range      New data (values) range of the axis
      */
     protected updateScrollbar(scrollbar: Scrollbar, range: IRange): void;
     /**
@@ -465,35 +429,35 @@ export declare class XYChart extends SerialChart {
      * This is used to synchronize the zoom between multiple axes.
      *
      * @ignore Exclude from docs
-     * @param  {List<Axis>}  axes  A list of axes
-     * @return {IRange}            Common value range
+     * @param axes  A list of axes
+     * @return Common value range
      */
     getCommonAxisRange(axes: List<Axis>): IRange;
     /**
      * Triggers (re)rendering of the horizontal (X) axis.
      *
      * @ignore Exclude from docs
-     * @param {Axis}  axis  Axis
+     * @param axis  Axis
      */
     updateXAxis(renderer: AxisRenderer): void;
     /**
      * Triggers (re)rendering of the vertical (Y) axis.
      *
      * @ignore Exclude from docs
-     * @param {Axis}  axis  Axis
+     * @param axis  Axis
      */
     updateYAxis(renderer: AxisRenderer): void;
     /**
      * Decorates an Axis for use with this chart, e.g. sets proper renderer
      * and containers for placement.
      *
-     * @param {Axis}  axis  Axis
+     * @param axis  Axis
      */
     protected processAxis(axis: Axis): void;
     /**
      * A list of horizontal (X) axes.
      *
-     * @return {List<Axis>} List of axes
+     * @return List of axes
      */
     readonly xAxes: List<Axis<this["_xAxisRendererType"]>>;
     /**
@@ -503,7 +467,7 @@ export declare class XYChart extends SerialChart {
     /**
      * A list of vertical (Y) axes.
      *
-     * @return {List<Axis>} List of axes
+     * @return List of axes
      */
     readonly yAxes: List<Axis<this["_yAxisRendererType"]>>;
     /**
@@ -511,22 +475,22 @@ export declare class XYChart extends SerialChart {
      * added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<XYSeries>["inserted"]}  event  Event
+     * @param event  Event
      */
     handleSeriesAdded(event: IListEvents<XYSeries>["inserted"]): void;
     /**
-     * @return {XYCursor} Cursor
+     * @return Cursor
      */
     /**
      * Chart's [[Cursor]].
      *
-     * @param {XYCursor}  cursor  Cursor
+     * @param cursor  Cursor
      */
     cursor: this["_cursor"];
     /**
      * Creates and returns a new [[Cursor]] suitable for this chart type.
      *
-     * @return {this} New cursor
+     * @return New cursor
      */
     protected createCursor(): this["_cursor"];
     /**
@@ -552,7 +516,7 @@ export declare class XYChart extends SerialChart {
      * Hides a tooltip for a list of objects.
      *
      * @ignore Exclude from docs
-     * @param {List<Sprite>}  sprites  A list of sprites to hide tooltip for
+     * @param sprites  A list of sprites to hide tooltip for
      */
     hideObjectTooltip(sprites: List<Sprite>): void;
     /**
@@ -563,7 +527,7 @@ export declare class XYChart extends SerialChart {
      * actual data point's position, overlapping with other tooltips, etc.
      *
      * @ignore Exclude from docs
-     * @param {IPoint}  position  Reference point
+     * @param position  Reference point
      */
     showSeriesTooltip(position?: IPoint): void;
     /**
@@ -580,94 +544,94 @@ export declare class XYChart extends SerialChart {
      * vertical axes.
      *
      * @ignore Exclude from docs
-     * @param {List<Axis>}  axes      List of axes to show tooltip on
-     * @param {number}      position  Position (px)
+     * @param axes      List of axes to show tooltip on
+     * @param position  Position (px)
      */
     showAxisTooltip(axes: List<Axis>, position: number, except?: Axis): void;
     /**
      * Recalculates the value range for the axis taking into account zoom level & inversed.
      *
-     * @param  {Axis}    axis   Axis
-     * @param  {IRange}  range  Range
-     * @return {IRange}         Modified range
+     * @param axis   Axis
+     * @param range  Range
+     * @return Modified range
      */
     getUpdatedRange(axis: Axis<this["_xAxisRendererType"]>, range: IRange): IRange;
     /**
      * Performs zoom and other operations when user finishes zooming using chart
      * cursor, e.g. zooms axes.
      *
-     * @param {IXYCursorEvents["zoomended"]} event Cursor's event
+     * @param event Cursor's event
      */
     protected handleCursorZoomEnd(event: IXYCursorEvents["zoomended"]): void;
     /**
      * Performs zoom and other operations when user is panning chart plot using chart cursor.
      *
-     * @param {IXYCursorEvents["panning"]} event Cursor's event
+     * @param event Cursor's event
      */
     protected handleCursorPanStart(event: IXYCursorEvents["panning"]): void;
     /**
      * Performs zoom and other operations when user ends panning
      *
-     * @param {IXYCursorEvents["panning"]} event Cursor's event
+     * @param event Cursor's event
      */
     protected handleCursorPanEnd(event: IXYCursorEvents["panning"]): void;
     protected handleCursorCanceled(): void;
     /**
      * Performs zoom and other operations when user is panning chart plot using chart cursor.
      *
-     * @param {IXYCursorEvents["panning"]} event Cursor's event
+     * @param event Cursor's event
      */
     protected handleCursorPanning(event: IXYCursorEvents["panning"]): void;
     /**
      * Performs zoom and other operations when user starts zooming using chart
      * cursor, e.g. zooms axes.
      *
-     * @param {IXYCursorEvents["zoomended"]} event Cursor's event
+     * @param event Cursor's event
      */
     protected handleCursorZoomStart(event: IXYCursorEvents["zoomstarted"]): void;
     /**
-     * @return {Scrollbar} Scrollbar
+     * @return Scrollbar
      */
     /**
      * Horizontal (X) scrollbar.
      *
-     * @param {Scrollbar} scrollbar Scrollbar
+     * @param scrollbar Scrollbar
      */
     scrollbarX: Scrollbar;
     /**
-     * @return {Scrollbar} Scrollbar
+     * @return Scrollbar
      */
     /**
      * Vertical (Y) scrollbar.
      *
-     * @param {Scrollbar} scrollbar Scrollbar
+     * @param scrollbar Scrollbar
      */
     scrollbarY: Scrollbar;
     /**
      * Zooms axes affected by the horizontal (X) scrollbar when the selection
      * on it changes.
      *
-     * @param {AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]} event Scrollbar range change event
+     * @param event Scrollbar range change event
      */
     protected handleXScrollbarChange(event: AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]): void;
     /**
      * Zooms axes affected by the vertical (Y) scrollbar when the selection
      * on it changes.
      *
-     * @param {AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]} event Scrollbar range change event
+     * @param event Scrollbar range change event
      */
     protected handleYScrollbarChange(event: AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]): void;
     /**
      * Zooms axes that are affected by to specific relative range.
      *
-     * @param  {List<Axis>}  axes       List of axes to zoom
-     * @param  {IRange}      range      Range of values to zoom to (0-1)
-     * @param  {boolean}     instantly  If set to `true` will skip zooming animation
-     * @return {IRange}                 Recalculated range that is common to all involved axes
+     * @param axes       List of axes to zoom
+     * @param range      Range of values to zoom to (0-1)
+     * @param instantly  If set to `true` will skip zooming animation
+     * @return Recalculated range that is common to all involved axes
      */
     protected zoomAxes(axes: List<Axis<this["_xAxisRendererType"]>>, range: IRange, instantly?: boolean, round?: boolean, declination?: number): IRange;
     /**
-     * @return {boolean} Mask bullet container?
+     * @return Mask bullet container?
      */
     /**
      * Indicates if bullet container is masked.
@@ -676,17 +640,35 @@ export declare class XYChart extends SerialChart {
      * will be clipped off. Settting to `false` will allow bullets to "spill out"
      * of the plot area so they are not cut off.
      *
-     * @param {boolean} value Mask bullet container?
+     * @param value Mask bullet container?
      */
     maskBullets: boolean;
     /**
+     * @return Arrange tooltips?
+     */
+    /**
+     * Indicates if chart should arrange series tooltips so that they would not
+     * overlap.
+     *
+     * If set to `true` (default), the chart will adjust vertical positions of
+     * all simultaneously shown tooltips to avoid overlapping.
+     *
+     * However, if you have a vertically-arranged chart, it might not make sense,
+     * because tooltips would most probably not be aligned horizontally. In this
+     * case it would probably be a good idea to set this setting to `false`.
+     *
+     * @default true
+     * @param value Arrange tooltips?
+     */
+    arrangeTooltips: boolean;
+    /**
      * Handles mouse wheel event.
      *
-     * @param {AMEvent<Sprite, ISpriteEvents>["wheel"]}  event  Original event
+     * @param event  Original event
      */
     protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]): void;
     /**
-     * @return {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"}  Mouse wheel behavior
+     * @return Mouse wheel behavior
      */
     /**
      * Specifies action for when mouse wheel is used when over the chart.
@@ -694,7 +676,7 @@ export declare class XYChart extends SerialChart {
      * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"` (default).
      *
      * @default "none"
-     * @param {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"} mouse wheel behavior
+     * @param mouse wheel behavior
      */
     mouseWheelBehavior: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
     /**
@@ -702,8 +684,8 @@ export declare class XYChart extends SerialChart {
      * so that particular chart types can popuplate this setting with their
      * own type-speicifc data fields so they are parsed properly.
      *
-     * @param  {string[]}  fields  Array of date fields
-     * @return {string[]}          Array of date fields populated with chart's date fields
+     * @param fields  Array of date fields
+     * @return Array of date fields populated with chart's date fields
      */
     protected dataSourceDateFields(fields: string[]): string[];
     /**
@@ -711,15 +693,15 @@ export declare class XYChart extends SerialChart {
      * so that particular chart types can popuplate this setting with their
      * own type-specific data fields so they are parsed properly.
      *
-     * @param  {string[]}  value  Array of number fields
-     * @return {string[]}         Array of number fields populated with chart's number fields
+     * @param value  Array of number fields
+     * @return Array of number fields populated with chart's number fields
      */
     protected dataSourceNumberFields(fields: string[]): string[];
     /**
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     processConfig(config?: {
         [index: string]: any;
@@ -730,19 +712,19 @@ export declare class XYChart extends SerialChart {
      * the end.
      *
      * @ignore Exclude from docs
-     * @param  {string}  a  Element 1
-     * @param  {string}  b  Element 2
-     * @return {Ordering}   Sorting number
+     * @param a  Element 1
+     * @param b  Element 2
+     * @return Sorting number
      */
     protected configOrder(a: string, b: string): Ordering;
     /**
      * Creates a new Series of type suitable for this chart.
      *
-     * @return {this} New series
+     * @return New series
      */
     protected createSeries(): this["_seriesType"];
     /**
-     * @return {Button} Zoom out button
+     * @return Zoom out button
      */
     /**
      * A [[Button]] element that is used for zooming out the chart.
@@ -750,13 +732,13 @@ export declare class XYChart extends SerialChart {
      * This button appears only when chart is zoomed in, and disappears
      * autoamatically when it is zoome dout.
      *
-     * @param {Button}  button  Zoom out button
+     * @param button  Zoom out button
      */
     zoomOutButton: Button;
     /**
      * Copies all parameters from another [[XYChart]].
      *
-     * @param {XYChart} source Source XYChart
+     * @param source Source XYChart
      */
     copyFrom(source: this): void;
     /**
@@ -766,7 +748,7 @@ export declare class XYChart extends SerialChart {
     /**
      * Adds one or several (array) of data items to the existing data.
      *
-     * @param {Object | Object[]} rawDataItem One or many raw data item objects
+     * @param rawDataItem One or many raw data item objects
      */
     addData(rawDataItem: Object | Object[], removeCount?: number): void;
 }

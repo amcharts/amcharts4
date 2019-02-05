@@ -42,7 +42,7 @@ var Bullet = /** @class */ (function (_super) {
     }
     Object.defineProperty(Bullet.prototype, "locationX", {
         /**
-         * @return {number} Location (0-1)
+         * @return Location (0-1)
          */
         get: function () {
             return this.getPropertyValue("locationX");
@@ -50,7 +50,7 @@ var Bullet = /** @class */ (function (_super) {
         /**
          * Relative horizontal location within cell. (0-1)
          *
-         * @param {number}  value  Location (0-1)
+         * @param value  Location (0-1)
          */
         set: function (value) {
             this.setPropertyValue("locationX", value, false, true);
@@ -60,7 +60,7 @@ var Bullet = /** @class */ (function (_super) {
     });
     Object.defineProperty(Bullet.prototype, "locationY", {
         /**
-         * @return {number} Location (0-1)
+         * @return Location (0-1)
          */
         get: function () {
             return this.getPropertyValue("locationY");
@@ -68,7 +68,7 @@ var Bullet = /** @class */ (function (_super) {
         /**
          * Relative vertical location within cell. (0-1)
          *
-         * @param {number}  value  Location (0-1)
+         * @param value  Location (0-1)
          */
         set: function (value) {
             this.setPropertyValue("locationY", value, false, true);
@@ -78,7 +78,7 @@ var Bullet = /** @class */ (function (_super) {
     });
     Object.defineProperty(Bullet.prototype, "xField", {
         /**
-         * @return {string} [description]
+         * @return [description]
          */
         get: function () {
             return this.getPropertyValue("xField");
@@ -87,7 +87,7 @@ var Bullet = /** @class */ (function (_super) {
          * [xField description]
          *
          * @todo Description
-         * @param {string}  value  [description]
+         * @param value  [description]
          */
         set: function (value) {
             this.setPropertyValue("xField", value, true);
@@ -97,7 +97,7 @@ var Bullet = /** @class */ (function (_super) {
     });
     Object.defineProperty(Bullet.prototype, "yField", {
         /**
-         * @return {string} [description]
+         * @return [description]
          */
         get: function () {
             return this.getPropertyValue("yField");
@@ -106,7 +106,7 @@ var Bullet = /** @class */ (function (_super) {
          * [yField description]
          *
          * Description
-         * @param {string}  value  [description]
+         * @param value  [description]
          */
         set: function (value) {
             this.setPropertyValue("yField", value, true);
@@ -116,7 +116,7 @@ var Bullet = /** @class */ (function (_super) {
     });
     Object.defineProperty(Bullet.prototype, "isDynamic", {
         /**
-         * @return {boolean} Redraw on data change?
+         * @return Redraw on data change?
          */
         get: function () {
             return this.getPropertyValue("isDynamic");
@@ -134,7 +134,7 @@ var Bullet = /** @class */ (function (_super) {
          * time data changes. Regular bullets will be reused as they are.
          *
          * @default false
-         * @param {boolean}  value  Redraw on data change?
+         * @param value  Redraw on data change?
          */
         set: function (value) {
             this.setPropertyValue("isDynamic", value, true);
@@ -144,7 +144,7 @@ var Bullet = /** @class */ (function (_super) {
     });
     Object.defineProperty(Bullet.prototype, "copyToLegendMarker", {
         /**
-         * @return {boolean} Redraw on data change?
+         * @return Redraw on data change?
          */
         get: function () {
             return this.getPropertyValue("copyToLegendMarker");
@@ -153,7 +153,7 @@ var Bullet = /** @class */ (function (_super) {
          * Indicates if the bullet should be copied to legend marker
          *
          * @default false
-         * @param {boolean}  value  Redraw on data change?
+         * @param value  Redraw on data change?
          */
         set: function (value) {
             this.setPropertyValue("copyToLegendMarker", value);

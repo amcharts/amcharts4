@@ -86,7 +86,6 @@ var Slice = /** @class */ (function (_super) {
          * Returns bounding box (square) for this element.
          *
          * @ignore Exclude from docs
-         * @type {IRectangle}
          */
         get: function () {
             if (this.definedBBox) {
@@ -106,7 +105,7 @@ var Slice = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slice.prototype, "startAngle", {
         /**
-         * @return {number} Angle (0-360)
+         * @return Angle (0-360)
          */
         get: function () {
             return this.getPropertyValue("startAngle");
@@ -116,7 +115,7 @@ var Slice = /** @class */ (function (_super) {
          *
          * 0 is to the right of the center.
          *
-         * @param {number}  value  Angle (0-360)
+         * @param value  Angle (0-360)
          */
         set: function (value) {
             this.setPropertyValue("startAngle", $math.normalizeAngle(value), true);
@@ -126,7 +125,7 @@ var Slice = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slice.prototype, "arc", {
         /**
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             return this.getPropertyValue("arc");
@@ -135,7 +134,7 @@ var Slice = /** @class */ (function (_super) {
          * [arc description]
          *
          * @todo Description
-         * @param {number} value [description]
+         * @param value [description]
          */
         set: function (value) {
             if (!$type.isNumber(value)) {
@@ -148,7 +147,7 @@ var Slice = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slice.prototype, "radius", {
         /**
-         * @return {number} Radius (px)
+         * @return Radius (px)
          */
         get: function () {
             var radius = this.getPropertyValue("radius");
@@ -160,7 +159,7 @@ var Slice = /** @class */ (function (_super) {
         /**
          * Radius of the slice in pixels.
          *
-         * @param {number}  value  Radius (px)
+         * @param value  Radius (px)
          */
         set: function (value) {
             this.setPropertyValue("radius", value, true);
@@ -170,7 +169,7 @@ var Slice = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slice.prototype, "radiusY", {
         /**
-         * @return {number} Vertical radius (0-1)
+         * @return Vertical radius (0-1)
          */
         get: function () {
             var value = this.getPropertyValue("radiusY");
@@ -185,7 +184,7 @@ var Slice = /** @class */ (function (_super) {
          * This is relevant to `radius`, e.g. 0.5 will set vertical radius to half
          * the `radius`.
          *
-         * @param {number} value Vertical radius (0-1)
+         * @param value Vertical radius (0-1)
          */
         set: function (value) {
             this.setPropertyValue("radiusY", value, true);
@@ -195,7 +194,7 @@ var Slice = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slice.prototype, "innerRadius", {
         /**
-         * @return {number | Percent} Radius (px or %)
+         * @return Radius (px or %)
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
@@ -204,7 +203,7 @@ var Slice = /** @class */ (function (_super) {
          * Inner radius of the slice for creating cut out (donut) slices.
          *
          * @default 0
-         * @param {number | Percent}  value  Radius (px or %)
+         * @param value  Radius (px or %)
          */
         set: function (value) {
             this.setPercentProperty("innerRadius", value, true, false, 10, false);
@@ -214,7 +213,7 @@ var Slice = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slice.prototype, "pixelInnerRadius", {
         /**
-         * @return {number} Radius px
+         * @return Radius px
          */
         get: function () {
             return $utils.relativeToValue(this.innerRadius, this.radius);
@@ -224,7 +223,7 @@ var Slice = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slice.prototype, "cornerRadius", {
         /**
-         * @return {number} Radius (px)
+         * @return Radius (px)
          */
         get: function () {
             return this.getPropertyValue("cornerRadius");
@@ -233,7 +232,7 @@ var Slice = /** @class */ (function (_super) {
          * Radius of slice's outer corners in pixels.
          *
          * @default 0
-         * @param {number}  value  Radius (px)
+         * @param value  Radius (px)
          */
         set: function (value) {
             this.setPropertyValue("cornerRadius", value, true);
@@ -243,7 +242,7 @@ var Slice = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slice.prototype, "innerCornerRadius", {
         /**
-         * @return {number} Radius (px)
+         * @return Radius (px)
          */
         get: function () {
             return this.getPropertyValue("innerCornerRadius");
@@ -252,7 +251,7 @@ var Slice = /** @class */ (function (_super) {
          * Radius of slice's inner corners in pixels.
          *
          * @default 0
-         * @param {number}  value  Radius (px)
+         * @param value  Radius (px)
          */
         set: function (value) {
             this.setPropertyValue("innerCornerRadius", value, true);
@@ -262,7 +261,7 @@ var Slice = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slice.prototype, "shiftRadius", {
         /**
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             return this.getPropertyValue("shiftRadius");
@@ -273,7 +272,7 @@ var Slice = /** @class */ (function (_super) {
          * 0-1
          *
          * @todo Description
-         * @param {number} value [description]
+         * @param value [description]
          */
         set: function (value) {
             this.setPropertyValue("shiftRadius", value);
@@ -289,7 +288,7 @@ var Slice = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             return $math.cos(this.middleAngle);
@@ -303,7 +302,7 @@ var Slice = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             if (this.radius > 0) {
@@ -321,7 +320,7 @@ var Slice = /** @class */ (function (_super) {
          * An angle of the slice's middle.
          *
          * @ignore Exclude from docs
-         * @return {number} Angle
+         * @return Angle
          */
         get: function () {
             return this.startAngle + this.arc / 2;
@@ -332,7 +331,7 @@ var Slice = /** @class */ (function (_super) {
     /**
      * X coordinate for the slice tooltip.
      *
-     * @return {number} X
+     * @return X
      */
     Slice.prototype.getTooltipX = function () {
         var value = this.getPropertyValue("tooltipX");
@@ -345,7 +344,7 @@ var Slice = /** @class */ (function (_super) {
     /**
      * Y coordinate for the slice tooltip.
      *
-     * @return {number} Y
+     * @return Y
      */
     Slice.prototype.getTooltipY = function () {
         var value = this.getPropertyValue("tooltipY");

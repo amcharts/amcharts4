@@ -32,8 +32,6 @@ export class StepLineSeriesDataItem extends LineSeriesDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {StepLineSeries}
 	 */
 	public _component!: StepLineSeries;
 
@@ -104,36 +102,26 @@ export class StepLineSeries extends LineSeries {
 
 	/**
 	 * Defines the type of data fields used for the series.
-	 *
-	 * @type {IStepLineSeriesDataFields}
 	 */
 	public _dataFields: IStepLineSeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IStepLineSeriesProperties}
 	 */
 	public _properties!: IStepLineSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IStepLineSeriesAdapters}
 	 */
 	public _adapter!: IStepLineSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IStepLineSeriesEvents}
 	 */
 	public _events!: IStepLineSeriesEvents;
 
 	/**
 	 * Defines the type of data item.
-	 *
-	 * @type {StepLineSeriesDataItem}
 	 */
 	public _dataItem: StepLineSeriesDataItem;
 
@@ -156,7 +144,7 @@ export class StepLineSeries extends LineSeries {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {StepLineSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new StepLineSeriesDataItem();
@@ -166,11 +154,11 @@ export class StepLineSeries extends LineSeries {
 	 * [addPoints description]
 	 *
 	 * @todo Description
-	 * @param {IPoint[]}           points     [description]
-	 * @param {this["_dataItem"]}  dataItem   [description]
-	 * @param {string}             xField     [description]
-	 * @param {string}             yField     [description]
-	 * @param {boolean}            backwards  [description]
+	 * @param points     [description]
+	 * @param dataItem   [description]
+	 * @param xField     [description]
+	 * @param yField     [description]
+	 * @param backwards  [description]
 	 */
 	protected addPoints(points: IPoint[], dataItem: this["_dataItem"], xField: string, yField: string, backwards?: boolean): void {
 
@@ -227,9 +215,9 @@ export class StepLineSeries extends LineSeries {
 	/**
 	 * Draws the line segment.
 	 *
-	 * @param {LineSeriesSegment}  segment     Segment
-	 * @param {IPoint[]}           points      Segment points
-	 * @param {IPoint[]}           closePoints Segment close points
+	 * @param segment     Segment
+	 * @param points      Segment points
+	 * @param closePoints Segment close points
 	 */
 	protected drawSegment(segment: StepLineSeriesSegment, points: IPoint[], closePoints: IPoint[]): void {
 		let vertical = false;
@@ -254,14 +242,14 @@ export class StepLineSeries extends LineSeries {
 	 * vertical (or horizontal) lines.
 	 *
 	 * @default false
-	 * @param {boolean}  value  No risers
+	 * @param value  No risers
 	 */
 	public set noRisers(value: boolean) {
 		this.setPropertyValue("noRisers", value, true);
 	}
 
 	/**
-	 * @return {boolean} No risers
+	 * @return No risers
 	 */
 	public get noRisers(): boolean {
 		return this.getPropertyValue("noRisers");
@@ -271,7 +259,7 @@ export class StepLineSeries extends LineSeries {
 	/**
 	 * start location of the step
 	 *
-	 * @param {number} value Location (0-1)
+	 * @param value Location (0-1)
 	 * @default 0
 	 */
 	public set startLocation(value: number) {
@@ -279,7 +267,7 @@ export class StepLineSeries extends LineSeries {
 	}
 
 	/**
-	 * @return {number} Location (0-1)
+	 * @return Location (0-1)
 	 */
 	public get startLocation(): number {
 		return this.getPropertyValue("startLocation");
@@ -288,15 +276,15 @@ export class StepLineSeries extends LineSeries {
 	/**
 	 * Step end location.
 	 *
-	 * @param {number} value Location (0-1)
+	 * @param value Location (0-1)
 	 * #default 1
 	 */
 	public set endLocation(value: number) {
-		this.setPropertyValue("endLocation", value, true);		
+		this.setPropertyValue("endLocation", value, true);
 	}
 
 	/**
-	 * @return {number} Location (0-1)
+	 * @return Location (0-1)
 	 */
 	public get endLocation(): number {
 		return this.getPropertyValue("endLocation");

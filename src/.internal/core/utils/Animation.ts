@@ -52,45 +52,34 @@ export interface IAnimationOptions {
 	 * An initial value to animate from.
 	 *
 	 * If omitted, the source value will be current value.
-	 *
-	 * @type {Color | Percent | number | string | boolean}
 	 */
 	from?: IAnimationOption;
 
 	/**
 	 * A target value to animate from.
-	 *
-	 * @type {Color | Percent | number | string | boolean}
 	 */
 	to: IAnimationOption;
 
 	/**
 	 * Property name to animate.
-	 *
-	 * @type {string}
 	 */
 	property?: any;
 
 	/**
 	 * If current values should be taken from different object than the target
 	 * element of the animation, this property should be set to that object.
-	 *
-	 * @type {object}
 	 */
 	childObject?: { [index: string]: any };
 
 	/**
 	 * A method/function reference that will be called to for updating the
 	 * property value.
-	 *
-	 * @type {function}
 	 */
 	updateMethod?(progress: number, from: IAnimationOption, to: IAnimationOption): IAnimationOption;
 
 
 	/**
 	 * sometimes we need to pass some dummy data in animationOptions
-	 * @type {any}
 	 */
 	dummyData?: any;
 
@@ -103,15 +92,11 @@ export interface IPercentAnimationOptions extends IAnimationOptions {
 
 	/**
 	 * Initial value.
-	 *
-	 * @type {Percent}
 	 */
 	from?: Percent;
 
 	/**
 	 * Target value.
-	 *
-	 * @type {Percent}
 	 */
 	to: Percent;
 
@@ -124,15 +109,11 @@ export interface IColorAnimationOptions extends IAnimationOptions {
 
 	/**
 	 * Initial value.
-	 *
-	 * @type {Color}
 	 */
 	from?: Color;
 
 	/**
 	 * Target value.
-	 *
-	 * @type {Color}
 	 */
 	to: Color;
 
@@ -145,9 +126,9 @@ export interface IColorAnimationOptions extends IAnimationOptions {
  * @todo Needed?
  * @deprecated Not used anywhere
  * @ignore Exclude from docs
- * @param  {number}     duration  Duration (ms)
- * @param  {function}   callback  Callback function
- * @return {IDisposer}            Disposer
+ * @param duration  Duration (ms)
+ * @param callback  Callback function
+ * @return Disposer
  */
 export function animate(duration: number, callback: (time: number) => void): IDisposer {
 	let disposed = false;
@@ -217,7 +198,6 @@ export interface IAnimationEvents extends IBaseObjectEvents {
  * Holds the list of currently playing animations.
  *
  * @ignore Exclude from docs
- * @type {Array<IAnimationObject>}
  */
 export const animations: Array<IAnimationObject> = [];
 
@@ -225,10 +205,10 @@ export const animations: Array<IAnimationObject> = [];
 /**
  * Returns numeric value accoring to progress between start and end values.
  *
- * @param  {number}  progress  Progress (0-1)
- * @param  {number}  from
- * @param  {number}  to
- * @return {number}            Value according to progress
+ * @param progress  Progress (0-1)
+ * @param from
+ * @param to
+ * @return Value according to progress
  */
 function getProgressNumber(progress: number, from: number, to: number): number {
 	return from + ((to - from) * progress);
@@ -238,10 +218,10 @@ function getProgressNumber(progress: number, from: number, to: number): number {
  * Returns [[Percent]] value accoring to progress between start and end
  * values.
  *
- * @param  {number}   progress  Progress (0-1)
- * @param  {Percent}  from
- * @param  {Percent}  to
- * @return {number}             Value according to progress
+ * @param progress  Progress (0-1)
+ * @param from
+ * @param to
+ * @return Value according to progress
  */
 function getProgressPercent(progress: number, from: Percent, to: Percent): Percent {
 	return new Percent(getProgressNumber(progress, from.percent, to.percent));
@@ -250,10 +230,10 @@ function getProgressPercent(progress: number, from: Percent, to: Percent): Perce
 /**
  * Returns color value accoring to progress between start and end values.
  *
- * @param  {number}  progress  Progress (0-1)
- * @param  {Color}   from
- * @param  {Color}   to
- * @return {string}            Color according to progress
+ * @param progress  Progress (0-1)
+ * @param from
+ * @param to
+ * @return Color according to progress
  */
 function getProgressColor(progress: number, from: Color, to: Color): Color {
 	return new Color($colors.interpolate(from.rgb, to.rgb, progress));
@@ -263,9 +243,9 @@ function getProgressColor(progress: number, from: Color, to: Color): Color {
  * [getHybridProperty description]
  *
  * @todo Description
- * @param  {string}     property [description]
- * @param  {"pixel" |        "relative"}  type [description]
- * @return {string}              [description]
+ * @param property [description]
+ * @param type [description]
+ * @return [description]
  */
 function getHybridProperty(property: string, type: "pixel" | "relative"): string {
 	return type + property.charAt(0).toUpperCase() + property.substr(1);
@@ -415,16 +395,12 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IAnimationEvents}
 	 */
 	public _events!: IAnimationEvents;
 
 	/**
 	 * An animation target object. [[Animation]] will update properties of
 	 * this object.
-	 *
-	 * @type {IAnimatable}
 	 */
 	public object: IAnimatable;
 
@@ -432,15 +408,11 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	 * An array of animation option objects. Each animation object represent
 	 * one property. Animation can animate any number of properties
 	 * simultaneously.
-	 *
-	 * @type {IAnimationOptions[]}
 	 */
 	public animationOptions: IAnimationOptions[];
 
 	/**
 	 * Duration of the animation in milliseconds.
-	 *
-	 * @type {number}
 	 */
 	public duration: number = 0;
 
@@ -448,57 +420,42 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	 * Easing function to use.
 	 *
 	 * @see {@link Ease}
-	 * @type {(value: number) => number}
 	 */
 	public easing: (value: number) => number = $ease.linear;
 
 	/**
 	 * Contains progress of the current animation: 0 (start) to 1 (end).
-	 *
-	 * @type {number}
 	 */
 	public progress: number = 0;
 
 	/**
 	 * A list of options that cannot be animated. Those will be applied when
 	 * Animation ends.
-	 *
-	 * @type {IAnimationOptions[]}
 	 */
 	protected staticOptions!: IAnimationOptions[];
 
 	/**
 	 * Indicated how many times animation should loop.
-	 *
-	 * @type {number}
 	 */
 	protected _loop: number = 0;
 
 	/**
 	 * Animation is paused.
-	 *
-	 * @type {boolean}
 	 */
 	protected _pause: boolean = false;
 
 	/**
 	 * Holds reference to timeout for delayed play.
-	 *
-	 * @type {IDisposer}
 	 */
 	protected _delayTimeout: IDisposer | null = null;
 
 	/**
 	 * A timestamp of when animation started playing.
-	 *
-	 * @type {number}
 	 */
 	protected _startTime: $type.Optional<number>;
 
 	/**
 	 * Elapsed time in currently playing animation.
-	 *
-	 * @type {number}
 	 */
 	protected _time: number = 0;
 
@@ -510,10 +467,10 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	/**
 	 * Constructor
 	 *
-	 * @param {IAnimatable}                              object            An object animation should run on
-	 * @param {IAnimationOptions[] | IAnimationOptions}  animationOptions  One or several (array) of animation options
-	 * @param {number}                                   duration          Duration (ms)
-	 * @param {(number) => number}                       easing            Easing function
+	 * @param object            An object animation should run on
+	 * @param animationOptions  One or several (array) of animation options
+	 * @param duration          Duration (ms)
+	 * @param easing            Easing function
 	 */
 	constructor(object: IAnimatable, animationOptions: IAnimationOptions[] | IAnimationOptions, duration: number, easing?: (value: number) => number) {
 
@@ -553,8 +510,8 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	/**
 	 * Delays animation start by X milliseconds.
 	 *
-	 * @param  {number}     delay  Delay (ms)
-	 * @return {Animation}         Animation
+	 * @param delay  Delay (ms)
+	 * @return Animation
 	 */
 	public delay(delay: number): Animation {
 		//@todo Maybe not use `bind()`
@@ -604,7 +561,7 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	/**
 	 * Starts animation.
 	 *
-	 * @return {Animation} Animation
+	 * @return Animation
 	 */
 	public start(): Animation {
 		this._start();
@@ -721,8 +678,8 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	 * Sets loop count for the animation. If parameter is not a valid number the
 	 * animation will keep on looping indefinitely.
 	 *
-	 * @param  {number}     count  Number of times to loop animation
-	 * @return {Animation}         Animation
+	 * @param count  Number of times to loop animation
+	 * @return Animation
 	 */
 	public loop(count?: number): Animation {
 		if (!$type.isNumber(count)) {
@@ -735,7 +692,7 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	/**
 	 * Pauses animation.
 	 *
-	 * @return {Animation} Animation
+	 * @return Animation
 	 */
 	public pause(): Animation {
 		this._pause = true;
@@ -754,7 +711,7 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	/**
 	 * Resumes paused animation.
 	 *
-	 * @return {Animation} Animation
+	 * @return Animation
 	 */
 	public resume(): Animation {
 		this._start();
@@ -766,7 +723,7 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	 * Jumps to animation end. If animation is set to loop, this will start
 	 * another round of animation from start.
 	 *
-	 * @return {Animation} Animation
+	 * @return Animation
 	 */
 	public end(): Animation {
 
@@ -809,7 +766,7 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	/**
 	 * Returns indicator if this animation is finished or not
 	 *
-	 * @return {boolean} Is finished?
+	 * @return Is finished?
 	 */
 	public isFinished(): boolean {
 		return this._isFinished;
@@ -835,8 +792,8 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	 * When animation is stopped, the properties of the target object will remain
 	 * where they were at the moment when `stop()` was called.
 	 *
-	 * @param  {boolean}    skipEvent  Do not trigger `animationstopped` event
-	 * @return {Animation}             Animation
+	 * @param skipEvent  Do not trigger `animationstopped` event
+	 * @return Animation
 	 */
 	public stop(skipEvent?: boolean): Animation {
 		this.pause();
@@ -856,7 +813,7 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	/**
 	 * Sets current progress and updates object's numeric and color values.
 	 *
-	 * @param {number} progress Progress (0-1)
+	 * @param progress Progress (0-1)
 	 */
 	public setProgress(progress: number): void {
 		this._time = this.duration * progress; // just in case we call this from outside
@@ -890,7 +847,7 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	 * Tracks and sets progress according to time or frames.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {Animation} Animation
+	 * @return Animation
 	 */
 	public update(): Animation {
 		if (!this._pause) {
@@ -917,7 +874,7 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	 * Returns `true` if this animation is delayed.
 	 *
 	 * @readonly
-	 * @return {boolean} [description]
+	 * @return [description]
 	 */
 	public get delayed(): boolean {
 		return this._delayTimeout ? true : false;

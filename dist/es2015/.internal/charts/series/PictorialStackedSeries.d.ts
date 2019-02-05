@@ -23,8 +23,6 @@ import { Sprite } from "../../core/Sprite";
 export declare class PictorialStackedSeriesDataItem extends PyramidSeriesDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {PictorialStackedSeries}
      */
     _component: PictorialStackedSeries;
     /**
@@ -78,38 +76,26 @@ export interface IPictorialStackedSeriesAdapters extends IPyramidSeriesAdapters,
 export declare class PictorialStackedSeries extends PyramidSeries {
     /**
      * Defines the type of data fields used for the series.
-     *
-     * @type {IPictorialStackedSeriesDataFields}
      */
     _dataFields: IPictorialStackedSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IPictorialStackedSeriesProperties}
      */
     _properties: IPictorialStackedSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IPictorialStackedSeriesAdapters}
      */
     _adapter: IPictorialStackedSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IPictorialStackedSeriesEvents}
      */
     _events: IPictorialStackedSeriesEvents;
     /**
      * Defines the type of data item.
-     *
-     * @type {PictorialStackedSeriesDataItem}
      */
     _dataItem: PictorialStackedSeriesDataItem;
     /**
      * Holds a Sprite that acts as an intelligent mask for the serries.
-     *
-     * @type {Sprite}
      */
     protected _maskSprite: Sprite;
     /**
@@ -131,7 +117,7 @@ export declare class PictorialStackedSeries extends PyramidSeries {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {PictorialStackedSeriesDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
@@ -168,13 +154,13 @@ export declare class PictorialStackedSeries extends PyramidSeries {
      * }
      * ```
      *
-     * @return {Sprite} Mask sprite
+     * @return Mask sprite
      */
     readonly maskSprite: Sprite;
     /**
      * Inits FunnelSlice.
      *
-     * @param  {FunnelSlice} slice to init
+     * @param slice to init
      */
     protected initSlice(slice: this["_slice"]): void;
 }

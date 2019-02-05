@@ -44,8 +44,6 @@ var SmallMap = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * A target map.
-         *
-         * @type {MutableValueDisposer<MapChart>}
          */
         _this._chart = new MutableValueDisposer();
         _this.className = "SmallMap";
@@ -86,7 +84,7 @@ var SmallMap = /** @class */ (function (_super) {
          * A list of map series used to draw the mini-map.
          *
          * @readonly
-         * @return {List<MapSeries>} Series
+         * @return Series
          */
         get: function () {
             if (!this._series) {
@@ -102,7 +100,7 @@ var SmallMap = /** @class */ (function (_super) {
     /**
      * Decorates a new series when they are pushed into a `series` list.
      *
-     * @param {IListEvents<MapSeries>["inserted"]} event Event
+     * @param event Event
      */
     SmallMap.prototype.handleSeriesAdded = function (event) {
         var series = event.newValue;
@@ -120,7 +118,7 @@ var SmallMap = /** @class */ (function (_super) {
     /**
      * Cleans up after series are removed from Scrollbar.
      *
-     * @param {IListEvents<XYSeries>["removed"]}  event  Event
+     * @param event  Event
      */
     SmallMap.prototype.handleSeriesRemoved = function (event) {
         //let sourceSeries: MapSeries = event.oldValue;
@@ -130,7 +128,7 @@ var SmallMap = /** @class */ (function (_super) {
      * Moves main map pan position after click on the small map.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["hit"]}  event  Event
+     * @param event  Event
      */
     SmallMap.prototype.moveToPosition = function (event) {
         var rectPoint = $utils.spritePointToSprite(event.spritePoint, this, this.seriesContainer);
@@ -139,7 +137,7 @@ var SmallMap = /** @class */ (function (_super) {
     };
     Object.defineProperty(SmallMap.prototype, "chart", {
         /**
-         * @return {MapChart} Chart/map
+         * @return Chart/map
          */
         get: function () {
             return this._chart.get();
@@ -147,7 +145,7 @@ var SmallMap = /** @class */ (function (_super) {
         /**
          * A chart/map that this control is meant for.
          *
-         * @param {MapChart}  chart  Chart/map
+         * @param chart  Chart/map
          */
         set: function (chart) {
             if (this.chart != chart) {
@@ -203,7 +201,7 @@ var SmallMap = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     SmallMap.prototype.processConfig = function (config) {
         if (config) {

@@ -35,8 +35,6 @@ export interface ISliceProperties extends IContainerProperties {
 
 	/**
 	 * Radius of the slice in pixels.
-	 *
-	 * @type {number}
 	 */
 	radius?: number;
 
@@ -45,15 +43,11 @@ export interface ISliceProperties extends IContainerProperties {
 	 *
 	 * This is relevant to `radius`, e.g. 0.5 will set vertical radius to half
 	 * the `radius`.
-	 *
-	 * @type {number}
 	 */
 	radiusY?: number;
 
 	/**
 	 * Inner radius of the slice for creating cut out (donut) slices, in px or %
-	 *
-	 * @type {number}
 	 */
 	innerRadius?: number | Percent;
 
@@ -61,8 +55,6 @@ export interface ISliceProperties extends IContainerProperties {
 	 * The angle at which left edge of the slice is drawn. (0-360)
 	 *
 	 * 0 is to the right of the center.
-	 *
-	 * @type {number}
 	 */
 	startAngle?: number;
 
@@ -70,7 +62,6 @@ export interface ISliceProperties extends IContainerProperties {
 	 * [arc description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	arc?: number;
 
@@ -78,7 +69,6 @@ export interface ISliceProperties extends IContainerProperties {
 	 * [shiftRadius description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	shiftRadius?: number;
 
@@ -86,7 +76,6 @@ export interface ISliceProperties extends IContainerProperties {
 	 * Radius of slice's outer corners in pixels.
 	 *
 	 * @default 0
-	 * @type {number}
 	 */
 	cornerRadius?: number;
 
@@ -94,7 +83,6 @@ export interface ISliceProperties extends IContainerProperties {
 	 * Radius of slice's inner corners in pixels.
 	 *
 	 * @default 0
-	 * @type {number}
 	 */
 	innerCornerRadius?: number;
 
@@ -130,22 +118,16 @@ export class Slice extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ISliceProperties}
 	 */
 	public _properties!: ISliceProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ISliceAdapters}
 	 */
 	public _adapter!: ISliceAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ISliceEvents}
 	 */
 	public _events!: ISliceEvents;
 
@@ -154,8 +136,6 @@ export class Slice extends Container {
 	 *
 	 * Slice itself is a [[Container]] so that [[Slice3D]] could extend it and
 	 * add 3D elements to it.
-	 *
-	 * @type {Sprite}
 	 */
 	public slice: Sprite;
 
@@ -225,7 +205,6 @@ export class Slice extends Container {
 	 * Returns bounding box (square) for this element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {IRectangle}
 	 */
 	public get bbox(): IRectangle {
 		if (this.definedBBox) {
@@ -247,14 +226,14 @@ export class Slice extends Container {
 	 *
 	 * 0 is to the right of the center.
 	 *
-	 * @param {number}  value  Angle (0-360)
+	 * @param value  Angle (0-360)
 	 */
 	public set startAngle(value: number) {
 		this.setPropertyValue("startAngle", $math.normalizeAngle(value), true);
 	}
 
 	/**
-	 * @return {number} Angle (0-360)
+	 * @return Angle (0-360)
 	 */
 	public get startAngle(): number {
 		return this.getPropertyValue("startAngle");
@@ -264,7 +243,7 @@ export class Slice extends Container {
 	 * [arc description]
 	 *
 	 * @todo Description
-	 * @param {number} value [description]
+	 * @param value [description]
 	 */
 	public set arc(value: number) {
 		if (!$type.isNumber(value)) {
@@ -274,7 +253,7 @@ export class Slice extends Container {
 	}
 
 	/**
-	 * @return {number} [description]
+	 * @return [description]
 	 */
 	public get arc(): number {
 		return this.getPropertyValue("arc");
@@ -283,14 +262,14 @@ export class Slice extends Container {
 	/**
 	 * Radius of the slice in pixels.
 	 *
-	 * @param {number}  value  Radius (px)
+	 * @param value  Radius (px)
 	 */
 	public set radius(value: number) {
 		this.setPropertyValue("radius", value, true);
 	}
 
 	/**
-	 * @return {number} Radius (px)
+	 * @return Radius (px)
 	 */
 	public get radius(): number {
 		let radius: number = this.getPropertyValue("radius");
@@ -306,14 +285,14 @@ export class Slice extends Container {
 	 * This is relevant to `radius`, e.g. 0.5 will set vertical radius to half
 	 * the `radius`.
 	 *
-	 * @param {number} value Vertical radius (0-1)
+	 * @param value Vertical radius (0-1)
 	 */
 	public set radiusY(value: number) {
 		this.setPropertyValue("radiusY", value, true);
 	}
 
 	/**
-	 * @return {number} Vertical radius (0-1)
+	 * @return Vertical radius (0-1)
 	 */
 	public get radiusY(): number {
 		let value: number = this.getPropertyValue("radiusY");
@@ -328,21 +307,21 @@ export class Slice extends Container {
 	 * Inner radius of the slice for creating cut out (donut) slices.
 	 *
 	 * @default 0
-	 * @param {number | Percent}  value  Radius (px or %)
+	 * @param value  Radius (px or %)
 	 */
 	public set innerRadius(value: number | Percent) {
 		this.setPercentProperty("innerRadius", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number | Percent} Radius (px or %)
+	 * @return Radius (px or %)
 	 */
 	public get innerRadius(): number | Percent {
 		return this.getPropertyValue("innerRadius");
 	}
 
 	/**
-	 * @return {number} Radius px
+	 * @return Radius px
 	 */
 	public get pixelInnerRadius(): number {
 		return $utils.relativeToValue(this.innerRadius, this.radius);
@@ -352,14 +331,14 @@ export class Slice extends Container {
 	 * Radius of slice's outer corners in pixels.
 	 *
 	 * @default 0
-	 * @param {number}  value  Radius (px)
+	 * @param value  Radius (px)
 	 */
 	public set cornerRadius(value: number) {
 		this.setPropertyValue("cornerRadius", value, true);
 	}
 
 	/**
-	 * @return {number} Radius (px)
+	 * @return Radius (px)
 	 */
 	public get cornerRadius(): number {
 		return this.getPropertyValue("cornerRadius");
@@ -369,14 +348,14 @@ export class Slice extends Container {
 	 * Radius of slice's inner corners in pixels.
 	 *
 	 * @default 0
-	 * @param {number}  value  Radius (px)
+	 * @param value  Radius (px)
 	 */
 	public set innerCornerRadius(value: number) {
 		this.setPropertyValue("innerCornerRadius", value, true);
 	}
 
 	/**
-	 * @return {number} Radius (px)
+	 * @return Radius (px)
 	 */
 	public get innerCornerRadius(): number {
 		return this.getPropertyValue("innerCornerRadius");
@@ -388,7 +367,7 @@ export class Slice extends Container {
 	 * 0-1
 	 *
 	 * @todo Description
-	 * @param {number} value [description]
+	 * @param value [description]
 	 */
 	public set shiftRadius(value: number) {
 		this.setPropertyValue("shiftRadius", value);
@@ -397,7 +376,7 @@ export class Slice extends Container {
 	}
 
 	/**
-	 * @return {number} [description]
+	 * @return [description]
 	 */
 	public get shiftRadius(): number {
 		return this.getPropertyValue("shiftRadius");
@@ -408,7 +387,7 @@ export class Slice extends Container {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @return {number} [description]
+	 * @return [description]
 	 */
 	public get ix(): number {
 		return $math.cos(this.middleAngle);
@@ -419,7 +398,7 @@ export class Slice extends Container {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @return {number} [description]
+	 * @return [description]
 	 */
 	public get iy(): number {
 		if (this.radius > 0) {
@@ -434,7 +413,7 @@ export class Slice extends Container {
 	 * An angle of the slice's middle.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {number} Angle
+	 * @return Angle
 	 */
 	public get middleAngle(): number {
 		return this.startAngle + this.arc / 2;
@@ -443,7 +422,7 @@ export class Slice extends Container {
 	/**
 	 * X coordinate for the slice tooltip.
 	 *
-	 * @return {number} X
+	 * @return X
 	 */
 	protected getTooltipX(): number {
 		let value = this.getPropertyValue("tooltipX");
@@ -457,7 +436,7 @@ export class Slice extends Container {
 	/**
 	 * Y coordinate for the slice tooltip.
 	 *
-	 * @return {number} Y
+	 * @return Y
 	 */
 	protected getTooltipY(): number {
 		let value = this.getPropertyValue("tooltipY");

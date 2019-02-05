@@ -27,7 +27,7 @@ var AxisFillCircular = /** @class */ (function (_super) {
     /**
      * Constructor.
      *
-     * @param {Axis} axis Axis
+     * @param axis Axis
      */
     function AxisFillCircular(axis) {
         var _this = _super.call(this, axis) || this;
@@ -52,7 +52,7 @@ var AxisFillCircular = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisFillCircular.prototype, "innerRadius", {
         /**
-         * @return {number} Inner radius
+         * @return Inner radius
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
@@ -60,7 +60,7 @@ var AxisFillCircular = /** @class */ (function (_super) {
         /**
          * Inner radius of the fill. Relative ([[Percent]]) or absolute (pixels).
          *
-         * @param {number | Percent}  value  Inner radius
+         * @param value  Inner radius
          */
         set: function (value) {
             this.setPercentProperty("innerRadius", value, true, false, 10, false);
@@ -70,7 +70,7 @@ var AxisFillCircular = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisFillCircular.prototype, "radius", {
         /**
-         * @return {number} Outer radius
+         * @return Outer radius
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -78,7 +78,7 @@ var AxisFillCircular = /** @class */ (function (_super) {
         /**
          * Outer radius of the fill. Relative ([[Percent]]) or absolute (pixels).
          *
-         * @param {number | Percent}  value  Outer radius
+         * @param value  Outer radius
          */
         set: function (value) {
             this.setPercentProperty("radius", value, true, false, 10, false);
@@ -88,7 +88,7 @@ var AxisFillCircular = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisFillCircular.prototype, "cornerRadius", {
         /**
-         * @return {number} Corner radius (px)
+         * @return Corner radius (px)
          */
         get: function () {
             return this.getPropertyValue("cornerRadius");
@@ -96,7 +96,7 @@ var AxisFillCircular = /** @class */ (function (_super) {
         /**
          * Corner radius for the fill. In pixels.
          *
-         * @param {number}  value  Corner radius (px)
+         * @param value  Corner radius (px)
          */
         set: function (value) {
             this.setPropertyValue("cornerRadius", value, true);

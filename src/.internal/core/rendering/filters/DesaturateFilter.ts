@@ -28,8 +28,6 @@ export interface DesaturateFilterProperties extends FilterProperties {
 
 	/**
 	 * Saturation. (0-1)
-	 *
-	 * @type {number}
 	 */
 	saturation: number;
 
@@ -50,15 +48,12 @@ export class DesaturateFilter extends Filter {
 
 	/**
 	 * Defines property types.
-	 *
-	 * @type {DesaturateFilterProperties}
 	 */
 	public _properties!: DesaturateFilterProperties;
 
 	/**
 	 * A storage for Filter property/value pairs.
 	 * @see [@link DesaturateFilterProperties]
-	 * @type {Dictionary<DesaturateFilterProperties, any>}
 	 */
 	//public propertyValues: Dictionary<DesaturateFilterProperties, any>;
 
@@ -66,7 +61,6 @@ export class DesaturateFilter extends Filter {
 	 * Reference to the `<feColorMatrix>` element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {AMElement}
 	 */
 	public feColorMatrix: AMElement;
 
@@ -100,7 +94,7 @@ export class DesaturateFilter extends Filter {
 	 * 0 - completely desaturated.
 	 * 1 - fully saturated (gray).
 	 *
-	 * @param {number}  value  Saturation (0-1)
+	 * @param value  Saturation (0-1)
 	 */
 	public set saturation(value: number) {
 		this.properties["saturation"] = value;
@@ -108,7 +102,7 @@ export class DesaturateFilter extends Filter {
 	}
 
 	/**
-	 * @return {number} Saturation (0-1)
+	 * @return Saturation (0-1)
 	 */
 	public get saturation(): number {
 		return this.properties["saturation"];

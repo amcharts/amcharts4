@@ -32,7 +32,6 @@ var BaseObject = /** @class */ (function () {
          * wheter to run potentially costly disposal operations if they already have
          * been run.
          *
-         * @type {boolean}
          * @ignore Exclude from docs
          */
         this._disposed = false;
@@ -52,7 +51,7 @@ var BaseObject = /** @class */ (function () {
         /**
          * Returns object's internal unique ID.
          *
-         * @return {string} Unique ID
+         * @return Unique ID
          */
         get: function () {
             if (!this._uid) {
@@ -66,7 +65,7 @@ var BaseObject = /** @class */ (function () {
     });
     Object.defineProperty(BaseObject.prototype, "id", {
         /**
-         * @return {Optional<string>} Id
+         * @return Id
          */
         get: function () {
             return this._id;
@@ -74,7 +73,7 @@ var BaseObject = /** @class */ (function () {
         /**
          * Sets the user-defined id of the element.
          *
-         * @param {Optional<string>} value Id
+         * @param value Id
          */
         set: function (value) {
             //registry.map.setKey(value, this); // registry.map only stores by uid
@@ -88,7 +87,7 @@ var BaseObject = /** @class */ (function () {
          * Returns a universal collection for mapping ids with objects.
          *
          * @ignore Exclude from docs
-         * @return {Dictionary<string, any>} Map collection
+         * @return Map collection
          */
         get: function () {
             if (!this._map) {
@@ -120,7 +119,7 @@ var BaseObject = /** @class */ (function () {
     Object.defineProperty(BaseObject.prototype, "themes", {
         /**
          * @ignore Exclude from docs
-         * @return {Optional<ITheme[]>} An array of themes
+         * @return An array of themes
          */
         get: function () {
             return this._themes;
@@ -129,7 +128,7 @@ var BaseObject = /** @class */ (function () {
          * A list of themes to be used for this element.
          *
          * @ignore Exclude from docs
-         * @param {Optional<ITheme[]>} value An array of themes
+         * @param value An array of themes
          */
         set: function (value) {
             this._themes = value;
@@ -141,7 +140,7 @@ var BaseObject = /** @class */ (function () {
      * Returns a list of themes that should be applied to this element. It could
      * either be a list of themes set explicitly on this element, or system-wide.
      *
-     * @return {ITheme[]} List of themes
+     * @return List of themes
      */
     BaseObject.prototype.getCurrentThemes = function () {
         return this.themes || registry.themes;
@@ -149,7 +148,7 @@ var BaseObject = /** @class */ (function () {
     /**
      * Returns if this object has been already been disposed.
      *
-     * @return {boolean} Is disposed?
+     * @return Is disposed?
      */
     BaseObject.prototype.isDisposed = function () {
         return this._disposed;
@@ -181,7 +180,7 @@ var BaseObject = /** @class */ (function () {
     /**
      * Adds an IDisposer, which will be disposed when this object is disposed.
      *
-     * @param {IDisposer} target Object to dispose
+     * @param target Object to dispose
      * @ignore Exclude from docs
      */
     BaseObject.prototype.addDisposer = function (target) {
@@ -190,7 +189,7 @@ var BaseObject = /** @class */ (function () {
     /**
      * Disposes disposable object and removes it from `_disposers`.
      *
-     * @param {IDisposer} target Object to dispose
+     * @param target Object to dispose
      * @ignore Exclude from docs
      */
     BaseObject.prototype.removeDispose = function (target) {
@@ -207,8 +206,8 @@ var BaseObject = /** @class */ (function () {
     /**
      * Makes a copy of this object and returns the clone. Try to avoid cloning complex objects like chart, create new instances if you need them.
      *
-     * @param   {string}  cloneId  An id to use for clone (if not set a unique id will be generated)
-     * @returns {Object}           Clone
+     * @param cloneId  An id to use for clone (if not set a unique id will be generated)
+     * @returns Clone
      */
     BaseObject.prototype.clone = function (cloneId) {
         if (!cloneId) {
@@ -226,7 +225,7 @@ var BaseObject = /** @class */ (function () {
          * Returns a collection of object's clones.
          *
          * @ignore Exclude from docs
-         * @return {Dictionary<string, this>} Clones
+         * @return Clones
          */
         get: function () {
             if (!this._clones) {
@@ -240,7 +239,7 @@ var BaseObject = /** @class */ (function () {
     /**
      * Copies all properties and related data from different element.
      *
-     * @param {this} object Source element
+     * @param object Source element
      */
     BaseObject.prototype.copyFrom = function (object) {
         object.clones.push(this); // do not moveValue, as it is expensive! even if there will be several items in clones list, it's not that bad.
@@ -249,7 +248,7 @@ var BaseObject = /** @class */ (function () {
     Object.defineProperty(BaseObject.prototype, "className", {
         /**
          * @ignore Exclude from docs
-         * @return {string} Class name
+         * @return Class name
          */
         get: function () {
             return this._className;
@@ -258,7 +257,7 @@ var BaseObject = /** @class */ (function () {
          * Element's class name. (a class that was used to instantiate the element)
          *
          * @ignore Exclude from docs
-         * @param {string}  value  Class name
+         * @param value  Class name
          */
         set: function (value) {
             this._className = value;
@@ -273,9 +272,9 @@ var BaseObject = /** @class */ (function () {
      * Caches value in object's cache.
      *
      * @ignore Exclude from docs
-     * @param {string}  key    Key
-     * @param {any}     value  Value
-     * @param {number}  ttl    TTL in seconds
+     * @param key    Key
+     * @param value  Value
+     * @param ttl    TTL in seconds
      */
     BaseObject.prototype.setCache = function (key, value, ttl) {
         cache.set(this.uid, key, value, ttl);
@@ -287,9 +286,9 @@ var BaseObject = /** @class */ (function () {
      * if cache is not available or is expired.
      *
      * @ignore Exclude from docs
-     * @param  {string}  key    Key
-     * @param  {any}     value  Value to return if cache is not available
-     * @return {any}            Value
+     * @param key    Key
+     * @param value  Value to return if cache is not available
+     * @return Value
      */
     BaseObject.prototype.getCache = function (key, value) {
         if (value === void 0) { value = undefined; }
@@ -309,9 +308,9 @@ var BaseObject = /** @class */ (function () {
      * disposed.
      *
      * @ignore Exclude from docs
-     * @param  {() => void}  fn     Callback function
-     * @param  {number}      delay  Timeout (ms)
-     * @return {IDisposer}          Disposer for timeout
+     * @param fn     Callback function
+     * @param delay  Timeout (ms)
+     * @return Disposer for timeout
      */
     BaseObject.prototype.setTimeout = function (fn, delay) {
         var _this = this;
@@ -331,9 +330,9 @@ var BaseObject = /** @class */ (function () {
      * disposed.
      *
      * @ignore Exclude from docs
-     * @param  {() => void}  fn     Callback function
-     * @param  {number}      delay  Timeout (ms)
-     * @return {IDisposer}          Disposer for timeout
+     * @param fn     Callback function
+     * @param delay  Timeout (ms)
+     * @return Disposer for timeout
      */
     BaseObject.prototype.setInterval = function (fn, delay) {
         var _this = this;
@@ -362,7 +361,7 @@ var BaseObject = /** @class */ (function () {
          * Use this with caution, as it is a time-consuming process. It's used for
          * initialchart setup only, not routine operations.
          *
-         * @param {object} json JSON config
+         * @param json JSON config
          */
         set: function (config) {
             try {
@@ -381,7 +380,7 @@ var BaseObject = /** @class */ (function () {
     /**
      * Processes the JSON config.
      *
-     * @param {object}  json  JSON config
+     * @param json  JSON config
      * @ignore Exclude from docs
      */
     BaseObject.prototype.processConfig = function (config) {
@@ -599,12 +598,12 @@ var BaseObject = /** @class */ (function () {
      *
      * Returns the same source value if no color/percent detected
      *
-     * @param  {any}  value  Source value
-     * @return {any}         Converted value
+     * @param value  Source value
+     * @return Converted value
      */
     BaseObject.prototype.maybeColorOrPercent = function (value) {
         if ($type.isString(value)) {
-            if (value.match(/^[0-9.\-]+\%$/)) {
+            if (value.match(/^[\-]?[0-9.]+\%$/)) {
                 return percent($type.toNumber(value));
             }
             else if (value.match(/^\#[0-9abcdef]{3,}$/i)) {
@@ -647,8 +646,8 @@ var BaseObject = /** @class */ (function () {
      * Processes JSON config for a [[DictionaryTemplate]] item.
      *
      * @todo Description
-     * @param {DictionaryTemplate<any, any>}  item    Item
-     * @param {any}                           config  Config
+     * @param item    Item
+     * @param config  Config
      */
     BaseObject.prototype.processDictionaryTemplate = function (item, config) {
         // We can only process object
@@ -685,8 +684,8 @@ var BaseObject = /** @class */ (function () {
      * Processes JSON config for a [[Dictionary]] item.
      *
      * @todo Description
-     * @param {Dictionary<any, any>}  item    Item
-     * @param {any}                   config  Config
+     * @param item    Item
+     * @param config  Config
      */
     BaseObject.prototype.processDictionary = function (item, config) {
         // We can only process object
@@ -703,8 +702,8 @@ var BaseObject = /** @class */ (function () {
     /**
      * Processes [[List]].
      *
-     * @param {any}        configValue  Config value
-     * @param {List<any>}  item         Item
+     * @param configValue  Config value
+     * @param item         Item
      */
     BaseObject.prototype.processList = function (configValue, item) {
         var _this = this;
@@ -766,9 +765,9 @@ var BaseObject = /** @class */ (function () {
      * the end.
      *
      * @ignore Exclude from docs
-     * @param  {string}  a  Element 1
-     * @param  {string}  b  Element 2
-     * @return {Ordering}   Sorting number
+     * @param a  Element 1
+     * @param b  Element 2
+     * @return Sorting number
      */
     BaseObject.prototype.configOrder = function (a, b) {
         if (a == b) {
@@ -792,8 +791,8 @@ var BaseObject = /** @class */ (function () {
      *
      * Extending functions can override this function to do their own checks.
      *
-     * @param  {string}   field  Field name
-     * @return {boolean}         Assign as is?
+     * @param field  Field name
+     * @return Assign as is?
      */
     BaseObject.prototype.asIs = function (field) {
         return $array.indexOf(["locale"], field) != -1;
@@ -802,8 +801,8 @@ var BaseObject = /** @class */ (function () {
      * Creates a relevant class instance if such class definition exists.
      *
      * @ignore Exclude from docs
-     * @param  {string}  className  Class name
-     * @return {Object}             Instance
+     * @param className  Class name
+     * @return Instance
      */
     BaseObject.prototype.createClassInstance = function (className) {
         if ($type.hasValue(registry.registeredClasses[className])) {
@@ -816,8 +815,8 @@ var BaseObject = /** @class */ (function () {
      * `type` property)
      *
      * @ignore Exclude from docs
-     * @param  {any}  config  Config part
-     * @return {any}          Instance
+     * @param config  Config part
+     * @return Instance
      */
     BaseObject.prototype.createEntryInstance = function (config) {
         var res;
@@ -833,8 +832,8 @@ var BaseObject = /** @class */ (function () {
      * Determines config object type.
      *
      * @ignore Exclude from docs
-     * @param  {any}  config  Config part
-     * @return {any}          Type
+     * @param config  Config part
+     * @return Type
      */
     BaseObject.prototype.getConfigEntryType = function (config) {
         if ($type.hasValue(config["type"])) {
@@ -851,8 +850,8 @@ var BaseObject = /** @class */ (function () {
      * Checks if this element has a property.
      *
      * @ignore Exclude from docs
-     * @param  {string}   prop  Property name
-     * @return {boolean}        Has property?
+     * @param prop  Property name
+     * @return Has property?
      */
     BaseObject.prototype.hasProperty = function (prop) {
         return prop in this ? true : false;
@@ -860,8 +859,8 @@ var BaseObject = /** @class */ (function () {
     /**
      * Checkes whether JSON key is a reserved keyword.
      *
-     * @param  {string}   key  Key
-     * @return {boolean}       Reserved
+     * @param key  Key
+     * @return Reserved
      */
     BaseObject.prototype.isReserved = function (key) {
         return ["type", "forceCreate"].indexOf(key) !== -1;
@@ -870,7 +869,7 @@ var BaseObject = /** @class */ (function () {
         /**
          * A list of errors that happened during JSON processing.
          *
-         * @return {string[]} Errors
+         * @return Errors
          */
         get: function () {
             if (!this._processingErrors) {
@@ -911,8 +910,8 @@ var BaseObjectEvents = /** @class */ (function (_super) {
      * It also checks if there are any handlers registered for this sepecific
      * event.
      *
-     * @param {Key} eventType Event type (name)
-     * @param {any}    data      Data to pass into event handler(s)
+     * @param eventType Event type (name)
+     * @param data      Data to pass into event handler(s)
      */
     BaseObjectEvents.prototype.dispatch = function (eventType, data) {
         // @todo Implement proper type check
@@ -937,8 +936,8 @@ var BaseObjectEvents = /** @class */ (function (_super) {
      * Works like `dispatch`, except event is triggered immediately, without
      * waiting for the next frame cycle.
      *
-     * @param {Key} eventType Event type (name)
-     * @param {any}    data      Data to pass into event handler(s)
+     * @param eventType Event type (name)
+     * @param data      Data to pass into event handler(s)
      */
     BaseObjectEvents.prototype.dispatchImmediately = function (eventType, data) {
         // @todo Implement proper type check
@@ -959,7 +958,7 @@ var BaseObjectEvents = /** @class */ (function (_super) {
     /**
      * Copies all parameters from another [[Sprite]].
      *
-     * @param {BaseObjectEvents} source Source object
+     * @param source Source object
      */
     BaseObjectEvents.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

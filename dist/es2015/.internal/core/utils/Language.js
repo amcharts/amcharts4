@@ -39,21 +39,15 @@ var Language = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * Adapter.
-         *
-         * @type {Adapter<this, this["_adapter"]>}
          */
         _this.adapter = new Adapter(_this);
         /**
          * Current locale.
-         *
-         * @type {ILocale}
          */
         _this._locale = en;
         /**
          * Default locale. A locale to fall back to if none is specified, or
          * if there's no translation for the prompt for the current language.
-         *
-         * @type {ILocaleDefault}
          */
         _this._defaultLocale = en;
         _this.className = "Language";
@@ -67,8 +61,8 @@ var Language = /** @class */ (function (_super) {
     /**
      * Returns locale that is currently used.
      *
-     * @param  {ILocale}  locale  Force locale. Will use current language if not set.
-     * @return {string}           Locale
+     * @param locale  Force locale. Will use current language if not set.
+     * @return Locale
      */
     Language.prototype.getLocale = function (locale) {
         if (locale == null) {
@@ -97,10 +91,10 @@ var Language = /** @class */ (function (_super) {
      * chart.language.translate("This is a %1 translation %2", null, "first", "test");
      * ```
      *
-     * @param  {Key}            prompt   A string to translate
-     * @param  {ILocale}        locale   Force translation into specific locale, e.g. fr_FR
-     * @param  {Array<string>}  ...rest  Parameters to replace in string
-     * @return {string}                  Translation
+     * @param prompt   A string to translate
+     * @param locale   Force translation into specific locale, e.g. fr_FR
+     * @param ...rest  Parameters to replace in string
+     * @return Translation
      */
     Language.prototype.translate = function (prompt, locale) {
         var rest = [];
@@ -146,10 +140,10 @@ var Language = /** @class */ (function (_super) {
      * If translation is empty, it will return empty string, which is a different
      * behavior than that of regular `translate`.
      *
-     * @param  {Key}            prompt   A string to translate
-     * @param  {ILocale}        locale   Force translation into specific locale, e.g. fr_FR
-     * @param  {Array<string>}  ...rest  Parameters to replace in string
-     * @return {string}                  Translation
+     * @param prompt   A string to translate
+     * @param locale   Force translation into specific locale, e.g. fr_FR
+     * @param ...rest  Parameters to replace in string
+     * @return Translation
      */
     Language.prototype.translateEmpty = function (prompt, locale) {
         var rest = [];
@@ -165,9 +159,9 @@ var Language = /** @class */ (function (_super) {
      * This method will return a function reference, but will not run it. It's
      * up to the caller script to run the function.
      *
-     * @param  {Key}                    prompt  A function id to translate
-     * @param  {ILocale}                locale  Force translation into specific locale. e.g. fr_FR
-     * @return {ILocaleFunctions[Key]}          A language-specific version of the function
+     * @param prompt  A function id to translate
+     * @param locale  Force translation into specific locale. e.g. fr_FR
+     * @return A language-specific version of the function
      * @todo Apply adapter
      */
     Language.prototype.translateFunc = function (prompt, locale) {
@@ -192,9 +186,9 @@ var Language = /** @class */ (function (_super) {
     /**
      * Translates a list of prompts in one go.
      *
-     * @param  {Array<Key>}     list    An array of strings to translate
-     * @param  {ILocale}        locale  Force translation into specific locale. e.g. fr_FR
-     * @return {Array<string>}          An array of translated strings in the same order as source list
+     * @param list    An array of strings to translate
+     * @param locale  Force translation into specific locale. e.g. fr_FR
+     * @return An array of translated strings in the same order as source list
      */
     Language.prototype.translateAll = function (list, locale) {
         var _this = this;
@@ -209,14 +203,14 @@ var Language = /** @class */ (function (_super) {
     /**
      * Returns `true` if the currently selected locale is a default locale.
      *
-     * @return {boolean} `true` if locale is default; `false` if it is not.
+     * @return `true` if locale is default; `false` if it is not.
      */
     Language.prototype.isDefault = function () {
         return this._defaultLocale === this._locale;
     };
     Object.defineProperty(Language.prototype, "locale", {
         /**
-         * @return {ILocale} Locale definition
+         * @return Locale definition
          */
         get: function () {
             return this._locale;
@@ -224,7 +218,7 @@ var Language = /** @class */ (function (_super) {
         /**
          * Current locale.
          *
-         * @param {ILocale}  value  Locale definition (translations)
+         * @param value  Locale definition (translations)
          */
         set: function (value) {
             if (this._locale != value) {
@@ -247,8 +241,8 @@ var Language = /** @class */ (function (_super) {
      *
      * @ignore
      * @deprecated
-     * @param  {ILocale}        locale  Locale
-     * @return {ILocale}        Translations
+     * @param locale  Locale
+     * @return Translations
      */
     Language.prototype.getTranslations = function (locale) {
         return this.adapter.apply("translations", {

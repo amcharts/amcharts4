@@ -30,7 +30,6 @@ export interface BlurFilterProperties extends FilterProperties {
 	/**
 	 * Horizontal offset in pixels.
 	 *
-	 * @type {number}
 	 * @ignore Deprecated
 	 * @deprecated ?
 	 * @todo Remove?
@@ -40,7 +39,6 @@ export interface BlurFilterProperties extends FilterProperties {
 	/**
 	 * Vertical offset in pixels.
 	 *
-	 * @type {number}
 	 * @ignore Deprecated
 	 * @deprecated ?
 	 * @todo Remove?
@@ -49,15 +47,12 @@ export interface BlurFilterProperties extends FilterProperties {
 
 	/**
 	 * Blur value.
-	 *
-	 * @type {number}
 	 */
 	blur: number;
 
 	/**
 	 * Opacity. (0-1)
 	 *
-	 * @type {number}
 	 * @ignore Deprecated
 	 * @deprecated ?
 	 * @todo Remove?
@@ -67,7 +62,6 @@ export interface BlurFilterProperties extends FilterProperties {
 	/**
 	 * Color.
 	 *
-	 * @type {Color}
 	 * @ignore Deprecated
 	 * @deprecated ?
 	 * @todo Remove?
@@ -91,15 +85,12 @@ export class BlurFilter extends Filter {
 
 	/**
 	 * Defines property types.
-	 *
-	 * @type {BlurFilterProperties}
 	 */
 	public _properties!: BlurFilterProperties;
 
 	/**
 	 * A storage for Filter property/value pairs.
 	 * @see [@link BlurFilterProperties]
-	 * @type {Dictionary<BlurFilterProperties, any>}
 	 */
 	//public propertyValues: Dictionary<BlurFilterProperties, any>;
 
@@ -107,7 +98,6 @@ export class BlurFilter extends Filter {
 	 * Reference to the `<feGaussianBlur>` element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {AMElement}
 	 */
 	public feGaussianBlur: AMElement;
 
@@ -142,7 +132,7 @@ export class BlurFilter extends Filter {
 	 * The bigger the value, the blurrier the target element will become.
 	 *
 	 * @default 1.5
-	 * @param {number} value Blur
+	 * @param value Blur
 	 */
 	public set blur(value: number) {
 		this.properties.blur = value;
@@ -150,7 +140,7 @@ export class BlurFilter extends Filter {
 	}
 
 	/**
-	 * @return {number} Blur
+	 * @return Blur
 	 */
 	public get blur(): number {
 		return this.properties.blur;

@@ -27,8 +27,6 @@ export interface DateFormatInfo {
 
 /**
  * Month names.
- *
- * @type {string}
  */
 export type MonthNames = "January" | "February" | "March" | "April" | "May" | "June" | "July" | "August" | "September" | "October" | "November" | "December";
 
@@ -41,15 +39,11 @@ export type ShortMonthNames = "Jan" | "Feb" | "Mar" | "Apr" | "May(short)" | "Ju
 
 /**
  * Weekedays.
- *
- * @type {string}
  */
 export type Weekdays = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
 
 /**
  * Short weekday names.
- *
- * @type {string}
  */
 export type ShortWeekdays = "Sun" | "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat";
 
@@ -66,22 +60,16 @@ export class DateFormatter extends BaseObject {
 
 	/**
 	 * Date format.
-	 *
-	 * @type {string}
 	 */
 	protected _dateFormat: string = "yyyy-MM-dd";
 
 	/**
 	 * Input date format.
-	 *
-	 * @type {string}
 	 */
 	protected _inputDateFormat: string = "yyyy-MM-dd";
 
 	/**
 	 * Assume UTC time zone.
-	 *
-	 * @type {boolean}
 	 */
 	protected _utc: boolean = false;
 
@@ -92,15 +80,11 @@ export class DateFormatter extends BaseObject {
 	 * 1 - Monday
 	 *
 	 * Etc.
-	 *
-	 * @type {number}
 	 */
 	protected _firstDayOfWeek: number = 1;
 
 	/**
 	 * A list of month names.
-	 *
-	 * @type {Array<MonthNames>}
 	 */
 	protected _months: Array<MonthNames> = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -113,15 +97,11 @@ export class DateFormatter extends BaseObject {
 
 	/**
 	 * A list of weekday names.
-	 *
-	 * @type {Array<Weekdays>}
 	 */
 	protected _weekdays: Array<Weekdays> = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 	/**
 	 * A list of short weekday names.
-	 *
-	 * @type {Array<ShortWeekdays>}
 	 */
 	protected _weekdaysShort: Array<ShortWeekdays> = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -133,21 +113,16 @@ export class DateFormatter extends BaseObject {
 	 * Available options: svg, html.
 	 *
 	 * @default "svg"
-	 * @type {string}
 	 */
 	protected _outputFormat: string = "svg";
 
 	/**
 	 * Holds reference to parent [[Sprite]] object.
-	 *
-	 * @type {Optional<Sprite>}
 	 */
 	public sprite: $type.Optional<Sprite>;
 
 	/**
 	 * Holds reference to [[Language]] object.
-	 *
-	 * @type {Optional<Language>}
 	 */
 	public language: $type.Optional<Language>;
 
@@ -156,7 +131,6 @@ export class DateFormatter extends BaseObject {
 	 * Should the first letter of the formatted date be capitalized?
 	 *
 	 * @default true
-	 * @type {boolean}
 	 */
 	public capitalize: boolean = true;
 
@@ -173,9 +147,9 @@ export class DateFormatter extends BaseObject {
 	 * Formats the date value according to specified format.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-date-time/} Tutorial on date/time formatting
-	 * @param  {any}     source  Date value
-	 * @param  {string}  format  Format
-	 * @return {string}          Formatted date string
+	 * @param source  Date value
+	 * @param format  Format
+	 * @return Formatted date string
 	 */
 	public format(source: any, format?: string): string {
 
@@ -227,7 +201,7 @@ export class DateFormatter extends BaseObject {
 	/**
 	 * Parses format into structured infromation.
 	 *
-	 * @param {string} format Format template
+	 * @param format Format template
 	 */
 	protected parseFormat(format: string): DateFormatInfo {
 
@@ -287,10 +261,10 @@ export class DateFormatter extends BaseObject {
 	/**
 	 * Applies format to Date.
 	 *
-	 * @param  {Date}            date      Date object
-	 * @param  {DateFormatInfo}  info      Parsed format information
-	 * @param  {Language}        language  Language
-	 * @return {string}                    Formatted date string
+	 * @param date      Date object
+	 * @param info      Parsed format information
+	 * @param language  Language
+	 * @return Formatted date string
 	 */
 	protected applyFormat(date: Date, info: DateFormatInfo, language: Language): string {
 
@@ -587,6 +561,11 @@ export class DateFormatter extends BaseObject {
 					let tzh = Math.floor(tz);
 					let tzm = tz * 60 - tzh * 60;
 
+					if (this.utc) {
+						tzh = 0;
+						tzm = 0;
+					}
+
 					if (info.parts[i] == "Z") {
 						value = "GMT";
 						value += offset > 0 ? "-" : "+";
@@ -617,9 +596,9 @@ export class DateFormatter extends BaseObject {
 	 * Parses any input value into Date object.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-date-time/#Parsing_Dates} Tutorial on date/time parsing
-	 * @param  {any}     source  Source value
-	 * @param  {string}  format  Source format
-	 * @return {Date}            Date object
+	 * @param source  Source value
+	 * @param format  Source format
+	 * @return Date object
 	 */
 	public parse(source: any, format?: string): Date {
 
@@ -1187,8 +1166,8 @@ export class DateFormatter extends BaseObject {
 	/**
 	 * Resolves month name (i.e. "December") into a month number (11).
 	 *
-	 * @param  {MonthNames}  value  Month name
-	 * @return {number}             Month number
+	 * @param value  Month name
+	 * @return Month number
 	 */
 	protected resolveMonth(value: MonthNames): number {
 
@@ -1212,8 +1191,8 @@ export class DateFormatter extends BaseObject {
 	/**
 	 * Resolves short month name (i.e. "Dec") into a month number.
 	 *
-	 * @param  {ShortMonthNames}  value  Short month name
-	 * @return {number}                  Month number
+	 * @param value  Short month name
+	 * @return Month number
 	 */
 	protected resolveShortMonth(value: ShortMonthNames): number {
 
@@ -1238,8 +1217,8 @@ export class DateFormatter extends BaseObject {
 	 * Checks if passed in string represents AM/PM notation in many of its
 	 * versions.
 	 *
-	 * @param  {string}   value  Source string
-	 * @return {boolean}         Is it AM/PM?
+	 * @param value  Source string
+	 * @return Is it AM/PM?
 	 */
 	protected isAm(value: string): boolean {
 		let list = this.getStringList(["AM", "A.M.", "A"]);
@@ -1258,8 +1237,8 @@ export class DateFormatter extends BaseObject {
 	/**
 	 * Translates list of strings.
 	 *
-	 * @param  {Array<keyof ILocaleProperties>}  list  Source strings
-	 * @return {Array<string>}                         Translated strings
+	 * @param list  Source strings
+	 * @return Translated strings
 	 */
 	protected getStringList(list: Array<keyof ILocaleProperties>): Array<string> {
 		let res: string[] = [];
@@ -1280,7 +1259,7 @@ export class DateFormatter extends BaseObject {
 	 * used.
 	 *
 	 * @default "yyyy-MM-dd"
-	 * @param {string} value Date format
+	 * @param value Date format
 	 */
 	public set dateFormat(value: string) {
 		this._dateFormat = value;
@@ -1288,7 +1267,7 @@ export class DateFormatter extends BaseObject {
 	}
 
 	/**
-	 * @return {string} Date format
+	 * @return Date format
 	 */
 	public get dateFormat(): string {
 		return this._dateFormat;
@@ -1298,7 +1277,7 @@ export class DateFormatter extends BaseObject {
 	 * Date format to use when parsing dates.
 	 *
 	 * @default "yyyy-MM-dd"
-	 * @param {string} value Date format
+	 * @param value Date format
 	 */
 	public set inputDateFormat(value: string) {
 		this._inputDateFormat = value;
@@ -1306,7 +1285,7 @@ export class DateFormatter extends BaseObject {
 	}
 
 	/**
-	 * @return {string} Date format
+	 * @return Date format
 	 */
 	public get inputDateFormat(): string {
 		return this._inputDateFormat;
@@ -1318,7 +1297,7 @@ export class DateFormatter extends BaseObject {
 	 * If UTC is used, all date/time values will be independent on client's
 	 * time zone.
 	 *
-	 * @param {boolean} value Use UTC?
+	 * @param value Use UTC?
 	 */
 	public set utc(value: boolean) {
 		this._utc = value;
@@ -1326,7 +1305,7 @@ export class DateFormatter extends BaseObject {
 	}
 
 	/**
-	 * @return {boolean} Use UTC?
+	 * @return Use UTC?
 	 */
 	public get utc(): boolean {
 		return this._utc;
@@ -1341,7 +1320,7 @@ export class DateFormatter extends BaseObject {
 	 *
 	 * Etc.
 	 *
-	 * @param {number} value First day of week
+	 * @param value First day of week
 	 */
 	public set firstDayOfWeek(value: number) {
 		this._firstDayOfWeek = value;
@@ -1349,7 +1328,7 @@ export class DateFormatter extends BaseObject {
 	}
 
 	/**
-	 * @return {number} First day of week
+	 * @return First day of week
 	 */
 	public get firstDayOfWeek(): number {
 		return this._firstDayOfWeek;
@@ -1359,7 +1338,7 @@ export class DateFormatter extends BaseObject {
 	 * Output format for the formatted date.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {string}  value  Format
+	 * @param value  Format
 	 */
 	public set outputFormat(value: string) {
 		this._outputFormat = value.toLowerCase();
@@ -1368,7 +1347,7 @@ export class DateFormatter extends BaseObject {
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {string} Format
+	 * @return Format
 	 */
 	public get outputFormat(): string {
 		return this._outputFormat;

@@ -62,7 +62,7 @@ var Column3D = /** @class */ (function (_super) {
     /**
      * Copies all parameters from another [[Column3D]].
      *
-     * @param {Column3D} source Source Column3D
+     * @param source Source Column3D
      */
     Column3D.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

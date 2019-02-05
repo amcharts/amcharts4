@@ -67,52 +67,38 @@ export class AxisDataItem extends DataItem {
 
 	/**
 	 * Reference to a related [[Grid]] element.
-	 *
-	 * @type {Grid}
 	 */
 	protected _grid: Grid;
 
 	/**
 	 * Reference to a related [[AxisTick]] element.
-	 *
-	 * @type {AxisTick}
 	 */
 	protected _tick: AxisTick;
 
 	/**
 	 * Reference to a related [[AxisLabel]] element.
-	 *
-	 * @type {AxisLabel}
 	 */
 	protected _label: AxisLabel;
 
 	/**
 	 * Reference to a related [[AxisFill]] element.
-	 *
-	 * @type {AxisFill}
 	 */
 	protected _axisFill: AxisFill;
 
 	/**
 	 * A mask for axis. We're using [[AxisFill]] since the mask, basically, has
 	 * the same shape and features.
-	 *
-	 * @type {AxisFill}
 	 */
 	protected _mask: AxisFill;
 
 	/**
 	 * Container which might be used to hold some extra items, like series
 	 * segments when data item is used for axis range.
-	 *
-	 * @type {Container}
 	 */
 	protected _contents: Container;
 
 	/**
 	 * A text to be used as label for this data item.
-	 *
-	 * @type {string}
 	 */
 	protected _text: string;
 
@@ -120,23 +106,17 @@ export class AxisDataItem extends DataItem {
 	 * Holds a physical position of the grid line associated with this data item,
 	 * so that it can be used when measuring distance between points, and hiding
 	 * some of them so they don't overlap.
-	 *
-	 * @type {IPoint}
 	 */
 	public point: IPoint;
 
 	/**
 	 * If the data item is within an existing [[AxisBreak]] this property will
 	 * hold a reference to that [[AxisBreak]].
-	 *
-	 * @type {AxisBreak}
 	 */
 	public _axisBreak: AxisBreak;
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {Axis}
 	 */
 	public _component!: Axis;
 
@@ -145,7 +125,6 @@ export class AxisDataItem extends DataItem {
 	 * used for ranges, like `series.axisRanges` or `axis.axisRanges`.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {boolean}
 	 */
 	public isRange: boolean;
 
@@ -169,7 +148,7 @@ export class AxisDataItem extends DataItem {
 	 * If there is no grid element associated with data item, a new one is
 	 * created and returned.
 	 *
-	 * @param {Grid}  grid  Grid element
+	 * @param grid  Grid element
 	 */
 	public set grid(grid: Grid) {
 		if (this._grid && this._grid != grid) {
@@ -188,7 +167,7 @@ export class AxisDataItem extends DataItem {
 	}
 
 	/**
-	 * @return {Grid} Grid element
+	 * @return Grid element
 	 */
 	public get grid(): Grid {
 		if (!this._grid) {
@@ -234,7 +213,7 @@ export class AxisDataItem extends DataItem {
 	 * If there is no tick element associated with data item, a new one is
 	 * created and returned.
 	 *
-	 * @param {AxisTick}  tick  Tick element
+	 * @param tick  Tick element
 	 */
 	public set tick(tick: AxisTick) {
 		if (this._tick && this._tick != tick) {
@@ -253,7 +232,7 @@ export class AxisDataItem extends DataItem {
 	}
 
 	/**
-	 * @return {AxisTick} Tick element
+	 * @return Tick element
 	 */
 	public get tick(): AxisTick {
 		if (!this._tick) {
@@ -299,7 +278,7 @@ export class AxisDataItem extends DataItem {
 	 * If there is no label element associated with data item, a new one is
 	 * created and returned.
 	 *
-	 * @param {AxisLabel} label Label element
+	 * @param label Label element
 	 */
 	public set label(label: AxisLabel) {
 		if (this._label && this._label != label) {
@@ -318,7 +297,7 @@ export class AxisDataItem extends DataItem {
 	}
 
 	/**
-	 * @return {AxisLabel} Label element
+	 * @return Label element
 	 */
 	public get label(): AxisLabel {
 		if (!this._label) {
@@ -365,7 +344,7 @@ export class AxisDataItem extends DataItem {
 	 * If there is no fill element associated with data item, a new one is
 	 * created and returned.
 	 *
-	 * @param {AxisFill} label Label element
+	 * @param label Label element
 	 */
 	public set axisFill(axisFill: AxisFill) {
 		if (this._axisFill && this._axisFill != axisFill) {
@@ -385,7 +364,7 @@ export class AxisDataItem extends DataItem {
 	}
 
 	/**
-	 * @return {AxisFill} Label element
+	 * @return Label element
 	 */
 	public get axisFill(): AxisFill {
 		if (!this._axisFill) {
@@ -427,7 +406,7 @@ export class AxisDataItem extends DataItem {
 	/**
 	 * Text to be used as data item's label.
 	 *
-	 * @param {string} text Text label
+	 * @param text Text label
 	 */
 	public set text(text: string) {
 		this._text = text;
@@ -437,7 +416,7 @@ export class AxisDataItem extends DataItem {
 	}
 
 	/**
-	 * @return {string} Text label
+	 * @return Text label
 	 */
 	public get text(): string {
 		return this._text;
@@ -446,7 +425,7 @@ export class AxisDataItem extends DataItem {
 	/**
 	 * Data item's mask.
 	 *
-	 * @return {AxisFill} Mask
+	 * @return Mask
 	 */
 	public get mask(): AxisFill {
 		return this._mask;
@@ -458,7 +437,7 @@ export class AxisDataItem extends DataItem {
 	 *
 	 * If there is no Container, a new one is created.
 	 *
-	 * @return {Container} Contents container
+	 * @return Contents container
 	 */
 	public get contents(): Container {
 		if (!this._contents) {
@@ -483,7 +462,7 @@ export class AxisDataItem extends DataItem {
 	/**
 	 * An [[AxisBreak]] this data item falls within.
 	 *
-	 * @param {AxisBreak} axisBreak Axis break
+	 * @param axisBreak Axis break
 	 */
 	public set axisBreak(axisBreak: this["_axisBreak"]) {
 		if (this._axisBreak) {
@@ -496,7 +475,7 @@ export class AxisDataItem extends DataItem {
 	}
 
 	/**
-	 * @return {AxisBreak} Axis break
+	 * @return Axis break
 	 */
 	public get axisBreak(): this["_axisBreak"] {
 		return this._axisBreak;
@@ -527,9 +506,9 @@ export class AxisDataItem extends DataItem {
 	/**
 	 * Ordering function used in JSON setup.
 	 *
-	 * @param  {string}  a  Item A
-	 * @param  {string}  b  Item B
-	 * @return {Ordering}   Order
+	 * @param a  Item A
+	 * @param b  Item B
+	 * @return Order
 	 */
 	protected configOrder(a: string, b: string): Ordering {
 		if (a == b) {
@@ -555,8 +534,8 @@ export class AxisDataItem extends DataItem {
 	/**
 	 * Checks if data item has particular property set.
 	 *
-	 * @param  {string}   prop  Property name
-	 * @return {boolean}        Property set?
+	 * @param prop  Property name
+	 * @return Property set?
 	 */
 	protected hasProperty(prop: string): boolean {
 		return prop == "component" ? true : super.hasProperty(prop);
@@ -565,7 +544,7 @@ export class AxisDataItem extends DataItem {
 	/**
 	 * Copies all parameters from another [[AxisDataItem]].
 	 *
-	 * @param {AxisDataItem} source Source AxisDataItem
+	 * @param source Source AxisDataItem
 	 */
 	public copyFrom(source: this) {
 		super.copyFrom(source);
@@ -617,7 +596,7 @@ export interface IAxisProperties extends IComponentProperties {
 	 * * 0.5 - Half of the first cell is shown.
 	 * * 1 - Full first cell is shown.
 	 *
-	 * @param {number} value Location (0-1)
+	 * @param value Location (0-1)
 	 */
 	startLocation?: number;
 
@@ -629,14 +608,12 @@ export interface IAxisProperties extends IComponentProperties {
 	 * * 0.5 - Half of the last cell is shown.
 	 * * 1 - Full last cell is shown.
 	 *
-	 * @param {number} value Location (0-1)
+	 * @param value Location (0-1)
 	 */
 	endLocation?: number;
 
 	/**
 	 * Indicates if cusor's tooltip should be shown on this Axis.
-	 *
-	 * @type {boolean}
 	 */
 	cursorTooltipEnabled?: boolean;
 }
@@ -662,8 +639,6 @@ export interface IAxisEvents extends IComponentEvents {
 export interface IAxisAdapters extends IComponentAdapters, IAxisProperties {
 	/**
 	 * Applied to the tooltip text before it is shown.
-	 *
-	 * @type {string}
 	 */
 	getTooltipText: string;
 
@@ -686,29 +661,21 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 
 	/**
 	 * Defines list of data fields.
-	 *
-	 * @type {IAxisDataFields}
 	 */
 	public _dataFields: IAxisDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IAxisProperties}
 	 */
 	public _properties!: IAxisProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IAxisAdapters}
 	 */
 	public _adapter!: IAxisAdapters;
 
 	/**
 	 * Defines the type of the [[DataItem]] used in the class.
-	 *
-	 * @type {AxisDataItem}
 	 */
 	public _dataItem: AxisDataItem;
 
@@ -719,22 +686,16 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 
 	/**
 	 * Defines the type of the axis breaks.
-	 *
-	 * @type {AxisBreak}
 	 */
 	public _axisBreak: AxisBreak;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IAxisEvents}
 	 */
 	public _events!: IAxisEvents;
 
 	/**
 	 * A [[Label]] instance that is used for Axis title label.
-	 *
-	 * @type {Label}
 	 */
 	public title: Label;
 
@@ -745,42 +706,32 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * items it should use.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {string}
 	 */
 	public axisLetter: string;
 
 	/**
 	 * A reference to chart the axis is for.
-	 *
-	 * @type {Chart}
 	 */
 	protected _chart: Chart;
 
 	/**
 	 * A type for renderer used for this Axis.
-	 * @type {T}
 	 */
 	public _renderer: T;
 
 	/**
 	 * Number of Grid elements on the axis.
-	 *
-	 * @type {number}
 	 */
 	protected _gridCount: number = 10;
 
 	/**
 	 * A list of [[XYSeries]] that are using this Axis.
-	 *
-	 * @type {List<XYSeries>}
 	 */
 	protected _series: List<XYSeries> = new List<XYSeries>();
 
 	/**
 	 * Holds the length of the Axis, so that we can check if it changed after
 	 * other changes and we need to update layouts.
-	 *
-	 * @type {number}
 	 */
 	protected _prevLength: number;
 
@@ -798,7 +749,6 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * A name of the data field this Axis looks for its data in, e.g. "category".
 	 *
 	 * @ignore Exclude from docs
-	 * @type {string}
 	 */
 	public axisFieldName: string;
 
@@ -808,7 +758,6 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * [currentItemStartPoint description]
 	 *
 	 * @ignore Exclude from docs
-	 * @type {IPoint}
 	 */
 	public currentItemStartPoint: IPoint;
 
@@ -816,7 +765,6 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * [currentItemEndPoint description]
 	 *
 	 * @ignore Exclude from docs
-	 * @type {IPoint}
 	 */
 	public currentItemEndPoint: IPoint;
 
@@ -850,7 +798,6 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * Full length of the axis, in pixels.
 	 *
 	 * @readonly
-	 * @type {number}
 	 */
 	public axisFullLength: number;
 
@@ -858,8 +805,6 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * Ghost label is used to prevent chart shrinking/expanding when zooming or
 	 * when data is invalidated. You can set custom text on it so that it would
 	 * be bigger/smaller,
-	 *
-	 * @type {AxisLabel}
 	 */
 	public ghostLabel: AxisLabel;
 
@@ -868,7 +813,6 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * chart's axis list.
 	 *
 	 * @default true
-	 * @type {boolean}
 	 */
 	public autoDispose: boolean = true;
 
@@ -926,7 +870,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {AxisDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new AxisDataItem();
@@ -948,7 +892,6 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 
 	/**
 	 * Invalidates series of this axis.
-	 *
 	 */
 	public invalidateSeries(): void {
 		// this puts series after axis in invalidation order also makes series update it's data items in case widht/height of a series is not 100%
@@ -1009,7 +952,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * Adds a data item to the Axis.
 	 *
-	 * @param {this["_dataItem"]} dataItem Data item
+	 * @param dataItem Data item
 	 */
 	public appendDataItem(dataItem: this["_dataItem"]) {
 		let renderer: AxisRenderer = this.renderer;
@@ -1082,7 +1025,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * `axisBreaks`.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IListEvents<this["_axisBreak"]>["inserted"]} event Event
+	 * @param event Event
 	 */
 	public processBreak(event: IListEvents<this["_axisBreak"]>["inserted"]) {
 		let axisBreak: this["_axisBreak"] = event.newValue;
@@ -1096,8 +1039,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * Returns a [[Disposer]] for all events, added to Series for watching
 	 * changes in Axis, and vice versa.
 	 * @ignore
-	 * @param  {XYSeries}     series  Series
-	 * @return {IDisposer}          Event disposer
+	 * @param series  Series
+	 * @return Event disposer
 	 */
 	public registerSeries(series: XYSeries): IDisposer {
 		this.series.moveValue(series);
@@ -1138,7 +1081,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * ```
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/} for more info
-	 * @param {this["_renderer"]}  renderer  Renderer
+	 * @param renderer  Renderer
 	 */
 	public set renderer(renderer: this["_renderer"]) {
 		if (renderer != this._renderer) {
@@ -1169,7 +1112,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	}
 
 	/**
-	 * @return {this["_renderer"]} Renderer
+	 * @return Renderer
 	 */
 	public get renderer(): this["_renderer"] {
 		return this._renderer;
@@ -1178,8 +1121,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * Converts a relative position to angle. (for circular axes)
 	 *
-	 * @param  {number} position Position (0-1)
-	 * @return {number}          Angle
+	 * @param position Position (0-1)
+	 * @return Angle
 	 */
 	public positionToAngle(position: number): number {
 		return this.renderer.positionToAngle(position);
@@ -1188,8 +1131,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * Converts pixel coordinates to a relative position. (0-1)
 	 *
-	 * @param {IPoint}   point  Coorinates (px)
-	 * @return {number}         Position (0-1)
+	 * @param point  Coorinates (px)
+	 * @return Position (0-1)
 	 */
 	public pointToPosition(point: IPoint): number {
 		return this.renderer.pointToPosition(point);
@@ -1200,9 +1143,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {any}     start  [description]
-	 * @param  {any}     end    [description]
-	 * @return {string}         [description]
+	 * @param start  [description]
+	 * @param end    [description]
+	 * @return [description]
 	 */
 	public getAnyRangePath(start: any, end: any): string {
 		return this.renderer.getPositionRangePath(start, end);
@@ -1212,8 +1155,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * Converts any positional parameter to a relative position on axis.
 	 *
 	 * @todo Description (review)
-	 * @param  {any}     value  Pisition
-	 * @return {number}         Position (0-1)
+	 * @param value  Pisition
+	 * @return Position (0-1)
 	 */
 	public anyToPosition(value: any): number {
 		return 0;
@@ -1223,8 +1166,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * Converts any positional parameter to a relative position on axis.
 	 *
 	 * @todo Description (review)
-	 * @param  {any}     value  Pisition
-	 * @return {IOrientationPoint}  Orientation point
+	 * @param value  Pisition
+	 * @return Orientation point
 	 */
 	public anyToPoint(value: any): IOrientationPoint {
 		return { x: 0, y: 0, angle: 0 };
@@ -1235,9 +1178,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {number} startPosition [description]
-	 * @param  {number} endPosition   [description]
-	 * @return {string}               [description]
+	 * @param startPosition [description]
+	 * @param endPosition   [description]
+	 * @return [description]
 	 */
 	public getPositionRangePath(startPosition: number, endPosition: number): string {
 		return this.renderer.getPositionRangePath(startPosition, endPosition);
@@ -1246,7 +1189,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * Actual axis length in pixels.
 	 *
-	 * @return {number} Axis length (px)
+	 * @return Axis length (px)
 	 */
 	public get axisLength(): number {
 		return this.renderer.axisLength;
@@ -1255,7 +1198,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * Indicates if axis should display a tooltip for chart's cursor.
 	 *
-	 * @param {boolean} value Display tooltip?
+	 * @param value Display tooltip?
 	 */
 	public set cursorTooltipEnabled(value: boolean) {
 		if (this.setPropertyValue("cursorTooltipEnabled", value)) {
@@ -1266,7 +1209,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	}
 
 	/**
-	 * @return {boolean} Display tooltip?
+	 * @return Display tooltip?
 	 */
 	public get cursorTooltipEnabled(): boolean {
 		return this.getPropertyValue("cursorTooltipEnabled");
@@ -1275,8 +1218,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * Shows Axis tooltip at specific relative position within Axis. (0-1)
 	 *
-	 * @param {number} position Position (0-1)
-	 * @param {boolean} local or global position
+	 * @param position Position (0-1)
+	 * @param local or global position
 	 */
 	public showTooltipAtPosition(position: number, local?: boolean) {
 
@@ -1335,8 +1278,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * Converts relative position (0-1) to Axis position with zoom level and
 	 * inversed taken into account.
 	 *
-	 * @param  {number} position Global position (0-1)
-	 * @return {number}          Position within Axis (0-1)
+	 * @param position Global position (0-1)
+	 * @return Position within Axis (0-1)
 	 */
 	public toAxisPosition(position: number): number {
 		position = position * (this.end - this.start);
@@ -1354,8 +1297,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * Converts position on the axis with zoom level and
 	 * inversed taken into account to global position.
 	 *
-	 * @param  {number} position Axis position (0-1)
-	 * @return {number}          Global position (0-1)
+	 * @param position Axis position (0-1)
+	 * @return Global position (0-1)
 	 */
 	public toGlobalPosition(position: number): number {
 		if (this.renderer.inversed) {
@@ -1374,8 +1317,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * This is a placeholder to override for extending classes.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {number}  position  Position coordinate (px)
-	 * @return {string}            Label text
+	 * @param position  Position coordinate (px)
+	 * @return Label text
 	 */
 	public getTooltipText(position: number): string {
 		return;
@@ -1386,8 +1329,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * place.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {PointerOrientation}  pointerOrientation  Pointer (stem) orientation
-	 * @param {IRectangle}          boundingRectangle   A rectangle for tooltip to fit within
+	 * @param pointerOrientation  Pointer (stem) orientation
+	 * @param boundingRectangle   A rectangle for tooltip to fit within
 	 */
 	public updateTooltip(pointerOrientation: PointerOrientation, boundingRectangle: IRectangle): void {
 		let tooltip: Tooltip = this._tooltip;
@@ -1402,9 +1345,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {number}            position  Relative position
-	 * @param  {AxisItemLocation}  location  Location on axis
-	 * @return {number}                      Rounded position
+	 * @param position  Relative position
+	 * @param location  Location on axis
+	 * @return Rounded position
 	 */
 	public roundPosition(position: number, location: AxisItemLocation): number {
 		return position;
@@ -1415,8 +1358,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {number} position [description]
-	 * @return {number}          [description]
+	 * @param position [description]
+	 * @return [description]
 	 */
 	public getCellStartPosition(position: number): number {
 		return position;
@@ -1427,8 +1370,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {number} position [description]
-	 * @return {number}          [description]
+	 * @param position [description]
+	 * @return [description]
 	 */
 	public getCellEndPosition(position: number): number {
 		return position;
@@ -1437,7 +1380,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * A list of axis ranges for this Axis.
 	 *
-	 * @return {ListTemplate} Axis ranges
+	 * @return Axis ranges
 	 */
 	public get axisRanges(): ListTemplate<this["_dataItem"]> {
 		if (!this._axisRanges) {
@@ -1466,7 +1409,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * Decorates an axis range after it has been added to the axis range list.
 	 *
-	 * @param {IListEvents<this["_dataItem"]>["inserted"]} event Event
+	 * @param event Event
 	 */
 	protected processAxisRange(event: IListEvents<this["_dataItem"]>["inserted"]) {
 		let axisRange: AxisDataItem = event.newValue;
@@ -1477,7 +1420,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * A list of axis breaks on this Axis.
 	 *
-	 * @return {SortedListTemplate} Axis breaks.
+	 * @return Axis breaks.
 	 */
 	public get axisBreaks(): SortedListTemplate<this["_axisBreak"]> {
 		if (!this._axisBreaks) {
@@ -1495,7 +1438,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * Creates a new axis break.
 	 *
-	 * @return {this["_axisBreak"]} Axis break
+	 * @return Axis break
 	 */
 	protected createAxisBreak(): this["_axisBreak"] {
 		return new AxisBreak();
@@ -1504,7 +1447,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * A list of Series currently associated with this Axis.
 	 *
-	 * @return {List<XYSeries>} Series
+	 * @return Series
 	 */
 	public get series(): List<XYSeries> {
 		if (!this._series) {
@@ -1530,7 +1473,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * This is a placeholder to override for extending classes.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {XYSeriesDataItem} dataItem Data item
+	 * @param dataItem Data item
 	 */
 	public processSeriesDataItem(dataItem: XYSeriesDataItem, axisLetter?: string): void {
 
@@ -1553,7 +1496,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * This is a placeholder to override for extending classes.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {XYSeriesDataItem} dataItem Data item
+	 * @param dataItem Data item
 	 */
 	public postProcessSeriesDataItem(dataItem: XYSeriesDataItem): void {
 
@@ -1600,10 +1543,10 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * This is a placeholder to override for extending classes.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {Series}          series    Series
-	 * @param  {number}          position  Position (0-1)
-	 * @param  {boolean}         findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
-	 * @return {XYSeriesDataItem}            Data item
+	 * @param series    Series
+	 * @param position  Position (0-1)
+	 * @param findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
+	 * @return Data item
 	 */
 	public getSeriesDataItem(series: XYSeries, position: number, findNearest?: boolean): XYSeriesDataItem {
 		return;
@@ -1616,11 +1559,11 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param  {XYSeriesDataItem}  dataItem  Data item
-	 * @param  {string}          key       ???
-	 * @param  {number}          location  Location
-	 * @param  {string}          stackKey  ???
-	 * @return {number}                    Angle
+	 * @param dataItem  Data item
+	 * @param key       ???
+	 * @param location  Location
+	 * @param stackKey  ???
+	 * @return Angle
 	 */
 	public getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number {
 		return;
@@ -1633,11 +1576,11 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param  {XYSeriesDataItem} dataItem [description]
-	 * @param  {string}         key      [description]
-	 * @param  {number}         location [description]
-	 * @param  {string}         stackKey [description]
-	 * @return {number}                  [description]
+	 * @param dataItem [description]
+	 * @param key      [description]
+	 * @param location [description]
+	 * @param stackKey [description]
+	 * @return [description]
 	 */
 	public getX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number {
 		return;
@@ -1650,11 +1593,11 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param  {XYSeriesDataItem} dataItem [description]
-	 * @param  {string}         key      [description]
-	 * @param  {number}         location [description]
-	 * @param  {string}         stackKey [description]
-	 * @return {number}                  [description]
+	 * @param dataItem [description]
+	 * @param key      [description]
+	 * @param location [description]
+	 * @param stackKey [description]
+	 * @return [description]
 	 */
 	public getY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number {
 		return;
@@ -1664,7 +1607,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * Coordinates of the actual axis start.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {IPoint} Base point coordinates
+	 * @return Base point coordinates
 	 */
 	public get basePoint(): IPoint {
 		return { x: 0, y: 0 };
@@ -1698,9 +1641,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
-	 * @param  {number}  min  Start value
-	 * @param  {number}  max  End value
-	 * @return {number}       Spread o
+	 * @param min  Start value
+	 * @param max  End value
+	 * @return Spread o
 	 */
 	protected adjustDifference(min: number, max: number): number {
 		let difference: number = max - min;
@@ -1738,8 +1681,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * Returns [[AxisBreak]] the value falls into.
 	 *
-	 * @param  {number}     value  Value to check
-	 * @return {this["_axisBreak"]}         Axis break
+	 * @param value  Value to check
+	 * @return Axis break
 	 */
 	protected isInBreak(value: number): this["_axisBreak"] {
 		return $iter.find(this.axisBreaks.iterator(), (axisBreak) =>
@@ -1810,14 +1753,14 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param {number} value [description]
+	 * @param value [description]
 	 */
 	public set startIndex(value: number) {
 	}
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {number} [description]
+	 * @return [description]
 	 */
 	public get startIndex(): number {
 		return 0;
@@ -1828,14 +1771,14 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param {number} value [description]
+	 * @param value [description]
 	 */
 	public set endIndex(value: number) {
 	}
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {number} [description]
+	 * @return [description]
 	 */
 	public get endIndex(): number {
 		return this.dataItems.length;
@@ -1854,8 +1797,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
-	 * @param  {number}  position  Relative position on axis (0-1)
-	 * @return {string}            Position label
+	 * @param position  Relative position on axis (0-1)
+	 * @return Position label
 	 */
 	public getPositionLabel(position: number): string {
 		return Math.round(position * 100) + "%x";
@@ -1864,14 +1807,14 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * A Chart this Axis belongs to.
 	 *
-	 * @param {Chart}  value  Chart
+	 * @param value  Chart
 	 */
 	public set chart(value: Chart) {
 		this._chart = value;
 	}
 
 	/**
-	 * @return {Chart} Chart
+	 * @return Chart
 	 */
 	public get chart(): Chart {
 		return this._chart;
@@ -1880,8 +1823,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * Creates a data item for a Series range.
 	 *
-	 * @param  {XYSeries}  series  Target Series
-	 * @return {this}            Range data item
+	 * @param series  Target Series
+	 * @return Range data item
 	 */
 	public createSeriesRange(series: XYSeries): this["_dataItem"] {
 		let range = this.axisRanges.create();
@@ -1906,7 +1849,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * Copies all properties and related data from a different instance of Axis.
 	 *
-	 * @param {this} source Source Axis
+	 * @param source Source Axis
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);
@@ -1929,7 +1872,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 
@@ -1965,14 +1908,14 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * * 0.5 - Half of first cell is shown.
 	 * * 1 - None of the first cell is visible. (you probably don't want that)
 	 *
-	 * @param {number} value Location (0-1)
+	 * @param value Location (0-1)
 	 */
 	public set startLocation(value: number) {
 		this.setPropertyValue("startLocation", value, true);
 	}
 
 	/**
-	 * @return {number} Location (0-1)
+	 * @return Location (0-1)
 	 */
 	public get startLocation(): number {
 		return this.getPropertyValue("startLocation");
@@ -1985,14 +1928,14 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * * 0.5 - Half of the last cell is shown.
 	 * * 1 - Full last cell is shown.
 	 *
-	 * @param {number} value Location (0-1)
+	 * @param value Location (0-1)
 	 */
 	public set endLocation(value: number) {
 		this.setPropertyValue("endLocation", value, true);
 	}
 
 	/**
-	 * @return {number} Location (0-1)
+	 * @return Location (0-1)
 	 */
 	public get endLocation(): number {
 		return this.getPropertyValue("endLocation");

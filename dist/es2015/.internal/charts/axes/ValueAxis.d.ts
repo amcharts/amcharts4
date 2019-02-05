@@ -30,8 +30,6 @@ import { Animation } from "../../core/utils/Animation";
 export declare class ValueAxisDataItem extends AxisDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {ValueAxis}
      */
     _component: ValueAxis;
     /**
@@ -39,21 +37,21 @@ export declare class ValueAxisDataItem extends AxisDataItem {
      */
     constructor();
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * A data point's numeric value.
      *
-     * @param {number}  value  Value
+     * @param value  Value
      */
     value: number;
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * Data point's numeric end value.
      *
-     * @param {number}  value  End value
+     * @param value  End value
      */
     endValue: number;
 }
@@ -64,7 +62,6 @@ export declare class ValueAxisDataItem extends AxisDataItem {
  * @hidden
  */
 /**
- *
  */
 export interface IMinMaxStep {
     min: number;
@@ -147,167 +144,124 @@ export interface IValueAxisAdapters extends IAxisAdapters, IValueAxisProperties 
 export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
     /**
      * Defines data fields.
-     *
-     * @type {IValueAxisDataFields}
      */
     _dataFields: IValueAxisDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IValueAxisProperties}
      */
     _properties: IValueAxisProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IValueAxisAdapters}
      */
     _adapter: IValueAxisAdapters;
     /**
      * Defines the type of the Date Items.
-     *
-     * @type {ValueAxisDataItem}
      */
     _dataItem: ValueAxisDataItem;
     /**
      * Defines the type of the axis breaks.
-     *
-     * @type {ValueAxisBreak}
      */
     _axisBreak: ValueAxisBreak;
     /**
      * Defines available events.
-     *
-     * @type {IValueAxisEvents}
      */
     _events: IValueAxisEvents;
     /**
      * A reference to chart the axis is for.
-     *
-     * @type {XYChart}
      */
     chart: XYChart;
     /**
      * A list of Series that are using this Axis.
-     *
-     * @type {List<XYSeries>}
      */
     series: List<XYSeries>;
     /**
      * Minimum value for the axis scale.
-     *
-     * @type {number}
      */
     protected _min: number;
     /**
      * Maximum value for the axis scale.
-     *
-     * @type {number}
      */
     protected _max: number;
     /**
      * User-defined min value for axis.
-     *
-     * @type {number}
      */
     protected _minDefined: number;
     /**
      * User-defined max value for axis.
-     *
-     * @type {number}
      */
     protected _maxDefined: number;
     /**
      * [_minAdjusted description]
      *
      * @todo Description
-     * @type {number}
      */
     protected _minAdjusted: number;
     /**
      * [_maxAdjusted description]
      *
      * @todo Description
-     * @type {number}
      */
     protected _maxAdjusted: number;
     /**
      * Min real value. (lowest value of all data points)
-     *
-     * @type {number}
      */
     protected _minReal: number;
     /**
      * Max real value. (highest value of all data points)
-     *
-     * @type {number}
      */
     protected _maxReal: number;
     /**
      * Min value within current zoom.
-     *
-     * @type {number}
      */
     protected _minZoomed: number;
     /**
      * Max value within current zoom.
-     *
-     * @type {number}
      */
     protected _maxZoomed: number;
     /**
      * [_step description]
      *
      * @todo Description
-     * @type {number}
      */
     protected _step: number;
     /**
      * [_stepDecimalPlaces description]
      *
      * @todo Description
-     * @type {number}
      */
     protected _stepDecimalPlaces: number;
     /**
      * [_difference description]
      *
      * @todo Description
-     * @type {number}
      */
     protected _difference: number;
     /**
      * Base value for the axis.
-     *
-     * @type {number}
      */
     protected _baseValue: number;
     /**
      * [_previousValue description]
      *
      * @todo Description
-     * @type {number}
      */
     protected _previousValue: number;
     /**
      * [_previousPoint description]
      *
      * @todo Description
-     * @type {IPoint}
      */
     protected _previousPoint: IPoint;
     /**
      * Adjusted start in case we have breaks.
      *
      * @todo Description
-     * @type {number}
      */
     protected _adjustedStart: number;
     /**
      * Adjusted end in case we have breaks.
      *
      * @todo Description
-     * @type {number}
      */
     protected _adjustedEnd: number;
     protected _finalMin: number;
@@ -332,7 +286,6 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @default false
      * @see {@link https://www.amcharts.com/docs/v4/chart-types/xy-chart/#100_stacks} For using `calculateTotals` for 100% stacked series.
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-strings/#Placeholders_for_numeric_values} For using `calculateTotals` in labels.
-     * @type {boolean}
      */
     calculateTotals: boolean;
     protected _minMaxAnimation: Animation;
@@ -344,13 +297,13 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * Returns a new/empty [[DataItem]] of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {ValueAxisDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
      * Returns a new/empty [[AxisBreak]] of the appropriate type.
      *
-     * @return {ValueAxisBreak} Axis break
+     * @return Axis break
      */
     protected createAxisBreak(): this["_axisBreak"];
     /**
@@ -393,25 +346,25 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {ValueAxisDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     validateDataElement(dataItem: this["_dataItem"]): void;
     /**
      * Formats the value according to axis' own [[NumberFormatter]].
      *
-     * @param  {number}  value  Source value
-     * @return {string}         Formatted value
+     * @param value  Source value
+     * @return Formatted value
      */
     formatLabel(value: number): string;
     /**
      * Coordinates of the actual axis start.
      *
      * @ignore Exclude from docs
-     * @return {IPoint} Base point
+     * @return Base point
      */
     readonly basePoint: IPoint;
     /**
-     * @return {number} base value
+     * @return base value
      */
     /**
      * A base value.
@@ -422,7 +375,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * Other scale-related functionality also depend on base value. E.g. stacks,
      * value-dependent coloring, etc.
      *
-     * @param {number} value Base value
+     * @param value Base value
      */
     baseValue: number;
     /**
@@ -430,58 +383,58 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * An alias to `valueToPosition()`.
      *
-     * @param  {number}  value  Value
-     * @return {number}         Position
+     * @param value  Value
+     * @return Position
      */
     anyToPosition(value: number): number;
     /**
      * Converts a numeric value to orientation point (x, y, angle) on axis
      *
-     * @param  {number}  value  Value
-     * @return {IOrientationPoint}  Orientation point
+     * @param value  Value
+     * @return Orientation point
      */
     valueToPoint(value: number): IOrientationPoint;
     /**
      * Converts a numeric value to orientation (x, y, angle) point on axis
      *
-     * @param  {number}  value  Value
-     * @return {IOrientationPoint}  Orientation point
+     * @param value  Value
+     * @return Orientation point
      */
     anyToPoint(value: number): IOrientationPoint;
     /**
      * Converts a numeric value to relative position on axis.
      *
-     * @param  {number}  value  Value
-     * @return {number}  relative position
+     * @param value  Value
+     * @return relative position
      */
     valueToPosition(value: number): number;
     /**
      * Converts an relative position to a corresponding value within
      * axis' scale.
      *
-     * @param  {number}  position  Position (px)
-     * @return {number}            Value
+     * @param position  Position (px)
+     * @return Value
      */
     positionToValue(position: number): number;
     /**
      * Converts an X coordinate to a relative value in axis' scale.
      *
-     * @param  {number}  x  X (px)
-     * @return {number}     Value
+     * @param x  X (px)
+     * @return Value
      */
     xToValue(x: number): number;
     /**
      * Converts an Y coordinate to a relative value in axis' scale.
      *
-     * @param  {number}  y  Y (px)
-     * @return {number}     Value
+     * @param y  Y (px)
+     * @return Value
      */
     yToValue(y: number): number;
     /**
      * Converts pixel coordinates to a relative position. (0-1)
      *
-     * @param {IPoint}   point  Coorinates (px)
-     * @return {number}         Position (0-1)
+     * @param point  Coorinates (px)
+     * @return Position (0-1)
      */
     pointToPosition(point: IPoint): number;
     /**
@@ -498,8 +451,8 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * For numeric values this does nothing, however for more complex types, like
      * dates, it may be necessary to adjust.
      *
-     * @param  {number}  value  Value
-     * @return {number}         Adjusted value
+     * @param value  Value
+     * @return Adjusted value
      */
     protected fixMin(value: number): number;
     /**
@@ -510,8 +463,8 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * For numeric values this does nothing, however for more complex types, like
      * dates, it may be necessary to adjust.
      *
-     * @param  {number}  value  Value
-     * @return {number}         Adjusted value
+     * @param value  Value
+     * @return Adjusted value
      */
     protected fixMax(value: number): number;
     /**
@@ -523,16 +476,16 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}      min        [description]
-     * @param  {number}      max        [description]
-     * @param  {number}      difference [description]
-     * @param  {number}      gridCount  [description]
-     * @param  {boolean}     strictMode [description]
-     * @return {IMinMaxStep}            [description]
+     * @param min        [description]
+     * @param max        [description]
+     * @param difference [description]
+     * @param gridCount  [description]
+     * @param strictMode [description]
+     * @return [description]
      */
     adjustMinMax(min: number, max: number, difference: number, gridCount: number, strictMode?: boolean): IMinMaxStep;
     /**
-     * @return {number} Min value
+     * @return Min value
      */
     /**
      * A minimum value for the axis scale.
@@ -543,7 +496,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * The above might be overridden by `strictMinMax` which will force exact
      * user-defined min and max values to be used for scale.
      *
-     * @param {number}  value  Min value
+     * @param value  Min value
      */
     min: number;
     /**
@@ -563,7 +516,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      */
     extraMin: number;
     /**
-     * @return {number} Min multiplier
+     * @return Min multiplier
      */
     /**
      * Allows relatively adjusting maximum value of the axis' scale.
@@ -585,11 +538,11 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @readonly
      * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/#Setting_the_density_of_the_the_grid_labels} For more information about modifying density of labels
-     * @return {number} [description]
+     * @return [description]
      */
     readonly step: number;
     /**
-     * @return {number} Max value
+     * @return Max value
      */
     /**
      * A maximum value for the axis scale.
@@ -600,7 +553,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * The above might be overridden by `strictMinMax` which will force exact
      * user-defined min and max values to be used for scale.
      *
-     * @param {number}  value  Max value
+     * @param value  Max value
      */
     max: number;
     /**
@@ -613,8 +566,8 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * together with Series.
      *
      * @ignore Exclude from docs
-     * @param  {XYSeries}   series  Series
-     * @return {IDisposer}          Disposer for events
+     * @param series  Series
+     * @return Disposer for events
      */
     registerSeries(series: XYSeries): IDisposer;
     /**
@@ -622,7 +575,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      */
     protected handleSelectionExtremesChange(): void;
     /**
-     * @return {boolean} Use exact values?
+     * @return Use exact values?
      */
     /**
      * Indicates whether to blindly use exact `min` and `max` values set by user
@@ -631,12 +584,16 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * If not set, the Axis might slightly adjust those values to accomodate a
      * better looking grid.
      *
+     * NOTE: if `min` and `max` are not set, setting `strictMinMax` to `true`
+     * will result in fixing the scale of the axis to actual lowest and highest
+     * values in the series within currently selected scope.
+     *
      * @default false
-     * @param {boolean} value Use exact values?
+     * @param value Use exact values?
      */
     strictMinMax: boolean;
     /**
-     * @return {boolean} Logarithmic scale?
+     * @return Logarithmic scale?
      */
     /**
      * Indicates if this axis should use a logarithmic scale.
@@ -647,20 +604,51 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * Having zero or negative values will result in error and failure of the
      * whole chart.
      *
-     * @param {boolean} value Logarithmic scale?
+     * @param value Logarithmic scale?
      */
     logarithmic: boolean;
     /**
-     * @return {boolean} Logarithmic scale?
+     * @return Preseve zoom after data update?
      */
     /**
-     * Indicates if a current selection should be kept on data update. You can also use this to initially pre-zoom axis: set keepSelection = true and then axis.start = 0.5; axis.end = 0.7.
+     * Indicates if a current selection (zoom) should be kept across data updates.
      *
-     * @param {boolean}
+     * If your axis is zoomed while chart's data is updated, the axis will try
+     * to retain the same start and end values.
+     *
+     * You can also use this to initially pre-zoom axis:
+     *
+     * ```TypeScript
+     * axis.keepSelection = true;
+     * axis.start = 0.5;
+     * axis.end = 0.7;
+     * ```
+     * ```JavaScript
+     * axis.keepSelection = true;
+     * axis.start = 0.5;
+     * axis.end = 0.7;
+     * ```
+     * ```JSON
+     * {
+     *   "xAxes": [{
+     *     // ...
+     *     "keepSelection": true,
+     *     "start": 0.5,
+     *     "end": 0.7
+     *   }]
+     * }
+     * ```
+     *
+     * The above will start the chart zoomed from the middle of the actual scope
+     * to 70%.
+     *
+     * @since 4.1.1
+     * @default flase
+     * @param  value  Preseve zoom after data update?
      */
     keepSelection: boolean;
     /**
-     * @return {boolean} max precision
+     * @return max precision
      */
     /**
      * Maximum number of decimals to allow when placing grid lines and labels
@@ -680,11 +668,11 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}            key       Data field to get value from
-     * @param  {number}            location  Location (0-1)
-     * @param  {string}            stackKey  ?
-     * @return {number}                      X coordinate (px)
+     * @param dataItem  Data item
+     * @param key       Data field to get value from
+     * @param location  Location (0-1)
+     * @param stackKey  ?
+     * @return X coordinate (px)
      */
     getX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
     /**
@@ -692,11 +680,11 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}            key       Data field to get value from
-     * @param  {number}            location  Location (0-1)
-     * @param  {string}            stackKey  Stack ID
-     * @return {number}                      Y coordinate (px)
+     * @param dataItem  Data item
+     * @param key       Data field to get value from
+     * @param location  Location (0-1)
+     * @param stackKey  Stack ID
+     * @return Y coordinate (px)
      */
     getY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
     /**
@@ -704,11 +692,11 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}            key       Data field to get value from
-     * @param  {number}            location  Location (0-1)
-     * @param  {string}            stackKey  Stack ID
-     * @return {number}                      Angle
+     * @param dataItem  Data item
+     * @param key       Data field to get value from
+     * @param location  Location (0-1)
+     * @param stackKey  Stack ID
+     * @return Angle
      */
     getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
     /**
@@ -716,10 +704,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}  start     [description]
-     * @param  {number}  end       [description]
-     * @param  {number}  location  [description]
-     * @return {string}            [description]
+     * @param start     [description]
+     * @param end       [description]
+     * @param location  [description]
+     * @return [description]
      */
     getAnyRangePath(start: number, end: number, location?: number): string;
     /**
@@ -730,28 +718,28 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * chart, or explicitly for this Axis.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position (px)
-     * @return {string}            Label (numeric value)
+     * @param position  Position (px)
+     * @return Label (numeric value)
      */
     getTooltipText(position: number): string;
     /**
      * Zooms axis to specific values.
      *
-     * @param {number}   startValue      Start value
-     * @param {number}   endValue        End value
-     * @param {boolean}  skipRangeEvent  Do not invoke events
-     * @param {boolean}  instantly       Do not play zoom animations
+     * @param startValue      Start value
+     * @param endValue        End value
+     * @param skipRangeEvent  Do not invoke events
+     * @param instantly       Do not play zoom animations
      */
     zoomToValues(startValue: number, endValue: number, skipRangeEvent?: boolean, instantly?: boolean): void;
     /**
      * A smallest value in axis scale within current zoom.
      *
-     * @return {number} Min zoom value
+     * @return Min zoom value
      */
     readonly minZoomed: number;
     /**
      * A biggest value in axis scale within current zoom.
-     * @return {number} [description]
+     * @return [description]
      */
     readonly maxZoomed: number;
     /**
@@ -769,20 +757,20 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
      *
      * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
-     * @param  {number}  position  Relative position on axis (0-1)
-     * @return {string}            Position label
+     * @param position  Relative position on axis (0-1)
+     * @return Position label
      */
     getPositionLabel(position: number): string;
     /**
      * Shows Axis tooltip at specific value
      *
-     * @param {number} value Value
+     * @param value Value
      */
     showTooltipAt(value: number): void;
     /**
      * Copies all properties and related data from a different instance of Axis.
      *
-     * @param {this} source Source Axis
+     * @param source Source Axis
      */
     copyFrom(source: this): void;
 }

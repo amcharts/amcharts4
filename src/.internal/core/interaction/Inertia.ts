@@ -19,8 +19,6 @@ import * as $type from "../utils/Type";
 
 /**
  * Defines a list of available inertia types.
- *
- * @type {string}
  */
 export type InertiaTypes = "move" | "resize";
 
@@ -40,37 +38,27 @@ export class Inertia extends BaseObject implements IAnimatable {
 
 	/**
 	 * Holds what type of inertia it is.
-	 *
-	 * @type {InertiaTypes}
 	 */
 	public type: InertiaTypes;
 
 	/**
 	 * An element we're performing animation on.
-	 *
-	 * @type {InteractionObject}
 	 */
 	public interaction: InteractionObject;
 
 	/**
 	 * Starting pointer position. The position of pointer when we "released"
 	 * the element.
-	 *
-	 * @type {IPoint}
 	 */
 	public startPoint: IPoint;
 
 	/**
 	 * Current (simulated) pointer position.
-	 *
-	 * @type {IPoint}
 	 */
 	public point: IPoint;
 
 	/**
 	 * List of animations currently playing.
-	 *
-	 * @type {List<Animation>}
 	 */
 	public animations: Array<Animation> = [];
 
@@ -98,7 +86,7 @@ export class Inertia extends BaseObject implements IAnimatable {
 	 *
 	 * Will trigger "drag" event for the target element.
 	 *
-	 * @param {number} value X
+	 * @param value X
 	 */
 	public set x(value: number) {
 		if ($type.isNumber(value)) {
@@ -110,7 +98,7 @@ export class Inertia extends BaseObject implements IAnimatable {
 	/**
 	 * Returns current X coordinate.
 	 *
-	 * @return {number} X
+	 * @return X
 	 */
 	public get x(): number {
 		return this.point.x;
@@ -121,7 +109,7 @@ export class Inertia extends BaseObject implements IAnimatable {
 	 *
 	 * Will trigger "drag" event for the target element.
 	 *
-	 * @param {number} value Y
+	 * @param value Y
 	 */
 	public set y(value: number) {
 		if ($type.isNumber(value)) {
@@ -133,7 +121,7 @@ export class Inertia extends BaseObject implements IAnimatable {
 	/**
 	 * Returns current Y coordinate.
 	 *
-	 * @return {number} Y
+	 * @return Y
 	 */
 	public get y(): number {
 		return this.point.y;

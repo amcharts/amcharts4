@@ -35,14 +35,10 @@ var LinearGradient = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * List of colors switch definitions in a gradient.
-         *
-         * @type {List<IGradientStop>}
          */
         _this._stops = new List();
         /**
          * Gradient direction.
-         *
-         * @type {number}
          */
         _this._rotation = 0;
         _this.className = "LinearGradient";
@@ -101,9 +97,9 @@ var LinearGradient = /** @class */ (function (_super) {
     /**
      * Adds a color step to the gradient.
      *
-     * @param {Color}   color    Color (hex code or named color)
-     * @param {number}  opacity  Opacity (value from 0 to 1; 0 completely transaprent, 1 fully opaque)
-     * @param {number}  offset   Position of color in the gradient (value 0 to 1; 0 meaning start of the gradient and 1 end)
+     * @param color    Color (hex code or named color)
+     * @param opacity  Opacity (value from 0 to 1; 0 completely transaprent, 1 fully opaque)
+     * @param offset   Position of color in the gradient (value 0 to 1; 0 meaning start of the gradient and 1 end)
      */
     LinearGradient.prototype.addColor = function (color, opacity, offset) {
         this._stops.push({ color: color, opacity: opacity, offset: offset });
@@ -112,7 +108,7 @@ var LinearGradient = /** @class */ (function (_super) {
         /**
          * A list of color stops in the gradient.
          *
-         * @return {List<IGradientStop>} Stops
+         * @return Stops
          */
         get: function () {
             return this._stops;
@@ -123,7 +119,7 @@ var LinearGradient = /** @class */ (function (_super) {
     Object.defineProperty(LinearGradient.prototype, "paper", {
         /**
          * @ignore Exclude from docs
-         * @return {Paper} Paper
+         * @return Paper
          */
         get: function () {
             if (this._paper) {
@@ -135,7 +131,7 @@ var LinearGradient = /** @class */ (function (_super) {
          * [[Paper]] instace to use for the gradient.
          *
          * @ignore Exclude from docs
-         * @param {Paper}  paper  Paper
+         * @param paper  Paper
          */
         set: function (paper) {
             if (this._paper != paper) {
@@ -149,7 +145,7 @@ var LinearGradient = /** @class */ (function (_super) {
     });
     Object.defineProperty(LinearGradient.prototype, "rotation", {
         /**
-         * @return {number} Rotation
+         * @return Rotation
          */
         get: function () {
             return this._rotation;
@@ -157,7 +153,7 @@ var LinearGradient = /** @class */ (function (_super) {
         /**
          * Rotation (direction) of the gradient in degrees.
          *
-         * @param {number}  value  Rotation
+         * @param value  Rotation
          */
         set: function (value) {
             //this.element.attr({ "gradientTransform": "rotate(" + value + " 10 100)" });

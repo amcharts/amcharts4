@@ -70,43 +70,31 @@ export class XYChartScrollbar extends Scrollbar {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IXYChartScrollbarProperties}
 	 */
 	public _properties!: IXYChartScrollbarProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IXYChartScrollbarAdapters}
 	 */
 	public _adapter!: IXYChartScrollbarAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IXYChartScrollbarEvents}
 	 */
 	public _events!: IXYChartScrollbarEvents;
 
 	/**
 	 * An [[XYSeries]] used to draw a graph on the Scrollbar.
-	 *
-	 * @type {List<XYSeries>}
 	 */
 	protected _series: List<XYSeries>;
 
 	/**
 	 * A chart element Scrollbar is for.
-	 *
-	 * @type {MutableValueDisposer}
 	 */
 	protected _chart = new MutableValueDisposer<XYChart>();
 
 	/**
 	 * A chart instance that shows mini-chart within Scrollbar.
-	 *
-	 * @type {XYChart}
 	 */
 	protected _scrollbarChart: XYChart;
 
@@ -114,7 +102,6 @@ export class XYChartScrollbar extends Scrollbar {
 	 * [_unselectedOverlay description]
 	 *
 	 * @todo Description
-	 * @type {Sprite}
 	 */
 	protected _unselectedOverlay: Sprite;
 
@@ -179,7 +166,7 @@ export class XYChartScrollbar extends Scrollbar {
 	 * A list of series that are used to draw graph(s) on the scrollbar.
 	 *
 	 * @readonly
-	 * @return {List<XYSeries>} Series
+	 * @return Series
 	 */
 	public get series(): List<XYSeries> {
 		if (!this._series) {
@@ -193,7 +180,7 @@ export class XYChartScrollbar extends Scrollbar {
 	/**
 	 * Decorates a new series when they are pushed into a `series` list.
 	 *
-	 * @param {IListEvents<XYSeries>["inserted"]} event Event
+	 * @param event Event
 	 */
 	protected handleSeriesAdded(event: IListEvents<XYSeries>["inserted"]) {
 		let sourceSeries: XYSeries = event.newValue;
@@ -305,13 +292,13 @@ export class XYChartScrollbar extends Scrollbar {
 	protected updateByOrientation() {
 		if (this._scrollbarChart) {
 			$iter.each(this._scrollbarChart.xAxes.iterator(), (xAxis) => {
-				let renderer = xAxis.renderer;				
+				let renderer = xAxis.renderer;
 				if (this.orientation == "vertical") {
 					renderer.grid.template.disabled = true;
 					renderer.labels.template.disabled = true;
 					renderer.minGridDistance = 10;
 				}
-				else{				
+				else{
 					renderer.grid.template.disabled = false;
 					renderer.labels.template.disabled = false;
 					renderer.minGridDistance = xAxis.clonedFrom.renderer.minGridDistance;
@@ -320,7 +307,7 @@ export class XYChartScrollbar extends Scrollbar {
 
 
 			$iter.each(this._scrollbarChart.yAxes.iterator(), (yAxis) => {
-				let renderer = yAxis.renderer;				
+				let renderer = yAxis.renderer;
 				if (this.orientation == "horizontal") {
 					renderer.grid.template.disabled = true;
 					renderer.labels.template.disabled = true;
@@ -328,7 +315,7 @@ export class XYChartScrollbar extends Scrollbar {
 				}
 				else{
 					renderer.grid.template.disabled = false;
-					renderer.labels.template.disabled = false;					
+					renderer.labels.template.disabled = false;
 					renderer.minGridDistance = yAxis.clonedFrom.renderer.minGridDistance;
 				}
 			});
@@ -340,7 +327,7 @@ export class XYChartScrollbar extends Scrollbar {
 	/**
 	 * Cleans up after series are removed from Scrollbar.
 	 *
-	 * @param {IListEvents<XYSeries>["removed"]}  event  Event
+	 * @param event  Event
 	 */
 	protected handleSeriesRemoved(event: IListEvents<XYSeries>["removed"]) {
 		let sourceSeries: XYSeries = event.oldValue;
@@ -356,7 +343,7 @@ export class XYChartScrollbar extends Scrollbar {
 	 * It can be configured just like any other [[XYChart]].
 	 *
 	 * @readonly
-	 * @return {XYChart} Scrollbar's internal chart
+	 * @return Scrollbar's internal chart
 	 */
 	public get scrollbarChart(): XYChart {
 		return this._scrollbarChart;
@@ -365,7 +352,7 @@ export class XYChartScrollbar extends Scrollbar {
 	/**
 	 * A chart that Scrollbar belongs to.
 	 *
-	 * @param {XYChart} chart  Chart
+	 * @param chart  Chart
 	 */
 	public set chart(chart: XYChart) {
 		if (this._chart.get() !== chart) {
@@ -376,7 +363,7 @@ export class XYChartScrollbar extends Scrollbar {
 	}
 
 	/**
-	 * @return {XYChart} Chart
+	 * @return Chart
 	 */
 	public get chart(): XYChart {
 		return this._chart.get();
@@ -461,7 +448,7 @@ export class XYChartScrollbar extends Scrollbar {
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 

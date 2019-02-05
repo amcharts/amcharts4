@@ -63,15 +63,11 @@ export interface IXYChart3DProperties extends IXYChartProperties {
 
 	/**
 	 * Depths of the chart in pixels.
-	 *
-	 * @type {number}
 	 */
 	depth?: number;
 
 	/**
 	 * Angle the chart is viewed at.
-	 *
-	 * @type {number}
 	 */
 	angle?: number;
 
@@ -109,42 +105,31 @@ export class XYChart3D extends XYChart {
 
 	/**
 	 * Available data fields.
-	 *
-	 * @type {IXYChart3DDataFields}
 	 */
 	public _dataFields: IXYChart3DDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IXYChart3DProperties}
 	 */
 	public _properties!: IXYChart3DProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IXYChart3DAdapters}
 	 */
 	public _adapter!: IXYChart3DAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IXYChart3DEvents}
 	 */
 	public _events!: IXYChart3DEvents;
 
 	/**
 	 * Type of the axis renderer to use for X axes.
-	 *
-	 * @type {[type]}
 	 */
 	protected _axisRendererX: typeof AxisRendererX3D = AxisRendererX3D;
 
 	/**
 	 * Type of the axis renderer to use for Y axes.
-	 * @type {[type]}
 	 */
 	protected _axisRendererY: typeof AxisRendererY3D = AxisRendererY3D;
 
@@ -152,7 +137,6 @@ export class XYChart3D extends XYChart {
 	 * A container to add 3D column elements to.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Container}
 	 */
 	public columnsContainer: Container;
 
@@ -186,7 +170,7 @@ export class XYChart3D extends XYChart {
 	/**
 	 * Depth of the 3D chart / columns in pixels.
 	 *
-	 * @param {number}  value  Depth (px)
+	 * @param value  Depth (px)
 	 */
 	public set depth(value: number) {
 		this.setPropertyValue("depth", value);
@@ -195,7 +179,7 @@ export class XYChart3D extends XYChart {
 	}
 
 	/**
-	 * @return {number} Depth (px)
+	 * @return Depth (px)
 	 */
 	public get depth(): number {
 		return this.getPropertyValue("depth");
@@ -205,7 +189,7 @@ export class XYChart3D extends XYChart {
 	 * Angle the chart is viewed at.
 	 *
 	 * @todo Description (review)
-	 * @param {number}  value  Angle
+	 * @param value  Angle
 	 */
 	public set angle(value: number) {
 		this.setPropertyValue("angle", value);
@@ -214,7 +198,7 @@ export class XYChart3D extends XYChart {
 	}
 
 	/**
-	 * @return {number} Angle
+	 * @return Angle
 	 */
 	public get angle(): number {
 		return this.getPropertyValue("angle");
@@ -224,7 +208,7 @@ export class XYChart3D extends XYChart {
 	 * A calculated horizontal 3D offset (px).
 	 *
 	 * @readonly
-	 * @return {number} Offset (px)
+	 * @return Offset (px)
 	 */
 	public get dx3D(): number {
 		return $math.cos(this.angle) * this.depth;
@@ -234,7 +218,7 @@ export class XYChart3D extends XYChart {
 	 * A calculated vertical 3D offset (px).
 	 *
 	 * @readonly
-	 * @return {number} Offset (px)
+	 * @return Offset (px)
 	 */
 	public get dy3D(): number {
 		return -$math.sin(this.angle) * this.depth;
@@ -248,7 +232,7 @@ export class XYChart3D extends XYChart {
 	public validateLayout() {
 		super.validateLayout();
 		this.fixColumns();
-	}	
+	}
 
 	/**
 	 * Updates the layout (padding and scrollbar positions) to accommodate for
@@ -271,7 +255,7 @@ export class XYChart3D extends XYChart {
 
 		this.fixColumns();
 
-		super.fixLayout();		
+		super.fixLayout();
 	}
 
 	/**
@@ -319,7 +303,7 @@ export class XYChart3D extends XYChart {
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 

@@ -18,42 +18,36 @@ export interface IHeatLegendProperties extends IContainerProperties {
      * Minimum color
      *
      * @todo Description
-     * @type {color}
      */
     minColor?: Color;
     /**
      * Minimum value
      *
      * @todo Description
-     * @type {number}
      */
     minValue?: number;
     /**
      * Maximum value
      *
      * @todo Description
-     * @type {number}
      */
     maxValue?: number;
     /**
      * Maximum color
      *
      * @todo Description
-     * @type {color}
      */
     maxColor?: Color;
     /**
      * Number of markers (steps)
      *
      * @todo Description
-     * @type {number}
      */
     markerCount?: number;
     /**
      * Orientation
      *
      * @todo Description
-     * @type {"horizontal" | "vertical"}
      */
     orientation?: "horizontal" | "vertical";
 }
@@ -86,44 +80,32 @@ export interface IHeatLegendAdapters extends IContainerAdapters, IHeatLegendProp
 export declare class HeatLegend extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IHeatLegendProperties}
      */
     _properties: IHeatLegendProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IHeatLegendAdapters}
      */
     _adapter: IHeatLegendAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IHeatLegendEvents}
      */
     _events: IHeatLegendEvents;
     /**
      * List of heat legend markers (color step rectangles).
-     *
-     * @type {ListTemplate<RoundedRectangle>}
      */
     markers: ListTemplate<RoundedRectangle>;
     /**
      * Container which holds markers
-     *
-     * @type {Container}
      */
     markerContainer: Container;
     /**
      * Value axis of a heat legend
      * @ignore
-     * @type {ValueAxis}
      */
     protected _valueAxis: ValueAxis;
     /**
      * Series of a heat legend
      * @ignore
-     * @type {Series}
      */
     protected _series: Series;
     /**
@@ -213,7 +195,7 @@ export declare class HeatLegend extends Container {
      */
     /**
      * You can set series for heat legend. It will take min, max, minColor and maxColor values from this series.
-     * @param {Series} series
+     * @param series
      */
     series: Series;
     /**
@@ -225,7 +207,7 @@ export declare class HeatLegend extends Container {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     processConfig(config?: {
         [index: string]: any;

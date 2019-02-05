@@ -25,37 +25,26 @@ import { IGeoPoint } from "../../core/defs/IGeoPoint";
 export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
     /**
      * A [[MapLine]] element related to this data item.
-     *
-     * @type {MapLine}
      */
     _mapLine: MapLine;
     /**
      * A collection of X/Y coordinates for a single-segment line.
-     *
-     * @type {number[][]}
      */
     protected _line: number[][];
     /**
      * A collection of X/Y coordinates for a multi-segment line.
-     *
-     * @type {number[][][]}
      */
     protected _multiLine: number[][][];
     /**
      * A collection of lat/long coordinates for a single-segment line.
-     *
-     * @type {IGeoPoint[]}
      */
     protected _geoLine: IGeoPoint[];
     /**
      * A collection of lat/long coordinates for a multi-segment line.
-     *
-     * @type {IGeoPoint[][]}
      */
     protected _multiGeoLine: IGeoPoint[][];
     /**
      * Defines a type of [[Component]] this data item is used for
-     * @type {MapLineSeries}
      */
     _component: MapLineSeries;
     /**
@@ -66,11 +55,11 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      * A [[MapLine]] element related to this data item.
      *
      * @readonly
-     * @return {MapLine} Element
+     * @return Element
      */
     readonly mapLine: this["_mapLine"];
     /**
-     * @return {number[]} Coordinates
+     * @return Coordinates
      */
     /**
      * A collection of X/Y coordinates for a single-segment line. E.g.:
@@ -82,11 +71,11 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      * ]
      * ```
      *
-     * @param {number[][]}  line  Coordinates
+     * @param line  Coordinates
      */
     line: number[][];
     /**
-     * @return {number[]} Coordinates
+     * @return Coordinates
      */
     /**
      * A collection of X/Y coordinates for a multi-segment line. E.g.:
@@ -107,11 +96,11 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      * ]
      * ```
      *
-     * @param {number[][]}  multiLine  Coordinates
+     * @param multiLine  Coordinates
      */
     multiLine: number[][][];
     /**
-     * @return {IGeoPoint[]} Coordinates
+     * @return Coordinates
      */
     /**
      * A collection of lat/long coordinates for a single-segment line. E.g.:
@@ -124,11 +113,11 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      * ```
      *
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.4} GeoJSON LineString reference
-     * @param {IGeoPoint[][]}  geoLine  Coordinates
+     * @param geoLine  Coordinates
      */
     geoLine: IGeoPoint[];
     /**
-     * @return {IGeoPoint[]} Coordinates
+     * @return Coordinates
      */
     /**
      * A collection of X/Y coordinates for a multi-segment line. E.g.:
@@ -150,7 +139,7 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      * ```
      *
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.5} GeoJSON MultiLineString reference
-     * @param {IGeoPoint[][]}  multiGeoLine  Coordinates
+     * @param multiGeoLine  Coordinates
      */
     multiGeoLine: IGeoPoint[][];
     /**
@@ -158,7 +147,7 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      * North, and South-most points.
      *
      * @ignore Exclude from docs
-     * @param {IGeoPoint[]}  geoPoints  Points of the element
+     * @param geoPoints  Points of the element
      */
     updateLineExtremes(multiGeoLine: IGeoPoint[][]): void;
 }
@@ -174,26 +163,18 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
 export interface IMapLineSeriesDataFields extends IMapSeriesDataFields {
     /**
      * Field name that holds line data in pixels.
-     *
-     * @type {string}
      */
     line?: string;
     /**
      * Field name that holds multi-line data in pixels.
-     *
-     * @type {string}
      */
     multiLine?: string;
     /**
      * Field name that holds line data in Geo coordinates.
-     *
-     * @type {string}
      */
     geoLine?: string;
     /**
      * Field name that holds multi-line data in Geo coordinates.
-     *
-     * @type {string}
      */
     multiGeoLine?: string;
 }
@@ -230,50 +211,34 @@ export interface IMapLineSeriesAdapters extends IMapSeriesAdapters, IMapLineSeri
 export declare class MapLineSeries extends MapSeries {
     /**
      * Defines available data fields.
-     *
-     * @type {IMapLineSeriesDataFields}
      */
     _dataFields: IMapLineSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IMapLineSeriesProperties}
      */
     _properties: IMapLineSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IMapLineSeriesAdapters}
      */
     _adapter: IMapLineSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IMapLineSeriesEvents}
      */
     _events: IMapLineSeriesEvents;
     /**
      * Defines the type of data item.
-     *
-     * @type {MapLineSeriesDataItem}
      */
     _dataItem: MapLineSeriesDataItem;
     /**
      * A related chart/map object, this element is drawn on.
-     *
-     * @type {MapChart}
      */
     chart: MapChart;
     /**
      * Defines the type of the line items in this series.
-     *
-     * @type {MapLine}
      */
     _mapLine: MapLine;
     /**
      * A list of map lins in the series.
-     *
-     * @type {ListTemplate<MapImage>}
      */
     protected _mapLines: ListTemplate<this["_mapLine"]>;
     /**
@@ -284,7 +249,7 @@ export declare class MapLineSeries extends MapSeries {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {MapLineSeriesDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
@@ -297,13 +262,13 @@ export declare class MapLineSeries extends MapSeries {
     /**
      * A list of lines in the series.
      *
-     * @return {ListTemplate} Lines
+     * @return Lines
      */
     readonly mapLines: ListTemplate<this["_mapLine"]>;
     /**
      * Returns a new line instance of suitable type.
      *
-     * @return {MapLine} New line
+     * @return New line
      */
     protected createLine(): this["_mapLine"];
     /**
@@ -315,7 +280,7 @@ export declare class MapLineSeries extends MapSeries {
     /**
      * Copies all properties from another instance of [[Series]].
      *
-     * @param {Series}  source  Source series
+     * @param source  Source series
      */
     copyFrom(source: this): void;
 }

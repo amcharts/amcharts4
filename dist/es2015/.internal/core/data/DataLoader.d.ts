@@ -56,21 +56,17 @@ export interface IDataLoaderAdapters {
 export declare class DataLoader {
     /**
      * Defines available adapters.
-     *
-     * @type {IExportAdapters}
      */
     _adapter: IDataLoaderAdapters;
     /**
      * Adapter.
-     *
-     * @type {Adapter<DataLoader, IDataLoaderAdapters>}
      */
     adapter: Adapter<DataLoader, IDataLoaderAdapters>;
     /**
      * Loads a supplied [[DataSource]] or an array of data sources, then calls
      * their respective `parse` methods.
      *
-     * @param  {DataSource | DataSource[]}  source  A single data source or an array of multiple of data sources
+     * @param source  A single data source or an array of multiple of data sources
      */
     load(source: DataSource | DataSource[]): void;
     /**
@@ -80,16 +76,16 @@ export declare class DataLoader {
      * * "csv" or "text/csv"
      * * "json" or "application/json"
      *
-     * @param  {string}      contentType  A format type
-     * @return {DataParser}               A parser object
+     * @param contentType  A format type
+     * @return A parser object
      */
     getParserByType(contentType: string): DataParser;
     /**
      * Tries to determine a parser out of content type and/or actual data.
      *
-     * @param  {string}      data         Data
-     * @param  {string}      contentType  Content-type
-     * @return {DataParser}               Parser instance
+     * @param data         Data
+     * @param contentType  Content-type
+     * @return Parser instance
      */
     getParserByData(data: string, contentType?: string): DataParser;
 }

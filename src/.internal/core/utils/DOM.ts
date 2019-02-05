@@ -18,7 +18,6 @@ import * as $type from "./Type";
  * SVG namespace.
  *
  * @ignore Exclude from docs
- * @type {string}
  */
 export const SVGNS: string = "http://www.w3.org/2000/svg";
 
@@ -26,7 +25,6 @@ export const SVGNS: string = "http://www.w3.org/2000/svg";
  * XML namespace.
  *
  * @ignore Exclude from docs
- * @type {string}
  */
 export const XMLNS: string = "http://www.w3.org/2000/xmlns/";
 
@@ -34,7 +32,6 @@ export const XMLNS: string = "http://www.w3.org/2000/xmlns/";
  * XLINK namespace.
  *
  * @ignore Exclude from docs
- * @type {string}
  */
 export const XLINK: string = "http://www.w3.org/1999/xlink";
 
@@ -43,10 +40,10 @@ export const XLINK: string = "http://www.w3.org/1999/xlink";
  * Function that adds a disposable event listener directly to a DOM element.
  *
  * @ignore Exclude from docs
- * @param {EventTarget}   dom       A DOM element to add event to
- * @param {string}        type      Event type
- * @param {Function}      listener  Event listener
- * @returns {IDisposer}             Disposable event
+ * @param dom       A DOM element to add event to
+ * @param type      Event type
+ * @param listener  Event listener
+ * @returns Disposable event
  */
 export function addEventListener<E extends Event>(dom: EventTarget, type: string, listener: (event: E) => void, options?: any): IDisposer {
 	//@todo proper type check for options: EventListenerOptions | boolean (TS for some reason gives error on passive parameter)
@@ -65,8 +62,8 @@ export function addEventListener<E extends Event>(dom: EventTarget, type: string
  * * If no element with such id is found, we grab the first element with a tag name like this.
  *
  * @ignore Exclude from docs
- * @param  {Optional<HTMLElement | string>}  el  Element definition (reference, or id, or tag name)
- * @return {Optional<HTMLElement>}               Element reference
+ * @param el  Element definition (reference, or id, or tag name)
+ * @return Element reference
  * @todo Review this function as it seems pretty fuzzy and hacky
  */
 export function getElement(el: $type.Optional<HTMLElement | string>): $type.Optional<HTMLElement> {
@@ -90,8 +87,8 @@ export function getElement(el: $type.Optional<HTMLElement | string>): $type.Opti
  * Adds a class name to an HTML or SVG element.
  *
  * @ignore Exclude from docs
- * @param {HTMLElement | SVGSVGElement}  element    Element
- * @param {string}                       className  Class name to add
+ * @param element    Element
+ * @param className  Class name to add
  */
 export function addClass(element: HTMLElement | SVGSVGElement, className: string): void {
 	if (element.classList) {
@@ -115,8 +112,8 @@ export function addClass(element: HTMLElement | SVGSVGElement, className: string
  * Removes a class name from an HTML or SVG element.
  *
  * @ignore Exclude from docs
- * @param {HTMLElement | SVGSVGElement}  element    Element
- * @param {string}                       className  Class name to add
+ * @param element    Element
+ * @param className  Class name to add
  */
 export function removeClass(element: HTMLElement | SVGSVGElement, className: string): void {
 	if (element.classList) {
@@ -163,7 +160,7 @@ export function blur(): void {
  * Tries to focus the element.
  *
  * @ignore Exlude from docs
- * @param {HTMLElement | SVGSVGElement}  element  Element to focus
+ * @param element  Element to focus
  */
 export function focus(element: HTMLElement | SVGSVGElement): void {
 
@@ -196,8 +193,8 @@ export function focus(element: HTMLElement | SVGSVGElement): void {
  * wrapper's `innerHTML`.
  *
  * @ignore Exclude from docs
- * @param  {HTMLElement | SVGSVGElement}  element  Element to get full markup for
- * @return {string}                                Markup
+ * @param element  Element to get full markup for
+ * @return Markup
  * @deprecated Not in use anywhere
  */
 export function outerHTML(element: HTMLElement | SVGSVGElement): string {
@@ -217,8 +214,8 @@ export function outerHTML(element: HTMLElement | SVGSVGElement): string {
  * Checks if element is a valid DOM node.
  *
  * @ignore Exclude from docs
- * @param  {HTMLElement}  el  Element
- * @return {boolean}          `true` if element is a valid DOM node
+ * @param el  Element
+ * @return `true` if element is a valid DOM node
  */
 export function isElement(el: HTMLElement): boolean {
 	return el instanceof Object && el && el.nodeType === 1;
@@ -227,9 +224,9 @@ export function isElement(el: HTMLElement): boolean {
 /**
  * Checks of element `a` contains element `b`.
  *
- * @param  {HTMLElement | SVGSVGElement}  a  Aleged ascendant
- * @param  {HTMLElement | SVGSVGElement}  b  Aleged descendant
- * @return {boolean}                         Contains?
+ * @param a  Aleged ascendant
+ * @param b  Aleged descendant
+ * @return Contains?
  */
 export function contains(a: HTMLElement | SVGSVGElement, b: HTMLElement | SVGSVGElement): boolean {
 	return a !== b && (a.contains
@@ -243,8 +240,8 @@ export function contains(a: HTMLElement | SVGSVGElement, b: HTMLElement | SVGSVG
  * Copies attributes from one element to another.
  *
  * @ignore Exclude from docs
- * @param {Element | HTMLElement |  SVGSVGElement}  source  Element to copy attributes from
- * @param {HTMLElement | SVGSVGElement}          target  Element to copy attributes to
+ * @param source  Element to copy attributes from
+ * @param target  Element to copy attributes to
  */
 export function copyAttributes(source: Element | HTMLElement | SVGSVGElement, target: HTMLElement | SVGSVGElement): void {
 	$array.each(source.attributes, (attr) => {
@@ -260,7 +257,7 @@ export function copyAttributes(source: Element | HTMLElement | SVGSVGElement, ta
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {HTMLElement}  el  Element
+ * @param el  Element
  */
 export function fixPixelPerfect(el: HTMLElement): void {
 	readFrame(() => {
@@ -293,7 +290,6 @@ export function fixPixelPerfect(el: HTMLElement): void {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Optional<CSSStyleSheet>}
  */
 let rootStylesheet: $type.Optional<CSSStyleSheet>;
 
@@ -302,7 +298,7 @@ let rootStylesheet: $type.Optional<CSSStyleSheet>;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @return {CSSStyleSheet} [description]
+ * @return [description]
  */
 function getStylesheet(): CSSStyleSheet {
 	if (!$type.hasValue(rootStylesheet)) {
@@ -321,8 +317,8 @@ function getStylesheet(): CSSStyleSheet {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {string}        selector  [description]
- * @return {CSSStyleRule}            [description]
+ * @param selector  [description]
+ * @return [description]
  */
 function makeStylesheet(selector: string): CSSStyleRule {
 	const root = getStylesheet();
@@ -343,8 +339,6 @@ export class StyleRule extends Disposer {
 
 	/**
 	 * CSS rule.
-	 *
-	 * @type {CSSStyleRule}
 	 */
 	private _rule: CSSStyleRule;
 
@@ -353,14 +347,14 @@ export class StyleRule extends Disposer {
 	 *
 	 * E.g.: `.myClass p`
 	 *
-	 * @param {string}  selector  CSS selector
+	 * @param selector  CSS selector
 	 */
 	public set selector(selector: string) {
 		this._rule.selectorText = selector;
 	}
 
 	/**
-	 * @return {string} CSS selector
+	 * @return CSS selector
 	 */
 	public get selector(): string {
 		return this._rule.selectorText;
@@ -369,8 +363,8 @@ export class StyleRule extends Disposer {
 	/**
 	 * Constructor.
 	 *
-	 * @param {string}  selector  CSS selector
-	 * @param {object}  styles    An object of style attribute - value pairs
+	 * @param selector  CSS selector
+	 * @param styles    An object of style attribute - value pairs
 	 */
 	constructor(selector: string, styles: { [name: string]: string }) {
 		// TODO test this
@@ -398,8 +392,8 @@ export class StyleRule extends Disposer {
 	/**
 	 * Sets the same style properties with browser-speicifc prefixes.
 	 *
-	 * @param {string}  name   Attribute name
-	 * @param {string}  value  Attribute value
+	 * @param name   Attribute name
+	 * @param value  Attribute value
 	 */
 	private _setVendorPrefixName(name: string, value: string): void {
 		const style = this._rule.style;
@@ -413,8 +407,8 @@ export class StyleRule extends Disposer {
 	/**
 	 * Sets a value for specific style attribute.
 	 *
-	 * @param {string}  name   Attribute
-	 * @param {string}  value  Value
+	 * @param name   Attribute
+	 * @param value  Value
 	 */
 	public setStyle(name: string, value: string): void {
 		if (name === "transition") {
@@ -431,7 +425,6 @@ export class StyleRule extends Disposer {
  * An internal counter for unique style ids.
  *
  * @ignore Exclude from docs
- * @type {number}
  */
 let styleId: number = 0;
 
@@ -443,16 +436,14 @@ export class StyleClass extends StyleRule {
 
 	/**
 	 * Class name.
-	 *
-	 * @type {string}
 	 */
 	private _className: string;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param {object}  styles  An object of style attribute - value pairs
-	 * @param {string}  name    Class name
+	 * @param styles  An object of style attribute - value pairs
+	 * @param name    Class name
 	 */
 	constructor(styles: { [name: string]: string }, name?: string) {
 		const className =
@@ -469,7 +460,7 @@ export class StyleClass extends StyleRule {
 	/**
 	 * Class name.
 	 *
-	 * @param {string}  name  Class name
+	 * @param name  Class name
 	 */
 	public set className(name: string) {
 		this._className = name;
@@ -477,7 +468,7 @@ export class StyleClass extends StyleRule {
 	}
 
 	/**
-	 * @return {string} Class name
+	 * @return Class name
 	 */
 	public get className(): string {
 		return this._className;

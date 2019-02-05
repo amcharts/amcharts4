@@ -47,7 +47,6 @@ export declare function toArray<A>(iter: Iterator<A>): Array<A>;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export declare function eachContinue<A>(iter: Iterator<A>, fn: (value: A) => boolean): void;
 /**
@@ -55,7 +54,6 @@ export declare function eachContinue<A>(iter: Iterator<A>, fn: (value: A) => boo
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export declare function each<A>(iter: Iterator<A>, fn: (value: A) => void): void;
 /**
@@ -63,7 +61,6 @@ export declare function each<A>(iter: Iterator<A>, fn: (value: A) => void): void
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export declare function sort<A>(iter: Iterator<A>, fn: (left: A, right: A) => Ordering): Iterator<A>;
 /**
@@ -71,7 +68,6 @@ export declare function sort<A>(iter: Iterator<A>, fn: (left: A, right: A) => Or
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export declare function map<A, B>(iter: Iterator<A>, fn: (value: A) => B): Iterator<B>;
 /**
@@ -79,7 +75,6 @@ export declare function map<A, B>(iter: Iterator<A>, fn: (value: A) => B): Itera
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export declare function filter<A>(iter: Iterator<A>, fn: (value: A) => boolean): Iterator<A>;
 /**
@@ -97,7 +92,6 @@ export declare function flatten<A>(iter: Iterator<Iterator<A>>): Iterator<A>;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export declare function indexed<A>(iter: Iterator<A>): Iterator<[number, A]>;
 /**
@@ -105,7 +99,6 @@ export declare function indexed<A>(iter: Iterator<A>): Iterator<[number, A]>;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export declare function findIndex<A>(iter: Iterator<A>, matches: (value: A) => boolean): number;
 /**
@@ -113,7 +106,6 @@ export declare function findIndex<A>(iter: Iterator<A>, matches: (value: A) => b
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export declare function find<A>(iter: Iterator<A>, matches: (value: A) => boolean): A | undefined;
 /**
@@ -121,7 +113,6 @@ export declare function find<A>(iter: Iterator<A>, matches: (value: A) => boolea
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export declare function findMap<A, B>(iter: Iterator<A>, matches: (value: A) => B | null): B | undefined;
 /**
@@ -129,7 +120,6 @@ export declare function findMap<A, B>(iter: Iterator<A>, matches: (value: A) => 
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export declare function contains<A>(iter: Iterator<A>, matches: (value: A) => boolean): boolean;
 /**
@@ -137,7 +127,6 @@ export declare function contains<A>(iter: Iterator<A>, matches: (value: A) => bo
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export declare function foldl<A, B>(iter: Iterator<A>, init: B, fn: (state: B, value: A) => B): B;
 /**
@@ -146,8 +135,8 @@ export declare function foldl<A, B>(iter: Iterator<A>, init: B, fn: (state: B, v
  * @ignore Exclude from docs
  * @todo Verify that this works correctly
  * @todo Description
- * @param  {Iterator<number>} a [description]
- * @return {number}             [description]
+ * @param a [description]
+ * @return [description]
  */
 export declare function min(a: Iterator<number>): number | null;
 /**
@@ -156,8 +145,8 @@ export declare function min(a: Iterator<number>): number | null;
  * @ignore Exclude from docs
  * @todo Verify that this works correctly
  * @todo Description
- * @param  {Iterator<number>} a [description]
- * @return {number}             [description]
+ * @param a [description]
+ * @return [description]
  */
 export declare function max(a: Iterator<number>): number | null;
 /**
@@ -165,9 +154,9 @@ export declare function max(a: Iterator<number>): number | null;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {Iterator<string>} iter [description]
- * @param  {string        =    ""}          separator [description]
- * @return {string}                [description]
+ * @param iter [description]
+ * @param separator [description]
+ * @return [description]
  */
 export declare function join(iter: Iterator<string>, separator?: string): string;
 /**
@@ -182,8 +171,8 @@ export declare class ListIterator<T extends IClone<T>> {
     /**
      * Constructor
      *
-     * @param {Iterable<T>} list [description]
-     * @param {()       =>   T}           create [description]
+     * @param list [description]
+     * @param create [description]
      */
     constructor(list: Iterable<T>, create: () => T);
     reset(): void;

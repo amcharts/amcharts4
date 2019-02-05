@@ -39,8 +39,6 @@ export class PercentChartDataItem extends SerialChartDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {PercentChart}
 	 */
 	public _component!: PercentChart;
 
@@ -105,36 +103,26 @@ export class PercentChart extends SerialChart {
 
 	/**
 	 * Defines available data fields.
-	 *
-	 * @type {IPercentChartDataFields}
 	 */
 	public _dataFields: IPercentChartDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPercentChartProperties}
 	 */
 	public _properties!: IPercentChartProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {SeriesAdapters}
 	 */
 	public _adapter!: IPercentChartAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPercentChartEvents}
 	 */
 	public _events!: IPercentChartEvents;
 
 	/**
 	 * Defines a type of series that this chart uses.
-	 *
-	 * @type {PercentSeries}
 	 */
 	public _seriesType: PercentSeries;
 
@@ -209,7 +197,7 @@ export class PercentChart extends SerialChart {
 	/**
 	 * Creates a new [[PercentSeries]].
 	 *
-	 * @return {PercentSeries} New series
+	 * @return New series
 	 */
 	protected createSeries(): this["_seriesType"] {
 		return new PercentSeries();

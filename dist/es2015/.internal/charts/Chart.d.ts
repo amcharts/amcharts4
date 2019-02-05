@@ -28,8 +28,6 @@ import { DataItem } from "../core/DataItem";
 export declare class ChartDataItem extends DataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {Chart}
      */
     _component: Chart;
     /**
@@ -80,50 +78,35 @@ export interface IChartAdapters extends IComponentAdapters, IChartProperties {
 export declare class Chart extends Component {
     /**
      * Available data fields.
-     *
-     * @type {IChartDataFields}
      */
     _dataFields: IChartDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IChartProperties}
      */
     _properties: IChartProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IChartAdapters}
      */
     _adapter: IChartAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IChartEvents}
      */
     _events: IChartEvents;
     /**
      * A List of chart titles.
-     *
-     * @type {List<Label>}
      */
     titles: ListTemplate<Label>;
     /**
      * Container that holds the chart itself.
-     *
-     * @type {Container}
      */
     chartContainer: Container;
     /**
      * A reference to a container that holds both the chart and the legend.
-     *
-     * @type {Container}
      */
     chartAndLegendContainer: Container;
     /**
      * A reference to chart's [[Legend]].
      * @ignore
-     * @type {Legend}
      */
     protected _legend: MutableValueDisposer<Legend>;
     /**
@@ -152,8 +135,8 @@ export declare class Chart extends Component {
     /**
      * Adds a new title to the chart when it is inserted into chart's titles
      * list.
-     * @param  {IListEvents<Label>["inserted"]}  event  An event object which is triggered when inserting into titles list
-     * @return {Label}                               Label object
+     * @param event  An event object which is triggered when inserting into titles list
+     * @return Label object
      */
     protected processTitle(event: IListEvents<Label>["inserted"]): Label;
     /**
@@ -165,26 +148,26 @@ export declare class Chart extends Component {
      */
     updateReaderTitleReferences(): void;
     /**
-     * @return {Legend} Legend
+     * @return Legend
      */
     /**
      * Holds the instance of chart's [[Leged]].
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/legend/} for more information about legends
-     * @param {Legend} Legend
+     * @param Legend
      */
     legend: Legend;
     /**
      * Prepares the legend instance for use in this chart.
      *
-     * @param {Legend}  legend  Legend
+     * @param legend  Legend
      */
     protected setLegend(legend: Legend): void;
     /**
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     processConfig(config?: {
         [index: string]: any;
@@ -192,7 +175,7 @@ export declare class Chart extends Component {
     /**
      * Copies all properties from another instance of [[Series]].
      *
-     * @param {Series}  source  Source series
+     * @param source  Source series
      */
     copyFrom(source: this): void;
 }

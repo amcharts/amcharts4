@@ -30,15 +30,11 @@ export interface ICategoryAxisBreakProperties extends IAxisBreakProperties {
 
 	/**
 	 * Category break starts on.
-	 *
-	 * @type {string}
 	 */
 	startCategory?: string;
 
 	/**
 	 * Category break ends on.
-	 *
-	 * @type {string}
 	 */
 	endCategory?: string;
 
@@ -73,29 +69,21 @@ export class CategoryAxisBreak extends AxisBreak {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ICategoryAxisBreakProperties}
 	 */
 	public _properties!: ICategoryAxisBreakProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ICategoryAxisBreakAdapters}
 	 */
 	public _adapter!: ICategoryAxisBreakAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ICategoryAxisBreakEvents}
 	 */
 	public _events!: ICategoryAxisBreakEvents;
 
 	/**
 	 * Defines the type of the Axis this break is used for.
-	 *
-	 * @type {Axis}
 	 */
 	public _axisType: CategoryAxis;
 
@@ -111,7 +99,7 @@ export class CategoryAxisBreak extends AxisBreak {
 	/**
 	 * Pixel position of the break's start.
 	 *
-	 * @return {number} Position (px)
+	 * @return Position (px)
 	 * @readonly
 	 */
 	public get startPosition(): number {
@@ -123,7 +111,7 @@ export class CategoryAxisBreak extends AxisBreak {
 	/**
 	 * Pixel position of the break's end.
 	 *
-	 * @return {number} Position (px)
+	 * @return Position (px)
 	 * @readonly
 	 */
 	public get endPosition(): number {
@@ -135,7 +123,7 @@ export class CategoryAxisBreak extends AxisBreak {
 	/**
 	 * A category break starts on.
 	 *
-	 * @param {string}  value Start category
+	 * @param value Start category
 	 */
 	public set startCategory(value: string) {
 		if (this.setPropertyValue("startCategory", value)) {
@@ -147,7 +135,7 @@ export class CategoryAxisBreak extends AxisBreak {
 	}
 
 	/**
-	 * @return {string} Start category
+	 * @return Start category
 	 */
 	public get startCategory(): string {
 		return this.getPropertyValue("startCategory");
@@ -156,7 +144,7 @@ export class CategoryAxisBreak extends AxisBreak {
 	/**
 	 * A category break ends on.
 	 *
-	 * @param {string}  value  End category
+	 * @param value  End category
 	 */
 	public set endCategory(value: string) {
 		if (this.setPropertyValue("endCategory", value)) {
@@ -168,7 +156,7 @@ export class CategoryAxisBreak extends AxisBreak {
 	}
 
 	/**
-	 * @return {string} End category
+	 * @return End category
 	 */
 	public get endCategory(): string {
 		return this.getPropertyValue("endCategory");
@@ -177,7 +165,7 @@ export class CategoryAxisBreak extends AxisBreak {
 	/**
 	 * An index of start category.
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set startValue(value: number) {
 		if (this.setPropertyValue("startValue", value)) {
@@ -189,7 +177,7 @@ export class CategoryAxisBreak extends AxisBreak {
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get startValue(): number {
 		let category: string = this.getPropertyValue("startCategory");
@@ -205,7 +193,7 @@ export class CategoryAxisBreak extends AxisBreak {
 	/**
 	 * An index of end category or a end value.
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set endValue(value: number) {
 		if (this.setPropertyValue("endValue", value)) {
@@ -217,7 +205,7 @@ export class CategoryAxisBreak extends AxisBreak {
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get endValue(): number {
 		let category: string = this.getPropertyValue("endCategory");

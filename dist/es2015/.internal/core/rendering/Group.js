@@ -24,7 +24,7 @@ var Group = /** @class */ (function (_super) {
     /**
      * Constructor.
      *
-     * @param {string} elementName Element type (should be "g")
+     * @param elementName Element type (should be "g")
      */
     function Group(elementName) {
         return _super.call(this, elementName) || this;
@@ -34,7 +34,7 @@ var Group = /** @class */ (function (_super) {
      *
      * This will manipulate DOM. `element` will be physically moved into group.
      *
-     * @param {AMElement}  element  Element
+     * @param element  Element
      */
     Group.prototype.add = function (element) {
         if (element) {
@@ -46,7 +46,7 @@ var Group = /** @class */ (function (_super) {
      *
      * This will manipulate DOM. `element` will be physically moved into group.
      *
-     * @param {AMElement}  element  Element
+     * @param element  Element
      */
     Group.prototype.addToBack = function (element) {
         if (element) {
@@ -67,7 +67,7 @@ var Group = /** @class */ (function (_super) {
      * Please note that this will not dispose the element itself, it will just
      * remove it from the group.
      *
-     * @param {AMElement}  element  Element
+     * @param element  Element
      */
     Group.prototype.removeElement = function (element) {
         // todo: not sure about the speed, need to investigate, maybe it's faster to check if node is a child
@@ -84,7 +84,7 @@ var Group = /** @class */ (function (_super) {
     /**
      * Checks if this group already has the child element added
      *
-     * @param {AMElement}  element
+     * @param element
      * @return {boolean}
      */
     Group.prototype.hasChild = function (element) {
@@ -97,7 +97,7 @@ var Group = /** @class */ (function (_super) {
     };
     Object.defineProperty(Group.prototype, "content", {
         /**
-         * @return {string} SVG markup
+         * @return SVG markup
          */
         get: function () {
             return this.node.innerHTML;
@@ -107,7 +107,7 @@ var Group = /** @class */ (function (_super) {
          *
          * Can be used to add a lot of proprietary SVG markup into group.
          *
-         * @param {string}  value  SVG markup
+         * @param value  SVG markup
          */
         set: function (value) {
             this.node.innerHTML = value;

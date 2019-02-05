@@ -32,7 +32,6 @@ export interface Rectangle3DProperties extends IContainerProperties {
 	 * Depth (Z dimension) of the 3D rectangle in pixels.
 	 *
 	 * @default 30
-	 * @type {number}
 	 */
 	depth?: number;
 
@@ -40,7 +39,6 @@ export interface Rectangle3DProperties extends IContainerProperties {
 	 * Angle of the point of view to the 3D element. (0-360)
 	 *
 	 * @default 30
-	 * @type {number}
 	 */
 	angle?: number;
 
@@ -75,22 +73,16 @@ export class Rectangle3D extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {Rectangle3DProperties}
 	 */
 	public _properties!: Rectangle3DProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {Rectangle3DAdapters}
 	 */
 	public _adapter!: Rectangle3DAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {Rectangle3DEvents}
 	 */
 	public _events!: Rectangle3DEvents;
 
@@ -98,7 +90,6 @@ export class Rectangle3D extends Container {
 	 * Left side element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public sideLeft: Sprite;
 
@@ -106,7 +97,6 @@ export class Rectangle3D extends Container {
 	 * Right side element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public sideRight: Sprite;
 
@@ -114,7 +104,6 @@ export class Rectangle3D extends Container {
 	 * Top element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public sideTop: Sprite;
 
@@ -122,7 +111,6 @@ export class Rectangle3D extends Container {
 	 * Bottom element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public sideBottom: Sprite;
 
@@ -130,7 +118,6 @@ export class Rectangle3D extends Container {
 	 * Back element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public sideBack: Sprite;
 
@@ -138,7 +125,6 @@ export class Rectangle3D extends Container {
 	 * Front element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public sideFront: Sprite;
 
@@ -251,14 +237,14 @@ export class Rectangle3D extends Container {
 	 * Depth (Z dimension) of the 3D rectangle in pixels.
 	 *
 	 * @default 30
-	 * @param {number}  value  Depth (px)
+	 * @param value  Depth (px)
 	 */
 	public set depth(value: number) {
 		this.setPropertyValue("depth", value, true);
 	}
 
 	/**
-	 * @return {number} Depth (px)
+	 * @return Depth (px)
 	 */
 	public get depth(): number {
 		return this.getPropertyValue("depth");
@@ -268,14 +254,14 @@ export class Rectangle3D extends Container {
 	 * Angle of the point of view to the 3D element. (0-360)
 	 *
 	 * @default 30
-	 * @param {number}  value  Angle
+	 * @param value  Angle
 	 */
 	public set angle(value: number) {
 		this.setPropertyValue("angle", value, true);
 	}
 
 	/**
-	 * @return {number} Angle
+	 * @return Angle
 	 */
 	public get angle(): number {
 		return this.getPropertyValue("angle");

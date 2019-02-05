@@ -14,90 +14,64 @@ import * as $type from "../utils/Type";
 export interface IPopupAdapters {
     /**
      * Applied to the class prefixes.
-     *
-     * @type {string}
      */
     classPrefix: string;
     /**
      * Applied to popup content before it is shown.
-     * @type {string}
      */
     content: string;
     /**
      * Applied to popup title before it is shown.
-     * @type {string}
      */
     title: string;
     /**
      * Applied to the screen reader title.
-     * @type {string}
      */
     readerTitle: string;
     /**
      * Applied to default `defaultStyles` property before it is retrieved.
-     *
-     * @type {boolean}
      */
     defaultStyles: boolean;
     /**
      * Applied to default `showCurtain` property before it is retrieved.
-     *
-     * @type {boolean}
      */
     showCurtain: boolean;
     /**
      * Applied to default `draggable` property before it is retrieved.
-     *
-     * @type {boolean}
      */
     draggable: boolean;
     /**
      * Applied to `closable` property before it is retrieved.
-     *
-     * @type {boolean}
      */
     closable: boolean;
     /**
      * Applied to `fitTo` property before it's retrieved.
      *
      * @ignore Feature not yet implemented
-     * @type {"none" | "container" | "window"}
      */
     fitTo: "none" | "container" | "window";
     /**
      * Applied to horizontal alignment of the popup.
-     *
-     * @type {Align}
      */
     align: Optional<Align>;
     /**
      * Applied to vertical alignment of the popup.
-     *
-     * @type {VerticalAlign}
      */
     verticalAlign: Optional<VerticalAlign>;
     /**
      * Applied to `left` position value.
-     *
-     * @type {number | Percent}
      */
     left: number | Percent;
     /**
      * Applied to `right` position value.
-     *
-     * @type {number | Percent}
      */
     right: number | Percent;
     /**
      * Applied to `top` position value.
-     *
-     * @type {number | Percent}
      */
     top: number | Percent;
     /**
      * Applied to `bottom` position value.
-     *
-     * @type {number | Percent}
      */
     bottom: number | Percent;
     /**
@@ -134,33 +108,23 @@ export interface IPopupEvents {
 export declare class Popup extends BaseObjectEvents {
     /**
      * Defines available events.
-     *
-     * @type {IPopupEvents}
      */
     _events: IPopupEvents;
     /**
      * Defines available adapters.
-     *
-     * @type {IExportAdapters}
      */
     _adapter: IPopupAdapters;
     /**
      * Adapter.
-     *
-     * @type {Adapter<Popup, IPopupAdapters>}
      */
     adapter: Adapter<Popup, IPopupAdapters>;
     /**
      * A reference to an HTML element to be used for container. If not set, popup
      * will cover the whole window.
-     *
-     * @type {Optional<HTMLElement>}
      */
     container: $type.Optional<HTMLElement | Document>;
     /**
      * A parent element this Popup belongs to.
-     *
-     * @type {Optional<Sprite>}
      */
     sprite: $type.Optional<Sprite>;
     /**
@@ -184,107 +148,73 @@ export declare class Popup extends BaseObjectEvents {
     };
     /**
      * Contents of popup window.
-     *
-     * @type {string}
      */
     protected _content: string;
     /**
      * Title of the popup window.
-     *
-     * @type {string}
      */
     protected _title: string;
     /**
      * Prefix to apply to class names for popup elements.
-     *
-     * @type {string}
      */
     protected _classPrefix: string;
     /**
      * If set to `true` [[Popup]] will use default styles.
-     *
-     * @type {boolean}
      */
     protected _defaultStyles: boolean;
     /**
      * If set to `true` [[Popup]] will dim out all chart content behind it by
      * showing a semi-transparent fill. (curtain)
-     *
-     * @type {boolean}
      */
     protected _showCurtain: boolean;
     /**
      * Indicates whether popup can be dragged.
-     *
-     * @type {boolean}
      */
     protected _draggable: boolean;
     /**
      * Horizontal position of the content window.
-     *
-     * @type {Align}
      */
     protected _align: Optional<Align>;
     /**
      * Vertical position of the content window.
-     *
-     * @type {VerticalAlign}
      */
     protected _verticalAlign: Optional<VerticalAlign>;
     /**
      * Shift in position of the element. (used for dragging)
-     *
-     * @type {number}
      */
     protected _shift: IPoint;
     /**
      * Temporary shift in position of the element. (used for dragging)
-     *
-     * @type {number}
      */
     protected _tempShift: IPoint;
     /**
      * "left" position of the popup content.
-     *
-     * @type {number | Percent}
      */
     protected _left: number | Percent;
     /**
      * "right" position of the popup content.
-     *
-     * @type {number | Percent}
      */
     protected _right: number | Percent;
     /**
      * "top" position of the popup content.
-     *
-     * @type {number | Percent}
      */
     protected _top: number | Percent;
     /**
      * "bottom" position of the popup content.
-     *
-     * @type {number | Percent}
      */
     protected _bottom: number | Percent;
     /**
      * A title for screen readers. It is very highly recommended to set that title
      * so that people using screen reader tools can get an immediate summary of
      * the information in the popup.
-     *
-     * @type {string}
      */
     _readerTitle: string;
     /**
      * Is popup closable?
-     *
-     * @type {boolean}
      */
     private _closable;
     /**
      * Was CSS already loaded?
-     *
-     * @type {boolean}
      */
     private _cssLoaded;
     /**
@@ -293,14 +223,11 @@ export declare class Popup extends BaseObjectEvents {
      *
      * @ignore Feature not yet implemented
      * @todo Implement
-     * @type {"none" | "container" | "window"}
      */
     private _fitTo;
     /**
      * Used to log original value of `interactionsEnabled` so that it can be restored
      * after temporarily disabling it.
-     *
-     * @type {Optional<boolean>}
      */
     private _spriteInteractionsEnabled;
     /**
@@ -308,20 +235,15 @@ export declare class Popup extends BaseObjectEvents {
      * real object that is drawn or actually used in the chart.
      *
      * @ignore Exclude from docs
-     * @type {boolean}
      */
     isTemplate: boolean;
     /**
      * Indicates if the element was already sized and should not be measured for
      * sized again, saving some precious resources.
-     *
-     * @type {boolean}
      */
     private _sized;
     /**
      * Cached bounding rectangle info.
-     *
-     * @type {Optional<DOMRect | ClientRect>}
      */
     private _bbox;
     /**
@@ -351,28 +273,28 @@ export declare class Popup extends BaseObjectEvents {
     /**
      * A prefix that is applied to class names of various popup elements.
      *
-     * @return {string} Class name prefix
+     * @return Class name prefix
      */
     /**
-     * @param {string} value Class name prefix
+     * @param value Class name prefix
      */
     classPrefix: string;
     /**
      * Returns raw prefix (without adapters applied).
      *
      * @ignore Exclude from docs
-     * @return {string} Class name prefix
+     * @return Class name prefix
      */
     readonly classPrefixRaw: string;
     /**
-     * @return {string} Popup content
+     * @return Popup content
      */
     /**
      * Popup content.
      *
      * Popup content can be any valid HTML, including CSS.
      *
-     * @param {string} value Popup content
+     * @param value Popup content
      */
     content: string;
     protected getClassNames(): {
@@ -387,29 +309,29 @@ export declare class Popup extends BaseObjectEvents {
      */
     protected createContentElement(): void;
     /**
-     * @return {string} Popup title
+     * @return Popup title
      */
     /**
      * Popup title.
      *
      * Popup title can be any valid HTML, including CSS.
      *
-     * @param {string}  value  Popup title
+     * @param value  Popup title
      */
     title: string;
     /**
-     * @return {string} Popup content
+     * @return Popup content
      */
     /**
      * A title for screen readers. It is very highly recommended to set that title
      * so that people using screen reader tools can get an immediate summary of
      * the information in the popup.
      *
-     * @param {string}  value  Reader title
+     * @param value  Reader title
      */
     readerTitle: string;
     /**
-     * @return {boolean} Closable?
+     * @return Closable?
      */
     /**
      * Is popup closable?
@@ -419,13 +341,13 @@ export declare class Popup extends BaseObjectEvents {
      *
      * If it is not closable, the only way to close it is via `close()` call.
      *
-     * @param {boolean} value Closable?
+     * @param value Closable?
      */
     closable: boolean;
     /**
      * @ignore
      * @todo Implement
-     * @return {"none" | "container" | "window"} Fit option
+     * @return Fit option
      */
     /**
      * If set to other than "none" will try to re-adjust the position of the
@@ -434,11 +356,11 @@ export declare class Popup extends BaseObjectEvents {
      * @ignore
      * @todo Implement
      * @default "window"
-     * @param {"none" | "container" | "window"}  value  Fit option
+     * @param value  Fit option
      */
     fitTo: "none" | "container" | "window";
     /**
-     * @return {boolean} Use default CSS?
+     * @return Use default CSS?
      */
     /**
      * Should popup use default CSS?
@@ -447,17 +369,17 @@ export declare class Popup extends BaseObjectEvents {
      * popup, since it will look quite out of place otherwise.
      *
      * @default true
-     * @param {string} Use default CSS?
+     * @param Use default CSS?
      */
     defaultStyles: boolean;
     /**
-     * @return {boolean} Show curtain?
+     * @return Show curtain?
      */
     /**
      * Should popup use dim out all content behind it?
      *
      * @default false
-     * @param {boolean} Show curtain?
+     * @param Show curtain?
      */
     showCurtain: boolean;
     /**
@@ -465,17 +387,17 @@ export declare class Popup extends BaseObjectEvents {
      */
     protected createCurtainElement(): void;
     /**
-     * @return {boolean} Show curtain?
+     * @return Show curtain?
      */
     /**
      * Can the popup be dragged with a pointer?
      *
      * @default false
-     * @param {boolean} Show curtain?
+     * @param Show curtain?
      */
     draggable: boolean;
     /**
-     * @return {boolean} Horizontal position
+     * @return Horizontal position
      */
     /**
      * Horizontal positioning of the content window.
@@ -483,11 +405,11 @@ export declare class Popup extends BaseObjectEvents {
      * Available options: "left", "center" (default), "right", and "none".
      *
      * @default "center"
-     * @param {Align} Horizontal position
+     * @param Horizontal position
      */
     align: Align;
     /**
-     * @return {boolean} Vertical position
+     * @return Vertical position
      */
     /**
      * Vertical positioning of the content window.
@@ -495,11 +417,11 @@ export declare class Popup extends BaseObjectEvents {
      * Available options: "top", "middle" (default), "bottom", and "none".
      *
      * @default "middle"
-     * @param {VerticalAlign} Vertical position
+     * @param Vertical position
      */
     verticalAlign: VerticalAlign;
     /**
-     * @return {boolean} Left
+     * @return Left
      */
     /**
      * "left" coordinate of a non-aligned (`align = "none"`) popup.
@@ -510,11 +432,11 @@ export declare class Popup extends BaseObjectEvents {
      *
      * NOTE: The position is relative to the chart container.
      *
-     * @param {number | Percent} Left
+     * @param Left
      */
     left: number | Percent;
     /**
-     * @return {boolean} Right
+     * @return Right
      */
     /**
      * "right" coordinate of a non-aligned (`align = "none"`) popup.
@@ -525,11 +447,11 @@ export declare class Popup extends BaseObjectEvents {
      *
      * NOTE: The position is relative to the chart container.
      *
-     * @param {number | Percent} Right
+     * @param Right
      */
     right: number | Percent;
     /**
-     * @return {boolean} Top
+     * @return Top
      */
     /**
      * "top" coordinate of a non-aligned (`verticalAlign = "none"`) popup.
@@ -540,11 +462,11 @@ export declare class Popup extends BaseObjectEvents {
      *
      * NOTE: The position is relative to the chart container.
      *
-     * @param {number | Percent} Top
+     * @param Top
      */
     top: number | Percent;
     /**
-     * @return {boolean} Bottom
+     * @return Bottom
      */
     /**
      * "bottom" coordinate of a non-aligned (`verticalAlign = "none"`) popup.
@@ -555,7 +477,7 @@ export declare class Popup extends BaseObjectEvents {
      *
      * NOTE: The position is relative to the chart container.
      *
-     * @param {number | Percent} Bottom
+     * @param Bottom
      */
     bottom: number | Percent;
     /**
@@ -599,7 +521,7 @@ export declare class Popup extends BaseObjectEvents {
     /**
      * Copies all properties and related data from different element.
      *
-     * @param {this} object Source element
+     * @param object Source element
      */
     copyFrom(source: this): void;
 }

@@ -32,7 +32,6 @@ export interface ITrapezoidProperties extends ISpriteProperties {
 	 * Wdith of the top side. Absolute (px) or relative ([[Percent]]).
 	 *
 	 * @default Percent(100)
-	 * @type {number | Percent}
 	 */
 	topSide?: number | Percent;
 
@@ -40,7 +39,6 @@ export interface ITrapezoidProperties extends ISpriteProperties {
 	 * Wdith of the bottom side. Absolute (px) or relative ([[Percent]]).
 	 *
 	 * @default Percent(100)
-	 * @type {number | Percent}
 	 */
 	bottomSide?: number | Percent;
 
@@ -48,7 +46,6 @@ export interface ITrapezoidProperties extends ISpriteProperties {
 	 * Height of the left side. Absolute (px) or relative ([[Percent]]).
 	 *
 	 * @default Percent(100)
-	 * @type {number | Percent}
 	 */
 	leftSide?: number | Percent;
 
@@ -56,7 +53,6 @@ export interface ITrapezoidProperties extends ISpriteProperties {
 	 * Height of the right side. Absolute (px) or relative ([[Percent]]).
 	 *
 	 * @default Percent(100)
-	 * @type {number | Percent}
 	 */
 	rightSide?: number | Percent;
 
@@ -64,8 +60,6 @@ export interface ITrapezoidProperties extends ISpriteProperties {
 	 * A relative vertical position of the "neck". If the top and bottom sides
 	 * are of different width, and `horizontalNeck` is set, a choke point
 	 * will be created at that position, creating a funnel shape.
-	 *
-	 * @type {Percent}
 	 */
 	horizontalNeck?: Percent;
 
@@ -73,8 +67,6 @@ export interface ITrapezoidProperties extends ISpriteProperties {
 	 * A relative horizontal position of the "neck". If the left and right sides
 	 * are of different height, and `verticalNeck` is set, a choke point
 	 * will be created at that position, creating a funnel shape.
-	 *
-	 * @type {Percent}
 	 */
 	verticalNeck?: Percent;
 
@@ -110,22 +102,16 @@ export class Trapezoid extends Sprite {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ITrapezoidProperties}
 	 */
 	public _properties!: ITrapezoidProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ITrapezoidAdapters}
 	 */
 	public _adapter!: ITrapezoidAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ITrapezoidEvents}
 	 */
 	public _events!: ITrapezoidEvents;
 
@@ -210,14 +196,14 @@ export class Trapezoid extends Sprite {
 	 * Wdith of the top side. Absolute (px) or relative ([[Percent]]).
 	 *
 	 * @default Percent(100)
-	 * @param {number | Percent}  value  Width
+	 * @param value  Width
 	 */
 	public set topSide(value: number | Percent) {
 		this.setPercentProperty("topSide", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Width
+	 * @return Width
 	 */
 	public get topSide(): number | Percent {
 		return this.getPropertyValue("topSide");
@@ -227,14 +213,14 @@ export class Trapezoid extends Sprite {
 	 * Wdith of the bottom side. Absolute (px) or relative ([[Percent]]).
 	 *
 	 * @default Percent(100)
-	 * @param {number | Percent}  value  Width
+	 * @param value  Width
 	 */
 	public set bottomSide(value: number | Percent) {
 		this.setPercentProperty("bottomSide", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Width
+	 * @return Width
 	 */
 	public get bottomSide(): number | Percent {
 		return this.getPropertyValue("bottomSide");
@@ -244,14 +230,14 @@ export class Trapezoid extends Sprite {
 	 * Height of the left side. Absolute (px) or relative ([[Percent]]).
 	 *
 	 * @default Percent(100)
-	 * @param {number | Percent}  value  Height
+	 * @param value  Height
 	 */
 	public set leftSide(value: number | Percent) {
 		this.setPercentProperty("leftSide", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Height
+	 * @return Height
 	 */
 	public get leftSide(): number | Percent {
 		return this.getPropertyValue("leftSide");
@@ -261,14 +247,14 @@ export class Trapezoid extends Sprite {
 	 * Height of the right side. Absolute (px) or relative ([[Percent]]).
 	 *
 	 * @default Percent(100)
-	 * @param {number | Percent}  value  Height
+	 * @param value  Height
 	 */
 	public set rightSide(value: number | Percent) {
 		this.setPercentProperty("rightSide", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Height
+	 * @return Height
 	 */
 	public get rightSide(): number | Percent {
 		return this.getPropertyValue("rightSide");
@@ -279,14 +265,14 @@ export class Trapezoid extends Sprite {
 	 * are of different width, and `horizontalNeck` is set, a choke point
 	 * will be created at that position, creating a funnel shape.
 	 *
-	 * @param {Percent}  value  Horizontal neck position
+	 * @param value  Horizontal neck position
 	 */
 	public set horizontalNeck(value: Percent) {
 		this.setPropertyValue("horizontalNeck", value, true);
 	}
 
 	/**
-	 * @return {Percent} Horizontal neck position
+	 * @return Horizontal neck position
 	 */
 	public get horizontalNeck(): Percent {
 		return this.getPropertyValue("horizontalNeck");
@@ -297,14 +283,14 @@ export class Trapezoid extends Sprite {
 	 * are of different height, and `verticalNeck` is set, a choke point
 	 * will be created at that position, creating a funnel shape.
 	 *
-	 * @param {Percent}  value  Vertical neck position
+	 * @param value  Vertical neck position
 	 */
 	public set verticalNeck(value: Percent) {
 		this.setPropertyValue("verticalNeck", value, true);
 	}
 
 	/**
-	 * @return {Percent} Vertical neck position
+	 * @return Vertical neck position
 	 */
 	public get verticalNeck(): Percent {
 		return this.getPropertyValue("verticalNeck");

@@ -125,7 +125,7 @@ var PictorialStackedSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {PictorialStackedSeriesDataItem} Data Item
+     * @return Data Item
      */
     PictorialStackedSeries.prototype.createDataItem = function () {
         return new PictorialStackedSeriesDataItem();
@@ -165,7 +165,7 @@ var PictorialStackedSeries = /** @class */ (function (_super) {
          * }
          * ```
          *
-         * @return {Sprite} Mask sprite
+         * @return Mask sprite
          */
         get: function () {
             return this._maskSprite;
@@ -176,7 +176,7 @@ var PictorialStackedSeries = /** @class */ (function (_super) {
     /**
      * Inits FunnelSlice.
      *
-     * @param  {FunnelSlice} slice to init
+     * @param slice to init
      */
     PictorialStackedSeries.prototype.initSlice = function (slice) {
         _super.prototype.initSlice.call(this, slice);

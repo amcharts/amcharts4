@@ -30,15 +30,11 @@ import * as $type from "../utils/Type";
 export interface IQuadraticCurveProperties extends ILineProperties {
 	/**
 	 * X coordinate of control point.
-	 *
-	 * @type {number}
 	 */
 	cpx?: number;
 
 	/**
 	 * Y coordinate of control point.
-	 *
-	 * @type {number}
 	 */
 	cpy?: number;
 }
@@ -73,22 +69,16 @@ export class QuadraticCurve extends Line {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IQuadraticCurveProperties}
 	 */
 	public _properties!: IQuadraticCurveProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IQuadraticCurveAdapters}
 	 */
 	public _adapter!: IQuadraticCurveAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IQuadraticCurveEvents}
 	 */
 	public _events!: IQuadraticCurveEvents;
 
@@ -128,14 +118,14 @@ export class QuadraticCurve extends Line {
 	/**
 	 * X coordinate of control point.
 	 *
-	 * @param {number} value X
+	 * @param value X
 	 */
 	public set cpx(value: number) {
 		this.setPropertyValue("cpx", value, true);
 	}
 
 	/**
-	 * @return {number} X
+	 * @return X
 	 */
 	public get cpx(): number {
 		return this.getPropertyValue("cpx");
@@ -144,14 +134,14 @@ export class QuadraticCurve extends Line {
 	/**
 	 * Y coordinate of control point.
 	 *
-	 * @param {number} value Y
+	 * @param value Y
 	 */
 	public set cpy(value: number) {
 		this.setPropertyValue("cpy", value, true);
 	}
 
 	/**
-	 * @return {number} Y
+	 * @return Y
 	 */
 	public get cpy(): number {
 		return this.getPropertyValue("cpy");
@@ -160,8 +150,8 @@ export class QuadraticCurve extends Line {
 	/**
 	 * Converts relative position along the line (0-1) into pixel coordinates.
 	 *
-	 * @param  {number}             position  Position (0-1)
-	 * @return {IOrientationPoint}            Coordinates
+	 * @param position  Position (0-1)
+	 * @return Coordinates
 	 */
 	public positionToPoint(position: number): IOrientationPoint {
 		let p1 = {x:this.x1, y:this.y1};

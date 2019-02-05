@@ -59,7 +59,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(XYSeriesDataItem.prototype, "valueX", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values.valueX.value;
@@ -67,7 +67,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Item's numeric value on X value axis.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("valueX", value);
@@ -77,7 +77,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYSeriesDataItem.prototype, "valueY", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values.valueY.value;
@@ -85,7 +85,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Item's numeric value on Y value axis.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("valueY", value);
@@ -95,7 +95,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYSeriesDataItem.prototype, "dateX", {
         /**
-         * @return {Date} Date
+         * @return Date
          */
         get: function () {
             return this.getDate("dateX");
@@ -103,7 +103,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Item's date value on X date-based axis.
          *
-         * @param {Date}  date  Date
+         * @param date  Date
          */
         set: function (date) {
             this.setDate("dateX", date);
@@ -113,7 +113,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYSeriesDataItem.prototype, "dateY", {
         /**
-         * @return {Date} Date
+         * @return Date
          */
         get: function () {
             return this.getDate("dateY");
@@ -121,7 +121,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Item's date value on Y date-based axis.
          *
-         * @param {Date}  date  Date
+         * @param date  Date
          */
         set: function (date) {
             this.setDate("dateY", date);
@@ -131,7 +131,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYSeriesDataItem.prototype, "categoryX", {
         /**
-         * @return {string} Category
+         * @return Category
          */
         get: function () {
             return this.categories.categoryX;
@@ -139,7 +139,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Item's category on X category axis.
          *
-         * @param {string}  category  Category
+         * @param category  Category
          */
         set: function (category) {
             this.setCategory("categoryX", category);
@@ -149,7 +149,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYSeriesDataItem.prototype, "categoryY", {
         /**
-         * @return {string} Category
+         * @return Category
          */
         get: function () {
             return this.categories.categoryY;
@@ -157,7 +157,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Item's category on Y category axis.
          *
-         * @param {string}  category  Category
+         * @param category  Category
          */
         set: function (category) {
             this.setCategory("categoryY", category);
@@ -167,7 +167,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYSeriesDataItem.prototype, "openValueX", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values.openValueX.value;
@@ -175,7 +175,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Item's open numeric value on X value axis.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("openValueX", value);
@@ -185,7 +185,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYSeriesDataItem.prototype, "openValueY", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values.openValueY.value;
@@ -193,7 +193,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Item's open numeric value on Y value axis.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("openValueY", value);
@@ -203,7 +203,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYSeriesDataItem.prototype, "openDateX", {
         /**
-         * @return {Date} Date
+         * @return Date
          */
         get: function () {
             return this.getDate("openDateX");
@@ -211,7 +211,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Item's open date value on X date-based axis.
          *
-         * @param {Date}  date  Date
+         * @param date  Date
          */
         set: function (date) {
             this.setDate("openDateX", date);
@@ -221,7 +221,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYSeriesDataItem.prototype, "openDateY", {
         /**
-         * @return {Date} Date
+         * @return Date
          */
         get: function () {
             return this.getDate("openDateY");
@@ -229,7 +229,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Item's open date value on Y date-based axis.
          *
-         * @param {Date}  date  Date
+         * @param date  Date
          */
         set: function (date) {
             this.setDate("openDateY", date);
@@ -239,7 +239,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYSeriesDataItem.prototype, "openCategoryX", {
         /**
-         * @return {string} Category
+         * @return Category
          */
         get: function () {
             return this.categories.openCategoryX;
@@ -247,7 +247,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Item's open category on X category axis.
          *
-         * @param {string}  category  Category
+         * @param category  Category
          */
         set: function (category) {
             this.setProperty("openCategoryX", category);
@@ -257,7 +257,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYSeriesDataItem.prototype, "openCategoryY", {
         /**
-         * @return {string} Category
+         * @return Category
          */
         get: function () {
             return this.categories.openCategoryY;
@@ -265,7 +265,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Item's open category on Y category axis.
          *
-         * @param {string}  category  Category
+         * @param category  Category
          */
         set: function (category) {
             this.setProperty("openCategoryY", category);
@@ -277,10 +277,10 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
      * Return smallest value out of all item's value fields.
      *
      * @ignore Exclude from docs
-     * @param  {string[]}  fields      Fields to check in
-     * @param  {boolean}   working     Include working (temporary) values
-     * @param  {number}    stackValue  If item is in a stack, the value item starts as
-     * @return {number}                Value
+     * @param fields      Fields to check in
+     * @param working     Include working (temporary) values
+     * @param stackValue  If item is in a stack, the value item starts as
+     * @return Value
      */
     XYSeriesDataItem.prototype.getMin = function (fields, working, stackValue) {
         var _this = this;
@@ -309,10 +309,10 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
      * Return biggest value out of all item's value fields.
      *
      * @ignore Exclude from docs
-     * @param  {string[]}  fields      Fields to check in
-     * @param  {boolean}   working     Include working (temporary) values
-     * @param  {number}    stackValue  If item is in a stack, the value item starts as
-     * @return {number}                Value
+     * @param fields      Fields to check in
+     * @param working     Include working (temporary) values
+     * @param stackValue  If item is in a stack, the value item starts as
+     * @return Value
      */
     XYSeriesDataItem.prototype.getMax = function (fields, working, stackValue) {
         var _this = this;
@@ -363,28 +363,22 @@ var XYSeries = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * X axis the series is attached to.
-         *
-         * @type {MutableValueDisposer}
          */
         _this._xAxis = new MutableValueDisposer();
         /**
          * Y axis the series is attached to.
-         *
-         * @type {MutableValueDisposer}
          */
         _this._yAxis = new MutableValueDisposer();
         /**
          * [_xValueFields description]
          *
          * @todo Description
-         * @type {Array<string>}
          */
         _this._xValueFields = [];
         /**
          * [_yValueFields description]
          *
          * @todo Description
-         * @type {Array<string>}
          */
         _this._yValueFields = [];
         /**
@@ -421,7 +415,7 @@ var XYSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {XYSeriesDataItem} Data Item
+     * @return Data Item
      */
     XYSeries.prototype.createDataItem = function () {
         return new XYSeriesDataItem();
@@ -460,9 +454,9 @@ var XYSeries = /** @class */ (function (_super) {
     /**
      * Processes data item.
      *
-     * @param {XYSeriesDataItem}  dataItem     Data item
-     * @param {Object}            dataContext  Raw data
-     * @param {number}            index        Index of the data item
+     * @param dataItem     Data item
+     * @param dataContext  Raw data
+     * @param index        Index of the data item
      */
     XYSeries.prototype.processDataItem = function (dataItem, dataContext) {
         try {
@@ -480,8 +474,8 @@ var XYSeries = /** @class */ (function (_super) {
     /**
      * Inits data item's working values.
      *
-     * @param {this["_dataItem"]}  dataItem  Data item
-     * @param {number}             index     Data item's index
+     * @param dataItem  Data item
+     * @param index     Data item's index
      */
     XYSeries.prototype.setInitialWorkingValues = function (dataItem) {
     };
@@ -551,9 +545,9 @@ var XYSeries = /** @class */ (function (_super) {
      * [axis description]
      *
      * @todo Description
-     * @param {Axis}        axis    Axis
-     * @param {Array<Key>}  fields  Fields (?)
-     * @param {Key}         field   Field
+     * @param axis    Axis
+     * @param fields  Fields (?)
+     * @param field   Field
      */
     XYSeries.prototype.addValueField = function (axis, fields, field) {
         if (axis instanceof ValueAxis) {
@@ -568,8 +562,8 @@ var XYSeries = /** @class */ (function (_super) {
      * User might set field for category axis only, but not for series. In such
      * case, we take field value from axis and set it for series.
      *
-     * @param {Key}           field  Field
-     * @param {CategoryAxis}  axis   Axis
+     * @param field  Field
+     * @param axis   Axis
      */
     XYSeries.prototype.setCategoryAxisField = function (field, axis) {
         if (!$type.hasValue(this.dataFields[field])) {
@@ -582,8 +576,8 @@ var XYSeries = /** @class */ (function (_super) {
      * User might set field for category axis only, but not for series. In such
      * case, we take field value from axis and set it for series.
      *
-     * @param {Key}       field  Field
-     * @param {DateAxis}  axis   Axis
+     * @param field  Field
+     * @param axis   Axis
      */
     XYSeries.prototype.setDateAxisField = function (field, axis) {
         if (!$type.hasValue(this.dataFields[field])) {
@@ -619,7 +613,7 @@ var XYSeries = /** @class */ (function (_super) {
     /**
      * Returns an SVG path to use as series mask.
      *
-     * @return {string} SVG path
+     * @return SVG path
      */
     XYSeries.prototype.getMaskPath = function () {
         return $path.rectToPath({
@@ -632,8 +626,8 @@ var XYSeries = /** @class */ (function (_super) {
     /**
      * Returns axis data field to use.
      *
-     * @param  {Axis}    axis  Axis
-     * @return {string}        Field name
+     * @param axis  Axis
+     * @return Field name
      */
     XYSeries.prototype.getAxisField = function (axis) {
         if (axis == this.xAxis) {
@@ -695,7 +689,7 @@ var XYSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(XYSeries.prototype, "xAxis", {
         /**
-         * @return {Axis} Axis
+         * @return Axis
          */
         get: function () {
             if (this.chart) {
@@ -712,7 +706,7 @@ var XYSeries = /** @class */ (function (_super) {
         /**
          * X axis the series is attached to.
          *
-         * @param {Axis}  axis  Axis
+         * @param axis  Axis
          */
         set: function (axis) {
             var oldAxis = this._xAxis.get();
@@ -734,7 +728,7 @@ var XYSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYSeries.prototype, "yAxis", {
         /**
-         * @return {Axis} Axis
+         * @return Axis
          */
         get: function () {
             if (this.chart) {
@@ -751,7 +745,7 @@ var XYSeries = /** @class */ (function (_super) {
         /**
          * Y axis the series is attached to.
          *
-         * @param {Axis}  axis  Axis
+         * @param axis  Axis
          */
         set: function (axis) {
             var oldAxis = this._yAxis.get();
@@ -773,7 +767,7 @@ var XYSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYSeries.prototype, "baseAxis", {
         /**
-         * @return {Axis} Axis
+         * @return Axis
          */
         get: function () {
             if (!this._baseAxis) {
@@ -801,7 +795,7 @@ var XYSeries = /** @class */ (function (_super) {
          * This is the axis that series fills will go to, or grow animations will
          * happen from.
          *
-         * @param {Axis}  value  Axis
+         * @param value  Axis
          */
         set: function (value) {
             if (this._baseAxis != value) {
@@ -816,7 +810,7 @@ var XYSeries = /** @class */ (function (_super) {
      * Processes values after data items' were added.
      *
      * @ignore Exclude from docs
-     * @param {OrderedListTemplate<this["_dataItem"]>}  dataItems  Data items
+     * @param dataItems  Data items
      */
     XYSeries.prototype.processValues = function (working) {
         // todo: if this is stacked, ensure that series to which this one can be stacked are processed before.
@@ -891,8 +885,8 @@ var XYSeries = /** @class */ (function (_super) {
     /**
      * Shows series tooltip at specific position.
      *
-     * @param {number}  xPosition  X
-     * @param {number}  yPosition  Y
+     * @param xPosition  X
+     * @param yPosition  Y
      */
     XYSeries.prototype.showTooltipAtPosition = function (xPosition, yPosition) {
         if (this.cursorTooltipEnabled) {
@@ -921,7 +915,7 @@ var XYSeries = /** @class */ (function (_super) {
     /**
      * Shows series tooltip at specific dataItem.
      *
-     * @param {this["_dataItem"]}  dataItem
+     * @param dataItem
      */
     XYSeries.prototype.showTooltipAtDataItem = function (dataItem) {
         this.returnBulletDefaultState(dataItem);
@@ -1002,7 +996,7 @@ var XYSeries = /** @class */ (function (_super) {
      * Positions series bullet.
      *
      * @ignore Exclude from docs
-     * @param {Bullet}  bullet  Bullet
+     * @param bullet  Bullet
      */
     XYSeries.prototype.positionBullet = function (bullet) {
         _super.prototype.positionBullet.call(this, bullet);
@@ -1067,7 +1061,7 @@ var XYSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(XYSeries.prototype, "stacked", {
         /**
-         * @return {boolean} Can be stacked?
+         * @return Can be stacked?
          */
         get: function () {
             return this.getPropertyValue("stacked");
@@ -1076,7 +1070,7 @@ var XYSeries = /** @class */ (function (_super) {
          * Can items from this series be included into stacks?
          *
          * @default false
-         * @param {boolean}  stacked  Can be stacked?
+         * @param stacked  Can be stacked?
          */
         set: function (stacked) {
             this.setPropertyValue("stacked", stacked, true);
@@ -1086,7 +1080,7 @@ var XYSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYSeries.prototype, "snapTooltip", {
         /**
-         * @return {boolean} Should snap?
+         * @return Should snap?
          */
         get: function () {
             return this.getPropertyValue("snapTooltip");
@@ -1096,7 +1090,7 @@ var XYSeries = /** @class */ (function (_super) {
          * current cursor position?
          *
          * @default false
-         * @param {boolean}  value  Should snap?
+         * @param value  Should snap?
          */
         set: function (value) {
             this.setPropertyValue("snapTooltip", value);
@@ -1107,8 +1101,8 @@ var XYSeries = /** @class */ (function (_super) {
     /**
      * Shows hidden series.
      *
-     * @param  {number}     duration  Duration of reveal animation (ms)
-     * @return {Animation}            Animation
+     * @param duration  Duration of reveal animation (ms)
+     * @return Animation
      */
     XYSeries.prototype.show = function (duration) {
         var _this = this;
@@ -1144,8 +1138,8 @@ var XYSeries = /** @class */ (function (_super) {
     /**
      * Hides series.
      *
-     * @param  {number}     duration  Duration of hiding animation (ms)
-     * @return {Animation}            Animation
+     * @param duration  Duration of hiding animation (ms)
+     * @return Animation
      */
     XYSeries.prototype.hide = function (duration) {
         var _this = this;
@@ -1227,7 +1221,7 @@ var XYSeries = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     XYSeries.prototype.getStackValue = function (dataItem, working) {
         // todo: here wer stack x and y values only. question is - what should we do with other values, like openX, openY?
@@ -1285,7 +1279,7 @@ var XYSeries = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @return {string} [description]
+         * @return [description]
          */
         get: function () {
             return this._xField;
@@ -1299,7 +1293,7 @@ var XYSeries = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @return {string} [description]
+         * @return [description]
          */
         get: function () {
             return this._yField;
@@ -1313,7 +1307,7 @@ var XYSeries = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @return {string} [description]
+         * @return [description]
          */
         get: function () {
             return this._xOpenField;
@@ -1327,7 +1321,7 @@ var XYSeries = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @return {string} [description]
+         * @return [description]
          */
         get: function () {
             return this._yOpenField;
@@ -1339,7 +1333,7 @@ var XYSeries = /** @class */ (function (_super) {
         /**
          * @ignore Exclude from docs
          * @todo Description
-         * @return {string} [description]
+         * @return [description]
          */
         get: function () {
             if (this._tooltipXField) {
@@ -1352,7 +1346,7 @@ var XYSeries = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @param {string} value [description]
+         * @param value [description]
          */
         set: function (value) {
             this._tooltipXField = value;
@@ -1364,7 +1358,7 @@ var XYSeries = /** @class */ (function (_super) {
         /**
          * @ignore Exclude from docs
          * @todo Description
-         * @return {string} [description]
+         * @return [description]
          */
         get: function () {
             if (this._tooltipYField) {
@@ -1377,7 +1371,7 @@ var XYSeries = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @param {string} value [description]
+         * @param value [description]
          */
         set: function (value) {
             this._tooltipYField = value;
@@ -1389,8 +1383,8 @@ var XYSeries = /** @class */ (function (_super) {
      * Returns lowest value in the series for the specific axis.
      *
      * @ignore Exclude from docs
-     * @param  {ValueAxis}  axis  Axis
-     * @return {number}           value
+     * @param axis  Axis
+     * @return value
      */
     XYSeries.prototype.min = function (axis) {
         return this._tmin.getKey(axis.uid);
@@ -1399,8 +1393,8 @@ var XYSeries = /** @class */ (function (_super) {
      * Returns highest value in the series for the specific axis.
      *
      * @ignore Exclude from docs
-     * @param  {ValueAxis}  axis  Axis
-     * @return {number}           value
+     * @param axis  Axis
+     * @return value
      */
     XYSeries.prototype.max = function (axis) {
         return this._tmax.getKey(axis.uid);
@@ -1410,8 +1404,8 @@ var XYSeries = /** @class */ (function (_super) {
      * selection.
      *
      * @ignore Exclude from docs
-     * @param  {ValueAxis}  axis  Axis
-     * @return {number}           value
+     * @param axis  Axis
+     * @return value
      */
     XYSeries.prototype.selectionMin = function (axis) {
         var value = this._smin.getKey(axis.uid);
@@ -1425,8 +1419,8 @@ var XYSeries = /** @class */ (function (_super) {
      * selection.
      *
      * @ignore Exclude from docs
-     * @param  {ValueAxis}  axis  Axis
-     * @return {number}           value
+     * @param axis  Axis
+     * @return value
      */
     XYSeries.prototype.selectionMax = function (axis) {
         var value = this._smax.getKey(axis.uid);
@@ -1439,7 +1433,7 @@ var XYSeries = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     XYSeries.prototype.processConfig = function (config) {
         if (config) {
@@ -1488,13 +1482,13 @@ var XYSeries = /** @class */ (function (_super) {
      * [getPoint description]
      *
      * @todo Description
-     * @param {XYSeriesDataItem}  dataItem   [description]
-     * @param {string}          xKey       [description]
-     * @param {string}          yKey       [description]
-     * @param {number}          locationX  [description]
-     * @param {number}          locationY  [description]
-     * @param {string}          stackKeyX  [description]
-     * @param {string}          stackKeyY  [description]
+     * @param dataItem   [description]
+     * @param xKey       [description]
+     * @param yKey       [description]
+     * @param locationX  [description]
+     * @param locationY  [description]
+     * @param stackKeyX  [description]
+     * @param stackKeyY  [description]
      */
     XYSeries.prototype.getPoint = function (dataItem, xKey, yKey, locationX, locationY, stackKeyX, stackKeyY) {
         var x = this.xAxis.getX(dataItem, xKey, locationX);
@@ -1515,7 +1509,7 @@ var XYSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(XYSeries.prototype, "cursorTooltipEnabled", {
         /**
-         * @return {boolean} Display tooltip?
+         * @return Display tooltip?
          */
         get: function () {
             return this.getPropertyValue("cursorTooltipEnabled");
@@ -1532,7 +1526,7 @@ var XYSeries = /** @class */ (function (_super) {
          * tooltips only when hovered directly over them
          *
          * @default true
-         * @param {boolean} value Display tooltip?
+         * @param value Display tooltip?
          */
         set: function (value) {
             this.setPropertyValue("cursorTooltipEnabled", value);

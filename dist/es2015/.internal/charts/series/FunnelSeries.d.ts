@@ -30,39 +30,31 @@ import { Orientation } from "../../core/defs/Orientation";
 export declare class FunnelSeriesDataItem extends PercentSeriesDataItem {
     /**
      * A type of slice used for this series.
-     *
-     * @type {FunnelSlice}
      */
     _slice: FunnelSlice;
     /**
      * A reference to a label element.
      * @ignore Exclude from docs
-     * @type {Label}
      */
     _label: Label;
     /**
      * A reference to a tick element.
      * @ignore Exclude from docs
-     * @type {FunnelTick}
      */
     _tick: FunnelTick;
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {FunnelSeries}
      */
     _component: FunnelSeries;
     /**
      * Defines a type of elements linking slices.
-     *
-     * @type {FunnelSlice}
      */
     _sliceLink: FunnelSlice;
     /**
      * A [[FunnelSlice]] element, related to this data item ([[FunnelSlice]]).
      *
      * @readonly
-     * @return {FunnelSlice} Slice element
+     * @return Slice element
      */
     readonly sliceLink: this["_sliceLink"];
     /**
@@ -90,14 +82,12 @@ export interface IFunnelSeriesProperties extends IPercentSeriesProperties {
      * property for full description.
      *
      * @default 0
-     * @type {number}
      */
     bottomRatio?: number;
     /**
      * Orientation of series
      *
      * @default "vertical"
-     * @type {Orientation}
      */
     orientation?: Orientation;
 }
@@ -130,76 +120,53 @@ export interface IFunnelSeriesAdapters extends IPercentSeriesAdapters, IFunnelSe
 export declare class FunnelSeries extends PercentSeries {
     /**
      * Defines the type of data fields used for the series.
-     *
-     * @type {IFunnelSeriesDataFields}
      */
     _slice: FunnelSlice;
     /**
      * Defines available properties.
-     *
-     * @type {IFunnelSeriesProperties}
      */
     _tick: FunnelTick;
     /**
      * Defines available adapters.
-     *
-     * @type {IFunnelSeriesAdapters}
      */
     _label: Label;
     /**
      * A reference to chart this series is for.
      *
      * @ignore Exclude from docs
-     * @type {SlicedChart}
      */
     _chart: SlicedChart;
     /**
      * Defines the type of data fields used for the series.
-     *
-     * @type {IFunnelSeriesDataFields}
      */
     _dataFields: IFunnelSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IFunnelSeriesProperties}
      */
     _properties: IFunnelSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IFunnelSeriesAdapters}
      */
     _adapter: IFunnelSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IFunnelSeriesEvents}
      */
     _events: IFunnelSeriesEvents;
     /**
      * Defines the type of data item.
-     *
-     * @type {FunnelSeriesDataItem}
      */
     _dataItem: FunnelSeriesDataItem;
     protected _nextY: number;
     /**
      * List of slice elements.
-     *
-     * @type {ListTemplate<Slice>}
      */
     protected _sliceLinks: ListTemplate<this["_slice"]>;
     /**
      * Holds sum of values for all slices
-     *
-     * @type {number}
      */
     protected _total: number;
     /**
      * Holds number of slices.
-     *
-     * @type {number}
      */
     protected _count: number;
     /**
@@ -209,13 +176,13 @@ export declare class FunnelSeries extends PercentSeries {
     /**
      * Creates a [[FunnelSlice]] element.
      *
-     * @return {FunnelSlice} Slice
+     * @return Slice
      */
     protected createSlice(): this["_slice"];
     /**
      * Creates a [[FunnelTick]] element.
      *
-     * @return {FunnelTick} Tick
+     * @return Tick
      */
     protected createTick(): this["_tick"];
     /**
@@ -227,20 +194,20 @@ export declare class FunnelSeries extends PercentSeries {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {FunnelSeriesDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
      * Inits FunnelSlice.
      *
-     * @param  {FunnelSlice} slice to init
+     * @param slice to init
      */
     protected initSlice(slice: this["_slice"]): void;
     /**
      * [initLabel description]
      *
      * @todo Description
-     * @param {this["_label"]} label [description]
+     * @param label [description]
      */
     protected initLabel(label: this["_label"]): void;
     /**
@@ -260,8 +227,8 @@ export declare class FunnelSeries extends PercentSeries {
      * [getNextValue description]
      *
      * @todo Description
-     * @param  {FunnelSeriesDataItem}  dataItem  [description]
-     * @return {number}                          [description]
+     * @param dataItem  [description]
+     * @return [description]
      */
     protected getNextValue(dataItem: FunnelSeriesDataItem): number;
     /**
@@ -274,14 +241,14 @@ export declare class FunnelSeries extends PercentSeries {
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
-     * @param {FunnelSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     validateDataElement(dataItem: this["_dataItem"]): void;
     /**
      * [decorateSlice description]
      *
      * @todo Description
-     * @param {this["_dataItem"]} dataItem [description]
+     * @param dataItem [description]
      */
     protected decorateSlice(dataItem: this["_dataItem"]): void;
     /**
@@ -294,17 +261,17 @@ export declare class FunnelSeries extends PercentSeries {
      * Positions series bullet.
      *
      * @ignore Exclude from docs
-     * @param {Bullet}  bullet  Bullet
+     * @param bullet  Bullet
      */
     positionBullet(bullet: Bullet): void;
     /**
-     * @return {Orientation} Orientation
+     * @return Orientation
      */
     /**
      * Orientation of the funnel slices: "horizontal" or "vertical" (default).
      *
      * @default "vertical"
-     * @param {Orientation} value Orientation
+     * @param value Orientation
      */
     orientation: Orientation;
     /**
@@ -364,21 +331,21 @@ export declare class FunnelSeries extends PercentSeries {
      * }
      * ```
      *
-     * @return {ListTemplate} Funnel links
+     * @return Funnel links
      */
     readonly sliceLinks: ListTemplate<this["_slice"]>;
     /**
      * Shows hidden series.
      *
-     * @param  {number}     duration  Duration of reveal animation (ms)
-     * @return {Animation}            Animation
+     * @param duration  Duration of reveal animation (ms)
+     * @return Animation
      */
     show(duration?: number): Animation;
     /**
      * Hides series.
      *
-     * @param  {number}     duration  Duration of hiding animation (ms)
-     * @return {Animation}            Animation
+     * @param duration  Duration of hiding animation (ms)
+     * @return Animation
      */
     hide(duration?: number): Animation;
     /**

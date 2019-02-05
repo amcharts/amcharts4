@@ -34,26 +34,18 @@ var WavedRectangle = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * Top waved?
-         *
-         * @type {boolean}
          */
         _this._twaved = true;
         /**
          * Right side waved?
-         *
-         * @type {boolean}
          */
         _this._rwaved = true;
         /**
          * Bottom waved?
-         *
-         * @type {boolean}
          */
         _this._bwaved = true;
         /**
          * Left side waved?
-         *
-         * @type {boolean}
          */
         _this._lwaved = true;
         _this.className = "WavedRectangle";
@@ -104,7 +96,7 @@ var WavedRectangle = /** @class */ (function (_super) {
     };
     Object.defineProperty(WavedRectangle.prototype, "waveLength", {
         /**
-         * @return {number} Wave length (px)
+         * @return Wave length (px)
          */
         get: function () {
             return this.getPropertyValue("waveLength");
@@ -113,7 +105,7 @@ var WavedRectangle = /** @class */ (function (_super) {
          * Wave length in pixels.
          *
          * @default 16
-         * @param {number}  value  Wave length (px)
+         * @param value  Wave length (px)
          */
         set: function (value) {
             this.setPropertyValue("waveLength", value);
@@ -124,7 +116,7 @@ var WavedRectangle = /** @class */ (function (_super) {
     });
     Object.defineProperty(WavedRectangle.prototype, "waveHeight", {
         /**
-         * @return {number} Wave height (px)
+         * @return Wave height (px)
          */
         get: function () {
             return this.getPropertyValue("waveHeight");
@@ -133,7 +125,7 @@ var WavedRectangle = /** @class */ (function (_super) {
          * Wave height in pixels.
          *
          * @default 4
-         * @param {number}  value  Wave height (px)
+         * @param value  Wave height (px)
          */
         set: function (value) {
             this.setPropertyValue("waveHeight", value);
@@ -146,10 +138,10 @@ var WavedRectangle = /** @class */ (function (_super) {
      * Sets which side should be waved or not. If particular side is set to
      * `false`, a straight line will be drawn on that side.
      *
-     * @param {boolean}  top     Top waved?
-     * @param {boolean}  right   Right side waved?
-     * @param {boolean}  bottom  Bottom Waved?
-     * @param {boolean}  left    Left side waved?
+     * @param top     Top waved?
+     * @param right   Right side waved?
+     * @param bottom  Bottom Waved?
+     * @param left    Left side waved?
      */
     WavedRectangle.prototype.setWavedSides = function (top, right, bottom, left) {
         this._twaved = top;
@@ -159,7 +151,7 @@ var WavedRectangle = /** @class */ (function (_super) {
     };
     Object.defineProperty(WavedRectangle.prototype, "tension", {
         /**
-         * @return {number} Tension
+         * @return Tension
          */
         get: function () {
             return this.getPropertyValue("tension");
@@ -168,7 +160,7 @@ var WavedRectangle = /** @class */ (function (_super) {
          * Tension of the wave.
          *
          * @default 0.8
-         * @param {number}  value  Tension
+         * @param value  Tension
          */
         set: function (value) {
             this.setPropertyValue("tension", value);

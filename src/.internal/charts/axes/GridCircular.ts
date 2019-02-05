@@ -29,15 +29,11 @@ export interface IGridCircularProperties extends IGridProperties {
 
 	/**
 	 * Inner radius of the circular grid. (absolute or relative)
-	 *
-	 * @type {number | Percent}
 	 */
 	innerRadius: number | Percent;
 
 	/**
 	 * Outer radius of the circular grid. (absolute or relative)
-	 *
-	 * @type {number | Percent}
 	 */
 	radius: number | Percent;
 
@@ -74,22 +70,16 @@ export class GridCircular extends Grid {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IGridCircularProperties}
 	 */
 	public _properties!: IGridCircularProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IGridCircularAdapters}
 	 */
 	public _adapter!: IGridCircularAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IGridCircularEvents}
 	 */
 	public _events!: IGridCircularEvents;
 
@@ -106,14 +96,14 @@ export class GridCircular extends Grid {
 	/**
 	 * Inner radius of the circular grid. (absolute or relative)
 	 *
-	 * @param {number | Percent} value Inner radius
+	 * @param value Inner radius
 	 */
 	public set innerRadius(value: number | Percent) {
 		this.setPercentProperty("innerRadius", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Inner radius
+	 * @return Inner radius
 	 */
 	public get innerRadius(): number | Percent {
 		return this.getPropertyValue("innerRadius");
@@ -122,14 +112,14 @@ export class GridCircular extends Grid {
 	/**
 	 * Outer radius of the circular grid. (absolute or relative)
 	 *
-	 * @param {number | Percent} value Outer radius
+	 * @param value Outer radius
 	 */
 	public set radius(value: number | Percent) {
 		this.setPercentProperty("radius", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Outer radius
+	 * @return Outer radius
 	 */
 	public get radius(): number | Percent {
 		return this.getPropertyValue("radius");

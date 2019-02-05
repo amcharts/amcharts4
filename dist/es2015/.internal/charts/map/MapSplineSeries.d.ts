@@ -22,13 +22,10 @@ import { MapSpline } from "./MapSpline";
 export declare class MapSplineSeriesDataItem extends MapLineSeriesDataItem {
     /**
      * A [[MapSpline]] element related to this data item.
-     *
-     * @type {MapSpline}
      */
     _mapLine: MapSpline;
     /**
      * Defines a type of [[Component]] this data item is used for
-     * @type {Component}
      */
     _component: MapSplineSeries;
     /**
@@ -80,38 +77,26 @@ export interface IMapSplineSeriesAdapters extends IMapLineSeriesAdapters, IMapSp
 export declare class MapSplineSeries extends MapLineSeries {
     /**
      * Defines available data fields.
-     *
-     * @type {IMapSplineSeriesDataFields}
      */
     _dataFields: IMapSplineSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IMapSplineSeriesProperties}
      */
     _properties: IMapSplineSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IMapSplineSeriesAdapters}
      */
     _adapter: IMapSplineSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IMapSplineSeriesEvents}
      */
     _events: IMapSplineSeriesEvents;
     /**
      * Defines the type of data item.
-     *
-     * @type {MapSplineSeriesDataItem}
      */
     _dataItem: MapSplineSeriesDataItem;
     /**
      * Defines the type of the line items in this series.
-     *
-     * @type {MapSpline}
      */
     _mapLine: MapSpline;
     /**
@@ -122,13 +107,13 @@ export declare class MapSplineSeries extends MapLineSeries {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {MapSplineSeriesDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
      * Returns a new line instance of suitable type.
      *
-     * @return {MapSpline} New line
+     * @return New line
      */
     protected createLine(): this["_mapLine"];
 }

@@ -22,20 +22,15 @@ import { Bullet } from "../elements/Bullet";
 export declare class PieSeries3DDataItem extends PieSeriesDataItem {
     /**
      * Defines type of the slice represented by this data item.
-     *
-     * @type {Slice3D}
      */
     _slice: Slice3D;
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {PieSeries3D}
      */
     _component: PieSeries3D;
     /**
      * @todo Remove?
      * @deprecated
-     * @type {PieSeries3D}
      */
     component: PieSeries3D;
     /**
@@ -43,12 +38,12 @@ export declare class PieSeries3DDataItem extends PieSeriesDataItem {
      */
     constructor();
     /**
-     * @return {number} Depth
+     * @return Depth
      */
     /**
      * Slice depth (height).
      *
-     * @param {number}  value  Depth
+     * @param value  Depth
      */
     depthValue: number;
 }
@@ -64,8 +59,6 @@ export declare class PieSeries3DDataItem extends PieSeriesDataItem {
 export interface IPieSeries3DDataFields extends IPieSeriesDataFields {
     /**
      * Name of the field in data that holds 3D slice depth (height).
-     *
-     * @type {string}
      */
     depthValue?: string;
 }
@@ -75,14 +68,10 @@ export interface IPieSeries3DDataFields extends IPieSeriesDataFields {
 export interface IPieSeries3DProperties extends IPieSeriesProperties {
     /**
      * Depth (height) of the pie slice in pixels.
-     *
-     * @type {number}
      */
     depth?: number;
     /**
      * Angle of the view point of the 3D pie.
-     *
-     * @type {number}
      */
     angle?: number;
 }
@@ -115,38 +104,26 @@ export interface IPieSeries3DAdapters extends IPieSeriesAdapters, IPieSeries3DPr
 export declare class PieSeries3D extends PieSeries {
     /**
      * Defines the type of data fields used for the series.
-     *
-     * @type {IPieSeries3DDataFields}
      */
     _dataFields: IPieSeries3DDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IPieSeries3DProperties}
      */
     _properties: IPieSeries3DProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IPieSeries3DAdapters}
      */
     _adapter: IPieSeries3DAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IPieSeries3DEvents}
      */
     _events: IPieSeries3DEvents;
     /**
      * Defines the type of data item.
-     *
-     * @type {PieSeries3DDataItem}
      */
     _dataItem: PieSeries3DDataItem;
     /**
      * A chart series belongs to.
-     *
-     * @type {PieChart3D}
      */
     _chart: PieChart3D;
     _slice: Slice3D;
@@ -157,7 +134,7 @@ export declare class PieSeries3D extends PieSeries {
     /**
      * Returns a new/empty DataItem of the type appropriate for this object
      * @see {@link DataItem}
-     * @return {PieSeries3DDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
@@ -168,7 +145,7 @@ export declare class PieSeries3D extends PieSeries {
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
-     * @param {PieSeries3DDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     validateDataElement(dataItem: PieSeries3DDataItem): void;
     /**
@@ -178,28 +155,28 @@ export declare class PieSeries3D extends PieSeries {
      */
     validate(): void;
     /**
-     * @return {number} Depth (px)
+     * @return Depth (px)
      */
     /**
      * Depth (height) of the pie slice in pixels.
      *
-     * @param {number}  value  Depth (px)
+     * @param value  Depth (px)
      */
     depth: number;
     /**
-     * @return {number} Angle
+     * @return Angle
      */
     /**
      * Angle of the view point of the 3D pie. (0-360)
      *
-     * @param {number}  value  Angle
+     * @param value  Angle
      */
     angle: number;
     /**
      * Positions series bullet.
      *
      * @ignore Exclude from docs
-     * @param {Bullet}  bullet  Bullet
+     * @param bullet  Bullet
      */
     positionBullet(bullet: Bullet): void;
 }

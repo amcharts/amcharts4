@@ -62,7 +62,7 @@ var DropShadowFilter = /** @class */ (function (_super) {
     }
     Object.defineProperty(DropShadowFilter.prototype, "color", {
         /**
-         * @return {Color} Color
+         * @return Color
          */
         get: function () {
             return this.properties.color;
@@ -70,7 +70,7 @@ var DropShadowFilter = /** @class */ (function (_super) {
         /**
          * Shadow color.
          *
-         * @param {Color}  value  Color
+         * @param value  Color
          */
         set: function (value) {
             this.properties.color = value;
@@ -83,7 +83,7 @@ var DropShadowFilter = /** @class */ (function (_super) {
     });
     Object.defineProperty(DropShadowFilter.prototype, "opacity", {
         /**
-         * @return {number} Opacity (0-1)
+         * @return Opacity (0-1)
          */
         get: function () {
             return this.properties.opacity;
@@ -91,7 +91,7 @@ var DropShadowFilter = /** @class */ (function (_super) {
         /**
          * Opacity of the shadow. (0-1)
          *
-         * @param {number}  value  Opacity (0-1)
+         * @param value  Opacity (0-1)
          */
         set: function (value) {
             this.properties.opacity = value;
@@ -102,7 +102,7 @@ var DropShadowFilter = /** @class */ (function (_super) {
     });
     Object.defineProperty(DropShadowFilter.prototype, "dx", {
         /**
-         * @return {number} Horizontal offset (px)
+         * @return Horizontal offset (px)
          */
         get: function () {
             return this.properties.dx;
@@ -110,7 +110,7 @@ var DropShadowFilter = /** @class */ (function (_super) {
         /**
          * Horizontal offset in pixels.
          *
-         * @param {number}  value  Horizontal offset (px)
+         * @param value  Horizontal offset (px)
          */
         set: function (value) {
             this.properties.dx = value;
@@ -121,7 +121,7 @@ var DropShadowFilter = /** @class */ (function (_super) {
     });
     Object.defineProperty(DropShadowFilter.prototype, "dy", {
         /**
-         * @return {number} Vertical offset (px)
+         * @return Vertical offset (px)
          */
         get: function () {
             return this.properties.dy;
@@ -129,7 +129,7 @@ var DropShadowFilter = /** @class */ (function (_super) {
         /**
          * Vertical offset in pixels.
          *
-         * @param {number} value Vertical offset (px)
+         * @param value Vertical offset (px)
          */
         set: function (value) {
             this.properties.dy = value;
@@ -140,7 +140,7 @@ var DropShadowFilter = /** @class */ (function (_super) {
     });
     Object.defineProperty(DropShadowFilter.prototype, "blur", {
         /**
-         * @return {number} Blur
+         * @return Blur
          */
         get: function () {
             return this.properties.blur;
@@ -148,7 +148,7 @@ var DropShadowFilter = /** @class */ (function (_super) {
         /**
          * Blur.
          *
-         * @param {number}  value  Blur
+         * @param value  Blur
          */
         set: function (value) {
             this.properties.blur = value;

@@ -57,20 +57,14 @@ export interface IChordNodeAdapters extends IFlowDiagramNodeAdapters, IChordNode
 export declare class ChordNode extends FlowDiagramNode {
     /**
      * Defines available properties.
-     *
-     * @type {IChordNodeProperties}
      */
     _properties: IChordNodeProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IChordNodeAdapters}
      */
     _adapter: IChordNodeAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IChordNodeEvents}
      */
     _events: IChordNodeEvents;
     /**
@@ -78,50 +72,36 @@ export declare class ChordNode extends FlowDiagramNode {
      * up.
      *
      * These are what ingoing links are build out of.
-     *
-     * @type {List<ChordDiagramDataItem>}
      */
     protected _incomingDataItems: List<ChordDiagramDataItem>;
     /**
      * A list of data items of the items going out of the node.
      *
      * These are what outgoing links are build out of.
-     *
-     * @type {List<ChordDiagramDataItem>}
      */
     protected _outgoingDataItems: List<ChordDiagramDataItem>;
     /**
      * Sorted list of incoming items.
-     *
-     * @type {Iterator<ChordDiagramDataItem>}
      */
     protected _incomingSorted: $iter.Iterator<ChordDiagramDataItem>;
     /**
      * Sorted list of outgoing items.
-     * @type {Iterator<ChordDiagramDataItem>}
      */
     protected _outgoingSorted: $iter.Iterator<ChordDiagramDataItem>;
     /**
      * A chart instance this node is added to.
-     *
-     * @type {ChordDiagram}
      */
     chart: ChordDiagram;
     /**
      * Defines the type of the [[ChordDiagramDataItem]] used in the class.
-     *
-     * @type {ChordDiagramDataItem}
      */
     _dataItem: ChordDiagramDataItem;
     /**
      * Slice sprite of a node
-     * @type {Slice}
      */
     slice: Slice;
     /**
      * A label element which shows node's name.
-     *
-     * @type {AxisLabelCircular}
      */
     label: AxisLabelCircular;
     /**
@@ -150,7 +130,7 @@ export declare class ChordNode extends FlowDiagramNode {
     /**
      * Copies properties and labels from another [[ChordNode]].
      *
-     * @param {ChordNode}  source  Source node
+     * @param source  Source node
      */
     copyFrom(source: this): void;
 }

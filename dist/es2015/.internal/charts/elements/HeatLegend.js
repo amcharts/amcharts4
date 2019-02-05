@@ -386,7 +386,7 @@ var HeatLegend = /** @class */ (function (_super) {
         },
         /**
          * You can set series for heat legend. It will take min, max, minColor and maxColor values from this series.
-         * @param {Series} series
+         * @param series
          */
         set: function (series) {
             var _this = this;
@@ -429,7 +429,7 @@ var HeatLegend = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     HeatLegend.prototype.processConfig = function (config) {
         if (config) {

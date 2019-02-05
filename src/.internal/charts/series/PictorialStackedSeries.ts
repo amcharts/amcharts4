@@ -51,8 +51,6 @@ export class PictorialStackedSeriesDataItem extends PyramidSeriesDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {PictorialStackedSeries}
 	 */
 	public _component!: PictorialStackedSeries;
 
@@ -119,43 +117,31 @@ export class PictorialStackedSeries extends PyramidSeries {
 
 	/**
 	 * Defines the type of data fields used for the series.
-	 *
-	 * @type {IPictorialStackedSeriesDataFields}
 	 */
 	public _dataFields: IPictorialStackedSeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPictorialStackedSeriesProperties}
 	 */
 	public _properties!: IPictorialStackedSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IPictorialStackedSeriesAdapters}
 	 */
 	public _adapter!: IPictorialStackedSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPictorialStackedSeriesEvents}
 	 */
 	public _events!: IPictorialStackedSeriesEvents;
 
 	/**
 	 * Defines the type of data item.
-	 *
-	 * @type {PictorialStackedSeriesDataItem}
 	 */
 	public _dataItem: PictorialStackedSeriesDataItem;
 
 	/**
 	 * Holds a Sprite that acts as an intelligent mask for the serries.
-	 * 
-	 * @type {Sprite}
 	 */
 	protected _maskSprite: Sprite;
 
@@ -228,7 +214,7 @@ export class PictorialStackedSeries extends PyramidSeries {
 
 		this.slicesContainer.mask = this._maskSprite;
 
-		super.validateDataElements();		
+		super.validateDataElements();
 	}
 
 	/**
@@ -246,7 +232,7 @@ export class PictorialStackedSeries extends PyramidSeries {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {PictorialStackedSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new PictorialStackedSeriesDataItem();
@@ -286,7 +272,7 @@ export class PictorialStackedSeries extends PyramidSeries {
 	 * }
 	 * ```
 	 *
-	 * @return {Sprite} Mask sprite
+	 * @return Mask sprite
 	 */
 	public get maskSprite(): Sprite {
 		return this._maskSprite;
@@ -295,7 +281,7 @@ export class PictorialStackedSeries extends PyramidSeries {
 	/**
 	 * Inits FunnelSlice.
 	 *
-	 * @param  {FunnelSlice} slice to init
+	 * @param slice to init
 	 */
 	protected initSlice(slice: this["_slice"]) {
 		super.initSlice(slice);

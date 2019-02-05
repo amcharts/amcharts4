@@ -12,14 +12,10 @@ import { Percent } from "../../core/utils/Percent";
 export interface IGridCircularProperties extends IGridProperties {
     /**
      * Inner radius of the circular grid. (absolute or relative)
-     *
-     * @type {number | Percent}
      */
     innerRadius: number | Percent;
     /**
      * Outer radius of the circular grid. (absolute or relative)
-     *
-     * @type {number | Percent}
      */
     radius: number | Percent;
 }
@@ -51,20 +47,14 @@ export interface IGridCircularAdapters extends IGridAdapters, IGridCircularPrope
 export declare class GridCircular extends Grid {
     /**
      * Defines available properties.
-     *
-     * @type {IGridCircularProperties}
      */
     _properties: IGridCircularProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IGridCircularAdapters}
      */
     _adapter: IGridCircularAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IGridCircularEvents}
      */
     _events: IGridCircularEvents;
     /**
@@ -72,21 +62,21 @@ export declare class GridCircular extends Grid {
      */
     constructor();
     /**
-     * @return {number} Inner radius
+     * @return Inner radius
      */
     /**
      * Inner radius of the circular grid. (absolute or relative)
      *
-     * @param {number | Percent} value Inner radius
+     * @param value Inner radius
      */
     innerRadius: number | Percent;
     /**
-     * @return {number} Outer radius
+     * @return Outer radius
      */
     /**
      * Outer radius of the circular grid. (absolute or relative)
      *
-     * @param {number | Percent} value Outer radius
+     * @param value Outer radius
      */
     radius: number | Percent;
 }

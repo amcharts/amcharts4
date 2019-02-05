@@ -51,7 +51,7 @@ var PointedShape = /** @class */ (function (_super) {
     };
     Object.defineProperty(PointedShape.prototype, "pointerBaseWidth", {
         /**
-         * @return {number} Width (px)
+         * @return Width (px)
          */
         get: function () {
             return this.getPropertyValue("pointerBaseWidth");
@@ -60,7 +60,7 @@ var PointedShape = /** @class */ (function (_super) {
          * A width of the pinter's (stem's) thick end (base) in pixels.
          *
          * @default 15
-         * @param {number}  value  Width (px)
+         * @param value  Width (px)
          */
         set: function (value) {
             this.setPropertyValue("pointerBaseWidth", value, true);
@@ -70,7 +70,7 @@ var PointedShape = /** @class */ (function (_super) {
     });
     Object.defineProperty(PointedShape.prototype, "pointerLength", {
         /**
-         * @return {number} Length (px)
+         * @return Length (px)
          */
         get: function () {
             return this.getPropertyValue("pointerLength");
@@ -79,7 +79,7 @@ var PointedShape = /** @class */ (function (_super) {
          * A length of the pinter (stem) in pixels.
          *
          * @default 10
-         * @param {number}  value  Length (px)
+         * @param value  Length (px)
          */
         set: function (value) {
             this.setPropertyValue("pointerLength", value);
@@ -89,7 +89,7 @@ var PointedShape = /** @class */ (function (_super) {
     });
     Object.defineProperty(PointedShape.prototype, "pointerX", {
         /**
-         * @return {number} X
+         * @return X
          */
         get: function () {
             return this.getPropertyValue("pointerX");
@@ -97,7 +97,7 @@ var PointedShape = /** @class */ (function (_super) {
         /**
          * X coordinate the shape is pointing to.
          *
-         * @param {number}  value  X
+         * @param value  X
          */
         set: function (value) {
             this.setPropertyValue("pointerX", value, true);
@@ -107,7 +107,7 @@ var PointedShape = /** @class */ (function (_super) {
     });
     Object.defineProperty(PointedShape.prototype, "pointerY", {
         /**
-         * @return {number} Y
+         * @return Y
          */
         get: function () {
             return this.getPropertyValue("pointerY");
@@ -115,7 +115,7 @@ var PointedShape = /** @class */ (function (_super) {
         /**
          * Y coordinate the shape is pointing to.
          *
-         * @param {number}  value  Y
+         * @param value  Y
          */
         set: function (value) {
             this.setPropertyValue("pointerY", value, true);

@@ -13,31 +13,28 @@ import * as $type from "./Type";
  * SVG namespace.
  *
  * @ignore Exclude from docs
- * @type {string}
  */
 export declare const SVGNS: string;
 /**
  * XML namespace.
  *
  * @ignore Exclude from docs
- * @type {string}
  */
 export declare const XMLNS: string;
 /**
  * XLINK namespace.
  *
  * @ignore Exclude from docs
- * @type {string}
  */
 export declare const XLINK: string;
 /**
  * Function that adds a disposable event listener directly to a DOM element.
  *
  * @ignore Exclude from docs
- * @param {EventTarget}   dom       A DOM element to add event to
- * @param {string}        type      Event type
- * @param {Function}      listener  Event listener
- * @returns {IDisposer}             Disposable event
+ * @param dom       A DOM element to add event to
+ * @param type      Event type
+ * @param listener  Event listener
+ * @returns Disposable event
  */
 export declare function addEventListener<E extends Event>(dom: EventTarget, type: string, listener: (event: E) => void, options?: any): IDisposer;
 /**
@@ -47,8 +44,8 @@ export declare function addEventListener<E extends Event>(dom: EventTarget, type
  * * If no element with such id is found, we grab the first element with a tag name like this.
  *
  * @ignore Exclude from docs
- * @param  {Optional<HTMLElement | string>}  el  Element definition (reference, or id, or tag name)
- * @return {Optional<HTMLElement>}               Element reference
+ * @param el  Element definition (reference, or id, or tag name)
+ * @return Element reference
  * @todo Review this function as it seems pretty fuzzy and hacky
  */
 export declare function getElement(el: $type.Optional<HTMLElement | string>): $type.Optional<HTMLElement>;
@@ -56,16 +53,16 @@ export declare function getElement(el: $type.Optional<HTMLElement | string>): $t
  * Adds a class name to an HTML or SVG element.
  *
  * @ignore Exclude from docs
- * @param {HTMLElement | SVGSVGElement}  element    Element
- * @param {string}                       className  Class name to add
+ * @param element    Element
+ * @param className  Class name to add
  */
 export declare function addClass(element: HTMLElement | SVGSVGElement, className: string): void;
 /**
  * Removes a class name from an HTML or SVG element.
  *
  * @ignore Exclude from docs
- * @param {HTMLElement | SVGSVGElement}  element    Element
- * @param {string}                       className  Class name to add
+ * @param element    Element
+ * @param className  Class name to add
  */
 export declare function removeClass(element: HTMLElement | SVGSVGElement, className: string): void;
 /**
@@ -85,7 +82,7 @@ export declare function blur(): void;
  * Tries to focus the element.
  *
  * @ignore Exlude from docs
- * @param {HTMLElement | SVGSVGElement}  element  Element to focus
+ * @param element  Element to focus
  */
 export declare function focus(element: HTMLElement | SVGSVGElement): void;
 /**
@@ -95,8 +92,8 @@ export declare function focus(element: HTMLElement | SVGSVGElement): void;
  * wrapper's `innerHTML`.
  *
  * @ignore Exclude from docs
- * @param  {HTMLElement | SVGSVGElement}  element  Element to get full markup for
- * @return {string}                                Markup
+ * @param element  Element to get full markup for
+ * @return Markup
  * @deprecated Not in use anywhere
  */
 export declare function outerHTML(element: HTMLElement | SVGSVGElement): string;
@@ -104,24 +101,24 @@ export declare function outerHTML(element: HTMLElement | SVGSVGElement): string;
  * Checks if element is a valid DOM node.
  *
  * @ignore Exclude from docs
- * @param  {HTMLElement}  el  Element
- * @return {boolean}          `true` if element is a valid DOM node
+ * @param el  Element
+ * @return `true` if element is a valid DOM node
  */
 export declare function isElement(el: HTMLElement): boolean;
 /**
  * Checks of element `a` contains element `b`.
  *
- * @param  {HTMLElement | SVGSVGElement}  a  Aleged ascendant
- * @param  {HTMLElement | SVGSVGElement}  b  Aleged descendant
- * @return {boolean}                         Contains?
+ * @param a  Aleged ascendant
+ * @param b  Aleged descendant
+ * @return Contains?
  */
 export declare function contains(a: HTMLElement | SVGSVGElement, b: HTMLElement | SVGSVGElement): boolean;
 /**
  * Copies attributes from one element to another.
  *
  * @ignore Exclude from docs
- * @param {Element | HTMLElement |  SVGSVGElement}  source  Element to copy attributes from
- * @param {HTMLElement | SVGSVGElement}          target  Element to copy attributes to
+ * @param source  Element to copy attributes from
+ * @param target  Element to copy attributes to
  */
 export declare function copyAttributes(source: Element | HTMLElement | SVGSVGElement, target: HTMLElement | SVGSVGElement): void;
 /**
@@ -129,7 +126,7 @@ export declare function copyAttributes(source: Element | HTMLElement | SVGSVGEle
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {HTMLElement}  el  Element
+ * @param el  Element
  */
 export declare function fixPixelPerfect(el: HTMLElement): void;
 /**
@@ -140,26 +137,24 @@ export declare function fixPixelPerfect(el: HTMLElement): void;
 export declare class StyleRule extends Disposer {
     /**
      * CSS rule.
-     *
-     * @type {CSSStyleRule}
      */
     private _rule;
     /**
-     * @return {string} CSS selector
+     * @return CSS selector
      */
     /**
      * A CSS selector text.
      *
      * E.g.: `.myClass p`
      *
-     * @param {string}  selector  CSS selector
+     * @param selector  CSS selector
      */
     selector: string;
     /**
      * Constructor.
      *
-     * @param {string}  selector  CSS selector
-     * @param {object}  styles    An object of style attribute - value pairs
+     * @param selector  CSS selector
+     * @param styles    An object of style attribute - value pairs
      */
     constructor(selector: string, styles: {
         [name: string]: string;
@@ -167,15 +162,15 @@ export declare class StyleRule extends Disposer {
     /**
      * Sets the same style properties with browser-speicifc prefixes.
      *
-     * @param {string}  name   Attribute name
-     * @param {string}  value  Attribute value
+     * @param name   Attribute name
+     * @param value  Attribute value
      */
     private _setVendorPrefixName(name, value);
     /**
      * Sets a value for specific style attribute.
      *
-     * @param {string}  name   Attribute
-     * @param {string}  value  Value
+     * @param name   Attribute
+     * @param value  Value
      */
     setStyle(name: string, value: string): void;
 }
@@ -186,26 +181,24 @@ export declare class StyleRule extends Disposer {
 export declare class StyleClass extends StyleRule {
     /**
      * Class name.
-     *
-     * @type {string}
      */
     private _className;
     /**
      * Constructor.
      *
-     * @param {object}  styles  An object of style attribute - value pairs
-     * @param {string}  name    Class name
+     * @param styles  An object of style attribute - value pairs
+     * @param name    Class name
      */
     constructor(styles: {
         [name: string]: string;
     }, name?: string);
     /**
-     * @return {string} Class name
+     * @return Class name
      */
     /**
      * Class name.
      *
-     * @param {string}  name  Class name
+     * @param name  Class name
      */
     className: string;
     /**

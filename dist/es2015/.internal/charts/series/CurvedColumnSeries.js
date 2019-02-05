@@ -66,7 +66,7 @@ var CurvedColumnSeries = /** @class */ (function (_super) {
      * Returns an element to use for the curved column.
      *
      * @ignore Exclude from docs
-     * @return {this["_column"]} Element.
+     * @return Element.
      */
     CurvedColumnSeries.prototype.createColumnTemplate = function () {
         return new CurvedColumn();
@@ -75,7 +75,7 @@ var CurvedColumnSeries = /** @class */ (function (_super) {
      * Validates data item's elements.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     CurvedColumnSeries.prototype.validateDataElementReal = function (dataItem) {
         var column = dataItem.column;

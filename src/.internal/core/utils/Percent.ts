@@ -12,15 +12,13 @@ export class Percent {
 
 	/**
 	 * Value in percent.
-	 *
-	 * @type {number}
 	 */
 	protected _value: number;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param {number}  percent  Percent value
+	 * @param percent  Percent value
 	 */
 	constructor(percent: number) {
 		this._value = percent;
@@ -45,7 +43,7 @@ export class Percent {
 	 * ```
 	 *
 	 * @readonly
-	 * @return {number} Relative value
+	 * @return Relative value
 	 */
 	public get value(): number {
 		return this._value / 100;
@@ -54,7 +52,7 @@ export class Percent {
 	/**
 	 * Value in percent.
 	 *
-	 * @return {number} Percent
+	 * @return Percent
 	 */
 	public get percent(): number {
 		return this._value;
@@ -81,8 +79,8 @@ export class Percent {
  * pieSeries.radius = am4core.percent(80);
  * ```
  *
- * @param  {number}   value  Percent
- * @return {Percent}         Percent object
+ * @param value  Percent
+ * @return Percent object
  */
 export function percent(value: number): Percent {
 	return new Percent(value);
@@ -93,8 +91,8 @@ export function percent(value: number): Percent {
  * Checks if value is a [[Percent]] object.
  *
  * @ignore Exclude from docs
- * @param  {any}      value  Input value
- * @return {boolean}         Is percent?
+ * @param value  Input value
+ * @return Is percent?
  */
 export function isPercent(value: any): boolean {
 	return value instanceof Percent;

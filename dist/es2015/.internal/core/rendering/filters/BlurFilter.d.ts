@@ -23,7 +23,6 @@ export interface BlurFilterProperties extends FilterProperties {
     /**
      * Horizontal offset in pixels.
      *
-     * @type {number}
      * @ignore Deprecated
      * @deprecated ?
      * @todo Remove?
@@ -32,7 +31,6 @@ export interface BlurFilterProperties extends FilterProperties {
     /**
      * Vertical offset in pixels.
      *
-     * @type {number}
      * @ignore Deprecated
      * @deprecated ?
      * @todo Remove?
@@ -40,14 +38,11 @@ export interface BlurFilterProperties extends FilterProperties {
     dy?: number;
     /**
      * Blur value.
-     *
-     * @type {number}
      */
     blur: number;
     /**
      * Opacity. (0-1)
      *
-     * @type {number}
      * @ignore Deprecated
      * @deprecated ?
      * @todo Remove?
@@ -56,7 +51,6 @@ export interface BlurFilterProperties extends FilterProperties {
     /**
      * Color.
      *
-     * @type {Color}
      * @ignore Deprecated
      * @deprecated ?
      * @todo Remove?
@@ -75,20 +69,16 @@ export interface BlurFilterProperties extends FilterProperties {
 export declare class BlurFilter extends Filter {
     /**
      * Defines property types.
-     *
-     * @type {BlurFilterProperties}
      */
     _properties: BlurFilterProperties;
     /**
      * A storage for Filter property/value pairs.
      * @see [@link BlurFilterProperties]
-     * @type {Dictionary<BlurFilterProperties, any>}
      */
     /**
      * Reference to the `<feGaussianBlur>` element.
      *
      * @ignore Exclude from docs
-     * @type {AMElement}
      */
     feGaussianBlur: AMElement;
     /**
@@ -96,7 +86,7 @@ export declare class BlurFilter extends Filter {
      */
     constructor();
     /**
-     * @return {number} Blur
+     * @return Blur
      */
     /**
      * Blur value.
@@ -104,7 +94,7 @@ export declare class BlurFilter extends Filter {
      * The bigger the value, the blurrier the target element will become.
      *
      * @default 1.5
-     * @param {number} value Blur
+     * @param value Blur
      */
     blur: number;
 }

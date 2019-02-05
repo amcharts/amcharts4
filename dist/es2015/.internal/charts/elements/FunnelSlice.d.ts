@@ -24,27 +24,20 @@ import { IPoint } from "../../core/defs/IPoint";
 export interface IFunnelSliceProperties extends IContainerProperties {
     /**
      * Width of the top edge of the slice.
-     *
-     * @type {number | Percent}
      */
     topWidth?: number | Percent;
     /**
      * Width of the bottom edge of the slice.
-     *
-     * @type {number | Percent}
      */
     bottomWidth?: number | Percent;
     /**
      * A relative distance slice's sides should be bent to.
      *
      * @default 0
-     * @type {number}
      */
     expandDistance?: number;
     /**
      * Orientation of the slice.
-     *
-     * @type {Orientation}
      */
     orientation?: Orientation;
 }
@@ -77,26 +70,18 @@ export interface IFunnelSliceAdapters extends IContainerAdapters, IFunnelSlicePr
 export declare class FunnelSlice extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IFunnelSliceProperties}
      */
     _properties: IFunnelSliceProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IFunnelSliceAdapters}
      */
     _adapter: IFunnelSliceAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IFunnelSliceEvents}
      */
     _events: IFunnelSliceEvents;
     /**
      * Main slice element.
-     *
-     * @type {Sprite}
      */
     slice: Sprite;
     /**
@@ -116,7 +101,7 @@ export declare class FunnelSlice extends Container {
     protected draw(): void;
     getPoint(locationX: number, locationY: number): IPoint;
     /**
-     * @return {number} bottom width
+     * @return bottom width
      */
     /**
      * Bottom width in pixels or percent.
@@ -125,11 +110,11 @@ export declare class FunnelSlice extends Container {
      * as a standalone element. If it's a part of [[FunnelSeries]] this setting
      * becomes read-only as it will be automatically reset by series.
      *
-     * @param {number}  value  Bottom width
+     * @param value  Bottom width
      */
     bottomWidth: number | Percent;
     /**
-     * @return {number} Top width
+     * @return Top width
      */
     /**
      * Top width in pixels or percent.
@@ -138,11 +123,11 @@ export declare class FunnelSlice extends Container {
      * as a standalone element. If it's a part of [[FunnelSeries]] this setting
      * becomes read-only as it will be automatically reset by series.
      *
-     * @param {number}  value  Top width
+     * @param value  Top width
      */
     topWidth: number | Percent;
     /**
-     * @return {Orientation} Orientation
+     * @return Orientation
      */
     /**
      * Orientation of the funnel slice: "horizontal" or "vertical".
@@ -151,11 +136,11 @@ export declare class FunnelSlice extends Container {
      * as a standalone element. If it's a part of [[FunnelSeries]] this setting
      * becomes read-only as it will be automatically reset by series.
      *
-     * @param {Orientation}  value  Orientation
+     * @param value  Orientation
      */
     orientation: Orientation;
     /**
-     * @return {number} expandDistance
+     * @return expandDistance
      */
     /**
      * A relative distance slice's sides should be bent to. It's relative to the
@@ -174,7 +159,7 @@ export declare class FunnelSlice extends Container {
     /**
      * Copies all parameters from another [[Sprite]].
      *
-     * @param {Sprite} source Source Sprite
+     * @param source Source Sprite
      */
     copyFrom(source: this): void;
 }

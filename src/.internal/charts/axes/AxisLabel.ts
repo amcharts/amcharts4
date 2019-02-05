@@ -27,15 +27,11 @@ export interface IAxisLabelProperties extends ILabelProperties {
 
 	/**
 	 * Relative location of the label. (0-1)
-	 *
-	 * @type {number}
 	 */
 	location?: number;
 
 	/**
 	 * Draw the label on the inside of the Axis?
-	 *
-	 * @type {boolean}
 	 */
 	inside?: boolean;
 
@@ -72,38 +68,28 @@ export class AxisLabel extends Label {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IAxisLabelProperties}
 	 */
 	public _properties!: IAxisLabelProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IAxisLabelAdapters}
 	 */
 	public _adapter!: IAxisLabelAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IAxisLabelEvents}
 	 */
 	public _events!: IAxisLabelEvents;
 
 	/**
 	 * Related data item.
-	 *
-	 * @type {AxisDataItem}
 	 */
 	public _dataItem: AxisDataItem;
 
 	/**
 	 * A referecent to Axis element this fill is applied to.
-	 *
-	 * @type {Axis}
 	 */
-	public axis: Axis;	
+	public axis: Axis;
 
 	/**
 	 * Constructor
@@ -121,14 +107,14 @@ export class AxisLabel extends Label {
 	/**
 	 * Relative location of the label. (0-1)
 	 *
-	 * @param {AxisItemLocation}  value  Location (0-1)
+	 * @param value  Location (0-1)
 	 */
 	public set location(value: AxisItemLocation) {
 		this.setPropertyValue("location", value, true);
 	}
 
 	/**
-	 * @return {AxisItemLocation} Location (0-1)
+	 * @return Location (0-1)
 	 */
 	public get location(): AxisItemLocation {
 		return this.getPropertyValue("location");
@@ -137,7 +123,7 @@ export class AxisLabel extends Label {
 	/**
 	 * Sets if label should be drawn inside axis.
 	 *
-	 * @param {boolean}  value  Inside?
+	 * @param value  Inside?
 	 */
 	public set inside(value: boolean) {
 		this.setPropertyValue("inside", value, true);
@@ -146,7 +132,7 @@ export class AxisLabel extends Label {
 	/**
 	 * Returns if label is set to be drawn inside axis.
 	 *
-	 * @return {boolean} Inside?
+	 * @return Inside?
 	 */
 	public get inside(): boolean {
 		return this.getPropertyValue("inside");
@@ -162,7 +148,7 @@ export class AxisLabel extends Label {
 			this.axis.invalidateDataItems();
 		}
 		return changed;
-	}	
+	}
 
 }
 

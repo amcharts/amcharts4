@@ -31,8 +31,6 @@ var Popup = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * Adapter.
-         *
-         * @type {Adapter<Popup, IPopupAdapters>}
          */
         _this.adapter = new Adapter(_this);
         /**
@@ -45,57 +43,39 @@ var Popup = /** @class */ (function (_super) {
         _this._IOs = {};
         /**
          * Contents of popup window.
-         *
-         * @type {string}
          */
         _this._content = "";
         /**
          * Title of the popup window.
-         *
-         * @type {string}
          */
         _this._title = "";
         /**
          * Prefix to apply to class names for popup elements.
-         *
-         * @type {string}
          */
         _this._classPrefix = "ampopup";
         /**
          * If set to `true` [[Popup]] will use default styles.
-         *
-         * @type {boolean}
          */
         _this._defaultStyles = true;
         /**
          * If set to `true` [[Popup]] will dim out all chart content behind it by
          * showing a semi-transparent fill. (curtain)
-         *
-         * @type {boolean}
          */
         _this._showCurtain = false;
         /**
          * Indicates whether popup can be dragged.
-         *
-         * @type {boolean}
          */
         _this._draggable = true;
         /**
          * Horizontal position of the content window.
-         *
-         * @type {Align}
          */
         _this._align = "center";
         /**
          * Vertical position of the content window.
-         *
-         * @type {VerticalAlign}
          */
         _this._verticalAlign = "middle";
         /**
          * Shift in position of the element. (used for dragging)
-         *
-         * @type {number}
          */
         _this._shift = {
             x: 0,
@@ -103,8 +83,6 @@ var Popup = /** @class */ (function (_super) {
         };
         /**
          * Temporary shift in position of the element. (used for dragging)
-         *
-         * @type {number}
          */
         _this._tempShift = {
             x: 0,
@@ -114,20 +92,14 @@ var Popup = /** @class */ (function (_super) {
          * A title for screen readers. It is very highly recommended to set that title
          * so that people using screen reader tools can get an immediate summary of
          * the information in the popup.
-         *
-         * @type {string}
          */
         _this._readerTitle = "";
         /**
          * Is popup closable?
-         *
-         * @type {boolean}
          */
         _this._closable = true;
         /**
          * Was CSS already loaded?
-         *
-         * @type {boolean}
          */
         _this._cssLoaded = false;
         /**
@@ -136,7 +108,6 @@ var Popup = /** @class */ (function (_super) {
          *
          * @ignore Feature not yet implemented
          * @todo Implement
-         * @type {"none" | "container" | "window"}
          */
         _this._fitTo = "window";
         /**
@@ -144,14 +115,11 @@ var Popup = /** @class */ (function (_super) {
          * real object that is drawn or actually used in the chart.
          *
          * @ignore Exclude from docs
-         * @type {boolean}
          */
         _this.isTemplate = false;
         /**
          * Indicates if the element was already sized and should not be measured for
          * sized again, saving some precious resources.
-         *
-         * @type {boolean}
          */
         _this._sized = false;
         _this.className = "Popup";
@@ -325,13 +293,13 @@ var Popup = /** @class */ (function (_super) {
         /**
          * A prefix that is applied to class names of various popup elements.
          *
-         * @return {string} Class name prefix
+         * @return Class name prefix
          */
         get: function () {
             return this.adapter.apply("classPrefix", this._classPrefix);
         },
         /**
-         * @param {string} value Class name prefix
+         * @param value Class name prefix
          */
         set: function (value) {
             this._classPrefix = value;
@@ -344,7 +312,7 @@ var Popup = /** @class */ (function (_super) {
          * Returns raw prefix (without adapters applied).
          *
          * @ignore Exclude from docs
-         * @return {string} Class name prefix
+         * @return Class name prefix
          */
         get: function () {
             return this._classPrefix;
@@ -354,7 +322,7 @@ var Popup = /** @class */ (function (_super) {
     });
     Object.defineProperty(Popup.prototype, "content", {
         /**
-         * @return {string} Popup content
+         * @return Popup content
          */
         get: function () {
             return this.adapter.apply("content", this._content);
@@ -364,7 +332,7 @@ var Popup = /** @class */ (function (_super) {
          *
          * Popup content can be any valid HTML, including CSS.
          *
-         * @param {string} value Popup content
+         * @param value Popup content
          */
         set: function (value) {
             if (this._content != value) {
@@ -452,7 +420,7 @@ var Popup = /** @class */ (function (_super) {
     };
     Object.defineProperty(Popup.prototype, "title", {
         /**
-         * @return {string} Popup title
+         * @return Popup title
          */
         get: function () {
             return this.adapter.apply("title", this._title);
@@ -462,7 +430,7 @@ var Popup = /** @class */ (function (_super) {
          *
          * Popup title can be any valid HTML, including CSS.
          *
-         * @param {string}  value  Popup title
+         * @param value  Popup title
          */
         set: function (value) {
             if (this._title != value) {
@@ -480,7 +448,7 @@ var Popup = /** @class */ (function (_super) {
     });
     Object.defineProperty(Popup.prototype, "readerTitle", {
         /**
-         * @return {string} Popup content
+         * @return Popup content
          */
         get: function () {
             return this.adapter.apply("readerTitle", this._readerTitle != "" ? this._readerTitle : this.title);
@@ -490,7 +458,7 @@ var Popup = /** @class */ (function (_super) {
          * so that people using screen reader tools can get an immediate summary of
          * the information in the popup.
          *
-         * @param {string}  value  Reader title
+         * @param value  Reader title
          */
         set: function (value) {
             if (this._readerTitle != value) {
@@ -503,7 +471,7 @@ var Popup = /** @class */ (function (_super) {
     });
     Object.defineProperty(Popup.prototype, "closable", {
         /**
-         * @return {boolean} Closable?
+         * @return Closable?
          */
         get: function () {
             return this.adapter.apply("closable", this._closable);
@@ -516,7 +484,7 @@ var Popup = /** @class */ (function (_super) {
          *
          * If it is not closable, the only way to close it is via `close()` call.
          *
-         * @param {boolean} value Closable?
+         * @param value Closable?
          */
         set: function (value) {
             if (value !== this._closable) {
@@ -531,7 +499,7 @@ var Popup = /** @class */ (function (_super) {
         /**
          * @ignore
          * @todo Implement
-         * @return {"none" | "container" | "window"} Fit option
+         * @return Fit option
          */
         get: function () {
             return this.adapter.apply("fitTo", this._fitTo);
@@ -543,7 +511,7 @@ var Popup = /** @class */ (function (_super) {
          * @ignore
          * @todo Implement
          * @default "window"
-         * @param {"none" | "container" | "window"}  value  Fit option
+         * @param value  Fit option
          */
         set: function (value) {
             if (value != this._fitTo) {
@@ -556,7 +524,7 @@ var Popup = /** @class */ (function (_super) {
     });
     Object.defineProperty(Popup.prototype, "defaultStyles", {
         /**
-         * @return {boolean} Use default CSS?
+         * @return Use default CSS?
          */
         get: function () {
             return this.adapter.apply("defaultStyles", this._defaultStyles);
@@ -568,7 +536,7 @@ var Popup = /** @class */ (function (_super) {
          * popup, since it will look quite out of place otherwise.
          *
          * @default true
-         * @param {string} Use default CSS?
+         * @param Use default CSS?
          */
         set: function (value) {
             if (this._defaultStyles != value) {
@@ -580,7 +548,7 @@ var Popup = /** @class */ (function (_super) {
     });
     Object.defineProperty(Popup.prototype, "showCurtain", {
         /**
-         * @return {boolean} Show curtain?
+         * @return Show curtain?
          */
         get: function () {
             return this.adapter.apply("showCurtain", this._showCurtain);
@@ -589,7 +557,7 @@ var Popup = /** @class */ (function (_super) {
          * Should popup use dim out all content behind it?
          *
          * @default false
-         * @param {boolean} Show curtain?
+         * @param Show curtain?
          */
         set: function (value) {
             if (this._showCurtain != value) {
@@ -628,7 +596,7 @@ var Popup = /** @class */ (function (_super) {
     };
     Object.defineProperty(Popup.prototype, "draggable", {
         /**
-         * @return {boolean} Show curtain?
+         * @return Show curtain?
          */
         get: function () {
             return this.adapter.apply("draggable", this._draggable);
@@ -637,7 +605,7 @@ var Popup = /** @class */ (function (_super) {
          * Can the popup be dragged with a pointer?
          *
          * @default false
-         * @param {boolean} Show curtain?
+         * @param Show curtain?
          */
         set: function (value) {
             if (this._draggable != value) {
@@ -650,7 +618,7 @@ var Popup = /** @class */ (function (_super) {
     });
     Object.defineProperty(Popup.prototype, "align", {
         /**
-         * @return {boolean} Horizontal position
+         * @return Horizontal position
          */
         get: function () {
             return this.adapter.apply("align", this._align);
@@ -661,7 +629,7 @@ var Popup = /** @class */ (function (_super) {
          * Available options: "left", "center" (default), "right", and "none".
          *
          * @default "center"
-         * @param {Align} Horizontal position
+         * @param Horizontal position
          */
         set: function (value) {
             if (this._align != value) {
@@ -674,7 +642,7 @@ var Popup = /** @class */ (function (_super) {
     });
     Object.defineProperty(Popup.prototype, "verticalAlign", {
         /**
-         * @return {boolean} Vertical position
+         * @return Vertical position
          */
         get: function () {
             return this.adapter.apply("verticalAlign", this._verticalAlign);
@@ -685,7 +653,7 @@ var Popup = /** @class */ (function (_super) {
          * Available options: "top", "middle" (default), "bottom", and "none".
          *
          * @default "middle"
-         * @param {VerticalAlign} Vertical position
+         * @param Vertical position
          */
         set: function (value) {
             if (this._verticalAlign != value) {
@@ -698,7 +666,7 @@ var Popup = /** @class */ (function (_super) {
     });
     Object.defineProperty(Popup.prototype, "left", {
         /**
-         * @return {boolean} Left
+         * @return Left
          */
         get: function () {
             return this.adapter.apply("left", this._left);
@@ -712,7 +680,7 @@ var Popup = /** @class */ (function (_super) {
          *
          * NOTE: The position is relative to the chart container.
          *
-         * @param {number | Percent} Left
+         * @param Left
          */
         set: function (value) {
             if (this.left != value) {
@@ -726,7 +694,7 @@ var Popup = /** @class */ (function (_super) {
     });
     Object.defineProperty(Popup.prototype, "right", {
         /**
-         * @return {boolean} Right
+         * @return Right
          */
         get: function () {
             return this.adapter.apply("right", this._right);
@@ -740,7 +708,7 @@ var Popup = /** @class */ (function (_super) {
          *
          * NOTE: The position is relative to the chart container.
          *
-         * @param {number | Percent} Right
+         * @param Right
          */
         set: function (value) {
             if (this.right != value) {
@@ -754,7 +722,7 @@ var Popup = /** @class */ (function (_super) {
     });
     Object.defineProperty(Popup.prototype, "top", {
         /**
-         * @return {boolean} Top
+         * @return Top
          */
         get: function () {
             return this.adapter.apply("top", this._top);
@@ -768,7 +736,7 @@ var Popup = /** @class */ (function (_super) {
          *
          * NOTE: The position is relative to the chart container.
          *
-         * @param {number | Percent} Top
+         * @param Top
          */
         set: function (value) {
             if (this.top != value) {
@@ -782,7 +750,7 @@ var Popup = /** @class */ (function (_super) {
     });
     Object.defineProperty(Popup.prototype, "bottom", {
         /**
-         * @return {boolean} Bottom
+         * @return Bottom
          */
         get: function () {
             return this.adapter.apply("bottom", this._bottom);
@@ -796,7 +764,7 @@ var Popup = /** @class */ (function (_super) {
          *
          * NOTE: The position is relative to the chart container.
          *
-         * @param {number | Percent} Bottom
+         * @param Bottom
          */
         set: function (value) {
             if (this.bottom != value) {
@@ -895,7 +863,7 @@ var Popup = /** @class */ (function (_super) {
     /**
      * Copies all properties and related data from different element.
      *
-     * @param {this} object Source element
+     * @param object Source element
      */
     Popup.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

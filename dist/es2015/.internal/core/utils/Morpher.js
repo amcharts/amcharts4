@@ -22,27 +22,22 @@ var Morpher = /** @class */ (function (_super) {
     /**
      * Constructor.
      *
-     * @param {IMorphable} morphable An object to morph
+     * @param morphable An object to morph
      */
     function Morpher(morphable) {
         var _this = _super.call(this) || this;
         /**
          * A storage for measurements.
-         *
-         * @type {IRectangle[]}
          */
         _this._bboxes = [];
         /**
          * Duration of the morphing animation in milliseconds.
-         *
-         * @type {number}
          */
         _this.morphDuration = 800;
         /**
          * An easing function to use for morphing animation.
          *
          * @see {@link Ease}
-         * @type {Function}
          */
         _this.morphEasing = $ease.cubicOut;
         /**
@@ -52,14 +47,10 @@ var Morpher = /** @class */ (function (_super) {
          *
          * Otherwise each separate part of polygon will morph to individual target
          * circle or polgyon.
-         *
-         * @type {boolean}
          */
         _this.morphToSingle = true;
         /**
          * A ratio to scale morphed object in relation to the source object.
-         *
-         * @type {number}
          */
         _this.scaleRatio = 1;
         _this.className = "Morpher";
@@ -70,10 +61,10 @@ var Morpher = /** @class */ (function (_super) {
     /**
      * Morphs a polygon to another polygon.
      *
-     * @param {IPoint[][][]}        toPoints  Corner points of the target shape
-     * @param {number}              duration  Duration in milliseconds
-     * @param {(number) => number}  easing    Easing function
-     * @return {Animation}                    Animation
+     * @param toPoints  Corner points of the target shape
+     * @param duration  Duration in milliseconds
+     * @param easing    Easing function
+     * @return Animation
      */
     Morpher.prototype.morphToPolygon = function (toPoints, duration, easing) {
         var points = this.morphable.currentPoints;
@@ -100,9 +91,9 @@ var Morpher = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {IPoint[][][]}  pointsA  Point A
-     * @param  {IPoint[][][]}  pointsB  Point B
-     * @return {IPoint[]}               Normalized points
+     * @param pointsA  Point A
+     * @param pointsB  Point B
+     * @return Normalized points
      */
     Morpher.prototype.normalizePoints = function (pointsA, pointsB) {
         for (var i = 0, len = pointsA.length; i < len; i++) {
@@ -148,7 +139,7 @@ var Morpher = /** @class */ (function (_super) {
      *
      * @ignore Exclude from doc
      * @todo Description
-     * @param {IPoint[][][]}  points  [description]
+     * @param points  [description]
      * @return                        common bbox of points
      */
     Morpher.prototype.sortPoints = function (points) {
@@ -174,10 +165,10 @@ var Morpher = /** @class */ (function (_super) {
     /**
      * Morphs polygon to a circle (it is actually a polygon which makes a circle).
      *
-     * @param  {number}              radius    Target circle radius (px)
-     * @param  {number}              duration  Duration (ms)
-     * @param  {(number) => number}  easing    Easing function
-     * @return {Animation}                     Animation
+     * @param radius    Target circle radius (px)
+     * @param duration  Duration (ms)
+     * @param easing    Easing function
+     * @return Animation
      */
     Morpher.prototype.morphToCircle = function (radius, duration, easing) {
         var points = this.morphable.points;
@@ -244,9 +235,9 @@ var Morpher = /** @class */ (function (_super) {
      *
      * @ignore Exclude from doc
      * @todo Description
-     * @param  {IPoint[]}  points         [description]
-     * @param  {number}    mustHaveCount  [description]
-     * @return {IPoint[]}                 [description]
+     * @param points         [description]
+     * @param mustHaveCount  [description]
+     * @return [description]
      */
     Morpher.prototype.addPoints = function (points, mustHaveCount) {
         var addToSegmentCount = Math.round(mustHaveCount / points.length);
@@ -283,11 +274,11 @@ var Morpher = /** @class */ (function (_super) {
     /**
      * Morphs polygon into a rectangular polygon.
      *
-     * @param  {number}              width     Width of the target rectangle (px)
-     * @param  {number}              height    Height of the target rectangle (px)
-     * @param  {number}              duration  Duration (ms)
-     * @param  {(number) => number}  easing    Easing function
-     * @return {Animation}                     Animation
+     * @param width     Width of the target rectangle (px)
+     * @param height    Height of the target rectangle (px)
+     * @param duration  Duration (ms)
+     * @param easing    Easing function
+     * @return Animation
      */
     Morpher.prototype.morphToRectangle = function (width, height, duration, easing) {
         var points = this.morphable.points;
@@ -356,7 +347,7 @@ var Morpher = /** @class */ (function (_super) {
         /**
          * Returns the progress of morph transition.
          *
-         * @return {Optional<number>} Progress (0-1)
+         * @return Progress (0-1)
          */
         get: function () {
             return this._morphProgress;
@@ -366,7 +357,7 @@ var Morpher = /** @class */ (function (_super) {
          *
          * Setting this will also trigger actual transformation.
          *
-         * @param {number}  value  Progress (0-1)
+         * @param value  Progress (0-1)
          */
         set: function (value) {
             this._morphProgress = value;
@@ -413,9 +404,9 @@ var Morpher = /** @class */ (function (_super) {
     /**
      * Restores the polygon to its original appearance.
      *
-     * @param {number}              duration  Duration (ms)
-     * @param {(number) => number}  easing    Easing function
-     * @return {Animation}                    Animation
+     * @param duration  Duration (ms)
+     * @param easing    Easing function
+     * @return Animation
      */
     Morpher.prototype.morphBack = function (duration, easing) {
         this._morphToPointsReal = this._morphFromPointsReal;
@@ -435,7 +426,7 @@ var Morpher = /** @class */ (function (_super) {
         /**
          * Returns a list of morph animations currently being played.
          *
-         * @return {Array<Animation>} List of animations
+         * @return List of animations
          */
         get: function () {
             if (!this._animations) {

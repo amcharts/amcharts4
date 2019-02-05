@@ -48,7 +48,6 @@ var InteractionObject = /** @class */ (function (_super) {
          * when the whole InteractionObject is disposed)
          *
          * @ignore Exclude from docs
-         * @type {Dictionary<string, IDisposer>}
          */
         _this.eventDisposers = new Dictionary();
         /**
@@ -57,7 +56,6 @@ var InteractionObject = /** @class */ (function (_super) {
          * replaced them is done.
          *
          * @ignore Exclude from docs
-         * @type {Dictionary<string, string>}
          */
         _this.replacedStyles = new Dictionary();
         _this._clickable = false;
@@ -70,68 +68,48 @@ var InteractionObject = /** @class */ (function (_super) {
         _this._inert = false;
         /**
          * Is element currently hovered?
-         *
-         * @type {boolean}
          */
         _this._isHover = false;
         /**
          * Is the element hovered by touch pointer?
-         *
-         * @type {boolean}
          */
         _this._isHoverByTouch = false;
         /**
          * Has element got any pointers currently pressing down on it?
-         * @type {boolean}
          */
         _this._isDown = false;
         /**
          * Does element have focus?
-         *
-         * @type {boolean}
          */
         _this._isFocused = false;
         /**
          * Options used for inertia functionality.
-         *
-         * @type {Dictionary<InertiaTypes, IInertiaOptions>}
          */
         _this._inertiaOptions = new Dictionary();
         /**
          * A collection of different inertia types, currently playing out.
          *
          * @ignore Exclude from docs
-         * @type {Dictionary<InertiaTypes, Inertia>}
          */
         _this.inertias = new Dictionary();
         /**
          * Click/tap options.
-         *
-         * @type {IHitOptions}
          */
         _this._hitOptions = {};
         /**
          * Hover options.
-         *
-         * @type {IHoverOptions}
          */
         _this._hoverOptions = {};
         /**
          * Swipe gesture options.
-         *
-         * @type {ISwipeOptions}
          */
         _this._swipeOptions = {};
         /**
          * Keyboard options.
-         *
-         * @type {IKeyboarOptions}
          */
         _this._keyboardOptions = {};
         /**
          * Cursor options.
-         *
-         * @type {ICursorOptions}
          */
         _this._cursorOptions = {
             "defaultStyle": [{
@@ -150,7 +128,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns if this element is currently hovered.
          *
-         * @return {boolean} Hovered?
+         * @return Hovered?
          */
         get: function () {
             return this._isHover;
@@ -158,7 +136,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Sets if this element is currently hovered.
          *
-         * @param {boolean} value Hovered?
+         * @param value Hovered?
          */
         set: function (value) {
             if (this.isHover != value) {
@@ -178,7 +156,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns if this element is currently hovered.
          *
-         * @return {boolean} Hovered?
+         * @return Hovered?
          */
         get: function () {
             return this._isHoverByTouch;
@@ -186,7 +164,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Sets if this element is currently hovered.
          *
-         * @param {boolean} value Hovered?
+         * @param value Hovered?
          */
         set: function (value) {
             if (this.isHoverByTouch != value) {
@@ -201,7 +179,7 @@ var InteractionObject = /** @class */ (function (_super) {
          * Returns a list of pointers currently over the element.
          *
          * @see {@link Pointer}
-         * @return {List<IPointer>} List if pointers currently hovering the element
+         * @return List if pointers currently hovering the element
          */
         get: function () {
             if (!this._overPointers) {
@@ -216,7 +194,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns if this element has currently any pointers pressing on it.
          *
-         * @return {boolean} Has down pointers?
+         * @return Has down pointers?
          */
         get: function () {
             return this._isDown;
@@ -224,7 +202,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Sets if this element has currently any pointers pressing on it.
          *
-         * @param {boolean} value Has down pointers?
+         * @param value Has down pointers?
          */
         set: function (value) {
             if (this.isDown != value) {
@@ -245,7 +223,7 @@ var InteractionObject = /** @class */ (function (_super) {
          * Returns a list of pointers currently pressing down on this element.
          *
          * @see {@link Pointer}
-         * @return {List<IPointer>} List of down pointers
+         * @return List of down pointers
          */
         get: function () {
             if (!this._downPointers) {
@@ -260,7 +238,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns if this element is currently focused.
          *
-         * @return {boolean} Focused?
+         * @return Focused?
          */
         get: function () {
             return this._isFocused;
@@ -268,7 +246,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Sets if this element is currently focused.
          *
-         * @param {boolean} value Focused?
+         * @param value Focused?
          */
         set: function (value) {
             if (this.isFocused != value) {
@@ -288,7 +266,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns if element is currently set as clickable.
          *
-         * @return {boolean} Clickable?
+         * @return Clickable?
          */
         get: function () {
             return this._clickable;
@@ -297,7 +275,7 @@ var InteractionObject = /** @class */ (function (_super) {
          * Is element clickable? Clickable elements will generate "hit" events when
          * clicked or tapped.
          *
-         * @param {boolean} value Clickable?
+         * @param value Clickable?
          */
         set: function (value) {
             if (this._clickable !== value) {
@@ -312,7 +290,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns if element is currently set to generate hover events.
          *
-         * @return {boolean} Hoverable?
+         * @return Hoverable?
          */
         get: function () {
             return this._hoverable;
@@ -320,7 +298,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Sets if element should generate hover events.
          *
-         * @param {boolean} value Hoverable?
+         * @param value Hoverable?
          */
         set: function (value) {
             if (this._hoverable !== value) {
@@ -335,7 +313,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns if element is set to track pointer movement over it.
          *
-         * @return {boolean} Track pointer?
+         * @return Track pointer?
          */
         get: function () {
             return this._trackable;
@@ -343,7 +321,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Sets if pointer movement over element should be tracked.
          *
-         * @param {boolean} value Track pointer?
+         * @param value Track pointer?
          */
         set: function (value) {
             if (this._trackable !== value) {
@@ -358,7 +336,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns if element is currently set as draggable.
          *
-         * @return {boolean} Draggable?
+         * @return Draggable?
          */
         get: function () {
             return this._draggable;
@@ -366,7 +344,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Sets if element can be dragged. (moved)
          *
-         * @param {boolean} value Draggable?
+         * @param value Draggable?
          */
         set: function (value) {
             if (this._draggable !== value) {
@@ -381,7 +359,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns if element is currently set to track swipe gesture.
          *
-         * @return {boolean} Track swipe?
+         * @return Track swipe?
          */
         get: function () {
             return this._swipeable;
@@ -389,7 +367,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Sets whether element should react to swipe gesture.
          *
-         * @param {boolean} value Track swipe?
+         * @param value Track swipe?
          */
         set: function (value) {
             if (this._swipeable !== value) {
@@ -404,7 +382,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns if element is currently set as resizeable.
          *
-         * @return {boolean} Resizeble?
+         * @return Resizeble?
          */
         get: function () {
             return this._resizable;
@@ -412,7 +390,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Sets if element can be resized.
          *
-         * @param {boolean} value Resizeable?
+         * @param value Resizeable?
          */
         set: function (value) {
             if (this._resizable !== value) {
@@ -425,7 +403,7 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "wheelable", {
         /**
-         * @return {boolean} Track wheel?
+         * @return Track wheel?
          */
         get: function () {
             return this._wheelable;
@@ -433,7 +411,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Indicates whether track moouse wheel rotation over element.
          *
-         * @param {boolean} value Track wheel?
+         * @param value Track wheel?
          */
         set: function (value) {
             if (this._wheelable !== value) {
@@ -448,7 +426,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns if element is currently set as inert.
          *
-         * @return {boolean} Inert?
+         * @return Inert?
          */
         get: function () {
             return this._inert;
@@ -457,7 +435,7 @@ var InteractionObject = /** @class */ (function (_super) {
          * Sets if element is inert, i.e. if it should carry movement momentum after
          * it is dragged and released.
          *
-         * @param {boolean} value Inert?
+         * @param value Inert?
          */
         set: function (value) {
             if (this._inert !== value) {
@@ -471,7 +449,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns if element is currently set as focusable.
          *
-         * @return {Optional<boolean>} Focusable?
+         * @return Focusable?
          */
         get: function () {
             return this._focusable;
@@ -479,7 +457,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Sets if element can gain focus.
          *
-         * @param {Optional<boolean>} value Focusable?
+         * @param value Focusable?
          */
         set: function (value) {
             if (this._focusable !== value) {
@@ -497,7 +475,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns element's current tab index.
          *
-         * @return {number} Tab index
+         * @return Tab index
          */
         get: function () {
             return $type.getValueDefault(this._tabindex, -1);
@@ -505,7 +483,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Sets element's tab index.
          *
-         * @param {number} value Tab index
+         * @param value Tab index
          */
         set: function (value) {
             if (this._tabindex !== value) {
@@ -522,14 +500,14 @@ var InteractionObject = /** @class */ (function (_super) {
     Object.defineProperty(InteractionObject.prototype, "element", {
         /**
          * Returns DOM element associated with this element
-         * @return {HTMLElement | SVGSVGElement} Element
+         * @return Element
          */
         get: function () {
             return this._element;
         },
         /**
          * Sets DOM element associated with this element
-         * @param {HTMLElement | SVGSVGElement} element Element
+         * @param element Element
          */
         set: function (element) {
             this._element = element;
@@ -542,7 +520,7 @@ var InteractionObject = /** @class */ (function (_super) {
          * Returns element's original position.
          *
          * @ignore Exclude from docs
-         * @return {Optional<IPoint>} Position.
+         * @return Position.
          */
         get: function () {
             return this._originalPosition || { x: 0, y: 0 };
@@ -551,7 +529,7 @@ var InteractionObject = /** @class */ (function (_super) {
          * Sets element's original position.
          *
          * @ignore Exclude from docs
-         * @param {Optional<IPoint>} value Position
+         * @param value Position
          */
         set: function (value) {
             this._originalPosition = value;
@@ -563,7 +541,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns element's original scale.
          *
-         * @return {number} Scale
+         * @return Scale
          */
         get: function () {
             return $type.getValueDefault(this._originalScale, 1);
@@ -572,7 +550,7 @@ var InteractionObject = /** @class */ (function (_super) {
          * Sets element's original scale.
          *
          * @ignore Exclude from docs
-         * @param {number} value Scale
+         * @param value Scale
          */
         set: function (value) {
             if (this._originalScale !== value) {
@@ -586,7 +564,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns element's original angle.
          *
-         * @return {number} Angle
+         * @return Angle
          */
         get: function () {
             return $type.getValueDefault(this._originalAngle, 0);
@@ -595,7 +573,7 @@ var InteractionObject = /** @class */ (function (_super) {
          * Sets element's original angle.
          *
          * @ignore Exclude from docs
-         * @param {number} value Angle
+         * @param value Angle
          */
         set: function (value) {
             if (this._originalAngle !== value) {
@@ -607,7 +585,7 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "inertiaOptions", {
         /**
-         * @return {Dictionary<InertiaTypes, IInertiaOptions>} Options
+         * @return Options
          */
         get: function () {
             if (this.sprite) {
@@ -620,7 +598,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Inertia options.
          *
-         * @param {Dictionary<InertiaTypes, IInertiaOptions>}  value  Options
+         * @param value  Options
          */
         set: function (value) {
             this._inertiaOptions = value;
@@ -630,7 +608,7 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "hitOptions", {
         /**
-         * @return {IHitOptions} Options
+         * @return Options
          */
         get: function () {
             if (this.sprite) {
@@ -643,7 +621,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Hit options.
          *
-         * @param {IHitOptions}  value  Options
+         * @param value  Options
          */
         set: function (value) {
             this._hitOptions = value;
@@ -653,7 +631,7 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "hoverOptions", {
         /**
-         * @return {IHoverOptions} Options
+         * @return Options
          */
         get: function () {
             if (this.sprite) {
@@ -666,7 +644,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Hover options.
          *
-         * @param {IHoverOptions}  value  Options
+         * @param value  Options
          */
         set: function (value) {
             this._hoverOptions = value;
@@ -676,7 +654,7 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "swipeOptions", {
         /**
-         * @return {ISwipeOptions} Options
+         * @return Options
          */
         get: function () {
             if (this.sprite) {
@@ -689,7 +667,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Swipe options.
          *
-         * @param {ISwipeOptions}  value  Options
+         * @param value  Options
          */
         set: function (value) {
             this._swipeOptions = value;
@@ -699,7 +677,7 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "keyboardOptions", {
         /**
-         * @return {IKeyboardOptions} Options
+         * @return Options
          */
         get: function () {
             if (this.sprite) {
@@ -712,7 +690,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Keyboard options.
          *
-         * @param {IKeyboardOptions}  value  Options
+         * @param value  Options
          */
         set: function (value) {
             this._keyboardOptions = value;
@@ -722,7 +700,7 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "cursorOptions", {
         /**
-         * @return {ICursorOptions} Options
+         * @return Options
          */
         get: function () {
             if (this.sprite) {
@@ -735,7 +713,7 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Cursor options.
          *
-         * @param {ICursorOptions}  value  Options
+         * @param value  Options
          */
         set: function (value) {
             this._cursorOptions = value;
@@ -747,7 +725,7 @@ var InteractionObject = /** @class */ (function (_super) {
      * Copies all properties and related assets from another object of the same
      * type.
      *
-     * @param {this} source Source object
+     * @param source Source object
      */
     InteractionObject.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

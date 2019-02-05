@@ -27,43 +27,32 @@ import { Percent } from "../../core/utils/Percent";
 export interface IAxisRendererRadialProperties extends IAxisRendererYProperties {
     /**
      * Start angle of the radial axis in degrees. (0-360)
-     *
-     * @type {number}
      */
     startAngle?: number;
     /**
      * End angle of the radial axis in degrees. (0-360)
-     *
-     * @type {number}
      */
     endAngle?: number;
     /**
      * A grid type to display: "circles" or "polygons".
      *
      * @default "circles"
-     * @type {"circles" | "polygons"}
      */
     gridType?: "circles" | "polygons";
     /**
      * An angle of the axis in degrees. (0-360)
-     *
-     * @type {number}
      */
     axisAngle?: number;
     /**
      * Outer radius of the radial axis.
      *
      * Can either be absolute (pixels) or relative ([[Percent]]).
-     *
-     * @type {number | Percent}
      */
     radius?: number | Percent;
     /**
      * Inner radius of the radial axis.
      *
      * Can either be absolute (pixels) or relative ([[Percent]]).
-     *
-     * @type {number | Percent}
      */
     innerRadius?: number | Percent;
 }
@@ -91,26 +80,18 @@ export interface IAxisRendererRadialAdapters extends IAxisRendererYAdapters, IAx
 export declare class AxisRendererRadial extends AxisRendererY {
     /**
      * Defines available properties.
-     *
-     * @type {AxisRendererProperties}
      */
     _properties: IAxisRendererRadialProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {AxisRendererAdapters}
      */
     _adapter: IAxisRendererRadialAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IAxisRendererRadialEvents}
      */
     _events: IAxisRendererRadialEvents;
     /**
      * A related chart.
-     *
-     * @type {MutableValueDisposer}
      */
     protected _chart: MutableValueDisposer<RadarChart>;
     /**
@@ -120,7 +101,7 @@ export declare class AxisRendererRadial extends AxisRendererY {
     /**
      * Constructor.
      *
-     * @param {Axis} axis Related axis
+     * @param axis Related axis
      */
     constructor();
     /**
@@ -132,59 +113,59 @@ export declare class AxisRendererRadial extends AxisRendererY {
     /**
      * Returns actual length of the Axis, in pixels.
      *
-     * @return {number} Length (px)
+     * @return Length (px)
      */
     readonly axisLength: number;
     /**
-     * @return {number | Percent} Outer radius
+     * @return Outer radius
      */
     /**
      * Outer radius of the axis.
      *
      * Can be absolute (px) or relative ([[Percent]]).
      *
-     * @param {number | Percent}  value  Outer radius
+     * @param value  Outer radius
      */
     radius: number | Percent;
     /**
      * Outer radius in pixels.
      *
-     * @return {number} Outer radius (px)
+     * @return Outer radius (px)
      */
     readonly pixelRadius: number;
     /**
-     * @return {number | Percent} Inner radius
+     * @return Inner radius
      */
     /**
      * Inner radius of the axis.
      *
      * Can be absolute (px) or relative ([[Percent]]).
      *
-     * @param {number | Percent}  value  Outer radius
+     * @param value  Outer radius
      */
     innerRadius: number | Percent;
     /**
      * Inner radius in pixels.
      *
-     * @return {number} Inner radius (px)
+     * @return Inner radius (px)
      */
     readonly pixelInnerRadius: number;
     /**
      * @ignore Exclude from docs
-     * @return {RadarChart} Chart
+     * @return Chart
      */
     /**
      * Chart, associated with the Axis.
      *
      * @ignore Exclude from docs
-     * @param {RadarChart} value Chart
+     * @param value Chart
      */
     chart: RadarChart;
     /**
      * Converts relative position on axis to point coordinates.
      *
-     * @param  {number}  position  Position (0-1)
-     * @return {IPoint}            Point
+     * @param position  Position (0-1)
+     * @return Point
      */
     positionToPoint(position: number): IPoint;
     /**
@@ -197,18 +178,18 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * Updates and positions a grid element.
      *
      * @ignore Exclude from docs
-     * @param {Grid}    grid         Grid element
-     * @param {number}  position     Starting position
-     * @param {number}  endPosition  End position
+     * @param grid         Grid element
+     * @param position     Starting position
+     * @param endPosition  End position
      */
     updateGridElement(grid: Grid, position: number, endPosition: number): void;
     /**
      * Updates and positions a label element.
      *
      * @ignore Exclude from docs
-     * @param {AxisLabel}  label        Label element
-     * @param {number}     position     Starting position
-     * @param {number}     endPosition  Ending position
+     * @param label        Label element
+     * @param position     Starting position
+     * @param endPosition  Ending position
      */
     updateLabelElement(label: this["_labelType"], position: number, endPosition: number, location?: number): void;
     /**
@@ -221,39 +202,39 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * Checks if point is within bounds of a container.
      *
      * @ignore Exclude from docs
-     * @param  {IPoint}   point Point coordinates
-     * @return {boolean}         Fits?
+     * @param point Point coordinates
+     * @return Fits?
      */
     fitsToBounds(point: IPoint): boolean;
     /**
-     * @return {number} Start angle
+     * @return Start angle
      */
     /**
      * Start angle of the axis in degrees. (0-360)
      *
-     * @param {number}  value  Start angle
+     * @param value  Start angle
      */
     startAngle: number;
     /**
-     * @return {number} End angle
+     * @return End angle
      */
     /**
      * End angle of the axis in degrees. (0-360)
      *
-     * @param {number}  value  End angle
+     * @param value  End angle
      */
     endAngle: number;
     /**
-     * @return {number} Axis angle
+     * @return Axis angle
      */
     /**
      * Angle of the radial axis in degrees. (0-360)
      *
-     * @param {number}  value  Axis angle
+     * @param value  Axis angle
      */
     axisAngle: number;
     /**
-     * @type {"circles" | "polygons"} Grid type
+     * Grid type
      */
     /**
      * Grid type for radial axis.
@@ -262,7 +243,7 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * straight lines ("polygons").
      *
      * @default "circles"
-     * @param {"circles" | "polygons"}  value  Grid type
+     * @param value  Grid type
      */
     gridType: "circles" | "polygons";
     /**
@@ -270,23 +251,23 @@ export declare class AxisRendererRadial extends AxisRendererY {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}  startPosition  Starting position
-     * @param  {number}  endPosition    End position
-     * @return {string}                 SVG path
+     * @param startPosition  Starting position
+     * @param endPosition    End position
+     * @return SVG path
      */
     getPositionRangePath(startPosition: number, endPosition: number): string;
     /**
      * Updates and positions an axis break element.
      *
      * @ignore Exclude from docs
-     * @param {AxisBreak} axisBreak Break element
+     * @param axisBreak Break element
      */
     updateBreakElement(axisBreak: AxisBreak): void;
     /**
      * Creates visual elements for and axis break.
      *
      * @ignore Exclude from docs
-     * @param {AxisBreak} axisBreak Axis break
+     * @param axisBreak Axis break
      */
     createBreakSprites(axisBreak: AxisBreak): void;
     /**
@@ -301,24 +282,24 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * Updates and positions a tick element.
      *
      * @ignore Exclude from docs
-     * @param {AxisTick}  tick      Tick element
-     * @param {number}    position  Position
+     * @param tick      Tick element
+     * @param position  Position
      */
     updateTickElement(tick: AxisTick, position: number): void;
     /**
      * Converts a position on the axis to a coordinate in pixels.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position (0-1)
-     * @return {number}            Coordinate (px)
+     * @param position  Position (0-1)
+     * @return Coordinate (px)
      */
     positionToCoordinate(position: number): number;
     /**
      * Converts a point at specific coordinates to a relative position (0-1)
      * on the axis.
      *
-     * @param  {IPoint}  point  Point
-     * @return {number}         Position (0-1)
+     * @param point  Point
+     * @return Position (0-1)
      */
     pointToPosition(point: IPoint): number;
 }

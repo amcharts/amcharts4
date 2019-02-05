@@ -38,8 +38,6 @@ export interface IPreloaderProperties extends IContainerProperties {
 	 * * 0 - 0%
 	 * * 0.5 - 50%
 	 * * 1 - 100%
-	 *
-	 * @type {number}
 	 */
 	progress?: number;
 
@@ -52,7 +50,6 @@ export interface IPreloaderProperties extends IContainerProperties {
 	 * This is used to avoid brief flashing of the preload for very quick loads.
 	 *
 	 * @default 1000
-	 * @type {number}
 	 */
 	delay?: number;
 
@@ -88,22 +85,16 @@ export class Preloader extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPreloaderProperties}
 	 */
 	public _properties!: IPreloaderProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IPreloaderAdapters}
 	 */
 	public _adapter!: IPreloaderAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPreloaderEvents}
 	 */
 	public _events!: IPreloaderEvents;
 
@@ -111,8 +102,6 @@ export class Preloader extends Container {
 	 * A [[Slice]] element that indicates load progress.
 	 *
 	 * This can be used to modify appearance of the preloader elements.
-	 *
-	 * @type {Slice}
 	 */
 	public progressSlice: Slice;
 
@@ -121,8 +110,6 @@ export class Preloader extends Container {
 	 * `progressSlice`)
 	 *
 	 * This can be used to modify appearance of the preloader elements.
-	 *
-	 * @type {Slice}
 	 */
 	public backgroundSlice: Slice;
 
@@ -130,8 +117,6 @@ export class Preloader extends Container {
 	 * Label that displays progress in percent.
 	 *
 	 * This can be used to modify appearance of the preloader elements.
-	 *
-	 * @type {Label}
 	 */
 	public label: Label;
 
@@ -139,8 +124,6 @@ export class Preloader extends Container {
 	 * Logs the timestamp of when the loader was initiated. It will be used to
 	 * delay showing of the Preloader so for quick operations it does not even
 	 * appear on screen.
-	 *
-	 * @type {Optional<number>}
 	 */
 	protected _started: $type.Optional<number>;
 
@@ -230,7 +213,7 @@ export class Preloader extends Container {
 	 * Setting this to a value less than 1, will automatically reveal the
 	 * preloader, while setting it to 1 (100%) will hide it.
 	 *
-	 * @param {number} value Progress (0-1)
+	 * @param value Progress (0-1)
 	 */
 	public set progress(value: number) {
 		this.__disabled = false;
@@ -292,7 +275,7 @@ export class Preloader extends Container {
 	}
 
 	/**
-	 * @return {number} Progress (0-1)
+	 * @return Progress (0-1)
 	 */
 	public get progress(): number {
 		return this.getPropertyValue("progress");
@@ -307,14 +290,14 @@ export class Preloader extends Container {
 	 * This is used to avoid brief flashing of the preload for very quick loads.
 	 *
 	 * @default 1000
-	 * @param {number}  value  Delay (ms)
+	 * @param value  Delay (ms)
 	 */
 	public set delay(value: number) {
 		this.setPropertyValue("delay", value);
 	}
 
 	/**
-	 * @return {number} Delay (ms)
+	 * @return Delay (ms)
 	 */
 	public get delay(): number {
 		return this.getPropertyValue("delay");

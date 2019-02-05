@@ -12,14 +12,10 @@ import { Sprite } from "./Sprite";
 export declare class System {
     /**
      * A flag indicating if the system is on pause.
-     *
-     * @type {boolean}
      */
     protected _isPaused: boolean;
     /**
      * Unique ID of the object.
-     *
-     * @type {string}
      */
     uid: string;
     /**
@@ -28,20 +24,17 @@ export declare class System {
      * This follows npm's semver specification.
      *
      * @see {@link https://docs.npmjs.com/misc/semver}
-     * @type {string}
      */
     static VERSION: string;
     /**
      * @todo Description
      * @todo Needed?
      * @ignore Exclude from docs
-     * @type {number}
      */
     dummyCounter: number;
     /**
      * @todo Description
      * @ignore Exclude from docs
-     * @type {number}
      */
     time: number;
     protected _frameRequested: boolean;
@@ -59,8 +52,8 @@ export declare class System {
      *
      * @ignore Exclude from docs
      * @todo Needed?
-     * @param {string}   msg    Message to report in console
-     * @param {boolean}  reset  Reset time counter
+     * @param msg    Message to report in console
+     * @param reset  Reset time counter
      */
     reportTime(msg: string, reset?: boolean): void;
     /**
@@ -99,16 +92,16 @@ export declare class System {
     /**
      * Outputs string to console if `verbose` is `true`.
      *
-     * @param {any} value Message to output to console
+     * @param value Message to output to console
      */
     log(value: any): void;
     /**
-     * @return {boolean} Is system on pause?
+     * @return Is system on pause?
      */
     /**
      * Pauses all the processes of all the amCharts objects on the page
      *
-     * @return {boolean} is paused?
+     * @return is paused?
      */
     isPaused: boolean;
 }

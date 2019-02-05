@@ -3,8 +3,8 @@ import * as $type from "./Type";
  * Tries to resolve a named color into a hex color representation.
  *
  * @ignore Exclude from docs
- * @param  {string}  value  Color name
- * @return {string}         Color
+ * @param value  Color name
+ * @return Color
  * @deprecated
  * @hidden
  */
@@ -14,49 +14,49 @@ import * as $type from "./Type";
  * black is returned.
  *
  * @ignore Exclude from docs
- * @param  {string}  color  Color code
- * @param  {number}  alpha  Alpha (0-1)
- * @return {iRGB}           RGB
+ * @param color  Color code
+ * @param alpha  Alpha (0-1)
+ * @return RGB
  */
 export declare function rgb(color: string, alpha?: number): iRGB;
 /**
  * Converts a hex color code (i.e. "#FF5500") to an [[iRGB]] object.
  *
  * @ignore Exclude from docs
- * @param  {string}  hex  Hex color code
- * @return {iRGB}         RGB
+ * @param hex  Hex color code
+ * @return RGB
  */
 export declare function hexToRgb(hex: string): $type.Optional<iRGB>;
 /**
  * Converts color strings in format like `rgb()` and `rgba()` to [[iRGB]].
  *
  * @ignore Exclude from docs
- * @param  {string}  color  Color code
- * @return {iRGB}           RGB
+ * @param color  Color code
+ * @return RGB
  */
 export declare function rgbaToRgb(color: string): $type.Optional<iRGB>;
 /**
  * Converts an [[iRGB]] object into a hex color code.
  *
  * @ignore Exclude from docs
- * @param  {iRGB}    rgb  RGB
- * @return {string}       Hex color code
+ * @param rgb  RGB
+ * @return Hex color code
  */
 export declare function rgbToHex(rgb: iRGB): string;
 /**
  * Converts an [[iRGB]] object into its `rgb()` or `rgba()` representation.
  *
  * @ignore Exclude from docs
- * @param  {iRGB}    rgb  RGB
- * @return {string}       `rgba()` syntax
+ * @param rgb  RGB
+ * @return `rgba()` syntax
  */
 export declare function rgbToRGBA(rgb: iRGB): string;
 /**
  * Pads a 1-digit string with a zero.
  *
  * @ignore Exclude from docs
- * @param  {string}  c  Input string
- * @return {string}     Padded string
+ * @param c  Input string
+ * @return Padded string
  */
 export declare function pad2(c: string): string;
 /**
@@ -65,46 +65,46 @@ export declare function pad2(c: string): string;
  * resulting color will be closest to the first reference color.
  *
  * @ignore Exclude from docs
- * @param  {Optional<iRGB>}    color1   First reference color
- * @param  {Optional<iRGB>}    color2   Second reference color
- * @param  {number}            percent  Relative position (0-1)
- * @return {Optional<iRGB>}             Interpolated color
+ * @param color1   First reference color
+ * @param color2   Second reference color
+ * @param percent  Relative position (0-1)
+ * @return Interpolated color
  */
 export declare function interpolate(rgb1: $type.Optional<iRGB>, rgb2: $type.Optional<iRGB>, percent: number): $type.Optional<iRGB>;
 /**
  * Returns a color that is `percent` brighter than the reference color.
  *
  * @ignore Exclude from docs
- * @param  {iRGB}    color    Reference color
- * @param  {number}  percent  Brightness percent
- * @return {iRGB}             Hex code of the new color
+ * @param color    Reference color
+ * @param percent  Brightness percent
+ * @return Hex code of the new color
  */
 export declare function lighten(rgb: $type.Optional<iRGB>, percent: number): $type.Optional<iRGB>;
 /**
  * Gets lightness step.
  *
  * @ignore Exclude from docs
- * @param  {number}  value    Value
- * @param  {number}  percent  Percent
- * @return {number}           Step
+ * @param value    Value
+ * @param percent  Percent
+ * @return Step
  */
 export declare function getLightnessStep(value: number, percent: number): number;
 /**
  * Returns a color that is `percent` brighter than the source `color`.
  *
  * @ignore Exclude from docs
- * @param  {iRGB}    color    Source color
- * @param  {number}  percent  Brightness percent
- * @return {iRGB}             New color
+ * @param color    Source color
+ * @param percent  Brightness percent
+ * @return New color
  */
 export declare function brighten(rgb: $type.Optional<iRGB>, percent: number): $type.Optional<iRGB>;
 /**
  * Returns brightness step.
  *
  * @ignore Exclude from docs
- * @param  {number}  value    Value
- * @param  {number}  percent  Percent
- * @return {number}           Step
+ * @param value    Value
+ * @param percent  Percent
+ * @return Step
  */
 export declare function getBrightnessStep(value: number, percent: number): number;
 /**
@@ -115,9 +115,9 @@ export declare function getBrightnessStep(value: number, percent: number): numbe
  * saturated).
  *
  * @ignore Exclude from docs
- * @param  {iRGB}    color       Base color
- * @param  {number}  saturation  Saturation (0-1)
- * @return {iRGB}                New color
+ * @param color       Base color
+ * @param saturation  Saturation (0-1)
+ * @return New color
  */
 export declare function saturate(rgb: $type.Optional<iRGB>, saturation: number): $type.Optional<iRGB>;
 /**
@@ -136,10 +136,10 @@ export declare function saturate(rgb: $type.Optional<iRGB>, saturation: number):
  * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
  *
  * @ignore Exclude from docs
- * @param   {number}  h       The hue
- * @param   {number}  s       The saturation
- * @param   {number}  l       The lightness
- * @return  {Array}           The RGB representation
+ * @param h       The hue
+ * @param s       The saturation
+ * @param l       The lightness
+ * @return The RGB representation
  */
 export declare function hslToRgb(color: iHSL): iRGB;
 /**
@@ -152,10 +152,10 @@ export declare function hslToRgb(color: iHSL): iRGB;
  * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
  *
  * @ignore Exclude from docs
- * @param   {number}  r       The red color value
- * @param   {number}  g       The green color value
- * @param   {number}  b       The blue color value
- * @return  {Array}           The HSL representation
+ * @param r       The red color value
+ * @param g       The green color value
+ * @param b       The blue color value
+ * @return The HSL representation
  */
 export declare function rgbToHsl(color: iRGB): iHSL;
 /**
@@ -190,8 +190,8 @@ export declare function hsvToRgb(color: iHSV): iRGB;
  * black text over light background, and vice versa.
  *
  * @ignore Exclude from docs
- * @param  {iRGB}     color  Source color
- * @return {boolean}         Light?
+ * @param color  Source color
+ * @return Light?
  */
 export declare function isLight(color: iRGB): boolean;
 /**

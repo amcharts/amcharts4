@@ -48,34 +48,27 @@ export class ColumnSeriesDataItem extends XYSeriesDataItem {
 
 	/**
 	 * A Column Element
-	 * @type {Column}
 	 */
 	public _column: Column;
 
 	/**
 	 * Indicates if this data items close value is lower than its open value.
-	 *
-	 * @type {boolean}
 	 */
 	public droppedFromOpen: boolean;
 
 	/**
 	 * Indicates if this items value is lower than previous data item's value.
-	 *
-	 * @type {boolean}
 	 */
 	public droppedFromPrevious: boolean;
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for
-	 * @type {ColumnSeries}
 	 */
 	public _component!: ColumnSeries;
 
 	/**
 	 * A dictionary storing axes ranges columns by axis uid
 	 *
-	 * @type {Dictionary<string, Sprite>}
 	 * @ignore
 	 */
 	protected _rangesColumns: Dictionary<string, this["_column"]>;
@@ -99,14 +92,14 @@ export class ColumnSeriesDataItem extends XYSeriesDataItem {
 	/**
 	 * A column used to draw a column for this data item.
 	 *
-	 * @param {Column}  column
+	 * @param column
 	 */
 	public set column(column: this["_column"]) {
 		this.setColumn(column);
 	}
 
 	/**
-	 * @return {Column} Column
+	 * @return Column
 	 */
 	public get column(): this["_column"] {
 		return this._column;
@@ -138,8 +131,6 @@ export class ColumnSeriesDataItem extends XYSeriesDataItem {
 
 	/**
 	 * A dictionary storing axes ranges columns by axis uid
-	 *
-	 * @type {Dictionary<string, this["_column"]>}
 	 */
 	public get rangesColumns(): Dictionary<string, this["_column"]> {
 		if (!this._rangesColumns) {
@@ -171,10 +162,9 @@ export interface IColumnSeriesProperties extends IXYSeriesProperties {
 	/**
 	 * Cluster this series columns?
 	 *
-	 * Setting to `false` will make columns overlap with pther series.
+	 * Setting to `false` will make columns overlap with other series.
 	 *
 	 * @default true
-	 * @type {boolean}
 	 */
 	clustered?: boolean;
 
@@ -216,64 +206,46 @@ export class ColumnSeries extends XYSeries {
 
 	/**
 	 * Defines available data fields.
-	 *
-	 * @type {IColumnSeriesDataFields}
 	 */
 	public _dataFields: IColumnSeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IColumnSeriesProperties}
 	 */
 	public _properties!: IColumnSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IColumnSeriesAdapters}
 	 */
 	public _adapter!: IColumnSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IColumnSeriesEvents}
 	 */
 	public _events!: IColumnSeriesEvents;
 
 	/**
 	 * Defines the type of data item.
-	 *
-	 * @type {ColumnSeriesDataItem}
 	 */
 	public _dataItem: ColumnSeriesDataItem;
 
 	/**
 	 * A list of column elements.
-	 *
-	 * @type {ListTemplate<Sprite>}
 	 */
 	protected _columns: ListTemplate<this["_column"]>;
 
 	/**
 	 * Container to put column elements in.
-	 *
-	 * @type {Container}
 	 */
 	protected _columnsContainer: Container;
 
 	/**
 	 * Start location within cell for columns.
-	 *
-	 * @type {number}
 	 */
 	protected _startLocation: number = 0;
 
 	/**
 	 * End location within cell for columns.
-	 *
-	 * @type {number}
 	 */
 	protected _endLocation: number = 1;
 
@@ -354,7 +326,7 @@ export class ColumnSeries extends XYSeries {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {ColumnSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new ColumnSeriesDataItem();
@@ -412,7 +384,7 @@ export class ColumnSeries extends XYSeries {
 	 * Validates data item's element, effectively redrawing it.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {ColumnSeriesDataItem}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
 		// important oder here, first real, then super. we need this to know size
@@ -423,8 +395,8 @@ export class ColumnSeries extends XYSeries {
 	/**
 	 * Returns relative start location for the data item.
 	 *
-	 * @param  {this["_dataItem"]}  dataItem  Data item
-	 * @return {number}                       Location (0-1)
+	 * @param dataItem  Data item
+	 * @return Location (0-1)
 	 */
 	protected getStartLocation(dataItem: this["_dataItem"]): number {
 		let startLocation = this._startLocation;
@@ -455,8 +427,8 @@ export class ColumnSeries extends XYSeries {
 	/**
 	 * Returns relative end location for the data item.
 	 *
-	 * @param  {this["_dataItem"]}  dataItem  Data item
-	 * @return {number}                       Location (0-1)
+	 * @param dataItem  Data item
+	 * @return Location (0-1)
 	 */
 	protected getEndLocation(dataItem: this["_dataItem"]): number {
 		let endLocation = this._endLocation;
@@ -474,7 +446,7 @@ export class ColumnSeries extends XYSeries {
 	 * Validates data item's elements.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {this["_dataItem"]}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public validateDataElementReal(dataItem: this["_dataItem"]): void {
 		//	if (dataItem.hasValue([this.xField, this.yField])) { // todo: this doesn't work with categories, think of a better way
@@ -820,7 +792,7 @@ export class ColumnSeries extends XYSeries {
 	/**
 	 * Apply different state/coloring to columns based on the change value.
 	 *
-	 * @param {Sprite}  sprite  Sprite to apply state to
+	 * @param sprite  Sprite to apply state to
 	 * @todo Do not apply accessibility to wicks of the candlesticks
 	 */
 	protected setColumnStates(sprite: Sprite): void {
@@ -874,7 +846,7 @@ export class ColumnSeries extends XYSeries {
 	/**
 	 * A list of column elements in the series.
 	 *
-	 * @return {ListTemplate<this["_column"]>} Columns
+	 * @return Columns
 	 */
 	public get columns(): ListTemplate<this["_column"]> {
 		if (!this._columns) {
@@ -888,7 +860,7 @@ export class ColumnSeries extends XYSeries {
 	/**
 	 * Creates and returns a column element to use as a template.
 	 *
-	 * @return {this["_column"]} Column template
+	 * @return Column template
 	 */
 	protected createColumnTemplate(): this["_column"] {
 		return new Column();
@@ -897,17 +869,17 @@ export class ColumnSeries extends XYSeries {
 	/**
 	 * Cluster this series columns?
 	 *
-	 * Setting to `false` will make columns overlap with pther series.
+	 * Setting to `false` will make columns overlap with other series.
 	 *
 	 * @default true
-	 * @param {boolean}  value  Clustered?
+	 * @param value  Clustered?
 	 */
 	public set clustered(value: boolean) {
 		this.setPropertyValue("clustered", value, true);
 	}
 
 	/**
-	 * @return {boolean} Clustered?
+	 * @return Clustered?
 	 */
 	public get clustered(): boolean {
 		return this.getPropertyValue("clustered");
@@ -921,7 +893,7 @@ export class ColumnSeries extends XYSeries {
 	 * NOTE: this will work only if at least one axis is [[ValueAxis]].
 	 *
 	 * @readonly You can modify state object, but can't overwrite it
-	 * @return {SpriteState} State
+	 * @return State
 	 */
 	public get dropFromOpenState(): SpriteState<this["_properties"], this["_adapter"]> {
 		if (!this._dropFromOpenState) {
@@ -937,7 +909,7 @@ export class ColumnSeries extends XYSeries {
 	 * Can be used to differentiate appearance based on value relations.
 	 *
 	 * @readonly You can modify state object, but can't overwrite it
-	 * @return {SpriteState} State
+	 * @return State
 	 */
 	public get dropFromPreviousState(): SpriteState<this["_properties"], this["_adapter"]> {
 		if (!this._dropFromPreviousState) {
@@ -955,7 +927,7 @@ export class ColumnSeries extends XYSeries {
 	 * NOTE: this will work only if at least one axis is [[ValueAxis]].
 	 *
 	 * @readonly You can modify state object, but can't overwrite it
-	 * @return {SpriteState} State
+	 * @return State
 	 */
 	public get riseFromOpenState(): SpriteState<this["_properties"], this["_adapter"]> {
 		if (!this._riseFromOpenState) {
@@ -971,7 +943,7 @@ export class ColumnSeries extends XYSeries {
 	 * Can be used to differentiate appearance based on value relations.
 	 *
 	 * @readonly You can modify state object, but can't overwrite it
-	 * @return {SpriteState} State
+	 * @return State
 	 */
 	public get riseFromPreviousState(): SpriteState<this["_properties"], this["_adapter"]> {
 		if (!this._riseFromPreviousState) {
@@ -984,7 +956,7 @@ export class ColumnSeries extends XYSeries {
 	 * Updates value of the related legend item.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {ColumnSeriesDataItem}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public updateLegendValue(dataItem?: this["_dataItem"]) {
 		super.updateLegendValue(dataItem);
@@ -1029,7 +1001,7 @@ export class ColumnSeries extends XYSeries {
 	 * Series.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Container}  marker  Legend item container
+	 * @param marker  Legend item container
 	 */
 	public createLegendMarker(marker: Container) {
 		let w: number = marker.pixelWidth;
@@ -1054,7 +1026,7 @@ export class ColumnSeries extends XYSeries {
 	/**
 	 * Copies all properties from another instance of [[ColumnSeries]].
 	 *
-	 * @param {ColumnSeries}  source  Source series
+	 * @param source  Source series
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);
@@ -1121,7 +1093,7 @@ export class ColumnSeries extends XYSeries {
 	public disposeData() {
 		super.disposeData();
 		this.columns.clear();
-	}	
+	}
 }
 
 /**

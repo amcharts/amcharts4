@@ -27,7 +27,6 @@ export interface IConeProperties extends IContainerProperties {
      * Angle of the point of view to the 3D element. (0-360)
      *
      * @default 30
-     * @type {number}
      */
     angle?: number;
     /**
@@ -36,7 +35,6 @@ export interface IConeProperties extends IContainerProperties {
      * It is relevant to the inner width or height of the element.
      *
      * @default Percent(100)
-     * @type {Percent}
      */
     radius?: Percent;
     /**
@@ -45,14 +43,12 @@ export interface IConeProperties extends IContainerProperties {
      * It is relevant to the inner width or height of the element.
      *
      * @default Percent(0)
-     * @type {Percent}
      */
     topRadius?: Percent;
     /**
      * Orientation of the cone
      *
      * @default "vertical"
-     * @type {Orientation}
      */
     orientation?: Orientation;
 }
@@ -83,47 +79,36 @@ export interface IConeAdapters extends IContainerAdapters, IConeProperties {
 export declare class Cone extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IConeProperties}
      */
     _properties: IConeProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IConeAdapters}
      */
     _adapter: IConeAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IConeEvents}
      */
     _events: IConeEvents;
     /**
      * Bottom ellement.
      *
      * @ignore Exclude from docs
-     * @type {Ellipse}
      */
     bottom: Ellipse;
     /**
      * Top element.
      *
      * @ignore Exclude from docs
-     * @type {Ellipse}
      */
     top: Ellipse;
     /**
      * Body element.
      *
      * @ignore Exclude from docs
-     * @type {Sprite}
      */
     body: Sprite;
     /**
      * Gradient for the fill of the body.
-     *
-     * @type {LinearGradientModifier}
      */
     bodyFillModifier: LinearGradientModifier;
     /**
@@ -137,17 +122,17 @@ export declare class Cone extends Container {
      */
     draw(): void;
     /**
-     * @return {number} Angle
+     * @return Angle
      */
     /**
      * Angle of the point of view to the 3D element. (0-360)
      *
      * @default 30
-     * @param {number}  value  Angle
+     * @param value  Angle
      */
     angle: number;
     /**
-     * @return {Percent} Bottom radius
+     * @return Bottom radius
      */
     /**
      * A relative radius of the cone's bottom (base).
@@ -155,11 +140,11 @@ export declare class Cone extends Container {
      * It is relevant to the inner width or height of the element.
      *
      * @default Percent(100)
-     * @param {Percent}  value  Bottom radius
+     * @param value  Bottom radius
      */
     radius: Percent;
     /**
-     * @return {Percent} Top radius
+     * @return Top radius
      */
     /**
      * A relative radius of the cone's top (tip).
@@ -167,17 +152,17 @@ export declare class Cone extends Container {
      * It is relevant to the inner width or height of the element.
      *
      * @default Percent(0)
-     * @param {Percent}  value  Top radius
+     * @param value  Top radius
      */
     topRadius: Percent;
     /**
-     * @type {Orientation} Orientation
+     * Orientation
      */
     /**
      * Orientation of the cone
      *
      * @default "vertical"
-     * @param {Orientation}  value  Orientation
+     * @param value  Orientation
      */
     orientation: Orientation;
 }

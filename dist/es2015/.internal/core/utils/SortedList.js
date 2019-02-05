@@ -16,19 +16,15 @@ var OrderedList = /** @class */ (function () {
     /**
      * Constructor
      *
-     * @param {Array<T>}  initial  Inital list of values to add to list
+     * @param initial  Inital list of values to add to list
      */
     function OrderedList(initial) {
         /**
          * Holds list values.
-         *
-         * @type {Array<T>}
          */
         this._values = [];
         /**
          * Event dispatcher.
-         *
-         * @type {EventDispatcher<AMEvent<OrderedList<T>, ISortedListEvents<T>>>}
          */
         this.events = new EventDispatcher();
         if (initial != null) {
@@ -42,7 +38,7 @@ var OrderedList = /** @class */ (function () {
          * Do not modify the list directly. Rather use `insert()` and `remove()`
          * methods.
          *
-         * @return {Array<T>} List values
+         * @return List values
          */
         get: function () {
             return this._values;
@@ -53,7 +49,7 @@ var OrderedList = /** @class */ (function () {
     /**
      * Inserts a value into list item array.
      *
-     * @param {T}  value  Value
+     * @param value  Value
      */
     OrderedList.prototype._insert = function (value) {
         this._values.push(value);
@@ -64,7 +60,7 @@ var OrderedList = /** @class */ (function () {
          * Number of items in the list.
          *
          * @readonly
-         * @return {number} Length
+         * @return Length
          */
         get: function () {
             return this._values.length;
@@ -77,8 +73,8 @@ var OrderedList = /** @class */ (function () {
      *
      * -1 if not found.
      *
-     * @param  {T}       value  Value
-     * @return {number}        Index
+     * @param value  Value
+     * @return Index
      */
     OrderedList.prototype.indexOf = function (value) {
         return $array.indexOf(this._values, value);
@@ -86,8 +82,8 @@ var OrderedList = /** @class */ (function () {
     /**
      * Checks if list contains the `value`.
      *
-     * @param  {T}        value  Value
-     * @return {boolean}         In the list?
+     * @param value  Value
+     * @return In the list?
      */
     OrderedList.prototype.contains = function (value) {
         return this.indexOf(value) !== -1;
@@ -95,8 +91,8 @@ var OrderedList = /** @class */ (function () {
     /**
      * Returns an item at specific `index`.
      *
-     * @param  {number}  index  Index
-     * @return {T}              Item
+     * @param index  Index
+     * @return Item
      */
     OrderedList.prototype.getIndex = function (index) {
         return this._values[index];
@@ -105,7 +101,7 @@ var OrderedList = /** @class */ (function () {
         /**
          * First item in the list.
          *
-         * @return {T} Item
+         * @return Item
          */
         get: function () {
             return this._values[0];
@@ -117,7 +113,7 @@ var OrderedList = /** @class */ (function () {
         /**
          * Last item in the list.
          *
-         * @return {T} Item
+         * @return Item
          */
         get: function () {
             return this._values[this._values.length - 1];
@@ -128,7 +124,7 @@ var OrderedList = /** @class */ (function () {
     /**
      * Inserts a value into list.
      *
-     * @param {T}  value  Value
+     * @param value  Value
      */
     OrderedList.prototype.insert = function (value) {
         var index = this._insert(value);
@@ -144,7 +140,7 @@ var OrderedList = /** @class */ (function () {
     /**
      * Removes an item with the `value` from the list.
      *
-     * @param {T}  value  Value
+     * @param value  Value
      */
     OrderedList.prototype.remove = function (value) {
         var index = this.indexOf(value);
@@ -166,7 +162,7 @@ var OrderedList = /** @class */ (function () {
      *
      * All current items are removed.
      *
-     * @param {Array<T>}  newArray  New items
+     * @param newArray  New items
      */
     OrderedList.prototype.setAll = function (newArray) {
         var _this = this;
@@ -195,9 +191,9 @@ var OrderedList = /** @class */ (function () {
      * Returns part of the list between `start` and `end` indexes, as a new
      * [[OrderedList]].
      *
-     * @param  {number}          start  Start index
-     * @param  {number}          end    End index
-     * @return {OrderedList<T>}         Items in range
+     * @param start  Start index
+     * @param end    End index
+     * @return Items in range
      */
     OrderedList.prototype.slice = function (start, end) {
         var out = new OrderedList();
@@ -208,10 +204,10 @@ var OrderedList = /** @class */ (function () {
      * Finds a closest available index to the `value` in specified direction.
      *
      * @ignore exclude from docs
-     * @param  {number}                      value      value to search for
-     * @param  {function}                    fn         A callback function that returns value of the item
-     * @param  {"left" | "right" |  "any" }  direction  Direciton
-     * @return {number}                                 Index
+     * @param value      value to search for
+     * @param fn         A callback function that returns value of the item
+     * @param direction  Direciton
+     * @return Index
      */
     OrderedList.prototype.findClosestIndex = function (value, fn, direction) {
         if (direction === void 0) { direction = "any"; }
@@ -268,7 +264,7 @@ var OrderedList = /** @class */ (function () {
     /**
      * Returns a list iterator.
      *
-     * @return {Iterator} Iterator
+     * @return Iterator
      */
     OrderedList.prototype.iterator = function () {
         return $iter.fromArray(this._values);
@@ -316,7 +312,7 @@ var SortedList = /** @class */ (function (_super) {
     /**
      * Constructor.
      *
-     * @param {T) => Ordering}  sort  Ordering function
+     * @param sort  Ordering function
      */
     function SortedList(sort) {
         var _this = _super.call(this) || this;
@@ -326,7 +322,7 @@ var SortedList = /** @class */ (function (_super) {
     /**
      * Inserts item into the list.
      *
-     * @param {T}  value  Item
+     * @param value  Item
      */
     SortedList.prototype._insert = function (value) {
         var index = $array.getSortedIndex(this._values, this._ordering, value).index;
@@ -338,8 +334,8 @@ var SortedList = /** @class */ (function (_super) {
      *
      * -1 if item is not in the list.
      *
-     * @param  {T}       value  Item to search for
-     * @return {number}         Index
+     * @param value  Item to search for
+     * @return Index
      */
     SortedList.prototype.indexOf = function (value) {
         var _a = $array.getSortedIndex(this._values, this._ordering, value), found = _a.found, index = _a.index;
@@ -355,7 +351,7 @@ var SortedList = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {T} value [description]
+     * @param value [description]
      */
     SortedList.prototype.update = function (value) {
         // @todo test this
@@ -390,7 +386,7 @@ var OrderedListTemplate = /** @class */ (function (_super) {
     /**
      * Constructor
      *
-     * @param {T} t Template object
+     * @param t Template object
      */
     function OrderedListTemplate(t) {
         var _this = _super.call(this) || this;
@@ -399,7 +395,7 @@ var OrderedListTemplate = /** @class */ (function (_super) {
     }
     Object.defineProperty(OrderedListTemplate.prototype, "template", {
         /**
-         * @return {T} Template object
+         * @return Template object
          */
         get: function () {
             return this._template;
@@ -408,7 +404,7 @@ var OrderedListTemplate = /** @class */ (function (_super) {
          * A "template" object to copy all properties from when creating new list
          * items.
          *
-         * @param {T}  v  Template object
+         * @param v  Template object
          */
         set: function (v) {
             v.isTemplate = true;
@@ -420,7 +416,7 @@ var OrderedListTemplate = /** @class */ (function (_super) {
     /**
      * Copies all elements from other list.
      *
-     * @param {OrderedListTemplate}  source  Source list
+     * @param source  Source list
      */
     OrderedListTemplate.prototype.copyFrom = function (source) {
         var _this = this;
@@ -432,9 +428,9 @@ var OrderedListTemplate = /** @class */ (function (_super) {
      * Returns part of the list, starting at `start` and ending at `end` indexes,
      * as a new [[OrderedListTemplate]].
      *
-     * @param  {number}                  start  Start index
-     * @param  {number}                  end    End index
-     * @return {OrderedListTemplate<T>}         New list
+     * @param start  Start index
+     * @param end    End index
+     * @return New list
      */
     OrderedListTemplate.prototype.slice = function (start, end) {
         var out = new OrderedListTemplate(this.template);
@@ -466,8 +462,8 @@ var SortedListTemplate = /** @class */ (function (_super) {
     /**
      * Constructor
      *
-     * @param {T}         t     Template object
-     * @param {function}  sort  Ordering function
+     * @param t     Template object
+     * @param sort  Ordering function
      */
     function SortedListTemplate(t, sort) {
         var _this = _super.call(this, sort) || this;
@@ -476,7 +472,7 @@ var SortedListTemplate = /** @class */ (function (_super) {
     }
     Object.defineProperty(SortedListTemplate.prototype, "template", {
         /**
-         * @return {T} Template object
+         * @return Template object
          */
         get: function () {
             return this._template;
@@ -485,7 +481,7 @@ var SortedListTemplate = /** @class */ (function (_super) {
          * A "template" object to copy all properties from when creating new list
          * items.
          *
-         * @param {T}  v  Template object
+         * @param v  Template object
          */
         set: function (v) {
             v.isTemplate = true;
@@ -497,7 +493,7 @@ var SortedListTemplate = /** @class */ (function (_super) {
     /**
      * Copies all elements from other list.
      *
-     * @param {SortedListTemplate}  source  Source list
+     * @param source  Source list
      */
     SortedListTemplate.prototype.copyFrom = function (source) {
         var _this = this;

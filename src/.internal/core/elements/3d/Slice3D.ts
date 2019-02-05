@@ -26,7 +26,6 @@ export interface ISlice3DProperties extends ISliceProperties {
 	 * Depth (height) of the 3D slice in pixels.
 	 *
 	 * @default 20
-	 * @type {number}
 	 */
 	depth?: number;
 
@@ -34,7 +33,6 @@ export interface ISlice3DProperties extends ISliceProperties {
 	 * Angle of the point of view to the 3D element. (0-360)
 	 *
 	 * @default 30
-	 * @type {number}
 	 */
 	angle?: number;
 
@@ -70,22 +68,16 @@ export class Slice3D extends Slice {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ISlice3DProperties}
 	 */
 	public _properties!: ISlice3DProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ISlice3DAdapters}
 	 */
 	public _adapter!: ISlice3DAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ISlice3DEvents}
 	 */
 	public _events!: ISlice3DEvents;
 
@@ -93,7 +85,6 @@ export class Slice3D extends Slice {
 	 * Container element for elements of the 3D sides.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Container}
 	 */
 	public edge: Container;
 
@@ -101,7 +92,6 @@ export class Slice3D extends Slice {
 	 * Side element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public sideA: Sprite;
 
@@ -109,7 +99,6 @@ export class Slice3D extends Slice {
 	 * Side element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public sideB: Sprite;
 
@@ -293,7 +282,7 @@ export class Slice3D extends Slice {
 	 * Depth (height) of the 3D slice in pixels.
 	 *
 	 * @default 20
-	 * @param {number}  depth  Depth (px)
+	 * @param depth  Depth (px)
 	 */
 	public set depth(depth: number) {
 		if (this.setPropertyValue("depth", depth, true)) {
@@ -315,7 +304,7 @@ export class Slice3D extends Slice {
 	}
 
 	/**
-	 * @return {number} Depth (px)
+	 * @return Depth (px)
 	 */
 	public get depth(): number {
 		return this.getPropertyValue("depth");
@@ -325,14 +314,14 @@ export class Slice3D extends Slice {
 	 * Angle of the point of view to the 3D element. (0-360)
 	 *
 	 * @default 30
-	 * @param {number}  value  Angle
+	 * @param value  Angle
 	 */
 	public set angle(value: number) {
 		this.setPropertyValue("angle", value, true);
 	}
 
 	/**
-	 * @return {number} Angle
+	 * @return Angle
 	 */
 	public get angle(): number {
 		let angle: number = this.getPropertyValue("angle");
@@ -343,7 +332,7 @@ export class Slice3D extends Slice {
 	}
 
 	/**
-	 * @return {number} Vertical radius (0-1)
+	 * @return Vertical radius (0-1)
 	 */
 	public get radiusY(): number {
 		let radiusY: number = this.getPropertyValue("radiusY");
@@ -359,7 +348,7 @@ export class Slice3D extends Slice {
 	 * This is relevant to `radius`, e.g. 0.5 will set vertical radius to half
 	 * the `radius`.
 	 *
-	 * @param {number} value Vertical radius (0-1)
+	 * @param value Vertical radius (0-1)
 	 */
 	public set radiusY(value: number) {
 		this.setPropertyValue("radiusY", value, true);
@@ -368,13 +357,13 @@ export class Slice3D extends Slice {
 	/**
 	 * Copies all properties and related data from a different instance of Axis.
 	 *
-	 * @param {this} source Source Axis
+	 * @param source Source Axis
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);
 		this.edge.copyFrom(source.edge);
 		this.sideA.copyFrom(source.sideA);
 		this.sideB.copyFrom(source.sideB);
-	}			
+	}
 
 }

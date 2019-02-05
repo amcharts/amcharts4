@@ -36,7 +36,6 @@ var Polyline = /** @class */ (function (_super) {
          * [_distance description]
          *
          * @todo Description
-         * @type {number}
          */
         _this._distance = 0;
         _this.className = "Polyline";
@@ -74,7 +73,7 @@ var Polyline = /** @class */ (function (_super) {
     };
     Object.defineProperty(Polyline.prototype, "segments", {
         /**
-         * @return {Optional<IPoint[]>} Segments
+         * @return Segments
          */
         get: function () {
             return this.getPropertyValue("segments");
@@ -83,7 +82,7 @@ var Polyline = /** @class */ (function (_super) {
          * A list of segment coordinates for the multi-part line.
          *
          * @todo Example
-         * @param {Optional<IPoint[][]>}  segments  Segments
+         * @param segments  Segments
          */
         set: function (segments) {
             this.setPropertyValue("segments", segments);
@@ -97,7 +96,7 @@ var Polyline = /** @class */ (function (_super) {
          * [distance description]
          *
          * @todo Description
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             return this._distance;
@@ -108,8 +107,8 @@ var Polyline = /** @class */ (function (_super) {
     /**
      * Converts relative position along the line (0-1) into pixel coordinates.
      *
-     * @param  {number}             position  Position (0-1)
-     * @return {IOrientationPoint}            Coordinates
+     * @param position  Position (0-1)
+     * @return Coordinates
      */
     Polyline.prototype.positionToPoint = function (position) {
         var deltaAngle = 0;

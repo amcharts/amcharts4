@@ -54,8 +54,6 @@ export class MapChartDataItem extends SerialChartDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {MapChart}
 	 */
 	public _component!: MapChart;
 
@@ -85,15 +83,11 @@ export interface IMapPolygonDataObject {
 
 	/**
 	 * A unique id of the object.
-	 *
-	 * @type {string}
 	 */
 	id?: string;
 
 	/**
 	 * Numeric value for heat-map scenarios.
-	 *
-	 * @type {[type]}
 	 */
 	value?: number;
 
@@ -121,8 +115,6 @@ export interface IMapPolygonDataObject {
 
 /**
  * Defines types of map line.
- *
- * @type {string}
  */
 export type MapLineType = "line" | "arc" | "spline" | "realTrajectory";
 
@@ -133,15 +125,11 @@ export interface IMapLineDataObject {
 
 	/**
 	 * A unique id of the object.
-	 *
-	 * @type {string}
 	 */
 	id?: string;
 
 	/**
 	 * Numeric value for heat-map scenarios.
-	 *
-	 * @type {[type]}
 	 */
 	value?: number;
 
@@ -174,15 +162,11 @@ export interface IMapImageDataObject {
 
 	/**
 	 * A unique id of the object.
-	 *
-	 * @type {string}
 	 */
 	id?: string;
 
 	/**
 	 * Numeric value for heat-map scenarios.
-	 *
-	 * @type {[type]}
 	 */
 	value?: number;
 
@@ -210,8 +194,6 @@ export interface IMapImageDataObject {
 
 /**
  * Defines type suitable for all map objects.
- *
- * @type {IMapPolygonDataObject | IMapLineDataObject}
  */
 export type IMapDataObject = IMapPolygonDataObject | IMapLineDataObject;
 
@@ -227,8 +209,6 @@ export interface IMapChartProperties extends ISerialChartProperties {
 
 	/**
 	 * Projection to be used when drawing the map.
-	 *
-	 * @type {Projection}
 	 */
 	projection?: Projection;
 
@@ -237,8 +217,6 @@ export interface IMapChartProperties extends ISerialChartProperties {
 	 *
 	 * E.g. if set to -160, the longitude 20 will become a new center, creating
 	 * a Pacific-centered map.
-	 *
-	 * @type {number}
 	 */
 	deltaLongitude?: number;
 
@@ -249,23 +227,18 @@ export interface IMapChartProperties extends ISerialChartProperties {
 	 * outside the viewport.
 	 *
 	 * 0.5 will allow half of the map to be outside viewable area.
-	 * 
+	 *
 	 * @default 0.7
-	 * @type {number}
 	 */
 	maxPanOut?: number;
 
 	/**
 	 * A map will start centered on this geographical point.
-	 * 
-	 * @type {IGeoPoint}
 	 */
 	homeGeoPoint?: IGeoPoint;
 
 	/**
 	 * A map will start zoomed to this level.
-	 * 
-	 * @type {number}
 	 */
 	homeZoomLevel?: number;
 
@@ -274,7 +247,6 @@ export interface IMapChartProperties extends ISerialChartProperties {
 	 * by value of this setting.
 	 *
 	 * @default 2
-	 * @type {number}
 	 */
 	zoomStep?: number;
 
@@ -334,57 +306,41 @@ export class MapChart extends SerialChart {
 
 	/**
 	 * Available data fields.
-	 *
-	 * @type {IMapChartDataFields}
 	 */
 	public _dataFields: IMapChartDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IMapChartProperties}
 	 */
 	public _properties!: IMapChartProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IMapChartAdapters}
 	 */
 	public _adapter!: IMapChartAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IMapChartEvents}
 	 */
 	public _events!: IMapChartEvents;
 
 	/**
 	 * The East-most longitude point of the map.
-	 *
-	 * @type {number}
 	 */
 	public east: number;
 
 	/**
 	 * The West-most longitude point of the map.
-	 *
-	 * @type {number}
 	 */
 	public west: number;
 
 	/**
 	 * The South-most latitude point of the map.
-	 *
-	 * @type {number}
 	 */
 	public south: number;
 
 	/**
 	 * The North-most latitude point of the map.
-	 *
-	 * @type {number}
 	 */
 	public north: number;
 
@@ -392,7 +348,6 @@ export class MapChart extends SerialChart {
 	 * A ratio to be used when scaling the map shapes.
 	 *
 	 * @readonly
-	 * @type {number}
 	 */
 	public scaleRatio: number = 1;
 
@@ -400,7 +355,6 @@ export class MapChart extends SerialChart {
 	 * A screen point of the map's center.
 	 *
 	 * @readonly
-	 * @type {IPoint}
 	 */
 	public centerPoint: IPoint;
 
@@ -408,7 +362,6 @@ export class MapChart extends SerialChart {
 	 * A screen point of the map's left.
 	 *
 	 * @readonly
-	 * @type {IPoint}
 	 */
 	public westPoint: IPoint;
 
@@ -416,7 +369,6 @@ export class MapChart extends SerialChart {
 	 * A screen point of the map's right.
 	 *
 	 * @readonly
-	 * @type {IPoint}
 	 */
 	public eastPoint: IPoint;
 
@@ -424,7 +376,6 @@ export class MapChart extends SerialChart {
 	 * A screen point of the map's top.
 	 *
 	 * @readonly
-	 * @type {IPoint}
 	 */
 	public northPoint: IPoint;
 
@@ -432,21 +383,16 @@ export class MapChart extends SerialChart {
 	 * A screen point of the map's bottom.
 	 *
 	 * @readonly
-	 * @type {IPoint}
 	 */
 	public southPoint: IPoint;
 
 	/**
 	 * Width of the actual map objects (px).
-	 *
-	 * @type {number}
 	 */
 	public seriesWidth: number;
 
 	/**
 	 * Height of the actual map objects (px).
-	 *
-	 * @type {number}
 	 */
 	public seriesHeight: number;
 
@@ -454,21 +400,16 @@ export class MapChart extends SerialChart {
 	 * Map data in GeoJSON format.
 	 *
 	 * @see {@link http://geojson.org/} GeoJSON official specification
-	 * @type {Object}
 	 */
 	protected _geodata: Object;
 
 	/**
 	 * A reference to a [[ZoomControl]] instance.
-	 *
-	 * @type {ZoomControl}
 	 */
 	protected _zoomControl: ZoomControl;
 
 	/**
 	 * A reference to a [[SmallMap]] control instance.
-	 *
-	 * @type {SmallMap}
 	 */
 	protected _smallMap: SmallMap;
 
@@ -476,21 +417,16 @@ export class MapChart extends SerialChart {
 	 * [_zoomGeoPoint description]
 	 *
 	 * @todo Description
-	 * @type {IGeoPoint}
 	 */
 	protected _zoomGeoPoint: IGeoPoint;
 
 	/**
 	 * Default duration of zoom animations (ms).
-	 *
-	 * @type {number}
 	 */
 	public zoomDuration: number = 1000;
 
 	/**
 	 * Default zooming animation easing function.
-	 *
-	 * @type {function}
 	 */
 	public zoomEasing: (value: number) => number = $ease.cubicOut;
 
@@ -501,7 +437,6 @@ export class MapChart extends SerialChart {
 	 * NOTE: Should be power of 2.
 	 *
 	 * @default 1
-	 * @type {number}
 	 */
 	public minZoomLevel: number = 1;
 
@@ -512,7 +447,6 @@ export class MapChart extends SerialChart {
 	 * NOTE: Should be power of 2.
 	 *
 	 * @default 32
-	 * @type {number}
 	 */
 	public maxZoomLevel: number = 32;
 
@@ -520,7 +454,6 @@ export class MapChart extends SerialChart {
 	 * [_prevZoomLevel description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	protected _prevZoomLevel: number;
 
@@ -528,21 +461,16 @@ export class MapChart extends SerialChart {
 	 * [_prevZoomGeoPoint description]
 	 *
 	 * @todo Description
-	 * @type {IGeoPoint}
 	 */
 	protected _prevZoomGeoPoint: IGeoPoint = { latitude: 0, longitude: 0 };
 
 	/**
 	 * Defines a type of series that this chart uses.
-	 *
-	 * @type {MapSeries}
 	 */
 	public _seriesType: MapSeries;
 
 	/**
 	 * A reference to currently playing animation, e.g. zooming.
-	 *
-	 * @type {Animation}
 	 */
 	protected _mapAnimation: Animation;
 
@@ -744,7 +672,7 @@ export class MapChart extends SerialChart {
 	 * Handles the event when user doubleclicks or dooubletaps the map: zooms
 	 * in on the reference point.
 	 *
-	 * @param {AMEvent<Sprite, ISpriteEvents>["doublehit"]}  event  Original event
+	 * @param event  Original event
 	 */
 	protected handleDoubleHit(event: AMEvent<Sprite, ISpriteEvents>["doublehit"]) {
 		let svgPoint: IPoint = $utils.documentPointToSvg(event.point, this.htmlContainer, this.svgContainer.cssScale);
@@ -756,7 +684,7 @@ export class MapChart extends SerialChart {
 	 * Handles mouse wheel event, e.g. user rotates mouse wheel while over the
 	 * map: zooms in or out depending on the direction of the wheel turn.
 	 *
-	 * @param {AMEvent<Sprite, ISpriteEvents>["wheel"]}  event  Original event
+	 * @param event  Original event
 	 */
 	protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]) {
 
@@ -775,7 +703,7 @@ export class MapChart extends SerialChart {
 	/**
 	 * Specifies what should chart do if when mouse wheel is rotated.
 	 *
-	 * @param {"zoom" | "none"} mouse wheel behavior
+	 * @param mouse wheel behavior
 	 * @default zoomX
 	 */
 	public set mouseWheelBehavior(value: "zoom" | "none") {
@@ -795,7 +723,7 @@ export class MapChart extends SerialChart {
 	}
 
 	/**
-	 * @return { "zoom" | "none"}  mouse wheel behavior
+	 * @return mouse wheel behavior
 	 */
 	public get mouseWheelBehavior(): "zoom" | "none" {
 		return this.getPropertyValue("mouseWheelBehavior");
@@ -824,7 +752,7 @@ export class MapChart extends SerialChart {
 	 * }
 	 * ```
 	 *
-	 * @param {Projection}  projection  Projection
+	 * @param projection  Projection
 	 */
 	public set projection(projection: Projection) {
 		projection.deltaLongitude = this.deltaLongitude;
@@ -834,7 +762,7 @@ export class MapChart extends SerialChart {
 	}
 
 	/**
-	 * @return {Projection} Projection
+	 * @return Projection
 	 */
 	public get projection(): Projection {
 		return this.getPropertyValue("projection");
@@ -983,8 +911,8 @@ export class MapChart extends SerialChart {
 	 * Converts a point within map container to geographical (lat/long)
 	 * coordinates.
 	 *
-	 * @param  {IPoint}     point  Source point
-	 * @return {IGeoPoint}         Geo-point
+	 * @param point  Source point
+	 * @return Geo-point
 	 */
 	public svgPointToGeo(point: IPoint): IGeoPoint {
 		let series: MapSeries = <MapSeries>this.series.getIndex(0);
@@ -998,8 +926,8 @@ export class MapChart extends SerialChart {
 	 * Converts geographical (lat/long) coordinates to an X/Y point within map's
 	 * container.
 	 *
-	 * @param  {IGeoPoint}  point  Source geo-point
-	 * @return {IPoint}            Point
+	 * @param point  Source geo-point
+	 * @return Point
 	 */
 	public geoPointToSVG(point: IGeoPoint): IPoint {
 		let series: MapSeries = <MapSeries>this.series.getIndex(0);
@@ -1013,8 +941,8 @@ export class MapChart extends SerialChart {
 	 * Converts a point (X/Y) within actual objects of the map to geographical
 	 * (lat/long) coordinates.
 	 *
-	 * @param  {IPoint}     point  Source point
-	 * @return {IGeoPoint}         Geo-point
+	 * @param point  Source point
+	 * @return Geo-point
 	 */
 	public seriesPointToGeo(point: IPoint): IGeoPoint {
 		return this.projection.invert(point);
@@ -1024,8 +952,8 @@ export class MapChart extends SerialChart {
 	 * Converts geographical (lat/long) coordinates to an X/Y point within
 	 * actual elements/objects of the maps.
 	 *
-	 * @param  {IGeoPoint}  point  Source geo-point
-	 * @return {IPoint}            Point
+	 * @param point  Source geo-point
+	 * @return Point
 	 */
 	public geoPointToSeries(point: IGeoPoint): IPoint {
 		return this.projection.convert(point);
@@ -1038,7 +966,7 @@ export class MapChart extends SerialChart {
 	 * `Polygon`, `MultiPoint`, `MultiLineString`, and `MultiPolygon`.
 	 *
 	 * @see {@link http://geojson.org/} Official GeoJSON format specification
-	 * @param {Object} geoJSON GeoJSON data
+	 * @param geoJSON GeoJSON data
 	 */
 	public set geodata(geodata: Object) {
 		if (geodata != this._geodata) {
@@ -1052,7 +980,7 @@ export class MapChart extends SerialChart {
 	}
 
 	/**
-	 * @return {Object} GeoJSON data
+	 * @return GeoJSON data
 	 */
 	public get geodata(): Object {
 		return this._geodata;
@@ -1062,11 +990,11 @@ export class MapChart extends SerialChart {
 	 * Zooms the map to particular zoom level and centers on a latitude/longitude
 	 * coordinate.
 	 *
-	 * @param  {IGeoPoint}  point      Center coordinate
-	 * @param  {number}     zoomLevel  Zoom level
-	 * @param  {boolean}    center     Center on the given coordinate?
-	 * @param  {number}     duration   Duration for zoom animation (ms)
-	 * @return {Animation}             Zoom animation
+	 * @param point      Center coordinate
+	 * @param zoomLevel  Zoom level
+	 * @param center     Center on the given coordinate?
+	 * @param duration   Duration for zoom animation (ms)
+	 * @return Zoom animation
 	 */
 	public zoomToGeoPoint(point: IGeoPoint, zoomLevel: number, center?: boolean, duration?: number): Animation {
 
@@ -1122,11 +1050,11 @@ export class MapChart extends SerialChart {
 	/**
 	 * Zooms the map to a particular map object.
 	 *
-	 * @param  {MapObject}  mapObject  Target map object
-	 * @param  {number}     zoomLevel  Zoom level
-	 * @param  {boolean}    center     Center on the given coordinate?
-	 * @param  {number}     duration   Duration for zoom animation (ms)
-	 * @return {Animation}             Zoom animation
+	 * @param mapObject  Target map object
+	 * @param zoomLevel  Zoom level
+	 * @param center     Center on the given coordinate?
+	 * @param duration   Duration for zoom animation (ms)
+	 * @return Zoom animation
 	 */
 	public zoomToMapObject(mapObject: MapObject, zoomLevel?: number, center?: boolean, duration?: number): Animation {
 
@@ -1180,14 +1108,14 @@ export class MapChart extends SerialChart {
 	 * `level` is not actual zoom level. The map will determine the zoom level
 	 * required to accommodated such zoom, and will adjust it by `level` if set.
 	 *
-	 * @param  {number}     north     Latitude of the North-most boundary
-	 * @param  {number}     east      Longitude of the East-most boundary
-	 * @param  {number}     south     Latitude of the South-most boundary
-	 * @param  {number}     west      Longitude of the West-most boundary
-	 * @param  {number}     level     Adjust zoom level
-	 * @param  {boolean}    center    Center on the given coordinate?
-	 * @param  {number}     duration  Duration for zoom animation (ms)
-	 * @return {Animation}            Zoom animation
+	 * @param north     Latitude of the North-most boundary
+	 * @param east      Longitude of the East-most boundary
+	 * @param south     Latitude of the South-most boundary
+	 * @param west      Longitude of the West-most boundary
+	 * @param level     Adjust zoom level
+	 * @param center    Center on the given coordinate?
+	 * @param duration  Duration for zoom animation (ms)
+	 * @return Zoom animation
 	 */
 	public zoomToRectangle(north: number, east: number, south: number, west: number, level?: number, center?: boolean, duration?: number): Animation {
 		if ($type.isNaN(level)) {
@@ -1202,9 +1130,9 @@ export class MapChart extends SerialChart {
 	 * Zooms in the map, optionally centering on particular latitude/longitude
 	 * point.
 	 *
-	 * @param  {IGeoPoint}  geoPoint  Optional center point
-	 * @param  {number}     duration  Duration for zoom animation (ms)
-	 * @return {Animation}            Zoom animation
+	 * @param geoPoint  Optional center point
+	 * @param duration  Duration for zoom animation (ms)
+	 * @return Zoom animation
 	 */
 	public zoomIn(geoPoint?: IGeoPoint, duration?: number): Animation {
 		return this.zoomToGeoPoint(geoPoint, this.zoomLevel * this.zoomStep, false, duration);
@@ -1214,9 +1142,9 @@ export class MapChart extends SerialChart {
 	 * Zooms out the map, optionally centering on particular latitude/longitude
 	 * point.
 	 *
-	 * @param  {IGeoPoint}  geoPoint  Optional center point
-	 * @param  {number}     duration  Duration for zoom animation (ms)
-	 * @return {Animation}            Zoom animation
+	 * @param geoPoint  Optional center point
+	 * @param duration  Duration for zoom animation (ms)
+	 * @return Zoom animation
 	 */
 	public zoomOut(geoPoint?: IGeoPoint, duration?: number): Animation {
 		return this.zoomToGeoPoint(geoPoint, this.zoomLevel / this.zoomStep, false, duration);
@@ -1234,8 +1162,8 @@ export class MapChart extends SerialChart {
 	 *
 	 * The above will move the map by 10% to the right, and by 10% upwards.
 	 *
-	 * @param {IPoint}  shift     Vertical and horizontal shift
-	 * @param {number}  duration  Pan animation duration (ms)
+	 * @param shift     Vertical and horizontal shift
+	 * @param duration  Pan animation duration (ms)
 	 */
 	public pan(shift: IPoint, duration?: number): void {
 		let point = this.geoPointToSVG(this.zoomGeoPoint);
@@ -1249,7 +1177,7 @@ export class MapChart extends SerialChart {
 	 * zoom reference point)
 	 *
 	 * @readonly
-	 * @return {IGeoPoint} Coordinates
+	 * @return Coordinates
 	 */
 	public get zoomGeoPoint(): IGeoPoint {
 		var point = $utils.spritePointToSvg({ x: this.pixelWidth / 2, y: this.pixelHeight / 2 }, this);
@@ -1260,7 +1188,7 @@ export class MapChart extends SerialChart {
 	 * Current zoom level.
 	 *
 	 * @readonly
-	 * @return {number} Zoom level
+	 * @return Zoom level
 	 */
 	public get zoomLevel(): number {
 		return this.seriesContainer.scale;
@@ -1306,7 +1234,7 @@ export class MapChart extends SerialChart {
 	 * }
 	 * ```
 	 *
-	 * @param {SmallMap}  smallMap  Small map
+	 * @param smallMap  Small map
 	 */
 	public set smallMap(smallMap: SmallMap) {
 		if (this._smallMap) {
@@ -1318,7 +1246,7 @@ export class MapChart extends SerialChart {
 	}
 
 	/**
-	 * @return {SmallMap} Small map
+	 * @return Small map
 	 */
 	public get smallMap(): SmallMap {
 		if (!this._smallMap) {
@@ -1350,7 +1278,7 @@ export class MapChart extends SerialChart {
 	 * }
 	 * ```
 	 *
-	 * @param {ZoomControl}  zoomControl  Zoom control
+	 * @param zoomControl  Zoom control
 	 */
 	public set zoomControl(zoomControl: ZoomControl) {
 		if (this._zoomControl) {
@@ -1362,7 +1290,7 @@ export class MapChart extends SerialChart {
 	}
 
 	/**
-	 * @return {ZoomControl} Zoom control
+	 * @return Zoom control
 	 */
 	public get zoomControl(): ZoomControl {
 		return this._zoomControl;
@@ -1371,7 +1299,7 @@ export class MapChart extends SerialChart {
 	/**
 	 * Creates and returns a map series of appropriate type.
 	 *
-	 * @return {MapSeries} Map series
+	 * @return Map series
 	 */
 	protected createSeries(): this["_seriesType"] {
 		return new MapSeries();
@@ -1384,7 +1312,7 @@ export class MapChart extends SerialChart {
 	 * E.g. if set to -160, the longitude 20 will become a new center, creating
 	 * a Pacific-centered map.
 	 *
-	 * @param {number}  value  Map center shift
+	 * @param value  Map center shift
 	 */
 	public set deltaLongitude(value: number) {
 		if (this.setPropertyValue("deltaLongitude", $geo.wrapAngleTo180(value))) {
@@ -1393,7 +1321,7 @@ export class MapChart extends SerialChart {
 	}
 
 	/**
-	 * @return {number} Map center shift
+	 * @return Map center shift
 	 */
 	public get deltaLongitude(): number {
 		return this.getPropertyValue("deltaLongitude");
@@ -1406,16 +1334,16 @@ export class MapChart extends SerialChart {
 	 * outside the viewport.
 	 *
 	 * 0.5 will allow half of the map to be outside viewable area.
-	 * 
+	 *
 	 * @default 0.7
-	 * @param {number}  value  Max pan out
+	 * @param value  Max pan out
 	 */
 	public set maxPanOut(value: number) {
 		this.setPropertyValue("maxPanOut", value);
 	}
 
 	/**
-	 * @return {number} Max pan out
+	 * @return Max pan out
 	 */
 	public get maxPanOut(): number {
 		return this.getPropertyValue("maxPanOut");
@@ -1427,14 +1355,14 @@ export class MapChart extends SerialChart {
 	 * The map will also be centered to this point when you call `goHome()`
 	 * method.
 	 *
-	 * @param {IGeoPoint}  value  Home geo point
+	 * @param value  Home geo point
 	 */
 	public set homeGeoPoint(value: IGeoPoint) {
 		this.setPropertyValue("homeGeoPoint", value);
 	}
 
 	/**
-	 * @return {IGeoPoint} Home geo point
+	 * @return Home geo point
 	 */
 	public get homeGeoPoint(): IGeoPoint {
 		return this.getPropertyValue("homeGeoPoint");
@@ -1446,14 +1374,14 @@ export class MapChart extends SerialChart {
 	 * The map will also be set to this zoom level when you call `goHome()`
 	 * method.
 	 *
-	 * @param {number}  value  Home zoom level
+	 * @param value  Home zoom level
 	 */
 	public set homeZoomLevel(value: number) {
 		this.setPropertyValue("homeZoomLevel", value);
 	}
 
 	/**
-	 * @return {number} Home zoom level
+	 * @return Home zoom level
 	 */
 	public get homeZoomLevel(): number {
 		return this.getPropertyValue("homeZoomLevel");
@@ -1464,14 +1392,14 @@ export class MapChart extends SerialChart {
 	 * by value of this setting.
 	 *
 	 * @default 2
-	 * @param {number}  value  Zoom factor
+	 * @param value  Zoom factor
 	 */
 	public set zoomStep(value: number) {
 		this.setPropertyValue("zoomStep", value);
 	}
 
 	/**
-	 * @return {number} Zoom factor
+	 * @return Zoom factor
 	 */
 	public get zoomStep(): number {
 		return this.getPropertyValue("zoomStep");
@@ -1493,7 +1421,7 @@ export class MapChart extends SerialChart {
 	/**
 	 * Sets a [[DataSource]] to be used for loading Component's data.
 	 *
-	 * @param {DataSource} value Data source
+	 * @param value Data source
 	 */
 	public set geodataSource(value: DataSource) {
 		if (this._dataSources["geodata"]) {
@@ -1510,7 +1438,7 @@ export class MapChart extends SerialChart {
 	/**
 	 * Returns a [[DataSource]] specifically for loading Component's data.
 	 *
-	 * @return {DataSource} Data source
+	 * @return Data source
 	 */
 	public get geodataSource(): DataSource {
 		if (!this._dataSources["geodata"]) {
@@ -1523,7 +1451,7 @@ export class MapChart extends SerialChart {
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 
@@ -1552,9 +1480,9 @@ export class MapChart extends SerialChart {
  * the end.
  *
  * @ignore Exclude from docs
- * @param  {string}  a  Element 1
- * @param  {string}  b  Element 2
- * @return {number}     Sorting number
+ * @param a  Element 1
+ * @param b  Element 2
+ * @return Sorting number
  */
 	protected configOrder(a: string, b: string): Ordering {
 		if (a == b) {
@@ -1581,8 +1509,8 @@ export class MapChart extends SerialChart {
 	/**
 	 * Adds `projection` to "as is" fields.
 	 *
-	 * @param  {string}   field  Field name
-	 * @return {boolean}         Assign as is?
+	 * @param field  Field name
+	 * @return Assign as is?
 	 */
 	protected asIs(field: string): boolean {
 		return field == "projection" || super.asIs(field);
@@ -1592,7 +1520,6 @@ export class MapChart extends SerialChart {
 	 * Geo point of map center
 	 *
 	 * @readonly
-	 * @type {IPoint}
 	 */
 	public get centerGeoPoint(): IGeoPoint {
 		return this._centerGeoPoint;
@@ -1616,8 +1543,8 @@ export class MapChart extends SerialChart {
 	/**
 	 * Sets [[Paper]] instance to use to draw elements.
 	 * @ignore
-	 * @param {Paper} paper Paper
-	 * @return {boolean} true if paper was changed, false, if it's the same
+	 * @param paper Paper
+	 * @return true if paper was changed, false, if it's the same
 	 */
 	public setPaper(paper: Paper): boolean {
 		if (this.svgContainer) {
@@ -1630,7 +1557,7 @@ export class MapChart extends SerialChart {
 	/**
 	 * Prepares the legend instance for use in this chart.
 	 *
-	 * @param {Legend}  legend  Legend
+	 * @param legend  Legend
 	 */
 	protected setLegend(legend: Legend) {
 		super.setLegend(legend);

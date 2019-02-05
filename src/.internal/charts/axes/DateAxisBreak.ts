@@ -34,15 +34,11 @@ export interface IDateAxisBreakProperties extends IValueAxisBreakProperties {
 
 	/**
 	 * A `Date` break starts on.
-	 *
-	 * @type {Date}
 	 */
 	startDate?: Date;
 
 	/**
 	 * A `Date` break ends on.
-	 *
-	 * @type {Date}
 	 */
 	endDate?: Date;
 
@@ -82,29 +78,21 @@ export class DateAxisBreak extends ValueAxisBreak {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IDateAxisBreakProperties}
 	 */
 	public _properties!: IDateAxisBreakProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IDateAxisBreakAdapters}
 	 */
 	public _adapter!: IDateAxisBreakAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IDateAxisBreakEvents}
 	 */
 	public _events!: IDateAxisBreakEvents;
 
 	/**
 	 * Defines the type of the Axis this break is used for.
-	 *
-	 * @type {ValueAxis}
 	 */
 	public _axisType: DateAxis;
 
@@ -113,7 +101,6 @@ export class DateAxisBreak extends ValueAxisBreak {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @type {ITimeInterval}
 	 */
 	public gridInterval: ITimeInterval;
 
@@ -121,7 +108,6 @@ export class DateAxisBreak extends ValueAxisBreak {
 	 * [gridDate description]
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Date}
 	 * @todo Description
 	 */
 	public gridDate: Date;
@@ -138,7 +124,7 @@ export class DateAxisBreak extends ValueAxisBreak {
 	/**
 	 * Starting date for the break.
 	 *
-	 * @param {Date} value Start date
+	 * @param value Start date
 	 */
 	public set startDate(value: Date) {
 		if (this.setPropertyValue("startDate", value)) {
@@ -151,7 +137,7 @@ export class DateAxisBreak extends ValueAxisBreak {
 	}
 
 	/**
-	 * @return {Date} Start date
+	 * @return Start date
 	 */
 	public get startDate(): Date {
 		return this.getPropertyValue("startDate");
@@ -160,7 +146,7 @@ export class DateAxisBreak extends ValueAxisBreak {
 	/**
 	 * Ending date for the break.
 	 *
-	 * @param {Date} value End date
+	 * @param value End date
 	 */
 	public set endDate(value: Date) {
 		if (this.setPropertyValue("endDate", value)) {
@@ -173,7 +159,7 @@ export class DateAxisBreak extends ValueAxisBreak {
 	}
 
 	/**
-	 * @return {Date} End date
+	 * @return End date
 	 */
 	public get endDate(): Date {
 		return this.getPropertyValue("endDate");

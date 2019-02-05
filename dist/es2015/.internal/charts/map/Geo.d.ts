@@ -13,16 +13,16 @@ import { IPoint } from "../../core/defs/IPoint";
  * Normalizes a geo-point.
  *
  * @ignore Exclude from docs
- * @param  {IGeoPoint}  geoPoint  Source geo-point
- * @return {IGeoPoint}            Normalized geo-point
+ * @param geoPoint  Source geo-point
+ * @return Normalized geo-point
  */
 export declare function normalizePoint(geoPoint: IGeoPoint): IGeoPoint;
 /**
  * Normalizes all points of a geo-line.
  *
  * @ignore Exclude from docs
- * @param  {IGeoPoint[][]}  multiline  Source geo-line
- * @return {IGeoPoint[]}               Normalized geo-line
+ * @param multiline  Source geo-line
+ * @return Normalized geo-line
  */
 export declare function normalizeMultiline(multiline: IGeoPoint[][]): IGeoPoint[][];
 /**
@@ -30,15 +30,15 @@ export declare function normalizeMultiline(multiline: IGeoPoint[][]): IGeoPoint[
  *
  * @todo Description
  * @ignore Exclude from docs
- * @param  {number}  angle  Angle
- * @return {number}         Angle
+ * @param angle  Angle
+ * @return Angle
  */
 export declare function wrapAngleTo180(angle: number): number;
 /**
  * Converts a geo point to a regular point object.
  *
  * @ignore Exclude from docs
- * @param  {IGeoPoint}  geoPoint  Source geo point
- * @return {IPoint}               Point
+ * @param geoPoint  Source geo point
+ * @return Point
  */
 export declare function geoToPoint(geoPoint: IGeoPoint): IPoint;

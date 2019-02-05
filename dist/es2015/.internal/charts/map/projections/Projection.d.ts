@@ -37,23 +37,23 @@ export declare class Projection {
     protected convertGeoLine(geoLine: IGeoPoint[][]): IPoint[][];
     /**
      * Converts a geographical point (lat/long) to a screen point (x/y)
-     * @param  {IGeoPoint} geoPoint Geo point (lat/long)
-     * @return {IPoint}             Screen point (x/y)
+     * @param geoPoint Geo point (lat/long)
+     * @return Screen point (x/y)
      */
     convert(geoPoint: IGeoPoint): IPoint;
     /**
      * Converts a screen point (x/y) to a geographical point (lat/long)
-     * @param  {IPoint}    point Screen point (x/y)
-     * @return {IGeoPoint}       Geo point (lat/long)
+     * @param point Screen point (x/y)
+     * @return Geo point (lat/long)
      */
     invert(point: IPoint): IGeoPoint;
     /**
      * Returns X/Y coordinates.
      * Individual projections will override this method to apply their own
      * projection logic.
-     * @param  {number} lambda [description]
-     * @param  {number} phi    [description]
-     * @return {IPoint}        X/Y coordinates
+     * @param lambda [description]
+     * @param phi    [description]
+     * @return X/Y coordinates
      * @todo Needs description
      */
     project(lambda: number, phi: number): IPoint;
@@ -61,9 +61,9 @@ export declare class Projection {
      * Returns geographical coordinates (lat/long).
      * Individual projections will override this method to apply their own
      * projection logic.
-     * @param  {number}    x X coordinate
-     * @param  {number}    y Y coordinate
-     * @return {IGeoPoint}   Geographical point
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @return Geographical point
      * @todo Needs description
      */
     unproject(x: number, y: number): IGeoPoint;

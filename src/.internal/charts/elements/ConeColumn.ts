@@ -59,29 +59,22 @@ export class ConeColumn extends Column {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IConeColumnProperties}
 	 */
 	public _properties!: IConeColumnProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IConeColumnAdapters}
 	 */
 	public _adapter!: IConeColumnAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IConeColumnEvents}
 	 */
 	public _events!: IConeColumnEvents;
 
 
 	/**
 	 * Cone column element
-	 * @type {Cone}
 	 */
 	public coneColumn: Cone;
 
@@ -107,7 +100,7 @@ export class ConeColumn extends Column {
 	/**
 	 * Copies all parameters from another [[ConeColumn]].
 	 *
-	 * @param {ConeColumn} source Source ConeColumn
+	 * @param source Source ConeColumn
 	 */
 	copyFrom(source: this) {
 		super.copyFrom(source)

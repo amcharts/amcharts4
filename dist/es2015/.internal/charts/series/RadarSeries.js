@@ -83,7 +83,7 @@ var RadarSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {RadarSeriesDataItem} Data Item
+     * @return Data Item
      */
     RadarSeries.prototype.createDataItem = function () {
         return new RadarSeriesDataItem();
@@ -92,13 +92,13 @@ var RadarSeries = /** @class */ (function (_super) {
      * [getPoint description]
      *
      * @todo Description
-     * @param {RadarSeriesDataItem} dataItem  [description]
-     * @param {string}              xKey      [description]
-     * @param {string}              yKey      [description]
-     * @param {number}              locationX [description]
-     * @param {number}              locationY [description]
-     * @param {string}              stackKeyX [description]
-     * @param {string}              stackKeyY [description]
+     * @param dataItem  [description]
+     * @param xKey      [description]
+     * @param yKey      [description]
+     * @param locationX [description]
+     * @param locationY [description]
+     * @param stackKeyX [description]
+     * @param stackKeyY [description]
      */
     RadarSeries.prototype.getPoint = function (dataItem, xKey, yKey, locationX, locationY, stackKeyX, stackKeyY) {
         if (!stackKeyX) {
@@ -129,11 +129,11 @@ var RadarSeries = /** @class */ (function (_super) {
      * [addPoints description]
      *
      * @todo Description
-     * @param {IPoint[]}          points    [description]
-     * @param {this["_dataItem"]} dataItem  [description]
-     * @param {string}            xField    [description]
-     * @param {string}            yField    [description]
-     * @param {boolean}           backwards [description]
+     * @param points    [description]
+     * @param dataItem  [description]
+     * @param xField    [description]
+     * @param yField    [description]
+     * @param backwards [description]
      */
     RadarSeries.prototype.addPoints = function (points, dataItem, xField, yField, backwards) {
         var point = this.getPoint(dataItem, xField, yField, dataItem.locations[xField], dataItem.locations[yField]);
@@ -144,7 +144,7 @@ var RadarSeries = /** @class */ (function (_super) {
     /**
      * Returns an SVG path to be used as a mask for the series.
      *
-     * @return {string} SVG path
+     * @return SVG path
      */
     RadarSeries.prototype.getMaskPath = function () {
         var renderer = this.yAxis.renderer;
@@ -154,9 +154,9 @@ var RadarSeries = /** @class */ (function (_super) {
      * [drawSegment description]
      *
      * @todo Description
-     * @param {LineSeriesSegment}  segment      [description]
-     * @param {IPoint[]}           points       [description]
-     * @param {IPoint[]}           closePoints  [description]
+     * @param segment      [description]
+     * @param points       [description]
+     * @param closePoints  [description]
      */
     RadarSeries.prototype.drawSegment = function (segment, points, closePoints) {
         var axis = this.yAxis;
@@ -176,7 +176,7 @@ var RadarSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(RadarSeries.prototype, "connectEnds", {
         /**
-         * @return {boolean} Connect?
+         * @return Connect?
          */
         get: function () {
             return this.getPropertyValue("connectEnds");
@@ -186,7 +186,7 @@ var RadarSeries = /** @class */ (function (_super) {
          * closed circle?
          *
          * @default true
-         * @param {boolean}  value  Connect?
+         * @param value  Connect?
          */
         set: function (value) {
             this.setPropertyValue("connectEnds", value, true);

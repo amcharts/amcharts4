@@ -50,25 +50,18 @@ export interface IColumn3DAdapters extends IColumnAdapters, IColumn3DProperties 
 export declare class Column3D extends Column {
     /**
      * Defines available properties.
-     *
-     * @type {IColumn3DProperties}
      */
     _properties: IColumn3DProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IColumn3DAdapters}
      */
     _adapter: IColumn3DAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IColumn3DEvents}
      */
     _events: IColumn3DEvents;
     /**
      * column3D element
-     * @type {Slice}
      */
     column3D: Rectangle3D;
     /**
@@ -86,7 +79,7 @@ export declare class Column3D extends Column {
     /**
      * Copies all parameters from another [[Column3D]].
      *
-     * @param {Column3D} source Source Column3D
+     * @param source Source Column3D
      */
     copyFrom(source: this): void;
 }

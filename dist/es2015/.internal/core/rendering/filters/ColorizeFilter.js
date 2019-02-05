@@ -68,7 +68,7 @@ var ColorizeFilter = /** @class */ (function (_super) {
     };
     Object.defineProperty(ColorizeFilter.prototype, "color", {
         /**
-         * @return {Color} Color
+         * @return Color
          */
         get: function () {
             return this.properties["color"];
@@ -81,7 +81,7 @@ var ColorizeFilter = /** @class */ (function (_super) {
          *
          * E.g. setting to `am4core.color("greener")` will make all colors greener.
          *
-         * @param {Color}  value  Color
+         * @param value  Color
          */
         set: function (value) {
             this.properties["color"] = value;
@@ -92,7 +92,7 @@ var ColorizeFilter = /** @class */ (function (_super) {
     });
     Object.defineProperty(ColorizeFilter.prototype, "intensity", {
         /**
-         * @return {number} Intensity (0-1)
+         * @return Intensity (0-1)
          */
         get: function () {
             return this.properties.intensity;
@@ -106,7 +106,7 @@ var ColorizeFilter = /** @class */ (function (_super) {
          * 1 means all colors will become the target `color`.
          *
          * @default 1
-         * @param {number}  value  Intensity (0-1)
+         * @param value  Intensity (0-1)
          */
         set: function (value) {
             this.properties.intensity = value;

@@ -27,22 +27,18 @@ export class Disposer implements IDisposer {
 
 	/**
 	 * Is object disposed?
-	 *
-	 * @type {boolean}
 	 */
 	private _disposed: boolean;
 
 	/**
 	 * Method that disposes the object.
-	 *
-	 * @type {function}
 	 */
 	private _dispose: () => void;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param {function}  dispose  Function that disposes object
+	 * @param dispose  Function that disposes object
 	 */
 	constructor(dispose: () => void) {
 		this._disposed = false;
@@ -52,7 +48,7 @@ export class Disposer implements IDisposer {
 	/**
 	 * Checks if object is disposed.
 	 *
-	 * @return {boolean} Disposed?
+	 * @return Disposed?
 	 */
 	public isDisposed(): boolean {
 		return this._disposed;
@@ -98,15 +94,11 @@ export class MutableValueDisposer<T extends IDisposer> extends Disposer {
 
 	/**
 	 * Current disposer.
-	 *
-	 * @type {Optional<IDisposer>}
 	 */
 	private _disposer: Optional<IDisposer>;
 
 	/**
 	 * Current value.
-	 *
-	 * @type {Optional<T>}
 	 */
 	private _value: Optional<T>;
 
@@ -125,7 +117,7 @@ export class MutableValueDisposer<T extends IDisposer> extends Disposer {
 	/**
 	 * Returns current value.
 	 *
-	 * @return {Optional<T>} Value
+	 * @return Value
 	 */
 	public get(): Optional<T> {
 		return this._value;
@@ -134,8 +126,8 @@ export class MutableValueDisposer<T extends IDisposer> extends Disposer {
 	/**
 	 * Sets value and disposes previous disposer if it was set.
 	 *
-	 * @param {Optional<T>}          value     New value
-	 * @param {Optional<IDisposer>}  disposer  Disposer
+	 * @param value     New value
+	 * @param disposer  Disposer
 	 */
 	public set(value: Optional<T>, disposer: Optional<IDisposer>): void {
 		if ($type.hasValue(this._disposer)) {
@@ -165,7 +157,6 @@ export class CounterDisposer extends Disposer {
 	 * [_counter description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	private _counter: number = 0;
 

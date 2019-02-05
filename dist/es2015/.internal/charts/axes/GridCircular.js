@@ -31,7 +31,7 @@ var GridCircular = /** @class */ (function (_super) {
     }
     Object.defineProperty(GridCircular.prototype, "innerRadius", {
         /**
-         * @return {number} Inner radius
+         * @return Inner radius
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
@@ -39,7 +39,7 @@ var GridCircular = /** @class */ (function (_super) {
         /**
          * Inner radius of the circular grid. (absolute or relative)
          *
-         * @param {number | Percent} value Inner radius
+         * @param value Inner radius
          */
         set: function (value) {
             this.setPercentProperty("innerRadius", value, true, false, 10, false);
@@ -49,7 +49,7 @@ var GridCircular = /** @class */ (function (_super) {
     });
     Object.defineProperty(GridCircular.prototype, "radius", {
         /**
-         * @return {number} Outer radius
+         * @return Outer radius
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -57,7 +57,7 @@ var GridCircular = /** @class */ (function (_super) {
         /**
          * Outer radius of the circular grid. (absolute or relative)
          *
-         * @param {number | Percent} value Outer radius
+         * @param value Outer radius
          */
         set: function (value) {
             this.setPercentProperty("radius", value, true, false, 10, false);

@@ -43,8 +43,6 @@ var ClockHand = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * An Axis hand is related to.
-         *
-         * @type {MutableValueDisposer<Axis>}
          */
         _this._axis = new MutableValueDisposer();
         _this.className = "ClockHand";
@@ -92,7 +90,7 @@ var ClockHand = /** @class */ (function (_super) {
     };
     Object.defineProperty(ClockHand.prototype, "pin", {
         /**
-         * @return {Circle} Pin element
+         * @return Pin element
          */
         get: function () {
             return this._pin;
@@ -100,7 +98,7 @@ var ClockHand = /** @class */ (function (_super) {
         /**
          * A circle element used as hand's base. (pin)
          *
-         * @param {Circle}  pin  Pin element
+         * @param pin  Pin element
          */
         set: function (pin) {
             if (this._pin) {
@@ -117,7 +115,7 @@ var ClockHand = /** @class */ (function (_super) {
     });
     Object.defineProperty(ClockHand.prototype, "hand", {
         /**
-         * @return {Trapezoid} Hand element
+         * @return Hand element
          */
         get: function () {
             return this._hand;
@@ -130,7 +128,7 @@ var ClockHand = /** @class */ (function (_super) {
          *
          * Set `endWidth` to 1 (px) to make it pointy.
          *
-         * @param {Trapezoid}  hand  Hand element
+         * @param hand  Hand element
          */
         set: function (hand) {
             if (this._hand) {
@@ -147,7 +145,7 @@ var ClockHand = /** @class */ (function (_super) {
     });
     Object.defineProperty(ClockHand.prototype, "radius", {
         /**
-         * @return {number} Radius
+         * @return Radius
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -158,7 +156,7 @@ var ClockHand = /** @class */ (function (_super) {
          * Absolute (px) or relative ([[Percent]]).
          *
          * @default Percent(0)
-         * @param {number | Percent}  value  Radius
+         * @param value  Radius
          */
         set: function (value) {
             this.setPercentProperty("radius", value, true, false, 10, false);
@@ -168,7 +166,7 @@ var ClockHand = /** @class */ (function (_super) {
     });
     Object.defineProperty(ClockHand.prototype, "innerRadius", {
         /**
-         * @return {number} Radius
+         * @return Radius
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
@@ -179,7 +177,7 @@ var ClockHand = /** @class */ (function (_super) {
          * Absolute (px) or relative ([[Percent]]).
          *
          * @default Percent(0)
-         * @param {number | Percent}  value  Radius
+         * @param value  Radius
          */
         set: function (value) {
             this.setPercentProperty("innerRadius", value, true, false, 10, false);
@@ -189,7 +187,7 @@ var ClockHand = /** @class */ (function (_super) {
     });
     Object.defineProperty(ClockHand.prototype, "startWidth", {
         /**
-         * @return {number} Width (px)
+         * @return Width (px)
          */
         get: function () {
             return this.getPropertyValue("startWidth");
@@ -198,7 +196,7 @@ var ClockHand = /** @class */ (function (_super) {
          * Width, in pixels, of the clock hand's inner end. (base)
          *
          * @default 5
-         * @param {number}  value  Width (px)
+         * @param value  Width (px)
          */
         set: function (value) {
             this.setPropertyValue("startWidth", value, true);
@@ -208,7 +206,7 @@ var ClockHand = /** @class */ (function (_super) {
     });
     Object.defineProperty(ClockHand.prototype, "endWidth", {
         /**
-         * @return {number} Width (px)
+         * @return Width (px)
          */
         get: function () {
             return this.getPropertyValue("endWidth");
@@ -217,7 +215,7 @@ var ClockHand = /** @class */ (function (_super) {
          * Width, in pixels, of the clock hand's outer end. (tip)
          *
          * @default 1
-         * @param {number}  value  Width (px)
+         * @param value  Width (px)
          */
         set: function (value) {
             this.setPropertyValue("endWidth", value, true);
@@ -227,7 +225,7 @@ var ClockHand = /** @class */ (function (_super) {
     });
     Object.defineProperty(ClockHand.prototype, "rotationDirection", {
         /**
-         * @return {"any" | "clockWise" | "counterClockWise"} rotationDirection
+         * @return rotationDirection
          */
         get: function () {
             return this.getPropertyValue("rotationDirection");
@@ -236,7 +234,7 @@ var ClockHand = /** @class */ (function (_super) {
          * Rotation direction
          *
          * @default any
-         * @param {"any" | "clockWise" | "counterClockWise"}  value
+         * @param value
          */
         set: function (value) {
             this.setPropertyValue("rotationDirection", value);
@@ -252,9 +250,9 @@ var ClockHand = /** @class */ (function (_super) {
      *
      * Alternatively, you can also set `value` directly.
      *
-     * @param {any}     value     New value
-     * @param {number}  duration  Animation duration (ms)
-     * @param {(value:number)=>number}  easing  Animation easing function
+     * @param value     New value
+     * @param duration  Animation duration (ms)
+     * @param easing  Animation easing function
      */
     ClockHand.prototype.showValue = function (value, duration, easing) {
         this._value = value;
@@ -282,7 +280,7 @@ var ClockHand = /** @class */ (function (_super) {
     };
     Object.defineProperty(ClockHand.prototype, "value", {
         /**
-         * @return {any} Value
+         * @return Value
          */
         get: function () {
             return this._value;
@@ -290,7 +288,7 @@ var ClockHand = /** @class */ (function (_super) {
         /**
          * A current value clock hand is pointing to.
          *
-         * @param {any}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.showValue(value);
@@ -300,7 +298,7 @@ var ClockHand = /** @class */ (function (_super) {
     });
     Object.defineProperty(ClockHand.prototype, "axis", {
         /**
-         * @return {Axis} Axis
+         * @return Axis
          */
         get: function () {
             return this._axis.get();
@@ -310,7 +308,7 @@ var ClockHand = /** @class */ (function (_super) {
          *
          * Hand's `value` relates to values on the Axis.
          *
-         * @param {Axis}  axis  Axis
+         * @param axis  Axis
          */
         set: function (axis) {
             if (this.axis != axis) {
@@ -346,7 +344,7 @@ var ClockHand = /** @class */ (function (_super) {
  * Processes JSON-based config before it is applied to the object.
  *
  * @ignore Exclude from docs
- * @param {object}  config  Config
+ * @param config  Config
  */
     ClockHand.prototype.processConfig = function (config) {
         if (config) {

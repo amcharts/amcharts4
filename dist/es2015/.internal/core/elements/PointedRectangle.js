@@ -121,7 +121,7 @@ var PointedRectangle = /** @class */ (function (_super) {
     };
     Object.defineProperty(PointedRectangle.prototype, "cornerRadius", {
         /**
-         * @return {number} Corner radius (px)
+         * @return Corner radius (px)
          */
         get: function () {
             return this.getPropertyValue("cornerRadius");
@@ -130,7 +130,7 @@ var PointedRectangle = /** @class */ (function (_super) {
          * Radius of rectangle's border in pixels.
          *
          * @default 0
-         * @param {number}  value  Corner radius (px)
+         * @param value  Corner radius (px)
          */
         set: function (value) {
             this.setPropertyValue("cornerRadius", value, true);

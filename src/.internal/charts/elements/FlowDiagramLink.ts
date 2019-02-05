@@ -45,7 +45,6 @@ export interface IFlowDiagramLinkProperties extends IContainerProperties {
 	 * [tension description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	tension?: number;
 
@@ -53,7 +52,6 @@ export interface IFlowDiagramLinkProperties extends IContainerProperties {
 	 * [startX description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	startX?: number;
 
@@ -61,7 +59,6 @@ export interface IFlowDiagramLinkProperties extends IContainerProperties {
 	 * [startY description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	startY?: number;
 
@@ -69,7 +66,6 @@ export interface IFlowDiagramLinkProperties extends IContainerProperties {
 	 * [endX description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	endX?: number;
 
@@ -77,7 +73,6 @@ export interface IFlowDiagramLinkProperties extends IContainerProperties {
 	 * [endY description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	endY?: number;
 
@@ -85,7 +80,6 @@ export interface IFlowDiagramLinkProperties extends IContainerProperties {
 	 * [linkWidth description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	linkWidth?: number;
 
@@ -93,7 +87,6 @@ export interface IFlowDiagramLinkProperties extends IContainerProperties {
 	 * [startAngle description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	startAngle?: number;
 
@@ -101,14 +94,11 @@ export interface IFlowDiagramLinkProperties extends IContainerProperties {
 	 * [endAngle description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	endAngle?: number;
 
 	/**
 	 * Should link be filled with a solid color, color of from node, color of toNode or gradient between node colors.
-	 *
-	 * @type {"solid" | "gradient" | "fromNode" | "toNode"}
 	 */
 	colorMode?: "solid" | "gradient" | "fromNode" | "toNode";
 
@@ -116,7 +106,6 @@ export interface IFlowDiagramLinkProperties extends IContainerProperties {
 	 * [controlPointDistance description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	controlPointDistance?: number;
 
@@ -124,7 +113,6 @@ export interface IFlowDiagramLinkProperties extends IContainerProperties {
 	 * [maskBullets description]
 	 *
 	 * @todo Description
-	 * @type {boolean}
 	 */
 	maskBullets?: boolean;
 
@@ -132,7 +120,6 @@ export interface IFlowDiagramLinkProperties extends IContainerProperties {
 	 * [tooltipLocation description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	tooltipLocation?: number;
 }
@@ -169,37 +156,27 @@ export class FlowDiagramLink extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IFlowDiagramLinkProperties}
 	 */
 	public _properties!: IFlowDiagramLinkProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IFlowDiagramLinkAdapters}
 	 */
 	public _adapter!: IFlowDiagramLinkAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IFlowDiagramLinkEvents}
 	 */
 	public _events!: IFlowDiagramLinkEvents;
 
 	/**
 	 * Defines a type of data item used by this class.
-	 *
-	 * @type {FlowDiagramDataItem}
 	 */
 	public _dataItem: FlowDiagramDataItem;
 
 	/**
 	 * A gradiend instance that is used to provided colored gradient fills for
 	 * the Flow link.
-	 *
-	 * @type {LinearGradient}
 	 */
 	protected _gradient: LinearGradient;
 
@@ -212,26 +189,21 @@ export class FlowDiagramLink extends Container {
 
 	/**
 	 * Link sprite
-	 *
-	 * @type {Sprite}
 	 */
 	public link: Sprite;
 
 	/**
 	 * Bullets mask spite
-	 * @type Sprite
      */
 	protected _bulletsMask: Sprite;
 
 	/**
 	 * Bullets container
-	 * @type Container
      */
 	protected _bulletsContainer: Container;
 
 	/**
 	 * Spline which goes through the middle of a link, used to calculate bullet and tooltip positions, invisible by default
-	 * @type Polyspline
      */
 	public middleLine: Line | Polyline;
 
@@ -284,14 +256,13 @@ export class FlowDiagramLink extends Container {
 
 			bullet.maxWidth = this.maxWidth;
 			bullet.maxHeight = this.maxHeight;
-			
+
 			this.positionBullet(bullet);
 		})
 	}
 
 	/**
 	 * Bullets container
-	 * @type Container
      */
 	public get bulletsContainer(){
 		if(!this._bulletsContainer){
@@ -305,8 +276,7 @@ export class FlowDiagramLink extends Container {
 
 
 	/**
-	 * Bullets mask spite
-	 * @type Sprite
+	 * Bullets mask sprite
      */
 	public get bulletsMask(){
 		if(!this._bulletsMask){
@@ -355,14 +325,14 @@ export class FlowDiagramLink extends Container {
 	 * [startAngle description]
 	 *
 	 * @todo Description
-	 * @param {number}  value  Start angle
+	 * @param value  Start angle
 	 */
 	public set startAngle(value: number) {
 		this.setPropertyValue("startAngle", value, true);
 	}
 
 	/**
-	 * @return {number} Start angle
+	 * @return Start angle
 	 */
 	public get startAngle(): number {
 		return this.getPropertyValue("startAngle");
@@ -372,14 +342,14 @@ export class FlowDiagramLink extends Container {
 	 * [endAngle description]
 	 *
 	 * @todo Description
-	 * @param {number}  value  End angle
+	 * @param value  End angle
 	 */
 	public set endAngle(value: number) {
 		this.setPropertyValue("endAngle", value, true);
 	}
 
 	/**
-	 * @return {number} End angle
+	 * @return End angle
 	 */
 	public get endAngle(): number {
 		return this.getPropertyValue("endAngle");
@@ -390,7 +360,7 @@ export class FlowDiagramLink extends Container {
 	 * Should link be filled with a solid color, color of from node, color of toNode or gradient between node colors.
 	 * Some of the links, like ChordLink does not support gradiens well.
 	 *
-	 * @param {"solid" | "gradient" | "fromNode" | "toNode"}  value  Fill mode
+	 * @param value  Fill mode
 	 */
 	public set colorMode(value: "solid" | "gradient" | "fromNode" | "toNode") {
 		if (value == "gradient") {
@@ -408,7 +378,7 @@ export class FlowDiagramLink extends Container {
 	}
 
 	/**
-	 * @type {"solid" | "gradient"} Fill mode
+	 * Fill mode
 	 */
 	public get colorMode(): "solid" | "gradient" | "fromNode" | "toNode" {
 		return this.getPropertyValue("colorMode");
@@ -418,7 +388,7 @@ export class FlowDiagramLink extends Container {
 	/**
 	 * Should link bullets be masked or not
 	 *
-	 * @param {boolean}  value
+	 * @param value
 	 * @default false;
 	 */
 	public set maskBullets(value: boolean) {
@@ -426,7 +396,7 @@ export class FlowDiagramLink extends Container {
 	}
 
 	/**
-	 * @return {boolean} mask bullets value
+	 * @return mask bullets value
 	 */
 	public get maskBullets(): boolean {
 		return this.getPropertyValue("maskBullets");
@@ -436,14 +406,14 @@ export class FlowDiagramLink extends Container {
 	 * Relative location of a tooltip.
 	 * @default 0.5
 	 *
-	 * @param {number} value
+	 * @param value
 	 */
 	public set tooltipLocation(value: number) {
 		this.setPropertyValue("tooltipLocation", value, true);
 	}
 
 	/**
-	 * @type {number} tooltip location value
+	 * Tooltip location value
 	 */
 	public get tooltipLocation(): number {
 		return this.getPropertyValue("tooltipLocation");
@@ -452,7 +422,7 @@ export class FlowDiagramLink extends Container {
 	/**
 	 * Adds color steps in the link gradient.
 	 *
-	 * @param {Color | Pattern | LinearGradient | RadialGradient}  value  Fill option
+	 * @param value  Fill option
 	 */
 	protected setFill(value: Color | Pattern | LinearGradient | RadialGradient) {
 		super.setFill(value)
@@ -478,7 +448,7 @@ export class FlowDiagramLink extends Container {
 	/**
 	 * List of bullets
 	 *
-	 * @return {ListTemplate<Bullet>} [description]
+	 * @return [description]
 	 */
 	public get bullets(): ListTemplate<Bullet> {
 		if (!this._bullets) {
@@ -500,7 +470,7 @@ export class FlowDiagramLink extends Container {
 	/**
 	 * Copies properties from another [[FlowDiagramLink]].
 	 *
-	 * @param {FlowDiagramLink}  source  Source link
+	 * @param source  Source link
 	 */
 	copyFrom(source: this) {
 		super.copyFrom(source);
@@ -521,7 +491,7 @@ export class FlowDiagramLink extends Container {
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {number} Tooltip X (px)
+	 * @return Tooltip X (px)
 	 */
 	getTooltipX(): number {
 		if (this.middleLine) {
@@ -531,7 +501,7 @@ export class FlowDiagramLink extends Container {
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {number} Tooltip Y (px)
+	 * @return Tooltip Y (px)
 	 */
 	getTooltipY(): number {
 		if (this.middleLine) {
@@ -542,8 +512,6 @@ export class FlowDiagramLink extends Container {
 	/**
 	 * A gradiend instance that is used to provided colored gradient fills for
 	 * the Flow link.
-	 *
-	 * @type {LinearGradient}
 	 */
 	public get gradient(){
 		if(!this._gradient){

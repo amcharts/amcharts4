@@ -19,25 +19,18 @@ import * as $iter from "../../core/utils/Iterator";
 export declare class ChordDiagramDataItem extends FlowDiagramDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {ChordDiagram}
      */
     _component: ChordDiagram;
     /**
      * An a link element, connecting two nodes.
-     * @type {ChordLink}
      */
     _link: ChordLink;
     /**
      * An origin node.
-     *
-     * @type {ChordNode}
      */
     fromNode: ChordNode;
     /**
      * A destination node.
-     *
-     * @type {ChordNode}
      */
     toNode: ChordNode;
     /**
@@ -57,26 +50,18 @@ export declare class ChordDiagramDataItem extends FlowDiagramDataItem {
 export interface IChordDiagramDataFields extends IFlowDiagramDataFields {
     /**
      * Name of the source node.
-     *
-     * @type {string}
      */
     fromName?: string;
     /**
      * Name of the target node.
-     *
-     * @type {string}
      */
     toName?: string;
     /**
      * Value of the link between two nodes.
-     *
-     * @type {string}
      */
     value?: string;
     /**
      * Color of a from node
-     *
-     * @type {string}
      */
     color?: string;
 }
@@ -86,35 +71,28 @@ export interface IChordDiagramDataFields extends IFlowDiagramDataFields {
 export interface IChordDiagramProperties extends IFlowDiagramProperties {
     /**
      * Radius of the Chord. Absolute or relative.
-     *
-     * @type {number | Percent}
      */
     radius?: number | Percent;
     /**
      * Inner radius of the Chord nodes. Absolute or relative. Negative value means that the inner radius will be calculated from the radius, not from the center.
-     *
-     * @type {number | Percent}
      */
     innerRadius?: number | Percent;
     /**
      * An angle radar face starts on. (degrees)
      *
      * @default -90
-     * @type {number}
      */
     startAngle?: number;
     /**
      * An angle radar face ends on. (degrees)
      *
      * @default 270
-     * @type {number}
      */
     endAngle?: number;
     /**
      * If you set this to true, all the lines will be of the same width.
      *
      * @default false
-     * @type {boolean}
      */
     nonRibbon?: boolean;
 }
@@ -147,32 +125,22 @@ export interface IChordDiagramAdapters extends IFlowDiagramAdapters, IChordDiagr
 export declare class ChordDiagram extends FlowDiagram {
     /**
      * Defines a type for the DataItem.
-     *
-     * @type {ChordDiagramDataItem}
      */
     _dataItem: ChordDiagramDataItem;
     /**
      * Defines available data fields.
-     *
-     * @type {IChordDiagramDataFields}
      */
     _dataFields: IChordDiagramDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IChordDiagramProperties}
      */
     _properties: IChordDiagramProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {SeriesAdapters}
      */
     _adapter: IChordDiagramAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IChordDiagramEvents}
      */
     _events: IChordDiagramEvents;
     /**
@@ -183,14 +151,12 @@ export declare class ChordDiagram extends FlowDiagram {
     nodes: DictionaryTemplate<string, ChordNode>;
     /**
      * An a link element, connecting two nodes.
-     * @type {ChordLink}
      */
     _link: ChordLink;
     /**
      * Sorted nodes iterator.
      *
      * @ignore
-     * @type {Iterator}
      */
     protected _sorted: $iter.Iterator<[string, ChordNode]>;
     /**
@@ -198,13 +164,10 @@ export declare class ChordDiagram extends FlowDiagram {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {number}
      */
     valueAngle: number;
     /**
      * A container for chord elemens.
-     *
-     * @type {Container}
      */
     chordContainer: Container;
     /**
@@ -228,11 +191,11 @@ export declare class ChordDiagram extends FlowDiagram {
     /**
      * Creates and returns a new data item.
      *
-     * @return {this} Data item
+     * @return Data item
      */
     protected createDataItem(): this["_dataItem"];
     /**
-     * @return {number} Start angle (degrees)
+     * @return Start angle (degrees)
      */
     /**
      * Starting angle of the Radar face. (degrees)
@@ -255,11 +218,11 @@ export declare class ChordDiagram extends FlowDiagram {
      * looks like a quarter of a circle.
      *
      * @default -90
-     * @param {number}  value  Start angle (degrees)
+     * @param value  Start angle (degrees)
      */
     startAngle: number;
     /**
-     * @return {number} End angle (degrees)
+     * @return End angle (degrees)
      */
     /**
      * Starting angle of the Radar face. (degrees)
@@ -282,39 +245,39 @@ export declare class ChordDiagram extends FlowDiagram {
      * looks like a quarter of a circle.
      *
      * @default -90
-     * @param {number}  value  End angle (degrees)
+     * @param value  End angle (degrees)
      */
     endAngle: number;
     /**
-     * @return {number} Outer radius
+     * @return Outer radius
      */
     /**
      * Outer radius of the Radar face.
      *
      * This can either be in absolute pixel value, or relative [[Percent]].
      *
-     * @param {number | Percent}  value  Outer radius
+     * @param value  Outer radius
      */
     radius: number | Percent;
     /**
-     * @return {number} Inner radius
+     * @return Inner radius
      */
     /**
      * Inner radius of the Chord nodes.
      *
      * This can either be in absolute pixel value, or relative [[Percent]].
      *
-     * @param {number | Percent}  value  Outer radius
+     * @param value  Outer radius
      */
     innerRadius: number | Percent;
     /**
-     * @return {boolean} Non-ribbon
+     * @return Non-ribbon
      */
     /**
      *
      * If you set this to true, all the lines will be of the same width. This is done by making middleLine of a ChordLink visible.
      *
-     * @param {boolean}  value
+     * @param value
      */
     nonRibbon: boolean;
     /**

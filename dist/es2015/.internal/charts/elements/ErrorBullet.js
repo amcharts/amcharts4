@@ -55,7 +55,7 @@ var ErrorBullet = /** @class */ (function (_super) {
      * Copies all proprities and related stuff from another instance of
      * [[ErrorBullet]].
      *
-     * @param {this}  source  Source element
+     * @param source  Source element
      */
     ErrorBullet.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

@@ -51,32 +51,22 @@ export interface IFunnelTickAdapters extends ITickAdapters, IFunnelTickPropertie
 export declare class FunnelTick extends Tick {
     /**
      * Defines available properties.
-     *
-     * @type {IFunnelTickProperties}
      */
     _properties: IFunnelTickProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IFunnelTickAdapters}
      */
     _adapter: IFunnelTickAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IFunnelTickEvents}
      */
     _events: IFunnelTickEvents;
     /**
      * A label element this tick is attached to.
-     *
-     * @type {MutableValueDisposer}
      */
     protected _label: MutableValueDisposer<Label>;
     /**
      * A slice element this tick is attached to.
-     *
-     * @type {MutableValueDisposer}
      */
     protected _slice: MutableValueDisposer<FunnelSlice>;
     /**
@@ -90,25 +80,25 @@ export declare class FunnelTick extends Tick {
      */
     draw(): void;
     /**
-     * @return {FunnelSlice} FunnelSlice
+     * @return FunnelSlice
      */
     /**
      * [[FunnelSlice]] element tick is attached to.
      *
-     * @param {FunnelSlice}  slice  Slice
+     * @param slice  Slice
      */
     slice: FunnelSlice;
     /**
-     * @return {AxisLabelCircular} Label
+     * @return Label
      */
     /**
      * [[Label]] element tick is attached to.
      *
-     * @param {Label}  label  Label
+     * @param label  Label
      */
     label: Label;
     /**
-     * @return {number} Location (0-1)
+     * @return Location (0-1)
      */
     /**
      * A relative horizontal position within target element a tick is pointing
@@ -120,11 +110,11 @@ export declare class FunnelTick extends Tick {
      * of the slice), or outside 0-1 range, which will put tick anchor position
      * outside target element.
      *
-     * @param {number}  value  Location (0-1)
+     * @param value  Location (0-1)
      */
     locationX: number;
     /**
-     * @return {number} Location (0-1)
+     * @return Location (0-1)
      */
     /**
      * A relative vertical position within target element a tick is pointing
@@ -136,7 +126,7 @@ export declare class FunnelTick extends Tick {
      * of the slice), or outside 0-1 range, which will put tick anchor position
      * outside target element.
      *
-     * @param {number}  value  Location (0-1)
+     * @param value  Location (0-1)
      */
     locationY: number;
 }

@@ -59,36 +59,26 @@ export class PieTick extends Tick {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPieTickProperties}
 	 */
 	public _properties!: IPieTickProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IPieTickAdapters}
 	 */
 	public _adapter!: IPieTickAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPieTickEvents}
 	 */
 	public _events!: IPieTickEvents;
 
 	/**
 	 * A label element this tick is attached to.
-	 *
-	 * @type {MutableValueDisposer}
 	 */
 	protected _label = new MutableValueDisposer<AxisLabelCircular>();
 
 	/**
 	 * A slice element this tick is attached to.
-	 *
-	 * @type {MutableValueDisposer}
 	 */
 	protected _slice = new MutableValueDisposer<Slice>();
 
@@ -156,7 +146,7 @@ export class PieTick extends Tick {
 	/**
 	 * Slice element tick is attached to.
 	 *
-	 * @param {Slice}  slice  Slice
+	 * @param slice  Slice
 	 */
 	public set slice(slice: Slice) {
 		this._slice.set(slice, new MultiDisposer([
@@ -166,7 +156,7 @@ export class PieTick extends Tick {
 	}
 
 	/**
-	 * @return {Slice} Slice
+	 * @return Slice
 	 */
 	public get slice(): Slice {
 		return this._slice.get();
@@ -175,14 +165,14 @@ export class PieTick extends Tick {
 	/**
 	 * Label element tick is attached to.
 	 *
-	 * @param {AxisLabelCircular}  label  Label
+	 * @param label  Label
 	 */
 	public set label(label: AxisLabelCircular) {
 		this._label.set(label, label.events.on("transformed", this.invalidate, this, false));
 	}
 
 	/**
-	 * @return {AxisLabelCircular} Label
+	 * @return Label
 	 */
 	public get label(): AxisLabelCircular {
 		return this._label.get();

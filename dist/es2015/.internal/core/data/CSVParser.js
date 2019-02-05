@@ -26,15 +26,12 @@ var CSVParser = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         /**
          * Content-type suitable for CSV format.
-         *
-         * @type {string}
          */
         _this.contentType = "text/csv";
         /**
          * Parser options.
          *
          * @see {@link ICSVOptions} for description of each option
-         * @type {ICSVOptions}
          */
         _this.options = {
             delimiter: "",
@@ -48,8 +45,8 @@ var CSVParser = /** @class */ (function (_super) {
     /**
      * Tests if the format is CSV.
      *
-     * @param  {string}   data  Source data
-     * @return {boolean}        Is it CSV?
+     * @param data  Source data
+     * @return Is it CSV?
      */
     CSVParser.isCSV = function (data) {
         return CSVParser.getDelimiterFromData(data) ? true : false;
@@ -57,8 +54,8 @@ var CSVParser = /** @class */ (function (_super) {
     /**
      * Tries to determine a column separator.
      *
-     * @param  {string}  data  Source data
-     * @return {string}        Separator
+     * @param data  Source data
+     * @return Separator
      */
     CSVParser.getDelimiterFromData = function (data) {
         // We're going to take first few lines of the CSV with different
@@ -102,8 +99,8 @@ var CSVParser = /** @class */ (function (_super) {
     /**
      * Parses and returns data.
      *
-     * @param  {string}  data  Unparsed data
-     * @return {any}           Parsed data
+     * @param data  Unparsed data
+     * @return Parsed data
      */
     CSVParser.prototype.parse = function (csv) {
         // Check if we have delimiter set
@@ -168,9 +165,9 @@ var CSVParser = /** @class */ (function (_super) {
      * The functionality of this function is taken from here:
      * http://www.bennadel.com/blog/1504-ask-ben-parsing-csv-strings-with-javascript-exec-regular-expression-command.htm
      *
-     * @param  {string}  data       Source data
-     * @param  {string}  delimiter  Column delimiter
-     * @return {any[]}              Parsed array
+     * @param data       Source data
+     * @param delimiter  Column delimiter
+     * @return Parsed array
      */
     CSVParser.prototype.CSVToArray = function (data, delimiter) {
         // Check to see if the delimiter is defined. If not,

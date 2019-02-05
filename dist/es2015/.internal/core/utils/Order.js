@@ -6,8 +6,8 @@
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {Ordering}  a  [description]
- * @return {Ordering}     [description]
+ * @param a  [description]
+ * @return [description]
  */
 export function reverse(a) {
     switch (a) {
@@ -24,9 +24,9 @@ export function reverse(a) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {Ordering}  a  Item 1
- * @param  {Ordering}  b  Item 2
- * @return {Ordering}     [description]
+ * @param a  Item 1
+ * @param b  Item 2
+ * @return [description]
  */
 export function or(a, b) {
     if (a === 0) {

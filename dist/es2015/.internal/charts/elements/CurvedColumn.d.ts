@@ -27,20 +27,16 @@ export interface ICurvedColumnProperties extends IColumnProperties {
      * Used for smoothed lines.
      *
      * @default 1
-     * @type {number}
      */
     tensionX?: number;
     /**
      * Tension
-     *
-     * @type {number}
      */
     tension?: number;
     /**
      * Orientation of the column
      *
      * @default "vertical"
-     * @type {Orientation}
      */
     orientation?: Orientation;
 }
@@ -72,26 +68,18 @@ export interface ICurvedColumnAdapters extends IColumnAdapters, ICurvedColumnPro
 export declare class CurvedColumn extends Column {
     /**
      * Defines available properties.
-     *
-     * @type {ICurvedColumnProperties}
      */
     _properties: ICurvedColumnProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ICurvedColumnAdapters}
      */
     _adapter: ICurvedColumnAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ICurvedColumnEvents}
      */
     _events: ICurvedColumnEvents;
     /**
      * The element that holds curved column shape.
-     *
-     * @type {Sprite}
      */
     curvedColumn: Sprite;
     /**
@@ -114,11 +102,11 @@ export declare class CurvedColumn extends Column {
     /**
      * Copies all parameters from another [[CurvedColumn]].
      *
-     * @param {CurvedColumn}  source  Source CurvedColumn
+     * @param source  Source CurvedColumn
      */
     copyFrom(source: this): void;
     /**
-     * @return {number} Tension (0-1)
+     * @return Tension (0-1)
      */
     /**
      * Horizontal tension of the curve.
@@ -131,11 +119,11 @@ export declare class CurvedColumn extends Column {
      * The smaller the tension th wider the column will be.
      *
      * @default 0.7
-     * @param {number}  value tension (0-1)
+     * @param value tension (0-1)
      */
     tension: number;
     /**
-     * @type {Orientation} Orientation
+     * Orientation
      */
     /**
      * Orientation of the column.
@@ -143,7 +131,7 @@ export declare class CurvedColumn extends Column {
      * Available options: "vertical" (default) and "horizontal".
      *
      * @default "vertical"
-     * @param {Orientation}  value  Orientation
+     * @param value  Orientation
      */
     orientation: Orientation;
 }

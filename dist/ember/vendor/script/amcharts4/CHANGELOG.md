@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.1.2] - 2019-02-05
+
+### Added
+- New `Sprite` property `strokeDashoffset` added. Can be used in conjunction with `strokeDasharray`.
+- `Label` has two new properties: `path` and `locationOnPath`. If set, will layout the SVG text along a curvature of the SVG path. HTML and multi-line text is not supported.
+- `AxisLabelCircular` new property `bent` added. If set to `true`, the label will be bent to follow the curvature of the circle. Distance from the circle can be adjusted using `radius` and `label.paddingBottom`. For `PieSeries` the alignLabels need to to be set to `false` for this feature to work.
+
+### Fixed
+- JSON: Having property values with both percent and minus signs in them, was resulting in error.
+- "Z" code in `DateFormatter` was not taking UTC setting into account.
+- Exporting SVG with Unicode characters in Edge/IE was resulting in invalid SVG.
+- Fixed JavaScript error which used happen when disposing chart/changing data in some cases.
+- Gantt chart sometimes was not displaying first/last data item.
+- Newly added `MapLine` elements were not respecting `nonScalingStroke = true` until zoom level changed.
+- Series' tooltip was not always visible with `DateAxis`.
+
+
 ## [4.1.1] - 2019-01-31
 
 ### Added

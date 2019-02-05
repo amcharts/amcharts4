@@ -31,7 +31,6 @@ export interface IRoundedRectangleProperties extends ISpriteProperties {
 	 * Radius of the top-left corner in pixels.
 	 *
 	 * @default 3
-	 * @type {number}
 	 */
 	cornerRadiusTopLeft?: number;
 
@@ -39,7 +38,6 @@ export interface IRoundedRectangleProperties extends ISpriteProperties {
 	 * Radius of the top-right corner in pixels.
 	 *
 	 * @default 3
-	 * @type {number}
 	 */
 	cornerRadiusTopRight?: number;
 
@@ -47,7 +45,6 @@ export interface IRoundedRectangleProperties extends ISpriteProperties {
 	 * Radius of the bottom-right corner in pixels.
 	 *
 	 * @default 3
-	 * @type {number}
 	 */
 	cornerRadiusBottomRight?: number;
 
@@ -55,7 +52,6 @@ export interface IRoundedRectangleProperties extends ISpriteProperties {
 	 * Radius of the bottom-left corner in pixels.
 	 *
 	 * @default 3
-	 * @type {number}
 	 */
 	cornerRadiusBottomLeft?: number;
 
@@ -91,22 +87,16 @@ export class RoundedRectangle extends Sprite {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IRoundedRectangleProperties}
 	 */
 	public _properties!: IRoundedRectangleProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IRoundedRectangleAdapters}
 	 */
 	public _adapter!: IRoundedRectangleAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IRoundedRectangleEvents}
 	 */
 	public _events!: IRoundedRectangleEvents;
 
@@ -166,10 +156,10 @@ export class RoundedRectangle extends Sprite {
 	 *
 	 * All numbers are in pixels.
 	 *
-	 * @param {number}  tl  Top-left corner
-	 * @param {number}  tr  Top-right corner
-	 * @param {number}  bl  Bottom-left corner
-	 * @param {number}  br  Bottom-right corner
+	 * @param tl  Top-left corner
+	 * @param tr  Top-right corner
+	 * @param bl  Bottom-left corner
+	 * @param br  Bottom-right corner
 	 */
 	public cornerRadius(tl: number, tr: number, bl: number, br: number) {
 		this.cornerRadiusTopLeft = tl;
@@ -182,14 +172,14 @@ export class RoundedRectangle extends Sprite {
 	 * Radius of the top-left corner in pixels.
 	 *
 	 * @default 3
-	 * @param {number}  value  Radius (px)
+	 * @param value  Radius (px)
 	 */
 	public set cornerRadiusTopLeft(value: number) {
 		this.setPropertyValue("cornerRadiusTopLeft", value, true);
 	}
 
 	/**
-	 * @return {number} Radius (px)
+	 * @return Radius (px)
 	 */
 	public get cornerRadiusTopLeft(): number {
 		return this.getPropertyValue("cornerRadiusTopLeft");
@@ -199,14 +189,14 @@ export class RoundedRectangle extends Sprite {
 	 * Radius of the top-right corner in pixels.
 	 *
 	 * @default 3
-	 * @param {number}  value  Radius (px)
+	 * @param value  Radius (px)
 	 */
 	public set cornerRadiusTopRight(value: number) {
 		this.setPropertyValue("cornerRadiusTopRight", value, true);
 	}
 
 	/**
-	 * @return {number} Radius (px)
+	 * @return Radius (px)
 	 */
 	public get cornerRadiusTopRight(): number {
 		return this.getPropertyValue("cornerRadiusTopRight");
@@ -216,14 +206,14 @@ export class RoundedRectangle extends Sprite {
 	 * Radius of the bottom-right corner in pixels.
 	 *
 	 * @default 3
-	 * @param {number}  value  Radius (px)
+	 * @param value  Radius (px)
 	 */
 	public set cornerRadiusBottomRight(value: number) {
 		this.setPropertyValue("cornerRadiusBottomRight", value, true);
 	}
 
 	/**
-	 * @return {number} Radius (px)
+	 * @return Radius (px)
 	 */
 	public get cornerRadiusBottomRight(): number {
 		return this.getPropertyValue("cornerRadiusBottomRight");
@@ -233,14 +223,14 @@ export class RoundedRectangle extends Sprite {
 	 * Radius of the bottom-left corner in pixels.
 	 *
 	 * @default 3
-	 * @param {number}  value  Radius (px)
+	 * @param value  Radius (px)
 	 */
 	public set cornerRadiusBottomLeft(value: number) {
 		this.setPropertyValue("cornerRadiusBottomLeft", value, true);
 	}
 
 	/**
-	 * @return {number} Radius (px)
+	 * @return Radius (px)
 	 */
 	public get cornerRadiusBottomLeft(): number {
 		return this.getPropertyValue("cornerRadiusBottomLeft");
@@ -252,14 +242,13 @@ export class RoundedRectangle extends Sprite {
 	 * @ignore Exclude from docs
 	 */
 	public measureElement(): void {
-		
-	}	
+
+	}
 
 	/**
 	 * Returns bounding box (square) for this element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {IRectangle}
 	 */
 	public get bbox(): IRectangle {
 		if (this.definedBBox) {
@@ -277,7 +266,7 @@ export class RoundedRectangle extends Sprite {
 		else {
 			return { x: 0, y: 0, width: 0, height: 0 };
 		}
-	}	
+	}
 
 }
 

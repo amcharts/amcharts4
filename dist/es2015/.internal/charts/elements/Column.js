@@ -81,7 +81,7 @@ var Column = /** @class */ (function (_super) {
     /**
      * Copies all parameters from another [[Column]].
      *
-     * @param {Column} source Source Column
+     * @param source Source Column
      */
     Column.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
@@ -94,7 +94,6 @@ var Column = /** @class */ (function (_super) {
          * Returns bounding box (square) for this element.
          *
          * @ignore Exclude from docs
-         * @type {IRectangle}
          */
         get: function () {
             if (this.definedBBox) {

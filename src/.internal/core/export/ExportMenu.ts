@@ -41,22 +41,16 @@ export interface IExportMenuItem {
 
 	/**
 	 * Item type, usually an export format.
-	 *
-	 * @type {string}
 	 */
 	type?: keyof IExportOptions;
 
 	/**
 	 * Label to display in the menu.
-	 *
-	 * @type {string}
 	 */
 	label?: string;
 
 	/**
 	 * Export format. (optional)
-	 *
-	 * @type {string}
 	 */
 	format?: string;
 
@@ -64,7 +58,6 @@ export interface IExportMenuItem {
 	 * Menu item options.
 	 *
 	 * @see {@link IExportOptions}
-	 * @type {Object}
 	 */
 	options?: IExportOptions[keyof IExportOptions];
 
@@ -75,7 +68,6 @@ export interface IExportMenuItem {
 	 * order.
 	 *
 	 * @ignore Exclude from docs (this feature is not yet implemented)
-	 * @type {number}
 	 */
 	priority?: number;
 
@@ -83,8 +75,6 @@ export interface IExportMenuItem {
 	 * An array of [[IExportMenuItem]] items, to construct a sub-menu out of.
 	 *
 	 * An Export menu can have any number of nesting levels.
-	 *
-	 * @type {Array<IExportMenuItem>}
 	 */
 	menu?: Array<IExportMenuItem>;
 
@@ -95,14 +85,11 @@ export interface IExportMenuItem {
 	 * This is usually populated by [[Export]]'s `supported` Adapter.
 	 *
 	 * @see {@link IExportAdapters}
-	 * @type {boolean}
 	 */
 	unsupported?: boolean
 
 	/**
 	 * An [[InteractionObject]] representation of the menu item.
-	 *
-	 * @type {InteractionObject}
 	 */
 	interactions?: InteractionObject;
 
@@ -117,7 +104,6 @@ export interface IExportMenuItem {
 	 * Used to delay auto-closing of the menu when it is no longer hovered.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {IDisposer}
 	 */
 	closeTimeout?: IDisposer;
 
@@ -154,8 +140,6 @@ export interface IExportMenuEvents {
 
 	/**
 	 * Invoked when ENTER key is pressed when certain menu item is in focus.
-	 *
-	 * @type {KeyboardEvent}
 	 */
 	enter: {
 		branch: IExportMenuItem;
@@ -291,30 +275,22 @@ export class ExportMenu extends Validatable {
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IExportMenuEvents}
 	 */
 	public _events!: IExportMenuEvents;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IExportAdapters}
 	 */
 	public _adapter!: IExportMenuAdapters;
 
 	/**
 	 * An [[Adapter]].
-	 *
-	 * @type {Adapter<ExportMenu, IExportMenuAdapters>}
 	 */
 	public adapter: Adapter<ExportMenu, IExportMenuAdapters> = new Adapter<ExportMenu, IExportMenuAdapters>(this);
 
 	/**
 	 * How many milliseconds to hold menu/sub-menu open after it loses focus or
 	 * hover, before auto-closing it.
-	 *
-	 * @type {number}
 	 */
 	public closeDelay: number = 1000;
 
@@ -322,7 +298,6 @@ export class ExportMenu extends Validatable {
 	 * An instance of [[Language]].
 	 *
 	 * @ignore Exclude from docs
-	 * @type {MutableValueDisposer<Language>}
 	 */
 	protected _language = new MutableValueDisposer<Language>();
 
@@ -330,7 +305,6 @@ export class ExportMenu extends Validatable {
 	 * Reference to DOM element that holds Export menu.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Optional<HTMLElement>}
 	 */
 	protected _container: $type.Optional<HTMLElement>;
 
@@ -338,7 +312,6 @@ export class ExportMenu extends Validatable {
 	 * Menu element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Optional<HTMLElement>}
 	 */
 	protected _element: $type.Optional<HTMLElement>;
 
@@ -346,7 +319,6 @@ export class ExportMenu extends Validatable {
 	 * Currently selected menu item.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Optional<IExportMenuItem>}
 	 */
 	protected _currentSelection: $type.Optional<IExportMenuItem>;
 
@@ -354,7 +326,6 @@ export class ExportMenu extends Validatable {
 	 * What HTML tags to use to build menu.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {string}
 	 */
 	protected _menuTag: "ul" | "div" = "ul";
 
@@ -362,7 +333,6 @@ export class ExportMenu extends Validatable {
 	 * Which tag to use to enclose individual menu items.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {string}
 	 */
 	protected _itemTag: "li" | "div" = "li";
 
@@ -370,7 +340,6 @@ export class ExportMenu extends Validatable {
 	 * Tag to wrap menu item labels in.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {string}
 	 */
 	protected _labelTag: "a" = "a";
 
@@ -378,7 +347,6 @@ export class ExportMenu extends Validatable {
 	 * Prefix for class names applied to menu elements.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {string}
 	 */
 	protected _classPrefix: string = "amexport";
 
@@ -387,7 +355,6 @@ export class ExportMenu extends Validatable {
 	 * instantiated.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {boolean}
 	 */
 	protected _defaultStyles: boolean = true;
 
@@ -395,7 +362,6 @@ export class ExportMenu extends Validatable {
 	 * Horizontal positioning.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Align}
 	 */
 	protected _align: Align = "right";
 
@@ -403,7 +369,6 @@ export class ExportMenu extends Validatable {
 	 * Vertical positioning.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {VerticalAlign}
 	 */
 	protected _verticalAlign: VerticalAlign = "top";
 
@@ -411,7 +376,6 @@ export class ExportMenu extends Validatable {
 	 * A tabindex to apply to Export Menu.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {number}
 	 */
 	protected _tabindex: number = 0;
 
@@ -419,7 +383,6 @@ export class ExportMenu extends Validatable {
 	 * Whether next menu close event should be ignored.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {boolean}
 	 */
 	protected _ignoreNextClose: boolean = false;
 
@@ -427,7 +390,6 @@ export class ExportMenu extends Validatable {
 	 * Default menu items.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Array<IExportMenuItem>}
 	 */
 	protected _items: Array<IExportMenuItem> = [
 		{
@@ -552,9 +514,9 @@ export class ExportMenu extends Validatable {
 	 * building multi-level menus.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {HTMLElement}     container Container to put branch elements in
-	 * @param {IExportMenuItem} branch    Menu item
-	 * @param {number}          level     Current nesting level
+	 * @param container Container to put branch elements in
+	 * @param branch    Menu item
+	 * @param level     Current nesting level
 	 */
 	protected drawBranch(container: HTMLElement, branch: IExportMenuItem, level: number): void {
 
@@ -730,8 +692,8 @@ export class ExportMenu extends Validatable {
 	 * tag.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {number}       level  Current nesting level
-	 * @return {HTMLElement}         HTML element reference
+	 * @param level  Current nesting level
+	 * @return HTML element reference
 	 */
 	public createMenuElement(level: number): HTMLElement {
 		let element: HTMLElement = document.createElement(this.menuTag);
@@ -748,8 +710,8 @@ export class ExportMenu extends Validatable {
 	 * Generates a class name for the menu element based on its nesting level.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {number}  level  Current nesting level
-	 * @return {string}         Class name(s)
+	 * @param level  Current nesting level
+	 * @return Class name(s)
 	 */
 	public getMenuItemClass(level: number): string {
 		let className = this.classPrefix + "-menu " + this.classPrefix + "-menu-level-" + level;
@@ -769,9 +731,9 @@ export class ExportMenu extends Validatable {
 	 * into this element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {number}       level  Current nesting level
-	 * @param  {string}       type   Type of the menu item
-	 * @return {HTMLElement}         HTML element reference
+	 * @param level  Current nesting level
+	 * @param type   Type of the menu item
+	 * @return HTML element reference
 	 */
 	public createItemElement(level: number, type?: keyof IExportOptions): HTMLElement {
 		let element: HTMLElement = document.createElement(this.itemTag);
@@ -791,9 +753,9 @@ export class ExportMenu extends Validatable {
 	 * content.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {number}       level  Current nesting level
-	 * @param  {string}       type   Type of the menu item
-	 * @return {HTMLElement}         An HTML Element
+	 * @param level  Current nesting level
+	 * @param type   Type of the menu item
+	 * @return An HTML Element
 	 */
 	public createLabelElement(level: number, type?: keyof IExportOptions): HTMLElement {
 		let element: HTMLElement = document.createElement(this.labelTag);
@@ -831,8 +793,8 @@ export class ExportMenu extends Validatable {
 	 * Checks whether menu item type is supposed to be clickable.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {string}   type  Menu item type
-	 * @return {boolean}        Is clickable?
+	 * @param type  Menu item type
+	 * @return Is clickable?
 	 */
 	public typeClickable(type: keyof IExportOptions | undefined | null): type is keyof IExportOptions {
 		return $type.hasValue(type);
@@ -842,8 +804,8 @@ export class ExportMenu extends Validatable {
 	 * Checks whether menu item has any sub-items.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {IExportMenuItem}  branch  A menu item
-	 * @return {boolean}                  Has sub-items?
+	 * @param branch  A menu item
+	 * @return Has sub-items?
 	 */
 	public hasSubMenu(branch: IExportMenuItem): boolean {
 		return (branch.menu && branch.menu.length) ? true : false;
@@ -853,8 +815,8 @@ export class ExportMenu extends Validatable {
 	 * Returns sub-items (if they exist).
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {IExportMenuItem}                   branch  A menu item
-	 * @return {Optional<Array<IExportMenuItem>>}          Submenus
+	 * @param branch  A menu item
+	 * @return Submenus
 	 */
 	public getSubMenu(branch: IExportMenuItem): $type.Optional<Array<IExportMenuItem>> {
 		if (branch.menu && branch.menu.length) {
@@ -866,9 +828,9 @@ export class ExportMenu extends Validatable {
 	 * Generates and returns an applicable label to be used for screen readers.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {IExportMenuItem}  item   A menu item instance
-	 * @param  {string}           label  Current label
-	 * @return {string}                  Reader text
+	 * @param item   A menu item instance
+	 * @param label  Current label
+	 * @return Reader text
 	 */
 	public getReaderLabel(branch: IExportMenuItem, label: string): string {
 
@@ -902,7 +864,7 @@ export class ExportMenu extends Validatable {
 	 * A container must be an HTML element, because menu itself is HTML, and
 	 * cannot be placed into SVG.
 	 *
-	 * @param {Optional<HTMLElement>} container Reference to container element
+	 * @param container Reference to container element
 	 * @todo Check if menu is already build. If it is, just move it to a new container
 	 */
 	public set container(container: $type.Optional<HTMLElement>) {
@@ -911,7 +873,7 @@ export class ExportMenu extends Validatable {
 	}
 
 	/**
-	 * @return {HTMLElement} Container
+	 * @return Container
 	 */
 	public get container(): $type.Optional<HTMLElement> {
 		return this._container;
@@ -920,7 +882,7 @@ export class ExportMenu extends Validatable {
 	/**
 	 * A list of menu items. Can be nested.
 	 *
-	 * @param {Array<IExportMenuItem>}  items  Menu items
+	 * @param items  Menu items
 	 */
 	public set items(items: Array<IExportMenuItem>) {
 		this._items = items;
@@ -928,7 +890,7 @@ export class ExportMenu extends Validatable {
 	}
 
 	/**
-	 * @return {Array<IExportMenuItem>} Menu items
+	 * @return Menu items
 	 */
 	public get items(): Array<IExportMenuItem> {
 		return this._items;
@@ -944,7 +906,7 @@ export class ExportMenu extends Validatable {
 	 * If set to "div", menu items will be wrapped in `<div>` tags.
 	 *
 	 * @default "ul"
-	 * @param {"ul" | "div"} tag Tag to use for menu
+	 * @param tag Tag to use for menu
 	 */
 	public set tag(tag: "ul" | "div") {
 		this._menuTag = tag;
@@ -956,7 +918,7 @@ export class ExportMenu extends Validatable {
 	 * Returns current menu tag.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {string} Menu tag (item that contains sub-items)
+	 * @return Menu tag (item that contains sub-items)
 	 */
 	public get menuTag(): string {
 		return this.adapter.apply("menuTag", {
@@ -968,7 +930,7 @@ export class ExportMenu extends Validatable {
 	 * Returns tag to wrap items into.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {string} Item tag
+	 * @return Item tag
 	 */
 	public get itemTag(): string {
 		return this.adapter.apply("itemTag", {
@@ -980,7 +942,7 @@ export class ExportMenu extends Validatable {
 	 * Returns menu label tag.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {string} Label tag
+	 * @return Label tag
 	 */
 	public get labelTag(): string {
 		return this.adapter.apply("labelTag", {
@@ -991,7 +953,7 @@ export class ExportMenu extends Validatable {
 	/**
 	 * A horizontal alignment for the menu placement.
 	 *
-	 * @param {Align} value Horizontal alignment
+	 * @param value Horizontal alignment
 	 */
 	public set align(value: Align) {
 		this._align = value;
@@ -999,7 +961,7 @@ export class ExportMenu extends Validatable {
 	}
 
 	/**
-	 * @return {Align} Horizontal alignment
+	 * @return Horizontal alignment
 	 */
 	public get align(): Align {
 		return this.adapter.apply("align", {
@@ -1010,7 +972,7 @@ export class ExportMenu extends Validatable {
 	/**
 	 * A vertical alignment for the menu placement.
 	 *
-	 * @param {VerticalAlign} value Vertical alignment
+	 * @param value Vertical alignment
 	 */
 	public set verticalAlign(value: VerticalAlign) {
 		this._verticalAlign = value;
@@ -1018,7 +980,7 @@ export class ExportMenu extends Validatable {
 	}
 
 	/**
-	 * @return {VerticalAlign} Vertical alignment
+	 * @return Vertical alignment
 	 */
 	public get verticalAlign(): VerticalAlign {
 		return this.adapter.apply("verticalAlign", {
@@ -1030,7 +992,7 @@ export class ExportMenu extends Validatable {
 	 * Class name prefix.
 	 *
 	 * @default "amexport"
-	 * @param {string} value Class name prefix
+	 * @param value Class name prefix
 	 */
 	public set classPrefix(value: string) {
 		this._classPrefix = value;
@@ -1038,7 +1000,7 @@ export class ExportMenu extends Validatable {
 	}
 
 	/**
-	 * @return {string} Class name prefix
+	 * @return Class name prefix
 	 */
 	public get classPrefix(): string {
 		return this.adapter.apply("classPrefix", {
@@ -1053,7 +1015,7 @@ export class ExportMenu extends Validatable {
 	 * external CSS.
 	 *
 	 * @default true
-	 * @param {string} Should ExportMenu load its own CSS?
+	 * @param Should ExportMenu load its own CSS?
 	 */
 	public set defaultStyles(value: boolean) {
 		if (this._defaultStyles != value) {
@@ -1066,7 +1028,7 @@ export class ExportMenu extends Validatable {
 	}
 
 	/**
-	 * @return {boolean} Should ExportMenu load its own CSS?
+	 * @return Should ExportMenu load its own CSS?
 	 */
 	public get defaultStyles(): boolean {
 		return this.adapter.apply("defaultStyles", {
@@ -1093,7 +1055,7 @@ export class ExportMenu extends Validatable {
 	 * Tab index will influence the order in which elements on the chart and
 	 * the whole page are selected when pressing TAB key.
 	 *
-	 * @param {number} value Tab index
+	 * @param value Tab index
 	 */
 	public set tabindex(value: number) {
 		this._tabindex = value;
@@ -1101,7 +1063,7 @@ export class ExportMenu extends Validatable {
 	}
 
 	/**
-	 * @return {number} Tab index
+	 * @return Tab index
 	 */
 	public get tabindex(): number {
 		return this.adapter.apply("tabindex", {
@@ -1112,7 +1074,7 @@ export class ExportMenu extends Validatable {
 	/**
 	 * A [[Language]] instance.
 	 *
-	 * @param {Language} value An instance of [[Language]]
+	 * @param value An instance of [[Language]]
 	 */
 	public set language(value: Language) {
 		this._language.set(value, value.events.on("localechanged", (ev) => {
@@ -1122,7 +1084,7 @@ export class ExportMenu extends Validatable {
 	}
 
 	/**
-	 * @return {Language} A [[Language]] instance to be used
+	 * @return A [[Language]] instance to be used
 	 */
 	public get language(): Language {
 		let language = this._language.get();
@@ -1182,7 +1144,7 @@ export class ExportMenu extends Validatable {
 	 * Handles closing of currently open branch.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IExportMenuItem} branch Branch to select
+	 * @param branch Branch to select
 	 */
 	public selectBranch(branch: IExportMenuItem): void {
 
@@ -1231,8 +1193,8 @@ export class ExportMenu extends Validatable {
 	 * Unselects a branch. Also selects a branch one level up if necessary.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IExportMenuItem} branch Branch to unselect
-	 * @param {boolean}         simple If `true`, only the branch will be unselected without selecting parent branch
+	 * @param branch Branch to unselect
+	 * @param simple If `true`, only the branch will be unselected without selecting parent branch
 	 */
 	public unselectBranch(branch: IExportMenuItem, simple?: boolean): void {
 
@@ -1260,8 +1222,8 @@ export class ExportMenu extends Validatable {
 	 * place if the branch or its children regain focus.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IExportMenuItem} branch Branch to unselect
-	 * @param {boolean}         simple If `true`, only the branch will be unselected without selecting parent branch
+	 * @param branch Branch to unselect
+	 * @param simple If `true`, only the branch will be unselected without selecting parent branch
 	 */
 	public delayUnselectBranch(branch: IExportMenuItem, simple?: boolean): void {
 
@@ -1290,7 +1252,7 @@ export class ExportMenu extends Validatable {
 	 * Navigates the menu based on which direction kayboard key was pressed.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {KeyboardKeys} key A key that was pressed
+	 * @param key A key that was pressed
 	 */
 	public moveSelection(key: KeyboardKeys): void {
 
@@ -1336,8 +1298,8 @@ export class ExportMenu extends Validatable {
 	 * Returns all siblings of a menu item, including this same menu item.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {IExportMenuItem}         branch  Menu item
-	 * @return {Array<IExportMenuItem>}          List of sibling menu items
+	 * @param branch  Menu item
+	 * @return List of sibling menu items
 	 */
 	public getSiblings(branch: IExportMenuItem): Array<IExportMenuItem> {
 		let parent = this.getParentItem(branch);
@@ -1354,8 +1316,8 @@ export class ExportMenu extends Validatable {
 	 * Returns menu items parent item.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {IExportMenuItem}            branch  Menu item
-	 * @return {Optional<IExportMenuItem>}          Parent menu item
+	 * @param branch  Menu item
+	 * @return Parent menu item
 	 */
 	public getParentItem(branch: IExportMenuItem): $type.Optional<IExportMenuItem> {
 		if (branch.ascendants && branch.ascendants.length) {
@@ -1372,8 +1334,8 @@ export class ExportMenu extends Validatable {
 	 * returned. Unsupported menu items are skipped.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {IExportMenuItem}  branch  Menu item to search siblings for
-	 * @return {IExportMenuItem}          Menu item
+	 * @param branch  Menu item to search siblings for
+	 * @return Menu item
 	 */
 	public getNextSibling(branch: IExportMenuItem): IExportMenuItem {
 		let siblings = this.getSiblings(branch);
@@ -1393,8 +1355,8 @@ export class ExportMenu extends Validatable {
 	 * returned. Unsupported menu items are skipped.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {IExportMenuItem}  branch  Menu item to search siblings for
-	 * @return {IExportMenuItem}          Menu item
+	 * @param branch  Menu item to search siblings for
+	 * @return Menu item
 	 */
 	public getPrevSibling(branch: IExportMenuItem): IExportMenuItem {
 		let siblings = this.getSiblings(branch);
@@ -1412,7 +1374,7 @@ export class ExportMenu extends Validatable {
 	 * Attempts to set focus on particular menu element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IExportMenuItem} branch Menu item
+	 * @param branch Menu item
 	 */
 	public setFocus(branch: IExportMenuItem): void {
 		if (branch.interactions) {
@@ -1424,7 +1386,7 @@ export class ExportMenu extends Validatable {
 	 * Attempts to remove focus from the menu element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IExportMenuItem} branch Menu item
+	 * @param branch Menu item
 	 */
 	public setBlur(branch: IExportMenuItem): void {
 		if (branch.interactions) {

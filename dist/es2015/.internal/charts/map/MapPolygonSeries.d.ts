@@ -25,37 +25,26 @@ import { IGeoPoint } from "../../core/defs/IGeoPoint";
 export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
     /**
      * A [[MapPolygon]] element related to this data item.
-     *
-     * @type {MapPolygon}
      */
     protected _mapPolygon: MapPolygon;
     /**
      * A collection of X/Y coordinates for a single polygon.
-     *
-     * @type {number[][][]}
      */
     protected _polygon: number[][][];
     /**
      * A collection of X/Y coordinates for a multi-part polygon.
-     *
-     * @type {number[][][][]}
      */
     protected _multiPolygon: number[][][][];
     /**
      * A collection of lat/long coordinates for a single polygon.
-     *
-     * @type {IGeoPoint[][]}
      */
     protected _geoPolygon: IGeoPoint[][];
     /**
      * A collection of lat/long coordinates for a multi-part polygon.
-     *
-     * @type {IGeoPoint[][][]}
      */
     protected _multiGeoPolygon: IGeoPoint[][][];
     /**
      * Defines a type of [[Component]] this data item is used for
-     * @type {MapPolygonSeries}
      */
     _component: MapPolygonSeries;
     /**
@@ -66,11 +55,11 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      * A [[MapPolygon]] element related to this data item.
      *
      * @readonly
-     * @return {MapPolygon} Element
+     * @return Element
      */
     readonly mapPolygon: MapPolygon;
     /**
-     * @return {number[]} Coordinates
+     * @return Coordinates
      */
     /**
      * A collection of X/Y coordinates for a single polygon. E.g.:
@@ -87,11 +76,11 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      * ]
      * ```
      *
-     * @param {number[][][]}  polygon  Coordinates
+     * @param polygon  Coordinates
      */
     polygon: number[][][];
     /**
-     * @return {number[]} Coordinates
+     * @return Coordinates
      */
     /**
      * A collection of X/Y coordinates for a multi-part polygon. E.g.:
@@ -122,11 +111,11 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      * ]
      * ```
      *
-     * @param {number[][][]}  multiPolygon  Coordinates
+     * @param multiPolygon  Coordinates
      */
     multiPolygon: number[][][][];
     /**
-     * @return {IGeoPoint[]} Coordinates
+     * @return Coordinates
      */
     /**
      * A collection of lat/long coordinates for a single polygon. E.g.:
@@ -143,11 +132,11 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      * ```
      *
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.6} GeoJSON Polygon reference
-     * @param {IGeoPoint[][]}  geoPolygon  Coordinates
+     * @param geoPolygon  Coordinates
      */
     geoPolygon: IGeoPoint[][];
     /**
-     * @return {IGeoPoint[]} Coordinates
+     * @return Coordinates
      */
     /**
      * A collection of lat/long coordinates for a multi-part polygon. E.g.:
@@ -176,7 +165,7 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      * ```
      *
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.7} GeoJSON MultiPolygon reference
-     * @param {IGeoPoint[][][]}  multiGeoPolygon  Coordinates
+     * @param multiGeoPolygon  Coordinates
      */
     multiGeoPolygon: IGeoPoint[][][];
     /**
@@ -184,7 +173,7 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      * North, and South-most points.
      *
      * @ignore Exclude from docs
-     * @param {IGeoPoint[]}  geoPoints  Points of the element
+     * @param geoPoints  Points of the element
      */
     updateAreaExtremes(multiGeoPolygon: IGeoPoint[][][]): void;
 }
@@ -200,26 +189,18 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 export interface IMapPolygonSeriesDataFields extends IMapSeriesDataFields {
     /**
      * Field name that holds polygon pixels.
-     *
-     * @type {string}
      */
     polygon?: string;
     /**
      * Field name that holds multi-polygon pixels.
-     *
-     * @type {string}
      */
     multiPolygon?: string;
     /**
      * Field name that holds polygon data in Geo coordinates.
-     *
-     * @type {string}
      */
     geoPolygon?: string;
     /**
      * Field name that holds poly-polygon data in Geo coordinates.
-     *
-     * @type {string}
      */
     multiGeoPolygon?: string;
 }
@@ -256,44 +237,30 @@ export interface IMapPolygonSeriesAdapters extends IMapSeriesAdapters, IMapPolyg
 export declare class MapPolygonSeries extends MapSeries {
     /**
      * Defines available data fields.
-     *
-     * @type {IMapPolygonSeriesDataFields}
      */
     _dataFields: IMapPolygonSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IMapPolygonSeriesProperties}
      */
     _properties: IMapPolygonSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IMapPolygonSeriesAdapters}
      */
     _adapter: IMapPolygonSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IMapPolygonSeriesEvents}
      */
     _events: IMapPolygonSeriesEvents;
     /**
      * Defines the type of data item.
-     *
-     * @type {MapPolygonSeriesDataItem}
      */
     _dataItem: MapPolygonSeriesDataItem;
     /**
      * A related chart/map object, this element is drawn on.
-     *
-     * @type {MapChart}
      */
     chart: MapChart;
     /**
      * A list of map polygons in the series.
-     *
-     * @type {ListTemplate<MapImage>}
      */
     protected _mapPolygons: ListTemplate<MapPolygon>;
     /**
@@ -304,7 +271,7 @@ export declare class MapPolygonSeries extends MapSeries {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {MapPolygonSeriesDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
@@ -327,19 +294,19 @@ export declare class MapPolygonSeries extends MapSeries {
     /**
      * List of polygon elements in the series.
      *
-     * @return {ListTemplate<MapPolygon>} Polygon list
+     * @return Polygon list
      */
     readonly mapPolygons: ListTemplate<MapPolygon>;
     /**
      * returns MapPolygon by id in geoJSON file
-     * @param {string} polygon id
+     * @param polygon id
      * @return {MapPolygon}
      */
     getPolygonById(id: string): MapPolygon;
     /**
      * Copies all properties from another instance of [[Series]].
      *
-     * @param {Series}  source  Source series
+     * @param source  Source series
      */
     copyFrom(source: this): void;
 }

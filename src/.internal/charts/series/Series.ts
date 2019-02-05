@@ -73,7 +73,6 @@ export class SeriesDataItem extends DataItem {
 	 * At the moment this is only used by column series.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {number}
 	 */
 	public itemWidth: number;
 
@@ -86,7 +85,6 @@ export class SeriesDataItem extends DataItem {
 	 * At the moment this is only used by column series.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {number}
 	 */
 	public itemHeight: number;
 
@@ -95,14 +93,11 @@ export class SeriesDataItem extends DataItem {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo review description
-	 * @type {Dictionary}
 	 */
 	public bullets = new Dictionary<string, Bullet>();
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {Series}
 	 */
 	public _component!: Series;
 
@@ -133,14 +128,14 @@ export class SeriesDataItem extends DataItem {
 	/**
 	 * data items's numeric value.
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set value(value: number) {
 		this.setValue("value", value);
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get value(): number {
 		return this.values.value.value;
@@ -162,15 +157,11 @@ export class SeriesDataItem extends DataItem {
 export interface ISeriesDataFields extends IComponentDataFields {
 	/**
 	 * Name of the field in data that holds numeric value.
-	 *
-	 * @type {string}
 	 */
 	value?: string;
 
 	/**
 	 * Name of the field in data that holds boolean flag if item should be hidden.
-	 *
-	 * @type {string}
 	 */
 	hidden?: string;
 }
@@ -188,20 +179,17 @@ export interface ISeriesProperties extends IComponentProperties {
 	 * This allows to avoid crammed up graphs wil a lot of bullets.
 	 *
 	 * @default 0
-	 * @type {number}
 	 */
 	minBulletDistance?: number;
 
 	/**
 	 * Should series be hidden in chart's legend?
-	 * @type {boolean}
 	 */
 	hiddenInLegend?: boolean;
 
 	/**
 	 * Specifies if the series should be initially hidden.
 	 * @default false
-	 * @type {boolean}
 	 */
 	hidden?: boolean;
 }
@@ -239,15 +227,11 @@ export interface ISeriesAdapters extends IComponentAdapters, ISeriesProperties {
 
 	/**
 	 * Applied to the series name when it is retrieved.
-	 *
-	 * @type {string}
 	 */
 	name: string,
 
 	/**
 	 * Applied to the name used by screen readers.
-	 *
-	 * @type {string}
 	 */
 	itemReaderText: string
 
@@ -272,50 +256,36 @@ export class Series extends Component {
 
 	/**
 	 * Defines the type of data fields used for the series.
-	 *
-	 * @type {ISeriesDataFields}
 	 */
 	public _dataFields: ISeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IComponentProperties}
 	 */
 	public _properties!: ISeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ISeriesAdapters}
 	 */
 	public _adapter!: ISeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ISeriesEvents}
 	 */
 	public _events!: ISeriesEvents;
 
 	/**
 	 * Defines a type of data item used for the series.
-	 *
-	 * @type {SeriesDataItem}
 	 */
 	public _dataItem: SeriesDataItem;
 
 	/**
 	 * A name of the Series.
-	 *
-	 * @type {string}
 	 */
 	protected _title: string;
 
 	/**
 	 * A reference to the legend data item related to this series.
-	 *
-	 * @type {LegendDataItem<Series, ISeriesEvents>}
 	 */
 	protected _legendDataItem: LegendDataItem;
 
@@ -323,7 +293,6 @@ export class Series extends Component {
 	 * Should this series excluded from the axis scale calculations?
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	protected _ignoreMinMax: boolean = false;
 
@@ -331,7 +300,6 @@ export class Series extends Component {
 	 * Container series' elements are placed in.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Container}
 	 */
 	public mainContainer: Container;
 
@@ -339,14 +307,11 @@ export class Series extends Component {
 	 * Should series' bullets?
 	 *
 	 * @default true
-	 * @type {boolean}
 	 */
 	protected _showBullets: boolean = true;
 
 	/**
 	 * List of series' bullets.
-	 *
-	 * @type {ListTemplate<Bullet>}
 	 */
 	protected _bullets: ListTemplate<Bullet>;
 
@@ -354,14 +319,11 @@ export class Series extends Component {
 	 * Container bullets are placed in.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Container}
 	 */
 	public bulletsContainer: Container;
 
 	/**
 	 * A chart series belongs to.
-	 *
-	 * @type {SerialChart}
 	 */
 	public _chart: SerialChart;
 
@@ -369,14 +331,11 @@ export class Series extends Component {
 	 * A container axis ranges are placed in.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Container}
 	 */
 	public rangesContainer: Container;
 
 	/**
 	 * A list of axis ranges for this series.
-	 *
-	 * @type {List<AxisDataItem>}
 	 */
 	public axisRanges: List<AxisDataItem>;
 
@@ -387,29 +346,21 @@ export class Series extends Component {
 
 	/**
 	 * Lowest overal values by type.
-	 *
-	 * @type {Dictionary}
 	 */
 	protected _tmin = new Dictionary<string, number>();
 
 	/**
 	 * Highest overal values by type.
-	 *
-	 * @type {Dictionary}
 	 */
 	protected _tmax = new Dictionary<string, number>();
 
 	/**
 	 * Lowest values in current selection by type.
-	 *
-	 * @type {Dictionary}
 	 */
 	protected _smin = new Dictionary<string, number>();
 
 	/**
 	 * Highest values in current selection by type.
-	 *
-	 * @type {Dictionary}
 	 */
 	protected _smax = new Dictionary<string, number>();
 
@@ -420,7 +371,6 @@ export class Series extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @type {Dictionary}
 	 */
 	public dataItemsByAxis = new Dictionary<string, Dictionary<string, this["_dataItem"]>>();
 
@@ -435,8 +385,6 @@ export class Series extends Component {
 	 * detailed information display, such as HTML table.
 	 *
 	 * Different series might have different threshold defaults.
-	 *
-	 * @type {Number}
 	 */
 	public skipFocusThreshold: number = 20;
 
@@ -446,8 +394,6 @@ export class Series extends Component {
 	 * try to deduce reader text from `tooltipText` or `tooltipHTML`. If those
 	 * are not set either, a default reader text will be used which is relevant
 	 * for each Series type.
-	 *
-	 * @type {string}
 	 */
 	protected _itemReaderText: string;
 
@@ -472,7 +418,6 @@ export class Series extends Component {
 	 * As calculating totals is expensive operation and not often needed, by default we do not do it. In case you use percent for your charts, you must set this to true.
 	 * Pie chart, which uses percent sets this to true by default.
 	 * @todo review description
-	 * @type {boolean}
 	 */
 	public calculatePercent: boolean = false;
 
@@ -483,11 +428,21 @@ export class Series extends Component {
 	public autoDispose: boolean = true;
 
 	/**
-	 * When working value of dataItem changes, we must process all the values to calculate sum, min, max etc. Also update stack values. This is quite expensive operation.
-	 * Unfortunately we do not know if user needs this processed values or not. By setting simplifiedProcessing = true you disable this processing and in case working
-	 * value changes, we only redraw the particular column. Do not do this if you have staked chart or use calculated values in bullets or in tooltips.
+	 * When chart/series' data is processed, all kinds of derivative values are
+	 * calculated. E.g. sum, min, max, change, etc. This is a potentially
+	 * time-consuming operation, especially prominent in data-heavy charts.
 	 *
-	 * @type {boolean}
+	 * If your chart does not need those values, and you have a lot of data,
+	 * setting this to `true` might give a dramatic increase in initial chart
+	 * load speed.
+	 *
+	 * Please note, regular column and line series usage scenarios do not
+	 * require derivative values. Those come into play only when you do advanced
+	 * functionality like coloring segments of charts in different colors
+	 * depending on change between open and close values, have stacked series, or
+	 * display any of the derived values, like percent, in tooltips or bullets.
+	 *
+	 * @default false
 	 */
 	public simplifiedProcessing: boolean = false;
 
@@ -555,7 +510,7 @@ export class Series extends Component {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {SeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new SeriesDataItem();
@@ -564,14 +519,14 @@ export class Series extends Component {
 	/**
 	 * Chart series is used on.
 	 *
-	 * @param {this["_chart"]}  value  Chart
+	 * @param value  Chart
 	 */
 	public set chart(value: this["_chart"]) {
 		this._chart = value;
 	}
 
 	/**
-	 * @return {this} Chart
+	 * @return Chart
 	 */
 	public get chart(): this["_chart"] {
 		return this._chart;
@@ -580,7 +535,7 @@ export class Series extends Component {
 	/**
 	 * Positions bullet.
 	 *
-	 * @param {Bullet}  bullet  Bullet
+	 * @param bullet  Bullet
 	 */
 	public positionBullet(bullet: Bullet): void {
 
@@ -591,7 +546,7 @@ export class Series extends Component {
 	/**
 	 * Decorates newly created bullet after it has been instert into the list.
 	 *
-	 * @param {IListEvents<Bullet>["inserted"]}  event  List event
+	 * @param event  List event
 	 * @todo investigate why itemReaderText is undefined
 	 */
 	protected processBullet(event: IListEvents<Bullet>["inserted"]) {
@@ -607,7 +562,7 @@ export class Series extends Component {
 	/**
 	 * removes bullets
 	 *
-	 * @param {IListEvents<Bullet>["inserted"]}  event  List event
+	 * @param event  List event
 	 */
 	protected removeBullet(event: IListEvents<Bullet>["removed"]) {
 		let bullet: Bullet = event.oldValue;
@@ -635,8 +590,8 @@ export class Series extends Component {
 	/**
 	 * Returns first value for the specific key in the series.
 	 *
-	 * @param  {string}  key  Key
-	 * @return {number}       Value
+	 * @param key  Key
+	 * @return Value
 	 * @todo Description
 	 * @todo Convert to propert object property iterator
 	 */
@@ -684,7 +639,7 @@ export class Series extends Component {
 	 *
 	 * @todo Description
 	 * @todo Convert to propert object property iterator
-	 * @param {OrderedList<this["_dataItem"]>} dataItems [description]
+	 * @param dataItems [description]
 	 */
 	protected processValues(working: boolean) {
 		if (!this.simplifiedProcessing) {
@@ -913,7 +868,7 @@ export class Series extends Component {
 	 * Validates data item's element, effectively redrawing it.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {SeriesDataItem}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
 		super.validateDataElement(dataItem);
@@ -998,7 +953,7 @@ export class Series extends Component {
 	 * Should this series excluded from the axis scale calculations?
 	 *
 	 * @default false
-	 * @param {boolean}  value  Exclude from calculations?
+	 * @param value  Exclude from calculations?
 	 */
 	public set ignoreMinMax(value: boolean) {
 		this._ignoreMinMax = value;
@@ -1006,7 +961,7 @@ export class Series extends Component {
 	}
 
 	/**
-	 * @return {boolean} Exclude from calculations?
+	 * @return Exclude from calculations?
 	 */
 	public get ignoreMinMax(): boolean {
 		return this._ignoreMinMax;
@@ -1026,7 +981,7 @@ export class Series extends Component {
 	/**
 	 * Process axis range after it has been added to the list.
 	 *
-	 * @param {IListEvents<AxisDataItem>["inserted"]}  event  Event
+	 * @param event  Event
 	 */
 	protected processAxisRange(event: IListEvents<AxisDataItem>["inserted"]): void {
 		// create container if not existing
@@ -1048,8 +1003,8 @@ export class Series extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {Axis}    axis  [description]
-	 * @return {string}        [description]
+	 * @param axis  [description]
+	 * @return [description]
 	 */
 	public getAxisField(axis: Axis): string {
 		return;
@@ -1059,8 +1014,8 @@ export class Series extends Component {
 	 * Shows the tooltip at specific position.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {number}  xPosition  X
-	 * @param {number}  yPosition  Y
+	 * @param xPosition  X
+	 * @param yPosition  Y
 	 */
 	public showTooltipAtPosition(xPosition: number, yPosition: number): void {
 
@@ -1076,14 +1031,14 @@ export class Series extends Component {
 	 * This allows to avoid crammed up graphs wil a lot of bullets.
 	 *
 	 * @default 0
-	 * @param {number}  value  Distance (px)
+	 * @param value  Distance (px)
 	 */
 	public set minBulletDistance(value: number) {
 		this.setPropertyValue("minBulletDistance", value, true);
 	}
 
 	/**
-	 * @return {number} Distance (px)
+	 * @return Distance (px)
 	 */
 	public get minBulletDistance(): number {
 		return this.getPropertyValue("minBulletDistance");
@@ -1098,7 +1053,7 @@ export class Series extends Component {
 	 * items, including their properties, events, etc.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/bullets/} for more info about the concept of Bullets
-	 * @return {ListTemplate<Bullet>} List of bullets.
+	 * @return List of bullets.
 	 */
 	public get bullets(): ListTemplate<Bullet> {
 		if (!this._bullets) {
@@ -1118,7 +1073,7 @@ export class Series extends Component {
 	 * settings.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Container}  marker  Legend item container
+	 * @param marker  Legend item container
 	 */
 	public createLegendMarker(marker: Container): void {
 
@@ -1129,7 +1084,7 @@ export class Series extends Component {
 	/**
 	 * Should the series be hidden in legend?
 	 *
-	 * @param {boolean} value Hidden in legend?
+	 * @param value Hidden in legend?
 	 */
 	public set hiddenInLegend(value: boolean) {
 		if (this.setPropertyValue("hiddenInLegend", value)) {
@@ -1140,7 +1095,7 @@ export class Series extends Component {
 	}
 
 	/**
-	 * @return {boolean} Hidden in legend?
+	 * @return Hidden in legend?
 	 */
 	public get hiddenInLegend(): boolean {
 		return this.getPropertyValue("hiddenInLegend");
@@ -1149,7 +1104,7 @@ export class Series extends Component {
 	/**
 	 * Series' name.
 	 *
-	 * @param {string}  value  Name
+	 * @param value  Name
 	 */
 	public set name(value: string) {
 		this._title = value;
@@ -1157,7 +1112,7 @@ export class Series extends Component {
 	}
 
 	/**
-	 * @return {string} Name
+	 * @return Name
 	 */
 	public get name(): string {
 		return this.adapter.apply("name", this._title);
@@ -1172,14 +1127,14 @@ export class Series extends Component {
 	 *
 	 * Any text formatting options, e.g. `[bold]` will be ignored.
 	 *
-	 * @param {string} value Screen reader text template
+	 * @param value Screen reader text template
 	 */
 	public set itemReaderText(value: string) {
 		this._itemReaderText = value;
 	}
 
 	/**
-	 * @return {string} Screen reader text template
+	 * @return Screen reader text template
 	 */
 	public get itemReaderText(): string {
 
@@ -1208,7 +1163,7 @@ export class Series extends Component {
 	 * count and should not be available for TAB-through.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {boolean} Items focusable?
+	 * @return Items focusable?
 	 */
 	public itemsFocusable(): boolean {
 		return this.dataItems.length >= this.skipFocusThreshold ? false : true;
@@ -1217,7 +1172,7 @@ export class Series extends Component {
 	/**
 	 * Legend data item that corresponds to this series.
 	 *
-	 * @param {LegendDataItem<Series, ISeriesEvents>}  value  Data item
+	 * @param value  Data item
 	 */
 	public set legendDataItem(value: LegendDataItem) {
 		this._legendDataItem = value;
@@ -1225,7 +1180,7 @@ export class Series extends Component {
 	}
 
 	/**
-	 * @return {LegendDataItem<Series, ISeriesEvents>} Data item
+	 * @return Data item
 	 */
 	public get legendDataItem(): LegendDataItem {
 		return this._legendDataItem;
@@ -1235,7 +1190,7 @@ export class Series extends Component {
 	 * Updates corresponding legend data item with current values.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {this["_dataItem"]}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public updateLegendValue(dataItem?: this["_dataItem"]) {
 		// if this series has legend item
@@ -1282,7 +1237,7 @@ export class Series extends Component {
 	/**
 	 * Copies all properties from another instance of [[Series]].
 	 *
-	 * @param {Series}  source  Source series
+	 * @param source  Source series
 	 */
 	public copyFrom(source: this) {
 		this.bullets.copyFrom(source.bullets);
@@ -1295,7 +1250,7 @@ export class Series extends Component {
 	 * Displays a modal or console message with error, and halts any further
 	 * processing of this element.
 	 *
-	 * @param {Error} e Error
+	 * @param e Error
 	 */
 	public raiseCriticalError(e: Error) {
 		this._chart.modal.content = e.message;
@@ -1351,7 +1306,7 @@ export class Series extends Component {
 					let maxValue = $type.toNumber(heatRule.maxValue);
 
 					if (!$type.isNumber(minValue) && !$type.isNumber(maxValue)) {
-						this.dataItem.events.on("calculatedvaluechanged", (event) => {
+						this.dataItem.events.on("calculatedvaluechanged", (event) => {							
 							if (event.property == dataField) {
 								$iter.each(this.dataItems.iterator(), (dataItem) => {
 									let foundSprite = false;
@@ -1475,7 +1430,7 @@ export class Series extends Component {
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 
@@ -1575,9 +1530,9 @@ export class Series extends Component {
 	 * the end.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {string}  a  Element 1
-	 * @param  {string}  b  Element 2
-	 * @return {Ordering}   Sorting number
+	 * @param a  Element 1
+	 * @param b  Element 2
+	 * @return Sorting number
 	 */
 	protected configOrder(a: string, b: string): Ordering {
 		if (a == b) {

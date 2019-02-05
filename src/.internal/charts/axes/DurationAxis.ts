@@ -49,8 +49,6 @@ export class DurationAxisDataItem extends ValueAxisDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {DurationAxis}
 	 */
 	public _component!: DurationAxis;
 
@@ -137,36 +135,26 @@ export class DurationAxis<T extends AxisRenderer = AxisRenderer> extends ValueAx
 
 	/**
 	 * Defines data fields.
-	 *
-	 * @type {IDurationAxisDataFields}
 	 */
 	public _dataFields: IDurationAxisDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IDurationAxisProperties}
 	 */
 	public _properties!: IDurationAxisProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IDurationAxisAdapters}
 	 */
 	public _adapter!: IDurationAxisAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IDurationAxisEvents}
 	 */
 	public _events!: IDurationAxisEvents;
 
 	/**
 	 * Defines the type of the Date Items.
-	 *
-	 * @type {DurationAxisDataItem}
 	 */
 	public _dataItem: DurationAxisDataItem;
 
@@ -181,14 +169,12 @@ export class DurationAxis<T extends AxisRenderer = AxisRenderer> extends ValueAx
 	 * A special duration format to apply axis tooltips.
 	 *
 	 * Will use same format as for labels, if not set.
-	 *
-	 * @type {string}
 	 */
 	protected _tooltipDurationFormat: string;
 
 	/**
 	 * Axis date format chosen dynamically based on min/max and baseUnit.
-	 * 
+	 *
 	 * @readonly
 	 */
 	public axisDurationFormat: string;
@@ -212,8 +198,8 @@ export class DurationAxis<T extends AxisRenderer = AxisRenderer> extends ValueAx
 	/**
 	 * Formats the value according to axis' own [[DurationFormatter]].
 	 *
-	 * @param  {number}  value  Source value
-	 * @return {string}         Formatted value
+	 * @param value  Source value
+	 * @return Formatted value
 	 */
 	public formatLabel(value: number, format?: string): string {
 		return this.durationFormatter.format(value, format || this.axisDurationFormat);
@@ -228,12 +214,12 @@ export class DurationAxis<T extends AxisRenderer = AxisRenderer> extends ValueAx
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {number}      min        [description]
-	 * @param  {number}      max        [description]
-	 * @param  {number}      difference [description]
-	 * @param  {number}      gridCount  [description]
-	 * @param  {boolean}     strictMode [description]
-	 * @return {IMinMaxStep}            [description]
+	 * @param min        [description]
+	 * @param max        [description]
+	 * @param difference [description]
+	 * @param gridCount  [description]
+	 * @param strictMode [description]
+	 * @return [description]
 	 */
 	public adjustMinMax(min: number, max: number, difference: number, gridCount: number, strictMode?: boolean): IMinMaxStep {
 
@@ -300,7 +286,7 @@ export class DurationAxis<T extends AxisRenderer = AxisRenderer> extends ValueAx
 
 				if (max > 0 && initialMax <= 0) {
 					max = 0;
-				}				
+				}
 			}
 			minMaxStep = { min: min, max: max, step: step };
 		}
@@ -320,14 +306,14 @@ export class DurationAxis<T extends AxisRenderer = AxisRenderer> extends ValueAx
 	 * Will use same format as for labels, if not set.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} for mor information.
-	 * @param {string}  value  Duration format for axis labels
+	 * @param value  Duration format for axis labels
 	 */
 	public set tooltipDurationFormat(value: string) {
 		this._tooltipDurationFormat = value;
 	}
 
 	/**
-	 * @return {string} Duration format for axis labels
+	 * @return Duration format for axis labels
 	 */
 	public get tooltipDurationFormat(): string {
 		return this._tooltipDurationFormat;
@@ -341,8 +327,8 @@ export class DurationAxis<T extends AxisRenderer = AxisRenderer> extends ValueAx
 	 * chart, or explicitly for this Axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {number}  position  Position (px)
-	 * @return {string}            Label (numeric value)
+	 * @param position  Position (px)
+	 * @return Label (numeric value)
 	 */
 	public getTooltipText(position: number): string {
 		let value: number = $math.round(this.positionToValue(position), this._stepDecimalPlaces);
@@ -358,7 +344,7 @@ export class DurationAxis<T extends AxisRenderer = AxisRenderer> extends ValueAx
 	 * "day", "week", "month", "year".
 	 *
 	 * @default "second"
-	 * @param {TimeUnit} timeUnit
+	 * @param timeUnit
 	 */
 	public set baseUnit(timeUnit: TimeUnit) {
 		if (this._baseUnit != timeUnit) {
@@ -369,7 +355,7 @@ export class DurationAxis<T extends AxisRenderer = AxisRenderer> extends ValueAx
 	}
 
 	/**
-	 * @return {TimeUnit} Base unit
+	 * @return Base unit
 	 */
 	public get baseUnit(): TimeUnit {
 		return this._baseUnit;
@@ -378,7 +364,7 @@ export class DurationAxis<T extends AxisRenderer = AxisRenderer> extends ValueAx
 	/**
 	 * Copies all properties and related data from a different instance of Axis.
 	 *
-	 * @param {this} source Source Axis
+	 * @param source Source Axis
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);

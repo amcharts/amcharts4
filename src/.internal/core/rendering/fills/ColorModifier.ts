@@ -38,8 +38,8 @@ export class ColorModifier extends BaseObject {
 	 * Modifies color value.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {Color}  value  Original color
-	 * @return {Color}         Modified
+	 * @param value  Original color
+	 * @return Modified
 	 */
 	public modify(value: Color): Color | LinearGradient | RadialGradient {
 		return value;

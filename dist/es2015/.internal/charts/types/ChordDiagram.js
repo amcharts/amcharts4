@@ -66,7 +66,6 @@ var ChordDiagram = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @type {number}
          */
         _this.valueAngle = 0;
         _this.className = "ChordDiagram";
@@ -166,14 +165,14 @@ var ChordDiagram = /** @class */ (function (_super) {
     /**
      * Creates and returns a new data item.
      *
-     * @return {this} Data item
+     * @return Data item
      */
     ChordDiagram.prototype.createDataItem = function () {
         return new ChordDiagramDataItem();
     };
     Object.defineProperty(ChordDiagram.prototype, "startAngle", {
         /**
-         * @return {number} Start angle (degrees)
+         * @return Start angle (degrees)
          */
         get: function () {
             return this.getPropertyValue("startAngle");
@@ -199,7 +198,7 @@ var ChordDiagram = /** @class */ (function (_super) {
          * looks like a quarter of a circle.
          *
          * @default -90
-         * @param {number}  value  Start angle (degrees)
+         * @param value  Start angle (degrees)
          */
         set: function (value) {
             this.setPropertyValue("startAngle", value, true);
@@ -209,7 +208,7 @@ var ChordDiagram = /** @class */ (function (_super) {
     });
     Object.defineProperty(ChordDiagram.prototype, "endAngle", {
         /**
-         * @return {number} End angle (degrees)
+         * @return End angle (degrees)
          */
         get: function () {
             return this.getPropertyValue("endAngle");
@@ -235,7 +234,7 @@ var ChordDiagram = /** @class */ (function (_super) {
          * looks like a quarter of a circle.
          *
          * @default -90
-         * @param {number}  value  End angle (degrees)
+         * @param value  End angle (degrees)
          */
         set: function (value) {
             this.setPropertyValue("endAngle", value, true);
@@ -245,7 +244,7 @@ var ChordDiagram = /** @class */ (function (_super) {
     });
     Object.defineProperty(ChordDiagram.prototype, "radius", {
         /**
-         * @return {number} Outer radius
+         * @return Outer radius
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -255,7 +254,7 @@ var ChordDiagram = /** @class */ (function (_super) {
          *
          * This can either be in absolute pixel value, or relative [[Percent]].
          *
-         * @param {number | Percent}  value  Outer radius
+         * @param value  Outer radius
          */
         set: function (value) {
             this.setPercentProperty("radius", value, true, false, 10, false);
@@ -265,7 +264,7 @@ var ChordDiagram = /** @class */ (function (_super) {
     });
     Object.defineProperty(ChordDiagram.prototype, "innerRadius", {
         /**
-         * @return {number} Inner radius
+         * @return Inner radius
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
@@ -275,7 +274,7 @@ var ChordDiagram = /** @class */ (function (_super) {
          *
          * This can either be in absolute pixel value, or relative [[Percent]].
          *
-         * @param {number | Percent}  value  Outer radius
+         * @param value  Outer radius
          */
         set: function (value) {
             this.setPercentProperty("innerRadius", value, true, false, 10, false);
@@ -285,7 +284,7 @@ var ChordDiagram = /** @class */ (function (_super) {
     });
     Object.defineProperty(ChordDiagram.prototype, "nonRibbon", {
         /**
-         * @return {boolean} Non-ribbon
+         * @return Non-ribbon
          */
         get: function () {
             return this.getPropertyValue("nonRibbon");
@@ -294,7 +293,7 @@ var ChordDiagram = /** @class */ (function (_super) {
          *
          * If you set this to true, all the lines will be of the same width. This is done by making middleLine of a ChordLink visible.
          *
-         * @param {boolean}  value
+         * @param value
          */
         set: function (value) {
             this.setPropertyValue("nonRibbon", value, true);

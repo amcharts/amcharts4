@@ -16,14 +16,10 @@ import { Adapter } from "../utils/Adapter";
 export interface ITextChunk {
     /**
      * Type of the chunk.
-     *
-     * @type {"value" | "text" | "format" | "image"}
      */
     "type": "value" | "text" | "format" | "image";
     /**
      * Text.
-     *
-     * @type {string}
      */
     "text": string;
 }
@@ -33,8 +29,6 @@ export interface ITextChunk {
 export interface ITextFormatterAdapters {
     /**
      * Applied to each chunk of text when it is parsed and added to chunk list.
-     *
-     * @type {string}
      */
     chunk: string;
 }
@@ -48,14 +42,10 @@ export interface ITextFormatterAdapters {
 export declare class TextFormatter extends BaseObject {
     /**
      * Defines available adapters.
-     *
-     * @type {IExportAdapters}
      */
     _adapter: ITextFormatterAdapters;
     /**
      * Adapter.
-     *
-     * @type {Adapter<TextFormatter, ITextFormatterAdapters>}
      */
     adapter: Adapter<TextFormatter, ITextFormatterAdapters>;
     /**
@@ -66,70 +56,70 @@ export declare class TextFormatter extends BaseObject {
     /**
      * Formats the text according to specifications passed in.
      *
-     * @param  {string}  text    Text to format
-     * @param  {string}  output  Output format (svg, html)
-     * @return {string}          Formatted text
+     * @param text    Text to format
+     * @param output  Output format (svg, html)
+     * @return Formatted text
      */
     format(text: string, output?: string): string;
     /**
      * Replaces brackets with temporary placeholders.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text  Input text
-     * @return {string}        Escaped text
+     * @param text  Input text
+     * @return Escaped text
      */
     escape(text: string): string;
     /**
      * Replaces placeholders back to brackets.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text  Escaped text
-     * @return {string}        Unescaped text
+     * @param text  Escaped text
+     * @return Unescaped text
      */
     unescape(text: string): string;
     /**
      * Cleans up the text text for leftover double square brackets.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text  Input text
-     * @return {string}        Cleaned up text
+     * @param text  Input text
+     * @return Cleaned up text
      */
     cleanUp(text: string): string;
     /**
      * Wraps text into corresponding tags.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text   Text to wrap
-     * @param  {string}  style  Styles
-     * @param  {string}  output  Format to output in (svg, html)
-     * @return {string}          Formatted string
+     * @param text   Text to wrap
+     * @param style  Styles
+     * @param output  Format to output in (svg, html)
+     * @return Formatted string
      */
     wrap(text: string, style: string, output: string): string;
     /**
      * Wraps text in styled SVG tag.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text   Text to wrap
-     * @param  {string}  style  Style property
-     * @return {string}         Formatted tag
+     * @param text   Text to wrap
+     * @param style  Style property
+     * @return Formatted tag
      */
     wrapSvg(text: string, style: string): string;
     /**
      * Returns an SVG `<tspan>` element.
      *
      * @ignore Exclude from docs
-     * @param  {string}     text   Text
-     * @param  {string}     style  Style
-     * @return {AMElement}         Element
+     * @param text   Text
+     * @param style  Style
+     * @return Element
      */
     getSvgElement(text: string, style?: string): AMElement;
     /**
      * Wraps text in HTML <span> tag.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text   Text to wrap
-     * @param  {string}  style  Style property
-     * @return {string}         Formatted tag
+     * @param text   Text to wrap
+     * @param style  Style property
+     * @return Formatted tag
      * @todo Translate SVG styles into HTML ones
      */
     wrapHtml(text: string, style: string): string;
@@ -137,17 +127,17 @@ export declare class TextFormatter extends BaseObject {
      * Returns an HTML `<span>` element.
      *
      * @ignore Exclude from docs
-     * @param  {string}       text   Text/HTML
-     * @param  {string}       style  Style definition
-     * @return {HTMLElement}         HTML element
+     * @param text   Text/HTML
+     * @param style  Style definition
+     * @return HTML element
      */
     getHtmlElement(text: string, style?: string): HTMLElement;
     /**
      * Trabslates SVG CSS into HTML CSS.
      *
      * @ignore Exclude from docs
-     * @param  {string}  style  SVG CSS
-     * @return {string}         HTML CSS
+     * @param style  SVG CSS
+     * @return HTML CSS
      * @todo Implement actual translation
      */
     styleSvgToHtml(style: string): string;
@@ -157,8 +147,8 @@ export declare class TextFormatter extends BaseObject {
      * "#f00" => "fill: #f00"
      *
      * @ignore Exclude from docs
-     * @param  {string}  style  Untranslated style
-     * @return {string}         Translated style
+     * @param style  Untranslated style
+     * @return Translated style
      * @todo Implement actual translation
      */
     translateStyleShortcuts(style: string): string;
@@ -177,10 +167,10 @@ export declare class TextFormatter extends BaseObject {
      * output.
      *
      * @ignore Exclude from docs
-     * @param  {string}    text          Text to chunk
-     * @param  {boolean}   quotedBlocks  Use quoted blocks
-     * @param  {boolean}   noFormatting  Formatting blocks will be treated as regular text
-     * @return {string[]}                Array of string chunks
+     * @param text          Text to chunk
+     * @param quotedBlocks  Use quoted blocks
+     * @param noFormatting  Formatting blocks will be treated as regular text
+     * @return Array of string chunks
      */
     chunk(text: string, quotedBlocks?: boolean, noFormatting?: boolean): ITextChunk[];
     /**
@@ -189,8 +179,8 @@ export declare class TextFormatter extends BaseObject {
      * I.e.: `[img: myImage.png]`
      *
      * @ignore Exclude from docs
-     * @param  {string}   text  Format
-     * @return {boolean}        `true` if it is an image
+     * @param text  Format
+     * @return `true` if it is an image
      */
     isImage(text: string): boolean;
 }
@@ -199,7 +189,5 @@ export declare class TextFormatter extends BaseObject {
  *
  * All classes and instances should reuse this universal text formatter,
  * rather than create their own instance of it.
- *
- * @type {TextFormatter}
  */
 export declare function getTextFormatter(): TextFormatter;

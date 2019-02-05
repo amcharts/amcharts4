@@ -89,6 +89,7 @@ export interface ISpriteProperties {
     strokeOpacity?: number;
     strokeWidth?: number;
     strokeDasharray?: number[];
+    strokeDashoffset?: number;
     shapeRendering?: ShapeRendering;
     draggable?: boolean;
     inert?: boolean;
@@ -225,20 +226,15 @@ export interface ISpriteAdapters extends ISpriteProperties {
 export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Defines property types.
-     *
-     * @type {ISpriteProperties}
      */
     _properties: ISpriteProperties;
     /**
      * Defines state type.
      *
      * @ignore Exclude from docs
-     * @type {SpriteState}
      */
     /**
      * Defines type used in the Sprite.
-     *
-     * @type {ISpriteAdapters}
      */
     _adapter: ISpriteAdapters;
     /**
@@ -247,22 +243,18 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     properties: this["_properties"];
     /**
      * Defines available events.
-     *
-     * @type {ISpriteEvents}
      */
     _events: ISpriteEvents;
     /**
-     * Event dispacther.
+     * Event dispatcher.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/event-listeners/} for more info about Events
-     * @type {SpriteEventDispatcher<AMEvent<Sprite, ISpriteEvents>>} Event dispatcher instance
      */
     events: SpriteEventDispatcher<AMEvent<this, this["_events"]>>;
     /**
      * Holds Adapter.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/adapters/} for more info about Adapters
-     * @type {Adapter<Sprite, ISpriteAdapters>}
      */
     adapter: Adapter<this, this["_adapter"]>;
     /**
@@ -275,34 +267,28 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * other Sprites from and should not be treated as full-fledged element.
      *
      * @ignore Exclude from docs
-     * @type {Optional<boolean>}
      */
     protected _isTemplate: boolean;
     /**
      * Holds collection of Sprite States.
-     *
-     * @type {Optional<DictionaryTemplate<string, SpriteState<this["_properties"], this["_adapter"]>>>}
      */
     _states: $type.Optional<DictionaryTemplate<string, SpriteState<this["_properties"], this["_adapter"]>>>;
     /**
      * Holds indicator whether this sprite was already initialized.
      *
      * @ignore Exclude from docs
-     * @type {boolean}
      */
     protected _inited: boolean;
     /**
      * Holds indicator whether this sprite was already initialized and ready.
      *
      * @ignore Exclude from docs
-     * @type {boolean}
      */
     protected _ready: boolean;
     /**
      * A reference to a Tooltip for this Sprite.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Tooltip>}
      */
     protected _tooltip: $type.Optional<Tooltip>;
     /**
@@ -310,7 +296,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * it is not set, dataItem will be used.
      *
      * @ignore Exclude from docs
-     * @type {Optional<DataItem>}
      */
     protected _tooltipDataItem: $type.Optional<DataItem>;
     /**
@@ -318,7 +303,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Mostly used when we need to adjust tooltip color for a series, depending on column or bullet color.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Sprite>}
      */
     protected _tooltipColorSource: $type.Optional<Sprite>;
     /**
@@ -326,24 +310,18 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * `transitionDuration > 0`, we set `isHiding` flag to `true` in order to
      * avoid restarting animations in case `hide()` method is called multiple
      * times.
-     *
-     * @type {boolean}
      */
     isHiding: boolean;
     /**
      * If `sprite.hide()` is called, we set isHidden to true when sprite is hidden.
      * This was added becaus hidden state might have visibility set to true and so
      * there would not be possible to find out if a sprite is technically hidden or not.
-     *
-     * @type {boolean}
      */
     protected _isHidden: boolean;
     /**
      * This property indicates if Sprite is currently being revealed from hidden
      * state. This is used to prevent multiple calls to `sprite.show()` to
      * restart reveal animation. (if enabled)
-     *
-     * @type {boolean}
      */
     isShowing: boolean;
     /**
@@ -352,39 +330,33 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * set of controls like Preloader, Export, etc.
      *
      * @ignore Exclude from docs
-     * @type {boolean}
      */
     isStandaloneInstance: boolean;
     /**
      * Indicates if togglable Sprite is currently active (toggled on).
      *
      * @ignore Exclude from docs
-     * @type {boolean}
      */
     protected _isActive: boolean;
     /**
      * A Sprite element to use as a mask for this Sprite.
      *
      * @ignore Exclude from docs
-     * @type {MutableValueDisposer}
      */
     protected _mask: MutableValueDisposer<Sprite>;
     /**
      * @ignore Exclude from docs
      * @todo Description
-     * @type {Optional<Group>}
      */
     protected _clipPath: Optional<Group>;
     /**
      * @ignore Exclude from docs
      * @todo Description
-     * @type {Optional<AMElement>}
      */
     protected _clipElement: $type.Optional<AMElement>;
     /**
      * @ignore Exclude from docs
      * @todo Description
-     * @type {number}
      */
     protected _positionPrecision: number;
     /**
@@ -392,56 +364,48 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * perform any user interactions directly, it happens via [[InteractionObject]].
      *
      * @ignore Exclude from docs
-     * @type {Optional<InteractionObject>}
      */
     protected _interaction: $type.Optional<InteractionObject>;
     /**
      * An instance of [[Language]].
      *
      * @ignore Exclude from docs
-     * @type {Language}
      */
     protected _language: MutableValueDisposer<Language>;
     /**
      * An instance of [[NumberFormatter]].
      *
      * @ignore Exclude from docs
-     * @type {Optional<NumberFormatter>}
      */
     protected _numberFormatter: $type.Optional<NumberFormatter>;
     /**
      * An instance of [[DateFormatter]].
      *
      * @ignore Exclude from docs
-     * @type {Optional<DateFormatter>}
      */
     protected _dateFormatter: $type.Optional<DateFormatter>;
     /**
      * An instance of [[DurationFormatter]].
      *
      * @ignore Exclude from docs
-     * @type {Optional<DurationFormatter>}
      */
     protected _durationFormatter: $type.Optional<DurationFormatter>;
     /**
      * An HTML element to which [[svgContainer]] is added.
      *
      * @ignore Exclude from docs
-     * @type {Optional<HTMLElement>}
      */
     protected _htmlContainer: $type.Optional<HTMLElement>;
     /**
      * An HTML element to which all chart elements are added.
      *
      * @ignore Exclude from docs
-     * @type {Optional<SVGContainer>}
      */
     protected _svgContainer: $type.Optional<SVGContainer>;
     /**
      * A [[Container]] instance to place this element's [[Tooltip]] elements in
      *
      * @ignore Exclude from docs
-     * @type {Optional<Container>}
      */
     protected _tooltipContainer: $type.Optional<Container>;
     protected _urlDisposer: $type.Optional<IDisposer>;
@@ -450,41 +414,35 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * dimentions?
      *
      * @ignore Exclude from docs
-     * @type {Optional<boolean>}
      */
     protected _isMeasured: $type.Optional<boolean>;
     /**
      * Indicates if the chart should follow right-to-left rules.
      *
      * @ignore Exclude from docs
-     * @type {boolean}
      */
     protected _rtl: boolean;
     /**
      * Holds [[Export]] object.
      *
      * @ignore Exclude from docs
-     * @type {Export}
      */
     protected _exporting: MutableValueDisposer<Export>;
     /**
      * A reference to a top-level SVG node for this Sprite element.
      *
      * @ignore Exclude from docs
-     * @type {Optional<AMElement>}
      */
     protected _element: Optional<AMElement>;
     /**
      * Holds Sprite's main SVG group (`<g>`) element. Other Sprite's elements
      * are all placed in this group.
-     * @type {Group}
      */
     group: Group;
     /**
      * A reference to [[Paper]] SVG renderer used to create SVG nodes.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Paper>}
      */
     protected _paper: $type.Optional<Paper>;
     /**
@@ -492,35 +450,30 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * In most cases that will be a Chart.
      *
-     * @return {Optional<Container>} Top-level ascendant
+     * @return Top-level ascendant
      */
     protected _topParent: Optional<Container>;
     /**
      * Data item assigned to the sprite. It might contain information defining
      * some style properties.
-     *
-     * @type {Optional<DataItem>}
      */
     _dataItem: $type.Optional<DataItem>;
     /**
      * Parent container.
      *
      * @ignore Exclude from docs
-     * @type {Container}
      */
     protected _parent: Container;
     /**
      * Sprite's "virtual" parent.
      *
      * @ignore Exclude from docs
-     * @type {Sprite}
      */
     protected _virtualParent: Sprite;
     /**
      * Defines bounding box (square) for this element.
      *
      * @ignore Exclude from docs
-     * @type {IRectangle}
      */
     protected _bbox: IRectangle;
     /**
@@ -529,7 +482,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Use accessors `tabIndex` to set and retrieve.
      *
      * @ignore Exclude from docs
-     * @type {Optional<number>}
      */
     protected _tabindex: $type.Optional<number>;
     /**
@@ -541,14 +493,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * This is an accessibility feature.
      *
      * @ignore Exclude from docs
-     * @type {Optional<boolean>}
      */
     protected _showSystemTooltip: $type.Optional<boolean>;
     /**
      * List of animations currently playing for this Sprite.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Array<Animation>>}
      */
     protected _animations: $type.Optional<Array<Animation>>;
     /**
@@ -558,7 +508,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * cancel it by calling its `dispose()` method.
      *
      * @ignore Exclude from docs
-     * @type {Optional<IDisposer>}
      */
     protected _showHideDisposer: $type.Optional<IDisposer>;
     /**
@@ -566,14 +515,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * [[Animation]] instance, which is handling hiding animation.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Animation>}
      */
     protected _hideAnimation: $type.Optional<Animation>;
     /**
      * List of [[Filter]] items that are currently applied to the element.
      *
      * @ignore Exclude from docs
-     * @type {Optional<List<Filter>>}
      */
     protected _filters: $type.Optional<List<Filter>>;
     /**
@@ -583,21 +530,18 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * This is an accessibility feature.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Filter>}
      */
     protected _focusFilter: $type.Optional<Filter>;
     /**
      * Indicates if this element is invalid and should be re-validated (redrawn).
      *
      * @ignore Exclude from docs
-     * @type {boolean}
      */
     invalid: boolean;
     /**
      * Indicates if this elements position is invalid and should be repositioned
      *
      * @ignore Exclude from docs
-     * @type {boolean}
      */
     positionInvalid: boolean;
     /**
@@ -612,7 +556,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * bindings.
      *
      * @see {@link SpriteState}
-     * @type {Object}
      */
     propertyFields: {
         [index in keyof this["_properties"]]?: string;
@@ -624,7 +567,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * value instead.
      *
      * @ignore Exclude from docs
-     * @type {$type.Optional<number>}
      */
     percentWidth: $type.Optional<number>;
     /**
@@ -634,14 +576,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * value instead.
      *
      * @ignore Exclude from docs
-     * @type {$type.Optional<number>}
      */
     percentHeight: $type.Optional<number>;
     /**
      * An SVG group element that is used to put all SVG filters to.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Group>}
      */
     filterElement: $type.Optional<Group>;
     /**
@@ -664,22 +604,18 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * If you set element's `configField = "config"`, the element for this
      * specific data point will have a red fill.
-     *
-     * @type {Optional<string>}
      */
     configField: $type.Optional<string>;
     /**
      * Reference to element's `<title>` element.
      *
      * @ignore Exclude from docs
-     * @type {Optional<SVGTitleElement>}
      */
     protected _titleElement: Optional<AMElement>;
     /**
      * Reference to element's `<description>` element.
      *
      * @ignore Exclude from docs
-     * @type {Optional<SVGDescElement>}
      */
     protected _descriptionElement: Optional<AMElement>;
     /**
@@ -732,7 +668,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     protected _isDragged: boolean;
     /**
      * @deprecated Moved to [[SpriteProperties]]
-     * @type {boolean}
      */
     protected _disabled: boolean;
     protected _internalDisabled: boolean;
@@ -747,7 +682,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     definedBBox: IRectangle;
     /**
      * Time in milliseconds after which rollout event happens when user rolls-out of the sprite. This helps to avoid flickering in some cases.
-     * @type {number}
      */
     rollOutDelay: number;
     /**
@@ -766,13 +700,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Indicates whether this sprite should be cloned when cloning its parent
      * container. We set this to `false` in those cases when a sprite is created
      * by the class, so that when cloning a duplicate sprite would not appear.
-     *
-     * @type {boolean}
      */
     shouldClone: boolean;
     /**
      * A property which you can use to store any data you want.
-     * @type {any}
      */
     dummyData: any;
     /**
@@ -789,14 +720,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * A reference to amCharts logo element.
      *
      * @ignore
-     * @type {AmChartsLogo}
      */
     logo: AmChartsLogo;
     /**
      * [_baseId description]
      *
      * @todo Description
-     * @type {string}
      */
     protected _baseId: string;
     /**
@@ -806,7 +735,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * In case `showOnInit = false`, `appeared` is set to `true` on init.
      *
      * @readonly
-     * @type {boolean}
      */
     appeared: boolean;
     /**
@@ -814,7 +742,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @todo Description
      * @ignore
-     * @type {number}
      */
     ex: number;
     /**
@@ -822,14 +749,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @todo Description
      * @ignore
-     * @type {number}
      */
     ey: number;
     /**
      * [_showOnInitDisposer description]
      *
      * @todo Description
-     * @type {MultiDisposer}
      */
     protected _showOnInitDisposer: MultiDisposer;
     /**
@@ -858,7 +783,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Returns theme(s) used by this object either set explicitly on this
      * element, inherited from parent, or inherited from [[System]].
      *
-     * @return {ITheme} An array of theme references
+     * @return An array of theme references
      */
     getCurrentThemes(): ITheme[];
     /**
@@ -953,13 +878,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Copies all parameters from another [[Sprite]].
      *
-     * @param {Sprite} source Source Sprite
+     * @param source Source Sprite
      */
     copyFrom(source: this): void;
     dispose(): void;
     /**
      * @ignore Exclude from docs
-     * @return {boolean} Is template?
+     * @return Is template?
      */
     /**
      * Indicates if this element is a "template".
@@ -971,17 +896,17 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * otherwise are processed.
      *
      * @ignore Exclude from docs
-     * @param {boolean} value Is template?
+     * @param value Is template?
      */
     isTemplate: boolean;
     /**
-     * @return {boolean} Show system tooltip?
+     * @return Show system tooltip?
      */
     /**
      * Indicates whether the element should attempt to construct itself in a way
      * so that system tooltip is shown if its `readerTitle` is set.
      *
-     * @param {boolean} value Show system tooltip?
+     * @param value Show system tooltip?
      */
     showSystemTooltip: boolean;
     /**
@@ -995,7 +920,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * In most cases that will be a Chart.
      *
-     * @return {Optional<Container>} Top-level ascendant
+     * @return Top-level ascendant
      */
     /**
      * @ignore
@@ -1003,16 +928,16 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     topParent: Optional<Container>;
     /**
-     * @return {Optional<Container>} Parent container
+     * @return Parent container
      */
     /**
      * Elements' parent [[Container]].
      *
-     * @param {Optional<Container>}  parent  Parent container
+     * @param parent  Parent container
      */
     parent: Optional<Container>;
     /**
-     * @return {Optional<Container>} Virtual parent
+     * @return Virtual parent
      */
     /**
      * Element's "virtual" parent.
@@ -1027,7 +952,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * for it to inherit series' formatters.
      *
      * @ignore Exclude from docs
-     * @param {Sprite}  value  Virtual parent
+     * @param value  Virtual parent
      */
     virtualParent: Sprite;
     /**
@@ -1053,11 +978,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * console.log(mySprite.map.getKey("myid"));
      * ```
      *
-     * @return {Dictionary<string, any>} Map collection
+     * @return Map collection
      */
     readonly map: Dictionary<string, any>;
     /**
-     * @return {string} ID
+     * @return ID
      */
     /**
      * Element's user-defined ID.
@@ -1070,7 +995,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * Make sure the IDs are unique.
      *
-     * @param {string} value ID
+     * @param value ID
      */
     id: string;
     /**
@@ -1083,12 +1008,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Returns DOM element reference associated with this element.
      *
      * @readonly
-     * @return {SVGSVGElement} DOM element
+     * @return DOM element
      */
     readonly dom: SVGSVGElement;
     /**
      * @ignore Exclude from docs
-     * @return {Paper} Paper
+     * @return Paper
      */
     /**
      * A [[Paper]] instance to place elements on.
@@ -1103,18 +1028,18 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * [[Paper]] instance itself.
      *
      * @ignore Exclude from docs
-     * @param {Paper}  paper  Paper
+     * @param paper  Paper
      */
     paper: Paper;
     /**
      * Sets [[Paper]] instance to use to draw elements.
      * @ignore
-     * @param {Paper} paper Paper
-     * @return {boolean} true if paper was changed, false, if it's the same
+     * @param paper Paper
+     * @return true if paper was changed, false, if it's the same
      */
     setPaper(paper: Paper): boolean;
     /**
-     * @return {Optional<HTMLElement>} HTML element
+     * @return HTML element
      */
     /**
      * An HTML element to be used when placing wrapper element (`<div>`)
@@ -1122,21 +1047,21 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * This is the same for **all** elements within the same chart.
      *
-     * @param {Optional<HTMLElement>} htmlContainer HTML element
+     * @param htmlContainer HTML element
      */
     htmlContainer: $type.Optional<HTMLElement>;
     /**
      * Creates (if not yet created) and returns element's `<title>` element.
      *
      * @ignore Exclude from docs
-     * @return {AMElement} Title element
+     * @return Title element
      */
     readonly titleElement: AMElement;
     /**
      * Creates (if not yet created) and returns element's `<desc>` element.
      *
      * @ignore Exclude from docs
-     * @return {AMElement} Desc element
+     * @return Desc element
      */
     readonly descriptionElement: AMElement;
     /**
@@ -1144,7 +1069,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * list is not yet initilized, creates and returns an empty one.
      * Note, not all filters combine well with one another. We recommend using one filter per sprite.
      *
-     * @return {List<Filter>} List of filters
+     * @return List of filters
      */
     readonly filters: List<Filter>;
     /**
@@ -1158,13 +1083,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Sets an attribute directly on an SVG element.
      *
      * @ignore Exclude from docs
-     * @param {ISVGAttribute} attribute Attribute object
+     * @param attribute Attribute object
      */
     protected setSVGAttribute(attribute: ISVGAttribute): void;
     /**
      * Removes an attribute directly from SVG element.
      *
-     * @param {string} attribute Attribute key to remove
+     * @param attribute Attribute key to remove
      */
     protected removeSVGAttribute(attribute: string): void;
     /**
@@ -1179,7 +1104,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Adds an `id` attribute the the element and returns the id.
      *
      * @ignore Exclude from docs
-     * @return {string} Element's ID
+     * @return Element's ID
      */
     uidAttr(): string;
     /**
@@ -1216,30 +1141,30 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @ignore
      * @todo Description
-     * @param {AMElement} element [description]
+     * @param element [description]
      */
     setElement(element: AMElement): void;
     /**
-     * @return {AMElement} Element
+     * @return Element
      */
     /**
      * The main element for this Sprite, usually an SVG `<g>`.
      *
      * All other sub-elements are created in it.
      *
-     * @param {Optional<AMElement>}  element  Element
+     * @param element  Element
      */
     element: Optional<AMElement>;
     /**
      * HTML container (`<div>`) which is used to place chart's `<svg>` element
      * in.
      *
-     * @return {Optional<SVGContainer>} Container for chart elements
+     * @return Container for chart elements
      */
     /**
      * Sets HTML container to add SVG and other chart elements to.
      *
-     * @param {Optional<SVGContainer>} svgContainer Container for chart elements
+     * @param svgContainer Container for chart elements
      */
     svgContainer: $type.Optional<SVGContainer>;
     /**
@@ -1263,21 +1188,21 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Returns `true` if the size has changed from the last measurement.
      *
      * @ignore Exclude from docs
-     * @return {boolean} Did the size changed from the last measurement?
+     * @return Did the size changed from the last measurement?
      */
     measure(): boolean;
     /**
      * Insert this element before sibling element.
      *
-     * @param  {Sprite}  sprite  Target element
-     * @return {Sprite}          This element
+     * @param sprite  Target element
+     * @return This element
      */
     insertBefore(sprite: Sprite): Sprite;
     /**
      * Insert this element after sibling element.
      *
-     * @param  {Sprite}  sprite  Target element
-     * @return {Sprite}          This element
+     * @param sprite  Target element
+     * @return This element
      */
     insertAfter(sprite: Sprite): Sprite;
     /**
@@ -1295,8 +1220,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * A relative value is a hundredth of a percent. So 100% would result in a 1
      * as relative value.
      *
-     * @param  {number | Percent}  value  Absolute or relative X coordinate
-     * @return {number}                   Relative value
+     * @param value  Absolute or relative X coordinate
+     * @return Relative value
      */
     getRelativeX(value: number | Percent): number;
     /**
@@ -1305,8 +1230,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * A relative value is a hundredth of a percent. So 100% would result in a 1
      * as relative value.
      *
-     * @param  {number | Percent}  value  Absolute or relative Y coordinate
-     * @return {number}                   Relative value
+     * @param value  Absolute or relative Y coordinate
+     * @return Relative value
      */
     getRelativeY(value: number | Percent): number;
     /**
@@ -1317,8 +1242,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * If [[Percent]] is passed in, it will be recalculated to pixels.
      *
-     * @param  {number | Percent}  value  Absolute or relative X coordinate
-     * @return {number}                   X coordinate in pixels
+     * @param value  Absolute or relative X coordinate
+     * @return X coordinate in pixels
      */
     getPixelX(value: number | Percent): number;
     /**
@@ -1329,8 +1254,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * If [[Percent]] is passed in, it will be recalculated to pixels.
      *
-     * @param  {number | Percent}  value  Absolute or relative Y coordinate
-     * @return {number}                   Y coordinate in pixels
+     * @param value  Absolute or relative Y coordinate
+     * @return Y coordinate in pixels
      */
     getPixelY(value: number | Percent): number;
     /**
@@ -1346,27 +1271,27 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Besides moving the element, you can also at the same time scale and
      * rotate the element.
      *
-     * @param {IPoint}  point     New coordinates
-     * @param {number}  rotation  New rotation
-     * @param {number}  scale     New Scale
+     * @param point     New coordinates
+     * @param rotation  New rotation
+     * @param scale     New Scale
      */
     moveTo(point: IPoint, rotation?: number, scale?: number, isDragged?: boolean): void;
     /**
      * Returns [[Sprite]] element currently used as mask for this element.
      *
      * @ignore Exclude from docs
-     * @return {Optional<Sprite>} A [[Sprite]] to use as mask
+     * @return A [[Sprite]] to use as mask
      */
     /**
      * Sets another [[Sprite]] element as this elements mask.
      *
      * @ignore Exclude from docs
-     * @param {Optional<Sprite>} mask A [[Sprite]] to use as mask
+     * @param mask A [[Sprite]] to use as mask
      */
     mask: Optional<Sprite>;
     /**
      * @ignore Exclude from docs
-     * @return {IRectangle} Mask Rectangle
+     * @return Mask Rectangle
      */
     /**
      * Instead of creating a [[Sprite]] for mask, you can just use a
@@ -1376,18 +1301,18 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * rectangle.
      *
      * @ignore Exclude from docs
-     * @param {IRectangle} rect Mask Rectangle
+     * @param rect Mask Rectangle
      */
     maskRectangle: IRectangle;
     /**
      * @ignore Exclude from docs
-     * @return {boolean} Was element already measured?
+     * @return Was element already measured?
      */
     /**
      * Indicates if this element was already measured.
      *
      * @ignore Exclude from docs
-     * @param {boolean} value Was element already measured?
+     * @param value Was element already measured?
      */
     isMeasured: boolean;
     /**
@@ -1395,8 +1320,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * element.
      *
      * @todo Description (review)
-     * @param  {Sprite}   sprite  Second element to test again
-     * @return {boolean}          Overlapping?
+     * @param sprite  Second element to test again
+     * @return Overlapping?
      */
     hitTest(sprite: Sprite): boolean;
     /**
@@ -1408,7 +1333,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Returns `true` if Sprite has already finished initializing.
      *
-     * @return {boolean} Initialized?
+     * @return Initialized?
      */
     readonly inited: boolean;
     /**
@@ -1417,14 +1342,14 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * If this object is a [[Container]] it will wait for all of its children
      * are ready before becoming ready itself and firing a `"ready"` event.
      *
-     * @return {boolean} is ready?
+     * @return is ready?
      */
     isReady(): boolean;
     /**
      * Returns a collection of element's available [[SpriteState]] entries.
      *
      * @see {@link SpriteState}
-     * @return {DictionaryTemplate<string, SpriteState>} States
+     * @return States
      */
     readonly states: DictionaryTemplate<string, SpriteState<this["_properties"], this["_adapter"]>>;
     /**
@@ -1432,7 +1357,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * This is a shortcut to `this.states.getKey("hidden")`.
      *
-     * @return {SpriteState} Hidden state
+     * @return Hidden state
      */
     readonly hiddenState: SpriteState<this["_properties"], this["_adapter"]>;
     /**
@@ -1440,7 +1365,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * This is a shortcut to `this.states.getKey("default")`.
      *
-     * @return {SpriteState} Hidden state
+     * @return Hidden state
      */
     readonly defaultState: SpriteState<this["_properties"], this["_adapter"]>;
     /**
@@ -1451,7 +1376,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * make it "clickable".
      *
      * @ignore Exclude from docs
-     * @param {IDictionaryEvents<string, SpriteState>["insertKey" | "setKey"]} event An event which caused state list update
+     * @param event An event which caused state list update
      */
     protected processState(event: IDictionaryEvents<string, SpriteState<this["_properties"], this["_adapter"]>>["insertKey" | "setKey"]): void;
     /**
@@ -1459,25 +1384,25 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * If the list has not been initialized it is created.
      *
-     * @return {Array<Animation>} List of animations
+     * @return List of animations
      */
     readonly animations: Array<Animation>;
     /**
      * Converts element's local coordinates to the coordinates within the main
      * chart container.
      *
-     * @param  {IPoint}  point  Local point
-     * @return {IPoint}         Global point
+     * @param point  Local point
+     * @return Global point
      */
     getSvgPoint(point: IPoint): IPoint;
     /**
      * Creates and starts an [[Animation]] with given `animationOptions`.
      *
      * @see {@link Animation} for additional information about available options
-     * @param  {ISpriteAnimationOptions[] | ISpriteAnimationOptions}  animationOptions  Animation options
-     * @param  {number}                                               duration          Duration in milliseconds
-     * @param  {(number) => number}                                   easing            Easing function
-     * @return {Animation}                                                              Animation instance
+     * @param animationOptions  Animation options
+     * @param duration          Duration in milliseconds
+     * @param easing            Easing function
+     * @return Animation instance
      */
     animate(animationOptions: ISpriteAnimationOptions[] | ISpriteAnimationOptions, duration: number, easing?: (value: number) => number): Animation;
     /**
@@ -1491,9 +1416,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * element, i.e. are in the `properties` array.
      *
      * @see {@link SpriteState}
-     * @param {string | SpriteState} value               A state - name key or instance
-     * @param {number}               transitionDuration  Duration of the transition between current and new state
-     * @param {number) => number}    easing              An easing function
+     * @param value               A state - name key or instance
+     * @param transitionDuration  Duration of the transition between current and new state
+     * @param easing              An easing function
      */
     setState(value: string | SpriteState<this["_properties"], this["_adapter"]>, transitionDuration?: number, easing?: (value: number) => number): $type.Optional<Animation>;
     /**
@@ -1507,8 +1432,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Returns an [[Animation]] object, which is handling gradual transition from
      * current values of properties, to the new target state(s).
      *
-     * @param  {number}     duration  Duration for the animation (ms)
-     * @return {Optional<Animation>}  [[Animation]] object which is handling the transition
+     * @param duration  Duration for the animation (ms)
+     * @return [[Animation]] object which is handling the transition
      */
     applyCurrentState(duration?: number): $type.Optional<Animation>;
     /**
@@ -1516,70 +1441,70 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * set in `state`.
      *
      * @ignore Exclude from docs
-     * @param  {SpriteState}         state     Target State
-     * @param  {number}              duration  Duration in milliseconds
-     * @param  {(number) => number}  easing    Easing function
-     * @return {Animation}                     Transition Animation
+     * @param state     Target State
+     * @param duration  Duration in milliseconds
+     * @param easing    Easing function
+     * @return Transition Animation
      */
     protected transitTo(state: SpriteState<this["_properties"], this["_adapter"]>, duration: number, easing?: (value: number) => number): Optional<Animation>;
     /**
      * Returns `true` if Sprite is currently transiting from one state/value to
      * another.
      *
-     * @return {boolean} Is in transition?
+     * @return Is in transition?
      */
     isInTransition(): boolean;
     /**
      * Returns indicator if this element has a mouse pointer currently hovering
      * over it, or if it has any touch pointers pressed on it.
      *
-     * @return {boolean} Is hovered?
+     * @return Is hovered?
      */
     /**
      * Indicates if this element has a mouse pointer currently hovering
      * over it, or if it has any touch pointers pressed on it.
      *
-     * @param {boolean} value Is hovered?
+     * @param value Is hovered?
      */
     isHover: boolean;
     /**
      * Returns indicator if this element is being dragged at the moment.
      *
-     * @return {boolean} Is dragged?
+     * @return Is dragged?
      */
     readonly isDragged: boolean;
     /**
-     * @return {boolean} Is down?
+     * @return Is down?
      */
     /**
      * Indicates if this element has any pointers (mouse or touch) pressing down
      * on it.
      *
-     * @param {boolean} value Is down?
+     * @param value Is down?
      */
     isDown: boolean;
     /**
-     * @return {boolean} Is focused?
+     * @return Is focused?
      */
     /**
      * Indicates if this element is focused (possibly by tab navigation).
      *
-     * @param {boolean} value Is focused?
+     * @param value Is focused?
      */
     isFocused: boolean;
     /**
-     * @return {boolean} Is active?
+     * @return Is active?
      */
     /**
      * Indicates if this element is currently active (toggled on) or not
      * (toggled off).
      *
-     * @param {boolean} value Is active?
+     * @param value Is active?
      */
     isActive: boolean;
     protected setActive(value: boolean): void;
     /**
-     * @return {boolean} Disabled?
+     * @return Disabled?
      */
     /**
      * Controls if element is disabled.
@@ -1590,13 +1515,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * The element itself is not destroyed, though. Setting this back to `false`,
      * will "resurrect" the element.
      *
-     * @param {boolean}  value  Disabled?
+     * @param value  Disabled?
      */
     disabled: boolean;
     protected setDisabled(value: boolean): boolean;
     /**
      * @ignore
-     * @return {boolean} Disabled?
+     * @return Disabled?
      */
     /**
      * Internal disable method.
@@ -1604,11 +1529,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Do not use it for disabling elements. Use `disabled` accessor instead.
      *
      * @ignore Exclude from docs
-     * @param {boolean} value Disabled?
+     * @param value Disabled?
      */
     __disabled: boolean;
     /**
-     * @return {NumberFormatter} A [[NumberFormatter]] instance to be used
+     * @return A [[NumberFormatter]] instance to be used
      */
     /**
      * ==========================================================================
@@ -1643,11 +1568,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      *
      * @see {@link NumberFormatter} for more info on formatting numbers
-     * @param {NumberFormatter}  value  An instance of NumberFormatter
+     * @param value  An instance of NumberFormatter
      */
     numberFormatter: NumberFormatter;
     /**
-     * @return {DateFormatter} An instance of DateFormatter
+     * @return An instance of DateFormatter
      */
     /**
      * A [[DateFormatter]] instance.
@@ -1675,11 +1600,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * all the way up to the chart itself.
      *
      * @see {@link DateFormatter} for more info on dates formatting
-     * @param {DateFormatter}  value  An instance of DateFormatter
+     * @param value  An instance of DateFormatter
      */
     dateFormatter: DateFormatter;
     /**
-     * @return {DurationFormatter} An instance of DurationFormatter
+     * @return An instance of DurationFormatter
      */
     /**
      * A [[DurationFormatter]] instance.
@@ -1692,11 +1617,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * all the way up to the chart itself.
      *
      * @see {@link DurationFormatter} for more info on durations
-     * @param {DurationFormatter}  value  An instance of DurationFormatter
+     * @param value  An instance of DurationFormatter
      */
     durationFormatter: DurationFormatter;
     /**
-     * @return {Language} An instance of Language
+     * @return An instance of Language
      */
     /**
      * A [[Language]] instance to use for translations.
@@ -1706,7 +1631,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * All other element child elements will automatically re-use that language
      * object.
      *
-     * @param {Language}  value  An instance of Language
+     * @param value  An instance of Language
      */
     language: Language;
     /**
@@ -1740,9 +1665,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * * Parent's properties
      *
      * @ignore Exclude from docs
-     * @param  {string}    string            A string to format
-     * @param  {DataItem}  dataItem          DataItem
-     * @return {string}                      Formatted string
+     * @param string            A string to format
+     * @param dataItem          DataItem
+     * @return Formatted string
      */
     populateString(string: string, dataItem?: DataItem): string;
     /**
@@ -1757,10 +1682,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @see {@link NumberFormatter}
      * @see {@link DateFormatter}
      * @see {@link DurationFormatter}
-     * @param  {string}    tagName           Tag name to replace
-     * @param  {string}    format            Format to use
-     * @param  {DataItem}  dataItem          DataItem
-     * @return {string}                      Formatted value
+     * @param tagName           Tag name to replace
+     * @param format            Format to use
+     * @param dataItem          DataItem
+     * @return Formatted value
      */
     getTagValue(tagName: string, format?: string, dataItem?: DataItem): string;
     /**
@@ -1769,20 +1694,20 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @ignore Exclude from docs
      * @todo Description (improve)
-     * @param  {any[]}   parts   Properties ant methods to access
-     * @param  {any}     object  Source object
-     * @param  {string}  format  A specific format to apply
-     * @return {any}             Formatted value
+     * @param parts   Properties ant methods to access
+     * @param object  Source object
+     * @param format  A specific format to apply
+     * @return Formatted value
      */
     getTagValueFromObject(parts: any[], object: any, format?: string): any;
     /**
-     * @return {this} [[DataItem]]
+     * @return [[DataItem]]
      */
     /**
      * A [[DataItem]] to use as element's data source.
      *
      * @todo Review type
-     * @param {this["_dataItem"]}  dataItem  DataItem
+     * @param dataItem  DataItem
      */
     dataItem: this["_dataItem"];
     /**
@@ -1791,7 +1716,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * If the element has also `configField` set, it will also look for any
      * config in DataItem's data context to apply to this element.
      *
-     * @param {DataItem} dataItem DataItem
+     * @param dataItem DataItem
      */
     protected setDataItem(dataItem: DataItem): void;
     /**
@@ -1807,8 +1732,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * Will also apply any adapters bound to `propertyName`.
      *
-     * @param  {ISpriteProperties}  propertyName  Property name
-     * @return {any}                              Property value
+     * @param propertyName  Property name
+     * @return Property value
      */
     getPropertyValue(propertyName: keyof this["_properties"]): any;
     protected setColorProperty<Key extends keyof this["properties"]>(property: Key, value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>, invalidate?: boolean): boolean;
@@ -1817,11 +1742,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Sets elements's property value. Will also propagate the same property value
      * on all element's clones.
      *
-     * @param  {this["_properties"]}  property    Property
-     * @param  {any}                  value       Value
-     * @param  {boolean}              invalidate  Should the sprite be invalidated, cause it's re-rendering
-     * @param  {boolean}              transform   Re-apply positioning of the element
-     * @return {boolean}                          Did the value change? It will return `true` if the new value and the old value of the property are not the same
+     * @param property    Property
+     * @param value       Value
+     * @param invalidate  Should the sprite be invalidated, cause it's re-rendering
+     * @param transform   Re-apply positioning of the element
+     * @return Did the value change? It will return `true` if the new value and the old value of the property are not the same
      * @todo Review propagation to clones. Right now we simply check if clone is disposed before setting the same property on it. It's better to remove from clone list altogether.
      */
     setPropertyValue<Key extends keyof this["properties"]>(property: Key, value: any, invalidate?: boolean, transform?: boolean): boolean;
@@ -1850,10 +1775,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * or properties.
      *
      * @ignore Exclude from docs
-     * @param   {string | string[]}  property  Element's property name
-     * @param   {function}           listener  Handler function
-     * @param   {C}                  context   Context for handler function
-     * @returns {IDisposer}                    Event Disposer
+     * @param property  Element's property name
+     * @param listener  Handler function
+     * @param context   Context for handler function
+     * @returns Event Disposer
      */
     observe<C>(property: string | string[], listener: (this: C, event: AMEvent<this, ISpriteEvents>["propertychanged"]) => void, context?: C): IDisposer;
     /**
@@ -1872,101 +1797,101 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected applyAccessibility(): void;
     /**
-     * @return {string} Title
+     * @return Title
      */
     /**
      * Screen reader title of the element.
      *
-     * @param {string} value Title
+     * @param value Title
      */
     readerTitle: string;
     /**
-     * @return {string} Description
+     * @return Description
      */
     /**
      * Screen reader description of the element.
      *
-     * @param {string} value Description
+     * @param value Description
      */
     readerDescription: string;
     /**
-     * @return {Roles} Role
+     * @return Role
      */
     /**
      * A WAI-ARIA role for the element.
      *
      * @see {@link https://www.w3.org/TR/wai-aria-1.1/#role_definitions} for more information on WAI-ARIA roles
-     * @param {Roles}  value  Role
+     * @param value  Role
      */
     role: Roles;
     /**
-     * @return {boolean} Hidden?
+     * @return Hidden?
      */
     /**
      * Controls if element should be hidden from screen readers.
      *
      * @see {@link https://www.w3.org/TR/wai-aria-1.1/#aria-hidden} for more information
-     * @param {boolean}  value  Hidden?
+     * @param value  Hidden?
      */
     readerHidden: boolean;
     /**
      * @ignore Exclude from docs
-     * @return {boolean} Checked?
+     * @return Checked?
      */
     /**
      * Controls if element is currently marked as "checked".
      *
      * @ignore Exclude from docs
      * @see {@link https://www.w3.org/TR/wai-aria-1.1/#aria-checked} for more information
-     * @param {boolean} value Checked?
+     * @param value Checked?
      */
     readerChecked: boolean;
     /**
      * @ignore Exclude from docs
-     * @return {string} Setting value
+     * @return Setting value
      */
     /**
      * A `uid` of an element this element controls.
      *
      * @ignore Exclude from docs
      * @see {@link https://www.w3.org/TR/wai-aria-1.1/#aria-controls} for more information
-     * @param {string} value Setting value
+     * @param value Setting value
      */
     readerControls: string;
     /**
      * @ignore Exclude from docs
-     * @return {AriaLive} Setting value
+     * @return Setting value
      */
     /**
      * Controls accessibility setting "aria-live" for the element.
      *
      * @ignore Exclude from docs
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions} for more information
-     * @param {AriaLive} value Setting value
+     * @param value Setting value
      */
     readerLive: AriaLive;
     /**
      * @ignore Exclude from docs
-     * @return {Sprite} Target element
+     * @return Target element
      */
     /**
      * A `uid` of an element that describes this element.
      *
      * @ignore Exclude from docs
      * @see {@link https://www.w3.org/TR/wai-aria-1.1/#aria-labelledby} for more information
-     * @param {Sprite} value Target element
+     * @param value Target element
      */
     readerLabelledBy: string;
     /**
      * @ignore Exclude from docs
-     * @return {Sprite} Target element
+     * @return Target element
      */
     /**
      * A `uid` of an element that describes this element.
      *
      * @ignore Exclude from docs
      * @see {@link https://www.w3.org/TR/wai-aria-1.1/#aria-describedby} for more information
-     * @param {Sprite} value Target element
+     * @param value Target element
      */
     readerDescribedBy: string;
     /**
@@ -1978,7 +1903,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Returns elements keyboard options.
      *
-     * @return {IKeyboardOptions} Keyboard options
+     * @return Keyboard options
      */
     readonly keyboardOptions: IKeyboardOptions;
     /**
@@ -1988,16 +1913,16 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * [[InteractionObject]] is used to attach all kinds of user-interactions to
      * the element, e.g. click/touch, dragging, hovering, and similar events.
      *
-     * @return {InteractionObject} Interaction object
+     * @return Interaction object
      */
     readonly interactions: InteractionObject;
     /**
      * Returns true if interactions object was created. Mostly used just to avoid creating interactions object if not needed.
-     * @return {boolean} Is Sprite interactive?
+     * @return Is Sprite interactive?
      */
     isInteractive(): boolean;
     /**
-     * @return {Optional<boolean>} Can element be focused?
+     * @return Can element be focused?
      */
     /**
      * ==========================================================================
@@ -2020,21 +1945,21 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * are not focusable, except certain items like buttons, legend items, etc.
      *
      * @default undefined (auto)
-     * @param {Optional<boolean>}  value  Can element be focused?
+     * @param value  Can element be focused?
      */
     focusable: Optional<boolean>;
     /**
      * Applies filters (if set) when element gains focus.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["focus"]} ev Original event
+     * @param ev Original event
      */
     handleFocus(ev?: AMEvent<Sprite, ISpriteEvents>["focus"]): void;
     /**
      * Removes focus filter (if set) when elementloses focus.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["blur"]} ev Original event
+     * @param ev Original event
      */
     handleBlur(ev?: AMEvent<Sprite, ISpriteEvents>["blur"]): void;
     /**
@@ -2068,7 +1993,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @see {@link Filter}
      * @ignore Exclude from docs
-     * @return {Optional<Filter>} Focused element filter
+     * @return Focused element filter
      * @todo This is still experimental, use at your own risk.
      */
     /**
@@ -2078,7 +2003,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     focusFilter: $type.Optional<Filter>;
     /**
-     * @return {boolean} Trigger hover on focus?
+     * @return Trigger hover on focus?
      */
     /**
      * If set to `true`, this element will also trigger `"over"` event with all
@@ -2088,14 +2013,14 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Useful as an accessibility feature to display rollover tooltips on items
      * selected via keyboard.
      *
-     * @param {boolean}  value  Trigger hover on focus?
+     * @param value  Trigger hover on focus?
      * @default false
      */
     hoverOnFocus: boolean;
     /**
      * Returns current TAB index for focusable item.
      *
-     * @return {number} TAB index
+     * @return TAB index
      */
     /**
      * Sets TAB index.
@@ -2108,7 +2033,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * setting tab indexes, as it affects the user experience for the whole
      * web page.
      *
-     * @param {number} value TAB index
+     * @param value TAB index
      */
     tabindex: number;
     /**
@@ -2130,16 +2055,16 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * Check [[IInertiaOptions]] for how you tweak inertia animations.
      *
-     * @return {Dictionary<InertiaTypes, IInertiaOptions>} Inertia options
+     * @return Inertia options
      */
     readonly inertiaOptions: Dictionary<InertiaTypes, IInertiaOptions>;
     /**
-     * @return {boolean} `true` if element can be dragged
+     * @return `true` if element can be dragged
      */
     /**
      * Controls if the element is draggable.
      *
-     * @param {boolean}  value  `true` if element can be dragged
+     * @param value  `true` if element can be dragged
      */
     draggable: boolean;
     /**
@@ -2160,7 +2085,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * might happen if you have several objects being dragged on a touch device.
      *
      * @ignore Exclude from docs
-     * @param {IPointer} pointer Pointer to use for movement
+     * @param pointer Pointer to use for movement
      */
     dragStart(pointer?: IPointer): void;
     /**
@@ -2173,19 +2098,19 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Stops manually initiated dragging of the element.
      *
      * @ignore Exclude from docs
-     * @param {IPointer} pointer Pointer to use as a reference
+     * @param pointer Pointer to use as a reference
      */
     dragStop(pointer?: IPointer): void;
     /**
      * Executes when {Sprite} is being dragged.
      *
      * @ignore Exclude from docs
-     * @param {InteractionEvent} ev Event object
+     * @param ev Event object
      * @todo Implement parent position offset calculation
      */
     handleDragMove(ev: AMEvent<Sprite, ISpriteEvents>["drag"]): void;
     /**
-     * @return {boolean} `true` if element should use inertia when animated
+     * @return `true` if element should use inertia when animated
      */
     /**
      * Controls if the element should use inertia when interacted with.
@@ -2195,7 +2120,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * reducing in speed until finally stops.
      *
      * @default false
-     * @param {boolean} value `true` if element should use inertia when animated
+     * @param value `true` if element should use inertia when animated
      */
     inert: boolean;
     /**
@@ -2208,11 +2133,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Returns Sprite's hover options.
      *
      * @see {@link IHoverOptions} for available options.
-     * @return {IHoverOptions} Options
+     * @return Options
      */
     readonly hoverOptions: IHoverOptions;
     /**
-     * @return {boolean} `true` if element is hoverable
+     * @return `true` if element is hoverable
      */
     /**
      * Controls if the element is hoverable (hover events are registered).
@@ -2220,7 +2145,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Use `over` and `out` events, to watch for those respective actions.
      *
      * @default false
-     * @param {boolean} value `true` if element can be hovered
+     * @param value `true` if element can be hovered
      */
     hoverable: boolean;
     /**
@@ -2229,7 +2154,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * * Applies "hover" state
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["over"]} ev Event object
+     * @param ev Event object
      */
     handleOver(ev?: AMEvent<Sprite, ISpriteEvents>["over"]): void;
     /**
@@ -2239,7 +2164,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * * Applies default state
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["out"]} ev [description]
+     * @param ev [description]
      */
     handleOut(ev?: AMEvent<Sprite, ISpriteEvents>["out"]): void;
     /**
@@ -2261,21 +2186,21 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Click (hit) options control things like double-click, timeouts, etc.
      *
      * @see {@link IHitOptions} for available options.
-     * @return {IHitOptions} Options
+     * @return Options
      */
     readonly hitOptions: IHitOptions;
     /**
      * Prepares element's after `down` event.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["down"]} ev Event
+     * @param ev Event
      */
     handleDown(ev?: AMEvent<Sprite, ISpriteEvents>["down"]): void;
     /**
      * Prepares element's after `up` event.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["up"]} ev Event
+     * @param ev Event
      */
     handleUp(ev?: AMEvent<Sprite, ISpriteEvents>["up"]): void;
     /**
@@ -2291,11 +2216,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Use `hit`, `doublehit`, `up`, `down`, `toggled` events to watch for
      * respective click/touch actions.
      *
-     * @param {boolean} value `true` if element can be clicked
+     * @param value `true` if element can be clicked
      */
     clickable: boolean;
     /**
-     * @return {boolean} Is togglable?
+     * @return Is togglable?
      */
     /**
      * Indicates if element can be toggled on and off by subsequent clicks/taps.
@@ -2303,18 +2228,18 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Togglable element will alternate its `isActive` property between `true`
      * and `false` with each click.
      *
-     * @param {boolean} value Is togglable?
+     * @param value Is togglable?
      */
     togglable: boolean;
     /**
      * Handles toggling of the element.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["hit"]} ev Event
+     * @param ev Event
      */
     handleToggle(ev: AMEvent<Sprite, ISpriteEvents>["hit"]): void;
     /**
-     * @return {Optional<string>} URL
+     * @return URL
      */
     /**
      * Click-through URL for this element.
@@ -2343,13 +2268,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * }
      * ```
      *
-     * @param {Optional<string>} value URL
+     * @param value URL
      */
     url: $type.Optional<string>;
     baseId: string;
     protected setBaseId(value: string): void;
     /**
-     * @return {string} URL target
+     * @return URL target
      */
     /**
      * Target to use for URL clicks:
@@ -2362,14 +2287,14 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * Ignored if `url` is not set.
      *
-     * @param {string} value URL target
+     * @param value URL target
      */
     urlTarget: string;
     /**
      * Handles URL transition on element click.
      *
      * @ignore Exclude from docs
-     * @param {InteractionEvent} ev An event object
+     * @param ev An event object
      */
     urlHandler(ev: AMEvent<Sprite, ISpriteEvents>["hit"]): void;
     /**
@@ -2381,11 +2306,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Returns element's swipe gesture options.
      *
-     * @return {ISwipeOptions} Swipe gesture options
+     * @return Swipe gesture options
      */
     readonly swipeOptions: ISwipeOptions;
     /**
-     * @return {boolean} Element swipable?
+     * @return Element swipable?
      */
     /**
      * Controls if element is swipeable.
@@ -2396,11 +2321,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Please note that combining swipe and drag is possible, however will incur
      * a slight but noticeable delay in drag start.
      *
-     * @param {boolean}  value  Element swipable?
+     * @param value  Element swipable?
      */
     swipeable: boolean;
     /**
-     * @return {boolean} Track cursor movement over element?
+     * @return Track cursor movement over element?
      */
     /**
      * ==========================================================================
@@ -2418,11 +2343,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Please note, touch devices will also invoke `track` events when touch
      * point is moved while holding down on a trackable element.
      *
-     * @param {boolean} value Track cursor movement over element?
+     * @param value Track cursor movement over element?
      */
     trackable: boolean;
     /**
-     * @return {boolean} Mouse wheel events enabled?
+     * @return Mouse wheel events enabled?
      */
     /**
      * ==========================================================================
@@ -2436,11 +2361,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Will invoke `wheel`, `wheelup`, `wheeldown`, `wheelleft`, and `wheelright`
      * events when using mouse wheel over the element.
      *
-     * @param {boolean} value Mouse wheel events enabled?
+     * @param value Mouse wheel events enabled?
      */
     wheelable: boolean;
     /**
-     * @return {boolean} Element resizable?
+     * @return Element resizable?
      */
     /**
      * ==========================================================================
@@ -2462,7 +2387,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * Will invoke `resize` event every time the size of the element changes.
      *
-     * @param {boolean}  value  Element resizable?
+     * @param value  Element resizable?
      */
     resizable: boolean;
     /**
@@ -2472,7 +2397,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * this method to implement their own resize logic.
      *
      * @ignore Exclude from docs
-     * @param {InteractionEvent} ev Event object
+     * @param ev Event object
      */
     handleResize(ev: AMEvent<Sprite, ISpriteEvents>["resize"]): void;
     /**
@@ -2491,7 +2416,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * them set explicitly.
      *
      * @see {@link ICursorOptions} for a list of available options
-     * @return {ICursorOptions} Cursor options
+     * @return Cursor options
      */
     readonly cursorOptions: ICursorOptions;
     /**
@@ -2517,7 +2442,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * }
      * ```
      *
-     * @param {Array<IStyleProperty>} style An array of styles to apply onhover
+     * @param style An array of styles to apply onhover
      */
     cursorOverStyle: Array<IStyleProperty>;
     /**
@@ -2543,7 +2468,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * }
      * ```
      *
-     * @param {Array<IStyleProperty>} style An array of styles to apply onhover
+     * @param style An array of styles to apply onhover
      */
     cursorDownStyle: Array<IStyleProperty>;
     /**
@@ -2554,17 +2479,17 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     applyCursorStyle(): void;
     /**
-     * @return {boolean} Is interaction enabled for this element?
+     * @return Is interaction enabled for this element?
      */
     /**
      * Setting this to `false` will effectively disable all interactivity on the
      * element.
      *
-     * @param {boolean}  value  Is interaction enabled for this element?
+     * @param value  Is interaction enabled for this element?
      */
     interactionsEnabled: boolean;
     /**
-     * @return {Export} Export instance
+     * @return Export instance
      */
     /**
      * ==========================================================================
@@ -2584,24 +2509,24 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * default settings, what in most cases is just enough.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/} for more info about exporting
-     * @param {Export}  exp  Export
+     * @param exp  Export
      */
     exporting: Export;
     /**
      * This is here as a method so that inheriting classes could override it.
      *
-     * @return {Export} Export instance
+     * @return Export instance
      */
     protected getExporting(): Export;
     /**
-     * @return {boolean} Export?
+     * @return Export?
      */
     /**
      * If set to `false` this element will be omitted when exporting the chart
      * to an image.
      *
      * @default true
-     * @param {boolean}  value  Export?
+     * @param value  Export?
      */
     exportable: boolean;
     /**
@@ -2613,7 +2538,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Private method to be used for "classPrefix" adapter for modals/popups.
      *
-     * @param {string}  value  Prefix
+     * @param value  Prefix
      */
     private modalPrefix(value);
     /**
@@ -2624,7 +2549,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * `showModal()` method.
      *
      * @see {@link Modal} for more information about using Modal windows
-     * @return {Modal} Modal instance
+     * @return Modal instance
      */
     readonly modal: Optional<Modal>;
     /**
@@ -2634,8 +2559,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * The `text` parameter can contain HTML content.
      *
      * @see {@link Modal} for more information about using Modal windows
-     * @param {string}  text   Modal contents
-     * @param {string}  title  Title for the modal window
+     * @param text   Modal contents
+     * @param title  Title for the modal window
      */
     openModal(text: string, title?: string): Optional<Modal>;
     /**
@@ -2645,7 +2570,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * A list of popups for this chart.
      *
-     * @return {ListTemplate<Popup>} Popups
+     * @return Popups
      */
     readonly popups: Optional<ListTemplate<Popup>>;
     /**
@@ -2655,9 +2580,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * `title` is currently not supported.
      *
-     * @param  {string}  text   Popup contents
-     * @param  {string}  title  Popup title
-     * @return {Popup}          Popup instance
+     * @param text   Popup contents
+     * @param title  Popup title
+     * @return Popup instance
      */
     openPopup(text: string, title?: string): Optional<Popup>;
     /**
@@ -2665,7 +2590,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     closeAllPopups(): void;
     /**
-     * @return {number | Percent} X coordinate
+     * @return X coordinate
      */
     /**
      * ==========================================================================
@@ -2679,25 +2604,25 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * If setting both X and Y, please consider using `moveTo()` method instead,
      * as it will be faster to set both coordinates at once.
      *
-     * @param {number | Percent} value X coordinate
+     * @param value X coordinate
      */
     x: number | Percent;
     /**
      * Returns element's current absolute X coordinate in pixels.
      *
      * @readonly
-     * @return {number} X coordinate (px)
+     * @return X coordinate (px)
      */
     readonly pixelX: number;
     /**
      * Returns element's current relative X coordinate in [[Percent]].
      *
-     * @return {number} X coordinate ([[Percent]])
+     * @return X coordinate ([[Percent]])
      */
     readonly relativeX: number;
     /**
      * @ignore Exclude from docs
-     * @return {number} Min X (px)
+     * @return Min X (px)
      */
     /**
      * The smallest allowable absolute X coordinate for this element.
@@ -2705,12 +2630,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * This is used to contain element movement within certain boundaries.
      *
      * @ignore Exclude from docs
-     * @param {number} value Min X (px)
+     * @param value Min X (px)
      */
     minX: number;
     /**
      * @ignore Exclude from docs
-     * @return {number} Max X (px)
+     * @return Max X (px)
      */
     /**
      * The biggest allowable absolute X coordinate for this element.
@@ -2718,11 +2643,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * This is used to contain element movement within certain boundaries.
      *
      * @ignore Exclude from docs
-     * @param {number} value Max X (px)
+     * @param value Max X (px)
      */
     maxX: number;
     /**
-     * @return {number | Percent} Y coordinate
+     * @return Y coordinate
      */
     /**
      * Element's absolute or relative Y coordinate.
@@ -2730,26 +2655,26 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * If setting both X and Y, please consider using `moveTo()` method instead,
      * as it will be faster to set both coordinates at once.
      *
-     * @param {number | Percent}  value  Y coordinate
+     * @param value  Y coordinate
      */
     y: number | Percent;
     /**
      * Returns element's current absolute Y coordinate in pixels.
      *
      * @readonly
-     * @return {number} Y coordinate (px)
+     * @return Y coordinate (px)
      */
     readonly pixelY: number;
     /**
      * Returns element's current relative Y coordinate in [[Percent]].
      *
      * @readonly
-     * @return {number} Y coordinate ([[Percent]])
+     * @return Y coordinate ([[Percent]])
      */
     readonly relativeY: number;
     /**
      * @ignore Exclude from docs
-     * @return {number} Min Y (px)
+     * @return Min Y (px)
      */
     /**
      * The smallest allowable absolute Y coordinate for this element.
@@ -2757,12 +2682,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * This is used to contain element movement within certain boundaries.
      *
      * @ignore Exclude from docs
-     * @param {number} value Min Y (px)
+     * @param value Min Y (px)
      */
     minY: number;
     /**
      * @ignore Exclude from docs
-     * @return {number} Max Y (px)
+     * @return Max Y (px)
      */
     /**
      * The biggest allowable absolute Y coordinate for this element.
@@ -2770,64 +2695,64 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * This is used to contain element movement within certain boundaries.
      *
      * @ignore Exclude from docs
-     * @param {number}  value  Max Y (px)
+     * @param value  Max Y (px)
      */
     maxY: number;
     /**
-     * @return {number} Horizontal offset (px)
+     * @return Horizontal offset (px)
      */
     /**
      * A horizontal offset for the element in pixels.
      *
      * Can be negative value for offset to the left.
      *
-     * @param {number}  value  Horizontal offset (px)
+     * @param value  Horizontal offset (px)
      */
     dx: number;
     /**
-     * @return {number} Vertical offset (px)
+     * @return Vertical offset (px)
      */
     /**
      * A vertical offset for the element in pixels.
      *
      * Can be negative value for offset upwards.
      *
-     * @param {number}  value  Vertical offset (px)
+     * @param value  Vertical offset (px)
      */
     dy: number;
     /**
-     * @return {number} Rotation (0-360)
+     * @return Rotation (0-360)
      */
     /**
      * Rotation of the element in degrees. (0-360)
      *
-     * @param {number}  value  Rotation (0-360)
+     * @param value  Rotation (0-360)
      */
     rotation: number;
     /**
-     * @return {Align} Horizontal align
+     * @return Horizontal align
      */
     /**
      * Controls horizontal alignment of the element.
      *
      * This is used by parent [[Container]] when layouting its children.
      *
-     * @param {Align}  value  Horizontal align
+     * @param value  Horizontal align
      */
     align: Align;
     /**
-     * @return {VerticalAlign} Vertical align
+     * @return Vertical align
      */
     /**
      * Controls vertical alignment of the element.
      *
      * This is used by parent [[Container]] when layouting its children.
      *
-     * @param {VerticalAlign}  value  Vertical align
+     * @param value  Vertical align
      */
     valign: VerticalAlign;
     /**
-     * @return {HorizontalCenter} Horizontal center
+     * @return Horizontal center
      */
     /**
      * Controls which part of the element to treat as a horizontal center.
@@ -2835,11 +2760,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * The setting will be used when positioning, resizing and rotating the
      * element.
      *
-     * @param {HorizontalCenter}  value  Horizontal center
+     * @param value  Horizontal center
      */
     horizontalCenter: HorizontalCenter;
     /**
-     * @return {VerticalCenter} Vertical center
+     * @return Vertical center
      */
     /**
      * Controls which part of the element to treat as a vertical center.
@@ -2847,11 +2772,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * The setting will be used when positioning, resizing and rotating the
      * element.
      *
-     * @param {VerticalCenter}  value  Vertical center
+     * @param value  Vertical center
      */
     verticalCenter: VerticalCenter;
     /**
-     * @return {number} Maximum width (px)
+     * @return Maximum width (px)
      */
     /**
      * ==========================================================================
@@ -2862,44 +2787,44 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Maximum allowed width for the element in pixels.
      *
-     * @param {number}  value  Maximum width (px)
+     * @param value  Maximum width (px)
      */
     maxWidth: number;
     protected setMaxWidth(value: number): void;
     /**
-     * @return {number} Maximum height (px)
+     * @return Maximum height (px)
      */
     /**
      * Maximum allowed height for the element in pixels.
      *
-     * @param {number}  value  Maximum height (px)
+     * @param value  Maximum height (px)
      */
     maxHeight: number;
     protected setMaxHeight(value: number): void;
     /**
-     * @return {Optional<number>} Minimum width (px)
+     * @return Minimum width (px)
      */
     /**
      * Minimum width of the element in pixels.
      *
      * Set to `undefined` to remove the limit.
      *
-     * @param {Optional<number>}  value  Minimum width (px)
+     * @param value  Minimum width (px)
      */
     minWidth: Optional<number>;
     /**
-     * @return {Optional<number>} Minimum height (px)
+     * @return Minimum height (px)
      */
     /**
      * Minimum height for the element in pixels.
      *
      * Set to `undefined` to remove the limit.
      *
-     * @param {Optional<number>}  value  Minimum height (px)
+     * @param value  Minimum height (px)
      */
     minHeight: Optional<number>;
     /**
-     * @return {number | Percent} Width (absolute or relative)
+     * @return Width (absolute or relative)
      */
     /**
      * Element's absolute or relative width.
@@ -2910,11 +2835,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Relative width will be calculated using closest measured ancestor
      * [[Container]].
      *
-     * @param {number | Percent}  value  Width (numeric in pixels or relative)
+     * @param value  Width (numeric in pixels or relative)
      */
     width: number | Percent;
     /**
-     * @return {number | Percent} height (absolute or relative)
+     * @return height (absolute or relative)
      */
     /**
      * Element's absolute or relative height.
@@ -2925,42 +2850,42 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Relative height will be calculated using closest measured ancestor
      * [[Container]].
      *
-     * @param {number | Percent}  value  Height (numeric in pixels or relative)
+     * @param value  Height (numeric in pixels or relative)
      */
     height: number | Percent;
     /**
      * Returns element's width in pixels, if width was set. For actual width use measuredWidth property.
      *
      * @readonly
-     * @return {number} Width (px)
+     * @return Width (px)
      */
     readonly pixelWidth: number;
     /**
      * Returns element's height in pixels. For actual height use measuredHeight property.
      *
      * @readonly
-     * @return {number} Height (px)
+     * @return Height (px)
      */
     readonly pixelHeight: number;
     /**
-     * @return {$type.Optional<number>} Relative width
+     * @return Relative width
      * @ignore
      */
     /**
      * Element's relative width in [[Percent]].
      * @ignore
      *
-     * @param {$type.Optional<number>}  value  Relative width
+     * @param value  Relative width
      */
     relativeWidth: $type.Optional<number>;
     /**
-     * @return {$type.Optional<number>} Relative height
+     * @return Relative height
      * @ignore
      */
     /**
      * Element's relative height in [[Percent]].
      *
-     * @param {$type.Optional<number>}  value  Relative height
+     * @param value  Relative height
      * @ignore
      */
     relativeHeight: $type.Optional<number>;
@@ -2971,7 +2896,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * rotation and scale is taken into account.
      *
      * @readonly
-     * @return {number} Width (px)
+     * @return Width (px)
      */
     readonly measuredWidth: number;
     /**
@@ -2981,7 +2906,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * rotation and scale taken into account.
      *
      * @readonly
-     * @return {number} Height (px)
+     * @return Height (px)
      */
     readonly measuredHeight: number;
     /**
@@ -2989,7 +2914,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * pixels.
      *
      * @readonly
-     * @return {number} Outer width (px)
+     * @return Outer width (px)
      */
     readonly outerWidth: number;
     /**
@@ -2997,7 +2922,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * pixels.
      *
      * @readonly
-     * @return {number} Outer height (px)
+     * @return Outer height (px)
      */
     readonly outerHeight: number;
     /**
@@ -3007,7 +2932,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * minus horizontal padding.
      *
      * @readonly
-     * @return {number} Inner width (px)
+     * @return Inner width (px)
      */
     readonly innerWidth: number;
     /**
@@ -3017,7 +2942,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * minus vertical padding.
      *
      * @readonly
-     * @return {number} Inner height (px)
+     * @return Inner height (px)
      */
     readonly innerHeight: number;
     /**
@@ -3029,11 +2954,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * the child's `globalScale` will be 4. (a multitude of `2 x 2`)
      *
      * @readonly
-     * @return {number} Global scale
+     * @return Global scale
      */
     readonly globalScale: number;
     /**
-     * @return {number} Scale (0-1)
+     * @return Scale (0-1)
      */
     /**
      * Scale of the element.
@@ -3044,7 +2969,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * Etc.
      *
-     * @param {number}  value  Scale (0-1)
+     * @param value  Scale (0-1)
      */
     scale: number;
     /**
@@ -3052,210 +2977,209 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * Margins are set in pixels.
      *
-     * @param  {number}  top     Top margin
-     * @param  {number}  right   Right margin
-     * @param  {number}  bottom  Bottom margin
-     * @param  {number}  left    Left margin
-     * @return {Sprite}          Current element
+     * @param top     Top margin
+     * @param right   Right margin
+     * @param bottom  Bottom margin
+     * @param left    Left margin
+     * @return Current element
      */
     margin(top: number, right: number, bottom: number, left: number): Sprite;
     /**
-     * @return {number | Percent} Margin value
+     * @return Margin value
      */
     /**
      * Left margin - absolute (px) or relative ([[Percent]]).
      *
-     * @param {number | Percent}  value  Margin value
+     * @param value  Margin value
      */
     marginLeft: number | Percent;
     /**
-     * @return {number | Percent} Margin value
+     * @return Margin value
      */
     /**
      * Right margin - absolute (px) or relative ([[Percent]]).
      *
-     * @param {number | Percent}  value  Margin value
+     * @param value  Margin value
      */
     marginRight: number | Percent;
     /**
-     * @return {number | Percent} Margin value
+     * @return Margin value
      */
     /**
      * Top margin - absolute (px) or relative ([[Percent]]).
      *
-     * @param {number | Percent}  value  Margin value
+     * @param value  Margin value
      */
     marginTop: number | Percent;
     /**
-     * @return {number | Percent} Margin value
+     * @return Margin value
      */
     /**
      * Bottom margin - absolute (px) or relative ([[Percent]]).
      *
-     * @param {number | Percent}  value  Margin value
+     * @param value  Margin value
      */
     marginBottom: number | Percent;
     /**
      * Returns current right margin in pixels.
      *
      * @readonly
-     * @return {number} Right margin (px)
+     * @return Right margin (px)
      */
     readonly pixelMarginRight: number;
     /**
      * Returns current relative right margin.
      *
      * @readonly
-     * @return {number} Relative right margin
+     * @return Relative right margin
      */
     readonly relativeMarginRight: number;
     /**
      * Returns current left margin in pixels.
      *
      * @readonly
-     * @return {number} Left margin (px)
+     * @return Left margin (px)
      */
     readonly pixelMarginLeft: number;
     /**
      * Returns current relative left margin.
      *
      * @readonly
-     * @return {number} Relative left margin
+     * @return Relative left margin
      */
     readonly relativeMarginLeft: number;
     /**
      * Returns current top margin in pixels.
      *
      * @readonly
-     * @return {number} Top margin (px)
+     * @return Top margin (px)
      */
     readonly pixelMarginTop: number;
     /**
      * Returns current relative top margin.
      *
      * @readonly
-     * @return {number} Relative top margin
+     * @return Relative top margin
      */
     readonly relativeMarginTop: number;
     /**
      * Returns current bottom margin in pixels.
      *
      * @readonly
-     * @return {number} Bottom margin (px)
+     * @return Bottom margin (px)
      */
     readonly pixelMarginBottom: number;
     /**
      * Returns current relative bottom margin.
      *
      * @readonly
-     * @return {number} Relative bottom margin
+     * @return Relative bottom margin
      */
     readonly relativeMarginBottom: number;
     /**
      * Sets padding for the element in pixels.
      *
-     * @param  {number}  top     Top padding (px)
-     * @param  {number}  right   Right padding (px)
-     * @param  {number}  bottom  Bottom padding (px)
-     * @param  {number}  left    Left padding (px)
-     * @return {Sprite}          Element
+     * @param top     Top padding (px)
+     * @param right   Right padding (px)
+     * @param bottom  Bottom padding (px)
+     * @param left    Left padding (px)
+     * @return Element
      */
     padding(top: number, right: number, bottom: number, left: number): Sprite;
     /**
-     * @return {number | Percent} Padding value
+     * @return Padding value
      */
     /**
      * Left padding - absolute (px) or relative ([[Percent]]).
      *
-     * @param {number | Percent}  value  Padding value
+     * @param value  Padding value
      */
     paddingLeft: number | Percent;
     /**
-     * @return {number | Percent} Padding value
+     * @return Padding value
      */
     /**
      * Right padding - absolute (px) or relative ([[Percent]]).
      *
-     * @param {number | Percent}  value  Padding value
+     * @param value  Padding value
      */
     paddingRight: number | Percent;
     /**
-     * @return {number | Percent} Padding value
+     * @return Padding value
      */
     /**
      * Top padding - absolute (px) or relative ([[Percent]]).
      *
-     * @param {number | Percent}  value  Padding value
+     * @param value  Padding value
      */
     paddingTop: number | Percent;
     /**
-     * @return {number | Percent} Padding value
+     * @return Padding value
      */
     /**
      * Bottom padding - absolute (px) or relative ([[Percent]]).
      *
-     * @param {number | Percent}  value  Padding value
+     * @param value  Padding value
      */
     paddingBottom: number | Percent;
     /**
      * Returns current right padding in pixels.
      *
      * @readonly
-     * @return {number} Right padding (px)
+     * @return Right padding (px)
      */
     readonly pixelPaddingRight: number;
     /**
      * Returns current relative right padding.
      *
      * @readonly
-     * @return {number} Relative right padding
+     * @return Relative right padding
      */
     readonly relativePaddingRight: number;
     /**
      * Returns current left padding in pixels.
      *
      * @readonly
-     * @return {number} Left padding (px)
+     * @return Left padding (px)
      */
     readonly pixelPaddingLeft: number;
     /**
      * Returns current relative left padding.
      *
      * @readonly
-     * @return {number} Relative left padding
+     * @return Relative left padding
      */
     readonly relativePaddingLeft: number;
     /**
      * Returns current top padding in pixels.
      *
      * @readonly
-     * @return {number} Top padding (px)
+     * @return Top padding (px)
      */
     readonly pixelPaddingTop: number;
     /**
      * Returns current relative top padding.
      *
      * @readonly
-     * @return {number} Relative top padding
+     * @return Relative top padding
      */
     readonly relativePaddingTop: number;
     /**
      * Returns current bottom padding in pixels.
      *
      * @readonly
-     * @return {number} Bottom padding (px)
+     * @return Bottom padding (px)
      */
     readonly pixelPaddingBottom: number;
     /**
      * Returns current relative bottom padding.
      *
      * @readonly
-     * @return {number} Relative bottom padding
+     * @return Relative bottom padding
      */
     readonly relativePaddingBottom: number;
     /**
-     * Path of a tick element
-     * @type {string}
+     * @return Path of a Tick element
      */
     /**
      * ==========================================================================
@@ -3264,48 +3188,47 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @hidden
      */
     /**
-     * Path of a sprite element
-     * @type {string}
+     * Path of a Tick element
      */
     path: string;
     /**
-     * @return {ColorModifier} Fill color modifier
+     * @return Fill color modifier
      */
     /**
      * [[ColorModifier]] that can be used to modify color and pattern of the
      * element's fill, e.g. create gradients.
      *
-     * @param {ColorModifier}  value  Fill color modifiier
+     * @param value  Fill color modifiier
      */
     fillModifier: ColorModifier;
     /**
-     * @return {ColorModifier} Stroke color modifier
+     * @return Stroke color modifier
      */
     /**
      * [[ColorModifier]] that can be used to modify color and pattern of the
      * element's stroke (outline), e.g. create gradients.
      *
-     * @param {ColorModifier}  value  Stroke color modifier
+     * @param value  Stroke color modifier
      */
     strokeModifier: ColorModifier;
     /**
-     * @return {number} Opacity (0-9)
+     * @return Opacity (0-9)
      */
     /**
      * Element's fill opacity.
      *
      * Opacity ranges from 0 (fully transparent) to 1 (fully opaque).
      *
-     * @param {number}  value  Opacity (0-1)
+     * @param value  Opacity (0-1)
      */
     fillOpacity: number;
     /**
-     * @return {Color} Fill
+     * @return Fill
      */
     /**
      * Element's fill color or pattern.
      *
-     * @param {Optional<Color | Pattern | LinearGradient | RadialGradient>}  value  Fill
+     * @param value  Fill
      */
     fill: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>;
     /**
@@ -3313,11 +3236,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * modifiers.
      *
      * @ignore Exclude from docs
-     * @param {Optional<Color | Pattern | LinearGradient | RadialGradient>}  value  Fill
+     * @param value  Fill
      */
     protected setFill(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>): void;
     /**
-     * @return {number} Opacity (0-1)
+     * @return Opacity (0-1)
      */
     /**
      * Element's opacity.
@@ -3334,16 +3257,16 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Or, use properties `fillOpacity` and `strokeOpacity`, if you need to make
      * the element semi-transparent.
      *
-     * @param {number} value Opacity (0-1)
+     * @param value Opacity (0-1)
      */
     opacity: number;
     /**
-     * @return {Color} Stroke setting
+     * @return Stroke setting
      */
     /**
      * Element's stroke (outline) color or pattern.
      *
-     * @param {Color | Pattern | LinearGradient | RadialGradient}  value  Stroke setting
+     * @param value  Stroke setting
      */
     stroke: Color | Pattern | LinearGradient | RadialGradient;
     /**
@@ -3351,51 +3274,51 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * color modifiers.
      *
      * @ignore Exclude from docs
-     * @param {Color | Pattern | LinearGradient | RadialGradient} value Stroke setting
+     * @param value Stroke setting
      */
     protected setStroke(value: Color | Pattern | LinearGradient | RadialGradient): void;
     /**
-     * @return {number} Opacity (0-1)
+     * @return Opacity (0-1)
      */
     /**
      * Stroke (outline) opacity.
      *
      * The values may range from 0 (fully transparent) to 1 (fully opaque).
      *
-     * @param {number}  value  Opacity (0-1)
+     * @param value  Opacity (0-1)
      */
     strokeOpacity: number;
     /**
-     * @return {boolean} Do not scale stroke (outline)
+     * @return Do not scale stroke (outline)
      */
     /**
      * Controls if the element's stroke (outline) should remain keep constant
      * thicnkess and do not scale when the whole element is resized.
      *
-     * @param {boolean}  value  Do not scale stroke (outline)
+     * @param value  Do not scale stroke (outline)
      */
     nonScalingStroke: boolean;
     /**
-     * @return {boolean} Is element scaleable?
+     * @return Is element scaleable?
      */
     /**
      * Controls if element should keep constant size and not scale even if there is
      * space available, or it does not fit.
      *
-     * @param {boolean}  value  Is element scaleable?
+     * @param value  Is element scaleable?
      */
     nonScaling: boolean;
     /**
-     * @return {number} Thickness (px)
+     * @return Thickness (px)
      */
     /**
      * Stroke (outline) thickness in pixels.
      *
-     * @param {number}  value  Thickness (px)
+     * @param value  Thickness (px)
      */
     strokeWidth: number;
     /**
-     * @return {string} `stroke-dasharray`
+     * @return `stroke-dasharray`
      */
     /**
      * A `stroke-dasharray` for the stroke (outline).
@@ -3403,11 +3326,24 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * "Dasharray" allows setting rules to make lines dashed, dotted, etc.
      *
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray} for more info on `stroke-dasharray`
-     * @param {string}  value  `stroke-dasharray`
+     * @param value  `stroke-dasharray`
      */
     strokeDasharray: string;
     /**
-     * @return {ShapeRendering} 'shape-rendering' value
+     * @return `stroke-dashoffset`
+     */
+    /**
+     * A `stroke-dashoffset` for the stroke (outline).
+     *
+     * "Dashoffset" allows setting the start position of the dashes if
+     * `strokeDasharray` is used.
+     *
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dashoffset} for more info on `stroke-dashoffset`
+     * @param value  `stroke-dashoffset`
+     */
+    strokeDashoffset: number;
+    /**
+     * @return 'shape-rendering' value
      */
     /**
      * An SVG-specific `shape-rendering` value.
@@ -3416,11 +3352,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/shape-rendering} for more information about `shape-rendering`
      * @default "auto"
-     * @param {ShapeRendering}  value  'shape-rendering' value
+     * @param value  'shape-rendering' value
      */
     shapeRendering: ShapeRendering;
     /**
-     * @return {boolean} Use pixel perfect?
+     * @return Use pixel perfect?
      */
     /**
      * Controls if SVG vectors should be drawn with "pixel" precision, producing
@@ -3434,18 +3370,18 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * We recommend leaving this at their default settings, unless there's a
      * specific need.
      *
-     * @param {boolean}  value  Use pixel perfect?
+     * @param value  Use pixel perfect?
      */
     pixelPerfect: boolean;
     /**
-     * @return {boolean} RTL?
+     * @return RTL?
      */
     /**
      * An RTL (right-to-left) setting.
      *
      * RTL may affect alignment, text, and other visual properties.
      *
-     * @param {DateFormatter}  value  `true` for to use RTL
+     * @param value  `true` for to use RTL
      */
     rtl: boolean;
     /**
@@ -3461,23 +3397,23 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * If `duration` is not specified, it will use default.
      *
-     * @param  {number}  duration  Fade in duration (ms)
-     * @return {Optional<Animation>} Animation object if such object was created
+     * @param duration  Fade in duration (ms)
+     * @return Animation object if such object was created
      */
     show(duration?: number): $type.Optional<Animation>;
     /**
      * Performs actual operations to reveal this element.
      *
      * @ignore Exclude from docs
-     * @param  {number} duration Fade in duration (ms)
-     * @return {number}          Fade in duration (ms)
+     * @param duration Fade in duration (ms)
+     * @return Fade in duration (ms)
      */
     protected showReal(duration?: number): $type.Optional<Animation>;
     /**
      * Initiates hiding of Sprite.
      * When called it will fade out the the Sprite to transparency, then make it
      * invisible.
-     * @param {number} duration Duration in millisecons
+     * @param duration Duration in millisecons
      */
     /**
      * Hides the element, by applying `hidden` state.
@@ -3491,27 +3427,27 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * When element is hidden, its `visible` property will resolve to `false`.
      *
-     * @param  {number}  duration  Fade out duration (ms)
-     * @return {Optional<Animation>} hide Animation object if such object was created
+     * @param duration  Fade out duration (ms)
+     * @return hide Animation object if such object was created
      */
     hide(duration?: number): $type.Optional<Animation>;
     /**
      * Hides actual SVG elements and handles hiding animations.
      *
-     * @param  {number}  duration  Fade out duration (ms)
-     * @return {Animation}            Fade out duration (ms)
+     * @param duration  Fade out duration (ms)
+     * @return Fade out duration (ms)
      * @ignore
      */
     protected hideReal(duration?: number): $type.Optional<Animation>;
     /**
      * Returns current visibility of the element.
      *
-     * @return {boolean} Visible?
+     * @return Visible?
      */
     /**
      * Sets visibility of the element.
      *
-     * @param {boolean} value Visible?
+     * @param value Visible?
      */
     visible: boolean;
     /**
@@ -3525,12 +3461,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * * `true` - visible
      * * `false` - hidden
      *
-     * @param  {boolean}  value  true - visible, false - hidden
-     * @return {string}          Current visibility
+     * @param value  true - visible, false - hidden
+     * @return Current visibility
      */
     setVisibility(value: boolean): void;
     /**
-     * @return {number} zIndex
+     * @return zIndex
      */
     /**
      * A "zIndex" of the element.
@@ -3540,7 +3476,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Higher "zIndex" will mean the element will be draw on top of elements
      * with lower "zIndexes".
      *
-     * @param {number}  value  zIndex
+     * @param value  zIndex
      */
     zIndex: number;
     /**
@@ -3554,7 +3490,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     toBack(): void;
     /**
-     * @return {Optional<Tooltip>} Tooltip
+     * @return Tooltip
      */
     /**
      * ==========================================================================
@@ -3566,11 +3502,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * A [[Tooltip]] object to be used when displayed rollover information for
      * the element.
      *
-     * @param {Tooltip}  tooltip  Tooltip
+     * @param tooltip  Tooltip
      */
     tooltip: $type.Optional<Tooltip>;
     /**
-     * @return {DataItem} Tooltip data item
+     * @return Tooltip data item
      */
     /**
      * A [[DataItem]] to use when populating content for the element's
@@ -3578,11 +3514,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @see {@link Tooltip}
      * @see {@link DataItem}
-     * @param {DataItem}  value  Tooltip data item
+     * @param value  Tooltip data item
      */
     tooltipDataItem: DataItem;
     /**
-     * @return {Optional<Sprite>} Tooltip color source
+     * @return Tooltip color source
      */
     /**
      * A [[Sprite]] or sprite template to use when getting colors for tooltip. If a template is set,
@@ -3590,7 +3526,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @see {@link Tooltip}
      * @see {@link Sprite}
-     * @param {Optional<Sprite>}  sprite Sprite
+     * @param sprite Sprite
      */
     tooltipColorSource: $type.Optional<Sprite>;
     /**
@@ -3600,8 +3536,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * `tooltipText` as well as data in `tooltipDataItem`.
      *
      * @see {@link Tooltip}
-     * @param {point} optional point (sprite-related) to which tooltip must point.
-     * @return {boolean} returns true if the tooltip was shown and false if it wasn't (no text was found)
+     * @param optional point (sprite-related) to which tooltip must point.
+     * @return returns true if the tooltip was shown and false if it wasn't (no text was found)
      */
     showTooltip(point?: IPoint): boolean;
     /**
@@ -3611,8 +3547,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Sets the point the [[Tooltip]] should point to.
      *
-     * @param {IPoint}   point      Coordinates to point to
-     * @param {boolean}  instantly  Move instantly without animation
+     * @param point      Coordinates to point to
+     * @param instantly  Move instantly without animation
      */
     protected pointTooltipTo(point: IPoint, instantly?: boolean): boolean;
     /**
@@ -3622,7 +3558,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     hideTooltip(duration?: number): void;
     /**
-     * @return {string} Tooltip HTML content template
+     * @return Tooltip HTML content template
      */
     /**
      * An HTML template to be used to populate [[Tooltip]] contents.
@@ -3631,11 +3567,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * for any data values to be replaced with the values from respective data
      * items.
      *
-     * @param {string} value Tooltip HTML content template
+     * @param value Tooltip HTML content template
      */
     tooltipHTML: string;
     /**
-     * @return {string} Tooltip content template
+     * @return Tooltip content template
      */
     /**
      * A text template to be used to populate Tooltip's contents.
@@ -3646,13 +3582,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * This template will also be parsed for any special formatting tags.
      *
-     * @param {string} value Tooltip content template
+     * @param value Tooltip content template
      * @see {@link TextFormatter}
      */
     tooltipText: string;
     /**
      * @ignore Exclude from docs
-     * @return {Optional<Container>} Container
+     * @return Container
      */
     /**
      * A container reference that should be used to place element's
@@ -3661,54 +3597,54 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Will use parent's container if does not have one set.
      *
      * @ignore Exclude from docs
-     * @param {Container} value Container
+     * @param value Container
      * @todo Dispose of the old _tooltipContainer ?
      */
     tooltipContainer: $type.Optional<Container>;
     /**
      * @ignore Exclude from docs
-     * @return {number} Tooltip X (px)
+     * @return Tooltip X (px)
      */
     /**
      * X coordinate the [[Tooltip]] should be shown at.
      *
      * @ignore Exclude from docs
-     * @param {number}  value  Tooltip X (px)
+     * @param value  Tooltip X (px)
      */
     tooltipX: number;
     /**
-     * @type {"fixed" | "pointer"} Position
+     * Position
      */
     /**
      * Specifies if [[Tooltip]] should follow the mouse or touch pointer or stay
      * at the fixed position.
      *
-     * @param { "fixed" | "pointer" }  value  Position
+     * @param value  Position
      */
     tooltipPosition: "fixed" | "pointer";
     /**
      * @ignore Exclude from docs
-     * @return {number} Tooltip Y (px)
+     * @return Tooltip Y (px)
      */
     /**
      * Y coordinate the [[Tooltip]] should be shown at.
      *
      * @ignore Exclude from docs
-     * @param {number}  value  Tooltip Y (px)
+     * @param value  Tooltip Y (px)
      */
     tooltipY: number;
     /**
      * Returns Tooltip X coordinate if it's set, or middle of the element.
      *
      * @ignore Exclude from docs
-     * @return {number} X (px)
+     * @return X (px)
      */
     protected getTooltipX(): number;
     /**
      * Returns Tooltip Y coordinate if it's set, or middle of the element.
      *
      * @ignore Exclude from docs
-     * @return {number} Y (px)
+     * @return Y (px)
      */
     protected getTooltipY(): number;
     /**
@@ -3716,7 +3652,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * processing of this item.
      *
      * @ignore Exclude from docs
-     * @param {Error} e Error
+     * @param e Error
      * @todo Implement from applying further actions to this item
      */
     raiseCriticalError(e: Error): void;
@@ -3724,7 +3660,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
  * Processes JSON-based config before it is applied to the object.
  *
  * @ignore Exclude from docs
- * @param {object}  config  Config
+ * @param config  Config
  */
     processConfig(config?: {
         [index: string]: any;
@@ -3732,8 +3668,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Converts string name of the cursor into actual [[MouseCursorStyle]].
      *
-     * @param  {string}                      style  Cursor type
-     * @return {Optional<MouseCursorStyle>}         Cursor definition
+     * @param style  Cursor type
+     * @return Cursor definition
      */
     private getCursorStyle(style);
     /**
@@ -3742,21 +3678,19 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * the end.
      *
      * @ignore Exclude from docs
-     * @param  {string}  a  Element 1
-     * @param  {string}  b  Element 2
-     * @return {Ordering}   Sorting number
+     * @param a  Element 1
+     * @param b  Element 2
+     * @return Sorting number
      */
     protected configOrder(a: string, b: string): Ordering;
     /**
      * If `sprite.hide()` is called, we set isHidden to true when sprite is hidden.
      * This was added becaus hidden state might have visibility set to true and so
      * there would not be possible to find out if a sprite is technically hidden or not.
-     *
-     * @type {boolean}
      */
     readonly isHidden: boolean;
     /**
-     * @return {boolean} Show on init?
+     * @return Show on init?
      */
     /**
      * If this is set to `true`, Sprite, when inited will be instantly hidden
@@ -3769,7 +3703,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * initially, set `sprite.hidden = true`. Setting `sprite.visible = false`
      * will not prevent the animation and the sprite will be shown.
      *
-     * @param {boolean}  value show on init?
+     * @param value show on init?
      */
     showOnInit: boolean;
     /**
@@ -3785,21 +3719,20 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     appear(): void;
     /**
-     * @return {boolean} Is initially hidden?
+     * @return Is initially hidden?
      */
     /**
      * If a sprite has `showOnInit = true`, it will animate from "hidden" to
      * "default" state when initialized. To prevent this but keep
      * `showOnInit = true`, you can set `sprite.hidden = true`.
      *
-     * @param {boolean}  value initially hidden?
+     * @param value initially hidden?
      */
     hidden: boolean;
     /**
      * Returns bounding box (square) for this element.
      *
      * @ignore Exclude from docs
-     * @type {IRectangle}
      */
     readonly bbox: IRectangle;
 }

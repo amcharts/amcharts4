@@ -1,77 +1,110 @@
+var data = [];
+var value1 = 100;
+var value2 = 200;
+var value3 = 400;
+
+var names = ["Raina",
+  "Demarcus",
+  "Carlo",
+  "Jacinda",
+  "Richie",
+  "Antony",
+  "Amada",
+  "Idalia",
+  "Janella",
+  "Marla",
+  "Curtis",
+  "Shellie",
+  "Meggan",
+  "Nathanael",
+  "Jannette",
+  "Tyrell",
+  "Sheena",
+  "Maranda",
+  "Briana"
+];
+
+
+for (var i = 0; i < names.length; i++) {
+  value1 += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 5);
+  value2 += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 5);
+  value3 += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 5);
+  data.push({ category: names[i], value1: value1, value2:value2, value3:value3 });
+}
+
 am4core.useTheme(am4themes_animated);
 
-var chart = am4core.create("chartdiv", am4charts.XYChart);
+var interfaceColors = new am4core.InterfaceColorSet();
 
-var data = [];
-var price = 10;
-var quantity = 1000;
-for (var i = 0; i < 300; i++) {
-    price += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 100);
-    quantity += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 1000);
-    data.push({ date: new Date(2000, 1, i), price: price, quantity: quantity });
-}
+var chart = am4core.create("chartdiv", am4charts.XYChart);
 
 chart.data = data;
 // the following line makes value axes to be arranged vertically.
 chart.bottomAxesContainer.layout = "horizontal";
 chart.bottomAxesContainer.reverseOrder = true;
+chart.arrangeTooltips = false;
 
-var dateAxis = chart.yAxes.push(new am4charts.DateAxis());
-dateAxis.renderer.grid.template.location = 0;
-dateAxis.renderer.ticks.template.length = 8;
-dateAxis.renderer.ticks.template.strokeOpacity = 0.1;
-dateAxis.renderer.grid.template.disabled = true;
-dateAxis.renderer.ticks.template.disabled = false;
-dateAxis.renderer.ticks.template.strokeOpacity = 0.2;
-dateAxis.renderer.inside = true;
-dateAxis.renderer.inversed = true;
+var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "category";
+categoryAxis.renderer.grid.template.stroke = interfaceColors.getFor("background");
+categoryAxis.renderer.grid.template.strokeOpacity = 1;
+categoryAxis.renderer.grid.template.location = 1;
+categoryAxis.renderer.minGridDistance = 20;
 
-// these two lines makes the axis to be initially zoomed-in
-// dateAxis.start = 0.7;
-// dateAxis.keepSelection = true;
+var valueAxis1 = chart.xAxes.push(new am4charts.ValueAxis());
+valueAxis1.tooltip.disabled = true;
+valueAxis1.renderer.baseGrid.disabled = true;
+valueAxis1.marginRight = 30;
+valueAxis1.renderer.gridContainer.background.fill = interfaceColors.getFor("alternativeBackground");
+valueAxis1.renderer.gridContainer.background.fillOpacity = 0.05;
+valueAxis1.renderer.grid.template.stroke = interfaceColors.getFor("background");
+valueAxis1.renderer.grid.template.strokeOpacity = 1;
+valueAxis1.title.text = "Axis 1";
 
-var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
-valueAxis.tooltip.disabled = true;
-valueAxis.renderer.baseGrid.disabled = true;
-
-// width of axis
-valueAxis.width = am4core.percent(65);
-// this makes gap between panels
-valueAxis.marginRight = 30;
-
-// uncomment these lines to fill plot area of this axis with some color
-//valueAxis.renderer.gridContainer.background.fill = am4core.color("#000000");
-//valueAxis.renderer.gridContainer.background.fillOpacity = 0.05;
-
-
-var series = chart.series.push(new am4charts.LineSeries());
-series.dataFields.dateY = "date";
-series.dataFields.valueX = "price";
-series.tooltipText = "{valueX.value}";
-series.name = "Series 1";
+var series1 = chart.series.push(new am4charts.LineSeries());
+series1.dataFields.categoryY = "category";
+series1.dataFields.valueX = "value1";
+series1.tooltipText = "{valueX.value}";
+series1.xAxis = valueAxis1;
+series1.name = "Series 1";
+series1.bullets.push(new am4charts.CircleBullet());
 
 var valueAxis2 = chart.xAxes.push(new am4charts.ValueAxis());
 valueAxis2.tooltip.disabled = true;
-// width of axis
-valueAxis2.width = am4core.percent(35);
 valueAxis2.renderer.baseGrid.disabled = true;
-
-
-// uncomment these lines to fill plot area of this axis with some color
-//valueAxis2.renderer.gridContainer.background.fill = am4core.color("#000000");
-//valueAxis2.renderer.gridContainer.background.fillOpacity = 0.05;
+valueAxis2.marginRight = 30;
+valueAxis2.renderer.gridContainer.background.fill = interfaceColors.getFor("alternativeBackground");
+valueAxis2.renderer.gridContainer.background.fillOpacity = 0.05;
+valueAxis2.renderer.grid.template.stroke = interfaceColors.getFor("background");
+valueAxis2.renderer.grid.template.strokeOpacity = 1;
+valueAxis2.title.text = "Axis 2";
 
 var series2 = chart.series.push(new am4charts.ColumnSeries());
-series2.dataFields.dateY = "date";
-series2.dataFields.valueX = "quantity";
-series2.xAxis = valueAxis2;
+series2.dataFields.categoryY = "category";
+series2.dataFields.valueX = "value2";
 series2.tooltipText = "{valueX.value}";
+series2.xAxis = valueAxis2;
 series2.name = "Series 2";
 
+var valueAxis3 = chart.xAxes.push(new am4charts.ValueAxis());
+valueAxis3.tooltip.disabled = true;
+valueAxis3.renderer.baseGrid.disabled = true;
+valueAxis3.renderer.gridContainer.background.fill = interfaceColors.getFor("alternativeBackground");
+valueAxis3.renderer.gridContainer.background.fillOpacity = 0.05;
+valueAxis3.renderer.grid.template.stroke = interfaceColors.getFor("background");
+valueAxis3.renderer.grid.template.strokeOpacity = 1;
+valueAxis3.title.text = "Axis 3";
+
+var series3 = chart.series.push(new am4charts.LineSeries());
+series3.dataFields.categoryY = "category";
+series3.dataFields.valueX = "value3";
+series3.tooltipText = "{valueX.value}";
+series3.xAxis = valueAxis3;
+series3.name = "Series 3";
+series3.bullets.push(new am4charts.CircleBullet());
+
 chart.cursor = new am4charts.XYCursor();
-chart.cursor.yAxis = dateAxis;
 chart.cursor.behavior = "zoomY";
 
-var scrollbarY = new am4charts.XYChartScrollbar();
-scrollbarY.series.push(series);
+var scrollbarY = new am4core.Scrollbar();
 chart.scrollbarY = scrollbarY;

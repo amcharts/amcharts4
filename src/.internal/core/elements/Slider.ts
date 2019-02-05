@@ -57,22 +57,16 @@ export class Slider extends Scrollbar {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ISliderProperties}
 	 */
 	public _properties!: ISliderProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ISliderAdapters}
 	 */
 	public _adapter!: ISliderAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ISliderEvents}
 	 */
 	public _events!: ISliderEvents;
 
@@ -98,7 +92,7 @@ export class Slider extends Scrollbar {
 
 
 	/**
-	 * @return {number} [description]
+	 * @return [description]
 	 */
 	protected get __end(): number {
 		return this._start;
@@ -109,7 +103,7 @@ export class Slider extends Scrollbar {
 	}
 
 	/**
-	 * @return {number} [description]
+	 * @return [description]
 	 */
 	public get end(): number {
 		return this._start;
@@ -118,7 +112,7 @@ export class Slider extends Scrollbar {
 	/**
 	 * Relative position (0-1) of the end grip.
 	 *
-	 * @param {number}  position  Position (0-1)
+	 * @param position  Position (0-1)
 	 */
 	public set end(position: number) {
 
@@ -128,7 +122,7 @@ export class Slider extends Scrollbar {
 	/**
 	 * Relative position (0-1) of the start grip.
 	 *
-	 * @param {number}  position  Position (0-1)
+	 * @param position  Position (0-1)
 	 */
 	public set start(position: number) {
 		if (!this._isBusy) {
@@ -137,7 +131,7 @@ export class Slider extends Scrollbar {
 	}
 
 	/**
-	 * @return {number} Position (0-1)
+	 * @return Position (0-1)
 	 */
 	public get start(): number {
 		return this._start;

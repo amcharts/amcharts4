@@ -1,7 +1,5 @@
 /**
  * Represents named (usually frequently used) keyboard keys for easy referece.
- *
- * @type {string}
  */
 export declare type KeyboardKeys = "up" | "down" | "left" | "right" | "enter" | "esc" | "home" | "tab" | "end" | "ctrl" | "alt" | "shift" | "space" | "home" | "end" | "pgup" | "pgdn" | "ins" | "del" | "plus" | "minus" | "other";
 /**
@@ -14,42 +12,42 @@ export declare class Keyboard {
      * Returns a named key based on information contained in the event or
      * "other".
      *
-     * @param  {KeyboardEvent}  ev  A keyboard event
-     * @return {KeyboardKeys}       Keyboard named key
+     * @param ev  A keyboard event
+     * @return Keyboard named key
      */
     getEventKey(ev: KeyboardEvent): KeyboardKeys;
     /**
      * Checks if event key is one or more of the selected named keys.
      *
-     * @param  {KeyboardEvent}      ev   Keyboard event
-     * @param  {string | string[]}  key  Named key or array of keys
-     * @return {boolean}                 Is event key one of the list?
+     * @param ev   Keyboard event
+     * @param key  Named key or array of keys
+     * @return Is event key one of the list?
      */
     isKey(ev: KeyboardEvent, key: string | string[]): boolean;
     /**
      * Returns `true` if shift key was presset at the moment of the event.
      *
-     * @param  {KeyboardEvent | MouseEvent}  ev  Event object
-     * @return {boolean}                         Was shift pressed?
+     * @param ev  Event object
+     * @return Was shift pressed?
      */
     shiftKey(ev: KeyboardEvent | MouseEvent): boolean;
     /**
      * Returns `true` if ctrl key was presset at the moment of the event.
      *
-     * @param  {KeyboardEvent | MouseEvent}  ev  Event object
-     * @return {boolean}                         Was ctrl pressed?
+     * @param ev  Event object
+     * @return Was ctrl pressed?
      */
     ctrlKey(ev: KeyboardEvent | MouseEvent): boolean;
     /**
      * Returns `true` if alt key was presset at the moment of the event
-     * @param  {KeyboardEvent | MouseEvent}  ev  Event object
-     * @return {boolean}                         Was alt pressed?
+     * @param ev  Event object
+     * @return Was alt pressed?
      */
     altKey(ev: KeyboardEvent | MouseEvent): boolean;
     /**
      * Returns `true` if meta key was presset at the moment of the event
-     * @param  {KeyboardEvent | MouseEvent}  ev  Event object
-     * @return {boolean}                         Was meta pressed?
+     * @param ev  Event object
+     * @return Was meta pressed?
      */
     metaKey(ev: KeyboardEvent | MouseEvent): boolean;
 }

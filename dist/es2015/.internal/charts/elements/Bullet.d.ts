@@ -20,34 +20,26 @@ import { Container, IContainerProperties, IContainerAdapters, IContainerEvents }
 export interface IBulletProperties extends IContainerProperties {
     /**
      * Relative horizontal location within cell. (0-1)
-     *
-     * @type {number}
      */
     locationX?: number;
     /**
      * Relative vertical location within cell. (0-1)
-     *
-     * @type {number}
      */
     locationY?: number;
     /**
      * Specifies if bullet needs to be redrawn if the underlying data changes.
-     *
-     * @type {boolean}
      */
     isDynamic?: boolean;
     /**
      * [string description]
      *
      * @todo Description
-     * @type {string}
      */
     xField?: string;
     /**
      * [string description]
      *
      * @todo Description
-     * @type {string}
      */
     yField?: string;
     /**
@@ -84,20 +76,14 @@ export interface IBulletAdapters extends IContainerAdapters, IBulletProperties {
 export declare class Bullet extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IBulletProperties}
      */
     _properties: IBulletProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IBulletAdapters}
      */
     _adapter: IBulletAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IBulletEvents}
      */
     _events: IBulletEvents;
     /**
@@ -105,45 +91,45 @@ export declare class Bullet extends Container {
      */
     constructor();
     /**
-     * @return {number} Location (0-1)
+     * @return Location (0-1)
      */
     /**
      * Relative horizontal location within cell. (0-1)
      *
-     * @param {number}  value  Location (0-1)
+     * @param value  Location (0-1)
      */
     locationX: number;
     /**
-     * @return {number} Location (0-1)
+     * @return Location (0-1)
      */
     /**
      * Relative vertical location within cell. (0-1)
      *
-     * @param {number}  value  Location (0-1)
+     * @param value  Location (0-1)
      */
     locationY: number;
     /**
-     * @return {string} [description]
+     * @return [description]
      */
     /**
      * [xField description]
      *
      * @todo Description
-     * @param {string}  value  [description]
+     * @param value  [description]
      */
     xField: string;
     /**
-     * @return {string} [description]
+     * @return [description]
      */
     /**
      * [yField description]
      *
      * Description
-     * @param {string}  value  [description]
+     * @param value  [description]
      */
     yField: string;
     /**
-     * @return {boolean} Redraw on data change?
+     * @return Redraw on data change?
      */
     /**
      * Indicates if the bullet is "dynamic".
@@ -158,17 +144,17 @@ export declare class Bullet extends Container {
      * time data changes. Regular bullets will be reused as they are.
      *
      * @default false
-     * @param {boolean}  value  Redraw on data change?
+     * @param value  Redraw on data change?
      */
     isDynamic: boolean;
     /**
-     * @return {boolean} Redraw on data change?
+     * @return Redraw on data change?
      */
     /**
      * Indicates if the bullet should be copied to legend marker
      *
      * @default false
-     * @param {boolean}  value  Redraw on data change?
+     * @param value  Redraw on data change?
      */
     copyToLegendMarker: boolean;
 }

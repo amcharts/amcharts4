@@ -71,43 +71,31 @@ export class Button extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IButtonProperties}
 	 */
 	public _properties!: IButtonProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IButtonAdapters}
 	 */
 	public _adapter!: IButtonAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IButtonEvents}
 	 */
 	public _events!: IButtonEvents;
 
 	/**
 	 * Icon reference.
-	 *
-	 * @type {Sprite}
 	 */
 	protected _icon: Sprite;
 
 	/**
 	 * [[Label]] element for button content.
-	 *
-	 * @type {Optional<Label>}
 	 */
 	protected _label: $type.Optional<Label>;
 
 	/**
 	 * A type for background.
-	 *
-	 * @type {RoundedRectangle}
 	 */
 	public _background: RoundedRectangle;
 
@@ -165,7 +153,7 @@ export class Button extends Container {
 	/**
 	 * A [[Sprite]] to be used as an icon on button.
 	 *
-	 * @param {Sprite} icon Icon Sprite
+	 * @param icon Icon Sprite
 	 */
 	public set icon(icon: Sprite) {
 		let currentIcon = this.getPropertyValue("icon");
@@ -184,7 +172,7 @@ export class Button extends Container {
 	}
 
 	/**
-	 * @return {Sprite} Icon Sprite
+	 * @return Icon Sprite
 	 */
 	public get icon(): Sprite {
 		return this.getPropertyValue("icon");
@@ -194,7 +182,7 @@ export class Button extends Container {
 	 * Icon position: "left" or "right".
 	 *
 	 * @default "left"
-	 * @param {"left" | "right"}  position  Icon position
+	 * @param position  Icon position
 	 */
 	public set iconPosition(position: "left" | "right") {
 		this.setPropertyValue("iconPosition", position);
@@ -210,7 +198,7 @@ export class Button extends Container {
 	}
 
 	/**
-	 * @return {"left" | "right"} Icon position
+	 * @return Icon position
 	 */
 	public get iconPosition(): "left" | "right" {
 		return this.getPropertyValue("iconPosition");
@@ -219,7 +207,7 @@ export class Button extends Container {
 	/**
 	 * [[Label]] element to be used for text.
 	 *
-	 * @param {Optional<Label>}  label element
+	 * @param label element
 	 */
 	public set label(label: $type.Optional<Label>) {
 		if (this._label) {
@@ -235,7 +223,7 @@ export class Button extends Container {
 	}
 
 	/**
-	 * @return {Optional<Label>} Label element
+	 * @return Label element
 	 */
 	public get label(): $type.Optional<Label> {
 		return this._label;
@@ -245,7 +233,7 @@ export class Button extends Container {
 	 * Creates a background element for the button.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {RoundedRectangle} Background element
+	 * @return Background element
 	 */
 	public createBackground(): this["_background"] {
 		return new RoundedRectangle();

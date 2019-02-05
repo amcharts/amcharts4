@@ -48,28 +48,21 @@ export class FlowDiagramDataItem extends ChartDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {FlowDiagram}
 	 */
 	public _component!: FlowDiagram;
 
 	/**
 	 * An a link element, connecting two nodes.
-	 * @type {FlowDiagramLink}
 	 */
 	public _link: FlowDiagramLink;
 
 	/**
 	 * An origin node.
-	 *
-	 * @type {FlowDiagramNode}
 	 */
 	public fromNode: FlowDiagramNode;
 
 	/**
 	 * A destination node.
-	 *
-	 * @type {FlowDiagramNode}
 	 */
 	public toNode: FlowDiagramNode;
 
@@ -88,14 +81,14 @@ export class FlowDiagramDataItem extends ChartDataItem {
 	/**
 	 * Source node's name.
 	 *
-	 * @param {string}  value  Name
+	 * @param value  Name
 	 */
 	public set fromName(value: string) {
 		this.setProperty("fromName", value);
 	}
 
 	/**
-	 * @return {string} name
+	 * @return name
 	 */
 	public get fromName(): string {
 		return this.properties.fromName;
@@ -104,14 +97,14 @@ export class FlowDiagramDataItem extends ChartDataItem {
 	/**
 	 * Destination node's name.
 	 *
-	 * @param {string}  value  Name
+	 * @param value  Name
 	 */
 	public set toName(value: string) {
 		this.setProperty("toName", value);
 	}
 
 	/**
-	 * @return {string} name
+	 * @return name
 	 */
 	public get toName(): string {
 		return this.properties.toName;
@@ -121,14 +114,14 @@ export class FlowDiagramDataItem extends ChartDataItem {
 	/**
 	 * Node color
 	 *
-	 * @param {string}  value  Name
+	 * @param value  Name
 	 */
 	public set color(value: Color) {
 		this.setProperty("color", toColor(value));
 	}
 
 	/**
-	 * @return {string} color
+	 * @return color
 	 */
 	public get color(): Color {
 		return this.properties.color;
@@ -137,14 +130,14 @@ export class FlowDiagramDataItem extends ChartDataItem {
 	/**
 	 * Link's value.
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set value(value: number) {
 		this.setValue("value", value);
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get value(): number {
 		return this.values.value.value;
@@ -157,7 +150,7 @@ export class FlowDiagramDataItem extends ChartDataItem {
 	 * `value` of the source node.
 	 *
 	 * @readonly
-	 * @return {FlowDiagramLink} Link element
+	 * @return Link element
 	 */
 	public get link(): this["_link"] {
 		if (!this._link) {
@@ -192,36 +185,26 @@ export interface IFlowDiagramDataFields extends IChartDataFields {
 
 	/**
 	 * Name of the source node.
-	 *
-	 * @type {string}
 	 */
 	fromName?: string;
 
 	/**
 	 * Name of the target node.
-	 *
-	 * @type {string}
 	 */
 	toName?: string;
 
 	/**
 	 * Value of the link between two nodes.
-	 *
-	 * @type {string}
 	 */
 	value?: string;
 
 	/**
 	 * Color of a from node
-	 *
-	 * @type {string}
 	 */
 	color?: string;
 
 	/**
 	 * Visibility of a node
-	 *
-	 * @type {string}
 	 */
 	visible?: string;
 }
@@ -233,15 +216,11 @@ export interface IFlowDiagramProperties extends IChartProperties {
 
 	/**
 	 * Padding for node square in pixels.
-	 *
-	 * @type {number}
 	 */
 	nodePadding?: number;
 
 	/**
 	 * Sort nodes by name or value or do not sort a
-	 *
-	 * @type {"none" | "name" | "value"}
 	 */
 	sortBy?: "none" | "name" | "value";
 
@@ -283,43 +262,31 @@ export class FlowDiagram extends Chart {
 	/**
 	 * A Color Set to use when applying/generating colors for each subsequent
 	 * node.
-	 *
-	 * @type {ColorSet}
 	 */
 	public colors: ColorSet = new ColorSet();
 
 	/**
 	 * Defines a type for the DataItem.
-	 *
-	 * @type {FlowDiagramDataItem}
 	 */
 	public _dataItem: FlowDiagramDataItem;
 
 	/**
 	 * Defines available data fields.
-	 *
-	 * @type {IFlowDiagramDataFields}
 	 */
 	public _dataFields: IFlowDiagramDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IFlowDiagramProperties}
 	 */
 	public _properties!: IFlowDiagramProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {SeriesAdapters}
 	 */
 	public _adapter!: IFlowDiagramAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IFlowDiagramEvents}
 	 */
 	public _events!: IFlowDiagramEvents;
 
@@ -350,14 +317,11 @@ export class FlowDiagram extends Chart {
 
 	/**
 	 * A container that holds all of the link elements.
-	 *
-	 * @type {Container}
 	 */
 	public linksContainer: Container;
 
 	/**
 	 * A container that holds all of the node elements.
-	 * @type {Container}
 	 */
 	public nodesContainer: Container;
 
@@ -365,7 +329,6 @@ export class FlowDiagram extends Chart {
 	 * Sorted nodes iterator.
 	 *
 	 * @ignore
-	 * @type {Iterator}
 	 */
 	protected _sorted: $iter.Iterator<[string, FlowDiagramNode]>;
 
@@ -525,7 +488,7 @@ export class FlowDiagram extends Chart {
 	 * [handleDataItemWorkingValueChange description]
 	 *
 	 * @ignore Exclude from docs
-	 */	
+	 */
 	public handleDataItemWorkingValueChange(dataItem?:this["_dataItem"], name?:string): void {
 		this.invalidate();
 	}
@@ -552,7 +515,7 @@ export class FlowDiagram extends Chart {
 	 * A node's value is determined by summing values of all of the incoming
 	 * links or all of the outgoing links, whichever results in bigger number.
 	 *
-	 * @param {FlowDiagramNode}  node  Node value
+	 * @param node  Node value
 	 */
 	protected getNodeValue(node: FlowDiagramNode) {
 
@@ -607,7 +570,7 @@ export class FlowDiagram extends Chart {
 	/**
 	 * Creates and returns a new data item.
 	 *
-	 * @return {this} Data item
+	 * @return Data item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new FlowDiagramDataItem();
@@ -618,14 +581,14 @@ export class FlowDiagram extends Chart {
 	 *
 	 * Padding will add extra space around node's name label.
 	 *
-	 * @param {number} value Padding (px)
+	 * @param value Padding (px)
 	 */
 	public set nodePadding(value: number) {
 		this.setPropertyValue("nodePadding", value, true);
 	}
 
 	/**
-	 * @return {number} Padding (px)
+	 * @return Padding (px)
 	 */
 	public get nodePadding(): number {
 		return this.getPropertyValue("nodePadding");
@@ -634,7 +597,7 @@ export class FlowDiagram extends Chart {
 	/**
 	 * Sort nodes by "name" or "value" or do not sort at all. If not sorted, nodes will appear in the same order as they are in the data.
 	 * @default "none"
-	 * @param {"none" | "name" | "value"}  value  Node sorting
+	 * @param value  Node sorting
 	 */
 	public set sortBy(value: "none" | "name" | "value") {
 		this.setPropertyValue("sortBy", value);
@@ -642,7 +605,7 @@ export class FlowDiagram extends Chart {
 	}
 
 	/**
-	 * @returns {"none" | name" | "value"} Node sorting
+	 * @returns Node sorting
 	 */
 	public get sortBy(): "none" | "name" | "value" {
 		return this.getPropertyValue("sortBy");
@@ -652,14 +615,14 @@ export class FlowDiagram extends Chart {
 	 * Sometimes nodes can get very small if their value is little. With this setting you
 	 * can set min size of a node (this is relative value from the total size of all nodes)
 	 * @default 0.02
-	 * @param {"none" | "name" | "value"}  value  Node sorting
+	 * @param value  Node sorting
 	 */
 	public set minNodeSize(value: number) {
 		this.setPropertyValue("minNodeSize", value, true);
 	}
 
 	/**
-	 * @returns {number} min node size
+	 * @returns min node size
 	 */
 	public get minNodeSize(): number {
 		return this.getPropertyValue("minNodeSize");

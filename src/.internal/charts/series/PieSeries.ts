@@ -52,29 +52,23 @@ export class PieSeriesDataItem extends PercentSeriesDataItem {
 
 	/**
 	 * A type of slice used for this series.
-	 *
-	 * @type {Slice}
 	 */
 	public _slice: Slice;
 
 	/**
 	 * A reference to a slice label element.
 	 * @ignore Exclude from docs
-	 * @type {AxisLabelCircular}
 	 */
 	public _label: AxisLabelCircular;
 
 	/**
 	 * A reference to a slice tick element.
 	 * @ignore Exclude from docs
-	 * @type {PieTick}
 	 */
 	public _tick: PieTick;
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {PieSeries}
 	 */
 	public _component!: PieSeries;
 
@@ -94,14 +88,14 @@ export class PieSeriesDataItem extends PercentSeriesDataItem {
 	/**
 	 * Slice's radius, if other than default.
 	 *
-	 * @param {number}  value  Radius
+	 * @param value  Radius
 	 */
 	public set radiusValue(value: number) {
 		this.setValue("radiusValue", value);
 	}
 
 	/**
-	 * @return {number} Radius
+	 * @return Radius
 	 */
 	public get radiusValue(): number {
 		return this.values.radiusValue.value;
@@ -110,10 +104,10 @@ export class PieSeriesDataItem extends PercentSeriesDataItem {
 	/**
 	 * Hide the data item (and corresponding visual elements).
 	 *
-	 * @param {number}    duration  Duration (ms)
-	 * @param {number}    delay     Delay hiding (ms)
-	 * @param {number}    toValue   Target value for animation
-	 * @param {string[]}  fields    Fields to animate while hiding
+	 * @param duration  Duration (ms)
+	 * @param delay     Delay hiding (ms)
+	 * @param toValue   Target value for animation
+	 * @param fields    Fields to animate while hiding
 	 */
 	public hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): Animation {
 		return super.hide(duration, delay, 0, ["value", "radiusValue"]);
@@ -122,9 +116,9 @@ export class PieSeriesDataItem extends PercentSeriesDataItem {
 	/**
 	 * Show hidden data item (and corresponding cisual elements).
 	 *
-	 * @param {number}    duration  Duration (ms)
-	 * @param {number}    delay     Delay hiding (ms)
-	 * @param {string[]}  fields    Fields to animate while hiding
+	 * @param duration  Duration (ms)
+	 * @param delay     Delay hiding (ms)
+	 * @param fields    Fields to animate while hiding
 	 */
 	public show(duration?: number, delay?: number, fields?: string[]): Animation {
 		return super.show(duration, delay, ["value", "radiusValue"]);
@@ -146,8 +140,6 @@ export interface IPieSeriesDataFields extends IPercentSeriesDataFields {
 
 	/**
 	 * Name of the field in data that holds item's radius value.
-	 *
-	 * @type {string}
 	 */
 	radiusValue?: string;
 
@@ -162,7 +154,6 @@ export interface IPieSeriesProperties extends IPercentSeriesProperties {
 	 * Outer radius for the series' slices in pixels.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {number | Percent}
 	 */
 	radius?: number | Percent;
 
@@ -170,7 +161,6 @@ export interface IPieSeriesProperties extends IPercentSeriesProperties {
 	 * Inner radius for the series' slices in pixels.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {number | Percent}
 	 */
 	innerRadius?: number | Percent;
 
@@ -179,7 +169,6 @@ export interface IPieSeriesProperties extends IPercentSeriesProperties {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Redo so that users can set it
-	 * @type {number}
 	 */
 	startAngle?: number;
 
@@ -188,7 +177,6 @@ export interface IPieSeriesProperties extends IPercentSeriesProperties {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Redo so that users can set it
-	 * @type {number}
 	 */
 	endAngle?: number;
 }
@@ -233,43 +221,31 @@ export class PieSeries extends PercentSeries {
 
 	/**
 	 * Defines the type of data fields used for the series.
-	 *
-	 * @type {IPieSeriesDataFields}
 	 */
 	public _dataFields: IPieSeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPieSeriesProperties}
 	 */
 	public _properties!: IPieSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IPieSeriesAdapters}
 	 */
 	public _adapter!: IPieSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPieSeriesEvents}
 	 */
 	public _events!: IPieSeriesEvents;
 
 	/**
 	 * Defines the type of data item.
-	 *
-	 * @type {PieSeriesDataItem}
 	 */
 	public _dataItem: PieSeriesDataItem;
 
 	/**
 	 * Holds current angle for the next slice to start on.
-	 *
-	 * @type {number}
 	 */
 	protected _currentStartAngle: number;
 
@@ -287,7 +263,6 @@ export class PieSeries extends PercentSeries {
 	 * [_arcRect description]
 	 *
 	 * @todo Description
-	 * @type {IRectangle}
 	 */
 	protected _arcRect: IRectangle;
 
@@ -295,7 +270,6 @@ export class PieSeries extends PercentSeries {
 	 * [_maxRadiusPercent description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	protected _maxRadiusPercent: number;
 
@@ -303,7 +277,6 @@ export class PieSeries extends PercentSeries {
 	 * [_pixelRadius description]
 	 *
 	 * @ignore this is set by pie chart, not by user
-	 * @type {number}
 	 */
 	protected _pixelRadius: number;
 
@@ -311,7 +284,6 @@ export class PieSeries extends PercentSeries {
 	 * [_pixelInnerRadius description]
 	 *
 	 * @ignore this is set by pie chart, not by user
-	 * @type {number}
 	 */
 	protected _pixelInnerRadius: number;
 
@@ -368,7 +340,7 @@ export class PieSeries extends PercentSeries {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {PieSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new PieSeriesDataItem();
@@ -377,7 +349,7 @@ export class PieSeries extends PercentSeries {
 	/**
 	 * Inits slice.
 	 *
-	 * @param  {Slice} slice to init
+	 * @param slice to init
 	 */
 	protected initSlice(slice: this["_slice"]) {
 		slice.isMeasured = false;
@@ -476,7 +448,7 @@ export class PieSeries extends PercentSeries {
 	 * Validates data item's element, effectively redrawing it.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {PieSeriesDataItem}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
 		if (this.pixelRadius > 0) {
@@ -551,7 +523,7 @@ export class PieSeries extends PercentSeries {
 	/**
 	 * Outer radius for the series' slices in pixels or [[Percent]].
 	 *
-	 * @param {number | Percent}  value  Radius
+	 * @param value  Radius
 	 */
 	public set radius(value: number | Percent) {
 		if (this.setPercentProperty("radius", value, true, false, 10, false)) {
@@ -560,14 +532,14 @@ export class PieSeries extends PercentSeries {
 	}
 
 	/**
-	 * @return {number | Percent} Radius
+	 * @return Radius
 	 */
 	public get radius(): number | Percent {
 		return this.getPropertyValue("radius");
 	}
 
 	/**
-	 * @return {number} Radius
+	 * @return Radius
 	 * @ignore
 	 */
 	public get pixelRadius(): number {
@@ -585,7 +557,7 @@ export class PieSeries extends PercentSeries {
 	}
 
 	/**
-	 * @return {number} Pixel inner radius
+	 * @return Pixel inner radius
 	 * @ignore
 	 */
 	public get pixelInnerRadius(): number {
@@ -607,7 +579,7 @@ export class PieSeries extends PercentSeries {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Redo so that users can set it
-	 * @param {number | Percent}  value  Radius
+	 * @param value  Radius
 	 */
 	public set innerRadius(value: number | Percent) {
 		this.setPercentProperty("innerRadius", value, true, false, 10, false);
@@ -615,7 +587,7 @@ export class PieSeries extends PercentSeries {
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {number | Percent} Radius
+	 * @return Radius
 	 */
 	public get innerRadius(): number | Percent {
 		return this.getPropertyValue("innerRadius");
@@ -626,7 +598,7 @@ export class PieSeries extends PercentSeries {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Redo so that users can set it
-	 * @param {number}  value  Angle
+	 * @param value  Angle
 	 */
 	public set startAngle(value: number) {
 		this.setPropertyValue("startAngle", $math.normalizeAngle(value), true);
@@ -634,7 +606,7 @@ export class PieSeries extends PercentSeries {
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {number} Angle
+	 * @return Angle
 	 */
 	public get startAngle(): number {
 		return this.getPropertyValue("startAngle");
@@ -645,7 +617,7 @@ export class PieSeries extends PercentSeries {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Redo so that users can set it
-	 * @param {number}  value  Angle
+	 * @param value  Angle
 	 */
 	public set endAngle(value: number) {
 		this.setPropertyValue("endAngle", value, true);
@@ -653,7 +625,7 @@ export class PieSeries extends PercentSeries {
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {number} Angle
+	 * @return Angle
 	 */
 	public get endAngle(): number {
 		return this.getPropertyValue("endAngle");
@@ -664,7 +636,7 @@ export class PieSeries extends PercentSeries {
 	 * Positions series bullet.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Bullet}  bullet  Bullet
+	 * @param bullet  Bullet
 	 */
 	public positionBullet(bullet: Bullet): void {
 		super.positionBullet(bullet);
@@ -692,7 +664,7 @@ export class PieSeries extends PercentSeries {
 	 * Repositions bullet and labels when slice moves.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
+	 * @param event  Event
 	 */
 	protected handleSliceMove(event: AMEvent<this["_slice"], ISpriteEvents>["propertychanged"]): void {
 		if (!this.alignLabels) {
@@ -716,7 +688,6 @@ export class PieSeries extends PercentSeries {
 	 * Returns bounding box (square) for this element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {IRectangle}
 	 */
 	public get bbox(): IRectangle {
 		if (this.definedBBox) {

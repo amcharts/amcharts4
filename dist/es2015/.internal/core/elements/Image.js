@@ -65,7 +65,7 @@ var Image = /** @class */ (function (_super) {
     };
     Object.defineProperty(Image.prototype, "href", {
         /**
-         * @return {string} Image URI
+         * @return Image URI
          */
         get: function () {
             return this.getPropertyValue("href");
@@ -73,7 +73,7 @@ var Image = /** @class */ (function (_super) {
         /**
          * An image URI.
          *
-         * @param {string}  value  Image URI
+         * @param value  Image URI
          */
         set: function (value) {
             this.setPropertyValue("href", value, true);
@@ -83,7 +83,7 @@ var Image = /** @class */ (function (_super) {
     });
     Object.defineProperty(Image.prototype, "widthRatio", {
         /**
-         * @return {number} Ratio
+         * @return Ratio
          */
         get: function () {
             return this.getPropertyValue("widthRatio");
@@ -94,7 +94,7 @@ var Image = /** @class */ (function (_super) {
          * If image's `height = 100` and `widthRatio = 0.5` the actual width will be
          * `50`.
          *
-         * @param {number}  value  Ratio
+         * @param value  Ratio
          */
         set: function (value) {
             this.setPropertyValue("widthRatio", value, true);
@@ -104,7 +104,7 @@ var Image = /** @class */ (function (_super) {
     });
     Object.defineProperty(Image.prototype, "heightRatio", {
         /**
-         * @return {number} Ratio
+         * @return Ratio
          */
         get: function () {
             return this.getPropertyValue("heightRatio");
@@ -115,7 +115,7 @@ var Image = /** @class */ (function (_super) {
          * If image's `width = 100` and `heightRatio = 0.5` the actual height will be
          * `50`.
          *
-         * @param {number}  value  Ratio
+         * @param value  Ratio
          */
         set: function (value) {
             this.setPropertyValue("heightRatio", value, true);
@@ -128,7 +128,6 @@ var Image = /** @class */ (function (_super) {
          * Returns bounding box (square) for this element.
          *
          * @ignore Exclude from docs
-         * @type {IRectangle}
          */
         get: function () {
             return {

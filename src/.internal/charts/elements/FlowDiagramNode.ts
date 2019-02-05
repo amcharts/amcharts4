@@ -40,36 +40,26 @@ export interface IFlowDiagramNodeProperties extends IContainerProperties {
 
 	/**
 	 * Name of the node.
-	 *
-	 * @type {string}
 	 */
 	name?: string;
 
 	/**
 	 * Sum of all incomming+outgoing link values
-	 *
-	 * @type {number}
 	 */
 	total?: number;
 
 	/**
 	 * Sum of all incoming link values
-	 *
-	 * @type {number}
 	 */
 	totalIncoming?: number;
 
 	/**
 	 * Sum of all outgoing link values
-	 *
-	 * @type {number}
 	 */
 	totalOutgoing?: number;
 
 	/**
 	 * Node's color.
-	 *
-	 * @type {Color}
 	 */
 	color?: Color;
 
@@ -116,22 +106,16 @@ export class FlowDiagramNode extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IFlowDiagramNodeProperties}
 	 */
 	public _properties!: IFlowDiagramNodeProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IFlowDiagramNodeAdapters}
 	 */
 	public _adapter!: IFlowDiagramNodeAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IFlowDiagramNodeEvents}
 	 */
 	public _events!: IFlowDiagramNodeEvents;
 
@@ -140,8 +124,6 @@ export class FlowDiagramNode extends Container {
 	 * up.
 	 *
 	 * These are what ingoing links are build out of.
-	 *
-	 * @type {List<this["_dataItem"]>}
 	 */
 	protected _incomingDataItems: List<this["_dataItem"]>;
 
@@ -149,36 +131,27 @@ export class FlowDiagramNode extends Container {
 	 * A list of data items of the items going out of the node.
 	 *
 	 * These are what outgoing links are build out of.
-	 *
-	 * @type {List<this["_dataItem"]>}
 	 */
 	protected _outgoingDataItems: List<this["_dataItem"]>;
 
 	/**
 	 * Sorted list of incoming items.
-	 *
-	 * @type {Iterator<this["_dataItem"]>}
 	 */
 	protected _incomingSorted: $iter.Iterator<this["_dataItem"]>;
 
 	/**
 	 * Sorted list of outgoing items.
-	 * @type {Iterator<this["_dataItem"]>}
 	 */
 	protected _outgoingSorted: $iter.Iterator<this["_dataItem"]>;
 
 	/**
 	 * A chart instance this node is added to.
-	 *
-	 * @type {FlowDiagram}
 	 */
 	public chart: FlowDiagram;
 
 
 	/**
 	 * Defines the type of the [[FlowDiagramDataItem]] used in the class.
-	 *
-	 * @type {FlowDiagramDataItem}
 	 */
 	public _dataItem: FlowDiagramDataItem;
 
@@ -190,8 +163,6 @@ export class FlowDiagramNode extends Container {
 
 	/**
 	 * A reference to the legend data item related to this node.
-	 *
-	 * @type {LegendDataItem<Series, ISeriesEvents>}
 	 */
 	protected _legendDataItem: LegendDataItem;
 
@@ -228,8 +199,8 @@ export class FlowDiagramNode extends Container {
 	/**
 	 * Shows hidden node.
 	 *
-	 * @param  {number}     duration  Duration of reveal animation (ms)
-	 * @return {Animation}            Animation
+	 * @param duration  Duration of reveal animation (ms)
+	 * @return Animation
 	 */
 	public show(duration?: number): Animation {
 		let animation = super.show(duration);
@@ -252,8 +223,8 @@ export class FlowDiagramNode extends Container {
 	/**
 	 * Hides node.
 	 *
-	 * @param  {number}     duration  Duration of hiding animation (ms)
-	 * @return {Animation}            Animation
+	 * @param duration  Duration of hiding animation (ms)
+	 * @return Animation
 	 */
 	public hide(duration?: number): Animation {
 		let animation = super.hide(duration);
@@ -334,7 +305,7 @@ export class FlowDiagramNode extends Container {
 	 * List of incoming items (links).
 	 *
 	 * @readonly
-	 * @return {List<FlowDiagramDataItem>} Incoming items
+	 * @return Incoming items
 	 */
 	public get incomingDataItems(): List<this["_dataItem"]> {
 		if (!this._incomingDataItems) {
@@ -359,7 +330,7 @@ export class FlowDiagramNode extends Container {
 	 * List of outgoing items (links).
 	 *
 	 * @readonly
-	 * @return {List<FlowDiagramDataItem>} Outgoing items
+	 * @return Outgoing items
 	 */
 	public get outgoingDataItems(): List<FlowDiagramDataItem> {
 		if (!this._outgoingDataItems) {
@@ -384,14 +355,14 @@ export class FlowDiagramNode extends Container {
 	/**
 	 * A name of the node.
 	 *
-	 * @param {string}  value  Name
+	 * @param value  Name
 	 */
 	public set name(value: string) {
 		this.setPropertyValue("name", value, true);
 	}
 
 	/**
-	 * @return {string} Name
+	 * @return Name
 	 */
 	public get name(): string {
 		return this.getPropertyValue("name");
@@ -400,14 +371,14 @@ export class FlowDiagramNode extends Container {
 	/**
 	 * Sum of all incoming+outgoing link values
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set total(value: number) {
 		this.setPropertyValue("total", value, true);
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get total(): number {
 		return this.getPropertyValue("total");
@@ -416,14 +387,14 @@ export class FlowDiagramNode extends Container {
 	/**
 	 * Sum of all incomming link values.
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set totalIncoming(value: number) {
 		this.setPropertyValue("totalIncoming", value, true);
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get totalIncoming(): number {
 		return this.getPropertyValue("totalIncoming");
@@ -432,14 +403,14 @@ export class FlowDiagramNode extends Container {
 	/**
 	 * Sum of all outgoing link values.
 	 *
-	 * @param {number}  value  Value
+	 * @param value  Value
 	 */
 	public set totalOutgoing(value: number) {
 		this.setPropertyValue("totalOutgoing", value, true);
 	}
 
 	/**
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get totalOutgoing(): number {
 		return this.getPropertyValue("totalOutgoing");
@@ -448,7 +419,7 @@ export class FlowDiagramNode extends Container {
 	/**
 	 * Node's color.
 	 *
-	 * @param {Color}  value  Color
+	 * @param value  Color
 	 */
 	public set color(value: Color) {
 		this.setColorProperty("color", value);
@@ -459,7 +430,7 @@ export class FlowDiagramNode extends Container {
 	}
 
 	/**
-	 * @return {Color} Color
+	 * @return Color
 	 */
 	public get color(): Color {
 		return this.getPropertyValue("color");
@@ -470,7 +441,7 @@ export class FlowDiagramNode extends Container {
 	 * Series.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Container}  marker  Legend item container
+	 * @param marker  Legend item container
 	 */
 	public createLegendMarker(marker: Container) {
 		let w: number = marker.pixelWidth;
@@ -490,13 +461,13 @@ export class FlowDiagramNode extends Container {
 
 		let legendDataItem = <LegendDataItem>marker.dataItem;
 		legendDataItem.color = column.fill;
-		legendDataItem.colorOrig = column.fill;		
+		legendDataItem.colorOrig = column.fill;
 	}
 
 	/**
 	 * Legend data item that corresponds to this series.
 	 *
-	 * @param {LegendDataItem<Series, ISeriesEvents>}  value  Data item
+	 * @param value  Data item
 	 */
 	public set legendDataItem(value: LegendDataItem) {
 		this._legendDataItem = value;
@@ -504,7 +475,7 @@ export class FlowDiagramNode extends Container {
 	}
 
 	/**
-	 * @return {LegendDataItem<Series, ISeriesEvents>} Data item
+	 * @return Data item
 	 */
 	public get legendDataItem(): LegendDataItem {
 		return this._legendDataItem;

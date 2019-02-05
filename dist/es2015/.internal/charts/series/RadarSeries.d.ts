@@ -25,8 +25,6 @@ import { RadarChart } from "../types/RadarChart";
 export declare class RadarSeriesDataItem extends LineSeriesDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {RadarSeries}
      */
     _component: RadarSeries;
     /**
@@ -54,7 +52,6 @@ export interface IRadarSeriesProperties extends ILineSeriesProperties {
      * closed circle?
      *
      * @default true
-     * @type {boolean}
      */
     connectEnds?: boolean;
 }
@@ -87,38 +84,26 @@ export interface IRadarSeriesAdapters extends ILineSeriesAdapters, IRadarSeriesP
 export declare class RadarSeries extends LineSeries {
     /**
      * Defines the type of data fields used for the series.
-     *
-     * @type {IRadarSeriesDataFields}
      */
     _dataFields: IRadarSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IRadarSeriesProperties}
      */
     _properties: IRadarSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IRadarSeriesAdapters}
      */
     _adapter: IRadarSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IRadarSeriesEvents}
      */
     _events: IRadarSeriesEvents;
     /**
      * Defines the type of data item.
-     *
-     * @type {RadarSeriesDataItem}
      */
     _dataItem: RadarSeriesDataItem;
     /**
      * A chart series belongs to.
-     *
-     * @type {RadarChart}
      */
     _chart: RadarChart;
     /**
@@ -135,20 +120,20 @@ export declare class RadarSeries extends LineSeries {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {RadarSeriesDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
      * [getPoint description]
      *
      * @todo Description
-     * @param {RadarSeriesDataItem} dataItem  [description]
-     * @param {string}              xKey      [description]
-     * @param {string}              yKey      [description]
-     * @param {number}              locationX [description]
-     * @param {number}              locationY [description]
-     * @param {string}              stackKeyX [description]
-     * @param {string}              stackKeyY [description]
+     * @param dataItem  [description]
+     * @param xKey      [description]
+     * @param yKey      [description]
+     * @param locationX [description]
+     * @param locationY [description]
+     * @param stackKeyX [description]
+     * @param stackKeyY [description]
      */
     protected getPoint(dataItem: RadarSeriesDataItem, xKey: string, yKey: string, locationX?: number, locationY?: number, stackKeyX?: string, stackKeyY?: string): {
         x: number;
@@ -158,37 +143,37 @@ export declare class RadarSeries extends LineSeries {
      * [addPoints description]
      *
      * @todo Description
-     * @param {IPoint[]}          points    [description]
-     * @param {this["_dataItem"]} dataItem  [description]
-     * @param {string}            xField    [description]
-     * @param {string}            yField    [description]
-     * @param {boolean}           backwards [description]
+     * @param points    [description]
+     * @param dataItem  [description]
+     * @param xField    [description]
+     * @param yField    [description]
+     * @param backwards [description]
      */
     protected addPoints(points: IPoint[], dataItem: this["_dataItem"], xField: string, yField: string, backwards?: boolean): void;
     /**
      * Returns an SVG path to be used as a mask for the series.
      *
-     * @return {string} SVG path
+     * @return SVG path
      */
     protected getMaskPath(): string;
     /**
      * [drawSegment description]
      *
      * @todo Description
-     * @param {LineSeriesSegment}  segment      [description]
-     * @param {IPoint[]}           points       [description]
-     * @param {IPoint[]}           closePoints  [description]
+     * @param segment      [description]
+     * @param points       [description]
+     * @param closePoints  [description]
      */
     protected drawSegment(segment: LineSeriesSegment, points: IPoint[], closePoints: IPoint[]): void;
     /**
-     * @return {boolean} Connect?
+     * @return Connect?
      */
     /**
      * Should the last and and first data points be connected, forming a complete
      * closed circle?
      *
      * @default true
-     * @param {boolean}  value  Connect?
+     * @param value  Connect?
      */
     connectEnds: boolean;
 }

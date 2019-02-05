@@ -49,8 +49,6 @@ export { IInteractionObjectEvents, InteractionObjectEventDispatcher };
 export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IInteractionObjectEvents}
 	 */
 	public _events!: IInteractionObjectEvents;
 
@@ -61,8 +59,6 @@ export class InteractionObject extends BaseObjectEvents {
 
 	/**
 	 * A related [[Sprite]] if any.
-	 * 
-	 * @type {Adapter<Sprite, ISpriteAdapters>}
 	 */
 	public sprite!: Sprite;
 
@@ -71,7 +67,6 @@ export class InteractionObject extends BaseObjectEvents {
 	 * when the whole InteractionObject is disposed)
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Dictionary<string, IDisposer>}
 	 */
 	public eventDisposers: Dictionary<string, IDisposer> = new Dictionary<string, IDisposer>();
 
@@ -81,7 +76,6 @@ export class InteractionObject extends BaseObjectEvents {
 	 * replaced them is done.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Dictionary<string, string>}
 	 */
 	public replacedStyles: Dictionary<string, string> = new Dictionary<string, string>();
 
@@ -98,70 +92,52 @@ export class InteractionObject extends BaseObjectEvents {
 
 	/**
 	 * Element to attach events to.
-	 *
-	 * @type {HTMLElement}
 	 */
 	private _element: HTMLElement | SVGSVGElement;
 
 	/**
 	 * Original coordinates for the [[InteractionObject]]. (before application
 	 * of the drag)
-	 *
-	 * @type {IPoint}
 	 */
 	public _originalPosition: Optional<IPoint>;
 
 	/**
 	 * Original angle for the [[InteractionObject]]. (before rotation started)
-	 *
-	 * @type {Optional<number>}
 	 */
 	public _originalAngle: $type.Optional<number>;
 
 	/**
 	 * Original scale of the [[InteractionObject]]. (before resizing started)
-	 * @type {Optional<number>}
 	 */
 	public _originalScale: $type.Optional<number>;
 
 	/**
 	 * List of pointers current over element.
-	 *
-	 * @type {Optional<List<IPointer>>}
 	 */
 	protected _overPointers: $type.Optional<List<IPointer>>;
 
 	/**
 	 * List of pointer currently pressing down on element.
-	 *
-	 * @type {Optional<List<IPointer>>}
 	 */
 	protected _downPointers: $type.Optional<List<IPointer>>;
 
 	/**
 	 * Is element currently hovered?
-	 *
-	 * @type {boolean}
 	 */
 	protected _isHover: boolean = false;
 
 	/**
 	 * Is the element hovered by touch pointer?
-	 * 
-	 * @type {boolean}
 	 */
 	protected _isHoverByTouch: boolean = false;
 
 	/**
 	 * Has element got any pointers currently pressing down on it?
-	 * @type {boolean}
 	 */
 	protected _isDown: boolean = false;
 
 	/**
 	 * Does element have focus?
-	 *
-	 * @type {boolean}
 	 */
 	protected _isFocused: boolean = false;
 
@@ -171,7 +147,6 @@ export class InteractionObject extends BaseObjectEvents {
 	 * Used to calculate double-hit.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Optional<number>}
 	 */
 	public lastHit: $type.Optional<number>;
 
@@ -182,7 +157,6 @@ export class InteractionObject extends BaseObjectEvents {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo still needed?
-	 * @type {Optional<IPointer>}
 	 */
 	public lastHitPointer: $type.Optional<IPointer>;
 
@@ -190,14 +164,11 @@ export class InteractionObject extends BaseObjectEvents {
 	 * Indicates whether object has delayed events initiated by touch.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {boolean}
 	 */
 	public hasDelayedOut?: boolean;
 
 	/**
 	 * Options used for inertia functionality.
-	 *
-	 * @type {Dictionary<InertiaTypes, IInertiaOptions>}
 	 */
 	private _inertiaOptions: Dictionary<InertiaTypes, IInertiaOptions> = new Dictionary<InertiaTypes, IInertiaOptions>();
 
@@ -205,42 +176,31 @@ export class InteractionObject extends BaseObjectEvents {
 	 * A collection of different inertia types, currently playing out.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Dictionary<InertiaTypes, Inertia>}
 	 */
 	public inertias: Dictionary<InertiaTypes, Inertia> = new Dictionary<InertiaTypes, Inertia>();
 
 	/**
 	 * Click/tap options.
-	 *
-	 * @type {IHitOptions}
 	 */
 	private _hitOptions: IHitOptions = {};
 
 	/**
 	 * Hover options.
-	 *
-	 * @type {IHoverOptions}
 	 */
 	private _hoverOptions: IHoverOptions = {};
 
 	/**
 	 * Swipe gesture options.
-	 *
-	 * @type {ISwipeOptions}
 	 */
 	private _swipeOptions: ISwipeOptions = {};
 
 	/**
 	 * Keyboard options.
-	 *
-	 * @type {IKeyboarOptions}
 	 */
 	private _keyboardOptions: IKeyboardOptions = {};
 
 	/**
 	 * Cursor options.
-	 *
-	 * @type {ICursorOptions}
 	 */
 	private _cursorOptions: ICursorOptions = {
 		"defaultStyle": [{
@@ -264,7 +224,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Sets if this element is currently hovered.
 	 *
-	 * @param {boolean} value Hovered?
+	 * @param value Hovered?
 	 */
 	public set isHover(value: boolean) {
 		if (this.isHover != value) {
@@ -281,7 +241,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns if this element is currently hovered.
 	 *
-	 * @return {boolean} Hovered?
+	 * @return Hovered?
 	 */
 	public get isHover(): boolean {
 		return this._isHover;
@@ -290,7 +250,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Sets if this element is currently hovered.
 	 *
-	 * @param {boolean} value Hovered?
+	 * @param value Hovered?
 	 */
 	public set isHoverByTouch(value: boolean) {
 		if (this.isHoverByTouch != value) {
@@ -301,7 +261,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns if this element is currently hovered.
 	 *
-	 * @return {boolean} Hovered?
+	 * @return Hovered?
 	 */
 	public get isHoverByTouch(): boolean {
 		return this._isHoverByTouch;
@@ -311,7 +271,7 @@ export class InteractionObject extends BaseObjectEvents {
 	 * Returns a list of pointers currently over the element.
 	 *
 	 * @see {@link Pointer}
-	 * @return {List<IPointer>} List if pointers currently hovering the element
+	 * @return List if pointers currently hovering the element
 	 */
 	public get overPointers(): List<IPointer> {
 		if (!this._overPointers) {
@@ -323,7 +283,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Sets if this element has currently any pointers pressing on it.
 	 *
-	 * @param {boolean} value Has down pointers?
+	 * @param value Has down pointers?
 	 */
 	public set isDown(value: boolean) {
 		if (this.isDown != value) {
@@ -340,7 +300,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns if this element has currently any pointers pressing on it.
 	 *
-	 * @return {boolean} Has down pointers?
+	 * @return Has down pointers?
 	 */
 	public get isDown(): boolean {
 		return this._isDown;
@@ -350,7 +310,7 @@ export class InteractionObject extends BaseObjectEvents {
 	 * Returns a list of pointers currently pressing down on this element.
 	 *
 	 * @see {@link Pointer}
-	 * @return {List<IPointer>} List of down pointers
+	 * @return List of down pointers
 	 */
 	public get downPointers(): List<IPointer> {
 		if (!this._downPointers) {
@@ -362,7 +322,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Sets if this element is currently focused.
 	 *
-	 * @param {boolean} value Focused?
+	 * @param value Focused?
 	 */
 	public set isFocused(value: boolean) {
 		if (this.isFocused != value) {
@@ -379,7 +339,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns if this element is currently focused.
 	 *
-	 * @return {boolean} Focused?
+	 * @return Focused?
 	 */
 	public get isFocused(): boolean {
 		return this._isFocused;
@@ -389,7 +349,7 @@ export class InteractionObject extends BaseObjectEvents {
 	 * Is element clickable? Clickable elements will generate "hit" events when
 	 * clicked or tapped.
 	 *
-	 * @param {boolean} value Clickable?
+	 * @param value Clickable?
 	 */
 	public set clickable(value: boolean) {
 		if (this._clickable !== value) {
@@ -401,7 +361,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns if element is currently set as clickable.
 	 *
-	 * @return {boolean} Clickable?
+	 * @return Clickable?
 	 */
 	public get clickable(): boolean {
 		return this._clickable;
@@ -410,7 +370,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Sets if element should generate hover events.
 	 *
-	 * @param {boolean} value Hoverable?
+	 * @param value Hoverable?
 	 */
 	public set hoverable(value: boolean) {
 		if (this._hoverable !== value) {
@@ -422,7 +382,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns if element is currently set to generate hover events.
 	 *
-	 * @return {boolean} Hoverable?
+	 * @return Hoverable?
 	 */
 	public get hoverable(): boolean {
 		return this._hoverable;
@@ -431,7 +391,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Sets if pointer movement over element should be tracked.
 	 *
-	 * @param {boolean} value Track pointer?
+	 * @param value Track pointer?
 	 */
 	public set trackable(value: boolean) {
 		if (this._trackable !== value) {
@@ -443,7 +403,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns if element is set to track pointer movement over it.
 	 *
-	 * @return {boolean} Track pointer?
+	 * @return Track pointer?
 	 */
 	public get trackable(): boolean {
 		return this._trackable;
@@ -452,7 +412,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Sets if element can be dragged. (moved)
 	 *
-	 * @param {boolean} value Draggable?
+	 * @param value Draggable?
 	 */
 	public set draggable(value: boolean) {
 		if (this._draggable !== value) {
@@ -464,7 +424,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns if element is currently set as draggable.
 	 *
-	 * @return {boolean} Draggable?
+	 * @return Draggable?
 	 */
 	public get draggable(): boolean {
 		return this._draggable;
@@ -473,7 +433,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Sets whether element should react to swipe gesture.
 	 *
-	 * @param {boolean} value Track swipe?
+	 * @param value Track swipe?
 	 */
 	public set swipeable(value: boolean) {
 		if (this._swipeable !== value) {
@@ -485,7 +445,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns if element is currently set to track swipe gesture.
 	 *
-	 * @return {boolean} Track swipe?
+	 * @return Track swipe?
 	 */
 	public get swipeable(): boolean {
 		return this._swipeable;
@@ -494,7 +454,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Sets if element can be resized.
 	 *
-	 * @param {boolean} value Resizeable?
+	 * @param value Resizeable?
 	 */
 	public set resizable(value: boolean) {
 		if (this._resizable !== value) {
@@ -506,7 +466,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns if element is currently set as resizeable.
 	 *
-	 * @return {boolean} Resizeble?
+	 * @return Resizeble?
 	 */
 	public get resizable(): boolean {
 		return this._resizable;
@@ -515,7 +475,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Indicates whether track moouse wheel rotation over element.
 	 *
-	 * @param {boolean} value Track wheel?
+	 * @param value Track wheel?
 	 */
 	public set wheelable(value: boolean) {
 		if (this._wheelable !== value) {
@@ -525,7 +485,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * @return {boolean} Track wheel?
+	 * @return Track wheel?
 	 */
 	public get wheelable(): boolean {
 		return this._wheelable;
@@ -535,7 +495,7 @@ export class InteractionObject extends BaseObjectEvents {
 	 * Sets if element is inert, i.e. if it should carry movement momentum after
 	 * it is dragged and released.
 	 *
-	 * @param {boolean} value Inert?
+	 * @param value Inert?
 	 */
 	public set inert(value: boolean) {
 		if (this._inert !== value) {
@@ -546,7 +506,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns if element is currently set as inert.
 	 *
-	 * @return {boolean} Inert?
+	 * @return Inert?
 	 */
 	public get inert(): boolean {
 		return this._inert;
@@ -555,7 +515,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Sets if element can gain focus.
 	 *
-	 * @param {Optional<boolean>} value Focusable?
+	 * @param value Focusable?
 	 */
 	public set focusable(value: $type.Optional<boolean>) {
 		if (this._focusable !== value) {
@@ -570,7 +530,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns if element is currently set as focusable.
 	 *
-	 * @return {Optional<boolean>} Focusable?
+	 * @return Focusable?
 	 */
 	public get focusable(): $type.Optional<boolean> {
 		return this._focusable;
@@ -579,7 +539,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Sets element's tab index.
 	 *
-	 * @param {number} value Tab index
+	 * @param value Tab index
 	 */
 	public set tabindex(value: number) {
 		if (this._tabindex !== value) {
@@ -594,7 +554,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns element's current tab index.
 	 *
-	 * @return {number} Tab index
+	 * @return Tab index
 	 */
 	public get tabindex(): number {
 		return $type.getValueDefault(this._tabindex, -1 as number);
@@ -602,7 +562,7 @@ export class InteractionObject extends BaseObjectEvents {
 
 	/**
 	 * Sets DOM element associated with this element
-	 * @param {HTMLElement | SVGSVGElement} element Element
+	 * @param element Element
 	 */
 	public set element(element: HTMLElement | SVGSVGElement) {
 		this._element = element;
@@ -610,7 +570,7 @@ export class InteractionObject extends BaseObjectEvents {
 
 	/**
 	 * Returns DOM element associated with this element
-	 * @return {HTMLElement | SVGSVGElement} Element
+	 * @return Element
 	 */
 	public get element(): HTMLElement | SVGSVGElement {
 		return this._element;
@@ -620,7 +580,7 @@ export class InteractionObject extends BaseObjectEvents {
 	 * Sets element's original position.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Optional<IPoint>} value Position
+	 * @param value Position
 	 */
 	public set originalPosition(value: Optional<IPoint>) {
 		this._originalPosition = value;
@@ -630,7 +590,7 @@ export class InteractionObject extends BaseObjectEvents {
 	 * Returns element's original position.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {Optional<IPoint>} Position.
+	 * @return Position.
 	 */
 	public get originalPosition(): Optional<IPoint> {
 		return this._originalPosition || { x: 0, y: 0 };
@@ -640,7 +600,7 @@ export class InteractionObject extends BaseObjectEvents {
 	 * Sets element's original scale.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {number} value Scale
+	 * @param value Scale
 	 */
 	public set originalScale(value: number) {
 		if (this._originalScale !== value) {
@@ -651,7 +611,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns element's original scale.
 	 *
-	 * @return {number} Scale
+	 * @return Scale
 	 */
 	public get originalScale(): number {
 		return $type.getValueDefault(this._originalScale, 1 as number);
@@ -661,7 +621,7 @@ export class InteractionObject extends BaseObjectEvents {
 	 * Sets element's original angle.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {number} value Angle
+	 * @param value Angle
 	 */
 	public set originalAngle(value: number) {
 		if (this._originalAngle !== value) {
@@ -672,7 +632,7 @@ export class InteractionObject extends BaseObjectEvents {
 	/**
 	 * Returns element's original angle.
 	 *
-	 * @return {number} Angle
+	 * @return Angle
 	 */
 	public get originalAngle(): number {
 		return $type.getValueDefault(this._originalAngle, 0 as number);
@@ -680,15 +640,15 @@ export class InteractionObject extends BaseObjectEvents {
 
 	/**
 	 * Inertia options.
-	 * 
-	 * @param {Dictionary<InertiaTypes, IInertiaOptions>}  value  Options
+	 *
+	 * @param value  Options
 	 */
 	public set inertiaOptions(value: Dictionary<InertiaTypes, IInertiaOptions>) {
 		this._inertiaOptions = value;
 	}
 
 	/**
-	 * @return {Dictionary<InertiaTypes, IInertiaOptions>} Options
+	 * @return Options
 	 */
 	public get inertiaOptions(): Dictionary<InertiaTypes, IInertiaOptions> {
 		if (this.sprite) {
@@ -701,15 +661,15 @@ export class InteractionObject extends BaseObjectEvents {
 
 	/**
 	 * Hit options.
-	 * 
-	 * @param {IHitOptions}  value  Options
+	 *
+	 * @param value  Options
 	 */
 	public set hitOptions(value: IHitOptions) {
 		this._hitOptions = value;
 	}
 
 	/**
-	 * @return {IHitOptions} Options
+	 * @return Options
 	 */
 	public get hitOptions(): IHitOptions {
 		if (this.sprite) {
@@ -722,15 +682,15 @@ export class InteractionObject extends BaseObjectEvents {
 
 	/**
 	 * Hover options.
-	 * 
-	 * @param {IHoverOptions}  value  Options
+	 *
+	 * @param value  Options
 	 */
 	public set hoverOptions(value: IHoverOptions) {
 		this._hoverOptions = value;
 	}
 
 	/**
-	 * @return {IHoverOptions} Options
+	 * @return Options
 	 */
 	public get hoverOptions(): IHoverOptions {
 		if (this.sprite) {
@@ -743,15 +703,15 @@ export class InteractionObject extends BaseObjectEvents {
 
 	/**
 	 * Swipe options.
-	 * 
-	 * @param {ISwipeOptions}  value  Options
+	 *
+	 * @param value  Options
 	 */
 	public set swipeOptions(value: ISwipeOptions) {
 		this._swipeOptions = value;
 	}
 
 	/**
-	 * @return {ISwipeOptions} Options
+	 * @return Options
 	 */
 	public get swipeOptions(): ISwipeOptions {
 		if (this.sprite) {
@@ -764,15 +724,15 @@ export class InteractionObject extends BaseObjectEvents {
 
 	/**
 	 * Keyboard options.
-	 * 
-	 * @param {IKeyboardOptions}  value  Options
+	 *
+	 * @param value  Options
 	 */
 	public set keyboardOptions(value: IKeyboardOptions) {
 		this._keyboardOptions = value;
 	}
 
 	/**
-	 * @return {IKeyboardOptions} Options
+	 * @return Options
 	 */
 	public get keyboardOptions(): IKeyboardOptions {
 		if (this.sprite) {
@@ -785,15 +745,15 @@ export class InteractionObject extends BaseObjectEvents {
 
 	/**
 	 * Cursor options.
-	 * 
-	 * @param {ICursorOptions}  value  Options
+	 *
+	 * @param value  Options
 	 */
 	public set cursorOptions(value: ICursorOptions) {
 		this._cursorOptions = value;
 	}
 
 	/**
-	 * @return {ICursorOptions} Options
+	 * @return Options
 	 */
 	public get cursorOptions(): ICursorOptions {
 		if (this.sprite) {
@@ -808,7 +768,7 @@ export class InteractionObject extends BaseObjectEvents {
 	 * Copies all properties and related assets from another object of the same
 	 * type.
 	 *
-	 * @param {this} source Source object
+	 * @param source Source object
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);

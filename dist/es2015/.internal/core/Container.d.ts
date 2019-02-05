@@ -30,14 +30,10 @@ import * as $type from "./utils/Type";
  */
 /**
  * Defines available font weights.
- *
- * @type {string}
  */
 export declare type FontWeight = "normal" | "bold" | "bolder" | "lighter" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
 /**
  * Defines available text decorations.
- *
- * @type {string}
  */
 export declare type TextDecoration = "none" | "underline" | "overline" | "line-through" | "blink";
 /**
@@ -54,7 +50,6 @@ export declare type TextDecoration = "none" | "underline" | "overline" | "line-t
  */
 /**
  * Defines available [[Container]] layout types
- * @type {string}
  */
 export declare type ContainerLayout = "absolute" | "vertical" | "horizontal" | "grid" | "none";
 /**
@@ -67,46 +62,36 @@ export interface IContainerProperties extends ISpriteProperties {
      * Options: "absolute" (default), "vertical", "horizontal", or "grid".
      *
      * @default "absolute"
-     * @type {ContainerLayout}
      */
     layout?: ContainerLayout;
     /**
      * Default font weight.
      *
      * @default "normal"
-     * @type {FontWeight}
      */
     fontWeight?: FontWeight;
     /**
      * Font size for the text.
-     *
-     * @type {number}
      */
     fontSize?: number;
     /**
      * Font family for the text.
-     *
-     * @type {string}
      */
     fontFamily?: string;
     /**
      * Default font decoration.
      *
      * @default "none"
-     * @type {TextDecoration}
      */
     textDecoration?: TextDecoration;
     /**
      * Horizontal alignment of Container's items.
-     *
-     * @type {Optional<Align>}
      */
     contentAlign?: Align;
     /**
      * Vertical alignment of Container's items.
      *
      * @ignore Exclude from docs
-     * @type {Optional<VerticalAlign>}
      */
     contentValign?: VerticalAlign;
     /**
@@ -114,13 +99,10 @@ export interface IContainerProperties extends ISpriteProperties {
      * will be equally sized.
      *
      * @default false
-     * @type {boolean}
      */
     fixedWidthGrid?: boolean;
     /**
      * Maximum number of columns (when using `"grid"` layout).
-     *
-     * @type {boolean}
      */
     maxColumns?: boolean;
     /**
@@ -128,7 +110,6 @@ export interface IContainerProperties extends ISpriteProperties {
      * order.
      *
      * @default false
-     * @type {boolean}
      */
     reverseOrder?: boolean;
     /**
@@ -136,7 +117,6 @@ export interface IContainerProperties extends ISpriteProperties {
      * should be applied to container's children as well as `background`.
      *
      * @default false
-     * @type {boolean}
      */
     setStateOnChildren?: boolean;
 }
@@ -180,62 +160,50 @@ export interface IContainerAdapters extends ISpriteAdapters, IContainerPropertie
 export declare class Container extends Sprite {
     /**
      * Defines available properties.
-     *
-     * @type {IContainerProperties}
      */
     _properties: IContainerProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IContainerAdapters}
      */
     _adapter: IContainerAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IContainerEvents}
      */
     _events: IContainerEvents;
     /**
      * Container children. (sorted by layout)
      *
      * @ignore Exclude from docs
-     * @type {List<Sprite>}
      */
     protected _childrenByLayout: Sprite[];
     /**
      * Available width (px).
      *
      * @ignore Exclude from docs
-     * @type {Optional<number>}
      */
     protected _availableWidth: $type.Optional<number>;
     /**
      * Available height (px).
      *
      * @ignore Exclude from docs
-     * @type {Optional<number>}
      */
     protected _availableHeight: $type.Optional<number>;
     /**
      * Container's child elements. (sorded by their `zIndex`)
      *
      * @ignore Exclude from docs
-     * @type {Optional<List<Sprite>>}
      */
     protected _children: $type.Optional<List<Sprite>>;
     /**
      * Container's disposers for its child elements.
      *
      * @ignore Exclude from docs
-     * @type {Dictionary<string, IDisposer>}
      */
     protected _childrenDisposers: Dictionary<string, IDisposer>;
     /**
      * A [[Sprite]] instance to use as Container's background.
      *
      * @todo Make it protected
-     * @type {Sprite}
      */
     _background: Sprite;
     /**
@@ -243,21 +211,16 @@ export declare class Container extends Sprite {
      * itself.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Preloader>}
      */
     protected _preloader: $type.Optional<Preloader>;
     /**
      * Indicates if this container contains any focused elements, including
      * itself.
-     *
-     * @type {boolean}
      */
     hasFocused: boolean;
     /**
      * An array of references to elements the state should be set, when it is set
      * on this element.
-     *
-     * @type {Sprite[]}
      */
     setStateOnSprites: Sprite[];
     layoutInvalid: boolean;
@@ -269,7 +232,6 @@ export declare class Container extends Sprite {
      * Please note that it might be bigger than width of the Container.
      *
      * @readonly
-     * @type {number}
      */
     contentWidth: number;
     /**
@@ -278,7 +240,6 @@ export declare class Container extends Sprite {
      * Please note that it might be bigger than height of the Container.
      *
      * @readonly
-     * @type {number}
      */
     contentHeight: number;
     /**
@@ -295,7 +256,7 @@ export declare class Container extends Sprite {
      * affect the whole layout so it needs to be revalidated.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Sprite>["inserted"]} event Event object
+     * @param event Event object
      * @todo Throw an exception on adding a disposed object. Of course it's better NOT TO add disposed objects, so that what we should focus on.
      */
     handleChildAdded(event: IListEvents<Sprite>["inserted"]): void;
@@ -312,7 +273,7 @@ export declare class Container extends Sprite {
      * whole layout of the Container, hence layout needs to be invalidated.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Sprite>["removed"]} event Event object
+     * @param event Event object
      */
     handleChildRemoved(event: IListEvents<Sprite>["removed"]): void;
     /**
@@ -320,7 +281,7 @@ export declare class Container extends Sprite {
      * whole layout of the Container, hence layout needs to be invalidated.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["transformed"]} event Event object
+     * @param event Event object
      */
     handleChildTransform(event: AMEvent<Sprite, ISpriteEvents>["transformed"] | AMEvent<Sprite, ISpriteEvents>["sizechanged"]): void;
     /**
@@ -351,27 +312,27 @@ export declare class Container extends Sprite {
      * Returns a list of the child [[Sprite]] elements contained in this
      * Container.
      *
-     * @return {List<Sprite>} List of child elements (Sprites)
+     * @return List of child elements (Sprites)
      */
     readonly children: List<Sprite>;
     /**
-     * @return {Optional<number>} Width (px)
+     * @return Width (px)
      */
     /**
      * Minimum width (px) for the Container. A container will not
      * auto-shrink beyond this value, even if child elements are smaller.
      *
-     * @param {Optional<number>}  value  Width (px)
+     * @param value  Width (px)
      */
     minWidth: Optional<number>;
     /**
-     * @return {Optional<number>} Height (px)
+     * @return Height (px)
      */
     /**
      * Minimum height (px) for the Container. A container will not
      * auto-shrink beyond this value, even if child elements are smaller.
      *
-     * @param {Optional<number>}  value  Height (px)
+     * @param value  Height (px)
      */
     minHeight: Optional<number>;
     /**
@@ -408,8 +369,8 @@ export declare class Container extends Sprite {
      * Creates a new element of specific type and assigns as a child to the
      * Container.
      *
-     * @param  {T extends Sprite}  Class type for the new element
-     * @return {T}                 New element
+     * @param Class type for the new element
+     * @return New element
      */
     createChild<T extends Sprite>(classType: {
         new (): T;
@@ -428,12 +389,12 @@ export declare class Container extends Sprite {
      */
     disposeChildren(): void;
     /**
-     * @return {Rectangle} Background element
+     * @return Background element
      */
     /**
      * An element to use as container background.
      *
-     * @param {Sprite}  background  Background element
+     * @param background  Background element
      */
     background: this["_background"];
     /**
@@ -446,7 +407,7 @@ export declare class Container extends Sprite {
      * Creates and returns a [[Rectangle]] to use as a background for Container.
      *
      * @ignore Exclude from docs
-     * @return {this} Background Rectangle element
+     * @return Background Rectangle element
      */
     createBackground(): this["_background"];
     /**
@@ -488,13 +449,13 @@ export declare class Container extends Sprite {
      * Returns widths of all columns in a horizontal Container layout.
      *
      * @ignore Exclude from docs
-     * @param  {number}    columnCount   Number of columns
-     * @param  {number}    maxCellWidth  Maximum width of one grid cell
-     * @return {number[]}                An array of column widths
+     * @param columnCount   Number of columns
+     * @param maxCellWidth  Maximum width of one grid cell
+     * @return An array of column widths
      */
     getColumnWidth(children: Sprite[], columnCount: number, maxCellWidth: number): number[];
     /**
-     * @return {ContainerLayout} Layout
+     * @return Layout
      */
     /**
      * Container layout.
@@ -504,33 +465,33 @@ export declare class Container extends Sprite {
      * Use "none" as much as you can as it's most cpu-saving layout.
      *
      * @default "absolute"
-     * @param {ContainerLayout} value Layout
+     * @param value Layout
      */
     layout: ContainerLayout;
     /**
-     * @return {VerticalAlign} Vertical alignment
+     * @return Vertical alignment
      */
     /**
      * Vertical alignment of the elements for the vertical Container.
      *
      * This is used when Container is larger than the height of all its children.
      *
-     * @param {VerticalAlign} value vertical alignment
+     * @param value vertical alignment
      */
     contentValign: VerticalAlign;
     /**
-     * @return {Align} Horizontal alignment
+     * @return Horizontal alignment
      */
     /**
      * Horizontal alignment of the elements for the horizontal Container.
      *
      * This is used when Container is larger than the height of all its children.
      *
-     * @param {Align}  value  Horizontal alignment
+     * @param value  Horizontal alignment
      */
     contentAlign: Align;
     /**
-     * @return {boolean} Should use fixed width grid?
+     * @return Should use fixed width grid?
      */
     /**
      * Controls if the grid of the Container should use fixed width. Fixed width
@@ -538,68 +499,68 @@ export declare class Container extends Sprite {
      * adapting to actual child sizes or size requirements.
      *
      * @default false
-     * @param {boolean}  value  Should use fixed width grid?
+     * @param value  Should use fixed width grid?
      */
     fixedWidthGrid: boolean;
     /**
-     * @return {Optional<number>} Should use fixed width grid?
+     * @return Should use fixed width grid?
      */
     /**
      * Maximum number of columns (when using `"grid"` layout).
      *
-     * @param {Optional<number>}  value  Should use fixed width grid?
+     * @param value  Should use fixed width grid?
      */
     maxColumns: Optional<number>;
     /**
-     * @return {Optional<boolean>} Reverse children?
+     * @return Reverse children?
      */
     /**
      * If set to `true`, the children of the container will be drawn in reverse
      * order.
      *
      * @default false
-     * @param {Optional<boolean>}  value  Reverse children?
+     * @param value  Reverse children?
      */
     reverseOrder: Optional<boolean>;
     /**
-     * @return {boolean} Set state on children
+     * @return Set state on children
      */
     /**
      * Specifies if, when state is applied on this container, the same state
      * should be applied to container's children as well as `background`.
      *
      * @default false
-     * @param {boolean}  value  Set state on children
+     * @param value  Set state on children
      */
     setStateOnChildren: boolean;
     /**
      * Checks if point is within bounds of a container.
      *
-     * @param  {IPoint}   point  A coordinate to check
-     * @return {boolean}         `true` if it fits within container
+     * @param point  A coordinate to check
+     * @return `true` if it fits within container
      */
     fitsToBounds(point: IPoint): boolean;
     /**
      * Copies all properties from different Container, including background
      * clone.
      *
-     * @param {this}  source  Source Container to copy from
+     * @param source  Source Container to copy from
      */
     copyFrom(source: this): void;
     /**
-     * @return {Optional<Preloader>} Preloader instance
+     * @return Preloader instance
      */
     /**
      * A [[Preloader]] instance to be used when Container is busy.
      *
-     * @param {Optional<Preloader>}  preloader  Preloader instance
+     * @param preloader  Preloader instance
      */
     preloader: $type.Optional<Preloader>;
     /**
      * Sets [[Paper]] instance to use to draw elements.
      * @ignore
-     * @param {Paper} paper Paper
-     * @return {boolean} true if paper was changed, false, if it's the same
+     * @param paper Paper
+     * @return true if paper was changed, false, if it's the same
      */
     setPaper(paper: Paper): boolean;
     /**
@@ -612,7 +573,7 @@ export declare class Container extends Sprite {
      * Sets a [[DataItem]] to be used as data for the Container.
      *
      * @todo Description
-     * @param {DataItem} dataItem DataItem
+     * @param dataItem DataItem
      */
     protected setDataItem(dataItem: DataItem): void;
     /**
@@ -625,29 +586,29 @@ export declare class Container extends Sprite {
      * Returns Tooltip X coordinate if it's set, or middle of the element.
      *
      * @ignore Exclude from docs
-     * @return {number} X (px)
+     * @return X (px)
      */
     protected getTooltipX(): number;
     /**
      * Returns Tooltip Y coordinate if it's set, or middle of the element.
      *
      * @ignore Exclude from docs
-     * @return {number} Y (px)
+     * @return Y (px)
      */
     protected getTooltipY(): number;
     /**
-     * @return {any} Font family
+     * @return Font family
      */
     /**
      * Font family to be used for the text.
      *
      * Parts of the text may override this setting using in-line formatting.
      *
-     * @param {string} value Font family value
+     * @param value Font family value
      */
     fontFamily: string;
     /**
-     * @return {any} Font size
+     * @return Font size
      */
     /**
      * Font size to be used for the text. The size can either be numeric, in
@@ -655,7 +616,7 @@ export declare class Container extends Sprite {
      *
      * Parts of the text may override this setting using in-line formatting.
      *
-     * @param {any} value Font size value
+     * @param value Font size value
      */
     fontSize: any;
     /**
@@ -663,25 +624,25 @@ export declare class Container extends Sprite {
      */
     invalidateLabels(): void;
     /**
-     * @return {FontWeight} Font weight
+     * @return Font weight
      */
     /**
      * Font weight to use for text.
      *
      * Parts of the text may override this setting using in-line formatting.
      *
-     * @param {FontWeight} value Font weight
+     * @param value Font weight
      */
     fontWeight: FontWeight;
     /**
-     * @return {TextDecoration} Decoration
+     * @return Decoration
      */
     /**
      * A text decoration to use for text.
      *
      * Parts of the text may override this setting using in-line formatting.
      *
-     * @param {TextDecoration}  value  Decoration
+     * @param value  Decoration
      */
     textDecoration: TextDecoration;
     /**
@@ -699,9 +660,9 @@ export declare class Container extends Sprite {
      * element, that is are listed in its respective `properties` array.
      *
      * @see {@link SpriteState}
-     * @param {string | SpriteState} value               A state - name key or instance
-     * @param {number}               transitionDuration  Duration of the transition between current and new state
-     * @param {number) => number}    easing              An easing function
+     * @param value               A state - name key or instance
+     * @param transitionDuration  Duration of the transition between current and new state
+     * @param easing              An easing function
      */
     setState(value: string | SpriteState<this["_properties"], this["_adapter"]>, transitionDuration?: number, easing?: (value: number) => number): $type.Optional<Animation>;
     protected setActive(value: boolean): void;

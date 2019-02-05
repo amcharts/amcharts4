@@ -49,17 +49,17 @@ export declare class Eckert6 extends Projection {
     /**
      * Converts screen coordinates to latitude/longitude.
      *
-     * @param  {number}     x  X
-     * @param  {number}     y  Y
-     * @return {IGeoPoint}     Geographical coordinates in radians
+     * @param x  X
+     * @param y  Y
+     * @return Geographical coordinates in radians
      */
     unproject(x: number, y: number): IGeoPoint;
     /**
      * Converts geographical coordinates to screen coordinates.
      *
-     * @param  {number}  lambda  Lambda parameter
-     * @param  {number}  phi     Phi parameter
-     * @return {IPoint}          Screen coordinates
+     * @param lambda  Lambda parameter
+     * @param phi     Phi parameter
+     * @return Screen coordinates
      */
     project(lambda: number, phi: number): IPoint;
 }

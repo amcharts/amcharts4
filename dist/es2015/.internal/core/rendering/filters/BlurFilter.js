@@ -44,7 +44,7 @@ var BlurFilter = /** @class */ (function (_super) {
     }
     Object.defineProperty(BlurFilter.prototype, "blur", {
         /**
-         * @return {number} Blur
+         * @return Blur
          */
         get: function () {
             return this.properties.blur;
@@ -55,7 +55,7 @@ var BlurFilter = /** @class */ (function (_super) {
          * The bigger the value, the blurrier the target element will become.
          *
          * @default 1.5
-         * @param {number} value Blur
+         * @param value Blur
          */
         set: function (value) {
             this.properties.blur = value;

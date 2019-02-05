@@ -66,7 +66,6 @@ var Chart = /** @class */ (function (_super) {
         /**
          * A reference to chart's [[Legend]].
          * @ignore
-         * @type {Legend}
          */
         _this._legend = new MutableValueDisposer();
         _this.className = "Chart";
@@ -186,8 +185,8 @@ var Chart = /** @class */ (function (_super) {
     /**
      * Adds a new title to the chart when it is inserted into chart's titles
      * list.
-     * @param  {IListEvents<Label>["inserted"]}  event  An event object which is triggered when inserting into titles list
-     * @return {Label}                               Label object
+     * @param event  An event object which is triggered when inserting into titles list
+     * @return Label object
      */
     Chart.prototype.processTitle = function (event) {
         var title = event.newValue;
@@ -221,7 +220,7 @@ var Chart = /** @class */ (function (_super) {
     };
     Object.defineProperty(Chart.prototype, "legend", {
         /**
-         * @return {Legend} Legend
+         * @return Legend
          */
         get: function () {
             return this._legend.get();
@@ -230,7 +229,7 @@ var Chart = /** @class */ (function (_super) {
          * Holds the instance of chart's [[Leged]].
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/legend/} for more information about legends
-         * @param {Legend} Legend
+         * @param Legend
          */
         set: function (legend) {
             this.setLegend(legend);
@@ -241,7 +240,7 @@ var Chart = /** @class */ (function (_super) {
     /**
      * Prepares the legend instance for use in this chart.
      *
-     * @param {Legend}  legend  Legend
+     * @param legend  Legend
      */
     Chart.prototype.setLegend = function (legend) {
         var _this = this;
@@ -265,7 +264,7 @@ var Chart = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     Chart.prototype.processConfig = function (config) {
         if (config) {
@@ -279,7 +278,7 @@ var Chart = /** @class */ (function (_super) {
     /**
      * Copies all properties from another instance of [[Series]].
      *
-     * @param {Series}  source  Source series
+     * @param source  Source series
      */
     Chart.prototype.copyFrom = function (source) {
         this.titles.copyFrom(source.titles);

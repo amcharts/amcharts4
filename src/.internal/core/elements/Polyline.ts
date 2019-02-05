@@ -30,8 +30,6 @@ export interface IPolylineProperties extends ISpriteProperties {
 
 	/**
 	 * A list of segment coordinates for the multi-part line.
-	 *
-	 * @type {IPoint[][]}
 	 */
 	segments?: IPoint[][];
 
@@ -67,22 +65,16 @@ export class Polyline extends Sprite {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPolylineProperties}
 	 */
 	public _properties!: IPolylineProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IPolylineAdapters}
 	 */
 	public _adapter!: IPolylineAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPolylineEvents}
 	 */
 	public _events!: IPolylineEvents;
 
@@ -90,7 +82,6 @@ export class Polyline extends Sprite {
 	 * [_distance description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	protected _distance: number = 0;
 
@@ -98,7 +89,6 @@ export class Polyline extends Sprite {
 	 * [_realSegments]
 	 *
 	 * @todo Description
-	 * @type {Optional<IPoint[][]>}
 	 */
 	protected _realSegments: $type.Optional<IPoint[][]>;
 
@@ -150,7 +140,7 @@ export class Polyline extends Sprite {
 	 * A list of segment coordinates for the multi-part line.
 	 *
 	 * @todo Example
-	 * @param {Optional<IPoint[][]>}  segments  Segments
+	 * @param segments  Segments
 	 */
 	public set segments(segments: $type.Optional<IPoint[][]>) {
 		this.setPropertyValue("segments", segments);
@@ -158,7 +148,7 @@ export class Polyline extends Sprite {
 	}
 
 	/**
-	 * @return {Optional<IPoint[]>} Segments
+	 * @return Segments
 	 */
 	public get segments(): $type.Optional<IPoint[][]> {
 		return this.getPropertyValue("segments");
@@ -168,7 +158,7 @@ export class Polyline extends Sprite {
 	 * [distance description]
 	 *
 	 * @todo Description
-	 * @return {number} [description]
+	 * @return [description]
 	 */
 	public get distance(): number {
 		return this._distance;
@@ -177,8 +167,8 @@ export class Polyline extends Sprite {
 	/**
 	 * Converts relative position along the line (0-1) into pixel coordinates.
 	 *
-	 * @param  {number}             position  Position (0-1)
-	 * @return {IOrientationPoint}            Coordinates
+	 * @param position  Position (0-1)
+	 * @return Coordinates
 	 */
 	public positionToPoint(position: number): IOrientationPoint {
 

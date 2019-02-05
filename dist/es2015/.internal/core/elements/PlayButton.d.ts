@@ -46,20 +46,14 @@ export interface IPlayButtonAdapters extends IButtonAdapters, IPlayButtonPropert
 export declare class PlayButton extends Button {
     /**
      * Defines available properties.
-     *
-     * @type {IPlayButtonProperties}
      */
     _properties: IPlayButtonProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IPlayButtonAdapters}
      */
     _adapter: IPlayButtonAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IPlayButtonEvents}
      */
     _events: IPlayButtonEvents;
     /**

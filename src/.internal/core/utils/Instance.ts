@@ -33,9 +33,9 @@ import * as $dom from "./DOM";
  * Creates all HTML and SVG containers needed for the chart instance, as well
  * as the new [[Sprite]] (as specified in `classType` parameter).
  *
- * @param  {Optional<HTMLElement | string>}  htmlElement  A container to creat elements in
- * @param  {T}                               classType    A class definition of the new element to create
- * @return {T}                                            Newly-created Sprite object
+ * @param htmlElement  A container to creat elements in
+ * @param classType    A class definition of the new element to create
+ * @return Newly-created Sprite object
  */
 function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement | string>, classType: { new(): T; }): T {
 	let htmlContainer = $dom.getElement(htmlElement);
@@ -91,7 +91,7 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 				container.deepInvalidate();
 			}
 			if(sprite.maskRectangle){
-				sprite.maskRectangle = { x: 0, y: 0, width: svgDiv.width, height: svgDiv.height };			
+				sprite.maskRectangle = { x: 0, y: 0, width: svgDiv.width, height: svgDiv.height };
 			}
 		})
 
@@ -176,9 +176,9 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
  * var chart = am4core.create("chartdiv", "PieChart");
  * ```
  *
- * @param  {HTMLElement | string}  htmlElement  Reference or id of the target container element
- * @param  {T}                     classType    Class type of the target chart type
- * @return {T}                                  Chart instance
+ * @param htmlElement  Reference or id of the target container element
+ * @param classType    Class type of the target chart type
+ * @return Chart instance
  */
 export function create<T extends Sprite>(htmlElement: $type.Optional<HTMLElement | string>, classType: { new(): T; }): T {
 
@@ -272,10 +272,10 @@ export function create<T extends Sprite>(htmlElement: $type.Optional<HTMLElement
  * }
  * ```
  *
- * @param  {any}                   config       Config object in property/value pairs
- * @param  {string | HTMLElement}  htmlElement  Container reference or ID
- * @param  {typeof Chart}          objectType   Chart type
- * @return {Chart}                              A newly created chart instance
+ * @param config       Config object in property/value pairs
+ * @param htmlElement  Container reference or ID
+ * @param objectType   Chart type
+ * @return A newly created chart instance
  * @todo Throw exception if type is not correct
  */
 export function createFromConfig(config: { [index: string]: any }, htmlElement?: string | HTMLElement, classType?: { new(): Sprite; } | string): Sprite {
@@ -364,7 +364,7 @@ export function createFromConfig(config: { [index: string]: any }, htmlElement?:
  * The above will apply both the Material color and animation options to all
  * charts created.
  *
- * @param {ITheme}  value  A reference to a theme
+ * @param value  A reference to a theme
  */
 export function useTheme(value: ITheme): void {
 	registry.themes.push(value);
@@ -374,7 +374,7 @@ export function useTheme(value: ITheme): void {
  * Removes a theme from "active themes" list, so it won't get applied to any
  * charts created subsequently.
  *
- * @param {ITheme}  value  A reference to a theme
+ * @param value  A reference to a theme
  */
 export function unuseTheme(value: ITheme): void {
 	$array.remove(registry.themes, value);

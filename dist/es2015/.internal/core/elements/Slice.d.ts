@@ -24,8 +24,6 @@ import { RadialGradient } from "../rendering/fills/RadialGradient";
 export interface ISliceProperties extends IContainerProperties {
     /**
      * Radius of the slice in pixels.
-     *
-     * @type {number}
      */
     radius?: number;
     /**
@@ -33,50 +31,40 @@ export interface ISliceProperties extends IContainerProperties {
      *
      * This is relevant to `radius`, e.g. 0.5 will set vertical radius to half
      * the `radius`.
-     *
-     * @type {number}
      */
     radiusY?: number;
     /**
      * Inner radius of the slice for creating cut out (donut) slices, in px or %
-     *
-     * @type {number}
      */
     innerRadius?: number | Percent;
     /**
      * The angle at which left edge of the slice is drawn. (0-360)
      *
      * 0 is to the right of the center.
-     *
-     * @type {number}
      */
     startAngle?: number;
     /**
      * [arc description]
      *
      * @todo Description
-     * @type {number}
      */
     arc?: number;
     /**
      * [shiftRadius description]
      *
      * @todo Description
-     * @type {number}
      */
     shiftRadius?: number;
     /**
      * Radius of slice's outer corners in pixels.
      *
      * @default 0
-     * @type {number}
      */
     cornerRadius?: number;
     /**
      * Radius of slice's inner corners in pixels.
      *
      * @default 0
-     * @type {number}
      */
     innerCornerRadius?: number;
 }
@@ -107,20 +95,14 @@ export interface ISliceAdapters extends IContainerAdapters, ISliceProperties {
 export declare class Slice extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {ISliceProperties}
      */
     _properties: ISliceProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ISliceAdapters}
      */
     _adapter: ISliceAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ISliceEvents}
      */
     _events: ISliceEvents;
     /**
@@ -128,8 +110,6 @@ export declare class Slice extends Container {
      *
      * Slice itself is a [[Container]] so that [[Slice3D]] could extend it and
      * add 3D elements to it.
-     *
-     * @type {Sprite}
      */
     slice: Sprite;
     /**
@@ -147,41 +127,40 @@ export declare class Slice extends Container {
      * Returns bounding box (square) for this element.
      *
      * @ignore Exclude from docs
-     * @type {IRectangle}
      */
     readonly bbox: IRectangle;
     /**
-     * @return {number} Angle (0-360)
+     * @return Angle (0-360)
      */
     /**
      * The angle at which left edge of the slice is drawn. (0-360)
      *
      * 0 is to the right of the center.
      *
-     * @param {number}  value  Angle (0-360)
+     * @param value  Angle (0-360)
      */
     startAngle: number;
     /**
-     * @return {number} [description]
+     * @return [description]
      */
     /**
      * [arc description]
      *
      * @todo Description
-     * @param {number} value [description]
+     * @param value [description]
      */
     arc: number;
     /**
-     * @return {number} Radius (px)
+     * @return Radius (px)
      */
     /**
      * Radius of the slice in pixels.
      *
-     * @param {number}  value  Radius (px)
+     * @param value  Radius (px)
      */
     radius: number;
     /**
-     * @return {number} Vertical radius (0-1)
+     * @return Vertical radius (0-1)
      */
     /**
      * Vertical radius for creating skewed slices.
@@ -189,45 +168,45 @@ export declare class Slice extends Container {
      * This is relevant to `radius`, e.g. 0.5 will set vertical radius to half
      * the `radius`.
      *
-     * @param {number} value Vertical radius (0-1)
+     * @param value Vertical radius (0-1)
      */
     radiusY: number;
     /**
-     * @return {number | Percent} Radius (px or %)
+     * @return Radius (px or %)
      */
     /**
      * Inner radius of the slice for creating cut out (donut) slices.
      *
      * @default 0
-     * @param {number | Percent}  value  Radius (px or %)
+     * @param value  Radius (px or %)
      */
     innerRadius: number | Percent;
     /**
-     * @return {number} Radius px
+     * @return Radius px
      */
     readonly pixelInnerRadius: number;
     /**
-     * @return {number} Radius (px)
+     * @return Radius (px)
      */
     /**
      * Radius of slice's outer corners in pixels.
      *
      * @default 0
-     * @param {number}  value  Radius (px)
+     * @param value  Radius (px)
      */
     cornerRadius: number;
     /**
-     * @return {number} Radius (px)
+     * @return Radius (px)
      */
     /**
      * Radius of slice's inner corners in pixels.
      *
      * @default 0
-     * @param {number}  value  Radius (px)
+     * @param value  Radius (px)
      */
     innerCornerRadius: number;
     /**
-     * @return {number} [description]
+     * @return [description]
      */
     /**
      * [shiftRadius description]
@@ -235,7 +214,7 @@ export declare class Slice extends Container {
      * 0-1
      *
      * @todo Description
-     * @param {number} value [description]
+     * @param value [description]
      */
     shiftRadius: number;
     /**
@@ -243,7 +222,7 @@ export declare class Slice extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @return {number} [description]
+     * @return [description]
      */
     readonly ix: number;
     /**
@@ -251,26 +230,26 @@ export declare class Slice extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @return {number} [description]
+     * @return [description]
      */
     readonly iy: number;
     /**
      * An angle of the slice's middle.
      *
      * @ignore Exclude from docs
-     * @return {number} Angle
+     * @return Angle
      */
     readonly middleAngle: number;
     /**
      * X coordinate for the slice tooltip.
      *
-     * @return {number} X
+     * @return X
      */
     protected getTooltipX(): number;
     /**
      * Y coordinate for the slice tooltip.
      *
-     * @return {number} Y
+     * @return Y
      */
     protected getTooltipY(): number;
 }

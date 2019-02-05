@@ -7,12 +7,10 @@
 export interface IStyleProperty {
     /**
      * Property
-     * @type {string}
      */
     "property": string;
     /**
      * Value of the property
-     * @type {string}
      */
     "value": string;
 }

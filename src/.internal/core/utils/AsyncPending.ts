@@ -15,7 +15,6 @@ import * as $array from "./Array";
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export type Listener = (now: number) => void;
 
@@ -34,7 +33,6 @@ const fps = 1000 / 60;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export const raf =
 	(typeof requestAnimationFrame === "function"
@@ -106,7 +104,7 @@ function pendFrame(): void {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {Listener} fn [description]
+ * @param fn [description]
  */
 export function nextFrame(fn: Listener): void {
 	nextQueue.push(fn);
@@ -118,7 +116,7 @@ export function nextFrame(fn: Listener): void {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {Listener} fn [description]
+ * @param fn [description]
  */
 export function readFrame(fn: Listener): void {
 	readQueue.push(fn);
@@ -130,7 +128,7 @@ export function readFrame(fn: Listener): void {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {Listener} fn [description]
+ * @param fn [description]
  */
 export function writeFrame(fn: Listener): void {
 	writeQueue.push(fn);
@@ -142,7 +140,7 @@ export function writeFrame(fn: Listener): void {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {Listener} fn [description]
+ * @param fn [description]
  */
 export function whenIdle(fn: Listener): void {
 	idleQueue.push(fn);

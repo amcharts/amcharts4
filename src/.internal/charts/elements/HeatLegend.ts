@@ -40,7 +40,6 @@ export interface IHeatLegendProperties extends IContainerProperties {
 	 * Minimum color
 	 *
 	 * @todo Description
-	 * @type {color}
 	 */
 	minColor?: Color;
 
@@ -48,7 +47,6 @@ export interface IHeatLegendProperties extends IContainerProperties {
 	 * Minimum value
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	minValue?: number;
 
@@ -56,7 +54,6 @@ export interface IHeatLegendProperties extends IContainerProperties {
 	 * Maximum value
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	maxValue?: number;
 
@@ -65,7 +62,6 @@ export interface IHeatLegendProperties extends IContainerProperties {
 	 * Maximum color
 	 *
 	 * @todo Description
-	 * @type {color}
 	 */
 	maxColor?: Color;
 
@@ -73,7 +69,6 @@ export interface IHeatLegendProperties extends IContainerProperties {
 	 * Number of markers (steps)
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	markerCount?: number;
 
@@ -82,7 +77,6 @@ export interface IHeatLegendProperties extends IContainerProperties {
 	 * Orientation
 	 *
 	 * @todo Description
-	 * @type {"horizontal" | "vertical"}
 	 */
 	orientation?: "horizontal" | "vertical";
 
@@ -120,50 +114,38 @@ export class HeatLegend extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IHeatLegendProperties}
 	 */
 	public _properties!: IHeatLegendProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IHeatLegendAdapters}
 	 */
 	public _adapter!: IHeatLegendAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IHeatLegendEvents}
 	 */
 	public _events!: IHeatLegendEvents;
 
 	/**
 	 * List of heat legend markers (color step rectangles).
-	 *
-	 * @type {ListTemplate<RoundedRectangle>}
 	 */
 	public markers: ListTemplate<RoundedRectangle>;
 
 	/**
 	 * Container which holds markers
-	 *
-	 * @type {Container}
 	 */
 	public markerContainer: Container;
 
 	/**
 	 * Value axis of a heat legend
 	 * @ignore
-	 * @type {ValueAxis}
 	 */
 	protected _valueAxis: ValueAxis;
 
 	/**
 	 * Series of a heat legend
 	 * @ignore
-	 * @type {Series}
 	 */
 	protected _series: Series;
 
@@ -549,7 +531,7 @@ export class HeatLegend extends Container {
 
 	/**
 	 * You can set series for heat legend. It will take min, max, minColor and maxColor values from this series.
-	 * @param {Series} series
+	 * @param series
 	 */
 	set series(series: Series) {
 		this._series = series;
@@ -604,7 +586,7 @@ export class HeatLegend extends Container {
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 

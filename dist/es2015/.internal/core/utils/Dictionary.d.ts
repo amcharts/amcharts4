@@ -19,8 +19,6 @@ export interface IDictionaryEvents<Key, Value> {
     removed: {
         /**
          * Removed value.
-         *
-         * @type {Value}
          */
         oldValue: Value;
     };
@@ -34,14 +32,10 @@ export interface IDictionaryEvents<Key, Value> {
     insertKey: {
         /**
          * Key.
-         *
-         * @type {Key}
          */
         key: Key;
         /**
          * Added value.
-         *
-         * @type {Value}
          */
         newValue: Value;
     };
@@ -51,20 +45,14 @@ export interface IDictionaryEvents<Key, Value> {
     setKey: {
         /**
          * Key.
-         *
-         * @type {Key}
          */
         key: Key;
         /**
          * Removed value. (if overwriting)
-         *
-         * @type {Value}
          */
         oldValue: Value;
         /**
          * Added value.
-         *
-         * @type {Value}
          */
         newValue: Value;
     };
@@ -74,14 +62,10 @@ export interface IDictionaryEvents<Key, Value> {
     removeKey: {
         /**
          * Key.
-         *
-         * @type {Key}
          */
         key: Key;
         /**
          * Removed value.
-         *
-         * @type {Value}
          */
         oldValue: Value;
     };
@@ -119,8 +103,6 @@ export declare class Dictionary<Key extends string, T> {
     private _dictionary;
     /**
      * Event dispatcher.
-     *
-     * @type {EventDispatcher<AMEvent<Dictionary<Key, T>, IDictionaryEvents<Key, T>>>}
      */
     events: EventDispatcher<AMEvent<Dictionary<Key, T>, IDictionaryEvents<Key, T>>>;
     /**
@@ -130,15 +112,15 @@ export declare class Dictionary<Key extends string, T> {
     /**
      * Returns `true` if key exists in Dictionary.
      *
-     * @param  {Key}      key  The key to search for
-     * @return {boolean}       `true` if key exists, `false` if it doesn't
+     * @param key  The key to search for
+     * @return `true` if key exists, `false` if it doesn't
      */
     hasKey(key: Key): boolean;
     /**
      * Returns the value for a specific key.
      *
-     * @param  {Key}          key  The key to search for
-     * @return {Optional<T>}       Value for the key, or `undefined` if it doesn't exist
+     * @param key  The key to search for
+     * @return Value for the key, or `undefined` if it doesn't exist
      */
     getKey(key: Key): Optional<T>;
     /**
@@ -146,8 +128,8 @@ export declare class Dictionary<Key extends string, T> {
      *
      * Will thrown an exception if the key already exists in the dictionary.
      *
-     * @param {Key}  key    Key
-     * @param {T}    value  Value
+     * @param key    Key
+     * @param value  Value
      */
     insertKey(key: Key, value: T): void;
     /**
@@ -157,8 +139,8 @@ export declare class Dictionary<Key extends string, T> {
      *
      * If the new value is exactly the same as the old value (using ===), it won't do anything.
      *
-     * @param  {Key}  key    Key
-     * @param  {T}    value  Value
+     * @param key    Key
+     * @param value  Value
      */
     setKey(key: Key, value: T): void;
     /**
@@ -170,14 +152,14 @@ export declare class Dictionary<Key extends string, T> {
      * If the new value is exactly the same as the old value (using ===), it won't do anything.
      *
      * @ignore Exclude from docs
-     * @param {Key}       key  Key
-     * @param {function}  fn   Function to transform the value
+     * @param key  Key
+     * @param fn   Function to transform the value
      */
     updateKey(key: Key, fn: (value: T) => T): void;
     /**
      * Removes value at specific `key` from dictionary.
      *
-     * @param {Key}  key  Key to remove
+     * @param key  Key to remove
      */
     removeKey(key: Key): void;
     /**
@@ -185,9 +167,9 @@ export declare class Dictionary<Key extends string, T> {
      *
      * @ignore Exclude from docs
      * @todo description
-     * @param  {Key}       key      [description]
-     * @param  {function}  ifEmpty  [description]
-     * @return {T}                  [description]
+     * @param key      [description]
+     * @param ifEmpty  [description]
+     * @return [description]
      */
     insertKeyIfEmpty(key: Key, ifEmpty: () => T): T;
     /**
@@ -197,14 +179,14 @@ export declare class Dictionary<Key extends string, T> {
     /**
      * Copies items from another Dictionary.
      *
-     * @param {Dictionary<Key, T>}  source  A Dictionary to copy items from
+     * @param source  A Dictionary to copy items from
      */
     copyFrom(source: this): void;
     /**
      * Returns an interator that can be used to iterate through all items in
      * the dictionary.
      *
-     * @return {Iterator} Iterator
+     * @return Iterator
      */
     iterator(): $iter.Iterator<[Key, T]>;
     /**
@@ -220,7 +202,7 @@ export declare class Dictionary<Key extends string, T> {
      * the dictionary, ordered by key.
      *
      * @ignore Exclude from docs
-     * @return {Iterator} Iterator
+     * @return Iterator
      */
     sortedIterator(): $iter.Iterator<[Key, T]>;
 }
@@ -241,29 +223,28 @@ export declare class DictionaryTemplate<Key extends string, T extends IClone<T> 
      * A template object.
      *
      * @todo Make this private
-     * @type {T}
      */
     _template: T;
     /**
      * Constructor
      *
-     * @param {T} t Template object
+     * @param t Template object
      */
     constructor(t: T);
     /**
-     * @return {T} Template object
+     * @return Template object
      */
     /**
      * A "template" object to copy all properties from when creating new list
      * items.
      *
-     * @param {T}  v  Template object
+     * @param v  Template object
      */
     template: T;
     /**
      * Copies all elements from other dictionary.
      *
-     * @param {DictionaryTemplate}  source  Source dictionary
+     * @param source  Source dictionary
      */
     copyFrom(source: this): void;
     /**

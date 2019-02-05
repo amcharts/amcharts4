@@ -66,7 +66,7 @@ var ConeSeries = /** @class */ (function (_super) {
     /**
      * Returns an element to use for Candlestick
      * @ignore
-     * @return {this["_column"]} Element.
+     * @return Element.
      */
     ConeSeries.prototype.createColumnTemplate = function () {
         return new ConeColumn();
@@ -74,7 +74,7 @@ var ConeSeries = /** @class */ (function (_super) {
     /**
      * Returns an SVG path to use as series mask.
      *
-     * @return {string} SVG path
+     * @return SVG path
      */
     ConeSeries.prototype.getMaskPath = function () {
         var dx = 0;
@@ -99,7 +99,7 @@ var ConeSeries = /** @class */ (function (_super) {
      * Validates data item's elements.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     ConeSeries.prototype.validateDataElementReal = function (dataItem) {
         _super.prototype.validateDataElementReal.call(this, dataItem);

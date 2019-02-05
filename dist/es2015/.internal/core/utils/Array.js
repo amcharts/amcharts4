@@ -11,9 +11,9 @@ import * as $type from "./Type";
  *
  * Returns -1 if not found.
  *
- * @param   {ArrayLike<A>}  array  Source array
- * @param   {A}             value  Value to search
- * @returns {number}               Index
+ * @param array  Source array
+ * @param value  Value to search
+ * @returns Index
  */
 export function indexOf(array, value) {
     var length = array.length;
@@ -32,9 +32,9 @@ export function indexOf(array, value) {
  *
  * If `test` returns `false` for all of the elements in `array` then it returns `false`.
  *
- * @param   {ArrayLike<A>}           array  Source array
- * @param   {(value: A) => boolean}  test   Function which is called on each element
- * @returns {boolean}                Whether `test` returned true or not
+ * @param array  Source array
+ * @param test   Function which is called on each element
+ * @returns Whether `test` returned true or not
  */
 export function any(array, test) {
     var length = array.length;
@@ -49,9 +49,9 @@ export function any(array, test) {
  * Calls `fn` function for every member of array and returns a new array out
  * of all outputs.
  *
- * @param   {ArrayLike<A>}  array  Source array
- * @param   {function}      fn     Callback function
- * @returns {number}               New array
+ * @param array  Source array
+ * @param fn     Callback function
+ * @returns New array
  */
 export function map(array, fn) {
     var length = array.length;
@@ -65,8 +65,8 @@ export function map(array, fn) {
  * Iterates through all items in array and calls `fn` function for each of
  * them.
  *
- * @param   {ArrayLike<A>}  array  Source array
- * @param   {function}      fn     Callback function
+ * @param array  Source array
+ * @param fn     Callback function
  */
 export function each(array, fn) {
     var length = array.length;
@@ -78,8 +78,8 @@ export function each(array, fn) {
  * Iterates through all items in array in reverse order and calls `fn` function for each of
  * them.
  *
- * @param   {ArrayLike<A>}  array  Source array
- * @param   {function}      fn     Callback function
+ * @param array  Source array
+ * @param fn     Callback function
  */
 export function eachReverse(array, fn) {
     var i = array.length;
@@ -93,8 +93,8 @@ export function eachReverse(array, fn) {
  *
  * If `fn` call evaluates to `false`, further iteration is cancelled.
  *
- * @param   {ArrayLike<A>}  array  Source array
- * @param   {function}      fn     Callback function
+ * @param array  Source array
+ * @param fn     Callback function
  */
 export function eachContinue(array, fn) {
     var length = array.length;
@@ -107,8 +107,8 @@ export function eachContinue(array, fn) {
 /**
  * Shifts an item at `index` towards beginning of the array.
  *
- * @param {ArrayLike<A>}  array  Source array
- * @param {number}        index  Target element index
+ * @param array  Source array
+ * @param index  Target element index
  */
 export function shiftLeft(array, index) {
     var length = array.length;
@@ -120,8 +120,8 @@ export function shiftLeft(array, index) {
 /**
  * Returns the last item of the array.
  *
- * @param   {ArrayLike<A>}  array  Source array
- * @returns {A}                    Last item
+ * @param array  Source array
+ * @returns Last item
  */
 export function last(array) {
     var length = array.length;
@@ -130,8 +130,8 @@ export function last(array) {
 /**
  * Returns the first item of the array.
  *
- * @param   {ArrayLike<A>}  array  Source array
- * @returns {A}                    Last item
+ * @param array  Source array
+ * @returns Last item
  */
 export function first(array) {
     return array[0];
@@ -141,9 +141,9 @@ export function first(array) {
  *
  * Caps `index` to be between `0` and `array.length`
  *
- * @param {ArrayLike<A>}  array    Source array
- * @param {ArrayLike<A>}  element  Item to insert
- * @param {ArrayLike<A>}  array    Index to insert item at
+ * @param array    Source array
+ * @param element  Item to insert
+ * @param array    Index to insert item at
  */
 export function insert(array, element, index) {
     //if (array) {
@@ -155,9 +155,9 @@ export function insert(array, element, index) {
  * Removes all copies of `element` from `array` (if they exist) and then
  * inserts `element` at `index`.
  *
- * @param {ArrayLike<A>}  array    Source array
- * @param {ArrayLike<A>}  element  Item
- * @param {ArrayLike<A>}  array    Index to move item to
+ * @param array    Source array
+ * @param element  Item
+ * @param array    Index to move item to
  */
 export function setIndex(array, element, index) {
     remove(array, element);
@@ -166,8 +166,8 @@ export function setIndex(array, element, index) {
 /**
  * Pushes all of the elements from `input` into `array`.
  *
- * @param {ArrayLike<A>}  array  Output array
- * @param {ArrayLike<A>}  input  Input array
+ * @param array  Output array
+ * @param input  Input array
  */
 export function pushAll(array, input) {
     var length = input.length;
@@ -180,8 +180,8 @@ export function pushAll(array, input) {
  *
  * If there are multiple copies of `element`, they are all removed.
  *
- * @param {ArrayLike<A>}  array    Source array
- * @param {ArrayLike<A>}  element  Item to remove
+ * @param array    Source array
+ * @param element  Item to remove
  */
 export function remove(array, element) {
     var found = false;
@@ -211,9 +211,9 @@ export function remove(array, element) {
  *
  * Optionally `toIndex` can be specified to add element at specific index.
  *
- * @param {ArrayLike<A>}  array    Source array
- * @param {ArrayLike<A>}  element  Item to add
- * @param {ArrayLike<A>}  array    Index to move item to
+ * @param array    Source array
+ * @param element  Item to add
+ * @param array    Index to move item to
  */
 export function move(array, element, toIndex) {
     // @todo this implementation must be the same as the List.moveValue method
@@ -235,9 +235,9 @@ export function move(array, element, toIndex) {
  *
  * If `index` is not provided, it will insert `element` at the end of `array`.
  *
- * @param {ArrayLike<A>}  array    Source array
- * @param {ArrayLike<A>}  element  Item to add
- * @param {ArrayLike<A>}  array    Index to add item at
+ * @param array    Source array
+ * @param element  Item to add
+ * @param array    Index to add item at
  */
 export function add(array, element, index) {
     // Append to the end if index is not set
@@ -259,9 +259,9 @@ export function add(array, element, index) {
  *
  * If `index` is not provided, it will insert `element` at the end of `array`.
  *
- * @param {ArrayLike<A>}  array    Source array
- * @param {ArrayLike<A>}  element  Item to remove
- * @param {ArrayLike<A>}  array    Index to move item to
+ * @param array    Source array
+ * @param element  Item to remove
+ * @param array    Index to move item to
  */
 export function replace(array, element, index) {
     // check if exists
@@ -282,8 +282,8 @@ export function replace(array, element, index) {
 /**
  * Wraps `input` in an array, if it isn't already an array.
  *
- * @param {Array<A> | A}  input  Source value
- * @return {Array<A>} An array
+ * @param input  Source value
+ * @return An array
  */
 export function toArray(input) {
     if (Array.isArray(input)) {
@@ -296,9 +296,9 @@ export function toArray(input) {
 /**
  * Returns `true` if `element` exists in `array`.
  *
- * @param   {ArrayLike<A>}  array    Source array
- * @param   {ArrayLike<A>}  element  Item to search for
- * @returns {boolean}                Item in array?
+ * @param array    Source array
+ * @param element  Item to search for
+ * @returns Item in array?
  */
 export function has(array, element) {
     return indexOf(array, element) !== -1;
@@ -306,8 +306,8 @@ export function has(array, element) {
 /**
  * Returns a shallow copy of `array`.
  *
- * @param   {ArrayLike<A>}  array  Source array
- * @returns {boolean}              Copy of the array
+ * @param array  Source array
+ * @returns Copy of the array
  */
 export function copy(array) {
     var length = array.length;
@@ -326,10 +326,10 @@ export function copy(array) {
  *
  * If `end` is not provided, it defaults to `array.length`.
  *
- * @param   {ArrayLike<A>}  array  Source array
- * @param   {number}        start  Start index
- * @param   {number}        end    End index
- * @returns {Array<A>}             Part of the array
+ * @param array  Source array
+ * @param start  Start index
+ * @param end    End index
+ * @returns Part of the array
  */
 export function slice(array, start, end) {
     if (end === void 0) { end = array.length; }
@@ -342,9 +342,9 @@ export function slice(array, start, end) {
 /**
  * Inserts a value into array at specific index.
  *
- * @param {Array<A>}  array  Source array
- * @param {number}    index  Index
- * @param {A}         value  Value to insert
+ * @param array  Source array
+ * @param index  Index
+ * @param value  Value to insert
  */
 export function insertIndex(array, index, value) {
     array.splice(index, 0, value);
@@ -352,8 +352,8 @@ export function insertIndex(array, index, value) {
 /**
  * Removes a value from array at specific index.
  *
- * @param {Array<A>}  array  Source array
- * @param {number}    index  Index
+ * @param array  Source array
+ * @param index  Index
  */
 export function removeIndex(array, index) {
     array.splice(index, 1);
@@ -363,10 +363,10 @@ export function removeIndex(array, index) {
  * the `value`.
  *
  * @ignore Exclude from docs
- * @param   {ArrayLike<A>}  array     Source array
- * @param   {function}      ordering  An ordering function
- * @param   {ArrayLike<A>}  value     Value to search for
- * @returns {SortResult}              Result of the search
+ * @param array     Source array
+ * @param ordering  An ordering function
+ * @param value     Value to search for
+ * @returns Result of the search
  */
 export function getSortedIndex(array, ordering, value) {
     var start = 0;
@@ -404,9 +404,9 @@ export function getSortedIndex(array, ordering, value) {
  *
  * Otherwise returns -1.
  *
- * @param   {ArrayLike<A>}  array    Source array
- * @param   {function}      matches  Search function
- * @returns {number}                 Index of the item if found
+ * @param array    Source array
+ * @param matches  Search function
+ * @returns Index of the item if found
  */
 export function findIndex(array, matches) {
     var length = array.length;
@@ -425,9 +425,9 @@ export function findIndex(array, matches) {
  *
  * Otherwise returns `undefined`.
  *
- * @param   {ArrayLike<A>}  array    Source array
- * @param   {function}      matches  Search function
- * @returns {number}                 Item if found
+ * @param array    Source array
+ * @param matches  Search function
+ * @returns Item if found
  */
 export function find(array, matches) {
     var index = findIndex(array, matches);

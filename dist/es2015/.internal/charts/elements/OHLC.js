@@ -51,7 +51,7 @@ var OHLC = /** @class */ (function (_super) {
     /**
      * Copies all parameters from another [[OHLC]].
      *
-     * @param {OHLC} source Source OHLC
+     * @param source Source OHLC
      */
     OHLC.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

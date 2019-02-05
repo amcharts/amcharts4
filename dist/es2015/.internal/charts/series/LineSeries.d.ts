@@ -28,13 +28,10 @@ import * as $iter from "../../core/utils/Iterator";
 export declare class LineSeriesDataItem extends XYSeriesDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {LineSeries}
      */
     _component: LineSeries;
     /**
      * Point of line series data item
-     * @type {IPoint}
      */
     point: IPoint;
     /**
@@ -67,7 +64,6 @@ export interface ILineSeriesProperties extends IXYSeriesProperties {
      * Used for smoothed lines.
      *
      * @default 1
-     * @type {number}
      */
     tensionX?: number;
     /**
@@ -76,14 +72,12 @@ export interface ILineSeriesProperties extends IXYSeriesProperties {
      * Used for smoothed lines.
      *
      * @default 1
-     * @type {number}
      */
     tensionY?: number;
     /**
      * Connect the lines over empty data points?
      *
      * @default true
-     * @type {boolean}
      */
     connect?: boolean;
 }
@@ -116,32 +110,22 @@ export interface ILineSeriesAdapters extends IXYSeriesAdapters, ILineSeriesPrope
 export declare class LineSeries extends XYSeries {
     /**
      * Defines the type of data fields used for the series.
-     *
-     * @type {ILineSeriesDataFields}
      */
     _dataFields: ILineSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {ILineSeriesProperties}
      */
     _properties: ILineSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ILineSeriesAdapters}
      */
     _adapter: ILineSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ILineSeriesEvents}
      */
     _events: ILineSeriesEvents;
     /**
      * Defines the type of data item.
-     *
-     * @type {LineSeriesDataItem}
      */
     _dataItem: LineSeriesDataItem;
     /**
@@ -151,8 +135,6 @@ export declare class LineSeries extends XYSeries {
      *
      * * When we want to change the appearance of a part of the line series;
      * * When we have an axis range.
-     *
-     * @type {ListTemplate<this["_segment"]>}
      */
     segments: ListTemplate<this["_segment"]>;
     /**
@@ -162,7 +144,6 @@ export declare class LineSeries extends XYSeries {
      * A container for segment elements.
      *
      * @ignore Exclude from docs
-     * @type {Container}
      */
     segmentsContainer: Container;
     /**
@@ -173,13 +154,10 @@ export declare class LineSeries extends XYSeries {
      * This allows acceptable performance with huge amounts of data points.
      *
      * @default 0.5
-     * @type {number}
      */
     minDistance: number;
     /**
      * Iterator for segments.
-     *
-     * @type {ListIterator<LineSeriesSegment>}
      */
     protected _segmentsIterator: $iter.ListIterator<this["_segment"]>;
     protected _adjustedStartIndex: number;
@@ -200,21 +178,21 @@ export declare class LineSeries extends XYSeries {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {LineSeriesDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
      * Inits data item's working values.
      *
-     * @param {this["_dataItem"]}  dataItem  Data item
-     * @param {number}             index     Data item's index
+     * @param dataItem  Data item
+     * @param index     Data item's index
      */
     protected setInitialWorkingValues(dataItem: this["_dataItem"]): void;
     /**
      * Updates corresponding legend data item with current values.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     updateLegendValue(dataItem?: this["_dataItem"]): void;
     /**
@@ -237,38 +215,38 @@ export declare class LineSeries extends XYSeries {
      * [openSegment description]
      *
      * @todo Description
-     * @param {number}        openIndex  [description]
-     * @param {AxisDataItem}  axisRange  [description]
+     * @param openIndex  [description]
+     * @param axisRange  [description]
      */
     protected openSegment(openIndex: number, axisRange?: AxisDataItem): void;
     /**
      * [addPoints description]
      *
      * @todo Description
-     * @param {IPoint[]}          points    [description]
-     * @param {this["_dataItem"]} dataItem  [description]
-     * @param {string}            xField    [description]
-     * @param {string}            yField    [description]
-     * @param {boolean}           backwards [description]
+     * @param points    [description]
+     * @param dataItem  [description]
+     * @param xField    [description]
+     * @param yField    [description]
+     * @param backwards [description]
      */
     protected addPoints(points: IPoint[], dataItem: this["_dataItem"], xField: string, yField: string, backwards?: boolean): void;
     /**
      * [closeSegment description]
      *
      * @todo Description
-     * @param {LineSeriesSegment} segment    [description]
-     * @param {IPoint[]}          points     [description]
-     * @param {number}            openIndex  [description]
-     * @param {number}            closeIndex [description]
-     * @param {AxisDataItem}      axisRange  [description]
+     * @param segment    [description]
+     * @param points     [description]
+     * @param openIndex  [description]
+     * @param closeIndex [description]
+     * @param axisRange  [description]
      */
     protected closeSegment(segment: LineSeriesSegment, points: IPoint[], openIndex: number, closeIndex: number, axisRange?: AxisDataItem): void;
     /**
      * Draws the line segment.
      *
-     * @param {LineSeriesSegment}  segment     Segment
-     * @param {IPoint[]}           points      Segment points
-     * @param {IPoint[]}           closePoints Segment close points
+     * @param segment     Segment
+     * @param points      Segment points
+     * @param closePoints Segment close points
      */
     protected drawSegment(segment: LineSeriesSegment, points: IPoint[], closePoints: IPoint[]): void;
     /**
@@ -279,15 +257,15 @@ export declare class LineSeries extends XYSeries {
      * `hasProperties` is set to `true` on data item (this means it can contain
      * some properties set).
      *
-     * @param  {object}             itemProperties  Item properties
-     * @param  {LineSeriesSegment}  segment         Segment
-     * @return {boolean}                            Properties changed?
+     * @param itemProperties  Item properties
+     * @param segment         Segment
+     * @return Properties changed?
      */
     protected updateSegmentProperties(itemProperties: {
         [index: string]: any;
     }, segment: LineSeriesSegment, checkOnly?: boolean): boolean;
     /**
-     * @return {boolean} Connect?
+     * @return Connect?
      */
     /**
      * Connect the lines over empty data points?
@@ -301,11 +279,11 @@ export declare class LineSeries extends XYSeries {
      *
      * @see {@link https://www.amcharts.com/docs/v4/chart-types/xy-chart/#Line_series_with_gaps} for more information about this feature
      * @default true
-     * @param {boolean}  value  Connect?
+     * @param value  Connect?
      */
     connect: boolean;
     /**
-     * @return {number} Horizontal tension (0-1)
+     * @return Horizontal tension (0-1)
      */
     /**
      * Horizontal tension setting of the line (0-1).
@@ -326,11 +304,11 @@ export declare class LineSeries extends XYSeries {
      * vertical bending as well, use `tensionY`.
      *
      * @default 1
-     * @param {number}  value  Horizontal tension (0-1)
+     * @param value  Horizontal tension (0-1)
      */
     tensionX: number;
     /**
-     * @return {number} Vertical tension (0-1)
+     * @return Vertical tension (0-1)
      */
     /**
      * Can be used to create smoothed lines. It works like this:
@@ -351,7 +329,7 @@ export declare class LineSeries extends XYSeries {
      * smoothed line series.
      *
      * @default 1
-     * @param {number}  value  Vertical tension (0-1)
+     * @param value  Vertical tension (0-1)
      */
     tensionY: number;
     /**
@@ -359,7 +337,7 @@ export declare class LineSeries extends XYSeries {
      * Series.
      *
      * @ignore Exclude from docs
-     * @param {Container}  marker  Legend item container
+     * @param marker  Legend item container
      */
     createLegendMarker(marker: Container): void;
     /**

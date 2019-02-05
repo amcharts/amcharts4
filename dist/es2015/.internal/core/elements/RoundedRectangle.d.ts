@@ -23,28 +23,24 @@ export interface IRoundedRectangleProperties extends ISpriteProperties {
      * Radius of the top-left corner in pixels.
      *
      * @default 3
-     * @type {number}
      */
     cornerRadiusTopLeft?: number;
     /**
      * Radius of the top-right corner in pixels.
      *
      * @default 3
-     * @type {number}
      */
     cornerRadiusTopRight?: number;
     /**
      * Radius of the bottom-right corner in pixels.
      *
      * @default 3
-     * @type {number}
      */
     cornerRadiusBottomRight?: number;
     /**
      * Radius of the bottom-left corner in pixels.
      *
      * @default 3
-     * @type {number}
      */
     cornerRadiusBottomLeft?: number;
 }
@@ -75,20 +71,14 @@ export interface IRoundedRectangleAdapters extends ISpriteAdapters, IRoundedRect
 export declare class RoundedRectangle extends Sprite {
     /**
      * Defines available properties.
-     *
-     * @type {IRoundedRectangleProperties}
      */
     _properties: IRoundedRectangleProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IRoundedRectangleAdapters}
      */
     _adapter: IRoundedRectangleAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IRoundedRectangleEvents}
      */
     _events: IRoundedRectangleEvents;
     /**
@@ -106,50 +96,50 @@ export declare class RoundedRectangle extends Sprite {
      *
      * All numbers are in pixels.
      *
-     * @param {number}  tl  Top-left corner
-     * @param {number}  tr  Top-right corner
-     * @param {number}  bl  Bottom-left corner
-     * @param {number}  br  Bottom-right corner
+     * @param tl  Top-left corner
+     * @param tr  Top-right corner
+     * @param bl  Bottom-left corner
+     * @param br  Bottom-right corner
      */
     cornerRadius(tl: number, tr: number, bl: number, br: number): void;
     /**
-     * @return {number} Radius (px)
+     * @return Radius (px)
      */
     /**
      * Radius of the top-left corner in pixels.
      *
      * @default 3
-     * @param {number}  value  Radius (px)
+     * @param value  Radius (px)
      */
     cornerRadiusTopLeft: number;
     /**
-     * @return {number} Radius (px)
+     * @return Radius (px)
      */
     /**
      * Radius of the top-right corner in pixels.
      *
      * @default 3
-     * @param {number}  value  Radius (px)
+     * @param value  Radius (px)
      */
     cornerRadiusTopRight: number;
     /**
-     * @return {number} Radius (px)
+     * @return Radius (px)
      */
     /**
      * Radius of the bottom-right corner in pixels.
      *
      * @default 3
-     * @param {number}  value  Radius (px)
+     * @param value  Radius (px)
      */
     cornerRadiusBottomRight: number;
     /**
-     * @return {number} Radius (px)
+     * @return Radius (px)
      */
     /**
      * Radius of the bottom-left corner in pixels.
      *
      * @default 3
-     * @param {number}  value  Radius (px)
+     * @param value  Radius (px)
      */
     cornerRadiusBottomLeft: number;
     /**
@@ -162,7 +152,6 @@ export declare class RoundedRectangle extends Sprite {
      * Returns bounding box (square) for this element.
      *
      * @ignore Exclude from docs
-     * @type {IRectangle}
      */
     readonly bbox: IRectangle;
 }

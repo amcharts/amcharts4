@@ -23,8 +23,6 @@ var Validatable = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         /**
          * Is invalid and should be revalidated?
-         *
-         * @type {boolean}
          */
         _this._invalid = false;
         return _this;

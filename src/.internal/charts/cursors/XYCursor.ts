@@ -61,30 +61,22 @@ export interface IXYCursorProperties extends ICursorProperties {
 	/**
 	 * Cursor's horizontal line is expanded to take full width of the related
 	 * Axis' cell/category.
-	 *
-	 * @type {boolean}
 	 */
 	fullWidthLineX?: boolean;
 
 	/**
 	 * Cursor's vertical line is expanded to take full width of the related
 	 * Axis' cell/category.
-	 *
-	 * @type {boolean}
 	 */
 	fullWidthLineY?: boolean;
 
 	/**
 	 * If cursor behavior is panX or panY, we allow to pan plot out of it's max bounds for a better user experience.
 	 * This setting specifies relative value by how much we can pan out the plot
-	 *
-	 * @type {number}
 	 */
 	maxPanOut?: number;
 
 	/**
-	 *
-	 * @type {XYSeries}
 	 */
 	snapToSeries: XYSeries;
 }
@@ -121,78 +113,56 @@ export class XYCursor extends Cursor {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IXYCursorProperties}
 	 */
 	public _properties!: IXYCursorProperties;
 
 	/**
 	 * Defines available adapters
-	 *
-	 * @type {IXYCursorAdapters}
 	 */
 	public _adapter!: IXYCursorAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IXYCursorEvents}
 	 */
 	public _events!: IXYCursorEvents;
 
 	/**
 	 * Vertical cursor line element.
-	 *
-	 * @type {MutableValueDisposer<Sprite>}
 	 */
 	protected _lineX = new MutableValueDisposer<Sprite>();
 
 	/**
 	 * Horizontal cursor line element.
-	 *
-	 * @type {MutableValueDisposer<Sprite>}
 	 */
 	protected _lineY = new MutableValueDisposer<Sprite>();
 
 	/**
 	 * Element which highlights selected area.
-	 *
-	 * @type {Sprite}
 	 */
 	protected _selection: Sprite;
 
 	/**
 	 * A range of current horizontal selection.
-	 *
-	 * @type {IRange}
 	 */
 	public xRange: IRange;
 
 	/**
 	 * A range of current vertical selection.
-	 *
-	 * @type {IRange}
 	 */
 	public yRange: IRange;
 
 	/**
 	 * Horizontal [[Axis]].
-	 *
-	 * @type {MutableValueDisposer<Axis>}
 	 */
 	protected _xAxis = new MutableValueDisposer<Axis<AxisRenderer>>();
 
 	/**
 	 * Vertical [[Axis]].
-	 *
-	 * @type {MutableValueDisposer<Axis>}
 	 */
 	protected _yAxis = new MutableValueDisposer<Axis<AxisRenderer>>();
 
 	/**
 	 * A reference to chart cursor belongs to.
-	 *
-	 * @type {Chart}
 	 */
 	public _chart: XYChart;
 
@@ -358,7 +328,7 @@ export class XYCursor extends Cursor {
 	/**
 	 * Places the cursor at specific point.
 	 *
-	 * @param {IPoint}   point Point to place cursor at
+	 * @param point Point to place cursor at
 	 */
 	protected triggerMoveReal(point: IPoint): void {
 		super.triggerMoveReal(point);
@@ -540,7 +510,7 @@ export class XYCursor extends Cursor {
 	 * E.g. "zoomXY" will mean that pressing a mouse (or touching) over plot area
 	 * and dragging it will start zooming the chart.
 	 *
-	 * @param {"zoomX" | "zoomY" | "zoomXY" | "selectX" | "selectY" | "selectXY" | "panX" | "panY" | "panXY" | "none"} value Bheavior
+	 * @param value Bheavior
 	 */
 	public set behavior(value: "zoomX" | "zoomY" | "zoomXY" | "selectX" | "selectY" | "selectXY" | "panX" | "panY" | "panXY" | "none") {
 		this.setPropertyValue("behavior", value, true);
@@ -562,7 +532,7 @@ export class XYCursor extends Cursor {
 	}
 
 	/**
-	 * @type {"zoomX" | "zoomY" | "zoomXY" | "selectX" | "selectY" | "selectXY" | "panX" | "panY" | "panXY" | "none"} Bheavior
+	 * Behavior
 	 */
 	public get behavior(): "zoomX" | "zoomY" | "zoomXY" | "selectX" | "selectY" | "selectXY" | "panX" | "panY" | "panXY" | "none" {
 		return this.getPropertyValue("behavior");
@@ -575,14 +545,14 @@ export class XYCursor extends Cursor {
 	 * NOTE: this setting will work properly if `xAxis` is set and only in case
 	 * `xAxis` is [[CategoryAxis]] or [[DateAxis]].
 	 *
-	 * @param {boolean} value Full width?
+	 * @param value Full width?
 	 */
 	public set fullWidthLineX(value: boolean) {
 		this.setPropertyValue("fullWidthLineX", value);
 	}
 
 	/**
-	 * @return {boolean} Full width?
+	 * @return Full width?
 	 */
 	public get fullWidthLineX(): boolean {
 		return this.getPropertyValue("fullWidthLineX");
@@ -595,14 +565,14 @@ export class XYCursor extends Cursor {
 	 * NOTE: this setting will work properly if `yAxis` is set and only in case
 	 * `yAxis` is [[CategoryAxis]] or [[DateAxis]].
 	 *
-	 * @param {boolean} value Full width?
+	 * @param value Full width?
 	 */
 	public set fullWidthLineY(value: boolean) {
 		this.setPropertyValue("fullWidthLineY", value);
 	}
 
 	/**
-	 * @return {boolean} Full width?
+	 * @return Full width?
 	 */
 	public get fullWidthLineY(): boolean {
 		return this.getPropertyValue("fullWidthLineY");
@@ -612,14 +582,14 @@ export class XYCursor extends Cursor {
 	 * If cursor behavior is panX or panY, we allow to pan plot out of it's max bounds for a better user experience.
 	 * This setting specifies relative value by how much we can pan out the plot
 	 *
-	 * @param {number} value
+	 * @param value
 	 */
 	public set maxPanOut(value: number) {
 		this.setPropertyValue("maxPanOut", value);
 	}
 
 	/**
-	 * @return {number} Full width?
+	 * @return Full width?
 	 */
 	public get maxPanOut(): number {
 		return this.getPropertyValue("maxPanOut");
@@ -636,7 +606,7 @@ export class XYCursor extends Cursor {
 	 * [[ValueAxis]].
 	 *
 	 * @todo Description (review)
-	 * @param {Axis} axis X axis
+	 * @param axis X axis
 	 */
 	public set xAxis(axis: Axis) {
 		if (this._xAxis.get() != axis) {
@@ -649,7 +619,7 @@ export class XYCursor extends Cursor {
 	}
 
 	/**
-	 * @return {Axis} X axis
+	 * @return X axis
 	 */
 	public get xAxis(): Axis {
 		return this._xAxis.get();
@@ -666,7 +636,7 @@ export class XYCursor extends Cursor {
 	 * [[ValueAxis]].
 	 *
 	 * @todo Description (review)
-	 * @param {Axis} axis Y axis
+	 * @param axis Y axis
 	 */
 	public set yAxis(axis: Axis) {
 		if (this._yAxis.get() != axis) {
@@ -679,7 +649,7 @@ export class XYCursor extends Cursor {
 	}
 
 	/**
-	 * @return {Axis} Y Axis
+	 * @return Y Axis
 	 */
 	public get yAxis(): Axis {
 		return this._yAxis.get();
@@ -689,7 +659,7 @@ export class XYCursor extends Cursor {
 	 * Updates Cursor's position when axis tooltip changes position.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {ISpriteEvents["positionchanged"]} event Original Axis event
+	 * @param event Original Axis event
 	 */
 	protected handleXTooltipPosition(event: ISpriteEvents["positionchanged"]): void {
 		let tooltip: Tooltip = this.xAxis.tooltip;
@@ -718,7 +688,7 @@ export class XYCursor extends Cursor {
 	 * Updates Cursor's position when Y axis changes position or scale.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {ISpriteEvents["positionchanged"]} event Original Axis event
+	 * @param event Original Axis event
 	 */
 	protected handleYTooltipPosition(event: ISpriteEvents["positionchanged"]): void {
 		let tooltip: Tooltip = this.yAxis.tooltip;
@@ -747,7 +717,7 @@ export class XYCursor extends Cursor {
 	/**
 	 * A Line element to use for X axis.
 	 *
-	 * @param {Sprite} lineX Line
+	 * @param lineX Line
 	 */
 	public set lineX(lineX: Sprite) {
 		if (lineX) {
@@ -762,7 +732,7 @@ export class XYCursor extends Cursor {
 	}
 
 	/**
-	 * @return {Sprite} Line element
+	 * @return Line element
 	 */
 	public get lineX(): Sprite {
 		return this._lineX.get();
@@ -771,7 +741,7 @@ export class XYCursor extends Cursor {
 	/**
 	 * A Line element to use Y axis.
 	 *
-	 * @param {Sprite} lineY Line
+	 * @param lineY Line
 	 */
 	public set lineY(lineY: Sprite) {
 		if (lineY) {
@@ -786,7 +756,7 @@ export class XYCursor extends Cursor {
 	}
 
 	/**
-	 * @return {Sprite} Line element
+	 * @return Line element
 	 */
 	public get lineY(): Sprite {
 		return this._lineY.get();
@@ -795,7 +765,7 @@ export class XYCursor extends Cursor {
 	/**
 	 * A selection element ([[Sprite]]).
 	 *
-	 * @param {Sprite} selection Selection rectangle
+	 * @param selection Selection rectangle
 	 */
 	public set selection(selection: Sprite) {
 		this._selection = selection;
@@ -806,7 +776,7 @@ export class XYCursor extends Cursor {
 	}
 
 	/**
-	 * @return {Sprite} Selection rectangle
+	 * @return Selection rectangle
 	 */
 	public get selection(): Sprite {
 		return this._selection;
@@ -819,7 +789,7 @@ export class XYCursor extends Cursor {
 	 * with real references.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 
@@ -855,7 +825,7 @@ export class XYCursor extends Cursor {
 	 * Specifies to which series cursor lines should be snapped. Works when one
 	 * of the axis is `DateAxis` or `CategoryAxis`. Won't work if both axes are
 	 * `ValueAxis`.
-	 * 
+	 *
 	 * @param {XYSeries}
 	 */
 	public set snapToSeries(series: XYSeries) {
@@ -879,7 +849,7 @@ export class XYCursor extends Cursor {
 
 	/**
 	 * [handleSnap description]
-	 * 
+	 *
 	 * @ignore
 	 * @todo Description
 	 */

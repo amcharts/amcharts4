@@ -29,9 +29,9 @@ import * as $dom from "./DOM";
  * Creates all HTML and SVG containers needed for the chart instance, as well
  * as the new [[Sprite]] (as specified in `classType` parameter).
  *
- * @param  {Optional<HTMLElement | string>}  htmlElement  A container to creat elements in
- * @param  {T}                               classType    A class definition of the new element to create
- * @return {T}                                            Newly-created Sprite object
+ * @param htmlElement  A container to creat elements in
+ * @param classType    A class definition of the new element to create
+ * @return Newly-created Sprite object
  */
 function createChild(htmlElement, classType) {
     var htmlContainer = $dom.getElement(htmlElement);
@@ -148,9 +148,9 @@ function createChild(htmlElement, classType) {
  * var chart = am4core.create("chartdiv", "PieChart");
  * ```
  *
- * @param  {HTMLElement | string}  htmlElement  Reference or id of the target container element
- * @param  {T}                     classType    Class type of the target chart type
- * @return {T}                                  Chart instance
+ * @param htmlElement  Reference or id of the target container element
+ * @param classType    Class type of the target chart type
+ * @return Chart instance
  */
 export function create(htmlElement, classType) {
     // This is a nasty hack for the benefit of vanilla JS users, who do not
@@ -238,10 +238,10 @@ export function create(htmlElement, classType) {
  * }
  * ```
  *
- * @param  {any}                   config       Config object in property/value pairs
- * @param  {string | HTMLElement}  htmlElement  Container reference or ID
- * @param  {typeof Chart}          objectType   Chart type
- * @return {Chart}                              A newly created chart instance
+ * @param config       Config object in property/value pairs
+ * @param htmlElement  Container reference or ID
+ * @param objectType   Chart type
+ * @return A newly created chart instance
  * @todo Throw exception if type is not correct
  */
 export function createFromConfig(config, htmlElement, classType) {
@@ -321,7 +321,7 @@ export function createFromConfig(config, htmlElement, classType) {
  * The above will apply both the Material color and animation options to all
  * charts created.
  *
- * @param {ITheme}  value  A reference to a theme
+ * @param value  A reference to a theme
  */
 export function useTheme(value) {
     registry.themes.push(value);
@@ -330,7 +330,7 @@ export function useTheme(value) {
  * Removes a theme from "active themes" list, so it won't get applied to any
  * charts created subsequently.
  *
- * @param {ITheme}  value  A reference to a theme
+ * @param value  A reference to a theme
  */
 export function unuseTheme(value) {
     $array.remove(registry.themes, value);

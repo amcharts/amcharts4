@@ -48,25 +48,19 @@ export interface IAxisTickAdapters extends ITickAdapters, IAxisTickProperties {
 export declare class AxisTick extends Tick {
     /**
      * Defines available properties
-     * @type {AxisTicPkroperties}
      */
     _properties: IAxisTickProperties;
     /**
      * Defines available adapters
-     * @type {IAxisTickAdapters}
      */
     _adapter: IAxisTickAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IAxisTickEvents}
      */
     _events: IAxisTickEvents;
     _dataItem: AxisDataItem;
     /**
      * A referecent to Axis element this fill is applied to.
-     *
-     * @type {Axis}
      */
     axis: Axis;
     constructor();

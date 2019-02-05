@@ -176,7 +176,7 @@ var Slice3D = /** @class */ (function (_super) {
     };
     Object.defineProperty(Slice3D.prototype, "depth", {
         /**
-         * @return {number} Depth (px)
+         * @return Depth (px)
          */
         get: function () {
             return this.getPropertyValue("depth");
@@ -185,7 +185,7 @@ var Slice3D = /** @class */ (function (_super) {
          * Depth (height) of the 3D slice in pixels.
          *
          * @default 20
-         * @param {number}  depth  Depth (px)
+         * @param depth  Depth (px)
          */
         set: function (depth) {
             if (this.setPropertyValue("depth", depth, true)) {
@@ -208,7 +208,7 @@ var Slice3D = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slice3D.prototype, "angle", {
         /**
-         * @return {number} Angle
+         * @return Angle
          */
         get: function () {
             var angle = this.getPropertyValue("angle");
@@ -221,7 +221,7 @@ var Slice3D = /** @class */ (function (_super) {
          * Angle of the point of view to the 3D element. (0-360)
          *
          * @default 30
-         * @param {number}  value  Angle
+         * @param value  Angle
          */
         set: function (value) {
             this.setPropertyValue("angle", value, true);
@@ -231,7 +231,7 @@ var Slice3D = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slice3D.prototype, "radiusY", {
         /**
-         * @return {number} Vertical radius (0-1)
+         * @return Vertical radius (0-1)
          */
         get: function () {
             var radiusY = this.getPropertyValue("radiusY");
@@ -246,7 +246,7 @@ var Slice3D = /** @class */ (function (_super) {
          * This is relevant to `radius`, e.g. 0.5 will set vertical radius to half
          * the `radius`.
          *
-         * @param {number} value Vertical radius (0-1)
+         * @param value Vertical radius (0-1)
          */
         set: function (value) {
             this.setPropertyValue("radiusY", value, true);
@@ -257,7 +257,7 @@ var Slice3D = /** @class */ (function (_super) {
     /**
      * Copies all properties and related data from a different instance of Axis.
      *
-     * @param {this} source Source Axis
+     * @param source Source Axis
      */
     Slice3D.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

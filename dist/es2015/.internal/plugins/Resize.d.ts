@@ -51,20 +51,14 @@ export interface IResizeAdapters extends IContainerAdapters, IResizeProperties {
 export declare class Resize extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IResizeProperties}
      */
     _properties: IResizeProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IResizeAdapters}
      */
     _adapter: IResizeAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IResizeEvents}
      */
     _events: IResizeEvents;
     isResizing: boolean;

@@ -22,8 +22,6 @@ export class Validatable extends BaseObjectEvents {
 
 	/**
 	 * Is invalid and should be revalidated?
-	 *
-	 * @type {boolean}
 	 */
 	protected _invalid: boolean = false;
 

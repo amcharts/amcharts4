@@ -44,10 +44,10 @@ var StepLineSeriesSegment = /** @class */ (function (_super) {
      * Draws the series segment.
      *
      * @ignore Exclude from docs
-     * @param {IPoint[]}  points       Points to connect
-     * @param {IPoint[]}  closePoints  ?
-     * @param {number}    smoothnessX  Horizontal bezier setting (?)
-     * @param {number}    smoothnessY  Vertical bezier setting (?)
+     * @param points       Points to connect
+     * @param closePoints  ?
+     * @param smoothnessX  Horizontal bezier setting (?)
+     * @param smoothnessY  Vertical bezier setting (?)
      */
     StepLineSeriesSegment.prototype.drawSegment = function (points, closePoints, smoothnessX, smoothnessY, noRisers, vertical) {
         if (points.length > 0 && closePoints.length > 0) {

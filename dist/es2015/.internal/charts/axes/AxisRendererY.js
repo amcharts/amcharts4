@@ -34,7 +34,7 @@ var AxisRendererY = /** @class */ (function (_super) {
     /**
      * Constructor.
      *
-     * @param {Axis} axis Related axis
+     * @param axis Related axis
      */
     function AxisRendererY() {
         var _this = _super.call(this) || this;
@@ -131,7 +131,7 @@ var AxisRendererY = /** @class */ (function (_super) {
         /**
          * Returns actual length of the Axis, in pixels.
          *
-         * @return {number} Length (px)
+         * @return Length (px)
          */
         get: function () {
             var axis = this.axis;
@@ -143,8 +143,8 @@ var AxisRendererY = /** @class */ (function (_super) {
     /**
      * Converts relative position on axis to point coordinates.
      *
-     * @param  {number}  position  Position (0-1)
-     * @return {IPoindt}            Point
+     * @param position  Position (0-1)
+     * @return Point
      */
     AxisRendererY.prototype.positionToPoint = function (position) {
         return { x: 0, y: this.positionToCoordinate(position) };
@@ -153,8 +153,8 @@ var AxisRendererY = /** @class */ (function (_super) {
      * Converts a point at specific coordinates to a relative position (0-1)
      * on the axis.
      *
-     * @param  {IPoint}  point  Point
-     * @return {number}         Position (0-1)
+     * @param point  Point
+     * @return Position (0-1)
      */
     AxisRendererY.prototype.pointToPosition = function (point) {
         return this.coordinateToPosition(point.y);
@@ -164,9 +164,9 @@ var AxisRendererY = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}  startPosition  Starting position
-     * @param  {number}  endPosition    End position
-     * @return {string}                 SVG path
+     * @param startPosition  Starting position
+     * @param endPosition    End position
+     * @return SVG path
      */
     AxisRendererY.prototype.getPositionRangePath = function (startPosition, endPosition) {
         var y1 = $math.fitToRange(this.positionToCoordinate(startPosition), 0, this.axisLength);
@@ -186,9 +186,9 @@ var AxisRendererY = /** @class */ (function (_super) {
      * Updates and positions a grid element.
      *
      * @ignore Exclude from docs
-     * @param {Grid}    grid         Grid element
-     * @param {number}  position     Starting position
-     * @param {number}  endPosition  End position
+     * @param grid         Grid element
+     * @param position     Starting position
+     * @param endPosition  End position
      */
     AxisRendererY.prototype.updateGridElement = function (grid, position, endPosition) {
         position = position + (endPosition - position) * grid.location;
@@ -202,9 +202,9 @@ var AxisRendererY = /** @class */ (function (_super) {
      * Updates and positions a tick element.
      *
      * @ignore Exclude from docs
-     * @param {AxisTick}  tick         Tick element
-     * @param {number}    position     Starting position
-     * @param {number}    endPosition  End position
+     * @param tick         Tick element
+     * @param position     Starting position
+     * @param endPosition  End position
      */
     AxisRendererY.prototype.updateTickElement = function (tick, position, endPosition) {
         var point = this.positionToPoint(position);
@@ -262,9 +262,9 @@ var AxisRendererY = /** @class */ (function (_super) {
      * Updates and positions a label element.
      *
      * @ignore Exclude from docs
-     * @param {AxisLabel}  label        Label element
-     * @param {number}     position     Starting position
-     * @param {number}     endPosition  Ending position
+     * @param label        Label element
+     * @param position     Starting position
+     * @param endPosition  Ending position
      */
     AxisRendererY.prototype.updateLabelElement = function (label, position, endPosition, location) {
         if (!$type.hasValue(location)) {
@@ -313,7 +313,7 @@ var AxisRendererY = /** @class */ (function (_super) {
      * Updates and positions an axis break element.
      *
      * @ignore Exclude from docs
-     * @param {AxisBreak} axisBreak Break element
+     * @param axisBreak Break element
      */
     AxisRendererY.prototype.updateBreakElement = function (axisBreak) {
         _super.prototype.updateBreakElement.call(this, axisBreak);
@@ -348,7 +348,7 @@ var AxisRendererY = /** @class */ (function (_super) {
      * Creates visual elements for and axis break.
      *
      * @ignore Exclude from docs
-     * @param {AxisBreak} axisBreak Axis break
+     * @param axisBreak Axis break
      */
     AxisRendererY.prototype.createBreakSprites = function (axisBreak) {
         axisBreak.startLine = new WavedLine();
@@ -361,8 +361,8 @@ var AxisRendererY = /** @class */ (function (_super) {
      * Converts a position on the axis to a coordinate in pixels.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position (0-1)
-     * @return {number}            Coordinate (px)
+     * @param position  Position (0-1)
+     * @return Coordinate (px)
      */
     AxisRendererY.prototype.positionToCoordinate = function (position) {
         var coordinate;

@@ -321,38 +321,26 @@ export interface ISVGAttribute {
 export declare class AMElement implements IDisposer {
     /**
      * Indicates if the element was already disposed.
-     *
-     * @type {boolean}
      */
     protected _isDisposed: boolean;
     /**
      * An SVG node of the element.
-     *
-     * @type {SVGSVGElement}
      */
     node: SVGSVGElement;
     /**
      * Current X coordinate.
-     *
-     * @type {number}
      */
     private _x;
     /**
      * Current Y coordinate.
-     *
-     * @type {number}
      */
     private _y;
     /**
      * Current rotation.
-     *
-     * @type {number}
      */
     private _rotation;
     /**
      * Current scale.
-     *
-     * @type {number}
      */
     private _scale;
     /**
@@ -362,7 +350,7 @@ export declare class AMElement implements IDisposer {
     /**
      * Constructor creates a new element or uses the one that was passed in.
      *
-     * @param {string | SVGSVGElement} element Element reference node type
+     * @param element Element reference node type
      */
     constructor(element: string | SVGSVGElement);
     /**
@@ -373,7 +361,7 @@ export declare class AMElement implements IDisposer {
      * Returns `transform` attribute of the element.
      *
      * @ignore Exclude from docs
-     * @return {Optional<string>} Transform attribute value
+     * @return Transform attribute value
      */
     readonly transformString: $type.Optional<string>;
     /**
@@ -389,65 +377,65 @@ export declare class AMElement implements IDisposer {
      * ATTENTION: Bounding box calculations are extremely costly so should be
      * used sparingly and cached whenever possible.
      *
-     * @return {IRectangle} Bounding rectangle
+     * @return Bounding rectangle
      */
     getBBox(): IRectangle;
     /**
      * Moves the element to new coordinates.
      *
-     * @param {number}  x  Target X
-     * @param {number}  y  Target Y
+     * @param x  Target X
+     * @param y  Target Y
      */
     moveTo(point: IPoint): void;
     /**
      * Returns element's contents as SVG markup.
      *
-     * @return {string} Contents
+     * @return Contents
      */
     /**
      * Element's SVG contents.
      *
-     * @param {string} value Contents
+     * @param value Contents
      */
     content: string;
     /**
-     * @return {string} Text contents
+     * @return Text contents
      */
     /**
      * Text contents of the SVG element.
      *
-     * @param {string} value Text contents
+     * @param value Text contents
      */
     textContent: string;
     /**
-     * @return {number} X coordinate (px)
+     * @return X coordinate (px)
      */
     /**
      * Element's X position in pixels.
      *
-     * @param {number}  value  X coordinate (px)
+     * @param value  X coordinate (px)
      */
     x: number;
     /**
-     * @return {number} Y coordinate (px)
+     * @return Y coordinate (px)
      */
     /**
      * Element's Y position in pixels.
      *
-     * @param {number} value Y coordinate (px)
+     * @param value Y coordinate (px)
      */
     y: number;
     /**
-     * @return {number} Rotation
+     * @return Rotation
      */
     /**
      * Element's rotation in degrees.
      *
-     * @param {number} value Rotation
+     * @param value Rotation
      */
     rotation: number;
     /**
-     * @return {number} Scale
+     * @return Scale
      */
     /**
      * Element's scale where 1 is original size.
@@ -455,82 +443,82 @@ export declare class AMElement implements IDisposer {
      * Setting to 0.5 will reduce element's size by 50%, 2 will make element
      * twice as large, etc.
      *
-     * @param {number} value Scale
+     * @param value Scale
      */
     scale: number;
     /**
      * Removes an attribute from element.
      *
-     * @param {string}  attribute  Attribute to remove
+     * @param attribute  Attribute to remove
      */
     removeAttr(attribute: string): void;
     /**
      * Sets a set of attributes on a element.
      *
-     * @param  {ISVGAttribute}  attributes  An object with attribute names (key) and values
-     * @return {AMElement}                  The same element
+     * @param attributes  An object with attribute names (key) and values
+     * @return The same element
      */
     attr(attributes: ISVGAttribute): AMElement;
     /**
      * Returns a value of a node attribute.
      *
-     * @param  {string}         attribute  Attribute name
-     * @return {string | null}             Attribute value
+     * @param attribute  Attribute name
+     * @return Attribute value
      */
     getAttr(attribute: string): string | null;
     /**
      * Sets a single attribute of the element's node using namesspace.
      *
-     * @param  {string}     ns         Namespace
-     * @param  {string}     attribute  Attribute
-     * @param  {string}     value      Value
-     * @return {AMElement}             The same element
+     * @param ns         Namespace
+     * @param attribute  Attribute
+     * @param value      Value
+     * @return The same element
      */
     attrNS(ns: string, attribute: string, value: string): AMElement;
     /**
      * Returns a namespaced attribute value from node.
      *
-     * @param  {string}  ns         Namespace
-     * @param  {string}  attribute  Attribute
-     * @return {string}             Attribute value
+     * @param ns         Namespace
+     * @param attribute  Attribute
+     * @return Attribute value
      */
     getAttrNS(ns: string, attribute: string): string;
     /**
      * Removes `style` attribute from node.
      *
-     * @param {string}  attribute  Attribute to remove
+     * @param attribute  Attribute to remove
      */
     removeStyle(attribute: string): void;
     /**
      * Returns style attribute value.
      *
-     * @param  {string}  attribute  Style attribute value
-     * @return {string}             Attribute value
+     * @param attribute  Style attribute value
+     * @return Attribute value
      */
     getStyle(attribute: string): string;
     /**
      * Adds style attributes to element's node.
      *
-     * @param  {Object}     attributes  Object containing attribute: value pairs
-     * @return {AMElement}              The same element
+     * @param attributes  Object containing attribute: value pairs
+     * @return The same element
      */
     addStyle(attributes: Object): AMElement;
     /**
      * Adds a class to element.
      *
-     * @param {string}  name  Class name
+     * @param name  Class name
      */
     addClass(name: string): void;
     /**
      * Removes a class from element.
      *
-     * @param {string} name Class name
+     * @param name Class name
      */
     removeClass(name: string): void;
     /**
      * Sets a class name on element.
      *
-     * @param {string}  name  Class name
+     * @param name  Class name
      */
     setClass(name: string): void;
     /**
@@ -540,7 +528,7 @@ export declare class AMElement implements IDisposer {
     /**
      * Was this element already been disposed?
      *
-     * @return {boolean} Disposed?
+     * @return Disposed?
      */
     isDisposed(): boolean;
     /**

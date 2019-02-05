@@ -24,8 +24,6 @@ import { ClockHand } from "../elements/ClockHand";
 export declare class GaugeChartDataItem extends RadarChartDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {GaugeChart}
      */
     _component: GaugeChart;
     /**
@@ -78,32 +76,22 @@ export interface IGaugeChartAdapters extends IRadarChartAdapters, IGaugeChartPro
 export declare class GaugeChart extends RadarChart {
     /**
      * Defines available data fields.
-     *
-     * @type {IGaugeChartDataFields}
      */
     _dataFields: IGaugeChartDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IGaugeChartProperties}
      */
     _properties: IGaugeChartProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IGaugeChartAdapters}
      */
     _adapter: IGaugeChartAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IGaugeChartEvents}
      */
     _events: IGaugeChartEvents;
     /**
      * A list of [[ClockHand]] items displayed on this Gauge chart.
-     *
-     * @type {ListTemplate<ClockHand>}
      */
     hands: ListTemplate<ClockHand>;
     /**
@@ -118,7 +106,7 @@ export declare class GaugeChart extends RadarChart {
     /**
      * Decorates a [[ClockHand]] when it is added to the chart.
      *
-     * @param {IListEvents<ClockHand>["inserted"]}  event  Event
+     * @param event  Event
      */
     protected processHand(event: IListEvents<ClockHand>["inserted"]): void;
 }

@@ -49,7 +49,7 @@ var AxisDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(AxisDataItem.prototype, "grid", {
         /**
-         * @return {Grid} Grid element
+         * @return Grid element
          */
         get: function () {
             if (!this._grid) {
@@ -91,7 +91,7 @@ var AxisDataItem = /** @class */ (function (_super) {
          * If there is no grid element associated with data item, a new one is
          * created and returned.
          *
-         * @param {Grid}  grid  Grid element
+         * @param grid  Grid element
          */
         set: function (grid) {
             if (this._grid && this._grid != grid) {
@@ -112,7 +112,7 @@ var AxisDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisDataItem.prototype, "tick", {
         /**
-         * @return {AxisTick} Tick element
+         * @return Tick element
          */
         get: function () {
             if (!this._tick) {
@@ -154,7 +154,7 @@ var AxisDataItem = /** @class */ (function (_super) {
          * If there is no tick element associated with data item, a new one is
          * created and returned.
          *
-         * @param {AxisTick}  tick  Tick element
+         * @param tick  Tick element
          */
         set: function (tick) {
             if (this._tick && this._tick != tick) {
@@ -175,7 +175,7 @@ var AxisDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisDataItem.prototype, "label", {
         /**
-         * @return {AxisLabel} Label element
+         * @return Label element
          */
         get: function () {
             if (!this._label) {
@@ -218,7 +218,7 @@ var AxisDataItem = /** @class */ (function (_super) {
          * If there is no label element associated with data item, a new one is
          * created and returned.
          *
-         * @param {AxisLabel} label Label element
+         * @param label Label element
          */
         set: function (label) {
             if (this._label && this._label != label) {
@@ -239,7 +239,7 @@ var AxisDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisDataItem.prototype, "axisFill", {
         /**
-         * @return {AxisFill} Label element
+         * @return Label element
          */
         get: function () {
             if (!this._axisFill) {
@@ -280,7 +280,7 @@ var AxisDataItem = /** @class */ (function (_super) {
          * If there is no fill element associated with data item, a new one is
          * created and returned.
          *
-         * @param {AxisFill} label Label element
+         * @param label Label element
          */
         set: function (axisFill) {
             if (this._axisFill && this._axisFill != axisFill) {
@@ -302,7 +302,7 @@ var AxisDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisDataItem.prototype, "text", {
         /**
-         * @return {string} Text label
+         * @return Text label
          */
         get: function () {
             return this._text;
@@ -310,7 +310,7 @@ var AxisDataItem = /** @class */ (function (_super) {
         /**
          * Text to be used as data item's label.
          *
-         * @param {string} text Text label
+         * @param text Text label
          */
         set: function (text) {
             this._text = text;
@@ -325,7 +325,7 @@ var AxisDataItem = /** @class */ (function (_super) {
         /**
          * Data item's mask.
          *
-         * @return {AxisFill} Mask
+         * @return Mask
          */
         get: function () {
             return this._mask;
@@ -340,7 +340,7 @@ var AxisDataItem = /** @class */ (function (_super) {
          *
          * If there is no Container, a new one is created.
          *
-         * @return {Container} Contents container
+         * @return Contents container
          */
         get: function () {
             if (!this._contents) {
@@ -365,7 +365,7 @@ var AxisDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisDataItem.prototype, "axisBreak", {
         /**
-         * @return {AxisBreak} Axis break
+         * @return Axis break
          */
         get: function () {
             return this._axisBreak;
@@ -373,7 +373,7 @@ var AxisDataItem = /** @class */ (function (_super) {
         /**
          * An [[AxisBreak]] this data item falls within.
          *
-         * @param {AxisBreak} axisBreak Axis break
+         * @param axisBreak Axis break
          */
         set: function (axisBreak) {
             if (this._axisBreak) {
@@ -410,9 +410,9 @@ var AxisDataItem = /** @class */ (function (_super) {
     /**
      * Ordering function used in JSON setup.
      *
-     * @param  {string}  a  Item A
-     * @param  {string}  b  Item B
-     * @return {Ordering}   Order
+     * @param a  Item A
+     * @param b  Item B
+     * @return Order
      */
     AxisDataItem.prototype.configOrder = function (a, b) {
         if (a == b) {
@@ -437,8 +437,8 @@ var AxisDataItem = /** @class */ (function (_super) {
     /**
      * Checks if data item has particular property set.
      *
-     * @param  {string}   prop  Property name
-     * @return {boolean}        Property set?
+     * @param prop  Property name
+     * @return Property set?
      */
     AxisDataItem.prototype.hasProperty = function (prop) {
         return prop == "component" ? true : _super.prototype.hasProperty.call(this, prop);
@@ -446,7 +446,7 @@ var AxisDataItem = /** @class */ (function (_super) {
     /**
      * Copies all parameters from another [[AxisDataItem]].
      *
-     * @param {AxisDataItem} source Source AxisDataItem
+     * @param source Source AxisDataItem
      */
     AxisDataItem.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
@@ -493,14 +493,10 @@ var Axis = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * Number of Grid elements on the axis.
-         *
-         * @type {number}
          */
         _this._gridCount = 10;
         /**
          * A list of [[XYSeries]] that are using this Axis.
-         *
-         * @type {List<XYSeries>}
          */
         _this._series = new List();
         /**
@@ -508,7 +504,6 @@ var Axis = /** @class */ (function (_super) {
          * chart's axis list.
          *
          * @default true
-         * @type {boolean}
          */
         _this.autoDispose = true;
         _this.className = "Axis";
@@ -575,7 +570,7 @@ var Axis = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {AxisDataItem} Data Item
+     * @return Data Item
      */
     Axis.prototype.createDataItem = function () {
         return new AxisDataItem();
@@ -594,7 +589,6 @@ var Axis = /** @class */ (function (_super) {
     };
     /**
      * Invalidates series of this axis.
-     *
      */
     Axis.prototype.invalidateSeries = function () {
         // this puts series after axis in invalidation order also makes series update it's data items in case widht/height of a series is not 100%
@@ -646,7 +640,7 @@ var Axis = /** @class */ (function (_super) {
     /**
      * Adds a data item to the Axis.
      *
-     * @param {this["_dataItem"]} dataItem Data item
+     * @param dataItem Data item
      */
     Axis.prototype.appendDataItem = function (dataItem) {
         var renderer = this.renderer;
@@ -712,7 +706,7 @@ var Axis = /** @class */ (function (_super) {
      * `axisBreaks`.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<this["_axisBreak"]>["inserted"]} event Event
+     * @param event Event
      */
     Axis.prototype.processBreak = function (event) {
         var axisBreak = event.newValue;
@@ -725,8 +719,8 @@ var Axis = /** @class */ (function (_super) {
      * Returns a [[Disposer]] for all events, added to Series for watching
      * changes in Axis, and vice versa.
      * @ignore
-     * @param  {XYSeries}     series  Series
-     * @return {IDisposer}          Event disposer
+     * @param series  Series
+     * @return Event disposer
      */
     Axis.prototype.registerSeries = function (series) {
         var _this = this;
@@ -746,7 +740,7 @@ var Axis = /** @class */ (function (_super) {
     };
     Object.defineProperty(Axis.prototype, "renderer", {
         /**
-         * @return {this["_renderer"]} Renderer
+         * @return Renderer
          */
         get: function () {
             return this._renderer;
@@ -771,7 +765,7 @@ var Axis = /** @class */ (function (_super) {
          * ```
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/} for more info
-         * @param {this["_renderer"]}  renderer  Renderer
+         * @param renderer  Renderer
          */
         set: function (renderer) {
             if (renderer != this._renderer) {
@@ -803,8 +797,8 @@ var Axis = /** @class */ (function (_super) {
     /**
      * Converts a relative position to angle. (for circular axes)
      *
-     * @param  {number} position Position (0-1)
-     * @return {number}          Angle
+     * @param position Position (0-1)
+     * @return Angle
      */
     Axis.prototype.positionToAngle = function (position) {
         return this.renderer.positionToAngle(position);
@@ -812,8 +806,8 @@ var Axis = /** @class */ (function (_super) {
     /**
      * Converts pixel coordinates to a relative position. (0-1)
      *
-     * @param {IPoint}   point  Coorinates (px)
-     * @return {number}         Position (0-1)
+     * @param point  Coorinates (px)
+     * @return Position (0-1)
      */
     Axis.prototype.pointToPosition = function (point) {
         return this.renderer.pointToPosition(point);
@@ -823,9 +817,9 @@ var Axis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {any}     start  [description]
-     * @param  {any}     end    [description]
-     * @return {string}         [description]
+     * @param start  [description]
+     * @param end    [description]
+     * @return [description]
      */
     Axis.prototype.getAnyRangePath = function (start, end) {
         return this.renderer.getPositionRangePath(start, end);
@@ -834,8 +828,8 @@ var Axis = /** @class */ (function (_super) {
      * Converts any positional parameter to a relative position on axis.
      *
      * @todo Description (review)
-     * @param  {any}     value  Pisition
-     * @return {number}         Position (0-1)
+     * @param value  Pisition
+     * @return Position (0-1)
      */
     Axis.prototype.anyToPosition = function (value) {
         return 0;
@@ -844,8 +838,8 @@ var Axis = /** @class */ (function (_super) {
      * Converts any positional parameter to a relative position on axis.
      *
      * @todo Description (review)
-     * @param  {any}     value  Pisition
-     * @return {IOrientationPoint}  Orientation point
+     * @param value  Pisition
+     * @return Orientation point
      */
     Axis.prototype.anyToPoint = function (value) {
         return { x: 0, y: 0, angle: 0 };
@@ -855,9 +849,9 @@ var Axis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number} startPosition [description]
-     * @param  {number} endPosition   [description]
-     * @return {string}               [description]
+     * @param startPosition [description]
+     * @param endPosition   [description]
+     * @return [description]
      */
     Axis.prototype.getPositionRangePath = function (startPosition, endPosition) {
         return this.renderer.getPositionRangePath(startPosition, endPosition);
@@ -866,7 +860,7 @@ var Axis = /** @class */ (function (_super) {
         /**
          * Actual axis length in pixels.
          *
-         * @return {number} Axis length (px)
+         * @return Axis length (px)
          */
         get: function () {
             return this.renderer.axisLength;
@@ -876,7 +870,7 @@ var Axis = /** @class */ (function (_super) {
     });
     Object.defineProperty(Axis.prototype, "cursorTooltipEnabled", {
         /**
-         * @return {boolean} Display tooltip?
+         * @return Display tooltip?
          */
         get: function () {
             return this.getPropertyValue("cursorTooltipEnabled");
@@ -884,7 +878,7 @@ var Axis = /** @class */ (function (_super) {
         /**
          * Indicates if axis should display a tooltip for chart's cursor.
          *
-         * @param {boolean} value Display tooltip?
+         * @param value Display tooltip?
          */
         set: function (value) {
             if (this.setPropertyValue("cursorTooltipEnabled", value)) {
@@ -899,8 +893,8 @@ var Axis = /** @class */ (function (_super) {
     /**
      * Shows Axis tooltip at specific relative position within Axis. (0-1)
      *
-     * @param {number} position Position (0-1)
-     * @param {boolean} local or global position
+     * @param position Position (0-1)
+     * @param local or global position
      */
     Axis.prototype.showTooltipAtPosition = function (position, local) {
         var tooltip = this._tooltip;
@@ -945,8 +939,8 @@ var Axis = /** @class */ (function (_super) {
      * Converts relative position (0-1) to Axis position with zoom level and
      * inversed taken into account.
      *
-     * @param  {number} position Global position (0-1)
-     * @return {number}          Position within Axis (0-1)
+     * @param position Global position (0-1)
+     * @return Position within Axis (0-1)
      */
     Axis.prototype.toAxisPosition = function (position) {
         position = position * (this.end - this.start);
@@ -962,8 +956,8 @@ var Axis = /** @class */ (function (_super) {
      * Converts position on the axis with zoom level and
      * inversed taken into account to global position.
      *
-     * @param  {number} position Axis position (0-1)
-     * @return {number}          Global position (0-1)
+     * @param position Axis position (0-1)
+     * @return Global position (0-1)
      */
     Axis.prototype.toGlobalPosition = function (position) {
         if (this.renderer.inversed) {
@@ -980,8 +974,8 @@ var Axis = /** @class */ (function (_super) {
      * This is a placeholder to override for extending classes.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position coordinate (px)
-     * @return {string}            Label text
+     * @param position  Position coordinate (px)
+     * @return Label text
      */
     Axis.prototype.getTooltipText = function (position) {
         return;
@@ -991,8 +985,8 @@ var Axis = /** @class */ (function (_super) {
      * place.
      *
      * @ignore Exclude from docs
-     * @param {PointerOrientation}  pointerOrientation  Pointer (stem) orientation
-     * @param {IRectangle}          boundingRectangle   A rectangle for tooltip to fit within
+     * @param pointerOrientation  Pointer (stem) orientation
+     * @param boundingRectangle   A rectangle for tooltip to fit within
      */
     Axis.prototype.updateTooltip = function (pointerOrientation, boundingRectangle) {
         var tooltip = this._tooltip;
@@ -1006,9 +1000,9 @@ var Axis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}            position  Relative position
-     * @param  {AxisItemLocation}  location  Location on axis
-     * @return {number}                      Rounded position
+     * @param position  Relative position
+     * @param location  Location on axis
+     * @return Rounded position
      */
     Axis.prototype.roundPosition = function (position, location) {
         return position;
@@ -1018,8 +1012,8 @@ var Axis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number} position [description]
-     * @return {number}          [description]
+     * @param position [description]
+     * @return [description]
      */
     Axis.prototype.getCellStartPosition = function (position) {
         return position;
@@ -1029,8 +1023,8 @@ var Axis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number} position [description]
-     * @return {number}          [description]
+     * @param position [description]
+     * @return [description]
      */
     Axis.prototype.getCellEndPosition = function (position) {
         return position;
@@ -1039,7 +1033,7 @@ var Axis = /** @class */ (function (_super) {
         /**
          * A list of axis ranges for this Axis.
          *
-         * @return {ListTemplate} Axis ranges
+         * @return Axis ranges
          */
         get: function () {
             if (!this._axisRanges) {
@@ -1068,7 +1062,7 @@ var Axis = /** @class */ (function (_super) {
     /**
      * Decorates an axis range after it has been added to the axis range list.
      *
-     * @param {IListEvents<this["_dataItem"]>["inserted"]} event Event
+     * @param event Event
      */
     Axis.prototype.processAxisRange = function (event) {
         var axisRange = event.newValue;
@@ -1079,7 +1073,7 @@ var Axis = /** @class */ (function (_super) {
         /**
          * A list of axis breaks on this Axis.
          *
-         * @return {SortedListTemplate} Axis breaks.
+         * @return Axis breaks.
          */
         get: function () {
             if (!this._axisBreaks) {
@@ -1098,7 +1092,7 @@ var Axis = /** @class */ (function (_super) {
     /**
      * Creates a new axis break.
      *
-     * @return {this["_axisBreak"]} Axis break
+     * @return Axis break
      */
     Axis.prototype.createAxisBreak = function () {
         return new AxisBreak();
@@ -1107,7 +1101,7 @@ var Axis = /** @class */ (function (_super) {
         /**
          * A list of Series currently associated with this Axis.
          *
-         * @return {List<XYSeries>} Series
+         * @return Series
          */
         get: function () {
             if (!this._series) {
@@ -1133,7 +1127,7 @@ var Axis = /** @class */ (function (_super) {
      * This is a placeholder to override for extending classes.
      *
      * @ignore Exclude from docs
-     * @param {XYSeriesDataItem} dataItem Data item
+     * @param dataItem Data item
      */
     Axis.prototype.processSeriesDataItem = function (dataItem, axisLetter) {
     };
@@ -1152,7 +1146,7 @@ var Axis = /** @class */ (function (_super) {
      * This is a placeholder to override for extending classes.
      *
      * @ignore Exclude from docs
-     * @param {XYSeriesDataItem} dataItem Data item
+     * @param dataItem Data item
      */
     Axis.prototype.postProcessSeriesDataItem = function (dataItem) {
     };
@@ -1191,10 +1185,10 @@ var Axis = /** @class */ (function (_super) {
      * This is a placeholder to override for extending classes.
      *
      * @ignore Exclude from docs
-     * @param  {Series}          series    Series
-     * @param  {number}          position  Position (0-1)
-     * @param  {boolean}         findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
-     * @return {XYSeriesDataItem}            Data item
+     * @param series    Series
+     * @param position  Position (0-1)
+     * @param findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
+     * @return Data item
      */
     Axis.prototype.getSeriesDataItem = function (series, position, findNearest) {
         return;
@@ -1206,11 +1200,11 @@ var Axis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}          key       ???
-     * @param  {number}          location  Location
-     * @param  {string}          stackKey  ???
-     * @return {number}                    Angle
+     * @param dataItem  Data item
+     * @param key       ???
+     * @param location  Location
+     * @param stackKey  ???
+     * @return Angle
      */
     Axis.prototype.getAngle = function (dataItem, key, location, stackKey) {
         return;
@@ -1222,11 +1216,11 @@ var Axis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem} dataItem [description]
-     * @param  {string}         key      [description]
-     * @param  {number}         location [description]
-     * @param  {string}         stackKey [description]
-     * @return {number}                  [description]
+     * @param dataItem [description]
+     * @param key      [description]
+     * @param location [description]
+     * @param stackKey [description]
+     * @return [description]
      */
     Axis.prototype.getX = function (dataItem, key, location, stackKey) {
         return;
@@ -1238,11 +1232,11 @@ var Axis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem} dataItem [description]
-     * @param  {string}         key      [description]
-     * @param  {number}         location [description]
-     * @param  {string}         stackKey [description]
-     * @return {number}                  [description]
+     * @param dataItem [description]
+     * @param key      [description]
+     * @param location [description]
+     * @param stackKey [description]
+     * @return [description]
      */
     Axis.prototype.getY = function (dataItem, key, location, stackKey) {
         return;
@@ -1252,7 +1246,7 @@ var Axis = /** @class */ (function (_super) {
          * Coordinates of the actual axis start.
          *
          * @ignore Exclude from docs
-         * @return {IPoint} Base point coordinates
+         * @return Base point coordinates
          */
         get: function () {
             return { x: 0, y: 0 };
@@ -1284,9 +1278,9 @@ var Axis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {number}  min  Start value
-     * @param  {number}  max  End value
-     * @return {number}       Spread o
+     * @param min  Start value
+     * @param max  End value
+     * @return Spread o
      */
     Axis.prototype.adjustDifference = function (min, max) {
         var difference = max - min;
@@ -1319,8 +1313,8 @@ var Axis = /** @class */ (function (_super) {
      *
      * Returns [[AxisBreak]] the value falls into.
      *
-     * @param  {number}     value  Value to check
-     * @return {this["_axisBreak"]}         Axis break
+     * @param value  Value to check
+     * @return Axis break
      */
     Axis.prototype.isInBreak = function (value) {
         return $iter.find(this.axisBreaks.iterator(), function (axisBreak) {
@@ -1371,7 +1365,7 @@ var Axis = /** @class */ (function (_super) {
     Object.defineProperty(Axis.prototype, "startIndex", {
         /**
          * @ignore Exclude from docs
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             return 0;
@@ -1390,7 +1384,7 @@ var Axis = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @param {number} value [description]
+         * @param value [description]
          */
         set: function (value) {
         },
@@ -1400,7 +1394,7 @@ var Axis = /** @class */ (function (_super) {
     Object.defineProperty(Axis.prototype, "endIndex", {
         /**
          * @ignore Exclude from docs
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             return this.dataItems.length;
@@ -1410,7 +1404,7 @@ var Axis = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Description
-         * @param {number} value [description]
+         * @param value [description]
          */
         set: function (value) {
         },
@@ -1429,15 +1423,15 @@ var Axis = /** @class */ (function (_super) {
      * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
      *
      * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
-     * @param  {number}  position  Relative position on axis (0-1)
-     * @return {string}            Position label
+     * @param position  Relative position on axis (0-1)
+     * @return Position label
      */
     Axis.prototype.getPositionLabel = function (position) {
         return Math.round(position * 100) + "%x";
     };
     Object.defineProperty(Axis.prototype, "chart", {
         /**
-         * @return {Chart} Chart
+         * @return Chart
          */
         get: function () {
             return this._chart;
@@ -1445,7 +1439,7 @@ var Axis = /** @class */ (function (_super) {
         /**
          * A Chart this Axis belongs to.
          *
-         * @param {Chart}  value  Chart
+         * @param value  Chart
          */
         set: function (value) {
             this._chart = value;
@@ -1456,8 +1450,8 @@ var Axis = /** @class */ (function (_super) {
     /**
      * Creates a data item for a Series range.
      *
-     * @param  {XYSeries}  series  Target Series
-     * @return {this}            Range data item
+     * @param series  Target Series
+     * @return Range data item
      */
     Axis.prototype.createSeriesRange = function (series) {
         var range = this.axisRanges.create();
@@ -1477,7 +1471,7 @@ var Axis = /** @class */ (function (_super) {
     /**
      * Copies all properties and related data from a different instance of Axis.
      *
-     * @param {this} source Source Axis
+     * @param source Source Axis
      */
     Axis.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
@@ -1498,7 +1492,7 @@ var Axis = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     Axis.prototype.processConfig = function (config) {
         if (config) {
@@ -1524,7 +1518,7 @@ var Axis = /** @class */ (function (_super) {
     };
     Object.defineProperty(Axis.prototype, "startLocation", {
         /**
-         * @return {number} Location (0-1)
+         * @return Location (0-1)
          */
         get: function () {
             return this.getPropertyValue("startLocation");
@@ -1536,7 +1530,7 @@ var Axis = /** @class */ (function (_super) {
          * * 0.5 - Half of first cell is shown.
          * * 1 - None of the first cell is visible. (you probably don't want that)
          *
-         * @param {number} value Location (0-1)
+         * @param value Location (0-1)
          */
         set: function (value) {
             this.setPropertyValue("startLocation", value, true);
@@ -1546,7 +1540,7 @@ var Axis = /** @class */ (function (_super) {
     });
     Object.defineProperty(Axis.prototype, "endLocation", {
         /**
-         * @return {number} Location (0-1)
+         * @return Location (0-1)
          */
         get: function () {
             return this.getPropertyValue("endLocation");
@@ -1558,7 +1552,7 @@ var Axis = /** @class */ (function (_super) {
          * * 0.5 - Half of the last cell is shown.
          * * 1 - Full last cell is shown.
          *
-         * @param {number} value Location (0-1)
+         * @param value Location (0-1)
          */
         set: function (value) {
             this.setPropertyValue("endLocation", value, true);

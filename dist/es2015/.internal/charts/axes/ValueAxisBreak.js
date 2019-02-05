@@ -43,7 +43,7 @@ var ValueAxisBreak = /** @class */ (function (_super) {
         /**
          * Pixel position of the break's start.
          *
-         * @return {number} Position (px)
+         * @return Position (px)
          * @readonly
          */
         get: function () {
@@ -58,7 +58,7 @@ var ValueAxisBreak = /** @class */ (function (_super) {
         /**
          * Pixel position of the break's end.
          *
-         * @return {number} Position (px)
+         * @return Position (px)
          * @readonly
          */
         get: function () {

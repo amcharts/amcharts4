@@ -27,14 +27,11 @@ export declare class NumberFormatter extends BaseObject {
     /**
      * A base value for negative numbers. Will treat all numbers below this value
      * as negative numbers.
-     *
-     * @type {number}
      */
     protected _negativeBase: number;
     /**
      * Holds number format.
      *
-     * @type {string}
      * @default #,###.#####
      */
     protected _numberFormat: string;
@@ -46,40 +43,29 @@ export declare class NumberFormatter extends BaseObject {
      * Available options: svg, html.
      *
      * @default "svg"
-     * @type {string}
      */
     protected _outputFormat: string;
     /**
      * Holds big number prefixes to apply to numbers if `a` modifier is used in
      * format.
-     *
-     * @type {Array}
      */
     protected _bigNumberPrefixes: INumberSuffix[];
     /**
      * Holds small number prefixes to apply to numbers if `a` modifier is used in
      * format.
-     *
-     * @type {Array}
      */
     protected _smallNumberPrefixes: INumberSuffix[];
     /**
      * Holds prefixes to apply to data size numbers if `b` modifier is used in
      * format.
-     *
-     * @type {Array}
      */
     protected _bytePrefixes: INumberSuffix[];
     /**
      * Holds reference to parent [[Sprite]] object.
-     *
-     * @type {Optional<Sprite>}
      */
     sprite: $type.Optional<Sprite>;
     /**
      * Holds reference to [[Language]] object.
-     *
-     * @type {Optional<Language>}
      */
     private _language;
     /**
@@ -88,7 +74,7 @@ export declare class NumberFormatter extends BaseObject {
     constructor();
     dispose(): void;
     /**
-     * @return {Language} Language
+     * @return Language
      */
     /**
      * A reference to [[Language]] instance.
@@ -96,39 +82,39 @@ export declare class NumberFormatter extends BaseObject {
      * Formatter will use language to translate various items, like number
      * suffixes, etc.
      *
-     * @param {Language}  value  Language
+     * @param value  Language
      */
     language: Language;
     /**
      * Formats the number according to specific format.
      *
-     * @param  {number | string}  value   Value to format
-     * @param  {string}           format  Format to apply
-     * @return {string}                   Formatted number
+     * @param value   Value to format
+     * @param format  Format to apply
+     * @return Formatted number
      */
     format(value: number | string, format?: string): string;
     /**
      * Parses supplied format into structured object which can be used to format
      * the number.
      *
-     * @param {string} format Format string, i.e. "#,###.00"
-     * @param {Language} language Language
+     * @param format Format string, i.e. "#,###.00"
+     * @param language Language
      */
     protected parseFormat(format: string, language: Language): any;
     /**
      * Applies parsed format to a numeric value.
      *
-     * @param  {number}  value    Value
-     * @param  {any}     details  Parsed format as returned by {parseFormat}
-     * @return {string}          Formatted number
+     * @param value    Value
+     * @param details  Parsed format as returned by {parseFormat}
+     * @return Formatted number
      */
     protected applyFormat(value: number, details: any): string;
     /**
      * Chooses appropriate prefix and suffix based on the passed in rules.
      *
-     * @param  {number}  value     Value
-     * @param  {any[]}   prefixes  Prefix array
-     * @return {any}               Result
+     * @param value     Value
+     * @param prefixes  Prefix array
+     * @return Result
      */
     protected applyPrefix(value: number, prefixes: any[]): any[];
     /**
@@ -136,17 +122,17 @@ export declare class NumberFormatter extends BaseObject {
      */
     protected invalidateSprite(): void;
     /**
-     * @return {string} A format to use for number formatting
+     * @return A format to use for number formatting
      */
     /**
      * Number format.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
-     * @param {string}  format  A format to use for number formatting
+     * @param format  A format to use for number formatting
      */
     numberFormat: string;
     /**
-     * @return {INumberSuffix[]} Prefixes for big numbers
+     * @return Prefixes for big numbers
      */
     /**
      * Prefixes for big numbers.
@@ -181,11 +167,11 @@ export declare class NumberFormatter extends BaseObject {
      * ```
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
-     * @param {INumberSuffix[]}  prefixes  Prefixes for big numbers
+     * @param prefixes  Prefixes for big numbers
      */
     bigNumberPrefixes: INumberSuffix[];
     /**
-     * @return {INumberSuffix[]} Prefixes for small numbers
+     * @return Prefixes for small numbers
      */
     /**
      * Prefixes for big numbers.
@@ -223,11 +209,11 @@ export declare class NumberFormatter extends BaseObject {
      * from the smallest number and work towards bigger ones.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
-     * @param {INumberSuffix[]}  prefixes  Prefixes for small numbers
+     * @param prefixes  Prefixes for small numbers
      */
     smallNumberPrefixes: INumberSuffix[];
     /**
-     * @return {INumberSuffix[]} Prefixes for byte-size formatting
+     * @return Prefixes for byte-size formatting
      */
     /**
      * Basically the same as `bigNumberPrefixes`, except base for calculation
@@ -242,34 +228,34 @@ export declare class NumberFormatter extends BaseObject {
      * The above `2048` will change to `2K`.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
-     * @param {INumberSuffix[]}  prefixes  Prefixes for byte-size formatting
+     * @param prefixes  Prefixes for byte-size formatting
      */
     bytePrefixes: INumberSuffix[];
     /**
      * @ignore Exclude from docs
-     * @return {string} Output format
+     * @return Output format
      */
     /**
      * Ooutput format: "svg" or "html".
      *
      * @ignore Exclude from docs
-     * @param {string}  value  Output format
+     * @param value  Output format
      */
     outputFormat: string;
     /**
      * Replaces brackets with temporary placeholders.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text  Input text
-     * @return {string}        Escaped text
+     * @param text  Input text
+     * @return Escaped text
      */
     escape(text: string): string;
     /**
      * Replaces placeholders back to brackets.
      *
      * @ignore Exclude from docs
-     * @param  {string}  text  Escaped text
-     * @return {string}        Unescaped text
+     * @param text  Escaped text
+     * @return Unescaped text
      */
     unescape(text: string): string;
 }

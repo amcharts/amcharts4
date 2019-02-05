@@ -19,9 +19,9 @@ import { Ordering } from "./Order";
  *
  * @ignore Exclude from docs
  * @todo Use localeCompare
- * @param  {string}    a  Item 1
- * @param  {string}    b  Item 2
- * @return {Ordering}     Result
+ * @param a  Item 1
+ * @param b  Item 2
+ * @return Result
  */
 export function order(a: string, b: string): Ordering {
 	if (a === b) {
@@ -45,12 +45,12 @@ export function order(a: string, b: string): Ordering {
 
 /**
  * Repeats a `string` number of times as set in `amount`.
- * 
+ *
  * @ignore Exclude from docs
  * @todo Make this faster
- * @param  {string}  string  Source string
- * @param  {number}  amount  Number of times to repeat string
- * @return {string}          New string
+ * @param string  Source string
+ * @param amount  Number of times to repeat string
+ * @return New string
  */
 export function repeat(string: string, amount: number): string {
 	return new Array(amount + 1).join(string);
@@ -58,9 +58,9 @@ export function repeat(string: string, amount: number): string {
 
 /**
  * Generates a random string `characters` length.
- * 
- * @param  {number}  chars  Number of characters
- * @return {string}         Random string
+ *
+ * @param chars  Number of characters
+ * @return Random string
  */
 export function random(chars: number): string {
 	let res = "";

@@ -145,7 +145,7 @@ var PieChart3D = /** @class */ (function (_super) {
     }
     Object.defineProperty(PieChart3D.prototype, "depth", {
         /**
-         * @return {number} Depth (px)
+         * @return Depth (px)
          */
         get: function () {
             return this.getPropertyValue("depth");
@@ -156,7 +156,7 @@ var PieChart3D = /** @class */ (function (_super) {
          * This will determine "height" of the pie.
          *
          * @default 20
-         * @param {number}  value  Depth (px)
+         * @param value  Depth (px)
          */
         set: function (value) {
             if (this.setPropertyValue("depth", value)) {
@@ -168,7 +168,7 @@ var PieChart3D = /** @class */ (function (_super) {
     });
     Object.defineProperty(PieChart3D.prototype, "angle", {
         /**
-         * @return {number} Angle (degrees)
+         * @return Angle (degrees)
          */
         get: function () {
             return this.getPropertyValue("angle");
@@ -177,7 +177,7 @@ var PieChart3D = /** @class */ (function (_super) {
          * An angle of a "point of view" in degrees. Possible range 0 - 90.
          *
          * @default 10
-         * @param {number}  value  Angle (degrees)
+         * @param value  Angle (degrees)
          */
         set: function (value) {
             value = $math.fitToRange(value, 0, 90);
@@ -191,7 +191,7 @@ var PieChart3D = /** @class */ (function (_super) {
     /**
      * Creates and returns a new Series.
      *
-     * @return {PieSeries3D} New series
+     * @return New series
      */
     PieChart3D.prototype.createSeries = function () {
         return new PieSeries3D();

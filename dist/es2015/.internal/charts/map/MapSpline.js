@@ -49,7 +49,7 @@ var MapSpline = /** @class */ (function (_super) {
         /**
          * ShortestDistance = true is not supported by MapSpline, only MapLine does support it
          * @default false
-         * @param {boolean}  value
+         * @param value
          * @todo: review description
          */
         get: function () {

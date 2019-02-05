@@ -25,7 +25,6 @@ export { AMEvent };
 /**
  * An [[EventDispatcher]] for [[Sprite]].
  *
- * @type {TargetedEventDispatcher}
  * @important
  */
 export class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> extends TargetedEventDispatcher<Sprite, T> {
@@ -34,7 +33,6 @@ export class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> ext
 	 * [_interactionEvents description]
 	 *
 	 * @todo Description
-	 * @type {Dictionary}
 	 */
 	private _interactionEvents = new Dictionary<keyof IInteractionObjectEvents, CounterDisposer>();
 
@@ -42,7 +40,6 @@ export class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> ext
 	 * [_dispatchSpriteEvent description]
 	 *
 	 * @todo Description
-	 * @type {[type]}
 	 */
 	private _dispatchSpriteEvent<Key extends keyof IInteractionObjectEvents>(ev: AMEvent<InteractionObject, IInteractionObjectEvents>[Key]): void {
 		if (this.target.disabled || this.target.isTemplate) {
@@ -61,7 +58,6 @@ export class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> ext
 	 * [_dispatchSpritePointEvent description]
 	 *
 	 * @todo Description
-	 * @type {[type]}
 	 */
 	private _dispatchSpritePointEvent<Key extends "hit" | "track">(ev: AMEvent<InteractionObject, IInteractionObjectEvents>[Key]): void {
 		if (this.target.disabled || this.target.isTemplate) {
@@ -83,7 +79,6 @@ export class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> ext
 	 * [_addInteractionObjectEvent description]
 	 *
 	 * @todo Description
-	 * @type {[type]}
 	 */
 	private _addInteractionObjectEvent<C, Key extends keyof IInteractionObjectEvents>(type: Key, callback: (this: C, ev: AMEvent<InteractionObject, IInteractionObjectEvents>[Key]) => void, context: C, shouldClone: boolean): IDisposer {
 		const counter = this._interactionEvents.insertKeyIfEmpty(type, () => {
@@ -102,7 +97,6 @@ export class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> ext
 	 * [_on description]
 	 *
 	 * @todo Description
-	 * @type {[type]}
 	 */
 	protected _on<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B, shouldClone: boolean, dispatch: (type: Key, event: T[Key]) => void): EventListener<T> {
 		const info = super._on(once, type, callback, context, shouldClone, dispatch);
@@ -204,28 +198,20 @@ export class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> ext
 
 /**
  * Defines property set for a [[Sprite]] event that contains point information.
- *
- * @type {Object}
  */
 export type SpritePointEvent = {
 	/**
 	 * Event point in global (document) coordinates.
-	 *
-	 * @type {IPoint}
 	 */
 	point: IPoint;
 
 	/**
 	 * Event point in local Sprite coordinates.
-	 *
-	 * @type {IPoint}
 	 */
 	spritePoint: IPoint;
 
 	/**
 	 * Event point with chart (svg) coodinates.
-	 *
-	 * @type {IPoint}
 	 */
 	svgPoint: IPoint;
 };
@@ -238,8 +224,6 @@ export type SpritePointerEvent = {
 
 	/**
 	 * Coordinates of the primary cursor position.
-	 *
-	 * @type {Pointer}
 	 */
 	pointer: IPointer;
 
@@ -249,15 +233,11 @@ export type SpritePointerEvent = {
 /**
  * Defines property set for a [[Sprite]] event that contains mouse or touch
  * event.
- *
- * @type {Object}
  */
 export type SpriteMouseTouchEvent = {
 
 	/**
 	 * Original mouse/touch event.
-	 *
-	 * @type {MouseEvent | TouchEvent}
 	 */
 	event: MouseEvent | TouchEvent;
 
@@ -266,15 +246,11 @@ export type SpriteMouseTouchEvent = {
 /**
  * Defines property set for a [[Sprite]] event that contains coordinate shift
  * information, such as drag events.
- *
- * @type {Object}
  */
 export type SpriteShiftEvent = {
 
 	/**
 	 * Shift in coordinates after dragging.
-	 *
-	 * @type {IPoint}
 	 */
 	shift: IPoint;
 
@@ -311,7 +287,6 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
 
 		/**
 		 * [string description]
-		 * @type {string}
 		 * @todo Needs description
 		 */
 		dummyData?: string;
@@ -381,8 +356,6 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
 
 		/**
 		 * Property key.
-		 *
-		 * @type {string}
 		 */
 		property: string;
 
@@ -417,8 +390,6 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
 
 		/**
 		 * Original JavaScript event.
-		 *
-		 * @type {WheelEvent}
 		 */
 		event: WheelEvent
 
@@ -431,7 +402,6 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
 
 		/**
 		 * Original JavaScript event
-		 * @type {WheelEvent}
 		 */
 		event: WheelEvent
 
@@ -444,8 +414,6 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
 
 		/**
 		 * Original JavaScript event.
-		 *
-		 * @type {WheelEvent}
 		 */
 		event: WheelEvent
 
@@ -458,7 +426,6 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
 
 		/**
 		 * Original JavaScript event
-		 * @type {WheelEvent}
 		 */
 		event: WheelEvent
 
@@ -471,8 +438,6 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
 
 		/**
 		 * Original JavaScript event.
-		 *
-		 * @type {WheelEvent}
 		 */
 		event: WheelEvent
 
@@ -492,11 +457,11 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
 	/**
 	 * Invoked when sprite is disabled
 	 */
-	disabled: {};	
+	disabled: {};
 
 	/**
 	 * Invoked when sprite is enabled
 	 */
-	enabled: {};		
+	enabled: {};
 
 }

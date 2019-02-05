@@ -65,8 +65,6 @@ export interface IDataSourceEvents extends IBaseObjectEvents {
 export interface IDataSourceAdapters {
     /**
      * Applied to a data source URL before it is loaded.
-     *
-     * @type {string}
      */
     url: string;
     /**
@@ -74,69 +72,48 @@ export interface IDataSourceAdapters {
      *
      * Can be used to supply different parser than the one set/determined by
      * Data Loader.
-     *
-     * @type {DataParser}
      */
     parser: DataParser;
     /**
      * Applied to the timeout setting.
-     *
-     * @type {number}
      */
     reloadTimeout: number;
     /**
      * Applied to the loaded data **before** it is passed to parser.
-     *
-     * @type {string}
      */
     unparsedData: string;
     /**
      * Applied to the loaded data **after** it was parsed by a parser.
-     * @type {any}
      */
     parsedData: any;
     /**
      * Applied to `incremental` setting.
-     *
-     * @type {boolean}
      */
     incremental: boolean;
     /**
      * Applied to `incrementalParams` setting.
-     *
-     * @type {string}
      */
     incrementalParams: {
         [index: string]: string;
     };
     /**
      * Applied to `keepCount` setting.
-     *
-     * @type {boolean}
      */
     keepCount: boolean;
     /**
      * Applied to parser options.
-     *
-     * @type {any}
      */
     parserOptions: any;
     /**
      * Applied to the array that lists fields in data that hold date-based values.
-     *
-     * @type {string[]}
      */
     dateFields: string[];
     /**
      * Applied to the array that lists fields in data that hold numeric values.
-     *
-     * @type {string[]}
      */
     numberFields: string[];
     /**
      * Applied to the custom request options object.
-     *
-     * @type {INetRequestOptions}
      */
     requestOptions: INetRequestOptions;
 }
@@ -175,75 +152,51 @@ export interface IDataSourceAdapters {
 export declare class DataSource extends BaseObjectEvents {
     /**
      * Defines available events.
-     *
-     * @type {IDataSourceEvents}
      */
     _events: IDataSourceEvents;
     /**
      * Defines available adapters.
-     *
-     * @type {IExportAdapters}
      */
     _adapter: IDataSourceAdapters;
     /**
      * Adapter.
-     *
-     * @type {Adapter<DataSource, IDataSourceAdapters>}
      */
     adapter: Adapter<DataSource, IDataSourceAdapters>;
     /**
      * A [[Component]] recipient of the data.
-     *
-     * @type {Component}
      */
     component: Component;
     /**
      * An instance of [[Language]].
-     *
-     * @type {Language}
      */
     protected _language: Language;
     /**
      * An instance of [[DateFormatter]].
-     *
-     * @type {DateFormatter}
      */
     protected _dateFormatter: DateFormatter;
     /**
      * An instance of parser class that can understand and parse data from the
      * source URL.
-     *
-     * @type {DataParser}
      */
     protected _parser: DataParser;
     /**
      * An URL of the data source.
-     *
-     * @type {string}
      */
     protected _url: string;
     /**
      * Custom options for HTTP(S) request.
-     *
-     * @type {INetRequestOptions}
      */
     protected _requestOptions: INetRequestOptions;
     /**
      * Reload full data source every X ms.
-     *
-     * @type {number}
      */
     protected _reloadFrequency: number;
     /**
      * Holds timeout reference for next reload.
-     *
-     * @type {any}
      */
     protected _reloadTimeout: any;
     /**
      * Holds disposer for the reload event handler.
-     *
-     * @type {IDisposer}
      */
     private _reloadDisposer;
     /**
@@ -255,7 +208,6 @@ export declare class DataSource extends BaseObjectEvents {
      * work with any other externally-loadable data property.
      *
      * @default false
-     * @type {boolean}
      */
     protected _incremental: boolean;
     /**
@@ -274,32 +226,23 @@ export declare class DataSource extends BaseObjectEvents {
      * of data items.
      *
      * @default false
-     * @type {boolean}
      */
     protected _keepCount: boolean;
     /**
      * Holds the date of the last load.
-     *
-     * @type {Date}
      */
     lastLoad: Date;
     /**
      * If set to `true` it will timestamp all requested URLs to work around
      * browser cache.
-     *
-     * @type {boolean}
      */
     disableCache: boolean;
     /**
      * Will show loading indicator when loading files.
-     *
-     * @type {boolean}
      */
     showPreloader: boolean;
     /**
      * Loaded and parsed data.
-     *
-     * @type {string}
      */
     data: any;
     /**
@@ -310,21 +253,21 @@ export declare class DataSource extends BaseObjectEvents {
      * Processes the loaded data.
      *
      * @ignore Exclude from docs
-     * @param {string}  data         Raw (unparsed) data
-     * @param {string}  contentType  Content type of the loaded data (optional)
+     * @param data         Raw (unparsed) data
+     * @param contentType  Content type of the loaded data (optional)
      */
     processData(data: string, contentType?: string): void;
     /**
-     * @return {string} URL
+     * @return URL
      */
     /**
      * URL of the data source.
      *
-     * @param {string}  value  URL
+     * @param value  URL
      */
     url: string;
     /**
-     * @return {INetRequestOptions} Options
+     * @return Options
      */
     /**
      * Custom options for HTTP(S) request.
@@ -361,11 +304,11 @@ export declare class DataSource extends BaseObjectEvents {
      * NOTE: setting this options on an-already loaded DataSource will not
      * trigger a reload.
      *
-     * @param {INetRequestOptions}  value  Options
+     * @param value  Options
      */
     requestOptions: INetRequestOptions;
     /**
-     * @return {DataParser} Data parser
+     * @return Data parser
      */
     /**
      * A parser to be used to parse data.
@@ -390,22 +333,22 @@ export declare class DataSource extends BaseObjectEvents {
      * ```
      *
      * @default JSONParser
-     * @param {DataParser}  value  Data parser
+     * @param value  Data parser
      */
     parser: DataParser;
     /**
-     * @return {number} Reload frequency (ms)
+     * @return Reload frequency (ms)
      */
     /**
      * Data source reload frequency.
      *
      * If set, it will reload the same URL every X milliseconds.
      *
-     * @param {number} value Reload frequency (ms)
+     * @param value Reload frequency (ms)
      */
     reloadFrequency: number;
     /**
-     * @return {boolean} Incremental load?
+     * @return Incremental load?
      */
     /**
      * Should subsequent reloads be treated as incremental?
@@ -422,23 +365,23 @@ export declare class DataSource extends BaseObjectEvents {
      * work with any other externally-loadable data property.
      *
      * @default false
-     * @param {boolean} Incremental load?
+     * @param Incremental load?
      */
     incremental: boolean;
     /**
-     * @return {object} Incremental request parameters
+     * @return Incremental request parameters
      */
     /**
      * An object consisting of key/value pairs to apply to an URL when data
      * source is making an incremental request.
      *
-     * @param {object}  value  Incremental request parameters
+     * @param value  Incremental request parameters
      */
     incrementalParams: {
         [index: string]: string;
     };
     /**
-     * @return {boolean} keepCount load?
+     * @return keepCount load?
      */
     /**
      * This setting is used only when `incremental = true`. If set to `true`,
@@ -449,36 +392,36 @@ export declare class DataSource extends BaseObjectEvents {
      * of data items.
      *
      * @default false
-     * @param {boolean} Keep record count?
+     * @param Keep record count?
      */
     keepCount: boolean;
     /**
-     * @return {Language} A [[Language]] instance to be used
+     * @return A [[Language]] instance to be used
      */
     /**
      * Language instance to use.
      *
      * Will inherit and use chart's language, if not set.
      *
-     * @param {Language} value An instance of Language
+     * @param value An instance of Language
      */
     language: Language;
     /**
-     * @return {DateFormatter} A [[DateFormatter]] instance to be used
+     * @return A [[DateFormatter]] instance to be used
      */
     /**
      * A [[DateFormatter]] to use when parsing dates from string formats.
      *
      * Will inherit and use chart's DateFormatter if not ser.
      *
-     * @param {DateFormatter} value An instance of [[DateFormatter]]
+     * @param value An instance of [[DateFormatter]]
      */
     dateFormatter: DateFormatter;
     /**
      * Adds current timestamp to the URL.
      *
-     * @param  {string}  url  Source URL
-     * @return {string}       Timestamped URL
+     * @param url  Source URL
+     * @return Timestamped URL
      */
     timestampUrl(url: string): string;
     /**
@@ -498,9 +441,9 @@ export declare class DataSource extends BaseObjectEvents {
      * Adds parameters to `url` as query strings. Will take care of proper
      * separators.
      *
-     * @param  {string}  url     Source URL
-     * @param  {object}  params  Parameters
-     * @return {string}          New URL
+     * @param url     Source URL
+     * @param params  Parameters
+     * @return New URL
      */
     addUrlParams(url: string, params: {
         [index: string]: string;
@@ -509,7 +452,7 @@ export declare class DataSource extends BaseObjectEvents {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     processConfig(config?: {
         [index: string]: any;

@@ -34,7 +34,7 @@ var Paper = /** @class */ (function () {
     /**
      * Creates main `<svg>` container and related elements.
      *
-     * @param {HTMLElement} container A reference to HTML element to create `<svg>` in
+     * @param container A reference to HTML element to create `<svg>` in
      */
     function Paper(container, id) {
         // Store container reference
@@ -64,8 +64,8 @@ var Paper = /** @class */ (function () {
     /**
      * Creates and returns a new element. Does not attach it to Paper yet.
      *
-     * @param  {SVGElementNames}  elementName  Element name
-     * @return {AMElement}                     New element
+     * @param elementName  Element name
+     * @return New element
      */
     Paper.prototype.add = function (elementName) {
         return new AMElement(elementName);
@@ -73,8 +73,8 @@ var Paper = /** @class */ (function () {
     /**
      * Creates and returns a new Group element. Does not attach it to Paper.
      *
-     * @param  {SVGElementNames}  groupName  Element name
-     * @return {Group}                       New Group
+     * @param groupName  Element name
+     * @return New Group
      */
     Paper.prototype.addGroup = function (groupName) {
         return new Group(groupName);
@@ -82,7 +82,7 @@ var Paper = /** @class */ (function () {
     /**
      * Appends an element to Paper.
      *
-     * @param {AMElement} element Element to append
+     * @param element Element to append
      */
     Paper.prototype.append = function (element) {
         if (element) {
@@ -92,7 +92,7 @@ var Paper = /** @class */ (function () {
     /**
      * Appends an element to `<defs>` block of the Paper.
      *
-     * @param {AMElement}  element  Element
+     * @param element  Element
      */
     Paper.prototype.appendDef = function (element) {
         if (element) {
@@ -103,7 +103,7 @@ var Paper = /** @class */ (function () {
      * Creates and returns new `<foreignObject>` element. Does not append it to
      * Paper.
      *
-     * @return {AMElement} A foreignObject element
+     * @return A foreignObject element
      */
     Paper.prototype.foreignObject = function () {
         var element = new AMElement("foreignObject");
@@ -113,7 +113,7 @@ var Paper = /** @class */ (function () {
     /**
      * Checks if browser supports `<foreignObject>` elements.
      *
-     * @return {boolean} Supports `foreignObject`?
+     * @return Supports `foreignObject`?
      */
     Paper.prototype.supportsForeignObject = function () {
         return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Extensibility", "1.1");
@@ -127,7 +127,6 @@ var ghostPaper = null;
  * placed in visible DOM.
  *
  * @ignore Exclude from docs
- * @type {Paper}
  */
 export function getGhostPaper() {
     if (ghostPaper === null) {

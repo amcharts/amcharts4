@@ -25,27 +25,22 @@ export interface IWavedCircleProperties extends ICircleProperties {
      * Wave length in pixels.
      *
      * @default 16
-     * @type {number}
      */
     waveLength?: number;
     /**
      * Wave height in pixels.
      *
      * @default 4
-     * @type {number}
      */
     waveHeight?: number;
     /**
      * Wave tension.
      *
      * @default 0.8
-     * @type {number}
      */
     tension?: number;
     /**
      * Inner radius of the circle in pixels.
-     *
-     * @type {number | Percent}
      */
     innerRadius?: number | Percent;
 }
@@ -76,20 +71,14 @@ export interface IWavedCircleAdapters extends ICircleAdapters, IWavedCirclePrope
 export declare class WavedCircle extends Circle implements IWavedShape {
     /**
      * Defines available properties.
-     *
-     * @type {IWavedCircleProperties}
      */
     _properties: IWavedCircleProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IWavedCircleAdapters}
      */
     _adapter: IWavedCircleAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IWavedCircleEvents}
      */
     _events: IWavedCircleEvents;
     /**
@@ -105,54 +94,54 @@ export declare class WavedCircle extends Circle implements IWavedShape {
     /**
      * Returns points that circle consists of.
      *
-     * @param  {number}    radius  Radius (px)
-     * @return {IPoint[]}          Points
+     * @param radius  Radius (px)
+     * @return Points
      */
     protected getPoints(radius: number): IPoint[];
     /**
-     * @return {number} Inner radius
+     * @return Inner radius
      */
     /**
      * Inner radius of the circle in pixels (absolute) or [[Percent]] (relative).
      *
-     * @param {number | Percent}  value  Inner radius
+     * @param value  Inner radius
      */
     innerRadius: number | Percent;
     /**
      * Calculated inner radius of the circle in pixels.
      *
      * @readonly
-     * @return {number} Inner radius (px)
+     * @return Inner radius (px)
      */
     readonly pixelInnerRadius: number;
     /**
-     * @return {number} Wave length (px)
+     * @return Wave length (px)
      */
     /**
      * Wave length in pixels.
      *
      * @default 16
-     * @param {number}  value  Wave length (px)
+     * @param value  Wave length (px)
      */
     waveLength: number;
     /**
-     * @return {number} Wave height (px)
+     * @return Wave height (px)
      */
     /**
      * Wave height in pixels.
      *
      * @default 4
-     * @param {number}  value  Wave height (px)
+     * @param value  Wave height (px)
      */
     waveHeight: number;
     /**
-     * @return {number} Tension
+     * @return Tension
      */
     /**
      * Tension of the wave.
      *
      * @default 0.8
-     * @param {number}  value  Tension
+     * @param value  Tension
      */
     tension: number;
 }

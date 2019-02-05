@@ -61,7 +61,7 @@ var Line = /** @class */ (function (_super) {
     };
     Object.defineProperty(Line.prototype, "x1", {
         /**
-         * @return {number} X
+         * @return X
          */
         get: function () {
             return this.getPropertyValue("x1");
@@ -69,7 +69,7 @@ var Line = /** @class */ (function (_super) {
         /**
          * X coordinate of first end.
          *
-         * @param {number} value X
+         * @param value X
          */
         set: function (value) {
             if (!$type.isNumber(value)) {
@@ -87,7 +87,7 @@ var Line = /** @class */ (function (_super) {
     });
     Object.defineProperty(Line.prototype, "x2", {
         /**
-         * @return {number} X
+         * @return X
          */
         get: function () {
             var value = this.getPropertyValue("x2");
@@ -99,7 +99,7 @@ var Line = /** @class */ (function (_super) {
         /**
          * X coordinate of second end.
          *
-         * @param {number} value X
+         * @param value X
          */
         set: function (value) {
             if (!$type.isNumber(value)) {
@@ -113,7 +113,7 @@ var Line = /** @class */ (function (_super) {
     });
     Object.defineProperty(Line.prototype, "y1", {
         /**
-         * @return {number} Y
+         * @return Y
          */
         get: function () {
             return this.getPropertyValue("y1");
@@ -121,7 +121,7 @@ var Line = /** @class */ (function (_super) {
         /**
          * Y coordinate of first end.
          *
-         * @param {number} value Y
+         * @param value Y
          */
         set: function (value) {
             if (!$type.isNumber(value)) {
@@ -139,7 +139,7 @@ var Line = /** @class */ (function (_super) {
     });
     Object.defineProperty(Line.prototype, "y2", {
         /**
-         * @return {number} Y
+         * @return Y
          */
         get: function () {
             var value = this.getPropertyValue("y2");
@@ -151,7 +151,7 @@ var Line = /** @class */ (function (_super) {
         /**
          * Y coordinate of second end.
          *
-         * @param {number} value Y
+         * @param value Y
          */
         set: function (value) {
             if (!$type.isNumber(value)) {
@@ -166,8 +166,8 @@ var Line = /** @class */ (function (_super) {
     /**
      * Converts relative position along the line (0-1) into pixel coordinates.
      *
-     * @param  {number}             position  Position (0-1)
-     * @return {IOrientationPoint}            Coordinates
+     * @param position  Position (0-1)
+     * @return Coordinates
      */
     Line.prototype.positionToPoint = function (position) {
         var point1 = { x: this.x1, y: this.y1 };

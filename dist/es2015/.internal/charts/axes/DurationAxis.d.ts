@@ -25,8 +25,6 @@ import { IMinMaxStep } from "./ValueAxis";
 export declare class DurationAxisDataItem extends ValueAxisDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {DurationAxis}
      */
     _component: DurationAxis;
     /**
@@ -102,32 +100,22 @@ export interface IDurationAxisAdapters extends IValueAxisAdapters, IDurationAxis
 export declare class DurationAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T> {
     /**
      * Defines data fields.
-     *
-     * @type {IDurationAxisDataFields}
      */
     _dataFields: IDurationAxisDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IDurationAxisProperties}
      */
     _properties: IDurationAxisProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IDurationAxisAdapters}
      */
     _adapter: IDurationAxisAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IDurationAxisEvents}
      */
     _events: IDurationAxisEvents;
     /**
      * Defines the type of the Date Items.
-     *
-     * @type {DurationAxisDataItem}
      */
     _dataItem: DurationAxisDataItem;
     /**
@@ -140,8 +128,6 @@ export declare class DurationAxis<T extends AxisRenderer = AxisRenderer> extends
      * A special duration format to apply axis tooltips.
      *
      * Will use same format as for labels, if not set.
-     *
-     * @type {string}
      */
     protected _tooltipDurationFormat: string;
     /**
@@ -157,8 +143,8 @@ export declare class DurationAxis<T extends AxisRenderer = AxisRenderer> extends
     /**
      * Formats the value according to axis' own [[DurationFormatter]].
      *
-     * @param  {number}  value  Source value
-     * @return {string}         Formatted value
+     * @param value  Source value
+     * @return Formatted value
      */
     formatLabel(value: number, format?: string): string;
     /**
@@ -170,16 +156,16 @@ export declare class DurationAxis<T extends AxisRenderer = AxisRenderer> extends
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}      min        [description]
-     * @param  {number}      max        [description]
-     * @param  {number}      difference [description]
-     * @param  {number}      gridCount  [description]
-     * @param  {boolean}     strictMode [description]
-     * @return {IMinMaxStep}            [description]
+     * @param min        [description]
+     * @param max        [description]
+     * @param difference [description]
+     * @param gridCount  [description]
+     * @param strictMode [description]
+     * @return [description]
      */
     adjustMinMax(min: number, max: number, difference: number, gridCount: number, strictMode?: boolean): IMinMaxStep;
     /**
-     * @return {string} Duration format for axis labels
+     * @return Duration format for axis labels
      */
     /**
      * A special duration format to apply axis tooltips.
@@ -187,7 +173,7 @@ export declare class DurationAxis<T extends AxisRenderer = AxisRenderer> extends
      * Will use same format as for labels, if not set.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} for mor information.
-     * @param {string}  value  Duration format for axis labels
+     * @param value  Duration format for axis labels
      */
     tooltipDurationFormat: string;
     /**
@@ -198,12 +184,12 @@ export declare class DurationAxis<T extends AxisRenderer = AxisRenderer> extends
      * chart, or explicitly for this Axis.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position (px)
-     * @return {string}            Label (numeric value)
+     * @param position  Position (px)
+     * @return Label (numeric value)
      */
     getTooltipText(position: number): string;
     /**
-     * @return {TimeUnit} Base unit
+     * @return Base unit
      */
     /**
      * A base unit (granularity) of data.
@@ -214,13 +200,13 @@ export declare class DurationAxis<T extends AxisRenderer = AxisRenderer> extends
      * "day", "week", "month", "year".
      *
      * @default "second"
-     * @param {TimeUnit} timeUnit
+     * @param timeUnit
      */
     baseUnit: TimeUnit;
     /**
      * Copies all properties and related data from a different instance of Axis.
      *
-     * @param {this} source Source Axis
+     * @param source Source Axis
      */
     copyFrom(source: this): void;
 }

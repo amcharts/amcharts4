@@ -32,61 +32,42 @@ import { ListTemplate } from "../../core/utils/List";
 export interface IAxisRendererProperties extends IContainerProperties {
     /**
      * Minimum distance in pixels between grid elements.
-     *
-     * @type {number}
      */
     minGridDistance?: number;
     /**
      * Draw axis labels inside axis.
-     *
-     * @type {boolean}
      */
     inside?: boolean;
     /**
      * Draw axis on opposite side of the plot area?
-     *
-     * @type {boolean}
      */
     opposite?: boolean;
     /**
      * Inverse the order of the scale for the Axis.
-     *
-     * @type {boolean}
      */
     inversed?: boolean;
     /**
      * Location of the cell start. (0-1)
-     *
-     * @type {number}
      */
     cellStartLocation?: number;
     /**
      * Location of the cell end. (0-1)
-     * @type {number}
      */
     cellEndLocation?: number;
     /**
      * Location of the axis tooltip. (0-1)
-     *
-     * @type {number}
      */
     tooltipLocation?: number;
     /**
      * Resize axis tooltip to the full width of the cell.
-     *
-     * @type {boolean}
      */
     fullWidthTooltip?: boolean;
     /**
      * Labels with position less than this will be hidden.
-     *
-     * @type {number}
      */
     minLabelPosition?: number;
     /**
      * Labels with position bigger than this will be hidden.
-     *
-     * @type {number}
      */
     maxLabelPosition?: number;
 }
@@ -117,32 +98,22 @@ export interface IAxisRendererAdapters extends IContainerAdapters, IAxisRenderer
 export declare class AxisRenderer extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IAxisRendererProperties}
      */
     _properties: IAxisRendererProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IAxisRendererAdapters}
      */
     _adapter: IAxisRendererAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IAxisRendererEvents}
      */
     _events: IAxisRendererEvents;
     /**
      * A related Axis.
-     *
-     * @type {Axis}
      */
     protected _axis: Axis;
     /**
      * A line object of the related axis.
-     *
-     * @type {AxisLine}
      */
     line: AxisLine;
     /**
@@ -153,49 +124,34 @@ export declare class AxisRenderer extends Container {
      * For category/date axis it is added at the end of the last item/date.
      *
      * @ignore Exclude from docs
-     * @type {Sprite}
      */
     baseGrid: Sprite;
     /**
      * A [[Container]] holding all of the [[Grid]] elements.
-     *
-     * @type {Container}
      */
     gridContainer: Container;
     /**
      * A [[Container]] holding all of the [[AxisBreak]] elements.
-     *
-     * @type {Container}
      */
     breakContainer: Container;
     /**
      * A related chart.
-     *
-     * @type {MutableValueDisposer}
      */
     protected _chart: MutableValueDisposer<Chart>;
     /**
      * Defines type of the grid elements.
-     *
-     * @type {Grid}
      */
     _gridType: Grid;
     /**
      * Defines type for the fill elements.
-     *
-     * @type {AxisFill}
      */
     _fillType: AxisFill;
     /**
      * Defines type for tick elements.
-     *
-     * @type {AxisTick}
      */
     _tickType: AxisTick;
     /**
      * Defines type for the label elements.
-     *
-     * @type {AxisLabel}
      */
     _labelType: AxisLabel;
     /**
@@ -217,7 +173,7 @@ export declare class AxisRenderer extends Container {
     /**
      * Constructor.
      *
-     * @param {Axis} axis Related axis
+     * @param axis Related axis
      */
     constructor();
     axis: Axis;
@@ -248,23 +204,23 @@ export declare class AxisRenderer extends Container {
     /**
      * Returns actual length of the Axis, in pixels.
      *
-     * @return {number} Length (px)
+     * @return Length (px)
      */
     readonly axisLength: number;
     /**
      * Re-positions an element to new coordinates.
      *
      * @ignore Exclude from docs
-     * @param {Sprite}  item   A target element
-     * @param {IPoint}  point  New coordinates
+     * @param item   A target element
+     * @param point  New coordinates
      */
     positionItem(item: Sprite, point: IPoint): void;
     /**
      * Converts relative position on axis to point coordinates.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position (0-1)
-     * @return {IPoint}            Point
+     * @param position  Position (0-1)
+     * @return Point
      */
     positionToPoint(position: number): IPoint;
     /**
@@ -272,15 +228,15 @@ export declare class AxisRenderer extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description (review / units)
-     * @param  {number}  position  Position (0-1)
-     * @return {number}            Angle
+     * @param position  Position (0-1)
+     * @return Angle
      */
     positionToAngle(position: number): number;
     /**
      * Converts relative position (0-1) on axis to a pixel coordinate.
      *
-     * @param  {number}  position  Position (0-1)
-     * @return {number}            Coordinate (px)
+     * @param position  Position (0-1)
+     * @return Coordinate (px)
      */
     positionToCoordinate(position: number): number;
     updateGridContainer(): void;
@@ -289,8 +245,8 @@ export declare class AxisRenderer extends Container {
     /**
      * Converts a coordinate in pixels to a relative position. (0-1)
      *
-     * @param  {number}  coordinate  Coordinate (px)
-     * @return {number}              Position (0-1)
+     * @param coordinate  Coordinate (px)
+     * @return Position (0-1)
      */
     coordinateToPosition(coordinate: number): number;
     /**
@@ -298,8 +254,8 @@ export declare class AxisRenderer extends Container {
      * on the axis.
      *
      * @ignore Exclude from docs
-     * @param  {IPoint}  point  Point
-     * @return {number}         Position (0-1)
+     * @param point  Point
+     * @return Position (0-1)
      */
     pointToPosition(point: IPoint): number;
     /**
@@ -307,9 +263,9 @@ export declare class AxisRenderer extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}  startPosition  Starting position
-     * @param  {number}  endPosition    End position
-     * @return {string}                 SVG path
+     * @param startPosition  Starting position
+     * @param endPosition    End position
+     * @return SVG path
      */
     getPositionRangePath(startPosition: number, endPosition: number): string;
     /**
@@ -323,36 +279,36 @@ export declare class AxisRenderer extends Container {
      * Updates and positions a grid element.
      *
      * @ignore Exclude from docs
-     * @param {Grid}    grid         Grid element
-     * @param {number}  position     Starting position
-     * @param {number}  endPosition  End position
+     * @param grid         Grid element
+     * @param position     Starting position
+     * @param endPosition  End position
      */
     updateGridElement(grid: Sprite, position: number, endPosition: number): void;
     /**
      * Updates and positions a tick element.
      *
      * @ignore Exclude from docs
-     * @param {AxisTick}  tick         Tick element
-     * @param {number}    position     Starting position
-     * @param {number}    endPosition  End position
+     * @param tick         Tick element
+     * @param position     Starting position
+     * @param endPosition  End position
      */
     updateTickElement(tick: AxisTick, position: number, endPosition: number): void;
     /**
      * Updates and positions a label element.
      *
      * @ignore Exclude from docs
-     * @param {AxisLabel}  label        Label element
-     * @param {number}     position     Starting position
-     * @param {number}     endPosition  Ending position
+     * @param label        Label element
+     * @param position     Starting position
+     * @param endPosition  Ending position
      */
     updateLabelElement(label: AxisLabel, position: number, endPosition: number, location?: number): void;
     /**
      * Updates and positions the axis fill element.
      *
      * @ignore Exclude from docs
-     * @param {AxisFill}  fill         Fill element
-     * @param {number}    position     Starting position
-     * @param {number}    endPosition  Ending position
+     * @param fill         Fill element
+     * @param position     Starting position
+     * @param endPosition  Ending position
      */
     updateFillElement(fill: AxisFill, position: number, endPosition: number): void;
     /**
@@ -371,27 +327,27 @@ export declare class AxisRenderer extends Container {
      * Updates and positions an axis break element.
      *
      * @ignore Exclude from docs
-     * @param {AxisBreak} axisBreak Break element
+     * @param axisBreak Break element
      */
     updateBreakElement(axisBreak: AxisBreak): void;
     /**
-     * @return {number} Min distance (px)
+     * @return Min distance (px)
      */
     /**
      * Minimum distance in pixels between grid elements.
      *
-     * @param {number}  value  Min distance (px)
+     * @param value  Min distance (px)
      */
     minGridDistance: number;
     /**
      * @ignore Exclude from docs
-     * @return {Chart} Chart
+     * @return Chart
      */
     /**
      * A chart, associated with the Axis.
      *
      * @ignore Exclude from docs
-     * @param {Chart}  value  Chart
+     * @param value  Chart
      */
     chart: Chart;
     /**
@@ -401,17 +357,17 @@ export declare class AxisRenderer extends Container {
      * E.g. labels based on `minLabelPosition` and `maxLabelPosition`.
      *
      * @ignore Exclude from docs
-     * @param {Sprite}  sprite       An element to toggle
-     * @param {number}  position     Elements current position
-     * @param {number}  minPosition  Min position setting
-     * @param {number}  maxPosition  Max position setting
+     * @param sprite       An element to toggle
+     * @param position     Elements current position
+     * @param minPosition  Min position setting
+     * @param maxPosition  Max position setting
      */
     protected toggleVisibility(sprite: Sprite, position: number, minPosition: number, maxPosition: number): void;
     /**
      * Creates visual elements for and axis break.
      *
      * @ignore Exclude from docs
-     * @param {AxisBreak} axisBreak Axis break
+     * @param axisBreak Axis break
      */
     createBreakSprites(axisBreak: AxisBreak): void;
     /**
@@ -444,25 +400,25 @@ export declare class AxisRenderer extends Container {
      * ```
      *
      * @see {@link https://www.amcharts.com/docs/v4/tutorials/alternated-axis-fills/} this tutorial for more info.
-     * @return {ListTemplate} Fill elements
+     * @return Fill elements
      */
     readonly axisFills: ListTemplate<this["_fillType"]>;
     /**
      * Returns a new fill element, suitable for this Axis Renderer type.
      *
-     * @return {AxisFill} Fill element
+     * @return Fill element
      */
     createFill(axis: Axis): this["_fillType"];
     /**
      * A list of Axis' Grid elements.
      *
-     * @return {ListTemplate} Grid elements
+     * @return Grid elements
      */
     readonly grid: ListTemplate<this["_gridType"]>;
     /**
      * Returns a new grid element, suitable for this Axis Renderer type.
      *
-     * @return {Grid} Grid element
+     * @return Grid element
      */
     createGrid(): this["_gridType"];
     /**
@@ -491,40 +447,40 @@ export declare class AxisRenderer extends Container {
      * }
      * ```
      *
-     * @return {ListTemplate} Tick elements
+     * @return Tick elements
      */
     readonly ticks: ListTemplate<this["_tickType"]>;
     /**
      * Returns a new tick element, suitable for this Axis Renderer type.
      *
-     * @return {AxisTick} Tick element
+     * @return Tick element
      */
     createTick(): this["_tickType"];
     /**
      * A list of Axis' Label elements.
      *
-     * @return {ListTemplate} Label elements
+     * @return Label elements
      */
     readonly labels: ListTemplate<this["_labelType"]>;
     /**
      * Returns a new label element, suitable for this Axis Renderer type.
      *
-     * @return {AxisLabel} Label element
+     * @return Label element
      */
     createLabel(): this["_labelType"];
     /**
-     * @return {boolean} Labels inside?
+     * @return Labels inside?
      */
     /**
      * Indicates whether Axis' labels and ticks should be drawn inside Plot area.
      *
      * Does not work with all renderers, like AxisRendererRadial.
      *
-     * @param {boolean}  value  Labels inside?
+     * @param value  Labels inside?
      */
     inside: boolean;
     /**
-     * @return {boolean} Draw axis on opposite side?
+     * @return Draw axis on opposite side?
      */
     /**
      * Indicates whether Axis should be drawn on the opposite side of the plot
@@ -533,11 +489,11 @@ export declare class AxisRenderer extends Container {
      * Does not work with all renderers, like [[AxisRendererRadial]] and
      * [[AxisRenderer Circular].
      *
-     * @param {boolean}  value  Draw axis on opposite side?
+     * @param value  Draw axis on opposite side?
      */
     opposite: boolean;
     /**
-     * @return {boolean} Full width tooltip?
+     * @return Full width tooltip?
      */
     /**
      * Indicates if Axis tooltip should take the whole width of the axis cell.
@@ -545,11 +501,11 @@ export declare class AxisRenderer extends Container {
      *
      * NOTE: this setting is ignored on circular axis types.
      *
-     * @param {boolean} value Full width tooltip?
+     * @param value Full width tooltip?
      */
     fullWidthTooltip: boolean;
     /**
-     * @return {number} Tooltip location
+     * @return Tooltip location
      */
     /**
      * Location within axis cell to show tooltip on. (0-1)
@@ -558,11 +514,11 @@ export declare class AxisRenderer extends Container {
      * 0.5 - show right in the middle
      * 1 - show at the end
      *
-     * @param {number} value Tooltip location
+     * @param value Tooltip location
      */
     tooltipLocation: number;
     /**
-     * @return {number} Cell start (0-1)
+     * @return Cell start (0-1)
      */
     /**
      * Location for the cell start.
@@ -584,11 +540,11 @@ export declare class AxisRenderer extends Container {
      * This is used to limit a space occupied by series like column.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
-     * @param {number} value Cell start (0-1)
+     * @param value Cell start (0-1)
      */
     cellStartLocation: number;
     /**
-     * @return {number} Cell end (0-1)
+     * @return Cell end (0-1)
      */
     /**
      * Location for the cell end.
@@ -610,20 +566,20 @@ export declare class AxisRenderer extends Container {
      * This is used to limit a space occupied by series like column.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
-     * @param {number} value Cell end (0-1)
+     * @param value Cell end (0-1)
      */
     cellEndLocation: number;
     /**
-     * @return {boolean} Flip axis?
+     * @return Flip axis?
      */
     /**
      * Indicates if the scale of the axis should be flipped.
      *
-     * @param {boolean} value Flip axis?
+     * @param value Flip axis?
      */
     inversed: boolean;
     /**
-     * @return {number} Min label position (0-1)
+     * @return Min label position (0-1)
      */
     /**
      * Minimum position along the Axis, for labels.
@@ -638,11 +594,11 @@ export declare class AxisRenderer extends Container {
      * got any extra margins.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
-     * @param {number}  value  Min label position (0-1)
+     * @param value  Min label position (0-1)
      */
     minLabelPosition: number;
     /**
-     * @return {number} Max label position (0-1)
+     * @return Max label position (0-1)
      */
     /**
      * Maximum position along the Axis, for labels.
@@ -657,14 +613,14 @@ export declare class AxisRenderer extends Container {
      * got any extra margins.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
-     * @param {number}  value  Max label position (0-1)
+     * @param value  Max label position (0-1)
      */
     maxLabelPosition: number;
     /**
      * Copies all settings and related items from another object of the same
      * type.
      *
-     * @param {this}  source  Source object
+     * @param source  Source object
      */
     copyFrom(source: this): void;
 }

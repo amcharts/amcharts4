@@ -34,7 +34,7 @@ var PieSeries3DDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(PieSeries3DDataItem.prototype, "depthValue", {
         /**
-         * @return {number} Depth
+         * @return Depth
          */
         get: function () {
             return this.values["depthValue"].value;
@@ -42,7 +42,7 @@ var PieSeries3DDataItem = /** @class */ (function (_super) {
         /**
          * Slice depth (height).
          *
-         * @param {number}  value  Depth
+         * @param value  Depth
          */
         set: function (value) {
             this.setValue("depthValue", value);
@@ -81,7 +81,7 @@ var PieSeries3D = /** @class */ (function (_super) {
     /**
      * Returns a new/empty DataItem of the type appropriate for this object
      * @see {@link DataItem}
-     * @return {PieSeries3DDataItem} Data Item
+     * @return Data Item
      */
     PieSeries3D.prototype.createDataItem = function () {
         return new PieSeries3DDataItem();
@@ -96,7 +96,7 @@ var PieSeries3D = /** @class */ (function (_super) {
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
-     * @param {PieSeries3DDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     PieSeries3D.prototype.validateDataElement = function (dataItem) {
         var slice = dataItem.slice;
@@ -140,7 +140,7 @@ var PieSeries3D = /** @class */ (function (_super) {
     };
     Object.defineProperty(PieSeries3D.prototype, "depth", {
         /**
-         * @return {number} Depth (px)
+         * @return Depth (px)
          */
         get: function () {
             return this.getPropertyValue("depth");
@@ -148,7 +148,7 @@ var PieSeries3D = /** @class */ (function (_super) {
         /**
          * Depth (height) of the pie slice in pixels.
          *
-         * @param {number}  value  Depth (px)
+         * @param value  Depth (px)
          */
         set: function (value) {
             this.setPropertyValue("depth", value, true);
@@ -158,7 +158,7 @@ var PieSeries3D = /** @class */ (function (_super) {
     });
     Object.defineProperty(PieSeries3D.prototype, "angle", {
         /**
-         * @return {number} Angle
+         * @return Angle
          */
         get: function () {
             return this.getPropertyValue("angle");
@@ -166,7 +166,7 @@ var PieSeries3D = /** @class */ (function (_super) {
         /**
          * Angle of the view point of the 3D pie. (0-360)
          *
-         * @param {number}  value  Angle
+         * @param value  Angle
          */
         set: function (value) {
             this.setPropertyValue("angle", value);
@@ -178,7 +178,7 @@ var PieSeries3D = /** @class */ (function (_super) {
      * Positions series bullet.
      *
      * @ignore Exclude from docs
-     * @param {Bullet}  bullet  Bullet
+     * @param bullet  Bullet
      */
     PieSeries3D.prototype.positionBullet = function (bullet) {
         _super.prototype.positionBullet.call(this, bullet);

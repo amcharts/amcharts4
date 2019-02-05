@@ -32,83 +32,70 @@ export interface IFlowDiagramLinkProperties extends IContainerProperties {
      * [tension description]
      *
      * @todo Description
-     * @type {number}
      */
     tension?: number;
     /**
      * [startX description]
      *
      * @todo Description
-     * @type {number}
      */
     startX?: number;
     /**
      * [startY description]
      *
      * @todo Description
-     * @type {number}
      */
     startY?: number;
     /**
      * [endX description]
      *
      * @todo Description
-     * @type {number}
      */
     endX?: number;
     /**
      * [endY description]
      *
      * @todo Description
-     * @type {number}
      */
     endY?: number;
     /**
      * [linkWidth description]
      *
      * @todo Description
-     * @type {number}
      */
     linkWidth?: number;
     /**
      * [startAngle description]
      *
      * @todo Description
-     * @type {number}
      */
     startAngle?: number;
     /**
      * [endAngle description]
      *
      * @todo Description
-     * @type {number}
      */
     endAngle?: number;
     /**
      * Should link be filled with a solid color, color of from node, color of toNode or gradient between node colors.
-     *
-     * @type {"solid" | "gradient" | "fromNode" | "toNode"}
      */
     colorMode?: "solid" | "gradient" | "fromNode" | "toNode";
     /**
      * [controlPointDistance description]
      *
      * @todo Description
-     * @type {number}
      */
     controlPointDistance?: number;
     /**
      * [maskBullets description]
      *
      * @todo Description
-     * @type {boolean}
      */
     maskBullets?: boolean;
     /**
      * [tooltipLocation description]
      *
      * @todo Description
-     * @type {number}
      */
     tooltipLocation?: number;
 }
@@ -141,33 +128,23 @@ export interface IFlowDiagramLinkAdapters extends IContainerAdapters, IFlowDiagr
 export declare class FlowDiagramLink extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IFlowDiagramLinkProperties}
      */
     _properties: IFlowDiagramLinkProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IFlowDiagramLinkAdapters}
      */
     _adapter: IFlowDiagramLinkAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IFlowDiagramLinkEvents}
      */
     _events: IFlowDiagramLinkEvents;
     /**
      * Defines a type of data item used by this class.
-     *
-     * @type {FlowDiagramDataItem}
      */
     _dataItem: FlowDiagramDataItem;
     /**
      * A gradiend instance that is used to provided colored gradient fills for
      * the Flow link.
-     *
-     * @type {LinearGradient}
      */
     protected _gradient: LinearGradient;
     /**
@@ -177,23 +154,18 @@ export declare class FlowDiagramLink extends Container {
     protected _bullets: ListTemplate<Bullet>;
     /**
      * Link sprite
-     *
-     * @type {Sprite}
      */
     link: Sprite;
     /**
      * Bullets mask spite
-     * @type Sprite
      */
     protected _bulletsMask: Sprite;
     /**
      * Bullets container
-     * @type Container
      */
     protected _bulletsContainer: Container;
     /**
      * Spline which goes through the middle of a link, used to calculate bullet and tooltip positions, invisible by default
-     * @type Polyspline
      */
     middleLine: Line | Polyline;
     /**
@@ -207,12 +179,10 @@ export declare class FlowDiagramLink extends Container {
     protected positionBullets(): void;
     /**
      * Bullets container
-     * @type Container
      */
     readonly bulletsContainer: Container;
     /**
-     * Bullets mask spite
-     * @type Sprite
+     * Bullets mask sprite
      */
     readonly bulletsMask: Sprite;
     /**
@@ -221,59 +191,59 @@ export declare class FlowDiagramLink extends Container {
      */
     protected positionBullet(bullet: Bullet): void;
     /**
-     * @return {number} Start angle
+     * @return Start angle
      */
     /**
      * [startAngle description]
      *
      * @todo Description
-     * @param {number}  value  Start angle
+     * @param value  Start angle
      */
     startAngle: number;
     /**
-     * @return {number} End angle
+     * @return End angle
      */
     /**
      * [endAngle description]
      *
      * @todo Description
-     * @param {number}  value  End angle
+     * @param value  End angle
      */
     endAngle: number;
     /**
-     * @type {"solid" | "gradient"} Fill mode
+     * Fill mode
      */
     /**
      * Should link be filled with a solid color, color of from node, color of toNode or gradient between node colors.
      * Some of the links, like ChordLink does not support gradiens well.
      *
-     * @param {"solid" | "gradient" | "fromNode" | "toNode"}  value  Fill mode
+     * @param value  Fill mode
      */
     colorMode: "solid" | "gradient" | "fromNode" | "toNode";
     /**
-     * @return {boolean} mask bullets value
+     * @return mask bullets value
      */
     /**
      * Should link bullets be masked or not
      *
-     * @param {boolean}  value
+     * @param value
      * @default false;
      */
     maskBullets: boolean;
     /**
-     * @type {number} tooltip location value
+     * Tooltip location value
      */
     /**
      * Relative location of a tooltip.
      * @default 0.5
      *
-     * @param {number} value
+     * @param value
      */
     tooltipLocation: number;
     /**
      * Adds color steps in the link gradient.
      *
-     * @param {Color | Pattern | LinearGradient | RadialGradient}  value  Fill option
+     * @param value  Fill option
      */
     protected setFill(value: Color | Pattern | LinearGradient | RadialGradient): void;
     /**
@@ -285,30 +255,28 @@ export declare class FlowDiagramLink extends Container {
     /**
      * List of bullets
      *
-     * @return {ListTemplate<Bullet>} [description]
+     * @return [description]
      */
     readonly bullets: ListTemplate<Bullet>;
     /**
      * Copies properties from another [[FlowDiagramLink]].
      *
-     * @param {FlowDiagramLink}  source  Source link
+     * @param source  Source link
      */
     copyFrom(source: this): void;
     /**
      * @ignore Exclude from docs
-     * @return {number} Tooltip X (px)
+     * @return Tooltip X (px)
      */
     getTooltipX(): number;
     /**
      * @ignore Exclude from docs
-     * @return {number} Tooltip Y (px)
+     * @return Tooltip Y (px)
      */
     getTooltipY(): number;
     /**
      * A gradiend instance that is used to provided colored gradient fills for
      * the Flow link.
-     *
-     * @type {LinearGradient}
      */
     readonly gradient: LinearGradient;
 }

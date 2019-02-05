@@ -41,7 +41,6 @@ export interface IClockHandProperties extends IContainerProperties {
 	 * Absolute (px) or relative ([[Percent]]).
 	 *
 	 * @default Percent(100)
-	 * @type {number | Percent}
 	 */
 	radius: number | Percent;
 
@@ -51,7 +50,6 @@ export interface IClockHandProperties extends IContainerProperties {
 	 * Absolute (px) or relative ([[Percent]]).
 	 *
 	 * @default Percent(0)
-	 * @type {number | Percent}
 	 */
 	innerRadius: number | Percent;
 
@@ -59,7 +57,6 @@ export interface IClockHandProperties extends IContainerProperties {
 	 * Width, in pixels, of the clock hand's tip.
 	 *
 	 * @default 1
-	 * @type {number}
 	 */
 	endWidth: number;
 
@@ -67,13 +64,11 @@ export interface IClockHandProperties extends IContainerProperties {
 	 * Width, in pixels, of the clock hand's base.
 	 *
 	 * @default 5
-	 * @type {number}
 	 */
 	startWidth: number;
 
 	/**
 	 * rotation direction
-	 * @type {"any" | "clockWise" | "CounterClockWise"}
 	 * @default "any"
 	 */
 	rotationDirection: "any" | "clockWise" | "CounterClockWise";
@@ -112,50 +107,36 @@ export class ClockHand extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IClockHandProperties}
 	 */
 	public _properties!: IClockHandProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IClockHandAdapters}
 	 */
 	public _adapter!: IClockHandAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IClockHandEvents}
 	 */
 	public _events!: IClockHandEvents;
 
 	/**
 	 * A circle element used as hand's base.
-	 *
-	 * @type {Circle}
 	 */
 	protected _pin: Circle;
 
 	/**
 	 * A trapezoid shape used for hand itself.
-	 *
-	 * @type {Trapezoid}
 	 */
 	protected _hand: Trapezoid;
 
 	/**
 	 * An Axis hand is related to.
-	 *
-	 * @type {MutableValueDisposer<Axis>}
 	 */
 	protected _axis: MutableValueDisposer<Axis> = new MutableValueDisposer<Axis>();
 
 	/**
 	 * Hand's current value.
-	 *
-	 * @type {any}
 	 */
 	protected _value: any;
 
@@ -227,7 +208,7 @@ export class ClockHand extends Container {
 	/**
 	 * A circle element used as hand's base. (pin)
 	 *
-	 * @param {Circle}  pin  Pin element
+	 * @param pin  Pin element
 	 */
 	public set pin(pin: Circle) {
 		if (this._pin) {
@@ -241,7 +222,7 @@ export class ClockHand extends Container {
 	}
 
 	/**
-	 * @return {Circle} Pin element
+	 * @return Pin element
 	 */
 	public get pin(): Circle {
 		return this._pin;
@@ -255,7 +236,7 @@ export class ClockHand extends Container {
 	 *
 	 * Set `endWidth` to 1 (px) to make it pointy.
 	 *
-	 * @param {Trapezoid}  hand  Hand element
+	 * @param hand  Hand element
 	 */
 	public set hand(hand: Trapezoid) {
 		if (this._hand) {
@@ -269,7 +250,7 @@ export class ClockHand extends Container {
 	}
 
 	/**
-	 * @return {Trapezoid} Hand element
+	 * @return Hand element
 	 */
 	public get hand(): Trapezoid {
 		return this._hand;
@@ -281,14 +262,14 @@ export class ClockHand extends Container {
 	 * Absolute (px) or relative ([[Percent]]).
 	 *
 	 * @default Percent(0)
-	 * @param {number | Percent}  value  Radius
+	 * @param value  Radius
 	 */
 	public set radius(value: number | Percent) {
 		this.setPercentProperty("radius", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Radius
+	 * @return Radius
 	 */
 	public get radius(): number | Percent {
 		return this.getPropertyValue("radius");
@@ -300,14 +281,14 @@ export class ClockHand extends Container {
 	 * Absolute (px) or relative ([[Percent]]).
 	 *
 	 * @default Percent(0)
-	 * @param {number | Percent}  value  Radius
+	 * @param value  Radius
 	 */
 	public set innerRadius(value: number | Percent) {
 		this.setPercentProperty("innerRadius", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Radius
+	 * @return Radius
 	 */
 	public get innerRadius(): number | Percent {
 		return this.getPropertyValue("innerRadius");
@@ -317,14 +298,14 @@ export class ClockHand extends Container {
 	 * Width, in pixels, of the clock hand's inner end. (base)
 	 *
 	 * @default 5
-	 * @param {number}  value  Width (px)
+	 * @param value  Width (px)
 	 */
 	public set startWidth(value: number) {
 		this.setPropertyValue("startWidth", value, true);
 	}
 
 	/**
-	 * @return {number} Width (px)
+	 * @return Width (px)
 	 */
 	public get startWidth(): number {
 		return this.getPropertyValue("startWidth");
@@ -334,14 +315,14 @@ export class ClockHand extends Container {
 	 * Width, in pixels, of the clock hand's outer end. (tip)
 	 *
 	 * @default 1
-	 * @param {number}  value  Width (px)
+	 * @param value  Width (px)
 	 */
 	public set endWidth(value: number) {
 		this.setPropertyValue("endWidth", value, true);
 	}
 
 	/**
-	 * @return {number} Width (px)
+	 * @return Width (px)
 	 */
 	public get endWidth(): number {
 		return this.getPropertyValue("endWidth");
@@ -352,14 +333,14 @@ export class ClockHand extends Container {
 	 * Rotation direction
 	 *
 	 * @default any
-	 * @param {"any" | "clockWise" | "counterClockWise"}  value
+	 * @param value
 	 */
 	public set rotationDirection(value: "any" | "clockWise" | "counterClockWise") {
 		this.setPropertyValue("rotationDirection", value);
 	}
 
 	/**
-	 * @return {"any" | "clockWise" | "counterClockWise"} rotationDirection
+	 * @return rotationDirection
 	 */
 	public get rotationDirection(): "any" | "clockWise" | "counterClockWise" {
 		return this.getPropertyValue("rotationDirection");
@@ -373,9 +354,9 @@ export class ClockHand extends Container {
 	 *
 	 * Alternatively, you can also set `value` directly.
 	 *
-	 * @param {any}     value     New value
-	 * @param {number}  duration  Animation duration (ms)
-	 * @param {(value:number)=>number}  easing  Animation easing function
+	 * @param value     New value
+	 * @param duration  Animation duration (ms)
+	 * @param easing  Animation easing function
 	 */
 	public showValue(value: any, duration?: number, easing?: (value: number) => number): void {
 		this._value = value;
@@ -408,14 +389,14 @@ export class ClockHand extends Container {
 	/**
 	 * A current value clock hand is pointing to.
 	 *
-	 * @param {any}  value  Value
+	 * @param value  Value
 	 */
 	public set value(value: any) {
 		this.showValue(value);
 	}
 
 	/**
-	 * @return {any} Value
+	 * @return Value
 	 */
 	public get value(): any {
 		return this._value;
@@ -426,7 +407,7 @@ export class ClockHand extends Container {
 	 *
 	 * Hand's `value` relates to values on the Axis.
 	 *
-	 * @param {Axis}  axis  Axis
+	 * @param axis  Axis
 	 */
 	public set axis(axis: Axis) {
 		if (this.axis != axis) {
@@ -448,7 +429,7 @@ export class ClockHand extends Container {
 	}
 
 	/**
-	 * @return {Axis} Axis
+	 * @return Axis
 	 */
 	public get axis(): Axis {
 		return this._axis.get();
@@ -468,7 +449,7 @@ export class ClockHand extends Container {
  * Processes JSON-based config before it is applied to the object.
  *
  * @ignore Exclude from docs
- * @param {object}  config  Config
+ * @param config  Config
  */
 	public processConfig(config?: { [index: string]: any }): void {
 

@@ -23,21 +23,18 @@ export interface IWavedLineProperties extends ILineProperties {
      * Wave length in pixels.
      *
      * @default 16
-     * @type {number}
      */
     waveLength?: number;
     /**
      * Wave height in pixels.
      *
      * @default 4
-     * @type {number}
      */
     waveHeight?: number;
     /**
      * Wave tension.
      *
      * @default 0.8
-     * @type {number}
      */
     tension?: number;
 }
@@ -68,20 +65,14 @@ export interface IWavedLineAdapters extends ILineAdapters, IWavedLineProperties 
 export declare class WavedLine extends Line implements IWavedShape {
     /**
      * Defines available properties.
-     *
-     * @type {IWavedLineProperties}
      */
     _properties: IWavedLineProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IWavedLineAdapters}
      */
     _adapter: IWavedLineAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IWavedLineEvents}
      */
     _events: IWavedLineEvents;
     /**
@@ -95,33 +86,33 @@ export declare class WavedLine extends Line implements IWavedShape {
      */
     draw(): void;
     /**
-     * @return {number} Wave length (px)
+     * @return Wave length (px)
      */
     /**
      * Wave length in pixels.
      *
      * @default 16
-     * @param {number}  value  Wave length (px)
+     * @param value  Wave length (px)
      */
     waveLength: number;
     /**
-     * @return {number} Wave height (px)
+     * @return Wave height (px)
      */
     /**
      * Wave height in pixels.
      *
      * @default 4
-     * @param {number}  value  Wave height (px)
+     * @param value  Wave height (px)
      */
     waveHeight: number;
     /**
-     * @return {number} Tension
+     * @return Tension
      */
     /**
      * Tension of the wave.
      *
      * @default 0.8
-     * @param {number}  value  Tension
+     * @param value  Tension
      */
     tension: number;
 }

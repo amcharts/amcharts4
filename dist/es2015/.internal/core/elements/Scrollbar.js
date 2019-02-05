@@ -45,28 +45,21 @@ var Scrollbar = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * A value of previously selected lower value, used for doubleclick function.
-         *
-         * @type {number}
          */
         _this._prevStart = 0;
         /**
          * A value of previously selected upper value, used for doubleclick function.
-         *
-         * @type {number}
          */
         _this._prevEnd = 1;
         /**
          * Indicates if the Scrollbar is currently "busy" (animating and or
          * performing zoom by user interaction).
-         *
-         * @type {boolean}
          */
         _this._isBusy = false;
         /**
          * [_skipRangeEvents description]
          *
          * @todo Description
-         * @type {boolean}
          */
         _this._skipRangeEvents = false;
         /**
@@ -76,7 +69,6 @@ var Scrollbar = /** @class */ (function (_super) {
          * released.
          *
          * @default true
-         * @type {boolean}
          */
         _this.updateWhileMoving = true;
         _this.className = "Scrollbar";
@@ -180,7 +172,7 @@ var Scrollbar = /** @class */ (function (_super) {
      * background.
      *
      * @ignore Exclude from docs
-     * @param {ISpriteEvents["hit"]}  event  Event
+     * @param event  Event
      */
     Scrollbar.prototype.handleBgHit = function (event) {
         this.makeBusy();
@@ -407,7 +399,7 @@ var Scrollbar = /** @class */ (function (_super) {
     };
     Object.defineProperty(Scrollbar.prototype, "start", {
         /**
-         * @return {number} Position (0-1)
+         * @return Position (0-1)
          */
         get: function () {
             return Math.min(this.getPosition(this._start), this.getPosition(this._end));
@@ -421,7 +413,7 @@ var Scrollbar = /** @class */ (function (_super) {
         /**
          * Relative position (0-1) of the start grip.
          *
-         * @param {number}  position  Position (0-1)
+         * @param position  Position (0-1)
          */
         set: function (position) {
             if (!this._isBusy) {
@@ -433,7 +425,7 @@ var Scrollbar = /** @class */ (function (_super) {
     });
     Object.defineProperty(Scrollbar.prototype, "__start", {
         /**
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             return this._start;
@@ -442,7 +434,7 @@ var Scrollbar = /** @class */ (function (_super) {
          * [__start description]
          *
          * @todo Description
-         * @param {number} position [description]
+         * @param position [description]
          */
         set: function (position) {
             this._start = this.getPosition(position);
@@ -453,7 +445,7 @@ var Scrollbar = /** @class */ (function (_super) {
     });
     Object.defineProperty(Scrollbar.prototype, "end", {
         /**
-         * @return {number} Position (0-1)
+         * @return Position (0-1)
          */
         get: function () {
             return Math.max(this.getPosition(this._start), this.getPosition(this._end));
@@ -461,7 +453,7 @@ var Scrollbar = /** @class */ (function (_super) {
         /**
          * Relative position (0-1) of the end grip.
          *
-         * @param {number}  position  Position (0-1)
+         * @param position  Position (0-1)
          */
         set: function (position) {
             if (!this._isBusy) {
@@ -473,7 +465,7 @@ var Scrollbar = /** @class */ (function (_super) {
     });
     Object.defineProperty(Scrollbar.prototype, "__end", {
         /**
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             return this._end;
@@ -482,7 +474,7 @@ var Scrollbar = /** @class */ (function (_super) {
          * [__end description]
          *
          * @todo Description
-         * @param {number} position [description]
+         * @param position [description]
          */
         set: function (position) {
             this._end = this.getPosition(position);
@@ -496,7 +488,7 @@ var Scrollbar = /** @class */ (function (_super) {
          * Current selection range.
          *
          * @readonly
-         * @return {IRange} Range
+         * @return Range
          */
         get: function () {
             return { start: this.start, end: this.end, priority: this._usingGrip };
@@ -519,7 +511,7 @@ var Scrollbar = /** @class */ (function (_super) {
      *
      * @todo Description
      * @ignore Exclude from docs
-     * @param {IRange}  range  Range
+     * @param range  Range
      */
     Scrollbar.prototype.fixRange = function (range) {
         if (range.start != $math.round(this._start, 2) || range.end != $math.round(this._end, 2)) {
@@ -536,15 +528,15 @@ var Scrollbar = /** @class */ (function (_super) {
      * [getPosition description]
      *
      * @todo Description
-     * @param  {number}  position  [description]
-     * @return {number}            [description]
+     * @param position  [description]
+     * @return [description]
      */
     Scrollbar.prototype.getPosition = function (position) {
         return $math.fitToRange($math.round(position, 4), 0, 1);
     };
     Object.defineProperty(Scrollbar.prototype, "orientation", {
         /**
-         * @return {Orientation} Orientation
+         * @return Orientation
          */
         get: function () {
             return this.getPropertyValue("orientation");
@@ -561,7 +553,7 @@ var Scrollbar = /** @class */ (function (_super) {
          * Available options: "horizontal" (default) and "vertical".
          *
          * @default "horizontal"
-         * @param {Orientation}  value  Orientation
+         * @param value  Orientation
          */
         set: function (value) {
             if (this.setPropertyValue("orientation", value)) {
@@ -600,7 +592,7 @@ var Scrollbar = /** @class */ (function (_super) {
     };
     Object.defineProperty(Scrollbar.prototype, "startGrip", {
         /**
-         * @return {ResizeButton} Grip element
+         * @return Grip element
          */
         get: function () {
             return this._startGrip;
@@ -614,7 +606,7 @@ var Scrollbar = /** @class */ (function (_super) {
         /**
          * Start grip element. (button)
          *
-         * @param {ResizeButton}  button  Grip element
+         * @param button  Grip element
          */
         set: function (button) {
             if (this._startGrip) {
@@ -628,7 +620,7 @@ var Scrollbar = /** @class */ (function (_super) {
     });
     Object.defineProperty(Scrollbar.prototype, "endGrip", {
         /**
-         * @return {ResizeButton} Grip element
+         * @return Grip element
          */
         get: function () {
             return this._endGrip;
@@ -636,7 +628,7 @@ var Scrollbar = /** @class */ (function (_super) {
         /**
          * End grip element. (button)
          *
-         * @param {ResizeButton}  button  Grip element
+         * @param button  Grip element
          */
         set: function (button) {
             if (this._endGrip) {
@@ -652,7 +644,7 @@ var Scrollbar = /** @class */ (function (_super) {
      * Decorates the grip button with properties and events.
      *
      * @ignore Exclude from docs
-     * @param {ResizeButton} button Grip button
+     * @param button Grip button
      */
     Scrollbar.prototype.processGrip = function (button) {
         button.parent = this;
@@ -670,7 +662,7 @@ var Scrollbar = /** @class */ (function (_super) {
      * Updates positions of related elements after grip element is dragged.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<ResizeButton, ISpriteEvents>["drag"]}  event  Event
+     * @param event  Event
      */
     Scrollbar.prototype.handleGripDrag = function (event) {
         this.makeBusy();
@@ -692,7 +684,7 @@ var Scrollbar = /** @class */ (function (_super) {
     };
     Object.defineProperty(Scrollbar.prototype, "thumb", {
         /**
-         * @return {RoundedRectangle} Thumb element
+         * @return Thumb element
          */
         get: function () {
             if (!this._thumb) {
@@ -710,7 +702,7 @@ var Scrollbar = /** @class */ (function (_super) {
          * It's a draggable square space between the grips, that can be used to
          * pan the seleciton.
          *
-         * @param {RoundedRectangle}  thumb  Thumb element
+         * @param thumb  Thumb element
          */
         set: function (thumb) {
             var _this = this;
@@ -805,14 +797,14 @@ var Scrollbar = /** @class */ (function (_super) {
      * Creates a background element for the scrollbar.
      *
      * @ignore Exclude from docs
-     * @return {RoundedRectangle} Background
+     * @return Background
      */
     Scrollbar.prototype.createBackground = function () {
         return new RoundedRectangle();
     };
     Object.defineProperty(Scrollbar.prototype, "hideGrips", {
         /**
-         * @return {boolean} Show only on hover?
+         * @return Show only on hover?
          */
         get: function () {
             return this._hideGrips;
@@ -821,7 +813,7 @@ var Scrollbar = /** @class */ (function (_super) {
          * Use this property to set whether grips should be always visible (`false`),
          * or they should just appear on scrollbar hover (`true`).
          *
-         * @param {boolean}  value  Show only on hover?
+         * @param value  Show only on hover?
          */
         set: function (value) {
             var _this = this;
@@ -854,7 +846,7 @@ var Scrollbar = /** @class */ (function (_super) {
     });
     Object.defineProperty(Scrollbar.prototype, "animationDuration", {
         /**
-         * @return {PointerOrientation} Orientation
+         * @return Orientation
          */
         get: function () {
             return this.getPropertyValue("animationDuration");
@@ -862,7 +854,7 @@ var Scrollbar = /** @class */ (function (_super) {
         /**
          * Duration in milliseconds of scrollbar animation (happens when user clicks on a background of a scrollbar)
          * @default 0
-         * @param {number} value number
+         * @param value number
          */
         set: function (value) {
             this.setPropertyValue("animationDuration", value);
@@ -881,7 +873,7 @@ var Scrollbar = /** @class */ (function (_super) {
          * Animation easing function.
          * @todo: review description and default
          * @default $ease.cubicOut
-         * @param {Function}  value (value: number) => number
+         * @param value (value: number) => number
          */
         set: function (value) {
             this.setPropertyValue("animationEasing", value);

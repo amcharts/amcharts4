@@ -73,29 +73,23 @@ export class AxisRendererX extends AxisRenderer {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IAxisRendererXProperties}
 	 */
 	public _properties!: IAxisRendererXProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IAxisRendererXAdapters}
 	 */
 	public _adapter!: IAxisRendererXAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IAxisRendererXEvents}
 	 */
 	public _events!: IAxisRendererXEvents;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param {Axis} axis Related axis
+	 * @param axis Related axis
 	 */
 	constructor() {
 		super();
@@ -133,7 +127,7 @@ export class AxisRendererX extends AxisRenderer {
 			gridContainer.x = axis.pixelX;
 			gridContainer.width = axis.pixelWidth;
 		}
-	}	
+	}
 
 	/**
 	 * Called when rendered is attached to an Axis, as well as a property of
@@ -214,9 +208,9 @@ export class AxisRendererX extends AxisRenderer {
 	 * Updates and positions a label element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisLabel}  label        Label element
-	 * @param {number}     position     Starting position
-	 * @param {number}     endPosition  Ending position
+	 * @param label        Label element
+	 * @param position     Starting position
+	 * @param endPosition  Ending position
 	 */
 	public updateLabelElement(label: AxisLabel, position: number, endPosition: number, location?: number) {
 
@@ -248,7 +242,7 @@ export class AxisRendererX extends AxisRenderer {
 	/**
 	 * Returns actual length of the Axis, in pixels.
 	 *
-	 * @return {number} Length (px)
+	 * @return Length (px)
 	 */
 	public get axisLength(): number {
 		let axis = this.axis;
@@ -258,8 +252,8 @@ export class AxisRendererX extends AxisRenderer {
 	/**
 	 * Converts relative position on axis to point coordinates.
 	 *
-	 * @param  {number}  position  Position (0-1)
-	 * @return {IPoint}            Point
+	 * @param position  Position (0-1)
+	 * @return Point
 	 */
 	public positionToPoint(position: number): IPoint {
 		return { x: this.positionToCoordinate(position), y: 0 };
@@ -269,8 +263,8 @@ export class AxisRendererX extends AxisRenderer {
 	 * Converts a point at specific coordinates to a relative position (0-1)
 	 * on the axis.
 	 *
-	 * @param  {IPoint}  point  Point
-	 * @return {number}         Position (0-1)
+	 * @param point  Point
+	 * @return Position (0-1)
 	 */
 	public pointToPosition(point: IPoint) {
 		return this.coordinateToPosition(point.x);
@@ -281,9 +275,9 @@ export class AxisRendererX extends AxisRenderer {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {number}  startPosition  Starting position
-	 * @param  {number}  endPosition    End position
-	 * @return {string}                 SVG path
+	 * @param startPosition  Starting position
+	 * @param endPosition    End position
+	 * @return SVG path
 	 */
 	public getPositionRangePath(startPosition: number, endPosition: number): string {
 		let x1: number = $math.fitToRange(this.positionToCoordinate(startPosition), 0, this.axisLength);
@@ -307,7 +301,7 @@ export class AxisRendererX extends AxisRenderer {
 	 * Updates and positions an axis break element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisBreak} axisBreak Break element
+	 * @param axisBreak Break element
 	 */
 	public updateBreakElement(axisBreak: AxisBreak): void {
 		super.updateBreakElement(axisBreak);
@@ -350,9 +344,9 @@ export class AxisRendererX extends AxisRenderer {
 	 * Updates and positions a grid element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Grid}    grid         Grid element
-	 * @param {number}  position     Starting position
-	 * @param {number}  endPosition  End position
+	 * @param grid         Grid element
+	 * @param position     Starting position
+	 * @param endPosition  End position
 	 */
 	public updateGridElement(grid: Grid, position: number, endPosition: number): void {
 		position = position + (endPosition - position) * grid.location;
@@ -370,9 +364,9 @@ export class AxisRendererX extends AxisRenderer {
 	 * Updates and positions a tick element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisTick}  tick         Tick element
-	 * @param {number}    position     Starting position
-	 * @param {number}    endPosition  End position
+	 * @param tick         Tick element
+	 * @param position     Starting position
+	 * @param endPosition  End position
 	 */
 	public updateTickElement(tick: AxisTick, position: number, endPosition: number): void {
 		position = position + (endPosition - position) * tick.location;
@@ -433,7 +427,7 @@ export class AxisRendererX extends AxisRenderer {
 	 * Creates visual elements for and axis break.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisBreak} axisBreak Axis break
+	 * @param axisBreak Axis break
 	 */
 	public createBreakSprites(axisBreak: AxisBreak): void {
 		axisBreak.startLine = new WavedLine();

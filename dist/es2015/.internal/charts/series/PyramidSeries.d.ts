@@ -23,8 +23,6 @@ import { Percent } from "../../core/utils/Percent";
 export declare class PyramidSeriesDataItem extends FunnelSeriesDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {PyramidSeries}
      */
     _component: PyramidSeries;
     /**
@@ -49,20 +47,14 @@ export interface IPyramidSeriesDataFields extends IFunnelSeriesDataFields {
 export interface IPyramidSeriesProperties extends IFunnelSeriesProperties {
     /**
      * Bottom width in pixels or percent
-     *
-     * @type {number | Percent}
      */
     bottomWidth?: number | Percent;
     /**
      * Top width in pixels or percent
-     *
-     * @type {number | Percent}
      */
     topWidth?: number | Percent;
     /**
      * Height of pyramid
-     *
-     * @type {number | Percent}
      */
     pyramidHeight?: number | Percent;
     /**
@@ -70,7 +62,6 @@ export interface IPyramidSeriesProperties extends IFunnelSeriesProperties {
      * size.
      *
      * @default "area"
-     * @type {"height" | "area"}
      */
     valueIs?: "height" | "area";
 }
@@ -103,39 +94,28 @@ export interface IPyramidSeriesAdapters extends IFunnelSeriesAdapters, IPyramidS
 export declare class PyramidSeries extends FunnelSeries {
     /**
      * Defines the type of data fields used for the series.
-     *
-     * @type {IPyramidSeriesDataFields}
      */
     _dataFields: IPyramidSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IPyramidSeriesProperties}
      */
     _properties: IPyramidSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IPyramidSeriesAdapters}
      */
     _adapter: IPyramidSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IPyramidSeriesEvents}
      */
     _events: IPyramidSeriesEvents;
     /**
      * Defines the type of data item.
-     *
-     * @type {PyramidSeriesDataItem}
      */
     _dataItem: PyramidSeriesDataItem;
     /**
      * [_nextWidth description]
      *
      * @todo Description
-     * @type {number}
      */
     protected _nextWidth: number;
     protected _pyramidHeight: number;
@@ -153,7 +133,7 @@ export declare class PyramidSeries extends FunnelSeries {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {PyramidSeriesDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
@@ -166,8 +146,8 @@ export declare class PyramidSeries extends FunnelSeries {
      * [getNextValue description]
      *
      * @todo Description
-     * @param  {FunnelSeriesDataItem} dataItem [description]
-     * @return {number}                        [description]
+     * @param dataItem [description]
+     * @return [description]
      */
     protected getNextValue(dataItem: FunnelSeriesDataItem): number;
     /**
@@ -181,7 +161,7 @@ export declare class PyramidSeries extends FunnelSeries {
      * [decorateSlice description]
      *
      * @todo Description
-     * @param {this["_dataItem"]} dataItem [description]
+     * @param dataItem [description]
      */
     protected decorateSlice(dataItem: this["_dataItem"]): void;
     /**

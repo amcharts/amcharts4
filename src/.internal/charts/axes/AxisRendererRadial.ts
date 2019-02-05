@@ -44,15 +44,11 @@ export interface IAxisRendererRadialProperties extends IAxisRendererYProperties 
 
 	/**
 	 * Start angle of the radial axis in degrees. (0-360)
-	 *
-	 * @type {number}
 	 */
 	startAngle?: number;
 
 	/**
 	 * End angle of the radial axis in degrees. (0-360)
-	 *
-	 * @type {number}
 	 */
 	endAngle?: number;
 
@@ -60,14 +56,11 @@ export interface IAxisRendererRadialProperties extends IAxisRendererYProperties 
 	 * A grid type to display: "circles" or "polygons".
 	 *
 	 * @default "circles"
-	 * @type {"circles" | "polygons"}
 	 */
 	gridType?: "circles" | "polygons"; //@todo: move it to GridRadial?
 
 	/**
 	 * An angle of the axis in degrees. (0-360)
-	 *
-	 * @type {number}
 	 */
 	axisAngle?: number;
 
@@ -76,8 +69,6 @@ export interface IAxisRendererRadialProperties extends IAxisRendererYProperties 
 	 * Outer radius of the radial axis.
 	 *
 	 * Can either be absolute (pixels) or relative ([[Percent]]).
-	 *
-	 * @type {number | Percent}
 	 */
 	radius?: number | Percent;
 
@@ -85,8 +76,6 @@ export interface IAxisRendererRadialProperties extends IAxisRendererYProperties 
 	 * Inner radius of the radial axis.
 	 *
 	 * Can either be absolute (pixels) or relative ([[Percent]]).
-	 *
-	 * @type {number | Percent}
 	 */
 	innerRadius?: number | Percent;
 
@@ -119,29 +108,21 @@ export class AxisRendererRadial extends AxisRendererY {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {AxisRendererProperties}
 	 */
 	public _properties!: IAxisRendererRadialProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {AxisRendererAdapters}
 	 */
 	public _adapter!: IAxisRendererRadialAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IAxisRendererRadialEvents}
 	 */
 	public _events!: IAxisRendererRadialEvents;
 
 	/**
 	 * A related chart.
-	 *
-	 * @type {MutableValueDisposer}
 	 */
 	protected _chart = new MutableValueDisposer<RadarChart>();
 
@@ -153,7 +134,7 @@ export class AxisRendererRadial extends AxisRendererY {
 	/**
 	 * Constructor.
 	 *
-	 * @param {Axis} axis Related axis
+	 * @param axis Related axis
 	 */
 	constructor() {
 
@@ -197,7 +178,7 @@ export class AxisRendererRadial extends AxisRendererY {
 	/**
 	 * Returns actual length of the Axis, in pixels.
 	 *
-	 * @return {number} Length (px)
+	 * @return Length (px)
 	 */
 	public get axisLength(): number {
 		return this.pixelRadius - this.pixelInnerRadius;
@@ -208,14 +189,14 @@ export class AxisRendererRadial extends AxisRendererY {
 	 *
 	 * Can be absolute (px) or relative ([[Percent]]).
 	 *
-	 * @param {number | Percent}  value  Outer radius
+	 * @param value  Outer radius
 	 */
 	public set radius(value: number | Percent) {
 		this.setPercentProperty("radius", value, false, false, 10, false);
 	}
 
 	/**
-	 * @return {number | Percent} Outer radius
+	 * @return Outer radius
 	 */
 	public get radius(): number | Percent {
 		return this.getPropertyValue("radius");
@@ -224,7 +205,7 @@ export class AxisRendererRadial extends AxisRendererY {
 	/**
 	 * Outer radius in pixels.
 	 *
-	 * @return {number} Outer radius (px)
+	 * @return Outer radius (px)
 	 */
 	public get pixelRadius(): number {
 		return $utils.relativeRadiusToValue(this.radius, this.pixelRadiusReal) || 0;
@@ -235,14 +216,14 @@ export class AxisRendererRadial extends AxisRendererY {
 	 *
 	 * Can be absolute (px) or relative ([[Percent]]).
 	 *
-	 * @param {number | Percent}  value  Outer radius
+	 * @param value  Outer radius
 	 */
 	public set innerRadius(value: number | Percent) {
 		this.setPercentProperty("innerRadius", value, false, false, 10, false)
 	}
 
 	/**
-	 * @return {number | Percent} Inner radius
+	 * @return Inner radius
 	 */
 	public get innerRadius(): number | Percent {
 		return this.getPropertyValue("innerRadius");
@@ -251,7 +232,7 @@ export class AxisRendererRadial extends AxisRendererY {
 	/**
 	 * Inner radius in pixels.
 	 *
-	 * @return {number} Inner radius (px)
+	 * @return Inner radius (px)
 	 */
 	public get pixelInnerRadius(): number {
 		return $utils.relativeRadiusToValue(this.innerRadius, this.pixelRadiusReal) || 0;
@@ -261,7 +242,7 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * Chart, associated with the Axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {RadarChart} value Chart
+	 * @param value Chart
 	 */
 	public set chart(chart: RadarChart) {
 		this._chart.set(chart, null);
@@ -269,7 +250,7 @@ export class AxisRendererRadial extends AxisRendererY {
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {RadarChart} Chart
+	 * @return Chart
 	 */
 	public get chart(): RadarChart {
 		return this._chart.get();
@@ -278,8 +259,8 @@ export class AxisRendererRadial extends AxisRendererY {
 	/**
 	 * Converts relative position on axis to point coordinates.
 	 *
-	 * @param  {number}  position  Position (0-1)
-	 * @return {IPoint}            Point
+	 * @param position  Position (0-1)
+	 * @return Point
 	 */
 	public positionToPoint(position: number): IPoint {
 		let radius: number = $math.fitToRange(this.positionToCoordinate(position), 0, Infinity);
@@ -317,9 +298,9 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * Updates and positions a grid element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Grid}    grid         Grid element
-	 * @param {number}  position     Starting position
-	 * @param {number}  endPosition  End position
+	 * @param grid         Grid element
+	 * @param position     Starting position
+	 * @param endPosition  End position
 	 */
 	public updateGridElement(grid: Grid, position: number, endPosition: number) {
 		position = position + (endPosition - position) * grid.location;
@@ -365,9 +346,9 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * Updates and positions a label element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisLabel}  label        Label element
-	 * @param {number}     position     Starting position
-	 * @param {number}     endPosition  Ending position
+	 * @param label        Label element
+	 * @param position     Starting position
+	 * @param endPosition  Ending position
 	 */
 	public updateLabelElement(label: this["_labelType"], position: number, endPosition: number, location?: number) {
 
@@ -396,8 +377,8 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * Checks if point is within bounds of a container.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {IPoint}   point Point coordinates
-	 * @return {boolean}         Fits?
+	 * @param point Point coordinates
+	 * @return Fits?
 	 */
 	public fitsToBounds(point: IPoint): boolean {
 		return true;
@@ -406,7 +387,7 @@ export class AxisRendererRadial extends AxisRendererY {
 	/**
 	 * Start angle of the axis in degrees. (0-360)
 	 *
-	 * @param {number}  value  Start angle
+	 * @param value  Start angle
 	 */
 	public set startAngle(value: number) {
 		// do not normalize angle here!
@@ -416,7 +397,7 @@ export class AxisRendererRadial extends AxisRendererY {
 	}
 
 	/**
-	 * @return {number} Start angle
+	 * @return Start angle
 	 */
 	public get startAngle(): number {
 		return this.getPropertyValue("startAngle");
@@ -425,7 +406,7 @@ export class AxisRendererRadial extends AxisRendererY {
 	/**
 	 * End angle of the axis in degrees. (0-360)
 	 *
-	 * @param {number}  value  End angle
+	 * @param value  End angle
 	 */
 	public set endAngle(value: number) {
 		// do not normalize angel here!
@@ -435,7 +416,7 @@ export class AxisRendererRadial extends AxisRendererY {
 	}
 
 	/**
-	 * @return {number} End angle
+	 * @return End angle
 	 */
 	public get endAngle(): number {
 		return this.getPropertyValue("endAngle");
@@ -444,7 +425,7 @@ export class AxisRendererRadial extends AxisRendererY {
 	/**
 	 * Angle of the radial axis in degrees. (0-360)
 	 *
-	 * @param {number}  value  Axis angle
+	 * @param value  Axis angle
 	 */
 	public set axisAngle(value: number) {
 		this.setPropertyValue("axisAngle", $math.normalizeAngle(value));
@@ -452,7 +433,7 @@ export class AxisRendererRadial extends AxisRendererY {
 	}
 
 	/**
-	 * @return {number} Axis angle
+	 * @return Axis angle
 	 */
 	public get axisAngle(): number {
 		return this.getPropertyValue("axisAngle");
@@ -468,14 +449,14 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * straight lines ("polygons").
 	 *
 	 * @default "circles"
-	 * @param {"circles" | "polygons"}  value  Grid type
+	 * @param value  Grid type
 	 */
 	public set gridType(value: "circles" | "polygons") {
 		this.setPropertyValue("gridType", value, true);
 	}
 
 	/**
-	 * @type {"circles" | "polygons"} Grid type
+	 * Grid type
 	 */
 	public get gridType(): "circles" | "polygons" {
 		let axis: Axis = this.chart.xAxes.getIndex(0);
@@ -493,9 +474,9 @@ export class AxisRendererRadial extends AxisRendererY {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {number}  startPosition  Starting position
-	 * @param  {number}  endPosition    End position
-	 * @return {string}                 SVG path
+	 * @param startPosition  Starting position
+	 * @param endPosition    End position
+	 * @return SVG path
 	 */
 	public getPositionRangePath(startPosition: number, endPosition: number): string {
 		let pixelInnerRadius = this.pixelInnerRadius;
@@ -549,7 +530,7 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * Updates and positions an axis break element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisBreak} axisBreak Break element
+	 * @param axisBreak Break element
 	 */
 	public updateBreakElement(axisBreak: AxisBreak) {
 		// @todo: someday we might need axis break when gridType is polygons
@@ -571,7 +552,7 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * Creates visual elements for and axis break.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisBreak} axisBreak Axis break
+	 * @param axisBreak Axis break
 	 */
 	public createBreakSprites(axisBreak: AxisBreak): void {
 		axisBreak.startLine = new WavedCircle();
@@ -611,8 +592,8 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * Updates and positions a tick element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AxisTick}  tick      Tick element
-	 * @param {number}    position  Position
+	 * @param tick      Tick element
+	 * @param position  Position
 	 */
 	public updateTickElement(tick: AxisTick, position: number): void {
 		let point: IPoint = this.positionToPoint(position);
@@ -639,8 +620,8 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * Converts a position on the axis to a coordinate in pixels.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {number}  position  Position (0-1)
-	 * @return {number}            Coordinate (px)
+	 * @param position  Position (0-1)
+	 * @return Coordinate (px)
 	 */
 	public positionToCoordinate(position: number): number {
 		let coordinate: number;
@@ -662,8 +643,8 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * Converts a point at specific coordinates to a relative position (0-1)
 	 * on the axis.
 	 *
-	 * @param  {IPoint}  point  Point
-	 * @return {number}         Position (0-1)
+	 * @param point  Point
+	 * @return Position (0-1)
 	 */
 	public pointToPosition(point: IPoint) {
 		let coordinate = ($math.getDistance(point) - this.pixelInnerRadius);

@@ -22,8 +22,6 @@ import { LabelBullet } from "./LabelBullet";
 export interface ISankeyNodeProperties extends IFlowDiagramNodeProperties {
     /**
      * A level node is at. (0 - ...)
-     *
-     * @type {number}
      */
     level?: number;
 }
@@ -60,20 +58,14 @@ export interface ISankeyNodeAdapters extends IFlowDiagramNodeAdapters, ISankeyNo
 export declare class SankeyNode extends FlowDiagramNode {
     /**
      * Defines available properties.
-     *
-     * @type {ISankeyNodeProperties}
      */
     _properties: ISankeyNodeProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ISankeyNodeAdapters}
      */
     _adapter: ISankeyNodeAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ISankeyNodeEvents}
      */
     _events: ISankeyNodeEvents;
     /**
@@ -81,7 +73,6 @@ export declare class SankeyNode extends FlowDiagramNode {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {number}
      */
     nextInCoord: number;
     /**
@@ -89,31 +80,22 @@ export declare class SankeyNode extends FlowDiagramNode {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {number}
      */
     nextOutCoord: number;
     /**
      * A chart instance this node is added to.
-     *
-     * @type {SankeyDiagram}
      */
     chart: SankeyDiagram;
     /**
      * Defines the type of the [[SankeyDiagramDataItem]] used in the class.
-     *
-     * @type {SankeyDiagramDataItem}
      */
     _dataItem: SankeyDiagramDataItem;
     /**
      * A label element which shows node's value.
-     *
-     * @type {LabelBullet}
      */
     valueLabel: LabelBullet;
     /**
      * A label element which shows node's name.
-     *
-     * @type {LabelBullet}
      */
     nameLabel: LabelBullet;
     /**
@@ -129,11 +111,11 @@ export declare class SankeyNode extends FlowDiagramNode {
     /**
      * Positions the bullet so it is centered within the node element.
      *
-     * @param {LabelBullet}  bullet  Target bullet
+     * @param bullet  Target bullet
      */
     protected positionBullet(bullet: LabelBullet): void;
     /**
-     * @return {number} Level
+     * @return Level
      */
     /**
      * A level node is displayed at. (0 - ...)
@@ -144,13 +126,13 @@ export declare class SankeyNode extends FlowDiagramNode {
      *
      * Nodes in second column - `level = 1`, etc.
      *
-     * @param {number}  value  Level
+     * @param value  Level
      */
     level: number;
     /**
      * Copies properties and labels from another [[SankeyNode]].
      *
-     * @param {SankeyNode}  source  Source node
+     * @param source  Source node
      */
     copyFrom(source: this): void;
 }

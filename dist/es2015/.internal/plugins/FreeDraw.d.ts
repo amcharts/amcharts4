@@ -53,20 +53,14 @@ export interface IFreeDrawAdapters extends IContainerAdapters, IFreeDrawProperti
 export declare class FreeDraw extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IFreeDrawProperties}
      */
     _properties: IFreeDrawProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IFreeDrawAdapters}
      */
     _adapter: IFreeDrawAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IFreeDrawEvents}
      */
     _events: IFreeDrawEvents;
     splines: Polyspline[];

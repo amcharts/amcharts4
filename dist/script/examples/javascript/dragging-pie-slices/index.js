@@ -11,7 +11,7 @@ var data = [{
     "country": "Lithuania",
     "litres": 501.9
 }, {
-    "country": "Czech Republic",
+    "country": "Estonia",
     "litres": 301.9
 }, {
     "country": "Ireland",

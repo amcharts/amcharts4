@@ -47,21 +47,16 @@ export interface IAxisBreakProperties extends IContainerProperties {
 	 * effectively useless.
 	 *
 	 * @default 0.01
-	 * @type {number}
 	 */
 	breakSize?: number;
 
 	/**
 	 * Starting value.
-	 *
-	 * @type {number}
 	 */
 	startValue?: number;
 
 	/**
 	 * End value.
-	 *
-	 * @type {number}
 	 */
 	endValue?: number;
 }
@@ -97,64 +92,46 @@ export class AxisBreak extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IAxisBreakProperties}
 	 */
 	public _properties!: IAxisBreakProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IAxisBreakAdapters}
 	 */
 	public _adapter!: IAxisBreakAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IAxisBreakEvents}
 	 */
 	public _events!: IAxisBreakEvents;
 
 	/**
 	 * Defines the type of the Axis this break is used for.
-	 *
-	 * @type {Axis}
 	 */
 	public _axisType: Axis;
 
 	/**
 	 * Reference to parent Axis.
-	 *
-	 * @type {MutableValueDisposer}
 	 */
 	protected _axis = new MutableValueDisposer<this["_axisType"]>();
 
 	/**
 	 * A reference to starting line element.
-	 *
-	 * @type {IWavedShape}
 	 */
 	protected _startLine: IWavedShape;
 
 	/**
 	 * A reference to ending line element.
-	 *
-	 * @type {IWavedShape}
 	 */
 	protected _endLine: IWavedShape;
 
 	/**
 	 * A reference to fill shape.
-	 *
-	 * @type {IWavedShape}
 	 */
 	protected _fillShape: IWavedShape;
 
 	/**
 	 * A list of axis data items which fall within this break.
-	 *
-	 * @type {List<AxisDataItem>}
 	 */
 	public dataItems: List<AxisDataItem> = new List<AxisDataItem>();
 
@@ -163,8 +140,6 @@ export class AxisBreak extends Container {
 	 *
 	 * Start and end values need to be adjusted so that they do not overlap with
 	 * adjacent breaks.
-	 *
-	 * @type {number}
 	 */
 	public adjustedStartValue: number;
 
@@ -173,8 +148,6 @@ export class AxisBreak extends Container {
 	 *
 	 * Start and end values need to be adjusted so that they do not overlap with
 	 * adjacent breaks.
-	 *
-	 * @type {number}
 	 */
 	public adjustedEndValue: number;
 
@@ -244,7 +217,7 @@ export class AxisBreak extends Container {
 	/**
 	 * An element used for the starting line of the break.
 	 *
-	 * @param {IWavedShape}  sprite  Element
+	 * @param sprite  Element
 	 */
 	public set startLine(sprite: IWavedShape) {
 		if (this._startLine) {
@@ -255,7 +228,7 @@ export class AxisBreak extends Container {
 	}
 
 	/**
-	 * @return {IWavedShape} Element
+	 * @return Element
 	 */
 	public get startLine(): IWavedShape {
 		return this._startLine;
@@ -264,7 +237,7 @@ export class AxisBreak extends Container {
 	/**
 	 * An element used for the end line of the break.
 	 *
-	 * @param {IWavedShape} sprite Element
+	 * @param sprite Element
 	 */
 	public set endLine(sprite: IWavedShape) {
 		if (this._endLine) {
@@ -275,7 +248,7 @@ export class AxisBreak extends Container {
 	}
 
 	/**
-	 * @return {IWavedShape} Element
+	 * @return Element
 	 */
 	public get endLine(): IWavedShape {
 		return this._endLine;
@@ -284,7 +257,7 @@ export class AxisBreak extends Container {
 	/**
 	 * An element used for fill of the break.
 	 *
-	 * @param {IWavedShape} sprite Element
+	 * @param sprite Element
 	 */
 	public set fillShape(sprite: IWavedShape) {
 		if (this._fillShape) {
@@ -296,7 +269,7 @@ export class AxisBreak extends Container {
 	}
 
 	/**
-	 * @return {IWavedShape} Element
+	 * @return Element
 	 */
 	public get fillShape(): IWavedShape {
 		return this._fillShape;
@@ -307,7 +280,7 @@ export class AxisBreak extends Container {
 	 * [[Container]].
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IWavedShape} sprite Element to add
+	 * @param sprite Element to add
 	 */
 	public addBreakSprite(sprite: IWavedShape) {
 		sprite.parent = this;
@@ -318,7 +291,7 @@ export class AxisBreak extends Container {
 	/**
 	 * An Axis this Break is associated with.
 	 *
-	 * @param {Axis}  axis  Axis
+	 * @param axis  Axis
 	 */
 	public set axis(axis: this["_axisType"]) {
 		if (this._axis.get() !== axis) {
@@ -335,7 +308,7 @@ export class AxisBreak extends Container {
 	}
 
 	/**
-	 * @return {Axis} Axis
+	 * @return Axis
 	 */
 	public get axis(): this["_axisType"] {
 		return this._axis.get();
@@ -352,7 +325,7 @@ export class AxisBreak extends Container {
 	 * effectively useless.
 	 *
 	 * @default 0.01
-	 * @param {number}  value  Relative axis break
+	 * @param value  Relative axis break
 	 */
 	public set breakSize(value: number) {
 		if (this.setPropertyValue("breakSize", value)) {
@@ -364,7 +337,7 @@ export class AxisBreak extends Container {
 	}
 
 	/**
-	 * @return {number} Relative axis break
+	 * @return Relative axis break
 	 */
 	public get breakSize(): number {
 		return this.getPropertyValue("breakSize");
@@ -373,7 +346,7 @@ export class AxisBreak extends Container {
 	/**
 	 * Returns pixel coordinates of axis break's start.
 	 *
-	 * @return {IPoint} Start point
+	 * @return Start point
 	 */
 	public get startPoint(): IPoint {
 		let renderer: AxisRenderer = this.axis.renderer;
@@ -385,7 +358,7 @@ export class AxisBreak extends Container {
 	/**
 	 * Returns pixel coordinates of axis break's end.
 	 *
-	 * @return {IPoint} End point
+	 * @return End point
 	 */
 	public get endPoint(): IPoint {
 		let renderer: AxisRenderer = this.axis.renderer;
@@ -400,7 +373,7 @@ export class AxisBreak extends Container {
 	 * This is a calculated position, meaning it shows relative position of the
 	 * break after break is applied.
 	 *
-	 * @return {number} Start position
+	 * @return Start position
 	 */
 	public get startPosition(): number {
 		return;
@@ -412,7 +385,7 @@ export class AxisBreak extends Container {
 	 * This is a calculated position, meaning it shows relative position of the
 	 * break after break is applied.
 	 *
-	 * @return {number} End position
+	 * @return End position
 	 */
 	public get endPosition(): number {
 		return;
@@ -434,7 +407,7 @@ export class AxisBreak extends Container {
 	/**
 	 * A starting value for the break.
 	 *
-	 * @param {number}  value  Starting value
+	 * @param value  Starting value
 	 */
 	public set startValue(value: number) {
 		if (this.setPropertyValue("startValue", value)) {
@@ -446,7 +419,7 @@ export class AxisBreak extends Container {
 	}
 
 	/**
-	 * @return {number} Starting value
+	 * @return Starting value
 	 */
 	public get startValue(): number {
 		return this.getPropertyValue("startValue");
@@ -455,7 +428,7 @@ export class AxisBreak extends Container {
 	/**
 	 * An end value for the break.
 	 *
-	 * @param {number}  value  End value
+	 * @param value  End value
 	 */
 	public set endValue(value: number) {
 		if (this.setPropertyValue("endValue", value)) {
@@ -467,7 +440,7 @@ export class AxisBreak extends Container {
 	}
 
 	/**
-	 * @return {number} End value
+	 * @return End value
 	 */
 	public get endValue(): number {
 		return this.getPropertyValue("endValue");

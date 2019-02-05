@@ -32,7 +32,6 @@ export interface IWavedLineProperties extends ILineProperties {
 	 * Wave length in pixels.
 	 *
 	 * @default 16
-	 * @type {number}
 	 */
 	waveLength?: number;
 
@@ -40,7 +39,6 @@ export interface IWavedLineProperties extends ILineProperties {
 	 * Wave height in pixels.
 	 *
 	 * @default 4
-	 * @type {number}
 	 */
 	waveHeight?: number;
 
@@ -48,7 +46,6 @@ export interface IWavedLineProperties extends ILineProperties {
 	 * Wave tension.
 	 *
 	 * @default 0.8
-	 * @type {number}
 	 */
 	tension?: number;
 
@@ -84,22 +81,16 @@ export class WavedLine extends Line implements IWavedShape {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IWavedLineProperties}
 	 */
 	public _properties!: IWavedLineProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IWavedLineAdapters}
 	 */
 	public _adapter!: IWavedLineAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IWavedLineEvents}
 	 */
 	public _events!: IWavedLineEvents;
 
@@ -137,7 +128,7 @@ export class WavedLine extends Line implements IWavedShape {
 	 * Wave length in pixels.
 	 *
 	 * @default 16
-	 * @param {number}  value  Wave length (px)
+	 * @param value  Wave length (px)
 	 */
 	public set waveLength(value: number) {
 		this.setPropertyValue("waveLength", value);
@@ -145,7 +136,7 @@ export class WavedLine extends Line implements IWavedShape {
 	}
 
 	/**
-	 * @return {number} Wave length (px)
+	 * @return Wave length (px)
 	 */
 	public get waveLength(): number {
 		return this.getPropertyValue("waveLength");
@@ -155,7 +146,7 @@ export class WavedLine extends Line implements IWavedShape {
 	 * Wave height in pixels.
 	 *
 	 * @default 4
-	 * @param {number}  value  Wave height (px)
+	 * @param value  Wave height (px)
 	 */
 	public set waveHeight(value: number) {
 		this.setPropertyValue("waveHeight", value);
@@ -163,7 +154,7 @@ export class WavedLine extends Line implements IWavedShape {
 	}
 
 	/**
-	 * @return {number} Wave height (px)
+	 * @return Wave height (px)
 	 */
 	public get waveHeight(): number {
 		return this.getPropertyValue("waveHeight");
@@ -173,7 +164,7 @@ export class WavedLine extends Line implements IWavedShape {
 	 * Tension of the wave.
 	 *
 	 * @default 0.8
-	 * @param {number}  value  Tension
+	 * @param value  Tension
 	 */
 	public set tension(value: number) {
 		this.setPropertyValue("tension", value);
@@ -181,7 +172,7 @@ export class WavedLine extends Line implements IWavedShape {
 	}
 
 	/**
-	 * @return {number} Tension
+	 * @return Tension
 	 */
 	public get tension(): number {
 		return this.getPropertyValue("tension");

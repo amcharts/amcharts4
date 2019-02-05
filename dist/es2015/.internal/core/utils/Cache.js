@@ -24,14 +24,10 @@ var Cache = /** @class */ (function () {
     function Cache() {
         /**
          * Storage for cache items.
-         *
-         * @type {Object}
          */
         this._storage = new Dictionary();
         /**
          * Default TTL in milliseconds.
-         *
-         * @type {number}
          */
         this.ttl = 1000;
     }
@@ -40,10 +36,10 @@ var Cache = /** @class */ (function () {
      *
      * If `ttl` is set to zero, item will never expire.
      *
-     * @param {string}  owner  An id of the object that owns this cache
-     * @param {string}  key    Index key
-     * @param {A}       value  Value
-     * @param {number}  ttl    TTL of the cache to live in milliseconds
+     * @param owner  An id of the object that owns this cache
+     * @param key    Index key
+     * @param value  Value
+     * @param ttl    TTL of the cache to live in milliseconds
      */
     Cache.prototype.set = function (owner, key, value, ttl) {
         // Create if storage does not exist for this owner
@@ -60,10 +56,10 @@ var Cache = /** @class */ (function () {
     /**
      * Rerturns cached item, respecting TTL.
      *
-     * @param  {string}  owner  An id of the object that owns this cache
-     * @param  {string}  key    Index key
-     * @param  {string}  value  Value to return if cache not available
-     * @return {A}              Value, or `undefined` if not set
+     * @param owner  An id of the object that owns this cache
+     * @param key    Index key
+     * @param value  Value to return if cache not available
+     * @return Value, or `undefined` if not set
      */
     Cache.prototype.get = function (owner, key, value) {
         if (value === void 0) { value = undefined; }
@@ -92,7 +88,7 @@ var Cache = /** @class */ (function () {
     /**
      * Clears cache for specific owner or everything.
      *
-     * @param {string} owner Owner to clear cache for
+     * @param owner Owner to clear cache for
      */
     Cache.prototype.clear = function (owner) {
         if (owner) {

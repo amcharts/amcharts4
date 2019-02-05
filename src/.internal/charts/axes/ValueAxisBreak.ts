@@ -30,15 +30,11 @@ export interface IValueAxisBreakProperties extends IAxisBreakProperties {
 
 	/**
 	 * Value break starts on.
-	 *
-	 * @type {number}
 	 */
 	startValue?: number;
 
 	/**
 	 * Value break ends on.
-	 *
-	 * @type {number}
 	 */
 	endValue?: number;
 
@@ -80,29 +76,21 @@ export class ValueAxisBreak extends AxisBreak {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IValueAxisBreakProperties}
 	 */
 	public _properties!: IValueAxisBreakProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IValueAxisBreakAdapters}
 	 */
 	public _adapter!: IValueAxisBreakAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IValueAxisBreakEvents}
 	 */
 	public _events!: IValueAxisBreakEvents;
 
 	/**
 	 * Defines the type of the Axis this break is used for.
-	 *
-	 * @type {ValueAxis}
 	 */
 	public _axisType: ValueAxis;
 
@@ -111,7 +99,6 @@ export class ValueAxisBreak extends AxisBreak {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @type {number}
 	 */
 	public adjustedStep: number;
 
@@ -120,7 +107,6 @@ export class ValueAxisBreak extends AxisBreak {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @type {number}
 	 */
 	public adjustedMin: number;
 
@@ -129,7 +115,6 @@ export class ValueAxisBreak extends AxisBreak {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @type {number}
 	 */
 	public adjustedMax: number;
 
@@ -145,7 +130,7 @@ export class ValueAxisBreak extends AxisBreak {
 	/**
 	 * Pixel position of the break's start.
 	 *
-	 * @return {number} Position (px)
+	 * @return Position (px)
 	 * @readonly
 	 */
 	public get startPosition(): number {
@@ -157,7 +142,7 @@ export class ValueAxisBreak extends AxisBreak {
 	/**
 	 * Pixel position of the break's end.
 	 *
-	 * @return {number} Position (px)
+	 * @return Position (px)
 	 * @readonly
 	 */
 	public get endPosition(): number {

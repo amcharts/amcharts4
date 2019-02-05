@@ -16,26 +16,22 @@ export interface IDisposer {
 export declare class Disposer implements IDisposer {
     /**
      * Is object disposed?
-     *
-     * @type {boolean}
      */
     private _disposed;
     /**
      * Method that disposes the object.
-     *
-     * @type {function}
      */
     private _dispose;
     /**
      * Constructor.
      *
-     * @param {function}  dispose  Function that disposes object
+     * @param dispose  Function that disposes object
      */
     constructor(dispose: () => void);
     /**
      * Checks if object is disposed.
      *
-     * @return {boolean} Disposed?
+     * @return Disposed?
      */
     isDisposed(): boolean;
     /**
@@ -63,14 +59,10 @@ export declare class MultiDisposer extends Disposer {
 export declare class MutableValueDisposer<T extends IDisposer> extends Disposer {
     /**
      * Current disposer.
-     *
-     * @type {Optional<IDisposer>}
      */
     private _disposer;
     /**
      * Current value.
-     *
-     * @type {Optional<T>}
      */
     private _value;
     /**
@@ -80,14 +72,14 @@ export declare class MutableValueDisposer<T extends IDisposer> extends Disposer 
     /**
      * Returns current value.
      *
-     * @return {Optional<T>} Value
+     * @return Value
      */
     get(): Optional<T>;
     /**
      * Sets value and disposes previous disposer if it was set.
      *
-     * @param {Optional<T>}          value     New value
-     * @param {Optional<IDisposer>}  disposer  Disposer
+     * @param value     New value
+     * @param disposer  Disposer
      */
     set(value: Optional<T>, disposer: Optional<IDisposer>): void;
     /**
@@ -104,7 +96,6 @@ export declare class CounterDisposer extends Disposer {
      * [_counter description]
      *
      * @todo Description
-     * @type {number}
      */
     private _counter;
     /**

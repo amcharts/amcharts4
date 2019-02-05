@@ -1,5 +1,4 @@
 /**
- *
  */
 /**
  * ============================================================================
@@ -21,14 +20,10 @@ import { MapImageSeriesDataItem, MapImageSeries } from "./MapImageSeries";
 export interface IMapImageProperties extends IMapObjectProperties {
     /**
      * Latitude of the image location.
-     *
-     * @type {number}
      */
     latitude?: number;
     /**
      * Longitude of the mage location.
-     *
-     * @type {number}
      */
     longitude?: number;
 }
@@ -59,32 +54,22 @@ export interface IMapImageAdapters extends IMapObjectAdapters, IMapImageProperti
 export declare class MapImage extends MapObject {
     /**
      * Defines available properties.
-     *
-     * @type {IMapImageProperties}
      */
     _properties: IMapImageProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IMapImageAdapters}
      */
     _adapter: IMapImageAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IMapImageEvents}
      */
     _events: IMapImageEvents;
     /**
      * A related data item.
-     *
-     * @type {MapImageSeriesDataItem}
      */
     _dataItem: MapImageSeriesDataItem;
     /**
      * A map series this object belongs to.
-     *
-     * @type {MapImageSeries}
      */
     series: MapImageSeries;
     /**
@@ -92,21 +77,21 @@ export declare class MapImage extends MapObject {
      */
     constructor();
     /**
-     * @return {number} Latitude
+     * @return Latitude
      */
     /**
      * Latitude image is placed at.
      *
-     * @param {number}  value  Latitude
+     * @param value  Latitude
      */
     latitude: number;
     /**
-     * @return {number} Longitude
+     * @return Longitude
      */
     /**
      * Longitude image is placed on.
      *
-     * @param {number}  value  Longitude
+     * @param value  Longitude
      */
     longitude: number;
     /**

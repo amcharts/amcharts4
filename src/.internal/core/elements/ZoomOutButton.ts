@@ -59,22 +59,16 @@ export class ZoomOutButton extends Button {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IZoomOutButtonProperties}
 	 */
 	public _properties!: IZoomOutButtonProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IZoomOutButtonAdapters}
 	 */
 	public _adapter!: IZoomOutButtonAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IZoomOutButtonEvents}
 	 */
 	public _events!: IZoomOutButtonEvents;
 

@@ -21,8 +21,6 @@ import { EventListener, TargetedEventDispatcher, AMEvent } from "../utils/EventD
 export declare type PointEvent = {
     /**
      * Event point in global (document) coordinates.
-     *
-     * @type {IPoint}
      */
     point: IPoint;
 };
@@ -32,8 +30,6 @@ export declare type PointEvent = {
 export declare type PointerEvent = {
     /**
      * Coordinates of the primary cursor position.
-     *
-     * @type {Pointer}
      */
     pointer: IPointer;
 };
@@ -44,8 +40,6 @@ export declare type PointerEvent = {
 export declare type ShiftEvent = {
     /**
      * Shift in coordinates after dragging.
-     *
-     * @type {IPoint}
      */
     shift: IPoint;
 };
@@ -55,8 +49,6 @@ export declare type ShiftEvent = {
 export declare type AngleEvent = {
     /**
      * Angle to apply to the element.
-     *
-     * @type {number}
      */
     angle: number;
 };
@@ -67,8 +59,6 @@ export declare type AngleEvent = {
 export declare type ScaleEvent = {
     /**
      * Scale to apply to the element.
-     *
-     * @type {number}
      */
     scale: number;
 };
@@ -78,8 +68,6 @@ export declare type ScaleEvent = {
 export declare type CenterEvent = {
     /**
      * A center point for specific operation.
-     *
-     * @type {IPoint}
      */
     center?: IPoint;
 };
@@ -89,8 +77,6 @@ export declare type CenterEvent = {
 export declare type MouseTouchEvent = {
     /**
      * An original mouse or touch event.
-     *
-     * @type {MouseEvent | TouchEvent}
      */
     event: MouseEvent | TouchEvent;
 };
@@ -101,8 +87,6 @@ export declare type MouseTouchEvent = {
 export declare type SimulatedKeyboardEvent = {
     /**
      * A keyboard event.
-     *
-     * @type {KeyboardEvent}
      */
     event: KeyboardEvent;
 };
@@ -143,14 +127,10 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     drag: ShiftEvent & PointEvent & {
         /**
          * Original coordinates of the pointer's position when the dragging started.
-         *
-         * @type {IPoint}
          */
         startPoint: IPoint;
         /**
          * An original JavaScript event that triggered dragging.
-         *
-         * @type {MouseEvent | TouchEvent | KeyboardEvent}
          */
         event?: MouseEvent | TouchEvent | KeyboardEvent;
     };
@@ -162,8 +142,6 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     dragstart: {
         /**
          * An original JavaScript event that triggered dragging.
-         *
-         * @type {MouseEvent | TouchEvent | KeyboardEvent}
          */
         event?: MouseEvent | TouchEvent | KeyboardEvent;
     };
@@ -174,8 +152,6 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     dragstop: {
         /**
          * An original JavaScript event that triggered dragging.
-         *
-         * @type {MouseEvent | TouchEvent | KeyboardEvent}
          */
         event?: MouseTouchEvent | KeyboardEvent;
     };
@@ -191,26 +167,18 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     resize: ScaleEvent & MouseTouchEvent & {
         /**
          * The starting coordinates of the first reference point.
-         *
-         * @type {IPoint}
          */
         startPoint1: IPoint;
         /**
          * Current coordinates of the first reference point.
-         *
-         * @type {IPoint}
          */
         point1: IPoint;
         /**
          * The starting coordinates of the second reference point.
-         *
-         * @type {IPoint}
          */
         startPoint2: IPoint;
         /**
          * Current coordinates of the second reference point.
-         *
-         * @type {IPoint}
          */
         point2: IPoint;
     };
@@ -233,8 +201,6 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     wheel: PointEvent & ShiftEvent & {
         /**
          * Original JavaScript event.
-         *
-         * @type {WheelEvent}
          */
         event: WheelEvent;
     };
@@ -244,8 +210,6 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     wheelup: PointEvent & ShiftEvent & {
         /**
          * Original JavaScript event.
-         *
-         * @type {WheelEvent}
          */
         event: WheelEvent;
     };
@@ -255,8 +219,6 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     wheeldown: PointEvent & ShiftEvent & {
         /**
          * Original JavaScript event.
-         *
-         * @type {WheelEvent}
          */
         event: WheelEvent;
     };
@@ -266,8 +228,6 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     wheelleft: PointEvent & ShiftEvent & {
         /**
          * Original JavaScript event.
-         *
-         * @type {WheelEvent}
          */
         event: WheelEvent;
     };
@@ -277,8 +237,6 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     wheelright: PointEvent & ShiftEvent & {
         /**
          * Original JavaScript event.
-         *
-         * @type {WheelEvent}
          */
         event: WheelEvent;
     };
@@ -297,8 +255,6 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     focus: {
         /**
          * Original JavaScript `FocusEvent`.
-         *
-         * @type {FocusEvent}
          */
         event: FocusEvent;
     };
@@ -309,8 +265,6 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     blur: {
         /**
          * Original JavaScript `FocusEvent`.
-         *
-         * @type {FocusEvent}
          */
         event: FocusEvent;
     };
@@ -320,8 +274,6 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     keydown: {
         /**
          * Orginal JavaScript `KeyboardEvent`.
-         *
-         * @type {KeyboardEvent}
          */
         event: KeyboardEvent;
     };
@@ -331,8 +283,6 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     keyup: {
         /**
          * Orginal JavaScript `KeyboardEvent`.
-         *
-         * @type {KeyboardEvent}
          */
         event: KeyboardEvent;
     };
@@ -343,8 +293,6 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     keypress: {
         /**
          * Orginal JavaScript `KeyboardEvent`.
-         *
-         * @type {KeyboardEvent}
          */
         event: KeyboardEvent;
     };
@@ -355,8 +303,6 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     input: {
         /**
          * Orginal JavaScript `KeyboardEvent`.
-         *
-         * @type {KeyboardEvent}
          */
         event: KeyboardEvent;
     };
@@ -376,7 +322,7 @@ export declare class InteractionObjectEventDispatcher<T extends AMEvent<Interact
     /**
      * Adds a DOM event and returns Disposer.
      *
-     * @return {IDisposer} Disposer
+     * @return Disposer
      */
     private _addDOMEvent<E, Key, C>(type, key, listener, context);
     private _dispatchKeyboardEvent<Key>(key, ev);

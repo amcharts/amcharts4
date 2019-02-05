@@ -31,7 +31,6 @@ import * as $dom from "../utils/DOM";
 /**
  * Represents available SVG elements that can be added to paper.
  *
- * @type {string}
  * @todo Review if we can remove commented out methods
  */
 export type SVGElementNames = "a" | "altGlyph" | "altGlyphDef" | "altGlyphItem" | "animate" | "animateColor" | "animateMotion" | "animateTransform" | "circle" | "clipPath" | "color-profile" | "cursor" | "defs" | "desc" | "ellipse" | "feBlend" | "feColorMatrix" | "feComponentTransfer" | "feComposite" | "feConvolveMatrix" | "feDiffuseLighting" | "feDisplacementMap" | "feDistantLight" | "feFlood" | "feFuncA" | "feFuncB" | "feFuncG" | "feFuncR" | "feGaussianBlur" | "feImage" | "feMerge" | "feMergeNode" | "feMorphology" | "feOffset" | "fePointLight" | "feSpecularLighting" | "feSpotLight" | "feTile" | "feTurbulence" | "feConvolveMatrix" | "filter" | "font" | "font-face" | "font-face-format" | "font-face-name" | "font-face-src" | "font-face-uri" | "foreignObject" | "g" | "glyph" | "glyphRef" | "hkern" | "image" | "line" | "linearGradient" | "marker" | "mask" | "metadata" | "missing-glyph" | "mpath" | "path" | "pattern" | "polygon" | "polyline" | "radialGradient" | "rect" | "script" | "set" | "stop" | "style" | "svg" | "switch" | "symbol" | "text" | "textPath" | "title" | "tref" | "tspan" | "use" | "view" | "vkern";
@@ -54,36 +53,28 @@ export class Paper {
 
 	/**
 	 * A reference `<svg>` element.
-	 *
-	 * @type {SVGSVGElement}
 	 */
 	public svg: SVGSVGElement;
 
 	/**
 	 * A reference to the HTML container the `<svg>` element is placed in.
-	 *
-	 * @type {HTMLElement}
 	 */
 	public container: HTMLElement;
 
 	/**
 	 * A reference to the `<defs>` element.
-	 *
-	 * @type {SVGDefsElement}
 	 */
 	public defs: SVGDefsElement;
 
 	/**
 	 * An id of the element.
-	 *
-	 * @type {string}
 	 */
 	public id: string;
 
 	/**
 	 * Creates main `<svg>` container and related elements.
 	 *
-	 * @param {HTMLElement} container A reference to HTML element to create `<svg>` in
+	 * @param container A reference to HTML element to create `<svg>` in
 	 */
 	constructor(container: HTMLElement, id: string) {
 
@@ -120,8 +111,8 @@ export class Paper {
 	/**
 	 * Creates and returns a new element. Does not attach it to Paper yet.
 	 *
-	 * @param  {SVGElementNames}  elementName  Element name
-	 * @return {AMElement}                     New element
+	 * @param elementName  Element name
+	 * @return New element
 	 */
 	public add(elementName: SVGElementNames): AMElement {
 		return new AMElement(elementName);
@@ -130,8 +121,8 @@ export class Paper {
 	/**
 	 * Creates and returns a new Group element. Does not attach it to Paper.
 	 *
-	 * @param  {SVGElementNames}  groupName  Element name
-	 * @return {Group}                       New Group
+	 * @param groupName  Element name
+	 * @return New Group
 	 */
 	public addGroup(groupName: SVGElementNames): Group {
 		return new Group(groupName);
@@ -140,7 +131,7 @@ export class Paper {
 	/**
 	 * Appends an element to Paper.
 	 *
-	 * @param {AMElement} element Element to append
+	 * @param element Element to append
 	 */
 	public append(element: AMElement): void {
 		if (element) {
@@ -151,7 +142,7 @@ export class Paper {
 	/**
 	 * Appends an element to `<defs>` block of the Paper.
 	 *
-	 * @param {AMElement}  element  Element
+	 * @param element  Element
 	 */
 	public appendDef(element: AMElement): void {
 		if (element) {
@@ -163,7 +154,7 @@ export class Paper {
 	 * Creates and returns new `<foreignObject>` element. Does not append it to
 	 * Paper.
 	 *
-	 * @return {AMElement} A foreignObject element
+	 * @return A foreignObject element
 	 */
 	public foreignObject(): AMElement {
 		let element = new AMElement("foreignObject");
@@ -174,7 +165,7 @@ export class Paper {
 	/**
 	 * Checks if browser supports `<foreignObject>` elements.
 	 *
-	 * @return {boolean} Supports `foreignObject`?
+	 * @return Supports `foreignObject`?
 	 */
 	public supportsForeignObject(): boolean {
 		return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Extensibility", "1.1");
@@ -190,7 +181,6 @@ let ghostPaper: Paper | null = null;
  * placed in visible DOM.
  *
  * @ignore Exclude from docs
- * @type {Paper}
  */
 export function getGhostPaper(): Paper {
 	if (ghostPaper === null) {

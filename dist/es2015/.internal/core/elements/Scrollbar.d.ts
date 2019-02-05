@@ -36,20 +36,15 @@ export interface IScrollbarProperties extends IContainerProperties {
      * instantenously (0), or will animte gradually.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-     * @type {number}
      */
     animationDuration?: number;
     /**
      * An easing function to use when animating (moving/sizing) Scrollbar
      * elements.
-     *
-     * @type {(value: number) => number}
      */
     animationEasing?: (value: number) => number;
     /**
      * Orientation of a scrollbar
-     *
-     * @type {Orientation}
      */
     orientation?: Orientation;
 }
@@ -90,146 +85,103 @@ export interface IScrollbarAdapters extends IContainerAdapters, IScrollbarProper
 export declare class Scrollbar extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {PointedRectangleProperties}
      */
     _properties: IScrollbarProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IScrollbarAdapters}
      */
     _adapter: IScrollbarAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IScrollbarEvents}
      */
     _events: IScrollbarEvents;
     /**
      * Holds a reference to a draggable rectangle that fills the space between
      * two selection grips. It can be used to pan the selection maintaining the
      * distance between start and end grips.
-     *
-     * @type {Optional<Button>}
      */
     protected _thumb: $type.Optional<Button>;
     /**
      * Orientation of the scrollbar.
-     *
-     * @type {Orientation}
      */
     protected _orientation: Orientation;
     /**
      * A button (grip) instance to be used to select lower range value.
-     *
-     * @type {ResizeButton}
      */
     protected _startGrip: ResizeButton;
     /**
      * A button (grip) instance to be used to select upper range value.
-     *
-     * @type {ResizeButton}
      */
     protected _endGrip: ResizeButton;
     /**
      * Currently selected lower (start) value.
-     *
-     * @type {number}
      */
     protected _start: number;
     /**
      * Currently selected upper (end) value.
-     *
-     * @type {number}
      */
     protected _end: number;
     /**
      * Previously selected lower (start) value.
-     *
-     * @type {Optional<number>}
      */
     protected _previousStart: $type.Optional<number>;
     /**
      * Previously selected upper (end) value.
-     *
-     * @type {Optional<number>}
      */
     protected _previousEnd: $type.Optional<number>;
     /**
      * An [[Animation]] instance that moves "thumb".
-     *
-     * @type {Optional<Animation>}
      */
     protected _thumbAnimation: $type.Optional<Animation>;
     /**
      * An [[Animation]] instance that moves zoom grip buttons.
-     *
-     * @type {Optional<Animation>}
      */
     protected _zoomAnimation: $type.Optional<Animation>;
     /**
      * A value of previously selected lower value, used for doubleclick function.
-     *
-     * @type {number}
      */
     protected _prevStart: number;
     /**
      * A value of previously selected upper value, used for doubleclick function.
-     *
-     * @type {number}
      */
     protected _prevEnd: number;
     /**
      * Indicates if the Scrollbar is currently "busy" (animating and or
      * performing zoom by user interaction).
-     *
-     * @type {boolean}
      */
     protected _isBusy: boolean;
     /**
      * [_skipRangeEvents description]
      *
      * @todo Description
-     * @type {boolean}
      */
     protected _skipRangeEvents: boolean;
     /**
      * Holds timeout reference that resets "busy" status.
-     *
-     * @type {Optional<IDisposer>}
      */
     protected _unbusyTimeout: $type.Optional<IDisposer>;
     /**
      * [undefined description]
      *
      * @todo Description
-     * @type {"start" | "end" | undefined}
      */
     protected _usingGrip: "start" | "end" | undefined;
     /**
      * Sets the type of the element to use as background.
-     *
-     * @type {RoundedRectangle}
      */
     _background: RoundedRectangle;
     /**
      * Hide grips when not hovered over scrollbar?
      *
      * @default false
-     * @type {boolean}
      */
     protected _hideGrips: boolean;
     /**
      * A disposer for the hover event.
-     *
-     * @type {Optional<IDisposer>}
      */
     protected _overDisposer: $type.Optional<IDisposer>;
     /**
      * A disposer for the out event.
-     *
-     * @type {Optional<IDisposer>}
      */
     protected _outDisposer: $type.Optional<IDisposer>;
     /**
@@ -239,7 +191,6 @@ export declare class Scrollbar extends Container {
      * released.
      *
      * @default true
-     * @type {boolean}
      */
     updateWhileMoving: boolean;
     /**
@@ -268,7 +219,7 @@ export declare class Scrollbar extends Container {
      * background.
      *
      * @ignore Exclude from docs
-     * @param {ISpriteEvents["hit"]}  event  Event
+     * @param event  Event
      */
     handleBgHit(event: ISpriteEvents["hit"]): void;
     /**
@@ -315,7 +266,7 @@ export declare class Scrollbar extends Container {
      */
     protected updateSize(): void;
     /**
-     * @return {number} Position (0-1)
+     * @return Position (0-1)
      */
     /**
      * ==========================================================================
@@ -326,43 +277,43 @@ export declare class Scrollbar extends Container {
     /**
      * Relative position (0-1) of the start grip.
      *
-     * @param {number}  position  Position (0-1)
+     * @param position  Position (0-1)
      */
     start: number;
     /**
-     * @return {number} [description]
+     * @return [description]
      */
     /**
      * [__start description]
      *
      * @todo Description
-     * @param {number} position [description]
+     * @param position [description]
      */
     protected __start: number;
     /**
-     * @return {number} Position (0-1)
+     * @return Position (0-1)
      */
     /**
      * Relative position (0-1) of the end grip.
      *
-     * @param {number}  position  Position (0-1)
+     * @param position  Position (0-1)
      */
     end: number;
     /**
-     * @return {number} [description]
+     * @return [description]
      */
     /**
      * [__end description]
      *
      * @todo Description
-     * @param {number} position [description]
+     * @param position [description]
      */
     protected __end: number;
     /**
      * Current selection range.
      *
      * @readonly
-     * @return {IRange} Range
+     * @return Range
      */
     readonly range: IRange;
     /**
@@ -376,19 +327,19 @@ export declare class Scrollbar extends Container {
      *
      * @todo Description
      * @ignore Exclude from docs
-     * @param {IRange}  range  Range
+     * @param range  Range
      */
     fixRange(range: IRange): void;
     /**
      * [getPosition description]
      *
      * @todo Description
-     * @param  {number}  position  [description]
-     * @return {number}            [description]
+     * @param position  [description]
+     * @return [description]
      */
     protected getPosition(position: number): number;
     /**
-     * @return {Orientation} Orientation
+     * @return Orientation
      */
     /**
      * ==========================================================================
@@ -402,7 +353,7 @@ export declare class Scrollbar extends Container {
      * Available options: "horizontal" (default) and "vertical".
      *
      * @default "horizontal"
-     * @param {Orientation}  value  Orientation
+     * @param value  Orientation
      */
     orientation: Orientation;
     /**
@@ -410,7 +361,7 @@ export declare class Scrollbar extends Container {
      */
     protected updateByOrientation(): void;
     /**
-     * @return {ResizeButton} Grip element
+     * @return Grip element
      */
     /**
      * ==========================================================================
@@ -421,34 +372,34 @@ export declare class Scrollbar extends Container {
     /**
      * Start grip element. (button)
      *
-     * @param {ResizeButton}  button  Grip element
+     * @param button  Grip element
      */
     startGrip: ResizeButton;
     /**
-     * @return {ResizeButton} Grip element
+     * @return Grip element
      */
     /**
      * End grip element. (button)
      *
-     * @param {ResizeButton}  button  Grip element
+     * @param button  Grip element
      */
     endGrip: ResizeButton;
     /**
      * Decorates the grip button with properties and events.
      *
      * @ignore Exclude from docs
-     * @param {ResizeButton} button Grip button
+     * @param button Grip button
      */
     processGrip(button: ResizeButton): void;
     /**
      * Updates positions of related elements after grip element is dragged.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<ResizeButton, ISpriteEvents>["drag"]}  event  Event
+     * @param event  Event
      */
     handleGripDrag(event: AMEvent<ResizeButton, ISpriteEvents>["drag"]): void;
     /**
-     * @return {RoundedRectangle} Thumb element
+     * @return Thumb element
      */
     /**
      * A "thumb" element.
@@ -456,7 +407,7 @@ export declare class Scrollbar extends Container {
      * It's a draggable square space between the grips, that can be used to
      * pan the seleciton.
      *
-     * @param {RoundedRectangle}  thumb  Thumb element
+     * @param thumb  Thumb element
      */
     thumb: Button;
     /**
@@ -475,26 +426,26 @@ export declare class Scrollbar extends Container {
      * Creates a background element for the scrollbar.
      *
      * @ignore Exclude from docs
-     * @return {RoundedRectangle} Background
+     * @return Background
      */
     createBackground(): this["_background"];
     /**
-     * @return {boolean} Show only on hover?
+     * @return Show only on hover?
      */
     /**
      * Use this property to set whether grips should be always visible (`false`),
      * or they should just appear on scrollbar hover (`true`).
      *
-     * @param {boolean}  value  Show only on hover?
+     * @param value  Show only on hover?
      */
     hideGrips: boolean;
     /**
-     * @return {PointerOrientation} Orientation
+     * @return Orientation
      */
     /**
      * Duration in milliseconds of scrollbar animation (happens when user clicks on a background of a scrollbar)
      * @default 0
-     * @param {number} value number
+     * @param value number
      */
     animationDuration: number;
     /**
@@ -504,7 +455,7 @@ export declare class Scrollbar extends Container {
      * Animation easing function.
      * @todo: review description and default
      * @default $ease.cubicOut
-     * @param {Function}  value (value: number) => number
+     * @param value (value: number) => number
      */
     animationEasing: (value: number) => number;
 }

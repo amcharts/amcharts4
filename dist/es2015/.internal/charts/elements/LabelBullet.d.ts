@@ -52,26 +52,18 @@ export interface ILabelBulletAdapters extends IBulletAdapters, ILabelBulletPrope
 export declare class LabelBullet extends Bullet {
     /**
      * Defines available properties.
-     *
-     * @type {ILabelBulletProperties}
      */
     _properties: ILabelBulletProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ILabelBulletAdapters}
      */
     _adapter: ILabelBulletAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ILabelBulletEvents}
      */
     _events: ILabelBulletEvents;
     /**
      * A label (textual) element for the bullet.
-     *
-     * @type {Label}
      */
     label: Label;
     /**
@@ -83,7 +75,7 @@ export declare class LabelBullet extends Bullet {
      * Copies all proprities and related stuff from another instance of
      * [[LabelBullet]].
      *
-     * @param {this}  source  Source element
+     * @param source  Source element
      */
     copyFrom(source: this): void;
 }

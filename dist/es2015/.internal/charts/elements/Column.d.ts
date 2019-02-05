@@ -51,25 +51,18 @@ export interface IColumnAdapters extends IContainerAdapters, IColumnProperties {
 export declare class Column extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IColumnProperties}
      */
     _properties: IColumnProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IColumnAdapters}
      */
     _adapter: IColumnAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IColumnEvents}
      */
     _events: IColumnEvents;
     /**
      * column element
-     * @type {RoundedRectangle}
      */
     column: RoundedRectangle;
     /**
@@ -107,14 +100,13 @@ export declare class Column extends Container {
     /**
      * Copies all parameters from another [[Column]].
      *
-     * @param {Column} source Source Column
+     * @param source Source Column
      */
     copyFrom(source: this): void;
     /**
      * Returns bounding box (square) for this element.
      *
      * @ignore Exclude from docs
-     * @type {IRectangle}
      */
     readonly bbox: IRectangle;
 }

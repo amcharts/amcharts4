@@ -44,7 +44,7 @@ var ValueAxisDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(ValueAxisDataItem.prototype, "value", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values["value"].value;
@@ -52,7 +52,7 @@ var ValueAxisDataItem = /** @class */ (function (_super) {
         /**
          * A data point's numeric value.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("value", value);
@@ -62,7 +62,7 @@ var ValueAxisDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(ValueAxisDataItem.prototype, "endValue", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values["endValue"].value;
@@ -70,7 +70,7 @@ var ValueAxisDataItem = /** @class */ (function (_super) {
         /**
          * Data point's numeric end value.
          *
-         * @param {number}  value  End value
+         * @param value  End value
          */
         set: function (value) {
             this.setValue("endValue", value);
@@ -130,27 +130,22 @@ var ValueAxis = /** @class */ (function (_super) {
          * [_stepDecimalPlaces description]
          *
          * @todo Description
-         * @type {number}
          */
         _this._stepDecimalPlaces = 0;
         /**
          * Base value for the axis.
-         *
-         * @type {number}
          */
         _this._baseValue = 0;
         /**
          * Adjusted start in case we have breaks.
          *
          * @todo Description
-         * @type {number}
          */
         _this._adjustedStart = 0;
         /**
          * Adjusted end in case we have breaks.
          *
          * @todo Description
-         * @type {number}
          */
         _this._adjustedEnd = 1;
         _this._extremesChanged = false;
@@ -164,7 +159,6 @@ var ValueAxis = /** @class */ (function (_super) {
          * @default false
          * @see {@link https://www.amcharts.com/docs/v4/chart-types/xy-chart/#100_stacks} For using `calculateTotals` for 100% stacked series.
          * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-strings/#Placeholders_for_numeric_values} For using `calculateTotals` in labels.
-         * @type {boolean}
          */
         _this.calculateTotals = false;
         _this.className = "ValueAxis";
@@ -206,7 +200,7 @@ var ValueAxis = /** @class */ (function (_super) {
      * Returns a new/empty [[DataItem]] of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {ValueAxisDataItem} Data Item
+     * @return Data Item
      */
     ValueAxis.prototype.createDataItem = function () {
         return new ValueAxisDataItem();
@@ -214,7 +208,7 @@ var ValueAxis = /** @class */ (function (_super) {
     /**
      * Returns a new/empty [[AxisBreak]] of the appropriate type.
      *
-     * @return {ValueAxisBreak} Axis break
+     * @return Axis break
      */
     ValueAxis.prototype.createAxisBreak = function () {
         return new ValueAxisBreak();
@@ -446,7 +440,7 @@ var ValueAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {ValueAxisDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     ValueAxis.prototype.validateDataElement = function (dataItem) {
         _super.prototype.validateDataElement.call(this, dataItem);
@@ -491,8 +485,8 @@ var ValueAxis = /** @class */ (function (_super) {
     /**
      * Formats the value according to axis' own [[NumberFormatter]].
      *
-     * @param  {number}  value  Source value
-     * @return {string}         Formatted value
+     * @param value  Source value
+     * @return Formatted value
      */
     ValueAxis.prototype.formatLabel = function (value) {
         return this.numberFormatter.format(value);
@@ -502,7 +496,7 @@ var ValueAxis = /** @class */ (function (_super) {
          * Coordinates of the actual axis start.
          *
          * @ignore Exclude from docs
-         * @return {IPoint} Base point
+         * @return Base point
          */
         get: function () {
             var baseValue = this._baseValue;
@@ -515,7 +509,7 @@ var ValueAxis = /** @class */ (function (_super) {
     });
     Object.defineProperty(ValueAxis.prototype, "baseValue", {
         /**
-         * @return {number} base value
+         * @return base value
          */
         get: function () {
             if (this.logarithmic) {
@@ -534,7 +528,7 @@ var ValueAxis = /** @class */ (function (_super) {
          * Other scale-related functionality also depend on base value. E.g. stacks,
          * value-dependent coloring, etc.
          *
-         * @param {number} value Base value
+         * @param value Base value
          */
         set: function (value) {
             this._baseValue = value;
@@ -548,8 +542,8 @@ var ValueAxis = /** @class */ (function (_super) {
      *
      * An alias to `valueToPosition()`.
      *
-     * @param  {number}  value  Value
-     * @return {number}         Position
+     * @param value  Value
+     * @return Position
      */
     ValueAxis.prototype.anyToPosition = function (value) {
         return this.valueToPosition(value);
@@ -557,8 +551,8 @@ var ValueAxis = /** @class */ (function (_super) {
     /**
      * Converts a numeric value to orientation point (x, y, angle) on axis
      *
-     * @param  {number}  value  Value
-     * @return {IOrientationPoint}  Orientation point
+     * @param value  Value
+     * @return Orientation point
      */
     ValueAxis.prototype.valueToPoint = function (value) {
         var position = this.valueToPosition(value);
@@ -569,8 +563,8 @@ var ValueAxis = /** @class */ (function (_super) {
     /**
      * Converts a numeric value to orientation (x, y, angle) point on axis
      *
-     * @param  {number}  value  Value
-     * @return {IOrientationPoint}  Orientation point
+     * @param value  Value
+     * @return Orientation point
      */
     ValueAxis.prototype.anyToPoint = function (value) {
         return this.valueToPoint(value);
@@ -578,8 +572,8 @@ var ValueAxis = /** @class */ (function (_super) {
     /**
      * Converts a numeric value to relative position on axis.
      *
-     * @param  {number}  value  Value
-     * @return {number}  relative position
+     * @param value  Value
+     * @return relative position
      */
     ValueAxis.prototype.valueToPosition = function (value) {
         if ($type.isNumber(value)) {
@@ -634,8 +628,8 @@ var ValueAxis = /** @class */ (function (_super) {
      * Converts an relative position to a corresponding value within
      * axis' scale.
      *
-     * @param  {number}  position  Position (px)
-     * @return {number}            Value
+     * @param position  Position (px)
+     * @return Value
      */
     ValueAxis.prototype.positionToValue = function (position) {
         position = $math.round(position, 10);
@@ -690,8 +684,8 @@ var ValueAxis = /** @class */ (function (_super) {
     /**
      * Converts an X coordinate to a relative value in axis' scale.
      *
-     * @param  {number}  x  X (px)
-     * @return {number}     Value
+     * @param x  X (px)
+     * @return Value
      */
     ValueAxis.prototype.xToValue = function (x) {
         return this.positionToValue(this.pointToPosition({ x: x, y: 0 }));
@@ -699,8 +693,8 @@ var ValueAxis = /** @class */ (function (_super) {
     /**
      * Converts an Y coordinate to a relative value in axis' scale.
      *
-     * @param  {number}  y  Y (px)
-     * @return {number}     Value
+     * @param y  Y (px)
+     * @return Value
      */
     ValueAxis.prototype.yToValue = function (y) {
         return this.positionToValue(this.pointToPosition({ x: 0, y: y }));
@@ -708,8 +702,8 @@ var ValueAxis = /** @class */ (function (_super) {
     /**
      * Converts pixel coordinates to a relative position. (0-1)
      *
-     * @param {IPoint}   point  Coorinates (px)
-     * @return {number}         Position (0-1)
+     * @param point  Coorinates (px)
+     * @return Position (0-1)
      */
     ValueAxis.prototype.pointToPosition = function (point) {
         if (this.renderer instanceof AxisRendererY) {
@@ -852,8 +846,8 @@ var ValueAxis = /** @class */ (function (_super) {
      * For numeric values this does nothing, however for more complex types, like
      * dates, it may be necessary to adjust.
      *
-     * @param  {number}  value  Value
-     * @return {number}         Adjusted value
+     * @param value  Value
+     * @return Adjusted value
      */
     ValueAxis.prototype.fixMin = function (value) {
         return value;
@@ -866,8 +860,8 @@ var ValueAxis = /** @class */ (function (_super) {
      * For numeric values this does nothing, however for more complex types, like
      * dates, it may be necessary to adjust.
      *
-     * @param  {number}  value  Value
-     * @return {number}         Adjusted value
+     * @param value  Value
+     * @return Adjusted value
      */
     ValueAxis.prototype.fixMax = function (value) {
         return value;
@@ -881,12 +875,12 @@ var ValueAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}      min        [description]
-     * @param  {number}      max        [description]
-     * @param  {number}      difference [description]
-     * @param  {number}      gridCount  [description]
-     * @param  {boolean}     strictMode [description]
-     * @return {IMinMaxStep}            [description]
+     * @param min        [description]
+     * @param max        [description]
+     * @param difference [description]
+     * @param gridCount  [description]
+     * @param strictMode [description]
+     * @return [description]
      */
     ValueAxis.prototype.adjustMinMax = function (min, max, difference, gridCount, strictMode) {
         // will fail if 0
@@ -1012,7 +1006,7 @@ var ValueAxis = /** @class */ (function (_super) {
     };
     Object.defineProperty(ValueAxis.prototype, "min", {
         /**
-         * @return {number} Min value
+         * @return Min value
          */
         get: function () {
             var min = this._minAdjusted;
@@ -1030,7 +1024,7 @@ var ValueAxis = /** @class */ (function (_super) {
          * The above might be overridden by `strictMinMax` which will force exact
          * user-defined min and max values to be used for scale.
          *
-         * @param {number}  value  Min value
+         * @param value  Min value
          */
         set: function (value) {
             if (this._minDefined != value) {
@@ -1070,7 +1064,7 @@ var ValueAxis = /** @class */ (function (_super) {
     });
     Object.defineProperty(ValueAxis.prototype, "extraMax", {
         /**
-         * @return {number} Min multiplier
+         * @return Min multiplier
          */
         get: function () {
             return this.getPropertyValue("extraMax");
@@ -1103,7 +1097,7 @@ var ValueAxis = /** @class */ (function (_super) {
          *
          * @readonly
          * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/#Setting_the_density_of_the_the_grid_labels} For more information about modifying density of labels
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             return this._step;
@@ -1113,7 +1107,7 @@ var ValueAxis = /** @class */ (function (_super) {
     });
     Object.defineProperty(ValueAxis.prototype, "max", {
         /**
-         * @return {number} Max value
+         * @return Max value
          */
         get: function () {
             var max = this._maxAdjusted;
@@ -1131,7 +1125,7 @@ var ValueAxis = /** @class */ (function (_super) {
          * The above might be overridden by `strictMinMax` which will force exact
          * user-defined min and max values to be used for scale.
          *
-         * @param {number}  value  Max value
+         * @param value  Max value
          */
         set: function (value) {
             if (this._maxDefined != value) {
@@ -1152,8 +1146,8 @@ var ValueAxis = /** @class */ (function (_super) {
      * together with Series.
      *
      * @ignore Exclude from docs
-     * @param  {XYSeries}   series  Series
-     * @return {IDisposer}          Disposer for events
+     * @param series  Series
+     * @return Disposer for events
      */
     ValueAxis.prototype.registerSeries = function (series) {
         return new MultiDisposer([
@@ -1250,7 +1244,7 @@ var ValueAxis = /** @class */ (function (_super) {
     };
     Object.defineProperty(ValueAxis.prototype, "strictMinMax", {
         /**
-         * @return {boolean} Use exact values?
+         * @return Use exact values?
          */
         get: function () {
             return this.getPropertyValue("strictMinMax");
@@ -1262,8 +1256,12 @@ var ValueAxis = /** @class */ (function (_super) {
          * If not set, the Axis might slightly adjust those values to accomodate a
          * better looking grid.
          *
+         * NOTE: if `min` and `max` are not set, setting `strictMinMax` to `true`
+         * will result in fixing the scale of the axis to actual lowest and highest
+         * values in the series within currently selected scope.
+         *
          * @default false
-         * @param {boolean} value Use exact values?
+         * @param value Use exact values?
          */
         set: function (value) {
             if (this.setPropertyValue("strictMinMax", value)) {
@@ -1275,7 +1273,7 @@ var ValueAxis = /** @class */ (function (_super) {
     });
     Object.defineProperty(ValueAxis.prototype, "logarithmic", {
         /**
-         * @return {boolean} Logarithmic scale?
+         * @return Logarithmic scale?
          */
         get: function () {
             return this.getPropertyValue("logarithmic");
@@ -1289,7 +1287,7 @@ var ValueAxis = /** @class */ (function (_super) {
          * Having zero or negative values will result in error and failure of the
          * whole chart.
          *
-         * @param {boolean} value Logarithmic scale?
+         * @param value Logarithmic scale?
          */
         set: function (value) {
             if (this.setPropertyValue("logarithmic", value)) {
@@ -1301,15 +1299,46 @@ var ValueAxis = /** @class */ (function (_super) {
     });
     Object.defineProperty(ValueAxis.prototype, "keepSelection", {
         /**
-         * @return {boolean} Logarithmic scale?
+         * @return Preseve zoom after data update?
          */
         get: function () {
             return this.getPropertyValue("keepSelection");
         },
         /**
-         * Indicates if a current selection should be kept on data update. You can also use this to initially pre-zoom axis: set keepSelection = true and then axis.start = 0.5; axis.end = 0.7.
+         * Indicates if a current selection (zoom) should be kept across data updates.
          *
-         * @param {boolean}
+         * If your axis is zoomed while chart's data is updated, the axis will try
+         * to retain the same start and end values.
+         *
+         * You can also use this to initially pre-zoom axis:
+         *
+         * ```TypeScript
+         * axis.keepSelection = true;
+         * axis.start = 0.5;
+         * axis.end = 0.7;
+         * ```
+         * ```JavaScript
+         * axis.keepSelection = true;
+         * axis.start = 0.5;
+         * axis.end = 0.7;
+         * ```
+         * ```JSON
+         * {
+         *   "xAxes": [{
+         *     // ...
+         *     "keepSelection": true,
+         *     "start": 0.5,
+         *     "end": 0.7
+         *   }]
+         * }
+         * ```
+         *
+         * The above will start the chart zoomed from the middle of the actual scope
+         * to 70%.
+         *
+         * @since 4.1.1
+         * @default flase
+         * @param  value  Preseve zoom after data update?
          */
         set: function (value) {
             this.setPropertyValue("keepSelection", value);
@@ -1319,7 +1348,7 @@ var ValueAxis = /** @class */ (function (_super) {
     });
     Object.defineProperty(ValueAxis.prototype, "maxPrecision", {
         /**
-         * @return {boolean} max precision
+         * @return max precision
          */
         get: function () {
             return this.getPropertyValue("maxPrecision");
@@ -1364,11 +1393,11 @@ var ValueAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}            key       Data field to get value from
-     * @param  {number}            location  Location (0-1)
-     * @param  {string}            stackKey  ?
-     * @return {number}                      X coordinate (px)
+     * @param dataItem  Data item
+     * @param key       Data field to get value from
+     * @param location  Location (0-1)
+     * @param stackKey  ?
+     * @return X coordinate (px)
      */
     ValueAxis.prototype.getX = function (dataItem, key, location, stackKey) {
         var value = dataItem.getWorkingValue(key);
@@ -1391,11 +1420,11 @@ var ValueAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}            key       Data field to get value from
-     * @param  {number}            location  Location (0-1)
-     * @param  {string}            stackKey  Stack ID
-     * @return {number}                      Y coordinate (px)
+     * @param dataItem  Data item
+     * @param key       Data field to get value from
+     * @param location  Location (0-1)
+     * @param stackKey  Stack ID
+     * @return Y coordinate (px)
      */
     ValueAxis.prototype.getY = function (dataItem, key, location, stackKey) {
         var value = dataItem.getWorkingValue(key);
@@ -1418,11 +1447,11 @@ var ValueAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {XYSeriesDataItem}  dataItem  Data item
-     * @param  {string}            key       Data field to get value from
-     * @param  {number}            location  Location (0-1)
-     * @param  {string}            stackKey  Stack ID
-     * @return {number}                      Angle
+     * @param dataItem  Data item
+     * @param key       Data field to get value from
+     * @param location  Location (0-1)
+     * @param stackKey  Stack ID
+     * @return Angle
      */
     ValueAxis.prototype.getAngle = function (dataItem, key, location, stackKey) {
         var value = dataItem.getWorkingValue(key);
@@ -1437,10 +1466,10 @@ var ValueAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}  start     [description]
-     * @param  {number}  end       [description]
-     * @param  {number}  location  [description]
-     * @return {string}            [description]
+     * @param start     [description]
+     * @param end       [description]
+     * @param location  [description]
+     * @return [description]
      */
     ValueAxis.prototype.getAnyRangePath = function (start, end, location) {
         var startPosition = this.valueToPosition(start);
@@ -1455,8 +1484,8 @@ var ValueAxis = /** @class */ (function (_super) {
      * chart, or explicitly for this Axis.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position (px)
-     * @return {string}            Label (numeric value)
+     * @param position  Position (px)
+     * @return Label (numeric value)
      */
     ValueAxis.prototype.getTooltipText = function (position) {
         var value = $math.round(this.positionToValue(position), this._stepDecimalPlaces);
@@ -1465,10 +1494,10 @@ var ValueAxis = /** @class */ (function (_super) {
     /**
      * Zooms axis to specific values.
      *
-     * @param {number}   startValue      Start value
-     * @param {number}   endValue        End value
-     * @param {boolean}  skipRangeEvent  Do not invoke events
-     * @param {boolean}  instantly       Do not play zoom animations
+     * @param startValue      Start value
+     * @param endValue        End value
+     * @param skipRangeEvent  Do not invoke events
+     * @param instantly       Do not play zoom animations
      */
     ValueAxis.prototype.zoomToValues = function (startValue, endValue, skipRangeEvent, instantly) {
         var start = (startValue - this.min) / (this.max - this.min);
@@ -1479,7 +1508,7 @@ var ValueAxis = /** @class */ (function (_super) {
         /**
          * A smallest value in axis scale within current zoom.
          *
-         * @return {number} Min zoom value
+         * @return Min zoom value
          */
         get: function () {
             return $math.max(this.min, this._minZoomed);
@@ -1490,7 +1519,7 @@ var ValueAxis = /** @class */ (function (_super) {
     Object.defineProperty(ValueAxis.prototype, "maxZoomed", {
         /**
          * A biggest value in axis scale within current zoom.
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             return $math.min(this.max, this._maxZoomed);
@@ -1533,8 +1562,8 @@ var ValueAxis = /** @class */ (function (_super) {
      * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
      *
      * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
-     * @param  {number}  position  Relative position on axis (0-1)
-     * @return {string}            Position label
+     * @param position  Relative position on axis (0-1)
+     * @return Position label
      */
     ValueAxis.prototype.getPositionLabel = function (position) {
         var value = this.positionToValue(position);
@@ -1543,7 +1572,7 @@ var ValueAxis = /** @class */ (function (_super) {
     /**
      * Shows Axis tooltip at specific value
      *
-     * @param {number} value Value
+     * @param value Value
      */
     ValueAxis.prototype.showTooltipAt = function (value) {
         this.showTooltipAtPosition(this.valueToPosition(value));
@@ -1551,7 +1580,7 @@ var ValueAxis = /** @class */ (function (_super) {
     /**
      * Copies all properties and related data from a different instance of Axis.
      *
-     * @param {this} source Source Axis
+     * @param source Source Axis
      */
     ValueAxis.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

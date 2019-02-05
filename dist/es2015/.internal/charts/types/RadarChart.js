@@ -72,14 +72,10 @@ var RadarChart = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * Defines X axis renderer type.
-         *
-         * @type {AxisRendererCircular}
          */
         _this._axisRendererX = AxisRendererCircular;
         /**
          * Defines Y axis renderer type.
-         *
-         * @type {AxisRendererRadial}
          */
         _this._axisRendererY = AxisRendererRadial;
         /**
@@ -124,7 +120,7 @@ var RadarChart = /** @class */ (function (_super) {
     /**
      * Decorates Axis with required properties for this chart.
      *
-     * @param {Axis}  axis  Axis
+     * @param axis  Axis
      */
     RadarChart.prototype.processAxis = function (axis) {
         _super.prototype.processAxis.call(this, axis);
@@ -155,7 +151,7 @@ var RadarChart = /** @class */ (function (_super) {
     /**
      * Creates and returns a new Cursor, of type suitable for RadarChart.
      *
-     * @return {RadarCursor} Cursor
+     * @return Cursor
      */
     RadarChart.prototype.createCursor = function () {
         return new RadarCursor();
@@ -164,7 +160,7 @@ var RadarChart = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     RadarChart.prototype.processConfig = function (config) {
         if (config) {
@@ -256,14 +252,14 @@ var RadarChart = /** @class */ (function (_super) {
     /**
      * Creates and returns a new Series, suitable for RadarChart.
      *
-     * @return {RadarSeries} New Series
+     * @return New Series
      */
     RadarChart.prototype.createSeries = function () {
         return new RadarSeries();
     };
     Object.defineProperty(RadarChart.prototype, "startAngle", {
         /**
-         * @return {number} Start angle (degrees)
+         * @return Start angle (degrees)
          */
         get: function () {
             return this.getPropertyValue("startAngle");
@@ -289,7 +285,7 @@ var RadarChart = /** @class */ (function (_super) {
          * looks like a quarter of a circle.
          *
          * @default -90
-         * @param {number}  value  Start angle (degrees)
+         * @param value  Start angle (degrees)
          */
         set: function (value) {
             this.setPropertyValue("startAngle", value, true);
@@ -299,7 +295,7 @@ var RadarChart = /** @class */ (function (_super) {
     });
     Object.defineProperty(RadarChart.prototype, "endAngle", {
         /**
-         * @return {number} End angle (degrees)
+         * @return End angle (degrees)
          */
         get: function () {
             return this.getPropertyValue("endAngle");
@@ -325,7 +321,7 @@ var RadarChart = /** @class */ (function (_super) {
          * looks like a quarter of a circle.
          *
          * @default -90
-         * @param {number}  value  End angle (degrees)
+         * @param value  End angle (degrees)
          */
         set: function (value) {
             this.setPropertyValue("endAngle", value, true);
@@ -335,7 +331,7 @@ var RadarChart = /** @class */ (function (_super) {
     });
     Object.defineProperty(RadarChart.prototype, "radius", {
         /**
-         * @return {number} Outer radius
+         * @return Outer radius
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -345,7 +341,7 @@ var RadarChart = /** @class */ (function (_super) {
          *
          * This can either be in absolute pixel value, or relative [[Percent]].
          *
-         * @param {number | Percent}  value  Outer radius
+         * @param value  Outer radius
          */
         set: function (value) {
             this.setPercentProperty("radius", value, true, false, 10, false);
@@ -355,7 +351,7 @@ var RadarChart = /** @class */ (function (_super) {
     });
     Object.defineProperty(RadarChart.prototype, "pixelInnerRadius", {
         /**
-         * @return {number} Inner radius in pixels
+         * @return Inner radius in pixels
          */
         get: function () {
             return this._pixelInnerRadius;
@@ -365,7 +361,7 @@ var RadarChart = /** @class */ (function (_super) {
     });
     Object.defineProperty(RadarChart.prototype, "innerRadius", {
         /**
-         * @return {number} Inner radius
+         * @return Inner radius
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
@@ -377,7 +373,7 @@ var RadarChart = /** @class */ (function (_super) {
          *
          * If set in Percent, it will be relative to `radius`. (outer radius)
          *
-         * @param {number | Percent} value Inner radius
+         * @param value Inner radius
          */
         set: function (value) {
             this.setPercentProperty("innerRadius", value, true, false, 10, false);
@@ -389,7 +385,7 @@ var RadarChart = /** @class */ (function (_super) {
      * Triggers (re)rendering of the horizontal (X) axis.
      *
      * @ignore Exclude from docs
-     * @param {Axis} axis Axis
+     * @param axis Axis
      */
     RadarChart.prototype.updateXAxis = function (renderer) {
         //do not call super!
@@ -401,7 +397,7 @@ var RadarChart = /** @class */ (function (_super) {
      * Triggers (re)rendering of the vertical (Y) axis.
      *
      * @ignore Exclude from docs
-     * @param {Axis} axis Axis
+     * @param axis Axis
      */
     RadarChart.prototype.updateYAxis = function (renderer) {
         // do not call super!

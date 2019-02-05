@@ -34,15 +34,11 @@ export interface IFunnelSliceProperties extends IContainerProperties {
 
 	/**
 	 * Width of the top edge of the slice.
-	 * 
-	 * @type {number | Percent}
 	 */
 	topWidth?: number | Percent;
 
 	/**
 	 * Width of the bottom edge of the slice.
-	 * 
-	 * @type {number | Percent}
 	 */
 	bottomWidth?: number | Percent;
 
@@ -50,14 +46,11 @@ export interface IFunnelSliceProperties extends IContainerProperties {
 	 * A relative distance slice's sides should be bent to.
 	 *
 	 * @default 0
-	 * @type {number}
 	 */
 	expandDistance?: number;
 
 	/**
 	 * Orientation of the slice.
-	 * 
-	 * @type {Orientation}
 	 */
 	orientation?: Orientation;
 }
@@ -94,29 +87,21 @@ export class FunnelSlice extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IFunnelSliceProperties}
 	 */
 	public _properties!: IFunnelSliceProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IFunnelSliceAdapters}
 	 */
 	public _adapter!: IFunnelSliceAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IFunnelSliceEvents}
 	 */
 	public _events!: IFunnelSliceEvents;
 
 	/**
 	 * Main slice element.
-	 *
-	 * @type {Sprite}
 	 */
 	public slice: Sprite;
 
@@ -124,7 +109,7 @@ export class FunnelSlice extends Container {
 	 * Am anchor point the slice tick line is pointing to.
 	 *
 	 * @ignore Exclude from docs
-	 * @readonly 
+	 * @readonly
 	 */
 	public tickPoint: IPoint;
 
@@ -191,7 +176,7 @@ export class FunnelSlice extends Container {
 			if(ed != 0){
 				qp1 = $path.quadraticCurveTo(br, cpr);
 				qp2 = $path.quadraticCurveTo(tl, cpl);
-			}			
+			}
 
 			path = $path.moveTo(tl) + $path.lineTo(tr) + qp1 + $path.lineTo(bl) + qp2;
 
@@ -209,7 +194,7 @@ export class FunnelSlice extends Container {
 
 			let cpr = { y: tt.y + (bt.y - tt.y) / 2 - ed * w, x: tt.x + 0.5 * w };
 			let cpl = { y: tb.y + (bb.y - tb.y) / 2 + ed * w, x: tb.x + 0.5 * w };
-			
+
 			let qp1 = $path.lineTo(bt);
 			let qp2 = ""
 			if(ed != 0){
@@ -278,14 +263,14 @@ export class FunnelSlice extends Container {
 	 * as a standalone element. If it's a part of [[FunnelSeries]] this setting
 	 * becomes read-only as it will be automatically reset by series.
 	 *
-	 * @param {number}  value  Bottom width
+	 * @param value  Bottom width
 	 */
 	public set bottomWidth(value: number | Percent) {
 		this.setPercentProperty("bottomWidth", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} bottom width
+	 * @return bottom width
 	 */
 	public get bottomWidth(): number | Percent {
 		return this.getPropertyValue("bottomWidth");
@@ -298,14 +283,14 @@ export class FunnelSlice extends Container {
 	 * as a standalone element. If it's a part of [[FunnelSeries]] this setting
 	 * becomes read-only as it will be automatically reset by series.
 	 *
-	 * @param {number}  value  Top width
+	 * @param value  Top width
 	 */
 	public set topWidth(value: number | Percent) {
 		this.setPercentProperty("topWidth", value, true, false, 10, false);
 	}
 
 	/**
-	 * @return {number} Top width
+	 * @return Top width
 	 */
 	public get topWidth(): number | Percent {
 		return this.getPropertyValue("topWidth");
@@ -318,14 +303,14 @@ export class FunnelSlice extends Container {
 	 * as a standalone element. If it's a part of [[FunnelSeries]] this setting
 	 * becomes read-only as it will be automatically reset by series.
 	 *
-	 * @param {Orientation}  value  Orientation
+	 * @param value  Orientation
 	 */
 	public set orientation(value: Orientation) {
 		this.setPropertyValue("orientation", value, true);
 	}
 
 	/**
-	 * @return {Orientation} Orientation
+	 * @return Orientation
 	 */
 	public get orientation(): Orientation {
 		return this.getPropertyValue("orientation");
@@ -349,7 +334,7 @@ export class FunnelSlice extends Container {
 	}
 
 	/**
-	 * @return {number} expandDistance
+	 * @return expandDistance
 	 */
 	public get expandDistance(): number {
 		return this.getPropertyValue("expandDistance");
@@ -358,14 +343,14 @@ export class FunnelSlice extends Container {
 	/**
 	 * Copies all parameters from another [[Sprite]].
 	 *
-	 * @param {Sprite} source Source Sprite
+	 * @param source Source Sprite
 	 */
 	public copyFrom(source :this) {
 		super.copyFrom(source);
 		if (this.slice) {
 			this.slice.copyFrom(source.slice);
 		}
-	}	
+	}
 }
 
 /**

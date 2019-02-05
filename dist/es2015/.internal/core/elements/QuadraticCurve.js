@@ -56,7 +56,7 @@ var QuadraticCurve = /** @class */ (function (_super) {
     };
     Object.defineProperty(QuadraticCurve.prototype, "cpx", {
         /**
-         * @return {number} X
+         * @return X
          */
         get: function () {
             return this.getPropertyValue("cpx");
@@ -64,7 +64,7 @@ var QuadraticCurve = /** @class */ (function (_super) {
         /**
          * X coordinate of control point.
          *
-         * @param {number} value X
+         * @param value X
          */
         set: function (value) {
             this.setPropertyValue("cpx", value, true);
@@ -74,7 +74,7 @@ var QuadraticCurve = /** @class */ (function (_super) {
     });
     Object.defineProperty(QuadraticCurve.prototype, "cpy", {
         /**
-         * @return {number} Y
+         * @return Y
          */
         get: function () {
             return this.getPropertyValue("cpy");
@@ -82,7 +82,7 @@ var QuadraticCurve = /** @class */ (function (_super) {
         /**
          * Y coordinate of control point.
          *
-         * @param {number} value Y
+         * @param value Y
          */
         set: function (value) {
             this.setPropertyValue("cpy", value, true);
@@ -93,8 +93,8 @@ var QuadraticCurve = /** @class */ (function (_super) {
     /**
      * Converts relative position along the line (0-1) into pixel coordinates.
      *
-     * @param  {number}             position  Position (0-1)
-     * @return {IOrientationPoint}            Coordinates
+     * @param position  Position (0-1)
+     * @return Coordinates
      */
     QuadraticCurve.prototype.positionToPoint = function (position) {
         var p1 = { x: this.x1, y: this.y1 };

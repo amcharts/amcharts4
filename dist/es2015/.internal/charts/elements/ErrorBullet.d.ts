@@ -52,20 +52,14 @@ export interface IErrorBulletAdapters extends IBulletAdapters, IErrorBulletPrope
 export declare class ErrorBullet extends Bullet {
     /**
      * Defines available properties.
-     *
-     * @type {IErrorBulletProperties}
      */
     _properties: IErrorBulletProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IErrorBulletAdapters}
      */
     _adapter: IErrorBulletAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IErrorBulletEvents}
      */
     _events: IErrorBulletEvents;
     errorLine: Sprite;
@@ -78,7 +72,7 @@ export declare class ErrorBullet extends Bullet {
      * Copies all proprities and related stuff from another instance of
      * [[ErrorBullet]].
      *
-     * @param {this}  source  Source element
+     * @param source  Source element
      */
     copyFrom(source: this): void;
 }

@@ -36,7 +36,7 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
         /**
          * Pixel position of the break's start.
          *
-         * @return {number} Position (px)
+         * @return Position (px)
          * @readonly
          */
         get: function () {
@@ -51,7 +51,7 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
         /**
          * Pixel position of the break's end.
          *
-         * @return {number} Position (px)
+         * @return Position (px)
          * @readonly
          */
         get: function () {
@@ -64,7 +64,7 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
     });
     Object.defineProperty(CategoryAxisBreak.prototype, "startCategory", {
         /**
-         * @return {string} Start category
+         * @return Start category
          */
         get: function () {
             return this.getPropertyValue("startCategory");
@@ -72,7 +72,7 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
         /**
          * A category break starts on.
          *
-         * @param {string}  value Start category
+         * @param value Start category
          */
         set: function (value) {
             if (this.setPropertyValue("startCategory", value)) {
@@ -87,7 +87,7 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
     });
     Object.defineProperty(CategoryAxisBreak.prototype, "endCategory", {
         /**
-         * @return {string} End category
+         * @return End category
          */
         get: function () {
             return this.getPropertyValue("endCategory");
@@ -95,7 +95,7 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
         /**
          * A category break ends on.
          *
-         * @param {string}  value  End category
+         * @param value  End category
          */
         set: function (value) {
             if (this.setPropertyValue("endCategory", value)) {
@@ -110,7 +110,7 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
     });
     Object.defineProperty(CategoryAxisBreak.prototype, "startValue", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             var category = this.getPropertyValue("startCategory");
@@ -124,7 +124,7 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
         /**
          * An index of start category.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             if (this.setPropertyValue("startValue", value)) {
@@ -139,7 +139,7 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
     });
     Object.defineProperty(CategoryAxisBreak.prototype, "endValue", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             var category = this.getPropertyValue("endCategory");
@@ -153,7 +153,7 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
         /**
          * An index of end category or a end value.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             if (this.setPropertyValue("endValue", value)) {

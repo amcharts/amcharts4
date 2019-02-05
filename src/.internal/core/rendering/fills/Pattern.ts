@@ -34,15 +34,11 @@ import * as $type from "../../utils/Type";
 
 /**
  * Defines available units to measure patterns.
- *
- * @type {string}
  */
 export type PatternUnits = "userSpaceOnUse" | "objectBoundingBox";
 
 /**
  * Defines properties for [[Pattern]].
- *
- * @type {string}
  */
 export interface PatternProperties {
 	x: number;
@@ -76,36 +72,26 @@ export class Pattern extends BaseObject implements IAnimatable {
 
 	/**
 	 * List of available animations currently running on a pattern.
-	 *
-	 * @type {Optional<Array<Animation>>}
 	 */
 	protected _animations: $type.Optional<Array<Animation>>;
 
 	/**
 	 * An SVG `<group>` element to put sub-elements into.
-	 *
-	 * @type {Group}
 	 */
 	public element: Group;
 
 	/**
 	 * Reference to [[Paper]] instance.
-	 *
-	 * @type {Optional<Paper>}
 	 */
 	protected _paper: $type.Optional<Paper>;
 
 	/**
 	 * List of elements the pattern consists of.
-	 *
-	 * @type {List<AMElement>}
 	 */
 	protected _elements: List<AMElement> = new List<AMElement>();
 
 	/**
 	 * Defines property types.
-	 *
-	 * @type {FilterProperties}
 	 */
 	public _properties!: PatternProperties;
 
@@ -114,7 +100,6 @@ export class Pattern extends BaseObject implements IAnimatable {
 	 *
 	 * @ignore Exclude from docs
 	 * @see {@link PatternProperties}
-	 * @type {PatternProperties}
 	 */
 	public properties: this["_properties"] = <any>{};
 	//public propertyValues = new Dictionary<PatternProperties, any>();
@@ -193,10 +178,10 @@ export class Pattern extends BaseObject implements IAnimatable {
 	 * Animate pattern properties.
 	 *
 	 * @see {@link Animation}
-	 * @param  {IAnimationOptions[] | IAnimationOptions}  animationOptions  Animation options
-	 * @param  {number}                                   duration          Duration (ms)
-	 * @param  {(number) => number}                       easing            Easing function
-	 * @return {Animation}                                                  Animation instance
+	 * @param animationOptions  Animation options
+	 * @param duration          Duration (ms)
+	 * @param easing            Easing function
+	 * @return Animation instance
 	 */
 	public animate(animationOptions: IAnimationOptions[] | IAnimationOptions, duration: number, easing?: (value: number) => number): Animation {
 		return new Animation(this, animationOptions, duration, easing).start();
@@ -205,7 +190,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Adds an element to the pattern.
 	 *
-	 * @param {AMElement}  element  Element
+	 * @param element  Element
 	 */
 	public addElement(element: AMElement): void {
 		this._elements.push(element);
@@ -215,7 +200,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Remove an element from the pattern.
 	 *
-	 * @param {AMElement}  element  Element
+	 * @param element  Element
 	 */
 	public removeElement(element: AMElement): void {
 		this._elements.removeValue(element);
@@ -225,7 +210,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Returns the list of SVG elements comprising the pattern.
 	 *
-	 * @return {List<AMElement>} Pattern elements
+	 * @return Pattern elements
 	 */
 	public get elements(): List<AMElement> {
 		return this._elements;
@@ -234,7 +219,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Pattern fill opacity. (0-1)
 	 *
-	 * @param {number}  value  Opacity (0-1)
+	 * @param value  Opacity (0-1)
 	 */
 	public set fillOpacity(value: number) {
 		this.properties["fillOpacity"] = value;
@@ -242,7 +227,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {number} Opacity (0-1)
+	 * @return Opacity (0-1)
 	 */
 	public get fillOpacity(): number {
 		return this.properties["fillOpacity"];
@@ -251,7 +236,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Fill color of the pattern.
 	 *
-	 * @param {Color}  value  Fill color
+	 * @param value  Fill color
 	 */
 	public set fill(value: Color) {
 		this.properties["fill"] = value;
@@ -259,7 +244,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {Color} Fill color
+	 * @return Fill color
 	 */
 	public get fill(): Color {
 		return this.properties["fill"];
@@ -268,7 +253,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Pattern background fill color.
 	 *
-	 * @param {Color}  value  Background color
+	 * @param value  Background color
 	 */
 	public set backgroundFill(value: Color) {
 		this.properties["backgroundFill"] = value;
@@ -276,7 +261,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {Color} Background color
+	 * @return Background color
 	 */
 	public get backgroundFill(): Color {
 		return this.properties["backgroundFill"];
@@ -285,7 +270,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Pattern backgorund opacity. (0-1)
 	 *
-	 * @param {number}  value  Background opacity (0-1)
+	 * @param value  Background opacity (0-1)
 	 */
 	public set backgroundOpacity(value: number) {
 		this.properties["backgroundOpacity"] = value;
@@ -293,7 +278,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {number} Background opacity (0-1)
+	 * @return Background opacity (0-1)
 	 */
 	public get backgroundOpacity(): number {
 		return this.properties["backgroundOpacity"];
@@ -302,7 +287,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Pattern stroke (border) color.
 	 *
-	 * @param {Color}  value  Color
+	 * @param value  Color
 	 */
 	public set stroke(value: Color) {
 		this.properties["stroke"] = value;
@@ -310,7 +295,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {Color} Color
+	 * @return Color
 	 */
 	public get stroke(): Color {
 		return this.properties["stroke"];
@@ -319,7 +304,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Pattern stroke opacity. (0-1)
 	 *
-	 * @param {number}  value  Opacity (0-1)
+	 * @param value  Opacity (0-1)
 	 */
 	public set strokeOpacity(value: number) {
 		this.properties["strokeOpacity"] = value;
@@ -327,7 +312,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {number} Opacity (0-1)
+	 * @return Opacity (0-1)
 	 */
 	public get strokeOpacity(): number {
 		return this.properties["strokeOpacity"];
@@ -336,7 +321,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Pattern stroke thickness in pixels.
 	 *
-	 * @param {number}  value  Stroke thickness (px)
+	 * @param value  Stroke thickness (px)
 	 */
 	public set strokeWidth(value: number) {
 		this.properties["strokeWidth"] = value;
@@ -344,7 +329,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {number} Stroke thickness (px)
+	 * @return Stroke thickness (px)
 	 */
 	public get strokeWidth(): number {
 		return this.properties["strokeWidth"];
@@ -352,7 +337,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 
 	/**
 	 * Shape rendering
-	 * @param {ShapeRendering} value [description]
+	 * @param value [description]
 	 */
 	public set shapeRendering(value: ShapeRendering) {
 		this.properties["shapeRendering"] = value;
@@ -366,7 +351,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Pattern rotation in degrees.
 	 *
-	 * @param {number}  value  Rotation
+	 * @param value  Rotation
 	 */
 	public set rotation(value: number) {
 		this.properties["rotation"] = value;
@@ -374,7 +359,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {number} Rotation
+	 * @return Rotation
 	 */
 	public get rotation(): number {
 		return this.properties["rotation"];
@@ -385,7 +370,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	 *
 	 * Available options: "userSpaceOnUse" | "objectBoundingBox".
 	 *
-	 * @param {"userSpaceOnUse" | "objectBoundingBox"}  value  Units
+	 * @param value  Units
 	 */
 	public set patternUnits(value: "userSpaceOnUse" | "objectBoundingBox") {
 		this.properties["patternUnits"] = value;
@@ -393,7 +378,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {"userSpaceOnUse" | "objectBoundingBox"} Units
+	 * @return Units
 	 */
 	public get patternUnits(): "userSpaceOnUse" | "objectBoundingBox" {
 		return this.properties["patternUnits"];
@@ -402,7 +387,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Pattern width in pixels.
 	 *
-	 * @param {number}  value  Width (px)
+	 * @param value  Width (px)
 	 */
 	public set width(value: number) {
 		this.properties["width"] = value;
@@ -410,7 +395,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {number} Width (px)
+	 * @return Width (px)
 	 */
 	public get width(): number {
 		return this.properties["width"];
@@ -419,7 +404,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Pattern height in pixels.
 	 *
-	 * @param {number} value Height (px)
+	 * @param value Height (px)
 	 */
 	public set height(value: number) {
 		this.properties["height"] = value;
@@ -427,7 +412,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {number} Height (px)
+	 * @return Height (px)
 	 */
 	public get height(): number {
 		return this.properties["height"];
@@ -436,7 +421,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * X position. (pixels)
 	 *
-	 * @param {number} value X (px)
+	 * @param value X (px)
 	 */
 	public set x(value: number) {
 		this.properties["x"] = value;
@@ -444,7 +429,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {number} X (px)
+	 * @return X (px)
 	 */
 	public get x(): number {
 		return this.properties["x"];
@@ -453,7 +438,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Y position (px).
 	 *
-	 * @param {number} value Y (px)
+	 * @param value Y (px)
 	 */
 	public set y(value: number) {
 		this.properties["y"] = value;
@@ -461,7 +446,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {number} Y (px)
+	 * @return Y (px)
 	 */
 	public get y(): number {
 		return this.properties["y"];
@@ -471,7 +456,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	 * [[Paper]] instance to draw pattern in.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Paper}  paper  Paper
+	 * @param paper  Paper
 	 */
 	public set paper(paper: Paper) {
 		if (this._paper != paper) {
@@ -483,7 +468,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return {Paper} Paper
+	 * @return Paper
 	 */
 	public get paper(): Paper {
 		if (this._paper) {
@@ -495,7 +480,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	/**
 	 * Copies properties from another Pattern instance.
 	 *
-	 * @param {this}  source  Source pattern
+	 * @param source  Source pattern
 	 */
 	public copyFrom(source: this) {
 		super.copyFrom(source);
@@ -508,7 +493,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	 * A list of animations currently running on the patter.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {Array<Animation>} Animation list
+	 * @return Animation list
 	 */
 	public get animations(): Array<Animation> {
 		if (!this._animations) {
@@ -523,7 +508,7 @@ export class Pattern extends BaseObject implements IAnimatable {
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 

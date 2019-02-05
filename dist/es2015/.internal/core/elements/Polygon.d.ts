@@ -54,33 +54,23 @@ export interface IPolygonAdapters extends ISpriteAdapters, IPolygonProperties {
 export declare class Polygon extends Sprite implements IMorphable {
     /**
      * Defines available properties.
-     *
-     * @type {IPolygonProperties}
      */
     _properties: IPolygonProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IPolygonAdapters}
      */
     _adapter: IPolygonAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IPolygonEvents}
      */
     _events: IPolygonEvents;
     /**
      * A morpher instance that is used to morph polygon into some other shape.
-     *
-     * @type {Optional<Morpher>}
      */
     protected _morpher: $type.Optional<Morpher>;
     /**
      * Current points that morpher uses. This is needed so that we don't
      * overwrite polygons original points.
-     *
-     * @type {IPoint[][][]}
      */
     protected _currentPoints: IPoint[][][];
     /**
@@ -88,23 +78,23 @@ export declare class Polygon extends Sprite implements IMorphable {
      */
     constructor();
     /**
-     * @return {IPoint[]} Polygon points
+     * @return Polygon points
      */
     /**
      * An array of X/Y coordinates for each elbow of the polygon.
      *
      * @todo Example
-     * @param {IPoint[][][]}  points  Polygon points
+     * @param points  Polygon points
      */
     points: IPoint[][][];
     /**
-     * @return {IPoint[]} Polygon points
+     * @return Polygon points
      */
     /**
      * Current points. Used when morphing the element, so that original `points`
      * are not overwritten.
      *
-     * @param {IPoint[][][]}  points  Polygon points
+     * @param points  Polygon points
      */
     currentPoints: IPoint[][][];
     /**
@@ -121,7 +111,7 @@ export declare class Polygon extends Sprite implements IMorphable {
      * A calculated center point for the shape.
      *
      * @readonly
-     * @return {IPoint} Center
+     * @return Center
      */
     readonly centerPoint: IPoint;
     /**
@@ -129,7 +119,7 @@ export declare class Polygon extends Sprite implements IMorphable {
      * shape.
      *
      * @readonly
-     * @return {Morpher} Morpher instance
+     * @return Morpher instance
      */
     readonly morpher: Morpher;
 }

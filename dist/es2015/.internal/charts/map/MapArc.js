@@ -47,7 +47,7 @@ var MapArc = /** @class */ (function (_super) {
         /**
          * ShortestDistance = true is not supported by MapArc, only MapLine does support it
          * @default false
-         * @param {boolean}  value
+         * @param value
          * @todo: review description
          */
         get: function () {

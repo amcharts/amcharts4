@@ -26,8 +26,8 @@ var DataParser = /** @class */ (function () {
      * A "placeholder" function for real parsers to override.
      *
      * @ignore Exclude from docs
-     * @param  {string}  data  Source data
-     * @return {any}           Parsed data (empty)
+     * @param data  Source data
+     * @return Parsed data (empty)
      */
     DataParser.prototype.parse = function (data) {
         return [];
@@ -38,7 +38,7 @@ var DataParser = /** @class */ (function () {
          * Checks if there are any numeric fields that need to be converted to
          * numbers.
          *
-         * @return {boolean} Numeric fields?
+         * @return Numeric fields?
          */
         get: function () {
             return this.options.numberFields && (this.options.numberFields.length > 0);
@@ -49,9 +49,9 @@ var DataParser = /** @class */ (function () {
     /**
      * Converts a value to 'number' if it is in `numberFields`.
      *
-     * @param  {string}  field  Field name
-     * @param  {any}     value  Value
-     * @return {any}            Parsed or original value
+     * @param field  Field name
+     * @param value  Value
+     * @return Parsed or original value
      */
     DataParser.prototype.maybeToNumber = function (field, value) {
         if (this.options.numberFields.indexOf(field) !== -1) {
@@ -64,7 +64,7 @@ var DataParser = /** @class */ (function () {
          * Checks if there are any date fields that need to be converted to `Date`
          * objects.
          *
-         * @return {boolean} Date fields?
+         * @return Date fields?
          */
         get: function () {
             return this.options.dateFields && (this.options.dateFields.length > 0);
@@ -75,9 +75,9 @@ var DataParser = /** @class */ (function () {
     /**
      * Converts a value to `Date` if it is in `dateFields`.
      *
-     * @param  {string}  field  Field name
-     * @param  {any}     value  Value
-     * @return {any}            Parsed or original value
+     * @param field  Field name
+     * @param value  Value
+     * @return Parsed or original value
      */
     DataParser.prototype.maybeToDate = function (field, value) {
         if (this.options.dateFields.indexOf(field) !== -1) {
@@ -88,8 +88,8 @@ var DataParser = /** @class */ (function () {
     /**
      * Replaces empty value with something else.
      *
-     * @param  {any}  value  Source value
-     * @return {any}         Source value or replacement
+     * @param value  Source value
+     * @return Source value or replacement
      */
     DataParser.prototype.maybeToEmpty = function (value) {
         if ((!$type.hasValue(value) || value == "") && $type.hasValue(this.options.emptyAs)) {
@@ -104,7 +104,7 @@ var DataParser = /** @class */ (function () {
          * If there was not [[DateFormatter]] supplied in parser options, a new one
          * is created.
          *
-         * @return {DateFormatter} Date formatter
+         * @return Date formatter
          * @see {@link DateFormatter}
          */
         get: function () {
@@ -123,7 +123,7 @@ var DataParser = /** @class */ (function () {
         /**
          * A date format to use when parsing dates.
          *
-         * @return {string} Date format
+         * @return Date format
          * @see {@link DateFormatter}
          */
         get: function () {

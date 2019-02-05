@@ -23,15 +23,11 @@ export interface IMapObjectProperties extends IContainerProperties {
     /**
      * A custom zoom level to use when `zoomToMapObject()` is called on this
      * map object.
-     *
-     * @type {number}
      */
     zoomLevel?: number;
     /**
      * A custom point to use when `zoomToMapObject()` is called on this map
      * object.
-     *
-     * @type {IGeoPoint}
      */
     zoomGeoPoint?: IGeoPoint;
 }
@@ -62,26 +58,18 @@ export interface IMapObjectAdapters extends IContainerAdapters, IMapObjectProper
 export declare class MapObject extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IMapObjectProperties}
      */
     _properties: IMapObjectProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IMapObjectAdapters}
      */
     _adapter: IMapObjectAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IMapObjectEvents}
      */
     _events: IMapObjectEvents;
     /**
      * A map series this object belongs to.
-     *
-     * @type {MapSeries}
      */
     series: MapSeries;
     _dataItem: MapSeriesDataItem;

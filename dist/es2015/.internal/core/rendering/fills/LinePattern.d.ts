@@ -18,8 +18,6 @@ import { AMElement } from "../AMElement";
 export declare class LinePattern extends Pattern {
     /**
      * SVG `<line>` element used for pattern.
-     *
-     * @type {AMElement}
      */
     protected _line: AMElement;
     /**

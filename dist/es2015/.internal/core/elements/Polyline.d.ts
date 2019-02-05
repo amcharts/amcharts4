@@ -22,8 +22,6 @@ import * as $type from "../utils/Type";
 export interface IPolylineProperties extends ISpriteProperties {
     /**
      * A list of segment coordinates for the multi-part line.
-     *
-     * @type {IPoint[][]}
      */
     segments?: IPoint[][];
 }
@@ -54,34 +52,26 @@ export interface IPolylineAdapters extends ISpriteAdapters, IPolylineProperties 
 export declare class Polyline extends Sprite {
     /**
      * Defines available properties.
-     *
-     * @type {IPolylineProperties}
      */
     _properties: IPolylineProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IPolylineAdapters}
      */
     _adapter: IPolylineAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IPolylineEvents}
      */
     _events: IPolylineEvents;
     /**
      * [_distance description]
      *
      * @todo Description
-     * @type {number}
      */
     protected _distance: number;
     /**
      * [_realSegments]
      *
      * @todo Description
-     * @type {Optional<IPoint[][]>}
      */
     protected _realSegments: $type.Optional<IPoint[][]>;
     /**
@@ -95,27 +85,27 @@ export declare class Polyline extends Sprite {
      */
     makePath(): void;
     /**
-     * @return {Optional<IPoint[]>} Segments
+     * @return Segments
      */
     /**
      * A list of segment coordinates for the multi-part line.
      *
      * @todo Example
-     * @param {Optional<IPoint[][]>}  segments  Segments
+     * @param segments  Segments
      */
     segments: $type.Optional<IPoint[][]>;
     /**
      * [distance description]
      *
      * @todo Description
-     * @return {number} [description]
+     * @return [description]
      */
     readonly distance: number;
     /**
      * Converts relative position along the line (0-1) into pixel coordinates.
      *
-     * @param  {number}             position  Position (0-1)
-     * @return {IOrientationPoint}            Coordinates
+     * @param position  Position (0-1)
+     * @return Coordinates
      */
     positionToPoint(position: number): IOrientationPoint;
 }

@@ -70,7 +70,7 @@ var ResizeButton = /** @class */ (function (_super) {
          *
          * Available options: "horizontal", "vertical".
          *
-         * @param {Orientation} value Orientation
+         * @param value Orientation
          */
         set: function (value) {
             var icon = this.icon;

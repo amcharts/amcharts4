@@ -183,7 +183,7 @@ var ChordNode = /** @class */ (function (_super) {
     /**
      * Copies properties and labels from another [[ChordNode]].
      *
-     * @param {ChordNode}  source  Source node
+     * @param source  Source node
      */
     ChordNode.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

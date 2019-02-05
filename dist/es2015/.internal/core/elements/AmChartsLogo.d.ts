@@ -52,20 +52,14 @@ export interface IAmChartsLogoAdapters extends IContainerAdapters, IAmChartsLogo
 export declare class AmChartsLogo extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IAmChartsLogoProperties}
      */
     _properties: IAmChartsLogoProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IAmChartsLogoAdapters}
      */
     _adapter: IAmChartsLogoAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IAmChartsLogoEvents}
      */
     _events: IAmChartsLogoEvents;
     /**

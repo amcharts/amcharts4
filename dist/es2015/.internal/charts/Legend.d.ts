@@ -33,38 +33,26 @@ import * as $type from "../core/utils/Type";
 export declare class LegendDataItem extends DataItem {
     /**
      * A container data item's elements will be placed in.
-     *
-     * @type {Container}
      */
     protected _itemContainer: Container;
     /**
      * A [[Label]] element for the item label.
-     *
-     * @type {Container}
      */
     protected _label: Label;
     /**
      * A [[Container]] for legend item marker.
-     *
-     * @type {Container}
      */
     protected _marker: Container;
     /**
      * A [[Label]] element for the value label.
-     *
-     * @type {Label}
      */
     protected _valueLabel: Label;
     /**
      * A data context for legend item.
-     *
-     * @type {any}
      */
     dataContext: any;
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {Legend}
      */
     _component: Legend;
     /**
@@ -82,11 +70,11 @@ export declare class LegendDataItem extends DataItem {
     /**
      * A legend item's [[Label]] element.
      *
-     * @return {Label} Label
+     * @return Label
      */
     readonly label: Label;
     /**
-     * @return {Color | Pattern | LinearGradient | RadialGradient} Main color
+     * @return Main color
      */
     /**
      * Main color of legend data item.
@@ -115,26 +103,26 @@ export declare class LegendDataItem extends DataItem {
      * ```
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/legend/#Legend_labels} For more information about configuring legend labels.
-     * @param {Color | Pattern | LinearGradient | RadialGradient}  value  Main color
+     * @param value  Main color
      */
     color: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>;
     /**
      * A legend item's [[Label]] element for "value label".
      *
-     * @return {Label} Label
+     * @return Label
      */
     readonly valueLabel: Label;
     /**
      * A reference to the main [[Container]] that holds legend item's elements:
      * marker and labels.
      *
-     * @return {Container} Item container
+     * @return Item container
      */
     readonly itemContainer: Container;
     /**
      * A [[Container]] that holds legend item's marker element.
      *
-     * @return {Container} Marker
+     * @return Marker
      */
     readonly marker: Container;
 }
@@ -158,38 +146,29 @@ export declare class LegendSettings {
      * [valueText description]
      *
      * @todo Description
-     * @type {string}
      */
     valueText: string;
     /**
      * [labelText description]
      *
      * @todo Description
-     * @type {string}
      */
     labelText: string;
     /**
      * A text template for the value part of the legend item.
-     *
-     * @type {string}
      */
     itemValueText: string;
     /**
      * A text template for the label part of the legend item.
-     * @type {string}
      */
     itemLabelText: string;
     /**
      * Should marker be created for each legend item.
-     *
-     * @type {boolean}
      */
     createMarker: boolean;
 }
 /**
  * Represents types available for Legend position. Not all charts will pay attention to this, like MapChart. You'll need to use legend.align and legend.valign properties to position legend on MapChart.
- *
- * @type {string}
  */
 export declare type LegendPosition = "left" | "right" | "top" | "bottom" | "absolute";
 /**
@@ -198,15 +177,11 @@ export declare type LegendPosition = "left" | "right" | "top" | "bottom" | "abso
 export interface ILegendDataFields extends IComponentDataFields {
     /**
      * A field name in the data item which holds name of the legend item.
-     *
-     * @type {string}
      */
     name?: string;
     /**
      * A field name in data item which holds boolean value whether item should
      * be displayed in legend or not.
-     *
-     * @type {string}
      */
     visible?: string;
 }
@@ -221,7 +196,6 @@ export interface ILegendProperties extends IComponentProperties {
      * item, like series.
      *
      * @default true
-     * @type {boolean}
      */
     useDefaultMarker?: boolean;
     /**
@@ -230,7 +204,6 @@ export interface ILegendProperties extends IComponentProperties {
      * Options: "left", "right", "top", "bottom" (default), or "absolute".
      *
      * @default "bottom"
-     * @type {LegendPosition}
      */
     position?: LegendPosition;
 }
@@ -250,8 +223,6 @@ export interface ILegendItemEvents {
     propertychanged: {
         /**
          * Property key.
-         *
-         * @type {string}
          */
         property: string;
     };
@@ -272,62 +243,42 @@ export interface ILegendItemEvents {
 export declare class Legend extends Component {
     /**
      * Defines the type of the data fields.
-     *
-     * @type {ILegendDataFields}
      */
     _dataFields: ILegendDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {ILegendProperties}
      */
     _properties: ILegendProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ILegendAdapters}
      */
     _adapter: ILegendAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ILegendEvents}
      */
     _events: ILegendEvents;
     /**
      * Defines data item type.
-     *
-     * @type {LegendDataItem<DataItem, IDataItemEvents>}
      */
     _dataItem: LegendDataItem;
     /**
      * List of legend Item containers. Legend item containers contain marker, title label and value label.
-     *
-     * @type {ListTemplate<Container>}
      */
     itemContainers: ListTemplate<Container>;
     /**
      * List of legend item labels.
-     *
-     * @type {ListTemplate<Label>}
      */
     labels: ListTemplate<Label>;
     /**
      * List of legend item markers.
-     *
-     * @type {ListTemplate<Container>}
      */
     markers: ListTemplate<Container>;
     /**
      * List of legend item value labels.
-     *
-     * @type {ListTemplate<Label>}
      */
     valueLabels: ListTemplate<Label>;
     /**
      * Currently focused legend item (for toggling via keyboard)
-     *
-     * @type {this["_dataItem"]}
      */
     focusedItem: Optional<this["_dataItem"]>;
     /**
@@ -343,21 +294,21 @@ export declare class Legend extends Component {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {LegendDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
      * [validateDataElement description]
      *
      * @ignore Exclude from docs
-     * @param {LegendDataItem} dataItem Data item
+     * @param dataItem Data item
      * @todo Description
      * @todo Figure out how to update appearance of legend item without losing focus
      * @todo Update legend marker appearance as apperance of related series changes
      */
     validateDataElement(dataItem: this["_dataItem"]): void;
     /**
-     * @return {LegendPosition} Position
+     * @return Position
      */
     /**
      * Position of the legend.
@@ -371,11 +322,11 @@ export declare class Legend extends Component {
      * `"right"`) and `valign` (`"top"` or `"bottom"`) properties instead.
      *
      * @default "bottom"
-     * @param {LegendPosition}  value  Position
+     * @param value  Position
      */
     position: LegendPosition;
     /**
-     * @return {boolean} Use default marker?
+     * @return Use default marker?
      */
     /**
      * Should legend try to mirror the look of the related item when building
@@ -388,14 +339,14 @@ export declare class Legend extends Component {
      * same thickness, color, and will use the same bullets if series have them.
      *
      * @default false
-     * @param {boolean} value Use default marker?
+     * @param value Use default marker?
      */
     useDefaultMarker: boolean;
     /**
      * Toggles a legend item.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]} item Legend item
+     * @param item Legend item
      * @todo Maybe do it with togglable instead
      */
     toggleDataItem(item: this["_dataItem"]): void;
@@ -404,7 +355,7 @@ export declare class Legend extends Component {
      * own preloader.
      *
      * @ignore Exclude from docs
-     * @return {Preloader} Always `undefined`
+     * @return Always `undefined`
      */
     readonly preloader: Optional<Preloader>;
     /**

@@ -118,43 +118,32 @@ export class Cursor extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ICursorProperties}
 	 */
 	public _properties!: ICursorProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ICursorAdapters}
 	 */
 	public _adapter!: ICursorAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ICursorEvents}
 	 */
 	public _events!: ICursorEvents;
 
 	/**
 	 * Point coordinates of where selection started.
-	 *
-	 * @type {IPoint}
 	 */
 	public downPoint: IPoint;
 
 	/**
 	 * Point coordinates of where selection ended.
-	 *
-	 * @type {IPoint}
 	 */
 	public upPoint: IPoint;
 
 	/**
 	 * Current cursor position during selection.
 	 *
-	 * @type {IPoint}
 	 * @todo Better description
 	 */
 	public point: IPoint = { x: 0, y: 0 };
@@ -162,7 +151,6 @@ export class Cursor extends Container {
 	/**
 	 * Relative horizontal position.
 	 *
-	 * @type {number}
 	 * @todo: maybe we should make getter only? it is used from outside by axes or series to show tooltips at some position
 	 */
 	public xPosition: number;
@@ -170,7 +158,6 @@ export class Cursor extends Container {
 	/**
 	 * Relative vertical position.
 	 *
-	 * @type {number}
 	 * @todo: maybe we should make getter only? it is used from outside by axes or series to show tooltips at some position
 	 */
 	public yPosition: number;
@@ -179,21 +166,16 @@ export class Cursor extends Container {
 	 * [_usesSelection description]
 	 *
 	 * @todo Description
-	 * @type {boolean}
 	 */
 	protected _usesSelection: boolean;
 
 	/**
 	 * What to do when user pressed down and drags cursor: zoom or select.
-	 *
-	 * @type {"zoom" | "select"}
 	 */
 	protected _generalBehavior: "zoom" | "select" | "pan"; // todo: draw
 
 	/**
 	 * A reference to chart cursor belongs to.
-	 *
-	 * @type {Chart}
 	 */
 	public _chart: Chart;
 
@@ -204,22 +186,18 @@ export class Cursor extends Container {
 
 	/**
 	 * A screen point that cursor is "stuck" to.
-	 *
-	 * @type {IPoint}
 	 */
 	protected _stickPoint: IPoint;
 
 	/**
 	 * non-modified down point
 	 * @ignore
-	 * @type {IPoint}
 	 */
 	protected _downPointOrig: IPoint;
 
 	/**
 	 * non-modified up point
 	 * @ignore
-	 * @type {IPoint}
 	 */
 	protected _upPointOrig: IPoint;
 
@@ -260,7 +238,7 @@ export class Cursor extends Container {
 	 * Handle pointer movement in document and update cursor position as needed.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IInteractionObjectEvents["track"]} event Event
+	 * @param event Event
 	 */
 	public handleCursorMove(event: IInteractionObjectEvents["track"]): IPoint {
 
@@ -295,8 +273,8 @@ export class Cursor extends Container {
 	/**
 	 * Hides actual SVG elements and handles hiding animations.
 	 *
-	 * @param  {number}  duration  Fade out duration (ms)
-	 * @return {Animation}            Fade out duration (ms)
+	 * @param duration  Fade out duration (ms)
+	 * @return Fade out duration (ms)
 	 * @ignore
 	 */
 	protected hideReal(duration?: number): $type.Optional<Animation> {
@@ -322,8 +300,8 @@ export class Cursor extends Container {
 	 * `"hard"` - cursor will stay in place no matter what, until it is moved by
 	 * another `triggerMove()` call.
 	 *
-	 * @param {IPoint}                    point  Point to place cursor at
-	 * @param {"hard" | "soft" | "none"}  stick  Level of cursor stickiness to the place
+	 * @param point  Point to place cursor at
+	 * @param stick  Level of cursor stickiness to the place
 	 */
 	public triggerMove(point: IPoint, stick?: "hard" | "soft" | "none"): void {
 
@@ -344,7 +322,7 @@ export class Cursor extends Container {
 	/**
 	 * Places the cursor at specific point.
 	 *
-	 * @param {IPoint}  point Point to place cursor at
+	 * @param point Point to place cursor at
 	 */
 	protected triggerMoveReal(point: IPoint): void {
 		if (this.point.x != point.x || this.point.y != point.y) {
@@ -372,7 +350,7 @@ export class Cursor extends Container {
 	/**
 	 * Simulates pressing down (click/touch) action by a cursor.
 	 *
-	 * @param {IPoint}   point               Point of action
+	 * @param point               Point of action
 	 */
 	public triggerDown(point: IPoint) {
 		this.triggerDownReal(point);
@@ -381,7 +359,7 @@ export class Cursor extends Container {
 	/**
 	 * Simulates pressing down (click/touch) action by a cursor.
 	 *
-	 * @param {IPoint}   point               Point of action
+	 * @param point               Point of action
 	 */
 	protected triggerDownReal(point: IPoint) {
 		switch (this._generalBehavior) {
@@ -401,7 +379,7 @@ export class Cursor extends Container {
 	/**
 	 * Simulates the action of release of the mouse down / touch.
 	 *
-	 * @param {IPoint}   point               Point of action
+	 * @param point               Point of action
 	 */
 	public triggerUp(point: IPoint) {
 		this.triggerUpReal(point);
@@ -410,7 +388,7 @@ export class Cursor extends Container {
 	/**
 	 * Simulates the action of release of the mouse down / touch.
 	 *
-	 * @param {IPoint}   point               Point of action
+	 * @param point               Point of action
 	 */
 	protected triggerUpReal(point: IPoint) {
 
@@ -433,13 +411,13 @@ export class Cursor extends Container {
 					break;
 			}
 			this.downPoint = undefined;
-			this.updateSelection();			
+			this.updateSelection();
 		}
 		else {
 			this.dispatchImmediately("behaviorcanceled");
 			interaction.setGlobalStyle(MouseCursorStyle.default);
 			this.downPoint = undefined;
-		}		
+		}
 	}
 
 	/**
@@ -463,7 +441,7 @@ export class Cursor extends Container {
 	 * Handles pointer down event so we can start zoom or selection.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IInteractionEvents["down"]} event Original event
+	 * @param event Original event
 	 */
 	public handleCursorDown(event: IInteractionEvents["down"]): void {
 
@@ -496,7 +474,7 @@ export class Cursor extends Container {
 	 * Handles pointer up event - finishes zoom or selection action.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IInteractionEvents["up"]} event Original event
+	 * @param event Original event
 	 */
 	public handleCursorUp(event: IInteractionEvents["up"]): void {
 		if (!this.interactionsEnabled) {
@@ -515,7 +493,7 @@ export class Cursor extends Container {
 	/**
 	 * A reference to a [[Chart]] the cursor belongs to.
 	 *
-	 * @param {Chart}  value  Chart
+	 * @param value  Chart
 	 */
 	public set chart(value: this["_chart"]) {
 		this._chart = value;
@@ -525,7 +503,7 @@ export class Cursor extends Container {
 	}
 
 	/**
-	 * @return {Chart} Chart
+	 * @return Chart
 	 */
 	public get chart(): this["_chart"] {
 		return this._chart;

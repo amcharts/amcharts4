@@ -48,7 +48,7 @@ var FocusFilter = /** @class */ (function (_super) {
     }
     Object.defineProperty(FocusFilter.prototype, "stroke", {
         /**
-         * @return {Optional<Color>} Color
+         * @return Color
          */
         get: function () {
             return this.properties["stroke"];
@@ -56,7 +56,7 @@ var FocusFilter = /** @class */ (function (_super) {
         /**
          * Stroke (outline) color.
          *
-         * @param {Color}  value  Color
+         * @param value  Color
          */
         set: function (value) {
             this.properties["stroke"] = value;
@@ -67,7 +67,7 @@ var FocusFilter = /** @class */ (function (_super) {
     });
     Object.defineProperty(FocusFilter.prototype, "strokeWidth", {
         /**
-         * @return {number} Outline thickness (px)
+         * @return Outline thickness (px)
          */
         get: function () {
             return this.properties["strokeWidth"];
@@ -75,7 +75,7 @@ var FocusFilter = /** @class */ (function (_super) {
         /**
          * Stroke (outline) thickness in pixels.
          *
-         * @param {number}  value  Outline thickness (px)
+         * @param value  Outline thickness (px)
          */
         set: function (value) {
             this.properties["strokeWidth"] = value;
@@ -86,7 +86,7 @@ var FocusFilter = /** @class */ (function (_super) {
     });
     Object.defineProperty(FocusFilter.prototype, "opacity", {
         /**
-         * @return {number} Outline opacity (0-1)
+         * @return Outline opacity (0-1)
          */
         get: function () {
             return this.properties["opacity"];
@@ -94,7 +94,7 @@ var FocusFilter = /** @class */ (function (_super) {
         /**
          * Opacity of the outline. (0-1)
          *
-         * @param {number}  value  Outline opacity (0-1)
+         * @param value  Outline opacity (0-1)
          */
         set: function (value) {
             this.properties["opacity"] = value;
@@ -110,7 +110,7 @@ var FocusFilter = /** @class */ (function (_super) {
      * filter is applied to.
      *
      * @ignore Exclude from docs
-     * @param {Sprite}  value  Element filter is being attached to
+     * @param value  Element filter is being attached to
      */
     FocusFilter.prototype.setSprite = function (value) {
         if (this._sprite && this._sprite != value) {

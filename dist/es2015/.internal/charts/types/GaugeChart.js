@@ -87,7 +87,7 @@ var GaugeChart = /** @class */ (function (_super) {
     /**
      * Decorates a [[ClockHand]] when it is added to the chart.
      *
-     * @param {IListEvents<ClockHand>["inserted"]}  event  Event
+     * @param event  Event
      */
     GaugeChart.prototype.processHand = function (event) {
         var hand = event.newValue;

@@ -21,14 +21,10 @@ import { AxisItemLocation, AxisDataItem, Axis } from "./Axis";
 export interface IAxisLabelProperties extends ILabelProperties {
     /**
      * Relative location of the label. (0-1)
-     *
-     * @type {number}
      */
     location?: number;
     /**
      * Draw the label on the inside of the Axis?
-     *
-     * @type {boolean}
      */
     inside?: boolean;
 }
@@ -60,32 +56,22 @@ export interface IAxisLabelAdapters extends ILabelAdapters, IAxisLabelProperties
 export declare class AxisLabel extends Label {
     /**
      * Defines available properties.
-     *
-     * @type {IAxisLabelProperties}
      */
     _properties: IAxisLabelProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IAxisLabelAdapters}
      */
     _adapter: IAxisLabelAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IAxisLabelEvents}
      */
     _events: IAxisLabelEvents;
     /**
      * Related data item.
-     *
-     * @type {AxisDataItem}
      */
     _dataItem: AxisDataItem;
     /**
      * A referecent to Axis element this fill is applied to.
-     *
-     * @type {Axis}
      */
     axis: Axis;
     /**
@@ -93,23 +79,23 @@ export declare class AxisLabel extends Label {
      */
     constructor();
     /**
-     * @return {AxisItemLocation} Location (0-1)
+     * @return Location (0-1)
      */
     /**
      * Relative location of the label. (0-1)
      *
-     * @param {AxisItemLocation}  value  Location (0-1)
+     * @param value  Location (0-1)
      */
     location: AxisItemLocation;
     /**
      * Returns if label is set to be drawn inside axis.
      *
-     * @return {boolean} Inside?
+     * @return Inside?
      */
     /**
      * Sets if label should be drawn inside axis.
      *
-     * @param {boolean}  value  Inside?
+     * @param value  Inside?
      */
     inside: boolean;
     /**

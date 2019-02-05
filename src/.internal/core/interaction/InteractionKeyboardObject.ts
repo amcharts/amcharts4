@@ -26,8 +26,6 @@ export class InteractionKeyboardObject implements IAnimationObject, IDisposer {
 	/**
 	 * A [[InteractionObject]] representation of an element we're performing
 	 * animation on.
-	 *
-	 * @type {Sprite}
 	 */
 	public interaction: InteractionObject;
 
@@ -36,15 +34,11 @@ export class InteractionKeyboardObject implements IAnimationObject, IDisposer {
 	 * destruction/disposal code should take this into account when deciding
 	 * wheter to run potentially costly disposal operations if they already have
 	 * been run.
-	 *
-	 * @type {boolean}
 	 */
 	protected _disposed: boolean = false;
 
 	/**
 	 * Timestamp on when animation started.
-	 *
-	 * @type {number}
 	 */
 	private _startedOn: number;
 
@@ -54,7 +48,6 @@ export class InteractionKeyboardObject implements IAnimationObject, IDisposer {
 	 * 0 - not moving horizontally
 	 * 1 - moving right
 	 * -1 - moving left
-	 * @type {number}
 	 */
 	public directionX: 0 | 1 | -1 = 0;
 
@@ -64,21 +57,18 @@ export class InteractionKeyboardObject implements IAnimationObject, IDisposer {
 	 * 0 - not moving vertically
 	 * 1 - moving down
 	 * -1 - moving up
-	 * @type {number}
 	 */
 	public directionY: 0 | 1 | -1 = 0;
 
 	/**
 	 * Holds reference to original keyboard event.
-	 *
-	 * @type {KeyboardEvent}
 	 */
 	public keyboardEvent: KeyboardEvent;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param {InteractionObject} io An InteractionObject
+	 * @param io An InteractionObject
 	 */
 	constructor(io: InteractionObject, ev: KeyboardEvent) {
 		this.interaction = io;
@@ -141,7 +131,7 @@ export class InteractionKeyboardObject implements IAnimationObject, IDisposer {
 	/**
 	 * Returns if this object has been already been disposed.
 	 *
-	 * @return {boolean} Is disposed?
+	 * @return Is disposed?
 	 */
 	public isDisposed(): boolean {
 		return this._disposed;

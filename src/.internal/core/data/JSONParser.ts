@@ -23,8 +23,6 @@ export interface IJSONOptions extends IDataParserOptions {
 	 * A list of fields that should be treaded as numeric.
 	 *
 	 * Any information container in such fields will be converted to `number`.
-	 *
-	 * @type {string[]}
 	 */
 	numberFields?: string[];
 
@@ -32,15 +30,11 @@ export interface IJSONOptions extends IDataParserOptions {
 	 * A list of fields that hold date/time infromation.
 	 *
 	 * Parser will try to convert such fields into `Date` objects.
-	 *
-	 * @type {string[]}
 	 */
 	dateFields?: string[];
 
 	/**
 	 * A date formatted to be used when parsing dates.
-	 * 
-	 * @type {DateFormatter}
 	 */
 	dateFormatter?: DateFormatter;
 
@@ -55,9 +49,9 @@ export class JSONParser extends DataParser {
 
 	/**
 	 * Tests if the data is valid JSON.
-	 * 
-	 * @param  {string}   data  Source data
-	 * @return {boolean}        Is it JSON?
+	 *
+	 * @param data  Source data
+	 * @return Is it JSON?
 	 */
 	static isJSON(data: string): boolean {
 		try {
@@ -75,8 +69,6 @@ export class JSONParser extends DataParser {
 
 	/**
 	 * Content-type suitable for JSON format.
-	 * 
-	 * @type {string}
 	 */
 	public contentType: string = "application/json";
 
@@ -84,15 +76,14 @@ export class JSONParser extends DataParser {
 	 * Parser options.
 	 *
 	 * @see {@link IJSONOptions} for description of each option
-	 * @type {IJSONOptions}
 	 */
 	public options: IJSONOptions = {};
 
 	/**
 	 * Parses and returns data.
-	 * 
-	 * @param  {string}  data  Unparsed data
-	 * @return {any}           Parsed data
+	 *
+	 * @param data  Unparsed data
+	 * @return Parsed data
 	 */
 	public parse(data: string): any {
 

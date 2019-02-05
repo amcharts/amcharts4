@@ -78,7 +78,7 @@ var Triangle = /** @class */ (function (_super) {
         /**
          * Returns direction of a triangle
          *
-         * @return {"left" | "right" | "top" | "bottom"} value
+         * @return value
          */
         get: function () {
             return this.getPropertyValue("direction");
@@ -86,7 +86,7 @@ var Triangle = /** @class */ (function (_super) {
         /**
          * Sets direction of a triangle
          *
-         * @param {"left" | "right" | "top" | "bottom"} value
+         * @param value
          */
         set: function (value) {
             this.setPropertyValue("direction", value, true);

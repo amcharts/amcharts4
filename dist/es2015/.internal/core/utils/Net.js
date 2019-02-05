@@ -35,10 +35,10 @@ import * as $type from "./Type";
  * ```
  *
  * @async
- * @param  {string}                      url      URL for the file to load
- * @param  {A}                           target   A target element that is requesting the net load
- * @param  {INetRequestOptions}          options  Request options
- * @return {Promise<INetLoadResult<A>>}           Result (Promise)
+ * @param url      URL for the file to load
+ * @param target   A target element that is requesting the net load
+ * @param options  Request options
+ * @return Result (Promise)
  */
 export function load(url, target, options) {
     return new Promise(function (success, error) {

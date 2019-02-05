@@ -33,7 +33,6 @@ export interface IWavedRectangleProperties extends IRectangleProperties {
 	 * Wave length in pixels.
 	 *
 	 * @default 16
-	 * @type {number}
 	 */
 	waveHeight?: number;
 
@@ -41,7 +40,6 @@ export interface IWavedRectangleProperties extends IRectangleProperties {
 	 * Wave height in pixels.
 	 *
 	 * @default 4
-	 * @type {number}
 	 */
 	waveLength?: number;
 
@@ -49,7 +47,6 @@ export interface IWavedRectangleProperties extends IRectangleProperties {
 	 * Wave tension.
 	 *
 	 * @default 0.8
-	 * @type {number}
 	 */
 	tension?: number;
 }
@@ -84,50 +81,36 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IWavedRectangleProperties}
 	 */
 	public _properties!: IWavedRectangleProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IWavedRectangleAdapters}
 	 */
 	public _adapter!: IWavedRectangleAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IWavedRectangleEvents}
 	 */
 	public _events!: IWavedRectangleEvents;
 
 	/**
 	 * Top waved?
-	 *
-	 * @type {boolean}
 	 */
 	protected _twaved: boolean = true;
 
 	/**
 	 * Right side waved?
-	 *
-	 * @type {boolean}
 	 */
 	protected _rwaved: boolean = true;
 
 	/**
 	 * Bottom waved?
-	 *
-	 * @type {boolean}
 	 */
 	protected _bwaved: boolean = true;
 
 	/**
 	 * Left side waved?
-	 *
-	 * @type {boolean}
 	 */
 	protected _lwaved: boolean = true;
 
@@ -200,7 +183,7 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 	 * Wave length in pixels.
 	 *
 	 * @default 16
-	 * @param {number}  value  Wave length (px)
+	 * @param value  Wave length (px)
 	 */
 	public set waveLength(value: number) {
 		this.setPropertyValue("waveLength", value);
@@ -208,7 +191,7 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 	}
 
 	/**
-	 * @return {number} Wave length (px)
+	 * @return Wave length (px)
 	 */
 	public get waveLength(): number {
 		return this.getPropertyValue("waveLength");
@@ -218,7 +201,7 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 	 * Wave height in pixels.
 	 *
 	 * @default 4
-	 * @param {number}  value  Wave height (px)
+	 * @param value  Wave height (px)
 	 */
 	public set waveHeight(value: number) {
 		this.setPropertyValue("waveHeight", value);
@@ -226,7 +209,7 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 	}
 
 	/**
-	 * @return {number} Wave height (px)
+	 * @return Wave height (px)
 	 */
 	public get waveHeight(): number {
 		return this.getPropertyValue("waveHeight");
@@ -236,10 +219,10 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 	 * Sets which side should be waved or not. If particular side is set to
 	 * `false`, a straight line will be drawn on that side.
 	 *
-	 * @param {boolean}  top     Top waved?
-	 * @param {boolean}  right   Right side waved?
-	 * @param {boolean}  bottom  Bottom Waved?
-	 * @param {boolean}  left    Left side waved?
+	 * @param top     Top waved?
+	 * @param right   Right side waved?
+	 * @param bottom  Bottom Waved?
+	 * @param left    Left side waved?
 	 */
 	public setWavedSides(top: boolean, right: boolean, bottom: boolean, left: boolean): void {
 		this._twaved = top;
@@ -252,7 +235,7 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 	 * Tension of the wave.
 	 *
 	 * @default 0.8
-	 * @param {number}  value  Tension
+	 * @param value  Tension
 	 */
 	public set tension(value: number) {
 		this.setPropertyValue("tension", value);
@@ -260,7 +243,7 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 	}
 
 	/**
-	 * @return {number} Tension
+	 * @return Tension
 	 */
 	public get tension(): number {
 		return this.getPropertyValue("tension");

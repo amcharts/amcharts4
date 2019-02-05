@@ -32,7 +32,6 @@ var CandlestickSeriesDataItem = /** @class */ (function (_super) {
     tslib_1.__extends(CandlestickSeriesDataItem, _super);
     /**
      * Defines a type of [[Component]] this data item is used for
-     * @type {CandlestickSeries}
      * @todo Disabled to work around TS bug (see if we can re-enable it again)
      */
     //public _component!: CandlestickSeries;
@@ -51,7 +50,7 @@ var CandlestickSeriesDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(CandlestickSeriesDataItem.prototype, "lowValueX", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values.lowValueX.value;
@@ -59,7 +58,7 @@ var CandlestickSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Low value for horizontal axis.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("lowValueX", value);
@@ -69,7 +68,7 @@ var CandlestickSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(CandlestickSeriesDataItem.prototype, "lowValueY", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values.lowValueY.value;
@@ -77,7 +76,7 @@ var CandlestickSeriesDataItem = /** @class */ (function (_super) {
         /**
          * Low value for vertical axis.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("lowValueY", value);
@@ -87,7 +86,7 @@ var CandlestickSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(CandlestickSeriesDataItem.prototype, "highValueX", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values.highValueX.value;
@@ -95,7 +94,7 @@ var CandlestickSeriesDataItem = /** @class */ (function (_super) {
         /**
          * High value for horizontal axis.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("highValueX", value);
@@ -105,7 +104,7 @@ var CandlestickSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(CandlestickSeriesDataItem.prototype, "highValueY", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values.highValueY.value;
@@ -113,7 +112,7 @@ var CandlestickSeriesDataItem = /** @class */ (function (_super) {
         /**
          * High value for vertical axis.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("highValueY", value);
@@ -123,7 +122,7 @@ var CandlestickSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(CandlestickSeriesDataItem.prototype, "closeValueX", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values.valueX.value;
@@ -133,7 +132,7 @@ var CandlestickSeriesDataItem = /** @class */ (function (_super) {
          *
          * This is an alias for `valueX` added for convenience only.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("valueX", value);
@@ -143,7 +142,7 @@ var CandlestickSeriesDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(CandlestickSeriesDataItem.prototype, "closeValueY", {
         /**
-         * @return {number} Value
+         * @return Value
          */
         get: function () {
             return this.values.valueY.value;
@@ -153,7 +152,7 @@ var CandlestickSeriesDataItem = /** @class */ (function (_super) {
          *
          * This is an alias for `valueX` added for convenience only.
          *
-         * @param {number}  value  Value
+         * @param value  Value
          */
         set: function (value) {
             this.setValue("valueY", value);
@@ -211,7 +210,7 @@ var CandlestickSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {CandlestickSeriesDataItem} Data Item
+     * @return Data Item
      */
     CandlestickSeries.prototype.createDataItem = function () {
         return new CandlestickSeriesDataItem();
@@ -220,7 +219,7 @@ var CandlestickSeries = /** @class */ (function (_super) {
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
-     * @param {CandlestickSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     CandlestickSeries.prototype.validateDataElementReal = function (dataItem) {
         _super.prototype.validateDataElementReal.call(this, dataItem);
@@ -303,7 +302,7 @@ var CandlestickSeries = /** @class */ (function (_super) {
          * A data field to look for "low" value for horizontal axis.
          *
          * @ignore Exclude from docs
-         * @return {string} Field name
+         * @return Field name
          */
         get: function () {
             return this._xLowField;
@@ -316,7 +315,7 @@ var CandlestickSeries = /** @class */ (function (_super) {
          * A data field to look for "low" value for vertical axis.
          *
          * @ignore Exclude from docs
-         * @return {string} Field name
+         * @return Field name
          */
         get: function () {
             return this._yLowField;
@@ -329,7 +328,7 @@ var CandlestickSeries = /** @class */ (function (_super) {
          * A data field to look for "high" value for horizontal axis.
          *
          * @ignore Exclude from docs
-         * @return {string} Field name
+         * @return Field name
          */
         get: function () {
             return this._xHighField;
@@ -342,7 +341,7 @@ var CandlestickSeries = /** @class */ (function (_super) {
          * A data field to look for "high" value for vertical axis.
          *
          * @ignore Exclude from docs
-         * @return {string} Field name
+         * @return Field name
          */
         get: function () {
             return this._yHighField;
@@ -375,7 +374,7 @@ var CandlestickSeries = /** @class */ (function (_super) {
      * Series.
      *
      * @ignore Exclude from docs
-     * @param {Container}  marker  Legend item container
+     * @param marker  Legend item container
      */
     CandlestickSeries.prototype.createLegendMarker = function (marker) {
         var w = marker.pixelWidth;
@@ -421,7 +420,7 @@ var CandlestickSeries = /** @class */ (function (_super) {
     /**
      * Returns an element to use for Candlestick
      * @ignore
-     * @return {this["_column"]} Element.
+     * @return Element.
      */
     CandlestickSeries.prototype.createColumnTemplate = function () {
         return new Candlestick();

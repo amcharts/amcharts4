@@ -20,60 +20,46 @@ import * as $type from "../utils/Type";
 export declare class Morpher extends BaseObject implements IAnimatable {
     /**
      * An element that will be a subject for morphing.
-     *
-     * @type {IMorphable}
      */
     morphable: IMorphable;
     /**
      * [_morphFromPointsReal description]
      *
      * @todo Description
-     * @type {Optional<IPoint[][][]>}
      */
     protected _morphFromPointsReal: $type.Optional<IPoint[][][]>;
     /**
      * [_morphToPointsReal description]
      *
      * @todo Description
-     * @type {Optional<IPoint[][][]>}
      */
     protected _morphToPointsReal: $type.Optional<IPoint[][][]>;
     /**
      * [_morphToPoints description]
      *
      * @todo Description
-     * @type {Optional<IPoint[][][]>}
      */
     protected _morphToPoints: $type.Optional<IPoint[][][]>;
     /**
      * Morph progress (0-1)
-     *
-     * @type {Optional<number>}
      */
     protected _morphProgress: $type.Optional<number>;
     /**
      * List of animations currently running.
-     *
-     * @type {Optional<Array<Animation>>}
      */
     protected _animations: $type.Optional<Array<Animation>>;
     /**
      * A storage for measurements.
-     *
-     * @type {IRectangle[]}
      */
     protected _bboxes: IRectangle[];
     /**
      * Duration of the morphing animation in milliseconds.
-     *
-     * @type {number}
      */
     morphDuration: number;
     /**
      * An easing function to use for morphing animation.
      *
      * @see {@link Ease}
-     * @type {Function}
      */
     morphEasing: (value: number) => number;
     /**
@@ -83,29 +69,25 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      *
      * Otherwise each separate part of polygon will morph to individual target
      * circle or polgyon.
-     *
-     * @type {boolean}
      */
     morphToSingle: boolean;
     /**
      * A ratio to scale morphed object in relation to the source object.
-     *
-     * @type {number}
      */
     scaleRatio: number;
     /**
      * Constructor.
      *
-     * @param {IMorphable} morphable An object to morph
+     * @param morphable An object to morph
      */
     constructor(morphable: IMorphable);
     /**
      * Morphs a polygon to another polygon.
      *
-     * @param {IPoint[][][]}        toPoints  Corner points of the target shape
-     * @param {number}              duration  Duration in milliseconds
-     * @param {(number) => number}  easing    Easing function
-     * @return {Animation}                    Animation
+     * @param toPoints  Corner points of the target shape
+     * @param duration  Duration in milliseconds
+     * @param easing    Easing function
+     * @return Animation
      */
     morphToPolygon(toPoints: IPoint[][][], duration?: number, easing?: (value: number) => number): Animation;
     /**
@@ -113,9 +95,9 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {IPoint[][][]}  pointsA  Point A
-     * @param  {IPoint[][][]}  pointsB  Point B
-     * @return {IPoint[]}               Normalized points
+     * @param pointsA  Point A
+     * @param pointsB  Point B
+     * @return Normalized points
      */
     normalizePoints(pointsA: IPoint[][][], pointsB: IPoint[][][]): IPoint[][][];
     /**
@@ -123,17 +105,17 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      *
      * @ignore Exclude from doc
      * @todo Description
-     * @param {IPoint[][][]}  points  [description]
+     * @param points  [description]
      * @return                        common bbox of points
      */
     sortPoints(points: IPoint[][][]): $type.Optional<IRectangle>;
     /**
      * Morphs polygon to a circle (it is actually a polygon which makes a circle).
      *
-     * @param  {number}              radius    Target circle radius (px)
-     * @param  {number}              duration  Duration (ms)
-     * @param  {(number) => number}  easing    Easing function
-     * @return {Animation}                     Animation
+     * @param radius    Target circle radius (px)
+     * @param duration  Duration (ms)
+     * @param easing    Easing function
+     * @return Animation
      */
     morphToCircle(radius?: number, duration?: number, easing?: (value: number) => number): Animation;
     /**
@@ -141,46 +123,46 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      *
      * @ignore Exclude from doc
      * @todo Description
-     * @param  {IPoint[]}  points         [description]
-     * @param  {number}    mustHaveCount  [description]
-     * @return {IPoint[]}                 [description]
+     * @param points         [description]
+     * @param mustHaveCount  [description]
+     * @return [description]
      */
     addPoints(points: IPoint[], mustHaveCount: number): IPoint[];
     /**
      * Morphs polygon into a rectangular polygon.
      *
-     * @param  {number}              width     Width of the target rectangle (px)
-     * @param  {number}              height    Height of the target rectangle (px)
-     * @param  {number}              duration  Duration (ms)
-     * @param  {(number) => number}  easing    Easing function
-     * @return {Animation}                     Animation
+     * @param width     Width of the target rectangle (px)
+     * @param height    Height of the target rectangle (px)
+     * @param duration  Duration (ms)
+     * @param easing    Easing function
+     * @return Animation
      */
     morphToRectangle(width?: number, height?: number, duration?: number, easing?: (value: number) => number): Animation;
     /**
      * Returns the progress of morph transition.
      *
-     * @return {Optional<number>} Progress (0-1)
+     * @return Progress (0-1)
      */
     /**
      * Progress of the morph transition.
      *
      * Setting this will also trigger actual transformation.
      *
-     * @param {number}  value  Progress (0-1)
+     * @param value  Progress (0-1)
      */
     morphProgress: $type.Optional<number>;
     /**
      * Restores the polygon to its original appearance.
      *
-     * @param {number}              duration  Duration (ms)
-     * @param {(number) => number}  easing    Easing function
-     * @return {Animation}                    Animation
+     * @param duration  Duration (ms)
+     * @param easing    Easing function
+     * @return Animation
      */
     morphBack(duration?: number, easing?: (value: number) => number): Animation;
     /**
      * Returns a list of morph animations currently being played.
      *
-     * @return {Array<Animation>} List of animations
+     * @return List of animations
      */
     readonly animations: Array<Animation>;
 }

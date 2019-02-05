@@ -29,30 +29,23 @@ import { Column } from "../elements/Column";
 export declare class ColumnSeriesDataItem extends XYSeriesDataItem {
     /**
      * A Column Element
-     * @type {Column}
      */
     _column: Column;
     /**
      * Indicates if this data items close value is lower than its open value.
-     *
-     * @type {boolean}
      */
     droppedFromOpen: boolean;
     /**
      * Indicates if this items value is lower than previous data item's value.
-     *
-     * @type {boolean}
      */
     droppedFromPrevious: boolean;
     /**
      * Defines a type of [[Component]] this data item is used for
-     * @type {ColumnSeries}
      */
     _component: ColumnSeries;
     /**
      * A dictionary storing axes ranges columns by axis uid
      *
-     * @type {Dictionary<string, Sprite>}
      * @ignore
      */
     protected _rangesColumns: Dictionary<string, this["_column"]>;
@@ -61,19 +54,17 @@ export declare class ColumnSeriesDataItem extends XYSeriesDataItem {
      */
     constructor();
     /**
-     * @return {Column} Column
+     * @return Column
      */
     /**
      * A column used to draw a column for this data item.
      *
-     * @param {Column}  column
+     * @param column
      */
     column: this["_column"];
     protected setColumn(column: this["_column"]): void;
     /**
      * A dictionary storing axes ranges columns by axis uid
-     *
-     * @type {Dictionary<string, this["_column"]>}
      */
     readonly rangesColumns: Dictionary<string, this["_column"]>;
 }
@@ -95,10 +86,9 @@ export interface IColumnSeriesProperties extends IXYSeriesProperties {
     /**
      * Cluster this series columns?
      *
-     * Setting to `false` will make columns overlap with pther series.
+     * Setting to `false` will make columns overlap with other series.
      *
      * @default true
-     * @type {boolean}
      */
     clustered?: boolean;
 }
@@ -134,56 +124,38 @@ export declare class ColumnSeries extends XYSeries {
     _column: Column;
     /**
      * Defines available data fields.
-     *
-     * @type {IColumnSeriesDataFields}
      */
     _dataFields: IColumnSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IColumnSeriesProperties}
      */
     _properties: IColumnSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IColumnSeriesAdapters}
      */
     _adapter: IColumnSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IColumnSeriesEvents}
      */
     _events: IColumnSeriesEvents;
     /**
      * Defines the type of data item.
-     *
-     * @type {ColumnSeriesDataItem}
      */
     _dataItem: ColumnSeriesDataItem;
     /**
      * A list of column elements.
-     *
-     * @type {ListTemplate<Sprite>}
      */
     protected _columns: ListTemplate<this["_column"]>;
     /**
      * Container to put column elements in.
-     *
-     * @type {Container}
      */
     protected _columnsContainer: Container;
     /**
      * Start location within cell for columns.
-     *
-     * @type {number}
      */
     protected _startLocation: number;
     /**
      * End location within cell for columns.
-     *
-     * @type {number}
      */
     protected _endLocation: number;
     /**
@@ -224,7 +196,7 @@ export declare class ColumnSeries extends XYSeries {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {ColumnSeriesDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
@@ -237,14 +209,14 @@ export declare class ColumnSeries extends XYSeries {
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
-     * @param {ColumnSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     validateDataElement(dataItem: this["_dataItem"]): void;
     /**
      * Returns relative start location for the data item.
      *
-     * @param  {this["_dataItem"]}  dataItem  Data item
-     * @return {number}                       Location (0-1)
+     * @param dataItem  Data item
+     * @return Location (0-1)
      */
     protected getStartLocation(dataItem: this["_dataItem"]): number;
     /**
@@ -256,47 +228,47 @@ export declare class ColumnSeries extends XYSeries {
     /**
      * Returns relative end location for the data item.
      *
-     * @param  {this["_dataItem"]}  dataItem  Data item
-     * @return {number}                       Location (0-1)
+     * @param dataItem  Data item
+     * @return Location (0-1)
      */
     protected getEndLocation(dataItem: this["_dataItem"]): number;
     /**
      * Validates data item's elements.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     validateDataElementReal(dataItem: this["_dataItem"]): void;
     disableUnusedColumns(dataItem: ColumnSeriesDataItem): void;
     /**
      * Apply different state/coloring to columns based on the change value.
      *
-     * @param {Sprite}  sprite  Sprite to apply state to
+     * @param sprite  Sprite to apply state to
      * @todo Do not apply accessibility to wicks of the candlesticks
      */
     protected setColumnStates(sprite: Sprite): void;
     /**
      * A list of column elements in the series.
      *
-     * @return {ListTemplate<this["_column"]>} Columns
+     * @return Columns
      */
     readonly columns: ListTemplate<this["_column"]>;
     /**
      * Creates and returns a column element to use as a template.
      *
-     * @return {this["_column"]} Column template
+     * @return Column template
      */
     protected createColumnTemplate(): this["_column"];
     /**
-     * @return {boolean} Clustered?
+     * @return Clustered?
      */
     /**
      * Cluster this series columns?
      *
-     * Setting to `false` will make columns overlap with pther series.
+     * Setting to `false` will make columns overlap with other series.
      *
      * @default true
-     * @param {boolean}  value  Clustered?
+     * @param value  Clustered?
      */
     clustered: boolean;
     /**
@@ -307,7 +279,7 @@ export declare class ColumnSeries extends XYSeries {
      * NOTE: this will work only if at least one axis is [[ValueAxis]].
      *
      * @readonly You can modify state object, but can't overwrite it
-     * @return {SpriteState} State
+     * @return State
      */
     readonly dropFromOpenState: SpriteState<this["_properties"], this["_adapter"]>;
     /**
@@ -317,7 +289,7 @@ export declare class ColumnSeries extends XYSeries {
      * Can be used to differentiate appearance based on value relations.
      *
      * @readonly You can modify state object, but can't overwrite it
-     * @return {SpriteState} State
+     * @return State
      */
     readonly dropFromPreviousState: SpriteState<this["_properties"], this["_adapter"]>;
     /**
@@ -329,7 +301,7 @@ export declare class ColumnSeries extends XYSeries {
      * NOTE: this will work only if at least one axis is [[ValueAxis]].
      *
      * @readonly You can modify state object, but can't overwrite it
-     * @return {SpriteState} State
+     * @return State
      */
     readonly riseFromOpenState: SpriteState<this["_properties"], this["_adapter"]>;
     /**
@@ -339,14 +311,14 @@ export declare class ColumnSeries extends XYSeries {
      * Can be used to differentiate appearance based on value relations.
      *
      * @readonly You can modify state object, but can't overwrite it
-     * @return {SpriteState} State
+     * @return State
      */
     readonly riseFromPreviousState: SpriteState<this["_properties"], this["_adapter"]>;
     /**
      * Updates value of the related legend item.
      *
      * @ignore Exclude from docs
-     * @param {ColumnSeriesDataItem}  dataItem  Data item
+     * @param dataItem  Data item
      */
     updateLegendValue(dataItem?: this["_dataItem"]): void;
     /**
@@ -354,13 +326,13 @@ export declare class ColumnSeries extends XYSeries {
      * Series.
      *
      * @ignore Exclude from docs
-     * @param {Container}  marker  Legend item container
+     * @param marker  Legend item container
      */
     createLegendMarker(marker: Container): void;
     /**
      * Copies all properties from another instance of [[ColumnSeries]].
      *
-     * @param {ColumnSeries}  source  Source series
+     * @param source  Source series
      */
     copyFrom(source: this): void;
     /**

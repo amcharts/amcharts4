@@ -11,7 +11,7 @@ chart.data = [{
     "country": "Lithuania",
     "value": 401
 }, {
-    "country": "Czech Republic",
+    "country": "Estonia",
     "value": 300
 }, {
     "country": "Ireland",

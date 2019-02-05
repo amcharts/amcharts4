@@ -30,7 +30,7 @@ var AxisFill = /** @class */ (function (_super) {
     /**
      * Constructor.
      *
-     * @param {Axis} axis Axis
+     * @param axis Axis
      */
     function AxisFill(axis) {
         var _this = _super.call(this) || this;
@@ -69,7 +69,7 @@ var AxisFill = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisFill.prototype, "startPosition", {
         /**
-         * @return {number} Start position
+         * @return Start position
          */
         get: function () {
             return this.getPropertyValue("startPosition");
@@ -77,7 +77,7 @@ var AxisFill = /** @class */ (function (_super) {
         /**
          * An actual starting position of the fill.
          *
-         * @param {number}  value  Starting position
+         * @param value  Starting position
          */
         set: function (value) {
             this.setPropertyValue("startPosition", value);
@@ -88,7 +88,7 @@ var AxisFill = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisFill.prototype, "endPosition", {
         /**
-         * @return {number} End position
+         * @return End position
          */
         get: function () {
             return this.getPropertyValue("endPosition");
@@ -96,7 +96,7 @@ var AxisFill = /** @class */ (function (_super) {
         /**
          * An actual end position of the fill.
          *
-         * @param {number} value End position
+         * @param value End position
          */
         set: function (value) {
             this.setPropertyValue("endPosition", value);
@@ -107,7 +107,7 @@ var AxisFill = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisFill.prototype, "location", {
         /**
-         * @return {AxisItemLocation} Location (0-1)
+         * @return Location (0-1)
          */
         get: function () {
             return this.getPropertyValue("location");
@@ -115,7 +115,7 @@ var AxisFill = /** @class */ (function (_super) {
         /**
          * Relative location of the fill. (0-1)
          *
-         * @param {number} value Location (0-1)
+         * @param value Location (0-1)
          */
         set: function (value) {
             this.setPropertyValue("location", value, true);

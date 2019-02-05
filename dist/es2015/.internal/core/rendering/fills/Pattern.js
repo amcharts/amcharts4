@@ -39,8 +39,6 @@ var Pattern = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * List of elements the pattern consists of.
-         *
-         * @type {List<AMElement>}
          */
         _this._elements = new List();
         /**
@@ -48,7 +46,6 @@ var Pattern = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @see {@link PatternProperties}
-         * @type {PatternProperties}
          */
         _this.properties = {};
         _this.className = "Pattern";
@@ -105,10 +102,10 @@ var Pattern = /** @class */ (function (_super) {
      * Animate pattern properties.
      *
      * @see {@link Animation}
-     * @param  {IAnimationOptions[] | IAnimationOptions}  animationOptions  Animation options
-     * @param  {number}                                   duration          Duration (ms)
-     * @param  {(number) => number}                       easing            Easing function
-     * @return {Animation}                                                  Animation instance
+     * @param animationOptions  Animation options
+     * @param duration          Duration (ms)
+     * @param easing            Easing function
+     * @return Animation instance
      */
     Pattern.prototype.animate = function (animationOptions, duration, easing) {
         return new Animation(this, animationOptions, duration, easing).start();
@@ -116,7 +113,7 @@ var Pattern = /** @class */ (function (_super) {
     /**
      * Adds an element to the pattern.
      *
-     * @param {AMElement}  element  Element
+     * @param element  Element
      */
     Pattern.prototype.addElement = function (element) {
         this._elements.push(element);
@@ -125,7 +122,7 @@ var Pattern = /** @class */ (function (_super) {
     /**
      * Remove an element from the pattern.
      *
-     * @param {AMElement}  element  Element
+     * @param element  Element
      */
     Pattern.prototype.removeElement = function (element) {
         this._elements.removeValue(element);
@@ -135,7 +132,7 @@ var Pattern = /** @class */ (function (_super) {
         /**
          * Returns the list of SVG elements comprising the pattern.
          *
-         * @return {List<AMElement>} Pattern elements
+         * @return Pattern elements
          */
         get: function () {
             return this._elements;
@@ -145,7 +142,7 @@ var Pattern = /** @class */ (function (_super) {
     });
     Object.defineProperty(Pattern.prototype, "fillOpacity", {
         /**
-         * @return {number} Opacity (0-1)
+         * @return Opacity (0-1)
          */
         get: function () {
             return this.properties["fillOpacity"];
@@ -153,7 +150,7 @@ var Pattern = /** @class */ (function (_super) {
         /**
          * Pattern fill opacity. (0-1)
          *
-         * @param {number}  value  Opacity (0-1)
+         * @param value  Opacity (0-1)
          */
         set: function (value) {
             this.properties["fillOpacity"] = value;
@@ -164,7 +161,7 @@ var Pattern = /** @class */ (function (_super) {
     });
     Object.defineProperty(Pattern.prototype, "fill", {
         /**
-         * @return {Color} Fill color
+         * @return Fill color
          */
         get: function () {
             return this.properties["fill"];
@@ -172,7 +169,7 @@ var Pattern = /** @class */ (function (_super) {
         /**
          * Fill color of the pattern.
          *
-         * @param {Color}  value  Fill color
+         * @param value  Fill color
          */
         set: function (value) {
             this.properties["fill"] = value;
@@ -183,7 +180,7 @@ var Pattern = /** @class */ (function (_super) {
     });
     Object.defineProperty(Pattern.prototype, "backgroundFill", {
         /**
-         * @return {Color} Background color
+         * @return Background color
          */
         get: function () {
             return this.properties["backgroundFill"];
@@ -191,7 +188,7 @@ var Pattern = /** @class */ (function (_super) {
         /**
          * Pattern background fill color.
          *
-         * @param {Color}  value  Background color
+         * @param value  Background color
          */
         set: function (value) {
             this.properties["backgroundFill"] = value;
@@ -202,7 +199,7 @@ var Pattern = /** @class */ (function (_super) {
     });
     Object.defineProperty(Pattern.prototype, "backgroundOpacity", {
         /**
-         * @return {number} Background opacity (0-1)
+         * @return Background opacity (0-1)
          */
         get: function () {
             return this.properties["backgroundOpacity"];
@@ -210,7 +207,7 @@ var Pattern = /** @class */ (function (_super) {
         /**
          * Pattern backgorund opacity. (0-1)
          *
-         * @param {number}  value  Background opacity (0-1)
+         * @param value  Background opacity (0-1)
          */
         set: function (value) {
             this.properties["backgroundOpacity"] = value;
@@ -221,7 +218,7 @@ var Pattern = /** @class */ (function (_super) {
     });
     Object.defineProperty(Pattern.prototype, "stroke", {
         /**
-         * @return {Color} Color
+         * @return Color
          */
         get: function () {
             return this.properties["stroke"];
@@ -229,7 +226,7 @@ var Pattern = /** @class */ (function (_super) {
         /**
          * Pattern stroke (border) color.
          *
-         * @param {Color}  value  Color
+         * @param value  Color
          */
         set: function (value) {
             this.properties["stroke"] = value;
@@ -240,7 +237,7 @@ var Pattern = /** @class */ (function (_super) {
     });
     Object.defineProperty(Pattern.prototype, "strokeOpacity", {
         /**
-         * @return {number} Opacity (0-1)
+         * @return Opacity (0-1)
          */
         get: function () {
             return this.properties["strokeOpacity"];
@@ -248,7 +245,7 @@ var Pattern = /** @class */ (function (_super) {
         /**
          * Pattern stroke opacity. (0-1)
          *
-         * @param {number}  value  Opacity (0-1)
+         * @param value  Opacity (0-1)
          */
         set: function (value) {
             this.properties["strokeOpacity"] = value;
@@ -259,7 +256,7 @@ var Pattern = /** @class */ (function (_super) {
     });
     Object.defineProperty(Pattern.prototype, "strokeWidth", {
         /**
-         * @return {number} Stroke thickness (px)
+         * @return Stroke thickness (px)
          */
         get: function () {
             return this.properties["strokeWidth"];
@@ -267,7 +264,7 @@ var Pattern = /** @class */ (function (_super) {
         /**
          * Pattern stroke thickness in pixels.
          *
-         * @param {number}  value  Stroke thickness (px)
+         * @param value  Stroke thickness (px)
          */
         set: function (value) {
             this.properties["strokeWidth"] = value;
@@ -282,7 +279,7 @@ var Pattern = /** @class */ (function (_super) {
         },
         /**
          * Shape rendering
-         * @param {ShapeRendering} value [description]
+         * @param value [description]
          */
         set: function (value) {
             this.properties["shapeRendering"] = value;
@@ -293,7 +290,7 @@ var Pattern = /** @class */ (function (_super) {
     });
     Object.defineProperty(Pattern.prototype, "rotation", {
         /**
-         * @return {number} Rotation
+         * @return Rotation
          */
         get: function () {
             return this.properties["rotation"];
@@ -301,7 +298,7 @@ var Pattern = /** @class */ (function (_super) {
         /**
          * Pattern rotation in degrees.
          *
-         * @param {number}  value  Rotation
+         * @param value  Rotation
          */
         set: function (value) {
             this.properties["rotation"] = value;
@@ -312,7 +309,7 @@ var Pattern = /** @class */ (function (_super) {
     });
     Object.defineProperty(Pattern.prototype, "patternUnits", {
         /**
-         * @return {"userSpaceOnUse" | "objectBoundingBox"} Units
+         * @return Units
          */
         get: function () {
             return this.properties["patternUnits"];
@@ -322,7 +319,7 @@ var Pattern = /** @class */ (function (_super) {
          *
          * Available options: "userSpaceOnUse" | "objectBoundingBox".
          *
-         * @param {"userSpaceOnUse" | "objectBoundingBox"}  value  Units
+         * @param value  Units
          */
         set: function (value) {
             this.properties["patternUnits"] = value;
@@ -333,7 +330,7 @@ var Pattern = /** @class */ (function (_super) {
     });
     Object.defineProperty(Pattern.prototype, "width", {
         /**
-         * @return {number} Width (px)
+         * @return Width (px)
          */
         get: function () {
             return this.properties["width"];
@@ -341,7 +338,7 @@ var Pattern = /** @class */ (function (_super) {
         /**
          * Pattern width in pixels.
          *
-         * @param {number}  value  Width (px)
+         * @param value  Width (px)
          */
         set: function (value) {
             this.properties["width"] = value;
@@ -352,7 +349,7 @@ var Pattern = /** @class */ (function (_super) {
     });
     Object.defineProperty(Pattern.prototype, "height", {
         /**
-         * @return {number} Height (px)
+         * @return Height (px)
          */
         get: function () {
             return this.properties["height"];
@@ -360,7 +357,7 @@ var Pattern = /** @class */ (function (_super) {
         /**
          * Pattern height in pixels.
          *
-         * @param {number} value Height (px)
+         * @param value Height (px)
          */
         set: function (value) {
             this.properties["height"] = value;
@@ -371,7 +368,7 @@ var Pattern = /** @class */ (function (_super) {
     });
     Object.defineProperty(Pattern.prototype, "x", {
         /**
-         * @return {number} X (px)
+         * @return X (px)
          */
         get: function () {
             return this.properties["x"];
@@ -379,7 +376,7 @@ var Pattern = /** @class */ (function (_super) {
         /**
          * X position. (pixels)
          *
-         * @param {number} value X (px)
+         * @param value X (px)
          */
         set: function (value) {
             this.properties["x"] = value;
@@ -390,7 +387,7 @@ var Pattern = /** @class */ (function (_super) {
     });
     Object.defineProperty(Pattern.prototype, "y", {
         /**
-         * @return {number} Y (px)
+         * @return Y (px)
          */
         get: function () {
             return this.properties["y"];
@@ -398,7 +395,7 @@ var Pattern = /** @class */ (function (_super) {
         /**
          * Y position (px).
          *
-         * @param {number} value Y (px)
+         * @param value Y (px)
          */
         set: function (value) {
             this.properties["y"] = value;
@@ -410,7 +407,7 @@ var Pattern = /** @class */ (function (_super) {
     Object.defineProperty(Pattern.prototype, "paper", {
         /**
          * @ignore Exclude from docs
-         * @return {Paper} Paper
+         * @return Paper
          */
         get: function () {
             if (this._paper) {
@@ -422,7 +419,7 @@ var Pattern = /** @class */ (function (_super) {
          * [[Paper]] instance to draw pattern in.
          *
          * @ignore Exclude from docs
-         * @param {Paper}  paper  Paper
+         * @param paper  Paper
          */
         set: function (paper) {
             if (this._paper != paper) {
@@ -437,7 +434,7 @@ var Pattern = /** @class */ (function (_super) {
     /**
      * Copies properties from another Pattern instance.
      *
-     * @param {this}  source  Source pattern
+     * @param source  Source pattern
      */
     Pattern.prototype.copyFrom = function (source) {
         var _this = this;
@@ -451,7 +448,7 @@ var Pattern = /** @class */ (function (_super) {
          * A list of animations currently running on the patter.
          *
          * @ignore Exclude from docs
-         * @return {Array<Animation>} Animation list
+         * @return Animation list
          */
         get: function () {
             if (!this._animations) {
@@ -467,7 +464,7 @@ var Pattern = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     Pattern.prototype.processConfig = function (config) {
         if (config) {

@@ -1,5 +1,4 @@
 /**
- *
  */
 import * as tslib_1 from "tslib";
 /**

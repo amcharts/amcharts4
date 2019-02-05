@@ -19,31 +19,25 @@ export class IndexedIterable<A> {
 
 	/**
 	 * Item list
-	 *
-	 * @type {Array<A>}
 	 */
 	private _array: Array<A>;
 
 	/**
 	 * Start index.
-	 *
-	 * @type {number}
 	 */
 	private _start: number;
 
 	/**
 	 * End index.
-	 *
-	 * @type {number}
 	 */
 	private _end: number;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param {Array<A>}  array  List items
-	 * @param {number}    start  Start index
-	 * @param {number}    end    End index
+	 * @param array  List items
+	 * @param start  Start index
+	 * @param end    End index
 	 */
 	constructor(array: Array<A>, start: number, end: number) {
 		this._array = array;
@@ -54,7 +48,7 @@ export class IndexedIterable<A> {
 	/**
 	 * Returns a list item iterator.
 	 *
-	 * @return {Iterator} Iterator
+	 * @return Iterator
 	 */
 	public iterator(): $iter.Iterator<A> {
 		return (push) => {
@@ -80,7 +74,7 @@ export class IndexedIterable<A> {
 	/**
 	 * Returns an interable list sorted backwards than current list.
 	 *
-	 * @return {IndexedIterable<A>} List
+	 * @return List
 	 */
 	public backwards(): IndexedIterable<A> {
 		return new IndexedIterable(this._array, this._end, this._start);
@@ -90,9 +84,9 @@ export class IndexedIterable<A> {
 	 * Returns a new list consisting only of specific range of items between
 	 * `start` and `end` indexes.
 	 *
-	 * @param  {number}              start  Start index
-	 * @param  {number}              end    End index
-	 * @return {IndexedIterable<A>}         List
+	 * @param start  Start index
+	 * @param end    End index
+	 * @return List
 	 */
 	public range(start: number, end: number): IndexedIterable<A> {
 		if (start <= end) {
@@ -191,22 +185,16 @@ export class ListGrouper<A> extends MultiDisposer {
 	 * Function that can be used to extract a "value" of the list element.
 	 *
 	 * Used for ordering.
-	 *
-	 * @type {function}
 	 */
 	private _getKey: (value: A) => number;
 
 	/**
 	 * A function that  is used to order list groups.
-	 *
-	 * @type {function}
 	 */
 	private _sort: (left: number, right: number) => Ordering;
 
 	/**
 	 * Grouping keys.
-	 *
-	 * @type {Array<number>}
 	 */
 	private _keys: Array<number> = [];
 
@@ -218,9 +206,9 @@ export class ListGrouper<A> extends MultiDisposer {
 	/**
 	 * Inserts an item (`x`) to a specific group (`key`) and specific `index`.
 	 *
-	 * @param {A}       x      Item
-	 * @param {number}  key    Group name
-	 * @param {number}  index  Index
+	 * @param x      Item
+	 * @param key    Group name
+	 * @param index  Index
 	 */
 	private _insert(x: A, key: number, index?: number): void {
 		if (this._groups[key] == null) {
@@ -248,7 +236,7 @@ export class ListGrouper<A> extends MultiDisposer {
 	/**
 	 * Removes an item from the list.
 	 *
-	 * @param {A} x Item to remove
+	 * @param x Item to remove
 	 */
 	private _remove(x: A): void {
 		const key = this._getKey(x);
@@ -325,7 +313,7 @@ export class ListGrouper<A> extends MultiDisposer {
 	 *
 	 * The iterator will iterate through all items in all groups.
 	 *
-	 * @return {.Iterator<A>} Iterator
+	 * @return Iterator
 	 */
 	public iterator(): $iter.Iterator<A> {
 		return $iter.flatten($iter.map($iter.fromArray(this._keys), (key) => {
@@ -367,8 +355,8 @@ export class ListDisposer<A extends IDisposer> extends Disposer {
 /**
  * Checks if specific index fits into length.
  *
- * @param {number}  index  Index
- * @param {number}  len    Length
+ * @param index  Index
+ * @param len    Length
  */
 function checkBounds(index: number, len: number): void {
 	if (!(index >= 0 && index < len)) {
@@ -384,22 +372,18 @@ export class List<T> {
 
 	/**
 	 * List values.
-	 *
-	 * @type {Array<T>}
 	 */
 	private _values: Array<T>;
 
 	/**
 	 * Event dispatcher.
-	 *
-	 * @type {EventDispatcher<AMEvent<this, IListEvents<T>>>}
 	 */
 	public events: EventDispatcher<AMEvent<this, IListEvents<T>>> = new EventDispatcher();
 
 	/**
 	 * Constructor
 	 *
-	 * @param {Array<T>}  initial  Inital list of values to add to list
+	 * @param initial  Inital list of values to add to list
 	 */
 	constructor(initial: Array<T> = []) {
 		this._values = initial;
@@ -412,7 +396,7 @@ export class List<T> {
 	 * `push()`, `removeIndex()`, etc.
 	 *
 	 * @readonly
-	 * @return {Array<T>} List values
+	 * @return List values
 	 */
 	public get values(): Array<T> {
 		return this._values;
@@ -421,8 +405,8 @@ export class List<T> {
 	/**
 	 * Checks if list contains specific item reference.
 	 *
-	 * @param  {T}        item  Item to search for
-	 * @return {boolean}        `true` if found, `false` if not found
+	 * @param item  Item to search for
+	 * @return `true` if found, `false` if not found
 	 */
 	public contains(value: T): boolean {
 		return this._values.indexOf(value) !== -1;
@@ -431,7 +415,7 @@ export class List<T> {
 	/**
 	 * Removes specific item from the list.
 	 *
-	 * @param {T} item An item to remove
+	 * @param item An item to remove
 	 */
 	public removeValue(value: T): void {
 		let i = 0;
@@ -452,8 +436,8 @@ export class List<T> {
 	/**
 	 * Searches the list for specific item and returns its index.
 	 *
-	 * @param  {T}       item  An item to search for
-	 * @return {number}        Index or -1 if not found
+	 * @param item  An item to search for
+	 * @return Index or -1 if not found
 	 */
 	public indexOf(value: T): number {
 		return $array.indexOf(this._values, value);
@@ -463,7 +447,7 @@ export class List<T> {
 	 * Number of items in list.
 	 *
 	 * @readonly
-	 * @return {number} Number of items
+	 * @return Number of items
 	 */
 	public get length(): number {
 		return this._values.length;
@@ -472,8 +456,8 @@ export class List<T> {
 	/**
 	 * Checks if there's a value at specific index.
 	 *
-	 * @param  {number}   index  Index
-	 * @return {boolean}         Value exists?
+	 * @param index  Index
+	 * @return Value exists?
 	 */
 	public hasIndex(index: number): boolean {
 		return index >= 0 && index < this._values.length;
@@ -482,8 +466,8 @@ export class List<T> {
 	/**
 	 * Returns an item at specified index.
 	 *
-	 * @param  {number}  index  Index
-	 * @return {T}              List item
+	 * @param index  Index
+	 * @return List item
 	 */
 	public getIndex(index: number): T | undefined {
 		return this._values[index];
@@ -494,9 +478,9 @@ export class List<T> {
 	 *
 	 * If there's already a value at the index, it is overwritten.
 	 *
-	 * @param  {number}  index  Index
-	 * @param  {T}       value  New value
-	 * @return {T}              New value
+	 * @param index  Index
+	 * @param value  New value
+	 * @return New value
 	 */
 	public setIndex(index: number, value: T): T {
 		checkBounds(index, this._values.length);
@@ -541,8 +525,8 @@ export class List<T> {
 	 * Adds an item to the list at a specific index, which pushes all the other
 	 * items further down the list.
 	 *
-	 * @param  {number} index Index
-	 * @param  {T}      item  An item to add
+	 * @param index Index
+	 * @param item  An item to add
 	 */
 	public insertIndex(index: number, value: T): void {
 		checkBounds(index, this._values.length + 1);
@@ -571,9 +555,9 @@ export class List<T> {
 	 * [_sortQuicksort description]
 	 *
 	 * @todo Description
-	 * @param {number}    low    [description]
-	 * @param {number}    high   [description]
-	 * @param {function}  order  [description]
+	 * @param low    [description]
+	 * @param high   [description]
+	 * @param order  [description]
 	 */
 	private _sortQuicksort(low: number, high: number, order: (left: T, right: T) => Ordering): void {
 		if (low < high) {
@@ -587,10 +571,10 @@ export class List<T> {
 	 * [_sortPartition description]
 	 *
 	 * @todo Description
-	 * @param  {number}    low    [description]
-	 * @param  {number}    high   [description]
-	 * @param  {function}  order  [description]
-	 * @return {number}           [description]
+	 * @param low    [description]
+	 * @param high   [description]
+	 * @param order  [description]
+	 * @return [description]
 	 */
 	private _sortPartition(low: number, high: number, order: (left: T, right: T) => Ordering): number {
 		const values = this._values;
@@ -620,7 +604,7 @@ export class List<T> {
 	/**
 	 * Reorders list items according to specific ordering function.
 	 *
-	 * @param {T) => Ordering}  order  Ordering function
+	 * @param order  Ordering function
 	 */
 	public sort(order: (left: T, right: T) => Ordering): void {
 		// https://en.wikipedia.org/wiki/Quicksort#Hoare_partition_scheme
@@ -632,8 +616,8 @@ export class List<T> {
 	/**
 	 * Swaps indexes of two items in the list.
 	 *
-	 * @param {number}  a  Item 1
-	 * @param {number}  b  Item 2
+	 * @param a  Item 1
+	 * @param b  Item 2
 	 */
 	public swap(a: number, b: number): void {
 		const len = this._values.length;
@@ -674,8 +658,8 @@ export class List<T> {
 	/**
 	 * Removes a value at specific index.
 	 *
-	 * @param  {number}  index  Index of value to remove
-	 * @return {T}              Removed value
+	 * @param index  Index of value to remove
+	 * @return Removed value
 	 */
 	public removeIndex(index: number): T {
 		checkBounds(index, this._values.length);
@@ -710,8 +694,8 @@ export class List<T> {
 	 * If the index is not specified it will move the item to the end of the
 	 * list.
 	 *
-	 * @param {T}       value  Item to move
-	 * @param {number}  index  Index to place item at
+	 * @param value  Item to move
+	 * @param index  Index to place item at
 	 */
 	public moveValue(value: T, toIndex?: number): void {
 		// TODO don't do anything if the desired index is the same as the current index
@@ -764,7 +748,7 @@ export class List<T> {
 	/**
 	 * Adds an item to the end of the list.
 	 *
-	 * @param  {T}  item  An item to add
+	 * @param item  An item to add
 	 */
 	public push<K extends T>(value: K): K {
 		const index = this._values.push(value) - 1;
@@ -792,7 +776,7 @@ export class List<T> {
 	/**
 	 * Adds an item as a first item in the list.
 	 *
-	 * @param  {T}  item  An item to add
+	 * @param item  An item to add
 	 */
 	public unshift(value: T): void {
 		return this.insertIndex(0, value);
@@ -801,7 +785,7 @@ export class List<T> {
 	/**
 	 * Adds multiple items to the list.
 	 *
-	 * @param {Array<T>}  items  An Array of items to add
+	 * @param items  An Array of items to add
 	 */
 	public pushAll(values: Array<T>): void {
 		$array.each(values, (value) => {
@@ -812,7 +796,7 @@ export class List<T> {
 	/**
 	 * Copies and adds items from abother list.
 	 *
-	 * @param {List<T>}  source  A list top copy items from
+	 * @param source  A list top copy items from
 	 */
 	public copyFrom(source: this): void {
 		this.pushAll(source._values);
@@ -821,7 +805,7 @@ export class List<T> {
 	/**
 	 * Returns the last item from the list, and removes it.
 	 *
-	 * @return {T} Item
+	 * @return Item
 	 */
 	public pop(): $type.Optional<T> {
 		let index = this._values.length - 1;
@@ -831,7 +815,7 @@ export class List<T> {
 	/**
 	 * Returns the first item from the list, and removes it.
 	 *
-	 * @return {T} Item
+	 * @return Item
 	 */
 	public shift(): $type.Optional<T> {
 		return this._values.length ? this.removeIndex(0) : undefined;
@@ -842,7 +826,7 @@ export class List<T> {
 	 *
 	 * All current items are removed.
 	 *
-	 * @param {Array<T>}  newArray  New items
+	 * @param newArray  New items
 	 */
 	public setAll(newArray: Array<T>): void {
 		// @tod if a value exists in both the new and old arrays, don't send remove/insert events
@@ -894,7 +878,7 @@ export class List<T> {
 	/**
 	 * Returns a list iterator.
 	 *
-	 * @return {Iterator} Iterator
+	 * @return Iterator
 	 */
 	public iterator(): $iter.Iterator<T> {
 		return $iter.fromArray(this._values);
@@ -926,9 +910,9 @@ export class List<T> {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Code duplication with IndexedIterable
-	 * @param  {number}              start  Start index
-	 * @param  {number}              end    End index
-	 * @return {IndexedIterable<T>}         Range
+	 * @param start  Start index
+	 * @param end    End index
+	 * @return Range
 	 */
 	public range(start: number, end: number): IndexedIterable<T> {
 		if (start <= end) {
@@ -948,7 +932,7 @@ export class List<T> {
 	 * Returns an iterator that has list items sorted backwards.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {IndexedIterable<T>} List
+	 * @return List
 	 */
 	public backwards(): IndexedIterable<T> {
 		return new IndexedIterable(this._values, this._values.length, 0);
@@ -971,14 +955,13 @@ export class ListTemplate<T extends IClone<T> & { isTemplate: boolean }> extends
 	 * A template object.
 	 *
 	 * @todo Make this private
-	 * @type {T}
 	 */
 	public _template!: T;
 
 	/**
 	 * Constructor
 	 *
-	 * @param {T} t Template object
+	 * @param t Template object
 	 */
 	public constructor(t: T) {
 		super();
@@ -989,7 +972,7 @@ export class ListTemplate<T extends IClone<T> & { isTemplate: boolean }> extends
 	 * A "template" object to copy all properties from when creating new list
 	 * items.
 	 *
-	 * @param {T}  v  Template object
+	 * @param v  Template object
 	 */
 	public set template(v: T) {
 		v.isTemplate = true;
@@ -997,7 +980,7 @@ export class ListTemplate<T extends IClone<T> & { isTemplate: boolean }> extends
 	}
 
 	/**
-	 * @return {T} Template object
+	 * @return Template object
 	 */
 	public get template(): T {
 		return this._template;
@@ -1006,7 +989,7 @@ export class ListTemplate<T extends IClone<T> & { isTemplate: boolean }> extends
 	/**
 	 * Copies all elements from other list.
 	 *
-	 * @param {ListTemplate}  source  Source list
+	 * @param source  Source list
 	 */
 	public copyFrom(source: this): void {
 		$iter.each(source.iterator(), (value) => {
@@ -1037,7 +1020,7 @@ export class ListTemplate<T extends IClone<T> & { isTemplate: boolean }> extends
 	/**
 	 * Creates an exact clone of the list, including its items and template.
 	 *
-	 * @return {ListTemplate<T>} New list
+	 * @return New list
 	 */
 	public clone(): ListTemplate<T> {
 		const out = new ListTemplate(this.template);

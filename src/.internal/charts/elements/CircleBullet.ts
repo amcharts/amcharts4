@@ -61,29 +61,21 @@ export class CircleBullet extends Bullet {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ICircleBulletProperties}
 	 */
 	public _properties!: ICircleBulletProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ICircleBulletAdapters}
 	 */
 	public _adapter!: ICircleBulletAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ICircleBulletEvents}
 	 */
 	public _events!: ICircleBulletEvents;
 
 	/**
 	 * A label (textual) element for the bullet.
-	 *
-	 * @type {Circle}
 	 */
 	public circle: Circle;
 
@@ -106,7 +98,7 @@ export class CircleBullet extends Bullet {
 	 * Copies all proprities and related stuff from another instance of
 	 * [[CircleBullet]].
 	 *
-	 * @param {this}  source  Source element
+	 * @param source  Source element
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);

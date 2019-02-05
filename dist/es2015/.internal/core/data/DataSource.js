@@ -60,14 +60,10 @@ var DataSource = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * Adapter.
-         *
-         * @type {Adapter<DataSource, IDataSourceAdapters>}
          */
         _this.adapter = new Adapter(_this);
         /**
          * Custom options for HTTP(S) request.
-         *
-         * @type {INetRequestOptions}
          */
         _this._requestOptions = {};
         /**
@@ -79,7 +75,6 @@ var DataSource = /** @class */ (function (_super) {
          * work with any other externally-loadable data property.
          *
          * @default false
-         * @type {boolean}
          */
         _this._incremental = false;
         /**
@@ -96,13 +91,10 @@ var DataSource = /** @class */ (function (_super) {
          * of data items.
          *
          * @default false
-         * @type {boolean}
          */
         _this._keepCount = false;
         /**
          * Will show loading indicator when loading files.
-         *
-         * @type {boolean}
          */
         _this.showPreloader = true;
         _this.className = "DataSource";
@@ -125,8 +117,8 @@ var DataSource = /** @class */ (function (_super) {
      * Processes the loaded data.
      *
      * @ignore Exclude from docs
-     * @param {string}  data         Raw (unparsed) data
-     * @param {string}  contentType  Content type of the loaded data (optional)
+     * @param data         Raw (unparsed) data
+     * @param contentType  Content type of the loaded data (optional)
      */
     DataSource.prototype.processData = function (data, contentType) {
         // Parsing started
@@ -183,7 +175,7 @@ var DataSource = /** @class */ (function (_super) {
     };
     Object.defineProperty(DataSource.prototype, "url", {
         /**
-         * @return {string} URL
+         * @return URL
          */
         get: function () {
             // Get URL
@@ -199,7 +191,7 @@ var DataSource = /** @class */ (function (_super) {
         /**
          * URL of the data source.
          *
-         * @param {string}  value  URL
+         * @param value  URL
          */
         set: function (value) {
             this._url = value;
@@ -209,7 +201,7 @@ var DataSource = /** @class */ (function (_super) {
     });
     Object.defineProperty(DataSource.prototype, "requestOptions", {
         /**
-         * @return {INetRequestOptions} Options
+         * @return Options
          */
         get: function () {
             return this.adapter.apply("requestOptions", this._requestOptions);
@@ -249,7 +241,7 @@ var DataSource = /** @class */ (function (_super) {
          * NOTE: setting this options on an-already loaded DataSource will not
          * trigger a reload.
          *
-         * @param {INetRequestOptions}  value  Options
+         * @param value  Options
          */
         set: function (value) {
             this._requestOptions = value;
@@ -259,7 +251,7 @@ var DataSource = /** @class */ (function (_super) {
     });
     Object.defineProperty(DataSource.prototype, "parser", {
         /**
-         * @return {DataParser} Data parser
+         * @return Data parser
          */
         get: function () {
             if (!this._parser) {
@@ -290,7 +282,7 @@ var DataSource = /** @class */ (function (_super) {
          * ```
          *
          * @default JSONParser
-         * @param {DataParser}  value  Data parser
+         * @param value  Data parser
          */
         set: function (value) {
             this._parser = value;
@@ -300,7 +292,7 @@ var DataSource = /** @class */ (function (_super) {
     });
     Object.defineProperty(DataSource.prototype, "reloadFrequency", {
         /**
-         * @return {number} Reload frequency (ms)
+         * @return Reload frequency (ms)
          */
         get: function () {
             return this.adapter.apply("reloadTimeout", this._reloadFrequency);
@@ -310,7 +302,7 @@ var DataSource = /** @class */ (function (_super) {
          *
          * If set, it will reload the same URL every X milliseconds.
          *
-         * @param {number} value Reload frequency (ms)
+         * @param value Reload frequency (ms)
          */
         set: function (value) {
             var _this = this;
@@ -337,7 +329,7 @@ var DataSource = /** @class */ (function (_super) {
     });
     Object.defineProperty(DataSource.prototype, "incremental", {
         /**
-         * @return {boolean} Incremental load?
+         * @return Incremental load?
          */
         get: function () {
             return this.adapter.apply("incremental", this._incremental);
@@ -357,7 +349,7 @@ var DataSource = /** @class */ (function (_super) {
          * work with any other externally-loadable data property.
          *
          * @default false
-         * @param {boolean} Incremental load?
+         * @param Incremental load?
          */
         set: function (value) {
             this._incremental = value;
@@ -367,7 +359,7 @@ var DataSource = /** @class */ (function (_super) {
     });
     Object.defineProperty(DataSource.prototype, "incrementalParams", {
         /**
-         * @return {object} Incremental request parameters
+         * @return Incremental request parameters
          */
         get: function () {
             return this.adapter.apply("incrementalParams", this._incrementalParams);
@@ -376,7 +368,7 @@ var DataSource = /** @class */ (function (_super) {
          * An object consisting of key/value pairs to apply to an URL when data
          * source is making an incremental request.
          *
-         * @param {object}  value  Incremental request parameters
+         * @param value  Incremental request parameters
          */
         set: function (value) {
             this._incrementalParams = value;
@@ -386,7 +378,7 @@ var DataSource = /** @class */ (function (_super) {
     });
     Object.defineProperty(DataSource.prototype, "keepCount", {
         /**
-         * @return {boolean} keepCount load?
+         * @return keepCount load?
          */
         get: function () {
             return this.adapter.apply("keepCount", this._keepCount);
@@ -400,7 +392,7 @@ var DataSource = /** @class */ (function (_super) {
          * of data items.
          *
          * @default false
-         * @param {boolean} Keep record count?
+         * @param Keep record count?
          */
         set: function (value) {
             this._keepCount = value;
@@ -410,7 +402,7 @@ var DataSource = /** @class */ (function (_super) {
     });
     Object.defineProperty(DataSource.prototype, "language", {
         /**
-         * @return {Language} A [[Language]] instance to be used
+         * @return A [[Language]] instance to be used
          */
         get: function () {
             if (this._language) {
@@ -428,7 +420,7 @@ var DataSource = /** @class */ (function (_super) {
          *
          * Will inherit and use chart's language, if not set.
          *
-         * @param {Language} value An instance of Language
+         * @param value An instance of Language
          */
         set: function (value) {
             this._language = value;
@@ -438,7 +430,7 @@ var DataSource = /** @class */ (function (_super) {
     });
     Object.defineProperty(DataSource.prototype, "dateFormatter", {
         /**
-         * @return {DateFormatter} A [[DateFormatter]] instance to be used
+         * @return A [[DateFormatter]] instance to be used
          */
         get: function () {
             if (this._dateFormatter) {
@@ -456,7 +448,7 @@ var DataSource = /** @class */ (function (_super) {
          *
          * Will inherit and use chart's DateFormatter if not ser.
          *
-         * @param {DateFormatter} value An instance of [[DateFormatter]]
+         * @param value An instance of [[DateFormatter]]
          */
         set: function (value) {
             this._dateFormatter = value;
@@ -467,8 +459,8 @@ var DataSource = /** @class */ (function (_super) {
     /**
      * Adds current timestamp to the URL.
      *
-     * @param  {string}  url  Source URL
-     * @return {string}       Timestamped URL
+     * @param url  Source URL
+     * @return Timestamped URL
      */
     DataSource.prototype.timestampUrl = function (url) {
         var tstamp = new Date().getTime().toString();
@@ -503,9 +495,9 @@ var DataSource = /** @class */ (function (_super) {
      * Adds parameters to `url` as query strings. Will take care of proper
      * separators.
      *
-     * @param  {string}  url     Source URL
-     * @param  {object}  params  Parameters
-     * @return {string}          New URL
+     * @param url     Source URL
+     * @param params  Parameters
+     * @return New URL
      */
     DataSource.prototype.addUrlParams = function (url, params) {
         var join = url.match(/\?/) ? "&" : "?";
@@ -527,7 +519,7 @@ var DataSource = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     DataSource.prototype.processConfig = function (config) {
         registry.registeredClasses["json"] = JSONParser;

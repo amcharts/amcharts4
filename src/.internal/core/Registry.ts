@@ -52,15 +52,11 @@ export class Registry {
 
 	/**
 	 * Unique ID of the object.
-	 *
-	 * @type {string}
 	 */
 	public uid: string;
 
 	/**
 	 * Event dispacther.
-	 *
-	 * @type {EventDispatcher}
 	 */
 	public events: EventDispatcher<AMEvent<Registry, IRegistryEvents>> = new EventDispatcher();
 
@@ -68,7 +64,6 @@ export class Registry {
 	 * Holds a universal mapping collection, so that elements and their children
 	 * can create and look up all kinds of relations between id and object.
 	 *
-	 * @type {Dictionary<string, any>}
 	 * @ignore Exclude from docs
 	 */
 	protected _map: $type.Optional<Dictionary<string, any>>;
@@ -76,8 +71,6 @@ export class Registry {
 	/**
 	 * All currently applied themes. All new chart instances created will
 	 * automatically inherit and retain System's themes.
-	 *
-	 * @type {ITheme}
 	 */
 	public themes: ITheme[] = [];
 
@@ -93,7 +86,6 @@ export class Registry {
 	 * An indeternal counter used to generate unique IDs.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {number}
 	 */
 	protected _uidCount: number = 0;
 
@@ -115,7 +107,6 @@ export class Registry {
  * during next cycle.
  *
  * @ignore Exclude from docs
- * @type { [index: string]: Array<Sprite> }
  */
 	public invalidSprites: { [index: string]: Array<Sprite> } = {};
 
@@ -124,7 +115,6 @@ export class Registry {
 	 * a new one or data is added/removed from their data provider.
 	 *
 	 * @ignore Exclude from docs
-	 * @type { [index: string]: Array<Component> }
 	 */
 	public invalidDatas: { [index: string]: Array<Component> } = {};
 
@@ -133,7 +123,6 @@ export class Registry {
 	 * Used when we want a smooth animation from one set of values to another.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Array<Component>}
 	 */
 	public invalidRawDatas: Array<Component> = [];
 
@@ -142,7 +131,6 @@ export class Registry {
 	 * (but not data provider itself).
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Array<Component>}
 	 */
 	public invalidDataItems: Array<Component> = [];
 
@@ -151,7 +139,6 @@ export class Registry {
 	 * changed, e.g. zoomed.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Array<Component>}
 	 */
 	public invalidDataRange: Array<Component> = [];
 
@@ -160,7 +147,6 @@ export class Registry {
 	 * to be recalculated.
 	 *
 	 * @ignore Exclude from docs
-	 * @type { [index: string]: Array<Sprite>}
 	 */
 	public invalidPositions: { [index: string]: Array<Sprite> } = {};
 
@@ -168,7 +154,6 @@ export class Registry {
 	 * A list of [[Container]] objects with invalid(ated) layouts.
 	 *
 	 * @ignore Exclude from docs
-	 * @type { [index: string]: Array<Container>}
 	 */
 	public invalidLayouts: { [index: string]: Array<Container> } = {};
 
@@ -177,8 +162,6 @@ export class Registry {
 	 *
 	 * When, for example, a new chart is created, its instance will be added to
 	 * this array, and will be removed when the chart is disposed.
-	 *
-	 * @type {Array<Sprite>}
 	 */
 	public baseSprites: Array<Sprite> = [];
 
@@ -196,7 +179,7 @@ export class Registry {
 	/**
 	 * Generates a unique chart system-wide ID.
 	 *
-	 * @return {string} Generated ID
+	 * @return Generated ID
 	 */
 	public getUniqueId(): string {
 		let uid = this._uidCount;
@@ -208,7 +191,7 @@ export class Registry {
 	 * Returns a universal collection for mapping ids with objects.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {Dictionary<string, any>} Map collection
+	 * @return Map collection
 	 */
 	public get map(): Dictionary<string, any> {
 		if (!this._map) {
@@ -221,9 +204,9 @@ export class Registry {
 	 * Caches value in object's cache.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {string}  key    Key
-	 * @param {any}     value  Value
-	 * @param {number}  ttl    TTL in seconds
+	 * @param key    Key
+	 * @param value  Value
+	 * @param ttl    TTL in seconds
 	 */
 	public setCache(key: string, value: any, ttl?: number): void {
 		cache.set(this.uid, key, value, ttl);
@@ -233,9 +216,9 @@ export class Registry {
 	 * Retrieves cached value.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {string}  key    Key
-	 * @param  {any}     value  Value to return if cache is not available
-	 * @return {any}            Value
+	 * @param key    Key
+	 * @param value  Value to return if cache is not available
+	 * @return Value
 	 */
 	public getCache(key: string, value: any = undefined): any {
 		return cache.get(this.uid, key, value);
@@ -247,8 +230,8 @@ export class Registry {
 	 * It also checks if there are any handlers registered for this sepecific
 	 * event.
 	 *
-	 * @param {Key} eventType Event type (name)
-	 * @param {any}    data      Data to pass into event handler(s)
+	 * @param eventType Event type (name)
+	 * @param data      Data to pass into event handler(s)
 	 */
 	public dispatch<Key extends keyof IRegistryEvents>(eventType: Key, data?: any): void {
 		// @todo Implement proper type check
@@ -274,8 +257,8 @@ export class Registry {
 	 * Works like `dispatch`, except event is triggered immediately, without
 	 * waiting for the next frame cycle.
 	 *
-	 * @param {Key} eventType Event type (name)
-	 * @param {any}    data      Data to pass into event handler(s)
+	 * @param eventType Event type (name)
+	 * @param data      Data to pass into event handler(s)
 	 */
 	public dispatchImmediately<Key extends keyof IRegistryEvents>(eventType: Key, data?: any): void {
 		// @todo Implement proper type check
@@ -297,8 +280,8 @@ export class Registry {
 	/**
 	 * Returns a unique placeholder suitable for the key.
 	 *
-	 * @param  {string}  key  Key
-	 * @return {string}       Random string to be used as placeholder
+	 * @param key  Key
+	 * @return Random string to be used as placeholder
 	 */
 	public getPlaceholder(key: string): string {
 		if ($type.hasValue(this._placeholders[key])) {

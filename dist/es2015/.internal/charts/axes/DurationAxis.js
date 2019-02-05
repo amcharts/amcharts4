@@ -97,8 +97,8 @@ var DurationAxis = /** @class */ (function (_super) {
     /**
      * Formats the value according to axis' own [[DurationFormatter]].
      *
-     * @param  {number}  value  Source value
-     * @return {string}         Formatted value
+     * @param value  Source value
+     * @return Formatted value
      */
     DurationAxis.prototype.formatLabel = function (value, format) {
         return this.durationFormatter.format(value, format || this.axisDurationFormat);
@@ -112,12 +112,12 @@ var DurationAxis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}      min        [description]
-     * @param  {number}      max        [description]
-     * @param  {number}      difference [description]
-     * @param  {number}      gridCount  [description]
-     * @param  {boolean}     strictMode [description]
-     * @return {IMinMaxStep}            [description]
+     * @param min        [description]
+     * @param max        [description]
+     * @param difference [description]
+     * @param gridCount  [description]
+     * @param strictMode [description]
+     * @return [description]
      */
     DurationAxis.prototype.adjustMinMax = function (min, max, difference, gridCount, strictMode) {
         var minMaxStep;
@@ -191,7 +191,7 @@ var DurationAxis = /** @class */ (function (_super) {
     };
     Object.defineProperty(DurationAxis.prototype, "tooltipDurationFormat", {
         /**
-         * @return {string} Duration format for axis labels
+         * @return Duration format for axis labels
          */
         get: function () {
             return this._tooltipDurationFormat;
@@ -202,7 +202,7 @@ var DurationAxis = /** @class */ (function (_super) {
          * Will use same format as for labels, if not set.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} for mor information.
-         * @param {string}  value  Duration format for axis labels
+         * @param value  Duration format for axis labels
          */
         set: function (value) {
             this._tooltipDurationFormat = value;
@@ -218,8 +218,8 @@ var DurationAxis = /** @class */ (function (_super) {
      * chart, or explicitly for this Axis.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position (px)
-     * @return {string}            Label (numeric value)
+     * @param position  Position (px)
+     * @return Label (numeric value)
      */
     DurationAxis.prototype.getTooltipText = function (position) {
         var value = $math.round(this.positionToValue(position), this._stepDecimalPlaces);
@@ -227,7 +227,7 @@ var DurationAxis = /** @class */ (function (_super) {
     };
     Object.defineProperty(DurationAxis.prototype, "baseUnit", {
         /**
-         * @return {TimeUnit} Base unit
+         * @return Base unit
          */
         get: function () {
             return this._baseUnit;
@@ -241,7 +241,7 @@ var DurationAxis = /** @class */ (function (_super) {
          * "day", "week", "month", "year".
          *
          * @default "second"
-         * @param {TimeUnit} timeUnit
+         * @param timeUnit
          */
         set: function (timeUnit) {
             if (this._baseUnit != timeUnit) {
@@ -256,7 +256,7 @@ var DurationAxis = /** @class */ (function (_super) {
     /**
      * Copies all properties and related data from a different instance of Axis.
      *
-     * @param {this} source Source Axis
+     * @param source Source Axis
      */
     DurationAxis.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

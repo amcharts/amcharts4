@@ -34,7 +34,6 @@ export interface IPolysplineProperties extends IPolylineProperties {
 	 * Used by the line smoothing algorithm.
 	 *
 	 * @default 0.5
-	 * @type {number}
 	 */
 	tensionX: number;
 
@@ -44,7 +43,6 @@ export interface IPolysplineProperties extends IPolylineProperties {
 	 * Used by the line smoothing algorithm.
 	 *
 	 * @default 0.5
-	 * @type {number}
 	 */
 	tensionY: number;
 
@@ -82,7 +80,6 @@ export class Polyspline extends Polyline {
 	 * Defines available properties.
 	 *
 	 * @todo Description
-	 * @type {IPolysplineProperties}
 	 */
 	public _properties!: IPolysplineProperties;
 
@@ -90,14 +87,11 @@ export class Polyspline extends Polyline {
 	 * Defines available adapters.
 	 *
 	 * @todo Description
-	 * @type {IPolysplineAdapters}
 	 */
 	public _adapter!: IPolysplineAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPolysplineEvents}
 	 */
 	public _events!: IPolysplineEvents;
 
@@ -192,7 +186,7 @@ export class Polyspline extends Polyline {
 	 * Used by the line smoothing algorithm.
 	 *
 	 * @default 0.5
-	 * @param {number}  value  Tension
+	 * @param value  Tension
 	 */
 	public set tensionX(value: number) {
 		this.setPropertyValue("tensionX", value);
@@ -200,7 +194,7 @@ export class Polyspline extends Polyline {
 	}
 
 	/**
-	 * @return {number} Tension
+	 * @return Tension
 	 */
 	public get tensionX(): number {
 		return this.getPropertyValue("tensionX");
@@ -212,7 +206,7 @@ export class Polyspline extends Polyline {
 	 * Used by the line smoothing algorithm.
 	 *
 	 * @default 0.5
-	 * @param {number}  value  Tensions
+	 * @param value  Tensions
 	 */
 	public set tensionY(value: number) {
 		this.setPropertyValue("tensionY", value, true);
@@ -220,7 +214,7 @@ export class Polyspline extends Polyline {
 	}
 
 	/**
-	 * @return {number} Tension
+	 * @return Tension
 	 */
 	public get tensionY(): number {
 		return this.getPropertyValue("tensionY");

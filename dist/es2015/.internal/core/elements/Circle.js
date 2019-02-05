@@ -48,7 +48,7 @@ var Circle = /** @class */ (function (_super) {
     };
     Object.defineProperty(Circle.prototype, "radius", {
         /**
-         * @return {number} Radius
+         * @return Radius
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -58,7 +58,7 @@ var Circle = /** @class */ (function (_super) {
          *
          * Can be either absolute (pixels) or relative ([Percent]).
          *
-         * @param {number | Percent}  value  Radius
+         * @param value  Radius
          */
         set: function (value) {
             this.setPercentProperty("radius", value, true, false, 10, false);
@@ -74,7 +74,7 @@ var Circle = /** @class */ (function (_super) {
          * property.
          *
          * @readonly
-         * @return {number} Radius (px)
+         * @return Radius (px)
          */
         get: function () {
             return $utils.relativeToValue(this.radius, $math.min(this.innerWidth / 2, this.innerHeight / 2));

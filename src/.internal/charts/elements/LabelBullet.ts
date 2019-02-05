@@ -63,29 +63,21 @@ export class LabelBullet extends Bullet {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ILabelBulletProperties}
 	 */
 	public _properties!: ILabelBulletProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ILabelBulletAdapters}
 	 */
 	public _adapter!: ILabelBulletAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ILabelBulletEvents}
 	 */
 	public _events!: ILabelBulletEvents;
 
 	/**
 	 * A label (textual) element for the bullet.
-	 *
-	 * @type {Label}
 	 */
 	public label: Label;
 
@@ -103,7 +95,7 @@ export class LabelBullet extends Bullet {
 		label.horizontalCenter = "middle";
 		label.truncate = true;
 		label.hideOversized = true;
-		
+
 		label.maxWidth = 500;
 		label.maxHeight = 500;
 
@@ -122,14 +114,14 @@ export class LabelBullet extends Bullet {
 
 	protected handleMaxSize(){
 		this.label.maxWidth = this.maxWidth;
-		this.label.maxHeight = this.maxHeight;		
+		this.label.maxHeight = this.maxHeight;
 	}
 
 	/**
 	 * Copies all proprities and related stuff from another instance of
 	 * [[LabelBullet]].
 	 *
-	 * @param {this}  source  Source element
+	 * @param source  Source element
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);

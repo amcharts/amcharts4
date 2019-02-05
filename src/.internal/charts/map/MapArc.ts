@@ -57,36 +57,26 @@ export class MapArc extends MapLine {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IMapArcProperties}
 	 */
 	public _properties!: IMapArcProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IMapArcAdapters}
 	 */
 	public _adapter!: IMapArcAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IMapArcEvents}
 	 */
 	public _events!: IMapArcEvents;
 
 	/**
 	 * A visual element.
-	 *
-	 * @type {Polyarc}
 	 */
 	public line: Polyarc;
 
 	/**
 	 * A map series this object belongs to.
-	 *
-	 * @type {MapArcSeries}
 	 */
 	public series: MapArcSeries;
 
@@ -103,19 +93,19 @@ export class MapArc extends MapLine {
 		this.applyTheme();
 
 	}
-	
+
 	/**
 	 * @ignore
 	 */
 	protected createLine(){
 		this.line = new Polyarc();
-	}	
+	}
 
 
 	/**
 	 * ShortestDistance = true is not supported by MapArc, only MapLine does support it
 	 * @default false
-	 * @param {boolean}  value
+	 * @param value
 	 * @todo: review description
 	 */
 	public get shortestDistance(): boolean {

@@ -32,7 +32,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     /**
      * Constructor.
      *
-     * @param {Axis} axis Related axis
+     * @param axis Related axis
      */
     function AxisRendererCircular() {
         var _this = 
@@ -95,7 +95,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         /**
          * Returns actual length of the Axis, in pixels.
          *
-         * @return {number} Length (px)
+         * @return Length (px)
          */
         get: function () {
             return 2 * Math.PI * this.pixelRadius;
@@ -105,7 +105,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererCircular.prototype, "radius", {
         /**
-         * @return {number | Percent} Outer radius
+         * @return Outer radius
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -115,7 +115,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
          *
          * Can be absolute (px) or relative ([[Percent]]).
          *
-         * @param {number | Percent}  value  Outer radius
+         * @param value  Outer radius
          */
         set: function (value) {
             if (this.setPercentProperty("radius", value, false, false, 10, false)) {
@@ -131,7 +131,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         /**
          * Outer radius in pixels.
          *
-         * @return {number} Outer radius (px)
+         * @return Outer radius (px)
          */
         get: function () {
             return $utils.relativeRadiusToValue(this.radius, this.pixelRadiusReal) || 0;
@@ -141,7 +141,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererCircular.prototype, "innerRadius", {
         /**
-         * @return {number | Percent} Inner radius
+         * @return Inner radius
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
@@ -151,7 +151,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
          *
          * Can be absolute (px) or relative ([[Percent]]).
          *
-         * @param {number | Percent}  value  Inner radius
+         * @param value  Inner radius
          */
         set: function (value) {
             if (this.setPercentProperty("innerRadius", value, false, false, 10, false)) {
@@ -165,7 +165,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererCircular.prototype, "useChartAngles", {
         /**
-         * @return {boolean} Use chart angles
+         * @return Use chart angles
          */
         get: function () {
             return this.getPropertyValue("useChartAngles");
@@ -175,7 +175,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
          * inherit them from relative properties from chart.
          *
          * @default false
-         * @param {boolean}  value  Use chart's angles
+         * @param value  Use chart's angles
          */
         set: function (value) {
             this.setPropertyValue("useChartAngles", value);
@@ -187,7 +187,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         /**
          * Inner radius in pixels.
          *
-         * @return {number} Inner radius (px)
+         * @return Inner radius (px)
          */
         get: function () {
             return $utils.relativeRadiusToValue(this.innerRadius, this.pixelRadiusReal) || 0;
@@ -198,8 +198,8 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     /**
      * Converts relative position on axis to point coordinates.
      *
-     * @param  {number}  position  Position (0-1)
-     * @return {IPoint}            Point
+     * @param position  Position (0-1)
+     * @return Point
      */
     AxisRendererCircular.prototype.positionToPoint = function (position) {
         var coordinate = this.positionToCoordinate(position);
@@ -209,8 +209,8 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     /**
      * Converts relative position (0-1) on axis to angle in degrees (0-360).
      *
-     * @param  {number}  position  Position (0-1)
-     * @return {number}            Angle (0-360)
+     * @param position  Position (0-1)
+     * @return Angle (0-360)
      */
     AxisRendererCircular.prototype.positionToAngle = function (position) {
         var axis = this.axis;
@@ -240,9 +240,9 @@ var AxisRendererCircular = /** @class */ (function (_super) {
      * Updates and positions a grid element.
      *
      * @ignore Exclude from docs
-     * @param {Grid}    grid         Grid element
-     * @param {number}  position     Starting position
-     * @param {number}  endPosition  End position
+     * @param grid         Grid element
+     * @param position     Starting position
+     * @param endPosition  End position
      */
     AxisRendererCircular.prototype.updateGridElement = function (grid, position, endPosition) {
         position = position + (endPosition - position) * grid.location;
@@ -261,9 +261,9 @@ var AxisRendererCircular = /** @class */ (function (_super) {
      * Updates and positions a tick element.
      *
      * @ignore Exclude from docs
-     * @param {AxisTick}  tick         Tick element
-     * @param {number}    position     Starting position
-     * @param {number}    endPosition  End position
+     * @param tick         Tick element
+     * @param position     Starting position
+     * @param endPosition  End position
      */
     AxisRendererCircular.prototype.updateTickElement = function (tick, position, endPosition) {
         position = position + (endPosition - position) * tick.location;
@@ -284,9 +284,9 @@ var AxisRendererCircular = /** @class */ (function (_super) {
      * Updates and positions a label element.
      *
      * @ignore Exclude from docs
-     * @param {AxisLabel}  label        Label element
-     * @param {number}     position     Starting position
-     * @param {number}     endPosition  Ending position
+     * @param label        Label element
+     * @param position     Starting position
+     * @param endPosition  Ending position
      */
     AxisRendererCircular.prototype.updateLabelElement = function (label, position, endPosition, location) {
         if (!$type.hasValue(location)) {
@@ -301,15 +301,15 @@ var AxisRendererCircular = /** @class */ (function (_super) {
      * Checks if point is within bounds of a container.
      *
      * @ignore Exclude from docs
-     * @param  {IPoint}   point Point coordinates
-     * @return {boolean}         Fits?
+     * @param point Point coordinates
+     * @return Fits?
      */
     AxisRendererCircular.prototype.fitsToBounds = function (point) {
         return true;
     };
     Object.defineProperty(AxisRendererCircular.prototype, "startAngle", {
         /**
-         * @return {number} Start angle
+         * @return Start angle
          */
         get: function () {
             return this.getPropertyValue("startAngle");
@@ -317,7 +317,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         /**
          * Start angle of the axis in degrees (0-360).
          *
-         * @param {number}  value  Start angle
+         * @param value  Start angle
          */
         set: function (value) {
             // do not normalize angel here!
@@ -333,7 +333,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererCircular.prototype, "endAngle", {
         /**
-         * @return {number} End angle
+         * @return End angle
          */
         get: function () {
             return this.getPropertyValue("endAngle");
@@ -341,7 +341,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         /**
          * End angle of the axis in degrees (0-360).
          *
-         * @param {number}  value  End angle
+         * @param value  End angle
          */
         set: function (value) {
             // do not normalize angel here!
@@ -360,9 +360,9 @@ var AxisRendererCircular = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param  {number}  startPosition  Starting position
-     * @param  {number}  endPosition    End position
-     * @return {string}                 SVG path
+     * @param startPosition  Starting position
+     * @param endPosition    End position
+     * @return SVG path
      */
     AxisRendererCircular.prototype.getPositionRangePath = function (startPosition, endPosition, radius, innerRadius, cornerRadius) {
         var path = "";
@@ -387,7 +387,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     /**
      * Returns a new grid element, suitable for this Axis Renderer type.
      *
-     * @return {GridCircular} Grid element
+     * @return Grid element
      */
     AxisRendererCircular.prototype.createGrid = function () {
         return new GridCircular();
@@ -395,7 +395,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     /**
      * Returns a new fill element, suitable for this Axis Renderer type.
      *
-     * @return {AxisFillCircular} Fill element
+     * @return Fill element
      */
     AxisRendererCircular.prototype.createFill = function (axis) {
         return new AxisFillCircular(axis);
@@ -403,7 +403,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     /**
      * Returns a new label element, suitable for this Axis Renderer type.
      *
-     * @return {AxisLabelCircular} Label element
+     * @return Label element
      */
     AxisRendererCircular.prototype.createLabel = function () {
         return new AxisLabelCircular();
@@ -412,8 +412,8 @@ var AxisRendererCircular = /** @class */ (function (_super) {
      * Converts a point at specific coordinates to a relative position (0-1)
      * on the axis.
      *
-     * @param  {IPoint}  point  Point
-     * @return {number}         Position (0-1)
+     * @param point  Point
+     * @return Position (0-1)
      */
     AxisRendererCircular.prototype.pointToPosition = function (point) {
         var angle = $math.fitAngleToRange($math.getAngle(point), this.startAngle, this.endAngle);

@@ -59,29 +59,22 @@ export class Column3D extends Column {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IColumn3DProperties}
 	 */
 	public _properties!: IColumn3DProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IColumn3DAdapters}
 	 */
 	public _adapter!: IColumn3DAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IColumn3DEvents}
 	 */
 	public _events!: IColumn3DEvents;
 
 
 	/**
 	 * column3D element
-	 * @type {Slice}
 	 */
 	public column3D: Rectangle3D;
 
@@ -117,12 +110,12 @@ export class Column3D extends Column {
 				this.column3D.validate();
 			}
 		}
-	}	
+	}
 
 	/**
 	 * Copies all parameters from another [[Column3D]].
 	 *
-	 * @param {Column3D} source Source Column3D
+	 * @param source Source Column3D
 	 */
 	public copyFrom(source: this) {
 		super.copyFrom(source)

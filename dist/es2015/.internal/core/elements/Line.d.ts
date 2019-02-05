@@ -21,26 +21,18 @@ import { IOrientationPoint } from "../defs/IPoint";
 export interface ILineProperties extends ISpriteProperties {
     /**
      * X coordinate of first end.
-     *
-     * @type {number}
      */
     x1?: number;
     /**
      * Y coordinate of first end.
-     *
-     * @type {number}
      */
     y1?: number;
     /**
      * X coordinate of second end.
-     *
-     * @type {number}
      */
     x2?: number;
     /**
      * Y coordinate of second end.
-     *
-     * @type {number}
      */
     y2?: number;
 }
@@ -71,20 +63,14 @@ export interface ILineAdapters extends ISpriteAdapters, ILineProperties {
 export declare class Line extends Sprite {
     /**
      * Defines available properties.
-     *
-     * @type {ILineProperties}
      */
     _properties: ILineProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ILineAdapters}
      */
     _adapter: ILineAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ILineEvents}
      */
     _events: ILineEvents;
     /**
@@ -98,46 +84,46 @@ export declare class Line extends Sprite {
      */
     draw(): void;
     /**
-     * @return {number} X
+     * @return X
      */
     /**
      * X coordinate of first end.
      *
-     * @param {number} value X
+     * @param value X
      */
     x1: number;
     /**
-     * @return {number} X
+     * @return X
      */
     /**
      * X coordinate of second end.
      *
-     * @param {number} value X
+     * @param value X
      */
     x2: number;
     /**
-     * @return {number} Y
+     * @return Y
      */
     /**
      * Y coordinate of first end.
      *
-     * @param {number} value Y
+     * @param value Y
      */
     y1: number;
     /**
-     * @return {number} Y
+     * @return Y
      */
     /**
      * Y coordinate of second end.
      *
-     * @param {number} value Y
+     * @param value Y
      */
     y2: number;
     /**
      * Converts relative position along the line (0-1) into pixel coordinates.
      *
-     * @param  {number}             position  Position (0-1)
-     * @return {IOrientationPoint}            Coordinates
+     * @param position  Position (0-1)
+     * @return Coordinates
      */
     positionToPoint(position: number): IOrientationPoint;
 }

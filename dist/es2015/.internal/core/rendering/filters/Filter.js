@@ -59,28 +59,23 @@ var Filter = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @see {@link FilterProperties}
-         * @type {FilterProperties}
          */
         _this.properties = {};
         /**
          * Identifies if this object is a "template" and should not be treated as
          * real object that is drawn or actually used in the chart.
-         *
-         * @type {boolean}
          */
         _this.isTemplate = false;
         /**
          * [_scale description]
          *
          * @todo Description
-         * @type {number}
          */
         _this._scale = 1;
         /**
          * [_nonScaling description]
          *
          * @todo Description
-         * @type {boolean}
          */
         _this._nonScaling = true;
         _this.className = "Filter";
@@ -102,7 +97,7 @@ var Filter = /** @class */ (function (_super) {
      * Appends actual filter elements to the filter group.
      *
      * @ignore Exclude from docs
-     * @param {Group} filterElement An SVG `<group>` element to add filter element to
+     * @param filterElement An SVG `<group>` element to add filter element to
      */
     Filter.prototype.appendPrimitives = function (filterElement) {
         $iter.each(this.filterPrimitives.iterator(), function (filterPrimitive) {
@@ -114,10 +109,10 @@ var Filter = /** @class */ (function (_super) {
      * smoothly appear filter, rather than it pop into effect.
      *
      * @ignore Exclude from docs
-     * @param  {IAnimationOptions[] | IAnimationOptions}  animationOptions  Animation options
-     * @param  {number}                                   duration          Duration in milliseconds
-     * @param  {(number) => number}                       easing            Easing function
-     * @return {Animation}                                                  Animation instance
+     * @param animationOptions  Animation options
+     * @param duration          Duration in milliseconds
+     * @param easing            Easing function
+     * @return Animation instance
      */
     Filter.prototype.animate = function (animationOptions, duration, easing) {
         var animation = new Animation(this, animationOptions, duration, easing).start();
@@ -125,7 +120,7 @@ var Filter = /** @class */ (function (_super) {
     };
     Object.defineProperty(Filter.prototype, "width", {
         /**
-         * @return {number} Width (%)
+         * @return Width (%)
          */
         get: function () {
             return this.properties["width"];
@@ -138,7 +133,7 @@ var Filter = /** @class */ (function (_super) {
          * non-fitting parts will be clipped.
          *
          * @default 120
-         * @param {number} value Width (px)
+         * @param value Width (px)
          */
         set: function (value) {
             this.properties["width"] = value;
@@ -148,7 +143,7 @@ var Filter = /** @class */ (function (_super) {
     });
     Object.defineProperty(Filter.prototype, "height", {
         /**
-         * @return {number} Height
+         * @return Height
          */
         get: function () {
             return this.properties["height"];
@@ -161,7 +156,7 @@ var Filter = /** @class */ (function (_super) {
          * non-fitting parts will be clipped.
          *
          * @default 120
-         * @param {number} value Height (%)
+         * @param value Height (%)
          */
         set: function (value) {
             this.properties["height"] = value;
@@ -172,7 +167,7 @@ var Filter = /** @class */ (function (_super) {
     /**
      * Copies properties from another [[Filter]] object.
      *
-     * @param {Filter} filter Source [[Filter]] object
+     * @param filter Source [[Filter]] object
      */
     Filter.prototype.copyFrom = function (filter) {
         var _this = this;
@@ -183,7 +178,7 @@ var Filter = /** @class */ (function (_super) {
     };
     Object.defineProperty(Filter.prototype, "paper", {
         /**
-         * @return {Paper} Paper
+         * @return Paper
          */
         get: function () {
             if (this._paper) {
@@ -195,7 +190,7 @@ var Filter = /** @class */ (function (_super) {
          * Sets [[Paper]] instance to create filter's elements in.
          *
          * @ignore Exclude from docs
-         * @param {Paper}  paper  Paper
+         * @param paper  Paper
          */
         set: function (paper) {
             if (this._paper != paper) {
@@ -210,7 +205,7 @@ var Filter = /** @class */ (function (_super) {
          * All animations currently in play.
          *
          * @ignore Exclude from docs
-         * @return {Array<Animation>} List of animations
+         * @return List of animations
          */
         get: function () {
             if (!this._animations) {
@@ -251,7 +246,7 @@ var Filter = /** @class */ (function (_super) {
     };
     Object.defineProperty(Filter.prototype, "nonScaling", {
         /**
-         * @return {boolean} Non scaling?
+         * @return Non scaling?
          */
         get: function () {
             return this._nonScaling;
@@ -261,7 +256,7 @@ var Filter = /** @class */ (function (_super) {
          * scaled, otherwise filter will scale together with a [[Sprite]].
          *
          * @default false
-         * @param {boolean}  value  Non scaling?
+         * @param value  Non scaling?
          */
         set: function (value) {
             this._nonScaling = value;
@@ -282,7 +277,7 @@ var Filter = /** @class */ (function (_super) {
          * the new one.
          *
          * @ignore Exclude from docs
-         * @param {Sprite}  value  Target element
+         * @param value  Target element
          */
         set: function (value) {
             this.setSprite(value);
@@ -294,7 +289,7 @@ var Filter = /** @class */ (function (_super) {
      * Sets filter's target element.
      *
      * @ignore Exclude from docs
-     * @param {Sprite}  value  Element filter is being attached to
+     * @param value  Element filter is being attached to
      */
     Filter.prototype.setSprite = function (value) {
         if (this._sprite && this._sprite != value) {

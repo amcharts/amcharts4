@@ -22,8 +22,6 @@ import * as $type from "../utils/Type";
  */
 /**
  * Represents options for tooltip pointer (arrow) orientation.
- *
- * @type {string}
  */
 export declare type PointerOrientation = "horizontal" | "vertical";
 /**
@@ -34,7 +32,6 @@ export interface ITooltipProperties extends IContainerProperties {
      * Pointer orientation: "horizontal" or "vertical".
      *
      * @default "vertical"
-     * @type {PointerOrientation}
      */
     pointerOrientation?: PointerOrientation;
     /**
@@ -47,35 +44,27 @@ export interface ITooltipProperties extends IContainerProperties {
      * a speed determined by this setting.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-     * @type {number}
      */
     animationDuration?: number;
     /**
      * An easing function to use when animating Tooltip position.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
-     * @type {(value: number) => number}
      */
     animationEasing?: (value: number) => number;
     /**
      * Specifies if tooltip background should get stroke color from the sprite
      * it is pointing to.
-     *
-     * @type {boolean}
      */
     getStrokeFromObject?: boolean;
     /**
      * Specifies if tooltip background should get fill color from the sprite it
      * is pointing to.
-     *
-     * @type {boolean}
      */
     getFillFromObject?: boolean;
     /**
      * Specifies if text color should be chosen automatically for a better
      * readability.
-     *
-     * @type {boolean}
      */
     autoTextColor?: boolean;
 }
@@ -106,26 +95,18 @@ export interface ITooltipAdapters extends IContainerAdapters, ITooltipProperties
 export declare class Tooltip extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {ITooltipProperties}
      */
     _properties: ITooltipProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {ITooltipAdapters}
      */
     _adapter: ITooltipAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ITooltipEvents}
      */
     _events: ITooltipEvents;
     /**
      * A type for the background element.
-     *
-     * @type {PointedRectangle}
      */
     _background: PointedRectangle;
     /**
@@ -137,20 +118,14 @@ export declare class Tooltip extends Container {
      * bounding container is used to calculate numeric boundaries
      * (`boundingRect`). It is used to constrain the Tooltip to specific area on
      * the chart, like for example cursor tooltip in plot area.
-     *
-     * @type {Container}
      */
     protected _boundingContainer: Container;
     /**
      * Holds numeric boundary values. Calculated from the `boundingContainer`.
-     *
-     * @type {IRectangle}
      */
     protected _boundingRect: IRectangle;
     /**
      * Coordinates tooltip's pointer (stem) should point to.
-     *
-     * @type {IPoint}
      */
     protected _pointTo: IPoint;
     /**
@@ -158,13 +133,10 @@ export declare class Tooltip extends Container {
      * Tooltip's width or height depending on pointer's orientation.
      *
      * @default false
-     * @type {boolean}
      */
     fitPointerToBounds: boolean;
     /**
      * If tooltipOrientation is vertical, it can be drawn below or above point. We need to know this when solving overlapping
-     *
-     * @type "up" | "down"
      */
     protected _verticalOrientation: "up" | "down";
     /**
@@ -185,7 +157,7 @@ export declare class Tooltip extends Container {
     /**
      * Specifies if tooltip background should get stroke color from the sprite it is pointing to.
      *
-     * @param {value} value boolean
+     * @param value boolean
      */
     getStrokeFromObject: boolean;
     /**
@@ -204,7 +176,7 @@ export declare class Tooltip extends Container {
      * using `tooltip.label.fill` property.
      *
      *
-     * @param {value} value boolean
+     * @param value boolean
      */
     autoTextColor: boolean;
     /**
@@ -214,35 +186,35 @@ export declare class Tooltip extends Container {
      * @default true
      */
     /**
-     * @param {value} value boolean
+     * @param value boolean
      */
     getFillFromObject: boolean;
     /**
      * Creates and returns a background element.
      *
      * @ignore Exclude from docs
-     * @return {PointedRectangle} Background
+     * @return Background
      */
     createBackground(): this["_background"];
     /**
-     * @return {PointerOrientation} Orientation
+     * @return Orientation
      */
     /**
      * Pointer orientation: "horizontal" or "vertical".
      *
      * @default "vertical"
-     * @param {PointerOrientation}  value  Orientation
+     * @param value  Orientation
      */
     pointerOrientation: PointerOrientation;
     /**
-     * @return {PointerOrientation} Orientation
+     * @return Orientation
      */
     /**
      * Duration in milliseconds for the animation to take place when the tooltip
      * is moving from one place to another.
      *
      * @default 0
-     * @param {number}  value  number
+     * @param value  number
      */
     animationDuration: number;
     /**
@@ -252,11 +224,11 @@ export declare class Tooltip extends Container {
      * Tooltip animation (moving from one place to another) easing function.
      *
      * @default $ease.cubicOut
-     * @param {Function}  value (value: number) => number
+     * @param value (value: number) => number
      */
     animationEasing: (value: number) => number;
     /**
-     * @return {string} HTML content
+     * @return HTML content
      */
     /**
      * HTML content for the Tooltip.
@@ -264,11 +236,11 @@ export declare class Tooltip extends Container {
      * Provided value will be used as is, without applying any further
      * formatting to it.
      *
-     * @param {string}  value  HTML content
+     * @param value  HTML content
      */
     html: string;
     /**
-     * @return {string} SVG text
+     * @return SVG text
      */
     /**
      * SVG text content for the Tooltip.
@@ -276,7 +248,7 @@ export declare class Tooltip extends Container {
      * Text can have a number of formatting options supported by
      * [[TextFormatter]].
      *
-     * @param {string}  value  SVG text
+     * @param value  SVG text
      */
     text: string;
     /**
@@ -300,8 +272,8 @@ export declare class Tooltip extends Container {
     /**
      * Set nes tooltip's anchor point and moves whole tooltip.
      *
-     * @param {number}  x  X coordinate
-     * @param {number}  y  Y coordinate
+     * @param x  X coordinate
+     * @param y  Y coordinate
      */
     pointTo(point: IPoint, instantly?: boolean): void;
     /**
@@ -309,7 +281,7 @@ export declare class Tooltip extends Container {
      * specific area).
      *
      * @ignore Exclude from docs
-     * @param {IRectangle} rectangle Boundary rectangle
+     * @param rectangle Boundary rectangle
      */
     setBounds(rectangle: IRectangle): void;
     /**
@@ -317,7 +289,7 @@ export declare class Tooltip extends Container {
      * boundaries for the Tooltip.
      *
      * @ignore Exclude from docs
-     * @param {Container}  container  Boundary container
+     * @param container  Boundary container
      */
     boundingContainer: Container;
     /**
@@ -341,7 +313,7 @@ export declare class Tooltip extends Container {
     /**
      * Copies properties and other attributes.
      *
-     * @param {Tooltip}  source  Source
+     * @param source  Source
      */
     copyFrom(source: this): void;
 }

@@ -66,37 +66,27 @@ export class Polygon extends Sprite implements IMorphable {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPolygonProperties}
 	 */
 	public _properties!: IPolygonProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IPolygonAdapters}
 	 */
 	public _adapter!: IPolygonAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPolygonEvents}
 	 */
 	public _events!: IPolygonEvents;
 
 	/**
 	 * A morpher instance that is used to morph polygon into some other shape.
-	 *
-	 * @type {Optional<Morpher>}
 	 */
 	protected _morpher: $type.Optional<Morpher>;
 
 	/**
 	 * Current points that morpher uses. This is needed so that we don't
 	 * overwrite polygons original points.
-	 *
-	 * @type {IPoint[][][]}
 	 */
 	protected _currentPoints: IPoint[][][];
 
@@ -116,7 +106,7 @@ export class Polygon extends Sprite implements IMorphable {
 	 * An array of X/Y coordinates for each elbow of the polygon.
 	 *
 	 * @todo Example
-	 * @param {IPoint[][][]}  points  Polygon points
+	 * @param points  Polygon points
 	 */
 	public set points(points: IPoint[][][]) {
 		this.setPropertyValue("points", points, true);
@@ -124,7 +114,7 @@ export class Polygon extends Sprite implements IMorphable {
 	}
 
 	/**
-	 * @return {IPoint[]} Polygon points
+	 * @return Polygon points
 	 */
 	public get points(): IPoint[][][] {
 		return this.getPropertyValue("points");
@@ -134,7 +124,7 @@ export class Polygon extends Sprite implements IMorphable {
 	 * Current points. Used when morphing the element, so that original `points`
 	 * are not overwritten.
 	 *
-	 * @param {IPoint[][][]}  points  Polygon points
+	 * @param points  Polygon points
 	 */
 	public set currentPoints(points: IPoint[][][]) {
 		if (this._currentPoints != points) {
@@ -144,7 +134,7 @@ export class Polygon extends Sprite implements IMorphable {
 	}
 
 	/**
-	 * @return {IPoint[]} Polygon points
+	 * @return Polygon points
 	 */
 	public get currentPoints(): IPoint[][][] {
 		return this._currentPoints;
@@ -232,7 +222,7 @@ export class Polygon extends Sprite implements IMorphable {
 	 * A calculated center point for the shape.
 	 *
 	 * @readonly
-	 * @return {IPoint} Center
+	 * @return Center
 	 */
 	public get centerPoint(): IPoint {
 		return { x: this.bbox.x + this.bbox.width / 2, y: this.bbox.y + this.bbox.height / 2 };
@@ -243,7 +233,7 @@ export class Polygon extends Sprite implements IMorphable {
 	 * shape.
 	 *
 	 * @readonly
-	 * @return {Morpher} Morpher instance
+	 * @return Morpher instance
 	 */
 	public get morpher(): Morpher {
 		if (!this._morpher) {

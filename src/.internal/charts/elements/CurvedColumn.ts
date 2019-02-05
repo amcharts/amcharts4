@@ -37,14 +37,11 @@ export interface ICurvedColumnProperties extends IColumnProperties {
 	 * Used for smoothed lines.
 	 *
 	 * @default 1
-	 * @type {number}
 	 */
 	tensionX?: number;
 
 	/**
 	 * Tension
-	 *
-	 * @type {number}
 	 */
 	tension?: number;
 
@@ -52,7 +49,6 @@ export interface ICurvedColumnProperties extends IColumnProperties {
 	 * Orientation of the column
 	 *
 	 * @default "vertical"
-	 * @type {Orientation}
 	 */
 	orientation?: Orientation;
 
@@ -89,29 +85,21 @@ export class CurvedColumn extends Column {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ICurvedColumnProperties}
 	 */
 	public _properties!: ICurvedColumnProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ICurvedColumnAdapters}
 	 */
 	public _adapter!: ICurvedColumnAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ICurvedColumnEvents}
 	 */
 	public _events!: ICurvedColumnEvents;
 
 	/**
 	 * The element that holds curved column shape.
-	 * 
-	 * @type {Sprite}
 	 */
 	public curvedColumn: Sprite;
 
@@ -144,7 +132,7 @@ export class CurvedColumn extends Column {
 
 	/**
 	 * Draws the element.
-	 * 
+	 *
 	 * @ignore Exclude from docs
 	 */
 	public draw(): void {
@@ -177,8 +165,8 @@ export class CurvedColumn extends Column {
 
 	/**
 	 * Copies all parameters from another [[CurvedColumn]].
-	 * 
-	 * @param {CurvedColumn}  source  Source CurvedColumn
+	 *
+	 * @param source  Source CurvedColumn
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source)
@@ -198,14 +186,14 @@ export class CurvedColumn extends Column {
 	 * The smaller the tension th wider the column will be.
 	 *
 	 * @default 0.7
-	 * @param {number}  value tension (0-1)
+	 * @param value tension (0-1)
 	 */
 	public set tension(value: number) {
 		this.setPropertyValue("tension", value, true);
 	}
 
 	/**
-	 * @return {number} Tension (0-1)
+	 * @return Tension (0-1)
 	 */
 	public get tension(): number {
 		return this.getPropertyValue("tension");
@@ -217,14 +205,14 @@ export class CurvedColumn extends Column {
 	 * Available options: "vertical" (default) and "horizontal".
 	 *
 	 * @default "vertical"
-	 * @param {Orientation}  value  Orientation
+	 * @param value  Orientation
 	 */
 	public set orientation(value: Orientation) {
 		this.setPropertyValue("orientation", value, true);
 	}
 
 	/**
-	 * @type {Orientation} Orientation
+	 * Orientation
 	 */
 	public get orientation(): Orientation {
 		return this.getPropertyValue("orientation");

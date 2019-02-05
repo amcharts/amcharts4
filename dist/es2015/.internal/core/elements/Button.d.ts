@@ -59,38 +59,26 @@ export interface IButtonAdapters extends IContainerAdapters, IButtonProperties {
 export declare class Button extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {IButtonProperties}
      */
     _properties: IButtonProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IButtonAdapters}
      */
     _adapter: IButtonAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IButtonEvents}
      */
     _events: IButtonEvents;
     /**
      * Icon reference.
-     *
-     * @type {Sprite}
      */
     protected _icon: Sprite;
     /**
      * [[Label]] element for button content.
-     *
-     * @type {Optional<Label>}
      */
     protected _label: $type.Optional<Label>;
     /**
      * A type for background.
-     *
-     * @type {RoundedRectangle}
      */
     _background: RoundedRectangle;
     /**
@@ -98,38 +86,38 @@ export declare class Button extends Container {
      */
     constructor();
     /**
-     * @return {Sprite} Icon Sprite
+     * @return Icon Sprite
      */
     /**
      * A [[Sprite]] to be used as an icon on button.
      *
-     * @param {Sprite} icon Icon Sprite
+     * @param icon Icon Sprite
      */
     icon: Sprite;
     /**
-     * @return {"left" | "right"} Icon position
+     * @return Icon position
      */
     /**
      * Icon position: "left" or "right".
      *
      * @default "left"
-     * @param {"left" | "right"}  position  Icon position
+     * @param position  Icon position
      */
     iconPosition: "left" | "right";
     /**
-     * @return {Optional<Label>} Label element
+     * @return Label element
      */
     /**
      * [[Label]] element to be used for text.
      *
-     * @param {Optional<Label>}  label element
+     * @param label element
      */
     label: $type.Optional<Label>;
     /**
      * Creates a background element for the button.
      *
      * @ignore Exclude from docs
-     * @return {RoundedRectangle} Background element
+     * @return Background element
      */
     createBackground(): this["_background"];
 }

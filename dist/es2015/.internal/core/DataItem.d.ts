@@ -127,53 +127,40 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
     /**
      * When we are using a nested data structure, like for example in a TreeMap,
      * this property points to a parent Data Item of this one.
-     *
-     * @type {Optional<this>}
      */
     parent: $type.Optional<this>;
     /**
      * Defines available events.
-     *
-     * @type {IDataItemEvents}
      */
     _events: IDataItemEvents;
     /**
      * Defines available adapters.
-     *
-     * @type {IExportAdapters}
      */
     _adapter: IDataItemAdapters;
     /**
      * Holds Adapter.
-     *
-     * @type {Adapter<DataItem, IDataItemAdapters>}
      */
     adapter: Adapter<DataItem, IDataItemAdapters>;
     /**
      * Defines a type of [[Component]] this Data Item is used for.
-     *
-     * @type {Component}
      */
     _component: Component;
     /**
      * A reference to a [[Component]] this Data Item belongs to.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Component>}
      */
     component: $type.Optional<this["_component"]>;
     /**
      * A reference to the original Data Item in raw data.
      *
      * @ignore Exclude from docs
-     * @type {Object}
      */
     protected _dataContext: Object;
     /**
      * This Data Item is currently disabled.
      *
      * @ignore Exclude from docs
-     * @type {boolean}
      */
     protected _disabled: boolean;
     /**
@@ -182,8 +169,6 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * If it does not have any, the code can use this property to check whether
      * they need to apply costly operation of re-applying properties, whenever
      * Data Item-related element is redrawn, e.g. series.
-     *
-     * @type {boolean}
      */
     hasProperties: boolean;
     /**
@@ -249,50 +234,41 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * Data Item keeps track of all of them, so it can toggle all related visual
      * elements when it itself is toggled.
-     *
-     * @type {Sprite[]}
      */
     sprites: Sprite[];
     /**
      * Identifies if this object is a "template" and should not be treated as
      * real object that is drawn or actually used in the chart.
-     *
-     * @type {boolean}
      */
     isTemplate: boolean;
     /**
      * List of animations currently animating Data Item's values.
      *
      * @ignore Exclude from docs
-     * @type {Optional<Array<Animation>>}
      */
     protected _animations: $type.Optional<Array<Animation>>;
     /**
      * The current index within the dataItems
      *
      * @ignore Exclude from docs
-     * @type {number | null}
      */
     _index: number | null;
     /**
      * Is Data Item currently visible?
      *
      * @ignore Exclude from docs
-     * @type {boolean}
      */
     protected _visible: boolean;
     /**
      * Is Data Item currently hidden?
      *
      * @ignore Exclude from docs
-     * @type {boolean}
      */
     protected _hidden: boolean;
     /**
      * Should this Data Item be used when calculating data ranges and scales?
      *
      * @ignore Exclude from docs
-     * @type {boolean}
      */
     protected _ignoreMinMax: boolean;
     /**
@@ -308,15 +284,12 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
     /**
      * Indicates whether Data Item is currently animiting from visible to hidden
      * state.
-     *
-     * @type {boolean}
      */
     isHiding: boolean;
     /**
      * Holds a Disposer reference to hiding [[Animation]] currently playing.
      *
      * @ignore Exclude from docs
-     * @type {Optional<IDisposer>}
      */
     protected _hideDisposer: $type.Optional<IDisposer>;
     /**
@@ -341,35 +314,35 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
     /**
      * Data Item's position index in Component's data.
      *
-     * @return {number} Index
+     * @return Index
      */
     readonly index: number;
     /**
      * A list of [[Animations]] objects currently mutating Data Item's values.
      *
-     * @return {Array<Animation>} [description]
+     * @return [description]
      */
     readonly animations: Array<Animation>;
     /**
      * Returns `true` if this Data Item is currently visible.
      *
-     * @return {boolean} Visible?
+     * @return Visible?
      */
     /**
      * Sets visibility of the Data Item.
      *
-     * @param {boolean} value Visible?
+     * @param value Visible?
      */
     visible: boolean;
     /**
      * Returns `true` if this Data Item is currently hidden.
      *
-     * @return {boolean} Hidden?
+     * @return Hidden?
      */
     /**
      * Sets hidden flag for data item. Mostly used to initially hide data item.
      *
-     * @param {boolean} value Hidden?
+     * @param value Hidden?
      */
     hidden: boolean;
     /**
@@ -388,15 +361,15 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
     /**
      * Sets visibility of the Data Item.
      *
-     * @param {boolean} value Data Item
+     * @param value Data Item
      */
     setVisibility(value: boolean, noChangeValues?: boolean): void;
     /**
      * Shows the Data Item and related visual elements.
      *
-     * @param {number}    duration  Animation duration (ms)
-     * @param {number}    delay     Delay animation (ms)
-     * @param {string[]}  fields    A list of fields to set values of
+     * @param duration  Animation duration (ms)
+     * @param delay     Delay animation (ms)
+     * @param fields    A list of fields to set values of
      */
     show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation>;
     /**
@@ -406,10 +379,10 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
     /**
      * Hides the Data Item and related visual elements.
      *
-     * @param {number}    duration  Animation duration (ms)
-     * @param {number}    delay     Delay animation (ms)
-     * @param {number}    toValue   A value to set to `fields` when hiding
-     * @param {string[]}  fields    A list of data fields to set value to `toValue`
+     * @param duration  Animation duration (ms)
+     * @param delay     Delay animation (ms)
+     * @param toValue   A value to set to `fields` when hiding
+     * @param fields    A list of data fields to set value to `toValue`
      */
     hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): $type.Optional<Animation>;
     /**
@@ -419,8 +392,8 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * If the duration is not specified via parameter, this method will try to
      * request a default duration from the related `Component`.
      *
-     * @param  {number}  duration  Default duration (ms)
-     * @return {number}            Duration (ms)
+     * @param duration  Default duration (ms)
+     * @return Duration (ms)
      */
     getDuration(duration?: number): $type.Optional<number>;
     /**
@@ -431,9 +404,9 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * If `calculated` is set, it will return a pre-calculated specific value.
      *
-     * @param  {string}           name        Data field name
-     * @param  {CalculatedValue}  calculated  A calculated value name
-     * @return {Optional<number>}             Value
+     * @param name        Data field name
+     * @param calculated  A calculated value name
+     * @return Value
      */
     getValue(name: string, calculated?: CalculatedValue): $type.Optional<number>;
     /**
@@ -445,31 +418,31 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * `getWorkingValue()` returns current value, which is usually different if
      * Data Item is animating from one state to another.
      *
-     * @param  {string}           name        Data field name
-     * @param  {CalculatedValue}  calculated  A calculated value name
-     * @return {Optional<number>}             Value
+     * @param name        Data field name
+     * @param calculated  A calculated value name
+     * @return Value
      */
     getWorkingValue(name: string): $type.Optional<number>;
     /**
      * Sets a numeric value for specific data field.
      *
-     * @param {string}           name        Data field name
-     * @param {number}           value       Value
-     * @param {CalculatedValue}  calculated  Calculated data field name
-     * @param {number}           duration    Duration (ms) to animate to new value to
-     * @param {number}           delay       Delay animation (ms)
+     * @param name        Data field name
+     * @param value       Value
+     * @param calculated  Calculated data field name
+     * @param duration    Duration (ms) to animate to new value to
+     * @param delay       Delay animation (ms)
      */
     setValue(name: string, value: number, duration?: number, delay?: number): void;
     setCalculatedValue(name: string, value: number, calculated: CalculatedValue): void;
     /**
      * Set current working numeric value for a specific data field.
      *
-     * @param  {string}           name        Data field name
-     * @param  {number}           value       Value
-     * @param  {CalculatedValue}  calculated  Calculated data field name
-     * @param  {number}           duration    Duration (ms) to animate to new value to
-     * @param  {number}           delay       Delay animation (ms)
-     * @return {Optional<Animation>}          An [[Animation]] object used for transition to new values
+     * @param name        Data field name
+     * @param value       Value
+     * @param calculated  Calculated data field name
+     * @param duration    Duration (ms) to animate to new value to
+     * @param delay       Delay animation (ms)
+     * @return An [[Animation]] object used for transition to new values
      */
     setWorkingValue(name: string, value: number, duration?: number, delay?: number): $type.Optional<Animation>;
     /**
@@ -479,67 +452,67 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * 0.5 middle and 1 end.
      *
      * @todo Rewiew description
-     * @param {string}  name      Data field name
-     * @param {number}  value     Location (0-1)
-     * @param {number}  duration  Duration (ms) to animate to new value to
-     * @param {number}  delay     Delay animation (ms)
+     * @param name      Data field name
+     * @param value     Location (0-1)
+     * @param duration  Duration (ms) to animate to new value to
+     * @param delay     Delay animation (ms)
      */
     setLocation(name: string, value: number, duration?: number, delay?: number): void;
     /**
      * Sets a current working location for a data field.
      *
      * @todo Rewiew description
-     * @param {string}  name      Data field name
-     * @param {number}  value     Location (0-1)
-     * @param {number}  duration  Duration (ms) to animate to new value to
-     * @param {number}  delay     Delay animation (ms)
+     * @param name      Data field name
+     * @param value     Location (0-1)
+     * @param duration  Duration (ms) to animate to new value to
+     * @param delay     Delay animation (ms)
      */
     setWorkingLocation(name: string, value: number, duration?: number, delay?: number): $type.Optional<Animation>;
     /**
      * Sets Date value to a data field.
      *
-     * @param {string}  name      Data field name
-     * @param {Date}    date      Date object
-     * @param {number}  duration  Duration (ms) to animate to new value to
+     * @param name      Data field name
+     * @param date      Date object
+     * @param duration  Duration (ms) to animate to new value to
      */
     setDate(name: string, date: Date, duration?: number): void;
     /**
      * Returns a Date value of the data field.
      *
-     * @param  {string}  name  Data field name
-     * @return {Date}          Date object
+     * @param name  Data field name
+     * @return Date object
      */
     getDate(name: string): Date;
     /**
      * Sets a Data Item-specific visual properties to apply to related elements.
      *
-     * @param {string}  name   Property name
-     * @param {any}     value  Property value
+     * @param name   Property name
+     * @param value  Property value
      */
     setProperty(name: string, value: any): void;
     /**
      * Sets a related category for this Data Item.
      *
      * @todo Review description
-     * @param {string}  name   Data field name
-     * @param {string}  value  Category
+     * @param name   Data field name
+     * @param value  Category
      */
     setCategory(name: string, value: string): void;
     /**
      * Clones the Data Item, including all related data.
      *
-     * @return {this} New Data Item clone
+     * @return New Data Item clone
      */
     clone(cloneId?: string): this;
     /**
      * Sets opacity for all Data Item's related elements (Sprites).
      *
-     * @param {number} value Opacity (0-1)
+     * @param value Opacity (0-1)
      */
     opacity: number;
     /**
      * Exclude from min/max calculations?
-     * @return {boolean} Exclude from min/max calculations?
+     * @return Exclude from min/max calculations?
      */
     /**
      * Sets whether this data point should not be included in the scale and
@@ -548,7 +521,7 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * E.g. some we may want to exclude a particular data point from influencing
      * [[ValueAxis]] scale.
      *
-     * @param {boolean}  value  Exclude from min/max calculations?
+     * @param value  Exclude from min/max calculations?
      */
     ignoreMinMax: boolean;
     /**
@@ -556,10 +529,10 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * properties and/or values.
      *
      * @see {@link Animation}
-     * @param  {IAnimationOptions[] | IAnimationOptions}  animationOptions  Animation options
-     * @param  {number}                                   duration          Animation duration (ms)
-     * @param  {function}                                 easing            Easing function
-     * @return {Animation}                                                  Animation
+     * @param animationOptions  Animation options
+     * @param duration          Animation duration (ms)
+     * @param easing            Easing function
+     * @return Animation
      */
     animate(animationOptions: IAnimationOptions[] | IAnimationOptions, duration: number, easing?: (value: number) => number): Animation;
     /**
@@ -567,7 +540,7 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * one value to another.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Animation, IAnimationEvents>["animationstarted" | "animationended" | "animationprogress"]} event Event object
+     * @param event Event object
      */
     handleInterpolationProgress(event: AMEvent<Animation, IAnimationEvents>["animationstarted" | "animationended" | "animationprogress"]): void;
     /**
@@ -575,8 +548,8 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * supplied via argument.
      *
      * @ignore Exclude from docs
-     * @param  {string[]}  fields  Field list to check
-     * @return {boolean}           Has values for all fields?
+     * @param fields  Field list to check
+     * @return Has values for all fields?
      */
     hasValue(fields: string[]): boolean;
     /**
@@ -585,19 +558,19 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * In nested data structures, like TreeMap, this indicates the level this
      * data point is at, in relation to the parent Data Item.
      *
-     * @return {number} Depth
+     * @return Depth
      */
     readonly depth: number;
     /**
      * Sets to a reference to an original object from Component's data.
      *
-     * @return {Object} [description]
+     * @return [description]
      */
     /**
      * A reference to an original object in Component's data, that this Data Item
      * is derived from.
      *
-     * @param {Object} value Original data object
+     * @param value Original data object
      */
     dataContext: Object;
     /**

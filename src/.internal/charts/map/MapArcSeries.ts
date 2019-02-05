@@ -33,15 +33,11 @@ export class MapArcSeriesDataItem extends MapLineSeriesDataItem {
 
 	/**
 	 * A [[MapArc]] element related to this data item.
-	 *
-	 * @type {MapArc}
 	 */
 	public _mapLine: MapArc;
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {Component}
 	 */
 	public _component!: MapArcSeries;
 
@@ -104,43 +100,31 @@ export class MapArcSeries extends MapLineSeries {
 
 	/**
 	 * Defines available data fields.
-	 *
-	 * @type {IMapArcSeriesDataFields}
 	 */
 	public _dataFields: IMapArcSeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IMapArcSeriesProperties}
 	 */
 	public _properties!: IMapArcSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IMapArcSeriesAdapters}
 	 */
 	public _adapter!: IMapArcSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IMapArcSeriesEvents}
 	 */
 	public _events!: IMapArcSeriesEvents;
 
 	/**
 	 * Defines the type of data item.
-	 *
-	 * @type {MapArcSeriesDataItem}
 	 */
 	public _dataItem: MapArcSeriesDataItem;
 
 	/**
 	 * Defines the type of the line items in this series.
-	 *
-	 * @type {MapArc}
 	 */
 	public _mapLine: MapArc;
 
@@ -157,7 +141,7 @@ export class MapArcSeries extends MapLineSeries {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {MapArcSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new MapArcSeriesDataItem();
@@ -166,7 +150,7 @@ export class MapArcSeries extends MapLineSeries {
 	/**
 	 * Returns a new line instance of suitable type.
 	 *
-	 * @return {MapArc} New line
+	 * @return New line
 	 */
 	protected createLine(): this["_mapLine"] {
 		return new MapArc();

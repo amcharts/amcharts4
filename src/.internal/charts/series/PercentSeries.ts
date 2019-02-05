@@ -53,8 +53,6 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 
 	/**
 	 * A type of slice used for this series.
-	 *
-	 * @type {Slice}
 	 */
 	public _slice: Sprite;
 
@@ -62,21 +60,17 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	 * A reference to a slice label element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {AxisLabelCircular}
 	 */
 	public _label: Label;
 
 	/**
 	 * A reference to a slice tick element.
 	 * @ignore Exclude from docs
-	 * @type {Tick}
 	 */
 	public _tick: Tick;
 
 	/**
 	 * A reference to a corresponding legend data item.
-	 *
-	 * @type {LegendDataItem<DataItem, IDataItemEvents>}
 	 */
 	protected _legendDataItem: LegendDataItem;
 
@@ -84,15 +78,12 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	 * Custom settings for the legend item.
 	 * Not used, only added to sattisfy LegendDataItem
 	 *
-	 * @type {LegendSettings}
 	 * @ignore
 	 */
 	public legendSettings: LegendSettings;
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {PercentSeries}
 	 */
 	public _component!: PercentSeries;
 
@@ -119,10 +110,10 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	/**
 	 * Hide the data item (and corresponding visual elements).
 	 *
-	 * @param {number}    duration  Duration (ms)
-	 * @param {number}    delay     Delay hiding (ms)
-	 * @param {number}    toValue   Target value for animation
-	 * @param {string[]}  fields    Fields to animate while hiding
+	 * @param duration  Duration (ms)
+	 * @param delay     Delay hiding (ms)
+	 * @param toValue   Target value for animation
+	 * @param fields    Fields to animate while hiding
 	 */
 	public hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): Animation {
 		if (!fields) {
@@ -134,7 +125,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	/**
 	 * Sets visibility of the Data Item.
 	 *
-	 * @param {boolean} value Data Item
+	 * @param value Data Item
 	 */
 	public setVisibility(value: boolean, noChangeValues?: boolean): void {
 		if (!noChangeValues) {
@@ -152,9 +143,9 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	/**
 	 * Show hidden data item (and corresponding cisual elements).
 	 *
-	 * @param {number}    duration  Duration (ms)
-	 * @param {number}    delay     Delay hiding (ms)
-	 * @param {string[]}  fields    Fields to animate while hiding
+	 * @param duration  Duration (ms)
+	 * @param delay     Delay hiding (ms)
+	 * @param fields    Fields to animate while hiding
 	 */
 	public show(duration?: number, delay?: number, fields?: string[]): Animation {
 		if (!fields) {
@@ -166,14 +157,14 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	/**
 	 * Category.
 	 *
-	 * @param {string}  value  Category
+	 * @param value  Category
 	 */
 	public set category(value: string) {
 		this.setProperty("category", value);
 	}
 
 	/**
-	 * @return {string} Category
+	 * @return Category
 	 */
 	public get category(): string {
 		return this.properties.category;
@@ -184,7 +175,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	 * Creates a marker used in the legend for this slice.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Container}  marker  Marker container
+	 * @param marker  Marker container
 	 */
 	public createLegendMarker(marker: Container) {
 		this.component.createLegendMarker(marker, this);
@@ -193,7 +184,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	/**
 	 * A legend's data item, that corresponds to this data item.
 	 *
-	 * @param {LegendDataItem<DataItem, IDataItemEvents>}  value  Legend data item
+	 * @param value  Legend data item
 	 */
 	public set legendDataItem(value: LegendDataItem) {
 		this._legendDataItem = value;
@@ -206,7 +197,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	}
 
 	/**
-	 * @return {LegendDataItem<DataItem, IDataItemEvents>} Legend data item
+	 * @return Legend data item
 	 */
 	public get legendDataItem(): LegendDataItem {
 		return this._legendDataItem;
@@ -216,7 +207,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	 * A Tick element, related to this data item. (slice)
 	 *
 	 * @readonly
-	 * @return {this["_tick"]} Tick element
+	 * @return Tick element
 	 */
 	public get tick(): this["_tick"] {
 		if (!this._tick) {
@@ -242,7 +233,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	 * A Label element, related to this data item. (slice)
 	 *
 	 * @readonly
-	 * @return {this["_label"]} Label element
+	 * @return Label element
 	 */
 	public get label(): this["_label"] {
 		if (!this._label) {
@@ -268,7 +259,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	 * An element, related to this data item. (slice)
 	 *
 	 * @readonly
-	 * @return {Sprite} Slice element
+	 * @return Slice element
 	 */
 	public get slice(): this["_slice"] {
 		if (!this._slice) {
@@ -321,14 +312,14 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	/**
 	 * Should dataItem (slice) be hidden in legend?
 	 *
-	 * @param {boolean} value Visible in legend?
+	 * @param value Visible in legend?
 	 */
 	public set hiddenInLegend(value: boolean) {
 		this.setProperty("hiddenInLegend", value);
 	}
 
 	/**
-	 * @return {boolean} Disabled in legend?
+	 * @return Disabled in legend?
 	 */
 	public get hiddenInLegend(): boolean {
 		return this.properties.hiddenInLegend;
@@ -350,16 +341,12 @@ export interface IPercentSeriesDataFields extends ISeriesDataFields {
 
 	/**
 	 * Name of the field in data that holds category.
-	 *
-	 * @type {string}
 	 */
 	category?: string;
 
 	/**
 	 * Name of the field in data that holds boolean flag if item should be
 	 * hidden in legend.
-	 *
-	 * @type {string}
 	 */
 	hiddenInLegend?: string;
 }
@@ -373,8 +360,6 @@ export interface IPercentSeriesProperties extends ISeriesProperties {
 	 *
 	 * For each new subsequent slice, the chart will assign the next color in
 	 * this set.
-	 *
-	 * @type {ColorSet}
 	 */
 	colors?: ColorSet;
 
@@ -382,7 +367,6 @@ export interface IPercentSeriesProperties extends ISeriesProperties {
 	 * Align labels into nice vertical columns?
 	 *
 	 * @default true
-	 * @type {number}
 	 */
 	alignLabels?: number;
 
@@ -421,7 +405,6 @@ export class PercentSeries extends Series {
 	 * Defines type of the slice elements for the series.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Sprite}
 	 */
 	public _slice: Sprite;
 
@@ -429,7 +412,6 @@ export class PercentSeries extends Series {
 	 * Defines type of the tick elements for the series.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Tick}
 	 */
 	public _tick: Tick;
 
@@ -437,7 +419,6 @@ export class PercentSeries extends Series {
 	 * Defines type of the label elements for the series.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Label}
 	 */
 	public _label: Label;
 
@@ -445,42 +426,31 @@ export class PercentSeries extends Series {
 	 * A reference to chart this series is for.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {PercentChart}
 	 */
 	public _chart: PercentChart;
 
 	/**
 	 * Defines the type of data fields used for the series.
-	 *
-	 * @type {IPercentSeriesDataFields}
 	 */
 	public _dataFields: IPercentSeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPercentSeriesProperties}
 	 */
 	public _properties!: IPercentSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IPercentSeriesAdapters}
 	 */
 	public _adapter!: IPercentSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPercentSeriesEvents}
 	 */
 	public _events!: IPercentSeriesEvents;
 
 	/**
 	 * Defines the type of data item.
-	 *
-	 * @type {PercentSeriesDataItem}
 	 */
 	public _dataItem: PercentSeriesDataItem;
 
@@ -488,7 +458,6 @@ export class PercentSeries extends Series {
 	 * Container slice elements are put in.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Container}
 	 */
 	public slicesContainer: Container;
 
@@ -496,7 +465,6 @@ export class PercentSeries extends Series {
 	 * Container tick elements are put in.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Container}
 	 */
 	public ticksContainer: Container;
 
@@ -504,28 +472,21 @@ export class PercentSeries extends Series {
 	 * Container label elements are put in.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Container}
 	 */
 	public labelsContainer: Container;
 
 	/**
 	 * List of slice elements.
-	 *
-	 * @type {ListTemplate<Slice>}
 	 */
 	protected _slices: ListTemplate<this["_slice"]>;
 
 	/**
 	 * List of tick elements.
-	 *
-	 * @type {ListTemplate<this["_tick"]>}
 	 */
 	protected _ticks: ListTemplate<this["_tick"]>;
 
 	/**
 	 * List of label elements.
-	 *
-	 * @type {ListTemplate<this["_label"]>}
 	 */
 	protected _labels: ListTemplate<this["_label"]>;
 
@@ -582,7 +543,7 @@ export class PercentSeries extends Series {
 	/**
 	 * Creates a slice element.
 	 *
-	 * @return {FunnelSlice} Slice
+	 * @return Slice
 	 */
 	protected createSlice(): this["_slice"] {
 		return new Sprite();
@@ -591,7 +552,7 @@ export class PercentSeries extends Series {
 	/**
 	 * Creates a tick element.
 	 *
-	 * @return {Tick} Tick
+	 * @return Tick
 	 */
 	protected createTick(): this["_tick"] {
 		return new Tick();
@@ -600,7 +561,7 @@ export class PercentSeries extends Series {
 	/**
 	 * Sreates label element.
 	 *
-	 * @return {Label} label
+	 * @return label
 	 */
 	protected createLabel(): this["_label"] {
 		return new Label();
@@ -650,7 +611,7 @@ export class PercentSeries extends Series {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {PercentSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new PercentSeriesDataItem();
@@ -659,8 +620,8 @@ export class PercentSeries extends Series {
 	/**
 	 * Creates and returns a new slice element.
 	 *
-	 * @param  {typeof Slice}  sliceType  Type of the slice element
-	 * @return {Slice}                    Slice
+	 * @param sliceType  Type of the slice element
+	 * @return Slice
 	 */
 	protected initSlice(slice: this["_slice"]) {
 
@@ -680,7 +641,7 @@ export class PercentSeries extends Series {
 	 * Validates data item's element, effectively redrawing it.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {PercentSeriesDataItem}  dataItem  Data item
+	 * @param dataItem  Data item
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
 
@@ -726,7 +687,7 @@ export class PercentSeries extends Series {
 	 * Arranges slice labels according to position settings.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {this["_dataItem"][]}  dataItems  Data items
+	 * @param dataItems  Data items
 	 */
 	protected arrangeLabels(dataItems: this["_dataItem"][]): void {
 		for (let i = 0, len = dataItems.length; i < len; i++) {
@@ -755,9 +716,9 @@ export class PercentSeries extends Series {
 	/**
 	 * Returns the next label according to `index`.
 	 *
-	 * @param  {number}              index      Current index
-	 * @param  {PieSerisDataItem[]}  dataItems  Data items
-	 * @return {AxisLabelCircular}              Label element
+	 * @param index      Current index
+	 * @param dataItems  Data items
+	 * @return Label element
 	 */
 	protected getNextLabel(index: number, dataItems: this["_dataItem"][]): this["_label"] {
 		if (dataItems.length >= index) {
@@ -779,14 +740,14 @@ export class PercentSeries extends Series {
 	 * For each new subsequent slice, the chart will assign the next color in
 	 * this set.
 	 *
-	 * @param {ColorSet}  value  Color set
+	 * @param value  Color set
 	 */
 	public set colors(value: ColorSet) {
 		this.setPropertyValue("colors", value, true);
 	}
 
 	/**
-	 * @return {ColorSet} Color set
+	 * @return Color set
 	 */
 	public get colors(): ColorSet {
 		return this.getPropertyValue("colors");
@@ -797,8 +758,8 @@ export class PercentSeries extends Series {
 	 * settings.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Container}          marker    Container
-	 * @param {this["_dataItem"]}  dataItem  Data item
+	 * @param marker    Container
+	 * @param dataItem  Data item
 	 */
 	public createLegendMarker(marker: Container, dataItem?: this["_dataItem"]): void {
 		$iter.each(marker.children.iterator(), (child) => {
@@ -849,7 +810,7 @@ export class PercentSeries extends Series {
 	 * Repositions bullets when slice's size changes.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
+	 * @param event  Event
 	 */
 	protected handleSliceScale(event: AMEvent<this["_slice"], ISpriteEvents>["propertychanged"]): void {
 		let slice: this["_slice"] = event.target;
@@ -864,7 +825,7 @@ export class PercentSeries extends Series {
 	 * Repositions bullet and labels when slice moves.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
+	 * @param event  Event
 	 */
 	protected handleSliceMove(event: AMEvent<this["_slice"], ISpriteEvents>["propertychanged"]): void {
 
@@ -873,7 +834,7 @@ export class PercentSeries extends Series {
 	/**
 	 * Copies all properties from another instance of [[PercentSeries]].
 	 *
-	 * @param {ColumnSeries}  source  Source series
+	 * @param source  Source series
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);
@@ -894,14 +855,14 @@ export class PercentSeries extends Series {
 	 * and may, in some cases, overlap.
 	 *
 	 * @default true
-	 * @param {boolean}  value  Align labels?
+	 * @param value  Align labels?
 	 */
 	public set alignLabels(value: boolean) {
 		this.setAlignLabels(value);
 	}
 
 	/**
-	 * @return {boolean} Align labels?
+	 * @return Align labels?
 	 */
 	public get alignLabels(): boolean {
 		return this.getPropertyValue("alignLabels");

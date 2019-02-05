@@ -21,9 +21,9 @@ import * as $type from "./Type";
  * var chart = am4core.create("chartdiv", "PieChart");
  * ```
  *
- * @param  {HTMLElement | string}  htmlElement  Reference or id of the target container element
- * @param  {T}                     classType    Class type of the target chart type
- * @return {T}                                  Chart instance
+ * @param htmlElement  Reference or id of the target container element
+ * @param classType    Class type of the target chart type
+ * @return Chart instance
  */
 export declare function create<T extends Sprite>(htmlElement: $type.Optional<HTMLElement | string>, classType: {
     new (): T;
@@ -91,10 +91,10 @@ export declare function create<T extends Sprite>(htmlElement: $type.Optional<HTM
  * }
  * ```
  *
- * @param  {any}                   config       Config object in property/value pairs
- * @param  {string | HTMLElement}  htmlElement  Container reference or ID
- * @param  {typeof Chart}          objectType   Chart type
- * @return {Chart}                              A newly created chart instance
+ * @param config       Config object in property/value pairs
+ * @param htmlElement  Container reference or ID
+ * @param objectType   Chart type
+ * @return A newly created chart instance
  * @todo Throw exception if type is not correct
  */
 export declare function createFromConfig(config: {
@@ -125,14 +125,14 @@ export declare function createFromConfig(config: {
  * The above will apply both the Material color and animation options to all
  * charts created.
  *
- * @param {ITheme}  value  A reference to a theme
+ * @param value  A reference to a theme
  */
 export declare function useTheme(value: ITheme): void;
 /**
  * Removes a theme from "active themes" list, so it won't get applied to any
  * charts created subsequently.
  *
- * @param {ITheme}  value  A reference to a theme
+ * @param value  A reference to a theme
  */
 export declare function unuseTheme(value: ITheme): void;
 /**

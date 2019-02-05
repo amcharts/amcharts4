@@ -50,25 +50,18 @@ export interface IConeColumnAdapters extends IColumnAdapters, IConeColumnPropert
 export declare class ConeColumn extends Column {
     /**
      * Defines available properties.
-     *
-     * @type {IConeColumnProperties}
      */
     _properties: IConeColumnProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IConeColumnAdapters}
      */
     _adapter: IConeColumnAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IConeColumnEvents}
      */
     _events: IConeColumnEvents;
     /**
      * Cone column element
-     * @type {Cone}
      */
     coneColumn: Cone;
     /**
@@ -82,7 +75,7 @@ export declare class ConeColumn extends Column {
     /**
      * Copies all parameters from another [[ConeColumn]].
      *
-     * @param {ConeColumn} source Source ConeColumn
+     * @param source Source ConeColumn
      */
     copyFrom(source: this): void;
 }

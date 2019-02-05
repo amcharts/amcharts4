@@ -65,10 +65,10 @@ var LineSeriesSegment = /** @class */ (function (_super) {
      * Draws the series segment.
      *
      * @ignore Exclude from docs
-     * @param {IPoint[]}  points       Points to connect
-     * @param {IPoint[]}  closePoints  ?
-     * @param {number}    smoothnessX  Horizontal bezier setting (?)
-     * @param {number}    smoothnessY  Vertical bezier setting (?)
+     * @param points       Points to connect
+     * @param closePoints  ?
+     * @param smoothnessX  Horizontal bezier setting (?)
+     * @param smoothnessY  Vertical bezier setting (?)
      */
     LineSeriesSegment.prototype.drawSegment = function (points, closePoints, smoothnessX, smoothnessY) {
         if (!this.disabled) {
@@ -97,7 +97,7 @@ var LineSeriesSegment = /** @class */ (function (_super) {
     /**
      * Copies properties from a [[Sprite]] to both line and fill elements.
      *
-     * @param {Sprite} source Source [[Sprite]] to copy properties from
+     * @param source Source [[Sprite]] to copy properties from
      */
     LineSeriesSegment.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

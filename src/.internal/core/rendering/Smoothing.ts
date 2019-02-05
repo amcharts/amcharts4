@@ -33,7 +33,7 @@ export interface ISmoothing {
  * @ignore Exclude from docs
  * @todo Description
  * @todo Move this someplace else
- * @param {number} x [description]
+ * @param x [description]
  */
 function sign(x: number): -1 | 1 {
 	return x < 0 ? -1 : 1;
@@ -44,12 +44,12 @@ function sign(x: number): -1 | 1 {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {number} x0 [description]
- * @param  {number} x1 [description]
- * @param  {number} y0 [description]
- * @param  {number} y1 [description]
- * @param  {number} t  [description]
- * @return {number}    [description]
+ * @param x0 [description]
+ * @param x1 [description]
+ * @param y0 [description]
+ * @param y1 [description]
+ * @param t  [description]
+ * @return [description]
  */
 function slope2(x0: number, x1: number, y0: number, y1: number, t: number): number {
 	const h = x1 - x0;
@@ -61,13 +61,13 @@ function slope2(x0: number, x1: number, y0: number, y1: number, t: number): numb
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {number} x0 [description]
- * @param  {number} x1 [description]
- * @param  {number} y0 [description]
- * @param  {number} y1 [description]
- * @param  {number} x2 [description]
- * @param  {number} y2 [description]
- * @return {number}    [description]
+ * @param x0 [description]
+ * @param x1 [description]
+ * @param y0 [description]
+ * @param y1 [description]
+ * @param x2 [description]
+ * @param y2 [description]
+ * @return [description]
  */
 function slope3(x0: number, x1: number, y0: number, y1: number, x2: number, y2: number): number {
 	const h0 = x1 - x0;
@@ -88,7 +88,6 @@ export class Tension implements ISmoothing {
 	 * [_tensionX description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	private _tensionX: number;
 
@@ -96,15 +95,14 @@ export class Tension implements ISmoothing {
 	 * [_tensionY description]
 	 *
 	 * @todo Description
-	 * @type {number}
 	 */
 	private _tensionY: number;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param {number} tensionX [description]
-	 * @param {number} tensionY [description]
+	 * @param tensionX [description]
+	 * @param tensionY [description]
 	 */
 	constructor(tensionX: number, tensionY: number) {
 		this._tensionX = tensionX;
@@ -116,8 +114,8 @@ export class Tension implements ISmoothing {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {Array<IPoint>}  points  [description]
-	 * @return {string}                 [description]
+	 * @param points  [description]
+	 * @return [description]
 	 */
 	public smooth(points: Array<IPoint>): string {
 		let tensionX = this._tensionX;
@@ -179,12 +177,12 @@ export class Tension implements ISmoothing {
  * Returns a waved line SVG path between two points.
  *
  * @ignore Exclude from docs
- * @param  {IPoint}   point1            Starting point
- * @param  {IPoint}   point2            Ending point
- * @param  {number}   waveLength        Wave length
- * @param  {number}   waveHeight        Wave height
- * @param  {boolean}  adjustWaveLength  Adjust wave length based on the actual line length
- * @return {string}                     SVG path
+ * @param point1            Starting point
+ * @param point2            Ending point
+ * @param waveLength        Wave length
+ * @param waveHeight        Wave height
+ * @param adjustWaveLength  Adjust wave length based on the actual line length
+ * @return SVG path
  */
 export function wavedLine(point1: IPoint, point2: IPoint, waveLength: number, waveHeight: number, tension: number, adjustWaveLength?: boolean): string {
 
@@ -260,14 +258,13 @@ export class Basis implements ISmoothing {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @type {boolean}
 	 */
 	private _closed: boolean;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param {object}  info  [description]
+	 * @param info  [description]
 	 */
 	constructor(info: { closed: boolean }) {
 		this._closed = info.closed;
@@ -278,8 +275,8 @@ export class Basis implements ISmoothing {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
-	 * @param  {Array<IPoint>}  points  [description]
-	 * @return {string}                 [description]
+	 * @param points  [description]
+	 * @return [description]
 	 */
 	public smooth(points: Array<IPoint>): string {
 		let x0: number = NaN;

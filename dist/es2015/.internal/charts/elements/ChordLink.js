@@ -107,7 +107,7 @@ var ChordLink = /** @class */ (function (_super) {
     };
     Object.defineProperty(ChordLink.prototype, "radius", {
         /**
-         * @return {number} End Y
+         * @return End Y
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -116,7 +116,7 @@ var ChordLink = /** @class */ (function (_super) {
          * [radius description]
          *
          * @todo Description
-         * @param {number} value End Y
+         * @param value End Y
          */
         set: function (value) {
             this.setPropertyValue("radius", value, true);
@@ -126,7 +126,7 @@ var ChordLink = /** @class */ (function (_super) {
     });
     Object.defineProperty(ChordLink.prototype, "arc", {
         /**
-         * @return {number} [description]
+         * @return [description]
          */
         get: function () {
             return this.getPropertyValue("arc");
@@ -135,7 +135,7 @@ var ChordLink = /** @class */ (function (_super) {
          * [arc description]
          *
          * @todo Description
-         * @param {number} value [description]
+         * @param value [description]
          */
         set: function (value) {
             this.setPropertyValue("arc", value, true);

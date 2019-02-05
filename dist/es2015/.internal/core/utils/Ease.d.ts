@@ -166,23 +166,23 @@ export declare function bounceInOut(t: number): number;
  * Easing function: "elasticIn".
  *
  * @function elasticIn
- * @param {number}  a  Amplitude
- * @param {number}  p  period
+ * @param a  Amplitude
+ * @param p  period
  */
 export declare function elasticIn(t: number): number;
 /**
  * Easing function: "elasticOut".
  *
  * @function elasticOut
- * @param {number}  a  Amplitude
- * @param {number}  p  period
+ * @param a  Amplitude
+ * @param p  period
  */
 export declare function elasticOut(t: number): number;
 /**
  * Easing function: "elasticInOut".
  *
  * @function elasticInOut
- * @param {number}  a  Amplitude
- * @param {number}  p  period
+ * @param a  Amplitude
+ * @param p  period
  */
 export declare function elasticInOut(t: number): number;

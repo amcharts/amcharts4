@@ -21,14 +21,10 @@ import { IOrientationPoint } from "../defs/IPoint";
 export interface IQuadraticCurveProperties extends ILineProperties {
     /**
      * X coordinate of control point.
-     *
-     * @type {number}
      */
     cpx?: number;
     /**
      * Y coordinate of control point.
-     *
-     * @type {number}
      */
     cpy?: number;
 }
@@ -59,20 +55,14 @@ export interface IQuadraticCurveAdapters extends ILineAdapters, IQuadraticCurveP
 export declare class QuadraticCurve extends Line {
     /**
      * Defines available properties.
-     *
-     * @type {IQuadraticCurveProperties}
      */
     _properties: IQuadraticCurveProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IQuadraticCurveAdapters}
      */
     _adapter: IQuadraticCurveAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IQuadraticCurveEvents}
      */
     _events: IQuadraticCurveEvents;
     /**
@@ -86,28 +76,28 @@ export declare class QuadraticCurve extends Line {
      */
     draw(): void;
     /**
-     * @return {number} X
+     * @return X
      */
     /**
      * X coordinate of control point.
      *
-     * @param {number} value X
+     * @param value X
      */
     cpx: number;
     /**
-     * @return {number} Y
+     * @return Y
      */
     /**
      * Y coordinate of control point.
      *
-     * @param {number} value Y
+     * @param value Y
      */
     cpy: number;
     /**
      * Converts relative position along the line (0-1) into pixel coordinates.
      *
-     * @param  {number}             position  Position (0-1)
-     * @return {IOrientationPoint}            Coordinates
+     * @param position  Position (0-1)
+     * @return Coordinates
      */
     positionToPoint(position: number): IOrientationPoint;
 }

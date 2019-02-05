@@ -30,25 +30,18 @@ import * as $iter from "../../core/utils/Iterator";
 export declare class FlowDiagramDataItem extends ChartDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {FlowDiagram}
      */
     _component: FlowDiagram;
     /**
      * An a link element, connecting two nodes.
-     * @type {FlowDiagramLink}
      */
     _link: FlowDiagramLink;
     /**
      * An origin node.
-     *
-     * @type {FlowDiagramNode}
      */
     fromNode: FlowDiagramNode;
     /**
      * A destination node.
-     *
-     * @type {FlowDiagramNode}
      */
     toNode: FlowDiagramNode;
     /**
@@ -56,39 +49,39 @@ export declare class FlowDiagramDataItem extends ChartDataItem {
      */
     constructor();
     /**
-     * @return {string} name
+     * @return name
      */
     /**
      * Source node's name.
      *
-     * @param {string}  value  Name
+     * @param value  Name
      */
     fromName: string;
     /**
-     * @return {string} name
+     * @return name
      */
     /**
      * Destination node's name.
      *
-     * @param {string}  value  Name
+     * @param value  Name
      */
     toName: string;
     /**
-     * @return {string} color
+     * @return color
      */
     /**
      * Node color
      *
-     * @param {string}  value  Name
+     * @param value  Name
      */
     color: Color;
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * Link's value.
      *
-     * @param {number}  value  Value
+     * @param value  Value
      */
     value: number;
     /**
@@ -98,7 +91,7 @@ export declare class FlowDiagramDataItem extends ChartDataItem {
      * `value` of the source node.
      *
      * @readonly
-     * @return {FlowDiagramLink} Link element
+     * @return Link element
      */
     readonly link: this["_link"];
 }
@@ -114,32 +107,22 @@ export declare class FlowDiagramDataItem extends ChartDataItem {
 export interface IFlowDiagramDataFields extends IChartDataFields {
     /**
      * Name of the source node.
-     *
-     * @type {string}
      */
     fromName?: string;
     /**
      * Name of the target node.
-     *
-     * @type {string}
      */
     toName?: string;
     /**
      * Value of the link between two nodes.
-     *
-     * @type {string}
      */
     value?: string;
     /**
      * Color of a from node
-     *
-     * @type {string}
      */
     color?: string;
     /**
      * Visibility of a node
-     *
-     * @type {string}
      */
     visible?: string;
 }
@@ -149,14 +132,10 @@ export interface IFlowDiagramDataFields extends IChartDataFields {
 export interface IFlowDiagramProperties extends IChartProperties {
     /**
      * Padding for node square in pixels.
-     *
-     * @type {number}
      */
     nodePadding?: number;
     /**
      * Sort nodes by name or value or do not sort a
-     *
-     * @type {"none" | "name" | "value"}
      */
     sortBy?: "none" | "name" | "value";
     /**
@@ -193,38 +172,26 @@ export declare class FlowDiagram extends Chart {
     /**
      * A Color Set to use when applying/generating colors for each subsequent
      * node.
-     *
-     * @type {ColorSet}
      */
     colors: ColorSet;
     /**
      * Defines a type for the DataItem.
-     *
-     * @type {FlowDiagramDataItem}
      */
     _dataItem: FlowDiagramDataItem;
     /**
      * Defines available data fields.
-     *
-     * @type {IFlowDiagramDataFields}
      */
     _dataFields: IFlowDiagramDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IFlowDiagramProperties}
      */
     _properties: IFlowDiagramProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {SeriesAdapters}
      */
     _adapter: IFlowDiagramAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IFlowDiagramEvents}
      */
     _events: IFlowDiagramEvents;
     /**
@@ -247,20 +214,16 @@ export declare class FlowDiagram extends Chart {
     protected _links: ListTemplate<this["_link"]>;
     /**
      * A container that holds all of the link elements.
-     *
-     * @type {Container}
      */
     linksContainer: Container;
     /**
      * A container that holds all of the node elements.
-     * @type {Container}
      */
     nodesContainer: Container;
     /**
      * Sorted nodes iterator.
      *
      * @ignore
-     * @type {Iterator}
      */
     protected _sorted: $iter.Iterator<[string, FlowDiagramNode]>;
     /**
@@ -290,7 +253,7 @@ export declare class FlowDiagram extends Chart {
      * A node's value is determined by summing values of all of the incoming
      * links or all of the outgoing links, whichever results in bigger number.
      *
-     * @param {FlowDiagramNode}  node  Node value
+     * @param node  Node value
      */
     protected getNodeValue(node: FlowDiagramNode): void;
     /**
@@ -307,37 +270,37 @@ export declare class FlowDiagram extends Chart {
     /**
      * Creates and returns a new data item.
      *
-     * @return {this} Data item
+     * @return Data item
      */
     protected createDataItem(): this["_dataItem"];
     /**
-     * @return {number} Padding (px)
+     * @return Padding (px)
      */
     /**
      * Padding for node square in pixels.
      *
      * Padding will add extra space around node's name label.
      *
-     * @param {number} value Padding (px)
+     * @param value Padding (px)
      */
     nodePadding: number;
     /**
-     * @returns {"none" | name" | "value"} Node sorting
+     * @returns Node sorting
      */
     /**
      * Sort nodes by "name" or "value" or do not sort at all. If not sorted, nodes will appear in the same order as they are in the data.
      * @default "none"
-     * @param {"none" | "name" | "value"}  value  Node sorting
+     * @param value  Node sorting
      */
     sortBy: "none" | "name" | "value";
     /**
-     * @returns {number} min node size
+     * @returns min node size
      */
     /**
      * Sometimes nodes can get very small if their value is little. With this setting you
      * can set min size of a node (this is relative value from the total size of all nodes)
      * @default 0.02
-     * @param {"none" | "name" | "value"}  value  Node sorting
+     * @param value  Node sorting
      */
     minNodeSize: number;
     /**

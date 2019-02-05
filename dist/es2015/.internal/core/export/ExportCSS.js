@@ -7,8 +7,8 @@ var rules = new Dictionary();
  * A dynamically-loadable CSS module for Export menu.
  *
  * @ignore Exclude from docs
- * @param  {string}     prefix  Prefix to addtach to class names
- * @return {IDisposer}          A MultiDisposer with style rules
+ * @param prefix  Prefix to addtach to class names
+ * @return A MultiDisposer with style rules
  */
 export default function (prefix) {
     var newPrefix = (prefix ? prefix : "amexport");

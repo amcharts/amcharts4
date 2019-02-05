@@ -48,32 +48,22 @@ export interface IMapArcAdapters extends IMapLineAdapters, IMapArcProperties {
 export declare class MapArc extends MapLine {
     /**
      * Defines available properties.
-     *
-     * @type {IMapArcProperties}
      */
     _properties: IMapArcProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IMapArcAdapters}
      */
     _adapter: IMapArcAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IMapArcEvents}
      */
     _events: IMapArcEvents;
     /**
      * A visual element.
-     *
-     * @type {Polyarc}
      */
     line: Polyarc;
     /**
      * A map series this object belongs to.
-     *
-     * @type {MapArcSeries}
      */
     series: MapArcSeries;
     /**
@@ -87,7 +77,7 @@ export declare class MapArc extends MapLine {
     /**
      * ShortestDistance = true is not supported by MapArc, only MapLine does support it
      * @default false
-     * @param {boolean}  value
+     * @param value
      * @todo: review description
      */
     shortestDistance: boolean;

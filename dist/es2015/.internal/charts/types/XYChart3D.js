@@ -66,13 +66,10 @@ var XYChart3D = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * Type of the axis renderer to use for X axes.
-         *
-         * @type {[type]}
          */
         _this._axisRendererX = AxisRendererX3D;
         /**
          * Type of the axis renderer to use for Y axes.
-         * @type {[type]}
          */
         _this._axisRendererY = AxisRendererY3D;
         _this.className = "XYChart3D";
@@ -92,7 +89,7 @@ var XYChart3D = /** @class */ (function (_super) {
     }
     Object.defineProperty(XYChart3D.prototype, "depth", {
         /**
-         * @return {number} Depth (px)
+         * @return Depth (px)
          */
         get: function () {
             return this.getPropertyValue("depth");
@@ -100,7 +97,7 @@ var XYChart3D = /** @class */ (function (_super) {
         /**
          * Depth of the 3D chart / columns in pixels.
          *
-         * @param {number}  value  Depth (px)
+         * @param value  Depth (px)
          */
         set: function (value) {
             this.setPropertyValue("depth", value);
@@ -112,7 +109,7 @@ var XYChart3D = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYChart3D.prototype, "angle", {
         /**
-         * @return {number} Angle
+         * @return Angle
          */
         get: function () {
             return this.getPropertyValue("angle");
@@ -121,7 +118,7 @@ var XYChart3D = /** @class */ (function (_super) {
          * Angle the chart is viewed at.
          *
          * @todo Description (review)
-         * @param {number}  value  Angle
+         * @param value  Angle
          */
         set: function (value) {
             this.setPropertyValue("angle", value);
@@ -136,7 +133,7 @@ var XYChart3D = /** @class */ (function (_super) {
          * A calculated horizontal 3D offset (px).
          *
          * @readonly
-         * @return {number} Offset (px)
+         * @return Offset (px)
          */
         get: function () {
             return $math.cos(this.angle) * this.depth;
@@ -149,7 +146,7 @@ var XYChart3D = /** @class */ (function (_super) {
          * A calculated vertical 3D offset (px).
          *
          * @readonly
-         * @return {number} Offset (px)
+         * @return Offset (px)
          */
         get: function () {
             return -$math.sin(this.angle) * this.depth;
@@ -222,7 +219,7 @@ var XYChart3D = /** @class */ (function (_super) {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     XYChart3D.prototype.processConfig = function (config) {
         if (config) {

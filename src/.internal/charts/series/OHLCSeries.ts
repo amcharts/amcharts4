@@ -38,13 +38,11 @@ export class OHLCSeriesDataItem extends CandlestickSeriesDataItem {
 
 	/**
 	 * A sprite used to draw the OHLC elements.
-	 * @type {OHLC}
 	 */
 	public _column: OHLC;
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for
-	 * @type {OHLCSeries}
 	 * @todo Disabled to work around TS bug (see if we can re-enable it again)
 	 */
 	//public _component!: OHLCSeries;
@@ -111,8 +109,6 @@ export class OHLCSeries extends CandlestickSeries {
 
 	/**
 	 * Defines the type of data item.
-	 *
-	 * @type {OHLCSeriesDataItem}
 	 */
 	public _dataItem: OHLCSeriesDataItem;
 
@@ -123,29 +119,21 @@ export class OHLCSeries extends CandlestickSeries {
 
 	/**
 	 * Defines available data fields.
-	 *
-	 * @type {IOHLCSeriesDataFields}
 	 */
 	public _dataFields: IOHLCSeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IOHLCSeriesProperties}
 	 */
 	public _properties!: IOHLCSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IOHLCSeriesAdapters}
 	 */
 	public _adapter!: IOHLCSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IOHLCSeriesEvents}
 	 */
 	public _events!: IOHLCSeriesEvents;
 
@@ -174,7 +162,7 @@ export class OHLCSeries extends CandlestickSeries {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {OHLCSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new OHLCSeriesDataItem();
@@ -283,7 +271,7 @@ export class OHLCSeries extends CandlestickSeries {
 	 * Series.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Container}  marker  Legend item container
+	 * @param marker  Legend item container
 	 */
 	public createLegendMarker(marker: Container): void {
 
@@ -347,7 +335,7 @@ export class OHLCSeries extends CandlestickSeries {
 	/**
 	 * Returns an element to use for Candlestick
 	 * @ignore
-	 * @return {this["_column"]} Element.
+	 * @return Element.
 	 */
 	protected createColumnTemplate(): this["_column"] {
 		return new OHLC();

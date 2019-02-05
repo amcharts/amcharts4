@@ -65,36 +65,26 @@ export class FunnelTick extends Tick {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IFunnelTickProperties}
 	 */
 	public _properties!: IFunnelTickProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IFunnelTickAdapters}
 	 */
 	public _adapter!: IFunnelTickAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IFunnelTickEvents}
 	 */
 	public _events!: IFunnelTickEvents;
 
 	/**
 	 * A label element this tick is attached to.
-	 *
-	 * @type {MutableValueDisposer}
 	 */
 	protected _label = new MutableValueDisposer<Label>();
 
 	/**
 	 * A slice element this tick is attached to.
-	 *
-	 * @type {MutableValueDisposer}
 	 */
 	protected _slice = new MutableValueDisposer<FunnelSlice>();
 
@@ -107,7 +97,7 @@ export class FunnelTick extends Tick {
 		this.element = this.paper.add("path");
 		this._disposers.push(this._label);
 		this._disposers.push(this._slice);
-		
+
 		this.setPropertyValue("locationX", 0);
 		this.setPropertyValue("locationY", 0);
 
@@ -155,7 +145,7 @@ export class FunnelTick extends Tick {
 	/**
 	 * [[FunnelSlice]] element tick is attached to.
 	 *
-	 * @param {FunnelSlice}  slice  Slice
+	 * @param slice  Slice
 	 */
 	public set slice(slice: FunnelSlice) {
 		this._slice.set(slice, new MultiDisposer([
@@ -165,7 +155,7 @@ export class FunnelTick extends Tick {
 	}
 
 	/**
-	 * @return {FunnelSlice} FunnelSlice
+	 * @return FunnelSlice
 	 */
 	public get slice(): FunnelSlice {
 		return this._slice.get();
@@ -174,14 +164,14 @@ export class FunnelTick extends Tick {
 	/**
 	 * [[Label]] element tick is attached to.
 	 *
-	 * @param {Label}  label  Label
+	 * @param label  Label
 	 */
 	public set label(label: Label) {
 		this._label.set(label, label.events.on("transformed", this.invalidate, this, false));
 	}
 
 	/**
-	 * @return {AxisLabelCircular} Label
+	 * @return Label
 	 */
 	public get label(): Label {
 		return this._label.get();
@@ -197,14 +187,14 @@ export class FunnelTick extends Tick {
 	 * of the slice), or outside 0-1 range, which will put tick anchor position
 	 * outside target element.
 	 *
-	 * @param {number}  value  Location (0-1)
+	 * @param value  Location (0-1)
 	 */
 	public set locationX(value: number) {
 		this.setPropertyValue("locationX", value, false, true);
 	}
 
 	/**
-	 * @return {number} Location (0-1)
+	 * @return Location (0-1)
 	 */
 	public get locationX(): number {
 		return this.getPropertyValue("locationX");
@@ -220,14 +210,14 @@ export class FunnelTick extends Tick {
 	 * of the slice), or outside 0-1 range, which will put tick anchor position
 	 * outside target element.
 	 *
-	 * @param {number}  value  Location (0-1)
+	 * @param value  Location (0-1)
 	 */
 	public set locationY(value: number) {
 		this.setPropertyValue("locationY", value, false, true);
 	}
 
 	/**
-	 * @return {number} Location (0-1)
+	 * @return Location (0-1)
 	 */
 	public get locationY(): number {
 		return this.getPropertyValue("locationY");

@@ -38,8 +38,6 @@ export class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {TreeMapSeries}
 	 */
 	public _component!: TreeMapSeries;
 
@@ -56,7 +54,7 @@ export class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
 	/**
 	 * Data for the this particular item.
 	 *
-	 * @param {Object}  value  Item's data
+	 * @param value  Item's data
 	 */
 	//public set dataContext(value: Object) {
 	//	this._dataContext = value;
@@ -65,7 +63,7 @@ export class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
 
 
 	/**
-	 * @return {Object} Item's data
+	 * @return Item's data
 	 */
 	/*
    public get dataContext(): Object {
@@ -78,7 +76,7 @@ export class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
 	/**
 	 * The name of the item's parent item.
 	 *
-	 * @return {string} Parent name
+	 * @return Parent name
 	 */
 	public get parentName(): string {
 		let treeMapDataItem = this.treeMapDataItem;
@@ -91,7 +89,7 @@ export class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
 	 * Item's numeric value.
 	 *
 	 * @readonly
-	 * @return {number} Value
+	 * @return Value
 	 */
 	public get value(): number {
 		return this.treeMapDataItem.value;
@@ -101,7 +99,7 @@ export class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
 	 * A corresponding data item from the tree map.
 	 *
 	 * @readonly
-	 * @return {TreeMapDataItem} Data item
+	 * @return Data item
 	 */
 	public get treeMapDataItem(): TreeMapDataItem {
 		return <TreeMapDataItem>this._dataContext;
@@ -123,8 +121,6 @@ export interface ITreeMapSeriesDataFields extends IColumnSeriesDataFields {
 
 	/**
 	 * Name of the field in data that holds numeric value.
-	 *
-	 * @type {string}
 	 */
 	value?: string;
 
@@ -167,50 +163,36 @@ export class TreeMapSeries extends ColumnSeries {
 
 	/**
 	 * Defines the type of data fields used for the series.
-	 *
-	 * @type {ITreeMapSeriesDataFields}
 	 */
 	public _dataFields: ITreeMapSeriesDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ITreeMapSeriesProperties}
 	 */
 	public _properties!: ITreeMapSeriesProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ITreeMapSeriesAdapters}
 	 */
 	public _adapter!: ITreeMapSeriesAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ITreeMapSeriesEvents}
 	 */
 	public _events!: ITreeMapSeriesEvents;
 
 	/**
 	 * The level in treemap hierarchy series is at.
-	 *
-	 * @type {number}
 	 */
 	public level: number;
 
 	/**
 	 * Type of the data item used by series.
-	 *
-	 * @type {TreeMapSeriesDataItem}
 	 */
 	public _dataItem: TreeMapSeriesDataItem;
 
 	/**
 	 * A chart series belongs to.
-	 *
-	 * @type {TreeMap}
 	 */
 	public _chart: TreeMap;
 
@@ -250,9 +232,9 @@ export class TreeMapSeries extends ColumnSeries {
 	/**
 	 * Processes data item.
 	 *
-	 * @param {TreeMapSeriesDataItem}  dataItem     Data item
-	 * @param {Object}                 dataContext  Raw data
-	 * @param {number}                 index        Index of the data item
+	 * @param dataItem     Data item
+	 * @param dataContext  Raw data
+	 * @param index        Index of the data item
 	 */
 	protected processDataItem(dataItem: this["_dataItem"], dataContext?: Object): void {
 		(<TreeMapDataItem>dataContext).seriesDataItem = dataItem; // save a reference here. dataContext is TreeMapDataItem and we need to know dataItem sometimes
@@ -263,7 +245,7 @@ export class TreeMapSeries extends ColumnSeries {
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}
-	 * @return {TreeMapSeriesDataItem} Data Item
+	 * @return Data Item
 	 */
 	protected createDataItem(): this["_dataItem"] {
 		return new TreeMapSeriesDataItem();
@@ -272,12 +254,12 @@ export class TreeMapSeries extends ColumnSeries {
 	/**
 	 * Shows series.
 	 *
-	 * @param  {number}     duration  Duration of fade in (ms)
-	 * @return {Animation}            Animation
+	 * @param duration  Duration of fade in (ms)
+	 * @return Animation
 	 */
 	public show(duration?: number): Animation {
 
-		let interpolationDuration = this.defaultState.transitionDuration;		
+		let interpolationDuration = this.defaultState.transitionDuration;
 		if($type.isNumber(duration)){
 			interpolationDuration = duration;
 		}
@@ -305,12 +287,12 @@ export class TreeMapSeries extends ColumnSeries {
 	/**
 	 * Hides series.
 	 *
-	 * @param  {number}     duration  Duration of fade out (ms)
-	 * @return {Animation}            Animation
+	 * @param duration  Duration of fade out (ms)
+	 * @return Animation
 	 */
 	public hide(duration?: number): Animation {
 
-		let interpolationDuration = this.defaultState.transitionDuration;		
+		let interpolationDuration = this.defaultState.transitionDuration;
 		if($type.isNumber(duration)){
 			interpolationDuration = duration;
 		}
@@ -325,11 +307,11 @@ export class TreeMapSeries extends ColumnSeries {
 		if(chart){
 			if (animation && !animation.isFinished()) {
 				animation.events.on("animationended", () => {
-					chart.invalidateLayout();					
+					chart.invalidateLayout();
 				})
 			}
 			else {
-				chart.invalidateLayout();				
+				chart.invalidateLayout();
 			}
 			chart.invalidateLayout();
 		}
@@ -353,13 +335,13 @@ export class TreeMapSeries extends ColumnSeries {
 	 */
 	public dataChangeUpdate(){
 
-	}	
+	}
 
 	/**
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 
@@ -381,7 +363,7 @@ export class TreeMapSeries extends ColumnSeries {
 	 * Series.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Container}  marker  Legend item container
+	 * @param marker  Legend item container
 	 */
 	public createLegendMarker(marker: Container) {
 		let w: number = marker.pixelWidth;

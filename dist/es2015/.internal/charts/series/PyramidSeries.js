@@ -84,7 +84,7 @@ var PyramidSeries = /** @class */ (function (_super) {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {PyramidSeriesDataItem} Data Item
+     * @return Data Item
      */
     PyramidSeries.prototype.createDataItem = function () {
         return new PyramidSeriesDataItem();
@@ -102,8 +102,8 @@ var PyramidSeries = /** @class */ (function (_super) {
      * [getNextValue description]
      *
      * @todo Description
-     * @param  {FunnelSeriesDataItem} dataItem [description]
-     * @return {number}                        [description]
+     * @param dataItem [description]
+     * @return [description]
      */
     PyramidSeries.prototype.getNextValue = function (dataItem) {
         var index = dataItem.index;
@@ -157,7 +157,7 @@ var PyramidSeries = /** @class */ (function (_super) {
      * [decorateSlice description]
      *
      * @todo Description
-     * @param {this["_dataItem"]} dataItem [description]
+     * @param dataItem [description]
      */
     PyramidSeries.prototype.decorateSlice = function (dataItem) {
         var sum = this.dataItem.values.value.sum;
@@ -212,7 +212,7 @@ var PyramidSeries = /** @class */ (function (_super) {
             sliceLink.topWidth = slice.bottomWidth;
             sliceLink.bottomWidth = slice.bottomWidth;
             slice.y = this._nextY;
-            //slice.x = maxWidth / 2;			
+            //slice.x = maxWidth / 2;
             if (!this.alignLabels) {
                 label.x = maxWidth / 2;
             }

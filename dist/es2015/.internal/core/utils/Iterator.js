@@ -42,7 +42,6 @@ export function toArray(iter) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export function eachContinue(iter, fn) {
     return iter(fn);
@@ -52,7 +51,6 @@ export function eachContinue(iter, fn) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export function each(iter, fn) {
     return iter(function (value) {
@@ -65,7 +63,6 @@ export function each(iter, fn) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export function sort(iter, fn) {
     return fromArray(toArray(iter).sort(fn));
@@ -75,7 +72,6 @@ export function sort(iter, fn) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export function map(iter, fn) {
     return function (push) { return iter(function (value) { return push(fn(value)); }); };
@@ -85,7 +81,6 @@ export function map(iter, fn) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export function filter(iter, fn) {
     return function (push) { return iter(function (value) {
@@ -137,7 +132,6 @@ export function flatten(iter) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export function indexed(iter) {
     return function (push) {
@@ -150,7 +144,6 @@ export function indexed(iter) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export function findIndex(iter, matches) {
     var found = false;
@@ -172,7 +165,6 @@ export function findIndex(iter, matches) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export function find(iter, matches) {
     var output;
@@ -192,7 +184,6 @@ export function find(iter, matches) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export function findMap(iter, matches) {
     var output;
@@ -213,7 +204,6 @@ export function findMap(iter, matches) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Iterator<A>}
  */
 export function contains(iter, matches) {
     var output = false;
@@ -233,7 +223,6 @@ export function contains(iter, matches) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {[type]}
  */
 export function foldl(iter, init, fn) {
     iter(function (value) {
@@ -247,9 +236,9 @@ export function foldl(iter, init, fn) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {number |     null}        left [description]
- * @param  {number}    right [description]
- * @return {number}          [description]
+ * @param left [description]
+ * @param right [description]
+ * @return [description]
  */
 function min2(left, right) {
     if (left == null || right < left) {
@@ -265,8 +254,8 @@ function min2(left, right) {
  * @ignore Exclude from docs
  * @todo Verify that this works correctly
  * @todo Description
- * @param  {Iterator<number>} a [description]
- * @return {number}             [description]
+ * @param a [description]
+ * @return [description]
  */
 export function min(a) {
     return foldl(a, null, min2);
@@ -276,9 +265,9 @@ export function min(a) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {number |     null}        left [description]
- * @param  {number}    right [description]
- * @return {number}          [description]
+ * @param left [description]
+ * @param right [description]
+ * @return [description]
  */
 function max2(left, right) {
     if (left == null || right > left) {
@@ -294,8 +283,8 @@ function max2(left, right) {
  * @ignore Exclude from docs
  * @todo Verify that this works correctly
  * @todo Description
- * @param  {Iterator<number>} a [description]
- * @return {number}             [description]
+ * @param a [description]
+ * @return [description]
  */
 export function max(a) {
     return foldl(a, null, max2);
@@ -305,9 +294,9 @@ export function max(a) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {Iterator<string>} iter [description]
- * @param  {string        =    ""}          separator [description]
- * @return {string}                [description]
+ * @param iter [description]
+ * @param separator [description]
+ * @return [description]
  */
 export function join(iter, separator) {
     if (separator === void 0) { separator = ""; }
@@ -333,8 +322,8 @@ var ListIterator = /** @class */ (function () {
     /**
      * Constructor
      *
-     * @param {Iterable<T>} list [description]
-     * @param {()       =>   T}           create [description]
+     * @param list [description]
+     * @param create [description]
      */
     function ListIterator(list, create) {
         // flag specifies if iterator should create new list item if it is reqested for a nextItem but there is no more left in the list

@@ -52,9 +52,9 @@ var Mercator = /** @class */ (function (_super) {
     }
     /**
      * Converts screen coordinates to latitude/longitude in radians
-     * @param  {number}     x  X
-     * @param  {number}     y  Y
-     * @return {IGeoPoint}     Geographical coordinates
+     * @param x  X
+     * @param y  Y
+     * @return Geographical coordinates
      */
     Mercator.prototype.unproject = function (x, y) {
         return {
@@ -65,9 +65,9 @@ var Mercator = /** @class */ (function (_super) {
     /**
      * Converts geographical coordinates to screen coordinates.
      *
-     * @param  {number}  lambda  Lambda parameter
-     * @param  {number}  phi     Phi parameter
-     * @return {IPoint}          Screen coordinates
+     * @param lambda  Lambda parameter
+     * @param phi     Phi parameter
+     * @return Screen coordinates
      */
     Mercator.prototype.project = function (lambda, phi) {
         return {

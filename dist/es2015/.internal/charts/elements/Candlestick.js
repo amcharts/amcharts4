@@ -49,7 +49,7 @@ var Candlestick = /** @class */ (function (_super) {
     /**
      * Copies all parameters from another [[Candlestick]].
      *
-     * @param {Candlestick} source Source Candlestick
+     * @param source Source Candlestick
      */
     Candlestick.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

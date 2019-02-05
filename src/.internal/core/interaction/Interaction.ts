@@ -111,7 +111,6 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Defines available events.
 	 *
-	 * @type {IInteractionEvents}
 	 * @deprecated Use inetraction.body.events instead
 	 */
 	public _events!: IInteractionEvents;
@@ -121,22 +120,16 @@ export class Interaction extends BaseObjectEvents {
 	 *
 	 * Users can use it to add global, non-chart related events, that will be
 	 * applicable to the whole document.
-	 *
-	 * @type {InteractionObject}
 	 */
 	public body: InteractionObject;
 
 	/**
 	 * An indicator of global events were already initialized.
-	 *
-	 * @type {boolean}
 	 */
 	protected _globalEventsAdded: boolean = false;
 
 	/**
 	 * Holds which mouse event listeners to use.
-	 *
-	 * @type {Object}
 	 */
 	protected _pointerEvents = {
 		"pointerdown": "mousedown",
@@ -152,72 +145,52 @@ export class Interaction extends BaseObjectEvents {
 	 * Indicates if Interaction should use only "pointer" type events, like
 	 * "pointermove", available in all modern browsers, ignoring "legacy"
 	 * events, like "touchmove".
-	 *
-	 * @type {boolean}
 	 */
 	protected _usePointerEventsOnly: boolean = false;
 
 	/**
 	 * Use only touch events (for touch only devices such as tablets and phones)
-	 *
-	 * @type {boolean}
 	 */
 	protected _useTouchEventsOnly: boolean = false;
 
 	/**
 	 * Indicates if passive mode options is supported by this browser.
-	 *
-	 * @type {boolean}
 	 */
 	protected _passiveSupported: boolean = false;
 
 	/**
 	 * Holds list of delayed events
-	 *
-	 * @type {IDelayedEvent[]}
 	 */
 	protected _delayedEvents: { out: IDelayedEvent[] } = { out: [] };
 
 	/**
 	 * List of objects that current have a pointer hovered over them.
-	 *
-	 * @type {List<InteractionObject>}
 	 */
 	public overObjects: List<InteractionObject> = new List<InteractionObject>();
 
 	/**
 	 * List of objects that currently has a pressed pointer.
-	 *
-	 * @type {List<InteractionObject>}
 	 */
 	public downObjects: List<InteractionObject> = new List<InteractionObject>();
 
 	/**
 	 * List of objects that need mouse position to be reported to them.
-	 *
-	 * @type {List<InteractionObject>}
 	 */
 	public trackedObjects: List<InteractionObject> = new List<InteractionObject>();
 
 	/**
 	 * List of objects that are currently being dragged.
-	 *
-	 * @type {List<InteractionObject>}
 	 */
 	public transformedObjects: List<InteractionObject> = new List<InteractionObject>();
 
 	/**
 	 * An object that currently has focus. Usually set automatically via
 	 * [[InteractionObject]] `isFocus` method.
-	 *
-	 * @type {Optional<InteractionObject>}
 	 */
 	public focusedObject: $type.Optional<InteractionObject>;
 
 	/**
 	 * Holds all known pointers.
-	 *
-	 * @type {Dictionary<string, IPointer>}
 	 */
 	public pointers = new Dictionary<string, IPointer>();
 
@@ -227,16 +200,12 @@ export class Interaction extends BaseObjectEvents {
 	 *
 	 * This is just a default, which can and probably will be overridden by
 	 * actual elements.
-	 *
-	 * @type {Dictionary}
 	 */
 	public inertiaOptions = new Dictionary<InertiaTypes, IInertiaOptions>();
 
 	/**
 	 * Default options for click events. These can be overridden in
 	 * [[InteractionObject]].
-	 *
-	 * @type {IHitOptions}
 	 */
 	public hitOptions: IHitOptions = {
 		//"holdTime": 1000,
@@ -249,8 +218,6 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Default options for hover events. These can be overridden in
 	 * [[InteractionObject]].
-	 *
-	 * @type {IHoverOptions}
 	 */
 	public hoverOptions: IHoverOptions = {
 		"touchOutBehavior": "leave",
@@ -260,8 +227,6 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Default options for detecting a swipe gesture. These can be overridden in
 	 * [[InteractionObject]].
-	 *
-	 * @type {ISwipeOptions}
 	 */
 	public swipeOptions: ISwipeOptions = {
 		"time": 500,
@@ -272,8 +237,6 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Default options for keyboard operations. These can be overridden in
 	 * [[InteractionObject]].
-	 *
-	 * @type {IKeyboarOptions}
 	 */
 	public keyboardOptions: IKeyboardOptions = {
 		"speed": 0.1,
@@ -386,7 +349,7 @@ export class Interaction extends BaseObjectEvents {
 	 *
 	 * On iOS, Firefox uses different userAgent, so we don't have to detect iOS.
 	 *
-	 * @return {boolean} Full Firefox?
+	 * @return Full Firefox?
 	 */
 	protected fullFF(): boolean {
 		return (window.navigator.userAgent.match(/Firefox/)) && !(window.navigator.userAgent.match(/Android/));
@@ -481,7 +444,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Sets if [[InteractionObject]] is clickable.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject} io [[InteractionObject]] instance
+	 * @param io [[InteractionObject]] instance
 	 */
 	public processClickable(io: InteractionObject): void {
 		// Add or remove touch events
@@ -492,7 +455,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Sets if [[InteractionObject]] is hoverable.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject} io [[InteractionObject]] instance
+	 * @param io [[InteractionObject]] instance
 	 */
 	public processHoverable(io: InteractionObject): void {
 		if (io.hoverable || io.trackable) {
@@ -533,7 +496,7 @@ export class Interaction extends BaseObjectEvents {
 	 * transformation, e.g. drag, swipe, resize, track.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io  Element
+	 * @param io  Element
 	 */
 	public processMovable(io: InteractionObject) {
 
@@ -559,7 +522,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Checks if [[InteractionObject]] is trackable and sets relative events.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io  Element
+	 * @param io  Element
 	 */
 	public processTrackable(io: InteractionObject): void {
 		this.processHoverable(io);
@@ -576,7 +539,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Checks if [[InteractionObject]] is draggable.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io  Element
+	 * @param io  Element
 	 */
 	public processDraggable(io: InteractionObject): void {
 		this.processMovable(io);
@@ -590,7 +553,7 @@ export class Interaction extends BaseObjectEvents {
 	 * overridden in sprites [[swipeOptions]].
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io  Element
+	 * @param io  Element
 	 */
 	public processSwipeable(io: InteractionObject): void {
 		this.processMovable(io);
@@ -601,7 +564,7 @@ export class Interaction extends BaseObjectEvents {
 	 * to it.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io  Element
+	 * @param io  Element
 	 */
 	public processResizable(io: InteractionObject): void {
 		this.processMovable(io);
@@ -612,7 +575,7 @@ export class Interaction extends BaseObjectEvents {
 	 * and prepares it to catch those events.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io  Element
+	 * @param io  Element
 	 */
 	public processWheelable(io: InteractionObject): void {
 		if (io.wheelable) {
@@ -655,7 +618,7 @@ export class Interaction extends BaseObjectEvents {
 	 * events to it.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io  Element
+	 * @param io  Element
 	 */
 	public processFocusable(io: InteractionObject): void {
 		if (io.focusable === true && (io.tabindex > -1) && !this._useTouchEventsOnly) {
@@ -693,7 +656,7 @@ export class Interaction extends BaseObjectEvents {
 	 * whatsoever: mouse click, touch screen tap, swipe, drag, resize, etc.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io  Element
+	 * @param io  Element
 	 */
 	public processTouchable(io: InteractionObject): void {
 		// Add unified events
@@ -765,8 +728,8 @@ export class Interaction extends BaseObjectEvents {
 	 * Dispatches "focus" event when element gains focus.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io  Element
-	 * @param {FocusEvent}         ev  Original event
+	 * @param io  Element
+	 * @param ev  Original event
 	 */
 	public handleFocus(io: InteractionObject, ev: FocusEvent): void {
 		if (!io.focusable) {
@@ -789,8 +752,8 @@ export class Interaction extends BaseObjectEvents {
 	 *
 	 * This should not be called by "focus" handlers.
 	 *
-	 * @param {InteractionObject}  io  Element
-	 * @param {MouseEvent | TouchEvent}         ev  Original event
+	 * @param io  Element
+	 * @param ev  Original event
 	 */
 	private handleFocusBlur(io: InteractionObject, ev: MouseEvent | TouchEvent): void {
 		if (io.focusable !== false && this.getHitOption(io, "noFocus")) {
@@ -806,8 +769,8 @@ export class Interaction extends BaseObjectEvents {
 	 * Dispatches "blur" event when element loses focus.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io  Element
-	 * @param {FocusEvent}         ev  Original event
+	 * @param io  Element
+	 * @param ev  Original event
 	 */
 	public handleBlur(io: InteractionObject, ev: FocusEvent): void {
 		if (!io.focusable) {
@@ -838,7 +801,7 @@ export class Interaction extends BaseObjectEvents {
 	 * creates an object to simulate movement of dragable element with keyboard.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {KeyboardEvent} ev An original keyboard event
+	 * @param ev An original keyboard event
 	 */
 	public handleGlobalKeyDown(ev: KeyboardEvent): void {
 
@@ -889,7 +852,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Dispatches related events when the keyboard key is realeasd.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {KeyboardEvent} ev An original keyboard event
+	 * @param ev An original keyboard event
 	 */
 	public handleGlobalKeyUp(ev: KeyboardEvent): void {
 		let disposerKey = "interactionKeyboardObject";
@@ -918,7 +881,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Handler for a global "pointermove" event.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {MouseEvent} ev Event object
+	 * @param ev Event object
 	 */
 	public handleGlobalPointerMove(ev: MouseEvent): void {
 
@@ -950,7 +913,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Handler for a global "pointerdown" event.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {MouseEvent} ev Event object
+	 * @param ev Event object
 	 */
 	public handleGlobalPointerDown(ev: MouseEvent): void {
 
@@ -976,7 +939,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Prevents touch action from firing.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {MouseEvent} ev Event
+	 * @param ev Event
 	 */
 	public preventTouchAction(ev: TouchEvent): void {
 		if (!ev.defaultPrevented) {
@@ -988,7 +951,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Handler for a global "pointerup" event.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {MouseEvent} ev Event object
+	 * @param ev Event object
 	 */
 	public handleGlobalPointerUp(ev: MouseEvent, cancelled: boolean = false): void {
 
@@ -1021,7 +984,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Handler for a global "touchmove" event.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {TouchEvent} ev Event object
+	 * @param ev Event object
 	 */
 	public handleGlobalTouchMove(ev: TouchEvent): void {
 
@@ -1057,7 +1020,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Handler for a global "touchstart" event.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {TouchEvent} ev Event object
+	 * @param ev Event object
 	 */
 	public handleGlobalTouchStart(ev: TouchEvent): void {
 
@@ -1089,7 +1052,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Handler for a global "touchend" event.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {TouchEvent} ev Event object
+	 * @param ev Event object
 	 */
 	public handleGlobalTouchEnd(ev: TouchEvent): void {
 
@@ -1129,8 +1092,8 @@ export class Interaction extends BaseObjectEvents {
 	 * pressed.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}          io  Element
-	 * @param {MouseEvent | PointerEvent}  ev  Original event
+	 * @param io  Element
+	 * @param ev  Original event
 	 */
 	public handlePointerDown(io: InteractionObject, ev: MouseEvent | PointerEvent): void {
 
@@ -1163,8 +1126,8 @@ export class Interaction extends BaseObjectEvents {
 	 * Handles event when [[InteractionObject]] is hovered by a mouse pointer.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io  Element
-	 * @param {MouseEvent}         ev  Original event
+	 * @param io  Element
+	 * @param ev  Original event
 	 */
 	public handlePointerOver(io: InteractionObject, ev: MouseEvent | PointerEvent): void {
 
@@ -1179,8 +1142,8 @@ export class Interaction extends BaseObjectEvents {
 	 * Handles event when [[InteractionObject]] loses hover from a mouse pointer.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io  Element
-	 * @param {MouseEvent}         ev  Original event
+	 * @param io  Element
+	 * @param ev  Original event
 	 */
 	public handlePointerOut(io: InteractionObject, ev: MouseEvent | PointerEvent): void {
 
@@ -1195,8 +1158,8 @@ export class Interaction extends BaseObjectEvents {
 	 * Handles event when mouse wheel is crolled over the [[InteractionObject]].
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io  Element
-	 * @param {WheelEvent}         ev  Original event
+	 * @param io  Element
+	 * @param ev  Original event
 	 * @todo Investigate more-cross browser stuff https://developer.mozilla.org/en-US/docs/Web/Events/wheel
 	 */
 	public handleMouseWheel(io: InteractionObject, ev: WheelEvent): void {
@@ -1243,8 +1206,8 @@ export class Interaction extends BaseObjectEvents {
 	  * device.
 	  *
 	  * @ignore Exclude from docs
-	  * @param {InteractionObject}  io  Element
-	  * @param {TouchEvent}         ev  Original event
+	  * @param io  Element
+	  * @param ev  Original event
 	  */
 	public handleTouchDown(io: InteractionObject, ev: TouchEvent): void {
 
@@ -1280,9 +1243,9 @@ export class Interaction extends BaseObjectEvents {
 	 * Handles click/tap. Checks for doublehit.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}        io       Interaction object
-	 * @param {IPointer}                 pointer  Pointer
-	 * @param {MouseEvent | TouchEvent}  ev       Original event
+	 * @param io       Interaction object
+	 * @param pointer  Pointer
+	 * @param ev       Original event
 	 */
 	public handleHit(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent): void {
 
@@ -1354,10 +1317,10 @@ export class Interaction extends BaseObjectEvents {
 	 * Handles pointer hovering over [[InteractionObject]].
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}        io       Interaction object
-	 * @param {IPointer}                 pointer  Pointer
-	 * @param {MouseEvent | TouchEvent}  ev       Original event
-	 * @param {boolean}                  soft     Invoked by helper function
+	 * @param io       Interaction object
+	 * @param pointer  Pointer
+	 * @param ev       Original event
+	 * @param soft     Invoked by helper function
 	 */
 	public handleOver(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent, soft: boolean = false): void {
 
@@ -1406,11 +1369,11 @@ export class Interaction extends BaseObjectEvents {
 	 * run additional checks before unhovering the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}        io       Interaction object
-	 * @param {IPointer}                 pointer  Pointer
-	 * @param {MouseEvent | TouchEvent}  ev       Original event
-	 * @param {boolean}                  soft     Invoked by helper function
-	 * @param {boolean}                  force    Force imediate out
+	 * @param io       Interaction object
+	 * @param pointer  Pointer
+	 * @param ev       Original event
+	 * @param soft     Invoked by helper function
+	 * @param force    Force imediate out
 	 */
 	public handleOut(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent, soft: boolean = false, force: boolean = false): void {
 
@@ -1516,9 +1479,9 @@ export class Interaction extends BaseObjectEvents {
 	 * Performs tasks on pointer down.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}        io       Element
-	 * @param {IPointer}                 pointer  Pointer
-	 * @param {MouseEvent | TouchEvent}  ev       Original event
+	 * @param io       Element
+	 * @param pointer  Pointer
+	 * @param ev       Original event
 	 */
 	public handleDown(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent | undefined): void {
 
@@ -1579,8 +1542,8 @@ export class Interaction extends BaseObjectEvents {
 	 * Performs tasks on pointer up.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IPointer}                 pointer  Pointer
-	 * @param {MouseEvent | TouchEvent}  ev       Original event
+	 * @param pointer  Pointer
+	 * @param ev       Original event
 	 */
 	public handleGlobalUp(pointer: IPointer, ev: MouseEvent | TouchEvent | undefined, cancelled: boolean = false): void {
 
@@ -1601,9 +1564,9 @@ export class Interaction extends BaseObjectEvents {
 	 * Handles when [[InteractionObject]] is no longer hovered.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}        io       Interaction object
-	 * @param {IPointer}                 pointer  Pointer
-	 * @param {MouseEvent | TouchEvent}  ev       Original event
+	 * @param io       Interaction object
+	 * @param pointer  Pointer
+	 * @param ev       Original event
 	 */
 	public handleUp(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent, cancelled: boolean = false): void {
 
@@ -1681,8 +1644,8 @@ export class Interaction extends BaseObjectEvents {
 	 * Checks if event needs to be prevented on draggable and such items, so that
 	 * touch gestures like navigation and scroll do not kick in.
 	 *
-	 * @param {InteractionObject}        io  Object
-	 * @param {MouseEvent | TouchEvent}  ev  Event
+	 * @param io  Object
+	 * @param ev  Event
 	 */
 	private maybePreventDefault(io: InteractionObject, ev: MouseEvent | TouchEvent | undefined): void {
 		if ($type.hasValue(ev) && (io.draggable || io.swipeable || io.trackable || io.resizable) && !this.isGlobalElement(io)) {
@@ -1694,8 +1657,8 @@ export class Interaction extends BaseObjectEvents {
 	 * Handles pointer move.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IPointer}                 pointer  Pointer
-	 * @param {MouseEvent | TouchEvent}  ev       Original event
+	 * @param pointer  Pointer
+	 * @param ev       Original event
 	 */
 	public handleGlobalMove(pointer: IPointer, ev: MouseEvent | TouchEvent): void {
 
@@ -1748,10 +1711,10 @@ export class Interaction extends BaseObjectEvents {
 	 * Handles reporting of pointer movement.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}        io        Element
-	 * @param {IPointer}                 pointer    Pointer
-	 * @param {MouseEvent | TouchEvent}  ev         Original event
-	 * @param {boolean}                  skipCheck  Sould we skip check if cursor actually moved
+	 * @param io        Element
+	 * @param pointer    Pointer
+	 * @param ev         Original event
+	 * @param skipCheck  Sould we skip check if cursor actually moved
 	 */
 	public handleTrack(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent, skipCheck = false): void {
 
@@ -1777,9 +1740,9 @@ export class Interaction extends BaseObjectEvents {
 	 * Handles swipe action.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}        io       Element
-	 * @param {IPointer}                 pointer  Pointer
-	 * @param {MouseEvent | TouchEvent}  ev       Original event
+	 * @param io       Element
+	 * @param pointer  Pointer
+	 * @param ev       Original event
 	 */
 	public handleSwipe(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent): void {
 
@@ -1821,11 +1784,11 @@ export class Interaction extends BaseObjectEvents {
 	 * Handles event triggering for wheel rotation.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io       Element
-	 * @param {IPointer}           pointer  Pointer
-	 * @param {number}             deltaX   Horizontal shift
-	 * @param {number}             deltaY   Vertical shift
-	 * @param {WheelEvent}         ev       Original event
+	 * @param io       Element
+	 * @param pointer  Pointer
+	 * @param deltaX   Horizontal shift
+	 * @param deltaY   Vertical shift
+	 * @param ev       Original event
 	 */
 	public handleWheel(io: InteractionObject, pointer: IPointer, deltaX: number, deltaY: number, ev: WheelEvent): void {
 		const shift: IPoint = {
@@ -1899,8 +1862,8 @@ export class Interaction extends BaseObjectEvents {
 	 * drag, resize.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}   sprite
-	 * @param {IPointer}            pointer
+	 * @param sprite
+	 * @param pointer
 	 */
 	public handleInertia(io: InteractionObject, pointer: IPointer): void {
 
@@ -1919,8 +1882,8 @@ export class Interaction extends BaseObjectEvents {
 	 * when `inert` and `draggable` object is dragged and then released.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io       Element
-	 * @param {IPointer}           pointer  Pointer
+	 * @param io       Element
+	 * @param pointer  Pointer
 	 */
 	public handleMoveInertia(io: InteractionObject, pointer: IPointer): void {
 		let interaction = io;
@@ -1978,8 +1941,8 @@ export class Interaction extends BaseObjectEvents {
 	 * is implemented, yet.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io       Element
-	 * @param {IPointer}           pointer  Pointer
+	 * @param io       Element
+	 * @param pointer  Pointer
 	 */
 	public handleResizeInertia(io: InteractionObject, pointer: IPointer): void {
 
@@ -1992,8 +1955,8 @@ export class Interaction extends BaseObjectEvents {
 	 * all its related pointers.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}        io  Element
-	 * @param {MouseEvent | TouchEvent}  ev  Original event
+	 * @param io  Element
+	 * @param ev  Original event
 	 */
 	public handleTransform(io: InteractionObject, ev: MouseEvent | TouchEvent): void {
 
@@ -2092,11 +2055,11 @@ export class Interaction extends BaseObjectEvents {
 	 * Handles movement of the dragged element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}                        io            Element
-	 * @param {IPoint}                                   point         Current point of the pointer
-	 * @param {IPoint}                                   startPoint    Starting point of the pointer
-	 * @param {MouseEvent | TouchEvent | KeyboardEvent}  ev            Original event
-	 * @param {boolean}                                  pointerMoved  Did pointer move?
+	 * @param io            Element
+	 * @param point         Current point of the pointer
+	 * @param startPoint    Starting point of the pointer
+	 * @param ev            Original event
+	 * @param pointerMoved  Did pointer move?
 	 */
 	public handleTransformMove(io: InteractionObject, point: IPoint, startPoint: IPoint, ev: MouseEvent | TouchEvent | KeyboardEvent, pointerMoved: boolean): void {
 
@@ -2123,13 +2086,13 @@ export class Interaction extends BaseObjectEvents {
 	 * Handles resizing of the element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}        io            Element
-	 * @param {IPoint}                   point1        Current position of reference point #1
-	 * @param {IPoint}                   startPoint1   Original position of reference point #1
-	 * @param {IPoint}                   point2        Current position of reference point #2
-	 * @param {IPoint}                   startPoint2   Original position of reference point #2
-	 * @param {MouseEvent | TouchEvent}  ev            Original event
-	 * @param {boolean}                  pointerMoved  Did pointer move?
+	 * @param io            Element
+	 * @param point1        Current position of reference point #1
+	 * @param startPoint1   Original position of reference point #1
+	 * @param point2        Current position of reference point #2
+	 * @param startPoint2   Original position of reference point #2
+	 * @param ev            Original event
+	 * @param pointerMoved  Did pointer move?
 	 */
 	public handleTransformResize(io: InteractionObject, point1: IPoint, startPoint1: IPoint, point2: IPoint, startPoint2: IPoint, ev: MouseEvent | TouchEvent, pointerMoved: boolean): void {
 		if (io.events.isEnabled("resize") && !system.isPaused) {
@@ -2152,9 +2115,9 @@ export class Interaction extends BaseObjectEvents {
 	 * Handles all the preparations of the element when it starts to be dragged.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}        io       Element
-	 * @param {IPointer}                 pointer  Pointer
-	 * @param {MouseEvent | TouchEvent}  ev       Original event
+	 * @param io       Element
+	 * @param pointer  Pointer
+	 * @param ev       Original event
 	 */
 	public processDragStart(io: InteractionObject, pointer?: IPointer, ev?: MouseEvent | TouchEvent): void {
 
@@ -2194,9 +2157,9 @@ export class Interaction extends BaseObjectEvents {
 	 * Finishes up element drag operation.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}        io       Element
-	 * @param {IPointer}                 pointer  Pointer
-	 * @param {MouseEvent | TouchEvent}  ev       Original event
+	 * @param io       Element
+	 * @param pointer  Pointer
+	 * @param ev       Original event
 	 */
 	public processDragStop(io: InteractionObject, pointer?: IPointer, ev?: MouseEvent | TouchEvent): void {
 
@@ -2232,9 +2195,9 @@ export class Interaction extends BaseObjectEvents {
 	 * Handles all the preparations of the element when it starts to be resized.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}        io       Element
-	 * @param {IPointer}                 pointer  Pointer
-	 * @param {MouseEvent | TouchEvent}  ev       Original event
+	 * @param io       Element
+	 * @param pointer  Pointer
+	 * @param ev       Original event
 	 */
 	public processResizeStart(io: InteractionObject, pointer?: IPointer, ev?: MouseEvent | TouchEvent): void {
 
@@ -2247,9 +2210,9 @@ export class Interaction extends BaseObjectEvents {
 	 * Finishes up element drag operation.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}        io       Element
-	 * @param {IPointer}                 pointer  Pointer
-	 * @param {MouseEvent | TouchEvent}  ev       Original event
+	 * @param io       Element
+	 * @param pointer  Pointer
+	 * @param ev       Original event
 	 */
 	public processResizeStop(io: InteractionObject, pointer?: IPointer, ev?: MouseEvent | TouchEvent): void {
 
@@ -2275,8 +2238,8 @@ export class Interaction extends BaseObjectEvents {
 	 * to determine which pointer to attach to. However, it's better to specify
 	 * it explicitly.
 	 *
-	 * @param {InteractionObject}  io       Element
-	 * @param {IPointer}           pointer  Pointer
+	 * @param io       Element
+	 * @param pointer  Pointer
 	 */
 	public dragStart(io: InteractionObject, pointer?: IPointer): void {
 		if (pointer || (pointer = this.getDragPointer(io))) {
@@ -2287,8 +2250,8 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Manually ends drag on the element.
 	 *
-	 * @param {InteractionObject}  io       Element
-	 * @param {IPointer}           pointer  Pointer
+	 * @param io       Element
+	 * @param pointer  Pointer
 	 */
 	public dragStop(io: InteractionObject, pointer?: IPointer): void {
 		if (pointer || (pointer = this.getDragPointer(io))) {
@@ -2301,8 +2264,8 @@ export class Interaction extends BaseObjectEvents {
 	 * Beware that this is not a rock-solid solution. If there are a few objects
 	 * being dragged at the same time, you may get unexepected results.
 	 *
-	 * @param  {InteractionObject}   io  InteractionObject to get pointers from
-	 * @return {Optional<IPointer>}      Pointer currently being used for dragging
+	 * @param io  InteractionObject to get pointers from
+	 * @return Pointer currently being used for dragging
 	 */
 	public getDragPointer(io?: InteractionObject): $type.Optional<IPointer> {
 		if (io) {
@@ -2330,8 +2293,8 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Returns pointer id for the given event object.
 	 *
-	 * @param  {any}     ev  Event
-	 * @return {string}      Pointer ID
+	 * @param ev  Event
+	 * @return Pointer ID
 	 */
 	protected getPointerId(ev: any): string {
 		let id = "";
@@ -2348,8 +2311,8 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Returns a cursor position of the event.
 	 *
-	 * @param  {MouseEvent | Touch}  ev  Original event
-	 * @return {IPoint}                  Event point
+	 * @param ev  Original event
+	 * @return Event point
 	 */
 	protected getPointerPoint(ev: MouseEvent | Touch): IPoint {
 		return {
@@ -2363,8 +2326,8 @@ export class Interaction extends BaseObjectEvents {
 	 *
 	 * If no such [[Pointer]] object exists, it is created.
 	 *
-	 * @param  {MouseEvent | Touch}  ev  Event
-	 * @return {IPointer}                Pointer
+	 * @param ev  Event
+	 * @return Pointer
 	 */
 	protected getPointer(ev: MouseEvent | Touch): IPointer {
 
@@ -2419,8 +2382,8 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Determines if pointer event originated from a touch pointer or mouse.
 	 *
-	 * @param  {MouseEvent | Touch}  ev  Original event
-	 * @return {boolean}                 Touch pointer?
+	 * @param ev  Original event
+	 * @return Touch pointer?
 	 */
 	protected isPointerTouch(ev: MouseEvent | Touch): boolean {
 		if (typeof Touch !== "undefined" && ev instanceof Touch) {
@@ -2451,7 +2414,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Resets the poiner to original state, i.e. cleans movement information,
 	 * starting point, etc.
 	 *
-	 * @param {IPointer} pointer Pointer
+	 * @param pointer Pointer
 	 */
 	protected resetPointer(pointer: IPointer, ev: MouseEvent | PointerEvent | Touch): void {
 		// Get current coordinates
@@ -2468,8 +2431,8 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Adds a "breadcrumb" point to the [[Pointer]] to log its movement path.
 	 *
-	 * @param {IPointer}  pointer  Pointer
-	 * @param {IPoint}    point    Point coordinates
+	 * @param pointer  Pointer
+	 * @param point    Point coordinates
 	 */
 	protected addBreadCrumb(pointer: IPointer, point: IPoint): void {
 		pointer.track.push({
@@ -2545,10 +2508,10 @@ export class Interaction extends BaseObjectEvents {
 	 * Checks if top element at pointer's position belongs to the SVG.
 	 *
 	 * @ignore Exlude from docs
-	 * @param  {IPointer}       pointer  Pointer
-	 * @param  {SVGSVGElement}  svg      The <svg> element
-	 * @param  {id}             id       A unique identifier of the object that is checking for locality
-	 * @return {boolean}                 Belongs to SVG
+	 * @param pointer  Pointer
+	 * @param svg      The <svg> element
+	 * @param id       A unique identifier of the object that is checking for locality
+	 * @return Belongs to SVG
 	 */
 	public isLocalElement(pointer: IPointer, svg: SVGSVGElement, id: string): boolean {
 		let cached = this.getCache("local_pointer_" + pointer.id);
@@ -2565,8 +2528,8 @@ export class Interaction extends BaseObjectEvents {
 	 * A function that cancels mouse wheel scroll.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {Event}  ev  Event object
-	 * @return {boolean}         Returns `false` to cancel
+	 * @param ev  Event object
+	 * @return Returns `false` to cancel
 	 */
 	protected wheelLockEvent(ev: Event): boolean {
 		ev.preventDefault();
@@ -2578,8 +2541,8 @@ export class Interaction extends BaseObjectEvents {
 	 * can be restored later.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}           io      Element
-	 * @param {Dictionary<string, string>}  styles  A Dictionary of style property and values
+	 * @param io      Element
+	 * @param styles  A Dictionary of style property and values
 	 */
 	protected prepElement(io: InteractionObject, permanent?: boolean): void {
 
@@ -2613,9 +2576,9 @@ export class Interaction extends BaseObjectEvents {
 	 * Returns an option associated with hit events.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {InteractionObject}  io      Element
-	 * @param  {string}             option  Option key
-	 * @return {any}                        Option value
+	 * @param io      Element
+	 * @param option  Option key
+	 * @return Option value
 	 */
 	public getHitOption(io: InteractionObject, option: keyof IHitOptions): any {
 		let res = io.hitOptions[option];
@@ -2629,9 +2592,9 @@ export class Interaction extends BaseObjectEvents {
 	 * Returns an option associated with hover events.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {InteractionObject}  io      Element
-	 * @param  {string}             option  Option key
-	 * @return {any}                        Option value
+	 * @param io      Element
+	 * @param option  Option key
+	 * @return Option value
 	 */
 	public getHoverOption(io: InteractionObject, option: keyof IHoverOptions): any {
 		let res = io.hoverOptions[option];
@@ -2645,9 +2608,9 @@ export class Interaction extends BaseObjectEvents {
 	 * Returns an option associated with swipe events.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {InteractionObject}  io      Element
-	 * @param  {string}             option  Option key
-	 * @return {any}                        Option value
+	 * @param io      Element
+	 * @param option  Option key
+	 * @return Option value
 	 */
 	public getSwipeOption(io: InteractionObject, option: keyof ISwipeOptions): any {
 		let res = io.swipeOptions[option];
@@ -2661,9 +2624,9 @@ export class Interaction extends BaseObjectEvents {
 	 * Returns an option for keyboard.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {InteractionObject}  io      Element
-	 * @param  {string}             option  Option key
-	 * @return {any}                        Option value
+	 * @param io      Element
+	 * @param option  Option key
+	 * @return Option value
 	 */
 	public getKeyboardOption(io: InteractionObject, option: keyof IKeyboardOptions): any {
 		let res = io.keyboardOptions[option];
@@ -2677,10 +2640,10 @@ export class Interaction extends BaseObjectEvents {
 	 * Returns an option associated with inertia.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {InteractionObject}  io      Element
-	 * @param  {InertiaTypes}       type    Inertia type
-	 * @param  {string}             option  Option key
-	 * @return {any}                        Option value
+	 * @param io      Element
+	 * @param type    Inertia type
+	 * @param option  Option key
+	 * @return Option value
 	 */
 	public getInertiaOption(io: InteractionObject, type: InertiaTypes, option: keyof IInertiaOptions): any {
 		let options: any = io.inertiaOptions.getKey(type);
@@ -2698,7 +2661,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Stops currently going on inertia. Useful if inertia is currently being
 	 * animated and the object is being interacted with.
 	 *
-	 * @param {InteractionObject} io Element
+	 * @param io Element
 	 */
 	protected stopInertia(io: InteractionObject): void {
 		let x: InertiaTypes;
@@ -2720,9 +2683,9 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Check if swiping is currently being performed on an object.
 	 *
-	 * @param  {InteractionObject}  io       Element
-	 * @param  {IPointer}           pointer  Pointer to check
-	 * @return {boolean}                     `true` if swiping
+	 * @param io       Element
+	 * @param pointer  Pointer to check
+	 * @return `true` if swiping
 	 */
 	public swiping(io: InteractionObject, pointer: IPointer): boolean {
 		let now = $time.getTime();
@@ -2744,9 +2707,9 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Returns `true` if a successfull swipe action was performed on an element.
 	 *
-	 * @param  {InteractionObject}  io       Element
-	 * @param  {IPointer}           pointer  Pointer
-	 * @return {boolean}                     Swiped?
+	 * @param io       Element
+	 * @param pointer  Pointer
+	 * @return Swiped?
 	 */
 	public swiped(io: InteractionObject, pointer: IPointer): boolean {
 		let now = $time.getTime();
@@ -2770,7 +2733,7 @@ export class Interaction extends BaseObjectEvents {
 	 * [[InteractionObject]].
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}   Element
+	 * @param Element
 	 */
 	public applyCursorOverStyle(io: InteractionObject): void {
 
@@ -2793,8 +2756,8 @@ export class Interaction extends BaseObjectEvents {
 	 * [[InteractionObject]].
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io       Element
-	 * @param {IPointer}           pointer  Pointer
+	 * @param io       Element
+	 * @param pointer  Pointer
 	 */
 	public applyCursorDownStyle(io: InteractionObject, pointer: IPointer): void {
 
@@ -2818,8 +2781,8 @@ export class Interaction extends BaseObjectEvents {
 	 * Restores original cursor style for the element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {InteractionObject}  io       Element
-	 * @param {IPointer}           pointer  Pointer
+	 * @param io       Element
+	 * @param pointer  Pointer
 	 */
 	public restoreCursorDownStyle(io: InteractionObject, pointer: IPointer): void {
 
@@ -2844,7 +2807,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Sets style on the body of the document.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Array<IStyleProperty> | IStyleProperty}  style  Style definitions
+	 * @param style  Style definitions
 	 */
 	public setGlobalStyle(style: Array<IStyleProperty> | IStyleProperty): void {
 		let body = getInteraction().body;
@@ -2858,7 +2821,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Restores style on the body of the document.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Array<IStyleProperty> | IStyleProperty}  style  Style definitions
+	 * @param style  Style definitions
 	 */
 	public restoreGlobalStyle(style: Array<IStyleProperty> | IStyleProperty): void {
 		let body = getInteraction().body;
@@ -2871,8 +2834,8 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Checks if element is a non-cahrt element.
 	 *
-	 * @param  {InteractionObject}  io  InteractionObject
-	 * @return {boolean}                Global element?
+	 * @param io  InteractionObject
+	 * @return Global element?
 	 */
 	protected isGlobalElement(io: InteractionObject): boolean {
 		return document.body === io.element;
@@ -2881,10 +2844,10 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Checks if pointer has moved since it was created.
 	 *
-	 * @param  {IPointer}  pointer    Pointer
-	 * @param  {number}    tolerance  Tolerance in pixels
-	 * @param  {number}    minTime    Minimum time required for the pointer to be down to be considered moved
-	 * @return {boolean}              `true` if the pointer has moved
+	 * @param pointer    Pointer
+	 * @param tolerance  Tolerance in pixels
+	 * @param minTime    Minimum time required for the pointer to be down to be considered moved
+	 * @return `true` if the pointer has moved
 	 */
 	public moved(pointer: IPointer, tolerance: number, minTime: number = 300): boolean {
 
@@ -2905,8 +2868,8 @@ export class Interaction extends BaseObjectEvents {
 	 * X milliseconds.
 	 *
 	 * @ignore
-	 * @param  {IPointer}  pointer  Pointer
-	 * @param  {number}    minTime  Minimum time to consider pointer old
+	 * @param pointer  Pointer
+	 * @param minTime  Minimum time to consider pointer old
 	 * @return {boolean}
 	 */
 	public old(pointer: IPointer, minTime: number = 300): boolean {
@@ -2917,8 +2880,8 @@ export class Interaction extends BaseObjectEvents {
 	 * Returns total a shift in pointers coordinates between its original
 	 * position and now.
 	 *
-	 * @param  {IPointer}  pointer  Pointer
-	 * @return {IPoint}             Shift in coordinates (x/y)
+	 * @param pointer  Pointer
+	 * @return Shift in coordinates (x/y)
 	 */
 	public getShift(pointer: IPointer): IPoint {
 		return {
@@ -2930,9 +2893,9 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Returns a point from [[Pointer]]'s move history at a certain timetamp.
 	 *
-	 * @param  {IPointer}               pointer    Pointer
-	 * @param  {number}                 timestamp  Timestamp
-	 * @return {Optional<IBreadcrumb>}             Point
+	 * @param pointer    Pointer
+	 * @param timestamp  Timestamp
+	 * @return Point
 	 */
 	public getTrailPoint(pointer: IPointer, timestamp: number): $type.Optional<IBreadcrumb> {
 		let res: $type.Optional<IBreadcrumb>;
@@ -2948,9 +2911,9 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Checks if same pointer already exists in the list.
 	 *
-	 * @param  {List<IPointer>}  list     List to check agains
-	 * @param  {IPointer}        pointer  Pointer
-	 * @return {boolean}                  Exists?
+	 * @param list     List to check agains
+	 * @param pointer  Pointer
+	 * @return Exists?
 	 */
 	protected pointerExists(list: List<IPointer>, pointer: IPointer): boolean {
 		let exists = false;
@@ -2969,8 +2932,8 @@ export class Interaction extends BaseObjectEvents {
 	 * You can use this on any HTML or SVG element, to add interactive features
 	 * to it.
 	 *
-	 * @param  {HTMLElement | SVGSVGElement}  element  Element
-	 * @return {InteractionObject}                     InteractionObject
+	 * @param element  Element
+	 * @return InteractionObject
 	 */
 	public getInteraction(element: HTMLElement | SVGSVGElement): InteractionObject {
 		return new InteractionObject(element);
@@ -2981,9 +2944,9 @@ export class Interaction extends BaseObjectEvents {
 	 * later with [[restoreStyle]].
 	 *
 	 * @see {@link restoreStyle}
-	 * @param {InteractionObject}  io        Element
-	 * @param {string}             property  Property
-	 * @param {string}             value     Value
+	 * @param io        Element
+	 * @param property  Property
+	 * @param value     Value
 	 */
 	public setTemporaryStyle(io: InteractionObject, property: string, value: string): void {
 
@@ -3004,8 +2967,8 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Restores specific style on an element.
 	 *
-	 * @param {InteractionObject}  io        Element
-	 * @param {string}             property  Style property
+	 * @param io        Element
+	 * @param property  Style property
 	 */
 	public restoreStyle(io: InteractionObject, property: string): void {
 
@@ -3022,7 +2985,7 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Restore temporarily reset styles on an element.
 	 *
-	 * @param {InteractionObject} io Element
+	 * @param io Element
 	 */
 	public restoreAllStyles(io: InteractionObject): void {
 		$iter.each(io.replacedStyles.iterator(), (a) => {
@@ -3037,7 +3000,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Disposes this object and cleans up after itself.
 	 */
 	public dispose(): void {
-		if (!this.isDisposed) {
+		if (!this.isDisposed()) {
 			super.dispose();
 			this.restoreAllStyles(this.body);
 			this.unlockWheel();

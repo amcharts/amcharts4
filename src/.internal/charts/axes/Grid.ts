@@ -29,8 +29,6 @@ export interface IGridProperties extends ISpriteProperties {
 
 	/**
 	 * Location of the grid item within cell. (0-1)
-	 *
-	 * @type {AxisItemLocation}
 	 */
 	location?: AxisItemLocation;
 
@@ -68,38 +66,28 @@ export class Grid extends Sprite {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IGridProperties}
 	 */
 	public _properties!: IGridProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IGridAdapters}
 	 */
 	public _adapter!: IGridAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IGridEvents}
 	 */
 	public _events!: IGridEvents;
 
 	/**
 	 * An axis data item that corresponds to the this grid element.
-	 *
-	 * @type {AxisDataItem}
 	 */
 	public _dataItem: AxisDataItem;
 
 	/**
 	 * A referecent to Axis element this fill is applied to.
-	 *
-	 * @type {Axis}
 	 */
-	public axis: Axis;	
+	public axis: Axis;
 
 	/**
 	 * Constructor
@@ -130,14 +118,14 @@ export class Grid extends Sprite {
 	 * * 0.5 - middle
 	 * * 1 - end
 	 *
-	 * @param {AxisItemLocation}  value  Location (0-1)
+	 * @param value  Location (0-1)
 	 */
 	public set location(value: AxisItemLocation) {
 		this.setPropertyValue("location", value, true);
 	}
 
 	/**
-	 * @return {AxisItemLocation} Location (0-1)
+	 * @return Location (0-1)
 	 */
 	public get location(): AxisItemLocation {
 		return this.getPropertyValue("location");
@@ -153,7 +141,7 @@ export class Grid extends Sprite {
 			this.axis.invalidateDataItems();
 		}
 		return changed;
-	}	
+	}
 
 }
 

@@ -28,7 +28,6 @@ export interface IPointedRectangleProperties extends IPointedShapeProperties {
 	 * Radius of rectangle's border in pixels.
 	 *
 	 * @default 0
-	 * @type {number}
 	 */
 	cornerRadius?: number;
 
@@ -64,22 +63,16 @@ export class PointedRectangle extends PointedShape {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IPointedRectangleProperties}
 	 */
 	public _properties!: IPointedRectangleProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IPointedRectangleAdapters}
 	 */
 	public _adapter!: IPointedRectangleAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IPointedRectangleEvents}
 	 */
 	public _events!: IPointedRectangleEvents;
 
@@ -192,14 +185,14 @@ export class PointedRectangle extends PointedShape {
 	 * Radius of rectangle's border in pixels.
 	 *
 	 * @default 0
-	 * @param {number}  value  Corner radius (px)
+	 * @param value  Corner radius (px)
 	 */
 	public set cornerRadius(value: number) {
 		this.setPropertyValue("cornerRadius", value, true);
 	}
 
 	/**
-	 * @return {number} Corner radius (px)
+	 * @return Corner radius (px)
 	 */
 	public get cornerRadius(): number {
 		return this.getPropertyValue("cornerRadius");

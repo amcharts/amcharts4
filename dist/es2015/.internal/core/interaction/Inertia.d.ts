@@ -13,8 +13,6 @@ import { Animation, IAnimatable } from "../utils/Animation";
 import { IPoint } from "../defs/IPoint";
 /**
  * Defines a list of available inertia types.
- *
- * @type {string}
  */
 export declare type InertiaTypes = "move" | "resize";
 /**
@@ -32,33 +30,23 @@ export declare type InertiaTypes = "move" | "resize";
 export declare class Inertia extends BaseObject implements IAnimatable {
     /**
      * Holds what type of inertia it is.
-     *
-     * @type {InertiaTypes}
      */
     type: InertiaTypes;
     /**
      * An element we're performing animation on.
-     *
-     * @type {InteractionObject}
      */
     interaction: InteractionObject;
     /**
      * Starting pointer position. The position of pointer when we "released"
      * the element.
-     *
-     * @type {IPoint}
      */
     startPoint: IPoint;
     /**
      * Current (simulated) pointer position.
-     *
-     * @type {IPoint}
      */
     point: IPoint;
     /**
      * List of animations currently playing.
-     *
-     * @type {List<Animation>}
      */
     animations: Array<Animation>;
     /**
@@ -68,27 +56,27 @@ export declare class Inertia extends BaseObject implements IAnimatable {
     /**
      * Returns current X coordinate.
      *
-     * @return {number} X
+     * @return X
      */
     /**
      * Sets current X coordinate.
      *
      * Will trigger "drag" event for the target element.
      *
-     * @param {number} value X
+     * @param value X
      */
     x: number;
     /**
      * Returns current Y coordinate.
      *
-     * @return {number} Y
+     * @return Y
      */
     /**
      * Sets current Y coordinate.
      *
      * Will trigger "drag" event for the target element.
      *
-     * @param {number} value Y
+     * @param value Y
      */
     y: number;
     /**

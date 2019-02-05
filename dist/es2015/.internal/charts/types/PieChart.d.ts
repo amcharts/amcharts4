@@ -25,8 +25,6 @@ import { IListEvents } from "../../core/utils/List";
 export declare class PieChartDataItem extends PercentChartDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {PieChart}
      */
     _component: PieChart;
     /**
@@ -51,28 +49,22 @@ export interface IPieChartDataFields extends IPercentChartDataFields {
 export interface IPieChartProperties extends IPercentChartProperties {
     /**
      * Outer radius of the pie.
-     *
-     * @type {number | Percent}
      */
     radius?: number | Percent;
     /**
      * Relative inner radius (0-1).
-     *
-     * @type {number}
      */
     innerRadius?: number;
     /**
      * An angle pie starts on. (degrees)
      *
      * @default -90
-     * @type {number}
      */
     startAngle?: number;
     /**
      * An angle pie ends on. (degrees)
      *
      * @default 270
-     * @type {number}
      */
     endAngle?: number;
 }
@@ -181,32 +173,22 @@ export interface IPieChartAdapters extends IPercentChartAdapters, IPieChartPrope
 export declare class PieChart extends PercentChart {
     /**
      * Defines available data fields.
-     *
-     * @type {IPieChartDataFields}
      */
     _dataFields: IPieChartDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IPieChartProperties}
      */
     _properties: IPieChartProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {SeriesAdapters}
      */
     _adapter: IPieChartAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IPieChartEvents}
      */
     _events: IPieChartEvents;
     /**
      * Defines a type of series that this chart uses.
-     *
-     * @type {PieSeries}
      */
     _seriesType: PieSeries;
     /**
@@ -229,7 +211,7 @@ export declare class PieChart extends PercentChart {
      * added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Series>["inserted"]}  event  Event
+     * @param event  Event
      */
     handleSeriesAdded(event: IListEvents<PieSeries>["inserted"]): void;
     protected updateSeriesAngles(): void;
@@ -240,7 +222,7 @@ export declare class PieChart extends PercentChart {
      */
     updateRadius(): void;
     /**
-     * @return {number} Radius (px or relative)
+     * @return Radius (px or relative)
      */
     /**
      * Sets radius of the pie chart.
@@ -267,11 +249,11 @@ export declare class PieChart extends PercentChart {
      * }
      * ```
      *
-     * @param {number | Percent}  value  Radius (px or relative)
+     * @param value  Radius (px or relative)
      */
     radius: number | Percent;
     /**
-     * @return {number} Relative inner radius (0-1)
+     * @return Relative inner radius (0-1)
      */
     /**
      * Sets relative inner radius (to create a donut chart).
@@ -281,18 +263,18 @@ export declare class PieChart extends PercentChart {
      * * 0.5 - hole is half the radius of the pie;
      * * 1 - does not make sense, because the hole will take up the whole radius.
      *
-     * @param {number | Percent}  value  Relative inner radius (0-1)
+     * @param value  Relative inner radius (0-1)
      * @todo Setting things like `innerRadius` modifies `slice.radius` and it then looks like it is not the same value as in default state
      */
     innerRadius: number | Percent;
     /**
      * Creates a new [[PieSeries]].
      *
-     * @return {PieSeries} New series
+     * @return New series
      */
     protected createSeries(): this["_seriesType"];
     /**
-     * @return {number} Start angle (degrees)
+     * @return Start angle (degrees)
      */
     /**
      * Starting angle of the Pie circle. (degrees)
@@ -316,11 +298,11 @@ export declare class PieChart extends PercentChart {
      * NOTE: This setting is not supported in a 3D pie chart.
      *
      * @default -90
-     * @param {number}  value  Start angle (degrees)
+     * @param value  Start angle (degrees)
      */
     startAngle: number;
     /**
-     * @return {number} End angle (degrees)
+     * @return End angle (degrees)
      */
     /**
      * End angle of the Pie circle. (degrees)
@@ -342,7 +324,7 @@ export declare class PieChart extends PercentChart {
      * NOTE: This setting is not supported in a 3D pie chart.
      *
      * @default 270
-     * @param {number}  value  End angle (degrees)
+     * @param value  End angle (degrees)
      */
     endAngle: number;
 }

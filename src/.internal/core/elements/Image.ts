@@ -29,22 +29,16 @@ export interface IImageProperties extends ISpriteProperties {
 
 	/**
 	 * A URI of the image.
-	 *
-	 * @type {string}
 	 */
 	href?: string;
 
 	/**
 	 * Sets image `width` in relation to its `height`.
-	 * 
-	 * @type {number}
 	 */
 	widthRatio?: number;
 
 	/**
 	 * Sets image `height` in relation to its `width`.
-	 * 
-	 * @type {number}
 	 */
 	heightRatio?: number;
 }
@@ -79,22 +73,16 @@ export class Image extends Sprite {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IImageProperties}
 	 */
 	public _properties!: IImageProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IImageAdapters}
 	 */
 	public _adapter!: IImageAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IImageEvents}
 	 */
 	public _events!: IImageEvents;
 
@@ -145,14 +133,14 @@ export class Image extends Sprite {
 	/**
 	 * An image URI.
 	 *
-	 * @param {string}  value  Image URI
+	 * @param value  Image URI
 	 */
 	public set href(value: string) {
 		this.setPropertyValue("href", value, true);
 	}
 
 	/**
-	 * @return {string} Image URI
+	 * @return Image URI
 	 */
 	public get href(): string {
 		return this.getPropertyValue("href");
@@ -163,15 +151,15 @@ export class Image extends Sprite {
 	 *
 	 * If image's `height = 100` and `widthRatio = 0.5` the actual width will be
 	 * `50`.
-	 * 
-	 * @param {number}  value  Ratio
+	 *
+	 * @param value  Ratio
 	 */
 	public set widthRatio(value: number) {
 		this.setPropertyValue("widthRatio", value, true);
 	}
 
 	/**
-	 * @return {number} Ratio
+	 * @return Ratio
 	 */
 	public get widthRatio(): number {
 		return this.getPropertyValue("widthRatio");
@@ -182,15 +170,15 @@ export class Image extends Sprite {
 	 *
 	 * If image's `width = 100` and `heightRatio = 0.5` the actual height will be
 	 * `50`.
-	 * 
-	 * @param {number}  value  Ratio
+	 *
+	 * @param value  Ratio
 	 */
 	public set heightRatio(value: number) {
 		this.setPropertyValue("heightRatio", value, true);
 	}
 
 	/**
-	 * @return {number} Ratio
+	 * @return Ratio
 	 */
 	public get heightRatio(): number {
 		return this.getPropertyValue("heightRatio");
@@ -201,7 +189,6 @@ export class Image extends Sprite {
 	 * Returns bounding box (square) for this element.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {IRectangle}
 	 */
 	public get bbox(): IRectangle {
 		return {

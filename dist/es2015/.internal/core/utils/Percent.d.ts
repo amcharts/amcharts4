@@ -10,14 +10,12 @@
 export declare class Percent {
     /**
      * Value in percent.
-     *
-     * @type {number}
      */
     protected _value: number;
     /**
      * Constructor.
      *
-     * @param {number}  percent  Percent value
+     * @param percent  Percent value
      */
     constructor(percent: number);
     /**
@@ -39,13 +37,13 @@ export declare class Percent {
      * ```
      *
      * @readonly
-     * @return {number} Relative value
+     * @return Relative value
      */
     readonly value: number;
     /**
      * Value in percent.
      *
-     * @return {number} Percent
+     * @return Percent
      */
     readonly percent: number;
     toString(): string;
@@ -60,15 +58,15 @@ export declare class Percent {
  * pieSeries.radius = am4core.percent(80);
  * ```
  *
- * @param  {number}   value  Percent
- * @return {Percent}         Percent object
+ * @param value  Percent
+ * @return Percent object
  */
 export declare function percent(value: number): Percent;
 /**
  * Checks if value is a [[Percent]] object.
  *
  * @ignore Exclude from docs
- * @param  {any}      value  Input value
- * @return {boolean}         Is percent?
+ * @param value  Input value
+ * @return Is percent?
  */
 export declare function isPercent(value: any): boolean;

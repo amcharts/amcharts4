@@ -21,7 +21,7 @@ var InteractionObjectEventDispatcher = /** @class */ (function (_super) {
     /**
      * Adds a DOM event and returns Disposer.
      *
-     * @return {IDisposer} Disposer
+     * @return Disposer
      */
     InteractionObjectEventDispatcher.prototype._addDOMEvent = function (type, key, listener, context) {
         var _this = this;

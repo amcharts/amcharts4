@@ -67,7 +67,7 @@ var GradientModifier = /** @class */ (function (_super) {
     }
     Object.defineProperty(GradientModifier.prototype, "lightnesses", {
         /**
-         * @return {number[]} Lightness values
+         * @return Lightness values
          */
         get: function () {
             return this._lightnesses;
@@ -75,7 +75,7 @@ var GradientModifier = /** @class */ (function (_super) {
         /**
          * An array of lightness values for each step.
          *
-         * @param {number[]}  value  Lightness values
+         * @param value  Lightness values
          */
         set: function (value) {
             this._lightnesses = value;
@@ -86,7 +86,7 @@ var GradientModifier = /** @class */ (function (_super) {
     });
     Object.defineProperty(GradientModifier.prototype, "brightnesses", {
         /**
-         * @return {number[]} Brightness values
+         * @return Brightness values
          */
         get: function () {
             return this._brightnesses;
@@ -94,7 +94,7 @@ var GradientModifier = /** @class */ (function (_super) {
         /**
          * An array of brightness values for each step.
          *
-         * @param {number[]}  value  Brightness values
+         * @param value  Brightness values
          */
         set: function (value) {
             this._brightnesses = value;
@@ -105,7 +105,7 @@ var GradientModifier = /** @class */ (function (_super) {
     });
     Object.defineProperty(GradientModifier.prototype, "opacities", {
         /**
-         * @return {number[]} Opacity values
+         * @return Opacity values
          */
         get: function () {
             return this._opacities;
@@ -113,7 +113,7 @@ var GradientModifier = /** @class */ (function (_super) {
         /**
          * An array of opacity values for each step.
          *
-         * @param {number[]}  value  Opacity values
+         * @param value  Opacity values
          */
         set: function (value) {
             this._opacities = value;
@@ -123,7 +123,7 @@ var GradientModifier = /** @class */ (function (_super) {
     });
     Object.defineProperty(GradientModifier.prototype, "offsets", {
         /**
-         * @return {number[]} Offsets
+         * @return Offsets
          */
         get: function () {
             return this._offsets;
@@ -133,7 +133,7 @@ var GradientModifier = /** @class */ (function (_super) {
          *
          * If not set, all steps will be of equal relative length.
          *
-         * @param {number[]}  value  Offsets
+         * @param value  Offsets
          */
         set: function (value) {
             this._offsets = value;
@@ -145,8 +145,8 @@ var GradientModifier = /** @class */ (function (_super) {
      * Modifies the color based on step setting.
      *
      * @ignore Exclude from docs
-     * @param  {Color}  value  Source color
-     * @return {Color}         A gradient that matches set modification rules
+     * @param value  Source color
+     * @return A gradient that matches set modification rules
      */
     GradientModifier.prototype.modify = function (value) {
         // Clear current gradient

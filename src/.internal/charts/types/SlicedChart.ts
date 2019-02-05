@@ -39,8 +39,6 @@ export class SlicedChartDataItem extends PercentChartDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
-	 *
-	 * @type {SlicedChart}
 	 */
 	public _component!: SlicedChart;
 
@@ -105,36 +103,26 @@ export class SlicedChart extends PercentChart {
 
 	/**
 	 * Defines available data fields.
-	 *
-	 * @type {ISlicedChartDataFields}
 	 */
 	public _dataFields: ISlicedChartDataFields;
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ISlicedChartProperties}
 	 */
 	public _properties!: ISlicedChartProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {SeriesAdapters}
 	 */
 	public _adapter!: ISlicedChartAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ISlicedChartEvents}
 	 */
 	public _events!: ISlicedChartEvents;
 
 	/**
 	 * Defines a type of series that this chart uses.
-	 *
-	 * @type {FunnelSeries}
 	 */
 	public _seriesType: FunnelSeries;
 

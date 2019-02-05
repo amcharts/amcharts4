@@ -42,7 +42,7 @@ var DateAxisBreak = /** @class */ (function (_super) {
     }
     Object.defineProperty(DateAxisBreak.prototype, "startDate", {
         /**
-         * @return {Date} Start date
+         * @return Start date
          */
         get: function () {
             return this.getPropertyValue("startDate");
@@ -50,7 +50,7 @@ var DateAxisBreak = /** @class */ (function (_super) {
         /**
          * Starting date for the break.
          *
-         * @param {Date} value Start date
+         * @param value Start date
          */
         set: function (value) {
             if (this.setPropertyValue("startDate", value)) {
@@ -66,7 +66,7 @@ var DateAxisBreak = /** @class */ (function (_super) {
     });
     Object.defineProperty(DateAxisBreak.prototype, "endDate", {
         /**
-         * @return {Date} End date
+         * @return End date
          */
         get: function () {
             return this.getPropertyValue("endDate");
@@ -74,7 +74,7 @@ var DateAxisBreak = /** @class */ (function (_super) {
         /**
          * Ending date for the break.
          *
-         * @param {Date} value End date
+         * @param value End date
          */
         set: function (value) {
             if (this.setPropertyValue("endDate", value)) {

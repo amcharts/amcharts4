@@ -20,8 +20,8 @@ export var timeUnitDurations = {
  * E.g. "hour" is the next unit after "minute", etc.
  *
  * @ignore Exclude from docs
- * @param  {TimeUnit}            unit  Source time unit
- * @return {Optional<TimeUnit>}        Next time unit
+ * @param unit  Source time unit
+ * @return Next time unit
  */
 export function getNextUnit(unit) {
     switch (unit) {
@@ -50,9 +50,9 @@ export function getNextUnit(unit) {
  * "month", and "year".
  *
  * @ignore Exclude from docs
- * @param  {TimeUnit}  unit   Time unit
- * @param  {number}    count  Number of units
- * @return {number}           Milliseconds
+ * @param unit   Time unit
+ * @param count  Number of units
+ * @return Milliseconds
  */
 export function getDuration(unit, count) {
     if (!$type.hasValue(count)) {
@@ -63,7 +63,7 @@ export function getDuration(unit, count) {
 /**
  * Returns current `Date` object.
  *
- * @return {Date} Current date
+ * @return Current date
  */
 export function now() {
     return new Date();
@@ -71,7 +71,7 @@ export function now() {
 /**
  * Returns current timestamp.
  *
- * @return {Date} Current timestamp
+ * @return Current timestamp
  */
 export function getTime() {
     return now().getTime();
@@ -80,8 +80,8 @@ export function getTime() {
  * Returns a copy of the `Date` object.
  *
  * @ignore Exclude from docs
- * @param  {Date}  date  Source date
- * @return {Date}        Copy
+ * @param date  Source date
+ * @return Copy
  */
 export function copy(date) {
     return new Date(date.getTime()); // todo: check if this is ok. new Date(date) used to strip milliseconds on FF in v3
@@ -91,10 +91,10 @@ export function copy(date) {
  * represent a "range" of time, rather the same time date.
  *
  * @ignore Exclude from docs
- * @param  {Date}      dateOne  Date 1
- * @param  {Date}      dateTwo  Date 2
- * @param  {TimeUnit}  unit     Time unit to check
- * @return {boolean}            Range?
+ * @param dateOne  Date 1
+ * @param dateTwo  Date 2
+ * @param unit     Time unit to check
+ * @return Range?
  */
 export function checkChange(dateOne, dateTwo, unit) {
     switch (unit) {
@@ -146,10 +146,10 @@ export function checkChange(dateOne, dateTwo, unit) {
  * Adds `count` of time `unit` to the source date. Returns a modified `Date` object.
  *
  * @ignore Exclude from docs
- * @param  {Date}      date   Source date
- * @param  {TimeUnit}  unit   Time unit
- * @param  {number}    count  Number of units to add
- * @return {Date}             Modified date
+ * @param date   Source date
+ * @param unit   Time unit
+ * @param count  Number of units to add
+ * @return Modified date
  */
 export function add(date, unit, count) {
     switch (unit) {
@@ -192,11 +192,11 @@ export function add(date, unit, count) {
  * "Rounds" the date to specific time unit.
  *
  * @ignore Exclude from docs
- * @param  {Date}      date             Source date
- * @param  {TimeUnit}  unit             Time unit
- * @param  {number}    count            Number of units to round to
- * @param  {number}    firstDateOfWeek  First day of week
- * @return {Date}                       New date
+ * @param date             Source date
+ * @param unit             Time unit
+ * @param count            Number of units to round to
+ * @param firstDateOfWeek  First day of week
+ * @return New date
  */
 export function round(date, unit, count, firstDateOfWeek) {
     if (!$type.isNumber(count)) {

@@ -42,14 +42,10 @@ export interface IXYChart3DDataFields extends IXYChartDataFields {
 export interface IXYChart3DProperties extends IXYChartProperties {
     /**
      * Depths of the chart in pixels.
-     *
-     * @type {number}
      */
     depth?: number;
     /**
      * Angle the chart is viewed at.
-     *
-     * @type {number}
      */
     angle?: number;
 }
@@ -82,44 +78,32 @@ export interface IXYChart3DAdapters extends IXYChartAdapters, IXYChart3DProperti
 export declare class XYChart3D extends XYChart {
     /**
      * Available data fields.
-     *
-     * @type {IXYChart3DDataFields}
      */
     _dataFields: IXYChart3DDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IXYChart3DProperties}
      */
     _properties: IXYChart3DProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IXYChart3DAdapters}
      */
     _adapter: IXYChart3DAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IXYChart3DEvents}
      */
     _events: IXYChart3DEvents;
     /**
      * Type of the axis renderer to use for X axes.
-     *
-     * @type {[type]}
      */
     protected _axisRendererX: typeof AxisRendererX3D;
     /**
      * Type of the axis renderer to use for Y axes.
-     * @type {[type]}
      */
     protected _axisRendererY: typeof AxisRendererY3D;
     /**
      * A container to add 3D column elements to.
      *
      * @ignore Exclude from docs
-     * @type {Container}
      */
     columnsContainer: Container;
     /**
@@ -127,36 +111,36 @@ export declare class XYChart3D extends XYChart {
      */
     constructor();
     /**
-     * @return {number} Depth (px)
+     * @return Depth (px)
      */
     /**
      * Depth of the 3D chart / columns in pixels.
      *
-     * @param {number}  value  Depth (px)
+     * @param value  Depth (px)
      */
     depth: number;
     /**
-     * @return {number} Angle
+     * @return Angle
      */
     /**
      * Angle the chart is viewed at.
      *
      * @todo Description (review)
-     * @param {number}  value  Angle
+     * @param value  Angle
      */
     angle: number;
     /**
      * A calculated horizontal 3D offset (px).
      *
      * @readonly
-     * @return {number} Offset (px)
+     * @return Offset (px)
      */
     readonly dx3D: number;
     /**
      * A calculated vertical 3D offset (px).
      *
      * @readonly
-     * @return {number} Offset (px)
+     * @return Offset (px)
      */
     readonly dy3D: number;
     /**
@@ -179,7 +163,7 @@ export declare class XYChart3D extends XYChart {
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     processConfig(config?: {
         [index: string]: any;

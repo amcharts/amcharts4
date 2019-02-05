@@ -43,7 +43,7 @@ var Ellipse = /** @class */ (function (_super) {
     };
     Object.defineProperty(Ellipse.prototype, "radiusY", {
         /**
-         * @return {number} Vertical radius
+         * @return Vertical radius
          */
         get: function () {
             return this.innerHeight / 2;
@@ -56,7 +56,7 @@ var Ellipse = /** @class */ (function (_super) {
          * E.g. 0.8 will mean the height of the ellipsis will be 80% of it's
          * horizontal radius.
          *
-         * @param {number}  value  Vertical radius
+         * @param value  Vertical radius
          */
         set: function (value) {
             this.height = value * 2;
@@ -67,7 +67,7 @@ var Ellipse = /** @class */ (function (_super) {
     });
     Object.defineProperty(Ellipse.prototype, "radius", {
         /**
-         * @return {number} Horizontal radius
+         * @return Horizontal radius
          */
         get: function () {
             return this.innerWidth / 2;
@@ -75,7 +75,7 @@ var Ellipse = /** @class */ (function (_super) {
         /**
          * Horizontal radius.
          *
-         * @param {number}  value  Horizontal radius
+         * @param value  Horizontal radius
          */
         set: function (value) {
             this.width = value * 2;

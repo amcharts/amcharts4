@@ -24,8 +24,6 @@ export interface IDictionaryEvents<Key, Value> {
 
 		/**
 		 * Removed value.
-		 *
-		 * @type {Value}
 		 */
 		oldValue: Value;
 
@@ -43,15 +41,11 @@ export interface IDictionaryEvents<Key, Value> {
 
 		/**
 		 * Key.
-		 *
-		 * @type {Key}
 		 */
 		key: Key;
 
 		/**
 		 * Added value.
-		 *
-		 * @type {Value}
 		 */
 		newValue: Value;
 
@@ -64,22 +58,16 @@ export interface IDictionaryEvents<Key, Value> {
 
 		/**
 		 * Key.
-		 *
-		 * @type {Key}
 		 */
 		key: Key;
 
 		/**
 		 * Removed value. (if overwriting)
-		 *
-		 * @type {Value}
 		 */
 		oldValue: Value;
 
 		/**
 		 * Added value.
-		 *
-		 * @type {Value}
 		 */
 		newValue: Value;
 
@@ -92,15 +80,11 @@ export interface IDictionaryEvents<Key, Value> {
 
 		/**
 		 * Key.
-		 *
-		 * @type {Key}
 		 */
 		key: Key;
 
 		/**
 		 * Removed value.
-		 *
-		 * @type {Value}
 		 */
 		oldValue: Value;
 
@@ -155,8 +139,6 @@ export class Dictionary<Key extends string, T> {
 
 	/**
 	 * Event dispatcher.
-	 *
-	 * @type {EventDispatcher<AMEvent<Dictionary<Key, T>, IDictionaryEvents<Key, T>>>}
 	 */
 	public events: EventDispatcher<AMEvent<Dictionary<Key, T>, IDictionaryEvents<Key, T>>> = new EventDispatcher();
 
@@ -170,8 +152,8 @@ export class Dictionary<Key extends string, T> {
 	/**
 	 * Returns `true` if key exists in Dictionary.
 	 *
-	 * @param  {Key}      key  The key to search for
-	 * @return {boolean}       `true` if key exists, `false` if it doesn't
+	 * @param key  The key to search for
+	 * @return `true` if key exists, `false` if it doesn't
 	 */
 	public hasKey(key: Key): boolean {
 		return $object.hasKey(this._dictionary, key);
@@ -180,8 +162,8 @@ export class Dictionary<Key extends string, T> {
 	/**
 	 * Returns the value for a specific key.
 	 *
-	 * @param  {Key}          key  The key to search for
-	 * @return {Optional<T>}       Value for the key, or `undefined` if it doesn't exist
+	 * @param key  The key to search for
+	 * @return Value for the key, or `undefined` if it doesn't exist
 	 */
 	public getKey(key: Key): Optional<T> {
 		return this._dictionary[key];
@@ -192,8 +174,8 @@ export class Dictionary<Key extends string, T> {
 	 *
 	 * Will thrown an exception if the key already exists in the dictionary.
 	 *
-	 * @param {Key}  key    Key
-	 * @param {T}    value  Value
+	 * @param key    Key
+	 * @param value  Value
 	 */
 	public insertKey(key: Key, value: T): void {
 		if ($object.hasKey(this._dictionary, key)) {
@@ -220,8 +202,8 @@ export class Dictionary<Key extends string, T> {
 	 *
 	 * If the new value is exactly the same as the old value (using ===), it won't do anything.
 	 *
-	 * @param  {Key}  key    Key
-	 * @param  {T}    value  Value
+	 * @param key    Key
+	 * @param value  Value
 	 */
 	public setKey(key: Key, value: T): void {
 		if ($object.hasKey(this._dictionary, key)) {
@@ -272,8 +254,8 @@ export class Dictionary<Key extends string, T> {
 	 * If the new value is exactly the same as the old value (using ===), it won't do anything.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {Key}       key  Key
-	 * @param {function}  fn   Function to transform the value
+	 * @param key  Key
+	 * @param fn   Function to transform the value
 	 */
 	public updateKey(key: Key, fn: (value: T) => T): void {
 		if ($object.hasKey(this._dictionary, key)) {
@@ -310,7 +292,7 @@ export class Dictionary<Key extends string, T> {
 	/**
 	 * Removes value at specific `key` from dictionary.
 	 *
-	 * @param {Key}  key  Key to remove
+	 * @param key  Key to remove
 	 */
 	public removeKey(key: Key): void {
 		if ($object.hasKey(this._dictionary, key)) {
@@ -342,9 +324,9 @@ export class Dictionary<Key extends string, T> {
 	 *
 	 * @ignore Exclude from docs
 	 * @todo description
-	 * @param  {Key}       key      [description]
-	 * @param  {function}  ifEmpty  [description]
-	 * @return {T}                  [description]
+	 * @param key      [description]
+	 * @param ifEmpty  [description]
+	 * @return [description]
 	 */
 	public insertKeyIfEmpty(key: Key, ifEmpty: () => T): T {
 		if (!this.hasKey(key)) {
@@ -382,7 +364,7 @@ export class Dictionary<Key extends string, T> {
 	/**
 	 * Copies items from another Dictionary.
 	 *
-	 * @param {Dictionary<Key, T>}  source  A Dictionary to copy items from
+	 * @param source  A Dictionary to copy items from
 	 */
 	public copyFrom(source: this): void {
 		$iter.each(source.iterator(), (a) => {
@@ -395,7 +377,7 @@ export class Dictionary<Key extends string, T> {
 	 * Returns an interator that can be used to iterate through all items in
 	 * the dictionary.
 	 *
-	 * @return {Iterator} Iterator
+	 * @return Iterator
 	 */
 	public iterator(): $iter.Iterator<[Key, T]> {
 		// @todo fix this type after the Iterator bug is fixed
@@ -427,7 +409,7 @@ export class Dictionary<Key extends string, T> {
 	 * the dictionary, ordered by key.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {Iterator} Iterator
+	 * @return Iterator
 	 */
 	public sortedIterator(): $iter.Iterator<[Key, T]> {
 		return $iter.sort(this.iterator(), (x, y) => $string.order(x[0], y[0]));
@@ -450,14 +432,13 @@ export class DictionaryTemplate<Key extends string, T extends IClone<T> & { isTe
 	 * A template object.
 	 *
 	 * @todo Make this private
-	 * @type {T}
 	 */
 	public _template!: T;
 
 	/**
 	 * Constructor
 	 *
-	 * @param {T} t Template object
+	 * @param t Template object
 	 */
 	public constructor(t: T) {
 		super();
@@ -468,7 +449,7 @@ export class DictionaryTemplate<Key extends string, T extends IClone<T> & { isTe
 	 * A "template" object to copy all properties from when creating new list
 	 * items.
 	 *
-	 * @param {T}  v  Template object
+	 * @param v  Template object
 	 */
 	public set template(v: T) {
 		v.isTemplate = true;
@@ -476,7 +457,7 @@ export class DictionaryTemplate<Key extends string, T extends IClone<T> & { isTe
 	}
 
 	/**
-	 * @return {T} Template object
+	 * @return Template object
 	 */
 	public get template(): T {
 		return this._template;
@@ -485,7 +466,7 @@ export class DictionaryTemplate<Key extends string, T extends IClone<T> & { isTe
 	/**
 	 * Copies all elements from other dictionary.
 	 *
-	 * @param {DictionaryTemplate}  source  Source dictionary
+	 * @param source  Source dictionary
 	 */
 	public copyFrom(source: this): void {
 		$iter.each(source.iterator(), (a) => {

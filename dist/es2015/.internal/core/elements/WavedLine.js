@@ -54,7 +54,7 @@ var WavedLine = /** @class */ (function (_super) {
     };
     Object.defineProperty(WavedLine.prototype, "waveLength", {
         /**
-         * @return {number} Wave length (px)
+         * @return Wave length (px)
          */
         get: function () {
             return this.getPropertyValue("waveLength");
@@ -63,7 +63,7 @@ var WavedLine = /** @class */ (function (_super) {
          * Wave length in pixels.
          *
          * @default 16
-         * @param {number}  value  Wave length (px)
+         * @param value  Wave length (px)
          */
         set: function (value) {
             this.setPropertyValue("waveLength", value);
@@ -74,7 +74,7 @@ var WavedLine = /** @class */ (function (_super) {
     });
     Object.defineProperty(WavedLine.prototype, "waveHeight", {
         /**
-         * @return {number} Wave height (px)
+         * @return Wave height (px)
          */
         get: function () {
             return this.getPropertyValue("waveHeight");
@@ -83,7 +83,7 @@ var WavedLine = /** @class */ (function (_super) {
          * Wave height in pixels.
          *
          * @default 4
-         * @param {number}  value  Wave height (px)
+         * @param value  Wave height (px)
          */
         set: function (value) {
             this.setPropertyValue("waveHeight", value);
@@ -94,7 +94,7 @@ var WavedLine = /** @class */ (function (_super) {
     });
     Object.defineProperty(WavedLine.prototype, "tension", {
         /**
-         * @return {number} Tension
+         * @return Tension
          */
         get: function () {
             return this.getPropertyValue("tension");
@@ -103,7 +103,7 @@ var WavedLine = /** @class */ (function (_super) {
          * Tension of the wave.
          *
          * @default 0.8
-         * @param {number}  value  Tension
+         * @param value  Tension
          */
         set: function (value) {
             this.setPropertyValue("tension", value);

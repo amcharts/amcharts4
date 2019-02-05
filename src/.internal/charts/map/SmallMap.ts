@@ -70,29 +70,21 @@ export class SmallMap extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {SmallMaPproperties}
 	 */
 	public _properties!: ISmallMapProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {ISmallMapAdapters}
 	 */
 	public _adapter!: ISmallMapAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ISmallMapEvents}
 	 */
 	public _events!: ISmallMapEvents;
 
 	/**
 	 * A target map.
-	 *
-	 * @type {MutableValueDisposer<MapChart>}
 	 */
 	protected _chart: MutableValueDisposer<MapChart> = new MutableValueDisposer<MapChart>();
 
@@ -100,21 +92,16 @@ export class SmallMap extends Container {
 	 * A container that holds the visual elements for the mini-map.
 	 *
 	 * @ignore Exclude from docs
-	 * @type {Container}
 	 */
 	public seriesContainer: Container;
 
 	/**
 	 * The rectangle element which highlights current viewport.
-	 *
-	 * @type {Rectangle}
 	 */
 	public rectangle: Rectangle;
 
 	/**
 	 * A list of map series used to draw the mini-map.
-	 *
-	 * @type {List<MapSeries>}
 	 */
 	protected _series: List<MapSeries>;
 
@@ -172,7 +159,7 @@ export class SmallMap extends Container {
 	 * A list of map series used to draw the mini-map.
 	 *
 	 * @readonly
-	 * @return {List<MapSeries>} Series
+	 * @return Series
 	 */
 	public get series(): List<MapSeries> {
 		if (!this._series) {
@@ -187,7 +174,7 @@ export class SmallMap extends Container {
 	/**
 	 * Decorates a new series when they are pushed into a `series` list.
 	 *
-	 * @param {IListEvents<MapSeries>["inserted"]} event Event
+	 * @param event Event
 	 */
 	protected handleSeriesAdded(event: IListEvents<MapSeries>["inserted"]) {
 		let series: MapSeries = event.newValue;
@@ -208,7 +195,7 @@ export class SmallMap extends Container {
 	/**
 	 * Cleans up after series are removed from Scrollbar.
 	 *
-	 * @param {IListEvents<XYSeries>["removed"]}  event  Event
+	 * @param event  Event
 	 */
 	protected handleSeriesRemoved(event: IListEvents<MapSeries>["removed"]) {
 		//let sourceSeries: MapSeries = event.oldValue;
@@ -219,7 +206,7 @@ export class SmallMap extends Container {
 	 * Moves main map pan position after click on the small map.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {AMEvent<Sprite, ISpriteEvents>["hit"]}  event  Event
+	 * @param event  Event
 	 */
 	public moveToPosition(event: AMEvent<Sprite, ISpriteEvents>["hit"]) {
 		let rectPoint: IPoint = $utils.spritePointToSprite(event.spritePoint, this, this.seriesContainer);
@@ -230,7 +217,7 @@ export class SmallMap extends Container {
 	/**
 	 * A chart/map that this control is meant for.
 	 *
-	 * @param {MapChart}  chart  Chart/map
+	 * @param chart  Chart/map
 	 */
 	public set chart(chart: MapChart) {
 		if (this.chart != chart) {
@@ -243,7 +230,7 @@ export class SmallMap extends Container {
 	}
 
 	/**
-	 * @return {MapChart} Chart/map
+	 * @return Chart/map
 	 */
 	public get chart(): MapChart {
 		return this._chart.get();
@@ -299,7 +286,7 @@ export class SmallMap extends Container {
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {object}  config  Config
+	 * @param config  Config
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 

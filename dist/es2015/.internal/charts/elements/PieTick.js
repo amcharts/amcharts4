@@ -32,14 +32,10 @@ var PieTick = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         /**
          * A label element this tick is attached to.
-         *
-         * @type {MutableValueDisposer}
          */
         _this._label = new MutableValueDisposer();
         /**
          * A slice element this tick is attached to.
-         *
-         * @type {MutableValueDisposer}
          */
         _this._slice = new MutableValueDisposer();
         _this.className = "PieTick";
@@ -88,7 +84,7 @@ var PieTick = /** @class */ (function (_super) {
     };
     Object.defineProperty(PieTick.prototype, "slice", {
         /**
-         * @return {Slice} Slice
+         * @return Slice
          */
         get: function () {
             return this._slice.get();
@@ -96,7 +92,7 @@ var PieTick = /** @class */ (function (_super) {
         /**
          * Slice element tick is attached to.
          *
-         * @param {Slice}  slice  Slice
+         * @param slice  Slice
          */
         set: function (slice) {
             this._slice.set(slice, new MultiDisposer([
@@ -109,7 +105,7 @@ var PieTick = /** @class */ (function (_super) {
     });
     Object.defineProperty(PieTick.prototype, "label", {
         /**
-         * @return {AxisLabelCircular} Label
+         * @return Label
          */
         get: function () {
             return this._label.get();
@@ -117,7 +113,7 @@ var PieTick = /** @class */ (function (_super) {
         /**
          * Label element tick is attached to.
          *
-         * @param {AxisLabelCircular}  label  Label
+         * @param label  Label
          */
         set: function (label) {
             this._label.set(label, label.events.on("transformed", this.invalidate, this, false));

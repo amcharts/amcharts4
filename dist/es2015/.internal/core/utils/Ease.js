@@ -245,8 +245,8 @@ var s = Math.asin(1 / amplitude) * period;
  * Easing function: "elasticIn".
  *
  * @function elasticIn
- * @param {number}  a  Amplitude
- * @param {number}  p  period
+ * @param a  Amplitude
+ * @param p  period
  */
 export function elasticIn(t) {
     return amplitude * Math.pow(2, 10 * --t) * Math.sin((s - t) / period);
@@ -255,8 +255,8 @@ export function elasticIn(t) {
  * Easing function: "elasticOut".
  *
  * @function elasticOut
- * @param {number}  a  Amplitude
- * @param {number}  p  period
+ * @param a  Amplitude
+ * @param p  period
  */
 export function elasticOut(t) {
     return 1 - amplitude * Math.pow(2, -10 * (t = +t)) * Math.sin((t + s) / period);
@@ -265,8 +265,8 @@ export function elasticOut(t) {
  * Easing function: "elasticInOut".
  *
  * @function elasticInOut
- * @param {number}  a  Amplitude
- * @param {number}  p  period
+ * @param a  Amplitude
+ * @param p  period
  */
 export function elasticInOut(t) {
     return ((t = t * 2 - 1) < 0

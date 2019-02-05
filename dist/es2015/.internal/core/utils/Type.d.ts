@@ -19,8 +19,6 @@ export declare type Public<T> = {
 };
 /**
  * `Keyof<T>` is the same as `keyof T` except it only accepts string keys, not numbers or symbols.
- *
- * @type {[type]}
  */
 export declare type Keyof<T> = Extract<keyof T, string>;
 /**
@@ -32,38 +30,36 @@ export declare type Keyof<T> = Extract<keyof T, string>;
 /**
  * Returns `true` if value is not a number (NaN).
  *
- * @param  {number}  value Input value
- * @return {boolean}       Is NaN?
+ * @param value Input value
+ * @return Is NaN?
  * @deprecated Is not used anywhere. JS built-in isNaN is used everywhere. Maybe we don't need this, or if we do, then we should use it everywhere
  */
 export declare function isNaN(value: number): boolean;
 /**
  * Represents a type for all available JavaScript variable types.
- *
- * @type {[type]}
  */
 export declare type Type = "[object Object]" | "[object Array]" | "[object String]" | "[object Number]" | "[object Boolean]" | "[object Date]";
 /**
  * Returns a type of the value.
  *
- * @param  {any}   value  Input value
- * @return {Type}         Type of the value
+ * @param value  Input value
+ * @return Type of the value
  */
 export declare function getType<A>(value: A): Type;
 /**
  * Returns a default value if the passed in value is empty.
  *
- * @param  {any}   value     Input value
- * @param  {any}   optional  Default value
- * @return {any}             Value or default value whichever is available
+ * @param value     Input value
+ * @param optional  Default value
+ * @return Value or default value whichever is available
  * @deprecated Not used anywhere
  */
 export declare function getDefault<A>(value: null | undefined | A, optional: A): A;
 /**
  * Checks if the passed in value is a string.
  *
- * @param  {any}   value  Value
- * @return {value}        Is string?
+ * @param value  Value
+ * @return Is string?
  * @throws {Error}
  * @deprecated Not used anywhere
  */
@@ -71,8 +67,8 @@ export declare function checkString(value: any): value is string;
 /**
  * Checks if the passed in value is a boolean.
  *
- * @param  {any}   value  Value
- * @return {value}        Is boolean?
+ * @param value  Value
+ * @return Is boolean?
  * @throws {Error}
  * @deprecated Not used anywhere
  */
@@ -80,16 +76,16 @@ export declare function checkBoolean(value: any): value is boolean;
 /**
  * Checks if the passed in value is a number.
  *
- * @param  {any}   value  Value
- * @return {value}        Is number?
+ * @param value  Value
+ * @return Is number?
  * @throws {Error}
  */
 export declare function checkNumber(value: any): value is number;
 /**
  * Checks if the passed in value is an object.
  *
- * @param  {any}   value  Value
- * @return {value}        Is object?
+ * @param value  Value
+ * @return Is object?
  * @throws {Error}
  * @todo Is the input type correct?
  * @deprecated Not used anywhere
@@ -98,8 +94,8 @@ export declare function checkObject(value: {}): value is {};
 /**
  * Checks if the passed in value is an array.
  *
- * @param  {any}   value  Value
- * @return {value}        Is array?
+ * @param value  Value
+ * @return Is array?
  * @throws {Error}
  * @deprecated Not used anywhere
  */
@@ -107,8 +103,8 @@ export declare function checkArray<A>(value: Array<A>): value is Array<A>;
 /**
  * Checks if the passed in value is a Date object.
  *
- * @param  {any}   value  Value
- * @return {value}        Is Date object?
+ * @param value  Value
+ * @return Is Date object?
  * @throws {Error}
  * @deprecated Not used anywhere
  */
@@ -122,24 +118,24 @@ export declare function checkDate(value: Date): value is Date;
 /**
  * Casts string or a number into string.
  *
- * @param  {string | number}  value  Input
- * @return {string}                  String value
+ * @param value  Input
+ * @return String value
  * @deprecated Not used anywhere
  */
 export declare function castString(value: string | number): string;
 /**
  * Casts string or a number into a number.
  *
- * @param  {string | number | Date}  value   Input value
- * @return {number}                  Number  value
+ * @param value   Input value
+ * @return Number  value
  * @throws {Error}
  */
 export declare function castNumber(value: string | number | Date): number;
 /**
  * Casts number, string or Date into a Date object.
  *
- * @param  {string | number | Date}   value  Input value
- * @return {Date}                            Date object
+ * @param value  Input value
+ * @return Date object
  * @deprecated Not used anywhere
  * @throws {Error}
  * @hidden
@@ -154,22 +150,22 @@ export declare function castNumber(value: string | number | Date): number;
 /**
  * Converts any value into `boolean`.
  *
- * @param  {any}      value  Source value
- * @return {boolean}         `true` or `false`
+ * @param value  Source value
+ * @return `true` or `false`
  */
 export declare function toBoolean(value: any): boolean;
 /**
  * Converts any value into a `number`.
  *
- * @param  {any}     value  Source value
- * @return {number}         Number representation of value
+ * @param value  Source value
+ * @return Number representation of value
  */
 export declare function toNumber(value: any): number;
 /**
  * Converts any value into a string (text).
  *
- * @param  {any}     value  Source value
- * @return {string}         String representation of the input
+ * @param value  Source value
+ * @return String representation of the input
  */
 export declare function toText(value: any): string;
 /**
@@ -180,8 +176,8 @@ export declare function toText(value: any): string;
  *
  * Otherwise, it will convert into a number.
  *
- * @param {number | Percent}   value  Number or percent
- * @return {number | Percent}         Percent object
+ * @param value  Number or percent
+ * @return Percent object
  */
 export declare function toNumberOrPercent(value: any): number | Percent;
 /**
@@ -192,14 +188,12 @@ export declare function toNumberOrPercent(value: any): number | Percent;
  */
 /**
  * Defines an optional value that can be of any type or `undefined`.
- *
- * @type {[type]}
  */
 export declare type Optional<A> = A | undefined;
 /**
  * Checks if a variable has a value.
  *
- * @param {Optional<A> | null}  a  Input value
+ * @param a  Input value
  * @returns                        Has value?
  */
 export declare function hasValue<A>(a: Optional<A> | null): a is A;
@@ -207,14 +201,14 @@ export declare function hasValue<A>(a: Optional<A> | null): a is A;
  * Returns a value or throws an {Error} exception if the variable has not
  * value.
  *
- * @param {Optional<A> | null}  a  Input value
+ * @param a  Input value
  * @returns                        Value
  */
 export declare function getValue<A>(a: Optional<A> | null): A;
 /**
  * Returns a value, or returns the default value if it doesn't have a value.
  *
- * @param {Optional<A> | null}  a  Input value
+ * @param a  Input value
  * @returns                        Value
  */
 export declare function getValueDefault<A>(a: Optional<A> | null, defaultValue: A): A;
@@ -227,35 +221,35 @@ export declare function getValueDefault<A>(a: Optional<A> | null, defaultValue: 
 /**
  * Checks if parameter is `Date`.
  *
- * @param  {any}    value  Input value
- * @return {value}         Is Date?
+ * @param value  Input value
+ * @return Is Date?
  */
 export declare function isDate(value: any): value is Date;
 /**
  * Checks if parameter is `string`.
  *
- * @param  {any}    value  Input value
- * @return {value}         Is string?
+ * @param value  Input value
+ * @return Is string?
  */
 export declare function isString(value: any): value is string;
 /**
  * Checks if parameter is `number`.
  *
- * @param  {any}    value  Input value
- * @return {value}         Is number?
+ * @param value  Input value
+ * @return Is number?
  */
 export declare function isNumber(value: any): value is number;
 /**
  * Checks if parameter is `object`.
  *
- * @param  {any}    value  Input value
- * @return {value}         Is object?
+ * @param value  Input value
+ * @return Is object?
  */
 export declare function isObject(value: any): value is number;
 /**
  * Checks if parameter is `Array`.
  *
- * @param  {any}    value  Input value
- * @return {value}         Is Array?
+ * @param value  Input value
+ * @return Is Array?
  */
 export declare function isArray(value: any): value is Array<any>;

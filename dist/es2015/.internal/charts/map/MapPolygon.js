@@ -44,7 +44,7 @@ var MapPolygon = /** @class */ (function (_super) {
     }
     Object.defineProperty(MapPolygon.prototype, "multiGeoPolygon", {
         /**
-         * @return {IGeoPoint[]} Polygon coordinates
+         * @return Polygon coordinates
          */
         get: function () {
             return this.getPropertyValue("multiGeoPolygon");
@@ -52,7 +52,7 @@ var MapPolygon = /** @class */ (function (_super) {
         /**
          * Set of coordinates for the polygon.
          *
-         * @param {IGeoPoint[][][]}  multiGeoPolygon  Polygon coordinates
+         * @param multiGeoPolygon  Polygon coordinates
          */
         set: function (multiGeoPolygon) {
             this.setPropertyValue("multiGeoPolygon", multiGeoPolygon, true);
@@ -82,7 +82,7 @@ var MapPolygon = /** @class */ (function (_super) {
          * Calculated polygon center latitude.
          *
          * @readonly
-         * @return {number} Center latitude
+         * @return Center latitude
          */
         get: function () {
             var dataItem = this.dataItem;
@@ -96,7 +96,7 @@ var MapPolygon = /** @class */ (function (_super) {
          * Calculated polygon center longitude.
          *
          * @readonly
-         * @return {number} Center longitude
+         * @return Center longitude
          */
         get: function () {
             var dataItem = this.dataItem;
@@ -116,7 +116,7 @@ var MapPolygon = /** @class */ (function (_super) {
          * Element's width in pixels.
          *
          * @readonly
-         * @return {number} Width (px)
+         * @return Width (px)
          */
         get: function () {
             return this.polygon.pixelWidth;
@@ -129,7 +129,7 @@ var MapPolygon = /** @class */ (function (_super) {
          * Element's height in pixels.
          *
          * @readonly
-         * @return {number} Width (px)
+         * @return Width (px)
          */
         get: function () {
             return this.polygon.pixelHeight;

@@ -6,6 +6,7 @@ import { IRectangle } from "../defs/IRectangle";
 import { AMElement } from "../rendering/AMElement";
 import { Group } from "../rendering/Group";
 import { MultiDisposer } from "../utils/Disposer";
+import * as $type from "../utils/Type";
 import { Paper } from "../rendering/Paper";
 /**
  * Defines properties for [[Text]].
@@ -15,40 +16,32 @@ export interface ILabelProperties extends IContainerProperties {
      * Horizontal align of the text.
      *
      * @default "start"
-     * @type {TextAlign}
      */
     textAlign?: TextAlign;
     /**
      * Vertical align of the text.
      *
      * @default "top"
-     * @type {TextValign}
      */
     textValign?: TextValign;
     /**
      * A plain text content.
-     *
-     * @type {string}
      */
     text?: string;
     /**
      * Should the lines wrap if they do not fit into max width?
      *
      * @default false
-     * @type {boolean}
      */
     wrap?: boolean;
     /**
      * Should the text be selectable>
      *
      * @default false
-     * @type {boolean}
      */
     selectable?: boolean;
     /**
      * HTML content.
-     *
-     * @type {string}
      */
     html?: string;
     /**
@@ -56,7 +49,6 @@ export interface ILabelProperties extends IContainerProperties {
      * fit into max width?
      *
      * @default false
-     * @type {boolean}
      */
     truncate?: boolean;
     /**
@@ -64,21 +56,18 @@ export interface ILabelProperties extends IContainerProperties {
      * (`true`), or whenever needed, including middle of the word. (`false`)
      *
      * @default true
-     * @type {boolean}
      */
     fullWords?: boolean;
     /**
      * If lines are truncated, this ellipsis will be added at the end.
      *
      * @default "..."
-     * @type {string}
      */
     ellipsis?: string;
     /**
      * Hide text of it does not fit into element's dimensions?
      *
      * @default false
-     * @type {boolean}
      */
     hideOversized?: boolean;
     /**
@@ -86,9 +75,16 @@ export interface ILabelProperties extends IContainerProperties {
      * regular text.
      *
      * @default false
-     * @type {boolean}
      */
     ignoreFormatting?: boolean;
+    /**
+     * Path string along which text should be arranged
+     */
+    path?: string;
+    /**
+     * Relative label location on path.
+     */
+    locationOnPath?: number;
 }
 /**
  * Text line information.
@@ -98,21 +94,15 @@ export interface ILabelProperties extends IContainerProperties {
 export interface ITextLineInfo {
     /**
      * Measurements for the bounding box of the line.
-     *
-     * @type {IRectangle}
      */
     "bbox"?: IRectangle;
     /**
      * A reference to an SVG `<g>` element that holds line elements.
-     *
-     * @type {Group}
      */
     "element"?: Group;
     /**
      * Indicates if line contains more than one element, e.g. has multiple
      * formatted blocks.
-     *
-     * @type {boolean}
      */
     "complex"?: boolean;
     "text"?: string;
@@ -133,14 +123,10 @@ export interface ILabelEvents extends IContainerEvents {
 export interface ILabelAdapters extends IContainerAdapters, ILabelProperties {
     /**
      * Applied to the final formatted label text.
-     *
-     * @type {string}
      */
     textOutput: string;
     /**
      * Applied to the final formatted label HTML.
-     *
-     * @type {string}
      */
     htmlOutput: string;
 }
@@ -186,48 +172,47 @@ export interface ILabelAdapters extends IContainerAdapters, ILabelProperties {
 export declare class Label extends Container {
     /**
      * Defines available properties.
-     *
-     * @type {ILabelProperties}
      */
     _properties: ILabelProperties;
     /**
      * Defines Adapter type.
-     *
-     * @type {ILabelAdapters}
      */
     _adapter: ILabelAdapters;
     /**
      * Defines available events.
-     *
-     * @type {ILabelEvents}
      */
     _events: ILabelEvents;
     /**
      * Indicates if the whole text does not fit into max dimenstions set for it.
-     *
-     * @type {boolean}
      */
     isOversized: boolean;
     /**
      * Currently formatted text, read only.
-     *
-     * @type {string}
      */
     currentText: string;
     /**
      * Current format to be used for outputing text.
-     *
-     * @type {string}
      */
     protected _currentFormat: string;
     /**
      * [_sourceDataItemEvents description]
      *
      * @todo Description
-     * @type {MultiDisposer}
      */
     protected _sourceDataItemEvents: MultiDisposer;
     protected _prevStatus: string;
+    /**
+     * SVG path element.
+     *
+     * @ignore Exclude from docs
+     */
+    pathElement: $type.Optional<AMElement>;
+    /**
+     * SVG textpath element.
+     *
+     * @ignore Exclude from docs
+     */
+    textPathElement: $type.Optional<Group>;
     /**
      * Constructor
      */
@@ -242,8 +227,8 @@ export declare class Label extends Container {
     /**
      * Sets [[Paper]] instance to use to draw elements.
      * @ignore
-     * @param {Paper} paper Paper
-     * @return {boolean} true if paper was changed, false, if it's the same
+     * @param paper Paper
+     * @return true if paper was changed, false, if it's the same
      */
     setPaper(paper: Paper): boolean;
     /**
@@ -265,7 +250,7 @@ export declare class Label extends Container {
      * Updates current text according to data item and supported features.
      * Returns `true` if current text has changed.
      *
-     * @return {boolean} Text changed?
+     * @return Text changed?
      */
     protected updateCurrentText(): boolean;
     /**
@@ -295,9 +280,9 @@ export declare class Label extends Container {
      * Produces an SVG line element with formatted text.
      *
      * @ignore Exclude from docs
-     * @param  {string}     text    Text to wrap into line
-     * @param  {number}     y       Current line vertical position
-     * @return {AMElement}          A DOM element
+     * @param text    Text to wrap into line
+     * @param y       Current line vertical position
+     * @return A DOM element
      * @todo Implement HTML support
      */
     getSVGLineElement(text: string, y?: number): Group;
@@ -311,8 +296,8 @@ export declare class Label extends Container {
      * Creates and returns an HTML line element (`<div>`).
      *
      * @ignore Exclude from docs
-     * @param  {string}       text  Text to add
-     * @return {HTMLElement}        `<div>` element reference
+     * @param text  Text to add
+     * @return `<div>` element reference
      */
     getHTMLLineElement(text: string): HTMLElement;
     /**
@@ -328,7 +313,7 @@ export declare class Label extends Container {
      */
     protected hideUnused(index: number): void;
     /**
-     * @return {string} SVG text
+     * @return SVG text
      */
     /**
      * An SVG text.
@@ -337,20 +322,50 @@ export declare class Label extends Container {
      * supports `foreignObject` in SGV, such as most modern browsers excluding
      * IEs.
      *
-     * @param {string}  value  SVG Text
+     * @param value  SVG Text
      */
     text: string;
     /**
-     * @return {boolean} Auto-wrap enabled or not
+     * @return Path
+     */
+    /**
+     * An SVG path string to position text along. If set, the text will follow
+     * the curvature of the path.
+     *
+     * Location along the path can be set using `locationOnPath`.
+     *
+     * IMPORTANT: Only SVG text can be put on path. If you are using HTML text
+     * this setting will be ignored.
+     *
+     * @since 4.1.2
+     * @param  value  Path
+     */
+    path: string;
+    /**
+     * @return Relatvie location on path
+     */
+    /**
+     * Relative label location on `path`. Value range is from 0 (beginning)
+     * to 1 (end).
+     *
+     * Works only if you set `path` setting to an SVG path.
+     *
+     * @since 4.1.2
+     * @default 0
+     * @param  value  Relatvie location on path
+     */
+    locationOnPath: number;
+    /**
+     * @return Auto-wrap enabled or not
      */
     /**
      * Enables or disables autowrapping of text.
      *
-     * @param {boolean}  value  Auto-wrapping enabled
+     * @param value  Auto-wrapping enabled
      */
     wrap: boolean;
     /**
-     * @return {boolean} Truncate text?
+     * @return Truncate text?
      */
     /**
      * Indicates if text lines need to be truncated if they do not fit, using
@@ -362,44 +377,44 @@ export declare class Label extends Container {
      * line truncation with ellipsis. It will just hide everything that goes
      * outside the label.
      *
-     * @param {boolean}  value  trincate text?
+     * @param value  trincate text?
      */
     truncate: boolean;
     /**
-     * @return {boolean} Truncate on full words?
+     * @return Truncate on full words?
      */
     /**
      * If `truncate` is enabled, should Label try to break only on full words
      * (`true`), or whenever needed, including middle of the word. (`false`)
      *
      * @default true
-     * @param {boolean}  value  Truncate on full words?
+     * @param value  Truncate on full words?
      */
     fullWords: boolean;
     /**
-     * @return {string} Ellipsis string
+     * @return Ellipsis string
      */
     /**
      * Ellipsis character to use if `truncate` is enabled.
      *
-     * @param {string} value Ellipsis string
+     * @param value Ellipsis string
      * @default "..."
      */
     ellipsis: string;
     /**
-     * @return {boolean} Text selectable?
+     * @return Text selectable?
      */
     /**
      * Forces the text to be selectable. This setting will be ignored if the
      * object has some kind of interaction attached to it, such as it is
      * `draggable`, `swipeable`, `resizable`.
      *
-     * @param {boolean}  value  Text selectable?
+     * @param value  Text selectable?
      * @default false
      */
     selectable: boolean;
     /**
-     * @return {TextAlign} Alignment
+     * @return Alignment
      */
     /**
      * Horizontal text alignment.
@@ -409,24 +424,24 @@ export declare class Label extends Container {
      * * "middle"
      * * "end"
      *
-     * @param {TextAlign}  value  Alignment
+     * @param value  Alignment
      */
     textAlign: TextAlign;
     /**
      * @ignore Exclude from docs (not used)
-     * @return {TextValign} Alignment
+     * @return Alignment
      * @deprecated
      */
     /**
      * Vertical text alignment.
      *
      * @ignore Exclude from docs (not used)
-     * @param {TextValign}  value  Alignment
+     * @param value  Alignment
      * @deprecated
      */
     textValign: TextValign;
     /**
-     * @return {string} HTML content
+     * @return HTML content
      */
     /**
      * Raw HTML to be used as text.
@@ -439,28 +454,28 @@ export declare class Label extends Container {
      * For more information about `foreignObject` and its browser compatibility
      * refer to [this page](https://developer.mozilla.org/en/docs/Web/SVG/Element/foreignObject#Browser_compatibility).
      *
-     * @param {string} value HTML text
+     * @param value HTML text
      */
     html: string;
     /**
-     * @return {boolean} Hide if text does not fit?
+     * @return Hide if text does not fit?
      */
     /**
      * Indicates whether the whole text should be hidden if it does not fit into
      * its allotted space.
      *
-     * @param {boolean}  value  Hide if text does not fit?
+     * @param value  Hide if text does not fit?
      */
     hideOversized: boolean;
     /**
-     * @return {boolean} Ignore formatting?
+     * @return Ignore formatting?
      */
     /**
      * If set to `true` square-bracket formatting blocks will be treated as
      * regular text.
      *
      * @default false
-     * @param {boolean}  value  Ignore formatting?
+     * @param value  Ignore formatting?
      */
     ignoreFormatting: boolean;
     /**
@@ -472,16 +487,16 @@ export declare class Label extends Container {
      * Returns information about a line element.
      *
      * @ignore Exclude from docs
-     * @param  {number}         index  Line index
-     * @return {ITextLineInfo}         Line info object
+     * @param index  Line index
+     * @return Line info object
      */
     getLineInfo(index: number): ITextLineInfo;
     /**
      * Adds a line to line info cache.
      *
      * @ignore Exclude from docs
-     * @param {ITextLineInfo}  line     Line info object
-     * @param {number}         index    Insert at specified index
+     * @param line     Line info object
+     * @param index    Insert at specified index
      */
     addLineInfo(line: ITextLineInfo, index: number): void;
     /**
@@ -493,20 +508,20 @@ export declare class Label extends Container {
      *
      * Check the description for [[Text]] class, for data binding.
      *
-     * @param {DataItem} dataItem Data item
+     * @param dataItem Data item
      */
     setDataItem(dataItem: DataItem): void;
     /**
      * Returns available horizontal space.
      *
      * @ignore Exclude from docs
-     * @return {number} Available width (px)
+     * @return Available width (px)
      */
     readonly availableWidth: number;
     /**
      * Returns available vertical space.
      *
-     * @return {number} Available height (px)
+     * @return Available height (px)
      */
     readonly availableHeight: number;
     getSvgElement(text: string, style?: string): AMElement;

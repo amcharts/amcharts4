@@ -37,34 +37,28 @@ export declare class XYSeriesDataItem extends SeriesDataItem {
      * [_minX description]
      *
      * @todo Descripion
-     * @type {number}
      */
     protected _minX: number;
     /**
      * [_maxX description]
      *
      * @todo Descripion
-     * @type {number}
      */
     protected _maxX: number;
     /**
      * [_minY description]
      *
      * @todo Descripion
-     * @type {number}
      */
     protected _minY: number;
     /**
      * [_maxY description]
      *
      * @todo Descripion
-     * @type {number}
      */
     protected _maxY: number;
     /**
      * Defines a type of [[Component]] this data item is used for.
-     *
-     * @type {XYSeries}
      */
     _component: XYSeries;
     /**
@@ -72,144 +66,140 @@ export declare class XYSeriesDataItem extends SeriesDataItem {
      */
     constructor();
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * Item's numeric value on X value axis.
      *
-     * @param {number}  value  Value
+     * @param value  Value
      */
     valueX: number;
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * Item's numeric value on Y value axis.
      *
-     * @param {number}  value  Value
+     * @param value  Value
      */
     valueY: number;
     /**
-     * @return {Date} Date
+     * @return Date
      */
     /**
      * Item's date value on X date-based axis.
      *
-     * @param {Date}  date  Date
+     * @param date  Date
      */
     dateX: Date;
     /**
-     * @return {Date} Date
+     * @return Date
      */
     /**
      * Item's date value on Y date-based axis.
      *
-     * @param {Date}  date  Date
+     * @param date  Date
      */
     dateY: Date;
     /**
-     * @return {string} Category
+     * @return Category
      */
     /**
      * Item's category on X category axis.
      *
-     * @param {string}  category  Category
+     * @param category  Category
      */
     categoryX: string;
     /**
-     * @return {string} Category
+     * @return Category
      */
     /**
      * Item's category on Y category axis.
      *
-     * @param {string}  category  Category
+     * @param category  Category
      */
     categoryY: string;
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * Item's open numeric value on X value axis.
      *
-     * @param {number}  value  Value
+     * @param value  Value
      */
     openValueX: number;
     /**
-     * @return {number} Value
+     * @return Value
      */
     /**
      * Item's open numeric value on Y value axis.
      *
-     * @param {number}  value  Value
+     * @param value  Value
      */
     openValueY: number;
     /**
-     * @return {Date} Date
+     * @return Date
      */
     /**
      * Item's open date value on X date-based axis.
      *
-     * @param {Date}  date  Date
+     * @param date  Date
      */
     openDateX: Date;
     /**
-     * @return {Date} Date
+     * @return Date
      */
     /**
      * Item's open date value on Y date-based axis.
      *
-     * @param {Date}  date  Date
+     * @param date  Date
      */
     openDateY: Date;
     /**
-     * @return {string} Category
+     * @return Category
      */
     /**
      * Item's open category on X category axis.
      *
-     * @param {string}  category  Category
+     * @param category  Category
      */
     openCategoryX: string;
     /**
-     * @return {string} Category
+     * @return Category
      */
     /**
      * Item's open category on Y category axis.
      *
-     * @param {string}  category  Category
+     * @param category  Category
      */
     openCategoryY: string;
     /**
      * Return smallest value out of all item's value fields.
      *
      * @ignore Exclude from docs
-     * @param  {string[]}  fields      Fields to check in
-     * @param  {boolean}   working     Include working (temporary) values
-     * @param  {number}    stackValue  If item is in a stack, the value item starts as
-     * @return {number}                Value
+     * @param fields      Fields to check in
+     * @param working     Include working (temporary) values
+     * @param stackValue  If item is in a stack, the value item starts as
+     * @return Value
      */
     getMin(fields: string[], working?: boolean, stackValue?: number): number;
     /**
      * Return biggest value out of all item's value fields.
      *
      * @ignore Exclude from docs
-     * @param  {string[]}  fields      Fields to check in
-     * @param  {boolean}   working     Include working (temporary) values
-     * @param  {number}    stackValue  If item is in a stack, the value item starts as
-     * @return {number}                Value
+     * @param fields      Fields to check in
+     * @param working     Include working (temporary) values
+     * @param stackValue  If item is in a stack, the value item starts as
+     * @return Value
      */
     getMax(fields: string[], working?: boolean, stackValue?: number): number;
 }
 /**
  * Defines property set for a [[XYSeries]] tooltip event that contains information about dataItem
- *
- * @type {Object}
  */
 export declare type XYSeriesTooltipEvent = {
     /**
      * Shift in coordinates after dragging.
-     *
-     * @type {XYSeriesDataItem}
      */
     dataItem: XYSeriesDataItem;
 };
@@ -225,104 +215,72 @@ export declare type XYSeriesTooltipEvent = {
 export interface IXYSeriesDataFields extends ISeriesDataFields {
     /**
      * Name of the field in data that holds numeric value for horizontal axis.
-     *
-     * @type {string}
      */
     valueX?: string;
     /**
      * Name of the field in data that holds numeric value for vertical axis.
-     *
-     * @type {string}
      */
     valueY?: string;
     /**
      * Name of the field in data that holds category for horizontal axis.
-     *
-     * @type {string}
      */
     categoryX?: string;
     /**
      * Name of the field in data that holds category for vertical axis.
-     *
-     * @type {string}
      */
     categoryY?: string;
     /**
      * Name of the field in data that holds date for horizontal axis.
-     *
-     * @type {string}
      */
     dateX?: string;
     /**
      * Name of the field in data that holds date for vertical axis.
-     *
-     * @type {string}
      */
     dateY?: string;
     /**
      * Name of the field in data that holds open numeric value for horizontal
      * axis.
-     *
-     * @type {string}
      */
     openValueX?: string;
     /**
      * Name of the field in data that holds open numeric value for vertical
      * axis.
-     *
-     * @type {string}
      */
     openValueY?: string;
     /**
      * Name of the field in data that holds open category for horizontal axis.
-     *
-     * @type {string}
      */
     openCategoryX?: string;
     /**
      * Name of the field in data that holds open category for vertical axis.
-     *
-     * @type {string}
      */
     openCategoryY?: string;
     /**
      * Name of the field in data that holds open date for horizontal axis.
-     *
-     * @type {string}
      */
     openDateX?: string;
     /**
      * Name of the field in data that holds open date for vertical axis.
-     *
-     * @type {string}
      */
     openDateY?: string;
     /**
      * Which calculated field to use to use as a horizontal axis value for the
      * item.
-     *
-     * @type {CalculatedValue}
      */
     valueXShow?: CalculatedValue;
     /**
      * Which calculated field to use to use as a vertical axis value for the
      * item.
-     *
-     * @type {CalculatedValue}
      */
     valueYShow?: CalculatedValue;
     /**
      * Which calculated field to use to use as a horizontal axis open value for
      * the item.
-     *
-     * @type {CalculatedValue}
      */
     openValueXShow?: CalculatedValue;
     /**
      * Which calculated field to use to use as a vertical axis open value for
      * the item.
-     *
-     * @type {CalculatedValue}
      */
     openValueYShow?: CalculatedValue;
 }
@@ -334,14 +292,12 @@ export interface IXYSeriesProperties extends ISeriesProperties {
      * Can items from this series be included into stacks?
      *
      * @default false
-     * @type {boolean}
      */
     stacked?: boolean;
     /**
      * Should the nearest tooltip be shown if no data item is found on the current cursor position
      *
      * @default false
-     * @type {boolean}
      */
     snapTooltip?: boolean;
     /**
@@ -382,50 +338,34 @@ export interface IXYSeriesAdapters extends ISeriesAdapters, IXYSeriesProperties 
 export declare class XYSeries extends Series {
     /**
      * Defines the type of data fields used for the series.
-     *
-     * @type {IXYSeriesDataFields}
      */
     _dataFields: IXYSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IXYSeriesProperties}
      */
     _properties: IXYSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IXYSeriesAdapters}
      */
     _adapter: IXYSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IXYSeriesEvents}
      */
     _events: IXYSeriesEvents;
     /**
      * Defines the type of data item.
-     *
-     * @type {XYSeriesDataItem}
      */
     _dataItem: XYSeriesDataItem;
     /**
      * X axis the series is attached to.
-     *
-     * @type {MutableValueDisposer}
      */
     protected _xAxis: MutableValueDisposer<Axis<AxisRenderer>>;
     /**
      * Y axis the series is attached to.
-     *
-     * @type {MutableValueDisposer}
      */
     protected _yAxis: MutableValueDisposer<Axis<AxisRenderer>>;
     /**
      * A chart series belongs to.
-     *
-     * @type {XYChart}
      */
     _chart: XYChart;
     /**
@@ -433,83 +373,68 @@ export declare class XYSeries extends Series {
      *
      * This is the axis that series fills will go to, or grow animations will
      * happen from.
-     *
-     * @type {Axis}
      */
     protected _baseAxis: Axis;
     /**
      * Total data item count.
-     *
-     * @type {Dictionary<string, number>}
      */
     protected _count: Dictionary<string, number>;
     /**
      * Data item count in current selection.
-     *
-     * @type {Dictionary<string, number>}
      */
     protected _scount: Dictionary<string, number>;
     /**
      * [_xField description]
      *
      * @todo Description
-     * @type {string}
      */
     protected _xField: string;
     /**
      * [_yField description]
      *
      * @todo Description
-     * @type {string}
      */
     protected _yField: string;
     /**
      * [_xOpenField description]
      *
      * @todo Description
-     * @type {string}
      */
     protected _xOpenField: string;
     /**
      * [_yOpenField description]
      *
      * @todo Description
-     * @type {string}
      */
     protected _yOpenField: string;
     /**
      * [_tooltipXField description]
      *
      * @todo Description
-     * @type {string}
      */
     protected _tooltipXField: string;
     /**
      * [_tooltipYField description]
      *
      * @todo Description
-     * @type {string}
      */
     protected _tooltipYField: string;
     /**
      * [_xValueFields description]
      *
      * @todo Description
-     * @type {Array<string>}
      */
     protected _xValueFields: Array<string>;
     /**
      * [_yValueFields description]
      *
      * @todo Description
-     * @type {Array<string>}
      */
     protected _yValueFields: Array<string>;
     /**
      * Series which is stacked on top of this series, if any.
      *
      * @ignore Exclude from docs
-     * @type {XYSeries}
      */
     stackedSeries: XYSeries;
     /**
@@ -536,7 +461,7 @@ export declare class XYSeries extends Series {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {XYSeriesDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
@@ -552,16 +477,16 @@ export declare class XYSeries extends Series {
     /**
      * Processes data item.
      *
-     * @param {XYSeriesDataItem}  dataItem     Data item
-     * @param {Object}            dataContext  Raw data
-     * @param {number}            index        Index of the data item
+     * @param dataItem     Data item
+     * @param dataContext  Raw data
+     * @param index        Index of the data item
      */
     protected processDataItem(dataItem: this["_dataItem"], dataContext?: Object): void;
     /**
      * Inits data item's working values.
      *
-     * @param {this["_dataItem"]}  dataItem  Data item
-     * @param {number}             index     Data item's index
+     * @param dataItem  Data item
+     * @param index     Data item's index
      */
     protected setInitialWorkingValues(dataItem: this["_dataItem"]): void;
     /**
@@ -576,9 +501,9 @@ export declare class XYSeries extends Series {
      * [axis description]
      *
      * @todo Description
-     * @param {Axis}        axis    Axis
-     * @param {Array<Key>}  fields  Fields (?)
-     * @param {Key}         field   Field
+     * @param axis    Axis
+     * @param fields  Fields (?)
+     * @param field   Field
      */
     protected addValueField<Key extends keyof this["_dataFields"]>(axis: Axis, fields: Array<Key>, field: Key): void;
     /**
@@ -587,8 +512,8 @@ export declare class XYSeries extends Series {
      * User might set field for category axis only, but not for series. In such
      * case, we take field value from axis and set it for series.
      *
-     * @param {Key}           field  Field
-     * @param {CategoryAxis}  axis   Axis
+     * @param field  Field
+     * @param axis   Axis
      */
     protected setCategoryAxisField<Key extends keyof this["_dataFields"]>(field: Key, axis: CategoryAxis): void;
     /**
@@ -597,8 +522,8 @@ export declare class XYSeries extends Series {
      * User might set field for category axis only, but not for series. In such
      * case, we take field value from axis and set it for series.
      *
-     * @param {Key}       field  Field
-     * @param {DateAxis}  axis   Axis
+     * @param field  Field
+     * @param axis   Axis
      */
     protected setDateAxisField<Key extends keyof this["_dataFields"]>(field: Key, axis: DateAxis): void;
     /**
@@ -614,14 +539,14 @@ export declare class XYSeries extends Series {
     /**
      * Returns an SVG path to use as series mask.
      *
-     * @return {string} SVG path
+     * @return SVG path
      */
     protected getMaskPath(): string;
     /**
      * Returns axis data field to use.
      *
-     * @param  {Axis}    axis  Axis
-     * @return {string}        Field name
+     * @param axis  Axis
+     * @return Field name
      */
     getAxisField(axis: Axis): string;
     /**
@@ -643,25 +568,25 @@ export declare class XYSeries extends Series {
      */
     validate(): void;
     /**
-     * @return {Axis} Axis
+     * @return Axis
      */
     /**
      * X axis the series is attached to.
      *
-     * @param {Axis}  axis  Axis
+     * @param axis  Axis
      */
     xAxis: Axis;
     /**
-     * @return {Axis} Axis
+     * @return Axis
      */
     /**
      * Y axis the series is attached to.
      *
-     * @param {Axis}  axis  Axis
+     * @param axis  Axis
      */
     yAxis: Axis;
     /**
-     * @return {Axis} Axis
+     * @return Axis
      */
     /**
      * The main (base) axis.
@@ -669,14 +594,14 @@ export declare class XYSeries extends Series {
      * This is the axis that series fills will go to, or grow animations will
      * happen from.
      *
-     * @param {Axis}  value  Axis
+     * @param value  Axis
      */
     baseAxis: Axis;
     /**
      * Processes values after data items' were added.
      *
      * @ignore Exclude from docs
-     * @param {OrderedListTemplate<this["_dataItem"]>}  dataItems  Data items
+     * @param dataItems  Data items
      */
     processValues(working: boolean): void;
     /**
@@ -688,14 +613,14 @@ export declare class XYSeries extends Series {
     /**
      * Shows series tooltip at specific position.
      *
-     * @param {number}  xPosition  X
-     * @param {number}  yPosition  Y
+     * @param xPosition  X
+     * @param yPosition  Y
      */
     showTooltipAtPosition(xPosition: number, yPosition: number): IPoint;
     /**
      * Shows series tooltip at specific dataItem.
      *
-     * @param {this["_dataItem"]}  dataItem
+     * @param dataItem
      */
     showTooltipAtDataItem(dataItem: this["_dataItem"]): IPoint;
     /**
@@ -708,7 +633,7 @@ export declare class XYSeries extends Series {
      * Positions series bullet.
      *
      * @ignore Exclude from docs
-     * @param {Bullet}  bullet  Bullet
+     * @param bullet  Bullet
      */
     positionBullet(bullet: Bullet): void;
     /**
@@ -722,38 +647,38 @@ export declare class XYSeries extends Series {
     */
     protected getBulletLocationY(bullet: Bullet, field: string): number;
     /**
-     * @return {boolean} Can be stacked?
+     * @return Can be stacked?
      */
     /**
      * Can items from this series be included into stacks?
      *
      * @default false
-     * @param {boolean}  stacked  Can be stacked?
+     * @param stacked  Can be stacked?
      */
     stacked: boolean;
     /**
-     * @return {boolean} Should snap?
+     * @return Should snap?
      */
     /**
      * Should the nearest tooltip be shown if no data item is found on the
      * current cursor position?
      *
      * @default false
-     * @param {boolean}  value  Should snap?
+     * @param value  Should snap?
      */
     snapTooltip: boolean;
     /**
      * Shows hidden series.
      *
-     * @param  {number}     duration  Duration of reveal animation (ms)
-     * @return {Animation}            Animation
+     * @param duration  Duration of reveal animation (ms)
+     * @return Animation
      */
     show(duration?: number): Animation;
     /**
      * Hides series.
      *
-     * @param  {number}     duration  Duration of hiding animation (ms)
-     * @return {Animation}            Animation
+     * @param duration  Duration of hiding animation (ms)
+     * @return Animation
      */
     hide(duration?: number): Animation;
     /**
@@ -767,7 +692,7 @@ export declare class XYSeries extends Series {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     getStackValue(dataItem: this["_dataItem"], working?: boolean): void;
     /**
@@ -775,7 +700,7 @@ export declare class XYSeries extends Series {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @return {string} [description]
+     * @return [description]
      */
     readonly xField: string;
     /**
@@ -783,7 +708,7 @@ export declare class XYSeries extends Series {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @return {string} [description]
+     * @return [description]
      */
     readonly yField: string;
     /**
@@ -791,7 +716,7 @@ export declare class XYSeries extends Series {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @return {string} [description]
+     * @return [description]
      */
     readonly xOpenField: string;
     /**
@@ -799,49 +724,49 @@ export declare class XYSeries extends Series {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @return {string} [description]
+     * @return [description]
      */
     readonly yOpenField: string;
     /**
      * @ignore Exclude from docs
      * @todo Description
-     * @return {string} [description]
+     * @return [description]
      */
     /**
      * [tooltipXField description]
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {string} value [description]
+     * @param value [description]
      */
     tooltipXField: string;
     /**
      * @ignore Exclude from docs
      * @todo Description
-     * @return {string} [description]
+     * @return [description]
      */
     /**
      * [tooltipYField description]
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {string} value [description]
+     * @param value [description]
      */
     tooltipYField: string;
     /**
      * Returns lowest value in the series for the specific axis.
      *
      * @ignore Exclude from docs
-     * @param  {ValueAxis}  axis  Axis
-     * @return {number}           value
+     * @param axis  Axis
+     * @return value
      */
     min(axis: ValueAxis): number;
     /**
      * Returns highest value in the series for the specific axis.
      *
      * @ignore Exclude from docs
-     * @param  {ValueAxis}  axis  Axis
-     * @return {number}           value
+     * @param axis  Axis
+     * @return value
      */
     max(axis: ValueAxis): number;
     /**
@@ -849,8 +774,8 @@ export declare class XYSeries extends Series {
      * selection.
      *
      * @ignore Exclude from docs
-     * @param  {ValueAxis}  axis  Axis
-     * @return {number}           value
+     * @param axis  Axis
+     * @return value
      */
     selectionMin(axis: ValueAxis): number;
     /**
@@ -858,15 +783,15 @@ export declare class XYSeries extends Series {
      * selection.
      *
      * @ignore Exclude from docs
-     * @param  {ValueAxis}  axis  Axis
-     * @return {number}           value
+     * @param axis  Axis
+     * @return value
      */
     selectionMax(axis: ValueAxis): number;
     /**
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
-     * @param {object}  config  Config
+     * @param config  Config
      */
     processConfig(config?: {
         [index: string]: any;
@@ -875,13 +800,13 @@ export declare class XYSeries extends Series {
      * [getPoint description]
      *
      * @todo Description
-     * @param {XYSeriesDataItem}  dataItem   [description]
-     * @param {string}          xKey       [description]
-     * @param {string}          yKey       [description]
-     * @param {number}          locationX  [description]
-     * @param {number}          locationY  [description]
-     * @param {string}          stackKeyX  [description]
-     * @param {string}          stackKeyY  [description]
+     * @param dataItem   [description]
+     * @param xKey       [description]
+     * @param yKey       [description]
+     * @param locationX  [description]
+     * @param locationY  [description]
+     * @param stackKeyX  [description]
+     * @param stackKeyY  [description]
      */
     protected getPoint(dataItem: XYSeriesDataItem, xKey: string, yKey: string, locationX?: number, locationY?: number, stackKeyX?: string, stackKeyY?: string): {
         x: number;
@@ -892,7 +817,7 @@ export declare class XYSeries extends Series {
      */
     protected updateItemReaderText(): void;
     /**
-     * @return {boolean} Display tooltip?
+     * @return Display tooltip?
      */
     /**
      * Indicates if series should display a tooltip for chart's cursor.
@@ -906,7 +831,7 @@ export declare class XYSeries extends Series {
      * tooltips only when hovered directly over them
      *
      * @default true
-     * @param {boolean} value Display tooltip?
+     * @param value Display tooltip?
      */
     cursorTooltipEnabled: boolean;
 }

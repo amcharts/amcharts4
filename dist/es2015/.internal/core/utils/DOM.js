@@ -17,31 +17,28 @@ import * as $type from "./Type";
  * SVG namespace.
  *
  * @ignore Exclude from docs
- * @type {string}
  */
 export var SVGNS = "http://www.w3.org/2000/svg";
 /**
  * XML namespace.
  *
  * @ignore Exclude from docs
- * @type {string}
  */
 export var XMLNS = "http://www.w3.org/2000/xmlns/";
 /**
  * XLINK namespace.
  *
  * @ignore Exclude from docs
- * @type {string}
  */
 export var XLINK = "http://www.w3.org/1999/xlink";
 /**
  * Function that adds a disposable event listener directly to a DOM element.
  *
  * @ignore Exclude from docs
- * @param {EventTarget}   dom       A DOM element to add event to
- * @param {string}        type      Event type
- * @param {Function}      listener  Event listener
- * @returns {IDisposer}             Disposable event
+ * @param dom       A DOM element to add event to
+ * @param type      Event type
+ * @param listener  Event listener
+ * @returns Disposable event
  */
 export function addEventListener(dom, type, listener, options) {
     //@todo proper type check for options: EventListenerOptions | boolean (TS for some reason gives error on passive parameter)
@@ -58,8 +55,8 @@ export function addEventListener(dom, type, listener, options) {
  * * If no element with such id is found, we grab the first element with a tag name like this.
  *
  * @ignore Exclude from docs
- * @param  {Optional<HTMLElement | string>}  el  Element definition (reference, or id, or tag name)
- * @return {Optional<HTMLElement>}               Element reference
+ * @param el  Element definition (reference, or id, or tag name)
+ * @return Element reference
  * @todo Review this function as it seems pretty fuzzy and hacky
  */
 export function getElement(el) {
@@ -80,8 +77,8 @@ export function getElement(el) {
  * Adds a class name to an HTML or SVG element.
  *
  * @ignore Exclude from docs
- * @param {HTMLElement | SVGSVGElement}  element    Element
- * @param {string}                       className  Class name to add
+ * @param element    Element
+ * @param className  Class name to add
  */
 export function addClass(element, className) {
     if (element.classList) {
@@ -104,8 +101,8 @@ export function addClass(element, className) {
  * Removes a class name from an HTML or SVG element.
  *
  * @ignore Exclude from docs
- * @param {HTMLElement | SVGSVGElement}  element    Element
- * @param {string}                       className  Class name to add
+ * @param element    Element
+ * @param className  Class name to add
  */
 export function removeClass(element, className) {
     if (element.classList) {
@@ -149,7 +146,7 @@ export function blur() {
  * Tries to focus the element.
  *
  * @ignore Exlude from docs
- * @param {HTMLElement | SVGSVGElement}  element  Element to focus
+ * @param element  Element to focus
  */
 export function focus(element) {
     if (element instanceof HTMLElement) {
@@ -179,8 +176,8 @@ export function focus(element) {
  * wrapper's `innerHTML`.
  *
  * @ignore Exclude from docs
- * @param  {HTMLElement | SVGSVGElement}  element  Element to get full markup for
- * @return {string}                                Markup
+ * @param element  Element to get full markup for
+ * @return Markup
  * @deprecated Not in use anywhere
  */
 export function outerHTML(element) {
@@ -199,8 +196,8 @@ export function outerHTML(element) {
  * Checks if element is a valid DOM node.
  *
  * @ignore Exclude from docs
- * @param  {HTMLElement}  el  Element
- * @return {boolean}          `true` if element is a valid DOM node
+ * @param el  Element
+ * @return `true` if element is a valid DOM node
  */
 export function isElement(el) {
     return el instanceof Object && el && el.nodeType === 1;
@@ -208,9 +205,9 @@ export function isElement(el) {
 /**
  * Checks of element `a` contains element `b`.
  *
- * @param  {HTMLElement | SVGSVGElement}  a  Aleged ascendant
- * @param  {HTMLElement | SVGSVGElement}  b  Aleged descendant
- * @return {boolean}                         Contains?
+ * @param a  Aleged ascendant
+ * @param b  Aleged descendant
+ * @return Contains?
  */
 export function contains(a, b) {
     return a !== b && (a.contains
@@ -223,8 +220,8 @@ export function contains(a, b) {
  * Copies attributes from one element to another.
  *
  * @ignore Exclude from docs
- * @param {Element | HTMLElement |  SVGSVGElement}  source  Element to copy attributes from
- * @param {HTMLElement | SVGSVGElement}          target  Element to copy attributes to
+ * @param source  Element to copy attributes from
+ * @param target  Element to copy attributes to
  */
 export function copyAttributes(source, target) {
     $array.each(source.attributes, function (attr) {
@@ -239,7 +236,7 @@ export function copyAttributes(source, target) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param {HTMLElement}  el  Element
+ * @param el  Element
  */
 export function fixPixelPerfect(el) {
     readFrame(function () {
@@ -268,7 +265,6 @@ export function fixPixelPerfect(el) {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @type {Optional<CSSStyleSheet>}
  */
 var rootStylesheet;
 /**
@@ -276,7 +272,7 @@ var rootStylesheet;
  *
  * @ignore Exclude from docs
  * @todo Description
- * @return {CSSStyleSheet} [description]
+ * @return [description]
  */
 function getStylesheet() {
     if (!$type.hasValue(rootStylesheet)) {
@@ -293,8 +289,8 @@ function getStylesheet() {
  *
  * @ignore Exclude from docs
  * @todo Description
- * @param  {string}        selector  [description]
- * @return {CSSStyleRule}            [description]
+ * @param selector  [description]
+ * @return [description]
  */
 function makeStylesheet(selector) {
     var root = getStylesheet();
@@ -312,8 +308,8 @@ var StyleRule = /** @class */ (function (_super) {
     /**
      * Constructor.
      *
-     * @param {string}  selector  CSS selector
-     * @param {object}  styles    An object of style attribute - value pairs
+     * @param selector  CSS selector
+     * @param styles    An object of style attribute - value pairs
      */
     function StyleRule(selector, styles) {
         var _this = 
@@ -337,7 +333,7 @@ var StyleRule = /** @class */ (function (_super) {
     }
     Object.defineProperty(StyleRule.prototype, "selector", {
         /**
-         * @return {string} CSS selector
+         * @return CSS selector
          */
         get: function () {
             return this._rule.selectorText;
@@ -347,7 +343,7 @@ var StyleRule = /** @class */ (function (_super) {
          *
          * E.g.: `.myClass p`
          *
-         * @param {string}  selector  CSS selector
+         * @param selector  CSS selector
          */
         set: function (selector) {
             this._rule.selectorText = selector;
@@ -358,8 +354,8 @@ var StyleRule = /** @class */ (function (_super) {
     /**
      * Sets the same style properties with browser-speicifc prefixes.
      *
-     * @param {string}  name   Attribute name
-     * @param {string}  value  Attribute value
+     * @param name   Attribute name
+     * @param value  Attribute value
      */
     StyleRule.prototype._setVendorPrefixName = function (name, value) {
         var style = this._rule.style;
@@ -372,8 +368,8 @@ var StyleRule = /** @class */ (function (_super) {
     /**
      * Sets a value for specific style attribute.
      *
-     * @param {string}  name   Attribute
-     * @param {string}  value  Value
+     * @param name   Attribute
+     * @param value  Value
      */
     StyleRule.prototype.setStyle = function (name, value) {
         if (name === "transition") {
@@ -390,7 +386,6 @@ export { StyleRule };
  * An internal counter for unique style ids.
  *
  * @ignore Exclude from docs
- * @type {number}
  */
 var styleId = 0;
 /**
@@ -402,8 +397,8 @@ var StyleClass = /** @class */ (function (_super) {
     /**
      * Constructor.
      *
-     * @param {object}  styles  An object of style attribute - value pairs
-     * @param {string}  name    Class name
+     * @param styles  An object of style attribute - value pairs
+     * @param name    Class name
      */
     function StyleClass(styles, name) {
         var _this = this;
@@ -417,7 +412,7 @@ var StyleClass = /** @class */ (function (_super) {
     }
     Object.defineProperty(StyleClass.prototype, "className", {
         /**
-         * @return {string} Class name
+         * @return Class name
          */
         get: function () {
             return this._className;
@@ -425,7 +420,7 @@ var StyleClass = /** @class */ (function (_super) {
         /**
          * Class name.
          *
-         * @param {string}  name  Class name
+         * @param name  Class name
          */
         set: function (name) {
             this._className = name;

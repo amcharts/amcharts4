@@ -34,7 +34,7 @@ var Color = /** @class */ (function () {
     /**
      * Constructor
      *
-     * @param {iRGB} color Source color
+     * @param color Source color
      */
     function Color(color) {
         this._value = color;
@@ -43,7 +43,7 @@ var Color = /** @class */ (function () {
         /**
          * Returns [[iRGB]] representation of the color.
          *
-         * @return {iRGB} RGB object
+         * @return RGB object
          */
         get: function () {
             return this._value;
@@ -55,7 +55,7 @@ var Color = /** @class */ (function () {
         /**
          * Returns color hex value string, e.g. "#FF0000".
          *
-         * @return {string} Hex color code
+         * @return Hex color code
          */
         get: function () {
             return this._value ? $colors.rgbToHex(this._value) : "none";
@@ -68,7 +68,7 @@ var Color = /** @class */ (function () {
          * Returns an `rgba()` representation of the color, e.g.:
          * `rgba(255, 0, 0, 0.5)`.
          *
-         * @return {string} rgba color string
+         * @return rgba color string
          */
         get: function () {
             return this._value ? $colors.rgbToRGBA(this._value) : "none";
@@ -80,7 +80,7 @@ var Color = /** @class */ (function () {
         /**
          * Returns current transparency.
          *
-         * @return {number} Alpha (0-1)
+         * @return Alpha (0-1)
          */
         get: function () {
             if (this._value != null && this._value.a != null) {
@@ -93,7 +93,7 @@ var Color = /** @class */ (function () {
         /**
          * Set alpha (transparency) of the color.
          *
-         * @param {number} value Alpha (0-1)
+         * @param value Alpha (0-1)
          */
         set: function (value) {
             if (this._value) {
@@ -107,7 +107,7 @@ var Color = /** @class */ (function () {
         /**
          * Returns current light color setting.
          *
-         * @return {Color} Color
+         * @return Color
          */
         get: function () {
             if (!this._lightColor) {
@@ -118,7 +118,7 @@ var Color = /** @class */ (function () {
         /**
          * Sets "light" color. Used when determining contrasting color.
          *
-         * @param {Color} color Color
+         * @param color Color
          */
         set: function (color) {
             this._lightColor = color;
@@ -130,7 +130,7 @@ var Color = /** @class */ (function () {
         /**
          * Returns current dark color setting.
          *
-         * @return {Color} Color
+         * @return Color
          */
         get: function () {
             if (!this._darkColor) {
@@ -141,7 +141,7 @@ var Color = /** @class */ (function () {
         /**
          * Sets "dark" color. Used when determining contrasting color.
          *
-         * @param {Color} color Color
+         * @param color Color
          */
         set: function (color) {
             this._darkColor = color;
@@ -154,7 +154,7 @@ var Color = /** @class */ (function () {
      * string.
      *
      * @ignore Exclude from docs
-     * @return {string} String represantion of color (usable in CSS)
+     * @return String represantion of color (usable in CSS)
      */
     Color.prototype.toString = function () {
         return this.alpha < 1 ? this.rgba : this.hex;
@@ -165,8 +165,8 @@ var Color = /** @class */ (function () {
      *
      * Parameter is in the scale of -1 to 1.
      *
-     * @param  {number}  percent  Increase/decrease lightness by X
-     * @return {Color}            New Color
+     * @param percent  Increase/decrease lightness by X
+     * @return New Color
      */
     Color.prototype.lighten = function (percent) {
         return new Color($colors.lighten(this.rgb, percent));
@@ -177,8 +177,8 @@ var Color = /** @class */ (function () {
      *
      * Parameter is in the scale of -1 to 1.
      *
-     * @param  {number}  percent  Increase/decrease brightness by X
-     * @return {Color}            New Color
+     * @param percent  Increase/decrease brightness by X
+     * @return New Color
      */
     Color.prototype.brighten = function (percent) {
         return new Color($colors.brighten(this.rgb, percent));
@@ -190,8 +190,8 @@ var Color = /** @class */ (function () {
      * `saturation` can be in the range of 0 (fully desaturated) to 1 (fully
      * saturated).
      *
-     * @param  {number}  saturation  Saturation (0-1)
-     * @return {Color}               New (saturated) color
+     * @param saturation  Saturation (0-1)
+     * @return New (saturated) color
      */
     Color.prototype.saturate = function (saturation) {
         return new Color($colors.saturate(this.rgb, saturation));
@@ -207,7 +207,7 @@ var Color = /** @class */ (function () {
          * Useful when determining which color label should be on a colored
          * background, so that it stands out.
          *
-         * @return {Color} Contrasting color
+         * @return Contrasting color
          */
         get: function () {
             if (this.rgb != null) {
@@ -227,9 +227,9 @@ export { Color };
  * Resolves an input variable to a normal [[iRGB]] color and creates [[Color]]
  * object for it.
  *
- * @param  {string | iRGB | Color}  value  Input value
- * @param  {number}                 alpha  Alpha (0-1)
- * @return {Color}                         Color object
+ * @param value  Input value
+ * @param alpha  Alpha (0-1)
+ * @return Color object
  */
 export function color(value, alpha) {
     if (!$type.hasValue(value)) {
@@ -263,8 +263,8 @@ export function color(value, alpha) {
 /**
  * Checks if supplied argument is instance of [[Color]].
  *
- * @param  {any}      value  Input value
- * @return {boolean}         Is Color?
+ * @param value  Input value
+ * @return Is Color?
  */
 export function isColor(value) {
     return value instanceof Color;
@@ -272,8 +272,8 @@ export function isColor(value) {
 /**
  * Converts any value to [[Color]].
  *
- * @param  {any}    value  Input value
- * @return {Color}         Color
+ * @param value  Input value
+ * @return Color
  */
 export function castColor(value) {
     return color(value);
@@ -281,8 +281,8 @@ export function castColor(value) {
 /**
  * Converts any value into a [[Color]].
  *
- * @param  {any}    value  Source value
- * @return {Color}         Color object
+ * @param value  Source value
+ * @return Color object
  */
 export function toColor(value) {
     if ($type.hasValue(value) && !isColor(value)) {

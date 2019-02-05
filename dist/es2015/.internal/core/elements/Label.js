@@ -10,6 +10,7 @@ import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $math from "../utils/Math";
 import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
+import * as $dom from "../utils/DOM";
 ;
 /**
  * ============================================================================
@@ -61,8 +62,6 @@ var Label = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * Indicates if the whole text does not fit into max dimenstions set for it.
-         *
-         * @type {boolean}
          */
         _this.isOversized = false;
         // Set this class name
@@ -115,8 +114,8 @@ var Label = /** @class */ (function (_super) {
     /**
      * Sets [[Paper]] instance to use to draw elements.
      * @ignore
-     * @param {Paper} paper Paper
-     * @return {boolean} true if paper was changed, false, if it's the same
+     * @param paper Paper
+     * @return true if paper was changed, false, if it's the same
      */
     Label.prototype.setPaper = function (paper) {
         var changed = _super.prototype.setPaper.call(this, paper);
@@ -159,7 +158,7 @@ var Label = /** @class */ (function (_super) {
      * Updates current text according to data item and supported features.
      * Returns `true` if current text has changed.
      *
-     * @return {boolean} Text changed?
+     * @return Text changed?
      */
     Label.prototype.updateCurrentText = function () {
         // Determine output format
@@ -263,6 +262,9 @@ var Label = /** @class */ (function (_super) {
         if (display == "none") {
             this.group.removeAttr("display");
         }
+        if (this.textPathElement) {
+            this.textPathElement.removeChildren();
+        }
         // SVG or HTML?
         if (output === "svg") {
             /**
@@ -319,6 +321,9 @@ var Label = /** @class */ (function (_super) {
                 }
                 lineInfo.element.removeAttr("display");
                 lineInfo.element.removeChildren(); // memory leak without this
+                if (this.textPathElement) {
+                    lineInfo.element.add(this.textPathElement);
+                }
                 if (this.rtl) {
                     chunks.reverse();
                 }
@@ -349,7 +354,13 @@ var Label = /** @class */ (function (_super) {
                         //lineInfo.element.content += $utils.trim(getTextFormatter().format(currentFormat + chunk.text, output));
                         lineInfo.text = chunk.text;
                         lineInfo.style = getTextFormatter().translateStyleShortcuts(currentFormat);
-                        lineInfo.element.add(this.getSvgElement(lineInfo.text, lineInfo.style));
+                        var tspan = this.getSvgElement(lineInfo.text, lineInfo.style);
+                        if (this.textPathElement) {
+                            this.textPathElement.add(tspan);
+                        }
+                        else {
+                            lineInfo.element.add(tspan);
+                        }
                         this.getLineBBox(lineInfo);
                         lineInfo.bbox.width = Math.ceil(lineInfo.bbox.width);
                         // Updated current line height
@@ -528,11 +539,18 @@ var Label = /** @class */ (function (_super) {
                         //}
                         this.bbox.height = currentHeight + currentLineHeight;
                         // Position current line
-                        lineInfo.element.attr({
-                            "x": "0",
-                            "y": currentHeight + currentLineHeight,
-                            "dy": $math.round((-0.2 * currentLineHeight), 3).toString()
-                        });
+                        if (!this.textPathElement) {
+                            lineInfo.element.attr({
+                                "x": "0",
+                                "y": currentHeight + currentLineHeight,
+                                "dy": $math.round((-0.2 * currentLineHeight), 3).toString()
+                            });
+                        }
+                        else {
+                            lineInfo.element.attr({
+                                "dy": -this.paddingBottom.toString()
+                            });
+                        }
                         firstChunk = false;
                     }
                 }
@@ -629,6 +647,9 @@ var Label = /** @class */ (function (_super) {
         if (display == "none") {
             this.group.attr({ display: "none" });
         }
+        if (this.pathElement) {
+            this.paper.appendDef(this.pathElement);
+        }
     };
     /**
      * Aligns the lines horizontally ant vertically, based on properties.
@@ -657,37 +678,43 @@ var Label = /** @class */ (function (_super) {
             // to do here is move the `x` position
             var node = children[i];
             node.setAttribute("text-anchor", this.textAlign);
-            switch (this.textAlign) {
-                case "middle":
-                    node.setAttribute("x", (width / 2).toString() + "px");
-                    break;
-                case "end":
-                    if (this.rtl) {
-                    }
-                    else {
-                        node.setAttribute("x", width.toString());
-                    }
-                    break;
-                default:
-                    if (this.rtl) {
-                        node.setAttribute("x", width.toString());
-                    }
-                    else {
-                        node.removeAttribute("text-anchor");
-                    }
-                    break;
+            if (this.textPathElement) {
+                node.removeAttribute("x");
+                node.removeAttribute("y");
             }
-            var y = $type.toNumber(node.getAttribute("y"));
-            switch (this.textValign) {
-                case "middle":
-                    node.setAttribute("y", (y + (height - this.bbox.height) / 2).toString());
-                    break;
-                case "bottom":
-                    node.setAttribute("y", (y + height - this.bbox.height).toString());
-                    break;
-                default:
-                    node.setAttribute("y", y.toString());
-                    break;
+            else {
+                switch (this.textAlign) {
+                    case "middle":
+                        node.setAttribute("x", (width / 2).toString() + "px");
+                        break;
+                    case "end":
+                        if (this.rtl) {
+                        }
+                        else {
+                            node.setAttribute("x", width.toString());
+                        }
+                        break;
+                    default:
+                        if (this.rtl) {
+                            node.setAttribute("x", width.toString());
+                        }
+                        else {
+                            node.removeAttribute("text-anchor");
+                        }
+                        break;
+                }
+                var y = $type.toNumber(node.getAttribute("y"));
+                switch (this.textValign) {
+                    case "middle":
+                        node.setAttribute("y", (y + (height - this.bbox.height) / 2).toString());
+                        break;
+                    case "bottom":
+                        node.setAttribute("y", (y + height - this.bbox.height).toString());
+                        break;
+                    default:
+                        node.setAttribute("y", y.toString());
+                        break;
+                }
             }
         }
     };
@@ -695,9 +722,9 @@ var Label = /** @class */ (function (_super) {
      * Produces an SVG line element with formatted text.
      *
      * @ignore Exclude from docs
-     * @param  {string}     text    Text to wrap into line
-     * @param  {number}     y       Current line vertical position
-     * @return {AMElement}          A DOM element
+     * @param text    Text to wrap into line
+     * @param y       Current line vertical position
+     * @return A DOM element
      * @todo Implement HTML support
      */
     Label.prototype.getSVGLineElement = function (text, y) {
@@ -742,8 +769,8 @@ var Label = /** @class */ (function (_super) {
      * Creates and returns an HTML line element (`<div>`).
      *
      * @ignore Exclude from docs
-     * @param  {string}       text  Text to add
-     * @return {HTMLElement}        `<div>` element reference
+     * @param text  Text to add
+     * @return `<div>` element reference
      */
     Label.prototype.getHTMLLineElement = function (text) {
         // Create the <div> element
@@ -818,7 +845,7 @@ var Label = /** @class */ (function (_super) {
     };
     Object.defineProperty(Label.prototype, "text", {
         /**
-         * @return {string} SVG text
+         * @return SVG text
          */
         get: function () {
             return this.getPropertyValue("text");
@@ -830,7 +857,7 @@ var Label = /** @class */ (function (_super) {
          * supports `foreignObject` in SGV, such as most modern browsers excluding
          * IEs.
          *
-         * @param {string}  value  SVG Text
+         * @param value  SVG Text
          */
         set: function (value) {
             //this.setPropertyValue("html", undefined);
@@ -839,9 +866,75 @@ var Label = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Label.prototype, "path", {
+        /**
+         * @return Path
+         */
+        get: function () {
+            return this.getPropertyValue("path");
+        },
+        /**
+         * An SVG path string to position text along. If set, the text will follow
+         * the curvature of the path.
+         *
+         * Location along the path can be set using `locationOnPath`.
+         *
+         * IMPORTANT: Only SVG text can be put on path. If you are using HTML text
+         * this setting will be ignored.
+         *
+         * @since 4.1.2
+         * @param  value  Path
+         */
+        set: function (value) {
+            if (this.setPropertyValue("path", value, true)) {
+                if (this.pathElement) {
+                    this.pathElement.dispose();
+                }
+                if (this.textPathElement) {
+                    this.textPathElement.dispose();
+                }
+                this.pathElement = this.paper.add("path");
+                this.pathElement.attr({ "d": value });
+                this.pathElement.attr({ "id": "text-path-" + this.uid });
+                this._disposers.push(this.pathElement);
+                this.textPathElement = this.paper.addGroup("textPath");
+                this.textPathElement.attrNS($dom.XLINK, "xlink:href", "#text-path-" + this.uid);
+                this._disposers.push(this.textPathElement);
+                this.hardInvalidate();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Label.prototype, "locationOnPath", {
+        /**
+         * @return Relatvie location on path
+         */
+        get: function () {
+            return this.getPropertyValue("locationOnPath");
+        },
+        /**
+         * Relative label location on `path`. Value range is from 0 (beginning)
+         * to 1 (end).
+         *
+         * Works only if you set `path` setting to an SVG path.
+         *
+         * @since 4.1.2
+         * @default 0
+         * @param  value  Relatvie location on path
+         */
+        set: function (value) {
+            this.setPropertyValue("locationOnPath", value);
+            if (this.textPathElement) {
+                this.textPathElement.attr({ "startOffset": (value * 100) + "%" });
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Label.prototype, "wrap", {
         /**
-         * @return {boolean} Auto-wrap enabled or not
+         * @return Auto-wrap enabled or not
          */
         get: function () {
             return this.getPropertyValue("wrap");
@@ -849,7 +942,7 @@ var Label = /** @class */ (function (_super) {
         /**
          * Enables or disables autowrapping of text.
          *
-         * @param {boolean}  value  Auto-wrapping enabled
+         * @param value  Auto-wrapping enabled
          */
         set: function (value) {
             this.resetBBox();
@@ -860,7 +953,7 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "truncate", {
         /**
-         * @return {boolean} Truncate text?
+         * @return Truncate text?
          */
         get: function () {
             return this.getPropertyValue("truncate");
@@ -875,7 +968,7 @@ var Label = /** @class */ (function (_super) {
          * line truncation with ellipsis. It will just hide everything that goes
          * outside the label.
          *
-         * @param {boolean}  value  trincate text?
+         * @param value  trincate text?
          */
         set: function (value) {
             this.resetBBox();
@@ -886,7 +979,7 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "fullWords", {
         /**
-         * @return {boolean} Truncate on full words?
+         * @return Truncate on full words?
          */
         get: function () {
             return this.getPropertyValue("fullWords");
@@ -896,7 +989,7 @@ var Label = /** @class */ (function (_super) {
          * (`true`), or whenever needed, including middle of the word. (`false`)
          *
          * @default true
-         * @param {boolean}  value  Truncate on full words?
+         * @param value  Truncate on full words?
          */
         set: function (value) {
             this.setPropertyValue("fullWords", value, true);
@@ -906,7 +999,7 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "ellipsis", {
         /**
-         * @return {string} Ellipsis string
+         * @return Ellipsis string
          */
         get: function () {
             return this.getPropertyValue("ellipsis");
@@ -914,7 +1007,7 @@ var Label = /** @class */ (function (_super) {
         /**
          * Ellipsis character to use if `truncate` is enabled.
          *
-         * @param {string} value Ellipsis string
+         * @param value Ellipsis string
          * @default "..."
          */
         set: function (value) {
@@ -925,7 +1018,7 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "selectable", {
         /**
-         * @return {boolean} Text selectable?
+         * @return Text selectable?
          */
         get: function () {
             return this.getPropertyValue("selectable");
@@ -935,7 +1028,7 @@ var Label = /** @class */ (function (_super) {
          * object has some kind of interaction attached to it, such as it is
          * `draggable`, `swipeable`, `resizable`.
          *
-         * @param {boolean}  value  Text selectable?
+         * @param value  Text selectable?
          * @default false
          */
         set: function (value) {
@@ -947,7 +1040,7 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "textAlign", {
         /**
-         * @return {TextAlign} Alignment
+         * @return Alignment
          */
         get: function () {
             return this.getPropertyValue("textAlign");
@@ -960,7 +1053,7 @@ var Label = /** @class */ (function (_super) {
          * * "middle"
          * * "end"
          *
-         * @param {TextAlign}  value  Alignment
+         * @param value  Alignment
          */
         set: function (value) {
             this.setPropertyValue("textAlign", value, true);
@@ -971,7 +1064,7 @@ var Label = /** @class */ (function (_super) {
     Object.defineProperty(Label.prototype, "textValign", {
         /**
          * @ignore Exclude from docs (not used)
-         * @return {TextValign} Alignment
+         * @return Alignment
          * @deprecated
          */
         get: function () {
@@ -981,7 +1074,7 @@ var Label = /** @class */ (function (_super) {
          * Vertical text alignment.
          *
          * @ignore Exclude from docs (not used)
-         * @param {TextValign}  value  Alignment
+         * @param value  Alignment
          * @deprecated
          */
         set: function (value) {
@@ -992,7 +1085,7 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "html", {
         /**
-         * @return {string} HTML content
+         * @return HTML content
          */
         get: function () {
             return this.getPropertyValue("html");
@@ -1008,7 +1101,7 @@ var Label = /** @class */ (function (_super) {
          * For more information about `foreignObject` and its browser compatibility
          * refer to [this page](https://developer.mozilla.org/en/docs/Web/SVG/Element/foreignObject#Browser_compatibility).
          *
-         * @param {string} value HTML text
+         * @param value HTML text
          */
         set: function (value) {
             this.setPropertyValue("html", value, true);
@@ -1018,7 +1111,7 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "hideOversized", {
         /**
-         * @return {boolean} Hide if text does not fit?
+         * @return Hide if text does not fit?
          */
         get: function () {
             return this.getPropertyValue("hideOversized");
@@ -1027,7 +1120,7 @@ var Label = /** @class */ (function (_super) {
          * Indicates whether the whole text should be hidden if it does not fit into
          * its allotted space.
          *
-         * @param {boolean}  value  Hide if text does not fit?
+         * @param value  Hide if text does not fit?
          */
         set: function (value) {
             this.setPropertyValue("hideOversized", value, true);
@@ -1037,7 +1130,7 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "ignoreFormatting", {
         /**
-         * @return {boolean} Ignore formatting?
+         * @return Ignore formatting?
          */
         get: function () {
             return this.getPropertyValue("ignoreFormatting");
@@ -1047,7 +1140,7 @@ var Label = /** @class */ (function (_super) {
          * regular text.
          *
          * @default false
-         * @param {boolean}  value  Ignore formatting?
+         * @param value  Ignore formatting?
          */
         set: function (value) {
             this.setPropertyValue("ignoreFormatting", value, true);
@@ -1064,8 +1157,8 @@ var Label = /** @class */ (function (_super) {
      * Returns information about a line element.
      *
      * @ignore Exclude from docs
-     * @param  {number}         index  Line index
-     * @return {ITextLineInfo}         Line info object
+     * @param index  Line index
+     * @return Line info object
      */
     Label.prototype.getLineInfo = function (index) {
         this.initLineCache();
@@ -1076,8 +1169,8 @@ var Label = /** @class */ (function (_super) {
      * Adds a line to line info cache.
      *
      * @ignore Exclude from docs
-     * @param {ITextLineInfo}  line     Line info object
-     * @param {number}         index    Insert at specified index
+     * @param line     Line info object
+     * @param index    Insert at specified index
      */
     Label.prototype.addLineInfo = function (line, index) {
         this.initLineCache();
@@ -1096,7 +1189,7 @@ var Label = /** @class */ (function (_super) {
      *
      * Check the description for [[Text]] class, for data binding.
      *
-     * @param {DataItem} dataItem Data item
+     * @param dataItem Data item
      */
     Label.prototype.setDataItem = function (dataItem) {
         if (this._sourceDataItemEvents) {
@@ -1117,7 +1210,7 @@ var Label = /** @class */ (function (_super) {
          * Returns available horizontal space.
          *
          * @ignore Exclude from docs
-         * @return {number} Available width (px)
+         * @return Available width (px)
          */
         get: function () {
             return $type.hasValue(this.maxWidth) ? this.maxWidth : this.pixelWidth;
@@ -1129,7 +1222,7 @@ var Label = /** @class */ (function (_super) {
         /**
          * Returns available vertical space.
          *
-         * @return {number} Available height (px)
+         * @return Available height (px)
          */
         get: function () {
             return $type.hasValue(this.maxHeight) ? this.maxHeight : this.pixelHeight;

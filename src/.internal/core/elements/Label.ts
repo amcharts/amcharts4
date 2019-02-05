@@ -25,7 +25,7 @@ import * as $utils from "../utils/Utils";
 import * as $iter from "../utils/Iterator";
 import * as $type from "../utils/Type";
 import { Paper, getGhostPaper } from "../rendering/Paper";
-
+import * as $dom from "../utils/DOM";
 
 
 /**
@@ -37,7 +37,6 @@ export interface ILabelProperties extends IContainerProperties {
 	 * Horizontal align of the text.
 	 *
 	 * @default "start"
-	 * @type {TextAlign}
 	 */
 	textAlign?: TextAlign;
 
@@ -45,14 +44,11 @@ export interface ILabelProperties extends IContainerProperties {
 	 * Vertical align of the text.
 	 *
 	 * @default "top"
-	 * @type {TextValign}
 	 */
 	textValign?: TextValign;
 
 	/**
 	 * A plain text content.
-	 *
-	 * @type {string}
 	 */
 	text?: string;
 
@@ -60,7 +56,6 @@ export interface ILabelProperties extends IContainerProperties {
 	 * Should the lines wrap if they do not fit into max width?
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	wrap?: boolean;
 
@@ -68,14 +63,11 @@ export interface ILabelProperties extends IContainerProperties {
 	 * Should the text be selectable>
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	selectable?: boolean;
 
 	/**
 	 * HTML content.
-	 *
-	 * @type {string}
 	 */
 	html?: string;
 
@@ -84,7 +76,6 @@ export interface ILabelProperties extends IContainerProperties {
 	 * fit into max width?
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	truncate?: boolean;
 
@@ -93,7 +84,6 @@ export interface ILabelProperties extends IContainerProperties {
 	 * (`true`), or whenever needed, including middle of the word. (`false`)
 	 *
 	 * @default true
-	 * @type {boolean}
 	 */
 	fullWords?: boolean;
 
@@ -101,7 +91,6 @@ export interface ILabelProperties extends IContainerProperties {
 	 * If lines are truncated, this ellipsis will be added at the end.
 	 *
 	 * @default "..."
-	 * @type {string}
 	 */
 	ellipsis?: string;
 
@@ -109,7 +98,6 @@ export interface ILabelProperties extends IContainerProperties {
 	 * Hide text of it does not fit into element's dimensions?
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	hideOversized?: boolean;
 
@@ -118,9 +106,20 @@ export interface ILabelProperties extends IContainerProperties {
 	 * regular text.
 	 *
 	 * @default false
-	 * @type {boolean}
 	 */
 	ignoreFormatting?: boolean;
+
+
+	/**
+	 * Path string along which text should be arranged
+	 */
+	path?: string
+
+
+	/**
+	 * Relative label location on path.
+	 */
+	locationOnPath?: number;
 }
 
 /**
@@ -132,23 +131,17 @@ export interface ITextLineInfo {
 
 	/**
 	 * Measurements for the bounding box of the line.
-	 *
-	 * @type {IRectangle}
 	 */
 	"bbox"?: IRectangle,
 
 	/**
 	 * A reference to an SVG `<g>` element that holds line elements.
-	 *
-	 * @type {Group}
 	 */
 	"element"?: Group,
 
 	/**
 	 * Indicates if line contains more than one element, e.g. has multiple
 	 * formatted blocks.
-	 *
-	 * @type {boolean}
 	 */
 	"complex"?: boolean,
 
@@ -173,15 +166,11 @@ export interface ILabelAdapters extends IContainerAdapters, ILabelProperties {
 
 	/**
 	 * Applied to the final formatted label text.
-	 *
-	 * @type {string}
 	 */
 	textOutput: string;
 
 	/**
 	 * Applied to the final formatted label HTML.
-	 *
-	 * @type {string}
 	 */
 	htmlOutput: string;
 
@@ -231,43 +220,31 @@ export interface ILabelAdapters extends IContainerAdapters, ILabelProperties {
 export class Label extends Container {
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {ILabelProperties}
 	 */
 	public _properties!: ILabelProperties;
 
 	/**
 	 * Defines Adapter type.
-	 *
-	 * @type {ILabelAdapters}
 	 */
 	public _adapter!: ILabelAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {ILabelEvents}
 	 */
 	public _events!: ILabelEvents;
 
 	/**
 	 * Indicates if the whole text does not fit into max dimenstions set for it.
-	 *
-	 * @type {boolean}
 	 */
 	public isOversized: boolean = false;
 
 	/**
 	 * Currently formatted text, read only.
-	 *
-	 * @type {string}
 	 */
 	public currentText: string;
 
 	/**
 	 * Current format to be used for outputing text.
-	 *
-	 * @type {string}
 	 */
 	protected _currentFormat: string;
 
@@ -275,12 +252,25 @@ export class Label extends Container {
 	 * [_sourceDataItemEvents description]
 	 *
 	 * @todo Description
-	 * @type {MultiDisposer}
 	 */
 	protected _sourceDataItemEvents: MultiDisposer;
 
 
 	protected _prevStatus: string;
+
+	/**
+	 * SVG path element.
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public pathElement: $type.Optional<AMElement>;
+
+	/**
+	 * SVG textpath element.
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public textPathElement: $type.Optional<Group>;
 
 	/**
 	 * Constructor
@@ -358,8 +348,8 @@ export class Label extends Container {
 	/**
 	 * Sets [[Paper]] instance to use to draw elements.
 	 * @ignore
-	 * @param {Paper} paper Paper
-	 * @return {boolean} true if paper was changed, false, if it's the same
+	 * @param paper Paper
+	 * @return true if paper was changed, false, if it's the same
 	 */
 	public setPaper(paper: Paper): boolean {
 
@@ -411,7 +401,7 @@ export class Label extends Container {
 	 * Updates current text according to data item and supported features.
 	 * Returns `true` if current text has changed.
 	 *
-	 * @return {boolean} Text changed?
+	 * @return Text changed?
 	 */
 	protected updateCurrentText(): boolean {
 		// Determine output format
@@ -543,9 +533,12 @@ export class Label extends Container {
 			this.group.removeAttr("display");
 		}
 
+		if (this.textPathElement) {
+			this.textPathElement.removeChildren();
+		}
+
 		// SVG or HTML?
 		if (output === "svg") {
-
 			/**
 			 * SVG
 			 */
@@ -619,6 +612,10 @@ export class Label extends Container {
 				lineInfo.element.removeAttr("display");
 				lineInfo.element.removeChildren(); // memory leak without this
 
+				if (this.textPathElement) {
+					lineInfo.element.add(this.textPathElement);
+				}
+
 				if (this.rtl) {
 					chunks.reverse();
 				}
@@ -660,12 +657,14 @@ export class Label extends Container {
 						lineInfo.text = chunk.text;
 						lineInfo.style = getTextFormatter().translateStyleShortcuts(currentFormat);
 
-						lineInfo.element.add(
-							this.getSvgElement(
-								lineInfo.text,
-								lineInfo.style
-							)
-						);
+						let tspan = this.getSvgElement(lineInfo.text, lineInfo.style);
+
+						if (this.textPathElement) {
+							this.textPathElement.add(tspan);
+						}
+						else {
+							lineInfo.element.add(tspan);
+						}
 
 						this.getLineBBox(lineInfo);
 						lineInfo.bbox.width = Math.ceil(lineInfo.bbox.width);
@@ -906,11 +905,18 @@ export class Label extends Container {
 						this.bbox.height = currentHeight + currentLineHeight;
 
 						// Position current line
-						lineInfo.element.attr({
-							"x": "0",
-							"y": currentHeight + currentLineHeight,
-							"dy": $math.round((-0.2 * currentLineHeight), 3).toString()
-						});
+						if (!this.textPathElement) {
+							lineInfo.element.attr({
+								"x": "0",
+								"y": currentHeight + currentLineHeight,
+								"dy": $math.round((-0.2 * currentLineHeight), 3).toString()
+							});
+						}
+						else {
+							lineInfo.element.attr({
+								"dy": -this.paddingBottom.toString()
+							});
+						}
 						firstChunk = false;
 					}
 
@@ -1033,6 +1039,10 @@ export class Label extends Container {
 		if (display == "none") {
 			this.group.attr({ display: "none" });
 		}
+
+		if (this.pathElement) {
+			this.paper.appendDef(this.pathElement);
+		}
 	}
 
 	/**
@@ -1068,40 +1078,46 @@ export class Label extends Container {
 
 			node.setAttribute("text-anchor", this.textAlign);
 
-			switch (this.textAlign) {
-				case "middle":
-					node.setAttribute("x", (width / 2).toString() + "px");
-					break;
-				case "end":
-					if (this.rtl) {
-
-					}
-					else {
-						node.setAttribute("x", width.toString());
-					}
-					break;
-				default:
-					if (this.rtl) {
-						node.setAttribute("x", width.toString());
-					}
-					else {
-						node.removeAttribute("text-anchor");
-					}
-					break;
+			if (this.textPathElement) {
+				node.removeAttribute("x");
+				node.removeAttribute("y");
 			}
+			else {
+				switch (this.textAlign) {
+					case "middle":
+						node.setAttribute("x", (width / 2).toString() + "px");
+						break;
+					case "end":
+						if (this.rtl) {
 
-			let y = $type.toNumber(node.getAttribute("y"));
+						}
+						else {
+							node.setAttribute("x", width.toString());
+						}
+						break;
+					default:
+						if (this.rtl) {
+							node.setAttribute("x", width.toString());
+						}
+						else {
+							node.removeAttribute("text-anchor");
+						}
+						break;
+				}
 
-			switch (this.textValign) {
-				case "middle":
-					node.setAttribute("y", (y + (height - this.bbox.height) / 2).toString());
-					break;
-				case "bottom":
-					node.setAttribute("y", (y + height - this.bbox.height).toString());
-					break;
-				default:
-					node.setAttribute("y", y.toString());
-					break;
+				let y = $type.toNumber(node.getAttribute("y"));
+
+				switch (this.textValign) {
+					case "middle":
+						node.setAttribute("y", (y + (height - this.bbox.height) / 2).toString());
+						break;
+					case "bottom":
+						node.setAttribute("y", (y + height - this.bbox.height).toString());
+						break;
+					default:
+						node.setAttribute("y", y.toString());
+						break;
+				}
 			}
 		}
 	}
@@ -1110,9 +1126,9 @@ export class Label extends Container {
 	 * Produces an SVG line element with formatted text.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {string}     text    Text to wrap into line
-	 * @param  {number}     y       Current line vertical position
-	 * @return {AMElement}          A DOM element
+	 * @param text    Text to wrap into line
+	 * @param y       Current line vertical position
+	 * @return A DOM element
 	 * @todo Implement HTML support
 	 */
 	public getSVGLineElement(text: string, y?: number): Group {
@@ -1166,8 +1182,8 @@ export class Label extends Container {
 	 * Creates and returns an HTML line element (`<div>`).
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {string}       text  Text to add
-	 * @return {HTMLElement}        `<div>` element reference
+	 * @param text  Text to add
+	 * @return `<div>` element reference
 	 */
 	public getHTMLLineElement(text: string): HTMLElement {
 
@@ -1257,7 +1273,7 @@ export class Label extends Container {
 	 * supports `foreignObject` in SGV, such as most modern browsers excluding
 	 * IEs.
 	 *
-	 * @param {string}  value  SVG Text
+	 * @param value  SVG Text
 	 */
 	public set text(value: string) {
 		//this.setPropertyValue("html", undefined);
@@ -1265,16 +1281,81 @@ export class Label extends Container {
 	}
 
 	/**
-	 * @return {string} SVG text
+	 * @return SVG text
 	 */
 	public get text(): string {
 		return this.getPropertyValue("text");
 	}
 
 	/**
+	 * An SVG path string to position text along. If set, the text will follow
+	 * the curvature of the path.
+	 *
+	 * Location along the path can be set using `locationOnPath`.
+	 *
+	 * IMPORTANT: Only SVG text can be put on path. If you are using HTML text
+	 * this setting will be ignored.
+	 *
+	 * @since 4.1.2
+	 * @param  value  Path
+	 */
+	public set path(value: string) {
+		if (this.setPropertyValue("path", value, true)) {
+			if (this.pathElement) {
+				this.pathElement.dispose();
+			}
+
+			if (this.textPathElement) {
+				this.textPathElement.dispose();
+			}
+
+			this.pathElement = this.paper.add("path");
+			this.pathElement.attr({ "d": value });
+			this.pathElement.attr({ "id": "text-path-" + this.uid });
+			this._disposers.push(this.pathElement);
+
+			this.textPathElement = this.paper.addGroup("textPath");
+			this.textPathElement.attrNS($dom.XLINK, "xlink:href", "#text-path-" + this.uid);
+			this._disposers.push(this.textPathElement);
+			this.hardInvalidate();
+		}
+	}
+
+	/**
+	 * @return Path
+	 */
+	public get path(): string {
+		return this.getPropertyValue("path");
+	}
+
+	/**
+	 * Relative label location on `path`. Value range is from 0 (beginning)
+	 * to 1 (end).
+	 *
+	 * Works only if you set `path` setting to an SVG path.
+	 *
+	 * @since 4.1.2
+	 * @default 0
+	 * @param  value  Relatvie location on path
+	 */
+	public set locationOnPath(value: number) {
+		this.setPropertyValue("locationOnPath", value);
+		if (this.textPathElement) {
+			this.textPathElement.attr({ "startOffset": (value * 100) + "%" })
+		}
+	}
+
+	/**
+	 * @return Relatvie location on path
+	 */
+	public get locationOnPath(): number {
+		return this.getPropertyValue("locationOnPath");
+	}
+
+	/**
 	 * Enables or disables autowrapping of text.
 	 *
-	 * @param {boolean}  value  Auto-wrapping enabled
+	 * @param value  Auto-wrapping enabled
 	 */
 	public set wrap(value: boolean) {
 		this.resetBBox();
@@ -1282,7 +1363,7 @@ export class Label extends Container {
 	}
 
 	/**
-	 * @return {boolean} Auto-wrap enabled or not
+	 * @return Auto-wrap enabled or not
 	 */
 	public get wrap(): boolean {
 		return this.getPropertyValue("wrap");
@@ -1298,7 +1379,7 @@ export class Label extends Container {
 	 * line truncation with ellipsis. It will just hide everything that goes
 	 * outside the label.
 	 *
-	 * @param {boolean}  value  trincate text?
+	 * @param value  trincate text?
 	 */
 	public set truncate(value: boolean) {
 		this.resetBBox();
@@ -1306,7 +1387,7 @@ export class Label extends Container {
 	}
 
 	/**
-	 * @return {boolean} Truncate text?
+	 * @return Truncate text?
 	 */
 	public get truncate(): boolean {
 		return this.getPropertyValue("truncate");
@@ -1317,14 +1398,14 @@ export class Label extends Container {
 	 * (`true`), or whenever needed, including middle of the word. (`false`)
 	 *
 	 * @default true
-	 * @param {boolean}  value  Truncate on full words?
+	 * @param value  Truncate on full words?
 	 */
 	public set fullWords(value: boolean) {
 		this.setPropertyValue("fullWords", value, true);
 	}
 
 	/**
-	 * @return {boolean} Truncate on full words?
+	 * @return Truncate on full words?
 	 */
 	public get fullWords(): boolean {
 		return this.getPropertyValue("fullWords");
@@ -1333,7 +1414,7 @@ export class Label extends Container {
 	/**
 	 * Ellipsis character to use if `truncate` is enabled.
 	 *
-	 * @param {string} value Ellipsis string
+	 * @param value Ellipsis string
 	 * @default "..."
 	 */
 	public set ellipsis(value: string) {
@@ -1341,7 +1422,7 @@ export class Label extends Container {
 	}
 
 	/**
-	 * @return {string} Ellipsis string
+	 * @return Ellipsis string
 	 */
 	public get ellipsis(): string {
 		return this.getPropertyValue("ellipsis");
@@ -1352,7 +1433,7 @@ export class Label extends Container {
 	 * object has some kind of interaction attached to it, such as it is
 	 * `draggable`, `swipeable`, `resizable`.
 	 *
-	 * @param {boolean}  value  Text selectable?
+	 * @param value  Text selectable?
 	 * @default false
 	 */
 	public set selectable(value: boolean) {
@@ -1361,7 +1442,7 @@ export class Label extends Container {
 	}
 
 	/**
-	 * @return {boolean} Text selectable?
+	 * @return Text selectable?
 	 */
 	public get selectable(): boolean {
 		return this.getPropertyValue("selectable");
@@ -1375,14 +1456,14 @@ export class Label extends Container {
 	 * * "middle"
 	 * * "end"
 	 *
-	 * @param {TextAlign}  value  Alignment
+	 * @param value  Alignment
 	 */
 	public set textAlign(value: TextAlign) {
 		this.setPropertyValue("textAlign", value, true);
 	}
 
 	/**
-	 * @return {TextAlign} Alignment
+	 * @return Alignment
 	 */
 	public get textAlign(): TextAlign {
 		return this.getPropertyValue("textAlign");
@@ -1392,7 +1473,7 @@ export class Label extends Container {
 	 * Vertical text alignment.
 	 *
 	 * @ignore Exclude from docs (not used)
-	 * @param {TextValign}  value  Alignment
+	 * @param value  Alignment
 	 * @deprecated
 	 */
 	public set textValign(value: TextValign) {
@@ -1401,7 +1482,7 @@ export class Label extends Container {
 
 	/**
 	 * @ignore Exclude from docs (not used)
-	 * @return {TextValign} Alignment
+	 * @return Alignment
 	 * @deprecated
 	 */
 	public get textValign(): TextValign {
@@ -1420,14 +1501,14 @@ export class Label extends Container {
 	 * For more information about `foreignObject` and its browser compatibility
 	 * refer to [this page](https://developer.mozilla.org/en/docs/Web/SVG/Element/foreignObject#Browser_compatibility).
 	 *
-	 * @param {string} value HTML text
+	 * @param value HTML text
 	 */
 	public set html(value: string) {
 		this.setPropertyValue("html", value, true);
 	}
 
 	/**
-	 * @return {string} HTML content
+	 * @return HTML content
 	 */
 	public get html(): string {
 		return this.getPropertyValue("html");
@@ -1437,14 +1518,14 @@ export class Label extends Container {
 	 * Indicates whether the whole text should be hidden if it does not fit into
 	 * its allotted space.
 	 *
-	 * @param {boolean}  value  Hide if text does not fit?
+	 * @param value  Hide if text does not fit?
 	 */
 	public set hideOversized(value: boolean) {
 		this.setPropertyValue("hideOversized", value, true);
 	}
 
 	/**
-	 * @return {boolean} Hide if text does not fit?
+	 * @return Hide if text does not fit?
 	 */
 	public get hideOversized(): boolean {
 		return this.getPropertyValue("hideOversized");
@@ -1455,14 +1536,14 @@ export class Label extends Container {
 	 * regular text.
 	 *
 	 * @default false
-	 * @param {boolean}  value  Ignore formatting?
+	 * @param value  Ignore formatting?
 	 */
 	public set ignoreFormatting(value: boolean) {
 		this.setPropertyValue("ignoreFormatting", value, true);
 	}
 
 	/**
-	 * @return {boolean} Ignore formatting?
+	 * @return Ignore formatting?
 	 */
 	public get ignoreFormatting(): boolean {
 		return this.getPropertyValue("ignoreFormatting");
@@ -1478,8 +1559,8 @@ export class Label extends Container {
 	 * Returns information about a line element.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {number}         index  Line index
-	 * @return {ITextLineInfo}         Line info object
+	 * @param index  Line index
+	 * @return Line info object
 	 */
 	public getLineInfo(index: number): ITextLineInfo {
 		this.initLineCache();
@@ -1491,8 +1572,8 @@ export class Label extends Container {
 	 * Adds a line to line info cache.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {ITextLineInfo}  line     Line info object
-	 * @param {number}         index    Insert at specified index
+	 * @param line     Line info object
+	 * @param index    Insert at specified index
 	 */
 	public addLineInfo(line: ITextLineInfo, index: number): void {
 		this.initLineCache();
@@ -1513,7 +1594,7 @@ export class Label extends Container {
 	 *
 	 * Check the description for [[Text]] class, for data binding.
 	 *
-	 * @param {DataItem} dataItem Data item
+	 * @param dataItem Data item
 	 */
 	public setDataItem(dataItem: DataItem): void {
 		if (this._sourceDataItemEvents) {
@@ -1534,7 +1615,7 @@ export class Label extends Container {
 	 * Returns available horizontal space.
 	 *
 	 * @ignore Exclude from docs
-	 * @return {number} Available width (px)
+	 * @return Available width (px)
 	 */
 	public get availableWidth(): number {
 		return $type.hasValue(this.maxWidth) ? this.maxWidth : this.pixelWidth;
@@ -1543,7 +1624,7 @@ export class Label extends Container {
 	/**
 	 * Returns available vertical space.
 	 *
-	 * @return {number} Available height (px)
+	 * @return Available height (px)
 	 */
 	public get availableHeight(): number {
 		return $type.hasValue(this.maxHeight) ? this.maxHeight : this.pixelHeight;
@@ -1567,7 +1648,6 @@ export class Label extends Container {
 		super.deepInvalidate();
 		this.hardInvalidate();
 	}
-
 }
 
 /**

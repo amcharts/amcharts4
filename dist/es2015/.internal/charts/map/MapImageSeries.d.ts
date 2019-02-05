@@ -25,26 +25,20 @@ import { IGeoPoint } from "../../core/defs/IGeoPoint";
 export declare class MapImageSeriesDataItem extends MapSeriesDataItem {
     /**
      * A [[MapImage]] element related to this data item.
-     *
-     * @type {MapImage}
      */
     protected _mapImage: MapImage;
     /**
      * [_point description]
      *
      * @todo Description
-     * @type {number[]}
      */
     protected _point: number[];
     /**
      * Geographical coordinates image is placed at.
-     *
-     * @type {IGeoPoint}
      */
     protected _geoPoint: IGeoPoint;
     /**
      * Defines a type of [[Component]] this data item is used for
-     * @type {Component}
      */
     _component: MapImageSeries;
     /**
@@ -54,26 +48,26 @@ export declare class MapImageSeriesDataItem extends MapSeriesDataItem {
     /**
      * A [[MapImage]] element related to this data item.
      *
-     * @return {MapImage} Element
+     * @return Element
      */
     readonly mapImage: MapImage;
     /**
-     * @return {number[]} [description]
+     * @return [description]
      */
     /**
      * [point description]
      *
      * @todo Description
-     * @param {number[]} point [description]
+     * @param point [description]
      */
     point: number[];
     /**
-     * @return {IGeoPoint} Image coordinates
+     * @return Image coordinates
      */
     /**
      * Geographical coordinates (lat/long) image is placed at.
      *
-     * @param {IGeoPoint} geoPoint Image coordinates
+     * @param geoPoint Image coordinates
      */
     geoPoint: IGeoPoint;
 }
@@ -89,26 +83,18 @@ export declare class MapImageSeriesDataItem extends MapSeriesDataItem {
 export interface IMapImageSeriesDataFields extends IMapSeriesDataFields {
     /**
      * Field name that holds image point data in pixels.
-     *
-     * @type {string}
      */
     point?: string;
     /**
      * Field name that holds multi-image point data in pixels.
-     *
-     * @type {string}
      */
     multiPoint?: string;
     /**
      * Field name that holds image point data in Geo coordinates.
-     *
-     * @type {string}
      */
     geoPoint?: string;
     /**
      * Field name that holds multi-image point data in Geo coordinates.
-     *
-     * @type {string}
      */
     multiGeoPoint?: string;
 }
@@ -145,44 +131,30 @@ export interface IMapImageSeriesAdapters extends IMapSeriesAdapters, IMapImageSe
 export declare class MapImageSeries extends MapSeries {
     /**
      * Defines available data fields.
-     *
-     * @type {IMapImageSeriesDataFields}
      */
     _dataFields: IMapImageSeriesDataFields;
     /**
      * Defines available properties.
-     *
-     * @type {IMapImageSeriesProperties}
      */
     _properties: IMapImageSeriesProperties;
     /**
      * Defines available adapters.
-     *
-     * @type {IMapImageSeriesAdapters}
      */
     _adapter: IMapImageSeriesAdapters;
     /**
      * Defines available events.
-     *
-     * @type {IMapImageSeriesEvents}
      */
     _events: IMapImageSeriesEvents;
     /**
      * Defines the type of data item.
-     *
-     * @type {MapImageSeriesDataItem}
      */
     _dataItem: MapImageSeriesDataItem;
     /**
      * A related chart/map object, this image is drawn on.
-     *
-     * @type {MapChart}
      */
     chart: MapChart;
     /**
      * A list of map images in the series.
-     *
-     * @type {ListTemplate<MapImage>}
      */
     protected _mapImages: ListTemplate<MapImage>;
     /**
@@ -193,7 +165,7 @@ export declare class MapImageSeries extends MapSeries {
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}
-     * @return {MapImageSeriesDataItem} Data Item
+     * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
     /**
@@ -206,14 +178,14 @@ export declare class MapImageSeries extends MapSeries {
     /**
      * A list of map images in the series.
      *
-     * @return {ListTemplate<MapImage>} Map images
+     * @return Map images
      */
     readonly mapImages: ListTemplate<MapImage>;
     /**
      * (Re)validates data element, effectively triggering its redrawal.
      *
      * @ignore Exclude from docs
-     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param dataItem  Data item
      */
     validateDataElement(dataItem: this["_dataItem"]): void;
     /**
@@ -225,7 +197,7 @@ export declare class MapImageSeries extends MapSeries {
     /**
      * Copies all properties from another instance of [[Series]].
      *
-     * @param {Series}  source  Source series
+     * @param source  Source series
      */
     copyFrom(source: this): void;
 }

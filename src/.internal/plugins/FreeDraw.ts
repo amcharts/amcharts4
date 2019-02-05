@@ -67,22 +67,16 @@ export class FreeDraw extends Container {
 
 	/**
 	 * Defines available properties.
-	 *
-	 * @type {IFreeDrawProperties}
 	 */
 	public _properties!: IFreeDrawProperties;
 
 	/**
 	 * Defines available adapters.
-	 *
-	 * @type {IFreeDrawAdapters}
 	 */
 	public _adapter!: IFreeDrawAdapters;
 
 	/**
 	 * Defines available events.
-	 *
-	 * @type {IFreeDrawEvents}
 	 */
 	public _events!: IFreeDrawEvents;
 
