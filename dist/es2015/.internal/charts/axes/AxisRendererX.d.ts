@@ -181,4 +181,8 @@ export declare class AxisRendererX extends AxisRenderer {
      * @param axisBreak Axis break
      */
     createBreakSprites(axisBreak: AxisBreak): void;
+    /**
+     * @ignore
+     */
+    toAxisPosition(value: number): number;
 }

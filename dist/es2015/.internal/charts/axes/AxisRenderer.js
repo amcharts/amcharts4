@@ -862,6 +862,12 @@ var AxisRenderer = /** @class */ (function (_super) {
         this.line.copyFrom(source.line);
         this.baseGrid.copyFrom(source.baseGrid);
     };
+    /**
+     * @ignore
+     */
+    AxisRenderer.prototype.toAxisPosition = function (value) {
+        return value;
+    };
     return AxisRenderer;
 }(Container));
 export { AxisRenderer };

@@ -77,6 +77,10 @@ export declare class AxisRendererY extends AxisRenderer {
      */
     updateGridContainer(): void;
     /**
+     * @ignore
+     */
+    toAxisPosition(value: number): number;
+    /**
      * Called when rendered is attached to an Axis, as well as a property of
      * Axis that might affect the appearance is updated.
      *

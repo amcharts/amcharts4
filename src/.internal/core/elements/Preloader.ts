@@ -184,7 +184,7 @@ export class Preloader extends Container {
 		this.background.fill = interfaceColors.getFor("background");
 		this.contentAlign = "center";
 		this.contentValign = "middle";
-		this.delay = 500;
+		this.delay = 300;
 
 		// Create hidden state
 		let hiddenState = this.states.create("hidden");
@@ -259,7 +259,7 @@ export class Preloader extends Container {
 				if (!this._started) {
 					this._started = new Date().getTime();
 				}
-				else if ((this._started + this.delay) >= new Date().getTime()) {
+				else if ((this._started + this.delay) <= new Date().getTime()) {
 					this.__disabled = false;
 					this.show();
 					this.interactionsEnabled = true;

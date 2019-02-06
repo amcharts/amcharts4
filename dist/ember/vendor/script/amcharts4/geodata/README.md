@@ -34,7 +34,7 @@ as class reference visit [V4 documentation website](https://www.amcharts.com/doc
 * [NPM package (geodata)](https://www.npmjs.com/package/@amcharts/amcharts4-geodata)
 * [GitHub repository (library)](https://github.com/amcharts/amcharts4)
 * [GitHub repository (geodata)](https://github.com/amcharts/amcharts4-geodata)
-* [ZIP download](https://www.amcharts.com/download/download-v4/)
+* [ZIP download](https://www.amcharts.com/download/)
 
 
 ### CDN

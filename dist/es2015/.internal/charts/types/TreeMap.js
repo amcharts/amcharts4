@@ -55,6 +55,19 @@ var TreeMapDataItem = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    /**
+     * Returns a duration (ms) the Data Item should take to animate from one
+     * value to another.
+     *
+     * If the duration is not specified via parameter, this method will try to
+     * request a default duration from the related `Component`.
+     *
+     * @param duration  Default duration (ms)
+     * @return Duration (ms)
+     */
+    TreeMapDataItem.prototype.getDuration = function () {
+        return 0;
+    };
     Object.defineProperty(TreeMapDataItem.prototype, "value", {
         /**
          * @return Value

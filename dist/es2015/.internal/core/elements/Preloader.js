@@ -80,7 +80,7 @@ var Preloader = /** @class */ (function (_super) {
         _this.background.fill = interfaceColors.getFor("background");
         _this.contentAlign = "center";
         _this.contentValign = "middle";
-        _this.delay = 500;
+        _this.delay = 300;
         // Create hidden state
         var hiddenState = _this.states.create("hidden");
         hiddenState.properties.opacity = 0;
@@ -152,7 +152,7 @@ var Preloader = /** @class */ (function (_super) {
                     if (!this._started) {
                         this._started = new Date().getTime();
                     }
-                    else if ((this._started + this.delay) >= new Date().getTime()) {
+                    else if ((this._started + this.delay) <= new Date().getTime()) {
                         this.__disabled = false;
                         this.show();
                         this.interactionsEnabled = true;

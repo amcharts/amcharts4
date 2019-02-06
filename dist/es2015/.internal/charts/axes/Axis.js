@@ -901,6 +901,10 @@ var Axis = /** @class */ (function (_super) {
         if (!local) {
             position = this.toAxisPosition(position);
         }
+        if (!$type.isNumber(position)) {
+            tooltip.hide(0);
+            return;
+        }
         var renderer = this.renderer;
         if (tooltip && this.dataItems.length > 0) {
             //@todo: think of how to solve this better
@@ -943,6 +947,10 @@ var Axis = /** @class */ (function (_super) {
      * @return Position within Axis (0-1)
      */
     Axis.prototype.toAxisPosition = function (position) {
+        position = this.renderer.toAxisPosition(position);
+        if (position == undefined) {
+            return;
+        }
         position = position * (this.end - this.start);
         if (this.renderer.inversed) {
             position = this.end - position;

@@ -821,14 +821,16 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				let sdi: XYSeriesDataItem;
 
 				let seriesDataItem = series.dataItems.getIndex(index);
-				if (series.xAxis == this) {
-					if (seriesDataItem.categoryX == category) {
-						return seriesDataItem;
+				if(seriesDataItem){
+					if (series.xAxis == this) {
+						if (seriesDataItem.categoryX == category) {
+							return seriesDataItem;
+						}
 					}
-				}
-				if (series.yAxis == this) {
-					if (seriesDataItem.categoryY == category) {
-						return seriesDataItem;
+					if (series.yAxis == this) {
+						if (seriesDataItem.categoryY == category) {
+							return seriesDataItem;
+						}
 					}
 				}
 				

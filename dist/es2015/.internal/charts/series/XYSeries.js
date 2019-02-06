@@ -867,7 +867,7 @@ var XYSeries = /** @class */ (function (_super) {
             this._smax.setKey(xAxisId, maxX);
             this._smin.setKey(yAxisId, minY);
             this._smax.setKey(yAxisId, maxY);
-            if (this.appeared) {
+            if (this.appeared || this.start != 0 || this.end != 1) {
                 this.dispatchImmediately("selectionextremeschanged");
             }
         }

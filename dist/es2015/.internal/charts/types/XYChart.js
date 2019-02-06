@@ -1022,10 +1022,11 @@ var XYChart = /** @class */ (function (_super) {
         if (this._panStartXRange && (behavior == "panX" || behavior == "panXY")) {
             var panStartRange = this._panStartXRange;
             var range = cursor.xRange;
-            var difference = panStartRange.end - panStartRange.start;
-            var delta = range.start;
+            var axisRange = this.getCommonAxisRange(this.xAxes);
+            var difference = (panStartRange.end - panStartRange.start);
+            var delta = range.start * (axisRange.end - axisRange.start);
             var newStart = Math.max(-maxPanOut, delta + panStartRange.start);
-            var newEnd = Math.min(range.start + panStartRange.end, 1 + maxPanOut);
+            var newEnd = Math.min(delta + panStartRange.end, 1 + maxPanOut);
             if (newStart <= 0) {
                 newEnd = newStart + difference;
             }
@@ -1042,10 +1043,11 @@ var XYChart = /** @class */ (function (_super) {
         if (this._panStartYRange && (behavior == "panY" || behavior == "panXY")) {
             var panStartRange = this._panStartYRange;
             var range = cursor.yRange;
+            var axisRange = this.getCommonAxisRange(this.yAxes);
             var difference = panStartRange.end - panStartRange.start;
-            var delta = range.start;
+            var delta = range.start * (axisRange.end - axisRange.start);
             var newStart = Math.max(-maxPanOut, delta + panStartRange.start);
-            var newEnd = Math.min(range.start + panStartRange.end, 1 + maxPanOut);
+            var newEnd = Math.min(delta + panStartRange.end, 1 + maxPanOut);
             if (newStart <= 0) {
                 newEnd = newStart + difference;
             }

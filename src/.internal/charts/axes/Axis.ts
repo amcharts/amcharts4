@@ -1229,6 +1229,11 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			position = this.toAxisPosition(position);
 		}
 
+		if(!$type.isNumber(position)){
+			tooltip.hide(0);
+			return;
+		}
+
 		let renderer = this.renderer;
 
 		if (tooltip && this.dataItems.length > 0) {
@@ -1282,6 +1287,13 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @return Position within Axis (0-1)
 	 */
 	public toAxisPosition(position: number): number {
+
+		position = this.renderer.toAxisPosition(position);
+
+		if(position == undefined){
+			return;
+		}
+
 		position = position * (this.end - this.start);
 		if (this.renderer.inversed) {
 			position = this.end - position;

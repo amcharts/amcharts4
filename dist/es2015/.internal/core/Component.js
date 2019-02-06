@@ -1484,6 +1484,11 @@ var Component = /** @class */ (function (_super) {
         var _export = _super.prototype.getExporting.call(this);
         if (!_export.adapter.has("data", this._exportData, null, this)) {
             _export.adapter.add("data", this._exportData, null, this);
+            this.events.on("datavalidated", function (ev) {
+                if (_export.menu) {
+                    _export.menu.invalidate();
+                }
+            });
         }
         return _export;
     };

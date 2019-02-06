@@ -157,6 +157,7 @@ export interface ILocaleProperties {
     "Serial chart"?: string;
     "X/Y chart"?: string;
     "Pie chart"?: string;
+    "Sunburst chart"?: string;
     "Gauge chart"?: string;
     "Radar chart"?: string;
     "Sankey diagram"?: string;

@@ -400,7 +400,7 @@ export class AxisRenderer extends Container {
 		return coordinate;
 	}
 
-	public updateGridContainer(){
+	public updateGridContainer() {
 
 	}
 
@@ -1046,6 +1046,13 @@ export class AxisRenderer extends Container {
 		this.axisFills.template.copyFrom(source.axisFills.template);
 		this.line.copyFrom(source.line);
 		this.baseGrid.copyFrom(source.baseGrid);
+	}
+
+	/**
+	 * @ignore
+	 */
+	public toAxisPosition(value: number): number {
+		return value;
 	}
 
 }

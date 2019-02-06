@@ -623,4 +623,8 @@ export declare class AxisRenderer extends Container {
      * @param source  Source object
      */
     copyFrom(source: this): void;
+    /**
+     * @ignore
+     */
+    toAxisPosition(value: number): number;
 }

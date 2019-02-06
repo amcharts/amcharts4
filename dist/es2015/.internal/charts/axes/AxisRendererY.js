@@ -65,6 +65,24 @@ var AxisRendererY = /** @class */ (function (_super) {
         }
     };
     /**
+     * @ignore
+     */
+    AxisRendererY.prototype.toAxisPosition = function (value) {
+        var inversedPosition = 1 - value;
+        var axis = this.axis;
+        var parent = axis.parent;
+        if (axis && parent) {
+            var relativeY = axis.pixelY / parent.innerHeight;
+            var relativeHeight = axis.pixelHeight / parent.innerHeight;
+            if (relativeY > inversedPosition || inversedPosition > relativeY + relativeHeight) {
+                return undefined;
+            }
+            else {
+                return 1 - (inversedPosition - relativeY) / relativeHeight;
+            }
+        }
+    };
+    /**
      * Called when rendered is attached to an Axis, as well as a property of
      * Axis that might affect the appearance is updated.
      *

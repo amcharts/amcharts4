@@ -52,6 +52,7 @@ var ZoomControl = /** @class */ (function (_super) {
         plusButton.label.text = "+";
         plusButton.width = percent(100);
         plusButton.padding(5, 5, 5, 5);
+        plusButton.contentValign = "none";
         //plusButton.fontFamily = "Verdana";
         _this.plusButton = plusButton;
         var slider = _this.createChild(Container);
@@ -72,6 +73,7 @@ var ZoomControl = /** @class */ (function (_super) {
         minusButton.shouldClone = false;
         minusButton.label.text = "-";
         minusButton.padding(5, 5, 5, 5);
+        minusButton.contentValign = "none";
         //minusButton.fontFamily = "Verdana";
         _this.minusButton = minusButton;
         // Set roles
@@ -115,15 +117,17 @@ var ZoomControl = /** @class */ (function (_super) {
             this.height = 40;
             this.width = undefined;
             this.minusButton.height = percent(100);
-            this.minusButton.width = 30;
+            this.minusButton.width = undefined;
             this.thumb.height = percent(100);
             this.thumb.width = undefined;
             this.plusButton.height = percent(100);
-            this.plusButton.width = 30;
+            this.plusButton.width = undefined;
+            this.plusButton.padding(4, 10, 4, 10);
             this.slider.height = percent(100);
             this.slider.width = 0;
             this.minusButton.marginLeft = 2;
             this.plusButton.marginRight = 2;
+            this.minusButton.padding(4, 10, 4, 10);
             this.minusButton.toBack();
             this.plusButton.toFront();
         }

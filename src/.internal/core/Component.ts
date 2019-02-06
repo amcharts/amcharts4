@@ -1910,9 +1910,14 @@ export class Component extends Container {
 	 * @return Exporting
 	 */
 	protected getExporting(): Export {
-		let _export = super.getExporting();
+		const _export = super.getExporting();
 		if (!_export.adapter.has("data", this._exportData, null, this)) {
 			_export.adapter.add("data", this._exportData, null, this);
+			this.events.on("datavalidated", (ev) => {
+				if (_export.menu) {
+					_export.menu.invalidate();
+				}
+			});
 		}
 		return _export;
 	}

@@ -270,17 +270,7 @@ export class TreeMapSeries extends ColumnSeries {
 
 		let animation = super.showReal(interpolationDuration);
 		let chart = this.chart;
-		if(chart){
-			if (animation && !animation.isFinished()) {
-				animation.events.on("animationended", () => {
-					chart.invalidateLayout();
-				})
-			}
-			else {
-				chart.invalidateLayout();
-			}
-			chart.invalidateLayout();
-		}
+
 		return animation;
 	}
 
@@ -302,19 +292,6 @@ export class TreeMapSeries extends ColumnSeries {
 		this.dataItems.each((dataItem)=>{
 			dataItem.treeMapDataItem.setWorkingValue("value", 0);
 		})
-
-		let chart = this.chart;
-		if(chart){
-			if (animation && !animation.isFinished()) {
-				animation.events.on("animationended", () => {
-					chart.invalidateLayout();
-				})
-			}
-			else {
-				chart.invalidateLayout();
-			}
-			chart.invalidateLayout();
-		}
 		return animation;
 	}
 

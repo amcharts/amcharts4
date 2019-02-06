@@ -330,6 +330,24 @@ var AxisRendererX = /** @class */ (function (_super) {
         wavedRectangle.setWavedSides(false, true, false, true);
         axisBreak.fillShape = wavedRectangle;
     };
+    /**
+     * @ignore
+     */
+    AxisRendererX.prototype.toAxisPosition = function (value) {
+        var inversedPosition = value;
+        var axis = this.axis;
+        var parent = axis.parent;
+        if (axis && parent) {
+            var relativeX = axis.pixelX / parent.innerWidth;
+            var relativeWidth = axis.pixelWidth / parent.innerWidth;
+            if (relativeX > inversedPosition || inversedPosition > relativeX + relativeWidth) {
+                return undefined;
+            }
+            else {
+                return (inversedPosition - relativeX) / relativeWidth;
+            }
+        }
+    };
     return AxisRendererX;
 }(AxisRenderer));
 export { AxisRendererX };

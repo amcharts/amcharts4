@@ -11,6 +11,7 @@ export { XYChartDataItem, IXYChartDataFields, IXYChartProperties, IXYChartEvents
 export { SerialChartDataItem, ISerialChartDataFields, ISerialChartProperties, ISerialChartEvents, ISerialChartAdapters, SerialChart } from "./.internal/charts/types/SerialChart";
 export { PieChart3DDataItem, IPieChart3DDataFields, IPieChart3DProperties, IPieChart3DEvents, IPieChart3DAdapters, PieChart3D } from "./.internal/charts/types/PieChart3D";
 export { PieChartDataItem, IPieChartDataFields, IPieChartProperties, IPieChartEvents, IPieChartAdapters, PieChart } from "./.internal/charts/types/PieChart";
+//export { SunburstDataItem, ISunburstDataFields, ISunburstProperties, ISunburstEvents, ISunburstAdapters, Sunburst } from "./.internal/charts/types/Sunburst";
 export { SlicedChart, SlicedChartDataItem, ISlicedChartAdapters, ISlicedChartDataFields, ISlicedChartEvents, ISlicedChartProperties } from "./.internal/charts/types/SlicedChart";
 export { FlowDiagramDataItem, IFlowDiagramDataFields, IFlowDiagramProperties, IFlowDiagramEvents, IFlowDiagramAdapters, FlowDiagram } from "./.internal/charts/types/FlowDiagram";
 export { SankeyDiagramDataItem, ISankeyDiagramDataFields, ISankeyDiagramProperties, ISankeyDiagramEvents, ISankeyDiagramAdapters, SankeyDiagram } from "./.internal/charts/types/SankeyDiagram";

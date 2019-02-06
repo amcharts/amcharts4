@@ -111,6 +111,20 @@ export class TreeMapDataItem extends XYChartDataItem {
 	}
 
 	/**
+	 * Returns a duration (ms) the Data Item should take to animate from one
+	 * value to another.
+	 *
+	 * If the duration is not specified via parameter, this method will try to
+	 * request a default duration from the related `Component`.
+	 *
+	 * @param duration  Default duration (ms)
+	 * @return Duration (ms)
+	 */
+	public getDuration():number{
+		return 0;
+	}
+
+	/**
 	 * Numeric value of the item.
 	 *
 	 * @param value  Value

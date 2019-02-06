@@ -1353,11 +1353,13 @@ export class XYChart extends SerialChart {
 			let panStartRange = this._panStartXRange;
 			let range = cursor.xRange;
 
-			let difference = panStartRange.end - panStartRange.start;
-			let delta = range.start;
+			let axisRange = this.getCommonAxisRange(this.xAxes);
+
+			let difference = (panStartRange.end - panStartRange.start);
+			let delta = range.start * (axisRange.end - axisRange.start);
 
 			let newStart = Math.max(-maxPanOut, delta + panStartRange.start);
-			let newEnd = Math.min(range.start + panStartRange.end, 1 + maxPanOut);
+			let newEnd = Math.min(delta + panStartRange.end, 1 + maxPanOut);
 
 			if (newStart <= 0) {
 				newEnd = newStart + difference;
@@ -1380,11 +1382,13 @@ export class XYChart extends SerialChart {
 			let panStartRange = this._panStartYRange;
 			let range = cursor.yRange;
 
+			let axisRange = this.getCommonAxisRange(this.yAxes);
+
 			let difference = panStartRange.end - panStartRange.start;
-			let delta = range.start;
+			let delta = range.start * (axisRange.end - axisRange.start);
 
 			let newStart = Math.max(-maxPanOut, delta + panStartRange.start);
-			let newEnd = Math.min(range.start + panStartRange.end, 1 + maxPanOut);
+			let newEnd = Math.min(delta + panStartRange.end, 1 + maxPanOut);
 
 			if (newStart <= 0) {
 				newEnd = newStart + difference;

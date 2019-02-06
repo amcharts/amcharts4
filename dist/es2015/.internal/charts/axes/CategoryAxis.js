@@ -610,14 +610,16 @@ var CategoryAxis = /** @class */ (function (_super) {
                 var category_1 = dataItem.category;
                 var sdi_1;
                 var seriesDataItem = series.dataItems.getIndex(index_1);
-                if (series.xAxis == this) {
-                    if (seriesDataItem.categoryX == category_1) {
-                        return seriesDataItem;
+                if (seriesDataItem) {
+                    if (series.xAxis == this) {
+                        if (seriesDataItem.categoryX == category_1) {
+                            return seriesDataItem;
+                        }
                     }
-                }
-                if (series.yAxis == this) {
-                    if (seriesDataItem.categoryY == category_1) {
-                        return seriesDataItem;
+                    if (series.yAxis == this) {
+                        if (seriesDataItem.categoryY == category_1) {
+                            return seriesDataItem;
+                        }
                     }
                 }
                 series.dataItems.each(function (dataItem) {

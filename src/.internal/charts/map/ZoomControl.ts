@@ -128,6 +128,7 @@ export class ZoomControl extends Container {
 		plusButton.label.text = "+";
 		plusButton.width = percent(100);
 		plusButton.padding(5, 5, 5, 5);
+		plusButton.contentValign = "none";
 		//plusButton.fontFamily = "Verdana";
 		this.plusButton = plusButton;
 
@@ -151,6 +152,7 @@ export class ZoomControl extends Container {
 		minusButton.shouldClone = false;
 		minusButton.label.text = "-";
 		minusButton.padding(5, 5, 5, 5);
+		minusButton.contentValign = "none";
 		//minusButton.fontFamily = "Verdana";
 		this.minusButton = minusButton;
 
@@ -200,15 +202,17 @@ export class ZoomControl extends Container {
 			this.height = 40;
 			this.width = undefined;
 			this.minusButton.height = percent(100);
-			this.minusButton.width = 30;
+			this.minusButton.width = undefined;
 			this.thumb.height = percent(100);
 			this.thumb.width = undefined;
 			this.plusButton.height = percent(100);
-			this.plusButton.width = 30;
+			this.plusButton.width = undefined;
+			this.plusButton.padding(4,10,4,10);
 			this.slider.height = percent(100);
 			this.slider.width = 0;
 			this.minusButton.marginLeft = 2;
 			this.plusButton.marginRight = 2;
+			this.minusButton.padding(4,10,4,10);
 			this.minusButton.toBack();
 			this.plusButton.toFront();
 		}

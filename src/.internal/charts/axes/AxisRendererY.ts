@@ -110,12 +110,34 @@ export class AxisRendererY extends AxisRenderer {
 	/**
 	 * @ignore
 	 */
-	public updateGridContainer(){
+	public updateGridContainer() {
 		let axis = this.axis;
-		if(axis){
+		if (axis) {
 			let gridContainer = this.gridContainer;
 			gridContainer.y = axis.pixelY;
 			gridContainer.height = axis.pixelHeight;
+		}
+	}
+
+	/**
+	 * @ignore
+	 */
+	public toAxisPosition(value: number): number {
+		let inversedPosition = 1 - value;
+
+		let axis = this.axis;
+		let parent = axis.parent;
+		if (axis && parent) {
+
+			let relativeY = axis.pixelY / parent.innerHeight;
+			let relativeHeight = axis.pixelHeight / parent.innerHeight;
+
+			if (relativeY > inversedPosition || inversedPosition > relativeY + relativeHeight) {
+				return undefined;
+			}
+			else {
+				return 1 - (inversedPosition - relativeY) / relativeHeight;
+			}
 		}
 	}
 
@@ -259,7 +281,7 @@ export class AxisRendererY extends AxisRenderer {
 	public updateGridElement(grid: Grid, position: number, endPosition: number) {
 		position = position + (endPosition - position) * grid.location;
 		let point: IPoint = this.positionToPoint(position);
-	//	point.y = $utils.spritePointToSprite({ x: 0, y: point.y }, this, this.gridContainer).y;
+		//	point.y = $utils.spritePointToSprite({ x: 0, y: point.y }, this, this.gridContainer).y;
 
 		grid.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: this.getWidth(), y: 0 });
 

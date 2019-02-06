@@ -436,6 +436,27 @@ export class AxisRendererX extends AxisRenderer {
 		wavedRectangle.setWavedSides(false, true, false, true);
 		axisBreak.fillShape = wavedRectangle;
 	}
+
+	/**
+	 * @ignore
+	 */
+	public toAxisPosition(value: number): number {
+		let inversedPosition = value;
+		let axis = this.axis;
+		let parent = axis.parent;
+
+		if(axis && parent){
+			let relativeX = axis.pixelX / parent.innerWidth;
+			let relativeWidth = axis.pixelWidth / parent.innerWidth;
+
+			if (relativeX > inversedPosition || inversedPosition > relativeX + relativeWidth) {
+				return undefined;
+			}
+			else {
+				return (inversedPosition - relativeX) / relativeWidth;
+			}
+		}
+	}	
 }
 
 /**

@@ -1185,11 +1185,12 @@ var ValueAxis = /** @class */ (function (_super) {
                 }
             }
         });
-        $iter.each(this.series.iterator(), function (series) {
-            if (!series.appeared) {
-                allHidden = true;
-            }
-        });
+        // this is not good, as if date axis is initially zoomed, selection of y axis is reset to 0, 1 at the end of this method
+        //$iter.each(this.series.iterator(), (series) => {
+        //	if (!series.appeared) {
+        //		allHidden = true;
+        //	}
+        //})
         if ($type.isNumber(this._minDefined)) {
             if (this.strictMinMax) {
                 selectionMin = this._minDefined;

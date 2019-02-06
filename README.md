@@ -3,17 +3,7 @@
 This is an official repository for amCharts 4 - the most advanced JavaScript
 dataviz library ever.
 
-For a short overview of features, visit [this page](https://www.amcharts.com/javascript-charts/).
-
-### Important notice about support
-
-amCharts support is guaranteed for commercial license holders and amPlus
-subscribers. GitHub issues is not usually monitored by amCharts support
-staff and may not be answered. If you do have a license/subscription, you 
-may [contact us directly](https://www.amcharts.com/support/support-info/priority-support/)
-for support. If you don't, here are
-[a few options](https://www.amcharts.com/support/support-info/free-support/)
-for you.
+For a short overview of features, visit [this page](https://www.amcharts.com/v4).
 
 
 ### Contents
@@ -36,7 +26,7 @@ as class reference visit [V4 documentation website](https://www.amcharts.com/doc
 
 * [NPM package](https://www.npmjs.com/package/@amcharts/amcharts4)
 * [GitHub repository](https://github.com/amcharts/amcharts4)
-* [ZIP download & CSN info](https://www.amcharts.com/download/)
+* [ZIP download](https://www.amcharts.com/download/download-v4/)
 
 
 ### Related packages

@@ -42,10 +42,13 @@ valueAxis.renderer.baseGrid.disabled = true;
 // height of axis
 valueAxis.height = am4core.percent(65);
 
-// uncomment these lines to fill plot area of this axis with some color
-//valueAxis.renderer.gridContainer.background.fill = am4core.color("#000000");
-//valueAxis.renderer.gridContainer.background.fillOpacity = 0.05;
-
+valueAxis.renderer.gridContainer.background.fill = am4core.color("#000000");
+valueAxis.renderer.gridContainer.background.fillOpacity = 0.05;
+valueAxis.renderer.inside = true;
+valueAxis.renderer.labels.template.verticalCenter = "bottom";
+valueAxis.renderer.labels.template.padding(2,2,2,2);
+//valueAxis.renderer.maxLabelPosition = 0.95;
+valueAxis.renderer.fontSize = "0.8em"
 
 let series = chart.series.push(new am4charts.LineSeries());
 series.dataFields.dateX = "date";
@@ -61,10 +64,14 @@ valueAxis2.zIndex = 3
 // this makes gap between panels
 valueAxis2.marginTop = 30;
 valueAxis2.renderer.baseGrid.disabled = true;
+valueAxis2.renderer.inside = true;
+valueAxis2.renderer.labels.template.verticalCenter = "bottom";
+valueAxis2.renderer.labels.template.padding(2,2,2,2);
+//valueAxis.renderer.maxLabelPosition = 0.95;
+valueAxis2.renderer.fontSize = "0.8em"
 
-// uncomment these lines to fill plot area of this axis with some color
-//valueAxis2.renderer.gridContainer.background.fill = am4core.color("#000000");
-//valueAxis2.renderer.gridContainer.background.fillOpacity = 0.05;
+valueAxis2.renderer.gridContainer.background.fill = am4core.color("#000000");
+valueAxis2.renderer.gridContainer.background.fillOpacity = 0.05;
 
 let series2 = chart.series.push(new am4charts.ColumnSeries());
 series2.dataFields.dateX = "date";
@@ -78,4 +85,5 @@ chart.cursor.xAxis = dateAxis;
 
 let scrollbarX = new am4charts.XYChartScrollbar();
 scrollbarX.series.push(series);
+scrollbarX.marginBottom = 20;
 chart.scrollbarX = scrollbarX;

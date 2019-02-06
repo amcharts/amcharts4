@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.1.3] - 2019-02-06
+
+### Fixed
+- `ExportMenu` items will be revalidated if data of the chart is updated. This helps avoid missing "Data" export items in menu if data is loaded later than the chart itself.
+- In stacked axes setup axis tooltips were shown in wrong positions.
+- Preloader was not always shown when needed.
+- JavaScript error when hovering cursor over missing data items fixed.
+- `TreeMap` data change performance improved.
+- Horizontal `ZoomControl` (`layout = "horizontal"`) button text vertical align fix.
+- Accellerated panning of zoomed-in axis problem fixed.
+
+
 ## [4.1.2] - 2019-02-05
 
 ### Added

@@ -175,17 +175,6 @@ var TreeMapSeries = /** @class */ (function (_super) {
         });
         var animation = _super.prototype.showReal.call(this, interpolationDuration);
         var chart = this.chart;
-        if (chart) {
-            if (animation && !animation.isFinished()) {
-                animation.events.on("animationended", function () {
-                    chart.invalidateLayout();
-                });
-            }
-            else {
-                chart.invalidateLayout();
-            }
-            chart.invalidateLayout();
-        }
         return animation;
     };
     /**
@@ -203,18 +192,6 @@ var TreeMapSeries = /** @class */ (function (_super) {
         this.dataItems.each(function (dataItem) {
             dataItem.treeMapDataItem.setWorkingValue("value", 0);
         });
-        var chart = this.chart;
-        if (chart) {
-            if (animation && !animation.isFinished()) {
-                animation.events.on("animationended", function () {
-                    chart.invalidateLayout();
-                });
-            }
-            else {
-                chart.invalidateLayout();
-            }
-            chart.invalidateLayout();
-        }
         return animation;
     };
     /**
