@@ -396,10 +396,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * Function should accept a [[DateAxisDataItem]] and modify its `axisFill`
 	 * property accordingly.
-	 *
-	 * @todo type
 	 */
-	public fillRule(dataItem: this["_dataItem"]) {
+	public fillRule(dataItem: this["_dataItem"]): void {
 		let value = dataItem.value;
 		let axis = dataItem.component;
 		let gridInterval = axis._gridInterval;
@@ -905,6 +903,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				let text = this.dateFormatter.format(date, format);
 
 				let dataItem = dataItemsIterator.find((x) => x.text === text);
+				if (dataItem.__disabled) {
+					dataItem.__disabled = false;
+				}
 				this.appendDataItem(dataItem);
 
 				dataItem.axisBreak = undefined;
@@ -953,6 +954,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 								let text: string = this.dateFormatter.format(date, format);
 
 								let dataItem: this["_dataItem"] = dataItemsIterator.find((x) => x.text === text);
+								if (dataItem.__disabled) {
+									dataItem.__disabled = false;
+								}
 								//this.processDataItem(dataItem);
 								this.appendDataItem(dataItem);
 								dataItem.axisBreak = axisBreak;
@@ -1841,6 +1845,16 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public get snapTooltip(): boolean {
 		return this.getPropertyValue("snapTooltip");
+	}
+
+
+	/**
+	 * Current grid interval.
+	 * 
+	 * @return Grid interval
+	 */
+	public get gridInterval(): ITimeInterval {
+		return this._gridInterval;
 	}
 
 }

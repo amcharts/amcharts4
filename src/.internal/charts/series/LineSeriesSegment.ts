@@ -79,15 +79,11 @@ export class LineSeriesSegment extends Container {
 
 	/**
 	 * Segment's line element.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	public strokeSprite: Sprite;
 
 	/**
 	 * Segment's fill element.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	public fillSprite: Sprite;
 

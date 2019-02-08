@@ -400,8 +400,6 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * For example, you can set it up to highlight only weekends on a
      * [[DateAxis]].
-     *
-     * @todo type
      */
     fillRule(dataItem: this["_dataItem"], index?: number): void;
     /**

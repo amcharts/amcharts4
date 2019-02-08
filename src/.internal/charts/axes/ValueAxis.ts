@@ -353,10 +353,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 *
 	 * It can either return a fill opacity for a fill, or manipulate data item
 	 * directly, to create various highlighting scenarios.
-	 *
-	 * @todo type
 	 */
-	public fillRule(dataItem: this["_dataItem"]) {
+	public fillRule(dataItem: this["_dataItem"]): void {
 		let value = dataItem.value;
 		let axis = dataItem.component;
 		if (!dataItem.axisFill.disabled) {
@@ -492,15 +490,16 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 								if ($type.isNumber(value)) {
 									if (!$type.isNumber(total[key])) {
-										total[key] = value;
+										total[key] = Math.abs(value);
 									}
 									else {
-										total[key] += value;
+										total[key] += Math.abs(value);
 									}
 								}
 							});
 						}
 					});
+
 
 					$iter.each(this.series.iterator(), (series) => {
 						let dataItem: XYSeriesDataItem = series.dataItems.getIndex(i);
@@ -625,6 +624,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				if (!axisBreak) {
 
 					let dataItem: this["_dataItem"] = dataItemsIterator.find((x) => x.value === value);
+					if (dataItem.__disabled) {
+						dataItem.__disabled = false;
+					}
 					//this.processDataItem(dataItem);
 					this.appendDataItem(dataItem);
 					dataItem.axisBreak = undefined;
@@ -674,6 +676,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 						while (breakValue <= axisBreak.adjustedMax) {
 							if (breakValue >= axisBreak.adjustedStartValue && breakValue <= axisBreak.adjustedEndValue) {
 								let dataItem: this["_dataItem"] = dataItemsIterator.find((x) => x.value === breakValue);
+								if (dataItem.__disabled) {
+									dataItem.__disabled = false;
+								}
 								//this.processDataItem(dataItem);
 								this.appendDataItem(dataItem);
 								dataItem.axisBreak = axisBreak;
@@ -1150,16 +1155,26 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 					animation = this.animate([{ property: "_minAdjusted", from: this._minAdjusted, to: min }, { property: "_maxAdjusted", from: this._maxAdjusted, to: max }], this.rangeChangeDuration);
 
-					animation.events.on("animationprogress", this.validateDataItems, this);
+					if (animation && !animation.isFinished()) {
+						animation.events.on("animationprogress", this.validateDataItems, this);
 
-					animation.events.on("animationended", () => {
-						this.validateDataItems();
-						this.handleSelectionExtremesChange();
-					});
-
-					this._minMaxAnimation = animation;
+						animation.events.on("animationended", () => {
+							this.validateDataItems();
+							this.series.each((series) => {
+								series.validate();
+							})
+							this.handleSelectionExtremesChange();
+						});
+						this._minMaxAnimation = animation;
+					}
+					else {
+						this.series.each((series) => {
+							series.validate();
+						})
+					}
 
 					this.validateDataItems();
+					this.dispatchImmediately("extremeschanged");
 					this.handleSelectionExtremesChange();
 				}
 			}

@@ -65,14 +65,10 @@ export declare class LineSeriesSegment extends Container {
     _events: ILineSeriesSegmentEvents;
     /**
      * Segment's line element.
-     *
-     * @ignore Exclude from docs
      */
     strokeSprite: Sprite;
     /**
      * Segment's fill element.
-     *
-     * @ignore Exclude from docs
      */
     fillSprite: Sprite;
     /**

@@ -299,8 +299,6 @@ var DateAxis = /** @class */ (function (_super) {
      *
      * Function should accept a [[DateAxisDataItem]] and modify its `axisFill`
      * property accordingly.
-     *
-     * @todo type
      */
     DateAxis.prototype.fillRule = function (dataItem) {
         var value = dataItem.value;
@@ -685,6 +683,9 @@ var DateAxis = /** @class */ (function (_super) {
                 }
                 var text = this_2.dateFormatter.format(date, format);
                 var dataItem = dataItemsIterator_1.find(function (x) { return x.text === text; });
+                if (dataItem.__disabled) {
+                    dataItem.__disabled = false;
+                }
                 this_2.appendDataItem(dataItem);
                 dataItem.axisBreak = undefined;
                 dataItem.date = date;
@@ -725,6 +726,9 @@ var DateAxis = /** @class */ (function (_super) {
                                 }
                                 var text_1 = _this.dateFormatter.format(date, format);
                                 var dataItem = dataItemsIterator_1.find(function (x) { return x.text === text_1; });
+                                if (dataItem.__disabled) {
+                                    dataItem.__disabled = false;
+                                }
                                 //this.processDataItem(dataItem);
                                 _this.appendDataItem(dataItem);
                                 dataItem.axisBreak = axisBreak;
@@ -1534,6 +1538,18 @@ var DateAxis = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("snapTooltip", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DateAxis.prototype, "gridInterval", {
+        /**
+         * Current grid interval.
+         *
+         * @return Grid interval
+         */
+        get: function () {
+            return this._gridInterval;
         },
         enumerable: true,
         configurable: true

@@ -8,5 +8,6 @@
         "moduleResolution": "node",
         "module": "esnext",
         "target": "es5",
+        "lib": ["es6"]
     }
 }

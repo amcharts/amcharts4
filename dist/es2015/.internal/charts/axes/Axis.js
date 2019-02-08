@@ -550,8 +550,6 @@ var Axis = /** @class */ (function (_super) {
      *
      * For example, you can set it up to highlight only weekends on a
      * [[DateAxis]].
-     *
-     * @todo type
      */
     Axis.prototype.fillRule = function (dataItem, index) {
         if (!$type.isNumber(index)) {

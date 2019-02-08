@@ -180,8 +180,6 @@ var ValueAxis = /** @class */ (function (_super) {
      *
      * It can either return a fill opacity for a fill, or manipulate data item
      * directly, to create various highlighting scenarios.
-     *
-     * @todo type
      */
     ValueAxis.prototype.fillRule = function (dataItem) {
         var value = dataItem.value;
@@ -268,10 +266,10 @@ var ValueAxis = /** @class */ (function (_super) {
                                 var value = dataItem.values[key].workingValue; // can not use getWorkingValue here!
                                 if ($type.isNumber(value)) {
                                     if (!$type.isNumber(total[key])) {
-                                        total[key] = value;
+                                        total[key] = Math.abs(value);
                                     }
                                     else {
-                                        total[key] += value;
+                                        total[key] += Math.abs(value);
                                     }
                                 }
                             });
@@ -374,6 +372,9 @@ var ValueAxis = /** @class */ (function (_super) {
                 var axisBreak = this.isInBreak(value_1);
                 if (!axisBreak) {
                     var dataItem = dataItemsIterator_1.find(function (x) { return x.value === value_1; });
+                    if (dataItem.__disabled) {
+                        dataItem.__disabled = false;
+                    }
                     //this.processDataItem(dataItem);
                     this.appendDataItem(dataItem);
                     dataItem.axisBreak = undefined;
@@ -416,6 +417,9 @@ var ValueAxis = /** @class */ (function (_super) {
                         while (breakValue_1 <= axisBreak.adjustedMax) {
                             if (breakValue_1 >= axisBreak.adjustedStartValue && breakValue_1 <= axisBreak.adjustedEndValue) {
                                 var dataItem = dataItemsIterator_1.find(function (x) { return x.value === breakValue_1; });
+                                if (dataItem.__disabled) {
+                                    dataItem.__disabled = false;
+                                }
                                 //this.processDataItem(dataItem);
                                 _this.appendDataItem(dataItem);
                                 dataItem.axisBreak = axisBreak;
@@ -811,13 +815,24 @@ var ValueAxis = /** @class */ (function (_super) {
                     this._finalMin = min;
                     this._finalMax = max;
                     animation = this.animate([{ property: "_minAdjusted", from: this._minAdjusted, to: min }, { property: "_maxAdjusted", from: this._maxAdjusted, to: max }], this.rangeChangeDuration);
-                    animation.events.on("animationprogress", this.validateDataItems, this);
-                    animation.events.on("animationended", function () {
-                        _this.validateDataItems();
-                        _this.handleSelectionExtremesChange();
-                    });
-                    this._minMaxAnimation = animation;
+                    if (animation && !animation.isFinished()) {
+                        animation.events.on("animationprogress", this.validateDataItems, this);
+                        animation.events.on("animationended", function () {
+                            _this.validateDataItems();
+                            _this.series.each(function (series) {
+                                series.validate();
+                            });
+                            _this.handleSelectionExtremesChange();
+                        });
+                        this._minMaxAnimation = animation;
+                    }
+                    else {
+                        this.series.each(function (series) {
+                            series.validate();
+                        });
+                    }
                     this.validateDataItems();
+                    this.dispatchImmediately("extremeschanged");
                     this.handleSelectionExtremesChange();
                 }
             }

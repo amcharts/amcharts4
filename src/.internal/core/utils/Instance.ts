@@ -367,7 +367,9 @@ export function createFromConfig(config: { [index: string]: any }, htmlElement?:
  * @param value  A reference to a theme
  */
 export function useTheme(value: ITheme): void {
-	registry.themes.push(value);
+	if (registry.themes.indexOf(value) === -1) {
+		registry.themes.push(value);
+	}
 }
 
 /**

@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.1.4] - 2019-02-08
+
+### Added
+- `DateAxis.gridInterval` accessor added. Returns current grid interval.
+
+### Fixed
+- Calling `useTheme()` with the same theme multiple times used to cause that theme applied multiple times as well.
+- Sometimes `ValueAxis` would not zoom-out to show new selected range when data was updated.
+- Sometimes axis fills were not visible after zoom-in / zoom-out.
+- `totalPercent` was not properly calculated with negative values.
+
+
 ## [4.1.3] - 2019-02-06
 
 ### Fixed

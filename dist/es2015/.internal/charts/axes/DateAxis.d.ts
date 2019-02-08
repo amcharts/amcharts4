@@ -324,8 +324,6 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * Function should accept a [[DateAxisDataItem]] and modify its `axisFill`
      * property accordingly.
-     *
-     * @todo type
      */
     fillRule(dataItem: this["_dataItem"]): void;
     /**
@@ -787,4 +785,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @param value  Should snap?
      */
     snapTooltip: boolean;
+    /**
+     * Current grid interval.
+     *
+     * @return Grid interval
+     */
+    readonly gridInterval: ITimeInterval;
 }

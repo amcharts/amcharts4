@@ -272,8 +272,6 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * It can either return a fill opacity for a fill, or manipulate data item
      * directly, to create various highlighting scenarios.
-     *
-     * @todo type
      */
     fillRule(dataItem: this["_dataItem"]): void;
     /**

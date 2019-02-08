@@ -777,10 +777,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * For example, you can set it up to highlight only weekends on a
 	 * [[DateAxis]].
-	 *
-	 * @todo type
 	 */
-	public fillRule(dataItem: this["_dataItem"], index?: number) {
+	public fillRule(dataItem: this["_dataItem"], index?: number): void {
 		if (!$type.isNumber(index)) {
 			index = dataItem.index;
 		}

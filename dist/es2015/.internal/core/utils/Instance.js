@@ -324,7 +324,9 @@ export function createFromConfig(config, htmlElement, classType) {
  * @param value  A reference to a theme
  */
 export function useTheme(value) {
-    registry.themes.push(value);
+    if (registry.themes.indexOf(value) === -1) {
+        registry.themes.push(value);
+    }
 }
 /**
  * Removes a theme from "active themes" list, so it won't get applied to any
