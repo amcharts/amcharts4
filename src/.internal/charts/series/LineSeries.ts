@@ -357,11 +357,11 @@ export class LineSeries extends XYSeries {
 		super.validate();
 
 		this._segmentsIterator.reset();
-
-		this.openSegment(this._adjustedStartIndex);
+		
+		this.openSegmentWrapper(this._adjustedStartIndex);
 
 		$iter.each(this.axisRanges.iterator(), (range) => {
-			this.openSegment(this._adjustedStartIndex, range);
+			this.openSegmentWrapper(this._adjustedStartIndex, range);
 		});
 
 		$iter.each(this._segmentsIterator.iterator(), (segment) => {
@@ -426,6 +426,20 @@ export class LineSeries extends XYSeries {
 		return adjustedIndex;
 	}
 
+
+	/**
+	 * Wraps openSegment call with iterative solution to prevent stack overflow
+	 *
+	 * @param openIndex  [description]
+	 * @param axisRange  [description]
+	 */
+	protected openSegmentWrapper(openIndex: number, axisRange?: AxisDataItem): void {
+		let params = {"index": openIndex, "axisRange": axisRange};
+		do {
+			params = this.openSegment(params.index, params.axisRange);
+		} while (params)
+	}
+
 	/**
 	 * [openSegment description]
 	 *
@@ -433,7 +447,7 @@ export class LineSeries extends XYSeries {
 	 * @param openIndex  [description]
 	 * @param axisRange  [description]
 	 */
-	protected openSegment(openIndex: number, axisRange?: AxisDataItem): void {
+	protected openSegment(openIndex: number, axisRange?: AxisDataItem): {"index": number, "axisRange": AxisDataItem} {
 		let points: IPoint[] = [];
 
 		let endIndex: number = this._workingEndIndex;
@@ -496,8 +510,7 @@ export class LineSeries extends XYSeries {
 				break;
 			}
 		}
-
-		this.closeSegment(segment, points, openIndex, closeIndex, axisRange);
+		return this.closeSegment(segment, points, openIndex, closeIndex, axisRange);
 	}
 
 	/**
@@ -561,7 +574,9 @@ export class LineSeries extends XYSeries {
 		this.drawSegment(segment, points, closePoints);
 
 		if (closeIndex < this._workingEndIndex - 1) {
-			this.openSegment(closeIndex, axisRange);
+			return {"index": closeIndex, "axisRange": axisRange};
+		} else {
+			return null;
 		}
 	}
 
