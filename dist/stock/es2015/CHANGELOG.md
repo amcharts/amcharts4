@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.1.5] - 2019-02-11
+
+### Added
+- New property `contextMenuDisabled` (default `false`) added to `Sprite`. If set to `true` it will prevent context menu (such as one displayed on right click) from displayed.
+
+### Changed
+- Setting `data` on `ColorSet` will now automatically reset iterator.
+
+### Fixed
+- `"rightclick"` event was essentially not working.
+- Angular with router enabled were breaking charts in Safari and older Firefox.
+
+
 ## [4.1.4] - 2019-02-08
 
 ### Added

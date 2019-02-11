@@ -47,6 +47,26 @@ export function copyProperties(source: Object, target: Object): Object {
 }
 
 /**
+ * Removes target from url
+ */
+export function stripHash(url: string): string {
+	return /^[^#]*/.exec(url)[0];
+}
+
+export function getBaseURI() {
+	let url = "#";
+	let baseURI = document.baseURI;
+	if (baseURI) {
+		baseURI = stripHash(baseURI);
+		let loc = stripHash(location.href);
+		if (baseURI !== loc) {
+			url = loc + url;
+		}
+	}
+	return url;
+}
+
+/**
  * Copies all properties of one object to the other, omitting undefined, but only if property in target object doesn't have a value set.
  *
  * @param fromObject  Source object
@@ -977,10 +997,10 @@ export function spriteRectToSvg(rect: IRectangle, sprite: Sprite): IRectangle {
  * @param svgContainer  SVG element
  * @return SVG coordinates
  */
-export function documentPointToSvg(point: IPoint, svgContainer: HTMLElement, cssScale?:number): IPoint {
+export function documentPointToSvg(point: IPoint, svgContainer: HTMLElement, cssScale?: number): IPoint {
 	let bbox = svgContainer.getBoundingClientRect();
 
-	if(!$type.isNumber(cssScale)){
+	if (!$type.isNumber(cssScale)) {
 		cssScale = 1;
 	}
 

@@ -162,6 +162,7 @@ var ColorSet = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._list = value;
+            this.reset();
         },
         enumerable: true,
         configurable: true

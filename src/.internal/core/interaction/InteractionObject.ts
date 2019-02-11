@@ -80,6 +80,7 @@ export class InteractionObject extends BaseObjectEvents {
 	public replacedStyles: Dictionary<string, string> = new Dictionary<string, string>();
 
 	protected _clickable: boolean = false;
+	protected _contextMenuDisabled: boolean = false;
 	protected _hoverable: boolean = false;
 	protected _trackable: boolean = false;
 	protected _draggable: boolean = false;
@@ -222,7 +223,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets if this element is currently hovered.
+	 * Indicates if this element is currently hovered.
 	 *
 	 * @param value Hovered?
 	 */
@@ -239,8 +240,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns if this element is currently hovered.
-	 *
 	 * @return Hovered?
 	 */
 	public get isHover(): boolean {
@@ -248,7 +247,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets if this element is currently hovered.
+	 * Indicates if this element is currently hovered.
 	 *
 	 * @param value Hovered?
 	 */
@@ -259,8 +258,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns if this element is currently hovered.
-	 *
 	 * @return Hovered?
 	 */
 	public get isHoverByTouch(): boolean {
@@ -268,7 +265,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns a list of pointers currently over the element.
+	 * A list of pointers currently over the element.
 	 *
 	 * @see {@link Pointer}
 	 * @return List if pointers currently hovering the element
@@ -281,7 +278,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets if this element has currently any pointers pressing on it.
+	 * Indicates if this element has currently any pointers pressing on it.
 	 *
 	 * @param value Has down pointers?
 	 */
@@ -298,8 +295,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns if this element has currently any pointers pressing on it.
-	 *
 	 * @return Has down pointers?
 	 */
 	public get isDown(): boolean {
@@ -307,7 +302,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns a list of pointers currently pressing down on this element.
+	 * A list of pointers currently pressing down on this element.
 	 *
 	 * @see {@link Pointer}
 	 * @return List of down pointers
@@ -320,7 +315,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets if this element is currently focused.
+	 * Indicates if this element is currently focused.
 	 *
 	 * @param value Focused?
 	 */
@@ -337,8 +332,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns if this element is currently focused.
-	 *
 	 * @return Focused?
 	 */
 	public get isFocused(): boolean {
@@ -359,8 +352,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns if element is currently set as clickable.
-	 *
 	 * @return Clickable?
 	 */
 	public get clickable(): boolean {
@@ -368,7 +359,28 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets if element should generate hover events.
+	 * Should element prevent context menu to be displayed, e.g. when
+	 * right-clicked?
+	 *
+	 * @default false
+	 * @param value Context menu disabled?
+	 */
+	public set contextMenuDisabled(value: boolean) {
+		if (this._contextMenuDisabled !== value) {
+			this._contextMenuDisabled = value;
+			getInteraction().processContextMenu(this);
+		}
+	}
+
+	/**
+	 * @return Context menu disabled?
+	 */
+	public get contextMenuDisabled(): boolean {
+		return this._contextMenuDisabled;
+	}
+
+	/**
+	 * Indicates if element should generate hover events.
 	 *
 	 * @param value Hoverable?
 	 */
@@ -380,8 +392,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns if element is currently set to generate hover events.
-	 *
 	 * @return Hoverable?
 	 */
 	public get hoverable(): boolean {
@@ -389,7 +399,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets if pointer movement over element should be tracked.
+	 * Indicates if pointer movement over element should be tracked.
 	 *
 	 * @param value Track pointer?
 	 */
@@ -401,8 +411,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns if element is set to track pointer movement over it.
-	 *
 	 * @return Track pointer?
 	 */
 	public get trackable(): boolean {
@@ -410,7 +418,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets if element can be dragged. (moved)
+	 * Indicates if element can be dragged. (moved)
 	 *
 	 * @param value Draggable?
 	 */
@@ -422,8 +430,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns if element is currently set as draggable.
-	 *
 	 * @return Draggable?
 	 */
 	public get draggable(): boolean {
@@ -431,7 +437,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets whether element should react to swipe gesture.
+	 * Indicates whether element should react to swipe gesture.
 	 *
 	 * @param value Track swipe?
 	 */
@@ -443,8 +449,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns if element is currently set to track swipe gesture.
-	 *
 	 * @return Track swipe?
 	 */
 	public get swipeable(): boolean {
@@ -452,7 +456,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets if element can be resized.
+	 * Indicates if element can be resized.
 	 *
 	 * @param value Resizeable?
 	 */
@@ -464,8 +468,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns if element is currently set as resizeable.
-	 *
 	 * @return Resizeble?
 	 */
 	public get resizable(): boolean {
@@ -492,8 +494,8 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets if element is inert, i.e. if it should carry movement momentum after
-	 * it is dragged and released.
+	 * Indicates if element is inert, i.e. if it should carry movement momentum
+	 * after it is dragged and released.
 	 *
 	 * @param value Inert?
 	 */
@@ -504,8 +506,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns if element is currently set as inert.
-	 *
 	 * @return Inert?
 	 */
 	public get inert(): boolean {
@@ -513,7 +513,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets if element can gain focus.
+	 * Indicates if element can gain focus.
 	 *
 	 * @param value Focusable?
 	 */
@@ -528,8 +528,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns if element is currently set as focusable.
-	 *
 	 * @return Focusable?
 	 */
 	public get focusable(): $type.Optional<boolean> {
@@ -537,7 +535,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets element's tab index.
+	 * Element's tab index.
 	 *
 	 * @param value Tab index
 	 */
@@ -552,8 +550,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns element's current tab index.
-	 *
 	 * @return Tab index
 	 */
 	public get tabindex(): number {
@@ -561,7 +557,8 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets DOM element associated with this element
+	 * A DOM element associated with this element.
+	 * 
 	 * @param element Element
 	 */
 	public set element(element: HTMLElement | SVGSVGElement) {
@@ -569,7 +566,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns DOM element associated with this element
 	 * @return Element
 	 */
 	public get element(): HTMLElement | SVGSVGElement {
@@ -577,7 +573,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets element's original position.
+	 * Element's original position.
 	 *
 	 * @ignore Exclude from docs
 	 * @param value Position
@@ -587,8 +583,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns element's original position.
-	 *
 	 * @ignore Exclude from docs
 	 * @return Position.
 	 */
@@ -597,7 +591,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets element's original scale.
+	 * Element's original scale.
 	 *
 	 * @ignore Exclude from docs
 	 * @param value Scale
@@ -609,8 +603,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns element's original scale.
-	 *
 	 * @return Scale
 	 */
 	public get originalScale(): number {
@@ -618,7 +610,7 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Sets element's original angle.
+	 * Element's original angle.
 	 *
 	 * @ignore Exclude from docs
 	 * @param value Angle
@@ -630,8 +622,6 @@ export class InteractionObject extends BaseObjectEvents {
 	}
 
 	/**
-	 * Returns element's original angle.
-	 *
 	 * @return Angle
 	 */
 	public get originalAngle(): number {
@@ -778,6 +768,7 @@ export class InteractionObject extends BaseObjectEvents {
 		this.swipeOptions = source.swipeOptions;
 		this.keyboardOptions = source.keyboardOptions;
 		this.cursorOptions = source.cursorOptions;
+		this.contextMenuDisabled = source.contextMenuDisabled;
 		getInteraction().applyCursorOverStyle(this);
 	}
 

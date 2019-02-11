@@ -222,6 +222,13 @@ export declare class Interaction extends BaseObjectEvents {
      */
     processClickable(io: InteractionObject): void;
     /**
+     * Sets if [[InteractionObject]] will display context menu when right-clicked.
+     *
+     * @ignore Exclude from docs
+     * @param io [[InteractionObject]] instance
+     */
+    processContextMenu(io: InteractionObject): void;
+    /**
      * Sets if [[InteractionObject]] is hoverable.
      *
      * @ignore Exclude from docs

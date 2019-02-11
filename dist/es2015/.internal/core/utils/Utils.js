@@ -32,6 +32,24 @@ export function copyProperties(source, target) {
     return target;
 }
 /**
+ * Removes target from url
+ */
+export function stripHash(url) {
+    return /^[^#]*/.exec(url)[0];
+}
+export function getBaseURI() {
+    var url = "#";
+    var baseURI = document.baseURI;
+    if (baseURI) {
+        baseURI = stripHash(baseURI);
+        var loc = stripHash(location.href);
+        if (baseURI !== loc) {
+            url = loc + url;
+        }
+    }
+    return url;
+}
+/**
  * Copies all properties of one object to the other, omitting undefined, but only if property in target object doesn't have a value set.
  *
  * @param fromObject  Source object

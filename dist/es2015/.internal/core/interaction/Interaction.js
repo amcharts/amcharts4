@@ -300,6 +300,26 @@ var Interaction = /** @class */ (function (_super) {
         this.processTouchable(io);
     };
     /**
+     * Sets if [[InteractionObject]] will display context menu when right-clicked.
+     *
+     * @ignore Exclude from docs
+     * @param io [[InteractionObject]] instance
+     */
+    Interaction.prototype.processContextMenu = function (io) {
+        if (io.contextMenuDisabled) {
+            if (!io.eventDisposers.hasKey("contextMenuDisabled")) {
+                io.eventDisposers.setKey("contextMenuDisabled", addEventListener(io.element, "contextmenu", function (e) {
+                    e.preventDefault();
+                }));
+            }
+        }
+        else {
+            if (io.eventDisposers.hasKey("contextMenuDisabled")) {
+                io.eventDisposers.getKey("contextMenuDisabled").dispose();
+            }
+        }
+    };
+    /**
      * Sets if [[InteractionObject]] is hoverable.
      *
      * @ignore Exclude from docs
@@ -836,7 +856,7 @@ var Interaction = /** @class */ (function (_super) {
         // Get pointer
         var pointer = this.getPointer(ev);
         // Ignore if it's anything but mouse's primary button
-        if (!pointer.touch && (ev.which > 1)) {
+        if (!pointer.touch && ev.which != 1 && ev.which != 3) {
             return;
         }
         // Set mouse button

@@ -1439,6 +1439,10 @@ export declare class Export extends Validatable {
      */
     private _pdfmake();
     /**
+     * @ignore Exclude from docs
+     */
+    private _pdfmakePromise;
+    /**
      * Returns pdfmake instance.
      *
      * @ignore Exclude from docs

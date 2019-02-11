@@ -99,11 +99,10 @@ export interface ISpriteProperties {
     hoverable?: boolean;
     clickable?: boolean;
     togglable?: boolean;
-    rightClickable?: boolean;
-    longClickable?: boolean;
     wheelable?: boolean;
     focusable?: boolean;
     tabindex?: number;
+    contextMenuDisabled?: boolean;
     visible?: boolean;
     tooltipText?: string;
     tooltipHTML?: string;
@@ -2238,6 +2237,17 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param ev Event
      */
     handleToggle(ev: AMEvent<Sprite, ISpriteEvents>["hit"]): void;
+    /**
+     * @return Context menu disabled?
+     */
+    /**
+     * Should element prevent context menu to be displayed, e.g. when
+     * right-clicked?
+     *
+     * @default false
+     * @param value Context menu disabled?
+     */
+    contextMenuDisabled: boolean;
     /**
      * @return URL
      */

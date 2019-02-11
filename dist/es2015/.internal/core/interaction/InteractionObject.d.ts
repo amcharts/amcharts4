@@ -67,6 +67,7 @@ export declare class InteractionObject extends BaseObjectEvents {
      */
     replacedStyles: Dictionary<string, string>;
     protected _clickable: boolean;
+    protected _contextMenuDisabled: boolean;
     protected _hoverable: boolean;
     protected _trackable: boolean;
     protected _draggable: boolean;
@@ -175,66 +176,56 @@ export declare class InteractionObject extends BaseObjectEvents {
      */
     constructor(element: HTMLElement | SVGSVGElement);
     /**
-     * Returns if this element is currently hovered.
-     *
      * @return Hovered?
      */
     /**
-     * Sets if this element is currently hovered.
+     * Indicates if this element is currently hovered.
      *
      * @param value Hovered?
      */
     isHover: boolean;
     /**
-     * Returns if this element is currently hovered.
-     *
      * @return Hovered?
      */
     /**
-     * Sets if this element is currently hovered.
+     * Indicates if this element is currently hovered.
      *
      * @param value Hovered?
      */
     isHoverByTouch: boolean;
     /**
-     * Returns a list of pointers currently over the element.
+     * A list of pointers currently over the element.
      *
      * @see {@link Pointer}
      * @return List if pointers currently hovering the element
      */
     readonly overPointers: List<IPointer>;
     /**
-     * Returns if this element has currently any pointers pressing on it.
-     *
      * @return Has down pointers?
      */
     /**
-     * Sets if this element has currently any pointers pressing on it.
+     * Indicates if this element has currently any pointers pressing on it.
      *
      * @param value Has down pointers?
      */
     isDown: boolean;
     /**
-     * Returns a list of pointers currently pressing down on this element.
+     * A list of pointers currently pressing down on this element.
      *
      * @see {@link Pointer}
      * @return List of down pointers
      */
     readonly downPointers: List<IPointer>;
     /**
-     * Returns if this element is currently focused.
-     *
      * @return Focused?
      */
     /**
-     * Sets if this element is currently focused.
+     * Indicates if this element is currently focused.
      *
      * @param value Focused?
      */
     isFocused: boolean;
     /**
-     * Returns if element is currently set as clickable.
-     *
      * @return Clickable?
      */
     /**
@@ -245,56 +236,57 @@ export declare class InteractionObject extends BaseObjectEvents {
      */
     clickable: boolean;
     /**
-     * Returns if element is currently set to generate hover events.
+     * @return Context menu disabled?
+     */
+    /**
+     * Should element prevent context menu to be displayed, e.g. when
+     * right-clicked?
      *
+     * @default false
+     * @param value Context menu disabled?
+     */
+    contextMenuDisabled: boolean;
+    /**
      * @return Hoverable?
      */
     /**
-     * Sets if element should generate hover events.
+     * Indicates if element should generate hover events.
      *
      * @param value Hoverable?
      */
     hoverable: boolean;
     /**
-     * Returns if element is set to track pointer movement over it.
-     *
      * @return Track pointer?
      */
     /**
-     * Sets if pointer movement over element should be tracked.
+     * Indicates if pointer movement over element should be tracked.
      *
      * @param value Track pointer?
      */
     trackable: boolean;
     /**
-     * Returns if element is currently set as draggable.
-     *
      * @return Draggable?
      */
     /**
-     * Sets if element can be dragged. (moved)
+     * Indicates if element can be dragged. (moved)
      *
      * @param value Draggable?
      */
     draggable: boolean;
     /**
-     * Returns if element is currently set to track swipe gesture.
-     *
      * @return Track swipe?
      */
     /**
-     * Sets whether element should react to swipe gesture.
+     * Indicates whether element should react to swipe gesture.
      *
      * @param value Track swipe?
      */
     swipeable: boolean;
     /**
-     * Returns if element is currently set as resizeable.
-     *
      * @return Resizeble?
      */
     /**
-     * Sets if element can be resized.
+     * Indicates if element can be resized.
      *
      * @param value Resizeable?
      */
@@ -309,80 +301,68 @@ export declare class InteractionObject extends BaseObjectEvents {
      */
     wheelable: boolean;
     /**
-     * Returns if element is currently set as inert.
-     *
      * @return Inert?
      */
     /**
-     * Sets if element is inert, i.e. if it should carry movement momentum after
-     * it is dragged and released.
+     * Indicates if element is inert, i.e. if it should carry movement momentum
+     * after it is dragged and released.
      *
      * @param value Inert?
      */
     inert: boolean;
     /**
-     * Returns if element is currently set as focusable.
-     *
      * @return Focusable?
      */
     /**
-     * Sets if element can gain focus.
+     * Indicates if element can gain focus.
      *
      * @param value Focusable?
      */
     focusable: $type.Optional<boolean>;
     /**
-     * Returns element's current tab index.
-     *
      * @return Tab index
      */
     /**
-     * Sets element's tab index.
+     * Element's tab index.
      *
      * @param value Tab index
      */
     tabindex: number;
     /**
-     * Returns DOM element associated with this element
      * @return Element
      */
     /**
-     * Sets DOM element associated with this element
+     * A DOM element associated with this element.
+     *
      * @param element Element
      */
     element: HTMLElement | SVGSVGElement;
     /**
-     * Returns element's original position.
-     *
      * @ignore Exclude from docs
      * @return Position.
      */
     /**
-     * Sets element's original position.
+     * Element's original position.
      *
      * @ignore Exclude from docs
      * @param value Position
      */
     originalPosition: Optional<IPoint>;
     /**
-     * Returns element's original scale.
-     *
      * @return Scale
      */
     /**
-     * Sets element's original scale.
+     * Element's original scale.
      *
      * @ignore Exclude from docs
      * @param value Scale
      */
     originalScale: number;
     /**
-     * Returns element's original angle.
-     *
      * @return Angle
      */
     /**
-     * Sets element's original angle.
+     * Element's original angle.
      *
      * @ignore Exclude from docs
      * @param value Angle

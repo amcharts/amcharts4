@@ -28,6 +28,11 @@ import * as $type from "../utils/Type";
  */
 export declare function copyProperties(source: Object, target: Object): Object;
 /**
+ * Removes target from url
+ */
+export declare function stripHash(url: string): string;
+export declare function getBaseURI(): string;
+/**
  * Copies all properties of one object to the other, omitting undefined, but only if property in target object doesn't have a value set.
  *
  * @param fromObject  Source object

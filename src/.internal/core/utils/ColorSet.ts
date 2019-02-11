@@ -189,6 +189,7 @@ export class ColorSet extends BaseObject {
 	 */
 	public set list(value: Color[]) {
 		this._list = value;
+		this.reset();
 	}
 
 	/**

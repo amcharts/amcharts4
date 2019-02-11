@@ -3638,13 +3638,22 @@ export class Export extends Validatable {
 	}
 
 	/**
+	 * @ignore Exclude from docs
+	 */
+	private _pdfmakePromise: Promise<any>;
+
+	/**
 	 * Returns pdfmake instance.
 	 *
 	 * @ignore Exclude from docs
 	 * @return Instance of pdfmake
 	 */
 	public get pdfmake(): Promise<any> {
-		return this._pdfmake();
+		if (this._pdfmakePromise == null) {
+			this._pdfmakePromise = this._pdfmake();
+		}
+
+		return this._pdfmakePromise;
 	}
 
 	/**

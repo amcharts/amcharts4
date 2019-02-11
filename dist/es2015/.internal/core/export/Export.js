@@ -2723,7 +2723,10 @@ var Export = /** @class */ (function (_super) {
          * @return Instance of pdfmake
          */
         get: function () {
-            return this._pdfmake();
+            if (this._pdfmakePromise == null) {
+                this._pdfmakePromise = this._pdfmake();
+            }
+            return this._pdfmakePromise;
         },
         enumerable: true,
         configurable: true

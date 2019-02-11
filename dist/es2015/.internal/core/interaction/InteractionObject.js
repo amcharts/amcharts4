@@ -59,6 +59,7 @@ var InteractionObject = /** @class */ (function (_super) {
          */
         _this.replacedStyles = new Dictionary();
         _this._clickable = false;
+        _this._contextMenuDisabled = false;
         _this._hoverable = false;
         _this._trackable = false;
         _this._draggable = false;
@@ -126,15 +127,13 @@ var InteractionObject = /** @class */ (function (_super) {
     }
     Object.defineProperty(InteractionObject.prototype, "isHover", {
         /**
-         * Returns if this element is currently hovered.
-         *
          * @return Hovered?
          */
         get: function () {
             return this._isHover;
         },
         /**
-         * Sets if this element is currently hovered.
+         * Indicates if this element is currently hovered.
          *
          * @param value Hovered?
          */
@@ -154,15 +153,13 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "isHoverByTouch", {
         /**
-         * Returns if this element is currently hovered.
-         *
          * @return Hovered?
          */
         get: function () {
             return this._isHoverByTouch;
         },
         /**
-         * Sets if this element is currently hovered.
+         * Indicates if this element is currently hovered.
          *
          * @param value Hovered?
          */
@@ -176,7 +173,7 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "overPointers", {
         /**
-         * Returns a list of pointers currently over the element.
+         * A list of pointers currently over the element.
          *
          * @see {@link Pointer}
          * @return List if pointers currently hovering the element
@@ -192,15 +189,13 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "isDown", {
         /**
-         * Returns if this element has currently any pointers pressing on it.
-         *
          * @return Has down pointers?
          */
         get: function () {
             return this._isDown;
         },
         /**
-         * Sets if this element has currently any pointers pressing on it.
+         * Indicates if this element has currently any pointers pressing on it.
          *
          * @param value Has down pointers?
          */
@@ -220,7 +215,7 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "downPointers", {
         /**
-         * Returns a list of pointers currently pressing down on this element.
+         * A list of pointers currently pressing down on this element.
          *
          * @see {@link Pointer}
          * @return List of down pointers
@@ -236,15 +231,13 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "isFocused", {
         /**
-         * Returns if this element is currently focused.
-         *
          * @return Focused?
          */
         get: function () {
             return this._isFocused;
         },
         /**
-         * Sets if this element is currently focused.
+         * Indicates if this element is currently focused.
          *
          * @param value Focused?
          */
@@ -264,8 +257,6 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "clickable", {
         /**
-         * Returns if element is currently set as clickable.
-         *
          * @return Clickable?
          */
         get: function () {
@@ -286,17 +277,38 @@ var InteractionObject = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(InteractionObject.prototype, "contextMenuDisabled", {
+        /**
+         * @return Context menu disabled?
+         */
+        get: function () {
+            return this._contextMenuDisabled;
+        },
+        /**
+         * Should element prevent context menu to be displayed, e.g. when
+         * right-clicked?
+         *
+         * @default false
+         * @param value Context menu disabled?
+         */
+        set: function (value) {
+            if (this._contextMenuDisabled !== value) {
+                this._contextMenuDisabled = value;
+                getInteraction().processContextMenu(this);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(InteractionObject.prototype, "hoverable", {
         /**
-         * Returns if element is currently set to generate hover events.
-         *
          * @return Hoverable?
          */
         get: function () {
             return this._hoverable;
         },
         /**
-         * Sets if element should generate hover events.
+         * Indicates if element should generate hover events.
          *
          * @param value Hoverable?
          */
@@ -311,15 +323,13 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "trackable", {
         /**
-         * Returns if element is set to track pointer movement over it.
-         *
          * @return Track pointer?
          */
         get: function () {
             return this._trackable;
         },
         /**
-         * Sets if pointer movement over element should be tracked.
+         * Indicates if pointer movement over element should be tracked.
          *
          * @param value Track pointer?
          */
@@ -334,15 +344,13 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "draggable", {
         /**
-         * Returns if element is currently set as draggable.
-         *
          * @return Draggable?
          */
         get: function () {
             return this._draggable;
         },
         /**
-         * Sets if element can be dragged. (moved)
+         * Indicates if element can be dragged. (moved)
          *
          * @param value Draggable?
          */
@@ -357,15 +365,13 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "swipeable", {
         /**
-         * Returns if element is currently set to track swipe gesture.
-         *
          * @return Track swipe?
          */
         get: function () {
             return this._swipeable;
         },
         /**
-         * Sets whether element should react to swipe gesture.
+         * Indicates whether element should react to swipe gesture.
          *
          * @param value Track swipe?
          */
@@ -380,15 +386,13 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "resizable", {
         /**
-         * Returns if element is currently set as resizeable.
-         *
          * @return Resizeble?
          */
         get: function () {
             return this._resizable;
         },
         /**
-         * Sets if element can be resized.
+         * Indicates if element can be resized.
          *
          * @param value Resizeable?
          */
@@ -424,16 +428,14 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "inert", {
         /**
-         * Returns if element is currently set as inert.
-         *
          * @return Inert?
          */
         get: function () {
             return this._inert;
         },
         /**
-         * Sets if element is inert, i.e. if it should carry movement momentum after
-         * it is dragged and released.
+         * Indicates if element is inert, i.e. if it should carry movement momentum
+         * after it is dragged and released.
          *
          * @param value Inert?
          */
@@ -447,15 +449,13 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "focusable", {
         /**
-         * Returns if element is currently set as focusable.
-         *
          * @return Focusable?
          */
         get: function () {
             return this._focusable;
         },
         /**
-         * Sets if element can gain focus.
+         * Indicates if element can gain focus.
          *
          * @param value Focusable?
          */
@@ -473,15 +473,13 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "tabindex", {
         /**
-         * Returns element's current tab index.
-         *
          * @return Tab index
          */
         get: function () {
             return $type.getValueDefault(this._tabindex, -1);
         },
         /**
-         * Sets element's tab index.
+         * Element's tab index.
          *
          * @param value Tab index
          */
@@ -499,14 +497,14 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "element", {
         /**
-         * Returns DOM element associated with this element
          * @return Element
          */
         get: function () {
             return this._element;
         },
         /**
-         * Sets DOM element associated with this element
+         * A DOM element associated with this element.
+         *
          * @param element Element
          */
         set: function (element) {
@@ -517,8 +515,6 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "originalPosition", {
         /**
-         * Returns element's original position.
-         *
          * @ignore Exclude from docs
          * @return Position.
          */
@@ -526,7 +522,7 @@ var InteractionObject = /** @class */ (function (_super) {
             return this._originalPosition || { x: 0, y: 0 };
         },
         /**
-         * Sets element's original position.
+         * Element's original position.
          *
          * @ignore Exclude from docs
          * @param value Position
@@ -539,15 +535,13 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "originalScale", {
         /**
-         * Returns element's original scale.
-         *
          * @return Scale
          */
         get: function () {
             return $type.getValueDefault(this._originalScale, 1);
         },
         /**
-         * Sets element's original scale.
+         * Element's original scale.
          *
          * @ignore Exclude from docs
          * @param value Scale
@@ -562,15 +556,13 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "originalAngle", {
         /**
-         * Returns element's original angle.
-         *
          * @return Angle
          */
         get: function () {
             return $type.getValueDefault(this._originalAngle, 0);
         },
         /**
-         * Sets element's original angle.
+         * Element's original angle.
          *
          * @ignore Exclude from docs
          * @param value Angle
@@ -735,6 +727,7 @@ var InteractionObject = /** @class */ (function (_super) {
         this.swipeOptions = source.swipeOptions;
         this.keyboardOptions = source.keyboardOptions;
         this.cursorOptions = source.cursorOptions;
+        this.contextMenuDisabled = source.contextMenuDisabled;
         getInteraction().applyCursorOverStyle(this);
     };
     /**

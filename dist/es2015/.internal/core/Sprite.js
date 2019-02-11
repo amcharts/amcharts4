@@ -1317,7 +1317,7 @@ var Sprite = /** @class */ (function (_super) {
             this._disposers.push(this._clipPath);
             var id = registry.getUniqueId();
             this._clipPath.attr({ "id": id });
-            this.group.attr({ "clip-path": "url(#" + id + ")" });
+            this.group.attr({ "clip-path": "url(" + $utils.getBaseURI() + id + ")" });
         }
     };
     /**
@@ -1393,7 +1393,7 @@ var Sprite = /** @class */ (function (_super) {
                 h = width + "";
             }*/
             this.filterElement.attr({ "width": w, "height": h, "x": -(width_1 - 100) / 2 + "%", "y": -(height_1 - 100) / 2 + "%" });
-            this.group.attr({ "filter": "url(#" + id + ")" });
+            this.group.attr({ "filter": "url(" + $utils.getBaseURI() + id + ")" });
         }
         else if (this.filterElement) {
             this.group.removeAttr("filter");
@@ -3577,6 +3577,7 @@ var Sprite = /** @class */ (function (_super) {
                 this._interaction.swipeable = this.swipeable;
                 this._interaction.resizable = this.resizable;
                 this._interaction.wheelable = this.wheelable;
+                this._interaction.contextMenuDisabled = this.contextMenuDisabled;
                 this._interaction.inert = this.inert;
                 this._interaction.sprite = this;
                 this._disposers.push(this._interaction);
@@ -4275,6 +4276,29 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.handleToggle = function (ev) {
         this.isActive = !this.isActive;
     };
+    Object.defineProperty(Sprite.prototype, "contextMenuDisabled", {
+        /**
+         * @return Context menu disabled?
+         */
+        get: function () {
+            return this.getPropertyValue("contextMenuDisabled");
+        },
+        /**
+         * Should element prevent context menu to be displayed, e.g. when
+         * right-clicked?
+         *
+         * @default false
+         * @param value Context menu disabled?
+         */
+        set: function (value) {
+            value = $type.toBoolean(value);
+            if (this.setPropertyValue("contextMenuDisabled", value)) {
+                this.interactions.contextMenuDisabled = value;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Sprite.prototype, "url", {
         /**
          * @return URL
@@ -6347,7 +6371,7 @@ var Sprite = /** @class */ (function (_super) {
             else if (value instanceof Pattern || value instanceof LinearGradient || value instanceof RadialGradient) {
                 var fill = value;
                 fill.paper = this.paper;
-                this.setSVGAttribute({ "fill": "url(#" + fill.id + ")" });
+                this.setSVGAttribute({ "fill": "url(" + $utils.getBaseURI() + fill.id + ")" });
             }
         }
     };
@@ -6435,7 +6459,7 @@ var Sprite = /** @class */ (function (_super) {
             else if (value instanceof Pattern || value instanceof LinearGradient || value instanceof RadialGradient) {
                 var stroke = value;
                 stroke.paper = this.paper;
-                this.setSVGAttribute({ "stroke": "url(#" + stroke.id + ")" });
+                this.setSVGAttribute({ "stroke": "url(" + $utils.getBaseURI() + stroke.id + ")" });
             }
         }
     };

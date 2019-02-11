@@ -452,6 +452,29 @@ export class Interaction extends BaseObjectEvents {
 	}
 
 	/**
+	 * Sets if [[InteractionObject]] will display context menu when right-clicked.
+	 *
+	 * @ignore Exclude from docs
+	 * @param io [[InteractionObject]] instance
+	 */
+	public processContextMenu(io: InteractionObject): void {
+		if (io.contextMenuDisabled) {
+			if (!io.eventDisposers.hasKey("contextMenuDisabled")) {
+				io.eventDisposers.setKey("contextMenuDisabled",
+					addEventListener<MouseEvent | PointerEvent>(io.element, "contextmenu", (e) => {
+						e.preventDefault();
+					})
+				);
+			}
+		}
+		else {
+			if (io.eventDisposers.hasKey("contextMenuDisabled")) {
+				io.eventDisposers.getKey("contextMenuDisabled").dispose();
+			}
+		}
+	}
+
+	/**
 	 * Sets if [[InteractionObject]] is hoverable.
 	 *
 	 * @ignore Exclude from docs
@@ -1108,7 +1131,7 @@ export class Interaction extends BaseObjectEvents {
 		let pointer = this.getPointer(ev);
 
 		// Ignore if it's anything but mouse's primary button
-		if (!pointer.touch && (ev.which > 1)) {
+		if (!pointer.touch && ev.which != 1 && ev.which != 3) {
 			return;
 		}
 
