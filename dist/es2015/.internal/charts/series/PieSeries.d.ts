@@ -16,6 +16,7 @@ import { Animation } from "../../core/utils/Animation";
 import { Bullet } from "../elements/Bullet";
 import { IRectangle } from "../../core/defs/IRectangle";
 import { PieChart } from "../types/PieChart";
+import * as $type from "../../core/utils/Type";
 import { Percent } from "../../core/utils/Percent";
 /**
  * ============================================================================
@@ -68,7 +69,7 @@ export declare class PieSeriesDataItem extends PercentSeriesDataItem {
      * @param toValue   Target value for animation
      * @param fields    Fields to animate while hiding
      */
-    hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): Animation;
+    hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): $type.Optional<Animation>;
     /**
      * Show hidden data item (and corresponding cisual elements).
      *
@@ -76,7 +77,7 @@ export declare class PieSeriesDataItem extends PercentSeriesDataItem {
      * @param delay     Delay hiding (ms)
      * @param fields    Fields to animate while hiding
      */
-    show(duration?: number, delay?: number, fields?: string[]): Animation;
+    show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation>;
 }
 /**
  * ============================================================================

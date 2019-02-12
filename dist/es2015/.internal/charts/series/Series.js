@@ -338,7 +338,7 @@ var Series = /** @class */ (function (_super) {
         }
         for (var i = startIndex; i >= 0; i--) {
             var dataItem = this.dataItems.getIndex(i);
-            var value = dataItem.values[key].workingValue;
+            var value = dataItem.getActualWorkingValue(key);
             if ($type.isNumber(value)) {
                 return value;
             }
@@ -386,7 +386,7 @@ var Series = /** @class */ (function (_super) {
             if (startIndex_1 > 0) {
                 var dataItem_1 = dataItems.getIndex(startIndex_1 - 1);
                 $object.each(dataItem_1.values, function (key, values) {
-                    var value = values.workingValue;
+                    var value = dataItem_1.getActualWorkingValue(key);
                     if ($type.isNumber(value)) {
                         // save previous
                         previous_1[key] = value;
@@ -396,7 +396,7 @@ var Series = /** @class */ (function (_super) {
             var _loop_1 = function (i) {
                 var dataItem_2 = dataItems.getIndex(i);
                 $object.each(dataItem_2.values, function (key, values) {
-                    var value = values.workingValue;
+                    var value = dataItem_2.getActualWorkingValue(key);
                     //if (i >= startIndex && i <= endIndex) { // do not add to count, sum etc if it is not within start/end index
                     if ($type.isNumber(value)) {
                         // count values
@@ -462,7 +462,7 @@ var Series = /** @class */ (function (_super) {
                     var dataItem_3 = dataItems.getIndex(i);
                     $object.each(dataItem_3.values, function (key) {
                         var ksum = sum_1[key];
-                        var value = dataItem_3.values[key].workingValue;
+                        var value = dataItem_3.getActualWorkingValue(key);
                         if ($type.isNumber(value) && ksum > 0) {
                             // this hack is made in order to make it possible to animate single slice to 0
                             // if there is only one slice left, percent value is always 100%, so it won't animate
@@ -920,7 +920,7 @@ var Series = /** @class */ (function (_super) {
      * @param e Error
      */
     Series.prototype.raiseCriticalError = function (e) {
-        this._chart.modal.content = e.message;
+        this._chart.modal.content = this._chart.adapter.apply("criticalError", e).message;
         this._chart.modal.closable = false;
         this._chart.modal.open();
         this._chart.disabled = true;
@@ -1048,7 +1048,7 @@ var Series = /** @class */ (function (_super) {
                             if (dataItem) {
                                 var fieldValues = dataItem.values[dataField_1];
                                 if (fieldValues) {
-                                    var workingValue = fieldValues.workingValue;
+                                    var workingValue = dataItem.getActualWorkingValue(dataField_1);
                                     if ($type.hasValue(min_1) && $type.hasValue(max_1) && $type.isNumber(minValue) && $type.isNumber(maxValue) && $type.isNumber(workingValue)) {
                                         var percent = (workingValue - minValue) / (maxValue - minValue);
                                         if ($type.isNumber(workingValue) && !$type.isNumber(percent)) {

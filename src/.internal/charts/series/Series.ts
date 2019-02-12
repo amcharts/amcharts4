@@ -616,7 +616,7 @@ export class Series extends Component {
 		}
 		for (let i = startIndex; i >= 0; i--) {
 			let dataItem = this.dataItems.getIndex(i);
-			let value: number = dataItem.values[key].workingValue;
+			let value: number = dataItem.getActualWorkingValue(key);
 			if ($type.isNumber(value)) {
 				return value;
 			}
@@ -673,7 +673,7 @@ export class Series extends Component {
 				let dataItem = dataItems.getIndex(startIndex - 1);
 
 				$object.each(dataItem.values, (key, values) => {
-					let value: number = values.workingValue;
+					let value: number = dataItem.getActualWorkingValue(key);
 
 					if ($type.isNumber(value)) {
 						// save previous
@@ -686,7 +686,7 @@ export class Series extends Component {
 				let dataItem = dataItems.getIndex(i);
 
 				$object.each(dataItem.values, (key, values) => {
-					let value: number = values.workingValue;
+					let value: number = dataItem.getActualWorkingValue(key);
 
 					//if (i >= startIndex && i <= endIndex) { // do not add to count, sum etc if it is not within start/end index
 					if ($type.isNumber(value)) {
@@ -764,7 +764,7 @@ export class Series extends Component {
 					$object.each(dataItem.values, (key) => {
 						let ksum: number = sum[key];
 
-						let value: number = dataItem.values[key].workingValue;
+						let value: number = dataItem.getActualWorkingValue(key);
 
 						if ($type.isNumber(value) && ksum > 0) {
 
@@ -1253,7 +1253,7 @@ export class Series extends Component {
 	 * @param e Error
 	 */
 	public raiseCriticalError(e: Error) {
-		this._chart.modal.content = e.message;
+		this._chart.modal.content = this._chart.adapter.apply("criticalError", e).message;
 		this._chart.modal.closable = false;
 		this._chart.modal.open();
 		this._chart.disabled = true;
@@ -1400,7 +1400,7 @@ export class Series extends Component {
 						if (dataItem) {
 							let fieldValues = dataItem.values[dataField];
 							if (fieldValues) {
-								let workingValue = fieldValues.workingValue;
+								let workingValue = dataItem.getActualWorkingValue(dataField);
 								if ($type.hasValue(min) && $type.hasValue(max) && $type.isNumber(minValue) && $type.isNumber(maxValue) && $type.isNumber(workingValue)) {
 
 									let percent = (workingValue - minValue) / (maxValue - minValue);

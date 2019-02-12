@@ -191,6 +191,8 @@ export declare class PieChart extends PercentChart {
      * Defines a type of series that this chart uses.
      */
     _seriesType: PieSeries;
+    protected _chartPixelRadius: number;
+    protected _chartPixelInnerRadius: number;
     /**
      * Constructor
      */

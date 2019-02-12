@@ -883,7 +883,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			this.resetIterators();
 
 			while (timestamp <= this._maxZoomed) {
-				let date = this.getGridDate(new Date(prevGridDate), intervalCount);
+				let date = this.getGridDate($time.copy(prevGridDate), intervalCount);
 
 				timestamp = date.getTime();
 

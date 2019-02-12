@@ -669,7 +669,7 @@ var DateAxis = /** @class */ (function (_super) {
             var dataItemsIterator_1 = this._dataItemsIterator;
             this.resetIterators();
             var _loop_2 = function () {
-                var date = this_2.getGridDate(new Date(prevGridDate), intervalCount);
+                var date = this_2.getGridDate($time.copy(prevGridDate), intervalCount);
                 timestamp = date.getTime();
                 var endDate = $time.copy(date); // you might think it's easier to add intervalduration to timestamp, however it won't work for months or years which are not of the same length
                 endDate = $time.add(endDate, timeUnit, intervalCount);

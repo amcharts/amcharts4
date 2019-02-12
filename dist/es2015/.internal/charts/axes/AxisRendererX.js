@@ -145,16 +145,35 @@ var AxisRendererX = /** @class */ (function (_super) {
         position = position + (endPosition - position) * location;
         var point = this.positionToPoint(position);
         label.isMeasured = !label.inside;
-        if (!this.opposite && label.inside) {
-            if (label.rotation == 0) {
-                label.verticalCenter = "bottom";
+        var deltaY = 0;
+        var verticalCenter;
+        if (this.opposite) {
+            if (label.inside) {
+                verticalCenter = "top";
+                if (label.valign == "bottom") {
+                    deltaY = this.gridContainer.maxHeight;
+                    verticalCenter = "bottom";
+                }
             }
+            else {
+                verticalCenter = "bottom";
+            }
+            point.y = deltaY;
         }
         else {
-            if (label.rotation == 0) {
-                label.verticalCenter = "top";
+            if (label.inside) {
+                verticalCenter = "bottom";
+                if (label.valign == "top") {
+                    deltaY = -this.gridContainer.maxHeight;
+                    verticalCenter = "top";
+                }
             }
+            else {
+                verticalCenter = "top";
+            }
+            point.y += deltaY;
         }
+        label.verticalCenter = verticalCenter;
         this.positionItem(label, point);
         this.toggleVisibility(label, position, this.minLabelPosition, this.maxLabelPosition);
     };

@@ -196,6 +196,9 @@ export class TreeMapSeries extends ColumnSeries {
 	 */
 	public _chart: TreeMap;
 
+	/**
+	 * Parent data item of a series.
+	 */
 	public parentDataItem: TreeMapDataItem;
 
 	/**

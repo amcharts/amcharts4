@@ -27,7 +27,7 @@ import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
-
+import { VerticalCenter } from "../../core/defs/VerticalCenter";
 
 
 
@@ -223,16 +223,39 @@ export class AxisRendererX extends AxisRenderer {
 
 		label.isMeasured = !label.inside;
 
-		if (!this.opposite && label.inside) {
-			if(label.rotation == 0){
-				label.verticalCenter = "bottom";
+		let deltaY = 0;
+		let verticalCenter:VerticalCenter;
+		if (this.opposite) {
+			if (label.inside) {
+				verticalCenter = "top";
+				if (label.valign == "bottom") {
+					deltaY = this.gridContainer.maxHeight;
+					verticalCenter = "bottom";
+				}				
 			}
+			else {
+				verticalCenter = "bottom";
+			}
+
+			point.y = deltaY;
 		}
 		else {
-			if(label.rotation == 0){
-				label.verticalCenter = "top";
+			if (label.inside) {
+				verticalCenter = "bottom";
+				if (label.valign == "top") {
+					deltaY = -this.gridContainer.maxHeight;
+					verticalCenter = "top";
+				}				
 			}
+			else {
+				verticalCenter = "top";
+			}
+
+			point.y += deltaY;
 		}
+		
+
+		label.verticalCenter = verticalCenter;
 
 		this.positionItem(label, point);
 

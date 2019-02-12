@@ -58,7 +58,7 @@ export class TreeMapDataItem extends XYChartDataItem {
 	protected _level: number;
 
 	/**
-	 * Related series.
+	 * Series of children data items.
 	 */
 	protected _series: TreeMapSeries;
 
@@ -120,7 +120,7 @@ export class TreeMapDataItem extends XYChartDataItem {
 	 * @param duration  Default duration (ms)
 	 * @return Duration (ms)
 	 */
-	public getDuration():number{
+	public getDuration(): number {
 		return 0;
 	}
 
@@ -137,6 +137,24 @@ export class TreeMapDataItem extends XYChartDataItem {
 	 * @return Value
 	 */
 	public get value(): number {
+
+		let value = 0;
+		if (!this.children || this.children.length == 0) {
+			value = this.values["value"].workingValue;
+		}
+
+		else {
+			$iter.each(this.children.iterator(), (child) => {
+				let childValue = child.value;
+				if ($type.isNumber(childValue)) {
+					value += childValue;
+				}
+			});
+
+		}
+
+		return value;
+		/*
 		let value = this.values["value"].workingValue;
 
 		if (!$type.isNumber(value)) {
@@ -149,7 +167,7 @@ export class TreeMapDataItem extends XYChartDataItem {
 				});
 			}
 		}
-		return value;
+		return value;*/
 	}
 
 	public get percent(): number {
@@ -319,16 +337,18 @@ export class TreeMapDataItem extends XYChartDataItem {
 	}
 
 	/**
-	 * series of data item
+	 * Series of children data items
 	 * @todo: proper descrition
 	 */
 	public set series(series: TreeMapSeries) {
-		if (this._series) {
-			this.component.series.removeValue(this._series);
-			this._series.dispose();
+		if (series != this._series) {
+			if (this._series) {
+				this.component.series.removeValue(this._series);
+				this._series.dispose();
+			}
+			this._series = series;
+			this._disposers.push(series);
 		}
-		this._series = series;
-		this._disposers.push(series);
 	}
 
 	public get series(): TreeMapSeries {
@@ -523,7 +543,7 @@ export class TreeMap extends XYChart {
 	protected _homeText: string;
 
 	/**
-	 * A set of colors to be applied autoamtically to each new chart item, if
+	 * A set of colors to be applied automatically to each new chart item, if
 	 * not explicitly set.
 	 */
 	public colors: ColorSet;
@@ -1370,14 +1390,14 @@ export class TreeMap extends XYChart {
 	 * @ignore Exclude from docs
 	 * @todo Description
 	 */
-	public handleDataItemValueChange(dataItem?: this["_dataItem"], name?:string): void {
-		if(name == "value"){
+	public handleDataItemValueChange(dataItem?: this["_dataItem"], name?: string): void {
+		if (name == "value") {
 			this.invalidateDataItems();
 		}
 	}
 
-	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?:string): void {
-		if(name == "value"){
+	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void {
+		if (name == "value") {
 			this.invalidateDataItems();
 		}
 	}

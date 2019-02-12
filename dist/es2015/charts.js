@@ -10,7 +10,6 @@ export { XYChartDataItem, XYChart } from "./.internal/charts/types/XYChart";
 export { SerialChartDataItem, SerialChart } from "./.internal/charts/types/SerialChart";
 export { PieChart3DDataItem, PieChart3D } from "./.internal/charts/types/PieChart3D";
 export { PieChartDataItem, PieChart } from "./.internal/charts/types/PieChart";
-//export { SunburstDataItem, ISunburstDataFields, ISunburstProperties, ISunburstEvents, ISunburstAdapters, Sunburst } from "./.internal/charts/types/Sunburst";
 export { SlicedChart, SlicedChartDataItem } from "./.internal/charts/types/SlicedChart";
 export { FlowDiagramDataItem, FlowDiagram } from "./.internal/charts/types/FlowDiagram";
 export { SankeyDiagramDataItem, SankeyDiagram } from "./.internal/charts/types/SankeyDiagram";

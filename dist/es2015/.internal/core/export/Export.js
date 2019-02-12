@@ -1346,6 +1346,9 @@ var Export = /** @class */ (function (_super) {
             svg = svg.replace(/(<svg[^>]*>)/, "$1<rect width=\"100%\" height=\"100%\" fill=\"" + background.rgba + "\"/>");
             //svg = svg.replace(/<\/svg>/, "<rect width=\"100%\" height=\"100%\" fill=\"" + background.rgba + "\"/></svg>");
         }
+        // Remove base uri-related stuff
+        var reg = new RegExp("url\\(" + $utils.escapeForRgex($utils.getBaseURI()), "g");
+        svg = svg.replace(reg, "url(#");
         svg = this.adapter.apply("normalizeSVG", {
             data: svg,
             options: options

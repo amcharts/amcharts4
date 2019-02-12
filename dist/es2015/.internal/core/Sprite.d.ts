@@ -196,6 +196,7 @@ export interface ISpriteAdapters extends ISpriteProperties {
     swipeOptions: ISwipeOptions;
     keyboardOptions: IKeyboardOptions;
     cursorOptions: ICursorOptions;
+    criticalError: Error;
 }
 /**
  * ============================================================================

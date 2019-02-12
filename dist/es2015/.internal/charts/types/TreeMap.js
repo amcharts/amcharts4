@@ -73,18 +73,33 @@ var TreeMapDataItem = /** @class */ (function (_super) {
          * @return Value
          */
         get: function () {
-            var value = this.values["value"].workingValue;
+            var value = 0;
+            if (!this.children || this.children.length == 0) {
+                value = this.values["value"].workingValue;
+            }
+            else {
+                $iter.each(this.children.iterator(), function (child) {
+                    var childValue = child.value;
+                    if ($type.isNumber(childValue)) {
+                        value += childValue;
+                    }
+                });
+            }
+            return value;
+            /*
+            let value = this.values["value"].workingValue;
+    
             if (!$type.isNumber(value)) {
                 value = 0;
                 if (this.children) {
-                    $iter.each(this.children.iterator(), function (child) {
+                    $iter.each(this.children.iterator(), (child) => {
                         if ($type.isNumber(child.value)) {
                             value += child.value;
                         }
                     });
                 }
             }
-            return value;
+            return value;*/
         },
         /**
          * Numeric value of the item.
@@ -287,16 +302,18 @@ var TreeMapDataItem = /** @class */ (function (_super) {
             return this._series;
         },
         /**
-         * series of data item
+         * Series of children data items
          * @todo: proper descrition
          */
         set: function (series) {
-            if (this._series) {
-                this.component.series.removeValue(this._series);
-                this._series.dispose();
+            if (series != this._series) {
+                if (this._series) {
+                    this.component.series.removeValue(this._series);
+                    this._series.dispose();
+                }
+                this._series = series;
+                this._disposers.push(series);
             }
-            this._series = series;
-            this._disposers.push(series);
         },
         enumerable: true,
         configurable: true

@@ -7,8 +7,9 @@ $util.cwd("dist", () => {
 
 		$script.makeSrc(entries, "../es2015");
 
-		$script.makeSubPackage(entries, "lang", "es2015/lang", "./lang", "@amcharts/amcharts4/lang");
-		$script.makeSubPackage(entries, "themes", "es2015/themes", "./themes", "@amcharts/amcharts4/themes");
+		$script.makeSubPackage(entries, "lang", "es2015/lang", "./lang", "@amcharts/amcharts4/lang", true);
+		$script.makeSubPackage(entries, "themes", "es2015/themes", "./themes", "@amcharts/amcharts4/themes", true);
+		$script.makeSubPackage(entries, "plugins", "es2015/plugins", "./plugins", "@amcharts/amcharts4/plugins", false);
 
 		$script.runWebpack(entries);
 	});

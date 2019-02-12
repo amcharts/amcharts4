@@ -387,32 +387,27 @@ export class AxisRendererY extends AxisRenderer {
 		if (this.opposite) {
 			if (label.inside) {
 				horizontalCenter = "right";
-			}
-			else {
-				horizontalCenter = "left";
-			}
-
-			if (label.inside) {
 				if (label.align == "left") {
 					deltaX = -this.gridContainer.maxWidth;
 					horizontalCenter = "left";
 				}
 			}
+			else {
+				horizontalCenter = "left";
+			}
+
 			point.x = 0 + deltaX;
 		}
 		else {
 			if (label.inside) {
 				horizontalCenter = "left";
-			}
-			else {
-				horizontalCenter = "right";
-			}
-
-			if (label.inside) {
 				if (label.align == "right") {
 					deltaX = this.gridContainer.maxWidth;
 					horizontalCenter = "right";
 				}
+			}
+			else {
+				horizontalCenter = "right";
 			}
 
 			point.x = this.measuredWidth + deltaX;

@@ -186,43 +186,43 @@ export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit): boole
 export function add(date: Date, unit: TimeUnit, count: number): Date {
 	switch (unit) {
 		case "day":
-			let day: number = date.getDate();
-			date.setDate(day + count);
+			let day: number = date.getUTCDate();
+			date.setUTCDate(day + count);
 			break;
 
 		case "second":
-			let seconds: number = date.getSeconds();
-			date.setSeconds(seconds + count);
+			let seconds: number = date.getUTCSeconds();
+			date.setUTCSeconds(seconds + count);
 			break;
 
 		case "millisecond":
-			let milliseconds: number = date.getMilliseconds();
-			date.setMilliseconds(milliseconds + count);
+			let milliseconds: number = date.getUTCMilliseconds();
+			date.setUTCMilliseconds(milliseconds + count);
 			break;
 
 		case "hour":
-			let hours: number = date.getHours();
-			date.setHours(hours + count);
+			let hours: number = date.getUTCHours();
+			date.setUTCHours(hours + count);
 			break;
 
 		case "minute":
-			let minutes: number = date.getMinutes();
-			date.setMinutes(minutes + count);
+			let minutes: number = date.getUTCMinutes();
+			date.setUTCMinutes(minutes + count);
 			break;
 
 		case "year":
-			let year: number = date.getFullYear();
-			date.setFullYear(year + count);
+			let year: number = date.getUTCFullYear();
+			date.setUTCFullYear(year + count);
 			break;
 
 		case "month":
-			let month: number = date.getMonth();
-			date.setMonth(month + count);
+			let month: number = date.getUTCMonth();
+			date.setUTCMonth(month + count);
 			break;
 
 		case "week":
-			let wday: number = date.getDate();
-			date.setDate(wday + count * 7);
+			let wday: number = date.getUTCDate();
+			date.setUTCDate(wday + count * 7);
 			break;
 	}
 
@@ -248,23 +248,23 @@ export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek
 	switch (unit) {
 
 		case "day":
-			let day = date.getDate();
+			let day = date.getUTCDate();
 			if (count > 1) {
 				day = Math.floor(day / count) * count;
 			}
 			day = day;
 
-			date.setDate(day);
-			date.setHours(0, 0, 0, 0);
+			date.setUTCDate(day);
+			date.setUTCHours(0, 0, 0, 0);
 
 			break;
 
 		case "second":
-			let seconds = date.getSeconds();
+			let seconds = date.getUTCSeconds();
 			if (count > 1) {
 				seconds = Math.floor(seconds / count) * count;
 			}
-			date.setSeconds(seconds, 0);
+			date.setUTCSeconds(seconds, 0);
 			break;
 
 		case "millisecond":
@@ -272,61 +272,61 @@ export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek
 				return date; // much better for perf!
 			}
 
-			let milliseconds = date.getMilliseconds();
+			let milliseconds = date.getUTCMilliseconds();
 			milliseconds = Math.floor(milliseconds / count) * count;
-			date.setMilliseconds(milliseconds);
+			date.setUTCMilliseconds(milliseconds);
 			break;
 
 		case "hour":
 
-			let hours = date.getHours();
+			let hours = date.getUTCHours();
 			if (count > 1) {
 				hours = Math.floor(hours / count) * count;
 			}
-			date.setHours(hours, 0, 0, 0);
+			date.setUTCHours(hours, 0, 0, 0);
 
 			break;
 
 		case "minute":
 
-			let minutes = date.getMinutes();
-			milliseconds = date.getMilliseconds();
+			let minutes = date.getUTCMinutes();
+			milliseconds = date.getUTCMilliseconds();
 			if (count > 1) {
 				minutes = Math.floor(minutes / count) * count;
 			}
 
-			date.setMinutes(minutes, 0, 0);
+			date.setUTCMinutes(minutes, 0, 0);
 
 			break;
 
 		case "month":
 
-			let month = date.getMonth();
+			let month = date.getUTCMonth();
 			if (count > 1) {
 				month = Math.floor(month / count) * count;
 			}
 
-			date.setMonth(month, 1);
-			date.setHours(0, 0, 0, 0);
+			date.setUTCMonth(month, 1);
+			date.setUTCHours(0, 0, 0, 0);
 
 			break;
 
 		case "year":
 
-			let year = date.getFullYear();
+			let year = date.getUTCFullYear();
 			if (count > 1) {
 				year = Math.floor(year / count) * count;
 			}
-			date.setFullYear(year, 0, 1);
-			date.setHours(0, 0, 0, 0);
+			date.setUTCFullYear(year, 0, 1);
+			date.setUTCHours(0, 0, 0, 0);
 
 			break;
 
 
 		case "week":
 
-			let wday = date.getDate();
-			let weekDay = date.getDay();
+			let wday = date.getUTCDate();
+			let weekDay = date.getUTCDay();
 
 			if (!$type.isNumber(firstDateOfWeek)) {
 				firstDateOfWeek = 1;
@@ -339,8 +339,8 @@ export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek
 				wday = wday - (7 + weekDay) + firstDateOfWeek;
 			}
 
-			date.setDate(wday);
-			date.setHours(0, 0, 0, 0);
+			date.setUTCDate(wday);
+			date.setUTCHours(0, 0, 0, 0);
 
 			break;
 	}

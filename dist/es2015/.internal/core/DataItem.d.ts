@@ -419,10 +419,14 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * Data Item is animating from one state to another.
      *
      * @param name        Data field name
-     * @param calculated  A calculated value name
      * @return Value
      */
     getWorkingValue(name: string): $type.Optional<number>;
+    /**
+     * @ignore
+     * @return Value
+     */
+    getActualWorkingValue(name: string): $type.Optional<number>;
     /**
      * Sets a numeric value for specific data field.
      *

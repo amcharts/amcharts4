@@ -109,7 +109,7 @@ export class PieSeriesDataItem extends PercentSeriesDataItem {
 	 * @param toValue   Target value for animation
 	 * @param fields    Fields to animate while hiding
 	 */
-	public hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): Animation {
+	public hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): $type.Optional<Animation> {
 		return super.hide(duration, delay, 0, ["value", "radiusValue"]);
 	}
 
@@ -120,7 +120,7 @@ export class PieSeriesDataItem extends PercentSeriesDataItem {
 	 * @param delay     Delay hiding (ms)
 	 * @param fields    Fields to animate while hiding
 	 */
-	public show(duration?: number, delay?: number, fields?: string[]): Animation {
+	public show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation> {
 		return super.show(duration, delay, ["value", "radiusValue"]);
 	}
 }
