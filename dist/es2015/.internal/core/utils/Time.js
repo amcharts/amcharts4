@@ -97,42 +97,58 @@ export function copy(date) {
  * @return Range?
  */
 export function checkChange(dateOne, dateTwo, unit) {
+    var timeZoneOffset1 = dateOne.getTimezoneOffset();
+    dateOne.setUTCMinutes(dateOne.getUTCMinutes() - timeZoneOffset1);
+    var timeZoneOffset2 = dateTwo.getTimezoneOffset();
+    dateTwo.setUTCMinutes(dateTwo.getUTCMinutes() - timeZoneOffset2);
+    var changed = false;
     switch (unit) {
         case "year":
-            if (dateOne.getFullYear() != dateTwo.getFullYear()) {
-                return true;
+            if (dateOne.getUTCFullYear() != dateTwo.getUTCFullYear()) {
+                changed = true;
             }
             break;
         case "month":
-            if (dateOne.getMonth() != dateTwo.getMonth()) {
-                return true;
+            if (dateOne.getUTCFullYear() != dateTwo.getUTCFullYear()) {
+                changed = true;
+            }
+            else if (dateOne.getUTCMonth() != dateTwo.getUTCMonth()) {
+                changed = true;
             }
             break;
         case "day":
-            if (dateOne.getDate() != dateTwo.getDate()) {
-                return true;
+            if (dateOne.getUTCMonth() != dateTwo.getUTCMonth()) {
+                changed = true;
+            }
+            else if (dateOne.getUTCDate() != dateTwo.getUTCDate()) {
+                changed = true;
             }
             break;
         case "hour":
-            if (dateOne.getHours() != dateTwo.getHours()) {
-                return true;
+            if (dateOne.getUTCHours() != dateTwo.getUTCHours()) {
+                changed = true;
             }
             break;
         case "minute":
-            if (dateOne.getMinutes() != dateTwo.getMinutes()) {
-                return true;
+            if (dateOne.getUTCMinutes() != dateTwo.getUTCMinutes()) {
+                changed = true;
             }
             break;
         case "second":
-            if (dateOne.getSeconds() != dateTwo.getSeconds()) {
-                return true;
+            if (dateOne.getUTCSeconds() != dateTwo.getUTCSeconds()) {
+                changed = true;
             }
             break;
         case "millisecond":
             if (dateOne.getTime() != dateTwo.getTime()) {
-                return true;
+                changed = true;
             }
             break;
+    }
+    dateOne.setUTCMinutes(dateOne.getUTCMinutes() + timeZoneOffset1);
+    dateTwo.setUTCMinutes(dateTwo.getUTCMinutes() + timeZoneOffset2);
+    if (changed) {
+        return true;
     }
     var nextUnit = getNextUnit(unit);
     if (nextUnit) {
@@ -152,10 +168,14 @@ export function checkChange(dateOne, dateTwo, unit) {
  * @return Modified date
  */
 export function add(date, unit, count) {
+    var timeZoneOffset = date.getTimezoneOffset();
+    date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);
     switch (unit) {
         case "day":
             var day = date.getUTCDate();
             date.setUTCDate(day + count);
+            var nonUTCDateD = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+            timeZoneOffset = nonUTCDateD.getTimezoneOffset();
             break;
         case "second":
             var seconds = date.getUTCSeconds();
@@ -180,12 +200,17 @@ export function add(date, unit, count) {
         case "month":
             var month = date.getUTCMonth();
             date.setUTCMonth(month + count);
+            var nonUTCDateM = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+            timeZoneOffset = nonUTCDateM.getTimezoneOffset();
             break;
         case "week":
             var wday = date.getUTCDate();
             date.setUTCDate(wday + count * 7);
+            var nonUTCDateW = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+            timeZoneOffset = nonUTCDateW.getTimezoneOffset();
             break;
     }
+    date.setUTCMinutes(date.getUTCMinutes() + timeZoneOffset);
     return date;
 }
 /**
@@ -202,6 +227,8 @@ export function round(date, unit, count, firstDateOfWeek) {
     if (!$type.isNumber(count)) {
         count = 1;
     }
+    var timeZoneOffset = date.getTimezoneOffset();
+    date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);
     switch (unit) {
         case "day":
             var day = date.getUTCDate();
@@ -275,6 +302,7 @@ export function round(date, unit, count, firstDateOfWeek) {
             date.setUTCHours(0, 0, 0, 0);
             break;
     }
+    date.setUTCMinutes(date.getUTCMinutes() + timeZoneOffset);
     return date;
 }
 //# sourceMappingURL=Time.js.map

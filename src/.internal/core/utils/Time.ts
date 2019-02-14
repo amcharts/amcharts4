@@ -119,49 +119,70 @@ export function copy(date: Date): Date {
  */
 export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit): boolean {
 
+
+	let timeZoneOffset1 = dateOne.getTimezoneOffset();
+	dateOne.setUTCMinutes(dateOne.getUTCMinutes() - timeZoneOffset1);
+
+	let timeZoneOffset2 = dateTwo.getTimezoneOffset();
+	dateTwo.setUTCMinutes(dateTwo.getUTCMinutes() - timeZoneOffset2);
+
+	let changed = false;
 	switch (unit) {
 		case "year":
-			if (dateOne.getFullYear() != dateTwo.getFullYear()) {
-				return true;
+			if (dateOne.getUTCFullYear() != dateTwo.getUTCFullYear()) {
+				changed = true;
 			}
 			break;
 		case "month":
-			if (dateOne.getMonth() != dateTwo.getMonth()) {
-				return true;
+			if (dateOne.getUTCFullYear() != dateTwo.getUTCFullYear()) {
+				changed = true;
+			}		
+			else if (dateOne.getUTCMonth() != dateTwo.getUTCMonth()){
+				changed = true;
 			}
 			break;
 
 		case "day":
-			if (dateOne.getDate() != dateTwo.getDate()) {
-				return true;
+			if (dateOne.getUTCMonth() != dateTwo.getUTCMonth()) {
+				changed = true;
+			}
+			else if (dateOne.getUTCDate() != dateTwo.getUTCDate()) {
+				changed = true;
 			}
 
 			break;
 
 		case "hour":
-			if (dateOne.getHours() != dateTwo.getHours()) {
-				return true;
+			if (dateOne.getUTCHours() != dateTwo.getUTCHours()) {
+				changed = true;
 			}
 			break;
 
 		case "minute":
-			if (dateOne.getMinutes() != dateTwo.getMinutes()) {
-				return true;
+			if (dateOne.getUTCMinutes() != dateTwo.getUTCMinutes()) {
+				changed = true;
 			}
 
 			break;
 
 		case "second":
-			if (dateOne.getSeconds() != dateTwo.getSeconds()) {
-				return true;
+			if (dateOne.getUTCSeconds() != dateTwo.getUTCSeconds()) {
+				changed = true;
 			}
 			break;
 
 		case "millisecond":
 			if (dateOne.getTime() != dateTwo.getTime()) {
-				return true;
+				changed = true;
 			}
 			break;
+	}
+
+	dateOne.setUTCMinutes(dateOne.getUTCMinutes() + timeZoneOffset1);
+	dateTwo.setUTCMinutes(dateTwo.getUTCMinutes() + timeZoneOffset2);
+
+	if(changed){
+		return true;
 	}
 
 	let nextUnit: $type.Optional<TimeUnit> = getNextUnit(unit);
@@ -184,10 +205,18 @@ export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit): boole
  * @return Modified date
  */
 export function add(date: Date, unit: TimeUnit, count: number): Date {
+
+	let timeZoneOffset = date.getTimezoneOffset();
+	date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);
+
 	switch (unit) {
 		case "day":
 			let day: number = date.getUTCDate();
 			date.setUTCDate(day + count);
+			
+			let nonUTCDateD = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+			timeZoneOffset = nonUTCDateD.getTimezoneOffset();
+
 			break;
 
 		case "second":
@@ -218,13 +247,22 @@ export function add(date: Date, unit: TimeUnit, count: number): Date {
 		case "month":
 			let month: number = date.getUTCMonth();
 			date.setUTCMonth(month + count);
+
+			let nonUTCDateM = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+			timeZoneOffset = nonUTCDateM.getTimezoneOffset();
 			break;
 
 		case "week":
 			let wday: number = date.getUTCDate();
 			date.setUTCDate(wday + count * 7);
+
+			let nonUTCDateW = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+			timeZoneOffset = nonUTCDateW.getTimezoneOffset();
+
 			break;
 	}
+
+	date.setUTCMinutes(date.getUTCMinutes() + timeZoneOffset);
 
 	return date;
 }
@@ -244,6 +282,9 @@ export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek
 	if (!$type.isNumber(count)) {
 		count = 1;
 	}
+
+	let timeZoneOffset = date.getTimezoneOffset();
+	date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);
 
 	switch (unit) {
 
@@ -344,6 +385,8 @@ export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek
 
 			break;
 	}
+
+	date.setUTCMinutes(date.getUTCMinutes() + timeZoneOffset);
 
 	return date;
 }

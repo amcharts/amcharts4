@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.1.7] - 2019-02-14
+
+### Fixed
+- `DateAxis` sometimes could show date/time in UTC even if not explicitly enabled.
+
+
 ## [4.1.6] - 2019-02-12
 
 ### Added
