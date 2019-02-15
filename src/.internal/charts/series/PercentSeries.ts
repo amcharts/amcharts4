@@ -115,7 +115,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	 * @param toValue   Target value for animation
 	 * @param fields    Fields to animate while hiding
 	 */
-	public hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): Animation {
+	public hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): $type.Optional<Animation> {
 		if (!fields) {
 			fields = ["value"];
 		}
@@ -147,7 +147,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	 * @param delay     Delay hiding (ms)
 	 * @param fields    Fields to animate while hiding
 	 */
-	public show(duration?: number, delay?: number, fields?: string[]): Animation {
+	public show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation> {
 		if (!fields) {
 			fields = ["value"];
 		}

@@ -40,7 +40,7 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      */
     protected _level: number;
     /**
-     * Related series.
+     * Series of children data items.
      */
     protected _series: TreeMapSeries;
     /**
@@ -181,7 +181,7 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      */
     color: Color;
     /**
-     * series of data item
+     * Series of children data items
      * @todo: proper descrition
      */
     series: TreeMapSeries;
@@ -345,7 +345,7 @@ export declare class TreeMap extends XYChart {
      */
     protected _homeText: string;
     /**
-     * A set of colors to be applied autoamtically to each new chart item, if
+     * A set of colors to be applied automatically to each new chart item, if
      * not explicitly set.
      */
     colors: ColorSet;

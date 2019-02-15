@@ -478,7 +478,6 @@ var DataItem = /** @class */ (function (_super) {
      * Data Item is animating from one state to another.
      *
      * @param name        Data field name
-     * @param calculated  A calculated value name
      * @return Value
      */
     DataItem.prototype.getWorkingValue = function (name) {
@@ -492,6 +491,13 @@ var DataItem = /** @class */ (function (_super) {
                 field: name
             }).workingValue;
         }
+    };
+    /**
+     * @ignore
+     * @return Value
+     */
+    DataItem.prototype.getActualWorkingValue = function (name) {
+        return this.values[name].workingValue;
     };
     /**
      * Sets a numeric value for specific data field.

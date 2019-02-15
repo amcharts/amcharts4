@@ -43,6 +43,40 @@ import * as $net from "../utils/Net";
 import * as $type from "../utils/Type";
 import * as $utils from "../utils/Utils";
 import * as $array from "../utils/Array";
+// This is used to cache the pdfmake loading
+var pdfmakePromise;
+/**
+ * Loads pdfmake dynamic module
+ *
+ * This is an asynchronous function. Check the description of `getImage()`
+ * for description and example usage.
+ *
+ * @ignore Exclude from docs
+ * @return Instance of pdfmake
+ * @async
+ */
+function _pdfmake() {
+    return tslib_1.__awaiter(this, void 0, void 0, function () {
+        var a, pdfmake, vfs_fonts, global;
+        return tslib_1.__generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, Promise.all([
+                        import(/* webpackChunkName: "pdfmake" */ "pdfmake/build/pdfmake.js"),
+                        import(/* webpackChunkName: "pdfmake" */ "../../pdfmake/vfs_fonts")
+                    ])];
+                case 1:
+                    a = _a.sent();
+                    pdfmake = a[0];
+                    vfs_fonts = a[1];
+                    global = window;
+                    global.pdfMake = global.pdfMake || {};
+                    global.pdfMake.vfs = vfs_fonts.default;
+                    pdfmake.vfs = vfs_fonts.default;
+                    return [2 /*return*/, pdfmake];
+            }
+        });
+    });
+}
 // TODO better parsing
 var fontFamilySrcRegexp = /src: ([^;]+);/;
 // TODO better checks
@@ -735,7 +769,7 @@ var Export = /** @class */ (function (_super) {
                         _a.trys.push([2, 5, 7, 8]);
                         width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = this.findFont(this.sprite.dom), fontSize = this.findFontSize(this.sprite.dom);
                         canvas = this.getDisposableCanvas();
-                        pixelRatio = this.getPixelRatio();
+                        pixelRatio = this.getPixelRatio(options);
                         canvas.style.width = width + 'px';
                         canvas.style.height = height + 'px';
                         canvas.width = width * pixelRatio;
@@ -837,7 +871,7 @@ var Export = /** @class */ (function (_super) {
                         width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = this.findFont(this.sprite.dom), fontSize = this.findFontSize(this.sprite.dom);
                         data = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize, background);
                         canvas = this.getDisposableCanvas();
-                        pixelRatio = this.getPixelRatio();
+                        pixelRatio = this.getPixelRatio(options);
                         canvas.style.width = (width * pixelRatio) + 'px';
                         canvas.style.height = (height * pixelRatio) + 'px';
                         canvas.width = width * pixelRatio;
@@ -889,8 +923,9 @@ var Export = /** @class */ (function (_super) {
      *
      * @return Pixel ratio
      */
-    Export.prototype.getPixelRatio = function () {
-        return this.useRetina ? $utils.getPixelRatio() : 1;
+    Export.prototype.getPixelRatio = function (options) {
+        var scale = options && options.scale ? options.scale : 1;
+        return (this.useRetina ? $utils.getPixelRatio() : 1) * scale;
     };
     /**
      * Converts all `<image>` tags in SVG to use data uris instead of external
@@ -1291,6 +1326,14 @@ var Export = /** @class */ (function (_super) {
         });
     };
     /**
+     * Checks if the current browser is Internet Explorer. Avoid using this as much as possible.
+     *
+     * @ignore Exclude from docs
+     */
+    Export.prototype._isIE = function () {
+        return /MSIE |Trident\//.test(navigator.userAgent);
+    };
+    /**
      * Checks if SVG is fully formatted. Encloses in `<svg>...</svg>` if
      * necessary.
      *
@@ -1346,6 +1389,13 @@ var Export = /** @class */ (function (_super) {
             svg = svg.replace(/(<svg[^>]*>)/, "$1<rect width=\"100%\" height=\"100%\" fill=\"" + background.rgba + "\"/>");
             //svg = svg.replace(/<\/svg>/, "<rect width=\"100%\" height=\"100%\" fill=\"" + background.rgba + "\"/></svg>");
         }
+        if (this._isIE()) {
+            // IE can't handle exporting <feColorMatrix> for some reason
+            svg = svg.replace(/<feColorMatrix [^\/>]*\/>/gi, "");
+        }
+        // Remove base uri-related stuff
+        var reg = new RegExp("url\\(" + $utils.escapeForRgex($utils.getBaseURI()), "g");
+        svg = svg.replace(reg, "url(#");
         svg = this.adapter.apply("normalizeSVG", {
             data: svg,
             options: options
@@ -2662,10 +2712,19 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype._canvg = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var canvg;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, import(/* webpackChunkName: "canvg" */ "canvg")];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        canvg = _a.sent();
+                        if (canvg.default != null) {
+                            return [2 /*return*/, canvg.default];
+                        }
+                        else {
+                            return [2 /*return*/, canvg];
+                        }
+                        return [2 /*return*/];
                 }
             });
         });
@@ -2683,38 +2742,6 @@ var Export = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Loads pdfmake dynamic module
-     *
-     * This is an asynchronous function. Check the description of `getImage()`
-     * for description and example usage.
-     *
-     * @ignore Exclude from docs
-     * @return Instance of pdfmake
-     * @async
-     */
-    Export.prototype._pdfmake = function () {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var a, pdfmake, vfs_fonts, global;
-            return tslib_1.__generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, Promise.all([
-                            import(/* webpackChunkName: "pdfmake" */ "pdfmake/build/pdfmake.js"),
-                            import(/* webpackChunkName: "pdfmake" */ "../../pdfmake/vfs_fonts")
-                        ])];
-                    case 1:
-                        a = _a.sent();
-                        pdfmake = a[0];
-                        vfs_fonts = a[1];
-                        global = window;
-                        global.pdfMake = global.pdfMake || {};
-                        global.pdfMake.vfs = vfs_fonts.default;
-                        pdfmake.vfs = vfs_fonts.default;
-                        return [2 /*return*/, pdfmake];
-                }
-            });
-        });
-    };
     Object.defineProperty(Export.prototype, "pdfmake", {
         /**
          * Returns pdfmake instance.
@@ -2723,10 +2750,10 @@ var Export = /** @class */ (function (_super) {
          * @return Instance of pdfmake
          */
         get: function () {
-            if (this._pdfmakePromise == null) {
-                this._pdfmakePromise = this._pdfmake();
+            if (pdfmakePromise == null) {
+                pdfmakePromise = _pdfmake();
             }
-            return this._pdfmakePromise;
+            return pdfmakePromise;
         },
         enumerable: true,
         configurable: true

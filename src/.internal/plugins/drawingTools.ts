@@ -1,2 +1,2 @@
-export { FreeDraw } from "./FreeDraw";
-export { Resize } from "./Resize";
+export { FreeDraw } from "./drawingTools/FreeDraw";
+export { Resize } from "./drawingTools/Resize";

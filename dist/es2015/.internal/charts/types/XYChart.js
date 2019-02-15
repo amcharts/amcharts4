@@ -651,6 +651,10 @@ var XYChart = /** @class */ (function (_super) {
         try {
             _super.prototype.handleSeriesAdded.call(this, event);
             var series = event.newValue;
+            if (this.xAxes.length == 0 || this.yAxes.length == 0) {
+                registry.removeFromInvalidComponents(series);
+                series.dataInvalid = false;
+            }
             series.xAxis; // this is enough to get axis, handled in getter
             series.yAxis; // this is enough to get axis, handled in getter
             if (series.fill == undefined) {
@@ -1500,6 +1504,12 @@ var XYChart = /** @class */ (function (_super) {
             return 1;
         }
         else if (b == "scrollbarY") {
+            return -1;
+        }
+        else if (a == "cursor") {
+            return 1;
+        }
+        else if (b == "cursor") {
             return -1;
         }
         else if (a == "series") {

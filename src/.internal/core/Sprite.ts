@@ -230,6 +230,8 @@ export interface ISpriteAdapters extends ISpriteProperties {
 	swipeOptions: ISwipeOptions;
 	keyboardOptions: IKeyboardOptions;
 	cursorOptions: ICursorOptions;
+
+	criticalError: Error;
 };
 
 /**
@@ -8298,7 +8300,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public raiseCriticalError(e: Error) {
 
 		if (this.svgContainer) {
-			this.modal.content = e.message;
+			this.modal.content = this.adapter.apply("criticalError", e).message;
 			this.modal.closable = false;
 			this.modal.open();
 			this.disabled = true;

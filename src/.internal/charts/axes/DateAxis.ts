@@ -603,7 +603,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		this._gridInterval = gridInterval;
 
-		this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit, gridInterval.count);
+		this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit, gridInterval.count, this.getFirstWeekDay());
 		this._nextGridUnit = $time.getNextUnit(gridInterval.timeUnit);
 
 		// the following is needed to avoid grid flickering while scrolling
@@ -707,7 +707,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			let date: Date = dataItem.getDate(key);
 			let time = date.getTime();
 
-			let startDate: Date = $time.round(new Date(time), baseInterval.timeUnit, baseInterval.count);
+			let startDate: Date = $time.round(new Date(time), baseInterval.timeUnit, baseInterval.count, this.getFirstWeekDay());
 			let startTime = startDate.getTime();
 			let endDate: Date = $time.add(new Date(startTime), baseInterval.timeUnit, baseInterval.count);
 
@@ -737,7 +737,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 			this.axisBreaks.clear(); // TODO: what about breaks added by user?
 
-			let date: Date = $time.round(new Date(this.min), timeUnit, count);
+			let date: Date = $time.round(new Date(this.min), timeUnit, count, this.getFirstWeekDay());
 			let axisBreak: DateAxisBreak;
 
 			while (date.getTime() < this.max - this.baseDuration) {
@@ -783,7 +783,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			axisBreaks.each((axisBreak) => {
 				let breakGridCount: number = Math.ceil(this._gridCount * (Math.min(this.end, axisBreak.endPosition) - Math.max(this.start, axisBreak.startPosition)) / (this.end - this.start));
 				axisBreak.gridInterval = this.chooseInterval(0, axisBreak.adjustedEndValue - axisBreak.adjustedStartValue, breakGridCount);
-				let gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
+				let gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, this.getFirstWeekDay());
 				if (gridDate.getTime() > axisBreak.startDate.getTime()) {
 					$time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
 				}
@@ -791,6 +791,17 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				axisBreak.gridDate = gridDate;
 			});
 		}
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected getFirstWeekDay(): number {
+		if (this.dateFormatter) {
+			return this.dateFormatter.firstDayOfWeek;
+		}
+
+		return 1;
 	}
 
 	/**
@@ -806,7 +817,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		let timeUnit: TimeUnit = this._gridInterval.timeUnit;
 		let realIntervalCount: number = this._gridInterval.count;
 		// round date
-		$time.round(date, timeUnit, 1);
+		$time.round(date, timeUnit, 1, this.getFirstWeekDay());
 
 		let prevTimestamp: number = date.getTime();
 
@@ -818,7 +829,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		let axisBreak: DateAxisBreak = <DateAxisBreak>this.isInBreak(timestamp);
 		if (axisBreak) {
 			newDate = new Date(axisBreak.endDate.getTime());
-			$time.round(newDate, timeUnit, realIntervalCount);
+			$time.round(newDate, timeUnit, realIntervalCount, this.getFirstWeekDay());
 			if (newDate.getTime() < axisBreak.endDate.getTime()) {
 				$time.add(newDate, timeUnit, realIntervalCount);
 			}
@@ -850,7 +861,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public getBreaklessDate(axisBreak: DateAxisBreak, timeUnit: TimeUnit, count: number): Date {
 		let date = new Date(axisBreak.endValue);
-		$time.round(date, timeUnit, count);
+		$time.round(date, timeUnit, count, this.getFirstWeekDay());
 		$time.add(date, timeUnit, count);
 
 		let timestamp = date.getTime();
@@ -883,7 +894,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			this.resetIterators();
 
 			while (timestamp <= this._maxZoomed) {
-				let date = this.getGridDate(new Date(prevGridDate), intervalCount);
+				let date = this.getGridDate($time.copy(prevGridDate), intervalCount);
 
 				timestamp = date.getTime();
 
@@ -1074,7 +1085,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	protected fixMin(value: number) {
 		// like this because months are not equal
-		let startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
+		let startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay()).getTime();
 		let endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
 		return startTime + (endTime - startTime) * this.startLocation;
 	}
@@ -1087,7 +1098,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	protected fixMax(value: number) {
 		// like this because months are not equal
-		let startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
+		let startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay()).getTime();
 		let endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
 		return startTime + (endTime - startTime) * this.endLocation;
 	}
@@ -1509,7 +1520,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	public getTooltipText(position: number): string {
 		let text: string;
 		let date = this.positionToDate(position);
-		date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count);
+		date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay());
 
 		if ($type.hasValue(this.tooltipDateFormat)) {
 			text = this.dateFormatter.format(date, this.tooltipDateFormat);
@@ -1541,7 +1552,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		let date: Date = this.positionToDate(position);
 
-		$time.round(date, timeUnit, count);
+		$time.round(date, timeUnit, count, this.getFirstWeekDay());
 
 		if (location > 0) {
 			$time.add(date, timeUnit, location * count);
@@ -1600,7 +1611,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	public getSeriesDataItem(series: XYSeries, position: number, findNearest?: boolean): XYSeriesDataItem {
 
 		let value: number = this.positionToValue(position);
-		let date: Date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count);
+		let date: Date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay());
 
 		let dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);
 
@@ -1777,7 +1788,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			position = this.toAxisPosition(position);
 		}
 		if (this.snapTooltip) {
-			let actualDate = $time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1);
+			let actualDate = $time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1, this.getFirstWeekDay());
 
 			let actualTime = actualDate.getTime();
 			let closestDate: Date;
@@ -1807,7 +1818,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 			if (closestDate) {
 				let closestTime = closestDate.getTime();
-				closestDate = $time.round(new Date(closestTime), this.baseInterval.timeUnit, this.baseInterval.count);
+				closestDate = $time.round(new Date(closestTime), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay());
 				closestTime = closestDate.getTime();
 				closestDate = new Date(closestDate.getTime() + this.baseDuration / 2);
 				position = this.dateToPosition(closestDate);
@@ -1819,6 +1830,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					let point = series.showTooltipAtDataItem(dataItem);
 					if (point) {
 						seriesPoints.push({ series: series, point: point });
+					}
+					else {
+						series.hideTooltip();
 					}
 				})
 

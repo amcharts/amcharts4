@@ -642,6 +642,15 @@ var XYCursor = /** @class */ (function (_super) {
                     delete config.yAxis;
                 }
             }
+            if ($type.hasValue(config.snapToSeries) && $type.isString(config.snapToSeries)) {
+                if (this.map.hasKey(config.snapToSeries)) {
+                    config.snapToSeries = this.map.getKey(config.snapToSeries);
+                }
+                else {
+                    this.processingErrors.push("[XYCursor] No series with id \"" + config.snapToSeries + "\" found for `series`");
+                    delete config.snapToSeries;
+                }
+            }
         }
         _super.prototype.processConfig.call(this, config);
     };
@@ -681,7 +690,7 @@ var XYCursor = /** @class */ (function (_super) {
     XYCursor.prototype.handleSnap = function () {
         var series = this.snapToSeries;
         var y = series.tooltipY;
-        var x = series.tooltipX; // - this.pixelWidth;
+        var x = series.tooltipX;
         if (this.xAxis) {
             if (this.xAxis.renderer.opposite) {
                 y -= this.pixelHeight;
@@ -689,6 +698,8 @@ var XYCursor = /** @class */ (function (_super) {
         }
         this.point = { x: x, y: y };
         this.getPositions();
+        var xx = x;
+        var yy = y;
         x -= this.pixelWidth;
         if (this.yAxis) {
             if (this.yAxis.renderer.opposite) {
@@ -707,10 +718,10 @@ var XYCursor = /** @class */ (function (_super) {
         this.lineX.animate([{ property: "y", to: y }], duration, easing);
         this.lineY.animate([{ property: "x", to: x }], duration, easing);
         if (!this.xAxis) {
-            this.lineX.animate([{ property: "x", to: x }], duration, easing);
+            this.lineX.animate([{ property: "x", to: xx }], duration, easing);
         }
         if (!this.yAxis) {
-            this.lineY.animate([{ property: "y", to: y }], duration, easing);
+            this.lineY.animate([{ property: "y", to: yy }], duration, easing);
         }
     };
     return XYCursor;

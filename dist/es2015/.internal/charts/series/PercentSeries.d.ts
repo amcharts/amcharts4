@@ -18,6 +18,7 @@ import { Animation } from "../../core/utils/Animation";
 import { LegendDataItem, LegendSettings } from "../../charts/Legend";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { PercentChart } from "../types/PercentChart";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * DATA ITEM
@@ -78,7 +79,7 @@ export declare class PercentSeriesDataItem extends SeriesDataItem {
      * @param toValue   Target value for animation
      * @param fields    Fields to animate while hiding
      */
-    hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): Animation;
+    hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): $type.Optional<Animation>;
     /**
      * Sets visibility of the Data Item.
      *
@@ -92,7 +93,7 @@ export declare class PercentSeriesDataItem extends SeriesDataItem {
      * @param delay     Delay hiding (ms)
      * @param fields    Fields to animate while hiding
      */
-    show(duration?: number, delay?: number, fields?: string[]): Animation;
+    show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation>;
     /**
      * @return Category
      */

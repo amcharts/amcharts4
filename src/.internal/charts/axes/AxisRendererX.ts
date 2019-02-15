@@ -27,7 +27,7 @@ import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
-
+import { VerticalCenter } from "../../core/defs/VerticalCenter";
 
 
 
@@ -120,9 +120,9 @@ export class AxisRendererX extends AxisRenderer {
 	/**
 	 * @ignore
 	 */
-	public updateGridContainer(){
+	public updateGridContainer() {
 		let axis = this.axis;
-		if(axis){
+		if (axis) {
 			let gridContainer = this.gridContainer;
 			gridContainer.x = axis.pixelX;
 			gridContainer.width = axis.pixelWidth;
@@ -223,16 +223,39 @@ export class AxisRendererX extends AxisRenderer {
 
 		label.isMeasured = !label.inside;
 
-		if (!this.opposite && label.inside) {
-			if(label.rotation == 0){
-				label.verticalCenter = "bottom";
+		let deltaY = 0;
+		let verticalCenter: VerticalCenter;
+		if (this.opposite) {
+			if (label.inside) {
+				verticalCenter = "top";
+				if (label.valign == "bottom") {
+					deltaY = this.gridContainer.maxHeight;
+					verticalCenter = "bottom";
+				}
 			}
+			else {
+				verticalCenter = "bottom";
+			}
+
+			point.y = deltaY;
 		}
 		else {
-			if(label.rotation == 0){
-				label.verticalCenter = "top";
+			if (label.inside) {
+				verticalCenter = "bottom";
+				if (label.valign == "top") {
+					deltaY = -this.gridContainer.maxHeight;
+					verticalCenter = "top";
+				}
 			}
+			else {
+				verticalCenter = "top";
+			}
+
+			point.y += deltaY;
 		}
+
+
+		label.verticalCenter = verticalCenter;
 
 		this.positionItem(label, point);
 
@@ -445,18 +468,23 @@ export class AxisRendererX extends AxisRenderer {
 		let axis = this.axis;
 		let parent = axis.parent;
 
-		if(axis && parent){
+		if (axis && parent) {
 			let relativeX = axis.pixelX / parent.innerWidth;
 			let relativeWidth = axis.pixelWidth / parent.innerWidth;
 
-			if (relativeX > inversedPosition || inversedPosition > relativeX + relativeWidth) {
-				return undefined;
+			if (relativeX > inversedPosition) {
+				return 0;
+			}
+			else if (inversedPosition > relativeX + relativeWidth) {
+				return 1;
 			}
 			else {
 				return (inversedPosition - relativeX) / relativeWidth;
 			}
 		}
-	}	
+
+		return value;
+	}
 }
 
 /**

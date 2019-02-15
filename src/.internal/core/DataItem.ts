@@ -667,7 +667,6 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 * Data Item is animating from one state to another.
 	 *
 	 * @param name        Data field name
-	 * @param calculated  A calculated value name
 	 * @return Value
 	 */
 	public getWorkingValue(name: string): $type.Optional<number> {
@@ -683,6 +682,14 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 			}).workingValue;
 		}
 	}
+
+	/**
+	 * @ignore	 
+	 * @return Value
+	 */
+	public getActualWorkingValue(name: string): $type.Optional<number> {
+		return this.values[name].workingValue;		
+	}	
 
 
 	/**

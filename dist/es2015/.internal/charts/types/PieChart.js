@@ -226,6 +226,8 @@ var PieChart = /** @class */ (function (_super) {
         var chartRadius = $utils.relativeRadiusToValue(this.radius, maxRadius);
         var chartPixelInnerRadius = $utils.relativeRadiusToValue(this.innerRadius, maxRadius);
         var seriesRadius = (chartRadius - chartPixelInnerRadius) / this.series.length;
+        this._chartPixelRadius = chartRadius;
+        this._chartPixelInnerRadius = chartPixelInnerRadius;
         //@todo: make it possible to set series radius in percent
         $iter.each($iter.indexed(this.series.iterator()), function (a) {
             var i = a[0];

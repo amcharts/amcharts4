@@ -420,7 +420,7 @@ var DateAxis = /** @class */ (function (_super) {
             gridInterval = tslib_1.__assign({}, this.baseInterval);
         }
         this._gridInterval = gridInterval;
-        this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit, gridInterval.count);
+        this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit, gridInterval.count, this.getFirstWeekDay());
         this._nextGridUnit = $time.getNextUnit(gridInterval.timeUnit);
         // the following is needed to avoid grid flickering while scrolling
         this._intervalDuration = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
@@ -507,6 +507,7 @@ var DateAxis = /** @class */ (function (_super) {
      * @param dataItem Data item
      */
     DateAxis.prototype.postProcessSeriesDataItem = function (dataItem) {
+        var _this = this;
         // we need to do this for all series data items not only added recently, as baseInterval might change
         var baseInterval = this.baseInterval;
         var series = dataItem.component;
@@ -514,7 +515,7 @@ var DateAxis = /** @class */ (function (_super) {
         $object.each(dataItem.dates, function (key) {
             var date = dataItem.getDate(key);
             var time = date.getTime();
-            var startDate = $time.round(new Date(time), baseInterval.timeUnit, baseInterval.count);
+            var startDate = $time.round(new Date(time), baseInterval.timeUnit, baseInterval.count, _this.getFirstWeekDay());
             var startTime = startDate.getTime();
             var endDate = $time.add(new Date(startTime), baseInterval.timeUnit, baseInterval.count);
             dataItem.setCalculatedValue(key, startTime, "open");
@@ -539,7 +540,7 @@ var DateAxis = /** @class */ (function (_super) {
             var timeUnit = this.baseInterval.timeUnit;
             var count = this.baseInterval.count;
             this.axisBreaks.clear(); // TODO: what about breaks added by user?
-            var date = $time.round(new Date(this.min), timeUnit, count);
+            var date = $time.round(new Date(this.min), timeUnit, count, this.getFirstWeekDay());
             var axisBreak = void 0;
             var _loop_1 = function () {
                 $time.add(date, timeUnit, count);
@@ -584,13 +585,22 @@ var DateAxis = /** @class */ (function (_super) {
             axisBreaks.each(function (axisBreak) {
                 var breakGridCount = Math.ceil(_this._gridCount * (Math.min(_this.end, axisBreak.endPosition) - Math.max(_this.start, axisBreak.startPosition)) / (_this.end - _this.start));
                 axisBreak.gridInterval = _this.chooseInterval(0, axisBreak.adjustedEndValue - axisBreak.adjustedStartValue, breakGridCount);
-                var gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
+                var gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, _this.getFirstWeekDay());
                 if (gridDate.getTime() > axisBreak.startDate.getTime()) {
                     $time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
                 }
                 axisBreak.gridDate = gridDate;
             });
         }
+    };
+    /**
+     * @ignore
+     */
+    DateAxis.prototype.getFirstWeekDay = function () {
+        if (this.dateFormatter) {
+            return this.dateFormatter.firstDayOfWeek;
+        }
+        return 1;
     };
     /**
      * [getGridDate description]
@@ -605,7 +615,7 @@ var DateAxis = /** @class */ (function (_super) {
         var timeUnit = this._gridInterval.timeUnit;
         var realIntervalCount = this._gridInterval.count;
         // round date
-        $time.round(date, timeUnit, 1);
+        $time.round(date, timeUnit, 1, this.getFirstWeekDay());
         var prevTimestamp = date.getTime();
         var newDate = $time.copy(date);
         // modify date by adding intervalcount
@@ -614,7 +624,7 @@ var DateAxis = /** @class */ (function (_super) {
         var axisBreak = this.isInBreak(timestamp);
         if (axisBreak) {
             newDate = new Date(axisBreak.endDate.getTime());
-            $time.round(newDate, timeUnit, realIntervalCount);
+            $time.round(newDate, timeUnit, realIntervalCount, this.getFirstWeekDay());
             if (newDate.getTime() < axisBreak.endDate.getTime()) {
                 $time.add(newDate, timeUnit, realIntervalCount);
             }
@@ -642,7 +652,7 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.getBreaklessDate = function (axisBreak, timeUnit, count) {
         var date = new Date(axisBreak.endValue);
-        $time.round(date, timeUnit, count);
+        $time.round(date, timeUnit, count, this.getFirstWeekDay());
         $time.add(date, timeUnit, count);
         var timestamp = date.getTime();
         axisBreak = this.isInBreak(timestamp);
@@ -669,7 +679,7 @@ var DateAxis = /** @class */ (function (_super) {
             var dataItemsIterator_1 = this._dataItemsIterator;
             this.resetIterators();
             var _loop_2 = function () {
-                var date = this_2.getGridDate(new Date(prevGridDate), intervalCount);
+                var date = this_2.getGridDate($time.copy(prevGridDate), intervalCount);
                 timestamp = date.getTime();
                 var endDate = $time.copy(date); // you might think it's easier to add intervalduration to timestamp, however it won't work for months or years which are not of the same length
                 endDate = $time.add(endDate, timeUnit, intervalCount);
@@ -836,7 +846,7 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.fixMin = function (value) {
         // like this because months are not equal
-        var startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
+        var startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay()).getTime();
         var endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
         return startTime + (endTime - startTime) * this.startLocation;
     };
@@ -848,7 +858,7 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.fixMax = function (value) {
         // like this because months are not equal
-        var startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
+        var startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay()).getTime();
         var endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
         return startTime + (endTime - startTime) * this.endLocation;
     };
@@ -1236,7 +1246,7 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.getTooltipText = function (position) {
         var text;
         var date = this.positionToDate(position);
-        date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count);
+        date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay());
         if ($type.hasValue(this.tooltipDateFormat)) {
             text = this.dateFormatter.format(date, this.tooltipDateFormat);
         }
@@ -1264,7 +1274,7 @@ var DateAxis = /** @class */ (function (_super) {
         var timeUnit = baseInterval.timeUnit;
         var count = baseInterval.count;
         var date = this.positionToDate(position);
-        $time.round(date, timeUnit, count);
+        $time.round(date, timeUnit, count, this.getFirstWeekDay());
         if (location > 0) {
             $time.add(date, timeUnit, location * count);
         }
@@ -1316,7 +1326,7 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.getSeriesDataItem = function (series, position, findNearest) {
         var value = this.positionToValue(position);
-        var date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count);
+        var date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay());
         var dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);
         var dataItem = dataItemsByAxis.getKey(date.getTime().toString());
         // todo:  alternatively we can find closiest here
@@ -1480,7 +1490,7 @@ var DateAxis = /** @class */ (function (_super) {
             position = this.toAxisPosition(position);
         }
         if (this.snapTooltip) {
-            var actualDate = $time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1);
+            var actualDate = $time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1, this.getFirstWeekDay());
             var actualTime_1 = actualDate.getTime();
             var closestDate_1;
             this.series.each(function (series) {
@@ -1505,7 +1515,7 @@ var DateAxis = /** @class */ (function (_super) {
             });
             if (closestDate_1) {
                 var closestTime_1 = closestDate_1.getTime();
-                closestDate_1 = $time.round(new Date(closestTime_1), this.baseInterval.timeUnit, this.baseInterval.count);
+                closestDate_1 = $time.round(new Date(closestTime_1), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay());
                 closestTime_1 = closestDate_1.getTime();
                 closestDate_1 = new Date(closestDate_1.getTime() + this.baseDuration / 2);
                 position = this.dateToPosition(closestDate_1);
@@ -1515,6 +1525,9 @@ var DateAxis = /** @class */ (function (_super) {
                     var point = series.showTooltipAtDataItem(dataItem);
                     if (point) {
                         seriesPoints_1.push({ series: series, point: point });
+                    }
+                    else {
+                        series.hideTooltip();
                     }
                 });
                 this.chart.sortSeriesTooltips(seriesPoints_1);

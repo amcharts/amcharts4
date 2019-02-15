@@ -7432,7 +7432,7 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.raiseCriticalError = function (e) {
         if (this.svgContainer) {
-            this.modal.content = e.message;
+            this.modal.content = this.adapter.apply("criticalError", e).message;
             this.modal.closable = false;
             this.modal.open();
             this.disabled = true;

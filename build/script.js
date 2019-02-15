@@ -3,7 +3,7 @@ const $path = require("path");
 const $fs = require("fs");
 
 
-function makeSubPackage1(entries, name, fileDir, inputDir, outputDir, packageName) {
+function makeSubPackage1(entries, name, fileDir, inputDir, outputDir, packageName, useDefault) {
 	const mangledName = name.replace(/\//g, "_");
 
 	$fs.mkdirSync(name);
@@ -12,7 +12,7 @@ function makeSubPackage1(entries, name, fileDir, inputDir, outputDir, packageNam
 		const path = $path.parse(x);
 
 		if ($util.isDir($path.join(inputDir, x))) {
-			makeSubPackage1(entries, `${name}/${x}`, `../${fileDir}/${x}`, `${inputDir}/${x}`, `${outputDir}/${x}`, `${packageName}/${x}`);
+			makeSubPackage1(entries, `${name}/${x}`, `../${fileDir}/${x}`, `${inputDir}/${x}`, `${outputDir}/${x}`, `${packageName}/${x}`, useDefault);
 
 		} else {
 			if (path.ext === ".js") {
@@ -23,9 +23,14 @@ function makeSubPackage1(entries, name, fileDir, inputDir, outputDir, packageNam
 `import * as m from "../${fileDir}/${path.name}";
 window.am4${mangledName} = m;`);
 
-				} else {
+				} else if (useDefault) {
 					$fs.writeFileSync($path.join(name, filename),
 `import m from "../${fileDir}/${path.name}";
+window.am4${mangledName}_${path.name} = m;`);
+
+				} else {
+					$fs.writeFileSync($path.join(name, filename),
+`import * as m from "../${fileDir}/${path.name}";
 window.am4${mangledName}_${path.name} = m;`);
 				}
 
@@ -35,8 +40,8 @@ window.am4${mangledName}_${path.name} = m;`);
 	});
 }
 
-function makeSubPackage(entries, name, inputDir, outputDir, packageName) {
-	makeSubPackage1(entries, name, `../${inputDir}`, `../${inputDir}`, outputDir, packageName);
+function makeSubPackage(entries, name, inputDir, outputDir, packageName, useDefault) {
+	makeSubPackage1(entries, name, `../${inputDir}`, `../${inputDir}`, outputDir, packageName, useDefault);
 }
 
 

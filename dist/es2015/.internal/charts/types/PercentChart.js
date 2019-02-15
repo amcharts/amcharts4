@@ -88,26 +88,28 @@ var PercentChart = /** @class */ (function (_super) {
         if (legend) {
             var legendData_1 = [];
             $iter.each(this.series.iterator(), function (series) {
-                $iter.each(series.dataItems.iterator(), function (dataItem) {
-                    if (!dataItem.hiddenInLegend) {
-                        legendData_1.push(dataItem);
-                        var legendSettings = series.legendSettings;
-                        if (legendSettings) {
-                            if (legendSettings.labelText) {
-                                legend.labels.template.text = legendSettings.labelText;
-                            }
-                            if (legendSettings.itemLabelText) {
-                                legend.labels.template.text = legendSettings.itemLabelText;
-                            }
-                            if (legendSettings.valueText) {
-                                legend.valueLabels.template.text = legendSettings.valueText;
-                            }
-                            if (legendSettings.itemValueText) {
-                                legend.valueLabels.template.text = legendSettings.itemValueText;
+                if (!series.hiddenInLegend) {
+                    $iter.each(series.dataItems.iterator(), function (dataItem) {
+                        if (!dataItem.hiddenInLegend) {
+                            legendData_1.push(dataItem);
+                            var legendSettings = series.legendSettings;
+                            if (legendSettings) {
+                                if (legendSettings.labelText) {
+                                    legend.labels.template.text = legendSettings.labelText;
+                                }
+                                if (legendSettings.itemLabelText) {
+                                    legend.labels.template.text = legendSettings.itemLabelText;
+                                }
+                                if (legendSettings.valueText) {
+                                    legend.valueLabels.template.text = legendSettings.valueText;
+                                }
+                                if (legendSettings.itemValueText) {
+                                    legend.valueLabels.template.text = legendSettings.itemValueText;
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }
             });
             legend.data = legendData_1;
             legend.dataFields.name = "category";

@@ -77,6 +77,9 @@ export interface IXYCursorProperties extends ICursorProperties {
 	maxPanOut?: number;
 
 	/**
+	 * Specifies to which series cursor lines should be snapped. Works when one
+	 * of the axis is `DateAxis` or `CategoryAxis`. Won't work if both axes are
+	 * `ValueAxis`.
 	 */
 	snapToSeries: XYSeries;
 }
@@ -815,6 +818,16 @@ export class XYCursor extends Cursor {
 				}
 			}
 
+			if ($type.hasValue(config.snapToSeries) && $type.isString(config.snapToSeries)) {
+				if (this.map.hasKey(config.snapToSeries)) {
+					config.snapToSeries = this.map.getKey(config.snapToSeries);
+				}
+				else {
+					this.processingErrors.push("[XYCursor] No series with id \"" + config.snapToSeries + "\" found for `series`");
+					delete config.snapToSeries;
+				}
+			}
+
 		}
 
 		super.processConfig(config);
@@ -857,7 +870,7 @@ export class XYCursor extends Cursor {
 
 		let series = this.snapToSeries;
 		let y = series.tooltipY;
-		let x = series.tooltipX;// - this.pixelWidth;
+		let x = series.tooltipX;
 
 		if (this.xAxis) {
 			if (this.xAxis.renderer.opposite) {
@@ -867,6 +880,9 @@ export class XYCursor extends Cursor {
 
 		this.point = { x: x, y: y };
 		this.getPositions();
+
+		let xx = x;
+		let yy = y;
 
 		x -= this.pixelWidth;
 
@@ -892,10 +908,10 @@ export class XYCursor extends Cursor {
 		this.lineY.animate([{ property: "x", to: x }], duration, easing);
 
 		if (!this.xAxis) {
-			this.lineX.animate([{ property: "x", to: x }], duration, easing);
+			this.lineX.animate([{ property: "x", to: xx }], duration, easing);
 		}
 		if (!this.yAxis) {
-			this.lineY.animate([{ property: "y", to: y }], duration, easing);
+			this.lineY.animate([{ property: "y", to: yy }], duration, easing);
 		}
 	}
 }

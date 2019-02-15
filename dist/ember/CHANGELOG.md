@@ -5,6 +5,44 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.1.8] - 2019-02-15
+
+### Added
+- JSON: You can now specify both list of items and template settings for `ListTemplate`, e.g.: `titles: { template: { ... }, values: [{ ... }] }`. Specifying it the old way will still work.
+
+### Changed
+- `DateAxis` will now pay attention to `dateFormatter.firstDayOfWeek` when grid is in "weekly" mode.
+
+### Fixed
+- Using `proprtyFields` on a `LineSeries` sometimes could result in an error. (fix by @AndiLi99)
+- French locale (fr_FR) updated for correct decimal/thousands separators.
+- Export: `scale` in image export options was being ignored.
+- JSON: `cursor.snapToSeries` was not working in JSON configs.
+- Selection was acting funky when zooming `DateAxis` and cursor moved out of plot area.
+- An infinite error message loop fixed which was happening if series was added and there was no X or Y axes defined.
+- Tooltip on the last available data item was left visible even if cursor moved to the date where the series had no data points.
+- When `snapToSeries` was enabled in `XYCursor`, vertical line was not shown.
+- [Issue 933.](https://github.com/amcharts/amcharts4/issues/933)
+
+
+## [4.1.7] - 2019-02-14
+
+### Fixed
+- `DateAxis` sometimes could show date/time in UTC even if not explicitly enabled.
+
+
+## [4.1.6] - 2019-02-12
+
+### Added
+- New plugin chart type: [`Sunburst`](https://www.amcharts.com/docs/v4/chart-types/sunburst/)!
+- New `Sprite` adapter: `criticalError`. Takes `Error` object as an argument. Modify it's `message` property.
+
+### Fixed
+- Export was somewhat broken in Angular apps or pages with `<base>` since 4.1.5.
+- `DateAxis` was not positioning elements properly when spanning switch to/from daylight savings time.
+- `valign` property of the horizontal axis labels now work properly.
+
+
 ## [4.1.5] - 2019-02-11
 
 ### Added

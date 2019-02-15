@@ -135,6 +135,9 @@ export declare class TreeMapSeries extends ColumnSeries {
      * A chart series belongs to.
      */
     _chart: TreeMap;
+    /**
+     * Parent data item of a series.
+     */
     parentDataItem: TreeMapDataItem;
     /**
      * Constructor

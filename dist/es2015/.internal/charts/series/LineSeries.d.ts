@@ -212,13 +212,23 @@ export declare class LineSeries extends XYSeries {
      */
     protected findAdjustedIndex(adjustedIndex: number, properties: string[]): number;
     /**
+     * Wraps openSegment call with iterative solution to prevent stack overflow
+     *
+     * @param openIndex  Index
+     * @param axisRange  Range
+     */
+    protected openSegmentWrapper(openIndex: number, axisRange?: AxisDataItem): void;
+    /**
      * [openSegment description]
      *
      * @todo Description
      * @param openIndex  [description]
      * @param axisRange  [description]
      */
-    protected openSegment(openIndex: number, axisRange?: AxisDataItem): void;
+    protected openSegment(openIndex: number, axisRange?: AxisDataItem): {
+        "index": number;
+        "axisRange": AxisDataItem;
+    };
     /**
      * [addPoints description]
      *
@@ -240,7 +250,10 @@ export declare class LineSeries extends XYSeries {
      * @param closeIndex [description]
      * @param axisRange  [description]
      */
-    protected closeSegment(segment: LineSeriesSegment, points: IPoint[], openIndex: number, closeIndex: number, axisRange?: AxisDataItem): void;
+    protected closeSegment(segment: LineSeriesSegment, points: IPoint[], openIndex: number, closeIndex: number, axisRange?: AxisDataItem): {
+        "index": number;
+        "axisRange": AxisDataItem;
+    };
     /**
      * Draws the line segment.
      *
