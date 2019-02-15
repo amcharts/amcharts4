@@ -190,9 +190,9 @@ var LineSeries = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.validate.call(this);
         this._segmentsIterator.reset();
-        this.openSegment(this._adjustedStartIndex);
+        this.openSegmentWrapper(this._adjustedStartIndex);
         $iter.each(this.axisRanges.iterator(), function (range) {
-            _this.openSegment(_this._adjustedStartIndex, range);
+            _this.openSegmentWrapper(_this._adjustedStartIndex, range);
         });
         $iter.each(this._segmentsIterator.iterator(), function (segment) {
             segment.__disabled = true;
@@ -250,6 +250,21 @@ var LineSeries = /** @class */ (function (_super) {
             }
         });
         return adjustedIndex;
+    };
+    /**
+     * Wraps openSegment call with iterative solution to prevent stack overflow
+     *
+     * @param openIndex  Index
+     * @param axisRange  Range
+     */
+    LineSeries.prototype.openSegmentWrapper = function (openIndex, axisRange) {
+        var params = {
+            "index": openIndex,
+            "axisRange": axisRange
+        };
+        do {
+            params = this.openSegment(params.index, params.axisRange);
+        } while (params);
     };
     /**
      * [openSegment description]
@@ -310,7 +325,7 @@ var LineSeries = /** @class */ (function (_super) {
                 break;
             }
         }
-        this.closeSegment(segment, points, openIndex, closeIndex, axisRange);
+        return this.closeSegment(segment, points, openIndex, closeIndex, axisRange);
     };
     /**
      * [addPoints description]
@@ -367,7 +382,10 @@ var LineSeries = /** @class */ (function (_super) {
         }
         this.drawSegment(segment, points, closePoints);
         if (closeIndex < this._workingEndIndex - 1) {
-            this.openSegment(closeIndex, axisRange);
+            return { "index": closeIndex, "axisRange": axisRange };
+        }
+        else {
+            return null;
         }
     };
     /**

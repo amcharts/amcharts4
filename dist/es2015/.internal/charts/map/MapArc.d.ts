@@ -75,10 +75,12 @@ export declare class MapArc extends MapLine {
      */
     protected createLine(): void;
     /**
-     * ShortestDistance = true is not supported by MapArc, only MapLine does support it
+     * `shortestDistance = true` is not supported by `MapArc`.
+     *
+     * Only [[MapLine]] supports it.
+     *
      * @default false
      * @param value
-     * @todo: review description
      */
     shortestDistance: boolean;
 }

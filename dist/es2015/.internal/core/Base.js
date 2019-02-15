@@ -453,42 +453,7 @@ var BaseObject = /** @class */ (function () {
                         // It's an array.
                         // Create a list item for entry, or try to apply properties to an
                         // existing entry if possible and it is present.
-                        $array.each(configValue, function (entry, index) {
-                            var type = _this.getConfigEntryType(entry);
-                            var listItem;
-                            if (item_1.hasIndex(index) && !entry["forceCreate"]) {
-                                listItem = item_1.getIndex(index);
-                            }
-                            else if (entry instanceof BaseObject) {
-                                // Item is already a BaseObject, no need to process it further
-                                item_1.push(entry);
-                                return;
-                            }
-                            else if (type) {
-                                listItem = item_1.create(type);
-                            }
-                            else {
-                                listItem = item_1.create();
-                            }
-                            if ($type.isObject(entry)) {
-                                // If the list item is BaseObject, we just need to let it
-                                // deal if its own config
-                                if (listItem instanceof BaseObject) {
-                                    listItem.config = entry;
-                                }
-                                else if ($type.isObject(listItem) && $type.isObject(entry)) {
-                                    $object.copyAllProperties(entry, listItem);
-                                }
-                                else {
-                                    item_1.setIndex(item_1.indexOf(listItem), entry);
-                                }
-                            }
-                        });
-                        // Truncate the list if it contains less items than the config
-                        // array
-                        while (configValue.length > item_1.length) {
-                            item_1.pop();
-                        }
+                        _this.processListTemplate(configValue, item_1);
                     }
                     else if ($type.isObject(configValue)) {
                         // It's a single oject.
@@ -497,47 +462,62 @@ var BaseObject = /** @class */ (function () {
                             // Item is already a BaseObject, no need to process it further
                             item_1.template = configValue;
                         }
-                        else if (item_1.template instanceof BaseObject) {
-                            // Template is a BaseObject so we will just let its config
-                            // deal with the configuration
-                            item_1.template.config = configValue;
-                        }
                         else {
-                            $object.each(configValue, function (entryKey, entryValue) {
-                                var listItem = item_1.template[entryKey];
-                                if (listItem instanceof Adapter) {
-                                    _this.processAdapters(listItem, entryValue);
-                                }
-                                else if (listItem instanceof EventDispatcher) {
-                                    _this.processEvents(listItem, entryValue);
-                                }
-                                else if (listItem instanceof DictionaryTemplate) {
-                                    _this.processDictionaryTemplate(listItem, entryValue);
-                                }
-                                else if (item_1.template[entryKey] instanceof BaseObject) {
-                                    // Template is a BaseObject. Let it deal with its own config.
-                                    item_1.template[entryKey].config = entryValue;
-                                }
-                                else if ($type.isObject(entryValue) && $type.hasValue(entryValue["type"])) {
-                                    if (listItem = _this.createClassInstance(entryValue["type"])) {
-                                        if (listItem instanceof BaseObject) {
-                                            listItem.config = entryValue;
+                            // Now let's find out if the whole object if a template, or we
+                            // need to get it from `template` key
+                            var templateValue = void 0;
+                            if ($type.hasValue(configValue.template)) {
+                                templateValue = configValue.template;
+                            }
+                            else {
+                                templateValue = configValue;
+                            }
+                            if (item_1.template instanceof BaseObject) {
+                                // Template is a BaseObject so we will just let its config
+                                // deal with the configuration
+                                item_1.template.config = templateValue;
+                            }
+                            else {
+                                $object.each(templateValue, function (entryKey, entryValue) {
+                                    var listItem = item_1.template[entryKey];
+                                    if (listItem instanceof Adapter) {
+                                        _this.processAdapters(listItem, entryValue);
+                                    }
+                                    else if (listItem instanceof EventDispatcher) {
+                                        _this.processEvents(listItem, entryValue);
+                                    }
+                                    else if (listItem instanceof DictionaryTemplate) {
+                                        _this.processDictionaryTemplate(listItem, entryValue);
+                                    }
+                                    else if (item_1.template[entryKey] instanceof BaseObject) {
+                                        // Template is a BaseObject. Let it deal with its own config.
+                                        item_1.template[entryKey].config = entryValue;
+                                    }
+                                    else if ($type.isObject(entryValue) && $type.hasValue(entryValue["type"])) {
+                                        if (listItem = _this.createClassInstance(entryValue["type"])) {
+                                            if (listItem instanceof BaseObject) {
+                                                listItem.config = entryValue;
+                                            }
+                                            item_1.template[entryKey] = listItem;
                                         }
-                                        item_1.template[entryKey] = listItem;
+                                        else {
+                                            item_1.template[entryKey] = entryValue;
+                                        }
+                                    }
+                                    else if (listItem instanceof List) {
+                                        // It's List, process it
+                                        _this.processList(entryValue, listItem);
                                     }
                                     else {
-                                        item_1.template[entryKey] = entryValue;
+                                        // Aything else. Just assing and be done with it.
+                                        item_1.template[entryKey] = _this.maybeColorOrPercent(entryValue);
                                     }
-                                }
-                                else if (listItem instanceof List) {
-                                    // It's List, process it
-                                    _this.processList(entryValue, listItem);
-                                }
-                                else {
-                                    // Aything else. Just assing and be done with it.
-                                    item_1.template[entryKey] = _this.maybeColorOrPercent(entryValue);
-                                }
-                            });
+                                });
+                            }
+                            // Check maybe there are `values` to insert
+                            if ($type.hasValue(configValue.values)) {
+                                _this.processListTemplate(configValue.values, item_1);
+                            }
                         }
                     }
                     else {
@@ -697,6 +677,51 @@ var BaseObject = /** @class */ (function () {
             $object.each(config, function (entryKey, entryValue) {
                 item.setKey(entryKey, entryValue);
             });
+        }
+    };
+    /**
+ * Processes [[ListTemplate]].
+ *
+ * @param configValue  Config value
+ * @param item         Item
+ */
+    BaseObject.prototype.processListTemplate = function (configValue, item) {
+        var _this = this;
+        $array.each(configValue, function (entry, index) {
+            var type = _this.getConfigEntryType(entry);
+            var listItem;
+            if (item.hasIndex(index) && !entry["forceCreate"]) {
+                listItem = item.getIndex(index);
+            }
+            else if (entry instanceof BaseObject) {
+                // Item is already a BaseObject, no need to process it further
+                item.push(entry);
+                return;
+            }
+            else if (type) {
+                listItem = item.create(type);
+            }
+            else {
+                listItem = item.create();
+            }
+            if ($type.isObject(entry)) {
+                // If the list item is BaseObject, we just need to let it
+                // deal if its own config
+                if (listItem instanceof BaseObject) {
+                    listItem.config = entry;
+                }
+                else if ($type.isObject(listItem) && $type.isObject(entry)) {
+                    $object.copyAllProperties(entry, listItem);
+                }
+                else {
+                    item.setIndex(item.indexOf(listItem), entry);
+                }
+            }
+        });
+        // Truncate the list if it contains less items than the config
+        // array
+        while (configValue.length > item.length) {
+            item.pop();
         }
     };
     /**

@@ -132,8 +132,11 @@ export class AxisRendererY extends AxisRenderer {
 			let relativeY = axis.pixelY / parent.innerHeight;
 			let relativeHeight = axis.pixelHeight / parent.innerHeight;
 
-			if (relativeY > inversedPosition || inversedPosition > relativeY + relativeHeight) {
-				return undefined;
+			if (relativeY > inversedPosition) {
+				return 1;
+			}
+			else if (inversedPosition > relativeY + relativeHeight) {
+				return 0;
 			}
 			else {
 				return 1 - (inversedPosition - relativeY) / relativeHeight;

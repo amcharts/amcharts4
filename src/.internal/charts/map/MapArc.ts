@@ -103,18 +103,21 @@ export class MapArc extends MapLine {
 
 
 	/**
-	 * ShortestDistance = true is not supported by MapArc, only MapLine does support it
+	 * `shortestDistance = true` is not supported by `MapArc`.
+	 * 
+	 * Only [[MapLine]] supports it.
+	 * 
 	 * @default false
 	 * @param value
-	 * @todo: review description
 	 */
+	public set shortestDistance(value: boolean) {
+
+	}
+	
 	public get shortestDistance(): boolean {
 		return false;
 	}
 
-	public set shortestDistance(value: boolean) {
-
-	}
 
 }
 

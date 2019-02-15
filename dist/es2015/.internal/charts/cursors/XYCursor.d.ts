@@ -59,6 +59,9 @@ export interface IXYCursorProperties extends ICursorProperties {
      */
     maxPanOut?: number;
     /**
+     * Specifies to which series cursor lines should be snapped. Works when one
+     * of the axis is `DateAxis` or `CategoryAxis`. Won't work if both axes are
+     * `ValueAxis`.
      */
     snapToSeries: XYSeries;
 }

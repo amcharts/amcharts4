@@ -871,7 +871,7 @@ export declare class Export extends Validatable {
      *
      * @return Pixel ratio
      */
-    protected getPixelRatio(): number;
+    protected getPixelRatio(options?: IExportImageOptions): number;
     /**
      * Converts all `<image>` tags in SVG to use data uris instead of external
      * URLs
@@ -981,6 +981,12 @@ export declare class Export extends Validatable {
      * @return Promise
      */
     getSVG(type: "svg", options?: IExportSVGOptions): Promise<string>;
+    /**
+     * Checks if the current browser is Internet Explorer. Avoid using this as much as possible.
+     *
+     * @ignore Exclude from docs
+     */
+    private _isIE();
     /**
      * Checks if SVG is fully formatted. Encloses in `<svg>...</svg>` if
      * necessary.
@@ -1427,21 +1433,6 @@ export declare class Export extends Validatable {
      * @return Instance of canvg
      */
     readonly canvg: Promise<any>;
-    /**
-     * Loads pdfmake dynamic module
-     *
-     * This is an asynchronous function. Check the description of `getImage()`
-     * for description and example usage.
-     *
-     * @ignore Exclude from docs
-     * @return Instance of pdfmake
-     * @async
-     */
-    private _pdfmake();
-    /**
-     * @ignore Exclude from docs
-     */
-    private _pdfmakePromise;
     /**
      * Returns pdfmake instance.
      *

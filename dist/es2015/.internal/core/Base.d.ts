@@ -8,7 +8,7 @@
  * @hidden
  */
 import { IClone } from "./utils/Clone";
-import { List } from "./utils/List";
+import { List, ListTemplate } from "./utils/List";
 import { Dictionary, DictionaryTemplate } from "./utils/Dictionary";
 import { IDisposer } from "./utils/Disposer";
 import { EventDispatcher, AMEvent } from "./utils/EventDispatcher";
@@ -305,6 +305,13 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      * @param config  Config
      */
     protected processDictionary(item: Dictionary<any, any>, config: any): void;
+    /**
+ * Processes [[ListTemplate]].
+ *
+ * @param configValue  Config value
+ * @param item         Item
+ */
+    protected processListTemplate(configValue: any, item: ListTemplate<any>): void;
     /**
      * Processes [[List]].
      *

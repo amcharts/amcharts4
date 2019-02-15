@@ -419,6 +419,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     fixAxisBreaks(): void;
     /**
+     * @ignore
+     */
+    protected getFirstWeekDay(): number;
+    /**
      * [getGridDate description]
      *
      * @ignore Exclude from docs

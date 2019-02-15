@@ -577,46 +577,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 						// It's an array.
 						// Create a list item for entry, or try to apply properties to an
 						// existing entry if possible and it is present.
-						$array.each(configValue, (entry, index) => {
-							let type = this.getConfigEntryType(entry);
-							let listItem;
-							if (item.hasIndex(index) && !entry["forceCreate"]) {
-								listItem = item.getIndex(index);
-							}
-							else if (<any>entry instanceof BaseObject) {
-								// Item is already a BaseObject, no need to process it further
-								item.push(entry);
-								return;
-							}
-							else if (type) {
-								listItem = item.create(type);
-							}
-							else {
-								listItem = item.create();
-							}
-
-							if ($type.isObject(entry)) {
-
-								// If the list item is BaseObject, we just need to let it
-								// deal if its own config
-								if (listItem instanceof BaseObject) {
-									(<any>listItem).config = entry;
-								}
-								else if ($type.isObject(listItem) && $type.isObject(entry)) {
-									$object.copyAllProperties(<Object>entry, <Object>listItem);
-								}
-								else {
-									item.setIndex(item.indexOf(listItem), entry);
-								}
-
-							}
-						});
-
-						// Truncate the list if it contains less items than the config
-						// array
-						while (configValue.length > item.length) {
-							item.pop();
-						}
+						this.processListTemplate(configValue, item);
 
 					}
 					else if ($type.isObject(configValue)) {
@@ -626,49 +587,68 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 							// Item is already a BaseObject, no need to process it further
 							item.template = configValue;
 						}
-						else if (item.template instanceof BaseObject) {
-							// Template is a BaseObject so we will just let its config
-							// deal with the configuration
-							(<any>item.template).config = configValue;
-						}
 						else {
-							$object.each(configValue, (entryKey, entryValue) => {
 
-								let listItem = (<any>item.template)[entryKey];
+							// Now let's find out if the whole object if a template, or we
+							// need to get it from `template` key
+							let templateValue;
+							if ($type.hasValue((<any>configValue).template)) {
+								templateValue = (<any>configValue).template;
+							}
+							else {
+								templateValue = configValue;
+							}
 
-								if (listItem instanceof Adapter) {
-									this.processAdapters(listItem, entryValue);
-								}
-								else if (listItem instanceof EventDispatcher) {
-									this.processEvents(listItem, entryValue);
-								}
-								else if (listItem instanceof DictionaryTemplate) {
-									this.processDictionaryTemplate(listItem, entryValue);
-								}
-								else if (item.template[entryKey] instanceof BaseObject) {
-									// Template is a BaseObject. Let it deal with its own config.
-									(<any>item.template[entryKey]).config = entryValue;
-								}
-								else if ($type.isObject(entryValue) && $type.hasValue((<any>entryValue)["type"])) {
-									if (listItem = this.createClassInstance((<any>entryValue)["type"])) {
-										if (listItem instanceof BaseObject) {
-											listItem.config = entryValue;
+							if (item.template instanceof BaseObject) {
+								// Template is a BaseObject so we will just let its config
+								// deal with the configuration
+								(<any>item.template).config = templateValue;
+							}
+							else {
+
+								$object.each(templateValue, (entryKey, entryValue) => {
+
+									let listItem = (<any>item.template)[entryKey];
+
+									if (listItem instanceof Adapter) {
+										this.processAdapters(listItem, entryValue);
+									}
+									else if (listItem instanceof EventDispatcher) {
+										this.processEvents(listItem, entryValue);
+									}
+									else if (listItem instanceof DictionaryTemplate) {
+										this.processDictionaryTemplate(listItem, entryValue);
+									}
+									else if (item.template[entryKey] instanceof BaseObject) {
+										// Template is a BaseObject. Let it deal with its own config.
+										(<any>item.template[entryKey]).config = entryValue;
+									}
+									else if ($type.isObject(entryValue) && $type.hasValue((<any>entryValue)["type"])) {
+										if (listItem = this.createClassInstance((<any>entryValue)["type"])) {
+											if (listItem instanceof BaseObject) {
+												listItem.config = <any>entryValue;
+											}
+											item.template[entryKey] = listItem;
 										}
-										item.template[entryKey] = listItem;
+										else {
+											item.template[entryKey] = entryValue;
+										}
+									}
+									else if (listItem instanceof List) {
+										// It's List, process it
+										this.processList(entryValue, listItem);
 									}
 									else {
-										item.template[entryKey] = entryValue;
+										// Aything else. Just assing and be done with it.
+										item.template[entryKey] = this.maybeColorOrPercent(entryValue);
 									}
-								}
-								else if (listItem instanceof List) {
-									// It's List, process it
-									this.processList(entryValue, listItem);
-								}
-								else {
-									// Aything else. Just assing and be done with it.
-									item.template[entryKey] = this.maybeColorOrPercent(entryValue);
-								}
-							});
+								});
+							}
+
+							// Check maybe there are `values` to insert
+							if ($type.hasValue((<any>configValue).values)) {
+								this.processListTemplate((<any>configValue).values, item);
+							}
 						}
 
 					}
@@ -874,6 +854,57 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 			});
 
 		}
+	}
+
+	/**
+ * Processes [[ListTemplate]].
+ *
+ * @param configValue  Config value
+ * @param item         Item
+ */
+	protected processListTemplate(configValue: any, item: ListTemplate<any>): void {
+
+		$array.each(configValue, (entry, index) => {
+			let type = this.getConfigEntryType(entry);
+			let listItem;
+			if (item.hasIndex(index) && !(<any>entry)["forceCreate"]) {
+				listItem = item.getIndex(index);
+			}
+			else if (<any>entry instanceof BaseObject) {
+				// Item is already a BaseObject, no need to process it further
+				item.push(entry);
+				return;
+			}
+			else if (type) {
+				listItem = item.create(type);
+			}
+			else {
+				listItem = item.create();
+			}
+
+			if ($type.isObject(entry)) {
+
+				// If the list item is BaseObject, we just need to let it
+				// deal if its own config
+				if (listItem instanceof BaseObject) {
+					(<any>listItem).config = entry;
+				}
+				else if ($type.isObject(listItem) && $type.isObject(entry)) {
+					$object.copyAllProperties(<Object>entry, <Object>listItem);
+				}
+				else {
+					item.setIndex(item.indexOf(listItem), entry);
+				}
+
+			}
+		});
+
+		// Truncate the list if it contains less items than the config
+		// array
+		while (configValue.length > item.length) {
+			item.pop();
+		}
+
 	}
 
 	/**

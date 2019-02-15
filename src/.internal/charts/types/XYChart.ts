@@ -923,6 +923,12 @@ export class XYChart extends SerialChart {
 		try {
 			super.handleSeriesAdded(event);
 			let series: XYSeries = event.newValue;
+
+			if(this.xAxes.length == 0 || this.yAxes.length == 0){
+				registry.removeFromInvalidComponents(series);
+				series.dataInvalid = false;
+			}
+
 			series.xAxis; // this is enough to get axis, handled in getter
 			series.yAxis; // this is enough to get axis, handled in getter
 
@@ -1899,6 +1905,12 @@ export class XYChart extends SerialChart {
 			return 1;
 		}
 		else if (b == "scrollbarY") {
+			return -1;
+		}
+		else if (a == "cursor") {
+			return 1;
+		}
+		else if (b == "cursor") {
 			return -1;
 		}
 		else if (a == "series") {

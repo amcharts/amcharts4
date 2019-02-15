@@ -52,6 +52,34 @@ import * as $utils from "../utils/Utils";
 import * as $array from "../utils/Array";
 
 
+// This is used to cache the pdfmake loading
+let pdfmakePromise: Promise<any>;
+
+/**
+ * Loads pdfmake dynamic module
+ *
+ * This is an asynchronous function. Check the description of `getImage()`
+ * for description and example usage.
+ *
+ * @ignore Exclude from docs
+ * @return Instance of pdfmake
+ * @async
+ */
+async function _pdfmake(): Promise<any> {
+	let a = await Promise.all([
+		import(/* webpackChunkName: "pdfmake" */ "pdfmake/build/pdfmake.js"),
+		import(/* webpackChunkName: "pdfmake" */ "../../pdfmake/vfs_fonts")
+	]);
+	let pdfmake = a[0];
+	let vfs_fonts = a[1];
+	const global = <any>window;
+	global.pdfMake = global.pdfMake || {};
+	global.pdfMake.vfs = vfs_fonts.default;
+	pdfmake.vfs = vfs_fonts.default;
+	return pdfmake;
+}
+
+
 // TODO better parsing
 const fontFamilySrcRegexp = /src: ([^;]+);/;
 
@@ -1454,7 +1482,7 @@ export class Export extends Validatable {
 				var canvas = this.getDisposableCanvas();
 
 				// Set canvas width/height
-				let pixelRatio = this.getPixelRatio();
+				let pixelRatio = this.getPixelRatio(options);
 				canvas.style.width = width + 'px';
 				canvas.style.height = height + 'px';
 				canvas.width = width * pixelRatio;
@@ -1593,7 +1621,7 @@ export class Export extends Validatable {
 		var canvas = this.getDisposableCanvas();
 
 		// Set canvas width/height
-		let pixelRatio = this.getPixelRatio();
+		let pixelRatio = this.getPixelRatio(options);
 		canvas.style.width = (width * pixelRatio) + 'px';
 		canvas.style.height = (height * pixelRatio) + 'px';
 		canvas.width = width * pixelRatio;
@@ -1653,8 +1681,9 @@ export class Export extends Validatable {
 	 *
 	 * @return Pixel ratio
 	 */
-	protected getPixelRatio(): number {
-		return this.useRetina ? $utils.getPixelRatio() : 1;
+	protected getPixelRatio(options?: IExportImageOptions): number {
+		const scale = options && options.scale ? options.scale : 1;
+		return (this.useRetina ? $utils.getPixelRatio() : 1) * scale;
 	}
 
 	/**
@@ -2086,6 +2115,15 @@ export class Export extends Validatable {
 	}
 
 	/**
+	 * Checks if the current browser is Internet Explorer. Avoid using this as much as possible.
+	 *
+	 * @ignore Exclude from docs
+	 */
+	private _isIE(): boolean {
+		return /MSIE |Trident\//.test(navigator.userAgent);
+	}
+
+	/**
 	 * Checks if SVG is fully formatted. Encloses in `<svg>...</svg>` if
 	 * necessary.
 	 *
@@ -2147,6 +2185,11 @@ export class Export extends Validatable {
 		if (background) {
 			svg = svg.replace(/(<svg[^>]*>)/, "$1<rect width=\"100%\" height=\"100%\" fill=\"" + background.rgba + "\"/>");
 			//svg = svg.replace(/<\/svg>/, "<rect width=\"100%\" height=\"100%\" fill=\"" + background.rgba + "\"/></svg>");
+		}
+
+		if (this._isIE()) {
+			// IE can't handle exporting <feColorMatrix> for some reason
+			svg = svg.replace(/<feColorMatrix [^\/>]*\/>/gi, "");
 		}
 
 		// Remove base uri-related stuff
@@ -3604,7 +3647,14 @@ export class Export extends Validatable {
 	 * @async
 	 */
 	private async _canvg(): Promise<any> {
-		return await import(/* webpackChunkName: "canvg" */ "canvg");
+		const canvg = await import(/* webpackChunkName: "canvg" */ "canvg");
+
+		if (canvg.default != null) {
+			return canvg.default;
+
+		} else {
+			return canvg;
+		}
 	}
 
 	/**
@@ -3618,46 +3668,17 @@ export class Export extends Validatable {
 	}
 
 	/**
-	 * Loads pdfmake dynamic module
-	 *
-	 * This is an asynchronous function. Check the description of `getImage()`
-	 * for description and example usage.
-	 *
-	 * @ignore Exclude from docs
-	 * @return Instance of pdfmake
-	 * @async
-	 */
-	private async _pdfmake(): Promise<any> {
-		let a = await Promise.all([
-			import(/* webpackChunkName: "pdfmake" */ "pdfmake/build/pdfmake.js"),
-			import(/* webpackChunkName: "pdfmake" */ "../../pdfmake/vfs_fonts")
-		]);
-		let pdfmake = a[0];
-		let vfs_fonts = a[1];
-		const global = <any>window;
-		global.pdfMake = global.pdfMake || {};
-		global.pdfMake.vfs = vfs_fonts.default;
-		pdfmake.vfs = vfs_fonts.default;
-		return pdfmake;
-	}
-
-	/**
-	 * @ignore Exclude from docs
-	 */
-	private _pdfmakePromise: Promise<any>;
-
-	/**
 	 * Returns pdfmake instance.
 	 *
 	 * @ignore Exclude from docs
 	 * @return Instance of pdfmake
 	 */
 	public get pdfmake(): Promise<any> {
-		if (this._pdfmakePromise == null) {
-			this._pdfmakePromise = this._pdfmake();
+		if (pdfmakePromise == null) {
+			pdfmakePromise = _pdfmake();
 		}
 
-		return this._pdfmakePromise;
+		return pdfmakePromise;
 	}
 
 	/**
