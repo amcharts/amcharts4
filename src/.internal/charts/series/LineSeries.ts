@@ -471,6 +471,9 @@ export class LineSeries extends XYSeries {
 		for (let i: number = openIndex; i < endIndex; i++) {
 
 			let dataItem: this["_dataItem"] = this.dataItems.getIndex(i);
+			if (!dataItem){
+				return null;
+			}
 			dataItem.segment = segment;
 
 			if (dataItem.hasProperties) {
