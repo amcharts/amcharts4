@@ -74,16 +74,9 @@ var AxisRendererY = /** @class */ (function (_super) {
         if (axis && parent) {
             var relativeY = axis.pixelY / parent.innerHeight;
             var relativeHeight = axis.pixelHeight / parent.innerHeight;
-            if (relativeY > inversedPosition) {
-                return 1;
-            }
-            else if (inversedPosition > relativeY + relativeHeight) {
-                return 0;
-            }
-            else {
-                return 1 - (inversedPosition - relativeY) / relativeHeight;
-            }
+            return 1 - (inversedPosition - relativeY) / relativeHeight;
         }
+        return value;
     };
     /**
      * Called when rendered is attached to an Axis, as well as a property of

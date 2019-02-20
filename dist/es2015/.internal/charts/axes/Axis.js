@@ -899,7 +899,7 @@ var Axis = /** @class */ (function (_super) {
         if (!local) {
             position = this.toAxisPosition(position);
         }
-        if (!$type.isNumber(position)) {
+        if (!$type.isNumber(position) || position < 0 || position > 1) {
             tooltip.hide(0);
             return;
         }

@@ -1569,7 +1569,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	/**
 	 * Sprites's top-level [[Container]].
 	 *
-	 * In most cases that will be a Chart.
+	 * Please note that in most cases it won't be the chart element.
+	 *
+	 * To access base chart element, use `baseSprite` instead.
 	 *
 	 * @return Top-level ascendant
 	 */
@@ -5272,10 +5274,22 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		return this.getPropertyValue("url");
 	}
 
+	/**
+	 * [baseId description]
+	 *
+	 * @ignore
+	 * @param  value  [description]
+	 */
 	public set baseId(value: string) {
 		this.setBaseId(value);
 	}
 
+	/**
+	 * [baseId description]
+	 *
+	 * @ignore
+	 * @return [description]
+	 */
 	public get baseId(): string {
 		if (!this._baseId && this.parent) {
 			this.baseId = this.parent.baseId;
@@ -5292,6 +5306,48 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				this.invalidate();
 			}
 			this._baseId = value;
+		}
+	}
+
+	/**
+	 * Returns the mail chart object that this element belongs to.
+	 *
+	 * In most cases it will mean the chart object.
+	 *
+	 * Can be used to retrieve chart object in various events and adapters.
+	 *
+	 * ```TypeScript
+	 * chart.seriesContainer.events.on("hit", function(ev) {
+	 *   console.log(ev.target.baseSprite);
+	 * });
+	 * ```
+	 * ```JavaScript
+	 * chart.seriesContainer.events.on("hit", function(ev) {
+	 *   console.log(ev.target.baseSprite);
+	 * });
+	 * ```
+	 * ```JSON
+	 * {
+	 *   // ...
+	 *   "seriesContainer": {
+	 *     "events": {
+	 *       "hit": function(ev) {
+	 *         console.log(ev.target.baseSprite);
+	 *       }
+	 *     }
+	 *   }
+	 * }
+	 * ```
+	 *
+	 * @readonly
+	 * @return  Base chart object
+	 */
+	public get baseSprite(): $type.Optional<Sprite> {
+		if (this.isBaseSprite) {
+			return this;
+		}
+		else if (this.parent) {
+			return this.parent.baseSprite;
 		}
 	}
 
@@ -7188,7 +7244,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			else if (<any>value instanceof Pattern || <any>value instanceof LinearGradient || <any>value instanceof RadialGradient) {
 				let fill = value;
 				fill.paper = this.paper;
-				this.setSVGAttribute({ "fill": "url("+ $utils.getBaseURI() + fill.id + ")" });
+				this.setSVGAttribute({ "fill": "url(" + $utils.getBaseURI() + fill.id + ")" });
 			}
 		}
 	}

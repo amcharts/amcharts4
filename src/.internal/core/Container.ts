@@ -953,6 +953,7 @@ export class Container extends Sprite {
 						if ($type.isNumber(child.relativeHeight)) {
 							if (child.maxHeight != maxHeight) { // need to check this because of allValid
 								child.maxHeight = maxHeight;
+
 								allValid = false;
 							}
 						}
@@ -1335,35 +1336,35 @@ export class Container extends Sprite {
 		measuredHeight = bottom - top;
 
 		if ($type.isNumber(this.relativeWidth)) {
-			measuredWidth = maxWidth - this.pixelPaddingLeft - this.pixelPaddingRight;
+			measuredWidth = maxWidth - paddingLeft - paddingRight;
 			left = 0;
 			right = measuredWidth;
 		}
 
 		if ($type.isNumber(this.relativeHeight)) {
-			measuredHeight = maxHeight - this.pixelPaddingTop - this.pixelPaddingBottom;
+			measuredHeight = maxHeight - paddingTop - paddingBottom;
 			top = 0;
 			bottom = measuredHeight;
 		}
 
 		if ($type.isNumber(this._pixelWidth)) {
 			left = 0;
-			measuredWidth = this._pixelWidth;
+			measuredWidth = this._pixelWidth - paddingLeft - paddingRight;
 		}
 
 		if ($type.isNumber(minWidth) && measuredWidth < minWidth) {
 			left = 0;
-			measuredWidth = this.minWidth;
+			measuredWidth = this.minWidth - paddingLeft - paddingRight;
 		}
 
 		if ($type.isNumber(this._pixelHeight)) {
 			top = 0;
-			measuredHeight = this._pixelHeight;
+			measuredHeight = this._pixelHeight - paddingTop - paddingBottom;
 		}
 
 		if ($type.isNumber(minHeight) && measuredHeight < minHeight) {
 			top = 0;
-			measuredHeight = minHeight;
+			measuredHeight = minHeight - paddingTop - paddingBottom;
 		}
 
 		let measuredContentWidth = contentRight - contentLeft;
@@ -2040,7 +2041,7 @@ export class Container extends Sprite {
 				super.dispatchReady();
 			}
 			else {
-				registry.events.once("exitframe", ()=>{
+				registry.events.once("exitframe", () => {
 					this.dispatchReady();
 					system.requestFrame();
 				}, undefined, false);

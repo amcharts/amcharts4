@@ -964,30 +964,30 @@ var Container = /** @class */ (function (_super) {
         measuredWidth = right - left;
         measuredHeight = bottom - top;
         if ($type.isNumber(this.relativeWidth)) {
-            measuredWidth = maxWidth - this.pixelPaddingLeft - this.pixelPaddingRight;
+            measuredWidth = maxWidth - paddingLeft - paddingRight;
             left = 0;
             right = measuredWidth;
         }
         if ($type.isNumber(this.relativeHeight)) {
-            measuredHeight = maxHeight - this.pixelPaddingTop - this.pixelPaddingBottom;
+            measuredHeight = maxHeight - paddingTop - paddingBottom;
             top = 0;
             bottom = measuredHeight;
         }
         if ($type.isNumber(this._pixelWidth)) {
             left = 0;
-            measuredWidth = this._pixelWidth;
+            measuredWidth = this._pixelWidth - paddingLeft - paddingRight;
         }
         if ($type.isNumber(minWidth) && measuredWidth < minWidth) {
             left = 0;
-            measuredWidth = this.minWidth;
+            measuredWidth = this.minWidth - paddingLeft - paddingRight;
         }
         if ($type.isNumber(this._pixelHeight)) {
             top = 0;
-            measuredHeight = this._pixelHeight;
+            measuredHeight = this._pixelHeight - paddingTop - paddingBottom;
         }
         if ($type.isNumber(minHeight) && measuredHeight < minHeight) {
             top = 0;
-            measuredHeight = minHeight;
+            measuredHeight = minHeight - paddingTop - paddingBottom;
         }
         var measuredContentWidth = contentRight - contentLeft;
         var measuredContentHeight = contentBottom - contentTop;

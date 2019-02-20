@@ -275,7 +275,8 @@ var LineSeries = /** @class */ (function (_super) {
      */
     LineSeries.prototype.openSegment = function (openIndex, axisRange) {
         var points = [];
-        var endIndex = this._workingEndIndex;
+        openIndex = Math.min(openIndex, this.dataItems.length);
+        var endIndex = Math.min(this._workingEndIndex, this.dataItems.length);
         var closeIndex;
         var propertiesChanged = false;
         var segment = this._segmentsIterator.getFirst();
@@ -371,13 +372,15 @@ var LineSeries = /** @class */ (function (_super) {
             var count = points.length;
             var xAxis = this.xAxis;
             var yAxis = this.yAxis;
-            if (baseAxis == xAxis) {
-                closePoints.push({ x: points[count - 1].x, y: yAxis.basePoint.y }); // last x
-                closePoints.push({ x: points[0].x, y: yAxis.basePoint.y }); // first x
-            }
-            else {
-                closePoints.push({ x: xAxis.basePoint.x, y: points[count - 1].y }); // last y
-                closePoints.push({ x: xAxis.basePoint.x, y: points[0].y }); // first y
+            if (count > 0) {
+                if (baseAxis == xAxis) {
+                    closePoints.push({ x: points[count - 1].x, y: yAxis.basePoint.y }); // last x
+                    closePoints.push({ x: points[0].x, y: yAxis.basePoint.y }); // first x
+                }
+                else {
+                    closePoints.push({ x: xAxis.basePoint.x, y: points[count - 1].y }); // last y
+                    closePoints.push({ x: xAxis.basePoint.x, y: points[0].y }); // first y
+                }
             }
         }
         this.drawSegment(segment, points, closePoints);

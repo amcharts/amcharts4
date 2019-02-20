@@ -284,6 +284,8 @@ export function round(date, unit, count, firstDateOfWeek) {
             }
             date.setUTCFullYear(year, 0, 1);
             date.setUTCHours(0, 0, 0, 0);
+            var nonUTCDateD = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+            timeZoneOffset = nonUTCDateD.getTimezoneOffset();
             break;
         case "week":
             var wday = date.getUTCDate();

@@ -136,8 +136,8 @@ export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit): boole
 		case "month":
 			if (dateOne.getUTCFullYear() != dateTwo.getUTCFullYear()) {
 				changed = true;
-			}		
-			else if (dateOne.getUTCMonth() != dateTwo.getUTCMonth()){
+			}
+			else if (dateOne.getUTCMonth() != dateTwo.getUTCMonth()) {
 				changed = true;
 			}
 			break;
@@ -181,7 +181,7 @@ export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit): boole
 	dateOne.setUTCMinutes(dateOne.getUTCMinutes() + timeZoneOffset1);
 	dateTwo.setUTCMinutes(dateTwo.getUTCMinutes() + timeZoneOffset2);
 
-	if(changed){
+	if (changed) {
 		return true;
 	}
 
@@ -213,7 +213,7 @@ export function add(date: Date, unit: TimeUnit, count: number): Date {
 		case "day":
 			let day: number = date.getUTCDate();
 			date.setUTCDate(day + count);
-			
+
 			let nonUTCDateD = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
 			timeZoneOffset = nonUTCDateD.getTimezoneOffset();
 
@@ -360,6 +360,9 @@ export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek
 			}
 			date.setUTCFullYear(year, 0, 1);
 			date.setUTCHours(0, 0, 0, 0);
+
+			let nonUTCDateD = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+			timeZoneOffset = nonUTCDateD.getTimezoneOffset();
 
 			break;
 

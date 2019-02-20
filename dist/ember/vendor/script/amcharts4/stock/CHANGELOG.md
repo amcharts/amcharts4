@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.1.9] - 2019-02-20
+
+### Added
+- New `Sprite` property: `baseSprite`. On objects, even deep in hierarchy it will contain a reference to the main chart object.
+
+### Changed
+- Axis `min`/`max` calculation algorightm updated.
+
+### Fixed
+- On a chart with `DateAxis` and multiple series with same-date data items, bullets could sometimes disappear while scrolling the chart.
+- On `DateAxis` with yearly granularity could sometimes show wrong year.
+- Updating chart `data` with less data points was sometimes resulting in JavaScript error.
+- `DateAxis` labels/ticks/grid was not placed in the correct position if `baseInterval.count > 1` and `location > 0`.
+- Dynamically changing `ZoomControl` value of `layout` was not working correctly.
+
+
 ## [4.1.8] - 2019-02-15
 
 ### Added

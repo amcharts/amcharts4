@@ -621,7 +621,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				// TODO use $type.castNumber ?
 				let startIndex: number = series.dataItems.findClosestIndex(this._minZoomed, (x) => <number>x[field], "left");
 				// 1 millisecond is removed so that if only first item is selected, it would not count in the second.
-				let endIndex: number = series.dataItems.findClosestIndex(this._maxZoomed - 1, (x) => <number>x[field], "right") + 1;
+				let baseInterval = this.baseInterval;
+				let maxZoomed = $time.add($time.round(new Date(this._maxZoomed), baseInterval.timeUnit, baseInterval.count), baseInterval.timeUnit, baseInterval.count).getTime() - 1;
+
+				let endIndex: number = series.dataItems.findClosestIndex(maxZoomed, (x) => <number>x[field], "right") + 1;
 
 				series.startIndex = startIndex;
 				series.endIndex = endIndex;
@@ -1008,8 +1011,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			let endPosition: number = this.valueToPosition(endTimestamp);
 			let fillEndPosition = endPosition;
 
-			if (!dataItem.isRange && this._gridInterval.count > 1) {
-				endPosition = position + (endPosition - position) / this._gridInterval.count;
+			if (!dataItem.isRange && this._gridInterval.count > this.baseInterval.count) {
+				endPosition = position + (endPosition - position) / (this._gridInterval.count / this.baseInterval.count);
 			}
 
 			dataItem.position = position;
@@ -1041,6 +1044,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			if (label && !label.disabled) {
 				let location = label.location;
 
+
+
 				if (location == 0) {
 					if (this._gridInterval.count == 1 && this._gridInterval.timeUnit != "week" && !dataItem.isRange) {
 						location = 0.5;
@@ -1049,6 +1054,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 						location = 0;
 					}
 				}
+
 
 				renderer.updateLabelElement(label, position, endPosition, location);
 			}

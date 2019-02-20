@@ -36,6 +36,7 @@ export { IGeoPoint } from "./.internal/core/defs/IGeoPoint";
 export { iMinMaxer } from "./.internal/core/defs/iMinMaxer";
 export { IMorphable } from "./.internal/core/defs/IMorphable";
 export { IPoint, IOrientationPoint } from "./.internal/core/defs/IPoint";
+export { IRectangle } from "./.internal/core/defs/IRectangle";
 export { IRange } from "./.internal/core/defs/IRange";
 export { IStyleProperty } from "./.internal/core/defs/IStyleProperty";
 export { ITimeInterval } from "./.internal/core/defs/ITimeInterval";

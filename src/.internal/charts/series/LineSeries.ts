@@ -452,8 +452,8 @@ export class LineSeries extends XYSeries {
 	 */
 	protected openSegment(openIndex: number, axisRange?: AxisDataItem): { "index": number, "axisRange": AxisDataItem } {
 		let points: IPoint[] = [];
-
-		let endIndex: number = this._workingEndIndex;
+		openIndex = Math.min(openIndex, this.dataItems.length);
+		let endIndex: number = Math.min(this._workingEndIndex, this.dataItems.length);
 
 		let closeIndex: number;
 		let propertiesChanged: boolean = false;
@@ -563,14 +563,15 @@ export class LineSeries extends XYSeries {
 			let count: number = points.length;
 			let xAxis: Axis = this.xAxis;
 			let yAxis: Axis = this.yAxis;
-
-			if (baseAxis == xAxis) {
-				closePoints.push({ x: points[count - 1].x, y: yAxis.basePoint.y }); // last x
-				closePoints.push({ x: points[0].x, y: yAxis.basePoint.y }); // first x
-			}
-			else {
-				closePoints.push({ x: xAxis.basePoint.x, y: points[count - 1].y }); // last y
-				closePoints.push({ x: xAxis.basePoint.x, y: points[0].y }); // first y
+			if (count > 0) {
+				if (baseAxis == xAxis) {
+					closePoints.push({ x: points[count - 1].x, y: yAxis.basePoint.y }); // last x
+					closePoints.push({ x: points[0].x, y: yAxis.basePoint.y }); // first x
+				}
+				else {
+					closePoints.push({ x: xAxis.basePoint.x, y: points[count - 1].y }); // last y
+					closePoints.push({ x: xAxis.basePoint.x, y: points[0].y }); // first y
+				}
 			}
 		}
 

@@ -471,16 +471,8 @@ export class AxisRendererX extends AxisRenderer {
 		if (axis && parent) {
 			let relativeX = axis.pixelX / parent.innerWidth;
 			let relativeWidth = axis.pixelWidth / parent.innerWidth;
-
-			if (relativeX > inversedPosition) {
-				return 0;
-			}
-			else if (inversedPosition > relativeX + relativeWidth) {
-				return 1;
-			}
-			else {
-				return (inversedPosition - relativeX) / relativeWidth;
-			}
+		
+			return (inversedPosition - relativeX) / relativeWidth;		
 		}
 
 		return value;

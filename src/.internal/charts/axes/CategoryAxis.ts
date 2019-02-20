@@ -755,8 +755,6 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 */
 	public getFirstSeriesDataItem(series: XYSeries, category: string): XYSeriesDataItem {
 
-		let sdi: XYSeriesDataItem;
-
 		for (let i = 0; i < series.dataItems.length; i++) {
 			let dataItem = series.dataItems.getIndex(i);
 			if (series.xAxis == this) {
@@ -779,9 +777,6 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * @return XYSeriesDataItem data item		 
 	 */
 	public getLastSeriesDataItem(series: XYSeries, category: string): XYSeriesDataItem {
-
-		let sdi: XYSeriesDataItem;
-
 
 		for (let i = series.dataItems.length - 1; i >= 0; i--) {
 			let dataItem = series.dataItems.getIndex(i);

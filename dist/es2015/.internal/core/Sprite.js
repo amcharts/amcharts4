@@ -878,7 +878,9 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Sprites's top-level [[Container]].
          *
-         * In most cases that will be a Chart.
+         * Please note that in most cases it won't be the chart element.
+         *
+         * To access base chart element, use `baseSprite` instead.
          *
          * @return Top-level ascendant
          */
@@ -4353,12 +4355,24 @@ var Sprite = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(Sprite.prototype, "baseId", {
+        /**
+         * [baseId description]
+         *
+         * @ignore
+         * @return [description]
+         */
         get: function () {
             if (!this._baseId && this.parent) {
                 this.baseId = this.parent.baseId;
             }
             return this._baseId;
         },
+        /**
+         * [baseId description]
+         *
+         * @ignore
+         * @param  value  [description]
+         */
         set: function (value) {
             this.setBaseId(value);
         },
@@ -4375,6 +4389,51 @@ var Sprite = /** @class */ (function (_super) {
             this._baseId = value;
         }
     };
+    Object.defineProperty(Sprite.prototype, "baseSprite", {
+        /**
+         * Returns the mail chart object that this element belongs to.
+         *
+         * In most cases it will mean the chart object.
+         *
+         * Can be used to retrieve chart object in various events and adapters.
+         *
+         * ```TypeScript
+         * chart.seriesContainer.events.on("hit", function(ev) {
+         *   console.log(ev.target.baseSprite);
+         * });
+         * ```
+         * ```JavaScript
+         * chart.seriesContainer.events.on("hit", function(ev) {
+         *   console.log(ev.target.baseSprite);
+         * });
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "seriesContainer": {
+         *     "events": {
+         *       "hit": function(ev) {
+         *         console.log(ev.target.baseSprite);
+         *       }
+         *     }
+         *   }
+         * }
+         * ```
+         *
+         * @readonly
+         * @return  Base chart object
+         */
+        get: function () {
+            if (this.isBaseSprite) {
+                return this;
+            }
+            else if (this.parent) {
+                return this.parent.baseSprite;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Sprite.prototype, "urlTarget", {
         /**
          * @return URL target

@@ -267,15 +267,16 @@ export class OrderedList<T> {
 		$iter.eachContinue(this.iterator(), (element) => {
 			const item: number = fn(element);
 
-			// Exact match?
-			if (item === value) {
-				// Found exact value - don't bother searching further
-				closestIndex = i;
-				return false;
-			}
-
 			// Calc difference
 			if (direction === "any") {
+
+				// Exact match?
+				if (item === value) {
+					// Found exact value - don't bother searching further
+					closestIndex = i;
+					return false;
+				}
+
 				let difference = Math.abs(value - item);
 				if (!$type.hasValue(closestDifference) || (closestDifference > difference)) {
 					closestIndex = i;
@@ -283,14 +284,14 @@ export class OrderedList<T> {
 					closestDifference = difference;
 				}
 			}
-			else if (direction === "left" && (item < value)) {
-				if (!$type.hasValue(closestValue) || (closestValue < item)) {
+			else if (direction === "left" && (item <= value)) {
+				if (!$type.hasValue(closestValue) || (closestValue <= item)) {
 					closestIndex = i;
 					closestValue = item;
 				}
 			}
-			else if (direction === "right" && (item > value)) {
-				if (!$type.hasValue(closestValue) || (closestValue > item)) {
+			else if (direction === "right" && (item >= value)) {
+				if (!$type.hasValue(closestValue) || (closestValue >= item)) {
 					closestIndex = i;
 					closestValue = item;
 				}

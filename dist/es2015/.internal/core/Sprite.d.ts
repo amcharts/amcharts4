@@ -918,7 +918,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Sprites's top-level [[Container]].
      *
-     * In most cases that will be a Chart.
+     * Please note that in most cases it won't be the chart element.
+     *
+     * To access base chart element, use `baseSprite` instead.
      *
      * @return Top-level ascendant
      */
@@ -2282,8 +2284,54 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param value URL
      */
     url: $type.Optional<string>;
+    /**
+     * [baseId description]
+     *
+     * @ignore
+     * @return [description]
+     */
+    /**
+     * [baseId description]
+     *
+     * @ignore
+     * @param  value  [description]
+     */
     baseId: string;
     protected setBaseId(value: string): void;
+    /**
+     * Returns the mail chart object that this element belongs to.
+     *
+     * In most cases it will mean the chart object.
+     *
+     * Can be used to retrieve chart object in various events and adapters.
+     *
+     * ```TypeScript
+     * chart.seriesContainer.events.on("hit", function(ev) {
+     *   console.log(ev.target.baseSprite);
+     * });
+     * ```
+     * ```JavaScript
+     * chart.seriesContainer.events.on("hit", function(ev) {
+     *   console.log(ev.target.baseSprite);
+     * });
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "seriesContainer": {
+     *     "events": {
+     *       "hit": function(ev) {
+     *         console.log(ev.target.baseSprite);
+     *       }
+     *     }
+     *   }
+     * }
+     * ```
+     *
+     * @readonly
+     * @return  Base chart object
+     */
+    readonly baseSprite: $type.Optional<Sprite>;
     /**
      * @return URL target
      */

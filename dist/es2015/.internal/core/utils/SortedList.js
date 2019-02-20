@@ -218,14 +218,14 @@ var OrderedList = /** @class */ (function () {
         var i = 0;
         $iter.eachContinue(this.iterator(), function (element) {
             var item = fn(element);
-            // Exact match?
-            if (item === value) {
-                // Found exact value - don't bother searching further
-                closestIndex = i;
-                return false;
-            }
             // Calc difference
             if (direction === "any") {
+                // Exact match?
+                if (item === value) {
+                    // Found exact value - don't bother searching further
+                    closestIndex = i;
+                    return false;
+                }
                 var difference = Math.abs(value - item);
                 if (!$type.hasValue(closestDifference) || (closestDifference > difference)) {
                     closestIndex = i;
@@ -233,14 +233,14 @@ var OrderedList = /** @class */ (function () {
                     closestDifference = difference;
                 }
             }
-            else if (direction === "left" && (item < value)) {
-                if (!$type.hasValue(closestValue) || (closestValue < item)) {
+            else if (direction === "left" && (item <= value)) {
+                if (!$type.hasValue(closestValue) || (closestValue <= item)) {
                     closestIndex = i;
                     closestValue = item;
                 }
             }
-            else if (direction === "right" && (item > value)) {
-                if (!$type.hasValue(closestValue) || (closestValue > item)) {
+            else if (direction === "right" && (item >= value)) {
+                if (!$type.hasValue(closestValue) || (closestValue >= item)) {
                     closestIndex = i;
                     closestValue = item;
                 }

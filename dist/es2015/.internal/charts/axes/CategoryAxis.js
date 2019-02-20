@@ -556,7 +556,6 @@ var CategoryAxis = /** @class */ (function (_super) {
      * @return XYSeriesDataItem data item
      */
     CategoryAxis.prototype.getFirstSeriesDataItem = function (series, category) {
-        var sdi;
         for (var i = 0; i < series.dataItems.length; i++) {
             var dataItem = series.dataItems.getIndex(i);
             if (series.xAxis == this) {
@@ -578,7 +577,6 @@ var CategoryAxis = /** @class */ (function (_super) {
      * @return XYSeriesDataItem data item
      */
     CategoryAxis.prototype.getLastSeriesDataItem = function (series, category) {
-        var sdi;
         for (var i = series.dataItems.length - 1; i >= 0; i--) {
             var dataItem = series.dataItems.getIndex(i);
             if (series.xAxis == this) {

@@ -126,15 +126,11 @@ export class ZoomControl extends Container {
 		let plusButton: Button = this.createChild(Button);
 		plusButton.shouldClone = false;
 		plusButton.label.text = "+";
-		plusButton.width = percent(100);
-		plusButton.padding(5, 5, 5, 5);
-		plusButton.contentValign = "none";
 		//plusButton.fontFamily = "Verdana";
 		this.plusButton = plusButton;
 
 		let slider: Container = this.createChild(Container);
 		slider.shouldClone = false;
-		slider.width = percent(100);
 		slider.background.fill = interfaceColors.getFor("alternativeBackground");
 		slider.background.fillOpacity = 0.05;
 		slider.background.events.on("hit", this.handleBackgroundClick, this, false);
@@ -151,8 +147,6 @@ export class ZoomControl extends Container {
 		let minusButton: Button = this.createChild(Button);
 		minusButton.shouldClone = false;
 		minusButton.label.text = "-";
-		minusButton.padding(5, 5, 5, 5);
-		minusButton.contentValign = "none";
 		//minusButton.fontFamily = "Verdana";
 		this.minusButton = minusButton;
 
@@ -179,42 +173,84 @@ export class ZoomControl extends Container {
 	}
 
 	protected fixLayout() {
+
+		let plusButton = this.plusButton;
+		let minusButton = this.minusButton;
+
+		let thumb = this.thumb;
+		let slider = this.slider;
+
+		plusButton.x = undefined;
+		plusButton.y = undefined;
+
+		minusButton.x = undefined;
+		minusButton.y = undefined;
+		
+		thumb.x = undefined;
+		thumb.y = undefined;
+
+		slider.x = undefined;
+		slider.y = undefined;
+
+		plusButton.padding(6, 10, 6, 10);
+		minusButton.padding(6, 10, 6, 10);
+
+		minusButton.label.align = "center";
+		minusButton.label.valign = "middle";		
+
+		plusButton.label.align = "center";
+		plusButton.label.valign = "middle";		
+
 		if (this.layout == "vertical") {
 			this.width = 40;
 			this.height = undefined;
-			this.minusButton.width = percent(100);
-			this.thumb.width = percent(100);
-			this.plusButton.width = percent(100);
-			this.slider.width = percent(100);
-			this.minusButton.marginTop = 1;
-			this.plusButton.marginBottom = 2;
-			this.slider.height = 0;
-			this.minusButton.toFront();
-			this.plusButton.toBack();
-			this.thumb.minX = 0;
-			this.thumb.maxX = 0;
-			this.thumb.minY = 0;
+
+			minusButton.width = percent(100);
+			minusButton.height = undefined;
+
+			thumb.width = percent(100);
+			thumb.height = undefined;
+
+			plusButton.width = percent(100);
+			plusButton.height = undefined;
+
+			slider.width = percent(100);
+			minusButton.marginTop = 1;
+			plusButton.marginBottom = 2;
+
+			slider.height = 0;
+
+			minusButton.toFront();
+			plusButton.toBack();
+
+			thumb.minX = 0;
+			thumb.maxX = 0;
+			thumb.minY = 0;
+
+
 		}
 		else if (this.layout == "horizontal") {
-			this.thumb.minX = 0;
-			this.thumb.minY = 0;
-			this.thumb.maxY = 0;
 			this.height = 40;
 			this.width = undefined;
-			this.minusButton.height = percent(100);
-			this.minusButton.width = undefined;
-			this.thumb.height = percent(100);
-			this.thumb.width = undefined;
-			this.plusButton.height = percent(100);
-			this.plusButton.width = undefined;
-			this.plusButton.padding(4,10,4,10);
-			this.slider.height = percent(100);
-			this.slider.width = 0;
-			this.minusButton.marginLeft = 2;
-			this.plusButton.marginRight = 2;
-			this.minusButton.padding(4,10,4,10);
-			this.minusButton.toBack();
-			this.plusButton.toFront();
+
+			minusButton.height = percent(100);
+			minusButton.width = undefined;
+
+			plusButton.height = percent(100);
+			plusButton.width = undefined;
+
+			thumb.height = percent(100);
+			thumb.width = undefined;
+
+			thumb.minX = 0;
+			thumb.minY = 0;
+			thumb.maxY = 0;
+
+			slider.height = percent(100);
+			slider.width = 0;
+
+			minusButton.toBack();
+			plusButton.toFront();
 		}
 	}
 

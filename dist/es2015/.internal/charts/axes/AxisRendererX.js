@@ -359,15 +359,7 @@ var AxisRendererX = /** @class */ (function (_super) {
         if (axis && parent) {
             var relativeX = axis.pixelX / parent.innerWidth;
             var relativeWidth = axis.pixelWidth / parent.innerWidth;
-            if (relativeX > inversedPosition) {
-                return 0;
-            }
-            else if (inversedPosition > relativeX + relativeWidth) {
-                return 1;
-            }
-            else {
-                return (inversedPosition - relativeX) / relativeWidth;
-            }
+            return (inversedPosition - relativeX) / relativeWidth;
         }
         return value;
     };

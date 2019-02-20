@@ -60,7 +60,7 @@ categoryAxis.renderer.labels.template.location = 0.5;
 categoryAxis.renderer.inside = true;
 
 categoryAxis.renderer.labels.template.adapter.add("dx", (dx, target)=>{
-    return -target.maxRight / 2;
+    return (target.maxRight - target.maxLeft) / 2;
 })
 
 var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());

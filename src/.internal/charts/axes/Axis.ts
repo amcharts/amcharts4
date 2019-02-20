@@ -1227,7 +1227,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			position = this.toAxisPosition(position);
 		}
 
-		if(!$type.isNumber(position)){
+		if (!$type.isNumber(position) || position < 0 || position > 1) {
 			tooltip.hide(0);
 			return;
 		}
@@ -1288,7 +1288,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 
 		position = this.renderer.toAxisPosition(position);
 
-		if(position == undefined){
+		if (position == undefined) {
 			return;
 		}
 
