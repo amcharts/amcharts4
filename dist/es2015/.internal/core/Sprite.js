@@ -191,6 +191,10 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this._exporting = new MutableValueDisposer();
         /**
+         * Should this Sprite be included when exporting?
+         */
+        _this._exportable = true;
+        /**
          * Defines bounding box (square) for this element.
          *
          * @ignore Exclude from docs
@@ -1013,6 +1017,9 @@ var Sprite = /** @class */ (function (_super) {
         }
         if (this._clipPath) {
             this.paper.appendDef(this._clipPath);
+        }
+        if (this._exportable === false) {
+            this.exportable = false;
         }
     };
     Object.defineProperty(Sprite.prototype, "map", {
@@ -4922,8 +4929,9 @@ var Sprite = /** @class */ (function (_super) {
          * @return Export?
          */
         get: function () {
-            var svgContainer = this.svgContainer;
-            return !svgContainer || $array.indexOf(svgContainer.nonExportableSprites, this) == -1;
+            return this._exportable;
+            /*const svgContainer = this.svgContainer;
+            return !svgContainer || $array.indexOf(svgContainer.nonExportableSprites, this) == -1;*/
         },
         /**
          * If set to `false` this element will be omitted when exporting the chart
@@ -4934,11 +4942,12 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             var svgContainer = this.svgContainer;
-            if (svgContainer && value != this.exportable) {
+            this._exportable = value;
+            if (svgContainer) {
                 if (value) {
                     $array.remove(svgContainer.nonExportableSprites, this);
                 }
-                else {
+                else if ($array.indexOf(svgContainer.nonExportableSprites, this) == -1) {
                     svgContainer.nonExportableSprites.push(this);
                 }
             }
@@ -5561,7 +5570,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Element's absolute or relative width.
          *
-         * The width can either be absolute, set in numer pixels, or relative, set
+         * The width can either be absolute, set in numeric pixels, or relative, set
          * in [[Percent]].
          *
          * Relative width will be calculated using closest measured ancestor
@@ -5602,7 +5611,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Element's absolute or relative height.
          *
-         * The height can either be absolute, set in numer pixels, or relative, set
+         * The height can either be absolute, set in numeric pixels, or relative, set
          * in [[Percent]].
          *
          * Relative height will be calculated using closest measured ancestor

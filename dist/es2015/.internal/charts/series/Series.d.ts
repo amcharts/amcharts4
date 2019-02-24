@@ -338,6 +338,12 @@ export declare class Series extends Component {
      */
     constructor();
     /**
+     * We need this here so that class names can be applied to bullets container.
+     *
+     * @ignore Exclude from docs
+     */
+    applyTheme(): void;
+    /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor.
      */

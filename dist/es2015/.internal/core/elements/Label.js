@@ -543,7 +543,7 @@ var Label = /** @class */ (function (_super) {
                             lineInfo.element.attr({
                                 "x": "0",
                                 "y": currentHeight + currentLineHeight,
-                                "dy": $math.round((-0.2 * currentLineHeight), 3).toString()
+                                "dy": $math.round((-0.27 * currentLineHeight), 3).toString()
                             });
                         }
                         else {

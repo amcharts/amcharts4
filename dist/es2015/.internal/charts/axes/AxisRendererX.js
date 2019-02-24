@@ -173,7 +173,10 @@ var AxisRendererX = /** @class */ (function (_super) {
             }
             point.y += deltaY;
         }
-        label.verticalCenter = verticalCenter;
+        if (label.rotation == 0) {
+            // Apply fuzzy logic to verticalCenter only if labels are not rotated
+            label.verticalCenter = verticalCenter;
+        }
         this.positionItem(label, point);
         this.toggleVisibility(label, position, this.minLabelPosition, this.maxLabelPosition);
     };

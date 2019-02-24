@@ -40,6 +40,7 @@ import { options } from "../Options";
 import { StyleRule } from "../utils/DOM";
 import * as $object from "../utils/Object";
 import * as $net from "../utils/Net";
+import * as $dom from "../utils/DOM";
 import * as $type from "../utils/Type";
 import * as $utils from "../utils/Utils";
 import * as $array from "../utils/Array";
@@ -767,7 +768,7 @@ var Export = /** @class */ (function (_super) {
                         _a.label = 2;
                     case 2:
                         _a.trys.push([2, 5, 7, 8]);
-                        width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = this.findFont(this.sprite.dom), fontSize = this.findFontSize(this.sprite.dom);
+                        width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = $dom.findFont(this.sprite.dom), fontSize = $dom.findFontSize(this.sprite.dom);
                         canvas = this.getDisposableCanvas();
                         pixelRatio = this.getPixelRatio(options);
                         canvas.style.width = width + 'px';
@@ -868,7 +869,7 @@ var Export = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.canvg];
                     case 2:
                         canvg = _a.sent();
-                        width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = this.findFont(this.sprite.dom), fontSize = this.findFontSize(this.sprite.dom);
+                        width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = $dom.findFont(this.sprite.dom), fontSize = $dom.findFontSize(this.sprite.dom);
                         data = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize, background);
                         canvas = this.getDisposableCanvas();
                         pixelRatio = this.getPixelRatio(options);
@@ -1310,7 +1311,7 @@ var Export = /** @class */ (function (_super) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var width, height, font, fontSize, svg, charset, uri;
             return tslib_1.__generator(this, function (_a) {
-                width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = this.findFont(this.sprite.dom), fontSize = this.findFontSize(this.sprite.dom);
+                width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = $dom.findFont(this.sprite.dom), fontSize = $dom.findFontSize(this.sprite.dom);
                 svg = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize);
                 charset = this.adapter.apply("charset", {
                     charset: "charset=utf-8",
@@ -1837,17 +1838,56 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.download = function (uri, fileName) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var link, parts, contentType, decoded, blob_1, chars, i, charCode, blob, parts, contentType, iframe, idoc;
+            var link, parts, contentType, decoded, blob_1, url_3, chars, i, charCode, blob, url, parts, contentType, decoded, blob_2, chars, i, charCode, blob, parts, contentType, iframe, idoc;
             return tslib_1.__generator(this, function (_a) {
                 //if (window.navigator.msSaveOrOpenBlob === undefined) {
-                if (this.linkDownloadSupport() && !this.blobDownloadSupport()) {
+                if (this.linkDownloadSupport() && !this.msBlobDownloadSupport()) {
                     link = document.createElement("a");
                     link.download = fileName;
-                    //uri = uri.replace(/#/g, "%23");
-                    link.href = uri;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
+                    // There's a catch, though
+                    // "href" can't handle super long URLs, so we need to use blob download
+                    if (uri.length > 1048576) {
+                        parts = uri.split(";");
+                        contentType = parts.shift().replace(/data:/, "");
+                        uri = decodeURIComponent(parts.join(";").replace(/^[^,]*,/, ""));
+                        if (["image/svg+xml", "application/json", "text/csv"].indexOf(contentType) == -1) {
+                            try {
+                                decoded = atob(uri);
+                                uri = decoded;
+                            }
+                            catch (e) {
+                                // Error occurred, meaning string was not Base64-encoded. Do nothing.
+                                return [2 /*return*/, false];
+                            }
+                        }
+                        else {
+                            blob_1 = new Blob([uri], { type: contentType });
+                            url_3 = window.URL.createObjectURL(blob_1);
+                            link.href = url_3;
+                            link.download = fileName;
+                            link.click();
+                            window.URL.revokeObjectURL(url_3);
+                            return [2 /*return*/, true];
+                        }
+                        chars = new Array(uri.length);
+                        for (i = 0; i < uri.length; ++i) {
+                            charCode = uri.charCodeAt(i);
+                            chars[i] = charCode;
+                        }
+                        blob = new Blob([new Uint8Array(chars)], { type: contentType });
+                        url = window.URL.createObjectURL(blob);
+                        link.href = url;
+                        link.download = fileName;
+                        link.click();
+                        window.URL.revokeObjectURL(url);
+                    }
+                    else {
+                        // Less than 1MB, use link
+                        link.href = uri;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
                 }
                 else if ($type.hasValue(window.navigator.msSaveBlob)) {
                     parts = uri.split(";");
@@ -1865,8 +1905,8 @@ var Export = /** @class */ (function (_super) {
                         }
                     }
                     else {
-                        blob_1 = new Blob([uri], { type: contentType });
-                        window.navigator.msSaveBlob(blob_1, fileName);
+                        blob_2 = new Blob([uri], { type: contentType });
+                        window.navigator.msSaveBlob(blob_2, fileName);
                         return [2 /*return*/, true];
                     }
                     chars = new Array(uri.length);
@@ -1929,7 +1969,7 @@ var Export = /** @class */ (function (_super) {
      * @return Supports downloads?
      */
     Export.prototype.downloadSupport = function () {
-        return this.linkDownloadSupport() || this.blobDownloadSupport();
+        return this.linkDownloadSupport() || this.msBlobDownloadSupport();
     };
     /**
      * Checks if the browser supports "download" attribute on links.
@@ -1954,7 +1994,7 @@ var Export = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @return Browser supports triggering downloads?
      */
-    Export.prototype.blobDownloadSupport = function () {
+    Export.prototype.msBlobDownloadSupport = function () {
         return $type.hasValue(window.navigator.msSaveOrOpenBlob);
     };
     /**
@@ -2134,68 +2174,6 @@ var Export = /** @class */ (function (_super) {
         }
         else {
             return color(currentColor, opacity);
-        }
-    };
-    /**
-     * Returns a font fmaily name for the element (directly set or
-     * computed/inherited).
-     *
-     * @ignore Exclude from docs
-     * @param element  Element
-     * @return Font family
-     */
-    Export.prototype.findFont = function (element) {
-        // Check if element has styles set
-        var font = "";
-        if (element.currentStyle) {
-            font = element.currentStyle["font-family"];
-        }
-        else if (window.getComputedStyle) {
-            font = document.defaultView.getComputedStyle(element, null).getPropertyValue("font-family");
-        }
-        if (!font) {
-            // Completely transparent. Look for a parent
-            var parent_3 = element.parentElement || element.parentNode;
-            if (parent_3) {
-                return this.findFont(parent_3);
-            }
-            else {
-                return undefined;
-            }
-        }
-        else {
-            return font;
-        }
-    };
-    /**
-     * Returns a font fmaily name for the element (directly set or
-     * computed/inherited).
-     *
-     * @ignore Exclude from docs
-     * @param element  Element
-     * @return Font family
-     */
-    Export.prototype.findFontSize = function (element) {
-        // Check if element has styles set
-        var font = "";
-        if (element.currentStyle) {
-            font = element.currentStyle["font-size"];
-        }
-        else if (window.getComputedStyle) {
-            font = document.defaultView.getComputedStyle(element, null).getPropertyValue("font-size");
-        }
-        if (!font) {
-            // Completely transparent. Look for a parent
-            var parent_4 = element.parentElement || element.parentNode;
-            if (parent_4) {
-                return this.findFont(parent_4);
-            }
-            else {
-                return undefined;
-            }
-        }
-        else {
-            return font;
         }
     };
     Object.defineProperty(Export.prototype, "container", {

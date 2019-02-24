@@ -254,8 +254,10 @@ export class AxisRendererX extends AxisRenderer {
 			point.y += deltaY;
 		}
 
-
-		label.verticalCenter = verticalCenter;
+		if (label.rotation == 0) {
+			// Apply fuzzy logic to verticalCenter only if labels are not rotated
+			label.verticalCenter = verticalCenter;
+		}
 
 		this.positionItem(label, point);
 

@@ -260,20 +260,14 @@ export declare class PercentSeries extends Series {
     _dataItem: PercentSeriesDataItem;
     /**
      * Container slice elements are put in.
-     *
-     * @ignore Exclude from docs
      */
     slicesContainer: Container;
     /**
      * Container tick elements are put in.
-     *
-     * @ignore Exclude from docs
      */
     ticksContainer: Container;
     /**
      * Container label elements are put in.
-     *
-     * @ignore Exclude from docs
      */
     labelsContainer: Container;
     /**

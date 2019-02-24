@@ -496,6 +496,19 @@ export class Series extends Component {
 	}
 
 	/**
+	 * We need this here so that class names can be applied to bullets container.
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public applyTheme(): void {
+		super.applyTheme();
+		if (options.autoSetClassName && this.bulletsContainer) {
+			this.bulletsContainer.className = this.className + "-bullets";
+			this.bulletsContainer.setClassName();
+		}
+	}
+
+	/**
 	 * Sets defaults that instantiate some objects that rely on parent, so they
 	 * cannot be set in constructor.
 	 */

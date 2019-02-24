@@ -422,3 +422,39 @@ export function pathToPoints(path: string, pointCount: number): IPoint[] {
 
 	svgPath.remove();
 }
+
+
+export function spiralPoints(cx: number, cy: number, radius: number, radiusY: number, innerRadius: number, step: number, radiusStep:number): IPoint[] {
+
+	let r = innerRadius + 0.01;
+	let angle = 0;
+	var points = [];
+
+	while (r < radius) {		
+
+		let stepSize = step;
+		if(stepSize / 2 > r){
+			stepSize = 2 * r;
+		}
+
+		angle += 2 * Math.asin(stepSize / 2 / r);
+
+		let degrees = angle * $math.DEGREES;
+
+		let point = { x: cx + r * Math.cos(angle), y: cy + r * radiusY / radius * Math.sin(angle) };
+		points.push(point);
+
+		r = innerRadius + degrees / 360 * radiusStep;		
+	}
+	return points;
+}
+
+export function pointsToPath(points: IPoint[]) {
+	let path = moveTo(points[0]);
+	if (points && points.length > 0) {
+		for (let i = 1; i < points.length; i++) {
+			path += lineTo(points[i]);
+		}
+	}
+	return path;
+}

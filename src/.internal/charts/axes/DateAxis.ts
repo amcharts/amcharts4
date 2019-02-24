@@ -1793,6 +1793,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		if (!local) {
 			position = this.toAxisPosition(position);
 		}
+
 		if (this.snapTooltip) {
 			let actualDate = $time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1, this.getFirstWeekDay());
 
@@ -1800,23 +1801,24 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			let closestDate: Date;
 
 			this.series.each((series) => {
+				if(series.baseAxis == this){
+					let dataItem = this.getSeriesDataItem(series, position, true);
+					if (dataItem) {
+						let date: Date;
+						if (series.xAxis == this) {
+							date = dataItem.dateX;
+						}
+						if (series.yAxis == this) {
+							date = dataItem.dateY;
+						}
 
-				let dataItem = this.getSeriesDataItem(series, position, true);
-				if (dataItem) {
-					let date: Date;
-					if (series.xAxis == this) {
-						date = dataItem.dateX;
-					}
-					if (series.yAxis == this) {
-						date = dataItem.dateY;
-					}
-
-					if (!closestDate) {
-						closestDate = date;
-					}
-					else {
-						if (Math.abs(closestDate.getTime() - actualTime) > Math.abs(date.getTime() - actualTime)) {
+						if (!closestDate) {
 							closestDate = date;
+						}
+						else {
+							if (Math.abs(closestDate.getTime() - actualTime) > Math.abs(date.getTime() - actualTime)) {
+								closestDate = date;
+							}
 						}
 					}
 				}

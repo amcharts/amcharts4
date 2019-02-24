@@ -10,8 +10,8 @@ declare const _default: {
             "name": string;
             "id": string;
             "STATE": string;
-            "TYPE": string;
             "CNTRY": string;
+            "TYPE": string;
         };
         "id": string;
     } | {
@@ -24,8 +24,8 @@ declare const _default: {
             "name": string;
             "id": string;
             "STATE": string;
-            "TYPE": string;
             "CNTRY": string;
+            "TYPE": string;
         };
         "id": string;
     })[];

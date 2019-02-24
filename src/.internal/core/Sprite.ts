@@ -505,6 +505,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	protected _exporting = new MutableValueDisposer<Export>();
 
 	/**
+	 * Should this Sprite be included when exporting?
+	 */
+	protected _exportable: boolean = true;
+
+	/**
 	 * A reference to a top-level SVG node for this Sprite element.
 	 *
 	 * @ignore Exclude from docs
@@ -1716,6 +1721,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		if (this._clipPath) {
 			this.paper.appendDef(this._clipPath);
+		}
+
+		if (this._exportable === false) {
+			this.exportable = false;
 		}
 	}
 
@@ -5839,11 +5848,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public set exportable(value: boolean) {
 		const svgContainer = this.svgContainer;
-		if (svgContainer && value != this.exportable) {
+		this._exportable = value;
+		if (svgContainer) {
 			if (value) {
 				$array.remove(svgContainer.nonExportableSprites, this);
 			}
-			else {
+			else if ($array.indexOf(svgContainer.nonExportableSprites, this) == -1) {
 				svgContainer.nonExportableSprites.push(this);
 			}
 		}
@@ -5853,8 +5863,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Export?
 	 */
 	public get exportable(): boolean {
-		const svgContainer = this.svgContainer;
-		return !svgContainer || $array.indexOf(svgContainer.nonExportableSprites, this) == -1;
+		return this._exportable;
+		/*const svgContainer = this.svgContainer;
+		return !svgContainer || $array.indexOf(svgContainer.nonExportableSprites, this) == -1;*/
 	}
 
 
@@ -6443,7 +6454,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	/**
 	 * Element's absolute or relative width.
 	 *
-	 * The width can either be absolute, set in numer pixels, or relative, set
+	 * The width can either be absolute, set in numeric pixels, or relative, set
 	 * in [[Percent]].
 	 *
 	 * Relative width will be calculated using closest measured ancestor
@@ -6485,7 +6496,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	/**
 	 * Element's absolute or relative height.
 	 *
-	 * The height can either be absolute, set in numer pixels, or relative, set
+	 * The height can either be absolute, set in numeric pixels, or relative, set
 	 * in [[Percent]].
 	 *
 	 * Relative height will be calculated using closest measured ancestor

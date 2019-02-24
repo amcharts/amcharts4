@@ -390,7 +390,7 @@ export class StyleRule extends Disposer {
 	}
 
 	/**
-	 * Sets the same style properties with browser-speicifc prefixes.
+	 * Sets the same style properties with browser-specific prefixes.
 	 *
 	 * @param name   Attribute name
 	 * @param value  Attribute value
@@ -499,4 +499,74 @@ export function ready(f: () => void): void {
 
 		document.addEventListener("readystatechange", listener);
 	}
+}
+
+/**
+ * Returns a font fmaily name for the element (directly set or
+ * computed/inherited).
+ *
+ * @ignore Exclude from docs
+ * @param element  Element
+ * @return Font family
+ */
+export function findFont(element: Element): string {
+
+	// Check if element has styles set
+	let font = "";
+	if ((<any>element).currentStyle) {
+		font = (<any>element).currentStyle["font-family"];
+	}
+	else if (window.getComputedStyle) {
+		font = document.defaultView.getComputedStyle(element, null).getPropertyValue("font-family");
+	}
+
+	if (!font) {
+		// Completely transparent. Look for a parent
+		let parent = element.parentElement || <Element>element.parentNode;
+		if (parent) {
+			return findFont(parent);
+		}
+		else {
+			return undefined;
+		}
+	}
+	else {
+		return font;
+	}
+
+}
+
+/**
+ * Returns a font fmaily name for the element (directly set or
+ * computed/inherited).
+ *
+ * @ignore Exclude from docs
+ * @param element  Element
+ * @return Font family
+ */
+export function findFontSize(element: Element): string {
+
+	// Check if element has styles set
+	let font = "";
+	if ((<any>element).currentStyle) {
+		font = (<any>element).currentStyle["font-size"];
+	}
+	else if (window.getComputedStyle) {
+		font = document.defaultView.getComputedStyle(element, null).getPropertyValue("font-size");
+	}
+
+	if (!font) {
+		// Completely transparent. Look for a parent
+		let parent = element.parentElement || <Element>element.parentNode;
+		if (parent) {
+			return findFontSize(parent);
+		}
+		else {
+			return undefined;
+		}
+	}
+	else {
+		return font;
+	}
+
 }

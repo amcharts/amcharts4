@@ -1145,7 +1145,7 @@ export declare class Export extends Validatable {
      * @ignore Exclude from docs
      * @return Browser supports triggering downloads?
      */
-    blobDownloadSupport(): boolean;
+    msBlobDownloadSupport(): boolean;
     /**
      * Checks if this is a legacy version of IE.
      *
@@ -1177,24 +1177,6 @@ export declare class Export extends Validatable {
      * @return Color code
      */
     findBackgroundColor(element: Element): Color;
-    /**
-     * Returns a font fmaily name for the element (directly set or
-     * computed/inherited).
-     *
-     * @ignore Exclude from docs
-     * @param element  Element
-     * @return Font family
-     */
-    findFont(element: Element): string;
-    /**
-     * Returns a font fmaily name for the element (directly set or
-     * computed/inherited).
-     *
-     * @ignore Exclude from docs
-     * @param element  Element
-     * @return Font family
-     */
-    findFontSize(element: Element): string;
     /**
      * @return Reference
      */

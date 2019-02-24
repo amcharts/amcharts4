@@ -407,7 +407,11 @@ export class AxisRendererY extends AxisRenderer {
 
 			point.x = this.measuredWidth + deltaX;
 		}
-		label.horizontalCenter = horizontalCenter;
+
+		if (label.rotation == 0) {
+			// Apply fuzzy logic to verticalCenter only if labels are not rotated
+			label.horizontalCenter = horizontalCenter;
+		}
 
 		this.positionItem(label, point);
 		this.toggleVisibility(label, position, this.minLabelPosition, this.maxLabelPosition);

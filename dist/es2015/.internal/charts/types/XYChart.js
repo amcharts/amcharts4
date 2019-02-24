@@ -1369,7 +1369,7 @@ var XYChart = /** @class */ (function (_super) {
     /**
      * This function is called by the [[DataSource]]'s `dateFields` adapater
      * so that particular chart types can popuplate this setting with their
-     * own type-speicifc data fields so they are parsed properly.
+     * own type-specific data fields so they are parsed properly.
      *
      * @param fields  Array of date fields
      * @return Array of date fields populated with chart's date fields

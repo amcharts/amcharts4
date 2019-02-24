@@ -352,7 +352,7 @@ var StyleRule = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     * Sets the same style properties with browser-speicifc prefixes.
+     * Sets the same style properties with browser-specific prefixes.
      *
      * @param name   Attribute name
      * @param value  Attribute value
@@ -451,6 +451,68 @@ export function ready(f) {
             }
         };
         document.addEventListener("readystatechange", listener_1);
+    }
+}
+/**
+ * Returns a font fmaily name for the element (directly set or
+ * computed/inherited).
+ *
+ * @ignore Exclude from docs
+ * @param element  Element
+ * @return Font family
+ */
+export function findFont(element) {
+    // Check if element has styles set
+    var font = "";
+    if (element.currentStyle) {
+        font = element.currentStyle["font-family"];
+    }
+    else if (window.getComputedStyle) {
+        font = document.defaultView.getComputedStyle(element, null).getPropertyValue("font-family");
+    }
+    if (!font) {
+        // Completely transparent. Look for a parent
+        var parent_1 = element.parentElement || element.parentNode;
+        if (parent_1) {
+            return findFont(parent_1);
+        }
+        else {
+            return undefined;
+        }
+    }
+    else {
+        return font;
+    }
+}
+/**
+ * Returns a font fmaily name for the element (directly set or
+ * computed/inherited).
+ *
+ * @ignore Exclude from docs
+ * @param element  Element
+ * @return Font family
+ */
+export function findFontSize(element) {
+    // Check if element has styles set
+    var font = "";
+    if (element.currentStyle) {
+        font = element.currentStyle["font-size"];
+    }
+    else if (window.getComputedStyle) {
+        font = document.defaultView.getComputedStyle(element, null).getPropertyValue("font-size");
+    }
+    if (!font) {
+        // Completely transparent. Look for a parent
+        var parent_2 = element.parentElement || element.parentNode;
+        if (parent_2) {
+            return findFontSize(parent_2);
+        }
+        else {
+            return undefined;
+        }
+    }
+    else {
+        return font;
     }
 }
 //# sourceMappingURL=DOM.js.map

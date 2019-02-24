@@ -629,7 +629,7 @@ export declare class Component extends Container {
     /**
      * This function is called by the [[DataSource]]'s `dateFields` adapater
      * so that particular chart types can popuplate this setting with their
-     * own type-speicifc data fields so they are parsed properly.
+     * own type-specific data fields so they are parsed properly.
      *
      * @ignore Exclude from docs
      * @param value  Array of date fields
@@ -639,7 +639,7 @@ export declare class Component extends Container {
     /**
      * This function is called by the [[DataSource]]'s `numberFields` adapater
      * so that particular chart types can popuplate this setting with their
-     * own type-speicifc data fields so they are parsed properly.
+     * own type-specific data fields so they are parsed properly.
      *
      * @ignore Exclude from docs
      * @param value  Array of number fields

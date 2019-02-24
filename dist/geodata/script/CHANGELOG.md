@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.1.3] - ????-??-??
+
+### Added
+- Additional county maps for Alaska and Hawaii in Albers projection, for drill-down scenarios involving usaAlbers map.
+
 ## [4.1.2] - 2019-02-17
 
 ### Added

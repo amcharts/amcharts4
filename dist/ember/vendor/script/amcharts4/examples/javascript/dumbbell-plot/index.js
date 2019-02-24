@@ -52,12 +52,9 @@ categoryAxis.renderer.grid.template.location = 0.5;
 categoryAxis.renderer.grid.template.strokeDasharray = "1,3";
 categoryAxis.renderer.labels.template.rotation = -90;
 categoryAxis.renderer.labels.template.horizontalCenter = "left";
+categoryAxis.renderer.labels.template.verticalCenter = "middle";
 categoryAxis.renderer.labels.template.location = 0.5;
 categoryAxis.renderer.inside = true;
-
-categoryAxis.renderer.labels.template.adapter.add("dx", function (dx, target) {
-    return (target.maxRight - target.maxLeft) / 2;
-})
 
 var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.tooltip.disabled = true;

@@ -4226,6 +4226,14 @@ define('@amcharts/amcharts4/plugins/sunburst', [], function () {
   }
   throw new Error("You must add 'plugins/sunburst' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4/plugins/wordCloud', [], function () {
+  'use strict';
+  var output = self.am4plugins_wordCloud;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'plugins/wordCloud' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4/themes/amcharts', [], function () {
   'use strict';
   var output = self.am4themes_amcharts;

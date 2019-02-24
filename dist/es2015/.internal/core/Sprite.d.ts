@@ -429,6 +429,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected _exporting: MutableValueDisposer<Export>;
     /**
+     * Should this Sprite be included when exporting?
+     */
+    protected _exportable: boolean;
+    /**
      * A reference to a top-level SVG node for this Sprite element.
      *
      * @ignore Exclude from docs
@@ -2888,7 +2892,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Element's absolute or relative width.
      *
-     * The width can either be absolute, set in numer pixels, or relative, set
+     * The width can either be absolute, set in numeric pixels, or relative, set
      * in [[Percent]].
      *
      * Relative width will be calculated using closest measured ancestor
@@ -2903,7 +2907,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Element's absolute or relative height.
      *
-     * The height can either be absolute, set in numer pixels, or relative, set
+     * The height can either be absolute, set in numeric pixels, or relative, set
      * in [[Percent]].
      *
      * Relative height will be calculated using closest measured ancestor

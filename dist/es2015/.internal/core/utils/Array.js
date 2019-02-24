@@ -435,4 +435,25 @@ export function find(array, matches) {
         return array[index];
     }
 }
+/**
+ * Iterates through all items in array and calls `fn` function for each of
+ * them.
+ *
+ * @param array  Source array
+ * @param fn     Callback function
+ */
+export function shuffle(array) {
+    // https://stackoverflow.com/a/2450976/449477
+    var currentIndex = array.length, temporaryValue, randomIndex;
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+}
 //# sourceMappingURL=Array.js.map

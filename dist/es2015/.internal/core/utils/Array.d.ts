@@ -254,3 +254,11 @@ export declare function findIndex<A>(array: ArrayLike<A>, matches: (value: A, in
  * @returns Item if found
  */
 export declare function find<A>(array: ArrayLike<A>, matches: (value: A, index: number) => boolean): A | undefined;
+/**
+ * Iterates through all items in array and calls `fn` function for each of
+ * them.
+ *
+ * @param array  Source array
+ * @param fn     Callback function
+ */
+export declare function shuffle<A>(array: Array<A>): void;

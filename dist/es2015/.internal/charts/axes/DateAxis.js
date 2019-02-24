@@ -1496,21 +1496,23 @@ var DateAxis = /** @class */ (function (_super) {
             var actualTime_1 = actualDate.getTime();
             var closestDate_1;
             this.series.each(function (series) {
-                var dataItem = _this.getSeriesDataItem(series, position, true);
-                if (dataItem) {
-                    var date = void 0;
-                    if (series.xAxis == _this) {
-                        date = dataItem.dateX;
-                    }
-                    if (series.yAxis == _this) {
-                        date = dataItem.dateY;
-                    }
-                    if (!closestDate_1) {
-                        closestDate_1 = date;
-                    }
-                    else {
-                        if (Math.abs(closestDate_1.getTime() - actualTime_1) > Math.abs(date.getTime() - actualTime_1)) {
+                if (series.baseAxis == _this) {
+                    var dataItem = _this.getSeriesDataItem(series, position, true);
+                    if (dataItem) {
+                        var date = void 0;
+                        if (series.xAxis == _this) {
+                            date = dataItem.dateX;
+                        }
+                        if (series.yAxis == _this) {
+                            date = dataItem.dateY;
+                        }
+                        if (!closestDate_1) {
                             closestDate_1 = date;
+                        }
+                        else {
+                            if (Math.abs(closestDate_1.getTime() - actualTime_1) > Math.abs(date.getTime() - actualTime_1)) {
+                                closestDate_1 = date;
+                            }
                         }
                     }
                 }

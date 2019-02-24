@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.1.10] - 2019-02-24
+
+### Added
+- New chart type: [WordCloud](https://www.amcharts.com/docs/v4/chart-types/wordcloud/).
+
+### Changed
+- Rotated axis labels (`rotation != 0`) of the vertical and horizontal axes no longer have their `verticalCenter` and `horizontalCenter` overridden by renderer. This gives more freedom for positioning rotated labels.
+
+### Fixed
+- `exportable = false` was not working when set on various Series item templates.
+- On Gantt chart date axis tooltip was snapping randomly when moving mouse.
+- Export: For very large data sets (2MB and up) data export was failing silently in Chrome.
+
+
 ## [4.1.9] - 2019-02-20
 
 ### Added

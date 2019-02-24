@@ -1475,8 +1475,8 @@ export class Export extends Validatable {
 				// Get dimensions
 				let width = this.sprite.pixelWidth,
 					height = this.sprite.pixelHeight,
-					font = this.findFont(this.sprite.dom),
-					fontSize = this.findFontSize(this.sprite.dom);
+					font = $dom.findFont(this.sprite.dom),
+					fontSize = $dom.findFontSize(this.sprite.dom);
 
 				// Create canvas and its 2D context
 				var canvas = this.getDisposableCanvas();
@@ -1603,8 +1603,8 @@ export class Export extends Validatable {
 		// Get dimensions
 		let width = this.sprite.pixelWidth,
 			height = this.sprite.pixelHeight,
-			font = this.findFont(this.sprite.dom),
-			fontSize = this.findFontSize(this.sprite.dom);
+			font = $dom.findFont(this.sprite.dom),
+			fontSize = $dom.findFontSize(this.sprite.dom);
 
 		// Get SVG representation of the Sprite
 		let data = this.normalizeSVG(
@@ -2086,8 +2086,8 @@ export class Export extends Validatable {
 		// Get dimensions
 		let width = this.sprite.pixelWidth,
 			height = this.sprite.pixelHeight,
-			font = this.findFont(this.sprite.dom),
-			fontSize = this.findFontSize(this.sprite.dom);
+			font = $dom.findFont(this.sprite.dom),
+			fontSize = $dom.findFontSize(this.sprite.dom);
 		// Get SVG
 		let svg = this.normalizeSVG(
 			this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom),
@@ -2615,6 +2615,7 @@ export class Export extends Validatable {
 			return value;
 		}, options.indent);
 
+
 		// Add content type
 		let charset = this.adapter.apply("charset", {
 			charset: "charset=utf-8",
@@ -2693,18 +2694,66 @@ export class Export extends Validatable {
 	public async download(uri: string, fileName: string): Promise<boolean> {
 
 		//if (window.navigator.msSaveOrOpenBlob === undefined) {
-		if (this.linkDownloadSupport() && !this.blobDownloadSupport()) {
+		if (this.linkDownloadSupport() && !this.msBlobDownloadSupport()) {
 
 			/**
 			 * For regular browsers, we create a link then simulate a click on it
 			 */
 			let link = document.createElement("a");
 			link.download = fileName;
-			//uri = uri.replace(/#/g, "%23");
-			link.href = uri;
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
+
+			// There's a catch, though
+			// "href" can't handle super long URLs, so we need to use blob download
+			if (uri.length > 1048576) {
+				// More than 1MB
+
+				// Extract content type and get pure data without headers
+				let parts = uri.split(";");
+				let contentType = parts.shift().replace(/data:/, "");
+
+				uri = decodeURIComponent(parts.join(";").replace(/^[^,]*,/, ""));
+
+				if (["image/svg+xml", "application/json", "text/csv"].indexOf(contentType) == -1) {
+					try {
+						let decoded = atob(uri);
+						uri = decoded;
+					} catch (e) {
+						// Error occurred, meaning string was not Base64-encoded. Do nothing.
+						return false;
+					}
+				}
+				else {
+					let blob = new Blob([uri], { type: contentType });
+					let url = window.URL.createObjectURL(blob);
+					link.href = url;
+					link.download = fileName;
+					link.click();
+					window.URL.revokeObjectURL(url);
+					return true;
+				}
+
+				// Dissect uri into array
+				let chars = new Array(uri.length);
+				for (let i = 0; i < uri.length; ++i) {
+					let charCode = uri.charCodeAt(i);
+					chars[i] = charCode;
+				}
+
+				let blob = new Blob([new Uint8Array(chars)], { type: contentType });
+				let url = window.URL.createObjectURL(blob);
+				link.href = url;
+				link.download = fileName;
+				link.click();
+				window.URL.revokeObjectURL(url);
+
+			}
+			else {
+				// Less than 1MB, use link
+				link.href = uri;
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+			}
 
 		}
 		else if ($type.hasValue(window.navigator.msSaveBlob)) {
@@ -2831,7 +2880,7 @@ export class Export extends Validatable {
 	 * @return Supports downloads?
 	 */
 	public downloadSupport(): boolean {
-		return this.linkDownloadSupport() || this.blobDownloadSupport();
+		return this.linkDownloadSupport() || this.msBlobDownloadSupport();
 	}
 
 	/**
@@ -2858,7 +2907,7 @@ export class Export extends Validatable {
 	 * @ignore Exclude from docs
 	 * @return Browser supports triggering downloads?
 	 */
-	public blobDownloadSupport(): boolean {
+	public msBlobDownloadSupport(): boolean {
 		return $type.hasValue(window.navigator.msSaveOrOpenBlob);
 	}
 
@@ -3076,76 +3125,6 @@ export class Export extends Validatable {
 		}
 		else {
 			return color(currentColor, opacity);
-		}
-
-	}
-
-	/**
-	 * Returns a font fmaily name for the element (directly set or
-	 * computed/inherited).
-	 *
-	 * @ignore Exclude from docs
-	 * @param element  Element
-	 * @return Font family
-	 */
-	public findFont(element: Element): string {
-
-		// Check if element has styles set
-		let font = "";
-		if ((<any>element).currentStyle) {
-			font = (<any>element).currentStyle["font-family"];
-		}
-		else if (window.getComputedStyle) {
-			font = document.defaultView.getComputedStyle(element, null).getPropertyValue("font-family");
-		}
-
-		if (!font) {
-			// Completely transparent. Look for a parent
-			let parent = element.parentElement || <Element>element.parentNode;
-			if (parent) {
-				return this.findFont(parent);
-			}
-			else {
-				return undefined;
-			}
-		}
-		else {
-			return font;
-		}
-
-	}
-
-	/**
-	 * Returns a font fmaily name for the element (directly set or
-	 * computed/inherited).
-	 *
-	 * @ignore Exclude from docs
-	 * @param element  Element
-	 * @return Font family
-	 */
-	public findFontSize(element: Element): string {
-
-		// Check if element has styles set
-		let font = "";
-		if ((<any>element).currentStyle) {
-			font = (<any>element).currentStyle["font-size"];
-		}
-		else if (window.getComputedStyle) {
-			font = document.defaultView.getComputedStyle(element, null).getPropertyValue("font-size");
-		}
-
-		if (!font) {
-			// Completely transparent. Look for a parent
-			let parent = element.parentElement || <Element>element.parentNode;
-			if (parent) {
-				return this.findFont(parent);
-			}
-			else {
-				return undefined;
-			}
-		}
-		else {
-			return font;
 		}
 
 	}

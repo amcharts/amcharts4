@@ -160,7 +160,7 @@ export declare class StyleRule extends Disposer {
         [name: string]: string;
     });
     /**
-     * Sets the same style properties with browser-speicifc prefixes.
+     * Sets the same style properties with browser-specific prefixes.
      *
      * @param name   Attribute name
      * @param value  Attribute value
@@ -208,3 +208,21 @@ export declare class StyleClass extends StyleRule {
     toString(): string;
 }
 export declare function ready(f: () => void): void;
+/**
+ * Returns a font fmaily name for the element (directly set or
+ * computed/inherited).
+ *
+ * @ignore Exclude from docs
+ * @param element  Element
+ * @return Font family
+ */
+export declare function findFont(element: Element): string;
+/**
+ * Returns a font fmaily name for the element (directly set or
+ * computed/inherited).
+ *
+ * @ignore Exclude from docs
+ * @param element  Element
+ * @return Font family
+ */
+export declare function findFontSize(element: Element): string;
