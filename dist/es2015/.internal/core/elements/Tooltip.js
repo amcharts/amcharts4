@@ -83,7 +83,7 @@ var Tooltip = /** @class */ (function (_super) {
         var label = _this.createChild(Label);
         label.shouldClone = false;
         _this.label = label;
-        label.padding(7, 12, 6, 12);
+        label.padding(7, 12, 4, 12);
         label.interactionsEnabled = false;
         label.horizontalCenter = "middle";
         label.fill = color("#ffffff");

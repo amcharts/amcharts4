@@ -391,13 +391,13 @@ export declare class WordCloudSeries extends Series {
      * This can be set either as a numeric pixel size, or as a relative
      * as `Percent`.
      *
-     * When setting as percent it will use series' height as a basis for
+     * When setting as percent it will use series' height or width (the one which is smaller) as a basis for
      * calculating the font size.
      *
      * NOTE: this setting might be automatically adjusted if all words do not fit
      * in the available space.
      *
-     * @default 30%
+     * @default 20%
      * @param  value  Font size
      */
     maxFontSize: number | Percent;
@@ -410,10 +410,10 @@ export declare class WordCloudSeries extends Series {
      * This can be set either as a numeric pixel size, or as a relative
      * as `Percent`.
      *
-     * When setting as percent it will use series' height as a basis for
+     * When setting as percent it will use series' height or width (the one which is smaller) as a basis for
      * calculating the font size.
      *
-     * @default 1%
+     * @default 2%
      * @param  value  Font size
      */
     minFontSize: number | Percent;

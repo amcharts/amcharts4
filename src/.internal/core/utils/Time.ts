@@ -242,6 +242,10 @@ export function add(date: Date, unit: TimeUnit, count: number): Date {
 		case "year":
 			let year: number = date.getUTCFullYear();
 			date.setUTCFullYear(year + count);
+
+			let nonUTCDateY = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+			timeZoneOffset = nonUTCDateY.getTimezoneOffset();
+
 			break;
 
 		case "month":

@@ -114,6 +114,8 @@ export class MapPolygon extends MapObject {
 
 		this.tooltipPosition = "pointer";
 
+		this.nonScalingStroke = true;
+
 		this.applyTheme();
 	}
 

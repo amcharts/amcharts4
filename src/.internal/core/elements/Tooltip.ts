@@ -214,7 +214,7 @@ export class Tooltip extends Container {
 		let label = this.createChild(Label);
 		label.shouldClone = false;
 		this.label = label;
-		label.padding(7, 12, 6, 12);
+		label.padding(7, 12, 4, 12);
 		label.interactionsEnabled = false;
 		label.horizontalCenter = "middle";
 		label.fill = color("#ffffff");

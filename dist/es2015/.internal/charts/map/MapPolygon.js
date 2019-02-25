@@ -39,6 +39,7 @@ var MapPolygon = /** @class */ (function (_super) {
         _this.stroke = interfaceColors.getFor("secondaryButtonStroke");
         _this.strokeOpacity = 1;
         _this.tooltipPosition = "pointer";
+        _this.nonScalingStroke = true;
         _this.applyTheme();
         return _this;
     }

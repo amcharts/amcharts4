@@ -578,8 +578,9 @@ export class WordCloudSeries extends Series {
 		let label = dataItem.label;
 		let fontFace = $dom.findFont(label.element.node);
 
-		let minFontSize = $utils.relativeToValue(this.minFontSize, this.innerHeight);
-		let maxFontSize = $utils.relativeToValue(this.maxFontSize, this.innerHeight);
+		let smallerSize = $math.min(this.innerHeight, this.innerWidth);
+		let minFontSize = $utils.relativeToValue(this.minFontSize, smallerSize);
+		let maxFontSize = $utils.relativeToValue(this.maxFontSize, smallerSize);
 
 		let percent = (dataItem.value - this.dataItem.values.value.low) / this.dataItem.values.value.high;
 
@@ -619,7 +620,7 @@ export class WordCloudSeries extends Series {
 		while (intersects) {
 			if (p > this._points.length - 1) {
 				intersects = false;
-				this._adjustedFont -= 0.05;
+				this._adjustedFont -= 0.1;
 				this.invalidate();
 				return;
 			}
@@ -893,7 +894,7 @@ export class WordCloudSeries extends Series {
 	 * This can be set either as a numeric pixel size, or as a relative
 	 * as `Percent`.
 	 *
-	 * When setting as percent it will use series' height as a basis for
+	 * When setting as percent it will use series' height or width (the one which is smaller) as a basis for
 	 * calculating the font size.
 	 *
 	 * NOTE: this setting might be automatically adjusted if all words do not fit
@@ -919,7 +920,7 @@ export class WordCloudSeries extends Series {
 	 * This can be set either as a numeric pixel size, or as a relative
 	 * as `Percent`.
 	 *
-	 * When setting as percent it will use series' height as a basis for
+	 * When setting as percent it will use series' height or width (the one which is smaller) as a basis for
 	 * calculating the font size.
 	 *
 	 * @default 2%

@@ -148,6 +148,7 @@ export interface ISpriteProperties {
     url?: string;
     hidden?: boolean;
     showOnInit?: boolean;
+    id?: string;
 }
 /**
  * Defines animation options

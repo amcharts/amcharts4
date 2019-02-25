@@ -324,8 +324,9 @@ var WordCloudSeries = /** @class */ (function (_super) {
         this.labelsContainer.y = h / 2;
         var label = dataItem.label;
         var fontFace = $dom.findFont(label.element.node);
-        var minFontSize = $utils.relativeToValue(this.minFontSize, this.innerHeight);
-        var maxFontSize = $utils.relativeToValue(this.maxFontSize, this.innerHeight);
+        var smallerSize = $math.min(this.innerHeight, this.innerWidth);
+        var minFontSize = $utils.relativeToValue(this.minFontSize, smallerSize);
+        var maxFontSize = $utils.relativeToValue(this.maxFontSize, smallerSize);
         var percent = (dataItem.value - this.dataItem.values.value.low) / this.dataItem.values.value.high;
         var fontSize = minFontSize + (maxFontSize - minFontSize) * percent * this._adjustedFont;
         var initialFontSize = label.fontSize;
@@ -353,7 +354,7 @@ var WordCloudSeries = /** @class */ (function (_super) {
         while (intersects) {
             if (p > this._points.length - 1) {
                 intersects = false;
-                this._adjustedFont -= 0.05;
+                this._adjustedFont -= 0.1;
                 this.invalidate();
                 return;
             }
@@ -631,13 +632,13 @@ var WordCloudSeries = /** @class */ (function (_super) {
          * This can be set either as a numeric pixel size, or as a relative
          * as `Percent`.
          *
-         * When setting as percent it will use series' height as a basis for
+         * When setting as percent it will use series' height or width (the one which is smaller) as a basis for
          * calculating the font size.
          *
          * NOTE: this setting might be automatically adjusted if all words do not fit
          * in the available space.
          *
-         * @default 30%
+         * @default 20%
          * @param  value  Font size
          */
         set: function (value) {
@@ -659,10 +660,10 @@ var WordCloudSeries = /** @class */ (function (_super) {
          * This can be set either as a numeric pixel size, or as a relative
          * as `Percent`.
          *
-         * When setting as percent it will use series' height as a basis for
+         * When setting as percent it will use series' height or width (the one which is smaller) as a basis for
          * calculating the font size.
          *
-         * @default 1%
+         * @default 2%
          * @param  value  Font size
          */
         set: function (value) {

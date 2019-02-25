@@ -196,6 +196,8 @@ export function add(date, unit, count) {
         case "year":
             var year = date.getUTCFullYear();
             date.setUTCFullYear(year + count);
+            var nonUTCDateY = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+            timeZoneOffset = nonUTCDateY.getTimezoneOffset();
             break;
         case "month":
             var month = date.getUTCMonth();

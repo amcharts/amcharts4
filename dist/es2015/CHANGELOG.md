@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.1.12] - 2019-02-25
+
+### Changed
+- On `MapPolygon` default value of `nonScalingStroke` is now set to `true` (as `false`).
+- When calculating font size for a word on a `WordCloud` chart it now uses smaller side of the series area instead of height.
+- `Tooltip`'s label `paddingBottom` default value changed from `6` to `4` pixels for better centering of text.
+
+### Fixed
+- Sometimes `baseInterval = "year"` on a `DateAxis` could cause stack overflow.
+
+
 ## [4.1.11] - 2019-02-25
 
 ### Changed
