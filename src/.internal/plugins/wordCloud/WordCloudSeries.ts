@@ -372,8 +372,8 @@ export class WordCloudSeries extends Series {
 
 		this.isMeasured = true;
 
-		this.minFontSize = percent(1);
-		this.maxFontSize = percent(30);
+		this.minFontSize = percent(2);
+		this.maxFontSize = percent(20);
 
 		this.excludeWords = [];
 
@@ -581,7 +581,8 @@ export class WordCloudSeries extends Series {
 		let minFontSize = $utils.relativeToValue(this.minFontSize, this.innerHeight);
 		let maxFontSize = $utils.relativeToValue(this.maxFontSize, this.innerHeight);
 
-		let percent = dataItem.value / this.dataItem.values.value.high;
+		let percent = (dataItem.value - this.dataItem.values.value.low) / this.dataItem.values.value.high;
+
 		let fontSize = minFontSize + (maxFontSize - minFontSize) * percent * this._adjustedFont;
 
 		let initialFontSize = label.fontSize;
@@ -591,6 +592,7 @@ export class WordCloudSeries extends Series {
 		if ((fontSize - minFontSize) / (maxFontSize - minFontSize) < this.rotationThreshold) {
 			angle = this.angles[Math.round(Math.random() * (this.angles.length - 1))];
 		}
+
 		label.fontSize = fontSize;
 		label.rotation = angle;
 		label.show(0);
@@ -897,7 +899,7 @@ export class WordCloudSeries extends Series {
 	 * NOTE: this setting might be automatically adjusted if all words do not fit
 	 * in the available space.
 	 *
-	 * @default 30%
+	 * @default 20%
 	 * @param  value  Font size
 	 */
 	public set maxFontSize(value: number | Percent) {
@@ -920,7 +922,7 @@ export class WordCloudSeries extends Series {
 	 * When setting as percent it will use series' height as a basis for
 	 * calculating the font size.
 	 *
-	 * @default 1%
+	 * @default 2%
 	 * @param  value  Font size
 	 */
 	public set minFontSize(value: number | Percent) {

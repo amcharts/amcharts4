@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.1.11] - 2019-02-25
+
+### Changed
+- Default value of `minFontSize` in `WordCloudSeries` to `2%`.
+- Default value of `maxFontSize` in `WordCloudSeries` to `20%`.
+- Label sizing algorithm updated in `WordCloudSeries`.
+
+
 ## [4.1.10] - 2019-02-24
 
 ### Added
