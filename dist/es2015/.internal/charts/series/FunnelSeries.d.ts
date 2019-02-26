@@ -90,6 +90,12 @@ export interface IFunnelSeriesProperties extends IPercentSeriesProperties {
      * @default "vertical"
      */
     orientation?: Orientation;
+    /**
+     * Put labels on the oppsite side of the series?
+     *
+     * @since 4.1.13
+     */
+    labelsOpposite?: boolean;
 }
 /**
  * Defines events for [[FunnelSeries]].
@@ -352,4 +358,23 @@ export declare class FunnelSeries extends PercentSeries {
      * @ignore
      */
     protected setAlignLabels(value: boolean): void;
+    /**
+     * @return Labels on opposite side?
+     */
+    /**
+     * Put labels on the oppsite side of the series?
+     *
+     * This setting is only used if `alignLabels = true`.
+     *
+     * If set to `true` (default) labels will be drawn to the right (on vertical
+     * series), or to the bottom (on horizontal series).
+     *
+     * If set to `false`, labels will be positioned to the left or top
+     * respectively.
+     *
+     * @default true
+     * @since 4.1.13
+     * @param  value  Labels on opposite side?
+     */
+    labelsOpposite: boolean;
 }

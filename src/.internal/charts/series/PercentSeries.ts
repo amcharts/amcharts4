@@ -495,8 +495,6 @@ export class PercentSeries extends Series {
 
 		this._addAllDataItems = false;
 
-		this.alignLabels = false;
-
 		this.colors = new ColorSet();
 		this.colors.step = 1;
 		this.isMeasured = true;
@@ -519,6 +517,8 @@ export class PercentSeries extends Series {
 		labelsContainer.isMeasured = false;
 		labelsContainer.layout = "none";
 		this.labelsContainer = labelsContainer;
+
+		this.alignLabels = false;		
 
 		this.bulletsContainer.toFront();
 

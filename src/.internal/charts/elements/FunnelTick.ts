@@ -30,9 +30,9 @@ import * as $path from "../../core/rendering/Path";
  * Defines properties for [[FunnelTick]].
  */
 export interface IFunnelTickProperties extends ITickProperties {
-	locationX?:number;
+	locationX?: number;
 
-	locationY?:number;
+	locationY?: number;
 }
 
 /**
@@ -125,6 +125,10 @@ export class FunnelTick extends Tick {
 				let x1 = label.pixelX;
 				let y1 = label.pixelY;
 
+				if(!series.labelsOpposite){
+					x1 += label.maxRight;
+				}
+
 				let p0 = $utils.spritePointToSprite(point, slice, this.parent);
 				let p1 = $utils.spritePointToSprite({ x: x1, y: y1 }, label.parent, this.parent);
 
@@ -132,7 +136,11 @@ export class FunnelTick extends Tick {
 			}
 			else {
 				let x1 = label.pixelX;
-				let y1 = label.pixelY - label.measuredHeight;
+				let y1 = label.pixelY;
+
+				if(!series.labelsOpposite){
+					y1 += label.maxBottom;
+				}				
 
 				let p0 = $utils.spritePointToSprite(point, slice, this.parent);
 				let p1 = $utils.spritePointToSprite({ x: x1, y: y1 }, label.parent, this.parent);

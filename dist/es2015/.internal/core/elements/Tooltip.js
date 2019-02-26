@@ -134,7 +134,6 @@ var Tooltip = /** @class */ (function (_super) {
     Object.defineProperty(Tooltip.prototype, "autoTextColor", {
         /**
          * @return {boolean}
-         * @default true
          */
         get: function () {
             return this.getPropertyValue("autoTextColor");
@@ -155,6 +154,45 @@ var Tooltip = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("autoTextColor", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Tooltip.prototype, "keepTargetHover", {
+        /**
+         * @return Keep target hovered?
+         */
+        get: function () {
+            return this.getPropertyValue("keepTargetHover");
+        },
+        /**
+         * If this tooltip is displayed on hover on some other object, keep that
+         * element hovered if hovering on the tooltip.
+         *
+         * @default false
+         * @since 4.1.13
+         * @param  value  Keep target hovered?
+         */
+        set: function (value) {
+            var _this = this;
+            if (this.setPropertyValue("keepTargetHover", value, true)) {
+                if (value) {
+                    this.hoverable = true;
+                    this.background.interactionsEnabled = true;
+                    this._disposers.push(this.events.on("over", function (ev) {
+                        if (_this.targetSprite && _this.targetSprite.hoverable) {
+                            _this.targetSprite.isHover = true;
+                        }
+                    }));
+                    this._disposers.push(this.events.on("out", function (ev) {
+                        if (_this.targetSprite && _this.targetSprite.hoverable) {
+                            //this.hideTooltip();
+                            //this.targetSprite.handleOut();
+                            _this.targetSprite.isHover = false;
+                        }
+                    }));
+                }
+            }
         },
         enumerable: true,
         configurable: true

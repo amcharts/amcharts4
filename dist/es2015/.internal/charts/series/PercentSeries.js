@@ -293,7 +293,6 @@ var PercentSeries = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.className = "PercentSeries";
         _this._addAllDataItems = false;
-        _this.alignLabels = false;
         _this.colors = new ColorSet();
         _this.colors.step = 1;
         _this.isMeasured = true;
@@ -312,6 +311,7 @@ var PercentSeries = /** @class */ (function (_super) {
         labelsContainer.isMeasured = false;
         labelsContainer.layout = "none";
         _this.labelsContainer = labelsContainer;
+        _this.alignLabels = false;
         _this.bulletsContainer.toFront();
         // Make all slices focusable
         _this.skipFocusThreshold = 50;

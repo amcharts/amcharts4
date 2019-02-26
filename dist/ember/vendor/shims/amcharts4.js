@@ -30,6 +30,22 @@ define('@amcharts/amcharts4-geodata/algeriaLow', [], function () {
   }
   throw new Error("You must add 'geodata/algeriaLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/americanSamoaHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_americanSamoaHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/americanSamoaHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/americanSamoaLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_americanSamoaLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/americanSamoaLow' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/andorraHigh', [], function () {
   'use strict';
   var output = self.am4geodata_andorraHigh;

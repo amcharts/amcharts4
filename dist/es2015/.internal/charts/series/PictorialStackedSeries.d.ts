@@ -45,7 +45,18 @@ export interface IPictorialStackedSeriesDataFields extends IPyramidSeriesDataFie
  * Defines properties for [[PictorialStackedSeries]].
  */
 export interface IPictorialStackedSeriesProperties extends IPyramidSeriesProperties {
-    picture?: Sprite;
+    /**
+     * Relative location to start series from.
+     *
+     * @default 0
+     */
+    startLocation?: number;
+    /**
+     * Relative location to end series at.
+     *
+     * @default 1
+     */
+    endLocation?: number;
 }
 /**
  * Defines events for [[PictorialStackedSeries]].
@@ -163,4 +174,100 @@ export declare class PictorialStackedSeries extends PyramidSeries {
      * @param slice to init
      */
     protected initSlice(slice: this["_slice"]): void;
+    /**
+     * @return  Start location
+     */
+    /**
+     * Relative location to start series from.
+     *
+     * Range of values: 0 to 1.
+     *
+     * This setting indicates where actual slices will start relatively to the
+     * whole height/width of the series.
+     *
+     * For example, if we want slices to start at 30% from the top/left of the
+     * series, we can set `startLocation = 0.3`.
+     *
+     * To fill shape outside of the location range, use background of the
+     * property `slicesContainer`.
+     *
+     * ```TypeScript
+     * series.startLocation = 0.2;
+     * series.endLocation = 0.8;
+     * series.slicesContainer.background.fill = am4core.color("#eee");
+     * ```
+     * ```JavaScript
+     * series.startLocation = 0.2;
+     * series.endLocation = 0.8;
+     * series.slicesContainer.background.fill = am4core.color("#eee");
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "series": [{
+     *     // ...
+     *     "startLocation": 0.2,
+     *     "endLocation": 0.8,
+     *     "slicesContainer": {
+     *       "background": {
+     *         "fill": "#eee"
+     *       }
+     *     }
+     *   }]
+     * }
+     * ```
+     *
+     * @default 0
+     * @since 4.1.13
+     * @param  value  Start location
+     */
+    startLocation: number;
+    /**
+     * @return End location
+     */
+    /**
+     * Relative location to end series at.
+     *
+     * Range of values: 0 to 1.
+     *
+     * This setting indicates where actual slices will end relatively to the
+     * whole height/width of the series.
+     *
+     * For example, if we want slices to end at 70% from the top/left of the
+     * series, we can set `endLocation = 0.7`.
+     *
+     * To fill shape outside of the location range, use background of the
+     * property `slicesContainer`.
+     *
+     * ```TypeScript
+     * series.startLocation = 0.2;
+     * series.endLocation = 0.8;
+     * series.slicesContainer.background.fill = am4core.color("#eee");
+     * ```
+     * ```JavaScript
+     * series.startLocation = 0.2;
+     * series.endLocation = 0.8;
+     * series.slicesContainer.background.fill = am4core.color("#eee");
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "series": [{
+     *     // ...
+     *     "startLocation": 0.2,
+     *     "endLocation": 0.8,
+     *     "slicesContainer": {
+     *       "background": {
+     *         "fill": "#eee"
+     *       }
+     *     }
+     *   }]
+     * }
+     * ```
+     *
+     * @default 1
+     * @since 4.1.13
+     * @param  value  End location
+     */
+    endLocation: number;
 }

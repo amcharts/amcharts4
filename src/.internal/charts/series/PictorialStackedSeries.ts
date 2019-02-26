@@ -31,6 +31,7 @@ import * as $utils from "../../core/utils/Utils";
 import { Percent, percent } from "../../core/utils/Percent";
 import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
 import { Color, color } from "../../core/utils/Color";
+import { Rectangle } from "../../core/elements/Rectangle";
 
 
 /**
@@ -82,7 +83,21 @@ export interface IPictorialStackedSeriesDataFields extends IPyramidSeriesDataFie
  * Defines properties for [[PictorialStackedSeries]].
  */
 export interface IPictorialStackedSeriesProperties extends IPyramidSeriesProperties {
-	picture?: Sprite;
+
+	/**
+	 * Relative location to start series from.
+	 * 
+	 * @default 0
+	 */
+	startLocation?: number;
+
+	/**
+	 * Relative location to end series at.
+	 *
+	 * @default 1
+	 */
+	endLocation?: number;
+
 }
 
 /**
@@ -158,6 +173,9 @@ export class PictorialStackedSeries extends PyramidSeries {
 
 		this.applyTheme();
 
+		this.startLocation = 0;
+		this.endLocation = 1;
+
 		this._maskSprite = this.slicesContainer.createChild(Sprite);
 		this._maskSprite.visible = false;
 		this._maskSprite.zIndex = 100;
@@ -181,11 +199,14 @@ export class PictorialStackedSeries extends PyramidSeries {
 
 		let scale = $math.min(maxHeight / pictureHeight, maxWidth / pictureWidth);
 
-		if(scale == Infinity){
+		if (scale == Infinity) {
 			scale = 1; // can't return here, won't draw legend properly
 		}
 
 		scale = $math.max(0.001, scale);
+
+		let startLocation = this.startLocation;
+		let endLocation = this.endLocation;
 
 		let newWidth = $math.min(maxWidth, pictureWidth * scale);
 		let newHeight = $math.min(maxHeight, pictureHeight * scale);
@@ -193,17 +214,16 @@ export class PictorialStackedSeries extends PyramidSeries {
 		maskSprite.scale = scale;
 
 		if (this.orientation == "vertical") {
-
 			this.topWidth = newWidth + 4;
 			this.bottomWidth = newWidth + 4;
-			this.pyramidHeight = newHeight;
+			this.pyramidHeight = newHeight * (endLocation - startLocation);
 			maskSprite.x = maxWidth / 2;
 			maskSprite.y = newHeight / 2;
 		}
 		else {
 			this.topWidth = newHeight + 4;
 			this.bottomWidth = newHeight + 4;
-			this.pyramidHeight = newWidth;
+			this.pyramidHeight = newWidth * (endLocation - startLocation);
 			maskSprite.valign = "middle";
 			maskSprite.x = newWidth / 2;
 			maskSprite.y = maxHeight / 2;
@@ -212,9 +232,24 @@ export class PictorialStackedSeries extends PyramidSeries {
 		maskSprite.verticalCenter = "middle";
 		maskSprite.horizontalCenter = "middle";
 
-		this.slicesContainer.mask = this._maskSprite;
-
 		super.validateDataElements();
+
+		if (this.orientation == "vertical") {
+			let y = (maxHeight - newHeight) / 2;
+			this.slicesContainer.y = y;
+			this.labelsContainer.y = y;
+			this.ticksContainer.y = y;
+			this.slices.template.dy = startLocation * newHeight;
+		}
+		else {
+			let x = (maxWidth - newWidth) / 2;
+			this.slicesContainer.x = x;
+			this.labelsContainer.x = x;
+			this.ticksContainer.x = x;
+			this.slices.template.dx = startLocation * newWidth;
+		}
+
+		this.slicesContainer.mask = this._maskSprite;
 	}
 
 	/**
@@ -290,6 +325,120 @@ export class PictorialStackedSeries extends PyramidSeries {
 		if (hs) {
 			hs.properties.expandDistance = 0;
 		}
+	}
+
+	/**
+	 * Relative location to start series from.
+	 *
+	 * Range of values: 0 to 1.
+	 *
+	 * This setting indicates where actual slices will start relatively to the
+	 * whole height/width of the series.
+	 *
+	 * For example, if we want slices to start at 30% from the top/left of the
+	 * series, we can set `startLocation = 0.3`.
+	 *
+	 * To fill shape outside of the location range, use background of the
+	 * property `slicesContainer`.
+	 *
+	 * ```TypeScript
+	 * series.startLocation = 0.2;
+	 * series.endLocation = 0.8;
+	 * series.slicesContainer.background.fill = am4core.color("#eee");
+	 * ```
+	 * ```JavaScript
+	 * series.startLocation = 0.2;
+	 * series.endLocation = 0.8;
+	 * series.slicesContainer.background.fill = am4core.color("#eee");
+	 * ```
+	 * ```JSON
+	 * {
+	 *   // ...
+	 *   "series": [{
+	 *     // ...
+	 *     "startLocation": 0.2,
+	 *     "endLocation": 0.8,
+	 *     "slicesContainer": {
+	 *       "background": {
+	 *         "fill": "#eee"
+	 *       }
+	 *     }
+	 *   }]
+	 * }
+	 * ```
+	 *
+	 * @default 0
+	 * @since 4.1.13
+	 * @param  value  Start location
+	 */
+	public set startLocation(value: number) {
+		if (this.setPropertyValue("startLocation", value)) {
+			this.invalidateDataItems();
+		}
+	}
+
+	/**
+	 * @return  Start location
+	 */
+	public get startLocation(): number {
+		return this.getPropertyValue("startLocation");
+	}
+
+	/**
+	 * Relative location to end series at.
+	 *
+	 * Range of values: 0 to 1.
+	 *
+	 * This setting indicates where actual slices will end relatively to the
+	 * whole height/width of the series.
+	 *
+	 * For example, if we want slices to end at 70% from the top/left of the
+	 * series, we can set `endLocation = 0.7`.
+	 *
+	 * To fill shape outside of the location range, use background of the
+	 * property `slicesContainer`.
+	 *
+	 * ```TypeScript
+	 * series.startLocation = 0.2;
+	 * series.endLocation = 0.8;
+	 * series.slicesContainer.background.fill = am4core.color("#eee");
+	 * ```
+	 * ```JavaScript
+	 * series.startLocation = 0.2;
+	 * series.endLocation = 0.8;
+	 * series.slicesContainer.background.fill = am4core.color("#eee");
+	 * ```
+	 * ```JSON
+	 * {
+	 *   // ...
+	 *   "series": [{
+	 *     // ...
+	 *     "startLocation": 0.2,
+	 *     "endLocation": 0.8,
+	 *     "slicesContainer": {
+	 *       "background": {
+	 *         "fill": "#eee"
+	 *       }
+	 *     }
+	 *   }]
+	 * }
+	 * ```
+	 *
+	 * @default 1
+	 * @since 4.1.13
+	 * @param  value  End location
+	 */
+	public set endLocation(value: number) {
+		if (this.setPropertyValue("endLocation", value)) {
+			this.invalidateDataItems();
+		}
+	}
+
+	/**
+	 * @return End location
+	 */
+	public get endLocation(): number {
+		return this.getPropertyValue("endLocation");
 	}
 }
 

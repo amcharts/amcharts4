@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.1.13] - 2019-02-26
+
+### Added
+- New `Tooltip` proprety: `keepTargetHover` - will make target element hovered as long as its tooltip is hovered, good for bullets and map images.
+- New `Tooltip` proprety: `targetSprite` - contains reference to element this tooltip is displayed for, if any.
+- New `PictorialStackedSeries` properties: `startLocation` and `endLocation` - allow setting relative start and end positions of the shape to fill.
+- New `FunnelSeries`/`PyramidSeries`/`PictorialStackedSeries` property: `labelsOpposite` - allows controlling which side of the series to show labels when `alignLabels = true`.
+
+### Fixed
+- Sometimes axis ticks on a chart with a lot of data/series were not positioned properly.
+
+
 ## [4.1.12] - 2019-02-25
 
 ### Changed

@@ -9,7 +9,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { PointedRectangle } from "./PointedRectangle";
 import { IPoint } from "../defs/IPoint";
 import { Label } from "../elements/Label";
@@ -83,6 +83,14 @@ export interface ITooltipProperties extends IContainerProperties {
 	 * readability.
 	 */
 	autoTextColor?: boolean;
+
+	/**
+	 * If this tooltip is displayed on hover on some other object, keep that
+	 * element hovered if hovering on the tooltip.
+	 *
+	 * @since 4.1.13
+	 */
+	keepTargetHover?: boolean;
 }
 
 /**
@@ -174,6 +182,12 @@ export class Tooltip extends Container {
 	 */
 	protected _animation: $type.Optional<Animation>;
 
+	/**
+	 * A [[Sprite]] element this tooltip is displayed for, if any.
+	 *
+	 * @since 4.1.13
+	 */
+	public targetSprite: $type.Optional<Sprite>;
 
 	/**
 	 * Constructor
@@ -291,10 +305,46 @@ export class Tooltip extends Container {
 
 	/**
 	 * @return {boolean}
-	 * @default true
 	 */
 	public get autoTextColor(): boolean {
 		return this.getPropertyValue("autoTextColor");
+	}
+
+	/**
+	 * If this tooltip is displayed on hover on some other object, keep that
+	 * element hovered if hovering on the tooltip.
+	 *
+	 * @default false
+	 * @since 4.1.13
+	 * @param  value  Keep target hovered?
+	 */
+	public set keepTargetHover(value: boolean) {
+		if (this.setPropertyValue("keepTargetHover", value, true)) {
+			if (value) {
+				this.hoverable = true;
+				this.background.interactionsEnabled = true;
+				this._disposers.push(this.events.on("over", (ev) => {
+					if (this.targetSprite && this.targetSprite.hoverable) {
+						this.targetSprite.isHover = true;
+					}
+				}));
+
+				this._disposers.push(this.events.on("out", (ev) => {
+					if (this.targetSprite && this.targetSprite.hoverable) {
+						//this.hideTooltip();
+						//this.targetSprite.handleOut();
+						this.targetSprite.isHover = false;
+					}
+				}));
+			}
+		}
+	}
+
+	/**
+	 * @return Keep target hovered?
+	 */
+	public get keepTargetHover(): boolean {
+		return this.getPropertyValue("keepTargetHover");
 	}
 
 	/**

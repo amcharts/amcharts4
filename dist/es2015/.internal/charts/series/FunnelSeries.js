@@ -99,6 +99,9 @@ var FunnelSeries = /** @class */ (function (_super) {
         _this.height = percent(100);
         _this.slicesContainer.width = percent(100);
         _this.slicesContainer.height = percent(100);
+        _this._disposers.push(_this.slicesContainer.events.on("maxsizechanged", _this.invalidateDataItems, _this, false));
+        _this.labelsOpposite = true;
+        _this.labelsContainer.layout = "absolute";
         _this.bottomRatio = 0;
         _this.applyTheme();
         return _this;
@@ -184,26 +187,15 @@ var FunnelSeries = /** @class */ (function (_super) {
         var slicesContainer = this.slicesContainer;
         var labelsContainer = this.labelsContainer;
         var labelTemplate = this.labels.template;
-        labelsContainer.layout = "absolute";
         if (this.alignLabels) {
             labelTemplate.interactionsEnabled = true;
             slicesContainer.isMeasured = true;
             labelsContainer.isMeasured = true;
-            labelsContainer.margin(10, 10, 10, 10);
-            labelTemplate.horizontalCenter = "left";
-            if (this.orientation == "horizontal") {
-                this.layout = "vertical";
-            }
-            else {
-                this.layout = "horizontal";
-            }
         }
         else {
-            this.layout = "absolute";
             labelTemplate.interactionsEnabled = false;
             slicesContainer.isMeasured = false;
-            labelsContainer.isMeasured = true;
-            labelTemplate.horizontalCenter = "middle";
+            labelsContainer.isMeasured = false;
         }
         var total = 0;
         var count = 0;
@@ -310,7 +302,7 @@ var FunnelSeries = /** @class */ (function (_super) {
                 label.x = slice.x;
             }
             else {
-                label.x = 0;
+                label.x = undefined;
             }
             label.y = slice.pixelY + slice.pixelHeight * tick.locationY;
             this._nextY += slice.pixelHeight + linkHeight;
@@ -436,16 +428,19 @@ var FunnelSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("orientation", value)) {
+                this.labelsOpposite = this.labelsOpposite;
                 this.invalidate();
                 if (value == "vertical") {
                     this.ticks.template.locationX = 1;
                     this.ticks.template.locationY = 0.5;
                     this.labels.template.rotation = 0;
+                    this.layout = "horizontal";
                 }
                 else {
                     this.ticks.template.locationX = 0.5;
                     this.ticks.template.locationY = 1;
                     this.labels.template.rotation = -90;
+                    this.layout = "vertical";
                 }
             }
         },
@@ -602,7 +597,100 @@ var FunnelSeries = /** @class */ (function (_super) {
     FunnelSeries.prototype.setAlignLabels = function (value) {
         _super.prototype.setAlignLabels.call(this, value);
         this.ticks.template.disabled = !value;
+        var labelsContainer = this.labelsContainer;
+        if (labelsContainer) {
+            // do not align
+            if (!value) {
+                labelsContainer.width = percent(100);
+                labelsContainer.height = percent(100);
+            }
+            //align
+            else {
+                labelsContainer.height = undefined;
+                labelsContainer.width = undefined;
+                labelsContainer.margin(10, 10, 10, 10);
+            }
+        }
+        this.labelsOpposite = this.labelsOpposite;
     };
+    Object.defineProperty(FunnelSeries.prototype, "labelsOpposite", {
+        /**
+         * @return Labels on opposite side?
+         */
+        get: function () {
+            return this.getPropertyValue("labelsOpposite");
+        },
+        /**
+         * Put labels on the oppsite side of the series?
+         *
+         * This setting is only used if `alignLabels = true`.
+         *
+         * If set to `true` (default) labels will be drawn to the right (on vertical
+         * series), or to the bottom (on horizontal series).
+         *
+         * If set to `false`, labels will be positioned to the left or top
+         * respectively.
+         *
+         * @default true
+         * @since 4.1.13
+         * @param  value  Labels on opposite side?
+         */
+        set: function (value) {
+            this.setPropertyValue("labelsOpposite", value);
+            var labelTemplate = this.labels.template;
+            var labelAlign = "none";
+            var labelValign = "none";
+            if (!this.alignLabels) {
+                if (this.orientation == "vertical") {
+                    labelAlign = "center";
+                }
+                else {
+                    labelValign = "middle";
+                }
+            }
+            else {
+                // opposite (left/bottom)
+                if (value) {
+                    this.labelsContainer.toFront();
+                    // left
+                    if (this.orientation == "vertical") {
+                        this.ticks.template.locationX = 1;
+                        labelTemplate.horizontalCenter = "left";
+                        labelAlign = "right";
+                    }
+                    // bottom
+                    else {
+                        this.ticks.template.locationY = 1;
+                        labelTemplate.horizontalCenter = "right";
+                        labelValign = "bottom";
+                    }
+                }
+                // non oposite (right/top)
+                else {
+                    this.labelsContainer.toBack();
+                    // right
+                    if (this.orientation == "vertical") {
+                        this.ticks.template.locationX = 0;
+                        labelAlign = "left";
+                    }
+                    // top
+                    else {
+                        labelValign = "top";
+                        this.ticks.template.locationY = 0;
+                    }
+                }
+            }
+            labelTemplate.align = labelAlign;
+            labelTemplate.valign = labelValign;
+            this.validateLayout();
+            this.ticks.each(function (tick) {
+                tick.invalidate();
+            });
+            this.invalidateDataItems();
+        },
+        enumerable: true,
+        configurable: true
+    });
     return FunnelSeries;
 }(PercentSeries));
 export { FunnelSeries };

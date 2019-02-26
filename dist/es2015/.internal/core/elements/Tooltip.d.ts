@@ -8,6 +8,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
+import { Sprite } from "../../core/Sprite";
 import { PointedRectangle } from "./PointedRectangle";
 import { IPoint } from "../defs/IPoint";
 import { Label } from "../elements/Label";
@@ -67,6 +68,13 @@ export interface ITooltipProperties extends IContainerProperties {
      * readability.
      */
     autoTextColor?: boolean;
+    /**
+     * If this tooltip is displayed on hover on some other object, keep that
+     * element hovered if hovering on the tooltip.
+     *
+     * @since 4.1.13
+     */
+    keepTargetHover?: boolean;
 }
 /**
  * Defines events for [[Tooltip]].
@@ -144,6 +152,12 @@ export declare class Tooltip extends Container {
      */
     protected _animation: $type.Optional<Animation>;
     /**
+     * A [[Sprite]] element this tooltip is displayed for, if any.
+     *
+     * @since 4.1.13
+     */
+    targetSprite: $type.Optional<Sprite>;
+    /**
      * Constructor
      */
     constructor();
@@ -162,7 +176,6 @@ export declare class Tooltip extends Container {
     getStrokeFromObject: boolean;
     /**
      * @return {boolean}
-     * @default true
      */
     /**
      * Specifies if text color should be chosen automatically for a better
@@ -179,6 +192,18 @@ export declare class Tooltip extends Container {
      * @param value boolean
      */
     autoTextColor: boolean;
+    /**
+     * @return Keep target hovered?
+     */
+    /**
+     * If this tooltip is displayed on hover on some other object, keep that
+     * element hovered if hovering on the tooltip.
+     *
+     * @default false
+     * @since 4.1.13
+     * @param  value  Keep target hovered?
+     */
+    keepTargetHover: boolean;
     /**
      * Specifies if tooltip background should get fill color from the sprite it is pointing to.
      *

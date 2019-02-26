@@ -34,6 +34,8 @@ import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
 import { Orientation } from "../../core/defs/Orientation";
 import { Color, color } from "../../core/utils/Color";
 import { LinearGradient } from "../../core/rendering/fills/LinearGradient";
+import { Align } from "../../core/defs/Align";
+import { VerticalAlign } from "../../core/defs/VerticalAlign";
 
 
 /**
@@ -149,6 +151,12 @@ export interface IFunnelSeriesProperties extends IPercentSeriesProperties {
 	 */
 	orientation?: Orientation;
 
+	/**
+	 * Put labels on the oppsite side of the series?
+	 *
+	 * @since 4.1.13
+	 */
+	labelsOpposite?: boolean;
 }
 
 /**
@@ -261,6 +269,12 @@ export class FunnelSeries extends PercentSeries {
 		this.slicesContainer.width = percent(100);
 		this.slicesContainer.height = percent(100);
 
+		this._disposers.push(this.slicesContainer.events.on("maxsizechanged", this.invalidateDataItems, this, false));
+
+		this.labelsOpposite = true;
+
+		this.labelsContainer.layout = "absolute";
+
 		this.bottomRatio = 0;
 
 		this.applyTheme();
@@ -356,28 +370,16 @@ export class FunnelSeries extends PercentSeries {
 		let slicesContainer = this.slicesContainer;
 		let labelsContainer = this.labelsContainer;
 		let labelTemplate = this.labels.template;
-		labelsContainer.layout = "absolute";
 
 		if (this.alignLabels) {
 			labelTemplate.interactionsEnabled = true;
 			slicesContainer.isMeasured = true;
 			labelsContainer.isMeasured = true;
-			labelsContainer.margin(10, 10, 10, 10);
-			labelTemplate.horizontalCenter = "left";
-
-			if (this.orientation == "horizontal") {
-				this.layout = "vertical";
-			}
-			else {
-				this.layout = "horizontal";
-			}
 		}
 		else {
-			this.layout = "absolute";
 			labelTemplate.interactionsEnabled = false;
 			slicesContainer.isMeasured = false;
-			labelsContainer.isMeasured = true;
-			labelTemplate.horizontalCenter = "middle";
+			labelsContainer.isMeasured = false;
 		}
 
 		let total = 0;
@@ -513,7 +515,7 @@ export class FunnelSeries extends PercentSeries {
 				label.x = slice.x;
 			}
 			else {
-				label.x = 0;
+				label.x = undefined;
 			}
 			label.y = slice.pixelY + slice.pixelHeight * tick.locationY;
 
@@ -652,16 +654,19 @@ export class FunnelSeries extends PercentSeries {
 	 */
 	public set orientation(value: Orientation) {
 		if (this.setPropertyValue("orientation", value)) {
+			this.labelsOpposite = this.labelsOpposite;
 			this.invalidate();
 			if (value == "vertical") {
 				this.ticks.template.locationX = 1;
 				this.ticks.template.locationY = 0.5;
 				this.labels.template.rotation = 0;
+				this.layout = "horizontal";
 			}
 			else {
 				this.ticks.template.locationX = 0.5;
 				this.ticks.template.locationY = 1;
 				this.labels.template.rotation = -90;
+				this.layout = "vertical";
 			}
 		}
 	}
@@ -827,13 +832,107 @@ export class FunnelSeries extends PercentSeries {
 		return animation;
 	}
 
-
 	/**
 	 * @ignore
 	 */
-	protected setAlignLabels(value:boolean){
+	protected setAlignLabels(value: boolean) {
 		super.setAlignLabels(value);
 		this.ticks.template.disabled = !value;
+		let labelsContainer = this.labelsContainer;
+		if (labelsContainer) {
+			// do not align
+			if (!value) {
+				labelsContainer.width = percent(100);
+				labelsContainer.height = percent(100);
+			}
+			//align
+			else {
+				labelsContainer.height = undefined;
+				labelsContainer.width = undefined;
+				labelsContainer.margin(10, 10, 10, 10);
+			}
+		}
+		this.labelsOpposite = this.labelsOpposite;
+	}
+
+	/**
+	 * Put labels on the oppsite side of the series?
+	 *
+	 * This setting is only used if `alignLabels = true`.
+	 *
+	 * If set to `true` (default) labels will be drawn to the right (on vertical
+	 * series), or to the bottom (on horizontal series).
+	 *
+	 * If set to `false`, labels will be positioned to the left or top
+	 * respectively.
+	 *
+	 * @default true
+	 * @since 4.1.13
+	 * @param  value  Labels on opposite side?
+	 */
+	public set labelsOpposite(value: boolean) {
+		this.setPropertyValue("labelsOpposite", value)
+		let labelTemplate = this.labels.template;
+
+		let labelAlign: Align = "none";
+		let labelValign: VerticalAlign = "none";
+
+		if (!this.alignLabels) {
+			if (this.orientation == "vertical") {
+				labelAlign = "center";
+			}
+			else {
+				labelValign = "middle";
+			}
+		}
+		else {
+			// opposite (left/bottom)
+			if (value) {
+				this.labelsContainer.toFront();
+				// left
+				if (this.orientation == "vertical") {
+					this.ticks.template.locationX = 1;
+					labelTemplate.horizontalCenter = "left";
+					labelAlign = "right";
+				}
+				// bottom
+				else {
+					this.ticks.template.locationY = 1;
+					labelTemplate.horizontalCenter = "right";
+					labelValign = "bottom";
+				}
+			}
+			// non oposite (right/top)
+			else {
+				this.labelsContainer.toBack();
+				// right
+				if (this.orientation == "vertical") {
+					this.ticks.template.locationX = 0;
+					labelAlign = "left";
+				}
+				// top
+				else {
+					labelValign = "top";
+					this.ticks.template.locationY = 0;
+				}
+			}
+		}
+
+		labelTemplate.align = labelAlign;
+		labelTemplate.valign = labelValign;
+
+		this.validateLayout();
+		this.ticks.each((tick) => {
+			tick.invalidate();
+		})
+		this.invalidateDataItems();
+	}
+
+	/**
+	 * @return Labels on opposite side?
+	 */
+	public get labelsOpposite(): boolean {
+		return this.getPropertyValue("labelsOpposite");
 	}
 }
 

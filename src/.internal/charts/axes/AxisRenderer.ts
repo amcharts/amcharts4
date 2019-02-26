@@ -239,7 +239,7 @@ export class AxisRenderer extends Container {
 		let gridContainer = this.createChild(Container);
 		gridContainer.shouldClone = false;
 		gridContainer.layout = "none";
-		gridContainer.isMeasured = false;
+	//	gridContainer.isMeasured = false;
 		gridContainer.width = percent(100);
 		gridContainer.height = percent(100);
 

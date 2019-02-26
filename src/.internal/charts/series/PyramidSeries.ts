@@ -376,7 +376,7 @@ export class PyramidSeries extends FunnelSeries {
 				label.x = 0;
 			}
 
-			label.y = slice.pixelY + slice.pixelHeight * tick.locationY;
+			label.y = slice.pixelY + slice.pixelHeight * tick.locationY + slice.dy;
 
 			this._nextY += slice.pixelHeight + linkHeight * workingValue / dataItem.value;
 			sliceLink.y = this._nextY - linkHeight;
@@ -429,7 +429,7 @@ export class PyramidSeries extends FunnelSeries {
 				label.y = this.labelsContainer.measuredHeight;
 			}
 
-			label.x = slice.pixelX + slice.pixelWidth * tick.locationX;
+			label.x = slice.pixelX + slice.pixelWidth * tick.locationX + slice.dx;
 
 			this._nextY += slice.pixelWidth + linkWidth * workingValue / dataItem.value;
 			sliceLink.x = this._nextY - linkWidth;

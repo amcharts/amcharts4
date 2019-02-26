@@ -219,7 +219,7 @@ var PyramidSeries = /** @class */ (function (_super) {
             else {
                 label.x = 0;
             }
-            label.y = slice.pixelY + slice.pixelHeight * tick.locationY;
+            label.y = slice.pixelY + slice.pixelHeight * tick.locationY + slice.dy;
             this._nextY += slice.pixelHeight + linkHeight * workingValue / dataItem.value;
             sliceLink.y = this._nextY - linkHeight;
             sliceLink.x = maxWidth / 2;
@@ -261,7 +261,7 @@ var PyramidSeries = /** @class */ (function (_super) {
             else {
                 label.y = this.labelsContainer.measuredHeight;
             }
-            label.x = slice.pixelX + slice.pixelWidth * tick.locationX;
+            label.x = slice.pixelX + slice.pixelWidth * tick.locationX + slice.dx;
             this._nextY += slice.pixelWidth + linkWidth * workingValue / dataItem.value;
             sliceLink.x = this._nextY - linkWidth;
             sliceLink.y = maxHeight / 2;

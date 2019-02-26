@@ -66,6 +66,8 @@ var PictorialStackedSeries = /** @class */ (function (_super) {
         _this.bottomWidth = percent(100);
         _this.valueIs = "height";
         _this.applyTheme();
+        _this.startLocation = 0;
+        _this.endLocation = 1;
         _this._maskSprite = _this.slicesContainer.createChild(Sprite);
         _this._maskSprite.visible = false;
         _this._maskSprite.zIndex = 100;
@@ -88,28 +90,44 @@ var PictorialStackedSeries = /** @class */ (function (_super) {
             scale = 1; // can't return here, won't draw legend properly
         }
         scale = $math.max(0.001, scale);
+        var startLocation = this.startLocation;
+        var endLocation = this.endLocation;
         var newWidth = $math.min(maxWidth, pictureWidth * scale);
         var newHeight = $math.min(maxHeight, pictureHeight * scale);
         maskSprite.scale = scale;
         if (this.orientation == "vertical") {
             this.topWidth = newWidth + 4;
             this.bottomWidth = newWidth + 4;
-            this.pyramidHeight = newHeight;
+            this.pyramidHeight = newHeight * (endLocation - startLocation);
             maskSprite.x = maxWidth / 2;
             maskSprite.y = newHeight / 2;
         }
         else {
             this.topWidth = newHeight + 4;
             this.bottomWidth = newHeight + 4;
-            this.pyramidHeight = newWidth;
+            this.pyramidHeight = newWidth * (endLocation - startLocation);
             maskSprite.valign = "middle";
             maskSprite.x = newWidth / 2;
             maskSprite.y = maxHeight / 2;
         }
         maskSprite.verticalCenter = "middle";
         maskSprite.horizontalCenter = "middle";
-        this.slicesContainer.mask = this._maskSprite;
         _super.prototype.validateDataElements.call(this);
+        if (this.orientation == "vertical") {
+            var y = (maxHeight - newHeight) / 2;
+            this.slicesContainer.y = y;
+            this.labelsContainer.y = y;
+            this.ticksContainer.y = y;
+            this.slices.template.dy = startLocation * newHeight;
+        }
+        else {
+            var x = (maxWidth - newWidth) / 2;
+            this.slicesContainer.x = x;
+            this.labelsContainer.x = x;
+            this.ticksContainer.x = x;
+            this.slices.template.dx = startLocation * newWidth;
+        }
+        this.slicesContainer.mask = this._maskSprite;
     };
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they
@@ -185,6 +203,124 @@ var PictorialStackedSeries = /** @class */ (function (_super) {
             hs.properties.expandDistance = 0;
         }
     };
+    Object.defineProperty(PictorialStackedSeries.prototype, "startLocation", {
+        /**
+         * @return  Start location
+         */
+        get: function () {
+            return this.getPropertyValue("startLocation");
+        },
+        /**
+         * Relative location to start series from.
+         *
+         * Range of values: 0 to 1.
+         *
+         * This setting indicates where actual slices will start relatively to the
+         * whole height/width of the series.
+         *
+         * For example, if we want slices to start at 30% from the top/left of the
+         * series, we can set `startLocation = 0.3`.
+         *
+         * To fill shape outside of the location range, use background of the
+         * property `slicesContainer`.
+         *
+         * ```TypeScript
+         * series.startLocation = 0.2;
+         * series.endLocation = 0.8;
+         * series.slicesContainer.background.fill = am4core.color("#eee");
+         * ```
+         * ```JavaScript
+         * series.startLocation = 0.2;
+         * series.endLocation = 0.8;
+         * series.slicesContainer.background.fill = am4core.color("#eee");
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "series": [{
+         *     // ...
+         *     "startLocation": 0.2,
+         *     "endLocation": 0.8,
+         *     "slicesContainer": {
+         *       "background": {
+         *         "fill": "#eee"
+         *       }
+         *     }
+         *   }]
+         * }
+         * ```
+         *
+         * @default 0
+         * @since 4.1.13
+         * @param  value  Start location
+         */
+        set: function (value) {
+            if (this.setPropertyValue("startLocation", value)) {
+                this.invalidateDataItems();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PictorialStackedSeries.prototype, "endLocation", {
+        /**
+         * @return End location
+         */
+        get: function () {
+            return this.getPropertyValue("endLocation");
+        },
+        /**
+         * Relative location to end series at.
+         *
+         * Range of values: 0 to 1.
+         *
+         * This setting indicates where actual slices will end relatively to the
+         * whole height/width of the series.
+         *
+         * For example, if we want slices to end at 70% from the top/left of the
+         * series, we can set `endLocation = 0.7`.
+         *
+         * To fill shape outside of the location range, use background of the
+         * property `slicesContainer`.
+         *
+         * ```TypeScript
+         * series.startLocation = 0.2;
+         * series.endLocation = 0.8;
+         * series.slicesContainer.background.fill = am4core.color("#eee");
+         * ```
+         * ```JavaScript
+         * series.startLocation = 0.2;
+         * series.endLocation = 0.8;
+         * series.slicesContainer.background.fill = am4core.color("#eee");
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "series": [{
+         *     // ...
+         *     "startLocation": 0.2,
+         *     "endLocation": 0.8,
+         *     "slicesContainer": {
+         *       "background": {
+         *         "fill": "#eee"
+         *       }
+         *     }
+         *   }]
+         * }
+         * ```
+         *
+         * @default 1
+         * @since 4.1.13
+         * @param  value  End location
+         */
+        set: function (value) {
+            if (this.setPropertyValue("endLocation", value)) {
+                this.invalidateDataItems();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return PictorialStackedSeries;
 }(PyramidSeries));
 export { PictorialStackedSeries };

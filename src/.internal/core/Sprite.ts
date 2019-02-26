@@ -5053,6 +5053,15 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @param ev [description]
 	 */
 	public handleOut(ev?: AMEvent<Sprite, ISpriteEvents>["out"]): void {
+		if (this.tooltip && this.tooltip.targetSprite == this && this.tooltip.keepTargetHover) {
+			this._outTimeout = this.setTimeout(() => {
+				if (!this.tooltip.isHover) {
+					this.hideTooltip();
+					this._outTimeout = this.setTimeout(this.handleOutReal.bind(this), this.rollOutDelay);
+				}
+			}, 10);
+			return;
+		}
 		this.hideTooltip();
 		this._outTimeout = this.setTimeout(this.handleOutReal.bind(this), this.rollOutDelay);
 	}
@@ -7984,6 +7993,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			let tooltipDataItem = this.tooltipDataItem;
 
 			if (tooltip) {
+
+				tooltip.targetSprite = this;
+
 				let colorSource: Sprite = this;
 				let tooltipColorSource = this.tooltipColorSource;
 				if ((tooltip.getStrokeFromObject || tooltip.getFillFromObject) && tooltipColorSource) {
@@ -8169,6 +8181,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public hideTooltip(duration?: number): void {
 		let tooltip = this.tooltip;
 		if (tooltip) {
+			if (tooltip.targetSprite == this) {
+				tooltip.targetSprite = undefined;
+			}
 			tooltip.hide(duration);
 			if (this._interactionDisposer) {
 				this._interactionDisposer.dispose();

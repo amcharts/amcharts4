@@ -4127,6 +4127,16 @@ var Sprite = /** @class */ (function (_super) {
      * @param ev [description]
      */
     Sprite.prototype.handleOut = function (ev) {
+        var _this = this;
+        if (this.tooltip && this.tooltip.targetSprite == this && this.tooltip.keepTargetHover) {
+            this._outTimeout = this.setTimeout(function () {
+                if (!_this.tooltip.isHover) {
+                    _this.hideTooltip();
+                    _this._outTimeout = _this.setTimeout(_this.handleOutReal.bind(_this), _this.rollOutDelay);
+                }
+            }, 10);
+            return;
+        }
         this.hideTooltip();
         this._outTimeout = this.setTimeout(this.handleOutReal.bind(this), this.rollOutDelay);
     };
@@ -7140,6 +7150,7 @@ var Sprite = /** @class */ (function (_super) {
             var tooltip = this.tooltip;
             var tooltipDataItem = this.tooltipDataItem;
             if (tooltip) {
+                tooltip.targetSprite = this;
                 var colorSource_1 = this;
                 var tooltipColorSource_1 = this.tooltipColorSource;
                 if ((tooltip.getStrokeFromObject || tooltip.getFillFromObject) && tooltipColorSource_1) {
@@ -7298,6 +7309,9 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.hideTooltip = function (duration) {
         var tooltip = this.tooltip;
         if (tooltip) {
+            if (tooltip.targetSprite == this) {
+                tooltip.targetSprite = undefined;
+            }
             tooltip.hide(duration);
             if (this._interactionDisposer) {
                 this._interactionDisposer.dispose();

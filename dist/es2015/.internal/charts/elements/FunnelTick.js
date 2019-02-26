@@ -64,13 +64,19 @@ var FunnelTick = /** @class */ (function (_super) {
             if (series.orientation == "vertical") {
                 var x1 = label.pixelX;
                 var y1 = label.pixelY;
+                if (!series.labelsOpposite) {
+                    x1 += label.maxRight;
+                }
                 var p0 = $utils.spritePointToSprite(point, slice, this.parent);
                 var p1 = $utils.spritePointToSprite({ x: x1, y: y1 }, label.parent, this.parent);
                 this.path = $path.moveTo(p0) + $path.lineTo(p1);
             }
             else {
                 var x1 = label.pixelX;
-                var y1 = label.pixelY - label.measuredHeight;
+                var y1 = label.pixelY;
+                if (!series.labelsOpposite) {
+                    y1 += label.maxBottom;
+                }
                 var p0 = $utils.spritePointToSprite(point, slice, this.parent);
                 var p1 = $utils.spritePointToSprite({ x: x1, y: y1 }, label.parent, this.parent);
                 this.path = $path.moveTo(p0) + $path.lineTo(p1);
