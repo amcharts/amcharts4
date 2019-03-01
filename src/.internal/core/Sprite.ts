@@ -1610,7 +1610,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			return;
 		}
 
-		let currentPaper = this.paper;
+		// TODO is this needed ?
+		$utils.used(this.paper);
+
 		let oldParent = this._parent;
 		if (oldParent != parent) {
 
@@ -2356,8 +2358,6 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public measure(): boolean {
 
 		this.updateCenter();
-
-		let bbox = this.bbox;
 
 		let measuredWidth = this._measuredWidth;
 		let measuredHeight = this._measuredHeight;
@@ -4018,9 +4018,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @todo Review propagation to clones. Right now we simply check if clone is disposed before setting the same property on it. It's better to remove from clone list altogether.
 	 */
 	public setPropertyValue<Key extends keyof this["properties"]>(property: Key, value: any, invalidate?: boolean, transform?: boolean): boolean {
-		let currentValue = this.properties[property];
 		if (this.properties[property] !== value) {
-
 			this.properties[property] = value;
 
 			if (this.events.isEnabled("propertychanged")) {
@@ -6405,7 +6403,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				type: "maxsizechanged",
 				target: this,
 				previousWidth: prevWidth,
-				previousHeight: prevWidth
+				previousHeight: prevHeight
 			};
 
 			this.dispatchImmediately("maxsizechanged", event);
@@ -7665,6 +7663,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			}
 			this.visible = visible;
 
+			// Unhide from screen readers
+			this.readerHidden = false;
+
 			// Dispatch "show" event
 			this.dispatchImmediately("shown");
 		}
@@ -7757,6 +7758,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				this.isHiding = false;
 				this._isHidden = true;
 			}
+
+			// Hide from screen readers
+			this.readerHidden = true;
 
 			// Dispach "hidden" event
 			this.dispatchImmediately("hidden");

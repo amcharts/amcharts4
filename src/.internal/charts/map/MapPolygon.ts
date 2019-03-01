@@ -9,7 +9,6 @@
  * @hidden
  */
 import { MapObject, IMapObjectProperties, IMapObjectAdapters, IMapObjectEvents } from "./MapObject";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MapPolygonSeriesDataItem, MapPolygonSeries } from "./MapPolygonSeries";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
 import { Polygon } from "../../core/elements/Polygon";

@@ -8,7 +8,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
 import { IPoint } from "../defs/IPoint";
 import { Morpher } from "../utils/Morpher";
 import { IMorphable } from "../defs/IMorphable";

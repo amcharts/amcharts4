@@ -9,9 +9,7 @@
  * @hidden
  */
 import { Line, ILineProperties, ILineAdapters, ILineEvents } from "./Line";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { IPoint, IOrientationPoint } from "../defs/IPoint";
-import { IWavedShape } from "../defs/IWavedShape";
 import { color } from "../utils/Color";
 import * as $path from "../rendering/Path";
 import * as $math from "../utils/Math";

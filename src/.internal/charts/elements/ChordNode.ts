@@ -9,18 +9,13 @@
  * @hidden
  */
 import { FlowDiagramNode, IFlowDiagramNodeAdapters, IFlowDiagramNodeEvents, IFlowDiagramNodeProperties } from "./FlowDiagramNode";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { ChordDiagram, ChordDiagramDataItem } from "../types/ChordDiagram";
 import { List } from "../../core/utils/List";
 import { AxisLabelCircular } from "../axes/AxisLabelCircular";
 import { registry } from "../../core/Registry";
-import { Color } from "../../core/utils/Color";
 import { Slice } from "../../core/elements/Slice";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $iter from "../../core/utils/Iterator";
-import * as $string from "../../core/utils/String";
-import * as $order from "../../core/utils/Order";
-import * as $number from "../../core/utils/Number";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import { Bullet } from "../elements/Bullet";
@@ -228,10 +223,7 @@ export class ChordNode extends FlowDiagramNode {
 				startAngle = sliceStartAngle;
 			}
 
-			let x = slice.radius * $math.cos(labelAngle);
-			let y = slice.radius * $math.sin(labelAngle);
-
-			let point = label.fixPosition(labelAngle, slice.radius);
+			label.fixPosition(labelAngle, slice.radius);
 
 			this.nextAngle = startAngle;
 

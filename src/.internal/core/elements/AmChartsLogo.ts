@@ -12,7 +12,6 @@
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { Polyspline } from "./Polyspline";
 import { color } from "../utils/Color";
 import { LinearGradient } from "../rendering/fills/LinearGradient";

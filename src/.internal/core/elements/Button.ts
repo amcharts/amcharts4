@@ -9,7 +9,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite } from "../Sprite";
 import { Label } from "./Label";
 import { RoundedRectangle } from "../elements/RoundedRectangle";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";

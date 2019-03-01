@@ -9,10 +9,9 @@
  * @hidden
  */
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "./SerialChart";
-import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { IDisposer, MultiDisposer, MutableValueDisposer } from "../../core/utils/Disposer";
+import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
+import { IDisposer } from "../../core/utils/Disposer";
 import { Container } from "../../core/Container";
-import { ListTemplate } from "../../core/utils/List";
 import { Legend } from "../Legend";
 import { MapSeries } from "../map/MapSeries";
 import { MapObject } from "../map/MapObject";

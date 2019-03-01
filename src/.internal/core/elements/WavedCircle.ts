@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Circle, ICircleProperties, ICircleAdapters, ICircleEvents } from "./Circle";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { IWavedShape } from "../defs/IWavedShape";
 import { IPoint } from "../defs/IPoint";
 import { Percent } from "../utils/Percent";

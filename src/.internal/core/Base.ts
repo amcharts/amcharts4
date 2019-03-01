@@ -666,7 +666,13 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 					// ... a list
 					// ------------------------------------------------------------------
 
-					this.processList(configValue, item);
+					if (configKey == "children") {
+						this.processList(configValue, item, this);
+					}
+					else {
+						this.processList(configValue, item);
+					}
+
 
 				}
 
@@ -913,7 +919,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 	 * @param configValue  Config value
 	 * @param item         Item
 	 */
-	protected processList(configValue: any, item: List<any>): void {
+	protected processList(configValue: any, item: List<any>, parent?: any): void {
 
 		// Convert to array if necessary
 		if (!$type.isArray(configValue)) {
@@ -946,7 +952,12 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 				}
 				else {
 					listItem = this.createEntryInstance(entry);
-					item.push(listItem);
+					if (parent) {
+						listItem.parent = parent;
+					}
+					else {
+						item.push(listItem);
+					}
 				}
 
 				// If the list item is BaseObject, we just need to let it

@@ -9,27 +9,24 @@
  * @hidden
  */
 import { XYSeries, IXYSeriesDataFields, XYSeriesDataItem, IXYSeriesProperties, IXYSeriesAdapters, IXYSeriesEvents } from "./XYSeries";
-import { Sprite, SpriteEventDispatcher, AMEvent, visualProperties } from "../../core/Sprite";
-import { Series, SeriesDataItem } from "./Series";
+import { Sprite, visualProperties } from "../../core/Sprite";
 import { SpriteState } from "../../core/SpriteState";
 import { Container } from "../../core/Container";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
-import { Axis, AxisItemLocation } from "../axes/Axis";
 import { ValueAxis } from "../axes/ValueAxis";
 import { CategoryAxis } from "../axes/CategoryAxis";
 import { registry } from "../../core/Registry";
 import { Bullet } from "../elements/Bullet";
 import { Column } from "../elements/Column";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
-import { IDataItemEvents } from "../../core/DataItem";
 import { percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 import * as $object from "../../core/utils/Object";
 import * as $iter from "../../core/utils/Iterator";
 import * as $array from "../../core/utils/Array";
 import * as $type from "../../core/utils/Type";
-import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
+import { Disposer } from "../../core/utils/Disposer";
 import { LegendDataItem } from "../../charts/Legend";
 
 /**

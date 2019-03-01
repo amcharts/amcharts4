@@ -223,9 +223,8 @@ var AxisRendererY = /** @class */ (function (_super) {
     AxisRendererY.prototype.updateTickElement = function (tick, position, endPosition) {
         var point = this.positionToPoint(position);
         var tickLength = tick.length;
-        var titleWidth = 0;
         try {
-            titleWidth = this.axis.title.measuredWidth;
+            $utils.used(this.axis.title.measuredWidth);
         }
         catch (_a) {
             // void

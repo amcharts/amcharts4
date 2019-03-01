@@ -54,11 +54,10 @@ var SunburstSeriesDataItem = /** @class */ (function (_super) {
      * @param fields    Fields to animate while hiding
      */
     SunburstSeriesDataItem.prototype.hide = function (duration, delay, toValue, fields) {
-        var animation;
         var sunburstDataItem = this.sunburstDataItem;
         if (sunburstDataItem && sunburstDataItem.series) {
             sunburstDataItem.series.dataItems.each(function (dataItem) {
-                animation = dataItem.hide(duration, delay, toValue, fields);
+                dataItem.hide(duration, delay, toValue, fields);
             });
         }
         return _super.prototype.hide.call(this, duration, delay, toValue, fields);
@@ -71,11 +70,10 @@ var SunburstSeriesDataItem = /** @class */ (function (_super) {
      * @param fields    Fields to animate while hiding
      */
     SunburstSeriesDataItem.prototype.show = function (duration, delay, fields) {
-        var animation;
         var sunburstDataItem = this.sunburstDataItem;
         if (sunburstDataItem && sunburstDataItem.series) {
             sunburstDataItem.series.dataItems.each(function (dataItem) {
-                animation = dataItem.show(duration, delay, fields);
+                dataItem.show(duration, delay, fields);
             });
         }
         return _super.prototype.show.call(this, duration, delay, fields);

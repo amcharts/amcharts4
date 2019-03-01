@@ -17,12 +17,12 @@
  * @hidden
  */
 import { BaseObjectEvents, IBaseObjectEvents } from "./Base";
-import { EventDispatcher, AMEvent } from "./utils/EventDispatcher";
+import { AMEvent } from "./utils/EventDispatcher";
 import { Adapter } from "./utils/Adapter";
 import { Component, CalculatedValue } from "./Component";
 import { IAnimatable, Animation, IAnimationOptions, IAnimationEvents, AnimationDisposer } from "./utils/Animation";
 import { Sprite } from "./Sprite";
-import { IDisposer, MultiDisposer } from "./utils/Disposer";
+import { IDisposer } from "./utils/Disposer";
 import * as $utils from "./utils/Utils";
 import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
@@ -684,12 +684,12 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	}
 
 	/**
-	 * @ignore	 
+	 * @ignore
 	 * @return Value
 	 */
 	public getActualWorkingValue(name: string): $type.Optional<number> {
-		return this.values[name].workingValue;		
-	}	
+		return this.values[name].workingValue;
+	}
 
 
 	/**

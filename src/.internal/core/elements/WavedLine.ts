@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Line, ILineProperties, ILineAdapters, ILineEvents } from "./Line";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { IPoint } from "../defs/IPoint";
 import { IWavedShape } from "../defs/IWavedShape";
 import { color } from "../utils/Color";

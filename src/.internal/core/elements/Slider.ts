@@ -9,9 +9,6 @@
  * @hidden
  */
 import { Scrollbar, IScrollbarProperties, IScrollbarAdapters, IScrollbarEvents } from "../../core/elements/Scrollbar";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { List, IListEvents } from "../../core/utils/List";
-import { IDisposer, MutableValueDisposer } from "../../core/utils/Disposer";
 import { registry } from "../Registry";
 
 

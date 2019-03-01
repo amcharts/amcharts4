@@ -10,7 +10,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
 import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";

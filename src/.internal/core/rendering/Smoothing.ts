@@ -28,57 +28,6 @@ export interface ISmoothing {
 }
 
 /**
- * [sign description]
- *
- * @ignore Exclude from docs
- * @todo Description
- * @todo Move this someplace else
- * @param x [description]
- */
-function sign(x: number): -1 | 1 {
-	return x < 0 ? -1 : 1;
-}
-
-/**
- * [slope2 description]
- *
- * @ignore Exclude from docs
- * @todo Description
- * @param x0 [description]
- * @param x1 [description]
- * @param y0 [description]
- * @param y1 [description]
- * @param t  [description]
- * @return [description]
- */
-function slope2(x0: number, x1: number, y0: number, y1: number, t: number): number {
-	const h = x1 - x0;
-	return h ? (3 * (y1 - y0) / h - t) / 2 : t;
-}
-
-/**
- * [slope3 description]
- *
- * @ignore Exclude from docs
- * @todo Description
- * @param x0 [description]
- * @param x1 [description]
- * @param y0 [description]
- * @param y1 [description]
- * @param x2 [description]
- * @param y2 [description]
- * @return [description]
- */
-function slope3(x0: number, x1: number, y0: number, y1: number, x2: number, y2: number): number {
-	const h0 = x1 - x0;
-	const h1 = x2 - x1;
-	const s0 = (y1 - y0) / <any>(h0 || h1 < 0 && -0);
-	const s1 = (y2 - y1) / <any>(h1 || h0 < 0 && -0);
-	const p = (s0 * h1 + s1 * h0) / (h0 + h1);
-	return (sign(s0) + sign(s1)) * Math.min(Math.abs(s0), Math.abs(s1), 0.5 * Math.abs(p)) || 0;
-}
-
-/**
  * @ignore Exclude from docs
  * @todo Description
  */

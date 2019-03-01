@@ -8,7 +8,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
 import { IPoint, IOrientationPoint } from "../defs/IPoint";
 import { color } from "../utils/Color";
 import { registry } from "../Registry";

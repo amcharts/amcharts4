@@ -6,9 +6,8 @@
  */
 import { RadarChart } from "../types/RadarChart";
 import { XYCursor, IXYCursorAdapters, IXYCursorEvents, IXYCursorProperties } from "./XYCursor";
-import { IInteractionEvents } from "../../core/interaction/Interaction";
 import { IPoint } from "../../core/defs/IPoint";
-import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { ISpriteEvents } from "../../core/Sprite";
 import { Tooltip } from "../../core/elements/Tooltip";
 import { Percent, percent } from "../../core/utils/Percent";
 import { registry } from "../../core/Registry";
@@ -131,7 +130,6 @@ export class RadarCursor extends XYCursor {
 	 */
 	public fitsToBounds(point: IPoint): boolean {
 		let radius = $math.getDistance(point);
-		let angle = $math.getAngle(point);
 
 		//if(!$math.isAngleInRange(angle, this.startAngle, this.endAngle)){
 			//return false;

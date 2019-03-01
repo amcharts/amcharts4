@@ -446,7 +446,6 @@ var XYCursor = /** @class */ (function (_super) {
          */
         set: function (axis) {
             if (this._xAxis.get() != axis) {
-                var chart = axis.chart;
                 this._xAxis.set(axis, new MultiDisposer([
                     axis.tooltip.events.on("positionchanged", this.handleXTooltipPosition, this, false),
                 ]));
@@ -477,7 +476,6 @@ var XYCursor = /** @class */ (function (_super) {
          */
         set: function (axis) {
             if (this._yAxis.get() != axis) {
-                var chart = axis.chart;
                 this._yAxis.set(axis, new MultiDisposer([
                     axis.tooltip.events.on("positionchanged", this.handleYTooltipPosition, this, false),
                 ]));

@@ -9,10 +9,9 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { Sprite, SpriteEventDispatcher, AMEvent, visualProperties, ISpriteEvents } from "../../core/Sprite";
+import { Sprite, AMEvent, visualProperties, ISpriteEvents } from "../../core/Sprite";
 import { FlowDiagram, FlowDiagramDataItem } from "../types/FlowDiagram";
 import { List } from "../../core/utils/List";
-import { LabelBullet } from "./LabelBullet";
 import { registry } from "../../core/Registry";
 import { Color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
@@ -175,7 +174,8 @@ export class FlowDiagramNode extends Container {
 
 		this.isMeasured = false;
 
-		let interfaceColors = new InterfaceColorSet();
+		// TODO can this be removed ?
+		new InterfaceColorSet();
 
 		this.draggable = true;
 		this.inert = true;

@@ -794,7 +794,6 @@ var XYChart = /** @class */ (function (_super) {
             return;
         }
         var seriesPoints = [];
-        var sum = 0;
         this.series.each(function (series) {
             //if (series.tooltipText || series.tooltipHTML) { // not good, bullets are not hovered then
             if ((series.xAxis instanceof DateAxis && series.xAxis.snapTooltip) || (series.yAxis instanceof DateAxis && series.yAxis.snapTooltip)) {
@@ -845,7 +844,8 @@ var XYChart = /** @class */ (function (_super) {
         if (seriesPoints.length > 0) {
             var top_1 = topLeft.y;
             var bottom = bottomRight.y;
-            var topPoint = $utils.spritePointToDocument({ x: 0, y: top_1 }, this);
+            // TODO is this needed ?
+            $utils.spritePointToDocument({ x: 0, y: top_1 }, this);
             var dropped = false;
             if (averageY > top_1 + (bottom - top_1) / 2) {
                 var nextHeight = bottom;

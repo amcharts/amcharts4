@@ -9,7 +9,6 @@
  * @hidden
  */
 import { MapLine, IMapLineProperties, IMapLineAdapters, IMapLineEvents } from "./MapLine";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Polyspline } from "../../core/elements/Polyspline";
 import { MapSplineSeriesDataItem, MapSplineSeries } from "./MapSplineSeries";
 import { registry } from "../../core/Registry";

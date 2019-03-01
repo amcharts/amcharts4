@@ -9,7 +9,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { PointedRectangle } from "./PointedRectangle";
 import { IPoint } from "../defs/IPoint";
 import { Label } from "../elements/Label";
@@ -500,11 +500,13 @@ export class Tooltip extends Container {
 
 		// try to handle if text is wider than br
 		if (textW > boundingRect.width) {
-			let p0 = $utils.spritePointToDocument({ x: boundingRect.x, y: boundingRect.y }, this.parent);
+			// TODO maybe this isn't needed ?
+			$utils.spritePointToDocument({ x: boundingRect.x, y: boundingRect.y }, this.parent);
 			let p1 = $utils.spritePointToDocument({ x: boundingRect.x + boundingRect.width, y: boundingRect.y + boundingRect.height }, this.parent);
 
 			let documentWidth = document.body.offsetWidth;
-			let documentHeight = document.body.offsetHeight;
+			// TODO maybe this isn't needed ?
+			$utils.used(document.body.offsetHeight);
 
 			if (p1.x > documentWidth / 2) {
 				boundingRect.x = boundingRect.width - textW;

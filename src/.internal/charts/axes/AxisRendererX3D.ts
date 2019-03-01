@@ -9,10 +9,9 @@
  * @hidden
  */
 import { AxisRendererX, IAxisRendererXProperties, IAxisRendererXAdapters, IAxisRendererXEvents } from "../axes/AxisRendererX";
-import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { XYChart3D } from "../types/XYChart3D";
 import { Grid } from "../axes/Grid";
-import { Axis } from "../axes/Axis";
 import { IPoint } from "../../core/defs/IPoint";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { registry } from "../../core/Registry";

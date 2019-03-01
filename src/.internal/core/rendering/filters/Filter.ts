@@ -17,13 +17,11 @@
  * @hidden
  */
 import { BaseObject } from "../../Base";
-import { registry } from "../../Registry";
 import { Paper, getGhostPaper } from "../Paper";
 import { Group } from "../Group";
 import { AMElement } from "../AMElement";
 import { Animation, IAnimatable, IAnimationOptions, AnimationDisposer } from "../../utils/Animation";
 import { List } from "../../utils/List";
-import { MultiDisposer } from "../../utils/Disposer";
 import { Sprite } from "../../Sprite";
 import * as $object from "../../utils/Object";
 import * as $iter from "../../utils/Iterator";

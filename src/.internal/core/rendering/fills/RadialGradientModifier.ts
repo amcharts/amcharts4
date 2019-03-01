@@ -4,13 +4,9 @@
  * ============================================================================
  * @hidden
  */
-import { ColorModifier } from "./ColorModifier";
 import { RadialGradient } from "./RadialGradient";
 import { GradientModifier } from "./GradientModifier";
-import { Color } from "../../utils/Color";
 import { registry } from "../../Registry";
-import * as $math from "../../utils/Math";
-import * as $type from "../../utils/Type";
 
 
 /**

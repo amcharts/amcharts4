@@ -1,3 +1,12 @@
+/**
+ * ChordLink module
+ */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { ChordDiagramDataItem } from "../types/ChordDiagram";
 import { FlowDiagramLink, IFlowDiagramLinkAdapters, IFlowDiagramLinkEvents, IFlowDiagramLinkProperties } from "./FlowDiagramLink";
 import { QuadraticCurve } from "../../core/elements/QuadraticCurve";

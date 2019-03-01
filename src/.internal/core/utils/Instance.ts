@@ -18,7 +18,6 @@ import { Tooltip } from "../elements/Tooltip";
 import { Disposer } from "../utils/Disposer";
 import { percent } from "./Percent";
 import { options } from "../Options";
-import { IRectangle } from "../defs/IRectangle";
 import * as $array from "./Array";
 import * as $type from "./Type";
 import * as $dom from "./DOM";

@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Bullet, IBulletProperties, IBulletAdapters, IBulletEvents } from "./Bullet";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Sprite } from "../../core/Sprite";
 import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";

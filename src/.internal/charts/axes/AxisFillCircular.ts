@@ -5,14 +5,11 @@
  * @hidden
  */
 import { AxisFill, IAxisFillProperties, IAxisFillAdapters, IAxisFillEvents } from "./AxisFill";
-import { IDisposer, MutableValueDisposer } from "../../core/utils/Disposer";
 import { Axis } from "./Axis";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Percent, percent } from "../../core/utils/Percent";
 import { AxisRendererCircular } from "./AxisRendererCircular";
 import { registry } from "../../core/Registry";
 import * as $type from "../../core/utils/Type";
-import * as $utils from "../../core/utils/Utils";
 
 /**
  * ============================================================================

@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MapLine } from "./MapLine";
 import { IOrientationPoint } from "../../core/defs/IPoint";
 import { registry } from "../../core/Registry";

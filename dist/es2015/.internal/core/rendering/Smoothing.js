@@ -10,54 +10,6 @@ import * as $array from "../utils/Array";
 import * as $utils from "../utils/Utils";
 import * as $math from "../utils/Math";
 /**
- * [sign description]
- *
- * @ignore Exclude from docs
- * @todo Description
- * @todo Move this someplace else
- * @param x [description]
- */
-function sign(x) {
-    return x < 0 ? -1 : 1;
-}
-/**
- * [slope2 description]
- *
- * @ignore Exclude from docs
- * @todo Description
- * @param x0 [description]
- * @param x1 [description]
- * @param y0 [description]
- * @param y1 [description]
- * @param t  [description]
- * @return [description]
- */
-function slope2(x0, x1, y0, y1, t) {
-    var h = x1 - x0;
-    return h ? (3 * (y1 - y0) / h - t) / 2 : t;
-}
-/**
- * [slope3 description]
- *
- * @ignore Exclude from docs
- * @todo Description
- * @param x0 [description]
- * @param x1 [description]
- * @param y0 [description]
- * @param y1 [description]
- * @param x2 [description]
- * @param y2 [description]
- * @return [description]
- */
-function slope3(x0, x1, y0, y1, x2, y2) {
-    var h0 = x1 - x0;
-    var h1 = x2 - x1;
-    var s0 = (y1 - y0) / (h0 || h1 < 0 && -0);
-    var s1 = (y2 - y1) / (h1 || h0 < 0 && -0);
-    var p = (s0 * h1 + s1 * h0) / (h0 + h1);
-    return (sign(s0) + sign(s1)) * Math.min(Math.abs(s0), Math.abs(s1), 0.5 * Math.abs(p)) || 0;
-}
-/**
  * @ignore Exclude from docs
  * @todo Description
  */
@@ -158,17 +110,17 @@ export function wavedLine(point1, point2, waveLength, waveHeight, tension, adjus
             else {
                 var halfWaveCount = Math.round(2 * distance / waveLength);
                 var points = [];
-                var sign_1 = 1;
+                var sign = 1;
                 if (x2 < x1) {
-                    sign_1 *= -1;
+                    sign *= -1;
                 }
                 if (y2 < y1) {
-                    sign_1 *= -1;
+                    sign *= -1;
                 }
                 for (var i = 0; i <= halfWaveCount; i++) {
-                    sign_1 *= -1;
-                    var x = x1 + i * waveLengthX / 2 + sign_1 * waveHeight / 2 * sin;
-                    var y = y1 + i * waveLengthY / 2 - sign_1 * waveHeight / 2 * cos;
+                    sign *= -1;
+                    var x = x1 + i * waveLengthX / 2 + sign * waveHeight / 2 * sin;
+                    var y = y1 + i * waveLengthY / 2 - sign * waveHeight / 2 * cos;
                     points.push({ x: x, y: y });
                 }
                 d = new Tension(tension, tension).smooth(points);

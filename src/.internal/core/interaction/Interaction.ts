@@ -17,9 +17,9 @@
  */
 import { BaseObjectEvents, IBaseObjectEvents } from "../Base";
 import { List } from "../utils/List";
-import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
+import { AMEvent } from "../utils/EventDispatcher";
 import { Animation } from "../utils/Animation";
-import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, ICursorOptions, IKeyboardOptions } from "./InteractionOptions";
+import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, IKeyboardOptions } from "./InteractionOptions";
 import { MultiDisposer, IDisposer } from "../utils/Disposer";
 import { InteractionObject, IInteractionObjectEvents } from "./InteractionObject";
 import { InteractionKeyboardObject } from "./InteractionKeyboardObject";
@@ -3030,6 +3030,7 @@ export class Interaction extends BaseObjectEvents {
 		}
 	}
 
+	// @ts-ignore Used for debugging
 	private log(text: string, ev: MouseEvent | TouchEvent | PointerEvent, io?: InteractionObject): void {
 		let show = true;
 		if (show) {

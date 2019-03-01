@@ -1,3 +1,12 @@
+/**
+ * SankeyLink module
+ */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { SankeyDiagramDataItem } from "../types/SankeyDiagram";
 import { FlowDiagramLink, IFlowDiagramLinkAdapters, IFlowDiagramLinkEvents, IFlowDiagramLinkProperties } from "./FlowDiagramLink";
 import { Polyspline } from "../../core/elements/Polyspline";

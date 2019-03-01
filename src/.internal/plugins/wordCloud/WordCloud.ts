@@ -9,7 +9,7 @@
  * @hidden
  */
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "../../charts/types/SerialChart";
-import { WordCloudSeries, WordCloudSeriesDataItem} from "./WordCloudSeries";
+import { WordCloudSeries } from "./WordCloudSeries";
 import { registry } from "../../core/Registry";
 
 /**

@@ -9,7 +9,7 @@
  * @hidden
  */
 import { Slice, ISliceProperties, ISliceAdapters, ISliceEvents } from "../Slice";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../Sprite";
+import { Sprite } from "../../Sprite";
 import { Container } from "../../Container";
 import { IPoint } from "../../defs/IPoint";
 import { LightenFilter } from "../../rendering/filters/LightenFilter";

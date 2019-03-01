@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Circle } from "../../core/elements/Circle";
 import { Trapezoid } from "../../core/elements/Trapezoid";
 import { Axis } from "../axes/Axis";

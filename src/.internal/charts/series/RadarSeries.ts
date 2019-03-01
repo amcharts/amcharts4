@@ -9,7 +9,6 @@
  * @hidden
  */
 import { LineSeries, LineSeriesDataItem, ILineSeriesDataFields, ILineSeriesProperties, ILineSeriesAdapters, ILineSeriesEvents } from "./LineSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { LineSeriesSegment } from "./LineSeriesSegment";
 import { IPoint } from "../../core/defs/IPoint";
 import { AxisRendererRadial } from "../axes/AxisRendererRadial";

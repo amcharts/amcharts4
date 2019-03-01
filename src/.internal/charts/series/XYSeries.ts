@@ -9,7 +9,7 @@
  * @hidden
  */
 import { Series, SeriesDataItem, ISeriesProperties, ISeriesDataFields, ISeriesAdapters, ISeriesEvents } from "./Series";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { Axis } from "../axes/Axis";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { ValueAxis } from "../axes/ValueAxis";
@@ -18,14 +18,12 @@ import { List } from "../../core/utils/List";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { XYChart } from "../types/XYChart";
 import { CategoryAxis } from "../axes/CategoryAxis";
-import { Rectangle } from "../../core/elements/Rectangle";
 import { IPoint } from "../../core/defs/IPoint";
 import { DateAxis } from "../axes/DateAxis";
 import { Bullet } from "../elements/Bullet";
 import { CalculatedValue } from "../../core/Component";
 import { Animation } from "../../core/utils/Animation";
 import { registry } from "../../core/Registry";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
@@ -579,12 +577,12 @@ export class XYSeries extends Series {
 	/**
 	 * X axis the series is attached to.
 	 */
-	protected _xAxis = new MutableValueDisposer<Axis>();
+	protected _xAxis = new MutableValueDisposer<Axis<AxisRenderer>>();
 
 	/**
 	 * Y axis the series is attached to.
 	 */
-	protected _yAxis = new MutableValueDisposer<Axis>();
+	protected _yAxis = new MutableValueDisposer<Axis<AxisRenderer>>();
 
 	/**
 	 * A chart series belongs to.

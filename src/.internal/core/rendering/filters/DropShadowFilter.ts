@@ -12,9 +12,7 @@ import { Filter, FilterProperties } from "./Filter";
 import { AMElement } from "../AMElement";
 import { Group } from "../Group";
 import { Color, color } from "../../utils/Color";
-import { InterfaceColorSet } from "../../utils/InterfaceColorSet";
 import { registry } from "../../Registry";
-import * as $type from "../../utils/Type";
 
 
 /**

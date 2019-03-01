@@ -318,7 +318,7 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      * @param configValue  Config value
      * @param item         Item
      */
-    protected processList(configValue: any, item: List<any>): void;
+    protected processList(configValue: any, item: List<any>, parent?: any): void;
     /**
      * This function is used to sort element's JSON config properties, so that
      * some properties that absolutely need to be processed last, can be put at

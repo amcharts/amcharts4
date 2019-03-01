@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Tick, ITickProperties, ITickAdapters, ITickEvents } from "../elements/Tick";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { AxisItemLocation, AxisDataItem, Axis } from "./Axis";
 import { registry } from "../../core/Registry";
 

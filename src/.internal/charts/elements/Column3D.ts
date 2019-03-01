@@ -10,7 +10,6 @@
  * @hidden
  */
 import { Column, IColumnProperties, IColumnAdapters, IColumnEvents } from "./Column";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Rectangle3D } from "../../core/elements/3d/Rectangle3D";
 import { registry } from "../../core/Registry";
 

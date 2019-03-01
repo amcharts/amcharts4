@@ -924,7 +924,8 @@ var Sprite = /** @class */ (function (_super) {
             if (this._isTemplate) {
                 return;
             }
-            var currentPaper = this.paper;
+            // TODO is this needed ?
+            $utils.used(this.paper);
             var oldParent = this._parent;
             if (oldParent != parent) {
                 if (oldParent) {
@@ -1604,7 +1605,6 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.measure = function () {
         this.updateCenter();
-        var bbox = this.bbox;
         var measuredWidth = this._measuredWidth;
         var measuredHeight = this._measuredHeight;
         // extremes
@@ -3141,7 +3141,6 @@ var Sprite = /** @class */ (function (_super) {
      * @todo Review propagation to clones. Right now we simply check if clone is disposed before setting the same property on it. It's better to remove from clone list altogether.
      */
     Sprite.prototype.setPropertyValue = function (property, value, invalidate, transform) {
-        var currentValue = this.properties[property];
         if (this.properties[property] !== value) {
             this.properties[property] = value;
             if (this.events.isEnabled("propertychanged")) {
@@ -5525,7 +5524,7 @@ var Sprite = /** @class */ (function (_super) {
                 type: "maxsizechanged",
                 target: this,
                 previousWidth: prevWidth,
-                previousHeight: prevWidth
+                previousHeight: prevHeight
             };
             this.dispatchImmediately("maxsizechanged", event_3);
         }
@@ -6841,6 +6840,8 @@ var Sprite = /** @class */ (function (_super) {
                 visible = true;
             }
             this.visible = visible;
+            // Unhide from screen readers
+            this.readerHidden = false;
             // Dispatch "show" event
             this.dispatchImmediately("shown");
         }
@@ -6921,6 +6922,8 @@ var Sprite = /** @class */ (function (_super) {
                 this.isHiding = false;
                 this._isHidden = true;
             }
+            // Hide from screen readers
+            this.readerHidden = true;
             // Dispach "hidden" event
             this.dispatchImmediately("hidden");
             this.invalidate(); // hide it at once to avoid flickers // validate() causes SO

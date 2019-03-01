@@ -9,7 +9,6 @@
  * @hidden
  */
 import { LineSeries, LineSeriesDataItem, ILineSeriesDataFields, ILineSeriesProperties, ILineSeriesAdapters, ILineSeriesEvents } from "./LineSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { StepLineSeriesSegment } from "./StepLineSeriesSegment";
 import { IPoint } from "../../core/defs/IPoint";
 import { registry } from "../../core/Registry";

@@ -8,13 +8,13 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
 import { color } from "../utils/Color";
 import { LinearGradient } from "../rendering/fills/LinearGradient";
 import { registry } from "../Registry";
 import * as $type from "../utils/Type";
 import * as $math from "../utils/Math";
-import { IPoint, IOrientationPoint } from "../defs/IPoint";
+import { IOrientationPoint } from "../defs/IPoint";
 
 
 

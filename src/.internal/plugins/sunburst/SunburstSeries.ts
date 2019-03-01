@@ -6,14 +6,10 @@
  */
 
 import { PieSeries, PieSeriesDataItem, IPieSeriesDataFields, IPieSeriesProperties, IPieSeriesAdapters, IPieSeriesEvents } from "../../charts/series/PieSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Sunburst, SunburstDataItem } from "./Sunburst";
-import { ListTemplate } from "../../core/utils/List";
-import { OrderedList, OrderedListTemplate } from "../../core/utils/SortedList";
 import * as $type from "../../core/utils/Type";
 import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
-import { percent } from "../../core/utils/Percent";
 import { Animation } from "../../core/utils/Animation";
 
 /**
@@ -71,11 +67,10 @@ export class SunburstSeriesDataItem extends PieSeriesDataItem {
 	 * @param fields    Fields to animate while hiding
 	 */
 	public hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): $type.Optional<Animation> {
-		let animation: Animation;
 		let sunburstDataItem = this.sunburstDataItem;
 		if (sunburstDataItem && sunburstDataItem.series) {
 			sunburstDataItem.series.dataItems.each((dataItem) => {
-				animation = dataItem.hide(duration, delay, toValue, fields);
+				dataItem.hide(duration, delay, toValue, fields);
 			})
 		}
 		return super.hide(duration, delay, toValue, fields);
@@ -90,11 +85,11 @@ export class SunburstSeriesDataItem extends PieSeriesDataItem {
 	 * @param fields    Fields to animate while hiding
 	 */
 	public show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation> {
-		let animation: Animation;
 		let sunburstDataItem = this.sunburstDataItem;
+
 		if (sunburstDataItem && sunburstDataItem.series) {
 			sunburstDataItem.series.dataItems.each((dataItem) => {
-				animation = dataItem.show(duration, delay, fields);
+				dataItem.show(duration, delay, fields);
 			})
 		}
 
@@ -103,7 +98,7 @@ export class SunburstSeriesDataItem extends PieSeriesDataItem {
 
 	/**
 	 * Numeric value.
-	 * 
+	 *
 	 * @param value  Value
 	 */
 	public set value(value: number) {
@@ -175,7 +170,7 @@ export interface ISunburstSeriesDataFields extends IPieSeriesDataFields { }
 
 /**
  * Defines properties for [[SunburstSeries]].
- * 
+ *
  * @since 4.1.6
  */
 export interface ISunburstSeriesProperties extends IPieSeriesProperties { }
@@ -247,7 +242,7 @@ export class SunburstSeries extends PieSeries {
 
 	/**
 	 * The level in hierarchy hierarchy series is at.
-	 * 
+	 *
 	 * @readonly
 	 */
 	public level: number;
@@ -298,7 +293,7 @@ export class SunburstSeries extends PieSeries {
 
 	/**
 	 * Returns a new/empty DataItem of the type appropriate for this object.
-	 * 
+	 *
 	 * @see {@link DataItem}
 	 * @return Data Item
 	 */

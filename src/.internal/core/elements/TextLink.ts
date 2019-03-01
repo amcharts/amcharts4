@@ -9,9 +9,6 @@
  * @hidden
  */
 import { Label, ILabelProperties, ILabelAdapters, ILabelEvents } from "../../core/elements/Label";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { List, IListEvents } from "../../core/utils/List";
-import { IDisposer, MutableValueDisposer } from "../../core/utils/Disposer";
 import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { registry } from "../Registry";

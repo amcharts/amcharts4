@@ -16,10 +16,8 @@ import { AxisLabel } from "./AxisLabel";
 import { AxisFill } from "./AxisFill";
 import { List } from "../../core/utils/List";
 import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Grid } from "./Grid";
-import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
-import { SerialChart } from "../types/SerialChart";
+import { IDisposer, MultiDisposer } from "../../core/utils/Disposer";
 import { XYChart } from "../types/XYChart";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { registry } from "../../core/Registry";
@@ -927,7 +925,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 */
 	public positionToValue(position: number): number {
 		position = $math.round(position, 10);
-		let strPosition: string = position.toString();
 
 		let min: number = this.min;
 		let max: number = this.max;
@@ -1194,6 +1191,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				}
 			}
 		}
+
 		this._extremesChanged = false;
 		this._difference = this.adjustDifference(min, max);
 	}
@@ -1608,8 +1606,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		}
 
 		if (selectionMin == selectionMax) {
-			selectionMin -= 1;
-			selectionMax += 1;
+			let minMaxStep2 = this.adjustMinMax(selectionMin, selectionMax, selectionMax - selectionMin, this._gridCount, true);
+			selectionMin = minMaxStep2.min;
+			selectionMax = minMaxStep2.max;
 		}
 
 		let dif: number = this.adjustDifference(selectionMin, selectionMax);

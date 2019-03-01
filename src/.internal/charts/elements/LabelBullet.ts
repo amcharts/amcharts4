@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Bullet, IBulletProperties, IBulletAdapters, IBulletEvents } from "./Bullet";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Label } from "../../core/elements/Label";
 import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";

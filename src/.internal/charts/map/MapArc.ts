@@ -9,7 +9,6 @@
  * @hidden
  */
 import { MapLine, IMapLineProperties, IMapLineAdapters, IMapLineEvents } from "./MapLine";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Polyarc } from "../../core/elements/Polyarc";
 import { registry } from "../../core/Registry";
 import { MapArcSeries } from "./MapArcSeries";
@@ -104,16 +103,16 @@ export class MapArc extends MapLine {
 
 	/**
 	 * `shortestDistance = true` is not supported by `MapArc`.
-	 * 
+	 *
 	 * Only [[MapLine]] supports it.
-	 * 
+	 *
 	 * @default false
 	 * @param value
 	 */
 	public set shortestDistance(value: boolean) {
 
 	}
-	
+
 	public get shortestDistance(): boolean {
 		return false;
 	}

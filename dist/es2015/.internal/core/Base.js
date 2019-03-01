@@ -528,7 +528,12 @@ var BaseObject = /** @class */ (function () {
                 else if (item_1 instanceof List) {
                     // ... a list
                     // ------------------------------------------------------------------
-                    _this.processList(configValue, item_1);
+                    if (configKey == "children") {
+                        _this.processList(configValue, item_1, _this);
+                    }
+                    else {
+                        _this.processList(configValue, item_1);
+                    }
                 }
                 else if (item_1 instanceof DictionaryTemplate) {
                     // ... a dictionary with template
@@ -730,7 +735,7 @@ var BaseObject = /** @class */ (function () {
      * @param configValue  Config value
      * @param item         Item
      */
-    BaseObject.prototype.processList = function (configValue, item) {
+    BaseObject.prototype.processList = function (configValue, item, parent) {
         var _this = this;
         // Convert to array if necessary
         if (!$type.isArray(configValue)) {
@@ -759,7 +764,12 @@ var BaseObject = /** @class */ (function () {
                 }
                 else {
                     listItem = _this.createEntryInstance(entry);
-                    item.push(listItem);
+                    if (parent) {
+                        listItem.parent = parent;
+                    }
+                    else {
+                        item.push(listItem);
+                    }
                 }
                 // If the list item is BaseObject, we just need to let it
                 // deal if its own config

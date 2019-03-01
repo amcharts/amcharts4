@@ -12,18 +12,15 @@ import { IInteractionObjectEvents, InteractionObjectEventDispatcher } from "./In
 import { BaseObjectEvents } from "../Base";
 import { Sprite } from "../Sprite";
 import { List } from "../utils/List";
-import { Adapter } from "../utils/Adapter";
 import { Dictionary, DictionaryDisposer } from "../utils/Dictionary";
 import { AMEvent } from "../utils/EventDispatcher";
 import { IPoint } from "../defs/IPoint";
 import { IPointer } from "./Pointer";
 import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, ICursorOptions, IKeyboardOptions } from "./InteractionOptions";
-import { InteractionKeyboardObject } from "./InteractionKeyboardObject";
 import { getInteraction } from "./Interaction";
 import { Inertia, InertiaTypes } from "./Inertia";
 import { IDisposer } from "../utils/Disposer";
 import { Optional } from "../utils/Type";
-import * as $iter from "../utils/Iterator";
 import * as $type from "../utils/Type";
 
 
@@ -558,7 +555,7 @@ export class InteractionObject extends BaseObjectEvents {
 
 	/**
 	 * A DOM element associated with this element.
-	 * 
+	 *
 	 * @param element Element
 	 */
 	public set element(element: HTMLElement | SVGSVGElement) {

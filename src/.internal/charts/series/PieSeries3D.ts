@@ -6,11 +6,8 @@
  */
 
 import { PieSeries, PieSeriesDataItem, IPieSeriesDataFields, IPieSeriesProperties, IPieSeriesAdapters, IPieSeriesEvents } from "../series/PieSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { PieChart3D } from "../types/PieChart3D";
 import { Slice3D } from "../../core/elements/3d/Slice3D";
-import { ListTemplate } from "../../core/utils/List";
-import { OrderedList, OrderedListTemplate } from "../../core/utils/SortedList";
 import { registry } from "../../core/Registry";
 import * as $type from "../../core/utils/Type";
 import { Bullet } from "../elements/Bullet";

@@ -10,13 +10,14 @@
  * @hidden
  */
 import { Column, IColumnProperties, IColumnAdapters, IColumnEvents } from "./Column";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import * as $path from "../../core/rendering/Path";
+import * as $utils from "../../core/utils/Utils";
 import { registry } from "../../core/Registry";
 import * as $smoothing from "../../core/rendering/Smoothing";
 import { Orientation } from "../../core/defs/Orientation";
 import { IPoint } from "../../core/defs/IPoint";
-import { percent, Percent } from "../../core/utils/Percent";
+import { percent } from "../../core/utils/Percent";
 
 
 /**
@@ -144,8 +145,8 @@ export class CurvedColumn extends Column {
 
 		let points: IPoint[];
 
-		let ww = this.width;
-		let pw = 0.8;
+		// TODO can this be removed ?
+		$utils.used(this.width);
 
 		let tensionX = 1;
 		let tensionY = 1;

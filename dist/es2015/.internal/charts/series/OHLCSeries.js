@@ -98,8 +98,9 @@ var OHLCSeries = /** @class */ (function (_super) {
             if (this.baseAxis == this.xAxis) {
                 var x = column.pixelWidth / 2;
                 highLowLine_1.x = x;
-                var open_1 = dataItem.getWorkingValue(this.yOpenField);
-                var close_1 = dataItem.getWorkingValue(this.yField);
+                // TODO can these be removed ?
+                dataItem.getWorkingValue(this.yOpenField);
+                dataItem.getWorkingValue(this.yField);
                 var yOpen = this.yAxis.getY(dataItem, this.yOpenField);
                 var yClose = this.yAxis.getY(dataItem, this.yField);
                 var yLow = this.yAxis.getY(dataItem, this.yLowField);
@@ -119,8 +120,9 @@ var OHLCSeries = /** @class */ (function (_super) {
             if (this.baseAxis == this.yAxis) {
                 var y = column.pixelHeight / 2;
                 highLowLine_1.y = y;
-                var open_2 = dataItem.getWorkingValue(this.xOpenField);
-                var close_2 = dataItem.getWorkingValue(this.xField);
+                // TODO can these be removed ?
+                dataItem.getWorkingValue(this.xOpenField);
+                dataItem.getWorkingValue(this.xField);
                 var xOpen = this.xAxis.getX(dataItem, this.xOpenField);
                 var xClose = this.xAxis.getX(dataItem, this.xField);
                 var xLow = this.xAxis.getX(dataItem, this.xLowField);

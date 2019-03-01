@@ -9,10 +9,10 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "./Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, AMEvent } from "./Sprite";
 import { SpriteState } from "./SpriteState";
 import { Animation } from "./utils/Animation";
-import { List, IListEvents, ListGrouper } from "./utils/List";
+import { List, IListEvents } from "./utils/List";
 import { VerticalAlign } from "./defs/VerticalAlign";
 import { IDisposer, MultiDisposer } from "./utils/Disposer";
 import { Dictionary, DictionaryDisposer } from "./utils/Dictionary";
@@ -31,7 +31,6 @@ import * as $iter from "./utils/Iterator";
 import * as $array from "./utils/Array";
 import * as $math from "./utils/Math";
 import * as $type from "./utils/Type";
-import { IRectangle } from "./defs/IRectangle";
 import { system } from "./System";
 
 

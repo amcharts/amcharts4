@@ -9,7 +9,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../Container";
-import { Sprite, SpriteEventDispatcher, AMEvent, visualProperties } from "../../Sprite";
+import { Sprite, visualProperties } from "../../Sprite";
 import { Ellipse } from "../../elements/Ellipse";
 import { LinearGradientModifier } from "../../rendering/fills/LinearGradientModifier";
 import { percent, Percent } from "../../utils/Percent";

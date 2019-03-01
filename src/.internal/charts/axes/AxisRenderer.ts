@@ -8,8 +8,8 @@
  * ============================================================================
  * @hidden
  */
-import { Container, ContainerLayout, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
+import { Sprite } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { Axis } from "./Axis";
@@ -20,7 +20,6 @@ import { AxisLabel } from "./AxisLabel";
 import { AxisTick } from "./AxisTick";
 import { AxisBreak } from "./AxisBreak";
 import { Chart } from "../Chart";
-import { Tooltip, PointerOrientation } from "../../core/elements/Tooltip";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";

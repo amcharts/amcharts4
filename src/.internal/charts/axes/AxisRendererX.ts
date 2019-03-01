@@ -9,9 +9,8 @@
  * @hidden
  */
 import { AxisRenderer, IAxisRendererProperties, IAxisRendererAdapters, IAxisRendererEvents } from "./AxisRenderer";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
-import { IDisposer, MutableValueDisposer } from "../../core/utils/Disposer";
 import { Axis } from "./Axis";
 import { Grid } from "./Grid";
 import { Label } from "../../core/elements/Label";
@@ -22,7 +21,6 @@ import { WavedLine } from "../../core/elements/WavedLine";
 import { WavedRectangle } from "../../core/elements/WavedRectangle";
 import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";
-import { XYChart } from "../types/XYChart";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
@@ -473,8 +471,8 @@ export class AxisRendererX extends AxisRenderer {
 		if (axis && parent) {
 			let relativeX = axis.pixelX / parent.innerWidth;
 			let relativeWidth = axis.pixelWidth / parent.innerWidth;
-		
-			return (inversedPosition - relativeX) / relativeWidth;		
+
+			return (inversedPosition - relativeX) / relativeWidth;
 		}
 
 		return value;

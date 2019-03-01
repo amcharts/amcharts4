@@ -5,12 +5,10 @@ import { BaseObject } from "../core/Base";
 import { Scrollbar } from "../core/elements/Scrollbar";
 import { Tooltip } from "../core/elements/Tooltip";
 import { Series } from "../charts/series/Series";
-import { Axis } from "../charts/axes/Axis";
 import { PercentSeries } from "../charts/series/PercentSeries";
 import { SankeyDiagram } from "../charts/types/SankeyDiagram";
 import { FunnelSeries } from "../charts/series/FunnelSeries";
 import { MapSeries } from "../charts/map/MapSeries";
-import { CandlestickSeries } from "../charts/series/CandlestickSeries";
 import { FunnelSlice } from "../charts/elements/FunnelSlice";
 import { Column } from "../charts/elements/Column";
 import { Column3D } from "../charts/elements/Column3D";
@@ -36,7 +34,7 @@ const theme: ITheme = (object: BaseObject) => {
 
 		if (object instanceof FunnelSeries) {
 			object.sequencedInterpolation = true;
-		}		
+		}
 
 	}
 
@@ -60,15 +58,15 @@ const theme: ITheme = (object: BaseObject) => {
 		object.hiddenState.transitionDuration = 700;
 		object.hiddenState.properties.opacity = 1;
 		object.showOnInit = true;
-	}	
+	}
 
 	if (object instanceof MapSeries) {
 		object.hiddenState.properties.opacity = 0;
-	}	
+	}
 
 	if (object instanceof PercentSeries) {
 		object.hiddenState.properties.opacity = 0;
-	}	
+	}
 
 	if (object instanceof FunnelSlice) {
 		object.defaultState.transitionDuration = 800;
@@ -80,11 +78,11 @@ const theme: ITheme = (object: BaseObject) => {
 		object.defaultState.transitionDuration = 700;
 		object.hiddenState.transitionDuration = 1000;
 		object.hiddenState.properties.opacity = 1;
-	}	
+	}
 
 	if (object instanceof Preloader) {
 		object.hiddenState.transitionDuration = 2000;
-	}		
+	}
 
 	if (object instanceof Column) {
 		object.defaultState.transitionDuration = 700;
@@ -94,7 +92,7 @@ const theme: ITheme = (object: BaseObject) => {
 
 	if (object instanceof Column3D) {
 		object.hiddenState.properties.opacity = 0;
-	}	
+	}
 };
 
 export default theme;

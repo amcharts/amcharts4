@@ -188,11 +188,11 @@ var FlowDiagramLink = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (value == "gradient") {
-                var color_1 = this.fill;
+                var color = this.fill;
                 this.gradient.stops.clear();
-                if (color_1 instanceof Color) {
-                    this.gradient.addColor(color_1);
-                    this.gradient.addColor(color_1);
+                if (color instanceof Color) {
+                    this.gradient.addColor(color);
+                    this.gradient.addColor(color);
                 }
                 this.fill = this.gradient;
                 this.stroke = this.gradient;

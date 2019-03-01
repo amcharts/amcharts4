@@ -9,9 +9,8 @@
  * @hidden
  */
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "./SerialChart";
-import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { Container } from "../../core/Container";
-import { IComponentEvents } from "../../core/Component";
 import { List, IListEvents } from "../../core/utils/List";
 import { Axis } from "../axes/Axis";
 import { DateAxis } from "../axes/DateAxis";
@@ -25,7 +24,7 @@ import { Scrollbar, IScrollbarEvents } from "../../core/elements/Scrollbar";
 import { IRange } from "../../core/defs/IRange";
 import { XYCursor, IXYCursorEvents } from "../cursors/XYCursor";
 import { IPoint } from "../../core/defs/IPoint";
-import { IDisposer, MultiDisposer, MutableValueDisposer, Disposer } from "../../core/utils/Disposer";
+import { IDisposer, Disposer } from "../../core/utils/Disposer";
 import { Button } from "../../core/elements/Button";
 import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
 import { percent } from "../../core/utils/Percent";
@@ -330,7 +329,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * A container for plot area.
 	 *
-	 * @type {Container}	 
+	 * @type {Container}
 	 */
 	public plotContainer: Container;
 
@@ -1083,7 +1082,7 @@ export class XYChart extends SerialChart {
 		}
 
 		let seriesPoints: { point: IPoint, series: XYSeries }[] = [];
-		let sum = 0;
+
 		this.series.each((series) => {
 			//if (series.tooltipText || series.tooltipHTML) { // not good, bullets are not hovered then
 
@@ -1147,7 +1146,8 @@ export class XYChart extends SerialChart {
 			let top = topLeft.y;
 			let bottom = bottomRight.y;
 
-			let topPoint = $utils.spritePointToDocument({ x: 0, y: top }, this);
+			// TODO is this needed ?
+			$utils.spritePointToDocument({ x: 0, y: top }, this);
 
 			let dropped = false;
 

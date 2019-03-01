@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Axis, AxisItemLocation, AxisDataItem, IAxisProperties, IAxisDataFields, IAxisAdapters, IAxisEvents, IAxisDataItemAdapters } from "./Axis";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
 import { AxisFill } from "./AxisFill";
 import { AxisRenderer } from "./AxisRenderer";
@@ -21,11 +20,9 @@ import { registry } from "../../core/Registry";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { CategoryAxisBreak } from "./CategoryAxisBreak";
-import { IDisposer } from "../../core/utils/Disposer";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
-import * as $array from "../../core/utils/Array";
 import { Adapter } from "../../core/utils/Adapter";
 
 /**
@@ -299,7 +296,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 			else {
 				let firstSeriesDataItem: XYSeriesDataItem;
 				let lastSeriesDataItem: XYSeriesDataItem;
-				
+
 				let startIndex = this.positionToIndex(this.start);
 				let endIndex = this.positionToIndex(this.end);
 
@@ -751,7 +748,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * Finds and returns first series data item with specific category
 	 * @param series    Target series
 	 * @param category  Category
-	 * @return XYSeriesDataItem data item	 
+	 * @return XYSeriesDataItem data item
 	 */
 	public getFirstSeriesDataItem(series: XYSeries, category: string): XYSeriesDataItem {
 
@@ -774,7 +771,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * Finds and returns last series data item with specific category.
 	 * @param series    Target series
 	 * @param category  Category
-	 * @return XYSeriesDataItem data item		 
+	 * @return XYSeriesDataItem data item
 	 */
 	public getLastSeriesDataItem(series: XYSeries, category: string): XYSeriesDataItem {
 
@@ -828,7 +825,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 						}
 					}
 				}
-				
+
 
 				series.dataItems.each((dataItem) => {
 					if (series.xAxis == this) {
@@ -839,7 +836,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 							if(Math.abs(index - sdi.index) > Math.abs(index - dataItem.index)) {
 								sdi = dataItem;
 							}
-							
+
 						}
 					}
 					if (series.yAxis == this) {

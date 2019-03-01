@@ -9,7 +9,7 @@
  * @hidden
  */
 import { ColumnSeries, IColumnSeriesProperties, IColumnSeriesDataFields, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "../series/ColumnSeries";
-import { Sprite, SpriteEventDispatcher, AMEvent, visualProperties } from "../../core/Sprite";
+import { Sprite, visualProperties } from "../../core/Sprite";
 import { RadarChart } from "../types/RadarChart";
 import { AxisRendererRadial } from "../axes/AxisRendererRadial";
 import { RadarColumn } from "../elements/RadarColumn";

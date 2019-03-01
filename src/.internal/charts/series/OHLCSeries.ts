@@ -11,12 +11,9 @@
 import { CandlestickSeries, CandlestickSeriesDataItem, ICandlestickSeriesDataFields, ICandlestickSeriesProperties, ICandlestickSeriesAdapters, ICandlestickSeriesEvents } from "./CandlestickSeries";
 import { visualProperties } from "../../core/Sprite";
 import { Line } from "../../core/elements/Line";
-import { ListTemplate } from "../../core/utils/List";
 import { Container } from "../../core/Container";
 import { OHLC } from "../elements/OHLC";
 import { registry } from "../../core/Registry";
-import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
-import * as $utils from "../../core/utils/Utils";
 import * as $object from "../../core/utils/Object";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
@@ -180,8 +177,9 @@ export class OHLCSeries extends CandlestickSeries {
 				let x: number = column.pixelWidth / 2;
 				highLowLine.x = x;
 
-				let open = dataItem.getWorkingValue(this.yOpenField);
-				let close = dataItem.getWorkingValue(this.yField);
+				// TODO can these be removed ?
+				dataItem.getWorkingValue(this.yOpenField);
+				dataItem.getWorkingValue(this.yField);
 
 				let yOpen = this.yAxis.getY(dataItem, this.yOpenField);
 				let yClose = this.yAxis.getY(dataItem, this.yField);
@@ -209,8 +207,9 @@ export class OHLCSeries extends CandlestickSeries {
 
 				highLowLine.y = y;
 
-				let open = dataItem.getWorkingValue(this.xOpenField);
-				let close = dataItem.getWorkingValue(this.xField);
+				// TODO can these be removed ?
+				dataItem.getWorkingValue(this.xOpenField);
+				dataItem.getWorkingValue(this.xField);
 
 				let xOpen = this.xAxis.getX(dataItem, this.xOpenField);
 				let xClose = this.xAxis.getX(dataItem, this.xField);

@@ -14,7 +14,6 @@ import { IPoint } from "../defs/IPoint";
 import { IRectangle } from "../defs/IRectangle";
 import { IMorphable } from "../defs/IMorphable";
 import { IAnimatable, Animation, AnimationDisposer } from "../utils/Animation";
-import { MultiDisposer } from "../utils/Disposer";
 import * as $math from "../utils/Math";
 import * as $ease from "../utils/Ease";
 import * as $type from "../utils/Type";

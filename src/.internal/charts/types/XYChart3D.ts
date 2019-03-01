@@ -9,7 +9,6 @@
  * @hidden
  */
 import { XYChart, IXYChartProperties, IXYChartDataFields, IXYChartAdapters, IXYChartEvents, XYChartDataItem } from "./XYChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Container } from "../../core/Container";
 import { Sprite } from "../../core/Sprite";
 import { AxisRendererX3D } from "../axes/AxisRendererX3D";

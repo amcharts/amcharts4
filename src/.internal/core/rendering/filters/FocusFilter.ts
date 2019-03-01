@@ -13,7 +13,6 @@ import { Filter, FilterProperties } from "./Filter";
 import { AMElement } from "../AMElement";
 import { Color } from "../../utils/Color";
 import { InterfaceColorSet } from "../../utils/InterfaceColorSet";
-import { StyleRule, StyleClass } from "../../utils/DOM";
 import * as $type from "../../utils/Type";
 
 /**

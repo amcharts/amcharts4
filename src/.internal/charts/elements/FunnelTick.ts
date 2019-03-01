@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Tick, ITickProperties, ITickAdapters, ITickEvents } from "../elements/Tick";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Label } from "../../core/elements/Label";
 import { FunnelSlice } from "./FunnelSlice";
 import { MutableValueDisposer, MultiDisposer } from "../../core/utils/Disposer";
@@ -140,7 +139,7 @@ export class FunnelTick extends Tick {
 
 				if(!series.labelsOpposite){
 					y1 += label.maxBottom;
-				}				
+				}
 
 				let p0 = $utils.spritePointToSprite(point, slice, this.parent);
 				let p1 = $utils.spritePointToSprite({ x: x1, y: y1 }, label.parent, this.parent);

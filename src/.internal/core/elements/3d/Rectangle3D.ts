@@ -9,7 +9,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../Container";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../Sprite";
+import { Sprite } from "../../Sprite";
 import { IPoint } from "../../defs/IPoint";
 import { LightenFilter } from "../../rendering/filters/LightenFilter";
 import * as $math from "../../utils/Math";

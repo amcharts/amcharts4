@@ -12,6 +12,7 @@ import * as tslib_1 from "tslib";
 import { Column } from "./Column";
 import { Sprite } from "../../core/Sprite";
 import * as $path from "../../core/rendering/Path";
+import * as $utils from "../../core/utils/Utils";
 import { registry } from "../../core/Registry";
 import * as $smoothing from "../../core/rendering/Smoothing";
 import { percent } from "../../core/utils/Percent";
@@ -65,8 +66,8 @@ var CurvedColumn = /** @class */ (function (_super) {
         var x = this.realX - this.pixelX;
         var y = this.realY - this.pixelY;
         var points;
-        var ww = this.width;
-        var pw = 0.8;
+        // TODO can this be removed ?
+        $utils.used(this.width);
         var tensionX = 1;
         var tensionY = 1;
         if (this.orientation == "vertical") {

@@ -9,9 +9,7 @@
  * @hidden
  */
 import { Component, IComponentProperties, IComponentDataFields, IComponentEvents, IComponentAdapters } from "../core/Component";
-import { SpriteEventDispatcher, AMEvent } from "../core/Sprite";
 import { MutableValueDisposer } from "../core/utils/Disposer";
-import { registry } from "../core/Registry";
 import { ListTemplate, IListEvents, ListDisposer } from "../core/utils/List";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";

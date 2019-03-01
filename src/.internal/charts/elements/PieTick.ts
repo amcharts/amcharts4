@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Tick, ITickProperties, ITickAdapters, ITickEvents } from "../elements/Tick";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { AxisLabelCircular } from "../axes/AxisLabelCircular";
 import { Slice } from "../../core/elements/Slice";
 import { MutableValueDisposer, MultiDisposer } from "../../core/utils/Disposer";

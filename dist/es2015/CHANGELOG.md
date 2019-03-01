@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.1.14] - 2019-03-01
+
+### Changed
+- Hiding or showing an element will now automatically set its `readerHidden` attribute accordingly.
+
+### Fixed
+- JSON: Using `children` with an array value was duplicating elements.
+- Working around a bug with Angular's dead code elimination in `--prod` mode.
+- Fixed `ValueAxis` issue with animation when there's only single data item.
+
+
 ## [4.1.13] - 2019-02-26
 
 ### Added

@@ -9,12 +9,10 @@
  * @hidden
  */
 import { Rectangle, IRectangleProperties, IRectangleAdapters, IRectangleEvents } from "./Rectangle";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { IPoint } from "../defs/IPoint";
 import { IWavedShape } from "../defs/IWavedShape";
 import { wavedLine } from "../rendering/Smoothing";
 import * as $path from "../rendering/Path";
-import { IRectangle } from "../defs/IRectangle";
 
 
 /**

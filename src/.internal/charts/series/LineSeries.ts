@@ -9,13 +9,11 @@
  * @hidden
  */
 import { XYSeries, XYSeriesDataItem, IXYSeriesProperties, IXYSeriesDataFields, IXYSeriesAdapters, IXYSeriesEvents } from "./XYSeries";
-import { Sprite, SpriteEventDispatcher, AMEvent, visualProperties } from "../../core/Sprite";
-import { Series, SeriesDataItem } from "./Series";
+import { Sprite, visualProperties } from "../../core/Sprite";
 import { Container } from "../../core/Container";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { IPoint } from "../../core/defs/IPoint";
-import { LineSeriesSegment, ILineSeriesSegmentProperties } from "./LineSeriesSegment";
+import { LineSeriesSegment } from "./LineSeriesSegment";
 import { Axis, AxisDataItem } from "../axes/Axis";
 import { ValueAxis } from "../axes/ValueAxis";
 import { DateAxis } from "../axes/DateAxis";
@@ -26,9 +24,7 @@ import { Rectangle } from "../../core/elements/Rectangle";
 import * as $iter from "../../core/utils/Iterator";
 import * as $object from "../../core/utils/Object";
 import * as $type from "../../core/utils/Type";
-import * as $utils from "../../core/utils/Utils";
 import * as $array from "../../core/utils/Array";
-import { Bullet } from "../elements/Bullet";
 import { LegendDataItem } from "../Legend";
 
 /**

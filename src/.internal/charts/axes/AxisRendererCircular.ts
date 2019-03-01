@@ -11,7 +11,6 @@
 import { AxisRenderer, IAxisRendererProperties, IAxisRendererAdapters, IAxisRendererEvents } from "./AxisRenderer";
 import { Axis } from "./Axis";
 import { AxisFillCircular } from "./AxisFillCircular";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { AxisTick } from "./AxisTick";
 import { GridCircular } from "./GridCircular";

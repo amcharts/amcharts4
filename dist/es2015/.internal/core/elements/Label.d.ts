@@ -1,3 +1,12 @@
+/**
+ * Text class deals with all text placed on chart.
+ */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
 import { DataItem } from "../DataItem";
 import { TextValign } from "../defs/TextValign";

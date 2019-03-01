@@ -9,14 +9,12 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { Sprite, SpriteEventDispatcher, AMEvent, ISpriteEvents } from "../../core/Sprite";
+import { Sprite, AMEvent, ISpriteEvents } from "../../core/Sprite";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { registry } from "../../core/Registry";
-import { percent, Percent } from "../../core/utils/Percent";
-import * as $type from "../../core/utils/Type";
+import { percent } from "../../core/utils/Percent";
 import * as $utils from "../../core/utils/Utils";
 import { getInteraction, IInteractionEvents } from "../../core/interaction/Interaction";
-import { IInteractionObjectEvents } from "../../core/interaction/InteractionObject";
 import { Polyspline } from "../../core/elements/Polyspline";
 import { IPoint } from "../../core/defs/IPoint";
 import { Orientation } from "../../core/defs/Orientation";

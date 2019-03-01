@@ -8,7 +8,6 @@
  * ============================================================================
  * @hidden
  */
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
 import { DataItem } from "../DataItem";
 import { TextValign } from "../defs/TextValign";
@@ -22,9 +21,8 @@ import { MultiDisposer } from "../utils/Disposer";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $math from "../utils/Math";
 import * as $utils from "../utils/Utils";
-import * as $iter from "../utils/Iterator";
 import * as $type from "../utils/Type";
-import { Paper, getGhostPaper } from "../rendering/Paper";
+import { Paper } from "../rendering/Paper";
 import * as $dom from "../utils/DOM";
 
 
@@ -984,10 +982,6 @@ export class Label extends Container {
 			let fo = this.paper.foreignObject();
 			group.add(fo);
 
-			// Set group and foreignObject dimensions
-			let width: string = maxWidth > 0 ? (maxWidth).toString() + "px" : "100%";
-			let height: string = maxHeight > 0 ? (maxHeight).toString() + "px" : "100%";
-
 			// Create line element
 			//let lineElement: HTMLElement = this.getHTMLLineElement(getTextFormatter().format(this.html, output));
 			let lineElement: HTMLElement = this.getHTMLLineElement(text);
@@ -1063,10 +1057,11 @@ export class Label extends Container {
 		let width = this._measuredWidth;
 		let height = this._measuredHeight;
 
-		let paddingLeft = this.pixelPaddingLeft;
-		let paddingRight = this.pixelPaddingRight;
-		let paddingTop = this.pixelPaddingTop;
-		let paddingBottom = this.pixelPaddingBottom;
+		// TODO maybe these aren't needed ?
+		$utils.used(this.pixelPaddingLeft);
+		$utils.used(this.pixelPaddingRight);
+		$utils.used(this.pixelPaddingTop);
+		$utils.used(this.pixelPaddingBottom);
 
 		// Process each line
 		//$iter.each(group.children.backwards().iterator(), (element) => {

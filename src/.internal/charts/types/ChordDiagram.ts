@@ -8,27 +8,16 @@
  * ============================================================================
  * @hidden
  */
-import { Chart, IChartProperties, IChartDataFields, IChartAdapters, IChartEvents, ChartDataItem } from "../Chart";
 import { FlowDiagram, FlowDiagramDataItem, IFlowDiagramAdapters, IFlowDiagramDataFields, IFlowDiagramEvents, IFlowDiagramProperties } from "./FlowDiagram";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { percent, Percent } from "../../core/utils/Percent";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
-import { ListTemplate, ListDisposer } from "../../core/utils/List";
-import { DictionaryTemplate, DictionaryDisposer } from "../../core/utils/Dictionary";
-import { Legend, ILegendDataFields, LegendDataItem } from "../Legend";
+import { DictionaryTemplate } from "../../core/utils/Dictionary";
 import { Container } from "../../core/Container";
 import { registry } from "../../core/Registry";
 import { ChordNode } from "../elements/ChordNode";
 import { ChordLink } from "../elements/ChordLink";
-import { LinearGradientModifier } from "../../core/rendering/fills/LinearGradientModifier";
-import { ColorSet } from "../../core/utils/ColorSet";
-import { toColor, Color } from "../../core/utils/Color";
-import { Orientation } from "../../core/defs/Orientation";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
-import * as $number from "../../core/utils/Number";
-import * as $order from "../../core/utils/Order";
 import * as $utils from "../../core/utils/Utils";
 import { IRectangle } from "../../core/defs/IRectangle";
 
@@ -282,7 +271,6 @@ export class ChordDiagram extends FlowDiagram {
 	 */
 	public validate(): void {
 		let chartContainer = this.chartContainer;
-		let nodesContainer = this.nodesContainer;
 
 		let endAngle = this.endAngle;
 		let startAngle = this.startAngle + this.nodePadding / 2;
@@ -297,8 +285,6 @@ export class ChordDiagram extends FlowDiagram {
 		if(!$type.isNumber(maxRadius)){
 			maxRadius = 0;
 		}
-
-		let chartRadius = $utils.relativeRadiusToValue(this.radius, maxRadius);
 
 		let radius = $utils.relativeRadiusToValue(this.radius, maxRadius);
 		let pixelInnerRadius = $utils.relativeRadiusToValue(this.innerRadius, radius, true);

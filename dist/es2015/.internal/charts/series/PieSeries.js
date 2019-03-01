@@ -235,7 +235,6 @@ var PieSeries = /** @class */ (function (_super) {
      */
     PieSeries.prototype.validateDataElement = function (dataItem) {
         if (this.pixelRadius > 0) {
-            var percent_1 = dataItem.values.value.percent;
             // SLICE
             var slice = dataItem.slice;
             slice.radius = this.pixelRadius;

@@ -10,7 +10,6 @@
  * @hidden
  */
 import { ColumnSeries, IColumnSeriesDataFields, IColumnSeriesProperties, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "./ColumnSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { ConeColumn } from "../elements/ConeColumn";
 import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";

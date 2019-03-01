@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { getInteraction, IInteractionEvents } from "../../core/interaction/Interaction";
 import { IInteractionObjectEvents } from "../../core/interaction/InteractionObjectEvents";
 import { IPoint, } from "../../core/defs/IPoint";
@@ -20,7 +19,6 @@ import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
-import { color } from "../../core/utils/Color";
 import { Animation } from "../../core/utils/Animation";
 
 

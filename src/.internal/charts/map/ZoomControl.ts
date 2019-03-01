@@ -9,7 +9,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { Button } from "../../core/elements/Button";
 import { MapChart } from "../types/MapChart";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
@@ -185,7 +185,7 @@ export class ZoomControl extends Container {
 
 		minusButton.x = undefined;
 		minusButton.y = undefined;
-		
+
 		thumb.x = undefined;
 		thumb.y = undefined;
 
@@ -196,10 +196,10 @@ export class ZoomControl extends Container {
 		minusButton.padding(6, 10, 6, 10);
 
 		minusButton.label.align = "center";
-		minusButton.label.valign = "middle";		
+		minusButton.label.valign = "middle";
 
 		plusButton.label.align = "center";
-		plusButton.label.valign = "middle";		
+		plusButton.label.valign = "middle";
 
 		if (this.layout == "vertical") {
 			this.width = 40;

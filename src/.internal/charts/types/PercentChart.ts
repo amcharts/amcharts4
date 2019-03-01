@@ -9,19 +9,10 @@
  * @hidden
  */
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "./SerialChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { percent, Percent } from "../../core/utils/Percent";
 import { PercentSeries, PercentSeriesDataItem } from "../series/PercentSeries";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
-import { List, IListEvents, ListTemplate } from "../../core/utils/List";
 import { Legend } from "../Legend";
-import { IPoint } from "../../core/defs/IPoint";
-import { IRectangle } from "../../core/defs/IRectangle";
 import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
-import * as $utils from "../../core/utils/Utils";
-import * as $math from "../../core/utils/Math";
-import * as $type from "../../core/utils/Type";
 
 /**
  * ============================================================================

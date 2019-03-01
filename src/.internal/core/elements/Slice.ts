@@ -9,16 +9,13 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
-import { DictionaryTemplate, DictionaryDisposer } from "../utils/Dictionary";
 import { Sprite } from "../Sprite";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
-import { IPoint } from "../defs/IPoint";
 import { registry } from "../Registry";
 import * as $math from "../utils/Math";
 import * as $path from "../rendering/Path";
 import * as $type from "../utils/Type";
 import * as $utils from "../utils/Utils";
-import { Percent, percent } from "../utils/Percent";
+import { Percent } from "../utils/Percent";
 import { IRectangle } from "../defs/IRectangle";
 import { RadialGradient } from "../rendering/fills/RadialGradient";
 /**

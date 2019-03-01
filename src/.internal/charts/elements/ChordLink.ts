@@ -8,21 +8,11 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { Container, IContainerProperties, IContainerEvents, IContainerAdapters } from "../../core/Container";
 import { ChordDiagramDataItem } from "../types/ChordDiagram";
 import { FlowDiagramLink, IFlowDiagramLinkAdapters, IFlowDiagramLinkEvents, IFlowDiagramLinkProperties } from "./FlowDiagramLink";
-import { Pattern } from "../../core/rendering/fills/Pattern";
 import { registry } from "../../core/Registry";
-import { Bullet } from "../elements/Bullet";
-import { Color } from "../../core/utils/Color";
-import { ListTemplate } from "../../core/utils/List";
 import { QuadraticCurve } from "../../core/elements/QuadraticCurve";
-import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $math from "../../core/utils/Math";
-import * as $iter from "../../core/utils/Iterator";
-import * as $type from "../../core/utils/Type";
-import * as $smoothing from "../../core/rendering/Smoothing";
 import * as $path from "../../core/rendering/Path";
 
 
@@ -162,10 +152,6 @@ export class ChordLink extends FlowDiagramLink {
 				let y1 = radius * $math.sin(startAngle) + fromY;
 				let x2 = radius * $math.cos(endAngle) + toX;
 				let y2 = radius * $math.sin(endAngle) + toY;
-				let x3 = radius * $math.cos(endAngle + arc) + toX;
-				let y3 = radius * $math.sin(endAngle + arc) + toY;
-				let x4 = radius * $math.cos(startAngle + arc) + fromX;
-				let y4 = radius * $math.sin(startAngle + arc) + fromY;
 
 				//let cpAngle = startAngle + arc + (endAngle - startAngle - arc) / 2;
 				//let arcWidth = $math.getDistance({x:x1, y:y1}, {x:x4, y:y4});
@@ -195,7 +181,6 @@ export class ChordLink extends FlowDiagramLink {
 
 				let mAngle1 = startAngle + arc / 2;
 				let mAngle2 = endAngle + arc / 2;
-				let mAngleM = mAngle1 + (mAngle2 - mAngle1) / 2;
 
 				let middleLine = this.middleLine;
 

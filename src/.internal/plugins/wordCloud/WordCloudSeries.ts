@@ -9,26 +9,23 @@
  * @hidden
  */
 import { Series, SeriesDataItem, ISeriesProperties, ISeriesDataFields, ISeriesAdapters, ISeriesEvents } from "../../charts/series/Series";
-import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Sprite } from "../../core/Sprite";
 import { Container } from "../../core/Container";
 import { Label } from "../../core/elements/Label";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { Animation } from "../../core/utils/Animation";
-import { Color, iRGB, color } from "../../core/utils/Color";
+import { color } from "../../core/utils/Color";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { registry } from "../../core/Registry";
 import { IPoint } from "../../core/defs/IPoint";
 import { WordCloud } from "./WordCloud";
-import * as $ease from "../../core/utils/Ease";
 import * as $type from "../../core/utils/Type";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
 import * as $math from "../../core/utils/Math";
 import * as $dom from "../../core/utils/DOM";
-import * as $array from "../../core/utils/Array";
 import { Percent, percent } from "../../core/utils/Percent";
-import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
+import { IDisposer, Disposer } from "../../core/utils/Disposer";
 
 
 /**
@@ -441,7 +438,7 @@ export class WordCloudSeries extends Series {
 
 	/**
 	 * Validates element.
-	 * 
+	 *
 	 * @ignore
 	 */
 	public validate(): void {
@@ -527,9 +524,6 @@ export class WordCloudSeries extends Series {
 
 				scale = $math.max(0.001, scale);
 
-				let maxTop = maskSprite.maxTop;
-				let maxLeft = maskSprite.maxLeft;
-
 				maskSprite.horizontalCenter = "middle";
 				maskSprite.verticalCenter = "middle";
 				maskSprite.x = w / 2;
@@ -562,7 +556,7 @@ export class WordCloudSeries extends Series {
 
 	/**
 	 * [processItem description]
-	 * 
+	 *
 	 * @param   dataItem  Data item
 	 */
 	protected processItem(dataItem: this["_dataItem"]) {
@@ -615,7 +609,8 @@ export class WordCloudSeries extends Series {
 		let x = 0;
 		let y = 0;
 
-		let cangle = this.labelsContainer.rotation;
+		// TODO is this needed ?
+		$utils.used(this.labelsContainer.rotation);
 
 		while (intersects) {
 			if (p > this._points.length - 1) {
@@ -706,7 +701,7 @@ export class WordCloudSeries extends Series {
 
 	/**
 	 * [[Label]] elements representing each word.
-	 * 
+	 *
 	 * @return  Label elements
 	 */
 	public get labels(): ListTemplate<this["_label"]> {
@@ -988,7 +983,7 @@ export class WordCloudSeries extends Series {
 	 * better for performance.
 	 *
 	 * Use smaller numbers if you are using a thin font.
-	 * 
+	 *
 	 * @default 5
 	 * @param  value  Accuracy
 	 */
@@ -1169,7 +1164,7 @@ export class WordCloudSeries extends Series {
 
 	/**
 	 * Checks if word is capitalized (starts with an uppercase) or not.
-	 * 
+	 *
 	 * @param   word  Word
 	 * @return        Capitalized?
 	 */

@@ -13,7 +13,6 @@
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
 import { Axis, AxisDataItem } from "./Axis";
 import { AxisRenderer } from "./AxisRenderer";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { WavedLine } from "../../core/elements/WavedLine";
 import { IWavedShape } from "../../core/defs/IWavedShape";

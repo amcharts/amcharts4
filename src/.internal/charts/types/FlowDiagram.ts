@@ -9,12 +9,8 @@
  * @hidden
  */
 import { Chart, IChartProperties, IChartDataFields, IChartAdapters, IChartEvents, ChartDataItem } from "../Chart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { percent } from "../../core/utils/Percent";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { DictionaryTemplate, DictionaryDisposer } from "../../core/utils/Dictionary";
-import { Legend, ILegendDataFields, LegendDataItem } from "../Legend";
 import { Container } from "../../core/Container";
 import { registry } from "../../core/Registry";
 import { FlowDiagramNode } from "../elements/FlowDiagramNode";
@@ -22,13 +18,11 @@ import { FlowDiagramLink } from "../elements/FlowDiagramLink";
 import { LinearGradientModifier } from "../../core/rendering/fills/LinearGradientModifier";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { toColor, Color } from "../../core/utils/Color";
-import { Orientation } from "../../core/defs/Orientation";
 import * as $iter from "../../core/utils/Iterator";
-import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $number from "../../core/utils/Number";
 import * as $order from "../../core/utils/Order";
-import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
+import { Disposer } from "../../core/utils/Disposer";
 
 /**
  * ============================================================================

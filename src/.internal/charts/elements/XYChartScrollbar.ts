@@ -9,7 +9,7 @@
  * @hidden
  */
 import { Scrollbar, IScrollbarProperties, IScrollbarAdapters, IScrollbarEvents } from "../../core/elements/Scrollbar";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { List, IListEvents } from "../../core/utils/List";
 import { XYSeries } from "../series/XYSeries";
 import { MutableValueDisposer } from "../../core/utils/Disposer";

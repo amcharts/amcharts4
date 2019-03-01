@@ -40,7 +40,8 @@ var Resize = /** @class */ (function (_super) {
         _this.constrainProportions = false;
         _this.className = "Resize";
         _this.isMeasured = false;
-        var interaction = getInteraction();
+        // TODO is this needed ?
+        getInteraction();
         var color = new InterfaceColorSet().getFor("alternativeBackground");
         var rectangle = _this.createChild(Rectangle);
         rectangle.strokeOpacity = 1;

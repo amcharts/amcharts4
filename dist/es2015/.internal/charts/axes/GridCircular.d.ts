@@ -1,3 +1,12 @@
+/**
+ * A module defining functionality for circular axis grid elements.
+ */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { Grid, IGridProperties, IGridAdapters, IGridEvents } from "./Grid";
 import { Percent } from "../../core/utils/Percent";
 /**

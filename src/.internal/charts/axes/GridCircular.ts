@@ -8,9 +8,7 @@
  * ============================================================================
  * @hidden
  */
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Grid, IGridProperties, IGridAdapters, IGridEvents } from "./Grid";
-import { Axis, AxisItemLocation } from "./Axis";
 import { registry } from "../../core/Registry";
 import { Percent } from "../../core/utils/Percent";
 

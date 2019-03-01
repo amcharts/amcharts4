@@ -9,15 +9,13 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { registry } from "../../core/Registry";
 import { percent, Percent } from "../../core/utils/Percent";
 import * as $utils from "../../core/utils/Utils";
-import * as $math from "../../core/utils/Math";
 import { Orientation } from "../../core/defs/Orientation";
 import { IPoint } from "../../core/defs/IPoint";
 import * as $path from "../../core/rendering/Path";
-import * as $type from "../../core/utils/Type";
 
 
 /**

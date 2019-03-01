@@ -1,3 +1,12 @@
+/**
+ * Chord diagram module.
+ */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { FlowDiagram, FlowDiagramDataItem, IFlowDiagramAdapters, IFlowDiagramDataFields, IFlowDiagramEvents, IFlowDiagramProperties } from "./FlowDiagram";
 import { Percent } from "../../core/utils/Percent";
 import { DictionaryTemplate } from "../../core/utils/Dictionary";

@@ -11,7 +11,7 @@
 
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
 import { IRange } from "../defs/IRange";
-import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite, ISpriteEvents, AMEvent } from "../Sprite";
 import { Orientation } from "../defs/Orientation";
 import { ResizeButton } from "../elements/ResizeButton";
 import { Button } from "../elements/Button";

@@ -13,10 +13,8 @@
  */
 
 import { ValueAxisBreak, IValueAxisBreakProperties, IValueAxisBreakAdapters, IValueAxisBreakEvents } from "./ValueAxisBreak";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { DateAxis } from "./DateAxis";
 import { ITimeInterval } from "../../core/defs/ITimeInterval";
-import { IDisposer, MutableValueDisposer } from "../../core/utils/Disposer";
 import { registry } from "../../core/Registry";
 
 

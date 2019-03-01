@@ -8,7 +8,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { Container, IContainerProperties, IContainerEvents, IContainerAdapters } from "../../core/Container";
 import { FlowDiagramDataItem } from "../types/FlowDiagram";
 import { LinearGradient } from "../../core/rendering/fills/LinearGradient";
@@ -16,17 +16,13 @@ import { RadialGradient } from "../../core/rendering/fills/RadialGradient";
 import { Pattern } from "../../core/rendering/fills/Pattern";
 import { registry } from "../../core/Registry";
 import { Bullet } from "../elements/Bullet";
-import { LabelBullet } from "../elements/LabelBullet";
-import { Color, color } from "../../core/utils/Color";
+import { Color } from "../../core/utils/Color";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { Polyline } from "../../core/elements/Polyline";
 import { Line } from "../../core/elements/Line";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
-import * as $math from "../../core/utils/Math";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
-import * as $smoothing from "../../core/rendering/Smoothing";
-import * as $path from "../../core/rendering/Path";
 
 
 /**

@@ -9,7 +9,6 @@
  * @hidden
  */
 import { ValueAxis, ValueAxisDataItem, IValueAxisProperties, IValueAxisDataFields, IValueAxisAdapters, IValueAxisEvents } from "./ValueAxis";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { AxisItemLocation } from "./Axis";
 import { AxisRenderer } from "./AxisRenderer";
 import { AxisTick } from "./AxisTick";
@@ -25,7 +24,6 @@ import { ITimeInterval } from "../../core/defs/ITimeInterval";
 import { IMinMaxStep } from "./ValueAxis";
 import { DateAxisBreak } from "./DateAxisBreak";
 import { registry } from "../../core/Registry";
-import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
 import * as $time from "../../core/utils/Time";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
@@ -1872,7 +1870,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 	/**
 	 * Current grid interval.
-	 * 
+	 *
 	 * @return Grid interval
 	 */
 	public get gridInterval(): ITimeInterval {

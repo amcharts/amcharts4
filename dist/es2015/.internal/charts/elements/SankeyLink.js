@@ -32,7 +32,8 @@ var SankeyLink = /** @class */ (function (_super) {
     function SankeyLink() {
         var _this = _super.call(this) || this;
         _this.className = "SankeyLink";
-        var interfaceColors = new InterfaceColorSet();
+        // TODO can this be removed ?
+        new InterfaceColorSet();
         _this.tension = 0.8;
         _this.controlPointDistance = 0.2;
         _this.startAngle = 0;

@@ -8,19 +8,12 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { Container, IContainerProperties, IContainerEvents, IContainerAdapters } from "../../core/Container";
 import { SankeyDiagramDataItem } from "../types/SankeyDiagram";
 import { FlowDiagramLink, IFlowDiagramLinkAdapters, IFlowDiagramLinkEvents, IFlowDiagramLinkProperties } from "./FlowDiagramLink";
-import { Pattern } from "../../core/rendering/fills/Pattern";
 import { registry } from "../../core/Registry";
-import { Bullet } from "../elements/Bullet";
-import { Color } from "../../core/utils/Color";
-import { ListTemplate } from "../../core/utils/List";
 import { Polyspline } from "../../core/elements/Polyspline";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $math from "../../core/utils/Math";
-import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $smoothing from "../../core/rendering/Smoothing";
 import * as $path from "../../core/rendering/Path";
@@ -150,7 +143,8 @@ export class SankeyLink extends FlowDiagramLink {
 		super();
 		this.className = "SankeyLink";
 
-		let interfaceColors = new InterfaceColorSet();
+		// TODO can this be removed ?
+		new InterfaceColorSet();
 
 		this.tension = 0.8;
 		this.controlPointDistance = 0.2;

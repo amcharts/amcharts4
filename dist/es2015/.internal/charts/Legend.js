@@ -19,6 +19,7 @@ import { registry } from "../core/Registry";
 import { getInteraction } from "../core/interaction/Interaction";
 import { percent } from "../core/utils/Percent";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
+import * as $utils from "../core/utils/Utils";
 import * as $type from "../core/utils/Type";
 import { Sprite } from "../core/Sprite";
 import { Disposer } from "../core/utils/Disposer";
@@ -406,7 +407,7 @@ var Legend = /** @class */ (function (_super) {
         // Get data item (legend item's) container
         var container = dataItem.itemContainer;
         var marker = dataItem.marker;
-        var label = dataItem.label;
+        $utils.used(dataItem.label);
         var valueLabel = dataItem.valueLabel;
         // Set parent and update current state
         container.parent = this;

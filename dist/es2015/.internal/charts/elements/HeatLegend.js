@@ -2,6 +2,12 @@
  * HeatLegend module
  */
 import * as tslib_1 from "tslib";
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { Container } from "../../core/Container";
 import { LinearGradient } from "../../core/rendering/fills/LinearGradient";
 import { registry } from "../../core/Registry";

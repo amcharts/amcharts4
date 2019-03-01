@@ -19,6 +19,10 @@ import * as $type from "../utils/Type";
  * @hidden
  */
 /**
+ * Marks a value as being used (e.g. because the value has side effects).
+ */
+export declare function used<A>(value: A): void;
+/**
  * Copies all properties of one object to the other, omitting undefined.
  *
  * @param fromObject  Source object

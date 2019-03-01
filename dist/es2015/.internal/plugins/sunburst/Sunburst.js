@@ -284,7 +284,6 @@ var Sunburst = /** @class */ (function (_super) {
      */
     Sunburst.prototype.createSunburstSeries = function (dataItem) {
         if (dataItem.children) {
-            var level = dataItem.level;
             this.initSeries(dataItem);
             for (var i = 0; i < dataItem.children.length; i++) {
                 var child = dataItem.children.getIndex(i);
@@ -377,7 +376,6 @@ var Sunburst = /** @class */ (function (_super) {
         var chartPixelInnerRadius = this._chartPixelInnerRadius;
         var seriesRadius = (chartRadius - chartPixelInnerRadius) / this._levelCount;
         $iter.each($iter.indexed(this.series.iterator()), function (a) {
-            var i = a[0];
             var series = a[1];
             var radius = chartPixelInnerRadius + $utils.relativeRadiusToValue(series.radius, chartRadius - chartPixelInnerRadius);
             var innerRadius = chartPixelInnerRadius + $utils.relativeRadiusToValue(series.innerRadius, chartRadius - chartPixelInnerRadius);

@@ -248,7 +248,6 @@ var FunnelSeries = /** @class */ (function (_super) {
      * @param dataItem  Data item
      */
     FunnelSeries.prototype.validateDataElement = function (dataItem) {
-        var percentValue = dataItem.values.value.percent;
         if ($type.hasValue(dataItem.value)) {
             // FunnelSlice
             var slice = dataItem.slice;

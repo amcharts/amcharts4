@@ -10,8 +10,6 @@
  */
 
 import { AxisBreak, IAxisBreakProperties, IAxisBreakAdapters, IAxisBreakEvents } from "./AxisBreak";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { IDisposer, MutableValueDisposer } from "../../core/utils/Disposer";
 import { CategoryAxis } from "./CategoryAxis";
 import { registry } from "../../core/Registry";
 

@@ -9,13 +9,9 @@
  * @hidden
  */
 import { PercentChart, IPercentChartProperties, IPercentChartDataFields, IPercentChartAdapters, IPercentChartEvents, PercentChartDataItem } from "./PercentChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { percent, Percent } from "../../core/utils/Percent";
-import { PieSeries, PieSeriesDataItem } from "../series/PieSeries";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
-import { List, IListEvents, ListTemplate } from "../../core/utils/List";
-import { Legend } from "../Legend";
-import { IPoint } from "../../core/defs/IPoint";
+import { PieSeries } from "../series/PieSeries";
+import { IListEvents } from "../../core/utils/List";
 import { IRectangle } from "../../core/defs/IRectangle";
 import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";

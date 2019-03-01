@@ -193,7 +193,6 @@ var RadarChart = /** @class */ (function (_super) {
      */
     RadarChart.prototype.beforeDraw = function () {
         _super.prototype.beforeDraw.call(this);
-        var radarCont = this.radarContainer;
         var plotContainer = this.plotContainer;
         var rect = $math.getArcRect(this.startAngle, this.endAngle, 1);
         var innerRect = { x: 0, y: 0, width: 0, height: 0 };

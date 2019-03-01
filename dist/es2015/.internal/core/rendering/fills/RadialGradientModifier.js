@@ -1,4 +1,10 @@
 import * as tslib_1 from "tslib";
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { RadialGradient } from "./RadialGradient";
 import { GradientModifier } from "./GradientModifier";
 import { registry } from "../../Registry";

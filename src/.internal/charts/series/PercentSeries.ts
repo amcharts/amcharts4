@@ -9,29 +9,21 @@
  * @hidden
  */
 import { Series, SeriesDataItem, ISeriesProperties, ISeriesDataFields, ISeriesAdapters, ISeriesEvents } from "./Series";
-import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { Sprite } from "../../core/Sprite";
 import { Label } from "../../core/elements/Label";
 import { Tick } from "../elements/Tick";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
 import { Container } from "../../core/Container";
 import { Animation } from "../../core/utils/Animation";
 import { LegendDataItem, LegendSettings } from "../../charts/Legend";
-import { Bullet } from "../elements/Bullet";
-import { Color, iRGB, color } from "../../core/utils/Color";
 import { ColorSet } from "../../core/utils/ColorSet";
-import { Dictionary, IDictionaryEvents, DictionaryTemplate, DictionaryDisposer } from "../../core/utils/Dictionary";
 import { registry } from "../../core/Registry";
-import { IRectangle } from "../../core/defs/IRectangle";
-import { IPoint } from "../../core/defs/IPoint";
 import { PercentChart } from "../types/PercentChart";
-import * as $math from "../../core/utils/Math";
 import * as $iter from "../../core/utils/Iterator";
 import * as $ease from "../../core/utils/Ease";
 import * as $type from "../../core/utils/Type";
-import { Percent, percent } from "../../core/utils/Percent";
-import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
+import { Disposer } from "../../core/utils/Disposer";
 
 
 
@@ -518,7 +510,7 @@ export class PercentSeries extends Series {
 		labelsContainer.layout = "none";
 		this.labelsContainer = labelsContainer;
 
-		this.alignLabels = false;		
+		this.alignLabels = false;
 
 		this.bulletsContainer.toFront();
 

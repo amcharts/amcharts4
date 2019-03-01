@@ -11,7 +11,6 @@
 import { ColumnSeries, ColumnSeriesDataItem, IColumnSeriesDataFields, IColumnSeriesProperties, IColumnSeriesAdapters, IColumnSeriesEvents } from "./ColumnSeries";
 import { visualProperties } from "../../core/Sprite";
 import { Line } from "../../core/elements/Line";
-import { ListTemplate } from "../../core/utils/List";
 import { Container } from "../../core/Container";
 import { Candlestick } from "../elements/Candlestick";
 import { registry } from "../../core/Registry";

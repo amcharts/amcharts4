@@ -9,8 +9,7 @@
  * @hidden
  */
 import { Component, IComponentProperties, IComponentDataFields, IComponentAdapters, IComponentEvents } from "../core/Component";
-import { EventDispatcher, AMEvent } from "../core/utils/EventDispatcher";
-import { DataItem, IDataItemEvents } from "../core/DataItem";
+import { DataItem } from "../core/DataItem";
 import { ListTemplate, ListDisposer } from "../core/utils/List";
 import { RoundedRectangle } from "../core/elements/RoundedRectangle";
 import { Container } from "../core/Container";
@@ -26,9 +25,10 @@ import { Color } from "../core/utils/Color";
 import { RadialGradient } from "../core/rendering/fills/RadialGradient";
 import { LinearGradient } from "../core/rendering/fills/LinearGradient";
 import { Pattern } from "../core/rendering/fills/Pattern";
+import * as $utils from "../core/utils/Utils";
 import * as $type from "../core/utils/Type";
 import { Sprite } from "../core/Sprite";
-import { IDisposer, Disposer, MultiDisposer } from "../core/utils/Disposer";
+import { Disposer } from "../core/utils/Disposer";
 import { MouseCursorStyle } from "../core/interaction/Mouse";
 /**
  * ============================================================================
@@ -613,7 +613,7 @@ export class Legend extends Component {
 		let container = dataItem.itemContainer;
 
 		let marker = dataItem.marker;
-		let label = dataItem.label;
+		$utils.used(dataItem.label);
 		let valueLabel = dataItem.valueLabel;
 
 		// Set parent and update current state

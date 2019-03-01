@@ -1,3 +1,9 @@
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { RadialGradient } from "./RadialGradient";
 import { GradientModifier } from "./GradientModifier";
 /**

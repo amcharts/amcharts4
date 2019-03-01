@@ -9,14 +9,12 @@
  * @hidden
  */
 import { AxisLabel, IAxisLabelProperties, IAxisLabelAdapters, IAxisLabelEvents } from "./AxisLabel";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { IPoint } from "../../core/defs/IPoint";
 import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
-import { percent, Percent } from "../../core/utils/Percent";
+import { Percent } from "../../core/utils/Percent";
 
 /**
  * ============================================================================

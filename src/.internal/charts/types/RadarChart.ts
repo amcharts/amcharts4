@@ -9,18 +9,12 @@
  * @hidden
  */
 import { XYChart, IXYChartProperties, IXYChartDataFields, IXYChartAdapters, IXYChartEvents, XYChartDataItem } from "./XYChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { percent, Percent } from "../../core/utils/Percent";
 import { RadarSeries } from "../series/RadarSeries";
 import { RadarColumnSeries } from "../series/RadarColumnSeries";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
-import { ListTemplate, IListEvents } from "../../core/utils/List";
-import { Legend, ILegendDataFields, LegendDataItem } from "../Legend";
 import { Container } from "../../core/Container";
-import { IPoint } from "../../core/defs/IPoint";
 import { IRectangle } from "../../core/defs/IRectangle";
 import { Circle } from "../../core/elements/Circle";
-import { IComponentEvents } from "../../core/Component";
 import { registry } from "../../core/Registry";
 import { RadarCursor } from "../cursors/RadarCursor";
 import { Axis } from "../axes/Axis";
@@ -352,7 +346,6 @@ export class RadarChart extends XYChart {
 	protected beforeDraw(): void {
 		super.beforeDraw();
 
-		let radarCont = this.radarContainer;
 		let plotContainer = this.plotContainer;
 
 		let rect = $math.getArcRect(this.startAngle, this.endAngle, 1);

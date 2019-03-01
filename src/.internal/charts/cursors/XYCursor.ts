@@ -9,20 +9,19 @@
  * @hidden
  */
 import { Cursor, ICursorProperties, ICursorAdapters, ICursorEvents } from "./Cursor";
-import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, ISpriteEvents } from "../../core/Sprite";
 import { MutableValueDisposer, MultiDisposer, IDisposer } from "../../core/utils/Disposer";
 import { IPoint } from "../../core/defs/IPoint";
 import { IRange } from "../../core/defs/IRange";
 import { Axis } from "../axes/Axis";
-import { DateAxis } from "../axes/DateAxis";
-import { XYSeries, IXYSeriesEvents } from "../series/XYSeries";
+import { XYSeries } from "../series/XYSeries";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { Tooltip } from "../../core/elements/Tooltip";
 import { XYChart } from "../types/XYChart";
 import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
-import { IInteractionEvents, getInteraction } from "../../core/interaction/Interaction";
+import { getInteraction } from "../../core/interaction/Interaction";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
@@ -613,7 +612,6 @@ export class XYCursor extends Cursor {
 	 */
 	public set xAxis(axis: Axis) {
 		if (this._xAxis.get() != axis) {
-			let chart: XYChart = <XYChart>axis.chart;
 			this._xAxis.set(axis, new MultiDisposer([
 				axis.tooltip.events.on("positionchanged", this.handleXTooltipPosition, this, false),
 				//axis.events.on("validated", chart.handleCursorPositionChange, chart, false)
@@ -643,7 +641,6 @@ export class XYCursor extends Cursor {
 	 */
 	public set yAxis(axis: Axis) {
 		if (this._yAxis.get() != axis) {
-			let chart: XYChart = <XYChart>axis.chart;
 			this._yAxis.set(axis, new MultiDisposer([
 				axis.tooltip.events.on("positionchanged", this.handleYTooltipPosition, this, false),
 				//axis.events.on("validated", chart.handleCursorPositionChange, chart, false)

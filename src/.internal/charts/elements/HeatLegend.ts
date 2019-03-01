@@ -8,7 +8,6 @@
  * ============================================================================
  * @hidden
  */
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Container, IContainerProperties, IContainerEvents, IContainerAdapters } from "../../core/Container";
 import { Series } from "../series/Series";
 import { LinearGradient } from "../../core/rendering/fills/LinearGradient";

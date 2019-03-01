@@ -9,29 +9,11 @@
  * @hidden
  */
 import { IPyramidSeriesAdapters, IPyramidSeriesDataFields, IPyramidSeriesEvents, IPyramidSeriesProperties, PyramidSeries, PyramidSeriesDataItem } from "./PyramidSeries";
-import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { FunnelSlice } from "../elements/FunnelSlice";
-import { Label } from "../../core/elements/Label";
-import { FunnelTick } from "../elements/FunnelTick";
-import { ListTemplate, ListDisposer } from "../../core/utils/List";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
-import { Container } from "../../core/Container";
-import { Animation } from "../../core/utils/Animation";
-import { LegendDataItem, LegendSettings } from "../../charts/Legend";
 import { Sprite } from "../../core/Sprite";
-import { Dictionary, IDictionaryEvents, DictionaryTemplate, DictionaryDisposer } from "../../core/utils/Dictionary";
 import { registry } from "../../core/Registry";
-import { IRectangle } from "../../core/defs/IRectangle";
-import { IPoint } from "../../core/defs/IPoint";
 import * as $math from "../../core/utils/Math";
-import * as $iter from "../../core/utils/Iterator";
-import * as $ease from "../../core/utils/Ease";
 import * as $type from "../../core/utils/Type";
-import * as $utils from "../../core/utils/Utils";
-import { Percent, percent } from "../../core/utils/Percent";
-import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
-import { Color, color } from "../../core/utils/Color";
-import { Rectangle } from "../../core/elements/Rectangle";
+import { percent } from "../../core/utils/Percent";
 
 
 /**
@@ -86,7 +68,7 @@ export interface IPictorialStackedSeriesProperties extends IPyramidSeriesPropert
 
 	/**
 	 * Relative location to start series from.
-	 * 
+	 *
 	 * @default 0
 	 */
 	startLocation?: number;

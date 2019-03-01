@@ -9,12 +9,7 @@
  * @hidden
  */
 import { RadarChart, IRadarChartProperties, IRadarChartDataFields, IRadarChartAdapters, IRadarChartEvents, RadarChartDataItem } from "./RadarChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { percent, Percent } from "../../core/utils/Percent";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
 import { ListTemplate, IListEvents, ListDisposer } from "../../core/utils/List";
-import { Legend, ILegendDataFields, LegendDataItem } from "../Legend";
-import { Component, IComponentEvents } from "../../core/Component";
 import { ClockHand } from "../elements/ClockHand";
 import { registry } from "../../core/Registry";
 import * as $type from "../../core/utils/Type";

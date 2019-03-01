@@ -8,7 +8,6 @@
  * @hidden
  */
 import { MapObject, IMapObjectProperties, IMapObjectAdapters, IMapObjectEvents } from "./MapObject";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MapImageSeriesDataItem, MapImageSeries } from "./MapImageSeries";
 import { registry } from "../../core/Registry";
 import * as $type from "../../core/utils/Type";

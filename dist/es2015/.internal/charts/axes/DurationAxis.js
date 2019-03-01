@@ -166,7 +166,8 @@ var DurationAxis = /** @class */ (function (_super) {
             var closest = $math.closest(divisors, reducedCount);
             count = closest * power;
             step = realDivisor * count;
-            var unit = this.durationFormatter.getValueUnit(step, this.baseUnit);
+            // TODO can this be removed ?
+            this.durationFormatter.getValueUnit(step, this.baseUnit);
             min = Math.floor(min / step) * step;
             max = Math.ceil(max / step) * step;
             if (strictMode) {

@@ -2498,6 +2498,7 @@ var Interaction = /** @class */ (function (_super) {
             this.unlockWheel();
         }
     };
+    // @ts-ignore Used for debugging
     Interaction.prototype.log = function (text, ev, io) {
         var show = true;
         if (show) {

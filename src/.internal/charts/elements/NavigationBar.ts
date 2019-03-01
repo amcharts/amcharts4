@@ -9,7 +9,7 @@
  * @hidden
  */
 import { Component, IComponentProperties, IComponentAdapters, IComponentEvents, IComponentDataFields } from "../../core/Component";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { DataItem } from "../../core/DataItem";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { TextLink } from "../../core/elements/TextLink";

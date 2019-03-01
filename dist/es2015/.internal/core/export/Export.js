@@ -733,24 +733,25 @@ var Export = /** @class */ (function (_super) {
      * anywhere else.
      *
      * ```TypeScript
+     * let img;
+     *
      * // Async
-     * let img = await chart.exporting.getImage( "PNG" );
+     * img = await chart.exporting.getImage( "png" );
      *
      * // Sync
-     * let img;
-     * chart.exporting.getImage( "PNG" ).then( ( data ) => {
-     *   img = exporing;
+     * chart.exporting.getImage( "png" ).then( ( data ) => {
+     *   img = data;
      * } );
      * ```
      * ```JavaScript
      * var img;
-     * chart.exporting.getImage( "PNG" ).then( ( data ) => {
-     *   var = data;
+     * chart.exporting.getImage( "png" ).then( ( data ) => {
+     *   img = data;
      * } );
      * ```
      *
-     * @param type     Image format
-     * @param options  Options
+     * @param  type     Image format
+     * @param  options  Options
      * @return Promise
      */
     Export.prototype.getImage = function (type, options) {
@@ -856,7 +857,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getImageAdvanced = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var background, canvg, width, height, font, fontSize, data, canvas, pixelRatio, config, res, uri;
+            var background, canvg, width, height, font, fontSize, data, canvas, pixelRatio, config, uri;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: 
@@ -886,7 +887,7 @@ var Export = /** @class */ (function (_super) {
                             config.scaleWidth = width * pixelRatio;
                             config.scaleHeight = height * pixelRatio;
                         }
-                        res = canvg(canvas, data, config);
+                        canvg(canvas, data, config);
                         // Options are set?
                         if (!$type.hasValue(options)) {
                             options = {};

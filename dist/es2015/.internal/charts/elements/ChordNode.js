@@ -104,9 +104,7 @@ var ChordNode = /** @class */ (function (_super) {
             if ($type.isNaN(startAngle)) {
                 startAngle = sliceStartAngle_1;
             }
-            var x = slice.radius * $math.cos(labelAngle);
-            var y = slice.radius * $math.sin(labelAngle);
-            var point = label.fixPosition(labelAngle, slice.radius);
+            label.fixPosition(labelAngle, slice.radius);
             this.nextAngle = startAngle;
             if (this._outgoingSorted) {
                 $iter.each(this._outgoingSorted, function (dataItem) {

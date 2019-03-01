@@ -13,7 +13,7 @@
  */
 import { BaseObjectEvents, IBaseObjectEvents } from "../Base";
 import { Adapter } from "./Adapter";
-import { EventDispatcher, AMEvent } from "./EventDispatcher";
+import { AMEvent } from "./EventDispatcher";
 import * as $array from "./Array";
 import * as $type from "./Type";
 import en from "../../../lang/en";

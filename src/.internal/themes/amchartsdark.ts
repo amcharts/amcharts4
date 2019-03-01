@@ -5,9 +5,7 @@ import { BaseObject } from "../core/Base";
 import { Scrollbar } from "../core/elements/Scrollbar";
 import { ColorSet } from "../core/utils/ColorSet";
 import { Grid } from "../charts/axes/Grid";
-import { DropShadowFilter } from "../core/rendering/filters/DropShadowFilter";
 import { Button } from "../core/elements/Button";
-import { ResizeButton } from "../core/elements/ResizeButton";
 
 const theme: ITheme = (object: BaseObject) => {
 
@@ -70,7 +68,7 @@ const theme: ITheme = (object: BaseObject) => {
 		object.background.fillOpacity = 1;
 		object.background.strokeOpacity = 0.5;
 		object.background.fill = color("#303950");
-	}	
+	}
 };
 
 export default theme;

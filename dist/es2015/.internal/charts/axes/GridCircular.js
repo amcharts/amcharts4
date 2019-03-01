@@ -2,6 +2,12 @@
  * A module defining functionality for circular axis grid elements.
  */
 import * as tslib_1 from "tslib";
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { Grid } from "./Grid";
 import { registry } from "../../core/Registry";
 /**

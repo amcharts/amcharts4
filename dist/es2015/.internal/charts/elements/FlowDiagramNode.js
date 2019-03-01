@@ -51,7 +51,8 @@ var FlowDiagramNode = /** @class */ (function (_super) {
         _this.legendSettings = new LegendSettings();
         _this.className = "FlowDiagramNode";
         _this.isMeasured = false;
-        var interfaceColors = new InterfaceColorSet();
+        // TODO can this be removed ?
+        new InterfaceColorSet();
         _this.draggable = true;
         _this.inert = true;
         _this.setStateOnChildren = true;

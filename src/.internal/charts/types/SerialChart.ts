@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Chart, IChartProperties, IChartDataFields, IChartAdapters, IChartEvents, ChartDataItem } from "../Chart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IListEvents, ListTemplate, ListDisposer } from "../../core/utils/List";
 import { Container } from "../../core/Container";
 import { Series } from "../series/Series";

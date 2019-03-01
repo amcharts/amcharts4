@@ -821,24 +821,25 @@ export declare class Export extends Validatable {
      * anywhere else.
      *
      * ```TypeScript
+     * let img;
+     *
      * // Async
-     * let img = await chart.exporting.getImage( "PNG" );
+     * img = await chart.exporting.getImage( "png" );
      *
      * // Sync
-     * let img;
-     * chart.exporting.getImage( "PNG" ).then( ( data ) => {
-     *   img = exporing;
+     * chart.exporting.getImage( "png" ).then( ( data ) => {
+     *   img = data;
      * } );
      * ```
      * ```JavaScript
      * var img;
-     * chart.exporting.getImage( "PNG" ).then( ( data ) => {
-     *   var = data;
+     * chart.exporting.getImage( "png" ).then( ( data ) => {
+     *   img = data;
      * } );
      * ```
      *
-     * @param type     Image format
-     * @param options  Options
+     * @param  type     Image format
+     * @param  options  Options
      * @return Promise
      */
     getImage<Key extends imageFormats>(type: Key, options?: IExportImageOptions): Promise<string>;

@@ -10,7 +10,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { Sprite, SpriteEventDispatcher, AMEvent, visualProperties } from "../../core/Sprite";
+import { Sprite, visualProperties } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";

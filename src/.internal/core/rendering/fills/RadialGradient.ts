@@ -15,12 +15,10 @@ import { AMElement } from "../AMElement";
 import { Paper, getGhostPaper } from "../Paper";
 import { registry } from "../../Registry";
 import { IGradientStop } from "./LinearGradient";
-import { IPoint } from "../../defs/IPoint";
 import { Color } from "../../utils/Color";
 import * as $iter from "../../utils/Iterator";
 import * as $type from "../../utils/Type";
-import * as $array from "../../utils/Array";
-import { percent, Percent } from "../../utils/Percent";
+import { Percent } from "../../utils/Percent";
 
 
 /**

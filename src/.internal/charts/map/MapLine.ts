@@ -9,7 +9,6 @@
  * @hidden
  */
 import { MapObject, IMapObjectProperties, IMapObjectAdapters, IMapObjectEvents } from "./MapObject";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MapLineObject } from "./MapLineObject";
 import { MapLineSeriesDataItem, MapLineSeries } from "./MapLineSeries";
 import { MapChart } from "../types/MapChart";

@@ -5,8 +5,6 @@
  * @hidden
  */
 import { AMElement } from "./AMElement";
-import { List } from "../utils/List";
-import * as $type from "../utils/Type";
 
 
 /**

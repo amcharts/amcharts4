@@ -9,13 +9,12 @@
  * @hidden
  */
 import { AxisRenderer, IAxisRendererProperties, IAxisRendererAdapters, IAxisRendererEvents } from "./AxisRenderer";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { Axis } from "./Axis";
 import { HorizontalCenter } from "../../core/defs/HorizontalCenter";
 import { Label } from "../../core/elements/Label";
 import { Grid } from "./Grid";
-import { XYChart } from "../types/XYChart";
 import { AxisTick } from "./AxisTick";
 import { AxisLabel } from "./AxisLabel";
 import { AxisBreak } from "./AxisBreak";
@@ -298,10 +297,9 @@ export class AxisRendererY extends AxisRenderer {
 
 		let tickLength = tick.length;
 
-		let titleWidth = 0;
 		try {
-			titleWidth = this.axis.title.measuredWidth;
-		} catch{
+			$utils.used(this.axis.title.measuredWidth);
+		} catch {
 			// void
 		}
 

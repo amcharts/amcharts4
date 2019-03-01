@@ -168,7 +168,8 @@ var PyramidSeries = /** @class */ (function (_super) {
         var sliceLink = dataItem.sliceLink;
         var label = dataItem.label;
         var tick = dataItem.tick;
-        var nextValue = this.getNextValue(dataItem);
+        // TODO can this be removed ?
+        this.getNextValue(dataItem);
         var workingValue = dataItem.getWorkingValue("value");
         if (workingValue == 0) {
             workingValue = 0.000001;

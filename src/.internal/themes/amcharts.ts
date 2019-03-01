@@ -1,11 +1,8 @@
 import { ITheme } from "./ITheme";
 import { color } from "../core/utils/Color";
-import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
 import { BaseObject } from "../core/Base";
-import { Scrollbar } from "../core/elements/Scrollbar";
 import { ColorSet } from "../core/utils/ColorSet";
 import { Grid } from "../charts/axes/Grid";
-import { DropShadowFilter } from "../core/rendering/filters/DropShadowFilter";
 
 const theme: ITheme = (object: BaseObject) => {
 	if (object instanceof Grid) {

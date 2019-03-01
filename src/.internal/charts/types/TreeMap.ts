@@ -12,12 +12,6 @@
  * @hidden
  */
 import { XYChart, IXYChartProperties, IXYChartDataFields, IXYChartAdapters, IXYChartEvents, XYChartDataItem } from "./XYChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { percent, Percent } from "../../core/utils/Percent";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
-import { List, ListTemplate, IListEvents } from "../../core/utils/List";
-import { Legend, ILegendDataFields, LegendDataItem } from "../Legend";
-import { Component, IComponentEvents } from "../../core/Component";
 import { registry } from "../../core/Registry";
 import { DictionaryTemplate, DictionaryDisposer } from "../../core/utils/Dictionary";
 import { ValueAxis } from "../axes/ValueAxis";
@@ -31,7 +25,6 @@ import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $array from "../../core/utils/Array";
-import { Animation } from "../../core/utils/Animation";
 
 /**
  * ============================================================================

@@ -9,18 +9,10 @@
  * @hidden
  */
 import { PieChart, IPieChartProperties, IPieChartDataFields, IPieChartAdapters, IPieChartEvents, PieChartDataItem } from "../../charts/types/PieChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { percent, Percent } from "../../core/utils/Percent";
 import { SunburstSeries, SunburstSeriesDataItem } from "./SunburstSeries";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
-import { List, IListEvents, ListTemplate } from "../../core/utils/List";
-import { Legend } from "../../charts/Legend";
-import { IPoint } from "../../core/defs/IPoint";
-import { IRectangle } from "../../core/defs/IRectangle";
 import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $utils from "../../core/utils/Utils";
-import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import { Color } from "../../core/utils/Color";
 import { ColorSet } from "../../core/utils/ColorSet";
@@ -87,7 +79,7 @@ export class SunburstDataItem extends PieChartDataItem {
 
 	/**
 	 * Numeric value of the slice.
-	 * 
+	 *
 	 * @return Value
 	 */
 	public get value(): number {
@@ -110,7 +102,7 @@ export class SunburstDataItem extends PieChartDataItem {
 
 	/**
 	 * Percent of the slice.
-	 * 
+	 *
 	 * @return {number} Percent
 	 */
 	public get percent(): number {
@@ -203,7 +195,7 @@ export class SunburstDataItem extends PieChartDataItem {
 
 	/**
 	 * A series representing slice's children.
-	 * 
+	 *
 	 * @param  series Child series
 	 */
 	public set series(series: SunburstSeries) {
@@ -235,7 +227,7 @@ export class SunburstDataItem extends PieChartDataItem {
 
 /**
  * Defines data fields for [[Sunburst]].
- * 
+ *
  * @since 4.1.6
  */
 export interface ISunburstDataFields extends IPieChartDataFields {
@@ -442,8 +434,6 @@ export class Sunburst extends PieChart {
 	 */
 	protected createSunburstSeries(dataItem: this["_dataItem"]) {
 		if (dataItem.children) {
-			let level = dataItem.level;
-
 			this.initSeries(dataItem);
 
 			for (let i = 0; i < dataItem.children.length; i++) {
@@ -554,7 +544,6 @@ export class Sunburst extends PieChart {
 		let seriesRadius = (chartRadius - chartPixelInnerRadius) / this._levelCount;
 
 		$iter.each($iter.indexed(this.series.iterator()), (a) => {
-			let i = a[0];
 			let series = a[1];
 
 			let radius = chartPixelInnerRadius + $utils.relativeRadiusToValue(series.radius, chartRadius - chartPixelInnerRadius);

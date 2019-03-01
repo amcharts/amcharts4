@@ -9,7 +9,6 @@
  * @hidden
  */
 import { PointedShape, IPointedShapeProperties, IPointedShapeAdapters, IPointedShapeEvents } from "./PointedShape";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import * as $math from "../utils/Math";
 
 /**

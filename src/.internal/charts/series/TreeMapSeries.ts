@@ -9,17 +9,15 @@
  * @hidden
  */
 import { ColumnSeries, IColumnSeriesProperties, IColumnSeriesDataFields, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "./ColumnSeries";
-import { SpriteEventDispatcher, AMEvent, visualProperties } from "../../core/Sprite";
+import { visualProperties } from "../../core/Sprite";
 import { TreeMap, TreeMapDataItem } from "../types/TreeMap";
 import { Animation } from "../../core/utils/Animation";
 import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
 import * as $type from "../../core/utils/Type";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
 import { Container } from "../../core/Container";
 import * as $object from "../../core/utils/Object";
-import * as $iter from "../../core/utils/Iterator";
 import { LegendDataItem } from "../../charts/Legend";
 
 /**
@@ -271,10 +269,7 @@ export class TreeMapSeries extends ColumnSeries {
 			dataItem.treeMapDataItem.setWorkingValue("value", dataItem.treeMapDataItem.values.value.value);
 		})
 
-		let animation = super.showReal(interpolationDuration);
-		let chart = this.chart;
-
-		return animation;
+		return super.showReal(interpolationDuration);
 	}
 
 	/**

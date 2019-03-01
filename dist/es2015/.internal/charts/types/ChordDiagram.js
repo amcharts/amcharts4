@@ -2,6 +2,12 @@
  * Chord diagram module.
  */
 import * as tslib_1 from "tslib";
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { FlowDiagram, FlowDiagramDataItem } from "./FlowDiagram";
 import { percent } from "../../core/utils/Percent";
 import { Container } from "../../core/Container";
@@ -95,7 +101,6 @@ var ChordDiagram = /** @class */ (function (_super) {
     ChordDiagram.prototype.validate = function () {
         var _this = this;
         var chartContainer = this.chartContainer;
-        var nodesContainer = this.nodesContainer;
         var endAngle = this.endAngle;
         var startAngle = this.startAngle + this.nodePadding / 2;
         var rect = $math.getArcRect(this.startAngle, this.endAngle, 1);
@@ -105,7 +110,6 @@ var ChordDiagram = /** @class */ (function (_super) {
         if (!$type.isNumber(maxRadius)) {
             maxRadius = 0;
         }
-        var chartRadius = $utils.relativeRadiusToValue(this.radius, maxRadius);
         var radius = $utils.relativeRadiusToValue(this.radius, maxRadius);
         var pixelInnerRadius = $utils.relativeRadiusToValue(this.innerRadius, radius, true);
         var total = this.dataItem.values.value.sum;

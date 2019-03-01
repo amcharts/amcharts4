@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Polyline, IPolylineProperties, IPolylineAdapters, IPolylineEvents } from "./Polyline";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { registry } from "../Registry";
 import * as $math from "../../core/utils/Math";

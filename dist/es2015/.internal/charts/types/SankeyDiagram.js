@@ -2,6 +2,12 @@
  * Sankey diagram module.
  */
 import * as tslib_1 from "tslib";
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { FlowDiagram, FlowDiagramDataItem } from "./FlowDiagram";
 import { percent } from "../../core/utils/Percent";
 import { registry } from "../../core/Registry";

@@ -9,11 +9,9 @@
  * @hidden
  */
 import { Series, SeriesDataItem, ISeriesProperties, ISeriesDataFields, ISeriesAdapters, ISeriesEvents } from "../series/Series";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MapChart } from "../types/MapChart";
 import { MapObject } from "./MapObject";
 import { IListEvents } from "../../core/utils/List";
-import { IMapDataObject, IMapPolygonDataObject } from "../types/MapChart";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
 import { DataSource } from "../../core/data/DataSource";
 import { registry } from "../../core/Registry";

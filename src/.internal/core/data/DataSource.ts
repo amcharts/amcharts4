@@ -11,7 +11,7 @@ import { CSVParser } from "./CSVParser";
 import { BaseObjectEvents, IBaseObjectEvents } from "../Base";
 import { Component } from "../Component";
 import { Adapter } from "../utils/Adapter";
-import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
+import { AMEvent } from "../utils/EventDispatcher";
 import { Language } from "../utils/Language";
 import { DateFormatter } from "../formatters/DateFormatter";
 import { INetRequestOptions } from "../utils/Net";

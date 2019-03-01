@@ -9,17 +9,11 @@
  * @hidden
  */
 import { FlowDiagramNode, IFlowDiagramNodeAdapters, IFlowDiagramNodeEvents, IFlowDiagramNodeProperties } from "./FlowDiagramNode";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { SankeyDiagram, SankeyDiagramDataItem } from "../types/SankeyDiagram";
-import { List } from "../../core/utils/List";
 import { LabelBullet } from "./LabelBullet";
 import { registry } from "../../core/Registry";
-import { color, Color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $iter from "../../core/utils/Iterator";
-import * as $string from "../../core/utils/String";
-import * as $order from "../../core/utils/Order";
-import * as $number from "../../core/utils/Number";
 import * as $type from "../../core/utils/Type";
 
 /**

@@ -352,10 +352,12 @@ var Tooltip = /** @class */ (function (_super) {
         var textY;
         // try to handle if text is wider than br
         if (textW > boundingRect.width) {
-            var p0 = $utils.spritePointToDocument({ x: boundingRect.x, y: boundingRect.y }, this.parent);
+            // TODO maybe this isn't needed ?
+            $utils.spritePointToDocument({ x: boundingRect.x, y: boundingRect.y }, this.parent);
             var p1 = $utils.spritePointToDocument({ x: boundingRect.x + boundingRect.width, y: boundingRect.y + boundingRect.height }, this.parent);
             var documentWidth = document.body.offsetWidth;
-            var documentHeight = document.body.offsetHeight;
+            // TODO maybe this isn't needed ?
+            $utils.used(document.body.offsetHeight);
             if (p1.x > documentWidth / 2) {
                 boundingRect.x = boundingRect.width - textW;
             }

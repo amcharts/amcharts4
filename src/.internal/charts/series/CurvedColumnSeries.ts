@@ -11,11 +11,8 @@
  * @hidden
  */
 import { ColumnSeries, IColumnSeriesDataFields, IColumnSeriesProperties, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "./ColumnSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { CurvedColumn } from "../elements/CurvedColumn";
 import { registry } from "../../core/Registry";
-import * as $path from "../../core/rendering/Path";
-import { percent, Percent } from "../../core/utils/Percent";
 
 
 /**

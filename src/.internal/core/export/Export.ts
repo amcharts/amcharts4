@@ -27,7 +27,7 @@
  */
 import { ExportMenu } from "./ExportMenu";
 import { Adapter } from "../utils/Adapter";
-import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
+import { AMEvent } from "../utils/EventDispatcher";
 import { Sprite } from "../Sprite";
 import { Preloader } from "../elements/Preloader";
 import { Modal } from "../elements/Modal";
@@ -38,11 +38,9 @@ import { DateFormatter } from "../formatters/DateFormatter";
 import { DurationFormatter } from "../formatters/DurationFormatter";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
-import { keyboard, KeyboardKeys } from "../utils/Keyboard";
 import { Color, color } from "../utils/Color";
 import { registry } from "../Registry";
 import { options } from "../Options";
-import { getInteraction } from "../interaction/Interaction";
 import { StyleRule } from "../utils/DOM";
 import * as $object from "../utils/Object";
 import * as $net from "../utils/Net";
@@ -1432,24 +1430,25 @@ export class Export extends Validatable {
 	 * anywhere else.
 	 *
 	 * ```TypeScript
+	 * let img;
+	 *
 	 * // Async
-	 * let img = await chart.exporting.getImage( "PNG" );
+	 * img = await chart.exporting.getImage( "png" );
 	 *
 	 * // Sync
-	 * let img;
-	 * chart.exporting.getImage( "PNG" ).then( ( data ) => {
-	 *   img = exporing;
+	 * chart.exporting.getImage( "png" ).then( ( data ) => {
+	 *   img = data;
 	 * } );
 	 * ```
 	 * ```JavaScript
 	 * var img;
-	 * chart.exporting.getImage( "PNG" ).then( ( data ) => {
-	 *   var = data;
+	 * chart.exporting.getImage( "png" ).then( ( data ) => {
+	 *   img = data;
 	 * } );
 	 * ```
 	 *
-	 * @param type     Image format
-	 * @param options  Options
+	 * @param  type     Image format
+	 * @param  options  Options
 	 * @return Promise
 	 */
 	public async getImage<Key extends imageFormats>(type: Key, options?: IExportImageOptions): Promise<string> {
@@ -1638,7 +1637,7 @@ export class Export extends Validatable {
 			config.scaleHeight = height * pixelRatio;
 		}
 
-		var res = canvg(canvas, data, config);
+		canvg(canvas, data, config);
 
 		// Options are set?
 		if (!$type.hasValue(options)) {

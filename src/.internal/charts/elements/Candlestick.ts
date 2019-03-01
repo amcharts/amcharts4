@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Column, IColumnProperties, IColumnAdapters, IColumnEvents } from "./Column";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Line } from "../../core/elements/Line";
 import { registry } from "../../core/Registry";
 

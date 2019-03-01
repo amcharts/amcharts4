@@ -11,11 +11,10 @@
  */
 import { Component, IComponentProperties, IComponentDataFields, IComponentAdapters, IComponentEvents } from "../../core/Component";
 import { AxisDataItem } from "../axes/Axis";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { List, ListTemplate, IListEvents, ListDisposer } from "../../core/utils/List";
-import { OrderedList, OrderedListTemplate } from "../../core/utils/SortedList";
 import { Dictionary, DictionaryDisposer } from "../../core/utils/Dictionary";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
+import { DataItem } from "../../core/DataItem";
 import { Container } from "../../core/Container";
 import { SerialChart } from "../types/SerialChart";
 import { Label } from "../../core/elements/Label";
@@ -23,11 +22,9 @@ import { Axis } from "../axes/Axis";
 import { Tooltip } from "../../core/elements/Tooltip";
 import { Bullet } from "../elements/Bullet";
 import { LegendDataItem, LegendSettings } from "../Legend";
-import { Animation } from "../../core/utils/Animation";
 import { options } from "../../core/Options";
 import { Ordering } from "../../core/utils/Order";
 import { registry } from "../../core/Registry";
-import { system } from "../../core/System";
 import { Color } from "../../core/utils/Color";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
@@ -1319,7 +1316,7 @@ export class Series extends Component {
 					let maxValue = $type.toNumber(heatRule.maxValue);
 
 					if (!$type.isNumber(minValue) && !$type.isNumber(maxValue)) {
-						this.dataItem.events.on("calculatedvaluechanged", (event) => {							
+						this.dataItem.events.on("calculatedvaluechanged", (event) => {
 							if (event.property == dataField) {
 								$iter.each(this.dataItems.iterator(), (dataItem) => {
 									let foundSprite = false;

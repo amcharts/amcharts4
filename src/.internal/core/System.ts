@@ -7,14 +7,11 @@
 import { registry } from "./Registry";
 import { Sprite } from "./Sprite";
 import { Container } from "./Container";
-import { svgContainers, SVGContainer } from "./rendering/SVGContainer";
 import { Component } from "./Component";
 import { options } from "./Options";
-import { Paper } from "./rendering/Paper";
 import { raf } from "./utils/AsyncPending";
 import { animations } from "./utils/Animation";
 import { triggerIdle } from "./utils/AsyncPending";
-import * as $dom from "./utils/DOM";
 import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
 import * as $type from "./utils/Type";
@@ -49,7 +46,7 @@ export class System {
 	 *
 	 * @see {@link https://docs.npmjs.com/misc/semver}
 	 */
-	static VERSION: string = "4.1.13";
+	static VERSION: string = "4.1.14";
 
 	/**
 	 * @todo Description

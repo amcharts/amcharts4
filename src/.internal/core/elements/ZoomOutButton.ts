@@ -9,7 +9,7 @@
  * @hidden
  */
 import { Button, IButtonProperties, IButtonAdapters, IButtonEvents } from "./Button";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite } from "../Sprite";
 import { RoundedRectangle } from "./RoundedRectangle";
 import { registry } from "../Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";

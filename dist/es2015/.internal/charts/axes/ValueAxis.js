@@ -637,7 +637,6 @@ var ValueAxis = /** @class */ (function (_super) {
      */
     ValueAxis.prototype.positionToValue = function (position) {
         position = $math.round(position, 10);
-        var strPosition = position.toString();
         var min = this.min;
         var max = this.max;
         if ($type.isNumber(min) && $type.isNumber(max)) {
@@ -1229,8 +1228,9 @@ var ValueAxis = /** @class */ (function (_super) {
             selectionMax = this._maxReal;
         }
         if (selectionMin == selectionMax) {
-            selectionMin -= 1;
-            selectionMax += 1;
+            var minMaxStep2 = this.adjustMinMax(selectionMin, selectionMax, selectionMax - selectionMin, this._gridCount, true);
+            selectionMin = minMaxStep2.min;
+            selectionMax = minMaxStep2.max;
         }
         var dif = this.adjustDifference(selectionMin, selectionMax);
         var minMaxStep = this.adjustMinMax(selectionMin, selectionMax, dif, this._gridCount);

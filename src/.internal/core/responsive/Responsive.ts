@@ -14,7 +14,6 @@ import { SpriteState } from "../SpriteState";
 import { Container } from "../Container";
 import { Component } from "../Component";
 import { List } from "../utils/List";
-import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
 import { Adapter } from "../utils/Adapter";
 import { IDisposer } from "../utils/Disposer";
 import { registry } from "../Registry";

@@ -27,6 +27,12 @@ import * as $array from "./Array";
  * @hidden
  */
 
+
+/**
+ * Marks a value as being used (e.g. because the value has side effects).
+ */
+ export function used<A>(value: A) {}
+
 /**
  * Copies all properties of one object to the other, omitting undefined.
  *

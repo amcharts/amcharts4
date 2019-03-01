@@ -16,7 +16,7 @@ import { Align } from "../defs/Align";
 import { VerticalAlign } from "../defs/VerticalAlign";
 import { getInteraction } from "../interaction/Interaction";
 import { InteractionObject } from "../interaction/InteractionObject";
-import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
+import { AMEvent } from "../utils/EventDispatcher";
 import { IDisposer, MutableValueDisposer } from "../utils/Disposer";
 import { Language, ILocaleProperties } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";

@@ -10,12 +10,10 @@
  * @hidden
  */
 import { ILineSeriesSegmentAdapters, ILineSeriesSegmentEvents, ILineSeriesSegmentProperties, LineSeriesSegment } from "./LineSeriesSegment";
-import { Sprite, SpriteEventDispatcher, AMEvent, visualProperties } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
-import * as $object from "../../core/utils/Object";
-import * as $smoothing from "../../core/rendering/Smoothing";
 
 
 /**

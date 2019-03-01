@@ -1,3 +1,12 @@
+/**
+ * HeatLegend module
+ */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { Container, IContainerProperties, IContainerEvents, IContainerAdapters } from "../../core/Container";
 import { Series } from "../series/Series";
 import { Color } from "../../core/utils/Color";

@@ -15,6 +15,10 @@ import * as $array from "./Array";
  * @hidden
  */
 /**
+ * Marks a value as being used (e.g. because the value has side effects).
+ */
+export function used(value) { }
+/**
  * Copies all properties of one object to the other, omitting undefined.
  *
  * @param fromObject  Source object

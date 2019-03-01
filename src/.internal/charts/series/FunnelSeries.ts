@@ -9,31 +9,20 @@
  * @hidden
  */
 import { IPercentSeriesAdapters, IPercentSeriesDataFields, IPercentSeriesEvents, IPercentSeriesProperties, PercentSeries, PercentSeriesDataItem } from "./PercentSeries";
-import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { FunnelSlice } from "../elements/FunnelSlice";
 import { Label } from "../../core/elements/Label";
 import { FunnelTick } from "../elements/FunnelTick";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
-import { Container } from "../../core/Container";
 import { Animation } from "../../core/utils/Animation";
-import { LegendDataItem, LegendSettings } from "../../charts/Legend";
 import { Bullet } from "../elements/Bullet";
-import { Dictionary, IDictionaryEvents, DictionaryTemplate, DictionaryDisposer } from "../../core/utils/Dictionary";
 import { registry } from "../../core/Registry";
-import { IRectangle } from "../../core/defs/IRectangle";
-import { IPoint } from "../../core/defs/IPoint";
 import { SlicedChart } from "../types/SlicedChart";
 import * as $math from "../../core/utils/Math";
 import * as $iter from "../../core/utils/Iterator";
-import * as $ease from "../../core/utils/Ease";
 import * as $type from "../../core/utils/Type";
-import * as $utils from "../../core/utils/Utils";
-import { Percent, percent } from "../../core/utils/Percent";
-import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
+import { percent } from "../../core/utils/Percent";
+import { Disposer } from "../../core/utils/Disposer";
 import { Orientation } from "../../core/defs/Orientation";
-import { Color, color } from "../../core/utils/Color";
-import { LinearGradient } from "../../core/rendering/fills/LinearGradient";
 import { Align } from "../../core/defs/Align";
 import { VerticalAlign } from "../../core/defs/VerticalAlign";
 
@@ -441,7 +430,6 @@ export class FunnelSeries extends PercentSeries {
 	 * @param dataItem  Data item
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
-		let percentValue = dataItem.values.value.percent;
 		if ($type.hasValue(dataItem.value)) {
 			// FunnelSlice
 			let slice = dataItem.slice;

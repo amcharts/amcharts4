@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Circle, ICircleProperties, ICircleAdapters, ICircleEvents } from "./Circle";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { registry } from "../Registry";
 
 

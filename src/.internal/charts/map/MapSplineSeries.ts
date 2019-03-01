@@ -9,13 +9,8 @@
  * @hidden
  */
 import { MapLineSeries, MapLineSeriesDataItem, IMapLineSeriesProperties, IMapLineSeriesDataFields, IMapLineSeriesAdapters, IMapLineSeriesEvents } from "./MapLineSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { MapChart, MapLineType } from "../types/MapChart";
 import { MapSpline } from "./MapSpline";
-import { ListTemplate, IListEvents } from "../../core/utils/List";
-import { IMapDataObject, IMapPolygonDataObject, IMapLineDataObject } from "../types/MapChart";
 import { registry } from "../../core/Registry";
-import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
 
 /**
  * ============================================================================

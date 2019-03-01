@@ -9,28 +9,11 @@
  * @hidden
  */
 import { ValueAxis, ValueAxisDataItem, IValueAxisProperties, IValueAxisDataFields, IValueAxisAdapters, IValueAxisEvents } from "./ValueAxis";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { AxisItemLocation } from "./Axis";
 import { AxisRenderer } from "./AxisRenderer";
-import { AxisTick } from "./AxisTick";
-import { AxisLabel } from "./AxisLabel";
-import { AxisFill } from "./AxisFill";
-import { List } from "../../core/utils/List";
-import { Dictionary } from "../../core/utils/Dictionary";
-import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
-import { Grid } from "./Grid";
-import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { TimeUnit } from "../../core/defs/TimeUnit";
-import { ITimeInterval } from "../../core/defs/ITimeInterval";
 import { IMinMaxStep } from "./ValueAxis";
-import { ValueAxisBreak } from "./ValueAxisBreak";
 import { registry } from "../../core/Registry";
-import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
-import * as $time from "../../core/utils/Time";
-import * as $type from "../../core/utils/Type";
-import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
-import * as $object from "../../core/utils/Object";
 
 
 /**
@@ -272,7 +255,8 @@ export class DurationAxis<T extends AxisRenderer = AxisRenderer> extends ValueAx
 
 			step = realDivisor * count;
 
-			let unit = this.durationFormatter.getValueUnit(step, this.baseUnit);
+			// TODO can this be removed ?
+			this.durationFormatter.getValueUnit(step, this.baseUnit);
 
 			min = Math.floor(min / step) * step;
 			max = Math.ceil(max / step) * step;

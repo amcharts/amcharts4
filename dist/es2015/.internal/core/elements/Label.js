@@ -2,6 +2,12 @@
  * Text class deals with all text placed on chart.
  */
 import * as tslib_1 from "tslib";
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { Container } from "../Container";
 import { registry } from "../Registry";
 import { getTextFormatter } from "../formatters/TextFormatter";
@@ -603,9 +609,6 @@ var Label = /** @class */ (function (_super) {
             // Create a ForeignObject to use as HTML container
             var fo = this.paper.foreignObject();
             group.add(fo);
-            // Set group and foreignObject dimensions
-            var width = maxWidth > 0 ? (maxWidth).toString() + "px" : "100%";
-            var height = maxHeight > 0 ? (maxHeight).toString() + "px" : "100%";
             // Create line element
             //let lineElement: HTMLElement = this.getHTMLLineElement(getTextFormatter().format(this.html, output));
             var lineElement = this.getHTMLLineElement(text);
@@ -666,10 +669,11 @@ var Label = /** @class */ (function (_super) {
         }
         var width = this._measuredWidth;
         var height = this._measuredHeight;
-        var paddingLeft = this.pixelPaddingLeft;
-        var paddingRight = this.pixelPaddingRight;
-        var paddingTop = this.pixelPaddingTop;
-        var paddingBottom = this.pixelPaddingBottom;
+        // TODO maybe these aren't needed ?
+        $utils.used(this.pixelPaddingLeft);
+        $utils.used(this.pixelPaddingRight);
+        $utils.used(this.pixelPaddingTop);
+        $utils.used(this.pixelPaddingBottom);
         // Process each line
         //$iter.each(group.children.backwards().iterator(), (element) => {
         for (var i = children.length - 1; i >= 0; i--) {

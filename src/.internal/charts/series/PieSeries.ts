@@ -9,28 +9,20 @@
  * @hidden
  */
 import { IPercentSeriesAdapters, IPercentSeriesDataFields, IPercentSeriesEvents, IPercentSeriesProperties, PercentSeries, PercentSeriesDataItem } from "./PercentSeries";
-import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { Slice } from "../../core/elements/Slice";
 //import { Slice3D } from "../../core/elements/3D/Slice3D";
 import { AxisLabelCircular } from "../axes/AxisLabelCircular";
 import { PieTick } from "../elements/PieTick";
-import { ListTemplate, ListDisposer } from "../../core/utils/List";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
-import { Container } from "../../core/Container";
 import { Animation } from "../../core/utils/Animation";
-import { LegendDataItem, LegendSettings } from "../../charts/Legend";
 import { Bullet } from "../elements/Bullet";
-import { Dictionary, IDictionaryEvents, DictionaryTemplate, DictionaryDisposer } from "../../core/utils/Dictionary";
 import { registry } from "../../core/Registry";
 import { IRectangle } from "../../core/defs/IRectangle";
 import { IPoint } from "../../core/defs/IPoint";
 import { PieChart } from "../types/PieChart";
 import * as $math from "../../core/utils/Math";
-import * as $iter from "../../core/utils/Iterator";
-import * as $ease from "../../core/utils/Ease";
 import * as $type from "../../core/utils/Type";
 import { Percent, percent } from "../../core/utils/Percent";
-import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
 
 
 
@@ -452,9 +444,6 @@ export class PieSeries extends PercentSeries {
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
 		if (this.pixelRadius > 0) {
-
-			let percent = dataItem.values.value.percent;
-
 			// SLICE
 			let slice: Slice = dataItem.slice;
 			slice.radius = this.pixelRadius;

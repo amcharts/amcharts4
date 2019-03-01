@@ -173,9 +173,7 @@ var TreeMapSeries = /** @class */ (function (_super) {
         this.dataItems.each(function (dataItem) {
             dataItem.treeMapDataItem.setWorkingValue("value", dataItem.treeMapDataItem.values.value.value);
         });
-        var animation = _super.prototype.showReal.call(this, interpolationDuration);
-        var chart = this.chart;
-        return animation;
+        return _super.prototype.showReal.call(this, interpolationDuration);
     };
     /**
      * Hides series.

@@ -9,7 +9,6 @@
  * @hidden
  */
 import { MapSeries, MapSeriesDataItem, GEOJSONGeometry, IMapSeriesProperties, IMapSeriesDataFields, IMapSeriesAdapters, IMapSeriesEvents } from "./MapSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MapChart } from "../types/MapChart";
 import { MapPolygon } from "./MapPolygon";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
@@ -20,7 +19,7 @@ import * as $mapUtils from "./MapUtils";
 import * as $array from "../../core/utils/Array";
 import * as $utils from "../../core/utils/Utils";
 import * as $iter from "../../core/utils/Iterator";
-import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
+import { Disposer } from "../../core/utils/Disposer";
 
 /**
  * ============================================================================

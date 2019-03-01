@@ -12,7 +12,6 @@
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { Slice } from "./Slice";
 import { Label } from "./Label";
 import { registry } from "../Registry";

@@ -8,7 +8,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteEvents, SpriteEventDispatcher, AMEvent, ISpriteAdapters } from "../../core/Sprite";
+import { Sprite, ISpriteProperties, ISpriteEvents, ISpriteAdapters } from "../../core/Sprite";
 import { AxisItemLocation, AxisDataItem, Axis } from "./Axis";
 import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";

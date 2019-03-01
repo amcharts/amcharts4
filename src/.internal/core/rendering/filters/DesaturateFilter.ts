@@ -11,7 +11,6 @@
 import { Filter, FilterProperties } from "./Filter";
 import { AMElement } from "../AMElement";
 import { registry } from "../../Registry";
-import * as $type from "../../utils/Type";
 
 
 /**

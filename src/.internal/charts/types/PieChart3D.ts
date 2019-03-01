@@ -10,7 +10,6 @@
  */
 
 import { PieChart, IPieChartProperties, IPieChartDataFields, IPieChartAdapters, IPieChartEvents, PieChartDataItem } from "./PieChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { PieSeries3D } from "../series/PieSeries3D";
 import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";

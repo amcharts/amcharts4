@@ -9,17 +9,13 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { Sprite, SpriteEventDispatcher, AMEvent, ISpriteEvents } from "../../core/Sprite";
-import { SpriteShiftEvent } from "../../core/SpriteEvents";
+import { Sprite, AMEvent, ISpriteEvents } from "../../core/Sprite";
 import { IDisposer } from "../../core/utils/Disposer";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { registry } from "../../core/Registry";
-import { percent, Percent } from "../../core/utils/Percent";
-import * as $type from "../../core/utils/Type";
 import * as $utils from "../../core/utils/Utils";
 import { Rectangle } from "../../core/elements/Rectangle";
-import { getInteraction, IInteractionEvents } from "../../core/interaction/Interaction";
-import { IPoint } from "../../core/defs/IPoint";
+import { getInteraction } from "../../core/interaction/Interaction";
 import { Optional } from "../../core/utils/Type";
 
 /**
@@ -113,7 +109,8 @@ export class Resize extends Container {
 
 		this.isMeasured = false;
 
-		const interaction = getInteraction();
+		// TODO is this needed ?
+		getInteraction();
 
 		let color = new InterfaceColorSet().getFor("alternativeBackground");
 

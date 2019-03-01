@@ -9,12 +9,10 @@
  * @hidden
  */
 import { ColumnSeries, IColumnSeriesProperties, IColumnSeriesDataFields, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "../series/ColumnSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Container } from "../../core/Container";
 import { XYChart3D } from "../types/XYChart3D";
 import { Column3D } from "../elements/Column3D";
 import { registry } from "../../core/Registry";
-import * as $path from "../../core/rendering/Path";
 
 
 /**

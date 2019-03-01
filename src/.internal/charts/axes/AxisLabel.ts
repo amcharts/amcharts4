@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Label, ILabelProperties, ILabelAdapters, ILabelEvents } from "../../core/elements/Label";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { AxisItemLocation, AxisDataItem, Axis } from "./Axis";
 import { registry } from "../../core/Registry";
 

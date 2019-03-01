@@ -282,8 +282,6 @@ var WordCloudSeries = /** @class */ (function (_super) {
                 maskSprite.y = 0;
                 maskSprite.scale = 1;
                 scale = $math.max(0.001, scale);
-                var maxTop = maskSprite.maxTop;
-                var maxLeft = maskSprite.maxLeft;
                 maskSprite.horizontalCenter = "middle";
                 maskSprite.verticalCenter = "middle";
                 maskSprite.x = w / 2;
@@ -350,7 +348,8 @@ var WordCloudSeries = /** @class */ (function (_super) {
         var initialY = label.pixelY;
         var x = 0;
         var y = 0;
-        var cangle = this.labelsContainer.rotation;
+        // TODO is this needed ?
+        $utils.used(this.labelsContainer.rotation);
         while (intersects) {
             if (p > this._points.length - 1) {
                 intersects = false;

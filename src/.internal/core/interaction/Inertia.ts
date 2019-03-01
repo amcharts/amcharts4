@@ -9,7 +9,6 @@
  * @hidden
  */
 import { BaseObject } from "../Base";
-import { MultiDisposer } from "../utils/Disposer";
 import { getInteraction } from "./Interaction";
 import { InteractionObject, IInteractionObjectEvents } from "./InteractionObject";
 import { Animation, IAnimatable, AnimationDisposer } from "../utils/Animation";

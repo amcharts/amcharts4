@@ -5,7 +5,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "./Container";
-import { SpriteEventDispatcher, AMEvent } from "./Sprite";
 import { List, IListEvents, ListDisposer } from "./utils/List";
 import { OrderedListTemplate, ISortedListEvents } from "./utils/SortedList";
 import { Animation } from "./utils/Animation";
@@ -16,7 +15,7 @@ import { DataSource } from "./data/DataSource";
 import { Responsive } from "./responsive/Responsive";
 import { system } from "./System";
 
-import { DataItem, IDataItemEvents } from "./DataItem";
+import { DataItem } from "./DataItem";
 import { registry } from "./Registry";
 import { Preloader } from "./elements/Preloader";
 import { IRange } from "./defs/IRange";
@@ -743,6 +742,7 @@ export class Component extends Container {
 	 */
 	protected validateDataElements() {
 		let count = this.endIndex;
+
 		for (let i = this.startIndex; i < count; i++) {
 			const dataItem = this.dataItems.getIndex(i);
 

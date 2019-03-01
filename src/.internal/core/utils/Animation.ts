@@ -9,10 +9,9 @@
  * @hidden
  */
 import { BaseObjectEvents, IBaseObjectEvents } from "../Base";
-import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
+import { AMEvent } from "../utils/EventDispatcher";
 import { SVGDefaults } from "../defs/SVGDefaults";
 import { Disposer, IDisposer } from "../utils/Disposer";
-import { registry } from "../Registry";
 import { Color } from "../utils/Color";
 import { Percent, percent } from "../utils/Percent";
 import * as $async from "../utils/AsyncPending";
@@ -249,118 +248,6 @@ function getProgressColor(progress: number, from: Color, to: Color): Color {
  */
 function getHybridProperty(property: string, type: "pixel" | "relative"): string {
 	return type + property.charAt(0).toUpperCase() + property.substr(1);
-}
-
-
-interface ProcessedAnimationOption {
-	childObject: any;
-	property: any;
-	update: (time: number) => void;
-}
-
-function processAnimationOptions<A>(
-	object: A,
-	animationOptions: IAnimationOptions[] | IAnimationOptions
-): Array<ProcessedAnimationOption> {
-
-	const processed: Array<ProcessedAnimationOption> = [];
-
-	$array.each($array.toArray(animationOptions), (options) => {
-		const childObject = (options.childObject ? options.childObject : object);
-
-		if (!$type.hasValue(options.from)) {
-			options.from = childObject[options.property];
-
-			if (!$type.hasValue(options.from)) {
-				options.from = (<any>SVGDefaults)[options.property];
-			}
-
-			/*if (!$type.hasValue(options.from)) {
-				throw Error("Could not get initial transition value.");
-			}*/
-		}
-
-		if (options.from !== options.to) { // || options.to == (<any>object)[options.property]){ this is not good, as dataItem.value is set to final at once, and we animate workingValue
-			// Use different update methods for different value types
-			if ($type.isNumber(options.to)) {
-				// Check if initial value is not Percent
-				if (options.from instanceof Percent) {
-					// It is. Let's convert it to pixel value
-					// @todo Check if we can do this in a less hacky way
-					let convertedFrom: number = childObject[getHybridProperty(options.property, "pixel")];
-
-					// TODO better check
-					if (!isNaN(convertedFrom)) {
-						options.from = convertedFrom;
-					}
-				}
-
-				processed.push({
-					childObject: childObject,
-					property: options.property,
-					update: (time) => {
-						childObject[options.property] = getProgressNumber(time, <any>options.from, <any>options.to);
-					}
-				});
-
-				// Check if maybe we have a color or percent value
-			} else if (options.to instanceof Color) {
-				// Yup - set resolved named color
-				//options.from = $colors.stringToColor(<string>options.from);
-				if (options.from) {
-					processed.push({
-						childObject: childObject,
-						property: options.property,
-						update: (time) => {
-							childObject[options.property] = getProgressColor(time, <any>options.from, <any>options.to);
-						}
-					});
-
-				} else {
-					processed.push({
-						childObject: childObject,
-						property: options.property,
-						update: (time) => {
-							childObject[options.property] = (time < 0.5 ? options.from : options.to);
-						}
-					});
-				}
-
-			} else if (options.to instanceof Percent) {
-				// Check if the initial value is maybe in pixels
-				// TODO better check
-				if (!isNaN(<number>options.from)) {
-					// It is. Let's convert it
-					// @todo Check if we can do this in a less hacky way
-					let convertedFrom: number = childObject[getHybridProperty(options.property, "relative")];
-
-					// TODO better check
-					if (!isNaN(convertedFrom)) {
-						options.from = percent(convertedFrom * 100);
-					}
-				}
-
-				processed.push({
-					childObject: childObject,
-					property: options.property,
-					update: (time) => {
-						childObject[options.property] = getProgressPercent(time, <any>options.from, <any>options.to);
-					}
-				});
-
-			} else {
-				processed.push({
-					childObject: childObject,
-					property: options.property,
-					update: (time) => {
-						childObject[options.property] = (time < 0.5 ? options.from : options.to);
-					}
-				});
-			}
-		}
-	});
-
-	return processed;
 }
 
 
