@@ -19,6 +19,7 @@ import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $ease from "../../core/utils/Ease";
 import { Disposer } from "../../core/utils/Disposer";
+import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive";
 /**
  * ============================================================================
  * DATA ITEM
@@ -642,4 +643,24 @@ export { PercentSeries };
  */
 registry.registeredClasses["PercentSeries"] = PercentSeries;
 registry.registeredClasses["PercentSeriesDataItem"] = PercentSeriesDataItem;
+/**
+ * Add default responsive rules
+ */
+/**
+ * Disable labels and ticks.
+ */
+defaultRules.push({
+    relevant: ResponsiveBreakpoints.maybeXS,
+    state: function (target, stateId) {
+        if (target instanceof PercentSeries) {
+            var state = target.states.create(stateId);
+            var labelState = target.labels.template.states.create(stateId);
+            labelState.properties.disabled = true;
+            var tickState = target.ticks.template.states.create(stateId);
+            tickState.properties.disabled = true;
+            return state;
+        }
+        return null;
+    }
+});
 //# sourceMappingURL=PercentSeries.js.map

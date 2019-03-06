@@ -12,7 +12,7 @@ import { Dictionary } from "./utils/Dictionary";
 import { IDisposer } from "./utils/Disposer";
 import { Export } from "./export/Export";
 import { DataSource } from "./data/DataSource";
-import { Responsive } from "./responsive/Responsive";
+import { Responsive } from "./utils/Responsive";
 import { DataItem } from "./DataItem";
 import { IRange } from "./defs/IRange";
 import * as $type from "./utils/Type";

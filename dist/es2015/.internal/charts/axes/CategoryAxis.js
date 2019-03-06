@@ -838,6 +838,23 @@ var CategoryAxis = /** @class */ (function (_super) {
         var renderer = this.renderer;
         renderer.baseGrid.disabled = true;
     };
+    Object.defineProperty(CategoryAxis.prototype, "frequency", {
+        /**
+         * Current frequency of labels of the axis.
+         *
+         * Normally it would be 1, but when labels start to be hidden due
+         * to `minGridDistance` this read-only property will increase.
+         *
+         * @readonly
+         * @since 4.2.0
+         * @return Label frequency
+         */
+        get: function () {
+            return this._frequency;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return CategoryAxis;
 }(Axis));
 export { CategoryAxis };

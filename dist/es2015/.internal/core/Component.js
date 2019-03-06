@@ -11,7 +11,7 @@ import { OrderedListTemplate } from "./utils/SortedList";
 import { Dictionary } from "./utils/Dictionary";
 import { Disposer, MultiDisposer } from "./utils/Disposer";
 import { DataSource } from "./data/DataSource";
-import { Responsive } from "./responsive/Responsive";
+import { Responsive } from "./utils/Responsive";
 import { system } from "./System";
 import { DataItem } from "./DataItem";
 import { registry } from "./Registry";

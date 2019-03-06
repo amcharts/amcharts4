@@ -10,6 +10,7 @@
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
 import { registry } from "../../core/Registry";
+import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive";
 
 
 /**
@@ -240,3 +241,24 @@ export class Bullet extends Container {
  * @ignore
  */
 registry.registeredClasses["Bullet"] = Bullet;
+
+
+/**
+ * Add default responsive rules
+ */
+
+/**
+ * Hide bullets
+ */
+defaultRules.push({
+	relevant: ResponsiveBreakpoints.isXS,
+	state: function(target, stateId) {
+		if (target instanceof Bullet) {
+			let state = target.states.create(stateId);
+			state.properties.disabled = true;
+			return state;
+		}
+
+		return null;
+	}
+});

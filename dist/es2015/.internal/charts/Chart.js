@@ -17,6 +17,7 @@ import { DataItem } from "../core/DataItem";
 import { percent } from "../core/utils/Percent";
 import * as $iter from "../core/utils/Iterator";
 import * as $type from "../core/utils/Type";
+import { defaultRules, ResponsiveBreakpoints } from "../core/utils/Responsive";
 /**
  * ============================================================================
  * DATA ITEM
@@ -290,4 +291,75 @@ var Chart = /** @class */ (function (_super) {
     return Chart;
 }(Component));
 export { Chart };
+/**
+ * Add default responsive rules
+ */
+/**
+ * Reduce horizontal margins
+ */
+defaultRules.push({
+    relevant: ResponsiveBreakpoints.widthXS,
+    state: function (target, stateId) {
+        if (target instanceof Chart) {
+            var state = target.states.create(stateId);
+            if (target.pixelPaddingLeft > 10) {
+                state.properties.paddingLeft = 10;
+            }
+            if (target.pixelPaddingRight > 10) {
+                state.properties.paddingRight = 10;
+            }
+            return state;
+        }
+        return null;
+    }
+});
+/**
+ * Reduce vertical margins
+ */
+defaultRules.push({
+    relevant: ResponsiveBreakpoints.heightXS,
+    state: function (target, stateId) {
+        if (target instanceof Chart) {
+            var state = target.states.create(stateId);
+            if (target.pixelPaddingTop > 10) {
+                state.properties.paddingTop = 10;
+            }
+            if (target.pixelPaddingBottom > 10) {
+                state.properties.paddingBottom = 10;
+            }
+            return state;
+        }
+        return null;
+    }
+});
+/**
+ * Remove horizontal padding
+ */
+defaultRules.push({
+    relevant: ResponsiveBreakpoints.widthXXS,
+    state: function (target, stateId) {
+        if (target instanceof Chart) {
+            var state = target.states.create(stateId);
+            state.properties.paddingLeft = 0;
+            state.properties.paddingRight = 0;
+            return state;
+        }
+        return null;
+    }
+});
+/**
+ * Remove vertical padding
+ */
+defaultRules.push({
+    relevant: ResponsiveBreakpoints.heightXXS,
+    state: function (target, stateId) {
+        if (target instanceof Chart) {
+            var state = target.states.create(stateId);
+            state.properties.paddingTop = 0;
+            state.properties.paddingBottom = 0;
+            return state;
+        }
+        return null;
+    }
+});
 //# sourceMappingURL=Chart.js.map

@@ -24,6 +24,7 @@ import * as $type from "../core/utils/Type";
 import { Sprite } from "../core/Sprite";
 import { Disposer } from "../core/utils/Disposer";
 import { MouseCursorStyle } from "../core/interaction/Mouse";
+import { defaultRules, ResponsiveBreakpoints } from "../core/utils/Responsive";
 /**
  * ============================================================================
  * DATA ITEM
@@ -180,13 +181,13 @@ var LegendDataItem = /** @class */ (function (_super) {
                     }));
                     if (sprite instanceof Sprite) {
                         itemContainer_1.addDisposer(sprite.events.on("hidden", function (ev) {
-                            itemContainer_1.readerChecked = true;
+                            itemContainer_1.readerChecked = false;
                             itemContainer_1.events.disableType("toggled");
                             itemContainer_1.isActive = true;
                             itemContainer_1.events.enableType("toggled");
                         }, undefined, false));
                         itemContainer_1.addDisposer(sprite.events.on("shown", function (ev) {
-                            itemContainer_1.readerChecked = false;
+                            itemContainer_1.readerChecked = true;
                             itemContainer_1.events.disableType("toggled");
                             itemContainer_1.isActive = false;
                             itemContainer_1.events.enableType("toggled");
@@ -285,7 +286,7 @@ var Legend = /** @class */ (function (_super) {
         itemContainer.layout = "horizontal";
         itemContainer.clickable = true;
         itemContainer.focusable = true;
-        itemContainer.role = "checkbox";
+        itemContainer.role = "switch";
         itemContainer.togglable = true;
         itemContainer.cursorOverStyle = MouseCursorStyle.pointer;
         itemContainer.background.fillOpacity = 0; // creates hit area
@@ -585,4 +586,49 @@ export { Legend };
  * @ignore
  */
 registry.registeredClasses["Legend"] = Legend;
+/**
+ * Add default responsive rules
+ */
+/**
+ * Move legend to below the chart if chart is narrow
+ */
+defaultRules.push({
+    relevant: ResponsiveBreakpoints.widthXS,
+    state: function (target, stateId) {
+        if (target instanceof Legend && (target.position == "left" || target.position == "right")) {
+            var state = target.states.create(stateId);
+            state.properties.position = "bottom";
+            return state;
+        }
+        return null;
+    }
+});
+/**
+ * Move legend to the right if chart is very short
+ */
+defaultRules.push({
+    relevant: ResponsiveBreakpoints.heightXS,
+    state: function (target, stateId) {
+        if (target instanceof Legend && (target.position == "top" || target.position == "bottom")) {
+            var state = target.states.create(stateId);
+            state.properties.position = "right";
+            return state;
+        }
+        return null;
+    }
+});
+/**
+ * Disable legend altogether on small charts
+ */
+defaultRules.push({
+    relevant: ResponsiveBreakpoints.isXS,
+    state: function (target, stateId) {
+        if (target instanceof Legend) {
+            var state = target.states.create(stateId);
+            state.properties.disabled = true;
+            return state;
+        }
+        return null;
+    }
+});
 //# sourceMappingURL=Legend.js.map

@@ -27,6 +27,7 @@ import * as tslib_1 from "tslib";
  */
 import { ExportMenu } from "./ExportMenu";
 import { Adapter } from "../utils/Adapter";
+import { Sprite } from "../Sprite";
 import { Modal } from "../elements/Modal";
 import { List } from "../utils/List";
 import { Dictionary } from "../utils/Dictionary";
@@ -44,6 +45,7 @@ import * as $dom from "../utils/DOM";
 import * as $type from "../utils/Type";
 import * as $utils from "../utils/Utils";
 import * as $array from "../utils/Array";
+import * as $math from "../utils/Math";
 // This is used to cache the pdfmake loading
 var pdfmakePromise;
 /**
@@ -250,6 +252,12 @@ var Export = /** @class */ (function (_super) {
          * @ignore Exclude from docs
          */
         _this._formatOptions = new Dictionary();
+        /**
+         * Extra [[Sprite]] elements to include in exports.
+         *
+         * @ignore Exclude from docs
+         */
+        _this._extraSprites = [];
         /**
          * Holds a list of objects that were temporarily removed from the DOM while
          * exporting. Those most probably are tainted images, or foreign objects that
@@ -750,25 +758,203 @@ var Export = /** @class */ (function (_super) {
      * } );
      * ```
      *
-     * @param  type     Image format
-     * @param  options  Options
+     * @param  type           Image format
+     * @param  options        Options
+     * @param  includeExtras  Should extra sprites be included if set?
      * @return Promise
      */
-    Export.prototype.getImage = function (type, options) {
+    Export.prototype.getImage = function (type, options, includeExtras) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var background, DOMURL_1, url, blobs_1, width, height, font, fontSize, canvas, pixelRatio, ctx, promises, a, data, svg, img, uri, e_2;
+            var canvas, uri, e_2;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.simplifiedImageExport()];
+                    case 0:
+                        if (!$type.hasValue(options)) {
+                            options = this.getFormatOptions(type);
+                        }
+                        return [4 /*yield*/, this.simplifiedImageExport()];
                     case 1:
                         if (!_a.sent()) return [3 /*break*/, 9];
-                        background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
-                        DOMURL_1 = this.getDOMURL();
-                        url = null;
-                        blobs_1 = null;
                         _a.label = 2;
                     case 2:
-                        _a.trys.push([2, 5, 7, 8]);
+                        _a.trys.push([2, 6, , 8]);
+                        return [4 /*yield*/, this.getCanvas(options)];
+                    case 3:
+                        canvas = _a.sent();
+                        if (!(includeExtras !== false)) return [3 /*break*/, 5];
+                        return [4 /*yield*/, this.addExtras(canvas, options)];
+                    case 4:
+                        canvas = _a.sent();
+                        _a.label = 5;
+                    case 5:
+                        uri = canvas.toDataURL(this.getContentType(type), options.quality);
+                        // Get rid of the canvas
+                        this.disposeCanvas(canvas);
+                        return [2 /*return*/, uri];
+                    case 6:
+                        e_2 = _a.sent();
+                        return [4 /*yield*/, this.getImageAdvanced(type, options, includeExtras)];
+                    case 7: 
+                    // An error occurred, let's try advanced method
+                    return [2 /*return*/, _a.sent()];
+                    case 8: return [3 /*break*/, 11];
+                    case 9: return [4 /*yield*/, this.getImageAdvanced(type, options, includeExtras)];
+                    case 10: 
+                    /**
+                     * Going the hard way. Converting to canvas from each node
+                     */
+                    return [2 /*return*/, _a.sent()];
+                    case 11: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * Adds extra elements to the canvas.
+     *
+     * @param  canvas   Original canvas
+     * @param  options  Options
+     */
+    Export.prototype.addExtras = function (canvas, options, advanced) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var middleLeft_1, middleTop_1, middleRight_1, middleBottom_1, totalWidth_1, totalHeight_1, extras, newCanvas, ctx_1, background, left_1, top_1, right_1, bottom_1;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.extraSprites.length) return [3 /*break*/, 2];
+                        middleLeft_1 = 0;
+                        middleTop_1 = 0;
+                        middleRight_1 = canvas.width;
+                        middleBottom_1 = canvas.height;
+                        totalWidth_1 = canvas.width;
+                        totalHeight_1 = canvas.height;
+                        return [4 /*yield*/, Promise.all($array.map(this.extraSprites, function (extraSprite) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                                var extra, extraCanvas, extraWidth, extraHeight;
+                                return tslib_1.__generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0:
+                                            if (extraSprite instanceof Sprite) {
+                                                extra = {
+                                                    sprite: extraSprite,
+                                                    position: "bottom"
+                                                };
+                                            }
+                                            else {
+                                                extra = extraSprite;
+                                            }
+                                            // Set defaults
+                                            extra.position = extra.position || "bottom";
+                                            extra.marginTop = extra.marginTop || 0;
+                                            extra.marginRight = extra.marginRight || 0;
+                                            extra.marginBottom = extra.marginBottom || 0;
+                                            extra.marginLeft = extra.marginLeft || 0;
+                                            if (!advanced) return [3 /*break*/, 2];
+                                            return [4 /*yield*/, extra.sprite.exporting.getCanvasAdvanced(options)];
+                                        case 1:
+                                            extraCanvas = _a.sent();
+                                            return [3 /*break*/, 4];
+                                        case 2: return [4 /*yield*/, extra.sprite.exporting.getCanvas(options)];
+                                        case 3:
+                                            extraCanvas = _a.sent();
+                                            _a.label = 4;
+                                        case 4:
+                                            extraWidth = extraCanvas.width + extra.marginLeft + extra.marginRight;
+                                            extraHeight = extraCanvas.height + extra.marginTop + extra.marginBottom;
+                                            if (extra.position == "top") {
+                                                middleRight_1 = $math.max(middleRight_1, extraWidth);
+                                                totalHeight_1 += extraHeight;
+                                                middleTop_1 += extraHeight;
+                                            }
+                                            else if (extra.position == "right") {
+                                                middleBottom_1 = $math.max(middleBottom_1, extraHeight);
+                                                totalWidth_1 += extraWidth;
+                                            }
+                                            else if (extra.position == "left") {
+                                                middleBottom_1 = $math.max(middleBottom_1, extraHeight);
+                                                totalWidth_1 += extraWidth;
+                                                middleLeft_1 += extraWidth;
+                                            }
+                                            else if (extra.position === "bottom") {
+                                                middleRight_1 = $math.max(middleRight_1, extraWidth);
+                                                totalHeight_1 += extraHeight;
+                                            }
+                                            return [2 /*return*/, {
+                                                    canvas: extraCanvas,
+                                                    position: extra.position,
+                                                    left: extra.marginLeft,
+                                                    top: extra.marginTop,
+                                                    width: extraWidth,
+                                                    height: extraHeight
+                                                }];
+                                    }
+                                });
+                            }); }))];
+                    case 1:
+                        extras = _a.sent();
+                        newCanvas = this.getDisposableCanvas();
+                        newCanvas.width = totalWidth_1;
+                        newCanvas.height = totalHeight_1;
+                        ctx_1 = newCanvas.getContext("2d");
+                        background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
+                        if (background) {
+                            ctx_1.fillStyle = background.toString();
+                            ctx_1.fillRect(0, 0, newCanvas.width, newCanvas.height);
+                        }
+                        left_1 = middleLeft_1;
+                        top_1 = middleTop_1;
+                        right_1 = middleRight_1;
+                        bottom_1 = middleBottom_1;
+                        // Radiates outwards from center
+                        $array.each(extras, function (extra) {
+                            if (extra.position == "top") {
+                                top_1 -= extra.height;
+                                ctx_1.drawImage(extra.canvas, middleLeft_1 + extra.left, top_1 + extra.top);
+                            }
+                            else if (extra.position == "right") {
+                                ctx_1.drawImage(extra.canvas, right_1 + extra.left, middleTop_1 + extra.top);
+                                right_1 += extra.width;
+                            }
+                            else if (extra.position == "left") {
+                                left_1 -= extra.width;
+                                ctx_1.drawImage(extra.canvas, left_1 + extra.left, middleTop_1 + extra.top);
+                            }
+                            else if (extra.position === "bottom") {
+                                ctx_1.drawImage(extra.canvas, middleLeft_1 + extra.left, bottom_1 + extra.top);
+                                bottom_1 += extra.height;
+                            }
+                            _this.disposeCanvas(extra.canvas);
+                        });
+                        ctx_1.drawImage(canvas, middleLeft_1, middleTop_1);
+                        return [2 /*return*/, newCanvas];
+                    case 2: return [2 /*return*/, canvas];
+                }
+            });
+        });
+    };
+    /**
+     * Returns canvas representation of the [[Sprite]].
+     *
+     * @param   options  Options
+     * @return           Canvas
+     */
+    Export.prototype.getCanvas = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var background, DOMURL, url, blobs, width, height, font, fontSize, canvas, pixelRatio, ctx, promises, a, data, svg, img;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        // Options are set?
+                        if (!$type.hasValue(options)) {
+                            options = {};
+                        }
+                        background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
+                        DOMURL = this.getDOMURL();
+                        url = null;
+                        blobs = null;
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, , 4, 5]);
                         width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = $dom.findFont(this.sprite.dom), fontSize = $dom.findFontSize(this.sprite.dom);
                         canvas = this.getDisposableCanvas();
                         pixelRatio = this.getPixelRatio(options);
@@ -789,80 +975,59 @@ var Export = /** @class */ (function (_super) {
                         if (this.useWebFonts) {
                             // TODO what if one of the other things errors before it's been able to set `blobs` ?
                             promises.push(this.getFontFamilies().then(function (fonts) {
-                                blobs_1 = fonts.blobs;
+                                blobs = fonts.blobs;
                                 return fonts.cssText;
                             }));
                         }
                         promises.push(this.imagesToDataURI(this.sprite.dom, options));
                         promises.push(this.prepForeignObjects(this.sprite.dom, options));
                         return [4 /*yield*/, Promise.all(promises)];
-                    case 3:
+                    case 2:
                         a = _a.sent();
                         data = this.normalizeSVG("<style>" + a[0] + "</style>" + this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize);
                         svg = new Blob([data], { type: "image/svg+xml" });
-                        url = DOMURL_1.createObjectURL(svg);
+                        url = DOMURL.createObjectURL(svg);
                         return [4 /*yield*/, this.loadNewImage(url, width, height, "anonymous")];
-                    case 4:
+                    case 3:
                         img = _a.sent();
                         // Draw image on canvas
                         ctx.drawImage(img, 0, 0);
-                        // Options are set?
-                        if (!$type.hasValue(options)) {
-                            options = {};
-                        }
-                        uri = canvas.toDataURL(this.getContentType(type), options.quality);
-                        // Get rid of the canvas
-                        this.disposeCanvas(canvas);
-                        return [2 /*return*/, uri];
-                    case 5:
-                        e_2 = _a.sent();
-                        return [4 /*yield*/, this.getImageAdvanced(type, options)];
-                    case 6: 
-                    // An error occurred, let's try advanced method
-                    return [2 /*return*/, _a.sent()];
-                    case 7:
+                        return [3 /*break*/, 5];
+                    case 4:
                         if (url !== null) {
-                            DOMURL_1.revokeObjectURL(url);
+                            DOMURL.revokeObjectURL(url);
                         }
-                        if (blobs_1 !== null) {
-                            $array.each(blobs_1, function (url) {
-                                DOMURL_1.revokeObjectURL(url);
+                        if (blobs !== null) {
+                            $array.each(blobs, function (url) {
+                                DOMURL.revokeObjectURL(url);
                             });
                         }
                         // Restore replaced tainted images in DOM
                         this.restoreRemovedObjects();
                         return [7 /*endfinally*/];
-                    case 8: return [3 /*break*/, 11];
-                    case 9: return [4 /*yield*/, this.getImageAdvanced(type, options)];
-                    case 10: 
-                    /**
-                     * Going the hard way. Converting to canvas from each node
-                     */
-                    return [2 /*return*/, _a.sent()];
-                    case 11: return [2 /*return*/];
+                    case 5: return [2 /*return*/, canvas];
                 }
             });
         });
     };
     /**
-     * Tries to dynamically load [canvg.js](https://github.com/canvg/canvg) and
-     * export an image using its functions.
+     * Returns canvas representation of the [[Sprite]] using canvg.
      *
-     * This is an asynchronous function. Check the description of `getImage()`
-     * for description and example usage.
-     *
-     * @param type     Image format
-     * @param options  Options
-     * @return Data uri
+     * @param   options  Options
+     * @return           Canvas
      */
-    Export.prototype.getImageAdvanced = function (type, options) {
+    Export.prototype.getCanvasAdvanced = function (options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var background, canvg, width, height, font, fontSize, data, canvas, pixelRatio, config, uri;
+            var background, canvg, width, height, font, fontSize, data, canvas, pixelRatio, config;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: 
-                    // Convert external images to data uris
-                    return [4 /*yield*/, this.imagesToDataURI(this.sprite.dom, options)];
+                    case 0:
+                        // Options are set?
+                        if (!$type.hasValue(options)) {
+                            options = {};
+                        }
+                        // Convert external images to data uris
+                        return [4 /*yield*/, this.imagesToDataURI(this.sprite.dom, options)];
                     case 1:
                         // Convert external images to data uris
                         _a.sent();
@@ -888,10 +1053,40 @@ var Export = /** @class */ (function (_super) {
                             config.scaleHeight = height * pixelRatio;
                         }
                         canvg(canvas, data, config);
-                        // Options are set?
+                        return [2 /*return*/, canvas];
+                }
+            });
+        });
+    };
+    /**
+     * Tries to dynamically load [canvg.js](https://github.com/canvg/canvg) and
+     * export an image using its functions.
+     *
+     * This is an asynchronous function. Check the description of `getImage()`
+     * for description and example usage.
+     *
+     * @param type     Image format
+     * @param options  Options
+     * @return Data uri
+     */
+    Export.prototype.getImageAdvanced = function (type, options, includeExtras) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var canvas, uri;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
                         if (!$type.hasValue(options)) {
-                            options = {};
+                            options = this.getFormatOptions(type);
                         }
+                        return [4 /*yield*/, this.getCanvasAdvanced(options)];
+                    case 1:
+                        canvas = _a.sent();
+                        if (!(includeExtras !== false)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.addExtras(canvas, options, true)];
+                    case 2:
+                        canvas = _a.sent();
+                        _a.label = 3;
+                    case 3:
                         uri = canvas.toDataURL(this.getContentType(type), options.quality);
                         // Get rid of the canvas
                         this.disposeCanvas(canvas);
@@ -2214,6 +2409,38 @@ var Export = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._sprite = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Export.prototype, "extraSprites", {
+        /**
+         * @return Sprite
+         */
+        get: function () {
+            return this.adapter.apply("extraSprites", {
+                extraSprites: this._extraSprites
+            }).extraSprites;
+        },
+        /**
+         * An array of extra [[Sprite] elements to include in export.
+         *
+         * It can be used to export any external elements, or even other charts.
+         *
+         * E.g.:
+         *
+         * ```TypeScript
+         * chart.exporting.extraSprites.push(chart2);
+         * ```
+         * ```JavaScript
+         * chart.exporting.extraSprites.push(chart2);
+         * ```
+         *
+         * @since 4.2.0
+         * @param value Sprite
+         */
+        set: function (value) {
+            this._extraSprites = value;
         },
         enumerable: true,
         configurable: true

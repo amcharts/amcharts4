@@ -27,6 +27,7 @@ import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $utils from "../../core/utils/Utils";
 import * as $array from "../../core/utils/Array";
+import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive";
 /**
  * ============================================================================
  * DATA ITEM
@@ -1614,4 +1615,37 @@ export { XYChart };
  * @ignore
  */
 registry.registeredClasses["XYChart"] = XYChart;
+/**
+ * Add default responsive rules
+ */
+/**
+ * Remove horizontal scrollbar on narrow charts.
+ */
+defaultRules.push({
+    relevant: ResponsiveBreakpoints.maybeXS,
+    state: function (target, stateId) {
+        if (target instanceof XYChart && target.scrollbarX) {
+            var state = target.states.create(stateId);
+            var sbstate = target.scrollbarX.states.create(stateId);
+            sbstate.properties.disabled = true;
+            return state;
+        }
+        return null;
+    }
+});
+/**
+ * Remove vertical scrollbar on short charts.
+ */
+defaultRules.push({
+    relevant: ResponsiveBreakpoints.maybeXS,
+    state: function (target, stateId) {
+        if (target instanceof XYChart && target.scrollbarY) {
+            var state = target.states.create(stateId);
+            var sbstate = target.scrollbarY.states.create(stateId);
+            sbstate.properties.disabled = true;
+            return state;
+        }
+        return null;
+    }
+});
 //# sourceMappingURL=XYChart.js.map

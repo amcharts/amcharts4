@@ -25,6 +25,7 @@ import * as $utils from "../../core/utils/Utils";
 import * as $number from "../../core/utils/Number";
 import * as $array from "../../core/utils/Array";
 import * as $type from "../../core/utils/Type";
+import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive";
 /**
  * ============================================================================
  * DATA ITEM
@@ -1577,4 +1578,21 @@ export { Axis };
  */
 registry.registeredClasses["Axis"] = Axis;
 registry.registeredClasses["AxisDataItem"] = AxisDataItem;
+/**
+ * Add default responsive rules
+ */
+/**
+ * Disable axis tooltips.
+ */
+defaultRules.push({
+    relevant: ResponsiveBreakpoints.maybeXS,
+    state: function (target, stateId) {
+        if (target instanceof Axis && target.tooltip) {
+            var state = target.states.create(stateId);
+            state.properties.cursorTooltipEnabled = false;
+            return state;
+        }
+        return null;
+    }
+});
 //# sourceMappingURL=Axis.js.map

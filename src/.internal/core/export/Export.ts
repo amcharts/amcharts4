@@ -48,6 +48,7 @@ import * as $dom from "../utils/DOM";
 import * as $type from "../utils/Type";
 import * as $utils from "../utils/Utils";
 import * as $array from "../utils/Array";
+import * as $math from "../utils/Math";
 
 
 // This is used to cache the pdfmake loading
@@ -178,6 +179,20 @@ export type ExportOperation = {
  * Defines image formats available for export.
  */
 export type imageFormats = "png" | "gif" | "jpg";
+
+/**
+ * An interface describing extra elements to include in export.
+ * 
+ * @since 4.2.0
+ */
+export interface IExportCanvas {
+	marginTop?: number;
+	marginRight?: number;
+	marginBottom?: number;
+	marginLeft?: number;
+	position?: "left" | "right" | "top" | "bottom";
+	sprite?: Sprite;
+}
 
 /**
  * Represents options for image export.
@@ -623,6 +638,10 @@ export interface IExportAdapters {
 		sprite: Sprite
 	},
 
+	extraSprites: {
+		extraSprites: Array<Sprite | IExportCanvas>
+	},
+
 	data: {
 		data: Array<any>
 	},
@@ -811,6 +830,13 @@ export class Export extends Validatable {
 	 * @ignore Exclude from docs
 	 */
 	protected _sprite: $type.Optional<Sprite>;
+
+	/**
+	 * Extra [[Sprite]] elements to include in exports.
+	 *
+	 * @ignore Exclude from docs
+	 */
+	protected _extraSprites: Array<Sprite | IExportCanvas> = [];
 
 	/**
 	 * Data storage to be used when exporting to data formats.
@@ -1447,96 +1473,27 @@ export class Export extends Validatable {
 	 * } );
 	 * ```
 	 *
-	 * @param  type     Image format
-	 * @param  options  Options
+	 * @param  type           Image format
+	 * @param  options        Options
+	 * @param  includeExtras  Should extra sprites be included if set?
 	 * @return Promise
 	 */
-	public async getImage<Key extends imageFormats>(type: Key, options?: IExportImageOptions): Promise<string> {
+	public async getImage<Key extends imageFormats>(type: Key, options?: IExportImageOptions, includeExtras?: boolean): Promise<string> {
+
+		if (!$type.hasValue(options)) {
+			options = this.getFormatOptions(type);
+		}
 
 		// Are we using simplified export option?
 		if (await this.simplifiedImageExport()) {
 
-			// Get background
-			let background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
-
-			// Get DOM URL
-			let DOMURL = this.getDOMURL();
-			let url: string | null = null;
-			let blobs: Array<string> | null = null;
-
-			// Create temporary image element
 			try {
-				/**
-				 * Simplified version using `createObjectURL`
-				 * Not supported in older browsers
-				 */
 
-				// Get dimensions
-				let width = this.sprite.pixelWidth,
-					height = this.sprite.pixelHeight,
-					font = $dom.findFont(this.sprite.dom),
-					fontSize = $dom.findFontSize(this.sprite.dom);
+				let canvas = await this.getCanvas(options);
 
-				// Create canvas and its 2D context
-				var canvas = this.getDisposableCanvas();
-
-				// Set canvas width/height
-				let pixelRatio = this.getPixelRatio(options);
-				canvas.style.width = width + 'px';
-				canvas.style.height = height + 'px';
-				canvas.width = width * pixelRatio;
-				canvas.height = height * pixelRatio;
-
-				let ctx = canvas.getContext("2d");
-
-				if (pixelRatio != 1) {
-					ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-				}
-
-				// Add background if necessary
-				if (background) {
-					ctx.fillStyle = background.toString();
-					ctx.fillRect(0, 0, width, height);
-				}
-
-				let promises: Promise<any>[] = [];
-
-				if (this.useWebFonts) {
-					// TODO what if one of the other things errors before it's been able to set `blobs` ?
-					promises.push(this.getFontFamilies().then((fonts) => {
-						blobs = fonts.blobs;
-						return fonts.cssText;
-					}));
-				}
-
-				promises.push(this.imagesToDataURI(this.sprite.dom, options));
-				promises.push(this.prepForeignObjects(this.sprite.dom, options));
-
-				// Do prepareations on a document
-				let a = await Promise.all(promises);
-
-				// Get SVG representation of the Sprite
-				let data = this.normalizeSVG(
-					"<style>" + a[0] + "</style>" + this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom),
-					options,
-					width,
-					height,
-					font,
-					fontSize
-				);
-
-				// Get Blob representation of SVG and create object URL
-				let svg = new Blob([data], { type: "image/svg+xml" });
-				url = DOMURL.createObjectURL(svg);
-
-				let img = await this.loadNewImage(url, width, height, "anonymous");
-
-				// Draw image on canvas
-				ctx.drawImage(img, 0, 0);
-
-				// Options are set?
-				if (!$type.hasValue(options)) {
-					options = {};
+				// Add extra sprites
+				if (includeExtras !== false) {
+					canvas = await this.addExtras(canvas, options);
 				}
 
 				// Convert to data uri
@@ -1546,24 +1503,11 @@ export class Export extends Validatable {
 				this.disposeCanvas(canvas);
 
 				return uri;
-
-			} catch (e) {
+			}
+			catch (e) {
 				// An error occurred, let's try advanced method
-				return await this.getImageAdvanced(type, options);
+				return await this.getImageAdvanced(type, options, includeExtras);
 
-			} finally {
-				if (url !== null) {
-					DOMURL.revokeObjectURL(url);
-				}
-
-				if (blobs !== null) {
-					$array.each(blobs, (url) => {
-						DOMURL.revokeObjectURL(url);
-					});
-				}
-
-				// Restore replaced tainted images in DOM
-				this.restoreRemovedObjects();
 			}
 
 		}
@@ -1572,23 +1516,260 @@ export class Export extends Validatable {
 			/**
 			 * Going the hard way. Converting to canvas from each node
 			 */
-			return await this.getImageAdvanced(type, options);
+			return await this.getImageAdvanced(type, options, includeExtras);
 		}
 
 	}
 
 	/**
-	 * Tries to dynamically load [canvg.js](https://github.com/canvg/canvg) and
-	 * export an image using its functions.
+	 * Adds extra elements to the canvas.
 	 *
-	 * This is an asynchronous function. Check the description of `getImage()`
-	 * for description and example usage.
-	 *
-	 * @param type     Image format
-	 * @param options  Options
-	 * @return Data uri
+	 * @param  canvas   Original canvas
+	 * @param  options  Options
 	 */
-	public async getImageAdvanced(type: imageFormats, options?: IExportImageOptions): Promise<string> {
+	private async addExtras(canvas: HTMLCanvasElement, options?: IExportImageOptions, advanced?: boolean): Promise<HTMLCanvasElement> {
+		if (this.extraSprites.length) {
+			let middleLeft = 0;
+			let middleTop = 0;
+			let middleRight = canvas.width;
+			let middleBottom = canvas.height;
+			let totalWidth = canvas.width;
+			let totalHeight = canvas.height;
+
+			const extras = await Promise.all($array.map(this.extraSprites, async (extraSprite) => {
+				// Get that extra
+				let extra: IExportCanvas;
+
+				if (extraSprite instanceof Sprite) {
+					extra = {
+						sprite: extraSprite,
+						position: "bottom"
+					};
+
+				} else {
+					extra = extraSprite;
+				}
+
+				// Set defaults
+				extra.position = extra.position || "bottom";
+				extra.marginTop = extra.marginTop || 0;
+				extra.marginRight = extra.marginRight || 0;
+				extra.marginBottom = extra.marginBottom || 0;
+				extra.marginLeft = extra.marginLeft || 0;
+
+				let extraCanvas;
+
+				if (advanced) {
+					extraCanvas = await extra.sprite.exporting.getCanvasAdvanced(options);
+
+				} else {
+					extraCanvas = await extra.sprite.exporting.getCanvas(options);
+				}
+
+				const extraWidth = extraCanvas.width + extra.marginLeft + extra.marginRight;
+				const extraHeight =  extraCanvas.height + extra.marginTop + extra.marginBottom;
+
+				if (extra.position == "top") {
+					middleRight = $math.max(middleRight, extraWidth);
+					totalHeight += extraHeight;
+					middleTop += extraHeight;
+
+				} else if (extra.position == "right") {
+					middleBottom = $math.max(middleBottom, extraHeight);
+					totalWidth += extraWidth;
+
+				} else if (extra.position == "left") {
+					middleBottom = $math.max(middleBottom, extraHeight);
+					totalWidth += extraWidth;
+					middleLeft += extraWidth;
+
+				} else if (extra.position === "bottom") {
+					middleRight = $math.max(middleRight, extraWidth);
+					totalHeight += extraHeight;
+				}
+
+				return {
+					canvas: extraCanvas,
+					position: extra.position,
+					left: extra.marginLeft,
+					top: extra.marginTop,
+					width: extraWidth,
+					height: extraHeight
+				};
+			}));
+
+			const newCanvas = this.getDisposableCanvas();
+
+			newCanvas.width = totalWidth;
+			newCanvas.height = totalHeight;
+
+			const ctx = newCanvas.getContext("2d");
+
+			// Get background
+			const background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
+
+			if (background) {
+				ctx.fillStyle = background.toString();
+				ctx.fillRect(0, 0, newCanvas.width, newCanvas.height);
+			}
+
+			let left = middleLeft;
+			let top = middleTop;
+			let right = middleRight;
+			let bottom = middleBottom;
+
+			// Radiates outwards from center
+			$array.each(extras, (extra) => {
+				if (extra.position == "top") {
+					top -= extra.height;
+					ctx.drawImage(extra.canvas, middleLeft + extra.left, top + extra.top);
+
+				} else if (extra.position == "right") {
+					ctx.drawImage(extra.canvas, right + extra.left, middleTop + extra.top);
+					right += extra.width;
+
+				} else if (extra.position == "left") {
+					left -= extra.width;
+					ctx.drawImage(extra.canvas, left + extra.left, middleTop + extra.top);
+
+				} else if (extra.position === "bottom") {
+					ctx.drawImage(extra.canvas, middleLeft + extra.left, bottom + extra.top);
+					bottom += extra.height;
+				}
+
+				this.disposeCanvas(extra.canvas);
+			});
+
+			ctx.drawImage(canvas, middleLeft, middleTop);
+
+			return newCanvas;
+
+		} else {
+			return canvas;
+		}
+	}
+
+	/**
+	 * Returns canvas representation of the [[Sprite]].
+	 *
+	 * @param   options  Options
+	 * @return           Canvas
+	 */
+	public async getCanvas(options?: IExportImageOptions): Promise<HTMLCanvasElement> {
+
+		// Options are set?
+		if (!$type.hasValue(options)) {
+			options = {};
+		}
+
+		// Get background
+		let background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
+
+		// Get DOM URL
+		let DOMURL = this.getDOMURL();
+		let url: string | null = null;
+		let blobs: Array<string> | null = null;
+
+		// Create temporary image element
+		try {
+			/**
+			 * Simplified version using `createObjectURL`
+			 * Not supported in older browsers
+			 */
+
+			// Get dimensions
+			let width = this.sprite.pixelWidth,
+				height = this.sprite.pixelHeight,
+				font = $dom.findFont(this.sprite.dom),
+				fontSize = $dom.findFontSize(this.sprite.dom);
+
+			// Create canvas and its 2D context
+			var canvas = this.getDisposableCanvas();
+
+			// Set canvas width/height
+			let pixelRatio = this.getPixelRatio(options);
+			canvas.style.width = width + 'px';
+			canvas.style.height = height + 'px';
+			canvas.width = width * pixelRatio;
+			canvas.height = height * pixelRatio;
+
+			let ctx = canvas.getContext("2d");
+
+			if (pixelRatio != 1) {
+				ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+			}
+
+			// Add background if necessary
+			if (background) {
+				ctx.fillStyle = background.toString();
+				ctx.fillRect(0, 0, width, height);
+			}
+
+			let promises: Promise<any>[] = [];
+
+			if (this.useWebFonts) {
+				// TODO what if one of the other things errors before it's been able to set `blobs` ?
+				promises.push(this.getFontFamilies().then((fonts) => {
+					blobs = fonts.blobs;
+					return fonts.cssText;
+				}));
+			}
+
+			promises.push(this.imagesToDataURI(this.sprite.dom, options));
+			promises.push(this.prepForeignObjects(this.sprite.dom, options));
+
+			// Do prepareations on a document
+			let a = await Promise.all(promises);
+
+			// Get SVG representation of the Sprite
+			let data = this.normalizeSVG(
+				"<style>" + a[0] + "</style>" + this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom),
+				options,
+				width,
+				height,
+				font,
+				fontSize
+			);
+
+			// Get Blob representation of SVG and create object URL
+			let svg = new Blob([data], { type: "image/svg+xml" });
+			url = DOMURL.createObjectURL(svg);
+
+			let img = await this.loadNewImage(url, width, height, "anonymous");
+
+			// Draw image on canvas
+			ctx.drawImage(img, 0, 0);
+
+		} finally {
+			if (url !== null) {
+				DOMURL.revokeObjectURL(url);
+			}
+
+			if (blobs !== null) {
+				$array.each(blobs, (url) => {
+					DOMURL.revokeObjectURL(url);
+				});
+			}
+
+			// Restore replaced tainted images in DOM
+			this.restoreRemovedObjects();
+		}
+
+		return canvas;
+	}
+
+	/**
+	 * Returns canvas representation of the [[Sprite]] using canvg.
+	 *
+	 * @param   options  Options
+	 * @return           Canvas
+	 */
+	public async getCanvasAdvanced(options?: IExportImageOptions): Promise<HTMLCanvasElement> {
+
+		// Options are set?
+		if (!$type.hasValue(options)) {
+			options = {};
+		}
 
 		// Convert external images to data uris
 		await this.imagesToDataURI(this.sprite.dom, options);
@@ -1639,9 +1820,33 @@ export class Export extends Validatable {
 
 		canvg(canvas, data, config);
 
-		// Options are set?
+		return canvas;
+
+	}
+
+	/**
+	 * Tries to dynamically load [canvg.js](https://github.com/canvg/canvg) and
+	 * export an image using its functions.
+	 *
+	 * This is an asynchronous function. Check the description of `getImage()`
+	 * for description and example usage.
+	 *
+	 * @param type     Image format
+	 * @param options  Options
+	 * @return Data uri
+	 */
+	public async getImageAdvanced(type: imageFormats, options?: IExportImageOptions, includeExtras?: boolean): Promise<string> {
+
 		if (!$type.hasValue(options)) {
-			options = {};
+			options = this.getFormatOptions(type);
+		}
+
+		// Get canvas
+		let canvas = await this.getCanvasAdvanced(options);
+
+		// Add extra sprites
+		if (includeExtras !== false) {
+			canvas = await this.addExtras(canvas, options, true);
 		}
 
 		// Convert canvas to data url
@@ -3163,6 +3368,36 @@ export class Export extends Validatable {
 		return this.adapter.apply("sprite", {
 			sprite: this._sprite
 		}).sprite;
+	}
+
+	/**
+	 * An array of extra [[Sprite] elements to include in export.
+	 *
+	 * It can be used to export any external elements, or even other charts.
+	 *
+	 * E.g.:
+	 *
+	 * ```TypeScript
+	 * chart.exporting.extraSprites.push(chart2);
+	 * ```
+	 * ```JavaScript
+	 * chart.exporting.extraSprites.push(chart2);
+	 * ```
+	 *
+	 * @since 4.2.0
+	 * @param value Sprite
+	 */
+	public set extraSprites(value: Array<Sprite | IExportCanvas>) {
+		this._extraSprites = value;
+	}
+
+	/**
+	 * @return Sprite
+	 */
+	public get extraSprites(): Array<Sprite | IExportCanvas> {
+		return this.adapter.apply("extraSprites", {
+			extraSprites: this._extraSprites
+		}).extraSprites;
 	}
 
 	/**

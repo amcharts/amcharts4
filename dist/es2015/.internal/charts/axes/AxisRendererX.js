@@ -17,6 +17,7 @@ import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
+import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -376,4 +377,38 @@ export { AxisRendererX };
  * @ignore
  */
 registry.registeredClasses["AxisRendererX"] = AxisRendererX;
+/**
+ * Add default responsive rules
+ */
+/**
+ * Put labels inside plot area.
+ * Disable first and last labels.
+ */
+defaultRules.push({
+    relevant: ResponsiveBreakpoints.heightXS,
+    state: function (target, stateId) {
+        if (target instanceof AxisRendererX) {
+            var state = target.states.create(stateId);
+            state.properties.inside = true;
+            state.properties.maxLabelPosition = 0.9;
+            state.properties.minLabelPosition = 0.1;
+            return state;
+        }
+        return null;
+    }
+});
+/**
+ * Disable labels altogather on very small charts
+ */
+defaultRules.push({
+    relevant: ResponsiveBreakpoints.heightXXS,
+    state: function (target, stateId) {
+        if (target instanceof AxisRendererX) {
+            var state = target.states.create(stateId);
+            state.properties.disabled = true;
+            return state;
+        }
+        return null;
+    }
+});
 //# sourceMappingURL=AxisRendererX.js.map

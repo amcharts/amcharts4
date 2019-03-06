@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.2.0] - 2019-03-06
+
+### Added
+- Added read-only property of `CategoryAxis`: `frequency`. Indicates every X label is shown.
+- Added JSON example of Candle stick chart (json/candlestick-series).
+- New `Export` property: `extraSprites`. May contain a list of references to other `Sprites` (e.g. external legend or even other chart) to attach to exported image. [More info](https://www.amcharts.com/docs/v4/concepts/exporting/#Including_external_elements).
+- Experimental responsive features and default rules are now active. [More info](https://www.amcharts.com/docs/v4/concepts/responsive/).
+
+### Changed
+- Accessibility: Default role of the Legend's item containers was changed to "switch".
+
+### Fixed
+- Accessibility: Legend's containers when toggling items were setting value of `aria-checked` incorrectly.
+
+
 ## [4.1.14] - 2019-03-01
 
 ### Changed

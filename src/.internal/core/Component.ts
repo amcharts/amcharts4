@@ -12,7 +12,7 @@ import { Dictionary } from "./utils/Dictionary";
 import { IDisposer, Disposer, MultiDisposer } from "./utils/Disposer";
 import { Export, IExportAdapters } from "./export/Export";
 import { DataSource } from "./data/DataSource";
-import { Responsive } from "./responsive/Responsive";
+import { Responsive } from "./utils/Responsive";
 import { system } from "./System";
 
 import { DataItem } from "./DataItem";

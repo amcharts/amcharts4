@@ -24,6 +24,7 @@ import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
 import { Paper } from "../rendering/Paper";
 import * as $dom from "../utils/DOM";
+import { defaultRules, ResponsiveBreakpoints } from "../utils/Responsive";
 
 
 /**
@@ -1652,3 +1653,23 @@ export class Label extends Container {
  * @ignore
  */
 registry.registeredClasses["Label"] = Label;
+
+/**
+ * Add default responsive rules
+ */
+
+/**
+ * Hide labels added directly to chart, like titles if chart is short.
+ */
+defaultRules.push({
+	relevant: ResponsiveBreakpoints.heightXS,
+	state: function(target, stateId) {
+		if (target instanceof Label && target.parent && target.parent.isBaseSprite) {
+			let state = target.states.create(stateId);
+			state.properties.disabled = true;
+			return state;
+		}
+
+		return null;
+	}
+});

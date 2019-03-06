@@ -13,6 +13,7 @@ import { AxisItemLocation, AxisDataItem, Axis } from "./Axis";
 import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
+import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive";
 
 
 /**
@@ -152,3 +153,23 @@ export class Grid extends Sprite {
  * @ignore
  */
 registry.registeredClasses["Grid"] = Grid;
+
+/**
+ * Add default responsive rules
+ */
+
+/**
+ * Disable grid on smaller charts
+ */
+defaultRules.push({
+	relevant: ResponsiveBreakpoints.maybeXS,
+	state: function(target, stateId) {
+		if (target instanceof Grid) {
+			let state = target.states.create(stateId);
+			state.properties.disabled = true;
+			return state;
+		}
+
+		return null;
+	}
+});

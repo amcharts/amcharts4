@@ -10,6 +10,7 @@ import * as tslib_1 from "tslib";
  */
 import { Container } from "../../core/Container";
 import { registry } from "../../core/Registry";
+import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -171,4 +172,21 @@ export { Bullet };
  * @ignore
  */
 registry.registeredClasses["Bullet"] = Bullet;
+/**
+ * Add default responsive rules
+ */
+/**
+ * Hide bullets
+ */
+defaultRules.push({
+    relevant: ResponsiveBreakpoints.isXS,
+    state: function (target, stateId) {
+        if (target instanceof Bullet) {
+            var state = target.states.create(stateId);
+            state.properties.disabled = true;
+            return state;
+        }
+        return null;
+    }
+});
 //# sourceMappingURL=Bullet.js.map

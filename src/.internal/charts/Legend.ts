@@ -30,6 +30,9 @@ import * as $type from "../core/utils/Type";
 import { Sprite } from "../core/Sprite";
 import { Disposer } from "../core/utils/Disposer";
 import { MouseCursorStyle } from "../core/interaction/Mouse";
+import { defaultRules, ResponsiveBreakpoints } from "../core/utils/Responsive";
+
+
 /**
  * ============================================================================
  * DATA ITEM
@@ -223,7 +226,7 @@ export class LegendDataItem extends DataItem {
 				if (sprite instanceof Sprite) {
 					itemContainer.addDisposer(
 						sprite.events.on("hidden", (ev) => {
-							itemContainer.readerChecked = true;
+							itemContainer.readerChecked = false;
 							itemContainer.events.disableType("toggled");
 							itemContainer.isActive = true;
 							itemContainer.events.enableType("toggled");
@@ -231,7 +234,7 @@ export class LegendDataItem extends DataItem {
 					)
 					itemContainer.addDisposer(
 						sprite.events.on("shown", (ev) => {
-							itemContainer.readerChecked = false;
+							itemContainer.readerChecked = true;
 							itemContainer.events.disableType("toggled");
 							itemContainer.isActive = false;
 							itemContainer.events.enableType("toggled");
@@ -470,7 +473,7 @@ export class Legend extends Component {
 		itemContainer.layout = "horizontal";
 		itemContainer.clickable = true;
 		itemContainer.focusable = true;
-		itemContainer.role = "checkbox";
+		itemContainer.role = "switch";
 		itemContainer.togglable = true;
 		itemContainer.cursorOverStyle = MouseCursorStyle.pointer;
 		itemContainer.background.fillOpacity = 0; // creates hit area
@@ -805,3 +808,56 @@ export class Legend extends Component {
  * @ignore
  */
 registry.registeredClasses["Legend"] = Legend;
+
+
+/**
+ * Add default responsive rules
+ */
+
+/**
+ * Move legend to below the chart if chart is narrow
+ */
+defaultRules.push({
+	relevant: ResponsiveBreakpoints.widthXS,
+	state: function(target, stateId) {
+		if (target instanceof Legend && (target.position == "left" || target.position == "right")) {
+			let state = target.states.create(stateId);
+			state.properties.position = "bottom";
+			return state;
+		}
+
+		return null;
+	}
+});
+
+/**
+ * Move legend to the right if chart is very short
+ */
+defaultRules.push({
+	relevant: ResponsiveBreakpoints.heightXS,
+	state: function(target, stateId) {
+		if (target instanceof Legend && (target.position == "top" || target.position == "bottom")) {
+			let state = target.states.create(stateId);
+			state.properties.position = "right";
+			return state;
+		}
+
+		return null;
+	}
+});
+
+/**
+ * Disable legend altogether on small charts
+ */
+defaultRules.push({
+	relevant: ResponsiveBreakpoints.isXS,
+	state: function(target, stateId) {
+		if (target instanceof Legend) {
+			let state = target.states.create(stateId);
+			state.properties.disabled = true;
+			return state;
+		}
+
+		return null;
+	}
+});

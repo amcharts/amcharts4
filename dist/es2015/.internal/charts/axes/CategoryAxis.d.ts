@@ -432,4 +432,15 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @ignore Exclude from docs
      */
     initRenderer(): void;
+    /**
+     * Current frequency of labels of the axis.
+     *
+     * Normally it would be 1, but when labels start to be hidden due
+     * to `minGridDistance` this read-only property will increase.
+     *
+     * @readonly
+     * @since 4.2.0
+     * @return Label frequency
+     */
+    readonly frequency: number;
 }

@@ -8619,6 +8619,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		}
 		return this._bbox;
 	}
+
 }
 
 /**

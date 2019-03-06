@@ -150,11 +150,6 @@ export { FocusFilterProperties, FocusFilter } from "./.internal/core/rendering/f
 export { LightenFilterProperties, LightenFilter } from "./.internal/core/rendering/filters/LightenFilter";
 
 /**
- * Elements: responsive
- */
-export { IResponsiveRule, IResponsiveEvents, IResponsiveAdapters, Responsive } from "./.internal/core/responsive/Responsive";
-
-/**
  * Elements: utils
  */
 export { GlobalAdapter, globalAdapter, Adapter } from "./.internal/core/utils/Adapter";
@@ -179,6 +174,7 @@ export { Morpher } from "./.internal/core/utils/Morpher";
 export { INetLoadResult } from "./.internal/core/utils/Net";
 export { Ordering, reverse, or } from "./.internal/core/utils/Order";
 export { Percent, percent, isPercent } from "./.internal/core/utils/Percent";
+export { IResponsiveRule, IResponsiveEvents, IResponsiveAdapters, Responsive, ResponsiveBreakpoints, defaultRules } from "./.internal/core/utils/Responsive";
 export { ISortedListEvents, OrderedList, SortedList, OrderedListTemplate, SortedListTemplate } from "./.internal/core/utils/SortedList";
 export { PX, STRING, NUMBER, DATE, DURATION, PLACEHOLDER, PLACEHOLDER2 } from "./.internal/core/utils/Strings";
 export { Public, Optional, isNaN, checkString, checkBoolean, checkNumber, checkObject, castString, castNumber, isString, isNumber, isObject, isArray } from "./.internal/core/utils/Type";

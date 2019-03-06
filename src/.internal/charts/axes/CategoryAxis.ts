@@ -1069,6 +1069,20 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		let renderer = this.renderer;
 		renderer.baseGrid.disabled = true;
 	}
+
+	/**
+	 * Current frequency of labels of the axis.
+	 *
+	 * Normally it would be 1, but when labels start to be hidden due
+	 * to `minGridDistance` this read-only property will increase.
+	 *
+	 * @readonly
+	 * @since 4.2.0
+	 * @return Label frequency
+	 */
+	public get frequency(): number {
+		return this._frequency;
+	}
 }
 
 /**

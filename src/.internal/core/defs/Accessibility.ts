@@ -63,6 +63,7 @@ export type Roles =
 	| "spinbutton"
 	| "status"
 	| "structure"
+	| "switch"
 	| "tab"
 	| "tablist"
 	| "tabpanel"

@@ -55,6 +55,19 @@ export declare type ExportOperation = {
  */
 export declare type imageFormats = "png" | "gif" | "jpg";
 /**
+ * An interface describing extra elements to include in export.
+ *
+ * @since 4.2.0
+ */
+export interface IExportCanvas {
+    marginTop?: number;
+    marginRight?: number;
+    marginBottom?: number;
+    marginLeft?: number;
+    position?: "left" | "right" | "top" | "bottom";
+    sprite?: Sprite;
+}
+/**
  * Represents options for image export.
  */
 export interface IExportImageOptions {
@@ -422,6 +435,9 @@ export interface IExportAdapters {
     sprite: {
         sprite: Sprite;
     };
+    extraSprites: {
+        extraSprites: Array<Sprite | IExportCanvas>;
+    };
     data: {
         data: Array<any>;
     };
@@ -580,6 +596,12 @@ export declare class Export extends Validatable {
      * @ignore Exclude from docs
      */
     protected _sprite: $type.Optional<Sprite>;
+    /**
+     * Extra [[Sprite]] elements to include in exports.
+     *
+     * @ignore Exclude from docs
+     */
+    protected _extraSprites: Array<Sprite | IExportCanvas>;
     /**
      * Data storage to be used when exporting to data formats.
      *
@@ -838,11 +860,33 @@ export declare class Export extends Validatable {
      * } );
      * ```
      *
-     * @param  type     Image format
-     * @param  options  Options
+     * @param  type           Image format
+     * @param  options        Options
+     * @param  includeExtras  Should extra sprites be included if set?
      * @return Promise
      */
-    getImage<Key extends imageFormats>(type: Key, options?: IExportImageOptions): Promise<string>;
+    getImage<Key extends imageFormats>(type: Key, options?: IExportImageOptions, includeExtras?: boolean): Promise<string>;
+    /**
+     * Adds extra elements to the canvas.
+     *
+     * @param  canvas   Original canvas
+     * @param  options  Options
+     */
+    private addExtras(canvas, options?, advanced?);
+    /**
+     * Returns canvas representation of the [[Sprite]].
+     *
+     * @param   options  Options
+     * @return           Canvas
+     */
+    getCanvas(options?: IExportImageOptions): Promise<HTMLCanvasElement>;
+    /**
+     * Returns canvas representation of the [[Sprite]] using canvg.
+     *
+     * @param   options  Options
+     * @return           Canvas
+     */
+    getCanvasAdvanced(options?: IExportImageOptions): Promise<HTMLCanvasElement>;
     /**
      * Tries to dynamically load [canvg.js](https://github.com/canvg/canvg) and
      * export an image using its functions.
@@ -854,7 +898,7 @@ export declare class Export extends Validatable {
      * @param options  Options
      * @return Data uri
      */
-    getImageAdvanced(type: imageFormats, options?: IExportImageOptions): Promise<string>;
+    getImageAdvanced(type: imageFormats, options?: IExportImageOptions, includeExtras?: boolean): Promise<string>;
     /**
      * Creates a `<canvas>` element and returns it.
      *
@@ -1197,6 +1241,27 @@ export declare class Export extends Validatable {
      * @param value Sprite
      */
     sprite: Sprite;
+    /**
+     * @return Sprite
+     */
+    /**
+     * An array of extra [[Sprite] elements to include in export.
+     *
+     * It can be used to export any external elements, or even other charts.
+     *
+     * E.g.:
+     *
+     * ```TypeScript
+     * chart.exporting.extraSprites.push(chart2);
+     * ```
+     * ```JavaScript
+     * chart.exporting.extraSprites.push(chart2);
+     * ```
+     *
+     * @since 4.2.0
+     * @param value Sprite
+     */
+    extraSprites: Array<Sprite | IExportCanvas>;
     /**
      * @return Data
      */
