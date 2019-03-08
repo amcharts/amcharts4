@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.2.1] - 2019-03-08
+
+### Fixed
+- Various graphical issues when using `<base>` tag (mostly affects Angular).
+
+
 ## [4.2.0] - 2019-03-06
 
 ### Added

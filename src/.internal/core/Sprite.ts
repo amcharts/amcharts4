@@ -2033,7 +2033,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this._disposers.push(this._clipPath);
 			let id: string = registry.getUniqueId();
 			this._clipPath.attr({ "id": id });
-			this.group.attr({ "clip-path": "url(" + $utils.getBaseURI() + id + ")" });
+			this.group.attr({ "clip-path": "url(\"" + $utils.getBaseURI() + id + "\")" });
 		}
 	}
 
@@ -2127,7 +2127,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 			this.filterElement.attr({ "width": w, "height": h, "x": -(width - 100) / 2 + "%", "y": -(height - 100) / 2 + "%" });
 
-			this.group.attr({ "filter": "url(" + $utils.getBaseURI() + id + ")" });
+			this.group.attr({ "filter": "url(\"" + $utils.getBaseURI() + id + "\")" });
 		}
 		else if (this.filterElement) {
 			this.group.removeAttr("filter");
@@ -7263,7 +7263,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			else if (<any>value instanceof Pattern || <any>value instanceof LinearGradient || <any>value instanceof RadialGradient) {
 				let fill = value;
 				fill.paper = this.paper;
-				this.setSVGAttribute({ "fill": "url(" + $utils.getBaseURI() + fill.id + ")" });
+				this.setSVGAttribute({ "fill": "url(\"" + $utils.getBaseURI() + fill.id + "\")" });
 			}
 		}
 	}
@@ -7352,7 +7352,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			else if (<any>value instanceof Pattern || <any>value instanceof LinearGradient || <any>value instanceof RadialGradient) {
 				let stroke = value;
 				stroke.paper = this.paper;
-				this.setSVGAttribute({ "stroke": "url(" + $utils.getBaseURI() + stroke.id + ")" });
+				this.setSVGAttribute({ "stroke": "url(\"" + $utils.getBaseURI() + stroke.id + "\")" });
 			}
 		}
 	}
