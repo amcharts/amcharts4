@@ -110,9 +110,16 @@ var DateFormatter = /** @class */ (function (_super) {
         format = $utils.cleanFormat(format);
         // get format info (it will also deal with parser caching)
         var info = this.parseFormat(format);
-        // Do any casting if required
+        // Do casting if required
         // This will take care of timestamps as well as Date objects
-        var date = $utils.anyToDate(source);
+        var date;
+        if ($type.isString(source)) {
+            // If it's a string, let's try parsing it using our own functionality
+            date = this.parse(source);
+        }
+        else {
+            date = $utils.anyToDate(source);
+        }
         // Check if it's a valid date
         if (!$type.isNumber(date.getTime())) {
             return this.language.translate("Invalid date");
@@ -475,6 +482,8 @@ var DateFormatter = /** @class */ (function (_super) {
         var reg = "";
         // Clean format
         format = $utils.cleanFormat(format);
+        // Clip format to length of the source string
+        format = format.substr(0, source.length);
         // Parse format
         var info = this.parseFormat(format);
         // Init parsed items holder

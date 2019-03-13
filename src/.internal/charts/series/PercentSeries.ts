@@ -700,6 +700,25 @@ export class PercentSeries extends Series {
 		}
 	}
 
+
+	protected arrangeLabels2(dataItems: this["_dataItem"][]): void {
+
+		let previousTop = this.maxHeight / 2;
+
+		for (let i = dataItems.length - 1; i >= 0; i--) {
+			let dataItem: this["_dataItem"] = dataItems[i];
+
+			let label = dataItem.label;
+		
+			if (label) {
+				if(label.pixelY + label.measuredHeight > previousTop){
+					label.y = previousTop - label.measuredHeight;
+					previousTop = label.y;
+				}
+			}
+		}
+	}	
+
 	/**
 	 * Returns the next label according to `index`.
 	 *

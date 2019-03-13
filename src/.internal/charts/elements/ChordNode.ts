@@ -145,12 +145,13 @@ export class ChordNode extends FlowDiagramNode {
 		super();
 		this.className = "ChordNode";
 
-		this.label = this.createChild(AxisLabelCircular);
-		this.label.location = 0.5;
-		this.label.radius = 5;
-		this.label.text = "{name}";
-		this.label.zIndex = 1;
-		this.label.shouldClone = false;
+		let label = this.createChild(AxisLabelCircular);
+		label.location = 0.5;
+		label.radius = 5;
+		label.text = "{name}";
+		label.zIndex = 1;
+		label.shouldClone = false;
+		this.label = label;
 
 		this.layout = "none";
 

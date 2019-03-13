@@ -386,9 +386,11 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.processXAxis = function (event) {
         var axis = event.newValue;
         axis.chart = this;
-        axis.renderer = new this._axisRendererX();
+        if (!axis.renderer) {
+            axis.renderer = new this._axisRendererX();
+            axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleXAxisChange, this, false);
+        }
         axis.axisLetter = "X";
-        axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleXAxisChange, this);
         axis.events.on("startchanged", this.handleXAxisRangeChange, this, false);
         axis.events.on("endchanged", this.handleXAxisRangeChange, this, false);
         // Although axis does not use data directly, we set dataProvider here
@@ -407,9 +409,11 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.processYAxis = function (event) {
         var axis = event.newValue;
         axis.chart = this;
-        axis.renderer = new this._axisRendererY();
+        if (!axis.renderer) {
+            axis.renderer = new this._axisRendererY();
+            axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleYAxisChange, this, false);
+        }
         axis.axisLetter = "Y";
-        axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleYAxisChange, this);
         axis.events.on("startchanged", this.handleYAxisRangeChange, this, false);
         axis.events.on("endchanged", this.handleYAxisRangeChange, this, false);
         // Although axis does not use data directly, we set dataProvider here
@@ -691,6 +695,7 @@ var XYChart = /** @class */ (function (_super) {
                     // TODO this is wrong, fix it
                     this._disposers.push(cursor);
                     cursor.chart = this;
+                    cursor.shouldClone = false;
                     cursor.parent = this._cursorContainer;
                     cursor.events.on("cursorpositionchanged", this.handleCursorPositionChange, this, false);
                     cursor.events.on("zoomstarted", this.handleCursorZoomStart, this, false);
@@ -1100,6 +1105,7 @@ var XYChart = /** @class */ (function (_super) {
             if (scrollbar) {
                 this._disposers.push(scrollbar);
                 scrollbar.parent = this.topAxesContainer;
+                scrollbar.shouldClone = false;
                 scrollbar.startGrip.exportable = false;
                 scrollbar.endGrip.exportable = false;
                 scrollbar.toBack();
@@ -1140,6 +1146,7 @@ var XYChart = /** @class */ (function (_super) {
                 this._disposers.push(scrollbar);
                 scrollbar.parent = this.rightAxesContainer;
                 scrollbar.startGrip.exportable = false;
+                scrollbar.shouldClone = false;
                 scrollbar.endGrip.exportable = false;
                 scrollbar.toFront();
                 scrollbar.orientation = "vertical";
@@ -1565,10 +1572,26 @@ var XYChart = /** @class */ (function (_super) {
      * @param source Source XYChart
      */
     XYChart.prototype.copyFrom = function (source) {
+        var _this = this;
+        source.xAxes.each(function (axis) {
+            _this.xAxes.push(axis.clone());
+        });
+        source.yAxes.each(function (axis) {
+            _this.yAxes.push(axis.clone());
+        });
+        //this.xAxes.copyFrom(source.xAxes);
+        //this.yAxes.copyFrom(source.yAxes);
         _super.prototype.copyFrom.call(this, source);
-        this.xAxes.copyFrom(source.xAxes);
-        this.yAxes.copyFrom(source.yAxes);
-        this.zoomOutButton.copyFrom(source.zoomOutButton);
+        //this.zoomOutButton.copyFrom(source.zoomOutButton);
+        if (source.cursor) {
+            this.cursor = source.cursor.clone();
+        }
+        if (source.scrollbarX) {
+            this.scrollbarX = source.scrollbarX.clone();
+        }
+        if (source.scrollbarY) {
+            this.scrollbarY = source.scrollbarY.clone();
+        }
         //@todo copy all container properties
     };
     /**

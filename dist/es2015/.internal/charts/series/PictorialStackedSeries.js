@@ -71,6 +71,7 @@ var PictorialStackedSeries = /** @class */ (function (_super) {
         _this._maskSprite = _this.slicesContainer.createChild(Sprite);
         _this._maskSprite.visible = false;
         _this._maskSprite.zIndex = 100;
+        _this._maskSprite.shouldClone = false;
         return _this;
     }
     /**

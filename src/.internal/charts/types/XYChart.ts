@@ -629,10 +629,12 @@ export class XYChart extends SerialChart {
 		let axis: Axis = event.newValue;
 		axis.chart = this;
 
-		axis.renderer = new this._axisRendererX();
+		if(!axis.renderer){
+			axis.renderer = new this._axisRendererX();
+			axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleXAxisChange, this, false);
+		}
 		axis.axisLetter = "X";
-
-		axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleXAxisChange, this);
+		
 		axis.events.on("startchanged", this.handleXAxisRangeChange, this, false);
 		axis.events.on("endchanged", this.handleXAxisRangeChange, this, false);
 
@@ -656,11 +658,12 @@ export class XYChart extends SerialChart {
 
 		let axis: Axis = event.newValue;
 		axis.chart = this;
-
-		axis.renderer = new this._axisRendererY();
+		if(!axis.renderer){
+			axis.renderer = new this._axisRendererY();
+			axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleYAxisChange, this, false);
+		}
 		axis.axisLetter = "Y";
-
-		axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleYAxisChange, this);
+		
 		axis.events.on("startchanged", this.handleYAxisRangeChange, this, false);
 		axis.events.on("endchanged", this.handleYAxisRangeChange, this, false);
 
@@ -963,6 +966,7 @@ export class XYChart extends SerialChart {
 				// TODO this is wrong, fix it
 				this._disposers.push(cursor);
 				cursor.chart = this;
+				cursor.shouldClone = false;
 				cursor.parent = this._cursorContainer;
 				cursor.events.on("cursorpositionchanged", this.handleCursorPositionChange, this, false);
 				cursor.events.on("zoomstarted", this.handleCursorZoomStart, this, false);
@@ -1445,6 +1449,7 @@ export class XYChart extends SerialChart {
 		if (scrollbar) {
 			this._disposers.push(scrollbar);
 			scrollbar.parent = this.topAxesContainer;
+			scrollbar.shouldClone = false;
 			scrollbar.startGrip.exportable = false;
 			scrollbar.endGrip.exportable = false;
 			scrollbar.toBack();
@@ -1483,6 +1488,7 @@ export class XYChart extends SerialChart {
 			this._disposers.push(scrollbar);
 			scrollbar.parent = this.rightAxesContainer;
 			scrollbar.startGrip.exportable = false;
+			scrollbar.shouldClone = false;
 			scrollbar.endGrip.exportable = false;
 			scrollbar.toFront();
 			scrollbar.orientation = "vertical";
@@ -1966,12 +1972,34 @@ export class XYChart extends SerialChart {
 	 *
 	 * @param source Source XYChart
 	 */
-	public copyFrom(source: this) {
-		super.copyFrom(source);
-		this.xAxes.copyFrom(source.xAxes);
-		this.yAxes.copyFrom(source.yAxes);
+	public copyFrom(source: this) {		
+		
+		source.xAxes.each((axis)=>{
+			this.xAxes.push(axis.clone());
+		})
 
-		this.zoomOutButton.copyFrom(source.zoomOutButton);
+		source.yAxes.each((axis)=>{
+			this.yAxes.push(axis.clone());
+		})		
+
+		//this.xAxes.copyFrom(source.xAxes);
+		//this.yAxes.copyFrom(source.yAxes);
+
+		super.copyFrom(source);
+
+		//this.zoomOutButton.copyFrom(source.zoomOutButton);
+
+		if(source.cursor){
+			this.cursor = source.cursor.clone();
+		}
+
+		if(source.scrollbarX){
+			this.scrollbarX = source.scrollbarX.clone();
+		}
+
+		if(source.scrollbarY){
+			this.scrollbarY = source.scrollbarY.clone();
+		}
 		//@todo copy all container properties
 	}
 

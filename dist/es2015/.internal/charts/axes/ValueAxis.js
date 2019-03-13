@@ -1228,7 +1228,9 @@ var ValueAxis = /** @class */ (function (_super) {
             selectionMax = this._maxReal;
         }
         if (selectionMin == selectionMax) {
-            var minMaxStep2 = this.adjustMinMax(selectionMin, selectionMax, selectionMax - selectionMin, this._gridCount, true);
+            selectionMin -= 1;
+            selectionMax += 1;
+            var minMaxStep2 = this.adjustMinMax(selectionMin, selectionMax, 0, this._gridCount, this.strictMinMax);
             selectionMin = minMaxStep2.min;
             selectionMax = minMaxStep2.max;
         }

@@ -459,6 +459,26 @@ var NumberFormatter = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(NumberFormatter.prototype, "negativeBase", {
+        /**
+         * @return A format to use for number formatting
+         */
+        get: function () {
+            return this._negativeBase;
+        },
+        /**
+         * Negative base for negative numbers.
+         *
+         * @default 0
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
+         * @param format  A format to use for number formatting
+         */
+        set: function (value) {
+            this._negativeBase = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(NumberFormatter.prototype, "bigNumberPrefixes", {
         /**
          * @return Prefixes for big numbers

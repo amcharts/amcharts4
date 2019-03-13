@@ -502,7 +502,8 @@ export interface IXYSeriesProperties extends ISeriesProperties {
 	stacked?: boolean;
 
 	/**
-	 * Should the nearest tooltip be shown if no data item is found on the current cursor position
+	 * Should the nearest tooltip be shown if no data item is found on the
+	 * current cursor position
 	 *
 	 * @default false
 	 */
@@ -510,8 +511,18 @@ export interface IXYSeriesProperties extends ISeriesProperties {
 
 	/**
 	 * Indicates if series should display a tooltip for chart's cursor.
+	 *
+	 * @default true
 	 */
 	cursorTooltipEnabled?: boolean;
+
+	/**
+	 * Indicates if series should apply hover state on bullets/columns/etc when
+	 * cursor is over the data item.
+	 * 
+	 * @default true
+	 */
+	cursorHoverEnabled?: boolean;
 }
 
 /**
@@ -681,7 +692,7 @@ export class XYSeries extends Series {
 	/**
 	 * @ignore
 	 */
-	public _baseInterval:{[index:string]:ITimeInterval} = {};
+	public _baseInterval: { [index: string]: ITimeInterval } = {};
 
 
 	/**
@@ -693,6 +704,8 @@ export class XYSeries extends Series {
 		this.isMeasured = false;
 
 		this.cursorTooltipEnabled = true;
+
+		this.cursorHoverEnabled = true;
 
 		this.mainContainer.mask = new Sprite();
 		this.mainContainer.mask.setElement(this.paper.add("path"));
@@ -1304,7 +1317,7 @@ export class XYSeries extends Series {
 
 				let point = this.showTooltipAtDataItem(dataItem);
 
-				if(point){
+				if (point) {
 					return point;
 				}
 
@@ -1355,9 +1368,15 @@ export class XYSeries extends Series {
 							this._prevTooltipDataItem = dataItem;
 						}
 
-						for (let a of dataItem.bullets) {
-							let bullet = a[1]
-							bullet.isHover = true;
+						if (this.cursorHoverEnabled) {
+							for (let sprite of dataItem.sprites) {
+								if (!sprite.parent.visible || sprite.isHidden || sprite.__disabled || sprite.disabled || sprite.isHiding) {
+
+								}
+								else {
+									sprite.isHover = true;
+								}
+							}
 						}
 
 						if (this.showTooltip()) {
@@ -1376,10 +1395,9 @@ export class XYSeries extends Series {
 	 */
 	protected returnBulletDefaultState(dataItem?: XYSeriesDataItem) {
 		if (this._prevTooltipDataItem && this._prevTooltipDataItem != dataItem) {
-			for (let a of this._prevTooltipDataItem.bullets) {
-				let bullet = a[1];
-				if (!bullet.isDisposed()) {
-					bullet.isHover = false;
+			for (let sprite of this._prevTooltipDataItem.sprites) {
+				if (!sprite.isDisposed()) {
+					sprite.isHover = false;
 				}
 				else {
 					this._prevTooltipDataItem = undefined;
@@ -1971,6 +1989,29 @@ export class XYSeries extends Series {
 	 */
 	public get cursorTooltipEnabled(): boolean {
 		return this.getPropertyValue("cursorTooltipEnabled");
+	}
+
+	/**
+	 * Indicates if series should apply hover state on bullets/columns/etc when
+	 * cursor is over the data item.
+	 *
+	 * If set to `true` (default) and chart cursor is enabled on th chart,
+	 * hovering over date/category will trigger hover states on related Series
+	 * items like bullets and columns.
+	 *
+	 * @default true
+	 * @since 4.2.2
+	 * @param  value  Hover enabled?
+	 */
+	public set cursorHoverEnabled(value: boolean) {
+		this.setPropertyValue("cursorHoverEnabled", value);
+	}
+
+	/**
+	 * @return Hover enabled?
+	 */
+	public get cursorHoverEnabled(): boolean {
+		return this.getPropertyValue("cursorHoverEnabled");
 	}
 
 }

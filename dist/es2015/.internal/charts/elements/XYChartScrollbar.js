@@ -136,10 +136,10 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             xAxis.title.disabled = true;
             xAxis.rangeChangeDuration = 0;
             xAxis.id = sourceSeries.uid;
-            xAxis.title.disabled = true;
             var renderer = xAxis.renderer;
             renderer.ticks.template.disabled = true;
             renderer.inside = true;
+            renderer.labels.template.inside = true;
             renderer.line.strokeOpacity = 0;
             renderer.minLabelPosition = 0.02;
             renderer.maxLabelPosition = 0.98;
@@ -147,6 +147,10 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             renderer.axisFills.template.disabled = true;
             renderer.baseGrid.disabled = true;
             renderer.grid.template.strokeOpacity = 0.05;
+            renderer.minWidth = undefined;
+            renderer.minHeight = undefined;
+            renderer.padding(0, 0, 0, 0);
+            renderer.margin(0, 0, 0, 0);
             var labelsTemplate = renderer.labels.template;
             labelsTemplate.fillOpacity = 0.5;
             series.xAxis = xAxis;
@@ -162,6 +166,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             var renderer = yAxis.renderer;
             renderer.ticks.template.disabled = true;
             renderer.inside = true;
+            renderer.labels.template.inside = true;
             renderer.line.strokeOpacity = 0;
             renderer.minLabelPosition = 0.02;
             renderer.maxLabelPosition = 0.98;
@@ -170,6 +175,10 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             renderer.grid.template.stroke = interfaceColors.getFor("background");
             renderer.baseGrid.disabled = true;
             renderer.grid.template.strokeOpacity = 0.05;
+            renderer.minWidth = undefined;
+            renderer.minHeight = undefined;
+            renderer.padding(0, 0, 0, 0);
+            renderer.margin(0, 0, 0, 0);
             var labelsTemplate = renderer.labels.template;
             labelsTemplate.fillOpacity = 0.5;
             series.yAxis = yAxis;

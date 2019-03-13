@@ -2,7 +2,6 @@ am4core.useTheme(am4themes_animated);
 
 var chart = am4core.create("chartdiv", am4charts.RadarChart);
 
-
 chart.data = [
     {
         category: "One",
@@ -72,6 +71,7 @@ categoryAxis.renderer.labels.template.horizontalCenter = "right";
 categoryAxis.renderer.grid.template.location = 0;
 categoryAxis.renderer.tooltipLocation = 0.5;
 categoryAxis.renderer.grid.template.strokeOpacity = 0.07;
+categoryAxis.interactionsEnabled = false;
 
 var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
 valueAxis.tooltip.disabled = true;
@@ -82,9 +82,11 @@ valueAxis.strictMinMax = true;
 valueAxis.renderer.maxLabelPosition = 0.99;
 valueAxis.renderer.minGridDistance = 10;
 valueAxis.renderer.grid.template.strokeOpacity = 0.07;
+valueAxis.interactionsEnabled = false;
 
 var series1 = chart.series.push(new am4charts.RadarColumnSeries());
 series1.columns.template.width = am4core.percent(80);
+series1.columns.template.tooltipText = "{name}: {valueX.value}";
 series1.name = "Series 1";
 series1.dataFields.categoryY = "category";
 series1.dataFields.valueX = "value2";
@@ -92,7 +94,7 @@ series1.stacked = true;
 
 var series2 = chart.series.push(new am4charts.RadarColumnSeries());
 series2.columns.template.width = am4core.percent(80);
-series2.columns.template.tooltipText = "{name}: {valueY.value}";
+series2.columns.template.tooltipText = "{name}: {valueX.value}";
 series2.name = "Series 2";
 series2.dataFields.categoryY = "category";
 series2.dataFields.valueX = "value2";
@@ -100,7 +102,7 @@ series2.stacked = true;
 
 var series3 = chart.series.push(new am4charts.RadarColumnSeries());
 series3.columns.template.width = am4core.percent(80);
-series3.columns.template.tooltipText = "{name}: {valueY.value}";
+series3.columns.template.tooltipText = "{name}: {valueX.value}";
 series3.name = "Series 3";
 series3.dataFields.categoryY = "category";
 series3.dataFields.valueX = "value3";
@@ -108,7 +110,7 @@ series3.stacked = true;
 
 var series4 = chart.series.push(new am4charts.RadarColumnSeries());
 series4.columns.template.width = am4core.percent(80);
-series4.columns.template.tooltipText = "{name}: {valueY.value}";
+series4.columns.template.tooltipText = "{name}: {valueX.value}";
 series4.name = "Series 4";
 series4.dataFields.categoryY = "category";
 series4.dataFields.valueX = "value4";

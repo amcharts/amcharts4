@@ -480,6 +480,19 @@ var PercentSeries = /** @class */ (function (_super) {
             }
         }
     };
+    PercentSeries.prototype.arrangeLabels2 = function (dataItems) {
+        var previousTop = this.maxHeight / 2;
+        for (var i = dataItems.length - 1; i >= 0; i--) {
+            var dataItem = dataItems[i];
+            var label = dataItem.label;
+            if (label) {
+                if (label.pixelY + label.measuredHeight > previousTop) {
+                    label.y = previousTop - label.measuredHeight;
+                    previousTop = label.y;
+                }
+            }
+        }
+    };
     /**
      * Returns the next label according to `index`.
      *

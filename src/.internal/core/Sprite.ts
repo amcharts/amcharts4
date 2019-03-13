@@ -35,6 +35,7 @@ import { RadialGradient } from "./rendering/fills/RadialGradient";
 import { SVGContainer } from "./rendering/SVGContainer";
 import { Align } from "./defs/Align";
 import { Roles, AriaLive } from "./defs/Accessibility";
+import { IPlugin } from "./utils/Plugin";
 import { Popup } from "./elements/Popup";
 import { Modal } from "./elements/Modal";
 import { Color, color, toColor } from "./utils/Color";
@@ -177,7 +178,7 @@ export interface ISpriteProperties {
 	url?: string;
 	hidden?: boolean;
 	showOnInit?: boolean;
-	id?:string;
+	id?: string;
 }
 
 /**
@@ -894,6 +895,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	protected _showOnInitDisposer: MultiDisposer;
 
 	/**
+	 * Holds the list of plugins attached to this Sprite.
+	 */
+	protected _plugins: $type.Optional<List<IPlugin>>;
+
+	/**
 	 * Constructor:
 	 * * Creates initial node
 	 * * Sets default properties
@@ -1366,6 +1372,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		//helps to avoid calling getter which creates instance
 		if ((<any>source)["_interaction"]) {
 			this.interactions.copyFrom(source.interactions);
+		}
+
+		if ((<any>source)["_plugins"]) {
+			this.plugins.copyFrom(source.plugins);
 		}
 
 		this.configField = source.configField;
@@ -3794,7 +3804,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 						}
 						break;
 					case "formatDate":
-						let dateValue = $utils.anyToDate(current);
+						let dateValue;
+						if ($type.isString(current)) {
+							dateValue = this.dateFormatter.parse(current);
+						}
+						else {
+							dateValue = $utils.anyToDate(current);
+						}
 						if (!$type.isDate(dateValue) || $type.isNaN(dateValue.getTime())) {
 							// Was not able to get date out of value, quitting and letting
 							// calling method try another value
@@ -4120,13 +4136,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @param context   Context for handler function
 	 * @returns Event Disposer
 	 */
-	public observe<C>(property: string | string[], listener: (this: C, event: AMEvent<this, ISpriteEvents>["propertychanged"]) => void, context?: C): IDisposer {
+	public observe<C>(property: string | string[], listener: (this: C, event: AMEvent<this, ISpriteEvents>["propertychanged"]) => void, context?: C, shouldClone?: boolean): IDisposer {
 		return new MultiDisposer($array.map($array.toArray(property), (prop) => {
 			return this.events.on("propertychanged", (e) => {
 				if (e.property === prop) {
 					listener.call(context, e);
 				}
-			});
+			}, context, shouldClone);
 		}));
 	}
 
@@ -8618,6 +8634,25 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			return this.definedBBox;
 		}
 		return this._bbox;
+	}
+
+	/**
+	 * A list of plugins (objects that implement [[IPlugin]] interface) attached
+	 * to this object.
+	 *
+	 * @since 4.2.2
+	 * @return List of plugins
+	 */
+	public get plugins(): List<IPlugin> {
+		if (!this._plugins) {
+			this._plugins = new List<IPlugin>();
+			this._disposers.push(this._plugins.events.on("inserted", (ev) => {
+				ev.newValue.target = this;
+				ev.newValue.init();
+			}));
+			this._disposers.push(new ListDisposer(this._plugins));
+		}
+		return this._plugins;
 	}
 
 }

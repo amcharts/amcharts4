@@ -62,8 +62,17 @@ var ExportMenu = /** @class */ (function (_super) {
         /**
          * How many milliseconds to hold menu/sub-menu open after it loses focus or
          * hover, before auto-closing it.
+         *
+         * @default 1000
          */
         _this.closeDelay = 1000;
+        /**
+         * Close the menu automatically when some export operation is triggered.
+         *
+         * @default true
+         * @since 4.2.2
+         */
+        _this.closeOnClick = true;
         /**
          * An instance of [[Language]].
          *
@@ -819,9 +828,16 @@ var ExportMenu = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     ExportMenu.prototype.close = function () {
+        var _this = this;
         if (this._ignoreNextClose) {
             this._ignoreNextClose = false;
             return;
+        }
+        if (this.closeOnClick) {
+            this._element.style.pointerEvents = "none";
+            setTimeout(function () {
+                _this._element.style.pointerEvents = "auto";
+            }, 100);
         }
         if (this._currentSelection) {
             this.setBlur(this._currentSelection);

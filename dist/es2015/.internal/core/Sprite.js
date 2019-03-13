@@ -704,6 +704,9 @@ var Sprite = /** @class */ (function (_super) {
         if (source["_interaction"]) {
             this.interactions.copyFrom(source.interactions);
         }
+        if (source["_plugins"]) {
+            this.plugins.copyFrom(source.plugins);
+        }
         this.configField = source.configField;
         this.applyOnClones = source.applyOnClones;
         // this.numberFormatter = source.numberFormatter; // todo: this creates loose number formatter and copies it to all clones. somehow we need to know if source had numberFormatter explicitly created and not just because a getter was called.
@@ -2951,7 +2954,13 @@ var Sprite = /** @class */ (function (_super) {
                         }
                         break;
                     case "formatDate":
-                        var dateValue = $utils.anyToDate(current);
+                        var dateValue = void 0;
+                        if ($type.isString(current)) {
+                            dateValue = this.dateFormatter.parse(current);
+                        }
+                        else {
+                            dateValue = $utils.anyToDate(current);
+                        }
                         if (!$type.isDate(dateValue) || $type.isNaN(dateValue.getTime())) {
                             // Was not able to get date out of value, quitting and letting
                             // calling method try another value
@@ -3202,14 +3211,14 @@ var Sprite = /** @class */ (function (_super) {
      * @param context   Context for handler function
      * @returns Event Disposer
      */
-    Sprite.prototype.observe = function (property, listener, context) {
+    Sprite.prototype.observe = function (property, listener, context, shouldClone) {
         var _this = this;
         return new MultiDisposer($array.map($array.toArray(property), function (prop) {
             return _this.events.on("propertychanged", function (e) {
                 if (e.property === prop) {
                     listener.call(context, e);
                 }
-            });
+            }, context, shouldClone);
         }));
     };
     /**
@@ -7738,6 +7747,29 @@ var Sprite = /** @class */ (function (_super) {
                 return this.definedBBox;
             }
             return this._bbox;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Sprite.prototype, "plugins", {
+        /**
+         * A list of plugins (objects that implement [[IPlugin]] interface) attached
+         * to this object.
+         *
+         * @since 4.2.2
+         * @return List of plugins
+         */
+        get: function () {
+            var _this = this;
+            if (!this._plugins) {
+                this._plugins = new List();
+                this._disposers.push(this._plugins.events.on("inserted", function (ev) {
+                    ev.newValue.target = _this;
+                    ev.newValue.init();
+                }));
+                this._disposers.push(new ListDisposer(this._plugins));
+            }
+            return this._plugins;
         },
         enumerable: true,
         configurable: true

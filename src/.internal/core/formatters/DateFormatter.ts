@@ -174,9 +174,16 @@ export class DateFormatter extends BaseObject {
 		// get format info (it will also deal with parser caching)
 		let info = this.parseFormat(format);
 
-		// Do any casting if required
+		// Do casting if required
 		// This will take care of timestamps as well as Date objects
-		let date: Date = $utils.anyToDate(source);
+		let date: Date;
+		if ($type.isString(source)) {
+			// If it's a string, let's try parsing it using our own functionality
+			date = this.parse(source);
+		}
+		else {
+			date = $utils.anyToDate(source);
+		}
 
 		// Check if it's a valid date
 		if (!$type.isNumber(date.getTime())) {
@@ -640,6 +647,9 @@ export class DateFormatter extends BaseObject {
 
 		// Clean format
 		format = $utils.cleanFormat(format);
+
+		// Clip format to length of the source string
+		format = format.substr(0, source.length);
 
 		// Parse format
 		let info = this.parseFormat(format);

@@ -295,15 +295,25 @@ export interface IXYSeriesProperties extends ISeriesProperties {
      */
     stacked?: boolean;
     /**
-     * Should the nearest tooltip be shown if no data item is found on the current cursor position
+     * Should the nearest tooltip be shown if no data item is found on the
+     * current cursor position
      *
      * @default false
      */
     snapTooltip?: boolean;
     /**
      * Indicates if series should display a tooltip for chart's cursor.
+     *
+     * @default true
      */
     cursorTooltipEnabled?: boolean;
+    /**
+     * Indicates if series should apply hover state on bullets/columns/etc when
+     * cursor is over the data item.
+     *
+     * @default true
+     */
+    cursorHoverEnabled?: boolean;
 }
 /**
  * Defines events for [[XYSeries]].
@@ -834,4 +844,20 @@ export declare class XYSeries extends Series {
      * @param value Display tooltip?
      */
     cursorTooltipEnabled: boolean;
+    /**
+     * @return Hover enabled?
+     */
+    /**
+     * Indicates if series should apply hover state on bullets/columns/etc when
+     * cursor is over the data item.
+     *
+     * If set to `true` (default) and chart cursor is enabled on th chart,
+     * hovering over date/category will trigger hover states on related Series
+     * items like bullets and columns.
+     *
+     * @default true
+     * @since 4.2.2
+     * @param  value  Hover enabled?
+     */
+    cursorHoverEnabled: boolean;
 }

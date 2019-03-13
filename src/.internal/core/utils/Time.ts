@@ -117,14 +117,21 @@ export function copy(date: Date): Date {
  * @param unit     Time unit to check
  * @return Range?
  */
-export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit): boolean {
+export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit, utc?:boolean): boolean {
 
+	dateOne = new Date(dateOne.getTime());
+	dateTwo = new Date(dateTwo.getTime());
 
-	let timeZoneOffset1 = dateOne.getTimezoneOffset();
-	dateOne.setUTCMinutes(dateOne.getUTCMinutes() - timeZoneOffset1);
+	let timeZoneOffset1 = 0;
+	let timeZoneOffset2 = 0;
 
-	let timeZoneOffset2 = dateTwo.getTimezoneOffset();
-	dateTwo.setUTCMinutes(dateTwo.getUTCMinutes() - timeZoneOffset2);
+	if(!utc){
+		timeZoneOffset1 = dateOne.getTimezoneOffset();
+		dateOne.setUTCMinutes(dateOne.getUTCMinutes() - timeZoneOffset1);
+
+		timeZoneOffset2 = dateTwo.getTimezoneOffset();
+		dateTwo.setUTCMinutes(dateTwo.getUTCMinutes() - timeZoneOffset2);
+	}
 
 	let changed = false;
 	switch (unit) {
@@ -178,21 +185,17 @@ export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit): boole
 			break;
 	}
 
-	dateOne.setUTCMinutes(dateOne.getUTCMinutes() + timeZoneOffset1);
-	dateTwo.setUTCMinutes(dateTwo.getUTCMinutes() + timeZoneOffset2);
-
 	if (changed) {
 		return true;
 	}
 
 	let nextUnit: $type.Optional<TimeUnit> = getNextUnit(unit);
 	if (nextUnit) {
-		return checkChange(dateOne, dateTwo, nextUnit);
+		return checkChange(dateOne, dateTwo, nextUnit, utc);
 	}
 	else {
 		return false;
 	}
-
 }
 
 /**
@@ -204,19 +207,18 @@ export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit): boole
  * @param count  Number of units to add
  * @return Modified date
  */
-export function add(date: Date, unit: TimeUnit, count: number): Date {
+export function add(date: Date, unit: TimeUnit, count: number, utc?: boolean): Date {
+	let timeZoneOffset = 0;
 
-	let timeZoneOffset = date.getTimezoneOffset();
-	date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);
+	if(!utc){
+		timeZoneOffset = date.getTimezoneOffset();
+		date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);
+	}
 
 	switch (unit) {
 		case "day":
 			let day: number = date.getUTCDate();
 			date.setUTCDate(day + count);
-
-			let nonUTCDateD = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
-			timeZoneOffset = nonUTCDateD.getTimezoneOffset();
-
 			break;
 
 		case "second":
@@ -242,31 +244,34 @@ export function add(date: Date, unit: TimeUnit, count: number): Date {
 		case "year":
 			let year: number = date.getUTCFullYear();
 			date.setUTCFullYear(year + count);
-
-			let nonUTCDateY = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
-			timeZoneOffset = nonUTCDateY.getTimezoneOffset();
-
 			break;
 
 		case "month":
 			let month: number = date.getUTCMonth();
 			date.setUTCMonth(month + count);
-
-			let nonUTCDateM = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
-			timeZoneOffset = nonUTCDateM.getTimezoneOffset();
 			break;
 
 		case "week":
 			let wday: number = date.getUTCDate();
 			date.setUTCDate(wday + count * 7);
-
-			let nonUTCDateW = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
-			timeZoneOffset = nonUTCDateW.getTimezoneOffset();
-
 			break;
 	}
+	if (!utc) {
+		date.setUTCMinutes(date.getUTCMinutes() + timeZoneOffset);
 
-	date.setUTCMinutes(date.getUTCMinutes() + timeZoneOffset);
+		if (unit == "day" || unit == "week" || unit == "month" || unit == "year") {
+			let newTimeZoneOffset = date.getTimezoneOffset();
+			if (newTimeZoneOffset != timeZoneOffset) {
+				let diff = newTimeZoneOffset - timeZoneOffset;
+
+				date.setUTCMinutes(date.getUTCMinutes() + diff);
+				// solves issues if newe time falls back to old time zone
+				if(date.getTimezoneOffset() != newTimeZoneOffset){
+					date.setUTCMinutes(date.getUTCMinutes() - diff);					
+				}
+			}
+		}
+	}
 
 	return date;
 }
@@ -281,23 +286,27 @@ export function add(date: Date, unit: TimeUnit, count: number): Date {
  * @param firstDateOfWeek  First day of week
  * @return New date
  */
-export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek?: number): Date {
+export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek?: number, utc?: boolean): Date {
 
 	if (!$type.isNumber(count)) {
 		count = 1;
 	}
+	
+	let timeZoneOffset = 0;
 
-	let timeZoneOffset = date.getTimezoneOffset();
-	date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);
+	if(!utc){
+		timeZoneOffset = date.getTimezoneOffset();
+		date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);
+	}
 
 	switch (unit) {
 
 		case "day":
 			let day = date.getUTCDate();
+
 			if (count > 1) {
 				day = Math.floor(day / count) * count;
 			}
-			day = day;
 
 			date.setUTCDate(day);
 			date.setUTCHours(0, 0, 0, 0);
@@ -365,8 +374,8 @@ export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek
 			date.setUTCFullYear(year, 0, 1);
 			date.setUTCHours(0, 0, 0, 0);
 
-			let nonUTCDateD = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
-			timeZoneOffset = nonUTCDateD.getTimezoneOffset();
+			//let nonUTCDateY = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+			//timeZoneOffset = nonUTCDateY.getTimezoneOffset();
 
 			break;
 
@@ -392,8 +401,18 @@ export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek
 
 			break;
 	}
+	if (!utc) {
+		date.setUTCMinutes(date.getUTCMinutes() + timeZoneOffset);
 
-	date.setUTCMinutes(date.getUTCMinutes() + timeZoneOffset);
+		if (unit == "day" || unit == "week" || unit == "month" || unit == "year") {
+			let newTimeZoneOffset = date.getTimezoneOffset();
+			if (newTimeZoneOffset != timeZoneOffset) {
+				let diff = newTimeZoneOffset - timeZoneOffset;
+
+				date.setUTCMinutes(date.getUTCMinutes() + diff);				
+			}
+		}
+	}
 
 	return date;
 }

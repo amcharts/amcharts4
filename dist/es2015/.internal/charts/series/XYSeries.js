@@ -388,6 +388,7 @@ var XYSeries = /** @class */ (function (_super) {
         _this.className = "XYSeries";
         _this.isMeasured = false;
         _this.cursorTooltipEnabled = true;
+        _this.cursorHoverEnabled = true;
         _this.mainContainer.mask = new Sprite();
         _this.mainContainer.mask.setElement(_this.paper.add("path"));
         _this.stacked = false;
@@ -939,19 +940,24 @@ var XYSeries = /** @class */ (function (_super) {
                             });
                             this._prevTooltipDataItem = dataItem;
                         }
-                        try {
-                            for (var _a = tslib_1.__values(dataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
-                                var a = _b.value;
-                                var bullet = a[1];
-                                bullet.isHover = true;
-                            }
-                        }
-                        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                        finally {
+                        if (this.cursorHoverEnabled) {
                             try {
-                                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                                for (var _a = tslib_1.__values(dataItem.sprites), _b = _a.next(); !_b.done; _b = _a.next()) {
+                                    var sprite = _b.value;
+                                    if (!sprite.parent.visible || sprite.isHidden || sprite.__disabled || sprite.disabled || sprite.isHiding) {
+                                    }
+                                    else {
+                                        sprite.isHover = true;
+                                    }
+                                }
                             }
-                            finally { if (e_1) throw e_1.error; }
+                            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                            finally {
+                                try {
+                                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                                }
+                                finally { if (e_1) throw e_1.error; }
+                            }
                         }
                         if (this.showTooltip()) {
                             return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
@@ -971,11 +977,10 @@ var XYSeries = /** @class */ (function (_super) {
     XYSeries.prototype.returnBulletDefaultState = function (dataItem) {
         if (this._prevTooltipDataItem && this._prevTooltipDataItem != dataItem) {
             try {
-                for (var _a = tslib_1.__values(this._prevTooltipDataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
-                    var a = _b.value;
-                    var bullet = a[1];
-                    if (!bullet.isDisposed()) {
-                        bullet.isHover = false;
+                for (var _a = tslib_1.__values(this._prevTooltipDataItem.sprites), _b = _a.next(); !_b.done; _b = _a.next()) {
+                    var sprite = _b.value;
+                    if (!sprite.isDisposed()) {
+                        sprite.isHover = false;
                     }
                     else {
                         this._prevTooltipDataItem = undefined;
@@ -1530,6 +1535,31 @@ var XYSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("cursorTooltipEnabled", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(XYSeries.prototype, "cursorHoverEnabled", {
+        /**
+         * @return Hover enabled?
+         */
+        get: function () {
+            return this.getPropertyValue("cursorHoverEnabled");
+        },
+        /**
+         * Indicates if series should apply hover state on bullets/columns/etc when
+         * cursor is over the data item.
+         *
+         * If set to `true` (default) and chart cursor is enabled on th chart,
+         * hovering over date/category will trigger hover states on related Series
+         * items like bullets and columns.
+         *
+         * @default true
+         * @since 4.2.2
+         * @param  value  Hover enabled?
+         */
+        set: function (value) {
+            this.setPropertyValue("cursorHoverEnabled", value);
         },
         enumerable: true,
         configurable: true

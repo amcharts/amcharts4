@@ -616,6 +616,11 @@ export declare class Export extends Validatable {
      */
     protected _dataFields: any;
     /**
+     * Indicates whether data fields were generated dynamically (`true`) or
+     * if they were pre-set by the user (`false`).
+     */
+    protected _dynamicDataFields: boolean;
+    /**
      * A reference to [[DateFormatter]].
      *
      * @ignore Exclude from docs
@@ -665,6 +670,10 @@ export declare class Export extends Validatable {
      * started, so that we can reveal them back when export ends.
      */
     protected _hiddenObjects: Sprite[];
+    /**
+     * Indicates if non-exportable objects are now hidden;
+     */
+    protected _objectsAlreadyHidden: boolean;
     /**
      * Exported files will be prefixed with whatever it is set here.
      *
@@ -1281,6 +1290,7 @@ export declare class Export extends Validatable {
      * @param value Field names
      */
     dataFields: any;
+    handleDataUpdated(): void;
     /**
      * @return A DateFormatter instance
      */

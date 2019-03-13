@@ -80,6 +80,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                         }
                     }
                     this.grid = grid_1;
+                    grid_1.shouldClone = false;
                     this._disposers.push(grid_1);
                     grid_1.axis = this.component;
                 }
@@ -144,6 +145,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                     }
                     this.tick = tick_1;
                     tick_1.axis = this.component;
+                    tick_1.shouldClone = false;
                     this._disposers.push(tick_1);
                 }
             }
@@ -207,6 +209,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                     }
                     this._disposers.push(label_1);
                     this.label = label_1;
+                    label_1.shouldClone = false;
                     label_1.axis = this.component;
                     label_1.virtualParent = component_3;
                 }
@@ -270,6 +273,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                         }
                     }
                     this.axisFill = axisFill_1;
+                    axisFill_1.shouldClone = false;
                     this._disposers.push(axisFill_1);
                 }
             }
@@ -780,6 +784,7 @@ var Axis = /** @class */ (function (_super) {
                 ghostLabel_1.dataItem = this.dataItems.template.clone(); // just for the adapters not to fail
                 ghostLabel_1.text = "L";
                 ghostLabel_1.parent = this.renderer;
+                ghostLabel_1.shouldClone = false;
                 ghostLabel_1.fillOpacity = 0;
                 ghostLabel_1.opacity = 0;
                 ghostLabel_1.strokeOpacity = 0;
@@ -1484,6 +1489,11 @@ var Axis = /** @class */ (function (_super) {
         _super.prototype.copyFrom.call(this, source);
         if (this.renderer) {
             this.renderer.copyFrom(source.renderer);
+        }
+        else {
+            if (source.renderer) {
+                this.renderer = source.renderer.clone();
+            }
         }
         if (source.title) {
             this.title = source.title.clone();

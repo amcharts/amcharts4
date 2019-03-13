@@ -132,6 +132,17 @@ export declare class NumberFormatter extends BaseObject {
      */
     numberFormat: string;
     /**
+     * @return A format to use for number formatting
+     */
+    /**
+     * Negative base for negative numbers.
+     *
+     * @default 0
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
+     * @param format  A format to use for number formatting
+     */
+    negativeBase: number;
+    /**
      * @return Prefixes for big numbers
      */
     /**

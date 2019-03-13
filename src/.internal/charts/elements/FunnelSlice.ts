@@ -118,6 +118,7 @@ export class FunnelSlice extends Container {
 		super();
 
 		this.slice = this.createChild(Sprite);
+		this.slice.shouldClone = false;
 		this.slice.setElement(this.paper.add("path"));
 		this.slice.isMeasured = false;
 

@@ -161,6 +161,7 @@ export class PictorialStackedSeries extends PyramidSeries {
 		this._maskSprite = this.slicesContainer.createChild(Sprite);
 		this._maskSprite.visible = false;
 		this._maskSprite.zIndex = 100;
+		this._maskSprite.shouldClone = false;
 	}
 
 	/**

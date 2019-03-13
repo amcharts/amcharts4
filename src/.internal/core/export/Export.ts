@@ -854,6 +854,12 @@ export class Export extends Validatable {
 	protected _dataFields: any;
 
 	/**
+	 * Indicates whether data fields were generated dynamically (`true`) or
+	 * if they were pre-set by the user (`false`).
+	 */
+	protected _dynamicDataFields: boolean = true;
+
+	/**
 	 * A reference to [[DateFormatter]].
 	 *
 	 * @ignore Exclude from docs
@@ -910,6 +916,11 @@ export class Export extends Validatable {
 	 * started, so that we can reveal them back when export ends.
 	 */
 	protected _hiddenObjects: Sprite[] = [];
+
+	/**
+	 * Indicates if non-exportable objects are now hidden;
+	 */
+	protected _objectsAlreadyHidden: boolean = false;
 
 	/**
 	 * Exported files will be prefixed with whatever it is set here.
@@ -1288,6 +1299,7 @@ export class Export extends Validatable {
 			// Hide preloader and timeout modals
 			this.hidePreloader();
 			this.hideTimeout();
+			this.menu.close();
 
 			// Download or print
 			if (type === "print") {
@@ -1480,6 +1492,11 @@ export class Export extends Validatable {
 	 */
 	public async getImage<Key extends imageFormats>(type: Key, options?: IExportImageOptions, includeExtras?: boolean): Promise<string> {
 
+		let prehidden = this._objectsAlreadyHidden;
+		if (!prehidden) {
+			this.hideNonExportableSprites();
+		}
+
 		if (!$type.hasValue(options)) {
 			options = this.getFormatOptions(type);
 		}
@@ -1502,11 +1519,22 @@ export class Export extends Validatable {
 				// Get rid of the canvas
 				this.disposeCanvas(canvas);
 
+				if (!prehidden) {
+					this.restoreNonExportableSprites();
+				}
+
 				return uri;
 			}
 			catch (e) {
+
 				// An error occurred, let's try advanced method
-				return await this.getImageAdvanced(type, options, includeExtras);
+				const data = await this.getImageAdvanced(type, options, includeExtras);
+
+				if (!prehidden) {
+					this.restoreNonExportableSprites();
+				}
+
+				return data;
 
 			}
 
@@ -1516,7 +1544,13 @@ export class Export extends Validatable {
 			/**
 			 * Going the hard way. Converting to canvas from each node
 			 */
-			return await this.getImageAdvanced(type, options, includeExtras);
+			const data = await this.getImageAdvanced(type, options, includeExtras);
+
+			if (!prehidden) {
+				this.restoreNonExportableSprites();
+			}
+
+			return data;
 		}
 
 	}
@@ -1567,7 +1601,7 @@ export class Export extends Validatable {
 				}
 
 				const extraWidth = extraCanvas.width + extra.marginLeft + extra.marginRight;
-				const extraHeight =  extraCanvas.height + extra.marginTop + extra.marginBottom;
+				const extraHeight = extraCanvas.height + extra.marginTop + extra.marginBottom;
 
 				if (extra.position == "top") {
 					middleRight = $math.max(middleRight, extraWidth);
@@ -1837,6 +1871,11 @@ export class Export extends Validatable {
 	 */
 	public async getImageAdvanced(type: imageFormats, options?: IExportImageOptions, includeExtras?: boolean): Promise<string> {
 
+		let prehidden = this._objectsAlreadyHidden;
+		if (!prehidden) {
+			this.hideNonExportableSprites();
+		}
+
 		if (!$type.hasValue(options)) {
 			options = this.getFormatOptions(type);
 		}
@@ -1854,6 +1893,10 @@ export class Export extends Validatable {
 
 		// Get rid of the canvas
 		this.disposeCanvas(canvas);
+
+		if (!prehidden) {
+			this.restoreNonExportableSprites();
+		}
 
 		return uri;
 	}
@@ -2287,6 +2330,11 @@ export class Export extends Validatable {
 	 */
 	public async getSVG(type: "svg", options?: IExportSVGOptions): Promise<string> {
 
+		let prehidden = this._objectsAlreadyHidden;
+		if (!prehidden) {
+			this.hideNonExportableSprites();
+		}
+
 		// Get dimensions
 		let width = this.sprite.pixelWidth,
 			height = this.sprite.pixelHeight,
@@ -2313,6 +2361,10 @@ export class Export extends Validatable {
 			data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(svg),
 			options: options
 		}).data;
+
+		if (!prehidden) {
+			this.restoreNonExportableSprites();
+		}
 
 		return uri;
 
@@ -2713,8 +2765,9 @@ export class Export extends Validatable {
 
 		// Add rows
 		let br = "";
-		for (let len = this.data.length, i = 0; i < len; i++) {
-			let row = this.getCSVRow(this.data[i], options, dataFields);
+		const data = this.data;
+		for (let len = data.length, i = 0; i < len; i++) {
+			let row = this.getCSVRow(data[i], options, dataFields);
 			if (options.reverse) {
 				csv = row + br + csv;
 			}
@@ -3426,6 +3479,7 @@ export class Export extends Validatable {
 	 */
 	public set dataFields(value: any) {
 		this._dataFields = value;
+		this._dynamicDataFields = false;
 	}
 
 	/**
@@ -3438,6 +3492,12 @@ export class Export extends Validatable {
 		return this.adapter.apply("dataFields", {
 			dataFields: this._dataFields
 		}).dataFields;
+	}
+
+	public handleDataUpdated(): void {
+		if (this._dynamicDataFields) {
+			this._dataFields = undefined;
+		}
 	}
 
 	/**
@@ -3955,6 +4015,9 @@ export class Export extends Validatable {
 	 * Hides all elements that should not be included in the exported image.
 	 */
 	private hideNonExportableSprites(): void {
+		if (this._objectsAlreadyHidden) {
+			return;
+		}
 		const svgContainer = this.sprite.svgContainer;
 		if (svgContainer) {
 			$array.each(svgContainer.nonExportableSprites, (item) => {
@@ -3964,16 +4027,21 @@ export class Export extends Validatable {
 				item.hide(0);
 			});
 		}
+		this._objectsAlreadyHidden = true;
 	}
 
 	/**
 	 * Respores elements that were hidden before export.
 	 */
 	private restoreNonExportableSprites(): void {
+		if (!this._objectsAlreadyHidden) {
+			return;
+		}
 		$array.each(this._hiddenObjects, (item) => {
 			item.show(0);
 		});
 		this._hiddenObjects = [];
+		this._objectsAlreadyHidden = false;
 	}
 
 	/**

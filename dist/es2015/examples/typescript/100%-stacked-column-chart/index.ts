@@ -70,6 +70,7 @@ series1.dataItems.template.locations.categoryX = 0.5;
 series1.stacked = true;
 series1.tooltip.pointerOrientation = "vertical";
 series1.tooltip.dy = - 20;
+series1.cursorHoverEnabled = false;
 
 let bullet1 = series1.bullets.push(new am4charts.LabelBullet());
 bullet1.label.text = "{valueY.totalPercent.formatNumber('#.00')}%";
@@ -82,12 +83,14 @@ series2.name = "Series 2";
 series2.dataFields.valueY = "value2";
 series2.fill = chart.colors.next();
 series2.stroke = series2.fill;
+series2.cursorHoverEnabled = false;
 
 let series3 = chart.series.push(series1.clone());
 series3.name = "Series 3";
 series3.dataFields.valueY = "value3";
 series3.fill = chart.colors.next();
 series3.stroke = series3.fill;
+series3.cursorHoverEnabled = false;
 
 chart.scrollbarX = new am4core.Scrollbar();
 

@@ -43,12 +43,13 @@ var ChordNode = /** @class */ (function (_super) {
     function ChordNode() {
         var _this = _super.call(this) || this;
         _this.className = "ChordNode";
-        _this.label = _this.createChild(AxisLabelCircular);
-        _this.label.location = 0.5;
-        _this.label.radius = 5;
-        _this.label.text = "{name}";
-        _this.label.zIndex = 1;
-        _this.label.shouldClone = false;
+        var label = _this.createChild(AxisLabelCircular);
+        label.location = 0.5;
+        label.radius = 5;
+        label.text = "{name}";
+        label.zIndex = 1;
+        label.shouldClone = false;
+        _this.label = label;
         _this.layout = "none";
         _this.events.on("positionchanged", _this.updateRotation, _this, false);
         _this.isMeasured = false;

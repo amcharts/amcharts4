@@ -5,10 +5,32 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.2.2] - 2019-03-13
+
+### Added
+- `cursorHoverEnabled` added to `XYSeries`. Controls whether to trigger hover state on columns/bullets of the all series under hovered category/date.
+- A new `plugins` property on all `Sprite`. [More info](https://www.amcharts.com/docs/v4/concepts/plugins/).
+- New plugin: Regression. [More info](https://www.amcharts.com/docs/v4/tutorials/regression-trend-lines/).
+- New `ExportMenu` setting: `closeOnClick` (default `true`). Will force export menu to close when export is initiated.
+
+### Changed
+- `DateFormat` will now parse even partial dates, e.g. format `"yyyy-MM-dd"` will parse `"2018"` correctly, and will assume Jan 1st.
+
+### Fixed
+- Export: `getImage()`/`getSVG()` will now correctly omit `exportable = false` elements.
+- Export: Data export was not taking in additional columns after data updates.
+- Some chart cloning issues fixed.
+- Inccorrect behavior of Series' tooltip with `minBulletDistance` set fixed.
+- Sometimes, when series had only one data item, chart used to zoom-in right after the init.
+- In-line date formatting will now use `DateFormatter`'s parsing functions for string-based dates.
+- `DateAxis` issues with certain timezones fixed.
+
+
 ## [4.2.1] - 2019-03-08
 
 ### Fixed
 - Various graphical issues when using `<base>` tag (mostly affects Angular).
+- `NumberFormatter` did not have a public accessor to set `negativeBase`.
 
 
 ## [4.2.0] - 2019-03-06

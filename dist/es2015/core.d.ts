@@ -162,6 +162,7 @@ export { Morpher } from "./.internal/core/utils/Morpher";
 export { INetLoadResult } from "./.internal/core/utils/Net";
 export { Ordering, reverse, or } from "./.internal/core/utils/Order";
 export { Percent, percent, isPercent } from "./.internal/core/utils/Percent";
+export { Plugin, IPlugin } from "./.internal/core/utils/Plugin";
 export { IResponsiveRule, IResponsiveEvents, IResponsiveAdapters, Responsive, ResponsiveBreakpoints, defaultRules } from "./.internal/core/utils/Responsive";
 export { ISortedListEvents, OrderedList, SortedList, OrderedListTemplate, SortedListTemplate } from "./.internal/core/utils/SortedList";
 export { PX, STRING, NUMBER, DATE, DURATION, PLACEHOLDER, PLACEHOLDER2 } from "./.internal/core/utils/Strings";

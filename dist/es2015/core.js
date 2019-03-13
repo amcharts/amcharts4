@@ -134,6 +134,7 @@ export { IndexedIterable, ListGrouper, ListDisposer, List, ListTemplate } from "
 export { Morpher } from "./.internal/core/utils/Morpher";
 export { reverse, or } from "./.internal/core/utils/Order";
 export { Percent, percent, isPercent } from "./.internal/core/utils/Percent";
+export { Plugin } from "./.internal/core/utils/Plugin";
 export { Responsive, ResponsiveBreakpoints, defaultRules } from "./.internal/core/utils/Responsive";
 export { OrderedList, SortedList, OrderedListTemplate, SortedListTemplate } from "./.internal/core/utils/SortedList";
 export { PX, STRING, NUMBER, DATE, DURATION, PLACEHOLDER, PLACEHOLDER2 } from "./.internal/core/utils/Strings";

@@ -578,6 +578,7 @@ var Series = /** @class */ (function (_super) {
                 var bullet = dataItem.bullets.getKey(bulletTemplate.uid);
                 if (!bullet) {
                     bullet = bulletTemplate.clone();
+                    bullet.shouldClone = false;
                     dataItem.addSprite(bullet);
                     if (!_this.visible || _this.isHiding) {
                         bullet.hide(0);
@@ -790,7 +791,7 @@ var Series = /** @class */ (function (_super) {
          * @return Name
          */
         get: function () {
-            return this.adapter.apply("name", this._title);
+            return this.getPropertyValue("name");
         },
         /**
          * Series' name.
@@ -798,7 +799,7 @@ var Series = /** @class */ (function (_super) {
          * @param value  Name
          */
         set: function (value) {
-            this._title = value;
+            this.setPropertyValue("name", value);
             this.readerTitle = value;
         },
         enumerable: true,
@@ -923,6 +924,7 @@ var Series = /** @class */ (function (_super) {
         this.bullets.copyFrom(source.bullets);
         this.bulletsContainer.copyFrom(source.bulletsContainer);
         this.calculatePercent = source.calculatePercent;
+        this.simplifiedProcessing = source.simplifiedProcessing;
         _super.prototype.copyFrom.call(this, source);
     };
     /**

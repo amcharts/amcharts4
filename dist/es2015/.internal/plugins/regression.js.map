@@ -1,0 +1,1 @@
+{"version":3,"file":"regression.js","sourceRoot":"","sources":["../../../../src/.internal/plugins/regression.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,yBAAyB,CAAC","sourcesContent":["export { Regression } from \"./regression/Regression\";"]}

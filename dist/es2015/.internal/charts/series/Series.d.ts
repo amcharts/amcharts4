@@ -134,6 +134,10 @@ export interface ISeriesProperties extends IComponentProperties {
      * @default false
      */
     hidden?: boolean;
+    /**
+     * Series' name.
+     */
+    name?: string;
 }
 /**
  * Defines events for [[Series]].
@@ -160,10 +164,6 @@ export interface ISeriesEvents extends IComponentEvents {
  * @see {@link Adapter}
  */
 export interface ISeriesAdapters extends IComponentAdapters, ISeriesProperties {
-    /**
-     * Applied to the series name when it is retrieved.
-     */
-    name: string;
     /**
      * Applied to the name used by screen readers.
      */
@@ -203,10 +203,6 @@ export declare class Series extends Component {
      * Defines a type of data item used for the series.
      */
     _dataItem: SeriesDataItem;
-    /**
-     * A name of the Series.
-     */
-    protected _title: string;
     /**
      * A reference to the legend data item related to this series.
      */

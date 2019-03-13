@@ -215,11 +215,10 @@ export class XYChartScrollbar extends Scrollbar {
 			xAxis.title.disabled = true;
 			xAxis.rangeChangeDuration = 0;
 			xAxis.id = sourceSeries.uid;
-			xAxis.title.disabled = true;
-
 			let renderer = xAxis.renderer;
 			renderer.ticks.template.disabled = true;
 			renderer.inside = true;
+			renderer.labels.template.inside = true;
 			renderer.line.strokeOpacity = 0;
 			renderer.minLabelPosition = 0.02;
 			renderer.maxLabelPosition = 0.98;
@@ -227,6 +226,10 @@ export class XYChartScrollbar extends Scrollbar {
 			renderer.axisFills.template.disabled = true;
 			renderer.baseGrid.disabled = true;
 			renderer.grid.template.strokeOpacity = 0.05;
+			renderer.minWidth = undefined;
+			renderer.minHeight = undefined;
+			renderer.padding(0,0,0,0);
+			renderer.margin(0,0,0,0);
 
 			let labelsTemplate = renderer.labels.template;
 			labelsTemplate.fillOpacity = 0.5;
@@ -247,6 +250,7 @@ export class XYChartScrollbar extends Scrollbar {
 			let renderer = yAxis.renderer;
 			renderer.ticks.template.disabled = true;
 			renderer.inside = true;
+			renderer.labels.template.inside = true;
 			renderer.line.strokeOpacity = 0;
 			renderer.minLabelPosition = 0.02;
 			renderer.maxLabelPosition = 0.98;
@@ -255,6 +259,10 @@ export class XYChartScrollbar extends Scrollbar {
 			renderer.grid.template.stroke = interfaceColors.getFor("background");
 			renderer.baseGrid.disabled = true;
 			renderer.grid.template.strokeOpacity = 0.05;
+			renderer.minWidth = undefined;
+			renderer.minHeight = undefined;		
+			renderer.padding(0,0,0,0);
+			renderer.margin(0,0,0,0);
 
 			let labelsTemplate = renderer.labels.template;
 			labelsTemplate.fillOpacity = 0.5;

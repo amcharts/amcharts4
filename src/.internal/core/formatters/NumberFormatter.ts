@@ -564,6 +564,24 @@ export class NumberFormatter extends BaseObject {
 	}
 
 	/**
+	 * Negative base for negative numbers.
+	 *
+	 * @default 0
+	 * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
+	 * @param format  A format to use for number formatting
+	 */
+	public set negativeBase(value: number) {
+		this._negativeBase = value;
+	}
+
+	/**
+	 * @return A format to use for number formatting
+	 */
+	public get negativeBase(): number {
+		return this._negativeBase;
+	}
+
+	/**
 	 * Prefixes for big numbers.
 	 *
 	 * It's an array of objects of number/prefix pairs.

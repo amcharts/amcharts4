@@ -32,6 +32,7 @@ import { RadialGradient } from "./rendering/fills/RadialGradient";
 import { SVGContainer } from "./rendering/SVGContainer";
 import { Align } from "./defs/Align";
 import { Roles, AriaLive } from "./defs/Accessibility";
+import { IPlugin } from "./utils/Plugin";
 import { Popup } from "./elements/Popup";
 import { Modal } from "./elements/Modal";
 import { Color } from "./utils/Color";
@@ -762,6 +763,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @todo Description
      */
     protected _showOnInitDisposer: MultiDisposer;
+    /**
+     * Holds the list of plugins attached to this Sprite.
+     */
+    protected _plugins: $type.Optional<List<IPlugin>>;
     /**
      * Constructor:
      * * Creates initial node
@@ -1787,7 +1792,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param context   Context for handler function
      * @returns Event Disposer
      */
-    observe<C>(property: string | string[], listener: (this: C, event: AMEvent<this, ISpriteEvents>["propertychanged"]) => void, context?: C): IDisposer;
+    observe<C>(property: string | string[], listener: (this: C, event: AMEvent<this, ISpriteEvents>["propertychanged"]) => void, context?: C, shouldClone?: boolean): IDisposer;
     /**
      * ==========================================================================
      * ACCESSIBILITY-RELATED PROPERTIES
@@ -3799,4 +3804,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @ignore Exclude from docs
      */
     readonly bbox: IRectangle;
+    /**
+     * A list of plugins (objects that implement [[IPlugin]] interface) attached
+     * to this object.
+     *
+     * @since 4.2.2
+     * @return List of plugins
+     */
+    readonly plugins: List<IPlugin>;
 }

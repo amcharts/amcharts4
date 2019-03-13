@@ -259,6 +259,11 @@ var Export = /** @class */ (function (_super) {
          */
         _this._extraSprites = [];
         /**
+         * Indicates whether data fields were generated dynamically (`true`) or
+         * if they were pre-set by the user (`false`).
+         */
+        _this._dynamicDataFields = true;
+        /**
          * Holds a list of objects that were temporarily removed from the DOM while
          * exporting. Those most probably are tainted images, or foreign objects that
          * would otherwise prevent SVG to be converted to canvas.
@@ -271,6 +276,10 @@ var Export = /** @class */ (function (_super) {
          * started, so that we can reveal them back when export ends.
          */
         _this._hiddenObjects = [];
+        /**
+         * Indicates if non-exportable objects are now hidden;
+         */
+        _this._objectsAlreadyHidden = false;
         /**
          * Exported files will be prefixed with whatever it is set here.
          *
@@ -568,6 +577,7 @@ var Export = /** @class */ (function (_super) {
                             // Hide preloader and timeout modals
                             this.hidePreloader();
                             this.hideTimeout();
+                            this.menu.close();
                             // Download or print
                             if (type === "print") {
                                 return [2 /*return*/, this.print(data, options, this.adapter.apply("title", {
@@ -765,10 +775,14 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getImage = function (type, options, includeExtras) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var canvas, uri, e_2;
+            var prehidden, canvas, uri, e_2, data, data;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        prehidden = this._objectsAlreadyHidden;
+                        if (!prehidden) {
+                            this.hideNonExportableSprites();
+                        }
                         if (!$type.hasValue(options)) {
                             options = this.getFormatOptions(type);
                         }
@@ -790,20 +804,27 @@ var Export = /** @class */ (function (_super) {
                         uri = canvas.toDataURL(this.getContentType(type), options.quality);
                         // Get rid of the canvas
                         this.disposeCanvas(canvas);
+                        if (!prehidden) {
+                            this.restoreNonExportableSprites();
+                        }
                         return [2 /*return*/, uri];
                     case 6:
                         e_2 = _a.sent();
                         return [4 /*yield*/, this.getImageAdvanced(type, options, includeExtras)];
-                    case 7: 
-                    // An error occurred, let's try advanced method
-                    return [2 /*return*/, _a.sent()];
+                    case 7:
+                        data = _a.sent();
+                        if (!prehidden) {
+                            this.restoreNonExportableSprites();
+                        }
+                        return [2 /*return*/, data];
                     case 8: return [3 /*break*/, 11];
                     case 9: return [4 /*yield*/, this.getImageAdvanced(type, options, includeExtras)];
-                    case 10: 
-                    /**
-                     * Going the hard way. Converting to canvas from each node
-                     */
-                    return [2 /*return*/, _a.sent()];
+                    case 10:
+                        data = _a.sent();
+                        if (!prehidden) {
+                            this.restoreNonExportableSprites();
+                        }
+                        return [2 /*return*/, data];
                     case 11: return [2 /*return*/];
                 }
             });
@@ -1071,10 +1092,14 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getImageAdvanced = function (type, options, includeExtras) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var canvas, uri;
+            var prehidden, canvas, uri;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        prehidden = this._objectsAlreadyHidden;
+                        if (!prehidden) {
+                            this.hideNonExportableSprites();
+                        }
                         if (!$type.hasValue(options)) {
                             options = this.getFormatOptions(type);
                         }
@@ -1090,6 +1115,9 @@ var Export = /** @class */ (function (_super) {
                         uri = canvas.toDataURL(this.getContentType(type), options.quality);
                         // Get rid of the canvas
                         this.disposeCanvas(canvas);
+                        if (!prehidden) {
+                            this.restoreNonExportableSprites();
+                        }
                         return [2 /*return*/, uri];
                 }
             });
@@ -1505,8 +1533,12 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getSVG = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var width, height, font, fontSize, svg, charset, uri;
+            var prehidden, width, height, font, fontSize, svg, charset, uri;
             return tslib_1.__generator(this, function (_a) {
+                prehidden = this._objectsAlreadyHidden;
+                if (!prehidden) {
+                    this.hideNonExportableSprites();
+                }
                 width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = $dom.findFont(this.sprite.dom), fontSize = $dom.findFontSize(this.sprite.dom);
                 svg = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize);
                 charset = this.adapter.apply("charset", {
@@ -1518,6 +1550,9 @@ var Export = /** @class */ (function (_super) {
                     data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(svg),
                     options: options
                 }).data;
+                if (!prehidden) {
+                    this.restoreNonExportableSprites();
+                }
                 return [2 /*return*/, uri];
             });
         });
@@ -1868,13 +1903,14 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getCSV = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var csv, dataFields, br, len, i, row, charset, uri;
+            var csv, dataFields, br, data, len, i, row, charset, uri;
             return tslib_1.__generator(this, function (_a) {
                 csv = "";
                 dataFields = this.dataFields;
                 br = "";
-                for (len = this.data.length, i = 0; i < len; i++) {
-                    row = this.getCSVRow(this.data[i], options, dataFields);
+                data = this.data;
+                for (len = data.length, i = 0; i < len; i++) {
+                    row = this.getCSVRow(data[i], options, dataFields);
                     if (options.reverse) {
                         csv = row + br + csv;
                     }
@@ -2485,10 +2521,16 @@ var Export = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._dataFields = value;
+            this._dynamicDataFields = false;
         },
         enumerable: true,
         configurable: true
     });
+    Export.prototype.handleDataUpdated = function () {
+        if (this._dynamicDataFields) {
+            this._dataFields = undefined;
+        }
+    };
     Object.defineProperty(Export.prototype, "dateFormatter", {
         /**
          * @return A DateFormatter instance
@@ -3031,6 +3073,9 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.hideNonExportableSprites = function () {
         var _this = this;
+        if (this._objectsAlreadyHidden) {
+            return;
+        }
         var svgContainer = this.sprite.svgContainer;
         if (svgContainer) {
             $array.each(svgContainer.nonExportableSprites, function (item) {
@@ -3040,15 +3085,20 @@ var Export = /** @class */ (function (_super) {
                 item.hide(0);
             });
         }
+        this._objectsAlreadyHidden = true;
     };
     /**
      * Respores elements that were hidden before export.
      */
     Export.prototype.restoreNonExportableSprites = function () {
+        if (!this._objectsAlreadyHidden) {
+            return;
+        }
         $array.each(this._hiddenObjects, function (item) {
             item.show(0);
         });
         this._hiddenObjects = [];
+        this._objectsAlreadyHidden = false;
     };
     /**
      * Processes JSON-based config before it is applied to the object.

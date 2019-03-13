@@ -1488,6 +1488,7 @@ var Component = /** @class */ (function (_super) {
                 if (_export.menu) {
                     _export.menu.invalidate();
                 }
+                _export.handleDataUpdated();
             });
         }
         return _export;

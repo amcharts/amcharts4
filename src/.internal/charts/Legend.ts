@@ -190,10 +190,29 @@ export class LegendDataItem extends DataItem {
 	 */
 	public get itemContainer(): Container {
 		if (!this._itemContainer) {
-			let itemContainer = this.component.itemContainers.create();
+
+			let component = this.component;
+
+			let itemContainer = component.itemContainers.create();
 			this._itemContainer = itemContainer;
 			this.addSprite(itemContainer);
 			this._disposers.push(itemContainer);
+
+
+			// Add click/tap event to toggle item
+			// not good to listen to "toggled" as we will get to stackoverflow
+			itemContainer.events.on("toggled", (ev) => {
+				component.toggleDataItem(<this>ev.target.dataItem);
+			}, undefined, false);
+
+			// Add focus event so that we can track which object is currently in focus
+			// for keyboard toggling
+			itemContainer.events.on("focus", (ev) => {
+				component.focusedItem = <this>ev.target.dataItem;
+			}, undefined, false);
+			itemContainer.events.on("blur", (ev) => {
+				component.focusedItem = undefined;
+			}, undefined, false);
 
 			this._disposers.push(new Disposer(() => {
 				if ($type.hasValue(this.component)) {
@@ -477,21 +496,6 @@ export class Legend extends Component {
 		itemContainer.togglable = true;
 		itemContainer.cursorOverStyle = MouseCursorStyle.pointer;
 		itemContainer.background.fillOpacity = 0; // creates hit area
-
-		// Add click/tap event to toggle item
-		// not good to listen to "toggled" as we will get to stackoverflow
-		itemContainer.events.on("toggled", (ev) => {
-			this.toggleDataItem(<this["_dataItem"]>ev.target.dataItem);
-		}, this);
-
-		// Add focus event so that we can track which object is currently in focus
-		// for keyboard toggling
-		itemContainer.events.on("focus", (ev) => {
-			this.focusedItem = <this["_dataItem"]>ev.target.dataItem;
-		});
-		itemContainer.events.on("blur", (ev) => {
-			this.focusedItem = undefined;
-		});
 
 		// Create container list using item template we just created
 		this.itemContainers = new ListTemplate<Container>(itemContainer);

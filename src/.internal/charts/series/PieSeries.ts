@@ -432,7 +432,9 @@ export class PieSeries extends PercentSeries {
 			})
 
 			this.arrangeLabels(this._rightItems);
+			this.arrangeLabels2(this._rightItems);
 			this.arrangeLabels(this._leftItems);
+			this.arrangeLabels2(this._leftItems);
 		}
 	}
 

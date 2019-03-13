@@ -189,6 +189,11 @@ export interface ISeriesProperties extends IComponentProperties {
 	 * @default false
 	 */
 	hidden?: boolean;
+
+	/**
+	 * Series' name.
+	 */
+	name?:string;
 }
 
 /**
@@ -221,17 +226,10 @@ export interface ISeriesEvents extends IComponentEvents {
  * @see {@link Adapter}
  */
 export interface ISeriesAdapters extends IComponentAdapters, ISeriesProperties {
-
-	/**
-	 * Applied to the series name when it is retrieved.
-	 */
-	name: string,
-
 	/**
 	 * Applied to the name used by screen readers.
 	 */
 	itemReaderText: string
-
 }
 
 
@@ -275,11 +273,6 @@ export class Series extends Component {
 	 * Defines a type of data item used for the series.
 	 */
 	public _dataItem: SeriesDataItem;
-
-	/**
-	 * A name of the Series.
-	 */
-	protected _title: string;
 
 	/**
 	 * A reference to the legend data item related to this series.
@@ -891,6 +884,7 @@ export class Series extends Component {
 
 				if (!bullet) {
 					bullet = bulletTemplate.clone();
+					bullet.shouldClone = false;
 					dataItem.addSprite(bullet);
 
 					if (!this.visible || this.isHiding) {
@@ -1117,7 +1111,7 @@ export class Series extends Component {
 	 * @param value  Name
 	 */
 	public set name(value: string) {
-		this._title = value;
+		this.setPropertyValue("name", value);
 		this.readerTitle = value;
 	}
 
@@ -1125,7 +1119,7 @@ export class Series extends Component {
 	 * @return Name
 	 */
 	public get name(): string {
-		return this.adapter.apply("name", this._title);
+		return this.getPropertyValue("name");
 	}
 
 	/**
@@ -1253,6 +1247,7 @@ export class Series extends Component {
 		this.bullets.copyFrom(source.bullets);
 		this.bulletsContainer.copyFrom(source.bulletsContainer);
 		this.calculatePercent = source.calculatePercent;
+		this.simplifiedProcessing = source.simplifiedProcessing;
 		super.copyFrom(source);
 	}
 

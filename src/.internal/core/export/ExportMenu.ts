@@ -237,7 +237,9 @@ export interface IExportMenuAdapters {
 
 	tabindex: {
 		tabindex: number
-	}
+	},
+
+	closeOnClick: boolean
 
 }
 
@@ -291,8 +293,18 @@ export class ExportMenu extends Validatable {
 	/**
 	 * How many milliseconds to hold menu/sub-menu open after it loses focus or
 	 * hover, before auto-closing it.
+	 *
+	 * @default 1000
 	 */
 	public closeDelay: number = 1000;
+
+	/**
+	 * Close the menu automatically when some export operation is triggered.
+	 *
+	 * @default true
+	 * @since 4.2.2
+	 */
+	public closeOnClick: boolean = true;
 
 	/**
 	 * An instance of [[Language]].
@@ -1116,6 +1128,13 @@ export class ExportMenu extends Validatable {
 		if (this._ignoreNextClose) {
 			this._ignoreNextClose = false;
 			return;
+		}
+
+		if (this.closeOnClick) {
+			this._element.style.pointerEvents = "none";
+			setTimeout(() => {
+				this._element.style.pointerEvents = "auto";
+			}, 100);
 		}
 
 		if (this._currentSelection) {

@@ -343,6 +343,7 @@ export declare class PercentSeries extends Series {
      * @param dataItems  Data items
      */
     protected arrangeLabels(dataItems: this["_dataItem"][]): void;
+    protected arrangeLabels2(dataItems: this["_dataItem"][]): void;
     /**
      * Returns the next label according to `index`.
      *

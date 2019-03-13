@@ -1917,6 +1917,7 @@ export class Component extends Container {
 				if (_export.menu) {
 					_export.menu.invalidate();
 				}
+				_export.handleDataUpdated();
 			});
 		}
 		return _export;

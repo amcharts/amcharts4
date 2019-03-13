@@ -285,6 +285,7 @@ var Chart = /** @class */ (function (_super) {
         this.titles.copyFrom(source.titles);
         if (source.legend) {
             this.legend = source.legend.clone();
+            this.legend.removeChildren();
         }
         _super.prototype.copyFrom.call(this, source);
     };

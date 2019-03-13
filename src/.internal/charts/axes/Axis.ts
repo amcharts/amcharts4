@@ -200,6 +200,7 @@ export class AxisDataItem extends DataItem {
 				}
 
 				this.grid = grid;
+				grid.shouldClone = false;
 				this._disposers.push(grid);
 				grid.axis = this.component;
 			}
@@ -266,6 +267,7 @@ export class AxisDataItem extends DataItem {
 
 				this.tick = tick;
 				tick.axis = this.component;
+				tick.shouldClone = false;
 				this._disposers.push(tick);
 			}
 		}
@@ -331,6 +333,7 @@ export class AxisDataItem extends DataItem {
 
 				this._disposers.push(label);
 				this.label = label;
+				label.shouldClone = false;
 				label.axis = this.component;
 				label.virtualParent = component;
 			}
@@ -397,6 +400,7 @@ export class AxisDataItem extends DataItem {
 				}
 
 				this.axisFill = axisFill;
+				axisFill.shouldClone = false;
 				this._disposers.push(axisFill);
 			}
 		}
@@ -1097,6 +1101,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			ghostLabel.dataItem = this.dataItems.template.clone(); // just for the adapters not to fail
 			ghostLabel.text = "L";
 			ghostLabel.parent = this.renderer;
+			ghostLabel.shouldClone = false;
 			ghostLabel.fillOpacity = 0;
 			ghostLabel.opacity = 0;
 			ghostLabel.strokeOpacity = 0;
@@ -1865,6 +1870,11 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 		super.copyFrom(source);
 		if (this.renderer) {
 			this.renderer.copyFrom(source.renderer);
+		}
+		else{
+			if(source.renderer){
+				this.renderer = source.renderer.clone();
+			}
 		}
 		if (source.title) {
 			this.title = source.title.clone();

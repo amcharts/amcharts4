@@ -89,7 +89,7 @@ var Scrollbar = /** @class */ (function (_super) {
         // ... is set in `applyInternalDefaults()` because it accesses `language`
         // and should only be started to access when parent is set
         // Set events
-        _this.events.on("transformed", _this.updateThumb, _this);
+        _this.events.on("transformed", _this.updateThumb, _this, false);
         // Initial positions
         _this.start = 0;
         _this.end = 1;
@@ -103,7 +103,7 @@ var Scrollbar = /** @class */ (function (_super) {
         _this.events.once("inited", function () {
             _this._previousStart = undefined;
             _this.dispatchRangeChange();
-        });
+        }, undefined, false);
         _this.hideGrips = false;
         _this.orientation = "horizontal";
         _this.applyTheme();
@@ -165,7 +165,7 @@ var Scrollbar = /** @class */ (function (_super) {
         _super.prototype.processBackground.call(this);
         var background = this.background;
         background.clickable = true;
-        background.events.on("hit", this.handleBgHit, this);
+        background.events.on("hit", this.handleBgHit, this, undefined);
     };
     /**
      * Zooms to the particular place when clicked/tapped on the scrollbar
@@ -190,7 +190,7 @@ var Scrollbar = /** @class */ (function (_super) {
             this._thumbAnimation = thumb.animate({ property: "y", to: thumbY }, this.animationDuration, this.animationEasing);
         }
         if (this.animationDuration > 0) {
-            this._thumbAnimation.events.on("animationended", this.makeUnbusy, this);
+            this._thumbAnimation.events.on("animationended", this.makeUnbusy, this, false);
         }
         else {
             this._thumb.validate();
@@ -650,12 +650,13 @@ var Scrollbar = /** @class */ (function (_super) {
         button.parent = this;
         button.isMeasured = false;
         button.focusable = true;
+        button.shouldClone = false;
         // Set button defaults
         button.showSystemTooltip = true;
         button.zIndex = 100;
-        button.events.on("drag", this.handleGripDrag, this);
-        button.events.on("dragstop", this.makeUnbusy, this);
-        button.events.on("down", this.makeBusy, this);
+        button.events.on("drag", this.handleGripDrag, this, false);
+        button.events.on("dragstop", this.makeUnbusy, this, false);
+        button.events.on("down", this.makeBusy, this, false);
         this._disposers.push(button);
     };
     /**
@@ -718,17 +719,18 @@ var Scrollbar = /** @class */ (function (_super) {
                 thumb.clickable = true;
                 thumb.hoverable = true;
                 thumb.focusable = true;
+                thumb.shouldClone = false;
                 thumb.zIndex = 0;
                 // TODO remove closures ?
                 // Add events
                 // Add cursor styles to thumb
                 thumb.cursorOverStyle = MouseCursorStyle.grab;
                 thumb.cursorDownStyle = MouseCursorStyle.grabbing;
-                thumb.events.on("dragstart", this.makeBusy, this);
-                thumb.events.on("dragstop", this.makeUnbusy, this);
-                thumb.events.on("positionchanged", this.handleThumbPosition, this);
-                thumb.events.on("sizechanged", this.handleThumbPosition, this);
-                thumb.events.on("doublehit", this.handleDoubleClick, this);
+                thumb.events.on("dragstart", this.makeBusy, this, false);
+                thumb.events.on("dragstop", this.makeUnbusy, this, false);
+                thumb.events.on("positionchanged", this.handleThumbPosition, this, false);
+                thumb.events.on("sizechanged", this.handleThumbPosition, this, false);
+                thumb.events.on("doublehit", this.handleDoubleClick, this, false);
                 // Add event for space and ENTER to toggle full zoom out and back
                 // (same as doubleclick)
                 this._disposers.push(getInteraction().body.events.on("keyup", function (ev) {
@@ -762,7 +764,7 @@ var Scrollbar = /** @class */ (function (_super) {
         }
         var zoomAnimation = this.animate([{ property: "__start", to: newStart }, { property: "__end", to: newEnd }], this.animationDuration, this.animationEasing);
         if (zoomAnimation && !zoomAnimation.isFinished()) {
-            zoomAnimation.events.on("animationended", this.makeUnbusy, this);
+            zoomAnimation.events.on("animationended", this.makeUnbusy, this, false);
             this._zoomAnimation = zoomAnimation;
         }
         else {
@@ -828,11 +830,11 @@ var Scrollbar = /** @class */ (function (_super) {
                 this._overDisposer = this.events.on("over", function () {
                     _this.startGrip.show();
                     _this.endGrip.show();
-                });
+                }, undefined, false);
                 this._outDisposer = this.events.on("out", function () {
                     _this.startGrip.hide();
                     _this.endGrip.hide();
-                });
+                }, undefined, false);
                 this.startGrip.hide();
                 this.endGrip.hide();
             }

@@ -153,10 +153,24 @@ var LegendDataItem = /** @class */ (function (_super) {
         get: function () {
             var _this = this;
             if (!this._itemContainer) {
-                var itemContainer_1 = this.component.itemContainers.create();
+                var component_1 = this.component;
+                var itemContainer_1 = component_1.itemContainers.create();
                 this._itemContainer = itemContainer_1;
                 this.addSprite(itemContainer_1);
                 this._disposers.push(itemContainer_1);
+                // Add click/tap event to toggle item
+                // not good to listen to "toggled" as we will get to stackoverflow
+                itemContainer_1.events.on("toggled", function (ev) {
+                    component_1.toggleDataItem(ev.target.dataItem);
+                }, undefined, false);
+                // Add focus event so that we can track which object is currently in focus
+                // for keyboard toggling
+                itemContainer_1.events.on("focus", function (ev) {
+                    component_1.focusedItem = ev.target.dataItem;
+                }, undefined, false);
+                itemContainer_1.events.on("blur", function (ev) {
+                    component_1.focusedItem = undefined;
+                }, undefined, false);
                 this._disposers.push(new Disposer(function () {
                     if ($type.hasValue(_this.component)) {
                         _this.component.itemContainers.removeValue(itemContainer_1);
@@ -290,19 +304,6 @@ var Legend = /** @class */ (function (_super) {
         itemContainer.togglable = true;
         itemContainer.cursorOverStyle = MouseCursorStyle.pointer;
         itemContainer.background.fillOpacity = 0; // creates hit area
-        // Add click/tap event to toggle item
-        // not good to listen to "toggled" as we will get to stackoverflow
-        itemContainer.events.on("toggled", function (ev) {
-            _this.toggleDataItem(ev.target.dataItem);
-        }, _this);
-        // Add focus event so that we can track which object is currently in focus
-        // for keyboard toggling
-        itemContainer.events.on("focus", function (ev) {
-            _this.focusedItem = ev.target.dataItem;
-        });
-        itemContainer.events.on("blur", function (ev) {
-            _this.focusedItem = undefined;
-        });
         // Create container list using item template we just created
         _this.itemContainers = new ListTemplate(itemContainer);
         _this._disposers.push(new ListDisposer(_this.itemContainers));
