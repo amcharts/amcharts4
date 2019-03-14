@@ -1226,7 +1226,7 @@ var Interaction = /** @class */ (function (_super) {
         $iter.each(this.downObjects.backwards().iterator(), function (io) {
             // Check if this particular pointer is pressing down
             // on object
-            if (io.downPointers.contains(pointer)) {
+            if (io && io.downPointers.contains(pointer)) {
                 _this.handleUp(io, pointer, ev, cancelled);
             }
         });
@@ -1324,7 +1324,7 @@ var Interaction = /** @class */ (function (_super) {
         if (!pointer.touch) {
             $iter.each(this.overObjects.backwards().iterator(), function (io) {
                 // Is this pointer relevant to element?
-                if (io.overPointers.contains(pointer) && io.hoverable) {
+                if (io && io.overPointers.contains(pointer) && io.hoverable) {
                     // Check if the element is still hovered
                     var reset = false;
                     if (io.element && pointer.lastEvent) {

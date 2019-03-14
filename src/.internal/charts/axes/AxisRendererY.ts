@@ -294,6 +294,8 @@ export class AxisRendererY extends AxisRenderer {
 	 * @param endPosition  End position
 	 */
 	public updateTickElement(tick: AxisTick, position: number, endPosition: number) {
+		position = position + (endPosition - position) * tick.location;
+
 		let point: IPoint = this.positionToPoint(position);
 
 		let tickLength = tick.length;
@@ -304,12 +306,12 @@ export class AxisRendererY extends AxisRenderer {
 			// void
 		}
 
+		point.x = $utils.spritePointToSprite({ x: this.line.pixelX, y: 0 }, this.line.parent, this.gridContainer).x;
+
 		if (!this.opposite) {
 			tickLength *= (tick.inside ? 1 : -1);
-			point.x = 0;
 		}
 		else {
-			point.x = this.gridContainer.pixelWidth;
 			tickLength *= (tick.inside ? -1 : 1);
 		}
 

@@ -577,7 +577,9 @@ var Export = /** @class */ (function (_super) {
                             // Hide preloader and timeout modals
                             this.hidePreloader();
                             this.hideTimeout();
-                            this.menu.close();
+                            if (this.menu) {
+                                this.menu.close();
+                            }
                             // Download or print
                             if (type === "print") {
                                 return [2 /*return*/, this.print(data, options, this.adapter.apply("title", {

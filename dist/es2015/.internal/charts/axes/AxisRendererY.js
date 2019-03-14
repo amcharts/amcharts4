@@ -222,6 +222,7 @@ var AxisRendererY = /** @class */ (function (_super) {
      * @param endPosition  End position
      */
     AxisRendererY.prototype.updateTickElement = function (tick, position, endPosition) {
+        position = position + (endPosition - position) * tick.location;
         var point = this.positionToPoint(position);
         var tickLength = tick.length;
         try {
@@ -230,12 +231,11 @@ var AxisRendererY = /** @class */ (function (_super) {
         catch (_a) {
             // void
         }
+        point.x = $utils.spritePointToSprite({ x: this.line.pixelX, y: 0 }, this.line.parent, this.gridContainer).x;
         if (!this.opposite) {
             tickLength *= (tick.inside ? 1 : -1);
-            point.x = 0;
         }
         else {
-            point.x = this.gridContainer.pixelWidth;
             tickLength *= (tick.inside ? -1 : 1);
         }
         tick.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: tickLength, y: 0 });

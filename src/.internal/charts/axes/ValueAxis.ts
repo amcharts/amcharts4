@@ -1135,6 +1135,11 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			else {
 				max = this._maxReal;
 			}
+
+			if(min == max){
+				min -= 1;
+				max += 1;					
+			}
 		}
 
 		// checking isNumber is good when all series are hidden

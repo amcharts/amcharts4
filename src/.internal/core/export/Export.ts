@@ -1299,7 +1299,9 @@ export class Export extends Validatable {
 			// Hide preloader and timeout modals
 			this.hidePreloader();
 			this.hideTimeout();
-			this.menu.close();
+			if (this.menu) {
+				this.menu.close();
+			}
 
 			// Download or print
 			if (type === "print") {

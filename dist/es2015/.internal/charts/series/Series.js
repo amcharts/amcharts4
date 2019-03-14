@@ -895,7 +895,7 @@ var Series = /** @class */ (function (_super) {
                     if (legendSettings.itemLabelText) {
                         label.text = legendSettings.itemLabelText;
                     }
-                    label.dataItem = this.dataItem;
+                    label.dataItem = dataItem;
                 }
             }
             else {

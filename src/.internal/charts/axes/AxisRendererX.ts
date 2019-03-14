@@ -396,12 +396,13 @@ export class AxisRendererX extends AxisRenderer {
 		let point: IPoint = this.positionToPoint(position);
 
 		let tickLength = tick.length;
+
+		point.y = $utils.spritePointToSprite({ x: 0, y: this.line.pixelY }, this.line.parent, this.gridContainer).y;
+
 		if (this.opposite) {
-			point.y = 0;
 			tickLength *= (tick.inside ? 1 : -1);
 		}
 		else {
-			point.y = this.gridContainer.pixelHeight;
 			tickLength *= (tick.inside ? -1 : 1);
 		}
 

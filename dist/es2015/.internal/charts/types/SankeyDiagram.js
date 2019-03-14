@@ -146,15 +146,6 @@ var SankeyDiagram = /** @class */ (function (_super) {
                 _this._levelNodesCount[level] = 1;
             }
         });
-        var maxSumLevel;
-        $object.each(this._levelSum, function (key, value) {
-            if (_this.maxSum < value) {
-                _this.maxSum = value;
-                maxSumLevel = $type.toNumber(key);
-            }
-        });
-        this._maxSumLevel = maxSumLevel;
-        var maxSumLevelNodeCount = this._levelNodesCount[this._maxSumLevel];
         var availableHeight;
         if (this.orientation == "horizontal") {
             availableHeight = this.chartContainer.maxHeight - 1;
@@ -162,6 +153,17 @@ var SankeyDiagram = /** @class */ (function (_super) {
         else {
             availableHeight = this.chartContainer.maxWidth - 1;
         }
+        var maxSumLevel;
+        $object.each(this._levelSum, function (key, value) {
+            var realValue = value;
+            value = value * availableHeight / (availableHeight - (_this._levelNodesCount[key] - 1) * _this.nodePadding);
+            if (_this.maxSum < value) {
+                _this.maxSum = realValue;
+                maxSumLevel = $type.toNumber(key);
+            }
+        });
+        this._maxSumLevel = maxSumLevel;
+        var maxSumLevelNodeCount = this._levelNodesCount[this._maxSumLevel];
         var valueHeight = (availableHeight - (maxSumLevelNodeCount - 1) * this.nodePadding) / this.maxSum;
         if (!$type.isNumber(this.valueHeight)) {
             this.valueHeight = valueHeight;

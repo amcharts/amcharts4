@@ -1217,7 +1217,7 @@ export class Series extends Component {
 					if (legendSettings.itemLabelText) {
 						label.text = legendSettings.itemLabelText;
 					}
-					label.dataItem = this.dataItem;
+					label.dataItem = dataItem;
 				}
 			}
 			else {

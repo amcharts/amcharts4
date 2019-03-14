@@ -1396,6 +1396,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		if (this.minDifference >= $time.getDuration("week", 1) - $time.getDuration("hour", 1) && baseInterval.timeUnit == "day") {
 			baseInterval.timeUnit = "week";
 			baseInterval.count = 1;
+		}
+
+		if (this.minDifference >= $time.getDuration("year", 1) - $time.getDuration("day", 1.01) && baseInterval.timeUnit == "month") {
+			baseInterval.timeUnit = "year";
+			baseInterval.count = 1;
 		}		
 
 		this._baseIntervalReal = baseInterval;
@@ -1804,7 +1809,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			let closestDate: Date;
 
 			this.series.each((series) => {
-				if(series.baseAxis == this){
+				if (series.baseAxis == this) {
 					let dataItem = this.getSeriesDataItem(series, position, true);
 					if (dataItem) {
 						let date: Date;
@@ -1837,13 +1842,17 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				let seriesPoints: { point: IPoint, series: XYSeries }[] = [];
 
 				this.series.each((series) => {
+
 					let dataItem = series.dataItemsByAxis.getKey(this.uid).getKey(closestTime.toString());
 					let point = series.showTooltipAtDataItem(dataItem);
 					if (point) {
 						seriesPoints.push({ series: series, point: point });
 					}
 					else {
-						series.hideTooltip();
+						// check, otherwise column tooltip will be hidden
+						if (series.tooltipText) {
+							series.hideTooltip();
+						}
 					}
 				})
 

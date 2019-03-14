@@ -1115,6 +1115,10 @@ var DateAxis = /** @class */ (function (_super) {
             baseInterval.timeUnit = "week";
             baseInterval.count = 1;
         }
+        if (this.minDifference >= $time.getDuration("year", 1) - $time.getDuration("day", 1.01) && baseInterval.timeUnit == "month") {
+            baseInterval.timeUnit = "year";
+            baseInterval.count = 1;
+        }
         this._baseIntervalReal = baseInterval;
         // no need to invalidate
     };
@@ -1535,7 +1539,10 @@ var DateAxis = /** @class */ (function (_super) {
                         seriesPoints_1.push({ series: series, point: point });
                     }
                     else {
-                        series.hideTooltip();
+                        // check, otherwise column tooltip will be hidden
+                        if (series.tooltipText) {
+                            series.hideTooltip();
+                        }
                     }
                 });
                 this.chart.sortSeriesTooltips(seriesPoints_1);

@@ -328,17 +328,6 @@ export class SankeyDiagram extends FlowDiagram {
 			}
 		});
 
-		let maxSumLevel: number;
-
-		$object.each(this._levelSum, (key, value) => {
-			if (this.maxSum < value) {
-				this.maxSum = value;
-				maxSumLevel = $type.toNumber(key);
-			}
-		});
-
-		this._maxSumLevel = maxSumLevel;
-		let maxSumLevelNodeCount = this._levelNodesCount[this._maxSumLevel];
 
 		let availableHeight: number;
 		if (this.orientation == "horizontal") {
@@ -347,6 +336,22 @@ export class SankeyDiagram extends FlowDiagram {
 		else {
 			availableHeight = this.chartContainer.maxWidth - 1;
 		}
+
+
+		let maxSumLevel: number;
+
+		$object.each(this._levelSum, (key, value) => {
+			let realValue = value;
+			value = value * availableHeight / (availableHeight - (this._levelNodesCount[key] - 1) * this.nodePadding);
+
+			if (this.maxSum < value) {
+				this.maxSum = realValue;
+				maxSumLevel = $type.toNumber(key);
+			}
+		});
+
+		this._maxSumLevel = maxSumLevel;
+		let maxSumLevelNodeCount = this._levelNodesCount[this._maxSumLevel];
 
 		let valueHeight = (availableHeight - (maxSumLevelNodeCount - 1) * this.nodePadding) / this.maxSum;
 

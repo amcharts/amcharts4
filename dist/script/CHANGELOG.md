@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.2.3] - 2019-03-14
+
+### Fixed
+- Exporting via API from a chart that did not have `ExportMenu` set, was resulting in error.
+- Fixed tooltip flickering that were set directly on series objects (columns/bullets).
+- Because of daylight saving, sometimes `DateAxis` could mistake yearly data for monthly data if `baseInterval` was not set explicitly.
+- Sometimes Sankey nodes did not perfectly fit into chart area.
+- Tick `location` on Y axis was being ignored.
+- Ticks were positioned incorrectly when multiple axes were on the same side of the `XYChart`.
+- Issue with `strictMinMax` and single data item fixed.
+- `valueY` (or any other value) wasn't working in `legendSettings.itemLabelText`.
+
+
 ## [4.2.2] - 2019-03-13
 
 ### Added

@@ -1575,7 +1575,7 @@ export class Interaction extends BaseObjectEvents {
 
 			// Check if this particular pointer is pressing down
 			// on object
-			if (io.downPointers.contains(pointer)) {
+			if (io && io.downPointers.contains(pointer)) {
 				this.handleUp(io, pointer, ev, cancelled);
 			}
 
@@ -1691,7 +1691,7 @@ export class Interaction extends BaseObjectEvents {
 		if (!pointer.touch) {
 			$iter.each(this.overObjects.backwards().iterator(), (io) => {
 				// Is this pointer relevant to element?
-				if (io.overPointers.contains(pointer) && io.hoverable) {
+				if (io && io.overPointers.contains(pointer) && io.hoverable) {
 					// Check if the element is still hovered
 					let reset = false;
 					if (io.element && pointer.lastEvent) {
