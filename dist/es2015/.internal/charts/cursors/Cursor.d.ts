@@ -248,6 +248,14 @@ export declare class Cursor extends Container {
      */
     handleCursorDown(event: IInteractionEvents["down"]): void;
     /**
+     * Determines whether Cursor should prevent default action on move.
+     *
+     * Child classes should override this as necessary.
+     *
+     * @return Prevent default?
+     */
+    protected shouldPreventGestures(): boolean;
+    /**
      * Updates the coordinates of where pointer down event occurred
      * (was pressed).
      */

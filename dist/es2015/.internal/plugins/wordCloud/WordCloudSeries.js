@@ -921,7 +921,7 @@ var WordCloudSeries = /** @class */ (function (_super) {
 }(Series));
 export { WordCloudSeries };
 /**
- * bboxter class in system, so that it can be instantiated using its name from
+ * Register class in system, so that it can be instantiated using its name from
  * anywhere.
  *
  * @ignore

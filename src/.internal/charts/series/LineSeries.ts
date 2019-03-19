@@ -17,6 +17,7 @@ import { LineSeriesSegment } from "./LineSeriesSegment";
 import { Axis, AxisDataItem } from "../axes/Axis";
 import { ValueAxis } from "../axes/ValueAxis";
 import { DateAxis } from "../axes/DateAxis";
+import { CategoryAxis } from "../axes/CategoryAxis";
 import { registry } from "../../core/Registry";
 import { Line } from "../../core/elements/Line";
 import { Label } from "../../core/elements/Label";
@@ -111,6 +112,13 @@ export interface ILineSeriesProperties extends IXYSeriesProperties {
 	 */
 	connect?: boolean;
 
+	/**
+	 * If `connect = false` and distance between two data points is bigger
+	 * than `baseInterval * autoGapCount`, a line will break automatically.
+	 * 
+	 * @default 1.1
+	 */
+	autoGapCount?: number;
 }
 
 /**
@@ -233,6 +241,8 @@ export class LineSeries extends XYSeries {
 		this.tensionX = 1;
 		this.tensionY = 1;
 
+		this.autoGapCount = 1.1;
+
 		this.segmentsContainer = this.mainContainer.createChild(Container);
 		this.segmentsContainer.isMeasured = false;
 
@@ -281,12 +291,12 @@ export class LineSeries extends XYSeries {
 	 */
 
 	protected setInitialWorkingValues(dataItem: this["_dataItem"]): void {
-
 		// this makes data items animate when added
-		if (this.appeared && this.visible) {
 
-			let yAxis: Axis = this._yAxis.get();
-			let xAxis: Axis = this._xAxis.get();
+		let yAxis: Axis = this._yAxis.get();
+		let xAxis: Axis = this._xAxis.get();
+
+		if (this.appeared && this.visible) {
 
 			let previousDataItem: XYSeriesDataItem = this.dataItems.getIndex(dataItem.index - 1);
 
@@ -304,8 +314,8 @@ export class LineSeries extends XYSeries {
 					dataItem.setWorkingValue("valueY", dataItem.values.valueY.value);
 
 					if (xAxis instanceof DateAxis) {
-						dataItem.setWorkingLocation("dateX", -0.5, 0); // instantly move it to previous
-						dataItem.setWorkingLocation("dateX", 0.5); // animate to it's location
+						dataItem.setWorkingLocation("dateX", dataItem.locations.dateX - 1, 0); // instantly move it to previous
+						dataItem.setWorkingLocation("dateX", dataItem.locations.dateX); // animate to it's location
 					}
 				}
 			}
@@ -320,8 +330,30 @@ export class LineSeries extends XYSeries {
 					dataItem.setWorkingValue("valueX", dataItem.values.valueX.value);
 
 					if (yAxis instanceof DateAxis) {
-						dataItem.setWorkingLocation("dateY", -0.5, 0); // instantly move it to previous
-						dataItem.setWorkingLocation("dateY", 0.5); // animate to it's location
+						dataItem.setWorkingLocation("dateY", dataItem.locations.dateX - 1, 0); // instantly move it to previous
+						dataItem.setWorkingLocation("dateY", dataItem.locations.dateY); // animate to it's location
+					}
+				}
+			}
+		}
+		else {
+			if (this.baseAxis == xAxis) {
+				if (yAxis instanceof ValueAxis) {
+					if (xAxis instanceof DateAxis) {
+						dataItem.setWorkingLocation("dateX", dataItem.locations.dateX);
+					}
+					if (xAxis instanceof CategoryAxis) {
+						dataItem.setWorkingLocation("categoryX", dataItem.locations.categoryX);
+					}
+				}
+			}
+			if (this.baseAxis == yAxis) {
+				if (xAxis instanceof ValueAxis) {
+					if (yAxis instanceof DateAxis) {
+						dataItem.setWorkingLocation("dateY", dataItem.locations.dateY);
+					}
+					if (yAxis instanceof CategoryAxis) {
+						dataItem.setWorkingLocation("categoryY", dataItem.locations.categoryY);
 					}
 				}
 			}
@@ -447,6 +479,7 @@ export class LineSeries extends XYSeries {
 	 * @param axisRange  [description]
 	 */
 	protected openSegment(openIndex: number, axisRange?: AxisDataItem): { "index": number, "axisRange": AxisDataItem } {
+		let addToClose = false;
 		let points: IPoint[] = [];
 		openIndex = Math.min(openIndex, this.dataItems.length);
 		let endIndex: number = Math.min(this._workingEndIndex, this.dataItems.length);
@@ -505,11 +538,19 @@ export class LineSeries extends XYSeries {
 
 			closeIndex = i;
 
+			if (this.baseAxis instanceof DateAxis) {
+				let next = this.dataItems.getIndex(i + 1)
+				if (next && this.baseAxis.makeGap(next, dataItem)) {
+					addToClose = true;
+					break;
+				}
+			}
+
 			if (propertiesChanged) {
 				break;
 			}
 		}
-		return this.closeSegment(segment, points, openIndex, closeIndex, axisRange);
+		return this.closeSegment(segment, points, openIndex, closeIndex, axisRange, addToClose);
 	}
 
 	/**
@@ -540,7 +581,7 @@ export class LineSeries extends XYSeries {
 	 * @param closeIndex [description]
 	 * @param axisRange  [description]
 	 */
-	protected closeSegment(segment: LineSeriesSegment, points: IPoint[], openIndex: number, closeIndex: number, axisRange?: AxisDataItem) {
+	protected closeSegment(segment: LineSeriesSegment, points: IPoint[], openIndex: number, closeIndex: number, axisRange?: AxisDataItem, add?: boolean) {
 
 		let closePoints: IPoint[] = [];
 
@@ -572,6 +613,10 @@ export class LineSeries extends XYSeries {
 		}
 
 		this.drawSegment(segment, points, closePoints);
+
+		if (add) {
+			closeIndex++;
+		}
 
 		if (closeIndex < this._workingEndIndex - 1) {
 			return { "index": closeIndex, "axisRange": axisRange };
@@ -838,6 +883,25 @@ export class LineSeries extends XYSeries {
 		super.disposeData();
 		this.segments.clear();
 	}
+
+	/**
+	 * If `connect = false` and distance between two data points is bigger
+	 * than `baseInterval * autoGapCount`, a line will break automatically.
+	 *
+	 * @since 4.2.4
+	 * @param  value  Gap count
+	 */
+	public set autoGapCount(value: number) {
+		this.setPropertyValue("autoGapCount", value, true);
+	}
+
+	/**
+	 * @return Gap count
+	 */
+	public get autoGapCount(): number {
+		return this.getPropertyValue("autoGapCount");
+	}
+
 }
 
 /**

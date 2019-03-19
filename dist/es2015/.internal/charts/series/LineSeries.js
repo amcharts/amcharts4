@@ -15,6 +15,7 @@ import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { LineSeriesSegment } from "./LineSeriesSegment";
 import { ValueAxis } from "../axes/ValueAxis";
 import { DateAxis } from "../axes/DateAxis";
+import { CategoryAxis } from "../axes/CategoryAxis";
 import { registry } from "../../core/Registry";
 import { Line } from "../../core/elements/Line";
 import { Label } from "../../core/elements/Label";
@@ -90,6 +91,7 @@ var LineSeries = /** @class */ (function (_super) {
         _this.connect = true;
         _this.tensionX = 1;
         _this.tensionY = 1;
+        _this.autoGapCount = 1.1;
         _this.segmentsContainer = _this.mainContainer.createChild(Container);
         _this.segmentsContainer.isMeasured = false;
         // line series might have multiple segments and it has a separate sprite for fill and stroke for each segment. So we need to observe all the changes on series and set them on the segments
@@ -132,9 +134,9 @@ var LineSeries = /** @class */ (function (_super) {
      */
     LineSeries.prototype.setInitialWorkingValues = function (dataItem) {
         // this makes data items animate when added
+        var yAxis = this._yAxis.get();
+        var xAxis = this._xAxis.get();
         if (this.appeared && this.visible) {
-            var yAxis = this._yAxis.get();
-            var xAxis = this._xAxis.get();
             var previousDataItem = this.dataItems.getIndex(dataItem.index - 1);
             dataItem.component = this; // as these values are set before, we don't know component yet
             if (this.baseAxis == xAxis) {
@@ -147,8 +149,8 @@ var LineSeries = /** @class */ (function (_super) {
                     dataItem.setWorkingValue("valueY", initialY, 0);
                     dataItem.setWorkingValue("valueY", dataItem.values.valueY.value);
                     if (xAxis instanceof DateAxis) {
-                        dataItem.setWorkingLocation("dateX", -0.5, 0); // instantly move it to previous
-                        dataItem.setWorkingLocation("dateX", 0.5); // animate to it's location
+                        dataItem.setWorkingLocation("dateX", dataItem.locations.dateX - 1, 0); // instantly move it to previous
+                        dataItem.setWorkingLocation("dateX", dataItem.locations.dateX); // animate to it's location
                     }
                 }
             }
@@ -161,8 +163,30 @@ var LineSeries = /** @class */ (function (_super) {
                     dataItem.setWorkingValue("valueX", initialX, 0);
                     dataItem.setWorkingValue("valueX", dataItem.values.valueX.value);
                     if (yAxis instanceof DateAxis) {
-                        dataItem.setWorkingLocation("dateY", -0.5, 0); // instantly move it to previous
-                        dataItem.setWorkingLocation("dateY", 0.5); // animate to it's location
+                        dataItem.setWorkingLocation("dateY", dataItem.locations.dateX - 1, 0); // instantly move it to previous
+                        dataItem.setWorkingLocation("dateY", dataItem.locations.dateY); // animate to it's location
+                    }
+                }
+            }
+        }
+        else {
+            if (this.baseAxis == xAxis) {
+                if (yAxis instanceof ValueAxis) {
+                    if (xAxis instanceof DateAxis) {
+                        dataItem.setWorkingLocation("dateX", dataItem.locations.dateX);
+                    }
+                    if (xAxis instanceof CategoryAxis) {
+                        dataItem.setWorkingLocation("categoryX", dataItem.locations.categoryX);
+                    }
+                }
+            }
+            if (this.baseAxis == yAxis) {
+                if (xAxis instanceof ValueAxis) {
+                    if (yAxis instanceof DateAxis) {
+                        dataItem.setWorkingLocation("dateY", dataItem.locations.dateY);
+                    }
+                    if (yAxis instanceof CategoryAxis) {
+                        dataItem.setWorkingLocation("categoryY", dataItem.locations.categoryY);
                     }
                 }
             }
@@ -274,6 +298,7 @@ var LineSeries = /** @class */ (function (_super) {
      * @param axisRange  [description]
      */
     LineSeries.prototype.openSegment = function (openIndex, axisRange) {
+        var addToClose = false;
         var points = [];
         openIndex = Math.min(openIndex, this.dataItems.length);
         var endIndex = Math.min(this._workingEndIndex, this.dataItems.length);
@@ -322,11 +347,18 @@ var LineSeries = /** @class */ (function (_super) {
                 }
             }
             closeIndex = i;
+            if (this.baseAxis instanceof DateAxis) {
+                var next = this.dataItems.getIndex(i + 1);
+                if (next && this.baseAxis.makeGap(next, dataItem)) {
+                    addToClose = true;
+                    break;
+                }
+            }
             if (propertiesChanged) {
                 break;
             }
         }
-        return this.closeSegment(segment, points, openIndex, closeIndex, axisRange);
+        return this.closeSegment(segment, points, openIndex, closeIndex, axisRange, addToClose);
     };
     /**
      * [addPoints description]
@@ -355,7 +387,7 @@ var LineSeries = /** @class */ (function (_super) {
      * @param closeIndex [description]
      * @param axisRange  [description]
      */
-    LineSeries.prototype.closeSegment = function (segment, points, openIndex, closeIndex, axisRange) {
+    LineSeries.prototype.closeSegment = function (segment, points, openIndex, closeIndex, axisRange, add) {
         var closePoints = [];
         if (this.dataFields[this._xOpenField] ||
             this.dataFields[this._yOpenField] ||
@@ -384,6 +416,9 @@ var LineSeries = /** @class */ (function (_super) {
             }
         }
         this.drawSegment(segment, points, closePoints);
+        if (add) {
+            closeIndex++;
+        }
         if (closeIndex < this._workingEndIndex - 1) {
             return { "index": closeIndex, "axisRange": axisRange };
         }
@@ -633,6 +668,26 @@ var LineSeries = /** @class */ (function (_super) {
         _super.prototype.disposeData.call(this);
         this.segments.clear();
     };
+    Object.defineProperty(LineSeries.prototype, "autoGapCount", {
+        /**
+         * @return Gap count
+         */
+        get: function () {
+            return this.getPropertyValue("autoGapCount");
+        },
+        /**
+         * If `connect = false` and distance between two data points is bigger
+         * than `baseInterval * autoGapCount`, a line will break automatically.
+         *
+         * @since 4.2.4
+         * @param  value  Gap count
+         */
+        set: function (value) {
+            this.setPropertyValue("autoGapCount", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return LineSeries;
 }(XYSeries));
 export { LineSeries };

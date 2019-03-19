@@ -80,6 +80,13 @@ export interface ILineSeriesProperties extends IXYSeriesProperties {
      * @default true
      */
     connect?: boolean;
+    /**
+     * If `connect = false` and distance between two data points is bigger
+     * than `baseInterval * autoGapCount`, a line will break automatically.
+     *
+     * @default 1.1
+     */
+    autoGapCount?: number;
 }
 /**
  * Defines events for [[LineSeries]].
@@ -250,7 +257,7 @@ export declare class LineSeries extends XYSeries {
      * @param closeIndex [description]
      * @param axisRange  [description]
      */
-    protected closeSegment(segment: LineSeriesSegment, points: IPoint[], openIndex: number, closeIndex: number, axisRange?: AxisDataItem): {
+    protected closeSegment(segment: LineSeriesSegment, points: IPoint[], openIndex: number, closeIndex: number, axisRange?: AxisDataItem, add?: boolean): {
         "index": number;
         "axisRange": AxisDataItem;
     };
@@ -357,4 +364,15 @@ export declare class LineSeries extends XYSeries {
      * @ignore
      */
     disposeData(): void;
+    /**
+     * @return Gap count
+     */
+    /**
+     * If `connect = false` and distance between two data points is bigger
+     * than `baseInterval * autoGapCount`, a line will break automatically.
+     *
+     * @since 4.2.4
+     * @param  value  Gap count
+     */
+    autoGapCount: number;
 }

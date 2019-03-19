@@ -1028,6 +1028,11 @@ export class Component extends Container {
 		}
 	}
 
+
+	protected getDataItem(dataContext?:any):this["_dataItem"]{
+		return this.dataItems.create();
+	}
+
 	/**
 	 * Validates (processes) data.
 	 *
@@ -1082,12 +1087,12 @@ export class Component extends Container {
 			for (i; i < n; i++) {
 				let rawDataItem = this.data[i];
 
-				let dataItem: this["_dataItem"] = this.dataItems.create();
+				let dataItem: this["_dataItem"] = this.getDataItem(rawDataItem);
 				this.processDataItem(dataItem, rawDataItem);
 
 				this.dataUsers.each((dataUser) => {
 					if (dataUser.data.length == 0) { // checking if data is not set directly
-						let dataUserDataItem: DataItem = dataUser.dataItems.create();
+						let dataUserDataItem: DataItem = dataUser.getDataItem(rawDataItem);
 						dataUser.processDataItem(dataUserDataItem, rawDataItem);
 					}
 				});

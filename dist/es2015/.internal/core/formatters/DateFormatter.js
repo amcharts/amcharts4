@@ -522,7 +522,7 @@ var DateFormatter = /** @class */ (function (_super) {
             switch (info.parts[i]) {
                 case "yyyy":
                 case "YYYY":
-                    reg += "([0-9]{4,})";
+                    reg += "([0-9]{4})";
                     parsedIndexes.year = index;
                     break;
                 case "yyy":

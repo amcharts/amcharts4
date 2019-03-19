@@ -995,6 +995,23 @@ var MapChart = /** @class */ (function (_super) {
      * @param config  Config
      */
     MapChart.prototype.processConfig = function (config) {
+        if ($type.hasValue(config["geodata"]) && $type.isString(config["geodata"])) {
+            var name_1 = config["geodata"];
+            // Check if there's a map loaded by such name
+            if ($type.hasValue(window["am4geodata_" + config["geodata"]])) {
+                config["geodata"] = window["am4geodata_" + config["geodata"]];
+            }
+            // Nope. Let's try maybe we got JSON as string?
+            else {
+                try {
+                    config["geodata"] = JSON.parse(config["geodata"]);
+                }
+                catch (e) {
+                    // No go again. Error out.
+                    throw Error("MapChart error: Geodata `" + name_1 + "` is not loaded or is incorrect.");
+                }
+            }
+        }
         // Instantiate projection
         if ($type.hasValue(config["projection"]) && $type.isString(config["projection"])) {
             config["projection"] = this.createClassInstance(config["projection"]);

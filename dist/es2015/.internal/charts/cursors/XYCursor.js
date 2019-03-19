@@ -31,7 +31,6 @@ import * as $path from "../../core/rendering/Path";
  * @see {@link IXYCursorEvents} for a list of available events
  * @see {@link IXYCursorAdapters} for a list of available Adapters
  * @todo Add description, examples
- * @todo Should we allow changing `_generalBehavior`?
  */
 var XYCursor = /** @class */ (function (_super) {
     tslib_1.__extends(XYCursor, _super);
@@ -361,6 +360,16 @@ var XYCursor = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Determines whether Cursor should prevent default action on move.
+     *
+     * If cursor's behavior is "none", it should not obstruct the page scrolling.
+     *
+     * @return Prevent default?
+     */
+    XYCursor.prototype.shouldPreventGestures = function () {
+        return this.behavior != "none";
+    };
     Object.defineProperty(XYCursor.prototype, "fullWidthLineX", {
         /**
          * @return Full width?

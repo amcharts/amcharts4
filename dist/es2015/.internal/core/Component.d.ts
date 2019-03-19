@@ -575,6 +575,7 @@ export declare class Component extends Container {
      * @ignoref
      */
     disposeData(): void;
+    protected getDataItem(dataContext?: any): this["_dataItem"];
     /**
      * Validates (processes) data.
      *

@@ -260,12 +260,22 @@ var Cursor = /** @class */ (function (_super) {
         var local = $utils.documentPointToSprite(event.pointer.point, this);
         this._downPointOrig = { x: local.x, y: local.y };
         // We need to cancel the event to prevent gestures on touch devices
-        if (event.event.cancelable && this.fitsToBounds(local)) {
+        if (event.event.cancelable && this.shouldPreventGestures() && this.fitsToBounds(local)) {
             event.event.preventDefault();
         }
         // Make this happen
         this.triggerMove(local);
         this.triggerDown(local);
+    };
+    /**
+     * Determines whether Cursor should prevent default action on move.
+     *
+     * Child classes should override this as necessary.
+     *
+     * @return Prevent default?
+     */
+    Cursor.prototype.shouldPreventGestures = function () {
+        return true;
     };
     /**
      * Updates the coordinates of where pointer down event occurred

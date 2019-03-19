@@ -1454,6 +1454,24 @@ export class MapChart extends SerialChart {
 	 */
 	public processConfig(config?: { [index: string]: any }): void {
 
+		if ($type.hasValue(config["geodata"]) && $type.isString(config["geodata"])) {
+			const name = config["geodata"];
+			// Check if there's a map loaded by such name
+			if ($type.hasValue((<any>window)["am4geodata_" + config["geodata"]])) {
+				config["geodata"] = (<any>window)["am4geodata_" + config["geodata"]];
+			}
+			// Nope. Let's try maybe we got JSON as string?
+			else {
+				try {
+					config["geodata"] = JSON.parse(config["geodata"]);
+				}
+				catch (e) {
+					// No go again. Error out.
+					throw Error("MapChart error: Geodata `" + name + "` is not loaded or is incorrect.");
+				}
+			}
+		}
+
 		// Instantiate projection
 		if ($type.hasValue(config["projection"]) && $type.isString(config["projection"])) {
 			config["projection"] = this.createClassInstance(config["projection"]);

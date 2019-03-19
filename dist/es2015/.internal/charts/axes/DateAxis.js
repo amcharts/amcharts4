@@ -1582,6 +1582,24 @@ var DateAxis = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * @ignore
+     */
+    DateAxis.prototype.makeGap = function (dataItem, previous) {
+        var series = dataItem.component;
+        if (dataItem && previous) {
+            if (!series.connect && $type.isNumber(series.autoGapCount)) {
+                if (series.baseAxis == this) {
+                    var time = dataItem.dates["date" + this.axisLetter].getTime();
+                    var prevTime = previous.dates["date" + this.axisLetter].getTime();
+                    if (time - prevTime > series.autoGapCount * this.baseDuration) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    };
     return DateAxis;
 }(ValueAxis));
 export { DateAxis };

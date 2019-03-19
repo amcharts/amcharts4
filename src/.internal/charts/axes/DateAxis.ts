@@ -19,6 +19,7 @@ import { Dictionary } from "../../core/utils/Dictionary";
 import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
 import { Grid } from "./Grid";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
+import { LineSeriesDataItem } from "../series/LineSeries";
 import { TimeUnit } from "../../core/defs/TimeUnit";
 import { ITimeInterval } from "../../core/defs/ITimeInterval";
 import { IMinMaxStep } from "./ValueAxis";
@@ -1401,7 +1402,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		if (this.minDifference >= $time.getDuration("year", 1) - $time.getDuration("day", 1.01) && baseInterval.timeUnit == "month") {
 			baseInterval.timeUnit = "year";
 			baseInterval.count = 1;
-		}		
+		}
 
 		this._baseIntervalReal = baseInterval;
 		// no need to invalidate
@@ -1891,6 +1892,26 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		return this._gridInterval;
 	}
 
+
+	/**
+	 * @ignore
+	 */
+	public makeGap(dataItem: LineSeriesDataItem, previous: LineSeriesDataItem): boolean {
+		let series = dataItem.component;
+		if(dataItem && previous){
+			if(!series.connect && $type.isNumber(series.autoGapCount)){
+				if(series.baseAxis == this){
+					let time = dataItem.dates["date" + this.axisLetter].getTime();
+					let prevTime = previous.dates["date" + this.axisLetter].getTime();
+
+					if(time - prevTime > series.autoGapCount * this.baseDuration){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 }
 
 /**

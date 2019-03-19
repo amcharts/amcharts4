@@ -225,6 +225,7 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @param dataContext  The raw data that corresponds to this data item
      */
     processDataItem(dataItem: this["_dataItem"], dataContext: Object): void;
+    protected getDataItem(dataContext?: any): this["_dataItem"];
     /**
      * Converts a category index to an actual screen coordinate on the axis.
      *

@@ -641,6 +641,9 @@ var Component = /** @class */ (function (_super) {
             this.dataItems.clear();
         }
     };
+    Component.prototype.getDataItem = function (dataContext) {
+        return this.dataItems.create();
+    };
     /**
      * Validates (processes) data.
      *
@@ -683,11 +686,11 @@ var Component = /** @class */ (function (_super) {
             var n = this.data.length;
             var _loop_1 = function () {
                 var rawDataItem = this_1.data[i];
-                var dataItem = this_1.dataItems.create();
+                var dataItem = this_1.getDataItem(rawDataItem);
                 this_1.processDataItem(dataItem, rawDataItem);
                 this_1.dataUsers.each(function (dataUser) {
                     if (dataUser.data.length == 0) { // checking if data is not set directly
-                        var dataUserDataItem = dataUser.dataItems.create();
+                        var dataUserDataItem = dataUser.getDataItem(rawDataItem);
                         dataUser.processDataItem(dataUserDataItem, rawDataItem);
                     }
                 });

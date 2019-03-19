@@ -17,7 +17,7 @@ import { Sprite } from "../Sprite";
  * @hidden
  */
 export interface IPlugin extends IDisposer {
-    target: Sprite;
+    target: Optional<Sprite>;
     init(): void;
 }
 /**

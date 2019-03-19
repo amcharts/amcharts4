@@ -10,6 +10,7 @@ import * as tslib_1 from "tslib";
  */
 import { BaseObject } from "../Base";
 import { Color, color } from "./Color";
+import { registry } from "../Registry";
 import * as $colors from "./Colors";
 import * as $type from "./Type";
 import * as $utils from "./Utils";
@@ -380,4 +381,11 @@ var ColorSet = /** @class */ (function (_super) {
     return ColorSet;
 }(BaseObject));
 export { ColorSet };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["ColorSet"] = ColorSet;
 //# sourceMappingURL=ColorSet.js.map

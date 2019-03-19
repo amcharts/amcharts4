@@ -305,26 +305,6 @@ export function createFromConfig(config: { [index: string]: any }, htmlElement?:
 		finalType = classType;
 	}
 
-	// Check if maybe we have `geodata` set as string, which would mean that
-	// we need to try to refer to a loaded map with a global variable, like
-	// `am4geodata_xxx`
-	if ($type.hasValue(config["geodata"]) && $type.isString(config["geodata"])) {
-		// Check if there's a map loaded by such name
-		if ($type.hasValue((<any>window)["am4geodata_" + config["geodata"]])) {
-			config["geodata"] = (<any>window)["am4geodata_" + config["geodata"]];
-		}
-		// Nope. Let's try maybe we got JSON as string?
-		else {
-			try {
-				config["geodata"] = JSON.parse(config["geodata"]);
-			}
-			catch (e) {
-				// No go again. Error out.
-				classError = new Error("<code>geodata</code> is incorrect or the map file is not loaded.");
-			}
-		}
-	}
-
 	// Create the chart
 	let chart = createChild(htmlElement, finalType);
 

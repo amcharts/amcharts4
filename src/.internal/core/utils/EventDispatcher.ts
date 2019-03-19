@@ -202,21 +202,19 @@ export class EventDispatcher<T> implements IDisposer {
 	 * @param callback     Callback function
 	 * @param context      Callback context
 	 */
-	protected _removeExistingListener<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B): void {
+	protected _removeExistingListener<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback?: A, context?: B): void {
 		if (this._disposed) {
 			throw new Error("EventDispatcher is disposed");
 		}
 
-		const index = $array.findIndex(this._listeners, (info) => {
-			return info.once === once && // TODO is this correct ?
+		this._eachListener((info) => {
+			if (info.once === once && // TODO is this correct ?
 				info.type === type &&
-				info.callback === callback &&
-				info.context === context;
+				(callback == null || info.callback === callback) &&
+				info.context === context) {
+				info.disposer.dispose();
+			}
 		});
-
-		if (index !== -1) {
-			this._listeners[index].disposer.dispose();
-		}
 	}
 
 	/**
@@ -246,7 +244,7 @@ export class EventDispatcher<T> implements IDisposer {
 		const index = $array.findIndex(this._listeners, (info) => {
 			return info.once !== true && // Ignoring "once" listeners
 				info.type === type &&
-				(!callback || info.callback === callback) &&
+				(callback == null || info.callback === callback) &&
 				info.context === context;
 		});
 
@@ -502,7 +500,7 @@ export class EventDispatcher<T> implements IDisposer {
 	 * @param callback     Callback function
 	 * @param context      Callback context
 	 */
-	public off<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C): void {
+	public off<C, Key extends keyof T>(type: Key, callback?: (this: C, event: T[Key]) => void, context?: C): void {
 		this._removeExistingListener(false, type, callback, context);
 	}
 

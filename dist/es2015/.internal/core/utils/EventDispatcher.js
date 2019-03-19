@@ -160,15 +160,14 @@ var EventDispatcher = /** @class */ (function () {
         if (this._disposed) {
             throw new Error("EventDispatcher is disposed");
         }
-        var index = $array.findIndex(this._listeners, function (info) {
-            return info.once === once && // TODO is this correct ?
+        this._eachListener(function (info) {
+            if (info.once === once && // TODO is this correct ?
                 info.type === type &&
-                info.callback === callback &&
-                info.context === context;
+                (callback == null || info.callback === callback) &&
+                info.context === context) {
+                info.disposer.dispose();
+            }
         });
-        if (index !== -1) {
-            this._listeners[index].disposer.dispose();
-        }
     };
     /**
      * Checks if dispatching for particular event type is enabled.
@@ -195,7 +194,7 @@ var EventDispatcher = /** @class */ (function () {
         var index = $array.findIndex(this._listeners, function (info) {
             return info.once !== true && // Ignoring "once" listeners
                 info.type === type &&
-                (!callback || info.callback === callback) &&
+                (callback == null || info.callback === callback) &&
                 info.context === context;
         });
         return index !== -1;

@@ -391,11 +391,21 @@ var CategoryAxis = /** @class */ (function (_super) {
         // creat a collection for fast access
         _super.prototype.processDataItem.call(this, dataItem, dataContext);
         // check if such category already exists
-        var existingDataItem = this.dataItemsByCategory.getKey(dataItem.category);
-        if (existingDataItem && existingDataItem != dataItem) {
-            this.dataItems.remove(existingDataItem);
-        }
+        //let existingDataItem: CategoryAxisDataItem = this.dataItemsByCategory.getKey(dataItem.category);
+        //if (existingDataItem && existingDataItem != dataItem) {
+        //	this.dataItems.remove(existingDataItem);
+        //}
         this.dataItemsByCategory.setKey(dataItem.category, dataItem);
+    };
+    CategoryAxis.prototype.getDataItem = function (dataContext) {
+        var category = (dataContext[this.dataFields.category]);
+        var dataItem = this.dataItemsByCategory.getKey(category);
+        if (dataItem) {
+            return dataItem;
+        }
+        else {
+            return this.dataItems.create();
+        }
     };
     /**
      * Converts a category index to an actual screen coordinate on the axis.

@@ -117,7 +117,7 @@ export function copy(date: Date): Date {
  * @param unit     Time unit to check
  * @return Range?
  */
-export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit, utc?:boolean): boolean {
+export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit, utc?: boolean): boolean {
 
 	dateOne = new Date(dateOne.getTime());
 	dateTwo = new Date(dateTwo.getTime());
@@ -125,7 +125,7 @@ export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit, utc?:b
 	let timeZoneOffset1 = 0;
 	let timeZoneOffset2 = 0;
 
-	if(!utc){
+	if (!utc && unit != "millisecond") {
 		timeZoneOffset1 = dateOne.getTimezoneOffset();
 		dateOne.setUTCMinutes(dateOne.getUTCMinutes() - timeZoneOffset1);
 
@@ -210,7 +210,7 @@ export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit, utc?:b
 export function add(date: Date, unit: TimeUnit, count: number, utc?: boolean): Date {
 	let timeZoneOffset = 0;
 
-	if(!utc){
+	if (!utc && unit != "millisecond") {
 		timeZoneOffset = date.getTimezoneOffset();
 		date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);
 	}
@@ -256,7 +256,7 @@ export function add(date: Date, unit: TimeUnit, count: number, utc?: boolean): D
 			date.setUTCDate(wday + count * 7);
 			break;
 	}
-	if (!utc) {
+	if (!utc && unit != "millisecond") {
 		date.setUTCMinutes(date.getUTCMinutes() + timeZoneOffset);
 
 		if (unit == "day" || unit == "week" || unit == "month" || unit == "year") {
@@ -266,8 +266,8 @@ export function add(date: Date, unit: TimeUnit, count: number, utc?: boolean): D
 
 				date.setUTCMinutes(date.getUTCMinutes() + diff);
 				// solves issues if newe time falls back to old time zone
-				if(date.getTimezoneOffset() != newTimeZoneOffset){
-					date.setUTCMinutes(date.getUTCMinutes() - diff);					
+				if (date.getTimezoneOffset() != newTimeZoneOffset) {
+					date.setUTCMinutes(date.getUTCMinutes() - diff);
 				}
 			}
 		}
@@ -291,10 +291,10 @@ export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek
 	if (!$type.isNumber(count)) {
 		count = 1;
 	}
-	
+
 	let timeZoneOffset = 0;
 
-	if(!utc){
+	if (!utc && unit != "millisecond") {
 		timeZoneOffset = date.getTimezoneOffset();
 		date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);
 	}
@@ -401,7 +401,7 @@ export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek
 
 			break;
 	}
-	if (!utc) {
+	if (!utc && unit != "millisecond") {
 		date.setUTCMinutes(date.getUTCMinutes() + timeZoneOffset);
 
 		if (unit == "day" || unit == "week" || unit == "month" || unit == "year") {
@@ -409,7 +409,7 @@ export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek
 			if (newTimeZoneOffset != timeZoneOffset) {
 				let diff = newTimeZoneOffset - timeZoneOffset;
 
-				date.setUTCMinutes(date.getUTCMinutes() + diff);				
+				date.setUTCMinutes(date.getUTCMinutes() + diff);
 			}
 		}
 	}

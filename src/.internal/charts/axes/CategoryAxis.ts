@@ -300,11 +300,11 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				let startIndex = this.positionToIndex(this.start);
 				let endIndex = this.positionToIndex(this.end);
 
-				for(let i = startIndex; i <= endIndex; i++){
+				for (let i = startIndex; i <= endIndex; i++) {
 					let dataItem = this.dataItems.getIndex(i);
-					if(dataItem){
+					if (dataItem) {
 						let fdi = this.getFirstSeriesDataItem(series, dataItem.category);
-						if(fdi){
+						if (fdi) {
 							if (!firstSeriesDataItem) {
 								firstSeriesDataItem = fdi;
 							}
@@ -315,7 +315,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 						}
 
 						let ldi = this.getLastSeriesDataItem(series, dataItem.category);
-						if(ldi){
+						if (ldi) {
 							if (!lastSeriesDataItem) {
 								lastSeriesDataItem = ldi;
 							}
@@ -560,12 +560,25 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		// creat a collection for fast access
 		super.processDataItem(dataItem, dataContext);
 		// check if such category already exists
-		let existingDataItem: CategoryAxisDataItem = this.dataItemsByCategory.getKey(dataItem.category);
-		if (existingDataItem && existingDataItem != dataItem) {
-			this.dataItems.remove(existingDataItem);
-		}
+		//let existingDataItem: CategoryAxisDataItem = this.dataItemsByCategory.getKey(dataItem.category);
+		//if (existingDataItem && existingDataItem != dataItem) {
+		//	this.dataItems.remove(existingDataItem);
+		//}
 
 		this.dataItemsByCategory.setKey(dataItem.category, dataItem);
+	}
+
+
+	protected getDataItem(dataContext?: any): this["_dataItem"] {
+		let category: string = <string>(dataContext[this.dataFields.category]);
+		let dataItem: this["_dataItem"] = this.dataItemsByCategory.getKey(category);
+
+		if (dataItem) {
+			return dataItem;
+		}
+		else {
+			return this.dataItems.create();
+		}
 	}
 
 	/**
@@ -813,7 +826,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				let sdi: XYSeriesDataItem;
 
 				let seriesDataItem = series.dataItems.getIndex(index);
-				if(seriesDataItem){
+				if (seriesDataItem) {
 					if (series.xAxis == this) {
 						if (seriesDataItem.categoryX == category) {
 							return seriesDataItem;
@@ -830,10 +843,10 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				series.dataItems.each((dataItem) => {
 					if (series.xAxis == this) {
 						if (dataItem.categoryX == category) {
-							if(!sdi){
+							if (!sdi) {
 								sdi = dataItem;
 							}
-							if(Math.abs(index - sdi.index) > Math.abs(index - dataItem.index)) {
+							if (Math.abs(index - sdi.index) > Math.abs(index - dataItem.index)) {
 								sdi = dataItem;
 							}
 
@@ -841,10 +854,10 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 					}
 					if (series.yAxis == this) {
 						if (dataItem.categoryY == category) {
-							if(!sdi){
+							if (!sdi) {
 								sdi = dataItem;
 							}
-							if(Math.abs(index - sdi.index) > Math.abs(index - dataItem.index)) {
+							if (Math.abs(index - sdi.index) > Math.abs(index - dataItem.index)) {
 								sdi = dataItem;
 							}
 						}
@@ -852,7 +865,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				})
 
 				//@todo
-				if(findNearest){
+				if (findNearest) {
 
 				}
 

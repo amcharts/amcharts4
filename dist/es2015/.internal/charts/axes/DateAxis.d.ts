@@ -14,6 +14,7 @@ import { List } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
+import { LineSeriesDataItem } from "../series/LineSeries";
 import { TimeUnit } from "../../core/defs/TimeUnit";
 import { ITimeInterval } from "../../core/defs/ITimeInterval";
 import { IMinMaxStep } from "./ValueAxis";
@@ -795,4 +796,8 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @return Grid interval
      */
     readonly gridInterval: ITimeInterval;
+    /**
+     * @ignore
+     */
+    makeGap(dataItem: LineSeriesDataItem, previous: LineSeriesDataItem): boolean;
 }

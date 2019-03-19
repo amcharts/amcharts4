@@ -696,7 +696,7 @@ export class DateFormatter extends BaseObject {
 
 				case "yyyy":
 				case "YYYY":
-					reg += "([0-9]{4,})";
+					reg += "([0-9]{4})";
 					parsedIndexes.year = index;
 					break;
 

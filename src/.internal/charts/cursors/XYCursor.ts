@@ -109,7 +109,6 @@ export interface IXYCursorAdapters extends ICursorAdapters, IXYCursorProperties 
  * @see {@link IXYCursorEvents} for a list of available events
  * @see {@link IXYCursorAdapters} for a list of available Adapters
  * @todo Add description, examples
- * @todo Should we allow changing `_generalBehavior`?
  */
 export class XYCursor extends Cursor {
 
@@ -538,6 +537,17 @@ export class XYCursor extends Cursor {
 	 */
 	public get behavior(): "zoomX" | "zoomY" | "zoomXY" | "selectX" | "selectY" | "selectXY" | "panX" | "panY" | "panXY" | "none" {
 		return this.getPropertyValue("behavior");
+	}
+
+	/**
+	 * Determines whether Cursor should prevent default action on move.
+	 *
+	 * If cursor's behavior is "none", it should not obstruct the page scrolling.
+	 * 
+	 * @return Prevent default?
+	 */
+	protected shouldPreventGestures(): boolean {
+		return this.behavior != "none";
 	}
 
 	/**

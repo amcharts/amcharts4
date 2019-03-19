@@ -405,14 +405,26 @@ export class Series extends Component {
 	protected _heatRules: List<IHeatRule>;
 
 	/**
-	 * As calculating totals is expensive operation and not often needed, by default we do not do it. In case you use percent for your charts, you must set this to true.
-	 * Pie chart, which uses percent sets this to true by default.
-	 * @todo review description
+	 * Most of the series use absolute values. However sometimes various
+	 * calculated percent values are need, e.g. item's percent representation
+	 * across all values in series, etc.
+	 *
+	 * It's a resource-intensive operation, so it is disabled by default.
+	 *
+	 * If you need percents to be calculated, e.g. for showing them in tooltips,
+	 * or creating 100% stacks, this setting needs to be set to `true`.
+	 * 
+	 * NOTE: `PieChart`, which relies on slice percentages, has this
+	 * automatically set to `true`.
+	 *
+	 * @default false
 	 */
 	public calculatePercent: boolean = false;
 
 	/**
-	 * Specifies if series should be automatically disposed when removing from chart's series list.
+	 * Specifies if series should be automatically disposed when removing from
+	 * chart's `series` list.
+	 * 
 	 * @default true
 	 */
 	public autoDispose: boolean = true;

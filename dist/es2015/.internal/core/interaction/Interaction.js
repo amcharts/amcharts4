@@ -2179,8 +2179,8 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.getInertiaOption = function (io, type, option) {
         var options = io.inertiaOptions.getKey(type);
         var res;
-        if (options && $type.hasValue(options[type])) {
-            res = options[type];
+        if (options && $type.hasValue(options[option])) {
+            res = options[option];
         }
         else {
             res = this.inertiaOptions.getKey(type)[option];

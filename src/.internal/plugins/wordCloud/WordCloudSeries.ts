@@ -1177,7 +1177,7 @@ export class WordCloudSeries extends Series {
 }
 
 /**
- * bboxter class in system, so that it can be instantiated using its name from
+ * Register class in system, so that it can be instantiated using its name from
  * anywhere.
  *
  * @ignore

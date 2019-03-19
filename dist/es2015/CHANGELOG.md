@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.2.4] - 2019-03-19
+
+### Added
+- `autoGapCount` added to `LineSeries`. If `connect = false` and distance between two data points is bigger than `baseInterval * autoGapCount`, a line will break automatically.
+
+### Fixed
+- `IPlugin` now accepts `Optional<Sprite>`.
+- `XYCursor` will not longer obstruct page scroll if its `behavior` is set to `"none"`.
+- JSON config: setting `geodata` by name (e.g. "worldLow") directly in `MapSeries` was not working.
+- JSON config: Instantiating new `ColorSet` objects was not working properly.
+- `DateFormatter` was not parsing dates like "20180101" (no separators) correctly.
+- An issue with `DateAxis` and milliseconds fixed.
+- `dataItem.locations.dateX` on `LineSeries` was not working properly.
+
+
 ## [4.2.3] - 2019-03-14
 
 ### Fixed

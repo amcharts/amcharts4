@@ -2671,8 +2671,8 @@ export class Interaction extends BaseObjectEvents {
 	public getInertiaOption(io: InteractionObject, type: InertiaTypes, option: keyof IInertiaOptions): any {
 		let options: any = io.inertiaOptions.getKey(type);
 		let res: IInertiaOptions;
-		if (options && $type.hasValue(options[type])) {
-			res = options[type];
+		if (options && $type.hasValue(options[option])) {
+			res = options[option];
 		}
 		else {
 			res = (<any>this.inertiaOptions.getKey(type))[option];

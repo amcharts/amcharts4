@@ -10,6 +10,7 @@
  */
 import { BaseObject } from "../Base";
 import { Color, color, iHSL } from "./Color";
+import { registry } from "../Registry";
 import * as $colors from "./Colors";
 import * as $type from "./Type";
 import * as $utils from "./Utils";
@@ -436,3 +437,11 @@ export class ColorSet extends BaseObject {
 	}
 
 }
+
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["ColorSet"] = ColorSet;

@@ -113,7 +113,7 @@ export declare class EventDispatcher<T> implements IDisposer {
      * @param callback     Callback function
      * @param context      Callback context
      */
-    protected _removeExistingListener<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B): void;
+    protected _removeExistingListener<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback?: A, context?: B): void;
     /**
      * Checks if dispatching for particular event type is enabled.
      *
@@ -271,7 +271,7 @@ export declare class EventDispatcher<T> implements IDisposer {
      * @param callback     Callback function
      * @param context      Callback context
      */
-    off<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C): void;
+    off<C, Key extends keyof T>(type: Key, callback?: (this: C, event: T[Key]) => void, context?: C): void;
     /**
      * Copies all dispatcher parameters, including listeners, from another event
      * dispatcher.

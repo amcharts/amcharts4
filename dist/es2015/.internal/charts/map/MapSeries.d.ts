@@ -323,4 +323,13 @@ export declare class MapSeries extends Series {
      * @param value Data source
      */
     geodataSource: DataSource;
+    /**
+ * Processes JSON-based config before it is applied to the object.
+ *
+ * @ignore Exclude from docs
+ * @param config  Config
+ */
+    processConfig(config?: {
+        [index: string]: any;
+    }): void;
 }

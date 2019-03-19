@@ -538,6 +538,36 @@ export class MapSeries extends Series {
 		}
 		return this._dataSources["geodata"];
 	}
+
+		/**
+	 * Processes JSON-based config before it is applied to the object.
+	 *
+	 * @ignore Exclude from docs
+	 * @param config  Config
+	 */
+	public processConfig(config?: { [index: string]: any }): void {
+
+		if ($type.hasValue(config["geodata"]) && $type.isString(config["geodata"])) {
+			const name = config["geodata"];
+			// Check if there's a map loaded by such name
+			if ($type.hasValue((<any>window)["am4geodata_" + config["geodata"]])) {
+				config["geodata"] = (<any>window)["am4geodata_" + config["geodata"]];
+			}
+			// Nope. Let's try maybe we got JSON as string?
+			else {
+				try {
+					config["geodata"] = JSON.parse(config["geodata"]);
+				}
+				catch (e) {
+					// No go again. Error out.
+					throw Error("MapChart error: Geodata `" + name + "` is not loaded or is incorrect.");
+				}
+			}
+		}
+
+		super.processConfig(config);
+
+	}
 }
 
 /**

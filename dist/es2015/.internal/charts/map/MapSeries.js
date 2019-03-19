@@ -377,6 +377,32 @@ var MapSeries = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+ * Processes JSON-based config before it is applied to the object.
+ *
+ * @ignore Exclude from docs
+ * @param config  Config
+ */
+    MapSeries.prototype.processConfig = function (config) {
+        if ($type.hasValue(config["geodata"]) && $type.isString(config["geodata"])) {
+            var name_1 = config["geodata"];
+            // Check if there's a map loaded by such name
+            if ($type.hasValue(window["am4geodata_" + config["geodata"]])) {
+                config["geodata"] = window["am4geodata_" + config["geodata"]];
+            }
+            // Nope. Let's try maybe we got JSON as string?
+            else {
+                try {
+                    config["geodata"] = JSON.parse(config["geodata"]);
+                }
+                catch (e) {
+                    // No go again. Error out.
+                    throw Error("MapChart error: Geodata `" + name_1 + "` is not loaded or is incorrect.");
+                }
+            }
+        }
+        _super.prototype.processConfig.call(this, config);
+    };
     return MapSeries;
 }(Series));
 export { MapSeries };
