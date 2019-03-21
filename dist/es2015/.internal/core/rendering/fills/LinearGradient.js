@@ -76,7 +76,9 @@ var LinearGradient = /** @class */ (function (_super) {
                 offset = i / (_this._stops.length - 1);
             }
             var gradientStop = _this.paper.add("stop");
-            gradientStop.attr({ "stop-color": stop.color });
+            if ($type.hasValue(stop.color)) {
+                gradientStop.attr({ "stop-color": stop.color.toString() });
+            }
             if ($type.isNumber(stop.opacity)) {
                 gradientStop.attr({ "stop-opacity": stop.opacity });
             }

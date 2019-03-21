@@ -154,6 +154,13 @@ export class Interaction extends BaseObjectEvents {
 	protected _useTouchEventsOnly: boolean = false;
 
 	/**
+	 * Add special hover events. Normally, touch device tap will also simulate
+	 * hover event. On some devices (ahem iOS) we want to prevent that so that
+	 * over/out events are not duplicated.
+	 */
+	protected _addHoverEvents: boolean = true;
+
+	/**
 	 * Indicates if passive mode options is supported by this browser.
 	 */
 	protected _passiveSupported: boolean = false;
@@ -286,6 +293,15 @@ export class Interaction extends BaseObjectEvents {
 			// This is only for Safari as it does not support PointerEvent
 			// Do nothing and let it use regular `mouse*` events
 			// Hi Apple ;)
+
+			// Additionally disable hover events for iOS devices
+			if ('ontouchstart' in window) {
+				this._addHoverEvents = false;
+			}
+		}
+		else if (window.navigator.userAgent.match(/MSIE /)) {
+			// Oh looky, an MSIE that does not support PointerEvent. Hi granpa IE9!
+			this._usePointerEventsOnly = true;
 		}
 		else {
 			// Uses defaults for normal browsers
@@ -490,7 +506,7 @@ export class Interaction extends BaseObjectEvents {
 			this.applyCursorOverStyle(io);
 
 			// Add local events
-			if (!io.eventDisposers.hasKey("hoverable")) {
+			if (!io.eventDisposers.hasKey("hoverable") && this._addHoverEvents) {
 				io.eventDisposers.setKey("hoverable", new MultiDisposer([
 					addEventListener<MouseEvent | PointerEvent>(io.element, this._pointerEvents.pointerout, (e) => this.handlePointerOut(io, e)),
 					addEventListener<MouseEvent | PointerEvent>(io.element, this._pointerEvents.pointerover, (e) => this.handlePointerOver(io, e))
@@ -682,6 +698,7 @@ export class Interaction extends BaseObjectEvents {
 	 * @param io  Element
 	 */
 	public processTouchable(io: InteractionObject): void {
+
 		// Add unified events
 		if (io.clickable || io.hoverable || io.trackable || io.draggable || io.swipeable || io.resizable) {
 
@@ -780,11 +797,14 @@ export class Interaction extends BaseObjectEvents {
 	 */
 	private handleFocusBlur(io: InteractionObject, ev: MouseEvent | TouchEvent): void {
 		if (io.focusable !== false && this.getHitOption(io, "noFocus")) {
-			/*if (ev.cancelable) {
-				ev.preventDefault();
-			}*/
-			//this.setTimeout($dom.blur, 1);
-			io.events.once("focus", $dom.blur);
+			io.events.once("focus", () => {
+				io.events.disableType("blur");
+				$dom.blur();
+				if (io.sprite) {
+					io.sprite.handleBlur();
+				}
+				io.events.enableType("blur");
+			});
 		}
 	}
 

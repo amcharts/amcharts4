@@ -123,6 +123,12 @@ export declare class Interaction extends BaseObjectEvents {
      */
     protected _useTouchEventsOnly: boolean;
     /**
+     * Add special hover events. Normally, touch device tap will also simulate
+     * hover event. On some devices (ahem iOS) we want to prevent that so that
+     * over/out events are not duplicated.
+     */
+    protected _addHoverEvents: boolean;
+    /**
      * Indicates if passive mode options is supported by this browser.
      */
     protected _passiveSupported: boolean;

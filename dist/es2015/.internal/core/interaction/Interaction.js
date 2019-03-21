@@ -87,6 +87,12 @@ var Interaction = /** @class */ (function (_super) {
          */
         _this._useTouchEventsOnly = false;
         /**
+         * Add special hover events. Normally, touch device tap will also simulate
+         * hover event. On some devices (ahem iOS) we want to prevent that so that
+         * over/out events are not duplicated.
+         */
+        _this._addHoverEvents = true;
+        /**
          * Indicates if passive mode options is supported by this browser.
          */
         _this._passiveSupported = false;
@@ -189,6 +195,14 @@ var Interaction = /** @class */ (function (_super) {
             // This is only for Safari as it does not support PointerEvent
             // Do nothing and let it use regular `mouse*` events
             // Hi Apple ;)
+            // Additionally disable hover events for iOS devices
+            if ('ontouchstart' in window) {
+                _this._addHoverEvents = false;
+            }
+        }
+        else if (window.navigator.userAgent.match(/MSIE /)) {
+            // Oh looky, an MSIE that does not support PointerEvent. Hi granpa IE9!
+            _this._usePointerEventsOnly = true;
         }
         else {
             // Uses defaults for normal browsers
@@ -333,7 +347,7 @@ var Interaction = /** @class */ (function (_super) {
             // Add hover styles
             this.applyCursorOverStyle(io);
             // Add local events
-            if (!io.eventDisposers.hasKey("hoverable")) {
+            if (!io.eventDisposers.hasKey("hoverable") && this._addHoverEvents) {
                 io.eventDisposers.setKey("hoverable", new MultiDisposer([
                     addEventListener(io.element, this._pointerEvents.pointerout, function (e) { return _this.handlePointerOut(io, e); }),
                     addEventListener(io.element, this._pointerEvents.pointerover, function (e) { return _this.handlePointerOver(io, e); })
@@ -560,11 +574,14 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.handleFocusBlur = function (io, ev) {
         if (io.focusable !== false && this.getHitOption(io, "noFocus")) {
-            /*if (ev.cancelable) {
-                ev.preventDefault();
-            }*/
-            //this.setTimeout($dom.blur, 1);
-            io.events.once("focus", $dom.blur);
+            io.events.once("focus", function () {
+                io.events.disableType("blur");
+                $dom.blur();
+                if (io.sprite) {
+                    io.sprite.handleBlur();
+                }
+                io.events.enableType("blur");
+            });
         }
     };
     /**

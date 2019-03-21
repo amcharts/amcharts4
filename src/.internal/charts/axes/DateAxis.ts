@@ -1837,7 +1837,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				let closestTime = closestDate.getTime();
 				closestDate = $time.round(new Date(closestTime), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc);
 				closestTime = closestDate.getTime();
-				closestDate = new Date(closestDate.getTime() + this.baseDuration / 2);
+				closestDate = new Date(closestDate.getTime() + this.baseDuration * this.renderer.tooltipLocation);
 				position = this.dateToPosition(closestDate);
 
 				let seriesPoints: { point: IPoint, series: XYSeries }[] = [];

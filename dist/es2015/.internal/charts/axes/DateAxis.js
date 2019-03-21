@@ -1529,7 +1529,7 @@ var DateAxis = /** @class */ (function (_super) {
                 var closestTime_1 = closestDate_1.getTime();
                 closestDate_1 = $time.round(new Date(closestTime_1), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc);
                 closestTime_1 = closestDate_1.getTime();
-                closestDate_1 = new Date(closestDate_1.getTime() + this.baseDuration / 2);
+                closestDate_1 = new Date(closestDate_1.getTime() + this.baseDuration * this.renderer.tooltipLocation);
                 position = this.dateToPosition(closestDate_1);
                 var seriesPoints_1 = [];
                 this.series.each(function (series) {

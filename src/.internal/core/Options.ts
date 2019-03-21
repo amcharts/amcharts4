@@ -36,6 +36,8 @@ export interface Options {
 	/**
 	 * amCharts will add `class` property to some elements. All those class names
 	 * will be prefixed by `classNamePrefix`.
+	 *
+	 * @default "amcharts-"
 	 */
 	classNamePrefix: string;
 
@@ -59,11 +61,25 @@ export interface Options {
 	 * A default locale to auto-apply to all new charts created.
 	 */
 	defaultLocale?: ILocale;
+
+	/**
+	 * When multi-segment lines ([[Polyline]]) are drawn some points may be
+	 * simplified if they are closer than `minPolylineStep`.
+	 *
+	 * The bigger this value, the more simplified lines will come out.
+	 *
+	 * This setting will effect [[LineSeries]] and derivative classes.
+	 * 
+	 * @default 0.5
+	 * @since 4.2.5
+	 */
+	minPolylineStep?: number;
 }
 
 export const options: Options = {
 	verbose: true,
 	commercialLicense: false,
 	classNamePrefix: "amcharts-",
-	autoSetClassName: false
+	autoSetClassName: false,
+	minPolylineStep: 0.5
 };

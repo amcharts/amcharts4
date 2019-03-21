@@ -135,7 +135,9 @@ export class RadialGradient extends BaseObject {
 			}
 
 			let gradientStop: AMElement = this.paper.add("stop");
-			gradientStop.attr({ "stop-color": stop.color });
+			if ($type.hasValue(stop.color)) {
+				gradientStop.attr({ "stop-color": stop.color.toString() });
+			}
 			if ($type.isNumber(stop.opacity)) {
 				gradientStop.attr({ "stop-opacity": stop.opacity });
 			}

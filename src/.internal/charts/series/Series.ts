@@ -185,12 +185,6 @@ export interface ISeriesProperties extends IComponentProperties {
 	hiddenInLegend?: boolean;
 
 	/**
-	 * Specifies if the series should be initially hidden.
-	 * @default false
-	 */
-	hidden?: boolean;
-
-	/**
 	 * Series' name.
 	 */
 	name?:string;

@@ -15,6 +15,7 @@ import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { getInteraction } from "../../core/interaction/Interaction";
+import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
@@ -268,6 +269,11 @@ var XYCursor = /** @class */ (function (_super) {
         }
         else {
             this.selection.hide(0);
+            // reset cursor style, just in case
+            if (this._generalBehavior == "pan") {
+                var interaction = getInteraction();
+                interaction.setGlobalStyle(MouseCursorStyle.default);
+            }
         }
         this.downPoint = undefined;
     };

@@ -721,6 +721,22 @@ export declare class Export extends Validatable {
      */
     useRetina: boolean;
     /**
+     * By default Export will try to use built-in method for transforming chart
+     * into an image for download, then fallback to external library (canvg) for
+     * conversion if failed.
+     *
+     * Setting this to `false` will force use of external library for all export
+     * operations.
+     *
+     * It might be useful to turn off simplified export if you are using strict
+     * content security policies, that disallow images with blobs as their
+     * source.
+     *
+     * @default true
+     * @since 4.2.5
+     */
+    useSimplifiedExport: boolean;
+    /**
      * If export operation takes longer than milliseconds in this second, we will
      * show a modal saying export operation took longer than expected.
      */
@@ -1193,6 +1209,13 @@ export declare class Export extends Validatable {
      * @return Browser supports triggering downloads?
      */
     linkDownloadSupport(): boolean;
+    /**
+     * Checks if the browser supports download via `msBlob`.
+     *
+     * @ignore Exclude from docs
+     * @return Browser supports triggering downloads?
+     */
+    blobDownloadSupport(): boolean;
     /**
      * Checks if the browser supports download via `msBlob`.
      *

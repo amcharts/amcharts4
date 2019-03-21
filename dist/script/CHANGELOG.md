@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.2.5] - 2019-03-21
+
+### Added
+- New property `minPolylinestep` added to global `am4core.options`. Setting to bigger value (default: `0.5`) allows simplification of multi-point lines.
+- Export: new setting `useSimplifiedExport` (default: `true`). Setting to `false` will force use of external library (canvg) for all exports.
+
+### Fixed
+- `XYCursor` with pan behavior used to remain in "grabbing" mode after click on zoom out button.
+- Export: Menu was not working properly on Mobile Safari.
+- Export: Menu was not working properly on Android Chrome.
+- Export: Exporting of PDF/XSLX is now supported on Mobile Safari.
+- Export: Exporting images in IE9 was broken.
+- Stacks with pre-hidden series were showing incorrectly.
+- `DateAxis` no longer ignores `renderer.tooltipLocation`.
+
+
 ## [4.2.4] - 2019-03-19
 
 ### Added

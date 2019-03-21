@@ -4,6 +4,7 @@
 import * as $math from "../utils/Math";
 import * as $type from "../utils/Type";
 import { getGhostPaper } from "../rendering/Paper";
+import { options } from "../Options";
 /**
  * ============================================================================
  * PATH FUNCTIONS
@@ -20,9 +21,13 @@ import { getGhostPaper } from "../rendering/Paper";
 export function polyline(points) {
     var path = lineTo(points[0]);
     var prevPoint = { x: 0, y: 0 };
+    var minStep = options.minPolylineStep;
+    if (!$type.isNumber(minStep)) {
+        minStep = 0.5;
+    }
     for (var i = 0, len = points.length; i < len; i++) {
         var point = points[i];
-        if ($math.getDistance(point, prevPoint) > 0.5) {
+        if ($math.getDistance(point, prevPoint) > minStep) {
             path += lineTo(point);
             prevPoint = point;
         }

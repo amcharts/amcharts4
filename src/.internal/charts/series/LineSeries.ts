@@ -406,7 +406,7 @@ export class LineSeries extends XYSeries {
 		let startIndex: number = this.startIndex;
 		let endIndex: number = this.endIndex;
 
-		// we need extra one item to both sides with values for line series, otherwise the line will not continue out of bounds of the chart while scrolling
+  		// we need extra one item to both sides with values for line series, otherwise the line will not continue out of bounds of the chart while scrolling
 		// find first to the left
 		// TODO use iterator instead
 		for (let i = this.startIndex - 1; i >= 0; i--) {
@@ -438,6 +438,7 @@ export class LineSeries extends XYSeries {
 	protected findAdjustedIndex(adjustedIndex: number, properties: string[]): number {
 		let propertyFields: any = this.propertyFields;
 		let startIndex = adjustedIndex;
+
 		$array.each(properties, (property) => {
 			if ($type.hasValue(propertyFields[property])) {
 				for (let i = startIndex; i >= 0; i--) {
@@ -483,6 +484,7 @@ export class LineSeries extends XYSeries {
 		let points: IPoint[] = [];
 		openIndex = Math.min(openIndex, this.dataItems.length);
 		let endIndex: number = Math.min(this._workingEndIndex, this.dataItems.length);
+		this._workingEndIndex = Math.min(this._workingEndIndex, this.dataItems.length);
 
 		let closeIndex: number;
 		let propertiesChanged: boolean = false;
@@ -582,7 +584,6 @@ export class LineSeries extends XYSeries {
 	 * @param axisRange  [description]
 	 */
 	protected closeSegment(segment: LineSeriesSegment, points: IPoint[], openIndex: number, closeIndex: number, axisRange?: AxisDataItem, add?: boolean) {
-
 		let closePoints: IPoint[] = [];
 
 		if (this.dataFields[<keyof this["_dataFields"]>this._xOpenField] ||

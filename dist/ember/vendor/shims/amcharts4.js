@@ -302,6 +302,22 @@ define('@amcharts/amcharts4-geodata/belizeLow', [], function () {
   }
   throw new Error("You must add 'geodata/belizeLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/beninHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_beninHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/beninHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/beninLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_beninLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/beninLow' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/bermudaHigh', [], function () {
   'use strict';
   var output = self.am4geodata_bermudaHigh;

@@ -1029,7 +1029,7 @@ export class Component extends Container {
 	}
 
 
-	protected getDataItem(dataContext?:any):this["_dataItem"]{
+	protected getDataItem(dataContext?: any): this["_dataItem"] {
 		return this.dataItems.create();
 	}
 
@@ -1131,6 +1131,12 @@ export class Component extends Container {
 			if (preloader) {
 				preloader.progress = 1;
 			}
+
+			this.dataUsers.each((dataUser) => {
+				if (dataUser.hidden) {
+					dataUser.hide(0);
+				}
+			});
 		}
 
 		this.dataValidationProgress = 1;
@@ -1784,7 +1790,7 @@ export class Component extends Container {
 	 * @param event [description]
 	 */
 	protected handleDataItemRemoved(event: ISortedListEvents<DataItem>["removed"]) {
-//		event.oldValue.component = undefined; // not good, as some items might be not removed from component lists
+		//		event.oldValue.component = undefined; // not good, as some items might be not removed from component lists
 
 		this._updateDataItemIndexes(event.index);
 

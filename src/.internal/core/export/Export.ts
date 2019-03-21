@@ -974,6 +974,23 @@ export class Export extends Validatable {
 	public useRetina: boolean = true;
 
 	/**
+	 * By default Export will try to use built-in method for transforming chart
+	 * into an image for download, then fallback to external library (canvg) for
+	 * conversion if failed.
+	 *
+	 * Setting this to `false` will force use of external library for all export
+	 * operations.
+	 *
+	 * It might be useful to turn off simplified export if you are using strict
+	 * content security policies, that disallow images with blobs as their
+	 * source.
+	 *
+	 * @default true
+	 * @since 4.2.5
+	 */
+	public useSimplifiedExport: boolean = true;
+
+	/**
 	 * If export operation takes longer than milliseconds in this second, we will
 	 * show a modal saying export operation took longer than expected.
 	 */
@@ -1151,10 +1168,11 @@ export class Export extends Validatable {
 	public typeSupported<Key extends keyof IExportOptions>(type: Key): boolean {
 		let supported = true;
 		if (type === "pdf") {
-			supported = this.downloadSupport();
+			//supported = this.downloadSupport();
 		}
 		else if (type === "xlsx") {
-			supported = (this.downloadSupport() && this._hasData()) ? true : false;
+			//supported = (this.downloadSupport() && this._hasData()) ? true : false;
+			supported = this._hasData() ? true : false;
 		}
 		else if (type == "print" && !(<any>window).print) {
 			supported = false;
@@ -1503,11 +1521,11 @@ export class Export extends Validatable {
 			options = this.getFormatOptions(type);
 		}
 
+
 		// Are we using simplified export option?
 		if (await this.simplifiedImageExport()) {
 
 			try {
-
 				let canvas = await this.getCanvas(options);
 
 				// Add extra sprites
@@ -1806,7 +1824,6 @@ export class Export extends Validatable {
 		if (!$type.hasValue(options)) {
 			options = {};
 		}
-
 		// Convert external images to data uris
 		await this.imagesToDataURI(this.sprite.dom, options);
 
@@ -1881,7 +1898,6 @@ export class Export extends Validatable {
 		if (!$type.hasValue(options)) {
 			options = this.getFormatOptions(type);
 		}
-
 		// Get canvas
 		let canvas = await this.getCanvasAdvanced(options);
 
@@ -2206,6 +2222,10 @@ export class Export extends Validatable {
 	 */
 	public async simplifiedImageExport(): Promise<boolean> {
 
+		if (this.useSimplifiedExport === false) {
+			return false;
+		}
+
 		// Do we have this cached?
 		let cache = registry.getCache("simplifiedImageExport");
 		if (cache === false || cache === true) {
@@ -2222,7 +2242,13 @@ export class Export extends Validatable {
 			let DOMURL = this.getDOMURL();
 			let svg = new Blob([this.normalizeSVG("<g></g>", {}, 1, 1)], { type: "image/svg+xml" });
 			let url = DOMURL.createObjectURL(svg);
-			let img = await this.loadNewImage(url, 1, 1);
+			let img;
+			try {
+				img = await this.loadNewImage(url, 1, 1);
+			}
+			catch (e) {
+				return false;
+			}
 			ctx.drawImage(img, 0, 0);
 			DOMURL.revokeObjectURL(url);
 			try {
@@ -2274,7 +2300,6 @@ export class Export extends Validatable {
 			};
 
 			function onerror() {
-
 				// Error occurred. Just in case it's the crossOrigin issue, let's try
 				// stripping off this attribute and trying again
 				if (crossOrigin) {
@@ -2952,70 +2977,7 @@ export class Export extends Validatable {
 	 */
 	public async download(uri: string, fileName: string): Promise<boolean> {
 
-		//if (window.navigator.msSaveOrOpenBlob === undefined) {
-		if (this.linkDownloadSupport() && !this.msBlobDownloadSupport()) {
-
-			/**
-			 * For regular browsers, we create a link then simulate a click on it
-			 */
-			let link = document.createElement("a");
-			link.download = fileName;
-
-			// There's a catch, though
-			// "href" can't handle super long URLs, so we need to use blob download
-			if (uri.length > 1048576) {
-				// More than 1MB
-
-				// Extract content type and get pure data without headers
-				let parts = uri.split(";");
-				let contentType = parts.shift().replace(/data:/, "");
-
-				uri = decodeURIComponent(parts.join(";").replace(/^[^,]*,/, ""));
-
-				if (["image/svg+xml", "application/json", "text/csv"].indexOf(contentType) == -1) {
-					try {
-						let decoded = atob(uri);
-						uri = decoded;
-					} catch (e) {
-						// Error occurred, meaning string was not Base64-encoded. Do nothing.
-						return false;
-					}
-				}
-				else {
-					let blob = new Blob([uri], { type: contentType });
-					let url = window.URL.createObjectURL(blob);
-					link.href = url;
-					link.download = fileName;
-					link.click();
-					window.URL.revokeObjectURL(url);
-					return true;
-				}
-
-				// Dissect uri into array
-				let chars = new Array(uri.length);
-				for (let i = 0; i < uri.length; ++i) {
-					let charCode = uri.charCodeAt(i);
-					chars[i] = charCode;
-				}
-
-				let blob = new Blob([new Uint8Array(chars)], { type: contentType });
-				let url = window.URL.createObjectURL(blob);
-				link.href = url;
-				link.download = fileName;
-				link.click();
-				window.URL.revokeObjectURL(url);
-
-			}
-			else {
-				// Less than 1MB, use link
-				link.href = uri;
-				document.body.appendChild(link);
-				link.click();
-				document.body.removeChild(link);
-			}
-
-		}
-		else if ($type.hasValue(window.navigator.msSaveBlob)) {
+		if (this.msBlobDownloadSupport()) {
 
 			/**
 			 * For all IEs 10 and up we use native method `msSaveBlob`
@@ -3053,6 +3015,77 @@ export class Export extends Validatable {
 			// Prep Blob and force the download
 			let blob = new Blob([new Uint8Array(chars)], { type: contentType });
 			window.navigator.msSaveBlob(blob, fileName);
+
+		}
+
+		else if (this.blobDownloadSupport()) {
+
+			/**
+			 * Supports Blob object.
+			 * Use it.
+			 */
+			let link = document.createElement("a");
+			link.download = fileName;
+
+			// Extract content type and get pure data without headers
+			let parts = uri.split(";");
+			let contentType = parts.shift().replace(/data:/, "");
+
+			uri = decodeURIComponent(parts.join(";").replace(/^[^,]*,/, ""));
+
+			if (["image/svg+xml", "application/json", "text/csv"].indexOf(contentType) == -1) {
+				try {
+					let decoded = atob(uri);
+					uri = decoded;
+				} catch (e) {
+					// Error occurred, meaning string was not Base64-encoded. Do nothing.
+					return false;
+				}
+			}
+			else {
+				let blob = new Blob([uri], { type: contentType });
+				let url = window.URL.createObjectURL(blob);
+				link.href = url;
+				link.download = fileName;
+				link.click();
+				setTimeout(() => {
+					window.URL.revokeObjectURL(url);
+				}, 100);
+				return true;
+			}
+
+			// Dissect uri into array
+			let chars = new Array(uri.length);
+			for (let i = 0; i < uri.length; ++i) {
+				let charCode = uri.charCodeAt(i);
+				chars[i] = charCode;
+			}
+
+			let blob = new Blob([new Uint8Array(chars)], { type: contentType });
+			let url = window.URL.createObjectURL(blob);
+			link.href = url;
+			link.download = fileName;
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			setTimeout(() => {
+				window.URL.revokeObjectURL(url);
+			}, 100);
+
+		}
+
+		else if (this.linkDownloadSupport()) {
+
+			/**
+			 * For regular browsers, we create a link then simulate a click on it
+			 */
+
+			let link = document.createElement("a");
+			link.download = fileName;
+			link.href = uri;
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
 
 		}
 		else if (this.legacyIE()) {
@@ -3127,6 +3160,15 @@ export class Export extends Validatable {
 			}
 
 		}
+		else {
+
+			/**
+			 * Something else - perhaps a mobile.
+			 * Let's just display it in the same page.
+			 * (hey we don't like it either)
+			 */
+			window.location.href = uri;
+		}
 
 		return true;
 
@@ -3139,6 +3181,7 @@ export class Export extends Validatable {
 	 * @return Supports downloads?
 	 */
 	public downloadSupport(): boolean {
+		//return !this.legacyIE();
 		return this.linkDownloadSupport() || this.msBlobDownloadSupport();
 	}
 
@@ -3158,6 +3201,16 @@ export class Export extends Validatable {
 		let res = typeof a.download !== "undefined";
 		registry.setCache("linkDownloadSupport", res);
 		return res;
+	}
+
+	/**
+	 * Checks if the browser supports download via `msBlob`.
+	 *
+	 * @ignore Exclude from docs
+	 * @return Browser supports triggering downloads?
+	 */
+	public blobDownloadSupport(): boolean {
+		return $type.hasValue(window.Blob);
 	}
 
 	/**

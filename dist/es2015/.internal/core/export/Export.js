@@ -313,6 +313,22 @@ var Export = /** @class */ (function (_super) {
          */
         _this.useRetina = true;
         /**
+         * By default Export will try to use built-in method for transforming chart
+         * into an image for download, then fallback to external library (canvg) for
+         * conversion if failed.
+         *
+         * Setting this to `false` will force use of external library for all export
+         * operations.
+         *
+         * It might be useful to turn off simplified export if you are using strict
+         * content security policies, that disallow images with blobs as their
+         * source.
+         *
+         * @default true
+         * @since 4.2.5
+         */
+        _this.useSimplifiedExport = true;
+        /**
          * If export operation takes longer than milliseconds in this second, we will
          * show a modal saying export operation took longer than expected.
          */
@@ -444,10 +460,11 @@ var Export = /** @class */ (function (_super) {
     Export.prototype.typeSupported = function (type) {
         var supported = true;
         if (type === "pdf") {
-            supported = this.downloadSupport();
+            //supported = this.downloadSupport();
         }
         else if (type === "xlsx") {
-            supported = (this.downloadSupport() && this._hasData()) ? true : false;
+            //supported = (this.downloadSupport() && this._hasData()) ? true : false;
+            supported = this._hasData() ? true : false;
         }
         else if (type == "print" && !window.print) {
             supported = false;
@@ -1415,17 +1432,20 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.simplifiedImageExport = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var cache, canvas, ctx, DOMURL, svg, url, img, e_5;
+            var cache, canvas, ctx, DOMURL, svg, url, img, e_5, e_6;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        if (this.useSimplifiedExport === false) {
+                            return [2 /*return*/, false];
+                        }
                         cache = registry.getCache("simplifiedImageExport");
                         if (cache === false || cache === true) {
                             return [2 /*return*/, cache];
                         }
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 3, , 4]);
+                        _a.trys.push([1, 6, , 7]);
                         canvas = document.createElement("canvas");
                         canvas.width = 1;
                         canvas.height = 1;
@@ -1433,9 +1453,18 @@ var Export = /** @class */ (function (_super) {
                         DOMURL = this.getDOMURL();
                         svg = new Blob([this.normalizeSVG("<g></g>", {}, 1, 1)], { type: "image/svg+xml" });
                         url = DOMURL.createObjectURL(svg);
-                        return [4 /*yield*/, this.loadNewImage(url, 1, 1)];
+                        img = void 0;
+                        _a.label = 2;
                     case 2:
+                        _a.trys.push([2, 4, , 5]);
+                        return [4 /*yield*/, this.loadNewImage(url, 1, 1)];
+                    case 3:
                         img = _a.sent();
+                        return [3 /*break*/, 5];
+                    case 4:
+                        e_5 = _a.sent();
+                        return [2 /*return*/, false];
+                    case 5:
                         ctx.drawImage(img, 0, 0);
                         DOMURL.revokeObjectURL(url);
                         try {
@@ -1447,12 +1476,12 @@ var Export = /** @class */ (function (_super) {
                             registry.setCache("simplifiedImageExport", false);
                             return [2 /*return*/, false];
                         }
-                        return [3 /*break*/, 4];
-                    case 3:
-                        e_5 = _a.sent();
+                        return [3 /*break*/, 7];
+                    case 6:
+                        e_6 = _a.sent();
                         registry.setCache("simplifiedImageExport", false);
                         return [2 /*return*/, false];
-                    case 4: return [2 /*return*/];
+                    case 7: return [2 /*return*/];
                 }
             });
         });
@@ -2072,58 +2101,9 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.download = function (uri, fileName) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var link, parts, contentType, decoded, blob_1, url_3, chars, i, charCode, blob, url, parts, contentType, decoded, blob_2, chars, i, charCode, blob, parts, contentType, iframe, idoc;
+            var parts, contentType, decoded, blob_1, chars, i, charCode, blob, link, parts, contentType, decoded, blob_2, url_3, chars, i, charCode, blob, url_4, link, parts, contentType, iframe, idoc;
             return tslib_1.__generator(this, function (_a) {
-                //if (window.navigator.msSaveOrOpenBlob === undefined) {
-                if (this.linkDownloadSupport() && !this.msBlobDownloadSupport()) {
-                    link = document.createElement("a");
-                    link.download = fileName;
-                    // There's a catch, though
-                    // "href" can't handle super long URLs, so we need to use blob download
-                    if (uri.length > 1048576) {
-                        parts = uri.split(";");
-                        contentType = parts.shift().replace(/data:/, "");
-                        uri = decodeURIComponent(parts.join(";").replace(/^[^,]*,/, ""));
-                        if (["image/svg+xml", "application/json", "text/csv"].indexOf(contentType) == -1) {
-                            try {
-                                decoded = atob(uri);
-                                uri = decoded;
-                            }
-                            catch (e) {
-                                // Error occurred, meaning string was not Base64-encoded. Do nothing.
-                                return [2 /*return*/, false];
-                            }
-                        }
-                        else {
-                            blob_1 = new Blob([uri], { type: contentType });
-                            url_3 = window.URL.createObjectURL(blob_1);
-                            link.href = url_3;
-                            link.download = fileName;
-                            link.click();
-                            window.URL.revokeObjectURL(url_3);
-                            return [2 /*return*/, true];
-                        }
-                        chars = new Array(uri.length);
-                        for (i = 0; i < uri.length; ++i) {
-                            charCode = uri.charCodeAt(i);
-                            chars[i] = charCode;
-                        }
-                        blob = new Blob([new Uint8Array(chars)], { type: contentType });
-                        url = window.URL.createObjectURL(blob);
-                        link.href = url;
-                        link.download = fileName;
-                        link.click();
-                        window.URL.revokeObjectURL(url);
-                    }
-                    else {
-                        // Less than 1MB, use link
-                        link.href = uri;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                    }
-                }
-                else if ($type.hasValue(window.navigator.msSaveBlob)) {
+                if (this.msBlobDownloadSupport()) {
                     parts = uri.split(";");
                     contentType = parts.shift().replace(/data:/, "");
                     uri = decodeURIComponent(parts.join(";").replace(/^[^,]*,/, ""));
@@ -2139,8 +2119,8 @@ var Export = /** @class */ (function (_super) {
                         }
                     }
                     else {
-                        blob_2 = new Blob([uri], { type: contentType });
-                        window.navigator.msSaveBlob(blob_2, fileName);
+                        blob_1 = new Blob([uri], { type: contentType });
+                        window.navigator.msSaveBlob(blob_1, fileName);
                         return [2 /*return*/, true];
                     }
                     chars = new Array(uri.length);
@@ -2150,6 +2130,57 @@ var Export = /** @class */ (function (_super) {
                     }
                     blob = new Blob([new Uint8Array(chars)], { type: contentType });
                     window.navigator.msSaveBlob(blob, fileName);
+                }
+                else if (this.blobDownloadSupport()) {
+                    link = document.createElement("a");
+                    link.download = fileName;
+                    parts = uri.split(";");
+                    contentType = parts.shift().replace(/data:/, "");
+                    uri = decodeURIComponent(parts.join(";").replace(/^[^,]*,/, ""));
+                    if (["image/svg+xml", "application/json", "text/csv"].indexOf(contentType) == -1) {
+                        try {
+                            decoded = atob(uri);
+                            uri = decoded;
+                        }
+                        catch (e) {
+                            // Error occurred, meaning string was not Base64-encoded. Do nothing.
+                            return [2 /*return*/, false];
+                        }
+                    }
+                    else {
+                        blob_2 = new Blob([uri], { type: contentType });
+                        url_3 = window.URL.createObjectURL(blob_2);
+                        link.href = url_3;
+                        link.download = fileName;
+                        link.click();
+                        setTimeout(function () {
+                            window.URL.revokeObjectURL(url_3);
+                        }, 100);
+                        return [2 /*return*/, true];
+                    }
+                    chars = new Array(uri.length);
+                    for (i = 0; i < uri.length; ++i) {
+                        charCode = uri.charCodeAt(i);
+                        chars[i] = charCode;
+                    }
+                    blob = new Blob([new Uint8Array(chars)], { type: contentType });
+                    url_4 = window.URL.createObjectURL(blob);
+                    link.href = url_4;
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    setTimeout(function () {
+                        window.URL.revokeObjectURL(url_4);
+                    }, 100);
+                }
+                else if (this.linkDownloadSupport()) {
+                    link = document.createElement("a");
+                    link.download = fileName;
+                    link.href = uri;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
                 }
                 else if (this.legacyIE()) {
                     parts = uri.match(/^data:(.*);[ ]*([^,]*),(.*)$/);
@@ -2192,6 +2223,14 @@ var Export = /** @class */ (function (_super) {
                         }
                     }
                 }
+                else {
+                    /**
+                     * Something else - perhaps a mobile.
+                     * Let's just display it in the same page.
+                     * (hey we don't like it either)
+                     */
+                    window.location.href = uri;
+                }
                 return [2 /*return*/, true];
             });
         });
@@ -2203,6 +2242,7 @@ var Export = /** @class */ (function (_super) {
      * @return Supports downloads?
      */
     Export.prototype.downloadSupport = function () {
+        //return !this.legacyIE();
         return this.linkDownloadSupport() || this.msBlobDownloadSupport();
     };
     /**
@@ -2221,6 +2261,15 @@ var Export = /** @class */ (function (_super) {
         var res = typeof a.download !== "undefined";
         registry.setCache("linkDownloadSupport", res);
         return res;
+    };
+    /**
+     * Checks if the browser supports download via `msBlob`.
+     *
+     * @ignore Exclude from docs
+     * @return Browser supports triggering downloads?
+     */
+    Export.prototype.blobDownloadSupport = function () {
+        return $type.hasValue(window.Blob);
     };
     /**
      * Checks if the browser supports download via `msBlob`.

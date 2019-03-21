@@ -326,6 +326,9 @@ var ExportMenu = /** @class */ (function (_super) {
                         _this.setFocus(submenu_1[0]);
                     }
                 });
+                branch.interactions.events.on("hit", function (ev) {
+                    _this.selectBranch(branch);
+                });
             }
         }
         // Add events

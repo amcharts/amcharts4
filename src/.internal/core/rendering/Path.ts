@@ -13,6 +13,7 @@ import { IRectangle } from "../defs/IRectangle";
 import * as $math from "../utils/Math";
 import * as $type from "../utils/Type";
 import { getGhostPaper } from "../rendering/Paper";
+import { options } from "../Options";
 
 /**
  * ============================================================================
@@ -31,9 +32,15 @@ import { getGhostPaper } from "../rendering/Paper";
 export function polyline(points: IPoint[]): string {
 	let path = lineTo(points[0]);
 	let prevPoint = { x: 0, y: 0 };
+
+	let minStep = options.minPolylineStep;
+	if(!$type.isNumber(minStep)){
+		minStep = 0.5;
+	}
+
 	for (let i = 0, len = points.length; i < len; i++) {
 		let point = points[i];
-		if ($math.getDistance(point, prevPoint) > 0.5) {
+		if ($math.getDistance(point, prevPoint) > minStep) {
 			path += lineTo(point);
 			prevPoint = point;
 		}

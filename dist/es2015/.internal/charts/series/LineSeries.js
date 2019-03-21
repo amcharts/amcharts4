@@ -302,6 +302,7 @@ var LineSeries = /** @class */ (function (_super) {
         var points = [];
         openIndex = Math.min(openIndex, this.dataItems.length);
         var endIndex = Math.min(this._workingEndIndex, this.dataItems.length);
+        this._workingEndIndex = Math.min(this._workingEndIndex, this.dataItems.length);
         var closeIndex;
         var propertiesChanged = false;
         var segment = this._segmentsIterator.getFirst();

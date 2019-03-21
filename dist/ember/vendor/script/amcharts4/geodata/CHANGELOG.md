@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.1.5] - 2019-03-20
+
+### Added
+- New maps: Benin.
+
+### Fixed
+- Fixed map of Ireland.
+
 ## [4.1.4] - 2019-03-12
 
 ### Added

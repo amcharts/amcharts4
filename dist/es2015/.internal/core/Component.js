@@ -728,6 +728,11 @@ var Component = /** @class */ (function (_super) {
             if (preloader) {
                 preloader.progress = 1;
             }
+            this.dataUsers.each(function (dataUser) {
+                if (dataUser.hidden) {
+                    dataUser.hide(0);
+                }
+            });
         }
         this.dataValidationProgress = 1;
         this._parseDataFrom = 0; // reset this index, it is set to dataItems.length if addData() method was used.

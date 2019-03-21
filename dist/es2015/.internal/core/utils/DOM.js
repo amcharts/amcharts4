@@ -210,7 +210,7 @@ export function isElement(el) {
  * @return Contains?
  */
 export function contains(a, b) {
-    return a !== b && (a.contains
+    return a === b || (a.contains
         ? a.contains(b)
         : a.compareDocumentPosition
             ? !!(a.compareDocumentPosition(b) & 16)

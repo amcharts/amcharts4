@@ -620,12 +620,16 @@ export class ExportMenu extends Validatable {
 						this.setFocus(submenu[0]);
 					}
 				});
+				branch.interactions.events.on("hit", (ev) => {
+					this.selectBranch(branch);
+				});
 			}
 		}
 
 		// Add events
 		// TODO clean this up when it's disposed
 		branch.interactions.events.on("over", (ev) => {
+
 			if (ev.pointer.touch) {
 				// Cancel pending menu closure
 				this._ignoreNextClose = true;
