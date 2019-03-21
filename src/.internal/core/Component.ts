@@ -1005,7 +1005,7 @@ export class Component extends Container {
 	}
 
 	/**
-	 * @ignoref
+	 * @ignore
 	 */
 	public disposeData() {
 		if (this.inited) {

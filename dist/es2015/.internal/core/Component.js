@@ -623,7 +623,7 @@ var Component = /** @class */ (function (_super) {
         });
     };
     /**
-     * @ignoref
+     * @ignore
      */
     Component.prototype.disposeData = function () {
         if (this.inited) {

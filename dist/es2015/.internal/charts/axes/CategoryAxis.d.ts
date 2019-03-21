@@ -218,6 +218,10 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      */
     validateDataElement(dataItem: this["_dataItem"], itemIndex?: number, index?: number): void;
     /**
+     * @ignore
+     */
+    disposeData(): void;
+    /**
      * Processes the axis data item.
      *
      * @ignore Exclude from docs

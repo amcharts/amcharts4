@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.2.6] - 2019-03-21
+
+### Fixed
+- `CategoryAxis` was breaking down after dynamic data update since 4.2.4.
+
+
 ## [4.2.5] - 2019-03-21
 
 ### Added

@@ -572,7 +572,7 @@ export declare class Component extends Container {
      */
     validateRawData(): void;
     /**
-     * @ignoref
+     * @ignore
      */
     disposeData(): void;
     protected getDataItem(dataContext?: any): this["_dataItem"];

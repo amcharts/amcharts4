@@ -549,6 +549,15 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		}
 	}
 
+
+	/**
+	 * @ignore
+	 */
+	public disposeData(){
+		this.dataItemsByCategory.clear();
+		super.disposeData();
+	}	
+
 	/**
 	 * Processes the axis data item.
 	 *

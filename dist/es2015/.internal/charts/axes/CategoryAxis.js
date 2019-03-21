@@ -381,6 +381,13 @@ var CategoryAxis = /** @class */ (function (_super) {
         }
     };
     /**
+     * @ignore
+     */
+    CategoryAxis.prototype.disposeData = function () {
+        this.dataItemsByCategory.clear();
+        _super.prototype.disposeData.call(this);
+    };
+    /**
      * Processes the axis data item.
      *
      * @ignore Exclude from docs
