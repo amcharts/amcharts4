@@ -44,7 +44,7 @@ import * as $array from "./Array";
 export function copyProperties(source: Object, target: Object): Object {
 	$object.each(source, (key, value) => {
 		// only if value is set
-		if ($type.hasValue(value) && (<any>target)[key] != value) {
+		if ($type.hasValue(value)) {
 			(<any>target)[key] = value;
 		}
 	});

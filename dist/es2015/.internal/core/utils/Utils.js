@@ -29,7 +29,7 @@ export function used(value) { }
 export function copyProperties(source, target) {
     $object.each(source, function (key, value) {
         // only if value is set
-        if ($type.hasValue(value) && target[key] != value) {
+        if ($type.hasValue(value)) {
             target[key] = value;
         }
     });
