@@ -73,6 +73,7 @@ var SmallMap = /** @class */ (function (_super) {
         rectangle.verticalCenter = "middle";
         rectangle.horizontalCenter = "middle";
         rectangle.isMeasured = false;
+        rectangle.visible = false;
         _this.rectangle = rectangle;
         _this._disposers.push(_this._chart);
         // Apply theme
@@ -114,6 +115,8 @@ var SmallMap = /** @class */ (function (_super) {
         series.chart = this.chart;
         series.parent = this.seriesContainer;
         series.interactionsEnabled = false;
+        series.events.on("inited", this.updateMapSize, this, false);
+        series.hidden = false;
     };
     /**
      * Cleans up after series are removed from Scrollbar.
@@ -172,8 +175,8 @@ var SmallMap = /** @class */ (function (_super) {
         rectangle.height = this.pixelHeight / zoomLevel;
         var scale = Math.min(this.percentWidth, this.percentHeight) / 100;
         var seriesContainer = chart.seriesContainer;
-        rectangle.x = Math.ceil((zoomLevel * seriesContainer.pixelWidth / 2 - seriesContainer.pixelX) * scale / zoomLevel); // + rectangle.pixelWidth / 2);
-        rectangle.y = Math.ceil((zoomLevel * seriesContainer.pixelHeight / 2 - seriesContainer.pixelY) * scale / zoomLevel); // + rectangle.pixelHeight / 2);
+        rectangle.x = Math.ceil((-seriesContainer.pixelX) * scale / zoomLevel) + this.seriesContainer.pixelX;
+        rectangle.y = Math.ceil((-seriesContainer.pixelY) * scale / zoomLevel) + this.seriesContainer.pixelY;
         rectangle.validate();
     };
     /**
@@ -184,7 +187,14 @@ var SmallMap = /** @class */ (function (_super) {
      */
     SmallMap.prototype.updateMapSize = function () {
         if (this.chart) {
-            this.seriesContainer.scale = this.chart.scaleRatio * Math.min(this.percentWidth, this.percentHeight) / 100;
+            var scale = this.chart.scaleRatio * Math.min(this.percentWidth, this.percentHeight) / 100;
+            this.seriesContainer.scale = scale;
+            var bbox = this.seriesContainer.group.node.getBBox();
+            if (bbox.width > 0) {
+                this.rectangle.visible = true;
+            }
+            this.seriesContainer.x = this.pixelWidth / 2 - bbox.x * scale - bbox.width / 2 * scale;
+            this.seriesContainer.y = this.pixelHeight / 2 - bbox.y * scale - bbox.height / 2 * scale;
             this.updateRectangle();
             this.afterDraw();
         }
@@ -194,7 +204,7 @@ var SmallMap = /** @class */ (function (_super) {
      */
     SmallMap.prototype.afterDraw = function () {
         _super.prototype.afterDraw.call(this);
-        this.seriesContainer.moveTo({ x: this.pixelWidth / 2, y: this.pixelHeight / 2 });
+        //this.seriesContainer.moveTo({ x: this.pixelWidth / 2, y: this.pixelHeight / 2 });
         this.rectangle.maskRectangle = { x: -1, y: -1, width: Math.ceil(this.pixelWidth + 2), height: Math.ceil(this.pixelHeight + 2) };
     };
     /**

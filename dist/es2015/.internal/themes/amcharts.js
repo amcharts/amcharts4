@@ -1,11 +1,10 @@
+import { is } from "./ITheme";
 import { color } from "../core/utils/Color";
-import { ColorSet } from "../core/utils/ColorSet";
-import { Grid } from "../charts/axes/Grid";
 var theme = function (object) {
-    if (object instanceof Grid) {
+    if (is(object, "Grid")) {
         object.strokeOpacity = 0.07;
     }
-    if (object instanceof ColorSet) {
+    if (is(object, "ColorSet")) {
         object.list = [
             color("#86ce86"),
             color("#0975da"),

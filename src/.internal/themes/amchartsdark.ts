@@ -1,4 +1,4 @@
-import { ITheme } from "./ITheme";
+import { ITheme, is } from "./ITheme";
 import { color } from "../core/utils/Color";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
 import { BaseObject } from "../core/Base";
@@ -9,7 +9,7 @@ import { Button } from "../core/elements/Button";
 
 const theme: ITheme = (object: BaseObject) => {
 
-	if (object instanceof InterfaceColorSet) {
+	if (is<InterfaceColorSet>(object, "InterfaceColorSet")) {
 		object.setFor("stroke", color("#000000"));
 		object.setFor("fill", color("#ffffff"));
 
@@ -35,18 +35,18 @@ const theme: ITheme = (object: BaseObject) => {
 		object.setFor("disabledBackground", color("#bbbbbb"));
 	}
 
-	if (object instanceof Grid) {
+	if (is<Grid>(object, "Grid")) {
 		object.strokeOpacity = 0.07;
 	}
 
-	if (object instanceof Scrollbar) {
+	if (is<Scrollbar>(object, "Scrollbar")) {
 		object.background.fillOpacity = 0.2;
 		object.thumb.background.fillOpacity = 0.5;
 	}
 
 	//color("#e3ecb7"),
 
-	if (object instanceof ColorSet) {
+	if (is<ColorSet>(object, "ColorSet")) {
 		object.list = [
 			color("#eeeab5"),
 			color("#0975da"),
@@ -64,7 +64,7 @@ const theme: ITheme = (object: BaseObject) => {
 		object.passOptions = {};
 	}
 
-	if(object instanceof Button){
+	if (is<Button>(object, "Button")) {
 		object.background.fillOpacity = 1;
 		object.background.strokeOpacity = 0.5;
 		object.background.fill = color("#303950");

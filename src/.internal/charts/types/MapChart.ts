@@ -10,23 +10,24 @@
  */
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "./SerialChart";
 import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
-import { IDisposer } from "../../core/utils/Disposer";
-import { Container } from "../../core/Container";
-import { Legend } from "../Legend";
+import { IDisposer, Disposer } from "../../core/utils/Disposer";
+import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { MapSeries } from "../map/MapSeries";
 import { MapObject } from "../map/MapObject";
 import { MapImage } from "../map/MapImage";
 import { MapPolygon } from "../map/MapPolygon";
+import { MapPolygonSeries } from "../map/MapPolygonSeries";
 import { IPoint } from "../../core/defs/IPoint";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
 import { DataSource } from "../../core/data/DataSource";
 import { Projection } from "../map/projections/Projection";
 import { ZoomControl } from "../map/ZoomControl";
 import { Ordering } from "../../core/utils/Order";
+import { Circle } from "../../core/elements/Circle";
 import { SmallMap } from "../map/SmallMap";
+import * as $mapUtils from "../map/MapUtils";
 import { Animation } from "../../core/utils/Animation";
 import { keyboard } from "../../core/utils/Keyboard";
-import { getInteraction } from "../../core/interaction/Interaction";
 import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
@@ -35,7 +36,10 @@ import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $geo from "../map/Geo";
 import { Paper } from "../../core/rendering/Paper";
-
+import { IListEvents } from "../../core/utils/List";
+import { GraticuleSeries } from "../map/GraticuleSeries";
+import { getInteraction, IInteractionEvents } from "../../core/interaction/Interaction";
+import { Legend } from "../Legend";
 
 /**
  * ============================================================================
@@ -109,7 +113,6 @@ export interface IMapPolygonDataObject {
 	 * Multi-part polygon information in lat/long geo-coordinates.
 	 */
 	multiGeoPolygon?: IGeoPoint[][][];
-
 }
 
 /**
@@ -212,12 +215,30 @@ export interface IMapChartProperties extends ISerialChartProperties {
 	projection?: Projection;
 
 	/**
-	 * Degrees to shift map center by.
+	 * Degrees to rotate the map around vertical axis (Y).
 	 *
 	 * E.g. if set to -160, the longitude 20 will become a new center, creating
 	 * a Pacific-centered map.
 	 */
 	deltaLongitude?: number;
+
+	/**
+	 * Degrees to rotate the map around horizontal axis (X).
+	 *
+	 * E.g. setting this to -90 will put Antarctica directly in the center of
+	 * the map.
+	 *
+	 * @since 4.3.0
+	 */
+	deltaLatitude?: number;
+
+	/**
+	 * Degrees to rotate the map around horizontal "Z" - an axis that goes from
+	 * the center of the globe directly to the viewer.
+	 *
+	 * @since 4.3.0
+	 */
+	deltaGamma?: number;
 
 	/**
 	 * Maximum portion of the map's width/height to allow panning "off screen".
@@ -253,6 +274,20 @@ export interface IMapChartProperties extends ISerialChartProperties {
 	 * Specifies what should chart do if when mouse wheel is rotated.
 	 */
 	mouseWheelBehavior?: "zoom" | "none";
+
+	/**
+	 * What "dragging" map does.
+	 *
+	 * Available values:
+	 * * `"move"` (default): changes position of the map.
+	 * * `"rotateLat"`: changes `deltaLatitude` (rotates the globe vertically).
+	 * * `"rotateLong"`: changes `deltaLongitude` (rotates the globe horizontally).
+	 * * `"rotateLongLat"`: changes both `deltaLongitude` and `deltaLatitude` (rotates the globe in any direction).
+	 * 
+	 * @default "move"
+	 * @since 4.3.0
+	 */
+	panBehavior?: "move" | "rotateLat" | "rotateLong" | "rotateLongLat";
 }
 
 /**
@@ -473,11 +508,57 @@ export class MapChart extends SerialChart {
 	 */
 	protected _mapAnimation: Animation;
 
+	/**
+	 * @ignore
+	 */
 	protected _mouseWheelDisposer: IDisposer;
 
+	/**
+	 * @ignore
+	 */
 	protected _zoomGeoPointReal: IGeoPoint;
 
+	/**
+	 * @ignore
+	 */
 	protected _centerGeoPoint: IGeoPoint;
+
+	/**
+	 * @ignore
+	 */
+	protected _fitWidth: number;
+
+	/**
+	 * @ignore
+	 */
+	protected _fitHeight: number;
+
+	/**
+	 * @ignore
+	 */
+
+	public panSprite: Circle;
+
+	/**
+	 * @ignore
+	 */
+	protected _downPointOrig: IPoint;
+
+	/**
+	 * @ignore
+	 */
+	protected _downDeltaLongitude: number;
+
+	/**
+	 * @ignore
+	 */
+	protected _downDeltaLatitude: number;
+
+	/**
+	 * @ignore
+	 */
+	protected _backgroundSeries: MapPolygonSeries;
+
 
 	/**
 	 * Constructor
@@ -492,12 +573,17 @@ export class MapChart extends SerialChart {
 		this.projection = new Projection();
 
 		this.deltaLongitude = 0;
+		this.deltaLatitude = 0;
+		this.deltaGamma = 0;
 		this.maxPanOut = 0.7;
 		this.homeZoomLevel = 1;
 		this.zoomStep = 2;
+		this.layout = "absolute";
 
 		// Set padding
 		this.padding(0, 0, 0, 0);
+
+		$utils.used(this.backgroundSeries);
 
 		// so that the map would render in a hidden div too
 		this.minWidth = 10;
@@ -507,7 +593,6 @@ export class MapChart extends SerialChart {
 
 		// Create a container for map series
 		let seriesContainer = this.seriesContainer;
-		seriesContainer.draggable = true;
 		seriesContainer.visible = false;
 		seriesContainer.inert = true;
 		seriesContainer.resizable = true;
@@ -515,17 +600,18 @@ export class MapChart extends SerialChart {
 		seriesContainer.events.on("doublehit", this.handleDoubleHit, this, false);
 		seriesContainer.events.on("drag", this.handleDrag, this, false);
 		seriesContainer.zIndex = 0;
-		seriesContainer.background.fillOpacity = 0;
+		seriesContainer.dragWhileResize = true;
+		//seriesContainer.background.fillOpacity = 0;
 
 		// Set up events
 		//this.events.on("validated", this.updateExtremes, this);
-		this.events.on("datavalidated", this.updateExtremes, this, false);
+		//this.events.on("datavalidated", this.handleAllValidated, this, false);
+		//this.events.on("datavalidated", this.updateExtremes, this, false);
 
 		// Set up main chart container, e.g. set backgrounds and events to monitor
 		// size changes, etc.
 		let chartContainer = this.chartContainer;
 		chartContainer.parent = this;
-		chartContainer.isMeasured = false;
 		chartContainer.zIndex = -1;
 
 		this._disposers.push(seriesContainer.events.on("maxsizechanged", () => {
@@ -533,13 +619,21 @@ export class MapChart extends SerialChart {
 				if (this._mapAnimation) {
 					this._mapAnimation.stop();
 				}
-				this.updateScaleRatio();
-				this.zoomToGeoPoint(this._zoomGeoPointReal, this.zoomLevel, true, 0);
 
+
+				let allInited = true;
 				this.series.each((series) => {
 					series.updateTooltipBounds();
+					if (!series.inited || series.dataInvalid) {
+						allInited = false;
+					}
 				})
+				if (allInited) {
+					this.updateScaleRatio();
+				}
+				this.zoomToGeoPoint(this._zoomGeoPointReal, this.zoomLevel, true, 0);
 			}
+
 		}, undefined, false));
 
 		let chartContainerBg = chartContainer.background;
@@ -577,27 +671,176 @@ export class MapChart extends SerialChart {
 
 		this.mouseWheelBehavior = "zoom";
 
+		const interaction = getInteraction();
+		this._disposers.push(interaction.body.events.on("down", this.handlePanDown, this));
+		this._disposers.push(interaction.body.events.on("up", this.handlePanUp, this));
+		//this._disposers.push(interaction.body.events.on("track", this.handlePanMove, this));
+
+		let panSprite = this.seriesContainer.createChild(Circle);
+		panSprite.radius = 10;
+		panSprite.inert = true;
+		panSprite.isMeasured = false;
+		panSprite.events.on("transformed", this.handlePanMove, this, false);
+		panSprite.interactionsEnabled = false;
+		panSprite.opacity = 0;
+		this.panSprite = panSprite;
+		this.panBehavior = "move";
+		/*		
+				this.panSprite.inertiaOptions.setKey("move", {
+					"time": 100,
+					"duration": 1000,
+					"factor": 3,
+					"easing": $ease.sinOut
+				});*/
+
 		// Apply theme
 		this.applyTheme();
 
 	}
 
+	/**
+	 * @ignore
+	 */
+	protected handlePanDown(event: IInteractionEvents["down"]): void {
+		// Get local point
+		this._downPointOrig = $utils.documentPointToSprite(event.pointer.point, this.seriesContainer);
+		this.panSprite.moveTo(this._downPointOrig);
+		this.panSprite.dragStart(event.pointer);
+		this._downDeltaLongitude = this.deltaLongitude;
+		this._downDeltaLatitude = this.deltaLatitude;
 
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected handlePanUp(event: IInteractionEvents["down"]): void {
+		this.panSprite.dragStop(event.pointer);
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected handlePanMove(): void {
+
+		if (!this.seriesContainer.isResized) {
+
+			let d3Projection = this.projection.d3Projection;
+
+			let panBehavior = this.panBehavior;
+
+			if (panBehavior != "move" && panBehavior != "none" && this._downPointOrig && d3Projection.rotate) {
+
+				let rotation = d3Projection.rotate();
+
+				let dln = rotation[0];
+				let dlt = rotation[1];
+				let dlg = rotation[2];
+
+				d3Projection.rotate([0, 0, 0]);
+
+				let local: IPoint = { x: this.panSprite.pixelX, y: this.panSprite.pixelY };
+
+				let downGeoLocal = this.projection.invert(this._downPointOrig);
+				let geoLocal = this.projection.invert(local);
+
+				d3Projection.rotate([dln, dlt, dlg]);
+
+				if (panBehavior == "rotateLat" || panBehavior == "rotateLongLat") {
+					this.deltaLatitude = this._downDeltaLatitude + geoLocal.latitude - downGeoLocal.latitude;
+				}
+
+				if (panBehavior == "rotateLong" || panBehavior == "rotateLongLat") {
+					this.deltaLongitude = this._downDeltaLongitude + geoLocal.longitude - downGeoLocal.longitude;
+				}
+			}
+		}
+	}
+
+	/**
+	 * @ignore
+	 */
 	protected handleAllInited() {
 		let inited = true;
 		this.seriesContainer.visible = true;
 		this.series.each((series) => {
-			if (!series.inited) {
+			if (!series.inited || series.dataInvalid) {
 				inited = false;
 			}
 		})
 		if (inited) {
-			this.updateExtremes();
+			this.updateCenterGeoPoint();
+			this.updateScaleRatio();
 			this.goHome(0);
 		}
 		else {
 			registry.events.once("exitframe", this.handleAllInited, this, false);
 		}
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected updateZoomGeoPoint() {
+		let seriesPoint = $utils.svgPointToSprite({ x: this.maxWidth / 2, y: this.maxHeight / 2 }, this.series.getIndex(0));
+		let geoPoint = this.projection.invert(seriesPoint);
+		this._zoomGeoPointReal = geoPoint;
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected updateCenterGeoPoint() {
+		let maxLeft: number;
+		let maxRight: number;
+		let maxTop: number;
+		let maxBottom: number;
+
+
+		if (this.backgroundSeries) {
+			let features = this.backgroundSeries.getFeatures();
+			if (features.length > 0) {
+				let bounds = this.projection.d3Path.bounds(<any>features[0].geometry);
+				maxLeft = bounds[0][0];
+				maxTop = bounds[0][1];
+				maxRight = bounds[1][0];
+				maxBottom = bounds[1][1];
+			}
+		}
+		else {
+			this.series.each((series) => {
+				let bbox = series.group.node.getBBox();
+
+				if (maxLeft > bbox.x || !$type.isNumber(maxLeft)) {
+					maxLeft = bbox.x;
+				}
+				if (maxRight < bbox.x + bbox.width || !$type.isNumber(maxRight)) {
+					maxRight = bbox.x + bbox.width;
+				}
+				if (maxTop > bbox.y || !$type.isNumber(maxTop)) {
+					maxTop = bbox.y;
+				}
+				if (maxBottom < bbox.y + bbox.height || !$type.isNumber(maxBottom)) {
+					maxBottom = bbox.y + bbox.height;
+				}
+			})
+		}
+
+		this.seriesWidth = maxRight - maxLeft;
+		this.seriesHeight = maxBottom - maxTop;
+
+		if (this.seriesWidth > 0 && this.seriesHeight > 0) {
+			this.chartContainer.visible = true;
+			this._centerGeoPoint = this.projection.invert({ x: maxLeft + (maxRight - maxLeft) / 2, y: maxTop + (maxBottom - maxTop) / 2 });
+
+			if (!this._zoomGeoPointReal || !$type.isNumber(this._zoomGeoPointReal.latitude)) {
+				this._zoomGeoPointReal = this._centerGeoPoint;
+			}
+		}
+		else {
+			this.chartContainer.visible = false;
+		}
+
 	}
 
 	/**
@@ -729,13 +972,56 @@ export class MapChart extends SerialChart {
 	}
 
 	/**
+	 * What "dragging" map does.
+	 *
+	 * Available values:
+	 * * `"move"` (default): changes position of the map.
+	 * * `"rotateLat"`: changes `deltaLatitude` (rotates the globe vertically).
+	 * * `"rotateLong"`: changes `deltaLongitude` (rotates the globe horizontally).
+	 * * `"rotateLongLat"`: changes both `deltaLongitude` and `deltaLatitude` (rotates the globe in any direction).
+	 * 
+	 * @default "move"
+	 * @since 4.3.0
+	 * @param  value  Behavior
+	 */
+	public set panBehavior(value: "none" | "move" | "rotateLat" | "rotateLong" | "rotateLongLat") {
+		if (this.setPropertyValue("panBehavior", value)) {
+			let seriesContainer = this.seriesContainer;
+			this.panSprite.draggable = false;
+			seriesContainer.draggable = false;
+
+			switch (value) {
+				case "move":
+					seriesContainer.draggable = true;
+					break;
+				default:
+					this.panSprite.draggable = true;
+					break;
+			}
+		}
+	}
+
+	/**
+	 * @returns Behavior
+	 */
+	public get panBehavior(): "none" | "move" | "rotateLat" | "rotateLong" | "rotateLongLat" {
+		return this.getPropertyValue("panBehavior");
+	}
+
+	/**
 	 * Projection to use for the map.
 	 *
 	 * Available projections:
+	 * * Albers
+	 * * AlbersUSA
+	 * * AzimuthalEqualArea
 	 * * Eckert6
+	 * * EqualEarth
 	 * * Mercator
 	 * * Miller
+	 * * NaturalEarth
 	 * * Orthographic
+	 * * Stereographic
 	 *
 	 * ```TypeScript
 	 * map.projection = new am4maps.projections.Mercator();
@@ -751,12 +1037,21 @@ export class MapChart extends SerialChart {
 	 * }
 	 * ```
 	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Setting_projection} More about projections
 	 * @param projection  Projection
 	 */
 	public set projection(projection: Projection) {
 		projection.deltaLongitude = this.deltaLongitude;
 		if (this.setPropertyValue("projection", projection)) {
 			this.invalidateProjection();
+
+			this.series.each((series) => {
+				this.addDisposer(series.events.once("validated", () => {
+					this.updateCenterGeoPoint();
+					this.updateScaleRatio();
+					this.goHome(0);
+				}))
+			})
 		}
 	}
 
@@ -768,6 +1063,17 @@ export class MapChart extends SerialChart {
 	}
 
 	/**
+	 * Validates (processes) data items.
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public validateDataItems() {
+		super.validateDataItems();
+		this.updateExtremes();
+	}
+
+
+	/**
 	 * Calculates the longitudes and latitudes of the most distant points from
 	 * the center in all four directions: West, East, North, and South.
 	 *
@@ -775,100 +1081,103 @@ export class MapChart extends SerialChart {
 	 */
 	public updateExtremes(): void {
 
-		let pWest = this.west;
-		let pEast = this.east;
-		let pNorth = this.north;
-		let pSouth = this.south;
+		let east: number;
+		let north: number;
+		let west: number;
+		let south: number;
 
-		this.west = null;
-		this.east = null;
-		this.north = null;
-		this.south = null;
-
-		let chartContainer: Container = this.chartContainer;
-
-
-		$iter.each(this.series.iterator(), (series) => {
-			if ((this.west > series.west) || !$type.isNumber(this.west)) {
-				this.west = series.west;
+		this.series.each((series) => {
+			if (series.ignoreBounds || (series instanceof GraticuleSeries && series.fitExtent) || series == this.backgroundSeries) {
 			}
-			if ((this.east < series.east) || !$type.isNumber(this.east)) {
-				this.east = series.east;
+			else {
+				if (series.north > north || !$type.isNumber(north)) {
+					north = series.north;
+				}
+
+				if (series.south < south || !$type.isNumber(south)) {
+					south = series.south;
+				}
+
+				if (series.west < west || !$type.isNumber(west)) {
+					west = series.west;
+				}
+
+				if (series.east > east || !$type.isNumber(east)) {
+					east = series.east;
+				}
 			}
+		})
 
-			if ((this.north < series.north) || !$type.isNumber(this.north)) {
-				this.north = series.north;
+		let features: any[] = [];
+		let foundGraticule = false;
+		// if we gave graticule, get features of these series only for faster fitSize
+		this.series.each((series) => {
+			if (series instanceof GraticuleSeries && !series.fitExtent) {
+				features = series.getFeatures();
+				foundGraticule = true;
 			}
-			if ((this.south > series.south) || !$type.isNumber(this.south)) {
-				this.south = series.south;
-			}
-		});
-		if ($type.isNumber(this.east) && $type.isNumber(this.north)) {
-			// must reset
-			this.projection.centerPoint = { x: 0, y: 0 };
-			this.projection.scale = 1;
+		})
 
-			// temporary setting deltaLongitude to 0 in order to measure w/h correctly
-			let deltaLongitude = this.projection.deltaLongitude;
-			this.projection.deltaLongitude = 0;
+		if (!foundGraticule) {
+			this.series.each((series) => {
+				if (series.ignoreBounds || (series instanceof GraticuleSeries && series.fitExtent) || series == this.backgroundSeries) {
+				}
+				else {
+					features = features.concat(series.getFeatures());
+				}
+			})
+		}
 
-			let northPoint: IPoint = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.north });
-			let southPoint: IPoint = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.south });
+		let w = $math.max(50, this.innerWidth);
+		let h = $math.max(50, this.innerHeight);
 
-			let westPoint: IPoint = this.projection.convert({ longitude: this.west, latitude: 0 });
-			let eastPoint: IPoint = this.projection.convert({ longitude: this.east, latitude: 0 });
+		let d3Projection = this.projection.d3Projection;
 
-			this.projection.deltaLongitude = deltaLongitude;
+		if (features.length > 0 && d3Projection && (this.east != east || this.west != west || this.north != north || this.south != south)) {
+			this.east = east;
+			this.west = west;
+			this.north = north;
+			this.south = south;
+			if (d3Projection.rotate) {
+				let rotation = d3Projection.rotate();
+				let deltaLong = rotation[0];
+				let deltaLat = rotation[1];
+				let deltaGamma = rotation[2];
 
-			this.projection.centerPoint = { x: westPoint.x + (eastPoint.x - westPoint.x) / 2, y: northPoint.y + (southPoint.y - northPoint.y) / 2 };
-
-			let scaleRatio: number;
-
-			let seriesWidth = eastPoint.x - westPoint.x;
-			let seriesHeight = southPoint.y - northPoint.y;
-
-			let vScale: number = chartContainer.innerWidth / seriesWidth;
-			let hScale: number = chartContainer.innerHeight / seriesHeight;
-
-			if (vScale > hScale) {
-				scaleRatio = hScale;
-			} else {
-				scaleRatio = vScale;
-			}
-			if ($type.isNaN(scaleRatio) || scaleRatio == Infinity) {
-				scaleRatio = 1;
-			}
-
-			let projectionScaleChanged = false;
-			if (this.projection.scale != scaleRatio) {
-				this.projection.scale = scaleRatio;
-				projectionScaleChanged = true;
+				this.deltaLongitude = deltaLong;
+				this.deltaLatitude = deltaLat;
+				this.deltaGamma = deltaGamma;
 			}
 
-			this.seriesWidth = seriesWidth * scaleRatio;
-			this.seriesHeight = seriesHeight * scaleRatio;
+			let geoJSON = { "type": "FeatureCollection", features: features };
 
-			let northPoint2: IPoint = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.north });
-			let westPoint2: IPoint = this.projection.convert({ longitude: this.west - this.deltaLongitude, latitude: 0 });
+			let initialScale = d3Projection.scale();
 
-			this._centerGeoPoint = this.projection.invert({ x: westPoint2.x + this.seriesWidth / 2, y: northPoint2.y + this.seriesHeight / 2 });
+			d3Projection.fitSize([w, h], <any>geoJSON);
 
-			//this.seriesContainer.width = this.seriesWidth; // not good, doesn't resize
-			//this.seriesContainer.height = this.seriesHeight; // not good, doesn't resize
-			this.seriesContainer.definedBBox = { x: westPoint2.x, y: northPoint2.y, width: this.seriesWidth, height: this.seriesHeight };
-
-			this.updateScaleRatio();
-
-			let seriesContainer: Container = this.seriesContainer;
-
-			seriesContainer.x = chartContainer.pixelWidth / 2;
-			seriesContainer.y = chartContainer.pixelHeight / 2;
-
-			if (projectionScaleChanged || pWest != this.west || pEast != this.east || pNorth != this.north || pSouth != this.south) {
-				$iter.each(this.series.iterator(), (series) => {
-					series.invalidate();
-				});
+			if (d3Projection.scale() != initialScale) {
+				this.invalidateDataUsers();
 			}
+
+			this.series.each((series) => {
+				if (series instanceof GraticuleSeries) {
+					series.invalidateData();
+				}
+			})
+
+			if (this._backgroundSeries) {
+				let polygon = this._backgroundSeries.mapPolygons.getIndex(0);
+				if (polygon) {
+					polygon.multiPolygon = $mapUtils.getBackground(this.north, this.east, this.south, this.west);
+				}
+			}
+
+			this._fitWidth = w;
+			this._fitHeight = h;
+		}
+
+		if (!this._zoomGeoPointReal || !$type.isNumber(this._zoomGeoPointReal.latitude)) {
+			this.goHome(0);
 		}
 	}
 
@@ -881,14 +1190,12 @@ export class MapChart extends SerialChart {
 	protected updateScaleRatio(): void {
 		let scaleRatio: number;
 
-		let vScale: number = this.chartContainer.innerWidth / this.seriesWidth;
-		let hScale: number = this.chartContainer.innerHeight / this.seriesHeight;
+		this.updateCenterGeoPoint();
 
-		if (vScale > hScale) {
-			scaleRatio = hScale;
-		} else {
-			scaleRatio = vScale;
-		}
+		let hScale: number = this.chartContainer.innerWidth / this.seriesWidth;
+		let vScale: number = this.chartContainer.innerHeight / this.seriesHeight;
+
+		scaleRatio = $math.min(hScale, vScale);
 
 		if ($type.isNaN(scaleRatio) || scaleRatio == Infinity) {
 			scaleRatio = 1;
@@ -972,8 +1279,9 @@ export class MapChart extends SerialChart {
 			this._geodata = geodata;
 			this.invalidateData();
 
-			$iter.each(this._dataUsers.iterator(), (x) => {
-				x.invalidateData();
+			this.dataUsers.each((dataUser) => {
+				dataUser.data = [];
+				dataUser.invalidateData();
 			});
 		}
 	}
@@ -996,12 +1304,11 @@ export class MapChart extends SerialChart {
 	 * @return Zoom animation
 	 */
 	public zoomToGeoPoint(point: IGeoPoint, zoomLevel: number, center?: boolean, duration?: number): Animation {
-
 		if (!point) {
 			point = this.zoomGeoPoint;
 		}
 
-		if (!point) {
+		if (!point || !$type.isNumber(point.longitude) || !$type.isNumber(point.latitude)) {
 			return;
 		}
 
@@ -1010,7 +1317,6 @@ export class MapChart extends SerialChart {
 		zoomLevel = $math.fitToRange(zoomLevel, this.minZoomLevel, this.maxZoomLevel);
 
 		let seriesPoint: IPoint = this.projection.convert(point);
-
 		let svgPoint: IPoint = this.geoPointToSVG(point);
 		let mapPoint = $utils.svgPointToSprite(svgPoint, this);
 
@@ -1025,21 +1331,23 @@ export class MapChart extends SerialChart {
 			duration = this.zoomDuration;
 		}
 
+
 		this._mapAnimation = this.seriesContainer.animate(
 			[{
 				property: "scale",
 				to: zoomLevel
 			}, {
-				property: "x",
-				to: mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio - this.pixelPaddingLeft
+				property: "x", from: this.seriesContainer.pixelX,
+				to: mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio
 			}, {
-				property: "y",
-				to: mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio - this.pixelPaddingTop
+				property: "y", from: this.seriesContainer.pixelY,
+				to: mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio
 			}], duration, this.zoomEasing);
 
 		this._disposers.push(this._mapAnimation.events.on("animationended", () => {
 			this._zoomGeoPointReal = this.zoomGeoPoint;
 		}))
+
 
 		this.seriesContainer.validatePosition();
 
@@ -1073,6 +1381,7 @@ export class MapChart extends SerialChart {
 		if (dataItem && $type.isNumber(dataItem.zoomLevel)) {
 			zoomLevel = dataItem.zoomLevel;
 		}
+
 
 		if (mapObject instanceof MapPolygon) {
 			let dataItem = mapObject.dataItem;
@@ -1189,16 +1498,21 @@ export class MapChart extends SerialChart {
 	 * @readonly
 	 * @return Zoom level
 	 */
-	public get zoomLevel(): number {
-		return this.seriesContainer.scale;
-	}
-
 	public set zoomLevel(value: number) {
 		this.seriesContainer.scale = value;
 	}
 
 	/**
+	 * @return Zoom level
+	 */
+	public get zoomLevel(): number {
+		return this.seriesContainer.scale;
+	}
+
+	/**
 	 * Dispatches events after some map transformation, like pan or zoom.
+	 * 
+	 * @ignore
 	 */
 	protected handleMapTransform(): void {
 		if (this.zoomLevel != this._prevZoomLevel) {
@@ -1306,24 +1620,81 @@ export class MapChart extends SerialChart {
 
 
 	/**
-	 * Degrees to shift map center by.
+	 * Degrees to rotate the map around vertical axis (Y).
 	 *
 	 * E.g. if set to -160, the longitude 20 will become a new center, creating
 	 * a Pacific-centered map.
 	 *
-	 * @param value  Map center shift
+	 * @param  value  Rotation
 	 */
 	public set deltaLongitude(value: number) {
 		if (this.setPropertyValue("deltaLongitude", $geo.wrapAngleTo180(value))) {
-			this.invalidateProjection();
+			this.rotateMap();
+			this.updateZoomGeoPoint();
 		}
 	}
 
 	/**
-	 * @return Map center shift
+	 * @return Rotation
 	 */
 	public get deltaLongitude(): number {
 		return this.getPropertyValue("deltaLongitude");
+	}
+
+	/**
+	 * Degrees to rotate the map around horizontal axis (X).
+	 *
+	 * E.g. setting this to -90 will put Antarctica directly in the center of
+	 * the map.
+	 *
+	 * @since 4.3.0
+	 * @param  value  Rotation
+	 */
+	public set deltaLatitude(value: number) {
+		if (this.setPropertyValue("deltaLatitude", value)) {
+			this.rotateMap()
+			this.updateZoomGeoPoint();
+		}
+	}
+
+	/**
+	 * @return Rotation
+	 */
+	public get deltaLatitude(): number {
+		return this.getPropertyValue("deltaLatitude");
+	}
+
+	/**
+	 * Degrees to rotate the map around "Z" axis. This is the axis that pierces
+	 * the globe directly from the viewer's point of view.
+	 * 
+	 * @param  value  Rotation
+	 * @since 4.3.0
+	 */
+	public set deltaGamma(value: number) {
+		if (this.setPropertyValue("deltaGamma", value)) {
+			this.rotateMap()
+			this.updateZoomGeoPoint();
+		}
+	}
+
+	/**
+	 * @return Rotation
+	 */
+	public get deltaGamma(): number {
+		return this.getPropertyValue("deltaGamma");
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected rotateMap() {
+		if (this.projection.d3Projection) {
+			if (this.projection.d3Projection.rotate) {
+				this.projection.d3Projection.rotate([this.deltaLongitude, this.deltaLatitude, this.deltaGamma]);
+				this.invalidateProjection();
+			}
+		}
 	}
 
 	/**
@@ -1406,15 +1777,12 @@ export class MapChart extends SerialChart {
 
 	/**
 	 * Invalidates projection, causing all series to be redrawn.
+	 *
+	 * Call this after changing projection or its settings.
 	 */
-	protected invalidateProjection() {
-		this.updateExtremes();
-		//		this.projection.deltaLatitude = this.deltaLatitude;
-		this.projection.deltaLongitude = this.deltaLongitude;
-
-		$iter.each(this.series.iterator(), (series) => {
-			series.invalidate();
-		})
+	public invalidateProjection() {
+		this.invalidateDataUsers();
+		this.updateCenterGeoPoint();
 	}
 
 	/**
@@ -1488,19 +1856,35 @@ export class MapChart extends SerialChart {
 		}
 
 		super.processConfig(config);
-
 	}
 
+
 	/**
- * This function is used to sort element's JSON config properties, so that
- * some properties that absolutely need to be processed last, can be put at
- * the end.
- *
- * @ignore Exclude from docs
- * @param a  Element 1
- * @param b  Element 2
- * @return Sorting number
- */
+	 * Decorates a new [[Series]] object with required parameters when it is
+	 * added to the chart.
+	 *
+	 * @ignore Exclude from docs
+	 * @param event  Event
+	 */
+	public handleSeriesAdded(event: IListEvents<MapSeries>["inserted"]): void {
+		super.handleSeriesAdded(event);
+		let series = event.newValue;
+		series.addDisposer(new Disposer(() => {
+			series.events.on("validated", this.updateCenterGeoPoint, this, false);
+		}));
+	}
+
+
+	/**
+ 	 * This function is used to sort element's JSON config properties, so that
+ 	 * some properties that absolutely need to be processed last, can be put at
+ 	 * the end.
+ 	 *
+ 	 * @ignore Exclude from docs
+ 	 * @param a  Element 1
+ 	 * @param b  Element 2
+ 	 * @return Sorting number
+ 	 */
 	protected configOrder(a: string, b: string): Ordering {
 		if (a == b) {
 			return 0;
@@ -1542,9 +1926,13 @@ export class MapChart extends SerialChart {
 		return this._centerGeoPoint;
 	}
 
-
 	/**
 	 * Resets the map to its original position and zoom level.
+	 *
+	 * Use the only parameter to set number of milliseconds for the zoom
+	 * animation to play.
+	 * 
+	 * @param  duration  Duration (ms)
 	 */
 	public goHome(duration?: number) {
 		let homeGeoPoint = this.homeGeoPoint;
@@ -1556,12 +1944,12 @@ export class MapChart extends SerialChart {
 		}
 	}
 
-
 	/**
 	 * Sets [[Paper]] instance to use to draw elements.
+	 * 
 	 * @ignore
-	 * @param paper Paper
-	 * @return true if paper was changed, false, if it's the same
+	 * @param   paper  Paper
+	 * @return         true if paper was changed, false, if it's the same
 	 */
 	public setPaper(paper: Paper): boolean {
 		if (this.svgContainer) {
@@ -1572,16 +1960,73 @@ export class MapChart extends SerialChart {
 	}
 
 	/**
+	 * Background series will create polygons that will fill all the map area
+	 * with some color (or other fill).
+	 * 
+	 * This might be useful with non-rectangular projections, like Orthographic,
+	 * Albers, etc.
+	 * 
+	 * To change background color/opacity access polygon template.
+	 *
+	 * ```TypeScript
+	 * chart.backgroundSeries.mapPolygons.template.polygon.fill = am4core.color("#fff");
+	 * chart.backgroundSeries.mapPolygons.template.polygon.fillOpacity = 0.1;
+	 * ```
+	 * ```JavaScript
+	 * chart.backgroundSeries.mapPolygons.template.polygon.fill = am4core.color("#fff");
+	 * chart.backgroundSeries.mapPolygons.template.polygon.fillOpacity = 0.1;
+	 * ```
+	 * ```JSON
+	 * {
+	 *   "backgroundSeries": {
+	 *     "mapPolygons": {
+	 *       "polygon": {
+	 *         "fill": "#fff",
+	 *         "fillOpacity": 0.1
+	 *       }
+	 *     }
+	 *   }
+	 * }
+	 * ```
+	 *
+	 * @since 4.3.0
+	 */
+	public get backgroundSeries(): MapPolygonSeries {
+		if (!this._backgroundSeries) {
+			let backgroundSeries = this.series.push(new MapPolygonSeries());
+			backgroundSeries.hiddenInLegend = true;
+			backgroundSeries.addDisposer(new Disposer(() => {
+				this._backgroundSeries = undefined;
+			}))
+			this._disposers.push(backgroundSeries);
+
+			let interfaceColors = new InterfaceColorSet();
+			let color = interfaceColors.getFor("background");
+
+			let polygonTemplate = backgroundSeries.mapPolygons.template.polygon;
+			polygonTemplate.stroke = color;
+			polygonTemplate.fill = color;
+			polygonTemplate.fillOpacity = 0;
+			polygonTemplate.strokeOpacity = 0;
+
+			backgroundSeries.mapPolygons.create();
+
+			this._backgroundSeries = backgroundSeries;
+		}
+
+		return this._backgroundSeries;
+	}
+
+	/**
 	 * Prepares the legend instance for use in this chart.
 	 *
 	 * @param legend  Legend
 	 */
 	protected setLegend(legend: Legend) {
 		super.setLegend(legend);
-		if (legend) {
-			legend.parent = this.chartContainer;
-		}
+		legend.parent = this;
 	}
+
 }
 
 /**

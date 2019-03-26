@@ -67,6 +67,13 @@ export class MapImageSeriesDataItem extends MapSeriesDataItem {
 	}
 
 	/**
+	 * @ignore
+	 */
+	public getFeature(): { "type": "Feature", geometry: { type: "Point", coordinates: number[] } } {
+		return { "type": "Feature", geometry: { type: "Point", coordinates: this.point } };
+	}	
+
+	/**
 	 * A [[MapImage]] element related to this data item.
 	 *
 	 * @return Element
@@ -82,6 +89,7 @@ export class MapImageSeriesDataItem extends MapSeriesDataItem {
 					this.component.mapImages.removeValue(mapImage);
 				}
 			}));
+			this.mapObject = mapImage;
 		}
 		return this._mapImage;
 	}
@@ -94,7 +102,8 @@ export class MapImageSeriesDataItem extends MapSeriesDataItem {
 	 */
 	public set point(point: number[]) {
 		this._point = point;
-		this.geoPoint = $mapUtils.pointToGeo(point);
+		this._geoPoint = $mapUtils.pointToGeo(point);
+		this.updateExtremes();
 	}
 
 	/**
@@ -111,10 +120,7 @@ export class MapImageSeriesDataItem extends MapSeriesDataItem {
 	 */
 	public set geoPoint(geoPoint: IGeoPoint) {
 		this._geoPoint = geoPoint;
-		this.updateExtremes([this._geoPoint]);
-
-		this.mapImage.latitude = this._geoPoint.latitude;
-		this.mapImage.longitude = this._geoPoint.longitude;
+		this.point = [geoPoint.longitude, geoPoint.latitude];
 	}
 
 	/**
@@ -123,7 +129,6 @@ export class MapImageSeriesDataItem extends MapSeriesDataItem {
 	public get geoPoint(): IGeoPoint {
 		return this._geoPoint;
 	}
-
 }
 
 
@@ -246,6 +251,8 @@ export class MapImageSeries extends MapSeries {
 		this.dataFields.geoPoint = "geoPoint";
 		this.dataFields.multiGeoPoint = "multiGeoPoint";
 
+		this.ignoreBounds = true;
+
 		// Apply theme
 		this.applyTheme();
 
@@ -337,14 +344,17 @@ export class MapImageSeries extends MapSeries {
 		}
 
 		super.validateData();
+
 		// important! this should go after super.validateData
 		// if data is parsed in chunks, images list is corrupted, fix it here
 
 		$iter.each(this.dataItems.iterator(), (dataItem) => {
 			let mapImage = dataItem.mapImage;
-			this.mapImages.moveValue(mapImage);
-			if ($type.isNumber(mapImage.latitude) && $type.isNumber(mapImage.latitude)) {
-				dataItem.geoPoint = { latitude: mapImage.latitude, longitude: mapImage.longitude }
+			if (!mapImage.isDisposed()) {
+				this.mapImages.moveValue(mapImage);
+				if ($type.isNumber(mapImage.latitude) && $type.isNumber(mapImage.latitude)) {
+					dataItem.geoPoint = { latitude: mapImage.latitude, longitude: mapImage.longitude }
+				}
 			}
 		});
 	}
@@ -364,6 +374,7 @@ export class MapImageSeries extends MapSeries {
 			mapImages.template.focusable = true;
 			mapImages.events.on("inserted", this.handleObjectAdded, this, false);
 			this._mapImages = mapImages;
+			this._mapObjects = mapImages;
 		}
 
 		return this._mapImages;
@@ -400,6 +411,43 @@ export class MapImageSeries extends MapSeries {
 	public copyFrom(source: this) {
 		this.mapImages.template.copyFrom(source.mapImages.template);
 		super.copyFrom(source);
+	}
+
+	/**
+	 * @ignore
+	 */
+	public getFeatures(): { "type": "Feature", geometry: { type: "Point", coordinates: number[] } }[] {
+		let features: { "type": "Feature", geometry: { type: "Point", coordinates: number[] } }[] = [];
+		this.dataItems.each((dataItem) => {
+			let feature = dataItem.getFeature();
+			if (feature) {
+				features.push(feature);
+			}
+		})
+
+		this.mapImages.each((mapImage)=>{
+			if (this.dataItems.indexOf(mapImage._dataItem) == -1) {
+				let feature = mapImage.getFeature();
+				if (feature) {
+					features.push(feature);
+				}
+			}
+		})
+		return features;
+	}
+
+	/**
+	 * returns MapImage by id
+	 * @param image id
+	 * @return {MapImage}
+	 */
+	public getImageById(id: string): MapImage {
+		return $iter.find(this.mapImages.iterator(), (mapImage) => {
+			let dataContext: any = mapImage.dataItem.dataContext;
+			if(mapImage.id == id || dataContext.id == id){
+				return true;
+			}
+		});
 	}
 
 }

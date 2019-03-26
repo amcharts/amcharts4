@@ -172,6 +172,9 @@ export class ZoomControl extends Container {
 		this.fixLayout();
 	}
 
+	/**
+	 * @ignore
+	 */
 	protected fixLayout() {
 
 		let plusButton = this.plusButton;

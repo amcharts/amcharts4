@@ -46,6 +46,16 @@ export declare class MapImageSeriesDataItem extends MapSeriesDataItem {
      */
     constructor();
     /**
+     * @ignore
+     */
+    getFeature(): {
+        "type": "Feature";
+        geometry: {
+            type: "Point";
+            coordinates: number[];
+        };
+    };
+    /**
      * A [[MapImage]] element related to this data item.
      *
      * @return Element
@@ -200,4 +210,20 @@ export declare class MapImageSeries extends MapSeries {
      * @param source  Source series
      */
     copyFrom(source: this): void;
+    /**
+     * @ignore
+     */
+    getFeatures(): {
+        "type": "Feature";
+        geometry: {
+            type: "Point";
+            coordinates: number[];
+        };
+    }[];
+    /**
+     * returns MapImage by id
+     * @param image id
+     * @return {MapImage}
+     */
+    getImageById(id: string): MapImage;
 }

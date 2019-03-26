@@ -1998,3 +1998,11 @@ export class Component extends Container {
 		return this.getPropertyValue("minZoomCount");
 	}
 }
+
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Component"] = Component;

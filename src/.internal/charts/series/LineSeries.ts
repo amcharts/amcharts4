@@ -115,7 +115,7 @@ export interface ILineSeriesProperties extends IXYSeriesProperties {
 	/**
 	 * If `connect = false` and distance between two data points is bigger
 	 * than `baseInterval * autoGapCount`, a line will break automatically.
-	 * 
+	 *
 	 * @default 1.1
 	 */
 	autoGapCount?: number;

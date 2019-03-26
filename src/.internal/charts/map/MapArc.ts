@@ -90,7 +90,6 @@ export class MapArc extends MapLine {
 
 		// Apply theme
 		this.applyTheme();
-
 	}
 
 	/**
@@ -116,8 +115,6 @@ export class MapArc extends MapLine {
 	public get shortestDistance(): boolean {
 		return false;
 	}
-
-
 }
 
 /**

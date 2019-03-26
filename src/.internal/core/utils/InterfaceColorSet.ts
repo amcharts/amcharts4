@@ -10,6 +10,7 @@
  * @hidden
  */
 import { BaseObject } from "../Base";
+import { registry } from "../Registry";
 import { Color, color } from "./Color";
 
 
@@ -149,3 +150,11 @@ export class InterfaceColorSet extends BaseObject {
 	}
 
 }
+
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["InterfaceColorSet"] = InterfaceColorSet;

@@ -1,11 +1,11 @@
-import { ITheme } from "./ITheme";
+import { ITheme, is } from "./ITheme";
 import { color } from "../core/utils/Color";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
 import { BaseObject } from "../core/Base";
 import { Scrollbar } from "../core/elements/Scrollbar";
 
 const theme: ITheme = (object: BaseObject) => {
-	if (object instanceof InterfaceColorSet) {
+	if (is<InterfaceColorSet>(object, "InterfaceColorSet")) {
 		object.setFor("stroke", color("#000000"));
 		object.setFor("fill", color("#2b2b2b"));
 
@@ -32,7 +32,7 @@ const theme: ITheme = (object: BaseObject) => {
 	}
 
 
-	if (object instanceof Scrollbar) {
+	if (is<Scrollbar>(object, "Scrollbar")) {
 		object.background.fillOpacity = 0.4;
 		object.thumb.background.fillOpacity = 0.5;
 	}

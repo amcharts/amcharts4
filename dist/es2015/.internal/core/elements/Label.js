@@ -331,9 +331,10 @@ var Label = /** @class */ (function (_super) {
                 if (this.textPathElement) {
                     lineInfo.element.add(this.textPathElement);
                 }
+                /*// @todo not needed anymore
                 if (this.rtl) {
                     chunks.reverse();
-                }
+                }*/
                 // Process each chunk
                 for (var x = 0; x < chunks.length; x++) {
                     // If there's more than one chunk, means the line is "complex"
@@ -757,7 +758,6 @@ var Label = /** @class */ (function (_super) {
         if (this.rtl) {
             element.attr({
                 "direction": "rtl",
-                "unicode-bidi": "bidi-override"
             });
         }
         return element;
@@ -805,7 +805,7 @@ var Label = /** @class */ (function (_super) {
         // Set RTL-related styles
         if (this.rtl) {
             div.style.direction = "rtl";
-            div.style.unicodeBidi = "bidi-override";
+            //div.style.unicodeBidi = "bidi-override";
         }
         // Translate some of the SVG styles into CSS
         if ($type.hasValue(this.fill)) {

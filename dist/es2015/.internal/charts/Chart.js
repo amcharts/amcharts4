@@ -8,6 +8,7 @@ import * as tslib_1 from "tslib";
  * ============================================================================
  * @hidden
  */
+import { registry } from "../core/Registry";
 import { Component } from "../core/Component";
 import { MutableValueDisposer } from "../core/utils/Disposer";
 import { ListTemplate, ListDisposer } from "../core/utils/List";
@@ -292,6 +293,13 @@ var Chart = /** @class */ (function (_super) {
     return Chart;
 }(Component));
 export { Chart };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Chart"] = Chart;
 /**
  * Add default responsive rules
  */

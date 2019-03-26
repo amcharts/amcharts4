@@ -38,6 +38,14 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    /**
+     * @ignore
+     */
+    MapPolygonSeriesDataItem.prototype.getFeature = function () {
+        if (this.multiPolygon && this.multiPolygon.length > 0) {
+            return { "type": "Feature", geometry: { type: "MultiPolygon", coordinates: this.multiPolygon } };
+        }
+    };
     Object.defineProperty(MapPolygonSeriesDataItem.prototype, "mapPolygon", {
         /**
          * A [[MapPolygon]] element related to this data item.
@@ -51,12 +59,12 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
                 var mapPolygon_1 = this.component.mapPolygons.create();
                 this._mapPolygon = mapPolygon_1;
                 this.addSprite(mapPolygon_1);
-                this._disposers.push(mapPolygon_1);
                 this._disposers.push(new Disposer(function () {
                     if (_this.component) {
                         _this.component.mapPolygons.removeValue(mapPolygon_1);
                     }
                 }));
+                this.mapObject = mapPolygon_1;
             }
             return this._mapPolygon;
         },
@@ -89,7 +97,7 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
          */
         set: function (polygon) {
             this._polygon = polygon;
-            this.multiGeoPolygon = $mapUtils.multiPolygonToGeo([polygon]);
+            this.multiPolygon = [polygon];
         },
         enumerable: true,
         configurable: true
@@ -134,7 +142,7 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
          */
         set: function (multiPolygon) {
             this._multiPolygon = multiPolygon;
-            this.multiGeoPolygon = $mapUtils.multiPolygonToGeo(multiPolygon);
+            this.updateExtremes();
         },
         enumerable: true,
         configurable: true
@@ -208,26 +216,11 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
          */
         set: function (multiGeoPolygon) {
             this._multiGeoPolygon = multiGeoPolygon;
-            this.updateAreaExtremes(multiGeoPolygon);
-            this.mapPolygon.multiGeoPolygon = this._multiGeoPolygon;
+            this.multiPolygon = $mapUtils.multiGeoPolygonToMultipolygon(multiGeoPolygon);
         },
         enumerable: true,
         configurable: true
     });
-    /**
-     * Updates the item's bounding coordinates: coordinates of the East, West,
-     * North, and South-most points.
-     *
-     * @ignore Exclude from docs
-     * @param geoPoints  Points of the element
-     */
-    MapPolygonSeriesDataItem.prototype.updateAreaExtremes = function (multiGeoPolygon) {
-        for (var i = 0, len = multiGeoPolygon.length; i < len; i++) {
-            var geoPolygon = multiGeoPolygon[i];
-            var surface = geoPolygon[0];
-            this.updateExtremes(surface);
-        }
-    };
     return MapPolygonSeriesDataItem;
 }(MapSeriesDataItem));
 export { MapPolygonSeriesDataItem };
@@ -253,7 +246,15 @@ var MapPolygonSeries = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this) || this;
-        _this.parsingStepDuration = 250; // to avoid some extra redrawing
+        /**
+         * Indicates if series should automatically calculate visual center of the
+         * polygons (accessible via `visualLongitude` and `visualLatitude` properties
+         * of the [[MapPolygon]]).
+         *
+         * @default false
+         * @since 4.3.0
+         */
+        _this.calculateVisualCenter = false;
         _this.className = "MapPolygonSeries";
         // Set data fields
         _this.dataFields.multiPolygon = "multiPolygon";
@@ -287,14 +288,6 @@ var MapPolygonSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     MapPolygonSeries.prototype.validateData = function () {
-        var _this = this;
-        if (this.data.length > 0 && this._parseDataFrom == 0) {
-            this.mapPolygons.clear();
-        }
-        this.west = null;
-        this.east = null;
-        this.north = null;
-        this.south = null;
         // process geoJSON and created map objects
         if (this.useGeodata || this.geodata) {
             var geoJSON = !this._dataSources["geodata"] ? this.chart.geodata : undefined;
@@ -362,11 +355,6 @@ var MapPolygonSeries = /** @class */ (function (_super) {
             }
         }
         _super.prototype.validateData.call(this);
-        // if data is parsed in chunks, polygon list is corrupted, fix it here
-        // !important this should go after super!
-        $iter.each(this.dataItems.iterator(), function (dataItem) {
-            _this.mapPolygons.moveValue(dataItem.mapPolygon);
-        });
     };
     /**
      * (Re)validates the series
@@ -375,8 +363,15 @@ var MapPolygonSeries = /** @class */ (function (_super) {
      */
     MapPolygonSeries.prototype.validate = function () {
         _super.prototype.validate.call(this);
-        $iter.each(this.mapPolygons.iterator(), function (mapPolygon) {
+        this.dataItems.each(function (dataItem) {
+            $utils.used(dataItem.mapPolygon);
+        });
+        this.mapPolygons.each(function (mapPolygon) {
             mapPolygon.validate();
+            // makes small go first to avoid hover problems with IE
+            if (!mapPolygon.zIndex && !mapPolygon.propertyFields.zIndex) {
+                mapPolygon.zIndex = 1000000 - mapPolygon.boxArea;
+            }
         });
     };
     Object.defineProperty(MapPolygonSeries.prototype, "mapPolygons", {
@@ -394,6 +389,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
                 mapPolygons.template.focusable = true;
                 mapPolygons.events.on("inserted", this.handleObjectAdded, this, false);
                 this._mapPolygons = mapPolygons;
+                this._mapObjects = mapPolygons;
             }
             return this._mapPolygons;
         },
@@ -419,6 +415,28 @@ var MapPolygonSeries = /** @class */ (function (_super) {
     MapPolygonSeries.prototype.copyFrom = function (source) {
         this.mapPolygons.template.copyFrom(source.mapPolygons.template);
         _super.prototype.copyFrom.call(this, source);
+    };
+    /**
+     * @ignore
+     */
+    MapPolygonSeries.prototype.getFeatures = function () {
+        var _this = this;
+        var features = [];
+        this.dataItems.each(function (dataItem) {
+            var feature = dataItem.getFeature();
+            if (feature) {
+                features.push(feature);
+            }
+        });
+        this.mapPolygons.each(function (mapPolygon) {
+            if (_this.dataItems.indexOf(mapPolygon._dataItem) == -1) {
+                var feature = mapPolygon.getFeature();
+                if (feature) {
+                    features.push(feature);
+                }
+            }
+        });
+        return features;
     };
     return MapPolygonSeries;
 }(MapSeries));

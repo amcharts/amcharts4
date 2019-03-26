@@ -1,10 +1,10 @@
 /**
  * Color set from Frozen movie borrowed from https://twitter.com/CINEMAPALETTES
  */
+import { is } from "./ITheme";
 import { color } from "../core/utils/Color";
-import { ColorSet } from "../core/utils/ColorSet";
 var theme = function (object) {
-    if (object instanceof ColorSet) {
+    if (is(object, "ColorSet")) {
         object.list = [
             color("#bec4f8"),
             color("#a5abee"),

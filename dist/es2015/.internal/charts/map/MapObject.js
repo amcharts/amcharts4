@@ -10,6 +10,9 @@ import * as tslib_1 from "tslib";
  */
 import { Container } from "../../core/Container";
 import { registry } from "../../core/Registry";
+import * as $math from "../../core/utils/Math";
+import * as d3geo from "d3-geo";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -51,6 +54,114 @@ var MapObject = /** @class */ (function (_super) {
         }
         _super.prototype.validate.call(this);
     };
+    /**
+     * Updates the item's bounding coordinates: coordinates of the East, West,
+     * North, and South-most points.
+     *
+     * @ignore Exclude from docs
+     */
+    MapObject.prototype.updateExtremes = function () {
+        var feature = this.getFeature();
+        if (feature) {
+            var geometry = feature.geometry;
+            if (geometry) {
+                var bounds = d3geo.geoBounds(geometry);
+                var west = bounds[0][0];
+                var south = bounds[0][1];
+                var north = bounds[1][1];
+                var east = bounds[1][0];
+                var changed = false;
+                if (north != this.north) {
+                    this._north = $math.round(north, 8);
+                    changed = true;
+                }
+                if (south != this.south) {
+                    this._south = $math.round(south);
+                    changed = true;
+                }
+                if (east != this.east) {
+                    this._east = $math.round(east);
+                    changed = true;
+                }
+                if (west != this.west) {
+                    this._west = $math.round(west);
+                    changed = true;
+                }
+                if (changed) {
+                    this.dispatch("geoBoundsChanged");
+                    if (this.series) {
+                        this.series.invalidateDataItems();
+                    }
+                }
+            }
+        }
+    };
+    /**
+     * @ignore
+     */
+    MapObject.prototype.getFeature = function () {
+        return {};
+    };
+    Object.defineProperty(MapObject.prototype, "east", {
+        /**
+         * Longitude of the East-most point of the element.
+         */
+        get: function () {
+            if ($type.isNumber(this._east)) {
+                return this._east;
+            }
+            else if (this.dataItem) {
+                return this.dataItem.east;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapObject.prototype, "west", {
+        /**
+         * Longitude of the West-most point of the element.
+         */
+        get: function () {
+            if ($type.isNumber(this._west)) {
+                return this._west;
+            }
+            else if (this.dataItem) {
+                return this.dataItem.west;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapObject.prototype, "south", {
+        /**
+         * Latitude of the South-most point of the element.
+         */
+        get: function () {
+            if ($type.isNumber(this._south)) {
+                return this._south;
+            }
+            else if (this.dataItem) {
+                return this.dataItem.south;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapObject.prototype, "north", {
+        /**
+         * Latitude of the North-most point of the element.
+         */
+        get: function () {
+            if ($type.isNumber(this._north)) {
+                return this._north;
+            }
+            else if (this.dataItem) {
+                return this.dataItem.north;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return MapObject;
 }(Container));
 export { MapObject };

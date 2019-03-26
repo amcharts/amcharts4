@@ -41,43 +41,19 @@
  * @hidden
  */
 import { Projection } from "./Projection";
-import { IGeoPoint } from "../../../core/defs/IGeoPoint";
-import { IPoint } from "../../../core/defs/IPoint";
 import { registry } from "../../../core/Registry";
+// @ts-ignore
+import * as d3geoprojection from "d3-geo-projection";
+
 
 /**
  * Miller projection.
  */
 export class Miller extends Projection {
-
-	/**
-	 * Converts screen coordinates to latitude/longitude.
-	 *
-	 * @param x  X
-	 * @param y  Y
-	 * @return Geographical coordinates in radians
-	 */
-	public unproject(x: number, y: number): IGeoPoint {
-		return {
-			longitude: x,
-			latitude: 2.5 * Math.atan(Math.exp(0.8 * y)) - 0.625 * Math.PI
-		};
+	constructor(){
+		super();
+		this.d3Projection = d3geoprojection.geoMiller();
 	}
-
-	/**
-	 * Converts geographical coordinates to screen coordinates.
-	 *
-	 * @param lambda  Lambda parameter
-	 * @param phi     Phi parameter
-	 * @return Screen coordinates
-	 */
-	public project(lambda: number, phi: number): IPoint {
-		return {
-			x: lambda,
-			y: 1.25 * Math.log(Math.tan(Math.PI / 4 + 0.4 * phi))
-		};
-	}
-
 }
 
 /**

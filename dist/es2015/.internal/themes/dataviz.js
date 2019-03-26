@@ -1,10 +1,10 @@
 /**
  * A color scheme inspired by {@link https://datavizproject.com/}
  */
+import { is } from "./ITheme";
 import { color } from "../core/utils/Color";
-import { ColorSet } from "../core/utils/ColorSet";
 var theme = function (object) {
-    if (object instanceof ColorSet) {
+    if (is(object, "ColorSet")) {
         object.list = [
             color("#283250"),
             color("#902c2d"),

@@ -5,6 +5,31 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.3.0] - 2019-03-26
+
+### Added
+- `MapChart` can now use any projection supported by [d3-geo](https://www.npmjs.com/package/d3-geo). `Projection.d3Projection` property added and you can set any d3-geo projection using it, like: `mapChart.projection.d3Projection = am4maps.d3geo.geoConicEquidistant();`.
+- Albers, AlbersUsa, AzimuthalEqualArea, EqualEarth, NaturalEarth1, Stereographic projection classed added (use them regularly like: `mapChart.projection = new EqualEarth()`).
+- `deltaLatitude`, `deltaGamma` added to `MapChart`. Together with already existing `deltaLongitude` allows rotating maps in any possible direction.
+- `panBehavior` property added to `MapChart`. Values: "move" (default), "rotateLat", "rotateLong", "rotateLongLat". Indicate what should happen when map is dragged.
+- `ignoreBounds` added to `MapSeries`. Specifies if this series must be included when calculating bounds of the map.
+- `calculateVisualCenter` added to `MapPolygonSeries`. Specifies if map polygons should calculate their visual center. Visual center is good for placing labels.
+- `visualLongitude` and `visualLatitude` getters added to `MapPolygon`. They return coordinates if `calculateVisualCenter` of series is set to `true`. You can also set them manually.
+- `getCircle()` and `getBackground()` methods added to `MapUtils`.
+- `Graticule` and `GraticuleSeries` classed added. Those allow creating graticules (map grid).
+- `backgroundSeries` added to MapChart. Allows creating a map-shaped background fill.
+
+### Changed
+- Engine behind rendering of maps was changed to use [d3-geo](https://www.npmjs.com/package/d3-geo).While the change should be ackwards compatible, beware of and report any issues.
+- `day-night-map` and `morphing-countries` demos we changed to work properly with new version.
+- When adding a `HeatLegend` to `MapChart` its `valign = "bottom"` is no longer set by default. Set it explicitly if you need legend to bottom-aligned.
+
+### Fixed
+- `rtl` setting was not being inherited properly.
+- Fixed RTL behavior for labels.
+- Disposing a hovered chart with scroll pan enabled used to leave whole document with disabled wheel scroll.
+
+
 ## [4.2.6] - 2019-03-21
 
 ### Fixed

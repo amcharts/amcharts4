@@ -42,8 +42,9 @@ var MapLineObject = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     MapLineObject.prototype.validatePosition = function () {
-        if (this.mapLine) {
-            var point = this.mapLine.positionToPoint(this.position);
+        var mapLine = this.mapLine;
+        if (mapLine) {
+            var point = mapLine.positionToPoint(this.position);
             this.x = point.x;
             this.y = point.y;
             if (this.adjustRotation) {
@@ -53,6 +54,18 @@ var MapLineObject = /** @class */ (function (_super) {
             if (dataItem) {
                 var series = this.mapLine.dataItem.component;
                 this.scale = 1 / series.scale;
+            }
+            // hide out of bounds
+            if (mapLine.shortestDistance) {
+                var projection = this.mapLine.series.chart.projection;
+                var geoPoint = projection.positionToGeoPoint(mapLine.multiGeoLine, this.position);
+                var visible = projection.d3Path({ type: 'Point', coordinates: [geoPoint.longitude, geoPoint.latitude] });
+                if (!visible) {
+                    this.__disabled = true;
+                }
+                else {
+                    this.__disabled = false;
+                }
             }
         }
         _super.prototype.validatePosition.call(this);

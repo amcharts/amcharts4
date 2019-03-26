@@ -10,8 +10,9 @@ import * as tslib_1 from "tslib";
  */
 import { Series, SeriesDataItem } from "../series/Series";
 import { registry } from "../../core/Registry";
-import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
+import * as $math from "../../core/utils/Math";
+import * as d3geo from "d3-geo";
 /**
  * ============================================================================
  * DATA ITEM
@@ -55,31 +56,6 @@ var MapSeriesDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Updates the item's bounding coordinates: coordinates of the East, West,
-     * North, and South-most points.
-     *
-     * @ignore Exclude from docs
-     * @param geoPoints  Points of the element
-     */
-    MapSeriesDataItem.prototype.updateExtremes = function (geoPoints) {
-        for (var s = 0; s < geoPoints.length; s++) {
-            var longitude = geoPoints[s].longitude;
-            var latitude = geoPoints[s].latitude;
-            if ((this.west > longitude) || !$type.isNumber(this.west)) {
-                this.west = longitude;
-            }
-            if ((this.east < longitude) || !$type.isNumber(this.east)) {
-                this.east = longitude;
-            }
-            if ((this.north < latitude) || !$type.isNumber(this.north)) {
-                this.north = latitude;
-            }
-            if ((this.south > latitude) || !$type.isNumber(this.south)) {
-                this.south = latitude;
-            }
-        }
-    };
     Object.defineProperty(MapSeriesDataItem.prototype, "zoomLevel", {
         /**
          * @return Zoom level
@@ -118,6 +94,85 @@ var MapSeriesDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(MapSeriesDataItem.prototype, "east", {
+        /**
+         * Longitude of the East-most point of the element.
+         */
+        get: function () {
+            return this._east;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapSeriesDataItem.prototype, "west", {
+        /**
+         * Longitude of the West-most point of the element.
+         */
+        get: function () {
+            return this._west;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapSeriesDataItem.prototype, "south", {
+        /**
+         * Latitude of the South-most point of the element.
+         */
+        get: function () {
+            return this._south;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapSeriesDataItem.prototype, "north", {
+        /**
+         * Latitude of the North-most point of the element.
+         */
+        get: function () {
+            return this._north;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Updates the item's bounding coordinates: coordinates of the East, West,
+     * North, and South-most points.
+     *
+     * @ignore Exclude from docs
+     */
+    MapSeriesDataItem.prototype.updateExtremes = function () {
+        var geometry = this.getFeature().geometry;
+        if (geometry) {
+            var bounds = d3geo.geoBounds(geometry);
+            var west = bounds[0][0];
+            var south = bounds[0][1];
+            var north = bounds[1][1];
+            var east = bounds[1][0];
+            var changed = false;
+            if (north != this.north) {
+                this._north = $math.round(north, 8);
+                changed = true;
+            }
+            if (south != this.south) {
+                this._south = $math.round(south);
+                changed = true;
+            }
+            if (east != this.east) {
+                this._east = $math.round(east);
+                changed = true;
+            }
+            if (west != this.west) {
+                this._west = $math.round(west);
+                changed = true;
+            }
+            if (changed) {
+                this.component.invalidateDataItems();
+            }
+        }
+    };
+    MapSeriesDataItem.prototype.getFeature = function () {
+        return {};
+    };
     return MapSeriesDataItem;
 }(SeriesDataItem));
 export { MapSeriesDataItem };
@@ -149,6 +204,7 @@ var MapSeries = /** @class */ (function (_super) {
         _this.nonScalingStroke = true;
         // Set data fields
         _this.dataFields.value = "value";
+        _this.ignoreBounds = false;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -161,33 +217,6 @@ var MapSeries = /** @class */ (function (_super) {
      */
     MapSeries.prototype.createDataItem = function () {
         return new MapSeriesDataItem();
-    };
-    /**
-     * (Re)validates series data, effectively causing the whole series to be
-     * redrawn.
-     *
-     * @ignore Exclude from docs
-     */
-    MapSeries.prototype.validateData = function () {
-        var _this = this;
-        _super.prototype.validateData.call(this);
-        $iter.each(this.dataItems.iterator(), function (dataItem) {
-            if ((_this.west > dataItem.west) || !$type.isNumber(_this.west)) {
-                _this.west = dataItem.west;
-            }
-            if ((_this.east < dataItem.east) || !$type.isNumber(_this.east)) {
-                _this.east = dataItem.east;
-            }
-            if ((_this.north < dataItem.north) || !$type.isNumber(_this.north)) {
-                _this.north = dataItem.north;
-            }
-            if ((_this.south > dataItem.south) || !$type.isNumber(_this.south)) {
-                _this.south = dataItem.south;
-            }
-        });
-        if (this.chart) {
-            this.chart.updateExtremes();
-        }
     };
     /**
      * Checks whether object should be included in series.
@@ -281,6 +310,34 @@ var MapSeries = /** @class */ (function (_super) {
         //this.data = [];
         this.invalidateData();
     };
+    Object.defineProperty(MapSeries.prototype, "ignoreBounds", {
+        /**
+         * @return Ignore bounds?
+         */
+        get: function () {
+            return this.getPropertyValue("ignoreBounds");
+        },
+        /**
+         * Should this series be included when calculating bounds of the map?
+         *
+         * This affects initial zoom as well as limits for zoom/pan.
+         *
+         * By default, `MapPolygonSeries` included (true), while `MapImageSeries` and
+         * `MapLineSeries` are not (`false`).
+         *
+         * @since 4.3.0
+         * @param  value  Ignore bounds?
+         */
+        set: function (value) {
+            if (this.setPropertyValue("ignoreBounds", value)) {
+                if (this.chart) {
+                    this.chart.updateExtremes();
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(MapSeries.prototype, "exclude", {
         /**
          * @return Excluded ids
@@ -336,10 +393,7 @@ var MapSeries = /** @class */ (function (_super) {
         set: function (geodata) {
             if (geodata != this._geodata) {
                 this._geodata = geodata;
-                this.invalidateData();
-                $iter.each(this._dataUsers.iterator(), function (x) {
-                    x.invalidateData();
-                });
+                this.data = [];
             }
         },
         enumerable: true,
@@ -378,11 +432,173 @@ var MapSeries = /** @class */ (function (_super) {
         configurable: true
     });
     /**
- * Processes JSON-based config before it is applied to the object.
- *
- * @ignore Exclude from docs
- * @param config  Config
- */
+     * @ignore
+     */
+    MapSeries.prototype.getFeatures = function () {
+        return;
+    };
+    /**
+     * @ignore
+     */
+    MapSeries.prototype.validateDataItems = function () {
+        _super.prototype.validateDataItems.call(this);
+        this.updateExtremes();
+    };
+    /**
+     * @ignore
+     */
+    MapSeries.prototype.updateExtremes = function () {
+        var north;
+        var south;
+        var east;
+        var west;
+        this.dataItems.each(function (dataItem) {
+            if (dataItem.north > north || !$type.isNumber(north)) {
+                north = dataItem.north;
+            }
+            if (dataItem.south < south || !$type.isNumber(south)) {
+                south = dataItem.south;
+            }
+            if (dataItem.west < west || !$type.isNumber(west)) {
+                west = dataItem.west;
+            }
+            if (dataItem.east > east || !$type.isNumber(east)) {
+                east = dataItem.east;
+            }
+        });
+        if (this._mapObjects) {
+            this._mapObjects.each(function (mapObject) {
+                if (mapObject.north > north || !$type.isNumber(north)) {
+                    north = mapObject.north;
+                }
+                if (mapObject.south < south || !$type.isNumber(south)) {
+                    south = mapObject.south;
+                }
+                if (mapObject.west < west || !$type.isNumber(west)) {
+                    west = mapObject.west;
+                }
+                if (mapObject.east > east || !$type.isNumber(east)) {
+                    east = mapObject.east;
+                }
+            });
+        }
+        if (this.north != north || this.east != east || this.south != south || this.west != west) {
+            this._north = north;
+            this._east = east;
+            this._west = west;
+            this._south = south;
+            this.dispatch("geoBoundsChanged");
+            if (!this.ignoreBounds) {
+                this.chart.updateExtremes();
+            }
+        }
+    };
+    Object.defineProperty(MapSeries.prototype, "north", {
+        /**
+         * @return Latitude
+         */
+        get: function () {
+            if ($type.isNumber(this._northDefined)) {
+                return this._northDefined;
+            }
+            return this._north;
+        },
+        /**
+         * North-most latitude of the series.
+         *
+         * By default, this holds auto-calculated latitude of the extremity.
+         *
+         * It can be overridden manually.
+         *
+         * @param  value  Latitude
+         */
+        set: function (value) {
+            this._northDefined = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapSeries.prototype, "south", {
+        /**
+         * @return Latitude
+         */
+        get: function () {
+            if ($type.isNumber(this._southDefined)) {
+                return this._southDefined;
+            }
+            return this._south;
+        },
+        /**
+         * South-most latitude of the series.
+         *
+         * By default, this holds auto-calculated latitude of the extremity.
+         *
+         * It can be overridden manually.
+         *
+         * @param  value  Latitude
+         */
+        set: function (value) {
+            this._southDefined = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapSeries.prototype, "west", {
+        /**
+         * @return Longitude
+         */
+        get: function () {
+            if ($type.isNumber(this._westDefined)) {
+                return this._westDefined;
+            }
+            return this._west;
+        },
+        /**
+         * West-most longitude of the series.
+         *
+         * By default, this holds auto-calculated longitude of the extremity.
+         *
+         * It can be overridden manually.
+         *
+         * @param  value  Longitude
+         */
+        set: function (value) {
+            this._westDefined = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapSeries.prototype, "east", {
+        /**
+         * @return Longitude
+         */
+        get: function () {
+            if ($type.isNumber(this._eastDefined)) {
+                return this._eastDefined;
+            }
+            return this._east;
+        },
+        /**
+         * East-most longitude of the series.
+         *
+         * By default, this holds auto-calculated longitude of the extremity.
+         *
+         * It can be overridden manually.
+         *
+         * @param  value  Longitude
+         */
+        set: function (value) {
+            this._eastDefined = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param config  Config
+     */
     MapSeries.prototype.processConfig = function (config) {
         if ($type.hasValue(config["geodata"]) && $type.isString(config["geodata"])) {
             var name_1 = config["geodata"];

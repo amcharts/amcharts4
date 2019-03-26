@@ -17,5 +17,5 @@
  * PLEASE DO NOT REMOVE THIS COPYRIGHT NOTICE.
  * @hidden
  */
-am4internal_webpackJsonp(["bec2"],{AZyi:function(e,c,t){"use strict";Object.defineProperty(c,"__esModule",{value:!0});var b=t("8ZqG"),i=t("DHte"),n=function(e){e instanceof i.a&&(e.list=[Object(b.c)("#65738e"),Object(b.c)("#766c91"),Object(b.c)("#78566f"),Object(b.c)("#523b58"),Object(b.c)("#813b3d"),Object(b.c)("#bc5e52"),Object(b.c)("#ee8b78"),Object(b.c)("#f9c885"),Object(b.c)("#eba05c"),Object(b.c)("#9b5134")],e.minLightness=.2,e.maxLightness=.7,e.reuse=!0)};window.am4themes_spiritedaway=n}},["AZyi"]);
+am4internal_webpackJsonp(["bec2"],{AZyi:function(e,c,t){"use strict";Object.defineProperty(c,"__esModule",{value:!0});var b=t("01H4"),i=t("8ZqG"),j=function(e){Object(b.a)(e,"ColorSet")&&(e.list=[Object(i.c)("#65738e"),Object(i.c)("#766c91"),Object(i.c)("#78566f"),Object(i.c)("#523b58"),Object(i.c)("#813b3d"),Object(i.c)("#bc5e52"),Object(i.c)("#ee8b78"),Object(i.c)("#f9c885"),Object(i.c)("#eba05c"),Object(i.c)("#9b5134")],e.minLightness=.2,e.maxLightness=.7,e.reuse=!0)};window.am4themes_spiritedaway=j}},["AZyi"]);
 //# sourceMappingURL=spiritedaway.js.map

@@ -1,11 +1,7 @@
+import { is } from "./ITheme";
 import { color } from "../core/utils/Color";
-import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
-import { Scrollbar } from "../core/elements/Scrollbar";
-import { ColorSet } from "../core/utils/ColorSet";
-import { Grid } from "../charts/axes/Grid";
-import { Button } from "../core/elements/Button";
 var theme = function (object) {
-    if (object instanceof InterfaceColorSet) {
+    if (is(object, "InterfaceColorSet")) {
         object.setFor("stroke", color("#000000"));
         object.setFor("fill", color("#ffffff"));
         object.setFor("primaryButton", color("#0975da").lighten(-0.2));
@@ -27,15 +23,15 @@ var theme = function (object) {
         object.setFor("alternativeText", color("#ffffff"));
         object.setFor("disabledBackground", color("#bbbbbb"));
     }
-    if (object instanceof Grid) {
+    if (is(object, "Grid")) {
         object.strokeOpacity = 0.07;
     }
-    if (object instanceof Scrollbar) {
+    if (is(object, "Scrollbar")) {
         object.background.fillOpacity = 0.2;
         object.thumb.background.fillOpacity = 0.5;
     }
     //color("#e3ecb7"),
-    if (object instanceof ColorSet) {
+    if (is(object, "ColorSet")) {
         object.list = [
             color("#eeeab5"),
             color("#0975da"),
@@ -52,7 +48,7 @@ var theme = function (object) {
         };
         object.passOptions = {};
     }
-    if (object instanceof Button) {
+    if (is(object, "Button")) {
         object.background.fillOpacity = 1;
         object.background.strokeOpacity = 0.5;
         object.background.fill = color("#303950");

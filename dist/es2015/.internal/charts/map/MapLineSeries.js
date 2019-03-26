@@ -38,6 +38,11 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    MapLineSeriesDataItem.prototype.getFeature = function () {
+        if (this.multiLine && this.multiLine.length > 0) {
+            return { "type": "Feature", geometry: { type: "MultiLineString", coordinates: this.multiLine } };
+        }
+    };
     Object.defineProperty(MapLineSeriesDataItem.prototype, "mapLine", {
         /**
          * A [[MapLine]] element related to this data item.
@@ -57,6 +62,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
                         _this.component.mapLines.removeValue(mapLine_1);
                     }
                 }));
+                this.mapObject = mapLine_1;
             }
             return this._mapLine;
         },
@@ -84,7 +90,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
          */
         set: function (line) {
             this._line = line;
-            this.multiGeoLine = $mapUtils.multiLineToGeo([line]);
+            this.multiLine = [line];
         },
         enumerable: true,
         configurable: true
@@ -119,7 +125,8 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
          */
         set: function (multiLine) {
             this._multiLine = multiLine;
-            this.multiGeoLine = $mapUtils.multiLineToGeo(multiLine);
+            this._multiGeoLine = $mapUtils.multiLineToGeo(multiLine);
+            this.updateExtremes();
         },
         enumerable: true,
         configurable: true
@@ -146,7 +153,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
          */
         set: function (geoLine) {
             this._geoLine = geoLine;
-            this.multiGeoLine = [geoLine];
+            this.multiLine = $mapUtils.multiGeoLineToMultiLine([geoLine]);
         },
         enumerable: true,
         configurable: true
@@ -182,25 +189,11 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
          */
         set: function (multiGeoLine) {
             this._multiGeoLine = multiGeoLine;
-            this.updateLineExtremes(multiGeoLine);
-            this.mapLine.multiGeoLine = this._multiGeoLine;
+            this.multiLine = $mapUtils.multiGeoLineToMultiLine(multiGeoLine);
         },
         enumerable: true,
         configurable: true
     });
-    /**
-     * Updates the item's bounding coordinates: coordinates of the East, West,
-     * North, and South-most points.
-     *
-     * @ignore Exclude from docs
-     * @param geoPoints  Points of the element
-     */
-    MapLineSeriesDataItem.prototype.updateLineExtremes = function (multiGeoLine) {
-        for (var i = 0, len = multiGeoLine.length; i < len; i++) {
-            var geoLine = multiGeoLine[i];
-            this.updateExtremes(geoLine);
-        }
-    };
     return MapLineSeriesDataItem;
 }(MapSeriesDataItem));
 export { MapLineSeriesDataItem };
@@ -232,6 +225,7 @@ var MapLineSeries = /** @class */ (function (_super) {
         _this.dataFields.line = "line";
         _this.dataFields.geoLine = "geoLine";
         _this.dataFields.multiGeoLine = "multiGeoLine";
+        _this.ignoreBounds = true;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -252,10 +246,6 @@ var MapLineSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     MapLineSeries.prototype.validateData = function () {
-        var _this = this;
-        if (this.data.length > 0 && this._parseDataFrom == 0) {
-            this.mapLines.clear();
-        }
         // process geoJSON and created map objects
         if (this.useGeodata || this.geodata) {
             var geoJSON = this.chart.geodata;
@@ -313,11 +303,6 @@ var MapLineSeries = /** @class */ (function (_super) {
             }
         }
         _super.prototype.validateData.call(this);
-        // important! this should go after super
-        // if data is parsed in chunks, lines list is corrupted, fix it here
-        $iter.each(this.dataItems.iterator(), function (dataItem) {
-            _this.mapLines.moveValue(dataItem.mapLine);
-        });
     };
     Object.defineProperty(MapLineSeries.prototype, "mapLines", {
         /**
@@ -333,6 +318,7 @@ var MapLineSeries = /** @class */ (function (_super) {
                 this._disposers.push(mapLines.template);
                 mapLines.events.on("inserted", this.handleObjectAdded, this, false);
                 this._mapLines = mapLines;
+                this._mapObjects = mapLines;
             }
             return this._mapLines;
         },
@@ -353,8 +339,11 @@ var MapLineSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     MapLineSeries.prototype.validate = function () {
+        this.dataItems.each(function (dataItem) {
+            $utils.used(dataItem.mapLine);
+        });
         _super.prototype.validate.call(this);
-        $iter.each(this.mapLines.iterator(), function (mapLine) {
+        this.mapLines.each(function (mapLine) {
             mapLine.validate();
         });
     };
@@ -366,6 +355,39 @@ var MapLineSeries = /** @class */ (function (_super) {
     MapLineSeries.prototype.copyFrom = function (source) {
         this.mapLines.template.copyFrom(source.mapLines.template);
         _super.prototype.copyFrom.call(this, source);
+    };
+    /**
+     * @ignore
+     */
+    MapLineSeries.prototype.getFeatures = function () {
+        var _this = this;
+        var features = [];
+        this.dataItems.each(function (dataItem) {
+            var feature = dataItem.getFeature();
+            if (feature) {
+                features.push(feature);
+            }
+        });
+        this.mapLines.each(function (mapLine) {
+            if (_this.dataItems.indexOf(mapLine._dataItem) == -1) {
+                var feature = mapLine.getFeature();
+                if (feature) {
+                    features.push(feature);
+                }
+            }
+        });
+        return features;
+    };
+    /**
+     * returns MapLine by id
+     * @param line id
+     * @return {MapLine}
+     */
+    MapLineSeries.prototype.getLineById = function (id) {
+        return $iter.find(this.mapLines.iterator(), function (mapLine) {
+            var dataContext = mapLine.dataItem.dataContext;
+            return dataContext.id == id;
+        });
     };
     return MapLineSeries;
 }(MapSeries));

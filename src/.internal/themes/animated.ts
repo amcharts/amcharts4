@@ -1,4 +1,4 @@
-import { ITheme } from "./ITheme";
+import { ITheme, is } from "./ITheme";
 import { SpriteState } from "../core/SpriteState";
 import { Component } from "../core/Component";
 import { BaseObject } from "../core/Base";
@@ -19,78 +19,77 @@ import { Chart } from "../charts/Chart";
 
 
 const theme: ITheme = (object: BaseObject) => {
-	if (object instanceof SpriteState) {
+	if (is<SpriteState<any, any>>(object, "SpriteState")) {
 		object.transitionDuration = 400;
 	}
 
-	if (object instanceof Component) {
+	if (is<Component>(object, "Component")) {
 		object.rangeChangeDuration = 700;
 		object.interpolationDuration = 700;
 		object.sequencedInterpolation = false;
 
-		if (object instanceof SankeyDiagram) {
+		if (is<SankeyDiagram>(object, "SankeyDiagram")) {
 			object.sequencedInterpolation = true;
 		}
 
-		if (object instanceof FunnelSeries) {
+		if (is<FunnelSeries>(object, "FunnelSeries")) {
 			object.sequencedInterpolation = true;
 		}
-
 	}
 
-	if(object instanceof Chart){
+	if (is<Chart>(object, "Chart")) {
 		object.defaultState.transitionDuration = 2000;
 		object.hiddenState.transitionDuration = 1000;
 	}
 
-	if (object instanceof Tooltip) {
+	if (is<Tooltip>(object, "Tooltip")) {
 		object.animationDuration = 400;
 		object.defaultState.transitionDuration = 400;
 		object.hiddenState.transitionDuration = 400;
 	}
 
-	if (object instanceof Scrollbar) {
+	if (is<Scrollbar>(object, "Scrollbar")) {
 		object.animationDuration = 700;
 	}
 
-	if (object instanceof Series) {
+	if (is<Series>(object, "Series")) {
 		object.defaultState.transitionDuration = 1000;
 		object.hiddenState.transitionDuration = 700;
 		object.hiddenState.properties.opacity = 1;
 		object.showOnInit = true;
 	}
 
-	if (object instanceof MapSeries) {
+	if (is<MapSeries>(object, "MapSeries")) {
 		object.hiddenState.properties.opacity = 0;
 	}
 
-	if (object instanceof PercentSeries) {
+	if (is<PercentSeries>(object, "PercentSeries")) {
 		object.hiddenState.properties.opacity = 0;
 	}
 
-	if (object instanceof FunnelSlice) {
+	if (is<FunnelSlice>(object, "FunnelSlice")) {
 		object.defaultState.transitionDuration = 800;
 		object.hiddenState.transitionDuration = 1000;
 		object.hiddenState.properties.opacity = 1;
 	}
 
-	if (object instanceof Slice) {
+	if (is<Slice>(object, "Slice")) {
 		object.defaultState.transitionDuration = 700;
 		object.hiddenState.transitionDuration = 1000;
 		object.hiddenState.properties.opacity = 1;
 	}
 
-	if (object instanceof Preloader) {
+	if (is<Preloader>(object, "Preloader")) {
 		object.hiddenState.transitionDuration = 2000;
 	}
 
-	if (object instanceof Column) {
+	if (is<Column>(object, "Column")) {
 		object.defaultState.transitionDuration = 700;
 		object.hiddenState.transitionDuration = 1000;
 		object.hiddenState.properties.opacity = 1;
 	}
 
-	if (object instanceof Column3D) {
+	if (is<Column3D>(object, "Column3D")) {
 		object.hiddenState.properties.opacity = 0;
 	}
 };

@@ -39,6 +39,12 @@ var MapImageSeriesDataItem = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    /**
+     * @ignore
+     */
+    MapImageSeriesDataItem.prototype.getFeature = function () {
+        return { "type": "Feature", geometry: { type: "Point", coordinates: this.point } };
+    };
     Object.defineProperty(MapImageSeriesDataItem.prototype, "mapImage", {
         /**
          * A [[MapImage]] element related to this data item.
@@ -57,6 +63,7 @@ var MapImageSeriesDataItem = /** @class */ (function (_super) {
                         _this.component.mapImages.removeValue(mapImage_1);
                     }
                 }));
+                this.mapObject = mapImage_1;
             }
             return this._mapImage;
         },
@@ -78,7 +85,8 @@ var MapImageSeriesDataItem = /** @class */ (function (_super) {
          */
         set: function (point) {
             this._point = point;
-            this.geoPoint = $mapUtils.pointToGeo(point);
+            this._geoPoint = $mapUtils.pointToGeo(point);
+            this.updateExtremes();
         },
         enumerable: true,
         configurable: true
@@ -97,9 +105,7 @@ var MapImageSeriesDataItem = /** @class */ (function (_super) {
          */
         set: function (geoPoint) {
             this._geoPoint = geoPoint;
-            this.updateExtremes([this._geoPoint]);
-            this.mapImage.latitude = this._geoPoint.latitude;
-            this.mapImage.longitude = this._geoPoint.longitude;
+            this.point = [geoPoint.longitude, geoPoint.latitude];
         },
         enumerable: true,
         configurable: true
@@ -135,6 +141,7 @@ var MapImageSeries = /** @class */ (function (_super) {
         _this.dataFields.point = "point";
         _this.dataFields.geoPoint = "geoPoint";
         _this.dataFields.multiGeoPoint = "multiGeoPoint";
+        _this.ignoreBounds = true;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -221,9 +228,11 @@ var MapImageSeries = /** @class */ (function (_super) {
         // if data is parsed in chunks, images list is corrupted, fix it here
         $iter.each(this.dataItems.iterator(), function (dataItem) {
             var mapImage = dataItem.mapImage;
-            _this.mapImages.moveValue(mapImage);
-            if ($type.isNumber(mapImage.latitude) && $type.isNumber(mapImage.latitude)) {
-                dataItem.geoPoint = { latitude: mapImage.latitude, longitude: mapImage.longitude };
+            if (!mapImage.isDisposed()) {
+                _this.mapImages.moveValue(mapImage);
+                if ($type.isNumber(mapImage.latitude) && $type.isNumber(mapImage.latitude)) {
+                    dataItem.geoPoint = { latitude: mapImage.latitude, longitude: mapImage.longitude };
+                }
             }
         });
     };
@@ -242,6 +251,7 @@ var MapImageSeries = /** @class */ (function (_super) {
                 mapImages.template.focusable = true;
                 mapImages.events.on("inserted", this.handleObjectAdded, this, false);
                 this._mapImages = mapImages;
+                this._mapObjects = mapImages;
             }
             return this._mapImages;
         },
@@ -277,6 +287,41 @@ var MapImageSeries = /** @class */ (function (_super) {
     MapImageSeries.prototype.copyFrom = function (source) {
         this.mapImages.template.copyFrom(source.mapImages.template);
         _super.prototype.copyFrom.call(this, source);
+    };
+    /**
+     * @ignore
+     */
+    MapImageSeries.prototype.getFeatures = function () {
+        var _this = this;
+        var features = [];
+        this.dataItems.each(function (dataItem) {
+            var feature = dataItem.getFeature();
+            if (feature) {
+                features.push(feature);
+            }
+        });
+        this.mapImages.each(function (mapImage) {
+            if (_this.dataItems.indexOf(mapImage._dataItem) == -1) {
+                var feature = mapImage.getFeature();
+                if (feature) {
+                    features.push(feature);
+                }
+            }
+        });
+        return features;
+    };
+    /**
+     * returns MapImage by id
+     * @param image id
+     * @return {MapImage}
+     */
+    MapImageSeries.prototype.getImageById = function (id) {
+        return $iter.find(this.mapImages.iterator(), function (mapImage) {
+            var dataContext = mapImage.dataItem.dataContext;
+            if (mapImage.id == id || dataContext.id == id) {
+                return true;
+            }
+        });
     };
     return MapImageSeries;
 }(MapSeries));

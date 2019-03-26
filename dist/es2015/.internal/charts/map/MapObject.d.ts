@@ -35,6 +35,7 @@ export interface IMapObjectProperties extends IContainerProperties {
  * Defines events for [[MapObject]].
  */
 export interface IMapObjectEvents extends IContainerEvents {
+    geoBoundsChanged: {};
 }
 /**
  * Defines adapters for [[MapObject]].
@@ -74,6 +75,22 @@ export declare class MapObject extends Container {
     series: MapSeries;
     _dataItem: MapSeriesDataItem;
     /**
+     * Longitude of the East-most point of the element.
+     */
+    protected _east: number;
+    /**
+     * Longitude of the West-most point of the element.
+     */
+    protected _west: number;
+    /**
+     * Latitude of the South-most point of the element.
+     */
+    protected _south: number;
+    /**
+     * Latitude of the North-most point of the element.
+     */
+    protected _north: number;
+    /**
      * Constructor
      */
     constructor();
@@ -83,4 +100,31 @@ export declare class MapObject extends Container {
      * @ignore Exclude from docs
      */
     validate(): void;
+    /**
+     * Updates the item's bounding coordinates: coordinates of the East, West,
+     * North, and South-most points.
+     *
+     * @ignore Exclude from docs
+     */
+    updateExtremes(): void;
+    /**
+     * @ignore
+     */
+    getFeature(): any;
+    /**
+     * Longitude of the East-most point of the element.
+     */
+    readonly east: number;
+    /**
+     * Longitude of the West-most point of the element.
+     */
+    readonly west: number;
+    /**
+     * Latitude of the South-most point of the element.
+     */
+    readonly south: number;
+    /**
+     * Latitude of the North-most point of the element.
+     */
+    readonly north: number;
 }

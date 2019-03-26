@@ -10,6 +10,7 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { BaseObject } from "../Base";
+import { registry } from "../Registry";
 import { color } from "./Color";
 /**
  * ============================================================================
@@ -99,4 +100,11 @@ var InterfaceColorSet = /** @class */ (function (_super) {
     return InterfaceColorSet;
 }(BaseObject));
 export { InterfaceColorSet };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["InterfaceColorSet"] = InterfaceColorSet;
 //# sourceMappingURL=InterfaceColorSet.js.map

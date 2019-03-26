@@ -1,15 +1,15 @@
-import { ITheme } from "./ITheme";
+import { ITheme, is } from "./ITheme";
 import { color } from "../core/utils/Color";
 import { BaseObject } from "../core/Base";
 import { ColorSet } from "../core/utils/ColorSet";
 import { Grid } from "../charts/axes/Grid";
 
 const theme: ITheme = (object: BaseObject) => {
-	if (object instanceof Grid) {
+	if (is<Grid>(object, "Grid")) {
 		object.strokeOpacity = 0.07;
 	}
 
-	if (object instanceof ColorSet) {
+	if (is<ColorSet>(object, "ColorSet")) {
 		object.list = [
 			color("#86ce86"),
 			color("#0975da"),

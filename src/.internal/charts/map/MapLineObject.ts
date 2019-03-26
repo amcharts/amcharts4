@@ -13,7 +13,6 @@ import { MapLine } from "./MapLine";
 import { IOrientationPoint } from "../../core/defs/IPoint";
 import { registry } from "../../core/Registry";
 
-
 /**
  * ============================================================================
  * REQUISITES
@@ -117,8 +116,13 @@ export class MapLineObject extends Container {
 	 * @ignore Exclude from docs
 	 */
 	public validatePosition() {
-		if (this.mapLine) {
-			let point: IOrientationPoint = this.mapLine.positionToPoint(this.position);
+
+		let mapLine = this.mapLine;
+
+		if (mapLine) {
+
+			let point: IOrientationPoint = mapLine.positionToPoint(this.position);
+
 			this.x = point.x;
 			this.y = point.y;
 
@@ -131,6 +135,24 @@ export class MapLineObject extends Container {
 				let series = this.mapLine.dataItem.component;
 				this.scale = 1 / series.scale;
 			}
+
+			// hide out of bounds
+			if (mapLine.shortestDistance) {
+
+				let projection = this.mapLine.series.chart.projection;
+
+				let geoPoint = projection.positionToGeoPoint(mapLine.multiGeoLine, this.position);
+
+				let visible: any = projection.d3Path({ type: 'Point', coordinates: [geoPoint.longitude, geoPoint.latitude] });
+
+				if (!visible) {
+					this.__disabled = true;
+				}
+				else {
+					this.__disabled = false;
+				}
+			}
+
 		}
 
 		super.validatePosition();

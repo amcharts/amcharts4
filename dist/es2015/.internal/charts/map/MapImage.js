@@ -47,6 +47,7 @@ var MapImage = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("latitude", value, false, true);
+            this.updateExtremes();
         },
         enumerable: true,
         configurable: true
@@ -65,6 +66,7 @@ var MapImage = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("longitude", value, false, true);
+            this.updateExtremes();
         },
         enumerable: true,
         configurable: true
@@ -76,9 +78,24 @@ var MapImage = /** @class */ (function (_super) {
      */
     MapImage.prototype.validatePosition = function () {
         if ($type.isNumber(this.latitude) && $type.isNumber(this.longitude)) {
-            this.moveTo(this.series.chart.projection.convert({ latitude: this.latitude, longitude: this.longitude }));
+            //this.moveTo(this.series.chart.projection.convert({ latitude: this.latitude, longitude: this.longitude }));
+            var p = this.series.chart.projection.d3Projection([this.longitude, this.latitude]);
+            var visible = this.series.chart.projection.d3Path({ type: 'Point', coordinates: [this.longitude, this.latitude] });
+            if (!visible) {
+                this.__disabled = true;
+            }
+            else {
+                this.__disabled = false;
+            }
+            this.moveTo({ x: p[0], y: p[1] });
         }
         _super.prototype.validatePosition.call(this);
+    };
+    /**
+     * @ignore
+     */
+    MapImage.prototype.getFeature = function () {
+        return { "type": "Feature", geometry: { type: "Point", coordinates: [this.longitude, this.latitude] } };
     };
     return MapImage;
 }(MapObject));

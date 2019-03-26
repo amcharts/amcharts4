@@ -179,12 +179,6 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this._language = new MutableValueDisposer();
         /**
-         * Indicates if the chart should follow right-to-left rules.
-         *
-         * @ignore Exclude from docs
-         */
-        _this._rtl = false;
-        /**
          * Holds [[Export]] object.
          *
          * @ignore Exclude from docs
@@ -255,6 +249,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this.maxBottom = 0;
         _this._isDragged = false;
+        _this._isResized = false;
         /**
          * @deprecated Moved to [[SpriteProperties]]
          */
@@ -303,6 +298,11 @@ var Sprite = /** @class */ (function (_super) {
          * @ignore
          */
         _this.ey = 0;
+        /**
+         * Indicates if the sprite can be moved around when resizing it with two fingers (will only work if draggable = false)
+         * @ignore
+         */
+        _this.dragWhileResize = false;
         _this.className = "Sprite";
         // Generate a unique ID
         _this.uid;
@@ -2387,6 +2387,18 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Sprite.prototype, "isResized", {
+        /**
+         * Returns indicator if this element is being resized at the moment.
+         *
+         * @return Is resized?
+         */
+        get: function () {
+            return this._isResized;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Sprite.prototype, "isDown", {
         /**
          * @return Is down?
@@ -3992,7 +4004,7 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.handleDragMove = function (ev) {
         var point = this.interactions.originalPosition;
-        if (point) {
+        if (point && this._isDragged) {
             var globalScale = this.parent.globalScale * this.svgContainer.cssScale;
             this.moveTo({ x: point.x + ev.shift.x / globalScale, y: point.y + ev.shift.y / globalScale }, undefined, undefined, true);
             //this.dispatchImmediately("drag", ev);
@@ -4219,6 +4231,7 @@ var Sprite = /** @class */ (function (_super) {
             this.interactions.originalAngle = null;
             this.interactions.originalScale = null;
         }*/
+        this._isResized = false;
         if (this.states.hasKey("down")) {
             this.applyCurrentState();
         }
@@ -4701,6 +4714,7 @@ var Sprite = /** @class */ (function (_super) {
      * @param ev Event object
      */
     Sprite.prototype.handleResize = function (ev) {
+        this._isResized = true;
         this.scale = this.interactions.originalScale * ev.scale;
         this.validatePosition();
         /*center: (io.draggable
@@ -4710,7 +4724,8 @@ var Sprite = /** @class */ (function (_super) {
             "y": io.originalPosition.y
         })*/
         //this.moveTo(this.originalPosition.x + ev.shift.x, this.originalPosition.y + ev.shift.y);
-        if (this.draggable) {
+        if (this.draggable || this.dragWhileResize) {
+            this._isDragged = false;
             var svgPoint1 = $utils.documentPointToSvg(ev.point1, this.htmlContainer, this.svgContainer.cssScale);
             var svgPoint2 = $utils.documentPointToSvg(ev.point2, this.htmlContainer, this.svgContainer.cssScale);
             var svgMidPoint = $math.getMidPoint(svgPoint1, svgPoint2);
@@ -4723,7 +4738,7 @@ var Sprite = /** @class */ (function (_super) {
                 var spritePoint2 = { x: (parentPoint2.x - originalPosition.x) / originalScale, y: (parentPoint2.y - originalPosition.y) / originalScale };
                 var spriteMidPoint = $math.getMidPoint(spritePoint1, spritePoint2);
                 var parentPoint = $utils.svgPointToSprite(svgMidPoint, this.parent);
-                this.moveTo({ x: parentPoint.x - spriteMidPoint.x * this.scale, y: parentPoint.y - spriteMidPoint.y * this.scale });
+                this.moveTo({ x: parentPoint.x - spriteMidPoint.x * this.scale, y: parentPoint.y - spriteMidPoint.y * this.scale }, undefined, undefined, true);
             }
         }
     };
@@ -6329,7 +6344,7 @@ var Sprite = /** @class */ (function (_super) {
          * @hidden
          */
         /**
-         * Path of a Tick element
+         * Path of Sprite element
          */
         set: function (value) {
             if (this.setPropertyValue("path", value)) {

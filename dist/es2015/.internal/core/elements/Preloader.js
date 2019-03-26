@@ -195,4 +195,11 @@ var Preloader = /** @class */ (function (_super) {
     return Preloader;
 }(Container));
 export { Preloader };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Preloader"] = Preloader;
 //# sourceMappingURL=Preloader.js.map

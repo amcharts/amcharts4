@@ -1,4 +1,6 @@
+// Themes begin
 am4core.useTheme(am4themes_animated);
+// Themes end
 
 var mainContainer = am4core.create("chartdiv", am4core.Container);
 mainContainer.width = am4core.percent(100);
@@ -167,10 +169,11 @@ femaleSeries.interpolationDuration = 1000;
 
 
 var mapChart = mainContainer.createChild(am4maps.MapChart);
-mapChart.projection = new am4maps.projections.Mercator();
-mapChart.geodata = am4geodata_usaAlbersLow;
+mapChart.projection = new am4maps.projections.AlbersUsa();
+mapChart.geodata = am4geodata_usaHigh;
 mapChart.zoomControl = new am4maps.ZoomControl();
 mapChart.zIndex = -1;
+
 
 var polygonSeries = mapChart.series.push(new am4maps.MapPolygonSeries())
 polygonSeries.useGeodata = true;
@@ -195,13 +198,8 @@ polygonTemplate.events.on("hit", function(event) {
 })
 
 
-mapChart.seriesContainer.background.events.on("over", function(event) {
-  showState(selectedStateId, selectedStateName, selectedPolygon);
-});
-
-
 function showState(id, stateName, polygon) {
-  if(selectedStateId != id){
+  if (selectedStateId != id) {
 
     var newData = stateData[id];
 
@@ -224,7 +222,7 @@ function showState(id, stateName, polygon) {
     label.text = stateName + " population pyramid";
     label.hide(0);
     label.show();
-   }
+  }
 }
 
 var label = mainContainer.createChild(am4core.Label);

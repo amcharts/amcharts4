@@ -12,7 +12,9 @@ import { Container, IContainerProperties, IContainerAdapters, IContainerEvents }
 import { MapSeries, MapSeriesDataItem } from "./MapSeries";
 import { registry } from "../../core/Registry";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
-
+import * as $math from "../../core/utils/Math";
+import * as d3geo from "d3-geo";
+import * as $type from "../../core/utils/Type";
 
 /**
  * ============================================================================
@@ -43,7 +45,9 @@ export interface IMapObjectProperties extends IContainerProperties {
 /**
  * Defines events for [[MapObject]].
  */
-export interface IMapObjectEvents extends IContainerEvents { }
+export interface IMapObjectEvents extends IContainerEvents {
+	geoBoundsChanged: {}
+}
 
 /**
  * Defines adapters for [[MapObject]].
@@ -90,6 +94,27 @@ export class MapObject extends Container {
 
 	public _dataItem: MapSeriesDataItem;
 
+
+	/**
+	 * Longitude of the East-most point of the element.
+	 */
+	protected _east: number;
+
+	/**
+	 * Longitude of the West-most point of the element.
+	 */
+	protected _west: number;
+
+	/**
+	 * Latitude of the South-most point of the element.
+	 */
+	protected _south: number;
+
+	/**
+	 * Latitude of the North-most point of the element.
+	 */
+	protected _north: number;
+
 	/**
 	 * Constructor
 	 */
@@ -119,6 +144,113 @@ export class MapObject extends Container {
 			this.readerTitle = this.series.itemReaderText;
 		}
 		super.validate();
+	}
+
+
+	/**
+	 * Updates the item's bounding coordinates: coordinates of the East, West,
+	 * North, and South-most points.
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public updateExtremes(): void {
+		let feature = this.getFeature();
+		if (feature) {
+			let geometry = feature.geometry;
+
+			if (geometry) {				
+				let bounds = d3geo.geoBounds(geometry);
+
+				let west = bounds[0][0];
+				let south = bounds[0][1];
+
+				let north = bounds[1][1];
+				let east = bounds[1][0];
+
+				let changed = false;
+				if (north != this.north) {
+					this._north = $math.round(north, 8);
+					changed = true;
+				}
+
+				if (south != this.south) {
+					this._south = $math.round(south);
+					changed = true;
+				}
+
+				if (east != this.east) {
+					this._east = $math.round(east);
+					changed = true;
+				}
+
+				if (west != this.west) {
+					this._west = $math.round(west);
+					changed = true;
+				}
+
+				if (changed) {
+					this.dispatch("geoBoundsChanged");
+					if(this.series){
+						this.series.invalidateDataItems();
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * @ignore
+	 */
+	public getFeature(): any {
+		return {};
+	}
+
+	/**
+	 * Longitude of the East-most point of the element.
+	 */
+	public get east(): number {
+		if ($type.isNumber(this._east)) {
+			return this._east;
+		}
+		else if (this.dataItem) {
+			return this.dataItem.east;
+		}
+	}
+
+	/**
+	 * Longitude of the West-most point of the element.
+	 */
+	public get west(): number {
+		if ($type.isNumber(this._west)) {
+			return this._west;
+		}
+		else if (this.dataItem) {
+			return this.dataItem.west;
+		}
+	}
+
+	/**
+	 * Latitude of the South-most point of the element.
+	 */
+	public get south(): number {
+		if ($type.isNumber(this._south)) {
+			return this._south;
+		}
+		else if (this.dataItem) {
+			return this.dataItem.south;
+		}
+	}
+
+	/**
+	 * Latitude of the North-most point of the element.
+	 */
+	public get north(): number {
+		if ($type.isNumber(this._north)) {
+			return this._north;
+		}
+		else if (this.dataItem) {
+			return this.dataItem.north;
+		}
 	}
 }
 

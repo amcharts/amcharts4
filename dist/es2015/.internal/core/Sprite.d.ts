@@ -672,6 +672,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     maxBottom: number;
     protected _isDragged: boolean;
+    protected _isResized: boolean;
     /**
      * @deprecated Moved to [[SpriteProperties]]
      */
@@ -767,6 +768,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Holds the list of plugins attached to this Sprite.
      */
     protected _plugins: $type.Optional<List<IPlugin>>;
+    /**
+     * Indicates if the sprite can be moved around when resizing it with two fingers (will only work if draggable = false)
+     * @ignore
+     */
+    dragWhileResize: boolean;
     /**
      * Constructor:
      * * Creates initial node
@@ -1485,6 +1491,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return Is dragged?
      */
     readonly isDragged: boolean;
+    /**
+     * Returns indicator if this element is being resized at the moment.
+     *
+     * @return Is resized?
+     */
+    readonly isResized: boolean;
     /**
      * @return Is down?
      */
@@ -3257,7 +3269,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @hidden
      */
     /**
-     * Path of a Tick element
+     * Path of Sprite element
      */
     path: string;
     /**

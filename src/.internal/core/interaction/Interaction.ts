@@ -1691,7 +1691,7 @@ export class Interaction extends BaseObjectEvents {
 	 * @param ev  Event
 	 */
 	private maybePreventDefault(io: InteractionObject, ev: MouseEvent | TouchEvent | undefined): void {
-		if ($type.hasValue(ev) && (io.draggable || io.swipeable || io.trackable || io.resizable) && !this.isGlobalElement(io)) {
+		if ($type.hasValue(ev) && (io.draggable || io.swipeable || io.trackable || io.resizable) && !this.isGlobalElement(io) && ev.cancelable !== false) {
 			ev.preventDefault();
 		}
 	}
@@ -2084,7 +2084,7 @@ export class Interaction extends BaseObjectEvents {
 					this.handleTransformMove(io, point1, startPoint1, ev, pointer1Moved);
 				}
 
-				if (io.resizable) {
+				if (io.resizable && (!singlePoint || ev.ctrlKey)) {
 					this.handleTransformResize(io, point1, startPoint1, point2, startPoint2, ev, pointer1Moved && pointer2Moved);
 				}
 

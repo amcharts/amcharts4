@@ -1,9 +1,7 @@
+import { is } from "./ITheme";
 import { color } from "../core/utils/Color";
-import { ColorSet } from "../core/utils/ColorSet";
-import { Tooltip } from "../core/elements/Tooltip";
-import { ResizeButton } from "../core/elements/ResizeButton";
 var theme = function (object) {
-    if (object instanceof ColorSet) {
+    if (is(object, "ColorSet")) {
         object.list = [
             color("#F44336"),
             color("#E91E63"),
@@ -29,13 +27,13 @@ var theme = function (object) {
         object.maxLightness = 0.7;
         object.reuse = true;
     }
-    if (object instanceof ResizeButton) {
+    if (is(object, "ResizeButton")) {
         object.background.cornerRadiusTopLeft = 20;
         object.background.cornerRadiusTopRight = 20;
         object.background.cornerRadiusBottomLeft = 20;
         object.background.cornerRadiusBottomRight = 20;
     }
-    if (object instanceof Tooltip) {
+    if (is(object, "Tooltip")) {
         object.animationDuration = 800;
     }
 };

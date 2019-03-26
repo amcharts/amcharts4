@@ -73,6 +73,12 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 		this.applyTheme();
 	}
 
+	public getFeature(): { "type": "Feature", geometry: { type: "MultiLineString", coordinates: number[][][] } } {
+		if (this.multiLine && this.multiLine.length > 0) {
+			return { "type": "Feature", geometry: { type: "MultiLineString", coordinates: this.multiLine } };
+		}
+	}
+
 	/**
 	 * A [[MapLine]] element related to this data item.
 	 *
@@ -92,6 +98,8 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 					this.component.mapLines.removeValue(mapLine);
 				}
 			}));
+
+			this.mapObject = mapLine;
 		}
 		return this._mapLine;
 	}
@@ -110,7 +118,7 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 	 */
 	public set line(line: number[][]) {
 		this._line = line;
-		this.multiGeoLine = $mapUtils.multiLineToGeo([line]);
+		this.multiLine = [line];
 	}
 
 	/**
@@ -143,7 +151,8 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 	 */
 	public set multiLine(multiLine: number[][][]) {
 		this._multiLine = multiLine;
-		this.multiGeoLine = $mapUtils.multiLineToGeo(multiLine);
+		this._multiGeoLine = $mapUtils.multiLineToGeo(multiLine);
+		this.updateExtremes();
 	}
 
 	/**
@@ -168,7 +177,7 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 	 */
 	public set geoLine(geoLine: IGeoPoint[]) {
 		this._geoLine = geoLine;
-		this.multiGeoLine = [geoLine];
+		this.multiLine = $mapUtils.multiGeoLineToMultiLine([geoLine]);
 	}
 
 	/**
@@ -202,8 +211,7 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 	 */
 	public set multiGeoLine(multiGeoLine: IGeoPoint[][]) {
 		this._multiGeoLine = multiGeoLine;
-		this.updateLineExtremes(multiGeoLine);
-		this.mapLine.multiGeoLine = this._multiGeoLine;
+		this.multiLine = $mapUtils.multiGeoLineToMultiLine(multiGeoLine);
 	}
 
 	/**
@@ -212,21 +220,6 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 	public get multiGeoLine(): IGeoPoint[][] {
 		return this._multiGeoLine;
 	}
-
-	/**
-	 * Updates the item's bounding coordinates: coordinates of the East, West,
-	 * North, and South-most points.
-	 *
-	 * @ignore Exclude from docs
-	 * @param geoPoints  Points of the element
-	 */
-	public updateLineExtremes(multiGeoLine: IGeoPoint[][]): void {
-		for (let i = 0, len = multiGeoLine.length; i < len; i++) {
-			let geoLine: IGeoPoint[] = multiGeoLine[i];
-			this.updateExtremes(geoLine);
-		}
-	}
-
 }
 
 
@@ -355,6 +348,8 @@ export class MapLineSeries extends MapSeries {
 		this.dataFields.geoLine = "geoLine";
 		this.dataFields.multiGeoLine = "multiGeoLine";
 
+		this.ignoreBounds = true;
+
 		// Apply theme
 		this.applyTheme();
 
@@ -377,10 +372,6 @@ export class MapLineSeries extends MapSeries {
 	 * @ignore Exclude from docs
 	 */
 	public validateData(): void {
-		if (this.data.length > 0 && this._parseDataFrom == 0) {
-			this.mapLines.clear();
-		}
-
 		// process geoJSON and created map objects
 		if (this.useGeodata || this.geodata) {
 			let geoJSON: any = this.chart.geodata;
@@ -443,11 +434,6 @@ export class MapLineSeries extends MapSeries {
 		}
 
 		super.validateData();
-		// important! this should go after super
-		// if data is parsed in chunks, lines list is corrupted, fix it here
-		$iter.each(this.dataItems.iterator(), (dataItem) => {
-			this.mapLines.moveValue(dataItem.mapLine);
-		});
 	}
 
 	/**
@@ -464,6 +450,7 @@ export class MapLineSeries extends MapSeries {
 			this._disposers.push(mapLines.template);
 			mapLines.events.on("inserted", this.handleObjectAdded, this, false);
 			this._mapLines = mapLines;
+			this._mapObjects = mapLines;
 		}
 
 		return this._mapLines;
@@ -484,8 +471,14 @@ export class MapLineSeries extends MapSeries {
 	 * @ignore Exclude from docs
 	 */
 	public validate() {
+
+		this.dataItems.each((dataItem) => {
+			$utils.used(dataItem.mapLine);
+		})
+
+
 		super.validate();
-		$iter.each(this.mapLines.iterator(), (mapLine) => {
+		this.mapLines.each((mapLine) => {
 			mapLine.validate();
 		})
 	}
@@ -500,6 +493,41 @@ export class MapLineSeries extends MapSeries {
 		super.copyFrom(source);
 	}
 
+	/**
+	 * @ignore
+	 */
+	public getFeatures(): { "type": "Feature", geometry: { type: "MultiLineString", coordinates: number[][][] } }[] {
+		let features: { "type": "Feature", geometry: { type: "MultiLineString", coordinates: number[][][] } }[] = [];
+		this.dataItems.each((dataItem) => {
+			let feature = dataItem.getFeature();
+			if (feature) {
+				features.push(feature);
+			}
+		})
+
+		this.mapLines.each((mapLine) => {
+			if (this.dataItems.indexOf(mapLine._dataItem) == -1) {
+				let feature = mapLine.getFeature();
+				if (feature) {
+					features.push(feature);
+				}
+			}
+		})
+		return features;
+	}
+
+
+	/**
+	 * returns MapLine by id
+	 * @param line id
+	 * @return {MapLine}
+	 */
+	public getLineById(id: string): MapLine {
+		return $iter.find(this.mapLines.iterator(), (mapLine) => {
+			let dataContext: any = mapLine.dataItem.dataContext;
+			return dataContext.id == id;
+		});
+	}
 }
 
 /**

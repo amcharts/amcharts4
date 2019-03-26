@@ -41,42 +41,18 @@
  * @hidden
  */
 import { Projection } from "./Projection";
-import { IGeoPoint } from "../../../core/defs/IGeoPoint";
-import { IPoint } from "../../../core/defs/IPoint";
 import { registry } from "../../../core/Registry";
+import * as d3geo from "d3-geo";
+
 
 /**
  * Mercator projection.
  */
 export class Mercator extends Projection {
-
-	/**
-	 * Converts screen coordinates to latitude/longitude in radians
-	 * @param x  X
-	 * @param y  Y
-	 * @return Geographical coordinates
-	 */
-	public unproject(x: number, y: number): IGeoPoint {
-		return {
-			longitude: x,
-			latitude: 2 * Math.atan(Math.exp(y)) - Math.PI / 2
-		};
+	constructor(){
+		super();
+		this.d3Projection = d3geo.geoMercator();
 	}
-
-	/**
-	 * Converts geographical coordinates to screen coordinates.
-	 *
-	 * @param lambda  Lambda parameter
-	 * @param phi     Phi parameter
-	 * @return Screen coordinates
-	 */
-	public project(lambda: number, phi: number): IPoint {
-		return {
-			x: lambda,
-			y: Math.log(Math.tan((Math.PI / 2 + phi) / 2))
-		};
-	}
-
 }
 
 /**

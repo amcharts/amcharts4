@@ -15,9 +15,10 @@ import { IListEvents } from "../../core/utils/List";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
 import { DataSource } from "../../core/data/DataSource";
 import { registry } from "../../core/Registry";
-import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
-
+import * as $math from "../../core/utils/Math";
+import { ListTemplate } from "../../core/utils/List";
+import * as d3geo from "d3-geo";
 
 /**
  * ============================================================================
@@ -34,29 +35,34 @@ import * as $type from "../../core/utils/Type";
 export class MapSeriesDataItem extends SeriesDataItem {
 
 	/**
-	 * Longitude of the East-most point of the element.
+	 * South-most latitude.
 	 */
-	public east: number;
+	protected _south: number;
 
 	/**
-	 * Longitude of the West-most point of the element.
+	 * North-most latitude.
 	 */
-	public west: number;
+	protected _north: number;
 
 	/**
-	 * Latitude of the South-most point of the element.
+	 * East-most longitude.
 	 */
-	public south: number;
+	protected _east: number;
 
 	/**
-	 * Latitude of the North-most point of the element.
+	 * West-most longitude.
 	 */
-	public north: number;
+	protected _west: number;
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
 	 */
 	public _component!: MapSeries;
+
+	/**
+	 * Shortcut to either [[MapLine]], [[MapImage]], or [[MapPolygon]].
+	 */
+	public mapObject: MapObject;
 
 	/**
 	 * Constructor
@@ -84,34 +90,6 @@ export class MapSeriesDataItem extends SeriesDataItem {
 	 */
 	public get value(): number {
 		return this.values.value.value;
-	}
-
-	/**
-	 * Updates the item's bounding coordinates: coordinates of the East, West,
-	 * North, and South-most points.
-	 *
-	 * @ignore Exclude from docs
-	 * @param geoPoints  Points of the element
-	 */
-	public updateExtremes(geoPoints: IGeoPoint[]): void {
-		for (let s: number = 0; s < geoPoints.length; s++) {
-			let longitude: number = geoPoints[s].longitude;
-			let latitude: number = geoPoints[s].latitude;
-
-			if ((this.west > longitude) || !$type.isNumber(this.west)) {
-				this.west = longitude;
-			}
-			if ((this.east < longitude) || !$type.isNumber(this.east)) {
-				this.east = longitude;
-			}
-
-			if ((this.north < latitude) || !$type.isNumber(this.north)) {
-				this.north = latitude;
-			}
-			if ((this.south > latitude) || !$type.isNumber(this.south)) {
-				this.south = latitude;
-			}
-		}
 	}
 
 	/**
@@ -146,6 +124,84 @@ export class MapSeriesDataItem extends SeriesDataItem {
 	 */
 	public get zoomGeoPoint(): IGeoPoint {
 		return this.properties["zoomGeoPoint"];
+	}
+
+
+	/**
+	 * Longitude of the East-most point of the element.
+	 */
+	public get east(): number {
+		return this._east;
+	}
+
+	/**
+	 * Longitude of the West-most point of the element.
+	 */
+	public get west(): number {
+		return this._west;
+	}
+
+	/**
+	 * Latitude of the South-most point of the element.
+	 */
+	public get south(): number {
+		return this._south;
+	}
+
+	/**
+	 * Latitude of the North-most point of the element.
+	 */
+	public get north(): number {
+		return this._north;
+	}
+
+	/**
+	 * Updates the item's bounding coordinates: coordinates of the East, West,
+	 * North, and South-most points.
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public updateExtremes(): void {
+		let geometry = this.getFeature().geometry;
+		if (geometry) {
+
+			let bounds = d3geo.geoBounds(geometry);
+
+			let west = bounds[0][0];
+			let south = bounds[0][1];
+
+			let north = bounds[1][1];
+			let east = bounds[1][0];
+
+			let changed = false;
+			if (north != this.north) {
+				this._north = $math.round(north, 8);
+				changed = true;
+			}
+
+			if (south != this.south) {
+				this._south = $math.round(south);
+				changed = true;
+			}
+
+			if (east != this.east) {
+				this._east = $math.round(east);
+				changed = true;
+			}
+
+			if (west != this.west) {
+				this._west = $math.round(west);
+				changed = true;
+			}
+
+			if (changed) {
+				this.component.invalidateDataItems();
+			}
+		}
+	}
+
+	public getFeature(): any {
+		return {};
 	}
 }
 
@@ -209,12 +265,24 @@ export interface IMapSeriesProperties extends ISeriesProperties {
 	 * A list of object ids to exclude from the series.
 	 */
 	exclude?: string[];
+
+	/**
+	 * Should this series be included when calculating bounds of the map?
+	 *
+	 * This affects initial zoom as well as limits for zoom/pan.
+	 *
+	 * By default, `MapPolygonSeries` included (true), while `MapImageSeries` and
+	 * `MapLineSeries` are not (`false`).
+	 */
+	ignoreBounds?: boolean;
 }
 
 /**
  * Defines events for [[MapSeries]].
  */
-export interface IMapSeriesEvents extends ISeriesEvents { }
+export interface IMapSeriesEvents extends ISeriesEvents {
+	geoBoundsChanged: {};
+}
 
 /**
  * Defines adapters for [[MapSeries]].
@@ -268,28 +336,35 @@ export class MapSeries extends Series {
 	/**
 	 * The longitude of the East-most point in the series. (out of all elements)
 	 */
-	public east: number;
+	protected _east: number;
 
 	/**
 	 * The longitude of the West-most point in the series. (out of all elements)
 	 */
-	public west: number;
+	protected _west: number;
 
 	/**
 	 * The latitude of the South-most point in the series. (out of all elements)
 	 */
-	public south: number;
+	protected _south: number;
 
 	/**
 	 * The latitude of the North-most point in the series. (out of all elements)
 	 */
-	public north: number;
+	protected _north: number;
+
+	protected _eastDefined: number;
+
+	protected _westDefined: number;
+
+	protected _southDefined: number;
+
+	protected _northDefined: number;
 
 	/**
 	 * A chart series belongs to.
 	 */
 	public _chart: MapChart;
-
 
 	/**
 	 * Map data in GeoJSON format.
@@ -297,6 +372,9 @@ export class MapSeries extends Series {
 	 * @see {@link http://geojson.org/} GeoJSON official specification
 	 */
 	protected _geodata: Object;
+
+
+	protected _mapObjects: ListTemplate<MapObject>;
 
 	/**
 	 * Constructor
@@ -314,6 +392,8 @@ export class MapSeries extends Series {
 		// Set data fields
 		this.dataFields.value = "value";
 
+		this.ignoreBounds = false;
+
 		// Apply theme
 		this.applyTheme();
 
@@ -329,33 +409,6 @@ export class MapSeries extends Series {
 		return new MapSeriesDataItem();
 	}
 
-	/**
-	 * (Re)validates series data, effectively causing the whole series to be
-	 * redrawn.
-	 *
-	 * @ignore Exclude from docs
-	 */
-	public validateData(): void {
-		super.validateData();
-		$iter.each(this.dataItems.iterator(), (dataItem) => {
-			if ((this.west > dataItem.west) || !$type.isNumber(this.west)) {
-				this.west = dataItem.west;
-			}
-			if ((this.east < dataItem.east) || !$type.isNumber(this.east)) {
-				this.east = dataItem.east;
-			}
-
-			if ((this.north < dataItem.north) || !$type.isNumber(this.north)) {
-				this.north = dataItem.north;
-			}
-			if ((this.south > dataItem.south) || !$type.isNumber(this.south)) {
-				this.south = dataItem.south;
-			}
-		});
-		if (this.chart) {
-			this.chart.updateExtremes();
-		}
-	}
 
 	/**
 	 * Checks whether object should be included in series.
@@ -449,6 +502,32 @@ export class MapSeries extends Series {
 	}
 
 	/**
+	 * Should this series be included when calculating bounds of the map?
+	 *
+	 * This affects initial zoom as well as limits for zoom/pan.
+	 *
+	 * By default, `MapPolygonSeries` included (true), while `MapImageSeries` and
+	 * `MapLineSeries` are not (`false`).
+	 *
+	 * @since 4.3.0
+	 * @param  value  Ignore bounds?
+	 */
+	public set ignoreBounds(value: boolean) {
+		if (this.setPropertyValue("ignoreBounds", value)) {
+			if (this.chart) {
+				this.chart.updateExtremes();
+			}
+		}
+	}
+
+	/**
+	 * @return Ignore bounds?
+	 */
+	public get ignoreBounds(): boolean {
+		return this.getPropertyValue("ignoreBounds");
+	}
+
+	/**
 	 * A list of object ids that should be excluded from the series.
 	 *
 	 * E.g. you want to include all of the areas from a GeoJSON map, except
@@ -495,11 +574,7 @@ export class MapSeries extends Series {
 	public set geodata(geodata: Object) {
 		if (geodata != this._geodata) {
 			this._geodata = geodata;
-			this.invalidateData();
-
-			$iter.each(this._dataUsers.iterator(), (x) => {
-				x.invalidateData();
-			});
+			this.data = [];
 		}
 	}
 
@@ -539,7 +614,176 @@ export class MapSeries extends Series {
 		return this._dataSources["geodata"];
 	}
 
-		/**
+
+	/**
+	 * @ignore
+	 */
+	public getFeatures(): { "type": "Feature", geometry: { type: "Point" | "MultiLineString" | "MultiPolygon", coordinates: number[] | number[][][] | number[][][][] } }[] {
+		return;
+	}
+
+	/**
+	 * @ignore
+	 */
+	public validateDataItems() {
+		super.validateDataItems();
+		this.updateExtremes();
+	}
+
+	/**
+	 * @ignore
+	 */
+	public updateExtremes() {
+		let north: number;
+		let south: number;
+		let east: number;
+		let west: number;
+
+		this.dataItems.each((dataItem) => {
+			if (dataItem.north > north || !$type.isNumber(north)) {
+				north = dataItem.north;
+			}
+
+			if (dataItem.south < south || !$type.isNumber(south)) {
+				south = dataItem.south;
+			}
+
+			if (dataItem.west < west || !$type.isNumber(west)) {
+				west = dataItem.west;
+			}
+
+			if (dataItem.east > east || !$type.isNumber(east)) {
+				east = dataItem.east;
+			}
+		})
+
+		if (this._mapObjects) {
+			this._mapObjects.each((mapObject) => {
+				if (mapObject.north > north || !$type.isNumber(north)) {
+					north = mapObject.north;
+				}
+
+				if (mapObject.south < south || !$type.isNumber(south)) {
+					south = mapObject.south;
+				}
+
+				if (mapObject.west < west || !$type.isNumber(west)) {
+					west = mapObject.west;
+				}
+
+				if (mapObject.east > east || !$type.isNumber(east)) {
+					east = mapObject.east;
+				}
+			})
+		}
+
+
+		if (this.north != north || this.east != east || this.south != south || this.west != west) {
+			this._north = north;
+			this._east = east;
+			this._west = west;
+			this._south = south;
+
+			this.dispatch("geoBoundsChanged");
+			if(!this.ignoreBounds){
+				this.chart.updateExtremes();
+			}
+		}
+	}
+
+	/**
+	 * North-most latitude of the series.
+	 *
+	 * By default, this holds auto-calculated latitude of the extremity.
+	 *
+	 * It can be overridden manually.
+	 *
+	 * @param  value  Latitude
+	 */
+	public set north(value: number) {
+		this._northDefined = value;
+	}
+
+	/**
+	 * @return Latitude
+	 */
+	public get north(): number {
+		if ($type.isNumber(this._northDefined)) {
+			return this._northDefined;
+		}
+		return this._north;
+	}
+
+	/**
+	 * South-most latitude of the series.
+	 *
+	 * By default, this holds auto-calculated latitude of the extremity.
+	 *
+	 * It can be overridden manually.
+	 *
+	 * @param  value  Latitude
+	 */
+	public set south(value: number) {
+		this._southDefined = value;
+	}
+
+	/**
+	 * @return Latitude
+	 */
+	public get south(): number {
+		if ($type.isNumber(this._southDefined)) {
+			return this._southDefined;
+		}
+		return this._south;
+	}
+
+	/**
+	 * West-most longitude of the series.
+	 *
+	 * By default, this holds auto-calculated longitude of the extremity.
+	 *
+	 * It can be overridden manually.
+	 *
+	 * @param  value  Longitude
+	 */
+	public set west(value: number) {
+		this._westDefined = value;
+	}
+
+	/**
+	 * @return Longitude
+	 */
+	public get west(): number {
+		if ($type.isNumber(this._westDefined)) {
+			return this._westDefined;
+		}
+		return this._west;
+	}
+
+	/**
+	 * East-most longitude of the series.
+	 *
+	 * By default, this holds auto-calculated longitude of the extremity.
+	 *
+	 * It can be overridden manually.
+	 *
+	 * @param  value  Longitude
+	 */
+	public set east(value: number) {
+		this._eastDefined = value;
+	}
+
+	/**
+	 * @return Longitude
+	 */
+	public get east(): number {
+		if ($type.isNumber(this._eastDefined)) {
+			return this._eastDefined;
+		}
+		return this._east;
+	}
+
+	/**
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs
@@ -566,7 +810,6 @@ export class MapSeries extends Series {
 		}
 
 		super.processConfig(config);
-
 	}
 }
 

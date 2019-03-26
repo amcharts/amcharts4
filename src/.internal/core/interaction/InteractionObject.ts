@@ -801,6 +801,11 @@ export class InteractionObject extends BaseObjectEvents {
 		interaction.trackedObjects.removeValue(this);
 		interaction.transformedObjects.removeValue(this);
 
+		// Unlock document wheel
+		if (this.isHover && this.wheelable) {
+			interaction.unlockWheel();
+		}
+
 		if (interaction.focusedObject === this) {
 			interaction.focusedObject = undefined;
 		}

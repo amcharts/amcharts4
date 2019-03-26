@@ -6,10 +6,10 @@ var chart = am4core.create("chartdiv", am4maps.MapChart);
 
 
 try {
-    chart.geodata = am4geodata_worldHigh;
+	chart.geodata = am4geodata_worldHigh;
 }
 catch (e) {
-    chart.raiseCriticalError(new Error("Map geodata could not be loaded. Please download the latest <a href=\"https://www.amcharts.com/download/download-v4/\">amcharts geodata</a> and extract its contents into the same directory as your amCharts files."));
+	chart.raiseCriticalError(new Error("Map geodata could not be loaded. Please download the latest <a href=\"https://www.amcharts.com/download/download-v4/\">amcharts geodata</a> and extract its contents into the same directory as your amCharts files."));
 }
 
 chart.projection = new am4maps.projections.Mercator();
@@ -42,7 +42,7 @@ label.text = "Afghanistan";
 label.fillOpacity = 0.2;
 
 var slider = chart.createChild(am4core.Slider);
-slider.padding(0,15,0,60);
+slider.padding(0, 15, 0, 60);
 slider.marginBottom = 15;
 
 var currentIndex = -1;
@@ -69,24 +69,28 @@ function changeCountry() {
 	if (currentIndex != countryIndex) {
 		polygonSeries1.data = [];
 		polygonSeries1.include = [countryCodes[countryIndex]];
-		polygonSeries1.validateData();
-		polygonSeries1.validate();
-
-		morphToPolygon = polygonSeries1.mapPolygons.getIndex(0);
-		var countryPolygon = polygonSeries.mapPolygons.getIndex(0);
-
-		var morpher = countryPolygon.polygon.morpher;
-		var morphAnimation = morpher.morphToPolygon(morphToPolygon.polygon.points);
-
-		var colorAnimation = countryPolygon.animate({ "property": "fill", "to": colorset.getIndex(Math.round(Math.random() * 20)) }, 1000);
-
-		var animation = label.animate({ property: "y", to: 1000 }, 300);
-		animation.events.on("animationended", function () {
-			label.text = morphToPolygon.dataItem.dataContext["name"];
-			label.y = -50;
-			label.animate({ property: "y", to: 200 }, 300, am4core.ease.quadOut);
-		})
 
 		currentIndex = countryIndex;
+
+		polygonSeries1.events.on("validated", function () {
+
+			morphToPolygon = polygonSeries1.mapPolygons.getIndex(0);
+			if(morphToPolygon){
+				var countryPolygon = polygonSeries.mapPolygons.getIndex(0);
+
+				var morpher = countryPolygon.polygon.morpher;
+				var morphAnimation = morpher.morphToPolygon(morphToPolygon.polygon.points);
+
+				var colorAnimation = countryPolygon.animate({ "property": "fill", "to": colorset.getIndex(Math.round(Math.random() * 20)) }, 1000);
+
+				var animation = label.animate({ property: "y", to: 1000 }, 300);
+
+				animation.events.on("animationended", function () {
+					label.text = morphToPolygon.dataItem.dataContext["name"];
+					label.y = -50;
+					label.animate({ property: "y", to: 200 }, 300, am4core.ease.quadOut);
+				})
+			}
+		})
 	}
 }

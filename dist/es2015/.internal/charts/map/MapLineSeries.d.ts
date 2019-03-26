@@ -51,6 +51,13 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      * Constructor
      */
     constructor();
+    getFeature(): {
+        "type": "Feature";
+        geometry: {
+            type: "MultiLineString";
+            coordinates: number[][][];
+        };
+    };
     /**
      * A [[MapLine]] element related to this data item.
      *
@@ -142,14 +149,6 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      * @param multiGeoLine  Coordinates
      */
     multiGeoLine: IGeoPoint[][];
-    /**
-     * Updates the item's bounding coordinates: coordinates of the East, West,
-     * North, and South-most points.
-     *
-     * @ignore Exclude from docs
-     * @param geoPoints  Points of the element
-     */
-    updateLineExtremes(multiGeoLine: IGeoPoint[][]): void;
 }
 /**
  * ============================================================================
@@ -283,4 +282,20 @@ export declare class MapLineSeries extends MapSeries {
      * @param source  Source series
      */
     copyFrom(source: this): void;
+    /**
+     * @ignore
+     */
+    getFeatures(): {
+        "type": "Feature";
+        geometry: {
+            type: "MultiLineString";
+            coordinates: number[][][];
+        };
+    }[];
+    /**
+     * returns MapLine by id
+     * @param line id
+     * @return {MapLine}
+     */
+    getLineById(id: string): MapLine;
 }

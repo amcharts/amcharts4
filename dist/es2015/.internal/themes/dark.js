@@ -1,8 +1,7 @@
+import { is } from "./ITheme";
 import { color } from "../core/utils/Color";
-import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
-import { Scrollbar } from "../core/elements/Scrollbar";
 var theme = function (object) {
-    if (object instanceof InterfaceColorSet) {
+    if (is(object, "InterfaceColorSet")) {
         object.setFor("stroke", color("#000000"));
         object.setFor("fill", color("#2b2b2b"));
         object.setFor("primaryButton", color("#6794dc").lighten(-0.2));
@@ -24,7 +23,7 @@ var theme = function (object) {
         object.setFor("alternativeText", color("#000000"));
         object.setFor("disabledBackground", color("#bbbbbb"));
     }
-    if (object instanceof Scrollbar) {
+    if (is(object, "Scrollbar")) {
         object.background.fillOpacity = 0.4;
         object.thumb.background.fillOpacity = 0.5;
     }

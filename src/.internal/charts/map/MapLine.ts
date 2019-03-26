@@ -13,6 +13,7 @@ import { MapLineObject } from "./MapLineObject";
 import { MapLineSeriesDataItem, MapLineSeries } from "./MapLineSeries";
 import { MapChart } from "../types/MapChart";
 import { MapImage } from "./MapImage";
+import { MapImageSeries } from "./MapImageSeries";
 import { IOrientationPoint } from "../../core/defs/IPoint";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
 import { Triangle } from "../../core/elements/Triangle";
@@ -24,7 +25,11 @@ import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { percent } from "../../core/utils/Percent";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
+import { IDisposer } from "../../core/utils/Disposer";
 import * as $geo from "./Geo";
+import * as $mapUtils from "./MapUtils";
+import { IPoint } from "../../core/defs/IPoint";
+
 
 
 /**
@@ -43,6 +48,11 @@ export interface IMapLineProperties extends IMapObjectProperties {
 	 * Lat/long coordinates of all line ends and intermediate elbows.
 	 */
 	multiGeoLine?: IGeoPoint[][];
+
+	/**
+	 * Lat/long coordinates of all line ends and intermediate elbows.
+	 */
+	multiLine?: number[][][]
 
 	/**
 	 * If `true` it line will be arched in the way to simulate shortest path
@@ -105,25 +115,14 @@ export class MapLine extends MapObject {
 	public line: Polyline;
 
 	/**
-	 * [_lineObjects description]
-	 *
-	 * @todo Description
+	 * A list of actual line objects.
 	 */
 	protected _lineObjects: ListTemplate<MapLineObject>;
 
 	/**
-	 * [_arrow description]
-	 *
-	 * @todo Description
+	 * A reference to arrow object.
 	 */
 	protected _arrow: MapLineObject;
-
-	/**
-	 * [_distance description]
-	 *
-	 * @todo Description
-	 */
-	protected _distance: number;
 
 	/**
 	 * Related data item.
@@ -136,10 +135,15 @@ export class MapLine extends MapObject {
 	public series: MapLineSeries;
 
 	/**
-	 * Instead of setting longitudes/latitudes you can set an array of images which will be connected by the line
-	 * @ignore
+	 * Instead of setting longitudes/latitudes you can set an array of images
+	 * which will be connected by the line.
 	 */
 	protected _imagesToConnect: MapImage[];
+
+	/**
+	 * A list of event disposers for images.
+	 */
+	protected _imageListeners: { [index: string]: IDisposer } = {};
 
 	/**
 	 * Constructor
@@ -155,7 +159,6 @@ export class MapLine extends MapObject {
 		this.line.parent = this;
 		this.strokeOpacity = 1;
 
-
 		let interfaceColors = new InterfaceColorSet();
 
 		this.stroke = interfaceColors.getFor("grid");
@@ -169,7 +172,7 @@ export class MapLine extends MapObject {
 	/**
 	 * @ignore
 	 */
-	protected createLine(){
+	protected createLine() {
 		this.line = new Polyline();
 	}
 
@@ -183,27 +186,100 @@ export class MapLine extends MapObject {
 	 * @return Coordinates
 	 */
 	public positionToPoint(position: number): IOrientationPoint {
-		if (this.line) {
-			return this.line.positionToPoint(position);
+		if (this.shortestDistance) {
+			return this.series.chart.projection.positionToPoint(this.multiGeoLine, position);
+		}
+		else {
+			if (this.line) {
+				return this.line.positionToPoint(position);
+			}
 		}
 		return { x: 0, y: 0, angle: 0 };
 	}
 
 	/**
-	 * [multiGeoLine description]
+	 * A collection of X/Y coordinates for a multi-segment line. E.g.:
 	 *
-	 * @todo Description
-	 * @param multiGeoLine [description]
+	 * ```JSON
+	 * [
+	 *   // Segment 1
+	 *   [
+	 *     { longitude: 3.121, latitude: 0.58 },
+	 *     { longitude: -5.199, latitude: 21.223 }
+	 *   ],
+	 *
+	 *   // Segment 2
+	 *   [
+	 *     { longitude: -5.199, latitude: 21.223 },
+	 *     { longitude: -12.9, latitude: 25.85 }
+	 *   ]
+	 * ]
+	 * ```
+	 *
+	 * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.5} GeoJSON MultiLineString reference
+	 * @param multiGeoLine  Coordinates
 	 */
 	public set multiGeoLine(multiGeoLine: IGeoPoint[][]) {
-		this.setPropertyValue("multiGeoLine", $geo.normalizeMultiline(multiGeoLine), true);
+		if (multiGeoLine && multiGeoLine.length > 0) {
+			this.setPropertyValue("multiGeoLine", $geo.normalizeMultiline(multiGeoLine), true);
+
+			let multiLine: number[][][] = $mapUtils.multiGeoLineToMultiLine(multiGeoLine);
+
+			this.setPropertyValue("multiLine", multiLine);
+
+			this.updateExtremes();
+		}
 	}
 
 	/**
-	 * @return [description]
+	 * @return Coordinates
 	 */
 	public get multiGeoLine(): IGeoPoint[][] {
-		return this.getPropertyValue("multiGeoLine");
+		let multiGeoLine = this.getPropertyValue("multiGeoLine");
+		if (!multiGeoLine && this.dataItem && this.dataItem.multiGeoLine) {
+			multiGeoLine = this.dataItem.multiGeoLine;
+		}
+
+		return multiGeoLine;
+	}
+
+	/**
+	 * A collection of X/Y coordinates for a multi-segment line. E.g.:
+	 *
+	 * ```JSON
+	 * [
+	 *   // Segment 1
+	 *   [
+	 *     [ 100, 150 ],
+	 *     [ 120, 200 ]
+	 *   ],
+	 *
+	 *   // Segment 2
+	 *   [
+	 *     [ 120, 200 ],
+	 *     [ 150, 100 ]
+	 *   ]
+	 * ]
+	 * ```
+	 *
+	 * @param multiLine  Coordinates
+	 */
+	public set multiLine(multiLine: number[][][]) {
+		this.setPropertyValue("multiLine", multiLine);
+		this.multiGeoLine = $mapUtils.multiLineToGeo(multiLine);
+	}
+
+	/**
+	 * @return Coordinates
+	 */
+	public get multiLine(): number[][][] {
+
+		let multiLine = this.getPropertyValue("multiLine");
+		if (!multiLine && this.dataItem && this.dataItem.multiLine) {
+			multiLine = this.dataItem.multiLine;
+		}
+
+		return multiLine;
 	}
 
 	/**
@@ -216,25 +292,8 @@ export class MapLine extends MapObject {
 	 * @param images  Images
 	 */
 	public set imagesToConnect(images: MapImage[] | string[]) {
-		//@todo dispose listeners if previous imagesToConnect exists
-		for (let i = 0, len = images.length; i < len; i++) {
-			let image = images[i];
-			if ($type.isString(image)) {
-				if (this.map.hasKey(image)) {
-					image = <MapImage>this.map.getKey(image);
-					images[i] = image;
-				}
-				else {
-					continue;
-				}
-			}
-			image.events.on("propertychanged", (event) => {
-				if (event.property == "longitude" || event.property == "latitude") {
-					this.invalidate();
-				}
-			}, this, false);
-		}
-		this.setPropertyValue("imagesToConnect", images);
+		this.setPropertyValue("imagesToConnect", images, true);
+		this.handleImagesToConnect();
 	}
 
 	/**
@@ -244,6 +303,47 @@ export class MapLine extends MapObject {
 		return this.getPropertyValue("imagesToConnect");
 	}
 
+	protected handleImagesToConnect() {
+		if (this.imagesToConnect) {
+			let segment: IGeoPoint[] = [];
+			let multiGeoLine = [segment];
+
+			for (let image of this.imagesToConnect) {
+				if ($type.isString(image)) {
+					let chart = this.series.chart;
+					if (chart) {
+						chart.series.each((series) => {
+							if (series instanceof MapImageSeries) {
+								let img = series.getImageById(<string>image)
+								if (img) {
+									image = img;
+								}
+							}
+						})
+					}
+				}
+
+				if (image instanceof MapImage) {
+
+					segment.push({ longitude: (<MapImage>image).longitude, latitude: (<MapImage>image).latitude });
+
+					if (!this._imageListeners[image.id]) {
+						let disposer = image.events.on("propertychanged", (event) => {
+							if (event.property == "longitude" || event.property == "latitude") {
+								this.handleImagesToConnect();
+								this.invalidate();
+							}
+						}, this, false);
+						this._imageListeners[image.id] = disposer;
+						this._disposers.push(disposer);
+					}
+				}
+			}
+
+			this.multiGeoLine = multiGeoLine;
+		}
+	}
+
 	/**
 	 * (Re)validates the line, effectively forcing it to redraw.
 	 *
@@ -251,67 +351,58 @@ export class MapLine extends MapObject {
 	 */
 	public validate(): void {
 		let chart: MapChart = this.series.chart;
-		//let multiPoints: IPoint[][] = [];
-		let multiGeoLine: IGeoPoint[][] = this.multiGeoLine || [];
 
-		if (this.imagesToConnect) {
-			let segment: IGeoPoint[] = [];
-			multiGeoLine = [segment];
+		if (this.multiLine) {
 
-			for (let image of this.imagesToConnect) {
-				segment.push({ longitude: (<MapImage>image).longitude, latitude: (<MapImage>image).latitude });
-			}
-		}
+			if (!this.shortestDistance) {
 
-		if (this.shortestDistance) {
-			let newMultiGeoLine: IGeoPoint[][] = [];
+				let convertedPoints: IPoint[][] = [];
 
-			for (let i = 0, len = multiGeoLine.length; i < len; i++) {
-				let geoLine: IGeoPoint[] = multiGeoLine[i];
-				let newGeoLine: IGeoPoint[] = [];
+				for (let i = 0, len = this.multiLine.length; i < len; i++) {
 
-				for (let p = 1, plen = geoLine.length; p < plen; p++) {
-					let geoPointA: IGeoPoint = geoLine[p - 1];
-					let geoPointB: IGeoPoint = geoLine[p];
+					let segment: number[][] = this.multiLine[i];
 
-					let stepCount: number = Math.max(Math.abs(geoPointA.latitude - geoPointB.latitude), Math.abs(geoPointA.longitude - geoPointB.longitude)) * 4;
-					//let latitudeStep: number = (geoPointB.latitude - geoPointA.latitude) / stepCount;
-					//let longitudeStep: number = (geoPointB.longitude - geoPointA.longitude) / stepCount;
+					let convertedSegmentPoints: IPoint[] = [];
 
-					for (let d = 0; d < stepCount; d++) {
-						let intermediatePoint = chart.projection.intermediatePoint(geoPointA, geoPointB, d / stepCount);
-
-						if (newGeoLine.length > 0) {
-							let previousPoint = newGeoLine[newGeoLine.length - 1];
-							if (Math.abs(previousPoint.longitude - intermediatePoint.longitude) > 359) {
-								newMultiGeoLine.push(newGeoLine);
-								newGeoLine = [];
-							}
-						}
-
-						newGeoLine.push(intermediatePoint);
+					for (let s = 0, slen = segment.length; s < slen; s++) {
+						let geoPoint: number[] = segment[s];
+						let point: IPoint = this.series.chart.projection.convert({ longitude: geoPoint[0], latitude: geoPoint[1] });
+						convertedSegmentPoints.push(point);
 					}
-					// add last point to avoid gap
-					newGeoLine.push(geoPointB);
+
+					convertedPoints.push(convertedSegmentPoints);
 				}
-				newMultiGeoLine.push(newGeoLine);
+				this.line.segments = convertedPoints;
 			}
-			multiGeoLine = newMultiGeoLine;
+			else {
+				this.line.path = chart.projection.d3Path(<any>this.getFeature());
+			}
+
+			if (this._arrow) {
+				this._arrow.validatePosition();
+			}
+
+			$iter.each(this.lineObjects.iterator(), (x) => {
+				x.validatePosition();
+			});
+
+			this.handleGlobalScale();
+		}
+		else if (this.imagesToConnect) {
+			this.handleImagesToConnect();
 		}
 
-		this.line.segments = chart.projection.projectGeoLine(multiGeoLine);
-
-		if (this._arrow) {
-			this._arrow.validatePosition();
-		}
-
-		$iter.each(this.lineObjects.iterator(), (x) => {
-			x.validatePosition();
-		});
-
-		this.handleGlobalScale();
 
 		super.validate();
+	}
+
+	/**
+	 * @ignore
+	 */
+	public getFeature(): { "type": "Feature", geometry: { type: "MultiLineString", coordinates: number[][][] } } {
+		if (this.multiLine && this.multiLine.length > 0 && this.multiLine[0] && this.multiLine[0].length > 0) {
+			return { "type": "Feature", geometry: { type: "MultiLineString", coordinates: this.multiLine } };
+		}
 	}
 
 	/**
@@ -343,9 +434,8 @@ export class MapLine extends MapObject {
 	}
 
 	/**
-	 * List of separate line objects, the line consists of.
+	 * List of separate line objects the line consists of.
 	 *
-	 * @todo Description (review)
 	 * @readonly
 	 * @return List of line objects
 	 */
@@ -433,8 +523,7 @@ export class MapLine extends MapObject {
 	 * @return Latitude
 	 */
 	public get latitude(): number {
-		let dataItem = this.dataItem;
-		return dataItem.north + (dataItem.south - dataItem.north) / 2;
+		return this.north + (this.south - this.north) / 2;
 	}
 
 	/**
@@ -444,8 +533,7 @@ export class MapLine extends MapObject {
 	 * @return Latitude
 	 */
 	public get longitude(): number {
-		let dataItem = this.dataItem;
-		return dataItem.east + (dataItem.west - dataItem.east) / 2;
+		return this.east + (this.west - this.east) / 2;
 	}
 
 	/**
@@ -454,7 +542,7 @@ export class MapLine extends MapObject {
 	 * @return X
 	 */
 	protected getTooltipX(): number {
-		return this.line.positionToPoint(0.5).x;
+		return this.positionToPoint(0.5).x;
 	}
 
 	/**
@@ -463,8 +551,9 @@ export class MapLine extends MapObject {
 	 * @return Y
 	 */
 	protected getTooltipY(): number {
-		return this.line.positionToPoint(0.5).y;
+		return this.positionToPoint(0.5).y;
 	}
+
 }
 
 /**

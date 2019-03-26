@@ -107,6 +107,7 @@ export class MapImage extends MapObject {
 	 */
 	public set latitude(value: number) {
 		this.setPropertyValue("latitude", value, false, true);
+		this.updateExtremes();
 	}
 
 	/**
@@ -123,6 +124,7 @@ export class MapImage extends MapObject {
 	 */
 	public set longitude(value: number) {
 		this.setPropertyValue("longitude", value, false, true);
+		this.updateExtremes();
 	}
 
 	/**
@@ -139,11 +141,29 @@ export class MapImage extends MapObject {
 	 */
 	public validatePosition(): void {
 		if ($type.isNumber(this.latitude) && $type.isNumber(this.longitude)) {
-			this.moveTo(this.series.chart.projection.convert({ latitude: this.latitude, longitude: this.longitude }));
+			//this.moveTo(this.series.chart.projection.convert({ latitude: this.latitude, longitude: this.longitude }));
+			let p = this.series.chart.projection.d3Projection([this.longitude, this.latitude]);
+
+			let visible: any = this.series.chart.projection.d3Path({ type: 'Point', coordinates: [this.longitude, this.latitude] });
+
+			if (!visible) {
+				this.__disabled = true;
+			}
+			else {
+				this.__disabled = false;
+			}
+
+			this.moveTo({ x: p[0], y: p[1] });
 		}
 		super.validatePosition();
 	}
 
+	/**
+	 * @ignore
+	 */
+	public getFeature(): { "type": "Feature", geometry: { type: "Point", coordinates: number[] } } {
+		return { "type": "Feature", geometry: { type: "Point", coordinates: [this.longitude, this.latitude] } };
+	}
 }
 
 /**

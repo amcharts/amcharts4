@@ -1566,4 +1566,11 @@ var Component = /** @class */ (function (_super) {
     return Component;
 }(Container));
 export { Component };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Component"] = Component;
 //# sourceMappingURL=Component.js.map

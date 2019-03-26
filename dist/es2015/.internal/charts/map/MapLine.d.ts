@@ -15,6 +15,7 @@ import { IOrientationPoint } from "../../core/defs/IPoint";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
 import { ListTemplate, IListEvents } from "../../core/utils/List";
 import { Polyline } from "../../core/elements/Polyline";
+import { IDisposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
  * REQUISITES
@@ -29,6 +30,10 @@ export interface IMapLineProperties extends IMapObjectProperties {
      * Lat/long coordinates of all line ends and intermediate elbows.
      */
     multiGeoLine?: IGeoPoint[][];
+    /**
+     * Lat/long coordinates of all line ends and intermediate elbows.
+     */
+    multiLine?: number[][][];
     /**
      * If `true` it line will be arched in the way to simulate shortest path
      * over curvature of Earth's surface, based on currently used on projection.
@@ -81,23 +86,13 @@ export declare class MapLine extends MapObject {
      */
     line: Polyline;
     /**
-     * [_lineObjects description]
-     *
-     * @todo Description
+     * A list of actual line objects.
      */
     protected _lineObjects: ListTemplate<MapLineObject>;
     /**
-     * [_arrow description]
-     *
-     * @todo Description
+     * A reference to arrow object.
      */
     protected _arrow: MapLineObject;
-    /**
-     * [_distance description]
-     *
-     * @todo Description
-     */
-    protected _distance: number;
     /**
      * Related data item.
      */
@@ -107,10 +102,16 @@ export declare class MapLine extends MapObject {
      */
     series: MapLineSeries;
     /**
-     * Instead of setting longitudes/latitudes you can set an array of images which will be connected by the line
-     * @ignore
+     * Instead of setting longitudes/latitudes you can set an array of images
+     * which will be connected by the line.
      */
     protected _imagesToConnect: MapImage[];
+    /**
+     * A list of event disposers for images.
+     */
+    protected _imageListeners: {
+        [index: string]: IDisposer;
+    };
     /**
      * Constructor
      */
@@ -130,15 +131,56 @@ export declare class MapLine extends MapObject {
      */
     positionToPoint(position: number): IOrientationPoint;
     /**
-     * @return [description]
+     * @return Coordinates
      */
     /**
-     * [multiGeoLine description]
+     * A collection of X/Y coordinates for a multi-segment line. E.g.:
      *
-     * @todo Description
-     * @param multiGeoLine [description]
+     * ```JSON
+     * [
+     *   // Segment 1
+     *   [
+     *     { longitude: 3.121, latitude: 0.58 },
+     *     { longitude: -5.199, latitude: 21.223 }
+     *   ],
+     *
+     *   // Segment 2
+     *   [
+     *     { longitude: -5.199, latitude: 21.223 },
+     *     { longitude: -12.9, latitude: 25.85 }
+     *   ]
+     * ]
+     * ```
+     *
+     * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.5} GeoJSON MultiLineString reference
+     * @param multiGeoLine  Coordinates
      */
     multiGeoLine: IGeoPoint[][];
+    /**
+     * @return Coordinates
+     */
+    /**
+     * A collection of X/Y coordinates for a multi-segment line. E.g.:
+     *
+     * ```JSON
+     * [
+     *   // Segment 1
+     *   [
+     *     [ 100, 150 ],
+     *     [ 120, 200 ]
+     *   ],
+     *
+     *   // Segment 2
+     *   [
+     *     [ 120, 200 ],
+     *     [ 150, 100 ]
+     *   ]
+     * ]
+     * ```
+     *
+     * @param multiLine  Coordinates
+     */
+    multiLine: number[][][];
     /**
      * @return {MapImages[]}
      */
@@ -152,12 +194,23 @@ export declare class MapLine extends MapObject {
      * @param images  Images
      */
     imagesToConnect: MapImage[] | string[];
+    protected handleImagesToConnect(): void;
     /**
      * (Re)validates the line, effectively forcing it to redraw.
      *
      * @ignore Exclude from docs
      */
     validate(): void;
+    /**
+     * @ignore
+     */
+    getFeature(): {
+        "type": "Feature";
+        geometry: {
+            type: "MultiLineString";
+            coordinates: number[][][];
+        };
+    };
     /**
      * @ignore Exclude from docs
      */
@@ -177,9 +230,8 @@ export declare class MapLine extends MapObject {
      */
     shortestDistance: boolean;
     /**
-     * List of separate line objects, the line consists of.
+     * List of separate line objects the line consists of.
      *
-     * @todo Description (review)
      * @readonly
      * @return List of line objects
      */

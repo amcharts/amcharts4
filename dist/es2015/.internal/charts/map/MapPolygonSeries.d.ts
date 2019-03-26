@@ -52,6 +52,16 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      */
     constructor();
     /**
+     * @ignore
+     */
+    getFeature(): {
+        "type": "Feature";
+        geometry: {
+            type: "MultiPolygon";
+            coordinates: number[][][][];
+        };
+    };
+    /**
      * A [[MapPolygon]] element related to this data item.
      *
      * @readonly
@@ -168,14 +178,6 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      * @param multiGeoPolygon  Coordinates
      */
     multiGeoPolygon: IGeoPoint[][][];
-    /**
-     * Updates the item's bounding coordinates: coordinates of the East, West,
-     * North, and South-most points.
-     *
-     * @ignore Exclude from docs
-     * @param geoPoints  Points of the element
-     */
-    updateAreaExtremes(multiGeoPolygon: IGeoPoint[][][]): void;
 }
 /**
  * ============================================================================
@@ -264,6 +266,15 @@ export declare class MapPolygonSeries extends MapSeries {
      */
     protected _mapPolygons: ListTemplate<MapPolygon>;
     /**
+     * Indicates if series should automatically calculate visual center of the
+     * polygons (accessible via `visualLongitude` and `visualLatitude` properties
+     * of the [[MapPolygon]]).
+     *
+     * @default false
+     * @since 4.3.0
+     */
+    calculateVisualCenter: boolean;
+    /**
      * Constructor
      */
     constructor();
@@ -309,4 +320,14 @@ export declare class MapPolygonSeries extends MapSeries {
      * @param source  Source series
      */
     copyFrom(source: this): void;
+    /**
+     * @ignore
+     */
+    getFeatures(): {
+        "type": "Feature";
+        geometry: {
+            type: "MultiPolygon";
+            coordinates: number[][][][];
+        };
+    }[];
 }

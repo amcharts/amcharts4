@@ -2,14 +2,14 @@
  * A color scheme inspired by {@link https://datavizproject.com/}
  */
 
-import { ITheme } from "./ITheme";
+import { ITheme, is } from "./ITheme";
 import { color } from "../core/utils/Color";
 import { ColorSet } from "../core/utils/ColorSet";
 import { BaseObject } from "../core/Base";
 
 const theme: ITheme = (object: BaseObject) => {
 
-	if (object instanceof ColorSet) {
+	if (is<ColorSet>(object, "ColorSet")) {
 		object.list = [
 			color("#283250"),
 			color("#902c2d"),

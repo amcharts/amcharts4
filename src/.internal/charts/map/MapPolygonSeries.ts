@@ -64,6 +64,7 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	 */
 	public _component!: MapPolygonSeries;
 
+
 	/**
 	 * Constructor
 	 */
@@ -72,6 +73,15 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 		this.className = "MapPolygonSeriesDataItem";
 		this.applyTheme();
 	}
+
+	/**
+	 * @ignore
+	 */
+	public getFeature(): { "type": "Feature", geometry: { type: "MultiPolygon", coordinates: number[][][][] } } {
+		if (this.multiPolygon && this.multiPolygon.length > 0) {
+			return { "type": "Feature", geometry: { type: "MultiPolygon", coordinates: this.multiPolygon } };
+		}
+	}	
 
 	/**
 	 * A [[MapPolygon]] element related to this data item.
@@ -85,12 +95,13 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 			this._mapPolygon = mapPolygon;
 			this.addSprite(mapPolygon);
 
-			this._disposers.push(mapPolygon);
 			this._disposers.push(new Disposer(() => {
-				if (this.component) {
+				if (this.component) {					
 					this.component.mapPolygons.removeValue(mapPolygon);
 				}
 			}));
+			
+			this.mapObject = mapPolygon;
 		}
 		return this._mapPolygon;
 	}
@@ -114,7 +125,7 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	 */
 	public set polygon(polygon: number[][][]) {
 		this._polygon = polygon;
-		this.multiGeoPolygon = $mapUtils.multiPolygonToGeo([polygon]);
+		this.multiPolygon = [polygon];
 	}
 
 	/**
@@ -157,7 +168,7 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	 */
 	public set multiPolygon(multiPolygon: number[][][][]) {
 		this._multiPolygon = multiPolygon;
-		this.multiGeoPolygon = $mapUtils.multiPolygonToGeo(multiPolygon);
+		this.updateExtremes();
 	}
 
 	/**
@@ -227,8 +238,7 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	 */
 	public set multiGeoPolygon(multiGeoPolygon: IGeoPoint[][][]) {
 		this._multiGeoPolygon = multiGeoPolygon;
-		this.updateAreaExtremes(multiGeoPolygon);
-		this.mapPolygon.multiGeoPolygon = this._multiGeoPolygon;
+		this.multiPolygon = $mapUtils.multiGeoPolygonToMultipolygon(multiGeoPolygon);
 	}
 
 	/**
@@ -236,21 +246,6 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 	 */
 	public get multiGeoPolygon(): IGeoPoint[][][] {
 		return this._multiGeoPolygon;
-	}
-
-	/**
-	 * Updates the item's bounding coordinates: coordinates of the East, West,
-	 * North, and South-most points.
-	 *
-	 * @ignore Exclude from docs
-	 * @param geoPoints  Points of the element
-	 */
-	public updateAreaExtremes(multiGeoPolygon: IGeoPoint[][][]): void {
-		for (let i = 0, len = multiGeoPolygon.length; i < len; i++) {
-			let geoPolygon: IGeoPoint[][] = multiGeoPolygon[i];
-			let surface: IGeoPoint[] = geoPolygon[0];
-			this.updateExtremes(surface);
-		}
 	}
 
 }
@@ -360,14 +355,22 @@ export class MapPolygonSeries extends MapSeries {
 	protected _mapPolygons: ListTemplate<MapPolygon>;
 
 	/**
+	 * Indicates if series should automatically calculate visual center of the
+	 * polygons (accessible via `visualLongitude` and `visualLatitude` properties
+	 * of the [[MapPolygon]]).
+	 *
+	 * @default false
+	 * @since 4.3.0
+	 */
+	public calculateVisualCenter: boolean = false;
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
 
 		// Init
 		super();
-
-		this.parsingStepDuration = 250; // to avoid some extra redrawing
 
 		this.className = "MapPolygonSeries";
 
@@ -396,7 +399,7 @@ export class MapPolygonSeries extends MapSeries {
 	/**
 	 * @ignore
 	 */
-	protected processIncExc(){
+	protected processIncExc() {
 		this.mapPolygons.clear();
 		super.processIncExc();
 	}
@@ -408,20 +411,11 @@ export class MapPolygonSeries extends MapSeries {
 	 * @ignore Exclude from docs
 	 */
 	public validateData(): void {
-		if (this.data.length > 0 && this._parseDataFrom == 0) {
-			this.mapPolygons.clear();
-		}
-
-		this.west = null;
-		this.east = null;
-		this.north = null;
-		this.south = null;
-
 		// process geoJSON and created map objects
 		if (this.useGeodata || this.geodata) {
 			let geoJSON: any = !this._dataSources["geodata"] ? this.chart.geodata : undefined;
 
-			if(this.geodata){
+			if (this.geodata) {
 				geoJSON = this.geodata;
 			}
 
@@ -495,13 +489,8 @@ export class MapPolygonSeries extends MapSeries {
 		}
 
 		super.validateData();
-
-		// if data is parsed in chunks, polygon list is corrupted, fix it here
-		// !important this should go after super!
-		$iter.each(this.dataItems.iterator(), (dataItem) => {
-			this.mapPolygons.moveValue(dataItem.mapPolygon);
-		});
 	}
+
 
 	/**
 	 * (Re)validates the series
@@ -510,8 +499,17 @@ export class MapPolygonSeries extends MapSeries {
 	 */
 	public validate() {
 		super.validate();
-		$iter.each(this.mapPolygons.iterator(), (mapPolygon) => {
+
+		this.dataItems.each((dataItem)=>{
+			$utils.used(dataItem.mapPolygon);
+		})
+
+		this.mapPolygons.each((mapPolygon) => {
 			mapPolygon.validate();
+			// makes small go first to avoid hover problems with IE
+			if (!mapPolygon.zIndex && !mapPolygon.propertyFields.zIndex) {
+				mapPolygon.zIndex = 1000000 - mapPolygon.boxArea;
+			}
 		})
 	}
 
@@ -531,6 +529,7 @@ export class MapPolygonSeries extends MapSeries {
 			mapPolygons.template.focusable = true;
 			mapPolygons.events.on("inserted", this.handleObjectAdded, this, false);
 			this._mapPolygons = mapPolygons;
+			this._mapObjects = mapPolygons;
 		}
 
 		return this._mapPolygons;
@@ -556,6 +555,31 @@ export class MapPolygonSeries extends MapSeries {
 	public copyFrom(source: this) {
 		this.mapPolygons.template.copyFrom(source.mapPolygons.template);
 		super.copyFrom(source);
+	}
+
+	/**
+	 * @ignore
+	 */
+	public getFeatures(): { "type": "Feature", geometry: { type: "MultiPolygon", coordinates: number[][][][] } }[] {
+
+		let features: { "type": "Feature", geometry: { type: "MultiPolygon", coordinates: number[][][][] } }[] = [];
+
+		this.dataItems.each((dataItem) => {
+			let feature = dataItem.getFeature();
+			if (feature) {
+				features.push(feature);
+			}
+		})
+
+		this.mapPolygons.each((mapPolygon)=>{
+			if (this.dataItems.indexOf(mapPolygon._dataItem) == -1) {
+				let feature = mapPolygon.getFeature();
+				if (feature) {
+					features.push(feature);
+				}
+			}
+		})
+		return features;
 	}
 }
 

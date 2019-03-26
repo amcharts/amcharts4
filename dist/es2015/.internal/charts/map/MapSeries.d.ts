@@ -13,6 +13,7 @@ import { MapObject } from "./MapObject";
 import { IListEvents } from "../../core/utils/List";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
 import { DataSource } from "../../core/data/DataSource";
+import { ListTemplate } from "../../core/utils/List";
 /**
  * ============================================================================
  * DATA ITEM
@@ -26,25 +27,29 @@ import { DataSource } from "../../core/data/DataSource";
  */
 export declare class MapSeriesDataItem extends SeriesDataItem {
     /**
-     * Longitude of the East-most point of the element.
+     * South-most latitude.
      */
-    east: number;
+    protected _south: number;
     /**
-     * Longitude of the West-most point of the element.
+     * North-most latitude.
      */
-    west: number;
+    protected _north: number;
     /**
-     * Latitude of the South-most point of the element.
+     * East-most longitude.
      */
-    south: number;
+    protected _east: number;
     /**
-     * Latitude of the North-most point of the element.
+     * West-most longitude.
      */
-    north: number;
+    protected _west: number;
     /**
      * Defines a type of [[Component]] this data item is used for.
      */
     _component: MapSeries;
+    /**
+     * Shortcut to either [[MapLine]], [[MapImage]], or [[MapPolygon]].
+     */
+    mapObject: MapObject;
     /**
      * Constructor
      */
@@ -60,14 +65,6 @@ export declare class MapSeriesDataItem extends SeriesDataItem {
      * @param value  Value
      */
     value: number;
-    /**
-     * Updates the item's bounding coordinates: coordinates of the East, West,
-     * North, and South-most points.
-     *
-     * @ignore Exclude from docs
-     * @param geoPoints  Points of the element
-     */
-    updateExtremes(geoPoints: IGeoPoint[]): void;
     /**
      * @return Zoom level
      */
@@ -88,6 +85,30 @@ export declare class MapSeriesDataItem extends SeriesDataItem {
      * @param value  Zoom geo point
      */
     zoomGeoPoint: IGeoPoint;
+    /**
+     * Longitude of the East-most point of the element.
+     */
+    readonly east: number;
+    /**
+     * Longitude of the West-most point of the element.
+     */
+    readonly west: number;
+    /**
+     * Latitude of the South-most point of the element.
+     */
+    readonly south: number;
+    /**
+     * Latitude of the North-most point of the element.
+     */
+    readonly north: number;
+    /**
+     * Updates the item's bounding coordinates: coordinates of the East, West,
+     * North, and South-most points.
+     *
+     * @ignore Exclude from docs
+     */
+    updateExtremes(): void;
+    getFeature(): any;
 }
 /**
  * ============================================================================
@@ -138,11 +159,21 @@ export interface IMapSeriesProperties extends ISeriesProperties {
      * A list of object ids to exclude from the series.
      */
     exclude?: string[];
+    /**
+     * Should this series be included when calculating bounds of the map?
+     *
+     * This affects initial zoom as well as limits for zoom/pan.
+     *
+     * By default, `MapPolygonSeries` included (true), while `MapImageSeries` and
+     * `MapLineSeries` are not (`false`).
+     */
+    ignoreBounds?: boolean;
 }
 /**
  * Defines events for [[MapSeries]].
  */
 export interface IMapSeriesEvents extends ISeriesEvents {
+    geoBoundsChanged: {};
 }
 /**
  * Defines adapters for [[MapSeries]].
@@ -188,19 +219,23 @@ export declare class MapSeries extends Series {
     /**
      * The longitude of the East-most point in the series. (out of all elements)
      */
-    east: number;
+    protected _east: number;
     /**
      * The longitude of the West-most point in the series. (out of all elements)
      */
-    west: number;
+    protected _west: number;
     /**
      * The latitude of the South-most point in the series. (out of all elements)
      */
-    south: number;
+    protected _south: number;
     /**
      * The latitude of the North-most point in the series. (out of all elements)
      */
-    north: number;
+    protected _north: number;
+    protected _eastDefined: number;
+    protected _westDefined: number;
+    protected _southDefined: number;
+    protected _northDefined: number;
     /**
      * A chart series belongs to.
      */
@@ -211,6 +246,7 @@ export declare class MapSeries extends Series {
      * @see {@link http://geojson.org/} GeoJSON official specification
      */
     protected _geodata: Object;
+    protected _mapObjects: ListTemplate<MapObject>;
     /**
      * Constructor
      */
@@ -222,13 +258,6 @@ export declare class MapSeries extends Series {
      * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
-    /**
-     * (Re)validates series data, effectively causing the whole series to be
-     * redrawn.
-     *
-     * @ignore Exclude from docs
-     */
-    validateData(): void;
     /**
      * Checks whether object should be included in series.
      *
@@ -280,6 +309,21 @@ export declare class MapSeries extends Series {
      */
     protected processIncExc(): void;
     /**
+     * @return Ignore bounds?
+     */
+    /**
+     * Should this series be included when calculating bounds of the map?
+     *
+     * This affects initial zoom as well as limits for zoom/pan.
+     *
+     * By default, `MapPolygonSeries` included (true), while `MapImageSeries` and
+     * `MapLineSeries` are not (`false`).
+     *
+     * @since 4.3.0
+     * @param  value  Ignore bounds?
+     */
+    ignoreBounds: boolean;
+    /**
      * @return Excluded ids
      */
     /**
@@ -324,11 +368,81 @@ export declare class MapSeries extends Series {
      */
     geodataSource: DataSource;
     /**
- * Processes JSON-based config before it is applied to the object.
- *
- * @ignore Exclude from docs
- * @param config  Config
- */
+     * @ignore
+     */
+    getFeatures(): {
+        "type": "Feature";
+        geometry: {
+            type: "Point" | "MultiLineString" | "MultiPolygon";
+            coordinates: number[] | number[][][] | number[][][][];
+        };
+    }[];
+    /**
+     * @ignore
+     */
+    validateDataItems(): void;
+    /**
+     * @ignore
+     */
+    updateExtremes(): void;
+    /**
+     * @return Latitude
+     */
+    /**
+     * North-most latitude of the series.
+     *
+     * By default, this holds auto-calculated latitude of the extremity.
+     *
+     * It can be overridden manually.
+     *
+     * @param  value  Latitude
+     */
+    north: number;
+    /**
+     * @return Latitude
+     */
+    /**
+     * South-most latitude of the series.
+     *
+     * By default, this holds auto-calculated latitude of the extremity.
+     *
+     * It can be overridden manually.
+     *
+     * @param  value  Latitude
+     */
+    south: number;
+    /**
+     * @return Longitude
+     */
+    /**
+     * West-most longitude of the series.
+     *
+     * By default, this holds auto-calculated longitude of the extremity.
+     *
+     * It can be overridden manually.
+     *
+     * @param  value  Longitude
+     */
+    west: number;
+    /**
+     * @return Longitude
+     */
+    /**
+     * East-most longitude of the series.
+     *
+     * By default, this holds auto-calculated longitude of the extremity.
+     *
+     * It can be overridden manually.
+     *
+     * @param  value  Longitude
+     */
+    east: number;
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param config  Config
+     */
     processConfig(config?: {
         [index: string]: any;
     }): void;

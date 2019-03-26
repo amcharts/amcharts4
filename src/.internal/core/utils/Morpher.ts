@@ -114,30 +114,31 @@ export class Morpher extends BaseObject implements IAnimatable {
 	 */
 	public morphToPolygon(toPoints: IPoint[][][], duration?: number, easing?: (value: number) => number): Animation {
 		let points: IPoint[][][] = this.morphable.currentPoints;
+		if(points && toPoints){
+			this.sortPoints(points);
+			this.sortPoints(toPoints);
 
-		this.sortPoints(points);
-		this.sortPoints(toPoints);
+			this._morphFromPointsReal = [];
+			this._morphToPointsReal = [];
 
-		this._morphFromPointsReal = [];
-		this._morphToPointsReal = [];
+			if (!$type.hasValue(duration)) {
+				duration = this.morphDuration;
+			}
 
-		if (!$type.hasValue(duration)) {
-			duration = this.morphDuration;
+			if (!$type.hasValue(easing)) {
+				easing = this.morphEasing;
+			}
+
+			this._morphFromPointsReal = this.normalizePoints(toPoints, points);
+			this._morphToPointsReal = this.normalizePoints(points, toPoints);
+
+			this.morphable.currentPoints = this._morphFromPointsReal;
+
+			let animation = new Animation(this, { property: "morphProgress", from: 0, to: 1 }, duration, easing);
+			this._disposers.push(animation);
+			animation.start()
+			return animation;
 		}
-
-		if (!$type.hasValue(easing)) {
-			easing = this.morphEasing;
-		}
-
-		this._morphFromPointsReal = this.normalizePoints(toPoints, points);
-		this._morphToPointsReal = this.normalizePoints(points, toPoints);
-
-		this.morphable.currentPoints = this._morphFromPointsReal;
-
-		let animation = new Animation(this, { property: "morphProgress", from: 0, to: 1 }, duration, easing);
-		this._disposers.push(animation);
-		animation.start()
-		return animation;
 	}
 
 	/**

@@ -12,7 +12,7 @@ import { MapPolygonSeriesDataItem, MapPolygonSeries } from "./MapPolygonSeries";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
 import { Polygon } from "../../core/elements/Polygon";
 /**
- * ============================f================================================
+ * ============================================================================
  * REQUISITES
  * ============================================================================
  * @hidden
@@ -22,9 +22,21 @@ import { Polygon } from "../../core/elements/Polygon";
  */
 export interface IMapPolygonProperties extends IMapObjectProperties {
     /**
-     * Set of coordinates for the polygon.
+     * Set of geographical coordinates for the polygon.
      */
     multiGeoPolygon?: IGeoPoint[][][];
+    /**
+     * Set of screen coordinates for the polygon.
+     */
+    multiPolygon?: number[][][];
+    /**
+     * Latitude of the visual center of the polygon.
+     */
+    visualLatitude?: number;
+    /**
+     * Longitude of the visual center of the polygon.
+     */
+    visualLongitude?: number;
 }
 /**
  * Defines events for [[MapPolygon]].
@@ -76,9 +88,27 @@ export declare class MapPolygon extends MapObject {
      */
     series: MapPolygonSeries;
     /**
+     * Latitude of the visual center of the polygon.
+     */
+    protected _visualLatitude: number;
+    /**
+     * Longitude of the visual center of the polygon.
+     */
+    protected _visualLongitude: number;
+    /**
      * Constructor
      */
     constructor();
+    /**
+     * @ignore
+     */
+    getFeature(): {
+        "type": "Feature";
+        geometry: {
+            type: "MultiPolygon";
+            coordinates: number[][][][];
+        };
+    };
     /**
      * @return Polygon coordinates
      */
@@ -88,6 +118,41 @@ export declare class MapPolygon extends MapObject {
      * @param multiGeoPolygon  Polygon coordinates
      */
     multiGeoPolygon: IGeoPoint[][][];
+    /**
+     * @return Coordinates
+     */
+    /**
+     * A collection of X/Y coordinates for a multi-part polygon. E.g.:
+     *
+     * ```JSON
+     * [
+     *   // Part 1
+     *   [
+     *     [
+     *       [ 100, 150 ],
+     *       [ 120, 200 ],
+     *       [ 150, 220 ],
+     *       [ 170, 240 ],
+     *       [ 100, 150 ]
+     *     ]
+     *   ],
+     *
+     *   // Part 2
+     *   [
+     *     [
+     *       [ 300, 350 ],
+     *       [ 320, 400 ],
+     *       [ 350, 420 ],
+     *       [ 370, 440 ],
+     *       [ 300, 350 ]
+     *     ]
+     *   ]
+     * ]
+     * ```
+     *
+     * @param multiPolygon  Coordinates
+     */
+    multiPolygon: number[][][][];
     /**
      * (Re)validates the polygon, effectively redrawing it.
      *
@@ -99,19 +164,43 @@ export declare class MapPolygon extends MapObject {
      */
     measureElement(): void;
     /**
-     * Calculated polygon center latitude.
+     * Latitude of the geometrical center of the polygon.
      *
      * @readonly
      * @return Center latitude
      */
     readonly latitude: number;
     /**
-     * Calculated polygon center longitude.
+     * Longitude of the geometrical center of the polygon.
      *
      * @readonly
      * @return Center longitude
      */
     readonly longitude: number;
+    /**
+     * @return  Latitude
+     */
+    /**
+     * Latitude of the visual center of the polygon.
+     *
+     * It may (and probably won't) coincide with geometrical center.
+     *
+     * @since 4.3.0
+     * @param  value  Latitude
+     */
+    visualLatitude: number;
+    /**
+     * @return  Longitude
+     */
+    /**
+     * Longitude of the visual center of the polygon.
+     *
+     * It may (and probably won't) coincide with geometrical center.
+     *
+     * @since 4.3.0
+     * @param  value  Longitude
+     */
+    visualLongitude: number;
     /**
      * Not 100% sure about this, as if we add something to MapPolygon this
      * won't be true, but otherwise we will get all 0 and the tooltip won't
@@ -132,4 +221,31 @@ export declare class MapPolygon extends MapObject {
      * @return Width (px)
      */
     readonly pixelHeight: number;
+    /**
+     * Copies all properties from another instance of [[MapPolygon]].
+     *
+     * @param source  Source series
+     */
+    copyFrom(source: this): void;
+    /**
+     * @ignore
+     */
+    updateExtremes(): void;
+    /**
+     * @ignore
+     * used to sorth polygons from big to small
+     */
+    readonly boxArea: number;
+    /**
+     * X coordinate for the slice tooltip.
+     *
+     * @return X
+     */
+    protected getTooltipX(): number;
+    /**
+     * Y coordinate for the slice tooltip.
+     *
+     * @return Y
+     */
+    protected getTooltipY(): number;
 }

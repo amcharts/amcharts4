@@ -41,50 +41,18 @@
  * @hidden
  */
 import { Projection } from "./Projection";
-import { IGeoPoint } from "../../../core/defs/IGeoPoint";
-import { IPoint } from "../../../core/defs/IPoint";
 import { registry } from "../../../core/Registry";
+// @ts-ignore
+import * as d3geoprojection from "d3-geo-projection";
 
 /**
  * Eckert6 projection.
  */
 export class Eckert6 extends Projection {
-
-	/**
-	 * Converts screen coordinates to latitude/longitude.
-	 *
-	 * @param x  X
-	 * @param y  Y
-	 * @return Geographical coordinates in radians
-	 */
-	public unproject(x: number, y: number): IGeoPoint {
-		let j = 1 + Math.PI / 2,
-			k = Math.sqrt(j / 2);
-		return {
-			longitude: x * 2 * k / (1 + Math.cos(y *= k)),
-			latitude: Math.asin((y + Math.sin(y)) / j)
-		};
+	constructor(){
+		super();
+		this.d3Projection = d3geoprojection.geoEckert6();
 	}
-
-	/**
-	 * Converts geographical coordinates to screen coordinates.
-	 *
-	 * @param lambda  Lambda parameter
-	 * @param phi     Phi parameter
-	 * @return Screen coordinates
-	 */
-	public project(lambda: number, phi: number): IPoint {
-		let k = (1 + Math.PI / 2) * Math.sin(phi);
-		for (let i = 0, delta = Infinity; i < 10 && Math.abs(delta) > 0.00001; i++) {
-			phi -= delta = (phi + Math.sin(phi) - k) / (1 + Math.cos(phi));
-		}
-		k = Math.sqrt(2 + Math.PI);
-		return {
-			x: lambda * (1 + Math.cos(phi)) / k,
-			y: 2 * phi / k
-		};
-	}
-
 }
 
 /**

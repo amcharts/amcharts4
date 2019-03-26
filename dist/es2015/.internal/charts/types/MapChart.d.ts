@@ -10,18 +10,22 @@
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "./SerialChart";
 import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { IDisposer } from "../../core/utils/Disposer";
-import { Legend } from "../Legend";
 import { MapSeries } from "../map/MapSeries";
 import { MapObject } from "../map/MapObject";
+import { MapPolygonSeries } from "../map/MapPolygonSeries";
 import { IPoint } from "../../core/defs/IPoint";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
 import { DataSource } from "../../core/data/DataSource";
 import { Projection } from "../map/projections/Projection";
 import { ZoomControl } from "../map/ZoomControl";
 import { Ordering } from "../../core/utils/Order";
+import { Circle } from "../../core/elements/Circle";
 import { SmallMap } from "../map/SmallMap";
 import { Animation } from "../../core/utils/Animation";
 import { Paper } from "../../core/rendering/Paper";
+import { IListEvents } from "../../core/utils/List";
+import { IInteractionEvents } from "../../core/interaction/Interaction";
+import { Legend } from "../Legend";
 /**
  * ============================================================================
  * DATA ITEM
@@ -158,12 +162,28 @@ export interface IMapChartProperties extends ISerialChartProperties {
      */
     projection?: Projection;
     /**
-     * Degrees to shift map center by.
+     * Degrees to rotate the map around vertical axis (Y).
      *
      * E.g. if set to -160, the longitude 20 will become a new center, creating
      * a Pacific-centered map.
      */
     deltaLongitude?: number;
+    /**
+     * Degrees to rotate the map around horizontal axis (X).
+     *
+     * E.g. setting this to -90 will put Antarctica directly in the center of
+     * the map.
+     *
+     * @since 4.3.0
+     */
+    deltaLatitude?: number;
+    /**
+     * Degrees to rotate the map around horizontal "Z" - an axis that goes from
+     * the center of the globe directly to the viewer.
+     *
+     * @since 4.3.0
+     */
+    deltaGamma?: number;
     /**
      * Maximum portion of the map's width/height to allow panning "off screen".
      *
@@ -194,6 +214,19 @@ export interface IMapChartProperties extends ISerialChartProperties {
      * Specifies what should chart do if when mouse wheel is rotated.
      */
     mouseWheelBehavior?: "zoom" | "none";
+    /**
+     * What "dragging" map does.
+     *
+     * Available values:
+     * * `"move"` (default): changes position of the map.
+     * * `"rotateLat"`: changes `deltaLatitude` (rotates the globe vertically).
+     * * `"rotateLong"`: changes `deltaLongitude` (rotates the globe horizontally).
+     * * `"rotateLongLat"`: changes both `deltaLongitude` and `deltaLatitude` (rotates the globe in any direction).
+     *
+     * @default "move"
+     * @since 4.3.0
+     */
+    panBehavior?: "move" | "rotateLat" | "rotateLong" | "rotateLongLat";
 }
 /**
  * Defines events for [[MapChart]].
@@ -377,14 +410,74 @@ export declare class MapChart extends SerialChart {
      * A reference to currently playing animation, e.g. zooming.
      */
     protected _mapAnimation: Animation;
+    /**
+     * @ignore
+     */
     protected _mouseWheelDisposer: IDisposer;
+    /**
+     * @ignore
+     */
     protected _zoomGeoPointReal: IGeoPoint;
+    /**
+     * @ignore
+     */
     protected _centerGeoPoint: IGeoPoint;
+    /**
+     * @ignore
+     */
+    protected _fitWidth: number;
+    /**
+     * @ignore
+     */
+    protected _fitHeight: number;
+    /**
+     * @ignore
+     */
+    panSprite: Circle;
+    /**
+     * @ignore
+     */
+    protected _downPointOrig: IPoint;
+    /**
+     * @ignore
+     */
+    protected _downDeltaLongitude: number;
+    /**
+     * @ignore
+     */
+    protected _downDeltaLatitude: number;
+    /**
+     * @ignore
+     */
+    protected _backgroundSeries: MapPolygonSeries;
     /**
      * Constructor
      */
     constructor();
+    /**
+     * @ignore
+     */
+    protected handlePanDown(event: IInteractionEvents["down"]): void;
+    /**
+     * @ignore
+     */
+    protected handlePanUp(event: IInteractionEvents["down"]): void;
+    /**
+     * @ignore
+     */
+    protected handlePanMove(): void;
+    /**
+     * @ignore
+     */
     protected handleAllInited(): void;
+    /**
+     * @ignore
+     */
+    protected updateZoomGeoPoint(): void;
+    /**
+     * @ignore
+     */
+    protected updateCenterGeoPoint(): void;
     /**
      * Prevents map to be dragged out of the container area
      * @ignore
@@ -427,16 +520,39 @@ export declare class MapChart extends SerialChart {
      */
     mouseWheelBehavior: "zoom" | "none";
     /**
+     * @returns Behavior
+     */
+    /**
+     * What "dragging" map does.
+     *
+     * Available values:
+     * * `"move"` (default): changes position of the map.
+     * * `"rotateLat"`: changes `deltaLatitude` (rotates the globe vertically).
+     * * `"rotateLong"`: changes `deltaLongitude` (rotates the globe horizontally).
+     * * `"rotateLongLat"`: changes both `deltaLongitude` and `deltaLatitude` (rotates the globe in any direction).
+     *
+     * @default "move"
+     * @since 4.3.0
+     * @param  value  Behavior
+     */
+    panBehavior: "none" | "move" | "rotateLat" | "rotateLong" | "rotateLongLat";
+    /**
      * @return Projection
      */
     /**
      * Projection to use for the map.
      *
      * Available projections:
+     * * Albers
+     * * AlbersUSA
+     * * AzimuthalEqualArea
      * * Eckert6
+     * * EqualEarth
      * * Mercator
      * * Miller
+     * * NaturalEarth
      * * Orthographic
+     * * Stereographic
      *
      * ```TypeScript
      * map.projection = new am4maps.projections.Mercator();
@@ -452,9 +568,16 @@ export declare class MapChart extends SerialChart {
      * }
      * ```
      *
+     * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Setting_projection} More about projections
      * @param projection  Projection
      */
     projection: Projection;
+    /**
+     * Validates (processes) data items.
+     *
+     * @ignore Exclude from docs
+     */
+    validateDataItems(): void;
     /**
      * Calculates the longitudes and latitudes of the most distant points from
      * the center in all four directions: West, East, North, and South.
@@ -596,6 +719,9 @@ export declare class MapChart extends SerialChart {
      */
     readonly zoomGeoPoint: IGeoPoint;
     /**
+     * @return Zoom level
+     */
+    /**
      * Current zoom level.
      *
      * @readonly
@@ -604,6 +730,8 @@ export declare class MapChart extends SerialChart {
     zoomLevel: number;
     /**
      * Dispatches events after some map transformation, like pan or zoom.
+     *
+     * @ignore
      */
     protected handleMapTransform(): void;
     /**
@@ -669,17 +797,45 @@ export declare class MapChart extends SerialChart {
      */
     protected createSeries(): this["_seriesType"];
     /**
-     * @return Map center shift
+     * @return Rotation
      */
     /**
-     * Degrees to shift map center by.
+     * Degrees to rotate the map around vertical axis (Y).
      *
      * E.g. if set to -160, the longitude 20 will become a new center, creating
      * a Pacific-centered map.
      *
-     * @param value  Map center shift
+     * @param  value  Rotation
      */
     deltaLongitude: number;
+    /**
+     * @return Rotation
+     */
+    /**
+     * Degrees to rotate the map around horizontal axis (X).
+     *
+     * E.g. setting this to -90 will put Antarctica directly in the center of
+     * the map.
+     *
+     * @since 4.3.0
+     * @param  value  Rotation
+     */
+    deltaLatitude: number;
+    /**
+     * @return Rotation
+     */
+    /**
+     * Degrees to rotate the map around "Z" axis. This is the axis that pierces
+     * the globe directly from the viewer's point of view.
+     *
+     * @param  value  Rotation
+     * @since 4.3.0
+     */
+    deltaGamma: number;
+    /**
+     * @ignore
+     */
+    protected rotateMap(): void;
     /**
      * @return Max pan out
      */
@@ -732,8 +888,10 @@ export declare class MapChart extends SerialChart {
     zoomStep: number;
     /**
      * Invalidates projection, causing all series to be redrawn.
+     *
+     * Call this after changing projection or its settings.
      */
-    protected invalidateProjection(): void;
+    invalidateProjection(): void;
     /**
      * Returns a [[DataSource]] specifically for loading Component's data.
      *
@@ -755,15 +913,23 @@ export declare class MapChart extends SerialChart {
         [index: string]: any;
     }): void;
     /**
- * This function is used to sort element's JSON config properties, so that
- * some properties that absolutely need to be processed last, can be put at
- * the end.
- *
- * @ignore Exclude from docs
- * @param a  Element 1
- * @param b  Element 2
- * @return Sorting number
- */
+     * Decorates a new [[Series]] object with required parameters when it is
+     * added to the chart.
+     *
+     * @ignore Exclude from docs
+     * @param event  Event
+     */
+    handleSeriesAdded(event: IListEvents<MapSeries>["inserted"]): void;
+    /**
+     * This function is used to sort element's JSON config properties, so that
+     * some properties that absolutely need to be processed last, can be put at
+     * the end.
+     *
+     * @ignore Exclude from docs
+     * @param a  Element 1
+     * @param b  Element 2
+     * @return Sorting number
+     */
     protected configOrder(a: string, b: string): Ordering;
     /**
      * Adds `projection` to "as is" fields.
@@ -780,15 +946,54 @@ export declare class MapChart extends SerialChart {
     readonly centerGeoPoint: IGeoPoint;
     /**
      * Resets the map to its original position and zoom level.
+     *
+     * Use the only parameter to set number of milliseconds for the zoom
+     * animation to play.
+     *
+     * @param  duration  Duration (ms)
      */
     goHome(duration?: number): void;
     /**
      * Sets [[Paper]] instance to use to draw elements.
+     *
      * @ignore
-     * @param paper Paper
-     * @return true if paper was changed, false, if it's the same
+     * @param   paper  Paper
+     * @return         true if paper was changed, false, if it's the same
      */
     setPaper(paper: Paper): boolean;
+    /**
+     * Background series will create polygons that will fill all the map area
+     * with some color (or other fill).
+     *
+     * This might be useful with non-rectangular projections, like Orthographic,
+     * Albers, etc.
+     *
+     * To change background color/opacity access polygon template.
+     *
+     * ```TypeScript
+     * chart.backgroundSeries.mapPolygons.template.polygon.fill = am4core.color("#fff");
+     * chart.backgroundSeries.mapPolygons.template.polygon.fillOpacity = 0.1;
+     * ```
+     * ```JavaScript
+     * chart.backgroundSeries.mapPolygons.template.polygon.fill = am4core.color("#fff");
+     * chart.backgroundSeries.mapPolygons.template.polygon.fillOpacity = 0.1;
+     * ```
+     * ```JSON
+     * {
+     *   "backgroundSeries": {
+     *     "mapPolygons": {
+     *       "polygon": {
+     *         "fill": "#fff",
+     *         "fillOpacity": 0.1
+     *       }
+     *     }
+     *   }
+     * }
+     * ```
+     *
+     * @since 4.3.0
+     */
+    readonly backgroundSeries: MapPolygonSeries;
     /**
      * Prepares the legend instance for use in this chart.
      *

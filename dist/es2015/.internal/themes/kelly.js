@@ -5,10 +5,10 @@
  * {@link https://i.kinja-img.com/gawker-media/image/upload/1015680494325093012.JPG}
  * {@link https://eleanormaclure.files.wordpress.com/2011/03/colour-coding.pdf}
  */
+import { is } from "./ITheme";
 import { color } from "../core/utils/Color";
-import { ColorSet } from "../core/utils/ColorSet";
 var theme = function (object) {
-    if (object instanceof ColorSet) {
+    if (is(object, "ColorSet")) {
         object.list = [
             color("#F3C300"),
             color("#875692"),

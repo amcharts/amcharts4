@@ -497,7 +497,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	protected _rtl: boolean = false;
+	protected _rtl: boolean;
 
 	/**
 	 * Holds [[Export]] object.
@@ -783,6 +783,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 	protected _isDragged: boolean = false;
 
+	protected _isResized: boolean = false;
+
 	/**
 	 * @deprecated Moved to [[SpriteProperties]]
 	 */
@@ -898,6 +900,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * Holds the list of plugins attached to this Sprite.
 	 */
 	protected _plugins: $type.Optional<List<IPlugin>>;
+
+	/**
+	 * Indicates if the sprite can be moved around when resizing it with two fingers (will only work if draggable = false)
+	 * @ignore
+	 */
+	public dragWhileResize:boolean = false;
 
 	/**
 	 * Constructor:
@@ -3226,6 +3234,15 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	}
 
 	/**
+	 * Returns indicator if this element is being resized at the moment.
+	 *
+	 * @return Is resized?
+	 */
+	public get isResized(): boolean {
+		return this._isResized;
+	}	
+
+	/**
 	 * Indicates if this element has any pointers (mouse or touch) pressing down
 	 * on it.
 	 *
@@ -4925,9 +4942,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public handleDragMove(ev: AMEvent<Sprite, ISpriteEvents>["drag"]): void {
 		let point: Optional<IPoint> = this.interactions.originalPosition;
 
-		if (point) {
+		if (point && this._isDragged) {
 			let globalScale = this.parent.globalScale * this.svgContainer.cssScale;
-
 			this.moveTo({ x: point.x + ev.shift.x / globalScale, y: point.y + ev.shift.y / globalScale }, undefined, undefined, true);
 			//this.dispatchImmediately("drag", ev);
 		}
@@ -5152,6 +5168,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this.interactions.originalAngle = null;
 			this.interactions.originalScale = null;
 		}*/
+		this._isResized = false;
 		if (this.states.hasKey("down")) {
 			this.applyCurrentState();
 		}
@@ -5620,6 +5637,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @param ev Event object
 	 */
 	public handleResize(ev: AMEvent<Sprite, ISpriteEvents>["resize"]): void {
+		this._isResized = true;
+
 		this.scale = this.interactions.originalScale * ev.scale;
 		this.validatePosition();
 		/*center: (io.draggable
@@ -5629,7 +5648,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			"y": io.originalPosition.y
 		})*/
 		//this.moveTo(this.originalPosition.x + ev.shift.x, this.originalPosition.y + ev.shift.y);
-		if (this.draggable) {
+		if (this.draggable || this.dragWhileResize) {
+			this._isDragged = false;
 			let svgPoint1: IPoint = $utils.documentPointToSvg(ev.point1, this.htmlContainer, this.svgContainer.cssScale);
 			let svgPoint2: IPoint = $utils.documentPointToSvg(ev.point2, this.htmlContainer, this.svgContainer.cssScale);
 			let svgMidPoint: IPoint = $math.getMidPoint(svgPoint1, svgPoint2);
@@ -5647,7 +5667,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				let spriteMidPoint: IPoint = $math.getMidPoint(spritePoint1, spritePoint2);
 
 				let parentPoint: IPoint = $utils.svgPointToSprite(svgMidPoint, this.parent);
-				this.moveTo({ x: parentPoint.x - spriteMidPoint.x * this.scale, y: parentPoint.y - spriteMidPoint.y * this.scale });
+				this.moveTo({ x: parentPoint.x - spriteMidPoint.x * this.scale, y: parentPoint.y - spriteMidPoint.y * this.scale }, undefined, undefined, true);
 			}
 		}
 	}
@@ -7158,7 +7178,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 
 	/**
-	 * Path of a Tick element
+	 * Path of Sprite element
 	 */
 	public set path(value: string) {
 		if (this.setPropertyValue("path", value)) {

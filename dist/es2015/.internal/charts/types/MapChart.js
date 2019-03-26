@@ -9,13 +9,17 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { SerialChart, SerialChartDataItem } from "./SerialChart";
+import { Disposer } from "../../core/utils/Disposer";
+import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { MapSeries } from "../map/MapSeries";
 import { MapImage } from "../map/MapImage";
 import { MapPolygon } from "../map/MapPolygon";
+import { MapPolygonSeries } from "../map/MapPolygonSeries";
 import { Projection } from "../map/projections/Projection";
+import { Circle } from "../../core/elements/Circle";
 import { SmallMap } from "../map/SmallMap";
+import * as $mapUtils from "../map/MapUtils";
 import { keyboard } from "../../core/utils/Keyboard";
-import { getInteraction } from "../../core/interaction/Interaction";
 import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
@@ -23,6 +27,8 @@ import * as $ease from "../../core/utils/Ease";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $geo from "../map/Geo";
+import { GraticuleSeries } from "../map/GraticuleSeries";
+import { getInteraction } from "../../core/interaction/Interaction";
 /**
  * ============================================================================
  * DATA ITEM
@@ -112,18 +118,21 @@ var MapChart = /** @class */ (function (_super) {
         // Set default projection
         _this.projection = new Projection();
         _this.deltaLongitude = 0;
+        _this.deltaLatitude = 0;
+        _this.deltaGamma = 0;
         _this.maxPanOut = 0.7;
         _this.homeZoomLevel = 1;
         _this.zoomStep = 2;
+        _this.layout = "absolute";
         // Set padding
         _this.padding(0, 0, 0, 0);
+        $utils.used(_this.backgroundSeries);
         // so that the map would render in a hidden div too
         _this.minWidth = 10;
         _this.minHeight = 10;
         _this.events.once("inited", _this.handleAllInited, _this, false);
         // Create a container for map series
         var seriesContainer = _this.seriesContainer;
-        seriesContainer.draggable = true;
         seriesContainer.visible = false;
         seriesContainer.inert = true;
         seriesContainer.resizable = true;
@@ -131,26 +140,33 @@ var MapChart = /** @class */ (function (_super) {
         seriesContainer.events.on("doublehit", _this.handleDoubleHit, _this, false);
         seriesContainer.events.on("drag", _this.handleDrag, _this, false);
         seriesContainer.zIndex = 0;
-        seriesContainer.background.fillOpacity = 0;
+        seriesContainer.dragWhileResize = true;
+        //seriesContainer.background.fillOpacity = 0;
         // Set up events
         //this.events.on("validated", this.updateExtremes, this);
-        _this.events.on("datavalidated", _this.updateExtremes, _this, false);
+        //this.events.on("datavalidated", this.handleAllValidated, this, false);
+        //this.events.on("datavalidated", this.updateExtremes, this, false);
         // Set up main chart container, e.g. set backgrounds and events to monitor
         // size changes, etc.
         var chartContainer = _this.chartContainer;
         chartContainer.parent = _this;
-        chartContainer.isMeasured = false;
         chartContainer.zIndex = -1;
         _this._disposers.push(seriesContainer.events.on("maxsizechanged", function () {
             if (_this.inited) {
                 if (_this._mapAnimation) {
                     _this._mapAnimation.stop();
                 }
-                _this.updateScaleRatio();
-                _this.zoomToGeoPoint(_this._zoomGeoPointReal, _this.zoomLevel, true, 0);
+                var allInited_1 = true;
                 _this.series.each(function (series) {
                     series.updateTooltipBounds();
+                    if (!series.inited || series.dataInvalid) {
+                        allInited_1 = false;
+                    }
                 });
+                if (allInited_1) {
+                    _this.updateScaleRatio();
+                }
+                _this.zoomToGeoPoint(_this._zoomGeoPointReal, _this.zoomLevel, true, 0);
             }
         }, undefined, false));
         var chartContainerBg = chartContainer.background;
@@ -183,24 +199,147 @@ var MapChart = /** @class */ (function (_super) {
             }
         }, _this));
         _this.mouseWheelBehavior = "zoom";
+        var interaction = getInteraction();
+        _this._disposers.push(interaction.body.events.on("down", _this.handlePanDown, _this));
+        _this._disposers.push(interaction.body.events.on("up", _this.handlePanUp, _this));
+        //this._disposers.push(interaction.body.events.on("track", this.handlePanMove, this));
+        var panSprite = _this.seriesContainer.createChild(Circle);
+        panSprite.radius = 10;
+        panSprite.inert = true;
+        panSprite.isMeasured = false;
+        panSprite.events.on("transformed", _this.handlePanMove, _this, false);
+        panSprite.interactionsEnabled = false;
+        panSprite.opacity = 0;
+        _this.panSprite = panSprite;
+        _this.panBehavior = "move";
+        /*
+                this.panSprite.inertiaOptions.setKey("move", {
+                    "time": 100,
+                    "duration": 1000,
+                    "factor": 3,
+                    "easing": $ease.sinOut
+                });*/
         // Apply theme
         _this.applyTheme();
         return _this;
     }
+    /**
+     * @ignore
+     */
+    MapChart.prototype.handlePanDown = function (event) {
+        // Get local point
+        this._downPointOrig = $utils.documentPointToSprite(event.pointer.point, this.seriesContainer);
+        this.panSprite.moveTo(this._downPointOrig);
+        this.panSprite.dragStart(event.pointer);
+        this._downDeltaLongitude = this.deltaLongitude;
+        this._downDeltaLatitude = this.deltaLatitude;
+    };
+    /**
+     * @ignore
+     */
+    MapChart.prototype.handlePanUp = function (event) {
+        this.panSprite.dragStop(event.pointer);
+    };
+    /**
+     * @ignore
+     */
+    MapChart.prototype.handlePanMove = function () {
+        if (!this.seriesContainer.isResized) {
+            var d3Projection = this.projection.d3Projection;
+            var panBehavior = this.panBehavior;
+            if (panBehavior != "move" && panBehavior != "none" && this._downPointOrig && d3Projection.rotate) {
+                var rotation = d3Projection.rotate();
+                var dln = rotation[0];
+                var dlt = rotation[1];
+                var dlg = rotation[2];
+                d3Projection.rotate([0, 0, 0]);
+                var local = { x: this.panSprite.pixelX, y: this.panSprite.pixelY };
+                var downGeoLocal = this.projection.invert(this._downPointOrig);
+                var geoLocal = this.projection.invert(local);
+                d3Projection.rotate([dln, dlt, dlg]);
+                if (panBehavior == "rotateLat" || panBehavior == "rotateLongLat") {
+                    this.deltaLatitude = this._downDeltaLatitude + geoLocal.latitude - downGeoLocal.latitude;
+                }
+                if (panBehavior == "rotateLong" || panBehavior == "rotateLongLat") {
+                    this.deltaLongitude = this._downDeltaLongitude + geoLocal.longitude - downGeoLocal.longitude;
+                }
+            }
+        }
+    };
+    /**
+     * @ignore
+     */
     MapChart.prototype.handleAllInited = function () {
         var inited = true;
         this.seriesContainer.visible = true;
         this.series.each(function (series) {
-            if (!series.inited) {
+            if (!series.inited || series.dataInvalid) {
                 inited = false;
             }
         });
         if (inited) {
-            this.updateExtremes();
+            this.updateCenterGeoPoint();
+            this.updateScaleRatio();
             this.goHome(0);
         }
         else {
             registry.events.once("exitframe", this.handleAllInited, this, false);
+        }
+    };
+    /**
+     * @ignore
+     */
+    MapChart.prototype.updateZoomGeoPoint = function () {
+        var seriesPoint = $utils.svgPointToSprite({ x: this.maxWidth / 2, y: this.maxHeight / 2 }, this.series.getIndex(0));
+        var geoPoint = this.projection.invert(seriesPoint);
+        this._zoomGeoPointReal = geoPoint;
+    };
+    /**
+     * @ignore
+     */
+    MapChart.prototype.updateCenterGeoPoint = function () {
+        var maxLeft;
+        var maxRight;
+        var maxTop;
+        var maxBottom;
+        if (this.backgroundSeries) {
+            var features = this.backgroundSeries.getFeatures();
+            if (features.length > 0) {
+                var bounds = this.projection.d3Path.bounds(features[0].geometry);
+                maxLeft = bounds[0][0];
+                maxTop = bounds[0][1];
+                maxRight = bounds[1][0];
+                maxBottom = bounds[1][1];
+            }
+        }
+        else {
+            this.series.each(function (series) {
+                var bbox = series.group.node.getBBox();
+                if (maxLeft > bbox.x || !$type.isNumber(maxLeft)) {
+                    maxLeft = bbox.x;
+                }
+                if (maxRight < bbox.x + bbox.width || !$type.isNumber(maxRight)) {
+                    maxRight = bbox.x + bbox.width;
+                }
+                if (maxTop > bbox.y || !$type.isNumber(maxTop)) {
+                    maxTop = bbox.y;
+                }
+                if (maxBottom < bbox.y + bbox.height || !$type.isNumber(maxBottom)) {
+                    maxBottom = bbox.y + bbox.height;
+                }
+            });
+        }
+        this.seriesWidth = maxRight - maxLeft;
+        this.seriesHeight = maxBottom - maxTop;
+        if (this.seriesWidth > 0 && this.seriesHeight > 0) {
+            this.chartContainer.visible = true;
+            this._centerGeoPoint = this.projection.invert({ x: maxLeft + (maxRight - maxLeft) / 2, y: maxTop + (maxBottom - maxTop) / 2 });
+            if (!this._zoomGeoPointReal || !$type.isNumber(this._zoomGeoPointReal.latitude)) {
+                this._zoomGeoPointReal = this._centerGeoPoint;
+            }
+        }
+        else {
+            this.chartContainer.visible = false;
         }
     };
     /**
@@ -313,6 +452,44 @@ var MapChart = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(MapChart.prototype, "panBehavior", {
+        /**
+         * @returns Behavior
+         */
+        get: function () {
+            return this.getPropertyValue("panBehavior");
+        },
+        /**
+         * What "dragging" map does.
+         *
+         * Available values:
+         * * `"move"` (default): changes position of the map.
+         * * `"rotateLat"`: changes `deltaLatitude` (rotates the globe vertically).
+         * * `"rotateLong"`: changes `deltaLongitude` (rotates the globe horizontally).
+         * * `"rotateLongLat"`: changes both `deltaLongitude` and `deltaLatitude` (rotates the globe in any direction).
+         *
+         * @default "move"
+         * @since 4.3.0
+         * @param  value  Behavior
+         */
+        set: function (value) {
+            if (this.setPropertyValue("panBehavior", value)) {
+                var seriesContainer = this.seriesContainer;
+                this.panSprite.draggable = false;
+                seriesContainer.draggable = false;
+                switch (value) {
+                    case "move":
+                        seriesContainer.draggable = true;
+                        break;
+                    default:
+                        this.panSprite.draggable = true;
+                        break;
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(MapChart.prototype, "projection", {
         /**
          * @return Projection
@@ -324,10 +501,16 @@ var MapChart = /** @class */ (function (_super) {
          * Projection to use for the map.
          *
          * Available projections:
+         * * Albers
+         * * AlbersUSA
+         * * AzimuthalEqualArea
          * * Eckert6
+         * * EqualEarth
          * * Mercator
          * * Miller
+         * * NaturalEarth
          * * Orthographic
+         * * Stereographic
          *
          * ```TypeScript
          * map.projection = new am4maps.projections.Mercator();
@@ -343,17 +526,35 @@ var MapChart = /** @class */ (function (_super) {
          * }
          * ```
          *
+         * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Setting_projection} More about projections
          * @param projection  Projection
          */
         set: function (projection) {
+            var _this = this;
             projection.deltaLongitude = this.deltaLongitude;
             if (this.setPropertyValue("projection", projection)) {
                 this.invalidateProjection();
+                this.series.each(function (series) {
+                    _this.addDisposer(series.events.once("validated", function () {
+                        _this.updateCenterGeoPoint();
+                        _this.updateScaleRatio();
+                        _this.goHome(0);
+                    }));
+                });
             }
         },
         enumerable: true,
         configurable: true
     });
+    /**
+     * Validates (processes) data items.
+     *
+     * @ignore Exclude from docs
+     */
+    MapChart.prototype.validateDataItems = function () {
+        _super.prototype.validateDataItems.call(this);
+        this.updateExtremes();
+    };
     /**
      * Calculates the longitudes and latitudes of the most distant points from
      * the center in all four directions: West, East, North, and South.
@@ -362,78 +563,85 @@ var MapChart = /** @class */ (function (_super) {
      */
     MapChart.prototype.updateExtremes = function () {
         var _this = this;
-        var pWest = this.west;
-        var pEast = this.east;
-        var pNorth = this.north;
-        var pSouth = this.south;
-        this.west = null;
-        this.east = null;
-        this.north = null;
-        this.south = null;
-        var chartContainer = this.chartContainer;
-        $iter.each(this.series.iterator(), function (series) {
-            if ((_this.west > series.west) || !$type.isNumber(_this.west)) {
-                _this.west = series.west;
-            }
-            if ((_this.east < series.east) || !$type.isNumber(_this.east)) {
-                _this.east = series.east;
-            }
-            if ((_this.north < series.north) || !$type.isNumber(_this.north)) {
-                _this.north = series.north;
-            }
-            if ((_this.south > series.south) || !$type.isNumber(_this.south)) {
-                _this.south = series.south;
-            }
-        });
-        if ($type.isNumber(this.east) && $type.isNumber(this.north)) {
-            // must reset
-            this.projection.centerPoint = { x: 0, y: 0 };
-            this.projection.scale = 1;
-            // temporary setting deltaLongitude to 0 in order to measure w/h correctly
-            var deltaLongitude = this.projection.deltaLongitude;
-            this.projection.deltaLongitude = 0;
-            var northPoint = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.north });
-            var southPoint = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.south });
-            var westPoint = this.projection.convert({ longitude: this.west, latitude: 0 });
-            var eastPoint = this.projection.convert({ longitude: this.east, latitude: 0 });
-            this.projection.deltaLongitude = deltaLongitude;
-            this.projection.centerPoint = { x: westPoint.x + (eastPoint.x - westPoint.x) / 2, y: northPoint.y + (southPoint.y - northPoint.y) / 2 };
-            var scaleRatio = void 0;
-            var seriesWidth = eastPoint.x - westPoint.x;
-            var seriesHeight = southPoint.y - northPoint.y;
-            var vScale = chartContainer.innerWidth / seriesWidth;
-            var hScale = chartContainer.innerHeight / seriesHeight;
-            if (vScale > hScale) {
-                scaleRatio = hScale;
+        var east;
+        var north;
+        var west;
+        var south;
+        this.series.each(function (series) {
+            if (series.ignoreBounds || (series instanceof GraticuleSeries && series.fitExtent) || series == _this.backgroundSeries) {
             }
             else {
-                scaleRatio = vScale;
+                if (series.north > north || !$type.isNumber(north)) {
+                    north = series.north;
+                }
+                if (series.south < south || !$type.isNumber(south)) {
+                    south = series.south;
+                }
+                if (series.west < west || !$type.isNumber(west)) {
+                    west = series.west;
+                }
+                if (series.east > east || !$type.isNumber(east)) {
+                    east = series.east;
+                }
             }
-            if ($type.isNaN(scaleRatio) || scaleRatio == Infinity) {
-                scaleRatio = 1;
+        });
+        var features = [];
+        var foundGraticule = false;
+        // if we gave graticule, get features of these series only for faster fitSize
+        this.series.each(function (series) {
+            if (series instanceof GraticuleSeries && !series.fitExtent) {
+                features = series.getFeatures();
+                foundGraticule = true;
             }
-            var projectionScaleChanged = false;
-            if (this.projection.scale != scaleRatio) {
-                this.projection.scale = scaleRatio;
-                projectionScaleChanged = true;
+        });
+        if (!foundGraticule) {
+            this.series.each(function (series) {
+                if (series.ignoreBounds || (series instanceof GraticuleSeries && series.fitExtent) || series == _this.backgroundSeries) {
+                }
+                else {
+                    features = features.concat(series.getFeatures());
+                }
+            });
+        }
+        var w = $math.max(50, this.innerWidth);
+        var h = $math.max(50, this.innerHeight);
+        var d3Projection = this.projection.d3Projection;
+        if (features.length > 0 && d3Projection && (this.east != east || this.west != west || this.north != north || this.south != south)) {
+            this.east = east;
+            this.west = west;
+            this.north = north;
+            this.south = south;
+            if (d3Projection.rotate) {
+                var rotation = d3Projection.rotate();
+                var deltaLong = rotation[0];
+                var deltaLat = rotation[1];
+                var deltaGamma = rotation[2];
+                this.deltaLongitude = deltaLong;
+                this.deltaLatitude = deltaLat;
+                this.deltaGamma = deltaGamma;
             }
-            this.seriesWidth = seriesWidth * scaleRatio;
-            this.seriesHeight = seriesHeight * scaleRatio;
-            var northPoint2 = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.north });
-            var westPoint2 = this.projection.convert({ longitude: this.west - this.deltaLongitude, latitude: 0 });
-            this._centerGeoPoint = this.projection.invert({ x: westPoint2.x + this.seriesWidth / 2, y: northPoint2.y + this.seriesHeight / 2 });
-            //this.seriesContainer.width = this.seriesWidth; // not good, doesn't resize
-            //this.seriesContainer.height = this.seriesHeight; // not good, doesn't resize
-            this.seriesContainer.definedBBox = { x: westPoint2.x, y: northPoint2.y, width: this.seriesWidth, height: this.seriesHeight };
-            this.updateScaleRatio();
-            var seriesContainer = this.seriesContainer;
-            seriesContainer.x = chartContainer.pixelWidth / 2;
-            seriesContainer.y = chartContainer.pixelHeight / 2;
-            if (projectionScaleChanged || pWest != this.west || pEast != this.east || pNorth != this.north || pSouth != this.south) {
-                $iter.each(this.series.iterator(), function (series) {
-                    series.invalidate();
-                });
+            var geoJSON = { "type": "FeatureCollection", features: features };
+            var initialScale = d3Projection.scale();
+            d3Projection.fitSize([w, h], geoJSON);
+            if (d3Projection.scale() != initialScale) {
+                this.invalidateDataUsers();
             }
+            this.series.each(function (series) {
+                if (series instanceof GraticuleSeries) {
+                    series.invalidateData();
+                }
+            });
+            if (this._backgroundSeries) {
+                var polygon = this._backgroundSeries.mapPolygons.getIndex(0);
+                if (polygon) {
+                    polygon.multiPolygon = $mapUtils.getBackground(this.north, this.east, this.south, this.west);
+                }
+            }
+            this._fitWidth = w;
+            this._fitHeight = h;
+        }
+        if (!this._zoomGeoPointReal || !$type.isNumber(this._zoomGeoPointReal.latitude)) {
+            this.goHome(0);
         }
     };
     /**
@@ -443,14 +651,10 @@ var MapChart = /** @class */ (function (_super) {
      */
     MapChart.prototype.updateScaleRatio = function () {
         var scaleRatio;
-        var vScale = this.chartContainer.innerWidth / this.seriesWidth;
-        var hScale = this.chartContainer.innerHeight / this.seriesHeight;
-        if (vScale > hScale) {
-            scaleRatio = hScale;
-        }
-        else {
-            scaleRatio = vScale;
-        }
+        this.updateCenterGeoPoint();
+        var hScale = this.chartContainer.innerWidth / this.seriesWidth;
+        var vScale = this.chartContainer.innerHeight / this.seriesHeight;
+        scaleRatio = $math.min(hScale, vScale);
         if ($type.isNaN(scaleRatio) || scaleRatio == Infinity) {
             scaleRatio = 1;
         }
@@ -531,8 +735,9 @@ var MapChart = /** @class */ (function (_super) {
             if (geodata != this._geodata) {
                 this._geodata = geodata;
                 this.invalidateData();
-                $iter.each(this._dataUsers.iterator(), function (x) {
-                    x.invalidateData();
+                this.dataUsers.each(function (dataUser) {
+                    dataUser.data = [];
+                    dataUser.invalidateData();
                 });
             }
         },
@@ -554,7 +759,7 @@ var MapChart = /** @class */ (function (_super) {
         if (!point) {
             point = this.zoomGeoPoint;
         }
-        if (!point) {
+        if (!point || !$type.isNumber(point.longitude) || !$type.isNumber(point.latitude)) {
             return;
         }
         this._zoomGeoPointReal = point;
@@ -575,11 +780,11 @@ var MapChart = /** @class */ (function (_super) {
                 property: "scale",
                 to: zoomLevel
             }, {
-                property: "x",
-                to: mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio - this.pixelPaddingLeft
+                property: "x", from: this.seriesContainer.pixelX,
+                to: mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio
             }, {
-                property: "y",
-                to: mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio - this.pixelPaddingTop
+                property: "y", from: this.seriesContainer.pixelY,
+                to: mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio
             }], duration, this.zoomEasing);
         this._disposers.push(this._mapAnimation.events.on("animationended", function () {
             _this._zoomGeoPointReal = _this.zoomGeoPoint;
@@ -714,14 +919,17 @@ var MapChart = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapChart.prototype, "zoomLevel", {
         /**
-         * Current zoom level.
-         *
-         * @readonly
          * @return Zoom level
          */
         get: function () {
             return this.seriesContainer.scale;
         },
+        /**
+         * Current zoom level.
+         *
+         * @readonly
+         * @return Zoom level
+         */
         set: function (value) {
             this.seriesContainer.scale = value;
         },
@@ -730,6 +938,8 @@ var MapChart = /** @class */ (function (_super) {
     });
     /**
      * Dispatches events after some map transformation, like pan or zoom.
+     *
+     * @ignore
      */
     MapChart.prototype.handleMapTransform = function () {
         if (this.zoomLevel != this._prevZoomLevel) {
@@ -838,27 +1048,87 @@ var MapChart = /** @class */ (function (_super) {
     };
     Object.defineProperty(MapChart.prototype, "deltaLongitude", {
         /**
-         * @return Map center shift
+         * @return Rotation
          */
         get: function () {
             return this.getPropertyValue("deltaLongitude");
         },
         /**
-         * Degrees to shift map center by.
+         * Degrees to rotate the map around vertical axis (Y).
          *
          * E.g. if set to -160, the longitude 20 will become a new center, creating
          * a Pacific-centered map.
          *
-         * @param value  Map center shift
+         * @param  value  Rotation
          */
         set: function (value) {
             if (this.setPropertyValue("deltaLongitude", $geo.wrapAngleTo180(value))) {
-                this.invalidateProjection();
+                this.rotateMap();
+                this.updateZoomGeoPoint();
             }
         },
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(MapChart.prototype, "deltaLatitude", {
+        /**
+         * @return Rotation
+         */
+        get: function () {
+            return this.getPropertyValue("deltaLatitude");
+        },
+        /**
+         * Degrees to rotate the map around horizontal axis (X).
+         *
+         * E.g. setting this to -90 will put Antarctica directly in the center of
+         * the map.
+         *
+         * @since 4.3.0
+         * @param  value  Rotation
+         */
+        set: function (value) {
+            if (this.setPropertyValue("deltaLatitude", value)) {
+                this.rotateMap();
+                this.updateZoomGeoPoint();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapChart.prototype, "deltaGamma", {
+        /**
+         * @return Rotation
+         */
+        get: function () {
+            return this.getPropertyValue("deltaGamma");
+        },
+        /**
+         * Degrees to rotate the map around "Z" axis. This is the axis that pierces
+         * the globe directly from the viewer's point of view.
+         *
+         * @param  value  Rotation
+         * @since 4.3.0
+         */
+        set: function (value) {
+            if (this.setPropertyValue("deltaGamma", value)) {
+                this.rotateMap();
+                this.updateZoomGeoPoint();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @ignore
+     */
+    MapChart.prototype.rotateMap = function () {
+        if (this.projection.d3Projection) {
+            if (this.projection.d3Projection.rotate) {
+                this.projection.d3Projection.rotate([this.deltaLongitude, this.deltaLatitude, this.deltaGamma]);
+                this.invalidateProjection();
+            }
+        }
+    };
     Object.defineProperty(MapChart.prototype, "maxPanOut", {
         /**
          * @return Max pan out
@@ -947,14 +1217,12 @@ var MapChart = /** @class */ (function (_super) {
     });
     /**
      * Invalidates projection, causing all series to be redrawn.
+     *
+     * Call this after changing projection or its settings.
      */
     MapChart.prototype.invalidateProjection = function () {
-        this.updateExtremes();
-        //		this.projection.deltaLatitude = this.deltaLatitude;
-        this.projection.deltaLongitude = this.deltaLongitude;
-        $iter.each(this.series.iterator(), function (series) {
-            series.invalidate();
-        });
+        this.invalidateDataUsers();
+        this.updateCenterGeoPoint();
     };
     Object.defineProperty(MapChart.prototype, "geodataSource", {
         /**
@@ -1027,15 +1295,30 @@ var MapChart = /** @class */ (function (_super) {
         _super.prototype.processConfig.call(this, config);
     };
     /**
- * This function is used to sort element's JSON config properties, so that
- * some properties that absolutely need to be processed last, can be put at
- * the end.
- *
- * @ignore Exclude from docs
- * @param a  Element 1
- * @param b  Element 2
- * @return Sorting number
- */
+     * Decorates a new [[Series]] object with required parameters when it is
+     * added to the chart.
+     *
+     * @ignore Exclude from docs
+     * @param event  Event
+     */
+    MapChart.prototype.handleSeriesAdded = function (event) {
+        var _this = this;
+        _super.prototype.handleSeriesAdded.call(this, event);
+        var series = event.newValue;
+        series.addDisposer(new Disposer(function () {
+            series.events.on("validated", _this.updateCenterGeoPoint, _this, false);
+        }));
+    };
+    /**
+     * This function is used to sort element's JSON config properties, so that
+     * some properties that absolutely need to be processed last, can be put at
+     * the end.
+     *
+     * @ignore Exclude from docs
+     * @param a  Element 1
+     * @param b  Element 2
+     * @return Sorting number
+     */
     MapChart.prototype.configOrder = function (a, b) {
         if (a == b) {
             return 0;
@@ -1080,6 +1363,11 @@ var MapChart = /** @class */ (function (_super) {
     });
     /**
      * Resets the map to its original position and zoom level.
+     *
+     * Use the only parameter to set number of milliseconds for the zoom
+     * animation to play.
+     *
+     * @param  duration  Duration (ms)
      */
     MapChart.prototype.goHome = function (duration) {
         var homeGeoPoint = this.homeGeoPoint;
@@ -1092,9 +1380,10 @@ var MapChart = /** @class */ (function (_super) {
     };
     /**
      * Sets [[Paper]] instance to use to draw elements.
+     *
      * @ignore
-     * @param paper Paper
-     * @return true if paper was changed, false, if it's the same
+     * @param   paper  Paper
+     * @return         true if paper was changed, false, if it's the same
      */
     MapChart.prototype.setPaper = function (paper) {
         if (this.svgContainer) {
@@ -1102,6 +1391,63 @@ var MapChart = /** @class */ (function (_super) {
         }
         return _super.prototype.setPaper.call(this, paper);
     };
+    Object.defineProperty(MapChart.prototype, "backgroundSeries", {
+        /**
+         * Background series will create polygons that will fill all the map area
+         * with some color (or other fill).
+         *
+         * This might be useful with non-rectangular projections, like Orthographic,
+         * Albers, etc.
+         *
+         * To change background color/opacity access polygon template.
+         *
+         * ```TypeScript
+         * chart.backgroundSeries.mapPolygons.template.polygon.fill = am4core.color("#fff");
+         * chart.backgroundSeries.mapPolygons.template.polygon.fillOpacity = 0.1;
+         * ```
+         * ```JavaScript
+         * chart.backgroundSeries.mapPolygons.template.polygon.fill = am4core.color("#fff");
+         * chart.backgroundSeries.mapPolygons.template.polygon.fillOpacity = 0.1;
+         * ```
+         * ```JSON
+         * {
+         *   "backgroundSeries": {
+         *     "mapPolygons": {
+         *       "polygon": {
+         *         "fill": "#fff",
+         *         "fillOpacity": 0.1
+         *       }
+         *     }
+         *   }
+         * }
+         * ```
+         *
+         * @since 4.3.0
+         */
+        get: function () {
+            var _this = this;
+            if (!this._backgroundSeries) {
+                var backgroundSeries = this.series.push(new MapPolygonSeries());
+                backgroundSeries.hiddenInLegend = true;
+                backgroundSeries.addDisposer(new Disposer(function () {
+                    _this._backgroundSeries = undefined;
+                }));
+                this._disposers.push(backgroundSeries);
+                var interfaceColors = new InterfaceColorSet();
+                var color = interfaceColors.getFor("background");
+                var polygonTemplate = backgroundSeries.mapPolygons.template.polygon;
+                polygonTemplate.stroke = color;
+                polygonTemplate.fill = color;
+                polygonTemplate.fillOpacity = 0;
+                polygonTemplate.strokeOpacity = 0;
+                backgroundSeries.mapPolygons.create();
+                this._backgroundSeries = backgroundSeries;
+            }
+            return this._backgroundSeries;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Prepares the legend instance for use in this chart.
      *
@@ -1109,9 +1455,7 @@ var MapChart = /** @class */ (function (_super) {
      */
     MapChart.prototype.setLegend = function (legend) {
         _super.prototype.setLegend.call(this, legend);
-        if (legend) {
-            legend.parent = this.chartContainer;
-        }
+        legend.parent = this;
     };
     return MapChart;
 }(SerialChart));

@@ -1,76 +1,62 @@
-import { SpriteState } from "../core/SpriteState";
-import { Component } from "../core/Component";
-import { Scrollbar } from "../core/elements/Scrollbar";
-import { Tooltip } from "../core/elements/Tooltip";
-import { Series } from "../charts/series/Series";
-import { PercentSeries } from "../charts/series/PercentSeries";
-import { SankeyDiagram } from "../charts/types/SankeyDiagram";
-import { FunnelSeries } from "../charts/series/FunnelSeries";
-import { MapSeries } from "../charts/map/MapSeries";
-import { FunnelSlice } from "../charts/elements/FunnelSlice";
-import { Column } from "../charts/elements/Column";
-import { Column3D } from "../charts/elements/Column3D";
-import { Slice } from "../core/elements/Slice";
-import { Preloader } from "../core/elements/Preloader";
-import { Chart } from "../charts/Chart";
+import { is } from "./ITheme";
 var theme = function (object) {
-    if (object instanceof SpriteState) {
+    if (is(object, "SpriteState")) {
         object.transitionDuration = 400;
     }
-    if (object instanceof Component) {
+    if (is(object, "Component")) {
         object.rangeChangeDuration = 700;
         object.interpolationDuration = 700;
         object.sequencedInterpolation = false;
-        if (object instanceof SankeyDiagram) {
+        if (is(object, "SankeyDiagram")) {
             object.sequencedInterpolation = true;
         }
-        if (object instanceof FunnelSeries) {
+        if (is(object, "FunnelSeries")) {
             object.sequencedInterpolation = true;
         }
     }
-    if (object instanceof Chart) {
+    if (is(object, "Chart")) {
         object.defaultState.transitionDuration = 2000;
         object.hiddenState.transitionDuration = 1000;
     }
-    if (object instanceof Tooltip) {
+    if (is(object, "Tooltip")) {
         object.animationDuration = 400;
         object.defaultState.transitionDuration = 400;
         object.hiddenState.transitionDuration = 400;
     }
-    if (object instanceof Scrollbar) {
+    if (is(object, "Scrollbar")) {
         object.animationDuration = 700;
     }
-    if (object instanceof Series) {
+    if (is(object, "Series")) {
         object.defaultState.transitionDuration = 1000;
         object.hiddenState.transitionDuration = 700;
         object.hiddenState.properties.opacity = 1;
         object.showOnInit = true;
     }
-    if (object instanceof MapSeries) {
+    if (is(object, "MapSeries")) {
         object.hiddenState.properties.opacity = 0;
     }
-    if (object instanceof PercentSeries) {
+    if (is(object, "PercentSeries")) {
         object.hiddenState.properties.opacity = 0;
     }
-    if (object instanceof FunnelSlice) {
+    if (is(object, "FunnelSlice")) {
         object.defaultState.transitionDuration = 800;
         object.hiddenState.transitionDuration = 1000;
         object.hiddenState.properties.opacity = 1;
     }
-    if (object instanceof Slice) {
+    if (is(object, "Slice")) {
         object.defaultState.transitionDuration = 700;
         object.hiddenState.transitionDuration = 1000;
         object.hiddenState.properties.opacity = 1;
     }
-    if (object instanceof Preloader) {
+    if (is(object, "Preloader")) {
         object.hiddenState.transitionDuration = 2000;
     }
-    if (object instanceof Column) {
+    if (is(object, "Column")) {
         object.defaultState.transitionDuration = 700;
         object.hiddenState.transitionDuration = 1000;
         object.hiddenState.properties.opacity = 1;
     }
-    if (object instanceof Column3D) {
+    if (is(object, "Column3D")) {
         object.hiddenState.properties.opacity = 0;
     }
 };

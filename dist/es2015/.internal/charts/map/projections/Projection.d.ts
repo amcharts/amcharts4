@@ -8,8 +8,8 @@
  * @hidden
  */
 import { IGeoPoint } from "../../../core/defs/IGeoPoint";
-import { IGeoRectangle } from "../../../core/defs/IGeoRectangle";
-import { IPoint } from "../../../core/defs/IPoint";
+import { IPoint, IOrientationPoint } from "../../../core/defs/IPoint";
+import * as d3geo from "d3-geo";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -23,18 +23,12 @@ export declare class Projection {
     deltaLongitude: number;
     deltaLatitude: number;
     deltaGama: number;
-    centerPoint: IPoint;
-    scale: number;
-    projectGeoArea(geoArea: IGeoPoint[][][]): IPoint[][][];
-    projectGeoLine(geoLine: IGeoPoint[][]): IPoint[][];
-    getClipRectangle1(): IGeoPoint[];
-    getClipRectangle2(): IGeoPoint[];
-    getRect1(): IGeoRectangle;
-    getRect2(): IGeoRectangle;
-    protected clipGeoLine(geoLine: IGeoPoint[][]): IGeoPoint[][];
-    protected clipGeoArea(geoArea: IGeoPoint[][][]): IGeoPoint[][][];
-    protected convertGeoArea(geoArea: IGeoPoint[][][]): IPoint[][][];
-    protected convertGeoLine(geoLine: IGeoPoint[][]): IPoint[][];
+    protected _d3Projection: d3geo.GeoProjection;
+    protected _d3Path: d3geo.GeoPath;
+    constructor();
+    d3Projection: d3geo.GeoProjection;
+    readonly d3Path: d3geo.GeoPath;
+    readonly scale: number;
     /**
      * Converts a geographical point (lat/long) to a screen point (x/y)
      * @param geoPoint Geo point (lat/long)
@@ -51,6 +45,7 @@ export declare class Projection {
      * Returns X/Y coordinates.
      * Individual projections will override this method to apply their own
      * projection logic.
+     * @deprecated
      * @param lambda [description]
      * @param phi    [description]
      * @return X/Y coordinates
@@ -61,6 +56,7 @@ export declare class Projection {
      * Returns geographical coordinates (lat/long).
      * Individual projections will override this method to apply their own
      * projection logic.
+     * @deprecated
      * @param x X coordinate
      * @param y Y coordinate
      * @return Geographical point
@@ -69,13 +65,21 @@ export declare class Projection {
     unproject(x: number, y: number): IGeoPoint;
     rotate(geoPoint: IGeoPoint, deltaLongitude: number, deltaLatitude: number, deltaGamma?: number): IGeoPoint;
     unrotate(geoPoint: IGeoPoint, deltaLongitude: number, deltaLatitude: number, deltaGamma?: number): IGeoPoint;
-    clipLine(subjectPolyline: IGeoPoint[], clipPolygon: IGeoPoint[]): IGeoPoint[][];
-    clip(subjectPolygon: IGeoPoint[], clipPolygon: IGeoPoint[]): IGeoPoint[];
-    getExtremes(geoPoints: IGeoPoint[]): IGeoRectangle;
-    isInside(r1: IGeoRectangle, r2: IGeoRectangle): boolean;
-    isOutside(r1: IGeoRectangle, r2: IGeoRectangle): boolean;
-    intermediatePoint(pointA: IGeoPoint, pointB: IGeoPoint, position: number): {
-        latitude: number;
-        longitude: number;
-    };
+    intermediatePoint(pointA: IGeoPoint, pointB: IGeoPoint, position: number): IGeoPoint;
+    multiDistance(multiGeoLine: IGeoPoint[][]): number;
+    distance(pointA: IGeoPoint, pointB: IGeoPoint): number;
+    /**
+     * Converts relative position along the line (0-1) into pixel coordinates.
+     *
+     * @param position  Position (0-1)
+     * @return Coordinates
+     */
+    positionToPoint(multiGeoLine: IGeoPoint[][], position: number): IOrientationPoint;
+    /**
+     * Converts relative position along the line (0-1) into pixel coordinates.
+     *
+     * @param position  Position (0-1)
+     * @return Coordinates
+     */
+    positionToGeoPoint(multiGeoLine: IGeoPoint[][], position: number): IGeoPoint;
 }

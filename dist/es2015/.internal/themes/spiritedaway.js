@@ -1,10 +1,10 @@
 /**
  * Color set from Spirited away movie borrowed from https://twitter.com/CINEMAPALETTES
  */
+import { is } from "./ITheme";
 import { color } from "../core/utils/Color";
-import { ColorSet } from "../core/utils/ColorSet";
 var theme = function (object) {
-    if (object instanceof ColorSet) {
+    if (is(object, "ColorSet")) {
         object.list = [
             color("#65738e"),
             color("#766c91"),

@@ -10,6 +10,8 @@ import * as tslib_1 from "tslib";
  */
 import { MapObject } from "./MapObject";
 import { MapLineObject } from "./MapLineObject";
+import { MapImage } from "./MapImage";
+import { MapImageSeries } from "./MapImageSeries";
 import { Triangle } from "../../core/elements/Triangle";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { Polyline } from "../../core/elements/Polyline";
@@ -20,6 +22,7 @@ import { percent } from "../../core/utils/Percent";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
 import * as $geo from "./Geo";
+import * as $mapUtils from "./MapUtils";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -41,6 +44,10 @@ var MapLine = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this) || this;
+        /**
+         * A list of event disposers for images.
+         */
+        _this._imageListeners = {};
         _this.className = "MapLine";
         _this.createLine();
         _this.line.stroke = color();
@@ -69,26 +76,95 @@ var MapLine = /** @class */ (function (_super) {
      * @return Coordinates
      */
     MapLine.prototype.positionToPoint = function (position) {
-        if (this.line) {
-            return this.line.positionToPoint(position);
+        if (this.shortestDistance) {
+            return this.series.chart.projection.positionToPoint(this.multiGeoLine, position);
+        }
+        else {
+            if (this.line) {
+                return this.line.positionToPoint(position);
+            }
         }
         return { x: 0, y: 0, angle: 0 };
     };
     Object.defineProperty(MapLine.prototype, "multiGeoLine", {
         /**
-         * @return [description]
+         * @return Coordinates
          */
         get: function () {
-            return this.getPropertyValue("multiGeoLine");
+            var multiGeoLine = this.getPropertyValue("multiGeoLine");
+            if (!multiGeoLine && this.dataItem && this.dataItem.multiGeoLine) {
+                multiGeoLine = this.dataItem.multiGeoLine;
+            }
+            return multiGeoLine;
         },
         /**
-         * [multiGeoLine description]
+         * A collection of X/Y coordinates for a multi-segment line. E.g.:
          *
-         * @todo Description
-         * @param multiGeoLine [description]
+         * ```JSON
+         * [
+         *   // Segment 1
+         *   [
+         *     { longitude: 3.121, latitude: 0.58 },
+         *     { longitude: -5.199, latitude: 21.223 }
+         *   ],
+         *
+         *   // Segment 2
+         *   [
+         *     { longitude: -5.199, latitude: 21.223 },
+         *     { longitude: -12.9, latitude: 25.85 }
+         *   ]
+         * ]
+         * ```
+         *
+         * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.5} GeoJSON MultiLineString reference
+         * @param multiGeoLine  Coordinates
          */
         set: function (multiGeoLine) {
-            this.setPropertyValue("multiGeoLine", $geo.normalizeMultiline(multiGeoLine), true);
+            if (multiGeoLine && multiGeoLine.length > 0) {
+                this.setPropertyValue("multiGeoLine", $geo.normalizeMultiline(multiGeoLine), true);
+                var multiLine = $mapUtils.multiGeoLineToMultiLine(multiGeoLine);
+                this.setPropertyValue("multiLine", multiLine);
+                this.updateExtremes();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapLine.prototype, "multiLine", {
+        /**
+         * @return Coordinates
+         */
+        get: function () {
+            var multiLine = this.getPropertyValue("multiLine");
+            if (!multiLine && this.dataItem && this.dataItem.multiLine) {
+                multiLine = this.dataItem.multiLine;
+            }
+            return multiLine;
+        },
+        /**
+         * A collection of X/Y coordinates for a multi-segment line. E.g.:
+         *
+         * ```JSON
+         * [
+         *   // Segment 1
+         *   [
+         *     [ 100, 150 ],
+         *     [ 120, 200 ]
+         *   ],
+         *
+         *   // Segment 2
+         *   [
+         *     [ 120, 200 ],
+         *     [ 150, 100 ]
+         *   ]
+         * ]
+         * ```
+         *
+         * @param multiLine  Coordinates
+         */
+        set: function (multiLine) {
+            this.setPropertyValue("multiLine", multiLine);
+            this.multiGeoLine = $mapUtils.multiLineToGeo(multiLine);
         },
         enumerable: true,
         configurable: true
@@ -110,46 +186,50 @@ var MapLine = /** @class */ (function (_super) {
          * @param images  Images
          */
         set: function (images) {
-            var _this = this;
-            //@todo dispose listeners if previous imagesToConnect exists
-            for (var i = 0, len = images.length; i < len; i++) {
-                var image = images[i];
-                if ($type.isString(image)) {
-                    if (this.map.hasKey(image)) {
-                        image = this.map.getKey(image);
-                        images[i] = image;
-                    }
-                    else {
-                        continue;
-                    }
-                }
-                image.events.on("propertychanged", function (event) {
-                    if (event.property == "longitude" || event.property == "latitude") {
-                        _this.invalidate();
-                    }
-                }, this, false);
-            }
-            this.setPropertyValue("imagesToConnect", images);
+            this.setPropertyValue("imagesToConnect", images, true);
+            this.handleImagesToConnect();
         },
         enumerable: true,
         configurable: true
     });
-    /**
-     * (Re)validates the line, effectively forcing it to redraw.
-     *
-     * @ignore Exclude from docs
-     */
-    MapLine.prototype.validate = function () {
-        var chart = this.series.chart;
-        //let multiPoints: IPoint[][] = [];
-        var multiGeoLine = this.multiGeoLine || [];
+    MapLine.prototype.handleImagesToConnect = function () {
+        var _this = this;
         if (this.imagesToConnect) {
             var segment = [];
-            multiGeoLine = [segment];
+            var multiGeoLine = [segment];
+            var _loop_1 = function (image) {
+                if ($type.isString(image)) {
+                    var chart = this_1.series.chart;
+                    if (chart) {
+                        chart.series.each(function (series) {
+                            if (series instanceof MapImageSeries) {
+                                var img = series.getImageById(image);
+                                if (img) {
+                                    image = img;
+                                }
+                            }
+                        });
+                    }
+                }
+                if (image instanceof MapImage) {
+                    segment.push({ longitude: image.longitude, latitude: image.latitude });
+                    if (!this_1._imageListeners[image.id]) {
+                        var disposer = image.events.on("propertychanged", function (event) {
+                            if (event.property == "longitude" || event.property == "latitude") {
+                                _this.handleImagesToConnect();
+                                _this.invalidate();
+                            }
+                        }, this_1, false);
+                        this_1._imageListeners[image.id] = disposer;
+                        this_1._disposers.push(disposer);
+                    }
+                }
+            };
+            var this_1 = this;
             try {
                 for (var _a = tslib_1.__values(this.imagesToConnect), _b = _a.next(); !_b.done; _b = _a.next()) {
                     var image = _b.value;
-                    segment.push({ longitude: image.longitude, latitude: image.latitude });
+                    _loop_1(image);
                 }
             }
             catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -159,46 +239,55 @@ var MapLine = /** @class */ (function (_super) {
                 }
                 finally { if (e_1) throw e_1.error; }
             }
+            this.multiGeoLine = multiGeoLine;
         }
-        if (this.shortestDistance) {
-            var newMultiGeoLine = [];
-            for (var i = 0, len = multiGeoLine.length; i < len; i++) {
-                var geoLine = multiGeoLine[i];
-                var newGeoLine = [];
-                for (var p = 1, plen = geoLine.length; p < plen; p++) {
-                    var geoPointA = geoLine[p - 1];
-                    var geoPointB = geoLine[p];
-                    var stepCount = Math.max(Math.abs(geoPointA.latitude - geoPointB.latitude), Math.abs(geoPointA.longitude - geoPointB.longitude)) * 4;
-                    //let latitudeStep: number = (geoPointB.latitude - geoPointA.latitude) / stepCount;
-                    //let longitudeStep: number = (geoPointB.longitude - geoPointA.longitude) / stepCount;
-                    for (var d = 0; d < stepCount; d++) {
-                        var intermediatePoint = chart.projection.intermediatePoint(geoPointA, geoPointB, d / stepCount);
-                        if (newGeoLine.length > 0) {
-                            var previousPoint = newGeoLine[newGeoLine.length - 1];
-                            if (Math.abs(previousPoint.longitude - intermediatePoint.longitude) > 359) {
-                                newMultiGeoLine.push(newGeoLine);
-                                newGeoLine = [];
-                            }
-                        }
-                        newGeoLine.push(intermediatePoint);
-                    }
-                    // add last point to avoid gap
-                    newGeoLine.push(geoPointB);
-                }
-                newMultiGeoLine.push(newGeoLine);
-            }
-            multiGeoLine = newMultiGeoLine;
-        }
-        this.line.segments = chart.projection.projectGeoLine(multiGeoLine);
-        if (this._arrow) {
-            this._arrow.validatePosition();
-        }
-        $iter.each(this.lineObjects.iterator(), function (x) {
-            x.validatePosition();
-        });
-        this.handleGlobalScale();
-        _super.prototype.validate.call(this);
         var e_1, _c;
+    };
+    /**
+     * (Re)validates the line, effectively forcing it to redraw.
+     *
+     * @ignore Exclude from docs
+     */
+    MapLine.prototype.validate = function () {
+        var chart = this.series.chart;
+        if (this.multiLine) {
+            if (!this.shortestDistance) {
+                var convertedPoints = [];
+                for (var i = 0, len = this.multiLine.length; i < len; i++) {
+                    var segment = this.multiLine[i];
+                    var convertedSegmentPoints = [];
+                    for (var s = 0, slen = segment.length; s < slen; s++) {
+                        var geoPoint = segment[s];
+                        var point = this.series.chart.projection.convert({ longitude: geoPoint[0], latitude: geoPoint[1] });
+                        convertedSegmentPoints.push(point);
+                    }
+                    convertedPoints.push(convertedSegmentPoints);
+                }
+                this.line.segments = convertedPoints;
+            }
+            else {
+                this.line.path = chart.projection.d3Path(this.getFeature());
+            }
+            if (this._arrow) {
+                this._arrow.validatePosition();
+            }
+            $iter.each(this.lineObjects.iterator(), function (x) {
+                x.validatePosition();
+            });
+            this.handleGlobalScale();
+        }
+        else if (this.imagesToConnect) {
+            this.handleImagesToConnect();
+        }
+        _super.prototype.validate.call(this);
+    };
+    /**
+     * @ignore
+     */
+    MapLine.prototype.getFeature = function () {
+        if (this.multiLine && this.multiLine.length > 0 && this.multiLine[0] && this.multiLine[0].length > 0) {
+            return { "type": "Feature", geometry: { type: "MultiLineString", coordinates: this.multiLine } };
+        }
     };
     /**
      * @ignore Exclude from docs
@@ -231,9 +320,8 @@ var MapLine = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapLine.prototype, "lineObjects", {
         /**
-         * List of separate line objects, the line consists of.
+         * List of separate line objects the line consists of.
          *
-         * @todo Description (review)
          * @readonly
          * @return List of line objects
          */
@@ -322,8 +410,7 @@ var MapLine = /** @class */ (function (_super) {
          * @return Latitude
          */
         get: function () {
-            var dataItem = this.dataItem;
-            return dataItem.north + (dataItem.south - dataItem.north) / 2;
+            return this.north + (this.south - this.north) / 2;
         },
         enumerable: true,
         configurable: true
@@ -336,8 +423,7 @@ var MapLine = /** @class */ (function (_super) {
          * @return Latitude
          */
         get: function () {
-            var dataItem = this.dataItem;
-            return dataItem.east + (dataItem.west - dataItem.east) / 2;
+            return this.east + (this.west - this.east) / 2;
         },
         enumerable: true,
         configurable: true
@@ -348,7 +434,7 @@ var MapLine = /** @class */ (function (_super) {
      * @return X
      */
     MapLine.prototype.getTooltipX = function () {
-        return this.line.positionToPoint(0.5).x;
+        return this.positionToPoint(0.5).x;
     };
     /**
      * Y coordinate for the slice tooltip.
@@ -356,7 +442,7 @@ var MapLine = /** @class */ (function (_super) {
      * @return Y
      */
     MapLine.prototype.getTooltipY = function () {
-        return this.line.positionToPoint(0.5).y;
+        return this.positionToPoint(0.5).y;
     };
     return MapLine;
 }(MapObject));

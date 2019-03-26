@@ -90,6 +90,9 @@ export declare class ZoomControl extends Container {
      * Constructor
      */
     constructor();
+    /**
+     * @ignore
+     */
     protected fixLayout(): void;
     /**
      * Handles zoom operation after clicking on the slider background.

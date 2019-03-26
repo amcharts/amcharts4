@@ -1,12 +1,3 @@
-/**
- * [[Chart]] class provides base functionality for all chart types to inherit.
- */
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
 import { Component, IComponentProperties, IComponentDataFields, IComponentEvents, IComponentAdapters } from "../core/Component";
 import { MutableValueDisposer } from "../core/utils/Disposer";
 import { ListTemplate, IListEvents } from "../core/utils/List";

@@ -9,6 +9,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
+import { registry } from "../../core/Registry";
 import { Sprite } from "../../core/Sprite";
 import { PointedRectangle } from "./PointedRectangle";
 import { IPoint } from "../defs/IPoint";
@@ -710,3 +711,11 @@ export class Tooltip extends Container {
 		this.label.copyFrom(source.label);
 	}
 }
+
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Tooltip"] = Tooltip;

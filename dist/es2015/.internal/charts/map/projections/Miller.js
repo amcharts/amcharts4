@@ -42,40 +42,18 @@ import * as tslib_1 from "tslib";
  */
 import { Projection } from "./Projection";
 import { registry } from "../../../core/Registry";
+// @ts-ignore
+import * as d3geoprojection from "d3-geo-projection";
 /**
  * Miller projection.
  */
 var Miller = /** @class */ (function (_super) {
     tslib_1.__extends(Miller, _super);
     function Miller() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super.call(this) || this;
+        _this.d3Projection = d3geoprojection.geoMiller();
+        return _this;
     }
-    /**
-     * Converts screen coordinates to latitude/longitude.
-     *
-     * @param x  X
-     * @param y  Y
-     * @return Geographical coordinates in radians
-     */
-    Miller.prototype.unproject = function (x, y) {
-        return {
-            longitude: x,
-            latitude: 2.5 * Math.atan(Math.exp(0.8 * y)) - 0.625 * Math.PI
-        };
-    };
-    /**
-     * Converts geographical coordinates to screen coordinates.
-     *
-     * @param lambda  Lambda parameter
-     * @param phi     Phi parameter
-     * @return Screen coordinates
-     */
-    Miller.prototype.project = function (lambda, phi) {
-        return {
-            x: lambda,
-            y: 1.25 * Math.log(Math.tan(Math.PI / 4 + 0.4 * phi))
-        };
-    };
     return Miller;
 }(Projection));
 export { Miller };

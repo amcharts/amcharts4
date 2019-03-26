@@ -82,7 +82,7 @@ label.y = am4core.percent(50);
 label.isMeasured = false;
 
 var title = chart.createChild(am4core.Label);
-title.text = "Sorts of wine I drunk yesterday"
+title.text = "Sorts of wine I drank yesterday"
 title.fontSize = 20;
 title.fill = am4core.color("#390511");
 title.isMeasured = false;

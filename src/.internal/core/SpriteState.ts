@@ -9,6 +9,7 @@
  * @hidden
  */
 import { BaseObject } from "./Base";
+import { registry } from "./Registry";
 import { Adapter } from "./utils/Adapter";
 import { List, ListDisposer } from "./utils/List";
 import { Filter } from "./rendering/filters/Filter";
@@ -347,3 +348,11 @@ export class SpriteState<P, A> extends BaseObject {
 	}
 
 }
+
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["SpriteState"] = SpriteState;

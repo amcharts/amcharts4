@@ -758,6 +758,10 @@ var InteractionObject = /** @class */ (function (_super) {
         interaction.downObjects.removeValue(this);
         interaction.trackedObjects.removeValue(this);
         interaction.transformedObjects.removeValue(this);
+        // Unlock document wheel
+        if (this.isHover && this.wheelable) {
+            interaction.unlockWheel();
+        }
         if (interaction.focusedObject === this) {
             interaction.focusedObject = undefined;
         }

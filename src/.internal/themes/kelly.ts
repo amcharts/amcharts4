@@ -6,14 +6,14 @@
  * {@link https://eleanormaclure.files.wordpress.com/2011/03/colour-coding.pdf}
  */
 
-import { ITheme } from "./ITheme";
+import { ITheme, is } from "./ITheme";
 import { color } from "../core/utils/Color";
 import { ColorSet } from "../core/utils/ColorSet";
 import { BaseObject } from "../core/Base";
 
 const theme: ITheme = (object: BaseObject) => {
 
-	if (object instanceof ColorSet) {
+	if (is<ColorSet>(object, "ColorSet")) {
 		object.list = [
 			color("#F3C300"),
 			color("#875692"),

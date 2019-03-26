@@ -42,39 +42,17 @@ import * as tslib_1 from "tslib";
  */
 import { Projection } from "./Projection";
 import { registry } from "../../../core/Registry";
+import * as d3geo from "d3-geo";
 /**
  * Mercator projection.
  */
 var Mercator = /** @class */ (function (_super) {
     tslib_1.__extends(Mercator, _super);
     function Mercator() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super.call(this) || this;
+        _this.d3Projection = d3geo.geoMercator();
+        return _this;
     }
-    /**
-     * Converts screen coordinates to latitude/longitude in radians
-     * @param x  X
-     * @param y  Y
-     * @return Geographical coordinates
-     */
-    Mercator.prototype.unproject = function (x, y) {
-        return {
-            longitude: x,
-            latitude: 2 * Math.atan(Math.exp(y)) - Math.PI / 2
-        };
-    };
-    /**
-     * Converts geographical coordinates to screen coordinates.
-     *
-     * @param lambda  Lambda parameter
-     * @param phi     Phi parameter
-     * @return Screen coordinates
-     */
-    Mercator.prototype.project = function (lambda, phi) {
-        return {
-            x: lambda,
-            y: Math.log(Math.tan((Math.PI / 2 + phi) / 2))
-        };
-    };
     return Mercator;
 }(Projection));
 export { Mercator };

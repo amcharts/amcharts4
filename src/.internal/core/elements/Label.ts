@@ -475,7 +475,6 @@ export class Label extends Container {
 		// Draw super
 		super.draw();
 
-
 		let oldW = this.bbox.width;
 		let oldH = this.bbox.height;
 
@@ -615,9 +614,10 @@ export class Label extends Container {
 					lineInfo.element.add(this.textPathElement);
 				}
 
+				/*// @todo not needed anymore
 				if (this.rtl) {
 					chunks.reverse();
-				}
+				}*/
 
 				// Process each chunk
 				for (let x: number = 0; x < chunks.length; x++) {
@@ -868,14 +868,12 @@ export class Label extends Container {
 
 										// Add leftovers from splitting the current chunk
 										if ($type.hasValue(splitLines)) {
-
 											if (this.rtl) {
 												restOfLine += splitLines.join("") + currentFormat;
 											}
 											else {
 												restOfLine += currentFormat + splitLines.join("");
 											}
-
 										}
 
 										// Add the rest of the chunks
@@ -1157,7 +1155,7 @@ export class Label extends Container {
 		if (this.rtl) {
 			element.attr({
 				"direction": "rtl",
-				"unicode-bidi": "bidi-override"
+				//"unicode-bidi": "bidi-override"
 			});
 		}
 
@@ -1214,7 +1212,7 @@ export class Label extends Container {
 		// Set RTL-related styles
 		if (this.rtl) {
 			div.style.direction = "rtl";
-			div.style.unicodeBidi = "bidi-override";
+			//div.style.unicodeBidi = "bidi-override";
 		}
 
 		// Translate some of the SVG styles into CSS

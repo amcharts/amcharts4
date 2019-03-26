@@ -9,6 +9,7 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { Container } from "../Container";
+import { registry } from "../../core/Registry";
 import { PointedRectangle } from "./PointedRectangle";
 import { Label } from "../elements/Label";
 import { Animation } from "../utils/Animation";
@@ -549,4 +550,11 @@ var Tooltip = /** @class */ (function (_super) {
     return Tooltip;
 }(Container));
 export { Tooltip };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Tooltip"] = Tooltip;
 //# sourceMappingURL=Tooltip.js.map

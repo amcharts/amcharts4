@@ -40,25 +40,9 @@
  * @hidden
  */
 import { Projection } from "./Projection";
-import { IGeoPoint } from "../../../core/defs/IGeoPoint";
-import { IPoint } from "../../../core/defs/IPoint";
 /**
  * Mercator projection.
  */
 export declare class Mercator extends Projection {
-    /**
-     * Converts screen coordinates to latitude/longitude in radians
-     * @param x  X
-     * @param y  Y
-     * @return Geographical coordinates
-     */
-    unproject(x: number, y: number): IGeoPoint;
-    /**
-     * Converts geographical coordinates to screen coordinates.
-     *
-     * @param lambda  Lambda parameter
-     * @param phi     Phi parameter
-     * @return Screen coordinates
-     */
-    project(lambda: number, phi: number): IPoint;
+    constructor();
 }

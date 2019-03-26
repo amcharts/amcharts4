@@ -40,24 +40,9 @@
  * @hidden
  */
 import { Projection } from "./Projection";
-import { IGeoPoint } from "../../../core/defs/IGeoPoint";
-import { IGeoRectangle } from "../../../core/defs/IGeoRectangle";
-import { IPoint } from "../../../core/defs/IPoint";
 /**
  * Orthographic projection.
  */
 export declare class Orthographic extends Projection {
-    /**
-     * Converts geographical coordinates to screen coordinates.
-     *
-     * @param lambda  Lambda parameter
-     * @param phi     Phi parameter
-     * @return Screen coordinates
-     */
-    project(lambda: number, phi: number): IPoint;
-    getClipRectangle1(): IGeoPoint[];
-    getRect1(): IGeoRectangle;
-    getClipRectangle2(): IGeoPoint[];
-    getRect2(): IGeoRectangle;
-    protected clipGeoArea(geoArea: IGeoPoint[][][]): IGeoPoint[][][];
+    constructor();
 }

@@ -87,6 +87,9 @@ var ZoomControl = /** @class */ (function (_super) {
         _this.fixLayout();
         return _this;
     }
+    /**
+     * @ignore
+     */
     ZoomControl.prototype.fixLayout = function () {
         var plusButton = this.plusButton;
         var minusButton = this.minusButton;

@@ -9,6 +9,7 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { BaseObject } from "./Base";
+import { registry } from "./Registry";
 import { Adapter } from "./utils/Adapter";
 import { List, ListDisposer } from "./utils/List";
 import { toColor } from "./utils/Color";
@@ -300,4 +301,11 @@ var SpriteState = /** @class */ (function (_super) {
     return SpriteState;
 }(BaseObject));
 export { SpriteState };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["SpriteState"] = SpriteState;
 //# sourceMappingURL=SpriteState.js.map

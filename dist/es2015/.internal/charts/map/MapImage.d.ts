@@ -100,4 +100,14 @@ export declare class MapImage extends MapObject {
      * @ignore Exclude from docs
      */
     validatePosition(): void;
+    /**
+     * @ignore
+     */
+    getFeature(): {
+        "type": "Feature";
+        geometry: {
+            type: "Point";
+            coordinates: number[];
+        };
+    };
 }

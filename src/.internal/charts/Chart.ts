@@ -8,6 +8,7 @@
  * ============================================================================
  * @hidden
  */
+import { registry } from "../core/Registry";
 import { Component, IComponentProperties, IComponentDataFields, IComponentEvents, IComponentAdapters } from "../core/Component";
 import { MutableValueDisposer } from "../core/utils/Disposer";
 import { ListTemplate, IListEvents, ListDisposer } from "../core/utils/List";
@@ -395,6 +396,15 @@ export class Chart extends Component {
 	}
 
 }
+
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Chart"] = Chart;
+
 
 
 /**
