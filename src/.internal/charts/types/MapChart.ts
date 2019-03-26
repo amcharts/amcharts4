@@ -1625,7 +1625,6 @@ export class MapChart extends SerialChart {
 	 * E.g. if set to -160, the longitude 20 will become a new center, creating
 	 * a Pacific-centered map.
 	 *
-	 * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Map_rotation} For more about map rotation.
 	 * @param  value  Rotation
 	 */
 	public set deltaLongitude(value: number) {
@@ -1645,11 +1644,10 @@ export class MapChart extends SerialChart {
 	/**
 	 * Degrees to rotate the map around horizontal axis (X).
 	 *
-	 * E.g. setting this to 90 will put Antarctica directly in the center of
+	 * E.g. setting this to -90 will put Antarctica directly in the center of
 	 * the map.
 	 *
 	 * @since 4.3.0
-	 * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Map_rotation} For more about map rotation.
 	 * @param  value  Rotation
 	 */
 	public set deltaLatitude(value: number) {
@@ -1670,9 +1668,8 @@ export class MapChart extends SerialChart {
 	 * Degrees to rotate the map around "Z" axis. This is the axis that pierces
 	 * the globe directly from the viewer's point of view.
 	 * 
-	 * @since 4.3.0
-	 * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Map_rotation} For more about map rotation.
 	 * @param  value  Rotation
+	 * @since 4.3.0
 	 */
 	public set deltaGamma(value: number) {
 		if (this.setPropertyValue("deltaGamma", value)) {
@@ -1872,9 +1869,7 @@ export class MapChart extends SerialChart {
 	public handleSeriesAdded(event: IListEvents<MapSeries>["inserted"]): void {
 		super.handleSeriesAdded(event);
 		let series = event.newValue;
-		series.addDisposer(new Disposer(() => {
-			series.events.on("validated", this.updateCenterGeoPoint, this, false);
-		}));
+		series.events.on("validated", this.updateCenterGeoPoint, this, false);		
 	}
 
 

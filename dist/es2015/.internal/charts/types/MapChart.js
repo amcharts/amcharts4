@@ -1302,12 +1302,9 @@ var MapChart = /** @class */ (function (_super) {
      * @param event  Event
      */
     MapChart.prototype.handleSeriesAdded = function (event) {
-        var _this = this;
         _super.prototype.handleSeriesAdded.call(this, event);
         var series = event.newValue;
-        series.addDisposer(new Disposer(function () {
-            series.events.on("validated", _this.updateCenterGeoPoint, _this, false);
-        }));
+        series.events.on("validated", this.updateCenterGeoPoint, this, false);
     };
     /**
      * This function is used to sort element's JSON config properties, so that
