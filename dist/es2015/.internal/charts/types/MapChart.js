@@ -290,7 +290,7 @@ var MapChart = /** @class */ (function (_super) {
      * @ignore
      */
     MapChart.prototype.updateZoomGeoPoint = function () {
-        var seriesPoint = $utils.svgPointToSprite({ x: this.maxWidth / 2, y: this.maxHeight / 2 }, this.series.getIndex(0));
+        var seriesPoint = $utils.svgPointToSprite({ x: this.innerWidth / 2, y: this.innerHeight / 2 }, this.series.getIndex(0));
         var geoPoint = this.projection.invert(seriesPoint);
         this._zoomGeoPointReal = geoPoint;
     };
@@ -652,8 +652,8 @@ var MapChart = /** @class */ (function (_super) {
     MapChart.prototype.updateScaleRatio = function () {
         var scaleRatio;
         this.updateCenterGeoPoint();
-        var hScale = this.chartContainer.innerWidth / this.seriesWidth;
-        var vScale = this.chartContainer.innerHeight / this.seriesHeight;
+        var hScale = this.innerWidth / this.seriesWidth;
+        var vScale = this.innerHeight / this.seriesHeight;
         scaleRatio = $math.min(hScale, vScale);
         if ($type.isNaN(scaleRatio) || scaleRatio == Infinity) {
             scaleRatio = 1;
@@ -736,7 +736,12 @@ var MapChart = /** @class */ (function (_super) {
                 this._geodata = geodata;
                 this.invalidateData();
                 this.dataUsers.each(function (dataUser) {
-                    dataUser.data = [];
+                    for (var i = dataUser.data.length - 1; i >= 0; i--) {
+                        if (dataUser.data[i].madeFromGeoData == true) {
+                            dataUser.data.splice(i, 1);
+                        }
+                    }
+                    dataUser.disposeData();
                     dataUser.invalidateData();
                 });
             }
@@ -769,8 +774,8 @@ var MapChart = /** @class */ (function (_super) {
         var mapPoint = $utils.svgPointToSprite(svgPoint, this);
         if (center) {
             mapPoint = {
-                x: this.maxWidth / 2,
-                y: this.maxHeight / 2
+                x: this.innerWidth / 2,
+                y: this.innerHeight / 2
             };
         }
         if (!$type.isNumber(duration)) {
@@ -1059,6 +1064,7 @@ var MapChart = /** @class */ (function (_super) {
          * E.g. if set to -160, the longitude 20 will become a new center, creating
          * a Pacific-centered map.
          *
+         * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Map_rotation} For more info on map rotation.
          * @param  value  Rotation
          */
         set: function (value) {
@@ -1080,9 +1086,10 @@ var MapChart = /** @class */ (function (_super) {
         /**
          * Degrees to rotate the map around horizontal axis (X).
          *
-         * E.g. setting this to -90 will put Antarctica directly in the center of
+         * E.g. setting this to 90 will put Antarctica directly in the center of
          * the map.
          *
+         * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Map_rotation} For more info on map rotation.
          * @since 4.3.0
          * @param  value  Rotation
          */
@@ -1106,8 +1113,9 @@ var MapChart = /** @class */ (function (_super) {
          * Degrees to rotate the map around "Z" axis. This is the axis that pierces
          * the globe directly from the viewer's point of view.
          *
-         * @param  value  Rotation
+         * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Map_rotation} For more info on map rotation.
          * @since 4.3.0
+         * @param  value  Rotation
          */
         set: function (value) {
             if (this.setPropertyValue("deltaGamma", value)) {

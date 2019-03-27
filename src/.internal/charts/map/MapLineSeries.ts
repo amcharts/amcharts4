@@ -416,7 +416,7 @@ export class MapLineSeries extends MapSeries {
 								}
 
 								if (!dataObject) {
-									dataObject = { multiLine: coordinates, id: id };
+									dataObject = { multiLine: coordinates, id: id, madeFromGeoData:true};
 									this.data.push(dataObject);
 								}
 								else {

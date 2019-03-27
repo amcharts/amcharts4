@@ -393,7 +393,13 @@ var MapSeries = /** @class */ (function (_super) {
         set: function (geodata) {
             if (geodata != this._geodata) {
                 this._geodata = geodata;
-                this.data = [];
+                for (var i = this.data.length - 1; i >= 0; i--) {
+                    if (this.data[i].madeFromGeoData == true) {
+                        this.data.splice(i, 1);
+                    }
+                }
+                this.disposeData();
+                this.invalidateData();
             }
         },
         enumerable: true,

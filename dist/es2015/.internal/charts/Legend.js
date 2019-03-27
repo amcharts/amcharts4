@@ -159,10 +159,11 @@ var LegendDataItem = /** @class */ (function (_super) {
                 this.addSprite(itemContainer_1);
                 this._disposers.push(itemContainer_1);
                 // Add click/tap event to toggle item
-                // not good to listen to "toggled" as we will get to stackoverflow
-                itemContainer_1.events.on("toggled", function (ev) {
-                    component_1.toggleDataItem(ev.target.dataItem);
-                }, undefined, false);
+                if (itemContainer_1.togglable) {
+                    itemContainer_1.events.on("toggled", function (ev) {
+                        component_1.toggleDataItem(ev.target.dataItem);
+                    }, undefined, false);
+                }
                 // Add focus event so that we can track which object is currently in focus
                 // for keyboard toggling
                 itemContainer_1.events.on("focus", function (ev) {

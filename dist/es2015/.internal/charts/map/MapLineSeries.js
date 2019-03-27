@@ -282,7 +282,7 @@ var MapLineSeries = /** @class */ (function (_super) {
                                     coordinates = [coordinates];
                                 }
                                 if (!dataObject) {
-                                    dataObject = { multiLine: coordinates, id: id_1 };
+                                    dataObject = { multiLine: coordinates, id: id_1, madeFromGeoData: true };
                                     this_1.data.push(dataObject);
                                 }
                                 else {

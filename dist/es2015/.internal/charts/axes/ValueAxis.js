@@ -362,6 +362,9 @@ var ValueAxis = /** @class */ (function (_super) {
                 }
                 else {
                     value_1 = Math.floor(this.minZoomed / this._step) * this._step;
+                    if (value_1 == 0) {
+                        value_1 = this.minZoomed;
+                    }
                 }
             }
             var maxZoomed = this._maxZoomed + this._step;
@@ -678,7 +681,12 @@ var ValueAxis = /** @class */ (function (_super) {
                 });
             }
             if (!$type.isNumber(value_2)) {
-                value_2 = position * difference_1 + min;
+                if (this.logarithmic) {
+                    value_2 = Math.pow(Math.E, (position * ((Math.log(this.max) * Math.LOG10E - Math.log(this.min) * Math.LOG10E)) + Math.log(this.min) * Math.LOG10E) / Math.LOG10E);
+                }
+                else {
+                    value_2 = position * difference_1 + min;
+                }
             }
             return value_2;
         }

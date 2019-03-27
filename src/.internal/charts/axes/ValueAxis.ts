@@ -606,6 +606,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				}
 				else {
 					value = Math.floor(this.minZoomed / this._step) * this._step;
+					if(value == 0){
+						value = this.minZoomed;
+					}
 				}
 			}
 
@@ -983,7 +986,12 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			}
 
 			if (!$type.isNumber(value)) {
-				value = position * difference + min;
+				if (this.logarithmic) {
+					value = Math.pow(Math.E, (position * ((Math.log(this.max) * Math.LOG10E - Math.log(this.min) * Math.LOG10E)) + Math.log(this.min) * Math.LOG10E) / Math.LOG10E);
+				}
+				else {
+					value = position * difference + min;
+				}
 			}
 
 			return value;
@@ -1136,9 +1144,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				max = this._maxReal;
 			}
 
-			if(min == max){
+			if (min == max) {
 				min -= 1;
-				max += 1;					
+				max += 1;
 			}
 		}
 
@@ -1611,7 +1619,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		}
 
 		if (selectionMin == selectionMax) {
-			
+
 			selectionMin -= 1;
 			selectionMax += 1;
 

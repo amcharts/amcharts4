@@ -203,7 +203,7 @@ var MapImageSeries = /** @class */ (function (_super) {
                                     return value.id == id_1;
                                 });
                                 if (!dataObject) {
-                                    dataObject = { multiPoint: coordinates, id: id_1 };
+                                    dataObject = { multiPoint: coordinates, id: id_1, madeFromGeoData: true };
                                     this_1.data.push(dataObject);
                                 }
                                 else {

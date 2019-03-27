@@ -574,7 +574,13 @@ export class MapSeries extends Series {
 	public set geodata(geodata: Object) {
 		if (geodata != this._geodata) {
 			this._geodata = geodata;
-			this.data = [];
+			for (let i = this.data.length - 1; i >= 0; i--) {
+				if (this.data[i].madeFromGeoData == true) {
+					this.data.splice(i, 1);
+				}
+			}
+			this.disposeData();
+			this.invalidateData();
 		}
 	}
 
@@ -685,7 +691,7 @@ export class MapSeries extends Series {
 			this._south = south;
 
 			this.dispatch("geoBoundsChanged");
-			if(!this.ignoreBounds){
+			if (!this.ignoreBounds) {
 				this.chart.updateExtremes();
 			}
 		}

@@ -6,7 +6,7 @@ try {
   mapChart.geodata = am4geodata_continentsLow;
 }
 catch (e) {
-  mapChart.raiseCriticalError(new Error("Map geodata could not be loaded. Please download the latest <a href=\"https://www.amcharts.com/download/download-v4/\">amcharts geodata</a> and extract its contents into the same directory as your amCharts files."));
+  mapChart.raiseCriticalError(new Error("Map geodata could not be loaded. Please download the latest amcharts geodata and extract its contents into the same directory as your amCharts files."));
 }
 
 mapChart.projection = new am4maps.projections.Miller;
@@ -29,10 +29,17 @@ var nightSeries = mapChart.series.push(new am4maps.MapPolygonSeries());
 nightSeries.ignoreBounds = true;
 var night = nightSeries.mapPolygons.create();
 night.fill = am4core.color("#000000");
-night.fillOpacity = 0.7;
+night.fillOpacity = 0.35;
 night.interactionsEnabled = false;
 night.stroke = am4core.color("#000000");
 night.strokeOpacity = 0;
+
+var night2 = nightSeries.mapPolygons.create();
+night2.fill = am4core.color("#000000");
+night2.fillOpacity = 0.4;
+night2.interactionsEnabled = false;
+night2.stroke = am4core.color("#000000");
+night2.strokeOpacity = 0;
 
 
 // images series
@@ -72,7 +79,8 @@ function updateDateNight(time) {
   sun.longitude = sunPosition.longitude;
   sun.deepInvalidate();
 
-  night.multiPolygon = am4maps.getCircle(sunPosition.longitude + 180, -sunPosition.latitude, 90);
+  night.multiPolygon = am4maps.getCircle(sunPosition.longitude + 180, -sunPosition.latitude, 91);
+  night2.multiPolygon = am4maps.getCircle(sunPosition.longitude + 180, -sunPosition.latitude, 89);
 }
 
 

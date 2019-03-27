@@ -262,7 +262,7 @@ export class GraticuleSeries extends MapLineSeries {
 
 		if (graticule) {
 			graticule.stepMinor([this.longitudeStep, this.latitudeStep]);
-			//graticule.stepMajor([this.majorLongitudeStep, this.majorLatitudeStep]);
+			graticule.stepMajor([360, 360]);
 
 			let chart = this.chart;
 			if (this.fitExtent) {

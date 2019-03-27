@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.3.3] - 2019-03-27
+
+### Fixed
+- `MapPolygonSeries.geodataSource` was not working.
+- `MapChart` was not showing data if `geodata` was set later than data on series.
+- When there were multiple data items with identical timestamps on `DateAxis`, the first ones could have been ignored.
+- Even if `legend.itemContainer.template.togglable` was set to `false`, Legend item was stil togglable.
+- Extra graticules (grid) was shown in `GraticuleSeries` unders some conditions.
+- Tooltips on a logarithmic `ValueAxis` were showing wrong values.
+- Value label for "0" could sometimes appear on top of logarithmic `ValueAxis`.
+- `MapChart` position was not correct if padding was set.
+
+
 ## [4.3.2] - 2019-03-26
 
 ### Fixed
@@ -32,7 +45,7 @@ adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 - `backgroundSeries` added to MapChart. Allows creating a map-shaped background fill.
 
 ### Changed
-- Engine behind rendering of maps was changed to use [d3-geo](https://www.npmjs.com/package/d3-geo).While the change should be ackwards compatible, beware of and report any issues.
+- Engine behind rendering of maps was changed to use [d3-geo](https://www.npmjs.com/package/d3-geo).While the change should be backwards compatible, beware of and report any issues.
 - `day-night-map` and `morphing-countries` demos we changed to work properly with new version.
 - When adding a `HeatLegend` to `MapChart` its `valign = "bottom"` is no longer set by default. Set it explicitly if you need legend to bottom-aligned.
 

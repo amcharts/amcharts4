@@ -81,6 +81,10 @@ export interface IMapPolygonDataObject {
      * Multi-part polygon information in lat/long geo-coordinates.
      */
     multiGeoPolygon?: IGeoPoint[][][];
+    /**
+     * flag indicating whether this data item was created from geo data
+     */
+    madeFromGeoData?: boolean;
 }
 /**
  * Defines types of map line.
@@ -114,6 +118,10 @@ export interface IMapLineDataObject {
      * Multi-part line information in lat/long geo-coordinates.
      */
     multiGeoLine?: IGeoPoint[][];
+    /**
+     * flag indicating whether this data item was created from geo data
+     */
+    madeFromGeoData?: boolean;
 }
 /**
  * Defines interface for a map image (market) object.
@@ -143,6 +151,10 @@ export interface IMapImageDataObject {
      * Multi-image position information in lat/long geo-coordinates.
      */
     multiGeoPoint?: IGeoPoint[];
+    /**
+     * flag indicating whether this data item was created from geo data
+     */
+    madeFromGeoData?: boolean;
 }
 /**
  * Defines type suitable for all map objects.
@@ -805,6 +817,7 @@ export declare class MapChart extends SerialChart {
      * E.g. if set to -160, the longitude 20 will become a new center, creating
      * a Pacific-centered map.
      *
+     * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Map_rotation} For more info on map rotation.
      * @param  value  Rotation
      */
     deltaLongitude: number;
@@ -814,9 +827,10 @@ export declare class MapChart extends SerialChart {
     /**
      * Degrees to rotate the map around horizontal axis (X).
      *
-     * E.g. setting this to -90 will put Antarctica directly in the center of
+     * E.g. setting this to 90 will put Antarctica directly in the center of
      * the map.
      *
+     * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Map_rotation} For more info on map rotation.
      * @since 4.3.0
      * @param  value  Rotation
      */
@@ -828,8 +842,9 @@ export declare class MapChart extends SerialChart {
      * Degrees to rotate the map around "Z" axis. This is the axis that pierces
      * the globe directly from the viewer's point of view.
      *
-     * @param  value  Rotation
+     * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Map_rotation} For more info on map rotation.
      * @since 4.3.0
+     * @param  value  Rotation
      */
     deltaGamma: number;
     /**

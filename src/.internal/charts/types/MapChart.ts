@@ -113,6 +113,11 @@ export interface IMapPolygonDataObject {
 	 * Multi-part polygon information in lat/long geo-coordinates.
 	 */
 	multiGeoPolygon?: IGeoPoint[][][];
+
+	/**
+	 * flag indicating whether this data item was created from geo data
+	 */
+	madeFromGeoData?: boolean;
 }
 
 /**
@@ -155,6 +160,11 @@ export interface IMapLineDataObject {
 	 */
 	multiGeoLine?: IGeoPoint[][];
 
+	/**
+	 * flag indicating whether this data item was created from geo data
+	 */
+	madeFromGeoData?: boolean;
+
 }
 
 /**
@@ -192,6 +202,11 @@ export interface IMapImageDataObject {
 	 */
 	multiGeoPoint?: IGeoPoint[];
 
+
+	/**
+	 * flag indicating whether this data item was created from geo data
+	 */
+	madeFromGeoData?: boolean;
 }
 
 /**
@@ -782,7 +797,7 @@ export class MapChart extends SerialChart {
 	 * @ignore
 	 */
 	protected updateZoomGeoPoint() {
-		let seriesPoint = $utils.svgPointToSprite({ x: this.maxWidth / 2, y: this.maxHeight / 2 }, this.series.getIndex(0));
+		let seriesPoint = $utils.svgPointToSprite({ x: this.innerWidth / 2, y: this.innerHeight / 2 }, this.series.getIndex(0));
 		let geoPoint = this.projection.invert(seriesPoint);
 		this._zoomGeoPointReal = geoPoint;
 	}
@@ -1192,8 +1207,8 @@ export class MapChart extends SerialChart {
 
 		this.updateCenterGeoPoint();
 
-		let hScale: number = this.chartContainer.innerWidth / this.seriesWidth;
-		let vScale: number = this.chartContainer.innerHeight / this.seriesHeight;
+		let hScale: number = this.innerWidth / this.seriesWidth;
+		let vScale: number = this.innerHeight / this.seriesHeight;
 
 		scaleRatio = $math.min(hScale, vScale);
 
@@ -1280,7 +1295,12 @@ export class MapChart extends SerialChart {
 			this.invalidateData();
 
 			this.dataUsers.each((dataUser) => {
-				dataUser.data = [];
+				for (let i = dataUser.data.length - 1; i >= 0; i--) {
+					if (dataUser.data[i].madeFromGeoData == true) {
+						dataUser.data.splice(i, 1);
+					}
+				}
+				dataUser.disposeData();
 				dataUser.invalidateData();
 			});
 		}
@@ -1322,15 +1342,14 @@ export class MapChart extends SerialChart {
 
 		if (center) {
 			mapPoint = {
-				x: this.maxWidth / 2,
-				y: this.maxHeight / 2
+				x: this.innerWidth / 2,
+				y: this.innerHeight / 2
 			};
 		}
 
 		if (!$type.isNumber(duration)) {
 			duration = this.zoomDuration;
 		}
-
 
 		this._mapAnimation = this.seriesContainer.animate(
 			[{
@@ -1625,6 +1644,7 @@ export class MapChart extends SerialChart {
 	 * E.g. if set to -160, the longitude 20 will become a new center, creating
 	 * a Pacific-centered map.
 	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Map_rotation} For more info on map rotation.
 	 * @param  value  Rotation
 	 */
 	public set deltaLongitude(value: number) {
@@ -1644,9 +1664,10 @@ export class MapChart extends SerialChart {
 	/**
 	 * Degrees to rotate the map around horizontal axis (X).
 	 *
-	 * E.g. setting this to -90 will put Antarctica directly in the center of
+	 * E.g. setting this to 90 will put Antarctica directly in the center of
 	 * the map.
 	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Map_rotation} For more info on map rotation.
 	 * @since 4.3.0
 	 * @param  value  Rotation
 	 */
@@ -1667,9 +1688,10 @@ export class MapChart extends SerialChart {
 	/**
 	 * Degrees to rotate the map around "Z" axis. This is the axis that pierces
 	 * the globe directly from the viewer's point of view.
-	 * 
-	 * @param  value  Rotation
+	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Map_rotation} For more info on map rotation.
 	 * @since 4.3.0
+	 * @param  value  Rotation
 	 */
 	public set deltaGamma(value: number) {
 		if (this.setPropertyValue("deltaGamma", value)) {
@@ -1869,7 +1891,7 @@ export class MapChart extends SerialChart {
 	public handleSeriesAdded(event: IListEvents<MapSeries>["inserted"]): void {
 		super.handleSeriesAdded(event);
 		let series = event.newValue;
-		series.events.on("validated", this.updateCenterGeoPoint, this, false);		
+		series.events.on("validated", this.updateCenterGeoPoint, this, false);
 	}
 
 

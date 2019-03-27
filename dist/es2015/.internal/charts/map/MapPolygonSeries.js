@@ -332,7 +332,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
                                 });
                                 // create one if not found
                                 if (!dataObject) {
-                                    dataObject = { multiPolygon: coordinates, id: id_1 };
+                                    dataObject = { multiPolygon: coordinates, id: id_1, madeFromGeoData: true };
                                     this_1.data.push(dataObject);
                                 }
                                 // in case found

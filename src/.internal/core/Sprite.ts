@@ -1490,13 +1490,15 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				this._focusFilter.dispose();
 			}
 
-			if (this.stroke && !(this.stroke instanceof Color)) {
-				this.stroke.dispose();
+			let stroke = this.stroke;
+			if (stroke && !(stroke instanceof Color) && stroke.dispose) {
+				stroke.dispose();
 			}
 
 			// TODO a bit hacky
-			if (this.fill && !(this.fill instanceof Color)) {
-				this.fill.dispose();
+			let fill = this.fill;
+			if (fill && !(fill instanceof Color) && fill.dispose) {
+				fill.dispose();
 			}
 
 			// remove from map

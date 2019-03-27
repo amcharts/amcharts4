@@ -200,10 +200,11 @@ export class LegendDataItem extends DataItem {
 
 
 			// Add click/tap event to toggle item
-			// not good to listen to "toggled" as we will get to stackoverflow
-			itemContainer.events.on("toggled", (ev) => {
-				component.toggleDataItem(<this>ev.target.dataItem);
-			}, undefined, false);
+			if(itemContainer.togglable){
+				itemContainer.events.on("toggled", (ev) => {
+					component.toggleDataItem(<this>ev.target.dataItem);
+				}, undefined, false);
+			}
 
 			// Add focus event so that we can track which object is currently in focus
 			// for keyboard toggling

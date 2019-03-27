@@ -233,8 +233,8 @@ var OrderedList = /** @class */ (function () {
                     closestDifference = difference;
                 }
             }
-            else if (direction === "left" && (item <= value)) {
-                if (!$type.hasValue(closestValue) || (closestValue <= item)) {
+            else if (direction === "left" && (item < value)) {
+                if (!$type.hasValue(closestValue) || (closestValue < item)) {
                     closestIndex = i;
                     closestValue = item;
                 }

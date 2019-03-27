@@ -325,7 +325,7 @@ export class MapImageSeries extends MapSeries {
 								});
 
 								if (!dataObject) {
-									dataObject = { multiPoint: coordinates, id: id };
+									dataObject = { multiPoint: coordinates, id: id, madeFromGeoData:true };
 									this.data.push(dataObject);
 								}
 								else {

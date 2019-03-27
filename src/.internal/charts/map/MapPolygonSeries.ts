@@ -468,7 +468,7 @@ export class MapPolygonSeries extends MapSeries {
 
 								// create one if not found
 								if (!dataObject) {
-									dataObject = { multiPolygon: coordinates, id: id };
+									dataObject = { multiPolygon: coordinates, id: id, madeFromGeoData:true };
 									this.data.push(dataObject);
 								}
 								// in case found

@@ -26,6 +26,9 @@ catch (e) {
 chart.projection = new am4maps.projections.Orthographic();
 chart.panBehavior = "rotateLongLat";
 
+chart.seriesContainer.cursorOverStyle = am4core.MouseCursorStyle.grab;
+chart.seriesContainer.cursorDownStyle = am4core.MouseCursorStyle.grabbing;
+
 // Add zoom control
 chart.zoomControl = new am4maps.ZoomControl();
 

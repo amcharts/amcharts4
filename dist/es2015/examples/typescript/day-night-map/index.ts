@@ -7,7 +7,7 @@ import am4geodata_continentsLow from "@amcharts/amcharts4-geodata/continentsLow"
 
 am4core.useTheme(am4themes_animated);
 
-let mapChart = am4core.create("chartdiv", am4maps.MapChart);
+var mapChart = am4core.create("chartdiv", am4maps.MapChart);
 
 try {
   mapChart.geodata = am4geodata_continentsLow;
@@ -23,68 +23,76 @@ mapChart.seriesContainer.resizable = false;
 // prevent zooming
 mapChart.minZoomLevel = 1;
 // countries
-let countriesSeries = mapChart.series.push(new am4maps.MapPolygonSeries());
+var countriesSeries = mapChart.series.push(new am4maps.MapPolygonSeries());
 countriesSeries.useGeodata = true;
 countriesSeries.mapPolygons.template.fill = am4core.color("#47c78a");
 countriesSeries.mapPolygons.template.stroke = am4core.color("#47c78a");
 
-let colorSet = new am4core.ColorSet();
-let polygonTemplate = countriesSeries.mapPolygons.template;
+var colorSet = new am4core.ColorSet();
+var polygonTemplate = countriesSeries.mapPolygons.template;
 
 // night series
-let nightSeries = mapChart.series.push(new am4maps.MapPolygonSeries());
+var nightSeries = mapChart.series.push(new am4maps.MapPolygonSeries());
 nightSeries.ignoreBounds = true;
-let night = nightSeries.mapPolygons.create();
+var night = nightSeries.mapPolygons.create();
 night.fill = am4core.color("#000000");
-night.fillOpacity = 0.7;
+night.fillOpacity = 0.35;
 night.interactionsEnabled = false;
 night.stroke = am4core.color("#000000");
 night.strokeOpacity = 0;
 
+var night2 = nightSeries.mapPolygons.create();
+night2.fill = am4core.color("#000000");
+night2.fillOpacity = 0.4;
+night2.interactionsEnabled = false;
+night2.stroke = am4core.color("#000000");
+night2.strokeOpacity = 0;
+
 
 // images series
-let imagesSeries = mapChart.series.push(new am4maps.MapImageSeries())
-let tooltip = imagesSeries.tooltip;
+var imagesSeries = mapChart.series.push(new am4maps.MapImageSeries())
+var tooltip = imagesSeries.tooltip;
 tooltip.label.padding(15, 15, 15, 15);
 tooltip.background.cornerRadius = 25;
 
 // sun
-let sun = imagesSeries.mapImages.create();
-let suncircle = sun.createChild(am4core.Circle);
+var sun = imagesSeries.mapImages.create();
+var suncircle = sun.createChild(am4core.Circle);
 suncircle.radius = 10;
 suncircle.fill = am4core.color("#ffba00");
 suncircle.strokeOpacity = 0;
 sun.filters.push(new am4core.BlurFilter());
 
 // graticule
-let graticuleSeires = mapChart.series.push(new am4maps.GraticuleSeries());
+var graticuleSeires = mapChart.series.push(new am4maps.GraticuleSeries());
 graticuleSeires.mapLines.template.stroke = am4core.color("#ffffff");
 graticuleSeires.fitExtent = false;
 
 // add slider to chart container in order not to occupy space
-let slider = mapChart.chartContainer.createChild(am4core.Slider);
+var slider = mapChart.chartContainer.createChild(am4core.Slider);
 slider.start = 0.5;
 slider.valign = "bottom";
 slider.padding(0, 30, 0, 80);
 slider.background.padding(0, 30, 0, 80);
 slider.marginBottom = 15;
-slider.events.on("rangechanged", () => {
+slider.events.on("rangechanged", function () {
   updateDateNight(new Date().getTime() + (slider.start - 0.5) * 1000 * 60 * 60 * 24 * 2 * 2);
 })
 
 
 function updateDateNight(time) {
-  let sunPosition = solarPosition(time);
+  var sunPosition = solarPosition(time);
   sun.latitude = sunPosition.latitude;
   sun.longitude = sunPosition.longitude;
   sun.deepInvalidate();
 
-  night.multiPolygon = am4maps.getCircle(sunPosition.longitude + 180, -sunPosition.latitude, 90);
+  night.multiPolygon = am4maps.getCircle(sunPosition.longitude + 180, -sunPosition.latitude, 91);
+  night2.multiPolygon = am4maps.getCircle(sunPosition.longitude + 180, -sunPosition.latitude, 89);
 }
 
 
 // all sun position calculation is taken from: http://bl.ocks.org/mbostock/4597134
-let offset = new Date().getTimezoneOffset() * 60 * 1000;
+var offset = new Date().getTimezoneOffset() * 60 * 1000;
 
 function solarPosition(time) {
   var centuries = (time - Date.UTC(2000, 0, 1, 12)) / 864e5 / 36525, // since J2000

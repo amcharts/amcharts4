@@ -120,7 +120,7 @@ var GraticuleSeries = /** @class */ (function (_super) {
         var graticule = d3geo.geoGraticule();
         if (graticule) {
             graticule.stepMinor([this.longitudeStep, this.latitudeStep]);
-            //graticule.stepMajor([this.majorLongitudeStep, this.majorLatitudeStep]);
+            graticule.stepMajor([360, 360]);
             var chart = this.chart;
             if (this.fitExtent) {
                 graticule.extent([[chart.east, chart.north], [chart.west, chart.south]]);
