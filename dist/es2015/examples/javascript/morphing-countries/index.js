@@ -48,7 +48,10 @@ label.fillOpacity = 0.2;
 
 var slider = chart.createChild(am4core.Slider);
 slider.padding(0, 15, 0, 60);
+slider.background.padding(0, 15, 0, 60);
 slider.marginBottom = 15;
+slider.valign = "bottom";
+
 
 var currentIndex = -1;
 var colorset = new am4core.ColorSet();

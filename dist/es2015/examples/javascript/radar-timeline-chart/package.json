@@ -3,7 +3,7 @@
   "name": "amcharts4-example-radar-timeline-chart",
   "version": "0.1.0",
   "devDependencies": {
-    "@amcharts/amcharts4": "^4.3.3",
+    "@amcharts/amcharts4": "^4.3.4",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
     "source-map-loader": "^0.2.4"

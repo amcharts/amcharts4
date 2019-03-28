@@ -797,7 +797,7 @@ export class MapChart extends SerialChart {
 	 * @ignore
 	 */
 	protected updateZoomGeoPoint() {
-		let seriesPoint = $utils.svgPointToSprite({ x: this.innerWidth / 2, y: this.innerHeight / 2 }, this.series.getIndex(0));
+		let seriesPoint = $utils.svgPointToSprite({ x: this.innerWidth / 2 + this.pixelPaddingLeft, y: this.innerHeight / 2 + this.pixelPaddingTop}, this.series.getIndex(0));
 		let geoPoint = this.projection.invert(seriesPoint);
 		this._zoomGeoPointReal = geoPoint;
 	}
@@ -1102,7 +1102,7 @@ export class MapChart extends SerialChart {
 		let south: number;
 
 		this.series.each((series) => {
-			if (series.ignoreBounds || (series instanceof GraticuleSeries && series.fitExtent) || series == this.backgroundSeries) {
+			if (series.ignoreBounds || (series instanceof GraticuleSeries && series.fitExtent)) {
 			}
 			else {
 				if (series.north > north || !$type.isNumber(north)) {
@@ -1135,7 +1135,7 @@ export class MapChart extends SerialChart {
 
 		if (!foundGraticule) {
 			this.series.each((series) => {
-				if (series.ignoreBounds || (series instanceof GraticuleSeries && series.fitExtent) || series == this.backgroundSeries) {
+				if (series.ignoreBounds || (series instanceof GraticuleSeries && series.fitExtent)) {
 				}
 				else {
 					features = features.concat(series.getFeatures());
@@ -1223,6 +1223,8 @@ export class MapChart extends SerialChart {
 				series.scale = scaleRatio;
 				series.updateTooltipBounds();
 			});
+
+			this.backgroundSeries.scale = scaleRatio;
 
 			this.dispatch("scaleratiochanged");
 		}
@@ -1934,7 +1936,7 @@ export class MapChart extends SerialChart {
 	 * @return Assign as is?
 	 */
 	protected asIs(field: string): boolean {
-		return field == "projection" || super.asIs(field);
+		return field == "projection" || field == "geodata" || super.asIs(field);
 	}
 
 	/**
@@ -2013,7 +2015,10 @@ export class MapChart extends SerialChart {
 	 */
 	public get backgroundSeries(): MapPolygonSeries {
 		if (!this._backgroundSeries) {
-			let backgroundSeries = this.series.push(new MapPolygonSeries());
+			let backgroundSeries = new MapPolygonSeries();
+			backgroundSeries.parent = this.seriesContainer;
+			backgroundSeries.chart = this;
+
 			backgroundSeries.hiddenInLegend = true;
 			backgroundSeries.addDisposer(new Disposer(() => {
 				this._backgroundSeries = undefined;

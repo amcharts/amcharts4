@@ -110,14 +110,65 @@ export class Polygon extends Sprite implements IMorphable {
 	 */
 	public set points(points: IPoint[][][]) {
 		this.setPropertyValue("points", points, true);
-		this._currentPoints = this.points;
+		this._currentPoints = points;
 	}
 
 	/**
 	 * @return Polygon points
 	 */
 	public get points(): IPoint[][][] {
-		return this.getPropertyValue("points");
+		let points = this.getPropertyValue("points");
+		let path = this.path;
+
+		if (path && (!points || points.length == 0)) {
+
+			let valueStr = path.slice(1, path.length - 1);
+
+			let segments: string[] = valueStr.split("ZM");
+
+			for (let s = 0; s < segments.length; s++) {
+				let segment = segments[s];
+				if (segment.length > 0) {
+					let areaHole = segment.split("M");
+
+					let areaArr = areaHole[0];
+					let holeArr = areaHole[1];
+
+					if (areaArr && areaArr.length > 0) {
+
+						let pointsArr = areaArr.split("L");
+						if (pointsArr.length > 0) {
+
+							let area: IPoint[] = [];
+
+							let areaAndHole: IPoint[][] = [area];
+							points.push(areaAndHole);
+
+							for (let p = 0; p < pointsArr.length; p++) {
+								let coords = pointsArr[p].split(",");
+								area.push({ x: Number(coords[0]), y: Number(coords[1]) });
+							}
+
+							if (holeArr && holeArr.length > 0) {
+								let pointsArr = holeArr.split("L");
+								if (pointsArr.length > 0) {
+									let hole: IPoint[] = [];
+									areaAndHole.push(hole);
+									for (let p = pointsArr.length - 1; p >= 0; p--) {
+										let coords = pointsArr[p].split(",");
+										hole.push({ x: Number(coords[0]), y: Number(coords[1]) });
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			this.setPropertyValue("points", points);
+			this._currentPoints = points;
+		}
+		return points;
 	}
 
 	/**
@@ -204,83 +255,20 @@ export class Polygon extends Sprite implements IMorphable {
 			this.bbox.y = top;
 			this.bbox.width = right - left;
 			this.bbox.height = bottom - top;
-		}
 
-		if (this.setPropertyValue("path", path)) {
-			if (!this.element) {
-				this.element = this.paper.add("path");
-			}
-			this.element.attr({ "d": path });
-			this.invalidatePosition();
-			// otherwise is 0x0
-			if (!this.inited) {
-				this.events.once("inited", this.validatePosition, this, false);
-			}
+			super.setPath(path);
 		}
 	}
 
-	public set path(value: string) {
-		if (this.setPropertyValue("path", value)) {
-			if (value) {
-				let valueStr = value.slice(1, value.length - 1);
-
-				let segments: string[] = valueStr.split("ZM");
-
-				let points: IPoint[][][] = [];
-				for (let s = 0; s < segments.length; s++) {
-					let segment = segments[s];
-					if (segment.length > 0) {
-						let areaHole = segment.split("M");
-
-						let areaArr = areaHole[0];
-						let holeArr = areaHole[1];
-
-						if (areaArr && areaArr.length > 0) {
-
-							let pointsArr = areaArr.split("L");
-							if (pointsArr.length > 0) {
-
-								let area: IPoint[] = [];
-
-								let areaAndHole: IPoint[][] = [area];
-								points.push(areaAndHole);
-
-								for (let p = 0; p < pointsArr.length; p++) {
-									let coords = pointsArr[p].split(",");
-									area.push({ x: Number(coords[0]), y: Number(coords[1]) });
-								}
-
-								if (holeArr && holeArr.length > 0) {
-									let pointsArr = holeArr.split("L");
-									if (pointsArr.length > 0) {
-										let hole: IPoint[] = [];
-										areaAndHole.push(hole);
-										for (let p = pointsArr.length - 1; p >= 0; p--) {
-											let coords = pointsArr[p].split(",");
-											hole.push({ x: Number(coords[0]), y: Number(coords[1]) });
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-
-				this.setPropertyValue("points", points);
-				this._currentPoints = points;
-			}
-
-
-			if (!this.element) {
-				this.element = this.paper.add("path");
-			}
-			this.element.attr({ "d": value });
-			this.invalidatePosition();
-			// otherwise is 0x0
-			if (!this.inited) {
-				this.events.once("inited", this.validatePosition, this, false);
-			}
+	/**
+	 * @ignore
+	 */
+	protected setPath(value: string): boolean {
+		if (super.setPath(value)) {
+			this.points = [];			
+			return true;
 		}
+		return false;
 	}
 
 

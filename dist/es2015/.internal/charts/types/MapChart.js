@@ -290,7 +290,7 @@ var MapChart = /** @class */ (function (_super) {
      * @ignore
      */
     MapChart.prototype.updateZoomGeoPoint = function () {
-        var seriesPoint = $utils.svgPointToSprite({ x: this.innerWidth / 2, y: this.innerHeight / 2 }, this.series.getIndex(0));
+        var seriesPoint = $utils.svgPointToSprite({ x: this.innerWidth / 2 + this.pixelPaddingLeft, y: this.innerHeight / 2 + this.pixelPaddingTop }, this.series.getIndex(0));
         var geoPoint = this.projection.invert(seriesPoint);
         this._zoomGeoPointReal = geoPoint;
     };
@@ -562,13 +562,12 @@ var MapChart = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     MapChart.prototype.updateExtremes = function () {
-        var _this = this;
         var east;
         var north;
         var west;
         var south;
         this.series.each(function (series) {
-            if (series.ignoreBounds || (series instanceof GraticuleSeries && series.fitExtent) || series == _this.backgroundSeries) {
+            if (series.ignoreBounds || (series instanceof GraticuleSeries && series.fitExtent)) {
             }
             else {
                 if (series.north > north || !$type.isNumber(north)) {
@@ -596,7 +595,7 @@ var MapChart = /** @class */ (function (_super) {
         });
         if (!foundGraticule) {
             this.series.each(function (series) {
-                if (series.ignoreBounds || (series instanceof GraticuleSeries && series.fitExtent) || series == _this.backgroundSeries) {
+                if (series.ignoreBounds || (series instanceof GraticuleSeries && series.fitExtent)) {
                 }
                 else {
                     features = features.concat(series.getFeatures());
@@ -664,6 +663,7 @@ var MapChart = /** @class */ (function (_super) {
                 series.scale = scaleRatio;
                 series.updateTooltipBounds();
             });
+            this.backgroundSeries.scale = scaleRatio;
             this.dispatch("scaleratiochanged");
         }
     };
@@ -1352,7 +1352,7 @@ var MapChart = /** @class */ (function (_super) {
      * @return Assign as is?
      */
     MapChart.prototype.asIs = function (field) {
-        return field == "projection" || _super.prototype.asIs.call(this, field);
+        return field == "projection" || field == "geodata" || _super.prototype.asIs.call(this, field);
     };
     Object.defineProperty(MapChart.prototype, "centerGeoPoint", {
         /**
@@ -1432,7 +1432,9 @@ var MapChart = /** @class */ (function (_super) {
         get: function () {
             var _this = this;
             if (!this._backgroundSeries) {
-                var backgroundSeries = this.series.push(new MapPolygonSeries());
+                var backgroundSeries = new MapPolygonSeries();
+                backgroundSeries.parent = this.seriesContainer;
+                backgroundSeries.chart = this;
                 backgroundSeries.hiddenInLegend = true;
                 backgroundSeries.addDisposer(new Disposer(function () {
                     _this._backgroundSeries = undefined;

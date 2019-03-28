@@ -446,4 +446,11 @@ export declare class MapSeries extends Series {
     processConfig(config?: {
         [index: string]: any;
     }): void;
+    /**
+     * Adds `projection` to "as is" fields.
+     *
+     * @param field  Field name
+     * @return Assign as is?
+     */
+    protected asIs(field: string): boolean;
 }

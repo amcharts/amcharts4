@@ -136,17 +136,13 @@ var MapPolygon = /** @class */ (function (_super) {
      */
     MapPolygon.prototype.validate = function () {
         if (this.series) {
-            var pathGenerator = this.series.chart.projection.d3Path;
+            var projection = this.series.chart.projection;
+            projection.d3Projection.precision(0.5);
+            var pathGenerator = projection.d3Path;
             if (this.multiPolygon) {
                 if (this.series) {
                     var feature = { type: "MultiPolygon", coordinates: this.multiPolygon };
                     this.polygon.path = pathGenerator(feature);
-                    //let bounds = pathGenerator.bounds(<any>feature)
-                    //let bbox: IRectangle = { x: bounds[0][0], y: bounds[0][1], width: bounds[1][0] - bounds[0][0], height: bounds[1][1] - bounds[1][1] };
-                    //	let bbox = this.polygon.group.getBBox();
-                    //	this.polygon.definedBBox = bbox;
-                    //	this.definedBBox = bbox;
-                    //	this.boxArea = bbox.width * bbox.height;
                 }
                 if (this.series.calculateVisualCenter) {
                     var biggestArea = 0;

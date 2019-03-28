@@ -625,6 +625,15 @@ var MapSeries = /** @class */ (function (_super) {
         }
         _super.prototype.processConfig.call(this, config);
     };
+    /**
+     * Adds `projection` to "as is" fields.
+     *
+     * @param field  Field name
+     * @return Assign as is?
+     */
+    MapSeries.prototype.asIs = function (field) {
+        return field == "geodata" || _super.prototype.asIs.call(this, field);
+    };
     return MapSeries;
 }(Series));
 export { MapSeries };

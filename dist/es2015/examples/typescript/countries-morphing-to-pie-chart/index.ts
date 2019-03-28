@@ -53,6 +53,7 @@ hoverState.properties.fillOpacity = 1;
 
 // what to do when country is clicked
 polygonTemplate.events.on("hit", (event) => {
+    event.target.zIndex = Number.MAX_VALUE;
     selectPolygon(event.target);
 })
 

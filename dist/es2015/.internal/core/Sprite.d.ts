@@ -3260,7 +3260,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     readonly relativePaddingBottom: number;
     /**
-     * @return Path of a Tick element
+     * @return Path of a Sprite element
      */
     /**
      * ==========================================================================
@@ -3272,6 +3272,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Path of Sprite element
      */
     path: string;
+    /**
+     * @ignore
+     */
+    protected setPath(value: string): boolean;
     /**
      * @return Fill color modifier
      */

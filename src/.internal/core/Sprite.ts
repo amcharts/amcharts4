@@ -7183,6 +7183,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * Path of Sprite element
 	 */
 	public set path(value: string) {
+		this.setPath(value);
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected setPath(value:string):boolean {
 		if (this.setPropertyValue("path", value)) {
 			if (!this.element) {
 				this.element = this.paper.add("path");
@@ -7193,11 +7200,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (!this.inited) {
 				this.events.once("inited", this.validatePosition, this, false);
 			}
-		}
+			return true;
+		}		
+		return false;
 	}
 
 	/**
-	 * @return Path of a Tick element
+	 * @return Path of a Sprite element
 	 */
 	public get path(): string {
 		return this.getPropertyValue("path");

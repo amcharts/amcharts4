@@ -6334,7 +6334,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "path", {
         /**
-         * @return Path of a Tick element
+         * @return Path of a Sprite element
          */
         get: function () {
             return this.getPropertyValue("path");
@@ -6349,21 +6349,29 @@ var Sprite = /** @class */ (function (_super) {
          * Path of Sprite element
          */
         set: function (value) {
-            if (this.setPropertyValue("path", value)) {
-                if (!this.element) {
-                    this.element = this.paper.add("path");
-                }
-                this.element.attr({ "d": value });
-                this.invalidatePosition();
-                // otherwise is 0x0
-                if (!this.inited) {
-                    this.events.once("inited", this.validatePosition, this, false);
-                }
-            }
+            this.setPath(value);
         },
         enumerable: true,
         configurable: true
     });
+    /**
+     * @ignore
+     */
+    Sprite.prototype.setPath = function (value) {
+        if (this.setPropertyValue("path", value)) {
+            if (!this.element) {
+                this.element = this.paper.add("path");
+            }
+            this.element.attr({ "d": value });
+            this.invalidatePosition();
+            // otherwise is 0x0
+            if (!this.inited) {
+                this.events.once("inited", this.validatePosition, this, false);
+            }
+            return true;
+        }
+        return false;
+    };
     Object.defineProperty(Sprite.prototype, "fillModifier", {
         /**
          * @return Fill color modifier

@@ -44,7 +44,46 @@ var Polygon = /** @class */ (function (_super) {
          * @return Polygon points
          */
         get: function () {
-            return this.getPropertyValue("points");
+            var points = this.getPropertyValue("points");
+            var path = this.path;
+            if (path && (!points || points.length == 0)) {
+                var valueStr = path.slice(1, path.length - 1);
+                var segments = valueStr.split("ZM");
+                for (var s = 0; s < segments.length; s++) {
+                    var segment = segments[s];
+                    if (segment.length > 0) {
+                        var areaHole = segment.split("M");
+                        var areaArr = areaHole[0];
+                        var holeArr = areaHole[1];
+                        if (areaArr && areaArr.length > 0) {
+                            var pointsArr = areaArr.split("L");
+                            if (pointsArr.length > 0) {
+                                var area = [];
+                                var areaAndHole = [area];
+                                points.push(areaAndHole);
+                                for (var p = 0; p < pointsArr.length; p++) {
+                                    var coords = pointsArr[p].split(",");
+                                    area.push({ x: Number(coords[0]), y: Number(coords[1]) });
+                                }
+                                if (holeArr && holeArr.length > 0) {
+                                    var pointsArr_1 = holeArr.split("L");
+                                    if (pointsArr_1.length > 0) {
+                                        var hole = [];
+                                        areaAndHole.push(hole);
+                                        for (var p = pointsArr_1.length - 1; p >= 0; p--) {
+                                            var coords = pointsArr_1[p].split(",");
+                                            hole.push({ x: Number(coords[0]), y: Number(coords[1]) });
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                this.setPropertyValue("points", points);
+                this._currentPoints = points;
+            }
+            return points;
         },
         /**
          * An array of X/Y coordinates for each elbow of the polygon.
@@ -54,7 +93,7 @@ var Polygon = /** @class */ (function (_super) {
          */
         set: function (points) {
             this.setPropertyValue("points", points, true);
-            this._currentPoints = this.points;
+            this._currentPoints = points;
         },
         enumerable: true,
         configurable: true
@@ -136,74 +175,19 @@ var Polygon = /** @class */ (function (_super) {
             this.bbox.y = top;
             this.bbox.width = right - left;
             this.bbox.height = bottom - top;
-        }
-        if (this.setPropertyValue("path", path)) {
-            if (!this.element) {
-                this.element = this.paper.add("path");
-            }
-            this.element.attr({ "d": path });
-            this.invalidatePosition();
-            // otherwise is 0x0
-            if (!this.inited) {
-                this.events.once("inited", this.validatePosition, this, false);
-            }
+            _super.prototype.setPath.call(this, path);
         }
     };
-    Object.defineProperty(Polygon.prototype, "path", {
-        set: function (value) {
-            if (this.setPropertyValue("path", value)) {
-                if (value) {
-                    var valueStr = value.slice(1, value.length - 1);
-                    var segments = valueStr.split("ZM");
-                    var points = [];
-                    for (var s = 0; s < segments.length; s++) {
-                        var segment = segments[s];
-                        if (segment.length > 0) {
-                            var areaHole = segment.split("M");
-                            var areaArr = areaHole[0];
-                            var holeArr = areaHole[1];
-                            if (areaArr && areaArr.length > 0) {
-                                var pointsArr = areaArr.split("L");
-                                if (pointsArr.length > 0) {
-                                    var area = [];
-                                    var areaAndHole = [area];
-                                    points.push(areaAndHole);
-                                    for (var p = 0; p < pointsArr.length; p++) {
-                                        var coords = pointsArr[p].split(",");
-                                        area.push({ x: Number(coords[0]), y: Number(coords[1]) });
-                                    }
-                                    if (holeArr && holeArr.length > 0) {
-                                        var pointsArr_1 = holeArr.split("L");
-                                        if (pointsArr_1.length > 0) {
-                                            var hole = [];
-                                            areaAndHole.push(hole);
-                                            for (var p = pointsArr_1.length - 1; p >= 0; p--) {
-                                                var coords = pointsArr_1[p].split(",");
-                                                hole.push({ x: Number(coords[0]), y: Number(coords[1]) });
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    this.setPropertyValue("points", points);
-                    this._currentPoints = points;
-                }
-                if (!this.element) {
-                    this.element = this.paper.add("path");
-                }
-                this.element.attr({ "d": value });
-                this.invalidatePosition();
-                // otherwise is 0x0
-                if (!this.inited) {
-                    this.events.once("inited", this.validatePosition, this, false);
-                }
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
+    /**
+     * @ignore
+     */
+    Polygon.prototype.setPath = function (value) {
+        if (_super.prototype.setPath.call(this, value)) {
+            this.points = [];
+            return true;
+        }
+        return false;
+    };
     /**
      * Measures element
      */

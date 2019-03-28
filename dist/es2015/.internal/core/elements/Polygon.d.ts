@@ -103,7 +103,10 @@ export declare class Polygon extends Sprite implements IMorphable {
      * @ignore Exclude from docs
      */
     draw(): void;
-    path: string;
+    /**
+     * @ignore
+     */
+    protected setPath(value: string): boolean;
     /**
      * Measures element
      */

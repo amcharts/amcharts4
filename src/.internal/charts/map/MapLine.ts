@@ -375,6 +375,7 @@ export class MapLine extends MapObject {
 				this.line.segments = convertedPoints;
 			}
 			else {
+				chart.projection.d3Projection.precision(0.1);
 				this.line.path = chart.projection.d3Path(<any>this.getFeature());
 			}
 

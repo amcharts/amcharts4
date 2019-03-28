@@ -817,6 +817,16 @@ export class MapSeries extends Series {
 
 		super.processConfig(config);
 	}
+
+	/**
+	 * Adds `projection` to "as is" fields.
+	 *
+	 * @param field  Field name
+	 * @return Assign as is?
+	 */
+	protected asIs(field: string): boolean {
+		return field == "geodata" || super.asIs(field);
+	}
 }
 
 /**

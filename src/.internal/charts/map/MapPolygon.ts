@@ -233,19 +233,16 @@ export class MapPolygon extends MapObject {
 	 */
 	public validate(): void {
 		if (this.series) {
-			let pathGenerator = this.series.chart.projection.d3Path;
+			let projection = this.series.chart.projection;
+			projection.d3Projection.precision(0.5);
+			let pathGenerator = projection.d3Path;
 
 			if (this.multiPolygon) {
 
 				if (this.series) {
 					let feature = { type: "MultiPolygon", coordinates: this.multiPolygon };
+
 					this.polygon.path = pathGenerator(<any>feature);
-					//let bounds = pathGenerator.bounds(<any>feature)
-					//let bbox: IRectangle = { x: bounds[0][0], y: bounds[0][1], width: bounds[1][0] - bounds[0][0], height: bounds[1][1] - bounds[1][1] };
-					//	let bbox = this.polygon.group.getBBox();
-					//	this.polygon.definedBBox = bbox;
-					//	this.definedBBox = bbox;
-					//	this.boxArea = bbox.width * bbox.height;
 				}
 
 				if (this.series.calculateVisualCenter) {

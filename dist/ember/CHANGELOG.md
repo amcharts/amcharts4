@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.3.4] - 2019-03-28
+
+### Fixed
+- Issue with JSON setups for `MapChart` fixed.
+
+
 ## [4.3.3] - 2019-03-27
 
 ### Fixed
