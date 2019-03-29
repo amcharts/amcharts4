@@ -266,6 +266,7 @@ export class Polygon extends Sprite implements IMorphable {
 	protected setPath(value: string): boolean {
 		if (super.setPath(value)) {
 			this.points = [];			
+			this._bbox = this.group.getBBox();
 			return true;
 		}
 		return false;

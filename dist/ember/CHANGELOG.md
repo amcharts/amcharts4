@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.3.5] - 2019-03-29
+
+### Added
+- New properties `strokeLinejoin` ("miter" | "round" | "bevel") and `strokeLinecap` ("butt" | "square" | "round") added to `Sprite`. [More info](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Fills_and_Strokes#Stroke).
+
+### Fixed
+- In some rare cases EDGE/IE could generate an "Unspecied error".
+- `MapChart` method `zoomToMapObject()` was not functioning properly since `4.3.4`.
+- `LineSeries` with bullet and `hidden = false` in init was causing the whole chart to break.
+
+
 ## [4.3.4] - 2019-03-28
 
 ### Fixed

@@ -184,6 +184,7 @@ var Polygon = /** @class */ (function (_super) {
     Polygon.prototype.setPath = function (value) {
         if (_super.prototype.setPath.call(this, value)) {
             this.points = [];
+            this._bbox = this.group.getBBox();
             return true;
         }
         return false;

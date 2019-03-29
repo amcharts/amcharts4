@@ -876,14 +876,19 @@ export function spriteRectToSvg(rect, sprite) {
  * @return SVG coordinates
  */
 export function documentPointToSvg(point, svgContainer, cssScale) {
-    var bbox = svgContainer.getBoundingClientRect();
-    if (!$type.isNumber(cssScale)) {
-        cssScale = 1;
+    try {
+        var bbox = svgContainer.getBoundingClientRect();
+        if (!$type.isNumber(cssScale)) {
+            cssScale = 1;
+        }
+        return {
+            "x": (point.x - bbox.left) / cssScale,
+            "y": (point.y - bbox.top) / cssScale
+        };
     }
-    return {
-        "x": (point.x - bbox.left) / cssScale,
-        "y": (point.y - bbox.top) / cssScale
-    };
+    catch (e) {
+        return point;
+    }
 }
 /**
  * Converts SVG coordinates to global document-wide coordinates.
@@ -893,11 +898,16 @@ export function documentPointToSvg(point, svgContainer, cssScale) {
  * @return Global coordinates
  */
 export function svgPointToDocument(point, svgContainer) {
-    var bbox = svgContainer.getBoundingClientRect();
-    return {
-        "x": point.x + bbox.left,
-        "y": point.y + bbox.top
-    };
+    try {
+        var bbox = svgContainer.getBoundingClientRect();
+        return {
+            "x": point.x + bbox.left,
+            "y": point.y + bbox.top
+        };
+    }
+    catch (e) {
+        return point;
+    }
 }
 /**
  * Converts document-wide global coordinates to coordinates within specific

@@ -91,6 +91,8 @@ export interface ISpriteProperties {
     strokeWidth?: number;
     strokeDasharray?: number[];
     strokeDashoffset?: number;
+    strokeLinecap?: "butt" | "square" | "round";
+    strokeLinejoin?: "miter" | "round" | "bevel";
     shapeRendering?: ShapeRendering;
     draggable?: boolean;
     inert?: boolean;
@@ -3427,6 +3429,26 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param value  `stroke-dashoffset`
      */
     strokeDashoffset: number;
+    /**
+     * @return `stroke-linecap`
+     */
+    /**
+     * A `stroke-linecap` to indicate how line ends are drawn.
+     *
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Fills_and_Strokes#Stroke} for more info on `stroke-linecap`
+     * @param value  `stroke-linecap`
+     */
+    strokeLinecap: "butt" | "square" | "round";
+    /**
+     * @return `stroke-linejoin`
+     */
+    /**
+     * A `stroke-linejoin` to indicate how line ends are drawn.
+     *
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Fills_and_Strokes#Stroke} for more info on `stroke-linejoin`
+     * @param value  `stroke-linejoin`
+     */
+    strokeLinejoin: "miter" | "round" | "bevel";
     /**
      * @return 'shape-rendering' value
      */

@@ -586,6 +586,8 @@ var Sprite = /** @class */ (function (_super) {
                         case "shapeRendering":
                         case "strokeDasharray":
                         case "strokeDashoffset":
+                        case "strokeLinecap":
+                        case "strokeLinejoin":
                         case "textDecoration":
                         case "fontSize":
                         case "fontFamily":
@@ -1262,6 +1264,8 @@ var Sprite = /** @class */ (function (_super) {
         this.shapeRendering = this.shapeRendering;
         this.strokeDasharray = this.strokeDasharray;
         this.strokeDashoffset = this.strokeDashoffset;
+        this.strokeLinecap = this.strokeLinecap;
+        this.strokeLinejoin = this.strokeLinejoin;
         this.focusable = this.focusable;
         this.tabindex = this.tabindex;
         this.role = this.role;
@@ -2150,12 +2154,17 @@ var Sprite = /** @class */ (function (_super) {
      * @return Global point
      */
     Sprite.prototype.getSvgPoint = function (point) {
-        // Calculate SVG point
-        var bbox = this.htmlContainer.getBoundingClientRect();
-        return {
-            "x": point.x - bbox.left,
-            "y": point.y - bbox.top
-        };
+        try {
+            // Calculate SVG point
+            var bbox = this.htmlContainer.getBoundingClientRect();
+            return {
+                "x": point.x - bbox.left,
+                "y": point.y - bbox.top
+            };
+        }
+        catch (e) {
+            return point;
+        }
     };
     /**
      * Creates and starts an [[Animation]] with given `animationOptions`.
@@ -6710,6 +6719,48 @@ var Sprite = /** @class */ (function (_super) {
             value = $type.toNumber(value);
             if (this.setPropertyValue("strokeDashoffset", value)) {
                 this.setSVGAttribute({ "stroke-dashoffset": value });
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Sprite.prototype, "strokeLinecap", {
+        /**
+         * @return `stroke-linecap`
+         */
+        get: function () {
+            return this.getPropertyValue("strokeLinecap");
+        },
+        /**
+         * A `stroke-linecap` to indicate how line ends are drawn.
+         *
+         * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Fills_and_Strokes#Stroke} for more info on `stroke-linecap`
+         * @param value  `stroke-linecap`
+         */
+        set: function (value) {
+            if (this.setPropertyValue("strokeLinecap", value)) {
+                this.setSVGAttribute({ "stroke-linecap": value });
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Sprite.prototype, "strokeLinejoin", {
+        /**
+         * @return `stroke-linejoin`
+         */
+        get: function () {
+            return this.getPropertyValue("strokeLinejoin");
+        },
+        /**
+         * A `stroke-linejoin` to indicate how line ends are drawn.
+         *
+         * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Fills_and_Strokes#Stroke} for more info on `stroke-linejoin`
+         * @param value  `stroke-linejoin`
+         */
+        set: function (value) {
+            if (this.setPropertyValue("strokeLinejoin", value)) {
+                this.setSVGAttribute({ "stroke-linejoin": value });
             }
         },
         enumerable: true,

@@ -1004,16 +1004,21 @@ export function spriteRectToSvg(rect: IRectangle, sprite: Sprite): IRectangle {
  * @return SVG coordinates
  */
 export function documentPointToSvg(point: IPoint, svgContainer: HTMLElement, cssScale?: number): IPoint {
-	let bbox = svgContainer.getBoundingClientRect();
+	try {
+		let bbox = svgContainer.getBoundingClientRect();
 
-	if (!$type.isNumber(cssScale)) {
-		cssScale = 1;
+		if (!$type.isNumber(cssScale)) {
+			cssScale = 1;
+		}
+
+		return {
+			"x": (point.x - bbox.left) / cssScale,
+			"y": (point.y - bbox.top) / cssScale
+		};
 	}
-
-	return {
-		"x": (point.x - bbox.left) / cssScale,
-		"y": (point.y - bbox.top) / cssScale
-	};
+	catch(e) {
+		return point;
+	}
 }
 
 /**
@@ -1024,12 +1029,17 @@ export function documentPointToSvg(point: IPoint, svgContainer: HTMLElement, css
  * @return Global coordinates
  */
 export function svgPointToDocument(point: IPoint, svgContainer: HTMLElement): IPoint {
-	let bbox = svgContainer.getBoundingClientRect();
+	try {
+		let bbox = svgContainer.getBoundingClientRect();
 
-	return {
-		"x": point.x + bbox.left,
-		"y": point.y + bbox.top
-	};
+		return {
+			"x": point.x + bbox.left,
+			"y": point.y + bbox.top
+		};
+	}
+	catch(e) {
+		return point;
+	}
 }
 
 /**

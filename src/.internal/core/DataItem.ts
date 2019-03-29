@@ -1107,7 +1107,8 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	public hasValue(fields: string[]): boolean {
 		// todo: what about categories?
 		for (let i = 0, len = fields.length; i < len; i++) {
-			if (!$type.hasValue(this.values[fields[i]].value)) {
+			let values = this.values[fields[i]];
+			if (!values || !$type.hasValue(values.value)) {
 				return false;
 			}
 		}

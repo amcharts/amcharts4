@@ -869,7 +869,8 @@ var DataItem = /** @class */ (function (_super) {
     DataItem.prototype.hasValue = function (fields) {
         // todo: what about categories?
         for (var i = 0, len = fields.length; i < len; i++) {
-            if (!$type.hasValue(this.values[fields[i]].value)) {
+            var values = this.values[fields[i]];
+            if (!values || !$type.hasValue(values.value)) {
                 return false;
             }
         }

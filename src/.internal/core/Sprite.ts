@@ -120,6 +120,8 @@ export interface ISpriteProperties {
 	strokeWidth?: number;
 	strokeDasharray?: number[];
 	strokeDashoffset?: number;
+	strokeLinecap?: "butt" | "square" | "round";
+	strokeLinejoin?: "miter" | "round" | "bevel";
 	shapeRendering?: ShapeRendering;
 	draggable?: boolean;
 	inert?: boolean;
@@ -1251,6 +1253,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 					case "shapeRendering":
 					case "strokeDasharray":
 					case "strokeDashoffset":
+					case "strokeLinecap":
+					case "strokeLinejoin":
 					case "textDecoration":
 					case "fontSize":
 					case "fontFamily":
@@ -1971,6 +1975,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		this.shapeRendering = this.shapeRendering;
 		this.strokeDasharray = this.strokeDasharray;
 		this.strokeDashoffset = this.strokeDashoffset;
+		this.strokeLinecap = this.strokeLinecap;
+		this.strokeLinejoin = this.strokeLinejoin;
 		this.focusable = this.focusable;
 		this.tabindex = this.tabindex;
 		this.role = this.role;
@@ -2970,13 +2976,18 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Global point
 	 */
 	public getSvgPoint(point: IPoint): IPoint {
-		// Calculate SVG point
-		let bbox = this.htmlContainer.getBoundingClientRect();
+		try {
+			// Calculate SVG point
+			let bbox = this.htmlContainer.getBoundingClientRect();
 
-		return {
-			"x": point.x - bbox.left,
-			"y": point.y - bbox.top
-		};
+			return {
+				"x": point.x - bbox.left,
+				"y": point.y - bbox.top
+			};
+		}
+		catch(e) {
+			return point;
+		}
 	}
 
 	/**
@@ -7539,6 +7550,44 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public get strokeDashoffset(): number {
 		return this.getPropertyValue("strokeDashoffset");
+	}
+
+	/**
+	 * A `stroke-linecap` to indicate how line ends are drawn.
+	 *
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Fills_and_Strokes#Stroke} for more info on `stroke-linecap`
+	 * @param value  `stroke-linecap`
+	 */
+	public set strokeLinecap(value: "butt" | "square" | "round") {
+		if (this.setPropertyValue("strokeLinecap", value)) {
+			this.setSVGAttribute({ "stroke-linecap": value });
+		}
+	}
+
+	/**
+	 * @return `stroke-linecap`
+	 */
+	public get strokeLinecap(): "butt" | "square" | "round" {
+		return this.getPropertyValue("strokeLinecap");
+	}
+
+	/**
+	 * A `stroke-linejoin` to indicate how line ends are drawn.
+	 *
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Fills_and_Strokes#Stroke} for more info on `stroke-linejoin`
+	 * @param value  `stroke-linejoin`
+	 */
+	public set strokeLinejoin(value: "miter" | "round" | "bevel") {
+		if (this.setPropertyValue("strokeLinejoin", value)) {
+			this.setSVGAttribute({ "stroke-linejoin": value });
+		}
+	}
+
+	/**
+	 * @return `stroke-linejoin`
+	 */
+	public get strokeLinejoin(): "miter" | "round" | "bevel" {
+		return this.getPropertyValue("strokeLinejoin");
 	}
 
 	/**
