@@ -698,6 +698,8 @@ export class MapChart extends SerialChart {
 		panSprite.events.on("transformed", this.handlePanMove, this, false);
 		panSprite.interactionsEnabled = false;
 		panSprite.opacity = 0;
+		panSprite.x = 0;
+		panSprite.y = 0;
 		this.panSprite = panSprite;
 		this.panBehavior = "move";
 		/*		
@@ -754,19 +756,23 @@ export class MapChart extends SerialChart {
 
 				d3Projection.rotate([0, 0, 0]);
 
-				let local: IPoint = { x: this.panSprite.pixelX, y: this.panSprite.pixelY };
-
 				let downGeoLocal = this.projection.invert(this._downPointOrig);
-				let geoLocal = this.projection.invert(local);
 
-				d3Projection.rotate([dln, dlt, dlg]);
-
-				if (panBehavior == "rotateLat" || panBehavior == "rotateLongLat") {
-					this.deltaLatitude = this._downDeltaLatitude + geoLocal.latitude - downGeoLocal.latitude;
+				let local: IPoint = { x: this.panSprite.pixelX, y: this.panSprite.pixelY };				
+				let geoLocal:IGeoPoint;
+				if(local){
+					geoLocal = this.projection.invert(local);
 				}
 
-				if (panBehavior == "rotateLong" || panBehavior == "rotateLongLat") {
-					this.deltaLongitude = this._downDeltaLongitude + geoLocal.longitude - downGeoLocal.longitude;
+				d3Projection.rotate([dln, dlt, dlg]);
+				if(geoLocal){
+					if (panBehavior == "rotateLat" || panBehavior == "rotateLongLat") {
+						this.deltaLatitude = this._downDeltaLatitude + geoLocal.latitude - downGeoLocal.latitude;
+					}
+
+					if (panBehavior == "rotateLong" || panBehavior == "rotateLongLat") {
+						this.deltaLongitude = this._downDeltaLongitude + geoLocal.longitude - downGeoLocal.longitude;
+					}
 				}
 			}
 		}
@@ -1056,9 +1062,10 @@ export class MapChart extends SerialChart {
 	 * @param projection  Projection
 	 */
 	public set projection(projection: Projection) {
-		projection.deltaLongitude = this.deltaLongitude;
 		if (this.setPropertyValue("projection", projection)) {
 			this.invalidateProjection();
+
+			projection.chart = this;
 
 			this.series.each((series) => {
 				this.addDisposer(series.events.once("validated", () => {

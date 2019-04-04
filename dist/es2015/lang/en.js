@@ -100,6 +100,9 @@ export default {
     // 
     // This will be used when formatting date/time for particular granularity,
     // e.g. "_date_hour" will be shown whenever we need to show time as hours.
+    // 
+    // "date" is used as in default date format when showing standalone dates.
+    "_date": "yyyy-MM-dd",
     "_date_millisecond": "mm:ss SSS",
     "_date_second": "HH:mm:ss",
     "_date_minute": "HH:mm",

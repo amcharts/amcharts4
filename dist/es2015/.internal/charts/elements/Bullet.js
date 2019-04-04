@@ -39,6 +39,7 @@ var Bullet = /** @class */ (function (_super) {
         _this.layout = "none";
         _this.applyOnClones = true;
         _this.copyToLegendMarker = true;
+        _this.applyTheme();
         return _this;
     }
     Object.defineProperty(Bullet.prototype, "locationX", {

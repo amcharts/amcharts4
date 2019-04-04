@@ -437,10 +437,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
     pointToPosition(point: IPoint): number;
     /**
      * Calculates smallest and biggest value for the axis scale.
-     *
+     * @ignore
      * @todo Description (review)
      */
-    protected getMinMax(): void;
+    getMinMax(): void;
     /**
      * Adjusts the minimum value.
      *

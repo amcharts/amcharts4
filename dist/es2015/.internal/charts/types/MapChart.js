@@ -210,6 +210,8 @@ var MapChart = /** @class */ (function (_super) {
         panSprite.events.on("transformed", _this.handlePanMove, _this, false);
         panSprite.interactionsEnabled = false;
         panSprite.opacity = 0;
+        panSprite.x = 0;
+        panSprite.y = 0;
         _this.panSprite = panSprite;
         _this.panBehavior = "move";
         /*
@@ -253,15 +255,20 @@ var MapChart = /** @class */ (function (_super) {
                 var dlt = rotation[1];
                 var dlg = rotation[2];
                 d3Projection.rotate([0, 0, 0]);
-                var local = { x: this.panSprite.pixelX, y: this.panSprite.pixelY };
                 var downGeoLocal = this.projection.invert(this._downPointOrig);
-                var geoLocal = this.projection.invert(local);
-                d3Projection.rotate([dln, dlt, dlg]);
-                if (panBehavior == "rotateLat" || panBehavior == "rotateLongLat") {
-                    this.deltaLatitude = this._downDeltaLatitude + geoLocal.latitude - downGeoLocal.latitude;
+                var local = { x: this.panSprite.pixelX, y: this.panSprite.pixelY };
+                var geoLocal = void 0;
+                if (local) {
+                    geoLocal = this.projection.invert(local);
                 }
-                if (panBehavior == "rotateLong" || panBehavior == "rotateLongLat") {
-                    this.deltaLongitude = this._downDeltaLongitude + geoLocal.longitude - downGeoLocal.longitude;
+                d3Projection.rotate([dln, dlt, dlg]);
+                if (geoLocal) {
+                    if (panBehavior == "rotateLat" || panBehavior == "rotateLongLat") {
+                        this.deltaLatitude = this._downDeltaLatitude + geoLocal.latitude - downGeoLocal.latitude;
+                    }
+                    if (panBehavior == "rotateLong" || panBehavior == "rotateLongLat") {
+                        this.deltaLongitude = this._downDeltaLongitude + geoLocal.longitude - downGeoLocal.longitude;
+                    }
                 }
             }
         }
@@ -531,9 +538,9 @@ var MapChart = /** @class */ (function (_super) {
          */
         set: function (projection) {
             var _this = this;
-            projection.deltaLongitude = this.deltaLongitude;
             if (this.setPropertyValue("projection", projection)) {
                 this.invalidateProjection();
+                projection.chart = this;
                 this.series.each(function (series) {
                     _this.addDisposer(series.events.once("validated", function () {
                         _this.updateCenterGeoPoint();

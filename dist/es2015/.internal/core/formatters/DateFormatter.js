@@ -84,6 +84,25 @@ var DateFormatter = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    Object.defineProperty(DateFormatter.prototype, "language", {
+        /**
+         * @return Language
+         */
+        get: function () {
+            return this._language;
+        },
+        /**
+         * A reference to [[Language]] object.
+         *
+         * @param  value  Language
+         */
+        set: function (value) {
+            this._language = value;
+            this.dateFormat = this._language.translate("_date");
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Formats the date value according to specified format.
      *
@@ -99,7 +118,7 @@ var DateFormatter = /** @class */ (function (_super) {
                 this.language = this.sprite.language;
             }
             else {
-                this.language = new Language;
+                this.language = new Language();
             }
         }
         // No format passed in or it's empty
@@ -119,6 +138,10 @@ var DateFormatter = /** @class */ (function (_super) {
         }
         else {
             date = $utils.anyToDate(source);
+        }
+        // Should we apply custom time zone?
+        if ($type.hasValue(this.timezoneOffset)) {
+            date.setMinutes(date.getTimezoneOffset() - this.timezoneOffset);
         }
         // Check if it's a valid date
         if (!$type.isNumber(date.getTime())) {
@@ -1070,6 +1093,31 @@ var DateFormatter = /** @class */ (function (_super) {
         set: function (value) {
             this._utc = value;
             this.invalidateSprite();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DateFormatter.prototype, "timezoneOffset", {
+        /**
+         * @return Offset (minutes)
+         */
+        get: function () {
+            return this._timezoneOffset;
+        },
+        /**
+         * If set, will format date/time in specific time zone.
+         *
+         * The value is a number of minutes from target time zone to UTC.
+         *
+         * E.g. `300` will recalculate Dates in "GMT-5" time zone.
+         *
+         * @param  value  Offset (minutes)
+         */
+        set: function (value) {
+            if (this._timezoneOffset != value) {
+                this._timezoneOffset = value;
+                this.invalidateSprite();
+            }
         },
         enumerable: true,
         configurable: true

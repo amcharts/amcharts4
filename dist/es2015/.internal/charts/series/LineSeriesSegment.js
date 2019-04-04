@@ -14,6 +14,7 @@ import { Sprite, visualProperties } from "../../core/Sprite";
 import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
 import * as $object from "../../core/utils/Object";
+import { color } from "../../core/utils/Color";
 import * as $smoothing from "../../core/rendering/Smoothing";
 /**
  * ============================================================================
@@ -56,6 +57,7 @@ var LineSeriesSegment = /** @class */ (function (_super) {
         var strokeSprite = _this.createChild(Sprite);
         _this.strokeSprite = strokeSprite;
         strokeSprite.shouldClone = false;
+        strokeSprite.fill = color();
         strokeSprite.setElement(_this.paper.add("path"));
         strokeSprite.isMeasured = false;
         _this._disposers.push(strokeSprite);
@@ -103,9 +105,11 @@ var LineSeriesSegment = /** @class */ (function (_super) {
         _super.prototype.copyFrom.call(this, source);
         var lineElement = this.strokeSprite;
         $object.copyProperties(source, lineElement.properties, visualProperties);
+        lineElement.events.copyFrom(source.strokeSprite.events);
         lineElement.fillOpacity = 0;
         var fillElement = this.fillSprite;
         $object.copyProperties(source, fillElement.properties, visualProperties);
+        fillElement.events.copyFrom(source.fillSprite.events);
         fillElement.strokeOpacity = 0;
     };
     return LineSeriesSegment;

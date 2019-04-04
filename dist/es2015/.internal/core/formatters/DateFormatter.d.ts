@@ -59,6 +59,10 @@ export declare class DateFormatter extends BaseObject {
      */
     protected _utc: boolean;
     /**
+     * Timezone offset.
+     */
+    protected _timezoneOffset: $type.Optional<number>;
+    /**
      * First day of week.
      *
      * 0 - Sunday
@@ -102,7 +106,7 @@ export declare class DateFormatter extends BaseObject {
     /**
      * Holds reference to [[Language]] object.
      */
-    language: $type.Optional<Language>;
+    _language: $type.Optional<Language>;
     /**
      * Should the first letter of the formatted date be capitalized?
      *
@@ -113,6 +117,15 @@ export declare class DateFormatter extends BaseObject {
      * Constructor
      */
     constructor();
+    /**
+     * @return Language
+     */
+    /**
+     * A reference to [[Language]] object.
+     *
+     * @param  value  Language
+     */
+    language: $type.Optional<Language>;
     /**
      * Formats the date value according to specified format.
      *
@@ -214,6 +227,19 @@ export declare class DateFormatter extends BaseObject {
      * @param value Use UTC?
      */
     utc: boolean;
+    /**
+     * @return Offset (minutes)
+     */
+    /**
+     * If set, will format date/time in specific time zone.
+     *
+     * The value is a number of minutes from target time zone to UTC.
+     *
+     * E.g. `300` will recalculate Dates in "GMT-5" time zone.
+     *
+     * @param  value  Offset (minutes)
+     */
+    timezoneOffset: $type.Optional<number>;
     /**
      * @return First day of week
      */

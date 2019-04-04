@@ -109,6 +109,8 @@ export class LabelBullet extends Bullet {
 		// not good, as lineSeries will have labels somewhere in the middle.
 		//this.locationX = 0.5;
 		//this.locationY = 0.5;
+
+		this.applyTheme();
 	}
 
 	protected handleMaxSize(){

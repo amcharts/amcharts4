@@ -15,6 +15,7 @@ import { IPoint } from "../../core/defs/IPoint";
 import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
 import * as $object from "../../core/utils/Object";
+import { color } from "../../core/utils/Color";
 import * as $smoothing from "../../core/rendering/Smoothing";
 
 
@@ -114,6 +115,7 @@ export class LineSeriesSegment extends Container {
 		let strokeSprite = this.createChild(Sprite);
 		this.strokeSprite = strokeSprite;
 		strokeSprite.shouldClone = false;
+		strokeSprite.fill = color();
 		strokeSprite.setElement(this.paper.add("path"));
 		strokeSprite.isMeasured = false;
 		this._disposers.push(strokeSprite);
@@ -166,10 +168,12 @@ export class LineSeriesSegment extends Container {
 
 		let lineElement = this.strokeSprite;
 		$object.copyProperties(source, lineElement.properties, visualProperties);
+		lineElement.events.copyFrom(source.strokeSprite.events);
 		lineElement.fillOpacity = 0;
 
 		let fillElement = this.fillSprite;
 		$object.copyProperties(source, fillElement.properties, visualProperties);
+		fillElement.events.copyFrom(source.fillSprite.events);
 		fillElement.strokeOpacity = 0;
 	}
 }

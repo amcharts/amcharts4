@@ -41,6 +41,7 @@ var CircleBullet = /** @class */ (function (_super) {
         circle.radius = 5;
         circle.isMeasured = false;
         _this.circle = circle;
+        _this.applyTheme();
         return _this;
     }
     /**

@@ -23,6 +23,7 @@ declare const _default: {
     "_byte_suffix_GB": string;
     "_byte_suffix_TB": string;
     "_byte_suffix_PB": string;
+    "_date": string;
     "_date_millisecond": string;
     "_date_second": string;
     "_date_minute": string;

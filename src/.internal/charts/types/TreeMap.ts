@@ -393,7 +393,7 @@ export interface ITreeMapDataFields extends IXYChartDataFields {
 export interface ITreeMapProperties extends IXYChartProperties {
 
 	/**
-	 * Maximum levels the chart will allow drilling down to.
+	 * Maximum number of levels the chart will display initially.
 	 *
 	 * @default 2
 	 */
@@ -700,16 +700,18 @@ export class TreeMap extends XYChart {
 		homeDataItem.name = this._homeText;
 
 		let maxX = 1000;
-		let maxY = (maxX * this.pixelHeight / this.pixelWidth) || 1000;
+		let maxY = Math.round((maxX * this.pixelHeight / this.pixelWidth) / 10) * 10 || 1000;
 
 		homeDataItem.x1 = maxX;
 		homeDataItem.y1 = maxY;
 
 		this.xAxis.min = 0;
 		this.xAxis.max = maxX;
+		this.xAxis.getMinMax();
 
 		this.yAxis.min = 0;
 		this.yAxis.max = maxY;
+		this.yAxis.getMinMax();
 
 		this.layoutItems(homeDataItem);
 
@@ -846,6 +848,8 @@ export class TreeMap extends XYChart {
 			else {
 				series = this.series.create();
 			}
+			// for the legend to get {value}
+			series.dataItem.dataContext = dataItem;
 
 			series.name = dataItem.name;
 			series.parentDataItem = dataItem;
@@ -952,7 +956,7 @@ export class TreeMap extends XYChart {
 
 			let rangeChangeAnimation = this.xAxis.rangeChangeAnimation || this.yAxis.rangeChangeAnimation;
 
-			if (rangeChangeAnimation && !rangeChangeAnimation.isFinished()) {
+			if (!rangeChangeAnimation.isDisposed() && rangeChangeAnimation && !rangeChangeAnimation.isFinished()) {
 				this._dataDisposers.push(rangeChangeAnimation);
 				rangeChangeAnimation.events.once("animationended", () => {
 					this.toggleBullets();
@@ -991,13 +995,9 @@ export class TreeMap extends XYChart {
 	}
 
 	/**
-	 * Maximum drill-down levels the chart will allow going to.
+	 * Maximum number of levels the chart will display initially.
 	 *
-	 * If set, the chart will not drill-down further, even if there are sub-items
-	 * available.
-	 *
-	 * Set to `1` to disable drill down functionality.
-	 *
+	 * @default 2
 	 * @param value  Maximum drill-down level
 	 */
 	public set maxLevels(value: number) {

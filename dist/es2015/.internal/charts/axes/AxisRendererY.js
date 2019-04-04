@@ -12,7 +12,7 @@ import { AxisRenderer } from "./AxisRenderer";
 import { WavedLine } from "../../core/elements/WavedLine";
 import { WavedRectangle } from "../../core/elements/WavedRectangle";
 import { registry } from "../../core/Registry";
-import { percent } from "../../core/utils/Percent";
+import { percent, Percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
@@ -97,7 +97,9 @@ var AxisRendererY = /** @class */ (function (_super) {
         if (axis) {
             var title = axis.title;
             title.valign = "middle";
-            axis.height = percent(100);
+            if (!(axis.height instanceof Percent)) {
+                axis.height = percent(100);
+            }
             if (this.opposite) {
                 title.rotation = 90;
                 this.line.toBack();

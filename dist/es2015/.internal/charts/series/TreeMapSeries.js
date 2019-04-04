@@ -78,7 +78,10 @@ var TreeMapSeriesDataItem = /** @class */ (function (_super) {
          * @return Value
          */
         get: function () {
-            return this.treeMapDataItem.value;
+            var treeMapDataItem = this.treeMapDataItem;
+            if (treeMapDataItem) {
+                return treeMapDataItem.value;
+            }
         },
         enumerable: true,
         configurable: true

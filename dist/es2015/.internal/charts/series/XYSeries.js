@@ -814,7 +814,6 @@ var XYSeries = /** @class */ (function (_super) {
      * @param dataItems  Data items
      */
     XYSeries.prototype.processValues = function (working) {
-        // todo: if this is stacked, ensure that series to which this one can be stacked are processed before.
         _super.prototype.processValues.call(this, working);
         var dataItems = this.dataItems;
         var minX = Infinity;
@@ -872,6 +871,9 @@ var XYSeries = /** @class */ (function (_super) {
                 this.dispatchImmediately("selectionextremeschanged");
             }
         }
+        if (!working && this.stacked) {
+            this.processValues(true);
+        }
     };
     /**
      * Hides element's [[Tooltip]].
@@ -890,28 +892,26 @@ var XYSeries = /** @class */ (function (_super) {
      * @param yPosition  Y
      */
     XYSeries.prototype.showTooltipAtPosition = function (xPosition, yPosition) {
-        if (this.cursorTooltipEnabled) {
-            var dataItem = void 0;
-            if (this.visible && !this.isHiding && !this.isShowing) {
-                var xAxis = this._xAxis.get();
-                var yAxis = this._yAxis.get();
-                if (xAxis == this.baseAxis) {
-                    dataItem = xAxis.getSeriesDataItem(this, xAxis.toAxisPosition(xPosition), this.snapTooltip);
-                }
-                if (yAxis == this.baseAxis) {
-                    dataItem = yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition), this.snapTooltip);
-                }
-                var point = this.showTooltipAtDataItem(dataItem);
-                if (point) {
-                    return point;
-                }
-                // so that if tooltip is shown on columns or bullets for it not to be hidden
-                if (!this.tooltipText) {
-                    return;
-                }
+        var dataItem;
+        if (this.visible && !this.isHiding && !this.isShowing) {
+            var xAxis = this._xAxis.get();
+            var yAxis = this._yAxis.get();
+            if (xAxis == this.baseAxis) {
+                dataItem = xAxis.getSeriesDataItem(this, xAxis.toAxisPosition(xPosition), this.snapTooltip);
             }
-            this.hideTooltip();
+            if (yAxis == this.baseAxis) {
+                dataItem = yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition), this.snapTooltip);
+            }
+            var point = this.showTooltipAtDataItem(dataItem);
+            if (point) {
+                return point;
+            }
+            // so that if tooltip is shown on columns or bullets for it not to be hidden
+            if (!this.tooltipText) {
+                return;
+            }
         }
+        this.hideTooltip();
     };
     /**
      * Shows series tooltip at specific dataItem.
@@ -920,9 +920,9 @@ var XYSeries = /** @class */ (function (_super) {
      */
     XYSeries.prototype.showTooltipAtDataItem = function (dataItem) {
         this.returnBulletDefaultState(dataItem);
-        if (this.cursorTooltipEnabled) {
-            if (dataItem && dataItem.visible) {
-                this.updateLegendValue(dataItem);
+        if (dataItem && dataItem.visible) {
+            this.updateLegendValue(dataItem);
+            if (this.cursorTooltipEnabled) {
                 this.tooltipDataItem = dataItem;
                 // todo: add tooltipXField and tooltipYField.
                 var tooltipXField = this.tooltipXField;

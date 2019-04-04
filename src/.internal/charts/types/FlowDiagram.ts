@@ -630,7 +630,11 @@ export class FlowDiagram extends Chart {
 	 */
 	public get nodes():DictionaryTemplate<string, this["_node"]>{
 		if(!this._nodes){
-			this._nodes = new DictionaryTemplate<string, this["_node"]>(this.createNode());
+			let template = this.createNode();
+			template.events.on("hit", (event)=>{
+				event.target.handleHit(event);
+			});
+			this._nodes = new DictionaryTemplate<string, this["_node"]>(template);
 			this._disposers.push(new DictionaryDisposer(this._nodes));
 		}
 		return this._nodes;

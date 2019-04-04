@@ -51,10 +51,11 @@ var LabelBullet = /** @class */ (function (_super) {
         label.fill = new InterfaceColorSet().getFor("text");
         _this.events.on("maxsizechanged", _this.handleMaxSize, _this, false);
         _this.label = label;
-        return _this;
         // not good, as lineSeries will have labels somewhere in the middle.
         //this.locationX = 0.5;
         //this.locationY = 0.5;
+        _this.applyTheme();
+        return _this;
     }
     LabelBullet.prototype.handleMaxSize = function () {
         this.label.maxWidth = this.maxWidth;

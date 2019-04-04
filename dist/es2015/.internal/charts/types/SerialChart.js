@@ -150,6 +150,9 @@ var SerialChart = /** @class */ (function (_super) {
     SerialChart.prototype.handleSeriesAdded = function (event) {
         var _this = this;
         var series = event.newValue;
+        if (series.isDisposed()) {
+            return;
+        }
         series.chart = this;
         series.parent = this.seriesContainer;
         series.bulletsContainer.parent = this.bulletsContainer;

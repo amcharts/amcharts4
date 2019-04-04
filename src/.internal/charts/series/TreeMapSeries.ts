@@ -90,7 +90,10 @@ export class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
 	 * @return Value
 	 */
 	public get value(): number {
-		return this.treeMapDataItem.value;
+		let treeMapDataItem = this.treeMapDataItem;
+		if(treeMapDataItem){
+			return treeMapDataItem.value;
+		}
 	}
 
 	/**

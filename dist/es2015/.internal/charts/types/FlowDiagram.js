@@ -437,7 +437,11 @@ var FlowDiagram = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._nodes) {
-                this._nodes = new DictionaryTemplate(this.createNode());
+                var template = this.createNode();
+                template.events.on("hit", function (event) {
+                    event.target.handleHit(event);
+                });
+                this._nodes = new DictionaryTemplate(template);
                 this._disposers.push(new DictionaryDisposer(this._nodes));
             }
             return this._nodes;

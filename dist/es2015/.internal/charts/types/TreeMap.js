@@ -473,13 +473,15 @@ var TreeMap = /** @class */ (function (_super) {
         homeDataItem.y0 = 0;
         homeDataItem.name = this._homeText;
         var maxX = 1000;
-        var maxY = (maxX * this.pixelHeight / this.pixelWidth) || 1000;
+        var maxY = Math.round((maxX * this.pixelHeight / this.pixelWidth) / 10) * 10 || 1000;
         homeDataItem.x1 = maxX;
         homeDataItem.y1 = maxY;
         this.xAxis.min = 0;
         this.xAxis.max = maxX;
+        this.xAxis.getMinMax();
         this.yAxis.min = 0;
         this.yAxis.max = maxY;
+        this.yAxis.getMinMax();
         this.layoutItems(homeDataItem);
         this.createTreeSeries(homeDataItem);
     };
@@ -591,6 +593,8 @@ var TreeMap = /** @class */ (function (_super) {
             else {
                 series = this.series.create();
             }
+            // for the legend to get {value}
+            series.dataItem.dataContext = dataItem;
             series.name = dataItem.name;
             series.parentDataItem = dataItem;
             dataItem.series = series;
@@ -681,7 +685,7 @@ var TreeMap = /** @class */ (function (_super) {
             this.currentlyZoomed = dataItem;
             this.createTreeSeries(dataItem);
             var rangeChangeAnimation = this.xAxis.rangeChangeAnimation || this.yAxis.rangeChangeAnimation;
-            if (rangeChangeAnimation && !rangeChangeAnimation.isFinished()) {
+            if (!rangeChangeAnimation.isDisposed() && rangeChangeAnimation && !rangeChangeAnimation.isFinished()) {
                 this._dataDisposers.push(rangeChangeAnimation);
                 rangeChangeAnimation.events.once("animationended", function () {
                     _this.toggleBullets();
@@ -722,13 +726,9 @@ var TreeMap = /** @class */ (function (_super) {
             return this.getPropertyValue("maxLevels");
         },
         /**
-         * Maximum drill-down levels the chart will allow going to.
+         * Maximum number of levels the chart will display initially.
          *
-         * If set, the chart will not drill-down further, even if there are sub-items
-         * available.
-         *
-         * Set to `1` to disable drill down functionality.
-         *
+         * @default 2
          * @param value  Maximum drill-down level
          */
         set: function (value) {

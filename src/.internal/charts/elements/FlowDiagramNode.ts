@@ -184,10 +184,13 @@ export class FlowDiagramNode extends Container {
 
 		this.events.on("positionchanged", this.invalidateLinks, this, false);
 		this.events.on("sizechanged", this.invalidateLinks, this, false);
-		this.events.on("hit", this.handleHit, this, false);
+		//this.events.on("hit", this.handleHit, this, false);
 	}
 
-	protected handleHit(event: AMEvent<Sprite, ISpriteEvents>["hit"]) {
+	/**
+	 * @ignore
+	 */
+	public handleHit(event: AMEvent<Sprite, ISpriteEvents>["hit"]) {
 		if (this.isHidden || this.isHiding) {
 			this.show();
 		}

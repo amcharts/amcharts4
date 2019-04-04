@@ -58,9 +58,12 @@ var FlowDiagramNode = /** @class */ (function (_super) {
         _this.setStateOnChildren = true;
         _this.events.on("positionchanged", _this.invalidateLinks, _this, false);
         _this.events.on("sizechanged", _this.invalidateLinks, _this, false);
-        _this.events.on("hit", _this.handleHit, _this, false);
         return _this;
+        //this.events.on("hit", this.handleHit, this, false);
     }
+    /**
+     * @ignore
+     */
     FlowDiagramNode.prototype.handleHit = function (event) {
         if (this.isHidden || this.isHiding) {
             this.show();

@@ -240,6 +240,9 @@ export class SerialChart extends Chart {
 	 */
 	public handleSeriesAdded(event: IListEvents<Series>["inserted"]): void {
 		let series: Series = event.newValue;
+		if(series.isDisposed()){
+			return;
+		}
 		series.chart = this;
 		series.parent = this.seriesContainer;
 

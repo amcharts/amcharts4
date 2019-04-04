@@ -1105,7 +1105,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			ghostLabel.fillOpacity = 0;
 			ghostLabel.opacity = 0;
 			ghostLabel.strokeOpacity = 0;
+			ghostLabel.interactionsEnabled = false;
 			ghostLabel.validate();
+
 			this.ghostLabel = ghostLabel;
 
 			this.events.on("beforedatavalidated", () => {

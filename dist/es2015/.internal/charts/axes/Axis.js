@@ -788,6 +788,7 @@ var Axis = /** @class */ (function (_super) {
                 ghostLabel_1.fillOpacity = 0;
                 ghostLabel_1.opacity = 0;
                 ghostLabel_1.strokeOpacity = 0;
+                ghostLabel_1.interactionsEnabled = false;
                 ghostLabel_1.validate();
                 this.ghostLabel = ghostLabel_1;
                 this.events.on("beforedatavalidated", function () {

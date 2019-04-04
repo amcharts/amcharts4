@@ -726,7 +726,7 @@ var ValueAxis = /** @class */ (function (_super) {
     };
     /**
      * Calculates smallest and biggest value for the axis scale.
-     *
+     * @ignore
      * @todo Description (review)
      */
     ValueAxis.prototype.getMinMax = function () {
@@ -788,7 +788,11 @@ var ValueAxis = /** @class */ (function (_super) {
         }
         min -= (max - min) * this.extraMin;
         max += (max - min) * this.extraMax;
-        var minMaxStep = this.adjustMinMax(min, max, dif, this._gridCount, this.strictMinMax);
+        var strict = this.strictMinMax;
+        if ($type.isNumber(this._maxDefined)) {
+            strict = true;
+        }
+        var minMaxStep = this.adjustMinMax(min, max, dif, this._gridCount, strict);
         min = minMaxStep.min;
         max = minMaxStep.max;
         dif = max - min; //new

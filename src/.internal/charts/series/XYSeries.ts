@@ -1203,7 +1203,7 @@ export class XYSeries extends Series {
 	 * @param dataItems  Data items
 	 */
 	public processValues(working: boolean): void {
-		// todo: if this is stacked, ensure that series to which this one can be stacked are processed before.
+
 		super.processValues(working);
 
 		let dataItems = this.dataItems;
@@ -1279,6 +1279,10 @@ export class XYSeries extends Series {
 				this.dispatchImmediately("selectionextremeschanged");
 			}
 		}
+
+		if(!working && this.stacked){
+			this.processValues(true);
+		}
 	}
 
 	/**
@@ -1300,35 +1304,34 @@ export class XYSeries extends Series {
 	 * @param yPosition  Y
 	 */
 	public showTooltipAtPosition(xPosition: number, yPosition: number): IPoint {
-		if (this.cursorTooltipEnabled) {
-			let dataItem: this["_dataItem"];
 
-			if (this.visible && !this.isHiding && !this.isShowing) {
+		let dataItem: this["_dataItem"];
 
-				let xAxis: Axis = this._xAxis.get();
-				let yAxis: Axis = this._yAxis.get();
+		if (this.visible && !this.isHiding && !this.isShowing) {
 
-				if (xAxis == this.baseAxis) {
-					dataItem = <this["_dataItem"]>xAxis.getSeriesDataItem(this, xAxis.toAxisPosition(xPosition), this.snapTooltip);
-				}
-				if (yAxis == this.baseAxis) {
-					dataItem = <this["_dataItem"]>yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition), this.snapTooltip);
-				}
+			let xAxis: Axis = this._xAxis.get();
+			let yAxis: Axis = this._yAxis.get();
 
-				let point = this.showTooltipAtDataItem(dataItem);
-
-				if (point) {
-					return point;
-				}
-
-				// so that if tooltip is shown on columns or bullets for it not to be hidden
-				if (!this.tooltipText) {
-					return;
-				}
+			if (xAxis == this.baseAxis) {
+				dataItem = <this["_dataItem"]>xAxis.getSeriesDataItem(this, xAxis.toAxisPosition(xPosition), this.snapTooltip);
+			}
+			if (yAxis == this.baseAxis) {
+				dataItem = <this["_dataItem"]>yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition), this.snapTooltip);
 			}
 
-			this.hideTooltip();
+			let point = this.showTooltipAtDataItem(dataItem);
+
+			if (point) {
+				return point;
+			}
+
+			// so that if tooltip is shown on columns or bullets for it not to be hidden
+			if (!this.tooltipText) {
+				return;
+			}
 		}
+
+		this.hideTooltip();
 	}
 
 
@@ -1339,10 +1342,9 @@ export class XYSeries extends Series {
 	 */
 	public showTooltipAtDataItem(dataItem: this["_dataItem"]): IPoint {
 		this.returnBulletDefaultState(dataItem);
-		if (this.cursorTooltipEnabled) {
-			if (dataItem && dataItem.visible) {
-
-				this.updateLegendValue(dataItem);
+		if (dataItem && dataItem.visible) {
+			this.updateLegendValue(dataItem);
+			if (this.cursorTooltipEnabled) {
 				this.tooltipDataItem = dataItem;
 
 				// todo: add tooltipXField and tooltipYField.

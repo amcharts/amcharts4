@@ -91,6 +91,8 @@ export class CircleBullet extends Bullet {
 		circle.radius = 5;
 		circle.isMeasured = false;
 		this.circle = circle;
+
+		this.applyTheme();
 	}
 
 	/**

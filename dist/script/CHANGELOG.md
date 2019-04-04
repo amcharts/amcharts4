@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.3.6] - 2019-04-04
+
+### Added
+- New `DateFormatter` property: `timezoneOffset`. Set it to a number of minutes (to UTC) to recalculate all date/time to a specific time zone.
+
+### Changed
+- `DateFormatter` will now use locale information for its default date format set in `dateFormat`. Format in default "International English" locale did not change, and remains at `"yyyy-MM-dd"`. Other locales might or might not produce different date formats.
+- Improved `ValueAxis` scale calculation algorithm when `min`/`max` is set.
+- `"hit"` event is now added on `FlowDiagramNode` template instead of the class itself. This allows disabling default toggle/drag behavior and replacing with own events.
+
+### Fixed
+- Themes were not properly being applied to bullets.
+- `Popup.draggable` was being ignored.
+- `Series.legendSettings.itemValueText` was being ignored when `cursorTooltipEnabled = false`. #1141
+- Mouse events over `LineSeries` segments where happening at wrong position.
+- `legend.valueLabels` on `TreeMap` did not work.
+- Changing Map projection with `panBehavior = "rotateLongLat"` could cause a JS error.
+- Changing `TreeMap` data after chart size changed could cause zoom-out button to appear.
+- Solved flickering of stacked columns when raw data was invalidated.
+- Updating data of a `TreeMap` when animation was playing could result in a JS error.
+
+
 ## [4.3.5] - 2019-03-29
 
 ### Added

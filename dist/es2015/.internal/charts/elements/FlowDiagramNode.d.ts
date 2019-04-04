@@ -134,7 +134,10 @@ export declare class FlowDiagramNode extends Container {
      * Constructor
      */
     constructor();
-    protected handleHit(event: AMEvent<Sprite, ISpriteEvents>["hit"]): void;
+    /**
+     * @ignore
+     */
+    handleHit(event: AMEvent<Sprite, ISpriteEvents>["hit"]): void;
     /**
      * Shows hidden node.
      *

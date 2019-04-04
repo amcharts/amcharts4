@@ -10,6 +10,7 @@
 import { IGeoPoint } from "../../../core/defs/IGeoPoint";
 import { IPoint, IOrientationPoint } from "../../../core/defs/IPoint";
 import * as d3geo from "d3-geo";
+import { MapChart } from "../../types/MapChart";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -20,14 +21,34 @@ import * as d3geo from "d3-geo";
  * This is a base class for a geographical projection.
  */
 export declare class Projection {
-    deltaLongitude: number;
-    deltaLatitude: number;
-    deltaGama: number;
+    /**
+     * @ignore
+     */
     protected _d3Projection: d3geo.GeoProjection;
+    /**
+     * @ignore
+     */
     protected _d3Path: d3geo.GeoPath;
+    /**
+     * @ignore
+     */
+    chart: MapChart;
     constructor();
+    /**
+     * d3 projection
+     */
+    /**
+     * d3 projection
+     */
     d3Projection: d3geo.GeoProjection;
+    /**
+     * d3 path generator method
+     * @ignore
+     */
     readonly d3Path: d3geo.GeoPath;
+    /**
+     * @ignore
+     */
     readonly scale: number;
     /**
      * Converts a geographical point (lat/long) to a screen point (x/y)
@@ -63,7 +84,15 @@ export declare class Projection {
      * @todo Needs description
      */
     unproject(x: number, y: number): IGeoPoint;
+    /**
+     * @ignore
+     * @deprecated
+     */
     rotate(geoPoint: IGeoPoint, deltaLongitude: number, deltaLatitude: number, deltaGamma?: number): IGeoPoint;
+    /**
+     * @ignore
+     * @deprecated
+     */
     unrotate(geoPoint: IGeoPoint, deltaLongitude: number, deltaLatitude: number, deltaGamma?: number): IGeoPoint;
     intermediatePoint(pointA: IGeoPoint, pointB: IGeoPoint, position: number): IGeoPoint;
     multiDistance(multiGeoLine: IGeoPoint[][]): number;

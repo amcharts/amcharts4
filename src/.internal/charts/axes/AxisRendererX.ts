@@ -20,7 +20,7 @@ import { AxisBreak } from "./AxisBreak";
 import { WavedLine } from "../../core/elements/WavedLine";
 import { WavedRectangle } from "../../core/elements/WavedRectangle";
 import { registry } from "../../core/Registry";
-import { percent } from "../../core/utils/Percent";
+import { percent, Percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
@@ -146,10 +146,12 @@ export class AxisRendererX extends AxisRenderer {
 		let axis = this.axis;
 
 		if (axis) {
-			axis.width = percent(100);
+			if(!(axis.width instanceof Percent)){
+				axis.width = percent(100);
+			}
 
 			// @todo Is thi sneeded?
-			this.line;
+			$utils.used(this.line);
 
 			let title: Label = axis.title;
 			title.rotation = 0;

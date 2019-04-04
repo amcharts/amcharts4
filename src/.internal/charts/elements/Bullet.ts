@@ -120,6 +120,8 @@ export class Bullet extends Container {
 		this.applyOnClones = true;
 
 		this.copyToLegendMarker = true;
+
+		this.applyTheme();
 	}
 
 	/**

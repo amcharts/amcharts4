@@ -74,6 +74,11 @@ export class DateFormatter extends BaseObject {
 	protected _utc: boolean = false;
 
 	/**
+	 * Timezone offset.
+	 */
+	protected _timezoneOffset: $type.Optional<number>;
+
+	/**
 	 * First day of week.
 	 *
 	 * 0 - Sunday
@@ -124,8 +129,7 @@ export class DateFormatter extends BaseObject {
 	/**
 	 * Holds reference to [[Language]] object.
 	 */
-	public language: $type.Optional<Language>;
-
+	public _language: $type.Optional<Language>;
 
 	/**
 	 * Should the first letter of the formatted date be capitalized?
@@ -144,6 +148,23 @@ export class DateFormatter extends BaseObject {
 	}
 
 	/**
+	 * A reference to [[Language]] object.
+	 * 
+	 * @param  value  Language
+	 */
+	public set language(value: $type.Optional<Language>) {
+		this._language = value;
+		this.dateFormat = this._language.translate("_date");
+	}
+
+	/**
+	 * @return Language
+	 */
+	public get language(): $type.Optional<Language> {
+		return this._language;
+	}
+
+	/**
 	 * Formats the date value according to specified format.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-date-time/} Tutorial on date/time formatting
@@ -159,7 +180,7 @@ export class DateFormatter extends BaseObject {
 				this.language = this.sprite.language;
 			}
 			else {
-				this.language = new Language;
+				this.language = new Language();
 			}
 		}
 
@@ -183,6 +204,11 @@ export class DateFormatter extends BaseObject {
 		}
 		else {
 			date = $utils.anyToDate(source);
+		}
+
+		// Should we apply custom time zone?
+		if ($type.hasValue(this.timezoneOffset)) {
+			date.setMinutes(date.getTimezoneOffset() - this.timezoneOffset);
 		}
 
 		// Check if it's a valid date
@@ -1319,6 +1345,29 @@ export class DateFormatter extends BaseObject {
 	 */
 	public get utc(): boolean {
 		return this._utc;
+	}
+
+	/**
+	 * If set, will format date/time in specific time zone.
+	 *
+	 * The value is a number of minutes from target time zone to UTC.
+	 *
+	 * E.g. `300` will recalculate Dates in "GMT-5" time zone.
+	 *
+	 * @param  value  Offset (minutes)
+	 */
+	public set timezoneOffset(value: $type.Optional<number>) {
+		if (this._timezoneOffset != value) {
+			this._timezoneOffset = value;
+			this.invalidateSprite();
+		}
+	}
+
+	/**
+	 * @return Offset (minutes)
+	 */
+	public get timezoneOffset(): $type.Optional<number> {
+		return this._timezoneOffset;
 	}
 
 	/**

@@ -275,7 +275,14 @@ var Popup = /** @class */ (function (_super) {
             }
         }
         else {
-            // @todo Remove events
+            if (this._IOs.wrapper) {
+                if (this._IOs.wrapper.events.has("drag")) {
+                    this._IOs.wrapper.events.off("drag");
+                }
+                if (this._IOs.wrapper.events.has("dragstop")) {
+                    this._IOs.wrapper.events.off("dragstop");
+                }
+            }
         }
     };
     Popup.prototype.toStyle = function (value) {

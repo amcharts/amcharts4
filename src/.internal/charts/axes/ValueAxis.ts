@@ -1038,10 +1038,10 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 	/**
 	 * Calculates smallest and biggest value for the axis scale.
-	 *
+	 * @ignore
 	 * @todo Description (review)
 	 */
-	protected getMinMax() {
+	public getMinMax() {
 
 		this.updateGridCount();
 
@@ -1115,7 +1115,12 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		min -= (max - min) * this.extraMin;
 		max += (max - min) * this.extraMax;
 
-		let minMaxStep: IMinMaxStep = this.adjustMinMax(min, max, dif, this._gridCount, this.strictMinMax);
+		let strict = this.strictMinMax;
+		if($type.isNumber(this._maxDefined)){
+			strict = true;
+		}
+
+		let minMaxStep: IMinMaxStep = this.adjustMinMax(min, max, dif, this._gridCount, strict);
 
 		min = minMaxStep.min;
 		max = minMaxStep.max;

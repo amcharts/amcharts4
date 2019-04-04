@@ -75,6 +75,7 @@ export interface ILocaleProperties {
 	"_byte_suffix_PB"?: string;
 
 	// Default date formats for various periods
+	"_date"?: string;
 	"_date_millisecond"?: string;
 	"_date_second"?: string;
 	"_date_minute"?: string;

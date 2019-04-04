@@ -221,7 +221,7 @@ export interface ITreeMapDataFields extends IXYChartDataFields {
  */
 export interface ITreeMapProperties extends IXYChartProperties {
     /**
-     * Maximum levels the chart will allow drilling down to.
+     * Maximum number of levels the chart will display initially.
      *
      * @default 2
      */
@@ -467,13 +467,9 @@ export declare class TreeMap extends XYChart {
      * @return Maximum drill-down level
      */
     /**
-     * Maximum drill-down levels the chart will allow going to.
+     * Maximum number of levels the chart will display initially.
      *
-     * If set, the chart will not drill-down further, even if there are sub-items
-     * available.
-     *
-     * Set to `1` to disable drill down functionality.
-     *
+     * @default 2
      * @param value  Maximum drill-down level
      */
     maxLevels: number;

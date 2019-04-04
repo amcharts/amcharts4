@@ -12,7 +12,7 @@ import { AxisRenderer } from "./AxisRenderer";
 import { WavedLine } from "../../core/elements/WavedLine";
 import { WavedRectangle } from "../../core/elements/WavedRectangle";
 import { registry } from "../../core/Registry";
-import { percent } from "../../core/utils/Percent";
+import { percent, Percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
@@ -83,9 +83,11 @@ var AxisRendererX = /** @class */ (function (_super) {
         // can not do this in init, as axis is set later
         var axis = this.axis;
         if (axis) {
-            axis.width = percent(100);
+            if (!(axis.width instanceof Percent)) {
+                axis.width = percent(100);
+            }
             // @todo Is thi sneeded?
-            this.line;
+            $utils.used(this.line);
             var title = axis.title;
             title.rotation = 0;
             title.align = "center";
