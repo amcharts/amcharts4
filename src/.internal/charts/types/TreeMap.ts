@@ -956,7 +956,7 @@ export class TreeMap extends XYChart {
 
 			let rangeChangeAnimation = this.xAxis.rangeChangeAnimation || this.yAxis.rangeChangeAnimation;
 
-			if (!rangeChangeAnimation.isDisposed() && rangeChangeAnimation && !rangeChangeAnimation.isFinished()) {
+			if (rangeChangeAnimation && !rangeChangeAnimation.isDisposed() && !rangeChangeAnimation.isFinished()) {
 				this._dataDisposers.push(rangeChangeAnimation);
 				rangeChangeAnimation.events.once("animationended", () => {
 					this.toggleBullets();

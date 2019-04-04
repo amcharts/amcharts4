@@ -685,7 +685,7 @@ var TreeMap = /** @class */ (function (_super) {
             this.currentlyZoomed = dataItem;
             this.createTreeSeries(dataItem);
             var rangeChangeAnimation = this.xAxis.rangeChangeAnimation || this.yAxis.rangeChangeAnimation;
-            if (!rangeChangeAnimation.isDisposed() && rangeChangeAnimation && !rangeChangeAnimation.isFinished()) {
+            if (rangeChangeAnimation && !rangeChangeAnimation.isDisposed() && !rangeChangeAnimation.isFinished()) {
                 this._dataDisposers.push(rangeChangeAnimation);
                 rangeChangeAnimation.events.once("animationended", function () {
                     _this.toggleBullets();

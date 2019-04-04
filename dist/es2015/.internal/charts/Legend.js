@@ -425,10 +425,10 @@ var Legend = /** @class */ (function (_super) {
             if (!dataItem.childrenCreated) {
                 dataContext.createLegendMarker(marker);
                 dataItem.childrenCreated = true;
-                if (dataContext.updateLegendValue) {
-                    dataContext.updateLegendValue(); // this solves issue with external legend, as legend is created after chart updates legend values
-                }
             }
+        }
+        if (dataContext.updateLegendValue) {
+            dataContext.updateLegendValue(); // this solves issue with external legend, as legend is created after chart updates legend values
         }
         if (valueLabel.invalid) {
             valueLabel.validate();
