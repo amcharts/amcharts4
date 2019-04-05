@@ -432,7 +432,7 @@ export class WordCloudSeries extends Series {
 	public validateDataRange(): void {
 		super.validateDataRange();
 		this.dataItems.each((dataItem) => {
-			dataItem.label;
+			$utils.used(dataItem.label);
 		})
 	}
 

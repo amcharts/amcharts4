@@ -5,11 +5,8 @@
  * @hidden
  */
 import { registry } from "./Registry";
-import { Container } from "./Container";
-import { Component } from "./Component";
 import { options } from "./Options";
 import { raf } from "./utils/AsyncPending";
-import { animations } from "./utils/Animation";
 import { triggerIdle } from "./utils/AsyncPending";
 import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
@@ -36,6 +33,12 @@ var System = /** @class */ (function () {
          * A flag indicating if the system is on pause.
          */
         this._isPaused = false;
+        /**
+         * Holds the list of currently playing animations.
+         *
+         * @ignore Exclude from docs
+         */
+        this.animations = [];
         /**
          * Unique ID of the object.
          */
@@ -224,7 +227,7 @@ var System = /** @class */ (function () {
                 var sprite = invalidSprites[invalidSprites.length - 1];
                 // we need to check this, as validateLayout might validate sprite
                 if (sprite && !sprite.isDisposed()) {
-                    if (!_this.checkIfValidate(sprite)) {
+                    if (!sprite._systemCheckIfValidate()) {
                         // void
                         skippedSprites.push(sprite);
                     }
@@ -235,22 +238,7 @@ var System = /** @class */ (function () {
                         }
                         else {
                             try {
-                                if (sprite instanceof Container) {
-                                    sprite.children.each(function (child) {
-                                        if (child.invalid) {
-                                            if (!_this.checkIfValidate(child)) {
-                                                skippedSprites.push(child);
-                                            }
-                                            else if (child.dataItem && child.dataItem.component && child.dataItem.component.dataInvalid) {
-                                                skippedSprites.push(child);
-                                            }
-                                            else {
-                                                child.validate();
-                                            }
-                                        }
-                                    });
-                                }
-                                sprite.validate();
+                                sprite._systemUpdate(skippedSprites);
                             }
                             catch (e) {
                                 sprite.invalid = false;
@@ -278,7 +266,7 @@ var System = /** @class */ (function () {
         });
         // TODO make this more efficient
         // TODO don't copy the array
-        $array.each($array.copy(animations), function (x) {
+        $array.each($array.copy(this.animations), function (x) {
             x.update();
         });
         //if(!hasSkipped){
@@ -297,7 +285,7 @@ var System = /** @class */ (function () {
             _this.validatePositions(key);
         });
         registry.dispatchImmediately("exitframe");
-        if (hasSkipped || animations.length > 0 || skippedComponents.length > 0) {
+        if (hasSkipped || this.animations.length > 0 || skippedComponents.length > 0) {
             this.requestFrame();
         }
         if (this.updateStepDuration < 200) {
@@ -315,14 +303,6 @@ var System = /** @class */ (function () {
             if (all0_1) {
                 this.updateStepDuration = 200;
             }
-        }
-    };
-    System.prototype.checkIfValidate = function (sprite) {
-        if (sprite instanceof Component && (sprite.dataInvalid || (sprite.dataProvider && sprite.dataProvider.dataInvalid))) {
-            return false;
-        }
-        else {
-            return true;
         }
     };
     System.prototype.checkIfValidate2 = function (sprite) {
@@ -360,14 +340,7 @@ var System = /** @class */ (function () {
             var sprite = invalidPositions[invalidPositions.length - 1];
             if (!sprite.isDisposed()) {
                 try {
-                    if (sprite instanceof Container) {
-                        sprite.children.each(function (sprite) {
-                            if (sprite.positionInvalid) {
-                                sprite.validatePosition();
-                            }
-                        });
-                    }
-                    sprite.validatePosition();
+                    sprite._systemValidatePositions();
                 }
                 catch (e) {
                     sprite.positionInvalid = false;
@@ -396,9 +369,7 @@ var System = /** @class */ (function () {
             if (!container.isDisposed()) {
                 try {
                     container.children.each(function (sprite) {
-                        if (sprite instanceof Container && sprite.layoutInvalid && !sprite.isDisposed()) {
-                            sprite.validateLayout();
-                        }
+                        sprite._systemValidateLayouts();
                     });
                     container.validateLayout();
                 }
@@ -454,7 +425,7 @@ var System = /** @class */ (function () {
      *
      * @see {@link https://docs.npmjs.com/misc/semver}
      */
-    System.VERSION = "4.3.7";
+    System.VERSION = "4.3.8";
     return System;
 }());
 export { System };

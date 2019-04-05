@@ -634,7 +634,7 @@ export class XYChart extends SerialChart {
 			axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleXAxisChange, this, false);
 		}
 		axis.axisLetter = "X";
-		
+
 		axis.events.on("startchanged", this.handleXAxisRangeChange, this, false);
 		axis.events.on("endchanged", this.handleXAxisRangeChange, this, false);
 
@@ -663,7 +663,7 @@ export class XYChart extends SerialChart {
 			axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleYAxisChange, this, false);
 		}
 		axis.axisLetter = "Y";
-		
+
 		axis.events.on("startchanged", this.handleYAxisRangeChange, this, false);
 		axis.events.on("endchanged", this.handleYAxisRangeChange, this, false);
 
@@ -933,8 +933,8 @@ export class XYChart extends SerialChart {
 				series.dataInvalid = false;
 			}
 
-			series.xAxis; // this is enough to get axis, handled in getter
-			series.yAxis; // this is enough to get axis, handled in getter
+			$utils.used(series.xAxis); // this is enough to get axis, handled in getter
+			$utils.used(series.yAxis); // this is enough to get axis, handled in getter
 
 			if (series.fill == undefined) {
 				series.fill = this.colors.next();
@@ -1972,15 +1972,15 @@ export class XYChart extends SerialChart {
 	 *
 	 * @param source Source XYChart
 	 */
-	public copyFrom(source: this) {		
-		
+	public copyFrom(source: this) {
+
 		source.xAxes.each((axis)=>{
 			this.xAxes.push(axis.clone());
 		})
 
 		source.yAxes.each((axis)=>{
 			this.yAxes.push(axis.clone());
-		})		
+		})
 
 		//this.xAxes.copyFrom(source.xAxes);
 		//this.yAxes.copyFrom(source.yAxes);

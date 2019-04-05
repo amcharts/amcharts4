@@ -146,7 +146,6 @@ var ColumnSeries = /** @class */ (function (_super) {
         columnsContainer.isMeasured = false;
         columnsContainer.layout = "none";
         _this._columnsContainer = columnsContainer;
-        _this.columns;
         _this.columns.template.pixelPerfect = false;
         _this.tooltipColorSource = _this.columns.template;
         _this.applyTheme();

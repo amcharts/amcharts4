@@ -670,4 +670,22 @@ export declare class Container extends Sprite {
      * Dispatches ready event. Dispatches when all children are ready.
      */
     dispatchReady(): void;
+    /**
+     * Called during the System.update method
+     *
+     * @ignore Exclude from docs
+     */
+    _systemUpdate(skippedSprites: Array<Sprite>): void;
+    /**
+     * Called during the System.validatePositions method
+     *
+     * @ignore Exclude from docs
+     */
+    _systemValidatePositions(): void;
+    /**
+     * Called during the System.validateLayouts method
+     *
+     * @ignore Exclude from docs
+     */
+    _systemValidateLayouts(): void;
 }

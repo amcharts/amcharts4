@@ -1638,6 +1638,50 @@ var Container = /** @class */ (function (_super) {
             }
         }
     };
+    /**
+     * Called during the System.update method
+     *
+     * @ignore Exclude from docs
+     */
+    Container.prototype._systemUpdate = function (skippedSprites) {
+        this.children.each(function (child) {
+            if (child.invalid) {
+                if (!child._systemCheckIfValidate()) {
+                    skippedSprites.push(child);
+                }
+                else if (child.dataItem && child.dataItem.component && child.dataItem.component.dataInvalid) {
+                    skippedSprites.push(child);
+                }
+                else {
+                    child.validate();
+                }
+            }
+        });
+        _super.prototype._systemUpdate.call(this, skippedSprites);
+    };
+    /**
+     * Called during the System.validatePositions method
+     *
+     * @ignore Exclude from docs
+     */
+    Container.prototype._systemValidatePositions = function () {
+        this.children.each(function (sprite) {
+            if (sprite.positionInvalid) {
+                sprite.validatePosition();
+            }
+        });
+        _super.prototype._systemValidatePositions.call(this);
+    };
+    /**
+     * Called during the System.validateLayouts method
+     *
+     * @ignore Exclude from docs
+     */
+    Container.prototype._systemValidateLayouts = function () {
+        if (this.layoutInvalid && !this.isDisposed()) {
+            this.validateLayout();
+        }
+    };
     return Container;
 }(Sprite));
 export { Container };

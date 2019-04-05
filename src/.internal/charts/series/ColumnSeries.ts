@@ -291,7 +291,6 @@ export class ColumnSeries extends XYSeries {
 		columnsContainer.layout = "none";
 		this._columnsContainer = columnsContainer;
 
-		this.columns;
 		this.columns.template.pixelPerfect = false;
 
 		this.tooltipColorSource = this.columns.template;

@@ -509,6 +509,12 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      */
     clone(cloneId?: string): this;
     /**
+     * Copies all properties and related data from different data item.
+     *
+     * @param object Source data item
+     */
+    copyFrom(source: this): void;
+    /**
      * Sets opacity for all Data Item's related elements (Sprites).
      *
      * @param value Opacity (0-1)

@@ -320,6 +320,7 @@ export default {
 	"Flow diagram": "",
 	"Chord diagram": "",
 	"TreeMap chart": "",
+	"Force directed tree": "",
 	"Sliced chart": "",
 
 	// Series types.

@@ -132,6 +132,7 @@ declare const _default: {
     "Flow diagram": string;
     "Chord diagram": string;
     "TreeMap chart": string;
+    "Force directed tree": string;
     "Sliced chart": string;
     "Series": string;
     "Candlestick Series": string;

@@ -799,9 +799,10 @@ export class ExportMenu extends Validatable {
 	public dispose(): void {
 		if (!this._disposed) {
 			super.dispose();
-			this._element
-				&& this._element.parentNode
-				&& this._element.parentNode.removeChild(this._element);
+
+			if (this._element && this._element.parentNode) {
+				this._element.parentNode.removeChild(this._element);
+			}
 		}
 	}
 

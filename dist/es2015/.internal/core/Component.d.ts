@@ -58,6 +58,7 @@ export interface IComponentProperties extends IContainerProperties {
  */
 export interface IComponentDataFields {
     data?: string;
+    id?: string;
 }
 /**
  * Defines events for [[Component]].
@@ -785,26 +786,24 @@ export declare class Component extends Container {
      */
     endIndex: number;
     /**
-     * Current relative starting position of the data range (zoom).
-     *
      * @return Start (0-1)
      */
     /**
-     * Sets start of the current data range (zoom).
+     * Start of the current data range (zoom).
      *
-     * @ignore Exclude from docs
+     * These are relative values from 0 (beginning) to 1 (end).
+     *
      * @param value Start (0-1)
      */
     start: number;
     /**
-     * Current relative ending position fo the data range (zoom).
-     *
      * @return End (0-1)
      */
     /**
-     * Sets end of the current data range (zoom).
+     * End of the current data range (zoom).
      *
-     * @ignore Exclude from docs
+     * These are relative values from 0 (beginning) to 1 (end).
+     *
      * @param value End (0-1)
      */
     end: number;
@@ -931,4 +930,10 @@ export declare class Component extends Container {
      * @param value  Min zoom count
      */
     minZoomCount: number;
+    /**
+     * Called during the System.update method
+     *
+     * @ignore Exclude from docs
+     */
+    _systemCheckIfValidate(): boolean;
 }

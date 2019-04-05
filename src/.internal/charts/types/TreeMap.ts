@@ -1366,11 +1366,11 @@ export class TreeMap extends XYChart {
 			row.y1 = y1;
 
 			if (row.dice) {
-				row.y1 = value ? y0 += dy * sumValue / value : y1;
+				row.y1 = value ? (y0 += (dy * sumValue) / value) : y1;
 				this.dice(row);
 			}
 			else {
-				row.x1 = value ? x0 += dx * sumValue / value : x1, y1;
+				row.x1 = value ? (x0 += (dx * sumValue) / value) : x1;
 				this.slice(row);
 			}
 			value -= sumValue, i0 = i1;

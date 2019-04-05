@@ -489,7 +489,7 @@ export class XYCursor extends Cursor {
 		}
 
 		// @todo Is this needed?
-		this.selection;
+		$utils.used(this.selection);
 
 		let startX: number = $math.round(this.downPoint.x / this.innerWidth, 5);
 		let endX: number = $math.round((this.upPoint.x) / this.innerWidth, 5);
@@ -550,7 +550,7 @@ export class XYCursor extends Cursor {
 	 * Determines whether Cursor should prevent default action on move.
 	 *
 	 * If cursor's behavior is "none", it should not obstruct the page scrolling.
-	 * 
+	 *
 	 * @return Prevent default?
 	 */
 	protected shouldPreventGestures(): boolean {

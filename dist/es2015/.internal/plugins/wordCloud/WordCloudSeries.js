@@ -216,7 +216,7 @@ var WordCloudSeries = /** @class */ (function (_super) {
     WordCloudSeries.prototype.validateDataRange = function () {
         _super.prototype.validateDataRange.call(this);
         this.dataItems.each(function (dataItem) {
-            dataItem.label;
+            $utils.used(dataItem.label);
         });
     };
     /**

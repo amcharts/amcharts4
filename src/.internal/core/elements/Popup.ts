@@ -742,7 +742,7 @@ export class Popup extends BaseObjectEvents {
 	public set fitTo(value: "none" | "container" | "window") {
 		if (value != this._fitTo) {
 			this._fitTo = value;
-			this.positionElement;
+			this.positionElement();
 		}
 	}
 

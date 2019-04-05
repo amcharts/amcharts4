@@ -10,7 +10,8 @@
  */
 import { getInteraction } from "./Interaction";
 import { InteractionObject } from "./InteractionObject";
-import { animations, IAnimationObject } from "../utils/Animation";
+import { IAnimationObject } from "../utils/Animation";
+import { system } from "../System";
 import { IPoint } from "../defs/IPoint";
 import { IDisposer } from "../utils/Disposer";
 import * as $array from "../utils/Array";
@@ -75,7 +76,7 @@ export class InteractionKeyboardObject implements IAnimationObject, IDisposer {
 		this.keyboardEvent = ev;
 		this._startedOn = new Date().getTime();
 		getInteraction().processDragStart(io);
-		animations.push(this);
+		system.animations.push(this);
 		this.update();
 	}
 
@@ -143,7 +144,7 @@ export class InteractionKeyboardObject implements IAnimationObject, IDisposer {
 	public dispose(): void {
 		if (!this._disposed) {
 			getInteraction().processDragStop(this.interaction);
-			$array.remove(animations, this);
+			$array.remove(system.animations, this);
 		}
 	}
 

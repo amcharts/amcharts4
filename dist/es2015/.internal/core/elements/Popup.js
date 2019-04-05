@@ -523,7 +523,7 @@ var Popup = /** @class */ (function (_super) {
         set: function (value) {
             if (value != this._fitTo) {
                 this._fitTo = value;
-                this.positionElement;
+                this.positionElement();
             }
         },
         enumerable: true,

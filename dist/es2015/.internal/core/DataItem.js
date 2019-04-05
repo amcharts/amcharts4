@@ -755,21 +755,31 @@ var DataItem = /** @class */ (function (_super) {
      */
     DataItem.prototype.clone = function (cloneId) {
         var dataItem = _super.prototype.clone.call(this, cloneId);
-        if (this.dataContext) {
-            dataItem.dataContext = $utils.copy(this.dataContext, {});
-        }
-        $utils.copyProperties(this.locations, dataItem.locations);
-        $utils.copyProperties(this.properties, dataItem.properties);
-        $utils.copyProperties(this.categories, dataItem.categories);
-        $utils.copyProperties(this.values, dataItem.values);
-        $utils.copyProperties(this.dates, dataItem.dates);
-        $object.each(this.values, function (name, value) {
-            dataItem.values[name] = $object.copy(value);
-        });
-        dataItem.adapter.copyFrom(this.adapter);
-        dataItem.events.copyFrom(this.events);
-        dataItem.component = this.component;
+        dataItem.copyFrom(this);
         return dataItem;
+    };
+    /**
+     * Copies all properties and related data from different data item.
+     *
+     * @param object Source data item
+     */
+    DataItem.prototype.copyFrom = function (source) {
+        var _this = this;
+        _super.prototype.copyFrom.call(this, source);
+        if (source.dataContext) {
+            this.dataContext = $utils.copy(source.dataContext, {});
+        }
+        $utils.copyProperties(source.locations, this.locations);
+        $utils.copyProperties(source.properties, this.properties);
+        $utils.copyProperties(source.categories, this.categories);
+        $utils.copyProperties(source.values, this.values);
+        $utils.copyProperties(source.dates, this.dates);
+        $object.each(source.values, function (name, value) {
+            _this.values[name] = $object.copy(value);
+        });
+        this.adapter.copyFrom(source.adapter);
+        this.events.copyFrom(source.events);
+        this.component = source.component;
     };
     Object.defineProperty(DataItem.prototype, "opacity", {
         /**

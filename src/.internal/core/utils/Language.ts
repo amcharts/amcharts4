@@ -202,6 +202,7 @@ export interface ILocaleProperties {
 	"Flow diagram"?: string;
 	"Chord diagram"?: string;
 	"TreeMap chart"?: string;
+	"Force directed tree"?: string;
 	"Sliced chart"?: string;
 
 	// Series types

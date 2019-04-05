@@ -305,7 +305,9 @@ var Component = /** @class */ (function (_super) {
                 if (dataItem.hasChildren[fieldName]) {
                     if ($type.hasValue(value)) {
                         hasSomeValues_1 = true;
-                        var children = new OrderedListTemplate(_this.createDataItem());
+                        var template = _this.createDataItem();
+                        template.copyFrom(_this.dataItems.template);
+                        var children = new OrderedListTemplate(template);
                         children.events.on("inserted", _this.handleDataItemAdded, _this, false);
                         children.events.on("removed", _this.handleDataItemRemoved, _this, false);
                         _this._dataDisposers.push(new ListDisposer(children));
@@ -1245,17 +1247,16 @@ var Component = /** @class */ (function (_super) {
     });
     Object.defineProperty(Component.prototype, "start", {
         /**
-         * Current relative starting position of the data range (zoom).
-         *
          * @return Start (0-1)
          */
         get: function () {
             return this._start;
         },
         /**
-         * Sets start of the current data range (zoom).
+         * Start of the current data range (zoom).
          *
-         * @ignore Exclude from docs
+         * These are relative values from 0 (beginning) to 1 (end).
+         *
          * @param value Start (0-1)
          */
         set: function (value) {
@@ -1277,17 +1278,16 @@ var Component = /** @class */ (function (_super) {
     });
     Object.defineProperty(Component.prototype, "end", {
         /**
-         * Current relative ending position fo the data range (zoom).
-         *
          * @return End (0-1)
          */
         get: function () {
             return this._end;
         },
         /**
-         * Sets end of the current data range (zoom).
+         * End of the current data range (zoom).
          *
-         * @ignore Exclude from docs
+         * These are relative values from 0 (beginning) to 1 (end).
+         *
          * @param value End (0-1)
          */
         set: function (value) {
@@ -1563,6 +1563,19 @@ var Component = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Called during the System.update method
+     *
+     * @ignore Exclude from docs
+     */
+    Component.prototype._systemCheckIfValidate = function () {
+        if (this.dataInvalid || (this.dataProvider && this.dataProvider.dataInvalid)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
     return Component;
 }(Container));
 export { Component };

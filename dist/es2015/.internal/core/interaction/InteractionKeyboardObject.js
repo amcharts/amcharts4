@@ -8,7 +8,7 @@
  * @hidden
  */
 import { getInteraction } from "./Interaction";
-import { animations } from "../utils/Animation";
+import { system } from "../System";
 import * as $array from "../utils/Array";
 /**
  * [[InteractionKeyboardObject]] is used to simulate dragging of the `draggable`
@@ -50,7 +50,7 @@ var InteractionKeyboardObject = /** @class */ (function () {
         this.keyboardEvent = ev;
         this._startedOn = new Date().getTime();
         getInteraction().processDragStart(io);
-        animations.push(this);
+        system.animations.push(this);
         this.update();
     }
     /**
@@ -106,7 +106,7 @@ var InteractionKeyboardObject = /** @class */ (function () {
     InteractionKeyboardObject.prototype.dispose = function () {
         if (!this._disposed) {
             getInteraction().processDragStop(this.interaction);
-            $array.remove(animations, this);
+            $array.remove(system.animations, this);
         }
     };
     return InteractionKeyboardObject;

@@ -129,12 +129,6 @@ export interface IAnimationEvents extends IBaseObjectEvents {
         progress: number;
     };
 }
-/**
- * Holds the list of currently playing animations.
- *
- * @ignore Exclude from docs
- */
-export declare const animations: Array<IAnimationObject>;
 export declare class AnimationDisposer implements IDisposer {
     private _disposer;
     constructor(array: Array<Animation>);

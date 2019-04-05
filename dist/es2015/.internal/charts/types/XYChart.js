@@ -660,8 +660,8 @@ var XYChart = /** @class */ (function (_super) {
                 registry.removeFromInvalidComponents(series);
                 series.dataInvalid = false;
             }
-            series.xAxis; // this is enough to get axis, handled in getter
-            series.yAxis; // this is enough to get axis, handled in getter
+            $utils.used(series.xAxis); // this is enough to get axis, handled in getter
+            $utils.used(series.yAxis); // this is enough to get axis, handled in getter
             if (series.fill == undefined) {
                 series.fill = this.colors.next();
             }

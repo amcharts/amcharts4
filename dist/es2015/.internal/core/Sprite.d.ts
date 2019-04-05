@@ -152,6 +152,8 @@ export interface ISpriteProperties {
     hidden?: boolean;
     showOnInit?: boolean;
     id?: string;
+    isActive?: boolean;
+    isHover?: boolean;
 }
 /**
  * Defines animation options
@@ -3850,4 +3852,28 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return List of plugins
      */
     readonly plugins: List<IPlugin>;
+    /**
+     * Called during the System.update method
+     *
+     * @ignore Exclude from docs
+     */
+    _systemUpdate(skippedSprites: Array<Sprite>): void;
+    /**
+     * Called during the System.update method
+     *
+     * @ignore Exclude from docs
+     */
+    _systemCheckIfValidate(): boolean;
+    /**
+     * Called during the System.validatePositions method
+     *
+     * @ignore Exclude from docs
+     */
+    _systemValidatePositions(): void;
+    /**
+     * Called during the System.validateLayouts method
+     *
+     * @ignore Exclude from docs
+     */
+    _systemValidateLayouts(): void;
 }

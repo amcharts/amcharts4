@@ -15,6 +15,7 @@ import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
+import * as $utils from "../../core/utils/Utils";
 
 /**
  * ============================================================================
@@ -222,7 +223,9 @@ export class SankeyNode extends FlowDiagramNode {
 								link.startY = this.pixelY + this.dy - link.maxHeight;
 							}
 
-							link.gradient;
+							// TODO is this needed ?
+							$utils.used(link.gradient);
+
 							link.fill = dataItem.toNode.color;
 							let stop = link.gradient.stops.getIndex(0);
 							if (stop) {

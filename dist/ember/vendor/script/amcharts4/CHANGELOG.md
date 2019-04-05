@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.3.8] - 2019-04-05
+
+### Added
+- New chart type plugin: `ForceDirectedTree`. [More info](https://www.amcharts.com/docs/v4/chart-types/force-directed/). Also check bundled examples: `force-directed-tree`, `force-directed-tree-expandable`, and `force-directed-network`.
+- New `CategoryAxis` property: `positionToCategory(position)`.
+
+
 ## [4.3.7] - 2019-04-04
 
 ### Fixed

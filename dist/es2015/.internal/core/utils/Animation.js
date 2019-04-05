@@ -52,12 +52,6 @@ export function animate(duration, callback) {
     });
 }
 /**
- * Holds the list of currently playing animations.
- *
- * @ignore Exclude from docs
- */
-export var animations = [];
-/**
  * Returns numeric value accoring to progress between start and end values.
  *
  * @param progress  Progress (0-1)
@@ -235,7 +229,7 @@ var Animation = /** @class */ (function (_super) {
         // Reset counters
         this._pause = false;
         // Register animation
-        $array.move(animations, this);
+        $array.move(system.animations, this);
         // Register this animation in object's `animations` list
         $array.move(this.object.animations, this);
         system.requestFrame();
@@ -368,7 +362,7 @@ var Animation = /** @class */ (function (_super) {
             this.removeDispose(this._delayTimeout);
             this._delayTimeout = null;
         }
-        $array.remove(animations, this);
+        $array.remove(system.animations, this);
         $array.remove(this.object.animations, this);
         return this;
     };

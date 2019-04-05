@@ -10,7 +10,7 @@ import { Container } from "./Container";
 import { Component } from "./Component";
 import { options } from "./Options";
 import { raf } from "./utils/AsyncPending";
-import { animations } from "./utils/Animation";
+import { IAnimationObject } from "./utils/Animation";
 import { triggerIdle } from "./utils/AsyncPending";
 import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
@@ -35,6 +35,13 @@ export class System {
 	protected _isPaused: boolean = false;
 
 	/**
+	 * Holds the list of currently playing animations.
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public animations: Array<IAnimationObject> = [];
+
+	/**
 	 * Unique ID of the object.
 	 */
 	public uid: string = registry.getUniqueId();
@@ -46,7 +53,7 @@ export class System {
 	 *
 	 * @see {@link https://docs.npmjs.com/misc/semver}
 	 */
-	static VERSION: string = "4.3.7";
+	static VERSION: string = "4.3.8";
 
 	/**
 	 * @todo Description
@@ -283,7 +290,7 @@ export class System {
 
 				// we need to check this, as validateLayout might validate sprite
 				if (sprite && !sprite.isDisposed()) {
-					if (!this.checkIfValidate(sprite)) {
+					if (!sprite._systemCheckIfValidate()) {
 						// void
 						skippedSprites.push(sprite);
 					}
@@ -294,22 +301,7 @@ export class System {
 						}
 						else {
 							try {
-								if (sprite instanceof Container) {
-									sprite.children.each((child) => {
-										if (child.invalid) {
-											if (!this.checkIfValidate(child)) {
-												skippedSprites.push(child);
-											}
-											else if (child.dataItem && child.dataItem.component && child.dataItem.component.dataInvalid) {
-												skippedSprites.push(child);
-											}
-											else {
-												child.validate();
-											}
-										}
-									})
-								}
-								sprite.validate();
+								sprite._systemUpdate(skippedSprites);
 							}
 							catch (e) {
 								sprite.invalid = false;
@@ -341,7 +333,7 @@ export class System {
 
 		// TODO make this more efficient
 		// TODO don't copy the array
-		$array.each($array.copy(animations), (x) => {
+		$array.each($array.copy(this.animations), (x) => {
 			x.update();
 		});
 
@@ -368,7 +360,7 @@ export class System {
 
 		registry.dispatchImmediately("exitframe");
 
-		if (hasSkipped || animations.length > 0 || skippedComponents.length > 0) {
+		if (hasSkipped || this.animations.length > 0 || skippedComponents.length > 0) {
 			this.requestFrame();
 		}
 
@@ -390,15 +382,6 @@ export class System {
 			if (all0) {
 				this.updateStepDuration = 200;
 			}
-		}
-	}
-
-	public checkIfValidate(sprite: Sprite): boolean {
-		if (sprite instanceof Component && (sprite.dataInvalid || (sprite.dataProvider && sprite.dataProvider.dataInvalid))) {
-			return false;
-		}
-		else {
-			return true;
 		}
 	}
 
@@ -440,15 +423,7 @@ export class System {
 			let sprite: Sprite = invalidPositions[invalidPositions.length - 1];
 			if (!sprite.isDisposed()) {
 				try {
-					if (sprite instanceof Container) {
-						sprite.children.each((sprite) => {
-							if (sprite.positionInvalid) {
-								sprite.validatePosition();
-							}
-						})
-					}
-
-					sprite.validatePosition();
+					sprite._systemValidatePositions();
 				}
 				catch (e) {
 					sprite.positionInvalid = false;
@@ -478,9 +453,7 @@ export class System {
 			if (!container.isDisposed()) {
 				try {
 					container.children.each((sprite) => {
-						if (sprite instanceof Container && sprite.layoutInvalid && !sprite.isDisposed()) {
-							sprite.validateLayout();
-						}
+						sprite._systemValidateLayouts();
 					})
 
 					container.validateLayout();

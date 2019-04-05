@@ -14,6 +14,7 @@ import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
+import * as $utils from "../../core/utils/Utils";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -134,7 +135,8 @@ var SankeyNode = /** @class */ (function (_super) {
                                 link.startX = link.endX;
                                 link.startY = _this.pixelY + _this.dy - link.maxHeight;
                             }
-                            link.gradient;
+                            // TODO is this needed ?
+                            $utils.used(link.gradient);
                             link.fill = dataItem.toNode.color;
                             var stop_1 = link.gradient.stops.getIndex(0);
                             if (stop_1) {

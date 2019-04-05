@@ -181,6 +181,8 @@ export interface ISpriteProperties {
 	hidden?: boolean;
 	showOnInit?: boolean;
 	id?: string;
+	isActive?:boolean;
+	isHover?:boolean;	
 }
 
 /**
@@ -234,7 +236,6 @@ export interface ISpriteAdapters extends ISpriteProperties {
 	swipeOptions: ISwipeOptions;
 	keyboardOptions: IKeyboardOptions;
 	cursorOptions: ICursorOptions;
-
 	criticalError: Error;
 };
 
@@ -924,7 +925,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		this.className = "Sprite";
 
 		// Generate a unique ID
-		this.uid;
+		$utils.used(this.uid);
 
 		// Create SVG group to hold everything in
 		this.group = this.paper.addGroup("g");
@@ -2468,7 +2469,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			// TODO clear existing sizechanged dispatches ?
 			this.dispatch("sizechanged");
 
-			if (this.isHover && this.tooltip && this.tooltip.visible) {
+			if (this.isHover && this.tooltip && this.tooltip.visible && ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML))) {
 				this.updateTooltipPosition();
 			}
 
@@ -2704,7 +2705,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 				this._mask.set(mask, new MultiDisposer([
 					//mask.addEventListener(SpriteEvent.TRANSFORMED, this.applyMask, false, this);
-					mask.events.on("maxsizechanged", () => { if (this.inited) { this.applyMask } }, undefined, false),
+					mask.events.on("maxsizechanged", () => { if (this.inited) { this.applyMask(); } }, undefined, false),
 					mask.events.on("validated", this.applyMask, this, false),
 					mask.events.on("positionchanged", this.applyMask, this, false)
 				]));
@@ -3253,7 +3254,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public get isResized(): boolean {
 		return this._isResized;
-	}	
+	}
 
 	/**
 	 * Indicates if this element has any pointers (mouse or touch) pressing down
@@ -7212,7 +7213,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				this.events.once("inited", this.validatePosition, this, false);
 			}
 			return true;
-		}		
+		}
 		return false;
 	}
 
@@ -8230,7 +8231,6 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @ignore
 	 */
 	protected updateTooltipPosition(point?: IPoint): boolean {
-
 		if (this.tooltipPosition == "pointer") {
 
 			if (this._interactionDisposer) {
@@ -8735,6 +8735,42 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		return this._plugins;
 	}
 
+
+	/**
+	 * Called during the System.update method
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public _systemUpdate(skippedSprites: Array<Sprite>) {
+		this.validate();
+	}
+
+	/**
+	 * Called during the System.update method
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public _systemCheckIfValidate(): boolean {
+		return true;
+	}
+
+	/**
+	 * Called during the System.validatePositions method
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public _systemValidatePositions() {
+		this.validatePosition();
+	}
+
+	/**
+	 * Called during the System.validateLayouts method
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public _systemValidateLayouts() {
+
+	}
 }
 
 /**

@@ -313,7 +313,7 @@ var XYCursor = /** @class */ (function (_super) {
             this.upPoint.y = this.lineY.pixelY;
         }
         // @todo Is this needed?
-        this.selection;
+        $utils.used(this.selection);
         var startX = $math.round(this.downPoint.x / this.innerWidth, 5);
         var endX = $math.round((this.upPoint.x) / this.innerWidth, 5);
         var startY = $math.round(this.downPoint.y / this.innerHeight, 5);

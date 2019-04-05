@@ -19,6 +19,7 @@ import { options } from "../Options";
 import * as $array from "./Array";
 import * as $type from "./Type";
 import * as $dom from "./DOM";
+import * as $utils from "./Utils";
 /**
  * ============================================================================
  * INSTANTIATION FUNCTIONS
@@ -117,7 +118,7 @@ function createChild(htmlElement, classType) {
             logo_1.align = "left";
             logo_1.valign = "bottom";
         }
-        sprite_1.numberFormatter; // need to create one.
+        $utils.used(sprite_1.numberFormatter); // need to create one.
         // Set this as an autonomouse instance
         // Controls like Preloader, Export will use this.
         container_1.isStandaloneInstance = true;

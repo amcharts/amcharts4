@@ -193,13 +193,6 @@ export interface IAnimationEvents extends IBaseObjectEvents {
 
 }
 
-/**
- * Holds the list of currently playing animations.
- *
- * @ignore Exclude from docs
- */
-export const animations: Array<IAnimationObject> = [];
-
 
 /**
  * Returns numeric value accoring to progress between start and end values.
@@ -437,7 +430,7 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 		this._pause = false;
 
 		// Register animation
-		$array.move(animations, this);
+		$array.move(system.animations, this);
 
 		// Register this animation in object's `animations` list
 		$array.move(this.object.animations, this);
@@ -589,7 +582,7 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 			this._delayTimeout = null;
 		}
 
-		$array.remove(animations, this);
+		$array.remove(system.animations, this);
 		$array.remove(this.object.animations, this);
 
 		return this;

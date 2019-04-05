@@ -486,9 +486,9 @@ var ExportMenu = /** @class */ (function (_super) {
     ExportMenu.prototype.dispose = function () {
         if (!this._disposed) {
             _super.prototype.dispose.call(this);
-            this._element
-                && this._element.parentNode
-                && this._element.parentNode.removeChild(this._element);
+            if (this._element && this._element.parentNode) {
+                this._element.parentNode.removeChild(this._element);
+            }
         }
     };
     /**

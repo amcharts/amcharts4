@@ -305,7 +305,7 @@ var Sprite = /** @class */ (function (_super) {
         _this.dragWhileResize = false;
         _this.className = "Sprite";
         // Generate a unique ID
-        _this.uid;
+        $utils.used(_this.uid);
         // Create SVG group to hold everything in
         _this.group = _this.paper.addGroup("g");
         // Set defaults
@@ -1675,7 +1675,7 @@ var Sprite = /** @class */ (function (_super) {
             this._prevMeasuredWidth = this._measuredWidth;
             // TODO clear existing sizechanged dispatches ?
             this.dispatch("sizechanged");
-            if (this.isHover && this.tooltip && this.tooltip.visible) {
+            if (this.isHover && this.tooltip && this.tooltip.visible && ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML))) {
                 this.updateTooltipPosition();
             }
             return true;
@@ -1894,7 +1894,7 @@ var Sprite = /** @class */ (function (_super) {
                     this._mask.set(mask, new MultiDisposer([
                         //mask.addEventListener(SpriteEvent.TRANSFORMED, this.applyMask, false, this);
                         mask.events.on("maxsizechanged", function () { if (_this.inited) {
-                            _this.applyMask;
+                            _this.applyMask();
                         } }, undefined, false),
                         mask.events.on("validated", this.applyMask, this, false),
                         mask.events.on("positionchanged", this.applyMask, this, false)
@@ -7850,6 +7850,37 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Called during the System.update method
+     *
+     * @ignore Exclude from docs
+     */
+    Sprite.prototype._systemUpdate = function (skippedSprites) {
+        this.validate();
+    };
+    /**
+     * Called during the System.update method
+     *
+     * @ignore Exclude from docs
+     */
+    Sprite.prototype._systemCheckIfValidate = function () {
+        return true;
+    };
+    /**
+     * Called during the System.validatePositions method
+     *
+     * @ignore Exclude from docs
+     */
+    Sprite.prototype._systemValidatePositions = function () {
+        this.validatePosition();
+    };
+    /**
+     * Called during the System.validateLayouts method
+     *
+     * @ignore Exclude from docs
+     */
+    Sprite.prototype._systemValidateLayouts = function () {
+    };
     return Sprite;
 }(BaseObjectEvents));
 export { Sprite };

@@ -51,9 +51,9 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
          */
         get: function () {
             if (this.adapter.isEnabled("category")) {
-                return this.adapter.apply("category", this.properties["category"]);
+                return this.adapter.apply("category", this.properties.category);
             }
-            return this.properties["category"];
+            return this.properties.category;
         },
         /**
          * Category.
@@ -71,7 +71,7 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
          * @return End category
          */
         get: function () {
-            return this.properties["endCategory"];
+            return this.properties.endCategory;
         },
         /**
          * End category.
@@ -811,6 +811,24 @@ var CategoryAxis = /** @class */ (function (_super) {
             index--;
         }
         return index;
+    };
+    /**
+     * Returns category based on position.
+     *
+     * Please note that `position` represents position within axis which may be
+     * zoomed and not correspond to Cursor's `position`.
+     *
+     * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+     *
+     * This is a synonim of `getPositionLabel()` implemented here for consistentcy.
+     *
+     * @since 4.3.8
+     * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
+     * @param position  Relative position on axis (0-1)
+     * @return Position label
+     */
+    CategoryAxis.prototype.positionToCategory = function (position) {
+        return this.getPositionLabel(position);
     };
     /**
      * Returns category based on position.

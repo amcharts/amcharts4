@@ -21,6 +21,8 @@ import { options } from "../Options";
 import * as $array from "./Array";
 import * as $type from "./Type";
 import * as $dom from "./DOM";
+import * as $utils from "./Utils";
+
 /**
  * ============================================================================
  * INSTANTIATION FUNCTIONS
@@ -141,7 +143,7 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 			logo.valign = "bottom";
 		}
 
-		sprite.numberFormatter; // need to create one.
+		$utils.used(sprite.numberFormatter); // need to create one.
 
 		// Set this as an autonomouse instance
 		// Controls like Preloader, Export will use this.

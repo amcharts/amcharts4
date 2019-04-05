@@ -93,6 +93,8 @@ export interface IComponentProperties extends IContainerProperties {
  */
 export interface IComponentDataFields {
 	data?: string;
+
+	id?: string;
 }
 
 /**
@@ -642,7 +644,9 @@ export class Component extends Container {
 				if (dataItem.hasChildren[fieldName]) {
 					if ($type.hasValue(value)) {
 						hasSomeValues = true;
-						let children = new OrderedListTemplate<DataItem>(this.createDataItem());
+						let template = this.createDataItem();
+						template.copyFrom(this.dataItems.template);
+						let children = new OrderedListTemplate<DataItem>(template);
 						children.events.on("inserted", this.handleDataItemAdded, this, false);
 						children.events.on("removed", this.handleDataItemRemoved, this, false);
 						this._dataDisposers.push(new ListDisposer(children));
@@ -1075,7 +1079,6 @@ export class Component extends Container {
 				// todo: this needs some overthinking, maybe some extra settings like zoomOUtonDataupdate like in v3 or so. some charts like pie chart probably should act like this always
 				dataUser._startIndex = undefined;
 				dataUser._endIndex = undefined;
-
 			});
 
 			let counter: number = 0;
@@ -1667,9 +1670,10 @@ export class Component extends Container {
 	}
 
 	/**
-	 * Sets start of the current data range (zoom).
+	 * Start of the current data range (zoom).
 	 *
-	 * @ignore Exclude from docs
+	 * These are relative values from 0 (beginning) to 1 (end).
+	 *
 	 * @param value Start (0-1)
 	 */
 	public set start(value: number) {
@@ -1689,8 +1693,6 @@ export class Component extends Container {
 	}
 
 	/**
-	 * Current relative starting position of the data range (zoom).
-	 *
 	 * @return Start (0-1)
 	 */
 	public get start(): number {
@@ -1698,9 +1700,10 @@ export class Component extends Container {
 	}
 
 	/**
-	 * Sets end of the current data range (zoom).
+	 * End of the current data range (zoom).
 	 *
-	 * @ignore Exclude from docs
+	 * These are relative values from 0 (beginning) to 1 (end).
+	 *
 	 * @param value End (0-1)
 	 */
 	public set end(value: number) {
@@ -1720,8 +1723,6 @@ export class Component extends Container {
 	}
 
 	/**
-	 * Current relative ending position fo the data range (zoom).
-	 *
 	 * @return End (0-1)
 	 */
 	public get end(): number {
@@ -1996,6 +1997,21 @@ export class Component extends Container {
 	 */
 	public get minZoomCount(): number {
 		return this.getPropertyValue("minZoomCount");
+	}
+
+
+	/**
+	 * Called during the System.update method
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public _systemCheckIfValidate(): boolean {
+		if (this.dataInvalid || (this.dataProvider && this.dataProvider.dataInvalid)) {
+			return false;
+
+		} else {
+			return true;
+		}
 	}
 }
 

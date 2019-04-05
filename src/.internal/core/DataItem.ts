@@ -985,26 +985,36 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 */
 	public clone(cloneId?: string): this {
 		let dataItem: this = super.clone(cloneId);
-		if (this.dataContext) {
-			dataItem.dataContext = $utils.copy(this.dataContext, {});
+		dataItem.copyFrom(this);
+		return dataItem;
+	}
+
+	/**
+	 * Copies all properties and related data from different data item.
+	 *
+	 * @param object Source data item
+	 */
+	public copyFrom(source:this){
+
+		super.copyFrom(source);
+
+		if (source.dataContext) {
+			this.dataContext = $utils.copy(source.dataContext, {});
 		}
 
-		$utils.copyProperties(this.locations, dataItem.locations);
-		$utils.copyProperties(this.properties, dataItem.properties);
-		$utils.copyProperties(this.categories, dataItem.categories);
-		$utils.copyProperties(this.values, dataItem.values);
-		$utils.copyProperties(this.dates, dataItem.dates);
+		$utils.copyProperties(source.locations, this.locations);
+		$utils.copyProperties(source.properties, this.properties);
+		$utils.copyProperties(source.categories, this.categories);
+		$utils.copyProperties(source.values, this.values);
+		$utils.copyProperties(source.dates, this.dates);
 
-		$object.each(this.values, (name, value) => {
-			dataItem.values[name] = $object.copy(value);
+		$object.each(source.values, (name, value) => {
+			this.values[name] = $object.copy(value);
 		});
 
-		dataItem.adapter.copyFrom(this.adapter);
-
-		dataItem.events.copyFrom(this.events);
-		dataItem.component = this.component;
-
-		return dataItem;
+		this.adapter.copyFrom(source.adapter);
+		this.events.copyFrom(source.events);
+		this.component = source.component;
 	}
 
 	/**

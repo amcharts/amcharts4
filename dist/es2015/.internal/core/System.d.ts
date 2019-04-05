@@ -1,4 +1,5 @@
 import { Sprite } from "./Sprite";
+import { IAnimationObject } from "./utils/Animation";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -14,6 +15,12 @@ export declare class System {
      * A flag indicating if the system is on pause.
      */
     protected _isPaused: boolean;
+    /**
+     * Holds the list of currently playing animations.
+     *
+     * @ignore Exclude from docs
+     */
+    animations: Array<IAnimationObject>;
     /**
      * Unique ID of the object.
      */
@@ -67,7 +74,6 @@ export declare class System {
      * @todo Maybe should be private?
      */
     update(): void;
-    checkIfValidate(sprite: Sprite): boolean;
     checkIfValidate2(sprite: Sprite): boolean;
     /**
      * Requests new animation frame
