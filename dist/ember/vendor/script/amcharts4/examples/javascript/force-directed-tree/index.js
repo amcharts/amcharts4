@@ -80,4 +80,3 @@ networkSeries.nodes.template.fillOpacity = 1;
 
 networkSeries.nodes.template.label.text = "{name}"
 networkSeries.fontSize = 10;
-networkSeries.minRadius = 15;

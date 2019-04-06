@@ -161,6 +161,13 @@ export declare class ColorSet extends BaseObject {
      */
     list: Color[];
     /**
+     * Gets reusable color.
+     *
+     * @param   index  Index of color
+     * @return         Color
+     */
+    protected getReusableColor(index: number): Color;
+    /**
      * Returns next color in the list using internal iterator counter.
      *
      * If `step` is set to something other than 1, it may return other color than

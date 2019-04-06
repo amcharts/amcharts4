@@ -42,7 +42,7 @@ var ForceDirectedLink = /** @class */ (function (_super) {
         _this.nonScalingStroke = true;
         _this.interactionsEnabled = false;
         _this.distance = 1.5;
-        _this.strength = 2;
+        _this.strength = 1;
         _this.applyTheme();
         return _this;
     }
@@ -156,7 +156,7 @@ var ForceDirectedLink = /** @class */ (function (_super) {
          * Carefully with very big numbers: nodes and links might start behaving
          * quite "nerviously".
          *
-         * @default 2
+         * @default 1
          * @param  value  Strength
          */
         set: function (value) {

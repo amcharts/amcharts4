@@ -12,7 +12,11 @@ import { ForceDirectedLink } from "./ForceDirectedLink";
 import { ColorSet } from "../../core/utils/ColorSet";
 import * as d3force from "d3-force";
 import * as $type from "../../core/utils/Type";
+import { Percent } from "../../core/utils/Percent";
 import { Color } from "../../core/utils/Color";
+import { LinearGradient } from "../../core/rendering/fills/LinearGradient";
+import { RadialGradient } from "../../core/rendering/fills/RadialGradient";
+import { Pattern } from "../../core/rendering/fills/Pattern";
 import { OrderedListTemplate } from "../../core/utils/SortedList";
 import { Container } from "../../core/Container";
 import { LegendDataItem } from "../../charts/Legend";
@@ -121,9 +125,9 @@ export declare class ForceDirectedSeriesDataItem extends SeriesDataItem {
      * If not set, will use parent's color, or, if that is not set either,
      * automatically assigned color from chart's color set. (`chart.colors`)
      *
-     * @param value  Color
+     * @param value  : Color | LinearGradient | RadialGradient | Pattern
      */
-    color: Color;
+    color: Color | LinearGradient | RadialGradient | Pattern;
     /**
      * @return Link list
      */
@@ -241,13 +245,13 @@ export interface IForceDirectedSeriesProperties extends ISeriesProperties {
      *
      * @default 5
      */
-    minRadius?: number;
+    minRadius?: number | Percent;
     /**
      * Biggest possible radius in pixels of the node circle.
      *
      * @default 70
      */
-    maxRadius?: number;
+    maxRadius?: number | Percent;
     /**
      * A color set to be used for coloring nodes.
      *
@@ -425,6 +429,14 @@ export declare class ForceDirectedSeries extends Series {
      */
     restartSimulation(): void;
     /**
+     * @ignore
+     */
+    protected updateRadiuses(dataItems: OrderedListTemplate<ForceDirectedSeriesDataItem>): void;
+    /**
+     * @ignore
+     */
+    protected updateRadius(dataItem: ForceDirectedSeriesDataItem): void;
+    /**
      * Initializes node.
      *
      * @ignore
@@ -472,25 +484,31 @@ export declare class ForceDirectedSeries extends Series {
      */
     protected createLink(): this["_link"];
     /**
-     * @return Minimum radius (px)
+     * @return Minimum radius (px or percent)
      */
     /**
      * Smallest possible radius in pixels of the node circle.
      *
-     * @default 5
-     * @param  value  Minimum radius (px)
+     * If set in percent, it radius will be calculated from average width and
+     * height of series.
+     *
+     * @default Percent(1)
+     * @param  value  Minimum radius (px or percent)
      */
-    minRadius: number;
+    minRadius: number | Percent;
     /**
-     * @return Maximum radius (px)
+     * @return Maximum radius (px or Percent)
      */
     /**
      * Biggest possible radius in pixels of the node circle.
      *
-     * @default 70
-     * @param  value  Maximum radius (px)
+     * If set in percent, it radius will be calculated from average width and
+     * height of series.
+     *
+     * @default Percent(8)
+     * @param  value  Maximum radius (px or Percent)
      */
-    maxRadius: number;
+    maxRadius: number | Percent;
     /**
      * @return Color set
      */
@@ -529,11 +547,12 @@ export declare class ForceDirectedSeries extends Series {
      * multiplied by `node.circle.radius` for big nodes to push stronger).
      *
      * Positive value will make nodes attract each other, while negative will
-     * push away each other.
+     * push away each other. The bigger the negative number is, the more
+     * scattered nodes will be.
      *
-     * Available value range: `-50` to `50`.
+     * Available value range: `-XX` to `XX`.
      *
-     * @default -12
+     * @default -15
      * @param  value  Body push/attrack strength
      */
     manyBodyStrength: number;

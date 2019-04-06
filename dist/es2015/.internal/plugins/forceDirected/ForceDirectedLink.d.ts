@@ -133,7 +133,7 @@ export declare class ForceDirectedLink extends Sprite {
      * Carefully with very big numbers: nodes and links might start behaving
      * quite "nerviously".
      *
-     * @default 2
+     * @default 1
      * @param  value  Strength
      */
     strength: number;

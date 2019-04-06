@@ -7,7 +7,6 @@
 
 import { Series, SeriesDataItem, ISeriesDataFields, ISeriesProperties, ISeriesAdapters, ISeriesEvents } from "../../charts/series/Series";
 import { ForceDirectedTree, ForceDirectedTreeDataItem } from "./ForceDirectedTree";
-import { percent } from "../../core/utils/Percent";
 import { registry } from "../../core/Registry";
 import { ListTemplate, ListDisposer, List } from "../../core/utils/List";
 import { ForceDirectedNode } from "./ForceDirectedNode";
@@ -17,7 +16,9 @@ import { ColorSet } from "../../core/utils/ColorSet";
 import * as d3force from "d3-force";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
+import * as $utils from "../../core/utils/Utils";
 import * as $array from "../../core/utils/Array";
+import { Percent, percent } from "../../core/utils/Percent";
 import { Color } from "../../core/utils/Color";
 import { LinearGradient } from "../../core/rendering/fills/LinearGradient";
 import { RadialGradient } from "../../core/rendering/fills/RadialGradient";
@@ -264,20 +265,21 @@ export class ForceDirectedSeriesDataItem extends SeriesDataItem {
 	 * If not set, will use parent's color, or, if that is not set either,
 	 * automatically assigned color from chart's color set. (`chart.colors`)
 	 *
-	 * @param value  Color
+	 * @param value  : Color | LinearGradient | RadialGradient | Pattern
 	 */
-	public set color(value: Color) {
+	public set color(value: Color | LinearGradient | RadialGradient | Pattern) {
 		this.setProperty("color", value);
 	}
 
 	/**
 	 * @return Color
 	 */
-	public get color(): Color {
+	public get color(): Color | LinearGradient | RadialGradient | Pattern {
 		let color = this.properties.color;
 
 		if (color == undefined) {
 			if (this.parent) {
+				console.log("parent")
 				color = this.parent.color;
 			}
 		}
@@ -465,14 +467,14 @@ export interface IForceDirectedSeriesProperties extends ISeriesProperties {
 	 * 
 	 * @default 5
 	 */
-	minRadius?: number;
+	minRadius?: number | Percent;
 
 	/**
 	 * Biggest possible radius in pixels of the node circle.
 	 * 
 	 * @default 70
 	 */
-	maxRadius?: number;
+	maxRadius?: number | Percent;
 
 	/**
 	 * A color set to be used for coloring nodes.
@@ -626,8 +628,8 @@ export class ForceDirectedSeries extends Series {
 
 		this.d3forceSimulation = d3force.forceSimulation();
 
-		this.maxRadius = 70;
-		this.minRadius = 5;
+		this.maxRadius = percent(8);
+		this.minRadius = percent(1);
 
 		this.width = percent(100);
 		this.height = percent(100);
@@ -638,10 +640,13 @@ export class ForceDirectedSeries extends Series {
 		this.width = percent(100);
 		this.height = percent(100);
 
-		this.manyBodyStrength = -12;
+		this.manyBodyStrength = -15;
 		this.centerStrength = 1.2;
 
 		this.events.on("maxsizechanged", () => {
+			this.updateRadiuses(this.dataItems);
+			this.updateLinksAndNodes();
+
 			let d3forceSimulation = this.d3forceSimulation;
 
 			if (d3forceSimulation) {
@@ -749,13 +754,6 @@ export class ForceDirectedSeries extends Series {
 
 		d3forceSimulation.force("x", d3force.forceX().x(this.innerWidth / 2).strength(this.centerStrength * 100 / this.innerWidth));
 		d3forceSimulation.force("y", d3force.forceY().y(this.innerHeight / 2).strength(this.centerStrength * 100 / this.innerHeight));
-
-		d3forceSimulation.force("manybody", d3force.forceManyBody().strength((node) => {
-			if (node instanceof ForceDirectedNode) {
-				return node.circle.pixelRadius * this.manyBodyStrength;
-			}
-			return this.manyBodyStrength;
-		}));
 	}
 
 	/**
@@ -771,11 +769,22 @@ export class ForceDirectedSeries extends Series {
 		if (this._collisionForce) {
 			this._collisionForce.radius(function(node) {
 				if (node instanceof ForceDirectedNode) {
-					return node.circle.pixelRadius + 1;
+					let radius = node.circle.pixelRadius;
+					if(!node.outerCircle.__disabled && !node.outerCircle.disabled && node.outerCircle.visible){
+						radius = (radius + 3) * node.outerCircle.scale;
+					}
+					return radius;					 				
 				}
 				return 1;
 			})
 		}
+
+		this.d3forceSimulation.force("manybody", d3force.forceManyBody().strength((node) => {
+			if (node instanceof ForceDirectedNode) {
+				return node.circle.pixelRadius * this.manyBodyStrength;
+			}
+			return this.manyBodyStrength;
+		}));		
 	}
 
 	/**
@@ -848,6 +857,43 @@ export class ForceDirectedSeries extends Series {
 	}
 
 	/**
+	 * @ignore
+	 */
+	protected updateRadiuses(dataItems:OrderedListTemplate<ForceDirectedSeriesDataItem>){
+		dataItems.each((dataItem)=>{
+			this.updateRadius(dataItem);
+			if(dataItem.childrenInited){
+				this.updateRadiuses(dataItem.children);
+			}
+		})
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected updateRadius(dataItem:ForceDirectedSeriesDataItem){
+		let node = dataItem.node;
+		let minSide = (this.innerWidth + this.innerHeight) / 2;
+		let minRadius = $utils.relativeToValue(this.minRadius, minSide)
+		let maxRadius = $utils.relativeToValue(this.maxRadius, minSide)
+
+		let radius = minRadius + dataItem.value / this._maxValue * (maxRadius - minRadius);
+
+		if (!$type.isNumber(radius)) {
+			radius = minRadius;
+		}
+
+		if(!node.circle.isHidden){
+			node.circle.radius = radius;
+		}
+
+		node.outerCircle.radius = radius + 3;
+
+		node.circle.states.getKey("active").properties.radius = radius;
+		node.circle.defaultState.properties.radius = radius;
+	}
+
+	/**
 	 * Initializes node.
 	 * 
 	 * @ignore
@@ -855,19 +901,8 @@ export class ForceDirectedSeries extends Series {
 	public initNode(dataItem: ForceDirectedSeriesDataItem): void {
 
 		let node = dataItem.node;
-		let radius = this.minRadius + dataItem.value / this._maxValue * (this.maxRadius - this.minRadius);
-
-		if (!$type.isNumber(radius)) {
-			radius = this.minRadius;
-		}
-
 		node.parent = this;
-		node.circle.radius = radius;
-		node.outerCircle.radius = radius + 3;
-
-		node.circle.states.getKey("active").properties.radius = radius;
-		node.circle.defaultState.properties.radius = radius;
-
+		this.updateRadius(dataItem);
 
 		let nodeIndex = this.nodes.indexOf(dataItem.node);
 
@@ -889,6 +924,11 @@ export class ForceDirectedSeries extends Series {
 		if (dataItem.children) {
 			let index = 0;
 			dataItem.childrenInited = true;
+
+			if (this.dataItems.length == 1 && dataItem.level == 0) {
+				this.colors.next();
+			}
+
 			dataItem.children.each((child) => {
 				let link = this.links.create();
 				link.parent = this;
@@ -912,12 +952,19 @@ export class ForceDirectedSeries extends Series {
 
 				let color: Color | LinearGradient | RadialGradient | Pattern;
 
-				if (this.dataItems.length == 1 && dataItem.level == 0) {
-					color = this.colors.next();
+				let diColor = child.properties.color;
+				if ($type.hasValue(diColor)) {
+					color = diColor;
 				}
 				else {
-					color = node.fill;
+					if (this.dataItems.length == 1 && dataItem.level == 0) {
+						color = this.colors.next();
+					}
+					else {
+						color = dataItem.color;
+					}
 				}
+				child.color = color;
 				child.node.fill = color;
 				child.node.stroke = color;
 				child.parentLink.stroke = color;
@@ -1047,34 +1094,40 @@ export class ForceDirectedSeries extends Series {
 	/**
 	 * Smallest possible radius in pixels of the node circle.
 	 * 
-	 * @default 5
-	 * @param  value  Minimum radius (px)
+	 * If set in percent, it radius will be calculated from average width and
+	 * height of series.
+	 * 
+	 * @default Percent(1)
+	 * @param  value  Minimum radius (px or percent)
 	 */
-	public set minRadius(value: number) {
+	public set minRadius(value: number | Percent) {
 		this.setPropertyValue("minRadius", value, true);
 	}
 
 	/**
-	 * @return Minimum radius (px)
+	 * @return Minimum radius (px or percent)
 	 */
-	public get minRadius(): number {
+	public get minRadius(): number | Percent {
 		return this.getPropertyValue("minRadius");
 	}
 
 	/**
 	 * Biggest possible radius in pixels of the node circle.
+	 * 
+	 * If set in percent, it radius will be calculated from average width and
+	 * height of series.
 	 *
-	 * @default 70
-	 * @param  value  Maximum radius (px)
+	 * @default Percent(8)
+	 * @param  value  Maximum radius (px or Percent)
 	 */
-	public set maxRadius(value: number) {
+	public set maxRadius(value: number | Percent) {
 		this.setPropertyValue("maxRadius", value, true);
 	}
 
 	/**
-	 * @return Maximum radius (px)
+	 * @return Maximum radius (px or Percent)
 	 */
-	public get maxRadius(): number {
+	public get maxRadius(): number | Percent {
 		return this.getPropertyValue("maxRadius");
 	}
 
@@ -1127,11 +1180,12 @@ export class ForceDirectedSeries extends Series {
 	 * multiplied by `node.circle.radius` for big nodes to push stronger).
 	 * 
 	 * Positive value will make nodes attract each other, while negative will
-	 * push away each other.
+	 * push away each other. The bigger the negative number is, the more 
+	 * scattered nodes will be.
 	 *
-	 * Available value range: `-50` to `50`.
+	 * Available value range: `-XX` to `XX`.
 	 * 
-	 * @default -12
+	 * @default -15
 	 * @param  value  Body push/attrack strength
 	 */
 	public set manyBodyStrength(value: number) {

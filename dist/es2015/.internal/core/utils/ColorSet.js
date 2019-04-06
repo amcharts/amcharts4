@@ -169,6 +169,22 @@ var ColorSet = /** @class */ (function (_super) {
         configurable: true
     });
     /**
+     * Gets reusable color.
+     *
+     * @param   index  Index of color
+     * @return         Color
+     */
+    ColorSet.prototype.getReusableColor = function (index) {
+        if (this._list.length == 0) {
+            this.generate(1);
+            return this.list[0];
+        }
+        else {
+            var tmpstep = this._currentStep - (Math.floor(this._currentStep / this._list.length) * this.list.length);
+            return this.list[tmpstep];
+        }
+    };
+    /**
      * Returns next color in the list using internal iterator counter.
      *
      * If `step` is set to something other than 1, it may return other color than
@@ -177,13 +193,19 @@ var ColorSet = /** @class */ (function (_super) {
      * @return Color
      */
     ColorSet.prototype.next = function () {
+        var color;
         if (this.list.length <= this._currentStep) {
-            if (this.reuse && this._currentPass == 0 && this._list.length) {
-                this.minColors = this._list.length;
+            if (this.reuse) {
+                color = this.getReusableColor(this._currentStep);
             }
-            this.generate(this.minColors);
+            else {
+                this.generate(this.minColors);
+                color = this.list[this._currentStep];
+            }
         }
-        var color = this.list[this._currentStep];
+        else {
+            color = this.list[this._currentStep];
+        }
         this._currentStep += this.step;
         return color.saturate(this.saturation);
     };
@@ -194,14 +216,20 @@ var ColorSet = /** @class */ (function (_super) {
      * @return Color
      */
     ColorSet.prototype.getIndex = function (i) {
+        var color;
         if (this.list.length <= i) {
-            if (this.reuse && this._currentPass == 0 && this._list.length) {
-                this.minColors = this._list.length;
+            if (this.reuse) {
+                color = this.getReusableColor(i);
             }
-            this.generate(this.minColors);
-            return this.getIndex(i);
+            else {
+                this.generate(this.minColors);
+                color = this.getIndex(i);
+            }
         }
-        return this.list[i].saturate(this.saturation);
+        else {
+            color = this.list[i];
+        }
+        return color.saturate(this.saturation);
     };
     /**
      * Resets internal iterator.

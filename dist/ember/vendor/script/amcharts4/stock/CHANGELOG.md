@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.3.9] - 2019-04-06
+
+### Added
+- `ForedDirectedSeries` properties `minRadius` and `maxRadius` can now be set in `Percent`.
+
+### Changed
+- Default value of `ForceDirectedLink.strength` changed to `1` to avoid initial shaking.
+- Default value of `ForceDirectedSeries.manyBodyStrength` changed to `-15`.
+- Default values of `ForceDirectedSeries` properties `minRadius` and `maxRadius` changed to `1%` and `8%` respectively.
+
+### Fixed
+- In `ForedDirectedSeries` the same color was being reused for top-level node and first child node.
+- It was impossible to set colors of `ForedDirectedSeries` data items via data.
+- `ColorSet` setting `reuse = true` was acting incorrectly.
+
 ## [4.3.8] - 2019-04-05
 
 ### Added

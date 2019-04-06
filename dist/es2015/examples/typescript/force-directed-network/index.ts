@@ -16,14 +16,8 @@ networkSeries.dataFields.id = "name";
 networkSeries.dataFields.value = "value";
 networkSeries.dataFields.children = "children";
 
-networkSeries.links.template.strength = 1;
-networkSeries.manyBodyStrength = -5;
-networkSeries.centerStrength = 1;
-
 networkSeries.nodes.template.label.text = "{name}"
 networkSeries.fontSize = 8;
-networkSeries.minRadius = 15;
-networkSeries.maxRadius = 50;
 
 let nodeTemplate = networkSeries.nodes.template;
 nodeTemplate.tooltipText = "{name}";

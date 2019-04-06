@@ -209,6 +209,23 @@ export class ColorSet extends BaseObject {
 	}
 
 	/**
+	 * Gets reusable color.
+	 * 
+	 * @param   index  Index of color
+	 * @return         Color
+	 */
+	protected getReusableColor(index: number): Color {
+		if (this._list.length == 0) {
+			this.generate(1);
+			return this.list[0];
+		}
+		else {
+			let tmpstep = this._currentStep - (Math.floor(this._currentStep / this._list.length) * this.list.length);
+			return this.list[tmpstep];
+		}
+	}
+
+	/**
 	 * Returns next color in the list using internal iterator counter.
 	 *
 	 * If `step` is set to something other than 1, it may return other color than
@@ -217,13 +234,19 @@ export class ColorSet extends BaseObject {
 	 * @return Color
 	 */
 	public next(): Color {
+		let color;
 		if (this.list.length <= this._currentStep) {
-			if (this.reuse && this._currentPass == 0 && this._list.length) {
-				this.minColors = this._list.length;
+			if (this.reuse) {
+				color = this.getReusableColor(this._currentStep);
 			}
-			this.generate(this.minColors);
+			else {
+				this.generate(this.minColors);
+				color = this.list[this._currentStep];
+			}
 		}
-		let color = this.list[this._currentStep];
+		else {
+			color = this.list[this._currentStep];
+		}
 		this._currentStep += this.step;
 		return color.saturate(this.saturation);
 	}
@@ -235,14 +258,20 @@ export class ColorSet extends BaseObject {
 	 * @return Color
 	 */
 	public getIndex(i: number): Color {
+		let color;
 		if (this.list.length <= i) {
-			if (this.reuse && this._currentPass == 0 && this._list.length) {
-				this.minColors = this._list.length;
+			if (this.reuse) {
+				color = this.getReusableColor(i);
 			}
-			this.generate(this.minColors);
-			return this.getIndex(i);
+			else {
+				this.generate(this.minColors);
+				color = this.getIndex(i);
+			}
 		}
-		return this.list[i].saturate(this.saturation);
+		else {
+			color = this.list[i];
+		}
+		return color.saturate(this.saturation);
 	}
 
 	/**

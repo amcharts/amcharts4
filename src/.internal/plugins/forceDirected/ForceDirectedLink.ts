@@ -112,7 +112,7 @@ export class ForceDirectedLink extends Sprite {
 		this.interactionsEnabled = false;
 
 		this.distance = 1.5;
-		this.strength = 2;
+		this.strength = 1;
 
 		this.applyTheme();
 	}
@@ -214,7 +214,7 @@ export class ForceDirectedLink extends Sprite {
 	 * Carefully with very big numbers: nodes and links might start behaving
 	 * quite "nerviously".
 	 *
-	 * @default 2
+	 * @default 1
 	 * @param  value  Strength
 	 */
 	public set strength(value: number) {

@@ -264,13 +264,11 @@ networkSeries.dataFields.id = "name";
 networkSeries.dataFields.value = "value";
 networkSeries.dataFields.children = "children";
 
-networkSeries.links.template.strength = 1;
 networkSeries.nodes.template.tooltipText = "{name}";
 networkSeries.nodes.template.fillOpacity = 1;
 
 networkSeries.nodes.template.label.text = "{name}"
 networkSeries.fontSize = 8;
-networkSeries.minRadius = 15;
 networkSeries.maxLevels = 2;
 networkSeries.nodes.template.label.hideOversized = true;
 networkSeries.nodes.template.label.truncate = true;

@@ -6,7 +6,6 @@
  */
 import * as tslib_1 from "tslib";
 import { Series, SeriesDataItem } from "../../charts/series/Series";
-import { percent } from "../../core/utils/Percent";
 import { registry } from "../../core/Registry";
 import { ListTemplate, ListDisposer, List } from "../../core/utils/List";
 import { ForceDirectedNode } from "./ForceDirectedNode";
@@ -16,7 +15,9 @@ import { ColorSet } from "../../core/utils/ColorSet";
 import * as d3force from "d3-force";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
+import * as $utils from "../../core/utils/Utils";
 import * as $array from "../../core/utils/Array";
+import { percent } from "../../core/utils/Percent";
 import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
 /**
@@ -207,6 +208,7 @@ var ForceDirectedSeriesDataItem = /** @class */ (function (_super) {
             var color = this.properties.color;
             if (color == undefined) {
                 if (this.parent) {
+                    console.log("parent");
                     color = this.parent.color;
                 }
             }
@@ -223,7 +225,7 @@ var ForceDirectedSeriesDataItem = /** @class */ (function (_super) {
          * If not set, will use parent's color, or, if that is not set either,
          * automatically assigned color from chart's color set. (`chart.colors`)
          *
-         * @param value  Color
+         * @param value  : Color | LinearGradient | RadialGradient | Pattern
          */
         set: function (value) {
             this.setProperty("color", value);
@@ -374,17 +376,19 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.className = "ForceDirectedSeries";
         _this.d3forceSimulation = d3force.forceSimulation();
-        _this.maxRadius = 70;
-        _this.minRadius = 5;
+        _this.maxRadius = percent(8);
+        _this.minRadius = percent(1);
         _this.width = percent(100);
         _this.height = percent(100);
         _this.colors = new ColorSet();
         _this.colors.step = 2;
         _this.width = percent(100);
         _this.height = percent(100);
-        _this.manyBodyStrength = -12;
+        _this.manyBodyStrength = -15;
         _this.centerStrength = 1.2;
         _this.events.on("maxsizechanged", function () {
+            _this.updateRadiuses(_this.dataItems);
+            _this.updateLinksAndNodes();
             var d3forceSimulation = _this.d3forceSimulation;
             if (d3forceSimulation) {
                 d3forceSimulation.force("x", d3force.forceX().x(_this.innerWidth / 2).strength(_this.centerStrength * 100 / _this.innerWidth));
@@ -463,7 +467,6 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
      * @todo description
      */
     ForceDirectedSeries.prototype.updateNodeList = function () {
-        var _this = this;
         var d3forceSimulation = this.d3forceSimulation;
         d3forceSimulation.nodes(this.nodes.values);
         this._linkForce = d3force.forceLink(this._forceLinks);
@@ -472,12 +475,6 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         d3forceSimulation.force("collision", this._collisionForce);
         d3forceSimulation.force("x", d3force.forceX().x(this.innerWidth / 2).strength(this.centerStrength * 100 / this.innerWidth));
         d3forceSimulation.force("y", d3force.forceY().y(this.innerHeight / 2).strength(this.centerStrength * 100 / this.innerHeight));
-        d3forceSimulation.force("manybody", d3force.forceManyBody().strength(function (node) {
-            if (node instanceof ForceDirectedNode) {
-                return node.circle.pixelRadius * _this.manyBodyStrength;
-            }
-            return _this.manyBodyStrength;
-        }));
     };
     /**
      * @ignore
@@ -492,11 +489,21 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         if (this._collisionForce) {
             this._collisionForce.radius(function (node) {
                 if (node instanceof ForceDirectedNode) {
-                    return node.circle.pixelRadius + 1;
+                    var radius = node.circle.pixelRadius;
+                    if (!node.outerCircle.__disabled && !node.outerCircle.disabled && node.outerCircle.visible) {
+                        radius = (radius + 3) * node.outerCircle.scale;
+                    }
+                    return radius;
                 }
                 return 1;
             });
         }
+        this.d3forceSimulation.force("manybody", d3force.forceManyBody().strength(function (node) {
+            if (node instanceof ForceDirectedNode) {
+                return node.circle.pixelRadius * _this.manyBodyStrength;
+            }
+            return _this.manyBodyStrength;
+        }));
     };
     /**
      * @ignore
@@ -558,6 +565,37 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         }
     };
     /**
+     * @ignore
+     */
+    ForceDirectedSeries.prototype.updateRadiuses = function (dataItems) {
+        var _this = this;
+        dataItems.each(function (dataItem) {
+            _this.updateRadius(dataItem);
+            if (dataItem.childrenInited) {
+                _this.updateRadiuses(dataItem.children);
+            }
+        });
+    };
+    /**
+     * @ignore
+     */
+    ForceDirectedSeries.prototype.updateRadius = function (dataItem) {
+        var node = dataItem.node;
+        var minSide = (this.innerWidth + this.innerHeight) / 2;
+        var minRadius = $utils.relativeToValue(this.minRadius, minSide);
+        var maxRadius = $utils.relativeToValue(this.maxRadius, minSide);
+        var radius = minRadius + dataItem.value / this._maxValue * (maxRadius - minRadius);
+        if (!$type.isNumber(radius)) {
+            radius = minRadius;
+        }
+        if (!node.circle.isHidden) {
+            node.circle.radius = radius;
+        }
+        node.outerCircle.radius = radius + 3;
+        node.circle.states.getKey("active").properties.radius = radius;
+        node.circle.defaultState.properties.radius = radius;
+    };
+    /**
      * Initializes node.
      *
      * @ignore
@@ -565,15 +603,8 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
     ForceDirectedSeries.prototype.initNode = function (dataItem) {
         var _this = this;
         var node = dataItem.node;
-        var radius = this.minRadius + dataItem.value / this._maxValue * (this.maxRadius - this.minRadius);
-        if (!$type.isNumber(radius)) {
-            radius = this.minRadius;
-        }
         node.parent = this;
-        node.circle.radius = radius;
-        node.outerCircle.radius = radius + 3;
-        node.circle.states.getKey("active").properties.radius = radius;
-        node.circle.defaultState.properties.radius = radius;
+        this.updateRadius(dataItem);
         var nodeIndex = this.nodes.indexOf(dataItem.node);
         if (!dataItem.children || dataItem.children.length == 0) {
             node.outerCircle.__disabled = true;
@@ -591,6 +622,9 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         if (dataItem.children) {
             var index_1 = 0;
             dataItem.childrenInited = true;
+            if (this.dataItems.length == 1 && dataItem.level == 0) {
+                this.colors.next();
+            }
             dataItem.children.each(function (child) {
                 var link = _this.links.create();
                 link.parent = _this;
@@ -607,12 +641,19 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
                 child.node.y = node.pixelY + radius * $math.sin(angle);
                 child.node.circle.radius = 0;
                 var color;
-                if (_this.dataItems.length == 1 && dataItem.level == 0) {
-                    color = _this.colors.next();
+                var diColor = child.properties.color;
+                if ($type.hasValue(diColor)) {
+                    color = diColor;
                 }
                 else {
-                    color = node.fill;
+                    if (_this.dataItems.length == 1 && dataItem.level == 0) {
+                        color = _this.colors.next();
+                    }
+                    else {
+                        color = dataItem.color;
+                    }
                 }
+                child.color = color;
                 child.node.fill = color;
                 child.node.stroke = color;
                 child.parentLink.stroke = color;
@@ -732,7 +773,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(ForceDirectedSeries.prototype, "minRadius", {
         /**
-         * @return Minimum radius (px)
+         * @return Minimum radius (px or percent)
          */
         get: function () {
             return this.getPropertyValue("minRadius");
@@ -740,8 +781,11 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         /**
          * Smallest possible radius in pixels of the node circle.
          *
-         * @default 5
-         * @param  value  Minimum radius (px)
+         * If set in percent, it radius will be calculated from average width and
+         * height of series.
+         *
+         * @default Percent(1)
+         * @param  value  Minimum radius (px or percent)
          */
         set: function (value) {
             this.setPropertyValue("minRadius", value, true);
@@ -751,7 +795,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(ForceDirectedSeries.prototype, "maxRadius", {
         /**
-         * @return Maximum radius (px)
+         * @return Maximum radius (px or Percent)
          */
         get: function () {
             return this.getPropertyValue("maxRadius");
@@ -759,8 +803,11 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         /**
          * Biggest possible radius in pixels of the node circle.
          *
-         * @default 70
-         * @param  value  Maximum radius (px)
+         * If set in percent, it radius will be calculated from average width and
+         * height of series.
+         *
+         * @default Percent(8)
+         * @param  value  Maximum radius (px or Percent)
          */
         set: function (value) {
             this.setPropertyValue("maxRadius", value, true);
@@ -828,11 +875,12 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
          * multiplied by `node.circle.radius` for big nodes to push stronger).
          *
          * Positive value will make nodes attract each other, while negative will
-         * push away each other.
+         * push away each other. The bigger the negative number is, the more
+         * scattered nodes will be.
          *
-         * Available value range: `-50` to `50`.
+         * Available value range: `-XX` to `XX`.
          *
-         * @default -12
+         * @default -15
          * @param  value  Body push/attrack strength
          */
         set: function (value) {
