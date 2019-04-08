@@ -291,7 +291,11 @@ export class PieSeries extends PercentSeries {
 		this.startAngle = -90;
 		this.endAngle = 270;
 
+		this.layout = "none";
+
 		this.labels.template.radius = percent(5);
+
+		this.addDisposer(this.labels.template.events.on("enabled", this.invalidate, this, false));
 
 		this.applyTheme();
 	}
@@ -461,47 +465,49 @@ export class PieSeries extends PercentSeries {
 			slice.arc = dataItem.values.value.percent * (this.endAngle - this.startAngle) / 100;
 
 			// LABEL
-			let label = dataItem.label;
+			if(!this.labels.template.disabled){
+				let label = dataItem.label;
 
-			let tick = dataItem.tick;
-			tick.slice = slice;
-			tick.label = label;
+				let tick = dataItem.tick;
+				tick.slice = slice;
+				tick.label = label;
 
-			let normalizedMiddleAngle: number = (slice.middleAngle + 360) % 360; // force angle to be 0 - 360;
+				let normalizedMiddleAngle: number = (slice.middleAngle + 360) % 360; // force angle to be 0 - 360;
 
-			let point: IPoint;
+				let point: IPoint;
 
-			if (this.alignLabels) {
-				let labelRadius = label.pixelRadius(slice.radius);
-				let x: number = tick.length + labelRadius;
-				label.dx = 0;
-				label.dy = 0;
-				label.verticalCenter = "middle";
-				let arcRect = this._arcRect;
-				// right half
-				if (normalizedMiddleAngle >= 270 || normalizedMiddleAngle <= 90) { // 91 makes less chances for flickering
-					x += (arcRect.width + arcRect.x) * this.pixelRadius;
-					label.horizontalCenter = "left";
-					this._rightItems.push(dataItem);
+				if (this.alignLabels) {
+					let labelRadius = label.pixelRadius(slice.radius);
+					let x: number = tick.length + labelRadius;
+					label.dx = 0;
+					label.dy = 0;
+					label.verticalCenter = "middle";
+					let arcRect = this._arcRect;
+					// right half
+					if (normalizedMiddleAngle >= 270 || normalizedMiddleAngle <= 90) { // 91 makes less chances for flickering
+						x += (arcRect.width + arcRect.x) * this.pixelRadius;
+						label.horizontalCenter = "left";
+						this._rightItems.push(dataItem);
+					}
+					// left half
+					else {
+						x -= arcRect.x * this.pixelRadius;
+						label.horizontalCenter = "right";
+						this._leftItems.push(dataItem);
+						x *= -1;
+					}
+
+					let distance = slice.radius + tick.length + labelRadius;
+					point = { x: x, y: slice.iy * distance };
+					label.moveTo(point);
 				}
-				// left half
 				else {
-					x -= arcRect.x * this.pixelRadius;
-					label.horizontalCenter = "right";
-					this._leftItems.push(dataItem);
-					x *= -1;
+					let depth = (<any>slice)["depth"];
+					if (!$type.isNumber(depth)) {
+						depth = 0;
+					}
+					label.fixPosition(slice.middleAngle, slice.radius, slice.radiusY, 0, -depth);
 				}
-
-				let distance = slice.radius + tick.length + labelRadius;
-				point = { x: x, y: slice.iy * distance };
-				label.moveTo(point);
-			}
-			else {
-				let depth = (<any>slice)["depth"];
-				if (!$type.isNumber(depth)) {
-					depth = 0;
-				}
-				label.fixPosition(slice.middleAngle, slice.radius, slice.radiusY, 0, -depth);
 			}
 
 			this._currentStartAngle += slice.arc;

@@ -108,7 +108,9 @@ var PieSeries = /** @class */ (function (_super) {
         _this.alignLabels = true;
         _this.startAngle = -90;
         _this.endAngle = 270;
+        _this.layout = "none";
         _this.labels.template.radius = percent(5);
+        _this.addDisposer(_this.labels.template.events.on("enabled", _this.invalidate, _this, false));
         _this.applyTheme();
         return _this;
     }
@@ -249,42 +251,44 @@ var PieSeries = /** @class */ (function (_super) {
             slice.startAngle = this._currentStartAngle;
             slice.arc = dataItem.values.value.percent * (this.endAngle - this.startAngle) / 100;
             // LABEL
-            var label = dataItem.label;
-            var tick = dataItem.tick;
-            tick.slice = slice;
-            tick.label = label;
-            var normalizedMiddleAngle = (slice.middleAngle + 360) % 360; // force angle to be 0 - 360;
-            var point = void 0;
-            if (this.alignLabels) {
-                var labelRadius = label.pixelRadius(slice.radius);
-                var x = tick.length + labelRadius;
-                label.dx = 0;
-                label.dy = 0;
-                label.verticalCenter = "middle";
-                var arcRect = this._arcRect;
-                // right half
-                if (normalizedMiddleAngle >= 270 || normalizedMiddleAngle <= 90) { // 91 makes less chances for flickering
-                    x += (arcRect.width + arcRect.x) * this.pixelRadius;
-                    label.horizontalCenter = "left";
-                    this._rightItems.push(dataItem);
+            if (!this.labels.template.disabled) {
+                var label = dataItem.label;
+                var tick = dataItem.tick;
+                tick.slice = slice;
+                tick.label = label;
+                var normalizedMiddleAngle = (slice.middleAngle + 360) % 360; // force angle to be 0 - 360;
+                var point = void 0;
+                if (this.alignLabels) {
+                    var labelRadius = label.pixelRadius(slice.radius);
+                    var x = tick.length + labelRadius;
+                    label.dx = 0;
+                    label.dy = 0;
+                    label.verticalCenter = "middle";
+                    var arcRect = this._arcRect;
+                    // right half
+                    if (normalizedMiddleAngle >= 270 || normalizedMiddleAngle <= 90) { // 91 makes less chances for flickering
+                        x += (arcRect.width + arcRect.x) * this.pixelRadius;
+                        label.horizontalCenter = "left";
+                        this._rightItems.push(dataItem);
+                    }
+                    // left half
+                    else {
+                        x -= arcRect.x * this.pixelRadius;
+                        label.horizontalCenter = "right";
+                        this._leftItems.push(dataItem);
+                        x *= -1;
+                    }
+                    var distance = slice.radius + tick.length + labelRadius;
+                    point = { x: x, y: slice.iy * distance };
+                    label.moveTo(point);
                 }
-                // left half
                 else {
-                    x -= arcRect.x * this.pixelRadius;
-                    label.horizontalCenter = "right";
-                    this._leftItems.push(dataItem);
-                    x *= -1;
+                    var depth = slice["depth"];
+                    if (!$type.isNumber(depth)) {
+                        depth = 0;
+                    }
+                    label.fixPosition(slice.middleAngle, slice.radius, slice.radiusY, 0, -depth);
                 }
-                var distance = slice.radius + tick.length + labelRadius;
-                point = { x: x, y: slice.iy * distance };
-                label.moveTo(point);
-            }
-            else {
-                var depth = slice["depth"];
-                if (!$type.isNumber(depth)) {
-                    depth = 0;
-                }
-                label.fixPosition(slice.middleAngle, slice.radius, slice.radiusY, 0, -depth);
             }
             this._currentStartAngle += slice.arc;
             // do this at the end, otherwise bullets won't be positioned properly

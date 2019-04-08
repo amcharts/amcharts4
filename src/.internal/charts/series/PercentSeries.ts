@@ -496,7 +496,7 @@ export class PercentSeries extends Series {
 		let slicesContainer = this.createChild(Container);
 		slicesContainer.shouldClone = false;
 		slicesContainer.isMeasured = false;
-
+		slicesContainer.layout = "none";
 		this.slicesContainer = slicesContainer;
 
 		let ticksContainer = this.createChild(Container);

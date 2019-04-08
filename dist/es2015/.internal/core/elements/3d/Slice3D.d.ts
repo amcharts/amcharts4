@@ -9,7 +9,11 @@
  */
 import { Slice, ISliceProperties, ISliceAdapters, ISliceEvents } from "../Slice";
 import { Sprite } from "../../Sprite";
-import { Container } from "../../Container";
+import * as $type from "../../utils/Type";
+import { Color } from "../../utils/Color";
+import { RadialGradient } from "../../rendering/fills/RadialGradient";
+import { LinearGradient } from "../../rendering/fills/LinearGradient";
+import { Pattern } from "../../rendering/fills/Pattern";
 /**
  * Defines properties for [[Slice3D]].
  */
@@ -65,11 +69,10 @@ export declare class Slice3D extends Slice {
      */
     _events: ISlice3DEvents;
     /**
-     * Container element for elements of the 3D sides.
      *
      * @ignore Exclude from docs
      */
-    edge: Container;
+    edge: Sprite;
     /**
      * Side element.
      *
@@ -86,6 +89,14 @@ export declare class Slice3D extends Slice {
      * Constructor
      */
     constructor();
+    /**
+     * Sets actual `fill` property on the SVG element, including applicable color
+     * modifiers.
+     *
+     * @ignore Exclude from docs
+     * @param value  Fill
+     */
+    protected setFill(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>): void;
     /**
      * Draws the element.
      *

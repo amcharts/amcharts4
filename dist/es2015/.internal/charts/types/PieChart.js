@@ -226,27 +226,29 @@ var PieChart = /** @class */ (function (_super) {
         var chartRadius = $utils.relativeRadiusToValue(this.radius, maxRadius);
         var chartPixelInnerRadius = $utils.relativeRadiusToValue(this.innerRadius, maxRadius);
         var seriesRadius = (chartRadius - chartPixelInnerRadius) / this.series.length;
-        this._chartPixelRadius = chartRadius;
-        this._chartPixelInnerRadius = chartPixelInnerRadius;
-        //@todo: make it possible to set series radius in percent
-        $iter.each($iter.indexed(this.series.iterator()), function (a) {
-            var i = a[0];
-            var series = a[1];
-            var radius = chartPixelInnerRadius + $utils.relativeRadiusToValue(series.radius, chartRadius - chartPixelInnerRadius);
-            var innerRadius = chartPixelInnerRadius + $utils.relativeRadiusToValue(series.innerRadius, chartRadius - chartPixelInnerRadius);
-            if (!$type.isNumber(radius)) {
-                radius = chartPixelInnerRadius + seriesRadius * (i + 1);
-            }
-            if (!$type.isNumber(innerRadius)) {
-                innerRadius = chartPixelInnerRadius + seriesRadius * i;
-            }
-            series.pixelRadius = radius;
-            series.pixelInnerRadius = innerRadius;
-        });
-        this.seriesContainer.definedBBox = { x: chartRadius * rect.x, y: chartRadius * rect.y, width: chartRadius * rect.width, height: chartRadius * rect.height };
-        this.seriesContainer.invalidateLayout();
-        this.bulletsContainer.x = this.seriesContainer.x;
-        this.bulletsContainer.y = this.seriesContainer.y;
+        if (chartRadius != this._chartPixelRadius || chartPixelInnerRadius != this._chartPixelInnerRadius) {
+            this._chartPixelRadius = chartRadius;
+            this._chartPixelInnerRadius = chartPixelInnerRadius;
+            //@todo: make it possible to set series radius in percent
+            $iter.each($iter.indexed(this.series.iterator()), function (a) {
+                var i = a[0];
+                var series = a[1];
+                var radius = chartPixelInnerRadius + $utils.relativeRadiusToValue(series.radius, chartRadius - chartPixelInnerRadius);
+                var innerRadius = chartPixelInnerRadius + $utils.relativeRadiusToValue(series.innerRadius, chartRadius - chartPixelInnerRadius);
+                if (!$type.isNumber(radius)) {
+                    radius = chartPixelInnerRadius + seriesRadius * (i + 1);
+                }
+                if (!$type.isNumber(innerRadius)) {
+                    innerRadius = chartPixelInnerRadius + seriesRadius * i;
+                }
+                series.pixelRadius = radius;
+                series.pixelInnerRadius = innerRadius;
+            });
+            this.seriesContainer.definedBBox = { x: chartRadius * rect.x, y: chartRadius * rect.y, width: chartRadius * rect.width, height: chartRadius * rect.height };
+            this.seriesContainer.invalidateLayout();
+            this.bulletsContainer.x = this.seriesContainer.x;
+            this.bulletsContainer.y = this.seriesContainer.y;
+        }
     };
     Object.defineProperty(PieChart.prototype, "radius", {
         /**

@@ -343,33 +343,36 @@ export class PieChart extends PercentChart {
 
 		let seriesRadius = (chartRadius - chartPixelInnerRadius) / this.series.length;
 
-		this._chartPixelRadius = chartRadius;
-		this._chartPixelInnerRadius = chartPixelInnerRadius;
+		if(chartRadius != this._chartPixelRadius || chartPixelInnerRadius != this._chartPixelInnerRadius){
+			this._chartPixelRadius = chartRadius;
+			this._chartPixelInnerRadius = chartPixelInnerRadius;
 
-		//@todo: make it possible to set series radius in percent
-		$iter.each($iter.indexed(this.series.iterator()), (a) => {
-			let i = a[0];
-			let series = a[1];
+			//@todo: make it possible to set series radius in percent
+			$iter.each($iter.indexed(this.series.iterator()), (a) => {
+				let i = a[0];
+				let series = a[1];
 
-			let radius = chartPixelInnerRadius + $utils.relativeRadiusToValue(series.radius, chartRadius - chartPixelInnerRadius);
-			let innerRadius = chartPixelInnerRadius + $utils.relativeRadiusToValue(series.innerRadius, chartRadius - chartPixelInnerRadius);
+				let radius = chartPixelInnerRadius + $utils.relativeRadiusToValue(series.radius, chartRadius - chartPixelInnerRadius);
+				let innerRadius = chartPixelInnerRadius + $utils.relativeRadiusToValue(series.innerRadius, chartRadius - chartPixelInnerRadius);
 
-			if(!$type.isNumber(radius)){
-				radius = chartPixelInnerRadius + seriesRadius * (i + 1);
-			}
-			if(!$type.isNumber(innerRadius)){
-				innerRadius = chartPixelInnerRadius + seriesRadius * i;
-			}
+				if(!$type.isNumber(radius)){
+					radius = chartPixelInnerRadius + seriesRadius * (i + 1);
+				}
+				if(!$type.isNumber(innerRadius)){
+					innerRadius = chartPixelInnerRadius + seriesRadius * i;
+				}
 
-			series.pixelRadius = radius;
-			series.pixelInnerRadius = innerRadius;
-		});
+				series.pixelRadius = radius;
+				series.pixelInnerRadius = innerRadius;
+			});
 
-		this.seriesContainer.definedBBox = { x: chartRadius * rect.x, y: chartRadius * rect.y, width: chartRadius * rect.width, height: chartRadius * rect.height };
-		this.seriesContainer.invalidateLayout();
 
-		this.bulletsContainer.x = this.seriesContainer.x;
-		this.bulletsContainer.y = this.seriesContainer.y;
+			this.seriesContainer.definedBBox = { x: chartRadius * rect.x, y: chartRadius * rect.y, width: chartRadius * rect.width, height: chartRadius * rect.height };
+			this.seriesContainer.invalidateLayout();
+
+			this.bulletsContainer.x = this.seriesContainer.x;
+			this.bulletsContainer.y = this.seriesContainer.y;
+		}
 	}
 
 	/**

@@ -301,6 +301,7 @@ var PercentSeries = /** @class */ (function (_super) {
         var slicesContainer = _this.createChild(Container);
         slicesContainer.shouldClone = false;
         slicesContainer.isMeasured = false;
+        slicesContainer.layout = "none";
         _this.slicesContainer = slicesContainer;
         var ticksContainer = _this.createChild(Container);
         ticksContainer.shouldClone = false;

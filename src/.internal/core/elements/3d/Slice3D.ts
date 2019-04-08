@@ -10,12 +10,15 @@
  */
 import { Slice, ISliceProperties, ISliceAdapters, ISliceEvents } from "../Slice";
 import { Sprite } from "../../Sprite";
-import { Container } from "../../Container";
 import { IPoint } from "../../defs/IPoint";
-import { LightenFilter } from "../../rendering/filters/LightenFilter";
 import * as $math from "../../utils/Math";
 import * as $path from "../../rendering/Path";
 import * as $type from "../../utils/Type";
+import { Color, color } from "../../utils/Color";
+import { RadialGradient } from "../../rendering/fills/RadialGradient";
+import { LinearGradient } from "../../rendering/fills/LinearGradient";
+import { Pattern } from "../../rendering/fills/Pattern";
+import { LightenFilter } from "../../rendering/filters/LightenFilter";
 
 /**
  * Defines properties for [[Slice3D]].
@@ -82,11 +85,10 @@ export class Slice3D extends Slice {
 	public _events!: ISlice3DEvents;
 
 	/**
-	 * Container element for elements of the 3D sides.
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public edge: Container;
+	public edge: Sprite;
 
 	/**
 	 * Side element.
@@ -102,6 +104,7 @@ export class Slice3D extends Slice {
 	 */
 	public sideB: Sprite;
 
+
 	/**
 	 * Constructor
 	 */
@@ -113,17 +116,11 @@ export class Slice3D extends Slice {
 		this.layout = "none";
 
 		// Create edge container
-		let edge = this.createChild(Container);
+		let edge = this.createChild(Sprite);
 		this.edge = edge;
 		edge.shouldClone = false;
 		edge.isMeasured = false;
-
-		let lightenFilter: LightenFilter = new LightenFilter();
-		lightenFilter.lightness = -0.25;
-		edge.filters.push(lightenFilter);
 		edge.toBack();
-		//edge.strokeOpacity = 0;
-		this._disposers.push(edge);
 
 		// Set defaults
 		this.angle = 30;
@@ -134,29 +131,58 @@ export class Slice3D extends Slice {
 		this.sideA = sideA;
 		sideA.shouldClone = false;
 		sideA.isMeasured = false;
-		sideA.setElement(this.paper.add("path"));
-		let lightenFilterA: LightenFilter = new LightenFilter();
-		lightenFilterA.lightness = -0.25;
-		sideA.filters.push(lightenFilterA);
+		//sideA.setElement(this.paper.add("path"));
 		//sideA.strokeOpacity = 0;
-		this._disposers.push(sideA);
 
 		// Crate side B element
 		let sideB = this.createChild(Sprite);
 		this.sideB = sideB;
 		sideB.shouldClone = false;
 		sideB.isMeasured = false;
-		sideB.setElement(this.paper.add("path"));
-		let lightenFilterB: LightenFilter = new LightenFilter();
-		lightenFilterB.lightness = -0.25;
-		sideB.filters.push(lightenFilterB);
-		this._disposers.push(sideB);
+		//sideB.setElement(this.paper.add("path"));
 		//sideB.strokeOpacity = 0;
 
 
 		// Apply theme
 		this.applyTheme();
+	}
 
+	/**
+	 * Sets actual `fill` property on the SVG element, including applicable color
+	 * modifiers.
+	 *
+	 * @ignore Exclude from docs
+	 * @param value  Fill
+	 */
+	protected setFill(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>): void {
+		super.setFill(value);
+
+		let colorStr: string;
+		if (value instanceof Color) {
+			colorStr = value.hex;
+		}
+		else if (value instanceof LinearGradient || value instanceof RadialGradient) {
+			colorStr = value.stops.getIndex(0).color.hex;
+		}
+		else {
+			let filter = new LightenFilter();
+			filter.lightness = -0.25;
+			this.edge.filters.push(filter);
+			this.sideA.filters.push(filter.clone());
+			this.sideB.filters.push(filter.clone());
+		}
+
+		if (colorStr) {
+			let edgeFill = color(colorStr).lighten(-0.25);
+
+			this.edge.fill = edgeFill;
+			this.sideA.fill = edgeFill;
+			this.sideB.fill = edgeFill;
+
+			this.edge.stroke = edgeFill;
+			this.sideA.stroke = edgeFill;
+			this.sideB.stroke = edgeFill;
+		}
 	}
 
 	/**
@@ -165,22 +191,10 @@ export class Slice3D extends Slice {
 	 * @ignore Exclude from docs
 	 */
 	public draw(): void {
-		super.draw();
+		this.cornerRadius = 0;
+		this.innerCornerRadius = 0;
 
-		// this should go here to hide 3d slices if arc = 0
-		for (let i = 0, len = this.edge.children.length; i < len; i++) {
-			let slice = this.edge.children.getIndex(i);
-			if (slice instanceof Slice) {
-				slice.radiusY = this.radiusY;
-				slice.radius = this.radius;
-				slice.fill = this.fill;
-				slice.startAngle = this.startAngle;
-				slice.arc = this.arc;
-				slice.cornerRadius = this.cornerRadius;
-				slice.innerRadius = this.innerRadius;
-				slice.strokeOpacity = 0;
-			}
-		}
+		super.draw();
 
 		if (this.arc !== 0 && this.radius > 0 && this.depth > 0) {
 			this.sideB.show(0);
@@ -191,61 +205,62 @@ export class Slice3D extends Slice {
 			let arc = this.arc;
 			let innerRadius = this.pixelInnerRadius || 0;
 			let radiusY = this.radiusY || 0;
-			let cornerRadius = this.cornerRadius || 0;
-			let innerCornerRadius = this.innerCornerRadius;
+
+			//let cornerRadius = this.cornerRadius || 0;
+			//let innerCornerRadius = this.innerCornerRadius;
 			let radius = this.radius;
 
 			// this is code duplicate with $path.arc. @todo to think how to avoid it
 
 			let endAngle = startAngle + arc;
-			let crSin = $math.sin($math.min(arc, 45) / 2);
+			//let crSin = $math.sin($math.min(arc, 45) / 2);
 
-			innerCornerRadius = innerCornerRadius || cornerRadius;
+			//innerCornerRadius = innerCornerRadius || cornerRadius;
 
 			let innerRadiusY = (radiusY / radius) * innerRadius;
-			let cornerRadiusY = (radiusY / radius) * cornerRadius;
-			let innerCornerRadiusY = (radiusY / radius) * innerCornerRadius;
+			//let cornerRadiusY = (radiusY / radius) * cornerRadius;
+			//let innerCornerRadiusY = (radiusY / radius) * innerCornerRadius;
 
-			cornerRadius = $math.fitToRange(cornerRadius, 0, (radius - innerRadius) / 2);
-			cornerRadiusY = $math.fitToRange(cornerRadiusY, 0, (radiusY - innerRadiusY) / 2);
+			//cornerRadius = $math.fitToRange(cornerRadius, 0, (radius - innerRadius) / 2);
+			//cornerRadiusY = $math.fitToRange(cornerRadiusY, 0, (radiusY - innerRadiusY) / 2);
 
-			innerCornerRadius = $math.fitToRange(innerCornerRadius, 0, (radius - innerRadius) / 2);
-			innerCornerRadiusY = $math.fitToRange(innerCornerRadiusY, 0, (radiusY - innerRadiusY) / 2);
+			//innerCornerRadius = $math.fitToRange(innerCornerRadius, 0, (radius - innerRadius) / 2);
+			//innerCornerRadiusY = $math.fitToRange(innerCornerRadiusY, 0, (radiusY - innerRadiusY) / 2);
 
-			cornerRadius = $math.fitToRange(cornerRadius, 0, radius * crSin);
-			cornerRadiusY = $math.fitToRange(cornerRadiusY, 0, radiusY * crSin);
+			//cornerRadius = $math.fitToRange(cornerRadius, 0, radius * crSin);
+			//cornerRadiusY = $math.fitToRange(cornerRadiusY, 0, radiusY * crSin);
 
-			innerCornerRadius = $math.fitToRange(innerCornerRadius, 0, innerRadius * crSin);
-			innerCornerRadiusY = $math.fitToRange(innerCornerRadiusY, 0, innerRadiusY * crSin);
+			//innerCornerRadius = $math.fitToRange(innerCornerRadius, 0, innerRadius * crSin);
+			//innerCornerRadiusY = $math.fitToRange(innerCornerRadiusY, 0, innerRadiusY * crSin);
 
 			//let crAngle: number = Math.asin(cornerRadius / radius / 2) * $math.DEGREES * 2;
 			//let crAngleY: number = Math.asin(cornerRadiusY / radiusY / 2) * $math.DEGREES * 2;
 
-			if (innerRadius < innerCornerRadius) {
-				innerRadius = innerCornerRadius;
-			}
+			//if (innerRadius < innerCornerRadius) {
+			//	innerRadius = innerCornerRadius;
+			//}
 
-			if (innerRadiusY < innerCornerRadiusY) {
-				innerRadiusY = innerCornerRadiusY;
-			}
+			//if (innerRadiusY < innerCornerRadiusY) {
+			//	innerRadiusY = innerCornerRadiusY;
+			//}
 
-			let crInnerAngle: number = Math.asin(innerCornerRadius / innerRadius / 2) * $math.DEGREES * 2;
-			let crInnerAngleY: number = Math.asin(innerCornerRadiusY / innerRadiusY / 2) * $math.DEGREES * 2;
+			//let crInnerAngle: number = Math.asin(innerCornerRadius / innerRadius / 2) * $math.DEGREES * 2;
+			//let crInnerAngleY: number = Math.asin(innerCornerRadiusY / innerRadiusY / 2) * $math.DEGREES * 2;
 
-			if (!$type.isNumber(crInnerAngle)) {
-				crInnerAngle = 0;
-			}
-			if (!$type.isNumber(crInnerAngleY)) {
-				crInnerAngleY = 0;
-			}
+			//if (!$type.isNumber(crInnerAngle)) {
+			//	crInnerAngle = 0;
+			//}
+			//if (!$type.isNumber(crInnerAngleY)) {
+			//	crInnerAngleY = 0;
+			//}
 
 			//let middleAngle = startAngle + arc / 2;
 			//let mPoint = { x: $math.round($math.cos(middleAngle) * innerRadius, 4), y: $math.round($math.sin(middleAngle) * innerRadiusY, 4) };
 
-			let a0 = { x: $math.round($math.cos(startAngle) * (innerRadius + innerCornerRadius), 4), y: $math.round($math.sin(startAngle) * (innerRadiusY + innerCornerRadiusY), 4) };
-			let b0 = { x: $math.round($math.cos(startAngle) * (radius - cornerRadius), 4), y: $math.round($math.sin(startAngle) * (radiusY - cornerRadiusY), 4) };
-			let c0 = { x: $math.round($math.cos(endAngle) * (radius - cornerRadius), 4), y: $math.round($math.sin(endAngle) * (radiusY - cornerRadiusY), 4) };
-			let d0 = { x: $math.round($math.cos(endAngle) * (innerRadius + innerCornerRadius), 4), y: $math.round($math.sin(endAngle) * (innerRadiusY + innerCornerRadiusY), 4) };
+			let a0 = { x: $math.cos(startAngle) * (innerRadius), y: $math.sin(startAngle) * (innerRadiusY) };
+			let b0 = { x: $math.cos(startAngle) * (radius), y: $math.sin(startAngle) * (radiusY) };
+			let c0 = { x: $math.cos(endAngle) * (radius), y: $math.sin(endAngle) * (radiusY) };
+			let d0 = { x: $math.cos(endAngle) * (innerRadius), y: $math.sin(endAngle) * (innerRadiusY) };
 			// end of duplicate
 
 			let h: number = this.depth;
@@ -254,6 +269,79 @@ export class Slice3D extends Slice {
 			let ch: IPoint = { x: c0.x, y: c0.y - h };
 			let dh: IPoint = { x: d0.x, y: d0.y - h };
 
+			let edgePath = "";
+			let count = Math.ceil(arc / 5);
+			let step = arc / count;
+			let mangle = startAngle;
+
+			let prevPoint = bh;
+
+
+			for (let i = 0; i < count; i++) {
+				mangle += step;
+				if (mangle > 0 && mangle < 180) {
+					edgePath += $path.moveTo(prevPoint);
+					let pp = { x: $math.cos(mangle) * (radius), y: $math.sin(mangle) * (radiusY) - h };
+					edgePath += $path.lineTo({ x: prevPoint.x, y: prevPoint.y + h });
+					edgePath += $path.arcToPoint({ x: pp.x, y: pp.y + h }, radius, radiusY, true);
+					edgePath += $path.lineTo(pp);
+					edgePath += $path.arcToPoint(prevPoint, radius, radiusY);
+					edgePath += "z";
+					prevPoint = pp;
+				}
+				else {
+					edgePath += $path.moveTo(prevPoint);
+					let pp = { x: $math.cos(mangle) * (radius), y: $math.sin(mangle) * (radiusY) - h };
+					edgePath += $path.arcToPoint(pp, radius, radiusY, true);
+					edgePath += $path.lineTo({ x: pp.x, y: pp.y + h });
+					edgePath += $path.arcToPoint({ x: prevPoint.x, y: prevPoint.y + h }, radius, radiusY);
+					edgePath += $path.lineTo(prevPoint);
+					edgePath += "z";
+					prevPoint = pp;
+				}
+			}
+
+			prevPoint = ah;
+			mangle = startAngle;
+
+
+			for (let i = 0; i < count; i++) {
+				mangle += step;
+				if (mangle > 0 && mangle < 180) {
+					edgePath += $path.moveTo(prevPoint);
+					let pp = { x: $math.cos(mangle) * (innerRadius), y: $math.sin(mangle) * (innerRadiusY) - h };
+					edgePath += $path.lineTo({ x: prevPoint.x, y: prevPoint.y + h });
+					edgePath += $path.arcToPoint({ x: pp.x, y: pp.y + h }, innerRadius, innerRadiusY, true);
+					edgePath += $path.lineTo(pp);
+					edgePath += $path.arcToPoint(prevPoint, innerRadius, innerRadiusY);
+					edgePath += "z";
+					prevPoint = pp;
+				}
+				else {
+					edgePath += $path.moveTo(prevPoint);
+					let pp = { x: $math.cos(mangle) * (innerRadius), y: $math.sin(mangle) * (innerRadiusY) - h };
+					edgePath += $path.arcToPoint(pp, innerRadius, innerRadiusY, true);
+					edgePath += $path.lineTo({ x: pp.x, y: pp.y + h });
+					edgePath += $path.arcToPoint({ x: prevPoint.x, y: prevPoint.y + h }, innerRadius, innerRadiusY);
+					edgePath += $path.lineTo(prevPoint);
+					edgePath += "z";
+					prevPoint = pp;
+				}
+			}
+
+			this.edge.path = edgePath;
+/*
+			a0 = { x: $math.cos(startAngle) * (innerRadius + innerCornerRadius), y: $math.sin(startAngle) * (innerRadiusY + innerCornerRadiusY) };
+			b0 = { x: $math.cos(startAngle) * (radius - cornerRadius), y: $math.sin(startAngle) * (radiusY - cornerRadiusY) };
+			c0 = { x: $math.cos(endAngle) * (radius - cornerRadius), y: $math.sin(endAngle) * (radiusY - cornerRadiusY) };
+			d0 = { x: $math.cos(endAngle) * (innerRadius + innerCornerRadius), y: $math.sin(endAngle) * (innerRadiusY + innerCornerRadiusY) };
+			// end of duplicate
+
+			ah = { x: a0.x, y: a0.y - h };
+			bh = { x: b0.x, y: b0.y - h };
+			ch = { x: c0.x, y: c0.y - h };
+			dh = { x: d0.x, y: d0.y - h };
+*/
 			this.sideA.path = $path.moveTo(a0) + $path.lineTo(b0) + $path.lineTo(bh) + $path.lineTo(ah) + $path.closePath();
 			this.sideB.path = $path.moveTo(c0) + $path.lineTo(d0) + $path.lineTo(dh) + $path.lineTo(ch) + $path.closePath();
 
@@ -270,6 +358,8 @@ export class Slice3D extends Slice {
 			else {
 				this.sideB.toFront();
 			}
+
+			this.slice.dy = -h;
 		}
 		else {
 			this.sideA.hide(0);
@@ -285,22 +375,7 @@ export class Slice3D extends Slice {
 	 * @param depth  Depth (px)
 	 */
 	public set depth(depth: number) {
-		if (this.setPropertyValue("depth", depth, true)) {
-			this.edge.removeChildren();
-
-			let d = 3;
-
-			if (depth > 0) {
-				let count: number = Math.ceil(this.depth / d);
-				let step: number = depth / count;
-				for (let i = 0; i <= count; i++) {
-					let slice: Slice = this.edge.createChild(Slice);
-					slice.isMeasured = false;
-					slice.y = -step * i;
-				}
-			}
-			this.slice.dy = -this.depth;
-		}
+		this.setPropertyValue("depth", depth, true);
 	}
 
 	/**
