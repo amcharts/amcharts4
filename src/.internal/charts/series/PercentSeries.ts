@@ -496,7 +496,6 @@ export class PercentSeries extends Series {
 		let slicesContainer = this.createChild(Container);
 		slicesContainer.shouldClone = false;
 		slicesContainer.isMeasured = false;
-		slicesContainer.layout = "none";
 		this.slicesContainer = slicesContainer;
 
 		let ticksContainer = this.createChild(Container);
@@ -789,7 +788,7 @@ export class PercentSeries extends Series {
 			legendDataItem.color = slice.fill;
 			legendDataItem.colorOrig = slice.fill;
 
-			slice.events.on("propertychanged", (ev) => {
+			child.addDisposer(slice.events.on("propertychanged", (ev) => {
 				if (ev.property == "fill") {
 
 					child.__disabled = false;
@@ -808,7 +807,7 @@ export class PercentSeries extends Series {
 					}
 					child.defaultState.properties.stroke = slice.stroke;
 				}
-			}, undefined, false)
+			}, undefined, false));
 		});
 	}
 

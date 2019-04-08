@@ -1,0 +1,21 @@
+/**
+ * @license
+ * Copyright (c) 2018 amCharts (Antanas Marcelionis, Martynas Majeris)
+ *
+ * This sofware is provided under multiple licenses. Please see below for
+ * links to appropriate usage.
+ *
+ * Free amCharts linkware license. Details and conditions:
+ * https://github.com/amcharts/amcharts4/blob/master/LICENSE
+ *
+ * One of the amCharts commercial licenses. Details and pricing:
+ * https://www.amcharts.com/online-store/
+ * https://www.amcharts.com/online-store/licenses-explained/
+ *
+ * If in doubt, contact amCharts at contact@amcharts.com
+ *
+ * PLEASE DO NOT REMOVE THIS COPYRIGHT NOTICE.
+ * @hidden
+ */
+am4internal_webpackJsonp(["a376"],{"8Znc":function(t,e,i){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var o={};i.d(o,"SliceGrouper",function(){return l});var s=i("m4/l"),n=i("Iz1H"),r=i("vMqJ"),c=i("aCit"),h=i("BEgH"),l=function(t){function e(){var e=t.call(this)||this;return e.smallSlices=new r.b,e.bigSlices=new r.b,e.groupName="Other",e._threshold=5,e._clickDisposers=[],e._clickBehavior="none",e}return s.c(e,t),e.prototype.init=function(){t.prototype.init.call(this),this.processSeries()},e.prototype.processSeries=function(){var t=this,e=this.target,i=e.baseSprite;this._disposers.push(e.events.on("datavalidated",function(o){t.groupSlice=void 0,t.smallSlices.clear(),t.bigSlices.clear();var s=0;e.dataItems.each(function(e){e.values.value.percent<=t.threshold?(s+=e.value,e.hiddenInLegend=!0,e.hide(),e.hidden=!0,t.smallSlices.push(e.slice)):t.bigSlices.push(e.slice)});var n=e.data&&e.data.length?e:i,r={sliceGrouperOther:!0};r[e.dataFields.category]=t.groupName,r[e.dataFields.value]=s,n.addData(r)})),this._disposers.push(e.events.on("validated",function(i){e.slices.each(function(e){e.dataItem.dataContext.sliceGrouperOther&&(t.groupSlice||(t.groupSlice=e,t.initSlices()))})}))},e.prototype.initSlices=function(){var t=this;this.groupSlice&&"none"!=this.clickBehavior&&(this.groupSlice.events.has("hit")||this._clickDisposers.push(this.groupSlice.events.on("hit",function(e){t.toggleGroupOn()})))},e.prototype.toggleGroupOn=function(){var t=this;"none"!=this.clickBehavior&&(this.groupSlice.dataItem.hide(),this._clickDisposers.push(this.groupSlice.events.once("shown",function(e){t.toggleGroupOff()})),this.smallSlices.each(function(t){t.dataItem.hidden=!1,t.dataItem.show()}),"zoom"==this.clickBehavior&&this.bigSlices.each(function(t){t.dataItem.hide()}),this.zoomOutButton.show())},e.prototype.toggleGroupOff=function(){"none"!=this.clickBehavior&&(this.groupSlice.events.disableType("shown"),this.groupSlice.dataItem.show(),this.groupSlice.events.enableType("shown"),"zoom"==this.clickBehavior&&this.bigSlices.each(function(t){t.dataItem.hidden=!1,t.dataItem.show()}),this.smallSlices.each(function(t){t.dataItem.hide()}),this.zoomOutButton.hide())},Object.defineProperty(e.prototype,"threshold",{get:function(){return this._threshold},set:function(t){this._threshold!=t&&(this._threshold=t)},enumerable:!0,configurable:!0}),Object.defineProperty(e.prototype,"zoomOutButton",{get:function(){var t=this;if(!this._zoomOutButton){var e=this.target.baseSprite.tooltipContainer.createChild(h.a);e.shouldClone=!1,e.align="right",e.valign="top",e.zIndex=Number.MAX_SAFE_INTEGER,e.marginTop=5,e.marginRight=5,e.hide(0),this.zoomOutButton=e,this._disposers.push(this._zoomOutButton),e.events.on("hit",function(){t.toggleGroupOff()},this)}return this._zoomOutButton},set:function(t){this._zoomOutButton=t},enumerable:!0,configurable:!0}),Object.defineProperty(e.prototype,"clickBehavior",{get:function(){return this._clickBehavior},set:function(t){this._clickBehavior!=t&&(this._clickBehavior=t,this.initSlices())},enumerable:!0,configurable:!0}),e.prototype.dispose=function(){this.disposeClickEvents(),this.groupSlice=void 0,this.smallSlices.clear(),this.bigSlices.clear(),t.prototype.dispose.call(this)},e.prototype.disposeClickEvents=function(){var t=this._clickDisposers;for(this._clickDisposers=null;0!==t.length;){t.shift().dispose()}},e}(n.a);c.b.registeredClasses.SliceGrouper=l,window.am4plugins_sliceGrouper=o}},["8Znc"]);
+//# sourceMappingURL=sliceGrouper.js.map

@@ -568,7 +568,7 @@ export declare class ForceDirectedSeries extends Series {
      *
      * Available value range: `-50` to `50`.
      *
-     * @default 1.2
+     * @default 0.8
      * @param  value  Stregth of attraction to center
      */
     centerStrength: number;

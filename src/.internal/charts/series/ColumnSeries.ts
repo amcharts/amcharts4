@@ -584,7 +584,7 @@ export class ColumnSeries extends XYSeries {
 			// used to save location for bullets, but it's not a good approach
 			// dataItem.locations[xField] = startLocation + (endLocation - startLocation) / 2;
 
-			let axisLenght = this.yAxis.axisLength;
+			let axisLenght = Math.ceil(this.yAxis.axisLength);
 
 			if ((t < 0 && b < 0) || (t > axisLenght && b > axisLenght)) {
 				outOfBounds = true;
@@ -639,7 +639,7 @@ export class ColumnSeries extends XYSeries {
 			// used to save location for bullets, but it's not a good approach
 			// dataItem.locations[yField] = startLocation + (endLocation - startLocation) / 2;
 
-			let axisLenght = this.xAxis.axisLength;
+			let axisLenght = Math.ceil(this.xAxis.axisLength);
 
 			if ((r < 0 && l < 0) || (r > axisLenght && l > axisLenght)) {
 				outOfBounds = true;

@@ -4362,6 +4362,14 @@ define('@amcharts/amcharts4/plugins/regression', [], function () {
   }
   throw new Error("You must add 'plugins/regression' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4/plugins/sliceGrouper', [], function () {
+  'use strict';
+  var output = self.am4plugins_sliceGrouper;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'plugins/sliceGrouper' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4/plugins/sunburst', [], function () {
   'use strict';
   var output = self.am4plugins_sunburst;

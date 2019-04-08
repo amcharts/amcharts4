@@ -1,0 +1,1 @@
+{"version":3,"file":"sliceGrouper.js","sourceRoot":"","sources":["../../../../src/.internal/plugins/sliceGrouper.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,YAAY,EAAE,MAAM,6BAA6B,CAAC","sourcesContent":["export { SliceGrouper } from \"./sliceGrouper/SliceGrouper\";"]}

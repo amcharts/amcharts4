@@ -110,6 +110,10 @@ var Regression = /** @class */ (function (_super) {
             }
             _this.calcData();
         }));
+        // Save original series data
+        if (this.target.data && this.target.data.length) {
+            this._originalData = this.target.data;
+        }
         // Set up adpater for data
         this.target.adapter.add("data", function () {
             if (_this._data === undefined) {
@@ -125,7 +129,7 @@ var Regression = /** @class */ (function (_super) {
         this._data = [];
         var series = this.target;
         // Get series' data (global or series own)
-        var seriesData = this.target.data;
+        var seriesData = this._originalData;
         if (!seriesData || seriesData.length == 0) {
             seriesData = this.target.baseSprite.data;
         }

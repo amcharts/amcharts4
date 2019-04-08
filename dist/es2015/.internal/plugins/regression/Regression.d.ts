@@ -74,6 +74,10 @@ export declare class Regression extends Plugin {
      */
     protected _data: Optional<any[]>;
     /**
+     * Original series data.
+     */
+    protected _originalData: Optional<any[]>;
+    /**
      * Should skip next "beforedatavalidated" event?
      */
     protected _skipValidatedEvent: boolean;

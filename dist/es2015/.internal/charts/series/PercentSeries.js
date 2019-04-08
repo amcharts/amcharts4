@@ -301,7 +301,6 @@ var PercentSeries = /** @class */ (function (_super) {
         var slicesContainer = _this.createChild(Container);
         slicesContainer.shouldClone = false;
         slicesContainer.isMeasured = false;
-        slicesContainer.layout = "none";
         _this.slicesContainer = slicesContainer;
         var ticksContainer = _this.createChild(Container);
         ticksContainer.shouldClone = false;
@@ -560,7 +559,7 @@ var PercentSeries = /** @class */ (function (_super) {
             var legendDataItem = marker.dataItem;
             legendDataItem.color = slice.fill;
             legendDataItem.colorOrig = slice.fill;
-            slice.events.on("propertychanged", function (ev) {
+            child.addDisposer(slice.events.on("propertychanged", function (ev) {
                 if (ev.property == "fill") {
                     child.__disabled = false;
                     if (!child.isActive) {
@@ -576,7 +575,7 @@ var PercentSeries = /** @class */ (function (_super) {
                     }
                     child.defaultState.properties.stroke = slice.stroke;
                 }
-            }, undefined, false);
+            }, undefined, false));
         });
     };
     /**

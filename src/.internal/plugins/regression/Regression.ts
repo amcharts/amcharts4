@@ -97,6 +97,11 @@ export class Regression extends Plugin {
 	protected _data: Optional<any[]>;
 
 	/**
+	 * Original series data.
+	 */
+	protected _originalData: Optional<any[]>;
+
+	/**
 	 * Should skip next "beforedatavalidated" event?
 	 */
 	protected _skipValidatedEvent: boolean = false;
@@ -131,6 +136,11 @@ export class Regression extends Plugin {
 			this.calcData();
 		}));
 
+		// Save original series data
+		if (this.target.data && this.target.data.length) {
+			this._originalData = this.target.data;
+		}
+
 		// Set up adpater for data
 		this.target.adapter.add("data", () => {
 			if (this._data === undefined) {
@@ -149,7 +159,7 @@ export class Regression extends Plugin {
 		const series = this.target;
 
 		// Get series' data (global or series own)
-		let seriesData: any = this.target.data;
+		let seriesData: any = this._originalData;
 		if (!seriesData || seriesData.length == 0) {
 			seriesData = (<any>this.target.baseSprite).data;
 		}

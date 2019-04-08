@@ -273,4 +273,5 @@ networkSeries.nodes.template.label.hideOversized = true;
 networkSeries.nodes.template.label.truncate = true;
 networkSeries.minRadius = am4core.percent(2);
 networkSeries.manyBodyStrength = -5;
+networkSeries.centerStrength = 1.2;
 networkSeries.links.template.strokeOpacity = 0;

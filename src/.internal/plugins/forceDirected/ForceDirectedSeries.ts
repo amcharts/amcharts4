@@ -641,7 +641,7 @@ export class ForceDirectedSeries extends Series {
 		this.height = percent(100);
 
 		this.manyBodyStrength = -15;
-		this.centerStrength = 1.2;
+		this.centerStrength = 0.8;
 
 		this.events.on("maxsizechanged", () => {
 			this.updateRadiuses(this.dataItems);
@@ -1210,7 +1210,7 @@ export class ForceDirectedSeries extends Series {
 	 *
 	 * Available value range: `-50` to `50`.
 	 * 
-	 * @default 1.2
+	 * @default 0.8
 	 * @param  value  Stregth of attraction to center
 	 */
 	public set centerStrength(value: number) {

@@ -385,7 +385,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         _this.width = percent(100);
         _this.height = percent(100);
         _this.manyBodyStrength = -15;
-        _this.centerStrength = 1.2;
+        _this.centerStrength = 0.8;
         _this.events.on("maxsizechanged", function () {
             _this.updateRadiuses(_this.dataItems);
             _this.updateLinksAndNodes();
@@ -907,7 +907,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
          *
          * Available value range: `-50` to `50`.
          *
-         * @default 1.2
+         * @default 0.8
          * @param  value  Stregth of attraction to center
          */
         set: function (value) {

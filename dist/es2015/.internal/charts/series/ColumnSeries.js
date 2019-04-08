@@ -396,7 +396,7 @@ var ColumnSeries = /** @class */ (function (_super) {
             t = this.yAxis.getY(dataItem, yField, topLocation);
             // used to save location for bullets, but it's not a good approach
             // dataItem.locations[xField] = startLocation + (endLocation - startLocation) / 2;
-            var axisLenght = this.yAxis.axisLength;
+            var axisLenght = Math.ceil(this.yAxis.axisLength);
             if ((t < 0 && b < 0) || (t > axisLenght && b > axisLenght)) {
                 outOfBounds = true;
             }
@@ -441,7 +441,7 @@ var ColumnSeries = /** @class */ (function (_super) {
             l = this.xAxis.getX(dataItem, xOpenField, leftLocation);
             // used to save location for bullets, but it's not a good approach
             // dataItem.locations[yField] = startLocation + (endLocation - startLocation) / 2;
-            var axisLenght = this.xAxis.axisLength;
+            var axisLenght = Math.ceil(this.xAxis.axisLength);
             if ((r < 0 && l < 0) || (r > axisLenght && l > axisLenght)) {
                 outOfBounds = true;
             }
