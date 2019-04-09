@@ -17,7 +17,6 @@ import { DataItem } from "../../core/DataItem";
 import { Container } from "../../core/Container";
 import { SerialChart } from "../types/SerialChart";
 import { Axis } from "../axes/Axis";
-import { Bullet } from "../elements/Bullet";
 import { LegendDataItem, LegendSettings } from "../Legend";
 import { Ordering } from "../../core/utils/Order";
 export interface IHeatRule {
@@ -69,7 +68,7 @@ export declare class SeriesDataItem extends DataItem {
      * @ignore Exclude from docs
      * @todo review description
      */
-    bullets: Dictionary<string, Bullet>;
+    bullets: Dictionary<string, Sprite>;
     /**
      * Defines a type of [[Component]] this data item is used for.
      */
@@ -223,7 +222,7 @@ export declare class Series extends Component {
     /**
      * List of series' bullets.
      */
-    protected _bullets: ListTemplate<Bullet>;
+    protected _bullets: ListTemplate<Sprite>;
     /**
      * Container bullets are placed in.
      *
@@ -370,22 +369,22 @@ export declare class Series extends Component {
     /**
      * Positions bullet.
      *
-     * @param bullet  Bullet
+     * @param bullet  Sprite
      */
-    positionBullet(bullet: Bullet): void;
+    positionBullet(bullet: Sprite): void;
     /**
      * Decorates newly created bullet after it has been instert into the list.
      *
      * @param event  List event
      * @todo investigate why itemReaderText is undefined
      */
-    protected processBullet(event: IListEvents<Bullet>["inserted"]): void;
+    protected processBullet(event: IListEvents<Sprite>["inserted"]): void;
     /**
      * removes bullets
      *
      * @param event  List event
      */
-    protected removeBullet(event: IListEvents<Bullet>["removed"]): void;
+    protected removeBullet(event: IListEvents<Sprite>["removed"]): void;
     /**
      * Validates data items.
      *
@@ -425,6 +424,7 @@ export declare class Series extends Component {
      * @ignore
      */
     updateTooltipBounds(): void;
+    protected shouldCreateBullet(dataItem: this["_dataItem"], bulletTemplate: Sprite): boolean;
     /**
      * Validates data item's element, effectively redrawing it.
      *
@@ -495,14 +495,14 @@ export declare class Series extends Component {
      * A list of bullets that will be added to each and every items in the
      * series.
      *
-     * You can push any object that is a descendant of a [[Bullet]] here. All
+     * You can push any object that is a descendant of a [[Sprite]] here. All
      * items added to this list will be copied and used as a bullet on all data
      * items, including their properties, events, etc.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/bullets/} for more info about the concept of Bullets
      * @return List of bullets.
      */
-    readonly bullets: ListTemplate<Bullet>;
+    readonly bullets: ListTemplate<Sprite>;
     /**
      * Binds related legend data item's visual settings to this series' visual
      * settings.

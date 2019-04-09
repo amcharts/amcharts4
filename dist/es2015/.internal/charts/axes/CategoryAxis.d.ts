@@ -35,6 +35,9 @@ export declare class CategoryAxisDataItem extends AxisDataItem {
      * Holds Adapter.
      */
     adapter: Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>;
+    seriesDataItems: {
+        [index: string]: XYSeriesDataItem[];
+    };
     /**
      * Constructor
      */
@@ -194,6 +197,14 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @return Axis break
      */
     protected createAxisBreak(): this["_axisBreak"];
+    /**
+     * Processes a related series' data item.
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     * @param dataItem  Data item
+     */
+    processSeriesDataItem(dataItem: XYSeriesDataItem, axisLetter?: string): void;
     /**
      * Validates the data range.
      *

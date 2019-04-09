@@ -7203,7 +7203,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	protected setPath(value:string):boolean {
 		if (this.setPropertyValue("path", value)) {
-			if (!this.element) {
+
+			if (!this.element || !(this.element instanceof SVGPathElement)) {
 				this.element = this.paper.add("path");
 			}
 			this.element.attr({ "d": value });

@@ -122,6 +122,8 @@ export class SliceGrouper extends Plugin {
 	 */
 	protected _clickBehavior: "none" | "break" | "zoom" = "none";
 
+	protected _ignoreDataUpdate: boolean = false;
+
 	/**
 	 * Constructor
 	 */
@@ -143,18 +145,29 @@ export class SliceGrouper extends Plugin {
 
 		const series = this.target;
 		const chart = <PercentChart>series.baseSprite;
+		const dataProvider = series.data && series.data.length ? series : chart;
 
 		// Invalidate calculated data whenever data updates
-		this._disposers.push(series.events.on("datavalidated", (ev) => {
+		this._disposers.push(dataProvider.events.on("datavalidated", (ev) => {
+
+			if (this._ignoreDataUpdate) {
+				this._ignoreDataUpdate = false;
+				return;
+			}
+
 			this.groupSlice = undefined;
 			this.smallSlices.clear();
 			this.bigSlices.clear();
 
 			// Collect and prepare small slices
 			let groupValue = 0;
+			let groupSliceItem;
 			series.dataItems.each((item) => {
 				let value = item.values.value.percent;
-				if (value <= this.threshold) {
+				if ((<any>item.dataContext).sliceGrouperOther) {
+					groupSliceItem = item.dataContext;
+				}
+				else if (value <= this.threshold) {
 					groupValue += item.value;
 					item.hiddenInLegend = true;
 					item.hide();
@@ -167,13 +180,22 @@ export class SliceGrouper extends Plugin {
 			});
 
 			// Create "Other" slice
-			let dataProvider = series.data && series.data.length ? series : chart;
-			let groupData: any = {
-				sliceGrouperOther: true
-			};
-			groupData[series.dataFields.category] = this.groupName;
-			groupData[series.dataFields.value] = groupValue;
-			dataProvider.addData(groupData);
+			if (groupValue > 0) {
+				if (groupSliceItem) {
+					(<any>groupSliceItem)[series.dataFields.value] = groupValue;
+					this._ignoreDataUpdate = true;
+					dataProvider.validateRawData();
+				}
+				else {
+					let groupData: any = {
+						sliceGrouperOther: true
+					};
+					groupData[series.dataFields.category] = this.groupName;
+					groupData[series.dataFields.value] = groupValue;
+					this._ignoreDataUpdate = true;
+					dataProvider.addData(groupData);
+				}
+			}
 		}));
 
 		this._disposers.push(series.events.on("validated", (ev) => {
@@ -200,7 +222,7 @@ export class SliceGrouper extends Plugin {
 
 		// Set up click
 		if (this.clickBehavior != "none") {
-			
+
 			if (!this.groupSlice.events.has("hit")) {
 				this._clickDisposers.push(this.groupSlice.events.on("hit", (ev) => {
 					this.toggleGroupOn();
@@ -222,9 +244,9 @@ export class SliceGrouper extends Plugin {
 		// Hide "Other" slice
 		this.groupSlice.dataItem.hide();
 
-		this._clickDisposers.push(this.groupSlice.events.once("shown", (ev) => {	
+		this._clickDisposers.push(this.groupSlice.events.once("shown", (ev) => {
 			this.toggleGroupOff();
-		}));		
+		}));
 
 		// Unhide hidden slices
 		this.smallSlices.each((slice) => {

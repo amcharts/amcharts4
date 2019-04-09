@@ -105,6 +105,7 @@ export declare class SliceGrouper extends Plugin {
      * What happens when "Other" slice is cicked.
      */
     protected _clickBehavior: "none" | "break" | "zoom";
+    protected _ignoreDataUpdate: boolean;
     /**
      * Constructor
      */

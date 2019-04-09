@@ -27,6 +27,7 @@ import * as $object from "../../core/utils/Object";
 import * as $type from "../../core/utils/Type";
 import * as $array from "../../core/utils/Array";
 import { LegendDataItem } from "../Legend";
+import { Bullet } from "../elements/Bullet";
 
 /**
  * ============================================================================
@@ -406,7 +407,7 @@ export class LineSeries extends XYSeries {
 		let startIndex: number = this.startIndex;
 		let endIndex: number = this.endIndex;
 
-  		// we need extra one item to both sides with values for line series, otherwise the line will not continue out of bounds of the chart while scrolling
+		// we need extra one item to both sides with values for line series, otherwise the line will not continue out of bounds of the chart while scrolling
 		// find first to the left
 		// TODO use iterator instead
 		for (let i = this.startIndex - 1; i >= 0; i--) {
@@ -837,42 +838,48 @@ export class LineSeries extends XYSeries {
 		legendDataItem.colorOrig = this.fill;
 
 		$iter.eachContinue(this.bullets.iterator(), (bullet) => {
-			if (bullet.copyToLegendMarker) {
 
+			if ((bullet instanceof Bullet) && !bullet.copyToLegendMarker) {
+				return false;
+			}
+
+			let hasLabels: boolean = false;
+
+			if (bullet instanceof Container) {
 				// do not copy bullets with labels
-				let hasLabels: boolean = false;
+
 				$iter.each(bullet.children.iterator(), (child) => {
 					if (child instanceof Label) {
 						hasLabels = true;
 						return true;
 					}
 				});
+			}
 
-				if (!hasLabels) {
-					let clone: Sprite = <Sprite>bullet.clone();
-					clone.parent = marker;
-					clone.isMeasured = true;
-					clone.tooltipText = undefined;
-					clone.x = w / 2;
-					if (this.fillOpacity > 0) {
-						clone.y = 0;
-					}
-					else {
-						clone.y = h / 2;
-					}
-					clone.visible = true;
-
-					// otherwise will not transit to color after hiding
-					if (!$type.hasValue(clone.fill)) {
-						clone.fill = this.fill;
-					}
-
-					if (!$type.hasValue(clone.stroke)) {
-						clone.stroke = this.stroke;
-					}
-
-					return false;
+			if (!hasLabels) {
+				let clone: Sprite = <Sprite>bullet.clone();
+				clone.parent = marker;
+				clone.isMeasured = true;
+				clone.tooltipText = undefined;
+				clone.x = w / 2;
+				if (this.fillOpacity > 0) {
+					clone.y = 0;
 				}
+				else {
+					clone.y = h / 2;
+				}
+				clone.visible = true;
+
+				// otherwise will not transit to color after hiding
+				if (!$type.hasValue(clone.fill)) {
+					clone.fill = this.fill;
+				}
+
+				if (!$type.hasValue(clone.stroke)) {
+					clone.stroke = this.stroke;
+				}
+
+				return false;
 			}
 		});
 	}

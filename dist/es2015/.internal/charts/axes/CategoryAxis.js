@@ -38,6 +38,7 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
          * Holds Adapter.
          */
         _this.adapter = new Adapter(_this);
+        _this.seriesDataItems = {};
         _this.className = "CategoryAxisDataItem";
         _this.text = "{category}";
         _this.locations.category = 0;
@@ -166,6 +167,27 @@ var CategoryAxis = /** @class */ (function (_super) {
         return new CategoryAxisBreak();
     };
     /**
+     * Processes a related series' data item.
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     * @param dataItem  Data item
+     */
+    CategoryAxis.prototype.processSeriesDataItem = function (dataItem, axisLetter) {
+        _super.prototype.processSeriesDataItem.call(this, dataItem, axisLetter);
+        var category = dataItem["category" + this.axisLetter];
+        var categoryAxisDataItem = this.dataItemsByCategory.getKey(category);
+        if (categoryAxisDataItem) {
+            var seriesId = dataItem.component.uid;
+            var seriesDataItems = categoryAxisDataItem.seriesDataItems[seriesId];
+            if (!seriesDataItems) {
+                seriesDataItems = [];
+                categoryAxisDataItem.seriesDataItems[seriesId] = seriesDataItems;
+            }
+            seriesDataItems.push(dataItem);
+        }
+    };
+    /**
      * Validates the data range.
      *
      * @ignore Exclude from docs
@@ -179,41 +201,39 @@ var CategoryAxis = /** @class */ (function (_super) {
                 series.invalidateDataRange();
             }
             else {
-                var firstSeriesDataItem = void 0;
-                var lastSeriesDataItem = void 0;
                 var startIndex = _this.positionToIndex(_this.start);
                 var endIndex = _this.positionToIndex(_this.end);
+                var seriesId = series.uid;
+                var minIndex = void 0;
+                var maxIndex = void 0;
                 for (var i = startIndex; i <= endIndex; i++) {
-                    var dataItem = _this.dataItems.getIndex(i);
-                    if (dataItem) {
-                        var fdi = _this.getFirstSeriesDataItem(series, dataItem.category);
-                        if (fdi) {
-                            if (!firstSeriesDataItem) {
-                                firstSeriesDataItem = fdi;
-                            }
-                            if (firstSeriesDataItem && fdi.index < firstSeriesDataItem.index) {
-                                firstSeriesDataItem = fdi;
-                            }
-                        }
-                        var ldi = _this.getLastSeriesDataItem(series, dataItem.category);
-                        if (ldi) {
-                            if (!lastSeriesDataItem) {
-                                lastSeriesDataItem = ldi;
-                            }
-                            if (lastSeriesDataItem && ldi.index > lastSeriesDataItem.index) {
-                                lastSeriesDataItem = ldi;
+                    var axisDataItem = _this.dataItems.getIndex(i);
+                    if (axisDataItem) {
+                        var seriesDataItems = axisDataItem.seriesDataItems[seriesId];
+                        if (seriesDataItems) {
+                            for (var i_1 = 0; i_1 < seriesDataItems.length; i_1++) {
+                                var seriesDataItem = seriesDataItems[i_1];
+                                if (seriesDataItem) {
+                                    var index = seriesDataItem.index;
+                                    if (!$type.isNumber(minIndex) || index < minIndex) {
+                                        minIndex = index;
+                                    }
+                                    if (!$type.isNumber(maxIndex) || index > maxIndex) {
+                                        maxIndex = index;
+                                    }
+                                }
                             }
                         }
                     }
                 }
-                if (firstSeriesDataItem) {
-                    series.startIndex = firstSeriesDataItem.index;
+                if ($type.isNumber(minIndex)) {
+                    series.startIndex = minIndex;
                 }
                 else {
                     series.start = _this.start;
                 }
-                if (lastSeriesDataItem) {
-                    series.endIndex = lastSeriesDataItem.index + 1;
+                if ($type.isNumber(maxIndex)) {
+                    series.endIndex = maxIndex + 1;
                 }
                 else {
                     series.end = _this.end;
@@ -285,7 +305,7 @@ var CategoryAxis = /** @class */ (function (_super) {
                 }
                 else {
                     //previously we disabled all before, but this is better for cpu
-                    this.validateDataElement(dataItem, itemIndex); // helps to solve shrinking
+                    //this.validateDataElement(dataItem, itemIndex); // helps to solve shrinking // not good - creates all items
                     dataItem.__disabled = true;
                 }
             }

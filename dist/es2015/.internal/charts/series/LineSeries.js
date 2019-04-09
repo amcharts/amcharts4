@@ -24,6 +24,7 @@ import * as $iter from "../../core/utils/Iterator";
 import * as $object from "../../core/utils/Object";
 import * as $type from "../../core/utils/Type";
 import * as $array from "../../core/utils/Array";
+import { Bullet } from "../elements/Bullet";
 /**
  * ============================================================================
  * DATA ITEM
@@ -628,37 +629,40 @@ var LineSeries = /** @class */ (function (_super) {
         legendDataItem.color = this.stroke;
         legendDataItem.colorOrig = this.fill;
         $iter.eachContinue(this.bullets.iterator(), function (bullet) {
-            if (bullet.copyToLegendMarker) {
+            if ((bullet instanceof Bullet) && !bullet.copyToLegendMarker) {
+                return false;
+            }
+            var hasLabels = false;
+            if (bullet instanceof Container) {
                 // do not copy bullets with labels
-                var hasLabels_1 = false;
                 $iter.each(bullet.children.iterator(), function (child) {
                     if (child instanceof Label) {
-                        hasLabels_1 = true;
+                        hasLabels = true;
                         return true;
                     }
                 });
-                if (!hasLabels_1) {
-                    var clone = bullet.clone();
-                    clone.parent = marker;
-                    clone.isMeasured = true;
-                    clone.tooltipText = undefined;
-                    clone.x = w / 2;
-                    if (_this.fillOpacity > 0) {
-                        clone.y = 0;
-                    }
-                    else {
-                        clone.y = h / 2;
-                    }
-                    clone.visible = true;
-                    // otherwise will not transit to color after hiding
-                    if (!$type.hasValue(clone.fill)) {
-                        clone.fill = _this.fill;
-                    }
-                    if (!$type.hasValue(clone.stroke)) {
-                        clone.stroke = _this.stroke;
-                    }
-                    return false;
+            }
+            if (!hasLabels) {
+                var clone = bullet.clone();
+                clone.parent = marker;
+                clone.isMeasured = true;
+                clone.tooltipText = undefined;
+                clone.x = w / 2;
+                if (_this.fillOpacity > 0) {
+                    clone.y = 0;
                 }
+                else {
+                    clone.y = h / 2;
+                }
+                clone.visible = true;
+                // otherwise will not transit to color after hiding
+                if (!$type.hasValue(clone.fill)) {
+                    clone.fill = _this.fill;
+                }
+                if (!$type.hasValue(clone.stroke)) {
+                    clone.stroke = _this.stroke;
+                }
+                return false;
             }
         });
     };

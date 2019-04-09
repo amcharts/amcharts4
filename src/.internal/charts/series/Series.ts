@@ -91,7 +91,7 @@ export class SeriesDataItem extends DataItem {
 	 * @ignore Exclude from docs
 	 * @todo review description
 	 */
-	public bullets = new Dictionary<string, Bullet>();
+	public bullets = new Dictionary<string, Sprite>();
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
@@ -187,7 +187,7 @@ export interface ISeriesProperties extends IComponentProperties {
 	/**
 	 * Series' name.
 	 */
-	name?:string;
+	name?: string;
 }
 
 /**
@@ -297,7 +297,7 @@ export class Series extends Component {
 	/**
 	 * List of series' bullets.
 	 */
-	protected _bullets: ListTemplate<Bullet>;
+	protected _bullets: ListTemplate<Sprite>;
 
 	/**
 	 * Container bullets are placed in.
@@ -544,9 +544,9 @@ export class Series extends Component {
 	/**
 	 * Positions bullet.
 	 *
-	 * @param bullet  Bullet
+	 * @param bullet  Sprite
 	 */
-	public positionBullet(bullet: Bullet): void {
+	public positionBullet(bullet: Sprite): void {
 
 		// Placeholder method for extending classes to override.
 
@@ -558,8 +558,8 @@ export class Series extends Component {
 	 * @param event  List event
 	 * @todo investigate why itemReaderText is undefined
 	 */
-	protected processBullet(event: IListEvents<Bullet>["inserted"]) {
-		let bullet: Bullet = event.newValue;
+	protected processBullet(event: IListEvents<Sprite>["inserted"]) {
+		let bullet: Sprite = event.newValue;
 		bullet.isTemplate = true;
 		// Add accessibility options to bullet
 		// If there are relatively few bullets, make them focusable
@@ -573,8 +573,8 @@ export class Series extends Component {
 	 *
 	 * @param event  List event
 	 */
-	protected removeBullet(event: IListEvents<Bullet>["removed"]) {
-		let bullet: Bullet = event.oldValue;
+	protected removeBullet(event: IListEvents<Sprite>["removed"]) {
+		let bullet: Sprite = event.oldValue;
 
 		this.dataItems.each((dataItem) => {
 			let eachBullet = dataItem.bullets.getKey(bullet.uid);
@@ -873,6 +873,12 @@ export class Series extends Component {
 		}
 	}
 
+
+	protected shouldCreateBullet(dataItem: this["_dataItem"], bulletTemplate: Sprite): boolean {
+		return true;
+	}
+
+
 	/**
 	 * Validates data item's element, effectively redrawing it.
 	 *
@@ -884,63 +890,73 @@ export class Series extends Component {
 
 		if (this._showBullets) {
 			this.bulletsContainer.visible = true;
-			$iter.each(this.bullets.iterator(), (bulletTemplate) => {
+			this.bullets.each((bulletTemplate) => {
 				// always better to use the same, this helps to avoid redrawing
-				let bullet: Bullet = <Bullet>dataItem.bullets.getKey(bulletTemplate.uid);
+				let bullet: Sprite = <Sprite>dataItem.bullets.getKey(bulletTemplate.uid);
 
-				if (!bullet) {
-					bullet = bulletTemplate.clone();
-					bullet.shouldClone = false;
-					dataItem.addSprite(bullet);
+				if (this.shouldCreateBullet(dataItem, bulletTemplate)) {
+					if (!bullet) {
+						bullet = bulletTemplate.clone();
+						bullet.shouldClone = false;
+						dataItem.addSprite(bullet);
 
-					if (!this.visible || this.isHiding) {
-						bullet.hide(0);
+						if (!this.visible || this.isHiding) {
+							bullet.hide(0);
+						}
 					}
+
+					let currentDataItem: this["_dataItem"] = <this["_dataItem"]>bullet.dataItem;
+					if (currentDataItem != dataItem) {
+						// set to undefined in order not to reuse
+						if (currentDataItem) {
+							currentDataItem.bullets.setKey(bulletTemplate.uid, undefined);
+						}
+
+						let readerText = this.itemReaderText;
+
+						if (bullet instanceof Bullet) {
+							if (!readerText) {
+								readerText = ("{" + bullet.xField + "}: {" + bullet.yField + "}");
+							}
+
+							if (bullet.isDynamic) {
+								dataItem.events.on("workingvaluechanged", bullet.deepInvalidate, bullet, false);
+								//dataItem.events.on("calculatedvaluechanged", bullet.deepInvalidate, bullet, false);
+								this.dataItem.events.on("workingvaluechanged", bullet.deepInvalidate, bullet, false);
+							}
+							bullet.deepInvalidate();
+						}
+
+						// Add accessibility to bullet
+						if (bullet.focusable) {
+							bullet.events.once("focus", (ev) => {
+								bullet.readerTitle = this.populateString(readerText, bullet.dataItem);
+							}, undefined, false);
+							bullet.events.once("blur", (ev) => {
+								bullet.readerTitle = "";
+							}, undefined, false);
+						}
+						if (bullet.hoverable) {
+							bullet.events.once("over", (ev) => {
+								bullet.readerTitle = this.populateString(readerText, bullet.dataItem);
+							}, undefined, false);
+							bullet.events.once("out", (ev) => {
+								bullet.readerTitle = "";
+							}, undefined, false);
+						}
+
+					}
+
+					bullet.parent = this.bulletsContainer;
+					dataItem.bullets.setKey(bulletTemplate.uid, bullet);
+
+					// pass max w/h so we'd know if we should show/hide somethings
+					bullet.maxWidth = dataItem.itemWidth;
+					bullet.maxHeight = dataItem.itemHeight;
+					bullet.__disabled = false;
+
+					this.positionBullet(bullet);
 				}
-
-				let currentDataItem: this["_dataItem"] = <this["_dataItem"]>bullet.dataItem;
-				if (currentDataItem != dataItem) {
-					// set to undefined in order not to reuse
-					if (currentDataItem) {
-						currentDataItem.bullets.setKey(bulletTemplate.uid, undefined);
-					}
-
-					// Add accessibility to bullet
-					let readerText = this.itemReaderText || ("{" + bullet.xField + "}: {" + bullet.yField + "}");
-					if (bullet.focusable) {
-						bullet.events.once("focus", (ev) => {
-							bullet.readerTitle = this.populateString(readerText, bullet.dataItem);
-						}, undefined, false);
-						bullet.events.once("blur", (ev) => {
-							bullet.readerTitle = "";
-						}, undefined, false);
-					}
-					if (bullet.hoverable) {
-						bullet.events.once("over", (ev) => {
-							bullet.readerTitle = this.populateString(readerText, bullet.dataItem);
-						}, undefined, false);
-						bullet.events.once("out", (ev) => {
-							bullet.readerTitle = "";
-						}, undefined, false);
-					}
-
-					if (bullet.isDynamic) {
-						dataItem.events.on("workingvaluechanged", bullet.deepInvalidate, bullet, false);
-						//dataItem.events.on("calculatedvaluechanged", bullet.deepInvalidate, bullet, false);
-						this.dataItem.events.on("workingvaluechanged", bullet.deepInvalidate, bullet, false);
-					}
-					bullet.deepInvalidate();
-				}
-
-				bullet.parent = this.bulletsContainer;
-				dataItem.bullets.setKey(bulletTemplate.uid, bullet);
-
-				// pass max w/h so we'd know if we should show/hide somethings
-				bullet.maxWidth = dataItem.itemWidth;
-				bullet.maxHeight = dataItem.itemHeight;
-				bullet.__disabled = false;
-
-				this.positionBullet(bullet);
 			});
 		}
 		else {
@@ -1058,16 +1074,16 @@ export class Series extends Component {
 	 * A list of bullets that will be added to each and every items in the
 	 * series.
 	 *
-	 * You can push any object that is a descendant of a [[Bullet]] here. All
+	 * You can push any object that is a descendant of a [[Sprite]] here. All
 	 * items added to this list will be copied and used as a bullet on all data
 	 * items, including their properties, events, etc.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/bullets/} for more info about the concept of Bullets
 	 * @return List of bullets.
 	 */
-	public get bullets(): ListTemplate<Bullet> {
+	public get bullets(): ListTemplate<Sprite> {
 		if (!this._bullets) {
-			this._bullets = new ListTemplate<Bullet>(new Bullet());
+			this._bullets = new ListTemplate<Sprite>(new Bullet());
 			this._bullets.template.virtualParent = this;
 			this._bullets.events.on("inserted", this.processBullet, this, false);
 			this._bullets.events.on("removed", this.removeBullet, this, false);

@@ -1,14 +1,3 @@
-/**
- * ---------------------------------------
- * This demo was created using amCharts 4.
- * 
- * For more information visit:
- * https://www.amcharts.com/
- * 
- * Documentation is available at:
- * https://www.amcharts.com/docs/v4/
- * ---------------------------------------
- */
 am4core.useTheme(am4themes_animated);
 am4core.useTheme(am4themes_dark);
 
@@ -25,7 +14,7 @@ series.strokeOpacity = 0;
 series.sequencedInterpolation = true;
 series.tooltip.pointerOrientation = "vertical";
 
-var bullet = series.bullets.push(new am4charts.CircleBullet());
+var bullet = series.bullets.push(new am4core.Circle());
 bullet.fill = am4core.color("#ff0000");
 bullet.propertyFields.fill = "color";
 bullet.strokeOpacity = 0;
@@ -33,7 +22,7 @@ bullet.strokeWidth = 2;
 bullet.fillOpacity = 0.5;
 bullet.stroke = am4core.color("#ffffff");
 bullet.hiddenState.properties.opacity = 0;
-bullet.circle.tooltipText = "[bold]{title}:[/]\nPopulation: {value.value}\nIncome: {valueX.value}\nLife expectancy:{valueY.value}";
+bullet.tooltipText = "[bold]{title}:[/]\nPopulation: {value.value}\nIncome: {valueX.value}\nLife expectancy:{valueY.value}";
 
 var outline = chart.plotContainer.createChild(am4core.Circle);
 outline.fillOpacity = 0;
@@ -53,7 +42,7 @@ bullet.events.on("over", function(event) {
     valueAxisX.tooltip.disabled = false;
     valueAxisY.tooltip.disabled = false;
 
-    outline.radius = target.circle.pixelRadius + 2;
+    outline.radius = target.pixelRadius + 2;
     outline.x = target.pixelX;
     outline.y = target.pixelY;
     outline.show();
@@ -72,9 +61,9 @@ var hoverState = bullet.states.create("hover");
 hoverState.properties.fillOpacity = 1;
 hoverState.properties.strokeOpacity = 1;
 
-series.heatRules.push({ target: bullet.circle, min: 2, max: 60, property: "radius" });
+series.heatRules.push({ target: bullet, min: 2, max: 60, property: "radius" });
 
-bullet.circle.adapter.add("tooltipY", function (tooltipY, target) {
+bullet.adapter.add("tooltipY", function(tooltipY, target) {
     return -target.radius;
 })
 

@@ -49,6 +49,8 @@ export class CategoryAxisDataItem extends AxisDataItem {
 	 */
 	public adapter = new Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>(this);
 
+	public seriesDataItems: { [index: string]: XYSeriesDataItem[] } = {};
+
 	/**
 	 * Constructor
 	 */
@@ -280,6 +282,29 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	}
 
 	/**
+	 * Processes a related series' data item.
+	 *
+	 * @ignore Exclude from docs
+	 * @todo Description
+	 * @param dataItem  Data item
+	 */
+	public processSeriesDataItem(dataItem: XYSeriesDataItem, axisLetter?: string): void {
+		super.processSeriesDataItem(dataItem, axisLetter);
+		let category: string = (<any>dataItem)["category" + this.axisLetter];
+
+		let categoryAxisDataItem: this["_dataItem"] = this.dataItemsByCategory.getKey(category);
+		if (categoryAxisDataItem) {
+			let seriesId = dataItem.component.uid;
+			let seriesDataItems = categoryAxisDataItem.seriesDataItems[seriesId];
+			if(!seriesDataItems){
+				seriesDataItems = [];
+				categoryAxisDataItem.seriesDataItems[seriesId] = seriesDataItems;
+			}
+			seriesDataItems.push(dataItem);
+		}
+	}
+
+	/**
 	 * Validates the data range.
 	 *
 	 * @ignore Exclude from docs
@@ -294,47 +319,43 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				series.invalidateDataRange();
 			}
 			else {
-				let firstSeriesDataItem: XYSeriesDataItem;
-				let lastSeriesDataItem: XYSeriesDataItem;
-
 				let startIndex = this.positionToIndex(this.start);
 				let endIndex = this.positionToIndex(this.end);
 
+				let seriesId = series.uid;
+				let minIndex:number;
+				let maxIndex:number;
+
 				for (let i = startIndex; i <= endIndex; i++) {
-					let dataItem = this.dataItems.getIndex(i);
-					if (dataItem) {
-						let fdi = this.getFirstSeriesDataItem(series, dataItem.category);
-						if (fdi) {
-							if (!firstSeriesDataItem) {
-								firstSeriesDataItem = fdi;
-							}
+					let axisDataItem = this.dataItems.getIndex(i);
+					if(axisDataItem){
+						let seriesDataItems = axisDataItem.seriesDataItems[seriesId];
 
-							if (firstSeriesDataItem && fdi.index < firstSeriesDataItem.index) {
-								firstSeriesDataItem = fdi;
-							}
-						}
-
-						let ldi = this.getLastSeriesDataItem(series, dataItem.category);
-						if (ldi) {
-							if (!lastSeriesDataItem) {
-								lastSeriesDataItem = ldi;
-							}
-
-							if (lastSeriesDataItem && ldi.index > lastSeriesDataItem.index) {
-								lastSeriesDataItem = ldi;
+						if(seriesDataItems){
+							for(let i = 0; i < seriesDataItems.length; i++){
+								let seriesDataItem = seriesDataItems[i];
+								if(seriesDataItem){
+									let index = seriesDataItem.index;
+									if(!$type.isNumber(minIndex) || index < minIndex){
+										minIndex = index;
+									}
+									if(!$type.isNumber(maxIndex) || index > maxIndex){
+										maxIndex = index;
+									}							
+								}
 							}
 						}
 					}
 				}
 
-				if (firstSeriesDataItem) {
-					series.startIndex = firstSeriesDataItem.index;
+				if ($type.isNumber(minIndex)) {
+					series.startIndex = minIndex;
 				}
 				else {
 					series.start = this.start;
 				}
-				if (lastSeriesDataItem) {
-					series.endIndex = lastSeriesDataItem.index + 1;
+				if ($type.isNumber(maxIndex)) {
+					series.endIndex = maxIndex + 1;
 				}
 				else {
 					series.end = this.end;
@@ -425,7 +446,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				}
 				else {
 					//previously we disabled all before, but this is better for cpu
-					this.validateDataElement(dataItem, itemIndex); // helps to solve shrinking
+					//this.validateDataElement(dataItem, itemIndex); // helps to solve shrinking // not good - creates all items
 					dataItem.__disabled = true;
 				}
 			}
@@ -553,10 +574,10 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	/**
 	 * @ignore
 	 */
-	public disposeData(){
+	public disposeData() {
 		this.dataItemsByCategory.clear();
 		super.disposeData();
-	}	
+	}
 
 	/**
 	 * Processes the axis data item.

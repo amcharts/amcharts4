@@ -290,7 +290,7 @@ var Series = /** @class */ (function (_super) {
     /**
      * Positions bullet.
      *
-     * @param bullet  Bullet
+     * @param bullet  Sprite
      */
     Series.prototype.positionBullet = function (bullet) {
         // Placeholder method for extending classes to override.
@@ -574,6 +574,9 @@ var Series = /** @class */ (function (_super) {
             this.tooltip.setBounds({ x: 0, y: 0, width: this.topParent.maxWidth, height: this.topParent.maxHeight });
         }
     };
+    Series.prototype.shouldCreateBullet = function (dataItem, bulletTemplate) {
+        return true;
+    };
     /**
      * Validates data item's element, effectively redrawing it.
      *
@@ -585,55 +588,62 @@ var Series = /** @class */ (function (_super) {
         _super.prototype.validateDataElement.call(this, dataItem);
         if (this._showBullets) {
             this.bulletsContainer.visible = true;
-            $iter.each(this.bullets.iterator(), function (bulletTemplate) {
+            this.bullets.each(function (bulletTemplate) {
                 // always better to use the same, this helps to avoid redrawing
                 var bullet = dataItem.bullets.getKey(bulletTemplate.uid);
-                if (!bullet) {
-                    bullet = bulletTemplate.clone();
-                    bullet.shouldClone = false;
-                    dataItem.addSprite(bullet);
-                    if (!_this.visible || _this.isHiding) {
-                        bullet.hide(0);
+                if (_this.shouldCreateBullet(dataItem, bulletTemplate)) {
+                    if (!bullet) {
+                        bullet = bulletTemplate.clone();
+                        bullet.shouldClone = false;
+                        dataItem.addSprite(bullet);
+                        if (!_this.visible || _this.isHiding) {
+                            bullet.hide(0);
+                        }
                     }
+                    var currentDataItem = bullet.dataItem;
+                    if (currentDataItem != dataItem) {
+                        // set to undefined in order not to reuse
+                        if (currentDataItem) {
+                            currentDataItem.bullets.setKey(bulletTemplate.uid, undefined);
+                        }
+                        var readerText_1 = _this.itemReaderText;
+                        if (bullet instanceof Bullet) {
+                            if (!readerText_1) {
+                                readerText_1 = ("{" + bullet.xField + "}: {" + bullet.yField + "}");
+                            }
+                            if (bullet.isDynamic) {
+                                dataItem.events.on("workingvaluechanged", bullet.deepInvalidate, bullet, false);
+                                //dataItem.events.on("calculatedvaluechanged", bullet.deepInvalidate, bullet, false);
+                                _this.dataItem.events.on("workingvaluechanged", bullet.deepInvalidate, bullet, false);
+                            }
+                            bullet.deepInvalidate();
+                        }
+                        // Add accessibility to bullet
+                        if (bullet.focusable) {
+                            bullet.events.once("focus", function (ev) {
+                                bullet.readerTitle = _this.populateString(readerText_1, bullet.dataItem);
+                            }, undefined, false);
+                            bullet.events.once("blur", function (ev) {
+                                bullet.readerTitle = "";
+                            }, undefined, false);
+                        }
+                        if (bullet.hoverable) {
+                            bullet.events.once("over", function (ev) {
+                                bullet.readerTitle = _this.populateString(readerText_1, bullet.dataItem);
+                            }, undefined, false);
+                            bullet.events.once("out", function (ev) {
+                                bullet.readerTitle = "";
+                            }, undefined, false);
+                        }
+                    }
+                    bullet.parent = _this.bulletsContainer;
+                    dataItem.bullets.setKey(bulletTemplate.uid, bullet);
+                    // pass max w/h so we'd know if we should show/hide somethings
+                    bullet.maxWidth = dataItem.itemWidth;
+                    bullet.maxHeight = dataItem.itemHeight;
+                    bullet.__disabled = false;
+                    _this.positionBullet(bullet);
                 }
-                var currentDataItem = bullet.dataItem;
-                if (currentDataItem != dataItem) {
-                    // set to undefined in order not to reuse
-                    if (currentDataItem) {
-                        currentDataItem.bullets.setKey(bulletTemplate.uid, undefined);
-                    }
-                    // Add accessibility to bullet
-                    var readerText_1 = _this.itemReaderText || ("{" + bullet.xField + "}: {" + bullet.yField + "}");
-                    if (bullet.focusable) {
-                        bullet.events.once("focus", function (ev) {
-                            bullet.readerTitle = _this.populateString(readerText_1, bullet.dataItem);
-                        }, undefined, false);
-                        bullet.events.once("blur", function (ev) {
-                            bullet.readerTitle = "";
-                        }, undefined, false);
-                    }
-                    if (bullet.hoverable) {
-                        bullet.events.once("over", function (ev) {
-                            bullet.readerTitle = _this.populateString(readerText_1, bullet.dataItem);
-                        }, undefined, false);
-                        bullet.events.once("out", function (ev) {
-                            bullet.readerTitle = "";
-                        }, undefined, false);
-                    }
-                    if (bullet.isDynamic) {
-                        dataItem.events.on("workingvaluechanged", bullet.deepInvalidate, bullet, false);
-                        //dataItem.events.on("calculatedvaluechanged", bullet.deepInvalidate, bullet, false);
-                        _this.dataItem.events.on("workingvaluechanged", bullet.deepInvalidate, bullet, false);
-                    }
-                    bullet.deepInvalidate();
-                }
-                bullet.parent = _this.bulletsContainer;
-                dataItem.bullets.setKey(bulletTemplate.uid, bullet);
-                // pass max w/h so we'd know if we should show/hide somethings
-                bullet.maxWidth = dataItem.itemWidth;
-                bullet.maxHeight = dataItem.itemHeight;
-                bullet.__disabled = false;
-                _this.positionBullet(bullet);
             });
         }
         else {
@@ -745,7 +755,7 @@ var Series = /** @class */ (function (_super) {
          * A list of bullets that will be added to each and every items in the
          * series.
          *
-         * You can push any object that is a descendant of a [[Bullet]] here. All
+         * You can push any object that is a descendant of a [[Sprite]] here. All
          * items added to this list will be copied and used as a bullet on all data
          * items, including their properties, events, etc.
          *

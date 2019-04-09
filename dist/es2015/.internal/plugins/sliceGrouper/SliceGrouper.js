@@ -96,6 +96,7 @@ var SliceGrouper = /** @class */ (function (_super) {
          * What happens when "Other" slice is cicked.
          */
         _this._clickBehavior = "none";
+        _this._ignoreDataUpdate = false;
         return _this;
     }
     SliceGrouper.prototype.init = function () {
@@ -110,16 +111,25 @@ var SliceGrouper = /** @class */ (function (_super) {
         var _this = this;
         var series = this.target;
         var chart = series.baseSprite;
+        var dataProvider = series.data && series.data.length ? series : chart;
         // Invalidate calculated data whenever data updates
-        this._disposers.push(series.events.on("datavalidated", function (ev) {
+        this._disposers.push(dataProvider.events.on("datavalidated", function (ev) {
+            if (_this._ignoreDataUpdate) {
+                _this._ignoreDataUpdate = false;
+                return;
+            }
             _this.groupSlice = undefined;
             _this.smallSlices.clear();
             _this.bigSlices.clear();
             // Collect and prepare small slices
             var groupValue = 0;
+            var groupSliceItem;
             series.dataItems.each(function (item) {
                 var value = item.values.value.percent;
-                if (value <= _this.threshold) {
+                if (item.dataContext.sliceGrouperOther) {
+                    groupSliceItem = item.dataContext;
+                }
+                else if (value <= _this.threshold) {
                     groupValue += item.value;
                     item.hiddenInLegend = true;
                     item.hide();
@@ -131,13 +141,22 @@ var SliceGrouper = /** @class */ (function (_super) {
                 }
             });
             // Create "Other" slice
-            var dataProvider = series.data && series.data.length ? series : chart;
-            var groupData = {
-                sliceGrouperOther: true
-            };
-            groupData[series.dataFields.category] = _this.groupName;
-            groupData[series.dataFields.value] = groupValue;
-            dataProvider.addData(groupData);
+            if (groupValue > 0) {
+                if (groupSliceItem) {
+                    groupSliceItem[series.dataFields.value] = groupValue;
+                    _this._ignoreDataUpdate = true;
+                    dataProvider.validateRawData();
+                }
+                else {
+                    var groupData = {
+                        sliceGrouperOther: true
+                    };
+                    groupData[series.dataFields.category] = _this.groupName;
+                    groupData[series.dataFields.value] = groupValue;
+                    _this._ignoreDataUpdate = true;
+                    dataProvider.addData(groupData);
+                }
+            }
         }));
         this._disposers.push(series.events.on("validated", function (ev) {
             series.slices.each(function (slice) {

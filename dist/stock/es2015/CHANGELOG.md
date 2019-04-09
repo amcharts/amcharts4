@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.3.12] - 2019-04-09
+
+### Changed
+- Series' `bullets` now accepts objects that are simple `Sprite` elements, not just `Bullet` types. This means you can add `Circle` as bullet (or any other element), to dramatically improve performance on bullet-heavy charts.
+- Default value of `hideOversized` for `LabelBullet` changed to `false`.
+
+### Fixed
+- Dramatically improved performace of `CategoryAxis`.
+- `SliceGrouper` plugin will now not add "Other" slice if there are no slices below threshold or no data at all.
+- `SliceGrouper` now supports dynamic data updates.
+- `ColorSet.reuse = true` was working incorrectly for `PercentSeries`.
+- `timezoneOffset` property of the Date Formatter was causing all minutes to be formatted as zeroes.
+
+
 ## [4.3.11] -2019-04-08
 
 ### Added

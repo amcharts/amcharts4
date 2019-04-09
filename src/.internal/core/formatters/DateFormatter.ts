@@ -208,7 +208,7 @@ export class DateFormatter extends BaseObject {
 
 		// Should we apply custom time zone?
 		if ($type.hasValue(this.timezoneOffset)) {
-			date.setMinutes(date.getTimezoneOffset() - this.timezoneOffset);
+			date.setMinutes(date.getMinutes() + date.getTimezoneOffset() - this.timezoneOffset);
 		}
 
 		// Check if it's a valid date

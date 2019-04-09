@@ -93,7 +93,7 @@ export class LabelBullet extends Bullet {
 		label.verticalCenter = "middle";
 		label.horizontalCenter = "middle";
 		label.truncate = true;
-		label.hideOversized = true;
+		label.hideOversized = false;
 
 		label.maxWidth = 500;
 		label.maxHeight = 500;

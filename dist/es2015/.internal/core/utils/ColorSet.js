@@ -180,7 +180,7 @@ var ColorSet = /** @class */ (function (_super) {
             return this.list[0];
         }
         else {
-            var tmpstep = this._currentStep - (Math.floor(this._currentStep / this._list.length) * this.list.length);
+            var tmpstep = index - (Math.floor(index / this._list.length) * this.list.length);
             return this.list[tmpstep];
         }
     };

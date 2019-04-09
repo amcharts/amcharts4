@@ -220,7 +220,7 @@ export class ColorSet extends BaseObject {
 			return this.list[0];
 		}
 		else {
-			let tmpstep = this._currentStep - (Math.floor(this._currentStep / this._list.length) * this.list.length);
+			let tmpstep = index - (Math.floor(index / this._list.length) * this.list.length);
 			return this.list[tmpstep];
 		}
 	}

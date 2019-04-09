@@ -141,7 +141,7 @@ var DateFormatter = /** @class */ (function (_super) {
         }
         // Should we apply custom time zone?
         if ($type.hasValue(this.timezoneOffset)) {
-            date.setMinutes(date.getTimezoneOffset() - this.timezoneOffset);
+            date.setMinutes(date.getMinutes() + date.getTimezoneOffset() - this.timezoneOffset);
         }
         // Check if it's a valid date
         if (!$type.isNumber(date.getTime())) {

@@ -490,13 +490,30 @@ var XYSeries = /** @class */ (function (_super) {
             if (dataItemsX) {
                 dataItemsX.clear();
             }
+            if (this.xAxis instanceof CategoryAxis) {
+                this.clearCatAxis(this.xAxis);
+            }
         }
         if (this.yAxis) {
             var dataItemsY = this.dataItemsByAxis.getKey(this.yAxis.uid);
             if (dataItemsY) {
                 dataItemsY.clear();
             }
+            if (this.yAxis instanceof CategoryAxis) {
+                this.clearCatAxis(this.yAxis);
+            }
         }
+    };
+    /**
+     * @ignore
+     */
+    XYSeries.prototype.clearCatAxis = function (axis) {
+        var uid = this.uid;
+        axis.dataItems.each(function (dataItem) {
+            if (dataItem.seriesDataItems[uid]) {
+                dataItem.seriesDataItems[uid] = [];
+            }
+        });
     };
     /**
      * Sets up which data fields to use for data access.
@@ -997,6 +1014,21 @@ var XYSeries = /** @class */ (function (_super) {
         }
         var e_2, _c;
     };
+    XYSeries.prototype.shouldCreateBullet = function (dataItem, bulletTemplate) {
+        // use series xField/yField if bullet doesn't have fields set
+        var xField = bulletTemplate.xField;
+        if (!$type.hasValue(xField)) {
+            xField = this.xField;
+        }
+        var yField = bulletTemplate.yField;
+        if (!$type.hasValue(yField)) {
+            yField = this.yField;
+        }
+        if ((this.xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (this.yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
+            return false;
+        }
+        return true;
+    };
     /**
      * Positions series bullet.
      *
@@ -1073,6 +1105,10 @@ var XYSeries = /** @class */ (function (_super) {
         },
         /**
          * Can items from this series be included into stacks?
+         *
+         * Note: proper stacking is only possible if series have the same number
+         * of data items. To ensure this, don't set data directly on series
+         * but do this on chart instead.
          *
          * @default false
          * @param stacked  Can be stacked?

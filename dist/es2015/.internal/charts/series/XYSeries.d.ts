@@ -504,6 +504,10 @@ export declare class XYSeries extends Series {
      */
     disposeData(): void;
     /**
+     * @ignore
+     */
+    protected clearCatAxis(axis: CategoryAxis): void;
+    /**
      * Sets up which data fields to use for data access.
      */
     protected defineFields(): void;
@@ -639,6 +643,7 @@ export declare class XYSeries extends Series {
      * @ignore Exclude from docs
      */
     protected returnBulletDefaultState(dataItem?: XYSeriesDataItem): void;
+    protected shouldCreateBullet(dataItem: this["_dataItem"], bulletTemplate: Bullet): boolean;
     /**
      * Positions series bullet.
      *
@@ -661,6 +666,10 @@ export declare class XYSeries extends Series {
      */
     /**
      * Can items from this series be included into stacks?
+     *
+     * Note: proper stacking is only possible if series have the same number
+     * of data items. To ensure this, don't set data directly on series
+     * but do this on chart instead.
      *
      * @default false
      * @param stacked  Can be stacked?

@@ -681,7 +681,6 @@ export class XYSeries extends Series {
 	 */
 	public stackedSeries: XYSeries;
 
-
 	/**
 	 * dataitem of previously shown tooltip, used to avoid multiple tooltipshownat dispatches
 	 * @ignore
@@ -833,15 +832,32 @@ export class XYSeries extends Series {
 			if (dataItemsX) {
 				dataItemsX.clear();
 			}
+			if(this.xAxis instanceof CategoryAxis){
+				this.clearCatAxis(this.xAxis);
+			}
 		}
 		if (this.yAxis) {
 			let dataItemsY = this.dataItemsByAxis.getKey(this.yAxis.uid);
 			if (dataItemsY) {
 				dataItemsY.clear();
 			}
+			if(this.yAxis instanceof CategoryAxis){
+				this.clearCatAxis(this.yAxis);
+			}			
 		}
 	}
 
+	/**
+	 * @ignore
+	 */
+	protected clearCatAxis(axis:CategoryAxis){
+		let uid = this.uid;
+		axis.dataItems.each((dataItem)=>{
+			if(dataItem.seriesDataItems[uid]){
+				dataItem.seriesDataItems[uid] = [];
+			}
+		})
+	}
 
 
 	/**
@@ -1408,6 +1424,27 @@ export class XYSeries extends Series {
 		}
 	}
 
+	protected shouldCreateBullet(dataItem: this["_dataItem"], bulletTemplate:Bullet): boolean {
+		// use series xField/yField if bullet doesn't have fields set
+		let xField: string = bulletTemplate.xField;
+		if (!$type.hasValue(xField)) {
+			xField = this.xField;
+		}
+
+		let yField: string = bulletTemplate.yField;
+		if (!$type.hasValue(yField)) {
+			yField = this.yField;
+		}
+
+		if ((this.xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (this.yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
+			return false;
+		}
+
+		return true;
+	}	
+
+
+
 	/**
 	 * Positions series bullet.
 	 *
@@ -1490,6 +1527,10 @@ export class XYSeries extends Series {
 
 	/**
 	 * Can items from this series be included into stacks?
+	 * 
+	 * Note: proper stacking is only possible if series have the same number
+	 * of data items. To ensure this, don't set data directly on series
+	 * but do this on chart instead.
 	 *
 	 * @default false
 	 * @param stacked  Can be stacked?
