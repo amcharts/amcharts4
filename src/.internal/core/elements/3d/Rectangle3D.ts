@@ -11,9 +11,14 @@
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../Container";
 import { Sprite } from "../../Sprite";
 import { IPoint } from "../../defs/IPoint";
-import { LightenFilter } from "../../rendering/filters/LightenFilter";
 import * as $math from "../../utils/Math";
 import * as $path from "../../rendering/Path";
+import { Color, color } from "../../utils/Color";
+import { RadialGradient } from "../../rendering/fills/RadialGradient";
+import { LinearGradient } from "../../rendering/fills/LinearGradient";
+import { Pattern } from "../../rendering/fills/Pattern";
+import { LightenFilter } from "../../rendering/filters/LightenFilter";
+import * as $type from "../../utils/Type";
 
 
 /**
@@ -143,9 +148,7 @@ export class Rectangle3D extends Container {
 		sideBack.shouldClone = false;
 		sideBack.setElement(this.paper.add("path"));
 		sideBack.isMeasured = false;
-		let lightenFilterBack: LightenFilter = new LightenFilter();
-		lightenFilterBack.lightness = -0.2;
-		sideBack.filters.push(lightenFilterBack);
+
 		this.sideBack = sideBack;
 		this._disposers.push(this.sideBack);
 
@@ -153,9 +156,6 @@ export class Rectangle3D extends Container {
 		sideBottom.shouldClone = false;
 		sideBottom.setElement(this.paper.add("path"));
 		sideBottom.isMeasured = false;
-		let lightenFilterBottom: LightenFilter = new LightenFilter();
-		lightenFilterBottom.lightness = -0.5;
-		sideBottom.filters.push(lightenFilterBottom);
 		this.sideBottom = sideBottom;
 		this._disposers.push(this.sideBottom);
 
@@ -163,9 +163,6 @@ export class Rectangle3D extends Container {
 		sideLeft.shouldClone = false;
 		sideLeft.setElement(this.paper.add("path"));
 		sideLeft.isMeasured = false;
-		let lightenFilterLeft: LightenFilter = new LightenFilter();
-		lightenFilterLeft.lightness = -0.4;
-		sideLeft.filters.push(lightenFilterLeft);
 		this.sideLeft = sideLeft;
 		this._disposers.push(this.sideLeft);
 
@@ -173,9 +170,6 @@ export class Rectangle3D extends Container {
 		sideRight.shouldClone = false;
 		sideRight.setElement(this.paper.add("path"));
 		sideRight.isMeasured = false;
-		let lightenFilterRight: LightenFilter = new LightenFilter();
-		lightenFilterRight.lightness = -0.2;
-		sideRight.filters.push(lightenFilterRight);
 		this.sideRight = sideRight;
 		this._disposers.push(this.sideRight);
 
@@ -183,9 +177,6 @@ export class Rectangle3D extends Container {
 		sideTop.shouldClone = false;
 		sideTop.setElement(this.paper.add("path"));
 		sideTop.isMeasured = false;
-		let lightenFilterTop: LightenFilter = new LightenFilter();
-		lightenFilterTop.lightness = -0.1;
-		sideTop.filters.push(lightenFilterTop);
 		this.sideTop = sideTop;
 		this._disposers.push(this.sideTop);
 
@@ -265,6 +256,55 @@ export class Rectangle3D extends Container {
 	 */
 	public get angle(): number {
 		return this.getPropertyValue("angle");
+	}
+
+
+	/**
+	 * Sets actual `fill` property on the SVG element, including applicable color
+	 * modifiers.
+	 *
+	 * @ignore Exclude from docs
+	 * @param value  Fill
+	 */
+	protected setFill(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>): void {
+		super.setFill(value);
+
+		let colorStr: string;
+		if (value instanceof Color) {
+			colorStr = value.hex;
+		}
+		else if (value instanceof LinearGradient || value instanceof RadialGradient) {
+			colorStr = value.stops.getIndex(0).color.hex;
+		}
+		else {
+			let filter = new LightenFilter();
+			filter.lightness = -0.2;
+			this.sideBack.filters.push(filter);
+
+			let filter2 = filter.clone()
+			filter2.lightness = -0.4;			
+			this.sideLeft.filters.push(filter2);
+
+			let filter3 = filter.clone()
+			filter3.lightness = -0.2;			
+			this.sideRight.filters.push(filter3);
+
+			let filter4 = filter.clone()
+			filter4.lightness = -0.1;			
+			this.sideTop.filters.push(filter4);
+
+			let filter5 = filter.clone()
+			filter5.lightness = -0.5;			
+			this.sideBottom.filters.push(filter5);							
+		}
+
+		if (colorStr) {
+			this.sideBack.fill = color(colorStr).lighten(-0.2);
+			this.sideLeft.fill = color(colorStr).lighten(-0.4);
+			this.sideRight.fill = color(colorStr).lighten(-0.2);
+			this.sideTop.fill = color(colorStr).lighten(-0.1);
+			this.sideBottom.fill = color(colorStr).lighten(-0.5);
+		}
 	}
 
 }

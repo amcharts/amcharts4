@@ -3173,7 +3173,7 @@ var Sprite = /** @class */ (function (_super) {
      * @todo Review propagation to clones. Right now we simply check if clone is disposed before setting the same property on it. It's better to remove from clone list altogether.
      */
     Sprite.prototype.setPropertyValue = function (property, value, invalidate, transform) {
-        if (this.properties[property] !== value) {
+        if (this.properties[property] !== value && !this.isDisposed()) {
             this.properties[property] = value;
             if (this.events.isEnabled("propertychanged")) {
                 var event_1 = {
@@ -4813,6 +4813,11 @@ var Sprite = /** @class */ (function (_super) {
          * @param style An array of styles to apply onhover
          */
         set: function (style) {
+            if (!this.cursorOptions.overStyle) {
+                this.interactions.cursorOptions = {
+                    defaultStyle: this.cursorOptions.defaultStyle
+                };
+            }
             this.cursorOptions.overStyle = style;
             getInteraction().applyCursorOverStyle(this.interactions);
         },

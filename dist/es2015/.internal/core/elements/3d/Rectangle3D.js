@@ -10,9 +10,12 @@ import * as tslib_1 from "tslib";
  */
 import { Container } from "../../Container";
 import { Sprite } from "../../Sprite";
-import { LightenFilter } from "../../rendering/filters/LightenFilter";
 import * as $math from "../../utils/Math";
 import * as $path from "../../rendering/Path";
+import { Color, color } from "../../utils/Color";
+import { RadialGradient } from "../../rendering/fills/RadialGradient";
+import { LinearGradient } from "../../rendering/fills/LinearGradient";
+import { LightenFilter } from "../../rendering/filters/LightenFilter";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -39,45 +42,30 @@ var Rectangle3D = /** @class */ (function (_super) {
         sideBack.shouldClone = false;
         sideBack.setElement(_this.paper.add("path"));
         sideBack.isMeasured = false;
-        var lightenFilterBack = new LightenFilter();
-        lightenFilterBack.lightness = -0.2;
-        sideBack.filters.push(lightenFilterBack);
         _this.sideBack = sideBack;
         _this._disposers.push(_this.sideBack);
         var sideBottom = _this.createChild(Sprite);
         sideBottom.shouldClone = false;
         sideBottom.setElement(_this.paper.add("path"));
         sideBottom.isMeasured = false;
-        var lightenFilterBottom = new LightenFilter();
-        lightenFilterBottom.lightness = -0.5;
-        sideBottom.filters.push(lightenFilterBottom);
         _this.sideBottom = sideBottom;
         _this._disposers.push(_this.sideBottom);
         var sideLeft = _this.createChild(Sprite);
         sideLeft.shouldClone = false;
         sideLeft.setElement(_this.paper.add("path"));
         sideLeft.isMeasured = false;
-        var lightenFilterLeft = new LightenFilter();
-        lightenFilterLeft.lightness = -0.4;
-        sideLeft.filters.push(lightenFilterLeft);
         _this.sideLeft = sideLeft;
         _this._disposers.push(_this.sideLeft);
         var sideRight = _this.createChild(Sprite);
         sideRight.shouldClone = false;
         sideRight.setElement(_this.paper.add("path"));
         sideRight.isMeasured = false;
-        var lightenFilterRight = new LightenFilter();
-        lightenFilterRight.lightness = -0.2;
-        sideRight.filters.push(lightenFilterRight);
         _this.sideRight = sideRight;
         _this._disposers.push(_this.sideRight);
         var sideTop = _this.createChild(Sprite);
         sideTop.shouldClone = false;
         sideTop.setElement(_this.paper.add("path"));
         sideTop.isMeasured = false;
-        var lightenFilterTop = new LightenFilter();
-        lightenFilterTop.lightness = -0.1;
-        sideTop.filters.push(lightenFilterTop);
         _this.sideTop = sideTop;
         _this._disposers.push(_this.sideTop);
         var sideFront = _this.createChild(Sprite);
@@ -155,6 +143,47 @@ var Rectangle3D = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Sets actual `fill` property on the SVG element, including applicable color
+     * modifiers.
+     *
+     * @ignore Exclude from docs
+     * @param value  Fill
+     */
+    Rectangle3D.prototype.setFill = function (value) {
+        _super.prototype.setFill.call(this, value);
+        var colorStr;
+        if (value instanceof Color) {
+            colorStr = value.hex;
+        }
+        else if (value instanceof LinearGradient || value instanceof RadialGradient) {
+            colorStr = value.stops.getIndex(0).color.hex;
+        }
+        else {
+            var filter = new LightenFilter();
+            filter.lightness = -0.2;
+            this.sideBack.filters.push(filter);
+            var filter2 = filter.clone();
+            filter2.lightness = -0.4;
+            this.sideLeft.filters.push(filter2);
+            var filter3 = filter.clone();
+            filter3.lightness = -0.2;
+            this.sideRight.filters.push(filter3);
+            var filter4 = filter.clone();
+            filter4.lightness = -0.1;
+            this.sideTop.filters.push(filter4);
+            var filter5 = filter.clone();
+            filter5.lightness = -0.5;
+            this.sideBottom.filters.push(filter5);
+        }
+        if (colorStr) {
+            this.sideBack.fill = color(colorStr).lighten(-0.2);
+            this.sideLeft.fill = color(colorStr).lighten(-0.4);
+            this.sideRight.fill = color(colorStr).lighten(-0.2);
+            this.sideTop.fill = color(colorStr).lighten(-0.1);
+            this.sideBottom.fill = color(colorStr).lighten(-0.5);
+        }
+    };
     return Rectangle3D;
 }(Container));
 export { Rectangle3D };

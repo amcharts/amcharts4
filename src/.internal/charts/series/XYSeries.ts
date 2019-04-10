@@ -1976,18 +1976,18 @@ export class XYSeries extends Series {
 	}
 
 	/**
-	 * [getPoint description]
+	 * Returns an [[IPoint]] coordinates of the specific Serie's data point.
 	 *
-	 * @todo Description
-	 * @param dataItem   [description]
-	 * @param xKey       [description]
-	 * @param yKey       [description]
-	 * @param locationX  [description]
-	 * @param locationY  [description]
-	 * @param stackKeyX  [description]
-	 * @param stackKeyY  [description]
+	 * @param    dataItem   Data item
+	 * @param    xKey       Name of X data field
+	 * @param    yKey       Name of Y data field
+	 * @param    locationX  X location
+	 * @param    locationY  Y location
+	 * @param    stackKeyX  ?
+	 * @param    stackKeyY  ?
+	 * @returns             Coordinates
 	 */
-	protected getPoint(dataItem: XYSeriesDataItem, xKey: string, yKey: string, locationX?: number, locationY?: number, stackKeyX?: string, stackKeyY?: string) {
+	public getPoint(dataItem: XYSeriesDataItem, xKey: string, yKey: string, locationX?: number, locationY?: number, stackKeyX?: string, stackKeyY?: string): IPoint {
 		let x: number = this.xAxis.getX(dataItem, xKey, locationX);
 		let y: number = this.yAxis.getY(dataItem, yKey, locationY);
 

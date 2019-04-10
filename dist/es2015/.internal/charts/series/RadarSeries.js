@@ -89,16 +89,16 @@ var RadarSeries = /** @class */ (function (_super) {
         return new RadarSeriesDataItem();
     };
     /**
-     * [getPoint description]
+     * Returns an [[IPoint]] coordinates of the specific Serie's data point.
      *
-     * @todo Description
-     * @param dataItem  [description]
-     * @param xKey      [description]
-     * @param yKey      [description]
-     * @param locationX [description]
-     * @param locationY [description]
-     * @param stackKeyX [description]
-     * @param stackKeyY [description]
+     * @param    dataItem   Data item
+     * @param    xKey       Name of X data field
+     * @param    yKey       Name of Y data field
+     * @param    locationX  X location
+     * @param    locationY  Y location
+     * @param    stackKeyX  ?
+     * @param    stackKeyY  ?
+     * @returns             Coordinates
      */
     RadarSeries.prototype.getPoint = function (dataItem, xKey, yKey, locationX, locationY, stackKeyX, stackKeyY) {
         if (!stackKeyX) {

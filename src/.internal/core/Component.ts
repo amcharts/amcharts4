@@ -1029,6 +1029,8 @@ export class Component extends Container {
 
 			// dispose old
 			this.dataItems.clear();
+
+			this.dataItems.template.clones.clear();
 		}
 	}
 

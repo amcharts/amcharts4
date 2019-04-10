@@ -298,6 +298,7 @@ export class PieChart extends PercentChart {
 	 */
 	public handleSeriesAdded(event: IListEvents<PieSeries>["inserted"]): void {
 		super.handleSeriesAdded(event);
+		this._chartPixelRadius = undefined;
 		this.updateSeriesAngles();
 	}
 
@@ -519,6 +520,7 @@ export class PieChart extends PercentChart {
 	public get endAngle(): number {
 		return this.getPropertyValue("endAngle");
 	}
+
 }
 
 /**

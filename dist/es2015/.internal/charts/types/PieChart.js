@@ -193,6 +193,7 @@ var PieChart = /** @class */ (function (_super) {
      */
     PieChart.prototype.handleSeriesAdded = function (event) {
         _super.prototype.handleSeriesAdded.call(this, event);
+        this._chartPixelRadius = undefined;
         this.updateSeriesAngles();
     };
     PieChart.prototype.updateSeriesAngles = function () {

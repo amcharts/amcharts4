@@ -70,6 +70,17 @@ var Column3D = /** @class */ (function (_super) {
             this.column3D.copyFrom(source.column3D);
         }
     };
+    /**
+     * Sets actual `fill` property on the SVG element, including applicable color
+     * modifiers.
+     *
+     * @ignore Exclude from docs
+     * @param value  Fill
+     */
+    Column3D.prototype.setFill = function (value) {
+        _super.prototype.setFill.call(this, value);
+        this.column.fill = value;
+    };
     return Column3D;
 }(Column));
 export { Column3D };

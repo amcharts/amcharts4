@@ -103,6 +103,9 @@ var Polygon = /** @class */ (function (_super) {
          * @return Polygon points
          */
         get: function () {
+            if ((!this._currentPoints || this._currentPoints.length == 0) && this.path) {
+                this._currentPoints = this.points;
+            }
             return this._currentPoints;
         },
         /**

@@ -4065,7 +4065,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @todo Review propagation to clones. Right now we simply check if clone is disposed before setting the same property on it. It's better to remove from clone list altogether.
 	 */
 	public setPropertyValue<Key extends keyof this["properties"]>(property: Key, value: any, invalidate?: boolean, transform?: boolean): boolean {
-		if (this.properties[property] !== value) {
+		if (this.properties[property] !== value && !this.isDisposed()) {
 			this.properties[property] = value;
 
 			if (this.events.isEnabled("propertychanged")) {
@@ -5744,6 +5744,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @param style An array of styles to apply onhover
 	 */
 	public set cursorOverStyle(style: Array<IStyleProperty>) {
+		if (!this.cursorOptions.overStyle) {
+			this.interactions.cursorOptions = {
+				defaultStyle: this.cursorOptions.defaultStyle
+			};
+		}
 		this.cursorOptions.overStyle = style;
 		getInteraction().applyCursorOverStyle(this.interactions);
 	}

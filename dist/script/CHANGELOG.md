@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.3.13] - 2019-04-10
+
+### Fixed
+- Using `propertyFields.url` was forcing pointer cursor on all objects from the same template, even if they did not have url set.
+- Memory leak with dynamic changes of data on `TreeMap`.
+- `getPoint()` method of `XYSeries` is now public.
+- Setting `startAngle`/`endAngle` before adding `PieSeries` was causing it to not be drawn.
+- Performance tweaks to 3D columns.
+
+
 ## [4.3.12] - 2019-04-09
 
 ### Changed

@@ -9,6 +9,11 @@
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../Container";
 import { Sprite } from "../../Sprite";
+import { Color } from "../../utils/Color";
+import { RadialGradient } from "../../rendering/fills/RadialGradient";
+import { LinearGradient } from "../../rendering/fills/LinearGradient";
+import { Pattern } from "../../rendering/fills/Pattern";
+import * as $type from "../../utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -134,4 +139,12 @@ export declare class Rectangle3D extends Container {
      * @param value  Angle
      */
     angle: number;
+    /**
+     * Sets actual `fill` property on the SVG element, including applicable color
+     * modifiers.
+     *
+     * @ignore Exclude from docs
+     * @param value  Fill
+     */
+    protected setFill(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>): void;
 }

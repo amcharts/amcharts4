@@ -12,6 +12,11 @@
 import { Column, IColumnProperties, IColumnAdapters, IColumnEvents } from "./Column";
 import { Rectangle3D } from "../../core/elements/3d/Rectangle3D";
 import { registry } from "../../core/Registry";
+import { Color } from "../../core/utils/Color";
+import { RadialGradient } from "../../core/rendering/fills/RadialGradient";
+import { LinearGradient } from "../../core/rendering/fills/LinearGradient";
+import { Pattern } from "../../core/rendering/fills/Pattern";
+import * as $type from "../../core/utils/Type";
 
 
 /**
@@ -121,6 +126,18 @@ export class Column3D extends Column {
 		if (this.column3D) {
 			this.column3D.copyFrom(source.column3D);
 		}
+	}
+
+	/**
+	 * Sets actual `fill` property on the SVG element, including applicable color
+	 * modifiers.
+	 *
+	 * @ignore Exclude from docs
+	 * @param value  Fill
+	 */
+	protected setFill(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>): void {
+		super.setFill(value);
+		this.column.fill = value;
 	}
 }
 

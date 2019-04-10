@@ -816,21 +816,18 @@ export declare class XYSeries extends Series {
         [index: string]: any;
     }): void;
     /**
-     * [getPoint description]
+     * Returns an [[IPoint]] coordinates of the specific Serie's data point.
      *
-     * @todo Description
-     * @param dataItem   [description]
-     * @param xKey       [description]
-     * @param yKey       [description]
-     * @param locationX  [description]
-     * @param locationY  [description]
-     * @param stackKeyX  [description]
-     * @param stackKeyY  [description]
+     * @param    dataItem   Data item
+     * @param    xKey       Name of X data field
+     * @param    yKey       Name of Y data field
+     * @param    locationX  X location
+     * @param    locationY  Y location
+     * @param    stackKeyX  ?
+     * @param    stackKeyY  ?
+     * @returns             Coordinates
      */
-    protected getPoint(dataItem: XYSeriesDataItem, xKey: string, yKey: string, locationX?: number, locationY?: number, stackKeyX?: string, stackKeyY?: string): {
-        x: number;
-        y: number;
-    };
+    getPoint(dataItem: XYSeriesDataItem, xKey: string, yKey: string, locationX?: number, locationY?: number, stackKeyX?: string, stackKeyY?: string): IPoint;
     /**
      * Updates item reader text based on the type and set up of axis.
      */

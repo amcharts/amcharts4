@@ -641,6 +641,7 @@ var Component = /** @class */ (function (_super) {
             this._endIndex = undefined;
             // dispose old
             this.dataItems.clear();
+            this.dataItems.template.clones.clear();
         }
     };
     Component.prototype.getDataItem = function (dataContext) {
