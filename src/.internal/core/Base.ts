@@ -1,6 +1,6 @@
 /**
  * Base functionality
- */
+*/
 
 /**
  * ============================================================================
@@ -933,6 +933,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 
 			if ($type.isObject(entry)) {
 
+
 				// An object.
 				//
 				// Let's see if we can instantiate a class out of it, or we need
@@ -964,6 +965,9 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 				// deal if its own config
 				if (listItem instanceof BaseObject) {
 					(<any>listItem).config = entry;
+				}
+				else if ($type.isObject(listItem) && $type.isObject(entry)) {
+					$object.copyAllProperties(<Object>entry, <Object>listItem);
 				}
 
 			}

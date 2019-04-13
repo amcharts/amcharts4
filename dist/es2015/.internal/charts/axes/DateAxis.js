@@ -431,16 +431,54 @@ var DateAxis = /** @class */ (function (_super) {
         $iter.each(this.series.iterator(), function (series) {
             if (series.baseAxis == _this) {
                 var field_1 = series.getAxisField(_this);
-                // TODO use $type.castNumber ?
-                var startIndex = series.dataItems.findClosestIndex(_this._minZoomed, function (x) { return x[field_1]; }, "left");
+                var minZoomed = $time.round(new Date(_this._minZoomed), _this.baseInterval.timeUnit, _this.baseInterval.count).getTime();
+                var minZoomedStr = minZoomed.toString();
+                var startDataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(minZoomedStr);
+                var startIndex = 0;
+                if (_this.start != 0) {
+                    if (startDataItem) {
+                        startDataItem = _this.findFirst(startDataItem, minZoomed, field_1);
+                        startIndex = startDataItem.index;
+                    }
+                    else {
+                        startIndex = series.dataItems.findClosestIndex(_this._minZoomed, function (x) { return x[field_1]; }, "left");
+                    }
+                }
                 // 1 millisecond is removed so that if only first item is selected, it would not count in the second.
                 var baseInterval = _this.baseInterval;
-                var maxZoomed = $time.add($time.round(new Date(_this._maxZoomed), baseInterval.timeUnit, baseInterval.count, _this.getFirstWeekDay(), _this.dateFormatter.utc), baseInterval.timeUnit, baseInterval.count, _this.dateFormatter.utc).getTime() - 1;
-                var endIndex = series.dataItems.findClosestIndex(maxZoomed, function (x) { return x[field_1]; }, "right") + 1;
+                var maxZoomed = $time.add($time.round(new Date(_this._maxZoomed), baseInterval.timeUnit, baseInterval.count, _this.getFirstWeekDay(), _this.dateFormatter.utc), baseInterval.timeUnit, baseInterval.count, _this.dateFormatter.utc).getTime();
+                var maxZoomedStr = maxZoomed.toString();
+                var endDataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(maxZoomedStr);
+                var endIndex = series.dataItems.length;
+                if (_this.end != 1) {
+                    if (endDataItem) {
+                        endIndex = endDataItem.index;
+                    }
+                    else {
+                        maxZoomed -= 1;
+                        endIndex = series.dataItems.findClosestIndex(maxZoomed, function (x) { return x[field_1]; }, "right") + 1;
+                    }
+                }
                 series.startIndex = startIndex;
                 series.endIndex = endIndex;
             }
         });
+    };
+    DateAxis.prototype.findFirst = function (dataItem, time, key) {
+        var index = dataItem.index;
+        if (index > 0) {
+            var series = dataItem.component;
+            var previousDataItem = series.dataItems.getIndex(index - 1);
+            if (previousDataItem[key].getTime() < time) {
+                return dataItem;
+            }
+            else {
+                return this.findFirst(previousDataItem, time, key);
+            }
+        }
+        else {
+            return dataItem;
+        }
     };
     /**
      * (Re)validates data.
@@ -1341,53 +1379,6 @@ var DateAxis = /** @class */ (function (_super) {
         var dataItem = dataItemsByAxis.getKey(date.getTime().toString());
         // todo:  alternatively we can find closiest here
         if (!dataItem && findNearest) {
-            /*
-            // to the left
-            let leftCount = 0;
-            let leftDataItem: XYSeriesDataItem;
-            let leftDate = new Date(date.getTime());
-
-            while (leftDate.getTime() > this.minZoomed) {
-                leftDate = $time.add(leftDate, this.baseInterval.timeUnit, -this.baseInterval.count);
-                leftDataItem = dataItemsByAxis.getKey(leftDate.getTime().toString());
-                if (leftDataItem) {
-                    break;
-                }
-                leftCount++;
-                if (leftCount > 5000) {
-                    break;
-                }
-            }
-
-            let rightCount = 0;
-            let rightDataItem: XYSeriesDataItem;
-            let rightDate = new Date(date.getTime());
-            while (rightDate.getTime() < this.maxZoomed) {
-                rightDate = $time.add(rightDate, this.baseInterval.timeUnit, this.baseInterval.count);
-                rightDataItem = dataItemsByAxis.getKey(rightDate.getTime().toString());
-                if (rightDataItem) {
-                    break;
-                }
-                rightCount++;
-                if (rightCount > 5000) {
-                    break;
-                }
-            }
-
-            if (leftDataItem && !rightDataItem) {
-                return leftDataItem;
-            }
-            else if (!leftDataItem && rightDataItem) {
-                return rightDataItem;
-            }
-            else if (leftDataItem && rightDataItem) {
-                if (leftCount < rightCount) {
-                    return leftDataItem;
-                }
-                else {
-                    return rightDataItem;
-                }
-            }*/
             var key_1;
             if (this.axisLetter == "Y") {
                 key_1 = "dateY";

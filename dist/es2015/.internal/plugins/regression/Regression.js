@@ -14,7 +14,9 @@ import * as tslib_1 from "tslib";
 import * as regression from "regression";
 import { Plugin } from "../../core/utils/Plugin";
 import { registry } from "../../core/Registry";
+import { EventDispatcher } from "../../core/utils/EventDispatcher";
 import * as $object from "../../core/utils/Object";
+;
 /**
  * ============================================================================
  * MAIN CLASS
@@ -77,6 +79,12 @@ var Regression = /** @class */ (function (_super) {
         var _this = 
         // Nothing to do here
         _super.call(this) || this;
+        /**
+         * An [[EventDispatcher]] instance.
+         *
+         * @since 4.3.14
+         */
+        _this.events = new EventDispatcher();
         /**
          * Method
          */
@@ -150,6 +158,13 @@ var Regression = /** @class */ (function (_super) {
             default:
                 result = regression.linear(matrix, this.options);
         }
+        // Set results
+        this.result = result;
+        // Invoke event
+        this.events.dispatchImmediately("processed", {
+            type: "processed",
+            target: this
+        });
         // Build data
         this._data = [];
         var _loop_1 = function (i) {

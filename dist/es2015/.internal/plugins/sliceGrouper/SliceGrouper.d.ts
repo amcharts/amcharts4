@@ -89,6 +89,13 @@ export declare class SliceGrouper extends Plugin {
      */
     groupName: string;
     /**
+     * If set to `true` the legend will be synced to show currently visible
+     * slices only.
+     *
+     * @defaylt false
+     */
+    syncLegend: boolean;
+    /**
      * Threshold percent.
      */
     protected _threshold: number;

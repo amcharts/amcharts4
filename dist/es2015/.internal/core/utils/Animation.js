@@ -282,6 +282,15 @@ var Animation = /** @class */ (function (_super) {
                         if (!isNaN(convertedFrom)) {
                             options.from = convertedFrom;
                         }
+                        else {
+                            this.staticOptions.push(options);
+                            $array.remove(this.animationOptions, options);
+                        }
+                    }
+                    else if (isNaN(options.from)) {
+                        // Static value
+                        this.staticOptions.push(options);
+                        $array.remove(this.animationOptions, options);
                     }
                 }
                 else {

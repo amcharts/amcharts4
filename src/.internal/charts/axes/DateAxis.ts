@@ -617,19 +617,59 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			if (series.baseAxis == this) {
 				let field = <keyof XYSeriesDataItem>series.getAxisField(this);
 
-				// TODO use $type.castNumber ?
-				let startIndex: number = series.dataItems.findClosestIndex(this._minZoomed, (x) => <number>x[field], "left");
+				let minZoomed = $time.round(new Date(this._minZoomed), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
+				let minZoomedStr = minZoomed.toString();
+				let startDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(minZoomedStr);
+				let startIndex: number = 0;
+				if (this.start != 0) {
+					if (startDataItem) {
+						startDataItem = this.findFirst(startDataItem, minZoomed, field);
+						startIndex = startDataItem.index;
+					}
+					else {
+						startIndex = series.dataItems.findClosestIndex(this._minZoomed, (x) => <number>x[field], "left");
+					}
+				}
 				// 1 millisecond is removed so that if only first item is selected, it would not count in the second.
 				let baseInterval = this.baseInterval;
-				let maxZoomed = $time.add($time.round(new Date(this._maxZoomed), baseInterval.timeUnit, baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc), baseInterval.timeUnit, baseInterval.count, this.dateFormatter.utc).getTime() - 1;
+				let maxZoomed = $time.add($time.round(new Date(this._maxZoomed), baseInterval.timeUnit, baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc), baseInterval.timeUnit, baseInterval.count, this.dateFormatter.utc).getTime();
 
-				let endIndex: number = series.dataItems.findClosestIndex(maxZoomed, (x) => <number>x[field], "right") + 1;
+				let maxZoomedStr = maxZoomed.toString();
+				let endDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(maxZoomedStr);
+				let endIndex: number = series.dataItems.length;
+				if (this.end != 1) {
+					if (endDataItem) {
+						endIndex = endDataItem.index;
+					}
+					else {
+						maxZoomed -= 1;
+						endIndex = series.dataItems.findClosestIndex(maxZoomed, (x) => <number>x[field], "right") + 1;
+					}
+				}
 
 				series.startIndex = startIndex;
 				series.endIndex = endIndex;
 			}
 		});
 	}
+
+	protected findFirst(dataItem: XYSeriesDataItem, time:number, key:string): XYSeriesDataItem {
+		let index = dataItem.index;
+		if(index > 0){
+			let series = dataItem.component;
+			let previousDataItem = series.dataItems.getIndex(index - 1);
+			if((<any>previousDataItem)[key].getTime() < time){
+				return dataItem;
+			}
+			else{
+				return this.findFirst(previousDataItem, time, key);
+			}
+		}
+		else{
+			return dataItem;
+		}
+	}
+
 
 	/**
 	 * (Re)validates data.
@@ -1634,53 +1674,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		// todo:  alternatively we can find closiest here
 		if (!dataItem && findNearest) {
-			/*
-			// to the left
-			let leftCount = 0;
-			let leftDataItem: XYSeriesDataItem;
-			let leftDate = new Date(date.getTime());
-
-			while (leftDate.getTime() > this.minZoomed) {
-				leftDate = $time.add(leftDate, this.baseInterval.timeUnit, -this.baseInterval.count);
-				leftDataItem = dataItemsByAxis.getKey(leftDate.getTime().toString());
-				if (leftDataItem) {
-					break;
-				}
-				leftCount++;
-				if (leftCount > 5000) {
-					break;
-				}
-			}
-
-			let rightCount = 0;
-			let rightDataItem: XYSeriesDataItem;
-			let rightDate = new Date(date.getTime());
-			while (rightDate.getTime() < this.maxZoomed) {
-				rightDate = $time.add(rightDate, this.baseInterval.timeUnit, this.baseInterval.count);
-				rightDataItem = dataItemsByAxis.getKey(rightDate.getTime().toString());
-				if (rightDataItem) {
-					break;
-				}
-				rightCount++;
-				if (rightCount > 5000) {
-					break;
-				}
-			}
-
-			if (leftDataItem && !rightDataItem) {
-				return leftDataItem;
-			}
-			else if (!leftDataItem && rightDataItem) {
-				return rightDataItem;
-			}
-			else if (leftDataItem && rightDataItem) {
-				if (leftCount < rightCount) {
-					return leftDataItem;
-				}
-				else {
-					return rightDataItem;
-				}
-			}*/
 
 			let key: "dateX" | "dateY";
 
@@ -1898,13 +1891,13 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public makeGap(dataItem: LineSeriesDataItem, previous: LineSeriesDataItem): boolean {
 		let series = dataItem.component;
-		if(dataItem && previous){
-			if(!series.connect && $type.isNumber(series.autoGapCount)){
-				if(series.baseAxis == this){
+		if (dataItem && previous) {
+			if (!series.connect && $type.isNumber(series.autoGapCount)) {
+				if (series.baseAxis == this) {
 					let time = dataItem.dates["date" + this.axisLetter].getTime();
 					let prevTime = previous.dates["date" + this.axisLetter].getTime();
 
-					if(time - prevTime > series.autoGapCount * this.baseDuration){
+					if (time - prevTime > series.autoGapCount * this.baseDuration) {
 						return true;
 					}
 				}

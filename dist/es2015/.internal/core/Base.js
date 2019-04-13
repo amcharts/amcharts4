@@ -1,6 +1,6 @@
 /**
  * Base functionality
- */
+*/
 import * as tslib_1 from "tslib";
 import { List, ListTemplate } from "./utils/List";
 import { Dictionary, DictionaryTemplate } from "./utils/Dictionary";
@@ -775,6 +775,9 @@ var BaseObject = /** @class */ (function () {
                 // deal if its own config
                 if (listItem instanceof BaseObject) {
                     listItem.config = entry;
+                }
+                else if ($type.isObject(listItem) && $type.isObject(entry)) {
+                    $object.copyAllProperties(entry, listItem);
                 }
             }
             else {

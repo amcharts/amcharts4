@@ -102,6 +102,14 @@ export class SliceGrouper extends Plugin {
 	public groupName: string = "Other";
 
 	/**
+	 * If set to `true` the legend will be synced to show currently visible
+	 * slices only.
+	 *
+	 * @defaylt false
+	 */
+	public syncLegend: boolean = false;
+
+	/**
 	 * Threshold percent.
 	 */
 	protected _threshold: number = 5;
@@ -243,6 +251,9 @@ export class SliceGrouper extends Plugin {
 
 		// Hide "Other" slice
 		this.groupSlice.dataItem.hide();
+		if (this.syncLegend) {
+			(<any>this.groupSlice.dataItem).hiddenInLegend = true;
+		}
 
 		this._clickDisposers.push(this.groupSlice.events.once("shown", (ev) => {
 			this.toggleGroupOff();
@@ -252,13 +263,24 @@ export class SliceGrouper extends Plugin {
 		this.smallSlices.each((slice) => {
 			slice.dataItem.hidden = false;
 			slice.dataItem.show();
+			if (this.syncLegend) {
+				(<any>slice.dataItem).hiddenInLegend = false;
+			}
 		});
+
 
 		// Maybe hide big slices
 		if (this.clickBehavior == "zoom") {
 			this.bigSlices.each((slice) => {
 				slice.dataItem.hide();
+				if (this.syncLegend) {
+					(<any>slice.dataItem).hiddenInLegend = true;
+				}
 			});
+		}
+
+		if (this.syncLegend) {
+			(<any>this.target.baseSprite).feedLegend();
 		}
 
 		// Show zoomout button
@@ -277,7 +299,10 @@ export class SliceGrouper extends Plugin {
 		// Toggle "Other" slice back on
 		this.groupSlice.events.disableType("shown")
 		this.groupSlice.dataItem.show();
-		this.groupSlice.events.enableType("shown")
+		this.groupSlice.events.enableType("shown");
+		if (this.syncLegend) {
+			(<any>this.groupSlice.dataItem).hiddenInLegend = false;
+		}
 
 
 		// Maybe unhide big slices
@@ -285,13 +310,23 @@ export class SliceGrouper extends Plugin {
 			this.bigSlices.each((slice) => {
 				slice.dataItem.hidden = false;
 				slice.dataItem.show();
+				if (this.syncLegend) {
+					(<any>slice.dataItem).hiddenInLegend = false;
+				}
 			});
 		}
 
 		// Hide small slices
 		this.smallSlices.each((slice) => {
 			slice.dataItem.hide();
+			if (this.syncLegend) {
+				(<any>slice.dataItem).hiddenInLegend = true;
+			}
 		});
+
+		if (this.syncLegend) {
+			(<any>this.target.baseSprite).feedLegend();
+		}
 
 		// Hide zoomout button
 		this.zoomOutButton.hide();

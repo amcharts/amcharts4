@@ -16,7 +16,18 @@ import { Plugin } from "../../core/utils/Plugin";
 import { XYSeries } from "../../charts/series/XYSeries";
 import { Optional } from "../../core/utils/Type";
 import { registry } from "../../core/Registry";
+import { EventDispatcher, AMEvent } from "../../core/utils/EventDispatcher";
 import * as $object from "../../core/utils/Object";
+
+/**
+ * Defines events for [[BaseObjectEvents]].
+ */
+export interface IRegressionEvents {
+	/**
+	 * Invoked when regression finishes calculating data.
+	 */
+	processed: {};
+};
 
 
 
@@ -82,6 +93,13 @@ export class Regression extends Plugin {
 	public target: Optional<XYSeries>;
 
 	/**
+	 * An [[EventDispatcher]] instance.
+	 *
+	 * @since 4.3.14
+	 */
+	public events: EventDispatcher<AMEvent<this, IRegressionEvents>> = new EventDispatcher();
+
+	/**
 	 * Method
 	 */
 	protected _method: "linear" | "polynomial" = "linear";
@@ -95,6 +113,13 @@ export class Regression extends Plugin {
 	 * Calculated data.
 	 */
 	protected _data: Optional<any[]>;
+
+	/**
+	 * An object containing results of the calculation.
+	 *
+	 * @since 4.3.14
+	 */
+	public result: Optional<any>;
 
 	/**
 	 * Original series data.
@@ -182,6 +207,15 @@ export class Regression extends Plugin {
 			default:
 				result = regression.linear(matrix, this.options);
 		}
+
+		// Set results
+		this.result = result;
+
+		// Invoke event
+		this.events.dispatchImmediately("processed", {
+			type: "processed",
+			target: this
+		});
 
 		// Build data
 		this._data = [];

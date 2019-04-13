@@ -1319,6 +1319,7 @@ var MapChart = /** @class */ (function (_super) {
     MapChart.prototype.handleSeriesAdded = function (event) {
         _super.prototype.handleSeriesAdded.call(this, event);
         var series = event.newValue;
+        series.scale = this.scaleRatio;
         series.events.on("validated", this.updateCenterGeoPoint, this, false);
     };
     /**

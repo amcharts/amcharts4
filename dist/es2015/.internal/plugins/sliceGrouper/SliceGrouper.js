@@ -85,6 +85,13 @@ var SliceGrouper = /** @class */ (function (_super) {
          */
         _this.groupName = "Other";
         /**
+         * If set to `true` the legend will be synced to show currently visible
+         * slices only.
+         *
+         * @defaylt false
+         */
+        _this.syncLegend = false;
+        /**
          * Threshold percent.
          */
         _this._threshold = 5;
@@ -196,6 +203,9 @@ var SliceGrouper = /** @class */ (function (_super) {
         }
         // Hide "Other" slice
         this.groupSlice.dataItem.hide();
+        if (this.syncLegend) {
+            this.groupSlice.dataItem.hiddenInLegend = true;
+        }
         this._clickDisposers.push(this.groupSlice.events.once("shown", function (ev) {
             _this.toggleGroupOff();
         }));
@@ -203,12 +213,21 @@ var SliceGrouper = /** @class */ (function (_super) {
         this.smallSlices.each(function (slice) {
             slice.dataItem.hidden = false;
             slice.dataItem.show();
+            if (_this.syncLegend) {
+                slice.dataItem.hiddenInLegend = false;
+            }
         });
         // Maybe hide big slices
         if (this.clickBehavior == "zoom") {
             this.bigSlices.each(function (slice) {
                 slice.dataItem.hide();
+                if (_this.syncLegend) {
+                    slice.dataItem.hiddenInLegend = true;
+                }
             });
+        }
+        if (this.syncLegend) {
+            this.target.baseSprite.feedLegend();
         }
         // Show zoomout button
         this.zoomOutButton.show();
@@ -217,6 +236,7 @@ var SliceGrouper = /** @class */ (function (_super) {
      * Toggles group off.
      */
     SliceGrouper.prototype.toggleGroupOff = function () {
+        var _this = this;
         if (this.clickBehavior == "none") {
             return;
         }
@@ -224,17 +244,29 @@ var SliceGrouper = /** @class */ (function (_super) {
         this.groupSlice.events.disableType("shown");
         this.groupSlice.dataItem.show();
         this.groupSlice.events.enableType("shown");
+        if (this.syncLegend) {
+            this.groupSlice.dataItem.hiddenInLegend = false;
+        }
         // Maybe unhide big slices
         if (this.clickBehavior == "zoom") {
             this.bigSlices.each(function (slice) {
                 slice.dataItem.hidden = false;
                 slice.dataItem.show();
+                if (_this.syncLegend) {
+                    slice.dataItem.hiddenInLegend = false;
+                }
             });
         }
         // Hide small slices
         this.smallSlices.each(function (slice) {
             slice.dataItem.hide();
+            if (_this.syncLegend) {
+                slice.dataItem.hiddenInLegend = true;
+            }
         });
+        if (this.syncLegend) {
+            this.target.baseSprite.feedLegend();
+        }
         // Hide zoomout button
         this.zoomOutButton.hide();
     };

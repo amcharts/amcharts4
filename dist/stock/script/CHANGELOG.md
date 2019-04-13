@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.3.14] - 2019-04-13
+
+### Added
+- New `SliceGrouper` setting: `syncLegend` (default `false`). If set to `true` the legend will be updated dynamically to show only those slices that are currently visible.
+- Plugin `Regression`: new property `result` will store all the results including formula and caculated points.
+- Plugin `Regression`: plugin now has `events` which can be used to attach event handlers such as `"processed"`.
+
+### Fixed
+- `Animation` was failing when source value was string (i.e. "auto") and target value was number (i.e. 10).
+- JSON: Object entries in a `List` were not being their properties set.
+- `MapChart` sometimes could place Map images at incorrect positions.
+
+
 ## [4.3.13] - 2019-04-10
 
 ### Fixed

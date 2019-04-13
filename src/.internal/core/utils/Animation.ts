@@ -492,6 +492,15 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 						if (!isNaN(convertedFrom)) {
 							options.from = convertedFrom;
 						}
+						else {
+							this.staticOptions.push(options);
+							$array.remove(this.animationOptions, options);
+						}
+					}
+					else if (isNaN(<number>options.from)) {
+						// Static value
+						this.staticOptions.push(options);
+						$array.remove(this.animationOptions, options);
 					}
 				}
 				else {

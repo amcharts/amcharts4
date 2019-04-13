@@ -368,6 +368,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @ignore Exclude from docs
      */
     calculateZoom(): void;
+    protected findFirst(dataItem: XYSeriesDataItem, time: number, key: string): XYSeriesDataItem;
     /**
      * (Re)validates data.
      *

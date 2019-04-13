@@ -1900,6 +1900,7 @@ export class MapChart extends SerialChart {
 	public handleSeriesAdded(event: IListEvents<MapSeries>["inserted"]): void {
 		super.handleSeriesAdded(event);
 		let series = event.newValue;
+		series.scale = this.scaleRatio;
 		series.events.on("validated", this.updateCenterGeoPoint, this, false);
 	}
 
