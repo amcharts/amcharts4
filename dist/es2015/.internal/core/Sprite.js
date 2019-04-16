@@ -742,6 +742,9 @@ var Sprite = /** @class */ (function (_super) {
             this.strokeModifier = source.strokeModifier.clone();
         }
     };
+    /**
+     * Destroys this object and all related data.
+     */
     Sprite.prototype.dispose = function () {
         if (!this.isDisposed()) {
             this.dispatchImmediately("beforedisposed");
@@ -2886,7 +2889,11 @@ var Sprite = /** @class */ (function (_super) {
         var reg = /([^.]+)\(([^)]*)\)|([^.]+)/g;
         ;
         var matches;
-        while ((matches = reg.exec(tagName)) !== null) {
+        while (true) {
+            matches = reg.exec(tagName);
+            if (matches === null) {
+                break;
+            }
             if (matches[3]) {
                 // Simple property
                 parts.push({
@@ -2900,7 +2907,11 @@ var Sprite = /** @class */ (function (_super) {
                 if ($utils.trim(matches[2]) != "") {
                     var reg2 = /'([^']*)'|"([^"]*)"|([0-9\-]+)/g;
                     var matches2 = void 0;
-                    while ((matches2 = reg2.exec(matches[2])) !== null) {
+                    while (true) {
+                        matches2 = reg2.exec(matches[2]);
+                        if (matches2 === null) {
+                            break;
+                        }
                         params.push(matches2[1] || matches2[2] || matches2[3]);
                     }
                 }
@@ -5111,7 +5122,7 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.closeAllPopups = function () {
         var svgContainer = this.svgContainer;
         if (svgContainer) {
-            return svgContainer.closeAllPopups();
+            svgContainer.closeAllPopups();
         }
     };
     Object.defineProperty(Sprite.prototype, "x", {
@@ -6891,7 +6902,7 @@ var Sprite = /** @class */ (function (_super) {
         var _this = this;
         var transition;
         var properties = this.defaultState.properties;
-        if (!this.disabled && (this.isHidden || !this.visible || this.isHiding || (properties.opacity != null && this.opacity < properties.opacity && !this.isShowing))) {
+        if (!this.disabled && (this.isHidden || !this.visible || this.isHiding || (properties.opacity != null && this.opacity < properties.opacity && !this.isShowing)) && !this.isDisposed()) {
             // helps to avoid flicker, as show might change opacity or visibility but item might be at invalid state/position
             if (this.invalid) {
                 this.validate();
@@ -6971,7 +6982,7 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.hideReal = function (duration) {
         var _this = this;
         var transition;
-        if (!this.isHiding && this.visible) {
+        if (!this.isHiding && this.visible && !this.isDisposed()) {
             this.hideTooltip(0);
             if (this._hideAnimation) {
                 this._hideAnimation.kill();

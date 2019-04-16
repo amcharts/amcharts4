@@ -397,6 +397,10 @@ export class XYChart extends SerialChart {
 
 	protected _mouseWheelDisposer: IDisposer;
 
+	/**
+	 * @ignore
+	 */
+	public _seriesPoints: { point: IPoint, series: XYSeries }[] = [];
 
 	/**
 	 * Constructor
@@ -629,14 +633,14 @@ export class XYChart extends SerialChart {
 		let axis: Axis = event.newValue;
 		axis.chart = this;
 
-		if(!axis.renderer){
+		if (!axis.renderer) {
 			axis.renderer = new this._axisRendererX();
 			axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleXAxisChange, this, false);
 		}
 		axis.axisLetter = "X";
 
-		axis.events.on("startchanged", this.handleXAxisRangeChange, this, false);
-		axis.events.on("endchanged", this.handleXAxisRangeChange, this, false);
+		axis.events.on("startendchanged", this.handleXAxisRangeChange, this, false);
+		//axis.events.on("endchanged", this.handleXAxisRangeChange, this, false);
 
 		// Although axis does not use data directly, we set dataProvider here
 		// (but not add to chart data users) to hold up rendering before data
@@ -658,14 +662,14 @@ export class XYChart extends SerialChart {
 
 		let axis: Axis = event.newValue;
 		axis.chart = this;
-		if(!axis.renderer){
+		if (!axis.renderer) {
 			axis.renderer = new this._axisRendererY();
 			axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleYAxisChange, this, false);
 		}
 		axis.axisLetter = "Y";
 
-		axis.events.on("startchanged", this.handleYAxisRangeChange, this, false);
-		axis.events.on("endchanged", this.handleYAxisRangeChange, this, false);
+		axis.events.on("startendchanged", this.handleYAxisRangeChange, this, false);
+		//axis.events.on("endchanged", this.handleYAxisRangeChange, this, false);
 
 		// Although axis does not use data directly, we set dataProvider here
 		// (but not add to chart data users) to hold up rendering before data
@@ -871,8 +875,23 @@ export class XYChart extends SerialChart {
 		this.plotContainer.events.on("maxsizechanged", () => {
 			if (this.inited) {
 				axis.invalidateDataItems();
+				this.updateSeriesMasks();
 			}
 		}, axis, false);
+	}
+
+	/**
+	 * This is done because for some reason IE doesn't change mask if path of a
+	 * mask changes.
+	 */
+	protected updateSeriesMasks(): void {
+		if ($utils.isIE()) {
+			this.series.each((series) => {
+				let mask = series.mainContainer.mask;
+				series.mainContainer.mask = undefined;
+				series.mainContainer.mask = mask;
+			});
+		}
 	}
 
 	/**
@@ -928,7 +947,7 @@ export class XYChart extends SerialChart {
 			super.handleSeriesAdded(event);
 			let series: XYSeries = event.newValue;
 
-			if(this.xAxes.length == 0 || this.yAxes.length == 0){
+			if (this.xAxes.length == 0 || this.yAxes.length == 0) {
 				registry.removeFromInvalidComponents(series);
 				series.dataInvalid = false;
 			}
@@ -1026,9 +1045,10 @@ export class XYChart extends SerialChart {
 					exceptAxis = snapToSeries.xAxis;
 				}
 			}
-
+			this._seriesPoints = [];
 			this.showAxisTooltip(this.xAxes, xPosition, exceptAxis);
 			this.showAxisTooltip(this.yAxes, yPosition, exceptAxis);
+			this.sortSeriesTooltips(this._seriesPoints);
 		}
 	}
 
@@ -1527,7 +1547,9 @@ export class XYChart extends SerialChart {
 			if (range.start == 0) {
 				range.priority = "start";
 			}
+
 			range = this.zoomAxes(this.xAxes, range);
+
 			scrollbar.fixRange(range);
 		}
 	}
@@ -1974,11 +1996,11 @@ export class XYChart extends SerialChart {
 	 */
 	public copyFrom(source: this) {
 
-		source.xAxes.each((axis)=>{
+		source.xAxes.each((axis) => {
 			this.xAxes.push(axis.clone());
 		})
 
-		source.yAxes.each((axis)=>{
+		source.yAxes.each((axis) => {
 			this.yAxes.push(axis.clone());
 		})
 
@@ -1989,15 +2011,15 @@ export class XYChart extends SerialChart {
 
 		//this.zoomOutButton.copyFrom(source.zoomOutButton);
 
-		if(source.cursor){
+		if (source.cursor) {
 			this.cursor = source.cursor.clone();
 		}
 
-		if(source.scrollbarX){
+		if (source.scrollbarX) {
 			this.scrollbarX = source.scrollbarX.clone();
 		}
 
-		if(source.scrollbarY){
+		if (source.scrollbarY) {
 			this.scrollbarY = source.scrollbarY.clone();
 		}
 		//@todo copy all container properties

@@ -310,8 +310,8 @@ var Label = /** @class */ (function (_super) {
                 var firstChunk = true;
                 var skipTextChunks = false;
                 // Create line element or grab it from cache
-                var lineInfo = void 0;
-                if (lineInfo = this.getLineInfo(i)) {
+                var lineInfo = this.getLineInfo(i);
+                if (lineInfo) {
                     // Empty line
                     lineInfo.element.textContent = "";
                 }

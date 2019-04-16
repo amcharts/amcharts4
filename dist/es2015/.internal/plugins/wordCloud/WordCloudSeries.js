@@ -852,7 +852,11 @@ var WordCloudSeries = /** @class */ (function (_super) {
             }
             var words = [];
             var word = void 0;
-            while (word = res.pop()) {
+            while (true) {
+                word = res.pop();
+                if (!word) {
+                    break;
+                }
                 var item = void 0;
                 for (var i = 0; i < words.length; i++) {
                     if (words[i].word.toLowerCase() == word.toLowerCase()) {

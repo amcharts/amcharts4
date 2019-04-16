@@ -524,7 +524,9 @@ export function find<A>(array: ArrayLike<A>, matches: (value: A, index: number) 
  */
 export function shuffle<A>(array: Array<A>) {
 	// https://stackoverflow.com/a/2450976/449477
-	var currentIndex = array.length, temporaryValue, randomIndex;
+	let currentIndex = array.length,
+		temporaryValue,
+		randomIndex;
 
 	// While there remain elements to shuffle...
 	while (0 !== currentIndex) {

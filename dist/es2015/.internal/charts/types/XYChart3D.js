@@ -205,9 +205,18 @@ var XYChart3D = /** @class */ (function (_super) {
                 series.angle = _this.angle;
                 series.dx = _this.depth / (count) * $math.cos(_this.angle) * (series.depthIndex);
                 series.dy = -_this.depth / (count) * $math.sin(_this.angle) * (series.depthIndex);
+                var inversed_1 = false;
+                if ((series.baseAxis == series.xAxis && series.xAxis.renderer.inversed) || (series.baseAxis == series.yAxis && series.yAxis.renderer.inversed)) {
+                    inversed_1 = true;
+                }
                 var i_1 = 1;
                 series.columns.each(function (column) {
-                    column.zIndex = 1000 * i_1 + s - series.depthIndex * 100;
+                    if (inversed_1) {
+                        column.zIndex = 1000 * (1000 - i_1) + s - series.depthIndex * 100;
+                    }
+                    else {
+                        column.zIndex = 1000 * i_1 + s - series.depthIndex * 100;
+                    }
                     i_1++;
                 });
                 s++;

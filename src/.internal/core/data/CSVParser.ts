@@ -229,8 +229,9 @@ export class CSVParser extends DataParser {
 				cols[x] = col;
 			}
 
-			if (0 < this.options.skipRows)
+			if (0 < this.options.skipRows) {
 				this.options.skipRows--;
+			}
 		}
 
 		// Skip rows
@@ -240,9 +241,17 @@ export class CSVParser extends DataParser {
 
 		// Iterate through the result set
 		let row;
-		while ((row = this.options.reverse ? data.pop() : data.shift())) {
-			if (this.options.skipEmpty && row.length === 1 && row[0] === "")
+		while (true) {
+			row = this.options.reverse ? data.pop() : data.shift();
+
+			if (!row) {
+				break;
+			}
+
+			if (this.options.skipEmpty && row.length === 1 && row[0] === "") {
 				continue;
+			}
+
 			let dataPoint: any = {};
 			for (i = 0; i < row.length; i++) {
 				col = undefined === cols[i] ? "col" + i : cols[i];
@@ -310,7 +319,12 @@ export class CSVParser extends DataParser {
 
 		// Keep looping over the regular expression matches
 		// until we can no longer find a match.
-		while ((arrMatches = objPattern.exec(data))) {
+		while (true) {
+			arrMatches = objPattern.exec(data);
+
+			if (!arrMatches) {
+				break;
+			}
 
 			// Get the delimiter that was found.
 			let strMatchedDelimiter = arrMatches[1];

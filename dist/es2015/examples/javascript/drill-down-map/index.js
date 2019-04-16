@@ -35,7 +35,7 @@ homeButton.events.on("hit", restoreContinents);
 
 homeButton.icon = new am4core.Sprite();
 homeButton.padding(7, 5, 7, 5);
-homeButton.width = 20;
+homeButton.width = 30;
 homeButton.icon.path = "M16,8 L14,8 L14,16 L10,16 L10,10 L6,10 L6,16 L2,16 L2,8 L0,8 L8,0 L16,8 Z M16,8";
 homeButton.marginBottom = 10;
 homeButton.parent = chart.zoomControl;
@@ -51,7 +51,15 @@ var hideCountries = function() {
 
 // Continents 
 var continentsSeries = chart.series.push(new am4maps.MapPolygonSeries());
-continentsSeries.geodata = am4geodata_continentsLow;
+
+
+try {
+  continentsSeries.geodata = am4geodata_continentsLow;
+}
+catch (e) {
+  continentsSeries.raiseCriticalError(new Error("Map geodata could not be loaded. Please download the latest amcharts geodata and extract its contents into the same directory as your amCharts files."));
+}
+
 continentsSeries.useGeodata = true;
 continentsSeries.exclude = ["antarctica"];
 continentsSeries.dataFields.zoomLevel = "zoomLevel";
@@ -100,7 +108,14 @@ var countriesSeries = chart.series.push(new am4maps.MapPolygonSeries());
 var countries = countriesSeries.mapPolygons;
 countriesSeries.visible = false; // start off as hidden
 countriesSeries.exclude = ["AQ"];
-countriesSeries.geodata = am4geodata_worldLow;
+
+try {
+  countriesSeries.geodata = am4geodata_worldLow;
+}
+catch (e) {
+  countriesSeries.raiseCriticalError(new Error("Map geodata could not be loaded. Please download the latest amcharts geodata and extract its contents into the same directory as your amCharts files."));
+}
+
 countriesSeries.useGeodata = true;
 // Hide each country so we can fade them in
 countriesSeries.events.once("inited", function() {

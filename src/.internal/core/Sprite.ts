@@ -182,7 +182,7 @@ export interface ISpriteProperties {
 	showOnInit?: boolean;
 	id?: string;
 	isActive?:boolean;
-	isHover?:boolean;	
+	isHover?:boolean;
 }
 
 /**
@@ -1436,6 +1436,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		}
 	}
 
+	/**
+	 * Destroys this object and all related data.
+	 */
 	public dispose(): void {
 		if (!this.isDisposed()) {
 
@@ -3728,7 +3731,14 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		let parts: any[] = [];
 		let reg = /([^.]+)\(([^)]*)\)|([^.]+)/g;;
 		let matches;
-		while ((matches = reg.exec(tagName)) !== null) {
+
+		while (true) {
+			matches = reg.exec(tagName);
+
+			if (matches === null) {
+				break;
+			}
+
 			if (matches[3]) {
 				// Simple property
 				parts.push({
@@ -3742,7 +3752,14 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				if ($utils.trim(matches[2]) != "") {
 					let reg2 = /'([^']*)'|"([^"]*)"|([0-9\-]+)/g;
 					let matches2;
-					while ((matches2 = reg2.exec(matches[2])) !== null) {
+
+					while (true) {
+						matches2 = reg2.exec(matches[2]);
+
+						if (matches2 === null) {
+							break;
+						}
+
 						params.push(matches2[1] || matches2[2] || matches2[3])
 					}
 				}
@@ -6041,7 +6058,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public closeAllPopups(): void {
 		const svgContainer = this.svgContainer;
 		if (svgContainer) {
-			return svgContainer.closeAllPopups();
+			svgContainer.closeAllPopups();
 		}
 	}
 
@@ -7716,7 +7733,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		const properties = this.defaultState.properties;
 
-		if (!this.disabled && (this.isHidden || !this.visible || this.isHiding || (properties.opacity != null && this.opacity < properties.opacity && !this.isShowing))) {
+		if (!this.disabled && (this.isHidden || !this.visible || this.isHiding || (properties.opacity != null && this.opacity < properties.opacity && !this.isShowing)) && !this.isDisposed()) {
 
 			// helps to avoid flicker, as show might change opacity or visibility but item might be at invalid state/position
 			if (this.invalid) {
@@ -7812,7 +7829,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	protected hideReal(duration?: number): $type.Optional<Animation> {
 		let transition: $type.Optional<Animation>;
 
-		if (!this.isHiding && this.visible) {
+		if (!this.isHiding && this.visible && !this.isDisposed()) {
 			this.hideTooltip(0);
 
 			if (this._hideAnimation) {

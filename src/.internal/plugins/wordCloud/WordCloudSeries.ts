@@ -1103,7 +1103,13 @@ export class WordCloudSeries extends Series {
 
 			let words: { word: string, value: number }[] = [];
 			let word;
-			while (word = res.pop()) {
+			while (true) {
+				word = res.pop();
+
+				if (!word) {
+					break;
+				}
+
 				let item;
 				for (let i = 0; i < words.length; i++) {
 					if (words[i].word.toLowerCase() == word.toLowerCase()) {

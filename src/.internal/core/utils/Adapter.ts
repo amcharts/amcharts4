@@ -196,7 +196,7 @@ export class GlobalAdapter {
 		}
 
 		// Cycle through all callbacks and find the ones we need to use
-		for (var i = 0; i < length; ++i) {
+		for (let i = 0; i < length; ++i) {
 			const item = callbacks[i];
 
 			if (item.key === key && type instanceof item.type) {
@@ -441,7 +441,7 @@ export class Adapter<Target, T> {
 		const length = callbacks.length;
 
 		if (length > 0) {
-			for (var i = 0; i < length; ++i) {
+			for (let i = 0; i < length; ++i) {
 				const item = callbacks[i];
 
 				if (item.key === key) {

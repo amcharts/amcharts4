@@ -654,8 +654,10 @@ export class TreeMap extends XYChart {
 			navigationBar.toBack();
 			navigationBar.links.template.events.on("hit", (event) => {
 				let dataItem = <TreeMapDataItem>event.target.dataItem.dataContext;
-				this.zoomToChartDataItem(dataItem);
-				this.createTreeSeries(dataItem);
+				if(!dataItem.isDisposed()){
+					this.zoomToChartDataItem(dataItem);
+					this.createTreeSeries(dataItem);
+				}
 			}, undefined, true);
 
 			this._disposers.push(navigationBar);
@@ -678,6 +680,7 @@ export class TreeMap extends XYChart {
 	public validateData(): void {
 
 		this.series.clear();
+		this._tempSeries = [];
 
 		super.validateData();
 
@@ -821,7 +824,10 @@ export class TreeMap extends XYChart {
 		}
 	}
 
-
+	protected setData(value:any[]){
+		this.currentLevel = 0;
+		super.setData(value);
+	}
 	/**
 	 * @ignore
 	 * Overriding, as tree map series are created on the fly all the time
@@ -958,6 +964,7 @@ export class TreeMap extends XYChart {
 
 			if (rangeChangeAnimation && !rangeChangeAnimation.isDisposed() && !rangeChangeAnimation.isFinished()) {
 				this._dataDisposers.push(rangeChangeAnimation);
+
 				rangeChangeAnimation.events.once("animationended", () => {
 					this.toggleBullets();
 				})
@@ -1207,8 +1214,10 @@ export class TreeMap extends XYChart {
 		function partition(i: number, j: number, value: number, x0: number, y0: number, x1: number, y1: number) {
 			if (i >= j - 1) {
 				let node = nodes.getIndex(i);
-				node.x0 = x0, node.y0 = y0;
-				node.x1 = x1, node.y1 = y1;
+				node.x0 = x0;
+				node.y0 = y0;
+				node.x1 = x1;
+				node.y1 = y1;
 				return;
 			}
 
@@ -1219,11 +1228,16 @@ export class TreeMap extends XYChart {
 
 			while (k < hi) {
 				let mid = k + hi >>> 1;
-				if (sums[mid] < valueTarget) k = mid + 1;
-				else hi = mid;
+				if (sums[mid] < valueTarget) {
+					k = mid + 1;
+				} else {
+					hi = mid;
+				}
 			}
 
-			if ((valueTarget - sums[k - 1]) < (sums[k] - valueTarget) && i + 1 < k)--k;
+			if ((valueTarget - sums[k - 1]) < (sums[k] - valueTarget) && i + 1 < k) {
+				--k;
+			}
 
 			let valueLeft = sums[k] - valueOffset,
 				valueRight = value - valueLeft;
@@ -1252,15 +1266,19 @@ export class TreeMap extends XYChart {
 		let y0 = parent.y0;
 		let y1 = parent.y1;
 
-		let nodes = parent.children,
-			node,
-			i = -1,
-			n = nodes.length,
-			k = parent.value && (y1 - y0) / parent.value;
+		let nodes = parent.children;
+		let node;
+		let i = -1;
+		let n = nodes.length;
+		let k = parent.value && (y1 - y0) / parent.value;
 
 		while (++i < n) {
-			node = nodes.getIndex(i), node.x0 = x0, node.x1 = x1;
-			node.y0 = y0, node.y1 = y0 += node.value * k;
+			node = nodes.getIndex(i);
+			node.x0 = x0;
+			node.x1 = x1;
+			node.y0 = y0;
+			y0 += node.value * k;
+			node.y1 = y0;
 		}
 	}
 
@@ -1283,8 +1301,12 @@ export class TreeMap extends XYChart {
 			k = parent.value && (x1 - x0) / parent.value;
 
 		while (++i < n) {
-			node = nodes.getIndex(i), node.y0 = y0, node.y1 = y1;
-			node.x0 = x0, node.x1 = x0 += node.value * k;
+			node = nodes.getIndex(i);
+			node.y0 = y0;
+			node.y1 = y1;
+			node.x0 = x0;
+			x0 += node.value * k;
+			node.x1 = x0;
 		}
 	}
 
@@ -1295,7 +1317,11 @@ export class TreeMap extends XYChart {
 	 * @param parent  Data item
 	 */
 	public sliceDice(parent: TreeMapDataItem): void {
-		parent.level & 1 ? this.slice(parent) : this.dice(parent);
+		if (parent.level & 1) {
+			this.slice(parent);
+		} else {
+			this.dice(parent);
+		}
 	}
 
 	/**
@@ -1329,10 +1355,14 @@ export class TreeMap extends XYChart {
 		let beta;
 
 		while (i0 < n) {
-			dx = x1 - x0, dy = y1 - y0;
+			dx = x1 - x0;
+			dy = y1 - y0;
 
 			// Find the next non-empty node.
-			do sumValue = nodes.getIndex(i1++).value; while (!sumValue && i1 < n);
+			do {
+				sumValue = nodes.getIndex(i1++).value;
+			} while (!sumValue && i1 < n);
+
 			minValue = maxValue = sumValue;
 			alpha = Math.max(dy / dx, dx / dy) / (value * ratio);
 			beta = sumValue * sumValue * alpha;
@@ -1373,7 +1403,8 @@ export class TreeMap extends XYChart {
 				row.x1 = value ? (x0 += (dx * sumValue) / value) : x1;
 				this.slice(row);
 			}
-			value -= sumValue, i0 = i1;
+			value -= sumValue;
+			i0 = i1;
 		}
 	}
 

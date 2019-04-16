@@ -461,8 +461,10 @@ export function unquote(str: string): string {
  * @return Padded value as string
  */
 export function padString(value: any, len: number = 0, char: string = "0"): string {
-	if (typeof value !== "string")
+	if (typeof value !== "string") {
 		value = value.toString();
+	}
+
 	return len > value.length ? Array(len - value.length + 1).join(char) + value : value;
 }
 
@@ -476,8 +478,9 @@ export function padString(value: any, len: number = 0, char: string = "0"): stri
 export function getFormat(format: string): string {
 
 	// Undefined?
-	if (typeof format === "undefined")
+	if (typeof format === "undefined") {
 		return $strings.STRING;
+	}
 
 	// Cleanup and lowercase format
 	format = format.toLowerCase().replace(/^\[[^\]]*\]/, "");
@@ -895,7 +898,7 @@ export function svgPointToSprite(point: IPoint, sprite: Sprite): IPoint {
 
 		sprites.reverse();
 
-		for (var i = 0; i < sprites.length; i++) {
+		for (let i = 0; i < sprites.length; i++) {
 			let sprite: Sprite = sprites[i];
 			let angle: number = sprite.rotation;
 
@@ -1118,7 +1121,7 @@ export function height(element: HTMLElement): number {
  * @return Number of decimals
  */
 export function decimalPlaces(number: number): number {
-	var match = ('' + number).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+	let match = ('' + number).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
 	if (!match) { return 0; }
 	return Math.max(0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
 }
@@ -1240,4 +1243,13 @@ export function joinUrl(left: string, right: string): string {
 	} else {
 		return serializeUrl(parsedRight);
 	}
+}
+
+/**
+ * Detects MSIE.
+ * 
+ * @return Is IE?
+ */
+export function isIE(): boolean {
+	return !!(<any>window).MSInputMethodContext && !!(<any>document).documentMode;
 }

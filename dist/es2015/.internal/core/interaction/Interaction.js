@@ -1172,7 +1172,11 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.processDelayed = function () {
         var delayedEvent;
-        while (delayedEvent = this._delayedEvents.out.pop()) {
+        while (true) {
+            delayedEvent = this._delayedEvents.out.pop();
+            if (!delayedEvent) {
+                break;
+            }
             if (delayedEvent.timeout) {
                 delayedEvent.timeout.dispose();
             }
@@ -1834,7 +1838,10 @@ var Interaction = /** @class */ (function (_super) {
      * @param pointer  Pointer
      */
     Interaction.prototype.dragStart = function (io, pointer) {
-        if (pointer || (pointer = this.getDragPointer(io))) {
+        if (!pointer) {
+            pointer = this.getDragPointer(io);
+        }
+        if (pointer) {
             this.handleDown(io, pointer, pointer.lastDownEvent);
         }
     };
@@ -1845,7 +1852,10 @@ var Interaction = /** @class */ (function (_super) {
      * @param pointer  Pointer
      */
     Interaction.prototype.dragStop = function (io, pointer) {
-        if (pointer || (pointer = this.getDragPointer(io))) {
+        if (!pointer) {
+            pointer = this.getDragPointer(io);
+        }
+        if (pointer) {
             this.handleGlobalUp(pointer, pointer.lastUpEvent);
         }
     };

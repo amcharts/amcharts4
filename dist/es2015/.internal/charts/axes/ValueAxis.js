@@ -149,6 +149,7 @@ var ValueAxis = /** @class */ (function (_super) {
          */
         _this._adjustedEnd = 1;
         _this._extremesChanged = false;
+        _this._deltaMinMax = 1;
         /**
          * As calculating totals is expensive operation and not often needed, we
          * don't do it by default.
@@ -255,11 +256,10 @@ var ValueAxis = /** @class */ (function (_super) {
                 if (endIndex < series.dataItems.length) {
                     endIndex++;
                 }
-                // This has to be `var` in order to avoid garbage collection
-                for (var i = startIndex; i < endIndex; ++i) {
+                var _loop_1 = function (i) {
                     // This has to be `var` in order to avoid garbage collection
                     var total = {};
-                    $iter.each(this.series.iterator(), function (series) {
+                    $iter.each(this_1.series.iterator(), function (series) {
                         var dataItem = series.dataItems.getIndex(i);
                         if (dataItem) {
                             $object.each(dataItem.values, function (key) {
@@ -275,7 +275,7 @@ var ValueAxis = /** @class */ (function (_super) {
                             });
                         }
                     });
-                    $iter.each(this.series.iterator(), function (series) {
+                    $iter.each(this_1.series.iterator(), function (series) {
                         var dataItem = series.dataItems.getIndex(i);
                         if (dataItem) {
                             $object.each(dataItem.values, function (key) {
@@ -287,6 +287,11 @@ var ValueAxis = /** @class */ (function (_super) {
                             });
                         }
                     });
+                };
+                var this_1 = this;
+                // This has to be `var` in order to avoid garbage collection
+                for (var i = startIndex; i < endIndex; ++i) {
+                    _loop_1(i);
                 }
             }
         }
@@ -783,8 +788,8 @@ var ValueAxis = /** @class */ (function (_super) {
         max = this.fixMax(max);
         // this happens if starLocation and endLocation are 0.5 and DateAxis has only one date
         if (min == max) {
-            min -= 1;
-            max += 1;
+            min -= this._deltaMinMax;
+            max += this._deltaMinMax;
         }
         min -= (max - min) * this.extraMin;
         max += (max - min) * this.extraMax;
@@ -815,8 +820,8 @@ var ValueAxis = /** @class */ (function (_super) {
                 max = this._maxReal;
             }
             if (min == max) {
-                min -= 1;
-                max += 1;
+                min -= this._deltaMinMax;
+                max += this._deltaMinMax;
             }
         }
         // checking isNumber is good when all series are hidden

@@ -676,8 +676,8 @@ export class Container extends Sprite {
 			sortArray.sort(function(a: any, b: any) {
 				const ai = (a.data.zIndex || 0);
 				const bi = (b.data.zIndex || 0);
-				if (ai < bi) return -1;
-				if (ai > bi) return 1;
+				if (ai < bi) { return -1; }
+				if (ai > bi) { return 1; }
 				return a.idx - b.idx
 			});
 

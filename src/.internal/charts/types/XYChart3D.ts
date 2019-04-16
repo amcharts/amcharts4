@@ -286,9 +286,20 @@ export class XYChart3D extends XYChart {
 				series.dx = this.depth / (count) * $math.cos(this.angle) * (series.depthIndex);
 				series.dy = -this.depth / (count) * $math.sin(this.angle) * (series.depthIndex);
 
+				let inversed = false;
+				if((series.baseAxis == series.xAxis && series.xAxis.renderer.inversed) || (series.baseAxis == series.yAxis && series.yAxis.renderer.inversed)){
+					inversed = true;
+				}
+
 				let i: number = 1;
 				series.columns.each((column) => {
-					column.zIndex = 1000 * i + s - series.depthIndex * 100;
+					if(inversed){
+						column.zIndex = 1000 * (1000 - i) + s - series.depthIndex * 100;	
+					}
+					else{
+						column.zIndex = 1000 * i + s - series.depthIndex * 100;	
+					}
+					
 					i++;
 				});
 

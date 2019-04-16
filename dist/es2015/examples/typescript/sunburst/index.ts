@@ -3,12 +3,12 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4plugins_sunburst from "@amcharts/amcharts4/plugins/sunburst";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
-
-
+// Themes begin
 am4core.useTheme(am4themes_animated);
+// Themes end
 
 // create chart
-let chart = am4core.create("chartdiv", am4plugins_sunburst.Sunburst);
+var chart = am4core.create("chartdiv", am4plugins_sunburst.Sunburst);
 
 chart.data = [{
   name: "First",
@@ -80,12 +80,30 @@ chart.dataFields.value = "value";
 chart.dataFields.name = "name";
 chart.dataFields.children = "children";
 
-let level1SeriesTemplate = new am4plugins_sunburst.SunburstSeries();
+
+var level0SeriesTemplate = new am4plugins_sunburst.SunburstSeries();
+level0SeriesTemplate.hiddenInLegend = false;
+chart.seriesTemplates.setKey("0", level0SeriesTemplate)
+
+// this makes labels to be hidden if they don't fit
+level0SeriesTemplate.labels.template.truncate = true;
+level0SeriesTemplate.labels.template.hideOversized = true;
+
+level0SeriesTemplate.labels.template.adapter.add("rotation", (rotation, target) => {
+  target.maxWidth = target.dataItem.slice.radius - target.dataItem.slice.innerRadius - 10;
+  target.maxHeight = Math.abs(target.dataItem.slice.arc * (target.dataItem.slice.innerRadius + target.dataItem.slice.radius) / 2 * am4core.math.RADIANS);
+
+  return rotation;
+})
+
+
+var level1SeriesTemplate = level0SeriesTemplate.clone();
 chart.seriesTemplates.setKey("1", level1SeriesTemplate)
 level1SeriesTemplate.fillOpacity = 0.75;
 level1SeriesTemplate.hiddenInLegend = true;
 
-let level2SeriesTemplate = new am4plugins_sunburst.SunburstSeries();
+
+var level2SeriesTemplate = level0SeriesTemplate.clone();
 chart.seriesTemplates.setKey("2", level2SeriesTemplate)
 level2SeriesTemplate.fillOpacity = 0.5;
 level2SeriesTemplate.hiddenInLegend = true;

@@ -238,18 +238,18 @@ export function hexToRgb(hex) {
  * @return RGB
  */
 export function rgbaToRgb(color) {
-    // Init
-    var matches;
     color = color.replace(/[ ]/g, "");
+    // Init
+    var matches = color.match(/^rgb\(([0-9]*),([0-9]*),([0-9]*)\)/i);
     // Try rgb() format
-    if (matches = color.match(/^rgb\(([0-9]*),([0-9]*),([0-9]*)\)/i)) {
+    if (matches) {
         matches.push("1");
     }
-    else if (matches = color.match(/^rgba\(([0-9]*),([0-9]*),([0-9]*),([.0-9]*)\)/i)) {
-        // nothing
-    }
     else {
-        return undefined;
+        matches = color.match(/^rgba\(([0-9]*),([0-9]*),([0-9]*),([.0-9]*)\)/i);
+        if (!matches) {
+            return;
+        }
     }
     return {
         r: parseInt(matches[1]),
@@ -463,16 +463,21 @@ export function hslToRgb(color) {
     }
     else {
         var hue2rgb = function hue2rgb(p, q, t) {
-            if (t < 0)
+            if (t < 0) {
                 t += 1;
-            if (t > 1)
+            }
+            if (t > 1) {
                 t -= 1;
-            if (t < 1 / 6)
+            }
+            if (t < 1 / 6) {
                 return p + (q - p) * 6 * t;
-            if (t < 1 / 2)
+            }
+            if (t < 1 / 2) {
                 return q;
-            if (t < 2 / 3)
+            }
+            if (t < 2 / 3) {
                 return p + (q - p) * (2 / 3 - t) * 6;
+            }
             return p;
         };
         var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
@@ -607,22 +612,34 @@ export function hsvToRgb(color) {
     var t = v * (1 - (1 - f) * s);
     switch (i % 6) {
         case 0:
-            r = v, g = t, b = p;
+            r = v;
+            g = t;
+            b = p;
             break;
         case 1:
-            r = q, g = v, b = p;
+            r = q;
+            g = v;
+            b = p;
             break;
         case 2:
-            r = p, g = v, b = t;
+            r = p;
+            g = v;
+            b = t;
             break;
         case 3:
-            r = p, g = q, b = v;
+            r = p;
+            g = q;
+            b = v;
             break;
         case 4:
-            r = t, g = p, b = v;
+            r = t;
+            g = p;
+            b = v;
             break;
         case 5:
-            r = v, g = p, b = q;
+            r = v;
+            g = p;
+            b = q;
             break;
     }
     return {

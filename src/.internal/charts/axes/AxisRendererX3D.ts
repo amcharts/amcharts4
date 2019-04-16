@@ -108,8 +108,8 @@ export class AxisRendererX3D extends AxisRendererX {
 
 		if (grid.element) {
 
-			let dx: number = this.chart.dx3D;
-			let dy: number = this.chart.dy3D;
+			let dx: number = this.chart.dx3D || 0;
+			let dy: number = this.chart.dy3D || 0;
 
 			let h: number = this.getHeight();
 
@@ -129,8 +129,8 @@ export class AxisRendererX3D extends AxisRendererX {
 		super.updateBaseGridElement();
 
 		let h = this.getHeight();
-		let dx = this.chart.dx3D;
-		let dy = this.chart.dy3D;
+		let dx = this.chart.dx3D || 0;
+		let dy = this.chart.dy3D || 0;
 		this.baseGrid.path = $path.moveTo({ x: dx, y: dy }) + $path.lineTo({ x: dx, y: h + dy }) + $path.lineTo({ x: 0, y: h });
 	}
 

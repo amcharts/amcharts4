@@ -55,8 +55,8 @@ var AxisRendererY3D = /** @class */ (function (_super) {
         position = position + (endPosition - position) * grid.location;
         var point = this.positionToPoint(position);
         if (grid.element) {
-            var dx = this.chart.dx3D;
-            var dy = this.chart.dy3D;
+            var dx = this.chart.dx3D || 0;
+            var dy = this.chart.dy3D || 0;
             var w = this.getWidth();
             grid.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: dx, y: dy }) + $path.lineTo({ x: w + dx, y: dy });
         }
@@ -70,10 +70,12 @@ var AxisRendererY3D = /** @class */ (function (_super) {
      */
     AxisRendererY3D.prototype.updateBaseGridElement = function () {
         _super.prototype.updateBaseGridElement.call(this);
+        var dx = this.chart.dx3D || 0;
+        var dy = this.chart.dy3D || 0;
         var w = this.getWidth();
         this.baseGrid.path = $path.moveTo({ x: 0, y: 0 })
             + $path.lineTo({ x: w, y: 0 })
-            + $path.lineTo({ x: w + this.chart.dx3D, y: this.chart.dy3D });
+            + $path.lineTo({ x: w + dx, y: dy });
     };
     Object.defineProperty(AxisRendererY3D.prototype, "chart", {
         /**

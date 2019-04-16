@@ -513,3 +513,9 @@ export declare function serializeUrl(url: Url): string;
  * @ignore Exclude from docs
  */
 export declare function joinUrl(left: string, right: string): string;
+/**
+ * Detects MSIE.
+ *
+ * @return Is IE?
+ */
+export declare function isIE(): boolean;

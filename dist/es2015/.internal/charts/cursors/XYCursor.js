@@ -737,6 +737,13 @@ var XYCursor = /** @class */ (function (_super) {
             this.lineY.animate([{ property: "y", to: yy }], duration, easing);
         }
     };
+    /**
+     * Destroys this object and all related data.
+     */
+    XYCursor.prototype.dispose = function () {
+        this.hide(0);
+        _super.prototype.dispose.call(this);
+    };
     return XYCursor;
 }(Cursor));
 export { XYCursor };

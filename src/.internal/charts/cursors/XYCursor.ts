@@ -928,6 +928,14 @@ export class XYCursor extends Cursor {
 			this.lineY.animate([{ property: "y", to: yy }], duration, easing);
 		}
 	}
+
+	/**
+	 * Destroys this object and all related data.
+	 */
+	public dispose(){
+		this.hide(0);
+		super.dispose();
+	}
 }
 
 /**

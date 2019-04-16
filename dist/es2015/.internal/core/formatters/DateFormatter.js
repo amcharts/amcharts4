@@ -697,8 +697,8 @@ var DateFormatter = /** @class */ (function (_super) {
         }
         // Try matching
         var regex = new RegExp(reg);
-        var matches;
-        if (matches = source.match(regex)) {
+        var matches = source.match(regex);
+        if (matches) {
             // Populate the date object
             // Full year
             if (parsedIndexes.year > -1) {

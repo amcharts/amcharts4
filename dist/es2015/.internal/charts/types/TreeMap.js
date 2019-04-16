@@ -443,8 +443,10 @@ var TreeMap = /** @class */ (function (_super) {
                 navigationBar.toBack();
                 navigationBar.links.template.events.on("hit", function (event) {
                     var dataItem = event.target.dataItem.dataContext;
-                    _this.zoomToChartDataItem(dataItem);
-                    _this.createTreeSeries(dataItem);
+                    if (!dataItem.isDisposed()) {
+                        _this.zoomToChartDataItem(dataItem);
+                        _this.createTreeSeries(dataItem);
+                    }
                 }, undefined, true);
                 this._disposers.push(navigationBar);
             }
@@ -459,6 +461,7 @@ var TreeMap = /** @class */ (function (_super) {
      */
     TreeMap.prototype.validateData = function () {
         this.series.clear();
+        this._tempSeries = [];
         _super.prototype.validateData.call(this);
         if (this._homeDataItem) {
             this._homeDataItem.dispose();
@@ -568,6 +571,10 @@ var TreeMap = /** @class */ (function (_super) {
                 }
             }
         }
+    };
+    TreeMap.prototype.setData = function (value) {
+        this.currentLevel = 0;
+        _super.prototype.setData.call(this, value);
     };
     /**
      * @ignore
@@ -920,20 +927,25 @@ var TreeMap = /** @class */ (function (_super) {
         function partition(i, j, value, x0, y0, x1, y1) {
             if (i >= j - 1) {
                 var node = nodes.getIndex(i);
-                node.x0 = x0, node.y0 = y0;
-                node.x1 = x1, node.y1 = y1;
+                node.x0 = x0;
+                node.y0 = y0;
+                node.x1 = x1;
+                node.y1 = y1;
                 return;
             }
             var valueOffset = sums[i], valueTarget = (value / 2) + valueOffset, k = i + 1, hi = j - 1;
             while (k < hi) {
                 var mid = k + hi >>> 1;
-                if (sums[mid] < valueTarget)
+                if (sums[mid] < valueTarget) {
                     k = mid + 1;
-                else
+                }
+                else {
                     hi = mid;
+                }
             }
-            if ((valueTarget - sums[k - 1]) < (sums[k] - valueTarget) && i + 1 < k)
+            if ((valueTarget - sums[k - 1]) < (sums[k] - valueTarget) && i + 1 < k) {
                 --k;
+            }
             var valueLeft = sums[k] - valueOffset, valueRight = value - valueLeft;
             if ((x1 - x0) > (y1 - y0)) {
                 var xk = (x0 * valueRight + x1 * valueLeft) / value;
@@ -958,10 +970,18 @@ var TreeMap = /** @class */ (function (_super) {
         var x1 = parent.x1;
         var y0 = parent.y0;
         var y1 = parent.y1;
-        var nodes = parent.children, node, i = -1, n = nodes.length, k = parent.value && (y1 - y0) / parent.value;
+        var nodes = parent.children;
+        var node;
+        var i = -1;
+        var n = nodes.length;
+        var k = parent.value && (y1 - y0) / parent.value;
         while (++i < n) {
-            node = nodes.getIndex(i), node.x0 = x0, node.x1 = x1;
-            node.y0 = y0, node.y1 = y0 += node.value * k;
+            node = nodes.getIndex(i);
+            node.x0 = x0;
+            node.x1 = x1;
+            node.y0 = y0;
+            y0 += node.value * k;
+            node.y1 = y0;
         }
     };
     /**
@@ -977,8 +997,12 @@ var TreeMap = /** @class */ (function (_super) {
         var y1 = parent.y1;
         var nodes = parent.children, node, i = -1, n = nodes.length, k = parent.value && (x1 - x0) / parent.value;
         while (++i < n) {
-            node = nodes.getIndex(i), node.y0 = y0, node.y1 = y1;
-            node.x0 = x0, node.x1 = x0 += node.value * k;
+            node = nodes.getIndex(i);
+            node.y0 = y0;
+            node.y1 = y1;
+            node.x0 = x0;
+            x0 += node.value * k;
+            node.x1 = x0;
         }
     };
     /**
@@ -988,7 +1012,12 @@ var TreeMap = /** @class */ (function (_super) {
      * @param parent  Data item
      */
     TreeMap.prototype.sliceDice = function (parent) {
-        parent.level & 1 ? this.slice(parent) : this.dice(parent);
+        if (parent.level & 1) {
+            this.slice(parent);
+        }
+        else {
+            this.dice(parent);
+        }
     };
     /**
      * Treemap layout algorithm: squarify.
@@ -1018,11 +1047,12 @@ var TreeMap = /** @class */ (function (_super) {
         var alpha;
         var beta;
         while (i0 < n) {
-            dx = x1 - x0, dy = y1 - y0;
+            dx = x1 - x0;
+            dy = y1 - y0;
             // Find the next non-empty node.
-            do
+            do {
                 sumValue = nodes.getIndex(i1++).value;
-            while (!sumValue && i1 < n);
+            } while (!sumValue && i1 < n);
             minValue = maxValue = sumValue;
             alpha = Math.max(dy / dx, dx / dy) / (value * ratio);
             beta = sumValue * sumValue * alpha;
@@ -1061,7 +1091,8 @@ var TreeMap = /** @class */ (function (_super) {
                 row.x1 = value ? (x0 += (dx * sumValue) / value) : x1;
                 this.slice(row);
             }
-            value -= sumValue, i0 = i1;
+            value -= sumValue;
+            i0 = i1;
         }
     };
     /**

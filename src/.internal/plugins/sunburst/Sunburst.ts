@@ -14,6 +14,7 @@ import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
+import { percent } from "../../core/utils/Percent";
 import { Color } from "../../core/utils/Color";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { OrderedListTemplate } from "../../core/utils/SortedList";
@@ -373,6 +374,7 @@ export class Sunburst extends PieChart {
 		this._disposers.push(new DictionaryDisposer(this.seriesTemplates));
 		this._disposers.push(template);
 
+		this.radius = percent(95);
 
 		// Apply theme
 		this.applyTheme();

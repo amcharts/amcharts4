@@ -128,8 +128,9 @@ var CSVParser = /** @class */ (function (_super) {
                 }
                 cols[x] = col;
             }
-            if (0 < this.options.skipRows)
+            if (0 < this.options.skipRows) {
                 this.options.skipRows--;
+            }
         }
         // Skip rows
         for (i = 0; i < this.options.skipRows; i++) {
@@ -137,9 +138,14 @@ var CSVParser = /** @class */ (function (_super) {
         }
         // Iterate through the result set
         var row;
-        while ((row = this.options.reverse ? data.pop() : data.shift())) {
-            if (this.options.skipEmpty && row.length === 1 && row[0] === "")
+        while (true) {
+            row = this.options.reverse ? data.pop() : data.shift();
+            if (!row) {
+                break;
+            }
+            if (this.options.skipEmpty && row.length === 1 && row[0] === "") {
                 continue;
+            }
             var dataPoint = {};
             for (i = 0; i < row.length; i++) {
                 col = undefined === cols[i] ? "col" + i : cols[i];
@@ -191,7 +197,11 @@ var CSVParser = /** @class */ (function (_super) {
         var arrMatches = null;
         // Keep looping over the regular expression matches
         // until we can no longer find a match.
-        while ((arrMatches = objPattern.exec(data))) {
+        while (true) {
+            arrMatches = objPattern.exec(data);
+            if (!arrMatches) {
+                break;
+            }
             // Get the delimiter that was found.
             var strMatchedDelimiter = arrMatches[1];
             // Check to see if the given delimiter has a length

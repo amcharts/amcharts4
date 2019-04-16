@@ -98,6 +98,10 @@ export interface IComponentEvents extends IContainerEvents {
      * Invoked when end position changes
      */
     endchanged: {};
+    /**
+     * Invoked when start or end position changes, unlike startchanged/endchanged this event is fired not immediately but at the end of a cycle.
+     */
+    startendchanged: {};
 }
 /**
  * Defines adapters
@@ -601,6 +605,7 @@ export declare class Component extends Container {
      * @param value Data
      */
     data: any[];
+    protected setData(value: any[]): void;
     /**
      * Returns (creates if necessary) a [[DataSource]] bound to any specific
      * property.

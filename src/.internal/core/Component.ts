@@ -143,6 +143,11 @@ export interface IComponentEvents extends IContainerEvents {
 	 * Invoked when end position changes
 	 */
 	endchanged: {};
+
+	/**
+	 * Invoked when start or end position changes, unlike startchanged/endchanged this event is fired not immediately but at the end of a cycle.
+	 */
+	startendchanged: {};
 }
 
 /**
@@ -783,8 +788,9 @@ export class Component extends Container {
 	 * @param rawDataItem One or many raw data item objects
 	 */
 	public addData(rawDataItem: Object | Object[], removeCount?: number): void {
+
 		// need to check if data is invalid, as addData might be called multiple times
-		if (!this.dataInvalid) {
+		if (!this.dataInvalid && this.inited) {
 			this._parseDataFrom = this.data.length; // save length of parsed data
 		}
 
@@ -798,7 +804,17 @@ export class Component extends Container {
 			this.data.push(rawDataItem); // add to raw data array
 		}
 
-		this.removeData(removeCount);
+		if (this.inited) {
+			this.removeData(removeCount);
+		}
+		else {
+			if ($type.isNumber(removeCount)) {
+				while (removeCount > 0) {
+					this.data.shift();
+					removeCount--;
+				}
+			}
+		}
 
 		this.invalidateData();
 	}
@@ -1178,15 +1194,20 @@ export class Component extends Container {
 	 * @param value Data
 	 */
 	public set data(value: any[]) {
+		this.setData(value);
+	}
+
+	protected setData(value: any[]) {
 		// array might be the same, but there might be items added
 		// todo: check if array changed, toString maybe?
 		//if (this._data != value) {
+		this._parseDataFrom = 0;
 		this.disposeData();
 		this._data = value;
 		if (value && value.length > 0) {
 			this.invalidateData();
 		}
-		//}
+		//}		
 	}
 
 	/**
@@ -1691,6 +1712,7 @@ export class Component extends Container {
 			this.invalidateDataRange();
 			this.invalidate();
 			this.dispatchImmediately("startchanged");
+			this.dispatch("startendchanged");
 		}
 	}
 
@@ -1721,6 +1743,7 @@ export class Component extends Container {
 			this.invalidateDataRange();
 			this.invalidate();
 			this.dispatchImmediately("endchanged");
+			this.dispatch("startendchanged");
 		}
 	}
 

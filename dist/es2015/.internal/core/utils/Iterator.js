@@ -44,7 +44,7 @@ export function toArray(iter) {
  * @todo Description
  */
 export function eachContinue(iter, fn) {
-    return iter(fn);
+    iter(fn);
 }
 /**
  * [iter description]
@@ -53,7 +53,7 @@ export function eachContinue(iter, fn) {
  * @todo Description
  */
 export function each(iter, fn) {
-    return iter(function (value) {
+    iter(function (value) {
         fn(value);
         return true;
     });
@@ -121,7 +121,7 @@ export function flatten(iter) {
     return function (push) {
         var go = true;
         var push2 = function (value) { return (go = push(value)); };
-        return iter(function (value) {
+        iter(function (value) {
             value(push2);
             return go;
         });
@@ -136,7 +136,7 @@ export function flatten(iter) {
 export function indexed(iter) {
     return function (push) {
         var index = 0;
-        return iter(function (value) { return push([index++, value]); });
+        iter(function (value) { return push([index++, value]); });
     };
 }
 /**

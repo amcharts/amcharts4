@@ -589,8 +589,9 @@ export class Label extends Container {
 				let skipTextChunks: boolean = false;
 
 				// Create line element or grab it from cache
-				let lineInfo: ITextLineInfo;
-				if (lineInfo = this.getLineInfo(i)) {
+				let lineInfo: ITextLineInfo = this.getLineInfo(i);
+
+				if (lineInfo) {
 					// Empty line
 					lineInfo.element.textContent = "";
 				}

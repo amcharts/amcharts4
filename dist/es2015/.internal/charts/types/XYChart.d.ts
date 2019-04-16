@@ -333,6 +333,13 @@ export declare class XYChart extends SerialChart {
     protected _panEndYRange: IRange;
     protected _mouseWheelDisposer: IDisposer;
     /**
+     * @ignore
+     */
+    _seriesPoints: {
+        point: IPoint;
+        series: XYSeries;
+    }[];
+    /**
      * Constructor
      */
     constructor();
@@ -454,6 +461,11 @@ export declare class XYChart extends SerialChart {
      * @param axis  Axis
      */
     protected processAxis(axis: Axis): void;
+    /**
+     * This is done because for some reason IE doesn't change mask if path of a
+     * mask changes.
+     */
+    protected updateSeriesMasks(): void;
     /**
      * A list of horizontal (X) axes.
      *

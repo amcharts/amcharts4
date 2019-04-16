@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.3.15] - 2019-04-06
+
+### Added
+- `startendchanged` event added to `Component`. Fired when `start` or `end` is changed. Unlike `startchanged`/`endchanged` this event is fired not immediately but at the end of a cycle.
+
+### Changed
+- `Sunburst` chart's defaalt `radius` set to `95%`.
+
+### Fixed
+- `TreeMap` could produce a JS error if data was changed during interaction with the map.
+- If `Component.addData()` called before chart was initialized, error happened.
+- 3D columns with reversed base axis had wrong z-indexes.
+- `DateAxis`-based chart with single data item got into infinite loop if `startLocation` and `endLocation` were set to `0.5` or `strictMinMax` was set to `true`.
+- Tooltips of series could overlap if series used different `DateAxis` axes.
+- Chart with multiple `DateAxis` and no animated theme was not properly zooming with scrollbar.
+- Implemented a workaround for MSIE which was not updating series masks on chart resize.
+- Disposing `XYCursor` will now remove series/axes tooltips that might be currently displayed because of it.
+
+
 ## [4.3.14] - 2019-04-13
 
 ### Added

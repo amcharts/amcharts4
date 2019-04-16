@@ -182,7 +182,7 @@ export type imageFormats = "png" | "gif" | "jpg";
 
 /**
  * An interface describing extra elements to include in export.
- * 
+ *
  * @since 4.2.0
  */
 export interface IExportCanvas {
@@ -1723,6 +1723,7 @@ export class Export extends Validatable {
 		let DOMURL = this.getDOMURL();
 		let url: string | null = null;
 		let blobs: Array<string> | null = null;
+		let canvas;
 
 		// Create temporary image element
 		try {
@@ -1738,7 +1739,7 @@ export class Export extends Validatable {
 				fontSize = $dom.findFontSize(this.sprite.dom);
 
 			// Create canvas and its 2D context
-			var canvas = this.getDisposableCanvas();
+			canvas = this.getDisposableCanvas();
 
 			// Set canvas width/height
 			let pixelRatio = this.getPixelRatio(options);
@@ -1851,7 +1852,7 @@ export class Export extends Validatable {
 		);
 
 		// Create canvas and its 2D context
-		var canvas = this.getDisposableCanvas();
+		let canvas = this.getDisposableCanvas();
 
 		// Set canvas width/height
 		let pixelRatio = this.getPixelRatio(options);
@@ -1925,7 +1926,7 @@ export class Export extends Validatable {
 	 * @return Canvas element
 	 */
 	protected getDisposableCanvas(): HTMLCanvasElement {
-		var canvas = document.createElement("canvas");
+		let canvas = document.createElement("canvas");
 		canvas.style.position = "fixed";
 		canvas.style.top = "-10000px";
 		document.body.appendChild(canvas);
@@ -2202,7 +2203,14 @@ export class Export extends Validatable {
 	 */
 	public restoreRemovedObjects(): void {
 		let obj: IExportRemovedObject;
-		while (obj = this._removedObjects.pop()) {
+
+		while (true) {
+			obj = this._removedObjects.pop()
+
+			if (!obj) {
+				break;
+			}
+
 			//obj.element.setAttribute("href", obj.originalHref);
 			let parent = obj.placeholder.parentElement || obj.placeholder.parentNode;
 			parent.insertBefore(obj.element, obj.placeholder);

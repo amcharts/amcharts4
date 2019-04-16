@@ -595,7 +595,7 @@ var List = /** @class */ (function () {
      * @param item  An item to add
      */
     List.prototype.unshift = function (value) {
-        return this.insertIndex(0, value);
+        this.insertIndex(0, value);
     };
     /**
      * Adds multiple items to the list.

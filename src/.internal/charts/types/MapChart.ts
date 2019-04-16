@@ -298,7 +298,7 @@ export interface IMapChartProperties extends ISerialChartProperties {
 	 * * `"rotateLat"`: changes `deltaLatitude` (rotates the globe vertically).
 	 * * `"rotateLong"`: changes `deltaLongitude` (rotates the globe horizontally).
 	 * * `"rotateLongLat"`: changes both `deltaLongitude` and `deltaLatitude` (rotates the globe in any direction).
-	 * 
+	 *
 	 * @default "move"
 	 * @since 4.3.0
 	 */
@@ -702,7 +702,7 @@ export class MapChart extends SerialChart {
 		panSprite.y = 0;
 		this.panSprite = panSprite;
 		this.panBehavior = "move";
-		/*		
+		/*
 				this.panSprite.inertiaOptions.setKey("move", {
 					"time": 100,
 					"duration": 1000,
@@ -758,7 +758,7 @@ export class MapChart extends SerialChart {
 
 				let downGeoLocal = this.projection.invert(this._downPointOrig);
 
-				let local: IPoint = { x: this.panSprite.pixelX, y: this.panSprite.pixelY };				
+				let local: IPoint = { x: this.panSprite.pixelX, y: this.panSprite.pixelY };
 				let geoLocal:IGeoPoint;
 				if(local){
 					geoLocal = this.projection.invert(local);
@@ -1000,7 +1000,7 @@ export class MapChart extends SerialChart {
 	 * * `"rotateLat"`: changes `deltaLatitude` (rotates the globe vertically).
 	 * * `"rotateLong"`: changes `deltaLongitude` (rotates the globe horizontally).
 	 * * `"rotateLongLat"`: changes both `deltaLongitude` and `deltaLatitude` (rotates the globe in any direction).
-	 * 
+	 *
 	 * @default "move"
 	 * @since 4.3.0
 	 * @param  value  Behavior
@@ -1516,7 +1516,7 @@ export class MapChart extends SerialChart {
 	 * @return Coordinates
 	 */
 	public get zoomGeoPoint(): IGeoPoint {
-		var point = $utils.spritePointToSvg({ x: this.pixelWidth / 2, y: this.pixelHeight / 2 }, this);
+		const point = $utils.spritePointToSvg({ x: this.pixelWidth / 2, y: this.pixelHeight / 2 }, this);
 		return this.svgPointToGeo(point);
 	}
 
@@ -1539,7 +1539,7 @@ export class MapChart extends SerialChart {
 
 	/**
 	 * Dispatches events after some map transformation, like pan or zoom.
-	 * 
+	 *
 	 * @ignore
 	 */
 	protected handleMapTransform(): void {
@@ -1961,7 +1961,7 @@ export class MapChart extends SerialChart {
 	 *
 	 * Use the only parameter to set number of milliseconds for the zoom
 	 * animation to play.
-	 * 
+	 *
 	 * @param  duration  Duration (ms)
 	 */
 	public goHome(duration?: number) {
@@ -1976,7 +1976,7 @@ export class MapChart extends SerialChart {
 
 	/**
 	 * Sets [[Paper]] instance to use to draw elements.
-	 * 
+	 *
 	 * @ignore
 	 * @param   paper  Paper
 	 * @return         true if paper was changed, false, if it's the same
@@ -1992,10 +1992,10 @@ export class MapChart extends SerialChart {
 	/**
 	 * Background series will create polygons that will fill all the map area
 	 * with some color (or other fill).
-	 * 
+	 *
 	 * This might be useful with non-rectangular projections, like Orthographic,
 	 * Albers, etc.
-	 * 
+	 *
 	 * To change background color/opacity access polygon template.
 	 *
 	 * ```TypeScript

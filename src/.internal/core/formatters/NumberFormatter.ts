@@ -292,9 +292,9 @@ export class NumberFormatter extends BaseObject {
 					// Parse format
 
 					// Look for codes
-					let matches: string[] | null = [];
-					if (matches = chunk.text.match(/[#0.,]+[ ]?[abesABES%]?[abesABES‰]?/)) {
+					let matches: string[] | null = chunk.text.match(/[#0.,]+[ ]?[abesABES%]?[abesABES‰]?/);
 
+					if (matches) {
 						if (matches === null || matches[0] === "") {
 							// no codes here - assume string
 							// nothing to do here
@@ -303,8 +303,9 @@ export class NumberFormatter extends BaseObject {
 						else {
 
 							// look for the format modifiers at the end
-							let mods: string[] | null = [];
-							if (mods = matches[0].match(/[abesABES%‰]{2}|[abesABES%‰]{1}$/)) {
+							let mods: string[] | null = matches[0].match(/[abesABES%‰]{2}|[abesABES%‰]{1}$/);
+
+							if (mods) {
 								item.mod = mods[0].toLowerCase();
 								item.modSpacing = matches[0].match(/[ ]{1}[abesABES%‰]{1}$/) ? true : false;
 							}
@@ -331,8 +332,10 @@ export class NumberFormatter extends BaseObject {
 								else {
 									// Use length fo the last chunk as thousands length
 									item.thousands.interval = $type.getValue(b.pop()).length;
-									if (item.thousands.interval === 0)
+
+									if (item.thousands.interval === 0) {
 										item.thousands.interval = -1;
+									}
 								}
 							}
 

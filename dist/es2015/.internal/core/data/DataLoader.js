@@ -101,11 +101,11 @@ var DataLoader = /** @class */ (function () {
      */
     DataLoader.prototype.getParserByType = function (contentType) {
         // Let some plugin decide
-        var parser;
-        if (parser = this.adapter.apply("getParserByType", {
+        var parser = this.adapter.apply("getParserByType", {
             parser: null,
             type: contentType
-        }).parser) {
+        }).parser;
+        if (parser) {
             return parser;
         }
         if (contentType == "csv" || contentType == "text/csv" || contentType == "application/vnd.ms-excel") {
@@ -133,8 +133,9 @@ var DataLoader = /** @class */ (function () {
         // Check if we have parser from outside code
         if (!parser) {
             // No, let's try to figure it out
-            if (parser = this.getParserByType(contentType)) {
-                // We're able to figure out parser by conten-type
+            parser = this.getParserByType(contentType);
+            if (parser) {
+                // We're able to figure out parser by content-type
                 return parser;
             }
             else if (JSONParser.isJSON(data)) {

@@ -86,7 +86,7 @@ export function toArray<A>(iter: Iterator<A>): Array<A> {
  * @todo Description
  */
 export function eachContinue<A>(iter: Iterator<A>, fn: (value: A) => boolean): void {
-	return iter(fn);
+	iter(fn);
 }
 
 /**
@@ -96,7 +96,7 @@ export function eachContinue<A>(iter: Iterator<A>, fn: (value: A) => boolean): v
  * @todo Description
  */
 export function each<A>(iter: Iterator<A>, fn: (value: A) => void): void {
-	return iter((value) => {
+	iter((value) => {
 		fn(value);
 		return true;
 	});
@@ -171,7 +171,7 @@ export function flatten<A>(iter: Iterator<Iterator<A>>): Iterator<A> {
 
 		const push2 = (value: A) => (go = push(value));
 
-		return iter((value) => {
+		iter((value) => {
 			value(push2);
 			return go;
 		});
@@ -188,7 +188,7 @@ export function indexed<A>(iter: Iterator<A>): Iterator<[number, A]> {
 	return (push) => {
 		let index = 0;
 
-		return iter((value) => push([index++, value]));
+		iter((value) => push([index++, value]));
 	};
 }
 

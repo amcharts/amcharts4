@@ -346,6 +346,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 	protected _extremesChanged: boolean = false;
 
+	protected _deltaMinMax:number = 1;
+
 	/**
 	 * Holds reference to a function that accepts a DataItem as parameter.
 	 *
@@ -476,9 +478,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 
 				// This has to be `var` in order to avoid garbage collection
-				for (var i: number = startIndex; i < endIndex; ++i) {
+				for (let i: number = startIndex; i < endIndex; ++i) {
 					// This has to be `var` in order to avoid garbage collection
-					var total: { [index: string]: number } = {};
+					const total: { [index: string]: number } = {};
 
 					$iter.each(this.series.iterator(), (series) => {
 						let dataItem: XYSeriesDataItem = series.dataItems.getIndex(i);
@@ -1108,8 +1110,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 		// this happens if starLocation and endLocation are 0.5 and DateAxis has only one date
 		if (min == max) {
-			min -= 1;
-			max += 1;
+			min -= this._deltaMinMax;
+			max += this._deltaMinMax;
 		}
 
 		min -= (max - min) * this.extraMin;
@@ -1150,8 +1152,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			}
 
 			if (min == max) {
-				min -= 1;
-				max += 1;
+				min -= this._deltaMinMax;
+				max += this._deltaMinMax;
 			}
 		}
 
@@ -2031,7 +2033,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		this.calculateTotals = source.calculateTotals;
 		this._baseValue = source.baseValue;
 	}
-
 }
 
 /**

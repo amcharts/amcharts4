@@ -569,6 +569,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		super.validateDataItems();
 
 		this.maxZoomFactor = (this.max - this.min) / this.baseDuration;
+		
+		this._deltaMinMax = this.baseDuration / 2;		
 
 		// allows to keep selection of the same size
 		let newPeriodCount: number = (this.max - this.min) / this.baseDuration;
@@ -608,7 +610,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		// the following is needed to avoid grid flickering while scrolling
 		this._intervalDuration = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
 		let count: number = Math.ceil(this._difference / this._intervalDuration);
-		count = Math.floor(this.start * count) - 3; // some extra is needed
+		count = Math.max(-5, Math.floor(this.start * count) - 3); // some extra is needed
 
 		$time.add(this._gridDate, gridInterval.timeUnit, count * gridInterval.count, this.dateFormatter.utc);
 
@@ -687,7 +689,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @ignore
 	 */
 	public get minDifference(): number {
-		var minDifference = Number.MAX_VALUE;
+		let minDifference = Number.MAX_VALUE;
+
 		this.series.each((series) => {
 			if (minDifference > this._minDifference[series.uid]) {
 				minDifference = this._minDifference[series.uid];
@@ -1129,9 +1132,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @return Adjusted value
 	 */
 	protected fixMin(value: number) {
+		
 		// like this because months are not equal
 		let startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc).getTime();
 		let endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count, this.dateFormatter.utc).getTime();
+
 		return startTime + (endTime - startTime) * this.startLocation;
 	}
 
@@ -1145,6 +1150,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		// like this because months are not equal
 		let startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc).getTime();
 		let endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count, this.dateFormatter.utc).getTime();
+
 		return startTime + (endTime - startTime) * this.endLocation;
 	}
 
@@ -1833,14 +1839,12 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				closestDate = new Date(closestDate.getTime() + this.baseDuration * this.renderer.tooltipLocation);
 				position = this.dateToPosition(closestDate);
 
-				let seriesPoints: { point: IPoint, series: XYSeries }[] = [];
-
 				this.series.each((series) => {
 
 					let dataItem = series.dataItemsByAxis.getKey(this.uid).getKey(closestTime.toString());
 					let point = series.showTooltipAtDataItem(dataItem);
 					if (point) {
-						seriesPoints.push({ series: series, point: point });
+						this.chart._seriesPoints.push({ series: series, point: point });
 					}
 					else {
 						// check, otherwise column tooltip will be hidden
@@ -1850,7 +1854,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					}
 				})
 
-				this.chart.sortSeriesTooltips(seriesPoints);
+				//this.chart.sortSeriesTooltips(seriesPoints);
 			}
 		}
 

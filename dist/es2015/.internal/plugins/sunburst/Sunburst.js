@@ -14,6 +14,7 @@ import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
+import { percent } from "../../core/utils/Percent";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { DictionaryTemplate, DictionaryDisposer } from "../../core/utils/Dictionary";
 /**
@@ -236,6 +237,7 @@ var Sunburst = /** @class */ (function (_super) {
         _this.seriesTemplates = new DictionaryTemplate(template);
         _this._disposers.push(new DictionaryDisposer(_this.seriesTemplates));
         _this._disposers.push(template);
+        _this.radius = percent(95);
         // Apply theme
         _this.applyTheme();
         return _this;

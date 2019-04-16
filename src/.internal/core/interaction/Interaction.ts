@@ -1507,12 +1507,19 @@ export class Interaction extends BaseObjectEvents {
 	 * elements by touch.
 	 */
 	private processDelayed(): void {
-
 		let delayedEvent;
-		while (delayedEvent = this._delayedEvents.out.pop()) {
+
+		while (true) {
+			delayedEvent = this._delayedEvents.out.pop();
+
+			if (!delayedEvent) {
+				break;
+			}
+
 			if (delayedEvent.timeout) {
 				delayedEvent.timeout.dispose();
 			}
+
 			this.handleOut(delayedEvent.io, delayedEvent.pointer, delayedEvent.event, false, true);
 		}
 
@@ -2285,7 +2292,11 @@ export class Interaction extends BaseObjectEvents {
 	 * @param pointer  Pointer
 	 */
 	public dragStart(io: InteractionObject, pointer?: IPointer): void {
-		if (pointer || (pointer = this.getDragPointer(io))) {
+		if (!pointer) {
+			pointer = this.getDragPointer(io);
+		}
+
+		if (pointer) {
 			this.handleDown(io, pointer, pointer.lastDownEvent);
 		}
 	}
@@ -2297,7 +2308,11 @@ export class Interaction extends BaseObjectEvents {
 	 * @param pointer  Pointer
 	 */
 	public dragStop(io: InteractionObject, pointer?: IPointer): void {
-		if (pointer || (pointer = this.getDragPointer(io))) {
+		if (!pointer) {
+			pointer = this.getDragPointer(io);
+		}
+
+		if (pointer) {
 			this.handleGlobalUp(pointer, pointer.lastUpEvent);
 		}
 	}

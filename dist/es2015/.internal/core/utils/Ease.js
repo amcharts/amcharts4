@@ -72,7 +72,8 @@ export function quadOut(t) {
  * Easing function: "quadInOut".
  */
 export function quadInOut(t) {
-    return ((t *= 2) <= 1 ? t * t : --t * (2 - t) + 1) / 2;
+    t *= 2;
+    return (t <= 1 ? t * t : --t * (2 - t) + 1) / 2;
 }
 /**
  * Easing function: "polyIn".
@@ -90,7 +91,8 @@ export function polyOut(t, e) {
  * Easing function: "polyInOut".
  */
 export function polyInOut(t, e) {
-    return ((t *= 2) <= 1 ? Math.pow(t, e) : 2 - Math.pow(2 - t, e)) / 2;
+    t *= 2;
+    return (t <= 1 ? Math.pow(t, e) : 2 - Math.pow(2 - t, e)) / 2;
 }
 /**
  * Easing function: "polyIn3".
@@ -132,7 +134,8 @@ export function expOut(t) {
  * Easing function: "expInOut".
  */
 export function expInOut(t) {
-    return ((t *= 2) <= 1 ? Math.pow(2, 10 * t - 10) : 2 - Math.pow(2, 10 - 10 * t)) / 2;
+    t *= 2;
+    return (t <= 1 ? Math.pow(2, 10 * t - 10) : 2 - Math.pow(2, 10 - 10 * t)) / 2;
 }
 /**
  * ============================================================================
@@ -180,7 +183,8 @@ export function cubicOut(t) {
  * Easing function: "cubicInOut".
  */
 export function cubicInOut(t) {
-    return ((t *= 2) <= 1 ? t * t * t : (t -= 2) * t * t + 2) / 2;
+    t *= 2;
+    return (t <= 1 ? t * t * t : (t -= 2) * t * t + 2) / 2;
 }
 /**
  * ============================================================================
@@ -204,7 +208,8 @@ export function circleOut(t) {
  * Easing function: "circleInOut".
  */
 export function circleInOut(t) {
-    return ((t *= 2) <= 1 ? 1 - Math.sqrt(1 - t * t) : Math.sqrt(1 - (t -= 2) * t) + 1) / 2;
+    t *= 2;
+    return (t <= 1 ? 1 - Math.sqrt(1 - t * t) : Math.sqrt(1 - (t -= 2) * t) + 1) / 2;
 }
 /**
  * ============================================================================
@@ -223,13 +228,15 @@ export function bounceIn(t) {
  * Easing function: "bounceOut".
  */
 export function bounceOut(t) {
-    return (t = +t) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
+    t = +t;
+    return t < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
 }
 /**
  * Easing function: "bounceInOut".
  */
 export function bounceInOut(t) {
-    return ((t *= 2) <= 1 ? 1 - bounceOut(1 - t) : bounceOut(t - 1) + 1) / 2;
+    t *= 2;
+    return (t <= 1 ? 1 - bounceOut(1 - t) : bounceOut(t - 1) + 1) / 2;
 }
 /**
  * ============================================================================
@@ -269,7 +276,8 @@ export function elasticOut(t) {
  * @param p  period
  */
 export function elasticInOut(t) {
-    return ((t = t * 2 - 1) < 0
+    t = t * 2 - 1;
+    return (t < 0
         ? amplitude * Math.pow(2, 10 * t) * Math.sin((s - t) / period)
         : 2 - amplitude * Math.pow(2, -10 * t) * Math.sin((s + t) / period)) / 2;
 }

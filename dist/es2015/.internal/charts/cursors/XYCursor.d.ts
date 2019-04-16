@@ -359,4 +359,8 @@ export declare class XYCursor extends Cursor {
      * @todo Description
      */
     handleSnap(): void;
+    /**
+     * Destroys this object and all related data.
+     */
+    dispose(): void;
 }

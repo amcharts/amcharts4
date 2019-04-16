@@ -435,9 +435,9 @@ export function spiralPoints(cx: number, cy: number, radius: number, radiusY: nu
 
 	let r = innerRadius + 0.01;
 	let angle = 0;
-	var points = [];
+	let points = [];
 
-	while (r < radius) {		
+	while (r < radius) {
 
 		let stepSize = step;
 		if(stepSize / 2 > r){
@@ -451,7 +451,7 @@ export function spiralPoints(cx: number, cy: number, radius: number, radiusY: nu
 		let point = { x: cx + r * Math.cos(angle), y: cy + r * radiusY / radius * Math.sin(angle) };
 		points.push(point);
 
-		r = innerRadius + degrees / 360 * radiusStep;		
+		r = innerRadius + degrees / 360 * radiusStep;
 	}
 	return points;
 }

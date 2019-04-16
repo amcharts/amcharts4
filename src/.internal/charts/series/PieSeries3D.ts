@@ -240,7 +240,7 @@ export class PieSeries3D extends PieSeries {
 			let dataItem = this.dataItems.getIndex(i);
 			let slice: Slice3D = dataItem.slice;
 
-			var startAngle = slice.startAngle;
+			const startAngle = slice.startAngle;
 			// find quarter
 			//q0 || q1
 			if ((startAngle >= -90 && startAngle < 90)) {

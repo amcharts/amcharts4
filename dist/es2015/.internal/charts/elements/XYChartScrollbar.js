@@ -150,6 +150,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             renderer.minWidth = undefined;
             renderer.minHeight = undefined;
             renderer.padding(0, 0, 0, 0);
+            renderer.chart = scrollbarChart;
             renderer.margin(0, 0, 0, 0);
             var labelsTemplate = renderer.labels.template;
             labelsTemplate.fillOpacity = 0.5;
@@ -177,6 +178,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             renderer.grid.template.strokeOpacity = 0.05;
             renderer.minWidth = undefined;
             renderer.minHeight = undefined;
+            renderer.chart = scrollbarChart;
             renderer.padding(0, 0, 0, 0);
             renderer.margin(0, 0, 0, 0);
             var labelsTemplate = renderer.labels.template;

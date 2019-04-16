@@ -229,6 +229,7 @@ export class XYChartScrollbar extends Scrollbar {
 			renderer.minWidth = undefined;
 			renderer.minHeight = undefined;
 			renderer.padding(0,0,0,0);
+			renderer.chart = scrollbarChart;
 			renderer.margin(0,0,0,0);
 
 			let labelsTemplate = renderer.labels.template;
@@ -261,6 +262,7 @@ export class XYChartScrollbar extends Scrollbar {
 			renderer.grid.template.strokeOpacity = 0.05;
 			renderer.minWidth = undefined;
 			renderer.minHeight = undefined;		
+			renderer.chart = scrollbarChart;
 			renderer.padding(0,0,0,0);
 			renderer.margin(0,0,0,0);
 

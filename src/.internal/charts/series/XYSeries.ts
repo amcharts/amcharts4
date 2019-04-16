@@ -1491,6 +1491,8 @@ export class XYSeries extends Series {
 				}
 
 				bullet.moveTo({ x: x, y: y });
+
+				bullet.visible = true;
 			}
 			else {
 				bullet.visible = false;

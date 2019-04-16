@@ -53,7 +53,7 @@ export class System {
 	 *
 	 * @see {@link https://docs.npmjs.com/misc/semver}
 	 */
-	static VERSION: string = "4.3.14";
+	static VERSION: string = "4.3.15";
 
 	/**
 	 * @todo Description
@@ -141,7 +141,7 @@ export class System {
 		// important to go backwards, as items are removed!
 		// TODO use iterator instead
 
-		for (var key in registry.invalidDatas) {
+		for (let key in registry.invalidDatas) {
 			if ($object.hasKey(registry.invalidDatas, key)) {
 				let invalidData = registry.invalidDatas[key];
 

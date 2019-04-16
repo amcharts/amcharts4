@@ -201,6 +201,10 @@ var XYChart = /** @class */ (function (_super) {
          * Defines the type of vertical axis rederer.
          */
         _this._axisRendererY = AxisRendererY;
+        /**
+         * @ignore
+         */
+        _this._seriesPoints = [];
         _this.className = "XYChart";
         // Set defaults
         //this.margin(10, 10, 10, 10);
@@ -391,8 +395,8 @@ var XYChart = /** @class */ (function (_super) {
             axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleXAxisChange, this, false);
         }
         axis.axisLetter = "X";
-        axis.events.on("startchanged", this.handleXAxisRangeChange, this, false);
-        axis.events.on("endchanged", this.handleXAxisRangeChange, this, false);
+        axis.events.on("startendchanged", this.handleXAxisRangeChange, this, false);
+        //axis.events.on("endchanged", this.handleXAxisRangeChange, this, false);
         // Although axis does not use data directly, we set dataProvider here
         // (but not add to chart data users) to hold up rendering before data
         // is parsed (system handles this)
@@ -414,8 +418,8 @@ var XYChart = /** @class */ (function (_super) {
             axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleYAxisChange, this, false);
         }
         axis.axisLetter = "Y";
-        axis.events.on("startchanged", this.handleYAxisRangeChange, this, false);
-        axis.events.on("endchanged", this.handleYAxisRangeChange, this, false);
+        axis.events.on("startendchanged", this.handleYAxisRangeChange, this, false);
+        //axis.events.on("endchanged", this.handleYAxisRangeChange, this, false);
         // Although axis does not use data directly, we set dataProvider here
         // (but not add to chart data users) to hold up rendering before data
         // is parsed (system handles this)
@@ -598,8 +602,22 @@ var XYChart = /** @class */ (function (_super) {
         this.plotContainer.events.on("maxsizechanged", function () {
             if (_this.inited) {
                 axis.invalidateDataItems();
+                _this.updateSeriesMasks();
             }
         }, axis, false);
+    };
+    /**
+     * This is done because for some reason IE doesn't change mask if path of a
+     * mask changes.
+     */
+    XYChart.prototype.updateSeriesMasks = function () {
+        if ($utils.isIE()) {
+            this.series.each(function (series) {
+                var mask = series.mainContainer.mask;
+                series.mainContainer.mask = undefined;
+                series.mainContainer.mask = mask;
+            });
+        }
     };
     Object.defineProperty(XYChart.prototype, "xAxes", {
         /**
@@ -745,8 +763,10 @@ var XYChart = /** @class */ (function (_super) {
                     exceptAxis = snapToSeries.xAxis;
                 }
             }
+            this._seriesPoints = [];
             this.showAxisTooltip(this.xAxes, xPosition, exceptAxis);
             this.showAxisTooltip(this.yAxes, yPosition, exceptAxis);
+            this.sortSeriesTooltips(this._seriesPoints);
         }
     };
     /**

@@ -419,6 +419,7 @@ export declare class TreeMap extends XYChart {
      * @param dataItem [description]
      */
     protected createTreeSeriesReal(dataItem: TreeMapDataItem): void;
+    protected setData(value: any[]): void;
     /**
      * @ignore
      * Overriding, as tree map series are created on the fly all the time

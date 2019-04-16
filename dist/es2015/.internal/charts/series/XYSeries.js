@@ -1066,6 +1066,7 @@ var XYSeries = /** @class */ (function (_super) {
                     y = y - (y - openY) * bullet.locationY;
                 }
                 bullet.moveTo({ x: x, y: y });
+                bullet.visible = true;
             }
             else {
                 bullet.visible = false;

@@ -129,7 +129,7 @@ export class PieTick extends Tick {
 				}
 			}
 			else {
-				var r = label.pixelRadius(slice.radius);
+				const r = label.pixelRadius(slice.radius);
 
 				x1 = x0 + r * slice.ix;
 				y1 = y0 + r * slice.iy;

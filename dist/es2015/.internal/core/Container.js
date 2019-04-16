@@ -407,10 +407,12 @@ var Container = /** @class */ (function (_super) {
             sortArray.sort(function (a, b) {
                 var ai = (a.data.zIndex || 0);
                 var bi = (b.data.zIndex || 0);
-                if (ai < bi)
+                if (ai < bi) {
                     return -1;
-                if (ai > bi)
+                }
+                if (ai > bi) {
                     return 1;
+                }
                 return a.idx - b.idx;
             });
             zindexed = sortArray.map(function (val) {

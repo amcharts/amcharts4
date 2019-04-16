@@ -105,8 +105,8 @@ export class AxisRendererY3D extends AxisRendererY {
 		let point: IPoint = this.positionToPoint(position);
 		if (grid.element) {
 
-			let dx: number = this.chart.dx3D;
-			let dy: number = this.chart.dy3D;
+			let dx: number = this.chart.dx3D || 0;
+			let dy: number = this.chart.dy3D || 0;
 
 			let w: number = this.getWidth();
 
@@ -125,10 +125,13 @@ export class AxisRendererY3D extends AxisRendererY {
 	public updateBaseGridElement(): void {
 		super.updateBaseGridElement();
 
+		let dx: number = this.chart.dx3D || 0;
+		let dy: number = this.chart.dy3D || 0;
+
 		let w: number = this.getWidth();
 		this.baseGrid.path = $path.moveTo({ x: 0, y: 0 })
-				+ $path.lineTo({ x: w, y: 0 })
-				+ $path.lineTo({ x: w + this.chart.dx3D, y: this.chart.dy3D });
+			+ $path.lineTo({ x: w, y: 0 })
+			+ $path.lineTo({ x: w + dx, y: dy });
 	}
 
 	/**

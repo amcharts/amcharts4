@@ -980,7 +980,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getCanvas = function (options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var background, DOMURL, url, blobs, width, height, font, fontSize, canvas, pixelRatio, ctx, promises, a, data, svg, img;
+            var background, DOMURL, url, blobs, canvas, width, height, font, fontSize, pixelRatio, ctx, promises, a, data, svg, img;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -996,6 +996,7 @@ var Export = /** @class */ (function (_super) {
                     case 1:
                         _a.trys.push([1, , 4, 5]);
                         width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = $dom.findFont(this.sprite.dom), fontSize = $dom.findFontSize(this.sprite.dom);
+                        // Create canvas and its 2D context
                         canvas = this.getDisposableCanvas();
                         pixelRatio = this.getPixelRatio(options);
                         canvas.style.width = width + 'px';
@@ -1413,7 +1414,11 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.restoreRemovedObjects = function () {
         var obj;
-        while (obj = this._removedObjects.pop()) {
+        while (true) {
+            obj = this._removedObjects.pop();
+            if (!obj) {
+                break;
+            }
             //obj.element.setAttribute("href", obj.originalHref);
             var parent_1 = obj.placeholder.parentElement || obj.placeholder.parentNode;
             parent_1.insertBefore(obj.element, obj.placeholder);

@@ -779,7 +779,7 @@ export class List<T> {
 	 * @param item  An item to add
 	 */
 	public unshift(value: T): void {
-		return this.insertIndex(0, value);
+		this.insertIndex(0, value);
 	}
 
 	/**

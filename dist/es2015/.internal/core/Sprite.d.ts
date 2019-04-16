@@ -901,6 +901,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param source Source Sprite
      */
     copyFrom(source: this): void;
+    /**
+     * Destroys this object and all related data.
+     */
     dispose(): void;
     /**
      * @ignore Exclude from docs

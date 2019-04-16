@@ -399,8 +399,9 @@ export function unquote(str) {
 export function padString(value, len, char) {
     if (len === void 0) { len = 0; }
     if (char === void 0) { char = "0"; }
-    if (typeof value !== "string")
+    if (typeof value !== "string") {
         value = value.toString();
+    }
     return len > value.length ? Array(len - value.length + 1).join(char) + value : value;
 }
 /**
@@ -412,8 +413,9 @@ export function padString(value, len, char) {
  */
 export function getFormat(format) {
     // Undefined?
-    if (typeof format === "undefined")
+    if (typeof format === "undefined") {
         return $strings.STRING;
+    }
     // Cleanup and lowercase format
     format = format.toLowerCase().replace(/^\[[^\]]*\]/, "");
     // Remove style tags
@@ -1072,5 +1074,13 @@ export function joinUrl(left, right) {
     else {
         return serializeUrl(parsedRight);
     }
+}
+/**
+ * Detects MSIE.
+ *
+ * @return Is IE?
+ */
+export function isIE() {
+    return !!window.MSInputMethodContext && !!document.documentMode;
 }
 //# sourceMappingURL=Utils.js.map

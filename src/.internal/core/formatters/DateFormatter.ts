@@ -149,7 +149,7 @@ export class DateFormatter extends BaseObject {
 
 	/**
 	 * A reference to [[Language]] object.
-	 * 
+	 *
 	 * @param  value  Language
 	 */
 	public set language(value: $type.Optional<Language>) {
@@ -902,8 +902,9 @@ export class DateFormatter extends BaseObject {
 
 		// Try matching
 		let regex = new RegExp(reg);
-		let matches: RegExpMatchArray;
-		if (matches = source.match(regex)) {
+		let matches: RegExpMatchArray = source.match(regex);
+
+		if (matches) {
 			// Populate the date object
 
 			// Full year

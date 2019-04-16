@@ -394,6 +394,7 @@ var DateAxis = /** @class */ (function (_super) {
         var periodCount = (this.max - this.min) / this.baseDuration;
         _super.prototype.validateDataItems.call(this);
         this.maxZoomFactor = (this.max - this.min) / this.baseDuration;
+        this._deltaMinMax = this.baseDuration / 2;
         // allows to keep selection of the same size
         var newPeriodCount = (this.max - this.min) / this.baseDuration;
         start = start + (end - start) * (1 - periodCount / newPeriodCount);
@@ -425,7 +426,7 @@ var DateAxis = /** @class */ (function (_super) {
         // the following is needed to avoid grid flickering while scrolling
         this._intervalDuration = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
         var count = Math.ceil(this._difference / this._intervalDuration);
-        count = Math.floor(this.start * count) - 3; // some extra is needed
+        count = Math.max(-5, Math.floor(this.start * count) - 3); // some extra is needed
         $time.add(this._gridDate, gridInterval.timeUnit, count * gridInterval.count, this.dateFormatter.utc);
         // tell series start/end
         $iter.each(this.series.iterator(), function (series) {
@@ -1522,12 +1523,11 @@ var DateAxis = /** @class */ (function (_super) {
                 closestTime_1 = closestDate_1.getTime();
                 closestDate_1 = new Date(closestDate_1.getTime() + this.baseDuration * this.renderer.tooltipLocation);
                 position = this.dateToPosition(closestDate_1);
-                var seriesPoints_1 = [];
                 this.series.each(function (series) {
                     var dataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(closestTime_1.toString());
                     var point = series.showTooltipAtDataItem(dataItem);
                     if (point) {
-                        seriesPoints_1.push({ series: series, point: point });
+                        _this.chart._seriesPoints.push({ series: series, point: point });
                     }
                     else {
                         // check, otherwise column tooltip will be hidden
@@ -1536,7 +1536,7 @@ var DateAxis = /** @class */ (function (_super) {
                         }
                     }
                 });
-                this.chart.sortSeriesTooltips(seriesPoints_1);
+                //this.chart.sortSeriesTooltips(seriesPoints);
             }
         }
         _super.prototype.showTooltipAtPosition.call(this, position, true);

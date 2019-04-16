@@ -510,8 +510,10 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 
 				// Do we have instructions to create an object?
 				if ($type.isObject(configValue) && $type.hasValue((<any>configValue)["type"])) {
+					item = this.createClassInstance((<any>configValue)["type"]);
+
 					// Create new instance
-					if (item = this.createClassInstance((<any>configValue)["type"])) {
+					if (item) {
 						target[configKey] = item;
 					}
 					else {
@@ -624,7 +626,9 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 										(<any>item.template[entryKey]).config = entryValue;
 									}
 									else if ($type.isObject(entryValue) && $type.hasValue((<any>entryValue)["type"])) {
-										if (listItem = this.createClassInstance((<any>entryValue)["type"])) {
+										listItem = this.createClassInstance((<any>entryValue)["type"])
+
+										if (listItem) {
 											if (listItem instanceof BaseObject) {
 												listItem.config = <any>entryValue;
 											}
