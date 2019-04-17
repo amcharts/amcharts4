@@ -2795,6 +2795,15 @@ var Sprite = /** @class */ (function (_super) {
             var _this = this;
             if (this._language.get() !== value) {
                 this._language.set(value, value.events.on("localechanged", function (ev) {
+                    if (_this.numberFormatter) {
+                        _this.numberFormatter.language = _this.language;
+                    }
+                    if (_this.dateFormatter) {
+                        _this.dateFormatter.language = _this.language;
+                    }
+                    if (_this.durationFormatter) {
+                        _this.durationFormatter.language = _this.language;
+                    }
                     if (_this instanceof Container) {
                         _this.deepInvalidate();
                     }
@@ -3967,13 +3976,15 @@ var Sprite = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    Sprite.prototype.handleDragStart = function () {
-        this.interactions.originalPosition = {
-            x: this.pixelX,
-            y: this.pixelY
-        };
-        this._isDragged = true;
-        this.hideTooltip(0);
+    Sprite.prototype.handleDragStart = function (ev) {
+        if (!this.interactions.isTouchProtected || !ev.touch) {
+            this.interactions.originalPosition = {
+                x: this.pixelX,
+                y: this.pixelY
+            };
+            this._isDragged = true;
+            this.hideTooltip(0);
+        }
     };
     /**
      * Tell this element to start being dragged. This is useful if you want to
@@ -4000,10 +4011,12 @@ var Sprite = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    Sprite.prototype.handleDragStop = function () {
-        this._isDragged = false;
-        this.showTooltip();
-        this.interactions.originalPosition = undefined;
+    Sprite.prototype.handleDragStop = function (ev) {
+        if (!this.interactions.isTouchProtected || !ev.touch) {
+            this._isDragged = false;
+            this.showTooltip();
+            this.interactions.originalPosition = undefined;
+        }
     };
     /**
      * Stops manually initiated dragging of the element.
@@ -4025,11 +4038,13 @@ var Sprite = /** @class */ (function (_super) {
      * @todo Implement parent position offset calculation
      */
     Sprite.prototype.handleDragMove = function (ev) {
-        var point = this.interactions.originalPosition;
-        if (point && this._isDragged) {
-            var globalScale = this.parent.globalScale * this.svgContainer.cssScale;
-            this.moveTo({ x: point.x + ev.shift.x / globalScale, y: point.y + ev.shift.y / globalScale }, undefined, undefined, true);
-            //this.dispatchImmediately("drag", ev);
+        if (!this.interactions.isTouchProtected || !ev.touch) {
+            var point = this.interactions.originalPosition;
+            if (point && this._isDragged) {
+                var globalScale = this.parent.globalScale * this.svgContainer.cssScale;
+                this.moveTo({ x: point.x + ev.shift.x / globalScale, y: point.y + ev.shift.y / globalScale }, undefined, undefined, true);
+                //this.dispatchImmediately("drag", ev);
+            }
         }
     };
     Object.defineProperty(Sprite.prototype, "inert", {
@@ -4736,31 +4751,33 @@ var Sprite = /** @class */ (function (_super) {
      * @param ev Event object
      */
     Sprite.prototype.handleResize = function (ev) {
-        this._isResized = true;
-        this.scale = this.interactions.originalScale * ev.scale;
-        this.validatePosition();
-        /*center: (io.draggable
-        ? $math.getMidPoint(point1, point2)
-        : {
-            "x": io.originalPosition.x,
-            "y": io.originalPosition.y
-        })*/
-        //this.moveTo(this.originalPosition.x + ev.shift.x, this.originalPosition.y + ev.shift.y);
-        if (this.draggable || this.dragWhileResize) {
-            this._isDragged = false;
-            var svgPoint1 = $utils.documentPointToSvg(ev.point1, this.htmlContainer, this.svgContainer.cssScale);
-            var svgPoint2 = $utils.documentPointToSvg(ev.point2, this.htmlContainer, this.svgContainer.cssScale);
-            var svgMidPoint = $math.getMidPoint(svgPoint1, svgPoint2);
-            var parentPoint1 = $utils.documentPointToSprite(ev.startPoint1, this.parent);
-            var parentPoint2 = $utils.documentPointToSprite(ev.startPoint2, this.parent);
-            var originalPosition = this.interactions.originalPosition;
-            var originalScale = this.interactions.originalScale;
-            if (originalPosition) {
-                var spritePoint1 = { x: (parentPoint1.x - originalPosition.x) / originalScale, y: (parentPoint1.y - originalPosition.y) / originalScale };
-                var spritePoint2 = { x: (parentPoint2.x - originalPosition.x) / originalScale, y: (parentPoint2.y - originalPosition.y) / originalScale };
-                var spriteMidPoint = $math.getMidPoint(spritePoint1, spritePoint2);
-                var parentPoint = $utils.svgPointToSprite(svgMidPoint, this.parent);
-                this.moveTo({ x: parentPoint.x - spriteMidPoint.x * this.scale, y: parentPoint.y - spriteMidPoint.y * this.scale }, undefined, undefined, true);
+        if (!this.interactions.isTouchProtected || !ev.touch) {
+            this._isResized = true;
+            this.scale = this.interactions.originalScale * ev.scale;
+            this.validatePosition();
+            /*center: (io.draggable
+            ? $math.getMidPoint(point1, point2)
+            : {
+                "x": io.originalPosition.x,
+                "y": io.originalPosition.y
+            })*/
+            //this.moveTo(this.originalPosition.x + ev.shift.x, this.originalPosition.y + ev.shift.y);
+            if (this.draggable || this.dragWhileResize) {
+                this._isDragged = false;
+                var svgPoint1 = $utils.documentPointToSvg(ev.point1, this.htmlContainer, this.svgContainer.cssScale);
+                var svgPoint2 = $utils.documentPointToSvg(ev.point2, this.htmlContainer, this.svgContainer.cssScale);
+                var svgMidPoint = $math.getMidPoint(svgPoint1, svgPoint2);
+                var parentPoint1 = $utils.documentPointToSprite(ev.startPoint1, this.parent);
+                var parentPoint2 = $utils.documentPointToSprite(ev.startPoint2, this.parent);
+                var originalPosition = this.interactions.originalPosition;
+                var originalScale = this.interactions.originalScale;
+                if (originalPosition) {
+                    var spritePoint1 = { x: (parentPoint1.x - originalPosition.x) / originalScale, y: (parentPoint1.y - originalPosition.y) / originalScale };
+                    var spritePoint2 = { x: (parentPoint2.x - originalPosition.x) / originalScale, y: (parentPoint2.y - originalPosition.y) / originalScale };
+                    var spriteMidPoint = $math.getMidPoint(spritePoint1, spritePoint2);
+                    var parentPoint = $utils.svgPointToSprite(svgMidPoint, this.parent);
+                    this.moveTo({ x: parentPoint.x - spriteMidPoint.x * this.scale, y: parentPoint.y - spriteMidPoint.y * this.scale }, undefined, undefined, true);
+                }
             }
         }
     };

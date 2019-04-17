@@ -113,7 +113,8 @@ var Inertia = /** @class */ (function (_super) {
                 point: {
                     x: this.x,
                     y: this.y
-                }
+                },
+                touch: false
             };
             // Call handler
             this.interaction.events.dispatchImmediately("drag", imev);

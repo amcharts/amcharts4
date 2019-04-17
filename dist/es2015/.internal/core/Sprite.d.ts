@@ -2103,7 +2103,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @ignore Exclude from docs
      */
-    protected handleDragStart(): void;
+    protected handleDragStart(ev: AMEvent<Sprite, ISpriteEvents>["dragstart"]): void;
     /**
      * Tell this element to start being dragged. This is useful if you want to
      * drag items by interactions performed not directly on the target element.
@@ -2124,7 +2124,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @ignore Exclude from docs
      */
-    protected handleDragStop(): void;
+    protected handleDragStop(ev: AMEvent<Sprite, ISpriteEvents>["dragstop"]): void;
     /**
      * Stops manually initiated dragging of the element.
      *

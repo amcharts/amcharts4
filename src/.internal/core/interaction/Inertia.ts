@@ -144,7 +144,8 @@ export class Inertia extends BaseObject implements IAnimatable {
 				point: {
 					x: this.x,
 					y: this.y
-				}
+				},
+				touch: false
 			};
 
 			// Call handler

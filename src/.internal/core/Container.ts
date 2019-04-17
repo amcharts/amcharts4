@@ -16,6 +16,7 @@ import { List, IListEvents } from "./utils/List";
 import { VerticalAlign } from "./defs/VerticalAlign";
 import { IDisposer, MultiDisposer } from "./utils/Disposer";
 import { Dictionary, DictionaryDisposer } from "./utils/Dictionary";
+import { getInteraction } from "./interaction/Interaction";
 import { Align } from "./defs/Align";
 import { Group } from "./rendering/Group";
 import { Rectangle } from "./elements/Rectangle";
@@ -310,6 +311,22 @@ export class Container extends Sprite {
 	 * fire a "ready" event.
 	 */
 	protected _shouldBeReady: Sprite[] = [];
+
+	/**
+	 * [_tapToActivate description]
+	 * @todo mm
+	 */
+	protected _tapToActivate: boolean = false;
+	protected _tapToActivateTimeout: Optional<IDisposer>;
+
+	/**
+	 * If `tapToActivate` is used, this setting will determine how long the chart
+	 * will stay in "active" mode.
+	 *
+	 * @default 3000
+	 * @since 4.4.0
+	 */
+	public tapTimeout: number = 3000;
 
 	/**
 	 * Constructor
@@ -2095,6 +2112,80 @@ export class Container extends Sprite {
 	public _systemValidateLayouts() {
 		if (this.layoutInvalid && !this.isDisposed()) {
 			this.validateLayout();
+		}
+	}
+
+	/**
+	 * If set to `true` the chart's regular touch functionality will be suspended
+	 * so that the whole page it is located in remains scrollable, even when
+	 * swiping over the chart's body.
+	 *
+	 * User will need to tap the chart in order to activate its regular touch
+	 * functionality.
+	 *
+	 * The chart will remain "active" as long as user keeps interacting with the
+	 * chart. After `tapTimeout` milliseconds the chart will return to its
+	 * "protected" mode.
+	 *
+	 * @default false
+	 * @since 4.4.0
+	 * @param  value  Enable touch protection?
+	 * @see {@link https://www.amcharts.com/docs/v4/concepts/touch/} For more information.
+	 */
+	public set tapToActivate(value: boolean) {
+		if (this._tapToActivate != value) {
+			this.setTapToActivate(value);
+		}
+	}
+
+	/**
+	 * @return Enable touch protection?
+	 */
+	public get tapToActivate(): boolean {
+		return this._tapToActivate;
+	}
+
+	protected setTapToActivate(value: boolean): void {
+		this._tapToActivate = value;
+		this.interactions.isTouchProtected = value;
+		// setEventDisposer will also remove listeners if value == false
+		if (value) {
+			this.interactions.setEventDisposer("container-tapToActivate", value, () => new MultiDisposer([
+				this.events.on("hit", this.handleTapToActivate, this, false),
+				this.events.on("down", this.initTapTimeout, this, false),
+				this.events.on("track", this.initTapTimeout, this, false),
+				//this.events.on("drag", this.initTapTimeout, this, false),
+				getInteraction().body.events.on("down", (ev) => {
+					if (!getInteraction().isLocalElement(ev.pointer, this.paper.svg, this.uid)) {
+						this.handleTapToActivateDeactivation();
+					}
+				}, this, false)
+			]));
+		}
+
+		getInteraction()
+	}
+
+	/**
+	 * @todo Ignore on non-touch events
+	 */
+	protected handleTapToActivate(): void {
+		this.interactions.isTouchProtected = false;
+		this.initTapTimeout();
+	}
+
+	protected handleTapToActivateDeactivation(): void {
+		this.interactions.isTouchProtected = true;
+	}
+
+	protected initTapTimeout(): void {
+		if (this._tapToActivateTimeout) {
+			this._tapToActivateTimeout.dispose();
+		}
+		if (this.tapToActivate && !this.interactions.isTouchProtected && this.tapTimeout) {
+			this._tapToActivateTimeout = this.setTimeout(() => {
+				this.handleTapToActivateDeactivation()
+			}, this.tapTimeout);
 		}
 	}
 }

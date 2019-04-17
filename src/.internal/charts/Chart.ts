@@ -14,6 +14,7 @@ import { MutableValueDisposer } from "../core/utils/Disposer";
 import { ListTemplate, IListEvents, ListDisposer } from "../core/utils/List";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
+import { Grip } from "../core/elements/Grip";
 import { Legend } from "../charts/Legend";
 import { DataItem } from "../core/DataItem";
 import { percent } from "../core/utils/Percent";
@@ -137,6 +138,11 @@ export class Chart extends Component {
 	 * @ignore
 	 */
 	protected _legend = new MutableValueDisposer<Legend>();
+
+	/**
+	 * Instance of the grip element.
+	 */
+	protected _dragGrip: $type.Optional<Grip>;
 
 	/**
 	 * Constructor
@@ -395,6 +401,49 @@ export class Chart extends Component {
 		super.copyFrom(source);
 	}
 
+	/**
+	 * An instance of [[Grip]] which serves as a grip point which appears on
+	 * touch and allows scrolling whole page even if chart is occupying the
+	 * whole of the screen and would otherwise prevent scrolling.
+	 *
+	 * @since 4.4.0
+	 * @see {@link https://www.amcharts.com/docs/v4/concepts/touch/} For more information.
+	 * @param  value  Grip
+	 */
+	public set dragGrip(value: Grip) {
+		this._dragGrip = value;
+	}
+
+	/**
+	 * @return Grip
+	 */
+	public get dragGrip(): Grip {
+		if (!this._dragGrip) {
+			let grip = this.tooltipContainer.createChild(Grip);
+			grip.align = "right";
+			grip.valign = "middle";
+			grip.hide(0);
+
+			grip.events.on("down", (ev) => {
+				if (ev.touch) {
+					this.interactionsEnabled = false;
+				}
+			});
+
+			grip.events.on("up", (ev) => {
+				this.interactionsEnabled = true;
+			});
+
+			this.events.on("down", (ev) => {
+				if (ev.touch) {
+					grip.show();
+				}
+			});
+
+			this._dragGrip = grip;
+		}
+		return this._dragGrip;
+	}
 }
 
 /**

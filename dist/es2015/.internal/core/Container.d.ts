@@ -248,6 +248,20 @@ export declare class Container extends Sprite {
      */
     protected _shouldBeReady: Sprite[];
     /**
+     * [_tapToActivate description]
+     * @todo mm
+     */
+    protected _tapToActivate: boolean;
+    protected _tapToActivateTimeout: Optional<IDisposer>;
+    /**
+     * If `tapToActivate` is used, this setting will determine how long the chart
+     * will stay in "active" mode.
+     *
+     * @default 3000
+     * @since 4.4.0
+     */
+    tapTimeout: number;
+    /**
      * Constructor
      */
     constructor();
@@ -688,4 +702,32 @@ export declare class Container extends Sprite {
      * @ignore Exclude from docs
      */
     _systemValidateLayouts(): void;
+    /**
+     * @return Enable touch protection?
+     */
+    /**
+     * If set to `true` the chart's regular touch functionality will be suspended
+     * so that the whole page it is located in remains scrollable, even when
+     * swiping over the chart's body.
+     *
+     * User will need to tap the chart in order to activate its regular touch
+     * functionality.
+     *
+     * The chart will remain "active" as long as user keeps interacting with the
+     * chart. After `tapTimeout` milliseconds the chart will return to its
+     * "protected" mode.
+     *
+     * @default false
+     * @since 4.4.0
+     * @param  value  Enable touch protection?
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/touch/} For more information.
+     */
+    tapToActivate: boolean;
+    protected setTapToActivate(value: boolean): void;
+    /**
+     * @todo Ignore on non-touch events
+     */
+    protected handleTapToActivate(): void;
+    protected handleTapToActivateDeactivation(): void;
+    protected initTapTimeout(): void;
 }

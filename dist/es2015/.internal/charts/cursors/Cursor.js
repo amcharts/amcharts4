@@ -77,7 +77,7 @@ var Cursor = /** @class */ (function (_super) {
      * @param event Event
      */
     Cursor.prototype.handleCursorMove = function (event) {
-        if (!this.interactionsEnabled) {
+        if (!this.interactionsEnabled || (this.interactions.isTouchProtected && event.touch)) {
             return;
         }
         if (((this._generalBehavior != "zoom" && this._generalBehavior != "pan") || !this.downPoint) && !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
@@ -253,14 +253,14 @@ var Cursor = /** @class */ (function (_super) {
      * @param event Original event
      */
     Cursor.prototype.handleCursorDown = function (event) {
-        if (!this.interactionsEnabled || !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
+        if (!this.interactionsEnabled || (this.interactions.isTouchProtected && event.touch) || !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
             return;
         }
         // Get local point
         var local = $utils.documentPointToSprite(event.pointer.point, this);
         this._downPointOrig = { x: local.x, y: local.y };
         // We need to cancel the event to prevent gestures on touch devices
-        if (event.event.cancelable && this.shouldPreventGestures() && this.fitsToBounds(local)) {
+        if (event.event.cancelable && this.shouldPreventGestures(event.touch) && this.fitsToBounds(local)) {
             event.event.preventDefault();
         }
         // Make this happen
@@ -274,7 +274,7 @@ var Cursor = /** @class */ (function (_super) {
      *
      * @return Prevent default?
      */
-    Cursor.prototype.shouldPreventGestures = function () {
+    Cursor.prototype.shouldPreventGestures = function (touch) {
         return true;
     };
     /**

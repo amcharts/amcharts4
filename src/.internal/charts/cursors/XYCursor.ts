@@ -333,6 +333,7 @@ export class XYCursor extends Cursor {
 	 * @param point Point to place cursor at
 	 */
 	protected triggerMoveReal(point: IPoint): void {
+
 		super.triggerMoveReal(point);
 
 		if ((this.snapToSeries && !this.snapToSeries.isHidden)) {
@@ -368,6 +369,7 @@ export class XYCursor extends Cursor {
 
 
 	protected triggerDownReal(point: IPoint) {
+
 		if (this.visible && !this.isHiding) {
 
 			if (this.fitsToBounds(point)) {
@@ -553,8 +555,8 @@ export class XYCursor extends Cursor {
 	 *
 	 * @return Prevent default?
 	 */
-	protected shouldPreventGestures(): boolean {
-		return this.behavior != "none";
+	protected shouldPreventGestures(touch: boolean): boolean {
+		return (!this.interactions.isTouchProtected || !touch) && this.behavior != "none";
 	}
 
 	/**

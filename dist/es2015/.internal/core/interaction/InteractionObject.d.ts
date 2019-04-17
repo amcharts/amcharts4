@@ -119,6 +119,10 @@ export declare class InteractionObject extends BaseObjectEvents {
      */
     protected _isFocused: boolean;
     /**
+     * Is element currently protected from touch interactions?
+     */
+    protected _isTouchProtected: boolean;
+    /**
      * A timestamp of the last hit.
      *
      * Used to calculate double-hit.
@@ -225,6 +229,17 @@ export declare class InteractionObject extends BaseObjectEvents {
      * @param value Focused?
      */
     isFocused: boolean;
+    /**
+     * @ignore
+     * @return Touch protected?
+     */
+    /**
+     * Indicates if this element is currently being protected from touch actions.
+     *
+     * @ignore
+     * @param value Touch protected?
+     */
+    isTouchProtected: boolean;
     /**
      * @return Clickable?
      */

@@ -240,9 +240,11 @@ export class Cursor extends Container {
 	 */
 	public handleCursorMove(event: IInteractionObjectEvents["track"]): IPoint {
 
-		if (!this.interactionsEnabled) {
+
+		if (!this.interactionsEnabled || (this.interactions.isTouchProtected && event.touch)) {
 			return;
 		}
+
 		if (((this._generalBehavior != "zoom" && this._generalBehavior != "pan") || !this.downPoint) && !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
 			// We want to let zoom/pan continue even if cursor is outside chart area
 			if (!this.isHidden || !this.isHiding) {
@@ -442,16 +444,17 @@ export class Cursor extends Container {
 	 */
 	public handleCursorDown(event: IInteractionEvents["down"]): void {
 
-		if (!this.interactionsEnabled || !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
+		if (!this.interactionsEnabled || (this.interactions.isTouchProtected && event.touch) || !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
 			return;
 		}
+
 		// Get local point
 		let local: IPoint = $utils.documentPointToSprite(event.pointer.point, this);
 
 		this._downPointOrig = { x: local.x, y: local.y };
 
 		// We need to cancel the event to prevent gestures on touch devices
-		if (event.event.cancelable && this.shouldPreventGestures() && this.fitsToBounds(local)) {
+		if (event.event.cancelable && this.shouldPreventGestures(event.touch) && this.fitsToBounds(local)) {
 			event.event.preventDefault();
 		}
 
@@ -467,7 +470,7 @@ export class Cursor extends Container {
 	 * 
 	 * @return Prevent default?
 	 */
-	protected shouldPreventGestures(): boolean {
+	protected shouldPreventGestures(touch: boolean): boolean {
 		return true;
 	}
 

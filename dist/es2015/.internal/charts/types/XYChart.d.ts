@@ -763,4 +763,10 @@ export declare class XYChart extends SerialChart {
      * @param rawDataItem One or many raw data item objects
      */
     addData(rawDataItem: Object | Object[], removeCount?: number): void;
+    /**
+     * @param  value  Tap to activate?
+     */
+    protected setTapToActivate(value: boolean): void;
+    protected handleTapToActivate(): void;
+    protected handleTapToActivateDeactivation(): void;
 }

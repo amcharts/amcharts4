@@ -1054,7 +1054,7 @@ export function svgPointToDocument(point: IPoint, svgContainer: HTMLElement): IP
  * @return Sprite coordinates
  */
 export function documentPointToSprite(point: IPoint, sprite: Sprite): IPoint {
-	if (sprite) {
+	if (sprite && sprite.htmlContainer) {
 		let svgPoint: IPoint = documentPointToSvg(point, $type.getValue(sprite.htmlContainer), sprite.svgContainer.cssScale);
 		return svgPointToSprite(svgPoint, sprite);
 	}
@@ -1071,7 +1071,7 @@ export function documentPointToSprite(point: IPoint, sprite: Sprite): IPoint {
  * @return Global coordinates
  */
 export function spritePointToDocument(point: IPoint, sprite: Sprite): IPoint {
-	if (sprite) {
+	if (sprite && sprite.htmlContainer) {
 		let svgPoint: IPoint = spritePointToSvg(point, sprite);
 		return svgPointToDocument(svgPoint, $type.getValue(sprite.htmlContainer));
 	}

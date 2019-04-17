@@ -2060,6 +2060,28 @@ export class MapChart extends SerialChart {
 		legend.parent = this;
 	}
 
+	/**
+	 * @param  value  Tap to activate?
+	 */
+	protected setTapToActivate(value: boolean): void {
+		super.setTapToActivate(value);
+		// setup other containers
+		this.seriesContainer.interactions.isTouchProtected = true;
+		this.panSprite.interactions.isTouchProtected = true;
+	}
+
+	protected handleTapToActivate(): void {
+		super.handleTapToActivate();
+		this.seriesContainer.interactions.isTouchProtected = false;
+		this.panSprite.interactions.isTouchProtected = false;
+	}
+
+	protected handleTapToActivateDeactivation(): void {
+		super.handleTapToActivateDeactivation();
+		this.seriesContainer.interactions.isTouchProtected = true;
+		this.panSprite.interactions.isTouchProtected = true;
+	}
+
 }
 
 /**

@@ -373,8 +373,8 @@ var XYCursor = /** @class */ (function (_super) {
      *
      * @return Prevent default?
      */
-    XYCursor.prototype.shouldPreventGestures = function () {
-        return this.behavior != "none";
+    XYCursor.prototype.shouldPreventGestures = function (touch) {
+        return (!this.interactions.isTouchProtected || !touch) && this.behavior != "none";
     };
     Object.defineProperty(XYCursor.prototype, "fullWidthLineX", {
         /**

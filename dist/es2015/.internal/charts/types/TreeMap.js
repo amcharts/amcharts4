@@ -574,6 +574,11 @@ var TreeMap = /** @class */ (function (_super) {
     };
     TreeMap.prototype.setData = function (value) {
         this.currentLevel = 0;
+        this.currentlyZoomed = undefined;
+        this.xAxis.start = 0;
+        this.xAxis.end = 1;
+        this.yAxis.start = 0;
+        this.yAxis.end = 1;
         _super.prototype.setData.call(this, value);
     };
     /**

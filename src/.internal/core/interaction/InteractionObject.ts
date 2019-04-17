@@ -140,6 +140,11 @@ export class InteractionObject extends BaseObjectEvents {
 	protected _isFocused: boolean = false;
 
 	/**
+	 * Is element currently protected from touch interactions?
+	 */
+	protected _isTouchProtected: boolean = false;
+
+	/**
 	 * A timestamp of the last hit.
 	 *
 	 * Used to calculate double-hit.
@@ -333,6 +338,32 @@ export class InteractionObject extends BaseObjectEvents {
 	 */
 	public get isFocused(): boolean {
 		return this._isFocused;
+	}
+
+	/**
+	 * Indicates if this element is currently being protected from touch actions.
+	 *
+	 * @ignore
+	 * @param value Touch protected?
+	 */
+	public set isTouchProtected(value: boolean) {
+		if (this._isTouchProtected != value) {
+			this._isTouchProtected = value;
+			if (value) {
+				getInteraction().unprepElement(this);
+			}
+			else if (this.draggable || this.swipeable || this.trackable || this.resizable) {
+				getInteraction().prepElement(this);
+			}
+		}
+	}
+
+	/**
+	 * @ignore
+	 * @return Touch protected?
+	 */
+	public get isTouchProtected(): boolean {
+		return this._isTouchProtected;
 	}
 
 	/**

@@ -996,6 +996,11 @@ export class XYChart extends SerialChart {
 				cursor.events.on("behaviorcanceled", this.handleCursorCanceled, this, false);
 				cursor.events.on("hidden", this.handleHideCursor, this, false);
 				cursor.zIndex = Number.MAX_SAFE_INTEGER - 1;
+
+				if (this.tapToActivate) {
+					// We need this in order to setup cursor properly
+					this.setTapToActivate(this.tapToActivate);
+				}
 			}
 		}
 	}
@@ -1344,8 +1349,9 @@ export class XYChart extends SerialChart {
 				delta = panEndRange.start;
 			}
 			if (panEndRange.end > 1) {
-				delta = panEndRange.end - 1;
+				delta = panEndRange.end - 1;				
 			}
+
 			this.zoomAxes(this.xAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta }, false, true);
 			this._panEndXRange = undefined;
 			this._panStartXRange = undefined;
@@ -1598,9 +1604,9 @@ export class XYChart extends SerialChart {
 				axis.hideTooltip(0);
 
 				if (round) {
-					let diff = range.end - range.start;
+					//let diff = range.end - range.start;
 					range.start = axis.roundPosition(range.start + 0.0001, 0);
-					range.end = range.start + diff;
+					range.end = axis.roundPosition(range.end + 0.0001, 0);
 				}
 
 				let axisRange: IRange = axis.zoom(range, instantly, instantly, declination);
@@ -2062,6 +2068,33 @@ export class XYChart extends SerialChart {
 		}
 		if (this.scrollbarY instanceof XYChartScrollbar) {
 			this.scrollbarY.scrollbarChart.addData(rawDataItem, removeCount);
+		}
+	}
+
+	/**
+	 * @param  value  Tap to activate?
+	 */
+	protected setTapToActivate(value: boolean): void {
+		super.setTapToActivate(value);
+		if (this.cursor) {
+			this.cursor.interactions.isTouchProtected = value;
+			this.plotContainer.interactions.isTouchProtected = value;
+		}
+	}
+
+	protected handleTapToActivate(): void {
+		super.handleTapToActivate();
+		if (this.cursor) {
+			this.cursor.interactions.isTouchProtected = false;
+			this.plotContainer.interactions.isTouchProtected = false;
+		}
+	}
+
+	protected handleTapToActivateDeactivation(): void {
+		super.handleTapToActivateDeactivation();
+		if (this.cursor) {
+			this.cursor.interactions.isTouchProtected = true;
+			this.plotContainer.interactions.isTouchProtected = true;
 		}
 	}
 }

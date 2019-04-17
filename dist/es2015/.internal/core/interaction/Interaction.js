@@ -378,7 +378,7 @@ var Interaction = /** @class */ (function (_super) {
         // Add unified events
         if (io.draggable || io.swipeable || io.trackable || io.resizable) {
             // Prep the element
-            if (!this.isGlobalElement(io)) {
+            if (!this.isGlobalElement(io) && !io.isTouchProtected) {
                 this.prepElement(io);
             }
             // Add hover styles
@@ -700,7 +700,8 @@ var Interaction = /** @class */ (function (_super) {
                 type: "track",
                 target: this,
                 event: ev,
-                pointer: pointer
+                pointer: pointer,
+                touch: pointer.touch
             };
             this.events.dispatchImmediately("track", imev);
         }
@@ -726,7 +727,8 @@ var Interaction = /** @class */ (function (_super) {
                 type: "down",
                 target: this,
                 event: ev,
-                pointer: pointer
+                pointer: pointer,
+                touch: pointer.touch
             };
             this.events.dispatchImmediately("down", imev);
         }
@@ -758,7 +760,8 @@ var Interaction = /** @class */ (function (_super) {
                 type: "up",
                 target: this,
                 event: ev,
-                pointer: pointer
+                pointer: pointer,
+                touch: pointer.touch
             };
             this.events.dispatchImmediately("up", imev);
         }
@@ -789,7 +792,8 @@ var Interaction = /** @class */ (function (_super) {
                     type: "track",
                     target: this,
                     event: ev,
-                    pointer: pointer
+                    pointer: pointer,
+                    touch: pointer.touch
                 };
                 this.events.dispatchImmediately("track", imev);
             }
@@ -818,7 +822,8 @@ var Interaction = /** @class */ (function (_super) {
                     type: "down",
                     target: this,
                     event: ev,
-                    pointer: pointer
+                    pointer: pointer,
+                    touch: pointer.touch
                 };
                 this.events.dispatchImmediately("down", imev);
             }
@@ -841,7 +846,8 @@ var Interaction = /** @class */ (function (_super) {
                     type: "up",
                     target: this,
                     event: ev,
-                    pointer: pointer
+                    pointer: pointer,
+                    touch: pointer.touch
                 };
                 this.events.dispatchImmediately("up", imev);
             }
@@ -959,12 +965,13 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.handleTouchDown = function (io, ev) {
         // Stop further propagation so we don't get multiple triggers on hybrid
         // devices (both mouse and touch capabilities)
-        this.maybePreventDefault(io, ev);
+        //this.maybePreventDefault(io, ev);
         //return;
         // Process each changed touch point
         for (var i = 0; i < ev.changedTouches.length; i++) {
             // Get pointer
             var pointer = this.getPointer(ev.changedTouches[i]);
+            this.maybePreventDefault(io, ev, pointer);
             // Reset pointer
             this.resetPointer(pointer, ev.changedTouches[i]);
             // Process down
@@ -1007,7 +1014,8 @@ var Interaction = /** @class */ (function (_super) {
                     type: "doublehit",
                     target: io,
                     point: pointer.point,
-                    event: ev
+                    event: ev,
+                    touch: pointer.touch
                 };
                 io.events.dispatchImmediately("doublehit", imev);
             }
@@ -1033,7 +1041,8 @@ var Interaction = /** @class */ (function (_super) {
                         type: "hit",
                         target: io,
                         event: ev,
-                        point: pointer.point
+                        point: pointer.point,
+                        touch: pointer.touch
                     };
                     io.events.dispatchImmediately("hit", imev);
                 }
@@ -1073,7 +1082,8 @@ var Interaction = /** @class */ (function (_super) {
                     type: "over",
                     target: io,
                     event: ev,
-                    pointer: pointer
+                    pointer: pointer,
+                    touch: pointer.touch
                 };
                 io.events.dispatchImmediately("over", imev);
             }
@@ -1156,7 +1166,8 @@ var Interaction = /** @class */ (function (_super) {
                     type: "out",
                     target: io,
                     event: ev,
-                    pointer: pointer
+                    pointer: pointer,
+                    touch: pointer.touch
                 };
                 io.events.dispatchImmediately("out", imev);
             }
@@ -1193,7 +1204,7 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.handleDown = function (io, pointer, ev) {
         // Need to prevent default event from happening on transformable objects
-        this.maybePreventDefault(io, ev);
+        this.maybePreventDefault(io, ev, pointer);
         // Stop inertia animations if they're currently being played out
         if (io.inert) {
             this.stopInertia(io);
@@ -1228,7 +1239,8 @@ var Interaction = /** @class */ (function (_super) {
                 type: "down",
                 target: io,
                 event: ev,
-                pointer: pointer
+                pointer: pointer,
+                touch: pointer.touch
             };
             io.events.dispatchImmediately("down", imev);
         }
@@ -1285,7 +1297,8 @@ var Interaction = /** @class */ (function (_super) {
                     type: "up",
                     target: io,
                     event: ev,
-                    pointer: pointer
+                    pointer: pointer,
+                    touch: pointer.touch
                 };
                 io.events.dispatchImmediately("up", imev);
             }
@@ -1325,8 +1338,12 @@ var Interaction = /** @class */ (function (_super) {
      * @param io  Object
      * @param ev  Event
      */
-    Interaction.prototype.maybePreventDefault = function (io, ev) {
-        if ($type.hasValue(ev) && (io.draggable || io.swipeable || io.trackable || io.resizable) && !this.isGlobalElement(io) && ev.cancelable !== false) {
+    Interaction.prototype.maybePreventDefault = function (io, ev, pointer) {
+        if ($type.hasValue(ev)
+            && (io.draggable || io.swipeable || io.trackable || io.resizable)
+            && !this.isGlobalElement(io)
+            && ev.cancelable !== false
+            && (!io.isTouchProtected || !pointer || !pointer.touch)) {
             ev.preventDefault();
         }
     };
@@ -1402,7 +1419,8 @@ var Interaction = /** @class */ (function (_super) {
                 target: io,
                 event: ev,
                 point: pointer.point,
-                pointer: pointer
+                pointer: pointer,
+                touch: pointer.touch
             };
             io.events.dispatchImmediately("track", imev);
         }
@@ -1422,7 +1440,8 @@ var Interaction = /** @class */ (function (_super) {
             var imev = {
                 type: "swipe",
                 target: io,
-                event: ev
+                event: ev,
+                touch: pointer.touch
             };
             io.events.dispatchImmediately("swipe", imev);
         }
@@ -1431,7 +1450,8 @@ var Interaction = /** @class */ (function (_super) {
                 var imev = {
                     type: "swiperight",
                     target: io,
-                    event: ev
+                    event: ev,
+                    touch: pointer.touch
                 };
                 io.events.dispatchImmediately("swiperight", imev);
             }
@@ -1441,7 +1461,8 @@ var Interaction = /** @class */ (function (_super) {
                 var imev = {
                     type: "swipeleft",
                     target: io,
-                    event: ev
+                    event: ev,
+                    touch: pointer.touch
                 };
                 io.events.dispatchImmediately("swipeleft", imev);
             }
@@ -1627,7 +1648,7 @@ var Interaction = /** @class */ (function (_super) {
             // Get pointer
             var nextPointer = io.downPointers.getIndex(i);
             // Doublecheck if it's not the same pointer by comparing original position
-            if (startPoint1.x != nextPointer.startPoint.x || startPoint1.y != nextPointer.startPoint.y) {
+            if (startPoint1.x != nextPointer.startPoint.x && startPoint1.y != nextPointer.startPoint.y) {
                 // Several pointers down
                 singlePoint = false;
                 // Get second pointer
@@ -1651,22 +1672,22 @@ var Interaction = /** @class */ (function (_super) {
         if (singlePoint && io.draggable) {
             // We have only one pointer and the Sprite is draggable
             // There's nothing else to be done - just move it
-            this.handleTransformMove(io, point1, startPoint1, ev, pointer1Moved);
+            this.handleTransformMove(io, point1, startPoint1, ev, pointer1Moved, pointer1.touch);
         }
         else {
             // Check if second touch point moved
             var pointer2Moved = pointer2 && this.moved(pointer2, 0);
             if (io.draggable && io.resizable) {
                 //this.handleTransformAll(io, point1, startPoint1, point2, startPoint2, ev, pointer1Moved && pointer2Moved);
-                this.handleTransformMove(io, point1, startPoint1, ev, pointer1Moved && pointer2Moved);
-                this.handleTransformResize(io, point1, startPoint1, point2, startPoint2, ev, pointer1Moved && pointer2Moved);
+                this.handleTransformMove(io, point1, startPoint1, ev, pointer1Moved && pointer2Moved, pointer1.touch);
+                this.handleTransformResize(io, point1, startPoint1, point2, startPoint2, ev, pointer1Moved && pointer2Moved, pointer1.touch);
             }
             else {
                 if (io.draggable) {
-                    this.handleTransformMove(io, point1, startPoint1, ev, pointer1Moved);
+                    this.handleTransformMove(io, point1, startPoint1, ev, pointer1Moved, pointer1.touch);
                 }
                 if (io.resizable && (!singlePoint || ev.ctrlKey)) {
-                    this.handleTransformResize(io, point1, startPoint1, point2, startPoint2, ev, pointer1Moved && pointer2Moved);
+                    this.handleTransformResize(io, point1, startPoint1, point2, startPoint2, ev, pointer1Moved && pointer2Moved, pointer1.touch);
                 }
             }
         }
@@ -1681,7 +1702,7 @@ var Interaction = /** @class */ (function (_super) {
      * @param ev            Original event
      * @param pointerMoved  Did pointer move?
      */
-    Interaction.prototype.handleTransformMove = function (io, point, startPoint, ev, pointerMoved) {
+    Interaction.prototype.handleTransformMove = function (io, point, startPoint, ev, pointerMoved, touch) {
         if (pointerMoved) {
             if (io.events.isEnabled("drag") && !system.isPaused) {
                 var imev = {
@@ -1693,7 +1714,8 @@ var Interaction = /** @class */ (function (_super) {
                         "y": point.y - startPoint.y
                     },
                     startPoint: startPoint,
-                    point: point
+                    point: point,
+                    touch: touch
                 };
                 io.events.dispatchImmediately("drag", imev);
             }
@@ -1711,7 +1733,7 @@ var Interaction = /** @class */ (function (_super) {
      * @param ev            Original event
      * @param pointerMoved  Did pointer move?
      */
-    Interaction.prototype.handleTransformResize = function (io, point1, startPoint1, point2, startPoint2, ev, pointerMoved) {
+    Interaction.prototype.handleTransformResize = function (io, point1, startPoint1, point2, startPoint2, ev, pointerMoved, touch) {
         if (io.events.isEnabled("resize") && !system.isPaused) {
             var imev = {
                 type: "resize",
@@ -1721,7 +1743,8 @@ var Interaction = /** @class */ (function (_super) {
                 startPoint1: startPoint1,
                 point1: point1,
                 startPoint2: startPoint2,
-                point2: point2
+                point2: point2,
+                touch: touch
             };
             io.events.dispatchImmediately("resize", imev);
         }
@@ -1741,7 +1764,8 @@ var Interaction = /** @class */ (function (_super) {
         var imev = {
             type: "dragstart",
             target: io,
-            event: ev
+            event: ev,
+            touch: pointer ? pointer.touch : false
         };
         // Log object that we are starting to drag, so we can check against and
         // avoid hovers on other objects that might be in the path of movement.
@@ -1789,7 +1813,8 @@ var Interaction = /** @class */ (function (_super) {
             if (io.events.isEnabled("dragstop") && !system.isPaused) {
                 var imev = {
                     type: "dragstop",
-                    target: io
+                    target: io,
+                    touch: pointer ? pointer.touch : false
                 };
                 io.events.dispatchImmediately("dragstop", imev);
             }
@@ -2108,11 +2133,10 @@ var Interaction = /** @class */ (function (_super) {
      * Applies a set of styles to an element. Stores the original styles so they
      * can be restored later.
      *
-     * @ignore Exclude from docs
+     * @ignore
      * @param io      Element
-     * @param styles  A Dictionary of style property and values
      */
-    Interaction.prototype.prepElement = function (io, permanent) {
+    Interaction.prototype.prepElement = function (io) {
         var el = io.element;
         if (el) {
             // Define possible props
@@ -2132,6 +2156,34 @@ var Interaction = /** @class */ (function (_super) {
             // Remove iOS-specific selection;
             this.setTemporaryStyle(io, "tapHighlightColor", "rgba(0, 0, 0, 0)");
             //this.setTemporaryStyle(io, "webkitOverflowScrolling", "none");
+        }
+    };
+    /**
+     * Restores replaced styles
+     *
+     * @ignore
+     * @param  io  Element
+     */
+    Interaction.prototype.unprepElement = function (io) {
+        var el = io.element;
+        if (el) {
+            // Define possible props
+            var props = [
+                "touchAction", "webkitTouchAction", "MozTouchAction", "MSTouchAction", "msTouchAction", "oTouchAction",
+                "userSelect", "webkitUserSelect", "MozUserSelect", "MSUserSelect", "msUserSelect", "oUserSelect",
+                "touchSelect", "webkitTouchSelect", "MozTouchSelect", "MSTouchSelect", "msTouchSelect", "oTouchSelect",
+                "touchCallout", "webkitTouchCallout", "MozTouchCallout", "MSTouchCallout", "msTouchCallout", "oTouchCallout",
+                "contentZooming", "webkitContentZooming", "MozContentZooming", "MSContentZooming", "msContentZooming", "oContentZooming",
+                "userDrag", "webkitUserDrag", "MozUserDrag", "MSUserDrag", "msUserDrag", "oUserDrag"
+            ];
+            for (var i = 0; i < props.length; i++) {
+                if (props[i] in el.style) {
+                    this.restoreStyle(io, props[i]);
+                }
+            }
+            // Remove iOS-specific selection;
+            this.restoreStyle(io, "tapHighlightColor");
+            //this.restoreStyle(io, "webkitOverflowScrolling");
         }
     };
     /**

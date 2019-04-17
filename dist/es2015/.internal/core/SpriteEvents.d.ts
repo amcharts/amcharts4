@@ -54,6 +54,15 @@ export declare class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEven
     protected _on<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B, shouldClone: boolean, dispatch: (type: Key, event: T[Key]) => void): EventListener<T>;
 }
 /**
+ * Defines a type of event that has a single point of reference.
+ */
+export declare type SpritePointerTypeEvent = {
+    /**
+     * Is event originated by touch pointer?
+     */
+    touch: boolean;
+};
+/**
  * Defines property set for a [[Sprite]] event that contains point information.
  */
 export declare type SpritePointEvent = {
@@ -193,16 +202,16 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
     /**
      * Invoked when [[Sprite]] is clicked or touched.
      */
-    hit: SpritePointEvent & SpriteMouseTouchEvent;
+    hit: SpritePointerTypeEvent & SpritePointEvent & SpriteMouseTouchEvent;
     /**
      * Invoked when [[Sprite]] is clicked or touched twice in rapid succession.
      */
-    doublehit: SpritePointEvent & SpriteMouseTouchEvent;
+    doublehit: SpritePointerTypeEvent & SpritePointEvent & SpriteMouseTouchEvent;
     /**
      * Invoked when pointer (mouse cursor or touch point) moves over `trackable`
      * [[Sprite]].
      */
-    track: SpritePointEvent & SpritePointerEvent & SpriteMouseTouchEvent;
+    track: SpritePointerTypeEvent & SpritePointEvent & SpritePointerEvent & SpriteMouseTouchEvent;
     /**
      * Invoked when user turns mouse wheel while over the [[Sprite]].
      */

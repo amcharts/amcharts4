@@ -5,7 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
-## [4.3.15] - 2019-04-06
+## [4.4.0] - 2019-04-17
+
+### Added
+- Charts now have new property - `tapToActivate` (default: `false`). If set to `true` it will not react to touch drag gestures until user taps on the chart. [More info](https://www.amcharts.com/docs/v4/concepts/touch/).
+- New element on charts: `dragGrip`. It's a grip that, when enabled, will allow scrolling the page even if the chart functionality does not permit it, e.g. with chart cursor or `MapChart`. [More info](https://www.amcharts.com/docs/v4/concepts/touch/).
+
+### Fixed
+- `NumberFormatter` in charts was ignoring locale settings.
+- `TreeMap` could crash across data update.
+- In some situations `XYCursor` with `"panX"` behavior would not allow panning the chart completely to the edge of data.
+
+
+## [4.3.15] - 2019-04-16
 
 ### Added
 - `startendchanged` event added to `Component`. Fired when `start` or `end` is changed. Unlike `startchanged`/`endchanged` this event is fired not immediately but at the end of a cycle.

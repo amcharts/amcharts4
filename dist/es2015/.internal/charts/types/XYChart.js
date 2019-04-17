@@ -724,6 +724,10 @@ var XYChart = /** @class */ (function (_super) {
                     cursor.events.on("behaviorcanceled", this.handleCursorCanceled, this, false);
                     cursor.events.on("hidden", this.handleHideCursor, this, false);
                     cursor.zIndex = Number.MAX_SAFE_INTEGER - 1;
+                    if (this.tapToActivate) {
+                        // We need this in order to setup cursor properly
+                        this.setTapToActivate(this.tapToActivate);
+                    }
                 }
             }
         },
@@ -1242,9 +1246,9 @@ var XYChart = /** @class */ (function (_super) {
                 }
                 axis.hideTooltip(0);
                 if (round) {
-                    var diff = range.end - range.start;
+                    //let diff = range.end - range.start;
                     range.start = axis.roundPosition(range.start + 0.0001, 0);
-                    range.end = range.start + diff;
+                    range.end = axis.roundPosition(range.end + 0.0001, 0);
                 }
                 var axisRange = axis.zoom(range, instantly, instantly, declination);
                 if (axis.renderer.inversed) {
@@ -1646,6 +1650,30 @@ var XYChart = /** @class */ (function (_super) {
         }
         if (this.scrollbarY instanceof XYChartScrollbar) {
             this.scrollbarY.scrollbarChart.addData(rawDataItem, removeCount);
+        }
+    };
+    /**
+     * @param  value  Tap to activate?
+     */
+    XYChart.prototype.setTapToActivate = function (value) {
+        _super.prototype.setTapToActivate.call(this, value);
+        if (this.cursor) {
+            this.cursor.interactions.isTouchProtected = value;
+            this.plotContainer.interactions.isTouchProtected = value;
+        }
+    };
+    XYChart.prototype.handleTapToActivate = function () {
+        _super.prototype.handleTapToActivate.call(this);
+        if (this.cursor) {
+            this.cursor.interactions.isTouchProtected = false;
+            this.plotContainer.interactions.isTouchProtected = false;
+        }
+    };
+    XYChart.prototype.handleTapToActivateDeactivation = function () {
+        _super.prototype.handleTapToActivateDeactivation.call(this);
+        if (this.cursor) {
+            this.cursor.interactions.isTouchProtected = true;
+            this.plotContainer.interactions.isTouchProtected = true;
         }
     };
     return XYChart;

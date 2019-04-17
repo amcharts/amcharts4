@@ -37,14 +37,17 @@ import * as $type from "../utils/Type";
 export interface IInteractionEvents extends IBaseObjectEvents {
     track: {
         pointer: IPointer;
+        touch: boolean;
         event: MouseEvent | TouchEvent;
     };
     down: {
         pointer: IPointer;
+        touch: boolean;
         event: MouseEvent | TouchEvent;
     };
     up: {
         pointer: IPointer;
+        touch: boolean;
         event: MouseEvent | TouchEvent;
     };
     focus: {
@@ -554,7 +557,7 @@ export declare class Interaction extends BaseObjectEvents {
      * @param io  Object
      * @param ev  Event
      */
-    private maybePreventDefault(io, ev);
+    private maybePreventDefault(io, ev, pointer?);
     /**
      * Handles pointer move.
      *
@@ -642,7 +645,7 @@ export declare class Interaction extends BaseObjectEvents {
      * @param ev            Original event
      * @param pointerMoved  Did pointer move?
      */
-    handleTransformMove(io: InteractionObject, point: IPoint, startPoint: IPoint, ev: MouseEvent | TouchEvent | KeyboardEvent, pointerMoved: boolean): void;
+    handleTransformMove(io: InteractionObject, point: IPoint, startPoint: IPoint, ev: MouseEvent | TouchEvent | KeyboardEvent, pointerMoved: boolean, touch: boolean): void;
     /**
      * Handles resizing of the element.
      *
@@ -655,7 +658,7 @@ export declare class Interaction extends BaseObjectEvents {
      * @param ev            Original event
      * @param pointerMoved  Did pointer move?
      */
-    handleTransformResize(io: InteractionObject, point1: IPoint, startPoint1: IPoint, point2: IPoint, startPoint2: IPoint, ev: MouseEvent | TouchEvent, pointerMoved: boolean): void;
+    handleTransformResize(io: InteractionObject, point1: IPoint, startPoint1: IPoint, point2: IPoint, startPoint2: IPoint, ev: MouseEvent | TouchEvent, pointerMoved: boolean, touch: boolean): void;
     /**
      * Handles all the preparations of the element when it starts to be dragged.
      *
@@ -835,11 +838,17 @@ export declare class Interaction extends BaseObjectEvents {
      * Applies a set of styles to an element. Stores the original styles so they
      * can be restored later.
      *
-     * @ignore Exclude from docs
+     * @ignore
      * @param io      Element
-     * @param styles  A Dictionary of style property and values
      */
-    protected prepElement(io: InteractionObject, permanent?: boolean): void;
+    prepElement(io: InteractionObject): void;
+    /**
+     * Restores replaced styles
+     *
+     * @ignore
+     * @param  io  Element
+     */
+    unprepElement(io: InteractionObject): void;
     /**
      * Returns an option associated with hit events.
      *

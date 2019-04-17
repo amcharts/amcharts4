@@ -84,6 +84,10 @@ var InteractionObject = /** @class */ (function (_super) {
          */
         _this._isFocused = false;
         /**
+         * Is element currently protected from touch interactions?
+         */
+        _this._isTouchProtected = false;
+        /**
          * Options used for inertia functionality.
          */
         _this._inertiaOptions = new Dictionary();
@@ -249,6 +253,34 @@ var InteractionObject = /** @class */ (function (_super) {
                 }
                 else {
                     getInteraction().focusedObject = undefined;
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InteractionObject.prototype, "isTouchProtected", {
+        /**
+         * @ignore
+         * @return Touch protected?
+         */
+        get: function () {
+            return this._isTouchProtected;
+        },
+        /**
+         * Indicates if this element is currently being protected from touch actions.
+         *
+         * @ignore
+         * @param value Touch protected?
+         */
+        set: function (value) {
+            if (this._isTouchProtected != value) {
+                this._isTouchProtected = value;
+                if (value) {
+                    getInteraction().unprepElement(this);
+                }
+                else if (this.draggable || this.swipeable || this.trackable || this.resizable) {
+                    getInteraction().prepElement(this);
                 }
             }
         },

@@ -14,6 +14,7 @@ import { SpriteState } from "./SpriteState";
 import { List } from "./utils/List";
 import { MultiDisposer } from "./utils/Disposer";
 import { Dictionary, DictionaryDisposer } from "./utils/Dictionary";
+import { getInteraction } from "./interaction/Interaction";
 import { Rectangle } from "./elements/Rectangle";
 import { Percent } from "./utils/Percent";
 import { registry } from "./Registry";
@@ -79,6 +80,19 @@ var Container = /** @class */ (function (_super) {
          * fire a "ready" event.
          */
         _this._shouldBeReady = [];
+        /**
+         * [_tapToActivate description]
+         * @todo mm
+         */
+        _this._tapToActivate = false;
+        /**
+         * If `tapToActivate` is used, this setting will determine how long the chart
+         * will stay in "active" mode.
+         *
+         * @default 3000
+         * @since 4.4.0
+         */
+        _this.tapTimeout = 3000;
         _this.className = "Container";
         _this._element = _this.paper.addGroup("g");
         _this.group.add(_this.element);
@@ -1682,6 +1696,79 @@ var Container = /** @class */ (function (_super) {
     Container.prototype._systemValidateLayouts = function () {
         if (this.layoutInvalid && !this.isDisposed()) {
             this.validateLayout();
+        }
+    };
+    Object.defineProperty(Container.prototype, "tapToActivate", {
+        /**
+         * @return Enable touch protection?
+         */
+        get: function () {
+            return this._tapToActivate;
+        },
+        /**
+         * If set to `true` the chart's regular touch functionality will be suspended
+         * so that the whole page it is located in remains scrollable, even when
+         * swiping over the chart's body.
+         *
+         * User will need to tap the chart in order to activate its regular touch
+         * functionality.
+         *
+         * The chart will remain "active" as long as user keeps interacting with the
+         * chart. After `tapTimeout` milliseconds the chart will return to its
+         * "protected" mode.
+         *
+         * @default false
+         * @since 4.4.0
+         * @param  value  Enable touch protection?
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/touch/} For more information.
+         */
+        set: function (value) {
+            if (this._tapToActivate != value) {
+                this.setTapToActivate(value);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Container.prototype.setTapToActivate = function (value) {
+        var _this = this;
+        this._tapToActivate = value;
+        this.interactions.isTouchProtected = value;
+        // setEventDisposer will also remove listeners if value == false
+        if (value) {
+            this.interactions.setEventDisposer("container-tapToActivate", value, function () { return new MultiDisposer([
+                _this.events.on("hit", _this.handleTapToActivate, _this, false),
+                _this.events.on("down", _this.initTapTimeout, _this, false),
+                _this.events.on("track", _this.initTapTimeout, _this, false),
+                //this.events.on("drag", this.initTapTimeout, this, false),
+                getInteraction().body.events.on("down", function (ev) {
+                    if (!getInteraction().isLocalElement(ev.pointer, _this.paper.svg, _this.uid)) {
+                        _this.handleTapToActivateDeactivation();
+                    }
+                }, _this, false)
+            ]); });
+        }
+        getInteraction();
+    };
+    /**
+     * @todo Ignore on non-touch events
+     */
+    Container.prototype.handleTapToActivate = function () {
+        this.interactions.isTouchProtected = false;
+        this.initTapTimeout();
+    };
+    Container.prototype.handleTapToActivateDeactivation = function () {
+        this.interactions.isTouchProtected = true;
+    };
+    Container.prototype.initTapTimeout = function () {
+        var _this = this;
+        if (this._tapToActivateTimeout) {
+            this._tapToActivateTimeout.dispose();
+        }
+        if (this.tapToActivate && !this.interactions.isTouchProtected && this.tapTimeout) {
+            this._tapToActivateTimeout = this.setTimeout(function () {
+                _this.handleTapToActivateDeactivation();
+            }, this.tapTimeout);
         }
     };
     return Container;

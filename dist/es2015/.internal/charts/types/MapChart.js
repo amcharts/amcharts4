@@ -1472,6 +1472,25 @@ var MapChart = /** @class */ (function (_super) {
         _super.prototype.setLegend.call(this, legend);
         legend.parent = this;
     };
+    /**
+     * @param  value  Tap to activate?
+     */
+    MapChart.prototype.setTapToActivate = function (value) {
+        _super.prototype.setTapToActivate.call(this, value);
+        // setup other containers
+        this.seriesContainer.interactions.isTouchProtected = true;
+        this.panSprite.interactions.isTouchProtected = true;
+    };
+    MapChart.prototype.handleTapToActivate = function () {
+        _super.prototype.handleTapToActivate.call(this);
+        this.seriesContainer.interactions.isTouchProtected = false;
+        this.panSprite.interactions.isTouchProtected = false;
+    };
+    MapChart.prototype.handleTapToActivateDeactivation = function () {
+        _super.prototype.handleTapToActivateDeactivation.call(this);
+        this.seriesContainer.interactions.isTouchProtected = true;
+        this.panSprite.interactions.isTouchProtected = true;
+    };
     return MapChart;
 }(SerialChart));
 export { MapChart };

@@ -254,7 +254,7 @@ export declare class Cursor extends Container {
      *
      * @return Prevent default?
      */
-    protected shouldPreventGestures(): boolean;
+    protected shouldPreventGestures(touch: boolean): boolean;
     /**
      * Updates the coordinates of where pointer down event occurred
      * (was pressed).

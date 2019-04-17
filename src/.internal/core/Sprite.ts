@@ -3614,6 +3614,15 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public set language(value: Language) {
 		if (this._language.get() !== value) {
 			this._language.set(value, value.events.on("localechanged", (ev) => {
+				if (this.numberFormatter) {
+					this.numberFormatter.language = this.language;
+				}
+				if (this.dateFormatter) {
+					this.dateFormatter.language = this.language;
+				}
+				if (this.durationFormatter) {
+					this.durationFormatter.language = this.language;
+				}
 				if (this instanceof Container) {
 					this.deepInvalidate();
 				}
@@ -4909,13 +4918,15 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	protected handleDragStart(): void {
-		this.interactions.originalPosition = {
-			x: this.pixelX,
-			y: this.pixelY
-		};
-		this._isDragged = true;
-		this.hideTooltip(0);
+	protected handleDragStart(ev: AMEvent<Sprite, ISpriteEvents>["dragstart"]): void {
+		if (!this.interactions.isTouchProtected || !ev.touch) {
+			this.interactions.originalPosition = {
+				x: this.pixelX,
+				y: this.pixelY
+			};
+			this._isDragged = true;
+			this.hideTooltip(0);
+		}
 	}
 
 	/**
@@ -4944,10 +4955,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	protected handleDragStop(): void {
-		this._isDragged = false;
-		this.showTooltip();
-		this.interactions.originalPosition = undefined;
+	protected handleDragStop(ev: AMEvent<Sprite, ISpriteEvents>["dragstop"]): void {
+		if (!this.interactions.isTouchProtected || !ev.touch) {
+			this._isDragged = false;
+			this.showTooltip();
+			this.interactions.originalPosition = undefined;
+		}
 	}
 
 	/**
@@ -4971,12 +4984,14 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @todo Implement parent position offset calculation
 	 */
 	public handleDragMove(ev: AMEvent<Sprite, ISpriteEvents>["drag"]): void {
-		let point: Optional<IPoint> = this.interactions.originalPosition;
+		if (!this.interactions.isTouchProtected || !ev.touch) {
+			let point: Optional<IPoint> = this.interactions.originalPosition;
 
-		if (point && this._isDragged) {
-			let globalScale = this.parent.globalScale * this.svgContainer.cssScale;
-			this.moveTo({ x: point.x + ev.shift.x / globalScale, y: point.y + ev.shift.y / globalScale }, undefined, undefined, true);
-			//this.dispatchImmediately("drag", ev);
+			if (point && this._isDragged) {
+				let globalScale = this.parent.globalScale * this.svgContainer.cssScale;
+				this.moveTo({ x: point.x + ev.shift.x / globalScale, y: point.y + ev.shift.y / globalScale }, undefined, undefined, true);
+				//this.dispatchImmediately("drag", ev);
+			}
 		}
 	}
 
@@ -5668,37 +5683,40 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @param ev Event object
 	 */
 	public handleResize(ev: AMEvent<Sprite, ISpriteEvents>["resize"]): void {
-		this._isResized = true;
+		if (!this.interactions.isTouchProtected || !ev.touch) {
+			this._isResized = true;
 
-		this.scale = this.interactions.originalScale * ev.scale;
-		this.validatePosition();
-		/*center: (io.draggable
-		? $math.getMidPoint(point1, point2)
-		: {
-			"x": io.originalPosition.x,
-			"y": io.originalPosition.y
-		})*/
-		//this.moveTo(this.originalPosition.x + ev.shift.x, this.originalPosition.y + ev.shift.y);
-		if (this.draggable || this.dragWhileResize) {
-			this._isDragged = false;
-			let svgPoint1: IPoint = $utils.documentPointToSvg(ev.point1, this.htmlContainer, this.svgContainer.cssScale);
-			let svgPoint2: IPoint = $utils.documentPointToSvg(ev.point2, this.htmlContainer, this.svgContainer.cssScale);
-			let svgMidPoint: IPoint = $math.getMidPoint(svgPoint1, svgPoint2);
+			this.scale = this.interactions.originalScale * ev.scale;
+			
+			this.validatePosition();
+			/*center: (io.draggable
+			? $math.getMidPoint(point1, point2)
+			: {
+				"x": io.originalPosition.x,
+				"y": io.originalPosition.y
+			})*/
+			//this.moveTo(this.originalPosition.x + ev.shift.x, this.originalPosition.y + ev.shift.y);
+			if (this.draggable || this.dragWhileResize) {
+				this._isDragged = false;
+				let svgPoint1: IPoint = $utils.documentPointToSvg(ev.point1, this.htmlContainer, this.svgContainer.cssScale);
+				let svgPoint2: IPoint = $utils.documentPointToSvg(ev.point2, this.htmlContainer, this.svgContainer.cssScale);
+				let svgMidPoint: IPoint = $math.getMidPoint(svgPoint1, svgPoint2);
 
-			let parentPoint1: IPoint = $utils.documentPointToSprite(ev.startPoint1, this.parent);
-			let parentPoint2: IPoint = $utils.documentPointToSprite(ev.startPoint2, this.parent);
+				let parentPoint1: IPoint = $utils.documentPointToSprite(ev.startPoint1, this.parent);
+				let parentPoint2: IPoint = $utils.documentPointToSprite(ev.startPoint2, this.parent);
 
-			let originalPosition: Optional<IPoint> = this.interactions.originalPosition;
-			let originalScale: number = this.interactions.originalScale;
+				let originalPosition: Optional<IPoint> = this.interactions.originalPosition;
+				let originalScale: number = this.interactions.originalScale;
 
-			if (originalPosition) {
-				let spritePoint1: IPoint = { x: (parentPoint1.x - originalPosition.x) / originalScale, y: (parentPoint1.y - originalPosition.y) / originalScale };
-				let spritePoint2: IPoint = { x: (parentPoint2.x - originalPosition.x) / originalScale, y: (parentPoint2.y - originalPosition.y) / originalScale };
+				if (originalPosition) {
+					let spritePoint1: IPoint = { x: (parentPoint1.x - originalPosition.x) / originalScale, y: (parentPoint1.y - originalPosition.y) / originalScale };
+					let spritePoint2: IPoint = { x: (parentPoint2.x - originalPosition.x) / originalScale, y: (parentPoint2.y - originalPosition.y) / originalScale };
 
-				let spriteMidPoint: IPoint = $math.getMidPoint(spritePoint1, spritePoint2);
+					let spriteMidPoint: IPoint = $math.getMidPoint(spritePoint1, spritePoint2);
 
-				let parentPoint: IPoint = $utils.svgPointToSprite(svgMidPoint, this.parent);
-				this.moveTo({ x: parentPoint.x - spriteMidPoint.x * this.scale, y: parentPoint.y - spriteMidPoint.y * this.scale }, undefined, undefined, true);
+					let parentPoint: IPoint = $utils.svgPointToSprite(svgMidPoint, this.parent);
+					this.moveTo({ x: parentPoint.x - spriteMidPoint.x * this.scale, y: parentPoint.y - spriteMidPoint.y * this.scale }, undefined, undefined, true);
+				}
 			}
 		}
 	}

@@ -18,6 +18,15 @@ import { EventListener, TargetedEventDispatcher, AMEvent } from "../utils/EventD
 /**
  * Defines a type of event that has a single point of reference.
  */
+export declare type PointerTypeEvent = {
+    /**
+     * Is event originated by touch pointer?
+     */
+    touch: boolean;
+};
+/**
+ * Defines a type of event that has a single point of reference.
+ */
 export declare type PointEvent = {
     /**
      * Event point in global (document) coordinates.
@@ -97,13 +106,13 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     /**
      * Invoked when object is clicked or touched.
      */
-    hit: PointEvent & MouseTouchEvent;
+    hit: PointerTypeEvent & PointEvent & MouseTouchEvent;
     /**
      * Invoked when object is clicked or touched twice in rapid succession.
      *
      * Check [[IHitOptions]] for settings about double hit.
      */
-    doublehit: PointEvent & MouseTouchEvent;
+    doublehit: PointerTypeEvent & PointEvent & MouseTouchEvent;
     /**
      * Invoked when right mouse button is clicked on the object.
      */
@@ -111,20 +120,20 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     /**
      * Invoked when mouse or touch pointer is held down over object for some time.
      */
-    hold: PointerEvent & MouseTouchEvent;
+    hold: PointerTypeEvent & PointerEvent & MouseTouchEvent;
     /**
      * Invoked when the mouse button is pressed or touch starts.
      */
-    down: PointerEvent & MouseTouchEvent;
+    down: PointerTypeEvent & PointerEvent & MouseTouchEvent;
     /**
      * Invoked when the mouse button is released or touch ends.
      */
-    up: PointerEvent & MouseTouchEvent;
+    up: PointerTypeEvent & PointerEvent & MouseTouchEvent;
     /**
      * Invoked when `draggable` object is being dragged. (using mouse, touch or
      * keyboard)
      */
-    drag: ShiftEvent & PointEvent & {
+    drag: PointerTypeEvent & ShiftEvent & PointEvent & {
         /**
          * Original coordinates of the pointer's position when the dragging started.
          */
@@ -139,7 +148,7 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
      * invoked immediatelly after `down`, but only if there's a movement of the
      * pointer.
      */
-    dragstart: {
+    dragstart: PointerTypeEvent & {
         /**
          * An original JavaScript event that triggered dragging.
          */
@@ -149,7 +158,7 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
      * Invoked when `draggable` object is released. This event will not fire if
      * position of the object did not change.
      */
-    dragstop: {
+    dragstop: PointerTypeEvent & {
         /**
          * An original JavaScript event that triggered dragging.
          */
@@ -159,12 +168,12 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
      * Invoked when pointer (mouse cursor or touch point) moves over `trackable`
      * object.
      */
-    track: PointEvent & PointerEvent & MouseTouchEvent;
+    track: PointerTypeEvent & PointEvent & PointerEvent & MouseTouchEvent;
     /**
      * Invoked when `resizable` object is being resized either by mouse or touch
      * pinch gesture.
      */
-    resize: ScaleEvent & MouseTouchEvent & {
+    resize: PointerTypeEvent & ScaleEvent & MouseTouchEvent & {
         /**
          * The starting coordinates of the first reference point.
          */
@@ -186,15 +195,15 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
      * Invoked when user performs "swiping" gesture (quick horizontal movement)
      * on the object, either using mouse or touch.
      */
-    swipe: MouseTouchEvent;
+    swipe: PointerTypeEvent & MouseTouchEvent;
     /**
      * Invoked when user performs "swiping" gesture towards left.
      */
-    swipeleft: MouseTouchEvent;
+    swipeleft: PointerTypeEvent & MouseTouchEvent;
     /**
      * Invoked when user performs "swiping" gesture towards right.
      */
-    swiperight: MouseTouchEvent;
+    swiperight: PointerTypeEvent & MouseTouchEvent;
     /**
      * Invoked when user turns mouse wheel while over the object.
      */
@@ -243,12 +252,12 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     /**
      * Invoked when mouse cursor moves over `hoverable` object or it is touched.
      */
-    over: MouseTouchEvent & PointerEvent;
+    over: PointerTypeEvent & MouseTouchEvent & PointerEvent;
     /**
      * Invoked when mouse cursor moves out of `hoverable` object or it is no
      * longer touched.
      */
-    out: MouseTouchEvent & PointerEvent;
+    out: PointerTypeEvent & MouseTouchEvent & PointerEvent;
     /**
      * Invoked when `focusable` object gains focus, e.g. by using TAB button.
      */

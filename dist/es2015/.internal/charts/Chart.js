@@ -14,6 +14,7 @@ import { MutableValueDisposer } from "../core/utils/Disposer";
 import { ListTemplate, ListDisposer } from "../core/utils/List";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
+import { Grip } from "../core/elements/Grip";
 import { DataItem } from "../core/DataItem";
 import { percent } from "../core/utils/Percent";
 import * as $iter from "../core/utils/Iterator";
@@ -290,6 +291,49 @@ var Chart = /** @class */ (function (_super) {
         }
         _super.prototype.copyFrom.call(this, source);
     };
+    Object.defineProperty(Chart.prototype, "dragGrip", {
+        /**
+         * @return Grip
+         */
+        get: function () {
+            var _this = this;
+            if (!this._dragGrip) {
+                var grip_1 = this.tooltipContainer.createChild(Grip);
+                grip_1.align = "right";
+                grip_1.valign = "middle";
+                grip_1.hide(0);
+                grip_1.events.on("down", function (ev) {
+                    if (ev.touch) {
+                        _this.interactionsEnabled = false;
+                    }
+                });
+                grip_1.events.on("up", function (ev) {
+                    _this.interactionsEnabled = true;
+                });
+                this.events.on("down", function (ev) {
+                    if (ev.touch) {
+                        grip_1.show();
+                    }
+                });
+                this._dragGrip = grip_1;
+            }
+            return this._dragGrip;
+        },
+        /**
+         * An instance of [[Grip]] which serves as a grip point which appears on
+         * touch and allows scrolling whole page even if chart is occupying the
+         * whole of the screen and would otherwise prevent scrolling.
+         *
+         * @since 4.4.0
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/touch/} For more information.
+         * @param  value  Grip
+         */
+        set: function (value) {
+            this._dragGrip = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Chart;
 }(Component));
 export { Chart };

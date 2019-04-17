@@ -217,7 +217,7 @@ export declare class XYCursor extends Cursor {
      *
      * @return Prevent default?
      */
-    protected shouldPreventGestures(): boolean;
+    protected shouldPreventGestures(touch: boolean): boolean;
     /**
      * @return Full width?
      */

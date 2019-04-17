@@ -1015,4 +1015,10 @@ export declare class MapChart extends SerialChart {
      * @param legend  Legend
      */
     protected setLegend(legend: Legend): void;
+    /**
+     * @param  value  Tap to activate?
+     */
+    protected setTapToActivate(value: boolean): void;
+    protected handleTapToActivate(): void;
+    protected handleTapToActivateDeactivation(): void;
 }

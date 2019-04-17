@@ -826,6 +826,11 @@ export class TreeMap extends XYChart {
 
 	protected setData(value:any[]){
 		this.currentLevel = 0;
+		this.currentlyZoomed = undefined;
+		this.xAxis.start = 0;
+		this.xAxis.end = 1;
+		this.yAxis.start = 0;
+		this.yAxis.end = 1;		
 		super.setData(value);
 	}
 	/**
@@ -1130,9 +1135,9 @@ export class TreeMap extends XYChart {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public validateLayout() {
+	public validateLayout() {		
 		super.validateLayout();
-		this.layoutItems(this.currentlyZoomed);
+		this.layoutItems(this.currentlyZoomed);			
 	}
 
 	/**

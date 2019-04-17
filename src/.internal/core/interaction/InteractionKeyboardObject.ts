@@ -126,7 +126,7 @@ export class InteractionKeyboardObject implements IAnimationObject, IDisposer {
 		shift.y += this.directionY * (speed * ms);
 
 		// Simulate move on Interaction
-		getInteraction().handleTransformMove(io, shift, { x: 0, y: 0 }, this.keyboardEvent, true);
+		getInteraction().handleTransformMove(io, shift, { x: 0, y: 0 }, this.keyboardEvent, true, false);
 	}
 
 	/**
