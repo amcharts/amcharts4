@@ -206,15 +206,15 @@ export declare class Slice extends Container {
      */
     innerCornerRadius: number;
     /**
-     * @return [description]
+     * @return Radius shift
      */
     /**
-     * [shiftRadius description]
+     * Indicates far relatively to center a slice should be moved.
      *
-     * 0-1
+     * The value is relative to the radius of the slice. Meaning 0 no shift,
+     * 1 - slice shifted outside by whole of its radius.
      *
-     * @todo Description
-     * @param value [description]
+     * @param  value  Radius shift
      */
     shiftRadius: number;
     /**

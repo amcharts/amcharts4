@@ -27,9 +27,6 @@ export class MouseCursorStyle {
 		"value": "grab"
 	}, {
 		"property": "cursor",
-		"value": "-moz-grab"
-	}, {
-		"property": "cursor",
 		"value": "-webkit-grab"
 	}];
 
@@ -42,9 +39,6 @@ export class MouseCursorStyle {
 	}, {
 		"property": "cursor",
 		"value": "grabbing"
-	}, {
-		"property": "cursor",
-		"value": "-moz-grabbing"
 	}, {
 		"property": "cursor",
 		"value": "-webkit-grabbing"

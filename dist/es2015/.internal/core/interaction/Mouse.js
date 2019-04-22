@@ -19,9 +19,6 @@ var MouseCursorStyle = /** @class */ (function () {
             "value": "grab"
         }, {
             "property": "cursor",
-            "value": "-moz-grab"
-        }, {
-            "property": "cursor",
             "value": "-webkit-grab"
         }];
     /**
@@ -33,9 +30,6 @@ var MouseCursorStyle = /** @class */ (function () {
         }, {
             "property": "cursor",
             "value": "grabbing"
-        }, {
-            "property": "cursor",
-            "value": "-moz-grabbing"
         }, {
             "property": "cursor",
             "value": "-webkit-grabbing"

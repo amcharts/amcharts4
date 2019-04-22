@@ -545,6 +545,15 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 					this.processEvents(item, configValue);
 
 				}
+				else if (configKey == "locale" && $type.isString(configValue)) {
+
+					// ... a locale specified as string, e.g. "fr_FR"
+					// ------------------------------------------------------------------
+					if ((<any>document)["am4lang_" + configValue]) {
+						target[configKey] = (<any>document)["am4lang_" + configValue];
+					}
+
+				}
 				else if (this.asIs(configKey)) {
 
 					// ... a special field, just set it to new value

@@ -31,7 +31,8 @@ export interface ICSVOptions extends IDataParserOptions {
     /**
      * Skip a number of rows from the beginning of the data.
      *
-     * Useful if your data contains non-data headers, such as column names.
+     * Useful if your data contains non-data headers, such as column names or
+     * empty rows.
      *
      * @default 0
      */
@@ -52,6 +53,10 @@ export interface ICSVOptions extends IDataParserOptions {
      *
      * Setting this to `true` will make the parser look at the first row, for
      * actual column names.
+     *
+     * Please note that if you use it with `skipRows`, the specified number of
+     * rows will be removed, then the parser will look for column names in the
+     * first row of what's left.
      *
      * @default false
      */

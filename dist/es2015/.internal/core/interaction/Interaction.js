@@ -1704,7 +1704,7 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.handleTransformMove = function (io, point, startPoint, ev, pointerMoved, touch) {
         if (pointerMoved) {
-            if (io.events.isEnabled("drag") && !system.isPaused) {
+            if (io.events.isEnabled("drag") && !system.isPaused && (!io.isTouchProtected || !touch)) {
                 var imev = {
                     type: "drag",
                     target: io,
@@ -1734,7 +1734,7 @@ var Interaction = /** @class */ (function (_super) {
      * @param pointerMoved  Did pointer move?
      */
     Interaction.prototype.handleTransformResize = function (io, point1, startPoint1, point2, startPoint2, ev, pointerMoved, touch) {
-        if (io.events.isEnabled("resize") && !system.isPaused) {
+        if (io.events.isEnabled("resize") && !system.isPaused && (!io.isTouchProtected || !touch)) {
             var imev = {
                 type: "resize",
                 target: io,

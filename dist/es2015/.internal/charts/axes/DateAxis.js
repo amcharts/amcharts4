@@ -470,7 +470,8 @@ var DateAxis = /** @class */ (function (_super) {
         if (index > 0) {
             var series = dataItem.component;
             var previousDataItem = series.dataItems.getIndex(index - 1);
-            if (previousDataItem[key].getTime() < time) {
+            var previousDate = previousDataItem[key];
+            if (!previousDate || previousDate.getTime() < time) {
                 return dataItem;
             }
             else {
@@ -1387,7 +1388,14 @@ var DateAxis = /** @class */ (function (_super) {
             else {
                 key_1 = "dateX";
             }
-            dataItem = series.dataItems.getIndex(series.dataItems.findClosestIndex(date.getTime(), function (x) { return x[key_1].getTime(); }, "any"));
+            dataItem = series.dataItems.getIndex(series.dataItems.findClosestIndex(date.getTime(), function (x) {
+                if (x[key_1]) {
+                    return x[key_1].getTime();
+                }
+                else {
+                    return -Infinity;
+                }
+            }, "any"));
         }
         return dataItem;
     };

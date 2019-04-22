@@ -2140,7 +2140,7 @@ export class Interaction extends BaseObjectEvents {
 	public handleTransformMove(io: InteractionObject, point: IPoint, startPoint: IPoint, ev: MouseEvent | TouchEvent | KeyboardEvent, pointerMoved: boolean, touch: boolean): void {
 
 		if (pointerMoved) {
-			if (io.events.isEnabled("drag") && !system.isPaused) {
+			if (io.events.isEnabled("drag") && !system.isPaused && (!io.isTouchProtected || !touch)) {
 				let imev: AMEvent<InteractionObject, IInteractionObjectEvents>["drag"] = {
 					type: "drag",
 					target: io,
@@ -2172,7 +2172,7 @@ export class Interaction extends BaseObjectEvents {
 	 * @param pointerMoved  Did pointer move?
 	 */
 	public handleTransformResize(io: InteractionObject, point1: IPoint, startPoint1: IPoint, point2: IPoint, startPoint2: IPoint, ev: MouseEvent | TouchEvent, pointerMoved: boolean, touch: boolean): void {
-		if (io.events.isEnabled("resize") && !system.isPaused) {
+		if (io.events.isEnabled("resize") && !system.isPaused && (!io.isTouchProtected || !touch)) {
 			let imev: AMEvent<InteractionObject, IInteractionObjectEvents>["resize"] = {
 				type: "resize",
 				target: io,

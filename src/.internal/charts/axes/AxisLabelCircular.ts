@@ -123,7 +123,7 @@ export class AxisLabelCircular extends AxisLabel {
 	 * Relative rotation of the label.
 	 *
 	 * It is an angle to circle. In case 90, labels will be positioned like rays
-	 * of light, if 0 - positione along the circle.
+	 * of light, if 0 - positioned along the circle.
 	 *
 	 * @param value Rotation angle
 	 */

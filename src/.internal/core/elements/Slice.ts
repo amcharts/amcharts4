@@ -362,12 +362,12 @@ export class Slice extends Container {
 	}
 
 	/**
-	 * [shiftRadius description]
+	 * Indicates far relatively to center a slice should be moved.
 	 *
-	 * 0-1
+	 * The value is relative to the radius of the slice. Meaning 0 no shift,
+	 * 1 - slice shifted outside by whole of its radius.
 	 *
-	 * @todo Description
-	 * @param value [description]
+	 * @param  value  Radius shift
 	 */
 	public set shiftRadius(value: number) {
 		this.setPropertyValue("shiftRadius", value);
@@ -376,7 +376,7 @@ export class Slice extends Container {
 	}
 
 	/**
-	 * @return [description]
+	 * @return Radius shift
 	 */
 	public get shiftRadius(): number {
 		return this.getPropertyValue("shiftRadius");

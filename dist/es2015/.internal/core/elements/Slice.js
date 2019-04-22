@@ -265,18 +265,18 @@ var Slice = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slice.prototype, "shiftRadius", {
         /**
-         * @return [description]
+         * @return Radius shift
          */
         get: function () {
             return this.getPropertyValue("shiftRadius");
         },
         /**
-         * [shiftRadius description]
+         * Indicates far relatively to center a slice should be moved.
          *
-         * 0-1
+         * The value is relative to the radius of the slice. Meaning 0 no shift,
+         * 1 - slice shifted outside by whole of its radius.
          *
-         * @todo Description
-         * @param value [description]
+         * @param  value  Radius shift
          */
         set: function (value) {
             this.setPropertyValue("shiftRadius", value);

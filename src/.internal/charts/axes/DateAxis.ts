@@ -569,8 +569,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		super.validateDataItems();
 
 		this.maxZoomFactor = (this.max - this.min) / this.baseDuration;
-		
-		this._deltaMinMax = this.baseDuration / 2;		
+
+		this._deltaMinMax = this.baseDuration / 2;
 
 		// allows to keep selection of the same size
 		let newPeriodCount: number = (this.max - this.min) / this.baseDuration;
@@ -655,19 +655,20 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		});
 	}
 
-	protected findFirst(dataItem: XYSeriesDataItem, time:number, key:string): XYSeriesDataItem {
+	protected findFirst(dataItem: XYSeriesDataItem, time: number, key: string): XYSeriesDataItem {
 		let index = dataItem.index;
-		if(index > 0){
+		if (index > 0) {
 			let series = dataItem.component;
 			let previousDataItem = series.dataItems.getIndex(index - 1);
-			if((<any>previousDataItem)[key].getTime() < time){
+			let previousDate = (<any>previousDataItem)[key];
+			if (!previousDate || previousDate.getTime() < time) {
 				return dataItem;
 			}
-			else{
+			else {
 				return this.findFirst(previousDataItem, time, key);
 			}
 		}
-		else{
+		else {
 			return dataItem;
 		}
 	}
@@ -1132,7 +1133,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @return Adjusted value
 	 */
 	protected fixMin(value: number) {
-		
+
 		// like this because months are not equal
 		let startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc).getTime();
 		let endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count, this.dateFormatter.utc).getTime();
@@ -1690,7 +1691,14 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				key = "dateX";
 			}
 
-			dataItem = series.dataItems.getIndex(series.dataItems.findClosestIndex(date.getTime(), (x) => <number>x[key].getTime(), "any"));
+			dataItem = series.dataItems.getIndex(series.dataItems.findClosestIndex(date.getTime(), (x) => {
+				if (x[key]) {
+					return <number>x[key].getTime();
+				}
+				else {
+					return -Infinity;
+				}
+			}, "any"));
 		}
 
 		return dataItem;
@@ -1811,6 +1819,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			this.series.each((series) => {
 				if (series.baseAxis == this) {
 					let dataItem = this.getSeriesDataItem(series, position, true);
+
 					if (dataItem) {
 						let date: Date;
 						if (series.xAxis == this) {

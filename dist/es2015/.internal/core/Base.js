@@ -429,6 +429,13 @@ var BaseObject = /** @class */ (function () {
                     // ------------------------------------------------------------------
                     _this.processEvents(item_1, configValue);
                 }
+                else if (configKey == "locale" && $type.isString(configValue)) {
+                    // ... a locale specified as string, e.g. "fr_FR"
+                    // ------------------------------------------------------------------
+                    if (document["am4lang_" + configValue]) {
+                        target[configKey] = document["am4lang_" + configValue];
+                    }
+                }
                 else if (_this.asIs(configKey)) {
                     // ... a special field, just set it to new value
                     // ------------------------------------------------------------------

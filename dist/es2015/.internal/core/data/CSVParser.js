@@ -115,6 +115,10 @@ var CSVParser = /** @class */ (function (_super) {
         var dates = this.parsableDates;
         // Init resuling array
         var res = [], cols = [], col, i;
+        // Skip rows
+        for (i = 0; i < this.options.skipRows; i++) {
+            data.shift();
+        }
         // First row holds column names?
         if (this.options.useColumnNames) {
             cols = data.shift();
@@ -128,13 +132,6 @@ var CSVParser = /** @class */ (function (_super) {
                 }
                 cols[x] = col;
             }
-            if (0 < this.options.skipRows) {
-                this.options.skipRows--;
-            }
-        }
-        // Skip rows
-        for (i = 0; i < this.options.skipRows; i++) {
-            data.shift();
         }
         // Iterate through the result set
         var row;

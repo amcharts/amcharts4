@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.4.1] - 2019-04-22
+
+### Changed
+- Now when using `CSVParsing` for parsing external data, `skipRows` will kick in first, removing X rows from the beginning of data, then `useColumnNames` will use the first row of what's left.
+
+### Fixed
+- JSON: Specifying language locale as string (i.e. "fr_FR") now works in JS setups, provided appropriate language file is loaded.
+- Grab/Grabbing cursor was not appearing on Scrollbars on Firefox.
+- `MapChart` used to pan itself when it was zoomed in, `tapToActivate` enabled, and was tapped.
+- Hovering mouse cursor over an `XYChart` while it was initializing could sometimes result in a JS error.
+- Issue with `DateAxis` and `Series` not having dates at certain data items fixed. It was cousing problems with multiple date axes mostly.
+
+
 ## [4.4.0] - 2019-04-17
 
 ### Added
