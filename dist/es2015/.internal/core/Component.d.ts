@@ -577,6 +577,10 @@ export declare class Component extends Container {
      */
     validateRawData(): void;
     /**
+     * Destroys this object and all related data.
+     */
+    dispose(): void;
+    /**
      * @ignore
      */
     disposeData(): void;

@@ -2106,7 +2106,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.download = function (uri, fileName) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var parts, contentType, decoded, blob_1, chars, i, charCode, blob, link, parts, contentType, decoded, blob_2, url_3, chars, i, charCode, blob, url_4, link, parts, contentType, iframe, idoc;
+            var parts, contentType, decoded, blob_1, chars, i, charCode, blob, link_1, parts, contentType, decoded, blob_2, url_3, chars, i, charCode, blob, url_4, link, parts, contentType, iframe, idoc;
             return tslib_1.__generator(this, function (_a) {
                 if (this.msBlobDownloadSupport()) {
                     parts = uri.split(";");
@@ -2137,8 +2137,9 @@ var Export = /** @class */ (function (_super) {
                     window.navigator.msSaveBlob(blob, fileName);
                 }
                 else if (this.blobDownloadSupport()) {
-                    link = document.createElement("a");
-                    link.download = fileName;
+                    link_1 = document.createElement("a");
+                    link_1.download = fileName;
+                    document.body.appendChild(link_1);
                     parts = uri.split(";");
                     contentType = parts.shift().replace(/data:/, "");
                     uri = decodeURIComponent(parts.join(";").replace(/^[^,]*,/, ""));
@@ -2155,10 +2156,11 @@ var Export = /** @class */ (function (_super) {
                     else {
                         blob_2 = new Blob([uri], { type: contentType });
                         url_3 = window.URL.createObjectURL(blob_2);
-                        link.href = url_3;
-                        link.download = fileName;
-                        link.click();
+                        link_1.href = url_3;
+                        link_1.download = fileName;
+                        link_1.click();
                         setTimeout(function () {
+                            document.body.removeChild(link_1);
                             window.URL.revokeObjectURL(url_3);
                         }, 100);
                         return [2 /*return*/, true];
@@ -2170,11 +2172,11 @@ var Export = /** @class */ (function (_super) {
                     }
                     blob = new Blob([new Uint8Array(chars)], { type: contentType });
                     url_4 = window.URL.createObjectURL(blob);
-                    link.href = url_4;
-                    link.download = fileName;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
+                    link_1.href = url_4;
+                    link_1.download = fileName;
+                    document.body.appendChild(link_1);
+                    link_1.click();
+                    document.body.removeChild(link_1);
                     setTimeout(function () {
                         window.URL.revokeObjectURL(url_4);
                     }, 100);

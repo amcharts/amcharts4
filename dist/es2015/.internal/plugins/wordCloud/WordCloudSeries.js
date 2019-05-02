@@ -318,6 +318,17 @@ var WordCloudSeries = /** @class */ (function (_super) {
         var context = this._ctx;
         var w = this.innerWidth;
         var h = this.innerHeight;
+        if (window.getComputedStyle) {
+            var display = document.defaultView.getComputedStyle(this.htmlContainer, null).getPropertyValue("display");
+            if (display == "none") {
+                this._processTimeout = this.setTimeout(function () {
+                    _this._currentIndex++;
+                    _this.processItem(_this.dataItems.getIndex(_this._currentIndex));
+                }, 500);
+                this._disposers.push(this._processTimeout);
+                return;
+            }
+        }
         this.labelsContainer.x = w / 2;
         this.labelsContainer.y = h / 2;
         var label = dataItem.label;
@@ -415,6 +426,7 @@ var WordCloudSeries = /** @class */ (function (_super) {
                 _this._currentIndex++;
                 _this.processItem(_this.dataItems.getIndex(_this._currentIndex));
             }, 10);
+            this._disposers.push(this._processTimeout);
         }
     };
     /**

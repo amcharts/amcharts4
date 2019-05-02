@@ -12,6 +12,8 @@ import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sp
 import { registry } from "../Registry";
 import * as $math from "../utils/Math";
 import * as $type from "../utils/Type";
+import * as $utils from "../utils/Utils";
+import { Percent } from "../utils/Percent";
 import { IRectangle } from "../defs/IRectangle";
 
 
@@ -128,11 +130,19 @@ export class RoundedRectangle extends Sprite {
 		let h: number = this.innerHeight;
 
 		if ($type.isNumber(w) && $type.isNumber(h)) {
+
+			let minSide = $math.min(w, h) / 2;
+
+			let cornerRadiusTopLeft = $utils.relativeToValue(this.cornerRadiusTopLeft, minSide);
+			let cornerRadiusTopRight = $utils.relativeToValue(this.cornerRadiusTopRight, minSide);
+			let cornerRadiusBottomRight = $utils.relativeToValue(this.cornerRadiusBottomRight, minSide);
+			let cornerRadiusBottomLeft = $utils.relativeToValue(this.cornerRadiusBottomLeft, minSide);
+
 			let maxcr: number = $math.min(Math.abs(w / 2), Math.abs(h / 2));
-			let crtl: number = $math.fitToRange(this.cornerRadiusTopLeft, 0, maxcr);
-			let crtr: number = $math.fitToRange(this.cornerRadiusTopRight, 0, maxcr);
-			let crbr: number = $math.fitToRange(this.cornerRadiusBottomRight, 0, maxcr);
-			let crbl: number = $math.fitToRange(this.cornerRadiusBottomLeft, 0, maxcr);
+			let crtl: number = $math.fitToRange(cornerRadiusTopLeft, 0, maxcr);
+			let crtr: number = $math.fitToRange(cornerRadiusTopRight, 0, maxcr);
+			let crbr: number = $math.fitToRange(cornerRadiusBottomRight, 0, maxcr);
+			let crbl: number = $math.fitToRange(cornerRadiusBottomLeft, 0, maxcr);
 
 			let lineT: string = "M" + crtl + ",0 L" + (w - crtr) + ",0";
 			let lineB: string = " L" + crbl + "," + h;
@@ -161,7 +171,7 @@ export class RoundedRectangle extends Sprite {
 	 * @param bl  Bottom-left corner
 	 * @param br  Bottom-right corner
 	 */
-	public cornerRadius(tl: number, tr: number, bl: number, br: number) {
+	public cornerRadius(tl: number | Percent, tr: number | Percent, bl: number | Percent, br: number | Percent) {
 		this.cornerRadiusTopLeft = tl;
 		this.cornerRadiusTopRight = tr;
 		this.cornerRadiusBottomLeft = bl;
@@ -172,16 +182,16 @@ export class RoundedRectangle extends Sprite {
 	 * Radius of the top-left corner in pixels.
 	 *
 	 * @default 3
-	 * @param value  Radius (px)
+	 * @param value  Radius (px or Percent)
 	 */
-	public set cornerRadiusTopLeft(value: number) {
-		this.setPropertyValue("cornerRadiusTopLeft", value, true);
+	public set cornerRadiusTopLeft(value: number | Percent) {
+		this.setPercentProperty("cornerRadiusTopLeft", value, true);
 	}
 
 	/**
-	 * @return Radius (px)
+	 * @return Radius (px or Percent)
 	 */
-	public get cornerRadiusTopLeft(): number {
+	public get cornerRadiusTopLeft(): number | Percent {
 		return this.getPropertyValue("cornerRadiusTopLeft");
 	}
 
@@ -189,16 +199,16 @@ export class RoundedRectangle extends Sprite {
 	 * Radius of the top-right corner in pixels.
 	 *
 	 * @default 3
-	 * @param value  Radius (px)
+	 * @param value  Radius (px or Percent)
 	 */
-	public set cornerRadiusTopRight(value: number) {
-		this.setPropertyValue("cornerRadiusTopRight", value, true);
+	public set cornerRadiusTopRight(value: number | Percent) {
+		this.setPercentProperty("cornerRadiusTopRight", value, true);
 	}
 
 	/**
-	 * @return Radius (px)
+	 * @return Radius (px or Percent)
 	 */
-	public get cornerRadiusTopRight(): number {
+	public get cornerRadiusTopRight(): number | Percent {
 		return this.getPropertyValue("cornerRadiusTopRight");
 	}
 
@@ -206,16 +216,16 @@ export class RoundedRectangle extends Sprite {
 	 * Radius of the bottom-right corner in pixels.
 	 *
 	 * @default 3
-	 * @param value  Radius (px)
+	 * @param value  Radius (px or Percent)
 	 */
-	public set cornerRadiusBottomRight(value: number) {
-		this.setPropertyValue("cornerRadiusBottomRight", value, true);
+	public set cornerRadiusBottomRight(value: number | Percent) {
+		this.setPercentProperty("cornerRadiusBottomRight", value, true);
 	}
 
 	/**
-	 * @return Radius (px)
+	 * @return Radius (px or Percent)
 	 */
-	public get cornerRadiusBottomRight(): number {
+	public get cornerRadiusBottomRight(): number | Percent {
 		return this.getPropertyValue("cornerRadiusBottomRight");
 	}
 
@@ -223,16 +233,16 @@ export class RoundedRectangle extends Sprite {
 	 * Radius of the bottom-left corner in pixels.
 	 *
 	 * @default 3
-	 * @param value  Radius (px)
+	 * @param value  Radius (px or Percent)
 	 */
-	public set cornerRadiusBottomLeft(value: number) {
-		this.setPropertyValue("cornerRadiusBottomLeft", value, true);
+	public set cornerRadiusBottomLeft(value: number | Percent) {
+		this.setPercentProperty("cornerRadiusBottomLeft", value, true);
 	}
 
 	/**
-	 * @return Radius (px)
+	 * @return Radius (px or Percent)
 	 */
-	public get cornerRadiusBottomLeft(): number {
+	public get cornerRadiusBottomLeft(): number | Percent {
 		return this.getPropertyValue("cornerRadiusBottomLeft");
 	}
 

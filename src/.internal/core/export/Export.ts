@@ -1297,11 +1297,11 @@ export class Export extends Validatable {
 		// Get exported stuff
 		let data = await func.call(this, type, options);
 
+
 		// Restore temporarily hidden elements
 		this.restoreNonExportableSprites();
 
 		if (data) {
-
 
 			// Dispatch event
 			if (this.events.isEnabled("exportfinished")) {
@@ -2370,6 +2370,7 @@ export class Export extends Validatable {
 			this.hideNonExportableSprites();
 		}
 
+
 		// Get dimensions
 		let width = this.sprite.pixelWidth,
 			height = this.sprite.pixelHeight,
@@ -3034,6 +3035,7 @@ export class Export extends Validatable {
 			 */
 			let link = document.createElement("a");
 			link.download = fileName;
+			document.body.appendChild(link);
 
 			// Extract content type and get pure data without headers
 			let parts = uri.split(";");
@@ -3057,6 +3059,7 @@ export class Export extends Validatable {
 				link.download = fileName;
 				link.click();
 				setTimeout(() => {
+					document.body.removeChild(link);
 					window.URL.revokeObjectURL(url);
 				}, 100);
 				return true;

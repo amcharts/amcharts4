@@ -1857,7 +1857,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					}
 					else {
 						// check, otherwise column tooltip will be hidden
-						if (series.tooltipText) {
+						if (series.tooltipText || series.tooltipHTML) {
 							series.hideTooltip();
 						}
 					}

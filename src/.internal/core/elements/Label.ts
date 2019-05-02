@@ -108,17 +108,23 @@ export interface ILabelProperties extends IContainerProperties {
 	 */
 	ignoreFormatting?: boolean;
 
-
 	/**
 	 * Path string along which text should be arranged
 	 */
 	path?: string
 
-
 	/**
 	 * Relative label location on path.
 	 */
 	locationOnPath?: number;
+
+	/**
+	 * A ratio to calculate text baseline. Ralative distance from the bottom of
+	 * the label.
+	 *
+	 * @default -0.27
+	 */
+	baseLineRatio?: number;
 }
 
 /**
@@ -298,6 +304,7 @@ export class Label extends Container {
 		this.textValign = "top";
 
 		this.layout = "absolute";
+		this.baseLineRatio = -0.27;
 
 		// Set up adapters for manipulating accessibility
 		this.adapter.add("readerTitle", (arg) => {
@@ -907,7 +914,7 @@ export class Label extends Container {
 							lineInfo.element.attr({
 								"x": "0",
 								"y": currentHeight + currentLineHeight,
-								"dy": $math.round((-0.27 * currentLineHeight), 3).toString()
+								"dy": $math.round((this.baseLineRatio * currentLineHeight), 3).toString()
 							});
 						}
 						else {
@@ -1345,6 +1352,25 @@ export class Label extends Container {
 	 */
 	public get locationOnPath(): number {
 		return this.getPropertyValue("locationOnPath");
+	}
+
+	/**
+	 * A ratio to calculate text baseline. Ralative distance from the bottom of
+	 * the label.
+	 *
+	 * @since 4.4.2
+	 * @default -0.27
+	 * @param  value  Base line ratio
+	 */
+	public set baseLineRatio(value: number) {
+		this.setPropertyValue("baseLineRatio", value);
+	}
+
+	/**
+	 * @return Base line ratio
+	 */
+	public get baseLineRatio(): number {
+		return this.getPropertyValue("baseLineRatio");
 	}
 
 	/**

@@ -5,6 +5,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.4.2] - 2019-05-02
+
+### Added
+- New property for `Label`: `baseLineRatio` (default `-0.27`) controls how "base line" for a label is calculated, and affects positioning of text. The default might not work for all fonts, so this setting can be used to adjust it for precise positioning.
+- New event for `Sprite`: `"dragged"`. It kicks in right after `"drag"` and can be used to manipulate or correct element's position, which might not be possible using `"drag"` which has built-in position-altering handlers.
+
+### Fixed
+- Export to SVG was not working on Firefox.
+- Some touch issues wit iOS Safari fixed.
+- `ValueAxis` could display non-rounded numbers (caused by floating point problem) sometimes.
+- `maxPanOut` of `MapChart` was being ignored.
+- Chart scrollbar was not being zoomed out when data of a chart changed.
+- `RadarChart` with multiple `RadarColumnSeries` with Y as base axis was displaying columns of a 2nd+ series from wrong position.
+- `chart.dispose()` with a lot of data was very slow. Now it's super fast.
+- Zoom with mouse wheel was buggy when zooming already zoomed-in `XYChart`.
+- Gant chart was not updating columns when `chart.invalidateRawData()` was called.
+- Issue with some `propertyFields` set on a `LineSeries` with no data fixed.
+- Reseting `relativeRotation` of `AxisLabelCircular` to `undefined` didn't work.
+
+
 ## [4.4.1] - 2019-04-22
 
 ### Changed

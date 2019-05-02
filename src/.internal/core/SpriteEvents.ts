@@ -123,6 +123,7 @@ export class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> ext
 			//case "hold":
 			case "up":
 			case "drag":
+			case "dragged":
 			case "dragstart":
 			case "dragstop":
 			case "over":
@@ -475,5 +476,27 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
 	 * Invoked when sprite is enabled
 	 */
 	enabled: {};
+
+	/**
+	 * Invoked when `draggable` object is being dragged. (using mouse, touch or
+	 * keyboard).
+	 *
+	 * This is simmilar but different then `"drag"` event in that it kicks in
+	 * after `"drag"` which modifies [[Sprite]] coordinates. This allows doing
+	 * own manipulations and corrections to element positions.
+	 */
+	dragged: SpritePointerTypeEvent & SpriteShiftEvent & SpritePointEvent & {
+
+		/**
+		 * Original coordinates of the pointer's position when the dragging started.
+		 */
+		startPoint: IPoint,
+
+		/**
+		 * An original JavaScript event that triggered dragging.
+		 */
+		event?: MouseEvent | TouchEvent | KeyboardEvent
+
+	};
 
 }

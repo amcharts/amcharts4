@@ -222,15 +222,20 @@ var ValueAxis = /** @class */ (function (_super) {
      */
     ValueAxis.prototype.dataChangeUpdate = function () {
         if (!this.keepSelection) {
-            this._start = 0;
-            this._end = 1;
+            if (this._start != 0 || this._end != 1) {
+                this._start = 0;
+                this._end = 1;
+                this.dispatchImmediately("startendchanged");
+            }
         }
         else {
             if (this._start != 0) {
                 this.dispatchImmediately("startchanged");
+                this.dispatchImmediately("startendchanged");
             }
             if (this._end != 1) {
                 this.dispatchImmediately("endchanged");
+                this.dispatchImmediately("startendchanged");
             }
         }
         this._maxZoomed = this._maxDefined;
@@ -412,6 +417,13 @@ var ValueAxis = /** @class */ (function (_super) {
                     else {
                         value_1 += this._step;
                     }
+                }
+                var stepPower = Math.pow(10, Math.floor(Math.log(Math.abs(this._step)) * Math.LOG10E));
+                if (stepPower < 1) {
+                    // exponent is less then 1 too. Count decimals of exponent
+                    var decCount = Math.round(Math.abs(Math.log(Math.abs(stepPower)) * Math.LOG10E)) + 2;
+                    // round value to avoid floating point issues
+                    value_1 = $math.round(value_1, decCount);
                 }
             }
             var axisBreaks = this.axisBreaks;

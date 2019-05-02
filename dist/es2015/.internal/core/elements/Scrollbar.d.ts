@@ -405,7 +405,7 @@ export declare class Scrollbar extends Container {
      * A "thumb" element.
      *
      * It's a draggable square space between the grips, that can be used to
-     * pan the seleciton.
+     * pan the selection.
      *
      * @param thumb  Thumb element
      */

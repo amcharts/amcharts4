@@ -12,6 +12,7 @@ import { Sprite } from "../Sprite";
 import { registry } from "../Registry";
 import * as $math from "../utils/Math";
 import * as $type from "../utils/Type";
+import * as $utils from "../utils/Utils";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -48,11 +49,16 @@ var RoundedRectangle = /** @class */ (function (_super) {
         var w = this.innerWidth;
         var h = this.innerHeight;
         if ($type.isNumber(w) && $type.isNumber(h)) {
+            var minSide = $math.min(w, h) / 2;
+            var cornerRadiusTopLeft = $utils.relativeToValue(this.cornerRadiusTopLeft, minSide);
+            var cornerRadiusTopRight = $utils.relativeToValue(this.cornerRadiusTopRight, minSide);
+            var cornerRadiusBottomRight = $utils.relativeToValue(this.cornerRadiusBottomRight, minSide);
+            var cornerRadiusBottomLeft = $utils.relativeToValue(this.cornerRadiusBottomLeft, minSide);
             var maxcr = $math.min(Math.abs(w / 2), Math.abs(h / 2));
-            var crtl = $math.fitToRange(this.cornerRadiusTopLeft, 0, maxcr);
-            var crtr = $math.fitToRange(this.cornerRadiusTopRight, 0, maxcr);
-            var crbr = $math.fitToRange(this.cornerRadiusBottomRight, 0, maxcr);
-            var crbl = $math.fitToRange(this.cornerRadiusBottomLeft, 0, maxcr);
+            var crtl = $math.fitToRange(cornerRadiusTopLeft, 0, maxcr);
+            var crtr = $math.fitToRange(cornerRadiusTopRight, 0, maxcr);
+            var crbr = $math.fitToRange(cornerRadiusBottomRight, 0, maxcr);
+            var crbl = $math.fitToRange(cornerRadiusBottomLeft, 0, maxcr);
             var lineT = "M" + crtl + ",0 L" + (w - crtr) + ",0";
             var lineB = " L" + crbl + "," + h;
             var lineL = " L0," + crtl;
@@ -83,7 +89,7 @@ var RoundedRectangle = /** @class */ (function (_super) {
     };
     Object.defineProperty(RoundedRectangle.prototype, "cornerRadiusTopLeft", {
         /**
-         * @return Radius (px)
+         * @return Radius (px or Percent)
          */
         get: function () {
             return this.getPropertyValue("cornerRadiusTopLeft");
@@ -92,17 +98,17 @@ var RoundedRectangle = /** @class */ (function (_super) {
          * Radius of the top-left corner in pixels.
          *
          * @default 3
-         * @param value  Radius (px)
+         * @param value  Radius (px or Percent)
          */
         set: function (value) {
-            this.setPropertyValue("cornerRadiusTopLeft", value, true);
+            this.setPercentProperty("cornerRadiusTopLeft", value, true);
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(RoundedRectangle.prototype, "cornerRadiusTopRight", {
         /**
-         * @return Radius (px)
+         * @return Radius (px or Percent)
          */
         get: function () {
             return this.getPropertyValue("cornerRadiusTopRight");
@@ -111,17 +117,17 @@ var RoundedRectangle = /** @class */ (function (_super) {
          * Radius of the top-right corner in pixels.
          *
          * @default 3
-         * @param value  Radius (px)
+         * @param value  Radius (px or Percent)
          */
         set: function (value) {
-            this.setPropertyValue("cornerRadiusTopRight", value, true);
+            this.setPercentProperty("cornerRadiusTopRight", value, true);
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(RoundedRectangle.prototype, "cornerRadiusBottomRight", {
         /**
-         * @return Radius (px)
+         * @return Radius (px or Percent)
          */
         get: function () {
             return this.getPropertyValue("cornerRadiusBottomRight");
@@ -130,17 +136,17 @@ var RoundedRectangle = /** @class */ (function (_super) {
          * Radius of the bottom-right corner in pixels.
          *
          * @default 3
-         * @param value  Radius (px)
+         * @param value  Radius (px or Percent)
          */
         set: function (value) {
-            this.setPropertyValue("cornerRadiusBottomRight", value, true);
+            this.setPercentProperty("cornerRadiusBottomRight", value, true);
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(RoundedRectangle.prototype, "cornerRadiusBottomLeft", {
         /**
-         * @return Radius (px)
+         * @return Radius (px or Percent)
          */
         get: function () {
             return this.getPropertyValue("cornerRadiusBottomLeft");
@@ -149,10 +155,10 @@ var RoundedRectangle = /** @class */ (function (_super) {
          * Radius of the bottom-left corner in pixels.
          *
          * @default 3
-         * @param value  Radius (px)
+         * @param value  Radius (px or Percent)
          */
         set: function (value) {
-            this.setPropertyValue("cornerRadiusBottomLeft", value, true);
+            this.setPercentProperty("cornerRadiusBottomLeft", value, true);
         },
         enumerable: true,
         configurable: true

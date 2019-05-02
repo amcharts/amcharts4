@@ -4990,8 +4990,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (point && this._isDragged) {
 				let globalScale = this.parent.globalScale * this.svgContainer.cssScale;
 				this.moveTo({ x: point.x + ev.shift.x / globalScale, y: point.y + ev.shift.y / globalScale }, undefined, undefined, true);
-				//this.dispatchImmediately("drag", ev);
 			}
+
+			this.dispatchImmediately("dragged", ev);
 		}
 	}
 

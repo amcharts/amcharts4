@@ -198,6 +198,7 @@ var Interaction = /** @class */ (function (_super) {
             // Additionally disable hover events for iOS devices
             if ('ontouchstart' in window) {
                 _this._addHoverEvents = false;
+                _this._useTouchEventsOnly = true;
             }
         }
         else if (window.navigator.userAgent.match(/MSIE /)) {

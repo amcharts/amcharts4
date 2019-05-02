@@ -1025,10 +1025,21 @@ export class Component extends Container {
 	}
 
 	/**
+	 * Destroys this object and all related data.
+	 */
+	public dispose(){
+		this.dataItems.template.clones.clear();
+		super.dispose();
+	}
+
+
+	/**
 	 * @ignore
 	 */
 	public disposeData() {
 		if (this.inited) {
+			this.dataItems.template.clones.clear();
+
 			$array.each(this._dataDisposers, (x) => {
 				x.dispose();
 			});

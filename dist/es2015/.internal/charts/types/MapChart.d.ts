@@ -353,6 +353,22 @@ export declare class MapChart extends SerialChart {
      */
     seriesWidth: number;
     /**
+     * @ignore
+     */
+    seriesMaxLeft: number;
+    /**
+     * @ignore
+     */
+    seriesMaxRight: number;
+    /**
+     * @ignore
+     */
+    seriesMaxTop: number;
+    /**
+     * @ignore
+     */
+    seriesMaxBottom: number;
+    /**
      * Height of the actual map objects (px).
      */
     seriesHeight: number;

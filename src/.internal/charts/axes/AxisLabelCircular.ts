@@ -129,6 +129,14 @@ export class AxisLabelCircular extends AxisLabel {
 	 */
 	public set relativeRotation(value: number) {
 		this.setPropertyValue("relativeRotation", value, true);
+		if(!$type.hasValue(value)){
+			this.rotation = undefined;
+
+			let dataItem = this.dataItem;
+			if(dataItem && dataItem.component){
+				dataItem.component.invalidateDataItems();
+			}			
+		}
 	}
 
 	/**

@@ -196,9 +196,6 @@ export class RadarColumnSeries extends ColumnSeries {
 
 		let cellAngle = (endAngle - startAngle) / (this.dataItems.length * (this.end - this.start));
 
-		startAngle = startAngle + startLocation * cellAngle;
-		endAngle = endAngle - (1 - endLocation) * cellAngle;
-
 		let template: Sprite = this.columns.template;
 
 		let percentWidth: number = template.percentWidth;
@@ -217,12 +214,16 @@ export class RadarColumnSeries extends ColumnSeries {
 
 			lAngle = this.xAxis.getAngle(dataItem, xOpenField, startLocation, "valueX");
 			rAngle = this.xAxis.getAngle(dataItem, xField, endLocation, "valueX");
+
+			startAngle = startAngle + startLocation * cellAngle;
+			endAngle = endAngle - (1 - endLocation) * cellAngle;			
 		}
 		else {
 			tRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yField, startLocation, "valueY"), y: this.yAxis.getY(dataItem, yField, startLocation, "valueY") });
 			bRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yOpenField, endLocation, "valueY"), y: this.yAxis.getY(dataItem, yOpenField, endLocation, "valueY") });
 
 			lAngle = this.xAxis.getAngle(dataItem, xField, dataItem.locations[xField], "valueX");
+
 			rAngle = this.xAxis.getAngle(dataItem, xOpenField, dataItem.locations[xOpenField], "valueX");
 		}
 

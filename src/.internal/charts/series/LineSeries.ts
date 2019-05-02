@@ -444,11 +444,13 @@ export class LineSeries extends XYSeries {
 			if ($type.hasValue(propertyFields[property])) {
 				for (let i = startIndex; i >= 0; i--) {
 					let dataItem = this.dataItems.getIndex(i);
-					if ($type.hasValue(dataItem.properties[property])) {
-						if (adjustedIndex > i) {
-							adjustedIndex = i;
+					if(dataItem){
+						if ($type.hasValue(dataItem.properties[property])) {
+							if (adjustedIndex > i) {
+								adjustedIndex = i;
+							}
+							break;
 						}
-						break;
 					}
 				}
 			}

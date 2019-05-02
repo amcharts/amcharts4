@@ -69,6 +69,13 @@ var AxisLabelCircular = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("relativeRotation", value, true);
+            if (!$type.hasValue(value)) {
+                this.rotation = undefined;
+                var dataItem = this.dataItem;
+                if (dataItem && dataItem.component) {
+                    dataItem.component.invalidateDataItems();
+                }
+            }
         },
         enumerable: true,
         configurable: true

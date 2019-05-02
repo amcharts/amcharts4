@@ -265,11 +265,13 @@ var LineSeries = /** @class */ (function (_super) {
             if ($type.hasValue(propertyFields[property])) {
                 for (var i = startIndex; i >= 0; i--) {
                     var dataItem = _this.dataItems.getIndex(i);
-                    if ($type.hasValue(dataItem.properties[property])) {
-                        if (adjustedIndex > i) {
-                            adjustedIndex = i;
+                    if (dataItem) {
+                        if ($type.hasValue(dataItem.properties[property])) {
+                            if (adjustedIndex > i) {
+                                adjustedIndex = i;
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }

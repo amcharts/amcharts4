@@ -4043,8 +4043,8 @@ var Sprite = /** @class */ (function (_super) {
             if (point && this._isDragged) {
                 var globalScale = this.parent.globalScale * this.svgContainer.cssScale;
                 this.moveTo({ x: point.x + ev.shift.x / globalScale, y: point.y + ev.shift.y / globalScale }, undefined, undefined, true);
-                //this.dispatchImmediately("drag", ev);
             }
+            this.dispatchImmediately("dragged", ev);
         }
     };
     Object.defineProperty(Sprite.prototype, "inert", {

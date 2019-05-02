@@ -493,6 +493,14 @@ export declare class XYSeries extends Series {
      */
     protected processDataItem(dataItem: this["_dataItem"], dataContext?: Object): void;
     /**
+     *
+     * When validating raw data, instead of processing data item, we update it
+     *
+     * @ignore Exclude from docs
+     * @param item
+     */
+    protected updateDataItem(dataItem: this["_dataItem"]): void;
+    /**
      * Inits data item's working values.
      *
      * @param dataItem  Data item

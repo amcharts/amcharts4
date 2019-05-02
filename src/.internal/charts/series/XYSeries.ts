@@ -794,14 +794,12 @@ export class XYSeries extends Series {
 	 * @param index        Index of the data item
 	 */
 	protected processDataItem(dataItem: this["_dataItem"], dataContext?: Object): void {
-
 		try {
 			super.processDataItem(dataItem, dataContext);
 
 			dataItem.events.disable();
 			this.xAxis.processSeriesDataItem(dataItem, "X");
 			this.yAxis.processSeriesDataItem(dataItem, "Y");
-
 			dataItem.events.enable();
 
 			this.setInitialWorkingValues(dataItem);
@@ -810,6 +808,23 @@ export class XYSeries extends Series {
 			this._chart.raiseCriticalError(e);
 		}
 	}
+
+	/**
+	 *
+	 * When validating raw data, instead of processing data item, we update it
+	 *
+	 * @ignore Exclude from docs
+	 * @param item
+	 */
+	protected updateDataItem(dataItem: this["_dataItem"]): void {
+		super.updateDataItem(dataItem);
+		
+		//dataItem.events.disable();
+		this.xAxis.processSeriesDataItem(dataItem, "X");
+		this.yAxis.processSeriesDataItem(dataItem, "Y");
+		//dataItem.events.enable();		
+	}
+
 
 	/**
 	 * Inits data item's working values.

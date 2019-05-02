@@ -138,7 +138,7 @@ var MapChart = /** @class */ (function (_super) {
         seriesContainer.resizable = true;
         seriesContainer.events.on("transformed", _this.handleMapTransform, _this, false);
         seriesContainer.events.on("doublehit", _this.handleDoubleHit, _this, false);
-        seriesContainer.events.on("drag", _this.handleDrag, _this, false);
+        seriesContainer.events.on("dragged", _this.handleDrag, _this, false);
         seriesContainer.zIndex = 0;
         seriesContainer.dragWhileResize = true;
         //seriesContainer.background.fillOpacity = 0;
@@ -336,6 +336,10 @@ var MapChart = /** @class */ (function (_super) {
                 }
             });
         }
+        this.seriesMaxLeft = maxLeft;
+        this.seriesMaxRight = maxRight;
+        this.seriesMaxTop = maxTop;
+        this.seriesMaxBottom = maxBottom;
         this.seriesWidth = maxRight - maxLeft;
         this.seriesHeight = maxBottom - maxTop;
         if (this.seriesWidth > 0 && this.seriesHeight > 0) {
@@ -354,29 +358,34 @@ var MapChart = /** @class */ (function (_super) {
      * @ignore
      */
     MapChart.prototype.handleDrag = function () {
-        // not good doing it with adapters.
-        var ww = this.seriesWidth * this.zoomLevel * this.scaleRatio;
-        var hh = this.seriesHeight * this.zoomLevel * this.scaleRatio;
-        var x = this.seriesContainer.pixelX;
-        var y = this.seriesContainer.pixelY;
+        var d = this.zoomLevel * this.scaleRatio;
+        var ww = this.seriesWidth * d;
+        var hh = this.seriesHeight * d;
+        var seriesContainer = this.seriesContainer;
+        var maxLeft = this.seriesMaxLeft * d;
+        var maxRight = this.seriesMaxRight * d;
+        var maxTop = this.seriesMaxTop * d;
+        var maxBottom = this.seriesMaxBottom * d;
+        var x = seriesContainer.pixelX;
+        var y = seriesContainer.pixelY;
         var maxPanOut = this.maxPanOut;
-        var minX = Math.min(this.maxWidth * (1 - maxPanOut) - ww / 2, -ww * (maxPanOut - 0.5));
+        var minX = Math.min(this.maxWidth * (1 - maxPanOut) - ww - maxLeft, -maxLeft);
         if (x < minX) {
             x = minX;
         }
-        var maxX = Math.max(this.maxWidth * maxPanOut + ww / 2, this.maxWidth + ww * (maxPanOut - 0.5));
+        var maxX = Math.max(this.maxWidth * maxPanOut - maxLeft, this.maxWidth - maxRight);
         if (x > maxX) {
             x = maxX;
         }
-        var minY = Math.min(this.maxHeight * (1 - maxPanOut) - hh / 2, -hh * (maxPanOut - 0.5));
+        var minY = Math.min(this.maxHeight * (1 - maxPanOut) - hh - maxTop, -maxTop);
         if (y < minY) {
             y = minY;
         }
-        var maxY = Math.max(this.maxHeight * maxPanOut + hh / 2, this.maxHeight + hh * (maxPanOut - 0.5));
+        var maxY = Math.max(this.maxHeight * maxPanOut - maxTop, this.maxHeight - maxBottom);
         if (y > maxY) {
             y = maxY;
         }
-        this.seriesContainer.moveTo({ x: x, y: y }, undefined, undefined, true);
+        seriesContainer.moveTo({ x: x, y: y }, undefined, undefined, true);
         this._zoomGeoPointReal = this.zoomGeoPoint;
     };
     /**

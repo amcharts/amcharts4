@@ -566,6 +566,18 @@ export class WordCloudSeries extends Series {
 		let w = this.innerWidth;
 		let h = this.innerHeight;
 
+		if (window.getComputedStyle) {
+			let display = document.defaultView.getComputedStyle(this.htmlContainer, null).getPropertyValue("display");
+			if (display == "none") {
+				this._processTimeout = this.setTimeout(() => {
+					this._currentIndex++;
+					this.processItem(this.dataItems.getIndex(this._currentIndex));
+				}, 500);
+				this._disposers.push(this._processTimeout);
+				return;
+			}
+		}
+
 		this.labelsContainer.x = w / 2;
 		this.labelsContainer.y = h / 2;
 
@@ -687,6 +699,7 @@ export class WordCloudSeries extends Series {
 				this._currentIndex++;
 				this.processItem(this.dataItems.getIndex(this._currentIndex));
 			}, 10);
+			this._disposers.push(this._processTimeout);
 		}
 	}
 

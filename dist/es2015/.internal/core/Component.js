@@ -635,10 +635,18 @@ var Component = /** @class */ (function (_super) {
         });
     };
     /**
+     * Destroys this object and all related data.
+     */
+    Component.prototype.dispose = function () {
+        this.dataItems.template.clones.clear();
+        _super.prototype.dispose.call(this);
+    };
+    /**
      * @ignore
      */
     Component.prototype.disposeData = function () {
         if (this.inited) {
+            this.dataItems.template.clones.clear();
             $array.each(this._dataDisposers, function (x) {
                 x.dispose();
             });

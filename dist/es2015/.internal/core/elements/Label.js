@@ -85,6 +85,7 @@ var Label = /** @class */ (function (_super) {
         _this.textAlign = "start";
         _this.textValign = "top";
         _this.layout = "absolute";
+        _this.baseLineRatio = -0.27;
         // Set up adapters for manipulating accessibility
         _this.adapter.add("readerTitle", function (arg) {
             if (!arg) {
@@ -551,7 +552,7 @@ var Label = /** @class */ (function (_super) {
                             lineInfo.element.attr({
                                 "x": "0",
                                 "y": currentHeight + currentLineHeight,
-                                "dy": $math.round((-0.27 * currentLineHeight), 3).toString()
+                                "dy": $math.round((this.baseLineRatio * currentLineHeight), 3).toString()
                             });
                         }
                         else {
@@ -933,6 +934,27 @@ var Label = /** @class */ (function (_super) {
             if (this.textPathElement) {
                 this.textPathElement.attr({ "startOffset": (value * 100) + "%" });
             }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Label.prototype, "baseLineRatio", {
+        /**
+         * @return Base line ratio
+         */
+        get: function () {
+            return this.getPropertyValue("baseLineRatio");
+        },
+        /**
+         * A ratio to calculate text baseline. Ralative distance from the bottom of
+         * the label.
+         *
+         * @since 4.4.2
+         * @default -0.27
+         * @param  value  Base line ratio
+         */
+        set: function (value) {
+            this.setPropertyValue("baseLineRatio", value);
         },
         enumerable: true,
         configurable: true

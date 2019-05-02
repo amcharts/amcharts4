@@ -101,6 +101,7 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
             //case "hold":
             case "up":
             case "drag":
+            case "dragged":
             case "dragstart":
             case "dragstop":
             case "over":

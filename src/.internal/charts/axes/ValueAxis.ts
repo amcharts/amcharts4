@@ -346,7 +346,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 	protected _extremesChanged: boolean = false;
 
-	protected _deltaMinMax:number = 1;
+	protected _deltaMinMax: number = 1;
 
 	/**
 	 * Holds reference to a function that accepts a DataItem as parameter.
@@ -437,15 +437,20 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 */
 	public dataChangeUpdate(): void {
 		if (!this.keepSelection) {
-			this._start = 0;
-			this._end = 1;
+			if (this._start != 0 || this._end != 1) {
+				this._start = 0;
+				this._end = 1;
+				this.dispatchImmediately("startendchanged");
+			}
 		}
 		else {
 			if (this._start != 0) {
 				this.dispatchImmediately("startchanged");
+				this.dispatchImmediately("startendchanged");
 			}
 			if (this._end != 1) {
 				this.dispatchImmediately("endchanged");
+				this.dispatchImmediately("startendchanged");
 			}
 		}
 
@@ -608,7 +613,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				}
 				else {
 					value = Math.floor(this.minZoomed / this._step) * this._step;
-					if(value == 0){
+					if (value == 0) {
 						value = this.minZoomed;
 					}
 				}
@@ -661,6 +666,15 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 					else {
 						value += this._step;
 					}
+				}
+
+
+				let stepPower = Math.pow(10, Math.floor(Math.log(Math.abs(this._step)) * Math.LOG10E));
+				if (stepPower < 1) {
+					// exponent is less then 1 too. Count decimals of exponent
+					let decCount = Math.round(Math.abs(Math.log(Math.abs(stepPower)) * Math.LOG10E)) + 2;
+					// round value to avoid floating point issues
+					value = $math.round(value, decCount);
 				}
 			}
 
@@ -1118,7 +1132,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		max += (max - min) * this.extraMax;
 
 		let strict = this.strictMinMax;
-		if($type.isNumber(this._maxDefined)){
+		if ($type.isNumber(this._maxDefined)) {
 			strict = true;
 		}
 

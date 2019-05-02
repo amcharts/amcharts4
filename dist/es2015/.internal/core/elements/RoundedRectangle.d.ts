@@ -8,6 +8,7 @@
  * @hidden
  */
 import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
+import { Percent } from "../utils/Percent";
 import { IRectangle } from "../defs/IRectangle";
 /**
  * ============================================================================
@@ -101,47 +102,47 @@ export declare class RoundedRectangle extends Sprite {
      * @param bl  Bottom-left corner
      * @param br  Bottom-right corner
      */
-    cornerRadius(tl: number, tr: number, bl: number, br: number): void;
+    cornerRadius(tl: number | Percent, tr: number | Percent, bl: number | Percent, br: number | Percent): void;
     /**
-     * @return Radius (px)
+     * @return Radius (px or Percent)
      */
     /**
      * Radius of the top-left corner in pixels.
      *
      * @default 3
-     * @param value  Radius (px)
+     * @param value  Radius (px or Percent)
      */
-    cornerRadiusTopLeft: number;
+    cornerRadiusTopLeft: number | Percent;
     /**
-     * @return Radius (px)
+     * @return Radius (px or Percent)
      */
     /**
      * Radius of the top-right corner in pixels.
      *
      * @default 3
-     * @param value  Radius (px)
+     * @param value  Radius (px or Percent)
      */
-    cornerRadiusTopRight: number;
+    cornerRadiusTopRight: number | Percent;
     /**
-     * @return Radius (px)
+     * @return Radius (px or Percent)
      */
     /**
      * Radius of the bottom-right corner in pixels.
      *
      * @default 3
-     * @param value  Radius (px)
+     * @param value  Radius (px or Percent)
      */
-    cornerRadiusBottomRight: number;
+    cornerRadiusBottomRight: number | Percent;
     /**
-     * @return Radius (px)
+     * @return Radius (px or Percent)
      */
     /**
      * Radius of the bottom-left corner in pixels.
      *
      * @default 3
-     * @param value  Radius (px)
+     * @param value  Radius (px or Percent)
      */
-    cornerRadiusBottomLeft: number;
+    cornerRadiusBottomLeft: number | Percent;
     /**
      * Measures the element.
      *

@@ -473,6 +473,20 @@ var XYSeries = /** @class */ (function (_super) {
         }
     };
     /**
+     *
+     * When validating raw data, instead of processing data item, we update it
+     *
+     * @ignore Exclude from docs
+     * @param item
+     */
+    XYSeries.prototype.updateDataItem = function (dataItem) {
+        _super.prototype.updateDataItem.call(this, dataItem);
+        //dataItem.events.disable();
+        this.xAxis.processSeriesDataItem(dataItem, "X");
+        this.yAxis.processSeriesDataItem(dataItem, "Y");
+        //dataItem.events.enable();		
+    };
+    /**
      * Inits data item's working values.
      *
      * @param dataItem  Data item

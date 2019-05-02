@@ -94,6 +94,13 @@ export interface ILabelProperties extends IContainerProperties {
      * Relative label location on path.
      */
     locationOnPath?: number;
+    /**
+     * A ratio to calculate text baseline. Ralative distance from the bottom of
+     * the label.
+     *
+     * @default -0.27
+     */
+    baseLineRatio?: number;
 }
 /**
  * Text line information.
@@ -364,6 +371,18 @@ export declare class Label extends Container {
      * @param  value  Relatvie location on path
      */
     locationOnPath: number;
+    /**
+     * @return Base line ratio
+     */
+    /**
+     * A ratio to calculate text baseline. Ralative distance from the bottom of
+     * the label.
+     *
+     * @since 4.4.2
+     * @default -0.27
+     * @param  value  Base line ratio
+     */
+    baseLineRatio: number;
     /**
      * @return Auto-wrap enabled or not
      */

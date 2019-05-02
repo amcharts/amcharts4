@@ -1539,7 +1539,7 @@ var DateAxis = /** @class */ (function (_super) {
                     }
                     else {
                         // check, otherwise column tooltip will be hidden
-                        if (series.tooltipText) {
+                        if (series.tooltipText || series.tooltipHTML) {
                             series.hideTooltip();
                         }
                     }

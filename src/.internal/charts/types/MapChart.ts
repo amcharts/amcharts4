@@ -441,6 +441,26 @@ export class MapChart extends SerialChart {
 	public seriesWidth: number;
 
 	/**
+	 * @ignore
+	 */
+	public seriesMaxLeft: number;
+
+	/**
+	 * @ignore
+	 */
+	public seriesMaxRight: number;
+
+	/**
+	 * @ignore
+	 */
+	public seriesMaxTop: number;
+
+	/**
+	 * @ignore
+	 */
+	public seriesMaxBottom: number;			
+
+	/**
 	 * Height of the actual map objects (px).
 	 */
 	public seriesHeight: number;
@@ -613,7 +633,7 @@ export class MapChart extends SerialChart {
 		seriesContainer.resizable = true;
 		seriesContainer.events.on("transformed", this.handleMapTransform, this, false);
 		seriesContainer.events.on("doublehit", this.handleDoubleHit, this, false);
-		seriesContainer.events.on("drag", this.handleDrag, this, false);
+		seriesContainer.events.on("dragged", this.handleDrag, this, false);
 		seriesContainer.zIndex = 0;
 		seriesContainer.dragWhileResize = true;
 		//seriesContainer.background.fillOpacity = 0;
@@ -831,7 +851,6 @@ export class MapChart extends SerialChart {
 		else {
 			this.series.each((series) => {
 				let bbox = series.group.node.getBBox();
-
 				if (maxLeft > bbox.x || !$type.isNumber(maxLeft)) {
 					maxLeft = bbox.x;
 				}
@@ -846,6 +865,11 @@ export class MapChart extends SerialChart {
 				}
 			})
 		}
+
+		this.seriesMaxLeft = maxLeft;
+		this.seriesMaxRight = maxRight;
+		this.seriesMaxTop = maxTop;
+		this.seriesMaxBottom = maxBottom;
 
 		this.seriesWidth = maxRight - maxLeft;
 		this.seriesHeight = maxBottom - maxTop;
@@ -869,36 +893,43 @@ export class MapChart extends SerialChart {
 	 * @ignore
 	 */
 	protected handleDrag() {
-		// not good doing it with adapters.
-		let ww = this.seriesWidth * this.zoomLevel * this.scaleRatio;
-		let hh = this.seriesHeight * this.zoomLevel * this.scaleRatio;
-		let x = this.seriesContainer.pixelX;
-		let y = this.seriesContainer.pixelY;
+		let d = this.zoomLevel * this.scaleRatio;
+
+		let ww = this.seriesWidth * d;
+		let hh = this.seriesHeight * d;
+
+		let seriesContainer = this.seriesContainer;
+		let maxLeft = this.seriesMaxLeft * d;
+		let maxRight = this.seriesMaxRight * d;
+		let maxTop = this.seriesMaxTop * d;
+		let maxBottom = this.seriesMaxBottom * d;
+
+		let x = seriesContainer.pixelX;
+		let y = seriesContainer.pixelY;
 
 		let maxPanOut = this.maxPanOut;
 
-		let minX = Math.min(this.maxWidth * (1 - maxPanOut) - ww / 2, -ww * (maxPanOut - 0.5));
+		let minX = Math.min(this.maxWidth * (1 - maxPanOut) - ww - maxLeft, -maxLeft);
 		if (x < minX) {
 			x = minX;
 		}
 
-		let maxX = Math.max(this.maxWidth * maxPanOut + ww / 2, this.maxWidth + ww * (maxPanOut - 0.5));
+		let maxX = Math.max(this.maxWidth * maxPanOut - maxLeft, this.maxWidth - maxRight);
 		if (x > maxX) {
 			x = maxX;
 		}
 
-
-		let minY = Math.min(this.maxHeight * (1 - maxPanOut) - hh / 2, -hh * (maxPanOut - 0.5));
+		let minY = Math.min(this.maxHeight * (1 - maxPanOut) - hh - maxTop, -maxTop)
 		if (y < minY) {
 			y = minY;
 		}
 
-		let maxY = Math.max(this.maxHeight * maxPanOut + hh / 2, this.maxHeight + hh * (maxPanOut - 0.5));
+		let maxY = Math.max(this.maxHeight * maxPanOut - maxTop, this.maxHeight - maxBottom);
 		if (y > maxY) {
 			y = maxY;
 		}
 
-		this.seriesContainer.moveTo({ x: x, y: y }, undefined, undefined, true);
+		seriesContainer.moveTo({ x: x, y: y }, undefined, undefined, true);
 
 		this._zoomGeoPointReal = this.zoomGeoPoint;
 	}

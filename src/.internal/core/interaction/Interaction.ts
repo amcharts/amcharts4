@@ -300,6 +300,7 @@ export class Interaction extends BaseObjectEvents {
 			// Additionally disable hover events for iOS devices
 			if ('ontouchstart' in window) {
 				this._addHoverEvents = false;
+				this._useTouchEventsOnly = true;
 			}
 		}
 		else if (window.navigator.userAgent.match(/MSIE /)) {
@@ -2155,6 +2156,7 @@ export class Interaction extends BaseObjectEvents {
 				};
 				io.events.dispatchImmediately("drag", imev);
 			}
+
 		}
 
 	}
