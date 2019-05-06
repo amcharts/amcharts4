@@ -116,6 +116,9 @@ var AxisLabelCircular = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("bent", value, true);
+            this.setPropertyValue("wrap", false);
+            this.setPropertyValue("horizontalCenter", "none");
+            this.setPropertyValue("verticalCenter", "none");
             if (value) {
                 this.textAlign = "middle";
             }

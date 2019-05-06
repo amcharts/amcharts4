@@ -389,8 +389,10 @@ var ColumnSeries = /** @class */ (function (_super) {
             var topLocation = dataItem.locations[yField];
             // otherwise gantt chart will start items in the middle of a cell
             if (this.yAxis instanceof ValueAxis) {
-                bottomLocation = 0;
-                topLocation = 0;
+                if (this.dataFields[this.yField] != this.dataFields[this.yOpenField]) {
+                    bottomLocation = 0;
+                    topLocation = 0;
+                }
             }
             b = this.yAxis.getY(dataItem, yOpenField, bottomLocation);
             t = this.yAxis.getY(dataItem, yField, topLocation);
@@ -434,8 +436,10 @@ var ColumnSeries = /** @class */ (function (_super) {
             var leftLocation = dataItem.locations[xOpenField];
             // otherwise gantt chart will start items in the middle of a cell
             if (this.xAxis instanceof ValueAxis) {
-                rightLocation = 0;
-                leftLocation = 0;
+                if (this.dataFields[this.xField] != this.dataFields[this.xOpenField]) {
+                    rightLocation = 0;
+                    leftLocation = 0;
+                }
             }
             r = this.xAxis.getX(dataItem, xField, rightLocation);
             l = this.xAxis.getX(dataItem, xOpenField, leftLocation);
@@ -569,14 +573,14 @@ var ColumnSeries = /** @class */ (function (_super) {
             var value = void 0;
             var change = void 0;
             if (this.baseAxis == this.yAxis) {
-                if (this.xOpenField && this.xField) {
+                if (this.xOpenField && this.xField && this.xAxis instanceof ValueAxis) {
                     open_1 = dataItem.getValue(this.xOpenField);
                     value = dataItem.getValue(this.xField);
                     change = dataItem.getValue(this.xAxis.axisFieldName + "X", "previousChange");
                 }
             }
             else {
-                if (this.yOpenField && this.yField) {
+                if (this.yOpenField && this.yField && this.yAxis instanceof ValueAxis) {
                     open_1 = dataItem.getValue(this.yOpenField);
                     value = dataItem.getValue(this.yField);
                     change = dataItem.getValue(this.yAxis.axisFieldName + "Y", "previousChange");

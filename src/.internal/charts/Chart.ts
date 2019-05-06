@@ -366,6 +366,18 @@ export class Chart extends Component {
 		}
 	}
 
+
+	/**
+	 * Destroys this object and all related data.
+	 */
+	public dispose(){
+		// otherwise there might be some errors when disposing chart which was just inited
+		if(this.legend){
+			this.legend.dispose();
+		}
+		super.dispose();
+	}
+
 	/**
 	 * Processes JSON-based config before it is applied to the object.
 	 *

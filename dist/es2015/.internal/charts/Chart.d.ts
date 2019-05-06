@@ -161,6 +161,10 @@ export declare class Chart extends Component {
      */
     protected setLegend(legend: Legend): void;
     /**
+     * Destroys this object and all related data.
+     */
+    dispose(): void;
+    /**
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs

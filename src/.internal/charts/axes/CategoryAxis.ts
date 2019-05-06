@@ -296,7 +296,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		if (categoryAxisDataItem) {
 			let seriesId = dataItem.component.uid;
 			let seriesDataItems = categoryAxisDataItem.seriesDataItems[seriesId];
-			if(!seriesDataItems){
+			if (!seriesDataItems) {
 				seriesDataItems = [];
 				categoryAxisDataItem.seriesDataItems[seriesId] = seriesDataItems;
 			}
@@ -322,26 +322,30 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				let startIndex = this.positionToIndex(this.start);
 				let endIndex = this.positionToIndex(this.end);
 
+				if (endIndex >= this.dataItems.length) {
+					endIndex--;
+				}
+
 				let seriesId = series.uid;
-				let minIndex:number;
-				let maxIndex:number;
+				let minIndex: number;
+				let maxIndex: number;
 
 				for (let i = startIndex; i <= endIndex; i++) {
 					let axisDataItem = this.dataItems.getIndex(i);
-					if(axisDataItem){
+					if (axisDataItem) {
 						let seriesDataItems = axisDataItem.seriesDataItems[seriesId];
 
-						if(seriesDataItems){
-							for(let i = 0; i < seriesDataItems.length; i++){
+						if (seriesDataItems) {
+							for (let i = 0; i < seriesDataItems.length; i++) {
 								let seriesDataItem = seriesDataItems[i];
-								if(seriesDataItem){
+								if (seriesDataItem) {
 									let index = seriesDataItem.index;
-									if(!$type.isNumber(minIndex) || index < minIndex){
+									if (!$type.isNumber(minIndex) || index < minIndex) {
 										minIndex = index;
 									}
-									if(!$type.isNumber(maxIndex) || index > maxIndex){
+									if (!$type.isNumber(maxIndex) || index > maxIndex) {
 										maxIndex = index;
-									}							
+									}
 								}
 							}
 						}
@@ -849,6 +853,10 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 
 			let index = this.positionToIndex(position);
 
+			if (index >= this.dataItems.length) {
+				index--;
+			}
+
 			let dataItem = this.dataItems.getIndex(index);
 
 			if (dataItem) {
@@ -1063,9 +1071,10 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		if (!$type.isNumber(index)) {
 			index = Math.floor(position * difference + startIndex);
 		}
-		if (index >= endIndex) {
-			index--;
-		}
+		// not good, when panning out of bounds, each time one less item gets selected
+		//if (index >= endIndex) {
+		//	index--;
+		//}
 
 		return index;
 	}

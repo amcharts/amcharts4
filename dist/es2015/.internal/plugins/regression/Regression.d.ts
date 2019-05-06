@@ -86,6 +86,14 @@ export declare class Regression extends Plugin {
         [index: string]: any;
     };
     /**
+     * Simplify output data.
+     */
+    protected _simplify: boolean;
+    /**
+     * Reorder data after calculation
+     */
+    protected _reorder: boolean;
+    /**
      * Calculated data.
      */
     protected _data: Optional<any[]>;
@@ -133,7 +141,7 @@ export declare class Regression extends Plugin {
     /**
      * Regression output options.
      *
-     * Below are default alues.
+     * Below are default values.
      *
      * ```JSON
      * {
@@ -148,4 +156,30 @@ export declare class Regression extends Plugin {
     options: {
         [index: string]: any;
     };
+    /**
+     * @return Simplify?
+     */
+    /**
+     * Simplify regression line data? If set to `true` it will use only two
+     * result data points: first and last.
+     *
+     * NOTE: this does make sense with "linear" method only.
+     *
+     * @default false
+     * @since 4.2.3
+     * @param  value  Simplify?
+     */
+    simplify: boolean;
+    /**
+     * @return Reorder data?
+     */
+    /**
+     * Orders data points after calculation. This can make sense in scatter plot
+     * scenarios where data points can come in non-linear fashion.
+     *
+     * @default false
+     * @since 4.2.3
+     * @param  value  Reorder data?
+     */
+    reorder: boolean;
 }

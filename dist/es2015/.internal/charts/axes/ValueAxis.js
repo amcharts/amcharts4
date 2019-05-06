@@ -231,10 +231,11 @@ var ValueAxis = /** @class */ (function (_super) {
         else {
             if (this._start != 0) {
                 this.dispatchImmediately("startchanged");
-                this.dispatchImmediately("startendchanged");
             }
             if (this._end != 1) {
                 this.dispatchImmediately("endchanged");
+            }
+            if (this._start != 0 || this._end != 1) {
                 this.dispatchImmediately("startendchanged");
             }
         }
@@ -799,7 +800,13 @@ var ValueAxis = /** @class */ (function (_super) {
         min = this.fixMin(min);
         max = this.fixMax(max);
         // this happens if starLocation and endLocation are 0.5 and DateAxis has only one date
-        if (min == max) {
+        if (max - min <= 0.00000001) {
+            if (max - min != 0) {
+                this._deltaMinMax = 0.00000001;
+            }
+            else {
+                this._deltaMinMax = 1;
+            }
             min -= this._deltaMinMax;
             max += this._deltaMinMax;
         }
@@ -831,7 +838,7 @@ var ValueAxis = /** @class */ (function (_super) {
             else {
                 max = this._maxReal;
             }
-            if (min == max) {
+            if (max - min <= 0.00000001) {
                 min -= this._deltaMinMax;
                 max += this._deltaMinMax;
             }
@@ -1284,6 +1291,9 @@ var ValueAxis = /** @class */ (function (_super) {
             selectionMin = $math.max(selectionMin, this._minDefined);
             selectionMax = $math.min(selectionMax, this._maxDefined);
         }
+        this._minZoomed = selectionMin;
+        this._maxZoomed = selectionMax;
+        this._step = minMaxStep.step;
         var start = this.valueToPosition(selectionMin);
         var end = this.valueToPosition(selectionMax);
         // in case all series are hidden or hiding, full zoomout
@@ -1291,7 +1301,9 @@ var ValueAxis = /** @class */ (function (_super) {
             start = 0;
             end = 1;
         }
-        this.zoom({ start: start, end: end }, false, false, 0);
+        if (!this.keepSelection) {
+            this.zoom({ start: start, end: end }, false, false, 0);
+        }
     };
     Object.defineProperty(ValueAxis.prototype, "strictMinMax", {
         /**

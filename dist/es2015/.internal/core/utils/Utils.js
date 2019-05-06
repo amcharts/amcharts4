@@ -2,6 +2,7 @@
  * A collection of universal utility functions.
  */
 import { Percent } from "./Percent";
+import { isSafari } from "./Browser";
 import * as $math from "../utils/Math";
 import * as $type from "../utils/Type";
 import * as $string from "./String";
@@ -43,12 +44,15 @@ export function stripHash(url) {
 }
 export function getBaseURI() {
     var url = "#";
-    var baseURI = document.baseURI;
-    if (baseURI) {
-        baseURI = stripHash(baseURI);
-        var loc = stripHash(location.href);
-        if (baseURI !== loc) {
-            url = loc + url;
+    // Needed until https://bugs.webkit.org/show_bug.cgi?id=189499 is fixed
+    if (isSafari()) {
+        var baseURI = document.baseURI;
+        if (baseURI) {
+            baseURI = stripHash(baseURI);
+            var loc = stripHash(location.href);
+            if (baseURI !== loc) {
+                url = loc + url;
+            }
         }
     }
     return url;

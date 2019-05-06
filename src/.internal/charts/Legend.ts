@@ -227,7 +227,8 @@ export class LegendDataItem extends DataItem {
 			}
 
 			let sprite = <any>this.dataContext;
-			if (sprite instanceof DataItem || sprite instanceof Sprite) {
+			if (!sprite.isDisposed() && (sprite instanceof DataItem || sprite instanceof Sprite)) {
+
 				itemContainer.addDisposer(
 					sprite.events.on("visibilitychanged", (ev) => {
 						itemContainer.readerChecked = ev.visible;
@@ -621,6 +622,7 @@ export class Legend extends Component {
 		let container = dataItem.itemContainer;
 
 		let marker = dataItem.marker;
+
 		$utils.used(dataItem.label);
 		let valueLabel = dataItem.valueLabel;
 

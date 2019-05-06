@@ -39,6 +39,7 @@ import { color } from "../utils/Color";
 import { registry } from "../Registry";
 import { options } from "../Options";
 import { StyleRule } from "../utils/DOM";
+import * as $browser from "../utils/Browser";
 import * as $object from "../utils/Object";
 import * as $net from "../utils/Net";
 import * as $dom from "../utils/DOM";
@@ -1594,14 +1595,6 @@ var Export = /** @class */ (function (_super) {
         });
     };
     /**
-     * Checks if the current browser is Internet Explorer. Avoid using this as much as possible.
-     *
-     * @ignore Exclude from docs
-     */
-    Export.prototype._isIE = function () {
-        return /MSIE |Trident\//.test(navigator.userAgent);
-    };
-    /**
      * Checks if SVG is fully formatted. Encloses in `<svg>...</svg>` if
      * necessary.
      *
@@ -1657,7 +1650,7 @@ var Export = /** @class */ (function (_super) {
             svg = svg.replace(/(<svg[^>]*>)/, "$1<rect width=\"100%\" height=\"100%\" fill=\"" + background.rgba + "\"/>");
             //svg = svg.replace(/<\/svg>/, "<rect width=\"100%\" height=\"100%\" fill=\"" + background.rgba + "\"/></svg>");
         }
-        if (this._isIE()) {
+        if ($browser.isInternetExplorer()) {
             // IE can't handle exporting <feColorMatrix> for some reason
             svg = svg.replace(/<feColorMatrix [^\/>]*\/>/gi, "");
         }

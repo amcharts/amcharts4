@@ -16,6 +16,7 @@ import { Plugin } from "../../core/utils/Plugin";
 import { registry } from "../../core/Registry";
 import { EventDispatcher } from "../../core/utils/EventDispatcher";
 import * as $object from "../../core/utils/Object";
+import * as $type from "../../core/utils/Type";
 ;
 /**
  * ============================================================================
@@ -94,6 +95,14 @@ var Regression = /** @class */ (function (_super) {
          */
         _this._options = {};
         /**
+         * Simplify output data.
+         */
+        _this._simplify = false;
+        /**
+         * Reorder data after calculation
+         */
+        _this._reorder = false;
+        /**
          * Should skip next "beforedatavalidated" event?
          */
         _this._skipValidatedEvent = false;
@@ -143,11 +152,16 @@ var Regression = /** @class */ (function (_super) {
         }
         // Build matrix for the regression function
         var matrix = [];
+        var map = {};
+        var xx = 0;
         for (var i = 0; i < seriesData.length; i++) {
-            matrix.push([
-                series.dataFields.valueX ? seriesData[i][series.dataFields.valueX] : i,
-                series.dataFields.valueY ? seriesData[i][series.dataFields.valueY] : i
-            ]);
+            var x = series.dataFields.valueX ? seriesData[i][series.dataFields.valueX] : i;
+            var y = series.dataFields.valueY ? seriesData[i][series.dataFields.valueY] : i;
+            if ($type.hasValue(x) && $type.hasValue(y)) {
+                matrix.push([x, y]);
+                map[xx] = i;
+                xx++;
+            }
         }
         // Calculate regression values
         var result = [];
@@ -165,10 +179,28 @@ var Regression = /** @class */ (function (_super) {
             type: "processed",
             target: this
         });
+        // Order data points
+        if (this.reorder) {
+            result.points.sort(function (a, b) {
+                if (a[0] > b[0]) {
+                    return -1;
+                }
+                else if (a[0] < b[0]) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            });
+        }
         // Build data
         this._data = [];
         var _loop_1 = function (i) {
+            if (this_1.simplify && i) {
+                i = result.points.length - 1;
+            }
             var item = {};
+            var xx_1 = map[i];
             $object.each(this_1.target.dataFields, function (key, val) {
                 if (key == "valueX") {
                     item[val] = result.points[i][0];
@@ -177,14 +209,16 @@ var Regression = /** @class */ (function (_super) {
                     item[val] = result.points[i][1];
                 }
                 else {
-                    item[val] = seriesData[i][val];
+                    item[val] = seriesData[xx_1][val];
                 }
             });
             this_1._data.push(item);
+            out_i_1 = i;
         };
-        var this_1 = this;
+        var this_1 = this, out_i_1;
         for (var i = 0; i < result.points.length; i++) {
             _loop_1(i);
+            i = out_i_1;
         }
     };
     Object.defineProperty(Regression.prototype, "method", {
@@ -221,7 +255,7 @@ var Regression = /** @class */ (function (_super) {
         /**
          * Regression output options.
          *
-         * Below are default alues.
+         * Below are default values.
          *
          * ```JSON
          * {
@@ -236,6 +270,56 @@ var Regression = /** @class */ (function (_super) {
         set: function (value) {
             if (this._options != value) {
                 this._options = value;
+                this.invalidateData();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Regression.prototype, "simplify", {
+        /**
+         * @return Simplify?
+         */
+        get: function () {
+            return this._simplify;
+        },
+        /**
+         * Simplify regression line data? If set to `true` it will use only two
+         * result data points: first and last.
+         *
+         * NOTE: this does make sense with "linear" method only.
+         *
+         * @default false
+         * @since 4.2.3
+         * @param  value  Simplify?
+         */
+        set: function (value) {
+            if (this._simplify != value) {
+                this._simplify = value;
+                this.invalidateData();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Regression.prototype, "reorder", {
+        /**
+         * @return Reorder data?
+         */
+        get: function () {
+            return this._reorder;
+        },
+        /**
+         * Orders data points after calculation. This can make sense in scatter plot
+         * scenarios where data points can come in non-linear fashion.
+         *
+         * @default false
+         * @since 4.2.3
+         * @param  value  Reorder data?
+         */
+        set: function (value) {
+            if (this._reorder != value) {
+                this._reorder = value;
                 this.invalidateData();
             }
         },

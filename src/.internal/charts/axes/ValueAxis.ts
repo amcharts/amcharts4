@@ -446,10 +446,12 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		else {
 			if (this._start != 0) {
 				this.dispatchImmediately("startchanged");
-				this.dispatchImmediately("startendchanged");
 			}
 			if (this._end != 1) {
 				this.dispatchImmediately("endchanged");
+
+			}
+			if (this._start != 0 || this._end != 1) {
 				this.dispatchImmediately("startendchanged");
 			}
 		}
@@ -657,6 +659,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 				if (!this.logarithmic) {
 					value += this._step;
+
 				}
 				else {
 					let differencePower = Math.log(this.max) * Math.LOG10E - Math.log(this.min) * Math.LOG10E;
@@ -1123,7 +1126,13 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		max = this.fixMax(max);
 
 		// this happens if starLocation and endLocation are 0.5 and DateAxis has only one date
-		if (min == max) {
+		if (max - min <= 0.00000001) {
+			if (max - min != 0) {
+				this._deltaMinMax = 0.00000001;
+			}
+			else {
+				this._deltaMinMax = 1;
+			}
 			min -= this._deltaMinMax;
 			max += this._deltaMinMax;
 		}
@@ -1165,7 +1174,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				max = this._maxReal;
 			}
 
-			if (min == max) {
+			if (max - min <= 0.00000001) {
 				min -= this._deltaMinMax;
 				max += this._deltaMinMax;
 			}
@@ -1672,6 +1681,10 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			selectionMax = $math.min(selectionMax, this._maxDefined);
 		}
 
+		this._minZoomed = selectionMin;
+		this._maxZoomed = selectionMax;
+		this._step = minMaxStep.step;		
+
 		let start: number = this.valueToPosition(selectionMin);
 		let end: number = this.valueToPosition(selectionMax);
 
@@ -1680,8 +1693,10 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			start = 0;
 			end = 1;
 		}
-
-		this.zoom({ start: start, end: end }, false, false, 0);
+		
+		if(!this.keepSelection){
+			this.zoom({ start: start, end: end }, false, false, 0);
+		}
 	}
 
 	/**

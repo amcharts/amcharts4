@@ -173,6 +173,9 @@ export class AxisLabelCircular extends AxisLabel {
 	 */
 	public set bent(value: boolean) {
 		this.setPropertyValue("bent", value, true);
+		this.setPropertyValue("wrap", false);
+		this.setPropertyValue("horizontalCenter", "none");
+		this.setPropertyValue("verticalCenter", "none");
 		if (value) {
 			this.textAlign = "middle";
 		}

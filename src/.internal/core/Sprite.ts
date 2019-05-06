@@ -5688,7 +5688,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this._isResized = true;
 
 			this.scale = this.interactions.originalScale * ev.scale;
-			
+
 			this.validatePosition();
 			/*center: (io.draggable
 			? $math.getMidPoint(point1, point2)

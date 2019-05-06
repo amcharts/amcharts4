@@ -5,7 +5,32 @@
  * @hidden
  */
 /**
- * Represents a relative value. (percent)
+ * Represents a relative value (percent).
+ *
+ * The Percent object, can be instantiated using two ways:
+ *
+ * * Via `new Percent(X)`.
+ * * Via `am4core.percent(X)`.
+ *
+ * `Percent` type objects can be used in a number of dual-measuring or
+ * positioning properties, like `width`. E.g.:
+ *
+ * ```TypeScript
+ * chart.paddingRight = new Percent(10);
+ * // or
+ * chart.paddingRight = am4core.percent(10);
+ * ```
+ * ```JavaScript
+ * chart.paddingRight = new Percent(10);
+ * // or
+ * chart.paddingRight = am4core.percent(10);
+ * ```
+ * ```JSON
+ * {
+ *   // ...
+ *   "paddingRight": "10%"
+ * }
+ * ```
  */
 export declare class Percent {
     /**
@@ -33,6 +58,19 @@ export declare class Percent {
      * ```JavaScript
      * var value = 256;
      * var percent = new am4core.Percent(50);
+     * console.log(value * percent.value); // outputs 128
+     * ```
+     *
+     * Alternatively, you can use `am4core.percent()` helper function:
+     *
+     * ```TypeScript
+     * let value = 256;
+     * let percent = am4core.percent(50);
+     * console.log(value * percent.value); // outputs 128
+     * ```
+     * ```JavaScript
+     * var value = 256;
+     * var percent = am4core.percent(50);
      * console.log(value * percent.value); // outputs 128
      * ```
      *

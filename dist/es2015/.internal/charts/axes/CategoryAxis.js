@@ -203,6 +203,9 @@ var CategoryAxis = /** @class */ (function (_super) {
             else {
                 var startIndex = _this.positionToIndex(_this.start);
                 var endIndex = _this.positionToIndex(_this.end);
+                if (endIndex >= _this.dataItems.length) {
+                    endIndex--;
+                }
                 var seriesId = series.uid;
                 var minIndex = void 0;
                 var maxIndex = void 0;
@@ -640,6 +643,9 @@ var CategoryAxis = /** @class */ (function (_super) {
         var _this = this;
         if ($type.isNumber(position)) {
             var index_1 = this.positionToIndex(position);
+            if (index_1 >= this.dataItems.length) {
+                index_1--;
+            }
             var dataItem = this.dataItems.getIndex(index_1);
             if (dataItem) {
                 var category_1 = dataItem.category;
@@ -827,9 +833,10 @@ var CategoryAxis = /** @class */ (function (_super) {
         if (!$type.isNumber(index)) {
             index = Math.floor(position * difference + startIndex);
         }
-        if (index >= endIndex) {
-            index--;
-        }
+        // not good, when panning out of bounds, each time one less item gets selected
+        //if (index >= endIndex) {
+        //	index--;
+        //}
         return index;
     };
     /**

@@ -26,7 +26,7 @@ import * as $math from "../../core/utils/Math";
 import * as $dom from "../../core/utils/DOM";
 import { Percent, percent } from "../../core/utils/Percent";
 import { IDisposer, Disposer } from "../../core/utils/Disposer";
-
+import { AMEvent } from "../../core/utils/EventDispatcher";
 
 /**
  * ============================================================================
@@ -259,7 +259,29 @@ export interface IWordCloudSeriesProperties extends ISeriesProperties {
 /**
  * Defines events for [[WordCloudSeries]].
  */
-export interface IWordCloudSeriesEvents extends ISeriesEvents { }
+export interface IWordCloudSeriesEvents extends ISeriesEvents {
+
+	/**
+	 * Invokes when word arranging starts.
+	 */
+	arrangestarted: {}
+
+	/**
+	 * Invoked when progress has been made in arranging the words.
+	 */
+	arrangeprogress: {
+
+		/**
+		 * Progress
+		 */
+		progress: number
+	}
+
+	/**
+	 * Invoked when word arranging is finished.
+	 */
+	arrangeended: {}
+}
 
 /**
  * Defines adapters for [[WordCloudSeries]].
@@ -549,7 +571,9 @@ export class WordCloudSeries extends Series {
 
 				maskSprite.scale = scale;
 			}
-
+			if (this.events.isEnabled("arrangestarted")) {
+				this.dispatchImmediately("arrangestarted");
+			}
 			this.processItem(this.dataItems.getIndex(this._currentIndex));
 		}
 	}
@@ -566,16 +590,13 @@ export class WordCloudSeries extends Series {
 		let w = this.innerWidth;
 		let h = this.innerHeight;
 
-		if (window.getComputedStyle) {
-			let display = document.defaultView.getComputedStyle(this.htmlContainer, null).getPropertyValue("display");
-			if (display == "none") {
-				this._processTimeout = this.setTimeout(() => {
-					this._currentIndex++;
-					this.processItem(this.dataItems.getIndex(this._currentIndex));
-				}, 500);
-				this._disposers.push(this._processTimeout);
-				return;
-			}
+		if ($dom.isHidden(this.htmlContainer)) {
+			this._processTimeout = this.setTimeout(() => {
+				this._currentIndex++;
+				this.processItem(this.dataItems.getIndex(this._currentIndex));
+			}, 500);
+			this._disposers.push(this._processTimeout);
+			return;
 		}
 
 		this.labelsContainer.x = w / 2;
@@ -694,12 +715,26 @@ export class WordCloudSeries extends Series {
 			label.show();
 		}
 
+		if (this.events.isEnabled("arrangeprogress")) {
+			const event: AMEvent<this, IWordCloudSeriesEvents>["arrangeprogress"] = {
+				type: "arrangeprogress",
+				target: this,
+				progress: (this._currentIndex + 1) / this.dataItems.length
+			};
+			this.events.dispatchImmediately("arrangeprogress", event);
+		}
+
 		if (this._currentIndex < this.dataItems.length - 1) {
 			this._processTimeout = this.setTimeout(() => {
 				this._currentIndex++;
 				this.processItem(this.dataItems.getIndex(this._currentIndex));
-			}, 10);
+			}, 1);
 			this._disposers.push(this._processTimeout);
+		}
+		else {
+			if (this.events.isEnabled("arrangeended")) {
+				this.dispatchImmediately("arrangeended");
+			}
 		}
 	}
 

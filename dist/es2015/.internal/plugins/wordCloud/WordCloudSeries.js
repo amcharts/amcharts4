@@ -305,6 +305,9 @@ var WordCloudSeries = /** @class */ (function (_super) {
                 */
                 maskSprite.scale = scale;
             }
+            if (this.events.isEnabled("arrangestarted")) {
+                this.dispatchImmediately("arrangestarted");
+            }
             this.processItem(this.dataItems.getIndex(this._currentIndex));
         }
     };
@@ -318,16 +321,13 @@ var WordCloudSeries = /** @class */ (function (_super) {
         var context = this._ctx;
         var w = this.innerWidth;
         var h = this.innerHeight;
-        if (window.getComputedStyle) {
-            var display = document.defaultView.getComputedStyle(this.htmlContainer, null).getPropertyValue("display");
-            if (display == "none") {
-                this._processTimeout = this.setTimeout(function () {
-                    _this._currentIndex++;
-                    _this.processItem(_this.dataItems.getIndex(_this._currentIndex));
-                }, 500);
-                this._disposers.push(this._processTimeout);
-                return;
-            }
+        if ($dom.isHidden(this.htmlContainer)) {
+            this._processTimeout = this.setTimeout(function () {
+                _this._currentIndex++;
+                _this.processItem(_this.dataItems.getIndex(_this._currentIndex));
+            }, 500);
+            this._disposers.push(this._processTimeout);
+            return;
         }
         this.labelsContainer.x = w / 2;
         this.labelsContainer.y = h / 2;
@@ -421,12 +421,25 @@ var WordCloudSeries = /** @class */ (function (_super) {
             label.hide(0);
             label.show();
         }
+        if (this.events.isEnabled("arrangeprogress")) {
+            var event_1 = {
+                type: "arrangeprogress",
+                target: this,
+                progress: (this._currentIndex + 1) / this.dataItems.length
+            };
+            this.events.dispatchImmediately("arrangeprogress", event_1);
+        }
         if (this._currentIndex < this.dataItems.length - 1) {
             this._processTimeout = this.setTimeout(function () {
                 _this._currentIndex++;
                 _this.processItem(_this.dataItems.getIndex(_this._currentIndex));
-            }, 10);
+            }, 1);
             this._disposers.push(this._processTimeout);
+        }
+        else {
+            if (this.events.isEnabled("arrangeended")) {
+                this.dispatchImmediately("arrangeended");
+            }
         }
     };
     /**

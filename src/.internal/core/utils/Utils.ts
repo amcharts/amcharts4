@@ -12,6 +12,7 @@ import { Sprite } from "../Sprite";
 import { IPoint } from "../defs/IPoint";
 import { IRectangle } from "../defs/IRectangle";
 import { Percent } from "./Percent";
+import { isSafari } from "./Browser";
 import * as $math from "../utils/Math";
 import * as $type from "../utils/Type";
 import * as $string from "./String";
@@ -61,14 +62,19 @@ export function stripHash(url: string): string {
 
 export function getBaseURI() {
 	let url = "#";
-	let baseURI = document.baseURI;
-	if (baseURI) {
-		baseURI = stripHash(baseURI);
-		let loc = stripHash(location.href);
-		if (baseURI !== loc) {
-			url = loc + url;
+
+	// Needed until https://bugs.webkit.org/show_bug.cgi?id=189499 is fixed
+	if (isSafari()) {
+		let baseURI = document.baseURI;
+		if (baseURI) {
+			baseURI = stripHash(baseURI);
+			let loc = stripHash(location.href);
+			if (baseURI !== loc) {
+				url = loc + url;
+			}
 		}
 	}
+
 	return url;
 }
 
@@ -1247,7 +1253,7 @@ export function joinUrl(left: string, right: string): string {
 
 /**
  * Detects MSIE.
- * 
+ *
  * @return Is IE?
  */
 export function isIE(): boolean {

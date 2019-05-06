@@ -264,6 +264,16 @@ var Chart = /** @class */ (function (_super) {
         }
     };
     /**
+     * Destroys this object and all related data.
+     */
+    Chart.prototype.dispose = function () {
+        // otherwise there might be some errors when disposing chart which was just inited
+        if (this.legend) {
+            this.legend.dispose();
+        }
+        _super.prototype.dispose.call(this);
+    };
+    /**
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs

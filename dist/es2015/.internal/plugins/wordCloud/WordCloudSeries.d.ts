@@ -161,6 +161,23 @@ export interface IWordCloudSeriesProperties extends ISeriesProperties {
  * Defines events for [[WordCloudSeries]].
  */
 export interface IWordCloudSeriesEvents extends ISeriesEvents {
+    /**
+     * Invokes when word arranging starts.
+     */
+    arrangestarted: {};
+    /**
+     * Invoked when progress has been made in arranging the words.
+     */
+    arrangeprogress: {
+        /**
+         * Progress
+         */
+        progress: number;
+    };
+    /**
+     * Invoked when word arranging is finished.
+     */
+    arrangeended: {};
 }
 /**
  * Defines adapters for [[WordCloudSeries]].

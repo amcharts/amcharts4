@@ -182,7 +182,7 @@ var LegendDataItem = /** @class */ (function (_super) {
                     itemContainer_1.readerLabelledBy = this.dataContext.uidAttr();
                 }
                 var sprite = this.dataContext;
-                if (sprite instanceof DataItem || sprite instanceof Sprite) {
+                if (!sprite.isDisposed() && (sprite instanceof DataItem || sprite instanceof Sprite)) {
                     itemContainer_1.addDisposer(sprite.events.on("visibilitychanged", function (ev) {
                         itemContainer_1.readerChecked = ev.visible;
                         itemContainer_1.events.disableType("toggled");

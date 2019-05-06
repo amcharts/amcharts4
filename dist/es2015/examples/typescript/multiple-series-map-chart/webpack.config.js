@@ -6,7 +6,7 @@ module.exports = {
   devtool: "source-map",
 
   entry: {
-    index: "./index.ts"
+    index: ["core-js/shim", "./index.ts"]
   },
 
   output: {

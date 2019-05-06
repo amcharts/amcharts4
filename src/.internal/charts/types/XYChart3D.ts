@@ -19,6 +19,7 @@ import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $path from "../../core/rendering/Path";
+import * as $utils from "../../core/utils/Utils";
 
 /**
  * ============================================================================
@@ -39,7 +40,6 @@ export class XYChart3DDataItem extends XYChartDataItem {
 		this.className = "XYChart3DDataItem";
 		this.applyTheme();
 	}
-
 }
 
 
@@ -167,6 +167,20 @@ export class XYChart3D extends XYChart {
 	}
 
 	/**
+	 * This is done because for some reason IE doesn't change mask if path of a
+	 * mask changes.
+	 */
+	protected updateSeriesMasks(): void {
+		super.updateSeriesMasks();
+		if ($utils.isIE()) {
+			let columnsContainer = this.columnsContainer;
+			let mask = columnsContainer.mask;
+			columnsContainer.mask = undefined;
+			columnsContainer.mask = mask;
+		}
+	}
+
+	/**
 	 * Depth of the 3D chart / columns in pixels.
 	 *
 	 * @param value  Depth (px)
@@ -281,25 +295,25 @@ export class XYChart3D extends XYChart {
 		$iter.each(this.series.iterator(), (series) => {
 			if (series instanceof ColumnSeries3D) {
 
-				series.depth = this.depth / (count );
+				series.depth = this.depth / (count);
 				series.angle = this.angle;
 				series.dx = this.depth / (count) * $math.cos(this.angle) * (series.depthIndex);
 				series.dy = -this.depth / (count) * $math.sin(this.angle) * (series.depthIndex);
 
 				let inversed = false;
-				if((series.baseAxis == series.xAxis && series.xAxis.renderer.inversed) || (series.baseAxis == series.yAxis && series.yAxis.renderer.inversed)){
+				if ((series.baseAxis == series.xAxis && series.xAxis.renderer.inversed) || (series.baseAxis == series.yAxis && series.yAxis.renderer.inversed)) {
 					inversed = true;
 				}
 
 				let i: number = 1;
 				series.columns.each((column) => {
-					if(inversed){
-						column.zIndex = 1000 * (1000 - i) + s - series.depthIndex * 100;	
+					if (inversed) {
+						column.zIndex = 1000 * (1000 - i) + s - series.depthIndex * 100;
 					}
-					else{
-						column.zIndex = 1000 * i + s - series.depthIndex * 100;	
+					else {
+						column.zIndex = 1000 * i + s - series.depthIndex * 100;
 					}
-					
+
 					i++;
 				});
 

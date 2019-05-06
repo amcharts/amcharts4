@@ -1052,12 +1052,6 @@ export declare class Export extends Validatable {
      */
     getSVG(type: "svg", options?: IExportSVGOptions): Promise<string>;
     /**
-     * Checks if the current browser is Internet Explorer. Avoid using this as much as possible.
-     *
-     * @ignore Exclude from docs
-     */
-    private _isIE();
-    /**
      * Checks if SVG is fully formatted. Encloses in `<svg>...</svg>` if
      * necessary.
      *

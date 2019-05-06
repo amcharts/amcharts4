@@ -292,7 +292,7 @@ export class Interaction extends BaseObjectEvents {
 			this._pointerEvents.pointerout = "MSPointerOut";
 			//this._usePointerEventsOnly = true;
 		}
-		else if ((typeof matchMedia !== "undefined") && matchMedia('(pointer:fine)')) {
+		else if ((typeof matchMedia !== "undefined") && matchMedia('(pointer:fine)').matches) {
 			// This is only for Safari as it does not support PointerEvent
 			// Do nothing and let it use regular `mouse*` events
 			// Hi Apple ;)

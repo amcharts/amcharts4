@@ -515,4 +515,14 @@ export function findFontSize(element) {
         return font;
     }
 }
+/**
+ * Checks whether element is not visible, whether directly or via its
+ * ascendants.
+ *
+ * @param   element  Target element
+ * @return           Hidden?
+ */
+export function isHidden(element) {
+    return (element.offsetParent === null);
+}
 //# sourceMappingURL=DOM.js.map

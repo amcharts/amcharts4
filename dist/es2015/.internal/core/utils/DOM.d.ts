@@ -226,3 +226,11 @@ export declare function findFont(element: Element): string;
  * @return Font family
  */
 export declare function findFontSize(element: Element): string;
+/**
+ * Checks whether element is not visible, whether directly or via its
+ * ascendants.
+ *
+ * @param   element  Target element
+ * @return           Hidden?
+ */
+export declare function isHidden(element: HTMLElement): boolean;

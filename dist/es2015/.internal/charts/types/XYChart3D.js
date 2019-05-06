@@ -19,6 +19,7 @@ import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $path from "../../core/rendering/Path";
+import * as $utils from "../../core/utils/Utils";
 /**
  * ============================================================================
  * DATA ITEM
@@ -87,6 +88,19 @@ var XYChart3D = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    /**
+     * This is done because for some reason IE doesn't change mask if path of a
+     * mask changes.
+     */
+    XYChart3D.prototype.updateSeriesMasks = function () {
+        _super.prototype.updateSeriesMasks.call(this);
+        if ($utils.isIE()) {
+            var columnsContainer = this.columnsContainer;
+            var mask = columnsContainer.mask;
+            columnsContainer.mask = undefined;
+            columnsContainer.mask = mask;
+        }
+    };
     Object.defineProperty(XYChart3D.prototype, "depth", {
         /**
          * @return Depth (px)

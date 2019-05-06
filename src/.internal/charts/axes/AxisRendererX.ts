@@ -438,7 +438,7 @@ export class AxisRendererX extends AxisRenderer {
 		let baseGrid: Sprite = this.baseGrid;
 
 		let x: number = axis.basePoint.x;
-		if (x < 0 || x > w) {
+		if (x < -0.2 || x > w + 0.2) {
 			baseGrid.hide(0);
 		}
 		else {

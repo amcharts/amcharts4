@@ -111,6 +111,11 @@ export declare class XYChart3D extends XYChart {
      */
     constructor();
     /**
+     * This is done because for some reason IE doesn't change mask if path of a
+     * mask changes.
+     */
+    protected updateSeriesMasks(): void;
+    /**
      * @return Depth (px)
      */
     /**

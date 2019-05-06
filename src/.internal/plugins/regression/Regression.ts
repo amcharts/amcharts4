@@ -18,6 +18,7 @@ import { Optional } from "../../core/utils/Type";
 import { registry } from "../../core/Registry";
 import { EventDispatcher, AMEvent } from "../../core/utils/EventDispatcher";
 import * as $object from "../../core/utils/Object";
+import * as $type from "../../core/utils/Type";
 
 /**
  * Defines events for [[BaseObjectEvents]].
@@ -110,6 +111,16 @@ export class Regression extends Plugin {
 	protected _options: { [index: string]: any } = {};
 
 	/**
+	 * Simplify output data.
+	 */
+	protected _simplify: boolean = false;
+
+	/**
+	 * Reorder data after calculation
+	 */
+	protected _reorder: boolean = false;
+
+	/**
 	 * Calculated data.
 	 */
 	protected _data: Optional<any[]>;
@@ -191,16 +202,21 @@ export class Regression extends Plugin {
 
 		// Build matrix for the regression function
 		let matrix: any = [];
-		for(let i = 0; i < seriesData.length; i++) {
-			matrix.push([
-				series.dataFields.valueX ? seriesData[i][series.dataFields.valueX] : i,
-				series.dataFields.valueY ? seriesData[i][series.dataFields.valueY] : i
-			]);
+		let map: any = {};
+		let xx = 0;
+		for (let i = 0; i < seriesData.length; i++) {
+			let x = series.dataFields.valueX ? seriesData[i][series.dataFields.valueX] : i;
+			let y = series.dataFields.valueY ? seriesData[i][series.dataFields.valueY] : i;
+			if ($type.hasValue(x) && $type.hasValue(y)) {
+				matrix.push([x, y]);
+				map[xx] = i;
+				xx++;
+			}
 		}
 
 		// Calculate regression values
 		let result: any = [];
-		switch(this.method) {
+		switch (this.method) {
 			case "polynomial":
 				result = regression.polynomial(matrix, this.options);
 				break;
@@ -217,10 +233,29 @@ export class Regression extends Plugin {
 			target: this
 		});
 
+		// Order data points
+		if (this.reorder) {
+			result.points.sort(function(a: any, b: any) {
+				if (a[0] > b[0]) {
+					return -1;
+				}
+				else if (a[0] < b[0]) {
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			});
+		}
+
 		// Build data
 		this._data = [];
-		for(let i = 0; i < result.points.length; i++) {
+		for (let i = 0; i < result.points.length; i++) {
+			if (this.simplify && i) {
+				i = result.points.length - 1;
+			}
 			let item: any = {};
+			const xx = map[i];
 			$object.each(this.target.dataFields, (key, val) => {
 				if (key == "valueX") {
 					item[val] = result.points[i][0];
@@ -229,7 +264,7 @@ export class Regression extends Plugin {
 					item[val] = result.points[i][1];
 				}
 				else {
-					item[val] = seriesData[i][val];
+					item[val] = seriesData[xx][val];
 				}
 			});
 			this._data.push(item);
@@ -262,7 +297,7 @@ export class Regression extends Plugin {
 	/**
 	 * Regression output options.
 	 *
-	 * Below are default alues.
+	 * Below are default values.
 	 *
 	 * ```JSON
 	 * {
@@ -274,7 +309,7 @@ export class Regression extends Plugin {
 	 * @see {@link https://github.com/Tom-Alexander/regression-js#configuration-options} About options
 	 * @param  value  Options
 	 */
-	public set options(value: { [index: string]: any}) {
+	public set options(value: { [index: string]: any }) {
 		if (this._options != value) {
 			this._options = value;
 			this.invalidateData();
@@ -284,8 +319,54 @@ export class Regression extends Plugin {
 	/**
 	 * @return Options
 	 */
-	public get options(): { [index: string]: any} {
+	public get options(): { [index: string]: any } {
 		return this._options;
+	}
+
+	/**
+	 * Simplify regression line data? If set to `true` it will use only two
+	 * result data points: first and last.
+	 *
+	 * NOTE: this does make sense with "linear" method only.
+	 *
+	 * @default false
+	 * @since 4.2.3
+	 * @param  value  Simplify?
+	 */
+	public set simplify(value: boolean) {
+		if (this._simplify != value) {
+			this._simplify = value;
+			this.invalidateData();
+		}
+	}
+
+	/**
+	 * @return Simplify?
+	 */
+	public get simplify(): boolean {
+		return this._simplify;
+	}
+
+	/**
+	 * Orders data points after calculation. This can make sense in scatter plot
+	 * scenarios where data points can come in non-linear fashion.
+	 *
+	 * @default false
+	 * @since 4.2.3
+	 * @param  value  Reorder data?
+	 */
+	public set reorder(value: boolean) {
+		if (this._reorder != value) {
+			this._reorder = value;
+			this.invalidateData();
+		}
+	}
+
+	/**
+	 * @return Reorder data?
+	 */
+	public get reorder(): boolean {
+		return this._reorder;
 	}
 
 }

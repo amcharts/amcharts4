@@ -5,6 +5,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.4.3] - 2019-05-06
+
+### Added
+- `Regression` plugin: two new settings - `simplify` (simplifies output data for faster performance) and `reorder` (orders data in a horizontal linear fashion for scatter plots).
+- `arrangestarted`, `arrangeended`, and `arrangeprogress` events added to `WordCloudSeries`. Allows showing preloader while building the chart.
+
+### Changed
+- `keepSelection` behavior extended. Now it will keep `ValueAxis` selection while scrolling a perpendicular `DateAxis` or `CategoryAxis`.
+
+### Fixed
+- `Regression` plugin: fixed issue with gaps in data.
+- Panning chart with `CategoryAxis` out of range, the axis could pan back with one less category in the range when released.
+- In some cases labels with `bent = true` on `AxisLabelCircular` were positioned incorrectly on `RadarChart`'s Axis ranges.
+- Safari was not displaying base grid of Y axis in some cases.
+- Chart could freeze if there was a very small difference between minimum and maximum values of `ValueAxis` (less than 0.00000001).
+- If `WordCloud` was hidden while arranging words, and then unhidden, the words would overlap in some cases. Arranging of words now stops if container is hidden during the process and resumes when it is unhidden.
+- 3D columns were cut off on IE if the size of Chart container changed after the chart was already build.
+- In some setups with `<base href>` some elements were being drawn incorrectly.
+
+
 ## [4.4.2] - 2019-05-02
 
 ### Added

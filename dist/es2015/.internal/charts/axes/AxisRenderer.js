@@ -415,8 +415,8 @@ var AxisRenderer = /** @class */ (function (_super) {
      */
     AxisRenderer.prototype.toggleVisibility = function (sprite, position, minPosition, maxPosition) {
         var axis = this.axis;
-        var updatedStart = axis.start + (axis.end - axis.start) * (minPosition - 0.00001);
-        var updatedEnd = axis.start + (axis.end - axis.start) * (maxPosition + 0.00001);
+        var updatedStart = axis.start + (axis.end - axis.start) * (minPosition - 0.0001);
+        var updatedEnd = axis.start + (axis.end - axis.start) * (maxPosition + 0.0001);
         if (!sprite.disabled) {
             if (position < updatedStart || position > updatedEnd) {
                 sprite.__disabled = true;

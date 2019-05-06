@@ -264,7 +264,7 @@ var AxisRendererY = /** @class */ (function (_super) {
         var h = this.pixelHeight;
         var y = axis.basePoint.y;
         var baseGrid = this.baseGrid;
-        if (y < 0 || y > h) {
+        if (y < -0.2 || y > h + 0.2) {
             baseGrid.hide(0);
         }
         else {

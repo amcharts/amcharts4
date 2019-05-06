@@ -620,8 +620,8 @@ export class AxisRenderer extends Container {
 	protected toggleVisibility(sprite: Sprite, position: number, minPosition: number, maxPosition: number): void {
 		let axis = this.axis;
 
-		let updatedStart = axis.start + (axis.end - axis.start) * (minPosition - 0.00001);
-		let updatedEnd = axis.start + (axis.end - axis.start) * (maxPosition + 0.00001);
+		let updatedStart = axis.start + (axis.end - axis.start) * (minPosition - 0.0001);
+		let updatedEnd = axis.start + (axis.end - axis.start) * (maxPosition + 0.0001);
 
 		if (!sprite.disabled) {
 			if (position < updatedStart || position > updatedEnd) {

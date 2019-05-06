@@ -331,7 +331,7 @@ var AxisRendererX = /** @class */ (function (_super) {
         var w = this.pixelWidth;
         var baseGrid = this.baseGrid;
         var x = axis.basePoint.x;
-        if (x < 0 || x > w) {
+        if (x < -0.2 || x > w + 0.2) {
             baseGrid.hide(0);
         }
         else {
