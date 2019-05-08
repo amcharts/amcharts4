@@ -227,7 +227,7 @@ export class LegendDataItem extends DataItem {
 			}
 
 			let sprite = <any>this.dataContext;
-			if (!sprite.isDisposed() && (sprite instanceof DataItem || sprite instanceof Sprite)) {
+			if ((sprite instanceof DataItem || sprite instanceof Sprite) && !sprite.isDisposed())  {
 
 				itemContainer.addDisposer(
 					sprite.events.on("visibilitychanged", (ev) => {

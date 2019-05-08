@@ -3330,6 +3330,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 
 	protected setActive(value: boolean) {
+
 		value = $type.toBoolean(value);
 		if (this._isActive !== value) {
 			this._isActive = value;
@@ -3995,19 +3996,34 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	protected setDataItem(dataItem: DataItem) {
 		if (this._dataItem != dataItem) {
 			this._dataItem = dataItem;
-
 			if (this.configField) {
-				if (dataItem.dataContext) {
-					this.config = (<any>dataItem.dataContext)[this.configField];
-				}
+				let dataContext:any = dataItem.dataContext;
+				if (dataContext) {
+					this.config = dataContext[this.configField];
+					if(!this.config && dataContext.dataContext){
+						this.config = dataContext.dataContext[this.configField];
+					}					
+				}				
 			}
 			let dataContext = <any>dataItem.dataContext;
 
 			if (dataContext) {
+
+				let dataContext2 = dataContext.dataContext;
+
 				$object.each(this.propertyFields, (propertyName, fieldValue) => {
 					if ($type.hasValue(dataContext[fieldValue])) {
 						let anyThis = <any>this;
 						anyThis[propertyName] = dataContext[fieldValue];
+					}
+					else{						
+						if(dataContext2){							
+							let value = dataContext2[fieldValue];
+							if($type.hasValue(value)){
+								let anyThis = <any>this;
+								anyThis[propertyName] = value;
+							}							
+						}
 					}
 				});
 			}

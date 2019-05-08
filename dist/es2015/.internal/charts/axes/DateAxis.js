@@ -664,7 +664,7 @@ var DateAxis = /** @class */ (function (_super) {
         var timestamp = $time.add(newDate, timeUnit, intervalCount, this.dateFormatter.utc).getTime();
         // if it's axis break, get first rounded date which is not in a break
         var axisBreak = this.isInBreak(timestamp);
-        if (axisBreak) {
+        if (axisBreak && axisBreak.endDate) {
             newDate = new Date(axisBreak.endDate.getTime());
             $time.round(newDate, timeUnit, realIntervalCount, this.getFirstWeekDay(), this.dateFormatter.utc);
             if (newDate.getTime() < axisBreak.endDate.getTime()) {

@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.4.4] - 2019-05-08
+
+### Fixed
+- When data for `ForceDirecctedSeries` was changed the old links remained visible.
+- Legend with custom data was causing a JS error.
+- Changing data during `rangechangeended` with `skipEmptyPeriods` enabled was triggering "Cannot read property 'getTime[ of undefined" exception.
+- Slices of `SunburstSeries`, and columns of `TreeMapSeries` were not taking `propertyFields`/`configField` from data.
+
+
 ## [4.4.3] - 2019-05-06
 
 ### Added

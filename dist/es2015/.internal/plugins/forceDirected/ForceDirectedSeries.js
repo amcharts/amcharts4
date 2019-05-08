@@ -753,6 +753,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
                 this._disposers.push(link);
                 this._links = new ListTemplate(link);
                 this._disposers.push(new ListDisposer(this._links));
+                this._dataDisposers.push(new ListDisposer(this._links));
             }
             return this._links;
         },
