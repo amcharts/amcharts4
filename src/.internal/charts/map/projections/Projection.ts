@@ -42,7 +42,7 @@ export class Projection {
 	/**
 	 * @ignore
 	 */
-	public chart:MapChart;
+	public chart: MapChart;
 
 
 	constructor() {
@@ -58,7 +58,7 @@ export class Projection {
 		projection.precision(0.1);
 		this._d3Path = d3geo.geoPath().projection(projection);
 
-		if(this.chart){
+		if (this.chart) {
 			this.chart.invalidateProjection();
 		}
 	}
@@ -101,7 +101,9 @@ export class Projection {
 		};*/
 
 		let p = this.d3Projection([geoPoint.longitude, geoPoint.latitude]);
-		return { x: p[0], y: p[1] };
+		if (p) {
+			return { x: p[0], y: p[1] };
+		}
 	}
 
 	/**
@@ -118,7 +120,7 @@ export class Projection {
 		geoPoint = this.unrotate(geoPoint, this.deltaLongitude, this.deltaLatitude, this.deltaGama);
 		*/
 		let p = this.d3Projection.invert([point.x, point.y]);
-		if(p){
+		if (p) {
 			return { longitude: p[0], latitude: p[1] };
 		}
 	}

@@ -909,6 +909,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	public validateDataElements() {
 		if (this.ghostLabel) {
 			this.renderer.updateLabelElement(this.ghostLabel, this.start, this.end);
+			this.ghostLabel.validate();			
 		}
 	}
 

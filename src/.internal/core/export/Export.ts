@@ -2890,8 +2890,31 @@ export class Export extends Validatable {
 	 */
 	public async getJSON(type: "json", options?: IExportJSONOptions): Promise<string> {
 
+		// Check if we need to regenerate data based on `dataFields`
+		let data: any[];
+		const dataFields = this.dataFields;
+		if (!this._dynamicDataFields) {
+			data = [];
+			const sourceData = this.data;
+			for (let len = sourceData.length, i = 0; i < len; i++) {
+				let value = sourceData[i];
+				if (typeof value == "object") {
+					let newValue: any = {};
+					$object.each(value, (field, item) => {
+						if ($type.hasValue(dataFields[field])) {
+							newValue[dataFields[field]] = this.convertToDateOrDuration<"json">(field, item, options);
+						}
+					});
+					data.push(newValue);
+				}
+			}
+		}
+		else {
+			data = this.data;
+		}
+
 		// Stringify JSON
-		let json = JSON.stringify(this.data, (key, value) => {
+		let json = JSON.stringify(data, (key, value) => {
 			if (typeof value == "object") {
 				$object.each(value, (field, item) => {
 					value[field] = this.convertToDateOrDuration<"json">(field, item, options);

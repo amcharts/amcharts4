@@ -130,8 +130,9 @@ export declare class Tooltip extends Container {
     protected _boundingContainer: Container;
     /**
      * Holds numeric boundary values. Calculated from the `boundingContainer`.
+     * @ignore
      */
-    protected _boundingRect: IRectangle;
+    _boundingRect: IRectangle;
     /**
      * Coordinates tooltip's pointer (stem) should point to.
      */

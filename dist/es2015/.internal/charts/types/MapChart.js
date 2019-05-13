@@ -786,32 +786,34 @@ var MapChart = /** @class */ (function (_super) {
         this._zoomGeoPointReal = point;
         zoomLevel = $math.fitToRange(zoomLevel, this.minZoomLevel, this.maxZoomLevel);
         var seriesPoint = this.projection.convert(point);
-        var svgPoint = this.geoPointToSVG(point);
-        var mapPoint = $utils.svgPointToSprite(svgPoint, this);
-        if (center) {
-            mapPoint = {
-                x: this.innerWidth / 2,
-                y: this.innerHeight / 2
-            };
+        if (seriesPoint) {
+            var svgPoint = this.geoPointToSVG(point);
+            var mapPoint = $utils.svgPointToSprite(svgPoint, this);
+            if (center) {
+                mapPoint = {
+                    x: this.innerWidth / 2,
+                    y: this.innerHeight / 2
+                };
+            }
+            if (!$type.isNumber(duration)) {
+                duration = this.zoomDuration;
+            }
+            this._mapAnimation = this.seriesContainer.animate([{
+                    property: "scale",
+                    to: zoomLevel
+                }, {
+                    property: "x", from: this.seriesContainer.pixelX,
+                    to: mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio
+                }, {
+                    property: "y", from: this.seriesContainer.pixelY,
+                    to: mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio
+                }], duration, this.zoomEasing);
+            this._disposers.push(this._mapAnimation.events.on("animationended", function () {
+                _this._zoomGeoPointReal = _this.zoomGeoPoint;
+            }));
+            this.seriesContainer.validatePosition();
+            return this._mapAnimation;
         }
-        if (!$type.isNumber(duration)) {
-            duration = this.zoomDuration;
-        }
-        this._mapAnimation = this.seriesContainer.animate([{
-                property: "scale",
-                to: zoomLevel
-            }, {
-                property: "x", from: this.seriesContainer.pixelX,
-                to: mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio
-            }, {
-                property: "y", from: this.seriesContainer.pixelY,
-                to: mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio
-            }], duration, this.zoomEasing);
-        this._disposers.push(this._mapAnimation.events.on("animationended", function () {
-            _this._zoomGeoPointReal = _this.zoomGeoPoint;
-        }));
-        this.seriesContainer.validatePosition();
-        return this._mapAnimation;
     };
     /**
      * Zooms the map to a particular map object.

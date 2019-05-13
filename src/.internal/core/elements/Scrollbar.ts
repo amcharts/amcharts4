@@ -269,6 +269,9 @@ export class Scrollbar extends Container {
 		background.fill = interfaceColors.getFor("fill");
 		background.fillOpacity = 0.5;
 
+		// Make system tooltips appear by default
+		this.showSystemTooltip = true;
+
 		this.startGrip = new ResizeButton();
 		this.endGrip = new ResizeButton();
 
@@ -916,7 +919,7 @@ export class Scrollbar extends Container {
 		button.shouldClone = false;
 
 		// Set button defaults
-		button.showSystemTooltip = true;
+		//button.showSystemTooltip = true; // setting this here is not right because we break inheritance
 		button.zIndex = 100;
 
 		button.events.on("drag", this.handleGripDrag, this, false);

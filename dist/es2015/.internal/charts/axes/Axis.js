@@ -606,6 +606,7 @@ var Axis = /** @class */ (function (_super) {
     Axis.prototype.validateDataElements = function () {
         if (this.ghostLabel) {
             this.renderer.updateLabelElement(this.ghostLabel, this.start, this.end);
+            this.ghostLabel.validate();
         }
     };
     /**

@@ -1377,40 +1377,42 @@ export class MapChart extends SerialChart {
 		zoomLevel = $math.fitToRange(zoomLevel, this.minZoomLevel, this.maxZoomLevel);
 
 		let seriesPoint: IPoint = this.projection.convert(point);
-		let svgPoint: IPoint = this.geoPointToSVG(point);
-		let mapPoint = $utils.svgPointToSprite(svgPoint, this);
+		if(seriesPoint){
+			let svgPoint: IPoint = this.geoPointToSVG(point);
+			let mapPoint = $utils.svgPointToSprite(svgPoint, this);
 
-		if (center) {
-			mapPoint = {
-				x: this.innerWidth / 2,
-				y: this.innerHeight / 2
-			};
+			if (center) {
+				mapPoint = {
+					x: this.innerWidth / 2,
+					y: this.innerHeight / 2
+				};
+			}
+
+			if (!$type.isNumber(duration)) {
+				duration = this.zoomDuration;
+			}
+
+			this._mapAnimation = this.seriesContainer.animate(
+				[{
+					property: "scale",
+					to: zoomLevel
+				}, {
+					property: "x", from: this.seriesContainer.pixelX,
+					to: mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio
+				}, {
+					property: "y", from: this.seriesContainer.pixelY,
+					to: mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio
+				}], duration, this.zoomEasing);
+
+			this._disposers.push(this._mapAnimation.events.on("animationended", () => {
+				this._zoomGeoPointReal = this.zoomGeoPoint;
+			}))
+
+
+			this.seriesContainer.validatePosition();
+
+			return this._mapAnimation;
 		}
-
-		if (!$type.isNumber(duration)) {
-			duration = this.zoomDuration;
-		}
-
-		this._mapAnimation = this.seriesContainer.animate(
-			[{
-				property: "scale",
-				to: zoomLevel
-			}, {
-				property: "x", from: this.seriesContainer.pixelX,
-				to: mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio
-			}, {
-				property: "y", from: this.seriesContainer.pixelY,
-				to: mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio
-			}], duration, this.zoomEasing);
-
-		this._disposers.push(this._mapAnimation.events.on("animationended", () => {
-			this._zoomGeoPointReal = this.zoomGeoPoint;
-		}))
-
-
-		this.seriesContainer.validatePosition();
-
-		return this._mapAnimation;
 	}
 
 	/**

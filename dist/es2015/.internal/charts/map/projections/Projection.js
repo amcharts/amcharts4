@@ -74,7 +74,9 @@ var Projection = /** @class */ (function () {
             y: $math.round(-pointInRadians.y * $math.DEGREES - this.centerPoint.y, 4) * this.scale
         };*/
         var p = this.d3Projection([geoPoint.longitude, geoPoint.latitude]);
-        return { x: p[0], y: p[1] };
+        if (p) {
+            return { x: p[0], y: p[1] };
+        }
     };
     /**
      * Converts a screen point (x/y) to a geographical point (lat/long)

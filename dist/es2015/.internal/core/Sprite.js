@@ -860,7 +860,10 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             if (!$type.hasValue(this._showSystemTooltip)) {
-                if (this.parent) {
+                if (this.virtualParent) {
+                    return this.virtualParent.showSystemTooltip;
+                }
+                else if (this.parent) {
                     return this.parent.showSystemTooltip;
                 }
                 else {
@@ -877,7 +880,10 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toBoolean(value);
-            this._showSystemTooltip = value;
+            if (this._showSystemTooltip != value) {
+                this._showSystemTooltip = value;
+                this.applyAccessibility();
+            }
         },
         enumerable: true,
         configurable: true
@@ -3305,6 +3311,16 @@ var Sprite = /** @class */ (function (_super) {
         if (describedBy) {
             describedByIds.push(describedBy);
         }
+        // Consolidate title and description if system tooltip is disabled
+        if (!this.showSystemTooltip && title) {
+            if (description) {
+                description = title + " -- " + description;
+            }
+            else {
+                description = title;
+            }
+            title = undefined;
+        }
         // If we have only label, we use `aria-label` attribute.
         // If there are both label and description, we'll go with separate tags and
         // use `aria-labelledby`
@@ -3345,7 +3361,7 @@ var Sprite = /** @class */ (function (_super) {
                     descriptionElement.node.textContent = description;
                     descriptionElement.attr({ id: descriptionId });
                 }
-                labelledByIds.push(descriptionId);
+                describedByIds.push(descriptionId);
             }
             else if (this._descriptionElement) {
                 this.group.removeElement(this._descriptionElement);

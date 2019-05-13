@@ -10,6 +10,7 @@ import * as tslib_1 from "tslib";
  */
 import { ColumnSeries, ColumnSeriesDataItem } from "../series/ColumnSeries";
 import { visualProperties } from "../../core/Sprite";
+//import { AxisRendererCircular } from "../axes/AxisRendererCircular";
 import { RadarColumn } from "../elements/RadarColumn";
 import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";

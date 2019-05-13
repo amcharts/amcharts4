@@ -17,7 +17,8 @@ import { RadarChart } from "../types/RadarChart";
 import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
-
+//import { AxisRendererCircular } from "../axes/AxisRendererCircular";
+//import { Sprite } from "../../core/Sprite";
 
 /**
  * ============================================================================
@@ -294,6 +295,22 @@ export class RadarSeries extends LineSeries {
 	public get connectEnds(): boolean {
 		return this.getPropertyValue("connectEnds");
 	}
+/*
+	protected positionBulletReal(bullet:Sprite, positionX:number, positionY:number){
+		
+		let rendererX:AxisRendererCircular = <AxisRendererCircular>this.xAxis.renderer;
+		let rendererY:AxisRendererRadial = <AxisRendererRadial>this.yAxis.renderer;
+		
+		let angle = rendererX.positionToAngle(positionX);
+		let radius = rendererY.positionToCoordinate(positionY);
+
+		if(angle < this.chart.startAngle || angle > this.chart.endAngle){
+			bullet.visible = false;
+		}
+
+		bullet.x = $math.cos(angle) * radius;
+		bullet.y = $math.sin(angle) * radius;
+	}	*/
 }
 
 /**

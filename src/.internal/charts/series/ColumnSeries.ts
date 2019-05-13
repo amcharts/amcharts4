@@ -1041,7 +1041,7 @@ export class ColumnSeries extends XYSeries {
 
 	protected getBulletLocationX(bullet: Bullet, field: string): number {
 		if (this.baseAxis == this.xAxis) {
-			return (this._startLocation + this._endLocation) / 2;
+			return (this._startLocation + this._endLocation) * bullet.locationX;
 		}
 		else {
 			return super.getBulletLocationX(bullet, field);
@@ -1055,7 +1055,7 @@ export class ColumnSeries extends XYSeries {
 	*/
 	protected getBulletLocationY(bullet: Bullet, field: string): number {
 		if (this.baseAxis == this.yAxis) {
-			return (this._startLocation + this._endLocation) / 2;
+			return (this._startLocation + this._endLocation) * bullet.locationY;
 		}
 		else {
 			return super.getBulletLocationY(bullet, field);

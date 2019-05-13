@@ -432,6 +432,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
      */
     ForceDirectedSeries.prototype.validateDataItems = function () {
         var _this = this;
+        this._dataDisposers.push(new ListDisposer(this.links));
         this._maxValue = this.getMaxValue(this.dataItems, 0);
         this._forceLinks = [];
         this.colors.reset();
@@ -455,10 +456,14 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
             });
         }
         var d3forceSimulation = this.d3forceSimulation;
-        d3forceSimulation.alphaDecay(1 - Math.pow(0.001, 1 / 600));
         d3forceSimulation.on("tick", function () {
             _this.updateLinksAndNodes();
         });
+        // helps to avoid initial scatter
+        for (var i = 0; i < 10; i++) {
+            d3forceSimulation.tick();
+        }
+        d3forceSimulation.alphaDecay(1 - Math.pow(0.001, 1 / 600));
         this.chart.feedLegend();
         _super.prototype.validateDataItems.call(this);
     };
@@ -753,7 +758,6 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
                 this._disposers.push(link);
                 this._links = new ListTemplate(link);
                 this._disposers.push(new ListDisposer(this._links));
-                this._dataDisposers.push(new ListDisposer(this._links));
             }
             return this._links;
         },

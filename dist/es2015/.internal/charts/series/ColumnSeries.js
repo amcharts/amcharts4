@@ -810,7 +810,7 @@ var ColumnSeries = /** @class */ (function (_super) {
     */
     ColumnSeries.prototype.getBulletLocationX = function (bullet, field) {
         if (this.baseAxis == this.xAxis) {
-            return (this._startLocation + this._endLocation) / 2;
+            return (this._startLocation + this._endLocation) * bullet.locationX;
         }
         else {
             return _super.prototype.getBulletLocationX.call(this, bullet, field);
@@ -822,7 +822,7 @@ var ColumnSeries = /** @class */ (function (_super) {
     */
     ColumnSeries.prototype.getBulletLocationY = function (bullet, field) {
         if (this.baseAxis == this.yAxis) {
-            return (this._startLocation + this._endLocation) / 2;
+            return (this._startLocation + this._endLocation) * bullet.locationY;
         }
         else {
             return _super.prototype.getBulletLocationY.call(this, bullet, field);

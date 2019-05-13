@@ -1645,12 +1645,24 @@ var XYChart = /** @class */ (function (_super) {
      */
     XYChart.prototype.addData = function (rawDataItem, removeCount) {
         _super.prototype.addData.call(this, rawDataItem, removeCount);
+        this.invalidateScrollbarData();
+    };
+    XYChart.prototype.invalidateScrollbarData = function () {
         if (this.scrollbarX instanceof XYChartScrollbar) {
-            this.scrollbarX.scrollbarChart.addData(rawDataItem, removeCount);
+            this.scrollbarX.scrollbarChart.invalidateData();
         }
         if (this.scrollbarY instanceof XYChartScrollbar) {
-            this.scrollbarY.scrollbarChart.addData(rawDataItem, removeCount);
+            this.scrollbarY.scrollbarChart.invalidateData();
         }
+    };
+    /**
+     * Removes elements from the beginning of data
+     *
+     * @param count number of elements to remove
+     */
+    XYChart.prototype.removeData = function (count) {
+        _super.prototype.removeData.call(this, count);
+        this.invalidateScrollbarData();
     };
     /**
      * @param  value  Tap to activate?

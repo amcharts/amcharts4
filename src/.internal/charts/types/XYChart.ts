@@ -2063,13 +2063,27 @@ export class XYChart extends SerialChart {
 	 */
 	public addData(rawDataItem: Object | Object[], removeCount?: number): void {
 		super.addData(rawDataItem, removeCount);
+		this.invalidateScrollbarData();
+	}
+
+	protected invalidateScrollbarData(){
 		if (this.scrollbarX instanceof XYChartScrollbar) {
-			this.scrollbarX.scrollbarChart.addData(rawDataItem, removeCount);
+			this.scrollbarX.scrollbarChart.invalidateData();
 		}
 		if (this.scrollbarY instanceof XYChartScrollbar) {
-			this.scrollbarY.scrollbarChart.addData(rawDataItem, removeCount);
+			this.scrollbarY.scrollbarChart.invalidateData();
 		}
 	}
+
+	/**
+	 * Removes elements from the beginning of data
+	 *
+	 * @param count number of elements to remove
+	 */
+	public removeData(count: $type.Optional<number>) {
+		super.removeData(count);
+		this.invalidateScrollbarData();
+	}	
 
 	/**
 	 * @param  value  Tap to activate?

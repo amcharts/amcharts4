@@ -2020,9 +2020,32 @@ var Export = /** @class */ (function (_super) {
     Export.prototype.getJSON = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var json, charset, uri;
+            var data, dataFields, sourceData, _loop_2, len, i, json, charset, uri;
             return tslib_1.__generator(this, function (_a) {
-                json = JSON.stringify(this.data, function (key, value) {
+                dataFields = this.dataFields;
+                if (!this._dynamicDataFields) {
+                    data = [];
+                    sourceData = this.data;
+                    _loop_2 = function (len, i) {
+                        var value = sourceData[i];
+                        if (typeof value == "object") {
+                            var newValue_1 = {};
+                            $object.each(value, function (field, item) {
+                                if ($type.hasValue(dataFields[field])) {
+                                    newValue_1[dataFields[field]] = _this.convertToDateOrDuration(field, item, options);
+                                }
+                            });
+                            data.push(newValue_1);
+                        }
+                    };
+                    for (len = sourceData.length, i = 0; i < len; i++) {
+                        _loop_2(len, i);
+                    }
+                }
+                else {
+                    data = this.data;
+                }
+                json = JSON.stringify(data, function (key, value) {
                     if (typeof value == "object") {
                         $object.each(value, function (field, item) {
                             value[field] = _this.convertToDateOrDuration(field, item, options);

@@ -5,10 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.4.5] - 2019-05-13
+
+### Changed
+- Exporting chart data to JSON format now respects `dataFields` setting.
+
+### Fixed
+- Setting `showSystemTooltip = false` on a `Scrollbar` now correctly disables tooltips on its thumb and grips.
+- When data for `ForceDirectedSeries` was changed for the second time, the old links remained visible.
+- Initial scatter of `ForceDirectedSeries` nodes reduced. Results in a better initial animation.
+- Adding data using `addData()` method to a chart with `XYChartScrollbar` was resulting data to be added twice.
+- With some special combination of axes config `XYChart` sometimes could fall into infinite loop.
+- Some JS error when converting coordinates out of bounds of AlbersUSA projection fixed.
+- Tooltip bounds were not being copied when cloning a `Tooltip`.
+
+
 ## [4.4.4] - 2019-05-08
 
 ### Fixed
-- When data for `ForceDirecctedSeries` was changed the old links remained visible.
+- When data for `ForceDirectedSeries` was changed the old links remained visible.
 - Legend with custom data was causing a JS error.
 - Changing data during `rangechangeended` with `skipEmptyPeriods` enabled was triggering "Cannot read property 'getTime[ of undefined" exception.
 - Slices of `SunburstSeries`, and columns of `TreeMapSeries` were not taking `propertyFields`/`configField` from data.

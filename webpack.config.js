@@ -85,6 +85,16 @@ module.exports = function (info) {
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
             rules: [{
                 test: /\.js$/,
+                include: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/preset-env"],
+                        plugins: ["@babel/plugin-syntax-dynamic-import"]
+                    }
+                }
+            }, {
+                test: /\.js$/,
                 enforce: "pre",
                 use: ["source-map-loader"]
             }]

@@ -12,6 +12,8 @@ import { LineSeries, LineSeriesDataItem } from "./LineSeries";
 import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
+//import { AxisRendererCircular } from "../axes/AxisRendererCircular";
+//import { Sprite } from "../../core/Sprite";
 /**
  * ============================================================================
  * DATA ITEM

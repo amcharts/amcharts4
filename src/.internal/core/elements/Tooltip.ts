@@ -157,8 +157,9 @@ export class Tooltip extends Container {
 
 	/**
 	 * Holds numeric boundary values. Calculated from the `boundingContainer`.
+	 * @ignore
 	 */
-	protected _boundingRect: IRectangle = { x: -40000, y: -40000, width: 80000, height: 80000 };
+	public _boundingRect: IRectangle = { x: -40000, y: -40000, width: 80000, height: 80000 };
 
 	/**
 	 * Coordinates tooltip's pointer (stem) should point to.
@@ -709,6 +710,10 @@ export class Tooltip extends Container {
 	public copyFrom(source: this): void {
 		super.copyFrom(source);
 		this.label.copyFrom(source.label);
+
+		if(source._boundingRect){			
+			this._boundingRect = source._boundingRect;
+		}		
 	}
 }
 

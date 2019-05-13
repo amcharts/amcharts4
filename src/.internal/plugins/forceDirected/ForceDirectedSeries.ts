@@ -693,6 +693,8 @@ export class ForceDirectedSeries extends Series {
 	 */
 	public validateDataItems(): void {
 
+		this._dataDisposers.push(new ListDisposer(this.links));
+
 		this._maxValue = this.getMaxValue(this.dataItems, 0);
 
 		this._forceLinks = [];
@@ -729,11 +731,16 @@ export class ForceDirectedSeries extends Series {
 		}
 
 		let d3forceSimulation = this.d3forceSimulation;
-		d3forceSimulation.alphaDecay(1 - Math.pow(0.001, 1 / 600));
 
 		d3forceSimulation.on("tick", () => {
 			this.updateLinksAndNodes();
 		});
+
+		// helps to avoid initial scatter
+		for(let i = 0; i < 10; i++){
+			d3forceSimulation.tick();
+		}		
+		d3forceSimulation.alphaDecay(1 - Math.pow(0.001, 1 / 600));
 
 		this.chart.feedLegend();
 
@@ -1072,8 +1079,7 @@ export class ForceDirectedSeries extends Series {
 			this._disposers.push(link);
 
 			this._links = new ListTemplate(link);
-			this._disposers.push(new ListDisposer(this._links));
-			this._dataDisposers.push(new ListDisposer(this._links));
+			this._disposers.push(new ListDisposer(this._links));			
 		}
 		return this._links;
 	}

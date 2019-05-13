@@ -83,6 +83,8 @@ var Scrollbar = /** @class */ (function (_super) {
         background.cornerRadius(10, 10, 10, 10);
         background.fill = interfaceColors.getFor("fill");
         background.fillOpacity = 0.5;
+        // Make system tooltips appear by default
+        _this.showSystemTooltip = true;
         _this.startGrip = new ResizeButton();
         _this.endGrip = new ResizeButton();
         // Default orientation...
@@ -652,7 +654,7 @@ var Scrollbar = /** @class */ (function (_super) {
         button.focusable = true;
         button.shouldClone = false;
         // Set button defaults
-        button.showSystemTooltip = true;
+        //button.showSystemTooltip = true; // setting this here is not right because we break inheritance
         button.zIndex = 100;
         button.events.on("drag", this.handleGripDrag, this, false);
         button.events.on("dragstop", this.makeUnbusy, this, false);

@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@amcharts/amcharts4",
-  "version": "4.4.4",
+  "version": "4.4.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/amcharts/amcharts4.git"
@@ -51,6 +51,10 @@
     "typescript": "2.8.1",
     "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^3.0.0",
-    "webpack-hashed-chunk-id-plugin": "^1.0.3-beta"
+    "webpack-hashed-chunk-id-plugin": "^1.0.3-beta",
+    "babel-loader": "^8.0.5",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0"
   }
 }

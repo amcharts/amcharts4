@@ -41,6 +41,7 @@ var Tooltip = /** @class */ (function (_super) {
         _super.call(this) || this;
         /**
          * Holds numeric boundary values. Calculated from the `boundingContainer`.
+         * @ignore
          */
         _this._boundingRect = { x: -40000, y: -40000, width: 80000, height: 80000 };
         /**
@@ -546,6 +547,9 @@ var Tooltip = /** @class */ (function (_super) {
     Tooltip.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
         this.label.copyFrom(source.label);
+        if (source._boundingRect) {
+            this._boundingRect = source._boundingRect;
+        }
     };
     return Tooltip;
 }(Container));

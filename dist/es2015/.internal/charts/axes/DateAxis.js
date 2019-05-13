@@ -1146,6 +1146,15 @@ var DateAxis = /** @class */ (function (_super) {
             baseInterval.timeUnit = "month";
             baseInterval.count = 1;
         }
+        if (this.minDifference >= $time.getDuration("day", 29 * 2) && baseInterval.count == 1) {
+            baseInterval.count = 2;
+        }
+        if (this.minDifference >= $time.getDuration("day", 29 * 3) && baseInterval.count == 2) {
+            baseInterval.count = 3;
+        }
+        if (this.minDifference >= $time.getDuration("day", 29 * 6) && baseInterval.count == 5) {
+            baseInterval.count = 6;
+        }
         // handle daylight saving
         if (this.minDifference >= $time.getDuration("hour", 23) && baseInterval.timeUnit == "hour") {
             baseInterval.timeUnit = "day";
