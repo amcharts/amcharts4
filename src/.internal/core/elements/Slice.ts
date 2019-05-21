@@ -442,7 +442,7 @@ export class Slice extends Container {
 		let value = this.getPropertyValue("tooltipY");
 		if (!$type.isNumber(value)) {
 			let innerRadius = $utils.relativeToValue(this.innerRadius, this.radius);
-			value = this.iy * (innerRadius + (this.radius - innerRadius) / 2);
+			value = this.iy * (innerRadius + (this.radiusY - innerRadius) / 2) + this.slice.dy;
 		}
 		return value;
 	}

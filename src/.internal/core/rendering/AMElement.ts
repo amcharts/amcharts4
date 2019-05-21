@@ -199,6 +199,7 @@ export interface ISVGAttribute {
 	"overline-thickness"?: any;
 	"panose-1"?: any;
 	"paint-order"?: any;
+	"path"?: any;
 	"pathLength"?: any;
 	"patternContentUnits"?: any;
 	"patternTransform"?: any;

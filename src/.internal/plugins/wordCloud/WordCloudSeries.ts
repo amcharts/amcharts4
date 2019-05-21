@@ -481,7 +481,6 @@ export class WordCloudSeries extends Series {
 			}
 		});
 
-
 		if (this._processTimeout) {
 			this._processTimeout.dispose();
 		}
@@ -625,7 +624,14 @@ export class WordCloudSeries extends Series {
 		label.rotation = angle;
 		label.show(0);
 		label.hardInvalidate();
-		label.validate();
+		label.validate();		
+
+		if (label.measuredWidth > w * 0.95 || label.measuredHeight > h * 0.95) {
+			this._adjustedFont -= 0.1;
+			this.invalidateDataItems()
+			this.invalidate();
+			return;
+		}
 
 		let maxL = label.maxLeft;
 		let maxR = label.maxRight;
@@ -644,49 +650,51 @@ export class WordCloudSeries extends Series {
 
 		// TODO is this needed ?
 		$utils.used(this.labelsContainer.rotation);
-
-		while (intersects) {
-			if (p > this._points.length - 1) {
-				intersects = false;
-				this._adjustedFont -= 0.1;
-				this.invalidate();
-				return;
-			}
-
-			intersects = false;
-
-			x = this._points[p].x;
-			y = this._points[p].y;
-
-			let marginLeft = label.pixelMarginLeft;
-			let marginRight = label.pixelMarginRight;
-			let marginTop = label.pixelMarginTop;
-			let marginBottom = label.pixelMarginBottom;
-
-			let rect1 = { x: x + maxL - marginLeft, y: y + maxT - marginTop, width: maxR - maxL + marginLeft + marginRight, height: maxB - maxT + marginTop + marginBottom };
-
-			let pixel = this._ctx.getImageData(rect1.x + w / 2, rect1.y + h / 2, rect1.width, rect1.height).data;
-			for (let i = 0; i < pixel.length; i += Math.pow(2, this.accuracy)) {
-				if (pixel[i] != 255) {
-					intersects = true;
-					if (label.currentText.length > 3) {
-						if (angle == 0) {
-							if (maxR - maxL < 60) {
-								this._points.splice(p, 1);
-							}
-						}
-						if (Math.abs(angle) == 90) {
-							if (maxB - maxT < 50) {
-								this._points.splice(p, 1);
-							}
-						}
-					}
-
-					break;
+		if(this._currentIndex > 0){
+			while (intersects) {
+				if (p > this._points.length - 1) {
+					intersects = false;
+					this._adjustedFont -= 0.1;
+					this.invalidateDataItems();				
+					return;
 				}
+
+				intersects = false;
+
+				x = this._points[p].x;
+				y = this._points[p].y;
+
+				let marginLeft = label.pixelMarginLeft;
+				let marginRight = label.pixelMarginRight;
+				let marginTop = label.pixelMarginTop;
+				let marginBottom = label.pixelMarginBottom;
+
+				let rect1 = { x: x + maxL - marginLeft, y: y + maxT - marginTop, width: maxR - maxL + marginLeft + marginRight, height: maxB - maxT + marginTop + marginBottom };
+
+				let pixel = this._ctx.getImageData(rect1.x + w / 2, rect1.y + h / 2, rect1.width, rect1.height).data;
+				for (let i = 0; i < pixel.length; i += Math.pow(2, this.accuracy)) {
+					if (pixel[i] != 255) {
+						intersects = true;
+						if (label.currentText.length > 3) {
+							if (angle == 0) {
+								if (maxR - maxL < 60) {
+									this._points.splice(p, 1);
+								}
+							}
+							if (Math.abs(angle) == 90) {
+								if (maxB - maxT < 50) {
+									this._points.splice(p, 1);
+								}
+							}
+						}
+
+						break;
+					}
+				}
+				p += 5;
 			}
-			p += 5;
 		}
+
 		if (initialFontSize == 0) {
 			label.animate([{ property: "fontSize", to: fontSize, from: initialFontSize }], this.interpolationDuration, this.interpolationEasing);
 			label.x = x;
@@ -705,7 +713,11 @@ export class WordCloudSeries extends Series {
 		context.textAlign = "center";
 		context.textBaseline = "middle";
 		context.fillStyle = "blue";
-		context.font = fontSize + "px " + fontFace;
+
+		let fontWeight = label.fontWeight || this.fontWeight || this.chart.fontWeight || "normal";
+		let font = fontWeight + " " + fontSize + "px " + fontFace;
+
+		context.font = font
 		context.fillText(label.currentText, 0, 0);
 		context.rotate(-radAngle);
 		context.translate(-cx, -cy);

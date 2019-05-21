@@ -205,6 +205,17 @@ export class AxisFill extends Sprite {
 		return this.getPropertyValue("location");
 	}
 
+	/**
+	 * @ignore
+	 */
+	protected setPath(value:string):boolean {
+		if(this.setPropertyValue("path", value)){
+			this.element.attr({ "d": value });
+			return true;
+		}
+		return false;
+	}	
+
 }
 
 /**

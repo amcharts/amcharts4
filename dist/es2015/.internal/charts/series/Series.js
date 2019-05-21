@@ -822,6 +822,11 @@ var Series = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("name", value);
+            var legendDataItem = this.legendDataItem;
+            if (legendDataItem) {
+                legendDataItem.component.invalidate();
+                legendDataItem.component.invalidateRawData();
+            }
             this.readerTitle = value;
         },
         enumerable: true,

@@ -112,17 +112,19 @@ export class SunburstSeriesDataItem extends PieSeriesDataItem {
 
 		let value = 0;
 		let sbDataItem = this.sunburstDataItem;
-		if (!sbDataItem.series) {
-			value = this.values["value"].value;
-		}
-		else {
-			sbDataItem.series.dataItems.each((dataItem) => {
-				let childValue = dataItem.value;
-				if ($type.isNumber(childValue)) {
-					value += childValue;
-				}
-			});
+		if(sbDataItem){
+			if (!sbDataItem.series) {
+				value = this.values["value"].value;
+			}
+			else {
+				sbDataItem.series.dataItems.each((dataItem) => {
+					let childValue = dataItem.value;
+					if ($type.isNumber(childValue)) {
+						value += childValue;
+					}
+				});
 
+			}
 		}
 
 		return value;

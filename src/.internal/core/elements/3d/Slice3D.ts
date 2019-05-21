@@ -359,7 +359,7 @@ export class Slice3D extends Slice {
 				this.sideB.toFront();
 			}
 
-			this.slice.dy = -h;
+			this.slice.dy = -h;			
 		}
 		else {
 			this.sideA.hide(0);

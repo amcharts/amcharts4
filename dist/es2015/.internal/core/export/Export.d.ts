@@ -444,6 +444,10 @@ export interface IExportAdapters {
     dataFields: {
         dataFields: any;
     };
+    formatDataFields: {
+        dataFields: any;
+        format: string;
+    };
     dateFormatter: {
         dateFormatter: DateFormatter;
     };

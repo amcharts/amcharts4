@@ -316,8 +316,12 @@ export class XYChart3D extends XYChart {
 
 					i++;
 				});
-
-				s++;
+				if(inversed){
+					s--;
+				}
+				else{
+					s++;
+				}
 			}
 		});
 		this.maskColumns();

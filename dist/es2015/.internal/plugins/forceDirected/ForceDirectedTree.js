@@ -136,6 +136,27 @@ var ForceDirectedTree = /** @class */ (function (_super) {
             this.readerTitle = this.language.translate("Force directed tree");
         }
     };
+    /**
+     * Since this chart uses hierarchical data, we need to remove childrent
+     * dataField from export of non-hierarchical formats such as CSV and XSLX.
+     *
+     * @return Export
+     */
+    ForceDirectedTree.prototype.getExporting = function () {
+        var _this = this;
+        var exporting = _super.prototype.getExporting.call(this);
+        exporting.adapter.add("formatDataFields", function (info) {
+            if (info.format == "csv" || info.format == "xlsx") {
+                _this.series.each(function (series) {
+                    if ($type.hasValue(series.dataFields.children)) {
+                        delete info.dataFields[series.dataFields.children];
+                    }
+                });
+            }
+            return info;
+        });
+        return exporting;
+    };
     return ForceDirectedTree;
 }(SerialChart));
 export { ForceDirectedTree };

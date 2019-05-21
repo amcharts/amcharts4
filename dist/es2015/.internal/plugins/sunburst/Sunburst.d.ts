@@ -13,6 +13,7 @@ import { Color } from "../../core/utils/Color";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { OrderedListTemplate } from "../../core/utils/SortedList";
 import { DictionaryTemplate } from "../../core/utils/Dictionary";
+import { Export } from "../../core/export/Export";
 /**
  * ============================================================================
  * DATA ITEM
@@ -277,4 +278,11 @@ export declare class Sunburst extends PieChart {
      * cannot be set in constructor.
      */
     protected applyInternalDefaults(): void;
+    /**
+     * Since this chart uses hierarchical data, we need to remove childrent
+     * dataField from export of non-hierarchical formats such as CSV and XSLX.
+     *
+     * @return Export
+     */
+    protected getExporting(): Export;
 }

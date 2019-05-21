@@ -4218,7 +4218,9 @@ var Sprite = /** @class */ (function (_super) {
         if (this.tooltip && this.tooltip.targetSprite == this && this.tooltip.keepTargetHover) {
             this._outTimeout = this.setTimeout(function () {
                 if (!_this.tooltip.isHover) {
-                    _this.hideTooltip();
+                    if (_this.tooltip.targetSprite == _this) {
+                        _this.hideTooltip();
+                    }
                     _this._outTimeout = _this.setTimeout(_this.handleOutReal.bind(_this), _this.rollOutDelay);
                 }
             }, 10);

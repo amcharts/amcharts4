@@ -1644,15 +1644,43 @@ var XYChart = /** @class */ (function (_super) {
      * @param rawDataItem One or many raw data item objects
      */
     XYChart.prototype.addData = function (rawDataItem, removeCount) {
-        _super.prototype.addData.call(this, rawDataItem, removeCount);
-        this.invalidateScrollbarData();
-    };
-    XYChart.prototype.invalidateScrollbarData = function () {
         if (this.scrollbarX instanceof XYChartScrollbar) {
-            this.scrollbarX.scrollbarChart.invalidateData();
+            this.addScrollbarData(this.scrollbarX, removeCount);
         }
         if (this.scrollbarY instanceof XYChartScrollbar) {
-            this.scrollbarY.scrollbarChart.invalidateData();
+            this.addScrollbarData(this.scrollbarY, removeCount);
+        }
+        _super.prototype.addData.call(this, rawDataItem, removeCount);
+    };
+    /**
+     * @ignore
+     */
+    XYChart.prototype.addScrollbarData = function (scrollbar, removeCount) {
+        var chart = scrollbar.scrollbarChart;
+        chart._parseDataFrom = chart.data.length;
+        chart.invalidateData();
+    };
+    /**
+     * @ignore
+     */
+    XYChart.prototype.removeScrollbarData = function (scrollbar, removeCount) {
+        var chart = scrollbar.scrollbarChart;
+        if ($type.isNumber(removeCount)) {
+            while (removeCount > 0) {
+                var dataItem = this.dataItems.getIndex(0);
+                if (dataItem) {
+                    chart.dataItems.remove(dataItem);
+                }
+                chart.dataUsers.each(function (dataUser) {
+                    var dataItem = dataUser.dataItems.getIndex(0);
+                    if (dataItem) {
+                        dataUser.dataItems.remove(dataItem);
+                    }
+                });
+                chart._parseDataFrom--;
+                removeCount--;
+            }
+            chart.invalidateData();
         }
     };
     /**
@@ -1661,8 +1689,13 @@ var XYChart = /** @class */ (function (_super) {
      * @param count number of elements to remove
      */
     XYChart.prototype.removeData = function (count) {
+        if (this.scrollbarX instanceof XYChartScrollbar) {
+            this.removeScrollbarData(this.scrollbarX, count);
+        }
+        if (this.scrollbarY instanceof XYChartScrollbar) {
+            this.removeScrollbarData(this.scrollbarY, count);
+        }
         _super.prototype.removeData.call(this, count);
-        this.invalidateScrollbarData();
     };
     /**
      * @param  value  Tap to activate?

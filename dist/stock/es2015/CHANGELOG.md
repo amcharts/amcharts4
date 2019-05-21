@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.4.7] - 2019-05-21
+
+### Changed
+- Export: Children columns on hierarchical charts (`TreeMap`, `Sunburst`, `ForceDirectedTree`) are no longer exported to "flat" formats (CSV, XLSX).
+
+### Fixed
+- `keepTargetHover` was hiding tooltip when transiting hover from one `Sprite` to another.
+- Firefox was not displaying texts along paths on a page with `base href` set, due to Firefox [bug](https://bugzilla.mozilla.org/show_bug.cgi?id=455986).
+- `SunburstSeries` with 0 values were producing a JS error.
+- Width (or height if vertical) of `Scrollbar`/`Slider` was always 100%, even if it was set to less than 100%.
+- `WordCloud` with long labels that did not fit into container could get into infinite loop and never get drawn.
+- If a lot of `GaugeChart` instances with axis bands were rendered on a single page, stack owerflow error could happen.
+- Adding data to a chart with `XYChartScrollbar` and series in the scrollbar forced full-redraw of scrollbar chart which was making it blink.
+- Z-indexing of `ColumnSeries3D` columns was incorrect in some cases.
+- Tooltip of a 3D slice was not in the center of a slice.
+- Changing of Series' name was not propagating to legend.
+
+
 ## [4.4.6] - 2019-05-14
 
 ### Fixed

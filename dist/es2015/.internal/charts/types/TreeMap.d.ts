@@ -19,6 +19,7 @@ import { Color } from "../../core/utils/Color";
 import { TreeMapSeriesDataItem } from "../series/TreeMapSeries";
 import { NavigationBar } from "../elements/NavigationBar";
 import { ColorSet } from "../../core/utils/ColorSet";
+import { Export } from "../../core/export/Export";
 /**
  * ============================================================================
  * DATA ITEM
@@ -623,4 +624,11 @@ export declare class TreeMap extends XYChart {
      * @ignore
      */
     disposeData(): void;
+    /**
+     * Since this chart uses hierarchical data, we need to remove childrent
+     * dataField from export of non-hierarchical formats such as CSV and XSLX.
+     *
+     * @return Export
+     */
+    protected getExporting(): Export;
 }

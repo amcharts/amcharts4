@@ -1318,6 +1318,8 @@ export class Label extends Container {
 
 			this.textPathElement = this.paper.addGroup("textPath");
 			this.textPathElement.attrNS($dom.XLINK, "xlink:href", "#text-path-" + this.uid);
+			// TODO remove after https://bugzilla.mozilla.org/show_bug.cgi?id=455986 is fixed
+			this.textPathElement.attr({ "path": value });
 			this._disposers.push(this.textPathElement);
 			this.hardInvalidate();
 		}

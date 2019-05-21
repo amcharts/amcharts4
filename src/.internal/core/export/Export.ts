@@ -651,6 +651,11 @@ export interface IExportAdapters {
 		dataFields: any
 	},
 
+	formatDataFields: {
+		dataFields: any,
+		format: string
+	},
+
 	dateFormatter: {
 		dateFormatter: DateFormatter
 	},
@@ -2701,7 +2706,10 @@ export class Export extends Validatable {
 		let data = [];
 
 		// Data fields
-		const dataFields = this.dataFields;
+		const dataFields = this.adapter.apply("formatDataFields", {
+			dataFields: this.dataFields,
+			format: "xslx"
+		}).dataFields;
 
 		// Add column names?
 		if (options.addColumnNames) {
@@ -2789,7 +2797,10 @@ export class Export extends Validatable {
 		let csv = "";
 
 		// Data fields
-		const dataFields = this.dataFields;
+		const dataFields = this.adapter.apply("formatDataFields", {
+			dataFields: this.dataFields,
+			format: "csv"
+		}).dataFields;
 
 		// Add rows
 		let br = "";
@@ -2892,7 +2903,10 @@ export class Export extends Validatable {
 
 		// Check if we need to regenerate data based on `dataFields`
 		let data: any[];
-		const dataFields = this.dataFields;
+		const dataFields = this.adapter.apply("formatDataFields", {
+			dataFields: this.dataFields,
+			format: "csv"
+		}).dataFields;
 		if (!this._dynamicDataFields) {
 			data = [];
 			const sourceData = this.data;

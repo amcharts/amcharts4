@@ -10,6 +10,7 @@
  */
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "../../charts/types/SerialChart";
 import { ForceDirectedSeries, ForceDirectedSeriesDataItem } from "./ForceDirectedSeries";
+import { Export } from "../../core/export/Export";
 import { registry } from "../../core/Registry";
 import * as $type from "../../core/utils/Type";
 
@@ -152,7 +153,7 @@ export class ForceDirectedTree extends SerialChart {
 
 	/**
 	 * Setups the legend to use the chart's data.
-	 * 
+	 *
 	 * @ignore
 	 */
 	public feedLegend(): void {
@@ -215,6 +216,27 @@ export class ForceDirectedTree extends SerialChart {
 		if (!$type.hasValue(this.readerTitle)) {
 			this.readerTitle = this.language.translate("Force directed tree");
 		}
+	}
+
+	/**
+	 * Since this chart uses hierarchical data, we need to remove childrent
+	 * dataField from export of non-hierarchical formats such as CSV and XSLX.
+	 *
+	 * @return Export
+	 */
+	protected getExporting(): Export {
+		const exporting = super.getExporting();
+		exporting.adapter.add("formatDataFields", (info) => {
+			if (info.format == "csv" || info.format == "xlsx") {
+				this.series.each((series) => {
+					if($type.hasValue(series.dataFields.children)) {
+						delete info.dataFields[series.dataFields.children];
+					}
+				})
+			}
+			return info;
+		})
+		return exporting;
 	}
 
 }

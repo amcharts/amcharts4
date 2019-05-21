@@ -132,4 +132,8 @@ export declare class AxisFill extends Sprite {
      * @param value Location (0-1)
      */
     location: AxisItemLocation;
+    /**
+     * @ignore
+     */
+    protected setPath(value: string): boolean;
 }

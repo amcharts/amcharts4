@@ -2062,17 +2062,51 @@ export class XYChart extends SerialChart {
 	 * @param rawDataItem One or many raw data item objects
 	 */
 	public addData(rawDataItem: Object | Object[], removeCount?: number): void {
-		super.addData(rawDataItem, removeCount);
-		this.invalidateScrollbarData();
-	}
-
-	protected invalidateScrollbarData(){
 		if (this.scrollbarX instanceof XYChartScrollbar) {
-			this.scrollbarX.scrollbarChart.invalidateData();
+			this.addScrollbarData(this.scrollbarX, removeCount);
 		}
 		if (this.scrollbarY instanceof XYChartScrollbar) {
-			this.scrollbarY.scrollbarChart.invalidateData();
+			this.addScrollbarData(this.scrollbarY, removeCount);
 		}
+
+		super.addData(rawDataItem, removeCount);				
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected addScrollbarData(scrollbar:XYChartScrollbar, removeCount:number){
+		let chart = scrollbar.scrollbarChart;
+		chart._parseDataFrom = chart.data.length;
+		chart.invalidateData();
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected removeScrollbarData(scrollbar:XYChartScrollbar, removeCount:number){
+		let chart = scrollbar.scrollbarChart;
+		if ($type.isNumber(removeCount)) {
+			while (removeCount > 0) {
+				let dataItem = this.dataItems.getIndex(0);
+				if (dataItem) {
+					chart.dataItems.remove(dataItem);					
+				}
+
+				chart.dataUsers.each((dataUser) => {
+					let dataItem = dataUser.dataItems.getIndex(0);
+					if (dataItem) {
+						dataUser.dataItems.remove(dataItem);
+					}
+				});
+
+				chart._parseDataFrom--;
+
+				removeCount--;
+			}
+
+			chart.invalidateData();
+		}		
 	}
 
 	/**
@@ -2081,8 +2115,14 @@ export class XYChart extends SerialChart {
 	 * @param count number of elements to remove
 	 */
 	public removeData(count: $type.Optional<number>) {
+		if (this.scrollbarX instanceof XYChartScrollbar) {
+			this.removeScrollbarData(this.scrollbarX, count);
+		}
+		if (this.scrollbarY instanceof XYChartScrollbar) {
+			this.removeScrollbarData(this.scrollbarY, count);
+		}	
+
 		super.removeData(count);
-		this.invalidateScrollbarData();
 	}	
 
 	/**

@@ -123,6 +123,16 @@ var AxisFill = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * @ignore
+     */
+    AxisFill.prototype.setPath = function (value) {
+        if (this.setPropertyValue("path", value)) {
+            this.element.attr({ "d": value });
+            return true;
+        }
+        return false;
+    };
     return AxisFill;
 }(Sprite));
 export { AxisFill };

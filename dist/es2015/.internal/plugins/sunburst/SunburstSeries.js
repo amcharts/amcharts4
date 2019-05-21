@@ -85,16 +85,18 @@ var SunburstSeriesDataItem = /** @class */ (function (_super) {
         get: function () {
             var value = 0;
             var sbDataItem = this.sunburstDataItem;
-            if (!sbDataItem.series) {
-                value = this.values["value"].value;
-            }
-            else {
-                sbDataItem.series.dataItems.each(function (dataItem) {
-                    var childValue = dataItem.value;
-                    if ($type.isNumber(childValue)) {
-                        value += childValue;
-                    }
-                });
+            if (sbDataItem) {
+                if (!sbDataItem.series) {
+                    value = this.values["value"].value;
+                }
+                else {
+                    sbDataItem.series.dataItems.each(function (dataItem) {
+                        var childValue = dataItem.value;
+                        if ($type.isNumber(childValue)) {
+                            value += childValue;
+                        }
+                    });
+                }
             }
             return value;
         },

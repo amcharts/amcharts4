@@ -19,6 +19,7 @@ import { Color } from "../../core/utils/Color";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { OrderedListTemplate } from "../../core/utils/SortedList";
 import { DictionaryTemplate, DictionaryDisposer } from "../../core/utils/Dictionary";
+import { Export } from "../../core/export/Export";
 
 /**
  * ============================================================================
@@ -576,6 +577,25 @@ export class Sunburst extends PieChart {
 		if (!$type.hasValue(this.readerTitle)) {
 			this.readerTitle = this.language.translate("Sunburst chart");
 		}
+	}
+
+	/**
+	 * Since this chart uses hierarchical data, we need to remove childrent
+	 * dataField from export of non-hierarchical formats such as CSV and XSLX.
+	 *
+	 * @return Export
+	 */
+	protected getExporting(): Export {
+		const exporting = super.getExporting();
+		exporting.adapter.add("formatDataFields", (info) => {
+			if (info.format == "csv" || info.format == "xlsx") {
+				if($type.hasValue(this.dataFields.children)) {
+					delete info.dataFields[this.dataFields.children];
+				}
+			}
+			return info;
+		})
+		return exporting;
 	}
 
 }

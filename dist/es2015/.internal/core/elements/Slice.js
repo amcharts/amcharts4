@@ -354,7 +354,7 @@ var Slice = /** @class */ (function (_super) {
         var value = this.getPropertyValue("tooltipY");
         if (!$type.isNumber(value)) {
             var innerRadius = $utils.relativeToValue(this.innerRadius, this.radius);
-            value = this.iy * (innerRadius + (this.radius - innerRadius) / 2);
+            value = this.iy * (innerRadius + (this.radiusY - innerRadius) / 2) + this.slice.dy;
         }
         return value;
     };

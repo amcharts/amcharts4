@@ -17,7 +17,7 @@ import { RoundedRectangle } from "../elements/RoundedRectangle";
 import { registry } from "../Registry";
 import { keyboard } from "../utils/Keyboard";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
-import { percent } from "../utils/Percent";
+import { percent, Percent } from "../utils/Percent";
 import * as $math from "../utils/Math";
 import * as $ease from "../utils/Ease";
 import * as $type from "../utils/Type";
@@ -372,7 +372,9 @@ var Scrollbar = /** @class */ (function (_super) {
         if (thumb) {
             if (orientation == "horizontal") {
                 if (!$type.isNumber(this._pixelWidth)) {
-                    this.width = percent(100);
+                    if (!(this.width instanceof Percent)) {
+                        this.width = percent(100);
+                    }
                 }
                 // this teorethically might be wrong, if user indeed sets height of a horizontal scrollbar in percent
                 // however without this height might be equal to 100% if previous orientation was set to horizontal
@@ -387,7 +389,9 @@ var Scrollbar = /** @class */ (function (_super) {
             }
             else {
                 if (!$type.isNumber(this._pixelHeight)) {
-                    this.height = percent(100);
+                    if (!(this.height instanceof Percent)) {
+                        this.height = percent(100);
+                    }
                 }
                 // same as above with percentHeight
                 if ($type.hasValue(this.percentWidth)) {

@@ -5166,7 +5166,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this.tooltip && this.tooltip.targetSprite == this && this.tooltip.keepTargetHover) {
 			this._outTimeout = this.setTimeout(() => {
 				if (!this.tooltip.isHover) {
-					this.hideTooltip();
+					if (this.tooltip.targetSprite == this) {
+						this.hideTooltip();
+					}
 					this._outTimeout = this.setTimeout(this.handleOutReal.bind(this), this.rollOutDelay);
 				}
 			}, 10);

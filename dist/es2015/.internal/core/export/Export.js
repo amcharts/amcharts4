@@ -1860,7 +1860,10 @@ var Export = /** @class */ (function (_super) {
                             Sheets: {}
                         };
                         data = [];
-                        dataFields = this.dataFields;
+                        dataFields = this.adapter.apply("formatDataFields", {
+                            dataFields: this.dataFields,
+                            format: "xslx"
+                        }).dataFields;
                         // Add column names?
                         if (options.addColumnNames) {
                             data.push(this.getExcelRow(dataFields, options));
@@ -1935,7 +1938,10 @@ var Export = /** @class */ (function (_super) {
             var csv, dataFields, br, data, len, i, row, charset, uri;
             return tslib_1.__generator(this, function (_a) {
                 csv = "";
-                dataFields = this.dataFields;
+                dataFields = this.adapter.apply("formatDataFields", {
+                    dataFields: this.dataFields,
+                    format: "csv"
+                }).dataFields;
                 br = "";
                 data = this.data;
                 for (len = data.length, i = 0; i < len; i++) {
@@ -2022,7 +2028,10 @@ var Export = /** @class */ (function (_super) {
             var _this = this;
             var data, dataFields, sourceData, _loop_2, len, i, json, charset, uri;
             return tslib_1.__generator(this, function (_a) {
-                dataFields = this.dataFields;
+                dataFields = this.adapter.apply("formatDataFields", {
+                    dataFields: this.dataFields,
+                    format: "csv"
+                }).dataFields;
                 if (!this._dynamicDataFields) {
                     data = [];
                     sourceData = this.data;

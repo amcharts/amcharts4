@@ -22,6 +22,7 @@ import { TreeMapSeriesDataItem } from "../series/TreeMapSeries";
 import { NavigationBar } from "../elements/NavigationBar";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { MouseCursorStyle } from "../../core/interaction/Mouse";
+import { Export } from "../../core/export/Export";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $array from "../../core/utils/Array";
@@ -830,7 +831,7 @@ export class TreeMap extends XYChart {
 		this.xAxis.start = 0;
 		this.xAxis.end = 1;
 		this.yAxis.start = 0;
-		this.yAxis.end = 1;		
+		this.yAxis.end = 1;
 		super.setData(value);
 	}
 	/**
@@ -1135,9 +1136,9 @@ export class TreeMap extends XYChart {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public validateLayout() {		
+	public validateLayout() {
 		super.validateLayout();
-		this.layoutItems(this.currentlyZoomed);			
+		this.layoutItems(this.currentlyZoomed);
 	}
 
 	/**
@@ -1470,6 +1471,25 @@ export class TreeMap extends XYChart {
 
 		this.xAxis.disposeData();
 		this.yAxis.disposeData();
+	}
+
+	/**
+	 * Since this chart uses hierarchical data, we need to remove childrent
+	 * dataField from export of non-hierarchical formats such as CSV and XSLX.
+	 *
+	 * @return Export
+	 */
+	protected getExporting(): Export {
+		const exporting = super.getExporting();
+		exporting.adapter.add("formatDataFields", (info) => {
+			if (info.format == "csv" || info.format == "xlsx") {
+				if($type.hasValue(this.dataFields.children)) {
+					delete info.dataFields[this.dataFields.children];
+				}
+			}
+			return info;
+		})
+		return exporting;
 	}
 
 }

@@ -233,7 +233,12 @@ var XYChart3D = /** @class */ (function (_super) {
                     }
                     i_1++;
                 });
-                s++;
+                if (inversed_1) {
+                    s--;
+                }
+                else {
+                    s++;
+                }
             }
         });
         this.maskColumns();

@@ -1134,6 +1134,13 @@ export class Series extends Component {
 	 */
 	public set name(value: string) {
 		this.setPropertyValue("name", value);
+		
+		let legendDataItem = this.legendDataItem;
+		if(legendDataItem){
+			legendDataItem.component.invalidate();
+			legendDataItem.component.invalidateRawData();
+		}
+		
 		this.readerTitle = value;
 	}
 

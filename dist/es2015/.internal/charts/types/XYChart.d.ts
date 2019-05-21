@@ -23,6 +23,7 @@ import { IPoint } from "../../core/defs/IPoint";
 import { IDisposer } from "../../core/utils/Disposer";
 import { Button } from "../../core/elements/Button";
 import { Ordering } from "../../core/utils/Order";
+import { XYChartScrollbar } from "../elements/XYChartScrollbar";
 import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
@@ -764,7 +765,14 @@ export declare class XYChart extends SerialChart {
      * @param rawDataItem One or many raw data item objects
      */
     addData(rawDataItem: Object | Object[], removeCount?: number): void;
-    protected invalidateScrollbarData(): void;
+    /**
+     * @ignore
+     */
+    protected addScrollbarData(scrollbar: XYChartScrollbar, removeCount: number): void;
+    /**
+     * @ignore
+     */
+    protected removeScrollbarData(scrollbar: XYChartScrollbar, removeCount: number): void;
     /**
      * Removes elements from the beginning of data
      *

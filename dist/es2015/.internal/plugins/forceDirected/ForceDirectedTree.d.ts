@@ -9,6 +9,7 @@
  */
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "../../charts/types/SerialChart";
 import { ForceDirectedSeries } from "./ForceDirectedSeries";
+import { Export } from "../../core/export/Export";
 /**
  * ============================================================================
  * DATA ITEM
@@ -126,4 +127,11 @@ export declare class ForceDirectedTree extends SerialChart {
      * cannot be set in constructor.
      */
     protected applyInternalDefaults(): void;
+    /**
+     * Since this chart uses hierarchical data, we need to remove childrent
+     * dataField from export of non-hierarchical formats such as CSV and XSLX.
+     *
+     * @return Export
+     */
+    protected getExporting(): Export;
 }

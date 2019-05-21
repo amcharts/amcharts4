@@ -47,7 +47,7 @@ let currentActive: am4maps.MapPolygon;
 polygonTemplate.events.on("hit", (event) => {
 	// if we have some country selected, set default state to it
 	if (currentActive) {
-		currentActive.setState("default");
+		currentActive.isActive = false;
 	}
 
 	chart.zoomToMapObject(event.target);
