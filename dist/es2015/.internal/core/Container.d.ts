@@ -248,10 +248,12 @@ export declare class Container extends Sprite {
      */
     protected _shouldBeReady: Sprite[];
     /**
-     * [_tapToActivate description]
-     * @todo mm
+     * Enables touch tap protection.
      */
     protected _tapToActivate: boolean;
+    /**
+     * Timeout reference for `tapToActivate` functionality.
+     */
     protected _tapToActivateTimeout: Optional<IDisposer>;
     /**
      * If `tapToActivate` is used, this setting will determine how long the chart

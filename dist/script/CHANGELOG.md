@@ -5,10 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.4.8] - 2019-05-23
+
+### Added
+
+- `linkWithStrength` added to `ForceDirectedSeries`.
+- `linkWith(node, strength)` method added to `ForceDirectedNode`. Allows adding links without revalidating whole data.
+- `unlinkWith(node)` method added to `ForceDirectedNode`.
+- `expandAll` property added to `ForceDirectedNode` (default: `true`). If set to `false`, only a single level of children will be expanded on click/tap.
+
+### Fixed
+- Links created using `linkWith` data field were not using any strength setting, affecting the layout.
+- Some problems with `maxLevels` on `ForceDirectedSeries` solved.
+
+
 ## [4.4.7] - 2019-05-21
 
 ### Changed
 - Export: Children columns on hierarchical charts (`TreeMap`, `Sunburst`, `ForceDirectedTree`) are no longer exported to "flat" formats (CSV, XLSX).
+
 
 ### Fixed
 - `keepTargetHover` was hiding tooltip when transiting hover from one `Sprite` to another.

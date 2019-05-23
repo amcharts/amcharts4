@@ -81,8 +81,7 @@ var Container = /** @class */ (function (_super) {
          */
         _this._shouldBeReady = [];
         /**
-         * [_tapToActivate description]
-         * @todo mm
+         * Enables touch tap protection.
          */
         _this._tapToActivate = false;
         /**

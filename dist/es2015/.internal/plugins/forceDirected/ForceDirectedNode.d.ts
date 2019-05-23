@@ -13,6 +13,8 @@ import { Container, IContainerProperties, IContainerAdapters, IContainerEvents }
 import { Circle } from "../../core/elements/Circle";
 import { Label } from "../../core/elements/Label";
 import { ForceDirectedSeriesDataItem } from "./ForceDirectedSeries";
+import { ForceDirectedLink } from "./ForceDirectedLink";
+import { Dictionary } from "../../core/utils/Dictionary";
 /**
  * ============================================================================
  * REQUISITES
@@ -23,6 +25,7 @@ import { ForceDirectedSeriesDataItem } from "./ForceDirectedSeries";
  * Defines properties for [[ForceDirectedNode]].
  */
 export interface IForceDirectedNodeProperties extends IContainerProperties {
+    expandAll?: boolean;
 }
 /**
  * Defines events for [[ForceDirectedNode]].
@@ -81,6 +84,13 @@ export declare class ForceDirectedNode extends Container {
      */
     label: Label;
     /**
+     * A list of other [[ForceDirectedNode]] elements this node is linked with
+     * using `linkWith`.
+     *
+     * @since 4.4.8
+     */
+    linksWith: Dictionary<string, ForceDirectedLink>;
+    /**
      * Constructor
      */
     constructor();
@@ -106,4 +116,37 @@ export declare class ForceDirectedNode extends Container {
      * @todo description
      */
     protected updateSimulation(): void;
+    /**
+     * @return Expand all?
+     */
+    /**
+     * If set to `true` (default) toggling a node on will automatically expand
+     * all nodes across the whole tree (all levels) of its descendants.
+     *
+     * Setting to `false` will only expand immediate children (one level).
+     *
+     * @default true
+     * @since 4.4.8
+     * @param  value  Expand all?
+     */
+    expandAll: boolean;
+    /**
+     * Creates a new link between two nodes.
+     *
+     * Use this method to dynamically add links without requiring to revalidate
+     * whole of the data.
+     *
+     * @since 4.4.8
+     * @param   node      Target node
+     * @param   strength  Link strength
+     * @return            New link
+     */
+    linkWith(node: ForceDirectedNode, strength?: number): ForceDirectedLink;
+    /**
+     * Removes a link between two nodes.
+     *
+     * @since 4.4.8
+     * @param  node  Target node
+     */
+    unlinkWith(node: ForceDirectedNode): void;
 }

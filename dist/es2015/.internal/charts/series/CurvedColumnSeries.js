@@ -78,7 +78,9 @@ var CurvedColumnSeries = /** @class */ (function (_super) {
      * @param dataItem  Data item
      */
     CurvedColumnSeries.prototype.validateDataElementReal = function (dataItem) {
+        _super.prototype.validateDataElementReal.call(this, dataItem);
         var column = dataItem.column;
+        column = dataItem.column;
         if (column) {
             var curvedColumn = dataItem.column.curvedColumn;
             curvedColumn.fill = dataItem.column.fill;
@@ -89,7 +91,6 @@ var CurvedColumnSeries = /** @class */ (function (_super) {
                 column.orientation = "vertical";
             }
         }
-        _super.prototype.validateDataElementReal.call(this, dataItem);
     };
     return CurvedColumnSeries;
 }(ColumnSeries));

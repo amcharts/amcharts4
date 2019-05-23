@@ -156,8 +156,11 @@ export class CurvedColumnSeries extends ColumnSeries {
 	 * @param dataItem  Data item
 	 */
 	public validateDataElementReal(dataItem: this["_dataItem"]): void {
+		super.validateDataElementReal(dataItem);
 
 		let column = dataItem.column;
+		column = dataItem.column;
+
 		if (column) {
 			let curvedColumn = dataItem.column.curvedColumn;
 
@@ -169,9 +172,7 @@ export class CurvedColumnSeries extends ColumnSeries {
 			else {
 				column.orientation = "vertical";
 			}
-		}
-
-		super.validateDataElementReal(dataItem);
+		}		
 	}
 }
 

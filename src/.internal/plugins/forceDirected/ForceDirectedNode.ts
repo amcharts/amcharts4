@@ -15,8 +15,10 @@ import { registry } from "../../core/Registry";
 import { Circle } from "../../core/elements/Circle";
 import { Label } from "../../core/elements/Label";
 import { ForceDirectedSeriesDataItem } from "./ForceDirectedSeries";
+import { ForceDirectedLink } from "./ForceDirectedLink";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $type from "../../core/utils/Type";
+import { Dictionary, DictionaryDisposer } from "../../core/utils/Dictionary";
 
 /**
  * ============================================================================
@@ -28,7 +30,9 @@ import * as $type from "../../core/utils/Type";
 /**
  * Defines properties for [[ForceDirectedNode]].
  */
-export interface IForceDirectedNodeProperties extends IContainerProperties { }
+export interface IForceDirectedNodeProperties extends IContainerProperties {
+	expandAll?: boolean;
+}
 
 /**
  * Defines events for [[ForceDirectedNode]].
@@ -97,6 +101,14 @@ export class ForceDirectedNode extends Container {
 	public label: Label;
 
 	/**
+	 * A list of other [[ForceDirectedNode]] elements this node is linked with
+	 * using `linkWith`.
+	 *
+	 * @since 4.4.8
+	 */
+	public linksWith: Dictionary<string, ForceDirectedLink>;
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -110,6 +122,10 @@ export class ForceDirectedNode extends Container {
 		this.setStateOnChildren = true;
 
 		this.isActive = false;
+		this.expandAll = true;
+
+		this.linksWith = new Dictionary<string, ForceDirectedLink>()
+		this._disposers.push(new DictionaryDisposer(this.linksWith));
 
 		this.events.on("dragstart", () => {
 			if (this.dataItem.component) {
@@ -153,7 +169,7 @@ export class ForceDirectedNode extends Container {
 
 		this.circle = circle;
 
-		this.addDisposer(outerCircle.events.on("validated", this.updateLabelSize, this, false));
+		this.addDisposer(circle.events.on("validated", this.updateLabelSize, this, false));
 
 		this._disposers.push(this.circle);
 
@@ -225,38 +241,46 @@ export class ForceDirectedNode extends Container {
 		if (dataItem) {
 
 			let children = dataItem.children;
-
-			if (value && children && !dataItem.childrenInited) {
-				dataItem.component.initNode(dataItem);
-				dataItem.component.updateNodeList();
-			}
-
-			if (value) {
-				if (children) {
-					children.each((child) => {
-						child.node.show();
-						child.node.interactionsEnabled = true;
-						if (child.parentLink) {
-							child.parentLink.show();
-						}
-						child.node.isActive = true;
-					})
+			let component = dataItem.component;
+			if (!component.dataItemsInvalid) {
+				if (value && children && !dataItem.childrenInited) {
+					component.initNode(dataItem);
+					component.updateNodeList();
 				}
-				dataItem.dispatchVisibility(true);
-			}
-			else {
-				if (children) {
-					children.each((child) => {
-						if (child.parentLink) {
-							child.parentLink.hide();
-						}
-						child.node.isActive = false;
-						child.node.interactionsEnabled = false;
 
-						child.node.hide();
-					})
+				if (value) {
+					if (children) {
+						children.each((child) => {
+							child.node.show();
+							child.node.interactionsEnabled = true;
+							if (child.parentLink) {
+								child.parentLink.show();
+							}
+							if (this.expandAll) {
+								child.node.isActive = true;
+							}
+							else {
+								child.node.isActive = false;
+								//child.node.hide(0)
+							}
+						})
+					}
+					dataItem.dispatchVisibility(true);
 				}
-				dataItem.dispatchVisibility(false);
+				else {
+					if (children) {
+						children.each((child) => {
+							if (child.parentLink) {
+								child.parentLink.hide();
+							}
+							child.node.isActive = false;
+							child.node.interactionsEnabled = false;
+
+							child.node.hide();
+						})
+					}
+					dataItem.dispatchVisibility(false);
+				}
 			}
 		}
 
@@ -272,6 +296,81 @@ export class ForceDirectedNode extends Container {
 		if (dataItem && dataItem.component) {
 			dataItem.component.restartSimulation();
 		}
+	}
+
+	/**
+	 * If set to `true` (default) toggling a node on will automatically expand
+	 * all nodes across the whole tree (all levels) of its descendants.
+	 *
+	 * Setting to `false` will only expand immediate children (one level).
+	 * 
+	 * @default true
+	 * @since 4.4.8
+	 * @param  value  Expand all?
+	 */
+	public set expandAll(value: boolean) {
+		this.setPropertyValue("expandAll", value);
+	}
+
+	/**
+	 * @return Expand all?
+	 */
+	public get expandAll(): boolean {
+		return this.getPropertyValue("expandAll");
+	}
+
+	/**
+	 * Creates a new link between two nodes.
+	 *
+	 * Use this method to dynamically add links without requiring to revalidate
+	 * whole of the data.
+	 * 
+	 * @since 4.4.8
+	 * @param   node      Target node
+	 * @param   strength  Link strength
+	 * @return            New link
+	 */
+	public linkWith(node: ForceDirectedNode, strength?: number): ForceDirectedLink {
+		let link = this.linksWith.getKey(node.uid);
+		if (!link) {
+			link = node.linksWith.getKey(this.uid);
+		}
+
+		if (!link) {
+			let dataItem = this.dataItem;
+			let component = dataItem.component;
+			link = component.links.create();
+			link.parent = component;
+			link.zIndex = -1;
+			link.source = this;
+			link.target = node;
+			link.stroke = dataItem.node.fill;
+
+			if ($type.isNumber(strength)) {
+				link.strength = strength;
+			}
+
+			let nodeIndex = component.nodes.indexOf(dataItem.node);
+			let childIndex = component.nodes.indexOf(node);
+
+			component.forceLinks.push({ source: nodeIndex, target: childIndex });
+			component.updateNodeList();
+
+			dataItem.childLinks.push(link);
+
+			this.linksWith.setKey(node.uid, link);
+		}
+		return link;
+	}
+
+	/**
+	 * Removes a link between two nodes.
+	 * 
+	 * @since 4.4.8
+	 * @param  node  Target node
+	 */
+	public unlinkWith(node: ForceDirectedNode) {
+		this.linksWith.removeKey(node.uid);
 	}
 }
 

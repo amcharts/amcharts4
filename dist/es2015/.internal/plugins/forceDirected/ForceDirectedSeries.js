@@ -208,7 +208,6 @@ var ForceDirectedSeriesDataItem = /** @class */ (function (_super) {
             var color = this.properties.color;
             if (color == undefined) {
                 if (this.parent) {
-                    console.log("parent");
                     color = this.parent.color;
                 }
             }
@@ -434,7 +433,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         var _this = this;
         this._dataDisposers.push(new ListDisposer(this.links));
         this._maxValue = this.getMaxValue(this.dataItems, 0);
-        this._forceLinks = [];
+        this.forceLinks = [];
         this.colors.reset();
         var index = 0;
         var radius = Math.min(this.innerHeight / 3, this.innerWidth / 3);
@@ -474,7 +473,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
     ForceDirectedSeries.prototype.updateNodeList = function () {
         var d3forceSimulation = this.d3forceSimulation;
         d3forceSimulation.nodes(this.nodes.values);
-        this._linkForce = d3force.forceLink(this._forceLinks);
+        this._linkForce = d3force.forceLink(this.forceLinks);
         d3forceSimulation.force("link", this._linkForce);
         this._collisionForce = d3force.forceCollide();
         d3forceSimulation.force("collision", this._collisionForce);
@@ -488,8 +487,12 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
     ForceDirectedSeries.prototype.updateLinksAndNodes = function () {
         var _this = this;
         if (this._linkForce) {
-            this._linkForce.distance(function (linkDatum) { return _this.getDistance(linkDatum); });
-            this._linkForce.strength(function (linkDatum) { return _this.getStrength(linkDatum); });
+            this._linkForce.distance(function (linkDatum) {
+                return _this.getDistance(linkDatum);
+            });
+            this._linkForce.strength(function (linkDatum) {
+                return _this.getStrength(linkDatum);
+            });
         }
         if (this._collisionForce) {
             this._collisionForce.radius(function (node) {
@@ -519,8 +522,9 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         var target = linkDatum.target;
         var distance = 0;
         if (target.dataItem && source.dataItem) {
-            if (target.dataItem.parentLink) {
-                distance = target.dataItem.parentLink.distance;
+            var link = source.linksWith.getKey(target.uid);
+            if (link) {
+                distance = link.distance;
             }
             if (!source.isActive) {
                 distance = 1;
@@ -534,10 +538,12 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
      * @todo description
      */
     ForceDirectedSeries.prototype.getStrength = function (linkDatum) {
+        var source = linkDatum.source;
         var target = linkDatum.target;
         var strength = 0;
-        if (target.dataItem && target.dataItem.parentLink) {
-            strength = target.dataItem.parentLink.strength;
+        var link = source.linksWith.getKey(target.uid);
+        if (link) {
+            strength = link.strength;
         }
         return strength;
     };
@@ -593,9 +599,9 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         if (!$type.isNumber(radius)) {
             radius = minRadius;
         }
-        if (!node.circle.isHidden) {
-            node.circle.radius = radius;
-        }
+        //if(!node.circle.isHidden){
+        node.circle.radius = radius;
+        //}
         node.outerCircle.radius = radius + 3;
         node.circle.states.getKey("active").properties.radius = radius;
         node.circle.defaultState.properties.radius = radius;
@@ -610,9 +616,9 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         var node = dataItem.node;
         node.parent = this;
         this.updateRadius(dataItem);
-        var nodeIndex = this.nodes.indexOf(dataItem.node);
+        //let nodeIndex = this.nodes.indexOf(dataItem.node);
         if (!dataItem.children || dataItem.children.length == 0) {
-            node.outerCircle.__disabled = true;
+            node.outerCircle.disabled = true;
             node.circle.interactionsEnabled = true;
             node.cursorOverStyle = MouseCursorStyle.default;
         }
@@ -624,6 +630,9 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
             this.updateNodeList();
             return;
         }
+        if (!node.isActive) {
+            node.hide(0);
+        }
         if (dataItem.children) {
             var index_1 = 0;
             dataItem.childrenInited = true;
@@ -631,15 +640,20 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
                 this.colors.next();
             }
             dataItem.children.each(function (child) {
-                var link = _this.links.create();
-                link.parent = _this;
+                /*
+                let link = this.links.create();
+                link.parent = this;
                 link.zIndex = -1;
                 dataItem.childLinks.push(link);
                 link.source = dataItem.node;
-                var childIndex = _this.nodes.indexOf(child.node);
+                let childIndex = this.nodes.indexOf(child.node);
                 link.target = child.node;
                 child.parentLink = link;
-                _this._forceLinks.push({ source: nodeIndex, target: childIndex });
+
+                this._forceLinks.push({ source: nodeIndex, target: childIndex });
+                */
+                var link = node.linkWith(child.node);
+                child.parentLink = link;
                 var radius = 2 * node.circle.pixelRadius + child.node.circle.pixelRadius;
                 var angle = index_1 / dataItem.children.length * 360;
                 child.node.x = node.pixelX + radius * $math.cos(angle);
@@ -667,6 +681,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
             });
         }
         node.isActive = true;
+        node.show();
         this.updateNodeList();
     };
     /**
@@ -679,13 +694,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
             $array.each(dataItem.linkWith, function (id, index) {
                 var dataItemToConnect = _this.getDataItemById(_this.dataItems, id);
                 if (dataItemToConnect) {
-                    var link = _this.links.create();
-                    link.parent = _this;
-                    link.zIndex = -1;
-                    link.source = dataItem.node;
-                    link.target = dataItemToConnect.node;
-                    link.stroke = dataItem.node.fill;
-                    dataItem.childLinks.push(link);
+                    dataItem.node.linkWith(dataItemToConnect.node, _this.linkWithStrength);
                 }
             });
         }
@@ -917,6 +926,28 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("centerStrength", value)) {
+                this.restartSimulation();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ForceDirectedSeries.prototype, "linkWithStrength", {
+        /**
+         * @return Strength
+         */
+        get: function () {
+            return this.getPropertyValue("linkWithStrength");
+        },
+        /**
+         * Relative attraction strength between the nodes connected with `linkWith`.
+         *
+         * @since 4.4.8
+         * @param  value  Strength
+         * @default undefined
+         */
+        set: function (value) {
+            if (this.setPropertyValue("linkWithStrength", value)) {
                 this.restartSimulation();
             }
         },

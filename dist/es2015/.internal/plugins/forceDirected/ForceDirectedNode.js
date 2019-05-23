@@ -16,6 +16,7 @@ import { Circle } from "../../core/elements/Circle";
 import { Label } from "../../core/elements/Label";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $type from "../../core/utils/Type";
+import { Dictionary, DictionaryDisposer } from "../../core/utils/Dictionary";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -44,6 +45,9 @@ var ForceDirectedNode = /** @class */ (function (_super) {
         _this.draggable = true;
         _this.setStateOnChildren = true;
         _this.isActive = false;
+        _this.expandAll = true;
+        _this.linksWith = new Dictionary();
+        _this._disposers.push(new DictionaryDisposer(_this.linksWith));
         _this.events.on("dragstart", function () {
             if (_this.dataItem.component) {
                 _this.dataItem.component.nodeDragStarted();
@@ -74,7 +78,7 @@ var ForceDirectedNode = /** @class */ (function (_super) {
         circle.events.on("validated", _this.updateSimulation, _this, false);
         circle.hiddenState.properties.visible = true;
         _this.circle = circle;
-        _this.addDisposer(outerCircle.events.on("validated", _this.updateLabelSize, _this, false));
+        _this.addDisposer(circle.events.on("validated", _this.updateLabelSize, _this, false));
         _this._disposers.push(_this.circle);
         var label = _this.createChild(Label);
         label.shouldClone = false;
@@ -131,39 +135,49 @@ var ForceDirectedNode = /** @class */ (function (_super) {
      * @param  value  Active or not?
      */
     ForceDirectedNode.prototype.setActive = function (value) {
+        var _this = this;
         _super.prototype.setActive.call(this, value);
         var dataItem = this.dataItem;
         if (dataItem) {
             var children = dataItem.children;
-            if (value && children && !dataItem.childrenInited) {
-                dataItem.component.initNode(dataItem);
-                dataItem.component.updateNodeList();
-            }
-            if (value) {
-                if (children) {
-                    children.each(function (child) {
-                        child.node.show();
-                        child.node.interactionsEnabled = true;
-                        if (child.parentLink) {
-                            child.parentLink.show();
-                        }
-                        child.node.isActive = true;
-                    });
+            var component = dataItem.component;
+            if (!component.dataItemsInvalid) {
+                if (value && children && !dataItem.childrenInited) {
+                    component.initNode(dataItem);
+                    component.updateNodeList();
                 }
-                dataItem.dispatchVisibility(true);
-            }
-            else {
-                if (children) {
-                    children.each(function (child) {
-                        if (child.parentLink) {
-                            child.parentLink.hide();
-                        }
-                        child.node.isActive = false;
-                        child.node.interactionsEnabled = false;
-                        child.node.hide();
-                    });
+                if (value) {
+                    if (children) {
+                        children.each(function (child) {
+                            child.node.show();
+                            child.node.interactionsEnabled = true;
+                            if (child.parentLink) {
+                                child.parentLink.show();
+                            }
+                            if (_this.expandAll) {
+                                child.node.isActive = true;
+                            }
+                            else {
+                                child.node.isActive = false;
+                                //child.node.hide(0)
+                            }
+                        });
+                    }
+                    dataItem.dispatchVisibility(true);
                 }
-                dataItem.dispatchVisibility(false);
+                else {
+                    if (children) {
+                        children.each(function (child) {
+                            if (child.parentLink) {
+                                child.parentLink.hide();
+                            }
+                            child.node.isActive = false;
+                            child.node.interactionsEnabled = false;
+                            child.node.hide();
+                        });
+                    }
+                    dataItem.dispatchVisibility(false);
+                }
             }
         }
         this.updateSimulation();
@@ -177,6 +191,75 @@ var ForceDirectedNode = /** @class */ (function (_super) {
         if (dataItem && dataItem.component) {
             dataItem.component.restartSimulation();
         }
+    };
+    Object.defineProperty(ForceDirectedNode.prototype, "expandAll", {
+        /**
+         * @return Expand all?
+         */
+        get: function () {
+            return this.getPropertyValue("expandAll");
+        },
+        /**
+         * If set to `true` (default) toggling a node on will automatically expand
+         * all nodes across the whole tree (all levels) of its descendants.
+         *
+         * Setting to `false` will only expand immediate children (one level).
+         *
+         * @default true
+         * @since 4.4.8
+         * @param  value  Expand all?
+         */
+        set: function (value) {
+            this.setPropertyValue("expandAll", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Creates a new link between two nodes.
+     *
+     * Use this method to dynamically add links without requiring to revalidate
+     * whole of the data.
+     *
+     * @since 4.4.8
+     * @param   node      Target node
+     * @param   strength  Link strength
+     * @return            New link
+     */
+    ForceDirectedNode.prototype.linkWith = function (node, strength) {
+        var link = this.linksWith.getKey(node.uid);
+        if (!link) {
+            link = node.linksWith.getKey(this.uid);
+        }
+        if (!link) {
+            var dataItem = this.dataItem;
+            var component = dataItem.component;
+            link = component.links.create();
+            link.parent = component;
+            link.zIndex = -1;
+            link.source = this;
+            link.target = node;
+            link.stroke = dataItem.node.fill;
+            if ($type.isNumber(strength)) {
+                link.strength = strength;
+            }
+            var nodeIndex = component.nodes.indexOf(dataItem.node);
+            var childIndex = component.nodes.indexOf(node);
+            component.forceLinks.push({ source: nodeIndex, target: childIndex });
+            component.updateNodeList();
+            dataItem.childLinks.push(link);
+            this.linksWith.setKey(node.uid, link);
+        }
+        return link;
+    };
+    /**
+     * Removes a link between two nodes.
+     *
+     * @since 4.4.8
+     * @param  node  Target node
+     */
+    ForceDirectedNode.prototype.unlinkWith = function (node) {
+        this.linksWith.removeKey(node.uid);
     };
     return ForceDirectedNode;
 }(Container));

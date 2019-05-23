@@ -279,7 +279,6 @@ export class ForceDirectedSeriesDataItem extends SeriesDataItem {
 
 		if (color == undefined) {
 			if (this.parent) {
-				console.log("parent")
 				color = this.parent.color;
 			}
 		}
@@ -499,6 +498,13 @@ export interface IForceDirectedSeriesProperties extends ISeriesProperties {
 	 */
 	centerStrength?: number;
 
+	/**
+	 * Relative attraction strength between the nodes connected with `linkWith`.
+	 *
+	 * @since 4.4.8
+	 */
+	linkWithStrength?: number;
+
 }
 
 /**
@@ -607,7 +613,7 @@ export class ForceDirectedSeries extends Series {
 	/**
 	 * @ignore
 	 */
-	protected _forceLinks: d3force.SimulationLinkDatum<d3force.SimulationNodeDatum>[];
+	public forceLinks: d3force.SimulationLinkDatum<d3force.SimulationNodeDatum>[];
 
 	/**
 	 * @ignore
@@ -697,7 +703,7 @@ export class ForceDirectedSeries extends Series {
 
 		this._maxValue = this.getMaxValue(this.dataItems, 0);
 
-		this._forceLinks = [];
+		this.forceLinks = [];
 
 		this.colors.reset();
 
@@ -737,9 +743,9 @@ export class ForceDirectedSeries extends Series {
 		});
 
 		// helps to avoid initial scatter
-		for(let i = 0; i < 10; i++){
+		for (let i = 0; i < 10; i++) {
 			d3forceSimulation.tick();
-		}		
+		}
 		d3forceSimulation.alphaDecay(1 - Math.pow(0.001, 1 / 600));
 
 		this.chart.feedLegend();
@@ -754,7 +760,7 @@ export class ForceDirectedSeries extends Series {
 	public updateNodeList() {
 		let d3forceSimulation = this.d3forceSimulation;
 		d3forceSimulation.nodes(this.nodes.values);
-		this._linkForce = d3force.forceLink(this._forceLinks);
+		this._linkForce = d3force.forceLink(this.forceLinks);
 		d3forceSimulation.force("link", this._linkForce);
 		this._collisionForce = d3force.forceCollide();
 		d3forceSimulation.force("collision", this._collisionForce);
@@ -769,18 +775,22 @@ export class ForceDirectedSeries extends Series {
 	 */
 	public updateLinksAndNodes() {
 		if (this._linkForce) {
-			this._linkForce.distance((linkDatum) => { return this.getDistance(linkDatum) });
-			this._linkForce.strength((linkDatum) => { return this.getStrength(linkDatum) });
+			this._linkForce.distance((linkDatum) => {
+				return this.getDistance(linkDatum)
+			});
+			this._linkForce.strength((linkDatum) => {
+				return this.getStrength(linkDatum)
+			});
 		}
 
 		if (this._collisionForce) {
 			this._collisionForce.radius(function(node) {
 				if (node instanceof ForceDirectedNode) {
 					let radius = node.circle.pixelRadius;
-					if(!node.outerCircle.__disabled && !node.outerCircle.disabled && node.outerCircle.visible){
+					if (!node.outerCircle.__disabled && !node.outerCircle.disabled && node.outerCircle.visible) {
 						radius = (radius + 3) * node.outerCircle.scale;
 					}
-					return radius;					 				
+					return radius;
 				}
 				return 1;
 			})
@@ -791,7 +801,7 @@ export class ForceDirectedSeries extends Series {
 				return node.circle.pixelRadius * this.manyBodyStrength;
 			}
 			return this.manyBodyStrength;
-		}));		
+		}));
 	}
 
 	/**
@@ -799,18 +809,23 @@ export class ForceDirectedSeries extends Series {
 	 * @todo description
 	 */
 	protected getDistance(linkDatum: d3force.SimulationLinkDatum<d3force.SimulationNodeDatum>) {
-
 		let source: ForceDirectedNode = <ForceDirectedNode>linkDatum.source;
 		let target: ForceDirectedNode = <ForceDirectedNode>linkDatum.target;
 
 		let distance = 0;
 		if (target.dataItem && source.dataItem) {
-			if (target.dataItem.parentLink) {
-				distance = target.dataItem.parentLink.distance;
+
+
+			let link = source.linksWith.getKey(target.uid);
+
+			if (link) {
+				distance = link.distance;
 			}
+
 			if (!source.isActive) {
 				distance = 1;
 			}
+
 			return (distance * (source.circle.pixelRadius + target.circle.pixelRadius));
 		}
 
@@ -822,12 +837,14 @@ export class ForceDirectedSeries extends Series {
 	 * @todo description
 	 */
 	protected getStrength(linkDatum: d3force.SimulationLinkDatum<d3force.SimulationNodeDatum>) {
-
+		let source: ForceDirectedNode = <ForceDirectedNode>linkDatum.source;
 		let target: ForceDirectedNode = <ForceDirectedNode>linkDatum.target;
 
 		let strength = 0;
-		if (target.dataItem && target.dataItem.parentLink) {
-			strength = target.dataItem.parentLink.strength;
+
+		let link = source.linksWith.getKey(target.uid);
+		if (link) {
+			strength = link.strength;
 		}
 
 		return strength;
@@ -866,10 +883,10 @@ export class ForceDirectedSeries extends Series {
 	/**
 	 * @ignore
 	 */
-	protected updateRadiuses(dataItems:OrderedListTemplate<ForceDirectedSeriesDataItem>){
-		dataItems.each((dataItem)=>{
+	protected updateRadiuses(dataItems: OrderedListTemplate<ForceDirectedSeriesDataItem>) {
+		dataItems.each((dataItem) => {
 			this.updateRadius(dataItem);
-			if(dataItem.childrenInited){
+			if (dataItem.childrenInited) {
 				this.updateRadiuses(dataItem.children);
 			}
 		})
@@ -878,7 +895,7 @@ export class ForceDirectedSeries extends Series {
 	/**
 	 * @ignore
 	 */
-	protected updateRadius(dataItem:ForceDirectedSeriesDataItem){
+	protected updateRadius(dataItem: ForceDirectedSeriesDataItem) {
 		let node = dataItem.node;
 		let minSide = (this.innerWidth + this.innerHeight) / 2;
 		let minRadius = $utils.relativeToValue(this.minRadius, minSide)
@@ -890,10 +907,9 @@ export class ForceDirectedSeries extends Series {
 			radius = minRadius;
 		}
 
-		if(!node.circle.isHidden){
-			node.circle.radius = radius;
-		}
-
+		//if(!node.circle.isHidden){
+		node.circle.radius = radius;
+		//}
 		node.outerCircle.radius = radius + 3;
 
 		node.circle.states.getKey("active").properties.radius = radius;
@@ -911,10 +927,10 @@ export class ForceDirectedSeries extends Series {
 		node.parent = this;
 		this.updateRadius(dataItem);
 
-		let nodeIndex = this.nodes.indexOf(dataItem.node);
+		//let nodeIndex = this.nodes.indexOf(dataItem.node);
 
 		if (!dataItem.children || dataItem.children.length == 0) {
-			node.outerCircle.__disabled = true;
+			node.outerCircle.disabled = true;
 			node.circle.interactionsEnabled = true;
 			node.cursorOverStyle = MouseCursorStyle.default;
 		}
@@ -922,10 +938,15 @@ export class ForceDirectedSeries extends Series {
 			node.cursorOverStyle = MouseCursorStyle.pointer;
 		}
 
+
 		if (this.dataItemsInvalid && (dataItem.level >= this.maxLevels - 1 || dataItem.collapsed)) {
 			node.isActive = false;
 			this.updateNodeList();
 			return;
+		}
+
+		if (!node.isActive) {
+			node.hide(0);
 		}
 
 		if (dataItem.children) {
@@ -937,6 +958,7 @@ export class ForceDirectedSeries extends Series {
 			}
 
 			dataItem.children.each((child) => {
+				/*
 				let link = this.links.create();
 				link.parent = this;
 				link.zIndex = -1;
@@ -947,6 +969,10 @@ export class ForceDirectedSeries extends Series {
 				child.parentLink = link;
 
 				this._forceLinks.push({ source: nodeIndex, target: childIndex });
+				*/
+
+				let link = node.linkWith(child.node);
+				child.parentLink = link;
 
 				let radius = 2 * node.circle.pixelRadius + child.node.circle.pixelRadius;
 
@@ -981,8 +1007,8 @@ export class ForceDirectedSeries extends Series {
 				index++;
 			})
 		}
-
 		node.isActive = true;
+		node.show();
 		this.updateNodeList();
 	}
 
@@ -997,13 +1023,7 @@ export class ForceDirectedSeries extends Series {
 				let dataItemToConnect = this.getDataItemById(this.dataItems, id);
 
 				if (dataItemToConnect) {
-					let link = this.links.create();
-					link.parent = this;
-					link.zIndex = -1;
-					link.source = dataItem.node;
-					link.target = dataItemToConnect.node;
-					link.stroke = dataItem.node.fill;
-					dataItem.childLinks.push(link);
+					dataItem.node.linkWith(dataItemToConnect.node, this.linkWithStrength);
 				}
 			})
 		}
@@ -1079,7 +1099,7 @@ export class ForceDirectedSeries extends Series {
 			this._disposers.push(link);
 
 			this._links = new ListTemplate(link);
-			this._disposers.push(new ListDisposer(this._links));			
+			this._disposers.push(new ListDisposer(this._links));
 		}
 		return this._links;
 	}
@@ -1231,6 +1251,26 @@ export class ForceDirectedSeries extends Series {
 	 */
 	public get centerStrength(): number {
 		return this.getPropertyValue("centerStrength");
+	}
+
+	/**
+	 * Relative attraction strength between the nodes connected with `linkWith`.
+	 *
+	 * @since 4.4.8
+	 * @param  value  Strength
+	 * @default undefined
+	 */
+	public set linkWithStrength(value: number) {
+		if (this.setPropertyValue("linkWithStrength", value)) {
+			this.restartSimulation();
+		}
+	}
+
+	/**
+	 * @return Strength
+	 */
+	public get linkWithStrength(): number {
+		return this.getPropertyValue("linkWithStrength");
 	}
 
 	/**

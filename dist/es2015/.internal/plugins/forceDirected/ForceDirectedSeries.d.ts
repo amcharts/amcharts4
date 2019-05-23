@@ -271,6 +271,12 @@ export interface IForceDirectedSeriesProperties extends ISeriesProperties {
      * center of the chart.
      */
     centerStrength?: number;
+    /**
+     * Relative attraction strength between the nodes connected with `linkWith`.
+     *
+     * @since 4.4.8
+     */
+    linkWithStrength?: number;
 }
 /**
  * Defines events for [[ForceDirectedSeries]].
@@ -362,7 +368,7 @@ export declare class ForceDirectedSeries extends Series {
     /**
      * @ignore
      */
-    protected _forceLinks: d3force.SimulationLinkDatum<d3force.SimulationNodeDatum>[];
+    forceLinks: d3force.SimulationLinkDatum<d3force.SimulationNodeDatum>[];
     /**
      * @ignore
      */
@@ -572,6 +578,17 @@ export declare class ForceDirectedSeries extends Series {
      * @param  value  Stregth of attraction to center
      */
     centerStrength: number;
+    /**
+     * @return Strength
+     */
+    /**
+     * Relative attraction strength between the nodes connected with `linkWith`.
+     *
+     * @since 4.4.8
+     * @param  value  Strength
+     * @default undefined
+     */
+    linkWithStrength: number;
     /**
      * Binds related legend data item's visual settings to this series' visual
      * settings.
