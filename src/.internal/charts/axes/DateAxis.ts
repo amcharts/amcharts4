@@ -651,6 +651,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 				series.startIndex = startIndex;
 				series.endIndex = endIndex;
+
+				if(series.dataRangeInvalid){
+					series.validateDataRange();
+				}
 			}
 		});
 	}
@@ -1485,6 +1489,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	public set baseInterval(timeInterval: ITimeInterval) {
 		if (JSON.stringify(this._baseInterval) != JSON.stringify(timeInterval)) {
 			this._baseInterval = timeInterval;
+			if(!$type.isNumber(timeInterval.count)){
+				timeInterval.count = 1;
+			}
 			this.invalidate();
 			this.postProcessSeriesDataItems();
 		}

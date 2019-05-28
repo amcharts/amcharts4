@@ -83,6 +83,7 @@ export interface IValueAxisProperties extends IAxisProperties {
     extraMin?: number;
     extraMax?: number;
     keepSelection?: boolean;
+    includeRangesInMinMax?: boolean;
 }
 /**
  * Defines events for [[ValueAxis]].
@@ -646,6 +647,18 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @param  value  Preseve zoom after data update?
      */
     keepSelection: boolean;
+    /**
+     * @return Include ranges?
+     */
+    /**
+     * If set to `true`, values of axis ranges will be included when calculating
+     * range of values / scale of the [[ValueAxis]].
+     *
+     * @default false
+     * @since 4.4.9
+     * @param  value  Include ranges?
+     */
+    includeRangesInMinMax: boolean;
     /**
      * @return max precision
      */

@@ -277,7 +277,7 @@ export class RadarColumnSeries extends ColumnSeries {
 					dataItem.rangesColumns.setKey(axisRange.uid, rangeColumn);
 				}
 
-				let slice = radarColumn.radarColumn;
+				let slice = rangeColumn.radarColumn;
 				slice.startAngle = lAngle;
 				slice.arc = arc;
 				slice.radius = tRadius;
@@ -288,7 +288,7 @@ export class RadarColumnSeries extends ColumnSeries {
 				}
 
 				rangeColumn.__disabled = false;
-				rangeColumn.parent = this.columnsContainer;
+				rangeColumn.parent = axisRange.contents;
 			});
 		}
 		else {

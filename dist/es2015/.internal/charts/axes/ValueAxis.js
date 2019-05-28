@@ -172,6 +172,7 @@ var ValueAxis = /** @class */ (function (_super) {
         _this.setPropertyValue("strictMinMax", false);
         _this.setPropertyValue("maxPrecision", Number.MAX_VALUE);
         _this.keepSelection = false;
+        _this.includeRangesInMinMax = false;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -265,32 +266,36 @@ var ValueAxis = /** @class */ (function (_super) {
                 var _loop_1 = function (i) {
                     // This has to be `var` in order to avoid garbage collection
                     var total = {};
-                    $iter.each(this_1.series.iterator(), function (series) {
-                        var dataItem = series.dataItems.getIndex(i);
-                        if (dataItem) {
-                            $object.each(dataItem.values, function (key) {
-                                var value = dataItem.values[key].workingValue; // can not use getWorkingValue here!
-                                if ($type.isNumber(value)) {
-                                    if (!$type.isNumber(total[key])) {
-                                        total[key] = Math.abs(value);
+                    this_1.series.each(function (series) {
+                        if (!series.excludeFromTotal) {
+                            var dataItem_1 = series.dataItems.getIndex(i);
+                            if (dataItem_1) {
+                                $object.each(dataItem_1.values, function (key) {
+                                    var value = dataItem_1.values[key].workingValue; // can not use getWorkingValue here!
+                                    if ($type.isNumber(value)) {
+                                        if (!$type.isNumber(total[key])) {
+                                            total[key] = Math.abs(value);
+                                        }
+                                        else {
+                                            total[key] += Math.abs(value);
+                                        }
                                     }
-                                    else {
-                                        total[key] += Math.abs(value);
-                                    }
-                                }
-                            });
+                                });
+                            }
                         }
                     });
-                    $iter.each(this_1.series.iterator(), function (series) {
-                        var dataItem = series.dataItems.getIndex(i);
-                        if (dataItem) {
-                            $object.each(dataItem.values, function (key) {
-                                var value = dataItem.values[key].workingValue; // can not use getWorkingValue here!
-                                if ($type.isNumber(value)) {
-                                    dataItem.setCalculatedValue(key, total[key], "total");
-                                    dataItem.setCalculatedValue(key, 100 * value / total[key], "totalPercent");
-                                }
-                            });
+                    this_1.series.each(function (series) {
+                        if (!series.excludeFromTotal) {
+                            var dataItem_2 = series.dataItems.getIndex(i);
+                            if (dataItem_2) {
+                                $object.each(dataItem_2.values, function (key) {
+                                    var value = dataItem_2.values[key].workingValue; // can not use getWorkingValue here!
+                                    if ($type.isNumber(value)) {
+                                        dataItem_2.setCalculatedValue(key, total[key], "total");
+                                        dataItem_2.setCalculatedValue(key, 100 * value / total[key], "totalPercent");
+                                    }
+                                });
+                            }
                         }
                     });
                 };
@@ -754,7 +759,7 @@ var ValueAxis = /** @class */ (function (_super) {
         var max = Number.NEGATIVE_INFINITY;
         // only if min and max are not set from outside, we go through min and max influencers
         if (!$type.isNumber(this._minDefined) || !$type.isNumber(this._maxDefined)) {
-            $iter.each(this.series.iterator(), function (series) {
+            this.series.each(function (series) {
                 if (!series.ignoreMinMax) {
                     // check min
                     var seriesMin = series.min(_this);
@@ -768,6 +773,20 @@ var ValueAxis = /** @class */ (function (_super) {
                     }
                 }
             });
+            if (this.includeRangesInMinMax) {
+                this.axisRanges.each(function (range) {
+                    if (!range.ignoreMinMax) {
+                        var minValue = $math.min(range.value, range.endValue);
+                        var maxValue = $math.max(range.value, range.endValue);
+                        if (minValue < min || !$type.isNumber(min)) {
+                            min = minValue;
+                        }
+                        if (maxValue > max || !$type.isNumber(max)) {
+                            max = maxValue;
+                        }
+                    }
+                });
+            }
         }
         if (this.logarithmic) {
             if (min <= 0) {
@@ -1239,6 +1258,20 @@ var ValueAxis = /** @class */ (function (_super) {
                 }
             }
         });
+        if (this.includeRangesInMinMax) {
+            this.axisRanges.each(function (range) {
+                if (!range.ignoreMinMax) {
+                    var minValue = $math.min(range.value, range.endValue);
+                    var maxValue = $math.max(range.value, range.endValue);
+                    if (minValue < selectionMax) {
+                        selectionMax = minValue;
+                    }
+                    if (maxValue > selectionMax) {
+                        selectionMax = maxValue;
+                    }
+                }
+            });
+        }
         // this is not good, as if date axis is initially zoomed, selection of y axis is reset to 0, 1 at the end of this method
         //$iter.each(this.series.iterator(), (series) => {
         //	if (!series.appeared) {
@@ -1405,6 +1438,27 @@ var ValueAxis = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("keepSelection", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ValueAxis.prototype, "includeRangesInMinMax", {
+        /**
+         * @return Include ranges?
+         */
+        get: function () {
+            return this.getPropertyValue("includeRangesInMinMax");
+        },
+        /**
+         * If set to `true`, values of axis ranges will be included when calculating
+         * range of values / scale of the [[ValueAxis]].
+         *
+         * @default false
+         * @since 4.4.9
+         * @param  value  Include ranges?
+         */
+        set: function (value) {
+            this.setPropertyValue("includeRangesInMinMax", value);
         },
         enumerable: true,
         configurable: true

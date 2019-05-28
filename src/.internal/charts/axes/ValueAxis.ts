@@ -126,6 +126,7 @@ export interface IValueAxisProperties extends IAxisProperties {
 	extraMin?: number;
 	extraMax?: number;
 	keepSelection?: boolean;
+	includeRangesInMinMax?: boolean;
 }
 
 /**
@@ -403,6 +404,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		this.setPropertyValue("strictMinMax", false);
 		this.setPropertyValue("maxPrecision", Number.MAX_VALUE);
 		this.keepSelection = false;
+		this.includeRangesInMinMax = false;
 
 		// Apply theme
 		this.applyTheme();
@@ -489,35 +491,39 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 					// This has to be `var` in order to avoid garbage collection
 					const total: { [index: string]: number } = {};
 
-					$iter.each(this.series.iterator(), (series) => {
-						let dataItem: XYSeriesDataItem = series.dataItems.getIndex(i);
-						if (dataItem) {
-							$object.each(dataItem.values, (key) => {
-								let value: number = dataItem.values[key].workingValue; // can not use getWorkingValue here!
+					this.series.each((series) => {
+						if (!series.excludeFromTotal) {
+							let dataItem: XYSeriesDataItem = series.dataItems.getIndex(i);
+							if (dataItem) {
+								$object.each(dataItem.values, (key) => {
+									let value: number = dataItem.values[key].workingValue; // can not use getWorkingValue here!
 
-								if ($type.isNumber(value)) {
-									if (!$type.isNumber(total[key])) {
-										total[key] = Math.abs(value);
+									if ($type.isNumber(value)) {
+										if (!$type.isNumber(total[key])) {
+											total[key] = Math.abs(value);
+										}
+										else {
+											total[key] += Math.abs(value);
+										}
 									}
-									else {
-										total[key] += Math.abs(value);
-									}
-								}
-							});
+								});
+							}
 						}
 					});
 
 
-					$iter.each(this.series.iterator(), (series) => {
-						let dataItem: XYSeriesDataItem = series.dataItems.getIndex(i);
-						if (dataItem) {
-							$object.each(dataItem.values, (key) => {
-								let value: number = dataItem.values[key].workingValue; // can not use getWorkingValue here!
-								if ($type.isNumber(value)) {
-									dataItem.setCalculatedValue(key, total[key], "total");
-									dataItem.setCalculatedValue(key, 100 * value / total[key], "totalPercent");
-								}
-							});
+					this.series.each((series) => {
+						if (!series.excludeFromTotal) {
+							let dataItem: XYSeriesDataItem = series.dataItems.getIndex(i);
+							if (dataItem) {
+								$object.each(dataItem.values, (key) => {
+									let value: number = dataItem.values[key].workingValue; // can not use getWorkingValue here!
+									if ($type.isNumber(value)) {
+										dataItem.setCalculatedValue(key, total[key], "total");
+										dataItem.setCalculatedValue(key, 100 * value / total[key], "totalPercent");
+									}
+								});
+							}
 						}
 					});
 				}
@@ -1069,7 +1075,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 		// only if min and max are not set from outside, we go through min and max influencers
 		if (!$type.isNumber(this._minDefined) || !$type.isNumber(this._maxDefined)) {
-			$iter.each(this.series.iterator(), (series) => {
+			this.series.each((series) => {
 				if (!series.ignoreMinMax) {
 					// check min
 					let seriesMin: number = series.min(this);
@@ -1084,6 +1090,22 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 					}
 				}
 			});
+
+			if (this.includeRangesInMinMax) {
+				this.axisRanges.each((range) => {
+					if (!range.ignoreMinMax) {
+						let minValue = $math.min(range.value, range.endValue);
+						let maxValue = $math.max(range.value, range.endValue);
+
+						if (minValue < min || !$type.isNumber(min)) {
+							min = minValue;
+						}
+						if (maxValue > max || !$type.isNumber(max)) {
+							max = maxValue;
+						}
+					}
+				})
+			}
 		}
 
 		if (this.logarithmic) {
@@ -1617,6 +1639,22 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			}
 		});
 
+		if (this.includeRangesInMinMax) {
+			this.axisRanges.each((range) => {
+				if (!range.ignoreMinMax) {
+					let minValue = $math.min(range.value, range.endValue);
+					let maxValue = $math.max(range.value, range.endValue);
+
+					if (minValue < selectionMax) {
+						selectionMax = minValue;
+					}
+					if (maxValue > selectionMax) {
+						selectionMax = maxValue;
+					}
+				}
+			})
+		}
+
 		// this is not good, as if date axis is initially zoomed, selection of y axis is reset to 0, 1 at the end of this method
 		//$iter.each(this.series.iterator(), (series) => {
 		//	if (!series.appeared) {
@@ -1683,7 +1721,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 		this._minZoomed = selectionMin;
 		this._maxZoomed = selectionMax;
-		this._step = minMaxStep.step;		
+		this._step = minMaxStep.step;
 
 		let start: number = this.valueToPosition(selectionMin);
 		let end: number = this.valueToPosition(selectionMax);
@@ -1693,8 +1731,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			start = 0;
 			end = 1;
 		}
-		
-		if(!this.keepSelection){
+
+		if (!this.keepSelection) {
 			this.zoom({ start: start, end: end }, false, false, 0);
 		}
 	}
@@ -1797,7 +1835,24 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		return this.getPropertyValue("keepSelection");
 	}
 
+	/**
+	 * If set to `true`, values of axis ranges will be included when calculating
+	 * range of values / scale of the [[ValueAxis]].
+	 *
+	 * @default false
+	 * @since 4.4.9
+	 * @param  value  Include ranges?
+	 */
+	public set includeRangesInMinMax(value: boolean) {
+		this.setPropertyValue("includeRangesInMinMax", value);
+	}
 
+	/**
+	 * @return Include ranges?
+	 */
+	public get includeRangesInMinMax(): boolean {
+		return this.getPropertyValue("includeRangesInMinMax");
+	}
 
 	/**
 	 * Maximum number of decimals to allow when placing grid lines and labels

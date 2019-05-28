@@ -511,6 +511,9 @@ var Axis = /** @class */ (function (_super) {
          * @default true
          */
         _this.autoDispose = true;
+        if (_this.constructor === Axis) {
+            throw new Error("'Axis' cannot be instantiated directly. Please use a specific axis type.");
+        }
         _this.className = "Axis";
         _this.shouldClone = false;
         _this.setPropertyValue("cursorTooltipEnabled", true);

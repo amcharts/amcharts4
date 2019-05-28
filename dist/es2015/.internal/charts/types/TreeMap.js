@@ -55,6 +55,30 @@ var TreeMapDataItem = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    Object.defineProperty(TreeMapDataItem.prototype, "legendDataItem", {
+        /**
+         * @return Legend data item
+         */
+        get: function () {
+            return this._legendDataItem;
+        },
+        /**
+         * A legend's data item, that corresponds to this data item.
+         *
+         * @param value  Legend data item
+         */
+        set: function (value) {
+            this._legendDataItem = value;
+            if (value.label) {
+                value.label.dataItem = this;
+            }
+            if (value.valueLabel) {
+                value.valueLabel.dataItem = this;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Returns a duration (ms) the Data Item should take to animate from one
      * value to another.
@@ -297,6 +321,17 @@ var TreeMapDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(TreeMapDataItem.prototype, "fill", {
+        /**
+         * @ignore
+         * For the legend to work properly
+         */
+        get: function () {
+            return this.color;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(TreeMapDataItem.prototype, "series", {
         get: function () {
             return this._series;
@@ -318,6 +353,39 @@ var TreeMapDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Hides the Data Item and related visual elements.
+     *
+     * @param duration  Animation duration (ms)
+     * @param delay     Delay animation (ms)
+     * @param toValue   A value to set to `fields` when hiding
+     * @param fields    A list of data fields to set value to `toValue`
+     */
+    TreeMapDataItem.prototype.hide = function (duration, delay, toValue, fields) {
+        this.setWorkingValue("value", 0);
+        if (this.children) {
+            this.children.each(function (child) {
+                child.hide(duration, delay, toValue, fields);
+            });
+        }
+        return _super.prototype.hide.call(this, duration, delay, toValue, fields);
+    };
+    /**
+     * Shows the Data Item and related visual elements.
+     *
+     * @param duration  Animation duration (ms)
+     * @param delay     Delay animation (ms)
+     * @param fields    A list of fields to set values of
+     */
+    TreeMapDataItem.prototype.show = function (duration, delay, fields) {
+        this.setWorkingValue("value", this.values.value.value);
+        if (this.children) {
+            this.children.each(function (child) {
+                child.show(duration, delay, fields);
+            });
+        }
+        return _super.prototype.show.call(this, duration, delay, fields);
+    };
     return TreeMapDataItem;
 }(XYChartDataItem));
 export { TreeMapDataItem };
@@ -1116,6 +1184,23 @@ var TreeMap = /** @class */ (function (_super) {
             this.invalidateDataItems();
         }
     };
+    TreeMap.prototype.getLegendLevel = function (dataItem) {
+        if (!dataItem) {
+            return;
+        }
+        if (!dataItem.children) {
+            return;
+        }
+        if (dataItem.children.length > 1) {
+            return dataItem;
+        }
+        else if (dataItem.children.length == 1) {
+            return this.getLegendLevel(dataItem.children.getIndex(0));
+        }
+        else {
+            return dataItem;
+        }
+    };
     /**
      * Setups the legend to use the chart's data.
      * @ignore
@@ -1123,16 +1208,17 @@ var TreeMap = /** @class */ (function (_super) {
     TreeMap.prototype.feedLegend = function () {
         var legend = this.legend;
         if (legend) {
-            var legendData_1 = [];
-            $iter.each(this.series.iterator(), function (series) {
-                if (series.level == 1) {
-                    if (!series.hiddenInLegend) {
-                        legendData_1.push(series);
-                    }
-                }
-            });
             legend.dataFields.name = "name";
-            legend.data = legendData_1;
+            var legendParent = this.getLegendLevel(this._homeDataItem);
+            if (legendParent) {
+                var legendData_1 = [];
+                legendParent.children.each(function (dataItem) {
+                    //if (!dataItem.hiddenInLegend) {
+                    legendData_1.push(dataItem);
+                    //}
+                });
+                legend.data = legendData_1;
+            }
         }
     };
     /**

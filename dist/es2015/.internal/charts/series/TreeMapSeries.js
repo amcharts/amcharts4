@@ -99,6 +99,35 @@ var TreeMapSeriesDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Hides the Data Item and related visual elements.
+     *
+     * @param duration  Animation duration (ms)
+     * @param delay     Delay animation (ms)
+     * @param toValue   A value to set to `fields` when hiding
+     * @param fields    A list of data fields to set value to `toValue`
+     */
+    TreeMapSeriesDataItem.prototype.hide = function (duration, delay, toValue, fields) {
+        var treeMapDataItem = this.treeMapDataItem;
+        if (treeMapDataItem) {
+            treeMapDataItem.hide(duration);
+        }
+        return _super.prototype.hide.call(this, duration, delay, toValue, fields);
+    };
+    /**
+     * Shows the Data Item and related visual elements.
+     *
+     * @param duration  Animation duration (ms)
+     * @param delay     Delay animation (ms)
+     * @param fields    A list of fields to set values of
+     */
+    TreeMapSeriesDataItem.prototype.show = function (duration, delay, fields) {
+        var treeMapDataItem = this.treeMapDataItem;
+        if (treeMapDataItem) {
+            treeMapDataItem.show(duration, delay, fields);
+        }
+        return _super.prototype.show.call(this, duration, delay, fields);
+    };
     return TreeMapSeriesDataItem;
 }(ColumnSeriesDataItem));
 export { TreeMapSeriesDataItem };
@@ -174,7 +203,8 @@ var TreeMapSeries = /** @class */ (function (_super) {
             interpolationDuration = duration;
         }
         this.dataItems.each(function (dataItem) {
-            dataItem.treeMapDataItem.setWorkingValue("value", dataItem.treeMapDataItem.values.value.value);
+            //dataItem.treeMapDataItem.setWorkingValue("value", dataItem.treeMapDataItem.values.value.value);
+            dataItem.show(duration);
         });
         return _super.prototype.showReal.call(this, interpolationDuration);
     };
@@ -191,7 +221,8 @@ var TreeMapSeries = /** @class */ (function (_super) {
         }
         var animation = _super.prototype.hideReal.call(this, interpolationDuration);
         this.dataItems.each(function (dataItem) {
-            dataItem.treeMapDataItem.setWorkingValue("value", 0);
+            //dataItem.treeMapDataItem.setWorkingValue("value", 0);
+            dataItem.hide(duration);
         });
         return animation;
     };

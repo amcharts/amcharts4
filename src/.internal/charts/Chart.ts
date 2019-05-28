@@ -151,6 +151,10 @@ export class Chart extends Component {
 
 		// Init
 		super();
+
+		if (this.constructor === Chart) {
+			throw new Error("'Chart' cannot be instantiated directly. Please use a specific chart type.");
+		}
 		this.className = "Chart";
 
 		// Create a list of titles

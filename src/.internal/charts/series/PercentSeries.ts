@@ -624,6 +624,16 @@ export class PercentSeries extends Series {
 	}
 
 	/**
+	 * Validates (processes) data items.
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public validateDataItems(): void {
+		this.colors.reset();
+		super.validateDataItems();
+	}
+
+	/**
 	 * Validates data item's element, effectively redrawing it.
 	 *
 	 * @ignore Exclude from docs
@@ -635,10 +645,10 @@ export class PercentSeries extends Series {
 
 		if (slice) {
 			if (slice.fill == undefined) {
-				slice.fill = this.colors.getIndex(dataItem.index * this.colors.step);
+				slice.fill = this.colors.next();
 			}
 			if (slice.stroke == undefined) {
-				slice.stroke = this.colors.getIndex(dataItem.index * this.colors.step);
+				slice.stroke = slice.fill;
 			}
 		}
 

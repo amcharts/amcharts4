@@ -34,7 +34,7 @@ import * as $object from "../../core/utils/Object";
 import * as $type from "../../core/utils/Type";
 import * as $array from "../../core/utils/Array";
 import * as $colors from "../../core/utils/Colors";
-
+import { Animation } from "../../core/utils/Animation";
 
 export interface IHeatRule {
 	target: Sprite;
@@ -448,6 +448,10 @@ export class Series extends Component {
 	constructor() {
 		super();
 
+		if (this.constructor === Series) {
+			throw new Error("'Series' cannot be instantiated directly. Please use a specific series type.");
+		}
+
 		this.className = "Series";
 		this.isMeasured = false;
 
@@ -840,6 +844,8 @@ export class Series extends Component {
 		bulletsContainer.x = this.pixelX;
 		bulletsContainer.y = this.pixelY;
 
+		bulletsContainer.visible = !this.isHidden;
+
 
 		if (this.bulletsContainer.children.length > 0) {
 			for (let i = 0; i < this.startIndex; i++) {
@@ -1134,13 +1140,13 @@ export class Series extends Component {
 	 */
 	public set name(value: string) {
 		this.setPropertyValue("name", value);
-		
+
 		let legendDataItem = this.legendDataItem;
-		if(legendDataItem){
+		if (legendDataItem) {
 			legendDataItem.component.invalidate();
 			legendDataItem.component.invalidateRawData();
 		}
-		
+
 		this.readerTitle = value;
 	}
 
@@ -1583,6 +1589,17 @@ export class Series extends Component {
 			return super.configOrder(a, b);
 		}
 	}
+
+	/**
+	 * Shows hidden series.
+	 *
+	 * @param duration  Duration of reveal animation (ms)
+	 * @return Animation
+	 */
+	public show(duration?: number): Animation {
+		this.bulletsContainer.visible = true;
+		return super.show(duration);
+	}	
 }
 
 /**

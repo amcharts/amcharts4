@@ -608,7 +608,20 @@ export class WordCloudSeries extends Series {
 		let minFontSize = $utils.relativeToValue(this.minFontSize, smallerSize);
 		let maxFontSize = $utils.relativeToValue(this.maxFontSize, smallerSize);
 
-		let percent = (dataItem.value - this.dataItem.values.value.low) / this.dataItem.values.value.high;
+		let low = this.dataItem.values.value.low;
+		let high = this.dataItem.values.value.high;
+
+		let percent = (dataItem.value - low) / (high - low);
+
+		if (low == high) {
+			let count = this.dataItems.length;
+			if (count > 1) {
+				percent = 1 / this.dataItems.length * 1.5;
+			}
+			else {
+				percent = 1;
+			}
+		}
 
 		let fontSize = minFontSize + (maxFontSize - minFontSize) * percent * this._adjustedFont;
 
@@ -624,7 +637,7 @@ export class WordCloudSeries extends Series {
 		label.rotation = angle;
 		label.show(0);
 		label.hardInvalidate();
-		label.validate();		
+		label.validate();
 
 		if (label.measuredWidth > w * 0.95 || label.measuredHeight > h * 0.95) {
 			this._adjustedFont -= 0.1;
@@ -650,12 +663,12 @@ export class WordCloudSeries extends Series {
 
 		// TODO is this needed ?
 		$utils.used(this.labelsContainer.rotation);
-		if(this._currentIndex > 0){
+		if (this._currentIndex > 0) {
 			while (intersects) {
 				if (p > this._points.length - 1) {
 					intersects = false;
 					this._adjustedFont -= 0.1;
-					this.invalidateDataItems();				
+					this.invalidateDataItems();
 					return;
 				}
 

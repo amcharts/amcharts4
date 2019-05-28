@@ -71,6 +71,9 @@ var Chart = /** @class */ (function (_super) {
          * @ignore
          */
         _this._legend = new MutableValueDisposer();
+        if (_this.constructor === Chart) {
+            throw new Error("'Chart' cannot be instantiated directly. Please use a specific chart type.");
+        }
         _this.className = "Chart";
         // Create a list of titles
         var template = new Label();

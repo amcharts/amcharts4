@@ -346,6 +346,8 @@ export class ForceDirectedNode extends Container {
 			link.target = node;
 			link.stroke = dataItem.node.fill;
 
+			link.dataItem.dataContext = node.dataItem.dataContext;
+
 			if ($type.isNumber(strength)) {
 				link.strength = strength;
 			}

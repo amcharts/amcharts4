@@ -10,6 +10,7 @@
 import { ColumnSeries, IColumnSeriesProperties, IColumnSeriesDataFields, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "./ColumnSeries";
 import { TreeMap, TreeMapDataItem } from "../types/TreeMap";
 import { Animation } from "../../core/utils/Animation";
+import * as $type from "../../core/utils/Type";
 import { Container } from "../../core/Container";
 /**
  * ============================================================================
@@ -59,6 +60,23 @@ export declare class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
      * @return Data item
      */
     readonly treeMapDataItem: TreeMapDataItem;
+    /**
+     * Hides the Data Item and related visual elements.
+     *
+     * @param duration  Animation duration (ms)
+     * @param delay     Delay animation (ms)
+     * @param toValue   A value to set to `fields` when hiding
+     * @param fields    A list of data fields to set value to `toValue`
+     */
+    hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): $type.Optional<Animation>;
+    /**
+     * Shows the Data Item and related visual elements.
+     *
+     * @param duration  Animation duration (ms)
+     * @param delay     Delay animation (ms)
+     * @param fields    A list of fields to set values of
+     */
+    show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation>;
 }
 /**
  * ============================================================================

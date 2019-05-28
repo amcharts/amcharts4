@@ -311,7 +311,7 @@ export class Responsive extends BaseObjectEvents {
 	 */
 	public set useDefault(value: boolean) {
 		if (this._useDefault != value) {
-			this._useDefault = true;
+			this._useDefault = value;
 
 			// Run `applyRules` so that any currently applied rules can be reset
 			this.applyRules();
@@ -442,7 +442,6 @@ export class Responsive extends BaseObjectEvents {
 				rulesChanged = true;
 			}
 			this._appliedRules[rule.id] = apply;
-
 		});
 
 		// Check if we need to re-apply the rules
@@ -475,6 +474,7 @@ export class Responsive extends BaseObjectEvents {
 
 				// If there's a state, it means it needs to be applied
 				if (state) {
+
 
 					// Check if default state was already applied to this element.
 					// We don't want to go resetting default states to ALL element,

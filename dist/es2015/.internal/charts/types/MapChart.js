@@ -229,18 +229,24 @@ var MapChart = /** @class */ (function (_super) {
      * @ignore
      */
     MapChart.prototype.handlePanDown = function (event) {
-        // Get local point
-        this._downPointOrig = $utils.documentPointToSprite(event.pointer.point, this.seriesContainer);
-        this.panSprite.moveTo(this._downPointOrig);
-        this.panSprite.dragStart(event.pointer);
-        this._downDeltaLongitude = this.deltaLongitude;
-        this._downDeltaLatitude = this.deltaLatitude;
+        var svgPoint = $utils.documentPointToSvg(event.pointer.point, this.htmlContainer);
+        if (svgPoint.x > 0 && svgPoint.y > 0 && svgPoint.x < this.svgContainer.width && svgPoint.y < this.svgContainer.height) {
+            // Get local point
+            this._downPointOrig = $utils.documentPointToSprite(event.pointer.point, this.seriesContainer);
+            this.panSprite.moveTo(this._downPointOrig);
+            this.panSprite.dragStart(event.pointer);
+            this._downDeltaLongitude = this.deltaLongitude;
+            this._downDeltaLatitude = this.deltaLatitude;
+        }
     };
     /**
      * @ignore
      */
     MapChart.prototype.handlePanUp = function (event) {
-        this.panSprite.dragStop(event.pointer);
+        if (this._downPointOrig) {
+            this.panSprite.dragStop(event.pointer);
+        }
+        this._downPointOrig = undefined;
     };
     /**
      * @ignore

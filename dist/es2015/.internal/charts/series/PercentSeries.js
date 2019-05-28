@@ -417,6 +417,15 @@ var PercentSeries = /** @class */ (function (_super) {
     PercentSeries.prototype.initTick = function (label) {
     };
     /**
+     * Validates (processes) data items.
+     *
+     * @ignore Exclude from docs
+     */
+    PercentSeries.prototype.validateDataItems = function () {
+        this.colors.reset();
+        _super.prototype.validateDataItems.call(this);
+    };
+    /**
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
@@ -426,10 +435,10 @@ var PercentSeries = /** @class */ (function (_super) {
         var slice = dataItem.slice;
         if (slice) {
             if (slice.fill == undefined) {
-                slice.fill = this.colors.getIndex(dataItem.index * this.colors.step);
+                slice.fill = this.colors.next();
             }
             if (slice.stroke == undefined) {
-                slice.stroke = this.colors.getIndex(dataItem.index * this.colors.step);
+                slice.stroke = slice.fill;
             }
         }
         // do this at the end, otherwise bullets won't be positioned properly

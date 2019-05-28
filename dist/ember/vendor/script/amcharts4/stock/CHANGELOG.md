@@ -5,6 +5,30 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.4.9] - 2019-05-28
+
+### Added
+- `startIndex` property added to `ColorSet`. This allows to specify from which color charts like `PieChart` should start when picking colors for slices.
+- `excludeFromTotal` property added to `XYSeries` (default: `false`). Allows excluding values of particular series when caluclating totals.
+- `includeRangesInMinMax` property added to `ValueAxis`.
+
+### Changed
+- The chart will now error out if trying to instantiate generic classes like  (`Chart`, `Axis`, `Series`).
+- Legend in `TreeMap` was completely revamped. Previously it used series as data, but as series were not always created, it failed to render items in some cases. Now it uses `TreeMapDataItem` of `TreeMap`.
+- `TreeMap` legend will now show items of first level which has more than one data item.
+- `dataContext` of `ForceDirectedNodeDataItem` will now have the same object as target node's.
+
+### Fixed
+- `responsive.useDefault = false` was being ignored.
+- `DateAxis` with hourly-based data could render some of the labels using date formatter of a changed period even if the period didn't actually change.
+- In some cases `MapChart` could interfere with event objects of other charts on the same page, even when not directly interacting with it.
+- If `baseInterval` of `DateAxis` didn't have `count` set, the chart failed to render.
+- Setting data on hidden Series resulted tooltips on invisible bullets to be shown.
+- `WordCloudSeries` with single label or several labels with the same values was displaying labels using `minFontSize`.
+- `axis.createSeriesRange()` was not working with `RadarColumnSeries`.
+- When data was added to a chart, series could flicker at incorrect position before rendering properly. Also the same could happen when zooming chart (it was only visible if animated theme was not in use).
+
+
 ## [4.4.8] - 2019-05-23
 
 ### Added

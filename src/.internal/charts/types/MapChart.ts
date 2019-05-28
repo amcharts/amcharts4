@@ -739,20 +739,26 @@ export class MapChart extends SerialChart {
 	 * @ignore
 	 */
 	protected handlePanDown(event: IInteractionEvents["down"]): void {
-		// Get local point
-		this._downPointOrig = $utils.documentPointToSprite(event.pointer.point, this.seriesContainer);
-		this.panSprite.moveTo(this._downPointOrig);
-		this.panSprite.dragStart(event.pointer);
-		this._downDeltaLongitude = this.deltaLongitude;
-		this._downDeltaLatitude = this.deltaLatitude;
+		let svgPoint = $utils.documentPointToSvg(event.pointer.point, this.htmlContainer);
+		if(svgPoint.x > 0 && svgPoint.y > 0 && svgPoint.x < this.svgContainer.width && svgPoint.y < this.svgContainer.height){
+			// Get local point
+			this._downPointOrig = $utils.documentPointToSprite(event.pointer.point, this.seriesContainer);
 
+			this.panSprite.moveTo(this._downPointOrig);
+			this.panSprite.dragStart(event.pointer);
+			this._downDeltaLongitude = this.deltaLongitude;
+			this._downDeltaLatitude = this.deltaLatitude;
+		}
 	}
 
 	/**
 	 * @ignore
 	 */
 	protected handlePanUp(event: IInteractionEvents["down"]): void {
-		this.panSprite.dragStop(event.pointer);
+		if(this._downPointOrig){
+			this.panSprite.dragStop(event.pointer);	
+		}		
+		this._downPointOrig = undefined;
 	}
 
 	/**

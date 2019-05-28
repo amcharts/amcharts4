@@ -389,6 +389,7 @@ var XYSeries = /** @class */ (function (_super) {
         _this.isMeasured = false;
         _this.cursorTooltipEnabled = true;
         _this.cursorHoverEnabled = true;
+        _this.excludeFromTotal = false;
         _this.mainContainer.mask = new Sprite();
         _this.mainContainer.mask.setElement(_this.paper.add("path"));
         _this.stacked = false;
@@ -1706,6 +1707,26 @@ var XYSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("cursorHoverEnabled", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(XYSeries.prototype, "excludeFromTotal", {
+        /**
+         * @return Exclude from totals?
+         */
+        get: function () {
+            return this.getPropertyValue("excludeFromTotal");
+        },
+        /**
+         * Indicates if series' values should be excluded when calculating totals.
+         *
+         * @default false
+         * @since 4.4.9
+         * @param  value  Exclude from totals?
+         */
+        set: function (value) {
+            this.setPropertyValue("excludeFromTotal", value);
         },
         enumerable: true,
         configurable: true

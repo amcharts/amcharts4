@@ -462,6 +462,9 @@ var DateAxis = /** @class */ (function (_super) {
                 }
                 series.startIndex = startIndex;
                 series.endIndex = endIndex;
+                if (series.dataRangeInvalid) {
+                    series.validateDataRange();
+                }
             }
         });
     };
@@ -1199,6 +1202,9 @@ var DateAxis = /** @class */ (function (_super) {
         set: function (timeInterval) {
             if (JSON.stringify(this._baseInterval) != JSON.stringify(timeInterval)) {
                 this._baseInterval = timeInterval;
+                if (!$type.isNumber(timeInterval.count)) {
+                    timeInterval.count = 1;
+                }
                 this.invalidate();
                 this.postProcessSeriesDataItems();
             }

@@ -336,7 +336,18 @@ var WordCloudSeries = /** @class */ (function (_super) {
         var smallerSize = $math.min(this.innerHeight, this.innerWidth);
         var minFontSize = $utils.relativeToValue(this.minFontSize, smallerSize);
         var maxFontSize = $utils.relativeToValue(this.maxFontSize, smallerSize);
-        var percent = (dataItem.value - this.dataItem.values.value.low) / this.dataItem.values.value.high;
+        var low = this.dataItem.values.value.low;
+        var high = this.dataItem.values.value.high;
+        var percent = (dataItem.value - low) / (high - low);
+        if (low == high) {
+            var count = this.dataItems.length;
+            if (count > 1) {
+                percent = 1 / this.dataItems.length * 1.5;
+            }
+            else {
+                percent = 1;
+            }
+        }
         var fontSize = minFontSize + (maxFontSize - minFontSize) * percent * this._adjustedFont;
         var initialFontSize = label.fontSize;
         label.fontSize = fontSize;

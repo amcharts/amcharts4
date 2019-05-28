@@ -170,7 +170,7 @@ var Responsive = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this._useDefault != value) {
-                this._useDefault = true;
+                this._useDefault = value;
                 // Run `applyRules` so that any currently applied rules can be reset
                 this.applyRules();
             }

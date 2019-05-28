@@ -523,6 +523,13 @@ export interface IXYSeriesProperties extends ISeriesProperties {
 	 * @default true
 	 */
 	cursorHoverEnabled?: boolean;
+
+	/**
+	 * Indicates if series' values should be excluded when calculating totals.
+	 * 
+	 * @default false
+	 */
+	excludeFromTotal?: boolean;
 }
 
 /**
@@ -705,6 +712,7 @@ export class XYSeries extends Series {
 		this.cursorTooltipEnabled = true;
 
 		this.cursorHoverEnabled = true;
+		this.excludeFromTotal = false;
 
 		this.mainContainer.mask = new Sprite();
 		this.mainContainer.mask.setElement(this.paper.add("path"));
@@ -818,7 +826,7 @@ export class XYSeries extends Series {
 	 */
 	protected updateDataItem(dataItem: this["_dataItem"]): void {
 		super.updateDataItem(dataItem);
-		
+
 		//dataItem.events.disable();
 		this.xAxis.processSeriesDataItem(dataItem, "X");
 		this.yAxis.processSeriesDataItem(dataItem, "Y");
@@ -847,7 +855,7 @@ export class XYSeries extends Series {
 			if (dataItemsX) {
 				dataItemsX.clear();
 			}
-			if(this.xAxis instanceof CategoryAxis){
+			if (this.xAxis instanceof CategoryAxis) {
 				this.clearCatAxis(this.xAxis);
 			}
 		}
@@ -856,19 +864,19 @@ export class XYSeries extends Series {
 			if (dataItemsY) {
 				dataItemsY.clear();
 			}
-			if(this.yAxis instanceof CategoryAxis){
+			if (this.yAxis instanceof CategoryAxis) {
 				this.clearCatAxis(this.yAxis);
-			}			
+			}
 		}
 	}
 
 	/**
 	 * @ignore
 	 */
-	protected clearCatAxis(axis:CategoryAxis){
+	protected clearCatAxis(axis: CategoryAxis) {
 		let uid = this.uid;
-		axis.dataItems.each((dataItem)=>{
-			if(dataItem.seriesDataItems[uid]){
+		axis.dataItems.each((dataItem) => {
+			if (dataItem.seriesDataItems[uid]) {
 				dataItem.seriesDataItems[uid] = [];
 			}
 		})
@@ -1311,7 +1319,7 @@ export class XYSeries extends Series {
 			}
 		}
 
-		if(!working && this.stacked){
+		if (!working && this.stacked) {
 			this.processValues(true);
 		}
 	}
@@ -1439,7 +1447,7 @@ export class XYSeries extends Series {
 		}
 	}
 
-	protected shouldCreateBullet(dataItem: this["_dataItem"], bulletTemplate:Bullet): boolean {
+	protected shouldCreateBullet(dataItem: this["_dataItem"], bulletTemplate: Bullet): boolean {
 		// use series xField/yField if bullet doesn't have fields set
 		let xField: string = bulletTemplate.xField;
 		if (!$type.hasValue(xField)) {
@@ -1456,103 +1464,103 @@ export class XYSeries extends Series {
 		}
 
 		return true;
-	}	
+	}
 
-/*
-	public positionBullet(bullet: Bullet) {
-		super.positionBullet(bullet);
-
-		let dataItem:XYSeriesDataItem = <XYSeriesDataItem>bullet.dataItem;
-
-		// use series xField/yField if bullet doesn't have fields set
-		let xField: string = bullet.xField;
-		if (!$type.hasValue(xField)) {
-			xField = this.xField;
-		}
-
-		let yField: string = bullet.yField;
-		if (!$type.hasValue(yField)) {
-			yField = this.yField;
-		}
-
-		if ((this.xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (this.yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
-			bullet.visible = false;
-		}
-		else {
-			let bulletLocationX: number = this.getBulletLocationX(bullet, xField);
-			let bulletLocationY: number = this.getBulletLocationY(bullet, yField);
-
-			let point = this.getPoint(dataItem, xField, yField, bulletLocationX, bulletLocationY);
-			if (point) {
-				let xOpenField = this.xOpenField;
-				let yOpenField = this.yOpenField;
-
-				let xAxis = this.xAxis;
-				let yAxis = this.yAxis;
-				let positionX:number;
-				let positionY:number;
-		
-				if((xAxis instanceof DateAxis && (xOpenField && xOpenField != xField)) || xAxis instanceof ValueAxis){
-
-					if(!$type.isNumber(bulletLocationX)){
-						bulletLocationX = 0;
-					}
-
-					let openValue:number;
-					let closeValue:number = dataItem.getWorkingValue(xField);
-
-					if(!xOpenField){
-						openValue = xAxis.min;
-					}
-					else{
-						openValue = dataItem.getWorkingValue(xOpenField);
-					}
-					let middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationX);
-
-					positionX = xAxis.valueToPosition(middleValue);					
-				}
-				else if(xAxis instanceof CategoryAxis){
-					positionX = xAxis.categoryToPosition((<any>dataItem)[xField], bulletLocationX);
-				}	
-
-				if((yAxis instanceof DateAxis &&  (yOpenField && yOpenField != yField)) || yAxis instanceof ValueAxis){
-
-					if(!$type.isNumber(bulletLocationY)){
-						bulletLocationY = 0;
-					}					
-
-					let openValue:number;
-					let closeValue:number = dataItem.getWorkingValue(yField);
-
-					if(!yOpenField){
-						openValue = yAxis.min;
-					}
-					else{
-						openValue = dataItem.getWorkingValue(yOpenField);
-					}
-					let middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationY);
-
-					positionY = yAxis.valueToPosition(middleValue);
-				}				
-				else if(yAxis instanceof CategoryAxis){
-					positionY = yAxis.categoryToPosition((<any>dataItem)[yField], bulletLocationY);					
-				}
-
-				bullet.visible = true;
-
-				this.positionBulletReal(bullet, positionX, positionY);
+	/*
+		public positionBullet(bullet: Bullet) {
+			super.positionBullet(bullet);
+	
+			let dataItem:XYSeriesDataItem = <XYSeriesDataItem>bullet.dataItem;
+	
+			// use series xField/yField if bullet doesn't have fields set
+			let xField: string = bullet.xField;
+			if (!$type.hasValue(xField)) {
+				xField = this.xField;
 			}
-			else {
+	
+			let yField: string = bullet.yField;
+			if (!$type.hasValue(yField)) {
+				yField = this.yField;
+			}
+	
+			if ((this.xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (this.yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
 				bullet.visible = false;
 			}
+			else {
+				let bulletLocationX: number = this.getBulletLocationX(bullet, xField);
+				let bulletLocationY: number = this.getBulletLocationY(bullet, yField);
+	
+				let point = this.getPoint(dataItem, xField, yField, bulletLocationX, bulletLocationY);
+				if (point) {
+					let xOpenField = this.xOpenField;
+					let yOpenField = this.yOpenField;
+	
+					let xAxis = this.xAxis;
+					let yAxis = this.yAxis;
+					let positionX:number;
+					let positionY:number;
+			
+					if((xAxis instanceof DateAxis && (xOpenField && xOpenField != xField)) || xAxis instanceof ValueAxis){
+	
+						if(!$type.isNumber(bulletLocationX)){
+							bulletLocationX = 0;
+						}
+	
+						let openValue:number;
+						let closeValue:number = dataItem.getWorkingValue(xField);
+	
+						if(!xOpenField){
+							openValue = xAxis.min;
+						}
+						else{
+							openValue = dataItem.getWorkingValue(xOpenField);
+						}
+						let middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationX);
+	
+						positionX = xAxis.valueToPosition(middleValue);					
+					}
+					else if(xAxis instanceof CategoryAxis){
+						positionX = xAxis.categoryToPosition((<any>dataItem)[xField], bulletLocationX);
+					}	
+	
+					if((yAxis instanceof DateAxis &&  (yOpenField && yOpenField != yField)) || yAxis instanceof ValueAxis){
+	
+						if(!$type.isNumber(bulletLocationY)){
+							bulletLocationY = 0;
+						}					
+	
+						let openValue:number;
+						let closeValue:number = dataItem.getWorkingValue(yField);
+	
+						if(!yOpenField){
+							openValue = yAxis.min;
+						}
+						else{
+							openValue = dataItem.getWorkingValue(yOpenField);
+						}
+						let middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationY);
+	
+						positionY = yAxis.valueToPosition(middleValue);
+					}				
+					else if(yAxis instanceof CategoryAxis){
+						positionY = yAxis.categoryToPosition((<any>dataItem)[yField], bulletLocationY);					
+					}
+	
+					bullet.visible = true;
+	
+					this.positionBulletReal(bullet, positionX, positionY);
+				}
+				else {
+					bullet.visible = false;
+				}
+			}
+		}	
+	
+		protected positionBulletReal(bullet:Sprite, positionX:number, positionY:number){
+			bullet.x = this.xAxis.renderer.positionToPoint(positionX).x;
+			bullet.y = this.yAxis.renderer.positionToPoint(positionY).y;
 		}
-	}	
-
-	protected positionBulletReal(bullet:Sprite, positionX:number, positionY:number){
-		bullet.x = this.xAxis.renderer.positionToPoint(positionX).x;
-		bullet.y = this.yAxis.renderer.positionToPoint(positionY).y;
-	}
-*/
+	*/
 
 
 
@@ -2168,6 +2176,24 @@ export class XYSeries extends Series {
 	 */
 	public get cursorHoverEnabled(): boolean {
 		return this.getPropertyValue("cursorHoverEnabled");
+	}
+
+	/**
+	 * Indicates if series' values should be excluded when calculating totals.
+	 * 
+	 * @default false
+	 * @since 4.4.9
+	 * @param  value  Exclude from totals?
+	 */
+	public set excludeFromTotal(value: boolean) {
+		this.setPropertyValue("excludeFromTotal", value);
+	}
+
+	/**
+	 * @return Exclude from totals?
+	 */
+	public get excludeFromTotal(): boolean {
+		return this.getPropertyValue("excludeFromTotal");
 	}
 
 }

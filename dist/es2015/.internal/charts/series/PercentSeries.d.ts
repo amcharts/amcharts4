@@ -324,6 +324,12 @@ export declare class PercentSeries extends Series {
     protected initLabel(label: this["_label"]): void;
     protected initTick(label: this["_tick"]): void;
     /**
+     * Validates (processes) data items.
+     *
+     * @ignore Exclude from docs
+     */
+    validateDataItems(): void;
+    /**
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs

@@ -67,6 +67,12 @@ export class ColorSet extends BaseObject {
 	protected _currentStep: number = 0;
 
 	/**
+	 * If set to non-zero value, the ColorSet will start iterating colors from
+	 * that particular index, not the first color in the list.
+	 */
+	protected _startIndex: number = 0;
+
+	/**
 	 * Current pass in the color generator's cycle. Normally a generator would
 	 * cycle through all available hue range, then repeat it, alternating other
 	 * color properties, to generate distinctive colors.
@@ -281,7 +287,7 @@ export class ColorSet extends BaseObject {
 	 * list, even if it was already returned before.
 	 */
 	public reset(): void {
-		this._currentStep = 0;
+		this._currentStep = this._startIndex;
 	}
 
 	/**
@@ -302,6 +308,26 @@ export class ColorSet extends BaseObject {
 	 */
 	public get currentStep(): number {
 		return this._currentStep;
+	}
+
+	/**
+	 * If set to non-zero value, the ColorSet will start iterating colors from
+	 * that particular index, not the first color in the list.
+	 *
+	 * @default 0
+	 * @since 4.4.9
+	 * @param  value  Index
+	 */
+	public set startIndex(value: number) {
+		this._startIndex = value;
+		this.reset();
+	}
+
+	/**
+	 * @return Index
+	 */
+	public get startIndex(): number {
+		return this._startIndex;
 	}
 
 	/**

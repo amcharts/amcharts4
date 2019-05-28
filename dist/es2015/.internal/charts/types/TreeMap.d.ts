@@ -20,6 +20,9 @@ import { TreeMapSeriesDataItem } from "../series/TreeMapSeries";
 import { NavigationBar } from "../elements/NavigationBar";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { Export } from "../../core/export/Export";
+import * as $type from "../../core/utils/Type";
+import { Animation } from "../../core/utils/Animation";
+import { LegendDataItem } from "../../charts/Legend";
 /**
  * ============================================================================
  * DATA ITEM
@@ -67,9 +70,22 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      */
     dice: boolean;
     /**
+     * A reference to a corresponding legend data item.
+     */
+    protected _legendDataItem: LegendDataItem;
+    /**
      * Constructor
      */
     constructor();
+    /**
+     * @return Legend data item
+     */
+    /**
+     * A legend's data item, that corresponds to this data item.
+     *
+     * @param value  Legend data item
+     */
+    legendDataItem: LegendDataItem;
     /**
      * Returns a duration (ms) the Data Item should take to animate from one
      * value to another.
@@ -182,10 +198,32 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      */
     color: Color;
     /**
+     * @ignore
+     * For the legend to work properly
+     */
+    readonly fill: Color;
+    /**
      * Series of children data items
      * @todo: proper descrition
      */
     series: TreeMapSeries;
+    /**
+     * Hides the Data Item and related visual elements.
+     *
+     * @param duration  Animation duration (ms)
+     * @param delay     Delay animation (ms)
+     * @param toValue   A value to set to `fields` when hiding
+     * @param fields    A list of data fields to set value to `toValue`
+     */
+    hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): $type.Optional<Animation>;
+    /**
+     * Shows the Data Item and related visual elements.
+     *
+     * @param duration  Animation duration (ms)
+     * @param delay     Delay animation (ms)
+     * @param fields    A list of fields to set values of
+     */
+    show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation>;
 }
 /**
  * ============================================================================
@@ -615,6 +653,7 @@ export declare class TreeMap extends XYChart {
      */
     handleDataItemValueChange(dataItem?: this["_dataItem"], name?: string): void;
     handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void;
+    protected getLegendLevel(dataItem: TreeMapDataItem): TreeMapDataItem;
     /**
      * Setups the legend to use the chart's data.
      * @ignore

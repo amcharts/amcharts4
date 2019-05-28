@@ -26,6 +26,8 @@ import { Export } from "../../core/export/Export";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $array from "../../core/utils/Array";
+import { Animation } from "../../core/utils/Animation";
+import { LegendDataItem } from "../../charts/Legend";
 
 /**
  * ============================================================================
@@ -83,6 +85,11 @@ export class TreeMapDataItem extends XYChartDataItem {
 	public dice: boolean;
 
 	/**
+	 * A reference to a corresponding legend data item.
+	 */
+	protected _legendDataItem: LegendDataItem;
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -102,6 +109,28 @@ export class TreeMapDataItem extends XYChartDataItem {
 		this.hasChildren.children = true;
 
 		this.applyTheme();
+	}
+
+	/**
+	 * A legend's data item, that corresponds to this data item.
+	 *
+	 * @param value  Legend data item
+	 */
+	public set legendDataItem(value: LegendDataItem) {
+		this._legendDataItem = value;
+		if (value.label) {
+			value.label.dataItem = this;
+		}
+		if (value.valueLabel) {
+			value.valueLabel.dataItem = this;
+		}
+	}
+
+	/**
+	 * @return Legend data item
+	 */
+	public get legendDataItem(): LegendDataItem {
+		return this._legendDataItem;
 	}
 
 	/**
@@ -312,6 +341,14 @@ export class TreeMapDataItem extends XYChartDataItem {
 	}
 
 	/**
+	 * @ignore
+	 * For the legend to work properly
+	 */
+	public get fill(): Color {
+		return this.color;
+	}
+
+	/**
 	 * @return Color
 	 */
 	public get color(): Color {
@@ -347,6 +384,42 @@ export class TreeMapDataItem extends XYChartDataItem {
 
 	public get series(): TreeMapSeries {
 		return this._series;
+	}
+
+	/**
+	 * Hides the Data Item and related visual elements.
+	 *
+	 * @param duration  Animation duration (ms)
+	 * @param delay     Delay animation (ms)
+	 * @param toValue   A value to set to `fields` when hiding
+	 * @param fields    A list of data fields to set value to `toValue`
+	 */
+	public hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): $type.Optional<Animation> {
+		this.setWorkingValue("value", 0);
+		if (this.children) {
+			this.children.each((child) => {
+				child.hide(duration, delay, toValue, fields);
+			})
+		}
+
+		return super.hide(duration, delay, toValue, fields);
+	}
+
+	/**
+	 * Shows the Data Item and related visual elements.
+	 *
+	 * @param duration  Animation duration (ms)
+	 * @param delay     Delay animation (ms)
+	 * @param fields    A list of fields to set values of
+	 */
+	public show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation> {
+		this.setWorkingValue("value", this.values.value.value);
+		if (this.children) {
+			this.children.each((child) => {
+				child.show(duration, delay, fields);
+			})
+		}
+		return super.show(duration, delay, fields);
 	}
 }
 
@@ -655,7 +728,7 @@ export class TreeMap extends XYChart {
 			navigationBar.toBack();
 			navigationBar.links.template.events.on("hit", (event) => {
 				let dataItem = <TreeMapDataItem>event.target.dataItem.dataContext;
-				if(!dataItem.isDisposed()){
+				if (!dataItem.isDisposed()) {
 					this.zoomToChartDataItem(dataItem);
 					this.createTreeSeries(dataItem);
 				}
@@ -825,7 +898,7 @@ export class TreeMap extends XYChart {
 		}
 	}
 
-	protected setData(value:any[]){
+	protected setData(value: any[]) {
 		this.currentLevel = 0;
 		this.currentlyZoomed = undefined;
 		this.xAxis.start = 0;
@@ -1432,6 +1505,27 @@ export class TreeMap extends XYChart {
 		}
 	}
 
+	protected getLegendLevel(dataItem: TreeMapDataItem): TreeMapDataItem {
+		if (!dataItem) {
+			return;
+		}
+
+		if (!dataItem.children) {
+			return;
+		}
+
+		if (dataItem.children.length > 1) {
+			return dataItem;
+		}
+		else if (dataItem.children.length == 1) {
+			return this.getLegendLevel(dataItem.children.getIndex(0));
+		}
+		else {
+			return dataItem;
+		}
+	}
+
+
 	/**
 	 * Setups the legend to use the chart's data.
 	 * @ignore
@@ -1439,18 +1533,21 @@ export class TreeMap extends XYChart {
 	public feedLegend(): void {
 		let legend = this.legend;
 		if (legend) {
-			let legendData: Array<this["_seriesType"]> = [];
-
-			$iter.each(this.series.iterator(), (series) => {
-				if (series.level == 1) {
-					if (!series.hiddenInLegend) {
-						legendData.push(series);
-					}
-				}
-			});
 
 			legend.dataFields.name = "name";
-			legend.data = legendData;
+
+			let legendParent = this.getLegendLevel(this._homeDataItem);
+			if (legendParent) {
+				let legendData: Array<this["_dataItem"]> = [];
+
+				legendParent.children.each((dataItem) => {
+					//if (!dataItem.hiddenInLegend) {
+					legendData.push(dataItem);
+					//}
+				});
+
+				legend.data = legendData;
+			}
 		}
 	}
 
@@ -1483,7 +1580,7 @@ export class TreeMap extends XYChart {
 		const exporting = super.getExporting();
 		exporting.adapter.add("formatDataFields", (info) => {
 			if (info.format == "csv" || info.format == "xlsx") {
-				if($type.hasValue(this.dataFields.children)) {
+				if ($type.hasValue(this.dataFields.children)) {
 					delete info.dataFields[this.dataFields.children];
 				}
 			}

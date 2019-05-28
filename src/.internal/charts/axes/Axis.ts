@@ -825,6 +825,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 
 		// Init
 		super();
+		if (this.constructor === Axis) {
+			throw new Error("'Axis' cannot be instantiated directly. Please use a specific axis type.");
+		}
 		this.className = "Axis";
 		this.shouldClone = false;
 		this.setPropertyValue("cursorTooltipEnabled", true);

@@ -169,7 +169,7 @@ var RadarColumnSeries = /** @class */ (function (_super) {
                     _this.setColumnStates(rangeColumn);
                     dataItem.rangesColumns.setKey(axisRange.uid, rangeColumn);
                 }
-                var slice = radarColumn.radarColumn;
+                var slice = rangeColumn.radarColumn;
                 slice.startAngle = lAngle;
                 slice.arc = arc;
                 slice.radius = tRadius;
@@ -178,7 +178,7 @@ var RadarColumnSeries = /** @class */ (function (_super) {
                     slice.validate(); // validate as if it was used previously, it will flicker with previous dimensions
                 }
                 rangeColumn.__disabled = false;
-                rangeColumn.parent = _this.columnsContainer;
+                rangeColumn.parent = axisRange.contents;
             });
         }
         else {

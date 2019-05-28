@@ -314,6 +314,12 @@ export interface IXYSeriesProperties extends ISeriesProperties {
      * @default true
      */
     cursorHoverEnabled?: boolean;
+    /**
+     * Indicates if series' values should be excluded when calculating totals.
+     *
+     * @default false
+     */
+    excludeFromTotal?: boolean;
 }
 /**
  * Defines events for [[XYSeries]].
@@ -874,4 +880,15 @@ export declare class XYSeries extends Series {
      * @param  value  Hover enabled?
      */
     cursorHoverEnabled: boolean;
+    /**
+     * @return Exclude from totals?
+     */
+    /**
+     * Indicates if series' values should be excluded when calculating totals.
+     *
+     * @default false
+     * @since 4.4.9
+     * @param  value  Exclude from totals?
+     */
+    excludeFromTotal: boolean;
 }

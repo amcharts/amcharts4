@@ -191,6 +191,8 @@ export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit, utc?: 
 
 	let nextUnit: $type.Optional<TimeUnit> = getNextUnit(unit);
 	if (nextUnit) {
+		dateOne.setUTCMinutes(dateOne.getUTCMinutes() + timeZoneOffset1);
+		dateTwo.setUTCMinutes(dateTwo.getUTCMinutes() + timeZoneOffset2);		
 		return checkChange(dateOne, dateTwo, nextUnit, utc);
 	}
 	else {

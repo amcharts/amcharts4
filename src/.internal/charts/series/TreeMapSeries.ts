@@ -105,6 +105,37 @@ export class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
 	public get treeMapDataItem(): TreeMapDataItem {
 		return <TreeMapDataItem>this._dataContext;
 	}
+
+	/**
+	 * Hides the Data Item and related visual elements.
+	 *
+	 * @param duration  Animation duration (ms)
+	 * @param delay     Delay animation (ms)
+	 * @param toValue   A value to set to `fields` when hiding
+	 * @param fields    A list of data fields to set value to `toValue`
+	 */
+	public hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): $type.Optional<Animation> {
+		let treeMapDataItem = this.treeMapDataItem;
+		if(treeMapDataItem){
+			treeMapDataItem.hide(duration);
+		}
+		return super.hide(duration, delay, toValue, fields);
+	}	
+
+	/**
+	 * Shows the Data Item and related visual elements.
+	 *
+	 * @param duration  Animation duration (ms)
+	 * @param delay     Delay animation (ms)
+	 * @param fields    A list of fields to set values of
+	 */
+	public show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation> {
+		let treeMapDataItem = this.treeMapDataItem;
+		if(treeMapDataItem){
+			treeMapDataItem.show(duration, delay, fields);
+		}
+		return super.show(duration, delay, fields);
+	}
 }
 
 
@@ -269,7 +300,8 @@ export class TreeMapSeries extends ColumnSeries {
 		}
 
 		this.dataItems.each((dataItem)=>{
-			dataItem.treeMapDataItem.setWorkingValue("value", dataItem.treeMapDataItem.values.value.value);
+			//dataItem.treeMapDataItem.setWorkingValue("value", dataItem.treeMapDataItem.values.value.value);
+			dataItem.show(duration);
 		})
 
 		return super.showReal(interpolationDuration);
@@ -291,7 +323,8 @@ export class TreeMapSeries extends ColumnSeries {
 		let animation = super.hideReal(interpolationDuration);
 
 		this.dataItems.each((dataItem)=>{
-			dataItem.treeMapDataItem.setWorkingValue("value", 0);
+			//dataItem.treeMapDataItem.setWorkingValue("value", 0);
+			dataItem.hide(duration);
 		})
 		return animation;
 	}

@@ -42,6 +42,11 @@ var ColorSet = /** @class */ (function (_super) {
          */
         _this._currentStep = 0;
         /**
+         * If set to non-zero value, the ColorSet will start iterating colors from
+         * that particular index, not the first color in the list.
+         */
+        _this._startIndex = 0;
+        /**
          * Current pass in the color generator's cycle. Normally a generator would
          * cycle through all available hue range, then repeat it, alternating other
          * color properties, to generate distinctive colors.
@@ -238,7 +243,7 @@ var ColorSet = /** @class */ (function (_super) {
      * list, even if it was already returned before.
      */
     ColorSet.prototype.reset = function () {
-        this._currentStep = 0;
+        this._currentStep = this._startIndex;
     };
     Object.defineProperty(ColorSet.prototype, "currentStep", {
         /**
@@ -258,6 +263,28 @@ var ColorSet = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._currentStep = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ColorSet.prototype, "startIndex", {
+        /**
+         * @return Index
+         */
+        get: function () {
+            return this._startIndex;
+        },
+        /**
+         * If set to non-zero value, the ColorSet will start iterating colors from
+         * that particular index, not the first color in the list.
+         *
+         * @default 0
+         * @since 4.4.9
+         * @param  value  Index
+         */
+        set: function (value) {
+            this._startIndex = value;
+            this.reset();
         },
         enumerable: true,
         configurable: true

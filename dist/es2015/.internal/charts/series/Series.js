@@ -205,6 +205,9 @@ var Series = /** @class */ (function (_super) {
          * @default false
          */
         _this.simplifiedProcessing = false;
+        if (_this.constructor === Series) {
+            throw new Error("'Series' cannot be instantiated directly. Please use a specific series type.");
+        }
         _this.className = "Series";
         _this.isMeasured = false;
         _this.layout = "none";
@@ -546,6 +549,7 @@ var Series = /** @class */ (function (_super) {
         bulletsContainer.stroke = this.stroke;
         bulletsContainer.x = this.pixelX;
         bulletsContainer.y = this.pixelY;
+        bulletsContainer.visible = !this.isHidden;
         if (this.bulletsContainer.children.length > 0) {
             for (var i = 0; i < this.startIndex; i++) {
                 var dataItem = this.dataItems.getIndex(i);
@@ -1222,6 +1226,16 @@ var Series = /** @class */ (function (_super) {
         else {
             return _super.prototype.configOrder.call(this, a, b);
         }
+    };
+    /**
+     * Shows hidden series.
+     *
+     * @param duration  Duration of reveal animation (ms)
+     * @return Animation
+     */
+    Series.prototype.show = function (duration) {
+        this.bulletsContainer.visible = true;
+        return _super.prototype.show.call(this, duration);
     };
     return Series;
 }(Component));

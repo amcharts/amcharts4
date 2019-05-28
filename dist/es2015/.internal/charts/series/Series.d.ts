@@ -19,6 +19,7 @@ import { SerialChart } from "../types/SerialChart";
 import { Axis } from "../axes/Axis";
 import { LegendDataItem, LegendSettings } from "../Legend";
 import { Ordering } from "../../core/utils/Order";
+import { Animation } from "../../core/utils/Animation";
 export interface IHeatRule {
     target: Sprite;
     property: string;
@@ -615,4 +616,11 @@ export declare class Series extends Component {
      * @return Sorting number
      */
     protected configOrder(a: string, b: string): Ordering;
+    /**
+     * Shows hidden series.
+     *
+     * @param duration  Duration of reveal animation (ms)
+     * @return Animation
+     */
+    show(duration?: number): Animation;
 }

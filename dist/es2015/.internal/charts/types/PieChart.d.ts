@@ -251,6 +251,7 @@ export declare class PieChart extends PercentChart {
      * }
      * ```
      *
+     * @default 80%
      * @param value  Radius (px or relative)
      */
     radius: number | Percent;
@@ -260,11 +261,30 @@ export declare class PieChart extends PercentChart {
     /**
      * Sets relative inner radius (to create a donut chart).
      *
-     * The inner radius is relative to pie's radius:
-     * * 0 - solid pie (no hole inside);
-     * * 0.5 - hole is half the radius of the pie;
-     * * 1 - does not make sense, because the hole will take up the whole radius.
+     * Setting to a number will mean a fixed pixel radius.
      *
+     * Setting to an instance of [[Percent]] will mean a relative radius to
+     * available space.
+     *
+     * NOTE: it's not related to `radius`.
+     *
+     * E.g.:
+     *
+     * ```TypeScript
+     * // Set pie chart to be at 50% of the available space
+     * pieChart.innerRadius = am4core.percent.percent(50);
+     * ```
+     * ```JavaScript
+     * // Set pie chart to be at 50% of the available space
+     * pieChart.innerRadius = am4core.percent.percent(50);
+     * ```
+     * ```JSON
+     * {
+     *   // Set pie chart to be at 50% of the available space
+     *   "innerRadius": "50%"
+     * }
+     *
+     * @default 0
      * @param value  Relative inner radius (0-1)
      * @todo Setting things like `innerRadius` modifies `slice.radius` and it then looks like it is not the same value as in default state
      */
