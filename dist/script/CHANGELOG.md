@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.4.10] - 2019-05-28
+
+### Fixed
+- Disposing top-most stacked series was causing a JS error.
+- If `TreeMap` top level had one node only, zoom-out button was not shown after drill-down.
+- Bullets were not shown on series on initial render if no animated theme was used (since last release only).
+
+
 ## [4.4.9] - 2019-05-28
 
 ### Added

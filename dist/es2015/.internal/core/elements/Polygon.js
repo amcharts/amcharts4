@@ -63,7 +63,7 @@ var Polygon = /** @class */ (function (_super) {
                                 points.push(areaAndHole);
                                 for (var p = 0; p < pointsArr.length; p++) {
                                     var coords = pointsArr[p].split(",");
-                                    area.push({ x: Number(coords[0]), y: Number(coords[1]) });
+                                    area.push({ x: +coords[0], y: +coords[1] });
                                 }
                                 if (holeArr && holeArr.length > 0) {
                                     var pointsArr_1 = holeArr.split("L");
@@ -72,7 +72,7 @@ var Polygon = /** @class */ (function (_super) {
                                         areaAndHole.push(hole);
                                         for (var p = pointsArr_1.length - 1; p >= 0; p--) {
                                             var coords = pointsArr_1[p].split(",");
-                                            hole.push({ x: Number(coords[0]), y: Number(coords[1]) });
+                                            hole.push({ x: +coords[0], y: +coords[1] });
                                         }
                                     }
                                 }

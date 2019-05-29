@@ -146,7 +146,7 @@ export class Polygon extends Sprite implements IMorphable {
 
 							for (let p = 0; p < pointsArr.length; p++) {
 								let coords = pointsArr[p].split(",");
-								area.push({ x: Number(coords[0]), y: Number(coords[1]) });
+								area.push({ x: +coords[0], y: +coords[1] });
 							}
 
 							if (holeArr && holeArr.length > 0) {
@@ -156,7 +156,7 @@ export class Polygon extends Sprite implements IMorphable {
 									areaAndHole.push(hole);
 									for (let p = pointsArr.length - 1; p >= 0; p--) {
 										let coords = pointsArr[p].split(",");
-										hole.push({ x: Number(coords[0]), y: Number(coords[1]) });
+										hole.push({ x: +coords[0], y: +coords[1] });
 									}
 								}
 							}
@@ -268,7 +268,7 @@ export class Polygon extends Sprite implements IMorphable {
 	 */
 	protected setPath(value: string): boolean {
 		if (super.setPath(value)) {
-			this.points = [];			
+			this.points = [];
 			this._bbox = this.group.getBBox();
 			return true;
 		}

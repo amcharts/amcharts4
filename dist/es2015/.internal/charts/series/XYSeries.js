@@ -888,8 +888,14 @@ var XYSeries = /** @class */ (function (_super) {
                 this._tmax.setKey(xAxisId, maxX);
                 this._tmin.setKey(yAxisId, minY);
                 this._tmax.setKey(yAxisId, maxY);
-                if (this.stackedSeries) {
-                    this.stackedSeries.processValues(false);
+                var stackedSeries = this.stackedSeries;
+                if (stackedSeries) {
+                    if (stackedSeries.isDisposed()) {
+                        this.stackedSeries = undefined;
+                    }
+                    else {
+                        stackedSeries.processValues(false);
+                    }
                 }
                 this.dispatchImmediately("extremeschanged");
             }

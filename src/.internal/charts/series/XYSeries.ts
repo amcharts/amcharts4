@@ -1300,8 +1300,14 @@ export class XYSeries extends Series {
 				this._tmin.setKey(yAxisId, minY);
 				this._tmax.setKey(yAxisId, maxY);
 
-				if (this.stackedSeries) {
-					this.stackedSeries.processValues(false);
+				let stackedSeries = this.stackedSeries;
+				if (stackedSeries) {
+					if (stackedSeries.isDisposed()) {
+						this.stackedSeries = undefined;
+					}
+					else {
+						stackedSeries.processValues(false);
+					}
 				}
 
 				this.dispatchImmediately("extremeschanged");

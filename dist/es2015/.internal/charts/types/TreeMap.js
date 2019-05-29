@@ -758,6 +758,16 @@ var TreeMap = /** @class */ (function (_super) {
      */
     TreeMap.prototype.zoomToChartDataItem = function (dataItem) {
         var _this = this;
+        var zoomOutButton = this.zoomOutButton;
+        // this is needed because if there is only one fist level, it wont' be shown
+        if (zoomOutButton) {
+            if (dataItem != this._homeDataItem) {
+                zoomOutButton.show();
+            }
+            else {
+                zoomOutButton.hide();
+            }
+        }
         if (dataItem && dataItem.children) {
             this.xAxis.zoomToValues(dataItem.x0, dataItem.x1);
             this.yAxis.zoomToValues(dataItem.y0, dataItem.y1);

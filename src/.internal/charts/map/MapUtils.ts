@@ -21,26 +21,24 @@ import * as d3geo from "d3-geo";
  */
 
 export function multiPolygonToGeo(multiPolygon: number[][][][]): IGeoPoint[][][] {
-	let multiGeoArea: IGeoPoint[][][] = [];
-
-	for (let i = 0, len = multiPolygon.length; i < len; i++) {
-
-		let surface: number[][] = multiPolygon[i][0];
-		let hole: number[][] = multiPolygon[i][1];
+	return $array.map(multiPolygon, (polygon) => {
+		let surface: number[][] = polygon[0];
+		let hole: number[][] = polygon[1];
 
 		//let holePoints: IGeoPoint[] = [];
 
-		multiGeoArea[i] = [];
+		const geoArea = [];
 
 		if (surface) {
-			multiGeoArea[i].push(multiPointToGeo(surface));
+			geoArea.push(multiPointToGeo(surface));
 		}
 
 		if (hole) {
-			multiGeoArea[i].push(multiPointToGeo(hole));
+			geoArea.push(multiPointToGeo(hole));
 		}
-	}
-	return multiGeoArea;
+
+		return geoArea;
+	});
 }
 
 /**
@@ -51,12 +49,9 @@ export function multiPolygonToGeo(multiPolygon: number[][][][]): IGeoPoint[][][]
  * @return Geo-multiline
  */
 export function multiLineToGeo(multiLine: number[][][]): IGeoPoint[][] {
-	let multiGeoLine: IGeoPoint[][] = [];
-
-	for (let i = 0, len = multiLine.length; i < len; i++) {
-		multiGeoLine.push(multiPointToGeo(multiLine[i]));
-	}
-	return multiGeoLine;
+	return $array.map(multiLine, (multiLine) => {
+		return multiPointToGeo(multiLine);
+	});
 }
 
 /**
@@ -66,11 +61,9 @@ export function multiLineToGeo(multiLine: number[][][]): IGeoPoint[][] {
  * @return Geo-points
  */
 export function multiPointToGeo(points: number[][]): IGeoPoint[] {
-	let geoPoints: IGeoPoint[] = [];
-	for (let i = 0, len = points.length; i < len; i++) {
-		geoPoints.push(pointToGeo(points[i]));
-	}
-	return geoPoints;
+	return $array.map(points, (point) => {
+		return pointToGeo(point);
+	});
 }
 
 
@@ -81,11 +74,9 @@ export function multiPointToGeo(points: number[][]): IGeoPoint[] {
  * @return Geo-points
  */
 export function multiGeoToPoint(geoPoints: IGeoPoint[]): number[][] {
-	let points: number[][] = [];
-	for (let i = 0, len = geoPoints.length; i < len; i++) {
-		points.push([geoPoints[i].longitude, geoPoints[i].latitude]);
-	}
-	return points;
+	return $array.map(geoPoints, (geoPoint) => {
+		return [geoPoint.longitude, geoPoint.latitude];
+	});
 }
 
 
@@ -102,51 +93,42 @@ export function pointToGeo(point: number[]): IGeoPoint {
 
 /**
  * Converts geo line (collection of lat/long coordinates) to screen line (x/y).
- * 
+ *
  * @param   multiGeoLine  Source geo line
  * @return                Screen line
  */
 export function multiGeoLineToMultiLine(multiGeoLine: IGeoPoint[][]): number[][][] {
-	let multiLine: number[][][] = [];
-	$array.each(multiGeoLine, (segment) => {
-		let multiLineSegment: number[][] = [];
-		multiLine.push(multiLineSegment);
-
-		$array.each(segment, (geoPoint) => {
-			multiLineSegment.push([geoPoint.longitude, geoPoint.latitude]);
-		})
-	})
-
-	return multiLine;
+	return $array.map(multiGeoLine, (segment) => {
+		return $array.map(segment, (geoPoint) => {
+			return [geoPoint.longitude, geoPoint.latitude];
+		});
+	});
 }
 
 /**
  * Converts a geo polygon (collection of lat/long coordinates) to screen
  * polygon (x/y).
- * 
+ *
  * @param   multiGeoPolygon  Source polygon
  * @return                   Screen polygon
  */
 export function multiGeoPolygonToMultipolygon(multiGeoPolygon: IGeoPoint[][][]): number[][][][] {
-	let multiPolygon: number[][][][] = [];
+	return $array.map(multiGeoPolygon, (geoPolygon) => {
+		let surface = geoPolygon[0];
+		let hole = geoPolygon[1];
 
-	for (let i = 0, len = multiGeoPolygon.length; i < len; i++) {
-
-		let surface = multiGeoPolygon[i][0];
-		let hole = multiGeoPolygon[i][1];
-
-		multiPolygon[i] = [];
+		const multiPolygon = [];
 
 		if (surface) {
-			multiPolygon[i].push(multiGeoToPoint(surface));
+			multiPolygon.push(multiGeoToPoint(surface));
 		}
 
 		if (hole) {
-			multiPolygon[i].push(multiGeoToPoint(hole));
+			multiPolygon.push(multiGeoToPoint(hole));
 		}
-	}
 
-	return multiPolygon;
+		return multiPolygon;
+	});
 }
 
 /**
@@ -183,7 +165,7 @@ export function getBackground(north: number, east: number, south: number, west: 
 	}
 	if(south == -90){
 		south = -89.9999;
-	}	
+	}
 	if(north == 90){
 		north = 89.9999;
 	}
@@ -193,7 +175,7 @@ export function getBackground(north: number, east: number, south: number, west: 
 
 
 	let stepLong = Math.min(90, (east - west) / Math.ceil((east - west) / 90));
-	let stepLat = (north - south) / Math.ceil((north - south) / 90);	
+	let stepLat = (north - south) / Math.ceil((north - south) / 90);
 
 	for (let ln = west; ln < east; ln = ln + stepLong) {
 		let surface: number[][] = [];
@@ -205,7 +187,7 @@ export function getBackground(north: number, east: number, south: number, west: 
 
 		for (let ll = ln; ll <= ln + stepLong; ll = ll + 5) {
 			surface.push([ll, north]);
-		}		
+		}
 
 		for (let lt = north; lt >= south; lt = lt - stepLat) {
 			surface.push([ln + stepLong, lt]);
@@ -220,7 +202,7 @@ export function getBackground(north: number, east: number, south: number, west: 
 		}
 
 
-	}	
+	}
 
 	return multiPolygon;
 }

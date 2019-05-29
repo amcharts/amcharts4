@@ -11,20 +11,19 @@ import * as d3geo from "d3-geo";
  * @return Geo-multipolygon
  */
 export function multiPolygonToGeo(multiPolygon) {
-    var multiGeoArea = [];
-    for (var i = 0, len = multiPolygon.length; i < len; i++) {
-        var surface = multiPolygon[i][0];
-        var hole = multiPolygon[i][1];
+    return $array.map(multiPolygon, function (polygon) {
+        var surface = polygon[0];
+        var hole = polygon[1];
         //let holePoints: IGeoPoint[] = [];
-        multiGeoArea[i] = [];
+        var geoArea = [];
         if (surface) {
-            multiGeoArea[i].push(multiPointToGeo(surface));
+            geoArea.push(multiPointToGeo(surface));
         }
         if (hole) {
-            multiGeoArea[i].push(multiPointToGeo(hole));
+            geoArea.push(multiPointToGeo(hole));
         }
-    }
-    return multiGeoArea;
+        return geoArea;
+    });
 }
 /**
  * Converts a multiline in X/Y coordinates to a geo-multiline in geo-points
@@ -34,11 +33,9 @@ export function multiPolygonToGeo(multiPolygon) {
  * @return Geo-multiline
  */
 export function multiLineToGeo(multiLine) {
-    var multiGeoLine = [];
-    for (var i = 0, len = multiLine.length; i < len; i++) {
-        multiGeoLine.push(multiPointToGeo(multiLine[i]));
-    }
-    return multiGeoLine;
+    return $array.map(multiLine, function (multiLine) {
+        return multiPointToGeo(multiLine);
+    });
 }
 /**
  * Converts multiple X/Y points into a lat/long geo-points.
@@ -47,11 +44,9 @@ export function multiLineToGeo(multiLine) {
  * @return Geo-points
  */
 export function multiPointToGeo(points) {
-    var geoPoints = [];
-    for (var i = 0, len = points.length; i < len; i++) {
-        geoPoints.push(pointToGeo(points[i]));
-    }
-    return geoPoints;
+    return $array.map(points, function (point) {
+        return pointToGeo(point);
+    });
 }
 /**
  * Converts multiple X/Y points into a lat/long geo-points.
@@ -60,11 +55,9 @@ export function multiPointToGeo(points) {
  * @return Geo-points
  */
 export function multiGeoToPoint(geoPoints) {
-    var points = [];
-    for (var i = 0, len = geoPoints.length; i < len; i++) {
-        points.push([geoPoints[i].longitude, geoPoints[i].latitude]);
-    }
-    return points;
+    return $array.map(geoPoints, function (geoPoint) {
+        return [geoPoint.longitude, geoPoint.latitude];
+    });
 }
 /**
  * Converts X/Y point into a lat/long geo-point.
@@ -82,15 +75,11 @@ export function pointToGeo(point) {
  * @return                Screen line
  */
 export function multiGeoLineToMultiLine(multiGeoLine) {
-    var multiLine = [];
-    $array.each(multiGeoLine, function (segment) {
-        var multiLineSegment = [];
-        multiLine.push(multiLineSegment);
-        $array.each(segment, function (geoPoint) {
-            multiLineSegment.push([geoPoint.longitude, geoPoint.latitude]);
+    return $array.map(multiGeoLine, function (segment) {
+        return $array.map(segment, function (geoPoint) {
+            return [geoPoint.longitude, geoPoint.latitude];
         });
     });
-    return multiLine;
 }
 /**
  * Converts a geo polygon (collection of lat/long coordinates) to screen
@@ -100,19 +89,18 @@ export function multiGeoLineToMultiLine(multiGeoLine) {
  * @return                   Screen polygon
  */
 export function multiGeoPolygonToMultipolygon(multiGeoPolygon) {
-    var multiPolygon = [];
-    for (var i = 0, len = multiGeoPolygon.length; i < len; i++) {
-        var surface = multiGeoPolygon[i][0];
-        var hole = multiGeoPolygon[i][1];
-        multiPolygon[i] = [];
+    return $array.map(multiGeoPolygon, function (geoPolygon) {
+        var surface = geoPolygon[0];
+        var hole = geoPolygon[1];
+        var multiPolygon = [];
         if (surface) {
-            multiPolygon[i].push(multiGeoToPoint(surface));
+            multiPolygon.push(multiGeoToPoint(surface));
         }
         if (hole) {
-            multiPolygon[i].push(multiGeoToPoint(hole));
+            multiPolygon.push(multiGeoToPoint(hole));
         }
-    }
-    return multiPolygon;
+        return multiPolygon;
+    });
 }
 /**
  * Returns a set of geographical coordinates for the circle with a center

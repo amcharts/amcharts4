@@ -549,7 +549,6 @@ var Series = /** @class */ (function (_super) {
         bulletsContainer.stroke = this.stroke;
         bulletsContainer.x = this.pixelX;
         bulletsContainer.y = this.pixelY;
-        bulletsContainer.visible = !this.isHidden;
         if (this.bulletsContainer.children.length > 0) {
             for (var i = 0; i < this.startIndex; i++) {
                 var dataItem = this.dataItems.getIndex(i);
@@ -591,7 +590,9 @@ var Series = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.validateDataElement.call(this, dataItem);
         if (this._showBullets) {
-            this.bulletsContainer.visible = true;
+            if (!this.isHidden) {
+                this.bulletsContainer.visible = true;
+            }
             this.bullets.each(function (bulletTemplate) {
                 // always better to use the same, this helps to avoid redrawing
                 var bullet = dataItem.bullets.getKey(bulletTemplate.uid);
@@ -1228,14 +1229,17 @@ var Series = /** @class */ (function (_super) {
         }
     };
     /**
-     * Shows hidden series.
+     * Sets `visibility` property:
      *
-     * @param duration  Duration of reveal animation (ms)
-     * @return Animation
+     * * `true` - visible
+     * * `false` - hidden
+     *
+     * @param value  true - visible, false - hidden
+     * @return Current visibility
      */
-    Series.prototype.show = function (duration) {
-        this.bulletsContainer.visible = true;
-        return _super.prototype.show.call(this, duration);
+    Series.prototype.setVisibility = function (value) {
+        _super.prototype.setVisibility.call(this, value);
+        this.bulletsContainer.visible = value;
     };
     return Series;
 }(Component));

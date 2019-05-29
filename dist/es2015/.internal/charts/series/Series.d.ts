@@ -19,7 +19,6 @@ import { SerialChart } from "../types/SerialChart";
 import { Axis } from "../axes/Axis";
 import { LegendDataItem, LegendSettings } from "../Legend";
 import { Ordering } from "../../core/utils/Order";
-import { Animation } from "../../core/utils/Animation";
 export interface IHeatRule {
     target: Sprite;
     property: string;
@@ -617,10 +616,13 @@ export declare class Series extends Component {
      */
     protected configOrder(a: string, b: string): Ordering;
     /**
-     * Shows hidden series.
+     * Sets `visibility` property:
      *
-     * @param duration  Duration of reveal animation (ms)
-     * @return Animation
+     * * `true` - visible
+     * * `false` - hidden
+     *
+     * @param value  true - visible, false - hidden
+     * @return Current visibility
      */
-    show(duration?: number): Animation;
+    setVisibility(value: boolean): void;
 }

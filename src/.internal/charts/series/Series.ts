@@ -34,7 +34,6 @@ import * as $object from "../../core/utils/Object";
 import * as $type from "../../core/utils/Type";
 import * as $array from "../../core/utils/Array";
 import * as $colors from "../../core/utils/Colors";
-import { Animation } from "../../core/utils/Animation";
 
 export interface IHeatRule {
 	target: Sprite;
@@ -137,7 +136,6 @@ export class SeriesDataItem extends DataItem {
 	public get value(): number {
 		return this.values.value.value;
 	}
-
 }
 
 
@@ -844,9 +842,6 @@ export class Series extends Component {
 		bulletsContainer.x = this.pixelX;
 		bulletsContainer.y = this.pixelY;
 
-		bulletsContainer.visible = !this.isHidden;
-
-
 		if (this.bulletsContainer.children.length > 0) {
 			for (let i = 0; i < this.startIndex; i++) {
 				let dataItem = this.dataItems.getIndex(i);
@@ -895,7 +890,9 @@ export class Series extends Component {
 		super.validateDataElement(dataItem);
 
 		if (this._showBullets) {
-			this.bulletsContainer.visible = true;
+			if(!this.isHidden){
+				this.bulletsContainer.visible = true;
+			}
 			this.bullets.each((bulletTemplate) => {
 				// always better to use the same, this helps to avoid redrawing
 				let bullet: Sprite = <Sprite>dataItem.bullets.getKey(bulletTemplate.uid);
@@ -1591,14 +1588,17 @@ export class Series extends Component {
 	}
 
 	/**
-	 * Shows hidden series.
+	 * Sets `visibility` property:
 	 *
-	 * @param duration  Duration of reveal animation (ms)
-	 * @return Animation
+	 * * `true` - visible
+	 * * `false` - hidden
+	 *
+	 * @param value  true - visible, false - hidden
+	 * @return Current visibility
 	 */
-	public show(duration?: number): Animation {
-		this.bulletsContainer.visible = true;
-		return super.show(duration);
+	public setVisibility(value: boolean) {
+		super.setVisibility(value);
+		this.bulletsContainer.visible = value;
 	}	
 }
 
