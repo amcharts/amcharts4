@@ -22,7 +22,6 @@ import * as $array from "./Array";
 import * as $type from "./Type";
 import * as $dom from "./DOM";
 import * as $utils from "./Utils";
-import * as $renderer from "./Renderer";
 
 /**
  * ============================================================================
@@ -44,6 +43,9 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 
 	if (htmlContainer) {
 
+		htmlContainer.innerHTML = "";
+		//htmlContainer.style.overflow = "hidden";
+
 		let svgDiv = new SVGContainer(htmlContainer);
 		let paper = new Paper(svgDiv.SVGContainer, "svg-" + (svgContainers.length - 1));
 
@@ -58,6 +60,7 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 		container.height = percent(100);
 		container.background.fillOpacity = 0;
 		container.paper = paper;
+		paper.append(container.group);
 
 		// this is set from parent container, but this one doesn't have, so do it manually.
 		container.relativeWidth = 1;
@@ -81,6 +84,7 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 		sprite.focusFilter = new FocusFilter();
 		registry.baseSprites.push(sprite);
 		registry.baseSpritesByUid[uid] = sprite;
+		sprite.maskRectangle = { x: 0, y: 0, width: svgDiv.width, height: svgDiv.height };
 
 		// this solves issues with display:none, as all children are measured as 0x0
 		container.events.on("maxsizechanged", (event) => {
@@ -145,30 +149,6 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 		// Controls like Preloader, Export will use this.
 		container.isStandaloneInstance = true;
 
-		$renderer.add(htmlContainer, sprite, () => {
-
-			htmlContainer.innerHTML = "";
-			htmlContainer.style.overflow = "hidden";
-
-			// Only get to this part if the chart wasn't rendered right away
-			if (!sprite.isDisposed() && !container.invalid) {
-
-				// Re-size and position elements
-				svgDiv.measure();
-
-				sprite.maskRectangle = { x: 0, y: 0, width: svgDiv.width, height: svgDiv.height };
-				container.deepInvalidate();
-
-				// Re-animate the chart
-				sprite.appear();
-				//appear(sprite);
-			}
-
-			svgDiv.render();
-
-			paper.append(container.group);
-		});
-
 		return sprite;
 	}
 	else {
@@ -176,18 +156,6 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 		throw new Error("html container not found");
 	}
 }
-
-// function appear(sprite:Sprite){
-// 	if(sprite.showOnInit){
-// 		sprite.appear();
-// 	}
-
-// 	if(sprite instanceof Container){
-// 		sprite.children.each((child)=>{
-// 			appear(child);
-// 		})
-// 	}
-// }
 
 /**
  * A shortcut to creating a chart instance.

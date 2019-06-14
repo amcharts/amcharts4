@@ -100,12 +100,6 @@ export declare class SVGContainer implements IDisposer {
      */
     constructor(htmlElement: HTMLElement);
     /**
-     * Renders the SVG container into the HTML element.
-     *
-     * @ignore Exclude from docs
-     */
-    render(): void;
-    /**
      * Measures size of parent HTML element.
      *
      * @ignore Exclude from docs
