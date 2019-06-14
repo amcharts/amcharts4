@@ -239,6 +239,7 @@ export class AxisRenderer extends Container {
 		gridContainer.shouldClone = false;
 		gridContainer.layout = "none";
 	//	gridContainer.isMeasured = false;
+		gridContainer.virtualParent = this;
 		gridContainer.width = percent(100);
 		gridContainer.height = percent(100);
 

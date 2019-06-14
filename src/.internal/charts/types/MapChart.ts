@@ -649,12 +649,11 @@ export class MapChart extends SerialChart {
 		chartContainer.parent = this;
 		chartContainer.zIndex = -1;
 
-		this._disposers.push(seriesContainer.events.on("maxsizechanged", () => {
+		this._disposers.push(this.events.on("maxsizechanged", () => {
 			if (this.inited) {
 				if (this._mapAnimation) {
 					this._mapAnimation.stop();
 				}
-
 
 				let allInited = true;
 				this.series.each((series) => {

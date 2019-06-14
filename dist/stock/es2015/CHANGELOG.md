@@ -5,6 +5,34 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.0] - 2019-06-14
+
+### Added
+- Support of queued chart initialization. If enabled (`am4core.options.queue = true`) the chart will not start initializing until previous chart finishes.
+- Support for delayed rendering. If enabled (`am4core.options.onlyShowOnViewport = true`) the chart will start rendering itself only when scrolled into view.
+
+### Changed
+- Default CSS for a `Popup` now has text color set to ensure it is visible on default background.
+
+### Fixed
+- `dataContext` of `ForceDirectedNodeDataItem` was not being populated correctly.
+- `MapPolygonSeries` was not being displayed properly if GeoJSON contained a single very small polygon.
+- Tooltips now work correctly when a chart is contained within the shadow DOM.
+- `rtl` inheritance was not working properly on some elements, e.g. axis tooltips.
+- None of the `Responsive` events were being triggered.
+- JSON: It was not possible to set `XYSeries.baseAxis` using axis' `id`.
+- `LineSeries` was being cut off if div of a chart was more than 20K pixels width/height.
+- When axis was disabled (`axis.disabled = true`) its ticks and grid remained visible.
+- If a chart had series with bullets and `minBulletDistance` set and the chart was resized so that bullets had to be hidden, some of the bullets remained visible.
+- `openCategoryX` and `openCategoryY` data fields were not working properly on `XYSeries`.
+- If `XYChart` had stacked series and series had both possitive and negative numbers, series were stacked incorrectly if some of the series were hidden.
+- `MapChart` was not adjusting its size to the container in some specific cases.
+- Some performance improvements with `series.connect = false` and a lot of missing values.
+- `Rectangle3D` was not copying side's properties when cloning.
+- `ForceDirectedLink`'s data item was not properly set. It is set to target's data item now.
+- `MapChart` was not displaying maps of very small countries properly.
+
+
 ## [4.4.10] - 2019-05-28
 
 ### Fixed

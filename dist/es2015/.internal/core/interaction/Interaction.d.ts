@@ -1046,6 +1046,14 @@ export declare class Interaction extends BaseObjectEvents {
     dispose(): void;
     private log(text, ev, io?);
     private logTouch(text, type, ev);
+    /**
+     * Indicates if passive mode options is supported by this browser.
+     */
+    private static _passiveSupported;
+    /**
+     * Indicates if passive mode options is supported by this browser.
+     */
+    static readonly passiveSupported: boolean;
 }
 /**
  * Returns a single unified global instance of [[Interaction]].

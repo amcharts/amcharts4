@@ -446,6 +446,7 @@ export class Responsive extends BaseObjectEvents {
 
 		// Check if we need to re-apply the rules
 		if (rulesChanged) {
+			this.dispatchImmediately("ruleschanged");
 			this.applyRules();
 		}
 
@@ -480,9 +481,7 @@ export class Responsive extends BaseObjectEvents {
 					// We don't want to go resetting default states to ALL element,
 					// if they don't have responsive states.
 					if (!defaultStateApplied) {
-
 						// Nope, reset states (instantly).
-						//console.log("Applying default state to " + newTarget.className + " (" + newTarget.uid + "): " + JSON.stringify(newTarget.defaultState.properties));
 						newTarget.applyCurrentState(0);
 						defaultStateApplied = true;
 					}
@@ -490,8 +489,10 @@ export class Responsive extends BaseObjectEvents {
 					// Is this rule currently applied?
 					if (this.isApplied($type.getValue(rule.id))) {
 						// Yes. Apply the responsive state
-						//console.log("Applying state to " + newTarget.className + " (" + newTarget.uid + "): " + JSON.stringify(state.properties));
 						newTarget.setState(state);
+						this.dispatchImmediately("ruleapplied", {
+							rule: rule
+						});
 					}
 
 				}

@@ -307,4 +307,18 @@ export class Rectangle3D extends Container {
 		}
 	}
 
+	/**
+	 * Copies all properties and related data from a different instance of Rectangle3D.
+	 *
+	 * @param source Source Rectangle3D
+	 */
+	public copyFrom(source: this): void {
+		super.copyFrom(source);
+		this.sideBack.copyFrom(source.sideBack);
+		this.sideLeft.copyFrom(source.sideLeft);
+		this.sideRight.copyFrom(source.sideRight);
+		this.sideTop.copyFrom(source.sideTop);
+		this.sideBottom.copyFrom(source.sideBottom);
+	}
+
 }

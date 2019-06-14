@@ -128,6 +128,17 @@ export function setStyle(element, property, value) {
     element.style[property] = value;
 }
 /**
+ * Gets the computed style value for an element.
+ *
+ * @ignore Exclude from docs
+ */
+export function getComputedStyle(element, property) {
+    if (element.currentStyle) {
+        return element.currentStyle[property];
+    }
+    return document.defaultView.getComputedStyle(element, null).getPropertyValue(property);
+}
+/**
  * Removes focus from any element by shifting focus to body.
  *
  * @ignore Exclude from docs
@@ -210,11 +221,39 @@ export function isElement(el) {
  * @return Contains?
  */
 export function contains(a, b) {
-    return a === b || (a.contains
-        ? a.contains(b)
-        : a.compareDocumentPosition
-            ? !!(a.compareDocumentPosition(b) & 16)
-            : true);
+    var cursor = b;
+    while (true) {
+        if (a === cursor) {
+            return true;
+        }
+        else if (cursor.parentNode == null) {
+            if (cursor.host == null) {
+                return false;
+            }
+            else {
+                cursor = cursor.host;
+            }
+        }
+        else {
+            cursor = cursor.parentNode;
+        }
+    }
+}
+/**
+ * Gets the true target of the Event.
+ *
+ * This is needed to make events work with the shadow DOM.
+ *
+ * @param event  Event
+ * @return EventTarget
+ */
+export function eventTarget(event) {
+    if (typeof event.composedPath === "function") {
+        return event.composedPath()[0];
+    }
+    else {
+        return event.target;
+    }
 }
 /**
  * Copies attributes from one element to another.
@@ -463,13 +502,7 @@ export function ready(f) {
  */
 export function findFont(element) {
     // Check if element has styles set
-    var font = "";
-    if (element.currentStyle) {
-        font = element.currentStyle["font-family"];
-    }
-    else if (window.getComputedStyle) {
-        font = document.defaultView.getComputedStyle(element, null).getPropertyValue("font-family");
-    }
+    var font = getComputedStyle(element, "font-family");
     if (!font) {
         // Completely transparent. Look for a parent
         var parent_1 = element.parentElement || element.parentNode;
@@ -494,13 +527,7 @@ export function findFont(element) {
  */
 export function findFontSize(element) {
     // Check if element has styles set
-    var font = "";
-    if (element.currentStyle) {
-        font = element.currentStyle["font-size"];
-    }
-    else if (window.getComputedStyle) {
-        font = document.defaultView.getComputedStyle(element, null).getPropertyValue("font-size");
-    }
+    var font = getComputedStyle(element, "font-size");
     if (!font) {
         // Completely transparent. Look for a parent
         var parent_2 = element.parentElement || element.parentNode;

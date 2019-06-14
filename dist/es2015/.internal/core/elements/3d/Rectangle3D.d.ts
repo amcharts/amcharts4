@@ -147,4 +147,10 @@ export declare class Rectangle3D extends Container {
      * @param value  Fill
      */
     protected setFill(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>): void;
+    /**
+     * Copies all properties and related data from a different instance of Rectangle3D.
+     *
+     * @param source Source Rectangle3D
+     */
+    copyFrom(source: this): void;
 }

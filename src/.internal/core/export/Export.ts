@@ -41,7 +41,7 @@ import { Validatable } from "../utils/Validatable";
 import { Color, color } from "../utils/Color";
 import { registry } from "../Registry";
 import { options } from "../Options";
-import { StyleRule } from "../utils/DOM";
+import { StyleRule, getComputedStyle } from "../utils/DOM";
 import * as $browser from "../utils/Browser";
 import * as $object from "../utils/Object";
 import * as $net from "../utils/Net";
@@ -3451,13 +3451,8 @@ export class Export extends Validatable {
 	public findBackgroundColor(element: Element): Color {
 
 		// Check if element has styles set
-		let opacity = 1, currentColor = "";
-		if ((<any>element).currentStyle) {
-			currentColor = (<any>element).currentStyle["background-color"];
-		}
-		else if (window.getComputedStyle) {
-			currentColor = document.defaultView.getComputedStyle(element, null).getPropertyValue("background-color");
-		}
+		let opacity = 1,
+			currentColor = (<string>getComputedStyle(element, "background-color"));
 
 		// Check opacity
 		if (currentColor.match(/[^,]*,[^,]*,[^,]*,[ ]?0/) || currentColor == "transparent") {

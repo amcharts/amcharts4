@@ -20,6 +20,7 @@ import * as $array from "./Array";
 import * as $type from "./Type";
 import * as $dom from "./DOM";
 import * as $utils from "./Utils";
+import * as $renderer from "./Renderer";
 /**
  * ============================================================================
  * INSTANTIATION FUNCTIONS
@@ -37,10 +38,8 @@ import * as $utils from "./Utils";
 function createChild(htmlElement, classType) {
     var htmlContainer = $dom.getElement(htmlElement);
     if (htmlContainer) {
-        htmlContainer.innerHTML = "";
-        //htmlContainer.style.overflow = "hidden";
         var svgDiv_1 = new SVGContainer(htmlContainer);
-        var paper = new Paper(svgDiv_1.SVGContainer, "svg-" + (svgContainers.length - 1));
+        var paper_1 = new Paper(svgDiv_1.SVGContainer, "svg-" + (svgContainers.length - 1));
         // the approach with masks is chosen because overflow:visible is set on SVG element in order tooltips could go outside
         // svg area - this is often needed when working with small charts.
         // main container which holds content container and tooltips container
@@ -50,8 +49,7 @@ function createChild(htmlElement, classType) {
         container_1.width = percent(100);
         container_1.height = percent(100);
         container_1.background.fillOpacity = 0;
-        container_1.paper = paper;
-        paper.append(container_1.group);
+        container_1.paper = paper_1;
         // this is set from parent container, but this one doesn't have, so do it manually.
         container_1.relativeWidth = 1;
         container_1.relativeHeight = 1;
@@ -69,7 +67,6 @@ function createChild(htmlElement, classType) {
         sprite_1.focusFilter = new FocusFilter();
         registry.baseSprites.push(sprite_1);
         registry.baseSpritesByUid[uid] = sprite_1;
-        sprite_1.maskRectangle = { x: 0, y: 0, width: svgDiv_1.width, height: svgDiv_1.height };
         // this solves issues with display:none, as all children are measured as 0x0
         container_1.events.on("maxsizechanged", function (event) {
             if (event.previousWidth == 0 || event.previousHeight == 0) {
@@ -122,11 +119,37 @@ function createChild(htmlElement, classType) {
         // Set this as an autonomouse instance
         // Controls like Preloader, Export will use this.
         container_1.isStandaloneInstance = true;
+        $renderer.add(htmlContainer, sprite_1, function () {
+            htmlContainer.innerHTML = "";
+            htmlContainer.style.overflow = "hidden";
+            // Only get to this part if the chart wasn't rendered right away
+            if (!sprite_1.isDisposed() && !container_1.invalid) {
+                // Re-size and position elements
+                svgDiv_1.measure();
+                sprite_1.maskRectangle = { x: 0, y: 0, width: svgDiv_1.width, height: svgDiv_1.height };
+                container_1.deepInvalidate();
+                // Re-animate the chart
+                //sprite.appear();
+                appear(sprite_1);
+            }
+            svgDiv_1.render();
+            paper_1.append(container_1.group);
+        });
         return sprite_1;
     }
     else {
         system.log("html container not found");
         throw new Error("html container not found");
+    }
+}
+function appear(sprite) {
+    if (sprite.showOnInit) {
+        sprite.appear();
+    }
+    if (sprite instanceof Container) {
+        sprite.children.each(function (child) {
+            appear(child);
+        });
     }
 }
 /**

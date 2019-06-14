@@ -294,6 +294,7 @@ var Responsive = /** @class */ (function (_super) {
         });
         // Check if we need to re-apply the rules
         if (rulesChanged) {
+            this.dispatchImmediately("ruleschanged");
             this.applyRules();
         }
     };
@@ -323,15 +324,16 @@ var Responsive = /** @class */ (function (_super) {
                     // if they don't have responsive states.
                     if (!defaultStateApplied) {
                         // Nope, reset states (instantly).
-                        //console.log("Applying default state to " + newTarget.className + " (" + newTarget.uid + "): " + JSON.stringify(newTarget.defaultState.properties));
                         newTarget.applyCurrentState(0);
                         defaultStateApplied = true;
                     }
                     // Is this rule currently applied?
                     if (_this.isApplied($type.getValue(rule.id))) {
                         // Yes. Apply the responsive state
-                        //console.log("Applying state to " + newTarget.className + " (" + newTarget.uid + "): " + JSON.stringify(state.properties));
                         newTarget.setState(state);
+                        _this.dispatchImmediately("ruleapplied", {
+                            rule: rule
+                        });
                     }
                 }
             });

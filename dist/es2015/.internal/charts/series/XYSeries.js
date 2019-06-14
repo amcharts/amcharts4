@@ -250,7 +250,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
          * @param category  Category
          */
         set: function (category) {
-            this.setProperty("openCategoryX", category);
+            this.setCategory("openCategoryX", category);
         },
         enumerable: true,
         configurable: true
@@ -268,7 +268,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
          * @param category  Category
          */
         set: function (category) {
-            this.setProperty("openCategoryY", category);
+            this.setCategory("openCategoryY", category);
         },
         enumerable: true,
         configurable: true
@@ -1399,7 +1399,10 @@ var XYSeries = /** @class */ (function (_super) {
             if (this.yAxis != this.baseAxis && this.yAxis instanceof ValueAxis) {
                 field_1 = this.yField;
             }
-            //this is good for removing series, otherwise stack values will remain the same and chart won't pay atention when adding/removing series
+            if (!field_1) {
+                return;
+            }
+            //this is good for removing series, otherwise stack values will remain the same and chart won't pay atention when adding/removing series			
             dataItem.setCalculatedValue(field_1, 0, "stack");
             $iter.eachContinue(chart.series.range(0, index).backwards().iterator(), function (prevSeries) {
                 // stacking is only possible if both axes are the same
@@ -1416,7 +1419,8 @@ var XYSeries = /** @class */ (function (_super) {
                         else {
                             prevValue = prevDataItem.getValue(field_1) + prevDataItem.getValue(field_1, "stack");
                         }
-                        if ((value >= 0 && prevValue >= 0) || (value < 0 && prevValue < 0)) {
+                        // if >= then series might get stacked to hidden negative series, so this is correct
+                        if ((value >= 0 && prevValue > 0) || (value < 0 && prevValue < 0)) {
                             //dataItem.events.disable();
                             dataItem.setCalculatedValue(field_1, prevValue, "stack");
                             //dataItem.events.enable();
@@ -1595,6 +1599,16 @@ var XYSeries = /** @class */ (function (_super) {
      */
     XYSeries.prototype.processConfig = function (config) {
         if (config) {
+            // Set up base axes
+            if ($type.hasValue(config.baseAxis) && $type.isString(config.baseAxis)) {
+                if (this.map.hasKey(config.baseAxis)) {
+                    config.baseAxis = this.map.getKey(config.baseAxis);
+                }
+                else {
+                    this.processingErrors.push("[XYSeries (" + (this.name || "unnamed") + ")] No axis with id \"" + config.baseAxis + "\" found for `baseAxis`.");
+                    delete config.baseAxis;
+                }
+            }
             // Set up axes
             if ($type.hasValue(config.xAxis) && $type.isString(config.xAxis)) {
                 if (this.map.hasKey(config.xAxis)) {
@@ -1651,8 +1665,8 @@ var XYSeries = /** @class */ (function (_super) {
     XYSeries.prototype.getPoint = function (dataItem, xKey, yKey, locationX, locationY, stackKeyX, stackKeyY) {
         var x = this.xAxis.getX(dataItem, xKey, locationX);
         var y = this.yAxis.getY(dataItem, yKey, locationY);
-        x = $math.fitToRange(x, -20000, 20000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
-        y = $math.fitToRange(y, -20000, 20000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+        x = $math.fitToRange(x, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+        y = $math.fitToRange(y, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
         return { x: x, y: y };
     };
     /**

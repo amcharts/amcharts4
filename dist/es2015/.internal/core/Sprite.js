@@ -1500,10 +1500,8 @@ var Sprite = /** @class */ (function (_super) {
             if (this._svgContainer) {
                 return this._svgContainer;
             }
-            else {
-                if (this.parent) {
-                    return this.parent.svgContainer;
-                }
+            else if (this.parent) {
+                return this.parent.svgContainer;
             }
         },
         /**
@@ -6904,8 +6902,8 @@ var Sprite = /** @class */ (function (_super) {
             else if (this.parent) {
                 return this.parent.rtl;
             }
-            this.rtl = false;
-            return this.rtl;
+            //this.rtl = false;
+            return false;
         },
         /**
          * An RTL (right-to-left) setting.

@@ -273,7 +273,7 @@ export class XYSeriesDataItem extends SeriesDataItem {
 	 * @param category  Category
 	 */
 	public set openCategoryX(category: string) {
-		this.setProperty("openCategoryX", category);
+		this.setCategory("openCategoryX", category);
 	}
 
 	/**
@@ -289,7 +289,7 @@ export class XYSeriesDataItem extends SeriesDataItem {
 	 * @param category  Category
 	 */
 	public set openCategoryY(category: string) {
-		this.setProperty("openCategoryY", category);
+		this.setCategory("openCategoryY", category);
 	}
 
 	/**
@@ -1861,7 +1861,11 @@ export class XYSeries extends Series {
 				field = this.yField;
 			}
 
-			//this is good for removing series, otherwise stack values will remain the same and chart won't pay atention when adding/removing series
+			if(!field){
+				return;
+			}
+
+			//this is good for removing series, otherwise stack values will remain the same and chart won't pay atention when adding/removing series			
 			dataItem.setCalculatedValue(field, 0, "stack");
 
 			$iter.eachContinue(chart.series.range(0, index).backwards().iterator(), (prevSeries) => {
@@ -1884,7 +1888,8 @@ export class XYSeries extends Series {
 							prevValue = prevDataItem.getValue(field) + prevDataItem.getValue(field, "stack");
 						}
 
-						if ((value >= 0 && prevValue >= 0) || (value < 0 && prevValue < 0)) {
+						// if >= then series might get stacked to hidden negative series, so this is correct
+						if ((value >= 0 && prevValue > 0) || (value < 0 && prevValue < 0)) {
 							//dataItem.events.disable();
 							dataItem.setCalculatedValue(field, prevValue, "stack");
 							//dataItem.events.enable();
@@ -2055,6 +2060,17 @@ export class XYSeries extends Series {
 
 		if (config) {
 
+			// Set up base axes
+			if ($type.hasValue(config.baseAxis) && $type.isString(config.baseAxis)) {
+				if (this.map.hasKey(config.baseAxis)) {
+					config.baseAxis = this.map.getKey(config.baseAxis);
+				}
+				else {
+					this.processingErrors.push("[XYSeries (" + (this.name || "unnamed") + ")] No axis with id \"" + config.baseAxis + "\" found for `baseAxis`.");
+					delete config.baseAxis;
+				}
+			}
+
 			// Set up axes
 			if ($type.hasValue(config.xAxis) && $type.isString(config.xAxis)) {
 				if (this.map.hasKey(config.xAxis)) {
@@ -2118,8 +2134,8 @@ export class XYSeries extends Series {
 		let x: number = this.xAxis.getX(dataItem, xKey, locationX);
 		let y: number = this.yAxis.getY(dataItem, yKey, locationY);
 
-		x = $math.fitToRange(x, -20000, 20000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
-		y = $math.fitToRange(y, -20000, 20000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+		x = $math.fitToRange(x, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+		y = $math.fitToRange(y, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
 
 		return { x: x, y: y };
 	}

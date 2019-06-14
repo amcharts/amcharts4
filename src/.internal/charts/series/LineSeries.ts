@@ -505,6 +505,9 @@ export class LineSeries extends XYSeries {
 			segment.parent = this.segmentsContainer;
 		}
 
+		let connect: boolean = this.connect;
+		let valuesFound:boolean = false; // some flag to avoid multiple closes if no values found
+
 		for (let i: number = openIndex; i < endIndex; i++) {
 
 			let dataItem: this["_dataItem"] = this.dataItems.getIndex(i);
@@ -523,6 +526,7 @@ export class LineSeries extends XYSeries {
 
 			if (dataItem.hasValue(this._xValueFields) && dataItem.hasValue(this._yValueFields)) {
 				this.addPoints(points, dataItem, this.xField, this.yField);
+				valuesFound = true;
 			}
 			else {
 				// if no values in first data item, go to next
@@ -530,11 +534,8 @@ export class LineSeries extends XYSeries {
 					continue;
 				}
 				else {
-					let connect: boolean = this.connect;
-					// todo: other connect conditions
-
 					// stop cycle
-					if (!connect) {
+					if (!connect && valuesFound) {
 						closeIndex = i;
 						break;
 					}
@@ -787,17 +788,6 @@ export class LineSeries extends XYSeries {
 	public get tensionY(): number {
 		return this.getPropertyValue("tensionY");
 	}
-
-
-	/*
-   public positionBullet(bullet: Bullet): void {
-	   super.positionBullet(bullet);
-
-	   let dataItem: this["_dataItem"] = <this["_dataItem"]>bullet.dataItem;
-	   if (dataItem.segment) {
-		   $object.softCopyProperties(dataItem.segment, bullet, visualProperties);
-	   }
-   }*/
 
 	/**
 	 * Creates elements in related legend container, that mimics the look of this

@@ -9,6 +9,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
+import { IRectangle } from "../../core/defs/IRectangle";
 import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { Rectangle } from "../../core/elements/Rectangle";
 import { IPoint } from "../../core/defs/IPoint";
@@ -274,7 +275,16 @@ export class SmallMap extends Container {
 			let scale = this.chart.scaleRatio * Math.min(this.percentWidth, this.percentHeight) / 100;
 			this.seriesContainer.scale = scale;
 
-			let bbox = this.seriesContainer.group.node.getBBox();
+			let bbox: IRectangle = {
+				width: 0,
+				height: 0,
+				x: 0,
+				y: 0
+			};
+
+			try { // Add exception catching to tame FF
+				bbox = this.seriesContainer.group.node.getBBox();
+			} catch (err) { }
 
 			if(bbox.width > 0){
 				this.rectangle.visible = true;

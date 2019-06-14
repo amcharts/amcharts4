@@ -1967,6 +1967,15 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 		return this.getPropertyValue("endLocation");
 	}
 
+
+	protected setDisabled(value:boolean){
+		let changed = super.setDisabled(value);		
+		if(this.renderer){
+			this.renderer.gridContainer.disabled = value;
+		}
+		return changed;
+	}
+
 }
 
 /**

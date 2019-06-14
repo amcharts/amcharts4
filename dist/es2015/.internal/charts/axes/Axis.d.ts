@@ -960,4 +960,5 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @param value Location (0-1)
      */
     endLocation: number;
+    protected setDisabled(value: boolean): boolean;
 }

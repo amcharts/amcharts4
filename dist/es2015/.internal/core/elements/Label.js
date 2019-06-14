@@ -218,7 +218,12 @@ var Label = /** @class */ (function (_super) {
         //	this.setCache(cacheKey, lineBBox, 5000);
         //}
         //}
-        lineInfo.bbox = lineInfo.element.getBBox();
+        var element = lineInfo && lineInfo.element;
+        var node = element && element.node;
+        // Check for the parent Node to avoid FF from throwing errors
+        if (node && node.parentNode) {
+            lineInfo.bbox = element.getBBox();
+        }
     };
     /**
      * Draws the textual label.

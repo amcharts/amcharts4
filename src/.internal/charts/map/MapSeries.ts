@@ -175,22 +175,22 @@ export class MapSeriesDataItem extends SeriesDataItem {
 
 			let changed = false;
 			if (north != this.north) {
-				this._north = $math.round(north, 8);
+				this._north = $math.round(north, 6);
 				changed = true;
 			}
 
 			if (south != this.south) {
-				this._south = $math.round(south);
+				this._south = $math.round(south, 6);
 				changed = true;
 			}
 
 			if (east != this.east) {
-				this._east = $math.round(east);
+				this._east = $math.round(east, 6);
 				changed = true;
 			}
 
 			if (west != this.west) {
-				this._west = $math.round(west);
+				this._west = $math.round(west, 6);
 				changed = true;
 			}
 

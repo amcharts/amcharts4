@@ -1582,6 +1582,13 @@ var Axis = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Axis.prototype.setDisabled = function (value) {
+        var changed = _super.prototype.setDisabled.call(this, value);
+        if (this.renderer) {
+            this.renderer.gridContainer.disabled = value;
+        }
+        return changed;
+    };
     return Axis;
 }(Component));
 export { Axis };

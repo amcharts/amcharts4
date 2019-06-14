@@ -3,6 +3,8 @@ export var options = {
     commercialLicense: false,
     classNamePrefix: "amcharts-",
     autoSetClassName: false,
-    minPolylineStep: 0.5
+    minPolylineStep: 0.5,
+    onlyShowOnViewport: false,
+    queue: false
 };
 //# sourceMappingURL=Options.js.map

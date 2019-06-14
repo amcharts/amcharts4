@@ -469,7 +469,13 @@ export class Label extends Container {
 		//}
 		//}
 
-		lineInfo.bbox = lineInfo.element.getBBox();
+		let element = lineInfo && lineInfo.element;
+		let node = element && element.node;
+
+		// Check for the parent Node to avoid FF from throwing errors
+		if (node && node.parentNode) {
+			lineInfo.bbox = element.getBBox();
+		}
 	}
 
 	/**

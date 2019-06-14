@@ -2247,10 +2247,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this._svgContainer) {
 			return this._svgContainer;
 		}
-		else {
-			if (this.parent) {
-				return this.parent.svgContainer;
-			}
+		else if (this.parent) {
+			return this.parent.svgContainer;
 		}
 	}
 
@@ -4008,8 +4006,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 					this.config = dataContext[this.configField];
 					if(!this.config && dataContext.dataContext){
 						this.config = dataContext.dataContext[this.configField];
-					}					
-				}				
+					}
+				}
 			}
 			let dataContext = <any>dataItem.dataContext;
 
@@ -4022,13 +4020,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 						let anyThis = <any>this;
 						anyThis[propertyName] = dataContext[fieldValue];
 					}
-					else{						
-						if(dataContext2){							
+					else{
+						if(dataContext2){
 							let value = dataContext2[fieldValue];
 							if($type.hasValue(value)){
 								let anyThis = <any>this;
 								anyThis[propertyName] = value;
-							}							
+							}
 						}
 					}
 				});
@@ -7749,8 +7747,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		else if (this.parent) {
 			return this.parent.rtl;
 		}
-		this.rtl = false;
-		return this.rtl;
+		//this.rtl = false;
+		return false;
 	}
 
 

@@ -74,6 +74,28 @@ export interface Options {
 	 * @since 4.2.5
 	 */
 	minPolylineStep?: number;
+
+	/**
+	 * Whether the chart should only display when its container is visible
+	 * on the document viewport.
+	 * 
+	 * This setting can be combined with `queue` for better performance.
+	 * 
+	 * @default false
+	 * @since 4.5.0
+	 */
+	onlyShowOnViewport: boolean;
+
+	/**
+	 * Whether to queue all charts rendering. One chart will be rendered at a time. The next
+	 * chart starts to render after the previous chart's ready event.
+	 * 
+	 * This setting can be combined with `onlyShowOnViewport` for better performance.
+	 * 
+	 * @default false
+	 * @since 4.5.0
+	 */
+	queue: boolean;
 }
 
 export const options: Options = {
@@ -81,5 +103,7 @@ export const options: Options = {
 	commercialLicense: false,
 	classNamePrefix: "amcharts-",
 	autoSetClassName: false,
-	minPolylineStep: 0.5
+	minPolylineStep: 0.5,
+	onlyShowOnViewport: false,
+	queue: false
 };

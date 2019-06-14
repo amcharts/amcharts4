@@ -170,11 +170,11 @@ export class StepLineSeries extends LineSeries {
 		let x1: number = this.xAxis.getX(dataItem, xField, endLocation);
 		let y1: number = this.yAxis.getY(dataItem, yField, endLocation);
 
-		x0 = $math.fitToRange(x0, -20000, 20000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
-		y0 = $math.fitToRange(y0, -20000, 20000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+		x0 = $math.fitToRange(x0, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+		y0 = $math.fitToRange(y0, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
 
-		x1 = $math.fitToRange(x1, -20000, 20000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
-		y1 = $math.fitToRange(y1, -20000, 20000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+		x1 = $math.fitToRange(x1, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+		y1 = $math.fitToRange(y1, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
 
 		// this might make an impression that points are duplicated, and they indeed are, but this is needed to handle gaps in data
 		if (!this.noRisers && this.connect) {

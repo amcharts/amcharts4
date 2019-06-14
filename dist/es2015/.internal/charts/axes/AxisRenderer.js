@@ -62,6 +62,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         gridContainer.shouldClone = false;
         gridContainer.layout = "none";
         //	gridContainer.isMeasured = false;
+        gridContainer.virtualParent = _this;
         gridContainer.width = percent(100);
         gridContainer.height = percent(100);
         _this.gridContainer = gridContainer;

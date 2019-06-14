@@ -141,6 +141,20 @@ export function setStyle(element: HTMLElement | SVGSVGElement, property: string,
 }
 
 /**
+ * Gets the computed style value for an element.
+ * 
+ * @ignore Exclude from docs
+ */
+export function getComputedStyle(element: Element, property: string): string | number {
+
+	if ((<any>element).currentStyle) {
+		return (<any>element).currentStyle[property];
+	}
+
+	return document.defaultView.getComputedStyle(element, null).getPropertyValue(property);
+}
+
+/**
  * Removes focus from any element by shifting focus to body.
  *
  * @ignore Exclude from docs
@@ -229,11 +243,41 @@ export function isElement(el: HTMLElement): boolean {
  * @return Contains?
  */
 export function contains(a: HTMLElement | SVGSVGElement, b: HTMLElement | SVGSVGElement): boolean {
-	return a === b || (a.contains
-		? a.contains(b)
-		: a.compareDocumentPosition
-			? !!(a.compareDocumentPosition(b) & 16)
-			: true);
+	let cursor: Node = b;
+
+	while (true) {
+		if (a === cursor) {
+			return true;
+
+		} else if (cursor.parentNode == null) {
+			if ((<any>cursor).host == null) {
+				return false;
+
+			} else {
+				cursor = (<any>cursor).host;
+			}
+
+		} else {
+			cursor = cursor.parentNode;
+		}
+	}
+}
+
+/**
+ * Gets the true target of the Event.
+ *
+ * This is needed to make events work with the shadow DOM.
+ *
+ * @param event  Event
+ * @return EventTarget
+ */
+export function eventTarget(event: Event): EventTarget {
+	if (typeof (<any>event).composedPath === "function") {
+		return (<any>event).composedPath()[0];
+
+	} else {
+		return event.target;
+	}
 }
 
 /**
@@ -512,13 +556,7 @@ export function ready(f: () => void): void {
 export function findFont(element: Element): string {
 
 	// Check if element has styles set
-	let font = "";
-	if ((<any>element).currentStyle) {
-		font = (<any>element).currentStyle["font-family"];
-	}
-	else if (window.getComputedStyle) {
-		font = document.defaultView.getComputedStyle(element, null).getPropertyValue("font-family");
-	}
+	let font = getComputedStyle(element, "font-family");
 
 	if (!font) {
 		// Completely transparent. Look for a parent
@@ -531,7 +569,7 @@ export function findFont(element: Element): string {
 		}
 	}
 	else {
-		return font;
+		return (<string>font);
 	}
 
 }
@@ -547,13 +585,7 @@ export function findFont(element: Element): string {
 export function findFontSize(element: Element): string {
 
 	// Check if element has styles set
-	let font = "";
-	if ((<any>element).currentStyle) {
-		font = (<any>element).currentStyle["font-size"];
-	}
-	else if (window.getComputedStyle) {
-		font = document.defaultView.getComputedStyle(element, null).getPropertyValue("font-size");
-	}
+	let font = getComputedStyle(element, "font-size");
 
 	if (!font) {
 		// Completely transparent. Look for a parent
@@ -566,7 +598,7 @@ export function findFontSize(element: Element): string {
 		}
 	}
 	else {
-		return font;
+		return (<string>font);
 	}
 
 }
@@ -574,7 +606,7 @@ export function findFontSize(element: Element): string {
 /**
  * Checks whether element is not visible, whether directly or via its
  * ascendants.
- * 
+ *
  * @param   element  Target element
  * @return           Hidden?
  */

@@ -239,20 +239,8 @@ var Interaction = /** @class */ (function (_super) {
             "factor": 1,
             "easing": $ease.polyOut3
         });
-        // Check for passive mode support
-        try {
-            var target_1 = _this;
-            var options = Object.defineProperty({}, "passive", {
-                get: function () {
-                    target_1._passiveSupported = true;
-                }
-            });
-            window.addEventListener("test", options, options);
-            window.removeEventListener("test", options, options);
-        }
-        catch (err) {
-            _this._passiveSupported = false;
-        }
+        // Set the passive mode support
+        _this._passiveSupported = Interaction.passiveSupported;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -1361,13 +1349,14 @@ var Interaction = /** @class */ (function (_super) {
         // We check if the element became unhovered without reporting the mouseout
         // event. (it happens in some cases)
         if (!pointer.touch) {
+            var target_1 = $dom.eventTarget(pointer.lastEvent);
             $iter.each(this.overObjects.backwards().iterator(), function (io) {
                 // Is this pointer relevant to element?
                 if (io && io.overPointers.contains(pointer) && io.hoverable) {
                     // Check if the element is still hovered
                     var reset = false;
                     if (io.element && pointer.lastEvent) {
-                        if (!$dom.contains(io.element, pointer.lastEvent.target)) {
+                        if (!$dom.contains(io.element, target_1)) {
                             reset = true;
                         }
                     }
@@ -2115,7 +2104,7 @@ var Interaction = /** @class */ (function (_super) {
             return cached;
         }
         var target = document.elementFromPoint(pointer.point.x, pointer.point.y);
-        var local = target && (svg === target || $dom.contains(svg, target));
+        var local = target && $dom.contains(svg, target);
         this.setCache("local_pointer_" + pointer.id + "_" + id, local, 100);
         return local;
     };
@@ -2635,6 +2624,32 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.logTouch = function (text, type, ev) {
         console.log(text + "  " + type + "  " + "touch" + "  " + ev.identifier);
     };
+    Object.defineProperty(Interaction, "passiveSupported", {
+        /**
+         * Indicates if passive mode options is supported by this browser.
+         */
+        get: function () {
+            var _this = this;
+            if (this._passiveSupported == null) {
+                // Check for passive mode support
+                try {
+                    var options = Object.defineProperty({}, "passive", {
+                        get: function () {
+                            _this._passiveSupported = true;
+                        }
+                    });
+                    window.addEventListener("test", options, options);
+                    window.removeEventListener("test", options, options);
+                }
+                catch (err) {
+                    this._passiveSupported = false;
+                }
+            }
+            return this._passiveSupported;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Interaction;
 }(BaseObjectEvents));
 export { Interaction };

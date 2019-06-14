@@ -3,6 +3,19 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [UNRELEASED] - ????-??-??
+
+### Fixed
+- Fixed map: `ukCounties` map has Scotland wrong.
+
+## [4.1.6] - 2019-06-10
+
+### Fixed
+- Fixed map: Azerbaijan (incorrect ISO code for a single area).
+- Fixed map: Channel Islands (empty area on low-res map).
+- Fixed map: Guinea (broken coding of area names).
+- Fixed map: Seychelles ("SC-00" had an empty type).
+
 ## [4.1.5] - 2019-05-10
 
 ### Added

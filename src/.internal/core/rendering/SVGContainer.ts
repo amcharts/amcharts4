@@ -127,14 +127,6 @@ export class SVGContainer implements IDisposer {
 		// Log parent HTML element
 		this.htmlElement = htmlElement;
 
-		const callback = () => { this.measure() };
-
-		this.resizeSensor = new ResizeSensor(htmlElement, callback);
-
-		this._disposers.push(new Disposer(() => {
-			this.resizeSensor.detach(callback);
-		}));
-
 		// Adds to containers array
 		svgContainers.push(this);
 
@@ -148,9 +140,30 @@ export class SVGContainer implements IDisposer {
 		style.width = "100%";
 		style.height = "100%";
 		style.position = "relative";
-		htmlElement.appendChild(svgContainer);
 
 		this.SVGContainer = svgContainer;
+	}
+
+	/**
+	 * Renders the SVG container into the HTML element.
+	 * 
+	 * @ignore Exclude from docs
+	 */
+	public render (): void {
+
+		// Check if the SVG container is already rendered
+		if (this.SVGContainer && this.SVGContainer.parentElement !== this.htmlElement) {
+
+			const callback = () => { this.measure() };
+
+			this.resizeSensor = new ResizeSensor(this.htmlElement, callback);
+
+			this._disposers.push(new Disposer(() => {
+				this.resizeSensor.detach(callback);
+			}));
+
+			this.htmlElement.appendChild(this.SVGContainer);
+		}
 	}
 
 	/**

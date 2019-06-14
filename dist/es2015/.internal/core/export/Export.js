@@ -38,7 +38,7 @@ import { Validatable } from "../utils/Validatable";
 import { color } from "../utils/Color";
 import { registry } from "../Registry";
 import { options } from "../Options";
-import { StyleRule } from "../utils/DOM";
+import { StyleRule, getComputedStyle } from "../utils/DOM";
 import * as $browser from "../utils/Browser";
 import * as $object from "../utils/Object";
 import * as $net from "../utils/Net";
@@ -2466,13 +2466,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.findBackgroundColor = function (element) {
         // Check if element has styles set
-        var opacity = 1, currentColor = "";
-        if (element.currentStyle) {
-            currentColor = element.currentStyle["background-color"];
-        }
-        else if (window.getComputedStyle) {
-            currentColor = document.defaultView.getComputedStyle(element, null).getPropertyValue("background-color");
-        }
+        var opacity = 1, currentColor = getComputedStyle(element, "background-color");
         // Check opacity
         if (currentColor.match(/[^,]*,[^,]*,[^,]*,[ ]?0/) || currentColor == "transparent") {
             opacity = 0;

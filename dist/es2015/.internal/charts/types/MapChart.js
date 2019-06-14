@@ -151,7 +151,7 @@ var MapChart = /** @class */ (function (_super) {
         var chartContainer = _this.chartContainer;
         chartContainer.parent = _this;
         chartContainer.zIndex = -1;
-        _this._disposers.push(seriesContainer.events.on("maxsizechanged", function () {
+        _this._disposers.push(_this.events.on("maxsizechanged", function () {
             if (_this.inited) {
                 if (_this._mapAnimation) {
                     _this._mapAnimation.stop();

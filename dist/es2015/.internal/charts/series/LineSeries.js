@@ -319,6 +319,8 @@ var LineSeries = /** @class */ (function (_super) {
             segment.filters.clear();
             segment.parent = this.segmentsContainer;
         }
+        var connect = this.connect;
+        var valuesFound = false; // some flag to avoid multiple closes if no values found
         for (var i = openIndex; i < endIndex; i++) {
             var dataItem = this.dataItems.getIndex(i);
             dataItem.segment = segment;
@@ -334,6 +336,7 @@ var LineSeries = /** @class */ (function (_super) {
             }
             if (dataItem.hasValue(this._xValueFields) && dataItem.hasValue(this._yValueFields)) {
                 this.addPoints(points, dataItem, this.xField, this.yField);
+                valuesFound = true;
             }
             else {
                 // if no values in first data item, go to next
@@ -341,10 +344,8 @@ var LineSeries = /** @class */ (function (_super) {
                     continue;
                 }
                 else {
-                    var connect = this.connect;
-                    // todo: other connect conditions
                     // stop cycle
-                    if (!connect) {
+                    if (!connect && valuesFound) {
                         closeIndex = i;
                         break;
                     }
@@ -588,15 +589,6 @@ var LineSeries = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /*
-   public positionBullet(bullet: Bullet): void {
-       super.positionBullet(bullet);
-
-       let dataItem: this["_dataItem"] = <this["_dataItem"]>bullet.dataItem;
-       if (dataItem.segment) {
-           $object.softCopyProperties(dataItem.segment, bullet, visualProperties);
-       }
-   }*/
     /**
      * Creates elements in related legend container, that mimics the look of this
      * Series.

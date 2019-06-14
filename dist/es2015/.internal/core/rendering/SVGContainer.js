@@ -32,7 +32,6 @@ var SVGContainer = /** @class */ (function () {
      * * Creates an HTML wrapper for SVG
      */
     function SVGContainer(htmlElement) {
-        var _this = this;
         /**
          * Indicates if this object has already been deleted. Any
          * destruction/disposal code should take this into account when deciding
@@ -59,11 +58,6 @@ var SVGContainer = /** @class */ (function () {
         this.cssScale = 1;
         // Log parent HTML element
         this.htmlElement = htmlElement;
-        var callback = function () { _this.measure(); };
-        this.resizeSensor = new ResizeSensor(htmlElement, callback);
-        this._disposers.push(new Disposer(function () {
-            _this.resizeSensor.detach(callback);
-        }));
         // Adds to containers array
         svgContainers.push(this);
         /**
@@ -76,9 +70,25 @@ var SVGContainer = /** @class */ (function () {
         style.width = "100%";
         style.height = "100%";
         style.position = "relative";
-        htmlElement.appendChild(svgContainer);
         this.SVGContainer = svgContainer;
     }
+    /**
+     * Renders the SVG container into the HTML element.
+     *
+     * @ignore Exclude from docs
+     */
+    SVGContainer.prototype.render = function () {
+        var _this = this;
+        // Check if the SVG container is already rendered
+        if (this.SVGContainer && this.SVGContainer.parentElement !== this.htmlElement) {
+            var callback_1 = function () { _this.measure(); };
+            this.resizeSensor = new ResizeSensor(this.htmlElement, callback_1);
+            this._disposers.push(new Disposer(function () {
+                _this.resizeSensor.detach(callback_1);
+            }));
+            this.htmlElement.appendChild(this.SVGContainer);
+        }
+    };
     /**
      * Measures size of parent HTML element.
      *

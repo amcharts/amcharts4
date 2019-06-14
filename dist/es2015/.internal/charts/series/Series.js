@@ -550,21 +550,28 @@ var Series = /** @class */ (function (_super) {
         bulletsContainer.x = this.pixelX;
         bulletsContainer.y = this.pixelY;
         if (this.bulletsContainer.children.length > 0) {
-            for (var i = 0; i < this.startIndex; i++) {
-                var dataItem = this.dataItems.getIndex(i);
-                if (dataItem) {
-                    dataItem.bullets.each(function (key, bullet) {
-                        bullet.__disabled = true;
-                    });
+            if (this._showBullets) {
+                for (var i = 0; i < this.startIndex; i++) {
+                    var dataItem = this.dataItems.getIndex(i);
+                    if (dataItem) {
+                        dataItem.bullets.each(function (key, bullet) {
+                            bullet.__disabled = true;
+                        });
+                    }
+                }
+                for (var i = this.dataItems.length - 1; i > this.endIndex; i--) {
+                    var dataItem = this.dataItems.getIndex(i);
+                    if (dataItem) {
+                        dataItem.bullets.each(function (key, bullet) {
+                            bullet.__disabled = true;
+                        });
+                    }
                 }
             }
-            for (var i = this.dataItems.length - 1; i > this.endIndex; i--) {
-                var dataItem = this.dataItems.getIndex(i);
-                if (dataItem) {
-                    dataItem.bullets.each(function (key, bullet) {
-                        bullet.__disabled = true;
-                    });
-                }
+            else {
+                this.bulletsContainer.children.each(function (bullet) {
+                    bullet.__disabled = true;
+                });
             }
         }
         this.updateTooltipBounds();

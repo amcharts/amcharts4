@@ -240,7 +240,7 @@ var ForceDirectedNode = /** @class */ (function (_super) {
             link.source = this;
             link.target = node;
             link.stroke = dataItem.node.fill;
-            link.dataItem.dataContext = node.dataItem.dataContext;
+            link.dataItem = node.dataItem;
             if ($type.isNumber(strength)) {
                 link.strength = strength;
             }

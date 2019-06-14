@@ -189,7 +189,16 @@ var SmallMap = /** @class */ (function (_super) {
         if (this.chart) {
             var scale = this.chart.scaleRatio * Math.min(this.percentWidth, this.percentHeight) / 100;
             this.seriesContainer.scale = scale;
-            var bbox = this.seriesContainer.group.node.getBBox();
+            var bbox = {
+                width: 0,
+                height: 0,
+                x: 0,
+                y: 0
+            };
+            try { // Add exception catching to tame FF
+                bbox = this.seriesContainer.group.node.getBBox();
+            }
+            catch (err) { }
             if (bbox.width > 0) {
                 this.rectangle.visible = true;
             }

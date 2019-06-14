@@ -184,6 +184,19 @@ var Rectangle3D = /** @class */ (function (_super) {
             this.sideBottom.fill = color(colorStr).lighten(-0.5);
         }
     };
+    /**
+     * Copies all properties and related data from a different instance of Rectangle3D.
+     *
+     * @param source Source Rectangle3D
+     */
+    Rectangle3D.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this.sideBack.copyFrom(source.sideBack);
+        this.sideLeft.copyFrom(source.sideLeft);
+        this.sideRight.copyFrom(source.sideRight);
+        this.sideTop.copyFrom(source.sideTop);
+        this.sideBottom.copyFrom(source.sideBottom);
+    };
     return Rectangle3D;
 }(Container));
 export { Rectangle3D };

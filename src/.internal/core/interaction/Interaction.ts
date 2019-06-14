@@ -345,19 +345,8 @@ export class Interaction extends BaseObjectEvents {
 			"easing": $ease.polyOut3
 		});
 
-		// Check for passive mode support
-		try {
-			let target = this;
-			let options = Object.defineProperty({}, "passive", {
-				get: function() {
-					target._passiveSupported = true;
-				}
-			});
-			window.addEventListener("test", options, options);
-			window.removeEventListener("test", options, options);
-		} catch (err) {
-			this._passiveSupported = false;
-		}
+		// Set the passive mode support
+		this._passiveSupported = Interaction.passiveSupported;
 
 		// Apply theme
 		this.applyTheme();
@@ -931,7 +920,6 @@ export class Interaction extends BaseObjectEvents {
 	 * @param ev Event object
 	 */
 	public handleGlobalPointerMove(ev: MouseEvent): void {
-
 		// Get pointer
 		let pointer: IPointer = this.getPointer(ev);
 
@@ -1183,7 +1171,6 @@ export class Interaction extends BaseObjectEvents {
 	 * @param ev  Original event
 	 */
 	public handlePointerOver(io: InteractionObject, ev: MouseEvent | PointerEvent): void {
-
 		// Get pointer
 		let pointer = this.getPointer(ev);
 
@@ -1739,13 +1726,15 @@ export class Interaction extends BaseObjectEvents {
 		// We check if the element became unhovered without reporting the mouseout
 		// event. (it happens in some cases)
 		if (!pointer.touch) {
+			const target = <HTMLElement>$dom.eventTarget(<Event>pointer.lastEvent);
+
 			$iter.each(this.overObjects.backwards().iterator(), (io) => {
 				// Is this pointer relevant to element?
 				if (io && io.overPointers.contains(pointer) && io.hoverable) {
 					// Check if the element is still hovered
 					let reset = false;
 					if (io.element && pointer.lastEvent) {
-						if (!$dom.contains(io.element, <HTMLElement>pointer.lastEvent.target)) {
+						if (!$dom.contains(io.element, target)) {
 							reset = true;
 						}
 					}
@@ -2609,7 +2598,7 @@ export class Interaction extends BaseObjectEvents {
 			return cached;
 		}
 		let target = document.elementFromPoint(pointer.point.x, pointer.point.y);
-		let local = target && (svg === target || $dom.contains(svg, <HTMLElement>target));
+		let local = target && $dom.contains(svg, <HTMLElement>target);
 		this.setCache("local_pointer_" + pointer.id + "_" + id, local, 100);
 		return local;
 	}
@@ -3189,6 +3178,35 @@ export class Interaction extends BaseObjectEvents {
 
 	private logTouch(text: string, type: string, ev: Touch): void {
 		console.log(text + "  " + type + "  " + "touch" + "  " + ev.identifier);
+	}
+
+	/**
+	 * Indicates if passive mode options is supported by this browser.
+	 */
+	private static _passiveSupported: boolean;
+
+	/**
+	 * Indicates if passive mode options is supported by this browser.
+	 */
+	static get passiveSupported () {
+
+		if (this._passiveSupported == null) {
+
+			// Check for passive mode support
+			try {
+				let options = Object.defineProperty({}, "passive", {
+					get: () => {
+						this._passiveSupported = true;
+					}
+				});
+				window.addEventListener("test", options, options);
+				window.removeEventListener("test", options, options);
+			} catch (err) {
+				this._passiveSupported = false;
+			}
+		}
+
+		return this._passiveSupported;
 	}
 
 }

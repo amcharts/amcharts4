@@ -843,22 +843,32 @@ export class Series extends Component {
 		bulletsContainer.y = this.pixelY;
 
 		if (this.bulletsContainer.children.length > 0) {
-			for (let i = 0; i < this.startIndex; i++) {
-				let dataItem = this.dataItems.getIndex(i);
-				if (dataItem) {
-					dataItem.bullets.each((key, bullet) => {
-						bullet.__disabled = true;
-					})
-				}
-			}
+			if (this._showBullets) {
 
-			for (let i = this.dataItems.length - 1; i > this.endIndex; i--) {
-				let dataItem = this.dataItems.getIndex(i);
-				if (dataItem) {
-					dataItem.bullets.each((key, bullet) => {
-						bullet.__disabled = true;
-					})
+
+				for (let i = 0; i < this.startIndex; i++) {
+					let dataItem = this.dataItems.getIndex(i);
+					if (dataItem) {
+						dataItem.bullets.each((key, bullet) => {
+							bullet.__disabled = true;
+						})
+					}
 				}
+
+				for (let i = this.dataItems.length - 1; i > this.endIndex; i--) {
+					let dataItem = this.dataItems.getIndex(i);
+					if (dataItem) {
+						dataItem.bullets.each((key, bullet) => {
+							bullet.__disabled = true;
+						})
+					}
+				}
+
+			}
+			else {
+				this.bulletsContainer.children.each((bullet) => {
+					bullet.__disabled = true;
+				})
 			}
 		}
 
@@ -890,7 +900,7 @@ export class Series extends Component {
 		super.validateDataElement(dataItem);
 
 		if (this._showBullets) {
-			if(!this.isHidden){
+			if (!this.isHidden) {
 				this.bulletsContainer.visible = true;
 			}
 			this.bullets.each((bulletTemplate) => {
@@ -1599,7 +1609,7 @@ export class Series extends Component {
 	public setVisibility(value: boolean) {
 		super.setVisibility(value);
 		this.bulletsContainer.visible = value;
-	}	
+	}
 }
 
 /**

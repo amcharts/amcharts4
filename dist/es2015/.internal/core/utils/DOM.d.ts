@@ -73,6 +73,12 @@ export declare function removeClass(element: HTMLElement | SVGSVGElement, classN
  */
 export declare function setStyle(element: HTMLElement | SVGSVGElement, property: string, value: string): void;
 /**
+ * Gets the computed style value for an element.
+ *
+ * @ignore Exclude from docs
+ */
+export declare function getComputedStyle(element: Element, property: string): string | number;
+/**
  * Removes focus from any element by shifting focus to body.
  *
  * @ignore Exclude from docs
@@ -113,6 +119,15 @@ export declare function isElement(el: HTMLElement): boolean;
  * @return Contains?
  */
 export declare function contains(a: HTMLElement | SVGSVGElement, b: HTMLElement | SVGSVGElement): boolean;
+/**
+ * Gets the true target of the Event.
+ *
+ * This is needed to make events work with the shadow DOM.
+ *
+ * @param event  Event
+ * @return EventTarget
+ */
+export declare function eventTarget(event: Event): EventTarget;
 /**
  * Copies attributes from one element to another.
  *

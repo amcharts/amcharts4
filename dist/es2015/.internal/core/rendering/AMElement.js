@@ -112,19 +112,16 @@ var AMElement = /** @class */ (function () {
             x: 0,
             y: 0
         };
-        if (this.node) {
-            // FF would fail if getBBox() is called without node added to parent
-            if (this.node.parentNode) {
-                try { // again for ff. TODO: check if this doesn't slow down
-                    var svgbbox = this.node.getBBox();
-                    bbox.x = svgbbox.x;
-                    bbox.y = svgbbox.y;
-                    bbox.width = svgbbox.width;
-                    bbox.height = svgbbox.height;
-                }
-                catch (err) {
-                }
+        // FF would fail if getBBox() is called without node added to parent
+        if (this.node && this.node.parentNode) {
+            try { // again for ff. TODO: check if this doesn't slow down
+                var svgbbox = this.node.getBBox();
+                bbox.x = svgbbox.x;
+                bbox.y = svgbbox.y;
+                bbox.width = svgbbox.width;
+                bbox.height = svgbbox.height;
             }
+            catch (err) { }
         }
         return bbox;
     };
