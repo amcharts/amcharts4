@@ -129,8 +129,8 @@ function createChild(htmlElement, classType) {
                 sprite_1.maskRectangle = { x: 0, y: 0, width: svgDiv_1.width, height: svgDiv_1.height };
                 container_1.deepInvalidate();
                 // Re-animate the chart
-                //sprite.appear();
-                appear(sprite_1);
+                sprite_1.appear();
+                //appear(sprite);
             }
             svgDiv_1.render();
             paper_1.append(container_1.group);
@@ -142,16 +142,16 @@ function createChild(htmlElement, classType) {
         throw new Error("html container not found");
     }
 }
-function appear(sprite) {
-    if (sprite.showOnInit) {
-        sprite.appear();
-    }
-    if (sprite instanceof Container) {
-        sprite.children.each(function (child) {
-            appear(child);
-        });
-    }
-}
+// function appear(sprite:Sprite){
+// 	if(sprite.showOnInit){
+// 		sprite.appear();
+// 	}
+// 	if(sprite instanceof Container){
+// 		sprite.children.each((child)=>{
+// 			appear(child);
+// 		})
+// 	}
+// }
 /**
  * A shortcut to creating a chart instance.
  *

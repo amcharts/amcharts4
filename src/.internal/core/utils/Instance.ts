@@ -160,8 +160,8 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 				container.deepInvalidate();
 
 				// Re-animate the chart
-				//sprite.appear();
-				appear(sprite);
+				sprite.appear();
+				//appear(sprite);
 			}
 
 			svgDiv.render();
@@ -177,17 +177,17 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 	}
 }
 
-function appear(sprite:Sprite){
-	if(sprite.showOnInit){
-		sprite.appear();
-	}
+// function appear(sprite:Sprite){
+// 	if(sprite.showOnInit){
+// 		sprite.appear();
+// 	}
 
-	if(sprite instanceof Container){
-		sprite.children.each((child)=>{
-			appear(child);
-		})
-	}
-}
+// 	if(sprite instanceof Container){
+// 		sprite.children.each((child)=>{
+// 			appear(child);
+// 		})
+// 	}
+// }
 
 /**
  * A shortcut to creating a chart instance.

@@ -90,9 +90,9 @@ window.am4${path.name} = m;`);
 }
 
 
-function runWebpack(entries) {
+function runWebpack(name, entries) {
 	$fs.writeFileSync("webpack.script.js",
-		'var template = require("../../webpack.config");\nmodule.exports = [template(' + JSON.stringify({
+		'var template = require(' + JSON.stringify(name) + ');\nmodule.exports = [template(' + JSON.stringify({
 			"baseDir": "../script",
 			"runtimeDir": "",
 			"baseChunk": "core",

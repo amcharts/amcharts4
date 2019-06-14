@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.1] - 2019-06-14
+
+### Changed
+- Initial animations for charts with deferred initialization (`am4core.options.onlyShowOnViewport = true`) will not be played for now. Another fix is coming.
+
+### Fixed
+- In some HTML configurations layout of the labels might be off since last update.
+
+
 ## [4.5.0] - 2019-06-14
 
 ### Added
