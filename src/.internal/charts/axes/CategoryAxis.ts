@@ -548,7 +548,12 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 			renderer.updateLabelElement(label, position, endPosition);
 
 			if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
-				this.ghostLabel.text = dataItem.label.currentText;
+				if (dataItem.label.html) {					
+					this.ghostLabel.html = dataItem.label.currentText;
+				}
+				else {
+					this.ghostLabel.text = dataItem.label.currentText;
+				}
 			}
 		}
 

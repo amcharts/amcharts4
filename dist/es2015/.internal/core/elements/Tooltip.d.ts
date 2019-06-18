@@ -24,13 +24,13 @@ import * as $type from "../utils/Type";
 /**
  * Represents options for tooltip pointer (arrow) orientation.
  */
-export declare type PointerOrientation = "horizontal" | "vertical";
+export declare type PointerOrientation = "horizontal" | "vertical" | "left" | "right" | "up" | "down";
 /**
  * Defines properties for [[Tooltip]].
  */
 export interface ITooltipProperties extends IContainerProperties {
     /**
-     * Pointer orientation: "horizontal" or "vertical".
+     * Pointer orientation: "horizontal", "vertical", "left", "right", "up", "down".
      *
      * @default "vertical"
      */
@@ -145,7 +145,8 @@ export declare class Tooltip extends Container {
      */
     fitPointerToBounds: boolean;
     /**
-     * If tooltipOrientation is vertical, it can be drawn below or above point. We need to know this when solving overlapping
+     * If `tooltipOrientation` is vertical, it can be drawn below or above point
+     * We need to know this when solving overlapping.
      */
     protected _verticalOrientation: "up" | "down";
     /**
@@ -226,10 +227,19 @@ export declare class Tooltip extends Container {
      * @return Orientation
      */
     /**
-     * Pointer orientation: "horizontal" or "vertical".
+     * Pointer orientation: `"horizontal"`, `"vertical"`, `"up"`, `"down"`,
+     * `"right"`, or `"left"`.
+     *
+     * Options`"horizontal"` or `"vertical"` ar location-aware, meaning they
+     * will change position of the Tooltip based on the target point's position
+     * in relation to chart center.
+     *
+     * Options `"up"`, `"down"`, `"right"`, `"left"` ar static and will point
+     * in the specified direction regardless of the position, even if that means
+     * going out of chart/screen bounds.
      *
      * @default "vertical"
-     * @param value  Orientation
+     * @param  value  Orientation
      */
     pointerOrientation: PointerOrientation;
     /**

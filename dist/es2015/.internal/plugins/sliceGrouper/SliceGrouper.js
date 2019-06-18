@@ -12,6 +12,7 @@ import { Plugin } from "../../core/utils/Plugin";
 import { List } from "../../core/utils/List";
 import { registry } from "../../core/Registry";
 import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
+import * as $object from "../../core/utils/Object";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -84,6 +85,13 @@ var SliceGrouper = /** @class */ (function (_super) {
          * @default "Other"
          */
         _this.groupName = "Other";
+        /**
+         * Custom properties to apply to the "Other" slice.
+         *
+         * @since 4.5.3
+         * @type {IFunnelSliceProperties}
+         */
+        _this.groupProperties = {};
         /**
          * If set to `true` the legend will be synced to show currently visible
          * slices only.
@@ -184,6 +192,10 @@ var SliceGrouper = /** @class */ (function (_super) {
         if (!this.groupSlice) {
             return;
         }
+        // Apply custom peroperties
+        $object.each(this.groupProperties, function (key, val) {
+            _this.groupSlice[key] = val;
+        });
         // Set up click
         if (this.clickBehavior != "none") {
             if (!this.groupSlice.events.has("hit")) {

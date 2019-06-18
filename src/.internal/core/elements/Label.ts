@@ -952,17 +952,9 @@ export class Label extends Container {
 			}
 
 			// Check if maybe we need to hide the whole label if it doesn't fit
-			if (this.hideOversized) {
-				if ((this.availableWidth < this.bbox.width) || (this.availableHeight < this.bbox.height)) {
-					this.element.attr({ display: "none" });
-					this.isOversized = true;
-				}
-				else {
-					this.element.removeAttr("display");
-					this.isOversized = false;
-				}
-			}
+			this.maybeHideOversized();
 
+			// Updated measured dims
 			this._measuredWidth = $math.max(this.bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);
 			this._measuredHeight = $math.max(this.bbox.height, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom);
 
@@ -1020,6 +1012,9 @@ export class Label extends Container {
 				height: clientHeight
 			});
 
+			// Check if maybe we need to hide the whole label if it doesn't fit
+			this.maybeHideOversized();
+
 			// Set measurements and update bbox
 			this._measuredWidth = $math.max(this.bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);
 			this._measuredHeight = $math.max(this.bbox.height, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom);
@@ -1049,6 +1044,22 @@ export class Label extends Container {
 
 		if (this.pathElement) {
 			this.paper.appendDef(this.pathElement);
+		}
+	}
+
+	/**
+	 * Hides element if it does not fit into available space
+	 */
+	private maybeHideOversized(): void {
+		if (this.hideOversized) {
+			if ((this.availableWidth < this.bbox.width) || (this.availableHeight < this.bbox.height)) {
+				this.element.attr({ display: "none" });
+				this.isOversized = true;
+			}
+			else {
+				this.element.removeAttr("display");
+				this.isOversized = false;
+			}
 		}
 	}
 

@@ -287,6 +287,10 @@ export declare class Label extends Container {
      */
     draw(): void;
     /**
+     * Hides element if it does not fit into available space
+     */
+    private maybeHideOversized();
+    /**
      * Aligns the lines horizontally ant vertically, based on properties.
      *
      * @ignore Exclude from docs

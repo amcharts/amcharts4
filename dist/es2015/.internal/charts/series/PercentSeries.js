@@ -453,6 +453,7 @@ var PercentSeries = /** @class */ (function (_super) {
                 }
             });
         }
+        this.updateLegendValue(dataItem);
     };
     /**
      * Validates (processes) data.
@@ -653,6 +654,34 @@ var PercentSeries = /** @class */ (function (_super) {
      */
     PercentSeries.prototype.setAlignLabels = function (value) {
         this.setPropertyValue("alignLabels", value, true);
+    };
+    /**
+     * Updates corresponding legend data item with current values.
+     *
+     * @ignore Exclude from docs
+     * @param dataItem  Data item
+     */
+    PercentSeries.prototype.updateLegendValue = function (dataItem) {
+        if (dataItem) {
+            var legendDataItem = dataItem.legendDataItem;
+            var legendSettings = dataItem.legendSettings;
+            if (legendDataItem && legendSettings) {
+                if (legendSettings) {
+                    if (legendSettings.labelText) {
+                        legendDataItem.label.text = legendSettings.labelText;
+                    }
+                    if (legendSettings.itemLabelText) {
+                        legendDataItem.label.text = legendSettings.itemLabelText;
+                    }
+                    if (legendSettings.valueText) {
+                        legendDataItem.valueLabel.text = legendSettings.valueText;
+                    }
+                    if (legendSettings.itemValueText) {
+                        legendDataItem.valueLabel.text = legendSettings.itemValueText;
+                    }
+                }
+            }
+        }
     };
     return PercentSeries;
 }(Series));

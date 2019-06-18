@@ -421,4 +421,11 @@ export declare class PercentSeries extends Series {
      * @ignore
      */
     protected setAlignLabels(value: boolean): void;
+    /**
+     * Updates corresponding legend data item with current values.
+     *
+     * @ignore Exclude from docs
+     * @param dataItem  Data item
+     */
+    updateLegendValue(dataItem?: this["_dataItem"]): void;
 }

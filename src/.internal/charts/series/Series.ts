@@ -777,17 +777,22 @@ export class Series extends Component {
 
 						let value: number = dataItem.getActualWorkingValue(key);
 
-						if ($type.isNumber(value) && ksum > 0) {
+						if ($type.isNumber(value)) {
+							if (ksum > 0) {
+								// this hack is made in order to make it possible to animate single slice to 0
+								// if there is only one slice left, percent value is always 100%, so it won't animate
+								// so we use real value of a slice instead of current value
+								if (value == ksum) {
+									ksum = dataItem.values[key].value;
+								}
 
-							// this hack is made in order to make it possible to animate single slice to 0
-							// if there is only one slice left, percent value is always 100%, so it won't animate
-							// so we use real value of a slice instead of current value
-							if (value == ksum) {
-								ksum = dataItem.values[key].value;
+								let percent = value / ksum * 100;
+
+								dataItem.setCalculatedValue(key, percent, "percent");
 							}
-
-							let percent = value / ksum * 100;
-							dataItem.setCalculatedValue(key, percent, "percent");
+							else {
+								dataItem.setCalculatedValue(key, 0, "percent");
+							}
 						}
 					});
 				}

@@ -468,6 +468,7 @@ var ColumnSeries = /** @class */ (function (_super) {
                 $object.copyProperties(this.columns.template, column_1, visualProperties); // second time, no force, so that columns.template would override series properties
                 dataItem.addSprite(column_1);
                 dataItem.column = column_1;
+                column_1.paper = this.paper; // sometimes pattern is not drawn if is set with adapter without this.
                 // accessibility
                 if (this.itemsFocusable()) {
                     column_1.role = "menuitem";
@@ -521,6 +522,7 @@ var ColumnSeries = /** @class */ (function (_super) {
                     $object.copyProperties(axisRange.contents, rangeColumn, visualProperties); // need this because 3d columns are not in the same container
                     dataItem.addSprite(rangeColumn);
                     dataItem.rangesColumns.setKey(axisRange.uid, rangeColumn);
+                    rangeColumn.paper = _this.paper; // sometimes pattern is not drawn if is set with adapter without this.					
                 }
                 rangeColumn.parent = axisRange.contents;
                 rangeColumn.width = w;

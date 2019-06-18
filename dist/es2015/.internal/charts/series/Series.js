@@ -490,15 +490,20 @@ var Series = /** @class */ (function (_super) {
                     $object.each(dataItem_3.values, function (key) {
                         var ksum = sum_1[key];
                         var value = dataItem_3.getActualWorkingValue(key);
-                        if ($type.isNumber(value) && ksum > 0) {
-                            // this hack is made in order to make it possible to animate single slice to 0
-                            // if there is only one slice left, percent value is always 100%, so it won't animate
-                            // so we use real value of a slice instead of current value
-                            if (value == ksum) {
-                                ksum = dataItem_3.values[key].value;
+                        if ($type.isNumber(value)) {
+                            if (ksum > 0) {
+                                // this hack is made in order to make it possible to animate single slice to 0
+                                // if there is only one slice left, percent value is always 100%, so it won't animate
+                                // so we use real value of a slice instead of current value
+                                if (value == ksum) {
+                                    ksum = dataItem_3.values[key].value;
+                                }
+                                var percent = value / ksum * 100;
+                                dataItem_3.setCalculatedValue(key, percent, "percent");
                             }
-                            var percent = value / ksum * 100;
-                            dataItem_3.setCalculatedValue(key, percent, "percent");
+                            else {
+                                dataItem_3.setCalculatedValue(key, 0, "percent");
+                            }
                         }
                     });
                 };

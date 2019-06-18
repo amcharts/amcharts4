@@ -145,6 +145,7 @@ var RadarColumnSeries = /** @class */ (function (_super) {
             dataItem.column = radarColumn;
             $object.forceCopyProperties(this.columns.template, radarColumn, visualProperties);
             dataItem.addSprite(radarColumn);
+            radarColumn.paper = this.paper; // sometimes pattern is not drawn if is set with adapter without this.
             this.setColumnStates(radarColumn);
         }
         var slice = radarColumn.radarColumn;
@@ -166,6 +167,7 @@ var RadarColumnSeries = /** @class */ (function (_super) {
                         $array.remove(rangeColumn.dataItem.sprites, rangeColumn);
                     }
                     dataItem.addSprite(rangeColumn);
+                    rangeColumn.paper = _this.paper; // sometimes pattern is not drawn if is set with adapter without this.					
                     _this.setColumnStates(rangeColumn);
                     dataItem.rangesColumns.setKey(axisRange.uid, rangeColumn);
                 }
@@ -175,6 +177,7 @@ var RadarColumnSeries = /** @class */ (function (_super) {
                 slice.radius = tRadius;
                 slice.innerRadius = bRadius;
                 if (slice.invalid) {
+                    slice.paper = _this.paper;
                     slice.validate(); // validate as if it was used previously, it will flicker with previous dimensions
                 }
                 rangeColumn.__disabled = false;

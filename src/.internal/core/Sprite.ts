@@ -181,8 +181,8 @@ export interface ISpriteProperties {
 	hidden?: boolean;
 	showOnInit?: boolean;
 	id?: string;
-	isActive?:boolean;
-	isHover?:boolean;
+	isActive?: boolean;
+	isHover?: boolean;
 }
 
 /**
@@ -908,7 +908,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * Indicates if the sprite can be moved around when resizing it with two fingers (will only work if draggable = false)
 	 * @ignore
 	 */
-	public dragWhileResize:boolean = false;
+	public dragWhileResize: boolean = false;
 
 	/**
 	 * Constructor:
@@ -1500,13 +1500,23 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 			let stroke = this.stroke;
 			if (stroke && !(stroke instanceof Color) && stroke.dispose) {
-				stroke.dispose();
+				if (this.clonedFrom && this.clonedFrom.stroke == stroke) {
+					// do nothing
+				}
+				else {
+					stroke.dispose();
+				}
 			}
 
 			// TODO a bit hacky
 			let fill = this.fill;
 			if (fill && !(fill instanceof Color) && fill.dispose) {
-				fill.dispose();
+				if (this.clonedFrom && this.clonedFrom.fill == fill) {
+					// do nothing
+				}
+				else {
+					fill.dispose();
+				}
 			}
 
 			// remove from map
@@ -2993,7 +3003,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				"y": point.y - bbox.top
 			};
 		}
-		catch(e) {
+		catch (e) {
 			return point;
 		}
 	}
@@ -4001,10 +4011,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this._dataItem != dataItem) {
 			this._dataItem = dataItem;
 			if (this.configField) {
-				let dataContext:any = dataItem.dataContext;
+				let dataContext: any = dataItem.dataContext;
 				if (dataContext) {
 					this.config = dataContext[this.configField];
-					if(!this.config && dataContext.dataContext){
+					if (!this.config && dataContext.dataContext) {
 						this.config = dataContext.dataContext[this.configField];
 					}
 				}
@@ -4020,10 +4030,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 						let anyThis = <any>this;
 						anyThis[propertyName] = dataContext[fieldValue];
 					}
-					else{
-						if(dataContext2){
+					else {
+						if (dataContext2) {
 							let value = dataContext2[fieldValue];
-							if($type.hasValue(value)){
+							if ($type.hasValue(value)) {
 								let anyThis = <any>this;
 								anyThis[propertyName] = value;
 							}
@@ -7275,7 +7285,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	/**
 	 * @ignore
 	 */
-	protected setPath(value:string):boolean {
+	protected setPath(value: string): boolean {
 		if (this.setPropertyValue("path", value)) {
 
 			if (!this.element || !(this.element instanceof SVGPathElement)) {

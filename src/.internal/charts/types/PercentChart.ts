@@ -161,21 +161,8 @@ export class PercentChart extends SerialChart {
 					$iter.each(series.dataItems.iterator(), (dataItem) => {
 						if (!dataItem.hiddenInLegend) {
 							legendData.push(<PercentSeriesDataItem>dataItem);
-
-							let legendSettings = series.legendSettings;
-							if (legendSettings) {
-								if (legendSettings.labelText) {
-									legend.labels.template.text = legendSettings.labelText;
-								}
-								if (legendSettings.itemLabelText) {
-									legend.labels.template.text = legendSettings.itemLabelText;
-								}
-								if (legendSettings.valueText) {
-									legend.valueLabels.template.text = legendSettings.valueText;
-								}
-								if (legendSettings.itemValueText) {
-									legend.valueLabels.template.text = legendSettings.itemValueText;
-								}
+							if(!dataItem.legendSettings){
+								dataItem.legendSettings = series.legendSettings;
 							}
 						}
 					});

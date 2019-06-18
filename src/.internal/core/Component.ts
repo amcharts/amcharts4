@@ -1027,7 +1027,7 @@ export class Component extends Container {
 	/**
 	 * Destroys this object and all related data.
 	 */
-	public dispose(){
+	public dispose() {
 		this.dataItems.template.clones.clear();
 		super.dispose();
 	}
@@ -1037,28 +1037,26 @@ export class Component extends Container {
 	 * @ignore
 	 */
 	public disposeData() {
-		if (this.inited) {
-			this.dataItems.template.clones.clear();
+		this.dataItems.template.clones.clear();
 
-			$array.each(this._dataDisposers, (x) => {
-				x.dispose();
-			});
+		$array.each(this._dataDisposers, (x) => {
+			x.dispose();
+		});
 
-			// and for all components
-			$iter.each(this.dataUsers.iterator(), (dataUser) => {
-				dataUser.disposeData();
-			});
+		// and for all components
+		$iter.each(this.dataUsers.iterator(), (dataUser) => {
+			dataUser.disposeData();
+		});
 
-			this._dataDisposers.length = 0;
+		this._dataDisposers.length = 0;
 
-			this._startIndex = undefined;
-			this._endIndex = undefined;
+		this._startIndex = undefined;
+		this._endIndex = undefined;
 
-			// dispose old
-			this.dataItems.clear();
+		// dispose old
+		this.dataItems.clear();
 
-			this.dataItems.template.clones.clear();
-		}
+		this.dataItems.template.clones.clear();
 	}
 
 

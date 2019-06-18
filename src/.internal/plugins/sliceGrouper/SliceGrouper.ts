@@ -10,7 +10,7 @@
  */
 import { Plugin } from "../../core/utils/Plugin";
 import { PercentSeries } from "../../charts/series/PercentSeries";
-import { FunnelSlice } from "../../charts/elements/FunnelSlice";
+import { FunnelSlice, IFunnelSliceProperties } from "../../charts/elements/FunnelSlice";
 import { PercentChart } from "../../charts/types/PercentChart";
 import { IDisposer } from "../../core/utils/Disposer";
 import { List } from "../../core/utils/List";
@@ -19,6 +19,7 @@ import { Sprite } from "../../core/Sprite";
 import { Optional } from "../../core/utils/Type";
 import { registry } from "../../core/Registry";
 import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
+import * as $object from "../../core/utils/Object";
 
 
 
@@ -100,6 +101,14 @@ export class SliceGrouper extends Plugin {
 	 * @default "Other"
 	 */
 	public groupName: string = "Other";
+
+	/**
+	 * Custom properties to apply to the "Other" slice.
+	 *
+	 * @since 4.5.3
+	 * @type {IFunnelSliceProperties}
+	 */
+	public groupProperties: IFunnelSliceProperties = {};
 
 	/**
 	 * If set to `true` the legend will be synced to show currently visible
@@ -227,6 +236,11 @@ export class SliceGrouper extends Plugin {
 		if (!this.groupSlice) {
 			return;
 		}
+
+		// Apply custom peroperties
+		$object.each(this.groupProperties, (key, val) => {
+			(<any>this.groupSlice)[key] = val;
+		});
 
 		// Set up click
 		if (this.clickBehavior != "none") {

@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.3] - 2019-06-18
+
+### Added
+- `"up"`, `"down"`, `"left"` and `"right"` options added to `Tooltip.pointerOrientation`. Allows forcing constant position/orientation of the Tooltip. Note, the tooltip might go out of div/screen boundaries when using these new orientations.
+- New property added to `SliceGrouper`: `groupProperties`. It's an object comprising by key/value pairs to apply to a "group slice", e.g. `grouper.groupProperties.fill = am4core.color("red")`.
+- It was impossible to reuse single pattern for multiple `Sprite` elements, as disposing one was resulting in pattern to be disposed as well.
+
+### Fixed
+- `hideOversized` was being ignored for HTML-based labels.
+- `PieChart` series' `legendSettings` were shared across all series; it was impossible to set different `valueText`.
+- `CategoryAxis` with HTML labels could in result excessive white space at the bottom of the chart.
+- In some cases patterns set as `Sprite`'s fills using `fill` adapter were not displayed.
+- When calculating totals on a Series with all zero values, `percent` was not being calculated. It will now have a zero.
+
+
 ## [4.5.2] - 2019-06-14
 
 ### Changed

@@ -792,12 +792,22 @@ var Sprite = /** @class */ (function (_super) {
             }
             var stroke = this.stroke;
             if (stroke && !(stroke instanceof Color) && stroke.dispose) {
-                stroke.dispose();
+                if (this.clonedFrom && this.clonedFrom.stroke == stroke) {
+                    // do nothing
+                }
+                else {
+                    stroke.dispose();
+                }
             }
             // TODO a bit hacky
             var fill = this.fill;
             if (fill && !(fill instanceof Color) && fill.dispose) {
-                fill.dispose();
+                if (this.clonedFrom && this.clonedFrom.fill == fill) {
+                    // do nothing
+                }
+                else {
+                    fill.dispose();
+                }
             }
             // remove from map
             if ($type.hasValue(this.id)) {

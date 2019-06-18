@@ -19,22 +19,26 @@ function makeSubPackage1(entries, name, fileDir, inputDir, outputDir, packageNam
 				const filename = path.name + ".js";
 
 				if (filename === "index.js") {
-					$fs.writeFileSync($path.join(name, filename),
+					$fs.writeFileSync($path.join(name, name + ".js"),
 `import * as m from "../${fileDir}/${path.name}";
 window.am4${mangledName} = m;`);
 
-				} else if (useDefault) {
+					entries[`${outputDir}/${name}`] = `./${name}/${name}`;
+
+				} else {
+					if (useDefault) {
 					$fs.writeFileSync($path.join(name, filename),
 `import m from "../${fileDir}/${path.name}";
 window.am4${mangledName}_${path.name} = m;`);
 
-				} else {
+					} else {
 					$fs.writeFileSync($path.join(name, filename),
 `import * as m from "../${fileDir}/${path.name}";
 window.am4${mangledName}_${path.name} = m;`);
-				}
+					}
 
-				entries[`${outputDir}/${path.name}`] = `./${name}/${filename}`;
+					entries[`${outputDir}/${path.name}`] = `./${name}/${filename}`;
+				}
 			}
 		}
 	});
@@ -90,15 +94,18 @@ window.am4${path.name} = m;`);
 }
 
 
-function runWebpack(name, entries) {
-	$fs.writeFileSync("webpack.script.js",
-		'var template = require(' + JSON.stringify(name) + ');\nmodule.exports = [template(' + JSON.stringify({
-			"baseDir": "../script",
+function runWebpack(name, options) {
+	options = options.map(function (option) {
+		option = Object.assign({
 			"runtimeDir": "",
-			"baseChunk": "core",
-			"entry": entries,
 			"minify": true
-		}) + ')];'
+		}, option);
+
+		return "template(" + JSON.stringify(option) + ")";
+	});
+
+	$fs.writeFileSync("webpack.script.js",
+		'var template = require(' + JSON.stringify(name) + ');\nmodule.exports = [' + options.join(",") + '];'
 	);
 
 	$util.withLinkSource("../es2015", () => {

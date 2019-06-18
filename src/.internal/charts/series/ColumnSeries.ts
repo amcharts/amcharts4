@@ -667,13 +667,14 @@ export class ColumnSeries extends XYSeries {
 		if (!outOfBounds) {
 			let column: this["_column"];
 			if (!dataItem.column) {
-				column = this.columns.create();
+				column = this.columns.create();				
 				//$object.forceCopyProperties(this.columns.template, column, visualProperties);
 				$object.copyProperties(this, column, visualProperties); // need this because 3d columns are not in the same container
 				$object.copyProperties(this.columns.template, column, visualProperties); // second time, no force, so that columns.template would override series properties
 				dataItem.addSprite(column);
 
 				dataItem.column = column;
+				column.paper = this.paper; // sometimes pattern is not drawn if is set with adapter without this.
 
 				// accessibility
 				if (this.itemsFocusable()) {
@@ -740,6 +741,7 @@ export class ColumnSeries extends XYSeries {
 
 					dataItem.addSprite(rangeColumn);
 					dataItem.rangesColumns.setKey(axisRange.uid, <Column>rangeColumn);
+					rangeColumn.paper = this.paper; // sometimes pattern is not drawn if is set with adapter without this.					
 				}
 
 				rangeColumn.parent = axisRange.contents;

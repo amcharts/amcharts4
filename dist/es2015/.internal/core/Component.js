@@ -645,22 +645,20 @@ var Component = /** @class */ (function (_super) {
      * @ignore
      */
     Component.prototype.disposeData = function () {
-        if (this.inited) {
-            this.dataItems.template.clones.clear();
-            $array.each(this._dataDisposers, function (x) {
-                x.dispose();
-            });
-            // and for all components
-            $iter.each(this.dataUsers.iterator(), function (dataUser) {
-                dataUser.disposeData();
-            });
-            this._dataDisposers.length = 0;
-            this._startIndex = undefined;
-            this._endIndex = undefined;
-            // dispose old
-            this.dataItems.clear();
-            this.dataItems.template.clones.clear();
-        }
+        this.dataItems.template.clones.clear();
+        $array.each(this._dataDisposers, function (x) {
+            x.dispose();
+        });
+        // and for all components
+        $iter.each(this.dataUsers.iterator(), function (dataUser) {
+            dataUser.disposeData();
+        });
+        this._dataDisposers.length = 0;
+        this._startIndex = undefined;
+        this._endIndex = undefined;
+        // dispose old
+        this.dataItems.clear();
+        this.dataItems.template.clones.clear();
     };
     Component.prototype.getDataItem = function (dataContext) {
         return this.dataItems.create();

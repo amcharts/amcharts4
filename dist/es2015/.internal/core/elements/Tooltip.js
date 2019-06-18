@@ -56,7 +56,8 @@ var Tooltip = /** @class */ (function (_super) {
          */
         _this.fitPointerToBounds = false;
         /**
-         * If tooltipOrientation is vertical, it can be drawn below or above point. We need to know this when solving overlapping
+         * If `tooltipOrientation` is vertical, it can be drawn below or above point
+         * We need to know this when solving overlapping.
          */
         _this._verticalOrientation = "up";
         _this.className = "Tooltip";
@@ -235,10 +236,19 @@ var Tooltip = /** @class */ (function (_super) {
             return this.getPropertyValue("pointerOrientation");
         },
         /**
-         * Pointer orientation: "horizontal" or "vertical".
+         * Pointer orientation: `"horizontal"`, `"vertical"`, `"up"`, `"down"`,
+         * `"right"`, or `"left"`.
+         *
+         * Options`"horizontal"` or `"vertical"` ar location-aware, meaning they
+         * will change position of the Tooltip based on the target point's position
+         * in relation to chart center.
+         *
+         * Options `"up"`, `"down"`, `"right"`, `"left"` ar static and will point
+         * in the specified direction regardless of the position, even if that means
+         * going out of chart/screen bounds.
          *
          * @default "vertical"
-         * @param value  Orientation
+         * @param  value  Orientation
          */
         set: function (value) {
             this.setPropertyValue("pointerOrientation", value, true);
@@ -367,20 +377,39 @@ var Tooltip = /** @class */ (function (_super) {
                 boundingRect.width = boundingRect.x + textW;
             }
         }
+        var pointerOrientation = this.pointerOrientation;
         // horizontal
-        if (this.pointerOrientation == "horizontal") {
+        if (pointerOrientation == "horizontal" || pointerOrientation == "left" || pointerOrientation == "right") {
             textY = -textH / 2;
-            if (x > boundingRect.x + boundingRect.width / 2) {
-                textX = -textW / 2 - pointerLength;
+            if (pointerOrientation == "horizontal") {
+                if (x > boundingRect.x + boundingRect.width / 2) {
+                    textX = -textW / 2 - pointerLength;
+                }
+                else {
+                    textX = textW / 2 + pointerLength;
+                }
+            }
+            else if (pointerOrientation == "left") {
+                textX = textW / 2 + pointerLength;
             }
             else {
-                textX = textW / 2 + pointerLength;
+                textX = -textW / 2 - pointerLength;
             }
         }
         // vertical pointer
         else {
             textX = $math.fitToRange(0, boundingRect.x - x + textW / 2, boundingRect.x - x + boundingRect.width - textW / 2);
-            if (y > boundingRect.y + textH + pointerLength) {
+            if (pointerOrientation == "vertical") {
+                if (y > boundingRect.y + textH + pointerLength) {
+                    textY = -textH - pointerLength;
+                    this._verticalOrientation = "up";
+                }
+                else {
+                    textY = pointerLength;
+                    this._verticalOrientation = "down";
+                }
+            }
+            else if (pointerOrientation == "down") {
                 textY = -textH - pointerLength;
                 this._verticalOrientation = "up";
             }

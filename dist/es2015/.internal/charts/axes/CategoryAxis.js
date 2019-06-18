@@ -383,7 +383,12 @@ var CategoryAxis = /** @class */ (function (_super) {
             }
             renderer.updateLabelElement(label, position, endPosition);
             if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
-                this.ghostLabel.text = dataItem.label.currentText;
+                if (dataItem.label.html) {
+                    this.ghostLabel.html = dataItem.label.currentText;
+                }
+                else {
+                    this.ghostLabel.text = dataItem.label.currentText;
+                }
             }
         }
         var fill = dataItem.axisFill;

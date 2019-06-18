@@ -239,10 +239,11 @@ export class RadarColumnSeries extends ColumnSeries {
 
 		let radarColumn = dataItem.column;
 		if (!radarColumn) {
-			radarColumn = this.columns.create();
+			radarColumn = this.columns.create();			
 			dataItem.column = radarColumn;
 			$object.forceCopyProperties(this.columns.template, radarColumn, visualProperties);
 			dataItem.addSprite(radarColumn);
+			radarColumn.paper = this.paper; // sometimes pattern is not drawn if is set with adapter without this.
 			this.setColumnStates(radarColumn);
 		}
 
@@ -273,6 +274,7 @@ export class RadarColumnSeries extends ColumnSeries {
 					}
 
 					dataItem.addSprite(rangeColumn);
+					rangeColumn.paper = this.paper; // sometimes pattern is not drawn if is set with adapter without this.					
 					this.setColumnStates(rangeColumn);
 					dataItem.rangesColumns.setKey(axisRange.uid, rangeColumn);
 				}
@@ -284,6 +286,7 @@ export class RadarColumnSeries extends ColumnSeries {
 				slice.innerRadius = bRadius;
 
 				if (slice.invalid) {
+					slice.paper = this.paper;
 					slice.validate(); // validate as if it was used previously, it will flicker with previous dimensions
 				}
 

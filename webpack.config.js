@@ -14,19 +14,20 @@ module.exports = function (info) {
             publicPath: (info.runtimeDir != null ? info.runtimeDir: info.baseDir),
             filename: "[name].js",
             chunkFilename: "deps/[name].js",
-            jsonpFunction: "am4internal_webpackJsonp",
+            jsonpFunction: info.jsonpFunction || "am4internal_webpackJsonp",
             libraryTarget: "var",
             pathinfo: !info.minify
         },
 
-        stats: {
+        stats: "errors-only",
+        /*stats: {
             // Examine all modules
             maxModules: Infinity,
             // Display bailout reasons
             optimizationBailout: true,
             // TODO this is needed to suppress harmless warnings from ts-loader
             warningsFilter: /export .* was not found in/
-        },
+        },*/
 
         plugins: [
             new $webpack.optimize.ModuleConcatenationPlugin(),
@@ -100,7 +101,7 @@ module.exports = function (info) {
             }]
         },
 
-        externals: [
+        externals: info.externals || [
             "jsdom",
             "xmldom",
             "canvas"

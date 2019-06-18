@@ -665,6 +665,8 @@ export class PercentSeries extends Series {
 				}
 			})
 		}
+
+		this.updateLegendValue(dataItem);
 	}
 
 	/**
@@ -718,15 +720,15 @@ export class PercentSeries extends Series {
 			let dataItem: this["_dataItem"] = dataItems[i];
 
 			let label = dataItem.label;
-		
+
 			if (label) {
-				if(label.pixelY + label.measuredHeight > previousTop){
+				if (label.pixelY + label.measuredHeight > previousTop) {
 					label.y = previousTop - label.measuredHeight;
 					previousTop = label.y;
 				}
 			}
 		}
-	}	
+	}
 
 	/**
 	 * Returns the next label according to `index`.
@@ -790,7 +792,7 @@ export class PercentSeries extends Series {
 			child.fillOpacity = slice.fillOpacity;
 			child.strokeOpacity = slice.strokeOpacity;
 
-			if(child.fill == undefined){
+			if (child.fill == undefined) {
 				child.__disabled = true;
 			}
 
@@ -889,6 +891,36 @@ export class PercentSeries extends Series {
 	protected setAlignLabels(value: boolean) {
 		this.setPropertyValue("alignLabels", value, true);
 	}
+
+	/**
+	 * Updates corresponding legend data item with current values.
+	 *
+	 * @ignore Exclude from docs
+	 * @param dataItem  Data item
+	 */
+	public updateLegendValue(dataItem?: this["_dataItem"]) {
+		if(dataItem){
+			let legendDataItem = dataItem.legendDataItem;
+			let legendSettings = dataItem.legendSettings;
+			if (legendDataItem && legendSettings) {
+
+				if (legendSettings) {
+					if (legendSettings.labelText) {
+						legendDataItem.label.text = legendSettings.labelText;
+					}
+					if (legendSettings.itemLabelText) {
+						legendDataItem.label.text = legendSettings.itemLabelText;
+					}
+					if (legendSettings.valueText) {
+						legendDataItem.valueLabel.text = legendSettings.valueText;
+					}
+					if (legendSettings.itemValueText) {
+						legendDataItem.valueLabel.text = legendSettings.itemValueText;
+					}
+				}
+			}
+		}
+	}
 }
 
 /**
@@ -912,7 +944,7 @@ defaultRules.push({
 	state: function(target, stateId) {
 		if (target instanceof PercentSeries) {
 			let state = target.states.create(stateId);
-			
+
 			let labelState = target.labels.template.states.create(stateId);
 			labelState.properties.disabled = true;
 

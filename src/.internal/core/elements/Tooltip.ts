@@ -33,7 +33,7 @@ import * as $type from "../utils/Type";
 /**
  * Represents options for tooltip pointer (arrow) orientation.
  */
-export type PointerOrientation = "horizontal" | "vertical";
+export type PointerOrientation = "horizontal" | "vertical" | "left" | "right" | "up" | "down";
 
 /**
  * Defines properties for [[Tooltip]].
@@ -41,7 +41,7 @@ export type PointerOrientation = "horizontal" | "vertical";
 export interface ITooltipProperties extends IContainerProperties {
 
 	/**
-	 * Pointer orientation: "horizontal" or "vertical".
+	 * Pointer orientation: "horizontal", "vertical", "left", "right", "up", "down".
 	 *
 	 * @default "vertical"
 	 */
@@ -175,7 +175,8 @@ export class Tooltip extends Container {
 	public fitPointerToBounds: boolean = false;
 
 	/**
-	 * If tooltipOrientation is vertical, it can be drawn below or above point. We need to know this when solving overlapping
+	 * If `tooltipOrientation` is vertical, it can be drawn below or above point
+	 * We need to know this when solving overlapping.
 	 */
 	protected _verticalOrientation: "up" | "down" = "up";
 
@@ -378,10 +379,19 @@ export class Tooltip extends Container {
 	}
 
 	/**
-	 * Pointer orientation: "horizontal" or "vertical".
+	 * Pointer orientation: `"horizontal"`, `"vertical"`, `"up"`, `"down"`,
+	 * `"right"`, or `"left"`.
+	 *
+	 * Options`"horizontal"` or `"vertical"` ar location-aware, meaning they
+	 * will change position of the Tooltip based on the target point's position
+	 * in relation to chart center.
+	 *
+	 * Options `"up"`, `"down"`, `"right"`, `"left"` ar static and will point
+	 * in the specified direction regardless of the position, even if that means
+	 * going out of chart/screen bounds.
 	 *
 	 * @default "vertical"
-	 * @param value  Orientation
+	 * @param  value  Orientation
 	 */
 	public set pointerOrientation(value: PointerOrientation) {
 		this.setPropertyValue("pointerOrientation", value, true);
@@ -518,21 +528,41 @@ export class Tooltip extends Container {
 			}
 		}
 
+		let pointerOrientation = this.pointerOrientation;
+
 		// horizontal
-		if (this.pointerOrientation == "horizontal") {
+		if (pointerOrientation == "horizontal" || pointerOrientation == "left" || pointerOrientation == "right") {
 			textY = - textH / 2;
-			if (x > boundingRect.x + boundingRect.width / 2) {
-				textX = - textW / 2 - pointerLength;
+			if (pointerOrientation == "horizontal") {
+				if (x > boundingRect.x + boundingRect.width / 2) {
+					textX = - textW / 2 - pointerLength;
+				}
+				else {
+					textX = textW / 2 + pointerLength;
+				}
+			}
+			else if (pointerOrientation == "left") {
+				textX = textW / 2 + pointerLength;
 			}
 			else {
-				textX = textW / 2 + pointerLength;
+				textX = -textW / 2 - pointerLength;
 			}
 		}
 		// vertical pointer
 		else {
 			textX = $math.fitToRange(0, boundingRect.x - x + textW / 2, boundingRect.x - x + boundingRect.width - textW / 2);
 
-			if (y > boundingRect.y + textH + pointerLength) {
+			if (pointerOrientation == "vertical") {
+				if (y > boundingRect.y + textH + pointerLength) {
+					textY = - textH - pointerLength;
+					this._verticalOrientation = "up";
+				}
+				else {
+					textY = pointerLength;
+					this._verticalOrientation = "down";
+				}
+			}
+			else if (pointerOrientation == "down") {
 				textY = - textH - pointerLength;
 				this._verticalOrientation = "up";
 			}
@@ -711,9 +741,9 @@ export class Tooltip extends Container {
 		super.copyFrom(source);
 		this.label.copyFrom(source.label);
 
-		if(source._boundingRect){			
+		if (source._boundingRect) {
 			this._boundingRect = source._boundingRect;
-		}		
+		}
 	}
 }
 

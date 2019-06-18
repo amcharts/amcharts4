@@ -9,7 +9,7 @@
  */
 import { Plugin } from "../../core/utils/Plugin";
 import { PercentSeries } from "../../charts/series/PercentSeries";
-import { FunnelSlice } from "../../charts/elements/FunnelSlice";
+import { FunnelSlice, IFunnelSliceProperties } from "../../charts/elements/FunnelSlice";
 import { IDisposer } from "../../core/utils/Disposer";
 import { List } from "../../core/utils/List";
 import { Slice } from "../../core/elements/Slice";
@@ -88,6 +88,13 @@ export declare class SliceGrouper extends Plugin {
      * @default "Other"
      */
     groupName: string;
+    /**
+     * Custom properties to apply to the "Other" slice.
+     *
+     * @since 4.5.3
+     * @type {IFunnelSliceProperties}
+     */
+    groupProperties: IFunnelSliceProperties;
     /**
      * If set to `true` the legend will be synced to show currently visible
      * slices only.
