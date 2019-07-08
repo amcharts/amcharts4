@@ -805,9 +805,13 @@ var CategoryAxis = /** @class */ (function (_super) {
         if (position < 0) {
             position = 0;
         }
+        if (position > 1) {
+            position = 1;
+        }
         var startIndex = this.startIndex;
         var endIndex = this.endIndex;
-        var difference = endIndex - startIndex;
+        var difference = endIndex - startIndex - this.startLocation - (1 - this.endLocation);
+        position += 1 / difference * this.startLocation;
         var axisBreaks = this.axisBreaks;
         var index = null;
         // in case we have some axis breaks
@@ -837,6 +841,9 @@ var CategoryAxis = /** @class */ (function (_super) {
         });
         if (!$type.isNumber(index)) {
             index = Math.floor(position * difference + startIndex);
+        }
+        if (index >= this.dataItems.length) {
+            index = this.dataItems.length - 1;
         }
         // not good, when panning out of bounds, each time one less item gets selected
         //if (index >= endIndex) {

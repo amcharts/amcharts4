@@ -198,7 +198,6 @@ export class LegendDataItem extends DataItem {
 			this.addSprite(itemContainer);
 			this._disposers.push(itemContainer);
 
-
 			// Add click/tap event to toggle item
 			if(itemContainer.togglable){
 				itemContainer.events.on("toggled", (ev) => {
@@ -208,12 +207,14 @@ export class LegendDataItem extends DataItem {
 
 			// Add focus event so that we can track which object is currently in focus
 			// for keyboard toggling
-			itemContainer.events.on("focus", (ev) => {
-				component.focusedItem = <this>ev.target.dataItem;
-			}, undefined, false);
-			itemContainer.events.on("blur", (ev) => {
-				component.focusedItem = undefined;
-			}, undefined, false);
+			if (itemContainer.focusable) {
+				itemContainer.events.on("focus", (ev) => {
+					component.focusedItem = <this>ev.target.dataItem;
+				}, undefined, false);
+				itemContainer.events.on("blur", (ev) => {
+					component.focusedItem = undefined;
+				}, undefined, false);
+			}
 
 			this._disposers.push(new Disposer(() => {
 				if ($type.hasValue(this.component)) {
@@ -506,7 +507,7 @@ export class Legend extends Component {
 
 		// Set up global keyboard events for toggling elements
 		this._disposers.push(getInteraction().body.events.on("keyup", (ev) => {
-			if (keyboard.isKey(ev.event, "enter") && this.focusedItem) {
+			if (keyboard.isKey(ev.event, "enter") && this.focusedItem && this.focusedItem.itemContainer.clickable) {
 				this.toggleDataItem(this.focusedItem);
 			}
 		}, this));

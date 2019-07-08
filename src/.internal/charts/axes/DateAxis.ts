@@ -421,6 +421,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		this.setPropertyValue("markUnitChange", true);
 		this.snapTooltip = true;
+		this.tooltipPosition = "pointer";
 
 		// Translatable defaults are applied in `applyInternalDefaults()`
 		// ...
@@ -1186,7 +1187,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		if (duration < intervalDuration && index > 0) {
 			return { ...gridIntervals.getIndex(index - 1) };
 		}
-
 		if (count <= gridCount) {
 			return { ...gridIntervals.getIndex(index) };
 		} else {
@@ -1432,26 +1432,27 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public updateAxisBySeries() {
 		super.updateAxisBySeries();
-
 		let baseInterval: ITimeInterval = this.chooseInterval(0, this.minDifference, 1);
+
 		// handle short months
 
 		if (this.minDifference >= $time.getDuration("day", 27) && baseInterval.timeUnit == "week") {
 			baseInterval.timeUnit = "month";
 			baseInterval.count = 1;
 		}
+		if(baseInterval.timeUnit == "month"){
+			if (this.minDifference >= $time.getDuration("day", 29 * 2) && baseInterval.count == 1) {
+				baseInterval.count = 2;
+			}
 
-		if (this.minDifference >= $time.getDuration("day", 29 * 2) && baseInterval.count == 1) {
-			baseInterval.count = 2;
+			if (this.minDifference >= $time.getDuration("day", 29 * 3) && baseInterval.count == 2) {
+				baseInterval.count = 3;
+			}		
+
+			if (this.minDifference >= $time.getDuration("day", 29 * 6) && baseInterval.count == 5) {
+				baseInterval.count = 6;
+			}				
 		}
-
-		if (this.minDifference >= $time.getDuration("day", 29 * 3) && baseInterval.count == 2) {
-			baseInterval.count = 3;
-		}		
-
-		if (this.minDifference >= $time.getDuration("day", 29 * 6) && baseInterval.count == 5) {
-			baseInterval.count = 6;
-		}				
 
 		// handle daylight saving
 		if (this.minDifference >= $time.getDuration("hour", 23) && baseInterval.timeUnit == "hour") {
@@ -1866,7 +1867,13 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				let closestTime = closestDate.getTime();
 				closestDate = $time.round(new Date(closestTime), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc);
 				closestTime = closestDate.getTime();
-				closestDate = new Date(closestDate.getTime() + this.baseDuration * this.renderer.tooltipLocation);
+
+				let tooltipLocation = this.renderer.tooltipLocation;
+				if(tooltipLocation == 0){
+					tooltipLocation = 0.0001;
+				}
+
+				closestDate = new Date(closestDate.getTime() + this.baseDuration * tooltipLocation);
 				position = this.dateToPosition(closestDate);
 
 				this.series.each((series) => {

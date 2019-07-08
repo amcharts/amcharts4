@@ -238,6 +238,7 @@ var DateAxis = /** @class */ (function (_super) {
         _this.className = "DateAxis";
         _this.setPropertyValue("markUnitChange", true);
         _this.snapTooltip = true;
+        _this.tooltipPosition = "pointer";
         // Translatable defaults are applied in `applyInternalDefaults()`
         // ...
         // Define default intervals
@@ -1149,14 +1150,16 @@ var DateAxis = /** @class */ (function (_super) {
             baseInterval.timeUnit = "month";
             baseInterval.count = 1;
         }
-        if (this.minDifference >= $time.getDuration("day", 29 * 2) && baseInterval.count == 1) {
-            baseInterval.count = 2;
-        }
-        if (this.minDifference >= $time.getDuration("day", 29 * 3) && baseInterval.count == 2) {
-            baseInterval.count = 3;
-        }
-        if (this.minDifference >= $time.getDuration("day", 29 * 6) && baseInterval.count == 5) {
-            baseInterval.count = 6;
+        if (baseInterval.timeUnit == "month") {
+            if (this.minDifference >= $time.getDuration("day", 29 * 2) && baseInterval.count == 1) {
+                baseInterval.count = 2;
+            }
+            if (this.minDifference >= $time.getDuration("day", 29 * 3) && baseInterval.count == 2) {
+                baseInterval.count = 3;
+            }
+            if (this.minDifference >= $time.getDuration("day", 29 * 6) && baseInterval.count == 5) {
+                baseInterval.count = 6;
+            }
         }
         // handle daylight saving
         if (this.minDifference >= $time.getDuration("hour", 23) && baseInterval.timeUnit == "hour") {
@@ -1544,7 +1547,11 @@ var DateAxis = /** @class */ (function (_super) {
                 var closestTime_1 = closestDate_1.getTime();
                 closestDate_1 = $time.round(new Date(closestTime_1), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc);
                 closestTime_1 = closestDate_1.getTime();
-                closestDate_1 = new Date(closestDate_1.getTime() + this.baseDuration * this.renderer.tooltipLocation);
+                var tooltipLocation = this.renderer.tooltipLocation;
+                if (tooltipLocation == 0) {
+                    tooltipLocation = 0.0001;
+                }
+                closestDate_1 = new Date(closestDate_1.getTime() + this.baseDuration * tooltipLocation);
                 position = this.dateToPosition(closestDate_1);
                 this.series.each(function (series) {
                     var dataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(closestTime_1.toString());

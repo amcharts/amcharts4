@@ -332,6 +332,7 @@ var Sprite = /** @class */ (function (_super) {
         _this.setPropertyValue("togglable", false);
         _this.setPropertyValue("hidden", false);
         _this.setPropertyValue("urlTarget", "_self");
+        _this.setPropertyValue("alwaysShowTooltip", false);
         _this._prevMeasuredWidth = 0;
         _this._prevMeasuredHeight = 0;
         _this._measuredWidth = 0;
@@ -624,6 +625,14 @@ var Sprite = /** @class */ (function (_super) {
         }
         else {
             this.dispatch("validated");
+        }
+        if (this.alwaysShowTooltip) {
+            if (this.visible && !this.disabled && !this.__disabled) {
+                this.showTooltip();
+            }
+            else {
+                this.hideTooltip(0);
+            }
         }
         var e_1, _c;
     };
@@ -7308,6 +7317,9 @@ var Sprite = /** @class */ (function (_super) {
             sprite = sprite.parent;
         }
         if ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML)) {
+            if (this.alwaysShowTooltip && !this._tooltip && this.tooltip) {
+                this._tooltip = this.tooltip.clone();
+            }
             var tooltip = this.tooltip;
             var tooltipDataItem = this.tooltipDataItem;
             if (tooltip) {
@@ -7454,7 +7466,7 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.pointTooltipTo = function (point, instantly) {
         var tooltip = this.tooltip;
-        if (tooltip) {
+        if (tooltip && this.topParent) {
             if ($math.isInRectangle(point, { x: 0, y: 0, width: this.topParent.maxWidth, height: this.topParent.maxHeight })) {
                 tooltip.pointTo(point, instantly);
                 return true;
@@ -7468,6 +7480,9 @@ var Sprite = /** @class */ (function (_super) {
      * @see {@link Tooltip}
      */
     Sprite.prototype.hideTooltip = function (duration) {
+        if (this.alwaysShowTooltip) {
+            return;
+        }
         var tooltip = this.tooltip;
         if (tooltip) {
             if (tooltip.targetSprite == this) {
@@ -7576,7 +7591,6 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "tooltipX", {
         /**
-         * @ignore Exclude from docs
          * @return Tooltip X (px)
          */
         get: function () {
@@ -7585,13 +7599,82 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * X coordinate the [[Tooltip]] should be shown at.
          *
-         * @ignore Exclude from docs
          * @param value  Tooltip X (px)
          */
         set: function (value) {
             value = $type.toNumber(value);
             if (this.setPropertyValue("tooltipX", value) && this.tooltip) {
                 this.tooltip.invalidate();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Sprite.prototype, "alwaysShowTooltip", {
+        /**
+         * @return Always show tooltip?
+         */
+        get: function () {
+            return this.getPropertyValue("alwaysShowTooltip");
+        },
+        /**
+         * Indicates if this element should display a tooltip permanently.
+         *
+         * Useful, if you want to show permanent tooltips on some items.
+         *
+         * For example, if you would like to show tooltips on all of the columns of
+         * a [[ColumnSeries]]:
+         *
+         * ```TypeScript
+         * series.columns.template.alwaysShowTooltip = true;
+         * ```
+         * ```JavaScript
+         * series.columns.template.alwaysShowTooltip = true;
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "series": [{
+         *     // ...
+         *     "columns": {
+         *       "alwaysShowTooltip": true
+         *     }
+         *   }]
+         * }
+         * ```
+         *
+         * It can even be set to display on a selected columns via `propertyFields`:
+         *
+         * ```TypeScript
+         * series.columns.template.propertyFields.alwaysShowTooltip = "tooltip";
+         * ```
+         * ```JavaScript
+         * series.columns.template.propertyFields.alwaysShowTooltip = "tooltip";
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "series": [{
+         *     // ...
+         *     "columns": {
+         *       "propertyFields": {
+         *         "alwaysShowTooltip": "tooltip"
+         *       }
+         *     }
+         *   }]
+         * }
+         * ```
+         *
+         * @default false
+         * @since 4.5.4
+         * @param  value  Always show tooltip?
+         */
+        set: function (value) {
+            value = $type.toBoolean(value);
+            if (this.setPropertyValue("alwaysShowTooltip", value) && this.tooltip) {
+                if (value) {
+                    this.showTooltip();
+                }
             }
         },
         enumerable: true,
@@ -7618,7 +7701,6 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "tooltipY", {
         /**
-         * @ignore Exclude from docs
          * @return Tooltip Y (px)
          */
         get: function () {
@@ -7627,7 +7709,6 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Y coordinate the [[Tooltip]] should be shown at.
          *
-         * @ignore Exclude from docs
          * @param value  Tooltip Y (px)
          */
         set: function (value) {

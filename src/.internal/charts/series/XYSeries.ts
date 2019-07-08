@@ -1278,10 +1278,20 @@ export class XYSeries extends Series {
 			// if it's stacked, pay attention to stack value
 			if (this.stacked) {
 				if (this.baseAxis == this.xAxis) {
-					minY = $math.min(minY, stackY);
+					if (stackY < minY) {
+						minY = stackY
+					}
+					if(stackY > maxY){
+						maxY = stackY;					
+					}
 				}
 				if (this.baseAxis == this.yAxis) {
-					minX = $math.min(minX, stackX);
+					if(stackX < minX){
+						minX = stackX;
+					}
+					if(stackX > maxX){
+						maxX = stackX;					
+					}
 				}
 			}
 		}
@@ -1675,7 +1685,7 @@ export class XYSeries extends Series {
 
 	/**
 	 * Should the nearest tooltip be shown if no data item is found on the
-	 * current cursor position?
+	 * current cursor position? In order this to work, you should set snapTooltip = false on the series baseAxis.
 	 *
 	 * @default false
 	 * @param value  Should snap?
@@ -1861,7 +1871,7 @@ export class XYSeries extends Series {
 				field = this.yField;
 			}
 
-			if(!field){
+			if (!field) {
 				return;
 			}
 
@@ -1880,6 +1890,7 @@ export class XYSeries extends Series {
 
 						let value = dataItem.getValue(field);
 						let prevValue: number;
+						let prevRealValue = prevDataItem.getValue(field) + prevDataItem.getValue(field, "stack");
 
 						if (working) {
 							prevValue = prevDataItem.getWorkingValue(field) + prevDataItem.getValue(field, "stack");
@@ -1888,8 +1899,7 @@ export class XYSeries extends Series {
 							prevValue = prevDataItem.getValue(field) + prevDataItem.getValue(field, "stack");
 						}
 
-						// if >= then series might get stacked to hidden negative series, so this is correct
-						if ((value >= 0 && prevValue > 0) || (value < 0 && prevValue < 0)) {
+						if ((value >= 0 && prevRealValue >= 0) || (value < 0 && prevRealValue < 0)) {
 							//dataItem.events.disable();
 							dataItem.setCalculatedValue(field, prevValue, "stack");
 							//dataItem.events.enable();

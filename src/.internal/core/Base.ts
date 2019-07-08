@@ -10,6 +10,7 @@
  */
 import { IClone } from "./utils/Clone";
 import { List, ListTemplate } from "./utils/List";
+import { OrderedListTemplate, SortedListTemplate } from "./utils/SortedList";
 import { Dictionary, DictionaryTemplate } from "./utils/Dictionary";
 import { Disposer, IDisposer } from "./utils/Disposer";
 import { EventDispatcher, AMEvent } from "./utils/EventDispatcher";
@@ -577,7 +578,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 					item.config = configValue;
 
 				}
-				else if (item instanceof ListTemplate) {
+				else if (item instanceof ListTemplate || item instanceof OrderedListTemplate || item instanceof SortedListTemplate) {
 
 					// ... a list with template
 					// ------------------------------------------------------------------
@@ -588,7 +589,12 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 						// It's an array.
 						// Create a list item for entry, or try to apply properties to an
 						// existing entry if possible and it is present.
-						this.processListTemplate(configValue, item);
+						if (item instanceof ListTemplate) {
+							this.processListTemplate(configValue, item);
+						}
+						else {
+							this.processOrderedTemplate(configValue, item);
+						}
 
 					}
 					else if ($type.isObject(configValue)) {
@@ -660,7 +666,12 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 
 							// Check maybe there are `values` to insert
 							if ($type.hasValue((<any>configValue).values)) {
-								this.processListTemplate((<any>configValue).values, item);
+								if (item instanceof ListTemplate) {
+									this.processListTemplate((<any>configValue).values, item);
+								}
+								else {
+									this.processOrderedTemplate((<any>configValue).values, item);
+								}
 							}
 						}
 
@@ -876,11 +887,11 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 	}
 
 	/**
- * Processes [[ListTemplate]].
- *
- * @param configValue  Config value
- * @param item         Item
- */
+	 * Processes [[ListTemplate]].
+	 *
+	 * @param configValue  Config value
+	 * @param item         Item
+	 */
 	protected processListTemplate(configValue: any, item: ListTemplate<any>): void {
 
 		$array.each(configValue, (entry, index) => {
@@ -923,6 +934,43 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 		while (configValue.length > item.length) {
 			item.pop();
 		}
+
+	}
+
+	/**
+	 * Processes [[OrdererListTemplate]] or [[SortedListTemplate]].
+	 *
+	 * @param configValue  Config value
+	 * @param item         Item
+	 */
+	protected processOrderedTemplate(configValue: any, item: OrderedListTemplate<any> | SortedListTemplate<any>): void {
+
+		$array.each(configValue, (entry, index) => {
+			let type = this.getConfigEntryType(entry);
+			let listItem;
+			if (type) {
+				listItem = item.create(type);
+			}
+			else {
+				listItem = item.create();
+			}
+
+			if ($type.isObject(entry)) {
+
+				// If the list item is BaseObject, we just need to let it
+				// deal if its own config
+				if (listItem instanceof BaseObject) {
+					(<any>listItem).config = entry;
+				}
+				else if ($type.isObject(listItem) && $type.isObject(entry)) {
+					$object.copyAllProperties(<Object>entry, <Object>listItem);
+				}
+				else {
+					item.insert(entry);
+				}
+
+			}
+		});
 
 	}
 

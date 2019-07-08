@@ -870,10 +870,20 @@ var XYSeries = /** @class */ (function (_super) {
             // if it's stacked, pay attention to stack value
             if (this.stacked) {
                 if (this.baseAxis == this.xAxis) {
-                    minY = $math.min(minY, stackY);
+                    if (stackY < minY) {
+                        minY = stackY;
+                    }
+                    if (stackY > maxY) {
+                        maxY = stackY;
+                    }
                 }
                 if (this.baseAxis == this.yAxis) {
-                    minX = $math.min(minX, stackX);
+                    if (stackX < minX) {
+                        minX = stackX;
+                    }
+                    if (stackX > maxX) {
+                        maxX = stackX;
+                    }
                 }
             }
         }
@@ -1245,7 +1255,7 @@ var XYSeries = /** @class */ (function (_super) {
         },
         /**
          * Should the nearest tooltip be shown if no data item is found on the
-         * current cursor position?
+         * current cursor position? In order this to work, you should set snapTooltip = false on the series baseAxis.
          *
          * @default false
          * @param value  Should snap?
@@ -1413,14 +1423,14 @@ var XYSeries = /** @class */ (function (_super) {
                     if (prevDataItem && prevDataItem.hasValue(_this._xValueFields) && prevDataItem.hasValue(_this._yValueFields)) {
                         var value = dataItem.getValue(field_1);
                         var prevValue = void 0;
+                        var prevRealValue = prevDataItem.getValue(field_1) + prevDataItem.getValue(field_1, "stack");
                         if (working) {
                             prevValue = prevDataItem.getWorkingValue(field_1) + prevDataItem.getValue(field_1, "stack");
                         }
                         else {
                             prevValue = prevDataItem.getValue(field_1) + prevDataItem.getValue(field_1, "stack");
                         }
-                        // if >= then series might get stacked to hidden negative series, so this is correct
-                        if ((value >= 0 && prevValue > 0) || (value < 0 && prevValue < 0)) {
+                        if ((value >= 0 && prevRealValue >= 0) || (value < 0 && prevRealValue < 0)) {
                             //dataItem.events.disable();
                             dataItem.setCalculatedValue(field_1, prevValue, "stack");
                             //dataItem.events.enable();

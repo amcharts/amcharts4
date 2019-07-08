@@ -11,6 +11,7 @@ import { ColumnSeries, ColumnSeriesDataItem, IColumnSeriesDataFields, IColumnSer
 import { Container } from "../../core/Container";
 import { Candlestick } from "../elements/Candlestick";
 import * as $type from "../../core/utils/Type";
+import { CalculatedValue } from "../../core/Component";
 /**
  * ============================================================================
  * DATA ITEM
@@ -136,6 +137,26 @@ export interface ICandlestickSeriesDataFields extends IColumnSeriesDataFields {
      * Field name in data which holds high date for vertical axis.
      */
     highDateY?: string;
+    /**
+     * Which calculated field to use to use as a horizontal axis high value for
+     * the item.
+     */
+    highValueXShow?: CalculatedValue;
+    /**
+     * Which calculated field to use to use as a horizontal axis low value for
+     * the item.
+     */
+    lowValueXShow?: CalculatedValue;
+    /**
+     * Which calculated field to use to use as a vertical axis low value for
+     * the item.
+     */
+    lowValueYShow?: CalculatedValue;
+    /**
+     * Which calculated field to use to use as a vertical axis high value for
+     * the item.
+     */
+    highValueYShow?: CalculatedValue;
 }
 /**
  * Defines properties for [[CandlestickSeries]].

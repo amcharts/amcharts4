@@ -3,6 +3,7 @@
 */
 import * as tslib_1 from "tslib";
 import { List, ListTemplate } from "./utils/List";
+import { OrderedListTemplate, SortedListTemplate } from "./utils/SortedList";
 import { Dictionary, DictionaryTemplate } from "./utils/Dictionary";
 import { Disposer } from "./utils/Disposer";
 import { EventDispatcher } from "./utils/EventDispatcher";
@@ -453,7 +454,7 @@ var BaseObject = /** @class */ (function () {
                     // Let's just pass in config part in and let itself deal with it
                     item_1.config = configValue;
                 }
-                else if (item_1 instanceof ListTemplate) {
+                else if (item_1 instanceof ListTemplate || item_1 instanceof OrderedListTemplate || item_1 instanceof SortedListTemplate) {
                     // ... a list with template
                     // ------------------------------------------------------------------
                     // Let's see what we can do with it
@@ -461,7 +462,12 @@ var BaseObject = /** @class */ (function () {
                         // It's an array.
                         // Create a list item for entry, or try to apply properties to an
                         // existing entry if possible and it is present.
-                        _this.processListTemplate(configValue, item_1);
+                        if (item_1 instanceof ListTemplate) {
+                            _this.processListTemplate(configValue, item_1);
+                        }
+                        else {
+                            _this.processOrderedTemplate(configValue, item_1);
+                        }
                     }
                     else if ($type.isObject(configValue)) {
                         // It's a single oject.
@@ -525,7 +531,12 @@ var BaseObject = /** @class */ (function () {
                             }
                             // Check maybe there are `values` to insert
                             if ($type.hasValue(configValue.values)) {
-                                _this.processListTemplate(configValue.values, item_1);
+                                if (item_1 instanceof ListTemplate) {
+                                    _this.processListTemplate(configValue.values, item_1);
+                                }
+                                else {
+                                    _this.processOrderedTemplate(configValue.values, item_1);
+                                }
                             }
                         }
                     }
@@ -694,11 +705,11 @@ var BaseObject = /** @class */ (function () {
         }
     };
     /**
- * Processes [[ListTemplate]].
- *
- * @param configValue  Config value
- * @param item         Item
- */
+     * Processes [[ListTemplate]].
+     *
+     * @param configValue  Config value
+     * @param item         Item
+     */
     BaseObject.prototype.processListTemplate = function (configValue, item) {
         var _this = this;
         $array.each(configValue, function (entry, index) {
@@ -737,6 +748,38 @@ var BaseObject = /** @class */ (function () {
         while (configValue.length > item.length) {
             item.pop();
         }
+    };
+    /**
+     * Processes [[OrdererListTemplate]] or [[SortedListTemplate]].
+     *
+     * @param configValue  Config value
+     * @param item         Item
+     */
+    BaseObject.prototype.processOrderedTemplate = function (configValue, item) {
+        var _this = this;
+        $array.each(configValue, function (entry, index) {
+            var type = _this.getConfigEntryType(entry);
+            var listItem;
+            if (type) {
+                listItem = item.create(type);
+            }
+            else {
+                listItem = item.create();
+            }
+            if ($type.isObject(entry)) {
+                // If the list item is BaseObject, we just need to let it
+                // deal if its own config
+                if (listItem instanceof BaseObject) {
+                    listItem.config = entry;
+                }
+                else if ($type.isObject(listItem) && $type.isObject(entry)) {
+                    $object.copyAllProperties(entry, listItem);
+                }
+                else {
+                    item.insert(entry);
+                }
+            }
+        });
     };
     /**
      * Processes [[List]].

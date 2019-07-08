@@ -655,9 +655,12 @@ export class ForceDirectedSeries extends Series {
 
 			let d3forceSimulation = this.d3forceSimulation;
 
+			let w = $math.max(50, this.innerWidth);
+			let h = $math.max(50, this.innerHeight);
+
 			if (d3forceSimulation) {
-				d3forceSimulation.force("x", d3force.forceX().x(this.innerWidth / 2).strength(this.centerStrength * 100 / this.innerWidth));
-				d3forceSimulation.force("y", d3force.forceY().y(this.innerHeight / 2).strength(this.centerStrength * 100 / this.innerHeight));
+				d3forceSimulation.force("x", d3force.forceX().x(w / 2).strength(this.centerStrength * 100 / w));
+				d3forceSimulation.force("y", d3force.forceY().y(h / 2).strength(this.centerStrength * 100 / h));
 				if (d3forceSimulation.alpha() < 0.4) {
 					d3forceSimulation.alpha(0.4);
 					d3forceSimulation.restart();
@@ -765,8 +768,11 @@ export class ForceDirectedSeries extends Series {
 		this._collisionForce = d3force.forceCollide();
 		d3forceSimulation.force("collision", this._collisionForce);
 
-		d3forceSimulation.force("x", d3force.forceX().x(this.innerWidth / 2).strength(this.centerStrength * 100 / this.innerWidth));
-		d3forceSimulation.force("y", d3force.forceY().y(this.innerHeight / 2).strength(this.centerStrength * 100 / this.innerHeight));
+		let w = $math.max(50, this.innerWidth);
+		let h = $math.max(50, this.innerHeight);
+
+		d3forceSimulation.force("x", d3force.forceX().x(w / 2).strength(this.centerStrength * 100 / w));
+		d3forceSimulation.force("y", d3force.forceY().y(h / 2).strength(this.centerStrength * 100 / h));
 	}
 
 	/**
@@ -1038,7 +1044,6 @@ export class ForceDirectedSeries extends Series {
 	/**
 	 * Returns a [[ForceDirectedSeriesDataItem]] related to node by specific id.
 	 *
-	 * @ignore
 	 * @param   dataItems  List of data items to search in
 	 * @param   id         Id to search for
 	 * @return             Data item

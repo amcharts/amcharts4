@@ -389,9 +389,11 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
             _this.updateRadiuses(_this.dataItems);
             _this.updateLinksAndNodes();
             var d3forceSimulation = _this.d3forceSimulation;
+            var w = $math.max(50, _this.innerWidth);
+            var h = $math.max(50, _this.innerHeight);
             if (d3forceSimulation) {
-                d3forceSimulation.force("x", d3force.forceX().x(_this.innerWidth / 2).strength(_this.centerStrength * 100 / _this.innerWidth));
-                d3forceSimulation.force("y", d3force.forceY().y(_this.innerHeight / 2).strength(_this.centerStrength * 100 / _this.innerHeight));
+                d3forceSimulation.force("x", d3force.forceX().x(w / 2).strength(_this.centerStrength * 100 / w));
+                d3forceSimulation.force("y", d3force.forceY().y(h / 2).strength(_this.centerStrength * 100 / h));
                 if (d3forceSimulation.alpha() < 0.4) {
                     d3forceSimulation.alpha(0.4);
                     d3forceSimulation.restart();
@@ -477,8 +479,10 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         d3forceSimulation.force("link", this._linkForce);
         this._collisionForce = d3force.forceCollide();
         d3forceSimulation.force("collision", this._collisionForce);
-        d3forceSimulation.force("x", d3force.forceX().x(this.innerWidth / 2).strength(this.centerStrength * 100 / this.innerWidth));
-        d3forceSimulation.force("y", d3force.forceY().y(this.innerHeight / 2).strength(this.centerStrength * 100 / this.innerHeight));
+        var w = $math.max(50, this.innerWidth);
+        var h = $math.max(50, this.innerHeight);
+        d3forceSimulation.force("x", d3force.forceX().x(w / 2).strength(this.centerStrength * 100 / w));
+        d3forceSimulation.force("y", d3force.forceY().y(h / 2).strength(this.centerStrength * 100 / h));
     };
     /**
      * @ignore
@@ -707,7 +711,6 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
     /**
      * Returns a [[ForceDirectedSeriesDataItem]] related to node by specific id.
      *
-     * @ignore
      * @param   dataItems  List of data items to search in
      * @param   id         Id to search for
      * @return             Data item

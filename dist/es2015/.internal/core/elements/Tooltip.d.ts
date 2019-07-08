@@ -230,13 +230,17 @@ export declare class Tooltip extends Container {
      * Pointer orientation: `"horizontal"`, `"vertical"`, `"up"`, `"down"`,
      * `"right"`, or `"left"`.
      *
-     * Options`"horizontal"` or `"vertical"` ar location-aware, meaning they
+     * Options`"horizontal"` or `"vertical"` are location-aware, meaning they
      * will change position of the Tooltip based on the target point's position
      * in relation to chart center.
      *
-     * Options `"up"`, `"down"`, `"right"`, `"left"` ar static and will point
+     * Options `"up"`, `"down"`, `"right"`, `"left"` are static and will point
      * in the specified direction regardless of the position, even if that means
      * going out of chart/screen bounds.
+     *
+     * IMPORTANT: in some situations, like having multiple tooltips stacked for
+     * multiple series, the `"up"` and `"down"` values might be ignored in order
+     * to make tooltip overlap algorithm work.
      *
      * @default "vertical"
      * @param  value  Orientation

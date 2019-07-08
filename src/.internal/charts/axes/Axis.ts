@@ -555,6 +555,18 @@ export class AxisDataItem extends DataItem {
 		this.text = source.text;
 	}
 
+	/**
+	 * Sets visibility of the Data Item.
+	 *
+	 * @param value Data Item
+	 */
+	public setVisibility(value: boolean, noChangeValues?: boolean): void {
+		super.setVisibility(value, noChangeValues);
+		if (this._contents) {
+			this._contents.visible = value;
+		}
+	}
+
 }
 
 /**
@@ -912,7 +924,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	public validateDataElements() {
 		if (this.ghostLabel) {
 			this.renderer.updateLabelElement(this.ghostLabel, this.start, this.end);
-			this.ghostLabel.validate();			
+			this.ghostLabel.validate();
 		}
 	}
 
@@ -1252,6 +1264,10 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			}
 
 			let tooltipLocation = renderer.tooltipLocation;
+
+			if (tooltipLocation == 0) {
+				tooltipLocation = 0.001;
+			}
 
 			let startPosition: number = this.getCellStartPosition(position);
 			let endPosition: number = this.getCellEndPosition(position);
@@ -1877,13 +1893,15 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 		if (this.renderer) {
 			this.renderer.copyFrom(source.renderer);
 		}
-		else{
-			if(source.renderer){
+		else {
+			if (source.renderer) {
 				this.renderer = source.renderer.clone();
+				this._disposers.push(this.renderer);
 			}
 		}
 		if (source.title) {
 			this.title = source.title.clone();
+			this._disposers.push(this.title);
 		}
 	}
 
@@ -1968,9 +1986,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	}
 
 
-	protected setDisabled(value:boolean){
-		let changed = super.setDisabled(value);		
-		if(this.renderer){
+	protected setDisabled(value: boolean) {
+		let changed = super.setDisabled(value);
+		if (this.renderer) {
 			this.renderer.gridContainer.disabled = value;
 		}
 		return changed;

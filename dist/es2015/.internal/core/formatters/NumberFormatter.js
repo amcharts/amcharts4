@@ -224,7 +224,7 @@ var NumberFormatter = /** @class */ (function (_super) {
                 if (chunk.type === "value") {
                     // Parse format
                     // Look for codes
-                    var matches = chunk.text.match(/[#0.,]+[ ]?[abesABES%]?[abesABES‰]?/);
+                    var matches = chunk.text.match(/[#0.,]+[ ]?[abesABES%!]?[abesABES‰!]?/);
                     if (matches) {
                         if (matches === null || matches[0] === "") {
                             // no codes here - assume string
@@ -233,10 +233,10 @@ var NumberFormatter = /** @class */ (function (_super) {
                         }
                         else {
                             // look for the format modifiers at the end
-                            var mods = matches[0].match(/[abesABES%‰]{2}|[abesABES%‰]{1}$/);
+                            var mods = matches[0].match(/[abesABES%‰!]{2}|[abesABES%‰]{1}$/);
                             if (mods) {
                                 item.mod = mods[0].toLowerCase();
-                                item.modSpacing = matches[0].match(/[ ]{1}[abesABES%‰]{1}$/) ? true : false;
+                                item.modSpacing = matches[0].match(/[ ]{1}[abesABES%‰!]{1}$/) ? true : false;
                             }
                             // break the format up
                             var a = matches[0].split(".");
@@ -309,7 +309,7 @@ var NumberFormatter = /** @class */ (function (_super) {
         var prefix = "", suffix = "";
         var mods = details.mod ? details.mod.split("") : [];
         if (mods.indexOf("b") !== -1) {
-            var a_1 = this.applyPrefix(value, this.bytePrefixes);
+            var a_1 = this.applyPrefix(value, this.bytePrefixes, mods.indexOf("!") !== -1);
             value = a_1[0];
             prefix = a_1[1];
             suffix = a_1[2];
@@ -318,7 +318,7 @@ var NumberFormatter = /** @class */ (function (_super) {
             }
         }
         else if (mods.indexOf("a") !== -1) {
-            var a_2 = this.applyPrefix(value, value < 1.00 ? this.smallNumberPrefixes : this.bigNumberPrefixes);
+            var a_2 = this.applyPrefix(value, value < 1.00 ? this.smallNumberPrefixes : this.bigNumberPrefixes, mods.indexOf("!") !== -1);
             value = a_2[0];
             prefix = a_2[1];
             suffix = a_2[2];
@@ -413,12 +413,17 @@ var NumberFormatter = /** @class */ (function (_super) {
     /**
      * Chooses appropriate prefix and suffix based on the passed in rules.
      *
-     * @param value     Value
-     * @param prefixes  Prefix array
+     * @param  value     Value
+     * @param  prefixes  Prefix array
+     * @param  force     Force application of a first prefix (@sice 4.5.4)
      * @return Result
      */
-    NumberFormatter.prototype.applyPrefix = function (value, prefixes) {
-        var newvalue = value, prefix = "", suffix = "";
+    NumberFormatter.prototype.applyPrefix = function (value, prefixes, force) {
+        if (force === void 0) { force = false; }
+        var newvalue = value;
+        var prefix = "";
+        var suffix = "";
+        var applied = false;
         for (var i = 0, len = prefixes.length; i < len; i++) {
             if (prefixes[i].number <= value) {
                 if (prefixes[i].number === 0) {
@@ -429,7 +434,14 @@ var NumberFormatter = /** @class */ (function (_super) {
                 }
                 prefix = prefixes[i].prefix;
                 suffix = prefixes[i].suffix;
+                applied = true;
             }
+        }
+        if (!applied && force && prefixes.length && value != 0) {
+            // Prefix was not applied. Use the first prefix.
+            newvalue = value / prefixes[0].number;
+            prefix = prefixes[0].prefix;
+            suffix = prefixes[0].suffix;
         }
         return [newvalue, prefix, suffix];
     };

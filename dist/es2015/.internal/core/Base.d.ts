@@ -9,6 +9,7 @@
  */
 import { IClone } from "./utils/Clone";
 import { List, ListTemplate } from "./utils/List";
+import { OrderedListTemplate, SortedListTemplate } from "./utils/SortedList";
 import { Dictionary, DictionaryTemplate } from "./utils/Dictionary";
 import { IDisposer } from "./utils/Disposer";
 import { EventDispatcher, AMEvent } from "./utils/EventDispatcher";
@@ -306,12 +307,19 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      */
     protected processDictionary(item: Dictionary<any, any>, config: any): void;
     /**
- * Processes [[ListTemplate]].
- *
- * @param configValue  Config value
- * @param item         Item
- */
+     * Processes [[ListTemplate]].
+     *
+     * @param configValue  Config value
+     * @param item         Item
+     */
     protected processListTemplate(configValue: any, item: ListTemplate<any>): void;
+    /**
+     * Processes [[OrdererListTemplate]] or [[SortedListTemplate]].
+     *
+     * @param configValue  Config value
+     * @param item         Item
+     */
+    protected processOrderedTemplate(configValue: any, item: OrderedListTemplate<any> | SortedListTemplate<any>): void;
     /**
      * Processes [[List]].
      *

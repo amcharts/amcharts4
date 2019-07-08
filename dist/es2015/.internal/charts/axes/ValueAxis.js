@@ -405,7 +405,7 @@ var ValueAxis = /** @class */ (function (_super) {
                         }
                         if (dataItem.value > this.min && dataItem.value < this.max) {
                             if (dataItem.label && (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight)) {
-                                this.ghostLabel.text = dataItem.label.text;
+                                this.ghostLabel.text = dataItem.label.currentText;
                             }
                         }
                     }
@@ -1490,19 +1490,16 @@ var ValueAxis = /** @class */ (function (_super) {
      * Invalidates axis data items when series extremes change
      */
     ValueAxis.prototype.handleExtremesChange = function () {
+        var _this = this;
         this._extremesChanged = true;
         this.getMinMax();
         if (this.ghostLabel) {
-            var min = this.min;
-            var max = this.max;
-            var text = 0;
-            if ($type.isNumber(min) && $type.isNumber(max) && min.toString().length > max.toString().length) {
-                text = min;
-            }
-            else {
-                text = max;
-            }
-            this.ghostLabel.text = this.formatLabel(text);
+            var mw_1 = 0;
+            this.dataItems.each(function (dataItem) {
+                if (dataItem.label && dataItem.label.pixelWidth > mw_1) {
+                    _this.ghostLabel.text = dataItem.label.currentText;
+                }
+            });
         }
     };
     /**

@@ -5,6 +5,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.4] - 2019-07-08
+
+### Added
+- `allwaysShowTooltip` property added to `Sprite`. Allows tooltip to be shown without the need for hovering/selecting an element.
+- `NumberFormatter` now supports `"!"` modifier which works in conjunction with `"a"` and `"b"` modifiers. If used, formatter will force application of a prefix/suffix for values that do not fit into any of the defined prefix lists. This is useful in cases you want to format all of the values using same prefix, e.g. "B" and want even small values to be formatted as such (`500,000` formatted as `"0.5B"`).
+
+### Fixed
+- `CategoryAxis` tooltip could show incorrect category if its `renderer.tooltipLocation` was set to `0`.
+- Memory leak which happened when disposing a chart with `XYChartScrollbar` with series added to it fixed.
+- Some series stacking issues fixed.
+- Issue with `baseDuration.timeUnit = "yyyy"` and `StepLineSeries` fixed.
+- In some cases `DateAxis` tooltips would show empty near edge of the plot area.
+- `CategoryAxis.indexToPosition` adjusted to work better with no default `startLocation` and `endLocation` values.
+- `WordCloud` could go into stackoverflow if `minWordLenght` was set to a number which resulted in no words to appear at all.
+- `ForceDirectedSeries` were resulting in JS error if inited in a hidden container.
+- If an axis range was made invisible by setting its `visible = false`, and then visibility was set back to `true` again, axis range was not shown.
+- JSON: entries of type `OrderedListTemplate` or `SortedListTemplate` was not being processed correctly as templated lists.
+- Legend items were still focusable/togglable via keyboard even if `clickable`/`focusable` on their respective containers were set to to `false`.
+
+
 ## [4.5.3] - 2019-06-18
 
 ### Added

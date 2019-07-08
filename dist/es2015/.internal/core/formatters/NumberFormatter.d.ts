@@ -112,11 +112,12 @@ export declare class NumberFormatter extends BaseObject {
     /**
      * Chooses appropriate prefix and suffix based on the passed in rules.
      *
-     * @param value     Value
-     * @param prefixes  Prefix array
+     * @param  value     Value
+     * @param  prefixes  Prefix array
+     * @param  force     Force application of a first prefix (@sice 4.5.4)
      * @return Result
      */
-    protected applyPrefix(value: number, prefixes: any[]): any[];
+    protected applyPrefix(value: number, prefixes: any[], force?: boolean): any[];
     /**
      * Invalidates the parent [[Sprite]] object.
      */

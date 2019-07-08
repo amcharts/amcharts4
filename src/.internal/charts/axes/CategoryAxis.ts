@@ -1014,6 +1014,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 */
 	public getTooltipText(position: number): string {
 		let dataItem: this["_dataItem"] = this.dataItems.getIndex(this.positionToIndex(position));
+
 		if (dataItem) {
 			return this.adapter.apply("getTooltipText", dataItem.category);
 		}
@@ -1032,9 +1033,15 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 			position = 0;
 		}
 
+		if(position > 1){
+			position = 1;
+		}
+
 		let startIndex: number = this.startIndex;
 		let endIndex: number = this.endIndex;
-		let difference: number = endIndex - startIndex;
+		let difference: number = endIndex - startIndex - this.startLocation - (1 - this.endLocation);
+
+		position += 1 / difference * this.startLocation;
 
 		let axisBreaks = this.axisBreaks;
 
@@ -1075,6 +1082,9 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 
 		if (!$type.isNumber(index)) {
 			index = Math.floor(position * difference + startIndex);
+		}
+		if(index >= this.dataItems.length){
+			index = this.dataItems.length - 1;
 		}
 		// not good, when panning out of bounds, each time one less item gets selected
 		//if (index >= endIndex) {

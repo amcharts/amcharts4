@@ -5,8 +5,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [UNRELEASED] - ????-??-??
 
+### Added
+- New maps: Gabon, Kenya.
+
 ### Fixed
 - Fixed map: `ukCounties` map has Scotland wrong.
+- Fixed map: `venezuela` map had a typo in name of "Carabobo".
 
 ## [4.1.6] - 2019-06-10
 

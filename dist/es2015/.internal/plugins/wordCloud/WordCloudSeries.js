@@ -318,6 +318,9 @@ var WordCloudSeries = /** @class */ (function (_super) {
      */
     WordCloudSeries.prototype.processItem = function (dataItem) {
         var _this = this;
+        if (!dataItem) {
+            return;
+        }
         var context = this._ctx;
         var w = this.innerWidth;
         var h = this.innerHeight;

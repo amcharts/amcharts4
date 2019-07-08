@@ -292,7 +292,7 @@ export class NumberFormatter extends BaseObject {
 					// Parse format
 
 					// Look for codes
-					let matches: string[] | null = chunk.text.match(/[#0.,]+[ ]?[abesABES%]?[abesABES‰]?/);
+					let matches: string[] | null = chunk.text.match(/[#0.,]+[ ]?[abesABES%!]?[abesABES‰!]?/);
 
 					if (matches) {
 						if (matches === null || matches[0] === "") {
@@ -303,11 +303,11 @@ export class NumberFormatter extends BaseObject {
 						else {
 
 							// look for the format modifiers at the end
-							let mods: string[] | null = matches[0].match(/[abesABES%‰]{2}|[abesABES%‰]{1}$/);
+							let mods: string[] | null = matches[0].match(/[abesABES%‰!]{2}|[abesABES%‰]{1}$/);
 
 							if (mods) {
 								item.mod = mods[0].toLowerCase();
-								item.modSpacing = matches[0].match(/[ ]{1}[abesABES%‰]{1}$/) ? true : false;
+								item.modSpacing = matches[0].match(/[ ]{1}[abesABES%‰!]{1}$/) ? true : false;
 							}
 
 							// break the format up
@@ -396,7 +396,7 @@ export class NumberFormatter extends BaseObject {
 		let prefix: string = "", suffix: string = "";
 		let mods: string[] = details.mod ? details.mod.split("") : [];
 		if (mods.indexOf("b") !== -1) {
-			let a = this.applyPrefix(value, this.bytePrefixes);
+			let a = this.applyPrefix(value, this.bytePrefixes, mods.indexOf("!") !== -1);
 			value = a[0];
 			prefix = a[1];
 			suffix = a[2];
@@ -405,7 +405,7 @@ export class NumberFormatter extends BaseObject {
 			}
 		}
 		else if (mods.indexOf("a") !== -1) {
-			let a = this.applyPrefix(value, value < 1.00 ? this.smallNumberPrefixes : this.bigNumberPrefixes);
+			let a = this.applyPrefix(value, value < 1.00 ? this.smallNumberPrefixes : this.bigNumberPrefixes, mods.indexOf("!") !== -1);
 			value = a[0];
 			prefix = a[1];
 			suffix = a[2];
@@ -515,14 +515,16 @@ export class NumberFormatter extends BaseObject {
 	/**
 	 * Chooses appropriate prefix and suffix based on the passed in rules.
 	 *
-	 * @param value     Value
-	 * @param prefixes  Prefix array
+	 * @param  value     Value
+	 * @param  prefixes  Prefix array
+	 * @param  force     Force application of a first prefix (@sice 4.5.4)
 	 * @return Result
 	 */
-	protected applyPrefix(value: number, prefixes: any[]): any[] {
-		let newvalue: number = value,
-			prefix: string = "",
-			suffix: string = "";
+	protected applyPrefix(value: number, prefixes: any[], force: boolean = false): any[] {
+		let newvalue = value;
+		let prefix = "";
+		let suffix = "";
+		let applied = false;
 
 		for (let i = 0, len = prefixes.length; i < len; i++) {
 			if (prefixes[i].number <= value) {
@@ -534,7 +536,15 @@ export class NumberFormatter extends BaseObject {
 				}
 				prefix = prefixes[i].prefix;
 				suffix = prefixes[i].suffix;
+				applied = true;
 			}
+		}
+
+		if (!applied && force && prefixes.length && value != 0) {
+			// Prefix was not applied. Use the first prefix.
+			newvalue = value / prefixes[0].number;
+			prefix = prefixes[0].prefix;
+			suffix = prefixes[0].suffix;
 		}
 
 		return [newvalue, prefix, suffix];

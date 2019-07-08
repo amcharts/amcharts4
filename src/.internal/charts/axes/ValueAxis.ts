@@ -655,7 +655,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 						}
 						if (dataItem.value > this.min && dataItem.value < this.max) {
 							if (dataItem.label && (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight)) {
-								this.ghostLabel.text = dataItem.label.text;
+								this.ghostLabel.text = dataItem.label.currentText;
 							}
 						}
 					}
@@ -1883,17 +1883,13 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		this.getMinMax();
 
 		if (this.ghostLabel) {
-			let min = this.min;
-			let max = this.max;
-			let text = 0;
-			if ($type.isNumber(min) && $type.isNumber(max) && min.toString().length > max.toString().length) {
-				text = min;
-			}
-			else {
-				text = max;
-			}
+			let mw = 0;
 
-			this.ghostLabel.text = this.formatLabel(text);
+			this.dataItems.each((dataItem)=>{
+				if(dataItem.label && dataItem.label.pixelWidth > mw){
+					this.ghostLabel.text = dataItem.label.currentText;	
+				}
+			})			
 		}
 	}
 

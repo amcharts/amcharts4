@@ -694,7 +694,7 @@ export declare class XYSeries extends Series {
      */
     /**
      * Should the nearest tooltip be shown if no data item is found on the
-     * current cursor position?
+     * current cursor position? In order this to work, you should set snapTooltip = false on the series baseAxis.
      *
      * @default false
      * @param value  Should snap?

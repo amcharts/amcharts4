@@ -584,6 +584,10 @@ export class WordCloudSeries extends Series {
 	 */
 	protected processItem(dataItem: this["_dataItem"]) {
 
+		if(!dataItem){
+			return;
+		}
+
 		let context = this._ctx;
 
 		let w = this.innerWidth;

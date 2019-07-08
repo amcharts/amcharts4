@@ -20,6 +20,7 @@ import * as $object from "../../core/utils/Object";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import { LegendDataItem } from "../../charts/Legend";
+import { CalculatedValue } from "../../core/Component";
 
 /**
  * ============================================================================
@@ -215,6 +216,30 @@ export interface ICandlestickSeriesDataFields extends IColumnSeriesDataFields {
 	 * Field name in data which holds high date for vertical axis.
 	 */
 	highDateY?: string;
+
+	/**
+	 * Which calculated field to use to use as a horizontal axis high value for
+	 * the item.
+	 */
+	highValueXShow?: CalculatedValue;
+
+	/**
+	 * Which calculated field to use to use as a horizontal axis low value for
+	 * the item.
+	 */
+	lowValueXShow?: CalculatedValue;
+
+	/**
+	 * Which calculated field to use to use as a vertical axis low value for
+	 * the item.
+	 */
+	lowValueYShow?: CalculatedValue;	
+
+	/**
+	 * Which calculated field to use to use as a vertical axis high value for
+	 * the item.
+	 */
+	highValueYShow?: CalculatedValue;
 
 }
 

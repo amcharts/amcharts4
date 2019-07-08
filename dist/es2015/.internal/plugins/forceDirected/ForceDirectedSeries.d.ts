@@ -456,7 +456,6 @@ export declare class ForceDirectedSeries extends Series {
     /**
      * Returns a [[ForceDirectedSeriesDataItem]] related to node by specific id.
      *
-     * @ignore
      * @param   dataItems  List of data items to search in
      * @param   id         Id to search for
      * @return             Data item

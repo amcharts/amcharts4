@@ -140,6 +140,7 @@ export interface ISpriteProperties {
 	tooltipHTML?: string;
 	tooltipX?: number;
 	tooltipY?: number;
+	alwaysShowTooltip?: boolean;
 	tooltipPosition?: "fixed" | "pointer";
 	interactionsEnabled?: boolean;
 	horizontalCenter?: HorizontalCenter;
@@ -958,6 +959,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		this.setPropertyValue("togglable", false);
 		this.setPropertyValue("hidden", false);
 		this.setPropertyValue("urlTarget", "_self");
+		this.setPropertyValue("alwaysShowTooltip", false);
 
 		this._prevMeasuredWidth = 0;
 		this._prevMeasuredHeight = 0;
@@ -1290,6 +1292,15 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		}
 		else {
 			this.dispatch("validated");
+		}
+
+		if (this.alwaysShowTooltip) {
+			if (this.visible && !this.disabled && !this.__disabled) {
+				this.showTooltip();
+			}
+			else {
+				this.hideTooltip(0);
+			}
 		}
 	}
 
@@ -8175,6 +8186,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		}
 
 		if ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML)) {
+
+			if (this.alwaysShowTooltip && !this._tooltip && this.tooltip) {
+				this._tooltip = this.tooltip.clone();
+			}
+
 			let tooltip = this.tooltip;
 			let tooltipDataItem = this.tooltipDataItem;
 
@@ -8348,8 +8364,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	protected pointTooltipTo(point: IPoint, instantly?: boolean): boolean {
 		let tooltip = this.tooltip;
-		if (tooltip) {
-
+		if (tooltip && this.topParent) {
 			if ($math.isInRectangle(point, { x: 0, y: 0, width: this.topParent.maxWidth, height: this.topParent.maxHeight })) {
 				tooltip.pointTo(point, instantly);
 				return true;
@@ -8364,6 +8379,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @see {@link Tooltip}
 	 */
 	public hideTooltip(duration?: number): void {
+
+		if (this.alwaysShowTooltip) {
+			return;
+		}
+
 		let tooltip = this.tooltip;
 		if (tooltip) {
 			if (tooltip.targetSprite == this) {
@@ -8468,7 +8488,6 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	/**
 	 * X coordinate the [[Tooltip]] should be shown at.
 	 *
-	 * @ignore Exclude from docs
 	 * @param value  Tooltip X (px)
 	 */
 	public set tooltipX(value: number) {
@@ -8479,11 +8498,78 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	}
 
 	/**
-	 * @ignore Exclude from docs
 	 * @return Tooltip X (px)
 	 */
 	public get tooltipX(): number {
 		return this.getTooltipX();
+	}
+
+	/**
+	 * Indicates if this element should display a tooltip permanently.
+	 *
+	 * Useful, if you want to show permanent tooltips on some items.
+	 *
+	 * For example, if you would like to show tooltips on all of the columns of
+	 * a [[ColumnSeries]]:
+	 *
+	 * ```TypeScript
+	 * series.columns.template.alwaysShowTooltip = true;
+	 * ```
+	 * ```JavaScript
+	 * series.columns.template.alwaysShowTooltip = true;
+	 * ```
+	 * ```JSON
+	 * {
+	 *   // ...
+	 *   "series": [{
+	 *     // ...
+	 *     "columns": {
+	 *       "alwaysShowTooltip": true
+	 *     }
+	 *   }]
+	 * }
+	 * ```
+	 *
+	 * It can even be set to display on a selected columns via `propertyFields`:
+	 *
+	 * ```TypeScript
+	 * series.columns.template.propertyFields.alwaysShowTooltip = "tooltip";
+	 * ```
+	 * ```JavaScript
+	 * series.columns.template.propertyFields.alwaysShowTooltip = "tooltip";
+	 * ```
+	 * ```JSON
+	 * {
+	 *   // ...
+	 *   "series": [{
+	 *     // ...
+	 *     "columns": {
+	 *       "propertyFields": {
+	 *         "alwaysShowTooltip": "tooltip"
+	 *       }
+	 *     }
+	 *   }]
+	 * }
+	 * ```
+	 *
+	 * @default false
+	 * @since 4.5.4
+	 * @param  value  Always show tooltip?
+	 */
+	public set alwaysShowTooltip(value: boolean) {
+		value = $type.toBoolean(value);
+		if (this.setPropertyValue("alwaysShowTooltip", value) && this.tooltip) {
+			if (value) {
+				this.showTooltip();
+			}
+		}
+	}
+
+	/**
+	 * @return Always show tooltip?
+	 */
+	public get alwaysShowTooltip(): boolean {
+		return this.getPropertyValue("alwaysShowTooltip");
 	}
 
 	/**
@@ -8506,7 +8592,6 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	/**
 	 * Y coordinate the [[Tooltip]] should be shown at.
 	 *
-	 * @ignore Exclude from docs
 	 * @param value  Tooltip Y (px)
 	 */
 	public set tooltipY(value: number) {
@@ -8518,7 +8603,6 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	}
 
 	/**
-	 * @ignore Exclude from docs
 	 * @return Tooltip Y (px)
 	 */
 	public get tooltipY(): number {

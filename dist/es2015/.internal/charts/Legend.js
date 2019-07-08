@@ -166,12 +166,14 @@ var LegendDataItem = /** @class */ (function (_super) {
                 }
                 // Add focus event so that we can track which object is currently in focus
                 // for keyboard toggling
-                itemContainer_1.events.on("focus", function (ev) {
-                    component_1.focusedItem = ev.target.dataItem;
-                }, undefined, false);
-                itemContainer_1.events.on("blur", function (ev) {
-                    component_1.focusedItem = undefined;
-                }, undefined, false);
+                if (itemContainer_1.focusable) {
+                    itemContainer_1.events.on("focus", function (ev) {
+                        component_1.focusedItem = ev.target.dataItem;
+                    }, undefined, false);
+                    itemContainer_1.events.on("blur", function (ev) {
+                        component_1.focusedItem = undefined;
+                    }, undefined, false);
+                }
                 this._disposers.push(new Disposer(function () {
                     if ($type.hasValue(_this.component)) {
                         _this.component.itemContainers.removeValue(itemContainer_1);
@@ -311,7 +313,7 @@ var Legend = /** @class */ (function (_super) {
         _this._disposers.push(_this.itemContainers.template);
         // Set up global keyboard events for toggling elements
         _this._disposers.push(getInteraction().body.events.on("keyup", function (ev) {
-            if (keyboard.isKey(ev.event, "enter") && _this.focusedItem) {
+            if (keyboard.isKey(ev.event, "enter") && _this.focusedItem && _this.focusedItem.itemContainer.clickable) {
                 _this.toggleDataItem(_this.focusedItem);
             }
         }, _this));

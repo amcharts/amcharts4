@@ -457,6 +457,17 @@ var AxisDataItem = /** @class */ (function (_super) {
         _super.prototype.copyFrom.call(this, source);
         this.text = source.text;
     };
+    /**
+     * Sets visibility of the Data Item.
+     *
+     * @param value Data Item
+     */
+    AxisDataItem.prototype.setVisibility = function (value, noChangeValues) {
+        _super.prototype.setVisibility.call(this, value, noChangeValues);
+        if (this._contents) {
+            this._contents.visible = value;
+        }
+    };
     return AxisDataItem;
 }(DataItem));
 export { AxisDataItem };
@@ -921,6 +932,9 @@ var Axis = /** @class */ (function (_super) {
                 tooltip.parent = this.tooltipContainer;
             }
             var tooltipLocation = renderer.tooltipLocation;
+            if (tooltipLocation == 0) {
+                tooltipLocation = 0.001;
+            }
             var startPosition = this.getCellStartPosition(position);
             var endPosition = this.getCellEndPosition(position);
             if (this.tooltipPosition == "fixed") {
@@ -1498,10 +1512,12 @@ var Axis = /** @class */ (function (_super) {
         else {
             if (source.renderer) {
                 this.renderer = source.renderer.clone();
+                this._disposers.push(this.renderer);
             }
         }
         if (source.title) {
             this.title = source.title.clone();
+            this._disposers.push(this.title);
         }
     };
     /**

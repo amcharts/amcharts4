@@ -111,6 +111,7 @@ export interface ISpriteProperties {
     tooltipHTML?: string;
     tooltipX?: number;
     tooltipY?: number;
+    alwaysShowTooltip?: boolean;
     tooltipPosition?: "fixed" | "pointer";
     interactionsEnabled?: boolean;
     horizontalCenter?: HorizontalCenter;
@@ -3714,16 +3715,70 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     tooltipContainer: $type.Optional<Container>;
     /**
-     * @ignore Exclude from docs
      * @return Tooltip X (px)
      */
     /**
      * X coordinate the [[Tooltip]] should be shown at.
      *
-     * @ignore Exclude from docs
      * @param value  Tooltip X (px)
      */
     tooltipX: number;
+    /**
+     * @return Always show tooltip?
+     */
+    /**
+     * Indicates if this element should display a tooltip permanently.
+     *
+     * Useful, if you want to show permanent tooltips on some items.
+     *
+     * For example, if you would like to show tooltips on all of the columns of
+     * a [[ColumnSeries]]:
+     *
+     * ```TypeScript
+     * series.columns.template.alwaysShowTooltip = true;
+     * ```
+     * ```JavaScript
+     * series.columns.template.alwaysShowTooltip = true;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "series": [{
+     *     // ...
+     *     "columns": {
+     *       "alwaysShowTooltip": true
+     *     }
+     *   }]
+     * }
+     * ```
+     *
+     * It can even be set to display on a selected columns via `propertyFields`:
+     *
+     * ```TypeScript
+     * series.columns.template.propertyFields.alwaysShowTooltip = "tooltip";
+     * ```
+     * ```JavaScript
+     * series.columns.template.propertyFields.alwaysShowTooltip = "tooltip";
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "series": [{
+     *     // ...
+     *     "columns": {
+     *       "propertyFields": {
+     *         "alwaysShowTooltip": "tooltip"
+     *       }
+     *     }
+     *   }]
+     * }
+     * ```
+     *
+     * @default false
+     * @since 4.5.4
+     * @param  value  Always show tooltip?
+     */
+    alwaysShowTooltip: boolean;
     /**
      * Position
      */
@@ -3735,13 +3790,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     tooltipPosition: "fixed" | "pointer";
     /**
-     * @ignore Exclude from docs
      * @return Tooltip Y (px)
      */
     /**
      * Y coordinate the [[Tooltip]] should be shown at.
      *
-     * @ignore Exclude from docs
      * @param value  Tooltip Y (px)
      */
     tooltipY: number;

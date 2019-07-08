@@ -213,6 +213,12 @@ export declare class AxisDataItem extends DataItem {
      * @param source Source AxisDataItem
      */
     copyFrom(source: this): void;
+    /**
+     * Sets visibility of the Data Item.
+     *
+     * @param value Data Item
+     */
+    setVisibility(value: boolean, noChangeValues?: boolean): void;
 }
 /**
  * Defines adapters for [[AxisDataItem]]

@@ -4012,8 +4012,8 @@ export class Export extends Validatable {
 	private async _canvg(): Promise<any> {
 		const canvg = await import(/* webpackChunkName: "canvg" */ "canvg");
 
-		if (canvg.default != null) {
-			return canvg.default;
+		if ((<any>canvg).default != null) {
+			return (<any>canvg).default;
 
 		} else {
 			return canvg;
