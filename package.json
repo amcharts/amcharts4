@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@amcharts/amcharts4",
-  "version": "4.5.4",
+  "version": "4.5.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/amcharts/amcharts4.git"
@@ -31,6 +31,7 @@
     "pdfmake": "^0.1.36",
     "polylabel": "^1.0.2",
     "tslib": "^1.9.3",
+    "fabric": "^3.1.0",
     "regression": "^2.0.1",
     "xlsx": "^0.12.8",
     "d3-geo": "^1.11.3",
@@ -40,6 +41,7 @@
     "@types/d3-force": "^1.2.1",
     "@types/geojson": "^7946.0.6",
     "@types/polylabel": "^1.0.5",
+    "@types/fabric": "^2.6.17",
     "@types/d3-geo": "^1.11.1",
     "@types/regression": "^2.0.0",
     "core-js": "^2.5.5",

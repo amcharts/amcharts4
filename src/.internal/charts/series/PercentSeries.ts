@@ -283,18 +283,18 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 
 			// Apply screen reader label
 			if (slice.focusable) {
-				slice.events.once("focus", (ev) => {
+				slice.events.on("focus", (ev) => {
 					slice.readerTitle = component.populateString(component.itemReaderText, this);
 				}, undefined, false);
-				slice.events.once("blur", (ev) => {
+				slice.events.on("blur", (ev) => {
 					slice.readerTitle = "";
 				}, undefined, false);
 			}
 			if (slice.hoverable) {
-				slice.events.once("over", (ev) => {
+				slice.events.on("over", (ev) => {
 					slice.readerTitle = component.populateString(component.itemReaderText, this);
 				}, undefined, false);
-				slice.events.once("out", (ev) => {
+				slice.events.on("out", (ev) => {
 					slice.readerTitle = "";
 				}, undefined, false);
 			}

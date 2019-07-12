@@ -533,6 +533,9 @@ var Sprite = /** @class */ (function (_super) {
             }
             // TODO clear existing positionchanged dispatches ?
             this.dispatch("positionchanged");
+            if (this.alwaysShowTooltip) {
+                this.updateTooltipPosition();
+            }
         }
         //}
         // it might happen that x and y changed again, so we only remove if they didn't
@@ -830,6 +833,7 @@ var Sprite = /** @class */ (function (_super) {
                     this._filters.removeValue(filter);
                 }
             }
+            this._alwaysShowDisposers = undefined;
         }
     };
     Object.defineProperty(Sprite.prototype, "isTemplate", {
@@ -981,6 +985,7 @@ var Sprite = /** @class */ (function (_super) {
                     if (!this._dataItem) {
                         this.dataItem = parent.dataItem;
                     }
+                    this.handleAlwaysShowTooltip();
                 }
                 else {
                     this.topParent = undefined;
@@ -990,6 +995,33 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * @ignore
+     */
+    Sprite.prototype.handleAlwaysShow = function () {
+        this.showTooltip();
+    };
+    /**
+     * @ignore
+     */
+    Sprite.prototype.handleAlwaysShowTooltip = function () {
+        var sprite = this;
+        var oldDisposers = this._alwaysShowDisposers;
+        if (oldDisposers) {
+            $array.each(oldDisposers, function (oldDisposer) {
+                oldDisposer.dispose();
+            });
+        }
+        this._alwaysShowDisposers = [];
+        if (this.alwaysShowTooltip) {
+            while (sprite != undefined) {
+                var disposer = sprite.events.on("visibilitychanged", this.handleAlwaysShow, this, false);
+                this.addDisposer(disposer);
+                this._alwaysShowDisposers.push(disposer);
+                sprite = sprite.parent;
+            }
+        }
+    };
     Object.defineProperty(Sprite.prototype, "virtualParent", {
         /**
          * @return Virtual parent
@@ -1701,7 +1733,7 @@ var Sprite = /** @class */ (function (_super) {
             this._prevMeasuredWidth = this._measuredWidth;
             // TODO clear existing sizechanged dispatches ?
             this.dispatch("sizechanged");
-            if (this.isHover && this.tooltip && this.tooltip.visible && ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML))) {
+            if ((this.isHover || this.alwaysShowTooltip) && this.tooltip && this.tooltip.visible && ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML))) {
                 this.updateTooltipPosition();
             }
             return true;
@@ -3371,9 +3403,9 @@ var Sprite = /** @class */ (function (_super) {
                 this.group.removeElement(this._titleElement);
                 this._titleElement = undefined;
             }
+            var descriptionId = this.uid + "-description";
             if (description) {
                 var descriptionElement = this.descriptionElement;
-                var descriptionId = this.uid + "-description";
                 if (descriptionElement.node.textContent != description) {
                     descriptionElement.node.textContent = description;
                     descriptionElement.attr({ id: descriptionId });
@@ -3383,14 +3415,21 @@ var Sprite = /** @class */ (function (_super) {
             else if (this._descriptionElement) {
                 this.group.removeElement(this._descriptionElement);
                 this._descriptionElement = undefined;
+                $array.remove(describedByIds, descriptionId);
             }
         }
         // Add label and described properties
         if (labelledByIds.length) {
             this.setSVGAttribute({ "aria-labelledby": labelledByIds.join(" ") });
         }
+        else {
+            this.removeSVGAttribute("aria-labelledby");
+        }
         if (describedByIds.length) {
             this.setSVGAttribute({ "aria-describedby": describedByIds.join(" ") });
+        }
+        else {
+            this.removeSVGAttribute("aria-describedby");
         }
         // Apply role
         if (role) {
@@ -7308,18 +7347,21 @@ var Sprite = /** @class */ (function (_super) {
      * @return returns true if the tooltip was shown and false if it wasn't (no text was found)
      */
     Sprite.prototype.showTooltip = function (point) {
+        if (this.alwaysShowTooltip && !this._tooltip && this.tooltip) {
+            this._tooltip = this.tooltip.clone();
+        }
         // do not show if hidden
         var sprite = this;
         while (sprite != undefined) {
             if (!sprite.visible || sprite.disabled || sprite.__disabled) {
+                if (this._tooltip && this._tooltip.visible) {
+                    this._tooltip.hide(0);
+                }
                 return;
             }
             sprite = sprite.parent;
         }
         if ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML)) {
-            if (this.alwaysShowTooltip && !this._tooltip && this.tooltip) {
-                this._tooltip = this.tooltip.clone();
-            }
             var tooltip = this.tooltip;
             var tooltipDataItem = this.tooltipDataItem;
             if (tooltip) {
@@ -7675,6 +7717,7 @@ var Sprite = /** @class */ (function (_super) {
                 if (value) {
                     this.showTooltip();
                 }
+                this.handleAlwaysShowTooltip();
             }
         },
         enumerable: true,
@@ -7935,14 +7978,17 @@ var Sprite = /** @class */ (function (_super) {
             if (animation && !animation.isFinished()) {
                 animation.events.on("animationended", function () {
                     _this.appeared = true;
+                    _this.dispatch("appeared");
                 });
             }
             else {
                 this.appeared = true;
+                this.dispatch("appeared");
             }
         }
         else {
             this.appeared = true;
+            this.dispatch("appeared");
         }
     };
     Object.defineProperty(Sprite.prototype, "hidden", {

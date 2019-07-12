@@ -637,18 +637,18 @@ var Series = /** @class */ (function (_super) {
                         }
                         // Add accessibility to bullet
                         if (bullet.focusable) {
-                            bullet.events.once("focus", function (ev) {
+                            bullet.events.on("focus", function (ev) {
                                 bullet.readerTitle = _this.populateString(readerText_1, bullet.dataItem);
                             }, undefined, false);
-                            bullet.events.once("blur", function (ev) {
+                            bullet.events.on("blur", function (ev) {
                                 bullet.readerTitle = "";
                             }, undefined, false);
                         }
                         if (bullet.hoverable) {
-                            bullet.events.once("over", function (ev) {
+                            bullet.events.on("over", function (ev) {
                                 bullet.readerTitle = _this.populateString(readerText_1, bullet.dataItem);
                             }, undefined, false);
-                            bullet.events.once("out", function (ev) {
+                            bullet.events.on("out", function (ev) {
                                 bullet.readerTitle = "";
                             }, undefined, false);
                         }

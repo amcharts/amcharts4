@@ -317,6 +317,11 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
 	inited: {};
 
 	/**
+	 * Invoked when [[Sprite]] appears. Sprite appears when sprite.appear() method is called and show animation is finished.
+	 */
+	appeared: {};
+
+	/**
 	 * Invoked when [[Sprite]] is becomes ready, that is it has finished all
 	 * calculations and building itself.
 	 *

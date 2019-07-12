@@ -1,6 +1,10 @@
 import { Sprite } from "../Sprite";
 import { ITheme } from "../../themes/ITheme";
 import * as $type from "./Type";
+export declare function addToQueue(sprite: Sprite): void;
+export declare function removeFromQueue(sprite: Sprite): void;
+export declare function viewPortHandler(sprite: Sprite): void;
+export declare function queueHandler(sprite: Sprite): void;
 /**
  * A shortcut to creating a chart instance.
  *

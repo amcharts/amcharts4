@@ -362,6 +362,19 @@ var XYChart = /** @class */ (function (_super) {
         }
     };
     /**
+     * Triggers a re-initialization of this element.
+     *
+     * Will result in complete redrawing of the element.
+     *
+     * @ignore Exclude from docs
+     */
+    XYChart.prototype.reinit = function () {
+        _super.prototype.reinit.call(this);
+        this.series.each(function (series) {
+            series.appeared = false;
+        });
+    };
+    /**
      * Triggers an update on the horizontal axis when one of its properties
      * change.
      *

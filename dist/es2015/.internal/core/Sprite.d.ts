@@ -779,6 +779,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     dragWhileResize: boolean;
     /**
+     * @ignore
+     */
+    vpDisposer: MultiDisposer;
+    protected _alwaysShowDisposers: IDisposer[];
+    /**
      * Constructor:
      * * Creates initial node
      * * Sets default properties
@@ -962,6 +967,14 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param parent  Parent container
      */
     parent: Optional<Container>;
+    /**
+     * @ignore
+     */
+    protected handleAlwaysShow(): void;
+    /**
+     * @ignore
+     */
+    protected handleAlwaysShowTooltip(): void;
     /**
      * @return Virtual parent
      */

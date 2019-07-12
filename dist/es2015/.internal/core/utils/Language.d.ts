@@ -323,12 +323,25 @@ export declare class Language extends BaseObjectEvents {
      * chart.language.translate("This is a %1 translation %2", null, "first", "test");
      * ```
      *
-     * @param prompt   A string to translate
-     * @param locale   Force translation into specific locale, e.g. fr_FR
-     * @param ...rest  Parameters to replace in string
-     * @return Translation
+     * @param  prompt   A string to translate
+     * @param  locale   Force translation into specific locale, e.g. fr_FR
+     * @param  rest     Parameters to replace in string
+     * @return          Translation
      */
     translate<Key extends keyof ILocaleProperties>(prompt: Key, locale?: ILocale, ...rest: Array<string>): string;
+    /**
+     * Non-type-checked translation.
+     *
+     * Can be used by plugins and other code that may have their own non-standard
+     * translation prompts.
+     *
+     * @since 4.5.5
+     * @param  prompt   A string to translate
+     * @param  locale   Force translation into specific locale, e.g. fr_FR
+     * @param  rest     Parameters to replace in string
+     * @return          Translation
+     */
+    translateAny(prompt: string, locale?: ILocale, ...rest: Array<string>): string;
     /**
      * Translates prompt.
      *

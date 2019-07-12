@@ -223,6 +223,15 @@ var SerialChart = /** @class */ (function (_super) {
         _super.prototype.copyFrom.call(this, source);
         this.series.copyFrom(source.series);
     };
+    /**
+     * Hides the chart instantly and then shows it. If defaultState.transitionDuration > 0, this will result an animation in which properties of hidden state will animate to properties of visible state.
+     */
+    SerialChart.prototype.appear = function () {
+        _super.prototype.appear.call(this);
+        this.series.each(function (series) {
+            series.appear();
+        });
+    };
     return SerialChart;
 }(Chart));
 export { SerialChart };

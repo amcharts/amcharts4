@@ -91,6 +91,9 @@ export function getElement(el: $type.Optional<HTMLElement | string>): $type.Opti
  * @param className  Class name to add
  */
 export function addClass(element: HTMLElement | SVGSVGElement, className: string): void {
+	if (!element) {
+		return;
+	}
 	if (element.classList) {
 		element.classList.add(className);
 	}
@@ -116,6 +119,9 @@ export function addClass(element: HTMLElement | SVGSVGElement, className: string
  * @param className  Class name to add
  */
 export function removeClass(element: HTMLElement | SVGSVGElement, className: string): void {
+	if (!element) {
+		return;
+	}
 	if (element.classList) {
 		element.classList.remove(className);
 	}
@@ -612,4 +618,23 @@ export function findFontSize(element: Element): string {
  */
 export function isHidden(element: HTMLElement): boolean {
 	return (element.offsetParent === null);
+}
+
+
+/**
+ * Checks wthether element is in the current viewport.
+ *
+ * @since 2.5.5
+ * @param   el Element
+ * @return     Within viewport?
+ */
+export function isElementInViewport(el: HTMLElement): boolean {
+	let rect = el.getBoundingClientRect();
+
+	return (
+		rect.top >= 0 &&
+		rect.left >= 0 &&
+		rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+		rect.left <= (window.innerWidth || document.documentElement.clientWidth)
+	);
 }

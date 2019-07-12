@@ -81,6 +81,9 @@ export function getElement(el) {
  * @param className  Class name to add
  */
 export function addClass(element, className) {
+    if (!element) {
+        return;
+    }
     if (element.classList) {
         element.classList.add(className);
     }
@@ -105,6 +108,9 @@ export function addClass(element, className) {
  * @param className  Class name to add
  */
 export function removeClass(element, className) {
+    if (!element) {
+        return;
+    }
     if (element.classList) {
         element.classList.remove(className);
     }
@@ -551,5 +557,19 @@ export function findFontSize(element) {
  */
 export function isHidden(element) {
     return (element.offsetParent === null);
+}
+/**
+ * Checks wthether element is in the current viewport.
+ *
+ * @since 2.5.5
+ * @param   el Element
+ * @return     Within viewport?
+ */
+export function isElementInViewport(el) {
+    var rect = el.getBoundingClientRect();
+    return (rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.left <= (window.innerWidth || document.documentElement.clientWidth));
 }
 //# sourceMappingURL=DOM.js.map

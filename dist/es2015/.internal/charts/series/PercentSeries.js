@@ -230,18 +230,18 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
                 }
                 // Apply screen reader label
                 if (slice_1.focusable) {
-                    slice_1.events.once("focus", function (ev) {
+                    slice_1.events.on("focus", function (ev) {
                         slice_1.readerTitle = component_1.populateString(component_1.itemReaderText, _this);
                     }, undefined, false);
-                    slice_1.events.once("blur", function (ev) {
+                    slice_1.events.on("blur", function (ev) {
                         slice_1.readerTitle = "";
                     }, undefined, false);
                 }
                 if (slice_1.hoverable) {
-                    slice_1.events.once("over", function (ev) {
+                    slice_1.events.on("over", function (ev) {
                         slice_1.readerTitle = component_1.populateString(component_1.itemReaderText, _this);
                     }, undefined, false);
-                    slice_1.events.once("out", function (ev) {
+                    slice_1.events.on("out", function (ev) {
                         slice_1.readerTitle = "";
                     }, undefined, false);
                 }

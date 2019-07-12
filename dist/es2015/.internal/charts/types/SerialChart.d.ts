@@ -171,4 +171,8 @@ export declare class SerialChart extends Chart {
      * @param source Source SerialChart
      */
     copyFrom(source: this): void;
+    /**
+     * Hides the chart instantly and then shows it. If defaultState.transitionDuration > 0, this will result an animation in which properties of hidden state will animate to properties of visible state.
+     */
+    appear(): void;
 }

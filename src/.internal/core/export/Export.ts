@@ -473,6 +473,11 @@ export interface IExportCustomOptions {
 	 */
 	callback?: (branch?: any) => any;
 
+	/**
+	 * A target which will be `this` context for callback calls.
+	 */
+	callbackTarget?: any;
+
 }
 
 /**
@@ -1239,6 +1244,12 @@ export class Export extends Validatable {
 	 */
 	public async export<Key extends keyof IExportOptions>(type: Key, options?: IExportOptions[Key]): Promise<boolean> {
 
+		// Check if it's a custom item, and do nothing or execute custom callback
+		if (type == "custom") {
+			this.handleCustom(<IExportCustomOptions>options);
+			return true;
+		}
+
 		// Dispatch event
 		if (this.events.isEnabled("exportstarted")) {
 			const event: AMEvent<this, IExportEvents>["exportstarted"] = {
@@ -1248,12 +1259,6 @@ export class Export extends Validatable {
 				"options": options
 			};
 			this.events.dispatchImmediately("exportstarted", event);
-		}
-
-		// Check if it's a custom item, and do nothing or execute custom callback
-		if (type == "custom") {
-			this.handleCustom(<IExportCustomOptions>options);
-			return true;
 		}
 
 		// Schedule a preloader
@@ -1382,8 +1387,8 @@ export class Export extends Validatable {
 	 * @param options  Options
 	 */
 	public handleCustom(options: IExportCustomOptions): void {
-		if ($type.hasValue(options.callback)) {
-			options.callback.call(this, options);
+		if ($type.hasValue(options) && $type.hasValue(options.callback)) {
+			options.callback.call(options.callbackTarget || this, options);
 		}
 	}
 

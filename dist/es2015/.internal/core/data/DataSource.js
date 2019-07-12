@@ -94,6 +94,23 @@ var DataSource = /** @class */ (function (_super) {
          */
         _this._keepCount = false;
         /**
+         * If set to `true`, each subsequent load will be treated as an update to
+         * currently loaded data, meaning that it will try to update values on
+         * existing data items, not overwrite the whole data.
+         *
+         * This will work faster than complete update, and also will animate the
+         * values to their new positions.
+         *
+         * Data sources across loads must contain the same number of data items.
+         *
+         * Loader will not truncate the data set if loaded data has fewer data items,
+         * and if it is longer, the excess data items will be ignored.
+         *
+         * @default false
+         * @since 4.5.5
+         */
+        _this._updateCurrentData = false;
+        /**
          * Will show loading indicator when loading files.
          */
         _this.showPreloader = true;
@@ -396,6 +413,38 @@ var DataSource = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._keepCount = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DataSource.prototype, "updateCurrentData", {
+        /**
+         * @return Update current data?
+         */
+        get: function () {
+            return this.adapter.apply("updateCurrentData", this._updateCurrentData);
+        },
+        /**
+         * If set to `true`, each subsequent load will be treated as an update to
+         * currently loaded data, meaning that it will try to update values on
+         * existing data items, not overwrite the whole data.
+         *
+         * This will work faster than complete update, and also will animate the
+         * values to their new positions.
+         *
+         * Data sources across loads must contain the same number of data items.
+         *
+         * Loader will not truncate the data set if loaded data has fewer data items,
+         * and if it is longer, the excess data items will be ignored.
+         *
+         * NOTE: this setting is ignored if `incremental = true`.
+         *
+         * @default false
+         * @since 2.5.5
+         * @param Update current data?
+         */
+        set: function (value) {
+            this._updateCurrentData = value;
         },
         enumerable: true,
         configurable: true

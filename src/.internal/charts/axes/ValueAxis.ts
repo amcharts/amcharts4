@@ -1242,6 +1242,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			}
 			else {
 				if ((animation && !animation.isFinished()) && this._finalMax == max && this._finalMin == min) {
+					this._minAdjusted = min;
+					this._maxAdjusted = max;
+
 					return;
 				}
 				else {

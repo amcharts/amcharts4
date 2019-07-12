@@ -574,7 +574,7 @@ export class ColumnSeries extends XYSeries {
 			let topLocation = dataItem.locations[yField];
 			// otherwise gantt chart will start items in the middle of a cell
 			if (this.yAxis instanceof ValueAxis) {
-				if((<any>this.dataFields)[this.yField] != (<any>this.dataFields)[this.yOpenField]){
+				if ((<any>this.dataFields)[this.yField] != (<any>this.dataFields)[this.yOpenField]) {
 					bottomLocation = 0;
 					topLocation = 0;
 				}
@@ -633,7 +633,7 @@ export class ColumnSeries extends XYSeries {
 
 			// otherwise gantt chart will start items in the middle of a cell
 			if (this.xAxis instanceof ValueAxis) {
-				if((<any>this.dataFields)[this.xField] != (<any>this.dataFields)[this.xOpenField]){
+				if ((<any>this.dataFields)[this.xField] != (<any>this.dataFields)[this.xOpenField]) {
 					rightLocation = 0;
 					leftLocation = 0;
 				}
@@ -667,7 +667,7 @@ export class ColumnSeries extends XYSeries {
 		if (!outOfBounds) {
 			let column: this["_column"];
 			if (!dataItem.column) {
-				column = this.columns.create();				
+				column = this.columns.create();
 				//$object.forceCopyProperties(this.columns.template, column, visualProperties);
 				$object.copyProperties(this, column, visualProperties); // need this because 3d columns are not in the same container
 				$object.copyProperties(this.columns.template, column, visualProperties); // second time, no force, so that columns.template would override series properties
@@ -687,18 +687,18 @@ export class ColumnSeries extends XYSeries {
 				}
 
 				if (column.focusable) {
-					column.events.once("focus", (ev) => {
+					column.events.on("focus", (ev) => {
 						column.readerTitle = this.populateString(this.itemReaderText, dataItem);
 					}, undefined, false);
-					column.events.once("blur", (ev) => {
+					column.events.on("blur", (ev) => {
 						column.readerTitle = "";
 					}, undefined, false);
 				}
 				if (column.hoverable) {
-					column.events.once("over", (ev) => {
+					column.events.on("over", (ev) => {
 						column.readerTitle = this.populateString(this.itemReaderText, dataItem);
 					}, undefined, false);
-					column.events.once("out", (ev) => {
+					column.events.on("out", (ev) => {
 						column.readerTitle = "";
 					}, undefined, false);
 				}
@@ -1044,7 +1044,7 @@ export class ColumnSeries extends XYSeries {
 	protected getBulletLocationX(bullet: Bullet, field: string): number {
 		if (this.baseAxis == this.xAxis) {
 			let bulletLocationX = bullet.locationX;
-			if(!$type.isNumber(bulletLocationX)){
+			if (!$type.isNumber(bulletLocationX)) {
 				bulletLocationX = 0.5;
 			}
 
@@ -1063,7 +1063,7 @@ export class ColumnSeries extends XYSeries {
 	protected getBulletLocationY(bullet: Bullet, field: string): number {
 		if (this.baseAxis == this.yAxis) {
 			let bulletLocationY = bullet.locationY;
-			if(!$type.isNumber(bulletLocationY)){
+			if (!$type.isNumber(bulletLocationY)) {
 				bulletLocationY = 0.5;
 			}
 			return this._endLocation - (this._endLocation - this._startLocation) * bulletLocationY;

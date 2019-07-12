@@ -528,6 +528,11 @@ var Export = /** @class */ (function (_super) {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        // Check if it's a custom item, and do nothing or execute custom callback
+                        if (type == "custom") {
+                            this.handleCustom(options);
+                            return [2 /*return*/, true];
+                        }
                         // Dispatch event
                         if (this.events.isEnabled("exportstarted")) {
                             event_1 = {
@@ -537,11 +542,6 @@ var Export = /** @class */ (function (_super) {
                                 "options": options
                             };
                             this.events.dispatchImmediately("exportstarted", event_1);
-                        }
-                        // Check if it's a custom item, and do nothing or execute custom callback
-                        if (type == "custom") {
-                            this.handleCustom(options);
-                            return [2 /*return*/, true];
                         }
                         // Schedule a preloader
                         this.showPreloader();
@@ -655,8 +655,8 @@ var Export = /** @class */ (function (_super) {
      * @param options  Options
      */
     Export.prototype.handleCustom = function (options) {
-        if ($type.hasValue(options.callback)) {
-            options.callback.call(this, options);
+        if ($type.hasValue(options) && $type.hasValue(options.callback)) {
+            options.callback.call(options.callbackTarget || this, options);
         }
     };
     /**

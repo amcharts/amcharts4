@@ -947,18 +947,18 @@ export class Series extends Component {
 
 						// Add accessibility to bullet
 						if (bullet.focusable) {
-							bullet.events.once("focus", (ev) => {
+							bullet.events.on("focus", (ev) => {
 								bullet.readerTitle = this.populateString(readerText, bullet.dataItem);
 							}, undefined, false);
-							bullet.events.once("blur", (ev) => {
+							bullet.events.on("blur", (ev) => {
 								bullet.readerTitle = "";
 							}, undefined, false);
 						}
 						if (bullet.hoverable) {
-							bullet.events.once("over", (ev) => {
+							bullet.events.on("over", (ev) => {
 								bullet.readerTitle = this.populateString(readerText, bullet.dataItem);
 							}, undefined, false);
-							bullet.events.once("out", (ev) => {
+							bullet.events.on("out", (ev) => {
 								bullet.readerTitle = "";
 							}, undefined, false);
 						}

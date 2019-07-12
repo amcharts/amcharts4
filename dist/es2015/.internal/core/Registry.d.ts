@@ -154,6 +154,7 @@ export declare class Registry {
     baseSpritesByUid: {
         [index: string]: Sprite;
     };
+    queue: Array<Sprite>;
     constructor();
     /**
      * Generates a unique chart system-wide ID.

@@ -300,6 +300,10 @@ export interface IExportCustomOptions {
      * is clicked.
      */
     callback?: (branch?: any) => any;
+    /**
+     * A target which will be `this` context for callback calls.
+     */
+    callbackTarget?: any;
 }
 /**
  * Represents interface for a temporarily removed image.

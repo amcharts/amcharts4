@@ -97,6 +97,10 @@ export interface IDataSourceAdapters {
         [index: string]: string;
     };
     /**
+     * Applied to `updateCurrentData` setting.
+     */
+    updateCurrentData: boolean;
+    /**
      * Applied to `keepCount` setting.
      */
     keepCount: boolean;
@@ -228,6 +232,23 @@ export declare class DataSource extends BaseObjectEvents {
      * @default false
      */
     protected _keepCount: boolean;
+    /**
+     * If set to `true`, each subsequent load will be treated as an update to
+     * currently loaded data, meaning that it will try to update values on
+     * existing data items, not overwrite the whole data.
+     *
+     * This will work faster than complete update, and also will animate the
+     * values to their new positions.
+     *
+     * Data sources across loads must contain the same number of data items.
+     *
+     * Loader will not truncate the data set if loaded data has fewer data items,
+     * and if it is longer, the excess data items will be ignored.
+     *
+     * @default false
+     * @since 4.5.5
+     */
+    protected _updateCurrentData: boolean;
     /**
      * Holds the date of the last load.
      */
@@ -395,6 +416,29 @@ export declare class DataSource extends BaseObjectEvents {
      * @param Keep record count?
      */
     keepCount: boolean;
+    /**
+     * @return Update current data?
+     */
+    /**
+     * If set to `true`, each subsequent load will be treated as an update to
+     * currently loaded data, meaning that it will try to update values on
+     * existing data items, not overwrite the whole data.
+     *
+     * This will work faster than complete update, and also will animate the
+     * values to their new positions.
+     *
+     * Data sources across loads must contain the same number of data items.
+     *
+     * Loader will not truncate the data set if loaded data has fewer data items,
+     * and if it is longer, the excess data items will be ignored.
+     *
+     * NOTE: this setting is ignored if `incremental = true`.
+     *
+     * @default false
+     * @since 2.5.5
+     * @param Update current data?
+     */
+    updateCurrentData: boolean;
     /**
      * @return A [[Language]] instance to be used
      */

@@ -376,6 +376,14 @@ export declare class XYChart extends SerialChart {
      */
     protected updateXAxesMargins(): void;
     /**
+     * Triggers a re-initialization of this element.
+     *
+     * Will result in complete redrawing of the element.
+     *
+     * @ignore Exclude from docs
+     */
+    reinit(): void;
+    /**
      * Triggers an update on the horizontal axis when one of its properties
      * change.
      *

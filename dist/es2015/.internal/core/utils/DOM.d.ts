@@ -249,3 +249,11 @@ export declare function findFontSize(element: Element): string;
  * @return           Hidden?
  */
 export declare function isHidden(element: HTMLElement): boolean;
+/**
+ * Checks wthether element is in the current viewport.
+ *
+ * @since 2.5.5
+ * @param   el Element
+ * @return     Within viewport?
+ */
+export declare function isElementInViewport(el: HTMLElement): boolean;

@@ -167,6 +167,8 @@ export class Registry {
 
 	public baseSpritesByUid: { [index: string]: Sprite } = {};
 
+	public queue:Array<Sprite> = [];
+
 	constructor() {
 		this.uid = this.getUniqueId();
 

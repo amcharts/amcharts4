@@ -672,6 +672,9 @@ var Component = /** @class */ (function (_super) {
         this.dispatchImmediately("beforedatavalidated");
         this.dataInvalid = false;
         registry.removeFromInvalidComponents(this);
+        if (this.__disabled) {
+            return;
+        }
         this.dataValidationProgress = 0;
         // need this to slice new data
         this._prevStartIndex = undefined;
@@ -973,6 +976,19 @@ var Component = /** @class */ (function (_super) {
                 }
                 if (ds.incremental && property == "data" && _this.data.length) {
                     _this.addData(ev.data, ds.keepCount ? ev.data.length : 0);
+                }
+                else if (ds.updateCurrentData && property == "data" && _this.data.length) {
+                    // cycle through existing data items
+                    $array.each(_this.data, function (item, index) {
+                        if ($type.hasValue(ev.data[index])) {
+                            $object.each(item, function (key, val) {
+                                if ($type.hasValue(ev.data[index][key])) {
+                                    item[key] = ev.data[index][key];
+                                }
+                            });
+                        }
+                    });
+                    _this.invalidateRawData();
                 }
                 else {
                     _this[property] = ev.data;

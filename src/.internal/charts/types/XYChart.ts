@@ -601,6 +601,21 @@ export class XYChart extends SerialChart {
 	}
 
 	/**
+	 * Triggers a re-initialization of this element.
+	 *
+	 * Will result in complete redrawing of the element.
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public reinit(): void {
+		super.reinit();
+		
+		this.series.each((series) => {
+			series.appeared = false;
+		})
+	}
+
+	/**
 	 * Triggers an update on the horizontal axis when one of its properties
 	 * change.
 	 *
@@ -1350,7 +1365,7 @@ export class XYChart extends SerialChart {
 				delta = panEndRange.start;
 			}
 			if (panEndRange.end > 1) {
-				delta = panEndRange.end - 1;				
+				delta = panEndRange.end - 1;
 			}
 			this.zoomAxes(this.xAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta }, false, true);
 			this._panEndXRange = undefined;
@@ -1731,7 +1746,7 @@ export class XYChart extends SerialChart {
 
 			let newEndX = Math.min(rangeX.end + shiftStep * shift / 100 * (1 - locationX), 1 + maxPanOut);
 			newEndX = Math.max(newEndX, rangeX.start + (rangeX.end - rangeX.start) * locationX + shiftStep * 0.05);
- 
+
 			this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX });
 		}
 
@@ -1742,7 +1757,7 @@ export class XYChart extends SerialChart {
 			newStartY = Math.min(newStartY, rangeY.start + (rangeY.end - rangeY.start) * locationY - shiftStep * 0.05);
 
 			let newEndY = Math.min(rangeY.end + shiftStep * shift / 100 * locationY, 1 + maxPanOut);
- 			newEndY = Math.max(newEndY, rangeY.start + (rangeY.end - rangeY.start) * locationY + shiftStep * 0.05);
+			newEndY = Math.max(newEndY, rangeY.start + (rangeY.end - rangeY.start) * locationY + shiftStep * 0.05);
 
 			this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY });
 		}
@@ -2069,13 +2084,13 @@ export class XYChart extends SerialChart {
 			this.addScrollbarData(this.scrollbarY, removeCount);
 		}
 
-		super.addData(rawDataItem, removeCount);				
+		super.addData(rawDataItem, removeCount);
 	}
 
 	/**
 	 * @ignore
 	 */
-	protected addScrollbarData(scrollbar:XYChartScrollbar, removeCount:number){
+	protected addScrollbarData(scrollbar: XYChartScrollbar, removeCount: number) {
 		let chart = scrollbar.scrollbarChart;
 		chart._parseDataFrom = chart.data.length;
 		chart.invalidateData();
@@ -2084,13 +2099,13 @@ export class XYChart extends SerialChart {
 	/**
 	 * @ignore
 	 */
-	protected removeScrollbarData(scrollbar:XYChartScrollbar, removeCount:number){
+	protected removeScrollbarData(scrollbar: XYChartScrollbar, removeCount: number) {
 		let chart = scrollbar.scrollbarChart;
 		if ($type.isNumber(removeCount)) {
 			while (removeCount > 0) {
 				let dataItem = this.dataItems.getIndex(0);
 				if (dataItem) {
-					chart.dataItems.remove(dataItem);					
+					chart.dataItems.remove(dataItem);
 				}
 
 				chart.dataUsers.each((dataUser) => {
@@ -2106,7 +2121,7 @@ export class XYChart extends SerialChart {
 			}
 
 			chart.invalidateData();
-		}		
+		}
 	}
 
 	/**
@@ -2120,10 +2135,10 @@ export class XYChart extends SerialChart {
 		}
 		if (this.scrollbarY instanceof XYChartScrollbar) {
 			this.removeScrollbarData(this.scrollbarY, count);
-		}	
+		}
 
 		super.removeData(count);
-	}	
+	}
 
 	/**
 	 * @param  value  Tap to activate?

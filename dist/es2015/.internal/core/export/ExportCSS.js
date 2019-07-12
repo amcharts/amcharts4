@@ -47,7 +47,7 @@ export default function (prefix) {
             new StyleRule("." + newPrefix + "-item." + newPrefix + "-item-level-0", {
                 "opacity": "0.3",
                 "width": "30px",
-                "height": "30px",
+                "min-height": "30px",
                 "transition": "all 100ms ease-in-out",
             }),
             new StyleRule("div:hover ." + newPrefix + "-item." + newPrefix + "-item-level-0, ." + newPrefix + "-item." + newPrefix + "-item-level-0.active", {
@@ -55,7 +55,8 @@ export default function (prefix) {
             }),
             new StyleRule("." + newPrefix + "-item." + newPrefix + "-item-level-0 > a", {
                 "padding": "0",
-                "text-align": "center"
+                "text-align": "center",
+                "overflow": "hidden"
             }),
             new StyleRule("." + newPrefix + "-item." + newPrefix + "-item-level-0:before", {
                 "display": "block"
@@ -124,6 +125,18 @@ export default function (prefix) {
                 "display": "block",
                 "cursor": "default",
                 "padding": "0.5em 1em",
+            }),
+            new StyleRule("." + newPrefix + "-icon", {
+                "display": "block",
+                "cursor": "default",
+                "padding": "0.2em 0.4em",
+                "width": "1.2em",
+                "height": "1.2em",
+                "margin": "auto auto",
+                "border-radius": "3px",
+            }),
+            new StyleRule("." + newPrefix + "-item-level-0 > ." + newPrefix + "-icon", {
+                "padding": "0.1em 0.2em",
             }),
             new StyleRule("." + newPrefix + "-clickable", {
                 "cursor": "pointer",

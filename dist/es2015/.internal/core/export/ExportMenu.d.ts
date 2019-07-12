@@ -8,6 +8,7 @@ import { IDisposer, MutableValueDisposer } from "../utils/Disposer";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
 import { KeyboardKeys } from "../utils/Keyboard";
+import { Color } from "../utils/Color";
 import * as $type from "../utils/Type";
 /**
  * ============================================================================
@@ -27,6 +28,14 @@ export interface IExportMenuItem {
      * Label to display in the menu.
      */
     label?: string;
+    /**
+     * A `href` of the image to show instead of a label.
+     */
+    icon?: string;
+    /**
+     * Raw SVG content to add to instead of regular label.
+     */
+    svg?: string;
     /**
      * Export format. (optional)
      */
@@ -62,9 +71,13 @@ export interface IExportMenuItem {
      */
     unsupported?: boolean;
     /**
-     * An [[InteractionObject]] representation of the menu item.
+     * An [[InteractionObject]] representation of the menu item label.
      */
     interactions?: InteractionObject;
+    /**
+     * Actual HTML element of the menu item.
+     */
+    element?: HTMLElement;
     /**
      * Holds list of parent menu items to this item.
      */
@@ -77,6 +90,18 @@ export interface IExportMenuItem {
      * @ignore Exclude from docs
      */
     closeTimeout?: IDisposer;
+    /**
+     * Should this item be hidden?
+     */
+    hidden?: boolean;
+    /**
+     * A unique id to attach to the menu item.
+     */
+    id?: string;
+    /**
+     * Color to use as a background.
+     */
+    color?: Color;
 }
 /**
  * Defines [[ExportMenu]] events.
@@ -168,6 +193,9 @@ export interface IExportMenuAdapters {
     labelTag: {
         tag: string;
     };
+    iconTag: {
+        tag: string;
+    };
     align: {
         align: Align;
     };
@@ -242,87 +270,63 @@ export declare class ExportMenu extends Validatable {
     closeOnClick: boolean;
     /**
      * An instance of [[Language]].
-     *
-     * @ignore Exclude from docs
      */
     protected _language: MutableValueDisposer<Language>;
     /**
      * Reference to DOM element that holds Export menu.
-     *
-     * @ignore Exclude from docs
      */
     protected _container: $type.Optional<HTMLElement>;
     /**
      * Menu element.
-     *
-     * @ignore Exclude from docs
      */
     protected _element: $type.Optional<HTMLElement>;
     /**
      * Currently selected menu item.
-     *
-     * @ignore Exclude from docs
      */
     protected _currentSelection: $type.Optional<IExportMenuItem>;
     /**
      * What HTML tags to use to build menu.
-     *
-     * @ignore Exclude from docs
      */
     protected _menuTag: "ul" | "div";
     /**
      * Which tag to use to enclose individual menu items.
-     *
-     * @ignore Exclude from docs
      */
     protected _itemTag: "li" | "div";
     /**
      * Tag to wrap menu item labels in.
-     *
-     * @ignore Exclude from docs
      */
     protected _labelTag: "a";
     /**
+     * Tag to use for icons
+     */
+    protected _iconTag: "img";
+    /**
      * Prefix for class names applied to menu elements.
-     *
-     * @ignore Exclude from docs
      */
     protected _classPrefix: string;
     /**
      * If set to `true` [[ExportMenu]] will load it's own external CSS when
      * instantiated.
-     *
-     * @ignore Exclude from docs
      */
     protected _defaultStyles: boolean;
     /**
      * Horizontal positioning.
-     *
-     * @ignore Exclude from docs
      */
     protected _align: Align;
     /**
      * Vertical positioning.
-     *
-     * @ignore Exclude from docs
      */
     protected _verticalAlign: VerticalAlign;
     /**
      * A tabindex to apply to Export Menu.
-     *
-     * @ignore Exclude from docs
      */
     protected _tabindex: number;
     /**
      * Whether next menu close event should be ignored.
-     *
-     * @ignore Exclude from docs
      */
     protected _ignoreNextClose: boolean;
     /**
      * Default menu items.
-     *
-     * @ignore Exclude from docs
      */
     protected _items: Array<IExportMenuItem>;
     /**
@@ -389,6 +393,24 @@ export declare class ExportMenu extends Validatable {
      * @return An HTML Element
      */
     createLabelElement(level: number, type?: keyof IExportOptions): HTMLElement;
+    /**
+     * Creates a "icon" part of the menu item.
+     *
+     * @ignore Exclude from docs
+     * @param level  Current nesting level
+     * @param type   Type of the menu item
+     * @return An HTML Element
+     */
+    createIconElement(level: number, type?: keyof IExportOptions): HTMLElement;
+    /**
+     * Creates a a custom element out of raw HTML.
+     *
+     * @ignore Exclude from docs
+     * @param level  Current nesting level
+     * @param type   Type of the menu item
+     * @return An HTML Element
+     */
+    createSvgElement(level: number, type?: keyof IExportOptions, svg?: string): HTMLElement;
     /**
      * Destroys the menu and all its elements.
      */
@@ -485,6 +507,13 @@ export declare class ExportMenu extends Validatable {
      * @return Label tag
      */
     readonly labelTag: string;
+    /**
+     * Returns icon tag.
+     *
+     * @ignore Exclude from docs
+     * @return Icon tag
+     */
+    readonly iconTag: string;
     /**
      * @return Horizontal alignment
      */
@@ -647,4 +676,16 @@ export declare class ExportMenu extends Validatable {
      * @param branch Menu item
      */
     setBlur(branch: IExportMenuItem): void;
+    /**
+     * Hides the whole branch of menu.
+     *
+     * @param  branch  branch
+     */
+    hideBranch(branch: IExportMenuItem): void;
+    /**
+     * Show the branch of menu.
+     *
+     * @param  branch  branch
+     */
+    showBranch(branch: IExportMenuItem): void;
 }

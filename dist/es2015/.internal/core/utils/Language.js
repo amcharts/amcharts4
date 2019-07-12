@@ -91,10 +91,10 @@ var Language = /** @class */ (function (_super) {
      * chart.language.translate("This is a %1 translation %2", null, "first", "test");
      * ```
      *
-     * @param prompt   A string to translate
-     * @param locale   Force translation into specific locale, e.g. fr_FR
-     * @param ...rest  Parameters to replace in string
-     * @return Translation
+     * @param  prompt   A string to translate
+     * @param  locale   Force translation into specific locale, e.g. fr_FR
+     * @param  rest     Parameters to replace in string
+     * @return          Translation
      */
     Language.prototype.translate = function (prompt, locale) {
         var rest = [];
@@ -133,6 +133,25 @@ var Language = /** @class */ (function (_super) {
             translation: translation,
             locale: locale
         }).translation;
+    };
+    /**
+     * Non-type-checked translation.
+     *
+     * Can be used by plugins and other code that may have their own non-standard
+     * translation prompts.
+     *
+     * @since 4.5.5
+     * @param  prompt   A string to translate
+     * @param  locale   Force translation into specific locale, e.g. fr_FR
+     * @param  rest     Parameters to replace in string
+     * @return          Translation
+     */
+    Language.prototype.translateAny = function (prompt, locale) {
+        var rest = [];
+        for (var _i = 2; _i < arguments.length; _i++) {
+            rest[_i - 2] = arguments[_i];
+        }
+        return this.translate(prompt, locale);
     };
     /**
      * Translates prompt.

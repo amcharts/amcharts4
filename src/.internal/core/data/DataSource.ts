@@ -131,6 +131,11 @@ export interface IDataSourceAdapters {
 	incrementalParams: { [index: string]: string };
 
 	/**
+	 * Applied to `updateCurrentData` setting.
+	 */
+	updateCurrentData: boolean;
+
+	/**
 	 * Applied to `keepCount` setting.
 	 */
 	keepCount: boolean;
@@ -283,6 +288,24 @@ export class DataSource extends BaseObjectEvents {
 	 * @default false
 	 */
 	protected _keepCount: boolean = false;
+
+	/**
+	 * If set to `true`, each subsequent load will be treated as an update to
+	 * currently loaded data, meaning that it will try to update values on
+	 * existing data items, not overwrite the whole data.
+	 *
+	 * This will work faster than complete update, and also will animate the
+	 * values to their new positions.
+	 *
+	 * Data sources across loads must contain the same number of data items.
+	 *
+	 * Loader will not truncate the data set if loaded data has fewer data items,
+	 * and if it is longer, the excess data items will be ignored.
+	 *
+	 * @default false
+	 * @since 4.5.5
+	 */
+	protected _updateCurrentData: boolean = false;
 
 	/**
 	 * Holds the date of the last load.
@@ -625,6 +648,36 @@ export class DataSource extends BaseObjectEvents {
 	 */
 	public get keepCount(): boolean {
 		return this.adapter.apply("keepCount", this._keepCount);
+	}
+
+	/**
+	 * If set to `true`, each subsequent load will be treated as an update to
+	 * currently loaded data, meaning that it will try to update values on
+	 * existing data items, not overwrite the whole data.
+	 *
+	 * This will work faster than complete update, and also will animate the
+	 * values to their new positions.
+	 *
+	 * Data sources across loads must contain the same number of data items.
+	 *
+	 * Loader will not truncate the data set if loaded data has fewer data items,
+	 * and if it is longer, the excess data items will be ignored.
+	 *
+	 * NOTE: this setting is ignored if `incremental = true`.
+	 *
+	 * @default false
+	 * @since 2.5.5
+	 * @param Update current data?
+	 */
+	public set updateCurrentData(value: boolean) {
+		this._updateCurrentData = value;
+	}
+
+	/**
+	 * @return Update current data?
+	 */
+	public get updateCurrentData(): boolean {
+		return this.adapter.apply("updateCurrentData", this._updateCurrentData);
 	}
 
 	/**

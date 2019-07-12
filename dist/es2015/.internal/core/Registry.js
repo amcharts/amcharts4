@@ -107,6 +107,7 @@ var Registry = /** @class */ (function () {
          */
         this.baseSprites = [];
         this.baseSpritesByUid = {};
+        this.queue = [];
         this.uid = this.getUniqueId();
         this.invalidSprites.noBase = [];
         this.invalidDatas.noBase = [];

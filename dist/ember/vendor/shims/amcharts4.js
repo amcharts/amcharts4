@@ -4394,6 +4394,14 @@ define('@amcharts/amcharts4/maps', [], function () {
   }
   throw new Error("You must add 'maps' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4/plugins/annotation', [], function () {
+  'use strict';
+  var output = self.am4plugins_annotation;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'plugins/annotation' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4/plugins/forceDirected', [], function () {
   'use strict';
   var output = self.am4plugins_forceDirected;

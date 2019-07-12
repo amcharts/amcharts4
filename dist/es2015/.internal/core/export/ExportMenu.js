@@ -75,69 +75,51 @@ var ExportMenu = /** @class */ (function (_super) {
         _this.closeOnClick = true;
         /**
          * An instance of [[Language]].
-         *
-         * @ignore Exclude from docs
          */
         _this._language = new MutableValueDisposer();
         /**
          * What HTML tags to use to build menu.
-         *
-         * @ignore Exclude from docs
          */
         _this._menuTag = "ul";
         /**
          * Which tag to use to enclose individual menu items.
-         *
-         * @ignore Exclude from docs
          */
         _this._itemTag = "li";
         /**
          * Tag to wrap menu item labels in.
-         *
-         * @ignore Exclude from docs
          */
         _this._labelTag = "a";
         /**
+         * Tag to use for icons
+         */
+        _this._iconTag = "img";
+        /**
          * Prefix for class names applied to menu elements.
-         *
-         * @ignore Exclude from docs
          */
         _this._classPrefix = "amexport";
         /**
          * If set to `true` [[ExportMenu]] will load it's own external CSS when
          * instantiated.
-         *
-         * @ignore Exclude from docs
          */
         _this._defaultStyles = true;
         /**
          * Horizontal positioning.
-         *
-         * @ignore Exclude from docs
          */
         _this._align = "right";
         /**
          * Vertical positioning.
-         *
-         * @ignore Exclude from docs
          */
         _this._verticalAlign = "top";
         /**
          * A tabindex to apply to Export Menu.
-         *
-         * @ignore Exclude from docs
          */
         _this._tabindex = 0;
         /**
          * Whether next menu close event should be ignored.
-         *
-         * @ignore Exclude from docs
          */
         _this._ignoreNextClose = false;
         /**
          * Default menu items.
-         *
-         * @ignore Exclude from docs
          */
         _this._items = [
             {
@@ -204,11 +186,11 @@ var ExportMenu = /** @class */ (function (_super) {
         // Append to container
         $type.getValue(this._container).appendChild(this._element);
         // Apply adapter to menu items before processing
-        this._items = this.adapter.apply("items", {
+        var items = this.adapter.apply("items", {
             items: this._items
         }).items;
-        for (var len = this._items.length, i = 0; i < len; i++) {
-            this.drawBranch(this._element, this._items[i], 0);
+        for (var len = items.length, i = 0; i < len; i++) {
+            this.drawBranch(this._element, items[i], 0);
         }
         // Apply adapter to finalized menu element
         this._element = this.adapter.apply("menuElement", {
@@ -273,8 +255,25 @@ var ExportMenu = /** @class */ (function (_super) {
         // Create an item
         var element = this.createItemElement(level, type);
         // Create label
-        var label = this.createLabelElement(level, type);
-        label.innerHTML = (branch.label ? this.language.translate(branch.label) : "");
+        var label;
+        // Create icon
+        if (branch.icon) {
+            label = this.createIconElement(level, type);
+            label.src = branch.icon;
+            if (branch.label) {
+                label.title = branch.label;
+            }
+        }
+        else if (branch.svg) {
+            label = this.createSvgElement(level, type, branch.svg);
+            if (branch.label) {
+                label.title = branch.label;
+            }
+        }
+        else {
+            label = this.createLabelElement(level, type);
+            label.innerHTML = (branch.label ? this.language.translate(branch.label) : "");
+        }
         // Apply reader text to label
         var readerLabel = this.getReaderLabel(branch, label.innerHTML);
         label.setAttribute("aria-label", readerLabel);
@@ -283,6 +282,7 @@ var ExportMenu = /** @class */ (function (_super) {
         // Create interaction object
         // TODO clean this up when it's disposed
         branch.interactions = getInteraction().getInteraction(label);
+        branch.element = element;
         // Create interaction manager we can set event listeners to
         if (this.typeClickable(type)) {
             //branch.interactions.clickable = true;
@@ -393,6 +393,18 @@ var ExportMenu = /** @class */ (function (_super) {
             }
             element.appendChild(submenu);
         }
+        // Should this item be hidden?
+        if (branch.hidden) {
+            this.hideBranch(branch);
+        }
+        // Add id?
+        if (branch.id) {
+            element.setAttribute("id", branch.id);
+        }
+        // Background color?
+        if (branch.color) {
+            element.style.backgroundColor = branch.color.hex;
+        }
         // Append to container
         container.appendChild(element);
     };
@@ -475,6 +487,59 @@ var ExportMenu = /** @class */ (function (_super) {
             level: level,
             type: type
         }).className;
+        // Accessible navigation
+        element.setAttribute("tabindex", this.tabindex.toString());
+        element.setAttribute("role", "menuitem");
+        return element;
+    };
+    /**
+     * Creates a "icon" part of the menu item.
+     *
+     * @ignore Exclude from docs
+     * @param level  Current nesting level
+     * @param type   Type of the menu item
+     * @return An HTML Element
+     */
+    ExportMenu.prototype.createIconElement = function (level, type) {
+        var element = document.createElement(this.iconTag);
+        var className = this.classPrefix + "-icon " + this.classPrefix
+            + "-icon-level-" + level
+            + " " + this.classPrefix + "-item-" + (type || "blank");
+        if (this.typeClickable(type)) {
+            className += " " + this.classPrefix + "-clickable";
+        }
+        element.className = this.adapter.apply("labelClass", {
+            className: className,
+            level: level,
+            type: type
+        }).className;
+        // Accessible navigation
+        element.setAttribute("tabindex", this.tabindex.toString());
+        element.setAttribute("role", "menuitem");
+        return element;
+    };
+    /**
+     * Creates a a custom element out of raw HTML.
+     *
+     * @ignore Exclude from docs
+     * @param level  Current nesting level
+     * @param type   Type of the menu item
+     * @return An HTML Element
+     */
+    ExportMenu.prototype.createSvgElement = function (level, type, svg) {
+        var parser = new DOMParser();
+        var element = parser.parseFromString(svg, "image/svg+xml").documentElement;
+        var className = this.classPrefix + "-icon " + this.classPrefix
+            + "-icon-level-" + level
+            + " " + this.classPrefix + "-item-" + (type || "blank");
+        if (this.typeClickable(type)) {
+            className += " " + this.classPrefix + "-clickable";
+        }
+        element.setAttribute("class", this.adapter.apply("labelClass", {
+            className: className,
+            level: level,
+            type: type
+        }).className);
         // Accessible navigation
         element.setAttribute("tabindex", this.tabindex.toString());
         element.setAttribute("role", "menuitem");
@@ -655,6 +720,21 @@ var ExportMenu = /** @class */ (function (_super) {
         get: function () {
             return this.adapter.apply("labelTag", {
                 tag: this._labelTag
+            }).tag;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ExportMenu.prototype, "iconTag", {
+        /**
+         * Returns icon tag.
+         *
+         * @ignore Exclude from docs
+         * @return Icon tag
+         */
+        get: function () {
+            return this.adapter.apply("iconTag", {
+                tag: this._iconTag
             }).tag;
         },
         enumerable: true,
@@ -1075,7 +1155,12 @@ var ExportMenu = /** @class */ (function (_super) {
      */
     ExportMenu.prototype.setFocus = function (branch) {
         if (branch.interactions) {
-            branch.interactions.element.focus();
+            try {
+                branch.interactions.element.focus();
+            }
+            catch (e) {
+                // nothing
+            }
         }
     };
     /**
@@ -1086,8 +1171,29 @@ var ExportMenu = /** @class */ (function (_super) {
      */
     ExportMenu.prototype.setBlur = function (branch) {
         if (branch.interactions) {
-            branch.interactions.element.blur();
+            try {
+                branch.interactions.element.blur();
+            }
+            catch (e) {
+                // nothing
+            }
         }
+    };
+    /**
+     * Hides the whole branch of menu.
+     *
+     * @param  branch  branch
+     */
+    ExportMenu.prototype.hideBranch = function (branch) {
+        branch.element.style.display = "none";
+    };
+    /**
+     * Show the branch of menu.
+     *
+     * @param  branch  branch
+     */
+    ExportMenu.prototype.showBranch = function (branch) {
+        branch.element.style.display = "";
     };
     return ExportMenu;
 }(Validatable));

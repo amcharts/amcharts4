@@ -5,10 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.4] - 2019-07-12
+
+### Added
+- New property `updateCurrentData` added to `DataSource`. If set to `true` it will try to overwrite values (resulting in smooth animations) in current data rather than overwriting whole data set.
+- Feature added back: Support of queued chart initialization. If enabled (`am4core.options.queue = true`) the chart will not start initializing until previous chart finishes.
+- Feature added back: Support for delayed rendering. If enabled (`am4core.options.onlyShowOnViewport = true`) the chart will start rendering itself only when scrolled into view.
+
+### Fixed
+- Accessibility: The screen reader description for column/bullet/slice was not being added properly every time.
+- On `RadarChart` data updates sometimes `ValueAxis` scale was not being calculated corrently.
+- `alwaysShowTooltip` was not working properly in some cases.
+
+
 ## [4.5.4] - 2019-07-08
 
 ### Added
-- `allwaysShowTooltip` property added to `Sprite`. Allows tooltip to be shown without the need for hovering/selecting an element.
+- `alwaysShowTooltip` property added to `Sprite`. Allows tooltip to be shown without the need for hovering/selecting an element.
 - `NumberFormatter` now supports `"!"` modifier which works in conjunction with `"a"` and `"b"` modifiers. If used, formatter will force application of a prefix/suffix for values that do not fit into any of the defined prefix lists. This is useful in cases you want to format all of the values using same prefix, e.g. "B" and want even small values to be formatted as such (`500,000` formatted as `"0.5B"`).
 
 ### Fixed

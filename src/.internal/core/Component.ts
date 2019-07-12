@@ -1076,6 +1076,10 @@ export class Component extends Container {
 
 		registry.removeFromInvalidComponents(this);
 
+		if(this.__disabled){
+			return;
+		}
+
 		this.dataValidationProgress = 0;
 		// need this to slice new data
 		this._prevStartIndex = undefined;
@@ -1396,6 +1400,19 @@ export class Component extends Container {
 				}
 				if (ds.incremental && property == "data" && this.data.length) {
 					this.addData(ev.data, ds.keepCount ? ev.data.length : 0);
+				}
+				else if (ds.updateCurrentData && property == "data" && this.data.length) {
+					// cycle through existing data items
+					$array.each(this.data, (item, index) => {
+						if ($type.hasValue(ev.data[index])) {
+							$object.each(item, (key, val) => {
+								if ($type.hasValue(ev.data[index][key])) {
+									item[key] = ev.data[index][key];
+								}
+							});
+						}
+					});
+					this.invalidateRawData();
 				}
 				else {
 					(<any>this)[property] = ev.data;

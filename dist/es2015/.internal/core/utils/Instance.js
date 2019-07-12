@@ -7,13 +7,14 @@
 import { system } from "../System";
 import { registry } from "../Registry";
 import { Container } from "../Container";
+import { Component } from "../Component";
 import { Paper } from "../rendering/Paper";
 import { SVGContainer, svgContainers } from "../rendering/SVGContainer";
 import { FocusFilter } from "../rendering/filters/FocusFilter";
 import { Preloader } from "../elements/Preloader";
 import { AmChartsLogo } from "../elements/AmChartsLogo";
 import { Tooltip } from "../elements/Tooltip";
-import { Disposer } from "../utils/Disposer";
+import { Disposer, MultiDisposer } from "../utils/Disposer";
 import { percent } from "./Percent";
 import { options } from "../Options";
 import * as $array from "./Array";
@@ -122,11 +123,96 @@ function createChild(htmlElement, classType) {
         // Set this as an autonomouse instance
         // Controls like Preloader, Export will use this.
         container_1.isStandaloneInstance = true;
+        if (options.onlyShowOnViewport) {
+            if (!$dom.isElementInViewport(htmlContainer)) {
+                sprite_1.__disabled = true;
+                sprite_1.tooltipContainer.__disabled = true;
+                var disposer = new MultiDisposer([
+                    $dom.addEventListener(window, "DOMContentLoaded", function () { viewPortHandler(sprite_1); }),
+                    $dom.addEventListener(window, "load", function () { viewPortHandler(sprite_1); }),
+                    $dom.addEventListener(window, "resize", function () { viewPortHandler(sprite_1); }),
+                    $dom.addEventListener(window, "scroll", function () { viewPortHandler(sprite_1); })
+                ]);
+                sprite_1.addDisposer(disposer);
+                sprite_1.vpDisposer = disposer;
+            }
+            else if (options.queue) {
+                addToQueue(sprite_1);
+            }
+        }
+        else if (options.queue) {
+            addToQueue(sprite_1);
+        }
         return sprite_1;
     }
     else {
         system.log("html container not found");
         throw new Error("html container not found");
+    }
+}
+export function addToQueue(sprite) {
+    if (registry.queue.indexOf(sprite) == -1) {
+        sprite.__disabled = true;
+        sprite.tooltipContainer.__disabled = true;
+        sprite.events.disableType("appeared");
+        if (registry.queue.length == 0) {
+            queueHandler(sprite);
+        }
+        sprite.addDisposer(new Disposer(function () {
+            removeFromQueue(sprite);
+        }));
+        registry.queue.push(sprite);
+    }
+}
+export function removeFromQueue(sprite) {
+    var index = registry.queue.indexOf(sprite);
+    if (index >= 0) {
+        registry.queue.splice(registry.queue.indexOf(sprite), 1);
+        var nextSprite = registry.queue[index];
+        if (nextSprite) {
+            queueHandler(nextSprite);
+        }
+    }
+}
+export function viewPortHandler(sprite) {
+    if (sprite.__disabled && $dom.isElementInViewport(sprite.htmlContainer)) {
+        if (sprite.vpDisposer) {
+            sprite.vpDisposer.dispose();
+        }
+        addToQueue(sprite);
+    }
+}
+export function queueHandler(sprite) {
+    sprite.__disabled = false;
+    sprite.tooltipContainer.__disabled = false;
+    sprite.events.enableType("appeared");
+    if (sprite.showOnInit) {
+        sprite.events.on("appeared", function () {
+            removeFromQueue(sprite);
+        });
+    }
+    if (sprite.vpDisposer) {
+        sprite.vpDisposer.dispose();
+    }
+    if (sprite instanceof Component) {
+        sprite.invalidateData();
+        sprite.reinit();
+        sprite.events.once("datavalidated", function () {
+            if (sprite.showOnInit) {
+                sprite.appear();
+            }
+            else {
+                removeFromQueue(sprite);
+            }
+        });
+    }
+    else {
+        if (sprite.showOnInit) {
+            sprite.appear();
+        }
+        else {
+            removeFromQueue(sprite);
+        }
     }
 }
 /**

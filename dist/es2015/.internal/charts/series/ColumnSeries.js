@@ -479,18 +479,18 @@ var ColumnSeries = /** @class */ (function (_super) {
                     column_1.focusable = false;
                 }
                 if (column_1.focusable) {
-                    column_1.events.once("focus", function (ev) {
+                    column_1.events.on("focus", function (ev) {
                         column_1.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
                     }, undefined, false);
-                    column_1.events.once("blur", function (ev) {
+                    column_1.events.on("blur", function (ev) {
                         column_1.readerTitle = "";
                     }, undefined, false);
                 }
                 if (column_1.hoverable) {
-                    column_1.events.once("over", function (ev) {
+                    column_1.events.on("over", function (ev) {
                         column_1.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
                     }, undefined, false);
-                    column_1.events.once("out", function (ev) {
+                    column_1.events.on("out", function (ev) {
                         column_1.readerTitle = "";
                     }, undefined, false);
                 }

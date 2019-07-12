@@ -911,6 +911,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public dragWhileResize: boolean = false;
 
+	/** 
+	 * @ignore
+	 */
+	public vpDisposer: MultiDisposer;
+
+	protected _alwaysShowDisposers: IDisposer[];
+
 	/**
 	 * Constructor:
 	 * * Creates initial node
@@ -1195,6 +1202,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			}
 			// TODO clear existing positionchanged dispatches ?
 			this.dispatch("positionchanged");
+
+			if (this.alwaysShowTooltip) {
+				this.updateTooltipPosition();
+			}
 		}
 		//}
 
@@ -1543,6 +1554,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 					this._filters.removeValue(filter);
 				}
 			}
+
+			this._alwaysShowDisposers = undefined;
 		}
 	}
 
@@ -1697,9 +1710,43 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				if (!this._dataItem) {
 					this.dataItem = parent.dataItem;
 				}
+
+				this.handleAlwaysShowTooltip();
 			}
 			else {
 				this.topParent = undefined;
+			}
+		}
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected handleAlwaysShow() {
+		this.showTooltip();
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected handleAlwaysShowTooltip() {
+		let sprite: Sprite = this;
+
+		let oldDisposers = this._alwaysShowDisposers;
+		if (oldDisposers) {
+			$array.each(oldDisposers, (oldDisposer) => {
+				oldDisposer.dispose();
+			})
+		}
+
+		this._alwaysShowDisposers = [];
+
+		if (this.alwaysShowTooltip) {
+			while (sprite != undefined) {
+				let disposer = sprite.events.on("visibilitychanged", this.handleAlwaysShow, this, false);
+				this.addDisposer(disposer);
+				this._alwaysShowDisposers.push(disposer);
+				sprite = sprite.parent;
 			}
 		}
 	}
@@ -2497,7 +2544,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			// TODO clear existing sizechanged dispatches ?
 			this.dispatch("sizechanged");
 
-			if (this.isHover && this.tooltip && this.tooltip.visible && ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML))) {
+			if ((this.isHover || this.alwaysShowTooltip) && this.tooltip && this.tooltip.visible && ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML))) {
 				this.updateTooltipPosition();
 			}
 
@@ -4300,6 +4347,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		// use `aria-labelledby`
 		if (title && !description && !this.showSystemTooltip) {
 
+
 			// Only label is set, use attribute
 			this.setSVGAttribute({
 				"aria-label": title
@@ -4333,9 +4381,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				this._titleElement = undefined;
 			}
 
+			let descriptionId = this.uid + "-description";
 			if (description) {
 				let descriptionElement = this.descriptionElement;
-				let descriptionId = this.uid + "-description";
+
 				if (descriptionElement.node.textContent != description) {
 					descriptionElement.node.textContent = description;
 					descriptionElement.attr({ id: descriptionId });
@@ -4345,6 +4394,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			else if (this._descriptionElement) {
 				this.group.removeElement(this._descriptionElement);
 				this._descriptionElement = undefined;
+				$array.remove(describedByIds, descriptionId);
 			}
 
 		}
@@ -4353,8 +4403,15 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (labelledByIds.length) {
 			this.setSVGAttribute({ "aria-labelledby": labelledByIds.join(" ") });
 		}
+		else {
+			this.removeSVGAttribute("aria-labelledby");
+		}
+
 		if (describedByIds.length) {
 			this.setSVGAttribute({ "aria-describedby": describedByIds.join(" ") });
+		}
+		else {
+			this.removeSVGAttribute("aria-describedby");
 		}
 
 		// Apply role
@@ -8176,21 +8233,24 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return returns true if the tooltip was shown and false if it wasn't (no text was found)
 	 */
 	public showTooltip(point?: IPoint): boolean {
+
+		if (this.alwaysShowTooltip && !this._tooltip && this.tooltip) {
+			this._tooltip = this.tooltip.clone();
+		}
+
 		// do not show if hidden
 		let sprite: Sprite = this;
 		while (sprite != undefined) {
 			if (!sprite.visible || sprite.disabled || sprite.__disabled) {
+				if (this._tooltip && this._tooltip.visible) {
+					this._tooltip.hide(0);
+				}
 				return;
 			}
 			sprite = sprite.parent;
 		}
 
 		if ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML)) {
-
-			if (this.alwaysShowTooltip && !this._tooltip && this.tooltip) {
-				this._tooltip = this.tooltip.clone();
-			}
-
 			let tooltip = this.tooltip;
 			let tooltipDataItem = this.tooltipDataItem;
 
@@ -8562,6 +8622,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (value) {
 				this.showTooltip();
 			}
+			this.handleAlwaysShowTooltip();
 		}
 	}
 
@@ -8834,14 +8895,17 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (animation && !animation.isFinished()) {
 				animation.events.on("animationended", () => {
 					this.appeared = true;
+					this.dispatch("appeared");
 				})
 			}
 			else {
 				this.appeared = true;
+				this.dispatch("appeared");
 			}
 		}
 		else {
 			this.appeared = true;
+			this.dispatch("appeared");
 		}
 	}
 

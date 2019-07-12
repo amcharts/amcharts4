@@ -58,7 +58,7 @@ export default function (prefix?: string): IDisposer {
 			new StyleRule(`.${newPrefix}-item.${newPrefix}-item-level-0`, {
 				"opacity": "0.3",
 				"width": "30px",
-				"height": "30px",
+				"min-height": "30px",
 				"transition": "all 100ms ease-in-out",
 				//"text-indent": "-9999px",
 			}),
@@ -69,7 +69,8 @@ export default function (prefix?: string): IDisposer {
 
 			new StyleRule(`.${newPrefix}-item.${newPrefix}-item-level-0 > a`, {
 				"padding": "0",
-				"text-align": "center"
+				"text-align": "center",
+				"overflow": "hidden"
 			}),
 
 			new StyleRule(`.${newPrefix}-item.${newPrefix}-item-level-0:before`, {
@@ -155,6 +156,20 @@ export default function (prefix?: string): IDisposer {
 				"display": "block",
 				"cursor": "default",
 				"padding": "0.5em 1em",
+			}),
+
+			new StyleRule(`.${newPrefix}-icon`, {
+				"display": "block",
+				"cursor": "default",
+				"padding": "0.2em 0.4em",
+				"width": "1.2em",
+				"height": "1.2em",
+				"margin": "auto auto",
+				"border-radius": "3px",
+			}),
+
+			new StyleRule(`.${newPrefix}-item-level-0 > .${newPrefix}-icon`, {
+				"padding": "0.1em 0.2em",
 			}),
 
 			new StyleRule(`.${newPrefix}-clickable`, {

@@ -18,7 +18,7 @@
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
-    "@amcharts/amcharts4": "^4.5.4"
+    "@amcharts/amcharts4": "^4.5.5"
   },
   "keywords": [
     "amcharts",
