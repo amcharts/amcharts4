@@ -132,6 +132,8 @@ export default function (prefix) {
                 "padding": "0.2em 0.4em",
                 "width": "1.2em",
                 "height": "1.2em",
+                "min-width": "20px",
+                "min-height": "20px",
                 "margin": "auto auto",
                 "border-radius": "3px",
             }),

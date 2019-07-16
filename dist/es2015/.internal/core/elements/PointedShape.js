@@ -32,6 +32,8 @@ var PointedShape = /** @class */ (function (_super) {
         _this.className = "PointedShape";
         _this.pointerBaseWidth = 15;
         _this.pointerLength = 10;
+        _this.pointerY = 0;
+        _this.pointerX = 0;
         _this.applyTheme();
         return _this;
     }
@@ -82,7 +84,7 @@ var PointedShape = /** @class */ (function (_super) {
          * @param value  Length (px)
          */
         set: function (value) {
-            this.setPropertyValue("pointerLength", value);
+            this.setPropertyValue("pointerLength", value, true);
         },
         enumerable: true,
         configurable: true

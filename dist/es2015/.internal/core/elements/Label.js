@@ -528,12 +528,21 @@ var Label = /** @class */ (function (_super) {
                                                 restOfLine += splitLines.join("") + currentFormat;
                                             }
                                             else {
-                                                restOfLine += currentFormat + splitLines.join("");
+                                                restOfLine += currentFormat + splitLines.join("").replace(/([\[\]]{1})/g, "$1$1");
                                             }
                                         }
                                         // Add the rest of the chunks
                                         for (var c = x + 1; c < chunks.length; c++) {
-                                            restOfLine += chunks[c].text;
+                                            if (chunks[c].type == "value") {
+                                                // We're escaping single square brackets that were
+                                                // cleaned up by chunk() back to double square brackets
+                                                // so that they are not being treated as format on
+                                                // next pass.
+                                                restOfLine += chunks[c].text.replace(/([\[\]]{1})/g, "$1$1");
+                                            }
+                                            else {
+                                                restOfLine += chunks[c].text;
+                                            }
                                         }
                                         // Inject the rest of the lines as chunks for subsequent
                                         lines.splice(i + 1, 0, restOfLine);

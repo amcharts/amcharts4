@@ -1,1 +1,0 @@
-{"version":3,"file":"annotation.js","sourceRoot":"","sources":["../../../../src/.internal/plugins/annotation.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,yBAAyB,CAAC;AACrD,OAAO,EAAE,eAAe,EAAE,MAAM,8BAA8B,CAAC","sourcesContent":["export { Annotation } from \"./annotation/Annotation\";\r\nexport { AnnotationIcons } from \"./annotation/AnnotationIcons\";"]}

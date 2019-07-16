@@ -113,6 +113,7 @@ var Annotation = /** @class */ (function (_super) {
          */
         _this._fontWeights = [];
         _this._pointerDown = false;
+        _this._exportInited = false;
         /**
          * List of icons to use in annotation
          */
@@ -147,6 +148,9 @@ var Annotation = /** @class */ (function (_super) {
     Annotation.prototype.init = function () {
         _super.prototype.init.call(this);
         this.initExporting();
+        if (this._data) {
+            this.loadData();
+        }
     };
     /**
      * Initializes menus for the annotation.
@@ -159,6 +163,7 @@ var Annotation = /** @class */ (function (_super) {
         // Create an export menu if it does not yet exist
         if (!target.exporting.menu) {
             target.exporting.menu = new ExportMenu();
+            target.exporting.menu.items[0].menu = [];
         }
         else {
             target.exporting.menu.invalidate();
@@ -424,6 +429,7 @@ var Annotation = /** @class */ (function (_super) {
             val.items.push(_this._menu);
             return val;
         });
+        this._exportInited = true;
     };
     /**
      * Toggles annotation mode on click of the related menu item.
@@ -494,6 +500,10 @@ var Annotation = /** @class */ (function (_super) {
                 this._fabric.on("mouse:up", function (ev) {
                     _this._pointerDown = false;
                 });
+                // Load data if necessary
+                if (this._data) {
+                    this.loadData();
+                }
             }
             return this._fabric;
         },
@@ -1103,6 +1113,47 @@ var Annotation = /** @class */ (function (_super) {
             this.fabric.remove(selected[i]);
         }
         this.fabric.requestRenderAll();
+    };
+    Object.defineProperty(Annotation.prototype, "data", {
+        /**
+         * @return Data
+         */
+        get: function () {
+            if (this._fabric) {
+                return this.fabric.toObject();
+            }
+            else {
+                return this._data;
+            }
+        },
+        /**
+         * Set or get annotation data.
+         *
+         * @since 4.5.6
+         * @param  value  Data
+         */
+        set: function (value) {
+            this._data = value;
+            if (this._fabric || this._exportInited) {
+                // Canvas is ready, update now
+                this.loadData();
+            }
+            else {
+                // Canvas is not yeat ready, just save data for later
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Loads data onto canvas.
+     */
+    Annotation.prototype.loadData = function () {
+        var _this = this;
+        this.fabric.loadFromJSON(this._data, function (e) {
+            _this.updateSVG();
+            _this._data = undefined;
+        });
     };
     return Annotation;
 }(Plugin));

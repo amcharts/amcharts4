@@ -82,7 +82,6 @@ export class PointedRectangle extends PointedShape {
 		super();
 		this.className = "PointedRectangle";
 		this.element = this.paper.add("path");
-		this.cornerRadius = 0;
 		this.cornerRadius = 6;
 
 		this.applyTheme();

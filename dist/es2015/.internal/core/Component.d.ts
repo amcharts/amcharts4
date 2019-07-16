@@ -122,6 +122,8 @@ export interface IComponentAdapters extends IContainerAdapters, IComponentProper
      * Applied to chart's data before it is retrieved for use.
      */
     data: any[];
+    start: number;
+    end: number;
 }
 /**
  * ============================================================================

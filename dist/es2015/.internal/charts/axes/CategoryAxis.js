@@ -9,6 +9,8 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { Axis, AxisDataItem } from "./Axis";
+import { AxisRendererX } from "./AxisRendererX";
+import { AxisRendererY } from "./AxisRendererY";
 import { registry } from "../../core/Registry";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { CategoryAxisBreak } from "./CategoryAxisBreak";
@@ -382,7 +384,7 @@ var CategoryAxis = /** @class */ (function (_super) {
                 dataItem.text = dataItem.text;
             }
             renderer.updateLabelElement(label, position, endPosition);
-            if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
+            if ((renderer instanceof AxisRendererY && dataItem.label.measuredWidth > this.ghostLabel.measuredWidth) || (renderer instanceof AxisRendererX && dataItem.label.measuredHeight > this.ghostLabel.measuredHeight)) {
                 if (dataItem.label.html) {
                     this.ghostLabel.html = dataItem.label.currentText;
                 }

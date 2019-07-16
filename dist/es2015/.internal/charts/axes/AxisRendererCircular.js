@@ -247,7 +247,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     AxisRendererCircular.prototype.updateGridElement = function (grid, position, endPosition) {
         position = position + (endPosition - position) * grid.location;
         var point = this.positionToPoint(position);
-        if (grid.element) {
+        if ($type.isNumber(point.x) && $type.isNumber(point.y) && grid.element) {
             var angle = $math.DEGREES * Math.atan2(point.y, point.x);
             var radius = $utils.relativeRadiusToValue($type.hasValue(grid.radius) ? grid.radius : percent(100), this.pixelRadius);
             var gridInnerRadius = $utils.relativeRadiusToValue(grid.innerRadius, this.pixelRadius);

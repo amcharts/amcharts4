@@ -369,7 +369,7 @@ var Export = /** @class */ (function (_super) {
         _this.adapter.add("options", function (arg) {
             var formatOptions = _this._formatOptions.getKey(arg.type);
             if (arg.options) {
-                arg.options = $object.merge(arg.options, formatOptions);
+                arg.options = $object.merge(formatOptions, arg.options);
             }
             else {
                 arg.options = formatOptions;
@@ -2107,6 +2107,9 @@ var Export = /** @class */ (function (_super) {
             else {
                 value = this.dateFormatter.format(value, this.dateFormat);
             }
+        }
+        else if ($type.isString(value) && this.isDateField(field) && this.dateFormat) {
+            value = this.dateFormatter.format(this.dateFormatter.parse(value), this.dateFormat);
         }
         return value;
     };

@@ -172,6 +172,9 @@ export interface IComponentAdapters extends IContainerAdapters, IComponentProper
 	 */
 	data: any[];
 
+	start: number;
+
+	end:number;
 }
 
 
@@ -1746,7 +1749,7 @@ export class Component extends Container {
 	 * @return Start (0-1)
 	 */
 	public get start(): number {
-		return this._start;
+		return this.adapter.apply("start", this._start);
 	}
 
 	/**
@@ -1777,7 +1780,7 @@ export class Component extends Container {
 	 * @return End (0-1)
 	 */
 	public get end(): number {
-		return this._end;
+		return this.adapter.apply("end", this._end);
 	}
 
 

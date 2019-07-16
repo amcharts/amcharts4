@@ -31,7 +31,6 @@ var PointedRectangle = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.className = "PointedRectangle";
         _this.element = _this.paper.add("path");
-        _this.cornerRadius = 0;
         _this.cornerRadius = 6;
         _this.applyTheme();
         return _this;

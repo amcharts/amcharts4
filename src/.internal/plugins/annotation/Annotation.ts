@@ -145,6 +145,8 @@ export class Annotation extends Plugin {
 
 	private _pointerDown: boolean = false;
 	private _currentLine: any;
+	private _data: any;
+	private _exportInited: boolean = false;
 
 	/**
 	 * List of icons to use in annotation
@@ -191,6 +193,9 @@ export class Annotation extends Plugin {
 	public init() {
 		super.init();
 		this.initExporting();
+		if (this._data) {
+			this.loadData();
+		}
 	}
 
 	/**
@@ -198,12 +203,13 @@ export class Annotation extends Plugin {
 	 *
 	 * Will try to use existing [[ExportMenu]] if present.
 	 */
-	protected initExporting() {
+	protected initExporting(): void {
 		const target = this.target;
 
 		// Create an export menu if it does not yet exist
 		if (!target.exporting.menu) {
 			target.exporting.menu = new ExportMenu();
+			target.exporting.menu.items[0].menu = [];
 		}
 		else {
 			target.exporting.menu.invalidate();
@@ -481,6 +487,8 @@ export class Annotation extends Plugin {
 			return val;
 		});
 
+		this._exportInited = true;
+
 	}
 
 	/**
@@ -559,6 +567,10 @@ export class Annotation extends Plugin {
 				this._pointerDown = false;
 			});
 
+			// Load data if necessary
+			if (this._data) {
+				this.loadData();
+			}
 		}
 
 		return this._fabric;
@@ -1168,6 +1180,45 @@ export class Annotation extends Plugin {
 			this.fabric.remove(selected[i]);
 		}
 		this.fabric.requestRenderAll();
+	}
+
+	/**
+	 * Set or get annotation data.
+	 *
+	 * @since 4.5.6
+	 * @param  value  Data
+	 */
+	public set data(value: any) {
+		this._data = value;
+		if (this._fabric || this._exportInited) {
+			// Canvas is ready, update now
+			this.loadData();
+		}
+		else {
+			// Canvas is not yeat ready, just save data for later
+		}
+	}
+
+	/**
+	 * @return Data
+	 */
+	public get data(): any {
+		if (this._fabric) {
+			return this.fabric.toObject();
+		}
+		else {
+			return this._data;
+		}
+	}
+
+	/**
+	 * Loads data onto canvas.
+	 */
+	private loadData(): void {
+		this.fabric.loadFromJSON(this._data, (e: any) => {
+			this.updateSVG();
+			this._data = undefined;
+		});
 	}
 
 }

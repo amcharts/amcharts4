@@ -238,7 +238,11 @@ export class XYChartScrollbar extends Scrollbar {
 			series.xAxis = xAxis;
 		}
 		else {
-			// @todo find clone, otherwise there might be probs with multiple axes
+			 this.scrollbarChart.xAxes.each((xAxis)=>{
+			 	if(xAxis.clonedFrom == sourceSeries.xAxis){
+			 		series.xAxis = xAxis;
+			 	}
+			 })
 		}
 
 
@@ -272,7 +276,11 @@ export class XYChartScrollbar extends Scrollbar {
 			series.yAxis = yAxis;
 		}
 		else {
-			// @todo find clone, otherwise there might be probs with multiple axes
+			 this.scrollbarChart.yAxes.each((yAxis)=>{
+			 	if(yAxis.clonedFrom == sourceSeries.yAxis){
+			 		series.yAxis = yAxis;
+			 	}
+			 })
 		}
 
 		series.rangeChangeDuration = 0;

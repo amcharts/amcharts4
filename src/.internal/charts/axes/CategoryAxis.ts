@@ -12,6 +12,8 @@ import { Axis, AxisItemLocation, AxisDataItem, IAxisProperties, IAxisDataFields,
 import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
 import { AxisFill } from "./AxisFill";
 import { AxisRenderer } from "./AxisRenderer";
+import { AxisRendererX } from "./AxisRendererX";
+import { AxisRendererY } from "./AxisRendererY";
 import { SerialChart } from "../types/SerialChart";
 import { AxisTick } from "./AxisTick";
 import { Grid } from "./Grid";
@@ -547,7 +549,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 
 			renderer.updateLabelElement(label, position, endPosition);
 
-			if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
+			if ((renderer instanceof AxisRendererY && dataItem.label.measuredWidth > this.ghostLabel.measuredWidth) || (renderer instanceof AxisRendererX && dataItem.label.measuredHeight > this.ghostLabel.measuredHeight)) {
 				if (dataItem.label.html) {					
 					this.ghostLabel.html = dataItem.label.currentText;
 				}

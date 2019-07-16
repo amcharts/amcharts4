@@ -157,7 +157,11 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             series.xAxis = xAxis;
         }
         else {
-            // @todo find clone, otherwise there might be probs with multiple axes
+            this.scrollbarChart.xAxes.each(function (xAxis) {
+                if (xAxis.clonedFrom == sourceSeries.xAxis) {
+                    series.xAxis = xAxis;
+                }
+            });
         }
         if (addYAxis) {
             var yAxis = sourceSeries.yAxis.clone();
@@ -186,7 +190,11 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             series.yAxis = yAxis;
         }
         else {
-            // @todo find clone, otherwise there might be probs with multiple axes
+            this.scrollbarChart.yAxes.each(function (yAxis) {
+                if (yAxis.clonedFrom == sourceSeries.yAxis) {
+                    series.yAxis = yAxis;
+                }
+            });
         }
         series.rangeChangeDuration = 0;
         series.interpolationDuration = 0;

@@ -100,6 +100,8 @@ export class PointedShape extends Sprite {
 		this.className = "PointedShape";
 		this.pointerBaseWidth = 15;
 		this.pointerLength = 10;
+		this.pointerY = 0;
+		this.pointerX = 0;
 
 		this.applyTheme();
 	}
@@ -136,7 +138,7 @@ export class PointedShape extends Sprite {
 	 * @param value  Length (px)
 	 */
 	public set pointerLength(value: number) {
-		this.setPropertyValue("pointerLength", value);
+		this.setPropertyValue("pointerLength", value, true);
 	}
 
 	/**

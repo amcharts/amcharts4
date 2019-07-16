@@ -1079,7 +1079,7 @@ export class Export extends Validatable {
 		this.adapter.add("options", (arg) => {
 			let formatOptions = this._formatOptions.getKey(arg.type);
 			if (arg.options) {
-				arg.options = $object.merge(arg.options, formatOptions);
+				arg.options = $object.merge(formatOptions, arg.options);
 			}
 			else {
 				arg.options = formatOptions;
@@ -1298,7 +1298,6 @@ export class Export extends Validatable {
 			type: type
 		}).options;
 
-
 		func = this.adapter.apply("exportFunction", {
 			func: func as any,
 			type: type,
@@ -1307,7 +1306,6 @@ export class Export extends Validatable {
 
 		// Get exported stuff
 		let data = await func.call(this, type, options);
-
 
 		// Restore temporarily hidden elements
 		this.restoreNonExportableSprites();
@@ -2942,7 +2940,6 @@ export class Export extends Validatable {
 			return value;
 		}, options.indent);
 
-
 		// Add content type
 		let charset = this.adapter.apply("charset", {
 			charset: "charset=utf-8",
@@ -2993,6 +2990,9 @@ export class Export extends Validatable {
 			else {
 				value = this.dateFormatter.format(value, this.dateFormat);
 			}
+		}
+		else if ($type.isString(value) && this.isDateField(field) && this.dateFormat) {
+			value = this.dateFormatter.format(this.dateFormatter.parse(value), this.dateFormat);
 		}
 
 		return value;

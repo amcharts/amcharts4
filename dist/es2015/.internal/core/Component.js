@@ -1287,7 +1287,7 @@ var Component = /** @class */ (function (_super) {
          * @return Start (0-1)
          */
         get: function () {
-            return this._start;
+            return this.adapter.apply("start", this._start);
         },
         /**
          * Start of the current data range (zoom).
@@ -1319,7 +1319,7 @@ var Component = /** @class */ (function (_super) {
          * @return End (0-1)
          */
         get: function () {
-            return this._end;
+            return this.adapter.apply("end", this._end);
         },
         /**
          * End of the current data range (zoom).

@@ -119,6 +119,8 @@ export declare class Annotation extends Plugin {
     private _group;
     private _pointerDown;
     private _currentLine;
+    private _data;
+    private _exportInited;
     /**
      * List of icons to use in annotation
      */
@@ -372,4 +374,18 @@ export declare class Annotation extends Plugin {
      * Deletes selected objects
      */
     deleteSelected(): void;
+    /**
+     * @return Data
+     */
+    /**
+     * Set or get annotation data.
+     *
+     * @since 4.5.6
+     * @param  value  Data
+     */
+    data: any;
+    /**
+     * Loads data onto canvas.
+     */
+    private loadData();
 }

@@ -347,7 +347,7 @@ export class AxisRendererCircular extends AxisRenderer {
 		position = position + (endPosition - position) * grid.location;
 
 		let point: IPoint = this.positionToPoint(position);
-		if (grid.element) {
+		if ($type.isNumber(point.x) && $type.isNumber(point.y) && grid.element) {
 			let angle: number = $math.DEGREES * Math.atan2(point.y, point.x);
 			let radius: number = $utils.relativeRadiusToValue($type.hasValue(grid.radius) ? grid.radius : percent(100), this.pixelRadius);
 
@@ -355,6 +355,7 @@ export class AxisRendererCircular extends AxisRenderer {
 			grid.zIndex = 0;
 
 			let innerRadius: number = $utils.relativeRadiusToValue($type.isNumber(gridInnerRadius) ? gridInnerRadius : this.innerRadius, this.pixelRadius, true);
+
 			grid.path = $path.moveTo({ x: innerRadius * $math.cos(angle), y: innerRadius * $math.sin(angle) }) + $path.lineTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
 		}
 		this.toggleVisibility(grid, position, 0, 1);

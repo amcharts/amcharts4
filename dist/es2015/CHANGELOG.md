@@ -5,12 +5,30 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
-## [4.5.4] - 2019-07-12
+## [4.5.6] - 2019-07-16
+
+### Added
+- New property on `Annotation` plugin: `data`. Allows getting serialized annotation data object, as well as setting it back to load annotations.
+
+### Changed
+- Annotation plugin will not create full Export menu if it wasn't explicitly created before.
+- Tweaked CSS for `ExportMenu` to protect from icons getting small becuase of the page-wide CSS.
+- When exporting data on chart with `exporting.dateFormat` set, the date/time fields in data will be formatted according to the set format.
+
+### Fixed
+- `XYChartScrollbar` with series attached to different `ValueAxis` were using same axis scale in the scrollbar.
+- Using `wrap = true` on horizontal axis labels was resulting weird behavior when zooming in some cases.
+- Export was not prioritizing menu item's specific options over generic format options.
+- Auto-wrapped text was not retaining square bracket escaping (double bracket) for each subsequent line.
+
+
+## [4.5.5] - 2019-07-12
 
 ### Added
 - New property `updateCurrentData` added to `DataSource`. If set to `true` it will try to overwrite values (resulting in smooth animations) in current data rather than overwriting whole data set.
 - Feature added back: Support of queued chart initialization. If enabled (`am4core.options.queue = true`) the chart will not start initializing until previous chart finishes.
 - Feature added back: Support for delayed rendering. If enabled (`am4core.options.onlyShowOnViewport = true`) the chart will start rendering itself only when scrolled into view.
+- New plugin: [Annotation](https://www.amcharts.com/docs/v4/tutorials/plugin-annotation/). Allows annotating charts using UI.
 
 ### Fixed
 - Accessibility: The screen reader description for column/bullet/slice was not being added properly every time.
