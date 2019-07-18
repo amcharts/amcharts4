@@ -75,6 +75,16 @@ export interface ITooltipProperties extends IContainerProperties {
      * @since 4.1.13
      */
     keepTargetHover?: boolean;
+    /**
+     * Normally, a tooltip will hide itself if it is pointing to a coordinate
+     * that is outside viewport.
+     *
+     * Setting this setting to `true` will override that and make tooltip
+     * appear next to the viewport edge closest to the target point.
+     *
+     * @since 4.5.7
+     */
+    showInViewport?: boolean;
 }
 /**
  * Defines events for [[Tooltip]].
@@ -206,6 +216,21 @@ export declare class Tooltip extends Container {
      * @param  value  Keep target hovered?
      */
     keepTargetHover: boolean;
+    /**
+     * @return Force showing tooltip?
+     */
+    /**
+     * Normally, a tooltip will hide itself if it is pointing to a coordinate
+     * that is outside viewport.
+     *
+     * Setting this setting to `true` will override that and make tooltip
+     * appear next to the viewport edge closest to the target point.
+     *
+     * @default false
+     * @since 4.5.7
+     * @param  value  Force showing tooltip?
+     */
+    showInViewport: boolean;
     /**
      * Specifies if tooltip background should get fill color from the sprite it is pointing to.
      *

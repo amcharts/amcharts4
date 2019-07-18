@@ -152,8 +152,8 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 			let p3: IPoint = { x: w, y: h };
 			let p4: IPoint = { x: 0, y: h };
 
-			let waveLength: number = this.waveLength;
-			let waveHeight: number = this.waveHeight;
+			let waveLength: number = Math.min(w, this.waveLength);
+			let waveHeight: number = Math.min(h, this.waveHeight);
 
 			let td: string = "";
 			let rd: string = "";

@@ -964,7 +964,10 @@ export function spritePointToDocument(point, sprite) {
  * @deprecated Not used anywhere
  */
 export function width(element) {
-    return element.clientWidth;
+    var cs = getComputedStyle(element);
+    var paddingX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+    var borderX = parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
+    return element.clientWidth - paddingX - borderX;
 }
 /**
  * Returns element's height.
@@ -975,7 +978,10 @@ export function width(element) {
  * @deprecated Not used anywhere
  */
 export function height(element) {
-    return element.clientHeight;
+    var cs = getComputedStyle(element);
+    var paddingY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+    var borderY = parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+    return element.clientHeight - paddingY - borderY;
 }
 /**
  * Returns number of decimals

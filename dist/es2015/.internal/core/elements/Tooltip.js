@@ -97,6 +97,7 @@ var Tooltip = /** @class */ (function (_super) {
         _this.pointerOrientation = "vertical";
         _this.animationDuration = 0;
         _this.animationEasing = $ease.cubicOut;
+        _this.setPropertyValue("showInViewport", false);
         // Set accessibility options
         _this.role = "tooltip";
         _this.visible = false;
@@ -196,6 +197,30 @@ var Tooltip = /** @class */ (function (_super) {
                     }));
                 }
             }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Tooltip.prototype, "showInViewport", {
+        /**
+         * @return Force showing tooltip?
+         */
+        get: function () {
+            return this.getPropertyValue("showInViewport");
+        },
+        /**
+         * Normally, a tooltip will hide itself if it is pointing to a coordinate
+         * that is outside viewport.
+         *
+         * Setting this setting to `true` will override that and make tooltip
+         * appear next to the viewport edge closest to the target point.
+         *
+         * @default false
+         * @since 4.5.7
+         * @param  value  Force showing tooltip?
+         */
+        set: function (value) {
+            this.setPropertyValue("showInViewport", value);
         },
         enumerable: true,
         configurable: true

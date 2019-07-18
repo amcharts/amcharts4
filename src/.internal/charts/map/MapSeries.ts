@@ -194,6 +194,12 @@ export class MapSeriesDataItem extends SeriesDataItem {
 				changed = true;
 			}
 
+			// solves single russia prob
+			if (this._east < this._west) {
+				this._east = 180;
+				this._west = -180;
+			}
+
 			if (changed) {
 				this.component.invalidateDataItems();
 			}
@@ -393,6 +399,10 @@ export class MapSeries extends Series {
 		this.dataFields.value = "value";
 
 		this.ignoreBounds = false;
+
+		if(this.tooltip){
+			this.tooltip.showInViewport = true;
+		}
 
 		// Apply theme
 		this.applyTheme();
@@ -826,6 +836,15 @@ export class MapSeries extends Series {
 	 */
 	protected asIs(field: string): boolean {
 		return field == "geodata" || super.asIs(field);
+	}
+
+	/**
+	 * @ignore
+	 */
+	public updateTooltipBounds() {
+		if (this.tooltip && this.topParent) {
+			this.tooltip.setBounds({ x: 10, y: 10, width: this.topParent.maxWidth - 20, height: this.topParent.maxHeight - 20 });
+		}
 	}
 }
 

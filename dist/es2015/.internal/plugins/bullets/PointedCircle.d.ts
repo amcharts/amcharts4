@@ -21,7 +21,7 @@ export interface IPointedCircleProperties extends IPointedShapeProperties {
     /**
      * Radius of a pin, in pixels.
      *
-     * @default 0
+     * @default 18
      */
     radius?: number;
     /**
@@ -52,6 +52,8 @@ export interface IPointedCircleAdapters extends IPointedShapeAdapters, IPointedC
 /**
  * Draws a circle with a pointer.
  *
+ * @since 4.5.7
+ * @see {@link https://www.amcharts.com/docs/v4/tutorials/plugin-bullets/} for usage instructions.
  * @see {@link IPointedCircleEvents} for a list of available events
  * @see {@link IPointedCircleAdapters} for a list of available Adapters
  */
@@ -84,8 +86,8 @@ export declare class PointedCircle extends PointedShape {
     /**
      * Radius of a circle in pixels.
      *
-     * @default 0
-     * @param value  Radius (px)
+     * @default 18
+     * @param  value  Radius (px)
      */
     radius: number;
     /**
@@ -93,8 +95,9 @@ export declare class PointedCircle extends PointedShape {
      */
     /**
      * Angle of a pointer, in degrees.
+     *
      * @default 90
-     * @param value Angle (degrees)
+     * @param  value Angle (degrees)
      */
     pointerAngle: number;
 }

@@ -1150,12 +1150,13 @@ export declare class Export extends Validatable {
      * Formats a row of CSV data.
      *
      * @ignore Exclude from docs
-     * @param row         An object holding data for the row
-     * @param options     Options
-     * @param dataFields  Data fields
+     * @param  row         An object holding data for the row
+     * @param  options     Options
+     * @param  dataFields  Data fields
+     * @param  asIs        Do not try to convert to dates
      * @return Formated CSV line
      */
-    getCSVRow(row: any, options?: IExportCSVOptions, dataFields?: any): string;
+    getCSVRow(row: any, options?: IExportCSVOptions, dataFields?: any, asIs?: boolean): string;
     /**
      * Returns chart's data in JSON format.
      *

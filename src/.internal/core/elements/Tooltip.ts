@@ -92,6 +92,17 @@ export interface ITooltipProperties extends IContainerProperties {
 	 * @since 4.1.13
 	 */
 	keepTargetHover?: boolean;
+
+	/**
+	 * Normally, a tooltip will hide itself if it is pointing to a coordinate
+	 * that is outside viewport.
+	 *
+	 * Setting this setting to `true` will override that and make tooltip
+	 * appear next to the viewport edge closest to the target point.
+	 *
+	 * @since 4.5.7
+	 */
+	showInViewport?: boolean
 }
 
 /**
@@ -247,6 +258,8 @@ export class Tooltip extends Container {
 		this.animationDuration = 0;
 		this.animationEasing = $ease.cubicOut;
 
+		this.setPropertyValue("showInViewport", false);
+
 		// Set accessibility options
 		this.role = "tooltip";
 
@@ -341,6 +354,28 @@ export class Tooltip extends Container {
 				}));
 			}
 		}
+	}
+
+	/**
+	 * Normally, a tooltip will hide itself if it is pointing to a coordinate
+	 * that is outside viewport.
+	 *
+	 * Setting this setting to `true` will override that and make tooltip
+	 * appear next to the viewport edge closest to the target point.
+	 *
+	 * @default false
+	 * @since 4.5.7
+	 * @param  value  Force showing tooltip?
+	 */
+	public set showInViewport(value: boolean) {
+		this.setPropertyValue("showInViewport", value);
+	}
+
+	/**
+	 * @return Force showing tooltip?
+	 */
+	public get showInViewport(): boolean {
+		return this.getPropertyValue("showInViewport");
 	}
 
 	/**

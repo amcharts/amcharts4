@@ -4402,6 +4402,14 @@ define('@amcharts/amcharts4/plugins/annotation', [], function () {
   }
   throw new Error("You must add 'plugins/annotation' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4/plugins/bullets', [], function () {
+  'use strict';
+  var output = self.am4plugins_bullets;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'plugins/bullets' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4/plugins/forceDirected', [], function () {
   'use strict';
   var output = self.am4plugins_forceDirected;

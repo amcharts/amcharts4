@@ -19,18 +19,20 @@ import { Label } from "../../core/elements/Label";
  * @hidden
  */
 /**
- * Defines properties for [[Bullet]]
+ * Defines properties for [[PinBullet]].
  */
 export interface IPinBulletProperties extends IBulletProperties {
 }
 /**
- * Defines events for [[Bullet]]
+ * Defines events for [[PinBullet]].
  */
 export interface IPinBulletEvents extends IBulletEvents {
 }
 /**
- * Defines adapters
+ * Defines adapters.
+ *
  * Includes both the [[Adapter]] definitions and properties
+ *
  * @see {@link Adapter}
  */
 export interface IPinBulletAdapters extends IBulletAdapters, IPinBulletProperties {
@@ -42,18 +44,51 @@ export interface IPinBulletAdapters extends IBulletAdapters, IPinBulletPropertie
  * @hidden
  */
 /**
+ * Creates a pin-shaped bullet with an optional text label and/or image inside
+ * it.
  *
- * @todo mm
- * Creates a pin bullet which can contain image or label inside.
- * Background of pin bullet is [[PointedCircle]] element, and most of the visual appearance is configured via background property.
+ * The background/body of the flag is a [[PointedCircle]] element. Most of
+ * its the visual appearance is configured via `background` property.
  *
  * Uses [[Label]] instance to draw the label, so the label itself is
  * configurable.
  *
+ * Example:
+ *
+ * ```TypeScript
+ * let series = chart.series.push(new am4charts.LineSeries());
+ * // ...
+ * let pinBullet = series.bullets.push(new am4plugins_bullets.PinBullet());
+ * pinBullet.poleHeight = 15;
+ * pinBullet.label.text = "{valueY}";
+ * ```
+ * ```JavaScript
+ * var series = chart.series.push(new am4charts.LineSeries());
+ * // ...
+ * var pinBullet = series.bullets.push(new am4plugins_bullets.PinBullet());
+ * pinBullet.poleHeight = 15;
+ * pinBullet.label.text = "{valueY}";
+ * ```
+ * ```JSON
+ * {
+ *   // ...
+ *   "series": [{
+ *     // ...
+ *     "bullets": [{
+ *       "type": "PinBullet",
+ *       "poleHeight": 15,
+ *       "label": {
+ *         "text": "{valueY}"
+ *       }
+ *     }]
+ *   }]
+ * }
+ * ```
+ *
+ * @since 4.5.7
+ * @see {@link https://www.amcharts.com/docs/v4/tutorials/plugin-bullets/} for usage instructions.
  * @see {@link IBulletEvents} for a list of available events
  * @see {@link IBulletAdapters} for a list of available Adapters
- * @todo Usage example
- * @important
  */
 export declare class PinBullet extends Bullet {
     /**
@@ -69,14 +104,20 @@ export declare class PinBullet extends Bullet {
      */
     _events: IPinBulletEvents;
     /**
-     * A label (textual) element for the bullet.
+     * A [[Circle]] element of the pin. It is used for the "inside" of the pin.
      */
     circle: Circle;
     /**
      * A type for the background element.
      */
     _background: PointedCircle;
+    /**
+     * Image element.
+     */
     protected _image: Image;
+    /**
+     * Label element.
+     */
     protected _label: Label;
     /**
      * Constructor
@@ -91,17 +132,43 @@ export declare class PinBullet extends Bullet {
      */
     validate(): void;
     /**
-     * @todo mm
+     * @return Image
      */
     /**
-     * @todo mm
+     * An element of type [[Image]] to show inside pin's circle.
+     *
+     * @param  image  Image
      */
     image: Image;
     /**
-     * @todo mm
+     * @return Label
      */
     /**
-     * @todo mm
+     * A [[Label]] element for displaying within flag.
+     *
+     * Use it's `text` property to set actual text, e.g.:
+     *
+     * ```TypeScript
+     * pinBullet.text = "Hello";
+     * ```
+     * ```JavaScript
+     * pinBullet.text = "Hello";
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "series": [{
+     *     // ...
+     *     "bullets": [{
+     *       "type": "PinBullet",
+     *       "label": {
+     *         "text": "Hello"
+     *       }
+     *     }]
+     *   }]
+     * }
+     * ```
+     * @param  label  Label
      */
     label: Label;
     /**

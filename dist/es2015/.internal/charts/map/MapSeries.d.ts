@@ -453,4 +453,8 @@ export declare class MapSeries extends Series {
      * @return Assign as is?
      */
     protected asIs(field: string): boolean;
+    /**
+     * @ignore
+     */
+    updateTooltipBounds(): void;
 }

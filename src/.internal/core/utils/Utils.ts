@@ -32,7 +32,7 @@ import * as $array from "./Array";
 /**
  * Marks a value as being used (e.g. because the value has side effects).
  */
- export function used<A>(value: A) {}
+export function used<A>(value: A) { }
 
 /**
  * Copies all properties of one object to the other, omitting undefined.
@@ -1025,7 +1025,7 @@ export function documentPointToSvg(point: IPoint, svgContainer: HTMLElement, css
 			"y": (point.y - bbox.top) / cssScale
 		};
 	}
-	catch(e) {
+	catch (e) {
 		return point;
 	}
 }
@@ -1046,7 +1046,7 @@ export function svgPointToDocument(point: IPoint, svgContainer: HTMLElement): IP
 			"y": point.y + bbox.top
 		};
 	}
-	catch(e) {
+	catch (e) {
 		return point;
 	}
 }
@@ -1104,7 +1104,13 @@ export function spritePointToDocument(point: IPoint, sprite: Sprite): IPoint {
  * @deprecated Not used anywhere
  */
 export function width(element: HTMLElement): number {
-	return element.clientWidth;
+
+	let cs = getComputedStyle(element);
+
+	let paddingX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+	let borderX = parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
+
+	return element.clientWidth - paddingX - borderX;
 }
 
 /**
@@ -1116,7 +1122,13 @@ export function width(element: HTMLElement): number {
  * @deprecated Not used anywhere
  */
 export function height(element: HTMLElement): number {
-	return element.clientHeight;
+
+	let cs = getComputedStyle(element);
+
+	let paddingY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+	let borderY = parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+
+	return element.clientHeight - paddingY - borderY;
 }
 
 /**

@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.7] - 2019-07-18
+
+### Added
+- New plugin: [Bullets](https://www.amcharts.com/docs/v4/tutorials/plugin-bullets/). It's a collection of configurable shapes (stars, pins, flags, etc.) that you can use as chart bullets, map markers, and anywhere else.
+- New `Tooltip` property: `showInViewport` (default `false`). if set to `true` it will not hide tooltips that point to an off-viewport location. It will be glued to the closes viewport edge instead.
+
+### Changed
+- Tooltip for `MapPolygonSeries` now has `showInViewport = true` set by default.
+
+### Fixed
+- Exporting to CSV with `dateFormat` set was causing "Invalid date" to appear instead of date column names (since 4.5.6).
+- When `MapPolygonSeries` had only one item set in its `include` array, it was causing map to come up as empty in some cases.
+- Charts were not accounting for their container padding/borders when measuring their own size, causing bigger charts then necessary.
+
+
 ## [4.5.6] - 2019-07-16
 
 ### Added

@@ -2821,7 +2821,7 @@ export class Export extends Validatable {
 
 		// Add column names?
 		if (options.addColumnNames) {
-			csv = this.getCSVRow(dataFields, options) + br + csv;
+			csv = this.getCSVRow(dataFields, options, undefined, true) + br + csv;
 		}
 
 		// Add content type
@@ -2844,12 +2844,13 @@ export class Export extends Validatable {
 	 * Formats a row of CSV data.
 	 *
 	 * @ignore Exclude from docs
-	 * @param row         An object holding data for the row
-	 * @param options     Options
-	 * @param dataFields  Data fields
+	 * @param  row         An object holding data for the row
+	 * @param  options     Options
+	 * @param  dataFields  Data fields
+	 * @param  asIs        Do not try to convert to dates
 	 * @return Formated CSV line
 	 */
-	public getCSVRow(row: any, options?: IExportCSVOptions, dataFields?: any): string {
+	public getCSVRow(row: any, options?: IExportCSVOptions, dataFields?: any, asIs: boolean = false): string {
 
 		// Init
 		let separator = options.separator || ",";
@@ -2873,7 +2874,7 @@ export class Export extends Validatable {
 			}*/
 
 			// Convert dates
-			let item = this.convertToDateOrDuration<"csv">(key, value, options);
+			let item = asIs ? value : this.convertToDateOrDuration<"csv">(key, value, options);
 
 			// Cast and escape doublequotes
 			item = "" + item;

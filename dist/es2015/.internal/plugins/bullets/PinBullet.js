@@ -22,18 +22,51 @@ import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
  * @hidden
  */
 /**
+ * Creates a pin-shaped bullet with an optional text label and/or image inside
+ * it.
  *
- * @todo mm
- * Creates a pin bullet which can contain image or label inside.
- * Background of pin bullet is [[PointedCircle]] element, and most of the visual appearance is configured via background property.
+ * The background/body of the flag is a [[PointedCircle]] element. Most of
+ * its the visual appearance is configured via `background` property.
  *
  * Uses [[Label]] instance to draw the label, so the label itself is
  * configurable.
  *
+ * Example:
+ *
+ * ```TypeScript
+ * let series = chart.series.push(new am4charts.LineSeries());
+ * // ...
+ * let pinBullet = series.bullets.push(new am4plugins_bullets.PinBullet());
+ * pinBullet.poleHeight = 15;
+ * pinBullet.label.text = "{valueY}";
+ * ```
+ * ```JavaScript
+ * var series = chart.series.push(new am4charts.LineSeries());
+ * // ...
+ * var pinBullet = series.bullets.push(new am4plugins_bullets.PinBullet());
+ * pinBullet.poleHeight = 15;
+ * pinBullet.label.text = "{valueY}";
+ * ```
+ * ```JSON
+ * {
+ *   // ...
+ *   "series": [{
+ *     // ...
+ *     "bullets": [{
+ *       "type": "PinBullet",
+ *       "poleHeight": 15,
+ *       "label": {
+ *         "text": "{valueY}"
+ *       }
+ *     }]
+ *   }]
+ * }
+ * ```
+ *
+ * @since 4.5.7
+ * @see {@link https://www.amcharts.com/docs/v4/tutorials/plugin-bullets/} for usage instructions.
  * @see {@link IBulletEvents} for a list of available events
  * @see {@link IBulletAdapters} for a list of available Adapters
- * @todo Usage example
- * @important
  */
 var PinBullet = /** @class */ (function (_super) {
     tslib_1.__extends(PinBullet, _super);
@@ -121,13 +154,15 @@ var PinBullet = /** @class */ (function (_super) {
     };
     Object.defineProperty(PinBullet.prototype, "image", {
         /**
-         * @todo mm
+         * @return Image
          */
         get: function () {
             return this._image;
         },
         /**
-         * @todo mm
+         * An element of type [[Image]] to show inside pin's circle.
+         *
+         * @param  image  Image
          */
         set: function (image) {
             if (image) {
@@ -147,13 +182,37 @@ var PinBullet = /** @class */ (function (_super) {
     });
     Object.defineProperty(PinBullet.prototype, "label", {
         /**
-         * @todo mm
+         * @return Label
          */
         get: function () {
             return this._label;
         },
         /**
-         * @todo mm
+         * A [[Label]] element for displaying within flag.
+         *
+         * Use it's `text` property to set actual text, e.g.:
+         *
+         * ```TypeScript
+         * pinBullet.text = "Hello";
+         * ```
+         * ```JavaScript
+         * pinBullet.text = "Hello";
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "series": [{
+         *     // ...
+         *     "bullets": [{
+         *       "type": "PinBullet",
+         *       "label": {
+         *         "text": "Hello"
+         *       }
+         *     }]
+         *   }]
+         * }
+         * ```
+         * @param  label  Label
          */
         set: function (label) {
             if (label) {

@@ -9,6 +9,7 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { PointedShape } from "../../core/elements/PointedShape";
+import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
 import * as $math from "../../core/utils/Math";
 /**
@@ -20,6 +21,8 @@ import * as $math from "../../core/utils/Math";
 /**
  * Draws a circle with a pointer.
  *
+ * @since 4.5.7
+ * @see {@link https://www.amcharts.com/docs/v4/tutorials/plugin-bullets/} for usage instructions.
  * @see {@link IPointedCircleEvents} for a list of available events
  * @see {@link IPointedCircleAdapters} for a list of available Adapters
  */
@@ -78,8 +81,8 @@ var PointedCircle = /** @class */ (function (_super) {
         /**
          * Radius of a circle in pixels.
          *
-         * @default 0
-         * @param value  Radius (px)
+         * @default 18
+         * @param  value  Radius (px)
          */
         set: function (value) {
             this.setPropertyValue("radius", value, true);
@@ -96,8 +99,9 @@ var PointedCircle = /** @class */ (function (_super) {
         },
         /**
          * Angle of a pointer, in degrees.
+         *
          * @default 90
-         * @param value Angle (degrees)
+         * @param  value Angle (degrees)
          */
         set: function (value) {
             this.setPropertyValue("pointerAngle", value, true);
@@ -108,4 +112,11 @@ var PointedCircle = /** @class */ (function (_super) {
     return PointedCircle;
 }(PointedShape));
 export { PointedCircle };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["PointerCircle"] = PointedCircle;
 //# sourceMappingURL=PointedCircle.js.map

@@ -7509,6 +7509,10 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.pointTooltipTo = function (point, instantly) {
         var tooltip = this.tooltip;
         if (tooltip && this.topParent) {
+            if (tooltip.showInViewport) {
+                tooltip.pointTo(point, instantly);
+                return true;
+            }
             if ($math.isInRectangle(point, { x: 0, y: 0, width: this.topParent.maxWidth, height: this.topParent.maxHeight })) {
                 tooltip.pointTo(point, instantly);
                 return true;

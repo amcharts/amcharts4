@@ -1956,7 +1956,7 @@ var Export = /** @class */ (function (_super) {
                 }
                 // Add column names?
                 if (options.addColumnNames) {
-                    csv = this.getCSVRow(dataFields, options) + br + csv;
+                    csv = this.getCSVRow(dataFields, options, undefined, true) + br + csv;
                 }
                 charset = this.adapter.apply("charset", {
                     charset: "charset=utf-8",
@@ -1975,13 +1975,15 @@ var Export = /** @class */ (function (_super) {
      * Formats a row of CSV data.
      *
      * @ignore Exclude from docs
-     * @param row         An object holding data for the row
-     * @param options     Options
-     * @param dataFields  Data fields
+     * @param  row         An object holding data for the row
+     * @param  options     Options
+     * @param  dataFields  Data fields
+     * @param  asIs        Do not try to convert to dates
      * @return Formated CSV line
      */
-    Export.prototype.getCSVRow = function (row, options, dataFields) {
+    Export.prototype.getCSVRow = function (row, options, dataFields, asIs) {
         var _this = this;
+        if (asIs === void 0) { asIs = false; }
         // Init
         var separator = options.separator || ",";
         var items = [];
@@ -1999,7 +2001,7 @@ var Export = /** @class */ (function (_super) {
                 return;
             }*/
             // Convert dates
-            var item = _this.convertToDateOrDuration(key, value, options);
+            var item = asIs ? value : _this.convertToDateOrDuration(key, value, options);
             // Cast and escape doublequotes
             item = "" + item;
             item = item.replace(/"/g, '""');

@@ -165,6 +165,11 @@ var MapSeriesDataItem = /** @class */ (function (_super) {
                 this._west = $math.round(west, 6);
                 changed = true;
             }
+            // solves single russia prob
+            if (this._east < this._west) {
+                this._east = 180;
+                this._west = -180;
+            }
             if (changed) {
                 this.component.invalidateDataItems();
             }
@@ -205,6 +210,9 @@ var MapSeries = /** @class */ (function (_super) {
         // Set data fields
         _this.dataFields.value = "value";
         _this.ignoreBounds = false;
+        if (_this.tooltip) {
+            _this.tooltip.showInViewport = true;
+        }
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -633,6 +641,14 @@ var MapSeries = /** @class */ (function (_super) {
      */
     MapSeries.prototype.asIs = function (field) {
         return field == "geodata" || _super.prototype.asIs.call(this, field);
+    };
+    /**
+     * @ignore
+     */
+    MapSeries.prototype.updateTooltipBounds = function () {
+        if (this.tooltip && this.topParent) {
+            this.tooltip.setBounds({ x: 10, y: 10, width: this.topParent.maxWidth - 20, height: this.topParent.maxHeight - 20 });
+        }
     };
     return MapSeries;
 }(Series));
