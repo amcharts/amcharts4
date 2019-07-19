@@ -1058,6 +1058,16 @@ var XYSeries = /** @class */ (function (_super) {
         if ((this.xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (this.yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
             return false;
         }
+        if (bulletTemplate.disabled) {
+            var disabledField = bulletTemplate.propertyFields.disabled;
+            var dataContext = dataItem.dataContext;
+            if (dataContext && dataContext[disabledField] === false) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
         return true;
     };
     /*

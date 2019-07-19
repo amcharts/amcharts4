@@ -610,7 +610,18 @@ var Series = /** @class */ (function (_super) {
                 var bullet = dataItem.bullets.getKey(bulletTemplate.uid);
                 if (_this.shouldCreateBullet(dataItem, bulletTemplate)) {
                     if (!bullet) {
-                        bullet = bulletTemplate.clone();
+                        var disabledField = bulletTemplate.propertyFields.disabled;
+                        var dataContext = dataItem.dataContext;
+                        if (disabledField && dataContext && dataContext[disabledField] === false) {
+                            bulletTemplate.applyOnClones = false;
+                            bulletTemplate.disabled = false;
+                            bullet = bulletTemplate.clone();
+                            bulletTemplate.disabled = true;
+                            bulletTemplate.applyOnClones = true;
+                        }
+                        else {
+                            bullet = bulletTemplate.clone();
+                        }
                         bullet.shouldClone = false;
                         dataItem.addSprite(bullet);
                         if (!_this.visible || _this.isHiding) {

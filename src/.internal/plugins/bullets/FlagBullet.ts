@@ -10,7 +10,6 @@
  */
 import { Bullet, IBulletProperties, IBulletAdapters, IBulletEvents } from "../../charts/elements/Bullet";
 import { registry } from "../../core/Registry";
-import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { Label } from "../../core/elements/Label";
 import { WavedRectangle } from "../../core/elements/WavedRectangle";
 import { Line } from "../../core/elements/Line";
@@ -153,10 +152,8 @@ export class FlagBullet extends Bullet {
 		super();
 
 		this.className = "FlagBullet";
-		let interfaceColors = new InterfaceColorSet();
 
 		let background = this.background;
-		background.fill = interfaceColors.getFor("alternativeBackground");
 		background.fillOpacity = 1;
 		background.events.on("propertychanged", this.invalidate, this, false);
 		background.waveHeight = 1.5;
@@ -165,17 +162,16 @@ export class FlagBullet extends Bullet {
 
 		this.pole = this.createChild(Line);
 		this.pole.strokeOpacity = 1;
-		this.pole.stroke = background.fill;
 
 		this.width = 22;
 		this.height = 16;
 
 		let label = new Label();
-		label.fill = new InterfaceColorSet().getFor("background");
 		label.padding(3, 5, 3, 5);
 		label.dy = 1;
 		label.events.on("propertychanged", this.invalidate, this, false);
 		label.events.on("positionchanged", this.invalidate, this, false);
+		label.strokeOpacity = 0;
 
 		this.label = label;
 
@@ -199,9 +195,26 @@ export class FlagBullet extends Bullet {
 		let background = this.background;
 
 		this.pole.y1 = 0;
-		this.pole.y2 = -this.poleHeight - background.pixelHeight;
-		if (this.label) {
-			this.label.y = -this.poleHeight - background.pixelHeight;
+
+		let poleHeight = this.poleHeight;
+		let label = this.label;
+		let bgHeight = background.pixelHeight;
+
+		if (poleHeight > 0) {
+			this.pole.y2 = -poleHeight - bgHeight;
+			if (label) {
+				label.y = -poleHeight - bgHeight;
+			}
+		}
+		else {
+			this.pole.y2 = -poleHeight + bgHeight;
+			if (label) {
+				label.y = -poleHeight;
+			}
+		}
+
+		if (label && label.horizontalCenter == "middle") {
+			this.pole.y2 = -poleHeight;
 		}
 	}
 
@@ -227,8 +240,13 @@ export class FlagBullet extends Bullet {
 				background.width = Math.abs(this.maxRight - this.maxLeft);
 				background.height = Math.abs(this.maxBottom - this.maxTop);
 			}
-
-			background.y = - this.poleHeight - background.pixelHeight;
+			let poleHeight = this.poleHeight;
+			if (poleHeight > 0) {
+				background.y = - poleHeight - background.pixelHeight;
+			}
+			else {
+				background.y = - poleHeight;
+			}
 		}
 	}
 

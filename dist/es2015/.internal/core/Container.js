@@ -1431,6 +1431,9 @@ var Container = /** @class */ (function (_super) {
             $iter.each(this.children.iterator(), function (child) {
                 child.dataItem = dataItem;
             });
+            if (this._background) {
+                this._background.dataItem = dataItem;
+            }
         }
         _super.prototype.setDataItem.call(this, dataItem);
     };

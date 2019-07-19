@@ -47,6 +47,34 @@ export interface IWavedRectangleProperties extends IRectangleProperties {
 	 * @default 0.8
 	 */
 	tension?: number;
+
+	/**
+	 * If right side of a rectangle should be waved.
+	 *
+	 * @default true
+	 */
+	wavedRight?: boolean;
+
+	/**
+	 * If left side of a rectangle should be waved.
+	 *
+	 * @default true
+	 */
+	wavedLeft?: boolean;
+
+	/**
+	 * If top side of a rectangle should be waved.
+	 *
+	 * @default true
+	 */
+	wavedTop?: boolean;
+
+	/**
+	 * If bottom side of a rectangle should be waved.
+	 *
+	 * @default true
+	 */
+	wavedBottom?: boolean;
 }
 
 /**
@@ -93,26 +121,6 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 	public _events!: IWavedRectangleEvents;
 
 	/**
-	 * Top waved?
-	 */
-	protected _twaved: boolean = true;
-
-	/**
-	 * Right side waved?
-	 */
-	protected _rwaved: boolean = true;
-
-	/**
-	 * Bottom waved?
-	 */
-	protected _bwaved: boolean = true;
-
-	/**
-	 * Left side waved?
-	 */
-	protected _lwaved: boolean = true;
-
-	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -128,6 +136,11 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 		this.waveLength = 16;
 		this.waveHeight = 4;
 		this.tension = 0.8;
+
+		this.setPropertyValue("wavedLeft", true);
+		this.setPropertyValue("wavedRight", true);
+		this.setPropertyValue("wavedTop", true);
+		this.setPropertyValue("wavedBottom", true);
 
 
 		// Apply theme
@@ -160,20 +173,20 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 			let bd: string = "";
 			let ld: string = "";
 
-			if (this._twaved) {
+			if (this.wavedTop) {
 				td = wavedLine(p1, p2, waveLength, waveHeight, this.tension, true);
 			}
-			if (this._rwaved) {
-				ld = wavedLine(p2, p3, waveLength, waveHeight, this.tension, true);
+			if (this.wavedRight) {
+				rd = wavedLine(p2, p3, waveLength, waveHeight, this.tension, true);
 			}
-			if (this._bwaved) {
+			if (this.wavedBottom) {
 				bd = wavedLine(p3, p4, waveLength, waveHeight, this.tension, true);
 			}
-			if (this._rwaved) {
-				rd = wavedLine(p4, p1, waveLength, waveHeight, this.tension, true);
+			if (this.wavedLeft) {
+				ld = wavedLine(p4, p1, waveLength, waveHeight, this.tension, true);
 			}
 
-			this.path = $path.moveTo(p1) + td + $path.lineTo(p2) + ld + $path.lineTo(p3) + bd + $path.lineTo(p4) + rd + "z";
+			this.path = $path.moveTo(p1) + td + $path.lineTo(p2) + rd + $path.lineTo(p3) + bd + $path.lineTo(p4) + ld + "z";
 		}
 	}
 
@@ -223,10 +236,10 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 	 * @param left    Left side waved?
 	 */
 	public setWavedSides(top: boolean, right: boolean, bottom: boolean, left: boolean): void {
-		this._twaved = top;
-		this._lwaved = right;
-		this._bwaved = bottom;
-		this._rwaved = left;
+		this.wavedTop = top;
+		this.wavedRight = right;
+		this.wavedBottom = bottom;
+		this.wavedLeft = left;
 	}
 
 	/**
@@ -245,6 +258,74 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 	 */
 	public get tension(): number {
 		return this.getPropertyValue("tension");
+	}
+
+	/**
+	 * Specifies if right side should be waved.
+	 *
+	 * @default true
+	 * @param value Waved?
+	 */
+	public set wavedRight(value: boolean) {
+		this.setPropertyValue("wavedRight", value, true);
+	}
+
+	/**
+	 * @return Wave right side?
+	 */
+	public get wavedRight(): boolean {
+		return this.getPropertyValue("wavedRight");
+	}
+
+	/**
+	 * Specifies if left side should be waved.
+	 *
+	 * @default true
+	 * @param value Waved?
+	 */
+	public set wavedLeft(value: boolean) {
+		this.setPropertyValue("wavedLeft", value, true);
+	}
+
+	/**
+	 * @return Wave left side?
+	 */
+	public get wavedLeft(): boolean {
+		return this.getPropertyValue("wavedLeft");
+	}
+
+	/**
+	 * Specifies if top side should be waved.
+	 *
+	 * @default true
+	 * @param value Waved?
+	 */
+	public set wavedTop(value: boolean) {
+		this.setPropertyValue("wavedTop", value, true);
+	}
+
+	/**
+	 * @return Wave top side?
+	 */
+	public get wavedTop(): boolean {
+		return this.getPropertyValue("wavedTop");
+	}
+
+	/**
+	 * Specifies if bottom side should be waved.
+	 *
+	 * @default true
+	 * @param value Waved?
+	 */
+	public set wavedBottom(value: boolean) {
+		this.setPropertyValue("wavedBottom", value, true);
+	}
+
+	/**
+	 * @return Wave bottom side?
+	 */
+	public get wavedBottom(): boolean {
+		return this.getPropertyValue("wavedBottom");
 	}
 
 }

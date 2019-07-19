@@ -32,22 +32,6 @@ var WavedRectangle = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this) || this;
-        /**
-         * Top waved?
-         */
-        _this._twaved = true;
-        /**
-         * Right side waved?
-         */
-        _this._rwaved = true;
-        /**
-         * Bottom waved?
-         */
-        _this._bwaved = true;
-        /**
-         * Left side waved?
-         */
-        _this._lwaved = true;
         _this.className = "WavedRectangle";
         // Add path element
         _this.element = _this.paper.add("path");
@@ -55,6 +39,10 @@ var WavedRectangle = /** @class */ (function (_super) {
         _this.waveLength = 16;
         _this.waveHeight = 4;
         _this.tension = 0.8;
+        _this.setPropertyValue("wavedLeft", true);
+        _this.setPropertyValue("wavedRight", true);
+        _this.setPropertyValue("wavedTop", true);
+        _this.setPropertyValue("wavedBottom", true);
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -79,19 +67,19 @@ var WavedRectangle = /** @class */ (function (_super) {
             var rd = "";
             var bd = "";
             var ld = "";
-            if (this._twaved) {
+            if (this.wavedTop) {
                 td = wavedLine(p1, p2, waveLength, waveHeight, this.tension, true);
             }
-            if (this._rwaved) {
-                ld = wavedLine(p2, p3, waveLength, waveHeight, this.tension, true);
+            if (this.wavedRight) {
+                rd = wavedLine(p2, p3, waveLength, waveHeight, this.tension, true);
             }
-            if (this._bwaved) {
+            if (this.wavedBottom) {
                 bd = wavedLine(p3, p4, waveLength, waveHeight, this.tension, true);
             }
-            if (this._rwaved) {
-                rd = wavedLine(p4, p1, waveLength, waveHeight, this.tension, true);
+            if (this.wavedLeft) {
+                ld = wavedLine(p4, p1, waveLength, waveHeight, this.tension, true);
             }
-            this.path = $path.moveTo(p1) + td + $path.lineTo(p2) + ld + $path.lineTo(p3) + bd + $path.lineTo(p4) + rd + "z";
+            this.path = $path.moveTo(p1) + td + $path.lineTo(p2) + rd + $path.lineTo(p3) + bd + $path.lineTo(p4) + ld + "z";
         }
     };
     Object.defineProperty(WavedRectangle.prototype, "waveLength", {
@@ -144,10 +132,10 @@ var WavedRectangle = /** @class */ (function (_super) {
      * @param left    Left side waved?
      */
     WavedRectangle.prototype.setWavedSides = function (top, right, bottom, left) {
-        this._twaved = top;
-        this._lwaved = right;
-        this._bwaved = bottom;
-        this._rwaved = left;
+        this.wavedTop = top;
+        this.wavedRight = right;
+        this.wavedBottom = bottom;
+        this.wavedLeft = left;
     };
     Object.defineProperty(WavedRectangle.prototype, "tension", {
         /**
@@ -165,6 +153,82 @@ var WavedRectangle = /** @class */ (function (_super) {
         set: function (value) {
             this.setPropertyValue("tension", value);
             this.invalidate();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(WavedRectangle.prototype, "wavedRight", {
+        /**
+         * @return Wave right side?
+         */
+        get: function () {
+            return this.getPropertyValue("wavedRight");
+        },
+        /**
+         * Specifies if right side should be waved.
+         *
+         * @default true
+         * @param value Waved?
+         */
+        set: function (value) {
+            this.setPropertyValue("wavedRight", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(WavedRectangle.prototype, "wavedLeft", {
+        /**
+         * @return Wave left side?
+         */
+        get: function () {
+            return this.getPropertyValue("wavedLeft");
+        },
+        /**
+         * Specifies if left side should be waved.
+         *
+         * @default true
+         * @param value Waved?
+         */
+        set: function (value) {
+            this.setPropertyValue("wavedLeft", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(WavedRectangle.prototype, "wavedTop", {
+        /**
+         * @return Wave top side?
+         */
+        get: function () {
+            return this.getPropertyValue("wavedTop");
+        },
+        /**
+         * Specifies if top side should be waved.
+         *
+         * @default true
+         * @param value Waved?
+         */
+        set: function (value) {
+            this.setPropertyValue("wavedTop", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(WavedRectangle.prototype, "wavedBottom", {
+        /**
+         * @return Wave bottom side?
+         */
+        get: function () {
+            return this.getPropertyValue("wavedBottom");
+        },
+        /**
+         * Specifies if bottom side should be waved.
+         *
+         * @default true
+         * @param value Waved?
+         */
+        set: function (value) {
+            this.setPropertyValue("wavedBottom", value, true);
         },
         enumerable: true,
         configurable: true

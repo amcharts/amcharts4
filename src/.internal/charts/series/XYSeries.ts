@@ -1281,16 +1281,16 @@ export class XYSeries extends Series {
 					if (stackY < minY) {
 						minY = stackY
 					}
-					if(stackY > maxY){
-						maxY = stackY;					
+					if (stackY > maxY) {
+						maxY = stackY;
 					}
 				}
 				if (this.baseAxis == this.yAxis) {
-					if(stackX < minX){
+					if (stackX < minX) {
 						minX = stackX;
 					}
-					if(stackX > maxX){
-						maxX = stackX;					
+					if (stackX > maxX) {
+						maxX = stackX;
 					}
 				}
 			}
@@ -1477,6 +1477,17 @@ export class XYSeries extends Series {
 
 		if ((this.xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (this.yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
 			return false;
+		}
+
+		if (bulletTemplate.disabled) {
+			let disabledField = bulletTemplate.propertyFields.disabled;
+			let dataContext = <any>dataItem.dataContext;
+			if (dataContext && dataContext[disabledField] === false) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 
 		return true;

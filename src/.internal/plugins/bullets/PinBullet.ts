@@ -226,6 +226,7 @@ export class PinBullet extends Bullet {
 			image.y = cy;
 			image.width = r * 2;
 			image.height = r * 2;
+			image.element.attr({preserveAspectRatio:"xMidYMid slice"})
 		}
 		else {
 			this.circle.x = cx;

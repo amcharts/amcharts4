@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.8] - 2019-07-19
+
+### Added
+- `wavedRight`, `wavedLeft`, `wavedTop`, and `wavedBottom` properties added to `WavedRectangle`. Allows to specify which sides of rectangle should be waved.
+
+### Changed
+- You can now avoid creating unused bullet for each data item of a series by setting `bullet.disabled = true` and then specifying `bullet.propertyFields.disabled = "fieldName"` where `fieldName` would be a field in your data specifying which bullets should not be disabled (`false` value).
+
+### Fixed
+- `FlagBullet` was overriding colors inside its class.
+- `FlagBullet` now supports negative `poleHeight` (turns the flag upside down).
+- Background of a `Container` did not have access to Container's data item so it was impossible to define background properties via `propertyFields`.
+
+
 ## [4.5.7] - 2019-07-18
 
 ### Added

@@ -1834,6 +1834,10 @@ export class Container extends Sprite {
 			$iter.each(this.children.iterator(), (child) => {
 				child.dataItem = dataItem;
 			});
+
+			if(this._background){
+				this._background.dataItem = dataItem;
+			}
 		}
 
 		super.setDataItem(dataItem);

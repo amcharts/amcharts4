@@ -914,7 +914,20 @@ export class Series extends Component {
 
 				if (this.shouldCreateBullet(dataItem, bulletTemplate)) {
 					if (!bullet) {
-						bullet = bulletTemplate.clone();
+
+						let disabledField = bulletTemplate.propertyFields.disabled;
+						let dataContext = <any>dataItem.dataContext;
+						if (disabledField && dataContext && dataContext[disabledField] === false) {
+							bulletTemplate.applyOnClones = false;
+							bulletTemplate.disabled = false;
+							bullet = bulletTemplate.clone();
+							bulletTemplate.disabled = true;
+							bulletTemplate.applyOnClones = true;
+						}
+						else {
+							bullet = bulletTemplate.clone();
+						}
+
 						bullet.shouldClone = false;
 						dataItem.addSprite(bullet);
 

@@ -10,7 +10,6 @@ import * as tslib_1 from "tslib";
  */
 import { Bullet } from "../../charts/elements/Bullet";
 import { registry } from "../../core/Registry";
-import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { Label } from "../../core/elements/Label";
 import { WavedRectangle } from "../../core/elements/WavedRectangle";
 import { Line } from "../../core/elements/Line";
@@ -79,9 +78,7 @@ var FlagBullet = /** @class */ (function (_super) {
     function FlagBullet() {
         var _this = _super.call(this) || this;
         _this.className = "FlagBullet";
-        var interfaceColors = new InterfaceColorSet();
         var background = _this.background;
-        background.fill = interfaceColors.getFor("alternativeBackground");
         background.fillOpacity = 1;
         background.events.on("propertychanged", _this.invalidate, _this, false);
         background.waveHeight = 1.5;
@@ -89,15 +86,14 @@ var FlagBullet = /** @class */ (function (_super) {
         background.setWavedSides(true, false, true, false);
         _this.pole = _this.createChild(Line);
         _this.pole.strokeOpacity = 1;
-        _this.pole.stroke = background.fill;
         _this.width = 22;
         _this.height = 16;
         var label = new Label();
-        label.fill = new InterfaceColorSet().getFor("background");
         label.padding(3, 5, 3, 5);
         label.dy = 1;
         label.events.on("propertychanged", _this.invalidate, _this, false);
         label.events.on("positionchanged", _this.invalidate, _this, false);
+        label.strokeOpacity = 0;
         _this.label = label;
         _this.poleHeight = 10;
         _this.applyTheme();
@@ -115,9 +111,23 @@ var FlagBullet = /** @class */ (function (_super) {
         this.updateBackground();
         var background = this.background;
         this.pole.y1 = 0;
-        this.pole.y2 = -this.poleHeight - background.pixelHeight;
-        if (this.label) {
-            this.label.y = -this.poleHeight - background.pixelHeight;
+        var poleHeight = this.poleHeight;
+        var label = this.label;
+        var bgHeight = background.pixelHeight;
+        if (poleHeight > 0) {
+            this.pole.y2 = -poleHeight - bgHeight;
+            if (label) {
+                label.y = -poleHeight - bgHeight;
+            }
+        }
+        else {
+            this.pole.y2 = -poleHeight + bgHeight;
+            if (label) {
+                label.y = -poleHeight;
+            }
+        }
+        if (label && label.horizontalCenter == "middle") {
+            this.pole.y2 = -poleHeight;
         }
     };
     /**
@@ -139,7 +149,13 @@ var FlagBullet = /** @class */ (function (_super) {
                 background.width = Math.abs(this.maxRight - this.maxLeft);
                 background.height = Math.abs(this.maxBottom - this.maxTop);
             }
-            background.y = -this.poleHeight - background.pixelHeight;
+            var poleHeight = this.poleHeight;
+            if (poleHeight > 0) {
+                background.y = -poleHeight - background.pixelHeight;
+            }
+            else {
+                background.y = -poleHeight;
+            }
         }
     };
     Object.defineProperty(FlagBullet.prototype, "label", {

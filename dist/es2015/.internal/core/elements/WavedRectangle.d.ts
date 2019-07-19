@@ -37,6 +37,30 @@ export interface IWavedRectangleProperties extends IRectangleProperties {
      * @default 0.8
      */
     tension?: number;
+    /**
+     * If right side of a rectangle should be waved.
+     *
+     * @default true
+     */
+    wavedRight?: boolean;
+    /**
+     * If left side of a rectangle should be waved.
+     *
+     * @default true
+     */
+    wavedLeft?: boolean;
+    /**
+     * If top side of a rectangle should be waved.
+     *
+     * @default true
+     */
+    wavedTop?: boolean;
+    /**
+     * If bottom side of a rectangle should be waved.
+     *
+     * @default true
+     */
+    wavedBottom?: boolean;
 }
 /**
  * Defines events for [[WavedRectangle]].
@@ -75,22 +99,6 @@ export declare class WavedRectangle extends Rectangle implements IWavedShape {
      * Defines available events.
      */
     _events: IWavedRectangleEvents;
-    /**
-     * Top waved?
-     */
-    protected _twaved: boolean;
-    /**
-     * Right side waved?
-     */
-    protected _rwaved: boolean;
-    /**
-     * Bottom waved?
-     */
-    protected _bwaved: boolean;
-    /**
-     * Left side waved?
-     */
-    protected _lwaved: boolean;
     /**
      * Constructor
      */
@@ -141,4 +149,44 @@ export declare class WavedRectangle extends Rectangle implements IWavedShape {
      * @param value  Tension
      */
     tension: number;
+    /**
+     * @return Wave right side?
+     */
+    /**
+     * Specifies if right side should be waved.
+     *
+     * @default true
+     * @param value Waved?
+     */
+    wavedRight: boolean;
+    /**
+     * @return Wave left side?
+     */
+    /**
+     * Specifies if left side should be waved.
+     *
+     * @default true
+     * @param value Waved?
+     */
+    wavedLeft: boolean;
+    /**
+     * @return Wave top side?
+     */
+    /**
+     * Specifies if top side should be waved.
+     *
+     * @default true
+     * @param value Waved?
+     */
+    wavedTop: boolean;
+    /**
+     * @return Wave bottom side?
+     */
+    /**
+     * Specifies if bottom side should be waved.
+     *
+     * @default true
+     * @param value Waved?
+     */
+    wavedBottom: boolean;
 }
