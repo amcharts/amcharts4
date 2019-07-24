@@ -424,6 +424,7 @@ var NumberFormatter = /** @class */ (function (_super) {
         var prefix = "";
         var suffix = "";
         var applied = false;
+        var k = 1;
         for (var i = 0, len = prefixes.length; i < len; i++) {
             if (prefixes[i].number <= value) {
                 if (prefixes[i].number === 0) {
@@ -431,6 +432,7 @@ var NumberFormatter = /** @class */ (function (_super) {
                 }
                 else {
                     newvalue = value / prefixes[i].number;
+                    k = prefixes[i].number;
                 }
                 prefix = prefixes[i].prefix;
                 suffix = prefixes[i].suffix;
@@ -442,6 +444,10 @@ var NumberFormatter = /** @class */ (function (_super) {
             newvalue = value / prefixes[0].number;
             prefix = prefixes[0].prefix;
             suffix = prefixes[0].suffix;
+            applied = true;
+        }
+        if (applied) {
+            newvalue = parseFloat(newvalue.toPrecision(k.toString().length + Math.floor(newvalue).toString().replace(/[^0-9]*/g, "").length));
         }
         return [newvalue, prefix, suffix];
     };

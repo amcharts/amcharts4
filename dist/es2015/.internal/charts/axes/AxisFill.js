@@ -39,6 +39,7 @@ var AxisFill = /** @class */ (function (_super) {
         _this.className = "AxisFill";
         _this.isMeasured = false;
         _this.location = 0;
+        _this.above = false;
         var interfaceColors = new InterfaceColorSet();
         _this.fill = interfaceColors.getFor("alternativeBackground");
         _this.fillOpacity = 0;
@@ -133,6 +134,26 @@ var AxisFill = /** @class */ (function (_super) {
         }
         return false;
     };
+    Object.defineProperty(AxisFill.prototype, "above", {
+        /**
+         * @return Draw above series?
+         */
+        get: function () {
+            return this.getPropertyValue("above");
+        },
+        /**
+         * Normally fill goes below series. Set this to `true` to go above.
+         *
+         * @default false
+         * @since 4.5.9
+         * @param  value  Draw above series?
+         */
+        set: function (value) {
+            this.setPropertyValue("above", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return AxisFill;
 }(Sprite));
 export { AxisFill };

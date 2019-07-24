@@ -38,6 +38,7 @@ var Grid = /** @class */ (function (_super) {
         _this.element = _this.paper.add("path");
         _this.location = 0.5;
         _this.isMeasured = false;
+        _this.above = false;
         var interfaceColors = new InterfaceColorSet();
         _this.stroke = interfaceColors.getFor("grid");
         _this.pixelPerfect = true;
@@ -64,6 +65,26 @@ var Grid = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("location", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Grid.prototype, "above", {
+        /**
+         * @return Draw above series?
+         */
+        get: function () {
+            return this.getPropertyValue("above");
+        },
+        /**
+         * Normally fill goes below series. Set this to `true` to go above.
+         *
+         * @default false
+         * @since 4.5.9
+         * @param  value  Draw above series?
+         */
+        set: function (value) {
+            this.setPropertyValue("above", value, true);
         },
         enumerable: true,
         configurable: true

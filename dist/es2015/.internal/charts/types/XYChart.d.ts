@@ -335,6 +335,10 @@ export declare class XYChart extends SerialChart {
     protected _panEndYRange: IRange;
     protected _mouseWheelDisposer: IDisposer;
     /**
+     * Holds a reference to the container axis bullets are drawn in.
+     */
+    axisBulletsContainer: Container;
+    /**
      * @ignore
      */
     _seriesPoints: {

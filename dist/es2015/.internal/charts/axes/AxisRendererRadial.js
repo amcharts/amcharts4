@@ -18,6 +18,7 @@ import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
+import { AxisBullet } from "./AxisBullet";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -499,6 +500,24 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         }
         this.positionItem(tick, point);
         this.toggleVisibility(tick, position, 0, 1);
+    };
+    /**
+     * Updates and positions axis bullet.
+     *
+     * @ignore Exclude from docs
+     * @param bullet       AxisBullet element
+     * @param position     Starting position
+     * @param endPosition  End position
+     */
+    AxisRendererRadial.prototype.updateBullet = function (bullet, position, endPosition) {
+        var location = 0.5;
+        if (bullet instanceof AxisBullet) {
+            location = bullet.location;
+        }
+        position = position + (endPosition - position) * location;
+        var point = this.positionToPoint(position);
+        this.positionItem(bullet, point);
+        this.toggleVisibility(bullet, position, 0, 1);
     };
     /**
      * Converts a position on the axis to a coordinate in pixels.

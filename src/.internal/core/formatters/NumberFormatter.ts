@@ -525,6 +525,7 @@ export class NumberFormatter extends BaseObject {
 		let prefix = "";
 		let suffix = "";
 		let applied = false;
+		let k = 1;
 
 		for (let i = 0, len = prefixes.length; i < len; i++) {
 			if (prefixes[i].number <= value) {
@@ -533,6 +534,7 @@ export class NumberFormatter extends BaseObject {
 				}
 				else {
 					newvalue = value / prefixes[i].number;
+					k = prefixes[i].number;
 				}
 				prefix = prefixes[i].prefix;
 				suffix = prefixes[i].suffix;
@@ -540,11 +542,21 @@ export class NumberFormatter extends BaseObject {
 			}
 		}
 
+
 		if (!applied && force && prefixes.length && value != 0) {
 			// Prefix was not applied. Use the first prefix.
 			newvalue = value / prefixes[0].number;
 			prefix = prefixes[0].prefix;
 			suffix = prefixes[0].suffix;
+			applied = true;
+		}
+
+		if (applied) {
+			newvalue = parseFloat(
+				newvalue.toPrecision(
+					k.toString().length + Math.floor(newvalue).toString().replace(/[^0-9]*/g, "").length
+				)
+			);
 		}
 
 		return [newvalue, prefix, suffix];

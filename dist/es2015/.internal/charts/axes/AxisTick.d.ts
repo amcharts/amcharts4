@@ -19,8 +19,20 @@ import { AxisItemLocation, AxisDataItem, Axis } from "./Axis";
  * Defines properties for [[AxisTick]].
  */
 export interface IAxisTickProperties extends ITickProperties {
+    /**
+     * Relative location of the tick. (0-1)
+     */
     location?: number;
+    /**
+     * Draw the tick on the inside of the Axis?
+     */
     inside?: boolean;
+    /**
+     * Normally fill goes below series. Set this to `true` to go above.
+     *
+     * @default false
+     */
+    above?: boolean;
 }
 /**
  * Defines events for [[AxisTick]].
@@ -64,8 +76,37 @@ export declare class AxisTick extends Tick {
      */
     axis: Axis;
     constructor();
+    /**
+     * @return Location (0-1)
+     */
+    /**
+     * Relative location of the tick. (0-1)
+     *
+     * @param value  Location (0-1)
+     */
     location: AxisItemLocation;
+    /**
+     * Returns if label is set to be drawn inside axis.
+     *
+     * @return Inside?
+     */
+    /**
+     * Sets if tick should be drawn inside axis.
+     *
+     * @param value  Inside?
+     */
     inside: boolean;
+    /**
+     * @return Draw above series?
+     */
+    /**
+     * Normally fill goes below series. Set this to `true` to go above.
+     *
+     * @default false
+     * @since 4.5.9
+     * @param  value  Draw above series?
+     */
+    above: boolean;
     /**
      * @ignore
      */

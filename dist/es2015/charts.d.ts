@@ -57,6 +57,7 @@ export { IAxisLineProperties, IAxisLineEvents, IAxisLineAdapters, AxisLine } fro
 export { IAxisFillProperties, IAxisFillEvents, IAxisFillAdapters, AxisFill } from "./.internal/charts/axes/AxisFill";
 export { IAxisRendererProperties, IAxisRendererEvents, IAxisRendererAdapters, AxisRenderer } from "./.internal/charts/axes/AxisRenderer";
 export { IAxisBreakProperties, IAxisBreakEvents, IAxisBreakAdapters, AxisBreak } from "./.internal/charts/axes/AxisBreak";
+export { IAxisBulletProperties, IAxisBulletEvents, IAxisBulletAdapters, AxisBullet } from "./.internal/charts/axes/AxisBullet";
 export { ValueAxisDataItem, IMinMaxStep, IValueAxisDataFields, IValueAxisProperties, IValueAxisEvents, IValueAxisAdapters, ValueAxis } from "./.internal/charts/axes/ValueAxis";
 export { CategoryAxisDataItem, ICategoryAxisDataFields, ICategoryAxisProperties, ICategoryAxisEvents, ICategoryAxisAdapters, CategoryAxis } from "./.internal/charts/axes/CategoryAxis";
 export { ICategoryAxisBreakProperties, ICategoryAxisBreakEvents, ICategoryAxisBreakAdapters, CategoryAxisBreak } from "./.internal/charts/axes/CategoryAxisBreak";

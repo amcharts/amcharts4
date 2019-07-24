@@ -729,17 +729,22 @@ var BaseObject = /** @class */ (function () {
             else {
                 listItem = item.create();
             }
-            if ($type.isObject(entry)) {
-                // If the list item is BaseObject, we just need to let it
-                // deal if its own config
-                if (listItem instanceof BaseObject) {
-                    listItem.config = entry;
-                }
-                else if ($type.isObject(listItem) && $type.isObject(entry)) {
-                    $object.copyAllProperties(entry, listItem);
-                }
-                else {
-                    item.setIndex(item.indexOf(listItem), entry);
+            if (entry === listItem) {
+                // It's already the same item, do nothing
+            }
+            else {
+                if ($type.isObject(entry)) {
+                    // If the list item is BaseObject, we just need to let it
+                    // deal if its own config
+                    if (listItem instanceof BaseObject) {
+                        listItem.config = entry;
+                    }
+                    else if ($type.isObject(listItem) && $type.isObject(entry)) {
+                        $object.copyAllProperties(entry, listItem);
+                    }
+                    else {
+                        item.setIndex(item.indexOf(listItem), entry);
+                    }
                 }
             }
         });

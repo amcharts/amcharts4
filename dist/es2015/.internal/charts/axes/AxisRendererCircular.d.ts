@@ -15,6 +15,7 @@ import { AxisTick } from "./AxisTick";
 import { GridCircular } from "./GridCircular";
 import { AxisLabelCircular } from "./AxisLabelCircular";
 import { Percent } from "../../core/utils/Percent";
+import { Sprite } from "../../core/Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -205,6 +206,15 @@ export declare class AxisRendererCircular extends AxisRenderer {
      * @param endPosition  End position
      */
     updateTickElement(tick: AxisTick, position: number, endPosition: number): void;
+    /**
+     * Updates and positions axis bullet.
+     *
+     * @ignore Exclude from docs
+     * @param bullet       AxisBullet element
+     * @param position     Starting position
+     * @param endPosition  End position
+     */
+    updateBullet(bullet: Sprite, position: number, endPosition: number): void;
     /**
      * Updates and positions a label element.
      *

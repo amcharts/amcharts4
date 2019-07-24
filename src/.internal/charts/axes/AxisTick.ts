@@ -23,8 +23,22 @@ import { registry } from "../../core/Registry";
  * Defines properties for [[AxisTick]].
  */
 export interface IAxisTickProperties extends ITickProperties {
+	/**
+	 * Relative location of the tick. (0-1)
+	 */
 	location?: number;
+
+	/**
+	 * Draw the tick on the inside of the Axis?
+	 */
 	inside?: boolean;
+
+	/**
+	 * Normally fill goes below series. Set this to `true` to go above.
+	 *
+	 * @default false
+	 */
+	above?: boolean;
 }
 
 /**
@@ -87,6 +101,8 @@ export class AxisTick extends Tick {
 
 		this.location = 0.5;
 
+		this.above = false;
+
 		this.isMeasured = false;
 
 		this.pixelPerfect = true;
@@ -98,29 +114,64 @@ export class AxisTick extends Tick {
 		this.applyTheme();
 	}
 
-	set location(value: AxisItemLocation) {
+	/**
+	 * Relative location of the tick. (0-1)
+	 *
+	 * @param value  Location (0-1)
+	 */
+	public set location(value: AxisItemLocation) {
 		this.setPropertyValue("location", value, true);
 	}
 
-	get location(): AxisItemLocation {
+	/**
+	 * @return Location (0-1)
+	 */
+	public get location(): AxisItemLocation {
 		return this.getPropertyValue("location");
 	}
 
-	set inside(value: boolean) {
+	/**
+	 * Sets if tick should be drawn inside axis.
+	 *
+	 * @param value  Inside?
+	 */
+	public set inside(value: boolean) {
 		this.setPropertyValue("inside", value, true);
 	}
 
-	get inside(): boolean {
+	/**
+	 * Returns if label is set to be drawn inside axis.
+	 *
+	 * @return Inside?
+	 */
+	public get inside(): boolean {
 		return this.getPropertyValue("inside");
 	}
 
+	/**
+	 * Normally fill goes below series. Set this to `true` to go above.
+	 *
+	 * @default false
+	 * @since 4.5.9
+	 * @param  value  Draw above series?
+	 */
+	public set above(value: boolean) {
+		this.setPropertyValue("above", value, true);
+	}
+
+	/**
+	 * @return Draw above series?
+	 */
+	public get above(): boolean {
+		return this.getPropertyValue("above");
+	}
 
 	/**
 	 * @ignore
 	 */
-	protected setDisabled(value: boolean):boolean {
+	protected setDisabled(value: boolean): boolean {
 		let changed = super.setDisabled(value);
-		if(this.axis){
+		if (this.axis) {
 			this.axis.invalidateDataItems();
 		}
 		return changed;

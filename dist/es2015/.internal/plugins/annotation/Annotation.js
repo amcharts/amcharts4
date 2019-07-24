@@ -193,154 +193,158 @@ var Annotation = /** @class */ (function (_super) {
         });
         // Generate a unique id for indicator
         this._indicatorId = registry.getUniqueId();
-        // Add an adapter
-        target.exporting.menu.adapter.add("items", function (val) {
-            // Add annotation menu
-            val.items[0].menu.push({
-                label: target.language.translateAny("Annotate"),
+        // Add annotation menu
+        target.exporting.menu.items[0].menu.push({
+            label: target.language.translateAny("Annotate"),
+            type: "custom",
+            options: {
+                callback: this.handleClick,
+                callbackTarget: this
+            }
+        });
+        // Color list
+        var colors = [];
+        var _loop_1 = function (i) {
+            colors.push({
                 type: "custom",
+                svg: AnnotationIcons.ok,
+                color: this_1.colors[i],
                 options: {
-                    callback: _this.handleClick,
-                    callbackTarget: _this
+                    callback: function () {
+                        _this.setColor(_this.colors[i]);
+                    }
                 }
             });
-            // Color list
-            var colors = [];
-            var _loop_1 = function (i) {
-                colors.push({
-                    type: "custom",
-                    svg: AnnotationIcons.ok,
-                    color: _this.colors[i],
-                    options: {
-                        callback: function () {
-                            _this.setColor(_this.colors[i]);
-                        }
+        };
+        var this_1 = this;
+        for (var i = 0; i < this.colors.length; i++) {
+            _loop_1(i);
+        }
+        // Width list
+        var widths = [];
+        var _loop_2 = function (i) {
+            widths.push({
+                type: "custom",
+                label: this_2.widths[i] + "px",
+                options: {
+                    callback: function () {
+                        _this.setWidth(_this.widths[i]);
                     }
-                });
-            };
-            for (var i = 0; i < _this.colors.length; i++) {
-                _loop_1(i);
-            }
-            // Width list
-            var widths = [];
-            var _loop_2 = function (i) {
-                widths.push({
-                    type: "custom",
-                    label: _this.widths[i] + "px",
-                    options: {
-                        callback: function () {
-                            _this.setWidth(_this.widths[i]);
-                        }
+                }
+            });
+        };
+        var this_2 = this;
+        for (var i = 0; i < this.widths.length; i++) {
+            _loop_2(i);
+        }
+        // Opacity list
+        var opacities = [];
+        var _loop_3 = function (i) {
+            opacities.push({
+                type: "custom",
+                label: "<span style=\"opacity: " + this_3.opacities[i] + "\">" + (this_3.opacities[i] * 100) + "%</span>",
+                options: {
+                    callback: function () {
+                        _this.setOpacity(_this.opacities[i]);
                     }
-                });
-            };
-            for (var i = 0; i < _this.widths.length; i++) {
-                _loop_2(i);
-            }
-            // Opacity list
-            var opacities = [];
-            var _loop_3 = function (i) {
-                opacities.push({
-                    type: "custom",
-                    label: "<span style=\"opacity: " + _this.opacities[i] + "\">" + (_this.opacities[i] * 100) + "%</span>",
-                    options: {
-                        callback: function () {
-                            _this.setOpacity(_this.opacities[i]);
-                        }
+                }
+            });
+        };
+        var this_3 = this;
+        for (var i = 0; i < this.opacities.length; i++) {
+            _loop_3(i);
+        }
+        // Font sizes
+        var fontSizes = [];
+        var _loop_4 = function (i) {
+            fontSizes.push({
+                type: "custom",
+                label: "" + this_4.fontSizes[i],
+                options: {
+                    callback: function () {
+                        _this.setFontSize(_this.fontSizes[i]);
                     }
-                });
-            };
-            for (var i = 0; i < _this.opacities.length; i++) {
-                _loop_3(i);
-            }
-            // Font sizes
-            var fontSizes = [];
-            var _loop_4 = function (i) {
-                fontSizes.push({
-                    type: "custom",
-                    label: "" + _this.fontSizes[i],
-                    options: {
-                        callback: function () {
-                            _this.setFontSize(_this.fontSizes[i]);
-                        }
+                }
+            });
+        };
+        var this_4 = this;
+        for (var i = 0; i < this.fontSizes.length; i++) {
+            _loop_4(i);
+        }
+        // Font weights
+        var fontWeights = [];
+        var _loop_5 = function (i) {
+            fontWeights.push({
+                type: "custom",
+                label: "" + this_5.fontWeights[i],
+                options: {
+                    callback: function () {
+                        _this.setFontWeight(_this.fontWeights[i]);
                     }
-                });
-            };
-            for (var i = 0; i < _this.fontSizes.length; i++) {
-                _loop_4(i);
-            }
-            // Font weights
-            var fontWeights = [];
-            var _loop_5 = function (i) {
-                fontWeights.push({
-                    type: "custom",
-                    label: "" + _this.fontWeights[i],
-                    options: {
-                        callback: function () {
-                            _this.setFontWeight(_this.fontWeights[i]);
-                        }
+                }
+            });
+        };
+        var this_5 = this;
+        for (var i = 0; i < this.fontWeights.length; i++) {
+            _loop_5(i);
+        }
+        // Icons
+        var icons = [];
+        var _loop_6 = function (i) {
+            icons.push({
+                type: "custom",
+                svg: this_6.icons[i],
+                options: {
+                    callback: function () {
+                        _this.addIcon(_this.icons[i]);
                     }
-                });
-            };
-            for (var i = 0; i < _this.fontWeights.length; i++) {
-                _loop_5(i);
-            }
-            // Icons
-            var icons = [];
-            var _loop_6 = function (i) {
-                icons.push({
+                }
+            });
+        };
+        var this_6 = this;
+        for (var i = 0; i < this.icons.length; i++) {
+            _loop_6(i);
+        }
+        // Construct main menu item
+        var id = this._indicatorId;
+        //let mainitem = this.target.exporting.menu.createSvgElement(0, "custom", AnnotationIcons.select).outerHTML;
+        var mainitem = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1\" viewBox=\"0 0 24 24\"></svg>";
+        mainitem += "<span class=\"" + id + "_color\" style=\"display: block; background-color: " + this.currentColor.hex + "; width: 1.2em; height: 1.2em; margin: 0.2em auto 0.4em auto;\"></span>";
+        // Add annotation tools menu
+        this._menu = {
+            hidden: !this.active,
+            // icon: AnnotationIcons.select,
+            label: mainitem,
+            id: this._indicatorId,
+            menu: [{
                     type: "custom",
-                    svg: _this.icons[i],
-                    options: {
-                        callback: function () {
-                            _this.addIcon(_this.icons[i]);
-                        }
-                    }
-                });
-            };
-            for (var i = 0; i < _this.icons.length; i++) {
-                _loop_6(i);
-            }
-            // Construct main menu item
-            var id = _this._indicatorId;
-            //let mainitem = this.target.exporting.menu.createSvgElement(0, "custom", AnnotationIcons.select).outerHTML;
-            var mainitem = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1\" viewBox=\"0 0 24 24\"></svg>";
-            mainitem += "<span class=\"" + id + "_color\" style=\"display: block; background-color: " + _this.currentColor.hex + "; width: 1.2em; height: 1.2em; margin: 0.2em auto 0.4em auto;\"></span>";
-            // Add annotation tools menu
-            _this._menu = {
-                hidden: !_this.active,
-                // icon: AnnotationIcons.select,
-                label: mainitem,
-                id: _this._indicatorId,
-                menu: [{
-                        type: "custom",
-                        svg: AnnotationIcons.tools,
-                        label: target.language.translateAny("Tools"),
-                        menu: [{
-                                type: "custom",
-                                svg: AnnotationIcons.select,
-                                label: target.language.translateAny("Select"),
-                                options: {
-                                    callback: _this.select,
-                                    callbackTarget: _this
-                                }
-                            }, {
-                                type: "custom",
-                                svg: AnnotationIcons.draw,
-                                label: target.language.translateAny("Draw"),
-                                options: {
-                                    callback: _this.draw,
-                                    callbackTarget: _this
-                                }
-                            }, {
-                                type: "custom",
-                                svg: AnnotationIcons.line,
-                                label: target.language.translateAny("Line"),
-                                options: {
-                                    callback: _this.line,
-                                    callbackTarget: _this
-                                }
-                            } /*, {
+                    svg: AnnotationIcons.tools,
+                    label: target.language.translateAny("Tools"),
+                    menu: [{
+                            type: "custom",
+                            svg: AnnotationIcons.select,
+                            label: target.language.translateAny("Select"),
+                            options: {
+                                callback: this.select,
+                                callbackTarget: this
+                            }
+                        }, {
+                            type: "custom",
+                            svg: AnnotationIcons.draw,
+                            label: target.language.translateAny("Draw"),
+                            options: {
+                                callback: this.draw,
+                                callbackTarget: this
+                            }
+                        }, {
+                            type: "custom",
+                            svg: AnnotationIcons.line,
+                            label: target.language.translateAny("Line"),
+                            options: {
+                                callback: this.line,
+                                callbackTarget: this
+                            }
+                        } /*, {
                                 type: "custom",
                                 svg: AnnotationIcons.arrow,
                                 label: target.language.translateAny("Arrow"),
@@ -349,86 +353,84 @@ var Annotation = /** @class */ (function (_super) {
                                     callbackTarget: this
                                 }
                             }*/,
-                            {
-                                type: "custom",
-                                svg: AnnotationIcons.width,
-                                label: target.language.translateAny("Weight"),
-                                menu: widths
-                            }, {
-                                type: "custom",
-                                svg: AnnotationIcons.delete,
-                                label: target.language.translateAny("Delete"),
-                                options: {
-                                    callback: _this.delete,
-                                    callbackTarget: _this
-                                }
-                            }]
-                    }, {
-                        type: "custom",
-                        svg: AnnotationIcons.text,
-                        label: target.language.translateAny("Text"),
-                        menu: [{
-                                type: "custom",
-                                svg: AnnotationIcons.textAdd,
-                                label: target.language.translateAny("Add"),
-                                options: {
-                                    callback: _this.addText,
-                                    callbackTarget: _this
-                                }
-                            }, {
-                                type: "custom",
-                                svg: AnnotationIcons.textWeight,
-                                label: target.language.translateAny("Weight"),
-                                menu: fontWeights
-                            }, {
-                                type: "custom",
-                                svg: AnnotationIcons.textSize,
-                                label: target.language.translateAny("Size"),
-                                menu: fontSizes
-                            }]
-                    }, {
-                        type: "custom",
-                        svg: AnnotationIcons.colors,
-                        label: target.language.translateAny("Color"),
-                        menu: colors
-                    }, {
-                        type: "custom",
-                        svg: AnnotationIcons.opacity,
-                        label: target.language.translateAny("Opacity"),
-                        menu: opacities
-                    }, {
-                        type: "custom",
-                        svg: AnnotationIcons.icon,
-                        label: target.language.translateAny("Icon"),
-                        menu: icons
-                    }, {
-                        type: "custom",
-                        svg: AnnotationIcons.more,
-                        label: target.language.translateAny("More"),
-                        menu: [
-                            {
-                                type: "custom",
-                                svg: AnnotationIcons.done,
-                                label: target.language.translateAny("Done"),
-                                options: {
-                                    callback: _this.deactivate,
-                                    callbackTarget: _this
-                                }
-                            }, {
-                                type: "custom",
-                                svg: AnnotationIcons.discard,
-                                label: target.language.translateAny("Discard"),
-                                options: {
-                                    callback: _this.discard,
-                                    callbackTarget: _this
-                                }
+                        {
+                            type: "custom",
+                            svg: AnnotationIcons.width,
+                            label: target.language.translateAny("Weight"),
+                            menu: widths
+                        }, {
+                            type: "custom",
+                            svg: AnnotationIcons.delete,
+                            label: target.language.translateAny("Delete"),
+                            options: {
+                                callback: this.delete,
+                                callbackTarget: this
                             }
-                        ]
-                    }]
-            };
-            val.items.push(_this._menu);
-            return val;
-        });
+                        }]
+                }, {
+                    type: "custom",
+                    svg: AnnotationIcons.text,
+                    label: target.language.translateAny("Text"),
+                    menu: [{
+                            type: "custom",
+                            svg: AnnotationIcons.textAdd,
+                            label: target.language.translateAny("Add"),
+                            options: {
+                                callback: this.addText,
+                                callbackTarget: this
+                            }
+                        }, {
+                            type: "custom",
+                            svg: AnnotationIcons.textWeight,
+                            label: target.language.translateAny("Weight"),
+                            menu: fontWeights
+                        }, {
+                            type: "custom",
+                            svg: AnnotationIcons.textSize,
+                            label: target.language.translateAny("Size"),
+                            menu: fontSizes
+                        }]
+                }, {
+                    type: "custom",
+                    svg: AnnotationIcons.colors,
+                    label: target.language.translateAny("Color"),
+                    menu: colors
+                }, {
+                    type: "custom",
+                    svg: AnnotationIcons.opacity,
+                    label: target.language.translateAny("Opacity"),
+                    menu: opacities
+                }, {
+                    type: "custom",
+                    svg: AnnotationIcons.icon,
+                    label: target.language.translateAny("Icon"),
+                    menu: icons
+                }, {
+                    type: "custom",
+                    svg: AnnotationIcons.more,
+                    label: target.language.translateAny("More"),
+                    menu: [
+                        {
+                            type: "custom",
+                            svg: AnnotationIcons.done,
+                            label: target.language.translateAny("Done"),
+                            options: {
+                                callback: this.deactivate,
+                                callbackTarget: this
+                            }
+                        }, {
+                            type: "custom",
+                            svg: AnnotationIcons.discard,
+                            label: target.language.translateAny("Discard"),
+                            options: {
+                                callback: this.discard,
+                                callbackTarget: this
+                            }
+                        }
+                    ]
+                }]
+        };
+        target.exporting.menu.items.push(this._menu);
         this._exportInited = true;
     };
     /**

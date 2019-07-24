@@ -405,6 +405,9 @@ var CategoryAxis = /** @class */ (function (_super) {
                 this.fillRule(dataItem, itemIndex);
             }
         }
+        if (dataItem.bullet) {
+            renderer.updateBullet(dataItem.bullet, position, endPosition);
+        }
         var mask = dataItem.mask;
         if (mask) {
             renderer.updateFillElement(mask, fillPosition, fillEndPosition);

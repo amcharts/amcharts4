@@ -33,6 +33,12 @@ export interface IGridProperties extends ISpriteProperties {
 	 */
 	location?: AxisItemLocation;
 
+	/**
+	 * Normally fill goes below series. Set this to `true` to go above.
+	 *
+	 * @default false
+	 */
+	above?: boolean;
 }
 
 /**
@@ -101,6 +107,7 @@ export class Grid extends Sprite {
 
 		this.location = 0.5;
 		this.isMeasured = false;
+		this.above = false;
 
 		let interfaceColors = new InterfaceColorSet();
 		this.stroke = interfaceColors.getFor("grid");
@@ -132,13 +139,30 @@ export class Grid extends Sprite {
 		return this.getPropertyValue("location");
 	}
 
+	/**
+	 * Normally fill goes below series. Set this to `true` to go above.
+	 *
+	 * @default false
+	 * @since 4.5.9
+	 * @param  value  Draw above series?
+	 */
+	public set above(value: boolean) {
+		this.setPropertyValue("above", value, true);
+	}
+
+	/**
+	 * @return Draw above series?
+	 */
+	public get above(): boolean {
+		return this.getPropertyValue("above");
+	}
 
 	/**
 	 * @ignore
 	 */
-	protected setDisabled(value: boolean):boolean {
+	protected setDisabled(value: boolean): boolean {
 		let changed = super.setDisabled(value);
-		if(this.axis){
+		if (this.axis) {
 			this.axis.invalidateDataItems();
 		}
 		return changed;

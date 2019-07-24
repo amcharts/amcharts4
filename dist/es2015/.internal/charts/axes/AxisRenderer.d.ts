@@ -131,6 +131,10 @@ export declare class AxisRenderer extends Container {
      */
     gridContainer: Container;
     /**
+     * A [[Container]] holding all of the axis bullets.
+     */
+    bulletsContainer: Container;
+    /**
      * A [[Container]] holding all of the [[AxisBreak]] elements.
      */
     breakContainer: Container;
@@ -293,6 +297,15 @@ export declare class AxisRenderer extends Container {
      * @param endPosition  End position
      */
     updateTickElement(tick: AxisTick, position: number, endPosition: number): void;
+    /**
+     * Updates and positions axis bullet.
+     *
+     * @ignore Exclude from docs
+     * @param bullet       AxisBullet element
+     * @param position     Starting position
+     * @param endPosition  End position
+     */
+    updateBullet(bullet: Sprite, position: number, endPosition: number): void;
     /**
      * Updates and positions a label element.
      *
@@ -627,4 +640,14 @@ export declare class AxisRenderer extends Container {
      * @ignore
      */
     toAxisPosition(value: number): number;
+    /**
+     * Sets `visibility` property:
+     *
+     * * `true` - visible
+     * * `false` - hidden
+     *
+     * @param value  true - visible, false - hidden
+     * @return Current visibility
+     */
+    setVisibility(value: boolean): void;
 }

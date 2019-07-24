@@ -21,7 +21,8 @@ import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
-
+import { Sprite } from "../../core/Sprite";
+import { AxisBullet } from "./AxisBullet";
 /**
  * ============================================================================
  * REQUISITES
@@ -387,6 +388,33 @@ export class AxisRendererCircular extends AxisRenderer {
 		}
 
 		this.toggleVisibility(tick, position, 0, 1);
+	}
+
+	/**
+	 * Updates and positions axis bullet.
+	 *
+	 * @ignore Exclude from docs
+	 * @param bullet       AxisBullet element
+	 * @param position     Starting position
+	 * @param endPosition  End position
+	 */
+	public updateBullet(bullet: Sprite, position: number, endPosition: number): void {
+		let location = 0.5;
+		if (bullet instanceof AxisBullet) {
+			location = bullet.location;
+		}
+
+		position = position + (endPosition - position) * location;
+
+		let point: IPoint = this.positionToPoint(position);
+		let radius: number = this.pixelRadius;
+		let angle: number = $math.DEGREES * Math.atan2(point.y, point.x);		
+
+		point = { x: radius * $math.cos(angle), y: radius * $math.sin(angle) }
+
+		this.positionItem(bullet, point);
+
+		this.toggleVisibility(bullet, position, 0, 1);
 	}
 
 	/**

@@ -258,17 +258,6 @@ var Responsive = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Responsive.prototype.checkRules = function () {
-        // Check if default rules need to be loaded
-        // If needed, we wait until it's loaded and then call `checkRules` again
-        // This is not needed anymore since we are now populating public variable
-        // `defaultRules` by each class indidividually
-        /*if (this.useDefault && this.defaultRules.length == 0) {
-            this.loadDefaultRules().then((res) => {
-                this._defaultRules.setAll(res.default);
-                this.checkRules();
-            });
-            return;
-        }*/
         var _this = this;
         // Check if there are any rules
         var rules = this.allRules;
@@ -294,6 +283,18 @@ var Responsive = /** @class */ (function (_super) {
         });
         // Check if we need to re-apply the rules
         if (rulesChanged) {
+            if (!this.component.isReady()) {
+                // The chart is not yet ready (built)
+                // We will hide the chart and delay application of rules
+                // until "ready" event kicks in
+                //component.hide(0);
+                component.hidden = true;
+                component.events.once("ready", function (ev) {
+                    _this.applyRules();
+                    ev.target.show(0);
+                });
+                return;
+            }
             this.dispatchImmediately("ruleschanged");
             this.applyRules();
         }
@@ -330,6 +331,7 @@ var Responsive = /** @class */ (function (_super) {
                     // Is this rule currently applied?
                     if (_this.isApplied($type.getValue(rule.id))) {
                         // Yes. Apply the responsive state
+                        state.transitionDuration = 0;
                         newTarget.setState(state);
                         _this.dispatchImmediately("ruleapplied", {
                             rule: rule

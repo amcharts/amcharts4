@@ -1088,6 +1088,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				renderer.updateFillElement(mask, position, endPosition);
 			}
 
+			if(dataItem.bullet){
+				renderer.updateBullet(dataItem.bullet, position, endPosition);
+			}
+
 			let label: AxisLabel = dataItem.label;
 			if (label && !label.disabled) {
 				let location = label.location;

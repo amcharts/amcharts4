@@ -57,6 +57,7 @@ export { AxisLine } from "./.internal/charts/axes/AxisLine";
 export { AxisFill } from "./.internal/charts/axes/AxisFill";
 export { AxisRenderer } from "./.internal/charts/axes/AxisRenderer";
 export { AxisBreak } from "./.internal/charts/axes/AxisBreak";
+export { AxisBullet } from "./.internal/charts/axes/AxisBullet";
 export { ValueAxisDataItem, ValueAxis } from "./.internal/charts/axes/ValueAxis";
 export { CategoryAxisDataItem, CategoryAxis } from "./.internal/charts/axes/CategoryAxis";
 export { CategoryAxisBreak } from "./.internal/charts/axes/CategoryAxisBreak";

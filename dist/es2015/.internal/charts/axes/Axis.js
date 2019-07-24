@@ -456,6 +456,9 @@ var AxisDataItem = /** @class */ (function (_super) {
     AxisDataItem.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
         this.text = source.text;
+        if (source.bullet) {
+            this.bullet = source.bullet.clone();
+        }
     };
     /**
      * Sets visibility of the Data Item.
@@ -468,6 +471,74 @@ var AxisDataItem = /** @class */ (function (_super) {
             this._contents.visible = value;
         }
     };
+    Object.defineProperty(AxisDataItem.prototype, "bullet", {
+        /**
+         * @return Bullet
+         */
+        get: function () {
+            return this._bullet;
+        },
+        /**
+         * Set it to an instance of any [[Sprite]]. It will be displayed as an axis
+         * bullet in the middle of the cell, or specific value.
+         *
+         * If you need position bullet relatively to the cell, use [[AxisBullet]]
+         * instead. It has a `location` property which can be used to indicate
+         * precise relative location within cell/range.
+         *
+         * Also, [[AxisBullet]] is a [[Container]] so you can push any other element
+         * into it.
+         *
+         * NOTE: `location` is relative to the parent axis range's scope, i.e.
+         * between its `date` and `endDate` for [[DateAxis]], or `value`/`endValue`
+         * ([[ValueAxis]]), or `category`/`endCategory` ([[categoryAxis]]).
+         *
+         * ```TypeScript
+         * let range = dateAxis.axisRanges.create();
+         * range.date = new Date(2018, 0, 5);
+         *
+         * let flag = new am4plugins_bullets.FlagBullet();
+         * flag.label.text = "Hello";
+         *
+         * range.bullet = flag;
+         * ```
+         * ```JavaScript
+         * var range = dateAxis.axisRanges.create();
+         * range.date = new Date(2018, 0, 5);
+         *
+         * var flag = new am4plugins_bullets.FlagBullet();
+         * flag.label.text = "Hello";
+         *
+         * range.bullet = flag;
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "xAxes": [{
+         *     "type": "DateAxis",
+         *     // ...
+         *     "axisRanges": [{
+         *       "date": new Date(2018, 0, 5),
+         *       "bullet: {
+         *         "type": "FlagBullet",
+         *         "label": {
+         *           "text": "Hello"
+         *         }
+         *       }
+         *     }]
+         *   }]
+         * }
+         * ```
+         *
+         * @since 4.5.9
+         * @param  value  Bullet
+         */
+        set: function (value) {
+            this._bullet = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return AxisDataItem;
 }(DataItem));
 export { AxisDataItem };
@@ -662,17 +733,38 @@ var Axis = /** @class */ (function (_super) {
      */
     Axis.prototype.appendDataItem = function (dataItem) {
         var renderer = this.renderer;
-        if (dataItem.tick) {
-            dataItem.tick.parent = renderer.gridContainer;
+        var tick = dataItem.tick;
+        if (tick) {
+            if (tick.above) {
+                tick.parent = renderer.bulletsContainer;
+            }
+            else {
+                tick.parent = renderer.gridContainer;
+            }
         }
         if (dataItem.label) {
             dataItem.label.parent = renderer;
         }
-        if (dataItem.grid) {
-            dataItem.grid.parent = renderer.gridContainer;
+        var grid = dataItem.grid;
+        if (grid) {
+            if (grid.above) {
+                grid.parent = renderer.bulletsContainer;
+            }
+            else {
+                grid.parent = renderer.gridContainer;
+            }
         }
-        if (dataItem.axisFill) {
-            dataItem.axisFill.parent = renderer.gridContainer;
+        var axisFill = dataItem.axisFill;
+        if (axisFill) {
+            if (axisFill.above) {
+                axisFill.parent = renderer.bulletsContainer;
+            }
+            else {
+                axisFill.parent = renderer.gridContainer;
+            }
+        }
+        if (dataItem.bullet) {
+            dataItem.bullet.parent = renderer.bulletsContainer;
         }
     };
     /**

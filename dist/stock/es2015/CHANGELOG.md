@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.9] - 2019-07-24
+
+### Added
+- `above` property added to `AxisTick`, `Grid`, and `AxisFill`. Allows putting individual elements on top of the series even if all the other grids/ticks/axis fills are below them.
+- `bullet` property added to `AxisDataItem`. Allows adding bullets to the axes. You can have both `AxisBullet` (new class) or a simple `Sprite` there.
+- New element class `AxisBullet`. Use `AxisBullet` which is a container with a `location` property in case you want to adjust bullet location within cell.
+
+### Fixed
+- JSON: Series-bound axis ranges were breaking whole chart in JSON-based setups.
+- In some rare cases `NumberFormatter` was suffering from floating point number precision issue when calculating big number prefixes.
+- Updating data was causing Annotation menu item to duplicate.
+- Exporting `extraSprites` with different positions didn't work.
+- Responsive rules were not always kicking in on first load if there were multiple charts on the same page.
+
+
 ## [4.5.8] - 2019-07-19
 
 ### Added

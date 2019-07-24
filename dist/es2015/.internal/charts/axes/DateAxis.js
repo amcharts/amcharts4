@@ -845,6 +845,9 @@ var DateAxis = /** @class */ (function (_super) {
             if (mask) {
                 renderer.updateFillElement(mask, position, endPosition);
             }
+            if (dataItem.bullet) {
+                renderer.updateBullet(dataItem.bullet, position, endPosition);
+            }
             var label = dataItem.label;
             if (label && !label.disabled) {
                 var location_1 = label.location;

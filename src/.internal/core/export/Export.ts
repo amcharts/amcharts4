@@ -1594,10 +1594,10 @@ export class Export extends Validatable {
 		if (this.extraSprites.length) {
 			let middleLeft = 0;
 			let middleTop = 0;
-			let middleRight = canvas.width;
-			let middleBottom = canvas.height;
-			let totalWidth = canvas.width;
-			let totalHeight = canvas.height;
+			let middleWidth = canvas.width;
+			let middleHeight = canvas.height;
+			let extraRight = 0;
+			let extraBottom = 0;
 
 			const extras = await Promise.all($array.map(this.extraSprites, async (extraSprite) => {
 				// Get that extra
@@ -1633,22 +1633,20 @@ export class Export extends Validatable {
 				const extraHeight = extraCanvas.height + extra.marginTop + extra.marginBottom;
 
 				if (extra.position == "top") {
-					middleRight = $math.max(middleRight, extraWidth);
-					totalHeight += extraHeight;
+					middleWidth = $math.max(middleWidth, extraWidth);
 					middleTop += extraHeight;
 
 				} else if (extra.position == "right") {
-					middleBottom = $math.max(middleBottom, extraHeight);
-					totalWidth += extraWidth;
+					middleHeight = $math.max(middleHeight, extraHeight);
+					extraRight += extraWidth;
 
 				} else if (extra.position == "left") {
-					middleBottom = $math.max(middleBottom, extraHeight);
-					totalWidth += extraWidth;
+					middleHeight = $math.max(middleHeight, extraHeight);
 					middleLeft += extraWidth;
 
 				} else if (extra.position === "bottom") {
-					middleRight = $math.max(middleRight, extraWidth);
-					totalHeight += extraHeight;
+					middleWidth = $math.max(middleWidth, extraWidth);
+					extraBottom += extraHeight;
 				}
 
 				return {
@@ -1663,8 +1661,8 @@ export class Export extends Validatable {
 
 			const newCanvas = this.getDisposableCanvas();
 
-			newCanvas.width = totalWidth;
-			newCanvas.height = totalHeight;
+			newCanvas.width = middleLeft + middleWidth + extraRight;
+			newCanvas.height = middleTop + middleHeight + extraBottom;
 
 			const ctx = newCanvas.getContext("2d");
 
@@ -1678,8 +1676,8 @@ export class Export extends Validatable {
 
 			let left = middleLeft;
 			let top = middleTop;
-			let right = middleRight;
-			let bottom = middleBottom;
+			let right = left + middleWidth;
+			let bottom = top + middleHeight;
 
 			// Radiates outwards from center
 			$array.each(extras, (extra) => {

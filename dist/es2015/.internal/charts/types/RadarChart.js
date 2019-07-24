@@ -96,6 +96,7 @@ var RadarChart = /** @class */ (function (_super) {
         _this.seriesContainer.parent = radarContainer;
         _this.radarContainer = radarContainer;
         _this.bulletsContainer.parent = radarContainer;
+        _this.axisBulletsContainer = radarContainer;
         _this._cursorContainer = radarContainer;
         _this._bulletMask = radarContainer.createChild(Circle);
         _this._bulletMask.shouldClone = false;

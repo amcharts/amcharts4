@@ -28,6 +28,12 @@ export interface IAxisFillProperties extends ISpriteProperties {
      * Location within the axis.
      */
     location?: number;
+    /**
+     * Normally fill goes below series. Set this to `true` to go above.
+     *
+     * @default false
+     */
+    above?: boolean;
 }
 /**
  * Defines events for [[AxisFill]].
@@ -136,4 +142,15 @@ export declare class AxisFill extends Sprite {
      * @ignore
      */
     protected setPath(value: string): boolean;
+    /**
+     * @return Draw above series?
+     */
+    /**
+     * Normally fill goes below series. Set this to `true` to go above.
+     *
+     * @default false
+     * @since 4.5.9
+     * @param  value  Draw above series?
+     */
+    above: boolean;
 }

@@ -507,6 +507,9 @@ var ValueAxis = /** @class */ (function (_super) {
                 this.fillRule(dataItem);
             }
         }
+        if (dataItem.bullet) {
+            renderer.updateBullet(dataItem.bullet, position, endPosition);
+        }
         var mask = dataItem.mask;
         if (mask) {
             renderer.updateFillElement(mask, position, fillEndPosition);

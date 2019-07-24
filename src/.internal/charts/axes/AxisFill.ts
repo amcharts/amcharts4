@@ -37,6 +37,13 @@ export interface IAxisFillProperties extends ISpriteProperties {
 	 * Location within the axis.
 	 */
 	location?: number;
+
+	/**
+	 * Normally fill goes below series. Set this to `true` to go above.
+	 *
+	 * @default false
+	 */
+	above?: boolean;
 }
 
 /**
@@ -123,6 +130,8 @@ export class AxisFill extends Sprite {
 
 		this.location = 0;
 
+		this.above = false;
+
 		let interfaceColors = new InterfaceColorSet();
 
 		this.fill = interfaceColors.getFor("alternativeBackground");
@@ -134,9 +143,9 @@ export class AxisFill extends Sprite {
 	/**
 	 * @ignore
 	 */
-	protected setDisabled(value: boolean):boolean {
+	protected setDisabled(value: boolean): boolean {
 		let changed = super.setDisabled(value);
-		if(this.axis){
+		if (this.axis) {
 			this.axis.invalidateDataItems();
 		}
 		return changed;
@@ -208,13 +217,31 @@ export class AxisFill extends Sprite {
 	/**
 	 * @ignore
 	 */
-	protected setPath(value:string):boolean {
-		if(this.setPropertyValue("path", value)){
+	protected setPath(value: string): boolean {
+		if (this.setPropertyValue("path", value)) {
 			this.element.attr({ "d": value });
 			return true;
 		}
 		return false;
-	}	
+	}
+
+	/**
+	 * Normally fill goes below series. Set this to `true` to go above.
+	 *
+	 * @default false
+	 * @since 4.5.9
+	 * @param  value  Draw above series?
+	 */
+	public set above(value: boolean) {
+		this.setPropertyValue("above", value, true);
+	}
+
+	/**
+	 * @return Draw above series?
+	 */
+	public get above(): boolean {
+		return this.getPropertyValue("above");
+	}
 
 }
 

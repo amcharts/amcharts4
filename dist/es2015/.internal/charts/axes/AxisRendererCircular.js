@@ -18,6 +18,7 @@ import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
+import { AxisBullet } from "./AxisBullet";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -279,6 +280,27 @@ var AxisRendererCircular = /** @class */ (function (_super) {
             tick.path = $path.moveTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) }) + $path.lineTo({ x: (radius + tickLength) * $math.cos(angle), y: (radius + tickLength) * $math.sin(angle) });
         }
         this.toggleVisibility(tick, position, 0, 1);
+    };
+    /**
+     * Updates and positions axis bullet.
+     *
+     * @ignore Exclude from docs
+     * @param bullet       AxisBullet element
+     * @param position     Starting position
+     * @param endPosition  End position
+     */
+    AxisRendererCircular.prototype.updateBullet = function (bullet, position, endPosition) {
+        var location = 0.5;
+        if (bullet instanceof AxisBullet) {
+            location = bullet.location;
+        }
+        position = position + (endPosition - position) * location;
+        var point = this.positionToPoint(position);
+        var radius = this.pixelRadius;
+        var angle = $math.DEGREES * Math.atan2(point.y, point.x);
+        point = { x: radius * $math.cos(angle), y: radius * $math.sin(angle) };
+        this.positionItem(bullet, point);
+        this.toggleVisibility(bullet, position, 0, 1);
     };
     /**
      * Updates and positions a label element.

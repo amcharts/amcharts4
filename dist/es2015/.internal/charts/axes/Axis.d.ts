@@ -9,6 +9,7 @@
  */
 import { Component, IComponentProperties, IComponentDataFields, IComponentAdapters, IComponentEvents } from "../../core/Component";
 import { Container } from "../../core/Container";
+import { Sprite } from "../../core/Sprite";
 import { DataItem, IDataItemAdapters } from "../../core/DataItem";
 import { Grid } from "./Grid";
 import { AxisTick } from "./AxisTick";
@@ -95,6 +96,10 @@ export declare class AxisDataItem extends DataItem {
      * relative position of data item on axis
      */
     position: number;
+    /**
+     * @ignore
+     */
+    protected _bullet: Sprite;
     /**
      * Constructor
      */
@@ -219,6 +224,65 @@ export declare class AxisDataItem extends DataItem {
      * @param value Data Item
      */
     setVisibility(value: boolean, noChangeValues?: boolean): void;
+    /**
+     * @return Bullet
+     */
+    /**
+     * Set it to an instance of any [[Sprite]]. It will be displayed as an axis
+     * bullet in the middle of the cell, or specific value.
+     *
+     * If you need position bullet relatively to the cell, use [[AxisBullet]]
+     * instead. It has a `location` property which can be used to indicate
+     * precise relative location within cell/range.
+     *
+     * Also, [[AxisBullet]] is a [[Container]] so you can push any other element
+     * into it.
+     *
+     * NOTE: `location` is relative to the parent axis range's scope, i.e.
+     * between its `date` and `endDate` for [[DateAxis]], or `value`/`endValue`
+     * ([[ValueAxis]]), or `category`/`endCategory` ([[categoryAxis]]).
+     *
+     * ```TypeScript
+     * let range = dateAxis.axisRanges.create();
+     * range.date = new Date(2018, 0, 5);
+     *
+     * let flag = new am4plugins_bullets.FlagBullet();
+     * flag.label.text = "Hello";
+     *
+     * range.bullet = flag;
+     * ```
+     * ```JavaScript
+     * var range = dateAxis.axisRanges.create();
+     * range.date = new Date(2018, 0, 5);
+     *
+     * var flag = new am4plugins_bullets.FlagBullet();
+     * flag.label.text = "Hello";
+     *
+     * range.bullet = flag;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "xAxes": [{
+     *     "type": "DateAxis",
+     *     // ...
+     *     "axisRanges": [{
+     *       "date": new Date(2018, 0, 5),
+     *       "bullet: {
+     *         "type": "FlagBullet",
+     *         "label": {
+     *           "text": "Hello"
+     *         }
+     *       }
+     *     }]
+     *   }]
+     * }
+     * ```
+     *
+     * @since 4.5.9
+     * @param  value  Bullet
+     */
+    bullet: Sprite;
 }
 /**
  * Defines adapters for [[AxisDataItem]]

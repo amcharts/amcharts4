@@ -79,6 +79,13 @@ var AxisRenderer = /** @class */ (function (_super) {
         breakContainer.width = percent(100);
         breakContainer.height = percent(100);
         _this.breakContainer = breakContainer;
+        var bulletsContainer = _this.createChild(Container);
+        bulletsContainer.shouldClone = false;
+        bulletsContainer.isMeasured = false;
+        bulletsContainer.layout = "none";
+        bulletsContainer.width = percent(100);
+        bulletsContainer.height = percent(100);
+        _this.bulletsContainer = bulletsContainer;
         _this.line = _this.createChild(AxisLine);
         _this.line.shouldClone = false;
         _this.line.strokeOpacity = 0;
@@ -91,6 +98,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         disposers.push(_this.line);
         disposers.push(gridContainer);
         disposers.push(breakContainer);
+        disposers.push(bulletsContainer);
         disposers.push(_this._chart);
         _this.ticks.template.disabled = true;
         _this.axisFills.template.disabled = true;
@@ -307,6 +315,17 @@ var AxisRenderer = /** @class */ (function (_super) {
      * @param endPosition  End position
      */
     AxisRenderer.prototype.updateTickElement = function (tick, position, endPosition) {
+        // This is a placeholder method for extending classes to override.
+    };
+    /**
+     * Updates and positions axis bullet.
+     *
+     * @ignore Exclude from docs
+     * @param bullet       AxisBullet element
+     * @param position     Starting position
+     * @param endPosition  End position
+     */
+    AxisRenderer.prototype.updateBullet = function (bullet, position, endPosition) {
         // This is a placeholder method for extending classes to override.
     };
     /**
@@ -868,6 +887,19 @@ var AxisRenderer = /** @class */ (function (_super) {
      */
     AxisRenderer.prototype.toAxisPosition = function (value) {
         return value;
+    };
+    /**
+     * Sets `visibility` property:
+     *
+     * * `true` - visible
+     * * `false` - hidden
+     *
+     * @param value  true - visible, false - hidden
+     * @return Current visibility
+     */
+    AxisRenderer.prototype.setVisibility = function (value) {
+        _super.prototype.setVisibility.call(this, value);
+        this.bulletsContainer.visible = value;
     };
     return AxisRenderer;
 }(Container));

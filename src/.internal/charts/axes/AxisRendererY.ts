@@ -27,6 +27,7 @@ import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
 import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive";
+import { AxisBullet } from "./AxisBullet";
 
 /**
  * ============================================================================
@@ -158,7 +159,7 @@ export class AxisRendererY extends AxisRenderer {
 			let title: Label = axis.title;
 			title.valign = "middle";
 
-			if(!(axis.height instanceof Percent)){
+			if (!(axis.height instanceof Percent)) {
 				axis.height = percent(100);
 			}
 
@@ -501,6 +502,31 @@ export class AxisRendererY extends AxisRenderer {
 		return $math.round(coordinate, 1);
 	}
 
+
+	/**
+	 * Updates and positions axis bullets.
+	 *
+	 * @ignore Exclude from docs
+	 * @param bullet       AxisBullet element
+	 * @param position     Starting position
+	 * @param endPosition  End position
+	 */
+	public updateBullet(bullet: Sprite, position: number, endPosition: number): void {
+
+		let location = 0.5;
+		if (bullet instanceof AxisBullet) {
+			location = bullet.location;
+		}
+
+		position = position + (endPosition - position) * location;
+		let point: IPoint = this.positionToPoint(position);
+
+		point.x = $utils.spritePointToSprite({ x: this.line.pixelX, y: 0 }, this.line.parent, this.gridContainer).x;
+
+		this.positionItem(bullet, point);
+
+		this.toggleVisibility(bullet, position, 0, 1);
+	}
 }
 
 /**

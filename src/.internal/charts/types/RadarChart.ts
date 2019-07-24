@@ -230,6 +230,7 @@ export class RadarChart extends XYChart {
 		this.seriesContainer.parent = radarContainer;
 		this.radarContainer = radarContainer;
 		this.bulletsContainer.parent = radarContainer;
+		this.axisBulletsContainer = radarContainer;
 
 		this._cursorContainer = radarContainer;
 

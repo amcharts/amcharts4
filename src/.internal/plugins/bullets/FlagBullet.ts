@@ -14,7 +14,7 @@ import { Label } from "../../core/elements/Label";
 import { WavedRectangle } from "../../core/elements/WavedRectangle";
 import { Line } from "../../core/elements/Line";
 import { Sprite } from "../../core/Sprite";
-
+import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 
 /**
  * ============================================================================
@@ -152,6 +152,7 @@ export class FlagBullet extends Bullet {
 		super();
 
 		this.className = "FlagBullet";
+		this.layout = "absolute";
 
 		let background = this.background;
 		background.fillOpacity = 1;
@@ -159,6 +160,10 @@ export class FlagBullet extends Bullet {
 		background.waveHeight = 1.5;
 		background.waveLength = 7;
 		background.setWavedSides(true, false, true, false);
+		background.strokeOpacity = 1;
+
+		let interfaceColors = new InterfaceColorSet();
+		this.stroke = interfaceColors.getFor("alternativeBackground");
 
 		this.pole = this.createChild(Line);
 		this.pole.strokeOpacity = 1;

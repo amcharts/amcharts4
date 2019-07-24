@@ -8,6 +8,7 @@
  * @hidden
  */
 import { AxisRenderer, IAxisRendererProperties, IAxisRendererAdapters, IAxisRendererEvents } from "./AxisRenderer";
+import { Sprite } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { Axis } from "./Axis";
 import { Grid } from "./Grid";
@@ -193,4 +194,13 @@ export declare class AxisRendererY extends AxisRenderer {
      * @return Coordinate (px)
      */
     positionToCoordinate(position: number): number;
+    /**
+     * Updates and positions axis bullets.
+     *
+     * @ignore Exclude from docs
+     * @param bullet       AxisBullet element
+     * @param position     Starting position
+     * @param endPosition  End position
+     */
+    updateBullet(bullet: Sprite, position: number, endPosition: number): void;
 }

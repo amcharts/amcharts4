@@ -9,6 +9,7 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { AxisRenderer } from "./AxisRenderer";
+import { AxisBullet } from "./AxisBullet";
 import { WavedLine } from "../../core/elements/WavedLine";
 import { WavedRectangle } from "../../core/elements/WavedRectangle";
 import { registry } from "../../core/Registry";
@@ -367,6 +368,25 @@ var AxisRendererX = /** @class */ (function (_super) {
             return (inversedPosition - relativeX) / relativeWidth;
         }
         return value;
+    };
+    /**
+     * Updates and positions axis bullets.
+     *
+     * @ignore Exclude from docs
+     * @param bullet       AxisBullet element
+     * @param position     Starting position
+     * @param endPosition  End position
+     */
+    AxisRendererX.prototype.updateBullet = function (bullet, position, endPosition) {
+        var location = 0.5;
+        if (bullet instanceof AxisBullet) {
+            location = bullet.location;
+        }
+        position = position + (endPosition - position) * location;
+        var point = this.positionToPoint(position);
+        point.y = $utils.spritePointToSprite({ x: 0, y: this.line.pixelY }, this.line.parent, this.gridContainer).y;
+        this.positionItem(bullet, point);
+        this.toggleVisibility(bullet, position, 0, 1);
     };
     return AxisRendererX;
 }(AxisRenderer));

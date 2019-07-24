@@ -398,6 +398,11 @@ export class XYChart extends SerialChart {
 	protected _mouseWheelDisposer: IDisposer;
 
 	/**
+	 * Holds a reference to the container axis bullets are drawn in.
+	 */
+	public axisBulletsContainer: Container;		
+
+	/**
 	 * @ignore
 	 */
 	public _seriesPoints: { point: IPoint, series: XYSeries }[] = [];
@@ -497,6 +502,16 @@ export class XYChart extends SerialChart {
 
 		zoomOutButton.hide(0);
 		this.zoomOutButton = zoomOutButton;
+
+		// Create a container for bullets
+		let axisBulletsContainer: Container = this.plotContainer.createChild(Container);
+		axisBulletsContainer.shouldClone = false;
+		axisBulletsContainer.width = percent(100);
+		axisBulletsContainer.height = percent(100);
+		axisBulletsContainer.isMeasured = false;
+		axisBulletsContainer.zIndex = 4;
+		axisBulletsContainer.layout = "none";
+		this.axisBulletsContainer = axisBulletsContainer;
 
 		this._bulletMask = this.plotContainer;
 
@@ -886,6 +901,8 @@ export class XYChart extends SerialChart {
 		axis.addDisposer(new Disposer(() => {
 			this.dataUsers.removeValue(axis);
 		}))
+
+		renderer.bulletsContainer.parent = this.axisBulletsContainer;
 
 		this.plotContainer.events.on("maxsizechanged", () => {
 			if (this.inited) {

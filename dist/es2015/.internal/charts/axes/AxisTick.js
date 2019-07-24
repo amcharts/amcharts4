@@ -28,6 +28,7 @@ var AxisTick = /** @class */ (function (_super) {
         _this.className = "AxisTick";
         _this.element = _this.paper.add("path");
         _this.location = 0.5;
+        _this.above = false;
         _this.isMeasured = false;
         _this.pixelPerfect = true;
         _this.strokeOpacity = 0;
@@ -36,9 +37,17 @@ var AxisTick = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(AxisTick.prototype, "location", {
+        /**
+         * @return Location (0-1)
+         */
         get: function () {
             return this.getPropertyValue("location");
         },
+        /**
+         * Relative location of the tick. (0-1)
+         *
+         * @param value  Location (0-1)
+         */
         set: function (value) {
             this.setPropertyValue("location", value, true);
         },
@@ -46,11 +55,41 @@ var AxisTick = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(AxisTick.prototype, "inside", {
+        /**
+         * Returns if label is set to be drawn inside axis.
+         *
+         * @return Inside?
+         */
         get: function () {
             return this.getPropertyValue("inside");
         },
+        /**
+         * Sets if tick should be drawn inside axis.
+         *
+         * @param value  Inside?
+         */
         set: function (value) {
             this.setPropertyValue("inside", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AxisTick.prototype, "above", {
+        /**
+         * @return Draw above series?
+         */
+        get: function () {
+            return this.getPropertyValue("above");
+        },
+        /**
+         * Normally fill goes below series. Set this to `true` to go above.
+         *
+         * @default false
+         * @since 4.5.9
+         * @param  value  Draw above series?
+         */
+        set: function (value) {
+            this.setPropertyValue("above", value, true);
         },
         enumerable: true,
         configurable: true

@@ -17,6 +17,7 @@ import { Label } from "../../core/elements/Label";
 import { AxisTick } from "./AxisTick";
 import { AxisLabel } from "./AxisLabel";
 import { AxisBreak } from "./AxisBreak";
+import { AxisBullet } from "./AxisBullet";
 import { WavedLine } from "../../core/elements/WavedLine";
 import { WavedRectangle } from "../../core/elements/WavedRectangle";
 import { registry } from "../../core/Registry";
@@ -146,7 +147,7 @@ export class AxisRendererX extends AxisRenderer {
 		let axis = this.axis;
 
 		if (axis) {
-			if(!(axis.width instanceof Percent)){
+			if (!(axis.width instanceof Percent)) {
 				axis.width = percent(100);
 			}
 
@@ -479,6 +480,30 @@ export class AxisRendererX extends AxisRenderer {
 		}
 
 		return value;
+	}
+
+	/**
+	 * Updates and positions axis bullets.
+	 *
+	 * @ignore Exclude from docs
+	 * @param bullet       AxisBullet element
+	 * @param position     Starting position
+	 * @param endPosition  End position
+	 */
+	public updateBullet(bullet: Sprite, position: number, endPosition: number): void {
+		let location = 0.5;
+		if (bullet instanceof AxisBullet) {
+			location = bullet.location;
+		}
+
+		position = position + (endPosition - position) * location;
+		let point: IPoint = this.positionToPoint(position);
+
+		point.y = $utils.spritePointToSprite({ x: 0, y: this.line.pixelY }, this.line.parent, this.gridContainer).y;
+
+		this.positionItem(bullet, point);
+
+		this.toggleVisibility(bullet, position, 0, 1);
 	}
 }
 

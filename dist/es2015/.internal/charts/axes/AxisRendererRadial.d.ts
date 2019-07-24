@@ -15,6 +15,7 @@ import { Grid } from "./Grid";
 import { AxisBreak } from "./AxisBreak";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { Percent } from "../../core/utils/Percent";
+import { Sprite } from "../../core/Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -286,6 +287,15 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * @param position  Position
      */
     updateTickElement(tick: AxisTick, position: number): void;
+    /**
+     * Updates and positions axis bullet.
+     *
+     * @ignore Exclude from docs
+     * @param bullet       AxisBullet element
+     * @param position     Starting position
+     * @param endPosition  End position
+     */
+    updateBullet(bullet: Sprite, position: number, endPosition: number): void;
     /**
      * Converts a position on the axis to a coordinate in pixels.
      *

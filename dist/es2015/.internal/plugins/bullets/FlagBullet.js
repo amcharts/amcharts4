@@ -13,6 +13,7 @@ import { registry } from "../../core/Registry";
 import { Label } from "../../core/elements/Label";
 import { WavedRectangle } from "../../core/elements/WavedRectangle";
 import { Line } from "../../core/elements/Line";
+import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -78,12 +79,16 @@ var FlagBullet = /** @class */ (function (_super) {
     function FlagBullet() {
         var _this = _super.call(this) || this;
         _this.className = "FlagBullet";
+        _this.layout = "absolute";
         var background = _this.background;
         background.fillOpacity = 1;
         background.events.on("propertychanged", _this.invalidate, _this, false);
         background.waveHeight = 1.5;
         background.waveLength = 7;
         background.setWavedSides(true, false, true, false);
+        background.strokeOpacity = 1;
+        var interfaceColors = new InterfaceColorSet();
+        _this.stroke = interfaceColors.getFor("alternativeBackground");
         _this.pole = _this.createChild(Line);
         _this.pole.strokeOpacity = 1;
         _this.width = 22;

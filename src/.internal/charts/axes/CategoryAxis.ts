@@ -550,7 +550,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 			renderer.updateLabelElement(label, position, endPosition);
 
 			if ((renderer instanceof AxisRendererY && dataItem.label.measuredWidth > this.ghostLabel.measuredWidth) || (renderer instanceof AxisRendererX && dataItem.label.measuredHeight > this.ghostLabel.measuredHeight)) {
-				if (dataItem.label.html) {					
+				if (dataItem.label.html) {
 					this.ghostLabel.html = dataItem.label.currentText;
 				}
 				else {
@@ -572,6 +572,10 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 			if (!dataItem.isRange) {
 				this.fillRule(dataItem, itemIndex);
 			}
+		}
+
+		if (dataItem.bullet) {
+			renderer.updateBullet(dataItem.bullet, position, endPosition);
 		}
 
 
@@ -1035,7 +1039,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 			position = 0;
 		}
 
-		if(position > 1){
+		if (position > 1) {
 			position = 1;
 		}
 
@@ -1085,7 +1089,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		if (!$type.isNumber(index)) {
 			index = Math.floor(position * difference + startIndex);
 		}
-		if(index >= this.dataItems.length){
+		if (index >= this.dataItems.length) {
 			index = this.dataItems.length - 1;
 		}
 		// not good, when panning out of bounds, each time one less item gets selected

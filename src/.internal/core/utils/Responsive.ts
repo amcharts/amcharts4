@@ -403,18 +403,6 @@ export class Responsive extends BaseObjectEvents {
 	 */
 	public checkRules(): void {
 
-		// Check if default rules need to be loaded
-		// If needed, we wait until it's loaded and then call `checkRules` again
-		// This is not needed anymore since we are now populating public variable
-		// `defaultRules` by each class indidividually
-		/*if (this.useDefault && this.defaultRules.length == 0) {
-			this.loadDefaultRules().then((res) => {
-				this._defaultRules.setAll(res.default);
-				this.checkRules();
-			});
-			return;
-		}*/
-
 		// Check if there are any rules
 		let rules = this.allRules;
 		if (!rules || rules.length == 0) {
@@ -446,6 +434,19 @@ export class Responsive extends BaseObjectEvents {
 
 		// Check if we need to re-apply the rules
 		if (rulesChanged) {
+
+			if (!this.component.isReady()) {
+				// The chart is not yet ready (built)
+				// We will hide the chart and delay application of rules
+				// until "ready" event kicks in
+				//component.hide(0);
+				component.hidden = true;
+				component.events.once("ready", (ev) => {
+					this.applyRules();
+					ev.target.show(0)
+				});
+				return;
+			}
 			this.dispatchImmediately("ruleschanged");
 			this.applyRules();
 		}
@@ -476,7 +477,6 @@ export class Responsive extends BaseObjectEvents {
 				// If there's a state, it means it needs to be applied
 				if (state) {
 
-
 					// Check if default state was already applied to this element.
 					// We don't want to go resetting default states to ALL element,
 					// if they don't have responsive states.
@@ -489,6 +489,7 @@ export class Responsive extends BaseObjectEvents {
 					// Is this rule currently applied?
 					if (this.isApplied($type.getValue(rule.id))) {
 						// Yes. Apply the responsive state
+						state.transitionDuration = 0;
 						newTarget.setState(state);
 						this.dispatchImmediately("ruleapplied", {
 							rule: rule

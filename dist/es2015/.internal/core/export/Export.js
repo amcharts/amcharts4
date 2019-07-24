@@ -859,17 +859,17 @@ var Export = /** @class */ (function (_super) {
     Export.prototype.addExtras = function (canvas, options, advanced) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var middleLeft_1, middleTop_1, middleRight_1, middleBottom_1, totalWidth_1, totalHeight_1, extras, newCanvas, ctx_1, background, left_1, top_1, right_1, bottom_1;
+            var middleLeft_1, middleTop_1, middleWidth_1, middleHeight_1, extraRight_1, extraBottom_1, extras, newCanvas, ctx_1, background, left_1, top_1, right_1, bottom_1;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!this.extraSprites.length) return [3 /*break*/, 2];
                         middleLeft_1 = 0;
                         middleTop_1 = 0;
-                        middleRight_1 = canvas.width;
-                        middleBottom_1 = canvas.height;
-                        totalWidth_1 = canvas.width;
-                        totalHeight_1 = canvas.height;
+                        middleWidth_1 = canvas.width;
+                        middleHeight_1 = canvas.height;
+                        extraRight_1 = 0;
+                        extraBottom_1 = 0;
                         return [4 /*yield*/, Promise.all($array.map(this.extraSprites, function (extraSprite) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                                 var extra, extraCanvas, extraWidth, extraHeight;
                                 return tslib_1.__generator(this, function (_a) {
@@ -903,22 +903,20 @@ var Export = /** @class */ (function (_super) {
                                             extraWidth = extraCanvas.width + extra.marginLeft + extra.marginRight;
                                             extraHeight = extraCanvas.height + extra.marginTop + extra.marginBottom;
                                             if (extra.position == "top") {
-                                                middleRight_1 = $math.max(middleRight_1, extraWidth);
-                                                totalHeight_1 += extraHeight;
+                                                middleWidth_1 = $math.max(middleWidth_1, extraWidth);
                                                 middleTop_1 += extraHeight;
                                             }
                                             else if (extra.position == "right") {
-                                                middleBottom_1 = $math.max(middleBottom_1, extraHeight);
-                                                totalWidth_1 += extraWidth;
+                                                middleHeight_1 = $math.max(middleHeight_1, extraHeight);
+                                                extraRight_1 += extraWidth;
                                             }
                                             else if (extra.position == "left") {
-                                                middleBottom_1 = $math.max(middleBottom_1, extraHeight);
-                                                totalWidth_1 += extraWidth;
+                                                middleHeight_1 = $math.max(middleHeight_1, extraHeight);
                                                 middleLeft_1 += extraWidth;
                                             }
                                             else if (extra.position === "bottom") {
-                                                middleRight_1 = $math.max(middleRight_1, extraWidth);
-                                                totalHeight_1 += extraHeight;
+                                                middleWidth_1 = $math.max(middleWidth_1, extraWidth);
+                                                extraBottom_1 += extraHeight;
                                             }
                                             return [2 /*return*/, {
                                                     canvas: extraCanvas,
@@ -934,8 +932,8 @@ var Export = /** @class */ (function (_super) {
                     case 1:
                         extras = _a.sent();
                         newCanvas = this.getDisposableCanvas();
-                        newCanvas.width = totalWidth_1;
-                        newCanvas.height = totalHeight_1;
+                        newCanvas.width = middleLeft_1 + middleWidth_1 + extraRight_1;
+                        newCanvas.height = middleTop_1 + middleHeight_1 + extraBottom_1;
                         ctx_1 = newCanvas.getContext("2d");
                         background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
                         if (background) {
@@ -944,8 +942,8 @@ var Export = /** @class */ (function (_super) {
                         }
                         left_1 = middleLeft_1;
                         top_1 = middleTop_1;
-                        right_1 = middleRight_1;
-                        bottom_1 = middleBottom_1;
+                        right_1 = left_1 + middleWidth_1;
+                        bottom_1 = top_1 + middleHeight_1;
                         // Radiates outwards from center
                         $array.each(extras, function (extra) {
                             if (extra.position == "top") {

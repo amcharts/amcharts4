@@ -18,6 +18,7 @@ import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
 import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive";
+import { AxisBullet } from "./AxisBullet";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -390,6 +391,25 @@ var AxisRendererY = /** @class */ (function (_super) {
             coordinate = (position - axis.start) * axisFullLength;
         }
         return $math.round(coordinate, 1);
+    };
+    /**
+     * Updates and positions axis bullets.
+     *
+     * @ignore Exclude from docs
+     * @param bullet       AxisBullet element
+     * @param position     Starting position
+     * @param endPosition  End position
+     */
+    AxisRendererY.prototype.updateBullet = function (bullet, position, endPosition) {
+        var location = 0.5;
+        if (bullet instanceof AxisBullet) {
+            location = bullet.location;
+        }
+        position = position + (endPosition - position) * location;
+        var point = this.positionToPoint(position);
+        point.x = $utils.spritePointToSprite({ x: this.line.pixelX, y: 0 }, this.line.parent, this.gridContainer).x;
+        this.positionItem(bullet, point);
+        this.toggleVisibility(bullet, position, 0, 1);
     };
     return AxisRendererY;
 }(AxisRenderer));

@@ -779,6 +779,10 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			}
 		}
 
+		if (dataItem.bullet) {
+			renderer.updateBullet(dataItem.bullet, position, endPosition);
+		}
+
 		let mask: AxisFill = dataItem.mask;
 		if (mask) {
 			renderer.updateFillElement(mask, position, fillEndPosition);
@@ -1888,11 +1892,11 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		if (this.ghostLabel) {
 			let mw = 0;
 
-			this.dataItems.each((dataItem)=>{
-				if(dataItem.label && dataItem.label.pixelWidth > mw){
-					this.ghostLabel.text = dataItem.label.currentText;	
+			this.dataItems.each((dataItem) => {
+				if (dataItem.label && dataItem.label.pixelWidth > mw) {
+					this.ghostLabel.text = dataItem.label.currentText;
 				}
-			})			
+			})
 		}
 	}
 

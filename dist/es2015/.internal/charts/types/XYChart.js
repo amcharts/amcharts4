@@ -279,6 +279,15 @@ var XYChart = /** @class */ (function (_super) {
         zoomOutButton.marginRight = 5;
         zoomOutButton.hide(0);
         _this.zoomOutButton = zoomOutButton;
+        // Create a container for bullets
+        var axisBulletsContainer = _this.plotContainer.createChild(Container);
+        axisBulletsContainer.shouldClone = false;
+        axisBulletsContainer.width = percent(100);
+        axisBulletsContainer.height = percent(100);
+        axisBulletsContainer.isMeasured = false;
+        axisBulletsContainer.zIndex = 4;
+        axisBulletsContainer.layout = "none";
+        _this.axisBulletsContainer = axisBulletsContainer;
         _this._bulletMask = _this.plotContainer;
         // Apply theme
         _this.applyTheme();
@@ -612,6 +621,7 @@ var XYChart = /** @class */ (function (_super) {
         axis.addDisposer(new Disposer(function () {
             _this.dataUsers.removeValue(axis);
         }));
+        renderer.bulletsContainer.parent = this.axisBulletsContainer;
         this.plotContainer.events.on("maxsizechanged", function () {
             if (_this.inited) {
                 axis.invalidateDataItems();

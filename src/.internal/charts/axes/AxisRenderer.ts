@@ -161,6 +161,11 @@ export class AxisRenderer extends Container {
 	public gridContainer: Container;
 
 	/**
+	 * A [[Container]] holding all of the axis bullets.
+	 */
+	public bulletsContainer: Container;
+
+	/**
 	 * A [[Container]] holding all of the [[AxisBreak]] elements.
 	 */
 	public breakContainer: Container;
@@ -238,7 +243,7 @@ export class AxisRenderer extends Container {
 		let gridContainer = this.createChild(Container);
 		gridContainer.shouldClone = false;
 		gridContainer.layout = "none";
-	//	gridContainer.isMeasured = false;
+		//	gridContainer.isMeasured = false;
 		gridContainer.virtualParent = this;
 		gridContainer.width = percent(100);
 		gridContainer.height = percent(100);
@@ -259,6 +264,14 @@ export class AxisRenderer extends Container {
 		breakContainer.height = percent(100);
 		this.breakContainer = breakContainer;
 
+		let bulletsContainer = this.createChild(Container);
+		bulletsContainer.shouldClone = false;
+		bulletsContainer.isMeasured = false;
+		bulletsContainer.layout = "none";
+		bulletsContainer.width = percent(100);
+		bulletsContainer.height = percent(100);
+		this.bulletsContainer = bulletsContainer;
+
 		this.line = this.createChild(AxisLine);
 		this.line.shouldClone = false;
 		this.line.strokeOpacity = 0;
@@ -273,6 +286,7 @@ export class AxisRenderer extends Container {
 		disposers.push(this.line);
 		disposers.push(gridContainer);
 		disposers.push(breakContainer);
+		disposers.push(bulletsContainer);
 		disposers.push(this._chart);
 
 		this.ticks.template.disabled = true;
@@ -509,6 +523,18 @@ export class AxisRenderer extends Container {
 	 * @param endPosition  End position
 	 */
 	public updateTickElement(tick: AxisTick, position: number, endPosition: number): void {
+		// This is a placeholder method for extending classes to override.
+	}
+
+	/**
+	 * Updates and positions axis bullet.
+	 *
+	 * @ignore Exclude from docs
+	 * @param bullet       AxisBullet element
+	 * @param position     Starting position
+	 * @param endPosition  End position
+	 */
+	public updateBullet(bullet: Sprite, position: number, endPosition: number): void {
 		// This is a placeholder method for extending classes to override.
 	}
 
@@ -1053,6 +1079,20 @@ export class AxisRenderer extends Container {
 	 */
 	public toAxisPosition(value: number): number {
 		return value;
+	}
+
+	/**
+	 * Sets `visibility` property:
+	 *
+	 * * `true` - visible
+	 * * `false` - hidden
+	 *
+	 * @param value  true - visible, false - hidden
+	 * @return Current visibility
+	 */
+	public setVisibility(value: boolean) {
+		super.setVisibility(value);
+		this.bulletsContainer.visible = value;
 	}
 
 }

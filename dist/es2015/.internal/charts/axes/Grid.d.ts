@@ -23,6 +23,12 @@ export interface IGridProperties extends ISpriteProperties {
      * Location of the grid item within cell. (0-1)
      */
     location?: AxisItemLocation;
+    /**
+     * Normally fill goes below series. Set this to `true` to go above.
+     *
+     * @default false
+     */
+    above?: boolean;
 }
 /**
  * Defines events for [[Grid]].
@@ -88,6 +94,17 @@ export declare class Grid extends Sprite {
      * @param value  Location (0-1)
      */
     location: AxisItemLocation;
+    /**
+     * @return Draw above series?
+     */
+    /**
+     * Normally fill goes below series. Set this to `true` to go above.
+     *
+     * @default false
+     * @since 4.5.9
+     * @param  value  Draw above series?
+     */
+    above: boolean;
     /**
      * @ignore
      */

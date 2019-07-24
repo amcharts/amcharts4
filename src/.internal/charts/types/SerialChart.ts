@@ -144,6 +144,7 @@ export class SerialChart extends Chart {
 	 */
 	public readonly bulletsContainer: Container;
 
+
 	/**
 	 * Constructor
 	 */
@@ -174,6 +175,7 @@ export class SerialChart extends Chart {
 		bulletsContainer.zIndex = 3;
 		bulletsContainer.layout = "none";
 		this.bulletsContainer = bulletsContainer;
+
 
 		// Apply theme
 		this.applyTheme();

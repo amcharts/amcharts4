@@ -912,18 +912,25 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 				listItem = item.create();
 			}
 
-			if ($type.isObject(entry)) {
+			if (entry === listItem) {
+				// It's already the same item, do nothing
+			}
+			else {
 
-				// If the list item is BaseObject, we just need to let it
-				// deal if its own config
-				if (listItem instanceof BaseObject) {
-					(<any>listItem).config = entry;
-				}
-				else if ($type.isObject(listItem) && $type.isObject(entry)) {
-					$object.copyAllProperties(<Object>entry, <Object>listItem);
-				}
-				else {
-					item.setIndex(item.indexOf(listItem), entry);
+				if ($type.isObject(entry)) {
+
+					// If the list item is BaseObject, we just need to let it
+					// deal if its own config
+					if (listItem instanceof BaseObject) {
+						(<any>listItem).config = entry;
+					}
+					else if ($type.isObject(listItem) && $type.isObject(entry)) {
+						$object.copyAllProperties(<Object>entry, <Object>listItem);
+					}
+					else {
+						item.setIndex(item.indexOf(listItem), entry);
+					}
+
 				}
 
 			}
