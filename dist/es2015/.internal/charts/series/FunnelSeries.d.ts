@@ -34,12 +34,10 @@ export declare class FunnelSeriesDataItem extends PercentSeriesDataItem {
     _slice: FunnelSlice;
     /**
      * A reference to a label element.
-     * @ignore Exclude from docs
      */
     _label: Label;
     /**
      * A reference to a tick element.
-     * @ignore Exclude from docs
      */
     _tick: FunnelTick;
     /**

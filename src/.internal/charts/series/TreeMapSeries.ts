@@ -91,7 +91,7 @@ export class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
 	 */
 	public get value(): number {
 		let treeMapDataItem = this.treeMapDataItem;
-		if(treeMapDataItem){
+		if (treeMapDataItem) {
 			return treeMapDataItem.value;
 		}
 	}
@@ -116,11 +116,11 @@ export class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
 	 */
 	public hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): $type.Optional<Animation> {
 		let treeMapDataItem = this.treeMapDataItem;
-		if(treeMapDataItem){
+		if (treeMapDataItem) {
 			treeMapDataItem.hide(duration);
 		}
 		return super.hide(duration, delay, toValue, fields);
-	}	
+	}
 
 	/**
 	 * Shows the Data Item and related visual elements.
@@ -131,7 +131,7 @@ export class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
 	 */
 	public show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation> {
 		let treeMapDataItem = this.treeMapDataItem;
-		if(treeMapDataItem){
+		if (treeMapDataItem) {
 			treeMapDataItem.show(duration, delay, fields);
 		}
 		return super.show(duration, delay, fields);
@@ -295,11 +295,11 @@ export class TreeMapSeries extends ColumnSeries {
 	public show(duration?: number): Animation {
 
 		let interpolationDuration = this.defaultState.transitionDuration;
-		if($type.isNumber(duration)){
+		if ($type.isNumber(duration)) {
 			interpolationDuration = duration;
 		}
 
-		this.dataItems.each((dataItem)=>{
+		this.dataItems.each((dataItem) => {
 			//dataItem.treeMapDataItem.setWorkingValue("value", dataItem.treeMapDataItem.values.value.value);
 			dataItem.show(duration);
 		})
@@ -316,13 +316,13 @@ export class TreeMapSeries extends ColumnSeries {
 	public hide(duration?: number): Animation {
 
 		let interpolationDuration = this.defaultState.transitionDuration;
-		if($type.isNumber(duration)){
+		if ($type.isNumber(duration)) {
 			interpolationDuration = duration;
 		}
 
 		let animation = super.hideReal(interpolationDuration);
 
-		this.dataItems.each((dataItem)=>{
+		this.dataItems.each((dataItem) => {
 			//dataItem.treeMapDataItem.setWorkingValue("value", 0);
 			dataItem.hide(duration);
 		})
@@ -344,7 +344,7 @@ export class TreeMapSeries extends ColumnSeries {
 	/**
 	 * @ignore
 	 */
-	public dataChangeUpdate(){
+	public dataChangeUpdate() {
 
 	}
 

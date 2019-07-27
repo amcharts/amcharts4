@@ -3227,7 +3227,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Sprite.prototype.setColorProperty = function (property, value, invalidate) {
         var currentValue = this.properties[property];
-        if (value instanceof Color && currentValue instanceof Color && value.hex == currentValue.hex) {
+        if (value instanceof Color && currentValue instanceof Color && value.toString() == currentValue.toString()) {
             return false;
         }
         else {

@@ -79,7 +79,7 @@ export interface ICurvedColumnSeriesAdapters extends IColumnSeriesAdapters, ICur
  */
 export declare class CurvedColumnSeries extends ColumnSeries {
     /**
-     * Dfines type of the column.
+     * Defines type of the column.
      */
     _column: CurvedColumn;
     /**

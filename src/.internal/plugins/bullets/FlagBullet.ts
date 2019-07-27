@@ -152,7 +152,6 @@ export class FlagBullet extends Bullet {
 		super();
 
 		this.className = "FlagBullet";
-		this.layout = "absolute";
 
 		let background = this.background;
 		background.fillOpacity = 1;

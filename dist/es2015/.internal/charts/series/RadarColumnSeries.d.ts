@@ -79,9 +79,11 @@ export interface IRadarColumnSeriesAdapters extends IColumnSeriesAdapters, IRada
  */
 export declare class RadarColumnSeries extends ColumnSeries {
     /**
+     * Type of data item.
      */
     _dataItem: RadarColumnSeriesDataItem;
     /**
+     * Type of column.
      */
     _column: RadarColumn;
     /**

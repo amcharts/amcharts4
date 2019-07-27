@@ -78,6 +78,9 @@ export interface IConeSeriesAdapters extends IColumnSeriesAdapters, IConeSeriesP
  * @important
  */
 export declare class ConeSeries extends ColumnSeries {
+    /**
+     * Type of column.
+     */
     _column: ConeColumn;
     /**
      */

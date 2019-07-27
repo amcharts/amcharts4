@@ -196,10 +196,11 @@ export interface IColumnSeriesAdapters extends IXYSeriesAdapters, IColumnSeriesP
  * @important
  */
 export class ColumnSeries extends XYSeries {
+
 	/**
+	 * Type of column.
 	 */
 	public _column: Column;
-
 
 	/**
 	 * Defines available data fields.

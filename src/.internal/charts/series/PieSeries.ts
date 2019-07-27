@@ -49,13 +49,11 @@ export class PieSeriesDataItem extends PercentSeriesDataItem {
 
 	/**
 	 * A reference to a slice label element.
-	 * @ignore Exclude from docs
 	 */
 	public _label: AxisLabelCircular;
 
 	/**
 	 * A reference to a slice tick element.
-	 * @ignore Exclude from docs
 	 */
 	public _tick: PieTick;
 
@@ -63,7 +61,6 @@ export class PieSeriesDataItem extends PercentSeriesDataItem {
 	 * Defines a type of [[Component]] this data item is used for.
 	 */
 	public _component!: PieSeries;
-
 
 	/**
 	 * Constructor
@@ -465,7 +462,7 @@ export class PieSeries extends PercentSeries {
 			slice.arc = dataItem.values.value.percent * (this.endAngle - this.startAngle) / 100;
 
 			// LABEL
-			if(!this.labels.template.disabled){
+			if (!this.labels.template.disabled) {
 				let label = dataItem.label;
 
 				let tick = dataItem.tick;

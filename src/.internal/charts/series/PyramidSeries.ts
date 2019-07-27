@@ -36,7 +36,6 @@ export class PyramidSeriesDataItem extends FunnelSeriesDataItem {
 	 */
 	public _component!: PyramidSeries;
 
-
 	/**
 	 * Constructor
 	 */
@@ -277,7 +276,7 @@ export class PyramidSeries extends FunnelSeries {
 
 		let sum = this.dataItem.values.value.sum;
 
-		if(sum == 0){
+		if (sum == 0) {
 			return;
 		}
 
@@ -407,7 +406,7 @@ export class PyramidSeries extends FunnelSeries {
 			if (!this.alignLabels) {
 				label.y = maxHeight / 2;
 			}
-			else{
+			else {
 				label.y = this.labelsContainer.measuredHeight;
 			}
 

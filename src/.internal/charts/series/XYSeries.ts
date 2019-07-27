@@ -689,17 +689,15 @@ export class XYSeries extends Series {
 	public stackedSeries: XYSeries;
 
 	/**
-	 * dataitem of previously shown tooltip, used to avoid multiple tooltipshownat dispatches
-	 * @ignore
+	 * Dataitem of previously shown tooltip, used to avoid multiple
+	 * tooltipshownat dispatches.
 	 */
 	protected _prevTooltipDataItem: XYSeriesDataItem;
-
 
 	/**
 	 * @ignore
 	 */
 	public _baseInterval: { [index: string]: ITimeInterval } = {};
-
 
 	/**
 	 * Constructor

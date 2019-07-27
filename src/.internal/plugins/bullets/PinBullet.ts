@@ -145,7 +145,6 @@ export class PinBullet extends Bullet {
 
 		this.className = "PinBullet";
 		let interfaceColors = new InterfaceColorSet();
-		this.layout = "absolute";
 
 		let circle = this.createChild(Circle);
 		circle.shouldClone = false;

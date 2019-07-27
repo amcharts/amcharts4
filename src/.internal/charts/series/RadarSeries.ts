@@ -206,7 +206,7 @@ export class RadarSeries extends LineSeries {
 		let radius: number = $math.getDistance({ x: x, y: y });
 
 		// hack to be able to determine angle later
-		if(radius == 0){
+		if (radius == 0) {
 			radius = 0.00001;
 		}
 
@@ -295,22 +295,22 @@ export class RadarSeries extends LineSeries {
 	public get connectEnds(): boolean {
 		return this.getPropertyValue("connectEnds");
 	}
-/*
-	protected positionBulletReal(bullet:Sprite, positionX:number, positionY:number){
-		
-		let rendererX:AxisRendererCircular = <AxisRendererCircular>this.xAxis.renderer;
-		let rendererY:AxisRendererRadial = <AxisRendererRadial>this.yAxis.renderer;
-		
-		let angle = rendererX.positionToAngle(positionX);
-		let radius = rendererY.positionToCoordinate(positionY);
-
-		if(angle < this.chart.startAngle || angle > this.chart.endAngle){
-			bullet.visible = false;
-		}
-
-		bullet.x = $math.cos(angle) * radius;
-		bullet.y = $math.sin(angle) * radius;
-	}	*/
+	/*
+		protected positionBulletReal(bullet:Sprite, positionX:number, positionY:number){
+			
+			let rendererX:AxisRendererCircular = <AxisRendererCircular>this.xAxis.renderer;
+			let rendererY:AxisRendererRadial = <AxisRendererRadial>this.yAxis.renderer;
+			
+			let angle = rendererX.positionToAngle(positionX);
+			let radius = rendererY.positionToCoordinate(positionY);
+	
+			if(angle < this.chart.startAngle || angle > this.chart.endAngle){
+				bullet.visible = false;
+			}
+	
+			bullet.x = $math.cos(angle) * radius;
+			bullet.y = $math.sin(angle) * radius;
+		}	*/
 }
 
 /**

@@ -36,12 +36,10 @@ export declare class PieSeriesDataItem extends PercentSeriesDataItem {
     _slice: Slice;
     /**
      * A reference to a slice label element.
-     * @ignore Exclude from docs
      */
     _label: AxisLabelCircular;
     /**
      * A reference to a slice tick element.
-     * @ignore Exclude from docs
      */
     _tick: PieTick;
     /**

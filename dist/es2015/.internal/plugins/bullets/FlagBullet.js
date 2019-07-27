@@ -79,7 +79,6 @@ var FlagBullet = /** @class */ (function (_super) {
     function FlagBullet() {
         var _this = _super.call(this) || this;
         _this.className = "FlagBullet";
-        _this.layout = "absolute";
         var background = _this.background;
         background.fillOpacity = 1;
         background.events.on("propertychanged", _this.invalidate, _this, false);

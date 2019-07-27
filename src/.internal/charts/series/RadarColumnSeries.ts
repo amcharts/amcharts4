@@ -41,7 +41,6 @@ export class RadarColumnSeriesDataItem extends ColumnSeriesDataItem {
 	 */
 	public _column: RadarColumn;
 
-
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
 	 */
@@ -106,10 +105,12 @@ export interface IRadarColumnSeriesAdapters extends IColumnSeriesAdapters, IRada
 export class RadarColumnSeries extends ColumnSeries {
 
 	/**
+	 * Type of data item.
 	 */
 	public _dataItem: RadarColumnSeriesDataItem;
 
 	/**
+	 * Type of column.
 	 */
 	public _column: RadarColumn;
 
@@ -217,7 +218,7 @@ export class RadarColumnSeries extends ColumnSeries {
 			rAngle = this.xAxis.getAngle(dataItem, xField, endLocation, "valueX");
 
 			startAngle = startAngle + startLocation * cellAngle;
-			endAngle = endAngle - (1 - endLocation) * cellAngle;			
+			endAngle = endAngle - (1 - endLocation) * cellAngle;
 		}
 		else {
 			tRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yField, startLocation, "valueY"), y: this.yAxis.getY(dataItem, yField, startLocation, "valueY") });
@@ -239,7 +240,7 @@ export class RadarColumnSeries extends ColumnSeries {
 
 		let radarColumn = dataItem.column;
 		if (!radarColumn) {
-			radarColumn = this.columns.create();			
+			radarColumn = this.columns.create();
 			dataItem.column = radarColumn;
 			$object.forceCopyProperties(this.columns.template, radarColumn, visualProperties);
 			dataItem.addSprite(radarColumn);
@@ -325,7 +326,7 @@ export class RadarColumnSeries extends ColumnSeries {
 
 		let radius: number = $math.getDistance({ x: x, y: y });
 		// hack to be able to determine angle later
-		if(radius == 0){
+		if (radius == 0) {
 			radius = 0.00001;
 		}
 
@@ -345,124 +346,124 @@ export class RadarColumnSeries extends ColumnSeries {
 		return $path.arc(renderer.startAngle, renderer.endAngle - renderer.startAngle, renderer.pixelRadius, renderer.pixelInnerRadius);
 	}
 
-/*
-	protected positionBulletReal(bullet:Sprite, positionX:number, positionY:number){
-		
-		let rendererX:AxisRendererCircular = <AxisRendererCircular>this.xAxis.renderer;
-		let rendererY:AxisRendererRadial = <AxisRendererRadial>this.yAxis.renderer;
-		
-		let angle = rendererX.positionToAngle(positionX);
-		let radius = rendererY.positionToCoordinate(positionY);
-
-		if(angle < this.chart.startAngle || angle > this.chart.endAngle){
-			bullet.visible = false;
-		}
-
-		bullet.x = $math.cos(angle) * radius;
-		bullet.y = $math.sin(angle) * radius;
-	}*/
-
-/*
-	public positionBullet(bullet: Bullet) {
-		super.positionBullet(bullet);
-
-		let dataItem:RadarColumnSeriesDataItem = <RadarColumnSeriesDataItem>bullet.dataItem;
-
-		// use series xField/yField if bullet doesn't have fields set
-		let xField: string = bullet.xField;
-		if (!$type.hasValue(xField)) {
-			xField = this.xField;
-		}
-
-		let yField: string = bullet.yField;
-		if (!$type.hasValue(yField)) {
-			yField = this.yField;
-		}
-
-		if ((this.xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (this.yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
-			bullet.visible = false;
-		}
-		else {
-			let bulletLocationX: number = this.getBulletLocationX(bullet, xField);
-			let bulletLocationY: number = this.getBulletLocationY(bullet, yField);
-
-			let point = this.getPoint(dataItem, xField, yField, bulletLocationX, bulletLocationY);
-			if (point) {
-				let xOpenField = this.xOpenField;
-				let yOpenField = this.yOpenField;
-				let angle:number;
-				let radius:number;
-
-				let xAxis = this.xAxis;
-				let yAxis = this.yAxis;
-				let position:number;
-		
-				if((xAxis instanceof DateAxis && (xOpenField && xOpenField != xField)) || xAxis instanceof ValueAxis){
-
-					if(!$type.isNumber(bulletLocationX)){
-						bulletLocationX = 0;
-					}
-
-					let openValue:number;
-					let closeValue:number = dataItem.getWorkingValue(xField);
-
-					if(!xOpenField){
-						openValue = xAxis.min;
-					}
-					else{
-						openValue = dataItem.getWorkingValue(xOpenField);
-					}
-					let middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationX);
-
-					position = xAxis.valueToPosition(middleValue);					
-				}
-				else if(xAxis instanceof CategoryAxis){
-					position = xAxis.categoryToPosition((<any>dataItem)[xField], bulletLocationX);
-				}	
-
-				let renderer:AxisRendererCircular = <AxisRendererCircular>xAxis.renderer;
-
-				angle = renderer.positionToAngle(position);
-
-				if(angle < this.chart.startAngle || angle > this.chart.endAngle){
-					bullet.visible = false;
-					return;
-				}
-
-				if((yAxis instanceof DateAxis &&  (yOpenField && yOpenField != yField)) || yAxis instanceof ValueAxis){
-
-					if(!$type.isNumber(bulletLocationY)){
-						bulletLocationY = 0;
-					}					
-
-					let openValue:number;
-					let closeValue:number = dataItem.getWorkingValue(yField);
-
-					if(!yOpenField){
-						openValue = yAxis.min;
-					}
-					else{
-						openValue = dataItem.getWorkingValue(yOpenField);
-					}
-					let middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationY);
-
-					point = yAxis.valueToPoint(middleValue);
-				}				
-				else if(yAxis instanceof CategoryAxis){
-					point = yAxis.categoryToPoint((<any>dataItem)[yField], bulletLocationY);					
-				}
-
-				radius = $math.getDistance(point);
-				
-				bullet.moveTo({x:radius * $math.cos(angle), y:radius * $math.sin(angle)});
-
-				bullet.visible = true;
-			}
-			else {
+	/*
+		protected positionBulletReal(bullet:Sprite, positionX:number, positionY:number){
+			
+			let rendererX:AxisRendererCircular = <AxisRendererCircular>this.xAxis.renderer;
+			let rendererY:AxisRendererRadial = <AxisRendererRadial>this.yAxis.renderer;
+			
+			let angle = rendererX.positionToAngle(positionX);
+			let radius = rendererY.positionToCoordinate(positionY);
+	
+			if(angle < this.chart.startAngle || angle > this.chart.endAngle){
 				bullet.visible = false;
 			}
-		}
-	}*/
+	
+			bullet.x = $math.cos(angle) * radius;
+			bullet.y = $math.sin(angle) * radius;
+		}*/
+
+	/*
+		public positionBullet(bullet: Bullet) {
+			super.positionBullet(bullet);
+	
+			let dataItem:RadarColumnSeriesDataItem = <RadarColumnSeriesDataItem>bullet.dataItem;
+	
+			// use series xField/yField if bullet doesn't have fields set
+			let xField: string = bullet.xField;
+			if (!$type.hasValue(xField)) {
+				xField = this.xField;
+			}
+	
+			let yField: string = bullet.yField;
+			if (!$type.hasValue(yField)) {
+				yField = this.yField;
+			}
+	
+			if ((this.xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (this.yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
+				bullet.visible = false;
+			}
+			else {
+				let bulletLocationX: number = this.getBulletLocationX(bullet, xField);
+				let bulletLocationY: number = this.getBulletLocationY(bullet, yField);
+	
+				let point = this.getPoint(dataItem, xField, yField, bulletLocationX, bulletLocationY);
+				if (point) {
+					let xOpenField = this.xOpenField;
+					let yOpenField = this.yOpenField;
+					let angle:number;
+					let radius:number;
+	
+					let xAxis = this.xAxis;
+					let yAxis = this.yAxis;
+					let position:number;
+			
+					if((xAxis instanceof DateAxis && (xOpenField && xOpenField != xField)) || xAxis instanceof ValueAxis){
+	
+						if(!$type.isNumber(bulletLocationX)){
+							bulletLocationX = 0;
+						}
+	
+						let openValue:number;
+						let closeValue:number = dataItem.getWorkingValue(xField);
+	
+						if(!xOpenField){
+							openValue = xAxis.min;
+						}
+						else{
+							openValue = dataItem.getWorkingValue(xOpenField);
+						}
+						let middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationX);
+	
+						position = xAxis.valueToPosition(middleValue);					
+					}
+					else if(xAxis instanceof CategoryAxis){
+						position = xAxis.categoryToPosition((<any>dataItem)[xField], bulletLocationX);
+					}	
+	
+					let renderer:AxisRendererCircular = <AxisRendererCircular>xAxis.renderer;
+	
+					angle = renderer.positionToAngle(position);
+	
+					if(angle < this.chart.startAngle || angle > this.chart.endAngle){
+						bullet.visible = false;
+						return;
+					}
+	
+					if((yAxis instanceof DateAxis &&  (yOpenField && yOpenField != yField)) || yAxis instanceof ValueAxis){
+	
+						if(!$type.isNumber(bulletLocationY)){
+							bulletLocationY = 0;
+						}					
+	
+						let openValue:number;
+						let closeValue:number = dataItem.getWorkingValue(yField);
+	
+						if(!yOpenField){
+							openValue = yAxis.min;
+						}
+						else{
+							openValue = dataItem.getWorkingValue(yOpenField);
+						}
+						let middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationY);
+	
+						point = yAxis.valueToPoint(middleValue);
+					}				
+					else if(yAxis instanceof CategoryAxis){
+						point = yAxis.categoryToPoint((<any>dataItem)[yField], bulletLocationY);					
+					}
+	
+					radius = $math.getDistance(point);
+					
+					bullet.moveTo({x:radius * $math.cos(angle), y:radius * $math.sin(angle)});
+	
+					bullet.visible = true;
+				}
+				else {
+					bullet.visible = false;
+				}
+			}
+		}*/
 }
 
 /**

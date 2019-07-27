@@ -195,6 +195,7 @@ export declare class CandlestickSeries extends ColumnSeries {
      */
     _dataItem: CandlestickSeriesDataItem;
     /**
+     * Sets type of the column.
      */
     _column: Candlestick;
     /**

@@ -109,8 +109,8 @@ export class OHLCSeries extends CandlestickSeries {
 	 */
 	public _dataItem: OHLCSeriesDataItem;
 
-
 	/**
+	 * Type of column.
 	 */
 	public _column: OHLC;
 

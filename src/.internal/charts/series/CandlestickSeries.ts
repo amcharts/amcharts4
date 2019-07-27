@@ -283,8 +283,8 @@ export class CandlestickSeries extends ColumnSeries {
 	 */
 	public _dataItem: CandlestickSeriesDataItem;
 
-
 	/**
+	 * Sets type of the column.
 	 */
 	public _column: Candlestick;
 

@@ -120,6 +120,7 @@ export interface IColumnSeriesAdapters extends IXYSeriesAdapters, IColumnSeriesP
  */
 export declare class ColumnSeries extends XYSeries {
     /**
+     * Type of column.
      */
     _column: Column;
     /**

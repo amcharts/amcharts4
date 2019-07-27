@@ -454,8 +454,8 @@ export declare class XYSeries extends Series {
      */
     stackedSeries: XYSeries;
     /**
-     * dataitem of previously shown tooltip, used to avoid multiple tooltipshownat dispatches
-     * @ignore
+     * Dataitem of previously shown tooltip, used to avoid multiple
+     * tooltipshownat dispatches.
      */
     protected _prevTooltipDataItem: XYSeriesDataItem;
     /**

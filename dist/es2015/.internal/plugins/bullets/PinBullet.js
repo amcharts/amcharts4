@@ -77,7 +77,6 @@ var PinBullet = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.className = "PinBullet";
         var interfaceColors = new InterfaceColorSet();
-        _this.layout = "absolute";
         var circle = _this.createChild(Circle);
         circle.shouldClone = false;
         circle.isMeasured = false;

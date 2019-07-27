@@ -105,10 +105,12 @@ export interface IColumnSeries3DAdapters extends IColumnSeriesAdapters, IColumnS
 export class ColumnSeries3D extends ColumnSeries {
 
 	/**
+	 * Type of data item.
 	 */
 	public _dataItem: ColumnSeries3DDataItem;
 
 	/**
+	 * Type of column.
 	 */
 	public _column: Column3D;
 

@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.10] - 2019-07-29
+
+### Fixed
+- Sometimes setting `fill`/`stroke` to a non-opaque `Color`, alpha setting was being ignored.
+- `PinBullet` (from Bullets plugin) was distorted if used with image since last release.
+- Fabric dependency was causing errors on installation under some setups.
+
+
 ## [4.5.9] - 2019-07-24
 
 ### Added

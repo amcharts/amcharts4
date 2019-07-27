@@ -34,7 +34,6 @@ export class CurvedColumnSeriesDataItem extends ColumnSeriesDataItem {
 	 */
 	public _column: CurvedColumn;
 
-
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
 	 */
@@ -99,7 +98,7 @@ export interface ICurvedColumnSeriesAdapters extends IColumnSeriesAdapters, ICur
 export class CurvedColumnSeries extends ColumnSeries {
 
 	/**
-	 * Dfines type of the column.
+	 * Defines type of the column.
 	 */
 	public _column: CurvedColumn;
 

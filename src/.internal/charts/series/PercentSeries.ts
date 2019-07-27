@@ -396,22 +396,16 @@ export class PercentSeries extends Series {
 
 	/**
 	 * Defines type of the slice elements for the series.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	public _slice: Sprite;
 
 	/**
 	 * Defines type of the tick elements for the series.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	public _tick: Tick;
 
 	/**
 	 * Defines type of the label elements for the series.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	public _label: Label;
 
