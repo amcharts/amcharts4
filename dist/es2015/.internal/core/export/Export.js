@@ -166,7 +166,9 @@ function eachStylesheets(f) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
         return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, Promise.all($array.map(document.styleSheets, function (sheet) {
+                case 0: 
+                // TODO use $dom.getRoot instead of document ?
+                return [4 /*yield*/, Promise.all($array.map(document.styleSheets, function (sheet) {
                         var url = sheet.href;
                         if (url == null) {
                             return eachStylesheet(location.href, sheet, f);
@@ -177,6 +179,7 @@ function eachStylesheets(f) {
                         }
                     }))];
                 case 1:
+                    // TODO use $dom.getRoot instead of document ?
                     _a.sent();
                     return [2 /*return*/];
             }

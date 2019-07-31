@@ -101,6 +101,80 @@ export declare class AxisDataItem extends DataItem {
      */
     protected _bullet: Sprite;
     /**
+     * Allows hiding axis item (tick, label, grid) if it is closer to axis
+     * beginning than this relative position (0-1).
+     *
+     * For axis labels it overrides `minLabelPosition` if set.
+     *
+     * ```TypeScript
+     * // Hide all ticks and labels closer than 20% to axis beginning.
+     * axis.renderer.ticks.template.minPosition = 0.2;
+     * axis.renderer.labels.template.minPosition = 0.2;
+     * ```
+     * ```JavaScript
+     * // Hide all ticks and labels closer than 20% to axis beginning.
+     * axis.renderer.ticks.template.minPosition = 0.2;
+     * axis.renderer.labels.template.minPosition = 0.2;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "xAxes": [{
+     *     // ...
+     *     // Hide all ticks and labels closer than 20% to axis beginning.
+     *     "renderer": {
+     *       "ticks": {
+     *         "minPosition": 0.2
+     *       },
+     *       "labels": {
+     *         "minPosition": 0.2
+     *       }
+     *     }
+     *   }]
+     * }
+     * ```
+     *
+     * @since 4.5.11
+     */
+    minPosition?: number;
+    /**
+     * Allows hiding axis item (tick, label, grid) if it is closer to axis
+     * end than this relative position (0-1).
+     *
+     * For axis labels it overrides `maxLabelPosition` if set.
+     *
+     * ```TypeScript
+     * // Hide all ticks and labels closer than 20% to axis end.
+     * axis.renderer.ticks.template.minPosition = 0.8;
+     * axis.renderer.labels.template.minPosition = 0.8;
+     * ```
+     * ```JavaScript
+     * // Hide all ticks and labels closer than 20% to axis end.
+     * axis.renderer.ticks.template.minPosition = 0.8;
+     * axis.renderer.labels.template.minPosition = 0.8;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "xAxes": [{
+     *     // ...
+     *     // Hide all ticks and labels closer than 20% to axis end.
+     *     "renderer": {
+     *       "ticks": {
+     *         "minPosition": 0.8
+     *       },
+     *       "labels": {
+     *         "minPosition": 0.8
+     *       }
+     *     }
+     *   }]
+     * }
+     * ```
+     *
+     * @since 4.5.11
+     */
+    maxPosition?: number;
+    /**
      * Constructor
      */
     constructor();

@@ -327,11 +327,15 @@ var NumberFormatter = /** @class */ (function (_super) {
             }
         }
         else if (mods.indexOf("%") !== -1) {
+            var ol = value.toString().length;
             value *= 100;
+            value = parseFloat(value.toPrecision(ol + 2));
             suffix = "%";
         }
         else if (mods.indexOf("‰") !== -1) {
+            var ol = value.toString().length;
             value *= 1000;
+            value = parseFloat(value.toPrecision(ol + 3));
             suffix = "‰";
         }
         // Round to passive

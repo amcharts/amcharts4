@@ -148,7 +148,7 @@ export function setStyle(element: HTMLElement | SVGSVGElement, property: string,
 
 /**
  * Gets the computed style value for an element.
- * 
+ *
  * @ignore Exclude from docs
  */
 export function getComputedStyle(element: Element, property: string): string | number {
@@ -256,11 +256,42 @@ export function contains(a: HTMLElement | SVGSVGElement, b: HTMLElement | SVGSVG
 			return true;
 
 		} else if (cursor.parentNode == null) {
-			if ((<any>cursor).host == null) {
+			// TODO better ShadowRoot detection
+			if ((<ShadowRoot>cursor).host == null) {
 				return false;
 
 			} else {
-				cursor = (<any>cursor).host;
+				cursor = (<ShadowRoot>cursor).host;
+			}
+
+		} else {
+			cursor = cursor.parentNode;
+		}
+	}
+}
+
+/**
+ * Returns the root of the element (either the Document or the ShadowRoot)
+ *
+ * @param a  Element
+ * @return Root
+ */
+export function getRoot(a: Node): Document | ShadowRoot {
+	const owner = a.ownerDocument;
+
+	let cursor: Node = a;
+
+	while (true) {
+		if (cursor === owner) {
+			return owner;
+
+		} else if (cursor.parentNode == null) {
+			// TODO better ShadowRoot detection
+			if ((<ShadowRoot>cursor).host == null) {
+				throw new Error("Could not find root");
+
+			} else {
+				return <ShadowRoot>cursor;
 			}
 
 		} else {

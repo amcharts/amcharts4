@@ -3169,33 +3169,35 @@ var Sprite = /** @class */ (function (_super) {
         var _this = this;
         if (this._dataItem != dataItem) {
             this._dataItem = dataItem;
-            if (this.configField) {
-                var dataContext_1 = dataItem.dataContext;
-                if (dataContext_1) {
-                    this.config = dataContext_1[this.configField];
-                    if (!this.config && dataContext_1.dataContext) {
-                        this.config = dataContext_1.dataContext[this.configField];
-                    }
-                }
-            }
-            var dataContext_2 = dataItem.dataContext;
-            if (dataContext_2) {
-                var dataContext2_1 = dataContext_2.dataContext;
-                $object.each(this.propertyFields, function (propertyName, fieldValue) {
-                    if ($type.hasValue(dataContext_2[fieldValue])) {
-                        var anyThis = _this;
-                        anyThis[propertyName] = dataContext_2[fieldValue];
-                    }
-                    else {
-                        if (dataContext2_1) {
-                            var value = dataContext2_1[fieldValue];
-                            if ($type.hasValue(value)) {
-                                var anyThis = _this;
-                                anyThis[propertyName] = value;
-                            }
+            if (dataItem) {
+                if (this.configField) {
+                    var dataContext_1 = dataItem.dataContext;
+                    if (dataContext_1) {
+                        this.config = dataContext_1[this.configField];
+                        if (!this.config && dataContext_1.dataContext) {
+                            this.config = dataContext_1.dataContext[this.configField];
                         }
                     }
-                });
+                }
+                var dataContext_2 = dataItem.dataContext;
+                if (dataContext_2) {
+                    var dataContext2_1 = dataContext_2.dataContext;
+                    $object.each(this.propertyFields, function (propertyName, fieldValue) {
+                        if ($type.hasValue(dataContext_2[fieldValue])) {
+                            var anyThis = _this;
+                            anyThis[propertyName] = dataContext_2[fieldValue];
+                        }
+                        else {
+                            if (dataContext2_1) {
+                                var value = dataContext2_1[fieldValue];
+                                if ($type.hasValue(value)) {
+                                    var anyThis = _this;
+                                    anyThis[propertyName] = value;
+                                }
+                            }
+                        }
+                    });
+                }
             }
             this.invalidate();
         }

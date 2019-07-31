@@ -12,7 +12,7 @@ import { Container, IContainerProperties, IContainerAdapters, IContainerEvents }
 import { Sprite } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
-import { Axis } from "./Axis";
+import { Axis, AxisDataItem } from "./Axis";
 import { AxisLine } from "./AxisLine";
 import { AxisFill } from "./AxisFill";
 import { Grid } from "./Grid";
@@ -24,6 +24,7 @@ import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
+import * as $type from "../../core/utils/Type";
 import { XYChart } from "../types/XYChart";
 
 
@@ -646,6 +647,16 @@ export class AxisRenderer extends Container {
 	 */
 	protected toggleVisibility(sprite: Sprite, position: number, minPosition: number, maxPosition: number): void {
 		let axis = this.axis;
+
+		let dataItem = sprite.dataItem;
+		if(dataItem && dataItem instanceof AxisDataItem){
+			if($type.isNumber(dataItem.minPosition)){
+				minPosition = dataItem.minPosition;
+			}
+			if($type.isNumber(dataItem.maxPosition)){
+				maxPosition = dataItem.maxPosition;
+			}			
+		}
 
 		let updatedStart = axis.start + (axis.end - axis.start) * (minPosition - 0.0001);
 		let updatedEnd = axis.start + (axis.end - axis.start) * (maxPosition + 0.0001);

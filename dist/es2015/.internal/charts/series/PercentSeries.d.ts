@@ -298,8 +298,92 @@ export declare class PercentSeries extends Series {
      * @return label
      */
     protected createLabel(): this["_label"];
+    /**
+     * A list of slice elements for the series.
+     *
+     * Use its `template` to configure look and behavior of the slices. E.g.:
+     *
+     * ```TypeScript
+     * series.slices.template.stroke = am4core.color("#fff");
+     * series.slices.template.strokeWidth = 2;
+     * ```
+     * ```JavaScript
+     * series.slices.template.stroke = am4core.color("#fff");
+     * series.slices.template.strokeWidth = 2;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "series": [{
+     *     // ...
+     *     "slices": {
+     *       "stroke": "#fff",
+     *       "strokeWidth": 2
+     *     }
+     *   }]
+     * }
+     * ```
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/list-templates/} for more information about list templates
+     * @return Slices
+     */
     readonly slices: ListTemplate<this["_slice"]>;
+    /**
+     * A list of tick elements for the series. Ticks connect slice to its label.
+     *
+     * Use its `template` to configure look and behavior of the ticks. E.g.:
+     *
+     * ```TypeScript
+     * series.ticks.template.strokeWidth = 2;
+     * ```
+     * ```JavaScript
+     * series.ticks.template.strokeWidth = 2;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "series": [{
+     *     // ...
+     *     "ticks": {
+     *       "strokeWidth": 2
+     *     }
+     *   }]
+     * }
+     * ```
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/list-templates/} for more information about list templates
+     * @return Slices
+     */
     readonly ticks: ListTemplate<this["_tick"]>;
+    /**
+     * A list of slice label elements for the series.
+     *
+     * Use its `template` to configure look and behavior of the labels. E.g.:
+     *
+     * ```TypeScript
+     * series.labels.template.fill = am4core.color("#c00");
+     * series.labels.template.fontSize = 20;
+     * ```
+     * ```JavaScript
+     * series.labels.template.fill = am4core.color("#c00");
+     * series.labels.template.fontSize = 20;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "series": [{
+     *     // ...
+     *     "labels": {
+     *       "stroke": "#c00",
+     *       "fontSize": 20
+     *     }
+     *   }]
+     * }
+     * ```
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/list-templates/} for more information about list templates
+     * @return Slices
+     */
     readonly labels: ListTemplate<this["_label"]>;
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.

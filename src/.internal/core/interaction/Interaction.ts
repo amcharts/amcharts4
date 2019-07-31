@@ -2597,7 +2597,7 @@ export class Interaction extends BaseObjectEvents {
 		if ($type.hasValue(cached)) {
 			return cached;
 		}
-		let target = document.elementFromPoint(pointer.point.x, pointer.point.y);
+		let target = $dom.getRoot(svg).elementFromPoint(pointer.point.x, pointer.point.y);
 		let local = target && $dom.contains(svg, <HTMLElement>target);
 		this.setCache("local_pointer_" + pointer.id + "_" + id, local, 100);
 		return local;

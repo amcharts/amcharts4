@@ -500,7 +500,7 @@ var DateFormatter = /** @class */ (function (_super) {
             }
         }
         // Init return value
-        var res = new Date(1970, 0, 1, 0, 0, 0);
+        var res;
         // Init RegEx for parsing
         var reg = "";
         // Clean format
@@ -535,6 +535,19 @@ var DateFormatter = /** @class */ (function (_super) {
             "zone": -1,
             "timestamp": -1,
             "iso": -1
+        };
+        // Init values
+        var resValues = {
+            "year": 1970,
+            "month": 0,
+            "day": 1,
+            "hour": 0,
+            "minute": 0,
+            "second": 0,
+            "millisecond": 0,
+            "timestamp": null,
+            "offset": 0,
+            "utc": this.utc
         };
         // Index adjuster
         var indexAdjust = 0, index = 0;
@@ -702,24 +715,13 @@ var DateFormatter = /** @class */ (function (_super) {
             // Populate the date object
             // Full year
             if (parsedIndexes.year > -1) {
-                var val = parseInt(matches[parsedIndexes.year]);
-                if (this.utc) {
-                    res.setUTCFullYear(val);
-                }
-                else {
-                    res.setFullYear(val);
-                }
+                resValues.year = parseInt(matches[parsedIndexes.year]);
             }
             // 3-digit year
             if (parsedIndexes.year3 > -1) {
                 var val = parseInt(matches[parsedIndexes.year3]);
                 val += 1000;
-                if (this.utc) {
-                    res.setUTCFullYear(val);
-                }
-                else {
-                    res.setFullYear(val);
-                }
+                resValues.year = val;
             }
             // 2-digit year
             if (parsedIndexes.year2 > -1) {
@@ -730,53 +732,25 @@ var DateFormatter = /** @class */ (function (_super) {
                 else {
                     val += 2000;
                 }
-                if (this.utc) {
-                    res.setUTCFullYear(val);
-                }
-                else {
-                    res.setFullYear(val);
-                }
+                resValues.year = val;
             }
             // 1-digit year
             if (parsedIndexes.year1 > -1) {
                 var val = parseInt(matches[parsedIndexes.year1]);
                 val = Math.floor((new Date().getFullYear()) / 10) * 10 + val;
-                if (this.utc) {
-                    res.setUTCFullYear(val);
-                }
-                else {
-                    res.setFullYear(val);
-                }
+                resValues.year = val;
             }
             // Full month
             if (parsedIndexes.monthLong > -1) {
-                var val = this.resolveMonth(matches[parsedIndexes.monthLong]);
-                if (this.utc) {
-                    res.setUTCMonth(val);
-                }
-                else {
-                    res.setMonth(val);
-                }
+                resValues.month = this.resolveMonth(matches[parsedIndexes.monthLong]);
             }
             // Short month
             if (parsedIndexes.monthShort > -1) {
-                var val = this.resolveShortMonth(matches[parsedIndexes.monthShort]);
-                if (this.utc) {
-                    res.setUTCMonth(val);
-                }
-                else {
-                    res.setMonth(val);
-                }
+                resValues.month = this.resolveShortMonth(matches[parsedIndexes.monthShort]);
             }
             // Numeric month
             if (parsedIndexes.month > -1) {
-                var val = parseInt(matches[parsedIndexes.month]) - 1;
-                if (this.utc) {
-                    res.setUTCMonth(val);
-                }
-                else {
-                    res.setMonth(val);
-                }
+                resValues.month = parseInt(matches[parsedIndexes.month]) - 1;
             }
             // Weekday
             // @todo
@@ -785,57 +759,25 @@ var DateFormatter = /** @class */ (function (_super) {
                 // We parse weeks ONLY if day is not explicitly set
                 // TODO: this needs work
                 // (but maybe later - I can hardly imagine anyone passing their dates in weeks)
-                var val = $utils.getDayFromWeek(parseInt(matches[parsedIndexes.week]), this.utc ? res.getUTCFullYear() : res.getFullYear(), 1, this.utc);
-                if (this.utc) {
-                    res.setUTCMonth(0);
-                    res.setUTCDate(val);
-                }
-                else {
-                    res.setMonth(0);
-                    res.setDate(val);
-                }
+                resValues.month = 0;
+                resValues.day = $utils.getDayFromWeek(parseInt(matches[parsedIndexes.week]), resValues.year, 1, this.utc);
             }
             // Day
             if (parsedIndexes.day > -1) {
-                var val = parseInt(matches[parsedIndexes.day]);
-                if (this.utc) {
-                    res.setUTCDate(val);
-                }
-                else {
-                    res.setDate(val);
-                }
+                resValues.day = parseInt(matches[parsedIndexes.day]);
             }
             // Year day
             if (parsedIndexes.yearDay > -1) {
-                var val = parseInt(matches[parsedIndexes.yearDay]);
-                if (this.utc) {
-                    res.setUTCMonth(0);
-                    res.setUTCDate(val);
-                }
-                else {
-                    res.setMonth(0);
-                    res.setDate(val);
-                }
+                resValues.month = 0;
+                resValues.day = parseInt(matches[parsedIndexes.yearDay]);
             }
             // 24 Hour (0-23)
             if (parsedIndexes.hourBase0 > -1) {
-                var val = parseInt(matches[parsedIndexes.hourBase0]);
-                if (this.utc) {
-                    res.setUTCHours(val);
-                }
-                else {
-                    res.setHours(val);
-                }
+                resValues.hour = parseInt(matches[parsedIndexes.hourBase0]);
             }
             // 24 Hour (1-24)
             if (parsedIndexes.hourBase1 > -1) {
-                var val = parseInt(matches[parsedIndexes.hourBase1]) - 1;
-                if (this.utc) {
-                    res.setUTCHours(val);
-                }
-                else {
-                    res.setHours(val);
-                }
+                resValues.hour = parseInt(matches[parsedIndexes.hourBase1]) - 1;
             }
             // 12 Hour (0-11)
             if (parsedIndexes.hour12Base0 > -1) {
@@ -846,12 +788,7 @@ var DateFormatter = /** @class */ (function (_super) {
                 if ((parsedIndexes.am > -1) && !this.isAm(matches[parsedIndexes.am])) {
                     val += 12;
                 }
-                if (this.utc) {
-                    res.setUTCHours(val);
-                }
-                else {
-                    res.setHours(val);
-                }
+                resValues.hour = val;
             }
             // 12 Hour (1-12)
             if (parsedIndexes.hour12Base1 > -1) {
@@ -862,32 +799,15 @@ var DateFormatter = /** @class */ (function (_super) {
                 if ((parsedIndexes.am > -1) && !this.isAm(matches[parsedIndexes.am])) {
                     val += 12;
                 }
-                if (this.utc) {
-                    res.setUTCHours(val);
-                }
-                else {
-                    res.setHours(val);
-                }
+                resValues.hour = val;
             }
             // Minute
             if (parsedIndexes.minute > -1) {
-                var val = parseInt(matches[parsedIndexes.minute]);
-                if (this.utc) {
-                    res.setUTCMinutes(val);
-                }
-                else {
-                    res.setMinutes(val);
-                }
+                resValues.minute = parseInt(matches[parsedIndexes.minute]);
             }
             // Second
             if (parsedIndexes.second > -1) {
-                var val = parseInt(matches[parsedIndexes.second]);
-                if (this.utc) {
-                    res.setUTCSeconds(val);
-                }
-                else {
-                    res.setSeconds(val);
-                }
+                resValues.second = parseInt(matches[parsedIndexes.second]);
             }
             // Millisecond
             if (parsedIndexes.millisecond > -1) {
@@ -898,16 +818,11 @@ var DateFormatter = /** @class */ (function (_super) {
                 else if (parsedIndexes.millisecondDigits == 1) {
                     val *= 100;
                 }
-                if (this.utc) {
-                    res.setUTCMilliseconds(val);
-                }
-                else {
-                    res.setMilliseconds(val);
-                }
+                resValues.millisecond = val;
             }
             // Timestamp
             if (parsedIndexes.timestamp > -1) {
-                res.setTime(parseInt(matches[parsedIndexes.timestamp]));
+                resValues.timestamp = parseInt(matches[parsedIndexes.timestamp]);
             }
             // Adjust time zone
             if (parsedIndexes.zone > -1) {
@@ -924,27 +839,29 @@ var DateFormatter = /** @class */ (function (_super) {
                     offset *= -1;
                 }
                 // Check the difference in offset
-                var originalOffset = res.getTimezoneOffset();
+                var originalOffset = new Date().getTimezoneOffset();
                 var diff = offset - originalOffset;
-                if (diff != 0) {
-                    res.setMinutes(res.getMinutes() + diff);
-                }
+                resValues.offset = diff;
             }
             // ISO
             if (parsedIndexes.iso > -1) {
                 if (matches[parsedIndexes.iso + 7] == "Z" || matches[parsedIndexes.iso + 7] == "z") {
-                    res = new Date();
-                    res.setUTCFullYear($type.toNumber(matches[parsedIndexes.iso + 0]));
-                    res.setUTCMonth($type.toNumber(matches[parsedIndexes.iso + 1]) - 1);
-                    res.setUTCDate($type.toNumber(matches[parsedIndexes.iso + 2]));
-                    res.setUTCHours($type.toNumber(matches[parsedIndexes.iso + 3]));
-                    res.setUTCMinutes($type.toNumber(matches[parsedIndexes.iso + 4]));
-                    res.setUTCSeconds($type.toNumber(matches[parsedIndexes.iso + 5]));
-                    res.setUTCMilliseconds($type.toNumber(matches[parsedIndexes.iso + 6]));
+                    resValues.utc = true;
                 }
-                else {
-                    res = new Date($type.toNumber(matches[parsedIndexes.iso + 0]), $type.toNumber(matches[parsedIndexes.iso + 1]) - 1, $type.toNumber(matches[parsedIndexes.iso + 2]), $type.toNumber(matches[parsedIndexes.iso + 3]), $type.toNumber(matches[parsedIndexes.iso + 4]), $type.toNumber(matches[parsedIndexes.iso + 5]), $type.toNumber(matches[parsedIndexes.iso + 6]));
-                }
+                resValues.year = $type.toNumber(matches[parsedIndexes.iso + 0]);
+                resValues.month = $type.toNumber(matches[parsedIndexes.iso + 1]) - 1;
+                resValues.day = $type.toNumber(matches[parsedIndexes.iso + 2]);
+                resValues.hour = $type.toNumber(matches[parsedIndexes.iso + 3]);
+                resValues.minute = $type.toNumber(matches[parsedIndexes.iso + 4]);
+                resValues.second = $type.toNumber(matches[parsedIndexes.iso + 5]);
+                resValues.millisecond = $type.toNumber(matches[parsedIndexes.iso + 6]);
+            }
+            // Create Date object
+            if (resValues.utc) {
+                res = new Date(Date.UTC(resValues.year, resValues.month, resValues.day, resValues.hour, resValues.minute, resValues.second, resValues.millisecond));
+            }
+            else {
+                res = new Date(resValues.year, resValues.month, resValues.day, resValues.hour, resValues.minute, resValues.second, resValues.millisecond);
             }
         }
         else {

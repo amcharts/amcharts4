@@ -10,6 +10,7 @@ import * as tslib_1 from "tslib";
  */
 import { Container } from "../../core/Container";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
+import { AxisDataItem } from "./Axis";
 import { AxisLine } from "./AxisLine";
 import { AxisFill } from "./AxisFill";
 import { Grid } from "./Grid";
@@ -19,6 +20,7 @@ import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -435,6 +437,15 @@ var AxisRenderer = /** @class */ (function (_super) {
      */
     AxisRenderer.prototype.toggleVisibility = function (sprite, position, minPosition, maxPosition) {
         var axis = this.axis;
+        var dataItem = sprite.dataItem;
+        if (dataItem && dataItem instanceof AxisDataItem) {
+            if ($type.isNumber(dataItem.minPosition)) {
+                minPosition = dataItem.minPosition;
+            }
+            if ($type.isNumber(dataItem.maxPosition)) {
+                maxPosition = dataItem.maxPosition;
+            }
+        }
         var updatedStart = axis.start + (axis.end - axis.start) * (minPosition - 0.0001);
         var updatedEnd = axis.start + (axis.end - axis.start) * (maxPosition + 0.0001);
         if (!sprite.disabled) {

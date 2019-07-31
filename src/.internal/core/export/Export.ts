@@ -147,6 +147,7 @@ async function eachStylesheet(topUrl: string, sheet: CSSStyleSheet, f: (topUrl: 
 // If the CSSStyleSheet has any @import, then it will recursively call the function for those CSSRules too.
 // TODO this should be moved into utils or something
 async function eachStylesheets(f: (topUrl: string, rule: CSSRule) => void): Promise<void> {
+	// TODO use $dom.getRoot instead of document ?
 	await Promise.all($array.map(document.styleSheets, (sheet) => {
 		let url = sheet.href;
 

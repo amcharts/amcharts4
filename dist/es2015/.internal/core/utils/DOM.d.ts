@@ -120,6 +120,13 @@ export declare function isElement(el: HTMLElement): boolean;
  */
 export declare function contains(a: HTMLElement | SVGSVGElement, b: HTMLElement | SVGSVGElement): boolean;
 /**
+ * Returns the root of the element (either the Document or the ShadowRoot)
+ *
+ * @param a  Element
+ * @return Root
+ */
+export declare function getRoot(a: Node): Document | ShadowRoot;
+/**
  * Gets the true target of the Event.
  *
  * This is needed to make events work with the shadow DOM.

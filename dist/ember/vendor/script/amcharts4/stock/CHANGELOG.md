@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.11] - 2019-07-31
+
+### Added
+- New `AxisDataItem` properties: `minPosition` and `maxPosition`. Enable controlling visibility of associated axis element (e.g. label, tick, grid). Overrides `minLabelPosition` and `maxLabelPosition`.
+
+### Fixed
+- `NumberFormatter` was sometimes susceptable to floating-point error when formatting percent formats (`#%`);
+- Cursor hover was not working with shadow DOM.
+- `DateFormatter` could sometimes parse string-based dates wrong when in UTC mode.
+
+
 ## [4.5.10] - 2019-07-29
 
 ### Fixed

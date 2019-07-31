@@ -233,11 +233,39 @@ export function contains(a, b) {
             return true;
         }
         else if (cursor.parentNode == null) {
+            // TODO better ShadowRoot detection
             if (cursor.host == null) {
                 return false;
             }
             else {
                 cursor = cursor.host;
+            }
+        }
+        else {
+            cursor = cursor.parentNode;
+        }
+    }
+}
+/**
+ * Returns the root of the element (either the Document or the ShadowRoot)
+ *
+ * @param a  Element
+ * @return Root
+ */
+export function getRoot(a) {
+    var owner = a.ownerDocument;
+    var cursor = a;
+    while (true) {
+        if (cursor === owner) {
+            return owner;
+        }
+        else if (cursor.parentNode == null) {
+            // TODO better ShadowRoot detection
+            if (cursor.host == null) {
+                throw new Error("Could not find root");
+            }
+            else {
+                return cursor;
             }
         }
         else {

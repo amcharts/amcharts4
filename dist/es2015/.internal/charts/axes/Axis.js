@@ -459,6 +459,8 @@ var AxisDataItem = /** @class */ (function (_super) {
         if (source.bullet) {
             this.bullet = source.bullet.clone();
         }
+        this.minPosition = source.minPosition;
+        this.maxPosition = source.maxPosition;
     };
     /**
      * Sets visibility of the Data Item.
@@ -534,7 +536,14 @@ var AxisDataItem = /** @class */ (function (_super) {
          * @param  value  Bullet
          */
         set: function (value) {
+            if (this._bullet && this._bullet != value) {
+                $array.remove(this.sprites, this._bullet);
+                this._bullet.dataItem = undefined;
+            }
             this._bullet = value;
+            if (value) {
+                this.addSprite(value);
+            }
         },
         enumerable: true,
         configurable: true
