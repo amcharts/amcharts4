@@ -170,6 +170,6 @@ import * as iter from "./.internal/core/utils/Iterator";
 export { iter };
 import * as type from "./.internal/core/utils/Type";
 export { type };
-export { create, createFromConfig } from "./.internal/core/utils/Instance";
+export { create, createFromConfig, disposeAllCharts } from "./.internal/core/utils/Instance";
 export { useTheme, unuseTheme, unuseAllThemes } from "./.internal/core/utils/Instance";
 //# sourceMappingURL=core.js.map

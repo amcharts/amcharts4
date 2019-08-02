@@ -2103,7 +2103,7 @@ var Interaction = /** @class */ (function (_super) {
         if ($type.hasValue(cached)) {
             return cached;
         }
-        var target = $dom.getRoot(svg).elementFromPoint(pointer.point.x, pointer.point.y);
+        var target = ($dom.getRoot(svg) || document).elementFromPoint(pointer.point.x, pointer.point.y);
         var local = target && $dom.contains(svg, target);
         this.setCache("local_pointer_" + pointer.id + "_" + id, local, 100);
         return local;

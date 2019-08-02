@@ -21,6 +21,7 @@ import * as $array from "./Array";
 import * as $type from "./Type";
 import * as $dom from "./DOM";
 import * as $utils from "./Utils";
+import * as $log from "./Log";
 /**
  * ============================================================================
  * INSTANTIATION FUNCTIONS
@@ -80,7 +81,27 @@ function createChild(htmlElement, classType) {
                 sprite_1.maskRectangle = { x: 0, y: 0, width: svgDiv_1.width, height: svgDiv_1.height };
             }
         });
+        var loopTimer_1 = null;
+        // Checks to see whether the chart was properly disposed or not
+        var loop_1 = function () {
+            if (!sprite_1.isDisposed()) {
+                if ($dom.getRoot(sprite_1.dom) == null) {
+                    $log.warn("Chart was not disposed", sprite_1.uid);
+                    loopTimer_1 = null;
+                }
+                else {
+                    loopTimer_1 = setTimeout(loop_1, 1000);
+                }
+            }
+            else {
+                loopTimer_1 = null;
+            }
+        };
+        loop_1();
         sprite_1.addDisposer(new Disposer(function () {
+            if (loopTimer_1 !== null) {
+                clearTimeout(loopTimer_1);
+            }
             $array.remove(registry.baseSprites, sprite_1);
             registry.baseSpritesByUid[sprite_1.uid] = undefined;
         }));
@@ -148,6 +169,14 @@ function createChild(htmlElement, classType) {
     else {
         system.log("html container not found");
         throw new Error("html container not found");
+    }
+}
+/**
+ * Disposes all of the currently active charts.
+ */
+export function disposeAllCharts() {
+    while (registry.baseSprites.length !== 0) {
+        registry.baseSprites.pop().dispose();
     }
 }
 export function addToQueue(sprite) {

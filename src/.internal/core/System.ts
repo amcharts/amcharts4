@@ -8,13 +8,13 @@ import { registry } from "./Registry";
 import { Sprite } from "./Sprite";
 import { Container } from "./Container";
 import { Component } from "./Component";
-import { options } from "./Options";
 import { raf } from "./utils/AsyncPending";
 import { IAnimationObject } from "./utils/Animation";
 import { triggerIdle } from "./utils/AsyncPending";
 import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
 import * as $type from "./utils/Type";
+import * as $log from "./utils/Log";
 
 
 /**
@@ -53,7 +53,7 @@ export class System {
 	 *
 	 * @see {@link https://docs.npmjs.com/misc/semver}
 	 */
-	static VERSION: string = "4.5.11";
+	static VERSION: string = "4.5.12";
 
 	/**
 	 * @todo Description
@@ -476,11 +476,7 @@ export class System {
 	 * @param value Message to output to console
 	 */
 	public log(value: any): void {
-		if (options.verbose) {
-			if (console) {
-				console.log(value);
-			}
-		}
+		$log.log(value);
 	}
 
 	/**

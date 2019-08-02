@@ -11,6 +11,7 @@
 import { RadarChart, IRadarChartProperties, IRadarChartDataFields, IRadarChartAdapters, IRadarChartEvents, RadarChartDataItem } from "./RadarChart";
 import { ListTemplate, IListEvents, ListDisposer } from "../../core/utils/List";
 import { ClockHand } from "../elements/ClockHand";
+import { Ordering } from "../../core/utils/Order";
 import { registry } from "../../core/Registry";
 import * as $type from "../../core/utils/Type";
 
@@ -164,6 +165,32 @@ export class GaugeChart extends RadarChart {
 		let hand: ClockHand = event.newValue;
 		if (!hand.axis) {
 			hand.axis = this.xAxes.getIndex(0);
+		}
+	}
+
+	/**
+	 * This function is used to sort element's JSON config properties, so that
+	 * some properties that absolutely need to be processed last, can be put at
+	 * the end.
+	 *
+	 * @ignore Exclude from docs
+	 * @param a  Element 1
+	 * @param b  Element 2
+	 * @return Sorting number
+	 */
+	protected configOrder(a: string, b: string): Ordering {
+		if (a == b) {
+			return 0;
+		}
+		// Must come last
+		else if (a == "hands") {
+			return 1;
+		}
+		else if (b == "hands") {
+			return -1;
+		}
+		else {
+			return super.configOrder(a, b);
 		}
 	}
 

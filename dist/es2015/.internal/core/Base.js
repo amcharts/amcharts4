@@ -402,7 +402,14 @@ var BaseObject = /** @class */ (function () {
             if (_this.hasProperty(configKey)) {
                 var item_1;
                 // Do we have instructions to create an object?
-                if ($type.isObject(configValue) && $type.hasValue(configValue["type"])) {
+                // We create a new object if "type" key is set, but only if the
+                // target object is of different type.
+                if ($type.isObject(configValue)
+                    && $type.hasValue(configValue["type"])
+                    && (!$type.isObject(target[configKey])
+                        || !$type.hasValue(target[configKey].className)
+                        || configValue["forceCreate"]
+                        || target[configKey].className != configValue["type"])) {
                     item_1 = _this.createClassInstance(configValue["type"]);
                     // Create new instance
                     if (item_1) {

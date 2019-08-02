@@ -5,11 +5,11 @@
  * @hidden
  */
 import { registry } from "./Registry";
-import { options } from "./Options";
 import { raf } from "./utils/AsyncPending";
 import { triggerIdle } from "./utils/AsyncPending";
 import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
+import * as $log from "./utils/Log";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -390,11 +390,7 @@ var System = /** @class */ (function () {
      * @param value Message to output to console
      */
     System.prototype.log = function (value) {
-        if (options.verbose) {
-            if (console) {
-                console.log(value);
-            }
-        }
+        $log.log(value);
     };
     Object.defineProperty(System.prototype, "isPaused", {
         /**
@@ -425,7 +421,7 @@ var System = /** @class */ (function () {
      *
      * @see {@link https://docs.npmjs.com/misc/semver}
      */
-    System.VERSION = "4.5.11";
+    System.VERSION = "4.5.12";
     return System;
 }());
 export { System };

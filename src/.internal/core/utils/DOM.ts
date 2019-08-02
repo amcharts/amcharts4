@@ -273,25 +273,24 @@ export function contains(a: HTMLElement | SVGSVGElement, b: HTMLElement | SVGSVG
 /**
  * Returns the root of the element (either the Document or the ShadowRoot)
  *
- * @param a  Element
+ * @param a  Node
  * @return Root
  */
-export function getRoot(a: Node): Document | ShadowRoot {
+export function getRoot(a: Node): Document | ShadowRoot | null {
+	// TODO replace with Node.prototype.getRootNode
 	const owner = a.ownerDocument;
 
 	let cursor: Node = a;
 
 	while (true) {
-		if (cursor === owner) {
-			return owner;
-
-		} else if (cursor.parentNode == null) {
+		if (cursor.parentNode == null) {
+			// If the cursor is the document, or it is a ShadowRoot
 			// TODO better ShadowRoot detection
-			if ((<ShadowRoot>cursor).host == null) {
-				throw new Error("Could not find root");
+			if (cursor === owner || (<ShadowRoot>cursor).host != null) {
+				return <Document | ShadowRoot>cursor;
 
 			} else {
-				return <ShadowRoot>cursor;
+				return null;
 			}
 
 		} else {

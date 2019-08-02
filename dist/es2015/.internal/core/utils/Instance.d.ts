@@ -1,6 +1,10 @@
 import { Sprite } from "../Sprite";
 import { ITheme } from "../../themes/ITheme";
 import * as $type from "./Type";
+/**
+ * Disposes all of the currently active charts.
+ */
+export declare function disposeAllCharts(): void;
 export declare function addToQueue(sprite: Sprite): void;
 export declare function removeFromQueue(sprite: Sprite): void;
 export declare function viewPortHandler(sprite: Sprite): void;

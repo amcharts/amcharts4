@@ -10,6 +10,7 @@
 import { RadarChart, IRadarChartProperties, IRadarChartDataFields, IRadarChartAdapters, IRadarChartEvents, RadarChartDataItem } from "./RadarChart";
 import { ListTemplate, IListEvents } from "../../core/utils/List";
 import { ClockHand } from "../elements/ClockHand";
+import { Ordering } from "../../core/utils/Order";
 /**
  * ============================================================================
  * DATA ITEM
@@ -109,4 +110,15 @@ export declare class GaugeChart extends RadarChart {
      * @param event  Event
      */
     protected processHand(event: IListEvents<ClockHand>["inserted"]): void;
+    /**
+     * This function is used to sort element's JSON config properties, so that
+     * some properties that absolutely need to be processed last, can be put at
+     * the end.
+     *
+     * @ignore Exclude from docs
+     * @param a  Element 1
+     * @param b  Element 2
+     * @return Sorting number
+     */
+    protected configOrder(a: string, b: string): Ordering;
 }

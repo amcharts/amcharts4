@@ -95,6 +95,31 @@ var GaugeChart = /** @class */ (function (_super) {
             hand.axis = this.xAxes.getIndex(0);
         }
     };
+    /**
+     * This function is used to sort element's JSON config properties, so that
+     * some properties that absolutely need to be processed last, can be put at
+     * the end.
+     *
+     * @ignore Exclude from docs
+     * @param a  Element 1
+     * @param b  Element 2
+     * @return Sorting number
+     */
+    GaugeChart.prototype.configOrder = function (a, b) {
+        if (a == b) {
+            return 0;
+        }
+        // Must come last
+        else if (a == "hands") {
+            return 1;
+        }
+        else if (b == "hands") {
+            return -1;
+        }
+        else {
+            return _super.prototype.configOrder.call(this, a, b);
+        }
+    };
     return GaugeChart;
 }(RadarChart));
 export { GaugeChart };

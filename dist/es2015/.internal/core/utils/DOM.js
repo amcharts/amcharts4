@@ -249,23 +249,22 @@ export function contains(a, b) {
 /**
  * Returns the root of the element (either the Document or the ShadowRoot)
  *
- * @param a  Element
+ * @param a  Node
  * @return Root
  */
 export function getRoot(a) {
+    // TODO replace with Node.prototype.getRootNode
     var owner = a.ownerDocument;
     var cursor = a;
     while (true) {
-        if (cursor === owner) {
-            return owner;
-        }
-        else if (cursor.parentNode == null) {
+        if (cursor.parentNode == null) {
+            // If the cursor is the document, or it is a ShadowRoot
             // TODO better ShadowRoot detection
-            if (cursor.host == null) {
-                throw new Error("Could not find root");
+            if (cursor === owner || cursor.host != null) {
+                return cursor;
             }
             else {
-                return cursor;
+                return null;
             }
         }
         else {

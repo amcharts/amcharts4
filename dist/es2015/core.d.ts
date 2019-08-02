@@ -199,5 +199,5 @@ export { iter };
 import * as type from "./.internal/core/utils/Type";
 export { type };
 export { ITheme } from "./.internal/themes/ITheme";
-export { create, createFromConfig } from "./.internal/core/utils/Instance";
+export { create, createFromConfig, disposeAllCharts } from "./.internal/core/utils/Instance";
 export { useTheme, unuseTheme, unuseAllThemes } from "./.internal/core/utils/Instance";

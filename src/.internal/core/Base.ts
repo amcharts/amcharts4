@@ -510,7 +510,18 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 				let item: any;
 
 				// Do we have instructions to create an object?
-				if ($type.isObject(configValue) && $type.hasValue((<any>configValue)["type"])) {
+				// We create a new object if "type" key is set, but only if the
+				// target object is of different type.
+				if (
+					$type.isObject(configValue)
+					&& $type.hasValue((<any>configValue)["type"])
+					&& (
+						!$type.isObject(target[configKey])
+						|| !$type.hasValue(target[configKey].className)
+						|| (<any>configValue)["forceCreate"]
+						|| target[configKey].className != (<any>configValue)["type"]
+					)
+				) {
 					item = this.createClassInstance((<any>configValue)["type"]);
 
 					// Create new instance

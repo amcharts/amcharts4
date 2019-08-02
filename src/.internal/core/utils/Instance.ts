@@ -23,6 +23,7 @@ import * as $array from "./Array";
 import * as $type from "./Type";
 import * as $dom from "./DOM";
 import * as $utils from "./Utils";
+import * as $log from "./Log";
 
 /**
  * ============================================================================
@@ -95,9 +96,32 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 			if (sprite.maskRectangle) {
 				sprite.maskRectangle = { x: 0, y: 0, width: svgDiv.width, height: svgDiv.height };
 			}
-		})
+		});
+
+		let loopTimer: number | null = null;
+
+		// Checks to see whether the chart was properly disposed or not
+		const loop = () => {
+			if (!sprite.isDisposed()) {
+				if ($dom.getRoot(sprite.dom) == null) {
+					$log.warn("Chart was not disposed", sprite.uid);
+					loopTimer = null;
+
+				} else {
+					loopTimer = setTimeout(loop, 1000);
+				}
+
+			} else {
+				loopTimer = null;
+			}
+		};
+
+		loop();
 
 		sprite.addDisposer(new Disposer(() => {
+			if (loopTimer !== null) {
+				clearTimeout(loopTimer);
+			}
 			$array.remove(registry.baseSprites, sprite);
 			registry.baseSpritesByUid[sprite.uid] = undefined;
 		}));
@@ -178,6 +202,15 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 	else {
 		system.log("html container not found");
 		throw new Error("html container not found");
+	}
+}
+
+/**
+ * Disposes all of the currently active charts.
+ */
+export function disposeAllCharts(): void {
+	while (registry.baseSprites.length !== 0) {
+		registry.baseSprites.pop().dispose();
 	}
 }
 

@@ -122,10 +122,10 @@ export declare function contains(a: HTMLElement | SVGSVGElement, b: HTMLElement 
 /**
  * Returns the root of the element (either the Document or the ShadowRoot)
  *
- * @param a  Element
+ * @param a  Node
  * @return Root
  */
-export declare function getRoot(a: Node): Document | ShadowRoot;
+export declare function getRoot(a: Node): Document | ShadowRoot | null;
 /**
  * Gets the true target of the Event.
  *

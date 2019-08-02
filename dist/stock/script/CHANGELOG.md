@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.12] - 2019-08-02
+
+### Added
+- Now prints a warning if you do not dispose of the chart properly.
+- New `am4core.disposeAllCharts` function.
+
+### Changed
+- JSON: Config processor will not overwrite target object if the `type` of the object set in config and one already existing matches.
+
+### Fixed
+- Fixing "Could not find root" error.
+- JSON: declaring `hands` array before `axes` on a `GaugeChart` will not result in error anymore. This relates to JSON config only. In object-based setups, clock hands must still be defined **after** axes.
+
+
 ## [4.5.11] - 2019-07-31
 
 ### Added
