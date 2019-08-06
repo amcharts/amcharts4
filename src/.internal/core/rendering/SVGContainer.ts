@@ -122,18 +122,20 @@ export class SVGContainer implements IDisposer {
 	 *
 	 * * Creates an HTML wrapper for SVG
 	 */
-	constructor(htmlElement: HTMLElement) {
+	constructor(htmlElement: HTMLElement, ghost?: boolean) {
 
 		// Log parent HTML element
 		this.htmlElement = htmlElement;
 
-		const callback = () => { this.measure() };
+		if (!ghost) {
+			const callback = () => { this.measure() };
 
-		this.resizeSensor = new ResizeSensor(htmlElement, callback);
+			this.resizeSensor = new ResizeSensor(htmlElement, callback);
 
-		this._disposers.push(new Disposer(() => {
-			this.resizeSensor.detach(callback);
-		}));
+			this._disposers.push(new Disposer(() => {
+				this.resizeSensor.detach(callback);
+			}));
+		}
 
 		// Adds to containers array
 		svgContainers.push(this);

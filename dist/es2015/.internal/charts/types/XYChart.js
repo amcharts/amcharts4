@@ -1270,8 +1270,20 @@ var XYChart = /** @class */ (function (_super) {
                 axis.hideTooltip(0);
                 if (round) {
                     //let diff = range.end - range.start;
-                    range.start = axis.roundPosition(range.start + 0.0001, 0);
-                    range.end = axis.roundPosition(range.end + 0.0001, 0);
+                    if (axis instanceof CategoryAxis) {
+                        var diff = range.end - range.start;
+                        //range.start = axis.roundPosition(range.start + 0.0001, 0);
+                        var location_1 = 0;
+                        if (range.end > 0.5) {
+                            location_1 = 1;
+                        }
+                        range.end = axis.roundPosition(range.end + 0.0001, location_1);
+                        range.start = range.end - diff;
+                    }
+                    else {
+                        range.start = axis.roundPosition(range.start + 0.0001, 0);
+                        range.end = axis.roundPosition(range.end + 0.0001, 0);
+                    }
                 }
                 var axisRange = axis.zoom(range, instantly, instantly, declination);
                 if (axis.renderer.inversed) {

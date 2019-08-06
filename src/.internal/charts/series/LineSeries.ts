@@ -368,8 +368,8 @@ export class LineSeries extends XYSeries {
 	 * @ignore Exclude from docs
 	 * @param dataItem  Data item
 	 */
-	public updateLegendValue(dataItem?: this["_dataItem"]) {
-		super.updateLegendValue(dataItem);
+	public updateLegendValue(dataItem?: this["_dataItem"], notRange?:boolean) {
+		super.updateLegendValue(dataItem, notRange);
 		//This is hack to save some methos, used to set tooltip color source only
 		if (dataItem && dataItem.segment) {
 			this.tooltipColorSource = dataItem.segment;

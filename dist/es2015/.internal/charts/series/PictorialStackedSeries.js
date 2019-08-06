@@ -128,7 +128,9 @@ var PictorialStackedSeries = /** @class */ (function (_super) {
             this.ticksContainer.x = x;
             this.slices.template.dx = startLocation * newWidth;
         }
-        this.slicesContainer.mask = this._maskSprite;
+        if (newWidth > 0 && newHeight > 0) {
+            this.slicesContainer.mask = this._maskSprite;
+        }
     };
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they

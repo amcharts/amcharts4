@@ -134,7 +134,7 @@ export function getGhostPaper() {
         var ghostDiv = document.createElement("div");
         ghostDiv.hidden = true;
         document.body.appendChild(ghostDiv);
-        var ghostSvgContainer = new SVGContainer(ghostDiv);
+        var ghostSvgContainer = new SVGContainer(ghostDiv, true);
         ghostPaper = new Paper(ghostSvgContainer.SVGContainer, "ghost");
     }
     return ghostPaper;

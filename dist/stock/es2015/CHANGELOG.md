@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.13] - 2019-08-06
+
+### Fixed
+- Sometimes `requestAnimationFrame` was being invoked even if all charts were disposed.
+- Base grid was not displayed if `axis.renderer.inside = true`.
+- Last tooltip might not be shown on `DateAxis` if it had multiple series and some of the series did not have data at the last date.
+- Legend values were showing value of the pervious hovered data item on the dates which did not have any data.
+- Changing base value of `ValueAxis` was not making the series to be redrawn.
+- Sometimes `ValueAxis` was not adjusting `min`/`max` when a part of the `DateAxis` with series having no data at the selected period was selected.
+- Sometimes columns or step line series could overlap if `baseInterval.unit = "day"` and `baseInterval.count > 1`.
+- `XYChartScrollbar` axes were not handling changes of `min`/`max` of chart axes.
+- Panning of `CategoryAxis` could result incorrect zoom in some cases.
+- FireFox issue with multiple `PictorialStackedSeries` on the same chart solved.
+- Cursor selection was disappearing when mouse was released (with `selectX`/`selectY`/`selectXY` cursor behavior).
+- Tooltip of clustered columns was positioned incorrectly (always showing in the middle of a cell).
+
+
 ## [4.5.12] - 2019-08-02
 
 ### Added

@@ -931,7 +931,7 @@ var Series = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @param dataItem  Data item
      */
-    Series.prototype.updateLegendValue = function (dataItem) {
+    Series.prototype.updateLegendValue = function (dataItem, notRange) {
         // if this series has legend item
         if (this.legendDataItem) {
             var legendSettings = this.legendSettings;
@@ -939,7 +939,7 @@ var Series = /** @class */ (function (_super) {
             var label = legendDataItem.label;
             var valueLabel = legendDataItem.valueLabel;
             // update legend
-            if (dataItem) {
+            if (dataItem || notRange) {
                 if (valueLabel) {
                     if (legendSettings.itemValueText) {
                         valueLabel.text = legendSettings.itemValueText;

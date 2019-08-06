@@ -239,7 +239,7 @@ export function add(date, unit, count, utc) {
  * @param firstDateOfWeek  First day of week
  * @return New date
  */
-export function round(date, unit, count, firstDateOfWeek, utc) {
+export function round(date, unit, count, firstDateOfWeek, utc, firstDate) {
     if (!$type.isNumber(count)) {
         count = 1;
     }
@@ -252,9 +252,18 @@ export function round(date, unit, count, firstDateOfWeek, utc) {
         case "day":
             var day = date.getUTCDate();
             if (count > 1) {
-                day = Math.floor(day / count) * count;
+                //	day = Math.floor(day / count) * count;
+                if (firstDate) {
+                    firstDate = round(firstDate, "day", 1);
+                    var difference = date.getTime() - firstDate.getTime();
+                    var unitCount = Math.floor(difference / getDuration("day") / count);
+                    var duration = getDuration("day", unitCount * count);
+                    date.setTime(firstDate.getTime() + duration - timeZoneOffset * getDuration("minute"));
+                }
             }
-            date.setUTCDate(day);
+            else {
+                date.setUTCDate(day);
+            }
             date.setUTCHours(0, 0, 0, 0);
             break;
         case "second":

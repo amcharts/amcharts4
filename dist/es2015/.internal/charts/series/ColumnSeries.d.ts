@@ -321,7 +321,7 @@ export declare class ColumnSeries extends XYSeries {
      * @ignore Exclude from docs
      * @param dataItem  Data item
      */
-    updateLegendValue(dataItem?: this["_dataItem"]): void;
+    updateLegendValue(dataItem?: this["_dataItem"], notRange?: boolean): void;
     /**
      * Creates elements in related legend container, that mimics the look of this
      * Series.
@@ -346,6 +346,8 @@ export declare class ColumnSeries extends XYSeries {
     * @ignore
     */
     protected getBulletLocationY(bullet: Bullet, field: string): number;
+    protected getAdjustedXLocation(dataItem: this["_dataItem"], field: string): number;
+    protected getAdjustedYLocation(dataItem: this["_dataItem"], field: string): number;
     /**
      * @ignore Exclude from docs
      */

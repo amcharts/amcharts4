@@ -201,7 +201,7 @@ export declare class LineSeries extends XYSeries {
      * @ignore Exclude from docs
      * @param dataItem  Data item
      */
-    updateLegendValue(dataItem?: this["_dataItem"]): void;
+    updateLegendValue(dataItem?: this["_dataItem"], notRange?: boolean): void;
     /**
      * (Re)validates the whole series, effectively causing it to redraw.
      *

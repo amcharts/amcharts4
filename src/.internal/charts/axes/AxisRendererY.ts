@@ -116,7 +116,7 @@ export class AxisRendererY extends AxisRenderer {
 		if (axis) {
 			let gridContainer = this.gridContainer;
 			gridContainer.y = axis.pixelY;
-			gridContainer.height = axis.pixelHeight;
+			gridContainer.height = axis.axisLength;
 		}
 	}
 
@@ -130,7 +130,7 @@ export class AxisRendererY extends AxisRenderer {
 		let parent = axis.parent;
 		if (axis && parent) {
 			let relativeY = axis.pixelY / parent.innerHeight;
-			let relativeHeight = axis.pixelHeight / parent.innerHeight;
+			let relativeHeight = axis.axisLength / parent.innerHeight;
 
 			return 1 - (inversedPosition - relativeY) / relativeHeight;
 		}
@@ -345,7 +345,7 @@ export class AxisRendererY extends AxisRenderer {
 		let axis: Axis = this.axis;
 
 		let w: number = this.getWidth();
-		let h: number = this.pixelHeight;
+		let h: number = this.axisLength;
 		let y: number = axis.basePoint.y;
 
 		let baseGrid: Sprite = this.baseGrid;
@@ -440,10 +440,10 @@ export class AxisRendererY extends AxisRenderer {
 		let x1: number = axisBreak.pixelMarginLeft;
 		let x2: number = this.getWidth() - axisBreak.pixelMarginLeft - axisBreak.pixelMarginRight;
 
-		startPoint.y = $math.fitToRange(startPoint.y, -1, this.pixelHeight + 1);
-		endPoint.y = $math.fitToRange(endPoint.y, -1, this.pixelHeight + 1);
+		startPoint.y = $math.fitToRange(startPoint.y, -1, this.axisLength + 1);
+		endPoint.y = $math.fitToRange(endPoint.y, -1, this.axisLength + 1);
 
-		if (startPoint.y == endPoint.y && (startPoint.y < 0 || startPoint.y > this.pixelHeight)) {
+		if (startPoint.y == endPoint.y && (startPoint.y < 0 || startPoint.y > this.axisLength)) {
 			axisBreak.fillShape.__disabled = true;
 		}
 		else {

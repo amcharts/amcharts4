@@ -567,7 +567,7 @@ export declare class Series extends Component {
      * @ignore Exclude from docs
      * @param dataItem  Data item
      */
-    updateLegendValue(dataItem?: this["_dataItem"]): void;
+    updateLegendValue(dataItem?: this["_dataItem"], notRange?: boolean): void;
     /**
      * Copies all properties from another instance of [[Series]].
      *

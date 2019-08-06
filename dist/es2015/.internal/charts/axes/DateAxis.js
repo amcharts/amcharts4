@@ -458,7 +458,10 @@ var DateAxis = /** @class */ (function (_super) {
                     }
                     else {
                         maxZoomed -= 1;
-                        endIndex = series.dataItems.findClosestIndex(maxZoomed, function (x) { return x[field_1]; }, "right") + 1;
+                        endIndex = series.dataItems.findClosestIndex(maxZoomed, function (x) { return x[field_1]; }, "right");
+                        if (endIndex > 0) {
+                            endIndex++;
+                        }
                     }
                 }
                 series.startIndex = startIndex;
@@ -1317,7 +1320,7 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.getTooltipText = function (position) {
         var text;
         var date = this.positionToDate(position);
-        date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc);
+        date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc, new Date(this.min));
         if ($type.hasValue(this.tooltipDateFormat)) {
             text = this.dateFormatter.format(date, this.tooltipDateFormat);
         }
@@ -1521,7 +1524,8 @@ var DateAxis = /** @class */ (function (_super) {
             position = this.toAxisPosition(position);
         }
         if (this.snapTooltip) {
-            var actualDate = $time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1, this.getFirstWeekDay(), this.dateFormatter.utc);
+            // rounding is not good, pen/aac4e7f66f019d36b2447f050c600c13 (no last tootltip shown)
+            var actualDate = this.positionToDate(position); //$time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1, this.getFirstWeekDay(), this.dateFormatter.utc);
             var actualTime_1 = actualDate.getTime();
             var closestDate_1;
             this.series.each(function (series) {

@@ -400,7 +400,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * Holds a reference to the container axis bullets are drawn in.
 	 */
-	public axisBulletsContainer: Container;		
+	public axisBulletsContainer: Container;
 
 	/**
 	 * @ignore
@@ -624,7 +624,7 @@ export class XYChart extends SerialChart {
 	 */
 	public reinit(): void {
 		super.reinit();
-		
+
 		this.series.each((series) => {
 			series.appeared = false;
 		})
@@ -1637,8 +1637,22 @@ export class XYChart extends SerialChart {
 
 				if (round) {
 					//let diff = range.end - range.start;
-					range.start = axis.roundPosition(range.start + 0.0001, 0);
-					range.end = axis.roundPosition(range.end + 0.0001, 0);
+					if (axis instanceof CategoryAxis) {
+						let diff = range.end - range.start;
+						//range.start = axis.roundPosition(range.start + 0.0001, 0);
+
+						let location = 0;
+						if (range.end > 0.5) {
+							location = 1;
+						}
+
+						range.end = axis.roundPosition(range.end + 0.0001, location);
+						range.start = range.end - diff;
+					}
+					else {
+						range.start = axis.roundPosition(range.start + 0.0001, 0);
+						range.end = axis.roundPosition(range.end + 0.0001, 0);
+					}
 				}
 
 				let axisRange: IRange = axis.zoom(range, instantly, instantly, declination);

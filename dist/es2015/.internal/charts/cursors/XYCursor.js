@@ -128,6 +128,7 @@ var XYCursor = /** @class */ (function (_super) {
     XYCursor.prototype.updateSelection = function () {
         if (this._usesSelection) {
             var downPoint = this.downPoint;
+            var behavior = this.behavior;
             if (downPoint) {
                 var point = this.point;
                 if (this.lineX) {
@@ -141,7 +142,7 @@ var XYCursor = /** @class */ (function (_super) {
                 var y = Math.min(point.y, downPoint.y);
                 var w = $math.round(Math.abs(downPoint.x - point.x), this._positionPrecision);
                 var h = $math.round(Math.abs(downPoint.y - point.y), this._positionPrecision);
-                switch (this.behavior) {
+                switch (behavior) {
                     case "zoomX":
                         y = 0;
                         h = this.pixelHeight;
@@ -165,7 +166,9 @@ var XYCursor = /** @class */ (function (_super) {
                 selection.validatePosition(); // otherwise Edge shoes some incorrect size rectangle
             }
             else {
-                this.selection.hide();
+                if (this._generalBehavior != "select") {
+                    this.selection.hide();
+                }
             }
         }
     };
@@ -215,6 +218,9 @@ var XYCursor = /** @class */ (function (_super) {
     };
     XYCursor.prototype.triggerDownReal = function (point) {
         if (this.visible && !this.isHiding) {
+            if (this._generalBehavior == "select") {
+                this.selection.parent = this.parent;
+            }
             if (this.fitsToBounds(point)) {
                 this.downPoint = { x: point.x, y: point.y };
                 this.updatePoint(point);
@@ -258,17 +264,16 @@ var XYCursor = /** @class */ (function (_super) {
                 this.upPoint = point;
                 this.updatePoint(this.upPoint);
                 this.getRanges();
-                if (this.behavior == "selectX" || this.behavior == "selectY" || this.behavior == "selectXY") {
-                    // void
-                }
-                else {
+                if (this._generalBehavior != "select") {
                     this.selection.hide();
                 }
                 _super.prototype.triggerUpReal.call(this, point);
             }
         }
         else {
-            this.selection.hide(0);
+            if (this._generalBehavior != "select") {
+                this.selection.hide(0);
+            }
             // reset cursor style, just in case
             if (this._generalBehavior == "pan") {
                 var interaction = getInteraction();

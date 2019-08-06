@@ -124,7 +124,7 @@ export class AxisRendererX extends AxisRenderer {
 		if (axis) {
 			let gridContainer = this.gridContainer;
 			gridContainer.x = axis.pixelX;
-			gridContainer.width = axis.pixelWidth;
+			gridContainer.width = axis.axisLength;
 		}
 	}
 
@@ -342,10 +342,10 @@ export class AxisRendererX extends AxisRenderer {
 		let y1: number = axisBreak.pixelMarginLeft;
 		let y2: number = this.getHeight() - axisBreak.pixelMarginTop - axisBreak.pixelMarginBottom;
 
-		startPoint.x = $math.fitToRange(startPoint.x, -1, this.pixelWidth + 1);
-		endPoint.x = $math.fitToRange(endPoint.x, -1, this.pixelWidth + 1);
+		startPoint.x = $math.fitToRange(startPoint.x, -1, this.axisLength + 1);
+		endPoint.x = $math.fitToRange(endPoint.x, -1, this.axisLength + 1);
 
-		if (startPoint.x == endPoint.x && (startPoint.x < 0 || startPoint.x > this.pixelWidth)) {
+		if (startPoint.x == endPoint.x && (startPoint.x < 0 || startPoint.x > this.axisLength)) {
 			axisBreak.fillShape.__disabled = true;
 		}
 		else {
@@ -435,7 +435,7 @@ export class AxisRendererX extends AxisRenderer {
 
 		let axis: Axis = this.axis;
 		let h: number = this.getHeight();
-		let w: number = this.pixelWidth;
+		let w: number = this.axisLength;
 		let baseGrid: Sprite = this.baseGrid;
 
 		let x: number = axis.basePoint.x;
@@ -474,7 +474,7 @@ export class AxisRendererX extends AxisRenderer {
 
 		if (axis && parent) {
 			let relativeX = axis.pixelX / parent.innerWidth;
-			let relativeWidth = axis.pixelWidth / parent.innerWidth;
+			let relativeWidth = axis.axisLength / parent.innerWidth;
 
 			return (inversedPosition - relativeX) / relativeWidth;
 		}

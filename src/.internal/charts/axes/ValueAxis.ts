@@ -826,6 +826,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	public set baseValue(value: number) {
 		this._baseValue = value;
 		this.invalidateLayout();
+		this.invalidateSeries();
 	}
 
 	/**

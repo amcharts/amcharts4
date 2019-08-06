@@ -15,6 +15,8 @@ import { XYSeries } from "../series/XYSeries";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { XYChart } from "../types/XYChart";
 import { Axis } from "../axes/Axis";
+import { ValueAxis } from "../axes/ValueAxis";
+import { DateAxis } from "../axes/DateAxis";
 import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { DesaturateFilter } from "../../core/rendering/filters/DesaturateFilter";
@@ -228,21 +230,37 @@ export class XYChartScrollbar extends Scrollbar {
 			renderer.grid.template.strokeOpacity = 0.05;
 			renderer.minWidth = undefined;
 			renderer.minHeight = undefined;
-			renderer.padding(0,0,0,0);
+			renderer.padding(0, 0, 0, 0);
 			renderer.chart = scrollbarChart;
-			renderer.margin(0,0,0,0);
+			renderer.margin(0, 0, 0, 0);
 
 			let labelsTemplate = renderer.labels.template;
 			labelsTemplate.fillOpacity = 0.5;
 
+			if (xAxis instanceof DateAxis) {
+				let vAxis = <DateAxis>xAxis;
+				this._disposers.push(vAxis.clonedFrom.events.on("extremeschanged", () => {
+					vAxis.min = vAxis.clonedFrom.min;
+					vAxis.max = vAxis.clonedFrom.max - 1;
+				}, undefined, false))
+			}
+			else if (xAxis instanceof ValueAxis) {
+				let vAxis = <ValueAxis>xAxis;
+				this._disposers.push(vAxis.clonedFrom.events.on("extremeschanged", () => {
+					vAxis.min = vAxis.clonedFrom.min;
+					vAxis.max = vAxis.clonedFrom.max;
+				}, undefined, false))
+			}
+
+
 			series.xAxis = xAxis;
 		}
 		else {
-			 this.scrollbarChart.xAxes.each((xAxis)=>{
-			 	if(xAxis.clonedFrom == sourceSeries.xAxis){
-			 		series.xAxis = xAxis;
-			 	}
-			 })
+			this.scrollbarChart.xAxes.each((xAxis) => {
+				if (xAxis.clonedFrom == sourceSeries.xAxis) {
+					series.xAxis = xAxis;
+				}
+			})
 		}
 
 
@@ -265,22 +283,39 @@ export class XYChartScrollbar extends Scrollbar {
 			renderer.baseGrid.disabled = true;
 			renderer.grid.template.strokeOpacity = 0.05;
 			renderer.minWidth = undefined;
-			renderer.minHeight = undefined;		
+			renderer.minHeight = undefined;
 			renderer.chart = scrollbarChart;
-			renderer.padding(0,0,0,0);
-			renderer.margin(0,0,0,0);
+			renderer.padding(0, 0, 0, 0);
+			renderer.margin(0, 0, 0, 0);
 
 			let labelsTemplate = renderer.labels.template;
 			labelsTemplate.fillOpacity = 0.5;
 
 			series.yAxis = yAxis;
+
+			if (yAxis instanceof DateAxis) {
+				let vAxis = <ValueAxis>yAxis;
+				this._disposers.push(vAxis.clonedFrom.events.on("extremeschanged", () => {
+					vAxis.min = vAxis.clonedFrom.min;
+					vAxis.max = vAxis.clonedFrom.max - 1;
+				}))
+			}
+
+			else if (yAxis instanceof ValueAxis) {
+				let vAxis = <ValueAxis>yAxis;
+				this._disposers.push(vAxis.clonedFrom.events.on("extremeschanged", () => {
+					vAxis.min = vAxis.clonedFrom.min;
+					vAxis.max = vAxis.clonedFrom.max;
+				}))
+			}
+
 		}
 		else {
-			 this.scrollbarChart.yAxes.each((yAxis)=>{
-			 	if(yAxis.clonedFrom == sourceSeries.yAxis){
-			 		series.yAxis = yAxis;
-			 	}
-			 })
+			this.scrollbarChart.yAxes.each((yAxis) => {
+				if (yAxis.clonedFrom == sourceSeries.yAxis) {
+					series.yAxis = yAxis;
+				}
+			})
 		}
 
 		series.rangeChangeDuration = 0;
@@ -316,7 +351,7 @@ export class XYChartScrollbar extends Scrollbar {
 					renderer.labels.template.disabled = true;
 					renderer.minGridDistance = 10;
 				}
-				else{
+				else {
 					renderer.grid.template.disabled = false;
 					renderer.labels.template.disabled = false;
 					renderer.minGridDistance = xAxis.clonedFrom.renderer.minGridDistance;
@@ -331,7 +366,7 @@ export class XYChartScrollbar extends Scrollbar {
 					renderer.labels.template.disabled = true;
 					renderer.minGridDistance = 10;
 				}
-				else{
+				else {
 					renderer.grid.template.disabled = false;
 					renderer.labels.template.disabled = false;
 					renderer.minGridDistance = yAxis.clonedFrom.renderer.minGridDistance;

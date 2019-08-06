@@ -192,7 +192,7 @@ export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit, utc?: 
 	let nextUnit: $type.Optional<TimeUnit> = getNextUnit(unit);
 	if (nextUnit) {
 		dateOne.setUTCMinutes(dateOne.getUTCMinutes() + timeZoneOffset1);
-		dateTwo.setUTCMinutes(dateTwo.getUTCMinutes() + timeZoneOffset2);		
+		dateTwo.setUTCMinutes(dateTwo.getUTCMinutes() + timeZoneOffset2);
 		return checkChange(dateOne, dateTwo, nextUnit, utc);
 	}
 	else {
@@ -288,7 +288,7 @@ export function add(date: Date, unit: TimeUnit, count: number, utc?: boolean): D
  * @param firstDateOfWeek  First day of week
  * @return New date
  */
-export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek?: number, utc?: boolean): Date {
+export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek?: number, utc?: boolean, firstDate?: Date): Date {
 
 	if (!$type.isNumber(count)) {
 		count = 1;
@@ -307,10 +307,19 @@ export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek
 			let day = date.getUTCDate();
 
 			if (count > 1) {
-				day = Math.floor(day / count) * count;
-			}
+				//	day = Math.floor(day / count) * count;
+				if (firstDate) {
+					firstDate = round(firstDate, "day", 1);
 
-			date.setUTCDate(day);
+					let difference = date.getTime() - firstDate.getTime();
+					let unitCount = Math.floor(difference / getDuration("day") / count);
+					let duration = getDuration("day", unitCount * count);
+					date.setTime(firstDate.getTime() + duration - timeZoneOffset * getDuration("minute"));
+				}
+			}
+			else {
+				date.setUTCDate(day);
+			}
 			date.setUTCHours(0, 0, 0, 0);
 
 			break;

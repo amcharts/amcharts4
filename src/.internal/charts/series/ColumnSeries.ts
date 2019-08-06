@@ -962,8 +962,8 @@ export class ColumnSeries extends XYSeries {
 	 * @ignore Exclude from docs
 	 * @param dataItem  Data item
 	 */
-	public updateLegendValue(dataItem?: this["_dataItem"]) {
-		super.updateLegendValue(dataItem);
+	public updateLegendValue(dataItem?: this["_dataItem"], notRange?: boolean) {
+		super.updateLegendValue(dataItem, notRange);
 
 		if (this.legendDataItem) {
 			let marker: Container = this.legendDataItem.marker;
@@ -1073,6 +1073,39 @@ export class ColumnSeries extends XYSeries {
 			return super.getBulletLocationY(bullet, field);
 		}
 	}
+
+	protected getAdjustedXLocation(dataItem: this["_dataItem"], field: string) {
+		if (this.baseAxis == this.xAxis) {
+			let bulletLocationX = 0.5;
+			if (dataItem) {
+				bulletLocationX = dataItem.locations[field];
+			}
+			if (!$type.isNumber(bulletLocationX)) {
+				bulletLocationX = 0.5;
+			}
+			return this._endLocation - (this._endLocation - this._startLocation) * bulletLocationX;
+		}
+		else {
+			return super.getAdjustedXLocation(dataItem, field);
+		}
+	}
+
+	protected getAdjustedYLocation(dataItem: this["_dataItem"], field: string) {
+		if (this.baseAxis == this.yAxis) {
+			let bulletLocationY = 0.5;
+			if (dataItem) {
+				bulletLocationY = dataItem.locations[field];
+			}
+			if (!$type.isNumber(bulletLocationY)) {
+				bulletLocationY = 0.5;
+			}
+			return this._endLocation - (this._endLocation - this._startLocation) * bulletLocationY;
+		}
+		else {
+			return super.getAdjustedXLocation(dataItem, field);
+		}
+	}
+
 
 	/**
 	 * @ignore Exclude from docs

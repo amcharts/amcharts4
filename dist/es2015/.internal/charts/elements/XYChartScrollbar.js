@@ -13,6 +13,8 @@ import { Sprite } from "../../core/Sprite";
 import { List } from "../../core/utils/List";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { XYChart } from "../types/XYChart";
+import { ValueAxis } from "../axes/ValueAxis";
+import { DateAxis } from "../axes/DateAxis";
 import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { DesaturateFilter } from "../../core/rendering/filters/DesaturateFilter";
@@ -154,6 +156,20 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             renderer.margin(0, 0, 0, 0);
             var labelsTemplate = renderer.labels.template;
             labelsTemplate.fillOpacity = 0.5;
+            if (xAxis instanceof DateAxis) {
+                var vAxis_1 = xAxis;
+                this._disposers.push(vAxis_1.clonedFrom.events.on("extremeschanged", function () {
+                    vAxis_1.min = vAxis_1.clonedFrom.min;
+                    vAxis_1.max = vAxis_1.clonedFrom.max - 1;
+                }, undefined, false));
+            }
+            else if (xAxis instanceof ValueAxis) {
+                var vAxis_2 = xAxis;
+                this._disposers.push(vAxis_2.clonedFrom.events.on("extremeschanged", function () {
+                    vAxis_2.min = vAxis_2.clonedFrom.min;
+                    vAxis_2.max = vAxis_2.clonedFrom.max;
+                }, undefined, false));
+            }
             series.xAxis = xAxis;
         }
         else {
@@ -188,6 +204,20 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             var labelsTemplate = renderer.labels.template;
             labelsTemplate.fillOpacity = 0.5;
             series.yAxis = yAxis;
+            if (yAxis instanceof DateAxis) {
+                var vAxis_3 = yAxis;
+                this._disposers.push(vAxis_3.clonedFrom.events.on("extremeschanged", function () {
+                    vAxis_3.min = vAxis_3.clonedFrom.min;
+                    vAxis_3.max = vAxis_3.clonedFrom.max - 1;
+                }));
+            }
+            else if (yAxis instanceof ValueAxis) {
+                var vAxis_4 = yAxis;
+                this._disposers.push(vAxis_4.clonedFrom.events.on("extremeschanged", function () {
+                    vAxis_4.min = vAxis_4.clonedFrom.min;
+                    vAxis_4.max = vAxis_4.clonedFrom.max;
+                }));
+            }
         }
         else {
             this.scrollbarChart.yAxes.each(function (yAxis) {

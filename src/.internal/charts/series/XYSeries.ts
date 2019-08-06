@@ -1387,6 +1387,14 @@ export class XYSeries extends Series {
 		this.hideTooltip();
 	}
 
+	protected getAdjustedXLocation(dataItem: this["_dataItem"], field: string) {
+		return dataItem.locations[field];
+	}
+
+	protected getAdjustedYLocation(dataItem: this["_dataItem"], field: string) {
+		return dataItem.locations[field];
+	}
+
 
 	/**
 	 * Shows series tooltip at specific dataItem.
@@ -1406,7 +1414,7 @@ export class XYSeries extends Series {
 
 				if ($type.hasValue((<any>dataItem)[tooltipXField]) && $type.hasValue((<any>dataItem)[tooltipYField])) {
 
-					let tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
+					let tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, this.getAdjustedXLocation(dataItem, tooltipXField), this.getAdjustedYLocation(dataItem, tooltipYField));
 
 					if (tooltipPoint) {
 
@@ -1441,6 +1449,9 @@ export class XYSeries extends Series {
 					}
 				}
 			}
+		}
+		else {
+			this.updateLegendValue(dataItem, true);
 		}
 	}
 	/**

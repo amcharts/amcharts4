@@ -63,7 +63,7 @@ var AxisRendererY = /** @class */ (function (_super) {
         if (axis) {
             var gridContainer = this.gridContainer;
             gridContainer.y = axis.pixelY;
-            gridContainer.height = axis.pixelHeight;
+            gridContainer.height = axis.axisLength;
         }
     };
     /**
@@ -75,7 +75,7 @@ var AxisRendererY = /** @class */ (function (_super) {
         var parent = axis.parent;
         if (axis && parent) {
             var relativeY = axis.pixelY / parent.innerHeight;
-            var relativeHeight = axis.pixelHeight / parent.innerHeight;
+            var relativeHeight = axis.axisLength / parent.innerHeight;
             return 1 - (inversedPosition - relativeY) / relativeHeight;
         }
         return value;
@@ -262,7 +262,7 @@ var AxisRendererY = /** @class */ (function (_super) {
         _super.prototype.updateBaseGridElement.call(this);
         var axis = this.axis;
         var w = this.getWidth();
-        var h = this.pixelHeight;
+        var h = this.axisLength;
         var y = axis.basePoint.y;
         var baseGrid = this.baseGrid;
         if (y < -0.2 || y > h + 0.2) {
@@ -340,9 +340,9 @@ var AxisRendererY = /** @class */ (function (_super) {
         var endPoint = axisBreak.endPoint;
         var x1 = axisBreak.pixelMarginLeft;
         var x2 = this.getWidth() - axisBreak.pixelMarginLeft - axisBreak.pixelMarginRight;
-        startPoint.y = $math.fitToRange(startPoint.y, -1, this.pixelHeight + 1);
-        endPoint.y = $math.fitToRange(endPoint.y, -1, this.pixelHeight + 1);
-        if (startPoint.y == endPoint.y && (startPoint.y < 0 || startPoint.y > this.pixelHeight)) {
+        startPoint.y = $math.fitToRange(startPoint.y, -1, this.axisLength + 1);
+        endPoint.y = $math.fitToRange(endPoint.y, -1, this.axisLength + 1);
+        if (startPoint.y == endPoint.y && (startPoint.y < 0 || startPoint.y > this.axisLength)) {
             axisBreak.fillShape.__disabled = true;
         }
         else {

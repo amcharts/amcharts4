@@ -741,9 +741,9 @@ var ColumnSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @param dataItem  Data item
      */
-    ColumnSeries.prototype.updateLegendValue = function (dataItem) {
+    ColumnSeries.prototype.updateLegendValue = function (dataItem, notRange) {
         var _this = this;
-        _super.prototype.updateLegendValue.call(this, dataItem);
+        _super.prototype.updateLegendValue.call(this, dataItem, notRange);
         if (this.legendDataItem) {
             var marker = this.legendDataItem.marker;
             var fromOpenState_1;
@@ -836,6 +836,36 @@ var ColumnSeries = /** @class */ (function (_super) {
         }
         else {
             return _super.prototype.getBulletLocationY.call(this, bullet, field);
+        }
+    };
+    ColumnSeries.prototype.getAdjustedXLocation = function (dataItem, field) {
+        if (this.baseAxis == this.xAxis) {
+            var bulletLocationX = 0.5;
+            if (dataItem) {
+                bulletLocationX = dataItem.locations[field];
+            }
+            if (!$type.isNumber(bulletLocationX)) {
+                bulletLocationX = 0.5;
+            }
+            return this._endLocation - (this._endLocation - this._startLocation) * bulletLocationX;
+        }
+        else {
+            return _super.prototype.getAdjustedXLocation.call(this, dataItem, field);
+        }
+    };
+    ColumnSeries.prototype.getAdjustedYLocation = function (dataItem, field) {
+        if (this.baseAxis == this.yAxis) {
+            var bulletLocationY = 0.5;
+            if (dataItem) {
+                bulletLocationY = dataItem.locations[field];
+            }
+            if (!$type.isNumber(bulletLocationY)) {
+                bulletLocationY = 0.5;
+            }
+            return this._endLocation - (this._endLocation - this._startLocation) * bulletLocationY;
+        }
+        else {
+            return _super.prototype.getAdjustedXLocation.call(this, dataItem, field);
         }
     };
     /**

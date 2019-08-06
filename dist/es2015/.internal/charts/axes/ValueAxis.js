@@ -566,6 +566,7 @@ var ValueAxis = /** @class */ (function (_super) {
         set: function (value) {
             this._baseValue = value;
             this.invalidateLayout();
+            this.invalidateSeries();
         },
         enumerable: true,
         configurable: true

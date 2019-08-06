@@ -232,7 +232,9 @@ export class PictorialStackedSeries extends PyramidSeries {
 			this.slices.template.dx = startLocation * newWidth;
 		}
 
-		this.slicesContainer.mask = this._maskSprite;
+		if(newWidth > 0 && newHeight > 0){
+			this.slicesContainer.mask = this._maskSprite;
+		}
 	}
 
 	/**

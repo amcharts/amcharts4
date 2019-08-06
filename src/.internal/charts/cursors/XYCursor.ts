@@ -259,8 +259,10 @@ export class XYCursor extends Cursor {
 	public updateSelection(): void {
 		if (this._usesSelection) {
 			let downPoint: IPoint = this.downPoint;
+			let behavior = this.behavior;
 
 			if (downPoint) {
+
 				let point: IPoint = this.point;
 
 				if (this.lineX) {
@@ -279,7 +281,7 @@ export class XYCursor extends Cursor {
 				let w: number = $math.round(Math.abs(downPoint.x - point.x), this._positionPrecision);
 				let h: number = $math.round(Math.abs(downPoint.y - point.y), this._positionPrecision);
 
-				switch (this.behavior) {
+				switch (behavior) {
 					case "zoomX":
 						y = 0;
 						h = this.pixelHeight;
@@ -306,7 +308,9 @@ export class XYCursor extends Cursor {
 				selection.validatePosition(); // otherwise Edge shoes some incorrect size rectangle
 			}
 			else {
-				this.selection.hide();
+				if(this._generalBehavior != "select"){
+					this.selection.hide();					
+				}
 			}
 		}
 	}
@@ -372,6 +376,10 @@ export class XYCursor extends Cursor {
 
 		if (this.visible && !this.isHiding) {
 
+			if(this._generalBehavior == "select"){
+				this.selection.parent = this.parent;
+			}
+
 			if (this.fitsToBounds(point)) {
 				this.downPoint = { x: point.x, y: point.y };
 
@@ -426,17 +434,16 @@ export class XYCursor extends Cursor {
 
 				this.getRanges();
 
-				if (this.behavior == "selectX" || this.behavior == "selectY" || this.behavior == "selectXY") {
-					// void
-				}
-				else {
+				if (this._generalBehavior != "select") {
 					this.selection.hide();
 				}
 				super.triggerUpReal(point);
 			}
 		}
-		else {
-			this.selection.hide(0);
+		else {			
+			if (this._generalBehavior != "select") {
+				this.selection.hide(0);
+			}
 
 			// reset cursor style, just in case
 			if (this._generalBehavior == "pan") {

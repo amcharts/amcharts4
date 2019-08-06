@@ -98,7 +98,7 @@ export declare class SVGContainer implements IDisposer {
      *
      * * Creates an HTML wrapper for SVG
      */
-    constructor(htmlElement: HTMLElement);
+    constructor(htmlElement: HTMLElement, ghost?: boolean);
     /**
      * Measures size of parent HTML element.
      *

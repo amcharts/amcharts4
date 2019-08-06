@@ -376,7 +376,7 @@ export class SankeyDiagram extends FlowDiagram {
 
 				}
 
-				this._heightAnimation = new Animation(this, { property: "valueHeight", from: this.valueHeight, to: valueHeight }, duration).start();
+				this._heightAnimation = new Animation(this, { property: "valueHeight", from: this.valueHeight, to: valueHeight }, duration, this.interpolationEasing).start();
 				this._disposers.push(this._heightAnimation);
 			}
 		}

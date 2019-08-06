@@ -31,7 +31,7 @@ var SVGContainer = /** @class */ (function () {
      *
      * * Creates an HTML wrapper for SVG
      */
-    function SVGContainer(htmlElement) {
+    function SVGContainer(htmlElement, ghost) {
         var _this = this;
         /**
          * Indicates if this object has already been deleted. Any
@@ -59,11 +59,13 @@ var SVGContainer = /** @class */ (function () {
         this.cssScale = 1;
         // Log parent HTML element
         this.htmlElement = htmlElement;
-        var callback = function () { _this.measure(); };
-        this.resizeSensor = new ResizeSensor(htmlElement, callback);
-        this._disposers.push(new Disposer(function () {
-            _this.resizeSensor.detach(callback);
-        }));
+        if (!ghost) {
+            var callback_1 = function () { _this.measure(); };
+            this.resizeSensor = new ResizeSensor(htmlElement, callback_1);
+            this._disposers.push(new Disposer(function () {
+                _this.resizeSensor.detach(callback_1);
+            }));
+        }
         // Adds to containers array
         svgContainers.push(this);
         /**

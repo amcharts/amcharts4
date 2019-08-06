@@ -646,7 +646,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					}
 					else {
 						maxZoomed -= 1;
-						endIndex = series.dataItems.findClosestIndex(maxZoomed, (x) => <number>x[field], "right") + 1;
+						endIndex = series.dataItems.findClosestIndex(maxZoomed, (x) => <number>x[field], "right");
+
+						if(endIndex > 0){
+							endIndex++;
+						}
 					}
 				}
 
@@ -1608,7 +1612,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	public getTooltipText(position: number): string {
 		let text: string;
 		let date = this.positionToDate(position);
-		date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc);
+		date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc, new Date(this.min));
 
 		if ($type.hasValue(this.tooltipDateFormat)) {
 			text = this.dateFormatter.format(date, this.tooltipDateFormat);
@@ -1837,7 +1841,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		}
 
 		if (this.snapTooltip) {
-			let actualDate = $time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1, this.getFirstWeekDay(), this.dateFormatter.utc);
+			// rounding is not good, pen/aac4e7f66f019d36b2447f050c600c13 (no last tootltip shown)
+			let actualDate = this.positionToDate(position) //$time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1, this.getFirstWeekDay(), this.dateFormatter.utc);
 
 			let actualTime = actualDate.getTime();
 			let closestDate: Date;
@@ -1862,7 +1867,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 							if (Math.abs(closestDate.getTime() - actualTime) > Math.abs(date.getTime() - actualTime)) {
 								closestDate = date;
 							}
-						}
+						}						
 					}
 				}
 			})

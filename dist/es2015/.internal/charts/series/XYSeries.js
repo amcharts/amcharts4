@@ -961,6 +961,12 @@ var XYSeries = /** @class */ (function (_super) {
         }
         this.hideTooltip();
     };
+    XYSeries.prototype.getAdjustedXLocation = function (dataItem, field) {
+        return dataItem.locations[field];
+    };
+    XYSeries.prototype.getAdjustedYLocation = function (dataItem, field) {
+        return dataItem.locations[field];
+    };
     /**
      * Shows series tooltip at specific dataItem.
      *
@@ -976,7 +982,7 @@ var XYSeries = /** @class */ (function (_super) {
                 var tooltipXField = this.tooltipXField;
                 var tooltipYField = this.tooltipYField;
                 if ($type.hasValue(dataItem[tooltipXField]) && $type.hasValue(dataItem[tooltipYField])) {
-                    var tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
+                    var tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, this.getAdjustedXLocation(dataItem, tooltipXField), this.getAdjustedYLocation(dataItem, tooltipYField));
                     if (tooltipPoint) {
                         this.tooltipX = tooltipPoint.x;
                         this.tooltipY = tooltipPoint.y;
@@ -1014,6 +1020,9 @@ var XYSeries = /** @class */ (function (_super) {
                     }
                 }
             }
+        }
+        else {
+            this.updateLegendValue(dataItem, true);
         }
         var e_1, _c;
     };

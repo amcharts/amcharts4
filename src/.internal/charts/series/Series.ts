@@ -1256,7 +1256,7 @@ export class Series extends Component {
 	 * @ignore Exclude from docs
 	 * @param dataItem  Data item
 	 */
-	public updateLegendValue(dataItem?: this["_dataItem"]) {
+	public updateLegendValue(dataItem?: this["_dataItem"], notRange?:boolean) {
 		// if this series has legend item
 		if (this.legendDataItem) {
 
@@ -1266,7 +1266,7 @@ export class Series extends Component {
 			let valueLabel: Label = legendDataItem.valueLabel;
 
 			// update legend
-			if (dataItem) {
+			if (dataItem || notRange) {
 				if (valueLabel) {
 					if (legendSettings.itemValueText) {
 						valueLabel.text = legendSettings.itemValueText;

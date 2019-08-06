@@ -645,6 +645,8 @@ export declare class XYSeries extends Series {
      * @param yPosition  Y
      */
     showTooltipAtPosition(xPosition: number, yPosition: number): IPoint;
+    protected getAdjustedXLocation(dataItem: this["_dataItem"], field: string): number;
+    protected getAdjustedYLocation(dataItem: this["_dataItem"], field: string): number;
     /**
      * Shows series tooltip at specific dataItem.
      *

@@ -199,8 +199,8 @@ var LineSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @param dataItem  Data item
      */
-    LineSeries.prototype.updateLegendValue = function (dataItem) {
-        _super.prototype.updateLegendValue.call(this, dataItem);
+    LineSeries.prototype.updateLegendValue = function (dataItem, notRange) {
+        _super.prototype.updateLegendValue.call(this, dataItem, notRange);
         //This is hack to save some methos, used to set tooltip color source only
         if (dataItem && dataItem.segment) {
             this.tooltipColorSource = dataItem.segment;
