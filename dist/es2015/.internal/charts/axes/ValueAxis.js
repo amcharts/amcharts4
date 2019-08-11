@@ -532,7 +532,7 @@ var ValueAxis = /** @class */ (function (_super) {
          * @return Base point
          */
         get: function () {
-            var baseValue = this._baseValue;
+            var baseValue = this.baseValue;
             var position = this.valueToPosition(baseValue);
             var basePoint = this.renderer.positionToPoint(position);
             return basePoint;
@@ -823,12 +823,18 @@ var ValueAxis = /** @class */ (function (_super) {
         min = this.fixMin(min);
         max = this.fixMax(max);
         // this happens if starLocation and endLocation are 0.5 and DateAxis has only one date
-        if (max - min <= 0.00000001) {
+        if (max - min <= 1 / Math.pow(10, 15)) {
             if (max - min != 0) {
-                this._deltaMinMax = 0.00000001;
+                this._deltaMinMax = (max - min) / 2;
             }
             else {
-                this._deltaMinMax = 1;
+                // the number by which we need to raise 10 to get difference
+                var exponent = Math.log(Math.abs(max)) * Math.LOG10E;
+                // here we find a number which is power of 10 and has the same count of numbers as difference has
+                var power = Math.pow(10, Math.floor(exponent));
+                // reduce this number by 10 times
+                power = power / 10;
+                this._deltaMinMax = power;
             }
             min -= this._deltaMinMax;
             max += this._deltaMinMax;
@@ -880,10 +886,11 @@ var ValueAxis = /** @class */ (function (_super) {
                     if (animation && !animation.isFinished()) {
                         animation.events.on("animationprogress", this.validateDataItems, this);
                         animation.events.on("animationended", function () {
-                            _this.validateDataItems();
+                            //this.validateDataItems();
                             _this.series.each(function (series) {
                                 series.validate();
                             });
+                            _this.validateDataItems();
                             _this.handleSelectionExtremesChange();
                         });
                         this._minMaxAnimation = animation;
@@ -900,8 +907,6 @@ var ValueAxis = /** @class */ (function (_super) {
             }
             else {
                 if ((animation && !animation.isFinished()) && this._finalMax == max && this._finalMin == min) {
-                    this._minAdjusted = min;
-                    this._maxAdjusted = max;
                     return;
                 }
                 else {
@@ -1509,7 +1514,7 @@ var ValueAxis = /** @class */ (function (_super) {
         }
     };
     /**
-     * Returns the X coordinate for series' data item's value.
+     * Returns relative position on axis for series' data item's value.
      *
      * @ignore Exclude from docs
      * @todo Description (review)
@@ -1519,7 +1524,20 @@ var ValueAxis = /** @class */ (function (_super) {
      * @param stackKey  ?
      * @return X coordinate (px)
      */
-    ValueAxis.prototype.getX = function (dataItem, key, location, stackKey) {
+    ValueAxis.prototype.getX = function (dataItem, key, location, stackKey, range) {
+        return this.renderer.positionToPoint(this.getPositionX(dataItem, key, location, stackKey, range)).x;
+    };
+    /**
+     * Returns the X coordinate for series' data item's value.
+     *
+     * @since 4.5.14
+     * @param  dataItem  Data item
+     * @param  key       Data field to get value from
+     * @param  location  Location (0-1)
+     * @param  stackKey  ?
+     * @return           Relative position
+     */
+    ValueAxis.prototype.getPositionX = function (dataItem, key, location, stackKey, range) {
         var value = dataItem.getWorkingValue(key);
         if (!$type.hasValue(stackKey)) {
             stackKey = "valueX";
@@ -1533,7 +1551,11 @@ var ValueAxis = /** @class */ (function (_super) {
                 }
             }
         }
-        return this.renderer.positionToPoint(this.valueToPosition(value + stack)).x;
+        var position = this.valueToPosition(value + stack);
+        if (range) {
+            position = $math.fitToRange(position, range.start, range.end);
+        }
+        return position;
     };
     /**
      * Returns the Y coordinate for series' data item's value.
@@ -1546,7 +1568,20 @@ var ValueAxis = /** @class */ (function (_super) {
      * @param stackKey  Stack ID
      * @return Y coordinate (px)
      */
-    ValueAxis.prototype.getY = function (dataItem, key, location, stackKey) {
+    ValueAxis.prototype.getY = function (dataItem, key, location, stackKey, range) {
+        return this.renderer.positionToPoint(this.getPositionY(dataItem, key, location, stackKey, range)).y;
+    };
+    /**
+     * Returns relative position on axis for series' data item's value.
+     *
+     * @since 4.5.14
+     * @param  dataItem  Data item
+     * @param  key       Data field to get value from
+     * @param  location  Location (0-1)
+     * @param  stackKey  Stack ID
+     * @return           Relative position
+     */
+    ValueAxis.prototype.getPositionY = function (dataItem, key, location, stackKey, range) {
         var value = dataItem.getWorkingValue(key);
         if (!$type.hasValue(stackKey)) {
             stackKey = "valueY";
@@ -1560,7 +1595,11 @@ var ValueAxis = /** @class */ (function (_super) {
                 }
             }
         }
-        return this.renderer.positionToPoint(this.valueToPosition(value + stack)).y;
+        var position = this.valueToPosition(value + stack);
+        if (range) {
+            position = $math.fitToRange(position, range.start, range.end);
+        }
+        return position;
     };
     /**
      * Returns an angle for series data item.
@@ -1571,15 +1610,20 @@ var ValueAxis = /** @class */ (function (_super) {
      * @param key       Data field to get value from
      * @param location  Location (0-1)
      * @param stackKey  Stack ID
+     * @param range Range to fit in
      * @return Angle
      */
-    ValueAxis.prototype.getAngle = function (dataItem, key, location, stackKey) {
+    ValueAxis.prototype.getAngle = function (dataItem, key, location, stackKey, range) {
         var value = dataItem.getWorkingValue(key);
         var stack = dataItem.getValue(stackKey, "stack");
         if (!$type.isNumber(value)) {
             value = this.baseValue;
         }
-        return this.positionToAngle(this.valueToPosition(value + stack));
+        var position = this.valueToPosition(value + stack);
+        if (range) {
+            position = $math.fitToRange(position, range.start, range.end);
+        }
+        return this.positionToAngle(position);
     };
     /**
      * [getAnyRangePath description]

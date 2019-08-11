@@ -293,7 +293,7 @@ export class AxisRendererX extends AxisRenderer {
 	 * @return Position (0-1)
 	 */
 	public pointToPosition(point: IPoint) {
-		return this.coordinateToPosition(point.x);
+		return this.coordinateToPosition(point.x, point.y);
 	}
 
 	/**

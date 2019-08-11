@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.14] - 2019-08-11
+
+### Added
+- `mouseOptions` added to `Interactions`. For now it contains only wheel sensitivity setting, e.g. `mapChart.interactions.mouseOptions.sensitivity = 0.4`.
+- `getPositionX()` and `getPositionY()` methods added to all axes. Returns relative position of a series data item on axis.
+
+### Changed
+- Series with `DateAxis` not as a base axis of a series (like gantt) will now animate similar to other charts.
+- `SlicedChart` hidden labels arrangements adjusted.
+
+### Fixed
+- `ValueAxis` was incorrectly choosing min/max values for the data with very small values.
+- `StepLineSeries` with `connect = false` and `autoGapCount > 1` was showing regular line series, not a step series.
+- Chart with `DateAxis` which was not a base axis of a series and dates older than Unix Epoch (January 1st, 1970 at UTC) was incorrectly showing base of a series.
+- `DateAxis` was not animating smoothly when adding more data.
+- `ValueAxis` pre-zoom (on `ready` event) was not working properly.
+- `fullWidth` cursor line was not reverting back if set to `true` and then back to `false`.
+
+
 ## [4.5.13] - 2019-08-06
 
 ### Fixed

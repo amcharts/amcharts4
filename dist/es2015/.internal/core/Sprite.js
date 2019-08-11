@@ -3704,6 +3704,26 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Sprite.prototype, "mouseOptions", {
+        /**
+         * Returns elements mouse options.
+         *
+         * @return Mouse options
+         */
+        get: function () {
+            if (!this.interactions.mouseOptions) {
+                if (this.virtualParent) {
+                    return this.virtualParent.mouseOptions;
+                }
+                if (this.parent) {
+                    return this.parent.mouseOptions;
+                }
+            }
+            return this.interactions.mouseOptions;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Sprite.prototype, "interactions", {
         /**
          * Returns (creates if necessary) an [[InteractionObject]] associated with

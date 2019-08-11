@@ -116,6 +116,11 @@ export class AxisFillCircular extends AxisFill {
 	 */
 	public draw(): void {
 		super.draw();
+
+		if(this.__disabled || this.disabled){
+			return;
+		}
+		
 		if (this.axis) {
 			let renderer: AxisRendererCircular = <AxisRendererCircular>this.axis.renderer;
 			this.fillPath = renderer.getPositionRangePath(this.startPosition, this.endPosition, this.radius, $type.hasValue(this.innerRadius) ? this.innerRadius : renderer.innerRadius, this.cornerRadius);

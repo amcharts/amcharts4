@@ -165,6 +165,15 @@ var Interaction = /** @class */ (function (_super) {
             "accelleration": 1.2,
             "accellerationDelay": 2000
         };
+        /**
+         * Default options for keyboard operations. These can be overridden in
+         * [[InteractionObject]].
+         *
+         * @since 4.5.14
+         */
+        _this.mouseOptions = {
+            "sensitivity": 1
+        };
         // Set class name
         _this.className = "Interaction";
         // Create InteractionObject for <body>
@@ -926,6 +935,8 @@ var Interaction = /** @class */ (function (_super) {
         if (ev.deltaMode == 1) {
             mod = 50;
         }
+        // Adjust configurable sensitivity
+        mod *= this.getMouseOption(io, "sensitivity");
         // Calculate deltas
         if (ev instanceof WheelEvent) {
             deltaX = Math.round((-1 * ev.wheelDeltaX) || ev.deltaX) * mod;
@@ -2233,6 +2244,21 @@ var Interaction = /** @class */ (function (_super) {
         var res = io.keyboardOptions[option];
         if (typeof res === "undefined") {
             res = this.keyboardOptions[option];
+        }
+        return res;
+    };
+    /**
+     * Returns an option for mouse.
+     *
+     * @ignore Exclude from docs
+     * @param io      Element
+     * @param option  Option key
+     * @return Option value
+     */
+    Interaction.prototype.getMouseOption = function (io, option) {
+        var res = io.mouseOptions[option];
+        if (typeof res === "undefined") {
+            res = this.mouseOptions[option];
         }
         return res;
     };

@@ -26,6 +26,7 @@ import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
 import { Adapter } from "../../core/utils/Adapter";
+import { IRange } from "../../core/defs/IRange";
 
 /**
  * ============================================================================
@@ -923,6 +924,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		}
 	}
 
+
 	/**
 	 * Returns the X coordinate for series' data item.
 	 *
@@ -933,17 +935,38 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * @param location  Location (0-1)
 	 * @return X coordinate (px)
 	 */
-	public getX(dataItem: XYSeriesDataItem, key?: string, location?: number): number {
-		let position;
-		if ($type.hasValue(key)) {
-			position = this.categoryToPosition(dataItem.categories[key], location);
-		}
+	public getX(dataItem: XYSeriesDataItem, key?: string, location?: number, stackKey?: string, range?: IRange): number {
+
+		let position = this.getPositionX(dataItem, key, location, stackKey, range);
+
 		if ($type.isNaN(position)) {
 			return this.basePoint.x;
 		}
 		else {
 			return this.renderer.positionToPoint(position).x;
 		}
+	}
+
+	/**
+	 * Returns relative position on axis for series' data item.
+	 *
+	 * @since 4.5.14
+	 * @param  dataItem  Data item
+	 * @param  key       Category
+	 * @param  location  Location (0-1)
+	 * @return           Relative position
+	 */
+	public getPositionX(dataItem: XYSeriesDataItem, key?: string, location?: number, stackKey?: string, range?: IRange): number {
+		let position;
+		if ($type.hasValue(key)) {
+			position = this.categoryToPosition(dataItem.categories[key], location);
+		}
+
+		if (range) {
+			position = $math.fitToRange(position, range.start, range.end);
+		}
+
+		return position;
 	}
 
 	/**
@@ -956,17 +979,38 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * @param location  Location (0-1)
 	 * @return Y coordinate (px)
 	 */
-	public getY(dataItem: XYSeriesDataItem, key?: string, location?: number): number {
-		let position;
-		if ($type.hasValue(key)) {
-			position = this.categoryToPosition(dataItem.categories[key], location);
-		}
+	public getY(dataItem: XYSeriesDataItem, key?: string, location?: number, stackKey?: string, range?: IRange): number {
+
+		let position = this.getPositionY(dataItem, key, location, stackKey, range);
+
 		if ($type.isNaN(position)) {
 			return this.basePoint.y;
 		}
 		else {
 			return this.renderer.positionToPoint(position).y;
 		}
+	}
+
+	/**
+	 * Returns relative position on axis for series' data item.
+	 *
+	 * @since 4.5.14
+	 * @param  dataItem  Data item
+	 * @param  key       Category
+	 * @param  location  Location (0-1)
+	 * @return           Relative position
+	 */
+	public getPositionY(dataItem: XYSeriesDataItem, key?: string, location?: number, stackKey?: string, range?: IRange): number {
+		let position;
+		if ($type.hasValue(key)) {
+			position = this.categoryToPosition(dataItem.categories[key], location);
+		}
+
+		if (range) {
+			position = $math.fitToRange(position, range.start, range.end);
+		}
+
+		return position;
 	}
 
 	/**
@@ -978,10 +1022,17 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * @param key       Category
 	 * @param location  Location (0-1)
 	 * @param stackKey  Stack key (?)
+	 * @param range Range to fit in
 	 * @return Angle
 	 */
-	public getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number {
-		return this.positionToAngle(this.categoryToPosition(dataItem.categories[key], location));
+	public getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
+		let position = this.categoryToPosition(dataItem.categories[key], location);
+
+		if (range) {
+			position = $math.fitToRange(position, range.start, range.end);
+		}
+
+		return this.positionToAngle(position);
 	}
 
 	/**

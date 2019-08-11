@@ -308,8 +308,8 @@ export class XYCursor extends Cursor {
 				selection.validatePosition(); // otherwise Edge shoes some incorrect size rectangle
 			}
 			else {
-				if(this._generalBehavior != "select"){
-					this.selection.hide();					
+				if (this._generalBehavior != "select") {
+					this.selection.hide();
 				}
 			}
 		}
@@ -376,7 +376,7 @@ export class XYCursor extends Cursor {
 
 		if (this.visible && !this.isHiding) {
 
-			if(this._generalBehavior == "select"){
+			if (this._generalBehavior == "select") {
 				this.selection.parent = this.parent;
 			}
 
@@ -440,7 +440,7 @@ export class XYCursor extends Cursor {
 				super.triggerUpReal(point);
 			}
 		}
-		else {			
+		else {
 			if (this._generalBehavior != "select") {
 				this.selection.hide(0);
 			}
@@ -577,6 +577,9 @@ export class XYCursor extends Cursor {
 	 */
 	public set fullWidthLineX(value: boolean) {
 		this.setPropertyValue("fullWidthLineX", value);
+		if (!value) {
+			this.updateSize();
+		}
 	}
 
 	/**
@@ -597,6 +600,9 @@ export class XYCursor extends Cursor {
 	 */
 	public set fullWidthLineY(value: boolean) {
 		this.setPropertyValue("fullWidthLineY", value);
+		if (!value) {
+			this.updateSize();
+		}
 	}
 
 	/**
@@ -941,7 +947,7 @@ export class XYCursor extends Cursor {
 	/**
 	 * Destroys this object and all related data.
 	 */
-	public dispose(){
+	public dispose() {
 		this.hide(0);
 		super.dispose();
 	}

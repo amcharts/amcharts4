@@ -294,15 +294,6 @@ export class RadarChart extends XYChart {
 	}
 
 	/**
-	 * Creates and returns a new Cursor, of type suitable for RadarChart.
-	 *
-	 * @return Cursor
-	 */
-	protected createCursor(): this["_cursor"] {
-		return new RadarCursor();
-	}
-
-	/**
 	 * Processes JSON-based config before it is applied to the object.
 	 *
 	 * @ignore Exclude from docs

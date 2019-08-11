@@ -16,7 +16,6 @@ import { AxisRendererX } from "../axes/AxisRendererX";
 import { AxisRendererY } from "../axes/AxisRendererY";
 import { CategoryAxis } from "../axes/CategoryAxis";
 import { XYSeries } from "../series/XYSeries";
-import { XYCursor } from "../cursors/XYCursor";
 import { Disposer } from "../../core/utils/Disposer";
 import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
 import { percent } from "../../core/utils/Percent";
@@ -757,14 +756,6 @@ var XYChart = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Creates and returns a new [[Cursor]] suitable for this chart type.
-     *
-     * @return New cursor
-     */
-    XYChart.prototype.createCursor = function () {
-        return new XYCursor();
-    };
     /**
      * Performs tasks when the cursor's position changes, e.g. shows proper
      * tooltips on axes and series.

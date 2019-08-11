@@ -114,6 +114,10 @@ var InteractionObject = /** @class */ (function (_super) {
          */
         _this._keyboardOptions = {};
         /**
+         * Mouse options.
+         */
+        _this._mouseOptions = {};
+        /**
          * Cursor options.
          */
         _this._cursorOptions = {
@@ -718,6 +722,30 @@ var InteractionObject = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._keyboardOptions = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InteractionObject.prototype, "mouseOptions", {
+        /**
+         * @return Options
+         */
+        get: function () {
+            if (this.sprite) {
+                return this.sprite.adapter.apply("mouseOptions", this._mouseOptions);
+            }
+            else {
+                return this._mouseOptions;
+            }
+        },
+        /**
+         * Mouse options.
+         *
+         * @since 4.5.14
+         * @param value  Options
+         */
+        set: function (value) {
+            this._mouseOptions = value;
         },
         enumerable: true,
         configurable: true

@@ -53,7 +53,7 @@ import { ColorModifier } from "./rendering/fills/ColorModifier";
 import { getInteraction } from "./interaction/Interaction";
 import { InteractionObject } from "./interaction/InteractionObject";
 
-import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, ICursorOptions, IKeyboardOptions } from "./interaction/InteractionOptions";
+import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, ICursorOptions, IKeyboardOptions, IMouseOptions } from "./interaction/InteractionOptions";
 import { IPointer } from "./interaction/Pointer";
 import { MouseCursorStyle } from "./interaction/Mouse";
 import { InertiaTypes } from "./interaction/Inertia";
@@ -236,6 +236,7 @@ export interface ISpriteAdapters extends ISpriteProperties {
 	hoverOptions: IHoverOptions;
 	swipeOptions: ISwipeOptions;
 	keyboardOptions: IKeyboardOptions;
+	mouseOptions: IMouseOptions;
 	cursorOptions: ICursorOptions;
 	criticalError: Error;
 };
@@ -4670,6 +4671,23 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			}
 		}
 		return this.interactions.keyboardOptions;
+	}
+
+	/**
+	 * Returns elements mouse options.
+	 *
+	 * @return Mouse options
+	 */
+	public get mouseOptions(): IMouseOptions {
+		if (!this.interactions.mouseOptions) {
+			if (this.virtualParent) {
+				return this.virtualParent.mouseOptions;
+			}
+			if (this.parent) {
+				return this.parent.mouseOptions;
+			}
+		}
+		return this.interactions.mouseOptions;
 	}
 
 	/**

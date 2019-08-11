@@ -30,7 +30,7 @@ import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $object from "../../core/utils/Object";
-
+import { IRange } from "../../core/defs/IRange";
 
 /**
  * ============================================================================
@@ -648,7 +648,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 						maxZoomed -= 1;
 						endIndex = series.dataItems.findClosestIndex(maxZoomed, (x) => <number>x[field], "right");
 
-						if(endIndex > 0){
+						if (endIndex > 0) {
 							endIndex++;
 						}
 					}
@@ -657,7 +657,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				series.startIndex = startIndex;
 				series.endIndex = endIndex;
 
-				if(series.dataRangeInvalid){
+				if (series.dataRangeInvalid) {
 					series.validateDataRange();
 				}
 			}
@@ -1092,7 +1092,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				renderer.updateFillElement(mask, position, endPosition);
 			}
 
-			if(dataItem.bullet){
+			if (dataItem.bullet) {
 				renderer.updateBullet(dataItem.bullet, position, endPosition);
 			}
 
@@ -1281,16 +1281,15 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	}
 
 	/**
-	 * Returns the X coordinate for series' data item's value.
+	 * Returns the relative position on axis for series' data item's value.
 	 *
-	 * @ignore Exclude from docs
-	 * @todo Description (review)
-	 * @param dataItem  Data item
-	 * @param key       Data field to get value from
-	 * @param location  Location (0-1)
-	 * @return X coordinate (px)
+	 * @since 4.5.14
+	 * @param  dataItem  Data item
+	 * @param  key       Data field to get value from
+	 * @param  location  Location (0-1)
+	 * @return           Relative position
 	 */
-	public getX(dataItem: XYSeriesDataItem, key: string, location?: number): number {
+	public getPositionX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
 		let value: number = this.getTimeByLocation(dataItem, key, location);
 		//let stack: number = dataItem.getValue("valueX", "stack");
 
@@ -1298,20 +1297,26 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			value = this.baseValue;
 		}
 
-		return this.renderer.positionToPoint(this.valueToPosition(value)).x;
+
+		let position = this.valueToPosition(value);
+		if (range) {
+			position = $math.fitToRange(position, range.start, range.end);
+		}
+
+		return position;
 	}
 
+
 	/**
-	 * Returns the Y coordinate for series' data item's value.
+	 * Returns relative position on axis for series' data item's value.
 	 *
-	 * @ignore Exclude from docs
-	 * @todo Description (review)
-	 * @param dataItem  Data item
-	 * @param key       Data field to get value from
-	 * @param location  Location (0-1)
-	 * @return Y coordinate (px)
+	 * @since 4.5.14
+	 * @param  dataItem  Data item
+	 * @param  key       Data field to get value from
+	 * @param  location  Location (0-1)
+	 * @return           Relative position
 	 */
-	public getY(dataItem: XYSeriesDataItem, key: string, location?: number): number {
+	public getPositionY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
 		let value: number = this.getTimeByLocation(dataItem, key, location);
 		let stack: number = dataItem.getValue("valueX", "stack");
 
@@ -1319,7 +1324,12 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			value = this.baseValue;
 		}
 
-		return this.renderer.positionToPoint(this.valueToPosition(value + stack)).y;
+		let position = this.valueToPosition(value + stack);
+		if (range) {
+			position = $math.fitToRange(position, range.start, range.end);
+		}
+
+		return position;
 	}
 
 	/**
@@ -1331,9 +1341,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @param key       Data field to get value from
 	 * @param location  Location (0-1)
 	 * @param stackKey  Stack ID
+	 * @param range Range to fit in
 	 * @return Angle
 	 */
-	public getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number {
+	public getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
 		let value: number = this.getTimeByLocation(dataItem, key, location);
 		let stack: number = dataItem.getValue(stackKey, "stack");
 
@@ -1341,7 +1352,12 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			value = this.baseValue;
 		}
 
-		return this.positionToAngle(this.valueToPosition(value + stack));
+		let position = this.valueToPosition(value + stack);
+		if (range) {
+			position = $math.fitToRange(position, range.start, range.end);
+		}
+
+		return this.positionToAngle(position);
 	}
 
 	/**
@@ -1355,6 +1371,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @return [description]
 	 */
 	protected getTimeByLocation(dataItem: XYSeriesDataItem, key: string, location: number): number {
+
 		if (!$type.hasValue(key)) {
 			return;
 		}
@@ -1369,6 +1386,13 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		let startTime: number = dataItem.values[key]["open"];
 		let endTime: number = dataItem.values[key]["close"];
+
+		let workingValue = dataItem.values[key].workingValue;
+		let value = dataItem.values[key].value;
+
+		let difference = value - workingValue;
+		startTime -= difference;
+		endTime -= difference;
 
 		if ($type.isNumber(startTime) && $type.isNumber(endTime)) {
 			return startTime + (endTime - startTime) * location;
@@ -1448,18 +1472,18 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			baseInterval.timeUnit = "month";
 			baseInterval.count = 1;
 		}
-		if(baseInterval.timeUnit == "month"){
+		if (baseInterval.timeUnit == "month") {
 			if (this.minDifference >= $time.getDuration("day", 29 * 2) && baseInterval.count == 1) {
 				baseInterval.count = 2;
 			}
 
 			if (this.minDifference >= $time.getDuration("day", 29 * 3) && baseInterval.count == 2) {
 				baseInterval.count = 3;
-			}		
+			}
 
 			if (this.minDifference >= $time.getDuration("day", 29 * 6) && baseInterval.count == 5) {
 				baseInterval.count = 6;
-			}				
+			}
 		}
 
 		// handle daylight saving
@@ -1493,12 +1517,18 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * If not set, the Axis will try to determine the setting by its own, looking
 	 * at actual data.
 	 *
+	 * For best results, try to follow these values for `count`:
+	 *
+	 * When unit is "month", use 12 / count = round number
+	 * When unit is "hour", use 24 / count = round number
+	 * When unit is "second" and "minute", use 60 / count = round number
+	 *
 	 * @param timeInterval base interval
 	 */
 	public set baseInterval(timeInterval: ITimeInterval) {
 		if (JSON.stringify(this._baseInterval) != JSON.stringify(timeInterval)) {
 			this._baseInterval = timeInterval;
-			if(!$type.isNumber(timeInterval.count)){
+			if (!$type.isNumber(timeInterval.count)) {
 				timeInterval.count = 1;
 			}
 			this.invalidate();
@@ -1867,7 +1897,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 							if (Math.abs(closestDate.getTime() - actualTime) > Math.abs(date.getTime() - actualTime)) {
 								closestDate = date;
 							}
-						}						
+						}
 					}
 				}
 			})
@@ -1878,7 +1908,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				closestTime = closestDate.getTime();
 
 				let tooltipLocation = this.renderer.tooltipLocation;
-				if(tooltipLocation == 0){
+				if (tooltipLocation == 0) {
 					tooltipLocation = 0.0001;
 				}
 
@@ -1954,6 +1984,13 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * @return base value
+	 */
+	public get baseValue(): number {
+		return this.min;
 	}
 }
 

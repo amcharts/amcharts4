@@ -754,15 +754,6 @@ var Axis = /** @class */ (function (_super) {
         if (dataItem.label) {
             dataItem.label.parent = renderer;
         }
-        var grid = dataItem.grid;
-        if (grid) {
-            if (grid.above) {
-                grid.parent = renderer.bulletsContainer;
-            }
-            else {
-                grid.parent = renderer.gridContainer;
-            }
-        }
         var axisFill = dataItem.axisFill;
         if (axisFill) {
             if (axisFill.above) {
@@ -770,6 +761,15 @@ var Axis = /** @class */ (function (_super) {
             }
             else {
                 axisFill.parent = renderer.gridContainer;
+            }
+        }
+        var grid = dataItem.grid;
+        if (grid) {
+            if (grid.above) {
+                grid.parent = renderer.bulletsContainer;
+            }
+            else {
+                grid.parent = renderer.gridContainer;
             }
         }
         if (dataItem.bullet) {
@@ -849,6 +849,7 @@ var Axis = /** @class */ (function (_super) {
                 _this.series.removeValue(series);
             }),
             this.events.on("lengthchanged", series.invalidate, series, false),
+            this.events.on("lengthchanged", series.createMask, series, false),
             this.events.on("startchanged", series.invalidate, series, false),
             this.events.on("endchanged", series.invalidate, series, false)
             // TODO should these be disposed of ?
@@ -1006,6 +1007,9 @@ var Axis = /** @class */ (function (_super) {
                 if (value && this.renderer) {
                     this.renderer.updateTooltip();
                 }
+                else {
+                    this.tooltip.hide(0);
+                }
             }
         },
         enumerable: true,
@@ -1019,47 +1023,49 @@ var Axis = /** @class */ (function (_super) {
      */
     Axis.prototype.showTooltipAtPosition = function (position, local) {
         var tooltip = this._tooltip;
-        if (!local) {
-            position = this.toAxisPosition(position);
+        if (!tooltip || !this.cursorTooltipEnabled || this.tooltip.disabled || this.dataItems.length <= 0) {
+            this._tooltipPosition = undefined;
         }
-        if (!$type.isNumber(position) || position < 0 || position > 1) {
-            tooltip.hide(0);
-            return;
-        }
-        var renderer = this.renderer;
-        if (tooltip && this.dataItems.length > 0) {
+        else {
+            if (!local) {
+                position = this.toAxisPosition(position);
+            }
+            if (!$type.isNumber(position) || position < 0 || position > 1) {
+                tooltip.hide(0);
+                this._tooltipPosition = undefined;
+                return;
+            }
+            var renderer = this.renderer;
             //@todo: think of how to solve this better
-            if (tooltip && !tooltip.parent) {
+            if (!tooltip.parent) {
                 tooltip.parent = this.tooltipContainer;
             }
             var tooltipLocation = renderer.tooltipLocation;
-            if (tooltipLocation == 0) {
-                tooltipLocation = 0.001;
-            }
             var startPosition = this.getCellStartPosition(position);
             var endPosition = this.getCellEndPosition(position);
             if (this.tooltipPosition == "fixed") {
                 position = startPosition + (endPosition - startPosition) * tooltipLocation;
             }
             position = $math.fitToRange(position, this.start, this.end);
-            var startPoint = renderer.positionToPoint(startPosition);
-            var endPoint = renderer.positionToPoint(endPosition);
-            // save values so cursor could use them
-            this.currentItemStartPoint = startPoint;
-            this.currentItemEndPoint = endPoint;
-            if (renderer.fullWidthTooltip) {
-                tooltip.width = endPoint.x - startPoint.x;
-                tooltip.height = endPoint.y - startPoint.y;
-            }
-            var point = renderer.positionToPoint(position);
-            var globalPoint = $utils.spritePointToSvg(point, this.renderer.line);
-            tooltip.text = this.getTooltipText(position);
-            if (tooltip.text) {
-                tooltip.pointTo(globalPoint);
-                tooltip.show();
-            }
-            if (!this.cursorTooltipEnabled) {
-                tooltip.hide(0);
+            if (this._tooltipPosition != position) {
+                this._tooltipPosition = position;
+                var tooltipLocation2 = renderer.tooltipLocation2;
+                var startPoint = renderer.positionToPoint(startPosition, tooltipLocation2);
+                var endPoint = renderer.positionToPoint(endPosition, tooltipLocation2);
+                // save values so cursor could use them
+                this.currentItemStartPoint = startPoint;
+                this.currentItemEndPoint = endPoint;
+                if (renderer.fullWidthTooltip) {
+                    tooltip.width = endPoint.x - startPoint.x;
+                    tooltip.height = endPoint.y - startPoint.y;
+                }
+                var point = renderer.positionToPoint(position, tooltipLocation2);
+                var globalPoint = $utils.spritePointToSvg(point, this.renderer.line);
+                tooltip.text = this.getTooltipText(position);
+                if (tooltip.text) {
+                    tooltip.pointTo(globalPoint);
+                    tooltip.show();
+                }
             }
         }
     };
@@ -1338,7 +1344,7 @@ var Axis = /** @class */ (function (_super) {
      * @param stackKey  ???
      * @return Angle
      */
-    Axis.prototype.getAngle = function (dataItem, key, location, stackKey) {
+    Axis.prototype.getAngle = function (dataItem, key, location, stackKey, range) {
         return;
     };
     /**
@@ -1354,7 +1360,23 @@ var Axis = /** @class */ (function (_super) {
      * @param stackKey [description]
      * @return [description]
      */
-    Axis.prototype.getX = function (dataItem, key, location, stackKey) {
+    Axis.prototype.getX = function (dataItem, key, location, stackKey, range) {
+        return;
+    };
+    /**
+     * [getX description]
+     *
+     * This is a placeholder to override for extending classes.
+     *
+     * @ignore Exclude from docs
+     * @todo Description (review)
+     * @param dataItem [description]
+     * @param key      [description]
+     * @param location [description]
+     * @param stackKey [description]
+     * @return [description]
+     */
+    Axis.prototype.getPositionX = function (dataItem, key, location, stackKey, range) {
         return;
     };
     /**
@@ -1370,7 +1392,23 @@ var Axis = /** @class */ (function (_super) {
      * @param stackKey [description]
      * @return [description]
      */
-    Axis.prototype.getY = function (dataItem, key, location, stackKey) {
+    Axis.prototype.getY = function (dataItem, key, location, stackKey, range) {
+        return;
+    };
+    /**
+     * [getY description]
+     *
+     * This is a placeholder to override for extending classes.
+     *
+     * @ignore Exclude from docs
+     * @todo Description (review)
+     * @param dataItem [description]
+     * @param key      [description]
+     * @param location [description]
+     * @param stackKey [description]
+     * @return [description]
+     */
+    Axis.prototype.getPositionY = function (dataItem, key, location, stackKey, range) {
         return;
     };
     Object.defineProperty(Axis.prototype, "basePoint", {

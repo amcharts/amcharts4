@@ -712,7 +712,7 @@ export declare class MapChart extends SerialChart {
      * @param duration  Duration for zoom animation (ms)
      * @return Zoom animation
      */
-    zoomIn(geoPoint?: IGeoPoint, duration?: number): Animation;
+    zoomIn(geoPoint?: IGeoPoint, duration?: number, sensitivity?: number): Animation;
     /**
      * Zooms out the map, optionally centering on particular latitude/longitude
      * point.
@@ -721,7 +721,7 @@ export declare class MapChart extends SerialChart {
      * @param duration  Duration for zoom animation (ms)
      * @return Zoom animation
      */
-    zoomOut(geoPoint?: IGeoPoint, duration?: number): Animation;
+    zoomOut(geoPoint?: IGeoPoint, duration?: number, sensitivity?: number): Animation;
     /**
      * Pans the maps using relative coordinates. E.g.:
      *

@@ -16,7 +16,7 @@ import { Dictionary, DictionaryDisposer } from "../utils/Dictionary";
 import { AMEvent } from "../utils/EventDispatcher";
 import { IPoint } from "../defs/IPoint";
 import { IPointer } from "./Pointer";
-import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, ICursorOptions, IKeyboardOptions } from "./InteractionOptions";
+import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, ICursorOptions, IKeyboardOptions, IMouseOptions } from "./InteractionOptions";
 import { getInteraction } from "./Interaction";
 import { Inertia, InertiaTypes } from "./Inertia";
 import { IDisposer } from "../utils/Disposer";
@@ -201,6 +201,11 @@ export class InteractionObject extends BaseObjectEvents {
 	 * Keyboard options.
 	 */
 	private _keyboardOptions: IKeyboardOptions = {};
+
+	/**
+	 * Mouse options.
+	 */
+	private _mouseOptions: IMouseOptions = {};
 
 	/**
 	 * Cursor options.
@@ -758,6 +763,28 @@ export class InteractionObject extends BaseObjectEvents {
 		}
 		else {
 			return this._keyboardOptions;
+		}
+	}
+
+	/**
+	 * Mouse options.
+	 *
+	 * @since 4.5.14
+	 * @param value  Options
+	 */
+	public set mouseOptions(value: IMouseOptions) {
+		this._mouseOptions = value;
+	}
+
+	/**
+	 * @return Options
+	 */
+	public get mouseOptions(): IMouseOptions {
+		if (this.sprite) {
+			return this.sprite.adapter.apply("mouseOptions", this._mouseOptions);
+		}
+		else {
+			return this._mouseOptions;
 		}
 	}
 

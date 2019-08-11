@@ -332,7 +332,9 @@ export class SerialChart extends Chart {
 		super.appear();
 
 		this.series.each((series)=>{
-			series.appear();			
+			if(series.showOnInit && series.inited){
+				series.appear();			
+			}			
 		})
 	}
 }

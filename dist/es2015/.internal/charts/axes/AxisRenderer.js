@@ -187,7 +187,7 @@ var AxisRenderer = /** @class */ (function (_super) {
      * @param position  Position (0-1)
      * @return Point
      */
-    AxisRenderer.prototype.positionToPoint = function (position) {
+    AxisRenderer.prototype.positionToPoint = function (position, position2) {
         // This is a placeholder method for extending classes to override.
         return { x: 0, y: 0 };
     };
@@ -247,9 +247,10 @@ var AxisRenderer = /** @class */ (function (_super) {
      * Converts a coordinate in pixels to a relative position. (0-1)
      *
      * @param coordinate  Coordinate (px)
+     * @param coordinate2  Coordinate of a second axis, only needed for complex axes systems, like timeline (px)
      * @return Position (0-1)
      */
-    AxisRenderer.prototype.coordinateToPosition = function (coordinate) {
+    AxisRenderer.prototype.coordinateToPosition = function (coordinate, coordinate2) {
         var position;
         var axis = this.axis;
         var axisFullLength = axis.axisFullLength;
@@ -722,6 +723,28 @@ var AxisRenderer = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("tooltipLocation", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AxisRenderer.prototype, "tooltipLocation2", {
+        /**
+         * @return Tooltip location
+         */
+        get: function () {
+            return this.getPropertyValue("tooltipLocation2");
+        },
+        /**
+         * Location within secondary axis cell to show tooltip on. (0-1)
+         *
+         * 0 - show at the start
+         * 0.5 - show right in the middle
+         * 1 - show at the end
+         *
+         * @param value Tooltip location
+         */
+        set: function (value) {
+            this.setPropertyValue("tooltipLocation2", value);
         },
         enumerable: true,
         configurable: true

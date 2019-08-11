@@ -214,6 +214,7 @@ export class AxisDataItem extends DataItem {
 	 * @since 4.5.11
 	 */
 	public maxPosition?:number;
+	
 
 	/**
 	 * Constructor
@@ -946,6 +947,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 */
 	public currentItemEndPoint: IPoint;
 
+	protected _tooltipPosition:number;
+
 	/**
 	 * Holds reference to a function that accepts a DataItem and its index as
 	 * parameters.
@@ -1152,16 +1155,6 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			dataItem.label.parent = renderer;
 		}
 
-		let grid = dataItem.grid;
-		if (grid) {
-			if (grid.above) {
-				grid.parent = renderer.bulletsContainer;
-			}
-			else {
-				grid.parent = renderer.gridContainer;
-			}
-		}
-
 		let axisFill = dataItem.axisFill;
 		if (axisFill) {
 			if (axisFill.above) {
@@ -1169,6 +1162,16 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			}
 			else {
 				axisFill.parent = renderer.gridContainer;
+			}
+		}		
+
+		let grid = dataItem.grid;
+		if (grid) {
+			if (grid.above) {
+				grid.parent = renderer.bulletsContainer;
+			}
+			else {
+				grid.parent = renderer.gridContainer;
 			}
 		}
 
@@ -1255,6 +1258,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			}),
 
 			this.events.on("lengthchanged", series.invalidate, series, false),
+			this.events.on("lengthchanged", series.createMask, series, false),
 			this.events.on("startchanged", series.invalidate, series, false),
 			this.events.on("endchanged", series.invalidate, series, false)
 
@@ -1412,6 +1416,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			if (value && this.renderer) {
 				this.renderer.updateTooltip();
 			}
+			else {
+				this.tooltip.hide(0);
+			}			
 		}
 	}
 
@@ -1429,31 +1436,31 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @param local or global position
 	 */
 	public showTooltipAtPosition(position: number, local?: boolean) {
-
 		let tooltip: Tooltip = this._tooltip;
 
-		if (!local) {
-			position = this.toAxisPosition(position);
+		if (!tooltip || !this.cursorTooltipEnabled || this.tooltip.disabled || this.dataItems.length <= 0) {
+			this._tooltipPosition = undefined;
 		}
+		else {
 
-		if (!$type.isNumber(position) || position < 0 || position > 1) {
-			tooltip.hide(0);
-			return;
-		}
+			if (!local) {
+				position = this.toAxisPosition(position);
+			}
 
-		let renderer = this.renderer;
+			if (!$type.isNumber(position) || position < 0 || position > 1) {
+				tooltip.hide(0);
+				this._tooltipPosition = undefined;
+				return;
+			}
 
-		if (tooltip && this.dataItems.length > 0) {
+			let renderer = this.renderer;
+
 			//@todo: think of how to solve this better
-			if (tooltip && !tooltip.parent) {
+			if (!tooltip.parent) {
 				tooltip.parent = this.tooltipContainer;
 			}
 
 			let tooltipLocation = renderer.tooltipLocation;
-
-			if (tooltipLocation == 0) {
-				tooltipLocation = 0.001;
-			}
 
 			let startPosition: number = this.getCellStartPosition(position);
 			let endPosition: number = this.getCellEndPosition(position);
@@ -1463,29 +1470,31 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			}
 			position = $math.fitToRange(position, this.start, this.end);
 
-			let startPoint: IPoint = renderer.positionToPoint(startPosition);
-			let endPoint: IPoint = renderer.positionToPoint(endPosition);
+			if (this._tooltipPosition != position) {
+				this._tooltipPosition = position;
 
-			// save values so cursor could use them
-			this.currentItemStartPoint = startPoint;
-			this.currentItemEndPoint = endPoint;
+				let tooltipLocation2 = renderer.tooltipLocation2;
 
-			if (renderer.fullWidthTooltip) {
-				tooltip.width = endPoint.x - startPoint.x;
-				tooltip.height = endPoint.y - startPoint.y;
-			}
+				let startPoint: IPoint = renderer.positionToPoint(startPosition, tooltipLocation2);
+				let endPoint: IPoint = renderer.positionToPoint(endPosition, tooltipLocation2);
 
-			let point: IPoint = renderer.positionToPoint(position);
-			let globalPoint: IPoint = $utils.spritePointToSvg(point, this.renderer.line);
-			tooltip.text = this.getTooltipText(position);
+				// save values so cursor could use them
+				this.currentItemStartPoint = startPoint;
+				this.currentItemEndPoint = endPoint;
 
-			if (tooltip.text) {
-				tooltip.pointTo(globalPoint);
-				tooltip.show();
-			}
+				if (renderer.fullWidthTooltip) {
+					tooltip.width = endPoint.x - startPoint.x;
+					tooltip.height = endPoint.y - startPoint.y;
+				}
 
-			if (!this.cursorTooltipEnabled) {
-				tooltip.hide(0);
+				let point: IPoint = renderer.positionToPoint(position, tooltipLocation2);
+				let globalPoint: IPoint = $utils.spritePointToSvg(point, this.renderer.line);
+				tooltip.text = this.getTooltipText(position);
+
+				if (tooltip.text) {
+					tooltip.pointTo(globalPoint);
+					tooltip.show();
+				}
 			}
 		}
 	}
@@ -1788,7 +1797,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @param stackKey  ???
 	 * @return Angle
 	 */
-	public getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number {
+	public getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
 		return;
 	}
 
@@ -1805,7 +1814,43 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @param stackKey [description]
 	 * @return [description]
 	 */
-	public getX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number {
+	public getX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
+		return;
+	}
+
+
+	/**
+	 * [getX description]
+	 *
+	 * This is a placeholder to override for extending classes.
+	 *
+	 * @ignore Exclude from docs
+	 * @todo Description (review)
+	 * @param dataItem [description]
+	 * @param key      [description]
+	 * @param location [description]
+	 * @param stackKey [description]
+	 * @return [description]
+	 */
+	public getPositionX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
+		return;
+	}
+
+
+	/**
+	 * [getY description]
+	 *
+	 * This is a placeholder to override for extending classes.
+	 *
+	 * @ignore Exclude from docs
+	 * @todo Description (review)
+	 * @param dataItem [description]
+	 * @param key      [description]
+	 * @param location [description]
+	 * @param stackKey [description]
+	 * @return [description]
+	 */
+	public getY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
 		return;
 	}
 
@@ -1822,9 +1867,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @param stackKey [description]
 	 * @return [description]
 	 */
-	public getY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number {
+	public getPositionY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
 		return;
-	}
+	}	
 
 	/**
 	 * Coordinates of the actual axis start.

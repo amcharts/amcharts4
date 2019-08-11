@@ -16,7 +16,7 @@
  */
 import { BaseObjectEvents, IBaseObjectEvents } from "../Base";
 import { List } from "../utils/List";
-import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, IKeyboardOptions } from "./InteractionOptions";
+import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, IKeyboardOptions, IMouseOptions } from "./InteractionOptions";
 import { IDisposer } from "../utils/Disposer";
 import { InteractionObject, IInteractionObjectEvents } from "./InteractionObject";
 import { Dictionary } from "../utils/Dictionary";
@@ -194,6 +194,13 @@ export declare class Interaction extends BaseObjectEvents {
      * [[InteractionObject]].
      */
     keyboardOptions: IKeyboardOptions;
+    /**
+     * Default options for keyboard operations. These can be overridden in
+     * [[InteractionObject]].
+     *
+     * @since 4.5.14
+     */
+    mouseOptions: IMouseOptions;
     /**
      * Constructor. Sets up universal document-wide move events to handle stuff
      * outside particular chart container.
@@ -885,6 +892,15 @@ export declare class Interaction extends BaseObjectEvents {
      * @return Option value
      */
     getKeyboardOption(io: InteractionObject, option: keyof IKeyboardOptions): any;
+    /**
+     * Returns an option for mouse.
+     *
+     * @ignore Exclude from docs
+     * @param io      Element
+     * @param option  Option key
+     * @return Option value
+     */
+    getMouseOption(io: InteractionObject, option: keyof IMouseOptions): any;
     /**
      * Returns an option associated with inertia.
      *

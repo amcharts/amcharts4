@@ -778,7 +778,12 @@ export class PercentSeries extends Series {
 					label.validate();
 				}
 
-				let bottom: number = label.pixelY + label.measuredHeight;
+				let lh = label.measuredHeight;
+				if(!label.visible){
+					lh = 0;
+				}
+
+				let bottom: number = label.pixelY + lh;
 
 				if (nextLabel) {
 					if (nextLabel.y < bottom) {
@@ -800,8 +805,17 @@ export class PercentSeries extends Series {
 			let label = dataItem.label;
 
 			if (label) {
-				if (label.pixelY + label.measuredHeight > previousTop) {
-					label.y = previousTop - label.measuredHeight;
+				if (label.invalid) {
+					label.validate();
+				}				
+
+				let lh = label.measuredHeight;
+				if(!label.visible){
+					lh = 0;
+				}
+
+				if (label.pixelY + lh > previousTop) {
+					label.y = previousTop - lh;
 					previousTop = label.y;
 				}
 			}
@@ -820,7 +834,12 @@ export class PercentSeries extends Series {
 			let nextDataItem: this["_dataItem"] = dataItems[index];
 			if (nextDataItem) {
 				if (nextDataItem.label) {
-					return nextDataItem.label;
+					if(nextDataItem.visible){
+						return nextDataItem.label;
+					}
+					else{
+						return this.getNextLabel(index + 1, dataItems);	
+					}
 				}
 				else {
 					return this.getNextLabel(index + 1, dataItems);

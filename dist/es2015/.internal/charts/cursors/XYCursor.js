@@ -399,6 +399,9 @@ var XYCursor = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("fullWidthLineX", value);
+            if (!value) {
+                this.updateSize();
+            }
         },
         enumerable: true,
         configurable: true
@@ -421,6 +424,9 @@ var XYCursor = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("fullWidthLineY", value);
+            if (!value) {
+                this.updateSize();
+            }
         },
         enumerable: true,
         configurable: true

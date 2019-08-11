@@ -1016,40 +1016,46 @@ var DateAxis = /** @class */ (function (_super) {
         return new Date(this.positionToValue(position));
     };
     /**
-     * Returns the X coordinate for series' data item's value.
+     * Returns the relative position on axis for series' data item's value.
      *
-     * @ignore Exclude from docs
-     * @todo Description (review)
-     * @param dataItem  Data item
-     * @param key       Data field to get value from
-     * @param location  Location (0-1)
-     * @return X coordinate (px)
+     * @since 4.5.14
+     * @param  dataItem  Data item
+     * @param  key       Data field to get value from
+     * @param  location  Location (0-1)
+     * @return           Relative position
      */
-    DateAxis.prototype.getX = function (dataItem, key, location) {
+    DateAxis.prototype.getPositionX = function (dataItem, key, location, stackKey, range) {
         var value = this.getTimeByLocation(dataItem, key, location);
         //let stack: number = dataItem.getValue("valueX", "stack");
         if (!$type.isNumber(value)) {
             value = this.baseValue;
         }
-        return this.renderer.positionToPoint(this.valueToPosition(value)).x;
+        var position = this.valueToPosition(value);
+        if (range) {
+            position = $math.fitToRange(position, range.start, range.end);
+        }
+        return position;
     };
     /**
-     * Returns the Y coordinate for series' data item's value.
+     * Returns relative position on axis for series' data item's value.
      *
-     * @ignore Exclude from docs
-     * @todo Description (review)
-     * @param dataItem  Data item
-     * @param key       Data field to get value from
-     * @param location  Location (0-1)
-     * @return Y coordinate (px)
+     * @since 4.5.14
+     * @param  dataItem  Data item
+     * @param  key       Data field to get value from
+     * @param  location  Location (0-1)
+     * @return           Relative position
      */
-    DateAxis.prototype.getY = function (dataItem, key, location) {
+    DateAxis.prototype.getPositionY = function (dataItem, key, location, stackKey, range) {
         var value = this.getTimeByLocation(dataItem, key, location);
         var stack = dataItem.getValue("valueX", "stack");
         if (!$type.isNumber(value)) {
             value = this.baseValue;
         }
-        return this.renderer.positionToPoint(this.valueToPosition(value + stack)).y;
+        var position = this.valueToPosition(value + stack);
+        if (range) {
+            position = $math.fitToRange(position, range.start, range.end);
+        }
+        return position;
     };
     /**
      * Returns an angle for series data item.
@@ -1060,15 +1066,20 @@ var DateAxis = /** @class */ (function (_super) {
      * @param key       Data field to get value from
      * @param location  Location (0-1)
      * @param stackKey  Stack ID
+     * @param range Range to fit in
      * @return Angle
      */
-    DateAxis.prototype.getAngle = function (dataItem, key, location, stackKey) {
+    DateAxis.prototype.getAngle = function (dataItem, key, location, stackKey, range) {
         var value = this.getTimeByLocation(dataItem, key, location);
         var stack = dataItem.getValue(stackKey, "stack");
         if (!$type.isNumber(value)) {
             value = this.baseValue;
         }
-        return this.positionToAngle(this.valueToPosition(value + stack));
+        var position = this.valueToPosition(value + stack);
+        if (range) {
+            position = $math.fitToRange(position, range.start, range.end);
+        }
+        return this.positionToAngle(position);
     };
     /**
      * [getTimeByLocation description]
@@ -1092,6 +1103,11 @@ var DateAxis = /** @class */ (function (_super) {
         }
         var startTime = dataItem.values[key]["open"];
         var endTime = dataItem.values[key]["close"];
+        var workingValue = dataItem.values[key].workingValue;
+        var value = dataItem.values[key].value;
+        var difference = value - workingValue;
+        startTime -= difference;
+        endTime -= difference;
         if ($type.isNumber(startTime) && $type.isNumber(endTime)) {
             return startTime + (endTime - startTime) * location;
         }
@@ -1205,6 +1221,12 @@ var DateAxis = /** @class */ (function (_super) {
          *
          * If not set, the Axis will try to determine the setting by its own, looking
          * at actual data.
+         *
+         * For best results, try to follow these values for `count`:
+         *
+         * When unit is "month", use 12 / count = round number
+         * When unit is "hour", use 24 / count = round number
+         * When unit is "second" and "minute", use 60 / count = round number
          *
          * @param timeInterval base interval
          */
@@ -1628,6 +1650,16 @@ var DateAxis = /** @class */ (function (_super) {
         }
         return false;
     };
+    Object.defineProperty(DateAxis.prototype, "baseValue", {
+        /**
+         * @return base value
+         */
+        get: function () {
+            return this.min;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return DateAxis;
 }(ValueAxis));
 export { DateAxis };

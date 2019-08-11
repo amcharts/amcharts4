@@ -214,7 +214,7 @@ var AxisRendererX = /** @class */ (function (_super) {
      * @return Position (0-1)
      */
     AxisRendererX.prototype.pointToPosition = function (point) {
-        return this.coordinateToPosition(point.x);
+        return this.coordinateToPosition(point.x, point.y);
     };
     /**
      * [getPositionRangePath description]

@@ -59,6 +59,10 @@ export interface IAxisRendererProperties extends IContainerProperties {
      */
     tooltipLocation?: number;
     /**
+     * Location of the tooltip relative secondary axis cell. (0-1)
+     */
+    tooltipLocation2?: number;
+    /**
      * Resize axis tooltip to the full width of the cell.
      */
     fullWidthTooltip?: boolean;
@@ -226,7 +230,7 @@ export declare class AxisRenderer extends Container {
      * @param position  Position (0-1)
      * @return Point
      */
-    positionToPoint(position: number): IPoint;
+    positionToPoint(position: number, position2?: number): IPoint;
     /**
      * Converts relative position on axis to angle.
      *
@@ -250,9 +254,10 @@ export declare class AxisRenderer extends Container {
      * Converts a coordinate in pixels to a relative position. (0-1)
      *
      * @param coordinate  Coordinate (px)
+     * @param coordinate2  Coordinate of a second axis, only needed for complex axes systems, like timeline (px)
      * @return Position (0-1)
      */
-    coordinateToPosition(coordinate: number): number;
+    coordinateToPosition(coordinate: number, coordinate2?: number): number;
     /**
      * Converts a point at specific coordinates to a relative position (0-1)
      * on the axis.
@@ -530,6 +535,19 @@ export declare class AxisRenderer extends Container {
      * @param value Tooltip location
      */
     tooltipLocation: number;
+    /**
+     * @return Tooltip location
+     */
+    /**
+     * Location within secondary axis cell to show tooltip on. (0-1)
+     *
+     * 0 - show at the start
+     * 0.5 - show right in the middle
+     * 1 - show at the end
+     *
+     * @param value Tooltip location
+     */
+    tooltipLocation2: number;
     /**
      * @return Cell start (0-1)
      */

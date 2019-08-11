@@ -14,7 +14,6 @@ import { RadarSeries } from "../series/RadarSeries";
 import { Container } from "../../core/Container";
 import { Circle } from "../../core/elements/Circle";
 import { registry } from "../../core/Registry";
-import { RadarCursor } from "../cursors/RadarCursor";
 import { AxisRendererCircular } from "../axes/AxisRendererCircular";
 import { AxisRendererRadial } from "../axes/AxisRendererRadial";
 import * as $utils from "../../core/utils/Utils";
@@ -148,14 +147,6 @@ var RadarChart = /** @class */ (function (_super) {
         $iter.each(this.xAxes.iterator(), function (axis) {
             axis.invalidate();
         });
-    };
-    /**
-     * Creates and returns a new Cursor, of type suitable for RadarChart.
-     *
-     * @return Cursor
-     */
-    RadarChart.prototype.createCursor = function () {
-        return new RadarCursor();
     };
     /**
      * Processes JSON-based config before it is applied to the object.

@@ -1783,8 +1783,8 @@ export class XYSeries extends Series {
 		if (xAxis instanceof ValueAxis && xAxis != this.baseAxis) {
 			fields = this._xValueFields;
 			// animate to zero if 0 is within zoomMin/zoomMax
-			if (this.stacked || (xAxis.minZoomed < 0 && xAxis.maxZoomed > 0) || this.stackedSeries) {
-				value = 0;
+			if (this.stacked || (xAxis.minZoomed < xAxis.baseValue && xAxis.maxZoomed > xAxis.baseValue) || this.stackedSeries) {
+				value = xAxis.baseValue;
 			}
 			else {
 				value = xAxis.min;
@@ -1795,8 +1795,8 @@ export class XYSeries extends Series {
 		if (yAxis instanceof ValueAxis && yAxis != this.baseAxis) {
 			fields = this._yValueFields;
 			// animate to zero if 0 is within zoomMin/zoomMax
-			if (this.stacked || (yAxis.minZoomed < 0 && yAxis.maxZoomed > 0) || this.stackedSeries) {
-				value = 0;
+			if (this.stacked || (yAxis.minZoomed < yAxis.baseValue && yAxis.maxZoomed > yAxis.baseValue) || this.stackedSeries) {
+				value = yAxis.baseValue;
 			}
 			else {
 				value = yAxis.min;

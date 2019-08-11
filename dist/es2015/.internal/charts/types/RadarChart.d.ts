@@ -183,12 +183,6 @@ export declare class RadarChart extends XYChart {
      */
     protected handleYAxisRangeChange(): void;
     /**
-     * Creates and returns a new Cursor, of type suitable for RadarChart.
-     *
-     * @return Cursor
-     */
-    protected createCursor(): this["_cursor"];
-    /**
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs

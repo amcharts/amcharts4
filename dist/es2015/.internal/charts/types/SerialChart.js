@@ -229,7 +229,9 @@ var SerialChart = /** @class */ (function (_super) {
     SerialChart.prototype.appear = function () {
         _super.prototype.appear.call(this);
         this.series.each(function (series) {
-            series.appear();
+            if (series.showOnInit && series.inited) {
+                series.appear();
+            }
         });
     };
     return SerialChart;

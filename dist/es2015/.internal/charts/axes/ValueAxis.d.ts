@@ -16,6 +16,7 @@ import { XYChart } from "../types/XYChart";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { ValueAxisBreak } from "./ValueAxisBreak";
 import { Animation } from "../../core/utils/Animation";
+import { IRange } from "../../core/defs/IRange";
 /**
  * ============================================================================
  * DATA ITEM
@@ -676,7 +677,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      */
     protected handleExtremesChange(): void;
     /**
-     * Returns the X coordinate for series' data item's value.
+     * Returns relative position on axis for series' data item's value.
      *
      * @ignore Exclude from docs
      * @todo Description (review)
@@ -686,7 +687,18 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @param stackKey  ?
      * @return X coordinate (px)
      */
-    getX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
+    getX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number;
+    /**
+     * Returns the X coordinate for series' data item's value.
+     *
+     * @since 4.5.14
+     * @param  dataItem  Data item
+     * @param  key       Data field to get value from
+     * @param  location  Location (0-1)
+     * @param  stackKey  ?
+     * @return           Relative position
+     */
+    getPositionX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number;
     /**
      * Returns the Y coordinate for series' data item's value.
      *
@@ -698,7 +710,18 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @param stackKey  Stack ID
      * @return Y coordinate (px)
      */
-    getY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
+    getY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number;
+    /**
+     * Returns relative position on axis for series' data item's value.
+     *
+     * @since 4.5.14
+     * @param  dataItem  Data item
+     * @param  key       Data field to get value from
+     * @param  location  Location (0-1)
+     * @param  stackKey  Stack ID
+     * @return           Relative position
+     */
+    getPositionY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number;
     /**
      * Returns an angle for series data item.
      *
@@ -708,9 +731,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @param key       Data field to get value from
      * @param location  Location (0-1)
      * @param stackKey  Stack ID
+     * @param range Range to fit in
      * @return Angle
      */
-    getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
+    getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number;
     /**
      * [getAnyRangePath description]
      *

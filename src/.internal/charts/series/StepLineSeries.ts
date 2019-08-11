@@ -177,7 +177,7 @@ export class StepLineSeries extends LineSeries {
 		y1 = $math.fitToRange(y1, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
 
 		// this might make an impression that points are duplicated, and they indeed are, but this is needed to handle gaps in data
-		if (!this.noRisers && this.connect) {
+		if (!this.noRisers) {
 			if (points.length > 1) {
 				let prevPoint: IPoint = points[points.length - 1];
 				if (this.baseAxis == this.xAxis) {

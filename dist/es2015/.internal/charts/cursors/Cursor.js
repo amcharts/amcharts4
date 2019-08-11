@@ -226,6 +226,9 @@ var Cursor = /** @class */ (function (_super) {
             this.updateSelection();
         }
         else {
+            if (this._generalBehavior == "select") {
+                this.dispatchImmediately("selectended");
+            }
             this.dispatchImmediately("behaviorcanceled");
             interaction.setGlobalStyle(MouseCursorStyle.default);
             this.downPoint = undefined;

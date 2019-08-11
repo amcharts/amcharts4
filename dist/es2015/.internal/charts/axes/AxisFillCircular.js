@@ -44,6 +44,9 @@ var AxisFillCircular = /** @class */ (function (_super) {
      */
     AxisFillCircular.prototype.draw = function () {
         _super.prototype.draw.call(this);
+        if (this.__disabled || this.disabled) {
+            return;
+        }
         if (this.axis) {
             var renderer = this.axis.renderer;
             this.fillPath = renderer.getPositionRangePath(this.startPosition, this.endPosition, this.radius, $type.hasValue(this.innerRadius) ? this.innerRadius : renderer.innerRadius, this.cornerRadius);

@@ -76,6 +76,11 @@ export interface IAxisRendererProperties extends IContainerProperties {
 	tooltipLocation?: number;
 
 	/**
+	 * Location of the tooltip relative secondary axis cell. (0-1)
+	 */
+	tooltipLocation2?: number;	
+
+	/**
 	 * Resize axis tooltip to the full width of the cell.
 	 */
 	fullWidthTooltip?: boolean;
@@ -376,7 +381,7 @@ export class AxisRenderer extends Container {
 	 * @param position  Position (0-1)
 	 * @return Point
 	 */
-	public positionToPoint(position: number): IPoint {
+	public positionToPoint(position: number, position2?:number): IPoint {
 		// This is a placeholder method for extending classes to override.
 		return { x: 0, y: 0 };
 	}
@@ -447,9 +452,10 @@ export class AxisRenderer extends Container {
 	 * Converts a coordinate in pixels to a relative position. (0-1)
 	 *
 	 * @param coordinate  Coordinate (px)
+	 * @param coordinate2  Coordinate of a second axis, only needed for complex axes systems, like timeline (px)
 	 * @return Position (0-1)
 	 */
-	public coordinateToPosition(coordinate: number): number {
+	public coordinateToPosition(coordinate: number, coordinate2?:number): number {
 		let position: number;
 		let axis: Axis = this.axis;
 		let axisFullLength = axis.axisFullLength;
@@ -926,6 +932,26 @@ export class AxisRenderer extends Container {
 	public get tooltipLocation(): number {
 		return this.getPropertyValue("tooltipLocation");
 	}
+
+	/**
+	 * Location within secondary axis cell to show tooltip on. (0-1)
+	 *
+	 * 0 - show at the start
+	 * 0.5 - show right in the middle
+	 * 1 - show at the end
+	 *
+	 * @param value Tooltip location
+	 */
+	public set tooltipLocation2(value: number) {
+		this.setPropertyValue("tooltipLocation2", value);
+	}
+
+	/**
+	 * @return Tooltip location
+	 */
+	public get tooltipLocation2(): number {
+		return this.getPropertyValue("tooltipLocation2");
+	}	
 
 	/**
 	 * Location for the cell start.

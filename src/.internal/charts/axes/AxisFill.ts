@@ -158,6 +158,11 @@ export class AxisFill extends Sprite {
 	 */
 	public draw(): void {
 		super.draw();
+
+		if(this.__disabled || this.disabled){
+			return;
+		}
+
 		if (this.axis && $type.isNumber(this.startPosition) && $type.isNumber(this.endPosition)) {
 			this.fillPath = this.axis.getPositionRangePath(this.startPosition, this.endPosition);
 			this.path = this.fillPath;

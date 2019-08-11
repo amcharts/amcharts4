@@ -23,6 +23,7 @@ import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
 import { Label } from "../../core/elements/Label";
 import { IRectangle } from "../../core/defs/IRectangle";
 import { PointerOrientation } from "../../core/elements/Tooltip";
+import { IRange } from "../../core/defs/IRange";
 import { Ordering } from "../../core/utils/Order";
 import { SortedListTemplate } from "../../core/utils/SortedList";
 import { List, ListTemplate, IListEvents } from "../../core/utils/List";
@@ -535,6 +536,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @ignore Exclude from docs
      */
     currentItemEndPoint: IPoint;
+    protected _tooltipPosition: number;
     /**
      * Holds reference to a function that accepts a DataItem and its index as
      * parameters.
@@ -915,7 +917,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @param stackKey  ???
      * @return Angle
      */
-    getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
+    getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number;
     /**
      * [getX description]
      *
@@ -929,7 +931,21 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @param stackKey [description]
      * @return [description]
      */
-    getX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
+    getX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number;
+    /**
+     * [getX description]
+     *
+     * This is a placeholder to override for extending classes.
+     *
+     * @ignore Exclude from docs
+     * @todo Description (review)
+     * @param dataItem [description]
+     * @param key      [description]
+     * @param location [description]
+     * @param stackKey [description]
+     * @return [description]
+     */
+    getPositionX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number;
     /**
      * [getY description]
      *
@@ -943,7 +959,21 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @param stackKey [description]
      * @return [description]
      */
-    getY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
+    getY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number;
+    /**
+     * [getY description]
+     *
+     * This is a placeholder to override for extending classes.
+     *
+     * @ignore Exclude from docs
+     * @todo Description (review)
+     * @param dataItem [description]
+     * @param key      [description]
+     * @param location [description]
+     * @param stackKey [description]
+     * @return [description]
+     */
+    getPositionY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number;
     /**
      * Coordinates of the actual axis start.
      *

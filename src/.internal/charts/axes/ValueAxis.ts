@@ -28,7 +28,7 @@ import * as $object from "../../core/utils/Object";
 import * as $type from "../../core/utils/Type";
 import * as $utils from "../../core/utils/Utils";
 import { Animation } from "../../core/utils/Animation";
-
+import { IRange } from "../../core/defs/IRange";
 
 /**
  * ============================================================================
@@ -806,7 +806,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @return Base point
 	 */
 	public get basePoint(): IPoint {
-		let baseValue: number = this._baseValue;
+		let baseValue: number = this.baseValue;
 		let position: number = this.valueToPosition(baseValue);
 		let basePoint: IPoint = this.renderer.positionToPoint(position);
 		return basePoint;
@@ -1153,12 +1153,22 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		max = this.fixMax(max);
 
 		// this happens if starLocation and endLocation are 0.5 and DateAxis has only one date
-		if (max - min <= 0.00000001) {
+		if (max - min <= 1 / Math.pow(10, 15)) {
 			if (max - min != 0) {
-				this._deltaMinMax = 0.00000001;
+				this._deltaMinMax = (max - min) / 2;
 			}
 			else {
-				this._deltaMinMax = 1;
+
+				// the number by which we need to raise 10 to get difference
+				let exponent: number = Math.log(Math.abs(max)) * Math.LOG10E;
+
+				// here we find a number which is power of 10 and has the same count of numbers as difference has
+				let power = Math.pow(10, Math.floor(exponent));
+
+				// reduce this number by 10 times
+				power = power / 10;
+
+				this._deltaMinMax = power;
 			}
 			min -= this._deltaMinMax;
 			max += this._deltaMinMax;
@@ -1226,10 +1236,11 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 						animation.events.on("animationprogress", this.validateDataItems, this);
 
 						animation.events.on("animationended", () => {
-							this.validateDataItems();
+							//this.validateDataItems();
 							this.series.each((series) => {
 								series.validate();
 							})
+							this.validateDataItems();
 							this.handleSelectionExtremesChange();
 						});
 						this._minMaxAnimation = animation;
@@ -1247,9 +1258,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			}
 			else {
 				if ((animation && !animation.isFinished()) && this._finalMax == max && this._finalMin == min) {
-					this._minAdjusted = min;
-					this._maxAdjusted = max;
-
 					return;
 				}
 				else {
@@ -1902,7 +1910,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	}
 
 	/**
-	 * Returns the X coordinate for series' data item's value.
+	 * Returns relative position on axis for series' data item's value.
 	 *
 	 * @ignore Exclude from docs
 	 * @todo Description (review)
@@ -1912,7 +1920,21 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @param stackKey  ?
 	 * @return X coordinate (px)
 	 */
-	public getX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number {
+	public getX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
+		return this.renderer.positionToPoint(this.getPositionX(dataItem, key, location, stackKey, range)).x;
+	}
+
+	/**
+	 * Returns the X coordinate for series' data item's value.
+	 *
+	 * @since 4.5.14
+	 * @param  dataItem  Data item
+	 * @param  key       Data field to get value from
+	 * @param  location  Location (0-1)
+	 * @param  stackKey  ?
+	 * @return           Relative position
+	 */
+	public getPositionX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
 		let value: number = dataItem.getWorkingValue(key);
 		if (!$type.hasValue(stackKey)) {
 			stackKey = "valueX";
@@ -1929,7 +1951,13 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			}
 		}
 
-		return this.renderer.positionToPoint(this.valueToPosition(value + stack)).x;
+		let position = this.valueToPosition(value + stack);
+
+		if (range) {
+			position = $math.fitToRange(position, range.start, range.end);
+		}
+
+		return position;
 	}
 
 	/**
@@ -1943,7 +1971,21 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @param stackKey  Stack ID
 	 * @return Y coordinate (px)
 	 */
-	public getY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number {
+	public getY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
+		return this.renderer.positionToPoint(this.getPositionY(dataItem, key, location, stackKey, range)).y;
+	}
+
+	/**
+	 * Returns relative position on axis for series' data item's value.
+	 *
+	 * @since 4.5.14
+	 * @param  dataItem  Data item
+	 * @param  key       Data field to get value from
+	 * @param  location  Location (0-1)
+	 * @param  stackKey  Stack ID
+	 * @return           Relative position
+	 */
+	public getPositionY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
 		let value: number = dataItem.getWorkingValue(key);
 
 		if (!$type.hasValue(stackKey)) {
@@ -1962,7 +2004,12 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			}
 		}
 
-		return this.renderer.positionToPoint(this.valueToPosition(value + stack)).y;
+		let position = this.valueToPosition(value + stack);
+		if (range) {
+			position = $math.fitToRange(position, range.start, range.end);
+		}
+
+		return position;
 	}
 
 	/**
@@ -1974,9 +2021,10 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @param key       Data field to get value from
 	 * @param location  Location (0-1)
 	 * @param stackKey  Stack ID
+	 * @param range Range to fit in
 	 * @return Angle
 	 */
-	public getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number {
+	public getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
 		let value: number = dataItem.getWorkingValue(key);
 		let stack: number = dataItem.getValue(stackKey, "stack");
 
@@ -1984,7 +2032,12 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			value = this.baseValue;
 		}
 
-		return this.positionToAngle(this.valueToPosition(value + stack));
+		let position = this.valueToPosition(value + stack);
+		if (range) {
+			position = $math.fitToRange(position, range.start, range.end);
+		}
+
+		return this.positionToAngle(position);
 	}
 
 	/**

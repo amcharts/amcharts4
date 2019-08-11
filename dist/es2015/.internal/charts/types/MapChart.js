@@ -438,10 +438,10 @@ var MapChart = /** @class */ (function (_super) {
         var svgPoint = $utils.documentPointToSvg(event.point, this.htmlContainer, this.svgContainer.cssScale);
         var geoPoint = this.svgPointToGeo(svgPoint);
         if (event.shift.y < 0) {
-            this.zoomIn(geoPoint);
+            this.zoomIn(geoPoint, undefined, this.interactions.mouseOptions.sensitivity);
         }
         else {
-            this.zoomOut(geoPoint);
+            this.zoomOut(geoPoint, undefined, this.interactions.mouseOptions.sensitivity);
         }
     };
     Object.defineProperty(MapChart.prototype, "mouseWheelBehavior", {
@@ -896,8 +896,13 @@ var MapChart = /** @class */ (function (_super) {
      * @param duration  Duration for zoom animation (ms)
      * @return Zoom animation
      */
-    MapChart.prototype.zoomIn = function (geoPoint, duration) {
-        return this.zoomToGeoPoint(geoPoint, this.zoomLevel * this.zoomStep, false, duration);
+    MapChart.prototype.zoomIn = function (geoPoint, duration, sensitivity) {
+        if (sensitivity === void 0) { sensitivity = 1; }
+        var step = 1 + (this.zoomStep - 1) * sensitivity;
+        if (step < 1) {
+            step = 1;
+        }
+        return this.zoomToGeoPoint(geoPoint, this.zoomLevel * step, false, duration);
     };
     /**
      * Zooms out the map, optionally centering on particular latitude/longitude
@@ -907,8 +912,13 @@ var MapChart = /** @class */ (function (_super) {
      * @param duration  Duration for zoom animation (ms)
      * @return Zoom animation
      */
-    MapChart.prototype.zoomOut = function (geoPoint, duration) {
-        return this.zoomToGeoPoint(geoPoint, this.zoomLevel / this.zoomStep, false, duration);
+    MapChart.prototype.zoomOut = function (geoPoint, duration, sensitivity) {
+        if (sensitivity === void 0) { sensitivity = 1; }
+        var step = 1 + (this.zoomStep - 1) * sensitivity;
+        if (step < 1) {
+            step = 1;
+        }
+        return this.zoomToGeoPoint(geoPoint, this.zoomLevel / step, false, duration);
     };
     /**
      * Pans the maps using relative coordinates. E.g.:

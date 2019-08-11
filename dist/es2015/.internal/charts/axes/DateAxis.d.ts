@@ -19,6 +19,7 @@ import { TimeUnit } from "../../core/defs/TimeUnit";
 import { ITimeInterval } from "../../core/defs/ITimeInterval";
 import { IMinMaxStep } from "./ValueAxis";
 import { DateAxisBreak } from "./DateAxisBreak";
+import { IRange } from "../../core/defs/IRange";
 /**
  * ============================================================================
  * DATA ITEM
@@ -543,27 +544,25 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     positionToDate(position: number): Date;
     /**
-     * Returns the X coordinate for series' data item's value.
+     * Returns the relative position on axis for series' data item's value.
      *
-     * @ignore Exclude from docs
-     * @todo Description (review)
-     * @param dataItem  Data item
-     * @param key       Data field to get value from
-     * @param location  Location (0-1)
-     * @return X coordinate (px)
+     * @since 4.5.14
+     * @param  dataItem  Data item
+     * @param  key       Data field to get value from
+     * @param  location  Location (0-1)
+     * @return           Relative position
      */
-    getX(dataItem: XYSeriesDataItem, key: string, location?: number): number;
+    getPositionX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number;
     /**
-     * Returns the Y coordinate for series' data item's value.
+     * Returns relative position on axis for series' data item's value.
      *
-     * @ignore Exclude from docs
-     * @todo Description (review)
-     * @param dataItem  Data item
-     * @param key       Data field to get value from
-     * @param location  Location (0-1)
-     * @return Y coordinate (px)
+     * @since 4.5.14
+     * @param  dataItem  Data item
+     * @param  key       Data field to get value from
+     * @param  location  Location (0-1)
+     * @return           Relative position
      */
-    getY(dataItem: XYSeriesDataItem, key: string, location?: number): number;
+    getPositionY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number;
     /**
      * Returns an angle for series data item.
      *
@@ -573,9 +572,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @param key       Data field to get value from
      * @param location  Location (0-1)
      * @param stackKey  Stack ID
+     * @param range Range to fit in
      * @return Angle
      */
-    getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
+    getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number;
     /**
      * [getTimeByLocation description]
      *
@@ -615,6 +615,12 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * If not set, the Axis will try to determine the setting by its own, looking
      * at actual data.
+     *
+     * For best results, try to follow these values for `count`:
+     *
+     * When unit is "month", use 12 / count = round number
+     * When unit is "hour", use 24 / count = round number
+     * When unit is "second" and "minute", use 60 / count = round number
      *
      * @param timeInterval base interval
      */
@@ -801,4 +807,8 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @ignore
      */
     makeGap(dataItem: LineSeriesDataItem, previous: LineSeriesDataItem): boolean;
+    /**
+     * @return base value
+     */
+    readonly baseValue: number;
 }

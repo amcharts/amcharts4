@@ -565,7 +565,11 @@ var PercentSeries = /** @class */ (function (_super) {
                 if (label.invalid) {
                     label.validate();
                 }
-                var bottom = label.pixelY + label.measuredHeight;
+                var lh = label.measuredHeight;
+                if (!label.visible) {
+                    lh = 0;
+                }
+                var bottom = label.pixelY + lh;
                 if (nextLabel) {
                     if (nextLabel.y < bottom) {
                         nextLabel.y = bottom;
@@ -580,8 +584,15 @@ var PercentSeries = /** @class */ (function (_super) {
             var dataItem = dataItems[i];
             var label = dataItem.label;
             if (label) {
-                if (label.pixelY + label.measuredHeight > previousTop) {
-                    label.y = previousTop - label.measuredHeight;
+                if (label.invalid) {
+                    label.validate();
+                }
+                var lh = label.measuredHeight;
+                if (!label.visible) {
+                    lh = 0;
+                }
+                if (label.pixelY + lh > previousTop) {
+                    label.y = previousTop - lh;
                     previousTop = label.y;
                 }
             }
@@ -599,7 +610,12 @@ var PercentSeries = /** @class */ (function (_super) {
             var nextDataItem = dataItems[index];
             if (nextDataItem) {
                 if (nextDataItem.label) {
-                    return nextDataItem.label;
+                    if (nextDataItem.visible) {
+                        return nextDataItem.label;
+                    }
+                    else {
+                        return this.getNextLabel(index + 1, dataItems);
+                    }
                 }
                 else {
                     return this.getNextLabel(index + 1, dataItems);

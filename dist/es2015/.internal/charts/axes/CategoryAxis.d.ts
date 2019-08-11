@@ -15,6 +15,7 @@ import { Dictionary } from "../../core/utils/Dictionary";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { CategoryAxisBreak } from "./CategoryAxisBreak";
 import { Adapter } from "../../core/utils/Adapter";
+import { IRange } from "../../core/defs/IRange";
 /**
  * ============================================================================
  * DATA ITEM
@@ -361,7 +362,17 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @param location  Location (0-1)
      * @return X coordinate (px)
      */
-    getX(dataItem: XYSeriesDataItem, key?: string, location?: number): number;
+    getX(dataItem: XYSeriesDataItem, key?: string, location?: number, stackKey?: string, range?: IRange): number;
+    /**
+     * Returns relative position on axis for series' data item.
+     *
+     * @since 4.5.14
+     * @param  dataItem  Data item
+     * @param  key       Category
+     * @param  location  Location (0-1)
+     * @return           Relative position
+     */
+    getPositionX(dataItem: XYSeriesDataItem, key?: string, location?: number, stackKey?: string, range?: IRange): number;
     /**
      * Returns the Y coordinate for series' data item.
      *
@@ -372,7 +383,17 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @param location  Location (0-1)
      * @return Y coordinate (px)
      */
-    getY(dataItem: XYSeriesDataItem, key?: string, location?: number): number;
+    getY(dataItem: XYSeriesDataItem, key?: string, location?: number, stackKey?: string, range?: IRange): number;
+    /**
+     * Returns relative position on axis for series' data item.
+     *
+     * @since 4.5.14
+     * @param  dataItem  Data item
+     * @param  key       Category
+     * @param  location  Location (0-1)
+     * @return           Relative position
+     */
+    getPositionY(dataItem: XYSeriesDataItem, key?: string, location?: number, stackKey?: string, range?: IRange): number;
     /**
      * Returns an angle for series data item.
      *
@@ -382,9 +403,10 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @param key       Category
      * @param location  Location (0-1)
      * @param stackKey  Stack key (?)
+     * @param range Range to fit in
      * @return Angle
      */
-    getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
+    getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number;
     /**
      * Returns an absolute pixel coordinate of the start of the cell (category),
      * that specific position value falls into.

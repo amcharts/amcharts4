@@ -19,7 +19,7 @@ import { BaseObjectEvents, IBaseObjectEvents } from "../Base";
 import { List } from "../utils/List";
 import { AMEvent } from "../utils/EventDispatcher";
 import { Animation } from "../utils/Animation";
-import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, IKeyboardOptions } from "./InteractionOptions";
+import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, IKeyboardOptions, IMouseOptions } from "./InteractionOptions";
 import { MultiDisposer, IDisposer } from "../utils/Disposer";
 import { InteractionObject, IInteractionObjectEvents } from "./InteractionObject";
 import { InteractionKeyboardObject } from "./InteractionKeyboardObject";
@@ -252,6 +252,16 @@ export class Interaction extends BaseObjectEvents {
 		"speed": 0.1,
 		"accelleration": 1.2,
 		"accellerationDelay": 2000
+	};
+
+	/**
+	 * Default options for keyboard operations. These can be overridden in
+	 * [[InteractionObject]].
+	 *
+	 * @since 4.5.14
+	 */
+	public mouseOptions: IMouseOptions = {
+		"sensitivity": 1
 	};
 
 
@@ -1220,6 +1230,9 @@ export class Interaction extends BaseObjectEvents {
 		if (ev.deltaMode == 1) {
 			mod = 50;
 		}
+
+		// Adjust configurable sensitivity
+		mod *= this.getMouseOption(io, "sensitivity");
 
 		// Calculate deltas
 		if (ev instanceof WheelEvent) {
@@ -2744,6 +2757,22 @@ export class Interaction extends BaseObjectEvents {
 		let res = io.keyboardOptions[option];
 		if (typeof res === "undefined") {
 			res = this.keyboardOptions[option];
+		}
+		return res;
+	}
+
+	/**
+	 * Returns an option for mouse.
+	 *
+	 * @ignore Exclude from docs
+	 * @param io      Element
+	 * @param option  Option key
+	 * @return Option value
+	 */
+	public getMouseOption(io: InteractionObject, option: keyof IMouseOptions): any {
+		let res = io.mouseOptions[option];
+		if (typeof res === "undefined") {
+			res = this.mouseOptions[option];
 		}
 		return res;
 	}

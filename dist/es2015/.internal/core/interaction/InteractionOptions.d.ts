@@ -134,3 +134,17 @@ export interface IKeyboardOptions {
      */
     accellerationDelay?: number;
 }
+/**
+ * Represents collection of options for mouse-related interactions.
+ */
+export interface IMouseOptions {
+    /**
+     * A modifier for mouse wheel sensitivity.
+     *
+     * 1 (default) means sensitivity is default.
+     *
+     * Less than 1 will reduce sensitivity, while value bigger than 1 will
+     * increase it.
+     */
+    sensitivity?: number;
+}

@@ -15,7 +15,7 @@ import { Dictionary } from "../utils/Dictionary";
 import { AMEvent } from "../utils/EventDispatcher";
 import { IPoint } from "../defs/IPoint";
 import { IPointer } from "./Pointer";
-import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, ICursorOptions, IKeyboardOptions } from "./InteractionOptions";
+import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, ICursorOptions, IKeyboardOptions, IMouseOptions } from "./InteractionOptions";
 import { Inertia, InertiaTypes } from "./Inertia";
 import { IDisposer } from "../utils/Disposer";
 import { Optional } from "../utils/Type";
@@ -171,6 +171,10 @@ export declare class InteractionObject extends BaseObjectEvents {
      * Keyboard options.
      */
     private _keyboardOptions;
+    /**
+     * Mouse options.
+     */
+    private _mouseOptions;
     /**
      * Cursor options.
      */
@@ -428,6 +432,16 @@ export declare class InteractionObject extends BaseObjectEvents {
      * @param value  Options
      */
     keyboardOptions: IKeyboardOptions;
+    /**
+     * @return Options
+     */
+    /**
+     * Mouse options.
+     *
+     * @since 4.5.14
+     * @param value  Options
+     */
+    mouseOptions: IMouseOptions;
     /**
      * @return Options
      */

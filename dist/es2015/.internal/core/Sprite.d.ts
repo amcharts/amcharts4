@@ -45,7 +45,7 @@ import { AMElement } from "./rendering/AMElement";
 import { Filter } from "./rendering/filters/Filter";
 import { ColorModifier } from "./rendering/fills/ColorModifier";
 import { InteractionObject } from "./interaction/InteractionObject";
-import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, ICursorOptions, IKeyboardOptions } from "./interaction/InteractionOptions";
+import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, ICursorOptions, IKeyboardOptions, IMouseOptions } from "./interaction/InteractionOptions";
 import { IPointer } from "./interaction/Pointer";
 import { InertiaTypes } from "./interaction/Inertia";
 import { IStyleProperty } from "./defs/IStyleProperty";
@@ -202,6 +202,7 @@ export interface ISpriteAdapters extends ISpriteProperties {
     hoverOptions: IHoverOptions;
     swipeOptions: ISwipeOptions;
     keyboardOptions: IKeyboardOptions;
+    mouseOptions: IMouseOptions;
     cursorOptions: ICursorOptions;
     criticalError: Error;
 }
@@ -1951,6 +1952,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return Keyboard options
      */
     readonly keyboardOptions: IKeyboardOptions;
+    /**
+     * Returns elements mouse options.
+     *
+     * @return Mouse options
+     */
+    readonly mouseOptions: IMouseOptions;
     /**
      * Returns (creates if necessary) an [[InteractionObject]] associated with
      * this element.

@@ -514,12 +514,6 @@ export declare class XYChart extends SerialChart {
      */
     cursor: this["_cursor"];
     /**
-     * Creates and returns a new [[Cursor]] suitable for this chart type.
-     *
-     * @return New cursor
-     */
-    protected createCursor(): this["_cursor"];
-    /**
      * Performs tasks when the cursor's position changes, e.g. shows proper
      * tooltips on axes and series.
      *

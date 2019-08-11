@@ -712,17 +712,33 @@ var CategoryAxis = /** @class */ (function (_super) {
      * @param location  Location (0-1)
      * @return X coordinate (px)
      */
-    CategoryAxis.prototype.getX = function (dataItem, key, location) {
-        var position;
-        if ($type.hasValue(key)) {
-            position = this.categoryToPosition(dataItem.categories[key], location);
-        }
+    CategoryAxis.prototype.getX = function (dataItem, key, location, stackKey, range) {
+        var position = this.getPositionX(dataItem, key, location, stackKey, range);
         if ($type.isNaN(position)) {
             return this.basePoint.x;
         }
         else {
             return this.renderer.positionToPoint(position).x;
         }
+    };
+    /**
+     * Returns relative position on axis for series' data item.
+     *
+     * @since 4.5.14
+     * @param  dataItem  Data item
+     * @param  key       Category
+     * @param  location  Location (0-1)
+     * @return           Relative position
+     */
+    CategoryAxis.prototype.getPositionX = function (dataItem, key, location, stackKey, range) {
+        var position;
+        if ($type.hasValue(key)) {
+            position = this.categoryToPosition(dataItem.categories[key], location);
+        }
+        if (range) {
+            position = $math.fitToRange(position, range.start, range.end);
+        }
+        return position;
     };
     /**
      * Returns the Y coordinate for series' data item.
@@ -734,17 +750,33 @@ var CategoryAxis = /** @class */ (function (_super) {
      * @param location  Location (0-1)
      * @return Y coordinate (px)
      */
-    CategoryAxis.prototype.getY = function (dataItem, key, location) {
-        var position;
-        if ($type.hasValue(key)) {
-            position = this.categoryToPosition(dataItem.categories[key], location);
-        }
+    CategoryAxis.prototype.getY = function (dataItem, key, location, stackKey, range) {
+        var position = this.getPositionY(dataItem, key, location, stackKey, range);
         if ($type.isNaN(position)) {
             return this.basePoint.y;
         }
         else {
             return this.renderer.positionToPoint(position).y;
         }
+    };
+    /**
+     * Returns relative position on axis for series' data item.
+     *
+     * @since 4.5.14
+     * @param  dataItem  Data item
+     * @param  key       Category
+     * @param  location  Location (0-1)
+     * @return           Relative position
+     */
+    CategoryAxis.prototype.getPositionY = function (dataItem, key, location, stackKey, range) {
+        var position;
+        if ($type.hasValue(key)) {
+            position = this.categoryToPosition(dataItem.categories[key], location);
+        }
+        if (range) {
+            position = $math.fitToRange(position, range.start, range.end);
+        }
+        return position;
     };
     /**
      * Returns an angle for series data item.
@@ -755,10 +787,15 @@ var CategoryAxis = /** @class */ (function (_super) {
      * @param key       Category
      * @param location  Location (0-1)
      * @param stackKey  Stack key (?)
+     * @param range Range to fit in
      * @return Angle
      */
-    CategoryAxis.prototype.getAngle = function (dataItem, key, location, stackKey) {
-        return this.positionToAngle(this.categoryToPosition(dataItem.categories[key], location));
+    CategoryAxis.prototype.getAngle = function (dataItem, key, location, stackKey, range) {
+        var position = this.categoryToPosition(dataItem.categories[key], location);
+        if (range) {
+            position = $math.fitToRange(position, range.start, range.end);
+        }
+        return this.positionToAngle(position);
     };
     /**
      * Returns an absolute pixel coordinate of the start of the cell (category),

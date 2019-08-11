@@ -991,10 +991,10 @@ export class MapChart extends SerialChart {
 		let geoPoint: IGeoPoint = this.svgPointToGeo(svgPoint);
 
 		if (event.shift.y < 0) {
-			this.zoomIn(geoPoint);
+			this.zoomIn(geoPoint, undefined, this.interactions.mouseOptions.sensitivity);
 		}
 		else {
-			this.zoomOut(geoPoint);
+			this.zoomOut(geoPoint, undefined, this.interactions.mouseOptions.sensitivity);
 		}
 	}
 
@@ -1508,8 +1508,12 @@ export class MapChart extends SerialChart {
 	 * @param duration  Duration for zoom animation (ms)
 	 * @return Zoom animation
 	 */
-	public zoomIn(geoPoint?: IGeoPoint, duration?: number): Animation {
-		return this.zoomToGeoPoint(geoPoint, this.zoomLevel * this.zoomStep, false, duration);
+	public zoomIn(geoPoint?: IGeoPoint, duration?: number, sensitivity: number = 1): Animation {
+		let step = 1 + (this.zoomStep - 1) * sensitivity;
+		if (step < 1) {
+			step = 1;
+		}
+		return this.zoomToGeoPoint(geoPoint, this.zoomLevel * step, false, duration);
 	}
 
 	/**
@@ -1520,8 +1524,12 @@ export class MapChart extends SerialChart {
 	 * @param duration  Duration for zoom animation (ms)
 	 * @return Zoom animation
 	 */
-	public zoomOut(geoPoint?: IGeoPoint, duration?: number): Animation {
-		return this.zoomToGeoPoint(geoPoint, this.zoomLevel / this.zoomStep, false, duration);
+	public zoomOut(geoPoint?: IGeoPoint, duration?: number, sensitivity: number = 1): Animation {
+		let step = 1 + (this.zoomStep - 1) * sensitivity;
+		if (step < 1) {
+			step = 1;
+		}
+		return this.zoomToGeoPoint(geoPoint, this.zoomLevel / step, false, duration);
 	}
 
 	/**
