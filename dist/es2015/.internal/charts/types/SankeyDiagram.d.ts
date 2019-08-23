@@ -182,6 +182,7 @@ export declare class SankeyDiagram extends FlowDiagram {
      */
     protected _sorted: $iter.Iterator<[string, this["_node"]]>;
     protected _heightAnimation: Animation;
+    protected _level: number;
     /**
      * Constructor
      */

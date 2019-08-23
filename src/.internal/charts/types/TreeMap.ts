@@ -1007,8 +1007,25 @@ export class TreeMap extends XYChart {
 				series.columnsContainer.show();
 				series.bulletsContainer.show(duration);
 
+				series.dataItems.each((dataItem) => {
+					dataItem.bullets.each((key, bullet) => {
+						bullet.show();
+					})
+				})
+
 				if (series.level < this.currentLevel) {
 					series.bulletsContainer.hide(duration);
+				}
+				else if (series.level == this.currentLevel) {
+					if(this.maxLevels > 1){
+						series.dataItems.each((dataItem) => {
+							if (dataItem.treeMapDataItem.children) {
+								dataItem.bullets.each((key, bullet) => {
+									bullet.hide();
+								})
+							}
+						})
+					}
 				}
 			}
 		});
@@ -1032,7 +1049,7 @@ export class TreeMap extends XYChart {
 	public zoomToChartDataItem(dataItem: TreeMapDataItem): void {
 		let zoomOutButton = this.zoomOutButton;
 		// this is needed because if there is only one fist level, it wont' be shown
-		if(zoomOutButton){
+		if (zoomOutButton) {
 			if (dataItem != this._homeDataItem) {
 				zoomOutButton.show();
 			}

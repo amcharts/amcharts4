@@ -736,8 +736,24 @@ var TreeMap = /** @class */ (function (_super) {
                 //series.showReal(duration);
                 series.columnsContainer.show();
                 series.bulletsContainer.show(duration);
+                series.dataItems.each(function (dataItem) {
+                    dataItem.bullets.each(function (key, bullet) {
+                        bullet.show();
+                    });
+                });
                 if (series.level < _this.currentLevel) {
                     series.bulletsContainer.hide(duration);
+                }
+                else if (series.level == _this.currentLevel) {
+                    if (_this.maxLevels > 1) {
+                        series.dataItems.each(function (dataItem) {
+                            if (dataItem.treeMapDataItem.children) {
+                                dataItem.bullets.each(function (key, bullet) {
+                                    bullet.hide();
+                                });
+                            }
+                        });
+                    }
                 }
             }
         });

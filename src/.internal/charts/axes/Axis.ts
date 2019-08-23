@@ -1438,7 +1438,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	public showTooltipAtPosition(position: number, local?: boolean) {
 		let tooltip: Tooltip = this._tooltip;
 
-		if (!tooltip || !this.cursorTooltipEnabled || this.tooltip.disabled || this.dataItems.length <= 0) {
+		if (!tooltip || this.dataItems.length <= 0) {
 			this._tooltipPosition = undefined;
 		}
 		else {
@@ -1495,6 +1495,10 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 					tooltip.pointTo(globalPoint);
 					tooltip.show();
 				}
+			}
+
+			if (!this.cursorTooltipEnabled || this.tooltip.disabled) {
+				tooltip.hide(0);
 			}
 		}
 	}

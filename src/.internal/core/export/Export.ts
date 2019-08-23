@@ -36,6 +36,7 @@ import { Dictionary } from "../utils/Dictionary";
 import { IDisposer } from "../utils/Disposer";
 import { DateFormatter } from "../formatters/DateFormatter";
 import { DurationFormatter } from "../formatters/DurationFormatter";
+import { NumberFormatter } from "../formatters/NumberFormatter";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
 import { Color, color } from "../utils/Color";
@@ -674,6 +675,18 @@ export interface IExportAdapters {
 		dateFields: any
 	},
 
+	numberFormatter: {
+		numberFormatter: NumberFormatter
+	},
+
+	numberFormat: {
+		numberFormat: $type.Optional<string>
+	},
+
+	numberFields: {
+		numberFields: any
+	},
+
 	durationFormatter: {
 		durationFormatter: DurationFormatter
 	},
@@ -693,6 +706,11 @@ export interface IExportAdapters {
 
 	isDateField: {
 		isDateField: boolean,
+		field: string
+	},
+
+	isNumberField: {
+		isNumberField: boolean,
 		field: string
 	},
 
@@ -913,6 +931,28 @@ export class Export extends Validatable {
 	 * @ignore Exclude from docs
 	 */
 	protected _durationFields: $type.Optional<List<string>>;
+
+	/**
+	 * A reference to [[NumberFormatter]].
+	 *
+	 * @ignore Exclude from docs
+	 */
+	protected _numberFormatter: $type.Optional<NumberFormatter>;
+
+	/**
+	 * A number format to be used when formatting numbers in string-based data
+	 * formats.
+	 *
+	 * @ignore Exclude from docs
+	 */
+	protected _numberFormat: $type.Optional<string>;
+
+	/**
+	 * A list of column keys that hold number values.
+	 *
+	 * @ignore Exclude from docs
+	 */
+	protected _numberFields: $type.Optional<List<string>>;
 
 	/**
 	 * Holds a list of objects that were temporarily removed from the DOM while
@@ -2776,7 +2816,7 @@ export class Export extends Validatable {
 				return;
 			}*/
 
-			items.push(this.convertToDateOrDuration<"xlsx">(key, value, options, true));
+			items.push(this.convertToSpecialFormat<"xlsx">(key, value, options, true));
 		});
 
 		return items;
@@ -2873,7 +2913,7 @@ export class Export extends Validatable {
 			}*/
 
 			// Convert dates
-			let item = asIs ? value : this.convertToDateOrDuration<"csv">(key, value, options);
+			let item = asIs ? value : this.convertToSpecialFormat<"csv">(key, value, options);
 
 			// Cast and escape doublequotes
 			item = "" + item;
@@ -2919,7 +2959,7 @@ export class Export extends Validatable {
 					let newValue: any = {};
 					$object.each(value, (field, item) => {
 						if ($type.hasValue(dataFields[field])) {
-							newValue[dataFields[field]] = this.convertToDateOrDuration<"json">(field, item, options);
+							newValue[dataFields[field]] = this.convertToSpecialFormat<"json">(field, item, options);
 						}
 					});
 					data.push(newValue);
@@ -2934,7 +2974,7 @@ export class Export extends Validatable {
 		let json = JSON.stringify(data, (key, value) => {
 			if (typeof value == "object") {
 				$object.each(value, (field, item) => {
-					value[field] = this.convertToDateOrDuration<"json">(field, item, options);
+					value[field] = this.convertToSpecialFormat<"json">(field, item, options);
 				});
 			}
 			return value;
@@ -2960,13 +3000,13 @@ export class Export extends Validatable {
 	 * Converts the value to proper date format.
 	 *
 	 * @ignore Exclude from docs
-	 * @param field       Field name
-	 * @param value       Value
-	 * @param options     Options
-	 * @param keepAsDate  Will ignore formatting and will keep as Date object if set
+	 * @param  field         Field name
+	 * @param  value         Value
+	 * @param  options       Options
+	 * @param  keepOriginal  Will ignore formatting and will keep value as it is in data
 	 * @return Formatted date value or unmodified value
 	 */
-	public convertToDateOrDuration<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key], keepAsDate?: boolean): any {
+	public convertToSpecialFormat<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key], keepOriginal?: boolean): any {
 
 		// Is this a timestamp or duration?
 		if (typeof value == "number") {
@@ -2976,6 +3016,9 @@ export class Export extends Validatable {
 			else if (this.isDurationField(field)) {
 				return this.durationFormatter.format(value, this.durationFormat);
 			}
+			else if (this.isNumberField(field) && this.numberFormat) {
+				return this.numberFormatter.format(value, this.numberFormat);
+			}
 		}
 
 		if (value instanceof Date) {
@@ -2983,7 +3026,7 @@ export class Export extends Validatable {
 				value = value.getTime();
 			}
 			else if (options.useLocale) {
-				if (!keepAsDate) {
+				if (!keepOriginal) {
 					value = value.toLocaleString();
 				}
 			}
@@ -3657,6 +3700,70 @@ export class Export extends Validatable {
 	}
 
 	/**
+	 * A [[NumberFormatter]] to use when formatting dates when exporting data.
+	 *
+	 * @since 4.5.15
+	 * @param value NumberFormatter instance
+	 */
+	public set numberFormatter(value: any) {
+		this._dateFormatter = value;
+	}
+
+	/**
+	 * @return A NumberFormatter instance
+	 */
+	public get numberFormatter(): any {
+		if (!this._numberFormatter) {
+			this._numberFormatter = new NumberFormatter();
+		}
+		return this.adapter.apply("numberFormatter", {
+			numberFormatter: this._numberFormatter
+		}).numberFormatter;
+	}
+
+	/**
+	 * A number format to use for exporting dates. Will use [[NumberFormatter]]
+	 * format if not set.
+	 *
+	 * @since 4.5.15
+	 * @param value Number format
+	 */
+	public set numberFormat(value: $type.Optional<string>) {
+		this._numberFormat = value;
+	}
+
+	/**
+	 * @return Number format
+	 */
+	public get numberFormat(): $type.Optional<string> {
+		return this.adapter.apply("numberFormat", {
+			numberFormat: this._numberFormat
+		}).numberFormat;
+	}
+
+	/**
+	 * A list of fields that hold number values.
+	 *
+	 * @since 4.5.15
+	 * @param value Number field list
+	 */
+	public set numberFields(value: List<string>) {
+		this._numberFields = value;
+	}
+
+	/**
+	 * @return Number field list
+	 */
+	public get numberFields(): List<string> {
+		if (!this._numberFields) {
+			this._numberFields = new List<string>();
+		}
+		return this.adapter.apply("numberFields", {
+			numberFields: this._numberFields
+		}).numberFields;
+	}
+
+	/**
 	 * A [[DurationFormatter]] to use when formatting duration values when
 	 * exporting data.
 	 *
@@ -3756,8 +3863,24 @@ export class Export extends Validatable {
 	}
 
 	/**
-	 * Cheks against `dateFields` property to determine if this field holds
-	 * dates.
+	 * Cheks against `numberFields` property to determine if this field holds
+	 * numbers.
+	 *
+	 * @ignore Exclude from docs
+	 * @param field   Field name
+	 * @param options Options
+	 * @return `true` if it's a number field
+	 */
+	public isNumberField(field: string): boolean {
+		return this.adapter.apply("isNumberField", {
+			isNumberField: this.numberFields.contains(field),
+			field: field
+		}).isNumberField;
+	}
+
+	/**
+	 * Cheks against `durationFields` property to determine if this field holds
+	 * durations.
 	 *
 	 * @ignore Exclude from docs
 	 * @param field   Field name

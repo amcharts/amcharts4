@@ -973,6 +973,11 @@ var XYSeries = /** @class */ (function (_super) {
      * @param dataItem
      */
     XYSeries.prototype.showTooltipAtDataItem = function (dataItem) {
+        var cursor = this.chart.cursor;
+        if (cursor && cursor.hideSeriesTooltipsOnSelection && cursor.selection.visible && cursor.downPoint) {
+            this.hideTooltip();
+            return;
+        }
         this.returnBulletDefaultState(dataItem);
         if (dataItem && dataItem.visible) {
             this.updateLegendValue(dataItem);

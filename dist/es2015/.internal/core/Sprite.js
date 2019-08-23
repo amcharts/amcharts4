@@ -7489,6 +7489,9 @@ var Sprite = /** @class */ (function (_super) {
                         tooltip.show(duration);
                         return true;
                     }
+                    else {
+                        this.hideTooltip(0);
+                    }
                 }
                 else {
                     this.hideTooltip(0);

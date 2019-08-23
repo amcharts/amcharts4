@@ -1073,6 +1073,8 @@ var MapChart = /** @class */ (function (_super) {
             this._zoomControl = zoomControl;
             zoomControl.chart = this;
             zoomControl.parent = this.chartContainer;
+            zoomControl.plusButton.exportable = false;
+            zoomControl.minusButton.exportable = false;
         },
         enumerable: true,
         configurable: true

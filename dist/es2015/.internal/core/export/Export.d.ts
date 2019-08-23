@@ -33,6 +33,7 @@ import { List } from "../utils/List";
 import { IDisposer } from "../utils/Disposer";
 import { DateFormatter } from "../formatters/DateFormatter";
 import { DurationFormatter } from "../formatters/DurationFormatter";
+import { NumberFormatter } from "../formatters/NumberFormatter";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
 import { Color } from "../utils/Color";
@@ -461,6 +462,15 @@ export interface IExportAdapters {
     dateFields: {
         dateFields: any;
     };
+    numberFormatter: {
+        numberFormatter: NumberFormatter;
+    };
+    numberFormat: {
+        numberFormat: $type.Optional<string>;
+    };
+    numberFields: {
+        numberFields: any;
+    };
     durationFormatter: {
         durationFormatter: DurationFormatter;
     };
@@ -476,6 +486,10 @@ export interface IExportAdapters {
     };
     isDateField: {
         isDateField: boolean;
+        field: string;
+    };
+    isNumberField: {
+        isNumberField: boolean;
         field: string;
     };
     isDurationField: {
@@ -665,6 +679,25 @@ export declare class Export extends Validatable {
      * @ignore Exclude from docs
      */
     protected _durationFields: $type.Optional<List<string>>;
+    /**
+     * A reference to [[NumberFormatter]].
+     *
+     * @ignore Exclude from docs
+     */
+    protected _numberFormatter: $type.Optional<NumberFormatter>;
+    /**
+     * A number format to be used when formatting numbers in string-based data
+     * formats.
+     *
+     * @ignore Exclude from docs
+     */
+    protected _numberFormat: $type.Optional<string>;
+    /**
+     * A list of column keys that hold number values.
+     *
+     * @ignore Exclude from docs
+     */
+    protected _numberFields: $type.Optional<List<string>>;
     /**
      * Holds a list of objects that were temporarily removed from the DOM while
      * exporting. Those most probably are tainted images, or foreign objects that
@@ -1173,13 +1206,13 @@ export declare class Export extends Validatable {
      * Converts the value to proper date format.
      *
      * @ignore Exclude from docs
-     * @param field       Field name
-     * @param value       Value
-     * @param options     Options
-     * @param keepAsDate  Will ignore formatting and will keep as Date object if set
+     * @param  field         Field name
+     * @param  value         Value
+     * @param  options       Options
+     * @param  keepOriginal  Will ignore formatting and will keep value as it is in data
      * @return Formatted date value or unmodified value
      */
-    convertToDateOrDuration<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key], keepAsDate?: boolean): any;
+    convertToSpecialFormat<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key], keepOriginal?: boolean): any;
     /**
      * Converts empty value based on `emptyAs` option.
      *
@@ -1346,6 +1379,37 @@ export declare class Export extends Validatable {
      */
     dateFields: List<string>;
     /**
+     * @return A NumberFormatter instance
+     */
+    /**
+     * A [[NumberFormatter]] to use when formatting dates when exporting data.
+     *
+     * @since 4.5.15
+     * @param value NumberFormatter instance
+     */
+    numberFormatter: any;
+    /**
+     * @return Number format
+     */
+    /**
+     * A number format to use for exporting dates. Will use [[NumberFormatter]]
+     * format if not set.
+     *
+     * @since 4.5.15
+     * @param value Number format
+     */
+    numberFormat: $type.Optional<string>;
+    /**
+     * @return Number field list
+     */
+    /**
+     * A list of fields that hold number values.
+     *
+     * @since 4.5.15
+     * @param value Number field list
+     */
+    numberFields: List<string>;
+    /**
      * @return A DurationFormatter instance
      */
     /**
@@ -1391,8 +1455,18 @@ export declare class Export extends Validatable {
      */
     isDateField(field: string): boolean;
     /**
-     * Cheks against `dateFields` property to determine if this field holds
-     * dates.
+     * Cheks against `numberFields` property to determine if this field holds
+     * numbers.
+     *
+     * @ignore Exclude from docs
+     * @param field   Field name
+     * @param options Options
+     * @return `true` if it's a number field
+     */
+    isNumberField(field: string): boolean;
+    /**
+     * Cheks against `durationFields` property to determine if this field holds
+     * durations.
      *
      * @ignore Exclude from docs
      * @param field   Field name

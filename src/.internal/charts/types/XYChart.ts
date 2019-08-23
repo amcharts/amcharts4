@@ -13,13 +13,14 @@ import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { Container } from "../../core/Container";
 import { List, IListEvents } from "../../core/utils/List";
 import { Axis } from "../axes/Axis";
+import { ValueAxis } from "../axes/ValueAxis";
 import { DateAxis } from "../axes/DateAxis";
 import { Optional } from "../../core/utils/Type";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { AxisRendererX } from "../axes/AxisRendererX";
 import { AxisRendererY } from "../axes/AxisRendererY";
 import { CategoryAxis } from "../axes/CategoryAxis";
-import { XYSeries } from "../series/XYSeries";
+import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { Scrollbar, IScrollbarEvents } from "../../core/elements/Scrollbar";
 import { IRange } from "../../core/defs/IRange";
 import { XYCursor, IXYCursorEvents } from "../cursors/XYCursor";
@@ -1071,6 +1072,34 @@ export class XYChart extends SerialChart {
 				}
 				if (snapToSeries.baseAxis == snapToSeries.yAxis) {
 					exceptAxis = snapToSeries.xAxis;
+				}
+
+				let xAxis = snapToSeries.xAxis;
+				let yAxis = snapToSeries.yAxis;
+
+				if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis) && yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
+					let closestDataItem: XYSeriesDataItem;
+					let minDistance: number = Infinity;
+
+					snapToSeries.dataItems.each((dataItem) => {
+
+						//let xxPosition = xAxis.toAxisPosition(xPosition);
+						//let yyPosition = yAxis.toAxisPosition(xPosition);
+
+						let dxPosition = xAxis.toGlobalPosition(xAxis.getPositionX(dataItem, "valueX")) * xAxis.axisFullLength;
+						let dyPosition = yAxis.toGlobalPosition(yAxis.getPositionY(dataItem, "valueY")) * yAxis.axisFullLength;
+
+						let distance = Math.sqrt(Math.pow(xPosition * xAxis.axisFullLength - dxPosition, 2) + Math.pow(yPosition * yAxis.axisFullLength - dyPosition, 2));
+
+						if (distance < minDistance) {
+							minDistance = distance;
+							closestDataItem = dataItem;
+						}
+					})
+
+					if (closestDataItem) {
+						snapToSeries.showTooltipAtDataItem(closestDataItem);
+					}
 				}
 			}
 			this._seriesPoints = [];

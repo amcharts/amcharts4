@@ -64,6 +64,12 @@ export interface IXYCursorProperties extends ICursorProperties {
      * `ValueAxis`.
      */
     snapToSeries: XYSeries;
+    /**
+     * If set to `true` this will hide series tooltips when selecting with cursor.
+     *
+     * @since 4.5.15
+     */
+    hideSeriesTooltipsOnSelection: boolean;
 }
 /**
  * Defines events for [[XYCursor]].
@@ -245,6 +251,16 @@ export declare class XYCursor extends Cursor {
      */
     fullWidthLineY: boolean;
     /**
+     * @return hide tooltip?
+     */
+    /**
+     * If set to `true` this will hide series tooltips when selecting with cursor.
+     *
+     * @since 4.5.15
+     * @param  value  hide tooltips?
+     */
+    hideSeriesTooltipsOnSelection: boolean;
+    /**
      * @return Full width?
      */
     /**
@@ -346,8 +362,7 @@ export declare class XYCursor extends Cursor {
      */
     /**
      * Specifies to which series cursor lines should be snapped. Works when one
-     * of the axis is `DateAxis` or `CategoryAxis`. Won't work if both axes are
-     * `ValueAxis`.
+     * of the axis is `DateAxis` or `CategoryAxis`.
      *
      * @param {XYSeries}
      */

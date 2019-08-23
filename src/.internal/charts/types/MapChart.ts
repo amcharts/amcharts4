@@ -1674,6 +1674,8 @@ export class MapChart extends SerialChart {
 		this._zoomControl = zoomControl;
 		zoomControl.chart = this;
 		zoomControl.parent = this.chartContainer;
+		zoomControl.plusButton.exportable = false;
+		zoomControl.minusButton.exportable = false;
 	}
 
 	/**

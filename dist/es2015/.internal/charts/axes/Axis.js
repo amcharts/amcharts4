@@ -1023,7 +1023,7 @@ var Axis = /** @class */ (function (_super) {
      */
     Axis.prototype.showTooltipAtPosition = function (position, local) {
         var tooltip = this._tooltip;
-        if (!tooltip || !this.cursorTooltipEnabled || this.tooltip.disabled || this.dataItems.length <= 0) {
+        if (!tooltip || this.dataItems.length <= 0) {
             this._tooltipPosition = undefined;
         }
         else {
@@ -1066,6 +1066,9 @@ var Axis = /** @class */ (function (_super) {
                     tooltip.pointTo(globalPoint);
                     tooltip.show();
                 }
+            }
+            if (!this.cursorTooltipEnabled || this.tooltip.disabled) {
+                tooltip.hide(0);
             }
         }
     };

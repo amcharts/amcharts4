@@ -69,6 +69,7 @@ var XYCursor = /** @class */ (function (_super) {
         selection.fillOpacity = 0.2;
         selection.fill = interfaceColors.getFor("alternativeBackground");
         selection.isMeasured = false;
+        selection.visible = false;
         selection.interactionsEnabled = false;
         _this.selection = selection;
         _this._disposers.push(_this.selection);
@@ -103,6 +104,7 @@ var XYCursor = /** @class */ (function (_super) {
         _this._disposers.push(_this._xAxis);
         _this._disposers.push(_this._yAxis);
         _this.mask = _this;
+        _this.hideSeriesTooltipsOnSelection = true;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -281,6 +283,7 @@ var XYCursor = /** @class */ (function (_super) {
             }
         }
         this.downPoint = undefined;
+        this.dispatch("cursorpositionchanged");
     };
     /**
      * [getRanges description]
@@ -427,6 +430,25 @@ var XYCursor = /** @class */ (function (_super) {
             if (!value) {
                 this.updateSize();
             }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(XYCursor.prototype, "hideSeriesTooltipsOnSelection", {
+        /**
+         * @return hide tooltip?
+         */
+        get: function () {
+            return this.getPropertyValue("hideSeriesTooltipsOnSelection");
+        },
+        /**
+         * If set to `true` this will hide series tooltips when selecting with cursor.
+         *
+         * @since 4.5.15
+         * @param  value  hide tooltips?
+         */
+        set: function (value) {
+            this.setPropertyValue("hideSeriesTooltipsOnSelection", value);
         },
         enumerable: true,
         configurable: true
@@ -687,8 +709,7 @@ var XYCursor = /** @class */ (function (_super) {
         },
         /**
          * Specifies to which series cursor lines should be snapped. Works when one
-         * of the axis is `DateAxis` or `CategoryAxis`. Won't work if both axes are
-         * `ValueAxis`.
+         * of the axis is `DateAxis` or `CategoryAxis`.
          *
          * @param {XYSeries}
          */

@@ -65,3 +65,8 @@ a freeware license. Refer to included LICENSE file. The license is also
 ### Found a bug?
 
 Open an [issue](https://github.com/amcharts/amcharts4/issues).
+
+
+### How to build
+
+Run `yarn install` and then `yarn run build`. The compiled code will be in the `dist` folder.

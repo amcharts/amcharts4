@@ -213,14 +213,14 @@ var MapLine = /** @class */ (function (_super) {
                 }
                 if (image instanceof MapImage) {
                     segment.push({ longitude: image.longitude, latitude: image.latitude });
-                    if (!this_1._imageListeners[image.id]) {
+                    if (!this_1._imageListeners[image.uid]) {
                         var disposer = image.events.on("propertychanged", function (event) {
                             if (event.property == "longitude" || event.property == "latitude") {
                                 _this.handleImagesToConnect();
                                 _this.invalidate();
                             }
                         }, this_1, false);
-                        this_1._imageListeners[image.id] = disposer;
+                        this_1._imageListeners[image.uid] = disposer;
                         this_1._disposers.push(disposer);
                     }
                 }

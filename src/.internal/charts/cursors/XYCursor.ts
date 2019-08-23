@@ -82,6 +82,13 @@ export interface IXYCursorProperties extends ICursorProperties {
 	 * `ValueAxis`.
 	 */
 	snapToSeries: XYSeries;
+
+	/**
+	 * If set to `true` this will hide series tooltips when selecting with cursor.
+	 *
+	 * @since 4.5.15
+	 */
+	hideSeriesTooltipsOnSelection: boolean;
 }
 
 /**
@@ -192,6 +199,7 @@ export class XYCursor extends Cursor {
 		selection.fillOpacity = 0.2;
 		selection.fill = interfaceColors.getFor("alternativeBackground");
 		selection.isMeasured = false;
+		selection.visible = false;
 		selection.interactionsEnabled = false;
 		this.selection = selection;
 		this._disposers.push(this.selection);
@@ -231,6 +239,8 @@ export class XYCursor extends Cursor {
 		this._disposers.push(this._yAxis);
 
 		this.mask = this;
+
+		this.hideSeriesTooltipsOnSelection = true;
 
 		// Apply theme
 		this.applyTheme();
@@ -452,6 +462,7 @@ export class XYCursor extends Cursor {
 			}
 		}
 		this.downPoint = undefined;
+		this.dispatch("cursorpositionchanged");
 	}
 
 
@@ -610,6 +621,24 @@ export class XYCursor extends Cursor {
 	 */
 	public get fullWidthLineY(): boolean {
 		return this.getPropertyValue("fullWidthLineY");
+	}
+
+
+	/**
+	 * If set to `true` this will hide series tooltips when selecting with cursor.
+	 *
+	 * @since 4.5.15
+	 * @param  value  hide tooltips?
+	 */
+	public set hideSeriesTooltipsOnSelection(value: boolean) {
+		this.setPropertyValue("hideSeriesTooltipsOnSelection", value);
+	}
+
+	/**
+	 * @return hide tooltip?
+	 */
+	public get hideSeriesTooltipsOnSelection(): boolean {
+		return this.getPropertyValue("hideSeriesTooltipsOnSelection");
 	}
 
 	/**
@@ -865,8 +894,7 @@ export class XYCursor extends Cursor {
 
 	/**
 	 * Specifies to which series cursor lines should be snapped. Works when one
-	 * of the axis is `DateAxis` or `CategoryAxis`. Won't work if both axes are
-	 * `ValueAxis`.
+	 * of the axis is `DateAxis` or `CategoryAxis`.
 	 *
 	 * @param {XYSeries}
 	 */

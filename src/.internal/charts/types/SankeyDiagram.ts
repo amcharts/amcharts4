@@ -228,6 +228,8 @@ export class SankeyDiagram extends FlowDiagram {
 
 	protected _heightAnimation: Animation;
 
+	protected _level: number;
+
 
 	/**
 	 * Constructor
@@ -261,6 +263,10 @@ export class SankeyDiagram extends FlowDiagram {
 		this._levelCount = 0;
 
 		this.nodes.each((key, node) => {
+			node.level = undefined;
+		});		
+		
+		this.nodes.each((key, node) => {
 			node.level = this.getNodeLevel(node, 0);
 			this._levelCount = $math.max(this._levelCount, node.level);
 		});
@@ -278,9 +284,15 @@ export class SankeyDiagram extends FlowDiagram {
 		let levels: number[] = [level];
 		$iter.each(node.incomingDataItems.iterator(), (link) => {
 			if (link.fromNode) {
-				levels.push(this.getNodeLevel(link.fromNode, level + 1));
+				if ($type.isNumber(link.fromNode.level)) {
+					levels.push(link.fromNode.level + 1);
+				}
+				else {
+					levels.push(this.getNodeLevel(link.fromNode, level + 1));
+				}
 			}
 		})
+
 		return Math.max(...levels);
 	}
 

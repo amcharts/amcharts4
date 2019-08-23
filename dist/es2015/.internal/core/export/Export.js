@@ -33,6 +33,7 @@ import { List } from "../utils/List";
 import { Dictionary } from "../utils/Dictionary";
 import { DateFormatter } from "../formatters/DateFormatter";
 import { DurationFormatter } from "../formatters/DurationFormatter";
+import { NumberFormatter } from "../formatters/NumberFormatter";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
 import { color } from "../utils/Color";
@@ -1919,7 +1920,7 @@ var Export = /** @class */ (function (_super) {
             /*if ($type.hasValue(this.dataFields) && !$type.hasValue(this.dataFields[key])) {
                 return;
             }*/
-            items.push(_this.convertToDateOrDuration(key, value, options, true));
+            items.push(_this.convertToSpecialFormat(key, value, options, true));
         });
         return items;
     };
@@ -2002,7 +2003,7 @@ var Export = /** @class */ (function (_super) {
                 return;
             }*/
             // Convert dates
-            var item = asIs ? value : _this.convertToDateOrDuration(key, value, options);
+            var item = asIs ? value : _this.convertToSpecialFormat(key, value, options);
             // Cast and escape doublequotes
             item = "" + item;
             item = item.replace(/"/g, '""');
@@ -2044,7 +2045,7 @@ var Export = /** @class */ (function (_super) {
                             var newValue_1 = {};
                             $object.each(value, function (field, item) {
                                 if ($type.hasValue(dataFields[field])) {
-                                    newValue_1[dataFields[field]] = _this.convertToDateOrDuration(field, item, options);
+                                    newValue_1[dataFields[field]] = _this.convertToSpecialFormat(field, item, options);
                                 }
                             });
                             data.push(newValue_1);
@@ -2060,7 +2061,7 @@ var Export = /** @class */ (function (_super) {
                 json = JSON.stringify(data, function (key, value) {
                     if (typeof value == "object") {
                         $object.each(value, function (field, item) {
-                            value[field] = _this.convertToDateOrDuration(field, item, options);
+                            value[field] = _this.convertToSpecialFormat(field, item, options);
                         });
                     }
                     return value;
@@ -2082,13 +2083,13 @@ var Export = /** @class */ (function (_super) {
      * Converts the value to proper date format.
      *
      * @ignore Exclude from docs
-     * @param field       Field name
-     * @param value       Value
-     * @param options     Options
-     * @param keepAsDate  Will ignore formatting and will keep as Date object if set
+     * @param  field         Field name
+     * @param  value         Value
+     * @param  options       Options
+     * @param  keepOriginal  Will ignore formatting and will keep value as it is in data
      * @return Formatted date value or unmodified value
      */
-    Export.prototype.convertToDateOrDuration = function (field, value, options, keepAsDate) {
+    Export.prototype.convertToSpecialFormat = function (field, value, options, keepOriginal) {
         // Is this a timestamp or duration?
         if (typeof value == "number") {
             if (this.isDateField(field)) {
@@ -2097,13 +2098,16 @@ var Export = /** @class */ (function (_super) {
             else if (this.isDurationField(field)) {
                 return this.durationFormatter.format(value, this.durationFormat);
             }
+            else if (this.isNumberField(field) && this.numberFormat) {
+                return this.numberFormatter.format(value, this.numberFormat);
+            }
         }
         if (value instanceof Date) {
             if (options.useTimestamps) {
                 value = value.getTime();
             }
             else if (options.useLocale) {
-                if (!keepAsDate) {
+                if (!keepOriginal) {
                     value = value.toLocaleString();
                 }
             }
@@ -2681,6 +2685,76 @@ var Export = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Export.prototype, "numberFormatter", {
+        /**
+         * @return A NumberFormatter instance
+         */
+        get: function () {
+            if (!this._numberFormatter) {
+                this._numberFormatter = new NumberFormatter();
+            }
+            return this.adapter.apply("numberFormatter", {
+                numberFormatter: this._numberFormatter
+            }).numberFormatter;
+        },
+        /**
+         * A [[NumberFormatter]] to use when formatting dates when exporting data.
+         *
+         * @since 4.5.15
+         * @param value NumberFormatter instance
+         */
+        set: function (value) {
+            this._dateFormatter = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Export.prototype, "numberFormat", {
+        /**
+         * @return Number format
+         */
+        get: function () {
+            return this.adapter.apply("numberFormat", {
+                numberFormat: this._numberFormat
+            }).numberFormat;
+        },
+        /**
+         * A number format to use for exporting dates. Will use [[NumberFormatter]]
+         * format if not set.
+         *
+         * @since 4.5.15
+         * @param value Number format
+         */
+        set: function (value) {
+            this._numberFormat = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Export.prototype, "numberFields", {
+        /**
+         * @return Number field list
+         */
+        get: function () {
+            if (!this._numberFields) {
+                this._numberFields = new List();
+            }
+            return this.adapter.apply("numberFields", {
+                numberFields: this._numberFields
+            }).numberFields;
+        },
+        /**
+         * A list of fields that hold number values.
+         *
+         * @since 4.5.15
+         * @param value Number field list
+         */
+        set: function (value) {
+            this._numberFields = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Export.prototype, "durationFormatter", {
         /**
          * @return A DurationFormatter instance
@@ -2786,8 +2860,23 @@ var Export = /** @class */ (function (_super) {
         }).isDateField;
     };
     /**
-     * Cheks against `dateFields` property to determine if this field holds
-     * dates.
+     * Cheks against `numberFields` property to determine if this field holds
+     * numbers.
+     *
+     * @ignore Exclude from docs
+     * @param field   Field name
+     * @param options Options
+     * @return `true` if it's a number field
+     */
+    Export.prototype.isNumberField = function (field) {
+        return this.adapter.apply("isNumberField", {
+            isNumberField: this.numberFields.contains(field),
+            field: field
+        }).isNumberField;
+    };
+    /**
+     * Cheks against `durationFields` property to determine if this field holds
+     * durations.
      *
      * @ignore Exclude from docs
      * @param field   Field name

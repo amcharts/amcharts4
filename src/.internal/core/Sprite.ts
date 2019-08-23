@@ -4069,7 +4069,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	protected setDataItem(dataItem: DataItem) {
 		if (this._dataItem != dataItem) {
 			this._dataItem = dataItem;
-			if(dataItem){
+			if (dataItem) {
 				if (this.configField) {
 					let dataContext: any = dataItem.dataContext;
 					if (dataContext) {
@@ -5226,8 +5226,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this._outTimeout) {
 			this._outTimeout.dispose();
 		}
-
 		if (this.isHover) {
+
 			if (this.states.hasKey("hover")) {
 				//this.setState("hover");
 				// This will check `isHover` and will set "hover" state
@@ -8400,6 +8400,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 						tooltip.show(duration);
 						return true;
 					}
+					else {
+						this.hideTooltip(0);
+					}
 				}
 				else {
 					this.hideTooltip(0);
@@ -8447,7 +8450,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		let tooltip = this.tooltip;
 		if (tooltip && this.topParent) {
 
-			if(tooltip.showInViewport){
+			if (tooltip.showInViewport) {
 				tooltip.pointTo(point, instantly);
 				return true;
 			}

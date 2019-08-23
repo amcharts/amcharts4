@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.15] - 2019-08-23
+
+### Added
+- `hideSeriesTooltipsOnSelection` added to `XYCursor`. If set to `true` it will automatically hide cursor-initiated series tooltips when selecting with cursor (e.g. for a zoom).
+- Properties `numberFields`, `numberFormatter`, and `numberFormat` properties to `Export`. Allows forcing certain number format for values listed in `numberFields` effectively converting them into strings.
+- `snapToSeries` now supports `XYChart` setups where both X and Y axes are `ValueAxis`.
+
+### Changed
+- `ZoomControl`'s plus and minus button will not be exported to images anymore.
+
+### Fixed
+- When the chart with external data source and reload frequency set was disposed, the data source kept reloading the data.
+- When Tooltip's `keepTargetHover` was enabled and hover moved from an element with tooltip content to an element without one, an empty tooltip was being shown.
+- `SankeySiagram` with a lot of nodes was performing poorly on initial load.
+- `TreeMap` could show bullets of multiple levels which could result overapping of bullets/labels.
+- `MapLineSeries` with `imagesToConnect` were not updating if images changed their positions.
+
+
 ## [4.5.14] - 2019-08-11
 
 ### Added

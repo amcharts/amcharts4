@@ -17,6 +17,7 @@ import { Dictionary } from "../../core/utils/Dictionary";
 import { List } from "../../core/utils/List";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { XYChart } from "../types/XYChart";
+import { XYCursor } from "../cursors/XYCursor";
 import { CategoryAxis } from "../axes/CategoryAxis";
 import { IPoint } from "../../core/defs/IPoint";
 import { DateAxis } from "../axes/DateAxis";
@@ -1402,6 +1403,13 @@ export class XYSeries extends Series {
 	 * @param dataItem
 	 */
 	public showTooltipAtDataItem(dataItem: this["_dataItem"]): IPoint {
+
+		let cursor = <XYCursor>this.chart.cursor;
+		if(cursor && cursor.hideSeriesTooltipsOnSelection && cursor.selection.visible && cursor.downPoint){
+			this.hideTooltip();
+			return;
+		}
+
 		this.returnBulletDefaultState(dataItem);
 		if (dataItem && dataItem.visible) {
 			this.updateLegendValue(dataItem);

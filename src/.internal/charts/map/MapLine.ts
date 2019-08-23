@@ -327,14 +327,14 @@ export class MapLine extends MapObject {
 
 					segment.push({ longitude: (<MapImage>image).longitude, latitude: (<MapImage>image).latitude });
 
-					if (!this._imageListeners[image.id]) {
+					if (!this._imageListeners[image.uid]) {
 						let disposer = image.events.on("propertychanged", (event) => {
 							if (event.property == "longitude" || event.property == "latitude") {
 								this.handleImagesToConnect();
 								this.invalidate();
 							}
 						}, this, false);
-						this._imageListeners[image.id] = disposer;
+						this._imageListeners[image.uid] = disposer;
 						this._disposers.push(disposer);
 					}
 				}

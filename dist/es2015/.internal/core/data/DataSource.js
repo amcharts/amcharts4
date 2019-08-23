@@ -525,6 +525,10 @@ var DataSource = /** @class */ (function (_super) {
         if (this._reloadTimeout) {
             clearTimeout(this._reloadTimeout);
         }
+        if ($type.hasValue(this._reloadDisposer)) {
+            this._reloadDisposer.dispose();
+            this._reloadDisposer = undefined;
+        }
     };
     /**
      * Initiate the load.

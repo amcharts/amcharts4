@@ -88,6 +88,9 @@ var SankeyDiagram = /** @class */ (function (_super) {
         _super.prototype.validateData.call(this);
         this._levelCount = 0;
         this.nodes.each(function (key, node) {
+            node.level = undefined;
+        });
+        this.nodes.each(function (key, node) {
             node.level = _this.getNodeLevel(node, 0);
             _this._levelCount = $math.max(_this._levelCount, node.level);
         });
@@ -105,7 +108,12 @@ var SankeyDiagram = /** @class */ (function (_super) {
         var levels = [level];
         $iter.each(node.incomingDataItems.iterator(), function (link) {
             if (link.fromNode) {
-                levels.push(_this.getNodeLevel(link.fromNode, level + 1));
+                if ($type.isNumber(link.fromNode.level)) {
+                    levels.push(link.fromNode.level + 1);
+                }
+                else {
+                    levels.push(_this.getNodeLevel(link.fromNode, level + 1));
+                }
             }
         });
         return Math.max.apply(Math, tslib_1.__spread(levels));

@@ -753,6 +753,10 @@ export class DataSource extends BaseObjectEvents {
 		if (this._reloadTimeout) {
 			clearTimeout(this._reloadTimeout);
 		}
+		if ($type.hasValue(this._reloadDisposer)) {
+			this._reloadDisposer.dispose();
+			this._reloadDisposer = undefined;
+		}
 	}
 
 	/**
