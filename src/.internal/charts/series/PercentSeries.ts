@@ -361,7 +361,7 @@ export interface IPercentSeriesProperties extends ISeriesProperties {
 	 *
 	 * @default true
 	 */
-	alignLabels?: number;
+	alignLabels?: boolean;
 
 }
 
@@ -807,7 +807,7 @@ export class PercentSeries extends Series {
 			if (label) {
 				if (label.invalid) {
 					label.validate();
-				}				
+				}
 
 				let lh = label.measuredHeight;
 				if(!label.visible){
@@ -838,7 +838,7 @@ export class PercentSeries extends Series {
 						return nextDataItem.label;
 					}
 					else{
-						return this.getNextLabel(index + 1, dataItems);	
+						return this.getNextLabel(index + 1, dataItems);
 					}
 				}
 				else {

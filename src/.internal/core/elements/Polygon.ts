@@ -32,7 +32,7 @@ export interface IPolygonProperties extends ISpriteProperties {
 	/**
 	 * An array of X/Y coordinates for each elbow of the polygon.
 	 */
-	points?: IPoint[][][];
+	points?: Array<Array<Array<IPoint>>>;
 
 }
 
@@ -88,7 +88,7 @@ export class Polygon extends Sprite implements IMorphable {
 	 * Current points that morpher uses. This is needed so that we don't
 	 * overwrite polygons original points.
 	 */
-	protected _currentPoints: IPoint[][][];
+	protected _currentPoints: Array<Array<Array<IPoint>>>;
 
 	/**
 	 * Constructor
@@ -108,7 +108,7 @@ export class Polygon extends Sprite implements IMorphable {
 	 * @todo Example
 	 * @param points  Polygon points
 	 */
-	public set points(points: IPoint[][][]) {
+	public set points(points: Array<Array<Array<IPoint>>>) {
 		this.setPropertyValue("points", points, true);
 		this._currentPoints = points;
 	}
@@ -116,7 +116,7 @@ export class Polygon extends Sprite implements IMorphable {
 	/**
 	 * @return Polygon points
 	 */
-	public get points(): IPoint[][][] {
+	public get points(): Array<Array<Array<IPoint>>> {
 		let points = this.getPropertyValue("points");
 		let path = this.path;
 
@@ -141,7 +141,7 @@ export class Polygon extends Sprite implements IMorphable {
 
 							let area: IPoint[] = [];
 
-							let areaAndHole: IPoint[][] = [area];
+							let areaAndHole: Array<Array<IPoint>> = [area];
 							points.push(areaAndHole);
 
 							for (let p = 0; p < pointsArr.length; p++) {
@@ -177,7 +177,7 @@ export class Polygon extends Sprite implements IMorphable {
 	 *
 	 * @param points  Polygon points
 	 */
-	public set currentPoints(points: IPoint[][][]) {
+	public set currentPoints(points: Array<Array<Array<IPoint>>>) {
 		if (this._currentPoints != points) {
 			this._currentPoints = points;
 			this.draw();
@@ -187,7 +187,7 @@ export class Polygon extends Sprite implements IMorphable {
 	/**
 	 * @return Polygon points
 	 */
-	public get currentPoints(): IPoint[][][] {
+	public get currentPoints(): Array<Array<Array<IPoint>>> {
 		if((!this._currentPoints || this._currentPoints.length == 0) && this.path){
 			this._currentPoints = this.points;
 		}
@@ -201,7 +201,7 @@ export class Polygon extends Sprite implements IMorphable {
 	 */
 	public draw(): void {
 		let path: string = "";
-		let points: IPoint[][][] = this._currentPoints;
+		let points: Array<Array<Array<IPoint>>> = this._currentPoints;
 
 		let left: $type.Optional<number>;
 		let right: $type.Optional<number>;

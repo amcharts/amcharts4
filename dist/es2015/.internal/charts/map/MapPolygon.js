@@ -63,7 +63,7 @@ var MapPolygon = /** @class */ (function (_super) {
         get: function () {
             var multiGeoPolygon = this.getPropertyValue("multiGeoPolygon");
             if (!multiGeoPolygon && this.dataItem) {
-                multiGeoPolygon = this.dataItem.multiPolygon;
+                multiGeoPolygon = this.dataItem.multiGeoPolygon;
             }
             return multiGeoPolygon;
         },

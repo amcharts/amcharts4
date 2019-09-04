@@ -1515,6 +1515,10 @@ export class TreeMap extends XYChart {
 		}
 	}
 
+	protected handleSeriesAdded2(){
+		// void
+	}	
+
 	/**
 	 * [handleDataItemValueChange description]
 	 *

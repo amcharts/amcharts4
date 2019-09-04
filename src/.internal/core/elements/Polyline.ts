@@ -31,7 +31,7 @@ export interface IPolylineProperties extends ISpriteProperties {
 	/**
 	 * A list of segment coordinates for the multi-part line.
 	 */
-	segments?: IPoint[][];
+	segments?: Array<Array<IPoint>>;
 
 }
 
@@ -90,7 +90,7 @@ export class Polyline extends Sprite {
 	 *
 	 * @todo Description
 	 */
-	protected _realSegments: $type.Optional<IPoint[][]>;
+	protected _realSegments: $type.Optional<Array<Array<IPoint>>>;
 
 	/**
 	 * Constructor
@@ -142,7 +142,7 @@ export class Polyline extends Sprite {
 	 * @todo Example
 	 * @param segments  Segments
 	 */
-	public set segments(segments: $type.Optional<IPoint[][]>) {
+	public set segments(segments: $type.Optional<Array<Array<IPoint>>>) {
 		this.setPropertyValue("segments", segments);
 		this.makePath();
 	}
@@ -150,7 +150,7 @@ export class Polyline extends Sprite {
 	/**
 	 * @return Segments
 	 */
-	public get segments(): $type.Optional<IPoint[][]> {
+	public get segments(): $type.Optional<Array<Array<IPoint>>> {
 		return this.getPropertyValue("segments");
 	}
 
@@ -179,7 +179,7 @@ export class Polyline extends Sprite {
 			deltaAngle = 180;
 		}
 
-		let segments: $type.Optional<IPoint[][]> = this._realSegments;
+		let segments: $type.Optional<Array<Array<IPoint>>> = this._realSegments;
 		if (segments) {
 			let totalDistance: number = this.distance;
 			let currentDistance: number = 0;

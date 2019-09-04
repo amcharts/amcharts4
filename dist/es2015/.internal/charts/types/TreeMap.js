@@ -1194,6 +1194,9 @@ var TreeMap = /** @class */ (function (_super) {
             i0 = i1;
         }
     };
+    TreeMap.prototype.handleSeriesAdded2 = function () {
+        // void
+    };
     /**
      * [handleDataItemValueChange description]
      *

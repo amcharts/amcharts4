@@ -3,6 +3,6 @@ import { IPoint } from "./IPoint";
 
 export interface IMorphable {
 	morpher: Morpher;
-	points: IPoint[][][];
-	currentPoints:IPoint[][][];
+	points: Array<Array<Array<IPoint>>>;
+	currentPoints: Array<Array<Array<IPoint>>>;
 }

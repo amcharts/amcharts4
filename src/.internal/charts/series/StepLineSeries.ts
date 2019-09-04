@@ -161,14 +161,34 @@ export class StepLineSeries extends LineSeries {
 	 */
 	protected addPoints(points: IPoint[], dataItem: this["_dataItem"], xField: string, yField: string, backwards?: boolean): void {
 
-		let startLocation = this.startLocation;
-		let endLocation = this.endLocation;
+		let startLocationX:number;
+		let endLocationX:number;
 
-		let x0: number = this.xAxis.getX(dataItem, xField, startLocation);
-		let y0: number = this.yAxis.getY(dataItem, yField, startLocation);
+		let startLocationY:number;
+		let endLocationY:number;		
 
-		let x1: number = this.xAxis.getX(dataItem, xField, endLocation);
-		let y1: number = this.yAxis.getY(dataItem, yField, endLocation);
+		if(this.baseAxis == this.xAxis){
+			startLocationX = this.startLocation;
+			endLocationX = this.endLocation;
+
+			startLocationY = this.getAdjustedXLocation(dataItem, this.yOpenField);
+			endLocationY = this.getAdjustedXLocation(dataItem, this.yField);
+		}
+
+		if(this.baseAxis == this.yAxis){
+			startLocationY = this.startLocation;
+			endLocationY = this.endLocation;
+
+			startLocationX = this.getAdjustedXLocation(dataItem, this.xOpenField);
+			endLocationX = this.getAdjustedXLocation(dataItem, this.xField);			
+		}
+
+
+		let x0: number = this.xAxis.getX(dataItem, xField, startLocationX);
+		let y0: number = this.yAxis.getY(dataItem, yField, startLocationY);
+
+		let x1: number = this.xAxis.getX(dataItem, xField, endLocationX);
+		let y1: number = this.yAxis.getY(dataItem, yField, endLocationY);
 
 		x0 = $math.fitToRange(x0, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
 		y0 = $math.fitToRange(y0, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.

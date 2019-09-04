@@ -27,19 +27,19 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      *
      * @todo Description
      */
-    protected _morphFromPointsReal: $type.Optional<IPoint[][][]>;
+    protected _morphFromPointsReal: $type.Optional<Array<Array<Array<IPoint>>>>;
     /**
      * [_morphToPointsReal description]
      *
      * @todo Description
      */
-    protected _morphToPointsReal: $type.Optional<IPoint[][][]>;
+    protected _morphToPointsReal: $type.Optional<Array<Array<Array<IPoint>>>>;
     /**
      * [_morphToPoints description]
      *
      * @todo Description
      */
-    protected _morphToPoints: $type.Optional<IPoint[][][]>;
+    protected _morphToPoints: $type.Optional<Array<Array<Array<IPoint>>>>;
     /**
      * Morph progress (0-1)
      */
@@ -89,7 +89,7 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      * @param easing    Easing function
      * @return Animation
      */
-    morphToPolygon(toPoints: IPoint[][][], duration?: number, easing?: (value: number) => number): Animation;
+    morphToPolygon(toPoints: Array<Array<Array<IPoint>>>, duration?: number, easing?: (value: number) => number): Animation;
     /**
      * [normalizePoints description]
      *
@@ -99,7 +99,7 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      * @param pointsB  Point B
      * @return Normalized points
      */
-    normalizePoints(pointsA: IPoint[][][], pointsB: IPoint[][][]): IPoint[][][];
+    normalizePoints(pointsA: Array<Array<Array<IPoint>>>, pointsB: Array<Array<Array<IPoint>>>): Array<Array<Array<IPoint>>>;
     /**
      * [sortPoints description]
      *
@@ -108,7 +108,7 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      * @param points  [description]
      * @return                        common bbox of points
      */
-    sortPoints(points: IPoint[][][]): $type.Optional<IRectangle>;
+    sortPoints(points: Array<Array<Array<IPoint>>>): $type.Optional<IRectangle>;
     /**
      * Morphs polygon to a circle (it is actually a polygon which makes a circle).
      *

@@ -30,19 +30,19 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
     /**
      * A collection of X/Y coordinates for a single polygon.
      */
-    protected _polygon: number[][][];
+    protected _polygon: Array<Array<[number, number]>>;
     /**
      * A collection of X/Y coordinates for a multi-part polygon.
      */
-    protected _multiPolygon: number[][][][];
+    protected _multiPolygon: Array<Array<Array<[number, number]>>>;
     /**
      * A collection of lat/long coordinates for a single polygon.
      */
-    protected _geoPolygon: IGeoPoint[][];
+    protected _geoPolygon: [Array<IGeoPoint>, Array<IGeoPoint>];
     /**
      * A collection of lat/long coordinates for a multi-part polygon.
      */
-    protected _multiGeoPolygon: IGeoPoint[][][];
+    protected _multiGeoPolygon: Array<[Array<IGeoPoint>, Array<IGeoPoint>]>;
     /**
      * Defines a type of [[Component]] this data item is used for
      */
@@ -58,7 +58,7 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
         "type": "Feature";
         geometry: {
             type: "MultiPolygon";
-            coordinates: number[][][][];
+            coordinates: Array<Array<Array<[number, number]>>>;
         };
     };
     /**
@@ -88,7 +88,7 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      *
      * @param polygon  Coordinates
      */
-    polygon: number[][][];
+    polygon: Array<Array<[number, number]>>;
     /**
      * @return Coordinates
      */
@@ -123,7 +123,7 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      *
      * @param multiPolygon  Coordinates
      */
-    multiPolygon: number[][][][];
+    multiPolygon: Array<Array<Array<[number, number]>>>;
     /**
      * @return Coordinates
      */
@@ -144,7 +144,7 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.6} GeoJSON Polygon reference
      * @param geoPolygon  Coordinates
      */
-    geoPolygon: IGeoPoint[][];
+    geoPolygon: [Array<IGeoPoint>, Array<IGeoPoint>];
     /**
      * @return Coordinates
      */
@@ -177,7 +177,7 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.7} GeoJSON MultiPolygon reference
      * @param multiGeoPolygon  Coordinates
      */
-    multiGeoPolygon: IGeoPoint[][][];
+    multiGeoPolygon: Array<[Array<IGeoPoint>, Array<IGeoPoint>]>;
 }
 /**
  * ============================================================================
@@ -327,7 +327,7 @@ export declare class MapPolygonSeries extends MapSeries {
         "type": "Feature";
         geometry: {
             type: "MultiPolygon";
-            coordinates: number[][][][];
+            coordinates: Array<Array<Array<[number, number]>>>;
         };
     }[];
 }

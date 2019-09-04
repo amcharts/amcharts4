@@ -1032,9 +1032,11 @@ export class Component extends Container {
 	 */
 	public dispose() {
 		this.dataItems.template.clones.clear();
+		$object.each(this._dataSources, (key, source) => {
+			this.removeDispose(source);
+		});
 		super.dispose();
 	}
-
 
 	/**
 	 * @ignore

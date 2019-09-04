@@ -126,7 +126,8 @@ function createChild(htmlElement, classType) {
             preloader_1.__disabled = true;
         }, undefined, false);
         container_1.preloader = preloader_1;
-        if (!options.commercialLicense) {
+        //if (!options.commercialLicense) {
+        if (!container_1.hasLicense()) {
             var logo_1 = tooltipContainer_1.createChild(AmChartsLogo);
             tooltipContainer_1.events.on("maxsizechanged", function (ev) {
                 if ((tooltipContainer_1.maxWidth <= 100) || (tooltipContainer_1.maxHeight <= 50)) {
@@ -440,5 +441,23 @@ export function unuseTheme(value) {
  */
 export function unuseAllThemes() {
     registry.themes = [];
+}
+/**
+ * Adds a license, e.g.:
+ *
+ * ```TypeScript
+ * am4core.addLicense("xxxxxxxx");
+ * ```
+ * ```JavaScript
+ * am4core.addLicense("xxxxxxxx");
+ * ```
+ *
+ * Multiple licenses can be added to cover for multiple products.
+ *
+ * @since 4.5.16
+ * @param  license  License key
+ */
+export function addLicense(license) {
+    options.licenses.push(license);
 }
 //# sourceMappingURL=Instance.js.map

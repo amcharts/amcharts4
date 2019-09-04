@@ -1312,8 +1312,8 @@ var ValueAxis = /** @class */ (function (_super) {
             selectionMax = this._maxReal;
         }
         if (selectionMin == selectionMax) {
-            selectionMin -= 1;
-            selectionMax += 1;
+            selectionMin -= this._deltaMinMax;
+            selectionMax += this._deltaMinMax;
             var minMaxStep2 = this.adjustMinMax(selectionMin, selectionMax, 0, this._gridCount, this.strictMinMax);
             selectionMin = minMaxStep2.min;
             selectionMax = minMaxStep2.max;

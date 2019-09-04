@@ -164,6 +164,7 @@ export class AxisRendererX extends AxisRenderer {
 			}
 			else {
 				title.toFront();
+				this.toBack();
 				this.line.toBack();
 			}
 		}
@@ -226,12 +227,17 @@ export class AxisRendererX extends AxisRenderer {
 
 		let deltaY = 0;
 		let verticalCenter: VerticalCenter;
+		let maxHeight = this.gridContainer.maxHeight;
 		if (this.opposite) {
 			if (label.inside) {
 				verticalCenter = "top";
 				if (label.valign == "bottom") {
-					deltaY = this.gridContainer.maxHeight;
+					deltaY = maxHeight;
 					verticalCenter = "bottom";
+				}
+				if (label.valign == "middle") {
+					deltaY = maxHeight / 2;
+					verticalCenter = "middle";
 				}
 			}
 			else {
@@ -244,8 +250,12 @@ export class AxisRendererX extends AxisRenderer {
 			if (label.inside) {
 				verticalCenter = "bottom";
 				if (label.valign == "top") {
-					deltaY = -this.gridContainer.maxHeight;
+					deltaY = -maxHeight;
 					verticalCenter = "top";
+				}
+				if (label.valign == "middle") {
+					deltaY = -maxHeight / 2;
+					verticalCenter = "middle";
 				}
 			}
 			else {

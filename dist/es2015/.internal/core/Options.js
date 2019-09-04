@@ -1,3 +1,6 @@
+/**
+ * Global options.
+ */
 export var options = {
     verbose: true,
     commercialLicense: false,
@@ -5,6 +8,7 @@ export var options = {
     autoSetClassName: false,
     minPolylineStep: 0.5,
     onlyShowOnViewport: false,
-    queue: false
+    queue: false,
+    licenses: []
 };
 //# sourceMappingURL=Options.js.map

@@ -55,7 +55,7 @@ export interface IClockHandProperties extends IContainerProperties {
      * rotation direction
      * @default "any"
      */
-    rotationDirection: "any" | "clockWise" | "CounterClockWise";
+    rotationDirection: "any" | "clockWise" | "counterClockWise";
 }
 /**
  * Defines events for [[ClockHand]].

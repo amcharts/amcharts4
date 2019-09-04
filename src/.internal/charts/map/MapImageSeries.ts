@@ -45,7 +45,7 @@ export class MapImageSeriesDataItem extends MapSeriesDataItem {
 	 *
 	 * @todo Description
 	 */
-	protected _point: number[];
+	protected _point: [number, number];
 
 	/**
 	 * Geographical coordinates image is placed at.
@@ -69,9 +69,9 @@ export class MapImageSeriesDataItem extends MapSeriesDataItem {
 	/**
 	 * @ignore
 	 */
-	public getFeature(): { "type": "Feature", geometry: { type: "Point", coordinates: number[] } } {
+	public getFeature(): { "type": "Feature", geometry: { type: "Point", coordinates: [number, number] } } {
 		return { "type": "Feature", geometry: { type: "Point", coordinates: this.point } };
-	}	
+	}
 
 	/**
 	 * A [[MapImage]] element related to this data item.
@@ -100,7 +100,7 @@ export class MapImageSeriesDataItem extends MapSeriesDataItem {
 	 * @todo Description
 	 * @param point [description]
 	 */
-	public set point(point: number[]) {
+	public set point(point: [number, number]) {
 		this._point = point;
 		this._geoPoint = $mapUtils.pointToGeo(point);
 		this.updateExtremes();
@@ -109,7 +109,7 @@ export class MapImageSeriesDataItem extends MapSeriesDataItem {
 	/**
 	 * @return [description]
 	 */
-	public get point(): number[] {
+	public get point(): [number, number] {
 		return this._point;
 	}
 
@@ -416,8 +416,9 @@ export class MapImageSeries extends MapSeries {
 	/**
 	 * @ignore
 	 */
-	public getFeatures(): { "type": "Feature", geometry: { type: "Point", coordinates: number[] } }[] {
-		let features: { "type": "Feature", geometry: { type: "Point", coordinates: number[] } }[] = [];
+	public getFeatures(): Array<{ "type": "Feature", geometry: { type: "Point", coordinates: [number, number] } }> {
+		let features: Array<{ "type": "Feature", geometry: { type: "Point", coordinates: [number, number] } }> = [];
+
 		this.dataItems.each((dataItem) => {
 			let feature = dataItem.getFeature();
 			if (feature) {

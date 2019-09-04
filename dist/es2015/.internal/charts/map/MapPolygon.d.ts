@@ -24,11 +24,11 @@ export interface IMapPolygonProperties extends IMapObjectProperties {
     /**
      * Set of geographical coordinates for the polygon.
      */
-    multiGeoPolygon?: IGeoPoint[][][];
+    multiGeoPolygon?: Array<[Array<IGeoPoint>, Array<IGeoPoint>]>;
     /**
      * Set of screen coordinates for the polygon.
      */
-    multiPolygon?: number[][][];
+    multiPolygon?: Array<Array<Array<[number, number]>>>;
     /**
      * Latitude of the visual center of the polygon.
      */
@@ -106,7 +106,7 @@ export declare class MapPolygon extends MapObject {
         "type": "Feature";
         geometry: {
             type: "MultiPolygon";
-            coordinates: number[][][][];
+            coordinates: Array<Array<Array<[number, number]>>>;
         };
     };
     /**
@@ -117,7 +117,7 @@ export declare class MapPolygon extends MapObject {
      *
      * @param multiGeoPolygon  Polygon coordinates
      */
-    multiGeoPolygon: IGeoPoint[][][];
+    multiGeoPolygon: Array<[Array<IGeoPoint>, Array<IGeoPoint>]>;
     /**
      * @return Coordinates
      */
@@ -152,7 +152,7 @@ export declare class MapPolygon extends MapObject {
      *
      * @param multiPolygon  Coordinates
      */
-    multiPolygon: number[][][][];
+    multiPolygon: Array<Array<Array<[number, number]>>>;
     /**
      * (Re)validates the polygon, effectively redrawing it.
      *

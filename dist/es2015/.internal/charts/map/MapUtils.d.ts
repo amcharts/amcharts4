@@ -15,7 +15,7 @@ import { IGeoPoint } from "../../core/defs/IGeoPoint";
  * @param multiPolygon  Source multi-polygon
  * @return Geo-multipolygon
  */
-export declare function multiPolygonToGeo(multiPolygon: number[][][][]): IGeoPoint[][][];
+export declare function multiPolygonToGeo(multiPolygon: Array<[Array<[number, number]>, Array<[number, number]>]>): Array<Array<Array<IGeoPoint>>>;
 /**
  * Converts a multiline in X/Y coordinates to a geo-multiline in geo-points
  * (lat/long).
@@ -23,35 +23,42 @@ export declare function multiPolygonToGeo(multiPolygon: number[][][][]): IGeoPoi
  * @param multiLine  Source multiline
  * @return Geo-multiline
  */
-export declare function multiLineToGeo(multiLine: number[][][]): IGeoPoint[][];
+export declare function multiLineToGeo(multiLine: Array<Array<[number, number]>>): Array<Array<IGeoPoint>>;
 /**
  * Converts multiple X/Y points into a lat/long geo-points.
  *
  * @param points  Source points
  * @return Geo-points
  */
-export declare function multiPointToGeo(points: number[][]): IGeoPoint[];
+export declare function multiPointToGeo(points: Array<[number, number]>): Array<IGeoPoint>;
 /**
  * Converts multiple X/Y points into a lat/long geo-points.
  *
  * @param points  Source points
  * @return Geo-points
  */
-export declare function multiGeoToPoint(geoPoints: IGeoPoint[]): number[][];
+export declare function multiGeoToPoint(geoPoints: Array<IGeoPoint>): Array<[number, number]>;
 /**
  * Converts X/Y point into a lat/long geo-point.
  *
  * @param point  Source point
  * @return Geo-point
  */
-export declare function pointToGeo(point: number[]): IGeoPoint;
+export declare function pointToGeo(point: [number, number]): IGeoPoint;
+/**
+ * Converts lat/long geo-point into a X/Y point.
+ *
+ * @param point  Source geo-point
+ * @return X/Y point
+ */
+export declare function geoToPoint(geoPoint: IGeoPoint): [number, number];
 /**
  * Converts geo line (collection of lat/long coordinates) to screen line (x/y).
  *
  * @param   multiGeoLine  Source geo line
  * @return                Screen line
  */
-export declare function multiGeoLineToMultiLine(multiGeoLine: IGeoPoint[][]): number[][][];
+export declare function multiGeoLineToMultiLine(multiGeoLine: Array<Array<IGeoPoint>>): Array<Array<[number, number]>>;
 /**
  * Converts a geo polygon (collection of lat/long coordinates) to screen
  * polygon (x/y).
@@ -59,7 +66,7 @@ export declare function multiGeoLineToMultiLine(multiGeoLine: IGeoPoint[][]): nu
  * @param   multiGeoPolygon  Source polygon
  * @return                   Screen polygon
  */
-export declare function multiGeoPolygonToMultipolygon(multiGeoPolygon: IGeoPoint[][][]): number[][][][];
+export declare function multiGeoPolygonToMultipolygon(multiGeoPolygon: Array<[Array<IGeoPoint>, Array<IGeoPoint>]>): Array<Array<Array<[number, number]>>>;
 /**
  * Returns a set of geographical coordinates for the circle with a center
  * at specific lat/long coordinates and radius (in degrees).
@@ -70,7 +77,7 @@ export declare function multiGeoPolygonToMultipolygon(multiGeoPolygon: IGeoPoint
  * @param   radius     Radius (degrees)
  * @return             Circle coordinates
  */
-export declare function getCircle(longitude: number, latitude: number, radius: number): number[][][][];
+export declare function getCircle(longitude: number, latitude: number, radius: number): Array<Array<Array<[number, number]>>>;
 /**
  * Returns a set of screen coordinates that represents a "background" area
  * between provided extremities.
@@ -82,4 +89,4 @@ export declare function getCircle(longitude: number, latitude: number, radius: n
  * @param   west   West longitude
  * @return         Polygon
  */
-export declare function getBackground(north: number, east: number, south: number, west: number): number[][][][];
+export declare function getBackground(north: number, east: number, south: number, west: number): Array<Array<Array<[number, number]>>>;

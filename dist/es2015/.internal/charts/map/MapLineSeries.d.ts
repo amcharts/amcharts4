@@ -30,19 +30,19 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
     /**
      * A collection of X/Y coordinates for a single-segment line.
      */
-    protected _line: number[][];
+    protected _line: Array<[number, number]>;
     /**
      * A collection of X/Y coordinates for a multi-segment line.
      */
-    protected _multiLine: number[][][];
+    protected _multiLine: Array<Array<[number, number]>>;
     /**
      * A collection of lat/long coordinates for a single-segment line.
      */
-    protected _geoLine: IGeoPoint[];
+    protected _geoLine: Array<IGeoPoint>;
     /**
      * A collection of lat/long coordinates for a multi-segment line.
      */
-    protected _multiGeoLine: IGeoPoint[][];
+    protected _multiGeoLine: Array<Array<IGeoPoint>>;
     /**
      * Defines a type of [[Component]] this data item is used for
      */
@@ -55,7 +55,7 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
         "type": "Feature";
         geometry: {
             type: "MultiLineString";
-            coordinates: number[][][];
+            coordinates: Array<Array<[number, number]>>;
         };
     };
     /**
@@ -80,7 +80,7 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      *
      * @param line  Coordinates
      */
-    line: number[][];
+    line: Array<[number, number]>;
     /**
      * @return Coordinates
      */
@@ -105,7 +105,7 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      *
      * @param multiLine  Coordinates
      */
-    multiLine: number[][][];
+    multiLine: Array<Array<[number, number]>>;
     /**
      * @return Coordinates
      */
@@ -122,7 +122,7 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.4} GeoJSON LineString reference
      * @param geoLine  Coordinates
      */
-    geoLine: IGeoPoint[];
+    geoLine: Array<IGeoPoint>;
     /**
      * @return Coordinates
      */
@@ -148,7 +148,7 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.5} GeoJSON MultiLineString reference
      * @param multiGeoLine  Coordinates
      */
-    multiGeoLine: IGeoPoint[][];
+    multiGeoLine: Array<Array<IGeoPoint>>;
 }
 /**
  * ============================================================================
@@ -289,7 +289,7 @@ export declare class MapLineSeries extends MapSeries {
         "type": "Feature";
         geometry: {
             type: "MultiLineString";
-            coordinates: number[][][];
+            coordinates: Array<Array<[number, number]>>;
         };
     }[];
     /**

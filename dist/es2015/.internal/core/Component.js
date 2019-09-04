@@ -638,7 +638,11 @@ var Component = /** @class */ (function (_super) {
      * Destroys this object and all related data.
      */
     Component.prototype.dispose = function () {
+        var _this = this;
         this.dataItems.template.clones.clear();
+        $object.each(this._dataSources, function (key, source) {
+            _this.removeDispose(source);
+        });
         _super.prototype.dispose.call(this);
     };
     /**

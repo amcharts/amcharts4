@@ -383,13 +383,19 @@ export class AxisRendererY extends AxisRenderer {
 
 		let horizontalCenter: HorizontalCenter;
 		let deltaX = 0;
+		let maxWidth = this.gridContainer.maxWidth;
+
 		if (this.opposite) {
 			if (label.inside) {
 				horizontalCenter = "right";
 				if (label.align == "left") {
-					deltaX = -this.gridContainer.maxWidth;
+					deltaX = -maxWidth;
 					horizontalCenter = "left";
 				}
+				if (label.align == "center") {
+					deltaX = -maxWidth / 2;
+					horizontalCenter = "middle";
+				}				
 			}
 			else {
 				horizontalCenter = "left";
@@ -401,9 +407,13 @@ export class AxisRendererY extends AxisRenderer {
 			if (label.inside) {
 				horizontalCenter = "left";
 				if (label.align == "right") {
-					deltaX = this.gridContainer.maxWidth;
+					deltaX = maxWidth;
 					horizontalCenter = "right";
 				}
+				if (label.align == "center") {
+					deltaX = maxWidth / 2;
+					horizontalCenter = "middle";
+				}				
 			}
 			else {
 				horizontalCenter = "right";

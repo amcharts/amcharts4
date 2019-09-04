@@ -20,12 +20,12 @@ import * as d3geo from "d3-geo";
  * @return Geo-multipolygon
  */
 
-export function multiPolygonToGeo(multiPolygon: number[][][][]): IGeoPoint[][][] {
+export function multiPolygonToGeo(multiPolygon: Array<[Array<[number, number]>, Array<[number, number]>]>): Array<Array<Array<IGeoPoint>>> {
 	return $array.map(multiPolygon, (polygon) => {
-		let surface: number[][] = polygon[0];
-		let hole: number[][] = polygon[1];
+		let surface: Array<[number, number]> = polygon[0];
+		let hole: Array<[number, number]> = polygon[1];
 
-		//let holePoints: IGeoPoint[] = [];
+		//let holePoints: Array<IGeoPoint> = [];
 
 		const geoArea = [];
 
@@ -48,7 +48,7 @@ export function multiPolygonToGeo(multiPolygon: number[][][][]): IGeoPoint[][][]
  * @param multiLine  Source multiline
  * @return Geo-multiline
  */
-export function multiLineToGeo(multiLine: number[][][]): IGeoPoint[][] {
+export function multiLineToGeo(multiLine: Array<Array<[number, number]>>): Array<Array<IGeoPoint>> {
 	return $array.map(multiLine, (multiLine) => {
 		return multiPointToGeo(multiLine);
 	});
@@ -60,7 +60,7 @@ export function multiLineToGeo(multiLine: number[][][]): IGeoPoint[][] {
  * @param points  Source points
  * @return Geo-points
  */
-export function multiPointToGeo(points: number[][]): IGeoPoint[] {
+export function multiPointToGeo(points: Array<[number, number]>): Array<IGeoPoint> {
 	return $array.map(points, (point) => {
 		return pointToGeo(point);
 	});
@@ -73,10 +73,8 @@ export function multiPointToGeo(points: number[][]): IGeoPoint[] {
  * @param points  Source points
  * @return Geo-points
  */
-export function multiGeoToPoint(geoPoints: IGeoPoint[]): number[][] {
-	return $array.map(geoPoints, (geoPoint) => {
-		return [geoPoint.longitude, geoPoint.latitude];
-	});
+export function multiGeoToPoint(geoPoints: Array<IGeoPoint>): Array<[number, number]> {
+	return $array.map(geoPoints, geoToPoint);
 }
 
 
@@ -86,8 +84,18 @@ export function multiGeoToPoint(geoPoints: IGeoPoint[]): number[][] {
  * @param point  Source point
  * @return Geo-point
  */
-export function pointToGeo(point: number[]): IGeoPoint {
+export function pointToGeo(point: [number, number]): IGeoPoint {
 	return { longitude: point[0], latitude: point[1] }
+}
+
+/**
+ * Converts lat/long geo-point into a X/Y point.
+ *
+ * @param point  Source geo-point
+ * @return X/Y point
+ */
+export function geoToPoint(geoPoint: IGeoPoint): [number, number] {
+	return [geoPoint.longitude, geoPoint.latitude];
 }
 
 
@@ -97,11 +105,9 @@ export function pointToGeo(point: number[]): IGeoPoint {
  * @param   multiGeoLine  Source geo line
  * @return                Screen line
  */
-export function multiGeoLineToMultiLine(multiGeoLine: IGeoPoint[][]): number[][][] {
+export function multiGeoLineToMultiLine(multiGeoLine: Array<Array<IGeoPoint>>): Array<Array<[number, number]>> {
 	return $array.map(multiGeoLine, (segment) => {
-		return $array.map(segment, (geoPoint) => {
-			return [geoPoint.longitude, geoPoint.latitude];
-		});
+		return $array.map(segment, geoToPoint);
 	});
 }
 
@@ -112,7 +118,7 @@ export function multiGeoLineToMultiLine(multiGeoLine: IGeoPoint[][]): number[][]
  * @param   multiGeoPolygon  Source polygon
  * @return                   Screen polygon
  */
-export function multiGeoPolygonToMultipolygon(multiGeoPolygon: IGeoPoint[][][]): number[][][][] {
+export function multiGeoPolygonToMultipolygon(multiGeoPolygon: Array<[Array<IGeoPoint>, Array<IGeoPoint>]>): Array<Array<Array<[number, number]>>> {
 	return $array.map(multiGeoPolygon, (geoPolygon) => {
 		let surface = geoPolygon[0];
 		let hole = geoPolygon[1];
@@ -141,8 +147,8 @@ export function multiGeoPolygonToMultipolygon(multiGeoPolygon: IGeoPoint[][][]):
  * @param   radius     Radius (degrees)
  * @return             Circle coordinates
  */
-export function getCircle(longitude: number, latitude: number, radius: number): number[][][][] {
-	return [d3geo.geoCircle().center([longitude, latitude]).radius(radius)().coordinates];
+export function getCircle(longitude: number, latitude: number, radius: number): Array<Array<Array<[number, number]>>> {
+	return [d3geo.geoCircle().center([longitude, latitude]).radius(radius)().coordinates as Array<Array<[number, number]>>];
 }
 
 /**
@@ -156,9 +162,9 @@ export function getCircle(longitude: number, latitude: number, radius: number): 
  * @param   west   West longitude
  * @return         Polygon
  */
-export function getBackground(north: number, east: number, south: number, west: number): number[][][][] {
+export function getBackground(north: number, east: number, south: number, west: number): Array<Array<Array<[number, number]>>> {
 
-	let multiPolygon: number[][][][] = [];
+	let multiPolygon: Array<Array<Array<[number, number]>>> = [];
 
 	if(west == -180){
 		west = -179.9999;
@@ -178,7 +184,7 @@ export function getBackground(north: number, east: number, south: number, west: 
 	let stepLat = (north - south) / Math.ceil((north - south) / 90);
 
 	for (let ln = west; ln < east; ln = ln + stepLong) {
-		let surface: number[][] = [];
+		let surface: Array<[number, number]> = [];
 		multiPolygon.push([surface]);
 
 		if(ln + stepLong > east){

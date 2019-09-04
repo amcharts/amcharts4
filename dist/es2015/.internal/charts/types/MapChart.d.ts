@@ -68,19 +68,19 @@ export interface IMapPolygonDataObject {
     /**
      * Single polygon information in X/Y coordinates.
      */
-    polygon?: number[][][];
+    polygon?: Array<Array<[number, number]>>;
     /**
      * Multi-part polygon information in X/Y coordinates.
      */
-    multiPolygon?: number[][][][];
+    multiPolygon?: Array<Array<Array<[number, number]>>>;
     /**
      * Single polygon information in lat/long geo-coordinates.
      */
-    geoPolygon?: IGeoPoint[][];
+    geoPolygon?: Array<Array<IGeoPoint>>;
     /**
      * Multi-part polygon information in lat/long geo-coordinates.
      */
-    multiGeoPolygon?: IGeoPoint[][][];
+    multiGeoPolygon?: Array<Array<Array<IGeoPoint>>>;
     /**
      * flag indicating whether this data item was created from geo data
      */
@@ -105,19 +105,19 @@ export interface IMapLineDataObject {
     /**
      * Single line information in X/Y coordinates.
      */
-    line?: number[][];
+    line?: Array<[number, number]>;
     /**
      * Multi-part line information in X/Y coordinates.
      */
-    multiLine?: number[][][];
+    multiLine?: Array<Array<[number, number]>>;
     /**
      * Single line information in lat/long geo-coordinates.
      */
-    geoLine?: IGeoPoint[];
+    geoLine?: Array<IGeoPoint>;
     /**
      * Multi-part line information in lat/long geo-coordinates.
      */
-    multiGeoLine?: IGeoPoint[][];
+    multiGeoLine?: Array<Array<IGeoPoint>>;
     /**
      * flag indicating whether this data item was created from geo data
      */
@@ -138,11 +138,11 @@ export interface IMapImageDataObject {
     /**
      * Image position information in X/Y coordinates.
      */
-    point?: number[];
+    point?: [number, number];
     /**
      * Multi-image position information in X/Y coordinates.
      */
-    multiPoint?: number[][];
+    multiPoint?: Array<[number, number]>;
     /**
      * Image position information in lat/long geo-coordinates.
      */
@@ -150,7 +150,7 @@ export interface IMapImageDataObject {
     /**
      * Multi-image position information in lat/long geo-coordinates.
      */
-    multiGeoPoint?: IGeoPoint[];
+    multiGeoPoint?: Array<IGeoPoint>;
     /**
      * flag indicating whether this data item was created from geo data
      */

@@ -161,7 +161,7 @@ export class MapImage extends MapObject {
 	/**
 	 * @ignore
 	 */
-	public getFeature(): { "type": "Feature", geometry: { type: "Point", coordinates: number[] } } {
+	public getFeature(): { "type": "Feature", geometry: { type: "Point", coordinates: [number, number] } } {
 		return { "type": "Feature", geometry: { type: "Point", coordinates: [this.longitude, this.latitude] } };
 	}
 }

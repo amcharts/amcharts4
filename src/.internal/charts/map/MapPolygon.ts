@@ -35,12 +35,12 @@ export interface IMapPolygonProperties extends IMapObjectProperties {
 	/**
 	 * Set of geographical coordinates for the polygon.
 	 */
-	multiGeoPolygon?: IGeoPoint[][][];
+	multiGeoPolygon?: Array<[Array<IGeoPoint>, Array<IGeoPoint>]>;
 
 	/**
 	 * Set of screen coordinates for the polygon.
 	 */
-	multiPolygon?: number[][][];
+	multiPolygon?: Array<Array<Array<[number, number]>>>;
 
 	/**
 	 * Latitude of the visual center of the polygon.
@@ -149,7 +149,7 @@ export class MapPolygon extends MapObject {
 	/**
 	 * @ignore
 	 */
-	public getFeature(): { "type": "Feature", geometry: { type: "MultiPolygon", coordinates: number[][][][] } } {
+	public getFeature(): { "type": "Feature", geometry: { type: "MultiPolygon", coordinates: Array<Array<Array<[number, number]>>> } } {
 		if (this.multiPolygon && this.multiPolygon.length > 0) {
 			return { "type": "Feature", geometry: { type: "MultiPolygon", coordinates: this.multiPolygon } };
 		}
@@ -160,7 +160,7 @@ export class MapPolygon extends MapObject {
 	 *
 	 * @param multiGeoPolygon  Polygon coordinates
 	 */
-	public set multiGeoPolygon(multiGeoPolygon: IGeoPoint[][][]) {
+	public set multiGeoPolygon(multiGeoPolygon: Array<[Array<IGeoPoint>, Array<IGeoPoint>]>) {
 		this.setPropertyValue("multiGeoPolygon", multiGeoPolygon, true);
 		this.multiPolygon = $mapUtils.multiGeoPolygonToMultipolygon(multiGeoPolygon);
 	}
@@ -168,10 +168,10 @@ export class MapPolygon extends MapObject {
 	/**
 	 * @return Polygon coordinates
 	 */
-	public get multiGeoPolygon(): IGeoPoint[][][] {
+	public get multiGeoPolygon(): Array<[Array<IGeoPoint>, Array<IGeoPoint>]> {
 		let multiGeoPolygon = this.getPropertyValue("multiGeoPolygon");
 		if (!multiGeoPolygon && this.dataItem) {
-			multiGeoPolygon = this.dataItem.multiPolygon;
+			multiGeoPolygon = this.dataItem.multiGeoPolygon;
 		}
 		return multiGeoPolygon;
 	}
@@ -208,7 +208,7 @@ export class MapPolygon extends MapObject {
 	 *
 	 * @param multiPolygon  Coordinates
 	 */
-	public set multiPolygon(multiPolygon: number[][][][]) {
+	public set multiPolygon(multiPolygon: Array<Array<Array<[number, number]>>>) {
 		if (this.setPropertyValue("multiPolygon", multiPolygon)) {
 			this.updateExtremes();
 		}
@@ -217,7 +217,7 @@ export class MapPolygon extends MapObject {
 	/**
 	 * @return Coordinates
 	 */
-	public get multiPolygon(): number[][][][] {
+	public get multiPolygon(): Array<Array<Array<[number, number]>>> {
 		let multiPolygon = this.getPropertyValue("multiPolygon");
 		if (!multiPolygon && this.dataItem) {
 			multiPolygon = this.dataItem.multiPolygon;
@@ -424,7 +424,7 @@ export class MapPolygon extends MapObject {
 	 */
 	protected getTooltipY(): number {
 		return this.series.chart.projection.convert({longitude:this.visualLongitude, latitude:this.visualLatitude}).y
-	}	
+	}
 }
 
 /**

@@ -103,8 +103,8 @@ export interface ISpriteProperties {
 	disabled?: boolean;
 	x?: number | Percent;
 	y?: number | Percent;
-	width?: number | string;
-	height?: number | string;
+	width?: number | Percent;
+	height?: number | Percent;
 	scale?: number;
 	rotation?: number;
 	pixelPerfect?: boolean;
@@ -118,7 +118,7 @@ export interface ISpriteProperties {
 	stroke?: Color | LinearGradient | RadialGradient | Pattern;
 	strokeOpacity?: number;
 	strokeWidth?: number;
-	strokeDasharray?: number[];
+	strokeDasharray?: string;
 	strokeDashoffset?: number;
 	strokeLinecap?: "butt" | "square" | "round";
 	strokeLinejoin?: "miter" | "round" | "bevel";
@@ -157,7 +157,7 @@ export interface ISpriteProperties {
 	maxY?: number;
 	dx?: number;
 	dy?: number;
-	role?: string;
+	role?: Roles;
 	readerDescribedBy?: string;
 	readerLabelledBy?: string;
 	readerLive?: AriaLive;
@@ -912,7 +912,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public dragWhileResize: boolean = false;
 
-	/** 
+	/**
 	 * @ignore
 	 */
 	public vpDisposer: MultiDisposer;
@@ -4126,12 +4126,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @param propertyName  Property name
 	 * @return Property value
 	 */
-	public getPropertyValue(propertyName: keyof this["_properties"]): any {
-		let propValue = this.properties[propertyName];
+	public getPropertyValue<Key extends keyof this["_properties"]>(propertyName: Key): this["_properties"][Key] {
+		let propValue: this["_properties"][Key] = this.properties[propertyName];
+
 		// Apply adapter
-		// @todo get rid of <any>
 		if (!this._isTemplate) {
-			propValue = this.adapter.apply(<any>propertyName, propValue);
+			propValue = this.adapter.apply(propertyName, <any>propValue);
 		}
 
 		return propValue;

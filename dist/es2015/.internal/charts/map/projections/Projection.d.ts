@@ -95,7 +95,7 @@ export declare class Projection {
      */
     unrotate(geoPoint: IGeoPoint, deltaLongitude: number, deltaLatitude: number, deltaGamma?: number): IGeoPoint;
     intermediatePoint(pointA: IGeoPoint, pointB: IGeoPoint, position: number): IGeoPoint;
-    multiDistance(multiGeoLine: IGeoPoint[][]): number;
+    multiDistance(multiGeoLine: Array<Array<IGeoPoint>>): number;
     distance(pointA: IGeoPoint, pointB: IGeoPoint): number;
     /**
      * Converts relative position along the line (0-1) into pixel coordinates.
@@ -103,12 +103,12 @@ export declare class Projection {
      * @param position  Position (0-1)
      * @return Coordinates
      */
-    positionToPoint(multiGeoLine: IGeoPoint[][], position: number): IOrientationPoint;
+    positionToPoint(multiGeoLine: Array<Array<IGeoPoint>>, position: number): IOrientationPoint;
     /**
      * Converts relative position along the line (0-1) into pixel coordinates.
      *
      * @param position  Position (0-1)
      * @return Coordinates
      */
-    positionToGeoPoint(multiGeoLine: IGeoPoint[][], position: number): IGeoPoint;
+    positionToGeoPoint(multiGeoLine: Array<Array<IGeoPoint>>, position: number): IGeoPoint;
 }

@@ -24,7 +24,7 @@ export declare function normalizePoint(geoPoint: IGeoPoint): IGeoPoint;
  * @param multiline  Source geo-line
  * @return Normalized geo-line
  */
-export declare function normalizeMultiline(multiline: IGeoPoint[][]): IGeoPoint[][];
+export declare function normalizeMultiline(multiline: Array<Array<IGeoPoint>>): Array<Array<IGeoPoint>>;
 /**
  * [wrapAngleTo180 description]
  *

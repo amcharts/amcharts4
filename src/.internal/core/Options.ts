@@ -96,8 +96,18 @@ export interface Options {
 	 * @since 4.5.0
 	 */
 	queue: boolean;
+
+	/**
+	 * List of applied licenses.
+	 * 
+	 * @type {String[]}
+	 */
+	licenses: String[];
 }
 
+/**
+ * Global options.
+ */
 export const options: Options = {
 	verbose: true,
 	commercialLicense: false,
@@ -105,5 +115,6 @@ export const options: Options = {
 	autoSetClassName: false,
 	minPolylineStep: 0.5,
 	onlyShowOnViewport: false,
-	queue: false
+	queue: false,
+	licenses: []
 };

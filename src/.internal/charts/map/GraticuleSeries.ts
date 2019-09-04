@@ -68,14 +68,14 @@ export interface IGraticuleSeriesDataFields extends IMapLineSeriesDataFields { }
 export interface IGraticuleSeriesProperties extends IMapLineSeriesProperties {
 	/**
 	 * Draw a graticule (grid) every X degrees of latitude.
-	 * 
+	 *
 	 * @default 10
 	 */
 	latitudeStep?: number;
-	
+
 	/**
 	 * Draw a graticule (grid) every X degrees of longitude.
-	 * 
+	 *
 	 * @default 10
 	 */
 	longitudeStep?: number;
@@ -106,7 +106,7 @@ export interface IGraticuleSeriesProperties extends IMapLineSeriesProperties {
 	 *
 	 * These can be overridden by setting `GraticuleSeries`' respective
 	 * properties.
-	 * 
+	 *
 	 * @default true
 	 */
 	fitExtent?: boolean;
@@ -116,7 +116,7 @@ export interface IGraticuleSeriesProperties extends IMapLineSeriesProperties {
 	 *
 	 * Setting `true` (default) will result in better performance, whereas
 	 * `false` allows setting visual properties of each line individually.
-	 * 
+	 *
 	 * @default true
 	 */
 	singleSprite?: boolean;
@@ -274,14 +274,14 @@ export class GraticuleSeries extends MapLineSeries {
 
 			if (this.singleSprite) {
 				let mapLine = this.mapLines.create();
-				mapLine.multiLine = graticule().coordinates;
+				mapLine.multiLine = graticule().coordinates as Array<Array<[number, number]>>;
 			}
 			else {
 				let lineStrings = graticule.lines();
 
 				$array.each(lineStrings, (lineString) => {
 					let mapLine = this.mapLines.create();
-					mapLine.multiLine = [lineString.coordinates];
+					mapLine.multiLine = [lineString.coordinates as Array<[number, number]>];
 				})
 			}
 		}
@@ -298,7 +298,7 @@ export class GraticuleSeries extends MapLineSeries {
 
 	/**
 	 * Draw a graticule (grid) every X degrees of latitude.
-	 * 
+	 *
 	 * @default 10
 	 * @param  value Step
 	 */
@@ -317,7 +317,7 @@ export class GraticuleSeries extends MapLineSeries {
 
 	/**
 	 * Draw a graticule (grid) every X degrees of longitude.
-	 * 
+	 *
 	 * @default 10
 	 * @param  value  Step
 	 */
@@ -384,7 +384,7 @@ export class GraticuleSeries extends MapLineSeries {
 	 *
 	 * These can be overridden by setting `GraticuleSeries`' respective
 	 * properties.
-	 * 
+	 *
 	 * @default true
 	 * @param  value  Fit?
 	 */
@@ -406,7 +406,7 @@ export class GraticuleSeries extends MapLineSeries {
 	 *
 	 * Setting `true` (default) will result in better performance, whereas
 	 * `false` allows setting visual properties of each line individually.
-	 * 
+	 *
 	 * @default true
 	 * @param  value  Use single sprite?
 	 */

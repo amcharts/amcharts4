@@ -209,7 +209,7 @@ export declare class Slice extends Container {
      * @return Radius shift
      */
     /**
-     * Indicates far relatively to center a slice should be moved.
+     * Indicates how far (relatively to center) a slice should be moved.
      *
      * The value is relative to the radius of the slice. Meaning 0 no shift,
      * 1 - slice shifted outside by whole of its radius.

@@ -148,3 +148,19 @@ export declare function unuseTheme(value: ITheme): void;
  * any theme applied to them.
  */
 export declare function unuseAllThemes(): void;
+/**
+ * Adds a license, e.g.:
+ *
+ * ```TypeScript
+ * am4core.addLicense("xxxxxxxx");
+ * ```
+ * ```JavaScript
+ * am4core.addLicense("xxxxxxxx");
+ * ```
+ *
+ * Multiple licenses can be added to cover for multiple products.
+ *
+ * @since 4.5.16
+ * @param  license  License key
+ */
+export declare function addLicense(license: string): void;

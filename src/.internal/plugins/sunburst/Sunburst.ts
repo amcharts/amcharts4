@@ -598,6 +598,10 @@ export class Sunburst extends PieChart {
 		return exporting;
 	}
 
+	protected handleSeriesAdded2(){
+		// void
+	}	
+
 }
 
 /**

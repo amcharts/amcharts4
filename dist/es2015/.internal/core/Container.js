@@ -24,6 +24,7 @@ import * as $array from "./utils/Array";
 import * as $math from "./utils/Math";
 import * as $type from "./utils/Type";
 import { system } from "./System";
+import { options } from "./Options";
 ;
 /**
  * ============================================================================
@@ -1772,6 +1773,21 @@ var Container = /** @class */ (function (_super) {
                 _this.handleTapToActivateDeactivation();
             }, this.tapTimeout);
         }
+    };
+    /**
+     * @ignore
+     * @return Has license?
+     */
+    Container.prototype.hasLicense = function () {
+        if (options.commercialLicense) {
+            return true;
+        }
+        for (var i = 0; i < options.licenses.length; i++) {
+            if (options.licenses[i].match(/^CH.{5,}/i)) {
+                return true;
+            }
+        }
+        return false;
     };
     return Container;
 }(Sprite));

@@ -374,7 +374,7 @@ export declare class MapSeries extends Series {
         "type": "Feature";
         geometry: {
             type: "Point" | "MultiLineString" | "MultiPolygon";
-            coordinates: number[] | number[][][] | number[][][][];
+            coordinates: [number, number] | Array<Array<[number, number]>> | Array<Array<Array<[number, number]>>>;
         };
     }[];
     /**

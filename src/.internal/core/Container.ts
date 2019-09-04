@@ -33,6 +33,7 @@ import * as $array from "./utils/Array";
 import * as $math from "./utils/Math";
 import * as $type from "./utils/Type";
 import { system } from "./System";
+import { options } from "./Options";
 
 
 /**
@@ -136,7 +137,7 @@ export interface IContainerProperties extends ISpriteProperties {
 	/**
 	 * Maximum number of columns (when using `"grid"` layout).
 	 */
-	maxColumns?: boolean;
+	maxColumns?: number;
 
 	/**
 	 * If set to `true`, the children of the container will be drawn in reverse
@@ -313,7 +314,7 @@ export class Container extends Sprite {
 	protected _shouldBeReady: Sprite[] = [];
 
 	/**
-	 * Enables touch tap protection. 
+	 * Enables touch tap protection.
 	 */
 	protected _tapToActivate: boolean = false;
 
@@ -2194,6 +2195,22 @@ export class Container extends Sprite {
 				this.handleTapToActivateDeactivation()
 			}, this.tapTimeout);
 		}
+	}
+
+	/**
+	 * @ignore
+	 * @return Has license?
+	 */
+	public hasLicense(): boolean {
+		if (options.commercialLicense) {
+			return true;
+		}
+		for(let i = 0; i < options.licenses.length; i++) {
+			if (options.licenses[i].match(/^CH.{5,}/i)) {
+				return true;
+			}
+		}
+	return false;
 	}
 }
 

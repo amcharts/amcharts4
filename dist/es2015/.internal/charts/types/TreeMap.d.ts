@@ -645,6 +645,7 @@ export declare class TreeMap extends XYChart {
      * @param parent  Data item
      */
     squarify(parent: TreeMapDataItem): void;
+    protected handleSeriesAdded2(): void;
     /**
      * [handleDataItemValueChange description]
      *

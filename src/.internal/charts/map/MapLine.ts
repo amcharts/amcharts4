@@ -47,12 +47,12 @@ export interface IMapLineProperties extends IMapObjectProperties {
 	/**
 	 * Lat/long coordinates of all line ends and intermediate elbows.
 	 */
-	multiGeoLine?: IGeoPoint[][];
+	multiGeoLine?: Array<Array<IGeoPoint>>;
 
 	/**
 	 * Lat/long coordinates of all line ends and intermediate elbows.
 	 */
-	multiLine?: number[][][]
+	multiLine?: Array<Array<[number, number]>>;
 
 	/**
 	 * If `true` it line will be arched in the way to simulate shortest path
@@ -219,11 +219,11 @@ export class MapLine extends MapObject {
 	 * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.5} GeoJSON MultiLineString reference
 	 * @param multiGeoLine  Coordinates
 	 */
-	public set multiGeoLine(multiGeoLine: IGeoPoint[][]) {
+	public set multiGeoLine(multiGeoLine: Array<Array<IGeoPoint>>) {
 		if (multiGeoLine && multiGeoLine.length > 0) {
 			this.setPropertyValue("multiGeoLine", $geo.normalizeMultiline(multiGeoLine), true);
 
-			let multiLine: number[][][] = $mapUtils.multiGeoLineToMultiLine(multiGeoLine);
+			let multiLine: Array<Array<[number, number]>> = $mapUtils.multiGeoLineToMultiLine(multiGeoLine);
 
 			this.setPropertyValue("multiLine", multiLine);
 
@@ -234,7 +234,7 @@ export class MapLine extends MapObject {
 	/**
 	 * @return Coordinates
 	 */
-	public get multiGeoLine(): IGeoPoint[][] {
+	public get multiGeoLine(): Array<Array<IGeoPoint>> {
 		let multiGeoLine = this.getPropertyValue("multiGeoLine");
 		if (!multiGeoLine && this.dataItem && this.dataItem.multiGeoLine) {
 			multiGeoLine = this.dataItem.multiGeoLine;
@@ -264,7 +264,7 @@ export class MapLine extends MapObject {
 	 *
 	 * @param multiLine  Coordinates
 	 */
-	public set multiLine(multiLine: number[][][]) {
+	public set multiLine(multiLine: Array<Array<[number, number]>>) {
 		this.setPropertyValue("multiLine", multiLine);
 		this.multiGeoLine = $mapUtils.multiLineToGeo(multiLine);
 	}
@@ -272,7 +272,7 @@ export class MapLine extends MapObject {
 	/**
 	 * @return Coordinates
 	 */
-	public get multiLine(): number[][][] {
+	public get multiLine(): Array<Array<[number, number]>> {
 
 		let multiLine = this.getPropertyValue("multiLine");
 		if (!multiLine && this.dataItem && this.dataItem.multiLine) {
@@ -305,7 +305,7 @@ export class MapLine extends MapObject {
 
 	protected handleImagesToConnect() {
 		if (this.imagesToConnect) {
-			let segment: IGeoPoint[] = [];
+			let segment: Array<IGeoPoint> = [];
 			let multiGeoLine = [segment];
 
 			for (let image of this.imagesToConnect) {
@@ -356,16 +356,16 @@ export class MapLine extends MapObject {
 
 			if (!this.shortestDistance) {
 
-				let convertedPoints: IPoint[][] = [];
+				let convertedPoints: Array<Array<IPoint>> = [];
 
 				for (let i = 0, len = this.multiLine.length; i < len; i++) {
 
-					let segment: number[][] = this.multiLine[i];
+					let segment: Array<[number, number]> = this.multiLine[i];
 
-					let convertedSegmentPoints: IPoint[] = [];
+					let convertedSegmentPoints: Array<IPoint> = [];
 
 					for (let s = 0, slen = segment.length; s < slen; s++) {
-						let geoPoint: number[] = segment[s];
+						let geoPoint: [number, number] = segment[s];
 						let point: IPoint = this.series.chart.projection.convert({ longitude: geoPoint[0], latitude: geoPoint[1] });
 						convertedSegmentPoints.push(point);
 					}
@@ -400,7 +400,7 @@ export class MapLine extends MapObject {
 	/**
 	 * @ignore
 	 */
-	public getFeature(): { "type": "Feature", geometry: { type: "MultiLineString", coordinates: number[][][] } } {
+	public getFeature(): { "type": "Feature", geometry: { type: "MultiLineString", coordinates: Array<Array<[number, number]>> } } {
 		if (this.multiLine && this.multiLine.length > 0 && this.multiLine[0] && this.multiLine[0].length > 0) {
 			return { "type": "Feature", geometry: { type: "MultiLineString", coordinates: this.multiLine } };
 		}

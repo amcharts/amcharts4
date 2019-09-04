@@ -42,22 +42,22 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 	/**
 	 * A collection of X/Y coordinates for a single-segment line.
 	 */
-	protected _line: number[][];
+	protected _line: Array<[number, number]>;
 
 	/**
 	 * A collection of X/Y coordinates for a multi-segment line.
 	 */
-	protected _multiLine: number[][][];
+	protected _multiLine: Array<Array<[number, number]>>;
 
 	/**
 	 * A collection of lat/long coordinates for a single-segment line.
 	 */
-	protected _geoLine: IGeoPoint[];
+	protected _geoLine: Array<IGeoPoint>;
 
 	/**
 	 * A collection of lat/long coordinates for a multi-segment line.
 	 */
-	protected _multiGeoLine: IGeoPoint[][];
+	protected _multiGeoLine: Array<Array<IGeoPoint>>;
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for
@@ -73,7 +73,7 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 		this.applyTheme();
 	}
 
-	public getFeature(): { "type": "Feature", geometry: { type: "MultiLineString", coordinates: number[][][] } } {
+	public getFeature(): { "type": "Feature", geometry: { type: "MultiLineString", coordinates: Array<Array<[number, number]>> } } {
 		if (this.multiLine && this.multiLine.length > 0) {
 			return { "type": "Feature", geometry: { type: "MultiLineString", coordinates: this.multiLine } };
 		}
@@ -116,7 +116,7 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 	 *
 	 * @param line  Coordinates
 	 */
-	public set line(line: number[][]) {
+	public set line(line: Array<[number, number]>) {
 		this._line = line;
 		this.multiLine = [line];
 	}
@@ -124,7 +124,7 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 	/**
 	 * @return Coordinates
 	 */
-	public get line(): number[][] {
+	public get line(): Array<[number, number]> {
 		return this._line;
 	}
 
@@ -149,7 +149,7 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 	 *
 	 * @param multiLine  Coordinates
 	 */
-	public set multiLine(multiLine: number[][][]) {
+	public set multiLine(multiLine: Array<Array<[number, number]>>) {
 		this._multiLine = multiLine;
 		this._multiGeoLine = $mapUtils.multiLineToGeo(multiLine);
 		this.updateExtremes();
@@ -158,7 +158,7 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 	/**
 	 * @return Coordinates
 	 */
-	public get multiLine(): number[][][] {
+	public get multiLine(): Array<Array<[number, number]>> {
 		return this._multiLine;
 	}
 
@@ -175,7 +175,7 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 	 * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.4} GeoJSON LineString reference
 	 * @param geoLine  Coordinates
 	 */
-	public set geoLine(geoLine: IGeoPoint[]) {
+	public set geoLine(geoLine: Array<IGeoPoint>) {
 		this._geoLine = geoLine;
 		this.multiLine = $mapUtils.multiGeoLineToMultiLine([geoLine]);
 	}
@@ -183,7 +183,7 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 	/**
 	 * @return Coordinates
 	 */
-	public get geoLine(): IGeoPoint[] {
+	public get geoLine(): Array<IGeoPoint> {
 		return this._geoLine;
 	}
 
@@ -209,7 +209,7 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 	 * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.5} GeoJSON MultiLineString reference
 	 * @param multiGeoLine  Coordinates
 	 */
-	public set multiGeoLine(multiGeoLine: IGeoPoint[][]) {
+	public set multiGeoLine(multiGeoLine: Array<Array<IGeoPoint>>) {
 		this._multiGeoLine = multiGeoLine;
 		this.multiLine = $mapUtils.multiGeoLineToMultiLine(multiGeoLine);
 	}
@@ -217,7 +217,7 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 	/**
 	 * @return Coordinates
 	 */
-	public get multiGeoLine(): IGeoPoint[][] {
+	public get multiGeoLine(): Array<Array<IGeoPoint>> {
 		return this._multiGeoLine;
 	}
 }
@@ -496,8 +496,8 @@ export class MapLineSeries extends MapSeries {
 	/**
 	 * @ignore
 	 */
-	public getFeatures(): { "type": "Feature", geometry: { type: "MultiLineString", coordinates: number[][][] } }[] {
-		let features: { "type": "Feature", geometry: { type: "MultiLineString", coordinates: number[][][] } }[] = [];
+	public getFeatures(): { "type": "Feature", geometry: { type: "MultiLineString", coordinates: Array<Array<[number, number]>> } }[] {
+		let features: { "type": "Feature", geometry: { type: "MultiLineString", coordinates: Array<Array<[number, number]>> } }[] = [];
 		this.dataItems.each((dataItem) => {
 			let feature = dataItem.getFeature();
 			if (feature) {

@@ -25,7 +25,7 @@ export interface IPolygonProperties extends ISpriteProperties {
     /**
      * An array of X/Y coordinates for each elbow of the polygon.
      */
-    points?: IPoint[][][];
+    points?: Array<Array<Array<IPoint>>>;
 }
 /**
  * Defines events for [[Polygon]].
@@ -72,7 +72,7 @@ export declare class Polygon extends Sprite implements IMorphable {
      * Current points that morpher uses. This is needed so that we don't
      * overwrite polygons original points.
      */
-    protected _currentPoints: IPoint[][][];
+    protected _currentPoints: Array<Array<Array<IPoint>>>;
     /**
      * Constructor
      */
@@ -86,7 +86,7 @@ export declare class Polygon extends Sprite implements IMorphable {
      * @todo Example
      * @param points  Polygon points
      */
-    points: IPoint[][][];
+    points: Array<Array<Array<IPoint>>>;
     /**
      * @return Polygon points
      */
@@ -96,7 +96,7 @@ export declare class Polygon extends Sprite implements IMorphable {
      *
      * @param points  Polygon points
      */
-    currentPoints: IPoint[][][];
+    currentPoints: Array<Array<Array<IPoint>>>;
     /**
      * Draws the element.
      *

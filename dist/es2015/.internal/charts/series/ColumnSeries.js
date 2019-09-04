@@ -330,7 +330,7 @@ var ColumnSeries = /** @class */ (function (_super) {
                 r -= offset;
             }
             // in case max width is set in pixels
-            if (!$type.isNaN(maxWidth)) {
+            if (!$type.isNaN(maxWidth) && maxWidth < Math.abs(r - l)) {
                 var offset = ((r - l) - maxWidth) / 2;
                 l += offset;
                 r -= offset;
@@ -351,7 +351,7 @@ var ColumnSeries = /** @class */ (function (_super) {
                 t -= offset;
             }
             // in case max width is set in pixels
-            if (!$type.isNaN(maxHeight)) {
+            if (!$type.isNaN(maxHeight) && maxHeight < Math.abs(b - t)) {
                 var offset = ((b - t) - maxHeight) / 2;
                 b += offset;
                 t -= offset;
@@ -380,7 +380,7 @@ var ColumnSeries = /** @class */ (function (_super) {
                 r -= offset;
             }
             // in case width is set in pixels
-            if (!$type.isNaN(maxWidth)) {
+            if (!$type.isNaN(maxWidth) && maxWidth < Math.abs(r - l)) {
                 var offset = ((r - l) - maxWidth) / 2;
                 l += offset;
                 r -= offset;
@@ -427,10 +427,11 @@ var ColumnSeries = /** @class */ (function (_super) {
                 t += offset;
             }
             // in case height is set in pixels
-            if (!$type.isNaN(maxHeight)) {
+            if (!$type.isNaN(maxHeight) && maxHeight < Math.abs(b - t)) {
                 var offset = ((b - t) - maxHeight) / 2;
                 b -= offset;
                 t += offset;
+                console.log(maxHeight, Math.abs(b - t));
             }
             var rightLocation = dataItem.locations[xField];
             var leftLocation = dataItem.locations[xOpenField];

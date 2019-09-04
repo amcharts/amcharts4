@@ -107,7 +107,7 @@ export declare class MapImage extends MapObject {
         "type": "Feature";
         geometry: {
             type: "Point";
-            coordinates: number[];
+            coordinates: [number, number];
         };
     };
 }

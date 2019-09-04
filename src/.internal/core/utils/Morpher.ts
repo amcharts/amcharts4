@@ -34,21 +34,21 @@ export class Morpher extends BaseObject implements IAnimatable {
 	 *
 	 * @todo Description
 	 */
-	protected _morphFromPointsReal: $type.Optional<IPoint[][][]>;
+	protected _morphFromPointsReal: $type.Optional<Array<Array<Array<IPoint>>>>;
 
 	/**
 	 * [_morphToPointsReal description]
 	 *
 	 * @todo Description
 	 */
-	protected _morphToPointsReal: $type.Optional<IPoint[][][]>;
+	protected _morphToPointsReal: $type.Optional<Array<Array<Array<IPoint>>>>;
 
 	/**
 	 * [_morphToPoints description]
 	 *
 	 * @todo Description
 	 */
-	protected _morphToPoints: $type.Optional<IPoint[][][]>;
+	protected _morphToPoints: $type.Optional<Array<Array<Array<IPoint>>>>;
 
 	/**
 	 * Morph progress (0-1)
@@ -112,8 +112,8 @@ export class Morpher extends BaseObject implements IAnimatable {
 	 * @param easing    Easing function
 	 * @return Animation
 	 */
-	public morphToPolygon(toPoints: IPoint[][][], duration?: number, easing?: (value: number) => number): Animation {
-		let points: IPoint[][][] = this.morphable.currentPoints;
+	public morphToPolygon(toPoints: Array<Array<Array<IPoint>>>, duration?: number, easing?: (value: number) => number): Animation {
+		let points: Array<Array<Array<IPoint>>> = this.morphable.currentPoints;
 		if(points && toPoints){
 			this.sortPoints(points);
 			this.sortPoints(toPoints);
@@ -150,11 +150,11 @@ export class Morpher extends BaseObject implements IAnimatable {
 	 * @param pointsB  Point B
 	 * @return Normalized points
 	 */
-	public normalizePoints(pointsA: IPoint[][][], pointsB: IPoint[][][]): IPoint[][][] {
+	public normalizePoints(pointsA: Array<Array<Array<IPoint>>>, pointsB: Array<Array<Array<IPoint>>>): Array<Array<Array<IPoint>>> {
 		for (let i = 0, len = pointsA.length; i < len; i++) {
-			let surfaceA: IPoint[] = pointsA[i][0];
+			let surfaceA: Array<IPoint> = pointsA[i][0];
 
-			let holeA: IPoint[] = pointsA[i][1];
+			let holeA: Array<IPoint> = pointsA[i][1];
 			let bboxA: IRectangle = $type.getValue($math.getBBox(surfaceA));
 
 			let middleX = bboxA.x + bboxA.width;
@@ -209,7 +209,7 @@ export class Morpher extends BaseObject implements IAnimatable {
 	 * @param points  [description]
 	 * @return                        common bbox of points
 	 */
-	public sortPoints(points: IPoint[][][]): $type.Optional<IRectangle> {
+	public sortPoints(points: Array<Array<Array<IPoint>>>): $type.Optional<IRectangle> {
 		points.sort(function(a, b) {
 			let bbox1: IRectangle = $type.getValue($math.getBBox(a[0]));
 			let bbox2: IRectangle = $type.getValue($math.getBBox(b[0]));
@@ -242,7 +242,7 @@ export class Morpher extends BaseObject implements IAnimatable {
 	 * @return Animation
 	 */
 	public morphToCircle(radius?: number, duration?: number, easing?: (value: number) => number): Animation {
-		let points: IPoint[][][] = this.morphable.points;
+		let points: Array<Array<Array<IPoint>>> = this.morphable.points;
 
 		let commonBBox = this.sortPoints(points);
 
@@ -379,7 +379,7 @@ export class Morpher extends BaseObject implements IAnimatable {
 	 * @return Animation
 	 */
 	public morphToRectangle(width?: number, height?: number, duration?: number, easing?: (value: number) => number): Animation {
-		let points: IPoint[][][] = this.morphable.points;
+		let points: Array<Array<Array<IPoint>>> = this.morphable.points;
 
 		this.sortPoints(points);
 
@@ -472,17 +472,17 @@ export class Morpher extends BaseObject implements IAnimatable {
 	public set morphProgress(value: $type.Optional<number>) {
 		this._morphProgress = value;
 
-		let currentPoints: IPoint[][][] = [];
+		let currentPoints: Array<Array<Array<IPoint>>> = [];
 
 		if (value != null) {
-			let fromPoints: $type.Optional<IPoint[][][]> = this._morphFromPointsReal;
-			let toPoints: $type.Optional<IPoint[][][]> = this._morphToPointsReal;
+			let fromPoints: $type.Optional<Array<Array<Array<IPoint>>>> = this._morphFromPointsReal;
+			let toPoints: $type.Optional<Array<Array<Array<IPoint>>>> = this._morphToPointsReal;
 
 			if (fromPoints != null && toPoints != null) {
 
 				for (let i = 0, len = fromPoints.length; i < len; i++) {
 
-					let currentArea: IPoint[][] = [];
+					let currentArea: Array<Array<IPoint>> = [];
 					currentPoints.push(currentArea);
 
 					let surfaceFrom: IPoint[] = fromPoints[i][0];

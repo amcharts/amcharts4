@@ -88,5 +88,14 @@ export interface Options {
      * @since 4.5.0
      */
     queue: boolean;
+    /**
+     * List of applied licenses.
+     *
+     * @type {String[]}
+     */
+    licenses: String[];
 }
+/**
+ * Global options.
+ */
 export declare const options: Options;

@@ -29,11 +29,11 @@ export interface IMapLineProperties extends IMapObjectProperties {
     /**
      * Lat/long coordinates of all line ends and intermediate elbows.
      */
-    multiGeoLine?: IGeoPoint[][];
+    multiGeoLine?: Array<Array<IGeoPoint>>;
     /**
      * Lat/long coordinates of all line ends and intermediate elbows.
      */
-    multiLine?: number[][][];
+    multiLine?: Array<Array<[number, number]>>;
     /**
      * If `true` it line will be arched in the way to simulate shortest path
      * over curvature of Earth's surface, based on currently used on projection.
@@ -155,7 +155,7 @@ export declare class MapLine extends MapObject {
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.5} GeoJSON MultiLineString reference
      * @param multiGeoLine  Coordinates
      */
-    multiGeoLine: IGeoPoint[][];
+    multiGeoLine: Array<Array<IGeoPoint>>;
     /**
      * @return Coordinates
      */
@@ -180,7 +180,7 @@ export declare class MapLine extends MapObject {
      *
      * @param multiLine  Coordinates
      */
-    multiLine: number[][][];
+    multiLine: Array<Array<[number, number]>>;
     /**
      * @return {MapImages[]}
      */
@@ -208,7 +208,7 @@ export declare class MapLine extends MapObject {
         "type": "Feature";
         geometry: {
             type: "MultiLineString";
-            coordinates: number[][][];
+            coordinates: Array<Array<[number, number]>>;
         };
     };
     /**

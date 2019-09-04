@@ -3221,7 +3221,6 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.getPropertyValue = function (propertyName) {
         var propValue = this.properties[propertyName];
         // Apply adapter
-        // @todo get rid of <any>
         if (!this._isTemplate) {
             propValue = this.adapter.apply(propertyName, propValue);
         }

@@ -219,10 +219,10 @@ export class Projection {
 	};
 
 	// returns radians
-	public multiDistance(multiGeoLine: IGeoPoint[][]): number {
+	public multiDistance(multiGeoLine: Array<Array<IGeoPoint>>): number {
 		let distance = 0;
 		for (let s = 0; s < multiGeoLine.length; s++) {
-			let points: IGeoPoint[] = multiGeoLine[s];
+			let points: Array<IGeoPoint> = multiGeoLine[s];
 			if (points.length > 1) {
 				for (let p = 1; p < points.length; p++) {
 					let pointA = points[p - 1];
@@ -246,7 +246,7 @@ export class Projection {
 	 * @param position  Position (0-1)
 	 * @return Coordinates
 	 */
-	public positionToPoint(multiGeoLine: IGeoPoint[][], position: number): IOrientationPoint {
+	public positionToPoint(multiGeoLine: Array<Array<IGeoPoint>>, position: number): IOrientationPoint {
 
 		if (multiGeoLine) {
 			let intermediatePoint = this.positionToGeoPoint(multiGeoLine, position);
@@ -274,7 +274,7 @@ export class Projection {
 	 * @param position  Position (0-1)
 	 * @return Coordinates
 	 */
-	public positionToGeoPoint(multiGeoLine: IGeoPoint[][], position: number): IGeoPoint {
+	public positionToGeoPoint(multiGeoLine: Array<Array<IGeoPoint>>, position: number): IGeoPoint {
 
 		if (multiGeoLine) {
 			let totalDistance: number = this.multiDistance(multiGeoLine);
@@ -287,7 +287,7 @@ export class Projection {
 			let pointB: IGeoPoint;
 
 			for (let s = 0; s < multiGeoLine.length; s++) {
-				let points: IGeoPoint[] = multiGeoLine[s];
+				let points: Array<IGeoPoint> = multiGeoLine[s];
 				if (points.length > 1) {
 					for (let p = 1; p < points.length; p++) {
 						pointA = points[p - 1];

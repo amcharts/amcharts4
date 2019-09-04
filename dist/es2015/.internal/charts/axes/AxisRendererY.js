@@ -292,12 +292,17 @@ var AxisRendererY = /** @class */ (function (_super) {
         var point = this.positionToPoint(position);
         var horizontalCenter;
         var deltaX = 0;
+        var maxWidth = this.gridContainer.maxWidth;
         if (this.opposite) {
             if (label.inside) {
                 horizontalCenter = "right";
                 if (label.align == "left") {
-                    deltaX = -this.gridContainer.maxWidth;
+                    deltaX = -maxWidth;
                     horizontalCenter = "left";
+                }
+                if (label.align == "center") {
+                    deltaX = -maxWidth / 2;
+                    horizontalCenter = "middle";
                 }
             }
             else {
@@ -309,8 +314,12 @@ var AxisRendererY = /** @class */ (function (_super) {
             if (label.inside) {
                 horizontalCenter = "left";
                 if (label.align == "right") {
-                    deltaX = this.gridContainer.maxWidth;
+                    deltaX = maxWidth;
                     horizontalCenter = "right";
+                }
+                if (label.align == "center") {
+                    deltaX = maxWidth / 2;
+                    horizontalCenter = "middle";
                 }
             }
             else {

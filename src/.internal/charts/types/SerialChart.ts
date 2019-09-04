@@ -255,8 +255,15 @@ export class SerialChart extends Chart {
 			this.dataUsers.removeValue(series);
 		}))
 
+		this.handleSeriesAdded2(series);
 
 		this.feedLegend();
+	}
+
+	protected handleSeriesAdded2(series:Series){
+		if(!this.dataInvalid){
+			this.invalidateData();
+		}		
 	}
 
 	/**

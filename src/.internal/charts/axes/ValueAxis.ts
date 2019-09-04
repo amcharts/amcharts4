@@ -1704,8 +1704,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 		if (selectionMin == selectionMax) {
 
-			selectionMin -= 1;
-			selectionMax += 1;
+			selectionMin -= this._deltaMinMax;
+			selectionMax += this._deltaMinMax;
 
 			let minMaxStep2 = this.adjustMinMax(selectionMin, selectionMax, 0, this._gridCount, this.strictMinMax);
 			selectionMin = minMaxStep2.min;

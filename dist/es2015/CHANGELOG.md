@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.5.16] - 2019-09-04
+
+### Fixed
+- Data sources were not being disposed properly when chart was disposed.
+- Adding series to an already inited chart was not showing the series.
+- Fixed `StepLineSeries` glitch where base axis was not `CategoryAxis`/`DateAxis`.
+- Title of a cloned X axis was being drawn above the axis labels.
+- If all values of a `ValueAxis` data wehere the same and negative, the chart zoomed in incorrectly after init.
+- Center-alignment of axis labels was not working.
+- `maxWidth`/`maxHeight` set on column template of a `ColumnSeries` was not working properly if the size of a cell was less than `maxWidth`/`maxHeight`.
+
+
 ## [4.5.15] - 2019-08-23
 
 ### Added

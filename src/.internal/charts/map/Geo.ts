@@ -11,6 +11,7 @@
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
 import { IPoint } from "../../core/defs/IPoint";
 import * as $math from "../../core/utils/Math";
+import * as $array from "../../core/utils/Array";
 
 
 /**
@@ -43,12 +44,12 @@ export function normalizePoint(geoPoint: IGeoPoint): IGeoPoint {
  * @param multiline  Source geo-line
  * @return Normalized geo-line
  */
-export function normalizeMultiline(multiline: IGeoPoint[][]): IGeoPoint[][] {
-	for (let segment of multiline) {
-		for (let point of segment) {
-			point = normalizePoint(point);
-		}
-	}
+export function normalizeMultiline(multiline: Array<Array<IGeoPoint>>): Array<Array<IGeoPoint>> {
+	$array.each(multiline, (segment) => {
+		$array.each(segment, (point) => {
+			normalizePoint(point);
+		});
+	});
 	return multiline;
 }
 

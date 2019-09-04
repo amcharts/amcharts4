@@ -104,7 +104,7 @@ export interface IContainerProperties extends ISpriteProperties {
     /**
      * Maximum number of columns (when using `"grid"` layout).
      */
-    maxColumns?: boolean;
+    maxColumns?: number;
     /**
      * If set to `true`, the children of the container will be drawn in reverse
      * order.
@@ -732,4 +732,9 @@ export declare class Container extends Sprite {
     protected handleTapToActivate(): void;
     protected handleTapToActivateDeactivation(): void;
     protected initTapTimeout(): void;
+    /**
+     * @ignore
+     * @return Has license?
+     */
+    hasLicense(): boolean;
 }

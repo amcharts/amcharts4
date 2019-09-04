@@ -74,8 +74,8 @@ export interface ISpriteProperties {
     disabled?: boolean;
     x?: number | Percent;
     y?: number | Percent;
-    width?: number | string;
-    height?: number | string;
+    width?: number | Percent;
+    height?: number | Percent;
     scale?: number;
     rotation?: number;
     pixelPerfect?: boolean;
@@ -89,7 +89,7 @@ export interface ISpriteProperties {
     stroke?: Color | LinearGradient | RadialGradient | Pattern;
     strokeOpacity?: number;
     strokeWidth?: number;
-    strokeDasharray?: number[];
+    strokeDasharray?: string;
     strokeDashoffset?: number;
     strokeLinecap?: "butt" | "square" | "round";
     strokeLinejoin?: "miter" | "round" | "bevel";
@@ -128,7 +128,7 @@ export interface ISpriteProperties {
     maxY?: number;
     dx?: number;
     dy?: number;
-    role?: string;
+    role?: Roles;
     readerDescribedBy?: string;
     readerLabelledBy?: string;
     readerLive?: AriaLive;
@@ -1781,7 +1781,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param propertyName  Property name
      * @return Property value
      */
-    getPropertyValue(propertyName: keyof this["_properties"]): any;
+    getPropertyValue<Key extends keyof this["_properties"]>(propertyName: Key): this["_properties"][Key];
     protected setColorProperty<Key extends keyof this["properties"]>(property: Key, value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>, invalidate?: boolean): boolean;
     protected setPercentProperty<Key extends keyof this["properties"]>(property: Key, value: Percent | number, invalidate?: boolean, transform?: boolean, precision?: number, floor?: boolean): boolean;
     /**

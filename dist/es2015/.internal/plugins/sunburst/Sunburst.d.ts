@@ -285,4 +285,5 @@ export declare class Sunburst extends PieChart {
      * @return Export
      */
     protected getExporting(): Export;
+    protected handleSeriesAdded2(): void;
 }

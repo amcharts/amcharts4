@@ -23,7 +23,7 @@ export interface IPolylineProperties extends ISpriteProperties {
     /**
      * A list of segment coordinates for the multi-part line.
      */
-    segments?: IPoint[][];
+    segments?: Array<Array<IPoint>>;
 }
 /**
  * Defines events for [[Polyline]].
@@ -73,7 +73,7 @@ export declare class Polyline extends Sprite {
      *
      * @todo Description
      */
-    protected _realSegments: $type.Optional<IPoint[][]>;
+    protected _realSegments: $type.Optional<Array<Array<IPoint>>>;
     /**
      * Constructor
      */
@@ -93,7 +93,7 @@ export declare class Polyline extends Sprite {
      * @todo Example
      * @param segments  Segments
      */
-    segments: $type.Optional<IPoint[][]>;
+    segments: $type.Optional<Array<Array<IPoint>>>;
     /**
      * [distance description]
      *

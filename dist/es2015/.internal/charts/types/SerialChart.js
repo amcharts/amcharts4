@@ -160,7 +160,13 @@ var SerialChart = /** @class */ (function (_super) {
         series.addDisposer(new Disposer(function () {
             _this.dataUsers.removeValue(series);
         }));
+        this.handleSeriesAdded2(series);
         this.feedLegend();
+    };
+    SerialChart.prototype.handleSeriesAdded2 = function (series) {
+        if (!this.dataInvalid) {
+            this.invalidateData();
+        }
     };
     /**
      * Setups the legend to use the chart's data.

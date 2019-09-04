@@ -504,7 +504,7 @@ export class ColumnSeries extends XYSeries {
 			}
 
 			// in case max width is set in pixels
-			if (!$type.isNaN(maxWidth)) {
+			if (!$type.isNaN(maxWidth) && maxWidth < Math.abs(r - l)) {
 				let offset: number = ((r - l) - maxWidth) / 2;
 				l += offset;
 				r -= offset;
@@ -530,7 +530,7 @@ export class ColumnSeries extends XYSeries {
 			}
 
 			// in case max width is set in pixels
-			if (!$type.isNaN(maxHeight)) {
+			if (!$type.isNaN(maxHeight) && maxHeight < Math.abs(b - t)) {
 				let offset: number = ((b - t) - maxHeight) / 2;
 				b += offset;
 				t -= offset;
@@ -565,7 +565,7 @@ export class ColumnSeries extends XYSeries {
 			}
 
 			// in case width is set in pixels
-			if (!$type.isNaN(maxWidth)) {
+			if (!$type.isNaN(maxWidth) && maxWidth < Math.abs(r - l)) {
 				let offset: number = ((r - l) - maxWidth) / 2;
 				l += offset;
 				r -= offset;
@@ -623,10 +623,12 @@ export class ColumnSeries extends XYSeries {
 			}
 
 			// in case height is set in pixels
-			if (!$type.isNaN(maxHeight)) {
+			if (!$type.isNaN(maxHeight) && maxHeight < Math.abs(b - t)) {
 				let offset: number = ((b - t) - maxHeight) / 2;
 				b -= offset;
 				t += offset;
+
+							console.log(maxHeight, Math.abs(b - t))
 			}
 
 			let rightLocation = dataItem.locations[xField];

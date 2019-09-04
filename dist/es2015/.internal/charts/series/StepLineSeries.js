@@ -84,12 +84,26 @@ var StepLineSeries = /** @class */ (function (_super) {
      * @param backwards  [description]
      */
     StepLineSeries.prototype.addPoints = function (points, dataItem, xField, yField, backwards) {
-        var startLocation = this.startLocation;
-        var endLocation = this.endLocation;
-        var x0 = this.xAxis.getX(dataItem, xField, startLocation);
-        var y0 = this.yAxis.getY(dataItem, yField, startLocation);
-        var x1 = this.xAxis.getX(dataItem, xField, endLocation);
-        var y1 = this.yAxis.getY(dataItem, yField, endLocation);
+        var startLocationX;
+        var endLocationX;
+        var startLocationY;
+        var endLocationY;
+        if (this.baseAxis == this.xAxis) {
+            startLocationX = this.startLocation;
+            endLocationX = this.endLocation;
+            startLocationY = this.getAdjustedXLocation(dataItem, this.yOpenField);
+            endLocationY = this.getAdjustedXLocation(dataItem, this.yField);
+        }
+        if (this.baseAxis == this.yAxis) {
+            startLocationY = this.startLocation;
+            endLocationY = this.endLocation;
+            startLocationX = this.getAdjustedXLocation(dataItem, this.xOpenField);
+            endLocationX = this.getAdjustedXLocation(dataItem, this.xField);
+        }
+        var x0 = this.xAxis.getX(dataItem, xField, startLocationX);
+        var y0 = this.yAxis.getY(dataItem, yField, startLocationY);
+        var x1 = this.xAxis.getX(dataItem, xField, endLocationX);
+        var y1 = this.yAxis.getY(dataItem, yField, endLocationY);
         x0 = $math.fitToRange(x0, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
         y0 = $math.fitToRange(y0, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
         x1 = $math.fitToRange(x1, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.

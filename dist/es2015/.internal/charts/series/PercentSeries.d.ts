@@ -186,7 +186,7 @@ export interface IPercentSeriesProperties extends ISeriesProperties {
      *
      * @default true
      */
-    alignLabels?: number;
+    alignLabels?: boolean;
 }
 /**
  * Defines events for [[PercentSeries]].

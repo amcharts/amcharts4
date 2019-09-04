@@ -1,8 +1,8 @@
 /**
  * A collection of GeoJSON format-related utility functions.
  */
-import * as tslib_1 from "tslib";
 import * as $math from "../../core/utils/Math";
+import * as $array from "../../core/utils/Array";
 /**
  * Normalizes a geo-point.
  *
@@ -29,33 +29,12 @@ export function normalizePoint(geoPoint) {
  * @return Normalized geo-line
  */
 export function normalizeMultiline(multiline) {
-    try {
-        for (var multiline_1 = tslib_1.__values(multiline), multiline_1_1 = multiline_1.next(); !multiline_1_1.done; multiline_1_1 = multiline_1.next()) {
-            var segment = multiline_1_1.value;
-            try {
-                for (var segment_1 = tslib_1.__values(segment), segment_1_1 = segment_1.next(); !segment_1_1.done; segment_1_1 = segment_1.next()) {
-                    var point = segment_1_1.value;
-                    point = normalizePoint(point);
-                }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (segment_1_1 && !segment_1_1.done && (_a = segment_1.return)) _a.call(segment_1);
-                }
-                finally { if (e_1) throw e_1.error; }
-            }
-        }
-    }
-    catch (e_2_1) { e_2 = { error: e_2_1 }; }
-    finally {
-        try {
-            if (multiline_1_1 && !multiline_1_1.done && (_b = multiline_1.return)) _b.call(multiline_1);
-        }
-        finally { if (e_2) throw e_2.error; }
-    }
+    $array.each(multiline, function (segment) {
+        $array.each(segment, function (point) {
+            normalizePoint(point);
+        });
+    });
     return multiline;
-    var e_2, _b, e_1, _a;
 }
 /**
  * [wrapAngleTo180 description]

@@ -98,6 +98,7 @@ var AxisRendererX = /** @class */ (function (_super) {
             }
             else {
                 title.toFront();
+                this.toBack();
                 this.line.toBack();
             }
         }
@@ -151,12 +152,17 @@ var AxisRendererX = /** @class */ (function (_super) {
         label.isMeasured = !label.inside;
         var deltaY = 0;
         var verticalCenter;
+        var maxHeight = this.gridContainer.maxHeight;
         if (this.opposite) {
             if (label.inside) {
                 verticalCenter = "top";
                 if (label.valign == "bottom") {
-                    deltaY = this.gridContainer.maxHeight;
+                    deltaY = maxHeight;
                     verticalCenter = "bottom";
+                }
+                if (label.valign == "middle") {
+                    deltaY = maxHeight / 2;
+                    verticalCenter = "middle";
                 }
             }
             else {
@@ -168,8 +174,12 @@ var AxisRendererX = /** @class */ (function (_super) {
             if (label.inside) {
                 verticalCenter = "bottom";
                 if (label.valign == "top") {
-                    deltaY = -this.gridContainer.maxHeight;
+                    deltaY = -maxHeight;
                     verticalCenter = "top";
+                }
+                if (label.valign == "middle") {
+                    deltaY = -maxHeight / 2;
+                    verticalCenter = "middle";
                 }
             }
             else {

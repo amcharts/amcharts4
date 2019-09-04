@@ -153,7 +153,8 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 		}, undefined, false);
 		container.preloader = preloader;
 
-		if (!options.commercialLicense) {
+		//if (!options.commercialLicense) {
+		if (!container.hasLicense()) {
 			let logo = tooltipContainer.createChild(AmChartsLogo);
 			tooltipContainer.events.on("maxsizechanged", (ev) => {
 				if ((tooltipContainer.maxWidth <= 100) || (tooltipContainer.maxHeight <= 50)) {
@@ -504,4 +505,23 @@ export function unuseTheme(value: ITheme): void {
  */
 export function unuseAllThemes(): void {
 	registry.themes = [];
+}
+
+/**
+ * Adds a license, e.g.:
+ *
+ * ```TypeScript
+ * am4core.addLicense("xxxxxxxx");
+ * ```
+ * ```JavaScript
+ * am4core.addLicense("xxxxxxxx");
+ * ```
+ *
+ * Multiple licenses can be added to cover for multiple products.
+ *
+ * @since 4.5.16
+ * @param  license  License key
+ */
+export function addLicense(license: string): void {
+	options.licenses.push(license);
 }

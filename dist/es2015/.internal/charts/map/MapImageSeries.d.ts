@@ -32,7 +32,7 @@ export declare class MapImageSeriesDataItem extends MapSeriesDataItem {
      *
      * @todo Description
      */
-    protected _point: number[];
+    protected _point: [number, number];
     /**
      * Geographical coordinates image is placed at.
      */
@@ -52,7 +52,7 @@ export declare class MapImageSeriesDataItem extends MapSeriesDataItem {
         "type": "Feature";
         geometry: {
             type: "Point";
-            coordinates: number[];
+            coordinates: [number, number];
         };
     };
     /**
@@ -70,7 +70,7 @@ export declare class MapImageSeriesDataItem extends MapSeriesDataItem {
      * @todo Description
      * @param point [description]
      */
-    point: number[];
+    point: [number, number];
     /**
      * @return Image coordinates
      */
@@ -213,13 +213,13 @@ export declare class MapImageSeries extends MapSeries {
     /**
      * @ignore
      */
-    getFeatures(): {
+    getFeatures(): Array<{
         "type": "Feature";
         geometry: {
             type: "Point";
-            coordinates: number[];
+            coordinates: [number, number];
         };
-    }[];
+    }>;
     /**
      * returns MapImage by id
      * @param image id

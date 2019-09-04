@@ -14,7 +14,7 @@ export function multiPolygonToGeo(multiPolygon) {
     return $array.map(multiPolygon, function (polygon) {
         var surface = polygon[0];
         var hole = polygon[1];
-        //let holePoints: IGeoPoint[] = [];
+        //let holePoints: Array<IGeoPoint> = [];
         var geoArea = [];
         if (surface) {
             geoArea.push(multiPointToGeo(surface));
@@ -55,9 +55,7 @@ export function multiPointToGeo(points) {
  * @return Geo-points
  */
 export function multiGeoToPoint(geoPoints) {
-    return $array.map(geoPoints, function (geoPoint) {
-        return [geoPoint.longitude, geoPoint.latitude];
-    });
+    return $array.map(geoPoints, geoToPoint);
 }
 /**
  * Converts X/Y point into a lat/long geo-point.
@@ -69,6 +67,15 @@ export function pointToGeo(point) {
     return { longitude: point[0], latitude: point[1] };
 }
 /**
+ * Converts lat/long geo-point into a X/Y point.
+ *
+ * @param point  Source geo-point
+ * @return X/Y point
+ */
+export function geoToPoint(geoPoint) {
+    return [geoPoint.longitude, geoPoint.latitude];
+}
+/**
  * Converts geo line (collection of lat/long coordinates) to screen line (x/y).
  *
  * @param   multiGeoLine  Source geo line
@@ -76,9 +83,7 @@ export function pointToGeo(point) {
  */
 export function multiGeoLineToMultiLine(multiGeoLine) {
     return $array.map(multiGeoLine, function (segment) {
-        return $array.map(segment, function (geoPoint) {
-            return [geoPoint.longitude, geoPoint.latitude];
-        });
+        return $array.map(segment, geoToPoint);
     });
 }
 /**

@@ -422,6 +422,9 @@ var Sunburst = /** @class */ (function (_super) {
         });
         return exporting;
     };
+    Sunburst.prototype.handleSeriesAdded2 = function () {
+        // void
+    };
     return Sunburst;
 }(PieChart));
 export { Sunburst };
