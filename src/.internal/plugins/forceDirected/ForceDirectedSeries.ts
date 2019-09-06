@@ -83,6 +83,11 @@ export class ForceDirectedSeriesDataItem extends SeriesDataItem {
 	 * Have all children already been initialized?
 	 */
 	public childrenInited: boolean = false;
+	
+	/**
+	 * SeriesDataItem's name
+	 */
+	public name?: string;
 
 	/**
 	 * Constructor
