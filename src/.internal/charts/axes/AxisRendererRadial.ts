@@ -258,9 +258,10 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * Converts relative position on axis to point coordinates.
 	 *
 	 * @param position  Position (0-1)
+	 * @param position2  Position (0-1) Position on the second axis
 	 * @return Point
 	 */
-	public positionToPoint(position: number): IPoint {
+	public positionToPoint(position: number, position2?: number): IPoint {
 		let radius: number = $math.fitToRange(this.positionToCoordinate(position), 0, Infinity);
 		return { x: radius * $math.cos(this.axisAngle), y: radius * $math.sin(this.axisAngle) };
 	}

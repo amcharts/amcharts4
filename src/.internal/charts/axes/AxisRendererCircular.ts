@@ -291,12 +291,21 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * Converts relative position on axis to point coordinates.
 	 *
 	 * @param position  Position (0-1)
+	 * @param position2  Position (0-1) Position on the second axis
 	 * @return Point
 	 */
-	public positionToPoint(position: number): IPoint {
+	public positionToPoint(position: number, position2?: number): IPoint {
+
+		if(!$type.isNumber(position2)){
+			position2 = 1;
+		}
+
 		let coordinate: number = this.positionToCoordinate(position);
 		let angle: number = this.startAngle + (this.endAngle - this.startAngle) * coordinate / this.axisLength;
-		return { x: this.pixelRadius * $math.cos(angle), y: this.pixelRadius * $math.sin(angle) };
+		let radius = this.pixelRadius;
+		let innerRadius = this.pixelInnerRadius;
+
+		return { x: $math.cos(angle) * innerRadius + (radius - innerRadius) * $math.cos(angle) * position2, y: $math.sin(angle) * innerRadius + (radius - innerRadius) * $math.sin(angle) * position2 };
 	}
 
 	/**

@@ -742,23 +742,26 @@ var XYSeries = /** @class */ (function (_super) {
          * @param axis  Axis
          */
         set: function (axis) {
-            var oldAxis = this._xAxis.get();
-            if (oldAxis != axis) {
-                if (oldAxis) {
-                    this.dataItemsByAxis.removeKey(oldAxis.uid);
-                    // TODO why is this here ?
-                    this._xAxis.dispose();
-                    // temp @todo: why it is not disposed?
-                    oldAxis.series.removeValue(this);
-                }
-                this._xAxis.set(axis, axis.registerSeries(this));
-                this.dataItemsByAxis.setKey(axis.uid, new Dictionary());
-                this.invalidateData();
-            }
+            this.setXAxis(axis);
         },
         enumerable: true,
         configurable: true
     });
+    XYSeries.prototype.setXAxis = function (axis) {
+        var oldAxis = this._xAxis.get();
+        if (oldAxis != axis) {
+            if (oldAxis) {
+                this.dataItemsByAxis.removeKey(oldAxis.uid);
+                // TODO why is this here ?
+                this._xAxis.dispose();
+                // temp @todo: why it is not disposed?
+                oldAxis.series.removeValue(this);
+            }
+            this._xAxis.set(axis, axis.registerSeries(this));
+            this.dataItemsByAxis.setKey(axis.uid, new Dictionary());
+            this.invalidateData();
+        }
+    };
     Object.defineProperty(XYSeries.prototype, "yAxis", {
         /**
          * @return Axis
@@ -781,23 +784,26 @@ var XYSeries = /** @class */ (function (_super) {
          * @param axis  Axis
          */
         set: function (axis) {
-            var oldAxis = this._yAxis.get();
-            if (oldAxis != axis) {
-                if (oldAxis) {
-                    this.dataItemsByAxis.removeKey(oldAxis.uid);
-                    // TODO why is this here ?
-                    this._yAxis.dispose();
-                    // temp @todo: why it is not disposed?
-                    oldAxis.series.removeValue(this);
-                }
-                this._yAxis.set(axis, axis.registerSeries(this));
-                this.dataItemsByAxis.setKey(axis.uid, new Dictionary());
-                this.invalidateData();
-            }
+            this.setYAxis(axis);
         },
         enumerable: true,
         configurable: true
     });
+    XYSeries.prototype.setYAxis = function (axis) {
+        var oldAxis = this._yAxis.get();
+        if (oldAxis != axis) {
+            if (oldAxis) {
+                this.dataItemsByAxis.removeKey(oldAxis.uid);
+                // TODO why is this here ?
+                this._yAxis.dispose();
+                // temp @todo: why it is not disposed?
+                oldAxis.series.removeValue(this);
+            }
+            this._yAxis.set(axis, axis.registerSeries(this));
+            this.dataItemsByAxis.setKey(axis.uid, new Dictionary());
+            this.invalidateData();
+        }
+    };
     Object.defineProperty(XYSeries.prototype, "baseAxis", {
         /**
          * @return Axis
@@ -1084,107 +1090,6 @@ var XYSeries = /** @class */ (function (_super) {
         }
         return true;
     };
-    /*
-        public positionBullet(bullet: Bullet) {
-            super.positionBullet(bullet);
-    
-            let dataItem:XYSeriesDataItem = <XYSeriesDataItem>bullet.dataItem;
-    
-            // use series xField/yField if bullet doesn't have fields set
-            let xField: string = bullet.xField;
-            if (!$type.hasValue(xField)) {
-                xField = this.xField;
-            }
-    
-            let yField: string = bullet.yField;
-            if (!$type.hasValue(yField)) {
-                yField = this.yField;
-            }
-    
-            if ((this.xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (this.yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
-                bullet.visible = false;
-            }
-            else {
-                let bulletLocationX: number = this.getBulletLocationX(bullet, xField);
-                let bulletLocationY: number = this.getBulletLocationY(bullet, yField);
-    
-                let point = this.getPoint(dataItem, xField, yField, bulletLocationX, bulletLocationY);
-                if (point) {
-                    let xOpenField = this.xOpenField;
-                    let yOpenField = this.yOpenField;
-    
-                    let xAxis = this.xAxis;
-                    let yAxis = this.yAxis;
-                    let positionX:number;
-                    let positionY:number;
-            
-                    if((xAxis instanceof DateAxis && (xOpenField && xOpenField != xField)) || xAxis instanceof ValueAxis){
-    
-                        if(!$type.isNumber(bulletLocationX)){
-                            bulletLocationX = 0;
-                        }
-    
-                        let openValue:number;
-                        let closeValue:number = dataItem.getWorkingValue(xField);
-    
-                        if(!xOpenField){
-                            openValue = xAxis.min;
-                        }
-                        else{
-                            openValue = dataItem.getWorkingValue(xOpenField);
-                        }
-                        let middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationX);
-    
-                        positionX = xAxis.valueToPosition(middleValue);
-                    }
-                    else if(xAxis instanceof CategoryAxis){
-                        positionX = xAxis.categoryToPosition((<any>dataItem)[xField], bulletLocationX);
-                    }
-    
-                    if((yAxis instanceof DateAxis &&  (yOpenField && yOpenField != yField)) || yAxis instanceof ValueAxis){
-    
-                        if(!$type.isNumber(bulletLocationY)){
-                            bulletLocationY = 0;
-                        }
-    
-                        let openValue:number;
-                        let closeValue:number = dataItem.getWorkingValue(yField);
-    
-                        if(!yOpenField){
-                            openValue = yAxis.min;
-                        }
-                        else{
-                            openValue = dataItem.getWorkingValue(yOpenField);
-                        }
-                        let middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationY);
-    
-                        positionY = yAxis.valueToPosition(middleValue);
-                    }
-                    else if(yAxis instanceof CategoryAxis){
-                        positionY = yAxis.categoryToPosition((<any>dataItem)[yField], bulletLocationY);
-                    }
-    
-                    bullet.visible = true;
-    
-                    this.positionBulletReal(bullet, positionX, positionY);
-                }
-                else {
-                    bullet.visible = false;
-                }
-            }
-        }
-    
-        protected positionBulletReal(bullet:Sprite, positionX:number, positionY:number){
-            bullet.x = this.xAxis.renderer.positionToPoint(positionX).x;
-            bullet.y = this.yAxis.renderer.positionToPoint(positionY).y;
-        }
-    */
-    /**
-     * Positions series bullet.
-     *
-     * @ignore Exclude from docs
-     * @param bullet  Bullet
-     */
     XYSeries.prototype.positionBullet = function (bullet) {
         _super.prototype.positionBullet.call(this, bullet);
         var dataItem = bullet.dataItem;
@@ -1205,24 +1110,194 @@ var XYSeries = /** @class */ (function (_super) {
             var bulletLocationY = this.getBulletLocationY(bullet, yField);
             var point = this.getPoint(dataItem, xField, yField, bulletLocationX, bulletLocationY);
             if (point) {
-                var x = point.x;
-                var y = point.y;
-                if ($type.isNumber(bullet.locationX) && this.xOpenField != this.xField) {
-                    var openX = this.xAxis.getX(dataItem, this.xOpenField);
-                    x = x - (x - openX) * bullet.locationX;
+                var xOpenField = this.xOpenField;
+                var yOpenField = this.yOpenField;
+                var xAxis = this.xAxis;
+                var yAxis = this.yAxis;
+                var positionX = void 0;
+                var positionY = void 0;
+                if (xAxis instanceof DateAxis) {
+                    if (!$type.isNumber(bulletLocationX)) {
+                        bulletLocationX = 0;
+                    }
+                    var openValue = void 0;
+                    var closeValue = dataItem.getWorkingValue(xField);
+                    if (!xOpenField) {
+                        if (xAxis == this.baseAxis) {
+                            openValue = xAxis.min;
+                        }
+                    }
+                    else {
+                        openValue = dataItem.getWorkingValue(xOpenField);
+                    }
+                    if (!$type.isNumber(openValue)) {
+                        openValue = closeValue;
+                    }
+                    var stack = dataItem.getValue("valueX", "stack");
+                    openValue += stack;
+                    closeValue += stack;
+                    if (openValue == closeValue) {
+                        closeValue += xAxis.baseDuration;
+                    }
+                    var middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationX);
+                    positionX = xAxis.valueToPosition(middleValue);
                 }
-                if ($type.isNumber(bullet.locationY) && this.yOpenField != this.yField) {
-                    var openY = this.yAxis.getY(dataItem, this.yOpenField);
-                    y = y - (y - openY) * bullet.locationY;
+                else if (xAxis instanceof ValueAxis) {
+                    if (!$type.isNumber(bulletLocationX)) {
+                        bulletLocationX = 0;
+                    }
+                    var openValue = void 0;
+                    var closeValue = dataItem.getWorkingValue(xField);
+                    if (!xOpenField) {
+                        openValue = xAxis.min;
+                    }
+                    else {
+                        openValue = dataItem.getWorkingValue(xOpenField);
+                    }
+                    var stack = dataItem.getValue("valueX", "stack");
+                    openValue += stack;
+                    closeValue += stack;
+                    var middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationX);
+                    positionX = xAxis.valueToPosition(middleValue);
                 }
-                bullet.moveTo({ x: x, y: y });
+                else if (xAxis instanceof CategoryAxis) {
+                    var rightLocation = this.getAdjustedXLocation(dataItem, xField);
+                    var leftLocation = this.getAdjustedXLocation(dataItem, xOpenField);
+                    positionX = xAxis.categoryToPosition(dataItem[xField], rightLocation);
+                    var openPositionX = void 0;
+                    if (xOpenField) {
+                        openPositionX = xAxis.categoryToPosition(dataItem[xOpenField], leftLocation);
+                    }
+                    if (!openPositionX) {
+                        openPositionX = 1;
+                    }
+                    positionX = openPositionX + (positionX - openPositionX) * bulletLocationX;
+                }
+                if (yAxis instanceof DateAxis) {
+                    if (!$type.isNumber(bulletLocationY)) {
+                        bulletLocationY = 0;
+                    }
+                    var openValue = void 0;
+                    var closeValue = dataItem.getWorkingValue(yField);
+                    if (!yOpenField) {
+                        if (yAxis == this.baseAxis) {
+                            openValue = yAxis.min;
+                        }
+                    }
+                    else {
+                        openValue = dataItem.getWorkingValue(yOpenField);
+                    }
+                    if (!$type.isNumber(openValue)) {
+                        openValue = closeValue;
+                    }
+                    var stack = dataItem.getValue("valueY", "stack");
+                    openValue += stack;
+                    closeValue += stack;
+                    if (openValue == closeValue) {
+                        closeValue += yAxis.baseDuration;
+                    }
+                    var middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationY);
+                    positionY = yAxis.valueToPosition(middleValue);
+                }
+                else if (yAxis instanceof ValueAxis) {
+                    if (!$type.isNumber(bulletLocationY)) {
+                        bulletLocationY = 0;
+                    }
+                    var openValue = void 0;
+                    var closeValue = dataItem.getWorkingValue(yField);
+                    if (!yOpenField) {
+                        openValue = yAxis.min;
+                    }
+                    else {
+                        openValue = dataItem.getWorkingValue(yOpenField);
+                    }
+                    var stack = dataItem.getValue("valueY", "stack");
+                    openValue += stack;
+                    closeValue += stack;
+                    var middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationY);
+                    positionY = yAxis.valueToPosition(middleValue);
+                }
+                else if (yAxis instanceof CategoryAxis) {
+                    positionY = yAxis.categoryToPosition(dataItem[yField], bulletLocationY);
+                    var topLocation = this.getAdjustedYLocation(dataItem, yField);
+                    var bottomLocation = this.getAdjustedYLocation(dataItem, yOpenField);
+                    positionY = yAxis.categoryToPosition(dataItem[yField], topLocation);
+                    var openPositionY = void 0;
+                    if (yOpenField) {
+                        openPositionY = yAxis.categoryToPosition(dataItem[yOpenField], bottomLocation);
+                    }
+                    if (!openPositionY) {
+                        openPositionY = 1;
+                    }
+                    positionY = openPositionY + (positionY - openPositionY) * bulletLocationY;
+                }
                 bullet.visible = true;
+                this.positionBulletReal(bullet, positionX, positionY);
             }
             else {
                 bullet.visible = false;
             }
         }
     };
+    XYSeries.prototype.positionBulletReal = function (bullet, positionX, positionY) {
+        bullet.x = this.xAxis.renderer.positionToPoint(positionX, positionY).x;
+        bullet.y = this.yAxis.renderer.positionToPoint(positionY, positionX).y;
+    };
+    /**
+     * Positions series bullet.
+     *
+     * @ignore Exclude from docs
+     * @param bullet  Bullet
+     */
+    /*
+   public positionBullet(bullet: Bullet) {
+       super.positionBullet(bullet);
+
+       let dataItem: XYSeriesDataItem = <XYSeriesDataItem>bullet.dataItem;
+
+       // use series xField/yField if bullet doesn't have fields set
+       let xField: string = bullet.xField;
+       if (!$type.hasValue(xField)) {
+           xField = this.xField;
+       }
+
+       let yField: string = bullet.yField;
+       if (!$type.hasValue(yField)) {
+           yField = this.yField;
+       }
+
+       if ((this.xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (this.yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
+           bullet.visible = false;
+       }
+       else {
+           let bulletLocationX: number = this.getBulletLocationX(bullet, xField);
+           let bulletLocationY: number = this.getBulletLocationY(bullet, yField);
+
+           let point = this.getPoint(dataItem, xField, yField, bulletLocationX, bulletLocationY);
+           if (point) {
+               let x: number = point.x;
+               let y: number = point.y;
+
+               if ($type.isNumber(bullet.locationX) && this.xOpenField != this.xField) {
+                   let openX: number = this.xAxis.getX(dataItem, this.xOpenField);
+                   x = x - (x - openX) * bullet.locationX;
+               }
+
+
+               if ($type.isNumber(bullet.locationY) && this.yOpenField != this.yField) {
+                   let openY: number = this.yAxis.getY(dataItem, this.yOpenField);
+                   y = y - (y - openY) * bullet.locationY;
+               }
+
+               bullet.moveTo({ x: x, y: y });
+
+               bullet.visible = true;
+           }
+           else {
+               bullet.visible = false;
+           }
+       }
+   }*/
     /**
     * returns bullet x location
     * @ignore

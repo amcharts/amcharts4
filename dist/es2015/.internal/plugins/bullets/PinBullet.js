@@ -130,10 +130,12 @@ var PinBullet = /** @class */ (function (_super) {
         var cx = x3 - Math.sqrt(radsq - ((q / 2) * (q / 2))) * ((y1 - y2) / q);
         var y3 = (y1 + y2) / 2;
         var cy = y3 - Math.sqrt(radsq - ((q / 2) * (q / 2))) * ((x2 - x1) / q);
-        var circleRadius = this.circle.radius;
-        if (circleRadius instanceof Percent) {
-            this.circle.width = r * 2;
-            this.circle.height = r * 2;
+        if (this.circle) {
+            var circleRadius = this.circle.radius;
+            if (circleRadius instanceof Percent) {
+                this.circle.width = r * 2;
+                this.circle.height = r * 2;
+            }
         }
         var image = this.image;
         if (image) {
@@ -142,10 +144,15 @@ var PinBullet = /** @class */ (function (_super) {
             image.width = r * 2;
             image.height = r * 2;
             image.element.attr({ preserveAspectRatio: "xMidYMid slice" });
+            if (this.circle) {
+                this.circle.scale = 1 / image.scale;
+            }
         }
         else {
-            this.circle.x = cx;
-            this.circle.y = cy;
+            if (this.circle) {
+                this.circle.x = cx;
+                this.circle.y = cy;
+            }
         }
         var label = this.label;
         if (label) {
@@ -244,7 +251,9 @@ var PinBullet = /** @class */ (function (_super) {
             }
             this._image.copyFrom(source.image);
         }
-        this.circle.copyFrom(source.circle);
+        if (this.circle && source.circle) {
+            this.circle.copyFrom(source.circle);
+        }
     };
     /**
      * Creates and returns a background element.

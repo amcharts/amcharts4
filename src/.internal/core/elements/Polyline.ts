@@ -225,6 +225,12 @@ export class Polyline extends Sprite {
 		return { x: 0, y: 0, angle: 0 };
 	}
 
+	/**
+	 * @ignore
+	 */
+	public get realSegments():IPoint[][]{
+		return this._realSegments;
+	}
 }
 
 /**

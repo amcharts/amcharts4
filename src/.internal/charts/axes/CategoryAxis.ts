@@ -294,16 +294,20 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	public processSeriesDataItem(dataItem: XYSeriesDataItem, axisLetter?: string): void {
 		super.processSeriesDataItem(dataItem, axisLetter);
 		let category: string = (<any>dataItem)["category" + this.axisLetter];
-
-		let categoryAxisDataItem: this["_dataItem"] = this.dataItemsByCategory.getKey(category);
-		if (categoryAxisDataItem) {
-			let seriesId = dataItem.component.uid;
-			let seriesDataItems = categoryAxisDataItem.seriesDataItems[seriesId];
-			if (!seriesDataItems) {
-				seriesDataItems = [];
-				categoryAxisDataItem.seriesDataItems[seriesId] = seriesDataItems;
+		if ($type.hasValue(category)) {
+			let categoryAxisDataItem: this["_dataItem"] = this.dataItemsByCategory.getKey(category);
+			if (categoryAxisDataItem) {
+				let seriesId = dataItem.component.uid;
+				let seriesDataItems = categoryAxisDataItem.seriesDataItems[seriesId];
+				if (!seriesDataItems) {
+					seriesDataItems = [];
+					categoryAxisDataItem.seriesDataItems[seriesId] = seriesDataItems;
+				}
+				seriesDataItems.push(dataItem);
 			}
-			seriesDataItems.push(dataItem);
+		}
+		else {
+			dataItem.component.dataItems.remove(dataItem);
 		}
 	}
 
@@ -603,27 +607,33 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * @param dataContext  The raw data that corresponds to this data item
 	 */
 	public processDataItem(dataItem: this["_dataItem"], dataContext: Object): void {
-		// creat a collection for fast access
-		super.processDataItem(dataItem, dataContext);
-		// check if such category already exists
-		//let existingDataItem: CategoryAxisDataItem = this.dataItemsByCategory.getKey(dataItem.category);
-		//if (existingDataItem && existingDataItem != dataItem) {
-		//	this.dataItems.remove(existingDataItem);
-		//}
+		if (dataItem) {
+			// creat a collection for fast access
+			super.processDataItem(dataItem, dataContext);
+			// check if such category already exists
+			//let existingDataItem: CategoryAxisDataItem = this.dataItemsByCategory.getKey(dataItem.category);
+			//if (existingDataItem && existingDataItem != dataItem) {
+			//	this.dataItems.remove(existingDataItem);
+			//}
 
-		this.dataItemsByCategory.setKey(dataItem.category, dataItem);
+			if ($type.hasValue(dataItem.category)) {
+				this.dataItemsByCategory.setKey(dataItem.category, dataItem);
+			}
+		}
 	}
 
 
 	protected getDataItem(dataContext?: any): this["_dataItem"] {
 		let category: string = <string>(dataContext[this.dataFields.category]);
-		let dataItem: this["_dataItem"] = this.dataItemsByCategory.getKey(category);
+		if ($type.hasValue(category)) {
+			let dataItem: this["_dataItem"] = this.dataItemsByCategory.getKey(category);
 
-		if (dataItem) {
-			return dataItem;
-		}
-		else {
-			return this.dataItems.create();
+			if (dataItem) {
+				return dataItem;
+			}
+			else {
+				return this.dataItems.create();
+			}
 		}
 	}
 

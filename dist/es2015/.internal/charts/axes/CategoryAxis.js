@@ -178,15 +178,20 @@ var CategoryAxis = /** @class */ (function (_super) {
     CategoryAxis.prototype.processSeriesDataItem = function (dataItem, axisLetter) {
         _super.prototype.processSeriesDataItem.call(this, dataItem, axisLetter);
         var category = dataItem["category" + this.axisLetter];
-        var categoryAxisDataItem = this.dataItemsByCategory.getKey(category);
-        if (categoryAxisDataItem) {
-            var seriesId = dataItem.component.uid;
-            var seriesDataItems = categoryAxisDataItem.seriesDataItems[seriesId];
-            if (!seriesDataItems) {
-                seriesDataItems = [];
-                categoryAxisDataItem.seriesDataItems[seriesId] = seriesDataItems;
+        if ($type.hasValue(category)) {
+            var categoryAxisDataItem = this.dataItemsByCategory.getKey(category);
+            if (categoryAxisDataItem) {
+                var seriesId = dataItem.component.uid;
+                var seriesDataItems = categoryAxisDataItem.seriesDataItems[seriesId];
+                if (!seriesDataItems) {
+                    seriesDataItems = [];
+                    categoryAxisDataItem.seriesDataItems[seriesId] = seriesDataItems;
+                }
+                seriesDataItems.push(dataItem);
             }
-            seriesDataItems.push(dataItem);
+        }
+        else {
+            dataItem.component.dataItems.remove(dataItem);
         }
     };
     /**
@@ -428,23 +433,29 @@ var CategoryAxis = /** @class */ (function (_super) {
      * @param dataContext  The raw data that corresponds to this data item
      */
     CategoryAxis.prototype.processDataItem = function (dataItem, dataContext) {
-        // creat a collection for fast access
-        _super.prototype.processDataItem.call(this, dataItem, dataContext);
-        // check if such category already exists
-        //let existingDataItem: CategoryAxisDataItem = this.dataItemsByCategory.getKey(dataItem.category);
-        //if (existingDataItem && existingDataItem != dataItem) {
-        //	this.dataItems.remove(existingDataItem);
-        //}
-        this.dataItemsByCategory.setKey(dataItem.category, dataItem);
+        if (dataItem) {
+            // creat a collection for fast access
+            _super.prototype.processDataItem.call(this, dataItem, dataContext);
+            // check if such category already exists
+            //let existingDataItem: CategoryAxisDataItem = this.dataItemsByCategory.getKey(dataItem.category);
+            //if (existingDataItem && existingDataItem != dataItem) {
+            //	this.dataItems.remove(existingDataItem);
+            //}
+            if ($type.hasValue(dataItem.category)) {
+                this.dataItemsByCategory.setKey(dataItem.category, dataItem);
+            }
+        }
     };
     CategoryAxis.prototype.getDataItem = function (dataContext) {
         var category = (dataContext[this.dataFields.category]);
-        var dataItem = this.dataItemsByCategory.getKey(category);
-        if (dataItem) {
-            return dataItem;
-        }
-        else {
-            return this.dataItems.create();
+        if ($type.hasValue(category)) {
+            var dataItem = this.dataItemsByCategory.getKey(category);
+            if (dataItem) {
+                return dataItem;
+            }
+            else {
+                return this.dataItems.create();
+            }
         }
     };
     /**

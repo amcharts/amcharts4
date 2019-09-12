@@ -196,6 +196,14 @@ var RadarSeries = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    RadarSeries.prototype.positionBulletReal = function (bullet, positionX, positionY) {
+        var xAxis = this.xAxis;
+        var yAxis = this.yAxis;
+        if (positionX < xAxis.start || positionX > xAxis.end || positionY < yAxis.start || positionY > yAxis.end) {
+            bullet.visible = false;
+        }
+        bullet.moveTo(this.xAxis.renderer.positionToPoint(positionX, positionY));
+    };
     return RadarSeries;
 }(LineSeries));
 export { RadarSeries };

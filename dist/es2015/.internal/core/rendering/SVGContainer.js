@@ -60,7 +60,11 @@ var SVGContainer = /** @class */ (function () {
         // Log parent HTML element
         this.htmlElement = htmlElement;
         if (!ghost) {
-            var callback_1 = function () { _this.measure(); };
+            var callback_1 = function () {
+                if (_this.autoResize) {
+                    _this.measure();
+                }
+            };
             this.resizeSensor = new ResizeSensor(htmlElement, callback_1);
             this._disposers.push(new Disposer(function () {
                 _this.resizeSensor.detach(callback_1);

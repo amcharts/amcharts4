@@ -309,6 +309,40 @@ export function getDistance(point1: IPoint, point2?: IPoint): number {
 }
 
 /**
+ * Returns approximate pixel "distance" between two points of cubic curve
+ *
+ * If second point is not specified, distance from {x:0, y:0} point is
+ * calculated.
+ *
+ * @param point1  Point 1
+ * @param point2  Point 2
+ * @param controlPointA  Control Point 1
+ * @param controlPointB  Control Point 2
+ * @param stepCount  number of steps (the more, the more accurate result)
+ * @return Distance in relative pixels
+ */
+export function getCubicCurveDistance(point1: IPoint, point2: IPoint, controlPointA: IPoint, controlPointB: IPoint, stepCount:number): number {
+	if (!point1) {
+		return 0;
+	}
+
+	if (!point2) {
+		point2 = { x: 0, y: 0 };
+	}
+
+	let distance = 0;
+	let prevPoint: IPoint = point1;
+	if (stepCount > 0) {
+		for (let s = 0; s <= stepCount; s++) {
+			let point = getPointOnCubicCurve(point1, point2, controlPointA, controlPointB, s / stepCount);
+			distance += getDistance(prevPoint, point);
+			prevPoint = point;
+		}
+	}
+	return distance;
+}
+
+/**
  * Returns scale based on original and end position of the two points.
  *
  * @param point1       Current position of point 1

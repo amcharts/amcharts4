@@ -817,7 +817,9 @@ var ColumnSeries = /** @class */ (function (_super) {
             if (!$type.isNumber(bulletLocationX)) {
                 bulletLocationX = 0.5;
             }
-            return this._endLocation - (this._endLocation - this._startLocation) * bulletLocationX;
+            var endLocation = this.getEndLocation(bullet.dataItem);
+            var startLocation = this.getStartLocation(bullet.dataItem);
+            return endLocation - (endLocation - startLocation) * bulletLocationX;
         }
         else {
             return _super.prototype.getBulletLocationX.call(this, bullet, field);
@@ -833,7 +835,9 @@ var ColumnSeries = /** @class */ (function (_super) {
             if (!$type.isNumber(bulletLocationY)) {
                 bulletLocationY = 0.5;
             }
-            return this._endLocation - (this._endLocation - this._startLocation) * bulletLocationY;
+            var endLocation = this.getEndLocation(bullet.dataItem);
+            var startLocation = this.getStartLocation(bullet.dataItem);
+            return endLocation - (endLocation - startLocation) * bulletLocationY;
         }
         else {
             return _super.prototype.getBulletLocationY.call(this, bullet, field);

@@ -155,6 +155,20 @@ export declare function intersection(range1: IRange, range2: IRange): $type.Opti
  */
 export declare function getDistance(point1: IPoint, point2?: IPoint): number;
 /**
+ * Returns approximate pixel "distance" between two points of cubic curve
+ *
+ * If second point is not specified, distance from {x:0, y:0} point is
+ * calculated.
+ *
+ * @param point1  Point 1
+ * @param point2  Point 2
+ * @param controlPointA  Control Point 1
+ * @param controlPointB  Control Point 2
+ * @param stepCount  number of steps (the more, the more accurate result)
+ * @return Distance in relative pixels
+ */
+export declare function getCubicCurveDistance(point1: IPoint, point2: IPoint, controlPointA: IPoint, controlPointB: IPoint, stepCount: number): number;
+/**
  * Returns scale based on original and end position of the two points.
  *
  * @param point1       Current position of point 1

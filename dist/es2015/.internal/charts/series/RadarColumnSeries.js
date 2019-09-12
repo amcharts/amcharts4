@@ -226,6 +226,14 @@ var RadarColumnSeries = /** @class */ (function (_super) {
         var renderer = this.yAxis.renderer;
         return $path.arc(renderer.startAngle, renderer.endAngle - renderer.startAngle, renderer.pixelRadius, renderer.pixelInnerRadius);
     };
+    RadarColumnSeries.prototype.positionBulletReal = function (bullet, positionX, positionY) {
+        var xAxis = this.xAxis;
+        var yAxis = this.yAxis;
+        if (positionX < xAxis.start || positionX > xAxis.end || positionY < yAxis.start || positionY > yAxis.end) {
+            bullet.visible = false;
+        }
+        bullet.moveTo(this.xAxis.renderer.positionToPoint(positionX, positionY));
+    };
     return RadarColumnSeries;
 }(ColumnSeries));
 export { RadarColumnSeries };

@@ -156,6 +156,16 @@ var Polyline = /** @class */ (function (_super) {
         }
         return { x: 0, y: 0, angle: 0 };
     };
+    Object.defineProperty(Polyline.prototype, "realSegments", {
+        /**
+         * @ignore
+         */
+        get: function () {
+            return this._realSegments;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Polyline;
 }(Sprite));
 export { Polyline };

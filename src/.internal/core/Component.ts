@@ -1127,11 +1127,12 @@ export class Component extends Container {
 				let rawDataItem = this.data[i];
 
 				let dataItem: this["_dataItem"] = this.getDataItem(rawDataItem);
+
 				this.processDataItem(dataItem, rawDataItem);
 
 				this.dataUsers.each((dataUser) => {
 					if (dataUser.data.length == 0) { // checking if data is not set directly
-						let dataUserDataItem: DataItem = dataUser.getDataItem(rawDataItem);
+						let dataUserDataItem: DataItem = dataUser.getDataItem(rawDataItem);						
 						dataUser.processDataItem(dataUserDataItem, rawDataItem);
 					}
 				});

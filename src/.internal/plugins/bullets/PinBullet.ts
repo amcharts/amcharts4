@@ -213,11 +213,13 @@ export class PinBullet extends Bullet {
 		let y3 = (y1 + y2) / 2;
 		let cy = y3 - Math.sqrt(radsq - ((q / 2) * (q / 2))) * ((x2 - x1) / q);
 
-		let circleRadius = this.circle.radius;
+		if(this.circle){
+			let circleRadius = this.circle.radius;
 
-		if (circleRadius instanceof Percent) {
-			this.circle.width = r * 2;
-			this.circle.height = r * 2;
+			if (circleRadius instanceof Percent) {
+				this.circle.width = r * 2;
+				this.circle.height = r * 2;
+			}
 		}
 
 		let image = this.image;
@@ -227,10 +229,15 @@ export class PinBullet extends Bullet {
 			image.width = r * 2;
 			image.height = r * 2;
 			image.element.attr({preserveAspectRatio:"xMidYMid slice"})
+			if(this.circle){
+				this.circle.scale = 1 / image.scale;
+			}
 		}
 		else {
-			this.circle.x = cx;
-			this.circle.y = cy;
+			if(this.circle){
+				this.circle.x = cx;
+				this.circle.y = cy;
+			}
 		}
 
 		let label = this.label;
@@ -328,7 +335,9 @@ export class PinBullet extends Bullet {
 			}
 			this._image.copyFrom(source.image);
 		}
-		this.circle.copyFrom(source.circle);
+		if(this.circle && source.circle){
+			this.circle.copyFrom(source.circle);
+		}
 	}
 
 	/**

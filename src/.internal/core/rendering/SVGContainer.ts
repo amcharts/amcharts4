@@ -128,7 +128,11 @@ export class SVGContainer implements IDisposer {
 		this.htmlElement = htmlElement;
 
 		if (!ghost) {
-			const callback = () => { this.measure() };
+			const callback = () => {
+				if (this.autoResize) {
+					this.measure();
+				}
+			};
 
 			this.resizeSensor = new ResizeSensor(htmlElement, callback);
 

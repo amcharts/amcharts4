@@ -211,9 +211,10 @@ var AxisRendererX = /** @class */ (function (_super) {
      * Converts relative position on axis to point coordinates.
      *
      * @param position  Position (0-1)
+     * @param position2  Position (0-1) Position on the second axis
      * @return Point
      */
-    AxisRendererX.prototype.positionToPoint = function (position) {
+    AxisRendererX.prototype.positionToPoint = function (position, position2) {
         return { x: this.positionToCoordinate(position), y: 0 };
     };
     /**

@@ -55,7 +55,12 @@ var Bullet = /** @class */ (function (_super) {
          * @param value  Location (0-1)
          */
         set: function (value) {
-            this.setPropertyValue("locationX", value, false, true);
+            if (this.setPropertyValue("locationX", value)) {
+                var dataItem = this.dataItem;
+                if (dataItem && dataItem.component) {
+                    dataItem.component.invalidate();
+                }
+            }
         },
         enumerable: true,
         configurable: true
@@ -73,7 +78,12 @@ var Bullet = /** @class */ (function (_super) {
          * @param value  Location (0-1)
          */
         set: function (value) {
-            this.setPropertyValue("locationY", value, false, true);
+            if (this.setPropertyValue("locationY", value)) {
+                var dataItem = this.dataItem;
+                if (dataItem && dataItem.component) {
+                    dataItem.component.invalidate();
+                }
+            }
         },
         enumerable: true,
         configurable: true

@@ -251,6 +251,37 @@ export function getDistance(point1, point2) {
     return Math.sqrt(Math.pow(Math.abs(point1.x - point2.x), 2) + Math.pow(Math.abs(point1.y - point2.y), 2));
 }
 /**
+ * Returns approximate pixel "distance" between two points of cubic curve
+ *
+ * If second point is not specified, distance from {x:0, y:0} point is
+ * calculated.
+ *
+ * @param point1  Point 1
+ * @param point2  Point 2
+ * @param controlPointA  Control Point 1
+ * @param controlPointB  Control Point 2
+ * @param stepCount  number of steps (the more, the more accurate result)
+ * @return Distance in relative pixels
+ */
+export function getCubicCurveDistance(point1, point2, controlPointA, controlPointB, stepCount) {
+    if (!point1) {
+        return 0;
+    }
+    if (!point2) {
+        point2 = { x: 0, y: 0 };
+    }
+    var distance = 0;
+    var prevPoint = point1;
+    if (stepCount > 0) {
+        for (var s = 0; s <= stepCount; s++) {
+            var point = getPointOnCubicCurve(point1, point2, controlPointA, controlPointB, s / stepCount);
+            distance += getDistance(prevPoint, point);
+            prevPoint = point;
+        }
+    }
+    return distance;
+}
+/**
  * Returns scale based on original and end position of the two points.
  *
  * @param point1       Current position of point 1

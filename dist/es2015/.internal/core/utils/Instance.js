@@ -127,7 +127,7 @@ function createChild(htmlElement, classType) {
         }, undefined, false);
         container_1.preloader = preloader_1;
         //if (!options.commercialLicense) {
-        if (!container_1.hasLicense()) {
+        if (sprite_1 instanceof Container && !sprite_1.hasLicense()) {
             var logo_1 = tooltipContainer_1.createChild(AmChartsLogo);
             tooltipContainer_1.events.on("maxsizechanged", function (ev) {
                 if ((tooltipContainer_1.maxWidth <= 100) || (tooltipContainer_1.maxHeight <= 50)) {

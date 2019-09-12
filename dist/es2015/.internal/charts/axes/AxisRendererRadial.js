@@ -175,9 +175,10 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      * Converts relative position on axis to point coordinates.
      *
      * @param position  Position (0-1)
+     * @param position2  Position (0-1) Position on the second axis
      * @return Point
      */
-    AxisRendererRadial.prototype.positionToPoint = function (position) {
+    AxisRendererRadial.prototype.positionToPoint = function (position, position2) {
         var radius = $math.fitToRange(this.positionToCoordinate(position), 0, Infinity);
         return { x: radius * $math.cos(this.axisAngle), y: radius * $math.sin(this.axisAngle) };
     };

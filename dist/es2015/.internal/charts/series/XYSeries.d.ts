@@ -8,6 +8,7 @@
  * @hidden
  */
 import { Series, SeriesDataItem, ISeriesProperties, ISeriesDataFields, ISeriesAdapters, ISeriesEvents } from "./Series";
+import { Sprite } from "../../core/Sprite";
 import { Axis } from "../axes/Axis";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { ValueAxis } from "../axes/ValueAxis";
@@ -604,6 +605,7 @@ export declare class XYSeries extends Series {
      * @param axis  Axis
      */
     xAxis: Axis;
+    protected setXAxis(axis: Axis): void;
     /**
      * @return Axis
      */
@@ -613,6 +615,7 @@ export declare class XYSeries extends Series {
      * @param axis  Axis
      */
     yAxis: Axis;
+    protected setYAxis(axis: Axis): void;
     /**
      * @return Axis
      */
@@ -660,13 +663,14 @@ export declare class XYSeries extends Series {
      */
     protected returnBulletDefaultState(dataItem?: XYSeriesDataItem): void;
     protected shouldCreateBullet(dataItem: this["_dataItem"], bulletTemplate: Bullet): boolean;
+    positionBullet(bullet: Bullet): void;
+    protected positionBulletReal(bullet: Sprite, positionX: number, positionY: number): void;
     /**
      * Positions series bullet.
      *
      * @ignore Exclude from docs
      * @param bullet  Bullet
      */
-    positionBullet(bullet: Bullet): void;
     /**
     * returns bullet x location
     * @ignore

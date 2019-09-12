@@ -200,12 +200,18 @@ var AxisRendererCircular = /** @class */ (function (_super) {
      * Converts relative position on axis to point coordinates.
      *
      * @param position  Position (0-1)
+     * @param position2  Position (0-1) Position on the second axis
      * @return Point
      */
-    AxisRendererCircular.prototype.positionToPoint = function (position) {
+    AxisRendererCircular.prototype.positionToPoint = function (position, position2) {
+        if (!$type.isNumber(position2)) {
+            position2 = 1;
+        }
         var coordinate = this.positionToCoordinate(position);
         var angle = this.startAngle + (this.endAngle - this.startAngle) * coordinate / this.axisLength;
-        return { x: this.pixelRadius * $math.cos(angle), y: this.pixelRadius * $math.sin(angle) };
+        var radius = this.pixelRadius;
+        var innerRadius = this.pixelInnerRadius;
+        return { x: $math.cos(angle) * innerRadius + (radius - innerRadius) * $math.cos(angle) * position2, y: $math.sin(angle) * innerRadius + (radius - innerRadius) * $math.sin(angle) * position2 };
     };
     /**
      * Converts relative position (0-1) on axis to angle in degrees (0-360).

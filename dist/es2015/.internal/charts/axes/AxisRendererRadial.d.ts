@@ -166,9 +166,10 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * Converts relative position on axis to point coordinates.
      *
      * @param position  Position (0-1)
+     * @param position2  Position (0-1) Position on the second axis
      * @return Point
      */
-    positionToPoint(position: number): IPoint;
+    positionToPoint(position: number, position2?: number): IPoint;
     /**
      * Updates and positions the axis line element.
      *

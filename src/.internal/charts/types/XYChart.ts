@@ -398,6 +398,10 @@ export class XYChart extends SerialChart {
 
 	protected _mouseWheelDisposer: IDisposer;
 
+	protected _cursorXPosition:number;
+
+	protected _cursorYPosition:number;
+
 	/**
 	 * Holds a reference to the container axis bullets are drawn in.
 	 */
@@ -1103,8 +1107,13 @@ export class XYChart extends SerialChart {
 				}
 			}
 			this._seriesPoints = [];
-			this.showAxisTooltip(this.xAxes, xPosition, exceptAxis);
-			this.showAxisTooltip(this.yAxes, yPosition, exceptAxis);
+
+			if(this._cursorXPosition != xPosition){
+				this.showAxisTooltip(this.xAxes, xPosition, exceptAxis);
+			}
+			if(this._cursorYPosition != yPosition){
+				this.showAxisTooltip(this.yAxes, yPosition, exceptAxis);
+			}
 			this.sortSeriesTooltips(this._seriesPoints);
 		}
 	}
@@ -1118,6 +1127,8 @@ export class XYChart extends SerialChart {
 		this.hideObjectTooltip(this.xAxes);
 		this.hideObjectTooltip(this.yAxes);
 		this.hideObjectTooltip(this.series);
+		this._cursorXPosition = undefined;
+		this._cursorYPosition = undefined;
 
 		this.updateSeriesLegend();
 	}

@@ -220,14 +220,14 @@ export class AxisRendererY extends AxisRenderer {
 		let axis = this.axis;
 		return (axis.measuredHeight - axis.pixelPaddingTop - axis.pixelPaddingBottom) || 0;
 	}
-
 	/**
 	 * Converts relative position on axis to point coordinates.
 	 *
 	 * @param position  Position (0-1)
+	 * @param position2  Position (0-1) Position on the second axis
 	 * @return Point
 	 */
-	public positionToPoint(position: number): IPoint {
+	public positionToPoint(position: number, position2?: number): IPoint {
 		return { x: 0, y: this.positionToCoordinate(position) };
 	}
 

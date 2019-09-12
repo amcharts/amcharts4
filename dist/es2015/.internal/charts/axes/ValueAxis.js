@@ -871,6 +871,8 @@ var ValueAxis = /** @class */ (function (_super) {
                 min -= this._deltaMinMax;
                 max += this._deltaMinMax;
             }
+            min -= (max - min) * this.extraMin;
+            max += (max - min) * this.extraMax;
         }
         // checking isNumber is good when all series are hidden
         if ((this._minAdjusted != min || this._maxAdjusted != max) && $type.isNumber(min) && $type.isNumber(max)) {

@@ -117,9 +117,10 @@ export declare class AxisRendererX extends AxisRenderer {
      * Converts relative position on axis to point coordinates.
      *
      * @param position  Position (0-1)
+     * @param position2  Position (0-1) Position on the second axis
      * @return Point
      */
-    positionToPoint(position: number): IPoint;
+    positionToPoint(position: number, position2?: number): IPoint;
     /**
      * Converts a point at specific coordinates to a relative position (0-1)
      * on the axis.

@@ -8,6 +8,7 @@
  * @hidden
  */
 import { ColumnSeries, IColumnSeriesProperties, IColumnSeriesDataFields, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "../series/ColumnSeries";
+import { Sprite } from "../../core/Sprite";
 import { RadarChart } from "../types/RadarChart";
 import { RadarColumn } from "../elements/RadarColumn";
 /**
@@ -151,4 +152,5 @@ export declare class RadarColumnSeries extends ColumnSeries {
      * @return SVG path
      */
     protected getMaskPath(): string;
+    protected positionBulletReal(bullet: Sprite, positionX: number, positionY: number): void;
 }

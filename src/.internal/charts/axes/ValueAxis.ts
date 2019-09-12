@@ -1215,6 +1215,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				min -= this._deltaMinMax;
 				max += this._deltaMinMax;
 			}
+
+			min -= (max - min) * this.extraMin;
+			max += (max - min) * this.extraMax;			
 		}
 
 		// checking isNumber is good when all series are hidden

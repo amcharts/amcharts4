@@ -1087,6 +1087,11 @@ export class Series extends Component {
 	 *
 	 * This allows to avoid crammed up graphs wil a lot of bullets.
 	 *
+	 * IMPORTANT: This setting will work only when Series' base axis
+	 * is [[CategoryAxis]] or [[DateAxis]]. If base axis is [[ValueAxis]] the
+	 * setting will be ignored, because it would be a huge overhead to measure
+	 * distance between each and every bullet.
+	 *
 	 * @default 0
 	 * @param value  Distance (px)
 	 */

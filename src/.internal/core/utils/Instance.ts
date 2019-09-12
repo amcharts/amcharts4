@@ -154,7 +154,7 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 		container.preloader = preloader;
 
 		//if (!options.commercialLicense) {
-		if (!container.hasLicense()) {
+		if (sprite instanceof Container && !sprite.hasLicense()) {
 			let logo = tooltipContainer.createChild(AmChartsLogo);
 			tooltipContainer.events.on("maxsizechanged", (ev) => {
 				if ((tooltipContainer.maxWidth <= 100) || (tooltipContainer.maxHeight <= 50)) {

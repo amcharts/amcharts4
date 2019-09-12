@@ -11,6 +11,7 @@ import { LineSeries, LineSeriesDataItem, ILineSeriesDataFields, ILineSeriesPrope
 import { LineSeriesSegment } from "./LineSeriesSegment";
 import { IPoint } from "../../core/defs/IPoint";
 import { RadarChart } from "../types/RadarChart";
+import { Sprite } from "../../core/Sprite";
 /**
  * ============================================================================
  * DATA ITEM
@@ -176,4 +177,5 @@ export declare class RadarSeries extends LineSeries {
      * @param value  Connect?
      */
     connectEnds: boolean;
+    protected positionBulletReal(bullet: Sprite, positionX: number, positionY: number): void;
 }

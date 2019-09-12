@@ -803,8 +803,12 @@ var XYChart = /** @class */ (function (_super) {
                 }
             }
             this._seriesPoints = [];
-            this.showAxisTooltip(this.xAxes, xPosition_1, exceptAxis);
-            this.showAxisTooltip(this.yAxes, yPosition_1, exceptAxis);
+            if (this._cursorXPosition != xPosition_1) {
+                this.showAxisTooltip(this.xAxes, xPosition_1, exceptAxis);
+            }
+            if (this._cursorYPosition != yPosition_1) {
+                this.showAxisTooltip(this.yAxes, yPosition_1, exceptAxis);
+            }
             this.sortSeriesTooltips(this._seriesPoints);
         }
     };
@@ -817,6 +821,8 @@ var XYChart = /** @class */ (function (_super) {
         this.hideObjectTooltip(this.xAxes);
         this.hideObjectTooltip(this.yAxes);
         this.hideObjectTooltip(this.series);
+        this._cursorXPosition = undefined;
+        this._cursorYPosition = undefined;
         this.updateSeriesLegend();
     };
     /**

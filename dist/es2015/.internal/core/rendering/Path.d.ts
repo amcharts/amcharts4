@@ -135,5 +135,5 @@ export declare function rectToPath(rect: IRectangle, ccw?: boolean): string;
  * You can save the output of this function, but not rely on it completely.
  */
 export declare function pathToPoints(path: string, pointCount: number): IPoint[];
-export declare function spiralPoints(cx: number, cy: number, radius: number, radiusY: number, innerRadius: number, step: number, radiusStep: number): IPoint[];
+export declare function spiralPoints(cx: number, cy: number, radius: number, radiusY: number, innerRadius: number, step: number, radiusStep: number, startAngle?: number, endAngle?: number): IPoint[];
 export declare function pointsToPath(points: IPoint[]): string;

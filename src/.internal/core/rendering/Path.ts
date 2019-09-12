@@ -34,7 +34,7 @@ export function polyline(points: IPoint[]): string {
 	let prevPoint = { x: 0, y: 0 };
 
 	let minStep = options.minPolylineStep;
-	if(!$type.isNumber(minStep)){
+	if (!$type.isNumber(minStep)) {
 		minStep = 0.5;
 	}
 
@@ -431,20 +431,32 @@ export function pathToPoints(path: string, pointCount: number): IPoint[] {
 }
 
 
-export function spiralPoints(cx: number, cy: number, radius: number, radiusY: number, innerRadius: number, step: number, radiusStep:number): IPoint[] {
+export function spiralPoints(cx: number, cy: number, radius: number, radiusY: number, innerRadius: number, step: number, radiusStep: number, startAngle?: number, endAngle?: number): IPoint[] {
+
+	if (!$type.isNumber(startAngle)) {
+		startAngle = 0;
+	}
+
+	if (!$type.isNumber(startAngle)) {
+		endAngle = startAngle;
+	}
 
 	let r = innerRadius + 0.01;
-	let angle = 0;
+	let angle = startAngle * $math.RADIANS;
 	let points = [];
 
-	while (r < radius) {
+	while (r < radius + radiusStep) {
 
 		let stepSize = step;
-		if(stepSize / 2 > r){
+		if (stepSize / 2 > r) {
 			stepSize = 2 * r;
 		}
 
-		angle += 2 * Math.asin(stepSize / 2 / r);
+		angle += 2 * Math.asin(stepSize / 2 / r);		
+
+		if (angle * $math.DEGREES > endAngle + ((radius - innerRadius) / radiusStep) * 360) {
+			break;
+		}
 
 		let degrees = angle * $math.DEGREES;
 
@@ -452,11 +464,18 @@ export function spiralPoints(cx: number, cy: number, radius: number, radiusY: nu
 		points.push(point);
 
 		r = innerRadius + degrees / 360 * radiusStep;
+
 	}
+
+	points.shift();
+
 	return points;
 }
 
 export function pointsToPath(points: IPoint[]) {
+	if (!points || points.length == 0) {
+		return "";
+	}
 	let path = moveTo(points[0]);
 	if (points && points.length > 0) {
 		for (let i = 1; i < points.length; i++) {

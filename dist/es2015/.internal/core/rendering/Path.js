@@ -356,24 +356,37 @@ export function pathToPoints(path, pointCount) {
     }
     svgPath.remove();
 }
-export function spiralPoints(cx, cy, radius, radiusY, innerRadius, step, radiusStep) {
+export function spiralPoints(cx, cy, radius, radiusY, innerRadius, step, radiusStep, startAngle, endAngle) {
+    if (!$type.isNumber(startAngle)) {
+        startAngle = 0;
+    }
+    if (!$type.isNumber(startAngle)) {
+        endAngle = startAngle;
+    }
     var r = innerRadius + 0.01;
-    var angle = 0;
+    var angle = startAngle * $math.RADIANS;
     var points = [];
-    while (r < radius) {
+    while (r < radius + radiusStep) {
         var stepSize = step;
         if (stepSize / 2 > r) {
             stepSize = 2 * r;
         }
         angle += 2 * Math.asin(stepSize / 2 / r);
+        if (angle * $math.DEGREES > endAngle + ((radius - innerRadius) / radiusStep) * 360) {
+            break;
+        }
         var degrees = angle * $math.DEGREES;
         var point = { x: cx + r * Math.cos(angle), y: cy + r * radiusY / radius * Math.sin(angle) };
         points.push(point);
         r = innerRadius + degrees / 360 * radiusStep;
     }
+    points.shift();
     return points;
 }
 export function pointsToPath(points) {
+    if (!points || points.length == 0) {
+        return "";
+    }
     var path = moveTo(points[0]);
     if (points && points.length > 0) {
         for (var i = 1; i < points.length; i++) {

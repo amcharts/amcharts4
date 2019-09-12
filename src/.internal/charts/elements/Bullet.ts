@@ -130,7 +130,12 @@ export class Bullet extends Container {
 	 * @param value  Location (0-1)
 	 */
 	public set locationX(value: number) {
-		this.setPropertyValue("locationX", value, false, true);
+		if(this.setPropertyValue("locationX", value)){
+			let dataItem = this.dataItem
+			if(dataItem && dataItem.component){
+				dataItem.component.invalidate();
+			}
+		}
 	}
 
 	/**
@@ -146,7 +151,12 @@ export class Bullet extends Container {
 	 * @param value  Location (0-1)
 	 */
 	public set locationY(value: number) {
-		this.setPropertyValue("locationY", value, false, true);
+		if(this.setPropertyValue("locationY", value)){
+			let dataItem = this.dataItem
+			if(dataItem && dataItem.component){
+				dataItem.component.invalidate();
+			}
+		}
 	}
 
 	/**

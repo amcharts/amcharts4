@@ -108,4 +108,8 @@ export declare class Polyline extends Sprite {
      * @return Coordinates
      */
     positionToPoint(position: number): IOrientationPoint;
+    /**
+     * @ignore
+     */
+    readonly realSegments: IPoint[][];
 }

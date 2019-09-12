@@ -307,6 +307,7 @@ export class TreeMapSeries extends ColumnSeries {
 		return super.showReal(interpolationDuration);
 	}
 
+
 	/**
 	 * Hides series.
 	 *
@@ -339,6 +340,26 @@ export class TreeMapSeries extends ColumnSeries {
 		// Just overriding so that inherited method does not kick in.
 
 	}
+
+	/**
+	 * Returns relative start location for the data item.
+	 *
+	 * @param dataItem  Data item
+	 * @return Location (0-1)
+	 */
+	protected getStartLocation(dataItem: this["_dataItem"]): number {		
+		return 0;
+	}	
+
+	/**
+	 * Returns relative end location for the data item.
+	 *
+	 * @param dataItem  Data item
+	 * @return Location (0-1)
+	 */
+	protected getEndLocation(dataItem: this["_dataItem"]): number {
+		return 1;
+	}	
 
 
 	/**

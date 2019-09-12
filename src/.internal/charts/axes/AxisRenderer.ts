@@ -377,7 +377,6 @@ export class AxisRenderer extends Container {
 	/**
 	 * Converts relative position on axis to point coordinates.
 	 *
-	 * @ignore Exclude from docs
 	 * @param position  Position (0-1)
 	 * @return Point
 	 */

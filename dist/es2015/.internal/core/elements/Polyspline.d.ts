@@ -8,6 +8,7 @@
  * @hidden
  */
 import { Polyline, IPolylineProperties, IPolylineAdapters, IPolylineEvents } from "./Polyline";
+import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
 /**
  * ============================================================================
  * REQUISITES
@@ -77,6 +78,10 @@ export declare class Polyspline extends Polyline {
      */
     _events: IPolysplineEvents;
     /**
+     * Array of points of a spline with 1 px increment. used to get point by position
+     */
+    allPoints: IOrientationPoint[];
+    /**
      * Constructor
      */
     constructor();
@@ -86,6 +91,10 @@ export declare class Polyspline extends Polyline {
      * @ignore Exclude from docs
      */
     makePath(): void;
+    /**
+     * @todo mm
+     */
+    getClosestPointIndex(point: IPoint): number;
     /**
      * @return Tension
      */
@@ -110,4 +119,11 @@ export declare class Polyspline extends Polyline {
      * @param value  Tensions
      */
     tensionY: number;
+    /**
+     * Converts relative position along the line (0-1) into pixel coordinates.
+     *
+     * @param position  Position (0-1)
+     * @return Coordinates
+     */
+    positionToPoint(position: number, extend?: boolean): IOrientationPoint;
 }

@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.6.0] - 2019-09-12
+
+### Added
+- New plugin: [Timeline](https://www.amcharts.com/docs/v4/chart-types/timeline/). Please note it's a commercial plugin, which will need a separate license purchase if you want to remove the branding link on it, even if you have amCharts 4 license.
+
+### Fixed
+- `chart.svgContainer.autoResize = false` was being ignored.
+- If data of chart with `CategoryAxis` had data items without a category value, the chart used to create one extra empty "category".
+
+
 ## [4.5.16] - 2019-09-04
 
 ### Fixed

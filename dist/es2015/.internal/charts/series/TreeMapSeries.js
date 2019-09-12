@@ -235,6 +235,24 @@ var TreeMapSeries = /** @class */ (function (_super) {
         // Just overriding so that inherited method does not kick in.
     };
     /**
+     * Returns relative start location for the data item.
+     *
+     * @param dataItem  Data item
+     * @return Location (0-1)
+     */
+    TreeMapSeries.prototype.getStartLocation = function (dataItem) {
+        return 0;
+    };
+    /**
+     * Returns relative end location for the data item.
+     *
+     * @param dataItem  Data item
+     * @return Location (0-1)
+     */
+    TreeMapSeries.prototype.getEndLocation = function (dataItem) {
+        return 1;
+    };
+    /**
      * @ignore
      */
     TreeMapSeries.prototype.dataChangeUpdate = function () {

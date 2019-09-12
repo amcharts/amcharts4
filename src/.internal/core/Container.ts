@@ -1836,7 +1836,7 @@ export class Container extends Sprite {
 				child.dataItem = dataItem;
 			});
 
-			if(this._background){
+			if (this._background) {
 				this._background.dataItem = dataItem;
 			}
 		}
@@ -2205,12 +2205,12 @@ export class Container extends Sprite {
 		if (options.commercialLicense) {
 			return true;
 		}
-		for(let i = 0; i < options.licenses.length; i++) {
+		for (let i = 0; i < options.licenses.length; i++) {
 			if (options.licenses[i].match(/^CH.{5,}/i)) {
 				return true;
 			}
 		}
-	return false;
+		return false;
 	}
 }
 
