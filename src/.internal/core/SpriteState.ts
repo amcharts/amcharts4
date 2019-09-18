@@ -347,6 +347,16 @@ export class SpriteState<P, A> extends BaseObject {
 		super.processConfig(config);
 	}
 
+	/**
+	 * Adds easing functions to "function" fields.
+	 *
+	 * @param field  Field name
+	 * @return Assign as function?
+	 */
+	protected asFunction(field: string): boolean {
+		return field == "transitionEasing" || super.asIs(field);
+	}
+
 }
 
 /**

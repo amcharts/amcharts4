@@ -235,6 +235,7 @@ var Sunburst = /** @class */ (function (_super) {
         _this.colors = new ColorSet();
         var template = new SunburstSeries();
         _this.seriesTemplates = new DictionaryTemplate(template);
+        template.virtualParent = _this;
         _this._disposers.push(new DictionaryDisposer(_this.seriesTemplates));
         _this._disposers.push(template);
         _this.radius = percent(95);

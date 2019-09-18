@@ -125,10 +125,8 @@ var DateFormatter = /** @class */ (function (_super) {
         if (typeof format === "undefined" || format === "") {
             format = this._dateFormat;
         }
-        // Clean format
-        format = $utils.cleanFormat(format);
-        // get format info (it will also deal with parser caching)
-        var info = this.parseFormat(format);
+        // Init return value
+        var formatted;
         // Do casting if required
         // This will take care of timestamps as well as Date objects
         var date;
@@ -139,19 +137,34 @@ var DateFormatter = /** @class */ (function (_super) {
         else {
             date = $utils.anyToDate(source);
         }
-        // Should we apply custom time zone?
-        if ($type.hasValue(this.timezoneOffset)) {
-            date.setMinutes(date.getMinutes() + date.getTimezoneOffset() - this.timezoneOffset);
+        // Is it a built-in format or Intl.DateTimeFormat
+        if (format instanceof Object) {
+            if (this.intlLocales) {
+                return new Intl.DateTimeFormat(this.intlLocales, format).format(date);
+            }
+            else {
+                return new Intl.DateTimeFormat(null, format).format(date);
+            }
         }
-        // Check if it's a valid date
-        if (!$type.isNumber(date.getTime())) {
-            return this.language.translate("Invalid date");
-        }
-        // Apply format
-        var formatted = this.applyFormat(date, info, this.language);
-        // Capitalize
-        if (this.capitalize) {
-            formatted = formatted.replace(/^.{1}/, formatted.substr(0, 1).toUpperCase());
+        else {
+            // Clean format
+            format = $utils.cleanFormat(format);
+            // get format info (it will also deal with parser caching)
+            var info = this.parseFormat(format);
+            // Should we apply custom time zone?
+            if ($type.hasValue(this.timezoneOffset)) {
+                date.setMinutes(date.getMinutes() + date.getTimezoneOffset() - this.timezoneOffset);
+            }
+            // Check if it's a valid date
+            if (!$type.isNumber(date.getTime())) {
+                return this.language.translate("Invalid date");
+            }
+            // Apply format
+            formatted = this.applyFormat(date, info, this.language);
+            // Capitalize
+            if (this.capitalize) {
+                formatted = formatted.replace(/^.{1}/, formatted.substr(0, 1).toUpperCase());
+            }
         }
         // We're done
         return formatted;
@@ -178,7 +191,7 @@ var DateFormatter = /** @class */ (function (_super) {
             var chunk = chunks[i];
             if (chunk.type === "value") {
                 // Just "Date"?
-                if (chunk.text.match(/^date$/i)) {
+                if (chunk.text.match(/^date$/i) && $type.isString(this._dateFormat)) {
                     chunk.text = this._dateFormat;
                 }
                 // Find all possible parts
@@ -987,6 +1000,25 @@ var DateFormatter = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._inputDateFormat = value;
+            this.invalidateSprite();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DateFormatter.prototype, "intlLocales", {
+        /**
+         * @return Date format
+         */
+        get: function () {
+            return this._intlLocales;
+        },
+        /**
+         * Locales if you are using date formats in `Intl.DateTimeFormatOptions` syntax.
+         *
+         * @param value Locales
+         */
+        set: function (value) {
+            this._intlLocales = value;
             this.invalidateSprite();
         },
         enumerable: true,

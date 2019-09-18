@@ -381,4 +381,11 @@ export declare class Tooltip extends Container {
      * @param source  Source
      */
     copyFrom(source: this): void;
+    /**
+     * Adds easing functions to "function" fields.
+     *
+     * @param field  Field name
+     * @return Assign as function?
+     */
+    protected asFunction(field: string): boolean;
 }

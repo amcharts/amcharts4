@@ -212,4 +212,11 @@ export declare class SpriteState<P, A> extends BaseObject {
     processConfig(config?: {
         [index: string]: any;
     }): void;
+    /**
+     * Adds easing functions to "function" fields.
+     *
+     * @param field  Field name
+     * @return Assign as function?
+     */
+    protected asFunction(field: string): boolean;
 }

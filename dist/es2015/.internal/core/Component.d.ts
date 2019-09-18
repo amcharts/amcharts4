@@ -947,4 +947,11 @@ export declare class Component extends Container {
      * @ignore Exclude from docs
      */
     _systemCheckIfValidate(): boolean;
+    /**
+     * Adds easing functions to "function" fields.
+     *
+     * @param field  Field name
+     * @return Assign as function?
+     */
+    protected asFunction(field: string): boolean;
 }

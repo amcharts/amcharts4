@@ -349,6 +349,14 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      */
     protected asIs(field: string): boolean;
     /**
+     * Checks if field needs to be converted to function, if it is specified
+     * as string.
+     *
+     * @param field  Field name
+     * @return Assign as function?
+     */
+    protected asFunction(field: string): boolean;
+    /**
      * Creates a relevant class instance if such class definition exists.
      *
      * @ignore Exclude from docs

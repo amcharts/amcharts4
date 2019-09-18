@@ -102,25 +102,25 @@ function blobToDataUri(blob: Blob): Promise<string> {
 
 // This loads a stylesheet by URL and then calls the function with it
 // TODO this should be moved into utils or something
-async function loadStylesheet<A>(url: string, f: (sheet: CSSStyleSheet) => Promise<A>): Promise<A> {
+async function loadStylesheet<A>(doc: Document, url: string, f: (sheet: CSSStyleSheet) => Promise<A>): Promise<A> {
 	const response = await $net.load(url);
 
-	const s = document.createElement("style");
+	const s = doc.createElement("style");
 	s.textContent = response.response;
-	document.head.appendChild(s);
+	doc.head.appendChild(s);
 
 	try {
 		return await f(<CSSStyleSheet>s.sheet);
 
 	} finally {
-		document.head.removeChild(s);
+		doc.head.removeChild(s);
 	}
 }
 
 // This calls a function for each CSSRule inside of a CSSStyleSheet.
 // If the CSSStyleSheet has any @import, then it will recursively call the function for those CSSRules too.
 // TODO this should be moved into utils or something
-async function eachStylesheet(topUrl: string, sheet: CSSStyleSheet, f: (topUrl: string, rule: CSSRule) => void): Promise<void> {
+async function eachStylesheet(doc: Document, topUrl: string, sheet: CSSStyleSheet, f: (topUrl: string, rule: CSSRule) => void): Promise<void> {
 	const promises: Array<Promise<void>> = [];
 
 	for (let i = 0; i < sheet.cssRules.length; i++) {
@@ -131,7 +131,7 @@ async function eachStylesheet(topUrl: string, sheet: CSSStyleSheet, f: (topUrl: 
 
 			if (url) {
 				url = $utils.joinUrl(topUrl, url);
-				promises.push(loadStylesheet(url, (sheet) => eachStylesheet(url, sheet, f)));
+				promises.push(loadStylesheet(doc, url, (sheet) => eachStylesheet(doc, url, sheet, f)));
 			}
 
 		} else {
@@ -148,18 +148,33 @@ async function eachStylesheet(topUrl: string, sheet: CSSStyleSheet, f: (topUrl: 
 // If the CSSStyleSheet has any @import, then it will recursively call the function for those CSSRules too.
 // TODO this should be moved into utils or something
 async function eachStylesheets(f: (topUrl: string, rule: CSSRule) => void): Promise<void> {
-	// TODO use $dom.getRoot instead of document ?
-	await Promise.all($array.map(document.styleSheets, (sheet) => {
-		let url = sheet.href;
+	// This uses an <iframe> so it doesn't screw up the site's styles
+	const iframe = document.createElement("iframe");
 
-		if (url == null) {
-			return eachStylesheet(location.href, <CSSStyleSheet>sheet, f);
+	// This tries to make it more accessible for screen readers
+	iframe.setAttribute("title", "");
 
-		} else {
-			url = $utils.joinUrl(location.href, url);
-			return loadStylesheet(url, (sheet) => eachStylesheet(url, sheet, f));
-		}
-	}));
+	document.head.appendChild(iframe);
+
+	try {
+		const doc = iframe.contentDocument;
+
+		// TODO use $dom.getRoot instead of document ?
+		await Promise.all($array.map(document.styleSheets, (sheet) => {
+			let url = sheet.href;
+
+			if (url == null) {
+				return eachStylesheet(doc, location.href, <CSSStyleSheet>sheet, f);
+
+			} else {
+				url = $utils.joinUrl(location.href, url);
+				return loadStylesheet(doc, url, (sheet) => eachStylesheet(doc, url, sheet, f));
+			}
+		}));
+
+	} finally {
+		document.head.removeChild(iframe);
+	}
 }
 
 
@@ -189,12 +204,45 @@ export type imageFormats = "png" | "gif" | "jpg";
  * @since 4.2.0
  */
 export interface IExportCanvas {
+
+	/**
+	 * Top margin in pixels.
+	 */
 	marginTop?: number;
+
+	/**
+	 * Right margin in pixels.
+	 */
 	marginRight?: number;
+
+	/**
+	 * Bottom margin in pixels.
+	 */
 	marginBottom?: number;
+
+	/**
+	 * Left margin in pixels.
+	 */
 	marginLeft?: number;
+
+	/**
+	 * Position to put extra element in relation to main chart.
+	 */
 	position?: "left" | "right" | "top" | "bottom";
+
+	/**
+	 * Reference to element.
+	 */
 	sprite?: Sprite;
+
+	/**
+	 * If this is set to `true` and extra element is higher/wider than main
+	 * chart element, the extra element will be cropped.
+	 *
+	 * @default false
+	 * @since 4.6.1
+	 */
+	crop?: boolean;
 }
 
 /**
@@ -668,7 +716,7 @@ export interface IExportAdapters {
 	},
 
 	dateFormat: {
-		dateFormat: $type.Optional<string>
+		dateFormat: $type.Optional<string | Intl.DateTimeFormatOptions>
 	},
 
 	dateFields: {
@@ -902,7 +950,7 @@ export class Export extends Validatable {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	protected _dateFormat: $type.Optional<string>;
+	protected _dateFormat: $type.Optional<string | Intl.DateTimeFormatOptions>;
 
 	/**
 	 * A list of column keys that hold date values.
@@ -1596,7 +1644,6 @@ export class Export extends Validatable {
 				return uri;
 			}
 			catch (e) {
-
 				// An error occurred, let's try advanced method
 				const data = await this.getImageAdvanced(type, options, includeExtras);
 
@@ -1674,19 +1721,19 @@ export class Export extends Validatable {
 				const extraHeight = extraCanvas.height + extra.marginTop + extra.marginBottom;
 
 				if (extra.position == "top") {
-					middleWidth = $math.max(middleWidth, extraWidth);
+					middleWidth = extra.crop ? middleHeight : $math.max(middleWidth, extraWidth);
 					middleTop += extraHeight;
 
 				} else if (extra.position == "right") {
-					middleHeight = $math.max(middleHeight, extraHeight);
+					middleHeight = extra.crop ? middleHeight : $math.max(middleHeight, extraHeight);
 					extraRight += extraWidth;
 
 				} else if (extra.position == "left") {
-					middleHeight = $math.max(middleHeight, extraHeight);
+					middleHeight = extra.crop ? middleHeight : $math.max(middleHeight, extraHeight);
 					middleLeft += extraWidth;
 
 				} else if (extra.position === "bottom") {
-					middleWidth = $math.max(middleWidth, extraWidth);
+					middleWidth = extra.crop ? middleHeight : $math.max(middleWidth, extraWidth);
 					extraBottom += extraHeight;
 				}
 
@@ -3665,14 +3712,14 @@ export class Export extends Validatable {
 	 *
 	 * @param value Date format
 	 */
-	public set dateFormat(value: $type.Optional<string>) {
+	public set dateFormat(value: $type.Optional<string | Intl.DateTimeFormatOptions>) {
 		this._dateFormat = value;
 	}
 
 	/**
 	 * @return Date format
 	 */
-	public get dateFormat(): $type.Optional<string> {
+	public get dateFormat(): $type.Optional<string | Intl.DateTimeFormatOptions> {
 		return this.adapter.apply("dateFormat", {
 			dateFormat: this._dateFormat
 		}).dateFormat;

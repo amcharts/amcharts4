@@ -1520,6 +1520,15 @@ var MapChart = /** @class */ (function (_super) {
         this.seriesContainer.interactions.isTouchProtected = true;
         this.panSprite.interactions.isTouchProtected = true;
     };
+    /**
+     * Adds easing functions to "function" fields.
+     *
+     * @param field  Field name
+     * @return Assign as function?
+     */
+    MapChart.prototype.asFunction = function (field) {
+        return field == "zoomEasing" || _super.prototype.asIs.call(this, field);
+    };
     return MapChart;
 }(SerialChart));
 export { MapChart };

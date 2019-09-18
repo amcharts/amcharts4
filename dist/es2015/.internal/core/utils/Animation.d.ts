@@ -302,4 +302,11 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      * other's toes by trying to animate the same property.
      */
     private stopSameAnimations();
+    /**
+     * Adds easing functions to "function" fields.
+     *
+     * @param field  Field name
+     * @return Assign as function?
+     */
+    protected asFunction(field: string): boolean;
 }

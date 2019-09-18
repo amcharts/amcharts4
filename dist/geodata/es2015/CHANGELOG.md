@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - New maps: Guatemala, Paraguay.
 
+### Fixed
+- Fixed duplicate ids in `russiaCrimea*` maps.
+
+
 ## [4.1.7] - 2019-07-31
 
 ### Added

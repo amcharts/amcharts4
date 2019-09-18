@@ -246,6 +246,7 @@ export class ColorSet extends BaseObject {
 				color = this.getReusableColor(this._currentStep);
 			}
 			else {
+				this._currentStep += this.step;
 				this.generate(this.minColors);
 				color = this.list[this._currentStep];
 			}

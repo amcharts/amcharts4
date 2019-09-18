@@ -61,12 +61,38 @@ export declare type imageFormats = "png" | "gif" | "jpg";
  * @since 4.2.0
  */
 export interface IExportCanvas {
+    /**
+     * Top margin in pixels.
+     */
     marginTop?: number;
+    /**
+     * Right margin in pixels.
+     */
     marginRight?: number;
+    /**
+     * Bottom margin in pixels.
+     */
     marginBottom?: number;
+    /**
+     * Left margin in pixels.
+     */
     marginLeft?: number;
+    /**
+     * Position to put extra element in relation to main chart.
+     */
     position?: "left" | "right" | "top" | "bottom";
+    /**
+     * Reference to element.
+     */
     sprite?: Sprite;
+    /**
+     * If this is set to `true` and extra element is higher/wider than main
+     * chart element, the extra element will be cropped.
+     *
+     * @default false
+     * @since 4.6.1
+     */
+    crop?: boolean;
 }
 /**
  * Represents options for image export.
@@ -457,7 +483,7 @@ export interface IExportAdapters {
         dateFormatter: DateFormatter;
     };
     dateFormat: {
-        dateFormat: $type.Optional<string>;
+        dateFormat: $type.Optional<string | Intl.DateTimeFormatOptions>;
     };
     dateFields: {
         dateFields: any;
@@ -654,7 +680,7 @@ export declare class Export extends Validatable {
      *
      * @ignore Exclude from docs
      */
-    protected _dateFormat: $type.Optional<string>;
+    protected _dateFormat: $type.Optional<string | Intl.DateTimeFormatOptions>;
     /**
      * A list of column keys that hold date values.
      *
@@ -1368,7 +1394,7 @@ export declare class Export extends Validatable {
      *
      * @param value Date format
      */
-    dateFormat: $type.Optional<string>;
+    dateFormat: $type.Optional<string | Intl.DateTimeFormatOptions>;
     /**
      * @return Date field list
      */

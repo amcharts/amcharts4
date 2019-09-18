@@ -431,7 +431,6 @@ var ColumnSeries = /** @class */ (function (_super) {
                 var offset = ((b - t) - maxHeight) / 2;
                 b -= offset;
                 t += offset;
-                console.log(maxHeight, Math.abs(b - t));
             }
             var rightLocation = dataItem.locations[xField];
             var leftLocation = dataItem.locations[xOpenField];

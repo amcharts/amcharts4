@@ -702,6 +702,7 @@ export class TreeMap extends XYChart {
 
 		const template = new TreeMapSeries();
 		this.seriesTemplates = new DictionaryTemplate<string, this["_seriesType"]>(template);
+		template.virtualParent = this;
 		this._disposers.push(new DictionaryDisposer(this.seriesTemplates));
 		this._disposers.push(template);
 

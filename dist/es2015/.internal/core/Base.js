@@ -444,11 +444,32 @@ var BaseObject = /** @class */ (function () {
                         target[configKey] = document["am4lang_" + configValue];
                     }
                 }
+                else if (configKey == "parent" && $type.isString(configValue)) {
+                    // ... a parent referred via its it
+                    // ------------------------------------------------------------------
+                    var parent_1 = _this.map.getKey(configValue);
+                    if (parent_1) {
+                        target[configKey] = parent_1;
+                    }
+                    else {
+                        throw Error("Non-existing ID in config: \"" + configValue + "\".");
+                    }
+                }
                 else if (_this.asIs(configKey)) {
                     // ... a special field, just set it to new value
                     // ------------------------------------------------------------------
                     // (no need to add each indvidual item)
                     target[configKey] = configValue;
+                }
+                else if (_this.asFunction(configKey) && $type.isString(configValue)) {
+                    // ... a field indicating function name to look for in registry
+                    // ------------------------------------------------------------------
+                    if ($type.hasValue(registry.registeredClasses[configValue])) {
+                        target[configKey] = registry.registeredClasses[configValue];
+                    }
+                    else {
+                        throw Error("Invalid easing function: " + configValue);
+                    }
                 }
                 else if (configValue instanceof BaseObject) {
                     // ... a BaseObject object, we just going to use it as it is
@@ -898,6 +919,16 @@ var BaseObject = /** @class */ (function () {
      */
     BaseObject.prototype.asIs = function (field) {
         return $array.indexOf(["locale"], field) != -1;
+    };
+    /**
+     * Checks if field needs to be converted to function, if it is specified
+     * as string.
+     *
+     * @param field  Field name
+     * @return Assign as function?
+     */
+    BaseObject.prototype.asFunction = function (field) {
+        return false;
     };
     /**
      * Creates a relevant class instance if such class definition exists.

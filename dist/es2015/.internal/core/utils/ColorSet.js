@@ -204,6 +204,7 @@ var ColorSet = /** @class */ (function (_super) {
                 color = this.getReusableColor(this._currentStep);
             }
             else {
+                this._currentStep += this.step;
                 this.generate(this.minColors);
                 color = this.list[this._currentStep];
             }

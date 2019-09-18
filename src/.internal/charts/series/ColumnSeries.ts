@@ -627,8 +627,6 @@ export class ColumnSeries extends XYSeries {
 				let offset: number = ((b - t) - maxHeight) / 2;
 				b -= offset;
 				t += offset;
-
-							console.log(maxHeight, Math.abs(b - t))
 			}
 
 			let rightLocation = dataItem.locations[xField];

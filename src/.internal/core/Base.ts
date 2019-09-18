@@ -566,12 +566,37 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 					}
 
 				}
+				else if (configKey == "parent" && $type.isString(configValue)) {
+
+					// ... a parent referred via its it
+					// ------------------------------------------------------------------
+					const parent = this.map.getKey(configValue);
+					if (parent) {
+						target[configKey] = parent;
+					}
+					else {
+						throw Error("Non-existing ID in config: \"" + configValue + "\".");
+					}
+
+				}
 				else if (this.asIs(configKey)) {
 
 					// ... a special field, just set it to new value
 					// ------------------------------------------------------------------
 					// (no need to add each indvidual item)
 					target[configKey] = configValue;
+
+				}
+				else if (this.asFunction(configKey) && $type.isString(configValue)) {
+
+					// ... a field indicating function name to look for in registry
+					// ------------------------------------------------------------------
+					if ($type.hasValue(registry.registeredClasses[configValue])) {
+						target[configKey] = registry.registeredClasses[configValue];
+					}
+					else {
+						throw Error("Invalid easing function: " + configValue);
+					}
 
 				}
 				else if (<any>configValue instanceof BaseObject) {
@@ -1113,6 +1138,17 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 	 */
 	protected asIs(field: string): boolean {
 		return $array.indexOf(["locale"], field) != -1;
+	}
+
+	/**
+	 * Checks if field needs to be converted to function, if it is specified
+	 * as string.
+	 *
+	 * @param field  Field name
+	 * @return Assign as function?
+	 */
+	protected asFunction(field: string): boolean {
+		return false;
 	}
 
 	/**

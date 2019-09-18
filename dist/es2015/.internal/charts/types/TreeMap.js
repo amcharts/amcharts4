@@ -480,6 +480,7 @@ var TreeMap = /** @class */ (function (_super) {
         _this.yAxis = yAxis;
         var template = new TreeMapSeries();
         _this.seriesTemplates = new DictionaryTemplate(template);
+        template.virtualParent = _this;
         _this._disposers.push(new DictionaryDisposer(_this.seriesTemplates));
         _this._disposers.push(template);
         _this.zoomOutButton.events.on("hit", function () {

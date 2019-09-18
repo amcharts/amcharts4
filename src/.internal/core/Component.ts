@@ -174,7 +174,7 @@ export interface IComponentAdapters extends IContainerAdapters, IComponentProper
 
 	start: number;
 
-	end:number;
+	end: number;
 }
 
 
@@ -1081,7 +1081,7 @@ export class Component extends Container {
 
 		registry.removeFromInvalidComponents(this);
 
-		if(this.__disabled){
+		if (this.__disabled) {
 			return;
 		}
 
@@ -1132,7 +1132,7 @@ export class Component extends Container {
 
 				this.dataUsers.each((dataUser) => {
 					if (dataUser.data.length == 0) { // checking if data is not set directly
-						let dataUserDataItem: DataItem = dataUser.getDataItem(rawDataItem);						
+						let dataUserDataItem: DataItem = dataUser.getDataItem(rawDataItem);
 						dataUser.processDataItem(dataUserDataItem, rawDataItem);
 					}
 				});
@@ -2069,6 +2069,16 @@ export class Component extends Container {
 		} else {
 			return true;
 		}
+	}
+
+	/**
+	 * Adds easing functions to "function" fields.
+	 *
+	 * @param field  Field name
+	 * @return Assign as function?
+	 */
+	protected asFunction(field: string): boolean {
+		return field == "interpolationEasing" || field == "rangeChangeEasing" ||  super.asIs(field);
 	}
 }
 

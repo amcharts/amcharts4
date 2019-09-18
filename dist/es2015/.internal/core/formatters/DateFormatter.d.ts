@@ -49,7 +49,11 @@ export declare class DateFormatter extends BaseObject {
     /**
      * Date format.
      */
-    protected _dateFormat: string;
+    protected _dateFormat: string | Intl.DateTimeFormatOptions;
+    /**
+     * Locales to use when formatting using Intl.DateFormatter
+     */
+    protected _intlLocales: string;
     /**
      * Input date format.
      */
@@ -134,7 +138,7 @@ export declare class DateFormatter extends BaseObject {
      * @param format  Format
      * @return Formatted date string
      */
-    format(source: any, format?: string): string;
+    format(source: any, format?: string | Intl.DateTimeFormatOptions): string;
     /**
      * Parses format into structured infromation.
      *
@@ -204,7 +208,7 @@ export declare class DateFormatter extends BaseObject {
      * @default "yyyy-MM-dd"
      * @param value Date format
      */
-    dateFormat: string;
+    dateFormat: string | Intl.DateTimeFormatOptions;
     /**
      * @return Date format
      */
@@ -215,6 +219,15 @@ export declare class DateFormatter extends BaseObject {
      * @param value Date format
      */
     inputDateFormat: string;
+    /**
+     * @return Date format
+     */
+    /**
+     * Locales if you are using date formats in `Intl.DateTimeFormatOptions` syntax.
+     *
+     * @param value Locales
+     */
+    intlLocales: string;
     /**
      * @return Use UTC?
      */

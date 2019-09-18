@@ -423,6 +423,22 @@ export class XYChartScrollbar extends Scrollbar {
 	}
 
 	/**
+	 * A [[Sprite]] object representing overlay that is used to dim area of the
+	 * scrollbar that is currently not selected.
+	 *
+	 * Use its `fillOpacity` to set opacity of the fill, with `0` (zero)
+	 * completely disabling the dimming, and `1` making unselected area completely
+	 * blank.
+	 *
+	 * @since 4.6.1
+	 * @readonly
+	 * @return Unselected area curtain element
+	 */
+	public get unselectedOverlay(): Sprite {
+		return this._unselectedOverlay;
+	}
+
+	/**
 	 * Updates Scrollbar's internal chart's data when the main chart's data
 	 * changes.
 	 *

@@ -1619,6 +1619,15 @@ var Component = /** @class */ (function (_super) {
             return true;
         }
     };
+    /**
+     * Adds easing functions to "function" fields.
+     *
+     * @param field  Field name
+     * @return Assign as function?
+     */
+    Component.prototype.asFunction = function (field) {
+        return field == "interpolationEasing" || field == "rangeChangeEasing" || _super.prototype.asIs.call(this, field);
+    };
     return Component;
 }(Container));
 export { Component };

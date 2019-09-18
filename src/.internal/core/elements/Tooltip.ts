@@ -784,6 +784,16 @@ export class Tooltip extends Container {
 			this._boundingRect = source._boundingRect;
 		}
 	}
+
+	/**
+	 * Adds easing functions to "function" fields.
+	 *
+	 * @param field  Field name
+	 * @return Assign as function?
+	 */
+	protected asFunction(field: string): boolean {
+		return field == "animationEasing" || super.asIs(field);
+	}
 }
 
 /**

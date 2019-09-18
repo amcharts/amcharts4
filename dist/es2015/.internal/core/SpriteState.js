@@ -298,6 +298,15 @@ var SpriteState = /** @class */ (function (_super) {
         }
         _super.prototype.processConfig.call(this, config);
     };
+    /**
+     * Adds easing functions to "function" fields.
+     *
+     * @param field  Field name
+     * @return Assign as function?
+     */
+    SpriteState.prototype.asFunction = function (field) {
+        return field == "transitionEasing" || _super.prototype.asIs.call(this, field);
+    };
     return SpriteState;
 }(BaseObject));
 export { SpriteState };

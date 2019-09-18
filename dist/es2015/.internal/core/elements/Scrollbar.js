@@ -889,6 +889,15 @@ var Scrollbar = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Adds easing functions to "function" fields.
+     *
+     * @param field  Field name
+     * @return Assign as function?
+     */
+    Scrollbar.prototype.asFunction = function (field) {
+        return field == "animationEasing" || _super.prototype.asIs.call(this, field);
+    };
     return Scrollbar;
 }(Container));
 export { Scrollbar };

@@ -11,6 +11,7 @@
  * @hidden
  */
 import * as $math from "../utils/Math";
+import { registry } from "../Registry";
 
 /**
  * The functions below are from D3.js library (https://d3js.org/)
@@ -60,6 +61,7 @@ import * as $math from "../utils/Math";
 export function linear(t: number): number {
 	return +t;
 }
+registry.registeredClasses["ease.linear"] = linear;
 
 /**
  * Easing function: "quadIn".
@@ -67,6 +69,7 @@ export function linear(t: number): number {
 export function quadIn(t: number): number {
 	return t * t;
 }
+registry.registeredClasses["ease.quadIn"] = quadIn;
 
 /**
  * Easing function: "quadOut".
@@ -74,6 +77,7 @@ export function quadIn(t: number): number {
 export function quadOut(t: number): number {
 	return t * (2 - t);
 }
+registry.registeredClasses["ease.quadOut"] = quadOut;
 
 /**
  * Easing function: "quadInOut".
@@ -82,6 +86,7 @@ export function quadInOut(t: number): number {
 	t *= 2;
 	return (t <= 1 ? t * t : --t * (2 - t) + 1) / 2;
 }
+registry.registeredClasses["ease.quadInOut"] = quadInOut;
 
 /**
  * Easing function: "polyIn".
@@ -89,6 +94,7 @@ export function quadInOut(t: number): number {
 export function polyIn(t: number, e: number): number {
 	return Math.pow(t, e);
 }
+registry.registeredClasses["ease.polyIn"] = polyIn;
 
 /**
  * Easing function: "polyOut".
@@ -96,6 +102,7 @@ export function polyIn(t: number, e: number): number {
 export function polyOut(t: number, e: number): number {
 	return 1 - Math.pow(1 - t, e);
 }
+registry.registeredClasses["ease.polyOut"] = polyOut;
 
 /**
  * Easing function: "polyInOut".
@@ -104,6 +111,7 @@ export function polyInOut(t: number, e: number): number {
 	t *= 2;
 	return (t <= 1 ? Math.pow(t, e) : 2 - Math.pow(2 - t, e)) / 2;
 }
+registry.registeredClasses["ease.polyInOut"] = polyInOut;
 
 /**
  * Easing function: "polyIn3".
@@ -111,6 +119,7 @@ export function polyInOut(t: number, e: number): number {
 export function polyIn3(t: number): number {
 	return polyIn(t, 3);
 }
+registry.registeredClasses["ease.polyIn3"] = polyIn3;
 
 /**
  * Easing function: "polyOut3".
@@ -118,6 +127,7 @@ export function polyIn3(t: number): number {
 export function polyOut3(t: number): number {
 	return polyOut(t, 3);
 }
+registry.registeredClasses["ease.polyOut3"] = polyOut3;
 
 /**
  * Easing function: "polyInOut3".
@@ -125,6 +135,7 @@ export function polyOut3(t: number): number {
 export function polyInOut3(t: number): number {
 	return polyInOut(t, 3);
 }
+registry.registeredClasses["ease.polyInOut3"] = polyInOut3;
 
 
 /**
@@ -140,6 +151,7 @@ export function polyInOut3(t: number): number {
 export function expIn(t: number): number {
 	return Math.pow(2, 10 * t - 10);
 }
+registry.registeredClasses["ease.expIn"] = expIn;
 
 /**
  * Easing function: "expOut".
@@ -147,6 +159,7 @@ export function expIn(t: number): number {
 export function expOut(t: number): number {
 	return 1 - Math.pow(2, -10 * t);
 }
+registry.registeredClasses["ease.expOut"] = expOut;
 
 /**
  * Easing function: "expInOut".
@@ -155,6 +168,8 @@ export function expInOut(t: number): number {
 	t *= 2;
 	return (t <= 1 ? Math.pow(2, 10 * t - 10) : 2 - Math.pow(2, 10 - 10 * t)) / 2;
 }
+registry.registeredClasses["ease.expInOut"] = expInOut;
+
 
 /**
  * ============================================================================
@@ -169,6 +184,7 @@ export function expInOut(t: number): number {
 export function sinIn(t: number): number {
 	return 1 - Math.cos(t * $math.HALFPI);
 }
+registry.registeredClasses["ease.sinIn"] = sinIn;
 
 /**
  * Easing function: "sinOut".
@@ -176,6 +192,7 @@ export function sinIn(t: number): number {
 export function sinOut(t: number): number {
 	return Math.sin(t * $math.HALFPI);
 }
+registry.registeredClasses["ease.sinOut"] = sinOut;
 
 /**
  * Easing function: "sinInOut".
@@ -183,6 +200,7 @@ export function sinOut(t: number): number {
 export function sinInOut(t: number): number {
 	return (1 - Math.cos($math.PI * t)) / 2;
 }
+registry.registeredClasses["ease.sinInOut"] = sinInOut;
 
 
 /**
@@ -198,6 +216,7 @@ export function sinInOut(t: number): number {
 export function cubicIn(t: number): number {
 	return t * t * t;
 }
+registry.registeredClasses["ease.cubicIn"] = cubicIn;
 
 /**
  * Easing function: "cubicOut".
@@ -205,6 +224,7 @@ export function cubicIn(t: number): number {
 export function cubicOut(t: number): number {
 	return --t * t * t + 1;
 }
+registry.registeredClasses["ease.cubicOut"] = cubicOut;
 
 /**
  * Easing function: "cubicInOut".
@@ -213,6 +233,7 @@ export function cubicInOut(t: number): number {
 	t *= 2;
 	return (t <= 1 ? t * t * t : (t -= 2) * t * t + 2) / 2;
 }
+registry.registeredClasses["ease.cubicInOut"] = cubicInOut;
 
 
 /**
@@ -228,6 +249,7 @@ export function cubicInOut(t: number): number {
 export function circleIn(t: number): number {
 	return 1 - Math.sqrt(1 - t * t);
 }
+registry.registeredClasses["ease.circleIn"] = circleIn;
 
 /**
  * Easing function: "circleOut".
@@ -235,6 +257,7 @@ export function circleIn(t: number): number {
 export function circleOut(t: number): number {
 	return Math.sqrt(1 - --t * t);
 }
+registry.registeredClasses["ease.circleOut"] = circleOut;
 
 /**
  * Easing function: "circleInOut".
@@ -243,6 +266,7 @@ export function circleInOut(t: number): number {
 	t *= 2;
 	return (t <= 1 ? 1 - Math.sqrt(1 - t * t) : Math.sqrt(1 - (t -= 2) * t) + 1) / 2;
 }
+registry.registeredClasses["ease.circleInOut"] = circleInOut;
 
 
 /**
@@ -268,6 +292,7 @@ let b1 = 4 / 11,
 export function bounceIn(t: number): number {
 	return 1 - bounceOut(1 - t);
 }
+registry.registeredClasses["ease.bounceIn"] = bounceIn;
 
 /**
  * Easing function: "bounceOut".
@@ -276,6 +301,7 @@ export function bounceOut(t: number): number {
 	t = +t;
 	return t < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
 }
+registry.registeredClasses["ease.bounceOut"] = bounceOut;
 
 /**
  * Easing function: "bounceInOut".
@@ -284,7 +310,7 @@ export function bounceInOut(t: number): number {
 	t *= 2;
 	return (t <= 1 ? 1 - bounceOut(1 - t) : bounceOut(t - 1) + 1) / 2;
 }
-
+registry.registeredClasses["ease.bounceInOut"] = bounceInOut;
 
 /**
  * ============================================================================
@@ -307,6 +333,7 @@ let s = Math.asin(1 / amplitude) * period;
 export function elasticIn(t: number): number {
 	return amplitude * Math.pow(2, 10 * --t) * Math.sin((s - t) / period);
 }
+registry.registeredClasses["ease.elasticIn"] = elasticIn;
 
 /**
  * Easing function: "elasticOut".
@@ -318,6 +345,7 @@ export function elasticIn(t: number): number {
 export function elasticOut(t: number): number {
 	return 1 - amplitude * Math.pow(2, -10 * (t = +t)) * Math.sin((t + s) / period);
 }
+registry.registeredClasses["ease.elasticOut"] = elasticOut;
 
 /**
  * Easing function: "elasticInOut".
@@ -332,3 +360,4 @@ export function elasticInOut(t: number): number {
 		? amplitude * Math.pow(2, 10 * t) * Math.sin((s - t) / period)
 		: 2 - amplitude * Math.pow(2, -10 * t) * Math.sin((s + t) / period)) / 2;
 }
+registry.registeredClasses["ease.elasticInOut"] = elasticInOut;

@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.6.1] - 2019-09-18
+
+### Added
+- New property `unselectedOverlay` added to `XYChartScrollbar`. It contains a reference to `Sprite` element used as a "curtain" on unselected areas of the scrollbar. Use it to control dimming effect by using its `fill` and `fillOpacity` properties.
+- Export: New option `crop` (default: `false`) added to `extraSprices` interface `IExportCanvas`. If set to `true`, it will crop extra elements to match height/width of the main chart being exported.
+- Wherever "date format" can be set it now accepts in [Intl.DateTimeFormatOptions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat) format. E.g. `chart.dateFormatter.dateFormat = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }`.
+- New property `intlLocales` on `DateFormatter`. Specifies list of locales to use if date formates are specified as `IntlDateTimeFormatOptions`.
+- JSON: You can now set `parent` property of the elements by their `id` in JSON configs. E.g.: `scrollbarX: { parent: "aa1" }`.
+- JSON: You can now set easing functions as strings in JSON config, e.g. `transitionEasing: "ease.cubicInOut"`.
+
+### Fixed
+- `TreeMapSeries` and `SunburstSeries` were not inheriting `numberFormatter` propertly from the chart.
+- Removed a leftover `console.log()` call.
+- Exporting no longer temporarily modifies the site's styles.
+
+
 ## [4.6.0] - 2019-09-12
 
 ### Added

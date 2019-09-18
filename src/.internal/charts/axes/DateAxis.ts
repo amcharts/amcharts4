@@ -155,7 +155,7 @@ export interface IDateAxisProperties extends IValueAxisProperties {
 	 *
 	 * Will use same format as for labels, if not set.
 	 */
-	tooltipDateFormat?: string;
+	tooltipDateFormat?: string | Intl.DateTimeFormatOptions;
 }
 
 /**
@@ -317,7 +317,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @see {@link DateFormatter}
 	 */
-	public dateFormats: Dictionary<TimeUnit, string> = new Dictionary<TimeUnit, string>();
+	public dateFormats: Dictionary<TimeUnit, string | Intl.DateTimeFormatOptions> = new Dictionary<TimeUnit, string | Intl.DateTimeFormatOptions>();
 
 	/**
 	 * These formats are applied to labels that are first in a larger unit.
@@ -338,7 +338,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * This can be disabled by setting `markUnitChange = false`.
 	 */
-	public periodChangeDateFormats: Dictionary<TimeUnit, string> = new Dictionary<TimeUnit, string>();
+	public periodChangeDateFormats: Dictionary<TimeUnit, string | Intl.DateTimeFormatOptions> = new Dictionary<TimeUnit, string | Intl.DateTimeFormatOptions>();
 
 	/**
 	 * At which intervals grid elements are displayed.
@@ -1007,7 +1007,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 								let endDate = $time.copy(date); // you might think it's easier to add intervalduration to timestamp, however it won't work for months or years which are not of the same length
 								endDate = $time.add(endDate, timeUnit, intervalCount, this.dateFormatter.utc);
 
-								let format: string = this.dateFormats.getKey(timeUnit);
+								let format = this.dateFormats.getKey(timeUnit);
 
 								if (this.markUnitChange && prevGridDate) {
 									if ($time.checkChange(date, prevGridDate, this._nextGridUnit, this.dateFormatter.utc)) {
@@ -1597,14 +1597,14 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @param value  Date format
 	 */
-	public set tooltipDateFormat(value: string) {
+	public set tooltipDateFormat(value: string | Intl.DateTimeFormatOptions) {
 		this.setPropertyValue("tooltipDateFormat", value);
 	}
 
 	/**
 	 * @return Date format
 	 */
-	public get tooltipDateFormat(): string {
+	public get tooltipDateFormat(): string | Intl.DateTimeFormatOptions {
 		return this.getPropertyValue("tooltipDateFormat");
 	}
 
@@ -1787,7 +1787,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @return Format
 	 */
-	protected getCurrentLabelFormat(): string {
+	protected getCurrentLabelFormat(): string | Intl.DateTimeFormatOptions {
 		return this.dateFormats.getKey(this._gridInterval ? this._gridInterval.timeUnit : "day");
 	}
 

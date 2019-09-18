@@ -609,6 +609,15 @@ var Tooltip = /** @class */ (function (_super) {
             this._boundingRect = source._boundingRect;
         }
     };
+    /**
+     * Adds easing functions to "function" fields.
+     *
+     * @param field  Field name
+     * @return Assign as function?
+     */
+    Tooltip.prototype.asFunction = function (field) {
+        return field == "animationEasing" || _super.prototype.asIs.call(this, field);
+    };
     return Tooltip;
 }(Container));
 export { Tooltip };

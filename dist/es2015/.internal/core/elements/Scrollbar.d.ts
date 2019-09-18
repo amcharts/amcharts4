@@ -458,4 +458,11 @@ export declare class Scrollbar extends Container {
      * @param value (value: number) => number
      */
     animationEasing: (value: number) => number;
+    /**
+     * Adds easing functions to "function" fields.
+     *
+     * @param field  Field name
+     * @return Assign as function?
+     */
+    protected asFunction(field: string): boolean;
 }

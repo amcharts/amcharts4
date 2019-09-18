@@ -1037,4 +1037,11 @@ export declare class MapChart extends SerialChart {
     protected setTapToActivate(value: boolean): void;
     protected handleTapToActivate(): void;
     protected handleTapToActivateDeactivation(): void;
+    /**
+     * Adds easing functions to "function" fields.
+     *
+     * @param field  Field name
+     * @return Assign as function?
+     */
+    protected asFunction(field: string): boolean;
 }

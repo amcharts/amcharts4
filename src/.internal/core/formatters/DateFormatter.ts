@@ -61,7 +61,12 @@ export class DateFormatter extends BaseObject {
 	/**
 	 * Date format.
 	 */
-	protected _dateFormat: string = "yyyy-MM-dd";
+	protected _dateFormat: string | Intl.DateTimeFormatOptions = "yyyy-MM-dd";
+
+	/**
+	 * Locales to use when formatting using Intl.DateFormatter
+	 */
+	protected _intlLocales: string;
 
 	/**
 	 * Input date format.
@@ -172,7 +177,7 @@ export class DateFormatter extends BaseObject {
 	 * @param format  Format
 	 * @return Formatted date string
 	 */
-	public format(source: any, format?: string): string {
+	public format(source: any, format?: string | Intl.DateTimeFormatOptions): string {
 
 		// No language?
 		if (!this.language) {
@@ -189,11 +194,8 @@ export class DateFormatter extends BaseObject {
 			format = this._dateFormat;
 		}
 
-		// Clean format
-		format = $utils.cleanFormat(format);
-
-		// get format info (it will also deal with parser caching)
-		let info = this.parseFormat(format);
+		// Init return value
+		let formatted;
 
 		// Do casting if required
 		// This will take care of timestamps as well as Date objects
@@ -206,25 +208,45 @@ export class DateFormatter extends BaseObject {
 			date = $utils.anyToDate(source);
 		}
 
-		// Should we apply custom time zone?
-		if ($type.hasValue(this.timezoneOffset)) {
-			date.setMinutes(date.getMinutes() + date.getTimezoneOffset() - this.timezoneOffset);
+		// Is it a built-in format or Intl.DateTimeFormat
+		if (format instanceof Object) {
+
+			if (this.intlLocales) {
+				return new Intl.DateTimeFormat(this.intlLocales, <Intl.DateTimeFormatOptions>format).format(date)
+			}
+			else {
+				return new Intl.DateTimeFormat(null, <Intl.DateTimeFormatOptions>format).format(date)
+			}
+
 		}
+		else {
 
-		// Check if it's a valid date
-		if (!$type.isNumber(date.getTime())) {
-			return this.language.translate("Invalid date");
-		}
+			// Clean format
+			format = $utils.cleanFormat(format);
 
-		// Apply format
-		let formatted = this.applyFormat(date, info, this.language);
+			// get format info (it will also deal with parser caching)
+			let info = this.parseFormat(format);
 
+			// Should we apply custom time zone?
+			if ($type.hasValue(this.timezoneOffset)) {
+				date.setMinutes(date.getMinutes() + date.getTimezoneOffset() - this.timezoneOffset);
+			}
 
-		// Capitalize
-		if (this.capitalize) {
-			formatted = formatted.replace(
-				/^.{1}/, formatted.substr(0, 1).toUpperCase()
-			);
+			// Check if it's a valid date
+			if (!$type.isNumber(date.getTime())) {
+				return this.language.translate("Invalid date");
+			}
+
+			// Apply format
+			formatted = this.applyFormat(date, info, this.language);
+
+			// Capitalize
+			if (this.capitalize) {
+				formatted = formatted.replace(
+					/^.{1}/, formatted.substr(0, 1).toUpperCase()
+				);
+			}
+
 		}
 
 		// We're done
@@ -258,7 +280,7 @@ export class DateFormatter extends BaseObject {
 			if (chunk.type === "value") {
 
 				// Just "Date"?
-				if (chunk.text.match(/^date$/i)) {
+				if (chunk.text.match(/^date$/i) && $type.isString(this._dateFormat)) {
 					chunk.text = this._dateFormat;
 				}
 
@@ -1225,7 +1247,7 @@ export class DateFormatter extends BaseObject {
 	 * @default "yyyy-MM-dd"
 	 * @param value Date format
 	 */
-	public set dateFormat(value: string) {
+	public set dateFormat(value: string | Intl.DateTimeFormatOptions) {
 		this._dateFormat = value;
 		this.invalidateSprite();
 	}
@@ -1233,7 +1255,7 @@ export class DateFormatter extends BaseObject {
 	/**
 	 * @return Date format
 	 */
-	public get dateFormat(): string {
+	public get dateFormat(): string | Intl.DateTimeFormatOptions {
 		return this._dateFormat;
 	}
 
@@ -1253,6 +1275,23 @@ export class DateFormatter extends BaseObject {
 	 */
 	public get inputDateFormat(): string {
 		return this._inputDateFormat;
+	}
+
+	/**
+	 * Locales if you are using date formats in `Intl.DateTimeFormatOptions` syntax.
+	 *
+	 * @param value Locales
+	 */
+	public set intlLocales(value: string) {
+		this._intlLocales = value;
+		this.invalidateSprite();
+	}
+
+	/**
+	 * @return Date format
+	 */
+	public get intlLocales(): string {
+		return this._intlLocales;
 	}
 
 	/**

@@ -105,7 +105,7 @@ export interface IDateAxisProperties extends IValueAxisProperties {
      *
      * Will use same format as for labels, if not set.
      */
-    tooltipDateFormat?: string;
+    tooltipDateFormat?: string | Intl.DateTimeFormatOptions;
 }
 /**
  * Defines events for [[DateAxis]].
@@ -256,7 +256,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @see {@link DateFormatter}
      */
-    dateFormats: Dictionary<TimeUnit, string>;
+    dateFormats: Dictionary<TimeUnit, string | Intl.DateTimeFormatOptions>;
     /**
      * These formats are applied to labels that are first in a larger unit.
      *
@@ -276,7 +276,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * This can be disabled by setting `markUnitChange = false`.
      */
-    periodChangeDateFormats: Dictionary<TimeUnit, string>;
+    periodChangeDateFormats: Dictionary<TimeUnit, string | Intl.DateTimeFormatOptions>;
     /**
      * At which intervals grid elements are displayed.
      */
@@ -660,7 +660,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @param value  Date format
      */
-    tooltipDateFormat: string;
+    tooltipDateFormat: string | Intl.DateTimeFormatOptions;
     /**
      * @return Use different format for period beginning?
      */
@@ -743,7 +743,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @return Format
      */
-    protected getCurrentLabelFormat(): string;
+    protected getCurrentLabelFormat(): string | Intl.DateTimeFormatOptions;
     /**
      * Initializes an Axis renderer.
      *

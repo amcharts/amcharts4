@@ -100,7 +100,7 @@ function blobToDataUri(blob) {
 }
 // This loads a stylesheet by URL and then calls the function with it
 // TODO this should be moved into utils or something
-function loadStylesheet(url, f) {
+function loadStylesheet(doc, url, f) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
         var response, s;
         return tslib_1.__generator(this, function (_a) {
@@ -108,16 +108,16 @@ function loadStylesheet(url, f) {
                 case 0: return [4 /*yield*/, $net.load(url)];
                 case 1:
                     response = _a.sent();
-                    s = document.createElement("style");
+                    s = doc.createElement("style");
                     s.textContent = response.response;
-                    document.head.appendChild(s);
+                    doc.head.appendChild(s);
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, , 4, 5]);
                     return [4 /*yield*/, f(s.sheet)];
                 case 3: return [2 /*return*/, _a.sent()];
                 case 4:
-                    document.head.removeChild(s);
+                    doc.head.removeChild(s);
                     return [7 /*endfinally*/];
                 case 5: return [2 /*return*/];
             }
@@ -127,7 +127,7 @@ function loadStylesheet(url, f) {
 // This calls a function for each CSSRule inside of a CSSStyleSheet.
 // If the CSSStyleSheet has any @import, then it will recursively call the function for those CSSRules too.
 // TODO this should be moved into utils or something
-function eachStylesheet(topUrl, sheet, f) {
+function eachStylesheet(doc, topUrl, sheet, f) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
         var promises, _loop_1, i;
         return tslib_1.__generator(this, function (_a) {
@@ -140,7 +140,7 @@ function eachStylesheet(topUrl, sheet, f) {
                             var url_1 = rule.href;
                             if (url_1) {
                                 url_1 = $utils.joinUrl(topUrl, url_1);
-                                promises.push(loadStylesheet(url_1, function (sheet) { return eachStylesheet(url_1, sheet, f); }));
+                                promises.push(loadStylesheet(doc, url_1, function (sheet) { return eachStylesheet(doc, url_1, sheet, f); }));
                             }
                         }
                         else {
@@ -165,24 +165,37 @@ function eachStylesheet(topUrl, sheet, f) {
 // TODO this should be moved into utils or something
 function eachStylesheets(f) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
+        var iframe, doc_1;
         return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
-                case 0: 
-                // TODO use $dom.getRoot instead of document ?
-                return [4 /*yield*/, Promise.all($array.map(document.styleSheets, function (sheet) {
-                        var url = sheet.href;
-                        if (url == null) {
-                            return eachStylesheet(location.href, sheet, f);
-                        }
-                        else {
-                            url = $utils.joinUrl(location.href, url);
-                            return loadStylesheet(url, function (sheet) { return eachStylesheet(url, sheet, f); });
-                        }
-                    }))];
+                case 0:
+                    iframe = document.createElement("iframe");
+                    // This tries to make it more accessible for screen readers
+                    iframe.setAttribute("title", "");
+                    document.head.appendChild(iframe);
+                    _a.label = 1;
                 case 1:
+                    _a.trys.push([1, , 3, 4]);
+                    doc_1 = iframe.contentDocument;
+                    // TODO use $dom.getRoot instead of document ?
+                    return [4 /*yield*/, Promise.all($array.map(document.styleSheets, function (sheet) {
+                            var url = sheet.href;
+                            if (url == null) {
+                                return eachStylesheet(doc_1, location.href, sheet, f);
+                            }
+                            else {
+                                url = $utils.joinUrl(location.href, url);
+                                return loadStylesheet(doc_1, url, function (sheet) { return eachStylesheet(doc_1, url, sheet, f); });
+                            }
+                        }))];
+                case 2:
                     // TODO use $dom.getRoot instead of document ?
                     _a.sent();
-                    return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 3:
+                    document.head.removeChild(iframe);
+                    return [7 /*endfinally*/];
+                case 4: return [2 /*return*/];
             }
         });
     });
@@ -907,19 +920,19 @@ var Export = /** @class */ (function (_super) {
                                             extraWidth = extraCanvas.width + extra.marginLeft + extra.marginRight;
                                             extraHeight = extraCanvas.height + extra.marginTop + extra.marginBottom;
                                             if (extra.position == "top") {
-                                                middleWidth_1 = $math.max(middleWidth_1, extraWidth);
+                                                middleWidth_1 = extra.crop ? middleHeight_1 : $math.max(middleWidth_1, extraWidth);
                                                 middleTop_1 += extraHeight;
                                             }
                                             else if (extra.position == "right") {
-                                                middleHeight_1 = $math.max(middleHeight_1, extraHeight);
+                                                middleHeight_1 = extra.crop ? middleHeight_1 : $math.max(middleHeight_1, extraHeight);
                                                 extraRight_1 += extraWidth;
                                             }
                                             else if (extra.position == "left") {
-                                                middleHeight_1 = $math.max(middleHeight_1, extraHeight);
+                                                middleHeight_1 = extra.crop ? middleHeight_1 : $math.max(middleHeight_1, extraHeight);
                                                 middleLeft_1 += extraWidth;
                                             }
                                             else if (extra.position === "bottom") {
-                                                middleWidth_1 = $math.max(middleWidth_1, extraWidth);
+                                                middleWidth_1 = extra.crop ? middleHeight_1 : $math.max(middleWidth_1, extraWidth);
                                                 extraBottom_1 += extraHeight;
                                             }
                                             return [2 /*return*/, {

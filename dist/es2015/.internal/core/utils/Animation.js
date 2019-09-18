@@ -564,6 +564,15 @@ var Animation = /** @class */ (function (_super) {
             }
         });
     };
+    /**
+     * Adds easing functions to "function" fields.
+     *
+     * @param field  Field name
+     * @return Assign as function?
+     */
+    Animation.prototype.asFunction = function (field) {
+        return field == "easing" || _super.prototype.asIs.call(this, field);
+    };
     return Animation;
 }(BaseObjectEvents));
 export { Animation };

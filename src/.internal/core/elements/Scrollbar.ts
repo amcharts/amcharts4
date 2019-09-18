@@ -627,7 +627,7 @@ export class Scrollbar extends Container {
 		if (thumb) {
 			if (orientation == "horizontal") {
 				if (!$type.isNumber(this._pixelWidth)) {
-					if(!(this.width instanceof Percent)){
+					if (!(this.width instanceof Percent)) {
 						this.width = percent(100);
 					}
 				}
@@ -646,7 +646,7 @@ export class Scrollbar extends Container {
 			}
 			else {
 				if (!$type.isNumber(this._pixelHeight)) {
-					if(!(this.height instanceof Percent)){
+					if (!(this.height instanceof Percent)) {
 						this.height = percent(100);
 					}
 				}
@@ -1170,6 +1170,16 @@ export class Scrollbar extends Container {
 	 */
 	public get animationEasing(): (value: number) => number {
 		return this.getPropertyValue("animationEasing");
+	}
+
+	/**
+	 * Adds easing functions to "function" fields.
+	 *
+	 * @param field  Field name
+	 * @return Assign as function?
+	 */
+	protected asFunction(field: string): boolean {
+		return field == "animationEasing" || super.asIs(field);
 	}
 
 }
