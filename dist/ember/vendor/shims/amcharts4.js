@@ -4450,6 +4450,14 @@ define('@amcharts/amcharts4/plugins/forceDirected', [], function () {
   }
   throw new Error("You must add 'plugins/forceDirected' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4/plugins/overlapBuster', [], function () {
+  'use strict';
+  var output = self.am4plugins_overlapBuster;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'plugins/overlapBuster' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4/plugins/regression', [], function () {
   'use strict';
   var output = self.am4plugins_regression;

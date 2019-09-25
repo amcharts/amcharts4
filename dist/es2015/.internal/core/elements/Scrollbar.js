@@ -44,6 +44,14 @@ var Scrollbar = /** @class */ (function (_super) {
     function Scrollbar() {
         var _this = _super.call(this) || this;
         /**
+         * Previously selected lower (start) value.
+         */
+        _this._previousStart = 0;
+        /**
+         * Previously selected upper (end) value.
+         */
+        _this._previousEnd = 1;
+        /**
          * A value of previously selected lower value, used for doubleclick function.
          */
         _this._prevStart = 0;

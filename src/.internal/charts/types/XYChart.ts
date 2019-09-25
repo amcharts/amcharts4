@@ -398,9 +398,9 @@ export class XYChart extends SerialChart {
 
 	protected _mouseWheelDisposer: IDisposer;
 
-	protected _cursorXPosition:number;
+	protected _cursorXPosition: number;
 
-	protected _cursorYPosition:number;
+	protected _cursorYPosition: number;
 
 	/**
 	 * Holds a reference to the container axis bullets are drawn in.
@@ -737,18 +737,40 @@ export class XYChart extends SerialChart {
 			let show = false;
 
 			$iter.eachContinue(this.xAxes.iterator(), (axis): boolean => {
-				if ($math.round(axis.start, 3) != 0 || $math.round(axis.end, 3) != 1) {
-					show = true;
-					return false;
+				if (axis.toggleZoomOutButton) {
+					if (axis.maxZoomCount > 0) {
+						let minZoomFactor: number = axis.maxZoomFactor / axis.maxZoomCount;
+						if ($math.round(axis.end - axis.start, 3) < 1 / minZoomFactor) {
+							show = true;
+							return false;
+						}
+					}
+					else {
+						if ($math.round(axis.start, 3) != 0 || $math.round(axis.end, 3) != 1) {
+							show = true;
+							return false;
+						}
+					}
 				}
 				return true;
 			});
 			$iter.eachContinue(this.yAxes.iterator(), (axis): boolean => {
-				if ($math.round(axis.start, 3) != 0 || $math.round(axis.end, 3) != 1) {
-					show = true;
-					return false;
+				if (axis.toggleZoomOutButton) {
+					if (axis.maxZoomCount > 0) {
+						let minZoomFactor: number = axis.maxZoomFactor / axis.maxZoomCount;
+						if ($math.round(axis.end - axis.start, 3) < 1 / minZoomFactor) {
+							show = true;
+							return false;
+						}
+					}
+					else {
+						if ($math.round(axis.start, 3) != 0 || $math.round(axis.end, 3) != 1) {
+							show = true;
+							return false;
+						}
+					}
+					return true;
 				}
-				return true;
 			});
 
 			if (!this.seriesAppeared) {
@@ -1108,10 +1130,10 @@ export class XYChart extends SerialChart {
 			}
 			this._seriesPoints = [];
 
-			if(this._cursorXPosition != xPosition){
+			if (this._cursorXPosition != xPosition) {
 				this.showAxisTooltip(this.xAxes, xPosition, exceptAxis);
 			}
-			if(this._cursorYPosition != yPosition){
+			if (this._cursorYPosition != yPosition) {
 				this.showAxisTooltip(this.yAxes, yPosition, exceptAxis);
 			}
 			this.sortSeriesTooltips(this._seriesPoints);
@@ -1607,14 +1629,17 @@ export class XYChart extends SerialChart {
 	 * @param event Scrollbar range change event
 	 */
 	protected handleXScrollbarChange(event: AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]): void {
+
 		if (this.inited) {
 			let scrollbar: Scrollbar = event.target;
 			let range = scrollbar.range;
-			if (range.end == 1) {
-				range.priority = "end";
-			}
+
 			if (range.start == 0) {
 				range.priority = "start";
+			}
+
+			if (range.end == 1) {
+				range.priority = "end";
 			}
 
 			range = this.zoomAxes(this.xAxes, range);

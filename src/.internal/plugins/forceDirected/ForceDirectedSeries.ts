@@ -346,6 +346,23 @@ export class ForceDirectedSeriesDataItem extends SeriesDataItem {
 	}
 
 	/**
+	 * Is this node fixed (immovable)?
+	 *
+	 * @since 4.6.2
+	 * @param  value  Fixed?
+	 */
+	public set fixed(value: boolean) {
+		this.setProperty("fixed", value);
+	}
+
+	/**
+	 * @return Fixed?
+	 */
+	public get fixed(): boolean {
+		return this.properties.fixed;
+	}
+
+	/**
 	 * A list of item's sub-children.
 	 *
 	 * @param children  Item's children
@@ -452,6 +469,14 @@ export interface IForceDirectedSeriesDataFields extends ISeriesDataFields {
 	 * as collapsed. (nodes start as fully expanded by default)
 	 */
 	collapsed?: string;
+
+	/**
+	 * name of the field that holds boolean flag indicating whether this node
+	 * is "fixed" (immobavle).
+	 *
+	 * @since 4.6.2
+	 */
+	fixed?: string;
 }
 
 /**
@@ -653,6 +678,10 @@ export class ForceDirectedSeries extends Series {
 			this.updateRadiuses(this.dataItems);
 			this.updateLinksAndNodes();
 
+			this.dataItems.each((dataItem) => {
+				this.handleFixed(dataItem);
+			})
+
 			let d3forceSimulation = this.d3forceSimulation;
 
 			let w = $math.max(50, this.innerWidth);
@@ -722,8 +751,25 @@ export class ForceDirectedSeries extends Series {
 
 			let angle = index / this.dataItems.length * 360;
 
-			dataItem.node.x = this.innerWidth / 2 + radius * $math.cos(angle);
-			dataItem.node.y = this.innerHeight / 2 + radius * $math.sin(angle);
+			let node = dataItem.node;
+
+			let xField = node.propertyFields.x;
+			let yField = node.propertyFields.y;
+
+			if (xField && $type.hasValue((<any>dataItem.dataContext)[xField])) {
+				node.x = (<any>dataItem.dataContext)[xField];
+			}
+			else {
+				node.x = this.innerWidth / 2 + radius * $math.cos(angle);
+			}
+			if (yField && $type.hasValue((<any>dataItem.dataContext)[yField])) {
+				node.y = (<any>dataItem.dataContext)[yField];
+			}
+			else {
+				node.y = this.innerHeight / 2 + radius * $math.sin(angle);
+			}
+
+			this.handleFixed(dataItem);
 
 			dataItem.node.fill = dataItem.color;
 			dataItem.node.stroke = dataItem.color;
@@ -754,6 +800,44 @@ export class ForceDirectedSeries extends Series {
 		this.chart.feedLegend();
 
 		super.validateDataItems();
+	}
+
+	protected handleFixed(dataItem: this["_dataItem"]) {
+		let node = dataItem.node;
+
+		let xField = node.propertyFields.x;
+		let yField = node.propertyFields.y;
+
+		if (xField && $type.hasValue((<any>dataItem.dataContext)[xField])) {
+			node.x = (<any>dataItem.dataContext)[xField];
+		}
+
+		if (yField && $type.hasValue((<any>dataItem.dataContext)[yField])) {
+			node.y = (<any>dataItem.dataContext)[yField];
+		}
+
+		if (dataItem.fixed) {
+			if (node.x instanceof Percent) {
+				(<any>node).fx = $utils.relativeToValue(node.x, this.innerWidth);
+			}
+			else {
+				(<any>node).fx = node.x;
+			}
+
+			if (node.y instanceof Percent) {
+				(<any>node).fy = $utils.relativeToValue(node.y, this.innerHeight);
+			}
+			else {
+				(<any>node).fy = node.y;
+			}
+
+			node.draggable = false;
+		}
+		else {
+			(<any>node).fx = undefined;
+			(<any>node).fy = undefined;
+			node.draggable = true;
+		}
 	}
 
 	/**

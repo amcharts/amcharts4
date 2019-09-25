@@ -49,15 +49,34 @@ export interface IComponentProperties extends IContainerProperties {
      * Allows restricting zoom in beyond certain number of categories or base
      * intervals.
      *
+     * The chart will not zoom in beyond this number of items.
+     *
      * @default 1
      */
     minZoomCount?: number;
+    /**
+     * Use this for [[CategoryAxis]] or [[DateAxis]].
+     *
+     * Limits how many categories or base intervals can be shown at the same
+     * time.
+     *
+     * If there are more items in the chart, the chart will auto-zoom.
+     *
+     * @default 0 (no limit)
+     */
+    maxZoomCount?: number;
 }
 /**
  * Defines data fields for [[Component]].
  */
 export interface IComponentDataFields {
+    /**
+     * Data.
+     */
     data?: string;
+    /**
+     * ID.
+     */
     id?: string;
 }
 /**
@@ -941,6 +960,22 @@ export declare class Component extends Container {
      * @param value  Min zoom count
      */
     minZoomCount: number;
+    /**
+     * @return Max zoom count
+     */
+    /**
+     * Use this for [[CategoryAxis]] or [[DateAxis]].
+     *
+     * Limits how many categories or base intervals can be shown at the same
+     * time.
+     *
+     * If there are more items in the chart, the chart will auto-zoom.
+     *
+     * @default 0 (no limit)
+     * @since 4.6.2
+     * @param value  Max zoom count
+     */
+    maxZoomCount: number;
     /**
      * Called during the System.update method
      *

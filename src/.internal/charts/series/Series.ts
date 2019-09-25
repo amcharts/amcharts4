@@ -1052,6 +1052,7 @@ export class Series extends Component {
 		if (axisRange) {
 			axisRange.contents.parent = this.rangesContainer;
 			axisRange.isRange = true;
+			axisRange.events.on("valuechanged", this.invalidateDataItems, this, false);
 		}
 	}
 

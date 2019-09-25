@@ -130,7 +130,6 @@ var ExportMenu = /** @class */ (function (_super) {
                         "menu": [
                             { "type": "png", "label": "PNG" },
                             { "type": "jpg", "label": "JPG" },
-                            { "type": "gif", "label": "GIF" },
                             { "type": "svg", "label": "SVG" },
                             { "type": "pdf", "label": "PDF" }
                         ]

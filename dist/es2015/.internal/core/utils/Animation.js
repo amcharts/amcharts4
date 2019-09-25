@@ -418,6 +418,9 @@ var Animation = /** @class */ (function (_super) {
         }
         return this;
     };
+    /**
+     * Stops animation immediately leaving properties in their current values.
+     */
     Animation.prototype.kill = function () {
         this.pause();
         this._isFinished = true;

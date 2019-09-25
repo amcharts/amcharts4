@@ -86,6 +86,7 @@ export class PointedCircle extends PointedShape {
 	 */
 	public _events!: IPointedCircleEvents;
 
+
 	/**
 	 * Constructor
 	 */
@@ -177,6 +178,13 @@ export class PointedCircle extends PointedShape {
 		return this.getPropertyValue("pointerAngle");
 	}
 
+	public getTooltipY(){
+		return $math.sin(this.pointerAngle) * (-this.pointerLength * 0.8 - this.radius) - this.radius;
+	}
+
+	public getTooltipX(){
+		return $math.cos(this.pointerAngle) * (-this.pointerLength * 0.8 - this.radius);
+	}	
 }
 
 /**

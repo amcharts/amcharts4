@@ -252,7 +252,10 @@ export class Polyspline extends Polyline {
 	}
 
 	/**
-	 * @todo mm
+	 * Returns an index of the point that is closest to specified coordinates.
+	 * 
+	 * @param   point  Reference point
+	 * @return         Index
 	 */
 	public getClosestPointIndex(point: IPoint): number {
 		let points = this.allPoints;
@@ -336,7 +339,7 @@ export class Polyspline extends Polyline {
 			if (extend && len > 3) {
 				if (position < 0) {
 
-					if(position < -0.01){
+					if (position < -0.01) {
 						position = -0.01;
 					}
 
@@ -350,7 +353,7 @@ export class Polyspline extends Polyline {
 				}
 				else if (position > 1) {
 
-					if(position > 1.01){
+					if (position > 1.01) {
 						position = 1.01;
 					}
 

@@ -897,6 +897,13 @@ export class ColumnSeries extends XYSeries {
 	 * NOTE: this will work only if at least one axis is [[ValueAxis]].
 	 *
 	 * @readonly You can modify state object, but can't overwrite it
+	 * @param  value  State
+	 */
+	public set dropFromOpenState(value: SpriteState<this["_properties"], this["_adapter"]>) {
+		this._dropFromOpenState = value;
+	}
+
+	/**
 	 * @return State
 	 */
 	public get dropFromOpenState(): SpriteState<this["_properties"], this["_adapter"]> {
@@ -913,6 +920,13 @@ export class ColumnSeries extends XYSeries {
 	 * Can be used to differentiate appearance based on value relations.
 	 *
 	 * @readonly You can modify state object, but can't overwrite it
+	 * @param  value  State
+	 */
+	public set dropFromPreviousState(value: SpriteState<this["_properties"], this["_adapter"]>) {
+		this._dropFromPreviousState = value;
+	}
+
+	/**
 	 * @return State
 	 */
 	public get dropFromPreviousState(): SpriteState<this["_properties"], this["_adapter"]> {
@@ -940,6 +954,11 @@ export class ColumnSeries extends XYSeries {
 		return this._riseFromOpenState;
 	}
 
+	// @todo mm
+	public set riseFromOpenState(value: SpriteState<this["_properties"], this["_adapter"]>) {
+		this._riseFromOpenState = value;
+	}
+
 	/**
 	 * A state to apply to a column when its value is same or higher than value
 	 * of a previous column.
@@ -954,6 +973,12 @@ export class ColumnSeries extends XYSeries {
 			this._riseFromPreviousState = this.states.create("riseFromPreviousState");
 		}
 		return this._riseFromPreviousState;
+	}
+
+
+	// @todo mm
+	public set riseFromPreviousState(value: SpriteState<this["_properties"], this["_adapter"]>) {
+		this._riseFromPreviousState = value;
 	}
 
 	/**

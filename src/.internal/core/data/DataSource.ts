@@ -768,10 +768,12 @@ export class DataSource extends BaseObjectEvents {
 	 * Use DataSource's events to watch for loaded data and errors.
 	 */
 	public load(): void {
-		if (this._reloadTimeout) {
-			clearTimeout(this._reloadTimeout);
+		if (this.url) {
+			if (this._reloadTimeout) {
+				clearTimeout(this._reloadTimeout);
+			}
+			dataLoader.load(this);
 		}
-		dataLoader.load(this);
 	}
 
 	/**

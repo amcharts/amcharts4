@@ -252,6 +252,9 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      * @return Animation
      */
     end(): Animation;
+    /**
+     * Stops animation immediately leaving properties in their current values.
+     */
     kill(): void;
     /**
      * Returns indicator if this animation is finished or not

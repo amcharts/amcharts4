@@ -55,29 +55,31 @@ var WavedRectangle = /** @class */ (function (_super) {
     WavedRectangle.prototype.draw = function () {
         _super.prototype.draw.call(this);
         var w = this.pixelWidth;
-        var h = this._pixelHeight;
+        var h = this.pixelHeight;
         if (w > 0 && h > 0) {
             var p1 = { x: 0, y: 0 };
             var p2 = { x: w, y: 0 };
             var p3 = { x: w, y: h };
             var p4 = { x: 0, y: h };
-            var waveLength = Math.min(w, this.waveLength);
-            var waveHeight = Math.min(h, this.waveHeight);
+            var waveLengthH = Math.min(w, this.waveLength);
+            var waveHeightH = Math.min(h, this.waveHeight);
+            var waveLengthV = Math.min(h, this.waveLength);
+            var waveHeightV = Math.min(w, this.waveHeight);
             var td = "";
             var rd = "";
             var bd = "";
             var ld = "";
             if (this.wavedTop) {
-                td = wavedLine(p1, p2, waveLength, waveHeight, this.tension, true);
+                td = wavedLine(p1, p2, waveLengthH, waveHeightH, this.tension, true);
             }
             if (this.wavedRight) {
-                rd = wavedLine(p2, p3, waveLength, waveHeight, this.tension, true);
+                rd = wavedLine(p2, p3, waveLengthV, waveHeightV, this.tension, true);
             }
             if (this.wavedBottom) {
-                bd = wavedLine(p3, p4, waveLength, waveHeight, this.tension, true);
+                bd = wavedLine(p3, p4, waveLengthH, waveHeightH, this.tension, true);
             }
             if (this.wavedLeft) {
-                ld = wavedLine(p4, p1, waveLength, waveHeight, this.tension, true);
+                ld = wavedLine(p4, p1, waveLengthV, waveHeightV, this.tension, true);
             }
             this.path = $path.moveTo(p1) + td + $path.lineTo(p2) + rd + $path.lineTo(p3) + bd + $path.lineTo(p4) + ld + "z";
         }

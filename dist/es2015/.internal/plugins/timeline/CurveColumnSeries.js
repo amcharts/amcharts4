@@ -284,7 +284,6 @@ var CurveColumnSeries = /** @class */ (function (_super) {
          * A relative part of an series elements allowed outside of the outer edge of
          * the "plot area".
          *
-         * @todo mm
          * @default 0.2
          * @param  value  Top offset
          */

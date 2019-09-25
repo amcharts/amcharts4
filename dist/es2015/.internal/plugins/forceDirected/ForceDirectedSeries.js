@@ -17,7 +17,7 @@ import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $utils from "../../core/utils/Utils";
 import * as $array from "../../core/utils/Array";
-import { percent } from "../../core/utils/Percent";
+import { Percent, percent } from "../../core/utils/Percent";
 import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
 /**
@@ -293,6 +293,25 @@ var ForceDirectedSeriesDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ForceDirectedSeriesDataItem.prototype, "fixed", {
+        /**
+         * @return Fixed?
+         */
+        get: function () {
+            return this.properties.fixed;
+        },
+        /**
+         * Is this node fixed (immovable)?
+         *
+         * @since 4.6.2
+         * @param  value  Fixed?
+         */
+        set: function (value) {
+            this.setProperty("fixed", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ForceDirectedSeriesDataItem.prototype, "children", {
         /**
          * @return Item's children
@@ -388,6 +407,9 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         _this.events.on("maxsizechanged", function () {
             _this.updateRadiuses(_this.dataItems);
             _this.updateLinksAndNodes();
+            _this.dataItems.each(function (dataItem) {
+                _this.handleFixed(dataItem);
+            });
             var d3forceSimulation = _this.d3forceSimulation;
             var w = $math.max(50, _this.innerWidth);
             var h = $math.max(50, _this.innerHeight);
@@ -444,8 +466,22 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         }
         this.dataItems.each(function (dataItem) {
             var angle = index / _this.dataItems.length * 360;
-            dataItem.node.x = _this.innerWidth / 2 + radius * $math.cos(angle);
-            dataItem.node.y = _this.innerHeight / 2 + radius * $math.sin(angle);
+            var node = dataItem.node;
+            var xField = node.propertyFields.x;
+            var yField = node.propertyFields.y;
+            if (xField && $type.hasValue(dataItem.dataContext[xField])) {
+                node.x = dataItem.dataContext[xField];
+            }
+            else {
+                node.x = _this.innerWidth / 2 + radius * $math.cos(angle);
+            }
+            if (yField && $type.hasValue(dataItem.dataContext[yField])) {
+                node.y = dataItem.dataContext[yField];
+            }
+            else {
+                node.y = _this.innerHeight / 2 + radius * $math.sin(angle);
+            }
+            _this.handleFixed(dataItem);
             dataItem.node.fill = dataItem.color;
             dataItem.node.stroke = dataItem.color;
             index++;
@@ -467,6 +503,37 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         d3forceSimulation.alphaDecay(1 - Math.pow(0.001, 1 / 600));
         this.chart.feedLegend();
         _super.prototype.validateDataItems.call(this);
+    };
+    ForceDirectedSeries.prototype.handleFixed = function (dataItem) {
+        var node = dataItem.node;
+        var xField = node.propertyFields.x;
+        var yField = node.propertyFields.y;
+        if (xField && $type.hasValue(dataItem.dataContext[xField])) {
+            node.x = dataItem.dataContext[xField];
+        }
+        if (yField && $type.hasValue(dataItem.dataContext[yField])) {
+            node.y = dataItem.dataContext[yField];
+        }
+        if (dataItem.fixed) {
+            if (node.x instanceof Percent) {
+                node.fx = $utils.relativeToValue(node.x, this.innerWidth);
+            }
+            else {
+                node.fx = node.x;
+            }
+            if (node.y instanceof Percent) {
+                node.fy = $utils.relativeToValue(node.y, this.innerHeight);
+            }
+            else {
+                node.fy = node.y;
+            }
+            node.draggable = false;
+        }
+        else {
+            node.fx = undefined;
+            node.fy = undefined;
+            node.draggable = true;
+        }
     };
     /**
      * @ignore

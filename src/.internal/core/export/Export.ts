@@ -100,9 +100,33 @@ function blobToDataUri(blob: Blob): Promise<string> {
 	});
 }
 
+async function getCssRules(s: HTMLStyleElement): Promise<CSSRuleList> {
+	const sheet = <CSSStyleSheet>s.sheet;
+
+	try {
+		return sheet.cssRules;
+
+	} catch (e) {
+		// Needed because of https://bugzilla.mozilla.org/show_bug.cgi?id=625013
+		return await new Promise<CSSRuleList>((success, error) => {
+			s.addEventListener("load", () => {
+				success(sheet.cssRules);
+			}, true);
+
+			s.addEventListener("error", (e) => {
+				error(e);
+			}, true);
+
+			setTimeout(() => {
+				error(new Error("Timeout while waiting for <style> to load"));
+			}, 10000);
+		});
+	}
+}
+
 // This loads a stylesheet by URL and then calls the function with it
 // TODO this should be moved into utils or something
-async function loadStylesheet<A>(doc: Document, url: string, f: (sheet: CSSStyleSheet) => Promise<A>): Promise<A> {
+async function loadStylesheet(doc: Document, url: string, f: (topUrl: string, rule: CSSRule) => void): Promise<void> {
 	const response = await $net.load(url);
 
 	const s = doc.createElement("style");
@@ -110,7 +134,8 @@ async function loadStylesheet<A>(doc: Document, url: string, f: (sheet: CSSStyle
 	doc.head.appendChild(s);
 
 	try {
-		return await f(<CSSStyleSheet>s.sheet);
+		const rules = await getCssRules(s);
+		await eachStylesheet(doc, url, rules, f);
 
 	} finally {
 		doc.head.removeChild(s);
@@ -120,18 +145,20 @@ async function loadStylesheet<A>(doc: Document, url: string, f: (sheet: CSSStyle
 // This calls a function for each CSSRule inside of a CSSStyleSheet.
 // If the CSSStyleSheet has any @import, then it will recursively call the function for those CSSRules too.
 // TODO this should be moved into utils or something
-async function eachStylesheet(doc: Document, topUrl: string, sheet: CSSStyleSheet, f: (topUrl: string, rule: CSSRule) => void): Promise<void> {
+async function eachStylesheet(doc: Document, topUrl: string, rules: CSSRuleList, f: (topUrl: string, rule: CSSRule) => void): Promise<void> {
 	const promises: Array<Promise<void>> = [];
 
-	for (let i = 0; i < sheet.cssRules.length; i++) {
-		const rule = sheet.cssRules[i];
+	const length = rules.length;
+
+	for (let i = 0; i < length; i++) {
+		const rule = rules[i];
 
 		if (rule.type === CSSRule.IMPORT_RULE) {
 			let url = (<CSSImportRule>rule).href;
 
 			if (url) {
 				url = $utils.joinUrl(topUrl, url);
-				promises.push(loadStylesheet(doc, url, (sheet) => eachStylesheet(doc, url, sheet, f)));
+				promises.push(loadStylesheet(doc, url, f));
 			}
 
 		} else {
@@ -151,6 +178,8 @@ async function eachStylesheets(f: (topUrl: string, rule: CSSRule) => void): Prom
 	// This uses an <iframe> so it doesn't screw up the site's styles
 	const iframe = document.createElement("iframe");
 
+	// This causes it to use the same origin policy as the parent page
+	iframe.src = "about:blank";
 	// This tries to make it more accessible for screen readers
 	iframe.setAttribute("title", "");
 
@@ -164,11 +193,11 @@ async function eachStylesheets(f: (topUrl: string, rule: CSSRule) => void): Prom
 			let url = sheet.href;
 
 			if (url == null) {
-				return eachStylesheet(doc, location.href, <CSSStyleSheet>sheet, f);
+				return eachStylesheet(doc, location.href, (<CSSStyleSheet>sheet).cssRules, f);
 
 			} else {
 				url = $utils.joinUrl(location.href, url);
-				return loadStylesheet(doc, url, (sheet) => eachStylesheet(doc, url, sheet, f));
+				return loadStylesheet(doc, url, f);
 			}
 		}));
 
@@ -1644,6 +1673,9 @@ export class Export extends Validatable {
 				return uri;
 			}
 			catch (e) {
+				console.error(e.message + "\n" + e.stack);
+				console.warn("Simple export failed, falling back to advanced export");
+
 				// An error occurred, let's try advanced method
 				const data = await this.getImageAdvanced(type, options, includeExtras);
 

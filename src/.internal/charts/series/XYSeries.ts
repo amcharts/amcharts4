@@ -29,6 +29,7 @@ import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
+import * as $time from "../../core/utils/Time";
 import * as $array from "../../core/utils/Array";
 import * as $object from "../../core/utils/Object";
 import * as $path from "../../core/rendering/Path";
@@ -1565,7 +1566,7 @@ export class XYSeries extends Series {
 
 					if (!xOpenField) {
 						if (xAxis == this.baseAxis) {
-							openValue = xAxis.min;
+							openValue = xAxis.baseValue;
 						}
 					}
 					else {
@@ -1581,7 +1582,9 @@ export class XYSeries extends Series {
 					closeValue += stack;
 
 					if (openValue == closeValue) {
-						closeValue += xAxis.baseDuration;
+						let baseInterval = xAxis.baseInterval;
+						openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, xAxis.dateFormatter.firstDayOfWeek).getTime();
+						closeValue = openValue + xAxis.baseDuration;
 					}
 
 					let middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationX);
@@ -1598,7 +1601,7 @@ export class XYSeries extends Series {
 					let closeValue: number = dataItem.getWorkingValue(xField);
 
 					if (!xOpenField) {
-						openValue = xAxis.min;
+						openValue = xAxis.baseValue;
 					}
 					else {
 						openValue = dataItem.getWorkingValue(xOpenField);
@@ -1640,7 +1643,7 @@ export class XYSeries extends Series {
 
 					if (!yOpenField) {
 						if (yAxis == this.baseAxis) {
-							openValue = yAxis.min;
+							openValue = yAxis.baseValue;
 						}
 					}
 					else {
@@ -1656,7 +1659,9 @@ export class XYSeries extends Series {
 					closeValue += stack;
 
 					if (openValue == closeValue) {
-						closeValue += yAxis.baseDuration;
+						let baseInterval = yAxis.baseInterval;
+						openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, yAxis.dateFormatter.firstDayOfWeek).getTime();
+						closeValue = openValue + yAxis.baseDuration;
 					}
 
 					let middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationY);
@@ -1673,7 +1678,7 @@ export class XYSeries extends Series {
 					let closeValue: number = dataItem.getWorkingValue(yField);
 
 					if (!yOpenField) {
-						openValue = yAxis.min;
+						openValue = yAxis.baseValue;
 					}
 					else {
 						openValue = dataItem.getWorkingValue(yOpenField);

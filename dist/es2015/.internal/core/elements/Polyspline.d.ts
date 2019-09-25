@@ -92,7 +92,10 @@ export declare class Polyspline extends Polyline {
      */
     makePath(): void;
     /**
-     * @todo mm
+     * Returns an index of the point that is closest to specified coordinates.
+     *
+     * @param   point  Reference point
+     * @return         Index
      */
     getClosestPointIndex(point: IPoint): number;
     /**

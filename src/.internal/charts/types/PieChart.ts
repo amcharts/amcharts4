@@ -442,6 +442,7 @@ export class PieChart extends PercentChart {
 	 *   // Set pie chart to be at 50% of the available space
 	 *   "innerRadius": "50%"
 	 * }
+	 * ```
 	 *
 	 * @default 0
 	 * @param value  Relative inner radius (0-1)

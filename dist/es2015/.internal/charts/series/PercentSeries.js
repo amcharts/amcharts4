@@ -561,13 +561,16 @@ var PercentSeries = /** @class */ (function (_super) {
             var dataItem = dataItems[i];
             var label = dataItem.label;
             if (label) {
-                var nextLabel = this.getNextLabel(i + 1, dataItems);
-                if (label.invalid) {
-                    label.validate();
-                }
                 var lh = label.measuredHeight;
                 if (!label.visible) {
                     lh = 0;
+                }
+                if (label.pixelY - lh / 2 < -this.maxHeight / 2) {
+                    label.y = -this.maxHeight / 2 + lh / 2;
+                }
+                var nextLabel = this.getNextLabel(i + 1, dataItems);
+                if (label.invalid) {
+                    label.validate();
                 }
                 var bottom = label.pixelY + lh;
                 if (nextLabel) {
@@ -590,6 +593,9 @@ var PercentSeries = /** @class */ (function (_super) {
                 var lh = label.measuredHeight;
                 if (!label.visible) {
                     lh = 0;
+                }
+                if (i == dataItems.length - 1) {
+                    previousTop += lh / 2;
                 }
                 if (label.pixelY + lh > previousTop) {
                     label.y = previousTop - lh;

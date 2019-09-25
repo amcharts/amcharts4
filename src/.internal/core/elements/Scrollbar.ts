@@ -161,12 +161,12 @@ export class Scrollbar extends Container {
 	/**
 	 * Previously selected lower (start) value.
 	 */
-	protected _previousStart: $type.Optional<number>;
+	protected _previousStart: $type.Optional<number> = 0;
 
 	/**
 	 * Previously selected upper (end) value.
 	 */
-	protected _previousEnd: $type.Optional<number>;
+	protected _previousEnd: $type.Optional<number> = 1;
 
 	/**
 	 * An [[Animation]] instance that moves "thumb".

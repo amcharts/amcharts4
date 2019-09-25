@@ -100,4 +100,6 @@ export declare class PointedCircle extends PointedShape {
      * @param  value Angle (degrees)
      */
     pointerAngle: number;
+    getTooltipY(): number;
+    getTooltipX(): number;
 }

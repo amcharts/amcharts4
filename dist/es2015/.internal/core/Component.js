@@ -197,6 +197,7 @@ var Component = /** @class */ (function (_super) {
         _this._addAllDataItems = true;
         _this.className = "Component";
         _this.minZoomCount = 1;
+        _this.maxZoomCount = 0;
         _this._dataItems = new OrderedListTemplate(_this.createDataItem());
         _this._dataItems.events.on("inserted", _this.handleDataItemAdded, _this, false);
         _this._dataItems.events.on("removed", _this.handleDataItemRemoved, _this, false);
@@ -1051,6 +1052,16 @@ var Component = /** @class */ (function (_super) {
         var start = range.start;
         var end = range.end;
         var priority = range.priority;
+        if (priority == "end" && end == 1 && start != 0) {
+            if (start < this.start) {
+                priority = "start";
+            }
+        }
+        if (priority == "start" && start == 0) {
+            if (end > this.end) {
+                priority = "end";
+            }
+        }
         if (!$type.isNumber(declination)) {
             declination = this.maxZoomDeclination;
         }
@@ -1059,8 +1070,15 @@ var Component = /** @class */ (function (_super) {
         }
         if (this._finalStart != start || this._finalEnd != end) {
             var maxZoomFactor = this.maxZoomFactor / this.minZoomCount;
+            var minZoomFactor = this.maxZoomFactor / this.maxZoomCount;
             // most likely we are dragging left scrollbar grip here, so we tend to modify end
             if (priority == "start") {
+                if (this.maxZoomCount > 0) {
+                    // add to the end
+                    if (1 / (end - start) < minZoomFactor) {
+                        end = start + 1 / minZoomFactor;
+                    }
+                }
                 // add to the end
                 if (1 / (end - start) > maxZoomFactor) {
                     end = start + 1 / maxZoomFactor;
@@ -1073,6 +1091,12 @@ var Component = /** @class */ (function (_super) {
             }
             // most likely we are dragging right, so we modify left
             else {
+                if (this.maxZoomCount > 0) {
+                    // add to the end
+                    if (1 / (end - start) < minZoomFactor) {
+                        start = end - 1 / minZoomFactor;
+                    }
+                }
                 // remove from start
                 if (1 / (end - start) > maxZoomFactor) {
                     start = end - 1 / maxZoomFactor;
@@ -1105,6 +1129,9 @@ var Component = /** @class */ (function (_super) {
                     if (options.length > 1) {
                         if (options[0].to == start && options[1].to == end) {
                             return { start: start, end: end };
+                        }
+                        else {
+                            this.rangeChangeAnimation.stop();
                         }
                     }
                 }
@@ -1602,6 +1629,31 @@ var Component = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("minZoomCount", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Component.prototype, "maxZoomCount", {
+        /**
+         * @return Max zoom count
+         */
+        get: function () {
+            return this.getPropertyValue("maxZoomCount");
+        },
+        /**
+         * Use this for [[CategoryAxis]] or [[DateAxis]].
+         *
+         * Limits how many categories or base intervals can be shown at the same
+         * time.
+         *
+         * If there are more items in the chart, the chart will auto-zoom.
+         *
+         * @default 0 (no limit)
+         * @since 4.6.2
+         * @param value  Max zoom count
+         */
+        set: function (value) {
+            this.setPropertyValue("maxZoomCount", value);
         },
         enumerable: true,
         configurable: true

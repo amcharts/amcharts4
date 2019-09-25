@@ -658,13 +658,6 @@ var ColumnSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(ColumnSeries.prototype, "dropFromOpenState", {
         /**
-         * A state to apply to a column when close value is lower than open value.
-         *
-         * Can be used to differentiate appearance based on value relations.
-         *
-         * NOTE: this will work only if at least one axis is [[ValueAxis]].
-         *
-         * @readonly You can modify state object, but can't overwrite it
          * @return State
          */
         get: function () {
@@ -673,17 +666,24 @@ var ColumnSeries = /** @class */ (function (_super) {
             }
             return this._dropFromOpenState;
         },
+        /**
+         * A state to apply to a column when close value is lower than open value.
+         *
+         * Can be used to differentiate appearance based on value relations.
+         *
+         * NOTE: this will work only if at least one axis is [[ValueAxis]].
+         *
+         * @readonly You can modify state object, but can't overwrite it
+         * @param  value  State
+         */
+        set: function (value) {
+            this._dropFromOpenState = value;
+        },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(ColumnSeries.prototype, "dropFromPreviousState", {
         /**
-         * A state to apply to a column when its value is lower value of a previous
-         * column.
-         *
-         * Can be used to differentiate appearance based on value relations.
-         *
-         * @readonly You can modify state object, but can't overwrite it
          * @return State
          */
         get: function () {
@@ -691,6 +691,18 @@ var ColumnSeries = /** @class */ (function (_super) {
                 this._dropFromPreviousState = this.states.create("dropFromPreviousState");
             }
             return this._dropFromPreviousState;
+        },
+        /**
+         * A state to apply to a column when its value is lower value of a previous
+         * column.
+         *
+         * Can be used to differentiate appearance based on value relations.
+         *
+         * @readonly You can modify state object, but can't overwrite it
+         * @param  value  State
+         */
+        set: function (value) {
+            this._dropFromPreviousState = value;
         },
         enumerable: true,
         configurable: true
@@ -713,6 +725,10 @@ var ColumnSeries = /** @class */ (function (_super) {
             }
             return this._riseFromOpenState;
         },
+        // @todo mm
+        set: function (value) {
+            this._riseFromOpenState = value;
+        },
         enumerable: true,
         configurable: true
     });
@@ -731,6 +747,10 @@ var ColumnSeries = /** @class */ (function (_super) {
                 this._riseFromPreviousState = this.states.create("riseFromPreviousState");
             }
             return this._riseFromPreviousState;
+        },
+        // @todo mm
+        set: function (value) {
+            this._riseFromPreviousState = value;
         },
         enumerable: true,
         configurable: true

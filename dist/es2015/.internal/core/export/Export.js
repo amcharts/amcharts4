@@ -98,11 +98,43 @@ function blobToDataUri(blob) {
         f.readAsDataURL(blob);
     });
 }
+function getCssRules(s) {
+    return tslib_1.__awaiter(this, void 0, void 0, function () {
+        var sheet, e_1;
+        return tslib_1.__generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    sheet = s.sheet;
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 2, , 4]);
+                    return [2 /*return*/, sheet.cssRules];
+                case 2:
+                    e_1 = _a.sent();
+                    return [4 /*yield*/, new Promise(function (success, error) {
+                            s.addEventListener("load", function () {
+                                success(sheet.cssRules);
+                            }, true);
+                            s.addEventListener("error", function (e) {
+                                error(e);
+                            }, true);
+                            setTimeout(function () {
+                                error(new Error("Timeout while waiting for <style> to load"));
+                            }, 10000);
+                        })];
+                case 3: 
+                // Needed because of https://bugzilla.mozilla.org/show_bug.cgi?id=625013
+                return [2 /*return*/, _a.sent()];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
 // This loads a stylesheet by URL and then calls the function with it
 // TODO this should be moved into utils or something
 function loadStylesheet(doc, url, f) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var response, s;
+        var response, s, rules;
         return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, $net.load(url)];
@@ -113,13 +145,18 @@ function loadStylesheet(doc, url, f) {
                     doc.head.appendChild(s);
                     _a.label = 2;
                 case 2:
-                    _a.trys.push([2, , 4, 5]);
-                    return [4 /*yield*/, f(s.sheet)];
-                case 3: return [2 /*return*/, _a.sent()];
+                    _a.trys.push([2, , 5, 6]);
+                    return [4 /*yield*/, getCssRules(s)];
+                case 3:
+                    rules = _a.sent();
+                    return [4 /*yield*/, eachStylesheet(doc, url, rules, f)];
                 case 4:
+                    _a.sent();
+                    return [3 /*break*/, 6];
+                case 5:
                     doc.head.removeChild(s);
                     return [7 /*endfinally*/];
-                case 5: return [2 /*return*/];
+                case 6: return [2 /*return*/];
             }
         });
     });
@@ -127,28 +164,26 @@ function loadStylesheet(doc, url, f) {
 // This calls a function for each CSSRule inside of a CSSStyleSheet.
 // If the CSSStyleSheet has any @import, then it will recursively call the function for those CSSRules too.
 // TODO this should be moved into utils or something
-function eachStylesheet(doc, topUrl, sheet, f) {
+function eachStylesheet(doc, topUrl, rules, f) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var promises, _loop_1, i;
+        var promises, length, i, rule, url;
         return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     promises = [];
-                    _loop_1 = function (i) {
-                        var rule = sheet.cssRules[i];
+                    length = rules.length;
+                    for (i = 0; i < length; i++) {
+                        rule = rules[i];
                         if (rule.type === CSSRule.IMPORT_RULE) {
-                            var url_1 = rule.href;
-                            if (url_1) {
-                                url_1 = $utils.joinUrl(topUrl, url_1);
-                                promises.push(loadStylesheet(doc, url_1, function (sheet) { return eachStylesheet(doc, url_1, sheet, f); }));
+                            url = rule.href;
+                            if (url) {
+                                url = $utils.joinUrl(topUrl, url);
+                                promises.push(loadStylesheet(doc, url, f));
                             }
                         }
                         else {
                             f(topUrl, rule);
                         }
-                    };
-                    for (i = 0; i < sheet.cssRules.length; i++) {
-                        _loop_1(i);
                     }
                     if (!promises.length) return [3 /*break*/, 2];
                     return [4 /*yield*/, Promise.all(promises)];
@@ -170,6 +205,8 @@ function eachStylesheets(f) {
             switch (_a.label) {
                 case 0:
                     iframe = document.createElement("iframe");
+                    // This causes it to use the same origin policy as the parent page
+                    iframe.src = "about:blank";
                     // This tries to make it more accessible for screen readers
                     iframe.setAttribute("title", "");
                     document.head.appendChild(iframe);
@@ -181,11 +218,11 @@ function eachStylesheets(f) {
                     return [4 /*yield*/, Promise.all($array.map(document.styleSheets, function (sheet) {
                             var url = sheet.href;
                             if (url == null) {
-                                return eachStylesheet(doc_1, location.href, sheet, f);
+                                return eachStylesheet(doc_1, location.href, sheet.cssRules, f);
                             }
                             else {
                                 url = $utils.joinUrl(location.href, url);
-                                return loadStylesheet(doc_1, url, function (sheet) { return eachStylesheet(doc_1, url, sheet, f); });
+                                return loadStylesheet(doc_1, url, f);
                             }
                         }))];
                 case 2:
@@ -716,7 +753,7 @@ var Export = /** @class */ (function (_super) {
                                     if (src !== null) {
                                         // TODO make this faster (don't create Promises for non-url stuff)
                                         var urls = src[1].split(/ *, */).map(function (url) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                                            var a, after, fullUrl, response, url_2, e_1;
+                                            var a, after, fullUrl, response, url_1, e_2;
                                             return tslib_1.__generator(this, function (_a) {
                                                 switch (_a.label) {
                                                     case 0:
@@ -733,19 +770,19 @@ var Export = /** @class */ (function (_super) {
                                                     case 3:
                                                         response = _a.sent();
                                                         if (!supportsBlobUri()) return [3 /*break*/, 4];
-                                                        url_2 = DOMURL.createObjectURL(response.blob);
-                                                        blobs.push(url_2);
+                                                        url_1 = DOMURL.createObjectURL(response.blob);
+                                                        blobs.push(url_1);
                                                         return [3 /*break*/, 6];
                                                     case 4: return [4 /*yield*/, blobToDataUri(response.blob)];
                                                     case 5:
-                                                        url_2 = _a.sent();
+                                                        url_1 = _a.sent();
                                                         _a.label = 6;
                                                     case 6: 
                                                     // TODO should it should escape the URI ?
-                                                    return [2 /*return*/, "url(\"" + url_2 + "\")" + after];
+                                                    return [2 /*return*/, "url(\"" + url_1 + "\")" + after];
                                                     case 7:
-                                                        e_1 = _a.sent();
-                                                        console.error("Failed to load font", fullUrl, e_1);
+                                                        e_2 = _a.sent();
+                                                        console.error("Failed to load font", fullUrl, e_2);
                                                         return [2 /*return*/, null];
                                                     case 8: return [2 /*return*/];
                                                 }
@@ -812,7 +849,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getImage = function (type, options, includeExtras) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var prehidden, canvas, uri, e_2, data, data;
+            var prehidden, canvas, uri, e_3, data, data;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -846,7 +883,9 @@ var Export = /** @class */ (function (_super) {
                         }
                         return [2 /*return*/, uri];
                     case 6:
-                        e_2 = _a.sent();
+                        e_3 = _a.sent();
+                        console.error(e_3.message + "\n" + e_3.stack);
+                        console.warn("Simple export failed, falling back to advanced export");
                         return [4 /*yield*/, this.getImageAdvanced(type, options, includeExtras)];
                     case 7:
                         data = _a.sent();
@@ -1280,7 +1319,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.imageToDataURI = function (el, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var img, canvas, uri, e_3;
+            var img, canvas, uri, e_4;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1316,7 +1355,7 @@ var Export = /** @class */ (function (_super) {
                         }
                         return [3 /*break*/, 3];
                     case 2:
-                        e_3 = _a.sent();
+                        e_4 = _a.sent();
                         // Give up and temporarily remove the element's href
                         if (!options || options.keepTainted !== false) {
                             /*this._removedObjects.push({
@@ -1345,7 +1384,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.svgToDataURI = function (el, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var href, data, charset, uri, e_4;
+            var href, data, charset, uri, e_5;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1368,7 +1407,7 @@ var Export = /** @class */ (function (_super) {
                         el.setAttributeNS(Export.XLINK, "href", uri);
                         return [2 /*return*/, uri];
                     case 3:
-                        e_4 = _a.sent();
+                        e_5 = _a.sent();
                         // Disable temporarily
                         if (!options || options.keepTainted !== false) {
                             /*this._removedObjects.push({
@@ -1453,7 +1492,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.simplifiedImageExport = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var cache, canvas, ctx, DOMURL, svg, url, img, e_5, e_6;
+            var cache, canvas, ctx, DOMURL, svg, url, img, e_6, e_7;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1483,7 +1522,7 @@ var Export = /** @class */ (function (_super) {
                         img = _a.sent();
                         return [3 /*break*/, 5];
                     case 4:
-                        e_5 = _a.sent();
+                        e_6 = _a.sent();
                         return [2 /*return*/, false];
                     case 5:
                         ctx.drawImage(img, 0, 0);
@@ -1499,7 +1538,7 @@ var Export = /** @class */ (function (_super) {
                         }
                         return [3 /*break*/, 7];
                     case 6:
-                        e_6 = _a.sent();
+                        e_7 = _a.sent();
                         registry.setCache("simplifiedImageExport", false);
                         return [2 /*return*/, false];
                     case 7: return [2 /*return*/];
@@ -2043,7 +2082,7 @@ var Export = /** @class */ (function (_super) {
     Export.prototype.getJSON = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var data, dataFields, sourceData, _loop_2, len, i, json, charset, uri;
+            var data, dataFields, sourceData, _loop_1, len, i, json, charset, uri;
             return tslib_1.__generator(this, function (_a) {
                 dataFields = this.adapter.apply("formatDataFields", {
                     dataFields: this.dataFields,
@@ -2052,7 +2091,7 @@ var Export = /** @class */ (function (_super) {
                 if (!this._dynamicDataFields) {
                     data = [];
                     sourceData = this.data;
-                    _loop_2 = function (len, i) {
+                    _loop_1 = function (len, i) {
                         var value = sourceData[i];
                         if (typeof value == "object") {
                             var newValue_1 = {};
@@ -2065,7 +2104,7 @@ var Export = /** @class */ (function (_super) {
                         }
                     };
                     for (len = sourceData.length, i = 0; i < len; i++) {
-                        _loop_2(len, i);
+                        _loop_1(len, i);
                     }
                 }
                 else {
@@ -2154,7 +2193,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.download = function (uri, fileName) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var parts, contentType, decoded, blob_1, chars, i, charCode, blob, link_1, parts, contentType, decoded, blob_2, url_3, chars, i, charCode, blob, url_4, link, parts, contentType, iframe, idoc;
+            var parts, contentType, decoded, blob_1, chars, i, charCode, blob, link_1, parts, contentType, decoded, blob_2, url_2, chars, i, charCode, blob, url_3, link, parts, contentType, iframe, idoc;
             return tslib_1.__generator(this, function (_a) {
                 if (this.msBlobDownloadSupport()) {
                     parts = uri.split(";");
@@ -2203,13 +2242,13 @@ var Export = /** @class */ (function (_super) {
                     }
                     else {
                         blob_2 = new Blob([uri], { type: contentType });
-                        url_3 = window.URL.createObjectURL(blob_2);
-                        link_1.href = url_3;
+                        url_2 = window.URL.createObjectURL(blob_2);
+                        link_1.href = url_2;
                         link_1.download = fileName;
                         link_1.click();
                         setTimeout(function () {
                             document.body.removeChild(link_1);
-                            window.URL.revokeObjectURL(url_3);
+                            window.URL.revokeObjectURL(url_2);
                         }, 100);
                         return [2 /*return*/, true];
                     }
@@ -2219,14 +2258,14 @@ var Export = /** @class */ (function (_super) {
                         chars[i] = charCode;
                     }
                     blob = new Blob([new Uint8Array(chars)], { type: contentType });
-                    url_4 = window.URL.createObjectURL(blob);
-                    link_1.href = url_4;
+                    url_3 = window.URL.createObjectURL(blob);
+                    link_1.href = url_3;
                     link_1.download = fileName;
                     document.body.appendChild(link_1);
                     link_1.click();
                     document.body.removeChild(link_1);
                     setTimeout(function () {
-                        window.URL.revokeObjectURL(url_4);
+                        window.URL.revokeObjectURL(url_3);
                     }, 100);
                 }
                 else if (this.linkDownloadSupport()) {

@@ -83,18 +83,41 @@ export interface IComponentProperties extends IContainerProperties {
 	 * Allows restricting zoom in beyond certain number of categories or base
 	 * intervals.
 	 *
+	 * The chart will not zoom in beyond this number of items.
+	 *
 	 * @default 1
 	 */
 	minZoomCount?: number;
+
+	/**
+	 * Use this for [[CategoryAxis]] or [[DateAxis]].
+	 *
+	 * Limits how many categories or base intervals can be shown at the same
+	 * time.
+	 *
+	 * If there are more items in the chart, the chart will auto-zoom.
+	 *
+	 * @default 0 (no limit)
+	 */
+	maxZoomCount?: number;
+
 }
 
 /**
  * Defines data fields for [[Component]].
  */
 export interface IComponentDataFields {
+
+	/**
+	 * Data.
+	 */
 	data?: string;
 
+	/**
+	 * ID.
+	 */
 	id?: string;
+
 }
 
 /**
@@ -521,6 +544,7 @@ export class Component extends Container {
 		this.className = "Component";
 
 		this.minZoomCount = 1;
+		this.maxZoomCount = 0;
 
 		this._dataItems = new OrderedListTemplate<DataItem>(this.createDataItem());
 		this._dataItems.events.on("inserted", this.handleDataItemAdded, this, false);
@@ -1475,6 +1499,18 @@ export class Component extends Container {
 		let end = range.end;
 		let priority = range.priority;
 
+		if (priority == "end" && end == 1 && start != 0) {
+			if (start < this.start) {
+				priority = "start";
+			}
+		}
+
+		if (priority == "start" && start == 0) {
+			if (end > this.end) {
+				priority = "end";
+			}
+		}
+
 		if (!$type.isNumber(declination)) {
 			declination = this.maxZoomDeclination;
 		}
@@ -1486,9 +1522,18 @@ export class Component extends Container {
 		if (this._finalStart != start || this._finalEnd != end) {
 
 			let maxZoomFactor: number = this.maxZoomFactor / this.minZoomCount;
+			let minZoomFactor: number = this.maxZoomFactor / this.maxZoomCount;
 			// most likely we are dragging left scrollbar grip here, so we tend to modify end
 
 			if (priority == "start") {
+
+				if (this.maxZoomCount > 0) {
+					// add to the end
+					if (1 / (end - start) < minZoomFactor) {
+						end = start + 1 / minZoomFactor;
+					}
+				}
+
 				// add to the end
 				if (1 / (end - start) > maxZoomFactor) {
 					end = start + 1 / maxZoomFactor;
@@ -1498,9 +1543,19 @@ export class Component extends Container {
 					//end = 1;
 					start = end - 1 / maxZoomFactor;
 				}
+
+
 			}
 			// most likely we are dragging right, so we modify left
 			else {
+
+				if (this.maxZoomCount > 0) {
+					// add to the end
+					if (1 / (end - start) < minZoomFactor) {
+						start = end - 1 / minZoomFactor;
+					}
+				}
+
 				// remove from start
 				if (1 / (end - start) > maxZoomFactor) {
 					start = end - 1 / maxZoomFactor;
@@ -1540,6 +1595,9 @@ export class Component extends Container {
 					if (options.length > 1) {
 						if (options[0].to == start && options[1].to == end) {
 							return { start: start, end: end };
+						}
+						else {
+							this.rangeChangeAnimation.stop();
 						}
 					}
 				}
@@ -2056,6 +2114,28 @@ export class Component extends Container {
 		return this.getPropertyValue("minZoomCount");
 	}
 
+	/**
+	 * Use this for [[CategoryAxis]] or [[DateAxis]].
+	 *
+	 * Limits how many categories or base intervals can be shown at the same
+	 * time.
+	 *
+	 * If there are more items in the chart, the chart will auto-zoom.
+	 *
+	 * @default 0 (no limit)
+	 * @since 4.6.2
+	 * @param value  Max zoom count
+	 */
+	public set maxZoomCount(value: number) {
+		this.setPropertyValue("maxZoomCount", value);
+	}
+
+	/**
+	 * @return Max zoom count
+	 */
+	public get maxZoomCount(): number {
+		return this.getPropertyValue("maxZoomCount");
+	}
 
 	/**
 	 * Called during the System.update method
@@ -2078,7 +2158,7 @@ export class Component extends Container {
 	 * @return Assign as function?
 	 */
 	protected asFunction(field: string): boolean {
-		return field == "interpolationEasing" || field == "rangeChangeEasing" ||  super.asIs(field);
+		return field == "interpolationEasing" || field == "rangeChangeEasing" || super.asIs(field);
 	}
 }
 

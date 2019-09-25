@@ -772,15 +772,19 @@ export class PercentSeries extends Series {
 			let label = dataItem.label;
 
 			if (label) {
+				let lh = label.measuredHeight;
+				if(!label.visible){
+					lh = 0;
+				}				
+
+				if(label.pixelY - lh / 2 < -this.maxHeight / 2){
+					label.y = -this.maxHeight / 2 + lh / 2;
+				}
+
 				let nextLabel = this.getNextLabel(i + 1, dataItems);
 
 				if (label.invalid) {
 					label.validate();
-				}
-
-				let lh = label.measuredHeight;
-				if(!label.visible){
-					lh = 0;
 				}
 
 				let bottom: number = label.pixelY + lh;
@@ -812,6 +816,10 @@ export class PercentSeries extends Series {
 				let lh = label.measuredHeight;
 				if(!label.visible){
 					lh = 0;
+				}
+
+				if(i == dataItems.length - 1){
+					previousTop += lh / 2;
 				}
 
 				if (label.pixelY + lh > previousTop) {

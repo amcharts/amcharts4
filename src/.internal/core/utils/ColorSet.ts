@@ -246,7 +246,6 @@ export class ColorSet extends BaseObject {
 				color = this.getReusableColor(this._currentStep);
 			}
 			else {
-				this._currentStep += this.step;
 				this.generate(this.minColors);
 				color = this.list[this._currentStep];
 			}
@@ -353,12 +352,12 @@ export class ColorSet extends BaseObject {
 		// Generate list of hues, and shuffle them
 		let hues: number[] = [];
 		if (this.reuse) {
-			for (let i = 0; i < count; i++) {
+			for (let i = 1; i <= count; i++) {
 				hues.push($colors.rgbToHsl($type.getValue(this._list[i].rgb)).h);
 			}
 		}
 		else {
-			for (let i = 0; i < count; i++) {
+			for (let i = 1; i <= count; i++) {
 				let h = hsl.h + hueStep * i;
 				if (this.wrap && (h > 1)) {
 					h -= 1;
@@ -376,7 +375,7 @@ export class ColorSet extends BaseObject {
 
 
 		// Generate colors by rotating hue
-		for (let i = 0; i < count; i++) {
+		for (let i = 1; i <= count; i++) {
 
 			// Update hue
 			if (this.reuse) {

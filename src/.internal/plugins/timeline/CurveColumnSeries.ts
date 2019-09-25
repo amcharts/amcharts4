@@ -427,7 +427,6 @@ export class CurveColumnSeries extends ColumnSeries {
 	 * A relative part of an series elements allowed outside of the outer edge of
 	 * the "plot area".
 	 *
-	 * @todo mm
 	 * @default 0.2
 	 * @param  value  Top offset
 	 */
@@ -480,23 +479,23 @@ export class CurveColumnSeries extends ColumnSeries {
 		bullet.moveTo(this.xAxis.renderer.positionToPoint(positionX, positionY));
 	}
 
-	protected setXAxis(axis:Axis){
+	protected setXAxis(axis: Axis) {
 		super.setXAxis(axis);
 		this.updateRendererRefs();
 	}
 
-	protected setYAxis(axis:Axis){
+	protected setYAxis(axis: Axis) {
 		super.setYAxis(axis);
 		this.updateRendererRefs();
-	}	
+	}
 
-	protected updateRendererRefs(){
+	protected updateRendererRefs() {
 		let rendererX = <AxisRendererCurveX>this.xAxis.renderer;
 		let rendererY = <AxisRendererCurveY>this.yAxis.renderer;
 
 		rendererX.axisRendererY = rendererY;
-		rendererY.axisRendererX = rendererX;		
-	}	
+		rendererY.axisRendererX = rendererX;
+	}
 
 }
 

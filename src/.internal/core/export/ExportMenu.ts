@@ -424,7 +424,6 @@ export class ExportMenu extends Validatable {
 					"menu": [
 						{ "type": "png", "label": "PNG" },
 						{ "type": "jpg", "label": "JPG" },
-						{ "type": "gif", "label": "GIF" },
 						{ "type": "svg", "label": "SVG" },
 						{ "type": "pdf", "label": "PDF" }
 					]

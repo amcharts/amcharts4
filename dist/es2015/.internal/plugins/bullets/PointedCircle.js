@@ -109,6 +109,12 @@ var PointedCircle = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    PointedCircle.prototype.getTooltipY = function () {
+        return $math.sin(this.pointerAngle) * (-this.pointerLength * 0.8 - this.radius) - this.radius;
+    };
+    PointedCircle.prototype.getTooltipX = function () {
+        return $math.cos(this.pointerAngle) * (-this.pointerLength * 0.8 - this.radius);
+    };
     return PointedCircle;
 }(PointedShape));
 export { PointedCircle };

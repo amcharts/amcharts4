@@ -634,6 +634,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			let dataItemsIterator = this._dataItemsIterator;
 
 			let i: number = 0;
+
 			while (value <= maxZoomed) {
 				let axisBreak: ValueAxisBreak = <ValueAxisBreak>this.isInBreak(value);
 
@@ -653,9 +654,12 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 						if (dataItem.label && dataItem.label.invalid) {
 							dataItem.label.validate();
 						}
-						if (dataItem.value > this.min && dataItem.value < this.max) {
-							if (dataItem.label && (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight)) {
-								this.ghostLabel.text = dataItem.label.currentText;
+						if (dataItem.value >= this.min && dataItem.value <= this.max) {
+							if(dataItem.label){
+								if ((this.axisLetter == "Y" && dataItem.label.measuredWidth > this.ghostLabel.measuredWidth) || (this.axisLetter == "X" && dataItem.label.measuredHeight > this.ghostLabel.measuredHeight)) {
+									this.ghostLabel.text = dataItem.label.currentText;
+									this.ghostLabel.validate();
+								}
 							}
 						}
 					}

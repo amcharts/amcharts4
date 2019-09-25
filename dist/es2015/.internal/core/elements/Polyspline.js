@@ -145,7 +145,10 @@ var Polyspline = /** @class */ (function (_super) {
         }
     };
     /**
-     * @todo mm
+     * Returns an index of the point that is closest to specified coordinates.
+     *
+     * @param   point  Reference point
+     * @return         Index
      */
     Polyspline.prototype.getClosestPointIndex = function (point) {
         var points = this.allPoints;

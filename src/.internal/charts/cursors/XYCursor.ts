@@ -726,6 +726,7 @@ export class XYCursor extends Cursor {
 		let tooltip: Tooltip = this.xAxis.tooltip;
 		let point: IPoint = $utils.svgPointToSprite({ x: tooltip.pixelX, y: tooltip.pixelY }, this);
 		let x: number = point.x;
+		point.y = 1;
 
 		if (this.lineX) {
 			this.lineX.x = x;
@@ -755,6 +756,7 @@ export class XYCursor extends Cursor {
 		let tooltip: Tooltip = this.yAxis.tooltip;
 		let point: IPoint = $utils.svgPointToSprite({ x: tooltip.pixelX, y: tooltip.pixelY }, this);
 		let y: number = point.y;
+		point.x = 1;
 
 		if (this.lineY) {
 			this.lineY.y = y;

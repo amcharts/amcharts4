@@ -608,6 +608,7 @@ var Axis = /** @class */ (function (_super) {
         _this.className = "Axis";
         _this.shouldClone = false;
         _this.setPropertyValue("cursorTooltipEnabled", true);
+        _this.toggleZoomOutButton = true;
         var interfaceColors = new InterfaceColorSet();
         // Create title
         _this.title = new Label();
@@ -1015,6 +1016,31 @@ var Axis = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Axis.prototype, "toggleZoomOutButton", {
+        /**
+         * @return Toggle zoom out button?
+         */
+        get: function () {
+            return this.getPropertyValue("toggleZoomOutButton");
+        },
+        /**
+         * Normally, when axis is zoomed in, a zoom out button is shown by a chart,
+         * and vice versa: when axis is zoomed out completely, zoom out button is
+         * hidden.
+         *
+         * Setting this to `false` will disable this behavior. Zooming in our out
+         * this axis will not reveal or hide zoom out button.
+         *
+         * @default true
+         * @since 4.6.2
+         * @param  value  Toggle zoom out button?
+         */
+        set: function (value) {
+            this.setPropertyValue("toggleZoomOutButton", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Shows Axis tooltip at specific relative position within Axis. (0-1)
      *
@@ -1044,7 +1070,7 @@ var Axis = /** @class */ (function (_super) {
             var startPosition = this.getCellStartPosition(position);
             var endPosition = this.getCellEndPosition(position);
             if (this.tooltipPosition == "fixed") {
-                position = startPosition + (endPosition - startPosition) * tooltipLocation;
+                position = $math.ceil(startPosition + (endPosition - startPosition) * tooltipLocation, 4);
             }
             position = $math.fitToRange(position, this.start, this.end);
             if (this._tooltipPosition != position) {
@@ -1658,7 +1684,13 @@ var Axis = /** @class */ (function (_super) {
             }
         }
         if (source.title) {
-            this.title = source.title.clone();
+            if (!this.title) {
+                this.title = source.title.clone();
+                this.title.parent = this;
+            }
+            else {
+                this.title.copyFrom(source.title);
+            }
             this._disposers.push(this.title);
         }
     };

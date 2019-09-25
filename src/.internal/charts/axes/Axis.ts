@@ -175,7 +175,7 @@ export class AxisDataItem extends DataItem {
 	 * 
 	 * @since 4.5.11
 	 */
-	public minPosition?:number;
+	public minPosition?: number;
 
 	/**
 	 * Allows hiding axis item (tick, label, grid) if it is closer to axis
@@ -213,8 +213,8 @@ export class AxisDataItem extends DataItem {
 	 * 
 	 * @since 4.5.11
 	 */
-	public maxPosition?:number;
-	
+	public maxPosition?: number;
+
 
 	/**
 	 * Constructor
@@ -718,7 +718,7 @@ export class AxisDataItem extends DataItem {
 		}
 
 		this._bullet = value;
-		if(value){
+		if (value) {
 			this.addSprite(value);
 		}
 	}
@@ -795,6 +795,19 @@ export interface IAxisProperties extends IComponentProperties {
 	 * Indicates if cusor's tooltip should be shown on this Axis.
 	 */
 	cursorTooltipEnabled?: boolean;
+
+	/**
+	 * Normally, when axis is zoomed in, a zoom out button is shown by a chart,
+	 * and vice versa: when axis is zoomed out completely, zoom out button is
+	 * hidden.
+	 *
+	 * Setting this to `false` will disable this behavior. Zooming in our out
+	 * this axis will not reveal or hide zoom out button.
+	 *
+	 * @default true
+	 */
+	toggleZoomOutButton?: boolean;
+
 }
 
 /**
@@ -947,7 +960,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 */
 	public currentItemEndPoint: IPoint;
 
-	protected _tooltipPosition:number;
+	protected _tooltipPosition: number;
 
 	/**
 	 * Holds reference to a function that accepts a DataItem and its index as
@@ -1008,6 +1021,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 		this.className = "Axis";
 		this.shouldClone = false;
 		this.setPropertyValue("cursorTooltipEnabled", true);
+		this.toggleZoomOutButton = true;
 
 		let interfaceColors = new InterfaceColorSet();
 
@@ -1163,7 +1177,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			else {
 				axisFill.parent = renderer.gridContainer;
 			}
-		}		
+		}
 
 		let grid = dataItem.grid;
 		if (grid) {
@@ -1418,8 +1432,31 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			}
 			else {
 				this.tooltip.hide(0);
-			}			
+			}
 		}
+	}
+
+	/**
+	 * Normally, when axis is zoomed in, a zoom out button is shown by a chart,
+	 * and vice versa: when axis is zoomed out completely, zoom out button is
+	 * hidden.
+	 *
+	 * Setting this to `false` will disable this behavior. Zooming in our out
+	 * this axis will not reveal or hide zoom out button.
+	 *
+	 * @default true
+	 * @since 4.6.2
+	 * @param  value  Toggle zoom out button?
+	 */
+	public set toggleZoomOutButton(value: boolean) {
+		this.setPropertyValue("toggleZoomOutButton", value);
+	}
+
+	/**
+	 * @return Toggle zoom out button?
+	 */
+	public get toggleZoomOutButton(): boolean {
+		return this.getPropertyValue("toggleZoomOutButton");
 	}
 
 	/**
@@ -1442,7 +1479,6 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			this._tooltipPosition = undefined;
 		}
 		else {
-
 			if (!local) {
 				position = this.toAxisPosition(position);
 			}
@@ -1466,8 +1502,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			let endPosition: number = this.getCellEndPosition(position);
 
 			if (this.tooltipPosition == "fixed") {
-				position = startPosition + (endPosition - startPosition) * tooltipLocation;
+				position = $math.ceil(startPosition + (endPosition - startPosition) * tooltipLocation, 4);
 			}
+
 			position = $math.fitToRange(position, this.start, this.end);
 
 			if (this._tooltipPosition != position) {
@@ -1873,7 +1910,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 */
 	public getPositionY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string, range?: IRange): number {
 		return;
-	}	
+	}
 
 	/**
 	 * Coordinates of the actual axis start.
@@ -2135,7 +2172,13 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			}
 		}
 		if (source.title) {
-			this.title = source.title.clone();
+			if (!this.title) {
+				this.title = source.title.clone();
+				this.title.parent = this;
+			}
+			else {
+				this.title.copyFrom(source.title);
+			}
 			this._disposers.push(this.title);
 		}
 	}

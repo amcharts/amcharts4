@@ -162,6 +162,16 @@ export declare class ForceDirectedSeriesDataItem extends SeriesDataItem {
      */
     collapsed: boolean;
     /**
+     * @return Fixed?
+     */
+    /**
+     * Is this node fixed (immovable)?
+     *
+     * @since 4.6.2
+     * @param  value  Fixed?
+     */
+    fixed: boolean;
+    /**
      * @return Item's children
      */
     /**
@@ -233,6 +243,13 @@ export interface IForceDirectedSeriesDataFields extends ISeriesDataFields {
      * as collapsed. (nodes start as fully expanded by default)
      */
     collapsed?: string;
+    /**
+     * name of the field that holds boolean flag indicating whether this node
+     * is "fixed" (immobavle).
+     *
+     * @since 4.6.2
+     */
+    fixed?: string;
 }
 /**
  * Defines properties for [[ForceDirectedSeries]].
@@ -396,6 +413,7 @@ export declare class ForceDirectedSeries extends Series {
      * @ignore Exclude from docs
      */
     validateDataItems(): void;
+    protected handleFixed(dataItem: this["_dataItem"]): void;
     /**
      * @ignore
      * @todo description

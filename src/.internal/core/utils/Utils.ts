@@ -918,8 +918,15 @@ export function svgPointToSprite(point: IPoint, sprite: Sprite): IPoint {
 				y -= sprite.dy;
 			}
 
-			x = ($math.cos(-angle) * relativeX - $math.sin(-angle) * relativeY) / sprite.scale - sprite.pixelPaddingLeft;
-			y = ($math.cos(-angle) * relativeY + $math.sin(-angle) * relativeX) / sprite.scale - sprite.pixelPaddingTop;
+			let scale = sprite.scale;
+
+			// this handles nonscaling
+			if(sprite.group){
+				scale = sprite.group.scale; 
+			}
+
+			x = ($math.cos(-angle) * relativeX - $math.sin(-angle) * relativeY) / scale - sprite.pixelPaddingLeft;
+			y = ($math.cos(-angle) * relativeY + $math.sin(-angle) * relativeX) / scale - sprite.pixelPaddingTop;
 		}
 	}
 
@@ -952,8 +959,15 @@ export function spritePointToSvg(point: IPoint, sprite: Sprite): IPoint {
 				y += sprite.dy;
 			}
 
-			let relativeX = sprite.pixelX + ((x * $math.cos(angle) - y * $math.sin(angle))) * sprite.scale;
-			let relativeY = sprite.pixelY + ((x * $math.sin(angle) + y * $math.cos(angle))) * sprite.scale;
+			let scale = sprite.scale;
+
+			// this handles nonscaling
+			if(sprite.group){
+				scale = sprite.group.scale; 
+			}
+
+			let relativeX = sprite.pixelX + ((x * $math.cos(angle) - y * $math.sin(angle))) * scale;
+			let relativeY = sprite.pixelY + ((x * $math.sin(angle) + y * $math.cos(angle))) * scale;
 
 			x = relativeX;
 			y = relativeY;

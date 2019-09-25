@@ -5,6 +5,32 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.6.2] - 2019-09-25
+
+### Added
+- New plugin: [OverlapBuster](https://www.amcharts.com/docs/v4/tutorials/plugin-overlap-buster/). Allows automatically "exploding" overlapping items such as bullets or markers for easier access to them.
+- New property: `maxZoomCount` on `Component`. Use it to limit how many items such as categories or base intervals on axes can be shown at the same time.
+- Added `riseFromOpenState`, `riseFromPreviousState`, `dropFromOpenState`, and `dropFromPreviousState` setters to `ColumnSeries`. You can use them to set states to `undefined` if you don't want them to be used.
+- A possibility to make "fixed" `ForceDirectedTree` nodes added (via `dataFields.fixed`). Also it is possible to set `x` and `y` of such nodes using `series.nodes.template.propertyField.x` and `y`. [More info](https://www.amcharts.com/docs/v4/chart-types/force-directed/#Fixed_nodes).
+
+### Changed
+- Removed "GIF" option from the Export menu. Browsers don't know how to convert canvas to GIF, so it was falling back to exporting as PNG, making GIF option redundant.
+
+### Fixed
+- If chart's data source was initialized (which would happen by only accessing chart's `dataSource` property) and its `url` was not set, it was still trying to load and resulting in error.
+- Formatting number with "b" modifier, was causing all numbers up to 1024 become zero.
+- `ColorSet` with default (no) theme was generating colors from second in the list from `4.6.1`.
+- Bullet positions were incorrect on `ValueAxis` with `baseValue` set to other than zero.
+- Bullet positions with `DateAxis` could be incorrect in some cases.
+- Title position of a cloned Axis was nor being positioned properly.
+- Cursor was flickering if axis of a cursor had some padding set.
+- Tooltip position of `MapImage` elements with `nonScaling = true` could be incorrect in some specific cases.
+- Vertical axis break's fill might get out of sync with break lines if the width of a break was small.
+- `RadarCursor` could show incorrect label if the chart had `CategoryAxis` with only 3 categories.
+- Series was not redrawing properly if its axis range value changed.
+- `PieChart` could show some labels out of chart area in some specific cases.
+
+
 ## [4.6.1] - 2019-09-18
 
 ### Added

@@ -617,7 +617,7 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 	public end(): Animation {
 
 		// Pause and complete the progress
-		if(this._loop == 0){
+		if (this._loop == 0) {
 			this.pause();
 		}
 		this.setProgress(1);
@@ -647,7 +647,10 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 		return this;
 	}
 
-	public kill(){
+	/**
+	 * Stops animation immediately leaving properties in their current values.
+	 */
+	public kill() {
 		this.pause();
 		this._isFinished = true;
 	}

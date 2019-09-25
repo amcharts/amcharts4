@@ -157,7 +157,7 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 		super.draw();
 
 		let w: number = this.pixelWidth;
-		let h: number = this._pixelHeight;
+		let h: number = this.pixelHeight;
 
 		if (w > 0 && h > 0) {
 			let p1: IPoint = { x: 0, y: 0 };
@@ -165,8 +165,11 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 			let p3: IPoint = { x: w, y: h };
 			let p4: IPoint = { x: 0, y: h };
 
-			let waveLength: number = Math.min(w, this.waveLength);
-			let waveHeight: number = Math.min(h, this.waveHeight);
+			let waveLengthH: number = Math.min(w, this.waveLength);
+			let waveHeightH: number = Math.min(h, this.waveHeight);
+
+			let waveLengthV: number = Math.min(h, this.waveLength);
+			let waveHeightV: number = Math.min(w, this.waveHeight);			
 
 			let td: string = "";
 			let rd: string = "";
@@ -174,16 +177,16 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 			let ld: string = "";
 
 			if (this.wavedTop) {
-				td = wavedLine(p1, p2, waveLength, waveHeight, this.tension, true);
+				td = wavedLine(p1, p2, waveLengthH, waveHeightH, this.tension, true);
 			}
 			if (this.wavedRight) {
-				rd = wavedLine(p2, p3, waveLength, waveHeight, this.tension, true);
+				rd = wavedLine(p2, p3, waveLengthV, waveHeightV, this.tension, true);
 			}
 			if (this.wavedBottom) {
-				bd = wavedLine(p3, p4, waveLength, waveHeight, this.tension, true);
+				bd = wavedLine(p3, p4, waveLengthH, waveHeightH, this.tension, true);
 			}
 			if (this.wavedLeft) {
-				ld = wavedLine(p4, p1, waveLength, waveHeight, this.tension, true);
+				ld = wavedLine(p4, p1, waveLengthV, waveHeightV, this.tension, true);
 			}
 
 			this.path = $path.moveTo(p1) + td + $path.lineTo(p2) + rd + $path.lineTo(p3) + bd + $path.lineTo(p4) + ld + "z";

@@ -20,6 +20,7 @@ import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
+import * as $time from "../../core/utils/Time";
 import * as $array from "../../core/utils/Array";
 import * as $object from "../../core/utils/Object";
 import * as $path from "../../core/rendering/Path";
@@ -1124,7 +1125,7 @@ var XYSeries = /** @class */ (function (_super) {
                     var closeValue = dataItem.getWorkingValue(xField);
                     if (!xOpenField) {
                         if (xAxis == this.baseAxis) {
-                            openValue = xAxis.min;
+                            openValue = xAxis.baseValue;
                         }
                     }
                     else {
@@ -1137,7 +1138,9 @@ var XYSeries = /** @class */ (function (_super) {
                     openValue += stack;
                     closeValue += stack;
                     if (openValue == closeValue) {
-                        closeValue += xAxis.baseDuration;
+                        var baseInterval = xAxis.baseInterval;
+                        openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, xAxis.dateFormatter.firstDayOfWeek).getTime();
+                        closeValue = openValue + xAxis.baseDuration;
                     }
                     var middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationX);
                     positionX = xAxis.valueToPosition(middleValue);
@@ -1149,7 +1152,7 @@ var XYSeries = /** @class */ (function (_super) {
                     var openValue = void 0;
                     var closeValue = dataItem.getWorkingValue(xField);
                     if (!xOpenField) {
-                        openValue = xAxis.min;
+                        openValue = xAxis.baseValue;
                     }
                     else {
                         openValue = dataItem.getWorkingValue(xOpenField);
@@ -1181,7 +1184,7 @@ var XYSeries = /** @class */ (function (_super) {
                     var closeValue = dataItem.getWorkingValue(yField);
                     if (!yOpenField) {
                         if (yAxis == this.baseAxis) {
-                            openValue = yAxis.min;
+                            openValue = yAxis.baseValue;
                         }
                     }
                     else {
@@ -1194,7 +1197,9 @@ var XYSeries = /** @class */ (function (_super) {
                     openValue += stack;
                     closeValue += stack;
                     if (openValue == closeValue) {
-                        closeValue += yAxis.baseDuration;
+                        var baseInterval = yAxis.baseInterval;
+                        openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, yAxis.dateFormatter.firstDayOfWeek).getTime();
+                        closeValue = openValue + yAxis.baseDuration;
                     }
                     var middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationY);
                     positionY = yAxis.valueToPosition(middleValue);
@@ -1206,7 +1211,7 @@ var XYSeries = /** @class */ (function (_super) {
                     var openValue = void 0;
                     var closeValue = dataItem.getWorkingValue(yField);
                     if (!yOpenField) {
-                        openValue = yAxis.min;
+                        openValue = yAxis.baseValue;
                     }
                     else {
                         openValue = dataItem.getWorkingValue(yOpenField);

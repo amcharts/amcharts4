@@ -539,10 +539,12 @@ var DataSource = /** @class */ (function (_super) {
      * Use DataSource's events to watch for loaded data and errors.
      */
     DataSource.prototype.load = function () {
-        if (this._reloadTimeout) {
-            clearTimeout(this._reloadTimeout);
+        if (this.url) {
+            if (this._reloadTimeout) {
+                clearTimeout(this._reloadTimeout);
+            }
+            dataLoader.load(this);
         }
-        dataLoader.load(this);
     };
     /**
      * Adds parameters to `url` as query strings. Will take care of proper

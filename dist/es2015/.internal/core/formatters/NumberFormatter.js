@@ -632,7 +632,7 @@ var NumberFormatter = /** @class */ (function (_super) {
         get: function () {
             if (!$type.hasValue(this._bytePrefixes)) {
                 this._bytePrefixes = [
-                    { "number": 0, suffix: this.language.translate("_byte_suffix_B") },
+                    { "number": 1, suffix: this.language.translate("_byte_suffix_B") },
                     { "number": 1024, suffix: this.language.translate("_byte_suffix_KB") },
                     { "number": 1048576, suffix: this.language.translate("_byte_suffix_MB") },
                     { "number": 1073741824, suffix: this.language.translate("_byte_suffix_GB") },

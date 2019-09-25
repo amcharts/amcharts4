@@ -469,18 +469,40 @@ var XYChart = /** @class */ (function (_super) {
         if (this.zoomOutButton) {
             var show_1 = false;
             $iter.eachContinue(this.xAxes.iterator(), function (axis) {
-                if ($math.round(axis.start, 3) != 0 || $math.round(axis.end, 3) != 1) {
-                    show_1 = true;
-                    return false;
+                if (axis.toggleZoomOutButton) {
+                    if (axis.maxZoomCount > 0) {
+                        var minZoomFactor = axis.maxZoomFactor / axis.maxZoomCount;
+                        if ($math.round(axis.end - axis.start, 3) < 1 / minZoomFactor) {
+                            show_1 = true;
+                            return false;
+                        }
+                    }
+                    else {
+                        if ($math.round(axis.start, 3) != 0 || $math.round(axis.end, 3) != 1) {
+                            show_1 = true;
+                            return false;
+                        }
+                    }
                 }
                 return true;
             });
             $iter.eachContinue(this.yAxes.iterator(), function (axis) {
-                if ($math.round(axis.start, 3) != 0 || $math.round(axis.end, 3) != 1) {
-                    show_1 = true;
-                    return false;
+                if (axis.toggleZoomOutButton) {
+                    if (axis.maxZoomCount > 0) {
+                        var minZoomFactor = axis.maxZoomFactor / axis.maxZoomCount;
+                        if ($math.round(axis.end - axis.start, 3) < 1 / minZoomFactor) {
+                            show_1 = true;
+                            return false;
+                        }
+                    }
+                    else {
+                        if ($math.round(axis.start, 3) != 0 || $math.round(axis.end, 3) != 1) {
+                            show_1 = true;
+                            return false;
+                        }
+                    }
+                    return true;
                 }
-                return true;
             });
             if (!this.seriesAppeared) {
                 show_1 = false;
@@ -1239,11 +1261,11 @@ var XYChart = /** @class */ (function (_super) {
         if (this.inited) {
             var scrollbar = event.target;
             var range = scrollbar.range;
-            if (range.end == 1) {
-                range.priority = "end";
-            }
             if (range.start == 0) {
                 range.priority = "start";
+            }
+            if (range.end == 1) {
+                range.priority = "end";
             }
             range = this.zoomAxes(this.xAxes, range);
             scrollbar.fixRange(range);

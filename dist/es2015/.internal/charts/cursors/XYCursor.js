@@ -542,6 +542,7 @@ var XYCursor = /** @class */ (function (_super) {
         var tooltip = this.xAxis.tooltip;
         var point = $utils.svgPointToSprite({ x: tooltip.pixelX, y: tooltip.pixelY }, this);
         var x = point.x;
+        point.y = 1;
         if (this.lineX) {
             this.lineX.x = x;
             if (!this.fitsToBounds(point)) {
@@ -568,6 +569,7 @@ var XYCursor = /** @class */ (function (_super) {
         var tooltip = this.yAxis.tooltip;
         var point = $utils.svgPointToSprite({ x: tooltip.pixelX, y: tooltip.pixelY }, this);
         var y = point.y;
+        point.x = 1;
         if (this.lineY) {
             this.lineY.y = y;
             if (!this.fitsToBounds(point)) {

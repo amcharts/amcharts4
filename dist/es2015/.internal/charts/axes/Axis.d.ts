@@ -413,6 +413,17 @@ export interface IAxisProperties extends IComponentProperties {
      * Indicates if cusor's tooltip should be shown on this Axis.
      */
     cursorTooltipEnabled?: boolean;
+    /**
+     * Normally, when axis is zoomed in, a zoom out button is shown by a chart,
+     * and vice versa: when axis is zoomed out completely, zoom out button is
+     * hidden.
+     *
+     * Setting this to `false` will disable this behavior. Zooming in our out
+     * this axis will not reveal or hide zoom out button.
+     *
+     * @default true
+     */
+    toggleZoomOutButton?: boolean;
 }
 /**
  * Defines events for [[Axis]].
@@ -742,6 +753,22 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @param value Display tooltip?
      */
     cursorTooltipEnabled: boolean;
+    /**
+     * @return Toggle zoom out button?
+     */
+    /**
+     * Normally, when axis is zoomed in, a zoom out button is shown by a chart,
+     * and vice versa: when axis is zoomed out completely, zoom out button is
+     * hidden.
+     *
+     * Setting this to `false` will disable this behavior. Zooming in our out
+     * this axis will not reveal or hide zoom out button.
+     *
+     * @default true
+     * @since 4.6.2
+     * @param  value  Toggle zoom out button?
+     */
+    toggleZoomOutButton: boolean;
     /**
      * Shows Axis tooltip at specific relative position within Axis. (0-1)
      *

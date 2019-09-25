@@ -801,8 +801,13 @@ export function svgPointToSprite(point, sprite) {
             if (sprite_1.dy) {
                 y -= sprite_1.dy;
             }
-            x = ($math.cos(-angle) * relativeX - $math.sin(-angle) * relativeY) / sprite_1.scale - sprite_1.pixelPaddingLeft;
-            y = ($math.cos(-angle) * relativeY + $math.sin(-angle) * relativeX) / sprite_1.scale - sprite_1.pixelPaddingTop;
+            var scale = sprite_1.scale;
+            // this handles nonscaling
+            if (sprite_1.group) {
+                scale = sprite_1.group.scale;
+            }
+            x = ($math.cos(-angle) * relativeX - $math.sin(-angle) * relativeY) / scale - sprite_1.pixelPaddingLeft;
+            y = ($math.cos(-angle) * relativeY + $math.sin(-angle) * relativeX) / scale - sprite_1.pixelPaddingTop;
         }
     }
     return { x: x, y: y };
@@ -829,8 +834,13 @@ export function spritePointToSvg(point, sprite) {
             if (sprite.dy) {
                 y += sprite.dy;
             }
-            var relativeX = sprite.pixelX + ((x * $math.cos(angle) - y * $math.sin(angle))) * sprite.scale;
-            var relativeY = sprite.pixelY + ((x * $math.sin(angle) + y * $math.cos(angle))) * sprite.scale;
+            var scale = sprite.scale;
+            // this handles nonscaling
+            if (sprite.group) {
+                scale = sprite.group.scale;
+            }
+            var relativeX = sprite.pixelX + ((x * $math.cos(angle) - y * $math.sin(angle))) * scale;
+            var relativeY = sprite.pixelY + ((x * $math.sin(angle) + y * $math.cos(angle))) * scale;
             x = relativeX;
             y = relativeY;
             sprite = sprite.parent;
