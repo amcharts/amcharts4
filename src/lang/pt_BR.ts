@@ -132,7 +132,7 @@ export default {
 
 	// Various chart controls.
 	// Shown as a tooltip on zoom out button.
-	"Zoom Out": "Aumentar Zoom",
+	"Zoom Out": "Diminuir o zoom",
 
 	// Timeline buttons
 	"Play": "Play",
