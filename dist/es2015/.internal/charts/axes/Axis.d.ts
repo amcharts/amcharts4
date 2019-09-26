@@ -490,7 +490,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     /**
      * A [[Label]] instance that is used for Axis title label.
      */
-    title: Label;
+    protected _title: Label;
     /**
      * "X", "Y", etc.
      *
@@ -1162,4 +1162,18 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     endLocation: number;
     protected setDisabled(value: boolean): boolean;
+    /**
+     * @return Title label
+     */
+    /**
+     * A reference to a [[Label]] element which serves as a title to the axis.
+     *
+     * When axis is created it aleready has an element, so you can just modify
+     * it.
+     *
+     * Or you can replace it with your own instance of `Label`.
+     *
+     * @param  value  Title label
+     */
+    title: Label;
 }

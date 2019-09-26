@@ -308,13 +308,14 @@ var ColorSet = /** @class */ (function (_super) {
         };
         // Generate list of hues, and shuffle them
         var hues = [];
+        var startIndex = this.list.length == 0 ? 0 : 1;
         if (this.reuse) {
-            for (var i = 1; i <= count; i++) {
+            for (var i = startIndex; i < count; i++) {
                 hues.push($colors.rgbToHsl($type.getValue(this._list[i].rgb)).h);
             }
         }
         else {
-            for (var i = 1; i <= count; i++) {
+            for (var i = startIndex; i < count; i++) {
                 var h = hsl.h + hueStep * i;
                 if (this.wrap && (h > 1)) {
                     h -= 1;
@@ -329,7 +330,7 @@ var ColorSet = /** @class */ (function (_super) {
             });
         }
         // Generate colors by rotating hue
-        for (var i = 1; i <= count; i++) {
+        for (var i = 0; i < count; i++) {
             // Update hue
             if (this.reuse) {
                 hsl = $colors.rgbToHsl($type.getValue(this._list[i].rgb));

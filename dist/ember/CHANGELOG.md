@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.6.3] - 2019-09-26
+
+### Fixed
+- `ColorSet` was now skipping the first (base) color if no theme or list of colors was specified.
+- Setting axis `title` to a new `Label` object will now remove the previous title label.
+
+
 ## [4.6.2] - 2019-09-25
 
 ### Added

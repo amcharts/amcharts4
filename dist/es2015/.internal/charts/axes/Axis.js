@@ -1779,6 +1779,36 @@ var Axis = /** @class */ (function (_super) {
         }
         return changed;
     };
+    Object.defineProperty(Axis.prototype, "title", {
+        /**
+         * @return Title label
+         */
+        get: function () {
+            return this._title;
+        },
+        /**
+         * A reference to a [[Label]] element which serves as a title to the axis.
+         *
+         * When axis is created it aleready has an element, so you can just modify
+         * it.
+         *
+         * Or you can replace it with your own instance of `Label`.
+         *
+         * @param  value  Title label
+         */
+        set: function (value) {
+            if (this._title && this._title != value) {
+                this._title.dispose();
+            }
+            if (value) {
+                this._title = value;
+                value.parent = this;
+                value.shouldClone = false;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Axis;
 }(Component));
 export { Axis };

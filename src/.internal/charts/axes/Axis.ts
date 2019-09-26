@@ -889,7 +889,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * A [[Label]] instance that is used for Axis title label.
 	 */
-	public title: Label;
+	protected _title: Label;
 
 	/**
 	 * "X", "Y", etc.
@@ -2270,6 +2270,34 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			this.renderer.gridContainer.disabled = value;
 		}
 		return changed;
+	}
+
+	/**
+	 * A reference to a [[Label]] element which serves as a title to the axis.
+	 *
+	 * When axis is created it aleready has an element, so you can just modify
+	 * it.
+	 *
+	 * Or you can replace it with your own instance of `Label`.
+	 * 
+	 * @param  value  Title label
+	 */
+	public set title(value: Label) {
+		if (this._title && this._title != value) {
+			this._title.dispose();
+		}
+		if (value) {
+			this._title = value;
+			value.parent = this;
+			value.shouldClone = false;
+		}
+	}
+
+	/**
+	 * @return Title label
+	 */
+	public get title(): Label {
+		return this._title;
 	}
 
 }
