@@ -81,3 +81,10 @@ export interface INetRequestOptions {
  * @return Result (Promise)
  */
 export declare function load<A>(url: string, target?: A, options?: INetRequestOptions): Promise<INetLoadResult<A>>;
+/**
+ * Returns textual representation of a Blob object.
+ *
+ * @param   blob  Target blob
+ * @return        Text promise
+ */
+export declare function readBlob(blob: Blob): Promise<string>;

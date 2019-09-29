@@ -1,6 +1,6 @@
 {
   "name": "@amcharts/amcharts4",
-  "version": "4.6.3",
+  "version": "4.6.4",
   "author": "amCharts <contact@amcharts.com> (https://www.amcharts.com/)",
   "description": "AmCharts v4",
   "homepage": "https://www.amcharts.com/",
@@ -36,7 +36,6 @@
     "canvg": "^2.0.0",
     "d3-force": "^2.0.1",
     "pdfmake": "^0.1.36",
-    "fabric": "3.3.2-browser",
     "polylabel": "^1.0.2",
     "xlsx": "^0.12.8",
     "tslib": "^1.9.3",

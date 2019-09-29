@@ -124,9 +124,28 @@ export class SpriteState<P, A> extends BaseObject {
 	public sprite: $type.Optional<Sprite>;
 
 	/**
+	 * @ignore
+	 */
+	public _adapterO: Adapter<this, A>;
+
+	/**
 	 * Holds Adapter.
 	 */
-	public adapter = new Adapter<this, A>(this);
+	public get adapter(): Adapter<this, A> {
+		if (!this._adapterO) {
+			this._adapterO = new Adapter<this, A>(this);
+
+			// Decorate adapter with events so that we can apply its settings whenever
+			// it is modified
+			this._adapterO.events.on("inserted", (ev: any) => {
+				(<any>this)[ev.newValue.key] = (<any>this)[ev.newValue.key];
+			}, undefined, false);
+			this._adapterO.events.on("removed", (ev: any) => {
+				(<any>this)[ev.newValue.key] = (<any>this)[ev.newValue.key];
+			}, undefined, false);
+		}
+		return this._adapterO;
+	}
 
 	/**
 	 * Duration of the transition to this state. 0 means instantenous transition.
@@ -199,15 +218,6 @@ export class SpriteState<P, A> extends BaseObject {
 		// Make filter list disposable
 		this._disposers.push(new ListDisposer(this.filters));
 
-		// Decorate adapter with events so that we can apply its settings whenever
-		// it is modified
-		this.adapter.events.on("inserted", (ev: any) => {
-			(<any>this)[ev.newValue.key] = (<any>this)[ev.newValue.key];
-		}, undefined, false);
-		this.adapter.events.on("removed", (ev: any) => {
-			(<any>this)[ev.newValue.key] = (<any>this)[ev.newValue.key];
-		}, undefined, false);
-
 		// Apply theme
 		this.applyTheme();
 
@@ -241,12 +251,20 @@ export class SpriteState<P, A> extends BaseObject {
 			// @todo get rid of <any>
 			if (!$type.hasValue(propValue)) {
 				let spriteValue = sprite.getPropertyValue(<any>propertyName);
-				propValue = this.adapter.apply(<any>propertyName, sprite.getPropertyValue(<any>propertyName));
+				if (this._adapterO) {
+					propValue = this._adapterO.apply(<any>propertyName, spriteValue);
+				}
+				else {
+					propValue = spriteValue;
+				}
+
 				if (propValue == spriteValue) {
 					propValue = undefined;
 				}
 			} else {
-				propValue = this.adapter.apply(<any>propertyName, propValue)
+				if (this._adapterO) {
+					propValue = this._adapterO.apply(<any>propertyName, propValue)
+				}
 			}
 
 			/*let method = this.propertyMethods.getKey(propertyName);
@@ -272,7 +290,9 @@ export class SpriteState<P, A> extends BaseObject {
 			$utils.copyProperties(source.properties, this.properties);
 			$utils.copyProperties(source.propertyFields, this.propertyFields);
 			this.filters.copyFrom(source.filters);
-			this.adapter.copyFrom(source.adapter);
+			if(source._adapterO){
+				this.adapter.copyFrom(source._adapterO);
+			}
 		}
 	}
 
@@ -297,12 +317,14 @@ export class SpriteState<P, A> extends BaseObject {
 		});
 
 		// Cycle through all adapters and add values for missing properties
-		let keys = this.adapter.keys();
+		if(this._adapterO){
+			let keys = this._adapterO.keys();
 
-		$object.each(keys, (_x, prop) => {
-			let value = this.getPropertyValue<any>(prop);
-			(<any>res)[prop] = value;
-		});
+			$object.each(keys, (_x, prop) => {
+				let value = this.getPropertyValue<any>(prop);
+				(<any>res)[prop] = value;
+			});
+		}
 
 		// Cycle through all property fileds and add values for missing properties
 		let propertyFields = this.propertyFields;

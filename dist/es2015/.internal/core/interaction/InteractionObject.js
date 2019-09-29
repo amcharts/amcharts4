@@ -40,9 +40,10 @@ var InteractionObject = /** @class */ (function (_super) {
     function InteractionObject(element) {
         var _this = _super.call(this) || this;
         /**
+         * @ignore
          * An [[EventDispatcher]] instance which holds events for this object
          */
-        _this.events = new InteractionObjectEventDispatcher(_this);
+        _this._eventDispatcher = new InteractionObjectEventDispatcher(_this);
         /**
          * Collection of Disposers for various events. (so that those get disposed
          * when the whole InteractionObject is disposed)
@@ -126,6 +127,7 @@ var InteractionObject = /** @class */ (function (_super) {
                     "value": "default"
                 }]
         };
+        _this._disposers.push(_this._eventDispatcher);
         _this._element = element;
         _this.className = "InteractionObject";
         _this._disposers.push(new DictionaryDisposer(_this.inertias));
@@ -133,6 +135,17 @@ var InteractionObject = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    ;
+    Object.defineProperty(InteractionObject.prototype, "events", {
+        /**
+         * An [[EventDispatcher]] instance which holds events for this object
+         */
+        get: function () {
+            return this._eventDispatcher;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(InteractionObject.prototype, "isHover", {
         /**
          * @return Hovered?
@@ -616,8 +629,8 @@ var InteractionObject = /** @class */ (function (_super) {
          * @return Options
          */
         get: function () {
-            if (this.sprite) {
-                return this.sprite.adapter.apply("inertiaOptions", this._inertiaOptions);
+            if (this.sprite && this.sprite._adapterO) {
+                return this.sprite._adapterO.apply("inertiaOptions", this._inertiaOptions);
             }
             else {
                 return this._inertiaOptions;
@@ -639,8 +652,8 @@ var InteractionObject = /** @class */ (function (_super) {
          * @return Options
          */
         get: function () {
-            if (this.sprite) {
-                return this.sprite.adapter.apply("hitOptions", this._hitOptions);
+            if (this.sprite && this.sprite._adapterO) {
+                return this.sprite._adapterO.apply("hitOptions", this._hitOptions);
             }
             else {
                 return this._hitOptions;
@@ -662,8 +675,8 @@ var InteractionObject = /** @class */ (function (_super) {
          * @return Options
          */
         get: function () {
-            if (this.sprite) {
-                return this.sprite.adapter.apply("hoverOptions", this._hoverOptions);
+            if (this.sprite && this.sprite._adapterO) {
+                return this.sprite._adapterO.apply("hoverOptions", this._hoverOptions);
             }
             else {
                 return this._hoverOptions;
@@ -685,8 +698,8 @@ var InteractionObject = /** @class */ (function (_super) {
          * @return Options
          */
         get: function () {
-            if (this.sprite) {
-                return this.sprite.adapter.apply("swipeOptions", this._swipeOptions);
+            if (this.sprite && this.sprite._adapterO) {
+                return this.sprite._adapterO.apply("swipeOptions", this._swipeOptions);
             }
             else {
                 return this._swipeOptions;
@@ -708,8 +721,8 @@ var InteractionObject = /** @class */ (function (_super) {
          * @return Options
          */
         get: function () {
-            if (this.sprite) {
-                return this.sprite.adapter.apply("keyboardOptions", this._keyboardOptions);
+            if (this.sprite && this.sprite._adapterO) {
+                return this.sprite._adapterO.apply("keyboardOptions", this._keyboardOptions);
             }
             else {
                 return this._keyboardOptions;
@@ -731,8 +744,8 @@ var InteractionObject = /** @class */ (function (_super) {
          * @return Options
          */
         get: function () {
-            if (this.sprite) {
-                return this.sprite.adapter.apply("mouseOptions", this._mouseOptions);
+            if (this.sprite && this.sprite._adapterO) {
+                return this.sprite._adapterO.apply("mouseOptions", this._mouseOptions);
             }
             else {
                 return this._mouseOptions;
@@ -755,8 +768,8 @@ var InteractionObject = /** @class */ (function (_super) {
          * @return Options
          */
         get: function () {
-            if (this.sprite) {
-                return this.sprite.adapter.apply("cursorOptions", this._cursorOptions);
+            if (this.sprite && this.sprite._adapterO) {
+                return this.sprite._adapterO.apply("cursorOptions", this._cursorOptions);
             }
             else {
                 return this._cursorOptions;

@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.6.4] - 2019-09-29
+
+### Added
+- Ukrainian translation (uk_UA).
+- `DataSource` now supports binary loading using `responseType = "blob"`.
+
+### Fixed
+- Setting `exporting.dateFormat` resulted in "Invalid date" as a column name for date/time columns when exporting to XLSX.
+- Performance improved, especially data-parsing.
+- When panning `XYChart`, the chart will round selections respecting `startLocation` and `endLocation` values of the Axis.
+- First bullet of a series with `CategoryAxis` could be positioned incorrectly.
+- Conflict between Annotation plugin and amCharts 3 Export plugin fixed.
+
+
 ## [4.6.3] - 2019-09-26
 
 ### Fixed

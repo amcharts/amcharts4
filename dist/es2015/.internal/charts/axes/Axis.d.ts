@@ -820,7 +820,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @param location  Location on axis
      * @return Rounded position
      */
-    roundPosition(position: number, location: AxisItemLocation): number;
+    roundPosition(position: number, location: AxisItemLocation, axisLocation?: number): number;
     /**
      * [getCellStartPosition description]
      *

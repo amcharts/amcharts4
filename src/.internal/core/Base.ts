@@ -1255,16 +1255,31 @@ export class BaseObjectEvents extends BaseObject {
 	 */
 	constructor() {
 		super();
-		this.className = "BaseObjectEvents";
-		this._disposers.push(this.events);
+		this.className = "BaseObjectEvents";		
 	}
 
 	public _events!: IBaseObjectEvents;
 
 	/**
 	 * An [[EventDispatcher]] instance
+	 * @ignore
 	 */
-	public events: EventDispatcher<AMEvent<this, this["_events"]>> = new EventDispatcher();
+	public _eventDispatcher: EventDispatcher<AMEvent<this, this["_events"]>>;
+
+	/**
+	 * An [[EventDispatcher]] instance
+	 */
+	public get events(): EventDispatcher<AMEvent<this, this["_events"]>>{
+		if(!this._eventDispatcher){
+			this._eventDispatcher = new EventDispatcher();
+			this._disposers.push(this._eventDispatcher);
+		}
+		return this._eventDispatcher;
+	}
+
+	//public set events(value:EventDispatcher<AMEvent<this, this["_events"]>>){
+	//	this._eventDispatcher = value;
+	//}
 
 	/**
 	 * Dispatches an event using own event dispatcher. Will automatically
@@ -1277,20 +1292,22 @@ export class BaseObjectEvents extends BaseObject {
 	 */
 	public dispatch<Key extends keyof this["_events"]>(eventType: Key, data?: any): void {
 		// @todo Implement proper type check
-		if (this.events.isEnabled(eventType)) {
-			if (data) {
-				data.type = eventType;
-				data.target = data.target || this;
-				(<any>this.events).dispatch(eventType, {
-					type: eventType,
-					target: this
-				});
-			}
-			else {
-				(<any>this.events).dispatch(eventType, {
-					type: eventType,
-					target: this
-				});
+		if(this._eventDispatcher){
+			if (this.events.isEnabled(eventType)) {
+				if (data) {
+					data.type = eventType;
+					data.target = data.target || this;
+					(<any>this.events).dispatch(eventType, {
+						type: eventType,
+						target: this
+					});
+				}
+				else {
+					(<any>this.events).dispatch(eventType, {
+						type: eventType,
+						target: this
+					});
+				}
 			}
 		}
 	}
@@ -1304,17 +1321,19 @@ export class BaseObjectEvents extends BaseObject {
 	 */
 	public dispatchImmediately<Key extends keyof this["_events"]>(eventType: Key, data?: any): void {
 		// @todo Implement proper type check
-		if (this.events.isEnabled(eventType)) {
-			if (data) {
-				data.type = eventType;
-				data.target = data.target || this;
-				(<any>this.events).dispatchImmediately(eventType, data);
-			}
-			else {
-				(<any>this.events).dispatchImmediately(eventType, {
-					type: eventType,
-					target: this
-				});
+		if(this._eventDispatcher){
+			if (this.events.isEnabled(eventType)) {
+				if (data) {
+					data.type = eventType;
+					data.target = data.target || this;
+					(<any>this.events).dispatchImmediately(eventType, data);
+				}
+				else {
+					(<any>this.events).dispatchImmediately(eventType, {
+						type: eventType,
+						target: this
+					});
+				}
 			}
 		}
 	}
@@ -1326,7 +1345,9 @@ export class BaseObjectEvents extends BaseObject {
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);
-		this.events.copyFrom(source.events);
+		if(source._eventDispatcher){
+			this.events.copyFrom(source._eventDispatcher);
+		}
 	}
 
 }

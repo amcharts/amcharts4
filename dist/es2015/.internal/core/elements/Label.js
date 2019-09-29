@@ -86,15 +86,6 @@ var Label = /** @class */ (function (_super) {
         _this.textValign = "top";
         _this.layout = "absolute";
         _this.baseLineRatio = -0.27;
-        // Set up adapters for manipulating accessibility
-        _this.adapter.add("readerTitle", function (arg) {
-            if (!arg) {
-                arg = _this.populateString($utils.plainText($utils.isNotEmpty(_this.html)
-                    ? _this.html
-                    : _this.text));
-            }
-            return arg;
-        });
         // Add events to watch for maxWidth/maxHeight changes so that we can
         // invalidate this
         _this.events.on("maxsizechanged", function () {
@@ -185,10 +176,14 @@ var Label = /** @class */ (function (_super) {
             text = this.populateString(text, this.dataItem);
         }
         if (output == "html") {
-            text = this.adapter.apply("htmlOutput", text);
+            if (this._adapterO) {
+                text = this._adapterO.apply("htmlOutput", text);
+            }
         }
         else {
-            text = this.adapter.apply("textOutput", text);
+            if (this._adapterO) {
+                text = this._adapterO.apply("textOutput", text);
+            }
         }
         // Update the text
         var changed = text != this.currentText || output != this._currentFormat;
@@ -1299,6 +1294,33 @@ var Label = /** @class */ (function (_super) {
         _super.prototype.deepInvalidate.call(this);
         this.hardInvalidate();
     };
+    Object.defineProperty(Label.prototype, "readerTitle", {
+        /**
+         * @return Title
+         */
+        get: function () {
+            var title = this.getPropertyValue("readerTitle");
+            if (!title) {
+                title = this.populateString($utils.plainText($utils.isNotEmpty(this.html)
+                    ? this.html
+                    : this.text));
+            }
+            return title;
+        },
+        /**
+         * Screen reader title of the element.
+         *
+         * @param value Title
+         */
+        set: function (value) {
+            value = $type.toText(value);
+            if (this.setPropertyValue("readerTitle", value)) {
+                this.applyAccessibility();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Label;
 }(Container));
 export { Label };

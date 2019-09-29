@@ -659,6 +659,8 @@ export class TreeMap extends XYChart {
 		super();
 		this.className = "TreeMap";
 
+		this._usesData = true;
+
 		this.maxLevels = 2;
 		this.currentLevel = 0;
 

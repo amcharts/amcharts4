@@ -8,7 +8,7 @@ import * as tslib_1 from "tslib";
  * ============================================================================
  * @hidden
  */
-import { fabric } from "fabric";
+import { fabric } from "../../fabric/fabric.js";
 import { AnnotationIcons } from "./AnnotationIcons";
 import { Plugin } from "../../core/utils/Plugin";
 import { ExportMenu } from "../../core/export/ExportMenu";

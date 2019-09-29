@@ -1311,18 +1311,13 @@ var XYChart = /** @class */ (function (_super) {
                 if (round) {
                     //let diff = range.end - range.start;
                     if (axis instanceof CategoryAxis) {
-                        var diff = range.end - range.start;
-                        //range.start = axis.roundPosition(range.start + 0.0001, 0);
-                        var location_1 = 0;
-                        if (range.end > 0.5) {
-                            location_1 = 1;
-                        }
-                        range.end = axis.roundPosition(range.end + 0.0001, location_1);
-                        range.start = range.end - diff;
+                        var cellWidth = axis.getCellEndPosition(0) - axis.getCellStartPosition(0);
+                        range.start = axis.roundPosition(range.start + cellWidth / 2 - (axis.startLocation) * cellWidth, axis.startLocation);
+                        range.end = axis.roundPosition(range.end - cellWidth / 2 + (1 - axis.endLocation) * cellWidth, axis.endLocation);
                     }
                     else {
-                        range.start = axis.roundPosition(range.start + 0.0001, 0);
-                        range.end = axis.roundPosition(range.end + 0.0001, 0);
+                        range.start = axis.roundPosition(range.start + 0.0001, 0, axis.startLocation);
+                        range.end = axis.roundPosition(range.end + 0.0001, 0, axis.endLocation);
                     }
                 }
                 var axisRange = axis.zoom(range, instantly, instantly, declination);

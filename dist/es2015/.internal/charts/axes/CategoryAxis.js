@@ -36,10 +36,6 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
      */
     function CategoryAxisDataItem() {
         var _this = _super.call(this) || this;
-        /**
-         * Holds Adapter.
-         */
-        _this.adapter = new Adapter(_this);
         _this.seriesDataItems = {};
         _this.className = "CategoryAxisDataItem";
         _this.text = "{category}";
@@ -48,13 +44,28 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    Object.defineProperty(CategoryAxisDataItem.prototype, "adapter", {
+        /**
+         * Holds Adapter.
+         */
+        get: function () {
+            if (!this._adapterO) {
+                this._adapterO = new Adapter(this);
+            }
+            return this._adapterO;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(CategoryAxisDataItem.prototype, "category", {
         /**
          * @return Category
          */
         get: function () {
-            if (this.adapter.isEnabled("category")) {
-                return this.adapter.apply("category", this.properties.category);
+            if (this._adapterO) {
+                if (this._adapterO.isEnabled("category")) {
+                    return this._adapterO.apply("category", this.properties.category);
+                }
             }
             return this.properties.category;
         },
@@ -843,7 +854,12 @@ var CategoryAxis = /** @class */ (function (_super) {
     CategoryAxis.prototype.getTooltipText = function (position) {
         var dataItem = this.dataItems.getIndex(this.positionToIndex(position));
         if (dataItem) {
-            return this.adapter.apply("getTooltipText", dataItem.category);
+            if (!this._adapterO) {
+                return dataItem.category;
+            }
+            else {
+                return this._adapterO.apply("getTooltipText", dataItem.category);
+            }
         }
     };
     /**

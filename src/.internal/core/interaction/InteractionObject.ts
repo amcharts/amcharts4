@@ -50,9 +50,17 @@ export class InteractionObject extends BaseObjectEvents {
 	public _events!: IInteractionObjectEvents;
 
 	/**
+	 * @ignore
 	 * An [[EventDispatcher]] instance which holds events for this object
 	 */
-	public events: InteractionObjectEventDispatcher<AMEvent<this, this["_events"]>> = new InteractionObjectEventDispatcher(this);
+	public _eventDispatcher: InteractionObjectEventDispatcher<AMEvent<this, this["_events"]>> = new InteractionObjectEventDispatcher(this);;
+
+	/**
+	 * An [[EventDispatcher]] instance which holds events for this object
+	 */
+	public get events(): InteractionObjectEventDispatcher<AMEvent<this, this["_events"]>> {
+		return this._eventDispatcher;
+	}
 
 	/**
 	 * A related [[Sprite]] if any.
@@ -222,6 +230,9 @@ export class InteractionObject extends BaseObjectEvents {
 	 */
 	constructor(element: HTMLElement | SVGSVGElement) {
 		super();
+		
+		this._disposers.push(this._eventDispatcher);
+
 		this._element = element;
 		this.className = "InteractionObject";
 		this._disposers.push(new DictionaryDisposer(this.inertias));
@@ -674,8 +685,8 @@ export class InteractionObject extends BaseObjectEvents {
 	 * @return Options
 	 */
 	public get inertiaOptions(): Dictionary<InertiaTypes, IInertiaOptions> {
-		if (this.sprite) {
-			return this.sprite.adapter.apply("inertiaOptions", this._inertiaOptions);
+		if (this.sprite && this.sprite._adapterO) {
+			return this.sprite._adapterO.apply("inertiaOptions", this._inertiaOptions);
 		}
 		else {
 			return this._inertiaOptions;
@@ -695,8 +706,8 @@ export class InteractionObject extends BaseObjectEvents {
 	 * @return Options
 	 */
 	public get hitOptions(): IHitOptions {
-		if (this.sprite) {
-			return this.sprite.adapter.apply("hitOptions", this._hitOptions);
+		if (this.sprite && this.sprite._adapterO) {
+			return this.sprite._adapterO.apply("hitOptions", this._hitOptions);
 		}
 		else {
 			return this._hitOptions;
@@ -716,8 +727,8 @@ export class InteractionObject extends BaseObjectEvents {
 	 * @return Options
 	 */
 	public get hoverOptions(): IHoverOptions {
-		if (this.sprite) {
-			return this.sprite.adapter.apply("hoverOptions", this._hoverOptions);
+		if (this.sprite && this.sprite._adapterO) {
+			return this.sprite._adapterO.apply("hoverOptions", this._hoverOptions);
 		}
 		else {
 			return this._hoverOptions;
@@ -737,8 +748,8 @@ export class InteractionObject extends BaseObjectEvents {
 	 * @return Options
 	 */
 	public get swipeOptions(): ISwipeOptions {
-		if (this.sprite) {
-			return this.sprite.adapter.apply("swipeOptions", this._swipeOptions);
+		if (this.sprite && this.sprite._adapterO) {
+			return this.sprite._adapterO.apply("swipeOptions", this._swipeOptions);
 		}
 		else {
 			return this._swipeOptions;
@@ -758,8 +769,8 @@ export class InteractionObject extends BaseObjectEvents {
 	 * @return Options
 	 */
 	public get keyboardOptions(): IKeyboardOptions {
-		if (this.sprite) {
-			return this.sprite.adapter.apply("keyboardOptions", this._keyboardOptions);
+		if (this.sprite && this.sprite._adapterO) {
+			return this.sprite._adapterO.apply("keyboardOptions", this._keyboardOptions);
 		}
 		else {
 			return this._keyboardOptions;
@@ -780,8 +791,8 @@ export class InteractionObject extends BaseObjectEvents {
 	 * @return Options
 	 */
 	public get mouseOptions(): IMouseOptions {
-		if (this.sprite) {
-			return this.sprite.adapter.apply("mouseOptions", this._mouseOptions);
+		if (this.sprite && this.sprite._adapterO) {
+			return this.sprite._adapterO.apply("mouseOptions", this._mouseOptions);
 		}
 		else {
 			return this._mouseOptions;
@@ -801,8 +812,8 @@ export class InteractionObject extends BaseObjectEvents {
 	 * @return Options
 	 */
 	public get cursorOptions(): ICursorOptions {
-		if (this.sprite) {
-			return this.sprite.adapter.apply("cursorOptions", this._cursorOptions);
+		if (this.sprite && this.sprite._adapterO) {
+			return this.sprite._adapterO.apply("cursorOptions", this._cursorOptions);
 		}
 		else {
 			return this._cursorOptions;

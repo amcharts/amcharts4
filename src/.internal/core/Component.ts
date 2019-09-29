@@ -534,6 +534,8 @@ export class Component extends Container {
 
 	protected _showOnInitDisposer2: IDisposer;
 
+	protected _usesData:boolean = true;
+
 	/**
 	 * Constructor
 	 */
@@ -665,12 +667,14 @@ export class Component extends Container {
 
 				let value: any = (<any>dataContext)[fieldValue];
 				// Apply adapters to a retrieved value
-				if (this.adapter.isEnabled("dataContextValue")) {
-					value = this.adapter.apply("dataContextValue", {
-						field: fieldName,
-						value: value,
-						dataItem: dataItem
-					}).value;
+				if(this._adapterO){
+					if (this._adapterO.isEnabled("dataContextValue")) {
+						value = this._adapterO.apply("dataContextValue", {
+							field: fieldName,
+							value: value,
+							dataItem: dataItem
+						}).value;
+					}
 				}
 
 				if (dataItem.hasChildren[fieldName]) {
@@ -736,11 +740,13 @@ export class Component extends Container {
 
 				let value: any = (<any>dataContext)[fieldValue];
 				// Apply adapters to a retrieved value
-				value = this.adapter.apply("dataContextValue", {
-					field: fieldName,
-					value: value,
-					dataItem: dataItem
-				}).value;
+				if(this._adapterO){
+					value = this._adapterO.apply("dataContextValue", {
+						field: fieldName,
+						value: value,
+						dataItem: dataItem
+					}).value;
+				}
 
 				if (dataItem.hasChildren[fieldName]) {
 					if (value) {
@@ -1149,10 +1155,10 @@ export class Component extends Container {
 
 			for (i; i < n; i++) {
 				let rawDataItem = this.data[i];
-
-				let dataItem: this["_dataItem"] = this.getDataItem(rawDataItem);
-
-				this.processDataItem(dataItem, rawDataItem);
+				if(this._usesData){
+					let dataItem: this["_dataItem"] = this.getDataItem(rawDataItem);
+					this.processDataItem(dataItem, rawDataItem);
+				}
 
 				this.dataUsers.each((dataUser) => {
 					if (dataUser.data.length == 0) { // checking if data is not set directly
@@ -1262,7 +1268,12 @@ export class Component extends Container {
 		if (!this._data) {
 			this._data = [];
 		}
-		return this.adapter.apply("data", this._data);
+		if(!this._adapterO){
+			return this._data;
+		}
+		else {
+			return this._adapterO.apply("data", this._data);
+		}
 	}
 
 	/**
@@ -1810,7 +1821,12 @@ export class Component extends Container {
 	 * @return Start (0-1)
 	 */
 	public get start(): number {
-		return this.adapter.apply("start", this._start);
+		if(!this._adapterO){
+			return this._start;
+		}
+		else{
+			return this._adapterO.apply("start", this._start);
+		}
 	}
 
 	/**
@@ -1841,7 +1857,12 @@ export class Component extends Container {
 	 * @return End (0-1)
 	 */
 	public get end(): number {
-		return this.adapter.apply("end", this._end);
+		if(!this._adapterO){
+			return this._end;
+		}
+		else{		
+			return this._adapterO.apply("end", this._end);
+		}
 	}
 
 

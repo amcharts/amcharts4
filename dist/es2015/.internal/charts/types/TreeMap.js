@@ -444,6 +444,7 @@ var TreeMap = /** @class */ (function (_super) {
          */
         _this.zoomable = true;
         _this.className = "TreeMap";
+        _this._usesData = true;
         _this.maxLevels = 2;
         _this.currentLevel = 0;
         _this.colors = new ColorSet();

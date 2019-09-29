@@ -88,14 +88,24 @@ export class SeriesDataItem extends DataItem {
 	 * A dictionary of data items bullets, where key is uid of a bullet template.
 	 *
 	 * @ignore Exclude from docs
-	 * @todo review description
 	 */
-	public bullets = new Dictionary<string, Sprite>();
+	protected _bullets: Dictionary<string, Sprite>;
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
 	 */
 	public _component!: Series;
+
+	/**
+	 * A dictionary of data items bullets, where key is uid of a bullet template.
+	 */
+	public get bullets(): Dictionary<string, Sprite> {
+		if (!this._bullets) {
+			this._bullets = new Dictionary<string, Sprite>();
+			this._disposers.push(new DictionaryDisposer(this._bullets));
+		}
+		return this._bullets;
+	}
 
 
 	/**
@@ -105,7 +115,7 @@ export class SeriesDataItem extends DataItem {
 		super();
 		this.className = "SeriesDataItem";
 		//@todo Should we make `bullets` list disposable?
-		this._disposers.push(new DictionaryDisposer(this.bullets));
+		//this._disposers.push(new DictionaryDisposer(this.bullets));
 
 		this.values.value = {};
 		this.values.value = {};
@@ -1224,7 +1234,12 @@ export class Series extends Component {
 
 		}
 
-		return this.adapter.apply("itemReaderText", readerText);
+		if (!this._adapterO) {
+			return readerText;
+		}
+		else {
+			return this._adapterO.apply("itemReaderText", readerText);
+		}
 
 	}
 
@@ -1262,7 +1277,7 @@ export class Series extends Component {
 	 * @ignore Exclude from docs
 	 * @param dataItem  Data item
 	 */
-	public updateLegendValue(dataItem?: this["_dataItem"], notRange?:boolean) {
+	public updateLegendValue(dataItem?: this["_dataItem"], notRange?: boolean) {
 		// if this series has legend item
 		if (this.legendDataItem) {
 

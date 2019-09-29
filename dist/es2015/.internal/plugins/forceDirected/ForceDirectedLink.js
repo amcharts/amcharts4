@@ -114,8 +114,10 @@ var ForceDirectedLink = /** @class */ (function (_super) {
          * @return Distance
          */
         get: function () {
-            if (this.adapter.isEnabled("distance")) {
-                return this.adapter.apply("distance", this.properties.distance);
+            if (this._adapterO) {
+                if (this._adapterO.isEnabled("distance")) {
+                    return this._adapterO.apply("distance", this.properties.distance);
+                }
             }
             return this.properties.distance;
         },
@@ -140,8 +142,10 @@ var ForceDirectedLink = /** @class */ (function (_super) {
          * @return Strength
          */
         get: function () {
-            if (this.adapter.isEnabled("strength")) {
-                return this.adapter.apply("strength", this.properties.strength);
+            if (this._adapterO) {
+                if (this._adapterO.isEnabled("strength")) {
+                    return this._adapterO.apply("strength", this.properties.strength);
+                }
             }
             return this.properties.strength;
         },

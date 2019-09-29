@@ -732,7 +732,7 @@ export class XYChart extends SerialChart {
 	 * Shows or hides the Zoom Out button depending on whether the chart is fully
 	 * zoomed out or not.
 	 */
-	protected toggleZoomOutButton() {
+	public toggleZoomOutButton() {
 		if (this.zoomOutButton) {
 			let show = false;
 
@@ -1694,20 +1694,14 @@ export class XYChart extends SerialChart {
 				if (round) {
 					//let diff = range.end - range.start;
 					if (axis instanceof CategoryAxis) {
-						let diff = range.end - range.start;
-						//range.start = axis.roundPosition(range.start + 0.0001, 0);
+						let cellWidth = axis.getCellEndPosition(0) - axis.getCellStartPosition(0);
 
-						let location = 0;
-						if (range.end > 0.5) {
-							location = 1;
-						}
-
-						range.end = axis.roundPosition(range.end + 0.0001, location);
-						range.start = range.end - diff;
+						range.start = axis.roundPosition(range.start + cellWidth / 2 - (axis.startLocation) * cellWidth, axis.startLocation);
+						range.end = axis.roundPosition(range.end - cellWidth / 2 + (1 - axis.endLocation) * cellWidth, axis.endLocation);
 					}
 					else {
-						range.start = axis.roundPosition(range.start + 0.0001, 0);
-						range.end = axis.roundPosition(range.end + 0.0001, 0);
+						range.start = axis.roundPosition(range.start + 0.0001, 0, axis.startLocation);
+						range.end = axis.roundPosition(range.end + 0.0001, 0, axis.endLocation);
 					}
 				}
 

@@ -33,9 +33,13 @@ export declare class CategoryAxisDataItem extends AxisDataItem {
      */
     _component: CategoryAxis;
     /**
+     * @ignore
+     */
+    _adapterO: Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>;
+    /**
      * Holds Adapter.
      */
-    adapter: Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>;
+    readonly adapter: Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>;
     seriesDataItems: {
         [index: string]: XYSeriesDataItem[];
     };

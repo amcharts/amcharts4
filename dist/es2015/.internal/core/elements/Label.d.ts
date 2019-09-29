@@ -562,4 +562,13 @@ export declare class Label extends Container {
      * elements.
      */
     deepInvalidate(): void;
+    /**
+     * @return Title
+     */
+    /**
+     * Screen reader title of the element.
+     *
+     * @param value Title
+     */
+    readerTitle: string;
 }

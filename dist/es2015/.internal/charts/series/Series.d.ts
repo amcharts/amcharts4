@@ -66,13 +66,16 @@ export declare class SeriesDataItem extends DataItem {
      * A dictionary of data items bullets, where key is uid of a bullet template.
      *
      * @ignore Exclude from docs
-     * @todo review description
      */
-    bullets: Dictionary<string, Sprite>;
+    protected _bullets: Dictionary<string, Sprite>;
     /**
      * Defines a type of [[Component]] this data item is used for.
      */
     _component: Series;
+    /**
+     * A dictionary of data items bullets, where key is uid of a bullet template.
+     */
+    readonly bullets: Dictionary<string, Sprite>;
     /**
      * Constructor
      */

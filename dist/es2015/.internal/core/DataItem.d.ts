@@ -138,9 +138,13 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      */
     _adapter: IDataItemAdapters;
     /**
+     * @ignore
+     */
+    _adapterO: Adapter<DataItem, IDataItemAdapters>;
+    /**
      * Holds Adapter.
      */
-    adapter: Adapter<DataItem, IDataItemAdapters>;
+    readonly adapter: Adapter<DataItem, IDataItemAdapters>;
     /**
      * Defines a type of [[Component]] this Data Item is used for.
      */
@@ -507,7 +511,6 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @return New Data Item clone
      */
-    clone(cloneId?: string): this;
     /**
      * Copies all properties and related data from different data item.
      *

@@ -93,17 +93,9 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this.properties = {};
         /**
-         * Event dispatcher.
-         *
-         * @see {@link https://www.amcharts.com/docs/v4/concepts/event-listeners/} for more info about Events
+         * @ignore
          */
-        _this.events = new SpriteEventDispatcher(_this);
-        /**
-         * Holds Adapter.
-         *
-         * @see {@link https://www.amcharts.com/docs/v4/concepts/adapters/} for more info about Adapters
-         */
-        _this.adapter = new Adapter(_this);
+        _this._eventDispatcher = new SpriteEventDispatcher(_this);
         /**
          * @ignore Exclude from docs
          * @todo Description
@@ -304,6 +296,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this.dragWhileResize = false;
         _this.className = "Sprite";
+        _this._disposers.push(_this._eventDispatcher);
         // Generate a unique ID
         $utils.used(_this.uid);
         // Create SVG group to hold everything in
@@ -372,6 +365,33 @@ var Sprite = /** @class */ (function (_super) {
         _this.setPropertyValue("interactionsEnabled", true);
         return _this;
     }
+    Object.defineProperty(Sprite.prototype, "events", {
+        /**
+         * Event dispatcher.
+         *
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/event-listeners/} for more info about Events
+         */
+        get: function () {
+            return this._eventDispatcher;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Sprite.prototype, "adapter", {
+        /**
+         * Holds Adapter.
+         *
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/adapters/} for more info about Adapters
+         */
+        get: function () {
+            if (!this._adapterO) {
+                this._adapterO = new Adapter(this);
+            }
+            return this._adapterO;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * ==========================================================================
      * ELEMENT VALIDATION, INIT, AND DRAWING STUFF
@@ -575,41 +595,43 @@ var Sprite = /** @class */ (function (_super) {
         }
         //this.applyMask();
         if (!this._inited) {
-            try {
-                // used to be applySVGAttrbutes here, this is more efficient
-                for (var _a = tslib_1.__values(this.adapter.keys()), _b = _a.next(); !_b.done; _b = _a.next()) {
-                    var key = _b.value;
-                    switch (key) {
-                        case "mask":
-                        case "fill":
-                        case "opacity":
-                        case "fillOpacity":
-                        case "stroke":
-                        case "strokeOpacity":
-                        case "strokeWidth":
-                        case "shapeRendering":
-                        case "strokeDasharray":
-                        case "strokeDashoffset":
-                        case "strokeLinecap":
-                        case "strokeLinejoin":
-                        case "textDecoration":
-                        case "fontSize":
-                        case "fontFamily":
-                        case "fontWeight":
-                            //case "focusable":
-                            //case "tabindex":
-                            //case "role":
-                            this[key] = this[key];
-                            break;
+            if (this._adapterO) {
+                try {
+                    // used to be applySVGAttrbutes here, this is more efficient
+                    for (var _a = tslib_1.__values(this._adapterO.keys()), _b = _a.next(); !_b.done; _b = _a.next()) {
+                        var key = _b.value;
+                        switch (key) {
+                            case "mask":
+                            case "fill":
+                            case "opacity":
+                            case "fillOpacity":
+                            case "stroke":
+                            case "strokeOpacity":
+                            case "strokeWidth":
+                            case "shapeRendering":
+                            case "strokeDasharray":
+                            case "strokeDashoffset":
+                            case "strokeLinecap":
+                            case "strokeLinejoin":
+                            case "textDecoration":
+                            case "fontSize":
+                            case "fontFamily":
+                            case "fontWeight":
+                                //case "focusable":
+                                //case "tabindex":
+                                //case "role":
+                                this[key] = this[key];
+                                break;
+                        }
                     }
                 }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                finally {
+                    try {
+                        if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                    }
+                    finally { if (e_1) throw e_1.error; }
                 }
-                finally { if (e_1) throw e_1.error; }
             }
             this.applyFilters();
             this.visible = this.visible;
@@ -705,7 +727,6 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.copyFrom = function (source) {
         var _this = this;
         _super.prototype.copyFrom.call(this, source);
-        this.events.copyFrom(source.events);
         this.isMeasured = source.isMeasured;
         this.states.copyFrom(source.states);
         if (source.filters.length > 0) {
@@ -713,7 +734,9 @@ var Sprite = /** @class */ (function (_super) {
                 _this.filters.push(filter.clone());
             });
         }
-        this.adapter.copyFrom(source.adapter);
+        if (source._adapterO) {
+            this.adapter.copyFrom(source._adapterO);
+        }
         //helps to avoid calling getter which creates instance
         if (source["_interaction"]) {
             this.interactions.copyFrom(source.interactions);
@@ -770,7 +793,9 @@ var Sprite = /** @class */ (function (_super) {
             }
             _super.prototype.dispose.call(this);
             // Clear adapters
-            this.adapter.clear();
+            if (this._adapterO) {
+                this._adapterO.clear();
+            }
             if (this.applyOnClones) {
                 if (this._clones) {
                     for (var i = this._clones.length - 1; i >= 0; i--) {
@@ -1923,7 +1948,12 @@ var Sprite = /** @class */ (function (_super) {
          * @return A [[Sprite]] to use as mask
          */
         get: function () {
-            return this.adapter.apply("mask", this._mask.get());
+            if (!this._adapterO) {
+                return this._mask.get();
+            }
+            else {
+                return this._adapterO.apply("mask", this._mask.get());
+            }
         },
         /**
          * Sets another [[Sprite]] element as this elements mask.
@@ -2924,7 +2954,12 @@ var Sprite = /** @class */ (function (_super) {
         else {
             string = "";
         }
-        return this.adapter.apply("populateString", string);
+        if (!this._adapterO) {
+            return string;
+        }
+        else {
+            return this._adapterO.apply("populateString", string);
+        }
     };
     /**
      * Gets the value from data item and formats it according to specified format.
@@ -3222,7 +3257,9 @@ var Sprite = /** @class */ (function (_super) {
         var propValue = this.properties[propertyName];
         // Apply adapter
         if (!this._isTemplate) {
-            propValue = this.adapter.apply(propertyName, propValue);
+            if (this._adapterO) {
+                propValue = this._adapterO.apply(propertyName, propValue);
+            }
         }
         return propValue;
     };
@@ -5288,7 +5325,13 @@ var Sprite = /** @class */ (function (_super) {
          * @return X coordinate (px)
          */
         get: function () {
-            return this.adapter.apply("pixelX", $math.fitToRange(this.getPixelX(this.x), this.minX, this.maxX));
+            var value = $math.fitToRange(this.getPixelX(this.x), this.minX, this.maxX);
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("pixelX", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -5300,7 +5343,12 @@ var Sprite = /** @class */ (function (_super) {
          * @return X coordinate ([[Percent]])
          */
         get: function () {
-            return this.adapter.apply("relativeX", this.getRelativeX(this.x));
+            if (!this._adapterO) {
+                return this.getRelativeX(this.x);
+            }
+            else {
+                return this._adapterO.apply("relativeX", this.getRelativeX(this.x));
+            }
         },
         enumerable: true,
         configurable: true
@@ -5386,7 +5434,13 @@ var Sprite = /** @class */ (function (_super) {
          * @return Y coordinate (px)
          */
         get: function () {
-            return this.adapter.apply("pixelY", $math.fitToRange(this.getPixelY(this.y), this.minY, this.maxY));
+            var value = $math.fitToRange(this.getPixelY(this.y), this.minY, this.maxY);
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("pixelY", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -5399,7 +5453,12 @@ var Sprite = /** @class */ (function (_super) {
          * @return Y coordinate ([[Percent]])
          */
         get: function () {
-            return this.adapter.apply("relativeY", this.getRelativeX(this.y));
+            if (!this._adapterO) {
+                return this.getRelativeX(this.y);
+            }
+            else {
+                return this._adapterO.apply("relativeY", this.getRelativeX(this.y));
+            }
         },
         enumerable: true,
         configurable: true
@@ -5850,7 +5909,13 @@ var Sprite = /** @class */ (function (_super) {
             if (minWidth != null && width < minWidth) {
                 width = minWidth;
             }
-            return this.adapter.apply("pixelWidth", $math.round(width, this._positionPrecision, true));
+            var value = $math.round(width, this._positionPrecision, true);
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("pixelWidth", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -5877,7 +5942,13 @@ var Sprite = /** @class */ (function (_super) {
             if (minHeight != null && height < minHeight) {
                 height = minHeight;
             }
-            return this.adapter.apply("pixelHeight", $math.round(height, this._positionPrecision, true));
+            var value = $math.round(height, this._positionPrecision, true);
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("pixelHeight", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -5890,7 +5961,12 @@ var Sprite = /** @class */ (function (_super) {
         get: function () {
             var relativeWidth = this._relativeWidth;
             if ($type.isNumber(relativeWidth)) {
-                return this.adapter.apply("relativeWidth", relativeWidth);
+                if (!this._adapterO) {
+                    return relativeWidth;
+                }
+                else {
+                    return this._adapterO.apply("relativeWidth", relativeWidth);
+                }
             }
         },
         /**
@@ -5916,7 +5992,12 @@ var Sprite = /** @class */ (function (_super) {
         get: function () {
             var relativeHeight = this._relativeHeight;
             if ($type.isNumber(relativeHeight)) {
-                return this.adapter.apply("relativeHeight", relativeHeight);
+                if (!this._adapterO) {
+                    return relativeHeight;
+                }
+                else {
+                    return this._adapterO.apply("relativeHeight", relativeHeight);
+                }
             }
         },
         /**
@@ -5948,7 +6029,12 @@ var Sprite = /** @class */ (function (_super) {
             if (this.disabled || this.__disabled) {
                 return 0;
             }
-            return this.adapter.apply("measuredWidth", this._measuredWidth);
+            if (!this._adapterO) {
+                return this._measuredWidth;
+            }
+            else {
+                return this._adapterO.apply("measuredWidth", this._measuredWidth);
+            }
             // it's not good to fit to min/max range as then rotations and scale won't be taken into account
             //return this.adapter.apply("measuredWidth", $math.fitToRange(this._measuredWidth, this.minWidth, this.maxWidth));
         },
@@ -5971,7 +6057,12 @@ var Sprite = /** @class */ (function (_super) {
             }
             // it's not good to fit to min/max range as then rotations and scale won't be taken into account
             //return this.adapter.apply("measuredHeight", $math.fitToRange(this._measuredHeight, this.minHeight, this.maxHeight));
-            return this.adapter.apply("measuredHeight", this._measuredHeight);
+            if (!this._adapterO) {
+                return this._measuredHeight;
+            }
+            else {
+                return this._adapterO.apply("measuredHeight", this._measuredHeight);
+            }
         },
         enumerable: true,
         configurable: true
@@ -5985,7 +6076,13 @@ var Sprite = /** @class */ (function (_super) {
          * @return Outer width (px)
          */
         get: function () {
-            return this.adapter.apply("outerWidth", this.pixelWidth + this.pixelMarginRight + this.pixelMarginLeft);
+            var value = this.pixelWidth + this.pixelMarginRight + this.pixelMarginLeft;
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("outerWidth", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -5999,7 +6096,13 @@ var Sprite = /** @class */ (function (_super) {
          * @return Outer height (px)
          */
         get: function () {
-            return this.adapter.apply("outerHeight", this.pixelHeight + this.pixelMarginTop + this.pixelMarginBottom);
+            var value = this.pixelHeight + this.pixelMarginTop + this.pixelMarginBottom;
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("outerHeight", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -6015,7 +6118,13 @@ var Sprite = /** @class */ (function (_super) {
          * @return Inner width (px)
          */
         get: function () {
-            return this.adapter.apply("innerWidth", Math.max(0, this.pixelWidth - this.pixelPaddingRight - this.pixelPaddingLeft));
+            var value = Math.max(0, this.pixelWidth - this.pixelPaddingRight - this.pixelPaddingLeft);
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("innerWidth", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -6031,7 +6140,13 @@ var Sprite = /** @class */ (function (_super) {
          * @return Inner height (px)
          */
         get: function () {
-            return this.adapter.apply("innerHeight", Math.max(0, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom));
+            var value = Math.max(0, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom);
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("innerHeight", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -6053,7 +6168,12 @@ var Sprite = /** @class */ (function (_super) {
             if (this.parent) {
                 scale = scale * this.parent.globalScale;
             }
-            return this.adapter.apply("globalScale", scale);
+            if (!this._adapterO) {
+                return scale;
+            }
+            else {
+                return this._adapterO.apply("globalScale", scale);
+            }
         },
         enumerable: true,
         configurable: true
@@ -6187,7 +6307,13 @@ var Sprite = /** @class */ (function (_super) {
          * @return Right margin (px)
          */
         get: function () {
-            return this.adapter.apply("pixelMarginRight", this.getPixelX(this.marginRight));
+            var value = this.getPixelX(this.marginRight);
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("pixelMarginRight", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -6201,7 +6327,13 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             // @todo Maybe use [[Percent]]?
-            return this.adapter.apply("relativeMarginRight", this.getRelativeX(this.marginRight));
+            var value = this.getRelativeX(this.marginRight);
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("relativeMarginRight", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -6214,7 +6346,13 @@ var Sprite = /** @class */ (function (_super) {
          * @return Left margin (px)
          */
         get: function () {
-            return this.adapter.apply("pixelMarginLeft", this.getPixelX(this.marginLeft));
+            var value = this.getPixelX(this.marginLeft);
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("pixelMarginLeft", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -6228,7 +6366,13 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             //@todo Maybe use [[Percent]]?
-            return this.adapter.apply("relativeMarginLeft", this.getRelativeX(this.marginLeft));
+            var value = this.getRelativeX(this.marginLeft);
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("relativeMarginLeft", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -6241,7 +6385,13 @@ var Sprite = /** @class */ (function (_super) {
          * @return Top margin (px)
          */
         get: function () {
-            return this.adapter.apply("pixelMarginTop", this.getPixelY(this.marginTop));
+            var value = this.getPixelY(this.marginTop);
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("pixelMarginTop", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -6255,7 +6405,13 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             // @todo Maybe use [[Percent]]?
-            return this.adapter.apply("relativeMarginTop", this.getRelativeY(this.marginTop));
+            var value = this.getRelativeY(this.marginTop);
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("relativeMarginTop", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -6268,7 +6424,13 @@ var Sprite = /** @class */ (function (_super) {
          * @return Bottom margin (px)
          */
         get: function () {
-            return this.adapter.apply("pixelMarginBottom", this.getPixelY(this.marginBottom));
+            var value = this.getPixelY(this.marginBottom);
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("pixelMarginBottom", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -6282,7 +6444,13 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             // @todo Maybe use [[Percent]]?
-            return this.adapter.apply("relativeMarginBottom", this.getRelativeY(this.marginBottom));
+            var value = this.getRelativeY(this.marginBottom);
+            if (!this._adapterO) {
+                return value;
+            }
+            else {
+                return this._adapterO.apply("relativeMarginBottom", value);
+            }
         },
         enumerable: true,
         configurable: true
@@ -7827,7 +7995,12 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.raiseCriticalError = function (e) {
         if (this.svgContainer) {
-            this.modal.content = this.adapter.apply("criticalError", e).message;
+            if (!this._adapterO) {
+                this.modal.content = e.message;
+            }
+            else {
+                this.modal.content = this._adapterO.apply("criticalError", e).message;
+            }
             this.modal.closable = false;
             this.modal.open();
             this.disabled = true;

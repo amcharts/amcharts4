@@ -8,7 +8,7 @@
  * ============================================================================
  * @hidden
  */
-import { fabric } from "fabric";
+import { fabric } from "../../fabric/fabric.js";
 import { AnnotationIcons } from "./AnnotationIcons";
 import { Plugin } from "../../core/utils/Plugin";
 import { IExportCustomOptions } from "../../core/export/Export";
@@ -572,7 +572,7 @@ export class Annotation extends Plugin {
 
 	/**
 	 * A `<g>` that holds SVG representation of the annotations in chart overlay.
-	 * 
+	 *
 	 * @return  Group element
 	 */
 	public get group(): SVGGElement {

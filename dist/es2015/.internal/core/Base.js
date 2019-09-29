@@ -1029,14 +1029,26 @@ var BaseObjectEvents = /** @class */ (function (_super) {
      */
     function BaseObjectEvents() {
         var _this = _super.call(this) || this;
+        _this.className = "BaseObjectEvents";
+        return _this;
+    }
+    Object.defineProperty(BaseObjectEvents.prototype, "events", {
         /**
          * An [[EventDispatcher]] instance
          */
-        _this.events = new EventDispatcher();
-        _this.className = "BaseObjectEvents";
-        _this._disposers.push(_this.events);
-        return _this;
-    }
+        get: function () {
+            if (!this._eventDispatcher) {
+                this._eventDispatcher = new EventDispatcher();
+                this._disposers.push(this._eventDispatcher);
+            }
+            return this._eventDispatcher;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    //public set events(value:EventDispatcher<AMEvent<this, this["_events"]>>){
+    //	this._eventDispatcher = value;
+    //}
     /**
      * Dispatches an event using own event dispatcher. Will automatically
      * populate event data object with event type and target (this element).
@@ -1048,20 +1060,22 @@ var BaseObjectEvents = /** @class */ (function (_super) {
      */
     BaseObjectEvents.prototype.dispatch = function (eventType, data) {
         // @todo Implement proper type check
-        if (this.events.isEnabled(eventType)) {
-            if (data) {
-                data.type = eventType;
-                data.target = data.target || this;
-                this.events.dispatch(eventType, {
-                    type: eventType,
-                    target: this
-                });
-            }
-            else {
-                this.events.dispatch(eventType, {
-                    type: eventType,
-                    target: this
-                });
+        if (this._eventDispatcher) {
+            if (this.events.isEnabled(eventType)) {
+                if (data) {
+                    data.type = eventType;
+                    data.target = data.target || this;
+                    this.events.dispatch(eventType, {
+                        type: eventType,
+                        target: this
+                    });
+                }
+                else {
+                    this.events.dispatch(eventType, {
+                        type: eventType,
+                        target: this
+                    });
+                }
             }
         }
     };
@@ -1074,17 +1088,19 @@ var BaseObjectEvents = /** @class */ (function (_super) {
      */
     BaseObjectEvents.prototype.dispatchImmediately = function (eventType, data) {
         // @todo Implement proper type check
-        if (this.events.isEnabled(eventType)) {
-            if (data) {
-                data.type = eventType;
-                data.target = data.target || this;
-                this.events.dispatchImmediately(eventType, data);
-            }
-            else {
-                this.events.dispatchImmediately(eventType, {
-                    type: eventType,
-                    target: this
-                });
+        if (this._eventDispatcher) {
+            if (this.events.isEnabled(eventType)) {
+                if (data) {
+                    data.type = eventType;
+                    data.target = data.target || this;
+                    this.events.dispatchImmediately(eventType, data);
+                }
+                else {
+                    this.events.dispatchImmediately(eventType, {
+                        type: eventType,
+                        target: this
+                    });
+                }
             }
         }
     };
@@ -1095,7 +1111,9 @@ var BaseObjectEvents = /** @class */ (function (_super) {
      */
     BaseObjectEvents.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
-        this.events.copyFrom(source.events);
+        if (source._eventDispatcher) {
+            this.events.copyFrom(source._eventDispatcher);
+        }
     };
     return BaseObjectEvents;
 }(BaseObject));

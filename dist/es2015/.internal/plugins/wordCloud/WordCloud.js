@@ -61,6 +61,7 @@ var WordCloud = /** @class */ (function (_super) {
         _this.className = "WordCloud";
         _this.seriesContainer.isMeasured = true;
         _this.seriesContainer.layout = "absolute";
+        _this._usesData = true;
         // Apply theme
         _this.applyTheme();
         return _this;

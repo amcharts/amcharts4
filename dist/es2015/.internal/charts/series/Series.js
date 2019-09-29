@@ -47,21 +47,28 @@ var SeriesDataItem = /** @class */ (function (_super) {
      */
     function SeriesDataItem() {
         var _this = _super.call(this) || this;
-        /**
-         * A dictionary of data items bullets, where key is uid of a bullet template.
-         *
-         * @ignore Exclude from docs
-         * @todo review description
-         */
-        _this.bullets = new Dictionary();
         _this.className = "SeriesDataItem";
         //@todo Should we make `bullets` list disposable?
-        _this._disposers.push(new DictionaryDisposer(_this.bullets));
+        //this._disposers.push(new DictionaryDisposer(this.bullets));
         _this.values.value = {};
         _this.values.value = {};
         _this.applyTheme();
         return _this;
     }
+    Object.defineProperty(SeriesDataItem.prototype, "bullets", {
+        /**
+         * A dictionary of data items bullets, where key is uid of a bullet template.
+         */
+        get: function () {
+            if (!this._bullets) {
+                this._bullets = new Dictionary();
+                this._disposers.push(new DictionaryDisposer(this._bullets));
+            }
+            return this._bullets;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Destroys this object and all related data.
      */
@@ -883,7 +890,12 @@ var Series = /** @class */ (function (_super) {
                     readerText = $utils.plainText(this.tooltipHTML);
                 }
             }
-            return this.adapter.apply("itemReaderText", readerText);
+            if (!this._adapterO) {
+                return readerText;
+            }
+            else {
+                return this._adapterO.apply("itemReaderText", readerText);
+            }
         },
         /**
          * Screen reader text to be applied to each individual data item, such

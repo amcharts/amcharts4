@@ -1658,7 +1658,13 @@ var ValueAxis = /** @class */ (function (_super) {
      */
     ValueAxis.prototype.getTooltipText = function (position) {
         var value = $math.round(this.positionToValue(position), this._stepDecimalPlaces);
-        return this.adapter.apply("getTooltipText", this.tooltip.numberFormatter.format(value));
+        var valueStr = this.tooltip.numberFormatter.format(value);
+        if (!this._adapterO) {
+            return valueStr;
+        }
+        else {
+            return this._adapterO.apply("getTooltipText", valueStr);
+        }
     };
     /**
      * Zooms axis to specific values.

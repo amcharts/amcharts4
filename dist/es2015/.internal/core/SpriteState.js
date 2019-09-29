@@ -107,10 +107,6 @@ var SpriteState = /** @class */ (function (_super) {
         // Init
         _super.call(this) || this;
         /**
-         * Holds Adapter.
-         */
-        _this.adapter = new Adapter(_this);
-        /**
          * Duration of the transition to this state. 0 means instantenous transition.
          * Any number means the [[Sprite]] will transit smoothly to this state,
          * animating all animatable properties.
@@ -167,18 +163,32 @@ var SpriteState = /** @class */ (function (_super) {
         _this.className = "SpriteState";
         // Make filter list disposable
         _this._disposers.push(new ListDisposer(_this.filters));
-        // Decorate adapter with events so that we can apply its settings whenever
-        // it is modified
-        _this.adapter.events.on("inserted", function (ev) {
-            _this[ev.newValue.key] = _this[ev.newValue.key];
-        }, undefined, false);
-        _this.adapter.events.on("removed", function (ev) {
-            _this[ev.newValue.key] = _this[ev.newValue.key];
-        }, undefined, false);
         // Apply theme
         _this.applyTheme();
         return _this;
     }
+    Object.defineProperty(SpriteState.prototype, "adapter", {
+        /**
+         * Holds Adapter.
+         */
+        get: function () {
+            var _this = this;
+            if (!this._adapterO) {
+                this._adapterO = new Adapter(this);
+                // Decorate adapter with events so that we can apply its settings whenever
+                // it is modified
+                this._adapterO.events.on("inserted", function (ev) {
+                    _this[ev.newValue.key] = _this[ev.newValue.key];
+                }, undefined, false);
+                this._adapterO.events.on("removed", function (ev) {
+                    _this[ev.newValue.key] = _this[ev.newValue.key];
+                }, undefined, false);
+            }
+            return this._adapterO;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Returns [[Sprite]] element's property value.
      *
@@ -204,13 +214,20 @@ var SpriteState = /** @class */ (function (_super) {
             // @todo get rid of <any>
             if (!$type.hasValue(propValue)) {
                 var spriteValue = sprite.getPropertyValue(propertyName);
-                propValue = this.adapter.apply(propertyName, sprite.getPropertyValue(propertyName));
+                if (this._adapterO) {
+                    propValue = this._adapterO.apply(propertyName, spriteValue);
+                }
+                else {
+                    propValue = spriteValue;
+                }
                 if (propValue == spriteValue) {
                     propValue = undefined;
                 }
             }
             else {
-                propValue = this.adapter.apply(propertyName, propValue);
+                if (this._adapterO) {
+                    propValue = this._adapterO.apply(propertyName, propValue);
+                }
             }
             /*let method = this.propertyMethods.getKey(propertyName);
             if (method) {
@@ -231,7 +248,9 @@ var SpriteState = /** @class */ (function (_super) {
             $utils.copyProperties(source.properties, this.properties);
             $utils.copyProperties(source.propertyFields, this.propertyFields);
             this.filters.copyFrom(source.filters);
-            this.adapter.copyFrom(source.adapter);
+            if (source._adapterO) {
+                this.adapter.copyFrom(source._adapterO);
+            }
         }
     };
     Object.defineProperty(SpriteState.prototype, "allValues", {
@@ -254,11 +273,13 @@ var SpriteState = /** @class */ (function (_super) {
                 res[prop] = _this.getPropertyValue(prop);
             });
             // Cycle through all adapters and add values for missing properties
-            var keys = this.adapter.keys();
-            $object.each(keys, function (_x, prop) {
-                var value = _this.getPropertyValue(prop);
-                res[prop] = value;
-            });
+            if (this._adapterO) {
+                var keys = this._adapterO.keys();
+                $object.each(keys, function (_x, prop) {
+                    var value = _this.getPropertyValue(prop);
+                    res[prop] = value;
+                });
+            }
             // Cycle through all property fileds and add values for missing properties
             var propertyFields = this.propertyFields;
             $object.each(propertyFields, function (prop) {

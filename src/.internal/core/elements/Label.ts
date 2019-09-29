@@ -306,22 +306,6 @@ export class Label extends Container {
 		this.layout = "absolute";
 		this.baseLineRatio = -0.27;
 
-		// Set up adapters for manipulating accessibility
-		this.adapter.add("readerTitle", (arg) => {
-			if (!arg) {
-
-				arg = this.populateString(
-					$utils.plainText(
-						$utils.isNotEmpty(this.html)
-							? this.html
-							: this.text
-					)
-				);
-
-			}
-			return arg;
-		});
-
 		// Add events to watch for maxWidth/maxHeight changes so that we can
 		// invalidate this
 		this.events.on("maxsizechanged", () => {
@@ -430,10 +414,14 @@ export class Label extends Container {
 		}
 
 		if (output == "html") {
-			text = this.adapter.apply("htmlOutput", text);
+			if(this._adapterO){
+				text = this._adapterO.apply("htmlOutput", text);
+			}
 		}
 		else {
-			text = this.adapter.apply("textOutput", text);
+			if(this._adapterO){
+				text = this._adapterO.apply("textOutput", text);
+			}
 		}
 
 		// Update the text
@@ -1697,6 +1685,35 @@ export class Label extends Container {
 	public deepInvalidate() {
 		super.deepInvalidate();
 		this.hardInvalidate();
+	}
+
+	/**
+	 * Screen reader title of the element.
+	 *
+	 * @param value Title
+	 */
+	public set readerTitle(value: string) {
+		value = $type.toText(value);
+		if (this.setPropertyValue("readerTitle", value)) {
+			this.applyAccessibility();
+		}
+	}
+
+	/**
+	 * @return Title
+	 */
+	public get readerTitle(): string {
+		let title = this.getPropertyValue("readerTitle");
+		if (!title) {
+			title = this.populateString(
+				$utils.plainText(
+					$utils.isNotEmpty(this.html)
+						? this.html
+						: this.text
+				)
+			);
+		}
+		return title;
 	}
 }
 

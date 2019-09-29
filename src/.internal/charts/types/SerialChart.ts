@@ -156,6 +156,8 @@ export class SerialChart extends Chart {
 
 		this.colors = new ColorSet();
 
+		this._usesData = false;
+
 		// Create a container for series
 		let seriesContainer: Container = this.chartContainer.createChild(Container);
 		seriesContainer.shouldClone = false;

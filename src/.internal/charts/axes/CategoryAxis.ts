@@ -47,10 +47,21 @@ export class CategoryAxisDataItem extends AxisDataItem {
 	 */
 	public _component!: CategoryAxis;
 
+
+	/**
+	 * @ignore
+	 */
+	public _adapterO: Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>;
+
 	/**
 	 * Holds Adapter.
 	 */
-	public adapter = new Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>(this);
+	public get adapter(): Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters> {
+		if (!this._adapterO) {
+			this._adapterO = new Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>(this);
+		}
+		return this._adapterO;
+	}
 
 	public seriesDataItems: { [index: string]: XYSeriesDataItem[] } = {};
 
@@ -81,8 +92,10 @@ export class CategoryAxisDataItem extends AxisDataItem {
 	 * @return Category
 	 */
 	public get category(): string {
-		if (this.adapter.isEnabled("category")) {
-			return this.adapter.apply("category", this.properties.category);
+		if (this._adapterO) {
+			if (this._adapterO.isEnabled("category")) {
+				return this._adapterO.apply("category", this.properties.category);
+			}
 		}
 		return this.properties.category;
 	}
@@ -1083,7 +1096,12 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		let dataItem: this["_dataItem"] = this.dataItems.getIndex(this.positionToIndex(position));
 
 		if (dataItem) {
-			return this.adapter.apply("getTooltipText", dataItem.category);
+			if (!this._adapterO) {
+				return dataItem.category;
+			}
+			else {
+				return this._adapterO.apply("getTooltipText", dataItem.category);				
+			}
 		}
 	}
 

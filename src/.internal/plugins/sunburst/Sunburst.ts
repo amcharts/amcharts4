@@ -370,6 +370,8 @@ export class Sunburst extends PieChart {
 
 		this.colors = new ColorSet();
 
+		this._usesData = true;
+
 		const template = new SunburstSeries();
 		this.seriesTemplates = new DictionaryTemplate<string, this["_seriesType"]>(template);
 		template.virtualParent = this;

@@ -210,7 +210,12 @@ var MapPolygon = /** @class */ (function (_super) {
             if ($type.isNumber(latitude)) {
                 return (latitude);
             }
-            return this.adapter.apply("visualLatitude", this._visualLatitude);
+            if (!this._adapterO) {
+                return this._visualLatitude;
+            }
+            else {
+                return this._adapterO.apply("visualLatitude", this._visualLatitude);
+            }
         },
         /**
          * Latitude of the visual center of the polygon.
@@ -235,7 +240,12 @@ var MapPolygon = /** @class */ (function (_super) {
             if ($type.isNumber(longitude)) {
                 return (longitude);
             }
-            return this.adapter.apply("visualLongitude", this._visualLongitude);
+            if (!this._adapterO) {
+                return this._visualLongitude;
+            }
+            else {
+                return this._adapterO.apply("visualLongitude", this._visualLongitude);
+            }
         },
         /**
          * Longitude of the visual center of the polygon.

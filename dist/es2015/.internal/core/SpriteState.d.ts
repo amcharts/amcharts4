@@ -110,9 +110,13 @@ export declare class SpriteState<P, A> extends BaseObject {
      */
     sprite: $type.Optional<Sprite>;
     /**
+     * @ignore
+     */
+    _adapterO: Adapter<this, A>;
+    /**
      * Holds Adapter.
      */
-    adapter: Adapter<this, A>;
+    readonly adapter: Adapter<this, A>;
     /**
      * Duration of the transition to this state. 0 means instantenous transition.
      * Any number means the [[Sprite]] will transit smoothly to this state,

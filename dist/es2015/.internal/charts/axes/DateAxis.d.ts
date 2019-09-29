@@ -692,7 +692,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @param location  Location in the cell
      * @return Adjusted position
      */
-    roundPosition(position: number, location?: AxisItemLocation): number;
+    roundPosition(position: number, location?: AxisItemLocation, axisLocation?: number): number;
     /**
      * Returns an relative position of the start of the cell (period), that specific position value falls into.
      *

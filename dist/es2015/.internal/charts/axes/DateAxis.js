@@ -1355,7 +1355,12 @@ var DateAxis = /** @class */ (function (_super) {
                 text = this.getPositionLabel(position);
             }
         }
-        return this.adapter.apply("getTooltipText", text);
+        if (!this._adapterO) {
+            return text;
+        }
+        else {
+            return this._adapterO.apply("getTooltipText", text);
+        }
     };
     /**
      * Takes an absolute position within axis and adjust it to a specific position within base interval. (cell)
@@ -1365,7 +1370,7 @@ var DateAxis = /** @class */ (function (_super) {
      * @param location  Location in the cell
      * @return Adjusted position
      */
-    DateAxis.prototype.roundPosition = function (position, location) {
+    DateAxis.prototype.roundPosition = function (position, location, axisLocation) {
         var baseInterval = this.baseInterval;
         var timeUnit = baseInterval.timeUnit;
         var count = baseInterval.count;
@@ -1373,6 +1378,9 @@ var DateAxis = /** @class */ (function (_super) {
         $time.round(date, timeUnit, count, this.getFirstWeekDay(), this.dateFormatter.utc);
         if (location > 0) {
             $time.add(date, timeUnit, location * count, this.dateFormatter.utc);
+        }
+        if (axisLocation > 0 && axisLocation < 1) {
+            date.setTime(date.getTime() + this.baseDuration * axisLocation);
         }
         if (this.isInBreak(date.getTime())) {
             while (date.getTime() < this.max) {

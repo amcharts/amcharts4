@@ -1622,7 +1622,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @param location  Location on axis
 	 * @return Rounded position
 	 */
-	public roundPosition(position: number, location: AxisItemLocation): number {
+	public roundPosition(position: number, location: AxisItemLocation, axisLocation?:number): number {
 		return position;
 	}
 

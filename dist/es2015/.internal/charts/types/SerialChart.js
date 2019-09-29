@@ -68,6 +68,7 @@ var SerialChart = /** @class */ (function (_super) {
         _super.call(this) || this;
         _this.className = "SerialChart";
         _this.colors = new ColorSet();
+        _this._usesData = false;
         // Create a container for series
         var seriesContainer = _this.chartContainer.createChild(Container);
         seriesContainer.shouldClone = false;

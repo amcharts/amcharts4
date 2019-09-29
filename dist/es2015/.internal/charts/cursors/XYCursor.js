@@ -265,7 +265,9 @@ var XYCursor = /** @class */ (function (_super) {
             if (this.downPoint) {
                 this.upPoint = point;
                 this.updatePoint(this.upPoint);
-                this.getRanges();
+                if (this._generalBehavior != "pan") {
+                    this.getRanges();
+                }
                 if (this._generalBehavior != "select") {
                     this.selection.hide();
                 }

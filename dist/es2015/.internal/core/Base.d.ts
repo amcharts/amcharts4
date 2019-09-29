@@ -421,8 +421,13 @@ export declare class BaseObjectEvents extends BaseObject {
     _events: IBaseObjectEvents;
     /**
      * An [[EventDispatcher]] instance
+     * @ignore
      */
-    events: EventDispatcher<AMEvent<this, this["_events"]>>;
+    _eventDispatcher: EventDispatcher<AMEvent<this, this["_events"]>>;
+    /**
+     * An [[EventDispatcher]] instance
+     */
+    readonly events: EventDispatcher<AMEvent<this, this["_events"]>>;
     /**
      * Dispatches an event using own event dispatcher. Will automatically
      * populate event data object with event type and target (this element).

@@ -212,13 +212,13 @@ var Cursor = /** @class */ (function (_super) {
         if ($math.getDistance(this._upPointOrig, this._downPointOrig) > interaction.getHitOption(this.interactions, "hitTolerance")) {
             switch (this._generalBehavior) {
                 case "zoom":
-                    this.dispatchImmediately("zoomended");
+                    this.dispatch("zoomended");
                     break;
                 case "select":
-                    this.dispatchImmediately("selectended");
+                    this.dispatch("selectended");
                     break;
                 case "pan":
-                    this.dispatchImmediately("panended");
+                    this.dispatch("panended");
                     interaction.setGlobalStyle(MouseCursorStyle.default);
                     break;
             }

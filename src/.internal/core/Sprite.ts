@@ -297,18 +297,35 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public _events!: ISpriteEvents;
 
 	/**
+	 * @ignore
+	 */
+	public _eventDispatcher: SpriteEventDispatcher<AMEvent<this, this["_events"]>> = new SpriteEventDispatcher(this);
+
+	/**
 	 * Event dispatcher.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/event-listeners/} for more info about Events
 	 */
-	public events: SpriteEventDispatcher<AMEvent<this, this["_events"]>> = new SpriteEventDispatcher(this);
+	public get events(): SpriteEventDispatcher<AMEvent<this, this["_events"]>> {
+		return this._eventDispatcher;
+	}
+
+	/**
+	 * @ignore
+	 */
+	public _adapterO: Adapter<this, this["_adapter"]>;
 
 	/**
 	 * Holds Adapter.
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/adapters/} for more info about Adapters
 	 */
-	public adapter = new Adapter<this, this["_adapter"]>(this);
+	public get adapter(): Adapter<this, this["_adapter"]> {
+		if (!this._adapterO) {
+			this._adapterO = new Adapter<this, this["_adapter"]>(this);
+		}
+		return this._adapterO;
+	}
 
 	/**
 	 * @ignore Exclude from docs
@@ -933,6 +950,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		this.className = "Sprite";
 
+		this._disposers.push(this._eventDispatcher);
+
 		// Generate a unique ID
 		$utils.used(this.uid);
 
@@ -1254,31 +1273,32 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		//this.applyMask();
 
 		if (!this._inited) {
-
-			// used to be applySVGAttrbutes here, this is more efficient
-			for (let key of this.adapter.keys()) {
-				switch (key) {
-					case "mask":
-					case "fill":
-					case "opacity":
-					case "fillOpacity":
-					case "stroke":
-					case "strokeOpacity":
-					case "strokeWidth":
-					case "shapeRendering":
-					case "strokeDasharray":
-					case "strokeDashoffset":
-					case "strokeLinecap":
-					case "strokeLinejoin":
-					case "textDecoration":
-					case "fontSize":
-					case "fontFamily":
-					case "fontWeight":
-						//case "focusable":
-						//case "tabindex":
-						//case "role":
-						(<any>this)[key] = (<any>this)[key];
-						break;
+			if (this._adapterO) {
+				// used to be applySVGAttrbutes here, this is more efficient
+				for (let key of this._adapterO.keys()) {
+					switch (key) {
+						case "mask":
+						case "fill":
+						case "opacity":
+						case "fillOpacity":
+						case "stroke":
+						case "strokeOpacity":
+						case "strokeWidth":
+						case "shapeRendering":
+						case "strokeDasharray":
+						case "strokeDashoffset":
+						case "strokeLinecap":
+						case "strokeLinejoin":
+						case "textDecoration":
+						case "fontSize":
+						case "fontFamily":
+						case "fontWeight":
+							//case "focusable":
+							//case "tabindex":
+							//case "role":
+							(<any>this)[key] = (<any>this)[key];
+							break;
+					}
 				}
 			}
 
@@ -1391,8 +1411,6 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public copyFrom(source: this): void {
 		super.copyFrom(source);
 
-		this.events.copyFrom(source.events);
-
 		this.isMeasured = source.isMeasured;
 
 		this.states.copyFrom(source.states);
@@ -1402,8 +1420,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				this.filters.push(filter.clone());
 			})
 		}
-
-		this.adapter.copyFrom(source.adapter);
+		if (source._adapterO) {
+			this.adapter.copyFrom(source._adapterO);
+		}
 
 		//helps to avoid calling getter which creates instance
 		if ((<any>source)["_interaction"]) {
@@ -1480,7 +1499,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			super.dispose();
 
 			// Clear adapters
-			this.adapter.clear();
+			if (this._adapterO) {
+				this._adapterO.clear();
+			}
 
 			if (this.applyOnClones) {
 				if (this._clones) {
@@ -2803,7 +2824,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return A [[Sprite]] to use as mask
 	 */
 	public get mask(): Optional<Sprite> {
-		return this.adapter.apply("mask", this._mask.get());
+		if (!this._adapterO) {
+			return this._mask.get();
+		}
+		else {
+			return this._adapterO.apply("mask", this._mask.get());
+		}
 	}
 
 	// you can set IRectangle as a mask instead o a sprite. Note, the changes of the object won't be monitored
@@ -3784,7 +3810,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		else {
 			string = "";
 		}
-		return this.adapter.apply("populateString", string);
+		if (!this._adapterO) {
+			return string;
+		}
+		else {
+			return this._adapterO.apply("populateString", string);
+		}
 	}
 
 	/**
@@ -4131,7 +4162,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		// Apply adapter
 		if (!this._isTemplate) {
-			propValue = this.adapter.apply(propertyName, <any>propValue);
+			if (this._adapterO) {
+				propValue = this._adapterO.apply(propertyName, <any>propValue);
+			}
 		}
 
 		return propValue;
@@ -4230,29 +4263,29 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		S extends { cloneId: string, events: EventDispatcher<{ propertychanged: { property: string } }> },
 		From extends (keyof S & keyof this),
 		To extends keyof this
-		>(
-			property: To,
-			source: S,
-			bindToProperty: From,
-			modifier?: (value: this[From]) => this[To]
-		): void;
+	>(
+		property: To,
+		source: S,
+		bindToProperty: From,
+		modifier?: (value: this[From]) => this[To]
+	): void;
 	public bind<
 		S extends { cloneId: string, events: EventDispatcher<{ propertychanged: { property: string } }> },
 		Key extends (keyof S & keyof this)
-		>(
-			property: Key,
-			source: S,
-			modifier?: (value: this[Key]) => this[Key]
-		): void;
+	>(
+		property: Key,
+		source: S,
+		modifier?: (value: this[Key]) => this[Key]
+	): void;
 	public bind<
 		S extends this & { cloneId: string, events: EventDispatcher<{ propertychanged: { property: string } }> },
 		Key extends (keyof S & keyof this)
-		>(
-			property: Key,
-			source: S,
-			bindToProperty: Key = property,
-			modifier?: (value: this[Key]) => this[Key]
-		): void {
+	>(
+		property: Key,
+		source: S,
+		bindToProperty: Key = property,
+		modifier?: (value: this[Key]) => this[Key]
+	): void {
 		if ($type.hasValue(this._bindings[<string>property])) {
 			this._bindings[<string>property].dispose();
 		}
@@ -6249,10 +6282,14 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return X coordinate (px)
 	 */
 	public get pixelX(): number {
-		return this.adapter.apply(
-			"pixelX",
-			$math.fitToRange(this.getPixelX(this.x), this.minX, this.maxX)
-		);
+		let value = $math.fitToRange(this.getPixelX(this.x), this.minX, this.maxX);
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("pixelX", value);
+
+		}
 	}
 
 	/**
@@ -6261,7 +6298,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return X coordinate ([[Percent]])
 	 */
 	public get relativeX(): number {
-		return this.adapter.apply("relativeX", this.getRelativeX(this.x));
+		if (!this._adapterO) {
+			return this.getRelativeX(this.x)
+		}
+		else {
+			return this._adapterO.apply("relativeX", this.getRelativeX(this.x));
+		}
 	}
 
 	/**
@@ -6338,10 +6380,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Y coordinate (px)
 	 */
 	public get pixelY(): number {
-		return this.adapter.apply(
-			"pixelY",
-			$math.fitToRange(this.getPixelY(this.y), this.minY, this.maxY)
-		);
+		let value = $math.fitToRange(this.getPixelY(this.y), this.minY, this.maxY);
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("pixelY", value);
+		}
 	}
 
 	/**
@@ -6351,7 +6396,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Y coordinate ([[Percent]])
 	 */
 	public get relativeY(): number {
-		return this.adapter.apply("relativeY", this.getRelativeX(this.y));
+		if (!this._adapterO) {
+			return this.getRelativeX(this.y);
+		}
+		else {
+			return this._adapterO.apply("relativeY", this.getRelativeX(this.y));
+		}
 	}
 
 	/**
@@ -6790,11 +6840,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (minWidth != null && width < minWidth) {
 			width = minWidth;
 		}
-
-		return this.adapter.apply(
-			"pixelWidth",
-			$math.round(width, this._positionPrecision, true)
-		);
+		let value = $math.round(width, this._positionPrecision, true);
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("pixelWidth", value);
+		}
 	}
 
 	/**
@@ -6820,11 +6872,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (minHeight != null && height < minHeight) {
 			height = minHeight;
 		}
-
-		return this.adapter.apply(
-			"pixelHeight",
-			$math.round(height, this._positionPrecision, true)
-		);
+		let value = $math.round(height, this._positionPrecision, true);
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("pixelHeight", value);
+		}
 	}
 
 	/**
@@ -6848,7 +6902,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		const relativeWidth = this._relativeWidth;
 
 		if ($type.isNumber(relativeWidth)) {
-			return this.adapter.apply("relativeWidth", relativeWidth);
+			if (!this._adapterO) {
+				return relativeWidth;
+			}
+			else {
+				return this._adapterO.apply("relativeWidth", relativeWidth);
+			}
 		}
 	}
 
@@ -6873,7 +6932,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		const relativeHeight = this._relativeHeight;
 
 		if ($type.isNumber(relativeHeight)) {
-			return this.adapter.apply("relativeHeight", relativeHeight);
+			if (!this._adapterO) {
+				return relativeHeight;
+			}
+			else {
+				return this._adapterO.apply("relativeHeight", relativeHeight);
+			}
 		}
 	}
 
@@ -6891,7 +6955,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this.disabled || this.__disabled) {
 			return 0;
 		}
-		return this.adapter.apply("measuredWidth", this._measuredWidth);
+		if (!this._adapterO) {
+			return this._measuredWidth;
+		}
+		else {
+			return this._adapterO.apply("measuredWidth", this._measuredWidth);
+		}
 		// it's not good to fit to min/max range as then rotations and scale won't be taken into account
 		//return this.adapter.apply("measuredWidth", $math.fitToRange(this._measuredWidth, this.minWidth, this.maxWidth));
 	}
@@ -6913,7 +6982,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		// it's not good to fit to min/max range as then rotations and scale won't be taken into account
 		//return this.adapter.apply("measuredHeight", $math.fitToRange(this._measuredHeight, this.minHeight, this.maxHeight));
-		return this.adapter.apply("measuredHeight", this._measuredHeight);
+		if (!this._adapterO) {
+			return this._measuredHeight;
+		}
+		else {
+			return this._adapterO.apply("measuredHeight", this._measuredHeight);
+		}
 	}
 
 	/**
@@ -6924,10 +6998,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Outer width (px)
 	 */
 	public get outerWidth(): number {
-		return this.adapter.apply(
-			"outerWidth",
-			this.pixelWidth + this.pixelMarginRight + this.pixelMarginLeft
-		);
+		let value = this.pixelWidth + this.pixelMarginRight + this.pixelMarginLeft;
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("outerWidth", value);
+		}
 	}
 
 	/**
@@ -6938,10 +7015,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Outer height (px)
 	 */
 	public get outerHeight(): number {
-		return this.adapter.apply(
-			"outerHeight",
-			this.pixelHeight + this.pixelMarginTop + this.pixelMarginBottom
-		);
+		let value = this.pixelHeight + this.pixelMarginTop + this.pixelMarginBottom;
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("outerHeight", value);
+		}
 	}
 
 	/**
@@ -6954,10 +7034,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Inner width (px)
 	 */
 	public get innerWidth(): number {
-		return this.adapter.apply(
-			"innerWidth",
-			Math.max(0, this.pixelWidth - this.pixelPaddingRight - this.pixelPaddingLeft)
-		);
+		let value = Math.max(0, this.pixelWidth - this.pixelPaddingRight - this.pixelPaddingLeft);
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("innerWidth", value);
+		}
 	}
 
 	/**
@@ -6970,10 +7053,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Inner height (px)
 	 */
 	public get innerHeight(): number {
-		return this.adapter.apply(
-			"innerHeight",
-			Math.max(0, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom)
-		);
+		let value = Math.max(0, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom);
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("innerHeight", value);
+		}
 	}
 
 	/**
@@ -6992,7 +7078,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this.parent) {
 			scale = scale * this.parent.globalScale;
 		}
-		return this.adapter.apply("globalScale", scale);
+		if (!this._adapterO) {
+			return scale;
+		}
+		else {
+			return this._adapterO.apply("globalScale", scale);
+		}
 	}
 
 	/**
@@ -7114,7 +7205,14 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Right margin (px)
 	 */
 	public get pixelMarginRight(): number {
-		return this.adapter.apply("pixelMarginRight", this.getPixelX(this.marginRight));
+		let value = this.getPixelX(this.marginRight);
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("pixelMarginRight", value);
+		}
+
 	}
 
 	/**
@@ -7125,7 +7223,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public get relativeMarginRight(): number {
 		// @todo Maybe use [[Percent]]?
-		return this.adapter.apply("relativeMarginRight", this.getRelativeX(this.marginRight));
+		let value = this.getRelativeX(this.marginRight);
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("relativeMarginRight", value);
+		}
 	}
 
 	/**
@@ -7135,7 +7239,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Left margin (px)
 	 */
 	public get pixelMarginLeft(): number {
-		return this.adapter.apply("pixelMarginLeft", this.getPixelX(this.marginLeft));
+		let value = this.getPixelX(this.marginLeft);
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("pixelMarginLeft", value);
+		}
 	}
 
 	/**
@@ -7146,7 +7256,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public get relativeMarginLeft(): number {
 		//@todo Maybe use [[Percent]]?
-		return this.adapter.apply("relativeMarginLeft", this.getRelativeX(this.marginLeft));
+		let value = this.getRelativeX(this.marginLeft);
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("relativeMarginLeft", value);
+		}
 	}
 
 	/**
@@ -7156,7 +7272,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Top margin (px)
 	 */
 	public get pixelMarginTop(): number {
-		return this.adapter.apply("pixelMarginTop", this.getPixelY(this.marginTop));
+		let value = this.getPixelY(this.marginTop);
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("pixelMarginTop", value);
+		}
 	}
 
 	/**
@@ -7167,7 +7289,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public get relativeMarginTop(): number {
 		// @todo Maybe use [[Percent]]?
-		return this.adapter.apply("relativeMarginTop", this.getRelativeY(this.marginTop));
+		let value = this.getRelativeY(this.marginTop);
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("relativeMarginTop", value);
+		}
 	}
 
 	/**
@@ -7177,7 +7305,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Bottom margin (px)
 	 */
 	public get pixelMarginBottom(): number {
-		return this.adapter.apply("pixelMarginBottom", this.getPixelY(this.marginBottom));
+		let value = this.getPixelY(this.marginBottom);
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("pixelMarginBottom", value);
+		}
 	}
 
 	/**
@@ -7188,7 +7322,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public get relativeMarginBottom(): number {
 		// @todo Maybe use [[Percent]]?
-		return this.adapter.apply("relativeMarginBottom", this.getRelativeY(this.marginBottom));
+		let value = this.getRelativeY(this.marginBottom);
+		if (!this._adapterO) {
+			return value;
+		}
+		else {
+			return this._adapterO.apply("relativeMarginBottom", value);
+		}
 	}
 
 	/**
@@ -8743,7 +8883,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public raiseCriticalError(e: Error) {
 
 		if (this.svgContainer) {
-			this.modal.content = this.adapter.apply("criticalError", e).message;
+			if (!this._adapterO) {
+				this.modal.content = e.message;
+			}
+			else {
+				this.modal.content = this._adapterO.apply("criticalError", e).message;
+			}
+
 			this.modal.closable = false;
 			this.modal.open();
 			this.disabled = true;

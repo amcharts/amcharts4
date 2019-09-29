@@ -2834,7 +2834,7 @@ export class Export extends Validatable {
 
 		// Add column names?
 		if (options.addColumnNames) {
-			data.push(this.getExcelRow(dataFields, options));
+			data.push(this.getExcelRow(dataFields, options, undefined, true));
 		}
 
 		// Add lines
@@ -2869,12 +2869,13 @@ export class Export extends Validatable {
 	 * Rertuns an array of values to be used as Excel row.
 	 *
 	 * @ignore Exclude from docs
-	 * @param row         Row data
-	 * @param options     Options
-	 * @param dataFields  Data fields
+	 * @param  row         Row data
+	 * @param  options     Options
+	 * @param  dataFields  Data fields
+	 * @param  asIs        Do not try to convert to dates
 	 * @return Array of values
 	 */
-	public getExcelRow(row: any, options?: IExportExcelOptions, dataFields?: any): any[] {
+	public getExcelRow(row: any, options?: IExportExcelOptions, dataFields?: any, asIs: boolean = false): any[] {
 
 		// Init
 		let items: any[] = [];
@@ -2890,12 +2891,10 @@ export class Export extends Validatable {
 			// Get value
 			let value = this.convertEmptyValue(key, row[key], options);
 
-			// Check if we need to skip
-			/*if ($type.hasValue(this.dataFields) && !$type.hasValue(this.dataFields[key])) {
-				return;
-			}*/
+			// Convert dates
+			let item = asIs ? value : this.convertToSpecialFormat<"xlsx">(key, value, options, true);
 
-			items.push(this.convertToSpecialFormat<"xlsx">(key, value, options, true));
+			items.push(item);
 		});
 
 		return items;

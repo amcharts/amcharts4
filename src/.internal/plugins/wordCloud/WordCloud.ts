@@ -126,6 +126,8 @@ export class WordCloud extends SerialChart {
 		this.seriesContainer.isMeasured = true;
 		this.seriesContainer.layout = "absolute";
 
+		this._usesData = true;
+
 		// Apply theme
 		this.applyTheme();
 	}

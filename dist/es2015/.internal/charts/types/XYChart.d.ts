@@ -428,7 +428,7 @@ export declare class XYChart extends SerialChart {
      * Shows or hides the Zoom Out button depending on whether the chart is fully
      * zoomed out or not.
      */
-    protected toggleZoomOutButton(): void;
+    toggleZoomOutButton(): void;
     /**
      * @ignore
      * moved this check to a separate method so that we could override it in TreeMapSeries

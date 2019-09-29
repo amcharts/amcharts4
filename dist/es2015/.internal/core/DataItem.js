@@ -21,7 +21,7 @@ import { Adapter } from "./utils/Adapter";
 import { Animation, AnimationDisposer } from "./utils/Animation";
 import * as $utils from "./utils/Utils";
 import * as $array from "./utils/Array";
-import * as $object from "./utils/Object";
+//import * as $object from "./utils/Object";
 import * as $type from "./utils/Type";
 /**
  * ============================================================================
@@ -50,10 +50,6 @@ var DataItem = /** @class */ (function (_super) {
      */
     function DataItem() {
         var _this = _super.call(this) || this;
-        /**
-         * Holds Adapter.
-         */
-        _this.adapter = new Adapter(_this);
         /**
          * This Data Item is currently disabled.
          *
@@ -176,6 +172,19 @@ var DataItem = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    Object.defineProperty(DataItem.prototype, "adapter", {
+        /**
+         * Holds Adapter.
+         */
+        get: function () {
+            if (!this._adapterO) {
+                this._adapterO = new Adapter(this);
+            }
+            return this._adapterO;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(DataItem.prototype, "index", {
         /**
          * Data Item's position index in Component's data.
@@ -317,13 +326,15 @@ var DataItem = /** @class */ (function (_super) {
             }
         });
         this._visible = value;
-        if (this.events.isEnabled("visibilitychanged")) {
-            var event_1 = {
-                type: "visibilitychanged",
-                target: this,
-                visible: value
-            };
-            this.events.dispatchImmediately("visibilitychanged", event_1);
+        if (this._eventDispatcher) {
+            if (this.events.isEnabled("visibilitychanged")) {
+                var event_1 = {
+                    type: "visibilitychanged",
+                    target: this,
+                    visible: value
+                };
+                this.events.dispatchImmediately("visibilitychanged", event_1);
+            }
         }
     };
     /**
@@ -433,7 +444,12 @@ var DataItem = /** @class */ (function (_super) {
             }
         }
         if (duration != null) {
-            return this.adapter.apply("duration", duration);
+            if (!this._adapterO) {
+                return duration;
+            }
+            else {
+                return this._adapterO.apply("duration", duration);
+            }
         }
     };
     /**
@@ -457,8 +473,8 @@ var DataItem = /** @class */ (function (_super) {
                 }
             }
             var value = this.values[name][calculated];
-            if (this.adapter.isEnabled("value")) {
-                return this.adapter.apply("value", {
+            if (this._adapterO && this._adapterO.isEnabled("value")) {
+                return this._adapterO.apply("value", {
                     value: value,
                     field: name
                 }).value;
@@ -486,10 +502,15 @@ var DataItem = /** @class */ (function (_super) {
             if (!realName) {
                 realName = "workingValue";
             }
-            return this.adapter.apply("workingValue", {
-                workingValue: this.values[name][realName],
-                field: name
-            }).workingValue;
+            if (this._adapterO) {
+                return this._adapterO.apply("workingValue", {
+                    workingValue: this.values[name][realName],
+                    field: name
+                }).workingValue;
+            }
+            else {
+                return this.values[name][realName];
+            }
         }
     };
     /**
@@ -514,13 +535,15 @@ var DataItem = /** @class */ (function (_super) {
         value = $type.toNumber(value);
         if (currentValue !== value) {
             this.values[name].value = value;
-            if (this.events.isEnabled("valuechanged")) {
-                var event_2 = {
-                    type: "valuechanged",
-                    target: this,
-                    property: name
-                };
-                this.events.dispatchImmediately("valuechanged", event_2);
+            if (this._eventDispatcher) {
+                if (this.events.isEnabled("valuechanged")) {
+                    var event_2 = {
+                        type: "valuechanged",
+                        target: this,
+                        property: name
+                    };
+                    this.events.dispatchImmediately("valuechanged", event_2);
+                }
             }
             if (this.component) {
                 this.component.handleDataItemValueChange(this, name);
@@ -532,13 +555,15 @@ var DataItem = /** @class */ (function (_super) {
         var currentValue = this.values[name][calculated];
         if (currentValue !== value && $type.isNumber(value)) {
             this.values[name][calculated] = value;
-            if (this.events.isEnabled("calculatedvaluechanged")) {
-                var event_3 = {
-                    type: "calculatedvaluechanged",
-                    target: this,
-                    property: name
-                };
-                this.events.dispatchImmediately("calculatedvaluechanged", event_3);
+            if (this._eventDispatcher) {
+                if (this.events.isEnabled("calculatedvaluechanged")) {
+                    var event_3 = {
+                        type: "calculatedvaluechanged",
+                        target: this,
+                        property: name
+                    };
+                    this.events.dispatchImmediately("calculatedvaluechanged", event_3);
+                }
             }
             if (this.component) {
                 this.component.handleDataItemCalculatedValueChange(this, name);
@@ -585,13 +610,15 @@ var DataItem = /** @class */ (function (_super) {
                     valueAnimation.stop();
                 }
                 this.values[name].workingValue = value;
-                if (this.events.isEnabled("workingvaluechanged")) {
-                    var event_4 = {
-                        type: "workingvaluechanged",
-                        target: this,
-                        property: name
-                    };
-                    this.events.dispatchImmediately("workingvaluechanged", event_4);
+                if (this._eventDispatcher) {
+                    if (this.events.isEnabled("workingvaluechanged")) {
+                        var event_4 = {
+                            type: "workingvaluechanged",
+                            target: this,
+                            property: name
+                        };
+                        this.events.dispatchImmediately("workingvaluechanged", event_4);
+                    }
                 }
                 if (this.component) {
                     this.component.handleDataItemWorkingValueChange(this, name);
@@ -615,13 +642,15 @@ var DataItem = /** @class */ (function (_super) {
         var currentLocation = this.locations[name];
         if (currentLocation !== value) {
             this.locations[name] = value;
-            if (this.events.isEnabled("locationchanged")) {
-                var event_5 = {
-                    type: "locationchanged",
-                    target: this,
-                    property: name
-                };
-                this.events.dispatchImmediately("locationchanged", event_5);
+            if (this._eventDispatcher) {
+                if (this.events.isEnabled("locationchanged")) {
+                    var event_5 = {
+                        type: "locationchanged",
+                        target: this,
+                        property: name
+                    };
+                    this.events.dispatchImmediately("locationchanged", event_5);
+                }
             }
             if (this.component) {
                 this.component.handleDataItemValueChange(this, name); // correct
@@ -667,13 +696,15 @@ var DataItem = /** @class */ (function (_super) {
                 locationAnimation.stop();
             }
             this.workingLocations[name] = value;
-            if (this.events.isEnabled("workinglocationchanged")) {
-                var event_6 = {
-                    type: "workinglocationchanged",
-                    target: this,
-                    property: name
-                };
-                this.events.dispatchImmediately("workinglocationchanged", event_6);
+            if (this._eventDispatcher) {
+                if (this.events.isEnabled("workinglocationchanged")) {
+                    var event_6 = {
+                        type: "workinglocationchanged",
+                        target: this,
+                        property: name
+                    };
+                    this.events.dispatchImmediately("workinglocationchanged", event_6);
+                }
             }
             if (this.component) {
                 this.component.handleDataItemWorkingLocationChange(this, name);
@@ -704,10 +735,15 @@ var DataItem = /** @class */ (function (_super) {
      * @return Date object
      */
     DataItem.prototype.getDate = function (name) {
-        return this.adapter.apply("date", {
-            date: this.dates[name],
-            field: name
-        }).date;
+        if (this._adapterO) {
+            return this._adapterO.apply("date", {
+                date: this.dates[name],
+                field: name
+            }).date;
+        }
+        else {
+            return this.dates[name];
+        }
     };
     /**
      * Sets a Data Item-specific visual properties to apply to related elements.
@@ -719,14 +755,16 @@ var DataItem = /** @class */ (function (_super) {
         if (this.properties[name] !== value) {
             this.hasProperties = true;
             this.properties[name] = value;
-            if (this.events.isEnabled("propertychanged")) {
-                var event_7 = {
-                    type: "propertychanged",
-                    target: this,
-                    property: name,
-                    value: value
-                };
-                this.events.dispatchImmediately("propertychanged", event_7);
+            if (this._eventDispatcher) {
+                if (this.events.isEnabled("propertychanged")) {
+                    var event_7 = {
+                        type: "propertychanged",
+                        target: this,
+                        property: name,
+                        value: value
+                    };
+                    this.events.dispatchImmediately("propertychanged", event_7);
+                }
             }
             if (this.component) {
                 this.component.handleDataItemPropertyChange(this, name);
@@ -753,32 +791,35 @@ var DataItem = /** @class */ (function (_super) {
      *
      * @return New Data Item clone
      */
-    DataItem.prototype.clone = function (cloneId) {
-        var dataItem = _super.prototype.clone.call(this, cloneId);
-        dataItem.copyFrom(this);
-        return dataItem;
-    };
+    //public clone(cloneId?: string): this {
+    //	let dataItem: this = super.clone(cloneId);
+    //	dataItem.copyFrom(this);
+    //	return dataItem;
+    //}
     /**
      * Copies all properties and related data from different data item.
      *
      * @param object Source data item
      */
     DataItem.prototype.copyFrom = function (source) {
-        var _this = this;
         _super.prototype.copyFrom.call(this, source);
         if (source.dataContext) {
             this.dataContext = $utils.copy(source.dataContext, {});
         }
         $utils.copyProperties(source.locations, this.locations);
+        /*
         $utils.copyProperties(source.properties, this.properties);
         $utils.copyProperties(source.categories, this.categories);
         $utils.copyProperties(source.values, this.values);
         $utils.copyProperties(source.dates, this.dates);
-        $object.each(source.values, function (name, value) {
-            _this.values[name] = $object.copy(value);
-        });
-        this.adapter.copyFrom(source.adapter);
-        this.events.copyFrom(source.events);
+
+        $object.each(source.values, (name, value) => {
+            this.values[name] = $object.copy(value);
+        });*/
+        if (source._adapterO) {
+            this.adapter.copyFrom(source._adapterO);
+        }
+        //this.events.copyFrom(source.events); // because copied in Base
         this.component = source.component;
     };
     Object.defineProperty(DataItem.prototype, "opacity", {
@@ -814,14 +855,16 @@ var DataItem = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._ignoreMinMax = value;
-            if (this.events.isEnabled("propertychanged")) {
-                var event_8 = {
-                    type: "propertychanged",
-                    target: this,
-                    property: "ignoreMinMax",
-                    value: value
-                };
-                this.events.dispatchImmediately("propertychanged", event_8);
+            if (this._eventDispatcher) {
+                if (this.events.isEnabled("propertychanged")) {
+                    var event_8 = {
+                        type: "propertychanged",
+                        target: this,
+                        property: "ignoreMinMax",
+                        value: value
+                    };
+                    this.events.dispatchImmediately("propertychanged", event_8);
+                }
             }
             if (this.component) {
                 this.component.handleDataItemPropertyChange(this, "ignoreMinMax");
@@ -855,13 +898,15 @@ var DataItem = /** @class */ (function (_super) {
         // it's always only one options, no need cycle
         var animationOptions = animation.animationOptions[0];
         if (animationOptions) {
-            if (this.events.isEnabled("workingvaluechanged")) {
-                var event_9 = {
-                    type: "workingvaluechanged",
-                    target: this,
-                    property: animationOptions.dummyData
-                };
-                this.events.dispatchImmediately("workingvaluechanged", event_9);
+            if (this._eventDispatcher) {
+                if (this.events.isEnabled("workingvaluechanged")) {
+                    var event_9 = {
+                        type: "workingvaluechanged",
+                        target: this,
+                        property: animationOptions.dummyData
+                    };
+                    this.events.dispatchImmediately("workingvaluechanged", event_9);
+                }
             }
             if (this.component) {
                 this.component.handleDataItemWorkingValueChange(this, animationOptions.dummyData);

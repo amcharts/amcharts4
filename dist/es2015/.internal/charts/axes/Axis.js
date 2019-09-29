@@ -1171,7 +1171,7 @@ var Axis = /** @class */ (function (_super) {
      * @param location  Location on axis
      * @return Rounded position
      */
-    Axis.prototype.roundPosition = function (position, location) {
+    Axis.prototype.roundPosition = function (position, location, axisLocation) {
         return position;
     };
     /**

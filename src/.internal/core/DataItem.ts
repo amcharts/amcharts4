@@ -25,7 +25,7 @@ import { Sprite } from "./Sprite";
 import { IDisposer } from "./utils/Disposer";
 import * as $utils from "./utils/Utils";
 import * as $array from "./utils/Array";
-import * as $object from "./utils/Object";
+//import * as $object from "./utils/Object";
 import * as $type from "./utils/Type";
 
 
@@ -165,9 +165,19 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	public _adapter!: IDataItemAdapters;
 
 	/**
+	 * @ignore
+	 */
+	public _adapterO: Adapter<DataItem, IDataItemAdapters>;
+
+	/**
 	 * Holds Adapter.
 	 */
-	public adapter = new Adapter<DataItem, IDataItemAdapters>(this);
+	public get adapter(): Adapter<DataItem, IDataItemAdapters> {
+		if (!this._adapterO) {
+			this._adapterO = new Adapter<DataItem, IDataItemAdapters>(this);
+		}
+		return this._adapterO;
+	}
 
 	/**
 	 * Defines a type of [[Component]] this Data Item is used for.
@@ -469,14 +479,15 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		});
 
 		this._visible = value;
-
-		if (this.events.isEnabled("visibilitychanged")) {
-			const event: AMEvent<this, IDataItemEvents>["visibilitychanged"] = {
-				type: "visibilitychanged",
-				target: this,
-				visible: value
-			};
-			this.events.dispatchImmediately("visibilitychanged", event);
+		if (this._eventDispatcher) {
+			if (this.events.isEnabled("visibilitychanged")) {
+				const event: AMEvent<this, IDataItemEvents>["visibilitychanged"] = {
+					type: "visibilitychanged",
+					target: this,
+					visible: value
+				};
+				this.events.dispatchImmediately("visibilitychanged", event);
+			}
 		}
 	}
 
@@ -618,7 +629,12 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		}
 
 		if (duration != null) {
-			return this.adapter.apply("duration", duration);
+			if (!this._adapterO) {
+				return duration;
+			}
+			else {
+				return this._adapterO.apply("duration", duration);
+			}
 		}
 	}
 
@@ -645,8 +661,8 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 
 			const value = this.values[name][calculated];
 
-			if (this.adapter.isEnabled("value")) {
-				return this.adapter.apply("value", {
+			if (this._adapterO && this._adapterO.isEnabled("value")) {
+				return this._adapterO.apply("value", {
 					value: value,
 					field: name
 				}).value;
@@ -676,10 +692,15 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 			if (!realName) {
 				realName = "workingValue";
 			}
-			return this.adapter.apply("workingValue", {
-				workingValue: this.values[name][realName],
-				field: name
-			}).workingValue;
+			if (this._adapterO) {
+				return this._adapterO.apply("workingValue", {
+					workingValue: this.values[name][realName],
+					field: name
+				}).workingValue;
+			}
+			else {
+				return this.values[name][realName];
+			}
 		}
 	}
 
@@ -707,14 +728,15 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		value = $type.toNumber(value);
 		if (currentValue !== value) {
 			this.values[name].value = value;
-
-			if (this.events.isEnabled("valuechanged")) {
-				const event: AMEvent<this, IDataItemEvents>["valuechanged"] = {
-					type: "valuechanged",
-					target: this,
-					property: name
-				};
-				this.events.dispatchImmediately("valuechanged", event);
+			if (this._eventDispatcher) {
+				if (this.events.isEnabled("valuechanged")) {
+					const event: AMEvent<this, IDataItemEvents>["valuechanged"] = {
+						type: "valuechanged",
+						target: this,
+						property: name
+					};
+					this.events.dispatchImmediately("valuechanged", event);
+				}
 			}
 
 			if (this.component) {
@@ -731,13 +753,15 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		if (currentValue !== value && $type.isNumber(value)) {
 			this.values[name][calculated] = value;
 
-			if (this.events.isEnabled("calculatedvaluechanged")) {
-				const event: AMEvent<this, IDataItemEvents>["calculatedvaluechanged"] = {
-					type: "calculatedvaluechanged",
-					target: this,
-					property: name
-				};
-				this.events.dispatchImmediately("calculatedvaluechanged", event);
+			if (this._eventDispatcher) {
+				if (this.events.isEnabled("calculatedvaluechanged")) {
+					const event: AMEvent<this, IDataItemEvents>["calculatedvaluechanged"] = {
+						type: "calculatedvaluechanged",
+						target: this,
+						property: name
+					};
+					this.events.dispatchImmediately("calculatedvaluechanged", event);
+				}
 			}
 
 			if (this.component) {
@@ -792,14 +816,15 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 				}
 
 				this.values[name].workingValue = value;
-
-				if (this.events.isEnabled("workingvaluechanged")) {
-					const event: AMEvent<this, IDataItemEvents>["workingvaluechanged"] = {
-						type: "workingvaluechanged",
-						target: this,
-						property: name
-					};
-					this.events.dispatchImmediately("workingvaluechanged", event);
+				if (this._eventDispatcher) {
+					if (this.events.isEnabled("workingvaluechanged")) {
+						const event: AMEvent<this, IDataItemEvents>["workingvaluechanged"] = {
+							type: "workingvaluechanged",
+							target: this,
+							property: name
+						};
+						this.events.dispatchImmediately("workingvaluechanged", event);
+					}
 				}
 
 				if (this.component) {
@@ -826,14 +851,15 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 
 		if (currentLocation !== value) {
 			this.locations[name] = value;
-
-			if (this.events.isEnabled("locationchanged")) {
-				const event: AMEvent<this, IDataItemEvents>["locationchanged"] = {
-					type: "locationchanged",
-					target: this,
-					property: name
-				};
-				this.events.dispatchImmediately("locationchanged", event);
+			if (this._eventDispatcher) {
+				if (this.events.isEnabled("locationchanged")) {
+					const event: AMEvent<this, IDataItemEvents>["locationchanged"] = {
+						type: "locationchanged",
+						target: this,
+						property: name
+					};
+					this.events.dispatchImmediately("locationchanged", event);
+				}
 			}
 
 			if (this.component) {
@@ -886,13 +912,15 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 
 			this.workingLocations[name] = value;
 
-			if (this.events.isEnabled("workinglocationchanged")) {
-				const event: AMEvent<this, IDataItemEvents>["workinglocationchanged"] = {
-					type: "workinglocationchanged",
-					target: this,
-					property: name
-				};
-				this.events.dispatchImmediately("workinglocationchanged", event);
+			if (this._eventDispatcher) {
+				if (this.events.isEnabled("workinglocationchanged")) {
+					const event: AMEvent<this, IDataItemEvents>["workinglocationchanged"] = {
+						type: "workinglocationchanged",
+						target: this,
+						property: name
+					};
+					this.events.dispatchImmediately("workinglocationchanged", event);
+				}
 			}
 
 			if (this.component) {
@@ -928,10 +956,15 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 * @return Date object
 	 */
 	public getDate(name: string): Date {
-		return this.adapter.apply("date", {
-			date: this.dates[name],
-			field: name
-		}).date;
+		if (this._adapterO) {
+			return this._adapterO.apply("date", {
+				date: this.dates[name],
+				field: name
+			}).date;
+		}
+		else {
+			return this.dates[name];
+		}
 	}
 
 	/**
@@ -944,15 +977,16 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		if (this.properties[name] !== value) {
 			this.hasProperties = true;
 			this.properties[name] = value;
-
-			if (this.events.isEnabled("propertychanged")) {
-				const event: AMEvent<this, IDataItemEvents>["propertychanged"] = {
-					type: "propertychanged",
-					target: this,
-					property: name,
-					value: value
-				};
-				this.events.dispatchImmediately("propertychanged", event);
+			if (this._eventDispatcher) {
+				if (this.events.isEnabled("propertychanged")) {
+					const event: AMEvent<this, IDataItemEvents>["propertychanged"] = {
+						type: "propertychanged",
+						target: this,
+						property: name,
+						value: value
+					};
+					this.events.dispatchImmediately("propertychanged", event);
+				}
 			}
 
 			if (this.component) {
@@ -983,18 +1017,18 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 *
 	 * @return New Data Item clone
 	 */
-	public clone(cloneId?: string): this {
-		let dataItem: this = super.clone(cloneId);
-		dataItem.copyFrom(this);
-		return dataItem;
-	}
+	//public clone(cloneId?: string): this {
+	//	let dataItem: this = super.clone(cloneId);
+	//	dataItem.copyFrom(this);
+	//	return dataItem;
+	//}
 
 	/**
 	 * Copies all properties and related data from different data item.
 	 *
 	 * @param object Source data item
 	 */
-	public copyFrom(source:this){
+	public copyFrom(source: this) {
 
 		super.copyFrom(source);
 
@@ -1003,6 +1037,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		}
 
 		$utils.copyProperties(source.locations, this.locations);
+		/*
 		$utils.copyProperties(source.properties, this.properties);
 		$utils.copyProperties(source.categories, this.categories);
 		$utils.copyProperties(source.values, this.values);
@@ -1010,10 +1045,11 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 
 		$object.each(source.values, (name, value) => {
 			this.values[name] = $object.copy(value);
-		});
-
-		this.adapter.copyFrom(source.adapter);
-		this.events.copyFrom(source.events);
+		});*/
+		if (source._adapterO) {
+			this.adapter.copyFrom(source._adapterO);
+		}
+		//this.events.copyFrom(source.events); // because copied in Base
 		this.component = source.component;
 	}
 
@@ -1039,15 +1075,16 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 */
 	public set ignoreMinMax(value: boolean) {
 		this._ignoreMinMax = value;
-
-		if (this.events.isEnabled("propertychanged")) {
-			const event: AMEvent<this, IDataItemEvents>["propertychanged"] = {
-				type: "propertychanged",
-				target: this,
-				property: "ignoreMinMax",
-				value: value
-			};
-			this.events.dispatchImmediately("propertychanged", event);
+		if (this._eventDispatcher) {
+			if (this.events.isEnabled("propertychanged")) {
+				const event: AMEvent<this, IDataItemEvents>["propertychanged"] = {
+					type: "propertychanged",
+					target: this,
+					property: "ignoreMinMax",
+					value: value
+				};
+				this.events.dispatchImmediately("propertychanged", event);
+			}
 		}
 
 		if (this.component) {
@@ -1090,14 +1127,16 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		// it's always only one options, no need cycle
 		let animationOptions: IAnimationOptions = animation.animationOptions[0];
 		if (animationOptions) {
-			if (this.events.isEnabled("workingvaluechanged")) {
-				const event: AMEvent<this, IDataItemEvents>["workingvaluechanged"] = {
-					type: "workingvaluechanged",
-					target: this,
-					property: animationOptions.dummyData
-				};
+			if (this._eventDispatcher) {
+				if (this.events.isEnabled("workingvaluechanged")) {
+					const event: AMEvent<this, IDataItemEvents>["workingvaluechanged"] = {
+						type: "workingvaluechanged",
+						target: this,
+						property: animationOptions.dummyData
+					};
 
-				this.events.dispatchImmediately("workingvaluechanged", event);
+					this.events.dispatchImmediately("workingvaluechanged", event);
+				}
 			}
 
 			if (this.component) {

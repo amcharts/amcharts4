@@ -195,6 +195,7 @@ var Component = /** @class */ (function (_super) {
          */
         _this.dataValidationProgress = 0;
         _this._addAllDataItems = true;
+        _this._usesData = true;
         _this.className = "Component";
         _this.minZoomCount = 1;
         _this.maxZoomCount = 0;
@@ -296,12 +297,14 @@ var Component = /** @class */ (function (_super) {
                 var fieldName = key;
                 var value = dataContext[fieldValue];
                 // Apply adapters to a retrieved value
-                if (_this.adapter.isEnabled("dataContextValue")) {
-                    value = _this.adapter.apply("dataContextValue", {
-                        field: fieldName,
-                        value: value,
-                        dataItem: dataItem
-                    }).value;
+                if (_this._adapterO) {
+                    if (_this._adapterO.isEnabled("dataContextValue")) {
+                        value = _this._adapterO.apply("dataContextValue", {
+                            field: fieldName,
+                            value: value,
+                            dataItem: dataItem
+                        }).value;
+                    }
                 }
                 if (dataItem.hasChildren[fieldName]) {
                     if ($type.hasValue(value)) {
@@ -360,11 +363,13 @@ var Component = /** @class */ (function (_super) {
                 var fieldName = key;
                 var value = dataContext_1[fieldValue];
                 // Apply adapters to a retrieved value
-                value = _this.adapter.apply("dataContextValue", {
-                    field: fieldName,
-                    value: value,
-                    dataItem: dataItem
-                }).value;
+                if (_this._adapterO) {
+                    value = _this._adapterO.apply("dataContextValue", {
+                        field: fieldName,
+                        value: value,
+                        dataItem: dataItem
+                    }).value;
+                }
                 if (dataItem.hasChildren[fieldName]) {
                     if (value) {
                         var anyDataItem = dataItem;
@@ -713,8 +718,10 @@ var Component = /** @class */ (function (_super) {
             var n = this.data.length;
             var _loop_1 = function () {
                 var rawDataItem = this_1.data[i];
-                var dataItem = this_1.getDataItem(rawDataItem);
-                this_1.processDataItem(dataItem, rawDataItem);
+                if (this_1._usesData) {
+                    var dataItem = this_1.getDataItem(rawDataItem);
+                    this_1.processDataItem(dataItem, rawDataItem);
+                }
                 this_1.dataUsers.each(function (dataUser) {
                     if (dataUser.data.length == 0) { // checking if data is not set directly
                         var dataUserDataItem = dataUser.getDataItem(rawDataItem);
@@ -791,7 +798,12 @@ var Component = /** @class */ (function (_super) {
             if (!this._data) {
                 this._data = [];
             }
-            return this.adapter.apply("data", this._data);
+            if (!this._adapterO) {
+                return this._data;
+            }
+            else {
+                return this._adapterO.apply("data", this._data);
+            }
         },
         /**
          * Sets source (raw) data for the element. The "data" is always an `Array`
@@ -1318,7 +1330,12 @@ var Component = /** @class */ (function (_super) {
          * @return Start (0-1)
          */
         get: function () {
-            return this.adapter.apply("start", this._start);
+            if (!this._adapterO) {
+                return this._start;
+            }
+            else {
+                return this._adapterO.apply("start", this._start);
+            }
         },
         /**
          * Start of the current data range (zoom).
@@ -1350,7 +1367,12 @@ var Component = /** @class */ (function (_super) {
          * @return End (0-1)
          */
         get: function () {
-            return this.adapter.apply("end", this._end);
+            if (!this._adapterO) {
+                return this._end;
+            }
+            else {
+                return this._adapterO.apply("end", this._end);
+            }
         },
         /**
          * End of the current data range (zoom).

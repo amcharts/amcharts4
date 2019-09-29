@@ -1920,7 +1920,7 @@ var Export = /** @class */ (function (_super) {
                         }).dataFields;
                         // Add column names?
                         if (options.addColumnNames) {
-                            data.push(this.getExcelRow(dataFields, options));
+                            data.push(this.getExcelRow(dataFields, options, undefined, true));
                         }
                         // Add lines
                         for (len = this.data.length, i = 0; i < len; i++) {
@@ -1951,13 +1951,15 @@ var Export = /** @class */ (function (_super) {
      * Rertuns an array of values to be used as Excel row.
      *
      * @ignore Exclude from docs
-     * @param row         Row data
-     * @param options     Options
-     * @param dataFields  Data fields
+     * @param  row         Row data
+     * @param  options     Options
+     * @param  dataFields  Data fields
+     * @param  asIs        Do not try to convert to dates
      * @return Array of values
      */
-    Export.prototype.getExcelRow = function (row, options, dataFields) {
+    Export.prototype.getExcelRow = function (row, options, dataFields, asIs) {
         var _this = this;
+        if (asIs === void 0) { asIs = false; }
         // Init
         var items = [];
         // Data fields
@@ -1968,11 +1970,9 @@ var Export = /** @class */ (function (_super) {
         $object.each(dataFields, function (key, name) {
             // Get value
             var value = _this.convertEmptyValue(key, row[key], options);
-            // Check if we need to skip
-            /*if ($type.hasValue(this.dataFields) && !$type.hasValue(this.dataFields[key])) {
-                return;
-            }*/
-            items.push(_this.convertToSpecialFormat(key, value, options, true));
+            // Convert dates
+            var item = asIs ? value : _this.convertToSpecialFormat(key, value, options, true);
+            items.push(item);
         });
         return items;
     };

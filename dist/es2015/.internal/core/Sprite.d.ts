@@ -254,17 +254,25 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     _events: ISpriteEvents;
     /**
+     * @ignore
+     */
+    _eventDispatcher: SpriteEventDispatcher<AMEvent<this, this["_events"]>>;
+    /**
      * Event dispatcher.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/event-listeners/} for more info about Events
      */
-    events: SpriteEventDispatcher<AMEvent<this, this["_events"]>>;
+    readonly events: SpriteEventDispatcher<AMEvent<this, this["_events"]>>;
+    /**
+     * @ignore
+     */
+    _adapterO: Adapter<this, this["_adapter"]>;
     /**
      * Holds Adapter.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/adapters/} for more info about Adapters
      */
-    adapter: Adapter<this, this["_adapter"]>;
+    readonly adapter: Adapter<this, this["_adapter"]>;
     /**
      * @ignore Exclude from docs
      * @todo Description

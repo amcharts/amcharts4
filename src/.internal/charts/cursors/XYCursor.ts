@@ -442,7 +442,9 @@ export class XYCursor extends Cursor {
 
 				this.updatePoint(this.upPoint);
 
-				this.getRanges();
+				if (this._generalBehavior != "pan"){
+					this.getRanges();
+				}
 
 				if (this._generalBehavior != "select") {
 					this.selection.hide();

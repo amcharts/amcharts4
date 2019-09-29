@@ -52,7 +52,7 @@ export interface INetRequestOptions {
 	/**
 	 * Custom request headers to be added to HTTP(S) request.
 	 */
-	requestHeaders?: { key: string, value: string}[];
+	requestHeaders?: { key: string, value: string }[];
 
 	/**
 	 * Specify expected response type.
@@ -117,6 +117,18 @@ export function load<A>(url: string, target?: A, options?: INetRequestOptions): 
 
 				if (isBlob) {
 					blob = xhr.response;
+					readBlob(blob).then((response) => {
+						let output: INetLoadResult<A> = {
+							xhr: xhr,
+							error: false,
+							response: response,
+							blob: blob,
+							type: xhr.getResponseHeader("Content-Type"),
+							target: target
+						};
+						success(output);
+					});
+					return;
 				}
 				else {
 					response = xhr.responseText || xhr.response
@@ -161,7 +173,7 @@ export function load<A>(url: string, target?: A, options?: INetRequestOptions): 
 		if ($type.hasValue(options)) {
 
 			if ($type.hasValue(options.requestHeaders)) {
-				for(let i = 0; i < options.requestHeaders.length; i++) {
+				for (let i = 0; i < options.requestHeaders.length; i++) {
 					let header = options.requestHeaders[i];
 					xhr.setRequestHeader(header.key, header.value);
 				}
@@ -177,4 +189,26 @@ export function load<A>(url: string, target?: A, options?: INetRequestOptions): 
 
 	});
 
+}
+
+/**
+ * Returns textual representation of a Blob object.
+ * 
+ * @param   blob  Target blob
+ * @return        Text promise
+ */
+export function readBlob(blob: Blob): Promise<string> {
+	return new Promise<string>((success, error) => {
+		const reader = new FileReader()
+
+		reader.onload = event => {
+			success(reader.result);
+		}
+
+		reader.onerror = (e) => {
+			error(e);
+		}
+
+		reader.readAsText(blob);
+	});
 }

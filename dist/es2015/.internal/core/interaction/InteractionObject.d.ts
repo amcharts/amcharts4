@@ -44,9 +44,14 @@ export declare class InteractionObject extends BaseObjectEvents {
      */
     _events: IInteractionObjectEvents;
     /**
+     * @ignore
      * An [[EventDispatcher]] instance which holds events for this object
      */
-    events: InteractionObjectEventDispatcher<AMEvent<this, this["_events"]>>;
+    _eventDispatcher: InteractionObjectEventDispatcher<AMEvent<this, this["_events"]>>;
+    /**
+     * An [[EventDispatcher]] instance which holds events for this object
+     */
+    readonly events: InteractionObjectEventDispatcher<AMEvent<this, this["_events"]>>;
     /**
      * A related [[Sprite]] if any.
      */

@@ -464,10 +464,8 @@ var XYSeries = /** @class */ (function (_super) {
     XYSeries.prototype.processDataItem = function (dataItem, dataContext) {
         try {
             _super.prototype.processDataItem.call(this, dataItem, dataContext);
-            dataItem.events.disable();
             this.xAxis.processSeriesDataItem(dataItem, "X");
             this.yAxis.processSeriesDataItem(dataItem, "Y");
-            dataItem.events.enable();
             this.setInitialWorkingValues(dataItem);
         }
         catch (e) {
@@ -1171,7 +1169,7 @@ var XYSeries = /** @class */ (function (_super) {
                     if (xOpenField) {
                         openPositionX = xAxis.categoryToPosition(dataItem[xOpenField], leftLocation);
                     }
-                    if (!openPositionX) {
+                    if (!$type.isNumber(openPositionX)) {
                         openPositionX = 1;
                     }
                     positionX = openPositionX + (positionX - openPositionX) * bulletLocationX;
@@ -1231,7 +1229,7 @@ var XYSeries = /** @class */ (function (_super) {
                     if (yOpenField) {
                         openPositionY = yAxis.categoryToPosition(dataItem[yOpenField], bottomLocation);
                     }
-                    if (!openPositionY) {
+                    if (!$type.isNumber(openPositionY)) {
                         openPositionY = 1;
                     }
                     positionY = openPositionY + (positionY - openPositionY) * bulletLocationY;

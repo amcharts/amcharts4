@@ -655,7 +655,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 							dataItem.label.validate();
 						}
 						if (dataItem.value >= this.min && dataItem.value <= this.max) {
-							if(dataItem.label){
+							if (dataItem.label) {
 								if ((this.axisLetter == "Y" && dataItem.label.measuredWidth > this.ghostLabel.measuredWidth) || (this.axisLetter == "X" && dataItem.label.measuredHeight > this.ghostLabel.measuredHeight)) {
 									this.ghostLabel.text = dataItem.label.currentText;
 									this.ghostLabel.validate();
@@ -1221,7 +1221,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			}
 
 			min -= (max - min) * this.extraMin;
-			max += (max - min) * this.extraMax;			
+			max += (max - min) * this.extraMax;
 		}
 
 		// checking isNumber is good when all series are hidden
@@ -2077,7 +2077,13 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 */
 	public getTooltipText(position: number): string {
 		let value: number = $math.round(this.positionToValue(position), this._stepDecimalPlaces);
-		return this.adapter.apply("getTooltipText", this.tooltip.numberFormatter.format(value));
+		let valueStr = this.tooltip.numberFormatter.format(value);
+		if (!this._adapterO) {
+			return valueStr;
+		}
+		else {
+			return this._adapterO.apply("getTooltipText", valueStr);
+		}
 	}
 
 	/**

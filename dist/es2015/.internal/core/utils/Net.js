@@ -49,9 +49,21 @@ export function load(url, target, options) {
         xhr.onload = function () {
             if (xhr.status === 200) {
                 var response = void 0;
-                var blob = void 0;
+                var blob_1;
                 if (isBlob) {
-                    blob = xhr.response;
+                    blob_1 = xhr.response;
+                    readBlob(blob_1).then(function (response) {
+                        var output = {
+                            xhr: xhr,
+                            error: false,
+                            response: response,
+                            blob: blob_1,
+                            type: xhr.getResponseHeader("Content-Type"),
+                            target: target
+                        };
+                        success(output);
+                    });
+                    return;
                 }
                 else {
                     response = xhr.responseText || xhr.response;
@@ -60,7 +72,7 @@ export function load(url, target, options) {
                     xhr: xhr,
                     error: false,
                     response: response,
-                    blob: blob,
+                    blob: blob_1,
                     type: xhr.getResponseHeader("Content-Type"),
                     target: target
                 };
@@ -102,6 +114,24 @@ export function load(url, target, options) {
         }
         // Send request
         xhr.send();
+    });
+}
+/**
+ * Returns textual representation of a Blob object.
+ *
+ * @param   blob  Target blob
+ * @return        Text promise
+ */
+export function readBlob(blob) {
+    return new Promise(function (success, error) {
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            success(reader.result);
+        };
+        reader.onerror = function (e) {
+            error(e);
+        };
+        reader.readAsText(blob);
     });
 }
 //# sourceMappingURL=Net.js.map

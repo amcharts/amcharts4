@@ -1187,12 +1187,13 @@ export declare class Export extends Validatable {
      * Rertuns an array of values to be used as Excel row.
      *
      * @ignore Exclude from docs
-     * @param row         Row data
-     * @param options     Options
-     * @param dataFields  Data fields
+     * @param  row         Row data
+     * @param  options     Options
+     * @param  dataFields  Data fields
+     * @param  asIs        Do not try to convert to dates
      * @return Array of values
      */
-    getExcelRow(row: any, options?: IExportExcelOptions, dataFields?: any): any[];
+    getExcelRow(row: any, options?: IExportExcelOptions, dataFields?: any, asIs?: boolean): any[];
     /**
      * Returns chart's data formatted as CSV.
      *

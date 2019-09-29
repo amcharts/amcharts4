@@ -805,10 +805,8 @@ export class XYSeries extends Series {
 		try {
 			super.processDataItem(dataItem, dataContext);
 
-			dataItem.events.disable();
 			this.xAxis.processSeriesDataItem(dataItem, "X");
 			this.yAxis.processSeriesDataItem(dataItem, "Y");
-			dataItem.events.enable();
 
 			this.setInitialWorkingValues(dataItem);
 		}
@@ -1623,10 +1621,12 @@ export class XYSeries extends Series {
 					positionX = xAxis.categoryToPosition((<any>dataItem)[xField], rightLocation);
 					let openPositionX: number;
 
+
 					if (xOpenField) {
 						openPositionX = xAxis.categoryToPosition((<any>dataItem)[xOpenField], leftLocation);
 					}
-					if (!openPositionX) {
+
+					if (!$type.isNumber(openPositionX)) {
 						openPositionX = 1;
 					}
 
@@ -1704,7 +1704,7 @@ export class XYSeries extends Series {
 					if (yOpenField) {
 						openPositionY = yAxis.categoryToPosition((<any>dataItem)[yOpenField], bottomLocation);
 					}
-					if (!openPositionY) {
+					if (!$type.isNumber(openPositionY)) {
 						openPositionY = 1;
 					}
 

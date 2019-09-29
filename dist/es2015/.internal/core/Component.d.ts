@@ -433,6 +433,7 @@ export declare class Component extends Container {
     protected _workingEndIndex: $type.Optional<number>;
     protected _addAllDataItems: boolean;
     protected _showOnInitDisposer2: IDisposer;
+    protected _usesData: boolean;
     /**
      * Constructor
      */

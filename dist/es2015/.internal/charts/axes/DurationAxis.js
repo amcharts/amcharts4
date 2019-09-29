@@ -224,7 +224,13 @@ var DurationAxis = /** @class */ (function (_super) {
      */
     DurationAxis.prototype.getTooltipText = function (position) {
         var value = $math.round(this.positionToValue(position), this._stepDecimalPlaces);
-        return this.adapter.apply("getTooltipText", this.formatLabel(value, this.tooltipDurationFormat));
+        var valueStr = this.formatLabel(value, this.tooltipDurationFormat);
+        if (!this._adapterO) {
+            return valueStr;
+        }
+        else {
+            return this._adapterO.apply("getTooltipText", valueStr);
+        }
     };
     Object.defineProperty(DurationAxis.prototype, "baseUnit", {
         /**

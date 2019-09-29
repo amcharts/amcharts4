@@ -233,6 +233,7 @@ var Sunburst = /** @class */ (function (_super) {
         _super.call(this) || this;
         _this.className = "Sunburst";
         _this.colors = new ColorSet();
+        _this._usesData = true;
         var template = new SunburstSeries();
         _this.seriesTemplates = new DictionaryTemplate(template);
         template.virtualParent = _this;

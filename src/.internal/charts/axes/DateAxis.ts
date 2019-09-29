@@ -1656,7 +1656,12 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				text = this.getPositionLabel(position);
 			}
 		}
-		return this.adapter.apply("getTooltipText", text);
+		if (!this._adapterO) {
+			return text;
+		}
+		else {
+			return this._adapterO.apply("getTooltipText", text);
+		}
 	}
 
 	/**
@@ -1667,7 +1672,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @param location  Location in the cell
 	 * @return Adjusted position
 	 */
-	public roundPosition(position: number, location?: AxisItemLocation): number {
+	public roundPosition(position: number, location?: AxisItemLocation, axisLocation?: number): number {
 		let baseInterval = this.baseInterval;
 		let timeUnit = baseInterval.timeUnit;
 		let count = baseInterval.count;
@@ -1678,6 +1683,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		if (location > 0) {
 			$time.add(date, timeUnit, location * count, this.dateFormatter.utc);
+		}
+
+		if (axisLocation > 0 && axisLocation < 1) {
+			date.setTime(date.getTime() + this.baseDuration * axisLocation);
 		}
 
 		if (this.isInBreak(date.getTime())) {

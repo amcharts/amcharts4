@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { fabric } from "fabric";
+import { fabric } from "../../fabric/fabric.js";
 import { Plugin } from "../../core/utils/Plugin";
 import { IExportCustomOptions } from "../../core/export/Export";
 import { Color } from "../../core/utils/Color";

@@ -323,10 +323,15 @@ export class MapPolygon extends MapObject {
 		if ($type.isNumber(latitude)) {
 			return (latitude);
 		}
-		return this.adapter.apply(
-			"visualLatitude",
-			this._visualLatitude
-		);
+		if (!this._adapterO) {
+			return this._visualLatitude;
+		}
+		else {
+			return this._adapterO.apply(
+				"visualLatitude",
+				this._visualLatitude
+			);
+		}
 	}
 
 	/**
@@ -349,10 +354,15 @@ export class MapPolygon extends MapObject {
 		if ($type.isNumber(longitude)) {
 			return (longitude);
 		}
-		return this.adapter.apply(
-			"visualLongitude",
-			this._visualLongitude
-		);
+		if (!this._adapterO) {
+			return this._visualLongitude;
+		}
+		else {
+			return this._adapterO.apply(
+				"visualLongitude",
+				this._visualLongitude
+			);
+		}
 	}
 
 
@@ -414,7 +424,7 @@ export class MapPolygon extends MapObject {
 	 * @return X
 	 */
 	protected getTooltipX(): number {
-		return this.series.chart.projection.convert({longitude:this.visualLongitude, latitude:this.visualLatitude}).x;
+		return this.series.chart.projection.convert({ longitude: this.visualLongitude, latitude: this.visualLatitude }).x;
 	}
 
 	/**
@@ -423,7 +433,7 @@ export class MapPolygon extends MapObject {
 	 * @return Y
 	 */
 	protected getTooltipY(): number {
-		return this.series.chart.projection.convert({longitude:this.visualLongitude, latitude:this.visualLatitude}).y
+		return this.series.chart.projection.convert({ longitude: this.visualLongitude, latitude: this.visualLatitude }).y
 	}
 }
 
