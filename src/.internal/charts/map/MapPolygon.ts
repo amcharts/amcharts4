@@ -211,6 +211,7 @@ export class MapPolygon extends MapObject {
 	public set multiPolygon(multiPolygon: Array<Array<Array<[number, number]>>>) {
 		if (this.setPropertyValue("multiPolygon", multiPolygon)) {
 			this.updateExtremes();
+			this.invalidate();
 		}
 	}
 
@@ -241,7 +242,6 @@ export class MapPolygon extends MapObject {
 
 				if (this.series) {
 					let feature = { type: "MultiPolygon", coordinates: this.multiPolygon };
-
 					this.polygon.path = pathGenerator(<any>feature);
 				}
 

@@ -235,7 +235,12 @@ var DateAxis = /** @class */ (function (_super) {
          * @todo Description
          */
         _this._minDifference = {};
+        /**
+         * @ignore
+         */
+        _this._firstWeekDay = 1;
         _this.className = "DateAxis";
+        _this._df = _this.dateFormatter;
         _this.setPropertyValue("markUnitChange", true);
         _this.snapTooltip = true;
         _this.tooltipPosition = "pointer";
@@ -393,6 +398,8 @@ var DateAxis = /** @class */ (function (_super) {
         var start = this.start;
         var end = this.end;
         var periodCount = (this.max - this.min) / this.baseDuration;
+        this._firstWeekDay = this.getFirstWeekDay();
+        this._df = this.dateFormatter;
         _super.prototype.validateDataItems.call(this);
         this.maxZoomFactor = (this.max - this.min) / this.baseDuration;
         this._deltaMinMax = this.baseDuration / 2;
@@ -422,13 +429,13 @@ var DateAxis = /** @class */ (function (_super) {
             gridInterval = tslib_1.__assign({}, this.baseInterval);
         }
         this._gridInterval = gridInterval;
-        this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit, gridInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc);
+        this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit, gridInterval.count, this._firstWeekDay, this._df.utc);
         this._nextGridUnit = $time.getNextUnit(gridInterval.timeUnit);
         // the following is needed to avoid grid flickering while scrolling
         this._intervalDuration = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
         var count = Math.ceil(this._difference / this._intervalDuration);
         count = Math.max(-5, Math.floor(this.start * count) - 3); // some extra is needed
-        $time.add(this._gridDate, gridInterval.timeUnit, count * gridInterval.count, this.dateFormatter.utc);
+        $time.add(this._gridDate, gridInterval.timeUnit, count * gridInterval.count, this._df.utc);
         // tell series start/end
         $iter.each(this.series.iterator(), function (series) {
             if (series.baseAxis == _this) {
@@ -448,7 +455,7 @@ var DateAxis = /** @class */ (function (_super) {
                 }
                 // 1 millisecond is removed so that if only first item is selected, it would not count in the second.
                 var baseInterval = _this.baseInterval;
-                var maxZoomed = $time.add($time.round(new Date(_this._maxZoomed), baseInterval.timeUnit, baseInterval.count, _this.getFirstWeekDay(), _this.dateFormatter.utc), baseInterval.timeUnit, baseInterval.count, _this.dateFormatter.utc).getTime();
+                var maxZoomed = $time.add($time.round(new Date(_this._maxZoomed), baseInterval.timeUnit, baseInterval.count, _this._firstWeekDay, _this._df.utc), baseInterval.timeUnit, baseInterval.count, _this._df.utc).getTime();
                 var maxZoomedStr = maxZoomed.toString();
                 var endDataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(maxZoomedStr);
                 var endIndex = series.dataItems.length;
@@ -564,9 +571,9 @@ var DateAxis = /** @class */ (function (_super) {
         $object.each(dataItem.dates, function (key) {
             var date = dataItem.getDate(key);
             var time = date.getTime();
-            var startDate = $time.round(new Date(time), baseInterval.timeUnit, baseInterval.count, _this.getFirstWeekDay(), _this.dateFormatter.utc);
+            var startDate = $time.round(new Date(time), baseInterval.timeUnit, baseInterval.count, _this._firstWeekDay, _this._df.utc);
             var startTime = startDate.getTime();
-            var endDate = $time.add(new Date(startTime), baseInterval.timeUnit, baseInterval.count, _this.dateFormatter.utc);
+            var endDate = $time.add(new Date(startTime), baseInterval.timeUnit, baseInterval.count, _this._df.utc);
             dataItem.setCalculatedValue(key, startTime, "open");
             dataItem.setCalculatedValue(key, endDate.getTime(), "close");
             dataItemsByAxis.setKey(startTime.toString(), dataItem);
@@ -589,10 +596,10 @@ var DateAxis = /** @class */ (function (_super) {
             var timeUnit = this.baseInterval.timeUnit;
             var count = this.baseInterval.count;
             this.axisBreaks.clear(); // TODO: what about breaks added by user?
-            var date = $time.round(new Date(this.min), timeUnit, count, this.getFirstWeekDay(), this.dateFormatter.utc);
+            var date = $time.round(new Date(this.min), timeUnit, count, this._firstWeekDay, this._df.utc);
             var axisBreak = void 0;
             var _loop_1 = function () {
-                $time.add(date, timeUnit, count, this_1.dateFormatter.utc);
+                $time.add(date, timeUnit, count, this_1._df.utc);
                 var startTime = date.getTime();
                 var startTimeStr = startTime.toString();
                 var hasData = $iter.contains(this_1.series.iterator(), function (series) {
@@ -634,9 +641,9 @@ var DateAxis = /** @class */ (function (_super) {
             axisBreaks.each(function (axisBreak) {
                 var breakGridCount = Math.ceil(_this._gridCount * (Math.min(_this.end, axisBreak.endPosition) - Math.max(_this.start, axisBreak.startPosition)) / (_this.end - _this.start));
                 axisBreak.gridInterval = _this.chooseInterval(0, axisBreak.adjustedEndValue - axisBreak.adjustedStartValue, breakGridCount);
-                var gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, _this.getFirstWeekDay(), _this.dateFormatter.utc);
+                var gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, _this._firstWeekDay, _this._df.utc);
                 if (gridDate.getTime() > axisBreak.startDate.getTime()) {
-                    $time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, _this.dateFormatter.utc);
+                    $time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, _this._df.utc);
                 }
                 axisBreak.gridDate = gridDate;
             });
@@ -646,8 +653,8 @@ var DateAxis = /** @class */ (function (_super) {
      * @ignore
      */
     DateAxis.prototype.getFirstWeekDay = function () {
-        if (this.dateFormatter) {
-            return this.dateFormatter.firstDayOfWeek;
+        if (this._df) {
+            return this._df.firstDayOfWeek;
         }
         return 1;
     };
@@ -664,18 +671,18 @@ var DateAxis = /** @class */ (function (_super) {
         var timeUnit = this._gridInterval.timeUnit;
         var realIntervalCount = this._gridInterval.count;
         // round date
-        $time.round(date, timeUnit, 1, this.getFirstWeekDay(), this.dateFormatter.utc);
+        $time.round(date, timeUnit, 1, this._firstWeekDay, this._df.utc);
         var prevTimestamp = date.getTime();
         var newDate = $time.copy(date);
         // modify date by adding intervalcount
-        var timestamp = $time.add(newDate, timeUnit, intervalCount, this.dateFormatter.utc).getTime();
+        var timestamp = $time.add(newDate, timeUnit, intervalCount, this._df.utc).getTime();
         // if it's axis break, get first rounded date which is not in a break
         var axisBreak = this.isInBreak(timestamp);
         if (axisBreak && axisBreak.endDate) {
             newDate = new Date(axisBreak.endDate.getTime());
-            $time.round(newDate, timeUnit, realIntervalCount, this.getFirstWeekDay(), this.dateFormatter.utc);
+            $time.round(newDate, timeUnit, realIntervalCount, this._firstWeekDay, this._df.utc);
             if (newDate.getTime() < axisBreak.endDate.getTime()) {
-                $time.add(newDate, timeUnit, realIntervalCount, this.dateFormatter.utc);
+                $time.add(newDate, timeUnit, realIntervalCount, this._df.utc);
             }
             timestamp = newDate.getTime();
         }
@@ -701,8 +708,8 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.getBreaklessDate = function (axisBreak, timeUnit, count) {
         var date = new Date(axisBreak.endValue);
-        $time.round(date, timeUnit, count, this.getFirstWeekDay(), this.dateFormatter.utc);
-        $time.add(date, timeUnit, count, this.dateFormatter.utc);
+        $time.round(date, timeUnit, count, this._firstWeekDay, this._df.utc);
+        $time.add(date, timeUnit, count, this._df.utc);
         var timestamp = date.getTime();
         axisBreak = this.isInBreak(timestamp);
         if (axisBreak) {
@@ -731,16 +738,16 @@ var DateAxis = /** @class */ (function (_super) {
                 var date = this_2.getGridDate($time.copy(prevGridDate), intervalCount);
                 timestamp = date.getTime();
                 var endDate = $time.copy(date); // you might think it's easier to add intervalduration to timestamp, however it won't work for months or years which are not of the same length
-                endDate = $time.add(endDate, timeUnit, intervalCount, this_2.dateFormatter.utc);
+                endDate = $time.add(endDate, timeUnit, intervalCount, this_2._df.utc);
                 var format = this_2.dateFormats.getKey(timeUnit);
                 if (this_2.markUnitChange && prevGridDate) {
-                    if ($time.checkChange(date, prevGridDate, this_2._nextGridUnit, this_2.dateFormatter.utc)) {
+                    if ($time.checkChange(date, prevGridDate, this_2._nextGridUnit, this_2._df.utc)) {
                         if (timeUnit !== "year") {
                             format = this_2.periodChangeDateFormats.getKey(timeUnit);
                         }
                     }
                 }
-                var text = this_2.dateFormatter.format(date, format);
+                var text = this_2._df.format(date, format);
                 var dataItem = dataItemsIterator_1.find(function (x) { return x.text === text; });
                 if (dataItem.__disabled) {
                     dataItem.__disabled = false;
@@ -770,20 +777,20 @@ var DateAxis = /** @class */ (function (_super) {
                         var count = 0;
                         var _loop_3 = function () {
                             var date = $time.copy(axisBreak.gridDate);
-                            timestamp_1 = $time.add(date, timeUnit_1, intervalCount_1 * count, _this.dateFormatter.utc).getTime();
+                            timestamp_1 = $time.add(date, timeUnit_1, intervalCount_1 * count, _this._df.utc).getTime();
                             count++;
                             if (timestamp_1 > axisBreak.adjustedStartValue && timestamp_1 < axisBreak.adjustedEndValue) {
                                 var endDate = $time.copy(date); // you might think it's easier to add intervalduration to timestamp, however it won't work for months or years which are not of the same length
-                                endDate = $time.add(endDate, timeUnit_1, intervalCount_1, _this.dateFormatter.utc);
+                                endDate = $time.add(endDate, timeUnit_1, intervalCount_1, _this._df.utc);
                                 var format = _this.dateFormats.getKey(timeUnit_1);
                                 if (_this.markUnitChange && prevGridDate_1) {
-                                    if ($time.checkChange(date, prevGridDate_1, _this._nextGridUnit, _this.dateFormatter.utc)) {
+                                    if ($time.checkChange(date, prevGridDate_1, _this._nextGridUnit, _this._df.utc)) {
                                         if (timeUnit_1 !== "year") {
                                             format = _this.periodChangeDateFormats.getKey(timeUnit_1);
                                         }
                                     }
                                 }
-                                var text_1 = _this.dateFormatter.format(date, format);
+                                var text_1 = _this._df.format(date, format);
                                 var dataItem = dataItemsIterator_1.find(function (x) { return x.text === text_1; });
                                 if (dataItem.__disabled) {
                                     dataItem.__disabled = false;
@@ -898,8 +905,8 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.fixMin = function (value) {
         // like this because months are not equal
-        var startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc).getTime();
-        var endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count, this.dateFormatter.utc).getTime();
+        var startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc).getTime();
+        var endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count, this._df.utc).getTime();
         return startTime + (endTime - startTime) * this.startLocation;
     };
     /**
@@ -910,8 +917,8 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.fixMax = function (value) {
         // like this because months are not equal
-        var startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc).getTime();
-        var endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count, this.dateFormatter.utc).getTime();
+        var startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc).getTime();
+        var endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count, this._df.utc).getTime();
         return startTime + (endTime - startTime) * this.endLocation;
     };
     /**
@@ -955,7 +962,7 @@ var DateAxis = /** @class */ (function (_super) {
      * @return Formatted value
      */
     DateAxis.prototype.formatLabel = function (value) {
-        return this.dateFormatter.format(value);
+        return this._df.format(value);
     };
     /**
      * Converts a Date to an asbolute pixel position within Axis.
@@ -1342,14 +1349,14 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.getTooltipText = function (position) {
         var text;
         var date = this.positionToDate(position);
-        date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc, new Date(this.min));
+        date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc, new Date(this.min));
         if ($type.hasValue(this.tooltipDateFormat)) {
-            text = this.dateFormatter.format(date, this.tooltipDateFormat);
+            text = this._df.format(date, this.tooltipDateFormat);
         }
         else {
             var dateFormat = this.dateFormats.getKey(this.baseInterval.timeUnit);
             if (dateFormat) {
-                text = this.dateFormatter.format(date, dateFormat);
+                text = this._df.format(date, dateFormat);
             }
             else {
                 text = this.getPositionLabel(position);
@@ -1375,16 +1382,16 @@ var DateAxis = /** @class */ (function (_super) {
         var timeUnit = baseInterval.timeUnit;
         var count = baseInterval.count;
         var date = this.positionToDate(position);
-        $time.round(date, timeUnit, count, this.getFirstWeekDay(), this.dateFormatter.utc);
+        $time.round(date, timeUnit, count, this._firstWeekDay, this._df.utc);
         if (location > 0) {
-            $time.add(date, timeUnit, location * count, this.dateFormatter.utc);
+            $time.add(date, timeUnit, location * count, this._df.utc);
         }
         if (axisLocation > 0 && axisLocation < 1) {
             date.setTime(date.getTime() + this.baseDuration * axisLocation);
         }
         if (this.isInBreak(date.getTime())) {
             while (date.getTime() < this.max) {
-                $time.add(date, timeUnit, count, this.dateFormatter.utc);
+                $time.add(date, timeUnit, count, this._df.utc);
                 if (!this.isInBreak(date.getTime())) {
                     break;
                 }
@@ -1430,7 +1437,7 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.getSeriesDataItem = function (series, position, findNearest) {
         var value = this.positionToValue(position);
-        var date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc);
+        var date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc);
         var dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);
         var dataItem = dataItemsByAxis.getKey(date.getTime().toString());
         // todo:  alternatively we can find closiest here
@@ -1468,7 +1475,7 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.getPositionLabel = function (position) {
         // @todo Better format recognition
         var date = this.positionToDate(position);
-        return this.dateFormatter.format(date, this.getCurrentLabelFormat());
+        return this._df.format(date, this.getCurrentLabelFormat());
     };
     /**
      * Returns label date format based on currently used time units
@@ -1516,8 +1523,8 @@ var DateAxis = /** @class */ (function (_super) {
      * @param instantly       Do not play zoom animations
      */
     DateAxis.prototype.zoomToDates = function (startDate, endDate, skipRangeEvent, instantly) {
-        startDate = this.dateFormatter.parse(startDate);
-        endDate = this.dateFormatter.parse(endDate);
+        startDate = this._df.parse(startDate);
+        endDate = this._df.parse(endDate);
         this.zoomToValues(startDate.getTime(), endDate.getTime(), skipRangeEvent, instantly);
     };
     /**
@@ -1582,7 +1589,7 @@ var DateAxis = /** @class */ (function (_super) {
             });
             if (closestDate_1) {
                 var closestTime_1 = closestDate_1.getTime();
-                closestDate_1 = $time.round(new Date(closestTime_1), this.baseInterval.timeUnit, this.baseInterval.count, this.getFirstWeekDay(), this.dateFormatter.utc);
+                closestDate_1 = $time.round(new Date(closestTime_1), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc);
                 closestTime_1 = closestDate_1.getTime();
                 var tooltipLocation = this.renderer.tooltipLocation;
                 if (tooltipLocation == 0) {

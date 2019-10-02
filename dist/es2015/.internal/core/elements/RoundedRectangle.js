@@ -34,7 +34,6 @@ var RoundedRectangle = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.className = "RoundedRectangle";
         _this.element = _this.paper.add("path");
-        //this.pixelPerfect = false;
         _this.cornerRadius(3, 3, 3, 3);
         _this.applyTheme();
         return _this;

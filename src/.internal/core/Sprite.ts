@@ -341,6 +341,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	protected _isTemplate: boolean = false;
 
+	protected _isPath:boolean = false;
+
 	/**
 	 * Holds collection of Sprite States.
 	 */
@@ -2308,6 +2310,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		// `.disposers` it will be removed automatically when Sprite is disposed
 		// of
 		this.group.add(element);
+
+		if(element.node instanceof SVGPathElement){
+			this._isPath = true;
+		}
 
 		// This is needed if someone is setting element not in draw method but
 		// from outside
@@ -7517,8 +7523,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	protected setPath(value: string): boolean {
 		if (this.setPropertyValue("path", value)) {
 
-			if (!this.element || !(this.element instanceof SVGPathElement)) {
-				this.element = this.paper.add("path");
+			if (!this._isPath) {
+				if (!this.element || (this.element.node && !(this.element.node instanceof SVGPathElement))) {
+					this.element = this.paper.add("path");
+				}
+				this._isPath = true;
 			}
 			this.element.attr({ "d": value });
 			this.invalidatePosition();

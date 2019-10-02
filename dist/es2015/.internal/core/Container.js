@@ -1636,14 +1636,22 @@ var Container = /** @class */ (function (_super) {
         var _this = this;
         if (!this.isReady() && !this.isDisposed()) {
             var allReady_1 = true;
-            this.children.each(function (sprite) {
+            $iter.eachContinue(this.children.iterator(), function (sprite) {
                 if (!sprite.__disabled && !sprite.disabled && !sprite.isReady()) {
                     allReady_1 = false;
+                    return false;
+                }
+                else {
+                    return true;
                 }
             });
-            $array.each(this._shouldBeReady, function (sprite) {
+            $array.eachContinue(this._shouldBeReady, function (sprite) {
                 if (!sprite.__disabled && !sprite.disabled && !sprite.isReady()) {
                     allReady_1 = false;
+                    return false;
+                }
+                else {
+                    return true;
                 }
             });
             if (allReady_1) {

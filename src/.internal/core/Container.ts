@@ -2049,15 +2049,24 @@ export class Container extends Sprite {
 	public dispatchReady() {
 		if (!this.isReady() && !this.isDisposed()) {
 			let allReady = true;
-			this.children.each((sprite) => {
-				if (!sprite.__disabled && !sprite.disabled && !sprite.isReady()) {
-					allReady = false;
-				}
-			})
 
-			$array.each(this._shouldBeReady, (sprite) => {
+			$iter.eachContinue(this.children.iterator(), (sprite) => {
 				if (!sprite.__disabled && !sprite.disabled && !sprite.isReady()) {
 					allReady = false;
+					return false;
+				}
+				else {
+					return true;					
+				}
+			});
+
+			$array.eachContinue(this._shouldBeReady, (sprite) => {
+				if (!sprite.__disabled && !sprite.disabled && !sprite.isReady()) {
+					allReady = false;
+					return false;
+				}
+				else {
+					return true;
 				}
 			})
 

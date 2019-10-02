@@ -800,49 +800,51 @@ export class ColumnSeries extends XYSeries {
 	 * @todo Do not apply accessibility to wicks of the candlesticks
 	 */
 	protected setColumnStates(sprite: Sprite): void {
+		if (this._dropFromOpenState || this._dropFromPreviousState || this._riseFromOpenState || this._riseFromPreviousState) {
 
-		let dataItem: this["_dataItem"] = <this["_dataItem"]>sprite.dataItem;
+			let dataItem: this["_dataItem"] = <this["_dataItem"]>sprite.dataItem;
 
-		if (this.xAxis instanceof ValueAxis || this.yAxis instanceof ValueAxis) {
-			let open: number;
-			let value: number;
-			let change: number;
+			if (this.xAxis instanceof ValueAxis || this.yAxis instanceof ValueAxis) {
+				let open: number;
+				let value: number;
+				let change: number;
 
-			if (this.baseAxis == this.yAxis) {
-				if (this.xOpenField && this.xField && this.xAxis instanceof ValueAxis) {
-					open = dataItem.getValue(this.xOpenField);
-					value = dataItem.getValue(this.xField);
-					change = dataItem.getValue(this.xAxis.axisFieldName + "X", "previousChange");
+				if (this.baseAxis == this.yAxis) {
+					if (this.xOpenField && this.xField && this.xAxis instanceof ValueAxis) {
+						open = dataItem.getValue(this.xOpenField);
+						value = dataItem.getValue(this.xField);
+						change = dataItem.getValue(this.xAxis.axisFieldName + "X", "previousChange");
+					}
 				}
-			}
-			else {
-				if (this.yOpenField && this.yField && this.yAxis instanceof ValueAxis) {
-					open = dataItem.getValue(this.yOpenField);
-					value = dataItem.getValue(this.yField);
-					change = dataItem.getValue(this.yAxis.axisFieldName + "Y", "previousChange");
+				else {
+					if (this.yOpenField && this.yField && this.yAxis instanceof ValueAxis) {
+						open = dataItem.getValue(this.yOpenField);
+						value = dataItem.getValue(this.yField);
+						change = dataItem.getValue(this.yAxis.axisFieldName + "Y", "previousChange");
+					}
 				}
-			}
 
-			if (value < open) {
-				dataItem.droppedFromOpen = true;
-				sprite.defaultState.copyFrom(this._dropFromOpenState)
-				sprite.setState(this._dropFromOpenState, 0);
-			}
-			else {
-				dataItem.droppedFromOpen = false;
-				sprite.defaultState.copyFrom(this._riseFromOpenState)
-				sprite.setState(this._riseFromOpenState, 0);
-			}
+				if (value < open) {
+					dataItem.droppedFromOpen = true;
+					sprite.defaultState.copyFrom(this._dropFromOpenState)
+					sprite.setState(this._dropFromOpenState, 0);
+				}
+				else {
+					dataItem.droppedFromOpen = false;
+					sprite.defaultState.copyFrom(this._riseFromOpenState)
+					sprite.setState(this._riseFromOpenState, 0);
+				}
 
-			if (change < 0) {
-				dataItem.droppedFromPrevious = true;
-				sprite.defaultState.copyFrom(this._dropFromPreviousState)
-				sprite.setState((this._dropFromPreviousState), 0);
-			}
-			else {
-				dataItem.droppedFromPrevious = false;
-				sprite.defaultState.copyFrom(this._riseFromPreviousState)
-				sprite.setState((this._riseFromPreviousState), 0);
+				if (change < 0) {
+					dataItem.droppedFromPrevious = true;
+					sprite.defaultState.copyFrom(this._dropFromPreviousState)
+					sprite.setState((this._dropFromPreviousState), 0);
+				}
+				else {
+					dataItem.droppedFromPrevious = false;
+					sprite.defaultState.copyFrom(this._riseFromPreviousState)
+					sprite.setState((this._riseFromPreviousState), 0);
+				}
 			}
 		}
 	}

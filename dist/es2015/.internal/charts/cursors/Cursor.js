@@ -16,6 +16,7 @@ import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
+import { system } from "../../core/System";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -207,6 +208,7 @@ var Cursor = /** @class */ (function (_super) {
      * @param point               Point of action
      */
     Cursor.prototype.triggerUpReal = function (point) {
+        system.requestFrame();
         this.updatePoint(this.upPoint);
         var interaction = getInteraction();
         if ($math.getDistance(this._upPointOrig, this._downPointOrig) > interaction.getHitOption(this.interactions, "hitTolerance")) {

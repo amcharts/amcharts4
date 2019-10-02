@@ -19,6 +19,7 @@ import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
+import { system } from "../../core/System";
 import { Animation } from "../../core/utils/Animation";
 
 
@@ -390,7 +391,7 @@ export class Cursor extends Container {
 	 * @param point               Point of action
 	 */
 	protected triggerUpReal(point: IPoint) {
-
+		system.requestFrame();
 		this.updatePoint(this.upPoint);
 		let interaction = getInteraction();
 
@@ -405,7 +406,7 @@ export class Cursor extends Container {
 					break;
 
 				case "pan":
-					this.dispatch("panended");
+					this.dispatch("panended");					
 					interaction.setGlobalStyle(MouseCursorStyle.default);
 					break;
 			}

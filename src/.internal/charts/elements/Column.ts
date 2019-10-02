@@ -110,6 +110,7 @@ export class Column extends Container {
 		this.height = percent(80);
 
 		//this.isMeasured = true; // for correct position of the tooltip
+		this.events.disableType("transformed"); // not to bug parent
 		this.applyOnClones = true;
 
 		this.strokeOpacity = 1;
@@ -138,6 +139,7 @@ export class Column extends Container {
 	protected createAssets() {
 		this.column = this.createChild(RoundedRectangle);
 		this.column.shouldClone = false;
+		this.column.isMeasured = false;
 		this.column.cornerRadius(0, 0, 0, 0);
 		this._disposers.push(this.column);
 	}

@@ -108,6 +108,7 @@ var Sprite = /** @class */ (function (_super) {
          * @ignore Exclude from docs
          */
         _this._isTemplate = false;
+        _this._isPath = false;
         /**
          * Holds indicator whether this sprite was already initialized.
          *
@@ -1553,6 +1554,9 @@ var Sprite = /** @class */ (function (_super) {
             // `.disposers` it will be removed automatically when Sprite is disposed
             // of
             this.group.add(element);
+            if (element.node instanceof SVGPathElement) {
+                this._isPath = true;
+            }
             // This is needed if someone is setting element not in draw method but
             // from outside
             if (!this.invalid) {
@@ -6678,8 +6682,11 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.setPath = function (value) {
         if (this.setPropertyValue("path", value)) {
-            if (!this.element || !(this.element instanceof SVGPathElement)) {
-                this.element = this.paper.add("path");
+            if (!this._isPath) {
+                if (!this.element || (this.element.node && !(this.element.node instanceof SVGPathElement))) {
+                    this.element = this.paper.add("path");
+                }
+                this._isPath = true;
             }
             this.element.attr({ "d": value });
             this.invalidatePosition();

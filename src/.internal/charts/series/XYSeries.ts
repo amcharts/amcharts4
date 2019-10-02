@@ -1116,7 +1116,7 @@ export class XYSeries extends Series {
 		this.setXAxis(axis);
 	}
 
-	protected setXAxis(axis:Axis){
+	protected setXAxis(axis: Axis) {
 		let oldAxis = this._xAxis.get();
 		if (oldAxis != axis) {
 			if (oldAxis) {
@@ -1161,7 +1161,7 @@ export class XYSeries extends Series {
 		this.setYAxis(axis);
 	}
 
-	protected setYAxis(axis:Axis){
+	protected setYAxis(axis: Axis) {
 		let oldAxis = this._yAxis.get();
 		if (oldAxis != axis) {
 			if (oldAxis) {
@@ -1176,7 +1176,7 @@ export class XYSeries extends Series {
 
 			this.dataItemsByAxis.setKey(axis.uid, new Dictionary<string, this["_dataItem"]>());
 			this.invalidateData();
-		}		
+		}
 	}
 
 	/**
@@ -1582,10 +1582,16 @@ export class XYSeries extends Series {
 					if (openValue == closeValue) {
 						let baseInterval = xAxis.baseInterval;
 						openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, xAxis.dateFormatter.firstDayOfWeek).getTime();
-						closeValue = openValue + xAxis.baseDuration;
+						closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count).getTime();
 					}
 
-					let middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationX);
+					let middleValue: number;
+					if (xAxis == this.baseAxis) {
+						middleValue = openValue + (closeValue - openValue) * bulletLocationX;
+					}
+					else {
+						middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationX);
+					}
 
 					positionX = xAxis.valueToPosition(middleValue);
 				}
@@ -1661,10 +1667,17 @@ export class XYSeries extends Series {
 					if (openValue == closeValue) {
 						let baseInterval = yAxis.baseInterval;
 						openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, yAxis.dateFormatter.firstDayOfWeek).getTime();
-						closeValue = openValue + yAxis.baseDuration;
+						closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count).getTime();
 					}
 
-					let middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationY);
+					let middleValue: number;
+
+					if (yAxis == this.baseAxis) {
+						middleValue = openValue + (closeValue - openValue) * bulletLocationY;
+					}
+					else {
+						middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationY);
+					}
 
 					positionY = yAxis.valueToPosition(middleValue);
 				}

@@ -39,6 +39,7 @@ var Column = /** @class */ (function (_super) {
         _this.width = percent(80);
         _this.height = percent(80);
         //this.isMeasured = true; // for correct position of the tooltip
+        _this.events.disableType("transformed"); // not to bug parent
         _this.applyOnClones = true;
         _this.strokeOpacity = 1;
         _this.layout = "none";
@@ -61,6 +62,7 @@ var Column = /** @class */ (function (_super) {
     Column.prototype.createAssets = function () {
         this.column = this.createChild(RoundedRectangle);
         this.column.shouldClone = false;
+        this.column.isMeasured = false;
         this.column.cornerRadius(0, 0, 0, 0);
         this._disposers.push(this.column);
     };

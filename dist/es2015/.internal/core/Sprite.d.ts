@@ -285,6 +285,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @ignore Exclude from docs
      */
     protected _isTemplate: boolean;
+    protected _isPath: boolean;
     /**
      * Holds collection of Sprite States.
      */

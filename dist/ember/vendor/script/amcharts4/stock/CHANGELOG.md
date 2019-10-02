@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.6.5] - 2019-10-02
+
+### Fixed
+- Position of the bullets of a series with date-based axis could be incorrect in some sepecific cases.
+- Some minor performance improvements.
+- Map polygon was not updated if `mapPolygon.multiGeoPolygon` was changed after the series was already inited.
+- Some minor issue with `XYCursor` panning fixed.
+
+
 ## [4.6.4] - 2019-09-29
 
 ### Added

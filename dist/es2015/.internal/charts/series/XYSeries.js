@@ -1138,9 +1138,15 @@ var XYSeries = /** @class */ (function (_super) {
                     if (openValue == closeValue) {
                         var baseInterval = xAxis.baseInterval;
                         openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, xAxis.dateFormatter.firstDayOfWeek).getTime();
-                        closeValue = openValue + xAxis.baseDuration;
+                        closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count).getTime();
                     }
-                    var middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationX);
+                    var middleValue = void 0;
+                    if (xAxis == this.baseAxis) {
+                        middleValue = openValue + (closeValue - openValue) * bulletLocationX;
+                    }
+                    else {
+                        middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationX);
+                    }
                     positionX = xAxis.valueToPosition(middleValue);
                 }
                 else if (xAxis instanceof ValueAxis) {
@@ -1197,9 +1203,15 @@ var XYSeries = /** @class */ (function (_super) {
                     if (openValue == closeValue) {
                         var baseInterval = yAxis.baseInterval;
                         openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, yAxis.dateFormatter.firstDayOfWeek).getTime();
-                        closeValue = openValue + yAxis.baseDuration;
+                        closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count).getTime();
                     }
-                    var middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationY);
+                    var middleValue = void 0;
+                    if (yAxis == this.baseAxis) {
+                        middleValue = openValue + (closeValue - openValue) * bulletLocationY;
+                    }
+                    else {
+                        middleValue = openValue + (closeValue - openValue) * (1 - bulletLocationY);
+                    }
                     positionY = yAxis.valueToPosition(middleValue);
                 }
                 else if (yAxis instanceof ValueAxis) {

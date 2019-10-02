@@ -20,6 +20,7 @@ import { ITimeInterval } from "../../core/defs/ITimeInterval";
 import { IMinMaxStep } from "./ValueAxis";
 import { DateAxisBreak } from "./DateAxisBreak";
 import { IRange } from "../../core/defs/IRange";
+import { DateFormatter } from "../../core/formatters/DateFormatter";
 /**
  * ============================================================================
  * DATA ITEM
@@ -328,6 +329,14 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * property accordingly.
      */
     fillRule(dataItem: this["_dataItem"]): void;
+    /**
+     * @ignore
+     */
+    protected _firstWeekDay: number;
+    /**
+     * @ignore
+     */
+    protected _df: DateFormatter;
     /**
      * Constructor
      */

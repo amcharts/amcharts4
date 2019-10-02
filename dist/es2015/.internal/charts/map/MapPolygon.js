@@ -124,6 +124,7 @@ var MapPolygon = /** @class */ (function (_super) {
         set: function (multiPolygon) {
             if (this.setPropertyValue("multiPolygon", multiPolygon)) {
                 this.updateExtremes();
+                this.invalidate();
             }
         },
         enumerable: true,

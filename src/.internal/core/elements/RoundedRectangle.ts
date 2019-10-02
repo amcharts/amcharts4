@@ -111,8 +111,6 @@ export class RoundedRectangle extends Sprite {
 
 		this.element = this.paper.add("path");
 
-		//this.pixelPerfect = false;
-
 		this.cornerRadius(3, 3, 3, 3);
 
 		this.applyTheme();
