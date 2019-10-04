@@ -58,7 +58,7 @@ export class DateAxisDataItem extends ValueAxisDataItem {
 	constructor() {
 		super();
 		this.className = "DateAxisDataItem";
-		this.applyTheme();		
+		this.applyTheme();
 
 		this.values.date = {};
 		this.values.endDate = {};
@@ -414,12 +414,12 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * @ignore
 	 */
-	protected _firstWeekDay:number = 1;
+	protected _firstWeekDay: number = 1;
 
 	/**
 	 * @ignore
 	 */
-	protected _df:DateFormatter;	
+	protected _df: DateFormatter;
 
 	/**
 	 * Constructor
@@ -498,6 +498,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	protected applyInternalDefaults(): void {
 		super.applyInternalDefaults();
+
+		// Reset dateformatter and trigger accessor once again to maintain proper
+		// inheritance.
+		this._dateFormatter = undefined;
+		this._df = this.dateFormatter;
 
 		// Set default date formats
 		if (!this.dateFormats.hasKey("millisecond")) {
@@ -805,7 +810,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			let timeUnit: TimeUnit = this.baseInterval.timeUnit;
 			let count: number = this.baseInterval.count;
 
-			this.axisBreaks.clear(); // TODO: what about breaks added by user?
+			if (this._axisBreaks) {
+				this._axisBreaks.clear(); // TODO: what about breaks added by user?
+			}
 
 			let date: Date = $time.round(new Date(this.min), timeUnit, count, this._firstWeekDay, this._df.utc);
 			let axisBreak: DateAxisBreak;
@@ -846,20 +853,21 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public fixAxisBreaks(): void {
 		super.fixAxisBreaks();
+		let axisBreaks = this._axisBreaks;
+		if (axisBreaks) {
+			if (axisBreaks.length > 0) {
+				// process breaks
+				axisBreaks.each((axisBreak) => {
+					let breakGridCount: number = Math.ceil(this._gridCount * (Math.min(this.end, axisBreak.endPosition) - Math.max(this.start, axisBreak.startPosition)) / (this.end - this.start));
+					axisBreak.gridInterval = this.chooseInterval(0, axisBreak.adjustedEndValue - axisBreak.adjustedStartValue, breakGridCount);
+					let gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, this._firstWeekDay, this._df.utc);
+					if (gridDate.getTime() > axisBreak.startDate.getTime()) {
+						$time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, this._df.utc);
+					}
 
-		let axisBreaks = this.axisBreaks;
-		if (axisBreaks.length > 0) {
-			// process breaks
-			axisBreaks.each((axisBreak) => {
-				let breakGridCount: number = Math.ceil(this._gridCount * (Math.min(this.end, axisBreak.endPosition) - Math.max(this.start, axisBreak.startPosition)) / (this.end - this.start));
-				axisBreak.gridInterval = this.chooseInterval(0, axisBreak.adjustedEndValue - axisBreak.adjustedStartValue, breakGridCount);
-				let gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, this._firstWeekDay, this._df.utc);
-				if (gridDate.getTime() > axisBreak.startDate.getTime()) {
-					$time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, this._df.utc);
-				}
-
-				axisBreak.gridDate = gridDate;
-			});
+					axisBreak.gridDate = gridDate;
+				});
+			}
 		}
 	}
 
@@ -1002,56 +1010,58 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			// breaks later
 			let renderer: AxisRenderer = this.renderer;
 
-			$iter.each(this.axisBreaks.iterator(), (axisBreak) => {
-				if (axisBreak.breakSize > 0) {
-					let timeUnit: TimeUnit = axisBreak.gridInterval.timeUnit;
-					let intervalCount: number = axisBreak.gridInterval.count;
+			if (this._axisBreaks) {
+				$iter.each(this._axisBreaks.iterator(), (axisBreak) => {
+					if (axisBreak.breakSize > 0) {
+						let timeUnit: TimeUnit = axisBreak.gridInterval.timeUnit;
+						let intervalCount: number = axisBreak.gridInterval.count;
 
-					// only add grid if gap is bigger then minGridDistance
-					if ($math.getDistance(axisBreak.startPoint, axisBreak.endPoint) > renderer.minGridDistance * 4) {
-						let timestamp: number = axisBreak.gridDate.getTime();
+						// only add grid if gap is bigger then minGridDistance
+						if ($math.getDistance(axisBreak.startPoint, axisBreak.endPoint) > renderer.minGridDistance * 4) {
+							let timestamp: number = axisBreak.gridDate.getTime();
 
-						let prevGridDate;
-						let count: number = 0;
-						while (timestamp <= axisBreak.adjustedMax) {
-							let date: Date = $time.copy(axisBreak.gridDate);
-							timestamp = $time.add(date, timeUnit, intervalCount * count, this._df.utc).getTime();
-							count++;
-							if (timestamp > axisBreak.adjustedStartValue && timestamp < axisBreak.adjustedEndValue) {
-								let endDate = $time.copy(date); // you might think it's easier to add intervalduration to timestamp, however it won't work for months or years which are not of the same length
-								endDate = $time.add(endDate, timeUnit, intervalCount, this._df.utc);
+							let prevGridDate;
+							let count: number = 0;
+							while (timestamp <= axisBreak.adjustedMax) {
+								let date: Date = $time.copy(axisBreak.gridDate);
+								timestamp = $time.add(date, timeUnit, intervalCount * count, this._df.utc).getTime();
+								count++;
+								if (timestamp > axisBreak.adjustedStartValue && timestamp < axisBreak.adjustedEndValue) {
+									let endDate = $time.copy(date); // you might think it's easier to add intervalduration to timestamp, however it won't work for months or years which are not of the same length
+									endDate = $time.add(endDate, timeUnit, intervalCount, this._df.utc);
 
-								let format = this.dateFormats.getKey(timeUnit);
+									let format = this.dateFormats.getKey(timeUnit);
 
-								if (this.markUnitChange && prevGridDate) {
-									if ($time.checkChange(date, prevGridDate, this._nextGridUnit, this._df.utc)) {
-										if (timeUnit !== "year") {
-											format = this.periodChangeDateFormats.getKey(timeUnit);
+									if (this.markUnitChange && prevGridDate) {
+										if ($time.checkChange(date, prevGridDate, this._nextGridUnit, this._df.utc)) {
+											if (timeUnit !== "year") {
+												format = this.periodChangeDateFormats.getKey(timeUnit);
+											}
 										}
 									}
+
+									let text: string = this._df.format(date, format);
+
+									let dataItem: this["_dataItem"] = dataItemsIterator.find((x) => x.text === text);
+									if (dataItem.__disabled) {
+										dataItem.__disabled = false;
+									}
+									//this.processDataItem(dataItem);
+									this.appendDataItem(dataItem);
+									dataItem.axisBreak = axisBreak;
+									axisBreak.dataItems.moveValue(dataItem);
+
+									dataItem.date = date;
+									dataItem.endDate = endDate;
+									dataItem.text = text;
+									prevGridDate = date;
+									this.validateDataElement(dataItem);
 								}
-
-								let text: string = this._df.format(date, format);
-
-								let dataItem: this["_dataItem"] = dataItemsIterator.find((x) => x.text === text);
-								if (dataItem.__disabled) {
-									dataItem.__disabled = false;
-								}
-								//this.processDataItem(dataItem);
-								this.appendDataItem(dataItem);
-								dataItem.axisBreak = axisBreak;
-								axisBreak.dataItems.moveValue(dataItem);
-
-								dataItem.date = date;
-								dataItem.endDate = endDate;
-								dataItem.text = text;
-								prevGridDate = date;
-								this.validateDataElement(dataItem);
 							}
 						}
 					}
-				}
-			});
+				});
+			}
 		}
 	}
 

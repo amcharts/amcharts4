@@ -324,6 +324,10 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.applyInternalDefaults = function () {
         _super.prototype.applyInternalDefaults.call(this);
+        // Reset dateformatter and trigger accessor once again to maintain proper
+        // inheritance.
+        this._dateFormatter = undefined;
+        this._df = this.dateFormatter;
         // Set default date formats
         if (!this.dateFormats.hasKey("millisecond")) {
             this.dateFormats.setKey("millisecond", this.language.translate("_date_millisecond"));
@@ -595,7 +599,9 @@ var DateAxis = /** @class */ (function (_super) {
         if (this.skipEmptyPeriods && $type.isNumber(this.min) && $type.isNumber(this.max)) {
             var timeUnit = this.baseInterval.timeUnit;
             var count = this.baseInterval.count;
-            this.axisBreaks.clear(); // TODO: what about breaks added by user?
+            if (this._axisBreaks) {
+                this._axisBreaks.clear(); // TODO: what about breaks added by user?
+            }
             var date = $time.round(new Date(this.min), timeUnit, count, this._firstWeekDay, this._df.utc);
             var axisBreak = void 0;
             var _loop_1 = function () {
@@ -635,18 +641,20 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.fixAxisBreaks = function () {
         var _this = this;
         _super.prototype.fixAxisBreaks.call(this);
-        var axisBreaks = this.axisBreaks;
-        if (axisBreaks.length > 0) {
-            // process breaks
-            axisBreaks.each(function (axisBreak) {
-                var breakGridCount = Math.ceil(_this._gridCount * (Math.min(_this.end, axisBreak.endPosition) - Math.max(_this.start, axisBreak.startPosition)) / (_this.end - _this.start));
-                axisBreak.gridInterval = _this.chooseInterval(0, axisBreak.adjustedEndValue - axisBreak.adjustedStartValue, breakGridCount);
-                var gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, _this._firstWeekDay, _this._df.utc);
-                if (gridDate.getTime() > axisBreak.startDate.getTime()) {
-                    $time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, _this._df.utc);
-                }
-                axisBreak.gridDate = gridDate;
-            });
+        var axisBreaks = this._axisBreaks;
+        if (axisBreaks) {
+            if (axisBreaks.length > 0) {
+                // process breaks
+                axisBreaks.each(function (axisBreak) {
+                    var breakGridCount = Math.ceil(_this._gridCount * (Math.min(_this.end, axisBreak.endPosition) - Math.max(_this.start, axisBreak.startPosition)) / (_this.end - _this.start));
+                    axisBreak.gridInterval = _this.chooseInterval(0, axisBreak.adjustedEndValue - axisBreak.adjustedStartValue, breakGridCount);
+                    var gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, _this._firstWeekDay, _this._df.utc);
+                    if (gridDate.getTime() > axisBreak.startDate.getTime()) {
+                        $time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, _this._df.utc);
+                    }
+                    axisBreak.gridDate = gridDate;
+                });
+            }
         }
     };
     /**
@@ -766,52 +774,54 @@ var DateAxis = /** @class */ (function (_super) {
             }
             // breaks later
             var renderer_1 = this.renderer;
-            $iter.each(this.axisBreaks.iterator(), function (axisBreak) {
-                if (axisBreak.breakSize > 0) {
-                    var timeUnit_1 = axisBreak.gridInterval.timeUnit;
-                    var intervalCount_1 = axisBreak.gridInterval.count;
-                    // only add grid if gap is bigger then minGridDistance
-                    if ($math.getDistance(axisBreak.startPoint, axisBreak.endPoint) > renderer_1.minGridDistance * 4) {
-                        var timestamp_1 = axisBreak.gridDate.getTime();
-                        var prevGridDate_1;
-                        var count = 0;
-                        var _loop_3 = function () {
-                            var date = $time.copy(axisBreak.gridDate);
-                            timestamp_1 = $time.add(date, timeUnit_1, intervalCount_1 * count, _this._df.utc).getTime();
-                            count++;
-                            if (timestamp_1 > axisBreak.adjustedStartValue && timestamp_1 < axisBreak.adjustedEndValue) {
-                                var endDate = $time.copy(date); // you might think it's easier to add intervalduration to timestamp, however it won't work for months or years which are not of the same length
-                                endDate = $time.add(endDate, timeUnit_1, intervalCount_1, _this._df.utc);
-                                var format = _this.dateFormats.getKey(timeUnit_1);
-                                if (_this.markUnitChange && prevGridDate_1) {
-                                    if ($time.checkChange(date, prevGridDate_1, _this._nextGridUnit, _this._df.utc)) {
-                                        if (timeUnit_1 !== "year") {
-                                            format = _this.periodChangeDateFormats.getKey(timeUnit_1);
+            if (this._axisBreaks) {
+                $iter.each(this._axisBreaks.iterator(), function (axisBreak) {
+                    if (axisBreak.breakSize > 0) {
+                        var timeUnit_1 = axisBreak.gridInterval.timeUnit;
+                        var intervalCount_1 = axisBreak.gridInterval.count;
+                        // only add grid if gap is bigger then minGridDistance
+                        if ($math.getDistance(axisBreak.startPoint, axisBreak.endPoint) > renderer_1.minGridDistance * 4) {
+                            var timestamp_1 = axisBreak.gridDate.getTime();
+                            var prevGridDate_1;
+                            var count = 0;
+                            var _loop_3 = function () {
+                                var date = $time.copy(axisBreak.gridDate);
+                                timestamp_1 = $time.add(date, timeUnit_1, intervalCount_1 * count, _this._df.utc).getTime();
+                                count++;
+                                if (timestamp_1 > axisBreak.adjustedStartValue && timestamp_1 < axisBreak.adjustedEndValue) {
+                                    var endDate = $time.copy(date); // you might think it's easier to add intervalduration to timestamp, however it won't work for months or years which are not of the same length
+                                    endDate = $time.add(endDate, timeUnit_1, intervalCount_1, _this._df.utc);
+                                    var format = _this.dateFormats.getKey(timeUnit_1);
+                                    if (_this.markUnitChange && prevGridDate_1) {
+                                        if ($time.checkChange(date, prevGridDate_1, _this._nextGridUnit, _this._df.utc)) {
+                                            if (timeUnit_1 !== "year") {
+                                                format = _this.periodChangeDateFormats.getKey(timeUnit_1);
+                                            }
                                         }
                                     }
+                                    var text_1 = _this._df.format(date, format);
+                                    var dataItem = dataItemsIterator_1.find(function (x) { return x.text === text_1; });
+                                    if (dataItem.__disabled) {
+                                        dataItem.__disabled = false;
+                                    }
+                                    //this.processDataItem(dataItem);
+                                    _this.appendDataItem(dataItem);
+                                    dataItem.axisBreak = axisBreak;
+                                    axisBreak.dataItems.moveValue(dataItem);
+                                    dataItem.date = date;
+                                    dataItem.endDate = endDate;
+                                    dataItem.text = text_1;
+                                    prevGridDate_1 = date;
+                                    _this.validateDataElement(dataItem);
                                 }
-                                var text_1 = _this._df.format(date, format);
-                                var dataItem = dataItemsIterator_1.find(function (x) { return x.text === text_1; });
-                                if (dataItem.__disabled) {
-                                    dataItem.__disabled = false;
-                                }
-                                //this.processDataItem(dataItem);
-                                _this.appendDataItem(dataItem);
-                                dataItem.axisBreak = axisBreak;
-                                axisBreak.dataItems.moveValue(dataItem);
-                                dataItem.date = date;
-                                dataItem.endDate = endDate;
-                                dataItem.text = text_1;
-                                prevGridDate_1 = date;
-                                _this.validateDataElement(dataItem);
+                            };
+                            while (timestamp_1 <= axisBreak.adjustedMax) {
+                                _loop_3();
                             }
-                        };
-                        while (timestamp_1 <= axisBreak.adjustedMax) {
-                            _loop_3();
                         }
                     }
-                }
-            });
+                });
+            }
         }
     };
     /**
