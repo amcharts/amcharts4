@@ -692,40 +692,41 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			}
 
 
-			let axisBreaks = this.axisBreaks;
+			let axisBreaks = this._axisBreaks;
+			if (axisBreaks) {
+				// breaks later
+				let renderer: AxisRenderer = this.renderer;
 
-			// breaks later
-			let renderer: AxisRenderer = this.renderer;
+				$iter.each(axisBreaks.iterator(), (axisBreak) => {
+					if (axisBreak.breakSize > 0) {
+						// only add grid if gap is bigger then minGridDistance
+						if ($math.getDistance(axisBreak.startPoint, axisBreak.endPoint) > renderer.minGridDistance) {
+							let breakValue: number = axisBreak.adjustedMin;
 
-			$iter.each(axisBreaks.iterator(), (axisBreak) => {
-				if (axisBreak.breakSize > 0) {
-					// only add grid if gap is bigger then minGridDistance
-					if ($math.getDistance(axisBreak.startPoint, axisBreak.endPoint) > renderer.minGridDistance) {
-						let breakValue: number = axisBreak.adjustedMin;
-
-						while (breakValue <= axisBreak.adjustedMax) {
-							if (breakValue >= axisBreak.adjustedStartValue && breakValue <= axisBreak.adjustedEndValue) {
-								let dataItem: this["_dataItem"] = dataItemsIterator.find((x) => x.value === breakValue);
-								if (dataItem.__disabled) {
-									dataItem.__disabled = false;
-								}
-								//this.processDataItem(dataItem);
-								this.appendDataItem(dataItem);
-								dataItem.axisBreak = axisBreak;
-								if (dataItem.value != breakValue) {
-									dataItem.value = breakValue;
-									dataItem.text = this.formatLabel(breakValue);
-									if (dataItem.label && dataItem.label.invalid) {
-										dataItem.label.validate();
+							while (breakValue <= axisBreak.adjustedMax) {
+								if (breakValue >= axisBreak.adjustedStartValue && breakValue <= axisBreak.adjustedEndValue) {
+									let dataItem: this["_dataItem"] = dataItemsIterator.find((x) => x.value === breakValue);
+									if (dataItem.__disabled) {
+										dataItem.__disabled = false;
 									}
+									//this.processDataItem(dataItem);
+									this.appendDataItem(dataItem);
+									dataItem.axisBreak = axisBreak;
+									if (dataItem.value != breakValue) {
+										dataItem.value = breakValue;
+										dataItem.text = this.formatLabel(breakValue);
+										if (dataItem.label && dataItem.label.invalid) {
+											dataItem.label.validate();
+										}
+									}
+									this.validateDataElement(dataItem);
 								}
-								this.validateDataElement(dataItem);
+								breakValue += axisBreak.adjustedStep;
 							}
-							breakValue += axisBreak.adjustedStep;
 						}
 					}
-				}
-			});
+				});
+			}
 		}
 	}
 
@@ -898,8 +899,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			if ($type.isNumber(min) && $type.isNumber(max)) {
 				let difference: number = this._difference;
 
-				let axisBreaks = this.axisBreaks;
-				if (axisBreaks.length > 0) {
+				let axisBreaks = this._axisBreaks;
+				if (axisBreaks && axisBreaks.length > 0) {
 					$iter.eachContinue(axisBreaks.iterator(), (axisBreak) => {
 						let startValue: number = axisBreak.adjustedStartValue;
 						let endValue: number = axisBreak.adjustedEndValue;
@@ -970,53 +971,54 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 			let difference: number = max - min; //no need to adjust!
 
-			let axisBreaks = this.axisBreaks;
-
 			let value: number = null;
 
-			// in case we have some axis breaks
-			if (axisBreaks.length > 0) {
-				$iter.eachContinue(axisBreaks.iterator(), (axisBreak) => {
-					let breakStartPosition: number = axisBreak.startPosition;
-					let breakEndPosition: number = axisBreak.endPosition;
+			let axisBreaks = this._axisBreaks;
 
-					let breakStartValue: number = axisBreak.adjustedStartValue;
-					let breakEndValue: number = axisBreak.adjustedEndValue;
+			if (axisBreaks) {
+				// in case we have some axis breaks
+				if (axisBreaks.length > 0) {
+					$iter.eachContinue(axisBreaks.iterator(), (axisBreak) => {
+						let breakStartPosition: number = axisBreak.startPosition;
+						let breakEndPosition: number = axisBreak.endPosition;
 
-					if ($type.isNumber(breakStartValue) && $type.isNumber(breakEndValue)) {
+						let breakStartValue: number = axisBreak.adjustedStartValue;
+						let breakEndValue: number = axisBreak.adjustedEndValue;
 
-						if (breakStartValue > max) {
-							return false;
-						}
+						if ($type.isNumber(breakStartValue) && $type.isNumber(breakEndValue)) {
 
-						if ($math.intersect({ start: breakStartValue, end: breakEndValue }, { start: min, end: max })) {
-
-							breakStartValue = $math.max(breakStartValue, min);
-							breakEndValue = $math.min(breakEndValue, max);
-
-							let breakSize: number = axisBreak.breakSize;
-
-							difference -= (breakEndValue - breakStartValue) * (1 - breakSize);
-
-							// position to the right of break end
-							if (position > breakEndPosition) {
-								min += (breakEndValue - breakStartValue) * (1 - breakSize);
-							}
-							// position to the left of break start
-							else if (position < breakStartPosition) {
-
-							}
-							// value within break
-							else {
-								let breakPosition: number = (position - breakStartPosition) / (breakEndPosition - breakStartPosition);
-								value = breakStartValue + breakPosition * (breakEndValue - breakStartValue);
+							if (breakStartValue > max) {
 								return false;
 							}
-						}
 
-						return true;
-					}
-				});
+							if ($math.intersect({ start: breakStartValue, end: breakEndValue }, { start: min, end: max })) {
+
+								breakStartValue = $math.max(breakStartValue, min);
+								breakEndValue = $math.min(breakEndValue, max);
+
+								let breakSize: number = axisBreak.breakSize;
+
+								difference -= (breakEndValue - breakStartValue) * (1 - breakSize);
+
+								// position to the right of break end
+								if (position > breakEndPosition) {
+									min += (breakEndValue - breakStartValue) * (1 - breakSize);
+								}
+								// position to the left of break start
+								else if (position < breakStartPosition) {
+
+								}
+								// value within break
+								else {
+									let breakPosition: number = (position - breakStartPosition) / (breakEndPosition - breakStartPosition);
+									value = breakStartValue + breakPosition * (breakEndValue - breakStartValue);
+									return false;
+								}
+							}
+							return true;
+						}
+					});
+				}
 			}
 
 			if (!$type.isNumber(value)) {
@@ -2126,8 +2128,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	public fixAxisBreaks(): void {
 
 		super.fixAxisBreaks();
-		let axisBreaks = this.axisBreaks;
-		if (axisBreaks.length > 0) {
+		let axisBreaks = this._axisBreaks;
+		if (axisBreaks && axisBreaks.length > 0) {
 			// process breaks
 			axisBreaks.each((axisBreak) => {
 				let startValue: number = axisBreak.adjustedStartValue;

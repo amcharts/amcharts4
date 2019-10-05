@@ -1574,6 +1574,22 @@ define('@amcharts/amcharts4-geodata/latviaLow', [], function () {
   }
   throw new Error("You must add 'geodata/latviaLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/lebanonHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_lebanonHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/lebanonHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/lebanonLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_lebanonLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/lebanonLow' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/liechtensteinHigh', [], function () {
   'use strict';
   var output = self.am4geodata_liechtensteinHigh;

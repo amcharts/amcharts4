@@ -260,7 +260,7 @@ var CategoryAxis = /** @class */ (function (_super) {
                     series.end = _this.end;
                 }
                 // range might not change, but axis breaks might.
-                if (_this.axisBreaks.length > 0) {
+                if (_this._axisBreaks && _this._axisBreaks.length > 0) {
                     series.invalidateDataRange();
                 }
             }
@@ -333,22 +333,24 @@ var CategoryAxis = /** @class */ (function (_super) {
         }
         this.appendDataItem(this._lastDataItem);
         this.validateDataElement(this._lastDataItem, itemIndex + 1, this.dataItems.length);
-        var axisBreaks = this.axisBreaks;
-        axisBreaks.each(function (axisBreak) {
-            var adjustedStartValue = axisBreak.adjustedStartValue;
-            var adjustedEndValue = axisBreak.adjustedEndValue;
-            if ($math.intersect({ start: adjustedStartValue, end: adjustedEndValue }, { start: _this._startIndex, end: _this._endIndex })) {
-                var frequency_1 = $math.fitToRange(Math.ceil(_this._frequency / axisBreak.breakSize), 1, adjustedEndValue - adjustedStartValue);
-                var itemIndex_1 = 0;
-                // TODO use iterator instead
-                for (var b = adjustedStartValue; b <= adjustedEndValue; b = b + frequency_1) {
-                    var dataItem = _this.dataItems.getIndex(b);
-                    _this.appendDataItem(dataItem);
-                    _this.validateDataElement(dataItem, itemIndex_1);
-                    itemIndex_1++;
+        if (this._axisBreaks) {
+            var axisBreaks = this._axisBreaks;
+            axisBreaks.each(function (axisBreak) {
+                var adjustedStartValue = axisBreak.adjustedStartValue;
+                var adjustedEndValue = axisBreak.adjustedEndValue;
+                if ($math.intersect({ start: adjustedStartValue, end: adjustedEndValue }, { start: _this._startIndex, end: _this._endIndex })) {
+                    var frequency_1 = $math.fitToRange(Math.ceil(_this._frequency / axisBreak.breakSize), 1, adjustedEndValue - adjustedStartValue);
+                    var itemIndex_1 = 0;
+                    // TODO use iterator instead
+                    for (var b = adjustedStartValue; b <= adjustedEndValue; b = b + frequency_1) {
+                        var dataItem = _this.dataItems.getIndex(b);
+                        _this.appendDataItem(dataItem);
+                        _this.validateDataElement(dataItem, itemIndex_1);
+                        itemIndex_1++;
+                    }
                 }
-            }
-        });
+            });
+        }
         this.validateBreaks();
         this.validateAxisRanges();
         this.ghostLabel.invalidate(); // solves font issue
@@ -490,31 +492,33 @@ var CategoryAxis = /** @class */ (function (_super) {
         var endLocation = this.endLocation;
         difference -= startLocation;
         difference -= (1 - endLocation);
-        var axisBreaks = this.axisBreaks;
-        $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
-            var breakStartIndex = axisBreak.adjustedStartValue;
-            var breakEndIndex = axisBreak.adjustedEndValue;
-            if (index < startIndex) {
-                return false;
-            }
-            if ($math.intersect({ start: breakStartIndex, end: breakEndIndex }, { start: startIndex, end: endIndex })) {
-                breakStartIndex = Math.max(startIndex, breakStartIndex);
-                breakEndIndex = Math.min(endIndex, breakEndIndex);
-                var breakSize = axisBreak.breakSize;
-                // value to the right of break end
-                if (index > breakEndIndex) {
-                    startIndex += (breakEndIndex - breakStartIndex) * (1 - breakSize);
+        if (this._axisBreaks) {
+            var axisBreaks = this._axisBreaks;
+            $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
+                var breakStartIndex = axisBreak.adjustedStartValue;
+                var breakEndIndex = axisBreak.adjustedEndValue;
+                if (index < startIndex) {
+                    return false;
                 }
-                // value to the left of break start
-                else if (index < breakStartIndex) {
+                if ($math.intersect({ start: breakStartIndex, end: breakEndIndex }, { start: startIndex, end: endIndex })) {
+                    breakStartIndex = Math.max(startIndex, breakStartIndex);
+                    breakEndIndex = Math.min(endIndex, breakEndIndex);
+                    var breakSize = axisBreak.breakSize;
+                    // value to the right of break end
+                    if (index > breakEndIndex) {
+                        startIndex += (breakEndIndex - breakStartIndex) * (1 - breakSize);
+                    }
+                    // value to the left of break start
+                    else if (index < breakStartIndex) {
+                    }
+                    // value within break
+                    else {
+                        index = breakStartIndex + (index - breakStartIndex) * breakSize;
+                    }
                 }
-                // value within break
-                else {
-                    index = breakStartIndex + (index - breakStartIndex) * breakSize;
-                }
-            }
-            return true;
-        });
+                return true;
+            });
+        }
         return $math.round((index + location - startLocation - startIndex) / difference, 5);
     };
     /**
@@ -881,33 +885,35 @@ var CategoryAxis = /** @class */ (function (_super) {
         var endIndex = this.endIndex;
         var difference = endIndex - startIndex - this.startLocation - (1 - this.endLocation);
         position += 1 / difference * this.startLocation;
-        var axisBreaks = this.axisBreaks;
         var index = null;
-        // in case we have some axis breaks
-        $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
-            var breakStartPosition = axisBreak.startPosition;
-            var breakEndPosition = axisBreak.endPosition;
-            var breakStartIndex = axisBreak.adjustedStartValue;
-            var breakEndIndex = axisBreak.adjustedEndValue;
-            breakStartIndex = $math.max(breakStartIndex, startIndex);
-            breakEndIndex = $math.min(breakEndIndex, endIndex);
-            var breakSize = axisBreak.breakSize;
-            difference -= (breakEndIndex - breakStartIndex) * (1 - breakSize);
-            // position to the right of break end
-            if (position > breakEndPosition) {
-                startIndex += (breakEndIndex - breakStartIndex) * (1 - breakSize);
-            }
-            // position to the left of break start
-            else if (position < breakStartPosition) {
-            }
-            // value within break
-            else {
-                var breakPosition = (position - breakStartPosition) / (breakEndPosition - breakStartPosition);
-                index = breakStartIndex + Math.round(breakPosition * (breakEndIndex - breakStartIndex));
-                return false;
-            }
-            return true;
-        });
+        if (this._axisBreaks) {
+            var axisBreaks = this._axisBreaks;
+            // in case we have some axis breaks
+            $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
+                var breakStartPosition = axisBreak.startPosition;
+                var breakEndPosition = axisBreak.endPosition;
+                var breakStartIndex = axisBreak.adjustedStartValue;
+                var breakEndIndex = axisBreak.adjustedEndValue;
+                breakStartIndex = $math.max(breakStartIndex, startIndex);
+                breakEndIndex = $math.min(breakEndIndex, endIndex);
+                var breakSize = axisBreak.breakSize;
+                difference -= (breakEndIndex - breakStartIndex) * (1 - breakSize);
+                // position to the right of break end
+                if (position > breakEndPosition) {
+                    startIndex += (breakEndIndex - breakStartIndex) * (1 - breakSize);
+                }
+                // position to the left of break start
+                else if (position < breakStartPosition) {
+                }
+                // value within break
+                else {
+                    var breakPosition = (position - breakStartPosition) / (breakEndPosition - breakStartPosition);
+                    index = breakStartIndex + Math.round(breakPosition * (breakEndIndex - breakStartIndex));
+                    return false;
+                }
+                return true;
+            });
+        }
         if (!$type.isNumber(index)) {
             index = Math.floor(position * difference + startIndex);
         }

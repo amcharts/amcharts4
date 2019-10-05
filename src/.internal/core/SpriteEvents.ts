@@ -504,4 +504,9 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
 
 	};
 
+	/** 
+	 * Invoked when a sprite is added to a parent
+	 */
+	parentset: {};
+
 }

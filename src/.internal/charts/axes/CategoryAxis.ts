@@ -386,7 +386,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				}
 
 				// range might not change, but axis breaks might.
-				if (this.axisBreaks.length > 0) {
+				if (this._axisBreaks && this._axisBreaks.length > 0) {
 					series.invalidateDataRange();
 				}
 			}
@@ -479,25 +479,27 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		this.appendDataItem(this._lastDataItem);
 		this.validateDataElement(this._lastDataItem, itemIndex + 1, this.dataItems.length);
 
-		let axisBreaks = this.axisBreaks;
+		if (this._axisBreaks) {
+			let axisBreaks = this._axisBreaks;
 
-		axisBreaks.each((axisBreak) => {
-			let adjustedStartValue: number = axisBreak.adjustedStartValue;
-			let adjustedEndValue: number = axisBreak.adjustedEndValue;
+			axisBreaks.each((axisBreak) => {
+				let adjustedStartValue: number = axisBreak.adjustedStartValue;
+				let adjustedEndValue: number = axisBreak.adjustedEndValue;
 
-			if ($math.intersect({ start: adjustedStartValue, end: adjustedEndValue }, { start: this._startIndex, end: this._endIndex })) {
+				if ($math.intersect({ start: adjustedStartValue, end: adjustedEndValue }, { start: this._startIndex, end: this._endIndex })) {
 
-				let frequency: number = $math.fitToRange(Math.ceil(this._frequency / axisBreak.breakSize), 1, adjustedEndValue - adjustedStartValue);
-				let itemIndex = 0;
-				// TODO use iterator instead
-				for (let b = adjustedStartValue; b <= adjustedEndValue; b = b + frequency) {
-					let dataItem: this["_dataItem"] = this.dataItems.getIndex(b);
-					this.appendDataItem(dataItem);
-					this.validateDataElement(dataItem, itemIndex);
-					itemIndex++;
+					let frequency: number = $math.fitToRange(Math.ceil(this._frequency / axisBreak.breakSize), 1, adjustedEndValue - adjustedStartValue);
+					let itemIndex = 0;
+					// TODO use iterator instead
+					for (let b = adjustedStartValue; b <= adjustedEndValue; b = b + frequency) {
+						let dataItem: this["_dataItem"] = this.dataItems.getIndex(b);
+						this.appendDataItem(dataItem);
+						this.validateDataElement(dataItem, itemIndex);
+						itemIndex++;
+					}
 				}
-			}
-		});
+			});
+		}
 
 		this.validateBreaks();
 		this.validateAxisRanges();
@@ -676,38 +678,40 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		difference -= startLocation;
 		difference -= (1 - endLocation);
 
-		let axisBreaks = this.axisBreaks;
+		if (this._axisBreaks) {
+			let axisBreaks = this._axisBreaks;
 
-		$iter.eachContinue(axisBreaks.iterator(), (axisBreak) => {
-			let breakStartIndex: number = axisBreak.adjustedStartValue;
-			let breakEndIndex: number = axisBreak.adjustedEndValue;
+			$iter.eachContinue(axisBreaks.iterator(), (axisBreak) => {
+				let breakStartIndex: number = axisBreak.adjustedStartValue;
+				let breakEndIndex: number = axisBreak.adjustedEndValue;
 
-			if (index < startIndex) {
-				return false;
-			}
-
-			if ($math.intersect({ start: breakStartIndex, end: breakEndIndex }, { start: startIndex, end: endIndex })) {
-				breakStartIndex = Math.max(startIndex, breakStartIndex);
-				breakEndIndex = Math.min(endIndex, breakEndIndex);
-
-				let breakSize: number = axisBreak.breakSize;
-
-				// value to the right of break end
-				if (index > breakEndIndex) {
-					startIndex += (breakEndIndex - breakStartIndex) * (1 - breakSize);
+				if (index < startIndex) {
+					return false;
 				}
-				// value to the left of break start
-				else if (index < breakStartIndex) {
 
-				}
-				// value within break
-				else {
-					index = breakStartIndex + (index - breakStartIndex) * breakSize;
-				}
-			}
+				if ($math.intersect({ start: breakStartIndex, end: breakEndIndex }, { start: startIndex, end: endIndex })) {
+					breakStartIndex = Math.max(startIndex, breakStartIndex);
+					breakEndIndex = Math.min(endIndex, breakEndIndex);
 
-			return true;
-		});
+					let breakSize: number = axisBreak.breakSize;
+
+					// value to the right of break end
+					if (index > breakEndIndex) {
+						startIndex += (breakEndIndex - breakStartIndex) * (1 - breakSize);
+					}
+					// value to the left of break start
+					else if (index < breakStartIndex) {
+
+					}
+					// value within break
+					else {
+						index = breakStartIndex + (index - breakStartIndex) * breakSize;
+					}
+				}
+
+				return true;
+			});
+		}
 
 		return $math.round((index + location - startLocation - startIndex) / difference, 5);
 	}
@@ -1100,7 +1104,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				return dataItem.category;
 			}
 			else {
-				return this._adapterO.apply("getTooltipText", dataItem.category);				
+				return this._adapterO.apply("getTooltipText", dataItem.category);
 			}
 		}
 	}
@@ -1127,43 +1131,44 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		let difference: number = endIndex - startIndex - this.startLocation - (1 - this.endLocation);
 
 		position += 1 / difference * this.startLocation;
-
-		let axisBreaks = this.axisBreaks;
-
 		let index: number = null;
 
-		// in case we have some axis breaks
-		$iter.eachContinue(axisBreaks.iterator(), (axisBreak) => {
-			let breakStartPosition: number = axisBreak.startPosition;
-			let breakEndPosition: number = axisBreak.endPosition;
+		if (this._axisBreaks) {
+			let axisBreaks = this._axisBreaks;
 
-			let breakStartIndex: number = axisBreak.adjustedStartValue;
-			let breakEndIndex: number = axisBreak.adjustedEndValue;
+			// in case we have some axis breaks
+			$iter.eachContinue(axisBreaks.iterator(), (axisBreak) => {
+				let breakStartPosition: number = axisBreak.startPosition;
+				let breakEndPosition: number = axisBreak.endPosition;
 
-			breakStartIndex = $math.max(breakStartIndex, startIndex);
-			breakEndIndex = $math.min(breakEndIndex, endIndex);
+				let breakStartIndex: number = axisBreak.adjustedStartValue;
+				let breakEndIndex: number = axisBreak.adjustedEndValue;
 
-			let breakSize: number = axisBreak.breakSize;
+				breakStartIndex = $math.max(breakStartIndex, startIndex);
+				breakEndIndex = $math.min(breakEndIndex, endIndex);
 
-			difference -= (breakEndIndex - breakStartIndex) * (1 - breakSize);
+				let breakSize: number = axisBreak.breakSize;
 
-			// position to the right of break end
-			if (position > breakEndPosition) {
-				startIndex += (breakEndIndex - breakStartIndex) * (1 - breakSize);
-			}
-			// position to the left of break start
-			else if (position < breakStartPosition) {
+				difference -= (breakEndIndex - breakStartIndex) * (1 - breakSize);
 
-			}
-			// value within break
-			else {
-				let breakPosition = (position - breakStartPosition) / (breakEndPosition - breakStartPosition);
-				index = breakStartIndex + Math.round(breakPosition * (breakEndIndex - breakStartIndex));
-				return false;
-			}
+				// position to the right of break end
+				if (position > breakEndPosition) {
+					startIndex += (breakEndIndex - breakStartIndex) * (1 - breakSize);
+				}
+				// position to the left of break start
+				else if (position < breakStartPosition) {
 
-			return true;
-		});
+				}
+				// value within break
+				else {
+					let breakPosition = (position - breakStartPosition) / (breakEndPosition - breakStartPosition);
+					index = breakStartIndex + Math.round(breakPosition * (breakEndIndex - breakStartIndex));
+					return false;
+				}
+
+				return true;
+			});
+		}
 
 		if (!$type.isNumber(index)) {
 			index = Math.floor(position * difference + startIndex);

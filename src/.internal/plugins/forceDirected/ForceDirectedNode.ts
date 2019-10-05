@@ -31,7 +31,16 @@ import { Dictionary, DictionaryDisposer } from "../../core/utils/Dictionary";
  * Defines properties for [[ForceDirectedNode]].
  */
 export interface IForceDirectedNodeProperties extends IContainerProperties {
+	/**
+	 * @todo mm
+	 */
 	expandAll?: boolean;
+
+	/**
+	 * Padding of the node
+	 * @todo mm
+	 */
+	paddingRadius?:number;	
 }
 
 /**
@@ -123,6 +132,7 @@ export class ForceDirectedNode extends Container {
 
 		this.isActive = false;
 		this.expandAll = true;
+		this.paddingRadius = 0;
 
 		this.linksWith = new Dictionary<string, ForceDirectedLink>()
 		this._disposers.push(new DictionaryDisposer(this.linksWith));
@@ -374,6 +384,21 @@ export class ForceDirectedNode extends Container {
 	public unlinkWith(node: ForceDirectedNode) {
 		this.linksWith.removeKey(node.uid);
 	}
+
+	/**
+	 * Padding of the nodes, in pixels
+	 * @todo mm
+	 */
+	public set paddingRadius(value: number) {
+		this.setPropertyValue("paddingRadius", value);
+	}
+
+	/** 
+	 * @return Padding radius
+	 */
+	public get paddingRadius(): number {
+		return this.getPropertyValue("paddingRadius");
+	}	
 }
 
 /**

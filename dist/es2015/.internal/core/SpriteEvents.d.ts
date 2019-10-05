@@ -296,4 +296,8 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
          */
         event?: MouseEvent | TouchEvent | KeyboardEvent;
     };
+    /**
+     * Invoked when a sprite is added to a parent
+     */
+    parentset: {};
 }

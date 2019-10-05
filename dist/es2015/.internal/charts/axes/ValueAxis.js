@@ -435,37 +435,39 @@ var ValueAxis = /** @class */ (function (_super) {
                     value_1 = $math.round(value_1, decCount);
                 }
             }
-            var axisBreaks = this.axisBreaks;
-            // breaks later
-            var renderer_1 = this.renderer;
-            $iter.each(axisBreaks.iterator(), function (axisBreak) {
-                if (axisBreak.breakSize > 0) {
-                    // only add grid if gap is bigger then minGridDistance
-                    if ($math.getDistance(axisBreak.startPoint, axisBreak.endPoint) > renderer_1.minGridDistance) {
-                        var breakValue_1 = axisBreak.adjustedMin;
-                        while (breakValue_1 <= axisBreak.adjustedMax) {
-                            if (breakValue_1 >= axisBreak.adjustedStartValue && breakValue_1 <= axisBreak.adjustedEndValue) {
-                                var dataItem = dataItemsIterator_1.find(function (x) { return x.value === breakValue_1; });
-                                if (dataItem.__disabled) {
-                                    dataItem.__disabled = false;
-                                }
-                                //this.processDataItem(dataItem);
-                                _this.appendDataItem(dataItem);
-                                dataItem.axisBreak = axisBreak;
-                                if (dataItem.value != breakValue_1) {
-                                    dataItem.value = breakValue_1;
-                                    dataItem.text = _this.formatLabel(breakValue_1);
-                                    if (dataItem.label && dataItem.label.invalid) {
-                                        dataItem.label.validate();
+            var axisBreaks = this._axisBreaks;
+            if (axisBreaks) {
+                // breaks later
+                var renderer_1 = this.renderer;
+                $iter.each(axisBreaks.iterator(), function (axisBreak) {
+                    if (axisBreak.breakSize > 0) {
+                        // only add grid if gap is bigger then minGridDistance
+                        if ($math.getDistance(axisBreak.startPoint, axisBreak.endPoint) > renderer_1.minGridDistance) {
+                            var breakValue_1 = axisBreak.adjustedMin;
+                            while (breakValue_1 <= axisBreak.adjustedMax) {
+                                if (breakValue_1 >= axisBreak.adjustedStartValue && breakValue_1 <= axisBreak.adjustedEndValue) {
+                                    var dataItem = dataItemsIterator_1.find(function (x) { return x.value === breakValue_1; });
+                                    if (dataItem.__disabled) {
+                                        dataItem.__disabled = false;
                                     }
+                                    //this.processDataItem(dataItem);
+                                    _this.appendDataItem(dataItem);
+                                    dataItem.axisBreak = axisBreak;
+                                    if (dataItem.value != breakValue_1) {
+                                        dataItem.value = breakValue_1;
+                                        dataItem.text = _this.formatLabel(breakValue_1);
+                                        if (dataItem.label && dataItem.label.invalid) {
+                                            dataItem.label.validate();
+                                        }
+                                    }
+                                    _this.validateDataElement(dataItem);
                                 }
-                                _this.validateDataElement(dataItem);
+                                breakValue_1 += axisBreak.adjustedStep;
                             }
-                            breakValue_1 += axisBreak.adjustedStep;
                         }
                     }
-                }
-            });
+                });
+            }
         }
     };
     /**
@@ -619,8 +621,8 @@ var ValueAxis = /** @class */ (function (_super) {
             var max_1 = this.max;
             if ($type.isNumber(min_1) && $type.isNumber(max_1)) {
                 var difference = this._difference;
-                var axisBreaks = this.axisBreaks;
-                if (axisBreaks.length > 0) {
+                var axisBreaks = this._axisBreaks;
+                if (axisBreaks && axisBreaks.length > 0) {
                     $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
                         var startValue = axisBreak.adjustedStartValue;
                         var endValue = axisBreak.adjustedEndValue;
@@ -674,41 +676,43 @@ var ValueAxis = /** @class */ (function (_super) {
         var max = this.max;
         if ($type.isNumber(min) && $type.isNumber(max)) {
             var difference_1 = max - min; //no need to adjust!
-            var axisBreaks = this.axisBreaks;
             var value_2 = null;
-            // in case we have some axis breaks
-            if (axisBreaks.length > 0) {
-                $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
-                    var breakStartPosition = axisBreak.startPosition;
-                    var breakEndPosition = axisBreak.endPosition;
-                    var breakStartValue = axisBreak.adjustedStartValue;
-                    var breakEndValue = axisBreak.adjustedEndValue;
-                    if ($type.isNumber(breakStartValue) && $type.isNumber(breakEndValue)) {
-                        if (breakStartValue > max) {
-                            return false;
-                        }
-                        if ($math.intersect({ start: breakStartValue, end: breakEndValue }, { start: min, end: max })) {
-                            breakStartValue = $math.max(breakStartValue, min);
-                            breakEndValue = $math.min(breakEndValue, max);
-                            var breakSize = axisBreak.breakSize;
-                            difference_1 -= (breakEndValue - breakStartValue) * (1 - breakSize);
-                            // position to the right of break end
-                            if (position > breakEndPosition) {
-                                min += (breakEndValue - breakStartValue) * (1 - breakSize);
-                            }
-                            // position to the left of break start
-                            else if (position < breakStartPosition) {
-                            }
-                            // value within break
-                            else {
-                                var breakPosition = (position - breakStartPosition) / (breakEndPosition - breakStartPosition);
-                                value_2 = breakStartValue + breakPosition * (breakEndValue - breakStartValue);
+            var axisBreaks = this._axisBreaks;
+            if (axisBreaks) {
+                // in case we have some axis breaks
+                if (axisBreaks.length > 0) {
+                    $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
+                        var breakStartPosition = axisBreak.startPosition;
+                        var breakEndPosition = axisBreak.endPosition;
+                        var breakStartValue = axisBreak.adjustedStartValue;
+                        var breakEndValue = axisBreak.adjustedEndValue;
+                        if ($type.isNumber(breakStartValue) && $type.isNumber(breakEndValue)) {
+                            if (breakStartValue > max) {
                                 return false;
                             }
+                            if ($math.intersect({ start: breakStartValue, end: breakEndValue }, { start: min, end: max })) {
+                                breakStartValue = $math.max(breakStartValue, min);
+                                breakEndValue = $math.min(breakEndValue, max);
+                                var breakSize = axisBreak.breakSize;
+                                difference_1 -= (breakEndValue - breakStartValue) * (1 - breakSize);
+                                // position to the right of break end
+                                if (position > breakEndPosition) {
+                                    min += (breakEndValue - breakStartValue) * (1 - breakSize);
+                                }
+                                // position to the left of break start
+                                else if (position < breakStartPosition) {
+                                }
+                                // value within break
+                                else {
+                                    var breakPosition = (position - breakStartPosition) / (breakEndPosition - breakStartPosition);
+                                    value_2 = breakStartValue + breakPosition * (breakEndValue - breakStartValue);
+                                    return false;
+                                }
+                            }
+                            return true;
                         }
-                        return true;
-                    }
-                });
+                    });
+                }
             }
             if (!$type.isNumber(value_2)) {
                 if (this.logarithmic) {
@@ -1710,8 +1714,8 @@ var ValueAxis = /** @class */ (function (_super) {
     ValueAxis.prototype.fixAxisBreaks = function () {
         var _this = this;
         _super.prototype.fixAxisBreaks.call(this);
-        var axisBreaks = this.axisBreaks;
-        if (axisBreaks.length > 0) {
+        var axisBreaks = this._axisBreaks;
+        if (axisBreaks && axisBreaks.length > 0) {
             // process breaks
             axisBreaks.each(function (axisBreak) {
                 var startValue = axisBreak.adjustedStartValue;

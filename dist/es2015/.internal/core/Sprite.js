@@ -1012,6 +1012,7 @@ var Sprite = /** @class */ (function (_super) {
                         this.dataItem = parent.dataItem;
                     }
                     this.handleAlwaysShowTooltip();
+                    this.dispatchImmediately("parentset");
                 }
                 else {
                     this.topParent = undefined;

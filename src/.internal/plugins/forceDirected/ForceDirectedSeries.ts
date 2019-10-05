@@ -529,7 +529,6 @@ export interface IForceDirectedSeriesProperties extends ISeriesProperties {
 	 * @since 4.4.8
 	 */
 	linkWithStrength?: number;
-
 }
 
 /**
@@ -880,7 +879,7 @@ export class ForceDirectedSeries extends Series {
 					if (!node.outerCircle.__disabled && !node.outerCircle.disabled && node.outerCircle.visible) {
 						radius = (radius + 3) * node.outerCircle.scale;
 					}
-					return radius;
+					return radius + node.paddingRadius;
 				}
 				return 1;
 			})
@@ -1361,6 +1360,7 @@ export class ForceDirectedSeries extends Series {
 	public get linkWithStrength(): number {
 		return this.getPropertyValue("linkWithStrength");
 	}
+
 
 	/**
 	 * Binds related legend data item's visual settings to this series' visual

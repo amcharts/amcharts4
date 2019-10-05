@@ -770,6 +770,12 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     toggleZoomOutButton: boolean;
     /**
+     * Hides element's [[Tooltip]].
+     *
+     * @see {@link Tooltip}
+     */
+    hideTooltip(duration?: number): void;
+    /**
      * Shows Axis tooltip at specific relative position within Axis. (0-1)
      *
      * @param position Position (0-1)

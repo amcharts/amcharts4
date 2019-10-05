@@ -556,6 +556,9 @@ var MapChart = /** @class */ (function (_super) {
             if (this.setPropertyValue("projection", projection)) {
                 this.invalidateProjection();
                 projection.chart = this;
+                if (this._backgroundSeries) {
+                    this._backgroundSeries.invalidate();
+                }
                 this.series.each(function (series) {
                     _this.addDisposer(series.events.once("validated", function () {
                         _this.updateCenterGeoPoint();

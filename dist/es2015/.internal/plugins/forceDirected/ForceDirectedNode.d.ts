@@ -25,7 +25,15 @@ import { Dictionary } from "../../core/utils/Dictionary";
  * Defines properties for [[ForceDirectedNode]].
  */
 export interface IForceDirectedNodeProperties extends IContainerProperties {
+    /**
+     * @todo mm
+     */
     expandAll?: boolean;
+    /**
+     * Padding of the node
+     * @todo mm
+     */
+    paddingRadius?: number;
 }
 /**
  * Defines events for [[ForceDirectedNode]].
@@ -149,4 +157,12 @@ export declare class ForceDirectedNode extends Container {
      * @param  node  Target node
      */
     unlinkWith(node: ForceDirectedNode): void;
+    /**
+     * @return Padding radius
+     */
+    /**
+     * Padding of the nodes, in pixels
+     * @todo mm
+     */
+    paddingRadius: number;
 }

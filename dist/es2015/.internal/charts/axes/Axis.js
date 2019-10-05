@@ -817,9 +817,11 @@ var Axis = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Axis.prototype.validateBreaks = function () {
-        $iter.each(this.axisBreaks.iterator(), function (axisBreak) {
-            axisBreak.invalidate();
-        });
+        if (this._axisBreaks) {
+            $iter.each(this._axisBreaks.iterator(), function (axisBreak) {
+                axisBreak.invalidate();
+            });
+        }
     };
     /**
      * Associates an Axis break with this Axis, after it is inserted into
@@ -1041,6 +1043,15 @@ var Axis = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Hides element's [[Tooltip]].
+     *
+     * @see {@link Tooltip}
+     */
+    Axis.prototype.hideTooltip = function (duration) {
+        _super.prototype.hideTooltip.call(this, duration);
+        this._tooltipPosition = undefined;
+    };
     /**
      * Shows Axis tooltip at specific relative position within Axis. (0-1)
      *
@@ -1484,26 +1495,28 @@ var Axis = /** @class */ (function (_super) {
     Axis.prototype.adjustDifference = function (min, max) {
         var difference = max - min;
         if ($type.isNumber(difference)) {
-            $iter.eachContinue(this.axisBreaks.iterator(), function (axisBreak) {
-                var startValue = axisBreak.adjustedStartValue;
-                var endValue = axisBreak.adjustedEndValue;
-                if ($type.isNumber(startValue) && $type.isNumber(endValue)) {
-                    // breaks are sorted, we don't need go further anymore
-                    if (startValue > max) {
-                        return false;
-                    }
-                    if (endValue >= min) {
-                        if ($type.isNumber(startValue) && $type.isNumber(endValue)) {
-                            var breakSize = axisBreak.breakSize;
-                            var intersection = $math.intersection({ start: startValue, end: endValue }, { start: min, end: max });
-                            if (intersection) {
-                                difference -= (intersection.end - intersection.start) * (1 - breakSize);
+            if (this._axisBreaks) {
+                $iter.eachContinue(this._axisBreaks.iterator(), function (axisBreak) {
+                    var startValue = axisBreak.adjustedStartValue;
+                    var endValue = axisBreak.adjustedEndValue;
+                    if ($type.isNumber(startValue) && $type.isNumber(endValue)) {
+                        // breaks are sorted, we don't need go further anymore
+                        if (startValue > max) {
+                            return false;
+                        }
+                        if (endValue >= min) {
+                            if ($type.isNumber(startValue) && $type.isNumber(endValue)) {
+                                var breakSize = axisBreak.breakSize;
+                                var intersection = $math.intersection({ start: startValue, end: endValue }, { start: min, end: max });
+                                if (intersection) {
+                                    difference -= (intersection.end - intersection.start) * (1 - breakSize);
+                                }
                             }
                         }
+                        return true;
                     }
-                    return true;
-                }
-            });
+                });
+            }
             return difference;
         }
     };
@@ -1516,10 +1529,12 @@ var Axis = /** @class */ (function (_super) {
      * @return Axis break
      */
     Axis.prototype.isInBreak = function (value) {
-        return $iter.find(this.axisBreaks.iterator(), function (axisBreak) {
-            return value >= axisBreak.adjustedStartValue &&
-                value <= axisBreak.adjustedEndValue;
-        });
+        if (this._axisBreaks) {
+            return $iter.find(this._axisBreaks.iterator(), function (axisBreak) {
+                return value >= axisBreak.adjustedStartValue &&
+                    value <= axisBreak.adjustedEndValue;
+            });
+        }
     };
     /**
      * [fixAxisBreaks description]
@@ -1529,36 +1544,38 @@ var Axis = /** @class */ (function (_super) {
      */
     Axis.prototype.fixAxisBreaks = function () {
         var _this = this;
-        var axisBreaks = this.axisBreaks;
-        if (axisBreaks.length > 0) {
-            // first make sure that startValue is <= end value
-            // This needs to make a copy of axisBreaks because it mutates the list while traversing
-            // TODO very inefficient
-            $array.each($iter.toArray(axisBreaks.iterator()), function (axisBreak) {
-                var startValue = $math.min(axisBreak.startValue, axisBreak.endValue);
-                var endValue = $math.max(axisBreak.startValue, axisBreak.endValue);
-                axisBreak.adjustedStartValue = startValue;
-                axisBreak.adjustedEndValue = endValue;
-                _this.axisBreaks.update(axisBreak);
-            });
-            var firstAxisBreak = axisBreaks.first;
-            var previousEndValue_1 = Math.min(firstAxisBreak.startValue, firstAxisBreak.endValue);
-            // process breaks
-            // TODO does this need to call axisBreaks.update ?
-            $iter.each(this.axisBreaks.iterator(), function (axisBreak) {
-                var startValue = axisBreak.adjustedStartValue;
-                var endValue = axisBreak.adjustedEndValue;
-                // breaks can't overlap
-                // if break starts before previous break ends
-                if (startValue < previousEndValue_1) {
-                    startValue = previousEndValue_1;
-                    if (endValue < previousEndValue_1) {
-                        endValue = previousEndValue_1;
+        if (this._axisBreaks) {
+            var axisBreaks = this._axisBreaks;
+            if (axisBreaks.length > 0) {
+                // first make sure that startValue is <= end value
+                // This needs to make a copy of axisBreaks because it mutates the list while traversing
+                // TODO very inefficient
+                $array.each($iter.toArray(axisBreaks.iterator()), function (axisBreak) {
+                    var startValue = $math.min(axisBreak.startValue, axisBreak.endValue);
+                    var endValue = $math.max(axisBreak.startValue, axisBreak.endValue);
+                    axisBreak.adjustedStartValue = startValue;
+                    axisBreak.adjustedEndValue = endValue;
+                    _this._axisBreaks.update(axisBreak);
+                });
+                var firstAxisBreak = axisBreaks.first;
+                var previousEndValue_1 = Math.min(firstAxisBreak.startValue, firstAxisBreak.endValue);
+                // process breaks
+                // TODO does this need to call axisBreaks.update ?
+                $iter.each(axisBreaks.iterator(), function (axisBreak) {
+                    var startValue = axisBreak.adjustedStartValue;
+                    var endValue = axisBreak.adjustedEndValue;
+                    // breaks can't overlap
+                    // if break starts before previous break ends
+                    if (startValue < previousEndValue_1) {
+                        startValue = previousEndValue_1;
+                        if (endValue < previousEndValue_1) {
+                            endValue = previousEndValue_1;
+                        }
                     }
-                }
-                axisBreak.adjustedStartValue = startValue;
-                axisBreak.adjustedEndValue = endValue;
-            });
+                    axisBreak.adjustedStartValue = startValue;
+                    axisBreak.adjustedEndValue = endValue;
+                });
+            }
         }
     };
     Object.defineProperty(Axis.prototype, "startIndex", {

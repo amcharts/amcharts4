@@ -46,6 +46,7 @@ var ForceDirectedNode = /** @class */ (function (_super) {
         _this.setStateOnChildren = true;
         _this.isActive = false;
         _this.expandAll = true;
+        _this.paddingRadius = 0;
         _this.linksWith = new Dictionary();
         _this._disposers.push(new DictionaryDisposer(_this.linksWith));
         _this.events.on("dragstart", function () {
@@ -262,6 +263,23 @@ var ForceDirectedNode = /** @class */ (function (_super) {
     ForceDirectedNode.prototype.unlinkWith = function (node) {
         this.linksWith.removeKey(node.uid);
     };
+    Object.defineProperty(ForceDirectedNode.prototype, "paddingRadius", {
+        /**
+         * @return Padding radius
+         */
+        get: function () {
+            return this.getPropertyValue("paddingRadius");
+        },
+        /**
+         * Padding of the nodes, in pixels
+         * @todo mm
+         */
+        set: function (value) {
+            this.setPropertyValue("paddingRadius", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return ForceDirectedNode;
 }(Container));
 export { ForceDirectedNode };

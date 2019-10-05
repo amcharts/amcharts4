@@ -1103,6 +1103,10 @@ export class MapChart extends SerialChart {
 
 			projection.chart = this;
 
+			if(this._backgroundSeries){
+				this._backgroundSeries.invalidate();
+			}
+
 			this.series.each((series) => {
 				this.addDisposer(series.events.once("validated", () => {
 					this.updateCenterGeoPoint();

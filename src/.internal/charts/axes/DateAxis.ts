@@ -429,11 +429,12 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		// Init
 		super();
 		this.className = "DateAxis";
-		this._df = this.dateFormatter;
 
 		this.setPropertyValue("markUnitChange", true);
 		this.snapTooltip = true;
 		this.tooltipPosition = "pointer";
+
+		this.events.on("parentset", this.getDFFormatter, this, false);
 
 		// Translatable defaults are applied in `applyInternalDefaults()`
 		// ...
@@ -498,11 +499,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	protected applyInternalDefaults(): void {
 		super.applyInternalDefaults();
-
-		// Reset dateformatter and trigger accessor once again to maintain proper
-		// inheritance.
-		this._dateFormatter = undefined;
-		this._df = this.dateFormatter;
 
 		// Set default date formats
 		if (!this.dateFormats.hasKey("millisecond")) {
@@ -585,7 +581,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		let periodCount: number = (this.max - this.min) / this.baseDuration;
 
 		this._firstWeekDay = this.getFirstWeekDay();
-		this._df = this.dateFormatter;
+		this.getDFFormatter();
 
 		super.validateDataItems();
 
@@ -762,6 +758,13 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		});
 
 		this.addEmptyUnitsBreaks();
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected getDFFormatter(){
+		this._df = this.dateFormatter;
 	}
 
 	/**

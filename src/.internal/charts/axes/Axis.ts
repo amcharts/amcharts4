@@ -1236,9 +1236,11 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @ignore Exclude from docs
 	 */
 	public validateBreaks(): void {
-		$iter.each(this.axisBreaks.iterator(), (axisBreak) => {
-			axisBreak.invalidate();
-		});
+		if(this._axisBreaks){
+			$iter.each(this._axisBreaks.iterator(), (axisBreak) => {
+				axisBreak.invalidate();
+			});
+		}
 	}
 
 	/**
@@ -1465,6 +1467,16 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	public get cursorTooltipEnabled(): boolean {
 		return this.getPropertyValue("cursorTooltipEnabled");
 	}
+
+	/**
+	 * Hides element's [[Tooltip]].
+	 *
+	 * @see {@link Tooltip}
+	 */
+	public hideTooltip(duration?: number): void {
+		super.hideTooltip(duration);
+		this._tooltipPosition = undefined;
+	}	
 
 	/**
 	 * Shows Axis tooltip at specific relative position within Axis. (0-1)
@@ -1957,30 +1969,32 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	protected adjustDifference(min: number, max: number): number {
 		let difference: number = max - min;
 		if ($type.isNumber(difference)) {
-			$iter.eachContinue(this.axisBreaks.iterator(), (axisBreak) => {
-				let startValue: number = axisBreak.adjustedStartValue;
-				let endValue: number = axisBreak.adjustedEndValue;
-				if ($type.isNumber(startValue) && $type.isNumber(endValue)) {
-					// breaks are sorted, we don't need go further anymore
-					if (startValue > max) {
-						return false;
-					}
+			if(this._axisBreaks){
+				$iter.eachContinue(this._axisBreaks.iterator(), (axisBreak) => {
+					let startValue: number = axisBreak.adjustedStartValue;
+					let endValue: number = axisBreak.adjustedEndValue;
+					if ($type.isNumber(startValue) && $type.isNumber(endValue)) {
+						// breaks are sorted, we don't need go further anymore
+						if (startValue > max) {
+							return false;
+						}
 
-					if (endValue >= min) {
-						if ($type.isNumber(startValue) && $type.isNumber(endValue)) {
-							let breakSize: number = axisBreak.breakSize;
+						if (endValue >= min) {
+							if ($type.isNumber(startValue) && $type.isNumber(endValue)) {
+								let breakSize: number = axisBreak.breakSize;
 
-							let intersection: IRange = $math.intersection({ start: startValue, end: endValue }, { start: min, end: max });
+								let intersection: IRange = $math.intersection({ start: startValue, end: endValue }, { start: min, end: max });
 
-							if (intersection) {
-								difference -= (intersection.end - intersection.start) * (1 - breakSize);
+								if (intersection) {
+									difference -= (intersection.end - intersection.start) * (1 - breakSize);
+								}
 							}
 						}
-					}
 
-					return true;
-				}
-			});
+						return true;
+					}
+				});
+			}
 			return difference;
 		}
 	}
@@ -1994,9 +2008,11 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @return Axis break
 	 */
 	protected isInBreak(value: number): this["_axisBreak"] {
-		return $iter.find(this.axisBreaks.iterator(), (axisBreak) =>
-			value >= axisBreak.adjustedStartValue &&
-			value <= axisBreak.adjustedEndValue);
+		if(this._axisBreaks){
+			return $iter.find(this._axisBreaks.iterator(), (axisBreak) =>
+				value >= axisBreak.adjustedStartValue &&
+				value <= axisBreak.adjustedEndValue);
+		}
 	}
 
 	/**
@@ -2006,44 +2022,46 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @todo Description
 	 */
 	protected fixAxisBreaks(): void {
-		let axisBreaks: SortedListTemplate<this["_axisBreak"]> = this.axisBreaks;
-		if (axisBreaks.length > 0) {
-			// first make sure that startValue is <= end value
-			// This needs to make a copy of axisBreaks because it mutates the list while traversing
-			// TODO very inefficient
-			$array.each($iter.toArray(axisBreaks.iterator()), (axisBreak) => {
-				let startValue: number = $math.min(axisBreak.startValue, axisBreak.endValue);
-				let endValue: number = $math.max(axisBreak.startValue, axisBreak.endValue);
+		if(this._axisBreaks){
+			let axisBreaks: SortedListTemplate<this["_axisBreak"]> = this._axisBreaks;
+			if (axisBreaks.length > 0) {
+				// first make sure that startValue is <= end value
+				// This needs to make a copy of axisBreaks because it mutates the list while traversing
+				// TODO very inefficient
+				$array.each($iter.toArray(axisBreaks.iterator()), (axisBreak) => {
+					let startValue: number = $math.min(axisBreak.startValue, axisBreak.endValue);
+					let endValue: number = $math.max(axisBreak.startValue, axisBreak.endValue);
 
-				axisBreak.adjustedStartValue = startValue;
-				axisBreak.adjustedEndValue = endValue;
+					axisBreak.adjustedStartValue = startValue;
+					axisBreak.adjustedEndValue = endValue;
 
-				this.axisBreaks.update(axisBreak);
-			});
+					this._axisBreaks.update(axisBreak);
+				});
 
 
-			let firstAxisBreak: this["_axisBreak"] = axisBreaks.first;
-			let previousEndValue: number = Math.min(firstAxisBreak.startValue, firstAxisBreak.endValue);
+				let firstAxisBreak: this["_axisBreak"] = axisBreaks.first;
+				let previousEndValue: number = Math.min(firstAxisBreak.startValue, firstAxisBreak.endValue);
 
-			// process breaks
-			// TODO does this need to call axisBreaks.update ?
-			$iter.each(this.axisBreaks.iterator(), (axisBreak) => {
-				let startValue: number = axisBreak.adjustedStartValue;
-				let endValue: number = axisBreak.adjustedEndValue;
+				// process breaks
+				// TODO does this need to call axisBreaks.update ?
+				$iter.each(axisBreaks.iterator(), (axisBreak) => {
+					let startValue: number = axisBreak.adjustedStartValue;
+					let endValue: number = axisBreak.adjustedEndValue;
 
-				// breaks can't overlap
-				// if break starts before previous break ends
-				if (startValue < previousEndValue) {
-					startValue = previousEndValue;
+					// breaks can't overlap
+					// if break starts before previous break ends
+					if (startValue < previousEndValue) {
+						startValue = previousEndValue;
 
-					if (endValue < previousEndValue) {
-						endValue = previousEndValue;
+						if (endValue < previousEndValue) {
+							endValue = previousEndValue;
+						}
 					}
-				}
 
-				axisBreak.adjustedStartValue = startValue;
-				axisBreak.adjustedEndValue = endValue;
-			});
+					axisBreak.adjustedStartValue = startValue;
+					axisBreak.adjustedEndValue = endValue;
+				});
+			}
 		}
 	}
 

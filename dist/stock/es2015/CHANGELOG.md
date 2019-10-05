@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.6.7] - 2019-10-05
+
+### Added
+- `paddingRadius` added to `ForceDirectedNode`. Allows having some extra free space around bubbles.
+- New event on all `Sprite` elements: `parentset`. Triggers whenever element's `parent` is set.
+
+### Fixed
+- `MapChart` background was not being updated if map projection was changed after init.
+- Axis' tooltip was not changed if user rolled over the axis, rolled out and then rolled over it again on the same axis item.
+
+
 ## [4.6.6] - 2019-10-04
 
 ### Fixed

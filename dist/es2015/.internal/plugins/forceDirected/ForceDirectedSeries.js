@@ -572,7 +572,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
                     if (!node.outerCircle.__disabled && !node.outerCircle.disabled && node.outerCircle.visible) {
                         radius = (radius + 3) * node.outerCircle.scale;
                     }
-                    return radius;
+                    return radius + node.paddingRadius;
                 }
                 return 1;
             });

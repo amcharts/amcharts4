@@ -1736,6 +1736,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				}
 
 				this.handleAlwaysShowTooltip();
+
+				this.dispatchImmediately("parentset");
 			}
 			else {
 				this.topParent = undefined;

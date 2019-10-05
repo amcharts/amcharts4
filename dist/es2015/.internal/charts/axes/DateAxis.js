@@ -240,10 +240,10 @@ var DateAxis = /** @class */ (function (_super) {
          */
         _this._firstWeekDay = 1;
         _this.className = "DateAxis";
-        _this._df = _this.dateFormatter;
         _this.setPropertyValue("markUnitChange", true);
         _this.snapTooltip = true;
         _this.tooltipPosition = "pointer";
+        _this.events.on("parentset", _this.getDFFormatter, _this, false);
         // Translatable defaults are applied in `applyInternalDefaults()`
         // ...
         // Define default intervals
@@ -324,10 +324,6 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.applyInternalDefaults = function () {
         _super.prototype.applyInternalDefaults.call(this);
-        // Reset dateformatter and trigger accessor once again to maintain proper
-        // inheritance.
-        this._dateFormatter = undefined;
-        this._df = this.dateFormatter;
         // Set default date formats
         if (!this.dateFormats.hasKey("millisecond")) {
             this.dateFormats.setKey("millisecond", this.language.translate("_date_millisecond"));
@@ -403,7 +399,7 @@ var DateAxis = /** @class */ (function (_super) {
         var end = this.end;
         var periodCount = (this.max - this.min) / this.baseDuration;
         this._firstWeekDay = this.getFirstWeekDay();
-        this._df = this.dateFormatter;
+        this.getDFFormatter();
         _super.prototype.validateDataItems.call(this);
         this.maxZoomFactor = (this.max - this.min) / this.baseDuration;
         this._deltaMinMax = this.baseDuration / 2;
@@ -558,6 +554,12 @@ var DateAxis = /** @class */ (function (_super) {
             }
         });
         this.addEmptyUnitsBreaks();
+    };
+    /**
+     * @ignore
+     */
+    DateAxis.prototype.getDFFormatter = function () {
+        this._df = this.dateFormatter;
     };
     /**
      * [postProcessSeriesDataItem description]

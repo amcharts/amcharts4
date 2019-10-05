@@ -127,7 +127,6 @@ export declare class AxisRenderer extends Container {
      *
      * For category/date axis it is added at the end of the last item/date.
      *
-     * @ignore Exclude from docs
      */
     baseGrid: Sprite;
     /**

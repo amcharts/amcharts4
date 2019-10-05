@@ -405,6 +405,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     postProcessSeriesDataItems(): void;
     /**
+     * @ignore
+     */
+    protected getDFFormatter(): void;
+    /**
      * [postProcessSeriesDataItem description]
      *
      * @ignore Exclude from docs
