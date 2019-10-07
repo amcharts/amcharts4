@@ -987,6 +987,12 @@ export class MapChart extends SerialChart {
 	 */
 	protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]) {
 
+		// Cancel any move inertia if there is one
+		const inertia = this.seriesContainer.interactions.inertias.getKey("move");
+		if (inertia) {
+			inertia.done();
+		}
+
 		let svgPoint: IPoint = $utils.documentPointToSvg(event.point, this.htmlContainer, this.svgContainer.cssScale);
 		let geoPoint: IGeoPoint = this.svgPointToGeo(svgPoint);
 

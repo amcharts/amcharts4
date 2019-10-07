@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.6.8] - 2019-10-07
+
+### Added
+- New `Export` property: [`validateSprites`](https://www.amcharts.com/docs/v4/reference/export/#validateSprites_property). It's an array you can push any `Sprite` to it. When export starts, it will check if those elements are not invalid and will await for them to be ready. This is useful if you need to do any modifications to your chart for export.
+- New option for CSV and XSLX export options: `pivot`. If set to `true`, will "pivot" the data so that firsst column is field names with values lined up horizontally in rows.
+- New property on `NumberFormatter`: `smallNumberThreshold` (default `1`). You can now set what is considered a "small number" when applying small number prefixes if `"a"` format modifier is used.
+
+### Fixed
+- If `ForceDirectedTree` was used with `am4core.options.onlyShowOnViewport = true`, the forces on links were not being calculated properly, resulting in incorrect layout.
+- JSON: String dates will now be correctly parsed using `DateFormatter` in axis ranges' `date` and `endDate` properties.
+- `WordCloud` was not properly parsing Korean text.
+- If `MapChart` was zoomed in while still playing pan inertia animation, it produced a jerky effect.
+
+
 ## [4.6.7] - 2019-10-05
 
 ### Added

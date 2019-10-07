@@ -455,6 +455,10 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
      */
     ForceDirectedSeries.prototype.validateDataItems = function () {
         var _this = this;
+        if (this.chart.__disabled) {
+            _super.prototype.validateDataItems.call(this);
+            return;
+        }
         this._dataDisposers.push(new ListDisposer(this.links));
         this._maxValue = this.getMaxValue(this.dataItems, 0);
         this.forceLinks = [];

@@ -730,6 +730,11 @@ export class ForceDirectedSeries extends Series {
 	 */
 	public validateDataItems(): void {
 
+		if (this.chart.__disabled) {
+			super.validateDataItems();
+			return;
+		}
+
 		this._dataDisposers.push(new ListDisposer(this.links));
 
 		this._maxValue = this.getMaxValue(this.dataItems, 0);

@@ -1521,6 +1521,16 @@ var XYChart = /** @class */ (function (_super) {
                         throw Error("[XYChart error] No type set for xAxes[" + i + "].");
                     }
                     else if ($type.hasValue(config.xAxes[i]["axisRanges"])) {
+                        // Maybe convert string dates?
+                        for (var x = 0, len_1 = config.xAxes[i]["axisRanges"].length; x < len_1; x++) {
+                            var range = config.xAxes[i]["axisRanges"][x];
+                            if ($type.hasValue(range.date) && $type.isString(range.date)) {
+                                range.date = this.dateFormatter.parse(range.date);
+                            }
+                            if ($type.hasValue(range.endDate) && $type.isString(range.endDate)) {
+                                range.endDate = this.dateFormatter.parse(range.endDate);
+                            }
+                        }
                         xAxes.push({
                             axisRanges: config.xAxes[i]["axisRanges"],
                             index: i
@@ -1535,6 +1545,16 @@ var XYChart = /** @class */ (function (_super) {
                         throw Error("[XYChart error] No type set for yAxes[" + i + "].");
                     }
                     else if ($type.hasValue(config.yAxes[i]["axisRanges"])) {
+                        // Maybe convert string dates?
+                        for (var x = 0, len_2 = config.yAxes[i]["axisRanges"].length; x < len_2; x++) {
+                            var range = config.yAxes[i]["axisRanges"][x];
+                            if ($type.hasValue(range.date) && $type.isString(range.date)) {
+                                range.date = this.dateFormatter.parse(range.date);
+                            }
+                            if ($type.hasValue(range.endDate) && $type.isString(range.endDate)) {
+                                range.endDate = this.dateFormatter.parse(range.endDate);
+                            }
+                        }
                         yAxes.push({
                             axisRanges: config.yAxes[i]["axisRanges"],
                             index: i

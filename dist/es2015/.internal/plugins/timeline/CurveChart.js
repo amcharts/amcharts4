@@ -15,6 +15,7 @@ import { registry } from "../../core/Registry";
 import { AxisRendererCurveX } from "./AxisRendererCurveX";
 import { AxisRendererCurveY } from "./AxisRendererCurveY";
 import * as $type from "../../core/utils/Type";
+import { options } from "../../core/Options";
 /**
  * ============================================================================
  * DATA ITEM
@@ -185,6 +186,21 @@ var CurveChart = /** @class */ (function (_super) {
         if (renderer) {
             renderer.processRenderer();
         }
+    };
+    /**
+     * @ignore
+     * @return Has license?
+     */
+    CurveChart.prototype.hasLicense = function () {
+        if (!_super.prototype.hasLicense.call(this)) {
+            return false;
+        }
+        for (var i = 0; i < options.licenses.length; i++) {
+            if (options.licenses[i].match(/^TL.{5,}/i)) {
+                return true;
+            }
+        }
+        return false;
     };
     return CurveChart;
 }(XYChart));

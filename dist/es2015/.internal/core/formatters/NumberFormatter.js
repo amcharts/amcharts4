@@ -43,6 +43,11 @@ var NumberFormatter = /** @class */ (function (_super) {
          * @default "svg"
          */
         _this._outputFormat = "svg";
+        /**
+         * Any number smaller than this will be considered "small" number, which will
+         * trigger special formatting if "a" format modifier is used.
+         */
+        _this._smallNumberThreshold = 1.00;
         _this.className = "NumberFormatter";
         _this.applyTheme();
         return _this;
@@ -318,7 +323,7 @@ var NumberFormatter = /** @class */ (function (_super) {
             }
         }
         else if (mods.indexOf("a") !== -1) {
-            var a_2 = this.applyPrefix(value, value < 1.00 ? this.smallNumberPrefixes : this.bigNumberPrefixes, mods.indexOf("!") !== -1);
+            var a_2 = this.applyPrefix(value, value < this.smallNumberThreshold ? this.smallNumberPrefixes : this.bigNumberPrefixes, mods.indexOf("!") !== -1);
             value = a_2[0];
             prefix = a_2[1];
             suffix = a_2[2];
@@ -621,6 +626,26 @@ var NumberFormatter = /** @class */ (function (_super) {
          */
         set: function (prefixes) {
             this._smallNumberPrefixes = prefixes;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NumberFormatter.prototype, "smallNumberThreshold", {
+        /**
+         * @return Small number threshold
+         */
+        get: function () {
+            return this._smallNumberThreshold;
+        },
+        /**
+         * Any number smaller than this will be considered "small" number, which will
+         * trigger special formatting if "a" format modifier is used.
+         *
+         * @since 4.6.8
+         * @param  value  Small number threshold
+         */
+        set: function (value) {
+            this._smallNumberThreshold = value;
         },
         enumerable: true,
         configurable: true

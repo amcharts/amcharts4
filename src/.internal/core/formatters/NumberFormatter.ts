@@ -70,6 +70,12 @@ export class NumberFormatter extends BaseObject {
 	protected _smallNumberPrefixes: INumberSuffix[];
 
 	/**
+	 * Any number smaller than this will be considered "small" number, which will
+	 * trigger special formatting if "a" format modifier is used.
+	 */
+	protected _smallNumberThreshold: number = 1.00;
+
+	/**
 	 * Holds prefixes to apply to data size numbers if `b` modifier is used in
 	 * format.
 	 */
@@ -405,7 +411,7 @@ export class NumberFormatter extends BaseObject {
 			}
 		}
 		else if (mods.indexOf("a") !== -1) {
-			let a = this.applyPrefix(value, value < 1.00 ? this.smallNumberPrefixes : this.bigNumberPrefixes, mods.indexOf("!") !== -1);
+			let a = this.applyPrefix(value, value < this.smallNumberThreshold ? this.smallNumberPrefixes : this.bigNumberPrefixes, mods.indexOf("!") !== -1);
 			value = a[0];
 			prefix = a[1];
 			suffix = a[2];
@@ -727,6 +733,24 @@ export class NumberFormatter extends BaseObject {
 			]
 		}
 		return this._smallNumberPrefixes;
+	}
+
+	/**
+	 * Any number smaller than this will be considered "small" number, which will
+	 * trigger special formatting if "a" format modifier is used.
+	 *
+	 * @since 4.6.8
+	 * @param  value  Small number threshold
+	 */
+	public set smallNumberThreshold(value: number) {
+		this._smallNumberThreshold = value;
+	}
+
+	/**
+	 * @return Small number threshold
+	 */
+	public get smallNumberThreshold(): number {
+		return this._smallNumberThreshold;
 	}
 
 	/**

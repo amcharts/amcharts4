@@ -435,6 +435,11 @@ var MapChart = /** @class */ (function (_super) {
      * @param event  Original event
      */
     MapChart.prototype.handleWheel = function (event) {
+        // Cancel any move inertia if there is one
+        var inertia = this.seriesContainer.interactions.inertias.getKey("move");
+        if (inertia) {
+            inertia.done();
+        }
         var svgPoint = $utils.documentPointToSvg(event.point, this.htmlContainer, this.svgContainer.cssScale);
         var geoPoint = this.svgPointToGeo(svgPoint);
         if (event.shift.y < 0) {

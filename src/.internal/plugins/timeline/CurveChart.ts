@@ -19,6 +19,7 @@ import { AxisRenderer } from "../../charts/axes/AxisRenderer";
 import { AxisRendererCurveX } from "./AxisRendererCurveX";
 import { AxisRendererCurveY } from "./AxisRendererCurveY";
 import * as $type from "../../core/utils/Type";
+import { options } from "../../core/Options";
 
 /**
  * ============================================================================
@@ -291,6 +292,22 @@ export class CurveChart extends XYChart {
 		if (renderer) {
 			renderer.processRenderer();
 		}
+	}
+
+	/**
+	 * @ignore
+	 * @return Has license?
+	 */
+	public hasLicense(): boolean {
+		if (!super.hasLicense()) {
+			return false;
+		}
+		for (let i = 0; i < options.licenses.length; i++) {
+			if (options.licenses[i].match(/^TL.{5,}/i)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

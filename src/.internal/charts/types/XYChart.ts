@@ -1944,6 +1944,18 @@ export class XYChart extends SerialChart {
 						throw Error("[XYChart error] No type set for xAxes[" + i + "].");
 					}
 					else if ($type.hasValue(config.xAxes[i]["axisRanges"])) {
+
+						// Maybe convert string dates?
+						for (let x = 0, len = config.xAxes[i]["axisRanges"].length; x < len; x++) {
+							let range = config.xAxes[i]["axisRanges"][x];
+							if ($type.hasValue(range.date) && $type.isString(range.date)) {
+								range.date = this.dateFormatter.parse(range.date);
+							}
+							if ($type.hasValue(range.endDate) && $type.isString(range.endDate)) {
+								range.endDate = this.dateFormatter.parse(range.endDate);
+							}
+						}
+
 						xAxes.push({
 							axisRanges: config.xAxes[i]["axisRanges"],
 							index: i
@@ -1958,6 +1970,18 @@ export class XYChart extends SerialChart {
 						throw Error("[XYChart error] No type set for yAxes[" + i + "].");
 					}
 					else if ($type.hasValue(config.yAxes[i]["axisRanges"])) {
+
+						// Maybe convert string dates?
+						for (let x = 0, len = config.yAxes[i]["axisRanges"].length; x < len; x++) {
+							let range = config.yAxes[i]["axisRanges"][x];
+							if ($type.hasValue(range.date) && $type.isString(range.date)) {
+								range.date = this.dateFormatter.parse(range.date);
+							}
+							if ($type.hasValue(range.endDate) && $type.isString(range.endDate)) {
+								range.endDate = this.dateFormatter.parse(range.endDate);
+							}
+						}
+
 						yAxes.push({
 							axisRanges: config.yAxes[i]["axisRanges"],
 							index: i

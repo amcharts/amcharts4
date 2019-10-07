@@ -234,6 +234,14 @@ export interface IExportCSVOptions {
      * @default "" (empty string)
      */
     emptyAs?: any;
+    /**
+     * If set to `true` will export data as pivoted (column names in first column;
+     * values in rows).
+     *
+     * @default false
+     * @since 4.6.8
+     */
+    pivot?: boolean;
 }
 /**
  * Represents options for JSON export
@@ -292,6 +300,14 @@ export interface IExportExcelOptions {
      * @default "" (empty string)
      */
     emptyAs?: any;
+    /**
+     * If set to `true` will export data as pivoted (column names in first column;
+     * values in rows).
+     *
+     * @default false
+     * @since 4.6.8
+     */
+    pivot?: boolean;
 }
 /**
  * Represents options for print.
@@ -469,6 +485,9 @@ export interface IExportAdapters {
     extraSprites: {
         extraSprites: Array<Sprite | IExportCanvas>;
     };
+    validateSprites: {
+        validateSprites: Array<Sprite>;
+    };
     data: {
         data: Array<any>;
     };
@@ -634,33 +653,28 @@ export declare class Export extends Validatable {
     protected _menu: $type.Optional<ExportMenu>;
     /**
      * Reference to main container to place menu in.
-     *
-     * @ignore Exclude from docs
      */
     protected _container: HTMLElement;
     /**
      * [[Sprite]] instance to be used when converting to image.
-     *
-     * @ignore Exclude from docs
      */
     protected _sprite: $type.Optional<Sprite>;
     /**
      * Extra [[Sprite]] elements to include in exports.
-     *
-     * @ignore Exclude from docs
      */
     protected _extraSprites: Array<Sprite | IExportCanvas>;
     /**
+     * A list of [[Sprite]] elements that need to be valid before export
+     * commences.
+     */
+    protected _validateSprites: Array<Sprite>;
+    /**
      * Data storage to be used when exporting to data formats.
-     *
-     * @ignore Exclude from docs
      */
     protected _data: any;
     /**
      * Holds an object of field key / field name used to name columns when
      * exporting to data formats.
-     *
-     * @ignore Exclude from docs
      */
     protected _dataFields: any;
     /**
@@ -1358,6 +1372,64 @@ export declare class Export extends Validatable {
      */
     extraSprites: Array<Sprite | IExportCanvas>;
     /**
+     * @return Sprite
+     */
+    /**
+     * An array of [[Sprite]] elements that need to be valid before export
+     * commences.
+     *
+     * If any of those elements is not completely ready when export is triggered,
+     * the export will wait until they are (their `validated` event triggers)
+     * before going through with the export opertaion.
+     *
+     * This is useful if you need to modify chart appearance for the export.
+     *
+     * E.g.:
+     *
+     * ```TypeScript
+     * // Add watermark
+     * let watermark = chart.createChild(am4core.Label);
+     * watermark.text = "Copyright (C) 2019";
+     * watermark.disabled = true;
+     *
+     * // Add watermark to validated sprites
+     * chart.exporting.validateSprites.push(watermark);
+     *
+     * // Enable watermark on export
+     * chart.exporting.events.on("exportstarted", function(ev) {
+     *   watermark.disabled = false;
+     * });
+     *
+     * // Disable watermark when export finishes
+     * chart.exporting.events.on("exportfinished", function(ev) {
+     *   watermark.disabled = true;
+     * });
+     * ```
+     * ```JavaScript
+     * // Add watermark
+     * var watermark = chart.createChild(am4core.Label);
+     * watermark.text = "Copyright (C) 2019";
+     * watermark.disabled = true;
+     *
+     * // Add watermark to validated sprites
+     * chart.exporting.validateSprites.push(watermark);
+     *
+     * // Enable watermark on export
+     * chart.exporting.events.on("exportstarted", function(ev) {
+     *   watermark.disabled = false;
+     * });
+     *
+     * // Disable watermark when export finishes
+     * chart.exporting.events.on("exportfinished", function(ev) {
+     *   watermark.disabled = true;
+     * });
+     * ```
+     *
+     * @since 4.6.8
+     * @param value Sprite
+     */
+    validateSprites: Array<Sprite>;
+    /**
      * @return Data
      */
     /**
@@ -1667,6 +1739,15 @@ export declare class Export extends Validatable {
      * Respores elements that were hidden before export.
      */
     private restoreNonExportableSprites();
+    /**
+     * Checks if there are elements that absolutely need to be validated before
+     * export.
+     *
+     * If there are invalid elements, it will await for them to be validated.
+     *
+     * @return Promise
+     */
+    private awaitValidSprites();
     /**
      * Processes JSON-based config before it is applied to the object.
      *

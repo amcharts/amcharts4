@@ -442,6 +442,15 @@ export interface IExportCSVOptions {
 	 */
 	emptyAs?: any;
 
+	/**
+	 * If set to `true` will export data as pivoted (column names in first column;
+	 * values in rows).
+	 *
+	 * @default false
+	 * @since 4.6.8
+	 */
+	pivot?: boolean;
+
 }
 
 /**
@@ -510,6 +519,16 @@ export interface IExportExcelOptions {
 	 * @default "" (empty string)
 	 */
 	emptyAs?: any;
+
+	/**
+	 * If set to `true` will export data as pivoted (column names in first column;
+	 * values in rows).
+	 *
+	 * @default false
+	 * @since 4.6.8
+	 */
+	pivot?: boolean;
+
 }
 
 /**
@@ -727,6 +746,10 @@ export interface IExportAdapters {
 		extraSprites: Array<Sprite | IExportCanvas>
 	},
 
+	validateSprites: {
+		validateSprites: Array<Sprite>
+	},
+
 	data: {
 		data: Array<any>
 	},
@@ -926,37 +949,33 @@ export class Export extends Validatable {
 
 	/**
 	 * Reference to main container to place menu in.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	protected _container: HTMLElement;
 
 	/**
 	 * [[Sprite]] instance to be used when converting to image.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	protected _sprite: $type.Optional<Sprite>;
 
 	/**
 	 * Extra [[Sprite]] elements to include in exports.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	protected _extraSprites: Array<Sprite | IExportCanvas> = [];
 
 	/**
+	 * A list of [[Sprite]] elements that need to be valid before export
+	 * commences.
+	 */
+	protected _validateSprites: Array<Sprite> = [];
+
+	/**
 	 * Data storage to be used when exporting to data formats.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	protected _data: any;
 
 	/**
 	 * Holds an object of field key / field name used to name columns when
 	 * exporting to data formats.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	protected _dataFields: any;
 
@@ -1648,6 +1667,8 @@ export class Export extends Validatable {
 			options = this.getFormatOptions(type);
 		}
 
+		// Wait for required elements to be ready before proceeding
+		await this.awaitValidSprites();
 
 		// Are we using simplified export option?
 		if (await this.simplifiedImageExport()) {
@@ -2497,6 +2518,8 @@ export class Export extends Validatable {
 			this.hideNonExportableSprites();
 		}
 
+		// Wait for required elements to be ready before proceeding
+		await this.awaitValidSprites();
 
 		// Get dimensions
 		let width = this.sprite.pixelWidth,
@@ -2824,7 +2847,7 @@ export class Export extends Validatable {
 		};
 
 		// Init worksheet data
-		let data = [];
+		let data: Array<any> = [];
 
 		// Data fields
 		const dataFields = this.adapter.apply("formatDataFields", {
@@ -2832,14 +2855,33 @@ export class Export extends Validatable {
 			format: "xslx"
 		}).dataFields;
 
-		// Add column names?
-		if (options.addColumnNames) {
-			data.push(this.getExcelRow(dataFields, options, undefined, true));
+		// Vertical or horizontal (default) layout
+		if (options.pivot) {
+
+			$object.each(dataFields, (key, val) => {
+				let dataRow = [];
+				if (options.addColumnNames) {
+					dataRow.push(val);
+				}
+				for (let len = this.data.length, i = 0; i < len; i++) {
+					let dataValue = this.data[i][key];
+					dataRow.push(this.convertToSpecialFormat<"xlsx">(key, dataValue, options, true));
+				}
+				data.push(this.getExcelRow(dataRow, options, undefined, true));
+			});
+
 		}
 
-		// Add lines
-		for (let len = this.data.length, i = 0; i < len; i++) {
-			data.push(this.getExcelRow(this.data[i], options, dataFields));
+		else {
+			// Add column names?
+			if (options.addColumnNames) {
+				data.push(this.getExcelRow(dataFields, options, undefined, true));
+			}
+
+			// Add lines
+			for (let len = this.data.length, i = 0; i < len; i++) {
+				data.push(this.getExcelRow(this.data[i], options, dataFields));
+			}
 		}
 
 		// Create sheet and add data
@@ -2925,20 +2967,41 @@ export class Export extends Validatable {
 		// Add rows
 		let br = "";
 		const data = this.data;
-		for (let len = data.length, i = 0; i < len; i++) {
-			let row = this.getCSVRow(data[i], options, dataFields);
-			if (options.reverse) {
-				csv = row + br + csv;
-			}
-			else {
-				csv += br + row;
-			}
-			br = "\n";
+
+				// Vertical or horizontal (default) layout
+		if (options.pivot) {
+
+			$object.each(dataFields, (key, val) => {
+				let dataRow = [];
+				if (options.addColumnNames) {
+					dataRow.push(val);
+				}
+				for (let len = this.data.length, i = 0; i < len; i++) {
+					let dataValue = this.data[i][key];
+					dataRow.push(this.convertToSpecialFormat<"csv">(key, dataValue, options, true));
+				}
+				csv += br + this.getCSVRow(dataRow, options, undefined, true);
+				br = "\n";
+			});
+
 		}
 
-		// Add column names?
-		if (options.addColumnNames) {
-			csv = this.getCSVRow(dataFields, options, undefined, true) + br + csv;
+		else {
+			for (let len = data.length, i = 0; i < len; i++) {
+				let row = this.getCSVRow(data[i], options, dataFields);
+				if (options.reverse) {
+					csv = row + br + csv;
+				}
+				else {
+					csv += br + row;
+				}
+				br = "\n";
+			}
+
+			// Add column names?
+			if (options.addColumnNames) {
+				csv = this.getCSVRow(dataFields, options, undefined, true) + br + csv;
+			}
 		}
 
 		// Add content type
@@ -3670,6 +3733,73 @@ export class Export extends Validatable {
 	}
 
 	/**
+	 * An array of [[Sprite]] elements that need to be valid before export
+	 * commences.
+	 *
+	 * If any of those elements is not completely ready when export is triggered,
+	 * the export will wait until they are (their `validated` event triggers)
+	 * before going through with the export opertaion.
+	 *
+	 * This is useful if you need to modify chart appearance for the export.
+	 *
+	 * E.g.:
+	 *
+	 * ```TypeScript
+	 * // Add watermark
+	 * let watermark = chart.createChild(am4core.Label);
+	 * watermark.text = "Copyright (C) 2019";
+	 * watermark.disabled = true;
+	 *
+	 * // Add watermark to validated sprites
+	 * chart.exporting.validateSprites.push(watermark);
+	 *
+	 * // Enable watermark on export
+	 * chart.exporting.events.on("exportstarted", function(ev) {
+	 *   watermark.disabled = false;
+	 * });
+	 *
+	 * // Disable watermark when export finishes
+	 * chart.exporting.events.on("exportfinished", function(ev) {
+	 *   watermark.disabled = true;
+	 * });
+	 * ```
+	 * ```JavaScript
+	 * // Add watermark
+	 * var watermark = chart.createChild(am4core.Label);
+	 * watermark.text = "Copyright (C) 2019";
+	 * watermark.disabled = true;
+	 *
+	 * // Add watermark to validated sprites
+	 * chart.exporting.validateSprites.push(watermark);
+	 *
+	 * // Enable watermark on export
+	 * chart.exporting.events.on("exportstarted", function(ev) {
+	 *   watermark.disabled = false;
+	 * });
+	 *
+	 * // Disable watermark when export finishes
+	 * chart.exporting.events.on("exportfinished", function(ev) {
+	 *   watermark.disabled = true;
+	 * });
+	 * ```
+	 *
+	 * @since 4.6.8
+	 * @param value Sprite
+	 */
+	public set validateSprites(value: Array<Sprite>) {
+		this._validateSprites = value;
+	}
+
+	/**
+	 * @return Sprite
+	 */
+	public get validateSprites(): Array<Sprite> {
+		return this.adapter.apply("validateSprites", {
+			validateSprites: this._validateSprites
+		}).validateSprites;
+	}
+
+	/**
 	 * Data to export.
 	 *
 	 * @param value Data
@@ -4338,6 +4468,34 @@ export class Export extends Validatable {
 		});
 		this._hiddenObjects = [];
 		this._objectsAlreadyHidden = false;
+	}
+
+	/**
+	 * Checks if there are elements that absolutely need to be validated before
+	 * export.
+	 *
+	 * If there are invalid elements, it will await for them to be validated.
+	 * 
+	 * @return Promise
+	 */
+	private async awaitValidSprites(): Promise<void> {
+		let promises: Promise<any>[] = [];
+
+		if (this.validateSprites.length) {
+			$array.each(this.validateSprites, (sprite, index) => {
+				if (sprite.invalid) {
+					promises.push(new Promise((resolve, reject) => {
+						sprite.events.once("validated", (ev) => {
+							resolve();
+						});
+					}));
+				}
+			});
+		}
+
+		if (promises.length) {
+			await Promise.all(promises);
+		}
 	}
 
 	/**

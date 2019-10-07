@@ -56,6 +56,11 @@ export declare class NumberFormatter extends BaseObject {
      */
     protected _smallNumberPrefixes: INumberSuffix[];
     /**
+     * Any number smaller than this will be considered "small" number, which will
+     * trigger special formatting if "a" format modifier is used.
+     */
+    protected _smallNumberThreshold: number;
+    /**
      * Holds prefixes to apply to data size numbers if `b` modifier is used in
      * format.
      */
@@ -224,6 +229,17 @@ export declare class NumberFormatter extends BaseObject {
      * @param prefixes  Prefixes for small numbers
      */
     smallNumberPrefixes: INumberSuffix[];
+    /**
+     * @return Small number threshold
+     */
+    /**
+     * Any number smaller than this will be considered "small" number, which will
+     * trigger special formatting if "a" format modifier is used.
+     *
+     * @since 4.6.8
+     * @param  value  Small number threshold
+     */
+    smallNumberThreshold: number;
     /**
      * @return Prefixes for byte-size formatting
      */

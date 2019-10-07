@@ -309,10 +309,13 @@ var Export = /** @class */ (function (_super) {
         _this._formatOptions = new Dictionary();
         /**
          * Extra [[Sprite]] elements to include in exports.
-         *
-         * @ignore Exclude from docs
          */
         _this._extraSprites = [];
+        /**
+         * A list of [[Sprite]] elements that need to be valid before export
+         * commences.
+         */
+        _this._validateSprites = [];
         /**
          * Indicates whether data fields were generated dynamically (`true`) or
          * if they were pre-set by the user (`false`).
@@ -860,21 +863,26 @@ var Export = /** @class */ (function (_super) {
                         if (!$type.hasValue(options)) {
                             options = this.getFormatOptions(type);
                         }
-                        return [4 /*yield*/, this.simplifiedImageExport()];
+                        // Wait for required elements to be ready before proceeding
+                        return [4 /*yield*/, this.awaitValidSprites()];
                     case 1:
-                        if (!_a.sent()) return [3 /*break*/, 9];
-                        _a.label = 2;
+                        // Wait for required elements to be ready before proceeding
+                        _a.sent();
+                        return [4 /*yield*/, this.simplifiedImageExport()];
                     case 2:
-                        _a.trys.push([2, 6, , 8]);
-                        return [4 /*yield*/, this.getCanvas(options)];
+                        if (!_a.sent()) return [3 /*break*/, 10];
+                        _a.label = 3;
                     case 3:
-                        canvas = _a.sent();
-                        if (!(includeExtras !== false)) return [3 /*break*/, 5];
-                        return [4 /*yield*/, this.addExtras(canvas, options)];
+                        _a.trys.push([3, 7, , 9]);
+                        return [4 /*yield*/, this.getCanvas(options)];
                     case 4:
                         canvas = _a.sent();
-                        _a.label = 5;
+                        if (!(includeExtras !== false)) return [3 /*break*/, 6];
+                        return [4 /*yield*/, this.addExtras(canvas, options)];
                     case 5:
+                        canvas = _a.sent();
+                        _a.label = 6;
+                    case 6:
                         uri = canvas.toDataURL(this.getContentType(type), options.quality);
                         // Get rid of the canvas
                         this.disposeCanvas(canvas);
@@ -882,26 +890,26 @@ var Export = /** @class */ (function (_super) {
                             this.restoreNonExportableSprites();
                         }
                         return [2 /*return*/, uri];
-                    case 6:
+                    case 7:
                         e_3 = _a.sent();
                         console.error(e_3.message + "\n" + e_3.stack);
                         console.warn("Simple export failed, falling back to advanced export");
                         return [4 /*yield*/, this.getImageAdvanced(type, options, includeExtras)];
-                    case 7:
+                    case 8:
                         data = _a.sent();
                         if (!prehidden) {
                             this.restoreNonExportableSprites();
                         }
                         return [2 /*return*/, data];
-                    case 8: return [3 /*break*/, 11];
-                    case 9: return [4 /*yield*/, this.getImageAdvanced(type, options, includeExtras)];
-                    case 10:
+                    case 9: return [3 /*break*/, 12];
+                    case 10: return [4 /*yield*/, this.getImageAdvanced(type, options, includeExtras)];
+                    case 11:
                         data = _a.sent();
                         if (!prehidden) {
                             this.restoreNonExportableSprites();
                         }
                         return [2 /*return*/, data];
-                    case 11: return [2 /*return*/];
+                    case 12: return [2 /*return*/];
                 }
             });
         });
@@ -1626,25 +1634,33 @@ var Export = /** @class */ (function (_super) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var prehidden, width, height, font, fontSize, svg, charset, uri;
             return tslib_1.__generator(this, function (_a) {
-                prehidden = this._objectsAlreadyHidden;
-                if (!prehidden) {
-                    this.hideNonExportableSprites();
+                switch (_a.label) {
+                    case 0:
+                        prehidden = this._objectsAlreadyHidden;
+                        if (!prehidden) {
+                            this.hideNonExportableSprites();
+                        }
+                        // Wait for required elements to be ready before proceeding
+                        return [4 /*yield*/, this.awaitValidSprites()];
+                    case 1:
+                        // Wait for required elements to be ready before proceeding
+                        _a.sent();
+                        width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = $dom.findFont(this.sprite.dom), fontSize = $dom.findFontSize(this.sprite.dom);
+                        svg = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize);
+                        charset = this.adapter.apply("charset", {
+                            charset: "charset=utf-8",
+                            type: "svg",
+                            options: options
+                        }).charset;
+                        uri = this.adapter.apply("getSVG", {
+                            data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(svg),
+                            options: options
+                        }).data;
+                        if (!prehidden) {
+                            this.restoreNonExportableSprites();
+                        }
+                        return [2 /*return*/, uri];
                 }
-                width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = $dom.findFont(this.sprite.dom), fontSize = $dom.findFontSize(this.sprite.dom);
-                svg = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize);
-                charset = this.adapter.apply("charset", {
-                    charset: "charset=utf-8",
-                    type: "svg",
-                    options: options
-                }).charset;
-                uri = this.adapter.apply("getSVG", {
-                    data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(svg),
-                    options: options
-                }).data;
-                if (!prehidden) {
-                    this.restoreNonExportableSprites();
-                }
-                return [2 /*return*/, uri];
             });
         });
     };
@@ -1893,6 +1909,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getExcel = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var XLSX, wbOptions, sheetName, wb, data, dataFields, len, i, uri;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
@@ -1918,13 +1935,29 @@ var Export = /** @class */ (function (_super) {
                             dataFields: this.dataFields,
                             format: "xslx"
                         }).dataFields;
-                        // Add column names?
-                        if (options.addColumnNames) {
-                            data.push(this.getExcelRow(dataFields, options, undefined, true));
+                        // Vertical or horizontal (default) layout
+                        if (options.pivot) {
+                            $object.each(dataFields, function (key, val) {
+                                var dataRow = [];
+                                if (options.addColumnNames) {
+                                    dataRow.push(val);
+                                }
+                                for (var len = _this.data.length, i = 0; i < len; i++) {
+                                    var dataValue = _this.data[i][key];
+                                    dataRow.push(_this.convertToSpecialFormat(key, dataValue, options, true));
+                                }
+                                data.push(_this.getExcelRow(dataRow, options, undefined, true));
+                            });
                         }
-                        // Add lines
-                        for (len = this.data.length, i = 0; i < len; i++) {
-                            data.push(this.getExcelRow(this.data[i], options, dataFields));
+                        else {
+                            // Add column names?
+                            if (options.addColumnNames) {
+                                data.push(this.getExcelRow(dataFields, options, undefined, true));
+                            }
+                            // Add lines
+                            for (len = this.data.length, i = 0; i < len; i++) {
+                                data.push(this.getExcelRow(this.data[i], options, dataFields));
+                            }
                         }
                         // Create sheet and add data
                         wb.Sheets[sheetName] = XLSX.utils.aoa_to_sheet(data);
@@ -1989,6 +2022,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getCSV = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var csv, dataFields, br, data, len, i, row, charset, uri;
             return tslib_1.__generator(this, function (_a) {
                 csv = "";
@@ -1998,19 +2032,36 @@ var Export = /** @class */ (function (_super) {
                 }).dataFields;
                 br = "";
                 data = this.data;
-                for (len = data.length, i = 0; i < len; i++) {
-                    row = this.getCSVRow(data[i], options, dataFields);
-                    if (options.reverse) {
-                        csv = row + br + csv;
-                    }
-                    else {
-                        csv += br + row;
-                    }
-                    br = "\n";
+                // Vertical or horizontal (default) layout
+                if (options.pivot) {
+                    $object.each(dataFields, function (key, val) {
+                        var dataRow = [];
+                        if (options.addColumnNames) {
+                            dataRow.push(val);
+                        }
+                        for (var len = _this.data.length, i = 0; i < len; i++) {
+                            var dataValue = _this.data[i][key];
+                            dataRow.push(_this.convertToSpecialFormat(key, dataValue, options, true));
+                        }
+                        csv += br + _this.getCSVRow(dataRow, options, undefined, true);
+                        br = "\n";
+                    });
                 }
-                // Add column names?
-                if (options.addColumnNames) {
-                    csv = this.getCSVRow(dataFields, options, undefined, true) + br + csv;
+                else {
+                    for (len = data.length, i = 0; i < len; i++) {
+                        row = this.getCSVRow(data[i], options, dataFields);
+                        if (options.reverse) {
+                            csv = row + br + csv;
+                        }
+                        else {
+                            csv += br + row;
+                        }
+                        br = "\n";
+                    }
+                    // Add column names?
+                    if (options.addColumnNames) {
+                        csv = this.getCSVRow(dataFields, options, undefined, true) + br + csv;
+                    }
                 }
                 charset = this.adapter.apply("charset", {
                     charset: "charset=utf-8",
@@ -2616,6 +2667,75 @@ var Export = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._extraSprites = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Export.prototype, "validateSprites", {
+        /**
+         * @return Sprite
+         */
+        get: function () {
+            return this.adapter.apply("validateSprites", {
+                validateSprites: this._validateSprites
+            }).validateSprites;
+        },
+        /**
+         * An array of [[Sprite]] elements that need to be valid before export
+         * commences.
+         *
+         * If any of those elements is not completely ready when export is triggered,
+         * the export will wait until they are (their `validated` event triggers)
+         * before going through with the export opertaion.
+         *
+         * This is useful if you need to modify chart appearance for the export.
+         *
+         * E.g.:
+         *
+         * ```TypeScript
+         * // Add watermark
+         * let watermark = chart.createChild(am4core.Label);
+         * watermark.text = "Copyright (C) 2019";
+         * watermark.disabled = true;
+         *
+         * // Add watermark to validated sprites
+         * chart.exporting.validateSprites.push(watermark);
+         *
+         * // Enable watermark on export
+         * chart.exporting.events.on("exportstarted", function(ev) {
+         *   watermark.disabled = false;
+         * });
+         *
+         * // Disable watermark when export finishes
+         * chart.exporting.events.on("exportfinished", function(ev) {
+         *   watermark.disabled = true;
+         * });
+         * ```
+         * ```JavaScript
+         * // Add watermark
+         * var watermark = chart.createChild(am4core.Label);
+         * watermark.text = "Copyright (C) 2019";
+         * watermark.disabled = true;
+         *
+         * // Add watermark to validated sprites
+         * chart.exporting.validateSprites.push(watermark);
+         *
+         * // Enable watermark on export
+         * chart.exporting.events.on("exportstarted", function(ev) {
+         *   watermark.disabled = false;
+         * });
+         *
+         * // Disable watermark when export finishes
+         * chart.exporting.events.on("exportfinished", function(ev) {
+         *   watermark.disabled = true;
+         * });
+         * ```
+         *
+         * @since 4.6.8
+         * @param value Sprite
+         */
+        set: function (value) {
+            this._validateSprites = value;
         },
         enumerable: true,
         configurable: true
@@ -3323,6 +3443,42 @@ var Export = /** @class */ (function (_super) {
         });
         this._hiddenObjects = [];
         this._objectsAlreadyHidden = false;
+    };
+    /**
+     * Checks if there are elements that absolutely need to be validated before
+     * export.
+     *
+     * If there are invalid elements, it will await for them to be validated.
+     *
+     * @return Promise
+     */
+    Export.prototype.awaitValidSprites = function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var promises;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        promises = [];
+                        if (this.validateSprites.length) {
+                            $array.each(this.validateSprites, function (sprite, index) {
+                                if (sprite.invalid) {
+                                    promises.push(new Promise(function (resolve, reject) {
+                                        sprite.events.once("validated", function (ev) {
+                                            resolve();
+                                        });
+                                    }));
+                                }
+                            });
+                        }
+                        if (!promises.length) return [3 /*break*/, 2];
+                        return [4 /*yield*/, Promise.all(promises)];
+                    case 1:
+                        _a.sent();
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
+                }
+            });
+        });
     };
     /**
      * Processes JSON-based config before it is applied to the object.

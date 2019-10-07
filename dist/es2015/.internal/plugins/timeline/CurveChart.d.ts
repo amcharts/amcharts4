@@ -174,4 +174,9 @@ export declare class CurveChart extends XYChart {
      * @param axis Axis
      */
     updateYAxis(renderer: AxisRenderer): void;
+    /**
+     * @ignore
+     * @return Has license?
+     */
+    hasLicense(): boolean;
 }
