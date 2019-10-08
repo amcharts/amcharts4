@@ -1797,11 +1797,17 @@ var XYSeries = /** @class */ (function (_super) {
      * Updates item reader text based on the type and set up of axis.
      */
     XYSeries.prototype.updateItemReaderText = function () {
+        // We do not want to overwrite this if `itemReaderText` was changed by
+        // user code.
+        if (this._itemReaderTextChanged) {
+            return;
+        }
         var text = "";
         $object.each(this.dataFields, function (key, val) {
             text += "{" + key + "} ";
         });
         this.itemReaderText = text;
+        this._itemReaderTextChanged = false;
     };
     Object.defineProperty(XYSeries.prototype, "cursorTooltipEnabled", {
         /**

@@ -4517,7 +4517,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Title
 	 */
 	public get readerTitle(): string {
-		return this.getPropertyValue("readerTitle");
+		const title = this.getPropertyValue("readerTitle");
+		if ($type.hasValue(title) && this.dataItem) {
+			return this.populateString(title);
+		}
+		return title;
 	}
 
 	/**

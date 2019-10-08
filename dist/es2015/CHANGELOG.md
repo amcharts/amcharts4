@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.6.9] - 2019-10-08
+
+### Fixed
+- Accessibility: `itemReaderText` on `XYSeries` (and all inheriting series types) now respects value set from user code.
+- Accessibility: Default `role` for chart changed to `widget`.
+- Accessibility: `Axis` has now `readerHidden = true` set by default, to prevent screen readers from reading out useless numbers.
+- Accessibility: `readerTitle` was not being populated by data item data via curly bracket data placeholders.
+- Accessibility: Bullets were ignoring Series' `skipFocusThreshold` setting.
+
+
 ## [4.6.8] - 2019-10-07
 
 ### Added

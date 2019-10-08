@@ -202,7 +202,7 @@ export class Chart extends Component {
 		// mess up the whole focus event system - getting a focus on an inside
 		// object also trigger focus on parent
 		//this.focusable = true;
-		this.role = "region";
+		this.role = "widget";
 
 		this.defaultState.transitionDuration = 1;
 
@@ -459,6 +459,14 @@ export class Chart extends Component {
 			this._dragGrip = grip;
 		}
 		return this._dragGrip;
+	}
+
+	public set focusable(value: boolean) {
+		this.parent.focusable = true;
+	}
+
+	public get focusable(): boolean {
+		return this.parent.focusable;
 	}
 }
 

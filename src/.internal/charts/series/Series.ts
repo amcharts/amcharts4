@@ -390,6 +390,11 @@ export class Series extends Component {
 	protected _itemReaderText: string;
 
 
+	/**
+	 * Used to indicate if `itemReaderText` was changed "from the outside".
+	 */
+	protected _itemReaderTextChanged: boolean = false;
+
 	/*
 		public heatMapfillRule: (fill:Color, column: Sprite) => any = function(fill:Color, sprite: Sprite) {
 			let dataItem: SeriesDataItem = <SeriesDataItem>sprite.dataItem;
@@ -575,9 +580,11 @@ export class Series extends Component {
 		bullet.isTemplate = true;
 		// Add accessibility options to bullet
 		// If there are relatively few bullets, make them focusable
-		if (this.itemsFocusable()) {
-			bullet.focusable = true;
-		}
+		this.events.once("datavalidated", (ev) => {
+			if (this.itemsFocusable()) {
+				bullet.focusable = true;
+			}
+		});
 	}
 
 	/**
@@ -1211,6 +1218,7 @@ export class Series extends Component {
 	 */
 	public set itemReaderText(value: string) {
 		this._itemReaderText = value;
+		this._itemReaderTextChanged = true;
 	}
 
 	/**

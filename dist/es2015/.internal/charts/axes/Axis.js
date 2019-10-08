@@ -638,6 +638,8 @@ var Axis = /** @class */ (function (_super) {
         background.fillOpacity = 1;
         tooltip.label.fill = interfaceColors.getFor("alternativeText");
         _this.tooltip = tooltip;
+        // Accessibility
+        _this.readerHidden = true;
         _this.applyTheme();
         return _this;
     }

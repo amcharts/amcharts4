@@ -172,6 +172,10 @@ var Series = /** @class */ (function (_super) {
          */
         _this.skipFocusThreshold = 20;
         /**
+         * Used to indicate if `itemReaderText` was changed "from the outside".
+         */
+        _this._itemReaderTextChanged = false;
+        /**
          * Most of the series use absolute values. However sometimes various
          * calculated percent values are need, e.g. item's percent representation
          * across all values in series, etc.
@@ -312,13 +316,16 @@ var Series = /** @class */ (function (_super) {
      * @todo investigate why itemReaderText is undefined
      */
     Series.prototype.processBullet = function (event) {
+        var _this = this;
         var bullet = event.newValue;
         bullet.isTemplate = true;
         // Add accessibility options to bullet
         // If there are relatively few bullets, make them focusable
-        if (this.itemsFocusable()) {
-            bullet.focusable = true;
-        }
+        this.events.once("datavalidated", function (ev) {
+            if (_this.itemsFocusable()) {
+                bullet.focusable = true;
+            }
+        });
     };
     /**
      * removes bullets
@@ -910,6 +917,7 @@ var Series = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._itemReaderText = value;
+            this._itemReaderTextChanged = true;
         },
         enumerable: true,
         configurable: true

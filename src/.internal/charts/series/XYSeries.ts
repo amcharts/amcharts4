@@ -2317,11 +2317,18 @@ export class XYSeries extends Series {
 	 * Updates item reader text based on the type and set up of axis.
 	 */
 	protected updateItemReaderText(): void {
+
+		// We do not want to overwrite this if `itemReaderText` was changed by
+		// user code.
+		if (this._itemReaderTextChanged) {
+			return;
+		}
 		let text = ""
 		$object.each(this.dataFields, (key, val) => {
 			text += "{" + key + "} ";
 		});
 		this.itemReaderText = text;
+		this._itemReaderTextChanged = false;
 	}
 
 	/**

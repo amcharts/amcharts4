@@ -113,7 +113,7 @@ var Chart = /** @class */ (function (_super) {
         // mess up the whole focus event system - getting a focus on an inside
         // object also trigger focus on parent
         //this.focusable = true;
-        _this.role = "region";
+        _this.role = "widget";
         _this.defaultState.transitionDuration = 1;
         // Apply theme
         _this.applyTheme();
@@ -343,6 +343,16 @@ var Chart = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._dragGrip = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Chart.prototype, "focusable", {
+        get: function () {
+            return this.parent.focusable;
+        },
+        set: function (value) {
+            this.parent.focusable = true;
         },
         enumerable: true,
         configurable: true

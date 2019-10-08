@@ -192,4 +192,5 @@ export declare class Chart extends Component {
      * @param  value  Grip
      */
     dragGrip: Grip;
+    focusable: boolean;
 }

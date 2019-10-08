@@ -3518,7 +3518,11 @@ var Sprite = /** @class */ (function (_super) {
          * @return Title
          */
         get: function () {
-            return this.getPropertyValue("readerTitle");
+            var title = this.getPropertyValue("readerTitle");
+            if ($type.hasValue(title) && this.dataItem) {
+                return this.populateString(title);
+            }
+            return title;
         },
         /**
          * Screen reader title of the element.

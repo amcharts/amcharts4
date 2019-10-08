@@ -296,6 +296,10 @@ export declare class Series extends Component {
      * for each Series type.
      */
     protected _itemReaderText: string;
+    /**
+     * Used to indicate if `itemReaderText` was changed "from the outside".
+     */
+    protected _itemReaderTextChanged: boolean;
     protected _heatRules: List<IHeatRule>;
     /**
      * Most of the series use absolute values. However sometimes various

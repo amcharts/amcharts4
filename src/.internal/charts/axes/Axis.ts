@@ -1059,6 +1059,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 
 		this.tooltip = tooltip;
 
+		// Accessibility
+		this.readerHidden = true;
+
 		this.applyTheme();
 	}
 
