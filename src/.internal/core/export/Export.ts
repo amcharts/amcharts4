@@ -377,6 +377,61 @@ export interface IExportPDFOptions extends IExportImageOptions {
 	 */
 	pageMargins?: number | number[];
 
+	/**
+	 * Should data table be included together with the image?
+	 *
+	 * Use "pdfdata" options to configure table output.
+	 *
+	 * @default false
+	 * @since 4.7.0
+	 */
+	addData?: boolean;
+
+	/**
+	 * Add column names in first row?
+	 *
+	 * Export will try to use user-friendly column names where possible, either
+	 * from Export's `dataFields` or deduced from chart's series' names that are
+	 * bound to specific data fields.
+	 *
+	 * @default true
+	 * @since 4.7.0
+	 */
+	addColumnNames?: boolean;
+
+	/**
+	 * Use timestamps instead of formatted date/time values.
+	 *
+	 * @default false
+	 * @since 4.7.0
+	 */
+	useTimestamps?: boolean;
+
+	/**
+	 * Will try to format numbers and date/time according to user's locale
+	 * settings.
+	 *
+	 * @default true
+	 * @since 4.7.0
+	 */
+	useLocale?: boolean;
+
+	/**
+	 * Replace missing values with this.
+	 *
+	 * @default "" (empty string)
+	 * @since 4.7.0
+	 */
+	emptyAs?: any;
+
+	/**
+	 * If set to `true` will export data as pivoted (column names in first column;
+	 * values in rows).
+	 *
+	 * @default false
+	 * @since 4.7.0
+	 */
+	pivot?: boolean;
 }
 
 /**
@@ -532,6 +587,75 @@ export interface IExportExcelOptions {
 }
 
 /**
+ * Represents options for HTML export.
+ * @since 4.7.0
+ */
+export interface IExportHTMLOptions {
+
+	/**
+	 * Add column names in first row?
+	 *
+	 * Export will try to use user-friendly column names where possible, either
+	 * from Export's `dataFields` or deduced from chart's series' names that are
+	 * bound to specific data fields.
+	 *
+	 * @default true
+	 */
+	addColumnNames?: boolean;
+
+	/**
+	 * Use timestamps instead of formatted date/time values.
+	 *
+	 * @default false
+	 */
+	useTimestamps?: boolean;
+
+	/**
+	 * Will try to format numbers and date/time according to user's locale
+	 * settings.
+	 *
+	 * @default true
+	 */
+	useLocale?: boolean;
+
+	/**
+	 * Replace missing values with this.
+	 *
+	 * @default "" (empty string)
+	 */
+	emptyAs?: any;
+
+	/**
+	 * If set to `true` will export data as pivoted (column names in first column;
+	 * values in rows).
+	 *
+	 * @default false
+	 */
+	pivot?: boolean;
+
+	/**
+	 * A class name to add to table.
+	 */
+	tableClass?: string;
+
+	/**
+	 * A class name to add to table headers.
+	 */
+	rowClass?: string;
+
+	/**
+	 * A class name to add to table headers.
+	 */
+	headerClass?: string;
+
+	/**
+	 * A class name to add to table cells.
+	 */
+	cellClass?: string;
+
+}
+
+/**
  * Represents options for print.
  */
 export interface IExportPrintOptions extends IExportImageOptions {
@@ -608,6 +732,8 @@ export interface IExportOptions {
 	xlsx: IExportExcelOptions;
 	csv: IExportCSVOptions;
 	json: IExportJSONOptions;
+	pdfdata: IExportPDFOptions;
+	html: IExportHTMLOptions;
 	print: IExportPrintOptions;
 	custom: IExportCustomOptions;
 }
@@ -617,7 +743,7 @@ export interface IExportOptions {
  *
  * @ignore Exclude from docs
  */
-export type ExportOptions = IExportImageOptions | IExportSVGOptions | IExportPDFOptions | IExportExcelOptions | IExportCSVOptions | IExportJSONOptions | IExportPrintOptions;
+export type ExportOptions = IExportImageOptions | IExportSVGOptions | IExportPDFOptions | IExportExcelOptions | IExportCSVOptions | IExportJSONOptions | IExportHTMLOptions | IExportPrintOptions;
 
 /**
  * Defines events for export operations.
@@ -729,8 +855,18 @@ export interface IExportAdapters {
 		options?: IExportOptions[Keys]
 	},
 
+	getHTML: {
+		data: string,
+		options?: IExportOptions[Keys]
+	},
+
 	pdfmakeDocument: {
 		doc: any,
+		options?: IExportOptions[Keys]
+	},
+
+	pdfmakeTable: {
+		table: any,
 		options?: IExportOptions[Keys]
 	},
 
@@ -1188,7 +1324,8 @@ export class Export extends Validatable {
 		this._formatOptions.setKey("pdf", {
 			fontSize: 14,
 			imageFormat: "png",
-			addURL: true
+			addURL: true,
+			addColumnNames: true
 		});
 
 		this._formatOptions.setKey("json", {
@@ -1204,6 +1341,19 @@ export class Export extends Validatable {
 		this._formatOptions.setKey("xlsx", {
 			addColumnNames: true,
 			useLocale: true,
+			emptyAs: ""
+		});
+
+		this._formatOptions.setKey("html", {
+			addColumnNames: true,
+			emptyAs: ""
+		});
+
+		this._formatOptions.setKey("pdfdata", {
+			fontSize: 14,
+			imageFormat: "png",
+			addURL: true,
+			addColumnNames: true,
 			emptyAs: ""
 		});
 
@@ -1357,6 +1507,7 @@ export class Export extends Validatable {
 			case "svg":
 				return <any>this.getSVG;
 			case "pdf":
+			case "pdfdata":
 				return <any>this.getPDF;
 			case "xlsx":
 				return <any>this.getExcel;
@@ -1364,6 +1515,8 @@ export class Export extends Validatable {
 				return <any>this.getCSV;
 			case "json":
 				return <any>this.getJSON;
+			case "html":
+				return <any>this.getHTML;
 			case "print":
 				return <any>this.getPrint;
 			default:
@@ -1475,6 +1628,9 @@ export class Export extends Validatable {
 				}).title);
 			}
 			else {
+				if (type == "pdfdata") {
+					return this.download(data, this.filePrefix + ".pdf");
+				}
 				return this.download(data, this.filePrefix + "." + type);
 			}
 
@@ -2660,7 +2816,7 @@ export class Export extends Validatable {
 	 * @async
 	 * @todo Account for header when calculating vertical fit
 	 */
-	public async getPDF(type: "pdf", options?: IExportPDFOptions): Promise<string> {
+	public async getPDF(type: "pdf" | "pdfdata", options?: IExportPDFOptions): Promise<string> {
 
 		// Get image
 		let image = await this.getImage(options.imageFormat || "png", options);
@@ -2705,10 +2861,19 @@ export class Export extends Validatable {
 		}
 
 		// Add image
-		doc.content.push({
-			image: image,
-			fit: this.getPageSizeFit(doc.pageSize, doc.pageMargins)
-		});
+		if (type != "pdfdata") {
+			doc.content.push({
+				image: image,
+				fit: this.getPageSizeFit(doc.pageSize, doc.pageMargins)
+			});
+		}
+
+		// Add data
+		if (type == "pdfdata" || options.addData) {
+			doc.content.push({
+				table: await this.getPDFData("pdf", options)
+			});
+		}
 
 		// Apply adapters
 		doc = this.adapter.apply("pdfmakeDocument", {
@@ -2723,6 +2888,110 @@ export class Export extends Validatable {
 			});
 		});
 
+	}
+
+	/**
+	 * Returns chart's data formatted suitable for PDF export (pdfmake).
+	 *
+	 * This is an asynchronous function. Check the description of `getImage()`
+	 * for description and example usage.
+	 *
+	 * @since 4.7.0
+	 * @param type     Type of the export
+	 * @param options  Options
+	 * @return Promise
+	 * @async
+	 */
+	public async getPDFData(type: "pdf", options?: IExportPDFOptions): Promise<any> {
+
+		// Init output
+		let content = <any>{
+			"body": <any>[]
+		};
+
+		// Data fields
+		const dataFields = this.adapter.apply("formatDataFields", {
+			dataFields: this.dataFields,
+			format: "pdf"
+		}).dataFields;
+
+		// Add rows
+		const data = this.data;
+
+		// Vertical or horizontal (default) layout
+		if (options.pivot) {
+
+			$object.each(dataFields, (key, val) => {
+				let dataRow = [];
+				if (options.addColumnNames) {
+					dataRow.push(val);
+				}
+				for (let len = this.data.length, i = 0; i < len; i++) {
+					let dataValue = this.data[i][key];
+					dataRow.push(this.convertToSpecialFormat<"pdf">(key, dataValue, options, true));
+				}
+				content.body.push(this.getPDFDataRow(dataRow, options, undefined, true));
+			});
+
+		}
+
+		else {
+
+			// Add column names?
+			if (options.addColumnNames) {
+				content.body.push(this.getPDFDataRow(dataFields, options, undefined, true));
+				content.headerRows = 1;
+			}
+
+			for (let len = data.length, i = 0; i < len; i++) {
+				content.body.push(this.getPDFDataRow(data[i], options, dataFields));
+			}
+
+		}
+
+		return this.adapter.apply("pdfmakeTable", {
+			table: content,
+			options: options
+		}).table;
+
+	}
+
+	/**
+	 * Formats a row of data for use in PDF data table (pdfmake).
+	 *
+	 * @ignore Exclude from docs
+	 * @since 4.7.0
+	 * @param  row         An object holding data for the row
+	 * @param  options     Options
+	 * @param  dataFields  Data fields
+	 * @param  asIs        Do not try to convert to dates
+	 * @return Formated Data line
+	 */
+	public getPDFDataRow(row: any, options?: IExportPDFOptions, dataFields?: any, asIs: boolean = false): Array<string> {
+
+		// Init
+		let items: any[] = [];
+
+		// Data fields
+		if (!dataFields) {
+			dataFields = row;
+		}
+
+		// Process each row item
+		$object.each(dataFields, (key, name) => {
+
+			// Get value
+			let value = this.convertEmptyValue(key, row[key], options);
+
+			// Convert dates
+			let item = asIs ? value : this.convertToSpecialFormat<"csv">(key, value, options);
+			item = "" + item;
+
+			// Add to item
+			items.push(item);
+		});
+
+		return items;
 	}
 
 	/**
@@ -2968,7 +3237,7 @@ export class Export extends Validatable {
 		let br = "";
 		const data = this.data;
 
-				// Vertical or horizontal (default) layout
+		// Vertical or horizontal (default) layout
 		if (options.pivot) {
 
 			$object.each(dataFields, (key, val) => {
@@ -3073,6 +3342,146 @@ export class Export extends Validatable {
 	}
 
 	/**
+	 * Returns chart's data formatted as HTML table.
+	 *
+	 * This is an asynchronous function. Check the description of `getImage()`
+	 * for description and example usage.
+	 *
+	 * @since 4.7.0
+	 * @param type     Type of the export
+	 * @param options  Options
+	 * @return Promise
+	 * @async
+	 */
+	public async getHTML(type: "html", options?: IExportHTMLOptions): Promise<string> {
+
+		// Init output
+		let html = "<table>";
+		if (options.tableClass) {
+			html = "<table class=\"" + options.tableClass + "\">";
+		}
+
+		// Data fields
+		const dataFields = this.adapter.apply("formatDataFields", {
+			dataFields: this.dataFields,
+			format: "html"
+		}).dataFields;
+
+		// Add rows
+		const data = this.data;
+
+		// Vertical or horizontal (default) layout
+		if (options.pivot) {
+
+			$object.each(dataFields, (key, val) => {
+				let dataRow = [];
+				if (options.addColumnNames) {
+					dataRow.push(val);
+				}
+				for (let len = this.data.length, i = 0; i < len; i++) {
+					let dataValue = this.data[i][key];
+					dataRow.push(this.convertToSpecialFormat<"html">(key, dataValue, options, true));
+				}
+				html += "\n" + this.getHTMLRow(dataRow, options, undefined, true);
+			});
+
+		}
+
+		else {
+			// Add column names?
+			if (options.addColumnNames) {
+				html += "\n" + this.getHTMLRow(dataFields, options, undefined, true, true);
+			}
+
+			for (let len = data.length, i = 0; i < len; i++) {
+				html += "\n" + this.getHTMLRow(data[i], options, dataFields);
+			}
+		}
+
+		html += "</table>";
+
+		// Add content type
+		let charset = this.adapter.apply("charset", {
+			charset: "charset=utf-8",
+			type: type,
+			options: options
+		}).charset;
+
+		let uri = this.adapter.apply("getHTML", {
+			data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(html),
+			options: options
+		}).data;
+
+		return uri;
+
+	}
+
+	/**
+	 * Formats a row of HTML data.
+	 *
+	 * @since 4.7.0
+	 * @ignore Exclude from docs
+	 * @param  row         An object holding data for the row
+	 * @param  options     Options
+	 * @param  dataFields  Data fields
+	 * @param  asIs        Do not try to convert to dates
+	 * @return Formated HTML row
+	 */
+	public getHTMLRow(row: any, options?: IExportHTMLOptions, dataFields?: any, asIs: boolean = false, headerRow: boolean = false): string {
+
+		// Init output
+		let html = "\t<tr>";
+		if (options.rowClass) {
+			html = "\t<tr class=\"" + options.rowClass + "\">";
+		}
+
+		// Data fields
+		if (!dataFields) {
+			dataFields = row;
+		}
+
+		// th or dh?
+		const tag = headerRow ? "th" : "td";
+
+		// Process each row item
+		let first = true;
+		$object.each(dataFields, (key, name) => {
+
+			// Get value
+			let value = this.convertEmptyValue(key, row[key], options);
+
+			// Convert dates
+			let item = asIs ? value : this.convertToSpecialFormat<"html">(key, value, options);
+
+			// Escape HTML entities
+			item = "" + item;
+			item = item.replace(/[\u00A0-\u9999<>\&]/gim, function(i: string) {
+				return "&#" + i.charCodeAt(0) + ";";
+			});
+
+			// Which tag to use
+			let useTag = tag;
+			if (options.pivot && first) {
+				useTag = "th";
+			}
+
+			// Add cell
+			if (options.cellClass) {
+				html += "\n\t\t<" + useTag + " class=\"" + options.cellClass + "\">" + item + "</" + useTag + ">";
+			}
+			else {
+				html += "\n\t\t<" + useTag + ">" + item + "</" + useTag + ">";
+			}
+
+			first = false;
+		});
+
+		html += "\n\t</tr>";
+
+		return html;
+	}
+
+	/**
 	 * Returns chart's data in JSON format.
 	 *
 	 * This is an asynchronous function. Check the description of `getImage()`
@@ -3147,7 +3556,7 @@ export class Export extends Validatable {
 	 * @param  keepOriginal  Will ignore formatting and will keep value as it is in data
 	 * @return Formatted date value or unmodified value
 	 */
-	public convertToSpecialFormat<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key], keepOriginal?: boolean): any {
+	public convertToSpecialFormat<Key extends "json" | "csv" | "xlsx" | "html" | "pdf">(field: string, value: any, options?: IExportOptions[Key], keepOriginal?: boolean): any {
 
 		// Is this a timestamp or duration?
 		if (typeof value == "number") {
@@ -3261,7 +3670,7 @@ export class Export extends Validatable {
 
 			uri = decodeURIComponent(parts.join(";").replace(/^[^,]*,/, ""));
 
-			if (["image/svg+xml", "application/json", "text/csv"].indexOf(contentType) == -1) {
+			if (["image/svg+xml", "application/json", "text/csv", "text/html"].indexOf(contentType) == -1) {
 				try {
 					let decoded = atob(uri);
 					uri = decoded;
@@ -3861,6 +4270,7 @@ export class Export extends Validatable {
 	public get dateFormatter(): any {
 		if (!this._dateFormatter) {
 			this._dateFormatter = new DateFormatter();
+			this._dateFormatter.language = this.language;
 		}
 		return this.adapter.apply("dateFormatter", {
 			dateFormatter: this._dateFormatter
@@ -3923,6 +4333,7 @@ export class Export extends Validatable {
 	public get numberFormatter(): any {
 		if (!this._numberFormatter) {
 			this._numberFormatter = new NumberFormatter();
+			this._numberFormatter.language = this.language;
 		}
 		return this.adapter.apply("numberFormatter", {
 			numberFormatter: this._numberFormatter
@@ -3987,6 +4398,7 @@ export class Export extends Validatable {
 	public get durationFormatter(): any {
 		if (!this._durationFormatter) {
 			this._durationFormatter = new DurationFormatter();
+			this._durationFormatter.language = this.language;
 		}
 		return this.adapter.apply("durationFormatter", {
 			durationFormatter: this._durationFormatter
@@ -4128,7 +4540,11 @@ export class Export extends Validatable {
 			case "json":
 				contentType = "application/json";
 				break;
+			case "html":
+				contentType = "text/html";
+				break;
 			case "pdf":
+			case "pdfdata":
 				contentType = "application/pdf";
 				break;
 			case "xlsx":

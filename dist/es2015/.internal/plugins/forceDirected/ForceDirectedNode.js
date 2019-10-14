@@ -271,8 +271,11 @@ var ForceDirectedNode = /** @class */ (function (_super) {
             return this.getPropertyValue("paddingRadius");
         },
         /**
-         * Padding of the nodes, in pixels
-         * @todo mm
+         * Padding of the nodes, in pixels.
+         *
+         * @since 4.6.7
+         * @default 0
+         * @param  value  padding radius
          */
         set: function (value) {
             this.setPropertyValue("paddingRadius", value);

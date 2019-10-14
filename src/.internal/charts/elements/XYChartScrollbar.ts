@@ -23,7 +23,7 @@ import { DesaturateFilter } from "../../core/rendering/filters/DesaturateFilter"
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $path from "../../core/rendering/Path";
-
+import { percent } from "../../core/utils/Percent";
 
 /**
  * ============================================================================
@@ -234,21 +234,33 @@ export class XYChartScrollbar extends Scrollbar {
 			renderer.chart = scrollbarChart;
 			renderer.margin(0, 0, 0, 0);
 
+			xAxis.width = percent(100);
+
 			let labelsTemplate = renderer.labels.template;
 			labelsTemplate.fillOpacity = 0.5;
 
 			if (xAxis instanceof DateAxis) {
 				let vAxis = <DateAxis>xAxis;
+				let sourceAxis = <DateAxis>sourceSeries.xAxis;
+				xAxis.groupCount = sourceAxis.groupCount * 5;
 				this._disposers.push(vAxis.clonedFrom.events.on("extremeschanged", () => {
-					vAxis.min = vAxis.clonedFrom.min;
-					vAxis.max = vAxis.clonedFrom.max - 1;
+					if ($type.isNumber(vAxis.clonedFrom.minDefined)) {
+						vAxis.min = vAxis.clonedFrom.minDefined;
+					}
+					if ($type.isNumber(vAxis.clonedFrom.maxDefined)) {
+						vAxis.max = vAxis.clonedFrom.maxDefined;
+					}
 				}, undefined, false))
 			}
 			else if (xAxis instanceof ValueAxis) {
 				let vAxis = <ValueAxis>xAxis;
 				this._disposers.push(vAxis.clonedFrom.events.on("extremeschanged", () => {
-					vAxis.min = vAxis.clonedFrom.min;
-					vAxis.max = vAxis.clonedFrom.max;
+					if ($type.isNumber(vAxis.clonedFrom.minDefined)) {
+						vAxis.min = vAxis.clonedFrom.min;
+					}
+					if ($type.isNumber(vAxis.clonedFrom.maxDefined)) {
+						vAxis.max = vAxis.clonedFrom.max;
+					}
 				}, undefined, false))
 			}
 
@@ -287,6 +299,7 @@ export class XYChartScrollbar extends Scrollbar {
 			renderer.chart = scrollbarChart;
 			renderer.padding(0, 0, 0, 0);
 			renderer.margin(0, 0, 0, 0);
+			yAxis.height = percent(100);
 
 			let labelsTemplate = renderer.labels.template;
 			labelsTemplate.fillOpacity = 0.5;
@@ -295,17 +308,28 @@ export class XYChartScrollbar extends Scrollbar {
 
 			if (yAxis instanceof DateAxis) {
 				let vAxis = <ValueAxis>yAxis;
+				let sourceAxis = <DateAxis>sourceSeries.yAxis;
+				yAxis.groupCount = sourceAxis.groupCount * 5;
+
 				this._disposers.push(vAxis.clonedFrom.events.on("extremeschanged", () => {
-					vAxis.min = vAxis.clonedFrom.min;
-					vAxis.max = vAxis.clonedFrom.max - 1;
+					if ($type.isNumber(vAxis.clonedFrom.minDefined)) {
+						vAxis.min = vAxis.clonedFrom.minDefined;
+					}
+					if ($type.isNumber(vAxis.clonedFrom.maxDefined)) {
+						vAxis.max = vAxis.clonedFrom.maxDefined;
+					}
 				}))
 			}
 
 			else if (yAxis instanceof ValueAxis) {
 				let vAxis = <ValueAxis>yAxis;
 				this._disposers.push(vAxis.clonedFrom.events.on("extremeschanged", () => {
-					vAxis.min = vAxis.clonedFrom.min;
-					vAxis.max = vAxis.clonedFrom.max;
+					if ($type.isNumber(vAxis.clonedFrom.minDefined)) {
+						vAxis.min = vAxis.clonedFrom.minDefined;
+					}
+					if ($type.isNumber(vAxis.clonedFrom.maxDefined)) {
+						vAxis.max = vAxis.clonedFrom.maxDefined;
+					}
 				}))
 			}
 

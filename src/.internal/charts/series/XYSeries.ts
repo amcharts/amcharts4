@@ -79,8 +79,18 @@ export class XYSeriesDataItem extends SeriesDataItem {
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
+	 * 
+	 * @ignore
 	 */
 	public _component!: XYSeries;
+
+	/**
+	 * References to any aggregate data items this data item is part of.
+	 *
+	 * @ignore
+	 * @since 4.7.0
+	 */
+	public groupDataItems: this[];
 
 	/**
 	 * Constructor
@@ -488,7 +498,50 @@ export interface IXYSeriesDataFields extends ISeriesDataFields {
 	 * the item.
 	 */
 	openValueYShow?: CalculatedValue;
+}
 
+
+/**
+ * Defines types of the aggregate value.
+ *
+ * @since 4.7.0
+ */
+export type GroupField = "open" | "close" | "low" | "high" | "average" | "sum";
+
+/**
+ * Defines data fields that can be calculated for aggregate values.
+ * 
+ * @since 4.7.0
+ */
+export interface IXYSeriesGroupFields {
+
+	/**
+	 * Indicates how to calculate aggregate value for `valueX` data field.
+	 *
+	 * @default "close"
+	 */
+	valueX?: GroupField;
+
+	/**
+	 * Indicates how to calculate aggregate value for `valueY` data field.
+	 * 
+	 * @default "close"
+	 */
+	valueY?: GroupField;
+
+	/**
+	 * Indicates how to calculate aggregate value for `openValueX` data field.
+	 * 
+	 * @default "open"
+	 */
+	openValueX?: GroupField;
+
+	/**
+	 * Indicates how to calculate aggregate value for `openValueY` data field.
+	 * 
+	 * @default "open"
+	 */
+	openValueY?: GroupField;
 }
 
 /**
@@ -564,10 +617,104 @@ export interface IXYSeriesAdapters extends ISeriesAdapters, IXYSeriesProperties 
  *
  * @see {@link IXYSeriesEvents} for a list of available Events
  * @see {@link IXYSeriesAdapters} for a list of available Adapters
- * @todo Example
  * @important
  */
 export class XYSeries extends Series {
+
+	/**
+	 * Defines type of the group fields.
+	 * 
+	 * @ignore
+	 * @since 4.7.0
+	 */
+	public _groupFields: IXYSeriesGroupFields;
+
+	/**
+	 * Indicates which of the series' `dataFields` to calculate aggregate values
+	 * for.
+	 *
+	 * Available data fields for all [[XYSeries]] are:
+	 * `valueX`, `valueY`, `openValueX`, and `openValueY`.
+	 *
+	 * [[CandlestickSeries]] adds:
+	 * `lowValueX`, `lowValueY`, `highValueX`, and `highValueY`.
+	 *
+	 * Available options:
+	 * `"open"`, `"close"`, `"low"`, `"high"`, "average", `"sum"`.
+	 *
+	 * Defaults are as follows:
+	 * * `valueX`: `"close"`
+	 * * `valueY`: `"close"`
+	 * * `openValueX`: `"open"`
+	 * * `openValueY`: `"open"`
+	 * * `lowValueX`: `"low"`
+	 * * `lowValueY`: `"low"`
+	 * * `highValueX`: `"high"`
+	 * * `highValueY`: `"high"`
+	 *
+	 * Is required only if data being plotted on a `DateAxis` and
+	 * its `groupData` is set to `true`.
+	 *
+	 * ```TypeScript
+	 * let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+	 * dateAxis.groupData = true;
+	 *
+	 * let valueAxis = chart.xAxes.push(new am4charts.valueAxis());
+	 *
+	 * let series = chart.series.push(new am4charts.LineSeries());
+	 * series.dataFields.dateX = "date";
+	 * series.dataFields.valueY = "value";
+	 * series.groupFields.valueY = "average";
+	 * ```
+	 * ```JavaScript
+	 * var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+	 * dateAxis.groupData = true;
+	 *
+	 * var valueAxis = chart.xAxes.push(new am4charts.valueAxis());
+	 *
+	 * var series = chart.series.push(new am4charts.LineSeries());
+	 * series.dataFields.dateX = "date";
+	 * series.dataFields.valueY = "value";
+	 * series.groupFields.valueY = "average";
+	 * ```
+	 * ```JSON
+	 * {
+	 *   // ...
+	 *   "xAxes": [{
+	 *     "type": "DateAxis",
+	 *     "groupData": true
+	 *   }],
+	 *   "yAxes": [{
+	 *     "type": "ValueAxis"
+	 *   }],
+	 *   "series": [{
+	 *     "type": "LineSeries",
+	 *     "dataFields": {
+	 *       "dateX": "date",
+	 *       "valueY": "value"
+	 *     },
+	 *     "groupFields": {
+	 *       "valueY": "average"
+	 *     }
+	 *   }]
+	 * }
+	 * ```
+	 *
+	 * The above setup will ensure, that if there are many data items within
+	 * selected range, they will be grouped into aggregated data points, using
+	 * average value of all the values.
+	 *
+	 * For example if we have 2 years worth of daily data (~700 data items), when
+	 * fully zoomed out, the chart would show ~100 data items instead: one for
+	 * each week in those two years.
+	 *
+	 * Grouping will occur automatically, based on current selection range, and
+	 * will change dynamically when user zooms in/out the chart.
+	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/date-axis/#Dynamic_data_item_grouping} for more information about dynamic data item grouping.
+	 * @since 4.7.0
+	 */
+	public groupFields: this["_groupFields"] = {};
 
 	/**
 	 * Defines the type of data fields used for the series.
@@ -701,6 +848,7 @@ export class XYSeries extends Series {
 	 */
 	public _baseInterval: { [index: string]: ITimeInterval } = {};
 
+
 	/**
 	 * Constructor
 	 */
@@ -708,6 +856,13 @@ export class XYSeries extends Series {
 		super();
 		this.className = "XYSeries";
 		this.isMeasured = false;
+
+
+		this.groupFields.valueX = "close";
+		this.groupFields.valueY = "close";
+
+		this.groupFields.openValueX = "open";
+		this.groupFields.openValueY = "open";
 
 		this.cursorTooltipEnabled = true;
 
@@ -1131,6 +1286,10 @@ export class XYSeries extends Series {
 
 			this.dataItemsByAxis.setKey(axis.uid, new Dictionary<string, this["_dataItem"]>());
 			this.invalidateData();
+
+			this.events.on("beforedatavalidated", () => {
+				axis.resetFlags();
+			}, this, false);
 		}
 	}
 
@@ -1173,6 +1332,10 @@ export class XYSeries extends Series {
 			}
 
 			this._yAxis.set(axis, axis.registerSeries(this));
+
+			this.events.on("beforedatavalidated", () => {
+				axis.resetFlags();
+			}, this, false);
 
 			this.dataItemsByAxis.setKey(axis.uid, new Dictionary<string, this["_dataItem"]>());
 			this.invalidateData();
@@ -1248,7 +1411,6 @@ export class XYSeries extends Series {
 	 * @param dataItems  Data items
 	 */
 	public processValues(working: boolean): void {
-
 		super.processValues(working);
 
 		let dataItems = this.dataItems;
@@ -1261,6 +1423,9 @@ export class XYSeries extends Series {
 
 		let startIndex = this.startIndex;
 		let endIndex = this.endIndex;
+
+		let workingStartIndex = startIndex;
+		let workingEndIndex = endIndex;
 
 		if (!working) {
 			startIndex = 0;
@@ -1325,8 +1490,50 @@ export class XYSeries extends Series {
 						stackedSeries.processValues(false);
 					}
 				}
-
 				this.dispatchImmediately("extremeschanged");
+			}
+		}
+
+		if (startIndex != workingStartIndex || endIndex != workingEndIndex) {
+			minX = Infinity;
+			maxX = - Infinity;
+
+			minY = Infinity;
+			maxY = - Infinity;
+
+			for (let i = workingStartIndex; i < workingEndIndex; i++) {
+				let dataItem = dataItems.getIndex(i);
+
+				this.getStackValue(dataItem, working);
+
+				let stackX = dataItem.getValue("valueX", "stack");
+				let stackY = dataItem.getValue("valueY", "stack");
+
+				minX = $math.min(dataItem.getMin(this._xValueFields, working, stackX), minX);
+				minY = $math.min(dataItem.getMin(this._yValueFields, working, stackY), minY);
+
+				maxX = $math.max(dataItem.getMax(this._xValueFields, working, stackX), maxX);
+				maxY = $math.max(dataItem.getMax(this._yValueFields, working, stackY), maxY);
+
+				// if it's stacked, pay attention to stack value
+				if (this.stacked) {
+					if (this.baseAxis == this.xAxis) {
+						if (stackY < minY) {
+							minY = stackY
+						}
+						if (stackY > maxY) {
+							maxY = stackY;
+						}
+					}
+					if (this.baseAxis == this.yAxis) {
+						if (stackX < minX) {
+							minX = stackX;
+						}
+						if (stackX > maxX) {
+							maxX = stackX;
+						}
+					}
+				}
 			}
 		}
 
@@ -1336,9 +1543,40 @@ export class XYSeries extends Series {
 			this._smin.setKey(yAxisId, minY);
 			this._smax.setKey(yAxisId, maxY);
 
-			if (this.appeared || this.start != 0 || this.end != 1) {
+			if (this.appeared || this.start != 0 || this.end != 1 || this.dataItems != this.mainDataSet) {
+
+				/// new, helps to handle issues with change percent
+				let changed = false;
+
+				if (this.yAxis instanceof ValueAxis && !(this.yAxis instanceof DateAxis)) {
+					if (minY < this._tmin.getKey(yAxisId)) {
+						this._tmin.setKey(yAxisId, minY);
+						changed = true;
+					}
+					if (maxY > this._tmin.getKey(yAxisId)) {
+						this._tmax.setKey(yAxisId, maxY);
+						changed = true;
+					}
+				}
+
+				if (this.xAxis instanceof ValueAxis && !(this.xAxis instanceof DateAxis)) {
+					if (minX < this._tmin.getKey(xAxisId)) {
+						this._tmin.setKey(xAxisId, minX);
+						changed = true;
+					}
+					if (maxX > this._tmax.getKey(xAxisId)) {
+						this._tmax.setKey(xAxisId, maxX);
+						changed = true;
+					}
+				}
+
 				this.dispatchImmediately("selectionextremeschanged");
+
+				if (changed) {
+					this.dispatchImmediately("extremeschanged");
+				}
 			}
+
 		}
 
 		if (!working && this.stacked) {
@@ -1901,6 +2139,25 @@ export class XYSeries extends Series {
 			anim = dataItem.show(interpolationDuration, delay, fields);
 		});
 
+		// other data sets
+		this.dataSets.each((key, dataSet) => {
+			if (dataSet != this.dataItems) {
+				dataSet.each((dataItem) => {
+					dataItem.events.disable();
+					dataItem.show(0, 0, fields);
+					dataItem.events.enable();
+				})
+			}
+		})
+
+		if (this.mainDataSet != this.dataItems) {
+			this.mainDataSet.each((dataItem) => {
+				dataItem.events.disable();
+				dataItem.show(0, 0, fields);
+				dataItem.events.enable();
+			})
+		}
+
 		let animation = super.show(duration);
 
 		if (anim && !anim.isFinished()) {
@@ -1956,7 +2213,6 @@ export class XYSeries extends Series {
 
 		let delay: number = 0;
 		let anim: Animation;
-
 		$iter.each($iter.indexed(this.dataItems.iterator()), (a) => {
 			let i = a[0];
 			let dataItem = a[1];

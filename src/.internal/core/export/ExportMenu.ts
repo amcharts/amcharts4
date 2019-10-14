@@ -432,7 +432,9 @@ export class ExportMenu extends Validatable {
 					"menu": [
 						{ "type": "json", "label": "JSON" },
 						{ "type": "csv", "label": "CSV" },
-						{ "type": "xlsx", "label": "XLSX" }
+						{ "type": "xlsx", "label": "XLSX" },
+						{ "type": "html", "label": "HTML" },
+						{ "type": "pdfdata", "label": "PDF" }
 					]
 				}, {
 					"label": "Print", "type": "print"

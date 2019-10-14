@@ -299,14 +299,6 @@ export class Component extends Container {
 
 
 	/**
-	 *
-	 * @ignore Exclude from docs
-	 * @todo Description
-	 * @deprecated Not used?
-	 */
-	protected _dataMethods: $type.Optional<Dictionary<string, (value: number) => number>>;
-
-	/**
 	 * Identifies the type of the [[DataItem]] used in this element.
 	 */
 	public _dataItem!: DataItem;
@@ -317,6 +309,20 @@ export class Component extends Container {
 	 * @ignore Exclude from docs
 	 */
 	protected _dataItems: $type.Optional<OrderedListTemplate<this["_dataItem"]>>;
+
+	/**
+	 * Holds aggregated data items.
+	 * 
+	 * @ignore
+	 */
+	public _dataSets: Dictionary<string, OrderedListTemplate<this["_dataItem"]>>;
+
+	/**
+	 * Currently selected "data set".
+	 *
+	 * If it's set to `""`, main data set (unaggregated data) is used.
+	 */
+	protected _currentDataSetId: string = "";
 
 	/**
 	 * [_startIndex description]
@@ -534,7 +540,9 @@ export class Component extends Container {
 
 	protected _showOnInitDisposer2: IDisposer;
 
-	protected _usesData:boolean = true;
+	protected _usesData: boolean = true;
+
+
 
 	/**
 	 * Constructor
@@ -667,7 +675,7 @@ export class Component extends Container {
 
 				let value: any = (<any>dataContext)[fieldValue];
 				// Apply adapters to a retrieved value
-				if(this._adapterO){
+				if (this._adapterO) {
 					if (this._adapterO.isEnabled("dataContextValue")) {
 						value = this._adapterO.apply("dataContextValue", {
 							field: fieldName,
@@ -681,7 +689,7 @@ export class Component extends Container {
 					if ($type.hasValue(value)) {
 						hasSomeValues = true;
 						let template = this.createDataItem();
-						template.copyFrom(this.dataItems.template);
+						template.copyFrom(this.mainDataSet.template);
 						let children = new OrderedListTemplate<DataItem>(template);
 						children.events.on("inserted", this.handleDataItemAdded, this, false);
 						children.events.on("removed", this.handleDataItemRemoved, this, false);
@@ -718,7 +726,7 @@ export class Component extends Container {
 
 			// @todo we might need some flag which would tell whether we should create empty data items or not.
 			if (!this._addAllDataItems && !hasSomeValues) {
-				this.dataItems.remove(dataItem);
+				this.mainDataSet.remove(dataItem);
 			}
 		}
 	}
@@ -740,7 +748,7 @@ export class Component extends Container {
 
 				let value: any = (<any>dataContext)[fieldValue];
 				// Apply adapters to a retrieved value
-				if(this._adapterO){
+				if (this._adapterO) {
 					value = this._adapterO.apply("dataContextValue", {
 						field: fieldName,
 						value: value,
@@ -860,9 +868,9 @@ export class Component extends Container {
 	public removeData(count: $type.Optional<number>) {
 		if ($type.isNumber(count)) {
 			while (count > 0) {
-				let dataItem = this.dataItems.getIndex(0);
+				let dataItem = this.mainDataSet.getIndex(0);
 				if (dataItem) {
-					this.dataItems.remove(dataItem);
+					this.mainDataSet.remove(dataItem);
 				}
 
 				this.dataUsers.each((dataUser) => {
@@ -1050,7 +1058,7 @@ export class Component extends Container {
 	 */
 	public validateRawData() {
 		$array.remove(registry.invalidRawDatas, this);
-		$iter.each(this.dataItems.iterator(), (dataItem) => {
+		$iter.each(this.mainDataSet.iterator(), (dataItem) => {
 			if (dataItem) {
 				this.updateDataItem(dataItem);
 			}
@@ -1061,7 +1069,7 @@ export class Component extends Container {
 	 * Destroys this object and all related data.
 	 */
 	public dispose() {
-		this.dataItems.template.clones.clear();
+		this.mainDataSet.template.clones.clear();
 		$object.each(this._dataSources, (key, source) => {
 			this.removeDispose(source);
 		});
@@ -1072,7 +1080,7 @@ export class Component extends Container {
 	 * @ignore
 	 */
 	public disposeData() {
-		this.dataItems.template.clones.clear();
+		this.mainDataSet.template.clones.clear();
 
 		$array.each(this._dataDisposers, (x) => {
 			x.dispose();
@@ -1089,14 +1097,18 @@ export class Component extends Container {
 		this._endIndex = undefined;
 
 		// dispose old
-		this.dataItems.clear();
+		this.mainDataSet.clear();
 
-		this.dataItems.template.clones.clear();
+		this.mainDataSet.template.clones.clear();
+
+		if (this._dataSets) {
+			this._dataSets.clear();
+		}
 	}
 
 
 	protected getDataItem(dataContext?: any): this["_dataItem"] {
-		return this.dataItems.create();
+		return this.mainDataSet.create();
 	}
 
 	/**
@@ -1155,7 +1167,7 @@ export class Component extends Container {
 
 			for (i; i < n; i++) {
 				let rawDataItem = this.data[i];
-				if(this._usesData){
+				if (this._usesData) {
 					let dataItem: this["_dataItem"] = this.getDataItem(rawDataItem);
 					this.processDataItem(dataItem, rawDataItem);
 				}
@@ -1268,7 +1280,7 @@ export class Component extends Container {
 		if (!this._data) {
 			this._data = [];
 		}
-		if(!this._adapterO){
+		if (!this._adapterO) {
 			return this._data;
 		}
 		else {
@@ -1599,6 +1611,7 @@ export class Component extends Container {
 			this.skipRangeEvent = skipRangeEvent;
 
 			if (this.rangeChangeDuration > 0 && !instantly) {
+
 				// todo: maybe move this to Animation
 				let rangeChangeAnimation: $type.Optional<Animation> = this.rangeChangeAnimation;
 				if (rangeChangeAnimation && rangeChangeAnimation.progress < 1) {
@@ -1821,10 +1834,10 @@ export class Component extends Container {
 	 * @return Start (0-1)
 	 */
 	public get start(): number {
-		if(!this._adapterO){
+		if (!this._adapterO) {
 			return this._start;
 		}
-		else{
+		else {
 			return this._adapterO.apply("start", this._start);
 		}
 	}
@@ -1857,10 +1870,10 @@ export class Component extends Container {
 	 * @return End (0-1)
 	 */
 	public get end(): number {
-		if(!this._adapterO){
+		if (!this._adapterO) {
 			return this._end;
 		}
-		else{		
+		else {
 			return this._adapterO.apply("end", this._end);
 		}
 	}
@@ -1881,14 +1894,109 @@ export class Component extends Container {
 	}
 
 	/**
-	 * Returns a list of source [[DataItem]] objects.
-	 *
+	 * Returns a list of source [[DataItem]] objects currently used in the chart.
+	 * 
 	 * @return List of data items
 	 */
 	public get dataItems(): OrderedListTemplate<this["_dataItem"]> {
+		if (this._currentDataSetId != "") {
+			let dataItems = this.dataSets.getKey(this._currentDataSetId);
+			if (dataItems) {
+				return dataItems;
+			}
+		}
 		return this._dataItems;
 	}
 
+	/**
+	 * Holds data items for data sets (usually aggregated data).
+	 *
+	 * @ignore
+	 * @since 4.7.0
+	 * @return  Data sets
+	 */
+	public get dataSets(): Dictionary<string, OrderedListTemplate<this["_dataItem"]>> {
+		if (!this._dataSets) {
+			this._dataSets = new Dictionary();
+		}
+		return this._dataSets;
+	}
+
+	/**
+	 * Makes the chart use particular data set.
+	 *
+	 * If `id` is not provided or there is no such data set, main data will be
+	 * used.
+	 *
+	 * @ignore
+	 * @since 4.7.0
+	 * @param  id  Data set id
+	 */
+	public setDataSet(id: string): boolean {
+
+		if (this._currentDataSetId != id) {
+			let dataSet = this.dataSets.getKey(id);
+			if (!dataSet) {
+				if (this._currentDataSetId != "") {
+					this.dataItems.each((dataItem) => {
+						dataItem.__disabled = true;
+					})
+
+					this._currentDataSetId = "";
+
+					this.invalidateDataRange();
+
+					this._prevStartIndex = undefined;
+
+					this.dataItems.each((dataItem) => {
+						dataItem.__disabled = false;
+					})
+
+					return true;
+				}
+			}
+			else {
+				this.dataItems.each((dataItem) => {
+					dataItem.__disabled = true;
+				})
+
+				this._currentDataSetId = id;
+
+				this.invalidateDataRange();
+
+				this._prevStartIndex = undefined;
+
+				this.dataItems.each((dataItem) => {
+					dataItem.__disabled = false;
+				})
+
+				return true;
+			}
+		}
+		return false
+	}
+
+	/**
+	 * Returns id of the currently used data set, or `undefined` if main data set
+	 * is in use.
+	 *
+	 * @since 4.7.0
+	 * @return Current data set id
+	 */
+	public get currentDataSetId(): string {
+		return this._currentDataSetId;
+	}
+
+	/**
+	 * Returns reference to "main" data set (unaggregated data as it was supplied
+	 * in `data`).
+	 * 
+	 * @since 4.7.0
+	 * @return Main data set
+	 */
+	public get mainDataSet(): OrderedListTemplate<this["_dataItem"]> {
+		return this._dataItems;
+	}
 
 	/**
 	 * Updates the indexes for the dataItems
@@ -1896,7 +2004,7 @@ export class Component extends Container {
 	 * @ignore Exclude from docs
 	 */
 	protected _updateDataItemIndexes(startIndex: number): void {
-		const dataItems = this.dataItems.values;
+		const dataItems = this.mainDataSet.values;
 		const length = dataItems.length;
 
 		for (let i = startIndex; i < length; ++i) {
@@ -1934,21 +2042,6 @@ export class Component extends Container {
 		if (!this.dataItemsInvalid) {
 			this.invalidateDataItems();
 		}
-	}
-
-	/**
-	 * [dataMethods description]
-	 *
-	 * @ignore Exclude from docs
-	 * @todo Description
-	 * @deprecated Not used?
-	 * @param List of data methods
-	 */
-	public get dataMethods(): Dictionary<string, (value: number) => number> {
-		if (!this._dataMethods) {
-			this._dataMethods = new Dictionary<string, (value: number) => number>();
-		}
-		return this._dataMethods;
 	}
 
 	/**

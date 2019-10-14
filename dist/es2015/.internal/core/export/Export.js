@@ -403,7 +403,8 @@ var Export = /** @class */ (function (_super) {
         _this._formatOptions.setKey("pdf", {
             fontSize: 14,
             imageFormat: "png",
-            addURL: true
+            addURL: true,
+            addColumnNames: true
         });
         _this._formatOptions.setKey("json", {
             indent: 2,
@@ -416,6 +417,17 @@ var Export = /** @class */ (function (_super) {
         _this._formatOptions.setKey("xlsx", {
             addColumnNames: true,
             useLocale: true,
+            emptyAs: ""
+        });
+        _this._formatOptions.setKey("html", {
+            addColumnNames: true,
+            emptyAs: ""
+        });
+        _this._formatOptions.setKey("pdfdata", {
+            fontSize: 14,
+            imageFormat: "png",
+            addURL: true,
+            addColumnNames: true,
             emptyAs: ""
         });
         _this._formatOptions.setKey("print", {
@@ -557,6 +569,7 @@ var Export = /** @class */ (function (_super) {
             case "svg":
                 return this.getSVG;
             case "pdf":
+            case "pdfdata":
                 return this.getPDF;
             case "xlsx":
                 return this.getExcel;
@@ -564,6 +577,8 @@ var Export = /** @class */ (function (_super) {
                 return this.getCSV;
             case "json":
                 return this.getJSON;
+            case "html":
+                return this.getHTML;
             case "print":
                 return this.getPrint;
             default:
@@ -663,6 +678,9 @@ var Export = /** @class */ (function (_super) {
                                     }).title)];
                             }
                             else {
+                                if (type == "pdfdata") {
+                                    return [2 /*return*/, this.download(data, this.filePrefix + ".pdf")];
+                                }
                                 return [2 /*return*/, this.download(data, this.filePrefix + "." + type)];
                             }
                         }
@@ -1757,15 +1775,15 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getPDF = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var image, pdfmake, defaultMargins, doc, title;
-            return tslib_1.__generator(this, function (_a) {
-                switch (_a.label) {
+            var image, pdfmake, defaultMargins, doc, title, _a, _b, _c;
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
                     case 0: return [4 /*yield*/, this.getImage(options.imageFormat || "png", options)];
                     case 1:
-                        image = _a.sent();
+                        image = _d.sent();
                         return [4 /*yield*/, this.pdfmake];
                     case 2:
-                        pdfmake = _a.sent();
+                        pdfmake = _d.sent();
                         defaultMargins = [30, 30, 30, 30];
                         doc = {
                             pageSize: options.pageSize || "A4",
@@ -1795,10 +1813,21 @@ var Export = /** @class */ (function (_super) {
                             });
                         }
                         // Add image
-                        doc.content.push({
-                            image: image,
-                            fit: this.getPageSizeFit(doc.pageSize, doc.pageMargins)
-                        });
+                        if (type != "pdfdata") {
+                            doc.content.push({
+                                image: image,
+                                fit: this.getPageSizeFit(doc.pageSize, doc.pageMargins)
+                            });
+                        }
+                        if (!(type == "pdfdata" || options.addData)) return [3 /*break*/, 4];
+                        _b = (_a = doc.content).push;
+                        _c = {};
+                        return [4 /*yield*/, this.getPDFData("pdf", options)];
+                    case 3:
+                        _b.apply(_a, [(_c.table = _d.sent(),
+                                _c)]);
+                        _d.label = 4;
+                    case 4:
                         // Apply adapters
                         doc = this.adapter.apply("pdfmakeDocument", {
                             doc: doc,
@@ -1809,12 +1838,100 @@ var Export = /** @class */ (function (_super) {
                                     success(uri);
                                 });
                             })];
-                    case 3: 
+                    case 5: 
                     // Create PDF
-                    return [2 /*return*/, _a.sent()];
+                    return [2 /*return*/, _d.sent()];
                 }
             });
         });
+    };
+    /**
+     * Returns chart's data formatted suitable for PDF export (pdfmake).
+     *
+     * This is an asynchronous function. Check the description of `getImage()`
+     * for description and example usage.
+     *
+     * @since 4.7.0
+     * @param type     Type of the export
+     * @param options  Options
+     * @return Promise
+     * @async
+     */
+    Export.prototype.getPDFData = function (type, options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var content, dataFields, data, len, i;
+            return tslib_1.__generator(this, function (_a) {
+                content = {
+                    "body": []
+                };
+                dataFields = this.adapter.apply("formatDataFields", {
+                    dataFields: this.dataFields,
+                    format: "pdf"
+                }).dataFields;
+                data = this.data;
+                // Vertical or horizontal (default) layout
+                if (options.pivot) {
+                    $object.each(dataFields, function (key, val) {
+                        var dataRow = [];
+                        if (options.addColumnNames) {
+                            dataRow.push(val);
+                        }
+                        for (var len = _this.data.length, i = 0; i < len; i++) {
+                            var dataValue = _this.data[i][key];
+                            dataRow.push(_this.convertToSpecialFormat(key, dataValue, options, true));
+                        }
+                        content.body.push(_this.getPDFDataRow(dataRow, options, undefined, true));
+                    });
+                }
+                else {
+                    // Add column names?
+                    if (options.addColumnNames) {
+                        content.body.push(this.getPDFDataRow(dataFields, options, undefined, true));
+                        content.headerRows = 1;
+                    }
+                    for (len = data.length, i = 0; i < len; i++) {
+                        content.body.push(this.getPDFDataRow(data[i], options, dataFields));
+                    }
+                }
+                return [2 /*return*/, this.adapter.apply("pdfmakeTable", {
+                        table: content,
+                        options: options
+                    }).table];
+            });
+        });
+    };
+    /**
+     * Formats a row of data for use in PDF data table (pdfmake).
+     *
+     * @ignore Exclude from docs
+     * @since 4.7.0
+     * @param  row         An object holding data for the row
+     * @param  options     Options
+     * @param  dataFields  Data fields
+     * @param  asIs        Do not try to convert to dates
+     * @return Formated Data line
+     */
+    Export.prototype.getPDFDataRow = function (row, options, dataFields, asIs) {
+        var _this = this;
+        if (asIs === void 0) { asIs = false; }
+        // Init
+        var items = [];
+        // Data fields
+        if (!dataFields) {
+            dataFields = row;
+        }
+        // Process each row item
+        $object.each(dataFields, function (key, name) {
+            // Get value
+            var value = _this.convertEmptyValue(key, row[key], options);
+            // Convert dates
+            var item = asIs ? value : _this.convertToSpecialFormat(key, value, options);
+            item = "" + item;
+            // Add to item
+            items.push(item);
+        });
+        return items;
     };
     /**
      * Returns fit dimensions for available page sizes.
@@ -2120,6 +2237,124 @@ var Export = /** @class */ (function (_super) {
         return items.join(separator);
     };
     /**
+     * Returns chart's data formatted as HTML table.
+     *
+     * This is an asynchronous function. Check the description of `getImage()`
+     * for description and example usage.
+     *
+     * @since 4.7.0
+     * @param type     Type of the export
+     * @param options  Options
+     * @return Promise
+     * @async
+     */
+    Export.prototype.getHTML = function (type, options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var html, dataFields, data, len, i, charset, uri;
+            return tslib_1.__generator(this, function (_a) {
+                html = "<table>";
+                if (options.tableClass) {
+                    html = "<table class=\"" + options.tableClass + "\">";
+                }
+                dataFields = this.adapter.apply("formatDataFields", {
+                    dataFields: this.dataFields,
+                    format: "html"
+                }).dataFields;
+                data = this.data;
+                // Vertical or horizontal (default) layout
+                if (options.pivot) {
+                    $object.each(dataFields, function (key, val) {
+                        var dataRow = [];
+                        if (options.addColumnNames) {
+                            dataRow.push(val);
+                        }
+                        for (var len = _this.data.length, i = 0; i < len; i++) {
+                            var dataValue = _this.data[i][key];
+                            dataRow.push(_this.convertToSpecialFormat(key, dataValue, options, true));
+                        }
+                        html += "\n" + _this.getHTMLRow(dataRow, options, undefined, true);
+                    });
+                }
+                else {
+                    // Add column names?
+                    if (options.addColumnNames) {
+                        html += "\n" + this.getHTMLRow(dataFields, options, undefined, true, true);
+                    }
+                    for (len = data.length, i = 0; i < len; i++) {
+                        html += "\n" + this.getHTMLRow(data[i], options, dataFields);
+                    }
+                }
+                html += "</table>";
+                charset = this.adapter.apply("charset", {
+                    charset: "charset=utf-8",
+                    type: type,
+                    options: options
+                }).charset;
+                uri = this.adapter.apply("getHTML", {
+                    data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(html),
+                    options: options
+                }).data;
+                return [2 /*return*/, uri];
+            });
+        });
+    };
+    /**
+     * Formats a row of HTML data.
+     *
+     * @since 4.7.0
+     * @ignore Exclude from docs
+     * @param  row         An object holding data for the row
+     * @param  options     Options
+     * @param  dataFields  Data fields
+     * @param  asIs        Do not try to convert to dates
+     * @return Formated HTML row
+     */
+    Export.prototype.getHTMLRow = function (row, options, dataFields, asIs, headerRow) {
+        var _this = this;
+        if (asIs === void 0) { asIs = false; }
+        if (headerRow === void 0) { headerRow = false; }
+        // Init output
+        var html = "\t<tr>";
+        if (options.rowClass) {
+            html = "\t<tr class=\"" + options.rowClass + "\">";
+        }
+        // Data fields
+        if (!dataFields) {
+            dataFields = row;
+        }
+        // th or dh?
+        var tag = headerRow ? "th" : "td";
+        // Process each row item
+        var first = true;
+        $object.each(dataFields, function (key, name) {
+            // Get value
+            var value = _this.convertEmptyValue(key, row[key], options);
+            // Convert dates
+            var item = asIs ? value : _this.convertToSpecialFormat(key, value, options);
+            // Escape HTML entities
+            item = "" + item;
+            item = item.replace(/[\u00A0-\u9999<>\&]/gim, function (i) {
+                return "&#" + i.charCodeAt(0) + ";";
+            });
+            // Which tag to use
+            var useTag = tag;
+            if (options.pivot && first) {
+                useTag = "th";
+            }
+            // Add cell
+            if (options.cellClass) {
+                html += "\n\t\t<" + useTag + " class=\"" + options.cellClass + "\">" + item + "</" + useTag + ">";
+            }
+            else {
+                html += "\n\t\t<" + useTag + ">" + item + "</" + useTag + ">";
+            }
+            first = false;
+        });
+        html += "\n\t</tr>";
+        return html;
+    };
+    /**
      * Returns chart's data in JSON format.
      *
      * This is an asynchronous function. Check the description of `getImage()`
@@ -2281,7 +2516,7 @@ var Export = /** @class */ (function (_super) {
                     parts = uri.split(";");
                     contentType = parts.shift().replace(/data:/, "");
                     uri = decodeURIComponent(parts.join(";").replace(/^[^,]*,/, ""));
-                    if (["image/svg+xml", "application/json", "text/csv"].indexOf(contentType) == -1) {
+                    if (["image/svg+xml", "application/json", "text/csv", "text/html"].indexOf(contentType) == -1) {
                         try {
                             decoded = atob(uri);
                             uri = decoded;
@@ -2797,6 +3032,7 @@ var Export = /** @class */ (function (_super) {
         get: function () {
             if (!this._dateFormatter) {
                 this._dateFormatter = new DateFormatter();
+                this._dateFormatter.language = this.language;
             }
             return this.adapter.apply("dateFormatter", {
                 dateFormatter: this._dateFormatter
@@ -2864,6 +3100,7 @@ var Export = /** @class */ (function (_super) {
         get: function () {
             if (!this._numberFormatter) {
                 this._numberFormatter = new NumberFormatter();
+                this._numberFormatter.language = this.language;
             }
             return this.adapter.apply("numberFormatter", {
                 numberFormatter: this._numberFormatter
@@ -2934,6 +3171,7 @@ var Export = /** @class */ (function (_super) {
         get: function () {
             if (!this._durationFormatter) {
                 this._durationFormatter = new DurationFormatter();
+                this._durationFormatter.language = this.language;
             }
             return this.adapter.apply("durationFormatter", {
                 durationFormatter: this._durationFormatter
@@ -3086,7 +3324,11 @@ var Export = /** @class */ (function (_super) {
             case "json":
                 contentType = "application/json";
                 break;
+            case "html":
+                contentType = "text/html";
+                break;
             case "pdf":
+            case "pdfdata":
                 contentType = "application/pdf";
                 break;
             case "xlsx":

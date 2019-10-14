@@ -74,6 +74,12 @@ var Component = /** @class */ (function (_super) {
          */
         _this._dataDisposers = [];
         /**
+         * Currently selected "data set".
+         *
+         * If it's set to `""`, main data set (unaggregated data) is used.
+         */
+        _this._currentDataSetId = "";
+        /**
          * [_start description]
          *
          * @ignore Exclude from docs
@@ -310,7 +316,7 @@ var Component = /** @class */ (function (_super) {
                     if ($type.hasValue(value)) {
                         hasSomeValues_1 = true;
                         var template = _this.createDataItem();
-                        template.copyFrom(_this.dataItems.template);
+                        template.copyFrom(_this.mainDataSet.template);
                         var children = new OrderedListTemplate(template);
                         children.events.on("inserted", _this.handleDataItemAdded, _this, false);
                         children.events.on("removed", _this.handleDataItemRemoved, _this, false);
@@ -344,7 +350,7 @@ var Component = /** @class */ (function (_super) {
             });
             // @todo we might need some flag which would tell whether we should create empty data items or not.
             if (!this._addAllDataItems && !hasSomeValues_1) {
-                this.dataItems.remove(dataItem);
+                this.mainDataSet.remove(dataItem);
             }
         }
     };
@@ -469,9 +475,9 @@ var Component = /** @class */ (function (_super) {
     Component.prototype.removeData = function (count) {
         if ($type.isNumber(count)) {
             while (count > 0) {
-                var dataItem = this.dataItems.getIndex(0);
+                var dataItem = this.mainDataSet.getIndex(0);
                 if (dataItem) {
-                    this.dataItems.remove(dataItem);
+                    this.mainDataSet.remove(dataItem);
                 }
                 this.dataUsers.each(function (dataUser) {
                     var dataItem = dataUser.dataItems.getIndex(0);
@@ -634,7 +640,7 @@ var Component = /** @class */ (function (_super) {
     Component.prototype.validateRawData = function () {
         var _this = this;
         $array.remove(registry.invalidRawDatas, this);
-        $iter.each(this.dataItems.iterator(), function (dataItem) {
+        $iter.each(this.mainDataSet.iterator(), function (dataItem) {
             if (dataItem) {
                 _this.updateDataItem(dataItem);
             }
@@ -645,7 +651,7 @@ var Component = /** @class */ (function (_super) {
      */
     Component.prototype.dispose = function () {
         var _this = this;
-        this.dataItems.template.clones.clear();
+        this.mainDataSet.template.clones.clear();
         $object.each(this._dataSources, function (key, source) {
             _this.removeDispose(source);
         });
@@ -655,7 +661,7 @@ var Component = /** @class */ (function (_super) {
      * @ignore
      */
     Component.prototype.disposeData = function () {
-        this.dataItems.template.clones.clear();
+        this.mainDataSet.template.clones.clear();
         $array.each(this._dataDisposers, function (x) {
             x.dispose();
         });
@@ -667,11 +673,14 @@ var Component = /** @class */ (function (_super) {
         this._startIndex = undefined;
         this._endIndex = undefined;
         // dispose old
-        this.dataItems.clear();
-        this.dataItems.template.clones.clear();
+        this.mainDataSet.clear();
+        this.mainDataSet.template.clones.clear();
+        if (this._dataSets) {
+            this._dataSets.clear();
+        }
     };
     Component.prototype.getDataItem = function (dataContext) {
-        return this.dataItems.create();
+        return this.mainDataSet.create();
     };
     /**
      * Validates (processes) data.
@@ -1413,9 +1422,102 @@ var Component = /** @class */ (function (_super) {
     };
     Object.defineProperty(Component.prototype, "dataItems", {
         /**
-         * Returns a list of source [[DataItem]] objects.
+         * Returns a list of source [[DataItem]] objects currently used in the chart.
          *
          * @return List of data items
+         */
+        get: function () {
+            if (this._currentDataSetId != "") {
+                var dataItems = this.dataSets.getKey(this._currentDataSetId);
+                if (dataItems) {
+                    return dataItems;
+                }
+            }
+            return this._dataItems;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Component.prototype, "dataSets", {
+        /**
+         * Holds data items for data sets (usually aggregated data).
+         *
+         * @ignore
+         * @since 4.7.0
+         * @return  Data sets
+         */
+        get: function () {
+            if (!this._dataSets) {
+                this._dataSets = new Dictionary();
+            }
+            return this._dataSets;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Makes the chart use particular data set.
+     *
+     * If `id` is not provided or there is no such data set, main data will be
+     * used.
+     *
+     * @ignore
+     * @since 4.7.0
+     * @param  id  Data set id
+     */
+    Component.prototype.setDataSet = function (id) {
+        if (this._currentDataSetId != id) {
+            var dataSet = this.dataSets.getKey(id);
+            if (!dataSet) {
+                if (this._currentDataSetId != "") {
+                    this.dataItems.each(function (dataItem) {
+                        dataItem.__disabled = true;
+                    });
+                    this._currentDataSetId = "";
+                    this.invalidateDataRange();
+                    this._prevStartIndex = undefined;
+                    this.dataItems.each(function (dataItem) {
+                        dataItem.__disabled = false;
+                    });
+                    return true;
+                }
+            }
+            else {
+                this.dataItems.each(function (dataItem) {
+                    dataItem.__disabled = true;
+                });
+                this._currentDataSetId = id;
+                this.invalidateDataRange();
+                this._prevStartIndex = undefined;
+                this.dataItems.each(function (dataItem) {
+                    dataItem.__disabled = false;
+                });
+                return true;
+            }
+        }
+        return false;
+    };
+    Object.defineProperty(Component.prototype, "currentDataSetId", {
+        /**
+         * Returns id of the currently used data set, or `undefined` if main data set
+         * is in use.
+         *
+         * @since 4.7.0
+         * @return Current data set id
+         */
+        get: function () {
+            return this._currentDataSetId;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Component.prototype, "mainDataSet", {
+        /**
+         * Returns reference to "main" data set (unaggregated data as it was supplied
+         * in `data`).
+         *
+         * @since 4.7.0
+         * @return Main data set
          */
         get: function () {
             return this._dataItems;
@@ -1429,7 +1531,7 @@ var Component = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Component.prototype._updateDataItemIndexes = function (startIndex) {
-        var dataItems = this.dataItems.values;
+        var dataItems = this.mainDataSet.values;
         var length = dataItems.length;
         for (var i = startIndex; i < length; ++i) {
             dataItems[i]._index = i;
@@ -1461,24 +1563,6 @@ var Component = /** @class */ (function (_super) {
             this.invalidateDataItems();
         }
     };
-    Object.defineProperty(Component.prototype, "dataMethods", {
-        /**
-         * [dataMethods description]
-         *
-         * @ignore Exclude from docs
-         * @todo Description
-         * @deprecated Not used?
-         * @param List of data methods
-         */
-        get: function () {
-            if (!this._dataMethods) {
-                this._dataMethods = new Dictionary();
-            }
-            return this._dataMethods;
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * Binds a data element's field to a specific field in raw data.
      * For example, for the very basic column chart you'd want to bind a `value`

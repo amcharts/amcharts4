@@ -300,6 +300,9 @@ export declare class ColumnSeries extends XYSeries {
      */
     dropFromPreviousState: SpriteState<this["_properties"], this["_adapter"]>;
     /**
+     * @return State
+     */
+    /**
      * A state to apply to a column when close value is same or higher than open
      * value.
      *
@@ -308,9 +311,12 @@ export declare class ColumnSeries extends XYSeries {
      * NOTE: this will work only if at least one axis is [[ValueAxis]].
      *
      * @readonly You can modify state object, but can't overwrite it
-     * @return State
+     * @param  value  State
      */
     riseFromOpenState: SpriteState<this["_properties"], this["_adapter"]>;
+    /**
+     * @return State
+     */
     /**
      * A state to apply to a column when its value is same or higher than value
      * of a previous column.
@@ -318,7 +324,7 @@ export declare class ColumnSeries extends XYSeries {
      * Can be used to differentiate appearance based on value relations.
      *
      * @readonly You can modify state object, but can't overwrite it
-     * @return State
+     * @param  value  State
      */
     riseFromPreviousState: SpriteState<this["_properties"], this["_adapter"]>;
     /**

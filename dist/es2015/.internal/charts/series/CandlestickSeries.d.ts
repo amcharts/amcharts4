@@ -8,6 +8,7 @@
  * @hidden
  */
 import { ColumnSeries, ColumnSeriesDataItem, IColumnSeriesDataFields, IColumnSeriesProperties, IColumnSeriesAdapters, IColumnSeriesEvents } from "./ColumnSeries";
+import { GroupField, IXYSeriesGroupFields } from "./XYSeries";
 import { Container } from "../../core/Container";
 import { Candlestick } from "../elements/Candlestick";
 import * as $type from "../../core/utils/Type";
@@ -159,6 +160,37 @@ export interface ICandlestickSeriesDataFields extends IColumnSeriesDataFields {
     highValueYShow?: CalculatedValue;
 }
 /**
+ * Defines data fields that can be calculated for aggregate values.
+ *
+ * @since 4.7.0
+ */
+export interface ICandlestickSeriesGroupFields extends IXYSeriesGroupFields {
+    /**
+     * Indicates how to calculate aggregate value for `lowValueX` data field.
+     *
+     * @default "low"
+     */
+    lowValueX?: GroupField;
+    /**
+     * Indicates how to calculate aggregate value for `lowValueY` data field.
+     *
+     * @default "low"
+     */
+    lowValueY?: GroupField;
+    /**
+     * Indicates how to calculate aggregate value for `highValueX` data field.
+     *
+     * @default "high"
+     */
+    highValueX?: GroupField;
+    /**
+     * Indicates how to calculate aggregate value for `highValueY` data field.
+     *
+     * @default "high"
+     */
+    highValueY?: GroupField;
+}
+/**
  * Defines properties for [[CandlestickSeries]].
  */
 export interface ICandlestickSeriesProperties extends IColumnSeriesProperties {
@@ -190,6 +222,13 @@ export interface ICandlestickSeriesAdapters extends IColumnSeriesAdapters, ICand
  * @important
  */
 export declare class CandlestickSeries extends ColumnSeries {
+    /**
+     * Defines type of the group fields.
+     *
+     * @ignore
+     * @since 4.7.0
+     */
+    _groupFields: ICandlestickSeriesGroupFields;
     /**
      * Defines the type of data item.
      */

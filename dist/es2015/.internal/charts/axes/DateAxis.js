@@ -17,7 +17,10 @@ import * as $time from "../../core/utils/Time";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
+import * as $array from "../../core/utils/Array";
 import * as $object from "../../core/utils/Object";
+import * as $utils from "../../core/utils/Utils";
+import { OrderedListTemplate } from "../../core/utils/SortedList";
 /**
  * ============================================================================
  * DATA ITEM
@@ -179,6 +182,40 @@ var DateAxis = /** @class */ (function (_super) {
          */
         _this.gridIntervals = new List();
         /**
+         * If data aggregation is enabled by setting Axis' `groupData = true`, the
+         * chart will try to aggregate data items into grouped data items.
+         *
+         * If there are more data items in selected period than `groupCount`, it will
+         * group data items into bigger period.
+         *
+         * For example seconds might be grouped into 10-second aggregate data items.
+         *
+         * This setting indicates what group intervals can the chart group to.
+         *
+         * Default intervals:
+         *
+         * ```JSON
+         * [
+         *   { timeUnit: "millisecond", count: 1},
+         *   { timeUnit: "millisecond", count: 10 },
+         *   { timeUnit: "millisecond", count: 100 },
+         *   { timeUnit: "second", count: 1 },
+         *   { timeUnit: "second", count: 10 },
+         *   { timeUnit: "minute", count: 1 },
+         *   { timeUnit: "minute", count: 10 },
+         *   { timeUnit: "hour", count: 1 },
+         *   { timeUnit: "day", count: 1 },
+         *   { timeUnit: "week", count: 1 },
+         *   { timeUnit: "month", count: 1 },
+         *   { timeUnit: "year", count: 1 }
+         * ]
+         * ```
+         *
+         * @since 4.7.0
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/date-axis/#Dynamic_data_item_grouping} for more information about dynamic data item grouping.
+         */
+        _this.groupIntervals = new List();
+        /**
          * A collection of date formats to use when formatting different time units
          * on Date/time axis.
          *
@@ -239,10 +276,32 @@ var DateAxis = /** @class */ (function (_super) {
          * @ignore
          */
         _this._firstWeekDay = 1;
+        /**
+         * A flag used to avoid grouping of the same data multiple times.
+         */
+        _this._dataGrouped = false;
+        /**
+         * A collection of start timestamps to use as axis' min timestamp for
+         * particular data item item periods.
+         *
+         * @since 4.7.0
+         * @readonly
+         */
+        _this.groupMin = {};
+        /**
+         * A collection of start timestamps to use as axis' max timestamp for
+         * particular data item item periods.
+         *
+         * @since 4.7.0
+         * @readonly
+         */
+        _this.groupMax = {};
         _this.className = "DateAxis";
         _this.setPropertyValue("markUnitChange", true);
         _this.snapTooltip = true;
         _this.tooltipPosition = "pointer";
+        _this.groupData = false;
+        _this.groupCount = 200;
         _this.events.on("parentset", _this.getDFFormatter, _this, false);
         // Translatable defaults are applied in `applyInternalDefaults()`
         // ...
@@ -291,6 +350,20 @@ var DateAxis = /** @class */ (function (_super) {
             { timeUnit: "year", count: 10000 },
             { timeUnit: "year", count: 100000 }
         ]);
+        _this.groupIntervals.pushAll([
+            { timeUnit: "millisecond", count: 1 },
+            { timeUnit: "millisecond", count: 10 },
+            { timeUnit: "millisecond", count: 100 },
+            { timeUnit: "second", count: 1 },
+            { timeUnit: "second", count: 10 },
+            { timeUnit: "minute", count: 1 },
+            { timeUnit: "minute", count: 10 },
+            { timeUnit: "hour", count: 1 },
+            { timeUnit: "day", count: 1 },
+            { timeUnit: "week", count: 1 },
+            { timeUnit: "month", count: 1 },
+            { timeUnit: "year", count: 1 }
+        ]);
         // Set field name
         _this.axisFieldName = "date";
         // Apply theme
@@ -316,6 +389,23 @@ var DateAxis = /** @class */ (function (_super) {
         }
         else {
             dataItem.axisFill.__disabled = false;
+        }
+    };
+    /**
+     * Resets all Series attached to this Axis to their main (unaggregated)
+     * data set.
+     *
+     * @ignore
+     */
+    DateAxis.prototype.resetFlags = function () {
+        var _this = this;
+        if (this.groupData) {
+            this._dataGrouped = false;
+            this.series.each(function (series) {
+                if (series.baseAxis == _this) {
+                    series.setDataSet("");
+                }
+            });
         }
     };
     /**
@@ -397,14 +487,16 @@ var DateAxis = /** @class */ (function (_super) {
         // allows to keep selection of the same size
         var start = this.start;
         var end = this.end;
-        var periodCount = (this.max - this.min) / this.baseDuration;
+        var baseDuration = this.baseDuration;
+        var periodCount = (this.max - this.min) / baseDuration;
         this._firstWeekDay = this.getFirstWeekDay();
         this.getDFFormatter();
         _super.prototype.validateDataItems.call(this);
-        this.maxZoomFactor = (this.max - this.min) / this.baseDuration;
+        var mainBaseDuration = $time.getDuration(this.mainBaseInterval.timeUnit, this.mainBaseInterval.count);
+        this.maxZoomFactor = (this.max - this.min) / mainBaseDuration;
         this._deltaMinMax = this.baseDuration / 2;
         // allows to keep selection of the same size
-        var newPeriodCount = (this.max - this.min) / this.baseDuration;
+        var newPeriodCount = (this.max - this.min) / baseDuration;
         start = start + (end - start) * (1 - periodCount / newPeriodCount);
         this.zoom({ start: start, end: end }, false, true); // added instantlyto solve zoomout problem when we have axes gaps. @todo: check how this affects maxZoomFactor
     };
@@ -424,25 +516,37 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.calculateZoom = function () {
         var _this = this;
         _super.prototype.calculateZoom.call(this);
-        var gridInterval = this.chooseInterval(0, this.adjustDifference(this._minZoomed, this._maxZoomed), this._gridCount);
+        var difference = this.adjustDifference(this._minZoomed, this._maxZoomed);
+        // if data has to be grouped, choose interval and set dataset
+        if (this.groupData && $type.hasValue(difference)) {
+            var mainBaseInterval = this.mainBaseInterval;
+            var groupInterval_1 = this.chooseInterval(0, difference, this.groupCount, this.groupIntervals);
+            if ((groupInterval_1.timeUnit == mainBaseInterval.timeUnit && groupInterval_1.count < mainBaseInterval.count) || $time.getDuration(groupInterval_1.timeUnit, 1) < $time.getDuration(mainBaseInterval.timeUnit, 1)) {
+                groupInterval_1 = tslib_1.__assign({}, mainBaseInterval);
+            }
+            this._groupInterval = groupInterval_1;
+            this.series.each(function (series) {
+                if (series.baseAxis == _this) {
+                    series.setDataSet(groupInterval_1.timeUnit + groupInterval_1.count);
+                }
+            });
+        }
+        var gridInterval = this.chooseInterval(0, difference, this._gridCount);
         if ($time.getDuration(gridInterval.timeUnit, gridInterval.count) < this.baseDuration) {
             gridInterval = tslib_1.__assign({}, this.baseInterval);
         }
         this._gridInterval = gridInterval;
-        this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit, gridInterval.count, this._firstWeekDay, this._df.utc);
         this._nextGridUnit = $time.getNextUnit(gridInterval.timeUnit);
         // the following is needed to avoid grid flickering while scrolling
         this._intervalDuration = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
-        var count = Math.ceil(this._difference / this._intervalDuration);
-        count = Math.max(-5, Math.floor(this.start * count) - 3); // some extra is needed
-        $time.add(this._gridDate, gridInterval.timeUnit, count * gridInterval.count, this._df.utc);
+        this._gridDate = $time.round(new Date(this.minZoomed - $time.getDuration(gridInterval.timeUnit, gridInterval.count)), gridInterval.timeUnit, gridInterval.count, this._firstWeekDay, this._df.utc, new Date(this.min));
         // tell series start/end
         $iter.each(this.series.iterator(), function (series) {
             if (series.baseAxis == _this) {
                 var field_1 = series.getAxisField(_this);
                 var minZoomed = $time.round(new Date(_this._minZoomed), _this.baseInterval.timeUnit, _this.baseInterval.count).getTime();
                 var minZoomedStr = minZoomed.toString();
-                var startDataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(minZoomedStr);
+                var startDataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(minZoomedStr + series.currentDataSetId);
                 var startIndex = 0;
                 if (_this.start != 0) {
                     if (startDataItem) {
@@ -457,7 +561,7 @@ var DateAxis = /** @class */ (function (_super) {
                 var baseInterval = _this.baseInterval;
                 var maxZoomed = $time.add($time.round(new Date(_this._maxZoomed), baseInterval.timeUnit, baseInterval.count, _this._firstWeekDay, _this._df.utc), baseInterval.timeUnit, baseInterval.count, _this._df.utc).getTime();
                 var maxZoomedStr = maxZoomed.toString();
-                var endDataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(maxZoomedStr);
+                var endDataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(maxZoomedStr + series.currentDataSetId);
                 var endIndex = series.dataItems.length;
                 if (_this.end != 1) {
                     if (endDataItem) {
@@ -546,14 +650,148 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.postProcessSeriesDataItems = function () {
         var _this = this;
         this.series.each(function (series) {
-            if (JSON.stringify(series._baseInterval[_this.uid]) != JSON.stringify(_this.baseInterval)) {
-                series.dataItems.each(function (dataItem) {
+            if (JSON.stringify(series._baseInterval[_this.uid]) != JSON.stringify(_this.mainBaseInterval)) {
+                series.mainDataSet.each(function (dataItem) {
                     _this.postProcessSeriesDataItem(dataItem);
                 });
-                series._baseInterval[_this.uid] = _this.baseInterval;
+                series._baseInterval[_this.uid] = _this.mainBaseInterval;
             }
         });
         this.addEmptyUnitsBreaks();
+        this.groupSeriesData();
+    };
+    DateAxis.prototype.groupSeriesData = function () {
+        var _this = this;
+        if (this.groupData && !this._dataGrouped) {
+            // @todo: reset this when data changes
+            this._dataGrouped = true;
+            // make array of intervals which will be used;
+            var intervals_1 = [];
+            var mainBaseInterval = this.mainBaseInterval;
+            var mainIntervalDuration_1 = $time.getDuration(mainBaseInterval.timeUnit, mainBaseInterval.count);
+            this.groupIntervals.each(function (interval) {
+                var intervalDuration = $time.getDuration(interval.timeUnit, interval.count);
+                if (intervalDuration > mainIntervalDuration_1 && intervalDuration < (_this.max - _this.min)) {
+                    intervals_1.push(interval);
+                }
+            });
+            this.series.each(function (series) {
+                series._dataSets = undefined;
+            });
+            $array.each(intervals_1, function (interval) {
+                //let mainBaseInterval = this._mainBaseInterval;
+                var key = "date" + _this.axisLetter;
+                _this.series.each(function (series) {
+                    if (series.baseAxis == _this) {
+                        // create data set
+                        var dataSetId = interval.timeUnit + interval.count;
+                        // todo: check where this clone goes
+                        var dataSet_1 = new OrderedListTemplate(series.mainDataSet.template.clone());
+                        var oldDataSet = series.dataSets.getKey(dataSetId);
+                        if (oldDataSet) {
+                            oldDataSet.clear();
+                        }
+                        series.dataSets.setKey(dataSetId, dataSet_1);
+                        var dataItems = series.mainDataSet;
+                        var previousTime_1 = Number.NEGATIVE_INFINITY;
+                        var i_1 = 0;
+                        var newDataItem_1;
+                        var dataFields_1 = [];
+                        $object.each(series.dataFields, function (dfkey, df) {
+                            var dfk = dfkey;
+                            if (dfk != key && dfk.indexOf("Show") == -1) {
+                                dataFields_1.push(dfk);
+                            }
+                        });
+                        dataItems.each(function (dataItem) {
+                            var date = dataItem.getDate(key);
+                            if (date) {
+                                var time = date.getTime();
+                                var roundedDate = $time.round(new Date(time), interval.timeUnit, interval.count, _this._df.firstDayOfWeek, _this._df.utc);
+                                var currentTime = roundedDate.getTime();
+                                // changed period								
+                                if (previousTime_1 < roundedDate.getTime()) {
+                                    newDataItem_1 = dataSet_1.create();
+                                    newDataItem_1.component = series;
+                                    // other Dates?
+                                    newDataItem_1.setDate(key, roundedDate);
+                                    newDataItem_1._index = i_1;
+                                    i_1++;
+                                    $array.each(dataFields_1, function (vkey) {
+                                        //let groupFieldName = vkey + "Group";
+                                        var value = dataItem.values[vkey].value;
+                                        if ($type.isNumber(value)) {
+                                            var values = newDataItem_1.values[vkey];
+                                            values.value = value;
+                                            values.workingValue = value;
+                                            values.open = value;
+                                            values.close = value;
+                                            values.low = value;
+                                            values.high = value;
+                                            values.sum = value;
+                                            values.average = value;
+                                            values.count = 1;
+                                        }
+                                    });
+                                    _this.postProcessSeriesDataItem(newDataItem_1, interval);
+                                    $object.each(series.propertyFields, function (key, fieldValue) {
+                                        var f = key;
+                                        var value = dataItem.properties[key];
+                                        if ($type.hasValue(value)) {
+                                            newDataItem_1.hasProperties = true;
+                                            newDataItem_1.setProperty(f, value);
+                                        }
+                                    });
+                                    newDataItem_1.groupDataItems = [dataItem];
+                                    previousTime_1 = currentTime;
+                                }
+                                else {
+                                    if (newDataItem_1) {
+                                        $array.each(dataFields_1, function (vkey) {
+                                            var groupFieldName = series.groupFields[vkey];
+                                            var value = dataItem.values[vkey].value;
+                                            if ($type.isNumber(value)) {
+                                                var values = newDataItem_1.values[vkey];
+                                                if (!$type.isNumber(values.open)) {
+                                                    values.open = value;
+                                                }
+                                                values.close = value;
+                                                if (values.low > value || !$type.isNumber(values.low)) {
+                                                    values.low = value;
+                                                }
+                                                if (values.high < value || !$type.isNumber(values.high)) {
+                                                    values.high = value;
+                                                }
+                                                if ($type.isNumber(values.sum)) {
+                                                    values.sum += value;
+                                                }
+                                                else {
+                                                    values.sum = value;
+                                                }
+                                                values.count++;
+                                                values.average = values.sum / values.count;
+                                                values.value = values[groupFieldName];
+                                                values.workingValue = values.value;
+                                            }
+                                        });
+                                        $utils.copyProperties(dataItem.properties, newDataItem_1.properties);
+                                        $object.each(series.propertyFields, function (key, fieldValue) {
+                                            var f = key;
+                                            var value = dataItem.properties[key];
+                                            if ($type.hasValue(value)) {
+                                                newDataItem_1.hasProperties = true;
+                                                newDataItem_1.setProperty(f, value);
+                                            }
+                                        });
+                                        newDataItem_1.groupDataItems.push(dataItem);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        }
     };
     /**
      * @ignore
@@ -568,21 +806,27 @@ var DateAxis = /** @class */ (function (_super) {
      * @todo Description
      * @param dataItem Data item
      */
-    DateAxis.prototype.postProcessSeriesDataItem = function (dataItem) {
+    DateAxis.prototype.postProcessSeriesDataItem = function (dataItem, interval) {
         var _this = this;
         // we need to do this for all series data items not only added recently, as baseInterval might change
-        var baseInterval = this.baseInterval;
+        var intervalID = "";
+        if (interval) {
+            intervalID = interval.timeUnit + interval.count;
+        }
+        else {
+            interval = this.mainBaseInterval;
+        }
         var series = dataItem.component;
         var dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);
         $object.each(dataItem.dates, function (key) {
             var date = dataItem.getDate(key);
             var time = date.getTime();
-            var startDate = $time.round(new Date(time), baseInterval.timeUnit, baseInterval.count, _this._firstWeekDay, _this._df.utc);
+            var startDate = $time.round(new Date(time), interval.timeUnit, interval.count, _this._firstWeekDay, _this._df.utc);
             var startTime = startDate.getTime();
-            var endDate = $time.add(new Date(startTime), baseInterval.timeUnit, baseInterval.count, _this._df.utc);
+            var endDate = $time.add(new Date(startTime), interval.timeUnit, interval.count, _this._df.utc);
             dataItem.setCalculatedValue(key, startTime, "open");
             dataItem.setCalculatedValue(key, endDate.getTime(), "close");
-            dataItemsByAxis.setKey(startTime.toString(), dataItem);
+            dataItemsByAxis.setKey(startTime + intervalID, dataItem);
         });
     };
     /**
@@ -611,7 +855,7 @@ var DateAxis = /** @class */ (function (_super) {
                 var startTime = date.getTime();
                 var startTimeStr = startTime.toString();
                 var hasData = $iter.contains(this_1.series.iterator(), function (series) {
-                    return !!series.dataItemsByAxis.getKey(_this.uid).getKey(startTimeStr);
+                    return !!series.dataItemsByAxis.getKey(_this.uid).getKey(startTimeStr + series.currentDataSetId);
                 });
                 // open break if not yet opened
                 if (!hasData) {
@@ -767,8 +1011,8 @@ var DateAxis = /** @class */ (function (_super) {
                 dataItem.date = date;
                 dataItem.endDate = endDate;
                 dataItem.text = text;
-                prevGridDate = date;
                 this_2.validateDataElement(dataItem);
+                prevGridDate = date;
             };
             var this_2 = this;
             while (timestamp <= this._maxZoomed) {
@@ -917,8 +1161,9 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.fixMin = function (value) {
         // like this because months are not equal
-        var startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc).getTime();
-        var endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count, this._df.utc).getTime();
+        var interval = this.baseInterval;
+        var startTime = $time.round(new Date(value), interval.timeUnit, interval.count, this._firstWeekDay, this._df.utc).getTime();
+        var endTime = $time.add(new Date(startTime), interval.timeUnit, interval.count, this._df.utc).getTime();
         return startTime + (endTime - startTime) * this.startLocation;
     };
     /**
@@ -929,8 +1174,9 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.fixMax = function (value) {
         // like this because months are not equal
-        var startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc).getTime();
-        var endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count, this._df.utc).getTime();
+        var interval = this.baseInterval;
+        var startTime = $time.round(new Date(value), interval.timeUnit, interval.count, this._firstWeekDay, this._df.utc).getTime();
+        var endTime = $time.add(new Date(startTime), interval.timeUnit, interval.count, this._df.utc).getTime();
         return startTime + (endTime - startTime) * this.endLocation;
     };
     /**
@@ -943,27 +1189,29 @@ var DateAxis = /** @class */ (function (_super) {
      * @param gridCount  [description]
      * @return [description]
      */
-    DateAxis.prototype.chooseInterval = function (index, duration, gridCount) {
-        var gridIntervals = this.gridIntervals;
-        var gridInterval = gridIntervals.getIndex(index);
+    DateAxis.prototype.chooseInterval = function (index, duration, gridCount, intervals) {
+        if (!intervals) {
+            intervals = this.gridIntervals;
+        }
+        var gridInterval = intervals.getIndex(index);
         var intervalDuration = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
-        var lastIndex = gridIntervals.length - 1;
+        var lastIndex = intervals.length - 1;
         if (index >= lastIndex) {
-            return tslib_1.__assign({}, gridIntervals.getIndex(lastIndex));
+            return tslib_1.__assign({}, intervals.getIndex(lastIndex));
         }
         var count = Math.ceil(duration / intervalDuration);
         if (duration < intervalDuration && index > 0) {
-            return tslib_1.__assign({}, gridIntervals.getIndex(index - 1));
+            return tslib_1.__assign({}, intervals.getIndex(index - 1));
         }
         if (count <= gridCount) {
-            return tslib_1.__assign({}, gridIntervals.getIndex(index));
+            return tslib_1.__assign({}, intervals.getIndex(index));
         }
         else {
-            if (index + 1 < gridIntervals.length) {
-                return this.chooseInterval(index + 1, duration, gridCount);
+            if (index + 1 < intervals.length) {
+                return this.chooseInterval(index + 1, duration, gridCount, intervals);
             }
             else {
-                return tslib_1.__assign({}, gridIntervals.getIndex(index));
+                return tslib_1.__assign({}, intervals.getIndex(index));
             }
         }
     };
@@ -1216,6 +1464,7 @@ var DateAxis = /** @class */ (function (_super) {
             baseInterval.count = 1;
         }
         this._baseIntervalReal = baseInterval;
+        this._mainBaseInterval = baseInterval;
         // no need to invalidate
     };
     Object.defineProperty(DateAxis.prototype, "baseInterval", {
@@ -1223,7 +1472,10 @@ var DateAxis = /** @class */ (function (_super) {
          * @return Base interval
          */
         get: function () {
-            if (this._baseInterval) {
+            if (this._groupInterval) {
+                return this._groupInterval;
+            }
+            else if (this._baseInterval) {
                 return this._baseInterval;
             }
             else {
@@ -1252,11 +1504,33 @@ var DateAxis = /** @class */ (function (_super) {
         set: function (timeInterval) {
             if (JSON.stringify(this._baseInterval) != JSON.stringify(timeInterval)) {
                 this._baseInterval = timeInterval;
+                this._mainBaseInterval = timeInterval;
                 if (!$type.isNumber(timeInterval.count)) {
                     timeInterval.count = 1;
                 }
                 this.invalidate();
                 this.postProcessSeriesDataItems();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DateAxis.prototype, "mainBaseInterval", {
+        /**
+         * Indicates granularity of the data of source (unaggregated) data.
+         *
+         * @since 4.7.0
+         * @return Granularity of the main data set
+         */
+        get: function () {
+            if (this._baseInterval) {
+                return this._baseInterval;
+            }
+            else if (this._mainBaseInterval) {
+                return this._mainBaseInterval;
+            }
+            else {
+                return this._baseIntervalReal;
             }
         },
         enumerable: true,
@@ -1527,6 +1801,17 @@ var DateAxis = /** @class */ (function (_super) {
         configurable: true
     });
     /**
+     * Invalidates axis data items when series extremes change
+     */
+    DateAxis.prototype.handleExtremesChange = function () {
+        _super.prototype.handleExtremesChange.call(this);
+        if (this.groupData) {
+            var id = this.baseInterval.timeUnit + this.baseInterval.count;
+            this.groupMin[id] = this.min;
+            this.groupMax[id] = this.max;
+        }
+    };
+    /**
      * Zooms axis to specific Dates.
      *
      * @param startDate       Start date
@@ -1534,10 +1819,79 @@ var DateAxis = /** @class */ (function (_super) {
      * @param skipRangeEvent  Do not invoke events
      * @param instantly       Do not play zoom animations
      */
-    DateAxis.prototype.zoomToDates = function (startDate, endDate, skipRangeEvent, instantly) {
+    DateAxis.prototype.zoomToDates = function (startDate, endDate, skipRangeEvent, instantly, adjust) {
         startDate = this._df.parse(startDate);
         endDate = this._df.parse(endDate);
-        this.zoomToValues(startDate.getTime(), endDate.getTime(), skipRangeEvent, instantly);
+        this.zoomToValues(startDate.getTime(), endDate.getTime(), skipRangeEvent, instantly, adjust);
+    };
+    /**
+     * Zooms axis to specific values.
+     *
+     * @param startValue      Start value
+     * @param endValue        End value
+     * @param skipRangeEvent  Do not invoke events
+     * @param instantly       Do not play zoom animations
+     */
+    DateAxis.prototype.zoomToValues = function (startValue, endValue, skipRangeEvent, instantly, adjust) {
+        var _this = this;
+        if (!this.groupData) {
+            var start = (startValue - this.min) / (this.max - this.min);
+            var end = (endValue - this.min) / (this.max - this.min);
+            this.zoom({ start: start, end: end }, skipRangeEvent, instantly);
+        }
+        else {
+            var difference = this.adjustDifference(startValue, endValue);
+            var isEnd = false;
+            if (endValue == this.max) {
+                isEnd = true;
+            }
+            var isStart = false;
+            if (startValue == this.min) {
+                isStart = true;
+            }
+            if ($type.hasValue(difference)) {
+                var mainBaseInterval = this.mainBaseInterval;
+                var groupInterval = this.chooseInterval(0, difference, this.groupCount, this.groupIntervals);
+                if ((groupInterval.timeUnit == mainBaseInterval.timeUnit && groupInterval.count < mainBaseInterval.count) || $time.getDuration(groupInterval.timeUnit, 1) < $time.getDuration(mainBaseInterval.timeUnit, 1)) {
+                    groupInterval = tslib_1.__assign({}, mainBaseInterval);
+                }
+                var id = groupInterval.timeUnit + groupInterval.count;
+                var min_1 = this.groupMin[id];
+                var max_1 = this.groupMax[id];
+                if (!$type.isNumber(min_1) || !$type.isNumber(max_1)) {
+                    min_1 = Number.POSITIVE_INFINITY;
+                    max_1 = Number.NEGATIVE_INFINITY;
+                    this.series.each(function (series) {
+                        var seriesMin = series.min(_this);
+                        var seriesMax = series.max(_this);
+                        if (seriesMin < min_1) {
+                            min_1 = seriesMin;
+                        }
+                        if (seriesMax < max_1) {
+                            max_1 = seriesMax;
+                        }
+                    });
+                    this.groupMin[id] = min_1;
+                    this.groupMax[id] = max_1;
+                }
+                startValue = $math.fitToRange(startValue, min_1, max_1);
+                endValue = $math.fitToRange(endValue, min_1, max_1);
+                if (adjust) {
+                    if (isEnd) {
+                        startValue = endValue - difference;
+                        console.log("adjust");
+                        startValue = $math.fitToRange(startValue, min_1, max_1);
+                    }
+                    if (isStart) {
+                        endValue = startValue + difference;
+                        endValue = $math.fitToRange(endValue, min_1, max_1);
+                    }
+                }
+                var start = (startValue - min_1) / (max_1 - min_1);
+                var end = (endValue - min_1) / (max_1 - min_1);
+                this.zoom({ start: start, end: end }, skipRangeEvent, instantly);
+            }
+        }
     };
     /**
      * Adds `baseInterval` to "as is" fields.
@@ -1554,11 +1908,20 @@ var DateAxis = /** @class */ (function (_super) {
      * @param source Source Axis
      */
     DateAxis.prototype.copyFrom = function (source) {
+        var _this = this;
         _super.prototype.copyFrom.call(this, source);
         this.dateFormats = source.dateFormats;
         this.periodChangeDateFormats = source.periodChangeDateFormats;
-        if (source["_baseInterval"]) {
-            this.baseInterval = source.baseInterval;
+        this.groupIntervals.clear();
+        source.groupIntervals.each(function (interval) {
+            _this.groupIntervals.push(tslib_1.__assign({}, interval));
+        });
+        this.gridIntervals.clear();
+        source.gridIntervals.each(function (interval) {
+            _this.gridIntervals.push(tslib_1.__assign({}, interval));
+        });
+        if (source._baseInterval) {
+            this.baseInterval = source._baseInterval;
         }
     };
     /**
@@ -1610,7 +1973,7 @@ var DateAxis = /** @class */ (function (_super) {
                 closestDate_1 = new Date(closestDate_1.getTime() + this.baseDuration * tooltipLocation);
                 position = this.dateToPosition(closestDate_1);
                 this.series.each(function (series) {
-                    var dataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(closestTime_1.toString());
+                    var dataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(closestTime_1 + series.currentDataSetId);
                     var point = series.showTooltipAtDataItem(dataItem);
                     if (point) {
                         _this.chart._seriesPoints.push({ series: series, point: point });
@@ -1643,6 +2006,105 @@ var DateAxis = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("snapTooltip", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DateAxis.prototype, "groupData", {
+        /**
+         * @return Group data points?
+         */
+        get: function () {
+            return this.getPropertyValue("groupData");
+        },
+        /**
+         * Indicates if data should be aggregated to composide data items if there
+         * are more data items in selected range than `groupCount`.
+         *
+         * Grouping will occur automatically, based on current selection range, and
+         * will change dynamically when user zooms in/out the chart.
+         *
+         * NOTE: This works only if [[DateAxis]] is base axis of an [[XYSeries]].
+         *
+         * The related [[XYSeries]] also needs to be set up to take advantage of, by
+         * setting its [`groupFields`](https://www.amcharts.com/docs/v4/reference/xyseries/#groupFields_property).
+         *
+         * The group intervals to aggregate data to is defined by `groupIntervals`
+         * property.
+         *
+         * ```TypeScript
+         * let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+         * dateAxis.groupData = true;
+         *
+         * let valueAxis = chart.xAxes.push(new am4charts.valueAxis());
+         *
+         * let series = chart.series.push(new am4charts.LineSeries());
+         * series.dataFields.dateX = "date";
+         * series.dataFields.valueY = "value";
+         * series.groupFields.valueY = "average";
+         * ```
+         * ```JavaScript
+         * var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+         * dateAxis.groupData = true;
+         *
+         * var valueAxis = chart.xAxes.push(new am4charts.valueAxis());
+         *
+         * var series = chart.series.push(new am4charts.LineSeries());
+         * series.dataFields.dateX = "date";
+         * series.dataFields.valueY = "value";
+         * series.groupFields.valueY = "average";
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "xAxes": [{
+         *     "type": "DateAxis",
+         *     "groupData": true
+         *   }],
+         *   "yAxes": [{
+         *     "type": "ValueAxis"
+         *   }],
+         *   "series": [{
+         *     "type": "LineSeries",
+         *     "dataFields": {
+         *       "dateX": "date",
+         *       "valueY": "value"
+         *     },
+         *     "groupFields": {
+         *       "valueY": "average"
+         *     }
+         *   }]
+         * }
+         * ```
+         *
+         * @default false
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/date-axis/#Dynamic_data_item_grouping} for more information about dynamic data item grouping.
+         * @since 4.7.0
+         * @param  value  Group data points?
+         */
+        set: function (value) {
+            this.setPropertyValue("groupData", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DateAxis.prototype, "groupCount", {
+        /**
+         * @return Number of data items
+         */
+        get: function () {
+            return this.getPropertyValue("groupCount");
+        },
+        /**
+         * Indicates threshold of data items in selected range at which to start
+         * aggregating data items if `groupData = true`.
+         *
+         * @default 200
+         * @since 4.7.0
+         * @param  value  Number of data items
+         */
+        set: function (value) {
+            this.setPropertyValue("groupCount", value);
         },
         enumerable: true,
         configurable: true

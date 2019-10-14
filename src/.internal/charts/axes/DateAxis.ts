@@ -29,9 +29,12 @@ import * as $time from "../../core/utils/Time";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
+import * as $array from "../../core/utils/Array";
 import * as $object from "../../core/utils/Object";
+import * as $utils from "../../core/utils/Utils";
 import { IRange } from "../../core/defs/IRange";
 import { DateFormatter } from "../../core/formatters/DateFormatter";
+import { OrderedListTemplate } from "../../core/utils/SortedList";
 
 /**
  * ============================================================================
@@ -157,6 +160,25 @@ export interface IDateAxisProperties extends IValueAxisProperties {
 	 * Will use same format as for labels, if not set.
 	 */
 	tooltipDateFormat?: string | Intl.DateTimeFormatOptions;
+
+	/**
+	 * Indicates if data should be aggregated to composide data items if there
+	 * are more data items in selected range than `groupCount`.
+	 *
+	 * @default false
+	 * @since 4.7.0
+	 */
+	groupData?: boolean;
+
+	/**
+	 * Indicates threshold of data items in selected range at which to start
+	 * aggregating data items if `groupData = true`.
+	 * 
+	 * @default 200
+	 * @since 4.7.0
+	 */
+	groupCount?: number;
+
 }
 
 /**
@@ -293,6 +315,41 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	public gridIntervals: List<ITimeInterval> = new List<ITimeInterval>();
 
 	/**
+	 * If data aggregation is enabled by setting Axis' `groupData = true`, the
+	 * chart will try to aggregate data items into grouped data items.
+	 *
+	 * If there are more data items in selected period than `groupCount`, it will
+	 * group data items into bigger period.
+	 *
+	 * For example seconds might be grouped into 10-second aggregate data items.
+	 *
+	 * This setting indicates what group intervals can the chart group to.
+	 *
+	 * Default intervals:
+	 *
+	 * ```JSON
+	 * [
+	 *   { timeUnit: "millisecond", count: 1},
+	 *   { timeUnit: "millisecond", count: 10 },
+	 *   { timeUnit: "millisecond", count: 100 },
+	 *   { timeUnit: "second", count: 1 },
+	 *   { timeUnit: "second", count: 10 },
+	 *   { timeUnit: "minute", count: 1 },
+	 *   { timeUnit: "minute", count: 10 },
+	 *   { timeUnit: "hour", count: 1 },
+	 *   { timeUnit: "day", count: 1 },
+	 *   { timeUnit: "week", count: 1 },
+	 *   { timeUnit: "month", count: 1 },
+	 *   { timeUnit: "year", count: 1 }
+	 * ]
+	 * ```
+	 * 
+	 * @since 4.7.0
+	 * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/date-axis/#Dynamic_data_item_grouping} for more information about dynamic data item grouping.
+	 */
+	public groupIntervals: List<ITimeInterval> = new List<ITimeInterval>();
+
+	/**
 	 * A collection of date formats to use when formatting different time units
 	 * on Date/time axis.
 	 *
@@ -373,6 +430,16 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	protected _baseInterval: ITimeInterval;
 
 	/**
+	 * This is base interval of the main data set.
+	 */
+	protected _mainBaseInterval: ITimeInterval;
+
+	/**
+	 * This is base interval of the currently selected data set.
+	 */
+	protected _groupInterval: ITimeInterval;
+
+	/**
 	 * Actual interval (granularity) derived from the actual data.
 	 */
 	protected _baseIntervalReal: ITimeInterval = { timeUnit: "day", count: 1 };
@@ -422,6 +489,29 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	protected _df: DateFormatter;
 
 	/**
+	 * A flag used to avoid grouping of the same data multiple times.
+	 */
+	protected _dataGrouped: boolean = false;
+
+	/**
+	 * A collection of start timestamps to use as axis' min timestamp for
+	 * particular data item item periods.
+	 *
+	 * @since 4.7.0
+	 * @readonly
+	 */
+	public groupMin: { [index: string]: number } = {};
+	
+	/**
+	 * A collection of start timestamps to use as axis' max timestamp for
+	 * particular data item item periods.
+	 *
+	 * @since 4.7.0
+	 * @readonly
+	 */
+	public groupMax: { [index: string]: number } = {};
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -433,6 +523,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		this.setPropertyValue("markUnitChange", true);
 		this.snapTooltip = true;
 		this.tooltipPosition = "pointer";
+
+		this.groupData = false;
+		this.groupCount = 200;
 
 		this.events.on("parentset", this.getDFFormatter, this, false);
 
@@ -485,12 +578,43 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			{ timeUnit: "year", count: 100000 }
 		]);
 
+		this.groupIntervals.pushAll([
+			{ timeUnit: "millisecond", count: 1 },
+			{ timeUnit: "millisecond", count: 10 },
+			{ timeUnit: "millisecond", count: 100 },
+			{ timeUnit: "second", count: 1 },
+			{ timeUnit: "second", count: 10 },
+			{ timeUnit: "minute", count: 1 },
+			{ timeUnit: "minute", count: 10 },
+			{ timeUnit: "hour", count: 1 },
+			{ timeUnit: "day", count: 1 },
+			{ timeUnit: "week", count: 1 },
+			{ timeUnit: "month", count: 1 },
+			{ timeUnit: "year", count: 1 }
+		]);
+
 		// Set field name
 		this.axisFieldName = "date";
 
 		// Apply theme
 		this.applyTheme();
+	}
 
+	/**
+	 * Resets all Series attached to this Axis to their main (unaggregated)
+	 * data set.
+	 * 
+	 * @ignore
+	 */
+	public resetFlags() {
+		if (this.groupData) {
+			this._dataGrouped = false;
+			this.series.each((series) => {
+				if (series.baseAxis == this) {
+					series.setDataSet("");
+				}
+			})
+		}
 	}
 
 	/**
@@ -578,19 +702,22 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		// allows to keep selection of the same size
 		let start: number = this.start;
 		let end: number = this.end;
-		let periodCount: number = (this.max - this.min) / this.baseDuration;
+		let baseDuration = this.baseDuration;
+		let periodCount: number = (this.max - this.min) / baseDuration;
 
 		this._firstWeekDay = this.getFirstWeekDay();
 		this.getDFFormatter();
 
 		super.validateDataItems();
 
-		this.maxZoomFactor = (this.max - this.min) / this.baseDuration;
+		let mainBaseDuration = $time.getDuration(this.mainBaseInterval.timeUnit, this.mainBaseInterval.count)
+
+		this.maxZoomFactor = (this.max - this.min) / mainBaseDuration;
 
 		this._deltaMinMax = this.baseDuration / 2;
 
 		// allows to keep selection of the same size
-		let newPeriodCount: number = (this.max - this.min) / this.baseDuration;
+		let newPeriodCount: number = (this.max - this.min) / baseDuration;
 		start = start + (end - start) * (1 - periodCount / newPeriodCount);
 		this.zoom({ start: start, end: end }, false, true); // added instantlyto solve zoomout problem when we have axes gaps. @todo: check how this affects maxZoomFactor
 	}
@@ -613,23 +740,36 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	public calculateZoom(): void {
 		super.calculateZoom();
 
-		let gridInterval: ITimeInterval = this.chooseInterval(0, this.adjustDifference(this._minZoomed, this._maxZoomed), this._gridCount);
+		let difference = this.adjustDifference(this._minZoomed, this._maxZoomed);
+
+		// if data has to be grouped, choose interval and set dataset
+		if (this.groupData && $type.hasValue(difference)) {
+			let mainBaseInterval = this.mainBaseInterval;
+			let groupInterval = this.chooseInterval(0, difference, this.groupCount, this.groupIntervals);
+			if ((groupInterval.timeUnit == mainBaseInterval.timeUnit && groupInterval.count < mainBaseInterval.count) || $time.getDuration(groupInterval.timeUnit, 1) < $time.getDuration(mainBaseInterval.timeUnit, 1)) {
+				groupInterval = { ...mainBaseInterval };
+			}
+			this._groupInterval = groupInterval;
+
+			this.series.each((series) => {
+				if (series.baseAxis == this) {
+					series.setDataSet(groupInterval.timeUnit + groupInterval.count);
+				}
+			})
+		}
+
+		let gridInterval: ITimeInterval = this.chooseInterval(0, difference, this._gridCount);
 
 		if ($time.getDuration(gridInterval.timeUnit, gridInterval.count) < this.baseDuration) {
 			gridInterval = { ...this.baseInterval };
 		}
 
 		this._gridInterval = gridInterval;
-
-		this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit, gridInterval.count, this._firstWeekDay, this._df.utc);
 		this._nextGridUnit = $time.getNextUnit(gridInterval.timeUnit);
 
 		// the following is needed to avoid grid flickering while scrolling
 		this._intervalDuration = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
-		let count: number = Math.ceil(this._difference / this._intervalDuration);
-		count = Math.max(-5, Math.floor(this.start * count) - 3); // some extra is needed
-
-		$time.add(this._gridDate, gridInterval.timeUnit, count * gridInterval.count, this._df.utc);
+		this._gridDate = $time.round(new Date(this.minZoomed - $time.getDuration(gridInterval.timeUnit, gridInterval.count)), gridInterval.timeUnit, gridInterval.count, this._firstWeekDay, this._df.utc, new Date(this.min));
 
 		// tell series start/end
 		$iter.each(this.series.iterator(), (series) => {
@@ -638,7 +778,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 				let minZoomed = $time.round(new Date(this._minZoomed), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
 				let minZoomedStr = minZoomed.toString();
-				let startDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(minZoomedStr);
+				let startDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(minZoomedStr + series.currentDataSetId);
+
 				let startIndex: number = 0;
 				if (this.start != 0) {
 					if (startDataItem) {
@@ -654,7 +795,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				let maxZoomed = $time.add($time.round(new Date(this._maxZoomed), baseInterval.timeUnit, baseInterval.count, this._firstWeekDay, this._df.utc), baseInterval.timeUnit, baseInterval.count, this._df.utc).getTime();
 
 				let maxZoomedStr = maxZoomed.toString();
-				let endDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(maxZoomedStr);
+				let endDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(maxZoomedStr + series.currentDataSetId);
 				let endIndex: number = series.dataItems.length;
 				if (this.end != 1) {
 					if (endDataItem) {
@@ -749,21 +890,178 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public postProcessSeriesDataItems(): void {
 		this.series.each((series) => {
-			if (JSON.stringify(series._baseInterval[this.uid]) != JSON.stringify(this.baseInterval)) {
-				series.dataItems.each((dataItem) => {
+			if (JSON.stringify(series._baseInterval[this.uid]) != JSON.stringify(this.mainBaseInterval)) {
+				series.mainDataSet.each((dataItem) => {
 					this.postProcessSeriesDataItem(dataItem);
 				});
-				series._baseInterval[this.uid] = this.baseInterval;
+				series._baseInterval[this.uid] = this.mainBaseInterval;
 			}
 		});
 
 		this.addEmptyUnitsBreaks();
+
+		this.groupSeriesData();
+	}
+
+	public groupSeriesData() {
+		if (this.groupData && !this._dataGrouped) {
+			// @todo: reset this when data changes
+			this._dataGrouped = true;
+			// make array of intervals which will be used;
+			let intervals: ITimeInterval[] = [];
+			let mainBaseInterval = this.mainBaseInterval;
+			let mainIntervalDuration = $time.getDuration(mainBaseInterval.timeUnit, mainBaseInterval.count);
+
+			this.groupIntervals.each((interval) => {
+				let intervalDuration = $time.getDuration(interval.timeUnit, interval.count);
+				if (intervalDuration > mainIntervalDuration && intervalDuration < (this.max - this.min)) {
+					intervals.push(interval);
+				}
+			})
+
+			this.series.each((series) => {
+				series._dataSets = undefined;
+			});
+
+			$array.each(intervals, (interval) => {
+				//let mainBaseInterval = this._mainBaseInterval;
+				let key = "date" + this.axisLetter;
+				this.series.each((series) => {
+					if (series.baseAxis == this) {
+						// create data set
+						let dataSetId = interval.timeUnit + interval.count;
+						// todo: check where this clone goes
+						let dataSet = new OrderedListTemplate(series.mainDataSet.template.clone());
+
+						let oldDataSet = series.dataSets.getKey(dataSetId);
+						if (oldDataSet) {
+							oldDataSet.clear();
+						}
+						series.dataSets.setKey(dataSetId, dataSet);
+
+						let dataItems = series.mainDataSet;
+						let previousTime: number = Number.NEGATIVE_INFINITY;
+						let i = 0;
+						let newDataItem: XYSeriesDataItem;
+
+						let dataFields: string[] = [];
+
+						$object.each(series.dataFields, (dfkey, df) => {
+							let dfk = <string>dfkey;
+							if (dfk != key && dfk.indexOf("Show") == -1) {
+								dataFields.push(dfk);
+							}
+						})
+
+						dataItems.each((dataItem) => {
+							let date = dataItem.getDate(key);
+							if (date) {
+								let time = date.getTime();
+								let roundedDate = $time.round(new Date(time), interval.timeUnit, interval.count, this._df.firstDayOfWeek, this._df.utc);
+								let currentTime = roundedDate.getTime();
+								// changed period								
+								if (previousTime < roundedDate.getTime()) {
+									newDataItem = dataSet.create();
+									newDataItem.component = series;
+									// other Dates?
+									newDataItem.setDate(key, roundedDate);
+									newDataItem._index = i;
+									i++;
+
+
+									$array.each(dataFields, (vkey) => {
+										//let groupFieldName = vkey + "Group";
+										let value = dataItem.values[vkey].value;
+										if ($type.isNumber(value)) {
+											let values = newDataItem.values[vkey];
+
+											values.value = value;
+											values.workingValue = value;
+
+											values.open = value;
+											values.close = value;
+											values.low = value;
+											values.high = value;
+											values.sum = value;
+											values.average = value;
+											values.count = 1;
+										}
+									})
+
+									this.postProcessSeriesDataItem(newDataItem, interval);
+
+									$object.each(series.propertyFields, (key, fieldValue) => {
+										const f: string = <string>key;
+										let value: any = (<any>dataItem.properties)[key];
+
+										if ($type.hasValue(value)) {
+											newDataItem.hasProperties = true;
+											newDataItem.setProperty(f, value);
+										}
+									});
+									newDataItem.groupDataItems = [dataItem];
+									previousTime = currentTime;
+								}
+								else {
+									if (newDataItem) {
+										$array.each(dataFields, (vkey) => {
+											let groupFieldName = (<any>series.groupFields)[vkey];
+
+											let value = dataItem.values[vkey].value;
+											if ($type.isNumber(value)) {
+												let values = newDataItem.values[vkey];
+
+												if (!$type.isNumber(values.open)) {
+													values.open = value;
+												}
+
+												values.close = value;
+
+												if (values.low > value || !$type.isNumber(values.low)) {
+													values.low = value;
+												}
+												if (values.high < value || !$type.isNumber(values.high)) {
+													values.high = value;
+												}
+												if ($type.isNumber(values.sum)) {
+													values.sum += value;
+												}
+												else {
+													values.sum = value;
+												}
+												values.count++;
+												values.average = values.sum / values.count;
+
+												values.value = values[groupFieldName];
+												values.workingValue = values.value;
+											}
+										})
+										$utils.copyProperties(dataItem.properties, newDataItem.properties);
+
+										$object.each(series.propertyFields, (key, fieldValue) => {
+											const f: string = <string>key;
+											let value: any = (<any>dataItem.properties)[key];
+											if ($type.hasValue(value)) {
+												newDataItem.hasProperties = true;
+												newDataItem.setProperty(f, value);
+											}
+										});
+
+										newDataItem.groupDataItems.push(dataItem);
+									}
+								}
+							}
+						})
+					}
+				})
+			})
+		}
 	}
 
 	/**
 	 * @ignore
 	 */
-	protected getDFFormatter(){
+	protected getDFFormatter() {
 		this._df = this.dateFormatter;
 	}
 
@@ -774,9 +1072,15 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @todo Description
 	 * @param dataItem Data item
 	 */
-	public postProcessSeriesDataItem(dataItem: XYSeriesDataItem): void {
+	public postProcessSeriesDataItem(dataItem: XYSeriesDataItem, interval?: ITimeInterval): void {
 		// we need to do this for all series data items not only added recently, as baseInterval might change
-		let baseInterval: ITimeInterval = this.baseInterval;
+		let intervalID = "";
+		if (interval) {
+			intervalID = interval.timeUnit + interval.count;
+		}
+		else {
+			interval = this.mainBaseInterval;
+		}
 
 		let series: XYSeries = dataItem.component;
 		let dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);
@@ -785,14 +1089,14 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			let date: Date = dataItem.getDate(key);
 			let time = date.getTime();
 
-			let startDate: Date = $time.round(new Date(time), baseInterval.timeUnit, baseInterval.count, this._firstWeekDay, this._df.utc);
+			let startDate: Date = $time.round(new Date(time), interval.timeUnit, interval.count, this._firstWeekDay, this._df.utc);
 			let startTime = startDate.getTime();
-			let endDate: Date = $time.add(new Date(startTime), baseInterval.timeUnit, baseInterval.count, this._df.utc);
+			let endDate: Date = $time.add(new Date(startTime), interval.timeUnit, interval.count, this._df.utc);
 
 			dataItem.setCalculatedValue(key, startTime, "open");
 			dataItem.setCalculatedValue(key, endDate.getTime(), "close");
 
-			dataItemsByAxis.setKey(startTime.toString(), dataItem);
+			dataItemsByAxis.setKey(startTime + intervalID, dataItem);
 		});
 	}
 
@@ -827,7 +1131,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				let startTimeStr: string = startTime.toString();
 
 				let hasData = $iter.contains(this.series.iterator(), (series) => {
-					return !!series.dataItemsByAxis.getKey(this.uid).getKey(startTimeStr);
+					return !!series.dataItemsByAxis.getKey(this.uid).getKey(startTimeStr + series.currentDataSetId);
 				});
 
 				// open break if not yet opened
@@ -975,7 +1279,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 			while (timestamp <= this._maxZoomed) {
 				let date = this.getGridDate($time.copy(prevGridDate), intervalCount);
-
 				timestamp = date.getTime();
 
 				let endDate = $time.copy(date); // you might think it's easier to add intervalduration to timestamp, however it won't work for months or years which are not of the same length
@@ -1005,9 +1308,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 				dataItem.text = text;
 
-				prevGridDate = date;
-
 				this.validateDataElement(dataItem);
+
+				prevGridDate = date;
 			}
 
 			// breaks later
@@ -1173,10 +1476,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @return Adjusted value
 	 */
 	protected fixMin(value: number) {
-
 		// like this because months are not equal
-		let startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc).getTime();
-		let endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count, this._df.utc).getTime();
+		let interval = this.baseInterval;
+
+		let startTime = $time.round(new Date(value), interval.timeUnit, interval.count, this._firstWeekDay, this._df.utc).getTime();
+		let endTime = $time.add(new Date(startTime), interval.timeUnit, interval.count, this._df.utc).getTime();
 
 		return startTime + (endTime - startTime) * this.startLocation;
 	}
@@ -1189,8 +1493,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	protected fixMax(value: number) {
 		// like this because months are not equal
-		let startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc).getTime();
-		let endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count, this._df.utc).getTime();
+		let interval = this.baseInterval;
+
+		let startTime = $time.round(new Date(value), interval.timeUnit, interval.count, this._firstWeekDay, this._df.utc).getTime();
+		let endTime = $time.add(new Date(startTime), interval.timeUnit, interval.count, this._df.utc).getTime();
 
 		return startTime + (endTime - startTime) * this.endLocation;
 	}
@@ -1205,30 +1511,32 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @param gridCount  [description]
 	 * @return [description]
 	 */
-	public chooseInterval(index: number, duration: number, gridCount: number): ITimeInterval {
-		let gridIntervals: List<ITimeInterval> = this.gridIntervals;
+	public chooseInterval(index: number, duration: number, gridCount: number, intervals?: List<ITimeInterval>): ITimeInterval {
+		if (!intervals) {
+			intervals = this.gridIntervals;
+		}
 
-		let gridInterval: ITimeInterval = gridIntervals.getIndex(index);
+		let gridInterval: ITimeInterval = intervals.getIndex(index);
 
 		let intervalDuration: number = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
 
-		let lastIndex: number = gridIntervals.length - 1;
+		let lastIndex: number = intervals.length - 1;
 		if (index >= lastIndex) {
-			return { ...gridIntervals.getIndex(lastIndex) };
+			return { ...intervals.getIndex(lastIndex) };
 		}
 
 		let count: number = Math.ceil(duration / intervalDuration);
 
 		if (duration < intervalDuration && index > 0) {
-			return { ...gridIntervals.getIndex(index - 1) };
+			return { ...intervals.getIndex(index - 1) };
 		}
 		if (count <= gridCount) {
-			return { ...gridIntervals.getIndex(index) };
+			return { ...intervals.getIndex(index) };
 		} else {
-			if (index + 1 < gridIntervals.length) {
-				return this.chooseInterval(index + 1, duration, gridCount);
+			if (index + 1 < intervals.length) {
+				return this.chooseInterval(index + 1, duration, gridCount, intervals);
 			} else {
-				return { ...gridIntervals.getIndex(index) };
+				return { ...intervals.getIndex(index) };
 			}
 		}
 	}
@@ -1323,7 +1631,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		if (!$type.isNumber(value)) {
 			value = this.baseValue;
 		}
-
 
 		let position = this.valueToPosition(value);
 		if (range) {
@@ -1530,6 +1837,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		}
 
 		this._baseIntervalReal = baseInterval;
+		this._mainBaseInterval = baseInterval;
+
 		// no need to invalidate
 	}
 
@@ -1555,6 +1864,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	public set baseInterval(timeInterval: ITimeInterval) {
 		if (JSON.stringify(this._baseInterval) != JSON.stringify(timeInterval)) {
 			this._baseInterval = timeInterval;
+			this._mainBaseInterval = timeInterval;
 			if (!$type.isNumber(timeInterval.count)) {
 				timeInterval.count = 1;
 			}
@@ -1567,8 +1877,29 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @return Base interval
 	 */
 	public get baseInterval(): ITimeInterval {
+		if (this._groupInterval) {
+			return this._groupInterval;
+		}
+		else if (this._baseInterval) {
+			return this._baseInterval;
+		}
+		else {
+			return this._baseIntervalReal;
+		}
+	}
+
+	/**
+	 * Indicates granularity of the data of source (unaggregated) data.
+	 *
+	 * @since 4.7.0
+	 * @return Granularity of the main data set
+	 */
+	public get mainBaseInterval(): ITimeInterval {
 		if (this._baseInterval) {
 			return this._baseInterval;
+		}
+		else if (this._mainBaseInterval) {
+			return this._mainBaseInterval;
 		}
 		else {
 			return this._baseIntervalReal;
@@ -1771,6 +2102,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		let value: number = this.positionToValue(position);
 		let date: Date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc);
 
+
 		let dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);
 
 		let dataItem = dataItemsByAxis.getKey(date.getTime().toString());
@@ -1854,6 +2186,19 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		return { x: 0, y: 0 };
 	}
 
+	/**
+	 * Invalidates axis data items when series extremes change
+	 */
+	protected handleExtremesChange() {
+		super.handleExtremesChange();
+
+		if (this.groupData) {
+			let id = this.baseInterval.timeUnit + this.baseInterval.count;
+			this.groupMin[id] = this.min;
+			this.groupMax[id] = this.max;
+		}
+	}
+
 
 	/**
 	 * Zooms axis to specific Dates.
@@ -1863,10 +2208,88 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @param skipRangeEvent  Do not invoke events
 	 * @param instantly       Do not play zoom animations
 	 */
-	public zoomToDates(startDate: Date, endDate: Date, skipRangeEvent?: boolean, instantly?: boolean): void {
+	public zoomToDates(startDate: Date, endDate: Date, skipRangeEvent?: boolean, instantly?: boolean, adjust?:boolean): void {
 		startDate = this._df.parse(startDate);
 		endDate = this._df.parse(endDate);
-		this.zoomToValues(startDate.getTime(), endDate.getTime(), skipRangeEvent, instantly);
+		this.zoomToValues(startDate.getTime(), endDate.getTime(), skipRangeEvent, instantly, adjust);
+	}
+
+	/**
+	 * Zooms axis to specific values.
+	 *
+	 * @param startValue      Start value
+	 * @param endValue        End value
+	 * @param skipRangeEvent  Do not invoke events
+	 * @param instantly       Do not play zoom animations
+	 */
+	public zoomToValues(startValue: number, endValue: number, skipRangeEvent?: boolean, instantly?: boolean, adjust?:boolean): void {
+		if (!this.groupData) {
+			let start: number = (startValue - this.min) / (this.max - this.min);
+			let end: number = (endValue - this.min) / (this.max - this.min);
+
+			this.zoom({ start: start, end: end }, skipRangeEvent, instantly);
+		}
+		else {
+			let difference = this.adjustDifference(startValue, endValue);
+			let isEnd = false;
+			if (endValue == this.max) {
+				isEnd = true;
+			}
+			let isStart = false;
+			if (startValue == this.min) {
+				isStart = true;
+			}
+
+			if ($type.hasValue(difference)) {
+				let mainBaseInterval = this.mainBaseInterval;
+				let groupInterval = this.chooseInterval(0, difference, this.groupCount, this.groupIntervals);
+				if ((groupInterval.timeUnit == mainBaseInterval.timeUnit && groupInterval.count < mainBaseInterval.count) || $time.getDuration(groupInterval.timeUnit, 1) < $time.getDuration(mainBaseInterval.timeUnit, 1)) {
+					groupInterval = { ...mainBaseInterval };
+				}
+
+				let id = groupInterval.timeUnit + groupInterval.count;
+				let min = this.groupMin[id];
+				let max = this.groupMax[id];
+
+				if (!$type.isNumber(min) || !$type.isNumber(max)) {
+					min = Number.POSITIVE_INFINITY;
+					max = Number.NEGATIVE_INFINITY;
+					this.series.each((series) => {
+						let seriesMin = series.min(this);
+						let seriesMax = series.max(this);
+						if (seriesMin < min) {
+							min = seriesMin;
+						}
+						if (seriesMax < max) {
+							max = seriesMax;
+						}
+					})
+					this.groupMin[id] = min;
+					this.groupMax[id] = max;
+				}
+
+				startValue = $math.fitToRange(startValue, min, max);
+				endValue = $math.fitToRange(endValue, min, max);
+				
+				if(adjust){
+					if (isEnd) {
+						startValue = endValue - difference;
+						console.log("adjust")
+						startValue = $math.fitToRange(startValue, min, max);
+					}				
+
+					if (isStart) {
+						endValue = startValue + difference;
+						endValue = $math.fitToRange(endValue, min, max);
+					}				
+				}
+
+				let start: number = (startValue - min) / (max - min);
+				let end: number = (endValue - min) / (max - min);
+
+				this.zoom({ start: start, end: end }, skipRangeEvent, instantly);
+			}
+		}
 	}
 
 	/**
@@ -1888,8 +2311,18 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		super.copyFrom(source);
 		this.dateFormats = source.dateFormats;
 		this.periodChangeDateFormats = source.periodChangeDateFormats;
-		if (source["_baseInterval"]) {
-			this.baseInterval = source.baseInterval;
+		this.groupIntervals.clear();
+		source.groupIntervals.each((interval) => {
+			this.groupIntervals.push({ ...interval });
+		})
+
+		this.gridIntervals.clear();
+		source.gridIntervals.each((interval) => {
+			this.gridIntervals.push({ ...interval });
+		})
+
+		if (source._baseInterval) {
+			this.baseInterval = source._baseInterval;
 		}
 	}
 
@@ -1953,7 +2386,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 				this.series.each((series) => {
 
-					let dataItem = series.dataItemsByAxis.getKey(this.uid).getKey(closestTime.toString());
+					let dataItem = series.dataItemsByAxis.getKey(this.uid).getKey(closestTime + series.currentDataSetId);
 					let point = series.showTooltipAtDataItem(dataItem);
 					if (point) {
 						this.chart._seriesPoints.push({ series: series, point: point });
@@ -1991,6 +2424,100 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		return this.getPropertyValue("snapTooltip");
 	}
 
+	/**
+	 * Indicates if data should be aggregated to composide data items if there
+	 * are more data items in selected range than `groupCount`.
+	 *
+	 * Grouping will occur automatically, based on current selection range, and
+	 * will change dynamically when user zooms in/out the chart.
+	 *
+	 * NOTE: This works only if [[DateAxis]] is base axis of an [[XYSeries]].
+	 *
+	 * The related [[XYSeries]] also needs to be set up to take advantage of, by
+	 * setting its [`groupFields`](https://www.amcharts.com/docs/v4/reference/xyseries/#groupFields_property).
+	 *
+	 * The group intervals to aggregate data to is defined by `groupIntervals`
+	 * property.
+	 *
+	 * ```TypeScript
+	 * let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+	 * dateAxis.groupData = true;
+	 * 
+	 * let valueAxis = chart.xAxes.push(new am4charts.valueAxis());
+	 * 
+	 * let series = chart.series.push(new am4charts.LineSeries());
+	 * series.dataFields.dateX = "date";
+	 * series.dataFields.valueY = "value";
+	 * series.groupFields.valueY = "average";
+	 * ```
+	 * ```JavaScript
+	 * var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+	 * dateAxis.groupData = true;
+	 * 
+	 * var valueAxis = chart.xAxes.push(new am4charts.valueAxis());
+	 * 
+	 * var series = chart.series.push(new am4charts.LineSeries());
+	 * series.dataFields.dateX = "date";
+	 * series.dataFields.valueY = "value";
+	 * series.groupFields.valueY = "average";
+	 * ```
+	 * ```JSON
+	 * {
+	 *   // ...
+	 *   "xAxes": [{
+	 *     "type": "DateAxis",
+	 *     "groupData": true
+	 *   }],
+	 *   "yAxes": [{
+	 *     "type": "ValueAxis"
+	 *   }],
+	 *   "series": [{
+	 *     "type": "LineSeries",
+	 *     "dataFields": {
+	 *       "dateX": "date",
+	 *       "valueY": "value"
+	 *     },
+	 *     "groupFields": {
+	 *       "valueY": "average"
+	 *     }
+	 *   }]
+	 * }
+	 * ```
+	 *
+	 * @default false
+	 * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/date-axis/#Dynamic_data_item_grouping} for more information about dynamic data item grouping.
+	 * @since 4.7.0
+	 * @param  value  Group data points?
+	 */
+	public set groupData(value: boolean) {
+		this.setPropertyValue("groupData", value);
+	}
+
+	/**
+	 * @return Group data points?
+	 */
+	public get groupData(): boolean {
+		return this.getPropertyValue("groupData");
+	}
+
+	/**
+	 * Indicates threshold of data items in selected range at which to start
+	 * aggregating data items if `groupData = true`.
+	 * 
+	 * @default 200
+	 * @since 4.7.0
+	 * @param  value  Number of data items
+	 */
+	public set groupCount(value: number) {
+		this.setPropertyValue("groupCount", value);
+	}
+
+	/**
+	 * @return Number of data items
+	 */
+	public get groupCount(): number {
+		return this.getPropertyValue("groupCount");
+	}
 
 	/**
 	 * Current grid interval.

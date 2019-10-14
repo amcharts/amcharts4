@@ -2885,14 +2885,21 @@ var Sprite = /** @class */ (function (_super) {
             var _this = this;
             if (this._language.get() !== value) {
                 this._language.set(value, value.events.on("localechanged", function (ev) {
-                    if (_this.numberFormatter) {
-                        _this.numberFormatter.language = _this.language;
+                    if (_this._numberFormatter) {
+                        _this._numberFormatter.language = _this.language;
                     }
-                    if (_this.dateFormatter) {
-                        _this.dateFormatter.language = _this.language;
+                    if (_this._dateFormatter) {
+                        _this._dateFormatter.language = _this.language;
                     }
-                    if (_this.durationFormatter) {
-                        _this.durationFormatter.language = _this.language;
+                    if (_this._durationFormatter) {
+                        _this._durationFormatter.language = _this.language;
+                    }
+                    if (_this._exporting.get()) {
+                        var exporting = _this._exporting.get();
+                        exporting.numberFormatter.language = _this.language;
+                        exporting.dateFormatter.language = _this.language;
+                        exporting.durationFormatter.language = _this.language;
+                        exporting.language = _this.language;
                     }
                     if (_this instanceof Container) {
                         _this.deepInvalidate();
@@ -5146,6 +5153,7 @@ var Sprite = /** @class */ (function (_super) {
                 _export = new Export(this.svgContainer.SVGContainer);
                 _export.sprite = this;
                 _export.language = this.language;
+                _export.numberFormatter = this.numberFormatter;
                 _export.dateFormatter = this.dateFormatter;
                 _export.durationFormatter = this.durationFormatter;
                 this._exporting.set(_export, _export);

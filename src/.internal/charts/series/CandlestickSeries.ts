@@ -9,6 +9,7 @@
  * @hidden
  */
 import { ColumnSeries, ColumnSeriesDataItem, IColumnSeriesDataFields, IColumnSeriesProperties, IColumnSeriesAdapters, IColumnSeriesEvents } from "./ColumnSeries";
+import { GroupField, IXYSeriesGroupFields } from "./XYSeries";
 import { visualProperties } from "../../core/Sprite";
 import { Line } from "../../core/elements/Line";
 import { Container } from "../../core/Container";
@@ -233,13 +234,50 @@ export interface ICandlestickSeriesDataFields extends IColumnSeriesDataFields {
 	 * Which calculated field to use to use as a vertical axis low value for
 	 * the item.
 	 */
-	lowValueYShow?: CalculatedValue;	
+	lowValueYShow?: CalculatedValue;
 
 	/**
 	 * Which calculated field to use to use as a vertical axis high value for
 	 * the item.
 	 */
 	highValueYShow?: CalculatedValue;
+
+}
+
+/**
+ * Defines data fields that can be calculated for aggregate values.
+ * 
+ * @since 4.7.0
+ */
+export interface ICandlestickSeriesGroupFields extends IXYSeriesGroupFields {
+
+	/**
+	 * Indicates how to calculate aggregate value for `lowValueX` data field.
+	 *
+	 * @default "low"
+	 */
+	lowValueX?: GroupField;
+
+	/**
+	 * Indicates how to calculate aggregate value for `lowValueY` data field.
+	 *
+	 * @default "low"
+	 */
+	lowValueY?: GroupField;
+
+	/**
+	 * Indicates how to calculate aggregate value for `highValueX` data field.
+	 *
+	 * @default "high"
+	 */
+	highValueX?: GroupField;
+
+	/**
+	 * Indicates how to calculate aggregate value for `highValueY` data field.
+	 *
+	 * @default "high"
+	 */
+	highValueY?: GroupField;
 
 }
 
@@ -277,6 +315,14 @@ export interface ICandlestickSeriesAdapters extends IColumnSeriesAdapters, ICand
  * @important
  */
 export class CandlestickSeries extends ColumnSeries {
+
+	/**
+	 * Defines type of the group fields.
+	 * 
+	 * @ignore
+	 * @since 4.7.0
+	 */
+	public _groupFields: ICandlestickSeriesGroupFields;
 
 	/**
 	 * Defines the type of data item.
@@ -334,6 +380,12 @@ export class CandlestickSeries extends ColumnSeries {
 	constructor() {
 		super();
 		this.className = "CandlestickSeries";
+
+		this.groupFields.lowValueX = "low";
+		this.groupFields.lowValueY = "low";
+
+		this.groupFields.highValueX = "high";
+		this.groupFields.highValueY = "high";
 
 		this.strokeOpacity = 1;
 

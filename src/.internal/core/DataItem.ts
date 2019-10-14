@@ -369,7 +369,6 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		if (this.component) {
 			if (this._index != null) {
 				return this._index;
-
 			} else {
 				return -1;
 			}

@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.0] - 2019-10-14
+
+### Added
+- Dynamic data item grouping capabilities added to `XYSeries` in `DateAxis` + `ValueAxis` setups. [More details](https://www.amcharts.com/docs/v4/concepts/axes/date-axis/#Dynamic_data_item_grouping).
+- Export: Two new data export options "HTML" and "PDF" (exports data as a table in PDF).
+- Export: Ability to include data table into PDF export (`addData` option in PDF options).
+
+### Fixed
+- Regression plugin: Plugin was not generating proper regression lines if data was loaded via `dataSource`.
+- Fixed number formatting for data exports on non-default-locale charts.
+- `min`/`max` of `ValueAxis` was not always correct when series showed not actual but calculated values using `valueYShow`/`valueXShow` data fields like `"sum"`, `"change"`, or `"changePercent"`.
+
+
 ## [4.6.9] - 2019-10-08
 
 ### Fixed

@@ -667,6 +667,11 @@ var Axis = /** @class */ (function (_super) {
         }
     };
     /**
+     * @ignore
+     */
+    Axis.prototype.resetFlags = function () {
+    };
+    /**
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}

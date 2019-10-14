@@ -711,14 +711,6 @@ var ColumnSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(ColumnSeries.prototype, "riseFromOpenState", {
         /**
-         * A state to apply to a column when close value is same or higher than open
-         * value.
-         *
-         * Can be used to differentiate appearance based on value relations.
-         *
-         * NOTE: this will work only if at least one axis is [[ValueAxis]].
-         *
-         * @readonly You can modify state object, but can't overwrite it
          * @return State
          */
         get: function () {
@@ -727,7 +719,17 @@ var ColumnSeries = /** @class */ (function (_super) {
             }
             return this._riseFromOpenState;
         },
-        // @todo mm
+        /**
+         * A state to apply to a column when close value is same or higher than open
+         * value.
+         *
+         * Can be used to differentiate appearance based on value relations.
+         *
+         * NOTE: this will work only if at least one axis is [[ValueAxis]].
+         *
+         * @readonly You can modify state object, but can't overwrite it
+         * @param  value  State
+         */
         set: function (value) {
             this._riseFromOpenState = value;
         },
@@ -736,12 +738,6 @@ var ColumnSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(ColumnSeries.prototype, "riseFromPreviousState", {
         /**
-         * A state to apply to a column when its value is same or higher than value
-         * of a previous column.
-         *
-         * Can be used to differentiate appearance based on value relations.
-         *
-         * @readonly You can modify state object, but can't overwrite it
          * @return State
          */
         get: function () {
@@ -750,7 +746,15 @@ var ColumnSeries = /** @class */ (function (_super) {
             }
             return this._riseFromPreviousState;
         },
-        // @todo mm
+        /**
+         * A state to apply to a column when its value is same or higher than value
+         * of a previous column.
+         *
+         * Can be used to differentiate appearance based on value relations.
+         *
+         * @readonly You can modify state object, but can't overwrite it
+         * @param  value  State
+         */
         set: function (value) {
             this._riseFromPreviousState = value;
         },

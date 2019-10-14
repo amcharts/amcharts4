@@ -31,16 +31,19 @@ import { Dictionary, DictionaryDisposer } from "../../core/utils/Dictionary";
  * Defines properties for [[ForceDirectedNode]].
  */
 export interface IForceDirectedNodeProperties extends IContainerProperties {
+
 	/**
-	 * @todo mm
+	 * If set to `true` (default) toggling a node on will automatically expand
+	 * all nodes across the whole tree (all levels) of its descendants.
+	 *
+	 * Setting to `false` will only expand immediate children (one level).
 	 */
 	expandAll?: boolean;
 
 	/**
-	 * Padding of the node
-	 * @todo mm
+	 * Padding of the nodes, in pixels.
 	 */
-	paddingRadius?:number;	
+	paddingRadius?: number;
 }
 
 /**
@@ -386,8 +389,11 @@ export class ForceDirectedNode extends Container {
 	}
 
 	/**
-	 * Padding of the nodes, in pixels
-	 * @todo mm
+	 * Padding of the nodes, in pixels.
+	 * 
+	 * @since 4.6.7
+	 * @default 0
+	 * @param  value  padding radius
 	 */
 	public set paddingRadius(value: number) {
 		this.setPropertyValue("paddingRadius", value);
@@ -398,7 +404,7 @@ export class ForceDirectedNode extends Container {
 	 */
 	public get paddingRadius(): number {
 		return this.getPropertyValue("paddingRadius");
-	}	
+	}
 }
 
 /**

@@ -60,8 +60,17 @@ export declare class XYSeriesDataItem extends SeriesDataItem {
     protected _maxY: number;
     /**
      * Defines a type of [[Component]] this data item is used for.
+     *
+     * @ignore
      */
     _component: XYSeries;
+    /**
+     * References to any aggregate data items this data item is part of.
+     *
+     * @ignore
+     * @since 4.7.0
+     */
+    groupDataItems: this[];
     /**
      * Constructor
      */
@@ -286,6 +295,43 @@ export interface IXYSeriesDataFields extends ISeriesDataFields {
     openValueYShow?: CalculatedValue;
 }
 /**
+ * Defines types of the aggregate value.
+ *
+ * @since 4.7.0
+ */
+export declare type GroupField = "open" | "close" | "low" | "high" | "average" | "sum";
+/**
+ * Defines data fields that can be calculated for aggregate values.
+ *
+ * @since 4.7.0
+ */
+export interface IXYSeriesGroupFields {
+    /**
+     * Indicates how to calculate aggregate value for `valueX` data field.
+     *
+     * @default "close"
+     */
+    valueX?: GroupField;
+    /**
+     * Indicates how to calculate aggregate value for `valueY` data field.
+     *
+     * @default "close"
+     */
+    valueY?: GroupField;
+    /**
+     * Indicates how to calculate aggregate value for `openValueX` data field.
+     *
+     * @default "open"
+     */
+    openValueX?: GroupField;
+    /**
+     * Indicates how to calculate aggregate value for `openValueY` data field.
+     *
+     * @default "open"
+     */
+    openValueY?: GroupField;
+}
+/**
  * Defines properties for [[XYSeries]].
  */
 export interface IXYSeriesProperties extends ISeriesProperties {
@@ -349,10 +395,102 @@ export interface IXYSeriesAdapters extends ISeriesAdapters, IXYSeriesProperties 
  *
  * @see {@link IXYSeriesEvents} for a list of available Events
  * @see {@link IXYSeriesAdapters} for a list of available Adapters
- * @todo Example
  * @important
  */
 export declare class XYSeries extends Series {
+    /**
+     * Defines type of the group fields.
+     *
+     * @ignore
+     * @since 4.7.0
+     */
+    _groupFields: IXYSeriesGroupFields;
+    /**
+     * Indicates which of the series' `dataFields` to calculate aggregate values
+     * for.
+     *
+     * Available data fields for all [[XYSeries]] are:
+     * `valueX`, `valueY`, `openValueX`, and `openValueY`.
+     *
+     * [[CandlestickSeries]] adds:
+     * `lowValueX`, `lowValueY`, `highValueX`, and `highValueY`.
+     *
+     * Available options:
+     * `"open"`, `"close"`, `"low"`, `"high"`, "average", `"sum"`.
+     *
+     * Defaults are as follows:
+     * * `valueX`: `"close"`
+     * * `valueY`: `"close"`
+     * * `openValueX`: `"open"`
+     * * `openValueY`: `"open"`
+     * * `lowValueX`: `"low"`
+     * * `lowValueY`: `"low"`
+     * * `highValueX`: `"high"`
+     * * `highValueY`: `"high"`
+     *
+     * Is required only if data being plotted on a `DateAxis` and
+     * its `groupData` is set to `true`.
+     *
+     * ```TypeScript
+     * let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+     * dateAxis.groupData = true;
+     *
+     * let valueAxis = chart.xAxes.push(new am4charts.valueAxis());
+     *
+     * let series = chart.series.push(new am4charts.LineSeries());
+     * series.dataFields.dateX = "date";
+     * series.dataFields.valueY = "value";
+     * series.groupFields.valueY = "average";
+     * ```
+     * ```JavaScript
+     * var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+     * dateAxis.groupData = true;
+     *
+     * var valueAxis = chart.xAxes.push(new am4charts.valueAxis());
+     *
+     * var series = chart.series.push(new am4charts.LineSeries());
+     * series.dataFields.dateX = "date";
+     * series.dataFields.valueY = "value";
+     * series.groupFields.valueY = "average";
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "xAxes": [{
+     *     "type": "DateAxis",
+     *     "groupData": true
+     *   }],
+     *   "yAxes": [{
+     *     "type": "ValueAxis"
+     *   }],
+     *   "series": [{
+     *     "type": "LineSeries",
+     *     "dataFields": {
+     *       "dateX": "date",
+     *       "valueY": "value"
+     *     },
+     *     "groupFields": {
+     *       "valueY": "average"
+     *     }
+     *   }]
+     * }
+     * ```
+     *
+     * The above setup will ensure, that if there are many data items within
+     * selected range, they will be grouped into aggregated data points, using
+     * average value of all the values.
+     *
+     * For example if we have 2 years worth of daily data (~700 data items), when
+     * fully zoomed out, the chart would show ~100 data items instead: one for
+     * each week in those two years.
+     *
+     * Grouping will occur automatically, based on current selection range, and
+     * will change dynamically when user zooms in/out the chart.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/date-axis/#Dynamic_data_item_grouping} for more information about dynamic data item grouping.
+     * @since 4.7.0
+     */
+    groupFields: this["_groupFields"];
     /**
      * Defines the type of data fields used for the series.
      */

@@ -21,6 +21,7 @@ import { DesaturateFilter } from "../../core/rendering/filters/DesaturateFilter"
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $path from "../../core/rendering/Path";
+import { percent } from "../../core/utils/Percent";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -154,20 +155,31 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             renderer.padding(0, 0, 0, 0);
             renderer.chart = scrollbarChart;
             renderer.margin(0, 0, 0, 0);
+            xAxis.width = percent(100);
             var labelsTemplate = renderer.labels.template;
             labelsTemplate.fillOpacity = 0.5;
             if (xAxis instanceof DateAxis) {
                 var vAxis_1 = xAxis;
+                var sourceAxis = sourceSeries.xAxis;
+                xAxis.groupCount = sourceAxis.groupCount * 5;
                 this._disposers.push(vAxis_1.clonedFrom.events.on("extremeschanged", function () {
-                    vAxis_1.min = vAxis_1.clonedFrom.min;
-                    vAxis_1.max = vAxis_1.clonedFrom.max - 1;
+                    if ($type.isNumber(vAxis_1.clonedFrom.minDefined)) {
+                        vAxis_1.min = vAxis_1.clonedFrom.minDefined;
+                    }
+                    if ($type.isNumber(vAxis_1.clonedFrom.maxDefined)) {
+                        vAxis_1.max = vAxis_1.clonedFrom.maxDefined;
+                    }
                 }, undefined, false));
             }
             else if (xAxis instanceof ValueAxis) {
                 var vAxis_2 = xAxis;
                 this._disposers.push(vAxis_2.clonedFrom.events.on("extremeschanged", function () {
-                    vAxis_2.min = vAxis_2.clonedFrom.min;
-                    vAxis_2.max = vAxis_2.clonedFrom.max;
+                    if ($type.isNumber(vAxis_2.clonedFrom.minDefined)) {
+                        vAxis_2.min = vAxis_2.clonedFrom.min;
+                    }
+                    if ($type.isNumber(vAxis_2.clonedFrom.maxDefined)) {
+                        vAxis_2.max = vAxis_2.clonedFrom.max;
+                    }
                 }, undefined, false));
             }
             series.xAxis = xAxis;
@@ -201,21 +213,32 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             renderer.chart = scrollbarChart;
             renderer.padding(0, 0, 0, 0);
             renderer.margin(0, 0, 0, 0);
+            yAxis.height = percent(100);
             var labelsTemplate = renderer.labels.template;
             labelsTemplate.fillOpacity = 0.5;
             series.yAxis = yAxis;
             if (yAxis instanceof DateAxis) {
                 var vAxis_3 = yAxis;
+                var sourceAxis = sourceSeries.yAxis;
+                yAxis.groupCount = sourceAxis.groupCount * 5;
                 this._disposers.push(vAxis_3.clonedFrom.events.on("extremeschanged", function () {
-                    vAxis_3.min = vAxis_3.clonedFrom.min;
-                    vAxis_3.max = vAxis_3.clonedFrom.max - 1;
+                    if ($type.isNumber(vAxis_3.clonedFrom.minDefined)) {
+                        vAxis_3.min = vAxis_3.clonedFrom.minDefined;
+                    }
+                    if ($type.isNumber(vAxis_3.clonedFrom.maxDefined)) {
+                        vAxis_3.max = vAxis_3.clonedFrom.maxDefined;
+                    }
                 }));
             }
             else if (yAxis instanceof ValueAxis) {
                 var vAxis_4 = yAxis;
                 this._disposers.push(vAxis_4.clonedFrom.events.on("extremeschanged", function () {
-                    vAxis_4.min = vAxis_4.clonedFrom.min;
-                    vAxis_4.max = vAxis_4.clonedFrom.max;
+                    if ($type.isNumber(vAxis_4.clonedFrom.minDefined)) {
+                        vAxis_4.min = vAxis_4.clonedFrom.minDefined;
+                    }
+                    if ($type.isNumber(vAxis_4.clonedFrom.maxDefined)) {
+                        vAxis_4.max = vAxis_4.clonedFrom.maxDefined;
+                    }
                 }));
             }
         }

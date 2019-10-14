@@ -423,6 +423,9 @@ var XYChart = /** @class */ (function (_super) {
         // (but not add to chart data users) to hold up rendering before data
         // is parsed (system handles this)
         axis.dataProvider = this;
+        this.events.on("beforedatavalidated", function () {
+            axis.resetFlags();
+        }, this, false);
         this.updateXAxis(axis.renderer);
         this.processAxis(axis);
     };
@@ -446,6 +449,9 @@ var XYChart = /** @class */ (function (_super) {
         // (but not add to chart data users) to hold up rendering before data
         // is parsed (system handles this)
         axis.dataProvider = this;
+        this.events.on("beforedatavalidated", function () {
+            axis.resetFlags();
+        });
         this.updateYAxis(axis.renderer);
         this.processAxis(axis);
     };

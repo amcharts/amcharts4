@@ -1516,6 +1516,26 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	}
 
 	/**
+	 * Min value as defined by user's code, not auto-calculated.
+	 *
+	 * @readonly
+	 * @return Min value
+	 */
+	public get minDefined(): number {
+		return this._minDefined;
+	}
+
+	/**
+	 * Max value as defined by user's code, not auto-calculated.
+	 *
+	 * @readonly
+	 * @return Man value
+	 */
+	public get maxDefined(): number {
+		return this._maxDefined;
+	}
+
+	/**
 	 * Allows relatively adjusting minimum value of the axis' scale.
 	 *
 	 * The value is relative to the actual range of values currently displayed

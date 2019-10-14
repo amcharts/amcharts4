@@ -419,9 +419,9 @@ export interface ILegendItemEvents {
 /**
  * [[Legend]] class is used to create legend for the chart.
  *
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/legend/} for Legend documentation
  * @see {@link ILegendEvents} for a list of available events
  * @see {@link ILegendAdapters} for a list of available Adapters
- * @todo Verify/implement dynamic updating of legend items once the properties of related Series change
  */
 export class Legend extends Component {
 

@@ -682,6 +682,10 @@ export class XYChart extends SerialChart {
 		// is parsed (system handles this)
 		axis.dataProvider = this;
 
+		this.events.on("beforedatavalidated", ()=>{
+			axis.resetFlags();
+		}, this, false);
+
 		this.updateXAxis(axis.renderer);
 		this.processAxis(axis);
 
@@ -710,6 +714,10 @@ export class XYChart extends SerialChart {
 		// (but not add to chart data users) to hold up rendering before data
 		// is parsed (system handles this)
 		axis.dataProvider = this;
+
+		this.events.on("beforedatavalidated", ()=>{
+			axis.resetFlags();
+		});		
 
 		this.updateYAxis(axis.renderer);
 		this.processAxis(axis);

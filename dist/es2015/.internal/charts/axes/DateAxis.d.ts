@@ -107,6 +107,22 @@ export interface IDateAxisProperties extends IValueAxisProperties {
      * Will use same format as for labels, if not set.
      */
     tooltipDateFormat?: string | Intl.DateTimeFormatOptions;
+    /**
+     * Indicates if data should be aggregated to composide data items if there
+     * are more data items in selected range than `groupCount`.
+     *
+     * @default false
+     * @since 4.7.0
+     */
+    groupData?: boolean;
+    /**
+     * Indicates threshold of data items in selected range at which to start
+     * aggregating data items if `groupData = true`.
+     *
+     * @default 200
+     * @since 4.7.0
+     */
+    groupCount?: number;
 }
 /**
  * Defines events for [[DateAxis]].
@@ -232,6 +248,40 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     gridIntervals: List<ITimeInterval>;
     /**
+     * If data aggregation is enabled by setting Axis' `groupData = true`, the
+     * chart will try to aggregate data items into grouped data items.
+     *
+     * If there are more data items in selected period than `groupCount`, it will
+     * group data items into bigger period.
+     *
+     * For example seconds might be grouped into 10-second aggregate data items.
+     *
+     * This setting indicates what group intervals can the chart group to.
+     *
+     * Default intervals:
+     *
+     * ```JSON
+     * [
+     *   { timeUnit: "millisecond", count: 1},
+     *   { timeUnit: "millisecond", count: 10 },
+     *   { timeUnit: "millisecond", count: 100 },
+     *   { timeUnit: "second", count: 1 },
+     *   { timeUnit: "second", count: 10 },
+     *   { timeUnit: "minute", count: 1 },
+     *   { timeUnit: "minute", count: 10 },
+     *   { timeUnit: "hour", count: 1 },
+     *   { timeUnit: "day", count: 1 },
+     *   { timeUnit: "week", count: 1 },
+     *   { timeUnit: "month", count: 1 },
+     *   { timeUnit: "year", count: 1 }
+     * ]
+     * ```
+     *
+     * @since 4.7.0
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/date-axis/#Dynamic_data_item_grouping} for more information about dynamic data item grouping.
+     */
+    groupIntervals: List<ITimeInterval>;
+    /**
      * A collection of date formats to use when formatting different time units
      * on Date/time axis.
      *
@@ -305,6 +355,14 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     protected _baseInterval: ITimeInterval;
     /**
+     * This is base interval of the main data set.
+     */
+    protected _mainBaseInterval: ITimeInterval;
+    /**
+     * This is base interval of the currently selected data set.
+     */
+    protected _groupInterval: ITimeInterval;
+    /**
      * Actual interval (granularity) derived from the actual data.
      */
     protected _baseIntervalReal: ITimeInterval;
@@ -338,9 +396,40 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     protected _df: DateFormatter;
     /**
+     * A flag used to avoid grouping of the same data multiple times.
+     */
+    protected _dataGrouped: boolean;
+    /**
+     * A collection of start timestamps to use as axis' min timestamp for
+     * particular data item item periods.
+     *
+     * @since 4.7.0
+     * @readonly
+     */
+    groupMin: {
+        [index: string]: number;
+    };
+    /**
+     * A collection of start timestamps to use as axis' max timestamp for
+     * particular data item item periods.
+     *
+     * @since 4.7.0
+     * @readonly
+     */
+    groupMax: {
+        [index: string]: number;
+    };
+    /**
      * Constructor
      */
     constructor();
+    /**
+     * Resets all Series attached to this Axis to their main (unaggregated)
+     * data set.
+     *
+     * @ignore
+     */
+    resetFlags(): void;
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor.
@@ -404,6 +493,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @todo Description
      */
     postProcessSeriesDataItems(): void;
+    groupSeriesData(): void;
     /**
      * @ignore
      */
@@ -415,7 +505,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @todo Description
      * @param dataItem Data item
      */
-    postProcessSeriesDataItem(dataItem: XYSeriesDataItem): void;
+    postProcessSeriesDataItem(dataItem: XYSeriesDataItem, interval?: ITimeInterval): void;
     /**
      * Collapses empty stretches of date/time scale by creating [[AxisBreak]]
      * elements for them.
@@ -513,7 +603,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @param gridCount  [description]
      * @return [description]
      */
-    chooseInterval(index: number, duration: number, gridCount: number): ITimeInterval;
+    chooseInterval(index: number, duration: number, gridCount: number, intervals?: List<ITimeInterval>): ITimeInterval;
     /**
      * Formats the value according to axis' own [[DateFormatter]].
      *
@@ -638,6 +728,13 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @param timeInterval base interval
      */
     baseInterval: ITimeInterval;
+    /**
+     * Indicates granularity of the data of source (unaggregated) data.
+     *
+     * @since 4.7.0
+     * @return Granularity of the main data set
+     */
+    readonly mainBaseInterval: ITimeInterval;
     /**
      * @return Remove empty stretches of time?
      */
@@ -771,6 +868,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     readonly basePoint: IPoint;
     /**
+     * Invalidates axis data items when series extremes change
+     */
+    protected handleExtremesChange(): void;
+    /**
      * Zooms axis to specific Dates.
      *
      * @param startDate       Start date
@@ -778,7 +879,16 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @param skipRangeEvent  Do not invoke events
      * @param instantly       Do not play zoom animations
      */
-    zoomToDates(startDate: Date, endDate: Date, skipRangeEvent?: boolean, instantly?: boolean): void;
+    zoomToDates(startDate: Date, endDate: Date, skipRangeEvent?: boolean, instantly?: boolean, adjust?: boolean): void;
+    /**
+     * Zooms axis to specific values.
+     *
+     * @param startValue      Start value
+     * @param endValue        End value
+     * @param skipRangeEvent  Do not invoke events
+     * @param instantly       Do not play zoom animations
+     */
+    zoomToValues(startValue: number, endValue: number, skipRangeEvent?: boolean, instantly?: boolean, adjust?: boolean): void;
     /**
      * Adds `baseInterval` to "as is" fields.
      *
@@ -810,6 +920,87 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @param value  Should snap?
      */
     snapTooltip: boolean;
+    /**
+     * @return Group data points?
+     */
+    /**
+     * Indicates if data should be aggregated to composide data items if there
+     * are more data items in selected range than `groupCount`.
+     *
+     * Grouping will occur automatically, based on current selection range, and
+     * will change dynamically when user zooms in/out the chart.
+     *
+     * NOTE: This works only if [[DateAxis]] is base axis of an [[XYSeries]].
+     *
+     * The related [[XYSeries]] also needs to be set up to take advantage of, by
+     * setting its [`groupFields`](https://www.amcharts.com/docs/v4/reference/xyseries/#groupFields_property).
+     *
+     * The group intervals to aggregate data to is defined by `groupIntervals`
+     * property.
+     *
+     * ```TypeScript
+     * let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+     * dateAxis.groupData = true;
+     *
+     * let valueAxis = chart.xAxes.push(new am4charts.valueAxis());
+     *
+     * let series = chart.series.push(new am4charts.LineSeries());
+     * series.dataFields.dateX = "date";
+     * series.dataFields.valueY = "value";
+     * series.groupFields.valueY = "average";
+     * ```
+     * ```JavaScript
+     * var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+     * dateAxis.groupData = true;
+     *
+     * var valueAxis = chart.xAxes.push(new am4charts.valueAxis());
+     *
+     * var series = chart.series.push(new am4charts.LineSeries());
+     * series.dataFields.dateX = "date";
+     * series.dataFields.valueY = "value";
+     * series.groupFields.valueY = "average";
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "xAxes": [{
+     *     "type": "DateAxis",
+     *     "groupData": true
+     *   }],
+     *   "yAxes": [{
+     *     "type": "ValueAxis"
+     *   }],
+     *   "series": [{
+     *     "type": "LineSeries",
+     *     "dataFields": {
+     *       "dateX": "date",
+     *       "valueY": "value"
+     *     },
+     *     "groupFields": {
+     *       "valueY": "average"
+     *     }
+     *   }]
+     * }
+     * ```
+     *
+     * @default false
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/date-axis/#Dynamic_data_item_grouping} for more information about dynamic data item grouping.
+     * @since 4.7.0
+     * @param  value  Group data points?
+     */
+    groupData: boolean;
+    /**
+     * @return Number of data items
+     */
+    /**
+     * Indicates threshold of data items in selected range at which to start
+     * aggregating data items if `groupData = true`.
+     *
+     * @default 200
+     * @since 4.7.0
+     * @param  value  Number of data items
+     */
+    groupCount: number;
     /**
      * Current grid interval.
      *

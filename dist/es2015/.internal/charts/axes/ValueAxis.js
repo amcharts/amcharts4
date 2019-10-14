@@ -1128,6 +1128,32 @@ var ValueAxis = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ValueAxis.prototype, "minDefined", {
+        /**
+         * Min value as defined by user's code, not auto-calculated.
+         *
+         * @readonly
+         * @return Min value
+         */
+        get: function () {
+            return this._minDefined;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ValueAxis.prototype, "maxDefined", {
+        /**
+         * Max value as defined by user's code, not auto-calculated.
+         *
+         * @readonly
+         * @return Man value
+         */
+        get: function () {
+            return this._maxDefined;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ValueAxis.prototype, "extraMin", {
         /**
          * @return {number}

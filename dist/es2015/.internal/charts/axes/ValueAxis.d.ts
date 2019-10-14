@@ -501,6 +501,20 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      */
     min: number;
     /**
+     * Min value as defined by user's code, not auto-calculated.
+     *
+     * @readonly
+     * @return Min value
+     */
+    readonly minDefined: number;
+    /**
+     * Max value as defined by user's code, not auto-calculated.
+     *
+     * @readonly
+     * @return Man value
+     */
+    readonly maxDefined: number;
+    /**
      * @return {number}
      */
     /**

@@ -185,6 +185,10 @@ var CandlestickSeries = /** @class */ (function (_super) {
     function CandlestickSeries() {
         var _this = _super.call(this) || this;
         _this.className = "CandlestickSeries";
+        _this.groupFields.lowValueX = "low";
+        _this.groupFields.lowValueY = "low";
+        _this.groupFields.highValueX = "high";
+        _this.groupFields.highValueY = "high";
         _this.strokeOpacity = 1;
         var interfaceColors = new InterfaceColorSet();
         var positiveColor = interfaceColors.getFor("positive");

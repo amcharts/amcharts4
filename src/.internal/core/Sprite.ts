@@ -3722,14 +3722,21 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public set language(value: Language) {
 		if (this._language.get() !== value) {
 			this._language.set(value, value.events.on("localechanged", (ev) => {
-				if (this.numberFormatter) {
-					this.numberFormatter.language = this.language;
+				if (this._numberFormatter) {
+					this._numberFormatter.language = this.language;
 				}
-				if (this.dateFormatter) {
-					this.dateFormatter.language = this.language;
+				if (this._dateFormatter) {
+					this._dateFormatter.language = this.language;
 				}
-				if (this.durationFormatter) {
-					this.durationFormatter.language = this.language;
+				if (this._durationFormatter) {
+					this._durationFormatter.language = this.language;
+				}
+				if (this._exporting.get()) {
+					const exporting = this._exporting.get();
+					exporting.numberFormatter.language = this.language;
+					exporting.dateFormatter.language = this.language;
+					exporting.durationFormatter.language = this.language;
+					exporting.language = this.language;
 				}
 				if (this instanceof Container) {
 					this.deepInvalidate();
@@ -6104,6 +6111,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				_export = new Export(this.svgContainer.SVGContainer);
 				_export.sprite = this;
 				_export.language = this.language;
+				_export.numberFormatter = this.numberFormatter;
 				_export.dateFormatter = this.dateFormatter;
 				_export.durationFormatter = this.durationFormatter;
 				this._exporting.set(_export, _export);

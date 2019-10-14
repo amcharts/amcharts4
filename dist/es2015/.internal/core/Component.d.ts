@@ -229,13 +229,6 @@ export declare class Component extends Container {
      */
     protected _dataDisposers: Array<IDisposer>;
     /**
-     *
-     * @ignore Exclude from docs
-     * @todo Description
-     * @deprecated Not used?
-     */
-    protected _dataMethods: $type.Optional<Dictionary<string, (value: number) => number>>;
-    /**
      * Identifies the type of the [[DataItem]] used in this element.
      */
     _dataItem: DataItem;
@@ -245,6 +238,18 @@ export declare class Component extends Container {
      * @ignore Exclude from docs
      */
     protected _dataItems: $type.Optional<OrderedListTemplate<this["_dataItem"]>>;
+    /**
+     * Holds aggregated data items.
+     *
+     * @ignore
+     */
+    _dataSets: Dictionary<string, OrderedListTemplate<this["_dataItem"]>>;
+    /**
+     * Currently selected "data set".
+     *
+     * If it's set to `""`, main data set (unaggregated data) is used.
+     */
+    protected _currentDataSetId: string;
     /**
      * [_startIndex description]
      *
@@ -846,11 +851,46 @@ export declare class Component extends Container {
      */
     protected removeFromInvalids(): void;
     /**
-     * Returns a list of source [[DataItem]] objects.
+     * Returns a list of source [[DataItem]] objects currently used in the chart.
      *
      * @return List of data items
      */
     readonly dataItems: OrderedListTemplate<this["_dataItem"]>;
+    /**
+     * Holds data items for data sets (usually aggregated data).
+     *
+     * @ignore
+     * @since 4.7.0
+     * @return  Data sets
+     */
+    readonly dataSets: Dictionary<string, OrderedListTemplate<this["_dataItem"]>>;
+    /**
+     * Makes the chart use particular data set.
+     *
+     * If `id` is not provided or there is no such data set, main data will be
+     * used.
+     *
+     * @ignore
+     * @since 4.7.0
+     * @param  id  Data set id
+     */
+    setDataSet(id: string): boolean;
+    /**
+     * Returns id of the currently used data set, or `undefined` if main data set
+     * is in use.
+     *
+     * @since 4.7.0
+     * @return Current data set id
+     */
+    readonly currentDataSetId: string;
+    /**
+     * Returns reference to "main" data set (unaggregated data as it was supplied
+     * in `data`).
+     *
+     * @since 4.7.0
+     * @return Main data set
+     */
+    readonly mainDataSet: OrderedListTemplate<this["_dataItem"]>;
     /**
      * Updates the indexes for the dataItems
      *
@@ -871,15 +911,6 @@ export declare class Component extends Container {
      * @param event [description]
      */
     protected handleDataItemRemoved(event: ISortedListEvents<DataItem>["removed"]): void;
-    /**
-     * [dataMethods description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
-     * @deprecated Not used?
-     * @param List of data methods
-     */
-    readonly dataMethods: Dictionary<string, (value: number) => number>;
     /**
      * Binds a data element's field to a specific field in raw data.
      * For example, for the very basic column chart you'd want to bind a `value`

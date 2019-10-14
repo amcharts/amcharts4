@@ -127,6 +127,9 @@ var Regression = /** @class */ (function (_super) {
             }
             _this.calcData();
         }));
+        this._disposers.push(this.target.chart.events.on("beforedatavalidated", function (ev) {
+            _this.target.invalidateData();
+        }));
         // Save original series data
         if (this.target.data && this.target.data.length) {
             this._originalData = this.target.data;

@@ -352,7 +352,6 @@ export { XYSeriesDataItem };
  *
  * @see {@link IXYSeriesEvents} for a list of available Events
  * @see {@link IXYSeriesAdapters} for a list of available Adapters
- * @todo Example
  * @important
  */
 var XYSeries = /** @class */ (function (_super) {
@@ -362,6 +361,92 @@ var XYSeries = /** @class */ (function (_super) {
      */
     function XYSeries() {
         var _this = _super.call(this) || this;
+        /**
+         * Indicates which of the series' `dataFields` to calculate aggregate values
+         * for.
+         *
+         * Available data fields for all [[XYSeries]] are:
+         * `valueX`, `valueY`, `openValueX`, and `openValueY`.
+         *
+         * [[CandlestickSeries]] adds:
+         * `lowValueX`, `lowValueY`, `highValueX`, and `highValueY`.
+         *
+         * Available options:
+         * `"open"`, `"close"`, `"low"`, `"high"`, "average", `"sum"`.
+         *
+         * Defaults are as follows:
+         * * `valueX`: `"close"`
+         * * `valueY`: `"close"`
+         * * `openValueX`: `"open"`
+         * * `openValueY`: `"open"`
+         * * `lowValueX`: `"low"`
+         * * `lowValueY`: `"low"`
+         * * `highValueX`: `"high"`
+         * * `highValueY`: `"high"`
+         *
+         * Is required only if data being plotted on a `DateAxis` and
+         * its `groupData` is set to `true`.
+         *
+         * ```TypeScript
+         * let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+         * dateAxis.groupData = true;
+         *
+         * let valueAxis = chart.xAxes.push(new am4charts.valueAxis());
+         *
+         * let series = chart.series.push(new am4charts.LineSeries());
+         * series.dataFields.dateX = "date";
+         * series.dataFields.valueY = "value";
+         * series.groupFields.valueY = "average";
+         * ```
+         * ```JavaScript
+         * var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+         * dateAxis.groupData = true;
+         *
+         * var valueAxis = chart.xAxes.push(new am4charts.valueAxis());
+         *
+         * var series = chart.series.push(new am4charts.LineSeries());
+         * series.dataFields.dateX = "date";
+         * series.dataFields.valueY = "value";
+         * series.groupFields.valueY = "average";
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "xAxes": [{
+         *     "type": "DateAxis",
+         *     "groupData": true
+         *   }],
+         *   "yAxes": [{
+         *     "type": "ValueAxis"
+         *   }],
+         *   "series": [{
+         *     "type": "LineSeries",
+         *     "dataFields": {
+         *       "dateX": "date",
+         *       "valueY": "value"
+         *     },
+         *     "groupFields": {
+         *       "valueY": "average"
+         *     }
+         *   }]
+         * }
+         * ```
+         *
+         * The above setup will ensure, that if there are many data items within
+         * selected range, they will be grouped into aggregated data points, using
+         * average value of all the values.
+         *
+         * For example if we have 2 years worth of daily data (~700 data items), when
+         * fully zoomed out, the chart would show ~100 data items instead: one for
+         * each week in those two years.
+         *
+         * Grouping will occur automatically, based on current selection range, and
+         * will change dynamically when user zooms in/out the chart.
+         *
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/date-axis/#Dynamic_data_item_grouping} for more information about dynamic data item grouping.
+         * @since 4.7.0
+         */
+        _this.groupFields = {};
         /**
          * X axis the series is attached to.
          */
@@ -388,6 +473,10 @@ var XYSeries = /** @class */ (function (_super) {
         _this._baseInterval = {};
         _this.className = "XYSeries";
         _this.isMeasured = false;
+        _this.groupFields.valueX = "close";
+        _this.groupFields.valueY = "close";
+        _this.groupFields.openValueX = "open";
+        _this.groupFields.openValueY = "open";
         _this.cursorTooltipEnabled = true;
         _this.cursorHoverEnabled = true;
         _this.excludeFromTotal = false;
@@ -759,6 +848,9 @@ var XYSeries = /** @class */ (function (_super) {
             this._xAxis.set(axis, axis.registerSeries(this));
             this.dataItemsByAxis.setKey(axis.uid, new Dictionary());
             this.invalidateData();
+            this.events.on("beforedatavalidated", function () {
+                axis.resetFlags();
+            }, this, false);
         }
     };
     Object.defineProperty(XYSeries.prototype, "yAxis", {
@@ -799,6 +891,9 @@ var XYSeries = /** @class */ (function (_super) {
                 oldAxis.series.removeValue(this);
             }
             this._yAxis.set(axis, axis.registerSeries(this));
+            this.events.on("beforedatavalidated", function () {
+                axis.resetFlags();
+            }, this, false);
             this.dataItemsByAxis.setKey(axis.uid, new Dictionary());
             this.invalidateData();
         }
@@ -859,6 +954,8 @@ var XYSeries = /** @class */ (function (_super) {
         var maxY = -Infinity;
         var startIndex = this.startIndex;
         var endIndex = this.endIndex;
+        var workingStartIndex = startIndex;
+        var workingEndIndex = endIndex;
         if (!working) {
             startIndex = 0;
             endIndex = this.dataItems.length;
@@ -915,13 +1012,73 @@ var XYSeries = /** @class */ (function (_super) {
                 this.dispatchImmediately("extremeschanged");
             }
         }
+        if (startIndex != workingStartIndex || endIndex != workingEndIndex) {
+            minX = Infinity;
+            maxX = -Infinity;
+            minY = Infinity;
+            maxY = -Infinity;
+            for (var i = workingStartIndex; i < workingEndIndex; i++) {
+                var dataItem = dataItems.getIndex(i);
+                this.getStackValue(dataItem, working);
+                var stackX = dataItem.getValue("valueX", "stack");
+                var stackY = dataItem.getValue("valueY", "stack");
+                minX = $math.min(dataItem.getMin(this._xValueFields, working, stackX), minX);
+                minY = $math.min(dataItem.getMin(this._yValueFields, working, stackY), minY);
+                maxX = $math.max(dataItem.getMax(this._xValueFields, working, stackX), maxX);
+                maxY = $math.max(dataItem.getMax(this._yValueFields, working, stackY), maxY);
+                // if it's stacked, pay attention to stack value
+                if (this.stacked) {
+                    if (this.baseAxis == this.xAxis) {
+                        if (stackY < minY) {
+                            minY = stackY;
+                        }
+                        if (stackY > maxY) {
+                            maxY = stackY;
+                        }
+                    }
+                    if (this.baseAxis == this.yAxis) {
+                        if (stackX < minX) {
+                            minX = stackX;
+                        }
+                        if (stackX > maxX) {
+                            maxX = stackX;
+                        }
+                    }
+                }
+            }
+        }
         if (this._smin.getKey(xAxisId) != minX || this._smax.getKey(xAxisId) != maxX || this._smin.getKey(yAxisId) != minY || this._smax.getKey(yAxisId) != maxY) {
             this._smin.setKey(xAxisId, minX);
             this._smax.setKey(xAxisId, maxX);
             this._smin.setKey(yAxisId, minY);
             this._smax.setKey(yAxisId, maxY);
-            if (this.appeared || this.start != 0 || this.end != 1) {
+            if (this.appeared || this.start != 0 || this.end != 1 || this.dataItems != this.mainDataSet) {
+                /// new, helps to handle issues with change percent
+                var changed = false;
+                if (this.yAxis instanceof ValueAxis && !(this.yAxis instanceof DateAxis)) {
+                    if (minY < this._tmin.getKey(yAxisId)) {
+                        this._tmin.setKey(yAxisId, minY);
+                        changed = true;
+                    }
+                    if (maxY > this._tmin.getKey(yAxisId)) {
+                        this._tmax.setKey(yAxisId, maxY);
+                        changed = true;
+                    }
+                }
+                if (this.xAxis instanceof ValueAxis && !(this.xAxis instanceof DateAxis)) {
+                    if (minX < this._tmin.getKey(xAxisId)) {
+                        this._tmin.setKey(xAxisId, minX);
+                        changed = true;
+                    }
+                    if (maxX > this._tmax.getKey(xAxisId)) {
+                        this._tmax.setKey(xAxisId, maxX);
+                        changed = true;
+                    }
+                }
                 this.dispatchImmediately("selectionextremeschanged");
+                if (changed) {
+                    this.dispatchImmediately("extremeschanged");
+                }
             }
         }
         if (!working && this.stacked) {
@@ -1411,6 +1568,23 @@ var XYSeries = /** @class */ (function (_super) {
             }
             anim = dataItem.show(interpolationDuration, delay, fields);
         });
+        // other data sets
+        this.dataSets.each(function (key, dataSet) {
+            if (dataSet != _this.dataItems) {
+                dataSet.each(function (dataItem) {
+                    dataItem.events.disable();
+                    dataItem.show(0, 0, fields);
+                    dataItem.events.enable();
+                });
+            }
+        });
+        if (this.mainDataSet != this.dataItems) {
+            this.mainDataSet.each(function (dataItem) {
+                dataItem.events.disable();
+                dataItem.show(0, 0, fields);
+                dataItem.events.enable();
+            });
+        }
         var animation = _super.prototype.show.call(this, duration);
         if (anim && !anim.isFinished()) {
             animation = anim;

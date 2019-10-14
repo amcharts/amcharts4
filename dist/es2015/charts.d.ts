@@ -26,10 +26,10 @@ export { IHeatLegendProperties, IHeatLegendEvents, IHeatLegendAdapters, HeatLege
  * Elements: series
  */
 export { SeriesDataItem, ISeriesDataFields, ISeriesProperties, ISeriesEvents, ISeriesAdapters, Series } from "./.internal/charts/series/Series";
-export { XYSeriesDataItem, IXYSeriesDataFields, IXYSeriesProperties, IXYSeriesEvents, IXYSeriesAdapters, XYSeries } from "./.internal/charts/series/XYSeries";
+export { XYSeriesDataItem, IXYSeriesDataFields, IXYSeriesProperties, IXYSeriesEvents, IXYSeriesAdapters, XYSeries, GroupField, IXYSeriesGroupFields } from "./.internal/charts/series/XYSeries";
 export { LineSeriesDataItem, ILineSeriesDataFields, ILineSeriesProperties, ILineSeriesEvents, ILineSeriesAdapters, LineSeries } from "./.internal/charts/series/LineSeries";
 export { ILineSeriesSegmentProperties, ILineSeriesSegmentEvents, ILineSeriesSegmentAdapters, LineSeriesSegment } from "./.internal/charts/series/LineSeriesSegment";
-export { CandlestickSeriesDataItem, ICandlestickSeriesDataFields, ICandlestickSeriesProperties, ICandlestickSeriesEvents, ICandlestickSeriesAdapters, CandlestickSeries } from "./.internal/charts/series/CandlestickSeries";
+export { CandlestickSeriesDataItem, ICandlestickSeriesDataFields, ICandlestickSeriesProperties, ICandlestickSeriesEvents, ICandlestickSeriesAdapters, CandlestickSeries, ICandlestickSeriesGroupFields } from "./.internal/charts/series/CandlestickSeries";
 export { OHLCSeriesDataItem, IOHLCSeriesDataFields, IOHLCSeriesProperties, IOHLCSeriesEvents, IOHLCSeriesAdapters, OHLCSeries } from "./.internal/charts/series/OHLCSeries";
 export { ColumnSeriesDataItem, IColumnSeriesDataFields, IColumnSeriesProperties, IColumnSeriesEvents, IColumnSeriesAdapters, ColumnSeries } from "./.internal/charts/series/ColumnSeries";
 export { StepLineSeriesDataItem, IStepLineSeriesDataFields, IStepLineSeriesProperties, IStepLineSeriesEvents, IStepLineSeriesAdapters, StepLineSeries } from "./.internal/charts/series/StepLineSeries";
