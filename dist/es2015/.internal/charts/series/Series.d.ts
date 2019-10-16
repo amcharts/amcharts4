@@ -408,6 +408,15 @@ export declare class Series extends Component {
      */
     protected getFirstValue(key: string, startIndex: number): number;
     /**
+     * Returns first value for the specific key in the series.
+     *
+     * @param key  Key
+     * @return Value
+     * @todo Description
+     * @todo Convert to propert object property iterator
+     */
+    protected getAbsoluteFirstValue(key: string): number;
+    /**
      * [rangeChangeUpdate description]
      *
      * @todo Description

@@ -396,10 +396,6 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     protected _df: DateFormatter;
     /**
-     * A flag used to avoid grouping of the same data multiple times.
-     */
-    protected _dataGrouped: boolean;
-    /**
      * A collection of start timestamps to use as axis' min timestamp for
      * particular data item item periods.
      *
@@ -423,13 +419,6 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * Constructor
      */
     constructor();
-    /**
-     * Resets all Series attached to this Axis to their main (unaggregated)
-     * data set.
-     *
-     * @ignore
-     */
-    resetFlags(): void;
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor.
@@ -493,7 +482,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @todo Description
      */
     postProcessSeriesDataItems(): void;
-    groupSeriesData(): void;
+    groupSeriesData(series: XYSeries): void;
     /**
      * @ignore
      */

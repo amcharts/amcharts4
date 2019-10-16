@@ -24,8 +24,8 @@ const theme: ITheme = (object: BaseObject) => {
 	}
 
 	if (is<Component>(object, "Component")) {
-		object.rangeChangeDuration = 700;
-		object.interpolationDuration = 700;
+		object.rangeChangeDuration = 500;
+		object.interpolationDuration = 500;
 		object.sequencedInterpolation = false;
 
 		if (is<SankeyDiagram>(object, "SankeyDiagram")) {
@@ -49,7 +49,7 @@ const theme: ITheme = (object: BaseObject) => {
 	}
 
 	if (is<Scrollbar>(object, "Scrollbar")) {
-		object.animationDuration = 700;
+		object.animationDuration = 500;
 	}
 
 	if (is<Series>(object, "Series")) {

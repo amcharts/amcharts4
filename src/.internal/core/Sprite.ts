@@ -4918,9 +4918,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * ```
 	 *
 	 * @see {@link Filter}
+	 * @see {@link https://www.amcharts.com/docs/v4/concepts/accessibility/} more about accessibility
+	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/changing-appearance-of-focused-items/} cusomizing focus appearance
 	 * @ignore Exclude from docs
 	 * @return Focused element filter
-	 * @todo This is still experimental, use at your own risk.
 	 */
 	public get focusFilter(): $type.Optional<Filter> {
 		/*if (!this._focusFilter) {

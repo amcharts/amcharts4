@@ -4,8 +4,8 @@ var theme = function (object) {
         object.transitionDuration = 400;
     }
     if (is(object, "Component")) {
-        object.rangeChangeDuration = 700;
-        object.interpolationDuration = 700;
+        object.rangeChangeDuration = 500;
+        object.interpolationDuration = 500;
         object.sequencedInterpolation = false;
         if (is(object, "SankeyDiagram")) {
             object.sequencedInterpolation = true;
@@ -24,7 +24,7 @@ var theme = function (object) {
         object.hiddenState.transitionDuration = 400;
     }
     if (is(object, "Scrollbar")) {
-        object.animationDuration = 700;
+        object.animationDuration = 500;
     }
     if (is(object, "Series")) {
         object.defaultState.transitionDuration = 1000;

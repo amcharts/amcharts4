@@ -277,10 +277,6 @@ var DateAxis = /** @class */ (function (_super) {
          */
         _this._firstWeekDay = 1;
         /**
-         * A flag used to avoid grouping of the same data multiple times.
-         */
-        _this._dataGrouped = false;
-        /**
          * A collection of start timestamps to use as axis' min timestamp for
          * particular data item item periods.
          *
@@ -392,23 +388,6 @@ var DateAxis = /** @class */ (function (_super) {
         }
     };
     /**
-     * Resets all Series attached to this Axis to their main (unaggregated)
-     * data set.
-     *
-     * @ignore
-     */
-    DateAxis.prototype.resetFlags = function () {
-        var _this = this;
-        if (this.groupData) {
-            this._dataGrouped = false;
-            this.series.each(function (series) {
-                if (series.baseAxis == _this) {
-                    series.setDataSet("");
-                }
-            });
-        }
-    };
-    /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor.
      */
@@ -517,17 +496,21 @@ var DateAxis = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.calculateZoom.call(this);
         var difference = this.adjustDifference(this._minZoomed, this._maxZoomed);
+        var dataSetChanged = false;
         // if data has to be grouped, choose interval and set dataset
         if (this.groupData && $type.hasValue(difference)) {
             var mainBaseInterval = this.mainBaseInterval;
-            var groupInterval_1 = this.chooseInterval(0, difference, this.groupCount, this.groupIntervals);
-            if ((groupInterval_1.timeUnit == mainBaseInterval.timeUnit && groupInterval_1.count < mainBaseInterval.count) || $time.getDuration(groupInterval_1.timeUnit, 1) < $time.getDuration(mainBaseInterval.timeUnit, 1)) {
-                groupInterval_1 = tslib_1.__assign({}, mainBaseInterval);
+            var groupInterval = this.chooseInterval(0, difference, this.groupCount, this.groupIntervals);
+            if ((groupInterval.timeUnit == mainBaseInterval.timeUnit && groupInterval.count < mainBaseInterval.count) || $time.getDuration(groupInterval.timeUnit, 1) < $time.getDuration(mainBaseInterval.timeUnit, 1)) {
+                groupInterval = tslib_1.__assign({}, mainBaseInterval);
             }
-            this._groupInterval = groupInterval_1;
+            this._groupInterval = groupInterval;
+            this._currentDataSetId = groupInterval.timeUnit + groupInterval.count;
             this.series.each(function (series) {
                 if (series.baseAxis == _this) {
-                    series.setDataSet(groupInterval_1.timeUnit + groupInterval_1.count);
+                    if (series.setDataSet(_this._currentDataSetId)) {
+                        dataSetChanged = true;
+                    }
                 }
             });
         }
@@ -577,7 +560,7 @@ var DateAxis = /** @class */ (function (_super) {
                 }
                 series.startIndex = startIndex;
                 series.endIndex = endIndex;
-                if (series.dataRangeInvalid) {
+                if (!dataSetChanged && series.dataRangeInvalid) {
                     series.validateDataRange();
                 }
             }
@@ -655,16 +638,14 @@ var DateAxis = /** @class */ (function (_super) {
                     _this.postProcessSeriesDataItem(dataItem);
                 });
                 series._baseInterval[_this.uid] = _this.mainBaseInterval;
+                _this.groupSeriesData(series);
             }
         });
         this.addEmptyUnitsBreaks();
-        this.groupSeriesData();
     };
-    DateAxis.prototype.groupSeriesData = function () {
+    DateAxis.prototype.groupSeriesData = function (series) {
         var _this = this;
-        if (this.groupData && !this._dataGrouped) {
-            // @todo: reset this when data changes
-            this._dataGrouped = true;
+        if (series.baseAxis == this && series.dataItems.length > 0 && !series.dataGrouped) {
             // make array of intervals which will be used;
             var intervals_1 = [];
             var mainBaseInterval = this.mainBaseInterval;
@@ -675,122 +656,122 @@ var DateAxis = /** @class */ (function (_super) {
                     intervals_1.push(interval);
                 }
             });
-            this.series.each(function (series) {
-                series._dataSets = undefined;
-            });
+            if (series._dataSets) {
+                series._dataSets.each(function (key, dataItems) {
+                    dataItems.each(function (dataItem) {
+                        dataItem.dispose();
+                    });
+                    dataItems.clear();
+                });
+                series._dataSets.clear();
+            }
             $array.each(intervals_1, function (interval) {
                 //let mainBaseInterval = this._mainBaseInterval;
                 var key = "date" + _this.axisLetter;
-                _this.series.each(function (series) {
-                    if (series.baseAxis == _this) {
-                        // create data set
-                        var dataSetId = interval.timeUnit + interval.count;
-                        // todo: check where this clone goes
-                        var dataSet_1 = new OrderedListTemplate(series.mainDataSet.template.clone());
-                        var oldDataSet = series.dataSets.getKey(dataSetId);
-                        if (oldDataSet) {
-                            oldDataSet.clear();
+                // create data set
+                var dataSetId = interval.timeUnit + interval.count;
+                // todo: check where this clone goes
+                var dataSet = new OrderedListTemplate(series.mainDataSet.template.clone());
+                series.dataSets.setKey(dataSetId, dataSet);
+                series.dataGrouped = true;
+                var dataItems = series.mainDataSet;
+                var previousTime = Number.NEGATIVE_INFINITY;
+                var i = 0;
+                var newDataItem;
+                var dataFields = [];
+                $object.each(series.dataFields, function (dfkey, df) {
+                    var dfk = dfkey;
+                    if (dfk != key && dfk.indexOf("Show") == -1) {
+                        dataFields.push(dfk);
+                    }
+                });
+                dataItems.each(function (dataItem) {
+                    var date = dataItem.getDate(key);
+                    if (date) {
+                        var time = date.getTime();
+                        var roundedDate = $time.round(new Date(time), interval.timeUnit, interval.count, _this._df.firstDayOfWeek, _this._df.utc);
+                        var currentTime = roundedDate.getTime();
+                        // changed period								
+                        if (previousTime < roundedDate.getTime()) {
+                            newDataItem = dataSet.create();
+                            newDataItem.component = series;
+                            // other Dates?
+                            newDataItem.setDate(key, roundedDate);
+                            newDataItem._index = i;
+                            i++;
+                            $array.each(dataFields, function (vkey) {
+                                //let groupFieldName = vkey + "Group";
+                                var value = dataItem.values[vkey].value;
+                                if ($type.isNumber(value)) {
+                                    var values = newDataItem.values[vkey];
+                                    values.value = value;
+                                    values.workingValue = value;
+                                    values.open = value;
+                                    values.close = value;
+                                    values.low = value;
+                                    values.high = value;
+                                    values.sum = value;
+                                    values.average = value;
+                                    values.count = 1;
+                                }
+                            });
+                            _this.postProcessSeriesDataItem(newDataItem, interval);
+                            $object.each(series.propertyFields, function (key, fieldValue) {
+                                var f = key;
+                                var value = dataItem.properties[key];
+                                if ($type.hasValue(value)) {
+                                    newDataItem.hasProperties = true;
+                                    newDataItem.setProperty(f, value);
+                                }
+                            });
+                            newDataItem.groupDataItems = [dataItem];
+                            previousTime = currentTime;
                         }
-                        series.dataSets.setKey(dataSetId, dataSet_1);
-                        var dataItems = series.mainDataSet;
-                        var previousTime_1 = Number.NEGATIVE_INFINITY;
-                        var i_1 = 0;
-                        var newDataItem_1;
-                        var dataFields_1 = [];
-                        $object.each(series.dataFields, function (dfkey, df) {
-                            var dfk = dfkey;
-                            if (dfk != key && dfk.indexOf("Show") == -1) {
-                                dataFields_1.push(dfk);
-                            }
-                        });
-                        dataItems.each(function (dataItem) {
-                            var date = dataItem.getDate(key);
-                            if (date) {
-                                var time = date.getTime();
-                                var roundedDate = $time.round(new Date(time), interval.timeUnit, interval.count, _this._df.firstDayOfWeek, _this._df.utc);
-                                var currentTime = roundedDate.getTime();
-                                // changed period								
-                                if (previousTime_1 < roundedDate.getTime()) {
-                                    newDataItem_1 = dataSet_1.create();
-                                    newDataItem_1.component = series;
-                                    // other Dates?
-                                    newDataItem_1.setDate(key, roundedDate);
-                                    newDataItem_1._index = i_1;
-                                    i_1++;
-                                    $array.each(dataFields_1, function (vkey) {
-                                        //let groupFieldName = vkey + "Group";
-                                        var value = dataItem.values[vkey].value;
-                                        if ($type.isNumber(value)) {
-                                            var values = newDataItem_1.values[vkey];
-                                            values.value = value;
-                                            values.workingValue = value;
+                        else {
+                            if (newDataItem) {
+                                $array.each(dataFields, function (vkey) {
+                                    var groupFieldName = series.groupFields[vkey];
+                                    var value = dataItem.values[vkey].value;
+                                    if ($type.isNumber(value)) {
+                                        var values = newDataItem.values[vkey];
+                                        if (!$type.isNumber(values.open)) {
                                             values.open = value;
-                                            values.close = value;
+                                        }
+                                        values.close = value;
+                                        if (values.low > value || !$type.isNumber(values.low)) {
                                             values.low = value;
+                                        }
+                                        if (values.high < value || !$type.isNumber(values.high)) {
                                             values.high = value;
+                                        }
+                                        if ($type.isNumber(values.sum)) {
+                                            values.sum += value;
+                                        }
+                                        else {
                                             values.sum = value;
-                                            values.average = value;
-                                            values.count = 1;
                                         }
-                                    });
-                                    _this.postProcessSeriesDataItem(newDataItem_1, interval);
-                                    $object.each(series.propertyFields, function (key, fieldValue) {
-                                        var f = key;
-                                        var value = dataItem.properties[key];
-                                        if ($type.hasValue(value)) {
-                                            newDataItem_1.hasProperties = true;
-                                            newDataItem_1.setProperty(f, value);
-                                        }
-                                    });
-                                    newDataItem_1.groupDataItems = [dataItem];
-                                    previousTime_1 = currentTime;
-                                }
-                                else {
-                                    if (newDataItem_1) {
-                                        $array.each(dataFields_1, function (vkey) {
-                                            var groupFieldName = series.groupFields[vkey];
-                                            var value = dataItem.values[vkey].value;
-                                            if ($type.isNumber(value)) {
-                                                var values = newDataItem_1.values[vkey];
-                                                if (!$type.isNumber(values.open)) {
-                                                    values.open = value;
-                                                }
-                                                values.close = value;
-                                                if (values.low > value || !$type.isNumber(values.low)) {
-                                                    values.low = value;
-                                                }
-                                                if (values.high < value || !$type.isNumber(values.high)) {
-                                                    values.high = value;
-                                                }
-                                                if ($type.isNumber(values.sum)) {
-                                                    values.sum += value;
-                                                }
-                                                else {
-                                                    values.sum = value;
-                                                }
-                                                values.count++;
-                                                values.average = values.sum / values.count;
-                                                values.value = values[groupFieldName];
-                                                values.workingValue = values.value;
-                                            }
-                                        });
-                                        $utils.copyProperties(dataItem.properties, newDataItem_1.properties);
-                                        $object.each(series.propertyFields, function (key, fieldValue) {
-                                            var f = key;
-                                            var value = dataItem.properties[key];
-                                            if ($type.hasValue(value)) {
-                                                newDataItem_1.hasProperties = true;
-                                                newDataItem_1.setProperty(f, value);
-                                            }
-                                        });
-                                        newDataItem_1.groupDataItems.push(dataItem);
+                                        values.count++;
+                                        values.average = values.sum / values.count;
+                                        values.value = values[groupFieldName];
+                                        values.workingValue = values.value;
                                     }
-                                }
+                                });
+                                $utils.copyProperties(dataItem.properties, newDataItem.properties);
+                                $object.each(series.propertyFields, function (key, fieldValue) {
+                                    var f = key;
+                                    var value = dataItem.properties[key];
+                                    if ($type.hasValue(value)) {
+                                        newDataItem.hasProperties = true;
+                                        newDataItem.setProperty(f, value);
+                                    }
+                                });
+                                newDataItem.groupDataItems.push(dataItem);
                             }
-                        });
+                        }
                     }
                 });
             });
+            this.calculateZoom();
         }
     };
     /**
@@ -1879,7 +1860,6 @@ var DateAxis = /** @class */ (function (_super) {
                 if (adjust) {
                     if (isEnd) {
                         startValue = endValue - difference;
-                        console.log("adjust");
                         startValue = $math.fitToRange(startValue, min_1, max_1);
                     }
                     if (isStart) {

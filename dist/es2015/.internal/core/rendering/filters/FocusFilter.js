@@ -12,6 +12,9 @@ import { InterfaceColorSet } from "../../utils/InterfaceColorSet";
  */
 /**
  * Creates a "Focus" filter.
+ *
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/accessibility/} more about accessibility
+ * @see {@link https://www.amcharts.com/docs/v4/tutorials/changing-appearance-of-focused-items/} cusomizing focus appearance
  */
 var FocusFilter = /** @class */ (function (_super) {
     tslib_1.__extends(FocusFilter, _super);

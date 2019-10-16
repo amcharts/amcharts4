@@ -387,6 +387,24 @@ var Series = /** @class */ (function (_super) {
         return null;
     };
     /**
+     * Returns first value for the specific key in the series.
+     *
+     * @param key  Key
+     * @return Value
+     * @todo Description
+     * @todo Convert to propert object property iterator
+     */
+    Series.prototype.getAbsoluteFirstValue = function (key) {
+        for (var i = 0; i < this.dataItems.length; i++) {
+            var dataItem = this.dataItems.getIndex(i);
+            var value = dataItem.values[key].value;
+            if ($type.isNumber(value)) {
+                return value;
+            }
+        }
+        return null;
+    };
+    /**
      * [rangeChangeUpdate description]
      *
      * @todo Description
@@ -414,6 +432,7 @@ var Series = /** @class */ (function (_super) {
             var close_1 = {};
             var previous_1 = {};
             var first_1 = {};
+            var absoluteFirst_1 = {};
             //let duration: number = 0; // todo: check if series uses selection.change or selection.change.percent and set duration to interpolationduration
             var startIndex_1 = $math.max(0, this._workingStartIndex);
             startIndex_1 = $math.min(startIndex_1, this.dataItems.length);
@@ -477,11 +496,16 @@ var Series = /** @class */ (function (_super) {
                         if (!$type.isNumber(first_1[key])) {
                             first_1[key] = _this.getFirstValue(key, startIndex_1);
                         }
+                        if (!$type.isNumber(absoluteFirst_1[key])) {
+                            absoluteFirst_1[key] = _this.getAbsoluteFirstValue(key);
+                        }
                         // change
                         dataItem_2.setCalculatedValue(key, value - first_1[key], "change");
                         // change from start percent
                         // will fail if first value is 0
                         dataItem_2.setCalculatedValue(key, (value - first_1[key]) / first_1[key] * 100, "changePercent");
+                        dataItem_2.setCalculatedValue(key, (value - absoluteFirst_1[key]), "startChange");
+                        dataItem_2.setCalculatedValue(key, (value - absoluteFirst_1[key]) / absoluteFirst_1[key] * 100, "startChangePercent");
                         // previous change
                         var prevValue = previous_1[key];
                         if (!$type.isNumber(prevValue)) {

@@ -471,6 +471,14 @@ var XYSeries = /** @class */ (function (_super) {
          * @ignore
          */
         _this._baseInterval = {};
+        /**
+         * @ignore
+         */
+        _this.dataGrouped = false;
+        /**
+         * @ignore
+         */
+        _this.usesShowFields = false;
         _this.className = "XYSeries";
         _this.isMeasured = false;
         _this.groupFields.valueX = "close";
@@ -533,6 +541,14 @@ var XYSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     XYSeries.prototype.validateData = function () {
+        this._baseInterval = {};
+        var dataFields = this.dataFields;
+        if (dataFields.valueYShow || dataFields.openValueXShow || dataFields.openValueXShow || dataFields.openValueYShow || (this.xAxis instanceof DateAxis && this.xAxis.groupData == true) || (this.yAxis instanceof DateAxis && this.yAxis.groupData == true)) {
+            this.usesShowFields = true;
+        }
+        else {
+            this.usesShowFields = false;
+        }
         this.defineFields();
         if (this.data.length > 0) {
             this.dataChangeUpdate();
@@ -542,6 +558,7 @@ var XYSeries = /** @class */ (function (_super) {
         if (!$type.hasValue(this.dataFields[this._xField]) || !$type.hasValue(this.dataFields[this._yField])) {
             throw Error("Data fields for series \"" + (this.name ? this.name : this.uid) + "\" are not properly defined.");
         }
+        this.dataGrouped = false;
     };
     /**
      * Processes data item.
@@ -848,9 +865,6 @@ var XYSeries = /** @class */ (function (_super) {
             this._xAxis.set(axis, axis.registerSeries(this));
             this.dataItemsByAxis.setKey(axis.uid, new Dictionary());
             this.invalidateData();
-            this.events.on("beforedatavalidated", function () {
-                axis.resetFlags();
-            }, this, false);
         }
     };
     Object.defineProperty(XYSeries.prototype, "yAxis", {
@@ -891,9 +905,6 @@ var XYSeries = /** @class */ (function (_super) {
                 oldAxis.series.removeValue(this);
             }
             this._yAxis.set(axis, axis.registerSeries(this));
-            this.events.on("beforedatavalidated", function () {
-                axis.resetFlags();
-            }, this, false);
             this.dataItemsByAxis.setKey(axis.uid, new Dictionary());
             this.invalidateData();
         }
@@ -939,6 +950,35 @@ var XYSeries = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Makes the chart use particular data set.
+     *
+     * If `id` is not provided or there is no such data set, main data will be
+     * used.
+     *
+     * @ignore
+     * @since 4.7.0
+     * @param  id  Data set id
+     */
+    XYSeries.prototype.setDataSet = function (id) {
+        var changed = _super.prototype.setDataSet.call(this, id);
+        if (changed) {
+            var dataItems = this.dataItems;
+            var xAxis = this.xAxis;
+            var yAxis = this.yAxis;
+            if (xAxis instanceof DateAxis && xAxis == this.baseAxis) {
+                this._tmin.setKey(xAxis.uid, dataItems.getIndex(0).dateX.getTime());
+                this._tmax.setKey(xAxis.uid, dataItems.getIndex(dataItems.length - 1).dateX.getTime());
+                this.dispatchImmediately("extremeschanged");
+            }
+            if (yAxis instanceof DateAxis && yAxis == this.baseAxis) {
+                this._tmin.setKey(yAxis.uid, dataItems.getIndex(0).dateY.getTime());
+                this._tmax.setKey(yAxis.uid, dataItems.getIndex(dataItems.length - 1).dateY.getTime());
+                this.dispatchImmediately("extremeschanged");
+            }
+        }
+        return changed;
+    };
     /**
      * Processes values after data items' were added.
      *
@@ -1056,29 +1096,33 @@ var XYSeries = /** @class */ (function (_super) {
                 /// new, helps to handle issues with change percent
                 var changed = false;
                 if (this.yAxis instanceof ValueAxis && !(this.yAxis instanceof DateAxis)) {
-                    if (minY < this._tmin.getKey(yAxisId)) {
+                    var tmin = this._tmin.getKey(yAxisId);
+                    if (this.usesShowFields || !$type.isNumber(tmin) || minY < tmin) {
                         this._tmin.setKey(yAxisId, minY);
                         changed = true;
                     }
-                    if (maxY > this._tmin.getKey(yAxisId)) {
+                    var tmax = this._tmax.getKey(yAxisId);
+                    if (this.usesShowFields || !$type.isNumber(tmax) || maxY > tmax) {
                         this._tmax.setKey(yAxisId, maxY);
                         changed = true;
                     }
                 }
                 if (this.xAxis instanceof ValueAxis && !(this.xAxis instanceof DateAxis)) {
-                    if (minX < this._tmin.getKey(xAxisId)) {
+                    var tmin = this._tmin.getKey(xAxisId);
+                    if (this.usesShowFields || !$type.isNumber(tmin) || minX < tmin) {
                         this._tmin.setKey(xAxisId, minX);
                         changed = true;
                     }
-                    if (maxX > this._tmax.getKey(xAxisId)) {
+                    var tmax = this._tmax.getKey(xAxisId);
+                    if (this.usesShowFields || !$type.isNumber(tmax) || maxX > tmax) {
                         this._tmax.setKey(xAxisId, maxX);
                         changed = true;
                     }
                 }
-                this.dispatchImmediately("selectionextremeschanged");
                 if (changed) {
                     this.dispatchImmediately("extremeschanged");
                 }
+                this.dispatchImmediately("selectionextremeschanged");
             }
         }
         if (!working && this.stacked) {

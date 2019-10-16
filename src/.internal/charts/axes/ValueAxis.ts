@@ -1270,6 +1270,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 					return;
 				}
 				else {
+
 					this._minAdjusted = min;
 					this._maxAdjusted = max;
 
@@ -1281,7 +1282,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				}
 			}
 		}
-
 		this._extremesChanged = false;
 		this._difference = this.adjustDifference(min, max);
 	}

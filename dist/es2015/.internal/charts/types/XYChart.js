@@ -289,6 +289,12 @@ var XYChart = /** @class */ (function (_super) {
         axisBulletsContainer.layout = "none";
         _this.axisBulletsContainer = axisBulletsContainer;
         _this._bulletMask = _this.plotContainer;
+        _this.events.on("beforedatavalidated", function () {
+            _this.series.each(function (series) {
+                series.dataGrouped = false;
+                series._baseInterval = {};
+            });
+        }, _this, false);
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -423,9 +429,6 @@ var XYChart = /** @class */ (function (_super) {
         // (but not add to chart data users) to hold up rendering before data
         // is parsed (system handles this)
         axis.dataProvider = this;
-        this.events.on("beforedatavalidated", function () {
-            axis.resetFlags();
-        }, this, false);
         this.updateXAxis(axis.renderer);
         this.processAxis(axis);
     };
@@ -449,9 +452,6 @@ var XYChart = /** @class */ (function (_super) {
         // (but not add to chart data users) to hold up rendering before data
         // is parsed (system handles this)
         axis.dataProvider = this;
-        this.events.on("beforedatavalidated", function () {
-            axis.resetFlags();
-        });
         this.updateYAxis(axis.renderer);
         this.processAxis(axis);
     };

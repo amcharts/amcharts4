@@ -1066,13 +1066,6 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	}
 
 	/**
-	 * @ignore
-	 */
-	public resetFlags(){
-
-	}	
-
-	/**
 	 * Returns a new/empty DataItem of the type appropriate for this object.
 	 *
 	 * @see {@link DataItem}

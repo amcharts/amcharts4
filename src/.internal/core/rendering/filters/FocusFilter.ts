@@ -59,6 +59,9 @@ export interface FocusFilterProperties extends FilterProperties {
 
 /**
  * Creates a "Focus" filter.
+ *
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/accessibility/} more about accessibility
+ * @see {@link https://www.amcharts.com/docs/v4/tutorials/changing-appearance-of-focused-items/} cusomizing focus appearance
  */
 export class FocusFilter extends Filter {
 

@@ -653,6 +653,25 @@ export class Series extends Component {
 	}
 
 	/**
+	 * Returns first value for the specific key in the series.
+	 *
+	 * @param key  Key
+	 * @return Value
+	 * @todo Description
+	 * @todo Convert to propert object property iterator
+	 */
+	protected getAbsoluteFirstValue(key: string): number {
+		for (let i = 0; i < this.dataItems.length; i++) {
+			let dataItem = this.dataItems.getIndex(i);
+			let value: number = dataItem.values[key].value;
+			if ($type.isNumber(value)) {
+				return value;
+			}
+		}
+		return null;
+	}	
+
+	/**
 	 * [rangeChangeUpdate description]
 	 *
 	 * @todo Description
@@ -681,6 +700,7 @@ export class Series extends Component {
 			let close: { [index: string]: number } = {};
 			let previous: { [index: string]: number } = {};
 			let first: { [index: string]: number } = {};
+			let absoluteFirst: { [index: string]: number } = {};
 
 			//let duration: number = 0; // todo: check if series uses selection.change or selection.change.percent and set duration to interpolationduration
 
@@ -763,11 +783,19 @@ export class Series extends Component {
 							first[key] = this.getFirstValue(key, startIndex);
 						}
 
+						if (!$type.isNumber(absoluteFirst[key])) {
+							absoluteFirst[key] = this.getAbsoluteFirstValue(key);
+						}						
+
 						// change
 						dataItem.setCalculatedValue(key, value - first[key], "change");
 						// change from start percent
 						// will fail if first value is 0
 						dataItem.setCalculatedValue(key, (value - first[key]) / first[key] * 100, "changePercent");
+							
+						dataItem.setCalculatedValue(key, (value - absoluteFirst[key]), "startChange");
+
+						dataItem.setCalculatedValue(key, (value - absoluteFirst[key]) / absoluteFirst[key] * 100, "startChangePercent");
 
 						// previous change
 						let prevValue: number = previous[key];

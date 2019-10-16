@@ -583,10 +583,6 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     constructor();
     /**
-     * @ignore
-     */
-    resetFlags(): void;
-    /**
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
      * @see {@link DataItem}

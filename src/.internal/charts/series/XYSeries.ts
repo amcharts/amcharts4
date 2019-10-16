@@ -850,6 +850,17 @@ export class XYSeries extends Series {
 
 
 	/**
+	 * @ignore
+	 */
+	public dataGrouped = false;
+
+	/**
+	 * @ignore
+	 */
+	public usesShowFields: boolean = false;
+
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -934,6 +945,15 @@ export class XYSeries extends Series {
 	 * @ignore Exclude from docs
 	 */
 	public validateData(): void {
+		this._baseInterval = {};
+		let dataFields = this.dataFields;
+		if (dataFields.valueYShow || dataFields.openValueXShow || dataFields.openValueXShow || dataFields.openValueYShow || (this.xAxis instanceof DateAxis && this.xAxis.groupData == true) || (this.yAxis instanceof DateAxis && this.yAxis.groupData == true)) {
+			this.usesShowFields = true;
+		}
+		else {
+			this.usesShowFields = false;
+		}
+
 		this.defineFields();
 
 		if (this.data.length > 0) {
@@ -947,6 +967,8 @@ export class XYSeries extends Series {
 		if (!$type.hasValue(this.dataFields[<keyof this["_dataFields"]>this._xField]) || !$type.hasValue(this.dataFields[<keyof this["_dataFields"]>this._yField])) {
 			throw Error("Data fields for series \"" + (this.name ? this.name : this.uid) + "\" are not properly defined.");
 		}
+
+		this.dataGrouped = false;
 	}
 
 	/**
@@ -1286,10 +1308,6 @@ export class XYSeries extends Series {
 
 			this.dataItemsByAxis.setKey(axis.uid, new Dictionary<string, this["_dataItem"]>());
 			this.invalidateData();
-
-			this.events.on("beforedatavalidated", () => {
-				axis.resetFlags();
-			}, this, false);
 		}
 	}
 
@@ -1332,10 +1350,6 @@ export class XYSeries extends Series {
 			}
 
 			this._yAxis.set(axis, axis.registerSeries(this));
-
-			this.events.on("beforedatavalidated", () => {
-				axis.resetFlags();
-			}, this, false);
 
 			this.dataItemsByAxis.setKey(axis.uid, new Dictionary<string, this["_dataItem"]>());
 			this.invalidateData();
@@ -1403,6 +1417,41 @@ export class XYSeries extends Series {
 		}
 		return this._baseAxis;
 	}
+
+	/**
+	 * Makes the chart use particular data set.
+	 *
+	 * If `id` is not provided or there is no such data set, main data will be
+	 * used.
+	 *
+	 * @ignore
+	 * @since 4.7.0
+	 * @param  id  Data set id
+	 */
+	public setDataSet(id: string): boolean {
+		let changed = super.setDataSet(id);
+		if (changed) {
+			let dataItems = this.dataItems;
+
+			let xAxis = this.xAxis;
+			let yAxis = this.yAxis;
+
+			if (xAxis instanceof DateAxis && xAxis == this.baseAxis) {
+				this._tmin.setKey(xAxis.uid, dataItems.getIndex(0).dateX.getTime());
+				this._tmax.setKey(xAxis.uid, dataItems.getIndex(dataItems.length - 1).dateX.getTime());
+				this.dispatchImmediately("extremeschanged");
+			}
+
+			if (yAxis instanceof DateAxis && yAxis == this.baseAxis) {
+				this._tmin.setKey(yAxis.uid, dataItems.getIndex(0).dateY.getTime());
+				this._tmax.setKey(yAxis.uid, dataItems.getIndex(dataItems.length - 1).dateY.getTime());
+				this.dispatchImmediately("extremeschanged");
+			}
+		}
+
+		return changed
+	}
+
 
 	/**
 	 * Processes values after data items' were added.
@@ -1490,6 +1539,7 @@ export class XYSeries extends Series {
 						stackedSeries.processValues(false);
 					}
 				}
+
 				this.dispatchImmediately("extremeschanged");
 			}
 		}
@@ -1510,6 +1560,7 @@ export class XYSeries extends Series {
 				let stackY = dataItem.getValue("valueY", "stack");
 
 				minX = $math.min(dataItem.getMin(this._xValueFields, working, stackX), minX);
+
 				minY = $math.min(dataItem.getMin(this._yValueFields, working, stackY), minY);
 
 				maxX = $math.max(dataItem.getMax(this._xValueFields, working, stackX), maxX);
@@ -1549,34 +1600,37 @@ export class XYSeries extends Series {
 				let changed = false;
 
 				if (this.yAxis instanceof ValueAxis && !(this.yAxis instanceof DateAxis)) {
-					if (minY < this._tmin.getKey(yAxisId)) {
+					let tmin = this._tmin.getKey(yAxisId);
+					if (this.usesShowFields || !$type.isNumber(tmin) || minY < tmin) {
 						this._tmin.setKey(yAxisId, minY);
 						changed = true;
 					}
-					if (maxY > this._tmin.getKey(yAxisId)) {
+					let tmax = this._tmax.getKey(yAxisId);
+					if (this.usesShowFields || !$type.isNumber(tmax) || maxY > tmax) {
 						this._tmax.setKey(yAxisId, maxY);
 						changed = true;
 					}
 				}
 
 				if (this.xAxis instanceof ValueAxis && !(this.xAxis instanceof DateAxis)) {
-					if (minX < this._tmin.getKey(xAxisId)) {
+					let tmin = this._tmin.getKey(xAxisId);
+					if (this.usesShowFields || !$type.isNumber(tmin) || minX < tmin) {
 						this._tmin.setKey(xAxisId, minX);
 						changed = true;
 					}
-					if (maxX > this._tmax.getKey(xAxisId)) {
+					let tmax = this._tmax.getKey(xAxisId);
+					if (this.usesShowFields || !$type.isNumber(tmax) || maxX > tmax) {
 						this._tmax.setKey(xAxisId, maxX);
 						changed = true;
 					}
 				}
 
-				this.dispatchImmediately("selectionextremeschanged");
-
 				if (changed) {
 					this.dispatchImmediately("extremeschanged");
 				}
-			}
 
+				this.dispatchImmediately("selectionextremeschanged");
+			}
 		}
 
 		if (!working && this.stacked) {
@@ -1725,6 +1779,7 @@ export class XYSeries extends Series {
 			}
 		}
 	}
+
 
 	protected shouldCreateBullet(dataItem: this["_dataItem"], bulletTemplate: Bullet): boolean {
 		// use series xField/yField if bullet doesn't have fields set
@@ -2652,7 +2707,6 @@ export class XYSeries extends Series {
 	public get excludeFromTotal(): boolean {
 		return this.getPropertyValue("excludeFromTotal");
 	}
-
 }
 
 /**

@@ -604,6 +604,14 @@ export declare class XYSeries extends Series {
         [index: string]: ITimeInterval;
     };
     /**
+     * @ignore
+     */
+    dataGrouped: boolean;
+    /**
+     * @ignore
+     */
+    usesShowFields: boolean;
+    /**
      * Constructor
      */
     constructor();
@@ -766,6 +774,17 @@ export declare class XYSeries extends Series {
      * @param value  Axis
      */
     baseAxis: Axis;
+    /**
+     * Makes the chart use particular data set.
+     *
+     * If `id` is not provided or there is no such data set, main data will be
+     * used.
+     *
+     * @ignore
+     * @since 4.7.0
+     * @param  id  Data set id
+     */
+    setDataSet(id: string): boolean;
     /**
      * Processes values after data items' were added.
      *

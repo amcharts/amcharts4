@@ -3952,9 +3952,10 @@ var Sprite = /** @class */ (function (_super) {
          * ```
          *
          * @see {@link Filter}
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/accessibility/} more about accessibility
+         * @see {@link https://www.amcharts.com/docs/v4/tutorials/changing-appearance-of-focused-items/} cusomizing focus appearance
          * @ignore Exclude from docs
          * @return Focused element filter
-         * @todo This is still experimental, use at your own risk.
          */
         get: function () {
             /*if (!this._focusFilter) {

@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.1] - 2019-10-16
+
+### Added
+- Two additional auto-calculated values (used in `valueXShow` and `valueYShow` data fields) added: `startChange` and `startChangePercent`. Shows change from starting value of the first data item in series.
+
+### Changed
+- Animated theme: Default values for `rangeChangeDuration` and `interpolationDuration` changed to `500` (was `700`). Makes zooming animations more snappy.
+
+### Fixed
+- Data item grouping was sometimes producing visual anomalies when multiple data sets were being loaded /set to chart/series asynchronously.
+
+
 ## [4.7.0] - 2019-10-14
 
 ### Added

@@ -520,6 +520,13 @@ export class XYChart extends SerialChart {
 
 		this._bulletMask = this.plotContainer;
 
+		this.events.on("beforedatavalidated", ()=>{
+			this.series.each((series)=>{
+				series.dataGrouped = false;
+				series._baseInterval = {};
+			})
+		}, this, false);		
+
 		// Apply theme
 		this.applyTheme();
 
@@ -682,10 +689,6 @@ export class XYChart extends SerialChart {
 		// is parsed (system handles this)
 		axis.dataProvider = this;
 
-		this.events.on("beforedatavalidated", ()=>{
-			axis.resetFlags();
-		}, this, false);
-
 		this.updateXAxis(axis.renderer);
 		this.processAxis(axis);
 
@@ -714,10 +717,6 @@ export class XYChart extends SerialChart {
 		// (but not add to chart data users) to hold up rendering before data
 		// is parsed (system handles this)
 		axis.dataProvider = this;
-
-		this.events.on("beforedatavalidated", ()=>{
-			axis.resetFlags();
-		});		
 
 		this.updateYAxis(axis.renderer);
 		this.processAxis(axis);

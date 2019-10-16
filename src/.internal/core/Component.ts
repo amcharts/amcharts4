@@ -38,14 +38,14 @@ import * as $type from "./utils/Type";
 
 /**
  * A list of available types for calculated values.
- * @todo Not finished
- * @todo Description
  */
 export type CalculatedValue =
 	"value" |
 	"percent" |
 	"change" |
 	"changePercent" |
+	"startChangePercent" |
+	"startChange" |
 	"previousChangePercent" |
 	"previousChange" |
 	"sum" |

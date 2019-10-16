@@ -489,11 +489,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	protected _df: DateFormatter;
 
 	/**
-	 * A flag used to avoid grouping of the same data multiple times.
-	 */
-	protected _dataGrouped: boolean = false;
-
-	/**
 	 * A collection of start timestamps to use as axis' min timestamp for
 	 * particular data item item periods.
 	 *
@@ -501,7 +496,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @readonly
 	 */
 	public groupMin: { [index: string]: number } = {};
-	
+
 	/**
 	 * A collection of start timestamps to use as axis' max timestamp for
 	 * particular data item item periods.
@@ -598,23 +593,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		// Apply theme
 		this.applyTheme();
-	}
-
-	/**
-	 * Resets all Series attached to this Axis to their main (unaggregated)
-	 * data set.
-	 * 
-	 * @ignore
-	 */
-	public resetFlags() {
-		if (this.groupData) {
-			this._dataGrouped = false;
-			this.series.each((series) => {
-				if (series.baseAxis == this) {
-					series.setDataSet("");
-				}
-			})
-		}
 	}
 
 	/**
@@ -741,6 +719,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		super.calculateZoom();
 
 		let difference = this.adjustDifference(this._minZoomed, this._maxZoomed);
+		let dataSetChanged = false;
 
 		// if data has to be grouped, choose interval and set dataset
 		if (this.groupData && $type.hasValue(difference)) {
@@ -750,10 +729,13 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				groupInterval = { ...mainBaseInterval };
 			}
 			this._groupInterval = groupInterval;
+			this._currentDataSetId = groupInterval.timeUnit + groupInterval.count;
 
 			this.series.each((series) => {
 				if (series.baseAxis == this) {
-					series.setDataSet(groupInterval.timeUnit + groupInterval.count);
+					if(series.setDataSet(this._currentDataSetId)){
+						dataSetChanged = true;
+					}
 				}
 			})
 		}
@@ -814,7 +796,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				series.startIndex = startIndex;
 				series.endIndex = endIndex;
 
-				if (series.dataRangeInvalid) {
+				if (!dataSetChanged && series.dataRangeInvalid) {
 					series.validateDataRange();
 				}
 			}
@@ -895,18 +877,18 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					this.postProcessSeriesDataItem(dataItem);
 				});
 				series._baseInterval[this.uid] = this.mainBaseInterval;
+
+				this.groupSeriesData(series);
 			}
 		});
 
 		this.addEmptyUnitsBreaks();
 
-		this.groupSeriesData();
+
 	}
 
-	public groupSeriesData() {
-		if (this.groupData && !this._dataGrouped) {
-			// @todo: reset this when data changes
-			this._dataGrouped = true;
+	public groupSeriesData(series: XYSeries) {
+		if (series.baseAxis == this && series.dataItems.length > 0 && !series.dataGrouped) {
 			// make array of intervals which will be used;
 			let intervals: ITimeInterval[] = [];
 			let mainBaseInterval = this.mainBaseInterval;
@@ -919,142 +901,144 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				}
 			})
 
-			this.series.each((series) => {
-				series._dataSets = undefined;
-			});
+			if (series._dataSets) {
+				series._dataSets.each((key, dataItems) => {
+					dataItems.each((dataItem) => {
+						dataItem.dispose();
+					})
+					dataItems.clear();
+				})
+				series._dataSets.clear();
+			}
 
 			$array.each(intervals, (interval) => {
 				//let mainBaseInterval = this._mainBaseInterval;
 				let key = "date" + this.axisLetter;
-				this.series.each((series) => {
-					if (series.baseAxis == this) {
-						// create data set
-						let dataSetId = interval.timeUnit + interval.count;
-						// todo: check where this clone goes
-						let dataSet = new OrderedListTemplate(series.mainDataSet.template.clone());
 
-						let oldDataSet = series.dataSets.getKey(dataSetId);
-						if (oldDataSet) {
-							oldDataSet.clear();
+				// create data set
+				let dataSetId = interval.timeUnit + interval.count;
+				// todo: check where this clone goes
+				let dataSet = new OrderedListTemplate(series.mainDataSet.template.clone());
+
+				series.dataSets.setKey(dataSetId, dataSet);
+				series.dataGrouped = true;
+
+				let dataItems = series.mainDataSet;
+				let previousTime: number = Number.NEGATIVE_INFINITY;
+				let i = 0;
+				let newDataItem: XYSeriesDataItem;
+
+				let dataFields: string[] = [];
+
+				$object.each(series.dataFields, (dfkey, df) => {
+					let dfk = <string>dfkey;
+					if (dfk != key && dfk.indexOf("Show") == -1) {
+						dataFields.push(dfk);
+					}
+				})
+
+				dataItems.each((dataItem) => {
+					let date = dataItem.getDate(key);
+					if (date) {
+						let time = date.getTime();
+						let roundedDate = $time.round(new Date(time), interval.timeUnit, interval.count, this._df.firstDayOfWeek, this._df.utc);
+						let currentTime = roundedDate.getTime();
+						// changed period								
+						if (previousTime < roundedDate.getTime()) {
+							newDataItem = dataSet.create();
+							newDataItem.component = series;
+							// other Dates?
+							newDataItem.setDate(key, roundedDate);
+							newDataItem._index = i;
+							i++;
+
+
+							$array.each(dataFields, (vkey) => {
+								//let groupFieldName = vkey + "Group";
+								let value = dataItem.values[vkey].value;
+								if ($type.isNumber(value)) {
+									let values = newDataItem.values[vkey];
+
+									values.value = value;
+									values.workingValue = value;
+
+									values.open = value;
+									values.close = value;
+									values.low = value;
+									values.high = value;
+									values.sum = value;
+									values.average = value;
+									values.count = 1;
+								}
+							})
+
+							this.postProcessSeriesDataItem(newDataItem, interval);
+
+							$object.each(series.propertyFields, (key, fieldValue) => {
+								const f: string = <string>key;
+								let value: any = (<any>dataItem.properties)[key];
+
+								if ($type.hasValue(value)) {
+									newDataItem.hasProperties = true;
+									newDataItem.setProperty(f, value);
+								}
+							});
+							newDataItem.groupDataItems = [dataItem];
+							previousTime = currentTime;
 						}
-						series.dataSets.setKey(dataSetId, dataSet);
+						else {
+							if (newDataItem) {
+								$array.each(dataFields, (vkey) => {
+									let groupFieldName = (<any>series.groupFields)[vkey];
 
-						let dataItems = series.mainDataSet;
-						let previousTime: number = Number.NEGATIVE_INFINITY;
-						let i = 0;
-						let newDataItem: XYSeriesDataItem;
+									let value = dataItem.values[vkey].value;
+									if ($type.isNumber(value)) {
+										let values = newDataItem.values[vkey];
 
-						let dataFields: string[] = [];
-
-						$object.each(series.dataFields, (dfkey, df) => {
-							let dfk = <string>dfkey;
-							if (dfk != key && dfk.indexOf("Show") == -1) {
-								dataFields.push(dfk);
-							}
-						})
-
-						dataItems.each((dataItem) => {
-							let date = dataItem.getDate(key);
-							if (date) {
-								let time = date.getTime();
-								let roundedDate = $time.round(new Date(time), interval.timeUnit, interval.count, this._df.firstDayOfWeek, this._df.utc);
-								let currentTime = roundedDate.getTime();
-								// changed period								
-								if (previousTime < roundedDate.getTime()) {
-									newDataItem = dataSet.create();
-									newDataItem.component = series;
-									// other Dates?
-									newDataItem.setDate(key, roundedDate);
-									newDataItem._index = i;
-									i++;
-
-
-									$array.each(dataFields, (vkey) => {
-										//let groupFieldName = vkey + "Group";
-										let value = dataItem.values[vkey].value;
-										if ($type.isNumber(value)) {
-											let values = newDataItem.values[vkey];
-
-											values.value = value;
-											values.workingValue = value;
-
+										if (!$type.isNumber(values.open)) {
 											values.open = value;
-											values.close = value;
+										}
+
+										values.close = value;
+
+										if (values.low > value || !$type.isNumber(values.low)) {
 											values.low = value;
+										}
+										if (values.high < value || !$type.isNumber(values.high)) {
 											values.high = value;
+										}
+										if ($type.isNumber(values.sum)) {
+											values.sum += value;
+										}
+										else {
 											values.sum = value;
-											values.average = value;
-											values.count = 1;
 										}
-									})
+										values.count++;
+										values.average = values.sum / values.count;
 
-									this.postProcessSeriesDataItem(newDataItem, interval);
-
-									$object.each(series.propertyFields, (key, fieldValue) => {
-										const f: string = <string>key;
-										let value: any = (<any>dataItem.properties)[key];
-
-										if ($type.hasValue(value)) {
-											newDataItem.hasProperties = true;
-											newDataItem.setProperty(f, value);
-										}
-									});
-									newDataItem.groupDataItems = [dataItem];
-									previousTime = currentTime;
-								}
-								else {
-									if (newDataItem) {
-										$array.each(dataFields, (vkey) => {
-											let groupFieldName = (<any>series.groupFields)[vkey];
-
-											let value = dataItem.values[vkey].value;
-											if ($type.isNumber(value)) {
-												let values = newDataItem.values[vkey];
-
-												if (!$type.isNumber(values.open)) {
-													values.open = value;
-												}
-
-												values.close = value;
-
-												if (values.low > value || !$type.isNumber(values.low)) {
-													values.low = value;
-												}
-												if (values.high < value || !$type.isNumber(values.high)) {
-													values.high = value;
-												}
-												if ($type.isNumber(values.sum)) {
-													values.sum += value;
-												}
-												else {
-													values.sum = value;
-												}
-												values.count++;
-												values.average = values.sum / values.count;
-
-												values.value = values[groupFieldName];
-												values.workingValue = values.value;
-											}
-										})
-										$utils.copyProperties(dataItem.properties, newDataItem.properties);
-
-										$object.each(series.propertyFields, (key, fieldValue) => {
-											const f: string = <string>key;
-											let value: any = (<any>dataItem.properties)[key];
-											if ($type.hasValue(value)) {
-												newDataItem.hasProperties = true;
-												newDataItem.setProperty(f, value);
-											}
-										});
-
-										newDataItem.groupDataItems.push(dataItem);
+										values.value = values[groupFieldName];
+										values.workingValue = values.value;
 									}
-								}
+								})
+								$utils.copyProperties(dataItem.properties, newDataItem.properties);
+
+								$object.each(series.propertyFields, (key, fieldValue) => {
+									const f: string = <string>key;
+									let value: any = (<any>dataItem.properties)[key];
+									if ($type.hasValue(value)) {
+										newDataItem.hasProperties = true;
+										newDataItem.setProperty(f, value);
+									}
+								});
+
+								newDataItem.groupDataItems.push(dataItem);
 							}
-						})
+						}
 					}
 				})
 			})
+
+			this.calculateZoom();
 		}
 	}
 
@@ -2208,7 +2192,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @param skipRangeEvent  Do not invoke events
 	 * @param instantly       Do not play zoom animations
 	 */
-	public zoomToDates(startDate: Date, endDate: Date, skipRangeEvent?: boolean, instantly?: boolean, adjust?:boolean): void {
+	public zoomToDates(startDate: Date, endDate: Date, skipRangeEvent?: boolean, instantly?: boolean, adjust?: boolean): void {
 		startDate = this._df.parse(startDate);
 		endDate = this._df.parse(endDate);
 		this.zoomToValues(startDate.getTime(), endDate.getTime(), skipRangeEvent, instantly, adjust);
@@ -2222,7 +2206,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @param skipRangeEvent  Do not invoke events
 	 * @param instantly       Do not play zoom animations
 	 */
-	public zoomToValues(startValue: number, endValue: number, skipRangeEvent?: boolean, instantly?: boolean, adjust?:boolean): void {
+	public zoomToValues(startValue: number, endValue: number, skipRangeEvent?: boolean, instantly?: boolean, adjust?: boolean): void {
 		if (!this.groupData) {
 			let start: number = (startValue - this.min) / (this.max - this.min);
 			let end: number = (endValue - this.min) / (this.max - this.min);
@@ -2270,18 +2254,17 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 				startValue = $math.fitToRange(startValue, min, max);
 				endValue = $math.fitToRange(endValue, min, max);
-				
-				if(adjust){
+
+				if (adjust) {
 					if (isEnd) {
 						startValue = endValue - difference;
-						console.log("adjust")
 						startValue = $math.fitToRange(startValue, min, max);
-					}				
+					}
 
 					if (isStart) {
 						endValue = startValue + difference;
 						endValue = $math.fitToRange(endValue, min, max);
-					}				
+					}
 				}
 
 				let start: number = (startValue - min) / (max - min);
