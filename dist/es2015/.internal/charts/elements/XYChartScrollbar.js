@@ -158,6 +158,8 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             xAxis.width = percent(100);
             var labelsTemplate = renderer.labels.template;
             labelsTemplate.fillOpacity = 0.5;
+            xAxis.maxZoomCount = undefined;
+            xAxis.minZoomCount = undefined;
             if (xAxis instanceof DateAxis) {
                 var vAxis_1 = xAxis;
                 var sourceAxis = sourceSeries.xAxis;
@@ -217,6 +219,8 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             var labelsTemplate = renderer.labels.template;
             labelsTemplate.fillOpacity = 0.5;
             series.yAxis = yAxis;
+            yAxis.maxZoomCount = undefined;
+            yAxis.minZoomCount = undefined;
             if (yAxis instanceof DateAxis) {
                 var vAxis_3 = yAxis;
                 var sourceAxis = sourceSeries.yAxis;

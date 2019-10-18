@@ -532,6 +532,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
                 node.fy = node.y;
             }
             node.draggable = false;
+            node.validate(); // for links to redraw
         }
         else {
             node.fx = undefined;

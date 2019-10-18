@@ -240,7 +240,10 @@ export declare class ColumnSeries extends XYSeries {
      * @param dataItem  Data item
      */
     validateDataElementReal(dataItem: this["_dataItem"]): void;
-    disableUnusedColumns(dataItem: ColumnSeriesDataItem): void;
+    /**
+     * @ignore
+     */
+    protected disableUnusedColumns(dataItem: ColumnSeriesDataItem): void;
     /**
      * Apply different state/coloring to columns based on the change value.
      *

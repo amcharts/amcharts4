@@ -254,6 +254,12 @@ var PinBullet = /** @class */ (function (_super) {
         if (this.circle && source.circle) {
             this.circle.copyFrom(source.circle);
         }
+        if (source.label) {
+            if (!this._label) {
+                this.label = source.label.clone();
+            }
+            this._label.copyFrom(source.label);
+        }
     };
     /**
      * Creates and returns a background element.

@@ -605,6 +605,8 @@ var Axis = /** @class */ (function (_super) {
         if (_this.constructor === Axis) {
             throw new Error("'Axis' cannot be instantiated directly. Please use a specific axis type.");
         }
+        _this.minWidth = 0.0001;
+        _this.minHeight = 0.0001;
         _this.className = "Axis";
         _this.shouldClone = false;
         _this.setPropertyValue("cursorTooltipEnabled", true);

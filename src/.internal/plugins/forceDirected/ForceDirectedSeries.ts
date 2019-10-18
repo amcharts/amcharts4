@@ -836,6 +836,8 @@ export class ForceDirectedSeries extends Series {
 			}
 
 			node.draggable = false;
+
+			node.validate(); // for links to redraw
 		}
 		else {
 			(<any>node).fx = undefined;

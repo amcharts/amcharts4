@@ -16,7 +16,7 @@ import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
 import * as $math from "../../core/utils/Math";
 import * as $object from "../../core/utils/Object";
-import * as $type from "../../core/utils/Type";
+import { Percent } from "../../core/utils/Percent";
 import * as $iter from "../../core/utils/Iterator";
 import * as $array from "../../core/utils/Array";
 /**
@@ -90,6 +90,22 @@ var RadarColumnSeries = /** @class */ (function (_super) {
         _super.prototype.validate.call(this);
     };
     /**
+     * @ignore
+     */
+    RadarColumnSeries.prototype.disableUnusedColumns = function (dataItem) {
+        if (dataItem) {
+            if (dataItem.column) {
+                dataItem.column.__disabled = true;
+            }
+            $iter.each(this.axisRanges.iterator(), function (axisRange) {
+                var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
+                if (rangeColumn) {
+                    rangeColumn.__disabled = true;
+                }
+            });
+        }
+    };
+    /**
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs
@@ -110,10 +126,19 @@ var RadarColumnSeries = /** @class */ (function (_super) {
         var startLocation = this.getStartLocation(dataItem);
         var endLocation = this.getEndLocation(dataItem);
         var cellAngle = (endAngle - startAngle) / (this.dataItems.length * (this.end - this.start));
-        var template = this.columns.template;
-        var percentWidth = template.percentWidth;
-        if ($type.isNaN(percentWidth)) {
-            percentWidth = 100;
+        var radarColumn = dataItem.column;
+        if (!radarColumn) {
+            radarColumn = this.columns.create();
+            dataItem.column = radarColumn;
+            $object.forceCopyProperties(this.columns.template, radarColumn, visualProperties);
+            dataItem.addSprite(radarColumn);
+            radarColumn.paper = this.paper; // sometimes pattern is not drawn if is set with adapter without this.
+            this.setColumnStates(radarColumn);
+        }
+        var width = radarColumn.width;
+        var percentWidth = 100;
+        if (width instanceof Percent) {
+            percentWidth = width.percent;
         }
         var offset = $math.round((endLocation - startLocation) * (1 - percentWidth / 100) / 2, 5);
         startLocation += offset;
@@ -139,15 +164,6 @@ var RadarColumnSeries = /** @class */ (function (_super) {
         }
         lAngle = $math.fitToRange(lAngle, startAngle, endAngle);
         rAngle = $math.fitToRange(rAngle, startAngle, endAngle);
-        var radarColumn = dataItem.column;
-        if (!radarColumn) {
-            radarColumn = this.columns.create();
-            dataItem.column = radarColumn;
-            $object.forceCopyProperties(this.columns.template, radarColumn, visualProperties);
-            dataItem.addSprite(radarColumn);
-            radarColumn.paper = this.paper; // sometimes pattern is not drawn if is set with adapter without this.
-            this.setColumnStates(radarColumn);
-        }
         var slice = radarColumn.radarColumn;
         slice.startAngle = lAngle;
         var arc = rAngle - lAngle;

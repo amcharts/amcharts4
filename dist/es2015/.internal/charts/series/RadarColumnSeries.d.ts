@@ -124,6 +124,10 @@ export declare class RadarColumnSeries extends ColumnSeries {
      */
     validate(): void;
     /**
+     * @ignore
+     */
+    protected disableUnusedColumns(dataItem: ColumnSeriesDataItem): void;
+    /**
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs

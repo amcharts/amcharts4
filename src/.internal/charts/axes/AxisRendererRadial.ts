@@ -312,8 +312,13 @@ export class AxisRendererRadial extends AxisRendererY {
 		if ($type.isNumber(radius) && grid.element) {
 			let chart = this.chart;
 			let xAxis = chart.xAxes.getIndex(0);
-			let count = chart.dataItems.length;
+			let count = 0;
+
 			let series = chart.series.getIndex(0);
+
+			if(series){
+				count = series.dataItems.length;
+			}
 
 			// polygons are only possible if x axis is present
 			// @todo: review this
@@ -322,7 +327,6 @@ export class AxisRendererRadial extends AxisRendererY {
 
 				let angle: number = xAxis.getAngle(series.dataItems.getIndex(0), "categoryX", gridLocation);
 				path = $path.moveTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
-				let count: number = chart.dataItems.length;
 
 				for (let i = 1; i < count; i++) {
 					angle = xAxis.getAngle(series.dataItems.getIndex(i), "categoryX", gridLocation);
@@ -492,8 +496,12 @@ export class AxisRendererRadial extends AxisRendererY {
 
 		let chart = this.chart;
 		let xAxis = chart.xAxes.getIndex(0);
-		let count = chart.dataItems.length;
 		let series = chart.series.getIndex(0);
+
+		let count = 0;
+		if(series){
+			count = series.dataItems.length;		
+		}
 
 		// polygons are only possible if x axis is present
 		// @todo: review this
@@ -502,7 +510,6 @@ export class AxisRendererRadial extends AxisRendererY {
 
 			let angle: number = xAxis.getAngle(series.dataItems.getIndex(0), "categoryX", gridLocation);
 			path = $path.moveTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
-			let count: number = chart.dataItems.length;
 
 			for (let i = 1; i < count; i++) {
 				angle = xAxis.getAngle(series.dataItems.getIndex(i), "categoryX", gridLocation);

@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.2] - 2019-10-18
+
+### Added
+- `RadarColumn` now supports `width` adapter (the adapter should return `Percent` object).
+
+### Changed
+- `minWidth`/`minHeight` set on Axis to 0.0001 to avoid ready event to be not called on super small divs.
+
+### Fixed
+- A link between two fixed `ForcedDirectedTree` nodes was not visible.
+- If `maxZoomCount` was set on a series which was used for `XYChartScrollbar`, scrollbar series was zoomed-in.
+- `PercentChart`'s legend, if placed to an external div could loose text formatting after data update.
+- `gridType = "polygons"` of `RadialAxis` was not working.
+- Label of `PinBullet` was not being cloned.
+- `rangeChangeEasing` function was not being passed to `ValueAxis` min/max animation which resulted in some unwanted animation effects when min/max of the axis changed.
+
+
 ## [4.7.1] - 2019-10-16
 
 ### Added

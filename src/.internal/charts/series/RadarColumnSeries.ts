@@ -18,7 +18,7 @@ import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
 import * as $math from "../../core/utils/Math";
 import * as $object from "../../core/utils/Object";
-import * as $type from "../../core/utils/Type";
+import { Percent } from "../../core/utils/Percent";
 import * as $iter from "../../core/utils/Iterator";
 import * as $array from "../../core/utils/Array";
 
@@ -173,6 +173,24 @@ export class RadarColumnSeries extends ColumnSeries {
 	}
 
 	/**
+	 * @ignore
+	 */
+	protected disableUnusedColumns(dataItem: ColumnSeriesDataItem) {
+		if (dataItem) {
+			if (dataItem.column) {
+				dataItem.column.__disabled = true;
+			}
+
+			$iter.each(this.axisRanges.iterator(), (axisRange) => {
+				let rangeColumn: Sprite = dataItem.rangesColumns.getKey(axisRange.uid);
+				if (rangeColumn) {
+					rangeColumn.__disabled = true;
+				}
+			});
+		}
+	}	
+
+	/**
 	 * Validates data item's element, effectively redrawing it.
 	 *
 	 * @ignore Exclude from docs
@@ -198,12 +216,21 @@ export class RadarColumnSeries extends ColumnSeries {
 
 		let cellAngle = (endAngle - startAngle) / (this.dataItems.length * (this.end - this.start));
 
-		let template: Sprite = this.columns.template;
+		let radarColumn = dataItem.column;
+		if (!radarColumn) {
+			radarColumn = this.columns.create();
+			dataItem.column = radarColumn;
+			$object.forceCopyProperties(this.columns.template, radarColumn, visualProperties);
+			dataItem.addSprite(radarColumn);
+			radarColumn.paper = this.paper; // sometimes pattern is not drawn if is set with adapter without this.
+			this.setColumnStates(radarColumn);
+		}
 
-		let percentWidth: number = template.percentWidth;
+		let width = radarColumn.width;
+		let percentWidth = 100;
 
-		if ($type.isNaN(percentWidth)) {
-			percentWidth = 100;
+		if (width instanceof Percent) {
+			percentWidth = width.percent;
 		}
 
 		let offset: number = $math.round((endLocation - startLocation) * (1 - percentWidth / 100) / 2, 5);
@@ -237,16 +264,6 @@ export class RadarColumnSeries extends ColumnSeries {
 
 		lAngle = $math.fitToRange(lAngle, startAngle, endAngle);
 		rAngle = $math.fitToRange(rAngle, startAngle, endAngle);
-
-		let radarColumn = dataItem.column;
-		if (!radarColumn) {
-			radarColumn = this.columns.create();
-			dataItem.column = radarColumn;
-			$object.forceCopyProperties(this.columns.template, radarColumn, visualProperties);
-			dataItem.addSprite(radarColumn);
-			radarColumn.paper = this.paper; // sometimes pattern is not drawn if is set with adapter without this.
-			this.setColumnStates(radarColumn);
-		}
 
 		let slice = radarColumn.radarColumn;
 

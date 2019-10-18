@@ -127,7 +127,8 @@ valueAxis2.renderer.fontSize = "0.8em";
 valueAxis2.renderer.gridContainer.background.fill = am4core.color("#000000");
 valueAxis2.renderer.gridContainer.background.fillOpacity = 0.05;
 
-var volumeSeries = chart.series.push(new am4charts.ColumnSeries());
+var volumeSeries = chart.series.push(new am4charts.StepLineSeries());
+volumeSeries.fillOpacity = 1;
 volumeSeries.fill = series1.stroke;
 volumeSeries.stroke = series1.stroke;
 volumeSeries.dataFields.dateX = "date";

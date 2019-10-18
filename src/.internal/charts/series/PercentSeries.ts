@@ -1007,6 +1007,7 @@ export class PercentSeries extends Series {
 		if(dataItem){
 			let legendDataItem = dataItem.legendDataItem;
 			let legendSettings = dataItem.legendSettings;
+
 			if (legendDataItem && legendSettings) {
 
 				if (legendSettings) {

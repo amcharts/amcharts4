@@ -135,7 +135,7 @@ export class ForceDirectedLink extends Sprite {
 				this.hide();
 			}
 			else {
-				this.show()
+				this.show();
 			}
 		}
 
@@ -150,6 +150,7 @@ export class ForceDirectedLink extends Sprite {
 		if (value) {
 			this._source = value;
 			this._disposers.push(value.events.on("positionchanged", this.invalidate, this, false));
+			this._disposers.push(value.events.on("validated", this.invalidate, this, false));
 		}
 	}
 
@@ -169,6 +170,7 @@ export class ForceDirectedLink extends Sprite {
 		if (value) {
 			this._target = value;
 			this._disposers.push(value.events.on("positionchanged", this.invalidate, this, false));
+			this._disposers.push(value.events.on("validated", this.invalidate, this, false));
 		}
 	}
 

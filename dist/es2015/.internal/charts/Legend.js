@@ -432,6 +432,9 @@ var Legend = /** @class */ (function (_super) {
         if (dataContext.updateLegendValue) {
             dataContext.updateLegendValue(); // this solves issue with external legend, as legend is created after chart updates legend values
         }
+        if (dataContext.component && dataContext.component.updateLegendValue) {
+            dataContext.component.updateLegendValue(dataContext);
+        }
         if (valueLabel.invalid) {
             valueLabel.validate();
         }

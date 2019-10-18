@@ -543,6 +543,9 @@ var ColumnSeries = /** @class */ (function (_super) {
         dataItem.itemWidth = w;
         dataItem.itemHeight = h;
     };
+    /**
+     * @ignore
+     */
     ColumnSeries.prototype.disableUnusedColumns = function (dataItem) {
         if (dataItem) {
             if (dataItem.column) {

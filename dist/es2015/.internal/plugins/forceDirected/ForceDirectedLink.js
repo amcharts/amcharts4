@@ -83,6 +83,7 @@ var ForceDirectedLink = /** @class */ (function (_super) {
             if (value) {
                 this._source = value;
                 this._disposers.push(value.events.on("positionchanged", this.invalidate, this, false));
+                this._disposers.push(value.events.on("validated", this.invalidate, this, false));
             }
         },
         enumerable: true,
@@ -104,6 +105,7 @@ var ForceDirectedLink = /** @class */ (function (_super) {
             if (value) {
                 this._target = value;
                 this._disposers.push(value.events.on("positionchanged", this.invalidate, this, false));
+                this._disposers.push(value.events.on("validated", this.invalidate, this, false));
             }
         },
         enumerable: true,

@@ -225,20 +225,22 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         if ($type.isNumber(radius) && grid.element) {
             var chart = this.chart;
             var xAxis = chart.xAxes.getIndex(0);
-            var count = chart.dataItems.length;
+            var count = 0;
             var series = chart.series.getIndex(0);
+            if (series) {
+                count = series.dataItems.length;
+            }
             // polygons are only possible if x axis is present
             // @todo: review this
             if (this.gridType == "polygons" && count > 0 && series && xAxis && xAxis instanceof CategoryAxis) {
                 var gridLocation = xAxis.renderer.grid.template.location;
                 var angle = xAxis.getAngle(series.dataItems.getIndex(0), "categoryX", gridLocation);
                 path = $path.moveTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
-                var count_1 = chart.dataItems.length;
-                for (var i = 1; i < count_1; i++) {
+                for (var i = 1; i < count; i++) {
                     angle = xAxis.getAngle(series.dataItems.getIndex(i), "categoryX", gridLocation);
                     path += $path.lineTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
                 }
-                angle = xAxis.getAngle(series.dataItems.getIndex(count_1 - 1), "categoryX", xAxis.renderer.cellEndLocation);
+                angle = xAxis.getAngle(series.dataItems.getIndex(count - 1), "categoryX", xAxis.renderer.cellEndLocation);
                 path += $path.lineTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
             }
             else {
@@ -395,23 +397,25 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         var path;
         var chart = this.chart;
         var xAxis = chart.xAxes.getIndex(0);
-        var count = chart.dataItems.length;
         var series = chart.series.getIndex(0);
+        var count = 0;
+        if (series) {
+            count = series.dataItems.length;
+        }
         // polygons are only possible if x axis is present
         // @todo: review this
         if (this.gridType == "polygons" && count > 0 && series && xAxis && xAxis instanceof CategoryAxis) {
             var gridLocation = xAxis.renderer.grid.template.location;
             var angle = xAxis.getAngle(series.dataItems.getIndex(0), "categoryX", gridLocation);
             path = $path.moveTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
-            var count_2 = chart.dataItems.length;
-            for (var i = 1; i < count_2; i++) {
+            for (var i = 1; i < count; i++) {
                 angle = xAxis.getAngle(series.dataItems.getIndex(i), "categoryX", gridLocation);
                 path += $path.lineTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
             }
-            angle = xAxis.getAngle(series.dataItems.getIndex(count_2 - 1), "categoryX", xAxis.renderer.cellEndLocation);
+            angle = xAxis.getAngle(series.dataItems.getIndex(count - 1), "categoryX", xAxis.renderer.cellEndLocation);
             path += $path.lineTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
             path += $path.moveTo({ x: innerRadius * $math.cos(angle), y: innerRadius * $math.sin(angle) });
-            for (var i = count_2 - 1; i >= 0; i--) {
+            for (var i = count - 1; i >= 0; i--) {
                 angle = xAxis.getAngle(series.dataItems.getIndex(i), "categoryX", gridLocation);
                 path += $path.lineTo({ x: innerRadius * $math.cos(angle), y: innerRadius * $math.sin(angle) });
             }

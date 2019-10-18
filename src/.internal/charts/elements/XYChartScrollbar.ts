@@ -238,6 +238,8 @@ export class XYChartScrollbar extends Scrollbar {
 
 			let labelsTemplate = renderer.labels.template;
 			labelsTemplate.fillOpacity = 0.5;
+			xAxis.maxZoomCount = undefined;
+			xAxis.minZoomCount = undefined;			
 
 			if (xAxis instanceof DateAxis) {
 				let vAxis = <DateAxis>xAxis;
@@ -305,6 +307,9 @@ export class XYChartScrollbar extends Scrollbar {
 			labelsTemplate.fillOpacity = 0.5;
 
 			series.yAxis = yAxis;
+
+			yAxis.maxZoomCount = undefined;
+			yAxis.minZoomCount = undefined;			
 
 			if (yAxis instanceof DateAxis) {
 				let vAxis = <ValueAxis>yAxis;

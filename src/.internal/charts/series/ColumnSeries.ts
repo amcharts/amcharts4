@@ -771,7 +771,10 @@ export class ColumnSeries extends XYSeries {
 	}
 
 
-	disableUnusedColumns(dataItem: ColumnSeriesDataItem) {
+	/**
+	 * @ignore
+	 */
+	protected disableUnusedColumns(dataItem: ColumnSeriesDataItem) {
 		if (dataItem) {
 			if (dataItem.column) {
 				// otherwise might flicker when enabling
