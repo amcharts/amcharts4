@@ -412,6 +412,7 @@ export class ColumnSeries extends XYSeries {
 	 *
 	 * @ignore Exclude from docs
 	 */
+	 /*
 	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void {
 		if (this.simplifiedProcessing) {
 			this.validateDataElement(dataItem);
@@ -419,7 +420,7 @@ export class ColumnSeries extends XYSeries {
 		else {
 			super.handleDataItemWorkingValueChange(dataItem, name);
 		}
-	}
+	}*/
 
 	/**
 	 * Returns relative end location for the data item.

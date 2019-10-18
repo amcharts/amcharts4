@@ -254,14 +254,15 @@ var ColumnSeries = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    ColumnSeries.prototype.handleDataItemWorkingValueChange = function (dataItem, name) {
-        if (this.simplifiedProcessing) {
-            this.validateDataElement(dataItem);
-        }
-        else {
-            _super.prototype.handleDataItemWorkingValueChange.call(this, dataItem, name);
-        }
-    };
+    /*
+   public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void {
+       if (this.simplifiedProcessing) {
+           this.validateDataElement(dataItem);
+       }
+       else {
+           super.handleDataItemWorkingValueChange(dataItem, name);
+       }
+   }*/
     /**
      * Returns relative end location for the data item.
      *
