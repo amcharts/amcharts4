@@ -379,6 +379,32 @@ export declare class MapChart extends SerialChart {
      */
     protected _geodata: Object;
     /**
+     * Names of geodata items, such as countries, to replace by from loaded
+     * geodata.
+     *
+     * Can be used to override built-in English names for countries.
+     *
+     * ```TypeScript
+     * import am4geodata_lang_ES from '@amcharts4-geodata/lang/es';
+     * // ...
+     * map.geodataNames = am4geodata_lang_ES;
+     * ```
+     * ```JavaScript
+     * map.geodataNames = am4geodata_lang_ES;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "geodataNames": am4geodata_lang_ES
+     * }
+     * ```
+     *
+     * @since 4.7.4
+     */
+    geodataNames: {
+        [index: string]: string;
+    };
+    /**
      * A reference to a [[ZoomControl]] instance.
      */
     protected _zoomControl: ZoomControl;

@@ -224,14 +224,17 @@ var XYChart3D = /** @class */ (function (_super) {
                     inversed_1 = true;
                 }
                 var i_1 = 1;
-                series.columns.each(function (column) {
-                    if (inversed_1) {
-                        column.zIndex = 1000 * (1000 - i_1) + s - series.depthIndex * 100;
+                series.dataItems.each(function (dataItem) {
+                    var column = dataItem.column;
+                    if (column) {
+                        if (inversed_1) {
+                            column.zIndex = 1000 * (1000 - i_1) + s - series.depthIndex * 100;
+                        }
+                        else {
+                            column.zIndex = 1000 * i_1 + s - series.depthIndex * 100;
+                        }
+                        i_1++;
                     }
-                    else {
-                        column.zIndex = 1000 * i_1 + s - series.depthIndex * 100;
-                    }
-                    i_1++;
                 });
                 if (inversed_1) {
                     s--;

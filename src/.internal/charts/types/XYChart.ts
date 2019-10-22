@@ -520,12 +520,12 @@ export class XYChart extends SerialChart {
 
 		this._bulletMask = this.plotContainer;
 
-		this.events.on("beforedatavalidated", ()=>{
-			this.series.each((series)=>{
+		this.events.on("beforedatavalidated", () => {
+			this.series.each((series) => {
 				series.dataGrouped = false;
 				series._baseInterval = {};
 			})
-		}, this, false);		
+		}, this, false);
 
 		// Apply theme
 		this.applyTheme();
@@ -1577,7 +1577,11 @@ export class XYChart extends SerialChart {
 			scrollbar.adapter.add("positionValue", (arg) => {
 				let xAxis = this.xAxes.getIndex(0);
 				if (xAxis) {
-					arg.value = xAxis.getPositionLabel(arg.position);
+					arg.value = xAxis.getPositionLabel(
+						xAxis.renderer.inversed
+							? 1 - arg.position
+							: arg.position
+					);
 				}
 				return arg;
 			});

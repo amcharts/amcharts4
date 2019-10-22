@@ -658,8 +658,28 @@ export function isHidden(element: HTMLElement): boolean {
  * @param   el Element
  * @return     Within viewport?
  */
-export function isElementInViewport(el: HTMLElement): boolean {
+export function isElementInViewport(el: HTMLElement, viewportTarget?: HTMLElement): boolean {
+
+	// Get position data of the element
 	let rect = el.getBoundingClientRect();
+
+	// Should we measure against specific viewport element?
+	if (viewportTarget) {
+
+		// Check if viewport itself is visible
+		if (!isElementInViewport(viewportTarget)) {
+			return false;
+		}
+
+		// Check if element is visible within the viewport
+		let viewportRect = viewportTarget.getBoundingClientRect();
+		return (
+			rect.top >= 0 &&
+			rect.left >= 0 &&
+			rect.top <= (viewportRect.top + viewportRect.height) &&
+			rect.left <= (viewportRect.left + viewportRect.width)
+		);
+	}
 
 	return (
 		rect.top >= 0 &&
@@ -667,4 +687,5 @@ export function isElementInViewport(el: HTMLElement): boolean {
 		rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
 		rect.left <= (window.innerWidth || document.documentElement.clientWidth)
 	);
+
 }

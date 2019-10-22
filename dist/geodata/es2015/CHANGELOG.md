@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - New maps: Guatemala, Lebanon, Paraguay.
+- U.S. Congressional Districts maps. Look in `region/usa/congressional`. Use like with prefix `am4geodata_region_usa_congressional_*`.
+- New world map: `worldGreatLakes*`. It's a version of a World Map with the Great Lakes cut out, to make them consistent with US/Canada regional maps.
+- Translation files to country names in various languages added to `lang` directory. Check out their [usage instructions](https://www.amcharts.com/docs/v4/tutorials/using-map-country-name-translations/).
 
 ### Fixed
 - Fixed duplicate ids in `russiaCrimea*` maps.

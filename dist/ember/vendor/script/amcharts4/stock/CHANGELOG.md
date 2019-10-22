@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.4] - 2019-10-22
+
+## Added
+- New global option: `am4core.options.viewportTarget`. If you are placing charts into a scrollable container and using `onlyShowOnViewport`, set this option to a reference to the container. The system will monitor both window and individual scroll of the container to know where to reveal the lazy-loaded chart.
+- New `MapChart` property: `geodataNames`. It can now be used to automatically translate country names into multiple languages. Check out [usage instructions](https://www.amcharts.com/docs/v4/tutorials/using-map-country-name-translations/).
+- `hideParentColumns` property added to `TreeMap`. If set to `true` columns of the parent series will be hidden when user drills-down into deeper levels.
+
+### Fixed
+- `ColorSet` was starting to generate grayscale colors at some point.
+- Accessibility: Series that has items with roles "menuitem" will now have its role set to "menu" automatically.
+- Series bullets were dislocated on `XYChart` with `DateAxis` and `dateFormatter.utc = true`.
+- In some specific cases 3D columns used incorrect `zIndex`.
+- Index of dataItem of `PercentSeries` could be `-`1 after first render.
+- `yRange` of `XYCursor` was inversed.
+
+
 ## [4.7.3] - 2019-10-18
 
 ### Fixed

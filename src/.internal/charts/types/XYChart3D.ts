@@ -306,20 +306,23 @@ export class XYChart3D extends XYChart {
 				}
 
 				let i: number = 1;
-				series.columns.each((column) => {
-					if (inversed) {
-						column.zIndex = 1000 * (1000 - i) + s - series.depthIndex * 100;
-					}
-					else {
-						column.zIndex = 1000 * i + s - series.depthIndex * 100;
-					}
+				series.dataItems.each((dataItem) => {
+					let column = dataItem.column;
+					if (column) {
+						if (inversed) {
+							column.zIndex = 1000 * (1000 - i) + s - series.depthIndex * 100;
+						}
+						else {
+							column.zIndex = 1000 * i + s - series.depthIndex * 100;
+						}
 
-					i++;
+						i++;
+					}
 				});
-				if(inversed){
+				if (inversed) {
 					s--;
 				}
-				else{
+				else {
 					s++;
 				}
 			}

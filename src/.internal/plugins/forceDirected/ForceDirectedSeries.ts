@@ -212,10 +212,12 @@ export class ForceDirectedSeriesDataItem extends SeriesDataItem {
 
 			// Apply accessibility
 			if (component.itemsFocusable()) {
+				this.component.role = "menu";
 				node.role = "menuitem";
 				node.focusable = true;
 			}
 			else {
+				this.component.role = "list";
 				node.role = "listitem";
 				node.focusable = false;
 			}

@@ -157,6 +157,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
             if (!this._tick) {
                 var tick_1 = this.component.ticks.create();
                 this._tick = tick_1;
+                this.addSprite(tick_1);
                 this._disposers.push(tick_1);
                 tick_1.parent = this.component.ticksContainer;
                 this._disposers.push(new Disposer(function () {
@@ -164,7 +165,6 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
                         _this.component.ticks.removeValue(tick_1);
                     }
                 }));
-                this.addSprite(tick_1);
                 tick_1.visible = this.visible;
             }
             return this._tick;
@@ -183,6 +183,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
             var _this = this;
             if (!this._label) {
                 var label_1 = this.component.labels.create();
+                this.addSprite(label_1);
                 this._label = label_1;
                 this._disposers.push(label_1);
                 label_1.parent = this.component.labelsContainer;
@@ -191,7 +192,6 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
                         _this.component.labels.removeValue(label_1);
                     }
                 }));
-                this.addSprite(label_1);
                 label_1.visible = this.visible;
             }
             return this._label;
@@ -211,20 +211,22 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
             if (!this._slice) {
                 var component_1 = this.component;
                 var slice_1 = component_1.slices.create();
+                this.addSprite(slice_1);
                 this._slice = slice_1;
                 this._disposers.push(slice_1);
                 slice_1.parent = component_1.slicesContainer;
                 this._disposers.push(new Disposer(function () {
                     component_1.slices.removeValue(slice_1);
                 }));
-                this.addSprite(slice_1);
                 slice_1.visible = this.visible;
                 // Apply accessibility
                 if (component_1.itemsFocusable()) {
+                    this.component.role = "menu";
                     slice_1.role = "menuitem";
                     slice_1.focusable = true;
                 }
                 else {
+                    this.component.role = "list";
                     slice_1.role = "listitem";
                     slice_1.focusable = false;
                 }

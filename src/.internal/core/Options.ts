@@ -87,6 +87,17 @@ export interface Options {
 	onlyShowOnViewport: boolean;
 
 	/**
+	 * A reference to the HTML element to be used as a secondary viewport for
+	 * charts.
+	 *
+	 * Use this if you are placing charts in a scrollable container and using
+	 * with `onlyShowOnViewport = true`.
+	 *
+	 * @since 4.7.4
+	 */
+	viewportTarget?: HTMLElement;
+
+	/**
 	 * Whether to queue all charts rendering. One chart will be rendered at a time. The next
 	 * chart starts to render after the previous chart's ready event.
 	 * 
@@ -103,6 +114,7 @@ export interface Options {
 	 * @type {String[]}
 	 */
 	licenses: String[];
+
 }
 
 /**

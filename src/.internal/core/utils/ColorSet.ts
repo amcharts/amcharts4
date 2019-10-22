@@ -353,12 +353,12 @@ export class ColorSet extends BaseObject {
 		let hues: number[] = [];
 		const startIndex = this.list.length == 0 ? 0 : 1;
 		if (this.reuse) {
-			for (let i = startIndex; i < count; i++) {
+			for (let i = startIndex; i <= count; i++) {
 				hues.push($colors.rgbToHsl($type.getValue(this._list[i].rgb)).h);
 			}
 		}
 		else {
-			for (let i = startIndex; i < count; i++) {
+			for (let i = startIndex; i <= count; i++) {
 				let h = hsl.h + hueStep * i;
 				if (this.wrap && (h > 1)) {
 					h -= 1;
@@ -387,13 +387,13 @@ export class ColorSet extends BaseObject {
 			}
 
 			// Apply HSL mods
-			this.applyStepOptions(hsl, mods, i + 1, this._currentPass);
+			this.applyStepOptions(hsl, mods, i, this._currentPass);
 
 			// Convert back to Color
 			let c = color($colors.hslToRgb(hsl));
 
 			// Apply regular color mods
-			let brighten = (this.stepOptions.brighten || 0) * (i + 1) + (this.passOptions.brighten || 0) * this._currentPass;
+			let brighten = (this.stepOptions.brighten || 0) * i + (this.passOptions.brighten || 0) * this._currentPass;
 			if (brighten != 0) {
 				if (this.wrap) {
 					brighten = $utils.fitNumberRelative(brighten, this.minLightness, this.maxLightness);
@@ -404,7 +404,7 @@ export class ColorSet extends BaseObject {
 				c = c.brighten(brighten);
 			}
 
-			let lighten = (this.stepOptions.lighten || 0) * (i + 1) + (this.passOptions.lighten || 0) * this._currentPass;
+			let lighten = (this.stepOptions.lighten || 0) * i + (this.passOptions.lighten || 0) * this._currentPass;
 			if (lighten != 0) {
 				if (this.wrap) {
 					lighten = $utils.fitNumberRelative(lighten, this.minLightness, this.maxLightness);
@@ -414,6 +414,7 @@ export class ColorSet extends BaseObject {
 				}
 				c = c.lighten(lighten);
 			}
+
 			this._list.push(c);
 		}
 

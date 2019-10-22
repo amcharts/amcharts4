@@ -1208,7 +1208,9 @@ var XYChart = /** @class */ (function (_super) {
                 scrollbar.adapter.add("positionValue", function (arg) {
                     var xAxis = _this.xAxes.getIndex(0);
                     if (xAxis) {
-                        arg.value = xAxis.getPositionLabel(arg.position);
+                        arg.value = xAxis.getPositionLabel(xAxis.renderer.inversed
+                            ? 1 - arg.position
+                            : arg.position);
                     }
                     return arg;
                 });

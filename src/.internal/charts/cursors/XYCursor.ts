@@ -442,7 +442,7 @@ export class XYCursor extends Cursor {
 
 				this.updatePoint(this.upPoint);
 
-				if (this._generalBehavior != "pan"){
+				if (this._generalBehavior != "pan") {
 					this.getRanges();
 				}
 
@@ -476,13 +476,13 @@ export class XYCursor extends Cursor {
 	protected getPanningRanges() {
 
 		let startX = $math.round(this.downPoint.x / this.innerWidth, 5);
-		let startY = $math.round(this.downPoint.y / this.innerHeight, 5);
+		let startY = 1 - $math.round(this.downPoint.y / this.innerHeight, 5);
 
 		let currentX = $math.round(this.point.x / this.innerWidth, 5);
-		let currentY = $math.round(this.point.y / this.innerHeight, 5);
+		let currentY = 1 - $math.round(this.point.y / this.innerHeight, 5);
 
 		let deltaX = startX - currentX;
-		let deltaY = -startY + currentY;
+		let deltaY = startY - currentY;
 
 		this.xRange = { start: deltaX, end: 1 + deltaX };
 		this.yRange = { start: deltaY, end: 1 + deltaY };
@@ -516,11 +516,12 @@ export class XYCursor extends Cursor {
 		let startX: number = $math.round(this.downPoint.x / this.innerWidth, 5);
 		let endX: number = $math.round((this.upPoint.x) / this.innerWidth, 5);
 
-		let startY: number = $math.round(this.downPoint.y / this.innerHeight, 5);
-		let endY: number = $math.round((this.upPoint.y) / this.innerHeight, 5);
+		let startY: number = 1 - $math.round(this.downPoint.y / this.innerHeight, 5);
+		let endY: number = 1 - $math.round((this.upPoint.y) / this.innerHeight, 5);
 
 		this.xRange = { start: $math.min(startX, endX), end: $math.max(startX, endX) };
 		this.yRange = { start: $math.min(startY, endY), end: $math.max(startY, endY) };
+
 	}
 
 	/**

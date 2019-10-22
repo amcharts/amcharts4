@@ -149,10 +149,12 @@ var ForceDirectedSeriesDataItem = /** @class */ (function (_super) {
                 node_1.hiddenState.properties.visible = true;
                 // Apply accessibility
                 if (component_1.itemsFocusable()) {
+                    this.component.role = "menu";
                     node_1.role = "menuitem";
                     node_1.focusable = true;
                 }
                 else {
+                    this.component.role = "list";
                     node_1.role = "listitem";
                     node_1.focusable = false;
                 }

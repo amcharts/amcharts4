@@ -176,16 +176,23 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 		container.isStandaloneInstance = true;
 
 		if (options.onlyShowOnViewport) {
-			if (!$dom.isElementInViewport(htmlContainer)) {
+			if (!$dom.isElementInViewport(htmlContainer, options.viewportTarget)) {
 				sprite.__disabled = true;
 				sprite.tooltipContainer.__disabled = true;
 
-				let disposer = new MultiDisposer([
+				let disposers = [
 					$dom.addEventListener(window, "DOMContentLoaded", function() { viewPortHandler(sprite); }),
 					$dom.addEventListener(window, "load", function() { viewPortHandler(sprite); }),
 					$dom.addEventListener(window, "resize", function() { viewPortHandler(sprite); }),
 					$dom.addEventListener(window, "scroll", function() { viewPortHandler(sprite); })
-				])
+				];
+
+				if (options.viewportTarget) {
+					disposers.push($dom.addEventListener(options.viewportTarget, "resize", function() { viewPortHandler(sprite); }));
+					disposers.push($dom.addEventListener(options.viewportTarget, "scroll", function() { viewPortHandler(sprite); }));
+				}
+
+				let disposer = new MultiDisposer(disposers);
 
 				sprite.addDisposer(disposer);
 				sprite.vpDisposer = disposer;
@@ -245,7 +252,7 @@ export function removeFromQueue(sprite: Sprite) {
 }
 
 export function viewPortHandler(sprite: Sprite) {
-	if (sprite.__disabled && $dom.isElementInViewport(sprite.htmlContainer)) {
+	if (sprite.__disabled && $dom.isElementInViewport(sprite.htmlContainer, options.viewportTarget)) {
 
 		if (sprite.vpDisposer) {
 			sprite.vpDisposer.dispose();

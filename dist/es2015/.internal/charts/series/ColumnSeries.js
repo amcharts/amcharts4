@@ -472,10 +472,12 @@ var ColumnSeries = /** @class */ (function (_super) {
                 column_1.paper = this.paper; // sometimes pattern is not drawn if is set with adapter without this.
                 // accessibility
                 if (this.itemsFocusable()) {
+                    this.role = "menu";
                     column_1.role = "menuitem";
                     column_1.focusable = true;
                 }
                 else {
+                    this.role = "list";
                     column_1.role = "listitem";
                     column_1.focusable = false;
                 }

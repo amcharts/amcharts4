@@ -438,12 +438,16 @@ export class MapPolygonSeries extends MapSeries {
 
 				if (features) {
 					for (let i = 0, len = features.length; i < len; i++) {
-
 						let feature: any = features[i];
 						let geometry: any = feature.geometry;
+
 						if (geometry) {
 							let type: GEOJSONGeometry = <GEOJSONGeometry>geometry.type;
 							let id: string = feature.id;
+
+							if (this.chart.geodataNames && this.chart.geodataNames[id]) {
+								feature.properties.name = this.chart.geodataNames[id];
+							}
 
 							if (type == "Polygon" || type == "MultiPolygon") {
 

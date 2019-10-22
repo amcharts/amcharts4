@@ -315,6 +315,9 @@ var MapPolygonSeries = /** @class */ (function (_super) {
                         if (geometry) {
                             var type = geometry.type;
                             var id_1 = feature.id;
+                            if (this_1.chart.geodataNames && this_1.chart.geodataNames[id_1]) {
+                                feature.properties.name = this_1.chart.geodataNames[id_1];
+                            }
                             if (type == "Polygon" || type == "MultiPolygon") {
                                 if (!this_1.checkInclude(this_1.include, this_1.exclude, id_1)) {
                                     return "continue";

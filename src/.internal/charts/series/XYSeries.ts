@@ -1874,8 +1874,9 @@ export class XYSeries extends Series {
 
 					if (openValue == closeValue) {
 						let baseInterval = xAxis.baseInterval;
-						openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, xAxis.dateFormatter.firstDayOfWeek).getTime();
-						closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count).getTime();
+						let dateFormatter = xAxis.dateFormatter;
+						openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc).getTime();
+						closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.utc).getTime();
 					}
 
 					let middleValue: number;
@@ -1959,8 +1960,9 @@ export class XYSeries extends Series {
 
 					if (openValue == closeValue) {
 						let baseInterval = yAxis.baseInterval;
-						openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, yAxis.dateFormatter.firstDayOfWeek).getTime();
-						closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count).getTime();
+						let dateFormatter = yAxis.dateFormatter;
+						openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc).getTime();
+						closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.utc).getTime();
 					}
 
 					let middleValue: number;

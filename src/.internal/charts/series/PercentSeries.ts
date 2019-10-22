@@ -206,7 +206,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 		if (!this._tick) {
 			let tick = this.component.ticks.create();
 			this._tick = tick;
-
+			this.addSprite(tick);
 			this._disposers.push(tick);
 			tick.parent = this.component.ticksContainer;
 
@@ -216,7 +216,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 				}
 			}));
 
-			this.addSprite(tick);
+			
 			tick.visible = this.visible;
 		}
 		return this._tick;
@@ -231,6 +231,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	public get label(): this["_label"] {
 		if (!this._label) {
 			let label = this.component.labels.create();
+			this.addSprite(label);
 			this._label = label;
 
 			this._disposers.push(label);
@@ -241,8 +242,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 					this.component.labels.removeValue(label);
 				}
 			}));
-
-			this.addSprite(label);
+		
 			label.visible = this.visible;
 		}
 		return this._label;
@@ -260,6 +260,8 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 			let component = this.component;
 
 			let slice = component.slices.create();
+			this.addSprite(slice);
+
 			this._slice = slice;
 			this._disposers.push(slice);
 			slice.parent = component.slicesContainer;
@@ -268,15 +270,17 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 				component.slices.removeValue(slice);
 			}));
 
-			this.addSprite(slice);
+			
 			slice.visible = this.visible;
 
 			// Apply accessibility
 			if (component.itemsFocusable()) {
+				this.component.role = "menu";
 				slice.role = "menuitem";
 				slice.focusable = true;
 			}
 			else {
+				this.component.role = "list";
 				slice.role = "listitem";
 				slice.focusable = false;
 			}

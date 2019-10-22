@@ -275,6 +275,14 @@ export interface ITreeMapProperties extends IXYChartProperties {
      * @default "descending"
      */
     sorting?: "none" | "ascending" | "descending";
+    /**
+     * If set to `true`, columns of parent nodes will be hidden when user
+     * drills-down into deeper levels.
+     *
+     * @sice 4.7.4
+     * @default false
+     */
+    hideParentColumns?: boolean;
 }
 /**
  * Defines events for [[TreeMap]].
@@ -522,6 +530,18 @@ export declare class TreeMap extends XYChart {
      * @param value  Current level
      */
     currentLevel: number;
+    /**
+     * @return Hide?
+     */
+    /**
+     * If set to `true`, columns of parent nodes will be hidden when user
+     * drills-down into deeper levels.
+     *
+     * @sice 4.7.4
+     * @default false
+     * @param  value  Hide?
+     */
+    hideParentColumns: boolean;
     /**
      * Sorting direction of treemap items.
      *

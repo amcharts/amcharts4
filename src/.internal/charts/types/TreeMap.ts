@@ -485,6 +485,15 @@ export interface ITreeMapProperties extends IXYChartProperties {
 	 */
 	sorting?: "none" | "ascending" | "descending";
 
+	/**
+	 * If set to `true`, columns of parent nodes will be hidden when user
+	 * drills-down into deeper levels.
+	 * 
+	 * @sice 4.7.4
+	 * @default false
+	 */
+	hideParentColumns?: boolean;
+
 }
 
 /**
@@ -663,6 +672,7 @@ export class TreeMap extends XYChart {
 
 		this.maxLevels = 2;
 		this.currentLevel = 0;
+		this.hideParentColumns = false;
 
 		this.colors = new ColorSet();
 		this.sorting = "descending";
@@ -1017,10 +1027,13 @@ export class TreeMap extends XYChart {
 				})
 
 				if (series.level < this.currentLevel) {
+					if (this.hideParentColumns) {
+						series.columnsContainer.hide();
+					}
 					series.bulletsContainer.hide(duration);
 				}
 				else if (series.level == this.currentLevel) {
-					if(this.maxLevels > 1){
+					if (this.maxLevels > 1) {
 						series.dataItems.each((dataItem) => {
 							if (dataItem.treeMapDataItem.children) {
 								dataItem.bullets.each((key, bullet) => {
@@ -1142,6 +1155,25 @@ export class TreeMap extends XYChart {
 	 */
 	public get currentLevel(): number {
 		return this.getPropertyValue("currentLevel");
+	}
+
+	/**
+	 * If set to `true`, columns of parent nodes will be hidden when user
+	 * drills-down into deeper levels.
+	 * 
+	 * @sice 4.7.4
+	 * @default false
+	 * @param  value  Hide?
+	 */
+	public set hideParentColumns(value: boolean) {
+		this.setPropertyValue("hideParentColumns", value);
+	}
+
+	/**
+	 * @return Hide?
+	 */
+	public get hideParentColumns(): boolean {
+		return this.getPropertyValue("hideParentColumns");
 	}
 
 	/**
@@ -1518,9 +1550,9 @@ export class TreeMap extends XYChart {
 		}
 	}
 
-	protected handleSeriesAdded2(){
+	protected handleSeriesAdded2() {
 		// void
-	}	
+	}
 
 	/**
 	 * [handleDataItemValueChange description]

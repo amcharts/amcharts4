@@ -447,6 +447,7 @@ var TreeMap = /** @class */ (function (_super) {
         _this._usesData = true;
         _this.maxLevels = 2;
         _this.currentLevel = 0;
+        _this.hideParentColumns = false;
         _this.colors = new ColorSet();
         _this.sorting = "descending";
         // create two value axes for the chart
@@ -744,6 +745,9 @@ var TreeMap = /** @class */ (function (_super) {
                     });
                 });
                 if (series.level < _this.currentLevel) {
+                    if (_this.hideParentColumns) {
+                        series.columnsContainer.hide();
+                    }
                     series.bulletsContainer.hide(duration);
                 }
                 else if (series.level == _this.currentLevel) {
@@ -859,6 +863,27 @@ var TreeMap = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("currentLevel", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TreeMap.prototype, "hideParentColumns", {
+        /**
+         * @return Hide?
+         */
+        get: function () {
+            return this.getPropertyValue("hideParentColumns");
+        },
+        /**
+         * If set to `true`, columns of parent nodes will be hidden when user
+         * drills-down into deeper levels.
+         *
+         * @sice 4.7.4
+         * @default false
+         * @param  value  Hide?
+         */
+        set: function (value) {
+            this.setPropertyValue("hideParentColumns", value);
         },
         enumerable: true,
         configurable: true

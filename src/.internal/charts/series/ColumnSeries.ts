@@ -680,10 +680,12 @@ export class ColumnSeries extends XYSeries {
 
 				// accessibility
 				if (this.itemsFocusable()) {
+					this.role = "menu";
 					column.role = "menuitem";
 					column.focusable = true;
 				}
 				else {
+					this.role = "list";
 					column.role = "listitem";
 					column.focusable = false;
 				}
