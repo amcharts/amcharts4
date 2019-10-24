@@ -57,6 +57,9 @@ export default {
   //
   // This will be used when formatting date/time for particular granularity,
   // e.g. "_date_hour" will be shown whenever we need to show time as hours.
+	// 
+	// "date" is used as in default date format when showing standalone dates.
+	"_date": "yyyy-MM-dd",
   "_date_millisecond": "mm:ss SSS",
   "_date_second": "HH:mm:ss",
   "_date_minute": "HH:mm",
@@ -270,6 +273,7 @@ export default {
   "Flow diagram": "플로우 다이어그램",
   "Chord diagram": "코드 다이어그램",
   "TreeMap chart": "트리맵 차트",
+  "Force directed tree": "포스 디렉티드 트리",
   "Sliced chart": "슬라이스 차트",
 
   // Series types.
