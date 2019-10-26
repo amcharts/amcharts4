@@ -245,11 +245,11 @@ export declare class Slice extends Container {
      *
      * @return X
      */
-    protected getTooltipX(): number;
+    getTooltipX(): number;
     /**
      * Y coordinate for the slice tooltip.
      *
      * @return Y
      */
-    protected getTooltipY(): number;
+    getTooltipY(): number;
 }

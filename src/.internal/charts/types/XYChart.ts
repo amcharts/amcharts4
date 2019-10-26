@@ -1022,7 +1022,15 @@ export class XYChart extends SerialChart {
 			$utils.used(series.yAxis); // this is enough to get axis, handled in getter
 
 			if (series.fill == undefined) {
-				series.fill = this.colors.next();
+				if (this.patterns) {
+					series.stroke = this.colors.next();
+					series.fill = this.patterns.next();
+					series.fill.stroke = series.stroke;
+					series.fill.fill = series.stroke;
+				}
+				else {
+					series.fill = this.colors.next();
+				}
 			}
 
 			if (series.stroke == undefined) {
@@ -1353,10 +1361,6 @@ export class XYChart extends SerialChart {
 		let start: number;
 		let end: number;
 		let inversed = axis.renderer.inversed;
-
-		if (axis.renderer instanceof AxisRendererY) {
-			range = $math.invertRange(range);
-		}
 
 		if (inversed) {
 			$math.invertRange(range);

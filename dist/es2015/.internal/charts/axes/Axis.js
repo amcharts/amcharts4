@@ -1014,7 +1014,7 @@ var Axis = /** @class */ (function (_super) {
                 if (value && this.renderer) {
                     this.renderer.updateTooltip();
                 }
-                else {
+                else if (this.tooltip) {
                     this.tooltip.hide(0);
                 }
             }

@@ -1255,7 +1255,7 @@ export class BaseObjectEvents extends BaseObject {
 	 */
 	constructor() {
 		super();
-		this.className = "BaseObjectEvents";		
+		this.className = "BaseObjectEvents";
 	}
 
 	public _events!: IBaseObjectEvents;
@@ -1269,8 +1269,8 @@ export class BaseObjectEvents extends BaseObject {
 	/**
 	 * An [[EventDispatcher]] instance
 	 */
-	public get events(): EventDispatcher<AMEvent<this, this["_events"]>>{
-		if(!this._eventDispatcher){
+	public get events(): EventDispatcher<AMEvent<this, this["_events"]>> {
+		if (!this._eventDispatcher) {
 			this._eventDispatcher = new EventDispatcher();
 			this._disposers.push(this._eventDispatcher);
 		}
@@ -1292,7 +1292,7 @@ export class BaseObjectEvents extends BaseObject {
 	 */
 	public dispatch<Key extends keyof this["_events"]>(eventType: Key, data?: any): void {
 		// @todo Implement proper type check
-		if(this._eventDispatcher){
+		if (this._eventDispatcher) {
 			if (this.events.isEnabled(eventType)) {
 				if (data) {
 					data.type = eventType;
@@ -1321,7 +1321,7 @@ export class BaseObjectEvents extends BaseObject {
 	 */
 	public dispatchImmediately<Key extends keyof this["_events"]>(eventType: Key, data?: any): void {
 		// @todo Implement proper type check
-		if(this._eventDispatcher){
+		if (this._eventDispatcher) {
 			if (this.events.isEnabled(eventType)) {
 				if (data) {
 					data.type = eventType;
@@ -1345,7 +1345,7 @@ export class BaseObjectEvents extends BaseObject {
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source);
-		if(source._eventDispatcher){
+		if (source._eventDispatcher) {
 			this.events.copyFrom(source._eventDispatcher);
 		}
 	}

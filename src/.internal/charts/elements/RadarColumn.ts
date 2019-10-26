@@ -113,11 +113,12 @@ export class RadarColumn extends Column {
 	 * X coordinate for the slice tooltip.
 	 *
 	 * @return X
+	 * @ignore
 	 */
-	protected getTooltipX(): number {
+	public getTooltipX(): number {
 		let value = this.getPropertyValue("tooltipX");
 		if (!$type.isNumber(value)) {
-			value = this.radarColumn.tooltipX;
+			return this.radarColumn.getTooltipX();
 		}
 		return value;
 	}
@@ -126,11 +127,12 @@ export class RadarColumn extends Column {
 	 * Y coordinate for the slice tooltip.
 	 *
 	 * @return Y
+	 * @ignore
 	 */
-	protected getTooltipY(): number {
+	public getTooltipY(): number {
 		let value = this.getPropertyValue("tooltipX");
 		if (!$type.isNumber(value)) {
-			value = this.radarColumn.tooltipY;
+			return this.radarColumn.getTooltipY();
 		}
 		return value;
 	}

@@ -732,7 +732,15 @@ var XYChart = /** @class */ (function (_super) {
             $utils.used(series.xAxis); // this is enough to get axis, handled in getter
             $utils.used(series.yAxis); // this is enough to get axis, handled in getter
             if (series.fill == undefined) {
-                series.fill = this.colors.next();
+                if (this.patterns) {
+                    series.stroke = this.colors.next();
+                    series.fill = this.patterns.next();
+                    series.fill.stroke = series.stroke;
+                    series.fill.fill = series.stroke;
+                }
+                else {
+                    series.fill = this.colors.next();
+                }
             }
             if (series.stroke == undefined) {
                 series.stroke = series.fill;
@@ -1014,9 +1022,6 @@ var XYChart = /** @class */ (function (_super) {
         var start;
         var end;
         var inversed = axis.renderer.inversed;
-        if (axis.renderer instanceof AxisRendererY) {
-            range = $math.invertRange(range);
-        }
         if (inversed) {
             $math.invertRange(range);
             start = 1 - axis.end;

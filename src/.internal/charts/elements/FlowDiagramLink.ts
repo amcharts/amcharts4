@@ -489,7 +489,7 @@ export class FlowDiagramLink extends Container {
 	 * @ignore Exclude from docs
 	 * @return Tooltip X (px)
 	 */
-	getTooltipX(): number {
+	public getTooltipX(): number {
 		if (this.middleLine) {
 			return this.middleLine.positionToPoint(this.tooltipLocation).x;
 		}
@@ -499,7 +499,7 @@ export class FlowDiagramLink extends Container {
 	 * @ignore Exclude from docs
 	 * @return Tooltip Y (px)
 	 */
-	getTooltipY(): number {
+	public getTooltipY(): number {
 		if (this.middleLine) {
 			return this.middleLine.positionToPoint(this.tooltipLocation).y;
 		}

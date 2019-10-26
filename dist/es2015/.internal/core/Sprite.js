@@ -44,7 +44,7 @@ import * as $object from "./utils/Object";
 import * as $type from "./utils/Type";
 import * as $iter from "./utils/Iterator";
 import { system } from "./System";
-import { Percent } from "./utils/Percent";
+import { Percent, percent } from "./utils/Percent";
 /**
  * Defines list ofvisual properties
  */
@@ -313,6 +313,8 @@ var Sprite = /** @class */ (function (_super) {
         _this.setPropertyValue("tooltipPosition", "fixed");
         _this.setPropertyValue("verticalCenter", "none");
         _this.setPropertyValue("horizontalCenter", "none");
+        _this.setPropertyValue("tooltipX", percent(50));
+        _this.setPropertyValue("tooltipX", percent(50));
         _this.setPropertyValue("marginTop", 0);
         _this.setPropertyValue("marginBottom", 0);
         _this.setPropertyValue("marginLeft", 0);
@@ -7707,8 +7709,8 @@ var Sprite = /** @class */ (function (_super) {
         else {
             // Point to the X/Y of this Sprite
             var globalPoint = $utils.spritePointToSvg({
-                "x": this.tooltipX,
-                "y": this.tooltipY
+                "x": this.getTooltipX(),
+                "y": this.getTooltipY()
             }, this);
             return this.pointTooltipTo(globalPoint);
         }
@@ -7861,8 +7863,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param value  Tooltip X (px)
          */
         set: function (value) {
-            value = $type.toNumber(value);
-            if (this.setPropertyValue("tooltipX", value) && this.tooltip) {
+            if (this.setPercentProperty("tooltipX", value) && this.tooltip) {
                 this.tooltip.invalidate();
             }
         },
@@ -7972,8 +7973,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param value  Tooltip Y (px)
          */
         set: function (value) {
-            value = $type.toNumber(value);
-            if (this.setPropertyValue("tooltipY", value) && this.tooltip) {
+            if (this.setPercentProperty("tooltipY", value) && this.tooltip) {
                 this.tooltip.invalidate();
             }
         },
@@ -7988,10 +7988,17 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.getTooltipX = function () {
         var x = this.getPropertyValue("tooltipX");
-        if (!$type.isNumber(x)) {
-            x = this.maxLeft + this.measuredWidth / 2 - this.pixelPaddingLeft - this.ex; // overflow is know only for measured items, so this is not always good
+        if (!$type.hasValue(x)) {
+            x = percent(50);
         }
-        return x;
+        var value;
+        if ($type.isNumber(x)) {
+            value = x;
+        }
+        if (x instanceof Percent) {
+            value = this.maxLeft + this.measuredWidth * x.value - this.pixelPaddingLeft - this.ex; // overflow is know only for measured items, so this is not always good
+        }
+        return value;
     };
     /**
      * Returns Tooltip Y coordinate if it's set, or middle of the element.
@@ -8001,10 +8008,17 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.getTooltipY = function () {
         var y = this.getPropertyValue("tooltipY");
-        if (!$type.isNumber(y)) {
-            y = this.maxTop + this.measuredHeight / 2 - this.pixelPaddingTop - this.ey; // overflow is know only for measured items, so this is not always good
+        if (!$type.hasValue(y)) {
+            y = percent(50);
         }
-        return y;
+        var value;
+        if ($type.isNumber(y)) {
+            value = y;
+        }
+        if (y instanceof Percent) {
+            value = this.maxTop + this.measuredHeight / 2 - this.pixelPaddingTop - this.ey; // overflow is know only for measured items, so this is not always good
+        }
+        return value;
     };
     /**
      * Displays a modal or console message with error, and halts any further

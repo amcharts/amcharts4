@@ -18,7 +18,7 @@ import { Polyline } from "../../core/elements/Polyline";
 import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
-import { percent } from "../../core/utils/Percent";
+import { percent, Percent } from "../../core/utils/Percent";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
 import * as $geo from "./Geo";
@@ -432,18 +432,28 @@ var MapLine = /** @class */ (function (_super) {
     /**
      * X coordinate for the slice tooltip.
      *
+     * @ignore
      * @return X
      */
     MapLine.prototype.getTooltipX = function () {
-        return this.positionToPoint(0.5).x;
+        var x = this.tooltipX;
+        if (!(x instanceof Percent)) {
+            x = percent(50);
+        }
+        return this.positionToPoint(x.value).x;
     };
     /**
      * Y coordinate for the slice tooltip.
      *
+     * @ignore
      * @return Y
      */
     MapLine.prototype.getTooltipY = function () {
-        return this.positionToPoint(0.5).y;
+        var y = this.tooltipY;
+        if (!(y instanceof Percent)) {
+            y = percent(50);
+        }
+        return this.positionToPoint(y.value).y;
     };
     return MapLine;
 }(MapObject));

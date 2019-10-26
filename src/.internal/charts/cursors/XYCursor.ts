@@ -931,8 +931,8 @@ export class XYCursor extends Cursor {
 	public handleSnap() {
 
 		let series = this.snapToSeries;
-		let y = series.tooltipY;
-		let x = series.tooltipX;
+		let y = series.getTooltipX();
+		let x = series.getTooltipY();
 
 		if (this.xAxis) {
 			if (this.xAxis.renderer.opposite) {

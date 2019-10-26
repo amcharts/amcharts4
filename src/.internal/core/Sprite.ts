@@ -86,7 +86,7 @@ import * as $iter from "./utils/Iterator";
 
 import { system } from "./System";
 
-import { Percent } from "./utils/Percent";
+import { Percent, percent } from "./utils/Percent";
 
 
 /**
@@ -138,8 +138,8 @@ export interface ISpriteProperties {
 	visible?: boolean;
 	tooltipText?: string;
 	tooltipHTML?: string;
-	tooltipX?: number;
-	tooltipY?: number;
+	tooltipX?: number | Percent;
+	tooltipY?: number | Percent;
 	alwaysShowTooltip?: boolean;
 	tooltipPosition?: "fixed" | "pointer";
 	interactionsEnabled?: boolean;
@@ -971,6 +971,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		this.setPropertyValue("tooltipPosition", "fixed");
 		this.setPropertyValue("verticalCenter", "none");
 		this.setPropertyValue("horizontalCenter", "none");
+
+		this.setPropertyValue("tooltipX", percent(50));
+		this.setPropertyValue("tooltipX", percent(50));		
 
 		this.setPropertyValue("marginTop", 0);
 		this.setPropertyValue("marginBottom", 0);
@@ -8596,8 +8599,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		else {
 			// Point to the X/Y of this Sprite
 			let globalPoint = $utils.spritePointToSvg({
-				"x": this.tooltipX,
-				"y": this.tooltipY
+				"x": this.getTooltipX(),
+				"y": this.getTooltipY()
 			}, this);
 
 			return this.pointTooltipTo(globalPoint);
@@ -8744,9 +8747,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 *
 	 * @param value  Tooltip X (px)
 	 */
-	public set tooltipX(value: number) {
-		value = $type.toNumber(value);
-		if (this.setPropertyValue("tooltipX", value) && this.tooltip) {
+	public set tooltipX(value: number | Percent) {
+		if (this.setPercentProperty("tooltipX", value) && this.tooltip) {
 			this.tooltip.invalidate();
 		}
 	}
@@ -8754,7 +8756,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	/**
 	 * @return Tooltip X (px)
 	 */
-	public get tooltipX(): number {
+	public get tooltipX(): number | Percent {
 		return this.getTooltipX();
 	}
 
@@ -8849,10 +8851,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 *
 	 * @param value  Tooltip Y (px)
 	 */
-	public set tooltipY(value: number) {
-		value = $type.toNumber(value);
-
-		if (this.setPropertyValue("tooltipY", value) && this.tooltip) {
+	public set tooltipY(value: number | Percent) {
+		if (this.setPercentProperty("tooltipY", value) && this.tooltip) {
 			this.tooltip.invalidate();
 		}
 	}
@@ -8860,7 +8860,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	/**
 	 * @return Tooltip Y (px)
 	 */
-	public get tooltipY(): number {
+	public get tooltipY(): number | Percent {
 		return this.getTooltipY();
 	}
 
@@ -8870,15 +8870,23 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @ignore Exclude from docs
 	 * @return X (px)
 	 */
-	protected getTooltipX(): number {
+	public getTooltipX(): number {
 
 		let x = this.getPropertyValue("tooltipX");
 
-		if (!$type.isNumber(x)) {
-			x = this.maxLeft + this.measuredWidth / 2 - this.pixelPaddingLeft - this.ex; // overflow is know only for measured items, so this is not always good
+		if(!$type.hasValue(x)){
+			x = percent(50);
 		}
 
-		return x;
+		let value:number;
+		if($type.isNumber(x)){
+			value = x;
+		}
+
+		if (x instanceof Percent) {
+			value = this.maxLeft + this.measuredWidth * x.value - this.pixelPaddingLeft - this.ex; // overflow is know only for measured items, so this is not always good
+		}
+		return value;
 	}
 
 	/**
@@ -8887,13 +8895,22 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @ignore Exclude from docs
 	 * @return Y (px)
 	 */
-	protected getTooltipY(): number {
+	public getTooltipY(): number {
 		let y = this.getPropertyValue("tooltipY");
-		if (!$type.isNumber(y)) {
-			y = this.maxTop + this.measuredHeight / 2 - this.pixelPaddingTop - this.ey;  // overflow is know only for measured items, so this is not always good
+
+		if(!$type.hasValue(y)){
+			y = percent(50);
 		}
 
-		return y;
+		let value:number;
+		if($type.isNumber(y)){
+			value = y;
+		}		
+		if (y instanceof Percent) {
+			value = this.maxTop + this.measuredHeight / 2 - this.pixelPaddingTop - this.ey;  // overflow is know only for measured items, so this is not always good
+		}
+
+		return value;
 	}
 
 	/**

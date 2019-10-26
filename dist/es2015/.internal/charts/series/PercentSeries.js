@@ -509,6 +509,9 @@ var PercentSeries = /** @class */ (function (_super) {
      */
     PercentSeries.prototype.validateDataItems = function () {
         this.colors.reset();
+        if (this.patterns) {
+            this.patterns.reset();
+        }
         _super.prototype.validateDataItems.call(this);
     };
     /**
@@ -521,7 +524,15 @@ var PercentSeries = /** @class */ (function (_super) {
         var slice = dataItem.slice;
         if (slice) {
             if (slice.fill == undefined) {
-                slice.fill = this.colors.next();
+                if (this.patterns) {
+                    slice.stroke = this.colors.next();
+                    slice.fill = this.patterns.next();
+                    slice.fill.stroke = slice.stroke;
+                    slice.fill.fill = slice.stroke;
+                }
+                else {
+                    slice.fill = this.colors.next();
+                }
             }
             if (slice.stroke == undefined) {
                 slice.stroke = slice.fill;
@@ -648,6 +659,25 @@ var PercentSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("colors", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PercentSeries.prototype, "patterns", {
+        /**
+         * @return Pattern set
+         */
+        get: function () {
+            return this.getPropertyValue("patterns");
+        },
+        /**
+         * A [[PatternSet]] to use when creating patterned fills for slices.
+         *
+         * @since 4.7.5
+         * @param value  Pattern set
+         */
+        set: function (value) {
+            this.setPropertyValue("patterns", value, true);
         },
         enumerable: true,
         configurable: true

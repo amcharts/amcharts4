@@ -599,20 +599,6 @@ export declare class Container extends Sprite {
      */
     measureElement(): void;
     /**
-     * Returns Tooltip X coordinate if it's set, or middle of the element.
-     *
-     * @ignore Exclude from docs
-     * @return X (px)
-     */
-    protected getTooltipX(): number;
-    /**
-     * Returns Tooltip Y coordinate if it's set, or middle of the element.
-     *
-     * @ignore Exclude from docs
-     * @return Y (px)
-     */
-    protected getTooltipY(): number;
-    /**
      * @return Font family
      */
     /**

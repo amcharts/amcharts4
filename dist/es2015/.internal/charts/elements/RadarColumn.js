@@ -62,11 +62,12 @@ var RadarColumn = /** @class */ (function (_super) {
      * X coordinate for the slice tooltip.
      *
      * @return X
+     * @ignore
      */
     RadarColumn.prototype.getTooltipX = function () {
         var value = this.getPropertyValue("tooltipX");
         if (!$type.isNumber(value)) {
-            value = this.radarColumn.tooltipX;
+            return this.radarColumn.getTooltipX();
         }
         return value;
     };
@@ -74,11 +75,12 @@ var RadarColumn = /** @class */ (function (_super) {
      * Y coordinate for the slice tooltip.
      *
      * @return Y
+     * @ignore
      */
     RadarColumn.prototype.getTooltipY = function () {
         var value = this.getPropertyValue("tooltipX");
         if (!$type.isNumber(value)) {
-            value = this.radarColumn.tooltipY;
+            return this.radarColumn.getTooltipY();
         }
         return value;
     };

@@ -122,6 +122,7 @@ export { nextFrame, readFrame, writeFrame, whenIdle, triggerIdle } from "./.inte
 export { Cache, cache } from "./.internal/core/utils/Cache";
 export { Color, color, isColor, castColor } from "./.internal/core/utils/Color";
 export { ColorSet } from "./.internal/core/utils/ColorSet";
+export { PatternSet } from "./.internal/core/utils/PatternSet";
 export { InterfaceColorSet } from "./.internal/core/utils/InterfaceColorSet";
 export { DictionaryDisposer, Dictionary, DictionaryTemplate } from "./.internal/core/utils/Dictionary";
 export { Disposer, MultiDisposer, MutableValueDisposer, CounterDisposer } from "./.internal/core/utils/Disposer";

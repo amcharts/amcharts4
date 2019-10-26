@@ -14,6 +14,7 @@ import { Container } from "../../core/Container";
 import { Series } from "../series/Series";
 import { percent } from "../../core/utils/Percent";
 import { ColorSet } from "../../core/utils/ColorSet";
+import { PatternSet } from "../../core/utils/PatternSet";
 import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
@@ -71,6 +72,13 @@ export interface ISerialChartProperties extends IChartProperties {
 	 * A set of colors to be used for chart elements, like Series, Slices, etc.
 	 */
 	colors?: ColorSet;
+
+	/**
+	 * A set of patterns to use for fills, like Series, Slices, etc.
+	 * 
+	 * @since 4.7.5
+	 */
+	patterns?: PatternSet;
 
 }
 
@@ -189,6 +197,10 @@ export class SerialChart extends Chart {
 		if (this.colors) {
 			this.colors.dispose();
 		}
+
+		if (this.patterns) {
+			this.patterns.dispose();
+		}
 	}
 
 	/**
@@ -215,16 +227,16 @@ export class SerialChart extends Chart {
 	public get series(): ListTemplate<this["_seriesType"]> {
 		if (!this._series) {
 			this._series = new ListTemplate<this["_seriesType"]>(this.createSeries());
-			this._series.events.on("inserted", (event)=>{
+			this._series.events.on("inserted", (event) => {
 				this.handleSeriesAdded(event);
 			}, undefined, false);
 			this._series.events.on("removed", (event) => {
 				let series = event.oldValue;
 				this.dataUsers.removeValue(series);
-				this.dataUsers.each((dataUser)=>{
+				this.dataUsers.each((dataUser) => {
 					dataUser.invalidateDataItems();
 				})
-				if(series.autoDispose){
+				if (series.autoDispose) {
 					series.dispose();
 				}
 				this.feedLegend();
@@ -244,7 +256,7 @@ export class SerialChart extends Chart {
 	 */
 	public handleSeriesAdded(event: IListEvents<Series>["inserted"]): void {
 		let series: Series = event.newValue;
-		if(series.isDisposed()){
+		if (series.isDisposed()) {
 			return;
 		}
 		series.chart = this;
@@ -253,7 +265,7 @@ export class SerialChart extends Chart {
 		series.bulletsContainer.parent = this.bulletsContainer;
 
 		this._dataUsers.moveValue(series);
-		series.addDisposer(new Disposer(()=>{
+		series.addDisposer(new Disposer(() => {
 			this.dataUsers.removeValue(series);
 		}))
 
@@ -262,10 +274,10 @@ export class SerialChart extends Chart {
 		this.feedLegend();
 	}
 
-	protected handleSeriesAdded2(series:Series){
-		if(!this.dataInvalid){
+	protected handleSeriesAdded2(series: Series) {
+		if (!this.dataInvalid) {
 			this.invalidateData();
-		}		
+		}
 	}
 
 	/**
@@ -278,7 +290,7 @@ export class SerialChart extends Chart {
 			let legendData: Array<this["_seriesType"]> = [];
 
 			$iter.each(this.series.iterator(), (series) => {
-				if(!series.hiddenInLegend){
+				if (!series.hiddenInLegend) {
 					legendData.push(series);
 				}
 			});
@@ -324,6 +336,23 @@ export class SerialChart extends Chart {
 	}
 
 	/**
+	 * A [[PatternSet]] to use when creating patterned fills for slices.
+	 *
+	 * @since 4.7.5
+	 * @param value  Pattern set
+	 */
+	public set patterns(value: PatternSet) {
+		this.setPropertyValue("patterns", value, true);
+	}
+
+	/**
+	 * @return Pattern set
+	 */
+	public get patterns(): PatternSet {
+		return this.getPropertyValue("patterns");
+	}
+
+	/**
 	 * Copies all parameters from another [[SerialChart]].
 	 *
 	 * @param source Source SerialChart
@@ -340,10 +369,10 @@ export class SerialChart extends Chart {
 	public appear() {
 		super.appear();
 
-		this.series.each((series)=>{
-			if(series.showOnInit && series.inited){
-				series.appear();			
-			}			
+		this.series.each((series) => {
+			if (series.showOnInit && series.inited) {
+				series.appear();
+			}
 		})
 	}
 }

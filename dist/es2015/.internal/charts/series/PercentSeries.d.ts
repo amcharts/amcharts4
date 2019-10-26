@@ -17,6 +17,7 @@ import { Container } from "../../core/Container";
 import { Animation } from "../../core/utils/Animation";
 import { LegendDataItem, LegendSettings } from "../../charts/Legend";
 import { ColorSet } from "../../core/utils/ColorSet";
+import { PatternSet } from "../../core/utils/PatternSet";
 import { PercentChart } from "../types/PercentChart";
 import * as $type from "../../core/utils/Type";
 /**
@@ -181,6 +182,12 @@ export interface IPercentSeriesProperties extends ISeriesProperties {
      * this set.
      */
     colors?: ColorSet;
+    /**
+     * Pattern set to apply to fills.
+     *
+     * @since 4.7.5
+     */
+    patterns?: PatternSet;
     /**
      * Align labels into nice vertical columns?
      *
@@ -448,6 +455,16 @@ export declare class PercentSeries extends Series {
      * @param value  Color set
      */
     colors: ColorSet;
+    /**
+     * @return Pattern set
+     */
+    /**
+     * A [[PatternSet]] to use when creating patterned fills for slices.
+     *
+     * @since 4.7.5
+     * @param value  Pattern set
+     */
+    patterns: PatternSet;
     /**
      * Binds related legend data item's visual settings to this series' visual
      * settings.

@@ -278,13 +278,15 @@ export declare class MapLine extends MapObject {
     /**
      * X coordinate for the slice tooltip.
      *
+     * @ignore
      * @return X
      */
-    protected getTooltipX(): number;
+    getTooltipX(): number;
     /**
      * Y coordinate for the slice tooltip.
      *
+     * @ignore
      * @return Y
      */
-    protected getTooltipY(): number;
+    getTooltipY(): number;
 }

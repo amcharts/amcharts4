@@ -1451,24 +1451,6 @@ var Container = /** @class */ (function (_super) {
             this.validateLayout();
         }
     };
-    /**
-     * Returns Tooltip X coordinate if it's set, or middle of the element.
-     *
-     * @ignore Exclude from docs
-     * @return X (px)
-     */
-    Container.prototype.getTooltipX = function () {
-        return _super.prototype.getTooltipX.call(this);
-    };
-    /**
-     * Returns Tooltip Y coordinate if it's set, or middle of the element.
-     *
-     * @ignore Exclude from docs
-     * @return Y (px)
-     */
-    Container.prototype.getTooltipY = function () {
-        return _super.prototype.getTooltipY.call(this);
-    };
     Object.defineProperty(Container.prototype, "fontFamily", {
         /**
          * @return Font family

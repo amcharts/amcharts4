@@ -15,6 +15,7 @@ import * as $math from "../utils/Math";
 import * as $path from "../rendering/Path";
 import * as $type from "../utils/Type";
 import * as $utils from "../utils/Utils";
+import { Percent } from "../utils/Percent";
 import { RadialGradient } from "../rendering/fills/RadialGradient";
 /**
  * ============================================================================
@@ -339,11 +340,15 @@ var Slice = /** @class */ (function (_super) {
      */
     Slice.prototype.getTooltipX = function () {
         var value = this.getPropertyValue("tooltipX");
-        if (!$type.isNumber(value)) {
-            var innerRadius = $utils.relativeToValue(this.innerRadius, this.radius);
-            value = this.ix * (innerRadius + (this.radius - innerRadius) / 2);
+        if ($type.isNumber(value)) {
+            return value;
         }
-        return value;
+        var p = 0.5;
+        if (value instanceof Percent) {
+            p = value.value;
+        }
+        var innerRadius = $utils.relativeToValue(this.innerRadius, this.radius);
+        return this.ix * (innerRadius + (this.radius - innerRadius) * p);
     };
     /**
      * Y coordinate for the slice tooltip.
@@ -352,11 +357,15 @@ var Slice = /** @class */ (function (_super) {
      */
     Slice.prototype.getTooltipY = function () {
         var value = this.getPropertyValue("tooltipY");
-        if (!$type.isNumber(value)) {
-            var innerRadius = $utils.relativeToValue(this.innerRadius, this.radius);
-            value = this.iy * (innerRadius + (this.radiusY - innerRadius) / 2) + this.slice.dy;
+        if ($type.isNumber(value)) {
+            return value;
         }
-        return value;
+        var p = 0.5;
+        if (value instanceof Percent) {
+            p = value.value;
+        }
+        var innerRadius = $utils.relativeToValue(this.innerRadius, this.radius);
+        return this.iy * (innerRadius + (this.radius - innerRadius) * p) + this.slice.dy;
     };
     return Slice;
 }(Container));

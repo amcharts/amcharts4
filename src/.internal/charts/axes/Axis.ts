@@ -1437,7 +1437,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			if (value && this.renderer) {
 				this.renderer.updateTooltip();
 			}
-			else {
+			else if(this.tooltip) {
 				this.tooltip.hide(0);
 			}
 		}

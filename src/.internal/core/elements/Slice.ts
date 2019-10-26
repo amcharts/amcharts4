@@ -424,13 +424,18 @@ export class Slice extends Container {
 	 *
 	 * @return X
 	 */
-	protected getTooltipX(): number {
+	public getTooltipX(): number {
 		let value = this.getPropertyValue("tooltipX");
-		if (!$type.isNumber(value)) {
-			let innerRadius = $utils.relativeToValue(this.innerRadius, this.radius);
-			value = this.ix * (innerRadius + (this.radius - innerRadius) / 2);
+
+		if($type.isNumber(value)){
+			return value;
 		}
-		return value;
+		let p = 0.5;
+		if(value instanceof Percent){
+			p = value.value;
+		}
+		let innerRadius = $utils.relativeToValue(this.innerRadius, this.radius);
+		return this.ix * (innerRadius + (this.radius - innerRadius) * p);
 	}
 
 	/**
@@ -438,13 +443,18 @@ export class Slice extends Container {
 	 *
 	 * @return Y
 	 */
-	protected getTooltipY(): number {
+	public getTooltipY(): number {
 		let value = this.getPropertyValue("tooltipY");
-		if (!$type.isNumber(value)) {
-			let innerRadius = $utils.relativeToValue(this.innerRadius, this.radius);
-			value = this.iy * (innerRadius + (this.radiusY - innerRadius) / 2) + this.slice.dy;
+
+		if($type.isNumber(value)){
+			return value;
 		}
-		return value;
+		let p = 0.5;
+		if(value instanceof Percent){
+			p = value.value;
+		}
+		let innerRadius = $utils.relativeToValue(this.innerRadius, this.radius);
+		return this.iy * (innerRadius + (this.radius - innerRadius) * p) + this.slice.dy;
 	}
 
 }

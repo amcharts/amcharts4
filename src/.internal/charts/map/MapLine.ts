@@ -22,7 +22,7 @@ import { Polyline } from "../../core/elements/Polyline";
 import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
-import { percent } from "../../core/utils/Percent";
+import { percent, Percent } from "../../core/utils/Percent";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
 import { IDisposer } from "../../core/utils/Disposer";
@@ -540,19 +540,29 @@ export class MapLine extends MapObject {
 	/**
 	 * X coordinate for the slice tooltip.
 	 *
+	 * @ignore
 	 * @return X
 	 */
-	protected getTooltipX(): number {
-		return this.positionToPoint(0.5).x;
+	public getTooltipX(): number {
+		let x = this.tooltipX;
+		if(!(x instanceof Percent)){
+			x = percent(50);
+		}
+		return this.positionToPoint(x.value).x;
 	}
 
 	/**
 	 * Y coordinate for the slice tooltip.
 	 *
+	 * @ignore
 	 * @return Y
 	 */
-	protected getTooltipY(): number {
-		return this.positionToPoint(0.5).y;
+	public getTooltipY(): number {
+		let y = this.tooltipY;
+		if(!(y instanceof Percent)){
+			y = percent(50);
+		}		
+		return this.positionToPoint(y.value).y;
 	}
 
 }

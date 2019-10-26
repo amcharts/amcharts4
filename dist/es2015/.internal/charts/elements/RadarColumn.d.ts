@@ -82,12 +82,14 @@ export declare class RadarColumn extends Column {
      * X coordinate for the slice tooltip.
      *
      * @return X
+     * @ignore
      */
-    protected getTooltipX(): number;
+    getTooltipX(): number;
     /**
      * Y coordinate for the slice tooltip.
      *
      * @return Y
+     * @ignore
      */
-    protected getTooltipY(): number;
+    getTooltipY(): number;
 }

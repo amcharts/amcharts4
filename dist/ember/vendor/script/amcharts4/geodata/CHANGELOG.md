@@ -3,17 +3,17 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [4.1.8] - ????-??-??
+## [4.1.8] - 2019-10-23
 
 ### Added
 - New maps: Guatemala, Lebanon, Paraguay.
-- U.S. Congressional Districts maps. Look in `region/usa/congressional`. Use like with prefix `am4geodata_region_usa_congressional_*`.
+- U.S. Congressional Districts maps. Look in `region/usa/congressional`. Use like with prefix `am4geodata_region_usa_congressional_*`. [Usage instructions](https://www.amcharts.com/docs/v4/tutorials/using-us-congressional-districts-maps/).
 - New world map: `worldGreatLakes*`. It's a version of a World Map with the Great Lakes cut out, to make them consistent with US/Canada regional maps.
-- Translation files to country names in various languages added to `lang` directory. Check out their [usage instructions](https://www.amcharts.com/docs/v4/tutorials/using-map-country-name-translations/).
+- Translation files to country names in various languages added to `lang` directory. [Usage instructions](https://www.amcharts.com/docs/v4/tutorials/using-map-country-name-translations/).
 
 ### Fixed
 - Fixed duplicate ids in `russiaCrimea*` maps.
-
+- Updated map of The Netherlans to not include river cutouts.
 
 ## [4.1.7] - 2019-07-31
 

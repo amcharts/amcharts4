@@ -160,6 +160,7 @@ export { Cache, cache } from "./.internal/core/utils/Cache";
 export { IClone } from "./.internal/core/utils/Clone";
 export { Color, iRGB, iHSL, iHSV, color, isColor, castColor } from "./.internal/core/utils/Color";
 export { IColorSetStepOptions, ColorSet } from "./.internal/core/utils/ColorSet";
+export { PatternSet } from "./.internal/core/utils/PatternSet";
 export { IColorPurpose, InterfaceColorSet } from "./.internal/core/utils/InterfaceColorSet";
 export { Constructor } from "./.internal/core/utils/Constructor";
 export { IDictionaryEvents, DictionaryLike, DictionaryDisposer, Dictionary, DictionaryTemplate } from "./.internal/core/utils/Dictionary";

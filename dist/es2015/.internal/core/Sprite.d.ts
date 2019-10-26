@@ -109,8 +109,8 @@ export interface ISpriteProperties {
     visible?: boolean;
     tooltipText?: string;
     tooltipHTML?: string;
-    tooltipX?: number;
-    tooltipY?: number;
+    tooltipX?: number | Percent;
+    tooltipY?: number | Percent;
     alwaysShowTooltip?: boolean;
     tooltipPosition?: "fixed" | "pointer";
     interactionsEnabled?: boolean;
@@ -3752,7 +3752,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @param value  Tooltip X (px)
      */
-    tooltipX: number;
+    tooltipX: number | Percent;
     /**
      * @return Always show tooltip?
      */
@@ -3827,21 +3827,21 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @param value  Tooltip Y (px)
      */
-    tooltipY: number;
+    tooltipY: number | Percent;
     /**
      * Returns Tooltip X coordinate if it's set, or middle of the element.
      *
      * @ignore Exclude from docs
      * @return X (px)
      */
-    protected getTooltipX(): number;
+    getTooltipX(): number;
     /**
      * Returns Tooltip Y coordinate if it's set, or middle of the element.
      *
      * @ignore Exclude from docs
      * @return Y (px)
      */
-    protected getTooltipY(): number;
+    getTooltipY(): number;
     /**
      * Displays a modal or console message with error, and halts any further
      * processing of this item.

@@ -18,6 +18,7 @@ import { Container } from "../../core/Container";
 import { Animation } from "../../core/utils/Animation";
 import { LegendDataItem, LegendSettings } from "../../charts/Legend";
 import { ColorSet } from "../../core/utils/ColorSet";
+import { PatternSet } from "../../core/utils/PatternSet";
 import { registry } from "../../core/Registry";
 import { PercentChart } from "../types/PercentChart";
 import * as $iter from "../../core/utils/Iterator";
@@ -359,6 +360,13 @@ export interface IPercentSeriesProperties extends ISeriesProperties {
 	 * this set.
 	 */
 	colors?: ColorSet;
+
+	/**
+	 * Pattern set to apply to fills.
+	 * 
+	 * @since 4.7.5
+	 */
+	patterns?: PatternSet;
 
 	/**
 	 * Align labels into nice vertical columns?
@@ -712,6 +720,9 @@ export class PercentSeries extends Series {
 	 */
 	public validateDataItems(): void {
 		this.colors.reset();
+		if (this.patterns) {
+			this.patterns.reset();
+		}
 		super.validateDataItems();
 	}
 
@@ -727,7 +738,15 @@ export class PercentSeries extends Series {
 
 		if (slice) {
 			if (slice.fill == undefined) {
-				slice.fill = this.colors.next();
+				if (this.patterns) {
+					slice.stroke = this.colors.next();
+					slice.fill = this.patterns.next();
+					slice.fill.stroke = slice.stroke;
+					slice.fill.fill = slice.stroke;
+				}
+				else {
+					slice.fill = this.colors.next();
+				}
 			}
 			if (slice.stroke == undefined) {
 				slice.stroke = slice.fill;
@@ -877,6 +896,23 @@ export class PercentSeries extends Series {
 	 */
 	public get colors(): ColorSet {
 		return this.getPropertyValue("colors");
+	}
+
+	/**
+	 * A [[PatternSet]] to use when creating patterned fills for slices.
+	 *
+	 * @since 4.7.5
+	 * @param value  Pattern set
+	 */
+	public set patterns(value: PatternSet) {
+		this.setPropertyValue("patterns", value, true);
+	}
+
+	/**
+	 * @return Pattern set
+	 */
+	public get patterns(): PatternSet {
+		return this.getPropertyValue("patterns");
 	}
 
 	/**

@@ -12,6 +12,7 @@ import { IListEvents, ListTemplate } from "../../core/utils/List";
 import { Container } from "../../core/Container";
 import { Series } from "../series/Series";
 import { ColorSet } from "../../core/utils/ColorSet";
+import { PatternSet } from "../../core/utils/PatternSet";
 /**
  * ============================================================================
  * DATA ITEM
@@ -52,6 +53,12 @@ export interface ISerialChartProperties extends IChartProperties {
      * A set of colors to be used for chart elements, like Series, Slices, etc.
      */
     colors?: ColorSet;
+    /**
+     * A set of patterns to use for fills, like Series, Slices, etc.
+     *
+     * @since 4.7.5
+     */
+    patterns?: PatternSet;
 }
 /**
  * Defines events for [[SerialChart]].
@@ -166,6 +173,16 @@ export declare class SerialChart extends Chart {
      * @param value Color list
      */
     colors: ColorSet;
+    /**
+     * @return Pattern set
+     */
+    /**
+     * A [[PatternSet]] to use when creating patterned fills for slices.
+     *
+     * @since 4.7.5
+     * @param value  Pattern set
+     */
+    patterns: PatternSet;
     /**
      * Copies all parameters from another [[SerialChart]].
      *

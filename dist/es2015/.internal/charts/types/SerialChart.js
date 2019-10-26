@@ -96,6 +96,9 @@ var SerialChart = /** @class */ (function (_super) {
         if (this.colors) {
             this.colors.dispose();
         }
+        if (this.patterns) {
+            this.patterns.dispose();
+        }
     };
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they
@@ -217,6 +220,25 @@ var SerialChart = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("colors", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SerialChart.prototype, "patterns", {
+        /**
+         * @return Pattern set
+         */
+        get: function () {
+            return this.getPropertyValue("patterns");
+        },
+        /**
+         * A [[PatternSet]] to use when creating patterned fills for slices.
+         *
+         * @since 4.7.5
+         * @param value  Pattern set
+         */
+        set: function (value) {
+            this.setPropertyValue("patterns", value, true);
         },
         enumerable: true,
         configurable: true

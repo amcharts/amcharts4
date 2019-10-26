@@ -323,6 +323,7 @@ var MapPolygon = /** @class */ (function (_super) {
     /**
      * X coordinate for the slice tooltip.
      *
+     * @ignore
      * @return X
      */
     MapPolygon.prototype.getTooltipX = function () {
@@ -331,6 +332,7 @@ var MapPolygon = /** @class */ (function (_super) {
     /**
      * Y coordinate for the slice tooltip.
      *
+     * @ignore
      * @return Y
      */
     MapPolygon.prototype.getTooltipY = function () {

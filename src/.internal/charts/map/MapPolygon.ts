@@ -421,18 +421,20 @@ export class MapPolygon extends MapObject {
 	/**
 	 * X coordinate for the slice tooltip.
 	 *
+	 * @ignore
 	 * @return X
 	 */
-	protected getTooltipX(): number {
+	public getTooltipX(): number {
 		return this.series.chart.projection.convert({ longitude: this.visualLongitude, latitude: this.visualLatitude }).x;
 	}
 
 	/**
 	 * Y coordinate for the slice tooltip.
 	 *
+	 * @ignore
 	 * @return Y
 	 */
-	protected getTooltipY(): number {
+	public getTooltipY(): number {
 		return this.series.chart.projection.convert({ longitude: this.visualLongitude, latitude: this.visualLatitude }).y
 	}
 }

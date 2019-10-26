@@ -4,28 +4,30 @@ declare const _default: {
         "type": string;
         "geometry": {
             "type": string;
-            "coordinates": number[][][][];
+            "coordinates": number[][][];
         };
         "properties": {
             "name": string;
             "id": string;
-            "NAME_ENG": string;
             "CNTRY": string;
+            "NAME_ENG": string;
             "TYPE": string;
+            "TYPE_ENG": string;
         };
         "id": string;
     } | {
         "type": string;
         "geometry": {
             "type": string;
-            "coordinates": number[][][];
+            "coordinates": number[][][][];
         };
         "properties": {
             "name": string;
             "id": string;
-            "NAME_ENG": string;
             "CNTRY": string;
+            "NAME_ENG": string;
             "TYPE": string;
+            "TYPE_ENG": string;
         };
         "id": string;
     })[];
