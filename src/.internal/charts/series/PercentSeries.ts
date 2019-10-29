@@ -12,6 +12,7 @@ import { Series, SeriesDataItem, ISeriesProperties, ISeriesDataFields, ISeriesAd
 import { ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { Sprite } from "../../core/Sprite";
 import { Label } from "../../core/elements/Label";
+import { Color } from "../../core/utils/Color";
 import { Tick } from "../elements/Tick";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { Container } from "../../core/Container";
@@ -739,10 +740,17 @@ export class PercentSeries extends Series {
 		if (slice) {
 			if (slice.fill == undefined) {
 				if (this.patterns) {
-					slice.stroke = this.colors.next();
+					if (!$type.hasValue(slice.stroke)) {
+						slice.stroke = this.colors.next();
+					}
 					slice.fill = this.patterns.next();
-					slice.fill.stroke = slice.stroke;
-					slice.fill.fill = slice.stroke;
+					if ($type.hasValue(slice.fillOpacity)) {
+						slice.fill.backgroundOpacity = slice.fillOpacity;
+					}
+					if (slice.stroke instanceof Color) {
+						slice.fill.stroke = slice.stroke;
+						slice.fill.fill = slice.stroke;
+					}
 				}
 				else {
 					slice.fill = this.colors.next();

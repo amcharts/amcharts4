@@ -17,5 +17,5 @@
  * PLEASE DO NOT REMOVE THIS COPYRIGHT NOTICE.
  * @hidden
  */
-am4internal_webpackJsonp(["08fc"],{ubb1:function(e,t,a){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=a("01H4"),n=a("W0E6"),o=a("8ZqG"),c=a("MIZb"),i=function(e){if((Object(r.a)(e,"XYChart")||Object(r.a)(e,"PercentSeries"))&&(e.patterns=new n.a),Object(r.a)(e,"Tooltip")){var t=new c.a;e.getFillFromObject=!1,e.fill=t.getFor("alternativeBackground"),e.stroke=t.getFor("text")}Object(r.a)(e,"ColorSet")&&(t=new c.a,e.list=[Object(o.c)(t.getFor("alternativeBackground"))],e.reuse=!0)};window.am4themes_patterns=i}},["ubb1"]);
+am4internal_webpackJsonp(["08fc"],{ubb1:function(t,e,a){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=a("01H4"),o=a("W0E6"),n=a("MIZb"),i=function(t){if((Object(r.a)(t,"XYChart")||Object(r.a)(t,"PercentSeries"))&&(t.patterns=new o.a),(Object(r.a)(t,"XYSeries")||Object(r.a)(t,"PercentSeries"))&&t.tooltip){var e=new n.a;t.tooltip.getFillFromObject=!1,t.tooltip.fill=e.getFor("alternativeBackground"),t.tooltip.label.fill=e.getFor("text"),t.tooltip.background.stroke=e.getFor("alternativeBackground")}Object(r.a)(t,"Pattern")&&(t.backgroundOpacity=1)};window.am4themes_patterns=i}},["ubb1"]);
 //# sourceMappingURL=patterns.js.map

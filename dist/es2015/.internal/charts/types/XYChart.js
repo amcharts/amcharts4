@@ -11,6 +11,7 @@ import * as tslib_1 from "tslib";
 import { SerialChart, SerialChartDataItem } from "./SerialChart";
 import { Container } from "../../core/Container";
 import { List } from "../../core/utils/List";
+import { Color } from "../../core/utils/Color";
 import { ValueAxis } from "../axes/ValueAxis";
 import { DateAxis } from "../axes/DateAxis";
 import { AxisRendererX } from "../axes/AxisRendererX";
@@ -733,16 +734,23 @@ var XYChart = /** @class */ (function (_super) {
             $utils.used(series.yAxis); // this is enough to get axis, handled in getter
             if (series.fill == undefined) {
                 if (this.patterns) {
-                    series.stroke = this.colors.next();
+                    if (!$type.hasValue(series.stroke)) {
+                        series.stroke = this.colors.next();
+                    }
                     series.fill = this.patterns.next();
-                    series.fill.stroke = series.stroke;
-                    series.fill.fill = series.stroke;
+                    if ($type.hasValue(series.fillOpacity)) {
+                        series.fill.backgroundOpacity = series.fillOpacity;
+                    }
+                    if (series.stroke instanceof Color) {
+                        series.fill.stroke = series.stroke;
+                        series.fill.fill = series.stroke;
+                    }
                 }
                 else {
                     series.fill = this.colors.next();
                 }
             }
-            if (series.stroke == undefined) {
+            if (!$type.hasValue(series.stroke)) {
                 series.stroke = series.fill;
             }
         }

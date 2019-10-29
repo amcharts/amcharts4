@@ -14,6 +14,7 @@ import { InterfaceColorSet } from "./InterfaceColorSet";
 import { Pattern } from "../rendering/fills/Pattern";
 import { LinePattern } from "../rendering/fills/LinePattern";
 import { RectPattern } from "../rendering/fills/RectPattern";
+import { Circle } from "../elements/Circle";
 import { registry } from "../Registry";
 
 
@@ -88,13 +89,14 @@ export class PatternSet extends BaseObject {
 		// Set default patterns
 		this.list = [
 			this.getLinePattern(6, 45, 1),
-			this.getRectPattern(6, 0, 2),
+			this.getRectPattern(5, 0, 2),
 			this.getLinePattern(6, 90, 1),
-			this.getRectPattern(3, 0, 1),
+			this.getCirclePattern(8, 0, 2),
 			this.getLinePattern(6, 0, 1),
-			//this.getCirclePattern(20, 0, 10),
-			this.getLinePattern(6, 45, 2),
+			this.getRectPattern(3, 0, 1),
 			this.getLinePattern(6, 90, 3),
+			this.getRectPattern(6, 0, 4),
+			this.getLinePattern(6, 45, 2),
 			this.getRectPattern(2, 0, 1),
 			this.getLinePattern(6, 0, 3),
 		];
@@ -121,29 +123,25 @@ export class PatternSet extends BaseObject {
 		pattern.rectHeight = thickness;
 		pattern.fill = this.baseColor;
 		pattern.strokeWidth = 0;
+		pattern.element.attr({ transform: "translate(" + ((size - thickness) / 2) + ", " + ((size - thickness) / 2) + ")" });
 		pattern.rotation = rotation;
 		return pattern;
 	}
 
-	/*public getCirclePattern(size: number, rotation: number, thickness: number): Pattern {
+	public getCirclePattern(size: number, rotation: number, thickness: number): Pattern {
 		let pattern = new Pattern();
 		pattern.width = size;
 		pattern.height = size;
 
 		let circle = new Circle()
-		circle.width = thickness * 2;
-		circle.height = thickness * 2;
 		circle.radius = thickness;
 		circle.fill = this.baseColor;
 		circle.strokeWidth = 0;
-		circle.x = size / 2
-		circle.horizontalCenter = "left";
-		circle.dy = thickness / 2
-		circle.strokeWidth = 0;
+		circle.element.attr({ transform: "translate(" + (size / 2) + ", " + (size / 2) + ")" });
 		pattern.addElement(circle.element);
 
 		return pattern;
-	}*/
+	}
 
 	/**
 	 * List of pre-defined patterns to be used in set.
@@ -181,7 +179,7 @@ export class PatternSet extends BaseObject {
 	 */
 	public getIndex(i: number): Pattern {
 		let pattern;
-		while(this.list.length <= this._currentStep) {
+		while (this.list.length <= this._currentStep) {
 			this.generatePatterns();
 		}
 		pattern = this.list[this._currentStep];
@@ -194,7 +192,7 @@ export class PatternSet extends BaseObject {
 	private generatePatterns(): void {
 		const count = this.list.length / (this._currentPass + 1);
 		this._currentPass++;
-		for(let i = 0; i < count; i++) {
+		for (let i = 0; i < count; i++) {
 			this.list.push(this.list[i].clone());
 		}
 	}

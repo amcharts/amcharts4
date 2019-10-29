@@ -63,6 +63,7 @@ export declare class PatternSet extends BaseObject {
     constructor();
     getLinePattern(size: number, rotation: number, thickness: number): LinePattern;
     getRectPattern(size: number, rotation: number, thickness: number): RectPattern;
+    getCirclePattern(size: number, rotation: number, thickness: number): Pattern;
     /**
      * @return Pattern list
      */

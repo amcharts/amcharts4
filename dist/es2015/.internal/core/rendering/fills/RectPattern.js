@@ -29,19 +29,18 @@ var RectPattern = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.rectHeight = 1;
         _this.rectWidth = 1;
+        _this._rect = _this.paper.add("rect");
+        _this.addElement(_this._rect);
         return _this;
     }
     /**
      * Draws the rectangular element.
      */
     RectPattern.prototype.draw = function () {
-        if (this._rect) {
-            this.removeElement(this._rect);
-        }
-        this._rect = this.paper.add("rect");
-        this._rect.attr({ "width": this.rectWidth, "height": this.rectHeight });
-        this.addElement(this._rect);
         _super.prototype.draw.call(this);
+        if (this._rect) {
+            this._rect.attr({ "width": this.rectWidth, "height": this.rectHeight });
+        }
     };
     Object.defineProperty(RectPattern.prototype, "rectWidth", {
         /**

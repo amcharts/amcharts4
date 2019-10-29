@@ -59,21 +59,18 @@ export class RectPattern extends Pattern {
 		super();
 		this.rectHeight = 1;
 		this.rectWidth = 1;
+		this._rect = this.paper.add("rect");
+		this.addElement(this._rect);
 	}
 
 	/**
 	 * Draws the rectangular element.
 	 */
 	protected draw(): void {
-		if (this._rect) {
-			this.removeElement(this._rect);
-		}
-
-		this._rect = this.paper.add("rect");
-		this._rect.attr({ "width": this.rectWidth, "height": this.rectHeight });
-		this.addElement(this._rect);
-
 		super.draw();
+		if (this._rect) {
+			this._rect.attr({ "width": this.rectWidth, "height": this.rectHeight });
+		}
 	}
 
 	/**

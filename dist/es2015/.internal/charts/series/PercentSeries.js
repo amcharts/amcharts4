@@ -11,6 +11,7 @@ import * as tslib_1 from "tslib";
 import { Series, SeriesDataItem } from "./Series";
 import { Sprite } from "../../core/Sprite";
 import { Label } from "../../core/elements/Label";
+import { Color } from "../../core/utils/Color";
 import { Tick } from "../elements/Tick";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { Container } from "../../core/Container";
@@ -18,6 +19,7 @@ import { ColorSet } from "../../core/utils/ColorSet";
 import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $ease from "../../core/utils/Ease";
+import * as $type from "../../core/utils/Type";
 import { Disposer } from "../../core/utils/Disposer";
 import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive";
 /**
@@ -525,10 +527,17 @@ var PercentSeries = /** @class */ (function (_super) {
         if (slice) {
             if (slice.fill == undefined) {
                 if (this.patterns) {
-                    slice.stroke = this.colors.next();
+                    if (!$type.hasValue(slice.stroke)) {
+                        slice.stroke = this.colors.next();
+                    }
                     slice.fill = this.patterns.next();
-                    slice.fill.stroke = slice.stroke;
-                    slice.fill.fill = slice.stroke;
+                    if ($type.hasValue(slice.fillOpacity)) {
+                        slice.fill.backgroundOpacity = slice.fillOpacity;
+                    }
+                    if (slice.stroke instanceof Color) {
+                        slice.fill.stroke = slice.stroke;
+                        slice.fill.fill = slice.stroke;
+                    }
                 }
                 else {
                     slice.fill = this.colors.next();

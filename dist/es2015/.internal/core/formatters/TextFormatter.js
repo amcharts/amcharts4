@@ -95,6 +95,7 @@ var TextFormatter = /** @class */ (function (_super) {
         return text.
             replace(/\[\[/g, registry.getPlaceholder("1")).
             replace(/([^\/]{1})\]\]/g, "$1" + registry.getPlaceholder("2")).
+            replace(/\]\]/g, registry.getPlaceholder("2")).
             replace(/\{\{/g, registry.getPlaceholder("3")).
             replace(/\}\}/g, registry.getPlaceholder("4")).
             replace(/\'\'/g, registry.getPlaceholder("5"));

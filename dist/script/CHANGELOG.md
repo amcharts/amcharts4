@@ -5,11 +5,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.6] - 2019-10-29
+
+### Added
+- Added more pre-set patterns to `PatternSet`, including one with circles.
+
+### Changed
+- Using `patterns` theme will no longer reset Series' colors.
+- Using `patterns` theme now respects series' `fillOpacity` setting to set pattern background transparency.
+
+### Fixed
+- Formatted strings were being cut off at specific `\]]` character combination.
+- `LineSeries` with `RectPattern` for a fill was failing on chart with a legend.
+
+
 ## [4.7.5] - 2019-10-26
 
 ### Added
 - New theme: `microchart`. Automatically adapts all charts for very small containers.
 - New theme: `patterns`. Automatically fills `ColumnSeries` and `PercentSeries` with distinctive patterns.
+- New object `PatternSet` used in conjunction with `XYChart` or `PercentSeries` to auto-assign distinctive pattern fills.
+- New property `patterns` on `XYChart` and `PercentSeries`.
 
 ### Changed
 - `tooltipX` and `tooltipY` properties now can be set in `Percent` for relative positioning.

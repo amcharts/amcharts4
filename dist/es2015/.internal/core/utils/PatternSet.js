@@ -11,8 +11,10 @@ import * as tslib_1 from "tslib";
 import { BaseObject } from "../Base";
 import { Color } from "./Color";
 import { InterfaceColorSet } from "./InterfaceColorSet";
+import { Pattern } from "../rendering/fills/Pattern";
 import { LinePattern } from "../rendering/fills/LinePattern";
 import { RectPattern } from "../rendering/fills/RectPattern";
+import { Circle } from "../elements/Circle";
 import { registry } from "../Registry";
 /**
  * ============================================================================
@@ -75,13 +77,14 @@ var PatternSet = /** @class */ (function (_super) {
         // Set default patterns
         _this.list = [
             _this.getLinePattern(6, 45, 1),
-            _this.getRectPattern(6, 0, 2),
+            _this.getRectPattern(5, 0, 2),
             _this.getLinePattern(6, 90, 1),
-            _this.getRectPattern(3, 0, 1),
+            _this.getCirclePattern(8, 0, 2),
             _this.getLinePattern(6, 0, 1),
-            //this.getCirclePattern(20, 0, 10),
-            _this.getLinePattern(6, 45, 2),
+            _this.getRectPattern(3, 0, 1),
             _this.getLinePattern(6, 90, 3),
+            _this.getRectPattern(6, 0, 4),
+            _this.getLinePattern(6, 45, 2),
             _this.getRectPattern(2, 0, 1),
             _this.getLinePattern(6, 0, 3),
         ];
@@ -106,7 +109,20 @@ var PatternSet = /** @class */ (function (_super) {
         pattern.rectHeight = thickness;
         pattern.fill = this.baseColor;
         pattern.strokeWidth = 0;
+        pattern.element.attr({ transform: "translate(" + ((size - thickness) / 2) + ", " + ((size - thickness) / 2) + ")" });
         pattern.rotation = rotation;
+        return pattern;
+    };
+    PatternSet.prototype.getCirclePattern = function (size, rotation, thickness) {
+        var pattern = new Pattern();
+        pattern.width = size;
+        pattern.height = size;
+        var circle = new Circle();
+        circle.radius = thickness;
+        circle.fill = this.baseColor;
+        circle.strokeWidth = 0;
+        circle.element.attr({ transform: "translate(" + (size / 2) + ", " + (size / 2) + ")" });
+        pattern.addElement(circle.element);
         return pattern;
     };
     Object.defineProperty(PatternSet.prototype, "list", {
@@ -116,25 +132,6 @@ var PatternSet = /** @class */ (function (_super) {
         get: function () {
             return this._list;
         },
-        /*public getCirclePattern(size: number, rotation: number, thickness: number): Pattern {
-            let pattern = new Pattern();
-            pattern.width = size;
-            pattern.height = size;
-    
-            let circle = new Circle()
-            circle.width = thickness * 2;
-            circle.height = thickness * 2;
-            circle.radius = thickness;
-            circle.fill = this.baseColor;
-            circle.strokeWidth = 0;
-            circle.x = size / 2
-            circle.horizontalCenter = "left";
-            circle.dy = thickness / 2
-            circle.strokeWidth = 0;
-            pattern.addElement(circle.element);
-    
-            return pattern;
-        }*/
         /**
          * List of pre-defined patterns to be used in set.
          *
