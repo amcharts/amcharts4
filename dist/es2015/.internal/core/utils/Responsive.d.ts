@@ -152,6 +152,10 @@ export declare class Responsive extends BaseObjectEvents {
         [index: string]: boolean;
     };
     /**
+     * Used to keep track of objects that have rules applied at the moment.
+     */
+    protected _appliedTargets: string[];
+    /**
      * Use default rules in addition to the user-defined ones?
      */
     protected _useDefault: boolean;

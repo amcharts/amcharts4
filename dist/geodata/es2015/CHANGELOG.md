@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.1.9] - ????-??-??
+
+### Added
+- New maps: Malawi, Mauritania.
+- A set of Canada county maps in `region/canada`.
+- New data JSON file added `countries2.json` which contains a lot of information about each country, including which maps correspond country code and related continent.
+
+
 ## [4.1.8] - 2019-10-23
 
 ### Added

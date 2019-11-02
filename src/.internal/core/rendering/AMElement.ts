@@ -352,6 +352,16 @@ export class AMElement implements IDisposer {
 	private _y: number = 0;
 
 	/**
+	 * 
+	 */
+	private _rotationY: number = 0;	
+
+	/**
+	 * 
+	 */
+	private _rotationX: number = 0;		
+
+	/**
 	 * Current rotation.
 	 */
 	private _rotation: number = 0;
@@ -425,7 +435,13 @@ export class AMElement implements IDisposer {
 		}
 
 		if (this._rotation != 0) {
-			transfromString += ((transfromString ? " " : "") + "rotate(" + this._rotation + ")");
+			let rotateString = "rotate(" + this._rotation + ")";
+
+			if(this._rotationX && this._rotationY){
+				rotateString = "rotate(" + this._rotation + " " + this._rotationX + " " + this._rotationY + ")";
+			}
+
+			transfromString += ((transfromString ? " " : "") + rotateString);
 		}
 
 		this._transformString = transfromString;
@@ -574,6 +590,40 @@ export class AMElement implements IDisposer {
 	public get rotation(): number {
 		return this._rotation;
 	}
+
+	/**
+	 * @ignore
+	 */
+	public set rotationX(x: number) {
+		if (this._rotationX != x) {
+			this._rotationX = x;
+			this.transform();
+		}
+	}	
+
+	/**
+	 * @ignore
+	 */
+	public get rotationX():number{
+		return this._rotationX;
+	}
+
+	/**
+	 * @ignore
+	 */
+	public set rotationY(y: number) {
+		if (this._rotationY != y) {
+			this._rotationY = y;
+			this.transform();
+		}
+	}	
+
+	/**
+	 * @ignore
+	 */
+	public get rotationY():number{
+		return this._rotationY;
+	}	
 
 	/**
 	 * Element's scale where 1 is original size.

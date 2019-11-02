@@ -121,6 +121,10 @@ export declare class SliceGrouper extends Plugin {
     protected _clickBehavior: "none" | "break" | "zoom";
     protected _ignoreDataUpdate: boolean;
     /**
+     * Is group slice currently closed or expanded?
+     */
+    protected _closed: boolean;
+    /**
      * Constructor
      */
     constructor();

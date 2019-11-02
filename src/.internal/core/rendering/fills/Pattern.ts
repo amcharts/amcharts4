@@ -52,7 +52,10 @@ export interface PatternProperties {
 	strokeWidth: number;
 	shapeRendering: ShapeRendering;
 	rotation: number;
+	rotationX: number;
+	rotationY: number;
 	patternUnits: PatternUnits;
+	strokeDashArray:string;
 };
 
 
@@ -163,10 +166,12 @@ export class Pattern extends BaseObject implements IAnimatable {
 			background.attr({ "width": this.width, "height": this.height, "shape-rendering": "crispEdges", "fill": this.backgroundFill.hex, "fill-opacity": this.backgroundOpacity, "stroke": this.backgroundFill.hex, "stroke-opacity": this.backgroundOpacity });
 			patternElement.add(background);
 
-			patternElement.attr({ "x": this.x, "y": this.y, "width": this.width, "height": this.height, "stroke": this.stroke.hex, "fill": this.fill.hex, "fill-opacity": this.fillOpacity, "stroke-opacity": this.strokeOpacity, "stroke-width": this.strokeWidth, "shape-rendering": this.shapeRendering, "patternUnits": this.patternUnits });
+			patternElement.attr({ "x": this.x, "y": this.y, "width": this.width, "height": this.height, "stroke": this.stroke.hex, "fill": this.fill.hex, "fill-opacity": this.fillOpacity, "stroke-opacity": this.strokeOpacity, "stroke-width": this.strokeWidth, "shape-rendering": this.shapeRendering, "patternUnits": this.patternUnits, "stroke-dasharray":this.strokeDasharray });
 
 			$iter.each(this._elements.iterator(), (element) => {
 				element.rotation = this.rotation;
+				element.rotationX = this.properties["rotationX"];
+				element.rotationY = this.properties["rotationY"];
 				this.element.add(element);
 			});
 		}
@@ -500,6 +505,26 @@ export class Pattern extends BaseObject implements IAnimatable {
 		}
 		return this._animations;
 	}
+
+	/**
+	 * A `stroke-dasharray` for the stroke (outline).
+	 *
+	 * "Dasharray" allows setting rules to make lines dashed, dotted, etc.
+	 *
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray} for more info on `stroke-dasharray`
+	 * @param value  `stroke-dasharray`
+	 */
+	public set strokeDasharray(value: string) {
+		this.properties["strokeDashArray"] = value;
+		this.draw();
+	}
+
+	/**
+	 * @return `stroke-dasharray`
+	 */
+	public get strokeDasharray(): string {
+		return this.properties["strokeDashArray"];
+	}		
 
 
 	/**

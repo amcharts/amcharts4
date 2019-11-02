@@ -44,7 +44,12 @@ export class NumberFormatter extends BaseObject {
 	 *
 	 * @default #,###.#####
 	 */
-	protected _numberFormat = "#,###.#####";
+	protected _numberFormat: string | Intl.NumberFormatOptions = "#,###.#####";
+
+	/**
+	 * Locales to use when formatting using Intl.NumberFormatter
+	 */
+	protected _intlLocales: string;
 
 	/**
 	 * Output format to produce. If the format calls for applying color to the
@@ -142,37 +147,55 @@ export class NumberFormatter extends BaseObject {
 	 * @param format  Format to apply
 	 * @return Formatted number
 	 */
-	public format(value: number | string, format?: string): string {
+	public format(value: number | string, format?: string |  Intl.NumberFormatOptions): string {
 
 		// no format passed in or "Number"
-		if (typeof format === "undefined" || format.toLowerCase() === "number") {
+		if (typeof format === "undefined" || ($type.isString(format) && format.toLowerCase() === "number")) {
 			format = this._numberFormat;
 		}
 
-		// Clean format
-		format = $utils.cleanFormat(format);
+		// Init return value
+		let formatted;
 
-		// Get format info (it will also deal with parser caching)
-		let info = this.parseFormat(format, this.language);
-
-		// cast to number just in case
+		// Cast to number just in case
 		// TODO: maybe use better casting
 		let source: number = Number(value);
 
-		// format and replace the number
-		let details;
-		if (source > this._negativeBase) {
-			details = info.positive;
-		}
-		else if (source < this._negativeBase) {
-			details = info.negative;
+		// Is it a built-in format or Intl.NumberFormatOptions
+		if (format instanceof Object) {
+
+			if (this.intlLocales) {
+				return new Intl.NumberFormat(this.intlLocales, <Intl.NumberFormatOptions>format).format(source);
+			}
+			else {
+				return new Intl.NumberFormat(undefined, <Intl.NumberFormatOptions>format).format(source);
+			}
+
 		}
 		else {
-			details = info.zero;
-		}
 
-		// Format
-		let formatted = details.template.split($strings.PLACEHOLDER).join(this.applyFormat(source, details));
+			// Clean format
+			format = $utils.cleanFormat(format);
+
+			// Get format info (it will also deal with parser caching)
+			let info = this.parseFormat(format, this.language);
+
+			// format and replace the number
+			let details;
+			if (source > this._negativeBase) {
+				details = info.positive;
+			}
+			else if (source < this._negativeBase) {
+				details = info.negative;
+			}
+			else {
+				details = info.zero;
+			}
+
+			// Format
+			formatted = details.template.split($strings.PLACEHOLDER).join(this.applyFormat(source, details));
+
+		}
 
 		return formatted;
 	}
@@ -283,7 +306,7 @@ export class NumberFormatter extends BaseObject {
 
 			// Just "Number"?
 			if (partFormat.toLowerCase() === "number") {
-				partFormat = this._numberFormat;
+				partFormat = $type.isString(this._numberFormat) ? this._numberFormat : "#,###.#####";
 			}
 
 			// Let TextFormatter split into chunks
@@ -389,7 +412,7 @@ export class NumberFormatter extends BaseObject {
 	 * Applies parsed format to a numeric value.
 	 *
 	 * @param value    Value
-	 * @param details  Parsed format as returned by {parseFormat}
+	 * @param details  Parsed format as returned by parseFormat()
 	 * @return Formatted number
 	 */
 	protected applyFormat(value: number, details: any): string {
@@ -584,18 +607,37 @@ export class NumberFormatter extends BaseObject {
 	/**
 	 * Number format.
 	 *
+	 * @default "#,###.#####"
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
 	 * @param format  A format to use for number formatting
 	 */
-	public set numberFormat(format: string) {
+	public set numberFormat(format: string | Intl.NumberFormatOptions) {
 		this._numberFormat = format;
 	}
 
 	/**
 	 * @return A format to use for number formatting
 	 */
-	public get numberFormat(): string {
+	public get numberFormat(): string | Intl.NumberFormatOptions {
 		return this._numberFormat;
+	}
+
+	/**
+	 * Locales if you are using date formats in `Intl.NumberFormatOptions` syntax.
+	 * 
+	 * @see (@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat) about using Intl for number formatting
+	 * @param value Locales
+	 */
+	public set intlLocales(value: string) {
+		this._intlLocales = value;
+		this.invalidateSprite();
+	}
+
+	/**
+	 * @return Date format
+	 */
+	public get intlLocales(): string {
+		return this._intlLocales;
 	}
 
 	/**

@@ -35,6 +35,14 @@ var AMElement = /** @class */ (function () {
          */
         this._y = 0;
         /**
+         *
+         */
+        this._rotationY = 0;
+        /**
+         *
+         */
+        this._rotationX = 0;
+        /**
          * Current rotation.
          */
         this._rotation = 0;
@@ -92,7 +100,11 @@ var AMElement = /** @class */ (function () {
             transfromString += ((transfromString ? " " : "") + "scale(" + this._scale + ")");
         }
         if (this._rotation != 0) {
-            transfromString += ((transfromString ? " " : "") + "rotate(" + this._rotation + ")");
+            var rotateString = "rotate(" + this._rotation + ")";
+            if (this._rotationX && this._rotationY) {
+                rotateString = "rotate(" + this._rotation + " " + this._rotationX + " " + this._rotationY + ")";
+            }
+            transfromString += ((transfromString ? " " : "") + rotateString);
         }
         this._transformString = transfromString;
         this.node.setAttribute("transform", transfromString);
@@ -239,6 +251,44 @@ var AMElement = /** @class */ (function () {
         set: function (angle) {
             if (this._rotation != angle) {
                 this._rotation = angle;
+                this.transform();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AMElement.prototype, "rotationX", {
+        /**
+         * @ignore
+         */
+        get: function () {
+            return this._rotationX;
+        },
+        /**
+         * @ignore
+         */
+        set: function (x) {
+            if (this._rotationX != x) {
+                this._rotationX = x;
+                this.transform();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AMElement.prototype, "rotationY", {
+        /**
+         * @ignore
+         */
+        get: function () {
+            return this._rotationY;
+        },
+        /**
+         * @ignore
+         */
+        set: function (y) {
+            if (this._rotationY != y) {
+                this._rotationY = y;
                 this.transform();
             }
         },

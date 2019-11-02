@@ -11,10 +11,9 @@ import * as tslib_1 from "tslib";
 import { BaseObject } from "../Base";
 import { Color } from "./Color";
 import { InterfaceColorSet } from "./InterfaceColorSet";
-import { Pattern } from "../rendering/fills/Pattern";
 import { LinePattern } from "../rendering/fills/LinePattern";
 import { RectPattern } from "../rendering/fills/RectPattern";
-import { Circle } from "../elements/Circle";
+import { CirclePattern } from "../rendering/fills/CirclePattern";
 import { registry } from "../Registry";
 /**
  * ============================================================================
@@ -76,53 +75,76 @@ var PatternSet = /** @class */ (function (_super) {
         var interfaceColors = new InterfaceColorSet();
         // Set default patterns
         _this.list = [
-            _this.getLinePattern(6, 45, 1),
-            _this.getRectPattern(5, 0, 2),
+            _this.getLinePattern(1000, 45, 1, 6),
+            _this.getRectPattern(10, 0, 4),
+            _this.getLinePattern(1000, -45, 1, 6),
+            _this.getCirclePattern(11, 2, true),
             _this.getLinePattern(6, 90, 1),
-            _this.getCirclePattern(8, 0, 2),
+            _this.getRectPattern(12, 45, 6, true),
             _this.getLinePattern(6, 0, 1),
-            _this.getRectPattern(3, 0, 1),
-            _this.getLinePattern(6, 90, 3),
-            _this.getRectPattern(6, 0, 4),
-            _this.getLinePattern(6, 45, 2),
-            _this.getRectPattern(2, 0, 1),
-            _this.getLinePattern(6, 0, 3),
+            _this.getRectPattern(7, 0, 4),
+            _this.getLinePattern(1000, 45, 2, 3, "4,2"),
+            _this.getCirclePattern(9, 3, false),
+            _this.getLinePattern(1000, -45, 2, 3, "4,2"),
+            _this.getRectPattern(10, 45, Math.sqrt(50)),
+            _this.getLinePattern(1000, -45, 2, 1),
+            _this.getRectPattern(10, 0, 9),
+            _this.getLinePattern(1000, 45, 2, 1),
+            _this.getLinePattern(1000, 0, 3, 1),
+            _this.getRectPattern(10, 45, 10),
+            _this.getLinePattern(1000, 90, 3, 1)
         ];
         _this.baseColor = interfaceColors.getFor("stroke");
         _this.applyTheme();
         return _this;
     }
-    PatternSet.prototype.getLinePattern = function (size, rotation, thickness) {
+    PatternSet.prototype.getLinePattern = function (size, rotation, thickness, gap, strokeDashArray) {
         var pattern = new LinePattern();
         pattern.width = size;
         pattern.height = size;
         pattern.stroke = this.baseColor;
+        pattern.gap = gap;
+        pattern.strokeDasharray = strokeDashArray;
         pattern.strokeWidth = thickness;
         pattern.rotation = rotation;
         return pattern;
     };
-    PatternSet.prototype.getRectPattern = function (size, rotation, thickness) {
+    PatternSet.prototype.getRectPattern = function (size, rotation, thickness, outline) {
         var pattern = new RectPattern();
         pattern.width = size;
         pattern.height = size;
         pattern.rectWidth = thickness;
         pattern.rectHeight = thickness;
-        pattern.fill = this.baseColor;
-        pattern.strokeWidth = 0;
-        pattern.element.attr({ transform: "translate(" + ((size - thickness) / 2) + ", " + ((size - thickness) / 2) + ")" });
+        if (outline) {
+            pattern.stroke = this.baseColor;
+            pattern.strokeWidth = 1;
+            pattern.fillOpacity = 0;
+        }
+        else {
+            pattern.fill = this.baseColor;
+            pattern.strokeWidth = 0;
+        }
+        if (rotation != 0) {
+            pattern.shapeRendering = "auto";
+        }
         pattern.rotation = rotation;
         return pattern;
     };
-    PatternSet.prototype.getCirclePattern = function (size, rotation, thickness) {
-        var pattern = new Pattern();
+    PatternSet.prototype.getCirclePattern = function (size, radius, outline) {
+        var pattern = new CirclePattern();
         pattern.width = size;
         pattern.height = size;
-        var circle = new Circle();
-        circle.radius = thickness;
-        circle.fill = this.baseColor;
-        circle.strokeWidth = 0;
-        circle.element.attr({ transform: "translate(" + (size / 2) + ", " + (size / 2) + ")" });
-        pattern.addElement(circle.element);
+        pattern.shapeRendering = "auto";
+        pattern.radius = radius;
+        if (outline) {
+            pattern.stroke = this.baseColor;
+            pattern.strokeWidth = 1;
+            pattern.fillOpacity = 0;
+        }
+        else {
+            pattern.fill = this.baseColor;
+            pattern.strokeWidth = 0;
+        }
         return pattern;
     };
     Object.defineProperty(PatternSet.prototype, "list", {
@@ -162,11 +184,11 @@ var PatternSet = /** @class */ (function (_super) {
      */
     PatternSet.prototype.getIndex = function (i) {
         var pattern;
-        while (this.list.length <= this._currentStep) {
+        while (this.list.length <= i) {
             this.generatePatterns();
         }
-        pattern = this.list[this._currentStep];
-        return pattern;
+        pattern = this.list[i];
+        return pattern.clone();
     };
     /**
      * Generates a new set of patterns.

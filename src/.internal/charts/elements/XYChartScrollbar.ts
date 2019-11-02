@@ -216,7 +216,7 @@ export class XYChartScrollbar extends Scrollbar {
 			scrollbarChart.xAxes.moveValue(xAxis);
 			xAxis.title.disabled = true;
 			xAxis.rangeChangeDuration = 0;
-			xAxis.id = sourceSeries.uid;
+			//xAxis.id = sourceSeries.uid;
 			let renderer = xAxis.renderer;
 			renderer.ticks.template.disabled = true;
 			renderer.inside = true;

@@ -1616,6 +1616,11 @@ export declare class Export extends Validatable {
      * @param value Field names
      */
     dataFields: any;
+    /**
+     * Called after target chart's data updates.
+     *
+     * @ignore
+     */
     handleDataUpdated(): void;
     /**
      * @return A DateFormatter instance

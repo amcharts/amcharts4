@@ -812,15 +812,21 @@ var MapChart = /** @class */ (function (_super) {
             if (!$type.isNumber(duration)) {
                 duration = this.zoomDuration;
             }
+            var x = mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio;
+            var y = mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio;
+            if (zoomLevel < this.zoomLevel) {
+                x = this.innerWidth / 2 - (this.seriesMaxLeft + (this.seriesMaxRight - this.seriesMaxLeft) / 2) * zoomLevel * this.scaleRatio;
+                y = this.innerHeight / 2 - (this.seriesMaxTop + (this.seriesMaxBottom - this.seriesMaxTop) / 2) * zoomLevel * this.scaleRatio;
+            }
             this._mapAnimation = this.seriesContainer.animate([{
                     property: "scale",
                     to: zoomLevel
                 }, {
                     property: "x", from: this.seriesContainer.pixelX,
-                    to: mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio
+                    to: x
                 }, {
                     property: "y", from: this.seriesContainer.pixelY,
-                    to: mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio
+                    to: y
                 }], duration, this.zoomEasing);
             this._disposers.push(this._mapAnimation.events.on("animationended", function () {
                 _this._zoomGeoPointReal = _this.zoomGeoPoint;

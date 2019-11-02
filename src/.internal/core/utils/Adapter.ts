@@ -393,8 +393,9 @@ export class Adapter<Target, T> {
 	 * @returns                            Adapter set?
 	 */
 	public has<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target, key: Key) => T[Key], priority: number = 0, scope?: C): boolean {
-		// @todo Implement actual check
-		return false;
+		return $iter.contains(this._callbacks.iterator(), (item) => {
+			return item.key === key && item.callback === callback && item.priority === priority && item.scope === scope;
+		});
 	}
 
 	/**

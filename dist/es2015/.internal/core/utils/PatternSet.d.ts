@@ -12,6 +12,7 @@ import { Color } from "./Color";
 import { Pattern } from "../rendering/fills/Pattern";
 import { LinePattern } from "../rendering/fills/LinePattern";
 import { RectPattern } from "../rendering/fills/RectPattern";
+import { CirclePattern } from "../rendering/fills/CirclePattern";
 /**
  * ============================================================================
  * REQUISITES
@@ -61,9 +62,9 @@ export declare class PatternSet extends BaseObject {
      * Constructor
      */
     constructor();
-    getLinePattern(size: number, rotation: number, thickness: number): LinePattern;
-    getRectPattern(size: number, rotation: number, thickness: number): RectPattern;
-    getCirclePattern(size: number, rotation: number, thickness: number): Pattern;
+    getLinePattern(size: number, rotation: number, thickness: number, gap?: number, strokeDashArray?: string): LinePattern;
+    getRectPattern(size: number, rotation: number, thickness: number, outline?: boolean): RectPattern;
+    getCirclePattern(size: number, radius: number, outline: boolean): CirclePattern;
     /**
      * @return Pattern list
      */

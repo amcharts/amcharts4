@@ -38,8 +38,10 @@ var RectPattern = /** @class */ (function (_super) {
      */
     RectPattern.prototype.draw = function () {
         _super.prototype.draw.call(this);
+        this.properties["rotationX"] = this.width / 2;
+        this.properties["rotationY"] = this.height / 2;
         if (this._rect) {
-            this._rect.attr({ "width": this.rectWidth, "height": this.rectHeight });
+            this._rect.attr({ "width": this.rectWidth, "height": this.rectHeight, "x": (this.width - this.rectWidth) / 2, "y": (this.height - this.rectHeight) / 2 });
         }
     };
     Object.defineProperty(RectPattern.prototype, "rectWidth", {

@@ -14,7 +14,7 @@ import { InterfaceColorSet } from "./InterfaceColorSet";
 import { Pattern } from "../rendering/fills/Pattern";
 import { LinePattern } from "../rendering/fills/LinePattern";
 import { RectPattern } from "../rendering/fills/RectPattern";
-import { Circle } from "../elements/Circle";
+import { CirclePattern } from "../rendering/fills/CirclePattern";
 import { registry } from "../Registry";
 
 
@@ -88,58 +88,82 @@ export class PatternSet extends BaseObject {
 
 		// Set default patterns
 		this.list = [
-			this.getLinePattern(6, 45, 1),
-			this.getRectPattern(5, 0, 2),
+			this.getLinePattern(1000, 45, 1, 6),
+			this.getRectPattern(10, 0, 4),
+			this.getLinePattern(1000, -45, 1, 6),
+			this.getCirclePattern(11, 2, true),
 			this.getLinePattern(6, 90, 1),
-			this.getCirclePattern(8, 0, 2),
+			this.getRectPattern(12, 45, 6, true),
 			this.getLinePattern(6, 0, 1),
-			this.getRectPattern(3, 0, 1),
-			this.getLinePattern(6, 90, 3),
-			this.getRectPattern(6, 0, 4),
-			this.getLinePattern(6, 45, 2),
-			this.getRectPattern(2, 0, 1),
-			this.getLinePattern(6, 0, 3),
+			this.getRectPattern(7, 0, 4),
+			this.getLinePattern(1000, 45, 2, 3, "4,2"),
+			this.getCirclePattern(9, 3, false),
+			this.getLinePattern(1000, -45, 2, 3, "4,2"),
+			this.getRectPattern(10, 45, Math.sqrt(50)),
+			this.getLinePattern(1000, -45, 2, 1),
+			this.getRectPattern(10, 0, 9),
+			this.getLinePattern(1000, 45, 2, 1),
+			this.getLinePattern(1000, 0, 3, 1),
+			this.getRectPattern(10, 45, 10),
+			this.getLinePattern(1000, 90, 3, 1)
 		];
 
 		this.baseColor = interfaceColors.getFor("stroke");
 		this.applyTheme();
 	}
 
-	public getLinePattern(size: number, rotation: number, thickness: number): LinePattern {
+	public getLinePattern(size: number, rotation: number, thickness: number, gap?: number, strokeDashArray?: string): LinePattern {
 		let pattern = new LinePattern();
 		pattern.width = size;
 		pattern.height = size;
 		pattern.stroke = this.baseColor;
+		pattern.gap = gap;
+		pattern.strokeDasharray = strokeDashArray;
 		pattern.strokeWidth = thickness;
 		pattern.rotation = rotation;
 		return pattern;
 	}
 
-	public getRectPattern(size: number, rotation: number, thickness: number): RectPattern {
+	public getRectPattern(size: number, rotation: number, thickness: number, outline?:boolean): RectPattern {
 		let pattern = new RectPattern();
 		pattern.width = size;
 		pattern.height = size;
 		pattern.rectWidth = thickness;
 		pattern.rectHeight = thickness;
-		pattern.fill = this.baseColor;
-		pattern.strokeWidth = 0;
-		pattern.element.attr({ transform: "translate(" + ((size - thickness) / 2) + ", " + ((size - thickness) / 2) + ")" });
+
+		if(outline){
+			pattern.stroke = this.baseColor;
+			pattern.strokeWidth = 1;
+			pattern.fillOpacity = 0;
+		}
+		else{
+			pattern.fill = this.baseColor;
+			pattern.strokeWidth = 0;
+		}
+
+		if(rotation != 0){
+			pattern.shapeRendering = "auto";
+		}
+
 		pattern.rotation = rotation;
 		return pattern;
 	}
 
-	public getCirclePattern(size: number, rotation: number, thickness: number): Pattern {
-		let pattern = new Pattern();
+	public getCirclePattern(size: number, radius: number, outline:boolean): CirclePattern {
+		let pattern = new CirclePattern();
 		pattern.width = size;
 		pattern.height = size;
-
-		let circle = new Circle()
-		circle.radius = thickness;
-		circle.fill = this.baseColor;
-		circle.strokeWidth = 0;
-		circle.element.attr({ transform: "translate(" + (size / 2) + ", " + (size / 2) + ")" });
-		pattern.addElement(circle.element);
-
+		pattern.shapeRendering = "auto";
+		pattern.radius = radius;
+		if(outline){
+			pattern.stroke = this.baseColor;
+			pattern.strokeWidth = 1;
+			pattern.fillOpacity = 0;
+		}
+		else{
+			pattern.fill = this.baseColor;
+			pattern.strokeWidth = 0;
+		}
 		return pattern;
 	}
 
@@ -179,11 +203,11 @@ export class PatternSet extends BaseObject {
 	 */
 	public getIndex(i: number): Pattern {
 		let pattern;
-		while (this.list.length <= this._currentStep) {
+		while (this.list.length <= i) {
 			this.generatePatterns();
 		}
-		pattern = this.list[this._currentStep];
-		return pattern;
+		pattern = this.list[i];
+		return pattern.clone();
 	}
 
 	/**

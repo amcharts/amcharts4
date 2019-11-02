@@ -553,7 +553,7 @@ var DateAxis = /** @class */ (function (_super) {
                     else {
                         maxZoomed -= 1;
                         endIndex = series.dataItems.findClosestIndex(maxZoomed, function (x) { return x[field_1]; }, "right");
-                        if (endIndex > 0) {
+                        if (endIndex < series.dataItems.length) {
                             endIndex++;
                         }
                     }

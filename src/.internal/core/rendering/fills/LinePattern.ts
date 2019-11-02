@@ -4,9 +4,14 @@
  * ============================================================================
  * @hidden
  */
-import { Pattern } from "./Pattern";
+import { Pattern, PatternProperties } from "./Pattern";
 import { AMElement } from "../AMElement";
 import { registry } from "../../Registry";
+import * as $path from "../../rendering/Path";
+
+export interface LinePatternProperties extends PatternProperties {
+	gap: number;
+};
 
 
 /**
@@ -27,11 +32,17 @@ export class LinePattern extends Pattern {
 	protected _line: AMElement;
 
 	/**
+	 * Defines property types.
+	 */
+	public _properties!: LinePatternProperties;
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
 		super();
-		this._line = this.paper.add("line");
+		this.properties["gap"] = 0;
+		this._line = this.paper.add("path");
 		this.addElement(this._line);
 	}
 
@@ -40,11 +51,62 @@ export class LinePattern extends Pattern {
 	 */
 	protected draw(): void {
 		super.draw();
+		if (Math.round(this.rotation / 90) != this.rotation / 90) {
+			this.properties["shapeRendering"] = "auto";
+		}
 		if (this._line) {
-			this._line.attr({ "x2": this.width * 2 }); // to solve rotation
+			let w = this.width;
+			let h = this.height;
+
+			let path = "";
+
+			if (!this.gap) {
+				if (Math.round(this.rotation / 90) != this.rotation / 90) {
+					path = $path.moveTo({ x: -w, y: h / 2 }) + $path.lineTo({ x: w * 2, y: h / 2 });
+
+					this.properties["rotationX"] = this.width / 2;
+					this.properties["rotationY"] = this.height / 2;
+				}
+				else {
+					path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: w, y: 0 });
+				}
+			}
+			else {				
+				let step = this.gap + this.strokeWidth;
+				let count = this.height / step;
+
+				for (let i = -count / 2; i < count * 1.5; i++) {
+					if (Math.round(this.rotation / 90) != this.rotation / 90) {
+						path += $path.moveTo({ x: -w, y: (i + 0.5) * step  }) + $path.lineTo({ x: w * 2, y: (i + 0.5) * step });
+
+						this.properties["rotationX"] = this.width / 2;
+						this.properties["rotationY"] = this.height / 2;
+					}
+					else {
+						path += $path.moveTo({ x: -w, y: i * step  }) + $path.lineTo({ x: w * 2, y: i * step });
+					}					
+				}
+			}
+
+			this._line.attr({ "d": path });
 		}
 	}
 
+
+	/**
+	 * @todo mm
+	 */
+	public set gap(value: number) {
+		this.properties["gap"] = value;
+		this.draw();
+	}
+
+	/**
+	 * @return gap
+	 */
+	public get gap(): number {
+		return this.properties["gap"];
+	}
 }
 
 /**

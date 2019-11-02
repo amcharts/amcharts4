@@ -138,7 +138,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             scrollbarChart.xAxes.moveValue(xAxis);
             xAxis.title.disabled = true;
             xAxis.rangeChangeDuration = 0;
-            xAxis.id = sourceSeries.uid;
+            //xAxis.id = sourceSeries.uid;
             var renderer = xAxis.renderer;
             renderer.ticks.template.disabled = true;
             renderer.inside = true;

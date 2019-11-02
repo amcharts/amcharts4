@@ -34,7 +34,11 @@ export declare class NumberFormatter extends BaseObject {
      *
      * @default #,###.#####
      */
-    protected _numberFormat: string;
+    protected _numberFormat: string | Intl.NumberFormatOptions;
+    /**
+     * Locales to use when formatting using Intl.NumberFormatter
+     */
+    protected _intlLocales: string;
     /**
      * Output format to produce. If the format calls for applying color to the
      * formatted value, this setting will determine what markup to use: SVG or
@@ -97,7 +101,7 @@ export declare class NumberFormatter extends BaseObject {
      * @param format  Format to apply
      * @return Formatted number
      */
-    format(value: number | string, format?: string): string;
+    format(value: number | string, format?: string | Intl.NumberFormatOptions): string;
     /**
      * Parses supplied format into structured object which can be used to format
      * the number.
@@ -110,7 +114,7 @@ export declare class NumberFormatter extends BaseObject {
      * Applies parsed format to a numeric value.
      *
      * @param value    Value
-     * @param details  Parsed format as returned by {parseFormat}
+     * @param details  Parsed format as returned by parseFormat()
      * @return Formatted number
      */
     protected applyFormat(value: number, details: any): string;
@@ -133,10 +137,21 @@ export declare class NumberFormatter extends BaseObject {
     /**
      * Number format.
      *
+     * @default "#,###.#####"
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
      * @param format  A format to use for number formatting
      */
-    numberFormat: string;
+    numberFormat: string | Intl.NumberFormatOptions;
+    /**
+     * @return Date format
+     */
+    /**
+     * Locales if you are using date formats in `Intl.NumberFormatOptions` syntax.
+     *
+     * @see (@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat) about using Intl for number formatting
+     * @param value Locales
+     */
+    intlLocales: string;
     /**
      * @return A format to use for number formatting
      */

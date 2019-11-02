@@ -142,6 +142,11 @@ export class SliceGrouper extends Plugin {
 	protected _ignoreDataUpdate: boolean = false;
 
 	/**
+	 * Is group slice currently closed or expanded?
+	 */
+	protected _closed: boolean = true;
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -189,6 +194,15 @@ export class SliceGrouper extends Plugin {
 					item.hiddenInLegend = true;
 					item.hide();
 					item.hidden = true;
+
+					// We need this in order to handle conflict with responsive
+					// functionality
+					item.label.events.on("transitionended", (ev) => {
+						if (this._closed) {
+							item.hide();
+						}
+					});
+					
 					this.smallSlices.push(item.slice);
 				}
 				else {
@@ -263,6 +277,8 @@ export class SliceGrouper extends Plugin {
 			return;
 		}
 
+		this._closed = false;
+
 		// Hide "Other" slice
 		this.groupSlice.dataItem.hide();
 		if (this.syncLegend) {
@@ -309,6 +325,8 @@ export class SliceGrouper extends Plugin {
 		if (this.clickBehavior == "none") {
 			return;
 		}
+
+		this._closed = true;
 
 		// Toggle "Other" slice back on
 		this.groupSlice.events.disableType("shown")

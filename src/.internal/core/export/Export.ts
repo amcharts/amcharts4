@@ -127,7 +127,15 @@ async function getCssRules(s: HTMLStyleElement): Promise<CSSRuleList> {
 // This loads a stylesheet by URL and then calls the function with it
 // TODO this should be moved into utils or something
 async function loadStylesheet(doc: Document, url: string, f: (topUrl: string, rule: CSSRule) => void): Promise<void> {
-	const response = await $net.load(url);
+	let response;
+
+	try {
+		response = await $net.load(url);
+
+	} catch (e) {
+		console.error("Failed to load stylesheet", url, e);
+		return;
+	}
 
 	const s = doc.createElement("style");
 	s.textContent = response.response;
@@ -2926,8 +2934,8 @@ export class Export extends Validatable {
 				if (options.addColumnNames) {
 					dataRow.push(val);
 				}
-				for (let len = this.data.length, i = 0; i < len; i++) {
-					let dataValue = this.data[i][key];
+				for (let len = data.length, i = 0; i < len; i++) {
+					let dataValue = data[i][key];
 					dataRow.push(this.convertToSpecialFormat<"pdf">(key, dataValue, options, true));
 				}
 				content.body.push(this.getPDFDataRow(dataRow, options, undefined, true));
@@ -3245,8 +3253,8 @@ export class Export extends Validatable {
 				if (options.addColumnNames) {
 					dataRow.push(val);
 				}
-				for (let len = this.data.length, i = 0; i < len; i++) {
-					let dataValue = this.data[i][key];
+				for (let len = data.length, i = 0; i < len; i++) {
+					let dataValue = data[i][key];
 					dataRow.push(this.convertToSpecialFormat<"csv">(key, dataValue, options, true));
 				}
 				csv += br + this.getCSVRow(dataRow, options, undefined, true);
@@ -3378,8 +3386,8 @@ export class Export extends Validatable {
 				if (options.addColumnNames) {
 					dataRow.push(val);
 				}
-				for (let len = this.data.length, i = 0; i < len; i++) {
-					let dataValue = this.data[i][key];
+				for (let len = data.length, i = 0; i < len; i++) {
+					let dataValue = data[i][key];
 					dataRow.push(this.convertToSpecialFormat<"html">(key, dataValue, options, true));
 				}
 				html += "\n" + this.getHTMLRow(dataRow, options, undefined, true);
@@ -4249,6 +4257,11 @@ export class Export extends Validatable {
 		}).dataFields;
 	}
 
+	/**
+	 * Called after target chart's data updates.
+	 *
+	 * @ignore
+	 */
 	public handleDataUpdated(): void {
 		if (this._dynamicDataFields) {
 			this._dataFields = undefined;
@@ -4891,7 +4904,7 @@ export class Export extends Validatable {
 	 * export.
 	 *
 	 * If there are invalid elements, it will await for them to be validated.
-	 * 
+	 *
 	 * @return Promise
 	 */
 	private async awaitValidSprites(): Promise<void> {

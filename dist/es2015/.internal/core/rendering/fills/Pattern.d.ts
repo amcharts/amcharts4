@@ -43,7 +43,10 @@ export interface PatternProperties {
     strokeWidth: number;
     shapeRendering: ShapeRendering;
     rotation: number;
+    rotationX: number;
+    rotationY: number;
     patternUnits: PatternUnits;
+    strokeDashArray: string;
 }
 /**
  * ============================================================================
@@ -266,6 +269,18 @@ export declare class Pattern extends BaseObject implements IAnimatable {
      * @return Animation list
      */
     readonly animations: Array<Animation>;
+    /**
+     * @return `stroke-dasharray`
+     */
+    /**
+     * A `stroke-dasharray` for the stroke (outline).
+     *
+     * "Dasharray" allows setting rules to make lines dashed, dotted, etc.
+     *
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray} for more info on `stroke-dasharray`
+     * @param value  `stroke-dasharray`
+     */
+    strokeDasharray: string;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

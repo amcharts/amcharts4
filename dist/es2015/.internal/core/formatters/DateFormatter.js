@@ -143,7 +143,7 @@ var DateFormatter = /** @class */ (function (_super) {
                 return new Intl.DateTimeFormat(this.intlLocales, format).format(date);
             }
             else {
-                return new Intl.DateTimeFormat(null, format).format(date);
+                return new Intl.DateTimeFormat(undefined, format).format(date);
             }
         }
         else {

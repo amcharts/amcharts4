@@ -183,6 +183,11 @@ export class Responsive extends BaseObjectEvents {
 	protected _appliedRules: { [index: string]: boolean } = {};
 
 	/**
+	 * Used to keep track of objects that have rules applied at the moment.
+	 */
+	protected _appliedTargets: string[] = [];
+
+	/**
 	 * Use default rules in addition to the user-defined ones?
 	 */
 	protected _useDefault = true;
@@ -482,11 +487,16 @@ export class Responsive extends BaseObjectEvents {
 					// if they don't have responsive states.
 					if (!defaultStateApplied) {
 						// Nope, reset states (instantly).
-						newTarget.applyCurrentState(0);
+						if ($array.indexOf(this._appliedTargets, newTarget.uid) !== -1) {
+							// But only if this element has any rules applied, otherwise no
+							// point in setting current state
+							newTarget.applyCurrentState(0);
+						}
 						defaultStateApplied = true;
 					}
 
 					// Is this rule currently applied?
+					$array.remove(this._appliedTargets, newTarget.uid);
 					if (this.isApplied($type.getValue(rule.id))) {
 						// Yes. Apply the responsive state
 						state.transitionDuration = 0;
@@ -494,6 +504,7 @@ export class Responsive extends BaseObjectEvents {
 						this.dispatchImmediately("ruleapplied", {
 							rule: rule
 						});
+						$array.replace(this._appliedTargets, newTarget.uid);
 					}
 
 				}

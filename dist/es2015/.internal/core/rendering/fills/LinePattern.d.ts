@@ -4,8 +4,11 @@
  * ============================================================================
  * @hidden
  */
-import { Pattern } from "./Pattern";
+import { Pattern, PatternProperties } from "./Pattern";
 import { AMElement } from "../AMElement";
+export interface LinePatternProperties extends PatternProperties {
+    gap: number;
+}
 /**
  * ============================================================================
  * MAIN CLASS
@@ -21,6 +24,10 @@ export declare class LinePattern extends Pattern {
      */
     protected _line: AMElement;
     /**
+     * Defines property types.
+     */
+    _properties: LinePatternProperties;
+    /**
      * Constructor
      */
     constructor();
@@ -28,4 +35,11 @@ export declare class LinePattern extends Pattern {
      * Draws the pattern.
      */
     protected draw(): void;
+    /**
+     * @return gap
+     */
+    /**
+     * @todo mm
+     */
+    gap: number;
 }

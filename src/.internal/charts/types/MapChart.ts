@@ -764,7 +764,7 @@ export class MapChart extends SerialChart {
 	 */
 	protected handlePanDown(event: IInteractionEvents["down"]): void {
 		let svgPoint = $utils.documentPointToSvg(event.pointer.point, this.htmlContainer);
-		if(svgPoint.x > 0 && svgPoint.y > 0 && svgPoint.x < this.svgContainer.width && svgPoint.y < this.svgContainer.height){
+		if (svgPoint.x > 0 && svgPoint.y > 0 && svgPoint.x < this.svgContainer.width && svgPoint.y < this.svgContainer.height) {
 			// Get local point
 			this._downPointOrig = $utils.documentPointToSprite(event.pointer.point, this.seriesContainer);
 
@@ -779,7 +779,7 @@ export class MapChart extends SerialChart {
 	 * @ignore
 	 */
 	protected handlePanUp(event: IInteractionEvents["down"]): void {
-		if(this._downPointOrig){
+		if (this._downPointOrig) {
 			this.panSprite.dragStop(event.pointer);
 		}
 		this._downPointOrig = undefined;
@@ -809,13 +809,13 @@ export class MapChart extends SerialChart {
 				let downGeoLocal = this.projection.invert(this._downPointOrig);
 
 				let local: IPoint = { x: this.panSprite.pixelX, y: this.panSprite.pixelY };
-				let geoLocal:IGeoPoint;
-				if(local){
+				let geoLocal: IGeoPoint;
+				if (local) {
 					geoLocal = this.projection.invert(local);
 				}
 
 				d3Projection.rotate([dln, dlt, dlg]);
-				if(geoLocal){
+				if (geoLocal) {
 					if (panBehavior == "rotateLat" || panBehavior == "rotateLongLat") {
 						this.deltaLatitude = this._downDeltaLatitude + geoLocal.latitude - downGeoLocal.latitude;
 					}
@@ -853,7 +853,7 @@ export class MapChart extends SerialChart {
 	 * @ignore
 	 */
 	protected updateZoomGeoPoint() {
-		let seriesPoint = $utils.svgPointToSprite({ x: this.innerWidth / 2 + this.pixelPaddingLeft, y: this.innerHeight / 2 + this.pixelPaddingTop}, this.series.getIndex(0));
+		let seriesPoint = $utils.svgPointToSprite({ x: this.innerWidth / 2 + this.pixelPaddingLeft, y: this.innerHeight / 2 + this.pixelPaddingTop }, this.series.getIndex(0));
 		let geoPoint = this.projection.invert(seriesPoint);
 		this._zoomGeoPointReal = geoPoint;
 	}
@@ -1134,7 +1134,7 @@ export class MapChart extends SerialChart {
 
 			projection.chart = this;
 
-			if(this._backgroundSeries){
+			if (this._backgroundSeries) {
 				this._backgroundSeries.invalidate();
 			}
 
@@ -1417,8 +1417,10 @@ export class MapChart extends SerialChart {
 		zoomLevel = $math.fitToRange(zoomLevel, this.minZoomLevel, this.maxZoomLevel);
 
 		let seriesPoint: IPoint = this.projection.convert(point);
-		if(seriesPoint){
+		if (seriesPoint) {
+
 			let svgPoint: IPoint = this.geoPointToSVG(point);
+
 			let mapPoint = $utils.svgPointToSprite(svgPoint, this);
 
 			if (center) {
@@ -1432,16 +1434,26 @@ export class MapChart extends SerialChart {
 				duration = this.zoomDuration;
 			}
 
+			let x = mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio;
+			let y = mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio;
+
+
+			if (zoomLevel < this.zoomLevel) {
+				x = this.innerWidth / 2 - (this.seriesMaxLeft + (this.seriesMaxRight - this.seriesMaxLeft) / 2) * zoomLevel * this.scaleRatio;
+				y = this.innerHeight / 2 - (this.seriesMaxTop + (this.seriesMaxBottom - this.seriesMaxTop) / 2) * zoomLevel * this.scaleRatio;
+			}
+
+
 			this._mapAnimation = this.seriesContainer.animate(
 				[{
 					property: "scale",
 					to: zoomLevel
 				}, {
 					property: "x", from: this.seriesContainer.pixelX,
-					to: mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio
+					to: x
 				}, {
 					property: "y", from: this.seriesContainer.pixelY,
-					to: mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio
+					to: y
 				}], duration, this.zoomEasing);
 
 			this._disposers.push(this._mapAnimation.events.on("animationended", () => {
@@ -2172,7 +2184,7 @@ export class MapChart extends SerialChart {
 	 * @return Assign as function?
 	 */
 	protected asFunction(field: string): boolean {
-		return field == "zoomEasing" ||  super.asIs(field);
+		return field == "zoomEasing" || super.asIs(field);
 	}
 
 }

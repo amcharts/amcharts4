@@ -91,9 +91,11 @@ var Pattern = /** @class */ (function (_super) {
             var background = this.paper.add("rect");
             background.attr({ "width": this.width, "height": this.height, "shape-rendering": "crispEdges", "fill": this.backgroundFill.hex, "fill-opacity": this.backgroundOpacity, "stroke": this.backgroundFill.hex, "stroke-opacity": this.backgroundOpacity });
             patternElement.add(background);
-            patternElement.attr({ "x": this.x, "y": this.y, "width": this.width, "height": this.height, "stroke": this.stroke.hex, "fill": this.fill.hex, "fill-opacity": this.fillOpacity, "stroke-opacity": this.strokeOpacity, "stroke-width": this.strokeWidth, "shape-rendering": this.shapeRendering, "patternUnits": this.patternUnits });
+            patternElement.attr({ "x": this.x, "y": this.y, "width": this.width, "height": this.height, "stroke": this.stroke.hex, "fill": this.fill.hex, "fill-opacity": this.fillOpacity, "stroke-opacity": this.strokeOpacity, "stroke-width": this.strokeWidth, "shape-rendering": this.shapeRendering, "patternUnits": this.patternUnits, "stroke-dasharray": this.strokeDasharray });
             $iter.each(this._elements.iterator(), function (element) {
                 element.rotation = _this.rotation;
+                element.rotationX = _this.properties["rotationX"];
+                element.rotationY = _this.properties["rotationY"];
                 _this.element.add(element);
             });
         }
@@ -456,6 +458,28 @@ var Pattern = /** @class */ (function (_super) {
                 this._disposers.push(new AnimationDisposer(this._animations));
             }
             return this._animations;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Pattern.prototype, "strokeDasharray", {
+        /**
+         * @return `stroke-dasharray`
+         */
+        get: function () {
+            return this.properties["strokeDashArray"];
+        },
+        /**
+         * A `stroke-dasharray` for the stroke (outline).
+         *
+         * "Dasharray" allows setting rules to make lines dashed, dotted, etc.
+         *
+         * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray} for more info on `stroke-dasharray`
+         * @param value  `stroke-dasharray`
+         */
+        set: function (value) {
+            this.properties["strokeDashArray"] = value;
+            this.draw();
         },
         enumerable: true,
         configurable: true

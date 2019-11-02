@@ -72,6 +72,10 @@ var Responsive = /** @class */ (function (_super) {
          */
         _this._appliedRules = {};
         /**
+         * Used to keep track of objects that have rules applied at the moment.
+         */
+        _this._appliedTargets = [];
+        /**
          * Use default rules in addition to the user-defined ones?
          */
         _this._useDefault = true;
@@ -325,10 +329,15 @@ var Responsive = /** @class */ (function (_super) {
                     // if they don't have responsive states.
                     if (!defaultStateApplied) {
                         // Nope, reset states (instantly).
-                        newTarget.applyCurrentState(0);
+                        if ($array.indexOf(_this._appliedTargets, newTarget.uid) !== -1) {
+                            // But only if this element has any rules applied, otherwise no
+                            // point in setting current state
+                            newTarget.applyCurrentState(0);
+                        }
                         defaultStateApplied = true;
                     }
                     // Is this rule currently applied?
+                    $array.remove(_this._appliedTargets, newTarget.uid);
                     if (_this.isApplied($type.getValue(rule.id))) {
                         // Yes. Apply the responsive state
                         state.transitionDuration = 0;
@@ -336,6 +345,7 @@ var Responsive = /** @class */ (function (_super) {
                         _this.dispatchImmediately("ruleapplied", {
                             rule: rule
                         });
+                        $array.replace(_this._appliedTargets, newTarget.uid);
                     }
                 }
             });

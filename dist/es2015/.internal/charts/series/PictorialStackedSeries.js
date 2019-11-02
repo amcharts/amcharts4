@@ -68,6 +68,8 @@ var PictorialStackedSeries = /** @class */ (function (_super) {
         _this.applyTheme();
         _this.startLocation = 0;
         _this.endLocation = 1;
+        _this.align = "center";
+        _this.valign = "middle";
         _this._maskSprite = _this.slicesContainer.createChild(Sprite);
         _this._maskSprite.visible = false;
         _this._maskSprite.zIndex = 100;
@@ -114,22 +116,64 @@ var PictorialStackedSeries = /** @class */ (function (_super) {
         maskSprite.verticalCenter = "middle";
         maskSprite.horizontalCenter = "middle";
         _super.prototype.validateDataElements.call(this);
+        var y;
+        var x;
         if (this.orientation == "vertical") {
-            var y = (maxHeight - newHeight) / 2;
-            this.slicesContainer.y = y;
-            this.labelsContainer.y = y;
-            this.ticksContainer.y = y;
+            if (this.valign == "bottom") {
+                y = (maxHeight - newHeight);
+            }
+            if (this.valign == "middle") {
+                y = (maxHeight - newHeight) / 2;
+            }
+            if (this.valign == "top") {
+                y = 0;
+            }
+            if (this.align == "left") {
+                x = -(maxWidth - newWidth) / 2;
+            }
+            if (this.align == "center") {
+                x = 0;
+            }
+            if (this.align == "right") {
+                x = (maxWidth - newWidth) / 2;
+            }
             this.slices.template.dy = startLocation * newHeight;
+            if (this.alignLabels) {
+                this.slicesContainer.dx = x;
+            }
         }
         else {
-            var x = (maxWidth - newWidth) / 2;
-            this.slicesContainer.x = x;
-            this.labelsContainer.x = x;
-            this.ticksContainer.x = x;
+            if (this.valign == "bottom") {
+                y = (maxHeight - newHeight) / 2;
+            }
+            if (this.valign == "middle") {
+                y = 0;
+            }
+            if (this.valign == "top") {
+                y = -(maxHeight - newHeight) / 2;
+            }
+            if (this.align == "left") {
+                x = 0;
+            }
+            if (this.align == "center") {
+                x = (maxWidth - newWidth) / 2;
+            }
+            if (this.align == "right") {
+                x = (maxWidth - newWidth);
+            }
             this.slices.template.dx = startLocation * newWidth;
+            if (this.alignLabels) {
+                this.slicesContainer.dy = y;
+            }
         }
+        this.slicesContainer.x = x;
+        this.labelsContainer.x = x;
+        this.ticksContainer.x = x;
+        this.slicesContainer.y = y;
+        this.labelsContainer.y = y;
+        this.ticksContainer.y = y;
         if (newWidth > 0 && newHeight > 0) {
-            this.slicesContainer.mask = this._maskSprite;
+            this.slicesContainer.mask = maskSprite;
         }
     };
     /**

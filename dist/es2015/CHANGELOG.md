@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.7] - 2019-11-02
+
+### Added
+- `NumberFormatter` now supports `numberFormat` in [Intl.DateTimeFormatOptions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat) objects. E.g. `chart.numberFormatter.numberFormat = { style: "decimal", minimumFractionDigits: 3 }`. [More info](https://www.amcharts.com/docs/v4/tutorials/formatting-date-time-and-numbers-using-intl-object/).
+- New built-in pattern: `CirclePattern`.
+- `PictorialStackedSeries` now supports `align`/`valign` settings, allowing controlling its position inside chart container.
+
+### Changed
+- Default pattern list in `PatternSet` is expanded and revamped for better look and increased contrast.
+- Pattern elements are now centered, so they work better with `rotation`.
+- `MapChart` now will shift zoom towards center gradually when zooming out.
+
+### Fixed
+- `getIndex()` method of `PatternSet` was always returning current pattern, not particular index.
+- Sometimes Export's user-added `"data"` adapter was kicking in before amCharts built-in adapter, causing data edits to be overwritten.
+- Built-in adapters (e.g. for export `"data"`) sometimes were being added multiple times.
+- Export no longer errors out on pages with missing external CSS files.
+- Using `addData()` on `PercentChart` was reusing colors from the beginning for the newly added slices.
+- `SliceGrouped` on `PercentSeries` when used on a chart with responsive fetures enabled, could display labels of the hidden slices after chart resize.
+- Issue with zooming `DateAxis` with single data item fixed (the single item used to disappear in certain cases).
+
+
 ## [4.7.6] - 2019-10-29
 
 ### Added

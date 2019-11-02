@@ -787,7 +787,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 						maxZoomed -= 1;
 						endIndex = series.dataItems.findClosestIndex(maxZoomed, (x) => <number>x[field], "right");
 
-						if (endIndex > 0) {
+						if (endIndex < series.dataItems.length) {
 							endIndex++;
 						}
 					}

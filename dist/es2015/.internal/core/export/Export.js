@@ -134,29 +134,37 @@ function getCssRules(s) {
 // TODO this should be moved into utils or something
 function loadStylesheet(doc, url, f) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var response, s, rules;
+        var response, e_2, s, rules;
         return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, $net.load(url)];
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, $net.load(url)];
                 case 1:
                     response = _a.sent();
+                    return [3 /*break*/, 3];
+                case 2:
+                    e_2 = _a.sent();
+                    console.error("Failed to load stylesheet", url, e_2);
+                    return [2 /*return*/];
+                case 3:
                     s = doc.createElement("style");
                     s.textContent = response.response;
                     doc.head.appendChild(s);
-                    _a.label = 2;
-                case 2:
-                    _a.trys.push([2, , 5, 6]);
+                    _a.label = 4;
+                case 4:
+                    _a.trys.push([4, , 7, 8]);
                     return [4 /*yield*/, getCssRules(s)];
-                case 3:
+                case 5:
                     rules = _a.sent();
                     return [4 /*yield*/, eachStylesheet(doc, url, rules, f)];
-                case 4:
+                case 6:
                     _a.sent();
-                    return [3 /*break*/, 6];
-                case 5:
+                    return [3 /*break*/, 8];
+                case 7:
                     doc.head.removeChild(s);
                     return [7 /*endfinally*/];
-                case 6: return [2 /*return*/];
+                case 8: return [2 /*return*/];
             }
         });
     });
@@ -774,7 +782,7 @@ var Export = /** @class */ (function (_super) {
                                     if (src !== null) {
                                         // TODO make this faster (don't create Promises for non-url stuff)
                                         var urls = src[1].split(/ *, */).map(function (url) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                                            var a, after, fullUrl, response, url_1, e_2;
+                                            var a, after, fullUrl, response, url_1, e_3;
                                             return tslib_1.__generator(this, function (_a) {
                                                 switch (_a.label) {
                                                     case 0:
@@ -802,8 +810,8 @@ var Export = /** @class */ (function (_super) {
                                                     // TODO should it should escape the URI ?
                                                     return [2 /*return*/, "url(\"" + url_1 + "\")" + after];
                                                     case 7:
-                                                        e_2 = _a.sent();
-                                                        console.error("Failed to load font", fullUrl, e_2);
+                                                        e_3 = _a.sent();
+                                                        console.error("Failed to load font", fullUrl, e_3);
                                                         return [2 /*return*/, null];
                                                     case 8: return [2 /*return*/];
                                                 }
@@ -870,7 +878,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getImage = function (type, options, includeExtras) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var prehidden, canvas, uri, e_3, data, data;
+            var prehidden, canvas, uri, e_4, data, data;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -909,8 +917,8 @@ var Export = /** @class */ (function (_super) {
                         }
                         return [2 /*return*/, uri];
                     case 7:
-                        e_3 = _a.sent();
-                        console.error(e_3.message + "\n" + e_3.stack);
+                        e_4 = _a.sent();
+                        console.error(e_4.message + "\n" + e_4.stack);
                         console.warn("Simple export failed, falling back to advanced export");
                         return [4 /*yield*/, this.getImageAdvanced(type, options, includeExtras)];
                     case 8:
@@ -1345,7 +1353,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.imageToDataURI = function (el, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var img, canvas, uri, e_4;
+            var img, canvas, uri, e_5;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1381,7 +1389,7 @@ var Export = /** @class */ (function (_super) {
                         }
                         return [3 /*break*/, 3];
                     case 2:
-                        e_4 = _a.sent();
+                        e_5 = _a.sent();
                         // Give up and temporarily remove the element's href
                         if (!options || options.keepTainted !== false) {
                             /*this._removedObjects.push({
@@ -1410,7 +1418,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.svgToDataURI = function (el, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var href, data, charset, uri, e_5;
+            var href, data, charset, uri, e_6;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1433,7 +1441,7 @@ var Export = /** @class */ (function (_super) {
                         el.setAttributeNS(Export.XLINK, "href", uri);
                         return [2 /*return*/, uri];
                     case 3:
-                        e_5 = _a.sent();
+                        e_6 = _a.sent();
                         // Disable temporarily
                         if (!options || options.keepTainted !== false) {
                             /*this._removedObjects.push({
@@ -1518,7 +1526,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.simplifiedImageExport = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var cache, canvas, ctx, DOMURL, svg, url, img, e_6, e_7;
+            var cache, canvas, ctx, DOMURL, svg, url, img, e_7, e_8;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1548,7 +1556,7 @@ var Export = /** @class */ (function (_super) {
                         img = _a.sent();
                         return [3 /*break*/, 5];
                     case 4:
-                        e_6 = _a.sent();
+                        e_7 = _a.sent();
                         return [2 /*return*/, false];
                     case 5:
                         ctx.drawImage(img, 0, 0);
@@ -1564,7 +1572,7 @@ var Export = /** @class */ (function (_super) {
                         }
                         return [3 /*break*/, 7];
                     case 6:
-                        e_7 = _a.sent();
+                        e_8 = _a.sent();
                         registry.setCache("simplifiedImageExport", false);
                         return [2 /*return*/, false];
                     case 7: return [2 /*return*/];
@@ -1877,8 +1885,8 @@ var Export = /** @class */ (function (_super) {
                         if (options.addColumnNames) {
                             dataRow.push(val);
                         }
-                        for (var len = _this.data.length, i = 0; i < len; i++) {
-                            var dataValue = _this.data[i][key];
+                        for (var len = data.length, i = 0; i < len; i++) {
+                            var dataValue = data[i][key];
                             dataRow.push(_this.convertToSpecialFormat(key, dataValue, options, true));
                         }
                         content.body.push(_this.getPDFDataRow(dataRow, options, undefined, true));
@@ -2156,8 +2164,8 @@ var Export = /** @class */ (function (_super) {
                         if (options.addColumnNames) {
                             dataRow.push(val);
                         }
-                        for (var len = _this.data.length, i = 0; i < len; i++) {
-                            var dataValue = _this.data[i][key];
+                        for (var len = data.length, i = 0; i < len; i++) {
+                            var dataValue = data[i][key];
                             dataRow.push(_this.convertToSpecialFormat(key, dataValue, options, true));
                         }
                         csv += br + _this.getCSVRow(dataRow, options, undefined, true);
@@ -2269,8 +2277,8 @@ var Export = /** @class */ (function (_super) {
                         if (options.addColumnNames) {
                             dataRow.push(val);
                         }
-                        for (var len = _this.data.length, i = 0; i < len; i++) {
-                            var dataValue = _this.data[i][key];
+                        for (var len = data.length, i = 0; i < len; i++) {
+                            var dataValue = data[i][key];
                             dataRow.push(_this.convertToSpecialFormat(key, dataValue, options, true));
                         }
                         html += "\n" + _this.getHTMLRow(dataRow, options, undefined, true);
@@ -3020,6 +3028,11 @@ var Export = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Called after target chart's data updates.
+     *
+     * @ignore
+     */
     Export.prototype.handleDataUpdated = function () {
         if (this._dynamicDataFields) {
             this._dataFields = undefined;

@@ -315,8 +315,9 @@ var Adapter = /** @class */ (function () {
      */
     Adapter.prototype.has = function (key, callback, priority, scope) {
         if (priority === void 0) { priority = 0; }
-        // @todo Implement actual check
-        return false;
+        return $iter.contains(this._callbacks.iterator(), function (item) {
+            return item.key === key && item.callback === callback && item.priority === priority && item.scope === scope;
+        });
     };
     /**
      * Removes adapter callbacks for the specific `key`.

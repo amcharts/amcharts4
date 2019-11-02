@@ -212,10 +212,10 @@ export class DateFormatter extends BaseObject {
 		if (format instanceof Object) {
 
 			if (this.intlLocales) {
-				return new Intl.DateTimeFormat(this.intlLocales, <Intl.DateTimeFormatOptions>format).format(date)
+				return new Intl.DateTimeFormat(this.intlLocales, <Intl.DateTimeFormatOptions>format).format(date);
 			}
 			else {
-				return new Intl.DateTimeFormat(null, <Intl.DateTimeFormatOptions>format).format(date)
+				return new Intl.DateTimeFormat(undefined, <Intl.DateTimeFormatOptions>format).format(date);
 			}
 
 		}

@@ -880,11 +880,14 @@ export class Component extends Container {
 					}
 				});
 
-				this.data.shift();
-				this._parseDataFrom--;
+				this.data.shift();				
+				if(this._parseDataFrom > 0){
+					this._parseDataFrom--;
+				}
 
 				count--;
 			}
+			this.invalidateData();
 		}
 	}
 
@@ -1800,8 +1803,9 @@ export class Component extends Container {
 	 * @return End index
 	 */
 	public get endIndex(): number {
-		if (!$type.isNumber(this._endIndex)) {
-			this._endIndex = this.dataItems.length;
+		let count = this.dataItems.length;
+		if (!$type.isNumber(this._endIndex) || this._endIndex > count) {
+			this._endIndex = count;
 		}
 		return this._endIndex;
 	}
@@ -2152,8 +2156,8 @@ export class Component extends Container {
 	 */
 	protected getExporting(): Export {
 		const _export = super.getExporting();
-		if (!_export.adapter.has("data", this._exportData, null, this)) {
-			_export.adapter.add("data", this._exportData, null, this);
+		if (!_export.adapter.has("data", this._exportData, -1, this)) {
+			_export.adapter.add("data", this._exportData, -1, this);
 			this.events.on("datavalidated", (ev) => {
 				if (_export.menu) {
 					_export.menu.invalidate();

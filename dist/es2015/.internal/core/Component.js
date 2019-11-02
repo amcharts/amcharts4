@@ -486,9 +486,12 @@ var Component = /** @class */ (function (_super) {
                     }
                 });
                 this.data.shift();
-                this._parseDataFrom--;
+                if (this._parseDataFrom > 0) {
+                    this._parseDataFrom--;
+                }
                 count--;
             }
+            this.invalidateData();
         }
     };
     /**
@@ -1315,8 +1318,9 @@ var Component = /** @class */ (function (_super) {
          * @return End index
          */
         get: function () {
-            if (!$type.isNumber(this._endIndex)) {
-                this._endIndex = this.dataItems.length;
+            var count = this.dataItems.length;
+            if (!$type.isNumber(this._endIndex) || this._endIndex > count) {
+                this._endIndex = count;
             }
             return this._endIndex;
         },
@@ -1666,8 +1670,8 @@ var Component = /** @class */ (function (_super) {
      */
     Component.prototype.getExporting = function () {
         var _export = _super.prototype.getExporting.call(this);
-        if (!_export.adapter.has("data", this._exportData, null, this)) {
-            _export.adapter.add("data", this._exportData, null, this);
+        if (!_export.adapter.has("data", this._exportData, -1, this)) {
+            _export.adapter.add("data", this._exportData, -1, this);
             this.events.on("datavalidated", function (ev) {
                 if (_export.menu) {
                     _export.menu.invalidate();

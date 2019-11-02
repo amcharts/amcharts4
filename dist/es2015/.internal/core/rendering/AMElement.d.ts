@@ -337,6 +337,14 @@ export declare class AMElement implements IDisposer {
      */
     private _y;
     /**
+     *
+     */
+    private _rotationY;
+    /**
+     *
+     */
+    private _rotationX;
+    /**
      * Current rotation.
      */
     private _rotation;
@@ -435,6 +443,20 @@ export declare class AMElement implements IDisposer {
      * @param value Rotation
      */
     rotation: number;
+    /**
+     * @ignore
+     */
+    /**
+     * @ignore
+     */
+    rotationX: number;
+    /**
+     * @ignore
+     */
+    /**
+     * @ignore
+     */
+    rotationY: number;
     /**
      * @return Scale
      */

@@ -112,6 +112,10 @@ var SliceGrouper = /** @class */ (function (_super) {
          */
         _this._clickBehavior = "none";
         _this._ignoreDataUpdate = false;
+        /**
+         * Is group slice currently closed or expanded?
+         */
+        _this._closed = true;
         return _this;
     }
     SliceGrouper.prototype.init = function () {
@@ -149,6 +153,13 @@ var SliceGrouper = /** @class */ (function (_super) {
                     item.hiddenInLegend = true;
                     item.hide();
                     item.hidden = true;
+                    // We need this in order to handle conflict with responsive
+                    // functionality
+                    item.label.events.on("transitionended", function (ev) {
+                        if (_this._closed) {
+                            item.hide();
+                        }
+                    });
                     _this.smallSlices.push(item.slice);
                 }
                 else {
@@ -213,6 +224,7 @@ var SliceGrouper = /** @class */ (function (_super) {
         if (this.clickBehavior == "none") {
             return;
         }
+        this._closed = false;
         // Hide "Other" slice
         this.groupSlice.dataItem.hide();
         if (this.syncLegend) {
@@ -252,6 +264,7 @@ var SliceGrouper = /** @class */ (function (_super) {
         if (this.clickBehavior == "none") {
             return;
         }
+        this._closed = true;
         // Toggle "Other" slice back on
         this.groupSlice.events.disableType("shown");
         this.groupSlice.dataItem.show();

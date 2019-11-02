@@ -759,6 +759,9 @@ export class PercentSeries extends Series {
 			if (slice.stroke == undefined) {
 				slice.stroke = slice.fill;
 			}
+			else {
+				this.colors.currentStep += this.colors.step;
+			}
 		}
 
 		// do this at the end, otherwise bullets won't be positioned properly
