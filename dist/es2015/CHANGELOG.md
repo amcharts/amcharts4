@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.8] - 2019-11-05
+
+### Added
+- `itemIndex` added to `AxisDataItem`. Shows current index of data item on the axis.
+
+### Changed
+- `extremeschanged` is now dispatched by `DateAxis` when the `min`/`max` are animating.
+
+### Fixed
+- Setting `maskBullets` on an `XYChart` will toggle on or off bullet masking dynamically.
+- In some particular cases some Sankey nodes were drawn out of bounds.
+- `behaviorcanceled` event of `ChartCursor` was not being fired.
+- Regression plugin was failing when added to Series object that was not yet attached to a Chart.
+- JSON config was failing where Label's `text` or `html` properties were being set to percent value.
+- Toggling of `DateAxis.skipEmptyPeriods` was not working after the chart was already inited.
+
+
 ## [4.7.7] - 2019-11-02
 
 ### Added
@@ -1226,7 +1243,7 @@ adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 ## [4.0.16] - 2019-01-05
 
 ### Added
-- New locales: Norwegian Bokmål (np_NO), Danish (da_DK).
+- New locales: Norwegian Bokm? (np_NO), Danish (da_DK).
 
 ### Changed
 - Renamed Swedish locale to `sv_SE`.

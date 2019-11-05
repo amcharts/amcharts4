@@ -519,6 +519,9 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	public validateDataElement(dataItem: this["_dataItem"], itemIndex?: number, index?: number): void {
 		super.validateDataElement(dataItem);
 
+		dataItem.itemIndex = this._axisItemCount;
+		this._axisItemCount++;		
+
 		//dataItem.__disabled = false;
 
 		let renderer: AxisRenderer = this.renderer;

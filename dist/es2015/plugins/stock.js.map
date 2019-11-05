@@ -1,0 +1,1 @@
+{"version":3,"file":"stock.js","sourceRoot":"","sources":["../../../src/plugins/stock.ts"],"names":[],"mappings":"AAAA,cAAc,kCAAkC,CAAC","sourcesContent":["export * from \"../.internal/plugins/stock/index\";\n"]}

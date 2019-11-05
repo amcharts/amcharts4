@@ -260,8 +260,8 @@ export class FlowDiagramLink extends Container {
 	/**
 	 * Bullets container
      */
-	public get bulletsContainer(){
-		if(!this._bulletsContainer){
+	public get bulletsContainer() {
+		if (!this._bulletsContainer) {
 			let bulletsContainer = this.createChild(Container);
 			bulletsContainer.shouldClone = false;
 			bulletsContainer.layout = "none";
@@ -274,8 +274,8 @@ export class FlowDiagramLink extends Container {
 	/**
 	 * Bullets mask sprite
      */
-	public get bulletsMask(){
-		if(!this._bulletsMask){
+	public get bulletsMask() {
+		if (!this._bulletsMask) {
 			let bulletsMask = this.createChild(Sprite);
 			bulletsMask.shouldClone = false;
 			bulletsMask.setElement(this.paper.add("path"));
@@ -363,7 +363,7 @@ export class FlowDiagramLink extends Container {
 			let color = this.fill;
 
 			this.gradient.stops.clear();
-			if(color instanceof Color){
+			if (color instanceof Color) {
 				this.gradient.addColor(color);
 				this.gradient.addColor(color);
 			}
@@ -385,7 +385,7 @@ export class FlowDiagramLink extends Container {
 	 * Should link bullets be masked or not
 	 *
 	 * @param value
-	 * @default false;
+	 * @default false
 	 */
 	public set maskBullets(value: boolean) {
 		this.setPropertyValue("maskBullets", value, true);
@@ -472,7 +472,7 @@ export class FlowDiagramLink extends Container {
 		super.copyFrom(source);
 		this.bullets.copyFrom(source.bullets);
 		let middleLine = this.middleLine;
-		if(middleLine){
+		if (middleLine) {
 			if (middleLine instanceof Line && source.middleLine instanceof Line) {
 				middleLine.copyFrom(source.middleLine);
 			}
@@ -509,8 +509,8 @@ export class FlowDiagramLink extends Container {
 	 * A gradiend instance that is used to provided colored gradient fills for
 	 * the Flow link.
 	 */
-	public get gradient(){
-		if(!this._gradient){
+	public get gradient() {
+		if (!this._gradient) {
 			this._gradient = new LinearGradient();
 		}
 		return this._gradient;

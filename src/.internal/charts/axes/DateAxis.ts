@@ -35,6 +35,7 @@ import * as $utils from "../../core/utils/Utils";
 import { IRange } from "../../core/defs/IRange";
 import { DateFormatter } from "../../core/formatters/DateFormatter";
 import { OrderedListTemplate } from "../../core/utils/SortedList";
+import { Animation } from "../../core/utils/Animation";
 
 /**
  * ============================================================================
@@ -262,6 +263,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * Defines the type of the axis breaks.
 	 */
 	public _axisBreak: DateAxisBreak;
+
+	protected _gapBreaks:boolean = false;
 
 	/**
 	 * A list of date/time intervals for Date axis.
@@ -733,7 +736,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 			this.series.each((series) => {
 				if (series.baseAxis == this) {
-					if(series.setDataSet(this._currentDataSetId)){
+					if (series.setDataSet(this._currentDataSetId)) {
 						dataSetChanged = true;
 					}
 				}
@@ -883,8 +886,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		});
 
 		this.addEmptyUnitsBreaks();
-
-
 	}
 
 	public groupSeriesData(series: XYSeries) {
@@ -1123,6 +1124,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					if (!axisBreak) {
 						axisBreak = <DateAxisBreak>this.axisBreaks.create();
 						axisBreak.startDate = new Date(startTime);
+						this._gapBreaks = true;
 					}
 				}
 				else {
@@ -1362,7 +1364,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @param dataItem Data item
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
-		//super.validateDataElement(dataItem);
+
+		dataItem.itemIndex = this._axisItemCount;
+		this._axisItemCount++;
+
 		if ($type.isNumber(this.max) && $type.isNumber(this.min)) {
 			let renderer: AxisRenderer = this.renderer;
 
@@ -1912,9 +1917,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @param value  Remove empty stretches of time?
 	 */
 	public set skipEmptyPeriods(value: boolean) {
-		if (this.setPropertyValue("skipEmptyPeriods", value)) {
-			this.invalidateData();
-		}
 
 		if (value) {
 			let breakTemplate = this.axisBreaks.template;
@@ -1922,6 +1924,18 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			breakTemplate.endLine.disabled = true;
 			breakTemplate.fillShape.disabled = true;
 			breakTemplate.breakSize = 0;
+		}
+		else {
+			if(this._gapBreaks){
+				this.axisBreaks.clear();
+				this._gapBreaks = false;
+			}
+		}
+
+		if (this.setPropertyValue("skipEmptyPeriods", value)) {
+			this.invalidate();
+			this.postProcessSeriesDataItems();
+			this.invalidateSeries();
 		}
 	}
 
@@ -2168,6 +2182,17 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public get basePoint(): IPoint {
 		return { x: 0, y: 0 };
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected animateMinMax(min: number, max: number): Animation {
+		let animation = this.animate([{ property: "_minAdjusted", from: this._minAdjusted, to: min }, { property: "_maxAdjusted", from: this._maxAdjusted, to: max }], this.rangeChangeDuration, this.rangeChangeEasing);
+		animation.events.on("animationprogress", () => {
+			this.dispatch("extremeschanged");
+		})
+		return animation;
 	}
 
 	/**

@@ -1624,7 +1624,9 @@ export class Component extends Container {
 							return { start: start, end: end };
 						}
 						else {
-							this.rangeChangeAnimation.stop();
+							if(!rangeChangeAnimation.isDisposed()){
+								rangeChangeAnimation.stop();
+							}
 						}
 					}
 				}

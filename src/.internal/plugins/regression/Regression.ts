@@ -172,9 +172,11 @@ export class Regression extends Plugin {
 			this.calcData();
 		}));
 
-		this._disposers.push(this.target.chart.events.on("beforedatavalidated", (ev) => {
-			this.target.invalidateData();
-		}));
+		if (this.target.chart) {
+			this._disposers.push(this.target.chart.events.on("beforedatavalidated", (ev) => {
+				this.target.invalidateData();
+			}));
+		}
 
 		// Save original series data
 		if (this.target.data && this.target.data.length) {

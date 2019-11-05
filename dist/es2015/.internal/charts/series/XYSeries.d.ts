@@ -612,6 +612,10 @@ export declare class XYSeries extends Series {
      */
     usesShowFields: boolean;
     /**
+     * @ignore
+     */
+    protected _dataSetChanged: boolean;
+    /**
      * Constructor
      */
     constructor();

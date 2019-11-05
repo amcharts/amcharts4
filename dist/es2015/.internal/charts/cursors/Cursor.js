@@ -227,14 +227,16 @@ var Cursor = /** @class */ (function (_super) {
             this.downPoint = undefined;
             this.updateSelection();
         }
+        /*
         else {
-            if (this._generalBehavior == "select") {
+            
+            if(this._generalBehavior == "select"){
                 this.dispatchImmediately("selectended");
             }
             this.dispatchImmediately("behaviorcanceled");
             interaction.setGlobalStyle(MouseCursorStyle.default);
             this.downPoint = undefined;
-        }
+        }*/
     };
     /**
      * Updates selection dimensions on size change.

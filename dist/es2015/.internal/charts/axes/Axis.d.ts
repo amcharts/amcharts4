@@ -180,6 +180,12 @@ export declare class AxisDataItem extends DataItem {
      */
     constructor();
     /**
+     * Actual index of the axis data item.
+     *
+     * @since 4.7.8
+     */
+    itemIndex: number;
+    /**
      * @return Grid element
      */
     /**
@@ -578,6 +584,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @default true
      */
     autoDispose: boolean;
+    /**
+     * @ignore
+     */
+    protected _axisItemCount: number;
     /**
      * Constructor
      */

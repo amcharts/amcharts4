@@ -742,6 +742,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 		//dataItem.__disabled = false;
 
+		dataItem.itemIndex = this._axisItemCount;
+		this._axisItemCount++;
+
 		let renderer: AxisRenderer = this.renderer;
 		let value: number = dataItem.value;
 		let endValue: number = dataItem.endValue;
@@ -1071,6 +1074,13 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		}
 	}
 
+	/**
+	 * @ignore
+	 */
+	protected animateMinMax(min: number, max: number): Animation {
+		return this.animate([{ property: "_minAdjusted", from: this._minAdjusted, to: min }, { property: "_maxAdjusted", from: this._maxAdjusted, to: max }], this.rangeChangeDuration, this.rangeChangeEasing);
+	}
+
 
 	/**
 	 * Calculates smallest and biggest value for the axis scale.
@@ -1239,7 +1249,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 					this._finalMin = min;
 					this._finalMax = max;
 
-					animation = this.animate([{ property: "_minAdjusted", from: this._minAdjusted, to: min }, { property: "_maxAdjusted", from: this._maxAdjusted, to: max }], this.rangeChangeDuration, this.rangeChangeEasing);
+					animation = this.animateMinMax(min, max);
 
 					if (animation && !animation.isFinished()) {
 						animation.events.on("animationprogress", this.validateDataItems, this);

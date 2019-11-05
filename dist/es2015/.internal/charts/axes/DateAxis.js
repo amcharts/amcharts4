@@ -131,6 +131,7 @@ var DateAxis = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this) || this;
+        _this._gapBreaks = false;
         /**
          * A list of date/time intervals for Date axis.
          *
@@ -843,6 +844,7 @@ var DateAxis = /** @class */ (function (_super) {
                     if (!axisBreak) {
                         axisBreak = this_1.axisBreaks.create();
                         axisBreak.startDate = new Date(startTime);
+                        this_1._gapBreaks = true;
                     }
                 }
                 else {
@@ -1058,7 +1060,8 @@ var DateAxis = /** @class */ (function (_super) {
      * @param dataItem Data item
      */
     DateAxis.prototype.validateDataElement = function (dataItem) {
-        //super.validateDataElement(dataItem);
+        dataItem.itemIndex = this._axisItemCount;
+        this._axisItemCount++;
         if ($type.isNumber(this.max) && $type.isNumber(this.min)) {
             var renderer = this.renderer;
             var timestamp = dataItem.value;
@@ -1546,15 +1549,23 @@ var DateAxis = /** @class */ (function (_super) {
          * @param value  Remove empty stretches of time?
          */
         set: function (value) {
-            if (this.setPropertyValue("skipEmptyPeriods", value)) {
-                this.invalidateData();
-            }
             if (value) {
                 var breakTemplate = this.axisBreaks.template;
                 breakTemplate.startLine.disabled = true;
                 breakTemplate.endLine.disabled = true;
                 breakTemplate.fillShape.disabled = true;
                 breakTemplate.breakSize = 0;
+            }
+            else {
+                if (this._gapBreaks) {
+                    this.axisBreaks.clear();
+                    this._gapBreaks = false;
+                }
+            }
+            if (this.setPropertyValue("skipEmptyPeriods", value)) {
+                this.invalidate();
+                this.postProcessSeriesDataItems();
+                this.invalidateSeries();
             }
         },
         enumerable: true,
@@ -1781,6 +1792,17 @@ var DateAxis = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * @ignore
+     */
+    DateAxis.prototype.animateMinMax = function (min, max) {
+        var _this = this;
+        var animation = this.animate([{ property: "_minAdjusted", from: this._minAdjusted, to: min }, { property: "_maxAdjusted", from: this._maxAdjusted, to: max }], this.rangeChangeDuration, this.rangeChangeEasing);
+        animation.events.on("animationprogress", function () {
+            _this.dispatch("extremeschanged");
+        });
+        return animation;
+    };
     /**
      * Invalidates axis data items when series extremes change
      */

@@ -39,7 +39,15 @@ export declare class LinePattern extends Pattern {
      * @return gap
      */
     /**
-     * @todo mm
+     * Number of pixels between pattern lines.
+     *
+     * The pattern will automatically draw required number of lines to fill
+     * pattern area maintaining `gap` distance between them.
+     *
+     * 0 (zero) means only single line will be drawn.
+     *
+     * @default 0
+     * @since 4.7.7
      */
     gap: number;
 }

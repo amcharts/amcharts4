@@ -71,20 +71,20 @@ export class LinePattern extends Pattern {
 					path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: w, y: 0 });
 				}
 			}
-			else {				
+			else {
 				let step = this.gap + this.strokeWidth;
 				let count = this.height / step;
 
 				for (let i = -count / 2; i < count * 1.5; i++) {
 					if (Math.round(this.rotation / 90) != this.rotation / 90) {
-						path += $path.moveTo({ x: -w, y: (i + 0.5) * step  }) + $path.lineTo({ x: w * 2, y: (i + 0.5) * step });
+						path += $path.moveTo({ x: -w, y: (i + 0.5) * step }) + $path.lineTo({ x: w * 2, y: (i + 0.5) * step });
 
 						this.properties["rotationX"] = this.width / 2;
 						this.properties["rotationY"] = this.height / 2;
 					}
 					else {
-						path += $path.moveTo({ x: -w, y: i * step  }) + $path.lineTo({ x: w * 2, y: i * step });
-					}					
+						path += $path.moveTo({ x: -w, y: i * step }) + $path.lineTo({ x: w * 2, y: i * step });
+					}
 				}
 			}
 
@@ -94,7 +94,15 @@ export class LinePattern extends Pattern {
 
 
 	/**
-	 * @todo mm
+	 * Number of pixels between pattern lines.
+	 *
+	 * The pattern will automatically draw required number of lines to fill
+	 * pattern area maintaining `gap` distance between them.
+	 *
+	 * 0 (zero) means only single line will be drawn.
+	 *
+	 * @default 0
+	 * @since 4.7.7
 	 */
 	public set gap(value: number) {
 		this.properties["gap"] = value;

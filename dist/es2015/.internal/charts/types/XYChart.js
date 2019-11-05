@@ -1367,7 +1367,14 @@ var XYChart = /** @class */ (function (_super) {
          * @param value Mask bullet container?
          */
         set: function (value) {
-            this.setPropertyValue("maskBullets", value, true);
+            if (this.setPropertyValue("maskBullets", value, true) && this.bulletsContainer) {
+                if (value) {
+                    this.bulletsContainer.mask = this._bulletMask;
+                }
+                else {
+                    this.bulletsContainer.mask = undefined;
+                }
+            }
         },
         enumerable: true,
         configurable: true

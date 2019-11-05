@@ -162,10 +162,13 @@ var SankeyDiagram = /** @class */ (function (_super) {
             availableHeight = this.chartContainer.maxWidth - 1;
         }
         var maxSumLevel;
+        var minHeight;
         $object.each(this._levelSum, function (key, value) {
             var realValue = value;
-            value = value * availableHeight / (availableHeight - (_this._levelNodesCount[key] - 1) * _this.nodePadding);
-            if (_this.maxSum < value) {
+            var levelNodeCount = _this._levelNodesCount[key];
+            var valueHeight = (availableHeight - (levelNodeCount - 1) * _this.nodePadding) / realValue;
+            if (minHeight > valueHeight || !$type.isNumber(minHeight)) {
+                minHeight = valueHeight;
                 _this.maxSum = realValue;
                 maxSumLevel = $type.toNumber(key);
             }

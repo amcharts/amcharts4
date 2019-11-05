@@ -479,6 +479,10 @@ var XYSeries = /** @class */ (function (_super) {
          * @ignore
          */
         _this.usesShowFields = false;
+        /**
+         * @ignore
+         */
+        _this._dataSetChanged = false;
         _this.className = "XYSeries";
         _this.isMeasured = false;
         _this.groupFields.valueX = "close";
@@ -543,7 +547,7 @@ var XYSeries = /** @class */ (function (_super) {
     XYSeries.prototype.validateData = function () {
         this._baseInterval = {};
         var dataFields = this.dataFields;
-        if (dataFields.valueYShow || dataFields.openValueXShow || dataFields.openValueXShow || dataFields.openValueYShow || (this.xAxis instanceof DateAxis && this.xAxis.groupData == true) || (this.yAxis instanceof DateAxis && this.yAxis.groupData == true)) {
+        if (dataFields.valueYShow || dataFields.openValueXShow || dataFields.openValueXShow || dataFields.openValueYShow) {
             this.usesShowFields = true;
         }
         else {
@@ -963,6 +967,7 @@ var XYSeries = /** @class */ (function (_super) {
     XYSeries.prototype.setDataSet = function (id) {
         var changed = _super.prototype.setDataSet.call(this, id);
         if (changed) {
+            this._dataSetChanged = true;
             var dataItems = this.dataItems;
             var xAxis = this.xAxis;
             var yAxis = this.yAxis;
@@ -1097,24 +1102,24 @@ var XYSeries = /** @class */ (function (_super) {
                 var changed = false;
                 if (this.yAxis instanceof ValueAxis && !(this.yAxis instanceof DateAxis)) {
                     var tmin = this._tmin.getKey(yAxisId);
-                    if (this.usesShowFields || !$type.isNumber(tmin) || minY < tmin) {
+                    if (this.usesShowFields || this._dataSetChanged || !$type.isNumber(tmin) || minY < tmin) {
                         this._tmin.setKey(yAxisId, minY);
                         changed = true;
                     }
                     var tmax = this._tmax.getKey(yAxisId);
-                    if (this.usesShowFields || !$type.isNumber(tmax) || maxY > tmax) {
+                    if (this.usesShowFields || this._dataSetChanged || !$type.isNumber(tmax) || maxY > tmax) {
                         this._tmax.setKey(yAxisId, maxY);
                         changed = true;
                     }
                 }
                 if (this.xAxis instanceof ValueAxis && !(this.xAxis instanceof DateAxis)) {
                     var tmin = this._tmin.getKey(xAxisId);
-                    if (this.usesShowFields || !$type.isNumber(tmin) || minX < tmin) {
+                    if (this.usesShowFields || this._dataSetChanged || !$type.isNumber(tmin) || minX < tmin) {
                         this._tmin.setKey(xAxisId, minX);
                         changed = true;
                     }
                     var tmax = this._tmax.getKey(xAxisId);
-                    if (this.usesShowFields || !$type.isNumber(tmax) || maxX > tmax) {
+                    if (this.usesShowFields || this._dataSetChanged || !$type.isNumber(tmax) || maxX > tmax) {
                         this._tmax.setKey(xAxisId, maxX);
                         changed = true;
                     }
@@ -1128,6 +1133,7 @@ var XYSeries = /** @class */ (function (_super) {
         if (!working && this.stacked) {
             this.processValues(true);
         }
+        this._dataSetChanged = false;
     };
     /**
      * Hides element's [[Tooltip]].

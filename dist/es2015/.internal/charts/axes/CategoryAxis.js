@@ -366,6 +366,8 @@ var CategoryAxis = /** @class */ (function (_super) {
      */
     CategoryAxis.prototype.validateDataElement = function (dataItem, itemIndex, index) {
         _super.prototype.validateDataElement.call(this, dataItem);
+        dataItem.itemIndex = this._axisItemCount;
+        this._axisItemCount++;
         //dataItem.__disabled = false;
         var renderer = this.renderer;
         if (!$type.isNumber(index)) {

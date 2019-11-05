@@ -226,6 +226,13 @@ export class AxisDataItem extends DataItem {
 	}
 
 	/**
+	 * Actual index of the axis data item.
+	 * 
+	 * @since 4.7.8
+	 */
+	public itemIndex: number;
+
+	/**
 	 * A [[Grid]] element associated with this data item.
 	 *
 	 * If there is no grid element associated with data item, a new one is
@@ -730,6 +737,8 @@ export class AxisDataItem extends DataItem {
 		return this._bullet;
 	}
 
+
+
 }
 
 /**
@@ -1009,6 +1018,11 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	public autoDispose: boolean = true;
 
 	/**
+	 * @ignore
+	 */
+	protected _axisItemCount: number = 0;
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -1106,6 +1120,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @ignore
 	 */
 	public validateDataElements() {
+		this._axisItemCount = 0;
 		if (this.ghostLabel) {
 			this.renderer.updateLabelElement(this.ghostLabel, this.start, this.end);
 			this.ghostLabel.validate();
@@ -1241,7 +1256,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @ignore Exclude from docs
 	 */
 	public validateBreaks(): void {
-		if(this._axisBreaks){
+		if (this._axisBreaks) {
 			$iter.each(this._axisBreaks.iterator(), (axisBreak) => {
 				axisBreak.invalidate();
 			});
@@ -1437,7 +1452,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			if (value && this.renderer) {
 				this.renderer.updateTooltip();
 			}
-			else if(this.tooltip) {
+			else if (this.tooltip) {
 				this.tooltip.hide(0);
 			}
 		}
@@ -1481,7 +1496,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	public hideTooltip(duration?: number): void {
 		super.hideTooltip(duration);
 		this._tooltipPosition = undefined;
-	}	
+	}
 
 	/**
 	 * Shows Axis tooltip at specific relative position within Axis. (0-1)
@@ -1639,7 +1654,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @param location  Location on axis
 	 * @return Rounded position
 	 */
-	public roundPosition(position: number, location: AxisItemLocation, axisLocation?:number): number {
+	public roundPosition(position: number, location: AxisItemLocation, axisLocation?: number): number {
 		return position;
 	}
 
@@ -1974,7 +1989,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	protected adjustDifference(min: number, max: number): number {
 		let difference: number = max - min;
 		if ($type.isNumber(difference)) {
-			if(this._axisBreaks){
+			if (this._axisBreaks) {
 				$iter.eachContinue(this._axisBreaks.iterator(), (axisBreak) => {
 					let startValue: number = axisBreak.adjustedStartValue;
 					let endValue: number = axisBreak.adjustedEndValue;
@@ -2013,7 +2028,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @return Axis break
 	 */
 	protected isInBreak(value: number): this["_axisBreak"] {
-		if(this._axisBreaks){
+		if (this._axisBreaks) {
 			return $iter.find(this._axisBreaks.iterator(), (axisBreak) =>
 				value >= axisBreak.adjustedStartValue &&
 				value <= axisBreak.adjustedEndValue);
@@ -2027,7 +2042,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @todo Description
 	 */
 	protected fixAxisBreaks(): void {
-		if(this._axisBreaks){
+		if (this._axisBreaks) {
 			let axisBreaks: SortedListTemplate<this["_axisBreak"]> = this._axisBreaks;
 			if (axisBreaks.length > 0) {
 				// first make sure that startValue is <= end value

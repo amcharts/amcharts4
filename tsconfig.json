@@ -28,7 +28,6 @@
     "exclude": [
         "node_modules",
         "src/**/*.test.ts",
-        "src/geodata/**/*",
-        "src/stock/**/*"
+        "src/geodata/**/*"
     ]
 }

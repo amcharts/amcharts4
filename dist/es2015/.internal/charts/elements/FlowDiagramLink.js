@@ -213,7 +213,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
          * Should link bullets be masked or not
          *
          * @param value
-         * @default false;
+         * @default false
          */
         set: function (value) {
             this.setPropertyValue("maskBullets", value, true);

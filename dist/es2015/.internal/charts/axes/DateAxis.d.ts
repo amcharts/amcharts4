@@ -21,6 +21,7 @@ import { IMinMaxStep } from "./ValueAxis";
 import { DateAxisBreak } from "./DateAxisBreak";
 import { IRange } from "../../core/defs/IRange";
 import { DateFormatter } from "../../core/formatters/DateFormatter";
+import { Animation } from "../../core/utils/Animation";
 /**
  * ============================================================================
  * DATA ITEM
@@ -197,6 +198,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * Defines the type of the axis breaks.
      */
     _axisBreak: DateAxisBreak;
+    protected _gapBreaks: boolean;
     /**
      * A list of date/time intervals for Date axis.
      *
@@ -856,6 +858,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @return Base point
      */
     readonly basePoint: IPoint;
+    /**
+     * @ignore
+     */
+    protected animateMinMax(min: number, max: number): Animation;
     /**
      * Invalidates axis data items when series extremes change
      */

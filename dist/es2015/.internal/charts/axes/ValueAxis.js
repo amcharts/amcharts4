@@ -480,6 +480,8 @@ var ValueAxis = /** @class */ (function (_super) {
     ValueAxis.prototype.validateDataElement = function (dataItem) {
         _super.prototype.validateDataElement.call(this, dataItem);
         //dataItem.__disabled = false;
+        dataItem.itemIndex = this._axisItemCount;
+        this._axisItemCount++;
         var renderer = this.renderer;
         var value = dataItem.value;
         var endValue = dataItem.endValue;
@@ -759,6 +761,12 @@ var ValueAxis = /** @class */ (function (_super) {
         }
     };
     /**
+     * @ignore
+     */
+    ValueAxis.prototype.animateMinMax = function (min, max) {
+        return this.animate([{ property: "_minAdjusted", from: this._minAdjusted, to: min }, { property: "_maxAdjusted", from: this._maxAdjusted, to: max }], this.rangeChangeDuration, this.rangeChangeEasing);
+    };
+    /**
      * Calculates smallest and biggest value for the axis scale.
      * @ignore
      * @todo Description (review)
@@ -891,7 +899,7 @@ var ValueAxis = /** @class */ (function (_super) {
                 else {
                     this._finalMin = min;
                     this._finalMax = max;
-                    animation = this.animate([{ property: "_minAdjusted", from: this._minAdjusted, to: min }, { property: "_maxAdjusted", from: this._maxAdjusted, to: max }], this.rangeChangeDuration, this.rangeChangeEasing);
+                    animation = this.animateMinMax(min, max);
                     if (animation && !animation.isFinished()) {
                         animation.events.on("animationprogress", this.validateDataItems, this);
                         animation.events.on("animationended", function () {

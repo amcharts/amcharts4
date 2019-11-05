@@ -278,11 +278,15 @@ var XYCursor = /** @class */ (function (_super) {
             if (this._generalBehavior != "select") {
                 this.selection.hide(0);
             }
+            else {
+                this.dispatchImmediately("selectended");
+            }
             // reset cursor style, just in case
             if (this._generalBehavior == "pan") {
                 var interaction = getInteraction();
                 interaction.setGlobalStyle(MouseCursorStyle.default);
             }
+            this.dispatchImmediately("behaviorcanceled");
         }
         this.downPoint = undefined;
         this.dispatch("cursorpositionchanged");

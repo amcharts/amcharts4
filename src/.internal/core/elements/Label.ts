@@ -408,6 +408,11 @@ export class Label extends Container {
 			text = this.text;
 		}
 
+		// Need to toString source?
+		if ($type.isObject(text)) {
+			text = text.toString();
+		}
+
 		// Need to format text all the time
 		if ($type.hasValue(text) && text !== "") {
 			text = this.populateString(text, this.dataItem);

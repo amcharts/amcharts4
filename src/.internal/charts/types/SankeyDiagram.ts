@@ -320,6 +320,7 @@ export class SankeyDiagram extends FlowDiagram {
 			let level = node.level;
 
 			let value = Math.max(node.totalIncoming, node.totalOutgoing);
+	
 
 			if (value / total < this.minNodeSize) {
 				value = total * this.minNodeSize;
@@ -351,18 +352,23 @@ export class SankeyDiagram extends FlowDiagram {
 
 
 		let maxSumLevel: number;
+		let minHeight:number;
 
 		$object.each(this._levelSum, (key, value) => {
 			let realValue = value;
-			value = value * availableHeight / (availableHeight - (this._levelNodesCount[key] - 1) * this.nodePadding);
 
-			if (this.maxSum < value) {
+			let levelNodeCount = this._levelNodesCount[key];
+			let valueHeight = (availableHeight - (levelNodeCount - 1) * this.nodePadding) / realValue;			
+
+			if(minHeight > valueHeight || !$type.isNumber(minHeight)){
+				minHeight = valueHeight;
 				this.maxSum = realValue;
-				maxSumLevel = $type.toNumber(key);
+				maxSumLevel = $type.toNumber(key);				
 			}
 		});
 
 		this._maxSumLevel = maxSumLevel;
+
 		let maxSumLevelNodeCount = this._levelNodesCount[this._maxSumLevel];
 
 		let valueHeight = (availableHeight - (maxSumLevelNodeCount - 1) * this.nodePadding) / this.maxSum;

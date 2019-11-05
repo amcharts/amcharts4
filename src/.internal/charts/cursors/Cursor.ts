@@ -413,14 +413,16 @@ export class Cursor extends Container {
 			this.downPoint = undefined;
 			this.updateSelection();
 		}
+		/*
 		else {
+			
 			if(this._generalBehavior == "select"){
 				this.dispatchImmediately("selectended");
 			}
 			this.dispatchImmediately("behaviorcanceled");
 			interaction.setGlobalStyle(MouseCursorStyle.default);
 			this.downPoint = undefined;
-		}
+		}*/
 	}
 
 	/**

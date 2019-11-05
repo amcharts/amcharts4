@@ -1750,7 +1750,14 @@ export class XYChart extends SerialChart {
 	 * @param value Mask bullet container?
 	 */
 	public set maskBullets(value: boolean) {
-		this.setPropertyValue("maskBullets", value, true);
+		if (this.setPropertyValue("maskBullets", value, true) && this.bulletsContainer) {
+			if (value) {
+				this.bulletsContainer.mask = this._bulletMask;
+			}
+			else {
+				this.bulletsContainer.mask = undefined;
+			}
+		}
 	}
 
 	/**

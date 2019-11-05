@@ -859,6 +859,11 @@ export class XYSeries extends Series {
 	 */
 	public usesShowFields: boolean = false;
 
+	/**
+	 * @ignore
+	 */
+	protected _dataSetChanged: boolean = false;	
+
 
 	/**
 	 * Constructor
@@ -947,7 +952,7 @@ export class XYSeries extends Series {
 	public validateData(): void {
 		this._baseInterval = {};
 		let dataFields = this.dataFields;
-		if (dataFields.valueYShow || dataFields.openValueXShow || dataFields.openValueXShow || dataFields.openValueYShow || (this.xAxis instanceof DateAxis && this.xAxis.groupData == true) || (this.yAxis instanceof DateAxis && this.yAxis.groupData == true)) {
+		if (dataFields.valueYShow || dataFields.openValueXShow || dataFields.openValueXShow || dataFields.openValueYShow) {
 			this.usesShowFields = true;
 		}
 		else {
@@ -1431,6 +1436,7 @@ export class XYSeries extends Series {
 	public setDataSet(id: string): boolean {
 		let changed = super.setDataSet(id);
 		if (changed) {
+			this._dataSetChanged = true;
 			let dataItems = this.dataItems;
 
 			let xAxis = this.xAxis;
@@ -1601,12 +1607,12 @@ export class XYSeries extends Series {
 
 				if (this.yAxis instanceof ValueAxis && !(this.yAxis instanceof DateAxis)) {
 					let tmin = this._tmin.getKey(yAxisId);
-					if (this.usesShowFields || !$type.isNumber(tmin) || minY < tmin) {
-						this._tmin.setKey(yAxisId, minY);
+					if (this.usesShowFields || this._dataSetChanged || !$type.isNumber(tmin) || minY < tmin) {
+						this._tmin.setKey(yAxisId, minY);						
 						changed = true;
 					}
 					let tmax = this._tmax.getKey(yAxisId);
-					if (this.usesShowFields || !$type.isNumber(tmax) || maxY > tmax) {
+					if (this.usesShowFields || this._dataSetChanged || !$type.isNumber(tmax) || maxY > tmax) {
 						this._tmax.setKey(yAxisId, maxY);
 						changed = true;
 					}
@@ -1614,12 +1620,12 @@ export class XYSeries extends Series {
 
 				if (this.xAxis instanceof ValueAxis && !(this.xAxis instanceof DateAxis)) {
 					let tmin = this._tmin.getKey(xAxisId);
-					if (this.usesShowFields || !$type.isNumber(tmin) || minX < tmin) {
+					if (this.usesShowFields || this._dataSetChanged || !$type.isNumber(tmin) || minX < tmin) {
 						this._tmin.setKey(xAxisId, minX);
 						changed = true;
 					}
 					let tmax = this._tmax.getKey(xAxisId);
-					if (this.usesShowFields || !$type.isNumber(tmax) || maxX > tmax) {
+					if (this.usesShowFields || this._dataSetChanged || !$type.isNumber(tmax) || maxX > tmax) {
 						this._tmax.setKey(xAxisId, maxX);
 						changed = true;
 					}
@@ -1636,6 +1642,8 @@ export class XYSeries extends Series {
 		if (!working && this.stacked) {
 			this.processValues(true);
 		}
+
+		this._dataSetChanged = false;
 	}
 
 	/**

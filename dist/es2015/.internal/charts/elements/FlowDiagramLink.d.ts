@@ -227,7 +227,7 @@ export declare class FlowDiagramLink extends Container {
      * Should link bullets be masked or not
      *
      * @param value
-     * @default false;
+     * @default false
      */
     maskBullets: boolean;
     /**

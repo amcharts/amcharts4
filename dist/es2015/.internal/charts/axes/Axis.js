@@ -602,6 +602,10 @@ var Axis = /** @class */ (function (_super) {
          * @default true
          */
         _this.autoDispose = true;
+        /**
+         * @ignore
+         */
+        _this._axisItemCount = 0;
         if (_this.constructor === Axis) {
             throw new Error("'Axis' cannot be instantiated directly. Please use a specific axis type.");
         }
@@ -703,6 +707,7 @@ var Axis = /** @class */ (function (_super) {
      * @ignore
      */
     Axis.prototype.validateDataElements = function () {
+        this._axisItemCount = 0;
         if (this.ghostLabel) {
             this.renderer.updateLabelElement(this.ghostLabel, this.start, this.end);
             this.ghostLabel.validate();
