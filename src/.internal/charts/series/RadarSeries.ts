@@ -12,6 +12,7 @@ import { LineSeries, LineSeriesDataItem, ILineSeriesDataFields, ILineSeriesPrope
 import { LineSeriesSegment } from "./LineSeriesSegment";
 import { IPoint } from "../../core/defs/IPoint";
 import { AxisRendererRadial } from "../axes/AxisRendererRadial";
+import { AxisRendererCircular } from "../axes/AxisRendererCircular";
 import { Axis } from "../axes/Axis";
 import { RadarChart } from "../types/RadarChart";
 import { registry } from "../../core/Registry";
@@ -306,7 +307,25 @@ export class RadarSeries extends LineSeries {
 		}
 		
 		bullet.moveTo(this.xAxis.renderer.positionToPoint(positionX, positionY));		
-	}	
+	}
+
+
+	protected setXAxis(axis: Axis) {
+		super.setXAxis(axis);
+		this.updateRendererRefs();
+	}
+
+	protected setYAxis(axis: Axis) {
+		super.setYAxis(axis);
+		this.updateRendererRefs();
+	}
+
+	protected updateRendererRefs() {
+		let rendererX = <AxisRendererCircular>this.xAxis.renderer;
+		let rendererY = <AxisRendererRadial>this.yAxis.renderer;
+
+		rendererX.axisRendererY = rendererY;
+	}
 }
 
 /**

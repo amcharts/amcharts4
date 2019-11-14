@@ -10,6 +10,7 @@
 import { ColumnSeries, IColumnSeriesProperties, IColumnSeriesDataFields, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "../series/ColumnSeries";
 import { Sprite } from "../../core/Sprite";
 import { RadarChart } from "../types/RadarChart";
+import { Axis } from "../axes/Axis";
 import { RadarColumn } from "../elements/RadarColumn";
 /**
  * ============================================================================
@@ -157,4 +158,7 @@ export declare class RadarColumnSeries extends ColumnSeries {
      */
     protected getMaskPath(): string;
     protected positionBulletReal(bullet: Sprite, positionX: number, positionY: number): void;
+    protected setXAxis(axis: Axis): void;
+    protected setYAxis(axis: Axis): void;
+    protected updateRendererRefs(): void;
 }

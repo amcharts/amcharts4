@@ -845,7 +845,13 @@ export class MapChart extends SerialChart {
 			this.goHome(0);
 		}
 		else {
-			registry.events.once("exitframe", this.handleAllInited, this, false);
+			// TODO verify that this is correct
+			const disposer = registry.events.once("exitframe", () => {
+				this.removeDispose(disposer);
+				this.handleAllInited();
+			}, this, false);
+
+			this.addDisposer(disposer);
 		}
 	}
 
@@ -1139,11 +1145,11 @@ export class MapChart extends SerialChart {
 			}
 
 			this.series.each((series) => {
-				this.addDisposer(series.events.once("validated", () => {
+				series.events.once("validated", () => {
 					this.updateCenterGeoPoint();
 					this.updateScaleRatio();
 					this.goHome(0);
-				}))
+				});
 			})
 		}
 	}

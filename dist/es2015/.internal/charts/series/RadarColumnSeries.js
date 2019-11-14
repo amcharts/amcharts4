@@ -10,7 +10,6 @@ import * as tslib_1 from "tslib";
  */
 import { ColumnSeries, ColumnSeriesDataItem } from "../series/ColumnSeries";
 import { visualProperties } from "../../core/Sprite";
-//import { AxisRendererCircular } from "../axes/AxisRendererCircular";
 import { RadarColumn } from "../elements/RadarColumn";
 import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
@@ -249,6 +248,19 @@ var RadarColumnSeries = /** @class */ (function (_super) {
             bullet.visible = false;
         }
         bullet.moveTo(this.xAxis.renderer.positionToPoint(positionX, positionY));
+    };
+    RadarColumnSeries.prototype.setXAxis = function (axis) {
+        _super.prototype.setXAxis.call(this, axis);
+        this.updateRendererRefs();
+    };
+    RadarColumnSeries.prototype.setYAxis = function (axis) {
+        _super.prototype.setYAxis.call(this, axis);
+        this.updateRendererRefs();
+    };
+    RadarColumnSeries.prototype.updateRendererRefs = function () {
+        var rendererX = this.xAxis.renderer;
+        var rendererY = this.yAxis.renderer;
+        rendererX.axisRendererY = rendererY;
     };
     return RadarColumnSeries;
 }(ColumnSeries));

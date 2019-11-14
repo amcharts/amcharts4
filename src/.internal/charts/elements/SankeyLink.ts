@@ -133,7 +133,7 @@ export class SankeyLink extends FlowDiagramLink {
 
 	/**
 	 * Spline which goes through the middle of a link, used to calculate bullet and tooltip positions, invisible by default
-     */
+	 */
 	public middleLine: Polyspline;
 
 	/**

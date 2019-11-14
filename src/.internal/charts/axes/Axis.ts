@@ -972,6 +972,11 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	protected _tooltipPosition: number;
 
 	/**
+	 * @ignore
+	 */
+	public relativePositionSprite?:Sprite;	
+
+	/**
 	 * Holds reference to a function that accepts a DataItem and its index as
 	 * parameters.
 	 *
@@ -1032,6 +1037,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 		if (this.constructor === Axis) {
 			throw new Error("'Axis' cannot be instantiated directly. Please use a specific axis type.");
 		}
+
 		this.minWidth = 0.0001;
 		this.minHeight = 0.0001;
 		this.className = "Axis";
@@ -1515,7 +1521,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 				position = this.toAxisPosition(position);
 			}
 
-			if (!$type.isNumber(position) || position < 0 || position > 1) {
+			if (!$type.isNumber(position) || position < this.start || position > this.end) {
 				tooltip.hide(0);
 				this._tooltipPosition = undefined;
 				return;

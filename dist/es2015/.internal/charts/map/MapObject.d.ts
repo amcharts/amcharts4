@@ -10,6 +10,7 @@
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
 import { MapSeries, MapSeriesDataItem } from "./MapSeries";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
+import { IPoint } from "../../core/defs/IPoint";
 /**
  * ============================================================================
  * REQUISITES
@@ -127,4 +128,16 @@ export declare class MapObject extends Container {
      * Latitude of the North-most point of the element.
      */
     readonly north: number;
+    /**
+     * Shows the element's [[Tooltip]].
+     *
+     * A tooltip will be populated using text templates in either `tooltipHTML` or
+     * `tooltipText` as well as data in `tooltipDataItem`.
+     *
+     * @see {@link Tooltip}
+     * @param optional point (sprite-related) to which tooltip must point.
+     * @return returns true if the tooltip was shown and false if it wasn't (no text was found)
+     */
+    showTooltip(point?: IPoint): boolean;
+    protected handleTooltipMove(ev: any): void;
 }

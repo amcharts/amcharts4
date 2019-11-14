@@ -481,15 +481,25 @@ export class AxisRendererX extends AxisRenderer {
 	public toAxisPosition(value: number): number {
 		let inversedPosition = value;
 		let axis = this.axis;
-		let parent = axis.parent;
 
-		if (axis && parent) {
-			let relativeX = axis.pixelX / parent.innerWidth;
-			let relativeWidth = axis.axisLength / parent.innerWidth;
+		if (axis) {
+			let relativePositionSprite = axis.relativePositionSprite;
 
-			return (inversedPosition - relativeX) / relativeWidth;
+			let x = axis.pixelX;
+			if (relativePositionSprite) {
+				x = $utils.spritePointToSprite({ x: this.pixelX, y: 0 }, this.parent, relativePositionSprite).x;
+			}
+			else {
+				relativePositionSprite = axis.parent;
+			}
+
+			if(relativePositionSprite){
+				let relativeX = x / relativePositionSprite.innerWidth;
+				let relativeWidth = axis.axisLength / relativePositionSprite.innerWidth;
+
+				return (inversedPosition - relativeX) / relativeWidth;
+			}
 		}
-
 		return value;
 	}
 

@@ -491,7 +491,7 @@ export declare class XYChart extends SerialChart {
     /**
      * @ignore
      */
-    protected handleAxisRemoval(event: IListEvents<Axis>["removed"]): void;
+    handleAxisRemoval(event: IListEvents<Axis>["removed"]): void;
     /**
      * A list of vertical (Y) axes.
      *
@@ -604,6 +604,10 @@ export declare class XYChart extends SerialChart {
      * @param event Cursor's event
      */
     protected handleCursorPanning(event: IXYCursorEvents["panning"]): void;
+    /**
+     * @ignore
+     */
+    handleYAxisSet(series: XYSeries): void;
     /**
      * Performs zoom and other operations when user starts zooming using chart
      * cursor, e.g. zooms axes.

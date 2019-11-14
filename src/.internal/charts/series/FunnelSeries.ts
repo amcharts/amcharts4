@@ -100,6 +100,12 @@ export class FunnelSeriesDataItem extends PercentSeriesDataItem {
 	constructor() {
 		super();
 		this.className = "FunnelSeriesDataItem";
+		// this helps to invalidate series when value is 0 an it is hidden (no other events are triggered then)
+		this.events.on("visibilitychanged", () => {
+			if (this.component) {
+				this.component.invalidateDataItems();
+			}
+		}, this, false);
 
 		this.applyTheme();
 	}
@@ -378,7 +384,17 @@ export class FunnelSeries extends PercentSeries {
 					total += dItem.getWorkingValue("value") / dItem.value;
 				}
 				else {
-					total += 1;
+					if (this.ignoreZeroValues) {
+						count--;
+					}
+					else {
+						if (!dItem.visible || dItem.__disabled || dItem.isHiding) {
+							count--;
+						}
+						else {
+							total += 1;
+						}
+					}
 				}
 			}
 		})
@@ -405,7 +421,7 @@ export class FunnelSeries extends PercentSeries {
 			let nextItem = this.dataItems.getIndex(index + 1);
 			nextValue = nextItem.getWorkingValue("value");
 
-			if (!nextItem.visible || nextItem.isHiding) {
+			if (!nextItem.visible || nextItem.isHiding || nextItem.__disabled || (nextItem.value == 0 && this.ignoreZeroValues)) {
 				return this.getNextValue(nextItem);
 			}
 		}
@@ -462,7 +478,6 @@ export class FunnelSeries extends PercentSeries {
 	 * @param dataItem [description]
 	 */
 	protected decorateSlice(dataItem: this["_dataItem"]): void {
-
 		let slice = dataItem.slice;
 		let sliceLink = dataItem.sliceLink;
 		let label = dataItem.label;
@@ -472,12 +487,29 @@ export class FunnelSeries extends PercentSeries {
 		let maxHeight = this.slicesContainer.innerHeight;
 
 		let nextValue = this.getNextValue(dataItem);
-		let workingValue = dataItem.getWorkingValue("value");
+		let workingValue = Math.abs(dataItem.getWorkingValue("value"));
 		let bottomRatio = this.bottomRatio;
 
 		let d = 1;
-		if (dataItem.value > 0) {
-			d = workingValue / dataItem.value;
+		if (dataItem.value != 0) {
+			d = workingValue / Math.abs(dataItem.value);
+		}
+		else {
+			if (dataItem.__disabled || dataItem.isHiding || !dataItem.visible) {
+				d = 0.000001;
+			}
+		}
+
+		if (this.ignoreZeroValues && dataItem.value == 0) {
+			dataItem.__disabled = true;
+			return;
+		}
+		else {
+			dataItem.__disabled = false;
+		}
+
+		if (this._nextY == Infinity) {
+			this._nextY = 0;
 		}
 
 		if (this.orientation == "vertical") {
@@ -493,7 +525,7 @@ export class FunnelSeries extends PercentSeries {
 			sliceLink.bottomWidth = (workingValue - (workingValue - nextValue)) / this.dataItem.values.value.high * maxWidth;
 
 			slice.y = this._nextY;
-			slice.height = $math.max(0, maxHeight / this._count * d / this._total - linkHeight);
+			slice.height = Math.min(100000, $math.max(0, maxHeight / this._count * d / this._total - linkHeight));
 
 			slice.x = maxWidth / 2;
 
@@ -521,7 +553,7 @@ export class FunnelSeries extends PercentSeries {
 			sliceLink.bottomWidth = (workingValue - (workingValue - nextValue)) / this.dataItem.values.value.high * maxHeight;
 
 			slice.x = this._nextY;
-			slice.width = maxWidth / this._count * d * 1 / this._total - linkWidth;
+			slice.width = Math.min(100000, maxWidth / this._count * d * 1 / this._total - linkWidth);
 			slice.y = maxHeight / 2;
 
 			if (!this.alignLabels) {
@@ -539,6 +571,18 @@ export class FunnelSeries extends PercentSeries {
 		}
 	}
 
+	protected getLastLabel(index: number):Label {
+		if (index > 0) {
+			let lastLabel = this.labels.getIndex(index);
+			if (lastLabel.__disabled || !lastLabel.visible) {
+				return this.getLastLabel(index - 1);
+			}
+			else {
+				return lastLabel;
+			}
+		}
+	}
+
 	/**
 	 * [arrangeLabels description]
 	 *
@@ -549,57 +593,60 @@ export class FunnelSeries extends PercentSeries {
 		if (this.alignLabels) {
 			let count = this.labels.length;
 			if (count > 1) {
-				let lastLabel = this.labels.getIndex(count - 1);
 
-				let lastY = lastLabel.pixelY;
-				let lastX = lastLabel.pixelX;
+				let lastLabel = this.getLastLabel(count - 1);
+				if (lastLabel) {
 
-				if (count > 1) {
-					for (let i = count - 2; i >= 0; i--) {
-						let label = this.labels.getIndex(i);
+					let lastY = lastLabel.pixelY;
+					let lastX = lastLabel.pixelX;
 
-						if (label.visible) {
-							if (label.invalid) {
-								label.validate();
-							}
-							if (this.orientation == "vertical") {
-								if (label.pixelY + label.measuredHeight > lastY) {
-									label.y = lastY - label.measuredHeight;
+					if (count > 1) {
+						for (let i = count - 2; i >= 0; i--) {
+							let label = this.labels.getIndex(i);
+
+							if (label.visible && !label.__disabled) {
+								if (label.invalid) {
+									label.validate();
 								}
-							}
-							// horizontal
-							else {
-								if (label.pixelX + label.measuredWidth > lastX) {
-									label.x = lastX - label.measuredWidth;
+								if (this.orientation == "vertical") {
+									if (label.pixelY + label.measuredHeight > lastY) {
+										label.y = Math.min(1000000, lastY - label.measuredHeight);
+									}
 								}
+								// horizontal
+								else {
+									if (label.pixelX + label.measuredWidth > lastX) {
+										label.x = Math.min(1000000, lastX - label.measuredWidth);
+									}
+								}
+								lastY = label.pixelY;
+								lastX = label.pixelX;
 							}
-							lastY = label.pixelY;
-							lastX = label.pixelX;
 						}
-					}
 
-					lastY = 0;
-					lastX = 0;
-					for (let i = 0; i < count; i++) {
-						let label = this.labels.getIndex(i);
-						if (label.visible) {
-							if (label.invalid) {
-								label.validate();
-							}
-							if (this.orientation == "vertical") {
-								if (label.pixelY < lastY) {
-									label.y = lastY;
+						lastY = 0;
+						lastX = 0;
+						for (let i = 0; i < count; i++) {
+							let label = this.labels.getIndex(i);
+							if (label.visible && !label.__disabled) {
+								if (label.invalid) {
+									label.validate();
 								}
-							}
-							// horizontal
-							else {
-								if (label.pixelX < lastX) {
-									label.x = lastX;
+								if (this.orientation == "vertical") {
+									if (label.pixelY < lastY) {
+										label.y = Math.min(1000000, lastY);
+									}
 								}
-							}
+								// horizontal
+								else {
+									if (label.pixelX < lastX) {
+										label.x = Math.min(1000000, lastX);
+									}
+								}
 
-							lastY += label.measuredHeight;
-							lastX += label.measuredWidth;
+								lastY += label.measuredHeight;
+								lastX += label.measuredWidth;
+							}
 						}
 					}
 				}

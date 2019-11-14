@@ -480,9 +480,11 @@ var Component = /** @class */ (function (_super) {
                     this.mainDataSet.remove(dataItem);
                 }
                 this.dataUsers.each(function (dataUser) {
-                    var dataItem = dataUser.dataItems.getIndex(0);
-                    if (dataItem) {
-                        dataUser.dataItems.remove(dataItem);
+                    if (!dataUser.data || dataUser.data.length == 0) {
+                        var dataItem_1 = dataUser.dataItems.getIndex(0);
+                        if (dataItem_1) {
+                            dataUser.dataItems.remove(dataItem_1);
+                        }
                     }
                 });
                 this.data.shift();
@@ -839,7 +841,7 @@ var Component = /** @class */ (function (_super) {
         if (value && value.length > 0) {
             this.invalidateData();
         }
-        //}		
+        //}
     };
     /**
      * Returns (creates if necessary) a [[DataSource]] bound to any specific
@@ -1027,7 +1029,7 @@ var Component = /** @class */ (function (_super) {
     };
     Object.defineProperty(Component.prototype, "responsive", {
         /**
-         * @return Data source
+         * @return Responsive rules handler
          */
         get: function () {
             if (!this._responsive) {
@@ -1043,7 +1045,7 @@ var Component = /** @class */ (function (_super) {
          * NOTE: Responsive features are currently in development and may not work
          * as expected, if at all.
          *
-         * @param value  Data source
+         * @param value  Responsive rules handler
          */
         set: function (value) {
             this._responsive = value;
@@ -1705,7 +1707,7 @@ var Component = /** @class */ (function (_super) {
             }
             else {
                 if (this._showOnInitDisposer2) {
-                    this._showOnInitDisposer2.dispose();
+                    this.removeDispose(this._showOnInitDisposer2);
                 }
             }
         }

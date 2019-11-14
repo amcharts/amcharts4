@@ -802,11 +802,12 @@ var Series = /** @class */ (function (_super) {
             return this.getPropertyValue("minBulletDistance");
         },
         /**
-         * Minimal distance between two adjacent bullets in pixels.
+         * Minimal distance between data points in pixels.
          *
-         * If bullet is closer, it will be skipped and not shown.
+         * If distance gets smaller than this, bullets are turned off to avoid
+         * overlapping.
          *
-         * This allows to avoid crammed up graphs wil a lot of bullets.
+         * `0` (zero) disables this behavior.
          *
          * IMPORTANT: This setting will work only when Series' base axis
          * is [[CategoryAxis]] or [[DateAxis]]. If base axis is [[ValueAxis]] the
@@ -1039,10 +1040,12 @@ var Series = /** @class */ (function (_super) {
      * @param e Error
      */
     Series.prototype.raiseCriticalError = function (e) {
-        this._chart.modal.content = this._chart.adapter.apply("criticalError", e).message;
-        this._chart.modal.closable = false;
-        this._chart.modal.open();
-        this._chart.disabled = true;
+        if (this._chart && this._chart.modal) {
+            this._chart.modal.content = this._chart.adapter.apply("criticalError", e).message;
+            this._chart.modal.closable = false;
+            this._chart.modal.open();
+            this._chart.disabled = true;
+        }
         if (options.verbose) {
             console.log(e);
         }
@@ -1063,7 +1066,50 @@ var Series = /** @class */ (function (_super) {
     };
     Object.defineProperty(Series.prototype, "heatRules", {
         /**
-         * @todo Description
+         * A list of heat rules to apply to series' elements based on the value
+         * of the data item.
+         *
+         * Heat rules can be any "numeric" (including `Color`) property, and can also
+         * be applied to child objects of series, like columns, bullets, etc.
+         *
+         * E.g.:
+         *
+         * ```TypeScript
+         * series.heatRules.push({
+         *  "target": series.columns.template,
+         *  "property": "fill",
+         *  "min": am4core.color("#F5DBCB"),
+         *  "max": am4core.color("#ED7B84"),
+         *  "dataField": "valueY"
+         *});
+         *```
+         * ```Javacript
+         * series.heatRules.push({
+         *  "target": series.columns.template,
+         *  "property": "fill",
+         *  "min": am4core.color("#F5DBCB"),
+         *  "max": am4core.color("#ED7B84"),
+         *  "dataField": "valueY"
+         *});
+         *```
+         *```JSON
+         *{
+         *  // ...
+         *  "series": [{
+         *    "type": "ColumnSeries",
+         *    "heatRules": [{
+         *      "target": "columns.template",
+         *      "property": "fill",
+         *      "min": "#F5DBCB",
+         *      "max": "#ED7B84",
+         *      "dataField": "valueY"
+         *    }]
+         *  }]
+         *}
+         *```
+         *
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/series/#Heat_maps} for more about heat rules
+         * @return  Heat rules
          */
         get: function () {
             var _this = this;

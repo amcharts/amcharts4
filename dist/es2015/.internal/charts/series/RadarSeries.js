@@ -204,6 +204,19 @@ var RadarSeries = /** @class */ (function (_super) {
         }
         bullet.moveTo(this.xAxis.renderer.positionToPoint(positionX, positionY));
     };
+    RadarSeries.prototype.setXAxis = function (axis) {
+        _super.prototype.setXAxis.call(this, axis);
+        this.updateRendererRefs();
+    };
+    RadarSeries.prototype.setYAxis = function (axis) {
+        _super.prototype.setYAxis.call(this, axis);
+        this.updateRendererRefs();
+    };
+    RadarSeries.prototype.updateRendererRefs = function () {
+        var rendererX = this.xAxis.renderer;
+        var rendererY = this.yAxis.renderer;
+        rendererX.axisRendererY = rendererY;
+    };
     return RadarSeries;
 }(LineSeries));
 export { RadarSeries };

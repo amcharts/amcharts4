@@ -13,7 +13,7 @@ import { Sprite } from "../../Sprite";
 import { IPoint } from "../../defs/IPoint";
 import * as $math from "../../utils/Math";
 import * as $path from "../../rendering/Path";
-import { Color, color } from "../../utils/Color";
+import { Color, color, toColor } from "../../utils/Color";
 import { RadialGradient } from "../../rendering/fills/RadialGradient";
 import { LinearGradient } from "../../rendering/fills/LinearGradient";
 import { Pattern } from "../../rendering/fills/Pattern";
@@ -269,6 +269,10 @@ export class Rectangle3D extends Container {
 	protected setFill(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>): void {
 		super.setFill(value);
 
+		if ($type.isString(value)) {
+			value = toColor(value);
+		}
+
 		let colorStr: string;
 		if (value instanceof Color) {
 			colorStr = value.hex;
@@ -282,20 +286,20 @@ export class Rectangle3D extends Container {
 			this.sideBack.filters.push(filter);
 
 			let filter2 = filter.clone()
-			filter2.lightness = -0.4;			
+			filter2.lightness = -0.4;
 			this.sideLeft.filters.push(filter2);
 
 			let filter3 = filter.clone()
-			filter3.lightness = -0.2;			
+			filter3.lightness = -0.2;
 			this.sideRight.filters.push(filter3);
 
 			let filter4 = filter.clone()
-			filter4.lightness = -0.1;			
+			filter4.lightness = -0.1;
 			this.sideTop.filters.push(filter4);
 
 			let filter5 = filter.clone()
-			filter5.lightness = -0.5;			
-			this.sideBottom.filters.push(filter5);							
+			filter5.lightness = -0.5;
+			this.sideBottom.filters.push(filter5);
 		}
 
 		if (colorStr) {

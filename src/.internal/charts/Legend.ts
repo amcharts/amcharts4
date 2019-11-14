@@ -194,6 +194,7 @@ export class LegendDataItem extends DataItem {
 			let component = this.component;
 
 			let itemContainer = component.itemContainers.create();
+			itemContainer.parent = component;
 			this._itemContainer = itemContainer;
 			this.addSprite(itemContainer);
 			this._disposers.push(itemContainer);
@@ -628,7 +629,6 @@ export class Legend extends Component {
 		let valueLabel = dataItem.valueLabel;
 
 		// Set parent and update current state
-		container.parent = this;
 		container.readerChecked = dataItem.dataContext.visible;
 
 		// Tell series its legend data item

@@ -294,8 +294,8 @@ var Responsive = /** @class */ (function (_super) {
                 //component.hide(0);
                 component.hidden = true;
                 component.events.once("ready", function (ev) {
-                    _this.applyRules();
                     ev.target.show(0);
+                    _this.applyRules();
                 });
                 return;
             }

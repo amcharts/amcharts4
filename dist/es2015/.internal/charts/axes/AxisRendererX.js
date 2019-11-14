@@ -372,11 +372,20 @@ var AxisRendererX = /** @class */ (function (_super) {
     AxisRendererX.prototype.toAxisPosition = function (value) {
         var inversedPosition = value;
         var axis = this.axis;
-        var parent = axis.parent;
-        if (axis && parent) {
-            var relativeX = axis.pixelX / parent.innerWidth;
-            var relativeWidth = axis.axisLength / parent.innerWidth;
-            return (inversedPosition - relativeX) / relativeWidth;
+        if (axis) {
+            var relativePositionSprite = axis.relativePositionSprite;
+            var x = axis.pixelX;
+            if (relativePositionSprite) {
+                x = $utils.spritePointToSprite({ x: this.pixelX, y: 0 }, this.parent, relativePositionSprite).x;
+            }
+            else {
+                relativePositionSprite = axis.parent;
+            }
+            if (relativePositionSprite) {
+                var relativeX = x / relativePositionSprite.innerWidth;
+                var relativeWidth = axis.axisLength / relativePositionSprite.innerWidth;
+                return (inversedPosition - relativeX) / relativeWidth;
+            }
         }
         return value;
     };

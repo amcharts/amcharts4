@@ -155,6 +155,7 @@ var LegendDataItem = /** @class */ (function (_super) {
             if (!this._itemContainer) {
                 var component_1 = this.component;
                 var itemContainer_1 = component_1.itemContainers.create();
+                itemContainer_1.parent = component_1;
                 this._itemContainer = itemContainer_1;
                 this.addSprite(itemContainer_1);
                 this._disposers.push(itemContainer_1);
@@ -415,7 +416,6 @@ var Legend = /** @class */ (function (_super) {
         $utils.used(dataItem.label);
         var valueLabel = dataItem.valueLabel;
         // Set parent and update current state
-        container.parent = this;
         container.readerChecked = dataItem.dataContext.visible;
         // Tell series its legend data item
         dataItem.dataContext.legendDataItem = dataItem;

@@ -124,15 +124,24 @@ export class AxisRendererY extends AxisRenderer {
 	 * @ignore
 	 */
 	public toAxisPosition(value: number): number {
-		let inversedPosition = 1 - value;
-
 		let axis = this.axis;
-		let parent = axis.parent;
-		if (axis && parent) {
-			let relativeY = axis.pixelY / parent.innerHeight;
-			let relativeHeight = axis.axisLength / parent.innerHeight;
+		if (axis) {
+			let inversedPosition = 1 - value;
+			let relativePositionSprite = axis.relativePositionSprite;
 
-			return 1 - (inversedPosition - relativeY) / relativeHeight;
+			let y = axis.pixelY;
+			if (relativePositionSprite) {
+				y = $utils.spritePointToSprite({ x: 0, y: this.pixelY }, this.parent, relativePositionSprite).y;
+			}
+			else {
+				relativePositionSprite = axis.parent;
+			}
+			if (relativePositionSprite) {
+				let relativeY = y / relativePositionSprite.innerHeight;
+				let relativeHeight = axis.axisLength / relativePositionSprite.innerHeight;
+
+				return 1 - (inversedPosition - relativeY) / relativeHeight;
+			}
 		}
 		return value;
 	}
@@ -350,7 +359,7 @@ export class AxisRendererY extends AxisRenderer {
 
 		let baseGrid: Sprite = this.baseGrid;
 
-		if (y < -0.2 || y > h + 0.2) {
+		if (y < - 0.2 || y > h + 0.2) {
 			baseGrid.hide(0);
 		}
 		else {
@@ -395,7 +404,7 @@ export class AxisRendererY extends AxisRenderer {
 				if (label.align == "center") {
 					deltaX = -maxWidth / 2;
 					horizontalCenter = "middle";
-				}				
+				}
 			}
 			else {
 				horizontalCenter = "left";
@@ -413,7 +422,7 @@ export class AxisRendererY extends AxisRenderer {
 				if (label.align == "center") {
 					deltaX = maxWidth / 2;
 					horizontalCenter = "middle";
-				}				
+				}
 			}
 			else {
 				horizontalCenter = "right";

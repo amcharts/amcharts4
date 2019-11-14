@@ -701,7 +701,7 @@ export declare class Component extends Container {
      */
     protected setDataSourceEvents(ds: DataSource, property?: string): void;
     /**
-     * @return Data source
+     * @return Responsive rules handler
      */
     /**
      * A [[Responsive]] instance to be used when applying conditional
@@ -710,7 +710,7 @@ export declare class Component extends Container {
      * NOTE: Responsive features are currently in development and may not work
      * as expected, if at all.
      *
-     * @param value  Data source
+     * @param value  Responsive rules handler
      */
     responsive: Responsive;
     /**

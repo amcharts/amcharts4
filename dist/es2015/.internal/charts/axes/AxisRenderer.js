@@ -223,22 +223,16 @@ var AxisRenderer = /** @class */ (function (_super) {
     AxisRenderer.prototype.updateGridContainer = function () {
     };
     AxisRenderer.prototype.getHeight = function () {
-        var axis = this.axis;
-        if (axis && axis.chart) {
-            var chart = this.axis.chart;
-            if (chart.plotContainer) {
-                return chart.plotContainer.pixelHeight || 0;
-            }
+        var gridContainer = this.gridContainer;
+        if (gridContainer.parent) {
+            return gridContainer.parent.pixelHeight;
         }
         return this.gridContainer.pixelHeight || 0;
     };
     AxisRenderer.prototype.getWidth = function () {
-        var axis = this.axis;
-        if (axis && axis.chart) {
-            var chart = this.axis.chart;
-            if (chart.plotContainer) {
-                return chart.plotContainer.pixelWidth || 0;
-            }
+        var gridContainer = this.gridContainer;
+        if (gridContainer.parent) {
+            return gridContainer.parent.pixelWidth;
         }
         return this.gridContainer.pixelWidth || 0;
     };

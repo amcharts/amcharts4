@@ -287,7 +287,7 @@ export class FlowDiagram extends Chart {
 
 	/**
 	 */
-	public _node:FlowDiagramNode;
+	public _node: FlowDiagramNode;
 
 
 	/**
@@ -300,7 +300,7 @@ export class FlowDiagram extends Chart {
 
 	/**
 	 */
-	public _link:FlowDiagramLink;
+	public _link: FlowDiagramLink;
 
 	/**
 	 * A list of FlowDiagram links connecting nodes.
@@ -373,7 +373,7 @@ export class FlowDiagram extends Chart {
 	 * @ignore Exclude from docs
 	 */
 	public validateData(): void {
-		if(this._parseDataFrom == 0){
+		if (this._parseDataFrom == 0) {
 			this.nodes.clear();
 		}
 
@@ -467,7 +467,7 @@ export class FlowDiagram extends Chart {
 				node.color = node.dataItem.color;
 			}
 
-			if(!node.dataItem.visible){
+			if (!node.dataItem.visible) {
 				node.hide(0);
 			}
 
@@ -483,7 +483,7 @@ export class FlowDiagram extends Chart {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public handleDataItemWorkingValueChange(dataItem?:this["_dataItem"], name?:string): void {
+	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void {
 		this.invalidate();
 	}
 
@@ -520,14 +520,14 @@ export class FlowDiagram extends Chart {
 
 		$iter.each(node.incomingDataItems.iterator(), (dataItem: FlowDiagramDataItem) => {
 			let value = dataItem.getWorkingValue("value");
-			if($type.isNumber(value)){
+			if ($type.isNumber(value)) {
 				incomingTotal += value;
 			}
 		});
 
 		$iter.each(node.outgoingDataItems.iterator(), (dataItem: FlowDiagramDataItem) => {
 			let value = dataItem.getWorkingValue("value");
-			if($type.isNumber(value)){
+			if ($type.isNumber(value)) {
 				outgoingTotal += value;
 			}
 		});
@@ -628,10 +628,10 @@ export class FlowDiagram extends Chart {
 	 *
 	 * @param {DictionaryTemplate<string, this["_node"]>}
 	 */
-	public get nodes():DictionaryTemplate<string, this["_node"]>{
-		if(!this._nodes){
+	public get nodes(): DictionaryTemplate<string, this["_node"]> {
+		if (!this._nodes) {
 			let template = this.createNode();
-			template.events.on("hit", (event)=>{
+			template.events.on("hit", (event) => {
 				event.target.handleHit(event);
 			});
 			this._nodes = new DictionaryTemplate<string, this["_node"]>(template);
@@ -643,7 +643,7 @@ export class FlowDiagram extends Chart {
 	/**
 	 * @ignore
 	 */
-	public createNode():this["_node"]{
+	public createNode(): this["_node"] {
 		let node = new FlowDiagramNode();
 		this._disposers.push(node);
 		return node;
@@ -654,8 +654,8 @@ export class FlowDiagram extends Chart {
 	 *
 	 * @param {ListTemplate<this["_link"]>}
 	 */
-	public get links():ListTemplate<this["_link"]>{
-		if(!this._links){
+	public get links(): ListTemplate<this["_link"]> {
+		if (!this._links) {
 			this._links = new ListTemplate<this["_link"]>(this.createLink());
 			this._disposers.push(new ListDisposer(this._links));
 		}
@@ -665,7 +665,7 @@ export class FlowDiagram extends Chart {
 	/**
 	 * @ignore
 	 */
-	public createLink():this["_link"]{
+	public createLink(): this["_link"] {
 		let link = new FlowDiagramLink();
 		this._disposers.push(link);
 		return link;
@@ -680,7 +680,7 @@ export class FlowDiagram extends Chart {
 		if (legend) {
 			let legendData: any[] = [];
 
-			this.nodes.each((key, node)=>{
+			this.nodes.each((key, node) => {
 				legendData.push(node);
 			});
 
@@ -692,7 +692,7 @@ export class FlowDiagram extends Chart {
 	/**
 	 * @ignore
 	 */
-	public disposeData(){
+	public disposeData() {
 		super.disposeData();
 		this.nodes.clear();
 	}

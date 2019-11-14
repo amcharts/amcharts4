@@ -194,6 +194,13 @@ export interface IPercentSeriesProperties extends ISeriesProperties {
      * @default true
      */
     alignLabels?: boolean;
+    /**
+     * If set to `true` the chart will not show slices with zero values.
+     *
+     * @default false
+     * @since 4.7.9
+     */
+    ignoreZeroValues?: boolean;
 }
 /**
  * Defines events for [[PercentSeries]].
@@ -516,6 +523,17 @@ export declare class PercentSeries extends Series {
      * @ignore
      */
     protected setAlignLabels(value: boolean): void;
+    /**
+     * @return Ignore zero values
+     */
+    /**
+     * If set to `true` the chart will not show slices with zero values.
+     *
+     * @default false
+     * @since 4.7.9
+     * @param  value  Ignore zero values
+     */
+    ignoreZeroValues: boolean;
     /**
      * Updates corresponding legend data item with current values.
      *

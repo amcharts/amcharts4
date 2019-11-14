@@ -13,6 +13,7 @@ import { Sprite } from "../../core/Sprite";
 import { ValueAxis } from "../axes/ValueAxis";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
+import { XYChart } from "../types/XYChart";
 import { CategoryAxis } from "../axes/CategoryAxis";
 import { DateAxis } from "../axes/DateAxis";
 import { registry } from "../../core/Registry";
@@ -909,6 +910,9 @@ var XYSeries = /** @class */ (function (_super) {
                 oldAxis.series.removeValue(this);
             }
             this._yAxis.set(axis, axis.registerSeries(this));
+            if (axis.chart instanceof XYChart) {
+                axis.chart.handleYAxisSet(this);
+            }
             this.dataItemsByAxis.setKey(axis.uid, new Dictionary());
             this.invalidateData();
         }
@@ -1102,24 +1106,24 @@ var XYSeries = /** @class */ (function (_super) {
                 var changed = false;
                 if (this.yAxis instanceof ValueAxis && !(this.yAxis instanceof DateAxis)) {
                     var tmin = this._tmin.getKey(yAxisId);
-                    if (this.usesShowFields || this._dataSetChanged || !$type.isNumber(tmin) || minY < tmin) {
+                    if ((this.usesShowFields || this._dataSetChanged) && (!$type.isNumber(tmin) || minY < tmin)) {
                         this._tmin.setKey(yAxisId, minY);
                         changed = true;
                     }
                     var tmax = this._tmax.getKey(yAxisId);
-                    if (this.usesShowFields || this._dataSetChanged || !$type.isNumber(tmax) || maxY > tmax) {
+                    if ((this.usesShowFields || this._dataSetChanged) && (!$type.isNumber(tmax) || maxY > tmax)) {
                         this._tmax.setKey(yAxisId, maxY);
                         changed = true;
                     }
                 }
                 if (this.xAxis instanceof ValueAxis && !(this.xAxis instanceof DateAxis)) {
                     var tmin = this._tmin.getKey(xAxisId);
-                    if (this.usesShowFields || this._dataSetChanged || !$type.isNumber(tmin) || minX < tmin) {
+                    if ((this.usesShowFields || this._dataSetChanged) && (!$type.isNumber(tmin) || minX < tmin)) {
                         this._tmin.setKey(xAxisId, minX);
                         changed = true;
                     }
                     var tmax = this._tmax.getKey(xAxisId);
-                    if (this.usesShowFields || this._dataSetChanged || !$type.isNumber(tmax) || maxX > tmax) {
+                    if ((this.usesShowFields || this._dataSetChanged) && (!$type.isNumber(tmax) || maxX > tmax)) {
                         this._tmax.setKey(xAxisId, maxX);
                         changed = true;
                     }

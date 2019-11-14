@@ -805,6 +805,26 @@ var PercentSeries = /** @class */ (function (_super) {
     PercentSeries.prototype.setAlignLabels = function (value) {
         this.setPropertyValue("alignLabels", value, true);
     };
+    Object.defineProperty(PercentSeries.prototype, "ignoreZeroValues", {
+        /**
+         * @return Ignore zero values
+         */
+        get: function () {
+            return this.getPropertyValue("ignoreZeroValues");
+        },
+        /**
+         * If set to `true` the chart will not show slices with zero values.
+         *
+         * @default false
+         * @since 4.7.9
+         * @param  value  Ignore zero values
+         */
+        set: function (value) {
+            this.setPropertyValue("ignoreZeroValues", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Updates corresponding legend data item with current values.
      *

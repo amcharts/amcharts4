@@ -373,5 +373,8 @@ export default {
     "Error parsing file: %1": "",
     "Unable to load file: %1": "",
     "Invalid date": "",
+    // Common actions
+    "Close": "",
+    "Minimize": ""
 };
 //# sourceMappingURL=en.js.map

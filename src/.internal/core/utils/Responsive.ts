@@ -414,6 +414,7 @@ export class Responsive extends BaseObjectEvents {
 			return;
 		}
 
+
 		// Init a list of rules to be applied
 		let rulesChanged: boolean = false;
 
@@ -447,8 +448,8 @@ export class Responsive extends BaseObjectEvents {
 				//component.hide(0);
 				component.hidden = true;
 				component.events.once("ready", (ev) => {
+					ev.target.show(0);
 					this.applyRules();
-					ev.target.show(0)
 				});
 				return;
 			}

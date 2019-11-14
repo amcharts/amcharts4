@@ -12,10 +12,11 @@ import { Container } from "../../Container";
 import { Sprite } from "../../Sprite";
 import * as $math from "../../utils/Math";
 import * as $path from "../../rendering/Path";
-import { Color, color } from "../../utils/Color";
+import { Color, color, toColor } from "../../utils/Color";
 import { RadialGradient } from "../../rendering/fills/RadialGradient";
 import { LinearGradient } from "../../rendering/fills/LinearGradient";
 import { LightenFilter } from "../../rendering/filters/LightenFilter";
+import * as $type from "../../utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -152,6 +153,9 @@ var Rectangle3D = /** @class */ (function (_super) {
      */
     Rectangle3D.prototype.setFill = function (value) {
         _super.prototype.setFill.call(this, value);
+        if ($type.isString(value)) {
+            value = toColor(value);
+        }
         var colorStr;
         if (value instanceof Color) {
             colorStr = value.hex;

@@ -72,7 +72,7 @@ export declare class AxisTick extends Tick {
     _events: IAxisTickEvents;
     _dataItem: AxisDataItem;
     /**
-     * A referecent to Axis element this fill is applied to.
+     * A referece to Axis element this tick is placed on.
      */
     axis: Axis;
     constructor();
@@ -100,7 +100,7 @@ export declare class AxisTick extends Tick {
      * @return Draw above series?
      */
     /**
-     * Normally fill goes below series. Set this to `true` to go above.
+     * Normally tick goes below series. Set this to `true` to go above.
      *
      * @default false
      * @since 4.5.9

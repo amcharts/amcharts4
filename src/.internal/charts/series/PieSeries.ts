@@ -447,6 +447,14 @@ export class PieSeries extends PercentSeries {
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
 		if (this.pixelRadius > 0) {
+
+			if (this.ignoreZeroValues && dataItem.value == 0) {
+				dataItem.__disabled = true;
+			}
+			else {
+				dataItem.__disabled = false;
+			}
+
 			// SLICE
 			let slice: Slice = dataItem.slice;
 			slice.radius = this.pixelRadius;

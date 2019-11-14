@@ -118,11 +118,12 @@ export interface ISeriesDataFields extends IComponentDataFields {
  */
 export interface ISeriesProperties extends IComponentProperties {
     /**
-     * Minimal distance between two adjacent bullets in pixels.
+     * Minimal distance between data points in pixels.
      *
-     * If bullet is closer, it will be skipped and not shown.
+     * If distance gets smaller than this, bullets are turned off to avoid
+     * overlapping.
      *
-     * This allows to avoid crammed up graphs wil a lot of bullets.
+     * `0` (zero) disables this behavior.
      *
      * @default 0
      */
@@ -497,11 +498,12 @@ export declare class Series extends Component {
      * @return Distance (px)
      */
     /**
-     * Minimal distance between two adjacent bullets in pixels.
+     * Minimal distance between data points in pixels.
      *
-     * If bullet is closer, it will be skipped and not shown.
+     * If distance gets smaller than this, bullets are turned off to avoid
+     * overlapping.
      *
-     * This allows to avoid crammed up graphs wil a lot of bullets.
+     * `0` (zero) disables this behavior.
      *
      * IMPORTANT: This setting will work only when Series' base axis
      * is [[CategoryAxis]] or [[DateAxis]]. If base axis is [[ValueAxis]] the
@@ -609,7 +611,50 @@ export declare class Series extends Component {
      */
     protected applyFilters(): void;
     /**
-     * @todo Description
+     * A list of heat rules to apply to series' elements based on the value
+     * of the data item.
+     *
+     * Heat rules can be any "numeric" (including `Color`) property, and can also
+     * be applied to child objects of series, like columns, bullets, etc.
+     *
+     * E.g.:
+     *
+     * ```TypeScript
+     * series.heatRules.push({
+     *  "target": series.columns.template,
+     *  "property": "fill",
+     *  "min": am4core.color("#F5DBCB"),
+     *  "max": am4core.color("#ED7B84"),
+     *  "dataField": "valueY"
+     *});
+     *```
+     * ```Javacript
+     * series.heatRules.push({
+     *  "target": series.columns.template,
+     *  "property": "fill",
+     *  "min": am4core.color("#F5DBCB"),
+     *  "max": am4core.color("#ED7B84"),
+     *  "dataField": "valueY"
+     *});
+     *```
+     *```JSON
+     *{
+     *  // ...
+     *  "series": [{
+     *    "type": "ColumnSeries",
+     *    "heatRules": [{
+     *      "target": "columns.template",
+     *      "property": "fill",
+     *      "min": "#F5DBCB",
+     *      "max": "#ED7B84",
+     *      "dataField": "valueY"
+     *    }]
+     *  }]
+     *}
+     *```
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/series/#Heat_maps} for more about heat rules
+     * @return  Heat rules
      */
     readonly heatRules: List<IHeatRule>;
     /**

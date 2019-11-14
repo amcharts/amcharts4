@@ -70,13 +70,22 @@ var AxisRendererY = /** @class */ (function (_super) {
      * @ignore
      */
     AxisRendererY.prototype.toAxisPosition = function (value) {
-        var inversedPosition = 1 - value;
         var axis = this.axis;
-        var parent = axis.parent;
-        if (axis && parent) {
-            var relativeY = axis.pixelY / parent.innerHeight;
-            var relativeHeight = axis.axisLength / parent.innerHeight;
-            return 1 - (inversedPosition - relativeY) / relativeHeight;
+        if (axis) {
+            var inversedPosition = 1 - value;
+            var relativePositionSprite = axis.relativePositionSprite;
+            var y = axis.pixelY;
+            if (relativePositionSprite) {
+                y = $utils.spritePointToSprite({ x: 0, y: this.pixelY }, this.parent, relativePositionSprite).y;
+            }
+            else {
+                relativePositionSprite = axis.parent;
+            }
+            if (relativePositionSprite) {
+                var relativeY = y / relativePositionSprite.innerHeight;
+                var relativeHeight = axis.axisLength / relativePositionSprite.innerHeight;
+                return 1 - (inversedPosition - relativeY) / relativeHeight;
+            }
         }
         return value;
     };

@@ -255,6 +255,7 @@ export declare class FunnelSeries extends PercentSeries {
      * @param dataItem [description]
      */
     protected decorateSlice(dataItem: this["_dataItem"]): void;
+    protected getLastLabel(index: number): Label;
     /**
      * [arrangeLabels description]
      *

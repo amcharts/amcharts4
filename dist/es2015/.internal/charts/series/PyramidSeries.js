@@ -128,13 +128,15 @@ var PyramidSeries = /** @class */ (function (_super) {
         var maxWidth = this.slicesContainer.innerWidth;
         var maxHeight = this.slicesContainer.innerHeight;
         this.dataItems.each(function (dataItem) {
-            var relValue = dataItem.getWorkingValue("value") / dataItem.value;
-            var sliceLink = dataItem.sliceLink;
-            if (_this.orientation == "vertical") {
-                maxHeight -= (sliceLink.pixelHeight * relValue);
-            }
-            else {
-                maxWidth -= (sliceLink.pixelWidth * relValue);
+            if (dataItem.value > 0) {
+                var relValue = dataItem.getWorkingValue("value") / dataItem.value;
+                var sliceLink = dataItem.sliceLink;
+                if (_this.orientation == "vertical") {
+                    maxHeight -= (sliceLink.pixelHeight * relValue);
+                }
+                else {
+                    maxWidth -= (sliceLink.pixelWidth * relValue);
+                }
             }
         });
         this._pyramidHeight = $utils.relativeToValue(this.pyramidHeight, maxHeight);
@@ -170,7 +172,7 @@ var PyramidSeries = /** @class */ (function (_super) {
         var tick = dataItem.tick;
         // TODO can this be removed ?
         this.getNextValue(dataItem);
-        var workingValue = dataItem.getWorkingValue("value");
+        var workingValue = Math.abs(dataItem.getWorkingValue("value"));
         if (workingValue == 0) {
             workingValue = 0.000001;
         }
@@ -180,6 +182,12 @@ var PyramidSeries = /** @class */ (function (_super) {
         var maxHeight = this.slicesContainer.innerHeight;
         var linkWidth = sliceLink.pixelWidth;
         var linkHeight = sliceLink.pixelHeight;
+        if (dataItem.value == 0 && this.ignoreZeroValues) {
+            dataItem.__disabled = true;
+        }
+        else {
+            dataItem.__disabled = false;
+        }
         if (this.orientation == "vertical") {
             var topWidth = $utils.relativeToValue(this.topWidth, maxWidth);
             if (!$type.isNumber(this._nextWidth)) {
@@ -221,7 +229,7 @@ var PyramidSeries = /** @class */ (function (_super) {
                 label.x = 0;
             }
             label.y = slice.pixelY + slice.pixelHeight * tick.locationY + slice.dy;
-            this._nextY += slice.pixelHeight + linkHeight * workingValue / dataItem.value;
+            this._nextY += slice.pixelHeight + linkHeight * workingValue / Math.max(Math.abs(dataItem.value), 0.00000001);
             sliceLink.y = this._nextY - linkHeight;
             sliceLink.x = maxWidth / 2;
         }
@@ -263,7 +271,7 @@ var PyramidSeries = /** @class */ (function (_super) {
                 label.y = this.labelsContainer.measuredHeight;
             }
             label.x = slice.pixelX + slice.pixelWidth * tick.locationX + slice.dx;
-            this._nextY += slice.pixelWidth + linkWidth * workingValue / dataItem.value;
+            this._nextY += slice.pixelWidth + linkWidth * workingValue / Math.max(Math.abs(dataItem.value), 0.00000001);
             sliceLink.x = this._nextY - linkWidth;
             sliceLink.y = maxHeight / 2;
         }

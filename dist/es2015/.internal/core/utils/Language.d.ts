@@ -218,6 +218,8 @@ export interface ILocaleProperties {
     "Error parsing file: %1"?: string;
     "Unable to load file: %1"?: string;
     "Invalid date"?: string;
+    "Close"?: string;
+    "Minimize"?: string;
 }
 /**
  * Defines functions that exist for the locale.

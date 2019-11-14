@@ -236,15 +236,16 @@ export class PyramidSeries extends FunnelSeries {
 		let maxHeight = this.slicesContainer.innerHeight;
 
 		this.dataItems.each((dataItem) => {
-			let relValue = dataItem.getWorkingValue("value") / dataItem.value;
-			let sliceLink = dataItem.sliceLink;
-			if (this.orientation == "vertical") {
-				maxHeight -= (sliceLink.pixelHeight * relValue);
+			if (dataItem.value > 0) {
+				let relValue = dataItem.getWorkingValue("value") / dataItem.value;
+				let sliceLink = dataItem.sliceLink;
+				if (this.orientation == "vertical") {
+					maxHeight -= (sliceLink.pixelHeight * relValue);
+				}
+				else {
+					maxWidth -= (sliceLink.pixelWidth * relValue);
+				}
 			}
-			else {
-				maxWidth -= (sliceLink.pixelWidth * relValue);
-			}
-
 		})
 
 		this._pyramidHeight = $utils.relativeToValue(this.pyramidHeight, maxHeight);
@@ -288,7 +289,7 @@ export class PyramidSeries extends FunnelSeries {
 		// TODO can this be removed ?
 		this.getNextValue(dataItem);
 
-		let workingValue = dataItem.getWorkingValue("value");
+		let workingValue = Math.abs(dataItem.getWorkingValue("value"));
 
 		if (workingValue == 0) {
 			workingValue = 0.000001;
@@ -302,6 +303,13 @@ export class PyramidSeries extends FunnelSeries {
 
 		let linkWidth = sliceLink.pixelWidth;
 		let linkHeight = sliceLink.pixelHeight;
+
+		if (dataItem.value == 0 && this.ignoreZeroValues) {
+			dataItem.__disabled = true;
+		}
+		else {
+			dataItem.__disabled = false;
+		}
 
 		if (this.orientation == "vertical") {
 			let topWidth = $utils.relativeToValue(this.topWidth, maxWidth);
@@ -338,7 +346,6 @@ export class PyramidSeries extends FunnelSeries {
 				sliceBottomWidth = sliceTopWidth - sliceHeight * c;
 			}
 
-
 			slice.height = sliceHeight;
 			slice.width = maxWidth;
 			slice.bottomWidth = sliceBottomWidth;
@@ -359,7 +366,7 @@ export class PyramidSeries extends FunnelSeries {
 
 			label.y = slice.pixelY + slice.pixelHeight * tick.locationY + slice.dy;
 
-			this._nextY += slice.pixelHeight + linkHeight * workingValue / dataItem.value;
+			this._nextY += slice.pixelHeight + linkHeight * workingValue / Math.max(Math.abs(dataItem.value), 0.00000001);
 			sliceLink.y = this._nextY - linkHeight;
 			sliceLink.x = maxWidth / 2;
 		}
@@ -412,7 +419,7 @@ export class PyramidSeries extends FunnelSeries {
 
 			label.x = slice.pixelX + slice.pixelWidth * tick.locationX + slice.dx;
 
-			this._nextY += slice.pixelWidth + linkWidth * workingValue / dataItem.value;
+			this._nextY += slice.pixelWidth + linkWidth * workingValue / Math.max(Math.abs(dataItem.value), 0.00000001);
 			sliceLink.x = this._nextY - linkWidth;
 			sliceLink.y = maxHeight / 2;
 		}

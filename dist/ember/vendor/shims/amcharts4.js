@@ -902,6 +902,22 @@ define('@amcharts/amcharts4-geodata/czechiaLow', [], function () {
   }
   throw new Error("You must add 'geodata/czechiaLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/data/countries', [], function () {
+  'use strict';
+  var output = self.am4geodata_data_countries;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/data/countries' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/data/countries2', [], function () {
+  'use strict';
+  var output = self.am4geodata_data_countries2;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/data/countries2' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/denmarkHigh', [], function () {
   'use strict';
   var output = self.am4geodata_denmarkHigh;
@@ -1381,6 +1397,22 @@ define('@amcharts/amcharts4-geodata/icelandLow', [], function () {
     return output;
   }
   throw new Error("You must add 'geodata/icelandLow' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/india2019High', [], function () {
+  'use strict';
+  var output = self.am4geodata_india2019High;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/india2019High' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/india2019Low', [], function () {
+  'use strict';
+  var output = self.am4geodata_india2019Low;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/india2019Low' to the amcharts4.files array in your EmberApp.");
 });
 define('@amcharts/amcharts4-geodata/indiaHigh', [], function () {
   'use strict';
@@ -6241,14 +6273,6 @@ define('@amcharts/amcharts4/plugins/sliceGrouper', [], function () {
     return output;
   }
   throw new Error("You must add 'plugins/sliceGrouper' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/plugins/stock', [], function () {
-  'use strict';
-  var output = self.am4plugins_stock;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'plugins/stock' to the amcharts4.files array in your EmberApp.");
 });
 define('@amcharts/amcharts4/plugins/sunburst', [], function () {
   'use strict';

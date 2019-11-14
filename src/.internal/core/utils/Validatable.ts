@@ -10,6 +10,7 @@
  * @hidden
  */
 import { BaseObjectEvents } from "../Base";
+import { IDisposer } from "../utils/Disposer";
 import { registry } from "../Registry";
 
 /**
@@ -23,7 +24,7 @@ export class Validatable extends BaseObjectEvents {
 	/**
 	 * Is invalid and should be revalidated?
 	 */
-	protected _invalid: boolean = false;
+	private _validateDisposer: IDisposer | null = null;
 
 	/**
 	 * Invalidates the element, so that it can re-validate/redraw itself in the
@@ -32,9 +33,8 @@ export class Validatable extends BaseObjectEvents {
 	 * @ignore Exclude from docs
 	 */
 	public invalidate(): void {
-		if (this._invalid === false) {
-			this._invalid = true;
-			registry.events.on("exitframe", this.validate, this);
+		if (this._validateDisposer === null) {
+			this._validateDisposer = registry.events.on("exitframe", this.validate, this);
 		}
 	}
 
@@ -48,10 +48,18 @@ export class Validatable extends BaseObjectEvents {
 	 * @ignore Exclude from docs
 	 */
 	public validate(): void {
-		if (this._invalid === true) {
-			this._invalid = false;
-			registry.events.off("exitframe", this.validate, this);
+		if (this._validateDisposer !== null) {
+			this._validateDisposer.dispose();
+			this._validateDisposer = null;
 		}
 	}
 
+	public dispose(): void {
+		if (this._validateDisposer !== null) {
+			this._validateDisposer.dispose();
+			this._validateDisposer = null;
+		}
+
+		super.dispose();
+	}
 }

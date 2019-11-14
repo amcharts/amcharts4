@@ -1076,7 +1076,7 @@ var Axis = /** @class */ (function (_super) {
             if (!local) {
                 position = this.toAxisPosition(position);
             }
-            if (!$type.isNumber(position) || position < 0 || position > 1) {
+            if (!$type.isNumber(position) || position < this.start || position > this.end) {
                 tooltip.hide(0);
                 this._tooltipPosition = undefined;
                 return;

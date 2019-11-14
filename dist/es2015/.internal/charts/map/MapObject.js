@@ -162,6 +162,26 @@ var MapObject = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Shows the element's [[Tooltip]].
+     *
+     * A tooltip will be populated using text templates in either `tooltipHTML` or
+     * `tooltipText` as well as data in `tooltipDataItem`.
+     *
+     * @see {@link Tooltip}
+     * @param optional point (sprite-related) to which tooltip must point.
+     * @return returns true if the tooltip was shown and false if it wasn't (no text was found)
+     */
+    MapObject.prototype.showTooltip = function (point) {
+        var res = _super.prototype.showTooltip.call(this, point);
+        if (res && this.showTooltipOn == "always" && !this.series.chart.events.has("mappositionchanged", this.handleTooltipMove, this)) {
+            this.series.chart.events.on("mappositionchanged", this.handleTooltipMove, this);
+        }
+        return res;
+    };
+    MapObject.prototype.handleTooltipMove = function (ev) {
+        this.showTooltip();
+    };
     return MapObject;
 }(Container));
 export { MapObject };

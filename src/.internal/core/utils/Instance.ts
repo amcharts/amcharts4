@@ -86,7 +86,8 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 		sprite.focusFilter = new FocusFilter();
 		registry.baseSprites.push(sprite);
 		registry.baseSpritesByUid[uid] = sprite;
-		sprite.maskRectangle = { x: 0, y: 0, width: svgDiv.width, height: svgDiv.height };
+
+		sprite.maskRectangle = { x: 0, y: 0, width: Math.max(svgDiv.width, 0), height: Math.max(svgDiv.height, 0) };
 
 		// this solves issues with display:none, as all children are measured as 0x0
 		container.events.on("maxsizechanged", (event) => {
@@ -94,7 +95,7 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 				container.deepInvalidate();
 			}
 			if (sprite.maskRectangle) {
-				sprite.maskRectangle = { x: 0, y: 0, width: svgDiv.width, height: svgDiv.height };
+				sprite.maskRectangle = { x: 0, y: 0, width: Math.max(svgDiv.width, 0), height: Math.max(svgDiv.height, 0) };
 			}
 		});
 

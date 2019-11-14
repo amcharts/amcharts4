@@ -184,5 +184,7 @@ declare const _default: {
     "Error parsing file: %1": string;
     "Unable to load file: %1": string;
     "Invalid date": string;
+    "Close": string;
+    "Minimize": string;
 };
 export default _default;

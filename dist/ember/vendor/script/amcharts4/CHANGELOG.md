@@ -5,6 +5,32 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.9] - 2019-11-14
+
+### Added
+- New `Sprite` property: `showTooltipOn`. Available options: `"hover"` (default), `"hit"`, and `"always"`.
+- `ignoreZeroValues` added to `PercentSeries` (default: `false`). If set to `true` it will not show slices with zero values.
+
+### Changed
+- `Sprite` property `alwaysShowTooltip` is now being deprecated in favor of `showTooltipOn = "always"`.
+- In `WordCloud` words connected with a dash without spaces will not be treated as a single word, e.g. "76-ers" is now a single word rather than two separate words "76" and "ers".
+- JSON config based charts will now fail with a critical error if there's incorrect `type` specified for one of the objects.
+
+### Fixed
+- Initial chart responsive rules were sometimes not being applied.
+- When `MapChart` was zoomed/panned, "always-on" tooltip were remaining in the same place.
+- HTML labels with `maxWidth` and `wrap` set were not being sized correctly.
+- Sides of `Column3D` were not being colored properly when `fill` was being set via `propertyFields` and string-based hex color codes were used in data.
+- After click on chart with `XYCursor` that `behavior = "select*"` its `xRange` and `yRange` was not being reset and could show ranges from previous selection.
+- `XYCursor` will now respect order of series when showing their tooltips if they share the same value.
+- Tooltip position of rotated and/or scaled sprites was incorrect.
+- Changing series of `XYChartScrollbar` was not working properly (old series could remain or new series were not appearing).
+- `PictorialSeries`, and `PyramidSeries` were not working properly with slices with `<= 0` values.
+- When removing data from a chart using `addData(data, removeCount)`, chart was rmeoving data items from series which had data set explicitly.
+- Bullets on a `RadarChart` could be displayed in wrong positions when zooming/hiding series.
+- When minimizing series they could animate to incorrect minimum values and adjust min/max values.
+
+
 ## [4.7.8] - 2019-11-05
 
 ### Added

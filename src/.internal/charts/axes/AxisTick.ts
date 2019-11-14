@@ -88,7 +88,7 @@ export class AxisTick extends Tick {
 	public _dataItem: AxisDataItem;
 
 	/**
-	 * A referecent to Axis element this fill is applied to.
+	 * A referece to Axis element this tick is placed on.
 	 */
 	public axis: Axis;
 
@@ -149,7 +149,7 @@ export class AxisTick extends Tick {
 	}
 
 	/**
-	 * Normally fill goes below series. Set this to `true` to go above.
+	 * Normally tick goes below series. Set this to `true` to go above.
 	 *
 	 * @default false
 	 * @since 4.5.9

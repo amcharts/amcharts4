@@ -142,6 +142,7 @@ export interface ISpriteProperties {
 	tooltipY?: number | Percent;
 	alwaysShowTooltip?: boolean;
 	tooltipPosition?: "fixed" | "pointer";
+	showTooltipOn?: "hover" | "hit" | "always";
 	interactionsEnabled?: boolean;
 	horizontalCenter?: HorizontalCenter;
 	verticalCenter?: VerticalCenter;
@@ -341,7 +342,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	protected _isTemplate: boolean = false;
 
-	protected _isPath:boolean = false;
+	protected _isPath: boolean = false;
 
 	/**
 	 * Holds collection of Sprite States.
@@ -775,6 +776,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	protected _measuredWidth: number;
 	protected _measuredHeight: number;
 
+	// unrotated unscaled
 	protected _measuredWidthSelf: number;
 	protected _measuredHeightSelf: number;
 
@@ -804,6 +806,24 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @ignore
 	 */
 	public maxBottom: number = 0;
+
+	// not rotated and not scaled
+	/**
+	 * @ignore
+	 */
+	public maxLeftSelf: number = 0;
+	/**
+	 * @ignore
+	 */
+	public maxRightSelf: number = 0;
+	/**
+	 * @ignore
+	 */
+	public maxTopSelf: number = 0;
+	/**
+	 * @ignore
+	 */
+	public maxBottomSelf: number = 0;	
 
 	protected _isDragged: boolean = false;
 
@@ -973,7 +993,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		this.setPropertyValue("horizontalCenter", "none");
 
 		this.setPropertyValue("tooltipX", percent(50));
-		this.setPropertyValue("tooltipX", percent(50));		
+		this.setPropertyValue("tooltipX", percent(50));
 
 		this.setPropertyValue("marginTop", 0);
 		this.setPropertyValue("marginBottom", 0);
@@ -992,6 +1012,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		this.setPropertyValue("hidden", false);
 		this.setPropertyValue("urlTarget", "_self");
 		this.setPropertyValue("alwaysShowTooltip", false);
+		this.setPropertyValue("showTooltipOn", "hover");
 
 		this._prevMeasuredWidth = 0;
 		this._prevMeasuredHeight = 0;
@@ -1228,7 +1249,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			// TODO clear existing positionchanged dispatches ?
 			this.dispatch("positionchanged");
 
-			if (this.alwaysShowTooltip) {
+			if (this.showTooltipOn == "hit" || this.showTooltipOn == "always") {
 				this.updateTooltipPosition();
 			}
 		}
@@ -1331,7 +1352,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this.dispatch("validated");
 		}
 
-		if (this.alwaysShowTooltip) {
+		if (this.showTooltipOn == "always") {
 			if (this.visible && !this.disabled && !this.__disabled) {
 				this.showTooltip();
 			}
@@ -1770,7 +1791,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		this._alwaysShowDisposers = [];
 
-		if (this.alwaysShowTooltip) {
+		if (this.showTooltipOn == "always") {
 			while (sprite != undefined) {
 				let disposer = sprite.events.on("visibilitychanged", this.handleAlwaysShow, this, false);
 				this.addDisposer(disposer);
@@ -2316,7 +2337,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		// of
 		this.group.add(element);
 
-		if(element.node instanceof SVGPathElement){
+		if (element.node instanceof SVGPathElement) {
 			this._isPath = true;
 		}
 
@@ -2510,6 +2531,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		let positionPrecision = this._positionPrecision;
 
+		this.maxLeftSelf = this.maxLeft;
+		this.maxRightSelf = this.maxRight;
+		this.maxTopSelf = this.maxTop;
+		this.maxBottomSelf = this.maxBottom;
+
 		// if a sprite is rotated or scaled, calculate measured size after transformations
 		if (this.rotation !== 0 || this.scale !== 1) {
 
@@ -2577,7 +2603,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			// TODO clear existing sizechanged dispatches ?
 			this.dispatch("sizechanged");
 
-			if ((this.isHover || this.alwaysShowTooltip) && this.tooltip && this.tooltip.visible && ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML))) {
+			if ((this.isHover || this.showTooltipOn == "hit" || this.showTooltipOn == "always") && this.tooltip && this.tooltip.visible && ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML))) {
 				this.updateTooltipPosition();
 			}
 
@@ -3040,12 +3066,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		let state: SpriteState<this["_properties"], this["_adapter"]> = event.newValue;
 		state.sprite = this;
 		state.name = event.key;
-
-		if (this.states.hasKey("hover") || $type.hasValue(this.tooltipHTML) || $type.hasValue(this.tooltipText)) {
+		if (this.states.hasKey("hover") || (this.showTooltipOn == "hover" && ($type.hasValue(this.tooltipHTML) || $type.hasValue(this.tooltipText)))) {
 			this.hoverable = true;
 		}
 
-		if (this.states.hasKey("down")) {
+		if (this.states.hasKey("down") || (this.showTooltipOn == "hover" && ($type.hasValue(this.tooltipHTML) || $type.hasValue(this.tooltipText)))) {
 			this.clickable = true;
 		}
 
@@ -4281,29 +4306,29 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		S extends { cloneId: string, events: EventDispatcher<{ propertychanged: { property: string } }> },
 		From extends (keyof S & keyof this),
 		To extends keyof this
-	>(
-		property: To,
-		source: S,
-		bindToProperty: From,
-		modifier?: (value: this[From]) => this[To]
-	): void;
+		>(
+			property: To,
+			source: S,
+			bindToProperty: From,
+			modifier?: (value: this[From]) => this[To]
+		): void;
 	public bind<
 		S extends { cloneId: string, events: EventDispatcher<{ propertychanged: { property: string } }> },
 		Key extends (keyof S & keyof this)
-	>(
-		property: Key,
-		source: S,
-		modifier?: (value: this[Key]) => this[Key]
-	): void;
+		>(
+			property: Key,
+			source: S,
+			modifier?: (value: this[Key]) => this[Key]
+		): void;
 	public bind<
 		S extends this & { cloneId: string, events: EventDispatcher<{ propertychanged: { property: string } }> },
 		Key extends (keyof S & keyof this)
-	>(
-		property: Key,
-		source: S,
-		bindToProperty: Key = property,
-		modifier?: (value: this[Key]) => this[Key]
-	): void {
+		>(
+			property: Key,
+			source: S,
+			bindToProperty: Key = property,
+			modifier?: (value: this[Key]) => this[Key]
+		): void {
 		if ($type.hasValue(this._bindings[<string>property])) {
 			this._bindings[<string>property].dispose();
 		}
@@ -5296,10 +5321,14 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				point = $utils.documentPointToSvg(ev.pointer.point, this.svgContainer.SVGContainer, this.svgContainer.cssScale)
 			}
 
-			this.showTooltip(point);
+			if (this.showTooltipOn == "hover") {
+				this.showTooltip(point);
+			}
 		}
 		else {
-			this.hideTooltip();
+			if (this.showTooltipOn == "hover") {
+				this.hideTooltip();
+			}
 			if (!this.isHidden && this.states.hasKey("hover")) {
 				this.applyCurrentState();
 			}
@@ -5327,7 +5356,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			}, 10);
 			return;
 		}
-		this.hideTooltip();
+		if (this.showTooltipOn == "hover") {
+			this.hideTooltip();
+		}
 		this._outTimeout = this.setTimeout(this.handleOutReal.bind(this), this.rollOutDelay);
 	}
 
@@ -5406,6 +5437,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		this._isResized = false;
 		if (this.states.hasKey("down")) {
 			this.applyCurrentState();
+		}
+		if (this.showTooltipOn == "hit") {
+			this.showTooltip();
+			this._disposers.push(getInteraction().body.events.once("down", (ev) => {
+				this.hideTooltip();
+			}));
 		}
 	}
 
@@ -8422,7 +8459,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public showTooltip(point?: IPoint): boolean {
 
-		if (this.alwaysShowTooltip && !this._tooltip && this.tooltip) {
+		if (this.showTooltipOn == "always" && !this._tooltip && this.tooltip) {
 			this._tooltip = this.tooltip.clone();
 		}
 
@@ -8637,7 +8674,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public hideTooltip(duration?: number): void {
 
-		if (this.alwaysShowTooltip) {
+		if (this.showTooltipOn == "always") {
 			return;
 		}
 
@@ -8761,18 +8798,47 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	}
 
 	/**
+	 * DEPRECATION NOTICE: This setting is deprecated in favor of a more flexible
+	 * setting: `showTooltipOn`. Please use `showTooltipOn = "always"` instead.
+	 * 
 	 * Indicates if this element should display a tooltip permanently.
 	 *
 	 * Useful, if you want to show permanent tooltips on some items.
+	 *
+	 * @default false
+	 * @since 4.5.4
+	 * @deprecated Use `showTooltipOn = "always"` instead
+	 * @param  value  Always show tooltip?
+	 */
+	public set alwaysShowTooltip(value: boolean) {
+		value = $type.toBoolean(value);
+		if (value) {
+			this.showTooltipOn = "always";
+		}
+	}
+
+	/**
+	 * @return Always show tooltip?
+	 */
+	public get alwaysShowTooltip(): boolean {
+		return this.getPropertyValue("showTooltipOn") == "always";
+	}
+
+	/**
+	 * Indicates when tooltip needs to be shown on this element:
+	 *
+	 * * `"hover"` (default) - Tooltip will be shown when element is hovered on.
+	 * * `"hit"` - Tooltip will be shown when element is clicked/tapped. Tooltip will be hidden when clicked/tapped anywhere else.
+	 * * `"always"` - Tooltip will be shown on the element permanently.
 	 *
 	 * For example, if you would like to show tooltips on all of the columns of
 	 * a [[ColumnSeries]]:
 	 *
 	 * ```TypeScript
-	 * series.columns.template.alwaysShowTooltip = true;
+	 * series.columns.template.showTooltipOn = "always";
 	 * ```
 	 * ```JavaScript
-	 * series.columns.template.alwaysShowTooltip = true;
+	 * series.columns.template.showTooltipOn = "always";
 	 * ```
 	 * ```JSON
 	 * {
@@ -8780,7 +8846,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 *   "series": [{
 	 *     // ...
 	 *     "columns": {
-	 *       "alwaysShowTooltip": true
+	 *       "showTooltipOn": "always"
 	 *     }
 	 *   }]
 	 * }
@@ -8789,10 +8855,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * It can even be set to display on a selected columns via `propertyFields`:
 	 *
 	 * ```TypeScript
-	 * series.columns.template.propertyFields.alwaysShowTooltip = "tooltip";
+	 * series.columns.template.propertyFields.showTooltipOn = "tooltip";
 	 * ```
 	 * ```JavaScript
-	 * series.columns.template.propertyFields.alwaysShowTooltip = "tooltip";
+	 * series.columns.template.propertyFields.showTooltipOn = "tooltip";
 	 * ```
 	 * ```JSON
 	 * {
@@ -8801,32 +8867,38 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 *     // ...
 	 *     "columns": {
 	 *       "propertyFields": {
-	 *         "alwaysShowTooltip": "tooltip"
+	 *         "showTooltipOn": "tooltip"
 	 *       }
 	 *     }
 	 *   }]
 	 * }
 	 * ```
 	 *
-	 * @default false
-	 * @since 4.5.4
-	 * @param  value  Always show tooltip?
+	 * @default "hover"
+	 * @since 4.7.9
+	 * @param  value  When to show tooltip
 	 */
-	public set alwaysShowTooltip(value: boolean) {
-		value = $type.toBoolean(value);
-		if (this.setPropertyValue("alwaysShowTooltip", value) && this.tooltip) {
-			if (value) {
-				this.showTooltip();
+	public set showTooltipOn(value: "hover" | "hit" | "always") {
+		if (this.setPropertyValue("showTooltipOn", value)) {
+			if (value == "hit") {
+				this.clickable = true;
 			}
-			this.handleAlwaysShowTooltip();
+			if (this.tooltip) {
+				if (value == "always") {
+					this.showTooltip();
+				}
+				else {
+					this.handleAlwaysShowTooltip();
+				}
+			}
 		}
 	}
 
 	/**
-	 * @return Always show tooltip?
+	 * @return When to show tooltip
 	 */
-	public get alwaysShowTooltip(): boolean {
-		return this.getPropertyValue("alwaysShowTooltip");
+	public get showTooltipOn(): "hover" | "hit" | "always" {
+		return this.getPropertyValue("showTooltipOn");
 	}
 
 	/**
@@ -8874,18 +8946,19 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		let x = this.getPropertyValue("tooltipX");
 
-		if(!$type.hasValue(x)){
+		if (!$type.hasValue(x)) {
 			x = percent(50);
 		}
 
-		let value:number;
-		if($type.isNumber(x)){
+		let value: number;
+		if ($type.isNumber(x)) {
 			value = x;
 		}
 
 		if (x instanceof Percent) {
-			value = this.maxLeft + this.measuredWidth * x.value - this.pixelPaddingLeft - this.ex; // overflow is know only for measured items, so this is not always good
+			value = this.maxLeftSelf + this._measuredWidthSelf * x.value - this.pixelPaddingLeft - this.ex; // overflow is know only for measured items, so this is not always good
 		}
+	
 		return value;
 	}
 
@@ -8898,16 +8971,16 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public getTooltipY(): number {
 		let y = this.getPropertyValue("tooltipY");
 
-		if(!$type.hasValue(y)){
+		if (!$type.hasValue(y)) {
 			y = percent(50);
 		}
 
-		let value:number;
-		if($type.isNumber(y)){
+		let value: number;
+		if ($type.isNumber(y)) {
 			value = y;
-		}		
+		}
 		if (y instanceof Percent) {
-			value = this.maxTop + this.measuredHeight / 2 - this.pixelPaddingTop - this.ey;  // overflow is know only for measured items, so this is not always good
+			value = this.maxTopSelf + this._measuredHeightSelf * y.value - this.pixelPaddingTop - this.ey;  // overflow is know only for measured items, so this is not always good
 		}
 
 		return value;

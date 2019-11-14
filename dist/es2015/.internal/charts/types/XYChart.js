@@ -943,17 +943,31 @@ var XYChart = /** @class */ (function (_super) {
             }
         });
         seriesPoints = filteredSeriesPoints;
-        seriesPoints.sort(function (a, b) {
-            if (a.point.y > b.point.y) {
-                return 1;
-            }
-            else if (a.point.y < b.point.y) {
-                return -1;
-            }
-            else {
-                return 0;
-            }
-        });
+        var firstSeries = this.series.getIndex(0);
+        var inversed = false;
+        if (firstSeries && firstSeries.yAxis && firstSeries.yAxis.renderer.inversed) {
+            inversed = true;
+        }
+        if (inversed) {
+            seriesPoints.sort(function (a, b) {
+                if (a.point.y >= b.point.y) {
+                    return 1;
+                }
+                else if (a.point.y < b.point.y) {
+                    return -1;
+                }
+            });
+        }
+        else {
+            seriesPoints.sort(function (a, b) {
+                if (a.point.y > b.point.y) {
+                    return 1;
+                }
+                else if (a.point.y <= b.point.y) {
+                    return -1;
+                }
+            });
+        }
         var averageY = sum / seriesPoints.length;
         var maxY = $utils.svgPointToDocument({ x: 0, y: 0 }, this.svgContainer.SVGContainer).y;
         if (seriesPoints.length > 0) {
@@ -1178,6 +1192,11 @@ var XYChart = /** @class */ (function (_super) {
             this.zoomAxes(this.yAxes, newRange, false, false, cursor.maxPanOut);
         }
         this.handleHideCursor();
+    };
+    /**
+     * @ignore
+     */
+    XYChart.prototype.handleYAxisSet = function (series) {
     };
     /**
      * Performs zoom and other operations when user starts zooming using chart

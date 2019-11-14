@@ -941,7 +941,9 @@ var BaseObject = /** @class */ (function () {
         if ($type.hasValue(registry.registeredClasses[className])) {
             return new registry.registeredClasses[className]();
         }
-        return;
+        else {
+            throw Error("Invalid type: \"" + className + "\".");
+        }
     };
     /**
      * Creates a class instance for a config entry using it's type. (as set in

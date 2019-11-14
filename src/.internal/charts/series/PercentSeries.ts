@@ -218,7 +218,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 				}
 			}));
 
-			
+
 			tick.visible = this.visible;
 		}
 		return this._tick;
@@ -244,7 +244,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 					this.component.labels.removeValue(label);
 				}
 			}));
-		
+
 			label.visible = this.visible;
 		}
 		return this._label;
@@ -272,7 +272,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 				component.slices.removeValue(slice);
 			}));
 
-			
+
 			slice.visible = this.visible;
 
 			// Apply accessibility
@@ -375,6 +375,14 @@ export interface IPercentSeriesProperties extends ISeriesProperties {
 	 * @default true
 	 */
 	alignLabels?: boolean;
+
+	/**
+	 * If set to `true` the chart will not show slices with zero values.
+	 * 
+	 * @default false
+	 * @since 4.7.9
+	 */
+	ignoreZeroValues?: boolean;
 
 }
 
@@ -807,11 +815,11 @@ export class PercentSeries extends Series {
 
 			if (label) {
 				let lh = label.measuredHeight;
-				if(!label.visible){
+				if (!label.visible) {
 					lh = 0;
-				}				
+				}
 
-				if(label.pixelY - lh / 2 < -this.maxHeight / 2){
+				if (label.pixelY - lh / 2 < -this.maxHeight / 2) {
 					label.y = -this.maxHeight / 2 + lh / 2;
 				}
 
@@ -848,11 +856,11 @@ export class PercentSeries extends Series {
 				}
 
 				let lh = label.measuredHeight;
-				if(!label.visible){
+				if (!label.visible) {
 					lh = 0;
 				}
 
-				if(i == dataItems.length - 1){
+				if (i == dataItems.length - 1) {
 					previousTop += lh / 2;
 				}
 
@@ -876,10 +884,10 @@ export class PercentSeries extends Series {
 			let nextDataItem: this["_dataItem"] = dataItems[index];
 			if (nextDataItem) {
 				if (nextDataItem.label) {
-					if(nextDataItem.visible){
+					if (nextDataItem.visible) {
 						return nextDataItem.label;
 					}
-					else{
+					else {
 						return this.getNextLabel(index + 1, dataItems);
 					}
 				}
@@ -1049,13 +1057,31 @@ export class PercentSeries extends Series {
 	}
 
 	/**
+	 * If set to `true` the chart will not show slices with zero values.
+	 * 
+	 * @default false
+	 * @since 4.7.9
+	 * @param  value  Ignore zero values
+	 */
+	public set ignoreZeroValues(value: boolean) {
+		this.setPropertyValue("ignoreZeroValues", value, true);
+	}
+
+	/**
+	 * @return Ignore zero values
+	 */
+	public get ignoreZeroValues(): boolean {
+		return this.getPropertyValue("ignoreZeroValues");
+	}
+
+	/**
 	 * Updates corresponding legend data item with current values.
 	 *
 	 * @ignore Exclude from docs
 	 * @param dataItem  Data item
 	 */
 	public updateLegendValue(dataItem?: this["_dataItem"]) {
-		if(dataItem){
+		if (dataItem) {
 			let legendDataItem = dataItem.legendDataItem;
 			let legendSettings = dataItem.legendSettings;
 

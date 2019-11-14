@@ -25,7 +25,7 @@ import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
-import { XYChart } from "../types/XYChart";
+
 
 
 /**
@@ -424,23 +424,17 @@ export class AxisRenderer extends Container {
 
 
 	protected getHeight(): number {
-		let axis = this.axis;
-		if (axis && axis.chart) {
-			let chart = <XYChart>this.axis.chart;
-			if (chart.plotContainer) {
-				return chart.plotContainer.pixelHeight || 0;
-			}
+		let gridContainer = this.gridContainer;
+		if(gridContainer.parent){
+			return gridContainer.parent.pixelHeight;
 		}
 		return this.gridContainer.pixelHeight || 0;
 	}
 
 	protected getWidth(): number {
-		let axis = this.axis;
-		if (axis && axis.chart) {
-			let chart = <XYChart>this.axis.chart;
-			if (chart.plotContainer) {
-				return chart.plotContainer.pixelWidth || 0;
-			}
+		let gridContainer = this.gridContainer;
+		if(gridContainer.parent){
+			return gridContainer.parent.pixelWidth;
 		}
 		return this.gridContainer.pixelWidth || 0;
 	}

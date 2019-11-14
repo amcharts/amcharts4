@@ -11,6 +11,7 @@
 import { AxisRenderer, IAxisRendererProperties, IAxisRendererAdapters, IAxisRendererEvents } from "./AxisRenderer";
 import { Axis } from "./Axis";
 import { AxisFillCircular } from "./AxisFillCircular";
+import { AxisRendererRadial } from "./AxisRendererRadial";
 import { IPoint } from "../../core/defs/IPoint";
 import { AxisTick } from "./AxisTick";
 import { GridCircular } from "./GridCircular";
@@ -125,6 +126,8 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * @ignore
 	 */
 	public pixelRadiusReal: number = 0;
+
+	public axisRendererY: AxisRendererRadial;
 
 	/**
 	 * Constructor.
@@ -296,7 +299,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	 */
 	public positionToPoint(position: number, position2?: number): IPoint {
 
-		if(!$type.isNumber(position2)){
+		if (!$type.isNumber(position2)) {
 			position2 = 1;
 		}
 
@@ -304,6 +307,11 @@ export class AxisRendererCircular extends AxisRenderer {
 		let angle: number = this.startAngle + (this.endAngle - this.startAngle) * coordinate / this.axisLength;
 		let radius = this.pixelRadius;
 		let innerRadius = this.pixelInnerRadius;
+
+		if (this.axisRendererY) {
+			let realRadius = $math.fitToRange(this.axisRendererY.positionToCoordinate(position2), 0, Infinity)
+			return { x: realRadius * $math.cos(angle), y: realRadius * $math.sin(angle) };
+		}
 
 		return { x: $math.cos(angle) * innerRadius + (radius - innerRadius) * $math.cos(angle) * position2, y: $math.sin(angle) * innerRadius + (radius - innerRadius) * $math.sin(angle) * position2 };
 	}
@@ -417,7 +425,7 @@ export class AxisRendererCircular extends AxisRenderer {
 
 		let point: IPoint = this.positionToPoint(position);
 		let radius: number = this.pixelRadius;
-		let angle: number = $math.DEGREES * Math.atan2(point.y, point.x);		
+		let angle: number = $math.DEGREES * Math.atan2(point.y, point.x);
 
 		point = { x: radius * $math.cos(angle), y: radius * $math.sin(angle) }
 

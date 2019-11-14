@@ -239,7 +239,7 @@ export class XYChartScrollbar extends Scrollbar {
 			let labelsTemplate = renderer.labels.template;
 			labelsTemplate.fillOpacity = 0.5;
 			xAxis.maxZoomCount = undefined;
-			xAxis.minZoomCount = undefined;			
+			xAxis.minZoomCount = undefined;
 
 			if (xAxis instanceof DateAxis) {
 				let vAxis = <DateAxis>xAxis;
@@ -256,6 +256,12 @@ export class XYChartScrollbar extends Scrollbar {
 			}
 			else if (xAxis instanceof ValueAxis) {
 				let vAxis = <ValueAxis>xAxis;
+				if(!$type.isNumber(vAxis.clonedFrom.minDefined)){
+					vAxis.min = undefined;
+				}
+				if(!$type.isNumber(vAxis.clonedFrom.maxDefined)){
+					vAxis.max = undefined;
+				}				
 				this._disposers.push(vAxis.clonedFrom.events.on("extremeschanged", () => {
 					if ($type.isNumber(vAxis.clonedFrom.minDefined)) {
 						vAxis.min = vAxis.clonedFrom.min;
@@ -309,7 +315,7 @@ export class XYChartScrollbar extends Scrollbar {
 			series.yAxis = yAxis;
 
 			yAxis.maxZoomCount = undefined;
-			yAxis.minZoomCount = undefined;			
+			yAxis.minZoomCount = undefined;
 
 			if (yAxis instanceof DateAxis) {
 				let vAxis = <ValueAxis>yAxis;
@@ -328,6 +334,14 @@ export class XYChartScrollbar extends Scrollbar {
 
 			else if (yAxis instanceof ValueAxis) {
 				let vAxis = <ValueAxis>yAxis;
+
+				if(!$type.isNumber(vAxis.clonedFrom.minDefined)){
+					vAxis.min = undefined;
+				}
+				if(!$type.isNumber(vAxis.clonedFrom.maxDefined)){
+					vAxis.max = undefined;
+				}
+				
 				this._disposers.push(vAxis.clonedFrom.events.on("extremeschanged", () => {
 					if ($type.isNumber(vAxis.clonedFrom.minDefined)) {
 						vAxis.min = vAxis.clonedFrom.minDefined;
@@ -413,7 +427,24 @@ export class XYChartScrollbar extends Scrollbar {
 	 */
 	protected handleSeriesRemoved(event: IListEvents<XYSeries>["removed"]) {
 		let sourceSeries: XYSeries = event.oldValue;
-		sourceSeries.events.off("validated", this.zoomOutAxes, this);
+		let scrollbarChart = this.scrollbarChart;
+
+		scrollbarChart.series.each((series) => {
+			if (series.clonedFrom == sourceSeries) {
+				scrollbarChart.series.removeValue(series);
+			}
+		})
+		if (scrollbarChart.series.length == 0) {
+			scrollbarChart.xAxes.clear();
+			scrollbarChart.yAxes.clear();
+		}
+
+		try {
+			sourceSeries.events.off("validated", this.zoomOutAxes, this);
+		}
+		catch (err) {
+
+		}
 	}
 
 	/**

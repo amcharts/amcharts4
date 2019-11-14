@@ -283,6 +283,7 @@ var MapChart = /** @class */ (function (_super) {
      * @ignore
      */
     MapChart.prototype.handleAllInited = function () {
+        var _this = this;
         var inited = true;
         this.seriesContainer.visible = true;
         this.series.each(function (series) {
@@ -296,7 +297,12 @@ var MapChart = /** @class */ (function (_super) {
             this.goHome(0);
         }
         else {
-            registry.events.once("exitframe", this.handleAllInited, this, false);
+            // TODO verify that this is correct
+            var disposer_1 = registry.events.once("exitframe", function () {
+                _this.removeDispose(disposer_1);
+                _this.handleAllInited();
+            }, this, false);
+            this.addDisposer(disposer_1);
         }
     };
     /**
@@ -565,11 +571,11 @@ var MapChart = /** @class */ (function (_super) {
                     this._backgroundSeries.invalidate();
                 }
                 this.series.each(function (series) {
-                    _this.addDisposer(series.events.once("validated", function () {
+                    series.events.once("validated", function () {
                         _this.updateCenterGeoPoint();
                         _this.updateScaleRatio();
                         _this.goHome(0);
-                    }));
+                    });
                 });
             }
         },

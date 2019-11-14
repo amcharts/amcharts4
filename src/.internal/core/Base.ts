@@ -1162,7 +1162,9 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 		if ($type.hasValue(registry.registeredClasses[className])) {
 			return new registry.registeredClasses[className]();
 		}
-		return;
+		else {
+			throw Error("Invalid type: \"" + className + "\".");
+		}
 	}
 
 	/**

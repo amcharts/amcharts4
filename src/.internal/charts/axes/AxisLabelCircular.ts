@@ -129,13 +129,13 @@ export class AxisLabelCircular extends AxisLabel {
 	 */
 	public set relativeRotation(value: number) {
 		this.setPropertyValue("relativeRotation", value, true);
-		if(!$type.hasValue(value)){
+		if (!$type.hasValue(value)) {
 			this.rotation = undefined;
 
 			let dataItem = this.dataItem;
-			if(dataItem && dataItem.component){
+			if (dataItem && dataItem.component) {
 				dataItem.component.invalidateDataItems();
-			}			
+			}
 		}
 	}
 
@@ -169,7 +169,7 @@ export class AxisLabelCircular extends AxisLabel {
 	 *
 	 * @since 4.1.2
 	 * @default false
-	 * @param {boolean} value Bent?
+	 * @param  value  Bent?
 	 */
 	public set bent(value: boolean) {
 		this.setPropertyValue("bent", value, true);
@@ -182,7 +182,7 @@ export class AxisLabelCircular extends AxisLabel {
 	}
 
 	/**
-	 * @return {number} Bent?
+	 * @return Bent?
 	 */
 	public get bent(): boolean {
 		return this.getPropertyValue("bent");
@@ -190,6 +190,9 @@ export class AxisLabelCircular extends AxisLabel {
 
 	/**
 	 * Returns label radius in pixels.
+	 * 
+	 * @param   axisRadius  Radius
+	 * @return              Pixel radius
 	 */
 	public pixelRadius(axisRadius: number): number {
 		let sign: number = 1;
@@ -202,6 +205,10 @@ export class AxisLabelCircular extends AxisLabel {
 
 	/**
 	 * Returns label horizontal radius in pixels.
+	 * 
+	 * @param   axisRadius   Radius
+	 * @param   axisRadiusY  Vertical radius
+	 * @return               Radius
 	 */
 	public pixelRadiusY(axisRadius: number, axisRadiusY: number): number {
 		let sign: number = 1;

@@ -111,7 +111,7 @@ export declare class AxisLabelCircular extends AxisLabel {
      */
     radius: number | Percent;
     /**
-     * @return {number} Bent?
+     * @return Bent?
      */
     /**
      * Specifies if label should be bent along the circle.
@@ -120,15 +120,22 @@ export declare class AxisLabelCircular extends AxisLabel {
      *
      * @since 4.1.2
      * @default false
-     * @param {boolean} value Bent?
+     * @param  value  Bent?
      */
     bent: boolean;
     /**
      * Returns label radius in pixels.
+     *
+     * @param   axisRadius  Radius
+     * @return              Pixel radius
      */
     pixelRadius(axisRadius: number): number;
     /**
      * Returns label horizontal radius in pixels.
+     *
+     * @param   axisRadius   Radius
+     * @param   axisRadiusY  Vertical radius
+     * @return               Radius
      */
     pixelRadiusY(axisRadius: number, axisRadiusY: number): number;
     /**

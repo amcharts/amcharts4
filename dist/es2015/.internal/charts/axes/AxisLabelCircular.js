@@ -100,7 +100,7 @@ var AxisLabelCircular = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisLabelCircular.prototype, "bent", {
         /**
-         * @return {number} Bent?
+         * @return Bent?
          */
         get: function () {
             return this.getPropertyValue("bent");
@@ -112,7 +112,7 @@ var AxisLabelCircular = /** @class */ (function (_super) {
          *
          * @since 4.1.2
          * @default false
-         * @param {boolean} value Bent?
+         * @param  value  Bent?
          */
         set: function (value) {
             this.setPropertyValue("bent", value, true);
@@ -128,6 +128,9 @@ var AxisLabelCircular = /** @class */ (function (_super) {
     });
     /**
      * Returns label radius in pixels.
+     *
+     * @param   axisRadius  Radius
+     * @return              Pixel radius
      */
     AxisLabelCircular.prototype.pixelRadius = function (axisRadius) {
         var sign = 1;
@@ -138,6 +141,10 @@ var AxisLabelCircular = /** @class */ (function (_super) {
     };
     /**
      * Returns label horizontal radius in pixels.
+     *
+     * @param   axisRadius   Radius
+     * @param   axisRadiusY  Vertical radius
+     * @return               Radius
      */
     AxisLabelCircular.prototype.pixelRadiusY = function (axisRadius, axisRadiusY) {
         var sign = 1;

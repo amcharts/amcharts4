@@ -12,6 +12,7 @@ import { Container, IContainerProperties, IContainerAdapters, IContainerEvents }
 import { MapSeries, MapSeriesDataItem } from "./MapSeries";
 import { registry } from "../../core/Registry";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
+import { IPoint } from "../../core/defs/IPoint";
 import * as $math from "../../core/utils/Math";
 import * as d3geo from "d3-geo";
 import * as $type from "../../core/utils/Type";
@@ -251,6 +252,28 @@ export class MapObject extends Container {
 		else if (this.dataItem) {
 			return this.dataItem.north;
 		}
+	}
+
+	/**
+	 * Shows the element's [[Tooltip]].
+	 *
+	 * A tooltip will be populated using text templates in either `tooltipHTML` or
+	 * `tooltipText` as well as data in `tooltipDataItem`.
+	 *
+	 * @see {@link Tooltip}
+	 * @param optional point (sprite-related) to which tooltip must point.
+	 * @return returns true if the tooltip was shown and false if it wasn't (no text was found)
+	 */
+	public showTooltip(point?: IPoint): boolean {
+		const res = super.showTooltip(point);
+		if (res && this.showTooltipOn == "always" && !this.series.chart.events.has("mappositionchanged", this.handleTooltipMove, this)) {
+			this.series.chart.events.on("mappositionchanged", this.handleTooltipMove, this);
+		}
+		return res;
+	}
+
+	protected handleTooltipMove(ev: any): void {
+		this.showTooltip();
 	}
 }
 

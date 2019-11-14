@@ -38,6 +38,12 @@ var FunnelSeriesDataItem = /** @class */ (function (_super) {
     function FunnelSeriesDataItem() {
         var _this = _super.call(this) || this;
         _this.className = "FunnelSeriesDataItem";
+        // this helps to invalidate series when value is 0 an it is hidden (no other events are triggered then)
+        _this.events.on("visibilitychanged", function () {
+            if (_this.component) {
+                _this.component.invalidateDataItems();
+            }
+        }, _this, false);
         _this.applyTheme();
         return _this;
     }
@@ -184,6 +190,7 @@ var FunnelSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     FunnelSeries.prototype.validateDataElements = function () {
+        var _this = this;
         var slicesContainer = this.slicesContainer;
         var labelsContainer = this.labelsContainer;
         var labelTemplate = this.labels.template;
@@ -206,7 +213,17 @@ var FunnelSeries = /** @class */ (function (_super) {
                     total += dItem.getWorkingValue("value") / dItem.value;
                 }
                 else {
-                    total += 1;
+                    if (_this.ignoreZeroValues) {
+                        count--;
+                    }
+                    else {
+                        if (!dItem.visible || dItem.__disabled || dItem.isHiding) {
+                            count--;
+                        }
+                        else {
+                            total += 1;
+                        }
+                    }
                 }
             }
         });
@@ -228,7 +245,7 @@ var FunnelSeries = /** @class */ (function (_super) {
         if (index < this.dataItems.length - 1) {
             var nextItem = this.dataItems.getIndex(index + 1);
             nextValue = nextItem.getWorkingValue("value");
-            if (!nextItem.visible || nextItem.isHiding) {
+            if (!nextItem.visible || nextItem.isHiding || nextItem.__disabled || (nextItem.value == 0 && this.ignoreZeroValues)) {
                 return this.getNextValue(nextItem);
             }
         }
@@ -281,11 +298,26 @@ var FunnelSeries = /** @class */ (function (_super) {
         var maxWidth = this.slicesContainer.innerWidth;
         var maxHeight = this.slicesContainer.innerHeight;
         var nextValue = this.getNextValue(dataItem);
-        var workingValue = dataItem.getWorkingValue("value");
+        var workingValue = Math.abs(dataItem.getWorkingValue("value"));
         var bottomRatio = this.bottomRatio;
         var d = 1;
-        if (dataItem.value > 0) {
-            d = workingValue / dataItem.value;
+        if (dataItem.value != 0) {
+            d = workingValue / Math.abs(dataItem.value);
+        }
+        else {
+            if (dataItem.__disabled || dataItem.isHiding || !dataItem.visible) {
+                d = 0.000001;
+            }
+        }
+        if (this.ignoreZeroValues && dataItem.value == 0) {
+            dataItem.__disabled = true;
+            return;
+        }
+        else {
+            dataItem.__disabled = false;
+        }
+        if (this._nextY == Infinity) {
+            this._nextY = 0;
         }
         if (this.orientation == "vertical") {
             var linkHeight = sliceLink.pixelHeight * d;
@@ -295,7 +327,7 @@ var FunnelSeries = /** @class */ (function (_super) {
             sliceLink.topWidth = slice.bottomWidth;
             sliceLink.bottomWidth = (workingValue - (workingValue - nextValue)) / this.dataItem.values.value.high * maxWidth;
             slice.y = this._nextY;
-            slice.height = $math.max(0, maxHeight / this._count * d / this._total - linkHeight);
+            slice.height = Math.min(100000, $math.max(0, maxHeight / this._count * d / this._total - linkHeight));
             slice.x = maxWidth / 2;
             if (!this.alignLabels) {
                 label.x = slice.x;
@@ -316,7 +348,7 @@ var FunnelSeries = /** @class */ (function (_super) {
             sliceLink.topWidth = slice.bottomWidth;
             sliceLink.bottomWidth = (workingValue - (workingValue - nextValue)) / this.dataItem.values.value.high * maxHeight;
             slice.x = this._nextY;
-            slice.width = maxWidth / this._count * d * 1 / this._total - linkWidth;
+            slice.width = Math.min(100000, maxWidth / this._count * d * 1 / this._total - linkWidth);
             slice.y = maxHeight / 2;
             if (!this.alignLabels) {
                 label.y = slice.y;
@@ -330,6 +362,17 @@ var FunnelSeries = /** @class */ (function (_super) {
             sliceLink.y = slice.y;
         }
     };
+    FunnelSeries.prototype.getLastLabel = function (index) {
+        if (index > 0) {
+            var lastLabel = this.labels.getIndex(index);
+            if (lastLabel.__disabled || !lastLabel.visible) {
+                return this.getLastLabel(index - 1);
+            }
+            else {
+                return lastLabel;
+            }
+        }
+    };
     /**
      * [arrangeLabels description]
      *
@@ -339,52 +382,54 @@ var FunnelSeries = /** @class */ (function (_super) {
         if (this.alignLabels) {
             var count = this.labels.length;
             if (count > 1) {
-                var lastLabel = this.labels.getIndex(count - 1);
-                var lastY = lastLabel.pixelY;
-                var lastX = lastLabel.pixelX;
-                if (count > 1) {
-                    for (var i = count - 2; i >= 0; i--) {
-                        var label = this.labels.getIndex(i);
-                        if (label.visible) {
-                            if (label.invalid) {
-                                label.validate();
-                            }
-                            if (this.orientation == "vertical") {
-                                if (label.pixelY + label.measuredHeight > lastY) {
-                                    label.y = lastY - label.measuredHeight;
+                var lastLabel = this.getLastLabel(count - 1);
+                if (lastLabel) {
+                    var lastY = lastLabel.pixelY;
+                    var lastX = lastLabel.pixelX;
+                    if (count > 1) {
+                        for (var i = count - 2; i >= 0; i--) {
+                            var label = this.labels.getIndex(i);
+                            if (label.visible && !label.__disabled) {
+                                if (label.invalid) {
+                                    label.validate();
                                 }
-                            }
-                            // horizontal
-                            else {
-                                if (label.pixelX + label.measuredWidth > lastX) {
-                                    label.x = lastX - label.measuredWidth;
+                                if (this.orientation == "vertical") {
+                                    if (label.pixelY + label.measuredHeight > lastY) {
+                                        label.y = Math.min(1000000, lastY - label.measuredHeight);
+                                    }
                                 }
+                                // horizontal
+                                else {
+                                    if (label.pixelX + label.measuredWidth > lastX) {
+                                        label.x = Math.min(1000000, lastX - label.measuredWidth);
+                                    }
+                                }
+                                lastY = label.pixelY;
+                                lastX = label.pixelX;
                             }
-                            lastY = label.pixelY;
-                            lastX = label.pixelX;
                         }
-                    }
-                    lastY = 0;
-                    lastX = 0;
-                    for (var i = 0; i < count; i++) {
-                        var label = this.labels.getIndex(i);
-                        if (label.visible) {
-                            if (label.invalid) {
-                                label.validate();
-                            }
-                            if (this.orientation == "vertical") {
-                                if (label.pixelY < lastY) {
-                                    label.y = lastY;
+                        lastY = 0;
+                        lastX = 0;
+                        for (var i = 0; i < count; i++) {
+                            var label = this.labels.getIndex(i);
+                            if (label.visible && !label.__disabled) {
+                                if (label.invalid) {
+                                    label.validate();
                                 }
-                            }
-                            // horizontal
-                            else {
-                                if (label.pixelX < lastX) {
-                                    label.x = lastX;
+                                if (this.orientation == "vertical") {
+                                    if (label.pixelY < lastY) {
+                                        label.y = Math.min(1000000, lastY);
+                                    }
                                 }
+                                // horizontal
+                                else {
+                                    if (label.pixelX < lastX) {
+                                        label.x = Math.min(1000000, lastX);
+                                    }
+                                }
+                                lastY += label.measuredHeight;
+                                lastX += label.measuredWidth;
                             }
-                            lastY += label.measuredHeight;
-                            lastX += label.measuredWidth;
                         }
                     }
                 }

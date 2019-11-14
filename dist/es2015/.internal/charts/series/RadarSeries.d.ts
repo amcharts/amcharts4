@@ -10,6 +10,7 @@
 import { LineSeries, LineSeriesDataItem, ILineSeriesDataFields, ILineSeriesProperties, ILineSeriesAdapters, ILineSeriesEvents } from "./LineSeries";
 import { LineSeriesSegment } from "./LineSeriesSegment";
 import { IPoint } from "../../core/defs/IPoint";
+import { Axis } from "../axes/Axis";
 import { RadarChart } from "../types/RadarChart";
 import { Sprite } from "../../core/Sprite";
 /**
@@ -178,4 +179,7 @@ export declare class RadarSeries extends LineSeries {
      */
     connectEnds: boolean;
     protected positionBulletReal(bullet: Sprite, positionX: number, positionY: number): void;
+    protected setXAxis(axis: Axis): void;
+    protected setYAxis(axis: Axis): void;
+    protected updateRendererRefs(): void;
 }

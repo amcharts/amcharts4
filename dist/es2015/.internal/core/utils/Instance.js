@@ -71,14 +71,14 @@ function createChild(htmlElement, classType) {
         sprite_1.focusFilter = new FocusFilter();
         registry.baseSprites.push(sprite_1);
         registry.baseSpritesByUid[uid] = sprite_1;
-        sprite_1.maskRectangle = { x: 0, y: 0, width: svgDiv_1.width, height: svgDiv_1.height };
+        sprite_1.maskRectangle = { x: 0, y: 0, width: Math.max(svgDiv_1.width, 0), height: Math.max(svgDiv_1.height, 0) };
         // this solves issues with display:none, as all children are measured as 0x0
         container_1.events.on("maxsizechanged", function (event) {
             if (event.previousWidth == 0 || event.previousHeight == 0) {
                 container_1.deepInvalidate();
             }
             if (sprite_1.maskRectangle) {
-                sprite_1.maskRectangle = { x: 0, y: 0, width: svgDiv_1.width, height: svgDiv_1.height };
+                sprite_1.maskRectangle = { x: 0, y: 0, width: Math.max(svgDiv_1.width, 0), height: Math.max(svgDiv_1.height, 0) };
             }
         });
         var loopTimer_1 = null;

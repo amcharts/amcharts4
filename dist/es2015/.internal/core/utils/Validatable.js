@@ -24,7 +24,7 @@ var Validatable = /** @class */ (function (_super) {
         /**
          * Is invalid and should be revalidated?
          */
-        _this._invalid = false;
+        _this._validateDisposer = null;
         return _this;
     }
     /**
@@ -34,9 +34,8 @@ var Validatable = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Validatable.prototype.invalidate = function () {
-        if (this._invalid === false) {
-            this._invalid = true;
-            registry.events.on("exitframe", this.validate, this);
+        if (this._validateDisposer === null) {
+            this._validateDisposer = registry.events.on("exitframe", this.validate, this);
         }
     };
     /**
@@ -49,10 +48,17 @@ var Validatable = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Validatable.prototype.validate = function () {
-        if (this._invalid === true) {
-            this._invalid = false;
-            registry.events.off("exitframe", this.validate, this);
+        if (this._validateDisposer !== null) {
+            this._validateDisposer.dispose();
+            this._validateDisposer = null;
         }
+    };
+    Validatable.prototype.dispose = function () {
+        if (this._validateDisposer !== null) {
+            this._validateDisposer.dispose();
+            this._validateDisposer = null;
+        }
+        _super.prototype.dispose.call(this);
     };
     return Validatable;
 }(BaseObjectEvents));

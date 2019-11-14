@@ -203,6 +203,8 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * A location is a position within date or category, or, in some other cases,
      * where there is no single point but rather some period.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/series/#Data_item_locations} for info how data item locations work
      */
     readonly locations: {
         [index: string]: number;

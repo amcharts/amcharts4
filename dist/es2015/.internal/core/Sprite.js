@@ -241,6 +241,23 @@ var Sprite = /** @class */ (function (_super) {
          * @ignore
          */
         _this.maxBottom = 0;
+        // not rotated and not scaled
+        /**
+         * @ignore
+         */
+        _this.maxLeftSelf = 0;
+        /**
+         * @ignore
+         */
+        _this.maxRightSelf = 0;
+        /**
+         * @ignore
+         */
+        _this.maxTopSelf = 0;
+        /**
+         * @ignore
+         */
+        _this.maxBottomSelf = 0;
         _this._isDragged = false;
         _this._isResized = false;
         /**
@@ -329,6 +346,7 @@ var Sprite = /** @class */ (function (_super) {
         _this.setPropertyValue("hidden", false);
         _this.setPropertyValue("urlTarget", "_self");
         _this.setPropertyValue("alwaysShowTooltip", false);
+        _this.setPropertyValue("showTooltipOn", "hover");
         _this._prevMeasuredWidth = 0;
         _this._prevMeasuredHeight = 0;
         _this._measuredWidth = 0;
@@ -556,7 +574,7 @@ var Sprite = /** @class */ (function (_super) {
             }
             // TODO clear existing positionchanged dispatches ?
             this.dispatch("positionchanged");
-            if (this.alwaysShowTooltip) {
+            if (this.showTooltipOn == "hit" || this.showTooltipOn == "always") {
                 this.updateTooltipPosition();
             }
         }
@@ -654,7 +672,7 @@ var Sprite = /** @class */ (function (_super) {
         else {
             this.dispatch("validated");
         }
-        if (this.alwaysShowTooltip) {
+        if (this.showTooltipOn == "always") {
             if (this.visible && !this.disabled && !this.__disabled) {
                 this.showTooltip();
             }
@@ -1042,7 +1060,7 @@ var Sprite = /** @class */ (function (_super) {
             });
         }
         this._alwaysShowDisposers = [];
-        if (this.alwaysShowTooltip) {
+        if (this.showTooltipOn == "always") {
             while (sprite != undefined) {
                 var disposer = sprite.events.on("visibilitychanged", this.handleAlwaysShow, this, false);
                 this.addDisposer(disposer);
@@ -1715,6 +1733,10 @@ var Sprite = /** @class */ (function (_super) {
         this._measuredWidthSelf = measuredWidth;
         this._measuredHeightSelf = measuredHeight;
         var positionPrecision = this._positionPrecision;
+        this.maxLeftSelf = this.maxLeft;
+        this.maxRightSelf = this.maxRight;
+        this.maxTopSelf = this.maxTop;
+        this.maxBottomSelf = this.maxBottom;
         // if a sprite is rotated or scaled, calculate measured size after transformations
         if (this.rotation !== 0 || this.scale !== 1) {
             // not good to handleGlobalScale here.
@@ -1765,7 +1787,7 @@ var Sprite = /** @class */ (function (_super) {
             this._prevMeasuredWidth = this._measuredWidth;
             // TODO clear existing sizechanged dispatches ?
             this.dispatch("sizechanged");
-            if ((this.isHover || this.alwaysShowTooltip) && this.tooltip && this.tooltip.visible && ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML))) {
+            if ((this.isHover || this.showTooltipOn == "hit" || this.showTooltipOn == "always") && this.tooltip && this.tooltip.visible && ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML))) {
                 this.updateTooltipPosition();
             }
             return true;
@@ -2202,10 +2224,10 @@ var Sprite = /** @class */ (function (_super) {
         var state = event.newValue;
         state.sprite = this;
         state.name = event.key;
-        if (this.states.hasKey("hover") || $type.hasValue(this.tooltipHTML) || $type.hasValue(this.tooltipText)) {
+        if (this.states.hasKey("hover") || (this.showTooltipOn == "hover" && ($type.hasValue(this.tooltipHTML) || $type.hasValue(this.tooltipText)))) {
             this.hoverable = true;
         }
-        if (this.states.hasKey("down")) {
+        if (this.states.hasKey("down") || (this.showTooltipOn == "hover" && ($type.hasValue(this.tooltipHTML) || $type.hasValue(this.tooltipText)))) {
             this.clickable = true;
         }
         if (this.states.hasKey("focus")) {
@@ -4328,10 +4350,14 @@ var Sprite = /** @class */ (function (_super) {
             if (ev && ev.pointer) {
                 point = $utils.documentPointToSvg(ev.pointer.point, this.svgContainer.SVGContainer, this.svgContainer.cssScale);
             }
-            this.showTooltip(point);
+            if (this.showTooltipOn == "hover") {
+                this.showTooltip(point);
+            }
         }
         else {
-            this.hideTooltip();
+            if (this.showTooltipOn == "hover") {
+                this.hideTooltip();
+            }
             if (!this.isHidden && this.states.hasKey("hover")) {
                 this.applyCurrentState();
             }
@@ -4359,7 +4385,9 @@ var Sprite = /** @class */ (function (_super) {
             }, 10);
             return;
         }
-        this.hideTooltip();
+        if (this.showTooltipOn == "hover") {
+            this.hideTooltip();
+        }
         this._outTimeout = this.setTimeout(this.handleOutReal.bind(this), this.rollOutDelay);
     };
     /**
@@ -4428,6 +4456,7 @@ var Sprite = /** @class */ (function (_super) {
      * @param ev Event
      */
     Sprite.prototype.handleUp = function (ev) {
+        var _this = this;
         /*if (!this.isDown) {
             this.interactions.originalPosition = null;
             this.interactions.originalAngle = null;
@@ -4436,6 +4465,12 @@ var Sprite = /** @class */ (function (_super) {
         this._isResized = false;
         if (this.states.hasKey("down")) {
             this.applyCurrentState();
+        }
+        if (this.showTooltipOn == "hit") {
+            this.showTooltip();
+            this._disposers.push(getInteraction().body.events.once("down", function (ev) {
+                _this.hideTooltip();
+            }));
         }
     };
     Object.defineProperty(Sprite.prototype, "clickable", {
@@ -7559,7 +7594,7 @@ var Sprite = /** @class */ (function (_super) {
      * @return returns true if the tooltip was shown and false if it wasn't (no text was found)
      */
     Sprite.prototype.showTooltip = function (point) {
-        if (this.alwaysShowTooltip && !this._tooltip && this.tooltip) {
+        if (this.showTooltipOn == "always" && !this._tooltip && this.tooltip) {
             this._tooltip = this.tooltip.clone();
         }
         // do not show if hidden
@@ -7741,7 +7776,7 @@ var Sprite = /** @class */ (function (_super) {
      * @see {@link Tooltip}
      */
     Sprite.prototype.hideTooltip = function (duration) {
-        if (this.alwaysShowTooltip) {
+        if (this.showTooltipOn == "always") {
             return;
         }
         var tooltip = this.tooltip;
@@ -7875,21 +7910,52 @@ var Sprite = /** @class */ (function (_super) {
          * @return Always show tooltip?
          */
         get: function () {
-            return this.getPropertyValue("alwaysShowTooltip");
+            return this.getPropertyValue("showTooltipOn") == "always";
         },
         /**
+         * DEPRECATION NOTICE: This setting is deprecated in favor of a more flexible
+         * setting: `showTooltipOn`. Please use `showTooltipOn = "always"` instead.
+         *
          * Indicates if this element should display a tooltip permanently.
          *
          * Useful, if you want to show permanent tooltips on some items.
+         *
+         * @default false
+         * @since 4.5.4
+         * @deprecated Use `showTooltipOn = "always"` instead
+         * @param  value  Always show tooltip?
+         */
+        set: function (value) {
+            value = $type.toBoolean(value);
+            if (value) {
+                this.showTooltipOn = "always";
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Sprite.prototype, "showTooltipOn", {
+        /**
+         * @return When to show tooltip
+         */
+        get: function () {
+            return this.getPropertyValue("showTooltipOn");
+        },
+        /**
+         * Indicates when tooltip needs to be shown on this element:
+         *
+         * * `"hover"` (default) - Tooltip will be shown when element is hovered on.
+         * * `"hit"` - Tooltip will be shown when element is clicked/tapped. Tooltip will be hidden when clicked/tapped anywhere else.
+         * * `"always"` - Tooltip will be shown on the element permanently.
          *
          * For example, if you would like to show tooltips on all of the columns of
          * a [[ColumnSeries]]:
          *
          * ```TypeScript
-         * series.columns.template.alwaysShowTooltip = true;
+         * series.columns.template.showTooltipOn = "always";
          * ```
          * ```JavaScript
-         * series.columns.template.alwaysShowTooltip = true;
+         * series.columns.template.showTooltipOn = "always";
          * ```
          * ```JSON
          * {
@@ -7897,7 +7963,7 @@ var Sprite = /** @class */ (function (_super) {
          *   "series": [{
          *     // ...
          *     "columns": {
-         *       "alwaysShowTooltip": true
+         *       "showTooltipOn": "always"
          *     }
          *   }]
          * }
@@ -7906,10 +7972,10 @@ var Sprite = /** @class */ (function (_super) {
          * It can even be set to display on a selected columns via `propertyFields`:
          *
          * ```TypeScript
-         * series.columns.template.propertyFields.alwaysShowTooltip = "tooltip";
+         * series.columns.template.propertyFields.showTooltipOn = "tooltip";
          * ```
          * ```JavaScript
-         * series.columns.template.propertyFields.alwaysShowTooltip = "tooltip";
+         * series.columns.template.propertyFields.showTooltipOn = "tooltip";
          * ```
          * ```JSON
          * {
@@ -7918,24 +7984,30 @@ var Sprite = /** @class */ (function (_super) {
          *     // ...
          *     "columns": {
          *       "propertyFields": {
-         *         "alwaysShowTooltip": "tooltip"
+         *         "showTooltipOn": "tooltip"
          *       }
          *     }
          *   }]
          * }
          * ```
          *
-         * @default false
-         * @since 4.5.4
-         * @param  value  Always show tooltip?
+         * @default "hover"
+         * @since 4.7.9
+         * @param  value  When to show tooltip
          */
         set: function (value) {
-            value = $type.toBoolean(value);
-            if (this.setPropertyValue("alwaysShowTooltip", value) && this.tooltip) {
-                if (value) {
-                    this.showTooltip();
+            if (this.setPropertyValue("showTooltipOn", value)) {
+                if (value == "hit") {
+                    this.clickable = true;
                 }
-                this.handleAlwaysShowTooltip();
+                if (this.tooltip) {
+                    if (value == "always") {
+                        this.showTooltip();
+                    }
+                    else {
+                        this.handleAlwaysShowTooltip();
+                    }
+                }
             }
         },
         enumerable: true,
@@ -7996,7 +8068,7 @@ var Sprite = /** @class */ (function (_super) {
             value = x;
         }
         if (x instanceof Percent) {
-            value = this.maxLeft + this.measuredWidth * x.value - this.pixelPaddingLeft - this.ex; // overflow is know only for measured items, so this is not always good
+            value = this.maxLeftSelf + this._measuredWidthSelf * x.value - this.pixelPaddingLeft - this.ex; // overflow is know only for measured items, so this is not always good
         }
         return value;
     };
@@ -8016,7 +8088,7 @@ var Sprite = /** @class */ (function (_super) {
             value = y;
         }
         if (y instanceof Percent) {
-            value = this.maxTop + this.measuredHeight / 2 - this.pixelPaddingTop - this.ey; // overflow is know only for measured items, so this is not always good
+            value = this.maxTopSelf + this._measuredHeightSelf * y.value - this.pixelPaddingTop - this.ey; // overflow is know only for measured items, so this is not always good
         }
         return value;
     };

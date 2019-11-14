@@ -419,12 +419,12 @@ export class Label extends Container {
 		}
 
 		if (output == "html") {
-			if(this._adapterO){
+			if (this._adapterO) {
 				text = this._adapterO.apply("htmlOutput", text);
 			}
 		}
 		else {
-			if(this._adapterO){
+			if (this._adapterO) {
 				text = this._adapterO.apply("textOutput", text);
 			}
 		}
@@ -989,6 +989,19 @@ export class Label extends Container {
 			// Create a ForeignObject to use as HTML container
 			let fo = this.paper.foreignObject();
 			group.add(fo);
+
+			// Set widths on foreignObject so that autosizing measurements work
+			// This will bet reset to actual content width/height
+			if (this.maxWidth) {
+				fo.attr({
+					width: this.maxWidth
+				});
+			}
+			if (this.maxHeight) {
+				fo.attr({
+					height: this.maxHeight
+				});
+			}
 
 			// Create line element
 			//let lineElement: HTMLElement = this.getHTMLLineElement(getTextFormatter().format(this.html, output));

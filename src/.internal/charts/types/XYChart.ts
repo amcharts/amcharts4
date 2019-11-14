@@ -979,7 +979,7 @@ export class XYChart extends SerialChart {
 	/**
 	 * @ignore
 	 */
-	protected handleAxisRemoval(event: IListEvents<Axis>["removed"]) {
+	public handleAxisRemoval(event: IListEvents<Axis>["removed"]) {
 		let axis = event.oldValue;
 		this.dataUsers.removeValue(axis); // need to remove, as it might not be disposed
 		if (axis.autoDispose) {
@@ -1265,17 +1265,32 @@ export class XYChart extends SerialChart {
 
 		seriesPoints = filteredSeriesPoints;
 
-		seriesPoints.sort((a, b) => {
-			if (a.point.y > b.point.y) {
-				return 1;
-			}
-			else if (a.point.y < b.point.y) {
-				return -1;
-			}
-			else {
-				return 0;
-			}
-		})
+		let firstSeries = this.series.getIndex(0);
+		let inversed = false;
+		if (firstSeries && firstSeries.yAxis && firstSeries.yAxis.renderer.inversed) {
+			inversed = true;
+		}
+
+		if (inversed) {
+			seriesPoints.sort((a, b) => {
+				if (a.point.y >= b.point.y) {
+					return 1;
+				}
+				else if (a.point.y < b.point.y) {
+					return -1;
+				}
+			})
+		}
+		else {
+			seriesPoints.sort((a, b) => {
+				if (a.point.y > b.point.y) {
+					return 1;
+				}
+				else if (a.point.y <= b.point.y) {
+					return -1;
+				}
+			})
+		}
 
 		let averageY = sum / seriesPoints.length;
 		let maxY = $utils.svgPointToDocument({ x: 0, y: 0 }, this.svgContainer.SVGContainer).y;
@@ -1294,6 +1309,7 @@ export class XYChart extends SerialChart {
 				let nextHeight = bottom;
 				for (let i = seriesPoints.length - 1; i >= 0; i--) {
 					let series = seriesPoints[i].series;
+
 					let tooltip = series.tooltip;
 					let pointY = seriesPoints[i].point.y;
 
@@ -1549,6 +1565,13 @@ export class XYChart extends SerialChart {
 		}
 
 		this.handleHideCursor();
+	}
+
+	/**
+	 * @ignore
+	 */
+	public handleYAxisSet(series: XYSeries) {
+
 	}
 
 	/**

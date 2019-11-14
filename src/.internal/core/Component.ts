@@ -312,7 +312,7 @@ export class Component extends Container {
 
 	/**
 	 * Holds aggregated data items.
-	 * 
+	 *
 	 * @ignore
 	 */
 	public _dataSets: Dictionary<string, OrderedListTemplate<this["_dataItem"]>>;
@@ -874,14 +874,17 @@ export class Component extends Container {
 				}
 
 				this.dataUsers.each((dataUser) => {
-					let dataItem = dataUser.dataItems.getIndex(0);
-					if (dataItem) {
-						dataUser.dataItems.remove(dataItem);
+					if(!dataUser.data || dataUser.data.length == 0){
+						let dataItem = dataUser.dataItems.getIndex(0);
+						if (dataItem) {
+							dataUser.dataItems.remove(dataItem);
+						}
 					}
 				});
 
-				this.data.shift();				
-				if(this._parseDataFrom > 0){
+				this.data.shift();
+
+				if (this._parseDataFrom > 0) {
 					this._parseDataFrom--;
 				}
 
@@ -1271,7 +1274,7 @@ export class Component extends Container {
 		if (value && value.length > 0) {
 			this.invalidateData();
 		}
-		//}		
+		//}
 	}
 
 	/**
@@ -1485,7 +1488,7 @@ export class Component extends Container {
 	 * NOTE: Responsive features are currently in development and may not work
 	 * as expected, if at all.
 	 *
-	 * @param value  Data source
+	 * @param value  Responsive rules handler
 	 */
 	public set responsive(value: Responsive) {
 		this._responsive = value;
@@ -1493,7 +1496,7 @@ export class Component extends Container {
 	}
 
 	/**
-	 * @return Data source
+	 * @return Responsive rules handler
 	 */
 	public get responsive(): Responsive {
 		if (!this._responsive) {
@@ -1549,6 +1552,7 @@ export class Component extends Container {
 
 			let maxZoomFactor: number = this.maxZoomFactor / this.minZoomCount;
 			let minZoomFactor: number = this.maxZoomFactor / this.maxZoomCount;
+
 			// most likely we are dragging left scrollbar grip here, so we tend to modify end
 
 			if (priority == "start") {
@@ -1569,8 +1573,6 @@ export class Component extends Container {
 					//end = 1;
 					start = end - 1 / maxZoomFactor;
 				}
-
-
 			}
 			// most likely we are dragging right, so we modify left
 			else {
@@ -1624,7 +1626,7 @@ export class Component extends Container {
 							return { start: start, end: end };
 						}
 						else {
-							if(!rangeChangeAnimation.isDisposed()){
+							if (!rangeChangeAnimation.isDisposed()) {
 								rangeChangeAnimation.stop();
 							}
 						}
@@ -1901,7 +1903,7 @@ export class Component extends Container {
 
 	/**
 	 * Returns a list of source [[DataItem]] objects currently used in the chart.
-	 * 
+	 *
 	 * @return List of data items
 	 */
 	public get dataItems(): OrderedListTemplate<this["_dataItem"]> {
@@ -1996,7 +1998,7 @@ export class Component extends Container {
 	/**
 	 * Returns reference to "main" data set (unaggregated data as it was supplied
 	 * in `data`).
-	 * 
+	 *
 	 * @since 4.7.0
 	 * @return Main data set
 	 */
@@ -2194,7 +2196,7 @@ export class Component extends Container {
 			}
 			else {
 				if (this._showOnInitDisposer2) {
-					this._showOnInitDisposer2.dispose();
+					this.removeDispose(this._showOnInitDisposer2);
 				}
 			}
 		}

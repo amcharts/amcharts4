@@ -617,6 +617,18 @@ var Label = /** @class */ (function (_super) {
             // Create a ForeignObject to use as HTML container
             var fo = this.paper.foreignObject();
             group.add(fo);
+            // Set widths on foreignObject so that autosizing measurements work
+            // This will bet reset to actual content width/height
+            if (this.maxWidth) {
+                fo.attr({
+                    width: this.maxWidth
+                });
+            }
+            if (this.maxHeight) {
+                fo.attr({
+                    height: this.maxHeight
+                });
+            }
             // Create line element
             //let lineElement: HTMLElement = this.getHTMLLineElement(getTextFormatter().format(this.html, output));
             var lineElement = this.getHTMLLineElement(text);

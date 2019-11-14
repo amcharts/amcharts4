@@ -175,6 +175,12 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             }
             else if (xAxis instanceof ValueAxis) {
                 var vAxis_2 = xAxis;
+                if (!$type.isNumber(vAxis_2.clonedFrom.minDefined)) {
+                    vAxis_2.min = undefined;
+                }
+                if (!$type.isNumber(vAxis_2.clonedFrom.maxDefined)) {
+                    vAxis_2.max = undefined;
+                }
                 this._disposers.push(vAxis_2.clonedFrom.events.on("extremeschanged", function () {
                     if ($type.isNumber(vAxis_2.clonedFrom.minDefined)) {
                         vAxis_2.min = vAxis_2.clonedFrom.min;
@@ -236,6 +242,12 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             }
             else if (yAxis instanceof ValueAxis) {
                 var vAxis_4 = yAxis;
+                if (!$type.isNumber(vAxis_4.clonedFrom.minDefined)) {
+                    vAxis_4.min = undefined;
+                }
+                if (!$type.isNumber(vAxis_4.clonedFrom.maxDefined)) {
+                    vAxis_4.max = undefined;
+                }
                 this._disposers.push(vAxis_4.clonedFrom.events.on("extremeschanged", function () {
                     if ($type.isNumber(vAxis_4.clonedFrom.minDefined)) {
                         vAxis_4.min = vAxis_4.clonedFrom.minDefined;
@@ -310,7 +322,21 @@ var XYChartScrollbar = /** @class */ (function (_super) {
      */
     XYChartScrollbar.prototype.handleSeriesRemoved = function (event) {
         var sourceSeries = event.oldValue;
-        sourceSeries.events.off("validated", this.zoomOutAxes, this);
+        var scrollbarChart = this.scrollbarChart;
+        scrollbarChart.series.each(function (series) {
+            if (series.clonedFrom == sourceSeries) {
+                scrollbarChart.series.removeValue(series);
+            }
+        });
+        if (scrollbarChart.series.length == 0) {
+            scrollbarChart.xAxes.clear();
+            scrollbarChart.yAxes.clear();
+        }
+        try {
+            sourceSeries.events.off("validated", this.zoomOutAxes, this);
+        }
+        catch (err) {
+        }
     };
     Object.defineProperty(XYChartScrollbar.prototype, "scrollbarChart", {
         /**

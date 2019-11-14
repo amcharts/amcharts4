@@ -82,7 +82,7 @@ var AxisTick = /** @class */ (function (_super) {
             return this.getPropertyValue("above");
         },
         /**
-         * Normally fill goes below series. Set this to `true` to go above.
+         * Normally tick goes below series. Set this to `true` to go above.
          *
          * @default false
          * @since 4.5.9

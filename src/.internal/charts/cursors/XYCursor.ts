@@ -454,9 +454,11 @@ export class XYCursor extends Cursor {
 		}
 		else {
 			if (this._generalBehavior != "select") {
-				this.selection.hide(0);				
+				this.selection.hide(0);
 			}
-			else{
+			else {
+				this.xRange = undefined;
+				this.yRange = undefined;
 				this.dispatchImmediately("selectended");
 			}
 

@@ -113,6 +113,7 @@ export interface ISpriteProperties {
     tooltipY?: number | Percent;
     alwaysShowTooltip?: boolean;
     tooltipPosition?: "fixed" | "pointer";
+    showTooltipOn?: "hover" | "hit" | "always";
     interactionsEnabled?: boolean;
     horizontalCenter?: HorizontalCenter;
     verticalCenter?: VerticalCenter;
@@ -686,6 +687,22 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @ignore
      */
     maxBottom: number;
+    /**
+     * @ignore
+     */
+    maxLeftSelf: number;
+    /**
+     * @ignore
+     */
+    maxRightSelf: number;
+    /**
+     * @ignore
+     */
+    maxTopSelf: number;
+    /**
+     * @ignore
+     */
+    maxBottomSelf: number;
     protected _isDragged: boolean;
     protected _isResized: boolean;
     /**
@@ -3757,18 +3774,37 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return Always show tooltip?
      */
     /**
+     * DEPRECATION NOTICE: This setting is deprecated in favor of a more flexible
+     * setting: `showTooltipOn`. Please use `showTooltipOn = "always"` instead.
+     *
      * Indicates if this element should display a tooltip permanently.
      *
      * Useful, if you want to show permanent tooltips on some items.
+     *
+     * @default false
+     * @since 4.5.4
+     * @deprecated Use `showTooltipOn = "always"` instead
+     * @param  value  Always show tooltip?
+     */
+    alwaysShowTooltip: boolean;
+    /**
+     * @return When to show tooltip
+     */
+    /**
+     * Indicates when tooltip needs to be shown on this element:
+     *
+     * * `"hover"` (default) - Tooltip will be shown when element is hovered on.
+     * * `"hit"` - Tooltip will be shown when element is clicked/tapped. Tooltip will be hidden when clicked/tapped anywhere else.
+     * * `"always"` - Tooltip will be shown on the element permanently.
      *
      * For example, if you would like to show tooltips on all of the columns of
      * a [[ColumnSeries]]:
      *
      * ```TypeScript
-     * series.columns.template.alwaysShowTooltip = true;
+     * series.columns.template.showTooltipOn = "always";
      * ```
      * ```JavaScript
-     * series.columns.template.alwaysShowTooltip = true;
+     * series.columns.template.showTooltipOn = "always";
      * ```
      * ```JSON
      * {
@@ -3776,7 +3812,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *   "series": [{
      *     // ...
      *     "columns": {
-     *       "alwaysShowTooltip": true
+     *       "showTooltipOn": "always"
      *     }
      *   }]
      * }
@@ -3785,10 +3821,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * It can even be set to display on a selected columns via `propertyFields`:
      *
      * ```TypeScript
-     * series.columns.template.propertyFields.alwaysShowTooltip = "tooltip";
+     * series.columns.template.propertyFields.showTooltipOn = "tooltip";
      * ```
      * ```JavaScript
-     * series.columns.template.propertyFields.alwaysShowTooltip = "tooltip";
+     * series.columns.template.propertyFields.showTooltipOn = "tooltip";
      * ```
      * ```JSON
      * {
@@ -3797,18 +3833,18 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *     // ...
      *     "columns": {
      *       "propertyFields": {
-     *         "alwaysShowTooltip": "tooltip"
+     *         "showTooltipOn": "tooltip"
      *       }
      *     }
      *   }]
      * }
      * ```
      *
-     * @default false
-     * @since 4.5.4
-     * @param  value  Always show tooltip?
+     * @default "hover"
+     * @since 4.7.9
+     * @param  value  When to show tooltip
      */
-    alwaysShowTooltip: boolean;
+    showTooltipOn: "hover" | "hit" | "always";
     /**
      * Position
      */

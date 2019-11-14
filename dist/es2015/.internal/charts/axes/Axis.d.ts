@@ -555,6 +555,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     currentItemEndPoint: IPoint;
     protected _tooltipPosition: number;
     /**
+     * @ignore
+     */
+    relativePositionSprite?: Sprite;
+    /**
      * Holds reference to a function that accepts a DataItem and its index as
      * parameters.
      *

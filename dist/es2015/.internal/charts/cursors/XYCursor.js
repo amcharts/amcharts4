@@ -279,6 +279,8 @@ var XYCursor = /** @class */ (function (_super) {
                 this.selection.hide(0);
             }
             else {
+                this.xRange = undefined;
+                this.yRange = undefined;
                 this.dispatchImmediately("selectended");
             }
             // reset cursor style, just in case

@@ -19,7 +19,7 @@ export declare class Validatable extends BaseObjectEvents {
     /**
      * Is invalid and should be revalidated?
      */
-    protected _invalid: boolean;
+    private _validateDisposer;
     /**
      * Invalidates the element, so that it can re-validate/redraw itself in the
      * next cycle.
@@ -37,4 +37,5 @@ export declare class Validatable extends BaseObjectEvents {
      * @ignore Exclude from docs
      */
     validate(): void;
+    dispose(): void;
 }

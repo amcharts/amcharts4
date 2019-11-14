@@ -265,6 +265,10 @@ export interface ILocaleProperties {
 	"Error parsing file: %1"?: string;
 	"Unable to load file: %1"?: string;
 	"Invalid date"?: string;
+
+	// Common actions
+	"Close"?: string;
+	"Minimize"?: string;
 }
 
 /**
