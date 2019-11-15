@@ -136,6 +136,10 @@ export interface IContainerEvents extends ISpriteEvents {
     childremoved: {
         oldValue: Sprite;
     };
+    /**
+     * invoked when layout of the container is validated
+     */
+    layoutvalidated: {};
 }
 /**
  * Defines adapters

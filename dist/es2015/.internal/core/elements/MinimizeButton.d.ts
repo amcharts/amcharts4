@@ -56,10 +56,14 @@ export declare class MinimizeButton extends Button {
      * Defines available events.
      */
     _events: IMinimizeButtonEvents;
+    protected _activePath: string;
+    protected _path: string;
     /**
      * Constructor
      */
     constructor();
+    protected setActive(value: boolean): void;
+    protected updateIcon(): void;
     validate(): void;
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they

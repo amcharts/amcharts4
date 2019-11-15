@@ -16,7 +16,7 @@ import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $path from "../rendering/Path";
 import * as $type from "../../core/utils/Type";
 import { color } from "../../core/utils/Color";
-
+import { MouseCursorStyle } from "../../core/interaction/Mouse";
 
 /**
  * ============================================================================
@@ -73,6 +73,9 @@ export class MinimizeButton extends Button {
 	 */
 	public _events!: IMinimizeButtonEvents;
 
+	protected _activePath: string;
+	protected _path: string;
+
 	/**
 	 * Constructor
 	 */
@@ -87,6 +90,8 @@ export class MinimizeButton extends Button {
 		//this.dx = - 5;
 		//this.dy = 5;
 
+		this.setStateOnChildren = true;
+
 		this.showSystemTooltip = true;
 
 		this.width = 30;
@@ -97,21 +102,23 @@ export class MinimizeButton extends Button {
 		let background: RoundedRectangle = this.background;
 		background.cornerRadius(20, 20, 20, 20);
 
+		this.cursorOverStyle = MouseCursorStyle.pointer;
+
 		let bgc = interfaceColors.getFor("background");
 		background.fill = bgc;
 		background.stroke = interfaceColors.getFor("primaryButton");
 		background.strokeOpacity = 1;
+		background.strokeWidth = 1;
 
-		let hoverColor = interfaceColors.getFor("primaryButtonHover");
 		let downColor = interfaceColors.getFor("primaryButtonActive")
 
-		let bhs = background.states.getKey("hover");
-		bhs.properties.stroke = hoverColor;
-		bhs.properties.fill = hoverColor;
+		let bhs =background.states.getKey("hover");
+		bhs.properties.strokeWidth = 3;
+		bhs.properties.fill = bgc;
 
 		let bds = background.states.getKey("down");
 		bds.properties.stroke = downColor;
-		bds.properties.fill = downColor;
+		bds.properties.fill = bgc;
 
 		// Create an icon
 		let icon: Sprite = new Sprite();
@@ -119,11 +126,6 @@ export class MinimizeButton extends Button {
 		icon.element = this.paper.add("path");
 		icon.stroke = background.stroke;
 		icon.fill = color();
-		let hs = icon.states.create("hover");
-		hs.properties.stroke = bgc;
-
-		let ds = icon.states.create("down");
-		ds.properties.stroke = bgc;
 		this.icon = icon;
 
 		this._disposers.push(background.events.on("over", () => {
@@ -142,6 +144,23 @@ export class MinimizeButton extends Button {
 		this.applyTheme();
 	}
 
+	protected setActive(value: boolean) {
+		super.setActive(value);
+		this.updateIcon();
+	}
+
+	protected updateIcon() {
+		let path = "";
+		if (this.isActive) {
+			path = this._activePath;
+		}
+		else {
+			path = this._path;
+		}
+
+		this.icon.path = path;
+	}
+
 	public validate() {
 		super.validate();
 
@@ -156,6 +175,8 @@ export class MinimizeButton extends Button {
 		path += $path.lineTo({ x: 0, y: 2 });
 		path += $path.lineTo({ x: w / 2, y: h / 2 });
 
+		this._path = path;
+
 		this.icon.path = path;
 
 		let activePath = $path.moveTo({ x: -w / 2, y: -2 });
@@ -168,6 +189,8 @@ export class MinimizeButton extends Button {
 
 		let activeState = this.icon.states.getKey("active");
 		activeState.properties.path = activePath;
+		this._activePath = activePath;
+
 		this.invalidateLayout();
 	}
 

@@ -5,6 +5,8 @@
  * @hidden
  */
 import { registry } from "./Registry";
+import { Container } from "./Container";
+import { Label } from "./elements/Label";
 import { raf } from "./utils/AsyncPending";
 import { triggerIdle } from "./utils/AsyncPending";
 import * as $array from "./utils/Array";
@@ -325,6 +327,24 @@ var System = /** @class */ (function () {
             this._frameRequested = true;
         }
     };
+    //@todo mm
+    System.prototype.softInvalidate = function (container) {
+        var _this = this;
+        container.children.each(function (child) {
+            if (child instanceof Container) {
+                _this.softInvalidate(child);
+            }
+            if (child.measureFailed) {
+                if (child instanceof Label) {
+                    child.hardInvalidate();
+                }
+                else {
+                    child.invalidate();
+                }
+                child.measureFailed = false;
+            }
+        });
+    };
     /**
      * Triggers position re-validation on all [[Sprite]] elements that have
      * invalid(ated) positions.
@@ -421,7 +441,7 @@ var System = /** @class */ (function () {
      *
      * @see {@link https://docs.npmjs.com/misc/semver}
      */
-    System.VERSION = "4.7.9";
+    System.VERSION = "4.7.10";
     return System;
 }());
 export { System };

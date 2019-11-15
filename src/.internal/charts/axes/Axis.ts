@@ -974,7 +974,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * @ignore
 	 */
-	public relativePositionSprite?:Sprite;	
+	public relativePositionSprite?: Sprite;
 
 	/**
 	 * Holds reference to a function that accepts a DataItem and its index as
@@ -1153,9 +1153,12 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 
 		super.validateLayout();
 		this.updateGridCount();
-		this.renderer.updateAxisLine();
-		this.renderer.updateTooltip();
-		this.renderer.updateBaseGridElement();
+		let renderer = this.renderer;
+		if (renderer) {
+			renderer.updateAxisLine();
+			renderer.updateTooltip();
+			renderer.updateBaseGridElement();
+		}
 
 		if (this._prevLength != this.axisLength) {
 			this.dispatchImmediately("lengthchanged");
@@ -1436,7 +1439,10 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @return [description]
 	 */
 	public getPositionRangePath(startPosition: number, endPosition: number): string {
-		return this.renderer.getPositionRangePath(startPosition, endPosition);
+		if (this.renderer) {
+			return this.renderer.getPositionRangePath(startPosition, endPosition);
+		}
+		return "";
 	}
 
 	/**
@@ -1445,7 +1451,10 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @return Axis length (px)
 	 */
 	public get axisLength(): number {
-		return this.renderer.axisLength;
+		if (this.renderer) {
+			return this.renderer.axisLength;
+		}
+		return 0;
 	}
 
 	/**

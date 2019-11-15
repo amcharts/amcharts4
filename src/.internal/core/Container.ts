@@ -175,6 +175,11 @@ export interface IContainerEvents extends ISpriteEvents {
 		oldValue: Sprite;
 	};
 
+	/**
+	 * invoked when layout of the container is validated
+	 */
+	layoutvalidated:{ }
+
 };
 
 /**
@@ -1526,6 +1531,8 @@ export class Container extends Sprite {
 				this.events.dispatchImmediately("transformed", event);
 			}
 		}
+
+		this.dispatchImmediately("layoutvalidated");
 	}
 
 	/**
@@ -1568,7 +1575,7 @@ export class Container extends Sprite {
 		let column: number = 0;
 
 		$array.each(children, (child) => {
-			if (child.isMeasured) {
+			if (child.isMeasured && !child.disabled && !child.__disabled) {
 				if (this.fixedWidthGrid) {
 					columnWidth[column] = maxCellWidth;
 				}

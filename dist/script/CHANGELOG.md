@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.10] - 2019-11-15
+
+### Added
+- Global method `am4core.system.softInvalidate(chart)` added. Call this method if you update data or config of a chart that is in hidden container, after revealing the container, so that labels and possibly other elements can correctly arrange themselves.
+
+### Fixed
+- JSON config `MapChart` was breaking on geodata parsing since last release (4.7.9).
+- Sometimes `MapChart` used to zoom to a wrong position when using `zoomToMapObject()` method (happened if pan inert animation was not finished at the moment of the function call).
+- `Container`'s "grid" layout was incorrectly positioning items if one of its children was disabled.
+- Creating a standalone series object (without assigning it to a chart) was resultin in a JS error.
+
+
 ## [4.7.9] - 2019-11-14
 
 ### Added

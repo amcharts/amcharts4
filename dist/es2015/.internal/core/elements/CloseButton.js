@@ -14,6 +14,7 @@ import { registry } from "../Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $path from "../rendering/Path";
 import * as $type from "../../core/utils/Type";
+import { MouseCursorStyle } from "../../core/interaction/Mouse";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -37,41 +38,30 @@ var CloseButton = /** @class */ (function (_super) {
         _super.call(this) || this;
         _this.className = "CloseButton";
         _this.padding(8, 8, 8, 8);
-        //this.dx = - 5;
-        //this.dy = 5;
         _this.showSystemTooltip = true;
         _this.width = 30;
         _this.height = 30;
         var interfaceColors = new InterfaceColorSet();
+        _this.cursorOverStyle = MouseCursorStyle.pointer;
         var background = _this.background;
         background.cornerRadius(20, 20, 20, 20);
         var bgc = interfaceColors.getFor("background");
         background.fill = bgc;
         background.stroke = interfaceColors.getFor("primaryButton");
         background.strokeOpacity = 1;
-        var hoverColor = interfaceColors.getFor("primaryButtonHover");
+        background.strokeWidth = 1;
         var downColor = interfaceColors.getFor("primaryButtonActive");
         var bhs = background.states.getKey("hover");
-        bhs.properties.stroke = hoverColor;
-        bhs.properties.fill = hoverColor;
+        bhs.properties.strokeWidth = 3;
+        bhs.properties.fill = bgc;
         var bds = background.states.getKey("down");
         bds.properties.stroke = downColor;
-        bds.properties.fill = downColor;
+        bds.properties.fill = bgc;
         // Create an icon
         var icon = new Sprite();
         icon.element = _this.paper.add("path");
         icon.stroke = background.stroke;
-        var hs = icon.states.create("hover");
-        hs.properties.stroke = bgc;
-        var ds = icon.states.create("down");
-        ds.properties.stroke = bgc;
         _this.icon = icon;
-        _this._disposers.push(background.events.on("over", function () {
-            icon.isHover = true;
-        }, _this, false));
-        _this._disposers.push(background.events.on("out", function () {
-            icon.isHover = false;
-        }, _this, false));
         // Apply theme
         _this.applyTheme();
         return _this;

@@ -795,7 +795,7 @@ var MapChart = /** @class */ (function (_super) {
      * @param duration   Duration for zoom animation (ms)
      * @return Zoom animation
      */
-    MapChart.prototype.zoomToGeoPoint = function (point, zoomLevel, center, duration) {
+    MapChart.prototype.zoomToGeoPoint = function (point, zoomLevel, center, duration, mapObject) {
         var _this = this;
         if (!point) {
             point = this.zoomGeoPoint;
@@ -820,7 +820,7 @@ var MapChart = /** @class */ (function (_super) {
             }
             var x = mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio;
             var y = mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio;
-            if (zoomLevel < this.zoomLevel) {
+            if (!mapObject && zoomLevel < this.zoomLevel) {
                 x = this.innerWidth / 2 - (this.seriesMaxLeft + (this.seriesMaxRight - this.seriesMaxLeft) / 2) * zoomLevel * this.scaleRatio;
                 y = this.innerHeight / 2 - (this.seriesMaxTop + (this.seriesMaxBottom - this.seriesMaxTop) / 2) * zoomLevel * this.scaleRatio;
             }
@@ -854,6 +854,10 @@ var MapChart = /** @class */ (function (_super) {
         if (center == undefined) {
             center = true;
         }
+        var inertia = this.seriesContainer.interactions.inertias.getKey("move");
+        if (inertia) {
+            inertia.done();
+        }
         if (mapObject instanceof MapImage) {
             if ($type.isNaN(zoomLevel)) {
                 zoomLevel = 5;
@@ -880,7 +884,7 @@ var MapChart = /** @class */ (function (_super) {
                 var seriesPoint = $utils.spritePointToSprite(polygonPoint, mapObject.polygon, mapObject.series);
                 geoPoint = this.seriesPointToGeo(seriesPoint);
             }
-            return this.zoomToGeoPoint(geoPoint, zoomLevel, true, duration);
+            return this.zoomToGeoPoint(geoPoint, zoomLevel, true, duration, true);
         }
     };
     /**

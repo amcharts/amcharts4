@@ -811,6 +811,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     vpDisposer: MultiDisposer;
     protected _alwaysShowDisposers: IDisposer[];
     /**
+     *  @ignore
+     */
+    measureFailed: boolean;
+    /**
      * Constructor:
      * * Creates initial node
      * * Sets default properties

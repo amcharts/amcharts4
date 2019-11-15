@@ -560,8 +560,10 @@ var XYSeries = /** @class */ (function (_super) {
         }
         _super.prototype.validateData.call(this);
         this.updateItemReaderText();
-        if (!$type.hasValue(this.dataFields[this._xField]) || !$type.hasValue(this.dataFields[this._yField])) {
-            throw Error("Data fields for series \"" + (this.name ? this.name : this.uid) + "\" are not properly defined.");
+        if (this.chart) {
+            if (!$type.hasValue(this.dataFields[this._xField]) || !$type.hasValue(this.dataFields[this._yField])) {
+                throw Error("Data fields for series \"" + (this.name ? this.name : this.uid) + "\" are not properly defined.");
+            }
         }
         this.dataGrouped = false;
     };
@@ -610,22 +612,24 @@ var XYSeries = /** @class */ (function (_super) {
      */
     XYSeries.prototype.disposeData = function () {
         _super.prototype.disposeData.call(this);
-        if (this.xAxis) {
-            var dataItemsX = this.dataItemsByAxis.getKey(this.xAxis.uid);
+        var xAxis = this.xAxis;
+        var yAxis = this.yAxis;
+        if (xAxis) {
+            var dataItemsX = this.dataItemsByAxis.getKey(xAxis.uid);
             if (dataItemsX) {
                 dataItemsX.clear();
             }
-            if (this.xAxis instanceof CategoryAxis) {
-                this.clearCatAxis(this.xAxis);
+            if (xAxis instanceof CategoryAxis) {
+                this.clearCatAxis(xAxis);
             }
         }
-        if (this.yAxis) {
-            var dataItemsY = this.dataItemsByAxis.getKey(this.yAxis.uid);
+        if (yAxis) {
+            var dataItemsY = this.dataItemsByAxis.getKey(yAxis.uid);
             if (dataItemsY) {
                 dataItemsY.clear();
             }
-            if (this.yAxis instanceof CategoryAxis) {
-                this.clearCatAxis(this.yAxis);
+            if (yAxis instanceof CategoryAxis) {
+                this.clearCatAxis(yAxis);
             }
         }
     };
@@ -646,43 +650,45 @@ var XYSeries = /** @class */ (function (_super) {
     XYSeries.prototype.defineFields = function () {
         var xAxis = this.xAxis;
         var yAxis = this.yAxis;
-        var xAxisFieldName = xAxis.axisFieldName;
-        var xField = (xAxisFieldName + "X");
-        var xOpenField = ("open" + $utils.capitalize(xAxisFieldName) + "X");
-        var yAxisFieldName = yAxis.axisFieldName;
-        var yField = (yAxisFieldName + "Y");
-        var yOpenField = ("open" + $utils.capitalize(yAxisFieldName) + "Y");
-        this._xField = xField;
-        this._yField = yField;
-        if (this.dataFields[xOpenField]) {
-            this._xOpenField = xOpenField;
-        }
-        if (this.dataFields[yOpenField]) {
-            this._yOpenField = yOpenField;
-        }
-        if (!this.dataFields[yOpenField] && this.baseAxis == this.yAxis) {
-            this._yOpenField = yField;
-        }
-        if (!this.dataFields[xOpenField] && this.baseAxis == this.xAxis) {
-            this._xOpenField = xField;
-        }
-        if (this.stacked && this.baseAxis == this.xAxis) {
-            this._xOpenField = xField;
-        }
-        if (this.stacked && this.baseAxis == this.yAxis) {
-            this._yOpenField = yField;
-        }
-        if ((this.xAxis instanceof CategoryAxis) && (this.yAxis instanceof CategoryAxis)) {
-            if (!this._yOpenField) {
+        if (xAxis && yAxis) {
+            var xAxisFieldName = xAxis.axisFieldName;
+            var xField = (xAxisFieldName + "X");
+            var xOpenField = ("open" + $utils.capitalize(xAxisFieldName) + "X");
+            var yAxisFieldName = yAxis.axisFieldName;
+            var yField = (yAxisFieldName + "Y");
+            var yOpenField = ("open" + $utils.capitalize(yAxisFieldName) + "Y");
+            this._xField = xField;
+            this._yField = yField;
+            if (this.dataFields[xOpenField]) {
+                this._xOpenField = xOpenField;
+            }
+            if (this.dataFields[yOpenField]) {
+                this._yOpenField = yOpenField;
+            }
+            if (!this.dataFields[yOpenField] && this.baseAxis == yAxis) {
                 this._yOpenField = yField;
             }
+            if (!this.dataFields[xOpenField] && this.baseAxis == xAxis) {
+                this._xOpenField = xField;
+            }
+            if (this.stacked && this.baseAxis == xAxis) {
+                this._xOpenField = xField;
+            }
+            if (this.stacked && this.baseAxis == yAxis) {
+                this._yOpenField = yField;
+            }
+            if ((xAxis instanceof CategoryAxis) && (yAxis instanceof CategoryAxis)) {
+                if (!this._yOpenField) {
+                    this._yOpenField = yField;
+                }
+            }
+            this._xValueFields = [];
+            this._yValueFields = [];
+            this.addValueField(xAxis, this._xValueFields, this._xField);
+            this.addValueField(xAxis, this._xValueFields, this._xOpenField);
+            this.addValueField(yAxis, this._yValueFields, this._yField);
+            this.addValueField(yAxis, this._yValueFields, this._yOpenField);
         }
-        this._xValueFields = [];
-        this._yValueFields = [];
-        this.addValueField(this.xAxis, this._xValueFields, this._xField);
-        this.addValueField(this.xAxis, this._xValueFields, this._xOpenField);
-        this.addValueField(this.yAxis, this._yValueFields, this._yField);
-        this.addValueField(this.yAxis, this._yValueFields, this._yOpenField);
     };
     /**
      * [axis description]
@@ -759,12 +765,15 @@ var XYSeries = /** @class */ (function (_super) {
      * @return SVG path
      */
     XYSeries.prototype.getMaskPath = function () {
-        return $path.rectToPath({
-            x: 0,
-            y: 0,
-            width: this.xAxis.axisLength,
-            height: this.yAxis.axisLength
-        });
+        if (this.xAxis && this.yAxis) {
+            return $path.rectToPath({
+                x: 0,
+                y: 0,
+                width: this.xAxis.axisLength,
+                height: this.yAxis.axisLength
+            });
+        }
+        return "";
     };
     /**
      * Returns axis data field to use.
@@ -787,11 +796,17 @@ var XYSeries = /** @class */ (function (_super) {
      */
     XYSeries.prototype.validateDataItems = function () {
         // this helps date axis to check which baseInterval we should use
-        this.xAxis.updateAxisBySeries();
-        this.yAxis.updateAxisBySeries();
+        var xAxis = this.xAxis;
+        var yAxis = this.yAxis;
+        if (xAxis && yAxis) {
+            xAxis.updateAxisBySeries();
+            yAxis.updateAxisBySeries();
+        }
         _super.prototype.validateDataItems.call(this);
-        this.xAxis.postProcessSeriesDataItems();
-        this.yAxis.postProcessSeriesDataItems();
+        if (xAxis && yAxis) {
+            xAxis.postProcessSeriesDataItems();
+            yAxis.postProcessSeriesDataItems();
+        }
     };
     /**
      * Validates data range.
@@ -799,11 +814,15 @@ var XYSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     XYSeries.prototype.validateDataRange = function () {
-        if (this.xAxis.dataRangeInvalid) {
-            this.xAxis.validateDataRange();
-        }
-        if (this.yAxis.dataRangeInvalid) {
-            this.yAxis.validateDataRange();
+        var xAxis = this.xAxis;
+        var yAxis = this.yAxis;
+        if (xAxis && yAxis) {
+            if (xAxis.dataRangeInvalid) {
+                xAxis.validateDataRange();
+            }
+            if (yAxis.dataRangeInvalid) {
+                yAxis.validateDataRange();
+            }
         }
         _super.prototype.validateDataRange.call(this);
     };
@@ -813,19 +832,23 @@ var XYSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     XYSeries.prototype.validate = function () {
-        if (this.xAxis.invalid) {
-            this.xAxis.validate();
-        }
-        if (this.yAxis.invalid) {
-            this.yAxis.validate();
-        }
-        this.y = this.yAxis.pixelY;
-        this.x = this.xAxis.pixelX;
-        this._showBullets = true;
-        var minBulletDistance = this.minBulletDistance;
-        if ($type.isNumber(minBulletDistance)) {
-            if (this.baseAxis.axisLength / (this.endIndex - this.startIndex) < minBulletDistance) {
-                this._showBullets = false;
+        var xAxis = this.xAxis;
+        var yAxis = this.yAxis;
+        if (xAxis && yAxis) {
+            if (xAxis.invalid) {
+                xAxis.validate();
+            }
+            if (yAxis.invalid) {
+                yAxis.validate();
+            }
+            this.y = yAxis.pixelY;
+            this.x = xAxis.pixelX;
+            this._showBullets = true;
+            var minBulletDistance = this.minBulletDistance;
+            if ($type.isNumber(minBulletDistance)) {
+                if (this.baseAxis.axisLength / (this.endIndex - this.startIndex) < minBulletDistance) {
+                    this._showBullets = false;
+                }
             }
         }
         _super.prototype.validate.call(this);
@@ -922,21 +945,23 @@ var XYSeries = /** @class */ (function (_super) {
          * @return Axis
          */
         get: function () {
-            if (!this._baseAxis) {
-                if (this.yAxis instanceof DateAxis) {
-                    this._baseAxis = this.yAxis;
+            var xAxis = this.xAxis;
+            var yAxis = this.yAxis;
+            if (!this._baseAxis && xAxis && yAxis) {
+                if (yAxis instanceof DateAxis) {
+                    this._baseAxis = yAxis;
                 }
-                if (this.xAxis instanceof DateAxis) {
-                    this._baseAxis = this.xAxis;
+                if (xAxis instanceof DateAxis) {
+                    this._baseAxis = xAxis;
                 }
-                if (this.yAxis instanceof CategoryAxis) {
-                    this._baseAxis = this.yAxis;
+                if (yAxis instanceof CategoryAxis) {
+                    this._baseAxis = yAxis;
                 }
-                if (this.xAxis instanceof CategoryAxis) {
-                    this._baseAxis = this.xAxis;
+                if (xAxis instanceof CategoryAxis) {
+                    this._baseAxis = xAxis;
                 }
                 if (!this._baseAxis) {
-                    this._baseAxis = this.xAxis;
+                    this._baseAxis = xAxis;
                 }
             }
             return this._baseAxis;
@@ -996,6 +1021,11 @@ var XYSeries = /** @class */ (function (_super) {
      */
     XYSeries.prototype.processValues = function (working) {
         _super.prototype.processValues.call(this, working);
+        var xAxis = this.xAxis;
+        var yAxis = this.yAxis;
+        if (!xAxis || !yAxis) {
+            return;
+        }
         var dataItems = this.dataItems;
         var minX = Infinity;
         var maxX = -Infinity;
@@ -1020,7 +1050,7 @@ var XYSeries = /** @class */ (function (_super) {
             maxY = $math.max(dataItem.getMax(this._yValueFields, working, stackY), maxY);
             // if it's stacked, pay attention to stack value
             if (this.stacked) {
-                if (this.baseAxis == this.xAxis) {
+                if (this.baseAxis == xAxis) {
                     if (stackY < minY) {
                         minY = stackY;
                     }
@@ -1028,7 +1058,7 @@ var XYSeries = /** @class */ (function (_super) {
                         maxY = stackY;
                     }
                 }
-                if (this.baseAxis == this.yAxis) {
+                if (this.baseAxis == yAxis) {
                     if (stackX < minX) {
                         minX = stackX;
                     }
@@ -1039,10 +1069,10 @@ var XYSeries = /** @class */ (function (_super) {
             }
         }
         // this is mainly for value axis to calculate total and perecent.total of each series category
-        this.xAxis.processSeriesDataItems();
-        this.yAxis.processSeriesDataItems();
-        var xAxisId = this.xAxis.uid;
-        var yAxisId = this.yAxis.uid;
+        xAxis.processSeriesDataItems();
+        yAxis.processSeriesDataItems();
+        var xAxisId = xAxis.uid;
+        var yAxisId = yAxis.uid;
         if (!working) {
             if (this._tmin.getKey(xAxisId) != minX || this._tmax.getKey(xAxisId) != maxX || this._tmin.getKey(yAxisId) != minY || this._tmax.getKey(yAxisId) != maxY) {
                 this._tmin.setKey(xAxisId, minX);
@@ -1077,7 +1107,7 @@ var XYSeries = /** @class */ (function (_super) {
                 maxY = $math.max(dataItem.getMax(this._yValueFields, working, stackY), maxY);
                 // if it's stacked, pay attention to stack value
                 if (this.stacked) {
-                    if (this.baseAxis == this.xAxis) {
+                    if (this.baseAxis == xAxis) {
                         if (stackY < minY) {
                             minY = stackY;
                         }
@@ -1085,7 +1115,7 @@ var XYSeries = /** @class */ (function (_super) {
                             maxY = stackY;
                         }
                     }
-                    if (this.baseAxis == this.yAxis) {
+                    if (this.baseAxis == yAxis) {
                         if (stackX < minX) {
                             minX = stackX;
                         }
@@ -1104,7 +1134,7 @@ var XYSeries = /** @class */ (function (_super) {
             if (this.appeared || this.start != 0 || this.end != 1 || this.dataItems != this.mainDataSet) {
                 /// new, helps to handle issues with change percent
                 var changed = false;
-                if (this.yAxis instanceof ValueAxis && !(this.yAxis instanceof DateAxis)) {
+                if (yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
                     var tmin = this._tmin.getKey(yAxisId);
                     if ((this.usesShowFields || this._dataSetChanged) && (!$type.isNumber(tmin) || minY < tmin)) {
                         this._tmin.setKey(yAxisId, minY);
@@ -1116,7 +1146,7 @@ var XYSeries = /** @class */ (function (_super) {
                         changed = true;
                     }
                 }
-                if (this.xAxis instanceof ValueAxis && !(this.xAxis instanceof DateAxis)) {
+                if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis)) {
                     var tmin = this._tmin.getKey(xAxisId);
                     if ((this.usesShowFields || this._dataSetChanged) && (!$type.isNumber(tmin) || minX < tmin)) {
                         this._tmin.setKey(xAxisId, minX);
@@ -1312,7 +1342,9 @@ var XYSeries = /** @class */ (function (_super) {
         if (!$type.hasValue(yField)) {
             yField = this.yField;
         }
-        if ((this.xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (this.yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
+        var xAxis = this.xAxis;
+        var yAxis = this.yAxis;
+        if ((xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
             bullet.visible = false;
         }
         else {
@@ -1322,8 +1354,6 @@ var XYSeries = /** @class */ (function (_super) {
             if (point) {
                 var xOpenField = this.xOpenField;
                 var yOpenField = this.yOpenField;
-                var xAxis = this.xAxis;
-                var yAxis = this.yAxis;
                 var positionX = void 0;
                 var positionY = void 0;
                 if (xAxis instanceof DateAxis) {
@@ -1471,61 +1501,6 @@ var XYSeries = /** @class */ (function (_super) {
         bullet.x = this.xAxis.renderer.positionToPoint(positionX, positionY).x;
         bullet.y = this.yAxis.renderer.positionToPoint(positionY, positionX).y;
     };
-    /**
-     * Positions series bullet.
-     *
-     * @ignore Exclude from docs
-     * @param bullet  Bullet
-     */
-    /*
-   public positionBullet(bullet: Bullet) {
-       super.positionBullet(bullet);
-
-       let dataItem: XYSeriesDataItem = <XYSeriesDataItem>bullet.dataItem;
-
-       // use series xField/yField if bullet doesn't have fields set
-       let xField: string = bullet.xField;
-       if (!$type.hasValue(xField)) {
-           xField = this.xField;
-       }
-
-       let yField: string = bullet.yField;
-       if (!$type.hasValue(yField)) {
-           yField = this.yField;
-       }
-
-       if ((this.xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (this.yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
-           bullet.visible = false;
-       }
-       else {
-           let bulletLocationX: number = this.getBulletLocationX(bullet, xField);
-           let bulletLocationY: number = this.getBulletLocationY(bullet, yField);
-
-           let point = this.getPoint(dataItem, xField, yField, bulletLocationX, bulletLocationY);
-           if (point) {
-               let x: number = point.x;
-               let y: number = point.y;
-
-               if ($type.isNumber(bullet.locationX) && this.xOpenField != this.xField) {
-                   let openX: number = this.xAxis.getX(dataItem, this.xOpenField);
-                   x = x - (x - openX) * bullet.locationX;
-               }
-
-
-               if ($type.isNumber(bullet.locationY) && this.yOpenField != this.yField) {
-                   let openY: number = this.yAxis.getY(dataItem, this.yOpenField);
-                   y = y - (y - openY) * bullet.locationY;
-               }
-
-               bullet.moveTo({ x: x, y: y });
-
-               bullet.visible = true;
-           }
-           else {
-               bullet.visible = false;
-           }
-       }
-   }*/
     /**
     * returns bullet x location
     * @ignore
@@ -1739,7 +1714,9 @@ var XYSeries = /** @class */ (function (_super) {
         // todo: here wer stack x and y values only. question is - what should we do with other values, like openX, openY?
         // if this series is not stacked or new stack begins, return.
         var _this = this;
-        if (!this.stacked) {
+        var xAxis = this.xAxis;
+        var yAxis = this.yAxis;
+        if (!this.stacked || !xAxis || !yAxis) {
             return;
         }
         else {
@@ -1747,10 +1724,10 @@ var XYSeries = /** @class */ (function (_super) {
             var chart = this.chart;
             var index = chart.series.indexOf(this);
             var field_1;
-            if (this.xAxis != this.baseAxis && this.xAxis instanceof ValueAxis) {
+            if (xAxis != this.baseAxis && xAxis instanceof ValueAxis) {
                 field_1 = this.xField;
             }
-            if (this.yAxis != this.baseAxis && this.yAxis instanceof ValueAxis) {
+            if (yAxis != this.baseAxis && yAxis instanceof ValueAxis) {
                 field_1 = this.yField;
             }
             if (!field_1) {
@@ -1760,7 +1737,7 @@ var XYSeries = /** @class */ (function (_super) {
             dataItem.setCalculatedValue(field_1, 0, "stack");
             $iter.eachContinue(chart.series.range(0, index).backwards().iterator(), function (prevSeries) {
                 // stacking is only possible if both axes are the same
-                if (prevSeries.xAxis == _this.xAxis && prevSeries.yAxis == _this.yAxis) {
+                if (prevSeries.xAxis == xAxis && prevSeries.yAxis == yAxis) {
                     // saving value
                     prevSeries.stackedSeries = _this;
                     var prevDataItem = prevSeries.dataItems.getIndex(dataItem.index); // indexes should match

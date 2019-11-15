@@ -959,6 +959,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	protected _alwaysShowDisposers: IDisposer[];
 
 	/**
+	 *  @ignore
+	 */
+	public measureFailed:boolean = false;
+
+	/**
 	 * Constructor:
 	 * * Creates initial node
 	 * * Sets default properties

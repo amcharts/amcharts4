@@ -186,6 +186,10 @@ export class XYChartScrollbar extends Scrollbar {
 	 */
 	protected handleSeriesAdded(event: IListEvents<XYSeries>["inserted"]) {
 		let sourceSeries: XYSeries = event.newValue;
+		if(!sourceSeries.xAxis || !sourceSeries.yAxis){
+			return;
+		}
+		
 		let scrollbarChart: XYChart = this.scrollbarChart;
 		scrollbarChart.zoomOutButton.disabled = true;
 

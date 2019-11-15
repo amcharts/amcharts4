@@ -700,7 +700,7 @@ export declare class MapChart extends SerialChart {
      * @param duration   Duration for zoom animation (ms)
      * @return Zoom animation
      */
-    zoomToGeoPoint(point: IGeoPoint, zoomLevel: number, center?: boolean, duration?: number): Animation;
+    zoomToGeoPoint(point: IGeoPoint, zoomLevel: number, center?: boolean, duration?: number, mapObject?: boolean): Animation;
     /**
      * Zooms the map to a particular map object.
      *

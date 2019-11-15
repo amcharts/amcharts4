@@ -1,4 +1,5 @@
 import { Sprite } from "./Sprite";
+import { Container } from "./Container";
 import { IAnimationObject } from "./utils/Animation";
 /**
  * ============================================================================
@@ -79,6 +80,7 @@ export declare class System {
      * Requests new animation frame
      */
     requestFrame(): void;
+    softInvalidate(container: Container): void;
     /**
      * Triggers position re-validation on all [[Sprite]] elements that have
      * invalid(ated) positions.

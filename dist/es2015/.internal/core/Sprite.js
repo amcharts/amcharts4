@@ -313,6 +313,10 @@ var Sprite = /** @class */ (function (_super) {
          * @ignore
          */
         _this.dragWhileResize = false;
+        /**
+         *  @ignore
+         */
+        _this.measureFailed = false;
         _this.className = "Sprite";
         _this._disposers.push(_this._eventDispatcher);
         // Generate a unique ID

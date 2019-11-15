@@ -192,26 +192,28 @@ var ColumnSeries = /** @class */ (function (_super) {
         //@todo Check if we can do better than use `instanceof`
         // find start/end locations based on clustered/stacked settings
         // go through chart series instead of base axis series, because axis series doesn't maintain order
-        var baseAxisSeries = this.chart.series;
-        var clusterCount = 0;
-        var index = 0;
-        $iter.each(baseAxisSeries.iterator(), function (series) {
-            if (series instanceof ColumnSeries) {
-                if (_this.baseAxis == series.baseAxis) {
-                    if ((!series.stacked && series.clustered) || clusterCount === 0) {
-                        clusterCount++;
-                    }
-                    if (series == _this) {
-                        index = clusterCount - 1;
+        if (this.chart) {
+            var baseAxisSeries = this.chart.series;
+            var clusterCount_1 = 0;
+            var index_1 = 0;
+            $iter.each(baseAxisSeries.iterator(), function (series) {
+                if (series instanceof ColumnSeries) {
+                    if (_this.baseAxis == series.baseAxis) {
+                        if ((!series.stacked && series.clustered) || clusterCount_1 === 0) {
+                            clusterCount_1++;
+                        }
+                        if (series == _this) {
+                            index_1 = clusterCount_1 - 1;
+                        }
                     }
                 }
-            }
-        });
-        var renderer = this.baseAxis.renderer;
-        var cellStartLocation = renderer.cellStartLocation;
-        var cellEndLocation = renderer.cellEndLocation;
-        this._startLocation = cellStartLocation + (index / clusterCount) * (cellEndLocation - cellStartLocation);
-        this._endLocation = cellStartLocation + (index + 1) / clusterCount * (cellEndLocation - cellStartLocation);
+            });
+            var renderer = this.baseAxis.renderer;
+            var cellStartLocation = renderer.cellStartLocation;
+            var cellEndLocation = renderer.cellEndLocation;
+            this._startLocation = cellStartLocation + (index_1 / clusterCount_1) * (cellEndLocation - cellStartLocation);
+            this._endLocation = cellStartLocation + (index_1 + 1) / clusterCount_1 * (cellEndLocation - cellStartLocation);
+        }
         _super.prototype.validate.call(this);
         for (var i = 0; i < this.startIndex; i++) {
             var dataItem = this.dataItems.getIndex(i);

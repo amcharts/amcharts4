@@ -1409,7 +1409,7 @@ export class MapChart extends SerialChart {
 	 * @param duration   Duration for zoom animation (ms)
 	 * @return Zoom animation
 	 */
-	public zoomToGeoPoint(point: IGeoPoint, zoomLevel: number, center?: boolean, duration?: number): Animation {
+	public zoomToGeoPoint(point: IGeoPoint, zoomLevel: number, center?: boolean, duration?: number, mapObject?:boolean): Animation {
 		if (!point) {
 			point = this.zoomGeoPoint;
 		}
@@ -1444,11 +1444,10 @@ export class MapChart extends SerialChart {
 			let y = mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio;
 
 
-			if (zoomLevel < this.zoomLevel) {
+			if (!mapObject && zoomLevel < this.zoomLevel) {
 				x = this.innerWidth / 2 - (this.seriesMaxLeft + (this.seriesMaxRight - this.seriesMaxLeft) / 2) * zoomLevel * this.scaleRatio;
 				y = this.innerHeight / 2 - (this.seriesMaxTop + (this.seriesMaxBottom - this.seriesMaxTop) / 2) * zoomLevel * this.scaleRatio;
 			}
-
 
 			this._mapAnimation = this.seriesContainer.animate(
 				[{
@@ -1483,10 +1482,14 @@ export class MapChart extends SerialChart {
 	 * @return Zoom animation
 	 */
 	public zoomToMapObject(mapObject: MapObject, zoomLevel?: number, center?: boolean, duration?: number): Animation {
-
 		if (center == undefined) {
 			center = true;
 		}
+
+		const inertia = this.seriesContainer.interactions.inertias.getKey("move");
+		if (inertia) {
+			inertia.done();
+		}		
 
 		if (mapObject instanceof MapImage) {
 			if ($type.isNaN(zoomLevel)) {
@@ -1522,7 +1525,8 @@ export class MapChart extends SerialChart {
 
 				geoPoint = this.seriesPointToGeo(seriesPoint);
 			}
-			return this.zoomToGeoPoint(geoPoint, zoomLevel, true, duration);
+
+			return this.zoomToGeoPoint(geoPoint, zoomLevel, true, duration, true);
 		}
 	}
 

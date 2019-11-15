@@ -862,7 +862,7 @@ export class XYSeries extends Series {
 	/**
 	 * @ignore
 	 */
-	protected _dataSetChanged: boolean = false;	
+	protected _dataSetChanged: boolean = false;
 
 
 	/**
@@ -968,9 +968,10 @@ export class XYSeries extends Series {
 		super.validateData();
 
 		this.updateItemReaderText();
-
-		if (!$type.hasValue(this.dataFields[<keyof this["_dataFields"]>this._xField]) || !$type.hasValue(this.dataFields[<keyof this["_dataFields"]>this._yField])) {
-			throw Error("Data fields for series \"" + (this.name ? this.name : this.uid) + "\" are not properly defined.");
+		if (this.chart) {
+			if (!$type.hasValue(this.dataFields[<keyof this["_dataFields"]>this._xField]) || !$type.hasValue(this.dataFields[<keyof this["_dataFields"]>this._yField])) {
+				throw Error("Data fields for series \"" + (this.name ? this.name : this.uid) + "\" are not properly defined.");
+			}
 		}
 
 		this.dataGrouped = false;
@@ -1030,22 +1031,25 @@ export class XYSeries extends Series {
 	 */
 	public disposeData() {
 		super.disposeData();
-		if (this.xAxis) {
-			let dataItemsX = this.dataItemsByAxis.getKey(this.xAxis.uid);
+		let xAxis = this.xAxis;
+		let yAxis = this.yAxis;
+
+		if (xAxis) {
+			let dataItemsX = this.dataItemsByAxis.getKey(xAxis.uid);
 			if (dataItemsX) {
 				dataItemsX.clear();
 			}
-			if (this.xAxis instanceof CategoryAxis) {
-				this.clearCatAxis(this.xAxis);
+			if (xAxis instanceof CategoryAxis) {
+				this.clearCatAxis(xAxis);
 			}
 		}
-		if (this.yAxis) {
-			let dataItemsY = this.dataItemsByAxis.getKey(this.yAxis.uid);
+		if (yAxis) {
+			let dataItemsY = this.dataItemsByAxis.getKey(yAxis.uid);
 			if (dataItemsY) {
 				dataItemsY.clear();
 			}
-			if (this.yAxis instanceof CategoryAxis) {
-				this.clearCatAxis(this.yAxis);
+			if (yAxis instanceof CategoryAxis) {
+				this.clearCatAxis(yAxis);
 			}
 		}
 	}
@@ -1069,56 +1073,57 @@ export class XYSeries extends Series {
 	protected defineFields() {
 		let xAxis: Axis = this.xAxis;
 		let yAxis: Axis = this.yAxis;
+		if (xAxis && yAxis) {
+			let xAxisFieldName: string = xAxis.axisFieldName;
+			let xField: $type.Keyof<this["_dataFields"]> = <$type.Keyof<this["_dataFields"]>>(xAxisFieldName + "X");
+			let xOpenField: $type.Keyof<this["_dataFields"]> = <$type.Keyof<this["_dataFields"]>>("open" + $utils.capitalize(xAxisFieldName) + "X");
 
-		let xAxisFieldName: string = xAxis.axisFieldName;
-		let xField: $type.Keyof<this["_dataFields"]> = <$type.Keyof<this["_dataFields"]>>(xAxisFieldName + "X");
-		let xOpenField: $type.Keyof<this["_dataFields"]> = <$type.Keyof<this["_dataFields"]>>("open" + $utils.capitalize(xAxisFieldName) + "X");
+			let yAxisFieldName: string = yAxis.axisFieldName;
+			let yField: $type.Keyof<this["_dataFields"]> = <$type.Keyof<this["_dataFields"]>>(yAxisFieldName + "Y");
+			let yOpenField: $type.Keyof<this["_dataFields"]> = <$type.Keyof<this["_dataFields"]>>("open" + $utils.capitalize(yAxisFieldName) + "Y");
 
-		let yAxisFieldName: string = yAxis.axisFieldName;
-		let yField: $type.Keyof<this["_dataFields"]> = <$type.Keyof<this["_dataFields"]>>(yAxisFieldName + "Y");
-		let yOpenField: $type.Keyof<this["_dataFields"]> = <$type.Keyof<this["_dataFields"]>>("open" + $utils.capitalize(yAxisFieldName) + "Y");
+			this._xField = xField;
+			this._yField = yField;
 
-		this._xField = xField;
-		this._yField = yField;
+			if (this.dataFields[xOpenField]) {
+				this._xOpenField = xOpenField;
+			}
 
-		if (this.dataFields[xOpenField]) {
-			this._xOpenField = xOpenField;
-		}
+			if (this.dataFields[yOpenField]) {
+				this._yOpenField = yOpenField;
+			}
 
-		if (this.dataFields[yOpenField]) {
-			this._yOpenField = yOpenField;
-		}
-
-		if (!this.dataFields[yOpenField] && this.baseAxis == this.yAxis) {
-			this._yOpenField = yField;
-		}
-
-		if (!this.dataFields[xOpenField] && this.baseAxis == this.xAxis) {
-			this._xOpenField = xField;
-		}
-
-		if (this.stacked && this.baseAxis == this.xAxis) {
-			this._xOpenField = xField;
-		}
-
-		if (this.stacked && this.baseAxis == this.yAxis) {
-			this._yOpenField = yField;
-		}
-
-		if ((this.xAxis instanceof CategoryAxis) && (this.yAxis instanceof CategoryAxis)) {
-			if (!this._yOpenField) {
+			if (!this.dataFields[yOpenField] && this.baseAxis == yAxis) {
 				this._yOpenField = yField;
 			}
+
+			if (!this.dataFields[xOpenField] && this.baseAxis == xAxis) {
+				this._xOpenField = xField;
+			}
+
+			if (this.stacked && this.baseAxis == xAxis) {
+				this._xOpenField = xField;
+			}
+
+			if (this.stacked && this.baseAxis == yAxis) {
+				this._yOpenField = yField;
+			}
+
+			if ((xAxis instanceof CategoryAxis) && (yAxis instanceof CategoryAxis)) {
+				if (!this._yOpenField) {
+					this._yOpenField = yField;
+				}
+			}
+
+			this._xValueFields = [];
+			this._yValueFields = [];
+
+			this.addValueField(xAxis, <any>this._xValueFields, <any>this._xField);
+			this.addValueField(xAxis, <any>this._xValueFields, <any>this._xOpenField);
+
+			this.addValueField(yAxis, <any>this._yValueFields, <any>this._yField);
+			this.addValueField(yAxis, <any>this._yValueFields, <any>this._yOpenField);
 		}
-
-		this._xValueFields = [];
-		this._yValueFields = [];
-
-		this.addValueField(this.xAxis, <any>this._xValueFields, <any>this._xField);
-		this.addValueField(this.xAxis, <any>this._xValueFields, <any>this._xOpenField);
-
-		this.addValueField(this.yAxis, <any>this._yValueFields, <any>this._yField);
-		this.addValueField(this.yAxis, <any>this._yValueFields, <any>this._yOpenField);
 	}
 
 	/**
@@ -1203,12 +1208,15 @@ export class XYSeries extends Series {
 	 * @return SVG path
 	 */
 	protected getMaskPath(): string {
-		return $path.rectToPath({
-			x: 0,
-			y: 0,
-			width: this.xAxis.axisLength,
-			height: this.yAxis.axisLength
-		});
+		if (this.xAxis && this.yAxis) {
+			return $path.rectToPath({
+				x: 0,
+				y: 0,
+				width: this.xAxis.axisLength,
+				height: this.yAxis.axisLength
+			});
+		}
+		return "";
 	}
 
 	/**
@@ -1234,13 +1242,19 @@ export class XYSeries extends Series {
 	public validateDataItems() {
 
 		// this helps date axis to check which baseInterval we should use
-		this.xAxis.updateAxisBySeries();
-		this.yAxis.updateAxisBySeries();
+		let xAxis = this.xAxis;
+		let yAxis = this.yAxis;
+		if (xAxis && yAxis) {
+			xAxis.updateAxisBySeries();
+			yAxis.updateAxisBySeries();
+		}
 
 		super.validateDataItems();
 
-		this.xAxis.postProcessSeriesDataItems();
-		this.yAxis.postProcessSeriesDataItems();
+		if (xAxis && yAxis) {
+			xAxis.postProcessSeriesDataItems();
+			yAxis.postProcessSeriesDataItems();
+		}
 	}
 
 	/**
@@ -1249,12 +1263,17 @@ export class XYSeries extends Series {
 	 * @ignore Exclude from docs
 	 */
 	public validateDataRange() {
-		if (this.xAxis.dataRangeInvalid) {
-			this.xAxis.validateDataRange();
-		}
+		let xAxis = this.xAxis;
+		let yAxis = this.yAxis;
 
-		if (this.yAxis.dataRangeInvalid) {
-			this.yAxis.validateDataRange();
+		if (xAxis && yAxis) {
+			if (xAxis.dataRangeInvalid) {
+				xAxis.validateDataRange();
+			}
+
+			if (yAxis.dataRangeInvalid) {
+				yAxis.validateDataRange();
+			}
 		}
 
 		super.validateDataRange();
@@ -1266,23 +1285,29 @@ export class XYSeries extends Series {
 	 * @ignore Exclude from docs
 	 */
 	public validate(): void {
-		if (this.xAxis.invalid) {
-			this.xAxis.validate();
-		}
 
-		if (this.yAxis.invalid) {
-			this.yAxis.validate();
-		}
+		let xAxis = this.xAxis;
+		let yAxis = this.yAxis;
 
-		this.y = this.yAxis.pixelY;
-		this.x = this.xAxis.pixelX;
+		if (xAxis && yAxis) {
+			if (xAxis.invalid) {
+				xAxis.validate();
+			}
+
+			if (yAxis.invalid) {
+				yAxis.validate();
+			}
+
+			this.y = yAxis.pixelY;
+			this.x = xAxis.pixelX;
 
 
-		this._showBullets = true;
-		let minBulletDistance: number = this.minBulletDistance;
-		if ($type.isNumber(minBulletDistance)) {
-			if (this.baseAxis.axisLength / (this.endIndex - this.startIndex) < minBulletDistance) {
-				this._showBullets = false;
+			this._showBullets = true;
+			let minBulletDistance: number = this.minBulletDistance;
+			if ($type.isNumber(minBulletDistance)) {
+				if (this.baseAxis.axisLength / (this.endIndex - this.startIndex) < minBulletDistance) {
+					this._showBullets = false;
+				}
 			}
 		}
 
@@ -1356,7 +1381,7 @@ export class XYSeries extends Series {
 
 			this._yAxis.set(axis, axis.registerSeries(this));
 
-			if(axis.chart instanceof XYChart){
+			if (axis.chart instanceof XYChart) {
 				axis.chart.handleYAxisSet(this);
 			}
 
@@ -1403,25 +1428,28 @@ export class XYSeries extends Series {
 	 * @return Axis
 	 */
 	public get baseAxis(): Axis {
-		if (!this._baseAxis) {
-			if (this.yAxis instanceof DateAxis) {
-				this._baseAxis = this.yAxis;
+		let xAxis = this.xAxis;
+		let yAxis = this.yAxis;
+
+		if (!this._baseAxis && xAxis && yAxis) {
+			if (yAxis instanceof DateAxis) {
+				this._baseAxis = yAxis;
 			}
 
-			if (this.xAxis instanceof DateAxis) {
-				this._baseAxis = this.xAxis;
+			if (xAxis instanceof DateAxis) {
+				this._baseAxis = xAxis;
 			}
 
-			if (this.yAxis instanceof CategoryAxis) {
-				this._baseAxis = this.yAxis;
+			if (yAxis instanceof CategoryAxis) {
+				this._baseAxis = yAxis;
 			}
 
-			if (this.xAxis instanceof CategoryAxis) {
-				this._baseAxis = this.xAxis;
+			if (xAxis instanceof CategoryAxis) {
+				this._baseAxis = xAxis;
 			}
 
 			if (!this._baseAxis) {
-				this._baseAxis = this.xAxis;
+				this._baseAxis = xAxis;
 			}
 		}
 		return this._baseAxis;
@@ -1472,6 +1500,13 @@ export class XYSeries extends Series {
 	public processValues(working: boolean): void {
 		super.processValues(working);
 
+		let xAxis = this.xAxis;
+		let yAxis = this.yAxis;
+
+		if (!xAxis || !yAxis) {
+			return;
+		}
+
 		let dataItems = this.dataItems;
 
 		let minX = Infinity;
@@ -1507,7 +1542,7 @@ export class XYSeries extends Series {
 
 			// if it's stacked, pay attention to stack value
 			if (this.stacked) {
-				if (this.baseAxis == this.xAxis) {
+				if (this.baseAxis == xAxis) {
 					if (stackY < minY) {
 						minY = stackY
 					}
@@ -1515,7 +1550,7 @@ export class XYSeries extends Series {
 						maxY = stackY;
 					}
 				}
-				if (this.baseAxis == this.yAxis) {
+				if (this.baseAxis == yAxis) {
 					if (stackX < minX) {
 						minX = stackX;
 					}
@@ -1527,11 +1562,11 @@ export class XYSeries extends Series {
 		}
 
 		// this is mainly for value axis to calculate total and perecent.total of each series category
-		this.xAxis.processSeriesDataItems();
-		this.yAxis.processSeriesDataItems();
+		xAxis.processSeriesDataItems();
+		yAxis.processSeriesDataItems();
 
-		let xAxisId: string = this.xAxis.uid;
-		let yAxisId: string = this.yAxis.uid;
+		let xAxisId: string = xAxis.uid;
+		let yAxisId: string = yAxis.uid;
 
 		if (!working) {
 			if (this._tmin.getKey(xAxisId) != minX || this._tmax.getKey(xAxisId) != maxX || this._tmin.getKey(yAxisId) != minY || this._tmax.getKey(yAxisId) != maxY) {
@@ -1578,7 +1613,7 @@ export class XYSeries extends Series {
 
 				// if it's stacked, pay attention to stack value
 				if (this.stacked) {
-					if (this.baseAxis == this.xAxis) {
+					if (this.baseAxis == xAxis) {
 						if (stackY < minY) {
 							minY = stackY
 						}
@@ -1586,7 +1621,7 @@ export class XYSeries extends Series {
 							maxY = stackY;
 						}
 					}
-					if (this.baseAxis == this.yAxis) {
+					if (this.baseAxis == yAxis) {
 						if (stackX < minX) {
 							minX = stackX;
 						}
@@ -1609,10 +1644,10 @@ export class XYSeries extends Series {
 				/// new, helps to handle issues with change percent
 				let changed = false;
 
-				if (this.yAxis instanceof ValueAxis && !(this.yAxis instanceof DateAxis)) {
+				if (yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
 					let tmin = this._tmin.getKey(yAxisId);
 					if ((this.usesShowFields || this._dataSetChanged) && (!$type.isNumber(tmin) || minY < tmin)) {
-						this._tmin.setKey(yAxisId, minY);						
+						this._tmin.setKey(yAxisId, minY);
 						changed = true;
 					}
 					let tmax = this._tmax.getKey(yAxisId);
@@ -1622,7 +1657,7 @@ export class XYSeries extends Series {
 					}
 				}
 
-				if (this.xAxis instanceof ValueAxis && !(this.xAxis instanceof DateAxis)) {
+				if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis)) {
 					let tmin = this._tmin.getKey(xAxisId);
 					if ((this.usesShowFields || this._dataSetChanged) && (!$type.isNumber(tmin) || minX < tmin)) {
 						this._tmin.setKey(xAxisId, minX);
@@ -1840,7 +1875,10 @@ export class XYSeries extends Series {
 			yField = this.yField;
 		}
 
-		if ((this.xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (this.yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
+		let xAxis = this.xAxis;
+		let yAxis = this.yAxis;		
+
+		if ((xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
 			bullet.visible = false;
 		}
 		else {
@@ -1852,8 +1890,6 @@ export class XYSeries extends Series {
 				let xOpenField = this.xOpenField;
 				let yOpenField = this.yOpenField;
 
-				let xAxis = this.xAxis;
-				let yAxis = this.yAxis;
 				let positionX: number;
 				let positionY: number;
 
@@ -2045,64 +2081,6 @@ export class XYSeries extends Series {
 		bullet.x = this.xAxis.renderer.positionToPoint(positionX, positionY).x;
 		bullet.y = this.yAxis.renderer.positionToPoint(positionY, positionX).y;
 	}
-
-
-
-	/**
-	 * Positions series bullet.
-	 *
-	 * @ignore Exclude from docs
-	 * @param bullet  Bullet
-	 */
-	/*
-   public positionBullet(bullet: Bullet) {
-	   super.positionBullet(bullet);
-
-	   let dataItem: XYSeriesDataItem = <XYSeriesDataItem>bullet.dataItem;
-
-	   // use series xField/yField if bullet doesn't have fields set
-	   let xField: string = bullet.xField;
-	   if (!$type.hasValue(xField)) {
-		   xField = this.xField;
-	   }
-
-	   let yField: string = bullet.yField;
-	   if (!$type.hasValue(yField)) {
-		   yField = this.yField;
-	   }
-
-	   if ((this.xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (this.yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
-		   bullet.visible = false;
-	   }
-	   else {
-		   let bulletLocationX: number = this.getBulletLocationX(bullet, xField);
-		   let bulletLocationY: number = this.getBulletLocationY(bullet, yField);
-
-		   let point = this.getPoint(dataItem, xField, yField, bulletLocationX, bulletLocationY);
-		   if (point) {
-			   let x: number = point.x;
-			   let y: number = point.y;
-
-			   if ($type.isNumber(bullet.locationX) && this.xOpenField != this.xField) {
-				   let openX: number = this.xAxis.getX(dataItem, this.xOpenField);
-				   x = x - (x - openX) * bullet.locationX;
-			   }
-
-
-			   if ($type.isNumber(bullet.locationY) && this.yOpenField != this.yField) {
-				   let openY: number = this.yAxis.getY(dataItem, this.yOpenField);
-				   y = y - (y - openY) * bullet.locationY;
-			   }
-
-			   bullet.moveTo({ x: x, y: y });
-
-			   bullet.visible = true;
-		   }
-		   else {
-			   bullet.visible = false;
-		   }
-	   }
-   }*/
 
 	/**
 	* returns bullet x location
@@ -2341,7 +2319,10 @@ export class XYSeries extends Series {
 		// todo: here wer stack x and y values only. question is - what should we do with other values, like openX, openY?
 		// if this series is not stacked or new stack begins, return.
 
-		if (!this.stacked) {
+		let xAxis = this.xAxis;
+		let yAxis = this.yAxis;
+
+		if (!this.stacked || !xAxis || !yAxis) {
 			return;
 		}
 		else {
@@ -2351,10 +2332,10 @@ export class XYSeries extends Series {
 
 			let field: string;
 
-			if (this.xAxis != this.baseAxis && this.xAxis instanceof ValueAxis) {
+			if (xAxis != this.baseAxis && xAxis instanceof ValueAxis) {
 				field = this.xField;
 			}
-			if (this.yAxis != this.baseAxis && this.yAxis instanceof ValueAxis) {
+			if (yAxis != this.baseAxis && yAxis instanceof ValueAxis) {
 				field = this.yField;
 			}
 
@@ -2367,7 +2348,7 @@ export class XYSeries extends Series {
 
 			$iter.eachContinue(chart.series.range(0, index).backwards().iterator(), (prevSeries) => {
 				// stacking is only possible if both axes are the same
-				if (prevSeries.xAxis == this.xAxis && prevSeries.yAxis == this.yAxis) {
+				if (prevSeries.xAxis == xAxis && prevSeries.yAxis == yAxis) {
 					// saving value
 					prevSeries.stackedSeries = this;
 

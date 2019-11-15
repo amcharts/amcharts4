@@ -15,7 +15,7 @@ import { registry } from "../Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $path from "../rendering/Path";
 import * as $type from "../../core/utils/Type";
-
+import { MouseCursorStyle } from "../../core/interaction/Mouse";
 
 /**
  * ============================================================================
@@ -82,15 +82,14 @@ export class CloseButton extends Button {
 		this.className = "CloseButton";
 
 		this.padding(8, 8, 8, 8);
-		//this.dx = - 5;
-		//this.dy = 5;
-
 		this.showSystemTooltip = true;
 
 		this.width = 30;
 		this.height = 30;
 
 		let interfaceColors = new InterfaceColorSet();
+
+		this.cursorOverStyle = MouseCursorStyle.pointer;
 
 		let background: RoundedRectangle = this.background;
 		background.cornerRadius(20, 20, 20, 20);
@@ -99,36 +98,24 @@ export class CloseButton extends Button {
 		background.fill = bgc;
 		background.stroke = interfaceColors.getFor("primaryButton");
 		background.strokeOpacity = 1;
+		background.strokeWidth = 1;
 
-		let hoverColor = interfaceColors.getFor("primaryButtonHover");
 		let downColor = interfaceColors.getFor("primaryButtonActive")
 
 		let bhs =background.states.getKey("hover");
-		bhs.properties.stroke = hoverColor;
-		bhs.properties.fill = hoverColor;
+		bhs.properties.strokeWidth = 3;
+		bhs.properties.fill = bgc;
 
-		let bds = background.states.getKey("down");
+		let bds = background.states.getKey("down");				
 		bds.properties.stroke = downColor;
-		bds.properties.fill = downColor;
+		bds.properties.fill = bgc;
 
 		// Create an icon
 		let icon: Sprite = new Sprite();
 		icon.element = this.paper.add("path");
 		icon.stroke = background.stroke;
-		let hs = icon.states.create("hover");
-		hs.properties.stroke = bgc;
 
-		let ds = icon.states.create("down");
-		ds.properties.stroke = bgc;
 		this.icon = icon;
-
-		this._disposers.push(background.events.on("over", ()=>{
-			icon.isHover = true;
-		}, this, false))
-
-		this._disposers.push(background.events.on("out", ()=>{
-			icon.isHover = false;
-		}, this, false))
 
 		// Apply theme
 		this.applyTheme();

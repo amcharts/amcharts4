@@ -409,7 +409,8 @@ var BaseObject = /** @class */ (function () {
                     && (!$type.isObject(target[configKey])
                         || !$type.hasValue(target[configKey].className)
                         || configValue["forceCreate"]
-                        || target[configKey].className != configValue["type"])) {
+                        || target[configKey].className != configValue["type"])
+                    && !_this.asIs(configKey)) {
                     item_1 = _this.createClassInstance(configValue["type"]);
                     // Create new instance
                     if (item_1) {

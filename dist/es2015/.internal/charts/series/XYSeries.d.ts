@@ -827,12 +827,6 @@ export declare class XYSeries extends Series {
     positionBullet(bullet: Bullet): void;
     protected positionBulletReal(bullet: Sprite, positionX: number, positionY: number): void;
     /**
-     * Positions series bullet.
-     *
-     * @ignore Exclude from docs
-     * @param bullet  Bullet
-     */
-    /**
     * returns bullet x location
     * @ignore
     */

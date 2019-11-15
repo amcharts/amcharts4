@@ -521,6 +521,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 						|| (<any>configValue)["forceCreate"]
 						|| target[configKey].className != (<any>configValue)["type"]
 					)
+					&& !this.asIs(configKey)
 				) {
 					item = this.createClassInstance((<any>configValue)["type"]);
 

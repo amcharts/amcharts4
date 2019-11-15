@@ -338,31 +338,33 @@ export class ColumnSeries extends XYSeries {
 		//@todo Check if we can do better than use `instanceof`
 		// find start/end locations based on clustered/stacked settings
 		// go through chart series instead of base axis series, because axis series doesn't maintain order
-		let baseAxisSeries = this.chart.series;
-		let clusterCount: number = 0;
-		let index: number = 0;
+		if(this.chart){
+			let baseAxisSeries = this.chart.series;
+			let clusterCount: number = 0;
+			let index: number = 0;
 
-		$iter.each(baseAxisSeries.iterator(), (series) => {
-			if (series instanceof ColumnSeries) {
-				if (this.baseAxis == series.baseAxis) {
-					if ((!series.stacked && series.clustered) || clusterCount === 0) {
-						clusterCount++;
-					}
+			$iter.each(baseAxisSeries.iterator(), (series) => {
+				if (series instanceof ColumnSeries) {
+					if (this.baseAxis == series.baseAxis) {
+						if ((!series.stacked && series.clustered) || clusterCount === 0) {
+							clusterCount++;
+						}
 
-					if (series == this) {
-						index = clusterCount - 1;
+						if (series == this) {
+							index = clusterCount - 1;
+						}
 					}
 				}
-			}
-		});
+			});
 
-		let renderer = this.baseAxis.renderer;
+			let renderer = this.baseAxis.renderer;
 
-		let cellStartLocation: number = renderer.cellStartLocation;
-		let cellEndLocation: number = renderer.cellEndLocation;
+			let cellStartLocation: number = renderer.cellStartLocation;
+			let cellEndLocation: number = renderer.cellEndLocation;
 
-		this._startLocation = cellStartLocation + (index / clusterCount) * (cellEndLocation - cellStartLocation);
-		this._endLocation = cellStartLocation + (index + 1) / clusterCount * (cellEndLocation - cellStartLocation);
+			this._startLocation = cellStartLocation + (index / clusterCount) * (cellEndLocation - cellStartLocation);
+			this._endLocation = cellStartLocation + (index + 1) / clusterCount * (cellEndLocation - cellStartLocation);
+		}
 
 		super.validate();
 

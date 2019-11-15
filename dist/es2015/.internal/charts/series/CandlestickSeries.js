@@ -358,20 +358,24 @@ var CandlestickSeries = /** @class */ (function (_super) {
      */
     CandlestickSeries.prototype.defineFields = function () {
         _super.prototype.defineFields.call(this);
-        if (this.baseAxis == this.xAxis) {
-            var yAxisFieldName = $utils.capitalize(this.yAxis.axisFieldName);
-            this._yLowField = ("low" + yAxisFieldName + "Y");
-            this._yHighField = ("high" + yAxisFieldName + "Y");
+        var xAxis = this.xAxis;
+        var yAxis = this.yAxis;
+        if (xAxis && yAxis) {
+            if (this.baseAxis == xAxis) {
+                var yAxisFieldName = $utils.capitalize(yAxis.axisFieldName);
+                this._yLowField = ("low" + yAxisFieldName + "Y");
+                this._yHighField = ("high" + yAxisFieldName + "Y");
+            }
+            if (this.baseAxis == yAxis) {
+                var xAxisFieldName = $utils.capitalize(xAxis.axisFieldName);
+                this._xLowField = ("low" + xAxisFieldName + "X");
+                this._xHighField = ("high" + xAxisFieldName + "X");
+            }
+            this.addValueField(xAxis, this._xValueFields, this._xLowField);
+            this.addValueField(xAxis, this._xValueFields, this._xHighField);
+            this.addValueField(yAxis, this._yValueFields, this._yLowField);
+            this.addValueField(yAxis, this._yValueFields, this._yHighField);
         }
-        if (this.baseAxis == this.yAxis) {
-            var xAxisFieldName = $utils.capitalize(this.xAxis.axisFieldName);
-            this._xLowField = ("low" + xAxisFieldName + "X");
-            this._xHighField = ("high" + xAxisFieldName + "X");
-        }
-        this.addValueField(this.xAxis, this._xValueFields, this._xLowField);
-        this.addValueField(this.xAxis, this._xValueFields, this._xHighField);
-        this.addValueField(this.yAxis, this._yValueFields, this._yLowField);
-        this.addValueField(this.yAxis, this._yValueFields, this._yHighField);
     };
     /**
      * Creates elements in related legend container, that mimics the look of this

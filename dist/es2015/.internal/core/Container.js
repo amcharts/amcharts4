@@ -1120,6 +1120,7 @@ var Container = /** @class */ (function (_super) {
                 this.events.dispatchImmediately("transformed", event_1);
             }
         }
+        this.dispatchImmediately("layoutvalidated");
     };
     /**
      * Positions element according its center settings.
@@ -1159,7 +1160,7 @@ var Container = /** @class */ (function (_super) {
         var columnWidth = [];
         var column = 0;
         $array.each(children, function (child) {
-            if (child.isMeasured) {
+            if (child.isMeasured && !child.disabled && !child.__disabled) {
                 if (_this.fixedWidthGrid) {
                     columnWidth[column] = maxCellWidth;
                 }

@@ -730,9 +730,12 @@ var Axis = /** @class */ (function (_super) {
         this.axisFullLength = this.axisLength / (this.end - this.start);
         _super.prototype.validateLayout.call(this);
         this.updateGridCount();
-        this.renderer.updateAxisLine();
-        this.renderer.updateTooltip();
-        this.renderer.updateBaseGridElement();
+        var renderer = this.renderer;
+        if (renderer) {
+            renderer.updateAxisLine();
+            renderer.updateTooltip();
+            renderer.updateBaseGridElement();
+        }
         if (this._prevLength != this.axisLength) {
             this.dispatchImmediately("lengthchanged");
             this._prevLength = this.axisLength;
@@ -988,7 +991,10 @@ var Axis = /** @class */ (function (_super) {
      * @return [description]
      */
     Axis.prototype.getPositionRangePath = function (startPosition, endPosition) {
-        return this.renderer.getPositionRangePath(startPosition, endPosition);
+        if (this.renderer) {
+            return this.renderer.getPositionRangePath(startPosition, endPosition);
+        }
+        return "";
     };
     Object.defineProperty(Axis.prototype, "axisLength", {
         /**
@@ -997,7 +1003,10 @@ var Axis = /** @class */ (function (_super) {
          * @return Axis length (px)
          */
         get: function () {
-            return this.renderer.axisLength;
+            if (this.renderer) {
+                return this.renderer.axisLength;
+            }
+            return 0;
         },
         enumerable: true,
         configurable: true

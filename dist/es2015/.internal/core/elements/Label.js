@@ -593,6 +593,10 @@ var Label = /** @class */ (function (_super) {
             }
             // Check if maybe we need to hide the whole label if it doesn't fit
             this.maybeHideOversized();
+            this.measureFailed = false;
+            if (this.bbox.width == 0 || this.bbox.height == 0) {
+                this.measureFailed = true;
+            }
             // Updated measured dims
             this._measuredWidth = $math.max(this.bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);
             this._measuredHeight = $math.max(this.bbox.height, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom);

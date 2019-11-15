@@ -8,6 +8,7 @@ import { registry } from "./Registry";
 import { Sprite } from "./Sprite";
 import { Container } from "./Container";
 import { Component } from "./Component";
+import { Label } from "./elements/Label";
 import { raf } from "./utils/AsyncPending";
 import { IAnimationObject } from "./utils/Animation";
 import { triggerIdle } from "./utils/AsyncPending";
@@ -53,7 +54,7 @@ export class System {
 	 *
 	 * @see {@link https://docs.npmjs.com/misc/semver}
 	 */
-	static VERSION: string = "4.7.9";
+	static VERSION: string = "4.7.10";
 
 	/**
 	 * @todo Description
@@ -405,6 +406,24 @@ export class System {
 			});
 			this._frameRequested = true;
 		}
+	}
+
+	//@todo mm
+	public softInvalidate(container: Container) {
+		container.children.each((child) => {
+			if (child instanceof Container) {
+				this.softInvalidate(child);
+			}
+			if (child.measureFailed) {
+				if (child instanceof Label) {
+					child.hardInvalidate();
+				}
+				else {
+					child.invalidate();
+				}
+				child.measureFailed = false;
+			}
+		})
 	}
 
 	/**

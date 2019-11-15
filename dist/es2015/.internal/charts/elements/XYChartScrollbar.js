@@ -115,6 +115,9 @@ var XYChartScrollbar = /** @class */ (function (_super) {
      */
     XYChartScrollbar.prototype.handleSeriesAdded = function (event) {
         var sourceSeries = event.newValue;
+        if (!sourceSeries.xAxis || !sourceSeries.yAxis) {
+            return;
+        }
         var scrollbarChart = this.scrollbarChart;
         scrollbarChart.zoomOutButton.disabled = true;
         this.chart = sourceSeries.chart;

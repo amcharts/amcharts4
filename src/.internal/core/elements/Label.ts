@@ -535,7 +535,7 @@ export class Label extends Container {
 		let display = this.group.getAttr("display");
 		if (display == "none") {
 			this.group.removeAttr("display");
-		}
+		}		
 
 		if (this.textPathElement) {
 			this.textPathElement.removeChildren();
@@ -956,6 +956,11 @@ export class Label extends Container {
 
 			// Check if maybe we need to hide the whole label if it doesn't fit
 			this.maybeHideOversized();
+
+			this.measureFailed = false;
+			if(this.bbox.width == 0 || this.bbox.height == 0){
+				this.measureFailed = true;
+			}			
 
 			// Updated measured dims
 			this._measuredWidth = $math.max(this.bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);

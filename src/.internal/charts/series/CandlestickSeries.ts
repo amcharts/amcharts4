@@ -569,23 +569,27 @@ export class CandlestickSeries extends ColumnSeries {
 	protected defineFields() {
 		super.defineFields();
 
-		if (this.baseAxis == this.xAxis) {
-			let yAxisFieldName: string = $utils.capitalize(this.yAxis.axisFieldName);
-			this._yLowField = <$type.Keyof<this["_dataFields"]>>("low" + yAxisFieldName + "Y");
-			this._yHighField = <$type.Keyof<this["_dataFields"]>>("high" + yAxisFieldName + "Y");
+		let xAxis = this.xAxis;
+		let yAxis = this.yAxis;
+		if (xAxis && yAxis) {
+			if (this.baseAxis == xAxis) {
+				let yAxisFieldName: string = $utils.capitalize(yAxis.axisFieldName);
+				this._yLowField = <$type.Keyof<this["_dataFields"]>>("low" + yAxisFieldName + "Y");
+				this._yHighField = <$type.Keyof<this["_dataFields"]>>("high" + yAxisFieldName + "Y");
+			}
+
+			if (this.baseAxis == yAxis) {
+				let xAxisFieldName: string = $utils.capitalize(xAxis.axisFieldName);
+				this._xLowField = <$type.Keyof<this["_dataFields"]>>("low" + xAxisFieldName + "X");
+				this._xHighField = <$type.Keyof<this["_dataFields"]>>("high" + xAxisFieldName + "X");
+			}
+
+			this.addValueField(xAxis, <any>this._xValueFields, <any>this._xLowField);
+			this.addValueField(xAxis, <any>this._xValueFields, <any>this._xHighField);
+
+			this.addValueField(yAxis, <any>this._yValueFields, <any>this._yLowField);
+			this.addValueField(yAxis, <any>this._yValueFields, <any>this._yHighField);
 		}
-
-		if (this.baseAxis == this.yAxis) {
-			let xAxisFieldName: string = $utils.capitalize(this.xAxis.axisFieldName);
-			this._xLowField = <$type.Keyof<this["_dataFields"]>>("low" + xAxisFieldName + "X");
-			this._xHighField = <$type.Keyof<this["_dataFields"]>>("high" + xAxisFieldName + "X");
-		}
-
-		this.addValueField(this.xAxis, <any>this._xValueFields, <any>this._xLowField);
-		this.addValueField(this.xAxis, <any>this._xValueFields, <any>this._xHighField);
-
-		this.addValueField(this.yAxis, <any>this._yValueFields, <any>this._yLowField);
-		this.addValueField(this.yAxis, <any>this._yValueFields, <any>this._yHighField);
 	}
 
 	/**
