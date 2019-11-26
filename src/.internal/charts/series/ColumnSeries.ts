@@ -338,7 +338,7 @@ export class ColumnSeries extends XYSeries {
 		//@todo Check if we can do better than use `instanceof`
 		// find start/end locations based on clustered/stacked settings
 		// go through chart series instead of base axis series, because axis series doesn't maintain order
-		if(this.chart){
+		if(this.chart && this.xAxis && this.yAxis){
 			let baseAxisSeries = this.chart.series;
 			let clusterCount: number = 0;
 			let index: number = 0;
@@ -387,8 +387,10 @@ export class ColumnSeries extends XYSeries {
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
 		// important oder here, first real, then super. we need this to know size
-		this.validateDataElementReal(dataItem);
-		super.validateDataElement(dataItem);
+		if(this.chart && this.xAxis && this.yAxis){
+			this.validateDataElementReal(dataItem);
+			super.validateDataElement(dataItem);
+		}
 	}
 
 	/**

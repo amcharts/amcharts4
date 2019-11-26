@@ -994,7 +994,9 @@ export class XYSeries extends Series {
 			this.setInitialWorkingValues(dataItem);
 		}
 		catch (e) {
-			this._chart.raiseCriticalError(e);
+			if(this._chart){
+				this._chart.raiseCriticalError(e);
+			}
 		}
 	}
 
@@ -2609,13 +2611,15 @@ export class XYSeries extends Series {
 	 * @returns             Coordinates
 	 */
 	public getPoint(dataItem: XYSeriesDataItem, xKey: string, yKey: string, locationX?: number, locationY?: number, stackKeyX?: string, stackKeyY?: string): IPoint {
-		let x: number = this.xAxis.getX(dataItem, xKey, locationX);
-		let y: number = this.yAxis.getY(dataItem, yKey, locationY);
+		if(this.xAxis && this.yAxis){
+			let x: number = this.xAxis.getX(dataItem, xKey, locationX);
+			let y: number = this.yAxis.getY(dataItem, yKey, locationY);
 
-		x = $math.fitToRange(x, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
-		y = $math.fitToRange(y, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+			x = $math.fitToRange(x, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+			y = $math.fitToRange(y, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
 
-		return { x: x, y: y };
+			return { x: x, y: y };
+		}
 	}
 
 

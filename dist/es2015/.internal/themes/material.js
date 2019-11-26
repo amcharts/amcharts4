@@ -1,4 +1,4 @@
-import { is } from "./ITheme";
+import { is } from "../core/utils/Type";
 import { color } from "../core/utils/Color";
 var theme = function (object) {
     if (is(object, "ColorSet")) {

@@ -5,7 +5,7 @@
  * {@link https://i.kinja-img.com/gawker-media/image/upload/1015680494325093012.JPG}
  * {@link https://eleanormaclure.files.wordpress.com/2011/03/colour-coding.pdf}
  */
-import { is } from "./ITheme";
+import { is } from "../core/utils/Type";
 import { color } from "../core/utils/Color";
 var theme = function (object) {
     if (is(object, "ColorSet")) {

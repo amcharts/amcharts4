@@ -144,7 +144,7 @@ export class CurveStepLineSeries extends CurveLineSeries {
 	public _chart: CurveChart;
 
 	/**
-	 * @ignore
+	 * Defines type for segment.
 	 */
 	public _segment: StepLineSeriesSegment;
 

@@ -112,7 +112,7 @@ export declare class CurveStepLineSeries extends CurveLineSeries {
      */
     _chart: CurveChart;
     /**
-     * @ignore
+     * Defines type for segment.
      */
     _segment: StepLineSeriesSegment;
     protected _previousPosition: number;

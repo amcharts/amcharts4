@@ -33,7 +33,6 @@ export { Roles, AriaLive } from "./.internal/core/defs/Accessibility";
 export { Align } from "./.internal/core/defs/Align";
 export { HorizontalCenter } from "./.internal/core/defs/HorizontalCenter";
 export { IGeoPoint } from "./.internal/core/defs/IGeoPoint";
-export { iMinMaxer } from "./.internal/core/defs/iMinMaxer";
 export { IMorphable } from "./.internal/core/defs/IMorphable";
 export { IPoint, IOrientationPoint } from "./.internal/core/defs/IPoint";
 export { IRectangle } from "./.internal/core/defs/IRectangle";

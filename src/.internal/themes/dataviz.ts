@@ -2,7 +2,8 @@
  * A color scheme inspired by {@link https://datavizproject.com/}
  */
 
-import { ITheme, is } from "./ITheme";
+import { ITheme } from "./ITheme";
+import { is } from "../core/utils/Type";
 import { color } from "../core/utils/Color";
 import { ColorSet } from "../core/utils/ColorSet";
 import { BaseObject } from "../core/Base";

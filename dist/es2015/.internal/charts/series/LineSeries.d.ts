@@ -145,6 +145,7 @@ export declare class LineSeries extends XYSeries {
      */
     segments: ListTemplate<this["_segment"]>;
     /**
+     * Defines type for segment.
      */
     _segment: LineSeriesSegment;
     /**

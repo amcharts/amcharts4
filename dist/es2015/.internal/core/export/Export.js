@@ -2892,7 +2892,7 @@ var Export = /** @class */ (function (_super) {
             }).extraSprites;
         },
         /**
-         * An array of extra [[Sprite] elements to include in export.
+         * An array of extra [[Sprite]] elements to include in export.
          *
          * It can be used to export any external elements, or even other charts.
          *

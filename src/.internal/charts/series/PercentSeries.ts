@@ -764,11 +764,12 @@ export class PercentSeries extends Series {
 					slice.fill = this.colors.next();
 				}
 			}
-			if (slice.stroke == undefined) {
-				slice.stroke = slice.fill;
-			}
 			else {
 				this.colors.currentStep += this.colors.step;
+			}
+
+			if (slice.stroke == undefined) {
+				slice.stroke = slice.fill;
 			}
 		}
 

@@ -543,11 +543,11 @@ var PercentSeries = /** @class */ (function (_super) {
                     slice.fill = this.colors.next();
                 }
             }
-            if (slice.stroke == undefined) {
-                slice.stroke = slice.fill;
-            }
             else {
                 this.colors.currentStep += this.colors.step;
+            }
+            if (slice.stroke == undefined) {
+                slice.stroke = slice.fill;
             }
         }
         // do this at the end, otherwise bullets won't be positioned properly

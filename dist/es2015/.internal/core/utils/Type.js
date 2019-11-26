@@ -10,6 +10,19 @@
  * @hidden
  */
 import { percent, isPercent } from "./Percent";
+import { registry } from "../Registry";
+/**
+ * Returns `true` if object is an instance of the class. It's the same as `instanceof` except it doesn't need to import the class.
+ *
+ * @param object Object
+ * @param name Class name
+ * @return Is instance of class
+ */
+// TODO export this in core.ts ?
+export function is(object, name) {
+    var x = registry.registeredClasses[name];
+    return x != null && object instanceof x;
+}
 /**
  * ============================================================================
  * TYPE CHECK

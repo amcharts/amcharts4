@@ -6,11 +6,11 @@
  */
 import { registry } from "./Registry";
 import { Container } from "./Container";
-import { Label } from "./elements/Label";
 import { raf } from "./utils/AsyncPending";
 import { triggerIdle } from "./utils/AsyncPending";
 import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
+import * as $type from "./utils/Type";
 import * as $log from "./utils/Log";
 /**
  * ============================================================================
@@ -327,7 +327,14 @@ var System = /** @class */ (function () {
             this._frameRequested = true;
         }
     };
-    //@todo mm
+    /**
+     * Call this method if you update data or config of a chart that is in
+     * hidden container, after revealing the container, so that labels and
+     * possibly other elements can correctly arrange themselves.
+     *
+     * @since 4.7.10
+     * @param  container  Target container
+     */
     System.prototype.softInvalidate = function (container) {
         var _this = this;
         container.children.each(function (child) {
@@ -335,7 +342,7 @@ var System = /** @class */ (function () {
                 _this.softInvalidate(child);
             }
             if (child.measureFailed) {
-                if (child instanceof Label) {
+                if ($type.is(child, "Label")) {
                     child.hardInvalidate();
                 }
                 else {
@@ -441,7 +448,7 @@ var System = /** @class */ (function () {
      *
      * @see {@link https://docs.npmjs.com/misc/semver}
      */
-    System.VERSION = "4.7.10";
+    System.VERSION = "4.7.11";
     return System;
 }());
 export { System };

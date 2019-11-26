@@ -80,6 +80,14 @@ export declare class System {
      * Requests new animation frame
      */
     requestFrame(): void;
+    /**
+     * Call this method if you update data or config of a chart that is in
+     * hidden container, after revealing the container, so that labels and
+     * possibly other elements can correctly arrange themselves.
+     *
+     * @since 4.7.10
+     * @param  container  Target container
+     */
     softInvalidate(container: Container): void;
     /**
      * Triggers position re-validation on all [[Sprite]] elements that have

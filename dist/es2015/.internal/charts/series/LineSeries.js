@@ -214,14 +214,16 @@ var LineSeries = /** @class */ (function (_super) {
     LineSeries.prototype.validate = function () {
         var _this = this;
         _super.prototype.validate.call(this);
-        this._segmentsIterator.reset();
-        this.openSegmentWrapper(this._adjustedStartIndex);
-        $iter.each(this.axisRanges.iterator(), function (range) {
-            _this.openSegmentWrapper(_this._adjustedStartIndex, range);
-        });
-        $iter.each(this._segmentsIterator.iterator(), function (segment) {
-            segment.__disabled = true;
-        });
+        if (this.xAxis && this.yAxis) {
+            this._segmentsIterator.reset();
+            this.openSegmentWrapper(this._adjustedStartIndex);
+            $iter.each(this.axisRanges.iterator(), function (range) {
+                _this.openSegmentWrapper(_this._adjustedStartIndex, range);
+            });
+            $iter.each(this._segmentsIterator.iterator(), function (segment) {
+                segment.__disabled = true;
+            });
+        }
     };
     /**
      * [sliceData description]

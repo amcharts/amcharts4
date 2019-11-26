@@ -5758,6 +5758,30 @@ define('@amcharts/amcharts4-geodata/vietnamLow', [], function () {
   }
   throw new Error("You must add 'geodata/vietnamLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/worldChinaHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_worldChinaHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/worldChinaHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/worldChinaLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_worldChinaLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/worldChinaLow' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/worldChinaUltra', [], function () {
+  'use strict';
+  var output = self.am4geodata_worldChinaUltra;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/worldChinaUltra' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/worldGreatLakesHigh', [], function () {
   'use strict';
   var output = self.am4geodata_worldGreatLakesHigh;

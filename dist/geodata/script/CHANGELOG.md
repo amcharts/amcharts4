@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [4.1.9] - 2019-11-12
+## [4.1.9] - 2019-11-19
 
 ### Changed
 - `country.json` file was moved to `/data/` subfolder.
@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - New maps: Malawi, Mauritania.
 - New map `india2019` added to reflect India's latest regional re-organization.
+- New map `worldChina*` added.
 - A set of Canada county maps in `region/canada`.
 - New data JSON files added `data/countries2.js` and `json/data/countries2.json` that contain a lot of information about each country, including which maps correspond country code and related continent.
 - Supplemental country data files are now in `data` folder and are available in two flavors: as a JS module (creating global variable e.g. `am4geodata_data_countries`) and as pure JSON.

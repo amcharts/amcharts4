@@ -63,8 +63,9 @@ var ColumnSeries3D = /** @class */ (function (_super) {
          * @ignore
          */
         get: function () {
-            if (this.chart && this.chart.columnsContainer) {
-                return this.chart.columnsContainer;
+            var chart = this.chart;
+            if (chart && chart.columnsContainer && chart.leftAxesContainer.layout != "vertical" && chart.rightAxesContainer.layout != "vertical" && chart.bottomAxesContainer.layout != "horizontal" && chart.topAxesContainer.layout != "horizontal") {
+                return chart.columnsContainer;
             }
             else {
                 return this._columnsContainer;

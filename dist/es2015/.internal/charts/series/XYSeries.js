@@ -582,7 +582,9 @@ var XYSeries = /** @class */ (function (_super) {
             this.setInitialWorkingValues(dataItem);
         }
         catch (e) {
-            this._chart.raiseCriticalError(e);
+            if (this._chart) {
+                this._chart.raiseCriticalError(e);
+            }
         }
     };
     /**
@@ -1994,11 +1996,13 @@ var XYSeries = /** @class */ (function (_super) {
      * @returns             Coordinates
      */
     XYSeries.prototype.getPoint = function (dataItem, xKey, yKey, locationX, locationY, stackKeyX, stackKeyY) {
-        var x = this.xAxis.getX(dataItem, xKey, locationX);
-        var y = this.yAxis.getY(dataItem, yKey, locationY);
-        x = $math.fitToRange(x, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
-        y = $math.fitToRange(y, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
-        return { x: x, y: y };
+        if (this.xAxis && this.yAxis) {
+            var x = this.xAxis.getX(dataItem, xKey, locationX);
+            var y = this.yAxis.getY(dataItem, yKey, locationY);
+            x = $math.fitToRange(x, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+            y = $math.fitToRange(y, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+            return { x: x, y: y };
+        }
     };
     /**
      * Updates item reader text based on the type and set up of axis.

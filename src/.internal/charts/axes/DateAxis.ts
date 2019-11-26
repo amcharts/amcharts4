@@ -230,6 +230,7 @@ export interface IDateAxisAdapters extends IValueAxisAdapters, IDateAxisProperti
  *
  * @see {@link IDateAxisEvents} for a list of available Events
  * @see {@link IDateAxisAdapters} for a list of available Adapters
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/date-axis/} got `DateAxis` documention
  * @important
  */
 export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T> {

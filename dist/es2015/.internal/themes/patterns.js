@@ -1,4 +1,4 @@
-import { is } from "./ITheme";
+import { is } from "../core/utils/Type";
 import { PatternSet } from "../core/utils/PatternSet";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
 var theme = function (object) {

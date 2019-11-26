@@ -166,8 +166,9 @@ export class ColumnSeries3D extends ColumnSeries {
 	 * @ignore
 	 */
 	public get columnsContainer(): Container {
-		if (this.chart && this.chart.columnsContainer) {
-			return this.chart.columnsContainer;
+		let chart = this.chart;
+		if (chart && chart.columnsContainer && chart.leftAxesContainer.layout != "vertical" && chart.rightAxesContainer.layout != "vertical" && chart.bottomAxesContainer.layout != "horizontal" && chart.topAxesContainer.layout != "horizontal") {
+			return chart.columnsContainer;
 		}
 		else {
 			return this._columnsContainer;
@@ -182,7 +183,7 @@ export class ColumnSeries3D extends ColumnSeries {
 	 */
 	public validateDataElementReal(dataItem: this["_dataItem"]): void {
 		super.validateDataElementReal(dataItem);
-		if(dataItem.column){
+		if (dataItem.column) {
 			dataItem.column.dx = this.dx;
 			dataItem.column.dy = this.dy;
 		}
@@ -196,7 +197,7 @@ export class ColumnSeries3D extends ColumnSeries {
 	 */
 	public validateDataElements(): void {
 		super.validateDataElements();
-		if(this.chart){
+		if (this.chart) {
 			this.chart.invalidateLayout();
 		}
 	}

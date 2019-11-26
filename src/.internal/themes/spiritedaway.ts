@@ -2,7 +2,8 @@
  * Color set from Spirited away movie borrowed from https://twitter.com/CINEMAPALETTES
  */
 
-import { ITheme, is } from "./ITheme";
+import { ITheme } from "./ITheme";
+import { is } from "../core/utils/Type";
 import { color } from "../core/utils/Color";
 import { ColorSet } from "../core/utils/ColorSet";
 import { BaseObject } from "../core/Base";

@@ -1,7 +1,7 @@
 /**
  * Color set from Moonrise kingdom movie borrowed from https://twitter.com/CINEMAPALETTES
  */
-import { is } from "./ITheme";
+import { is } from "../core/utils/Type";
 import { color } from "../core/utils/Color";
 var theme = function (object) {
     if (is(object, "ColorSet")) {

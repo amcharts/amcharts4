@@ -187,8 +187,8 @@ export class LineSeries extends XYSeries {
 	 */
 	public segments: ListTemplate<this["_segment"]>;
 
-
 	/**
+	 * Defines type for segment.
 	 */
 	public _segment: LineSeriesSegment;
 
@@ -368,7 +368,7 @@ export class LineSeries extends XYSeries {
 	 * @ignore Exclude from docs
 	 * @param dataItem  Data item
 	 */
-	public updateLegendValue(dataItem?: this["_dataItem"], notRange?:boolean) {
+	public updateLegendValue(dataItem?: this["_dataItem"], notRange?: boolean) {
 		super.updateLegendValue(dataItem, notRange);
 		//This is hack to save some methos, used to set tooltip color source only
 		if (dataItem && dataItem.segment) {
@@ -384,18 +384,19 @@ export class LineSeries extends XYSeries {
 	public validate(): void {
 
 		super.validate();
+		if (this.xAxis && this.yAxis) {
+			this._segmentsIterator.reset();
 
-		this._segmentsIterator.reset();
+			this.openSegmentWrapper(this._adjustedStartIndex);
 
-		this.openSegmentWrapper(this._adjustedStartIndex);
+			$iter.each(this.axisRanges.iterator(), (range) => {
+				this.openSegmentWrapper(this._adjustedStartIndex, range);
+			});
 
-		$iter.each(this.axisRanges.iterator(), (range) => {
-			this.openSegmentWrapper(this._adjustedStartIndex, range);
-		});
-
-		$iter.each(this._segmentsIterator.iterator(), (segment) => {
-			segment.__disabled = true;
-		});
+			$iter.each(this._segmentsIterator.iterator(), (segment) => {
+				segment.__disabled = true;
+			});
+		}
 	}
 
 	/**
@@ -444,7 +445,7 @@ export class LineSeries extends XYSeries {
 			if ($type.hasValue(propertyFields[property])) {
 				for (let i = startIndex; i >= 0; i--) {
 					let dataItem = this.dataItems.getIndex(i);
-					if(dataItem){
+					if (dataItem) {
 						if ($type.hasValue(dataItem.properties[property])) {
 							if (adjustedIndex > i) {
 								adjustedIndex = i;
@@ -506,7 +507,7 @@ export class LineSeries extends XYSeries {
 		}
 
 		let connect: boolean = this.connect;
-		let valuesFound:boolean = false; // some flag to avoid multiple closes if no values found
+		let valuesFound: boolean = false; // some flag to avoid multiple closes if no values found
 
 		for (let i: number = openIndex; i < endIndex; i++) {
 

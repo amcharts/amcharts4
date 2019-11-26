@@ -1,4 +1,4 @@
-import { is } from "./ITheme";
+import { is } from "../core/utils/Type";
 var theme = function (object) {
     if (is(object, "Sprite")) {
         object.showSystemTooltip = false;

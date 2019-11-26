@@ -1,4 +1,5 @@
-import { ITheme, is } from "./ITheme";
+import { ITheme } from "./ITheme";
+import { is } from "../core/utils/Type";
 import { BaseObject } from "../core/Base";
 import { Sprite } from "../core/Sprite";
 import { Container } from "../core/Container";

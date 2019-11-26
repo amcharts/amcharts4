@@ -192,7 +192,7 @@ var ColumnSeries = /** @class */ (function (_super) {
         //@todo Check if we can do better than use `instanceof`
         // find start/end locations based on clustered/stacked settings
         // go through chart series instead of base axis series, because axis series doesn't maintain order
-        if (this.chart) {
+        if (this.chart && this.xAxis && this.yAxis) {
             var baseAxisSeries = this.chart.series;
             var clusterCount_1 = 0;
             var index_1 = 0;
@@ -232,8 +232,10 @@ var ColumnSeries = /** @class */ (function (_super) {
      */
     ColumnSeries.prototype.validateDataElement = function (dataItem) {
         // important oder here, first real, then super. we need this to know size
-        this.validateDataElementReal(dataItem);
-        _super.prototype.validateDataElement.call(this, dataItem);
+        if (this.chart && this.xAxis && this.yAxis) {
+            this.validateDataElementReal(dataItem);
+            _super.prototype.validateDataElement.call(this, dataItem);
+        }
     };
     /**
      * Returns relative start location for the data item.

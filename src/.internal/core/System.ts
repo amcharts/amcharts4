@@ -54,7 +54,7 @@ export class System {
 	 *
 	 * @see {@link https://docs.npmjs.com/misc/semver}
 	 */
-	static VERSION: string = "4.7.10";
+	static VERSION: string = "4.7.11";
 
 	/**
 	 * @todo Description
@@ -408,14 +408,21 @@ export class System {
 		}
 	}
 
-	//@todo mm
+	/**
+	 * Call this method if you update data or config of a chart that is in
+	 * hidden container, after revealing the container, so that labels and
+	 * possibly other elements can correctly arrange themselves.
+	 *
+	 * @since 4.7.10
+	 * @param  container  Target container
+	 */
 	public softInvalidate(container: Container) {
 		container.children.each((child) => {
 			if (child instanceof Container) {
 				this.softInvalidate(child);
 			}
 			if (child.measureFailed) {
-				if (child instanceof Label) {
+				if ($type.is<Label>(child, "Label")) {
 					child.hardInvalidate();
 				}
 				else {

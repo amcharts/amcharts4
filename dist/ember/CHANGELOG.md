@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.11] - 2019-11-26
+
+### Fixed
+- Visual glitch with `ColumnSeries3D` used in a stacked axis scenario fixed.
+- `PercentSeries` was sometimes jumping over 2 colors in `ColorSet`.
+- Fixed possible compilation issues with some configurations.
+
+
 ## [4.7.10] - 2019-11-15
 
 ### Added
