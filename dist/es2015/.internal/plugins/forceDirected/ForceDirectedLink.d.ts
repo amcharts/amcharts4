@@ -137,4 +137,18 @@ export declare class ForceDirectedLink extends Sprite {
      * @param  value  Strength
      */
     strength: number;
+    /**
+     * X coordinate for the slice tooltip.
+     *
+     * @ignore
+     * @return X
+     */
+    getTooltipX(): number;
+    /**
+     * Y coordinate for the slice tooltip.
+     *
+     * @ignore
+     * @return Y
+     */
+    getTooltipY(): number;
 }

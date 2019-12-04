@@ -547,7 +547,7 @@ var Export = /** @class */ (function (_super) {
         else if (type == "print" && !window.print) {
             supported = false;
         }
-        else if (["json", "csv"].indexOf(type) !== -1 && !this._hasData()) {
+        else if (["json", "csv", "html", "pdfdata"].indexOf(type) !== -1 && !this._hasData()) {
             supported = false;
         }
         return this.adapter.apply("supported", {

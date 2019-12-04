@@ -436,11 +436,16 @@ var MapLine = /** @class */ (function (_super) {
      * @return X
      */
     MapLine.prototype.getTooltipX = function () {
-        var x = this.tooltipX;
+        var x = this.getPropertyValue("tooltipX");
         if (!(x instanceof Percent)) {
             x = percent(50);
         }
-        return this.positionToPoint(x.value).x;
+        if (x instanceof Percent) {
+            return this.positionToPoint(x.value).x;
+        }
+        else {
+            return 0;
+        }
     };
     /**
      * Y coordinate for the slice tooltip.
@@ -449,11 +454,16 @@ var MapLine = /** @class */ (function (_super) {
      * @return Y
      */
     MapLine.prototype.getTooltipY = function () {
-        var y = this.tooltipY;
+        var y = this.getPropertyValue("tooltipY");
         if (!(y instanceof Percent)) {
             y = percent(50);
         }
-        return this.positionToPoint(y.value).y;
+        if (y instanceof Percent) {
+            return this.positionToPoint(y.value).y;
+        }
+        else {
+            return 0;
+        }
     };
     return MapLine;
 }(MapObject));

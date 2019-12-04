@@ -13,6 +13,7 @@ import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { ForceDirectedNode } from "./ForceDirectedNode";
 import * as $path from "../../core/rendering/Path";
+import { percent, Percent } from "../../core/utils/Percent";
 
 
 /**
@@ -235,6 +236,52 @@ export class ForceDirectedLink extends Sprite {
 			}
 		}
 		return this.properties.strength;
+	}
+
+	/**
+	 * X coordinate for the slice tooltip.
+	 *
+	 * @ignore
+	 * @return X
+	 */
+	public getTooltipX(): number {
+		let x = this.getPropertyValue("tooltipX");
+		if (!(x instanceof Percent)) {
+			x = percent(50);
+		}
+		if (x instanceof Percent) {
+			let source = this.source;
+			let target = this.target;
+			if (source && target) {
+				let x1 = source.pixelX;
+				let x2 = target.pixelX;
+				return x1 + (x2 - x1) * x.value;
+			}
+		}
+		return 0;
+	}
+
+	/**
+	 * Y coordinate for the slice tooltip.
+	 *
+	 * @ignore
+	 * @return Y
+	 */
+	public getTooltipY(): number {
+		let y = this.getPropertyValue("tooltipY");
+		if (!(y instanceof Percent)) {
+			y = percent(50);
+		}
+		if (y instanceof Percent) {
+			let source = this.source;
+			let target = this.target;
+			if (source && target) {
+				let y1 = source.pixelY;
+				let y2 = target.pixelY;
+				return y1 + (y2 - y1) * y.value;
+			}
+		}
+		return 0;
 	}
 }
 

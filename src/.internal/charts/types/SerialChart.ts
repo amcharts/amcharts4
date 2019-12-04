@@ -276,7 +276,9 @@ export class SerialChart extends Chart {
 
 	protected handleSeriesAdded2(series: Series) {
 		if (!this.dataInvalid) {
-			this.invalidateData();
+			if(!series.data || series.data.length == 0){
+				this.invalidateData();
+			}
 		}
 	}
 

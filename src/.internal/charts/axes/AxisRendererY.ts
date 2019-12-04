@@ -252,6 +252,27 @@ export class AxisRendererY extends AxisRenderer {
 	}
 
 	/**
+	 * Converts a coordinate in pixels to a relative position. (0-1)
+	 *
+	 * @param coordinate  Coordinate (px)
+	 * @param coordinate2  Coordinate of a second axis, only needed for complex axes systems, like timeline (px)
+	 * @return Position (0-1)
+	 */
+	public coordinateToPosition(coordinate: number, coordinate2?:number): number {
+		let position: number;
+		let axis: Axis = this.axis;
+		let axisFullLength = axis.axisFullLength;
+
+		if (axis.renderer.inversed) {
+			position = (1 - axis.start) - coordinate / axisFullLength;
+		}
+		else {
+			position = coordinate / axisFullLength + (1 - axis.end);
+		}
+		return $math.round(position, 5);
+	}	
+
+	/**
 	 * [getPositionRangePath description]
 	 *
 	 * @ignore Exclude from docs

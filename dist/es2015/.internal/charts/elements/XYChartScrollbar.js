@@ -407,10 +407,10 @@ var XYChartScrollbar = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     XYChartScrollbar.prototype.handleDataChanged = function () {
-        //@todo: what if raw data changed?
         if (this.chart.data != this.scrollbarChart.data) {
             this.scrollbarChart.data = this.chart.data;
         }
+        this.scrollbarChart.invalidateData();
     };
     /**
      * Zooms out all axes on the internal chart.

@@ -217,8 +217,10 @@ var XYChart3D = /** @class */ (function (_super) {
             if (series instanceof ColumnSeries3D) {
                 series.depth = _this.depth / (count);
                 series.angle = _this.angle;
-                series.dx = _this.depth / (count) * $math.cos(_this.angle) * (series.depthIndex);
-                series.dy = -_this.depth / (count) * $math.sin(_this.angle) * (series.depthIndex);
+                if (series.columnsContainer == _this.columnsContainer) {
+                    series.dx = _this.depth / (count) * $math.cos(_this.angle) * (series.depthIndex);
+                    series.dy = -_this.depth / (count) * $math.sin(_this.angle) * (series.depthIndex);
+                }
                 var inversed_1 = false;
                 if ((series.baseAxis == series.xAxis && series.xAxis.renderer.inversed) || (series.baseAxis == series.yAxis && series.yAxis.renderer.inversed)) {
                     inversed_1 = true;

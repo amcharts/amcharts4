@@ -509,10 +509,10 @@ export class XYChartScrollbar extends Scrollbar {
 	 * @ignore Exclude from docs
 	 */
 	public handleDataChanged() {
-		//@todo: what if raw data changed?
 		if (this.chart.data != this.scrollbarChart.data) {
-			this.scrollbarChart.data = this.chart.data;
+			this.scrollbarChart.data = this.chart.data;			
 		}
+		this.scrollbarChart.invalidateData();
 	}
 
 	/**

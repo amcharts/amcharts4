@@ -544,11 +544,16 @@ export class MapLine extends MapObject {
 	 * @return X
 	 */
 	public getTooltipX(): number {
-		let x = this.tooltipX;
-		if(!(x instanceof Percent)){
+		let x = this.getPropertyValue("tooltipX");
+		if (!(x instanceof Percent)) {
 			x = percent(50);
 		}
-		return this.positionToPoint(x.value).x;
+		if (x instanceof Percent) {
+			return this.positionToPoint(x.value).x;
+		}
+		else {
+			return 0;
+		}
 	}
 
 	/**
@@ -558,11 +563,16 @@ export class MapLine extends MapObject {
 	 * @return Y
 	 */
 	public getTooltipY(): number {
-		let y = this.tooltipY;
-		if(!(y instanceof Percent)){
+		let y = this.getPropertyValue("tooltipY");
+		if (!(y instanceof Percent)) {
 			y = percent(50);
-		}		
-		return this.positionToPoint(y.value).y;
+		}
+		if (y instanceof Percent) {
+			return this.positionToPoint(y.value).y;
+		}
+		else {
+			return 0;
+		}
 	}
 
 }

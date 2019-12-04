@@ -239,6 +239,12 @@ export interface IMapChartProperties extends ISerialChartProperties {
      * @since 4.3.0
      */
     panBehavior?: "move" | "rotateLat" | "rotateLong" | "rotateLongLat";
+    /**
+     * Specifies if the map should be centered when zooming out
+     * @default true
+     * @since 4.7.12
+     */
+    centerMapOnZoomOut?: boolean;
 }
 /**
  * Defines events for [[MapChart]].
@@ -590,6 +596,15 @@ export declare class MapChart extends SerialChart {
      * @param  value  Behavior
      */
     panBehavior: "none" | "move" | "rotateLat" | "rotateLong" | "rotateLongLat";
+    /**
+     * @returns If the map should be centered when zooming out.
+     */
+    /**
+     * Specifies if the map should be centered when zooming out
+     * @default true
+     * @since 4.7.12
+     */
+    centerMapOnZoomOut: boolean;
     /**
      * @return Projection
      */

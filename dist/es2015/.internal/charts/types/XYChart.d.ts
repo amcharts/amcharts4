@@ -73,6 +73,12 @@ export interface IXYChartProperties extends ISerialChartProperties {
      */
     mouseWheelBehavior?: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
     /**
+     * Specifies what should chart do if when horizontal mouse wheel is rotated.
+     *
+     * @default "none"
+     */
+    horizontalMouseWheelBehavior?: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
+    /**
      * Specifies if chart should arrange series tooltips so that they won't
      * overlap.
      *
@@ -334,6 +340,7 @@ export declare class XYChart extends SerialChart {
     protected _panEndXRange: IRange;
     protected _panEndYRange: IRange;
     protected _mouseWheelDisposer: IDisposer;
+    protected _mouseWheelDisposer2: IDisposer;
     protected _cursorXPosition: number;
     protected _cursorYPosition: number;
     /**
@@ -694,6 +701,16 @@ export declare class XYChart extends SerialChart {
      */
     protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]): void;
     /**
+     * Handles mouse wheel event.
+     *
+     * @param event  Original event
+     */
+    protected handleHorizontalWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]): void;
+    /**
+     * @ignore
+     */
+    protected handleWheelReal(shift: number, mouseWheelBehavior: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none", plotPoint: IPoint): void;
+    /**
      * @return Mouse wheel behavior
      */
     /**
@@ -705,6 +722,18 @@ export declare class XYChart extends SerialChart {
      * @param mouse wheel behavior
      */
     mouseWheelBehavior: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
+    /**
+     * @return Horizontal mouse wheel behavior
+     */
+    /**
+     * Specifies action for when horizontal mouse wheel is used when over the chart.
+     *
+     * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"` (default).
+     *
+     * @default "none"
+     * @param mouse wheel behavior
+     */
+    horizontalMouseWheelBehavior: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
     /**
      * This function is called by the [[DataSource]]'s `dateFields` adapater
      * so that particular chart types can popuplate this setting with their

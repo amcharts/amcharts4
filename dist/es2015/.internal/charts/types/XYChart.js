@@ -1435,51 +1435,70 @@ var XYChart = /** @class */ (function (_super) {
         var svgPoint = $utils.documentPointToSvg(event.point, this.htmlContainer, this.svgContainer.cssScale);
         var plotPoint = $utils.svgPointToSprite(svgPoint, plotContainer);
         var shift = event.shift.y;
-        var rangeX = this.getCommonAxisRange(this.xAxes);
-        var rangeY = this.getCommonAxisRange(this.yAxes);
-        var shiftStep = 0.05;
-        var maxPanOut = 0;
-        var mouseWheelBehavior = this.mouseWheelBehavior;
-        if (mouseWheelBehavior == "panX" || mouseWheelBehavior == "panXY") {
-            var differenceX = rangeX.end - rangeX.start;
-            var newStartX = Math.max(-maxPanOut, rangeX.start + shiftStep * shift / 100);
-            var newEndX = Math.min(rangeX.end + shiftStep * shift / 100, 1 + maxPanOut);
-            if (newStartX <= 0) {
-                newEndX = newStartX + differenceX;
+        this.handleWheelReal(shift, this.mouseWheelBehavior, plotPoint);
+    };
+    /**
+     * Handles mouse wheel event.
+     *
+     * @param event  Original event
+     */
+    XYChart.prototype.handleHorizontalWheel = function (event) {
+        var plotContainer = this.plotContainer;
+        var svgPoint = $utils.documentPointToSvg(event.point, this.htmlContainer, this.svgContainer.cssScale);
+        var plotPoint = $utils.svgPointToSprite(svgPoint, plotContainer);
+        this.handleWheelReal(event.shift.x, this.horizontalMouseWheelBehavior, plotPoint);
+    };
+    /**
+     * @ignore
+     */
+    XYChart.prototype.handleWheelReal = function (shift, mouseWheelBehavior, plotPoint) {
+        if (shift != 0) {
+            var plotContainer = this.plotContainer;
+            var rangeX = this.getCommonAxisRange(this.xAxes);
+            var rangeY = this.getCommonAxisRange(this.yAxes);
+            var shiftStep = 0.05;
+            var maxPanOut = 0;
+            if (mouseWheelBehavior == "panX" || mouseWheelBehavior == "panXY") {
+                var differenceX = rangeX.end - rangeX.start;
+                var newStartX = Math.max(-maxPanOut, rangeX.start + shiftStep * shift / 100);
+                var newEndX = Math.min(rangeX.end + shiftStep * shift / 100, 1 + maxPanOut);
+                if (newStartX <= 0) {
+                    newEndX = newStartX + differenceX;
+                }
+                if (newEndX >= 1) {
+                    newStartX = newEndX - differenceX;
+                }
+                this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX });
             }
-            if (newEndX >= 1) {
-                newStartX = newEndX - differenceX;
+            if (mouseWheelBehavior == "panY" || mouseWheelBehavior == "panXY") {
+                shift *= -1;
+                var differenceY = rangeY.end - rangeY.start;
+                var newStartY = Math.max(-maxPanOut, rangeY.start + shiftStep * shift / 100);
+                var newEndY = Math.min(rangeY.end + shiftStep * shift / 100, 1 + maxPanOut);
+                if (newStartY <= 0) {
+                    newEndY = newStartY + differenceY;
+                }
+                if (newEndY >= 1) {
+                    newStartY = newEndY - differenceY;
+                }
+                this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY });
             }
-            this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX });
-        }
-        if (mouseWheelBehavior == "panY" || mouseWheelBehavior == "panXY") {
-            shift *= -1;
-            var differenceY = rangeY.end - rangeY.start;
-            var newStartY = Math.max(-maxPanOut, rangeY.start + shiftStep * shift / 100);
-            var newEndY = Math.min(rangeY.end + shiftStep * shift / 100, 1 + maxPanOut);
-            if (newStartY <= 0) {
-                newEndY = newStartY + differenceY;
+            if (mouseWheelBehavior == "zoomX" || mouseWheelBehavior == "zoomXY") {
+                var locationX = plotPoint.x / plotContainer.maxWidth;
+                var newStartX = Math.max(-maxPanOut, rangeX.start - shiftStep * shift / 100 * locationX);
+                newStartX = Math.min(newStartX, rangeX.start + (rangeX.end - rangeX.start) * locationX - shiftStep * 0.05);
+                var newEndX = Math.min(rangeX.end + shiftStep * shift / 100 * (1 - locationX), 1 + maxPanOut);
+                newEndX = Math.max(newEndX, rangeX.start + (rangeX.end - rangeX.start) * locationX + shiftStep * 0.05);
+                this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX });
             }
-            if (newEndY >= 1) {
-                newStartY = newEndY - differenceY;
+            if (mouseWheelBehavior == "zoomY" || mouseWheelBehavior == "zoomXY") {
+                var locationY = plotPoint.y / plotContainer.maxHeight;
+                var newStartY = Math.max(-maxPanOut, rangeY.start - shiftStep * shift / 100 * (1 - locationY));
+                newStartY = Math.min(newStartY, rangeY.start + (rangeY.end - rangeY.start) * locationY - shiftStep * 0.05);
+                var newEndY = Math.min(rangeY.end + shiftStep * shift / 100 * locationY, 1 + maxPanOut);
+                newEndY = Math.max(newEndY, rangeY.start + (rangeY.end - rangeY.start) * locationY + shiftStep * 0.05);
+                this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY });
             }
-            this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY });
-        }
-        if (mouseWheelBehavior == "zoomX" || mouseWheelBehavior == "zoomXY") {
-            var locationX = plotPoint.x / plotContainer.maxWidth;
-            var newStartX = Math.max(-maxPanOut, rangeX.start - shiftStep * shift / 100 * locationX);
-            newStartX = Math.min(newStartX, rangeX.start + (rangeX.end - rangeX.start) * locationX - shiftStep * 0.05);
-            var newEndX = Math.min(rangeX.end + shiftStep * shift / 100 * (1 - locationX), 1 + maxPanOut);
-            newEndX = Math.max(newEndX, rangeX.start + (rangeX.end - rangeX.start) * locationX + shiftStep * 0.05);
-            this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX });
-        }
-        if (mouseWheelBehavior == "zoomY" || mouseWheelBehavior == "zoomXY") {
-            var locationY = plotPoint.y / plotContainer.maxHeight;
-            var newStartY = Math.max(-maxPanOut, rangeY.start - shiftStep * shift / 100 * (1 - locationY));
-            newStartY = Math.min(newStartY, rangeY.start + (rangeY.end - rangeY.start) * locationY - shiftStep * 0.05);
-            var newEndY = Math.min(rangeY.end + shiftStep * shift / 100 * locationY, 1 + maxPanOut);
-            newEndY = Math.max(newEndY, rangeY.start + (rangeY.end - rangeY.start) * locationY + shiftStep * 0.05);
-            this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY });
         }
     };
     Object.defineProperty(XYChart.prototype, "mouseWheelBehavior", {
@@ -1508,6 +1527,39 @@ var XYChart = /** @class */ (function (_super) {
                         this.plotContainer.wheelable = false;
                         this.plotContainer.hoverable = false;
                         this._mouseWheelDisposer.dispose();
+                    }
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(XYChart.prototype, "horizontalMouseWheelBehavior", {
+        /**
+         * @return Horizontal mouse wheel behavior
+         */
+        get: function () {
+            return this.getPropertyValue("horizontalMouseWheelBehavior");
+        },
+        /**
+         * Specifies action for when horizontal mouse wheel is used when over the chart.
+         *
+         * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"` (default).
+         *
+         * @default "none"
+         * @param mouse wheel behavior
+         */
+        set: function (value) {
+            if (this.setPropertyValue("horizontalMouseWheelBehavior", value)) {
+                if (value != "none") {
+                    this._mouseWheelDisposer2 = this.plotContainer.events.on("wheel", this.handleHorizontalWheel, this, false);
+                    this._disposers.push(this._mouseWheelDisposer2);
+                }
+                else {
+                    if (this._mouseWheelDisposer2) {
+                        this.plotContainer.wheelable = false;
+                        this.plotContainer.hoverable = false;
+                        this._mouseWheelDisposer2.dispose();
                     }
                 }
             }

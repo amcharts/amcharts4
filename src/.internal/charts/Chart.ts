@@ -410,6 +410,7 @@ export class Chart extends Component {
 	 */
 	public copyFrom(source: this) {
 		this.titles.copyFrom(source.titles);
+		this.chartContainer.copyFrom(source.chartContainer);
 		if (source.legend) {
 			this.legend = source.legend.clone();
 			this.legend.removeChildren();

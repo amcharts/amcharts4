@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.12] - 2019-12-04
+
+### Fixed
+- Export menu was still shown data download options for HTML and PDF even if chart had no data.
+- 3D columns with horizontally or vertically stacked axes were not positioned properly.
+- Setting tooltipText on MapLine resulted stack overflow when hovered over line.
+- Force-directed links were not showing tooltips.
+- coordinateToPosition of AxisRendererY was not working properly if axis was zoomed-in.
+- Value axes of a XY chart might appear zoomed-in after chart.invalidateData() was called or after series were added to the chart after init.
+
+### Added
+- horizontalMouseWheelBehavior with options "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none" added to XYChart. Will work with both horizontal scrollers (if available) and two finger-horizontal swipe on the touchpad.
+- centerMapOnZoomOut added to MapChart, with default value true. 
+
+
 ## [4.7.11] - 2019-11-26
 
 ### Fixed

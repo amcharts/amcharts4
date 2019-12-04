@@ -12,6 +12,7 @@ import { Sprite } from "../../core/Sprite";
 import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $path from "../../core/rendering/Path";
+import { percent, Percent } from "../../core/utils/Percent";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -171,6 +172,50 @@ var ForceDirectedLink = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * X coordinate for the slice tooltip.
+     *
+     * @ignore
+     * @return X
+     */
+    ForceDirectedLink.prototype.getTooltipX = function () {
+        var x = this.getPropertyValue("tooltipX");
+        if (!(x instanceof Percent)) {
+            x = percent(50);
+        }
+        if (x instanceof Percent) {
+            var source = this.source;
+            var target = this.target;
+            if (source && target) {
+                var x1 = source.pixelX;
+                var x2 = target.pixelX;
+                return x1 + (x2 - x1) * x.value;
+            }
+        }
+        return 0;
+    };
+    /**
+     * Y coordinate for the slice tooltip.
+     *
+     * @ignore
+     * @return Y
+     */
+    ForceDirectedLink.prototype.getTooltipY = function () {
+        var y = this.getPropertyValue("tooltipY");
+        if (!(y instanceof Percent)) {
+            y = percent(50);
+        }
+        if (y instanceof Percent) {
+            var source = this.source;
+            var target = this.target;
+            if (source && target) {
+                var y1 = source.pixelY;
+                var y2 = target.pixelY;
+                return y1 + (y2 - y1) * y.value;
+            }
+        }
+        return 0;
+    };
     return ForceDirectedLink;
 }(Sprite));
 export { ForceDirectedLink };

@@ -934,7 +934,6 @@ export class XYSeries extends Series {
 		this._smin.clear();
 		this._smax.clear();
 
-
 		if (this.xAxis) {
 			this.xAxis.seriesDataChangeUpdate(this);
 		}
@@ -994,7 +993,7 @@ export class XYSeries extends Series {
 			this.setInitialWorkingValues(dataItem);
 		}
 		catch (e) {
-			if(this._chart){
+			if (this._chart) {
 				this._chart.raiseCriticalError(e);
 			}
 		}
@@ -1641,42 +1640,49 @@ export class XYSeries extends Series {
 			this._smin.setKey(yAxisId, minY);
 			this._smax.setKey(yAxisId, maxY);
 
-			if (this.appeared || this.start != 0 || this.end != 1 || this.dataItems != this.mainDataSet) {
+			if (minX == Infinity || maxX == -Infinity || minY == Infinity || maxY == -Infinity) {
+				// void
+			}
+			else {
 
-				/// new, helps to handle issues with change percent
-				let changed = false;
+				if (this.appeared || this.start != 0 || this.end != 1 || this.dataItems != this.mainDataSet) {
 
-				if (yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
-					let tmin = this._tmin.getKey(yAxisId);
-					if ((this.usesShowFields || this._dataSetChanged) && (!$type.isNumber(tmin) || minY < tmin)) {
-						this._tmin.setKey(yAxisId, minY);
-						changed = true;
+					/// new, helps to handle issues with change percent
+					let changed = false;
+
+					if (yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
+						let tmin = this._tmin.getKey(yAxisId);
+
+						if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minY < tmin)) {
+							this._tmin.setKey(yAxisId, minY);
+							changed = true;
+						}
+						let tmax = this._tmax.getKey(yAxisId);
+						if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxY > tmax)) {
+							this._tmax.setKey(yAxisId, maxY);
+							changed = true;
+						}
 					}
-					let tmax = this._tmax.getKey(yAxisId);
-					if ((this.usesShowFields || this._dataSetChanged) && (!$type.isNumber(tmax) || maxY > tmax)) {
-						this._tmax.setKey(yAxisId, maxY);
-						changed = true;
+
+					if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis)) {
+						let tmin = this._tmin.getKey(xAxisId);
+						if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minX < tmin)) {
+							this._tmin.setKey(xAxisId, minX);
+							changed = true;
+						}
+						let tmax = this._tmax.getKey(xAxisId);
+						if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxX > tmax)) {
+							this._tmax.setKey(xAxisId, maxX);
+							changed = true;
+						}
 					}
+
+					if (changed) {
+						this.dispatchImmediately("extremeschanged");
+					}
+
+					this.dispatchImmediately("selectionextremeschanged");
 				}
-
-				if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis)) {
-					let tmin = this._tmin.getKey(xAxisId);
-					if ((this.usesShowFields || this._dataSetChanged) && (!$type.isNumber(tmin) || minX < tmin)) {
-						this._tmin.setKey(xAxisId, minX);
-						changed = true;
-					}
-					let tmax = this._tmax.getKey(xAxisId);
-					if ((this.usesShowFields || this._dataSetChanged) && (!$type.isNumber(tmax) || maxX > tmax)) {
-						this._tmax.setKey(xAxisId, maxX);
-						changed = true;
-					}
-				}
-
-				if (changed) {
-					this.dispatchImmediately("extremeschanged");
-				}
-
-				this.dispatchImmediately("selectionextremeschanged");
 			}
 		}
 
@@ -1878,7 +1884,7 @@ export class XYSeries extends Series {
 		}
 
 		let xAxis = this.xAxis;
-		let yAxis = this.yAxis;		
+		let yAxis = this.yAxis;
 
 		if ((xAxis instanceof ValueAxis && !dataItem.hasValue([xField])) || (yAxis instanceof ValueAxis && !dataItem.hasValue([yField]))) {
 			bullet.visible = false;
@@ -2611,7 +2617,7 @@ export class XYSeries extends Series {
 	 * @returns             Coordinates
 	 */
 	public getPoint(dataItem: XYSeriesDataItem, xKey: string, yKey: string, locationX?: number, locationY?: number, stackKeyX?: string, stackKeyY?: string): IPoint {
-		if(this.xAxis && this.yAxis){
+		if (this.xAxis && this.yAxis) {
 			let x: number = this.xAxis.getX(dataItem, xKey, locationX);
 			let y: number = this.yAxis.getY(dataItem, yKey, locationY);
 

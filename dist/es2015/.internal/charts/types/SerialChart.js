@@ -169,7 +169,9 @@ var SerialChart = /** @class */ (function (_super) {
     };
     SerialChart.prototype.handleSeriesAdded2 = function (series) {
         if (!this.dataInvalid) {
-            this.invalidateData();
+            if (!series.data || series.data.length == 0) {
+                this.invalidateData();
+            }
         }
     };
     /**

@@ -298,6 +298,7 @@ var Chart = /** @class */ (function (_super) {
      */
     Chart.prototype.copyFrom = function (source) {
         this.titles.copyFrom(source.titles);
+        this.chartContainer.copyFrom(source.chartContainer);
         if (source.legend) {
             this.legend = source.legend.clone();
             this.legend.removeChildren();

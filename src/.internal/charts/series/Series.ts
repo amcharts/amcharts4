@@ -1451,6 +1451,7 @@ export class Series extends Component {
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/series/#Heat_maps} for more about heat rules
 	 * @return  Heat rules
 	 */
+
 	public get heatRules(): List<IHeatRule> {
 		if (!this._heatRules) {
 			this._heatRules = new List<IHeatRule>();

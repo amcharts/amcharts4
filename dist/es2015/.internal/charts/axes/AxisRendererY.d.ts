@@ -125,6 +125,14 @@ export declare class AxisRendererY extends AxisRenderer {
      */
     pointToPosition(point: IPoint): number;
     /**
+     * Converts a coordinate in pixels to a relative position. (0-1)
+     *
+     * @param coordinate  Coordinate (px)
+     * @param coordinate2  Coordinate of a second axis, only needed for complex axes systems, like timeline (px)
+     * @return Position (0-1)
+     */
+    coordinateToPosition(coordinate: number, coordinate2?: number): number;
+    /**
      * [getPositionRangePath description]
      *
      * @ignore Exclude from docs

@@ -303,6 +303,14 @@ export interface IMapChartProperties extends ISerialChartProperties {
 	 * @since 4.3.0
 	 */
 	panBehavior?: "move" | "rotateLat" | "rotateLong" | "rotateLongLat";
+
+
+	/**
+	 * Specifies if the map should be centered when zooming out
+	 * @default true
+	 * @since 4.7.12
+	 */	
+	centerMapOnZoomOut?: boolean;
 }
 
 /**
@@ -639,6 +647,8 @@ export class MapChart extends SerialChart {
 		this.homeZoomLevel = 1;
 		this.zoomStep = 2;
 		this.layout = "absolute";
+
+		this.centerMapOnZoomOut = true;
 
 		// Set padding
 		this.padding(0, 0, 0, 0);
@@ -1096,11 +1106,27 @@ export class MapChart extends SerialChart {
 	}
 
 	/**
+	 * @returns If the map should be centered when zooming out.
+	 */	
+	public get centerMapOnZoomOut(): boolean {
+		return this.getPropertyValue("centerMapOnZoomOut");
+	}
+
+	/**
+	 * Specifies if the map should be centered when zooming out
+	 * @default true
+	 * @since 4.7.12
+	 */	
+	public set centerMapOnZoomOut(value: boolean) {
+		this.setPropertyValue("centerMapOnZoomOut", value);
+	}
+
+	/**
 	 * @returns Behavior
 	 */
 	public get panBehavior(): "none" | "move" | "rotateLat" | "rotateLong" | "rotateLongLat" {
 		return this.getPropertyValue("panBehavior");
-	}
+	}	
 
 	/**
 	 * Projection to use for the map.
@@ -1444,7 +1470,7 @@ export class MapChart extends SerialChart {
 			let y = mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio;
 
 
-			if (!mapObject && zoomLevel < this.zoomLevel) {
+			if (!mapObject && zoomLevel < this.zoomLevel && this.centerMapOnZoomOut) {
 				x = this.innerWidth / 2 - (this.seriesMaxLeft + (this.seriesMaxRight - this.seriesMaxLeft) / 2) * zoomLevel * this.scaleRatio;
 				y = this.innerHeight / 2 - (this.seriesMaxTop + (this.seriesMaxBottom - this.seriesMaxTop) / 2) * zoomLevel * this.scaleRatio;
 			}

@@ -124,6 +124,7 @@ var MapChart = /** @class */ (function (_super) {
         _this.homeZoomLevel = 1;
         _this.zoomStep = 2;
         _this.layout = "absolute";
+        _this.centerMapOnZoomOut = true;
         // Set padding
         _this.padding(0, 0, 0, 0);
         $utils.used(_this.backgroundSeries);
@@ -523,6 +524,24 @@ var MapChart = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(MapChart.prototype, "centerMapOnZoomOut", {
+        /**
+         * @returns If the map should be centered when zooming out.
+         */
+        get: function () {
+            return this.getPropertyValue("centerMapOnZoomOut");
+        },
+        /**
+         * Specifies if the map should be centered when zooming out
+         * @default true
+         * @since 4.7.12
+         */
+        set: function (value) {
+            this.setPropertyValue("centerMapOnZoomOut", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(MapChart.prototype, "projection", {
         /**
          * @return Projection
@@ -820,7 +839,7 @@ var MapChart = /** @class */ (function (_super) {
             }
             var x = mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio;
             var y = mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio;
-            if (!mapObject && zoomLevel < this.zoomLevel) {
+            if (!mapObject && zoomLevel < this.zoomLevel && this.centerMapOnZoomOut) {
                 x = this.innerWidth / 2 - (this.seriesMaxLeft + (this.seriesMaxRight - this.seriesMaxLeft) / 2) * zoomLevel * this.scaleRatio;
                 y = this.innerHeight / 2 - (this.seriesMaxTop + (this.seriesMaxBottom - this.seriesMaxTop) / 2) * zoomLevel * this.scaleRatio;
             }
