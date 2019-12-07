@@ -924,6 +924,10 @@ export class ForceDirectedSeries extends Series {
 				distance = 1;
 			}
 
+			if(target.isHidden){
+				return 0;
+			}
+
 			return (distance * (source.circle.pixelRadius + target.circle.pixelRadius));
 		}
 
@@ -943,6 +947,10 @@ export class ForceDirectedSeries extends Series {
 		let link = source.linksWith.getKey(target.uid);
 		if (link) {
 			strength = link.strength;
+		}
+
+		if(target.isHidden){
+			return 0;
 		}
 
 		return strength;

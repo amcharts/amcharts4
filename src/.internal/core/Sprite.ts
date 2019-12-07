@@ -823,7 +823,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	/**
 	 * @ignore
 	 */
-	public maxBottomSelf: number = 0;	
+	public maxBottomSelf: number = 0;
 
 	protected _isDragged: boolean = false;
 
@@ -961,7 +961,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	/**
 	 *  @ignore
 	 */
-	public measureFailed:boolean = false;
+	public measureFailed: boolean = false;
 
 	/**
 	 * Constructor:
@@ -3554,6 +3554,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 				if (this instanceof Container) {
 					this.deepInvalidate();
+					if(this._background){
+						this._background.invalidate();
+					}
 				}
 				else {
 					this.invalidate();
@@ -4311,29 +4314,29 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		S extends { cloneId: string, events: EventDispatcher<{ propertychanged: { property: string } }> },
 		From extends (keyof S & keyof this),
 		To extends keyof this
-		>(
-			property: To,
-			source: S,
-			bindToProperty: From,
-			modifier?: (value: this[From]) => this[To]
-		): void;
+	>(
+		property: To,
+		source: S,
+		bindToProperty: From,
+		modifier?: (value: this[From]) => this[To]
+	): void;
 	public bind<
 		S extends { cloneId: string, events: EventDispatcher<{ propertychanged: { property: string } }> },
 		Key extends (keyof S & keyof this)
-		>(
-			property: Key,
-			source: S,
-			modifier?: (value: this[Key]) => this[Key]
-		): void;
+	>(
+		property: Key,
+		source: S,
+		modifier?: (value: this[Key]) => this[Key]
+	): void;
 	public bind<
 		S extends this & { cloneId: string, events: EventDispatcher<{ propertychanged: { property: string } }> },
 		Key extends (keyof S & keyof this)
-		>(
-			property: Key,
-			source: S,
-			bindToProperty: Key = property,
-			modifier?: (value: this[Key]) => this[Key]
-		): void {
+	>(
+		property: Key,
+		source: S,
+		bindToProperty: Key = property,
+		modifier?: (value: this[Key]) => this[Key]
+	): void {
 		if ($type.hasValue(this._bindings[<string>property])) {
 			this._bindings[<string>property].dispose();
 		}
@@ -7589,7 +7592,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				}
 				this._isPath = true;
 			}
-			this.element.attr({ "d": value });
+			if ($type.hasValue(value)) {
+				this.element.attr({ "d": value });
+			}
+			else {
+				this.element.removeAttr("d");
+			}
 			this.invalidatePosition();
 			// otherwise is 0x0
 			if (!this.inited) {
@@ -8963,7 +8971,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (x instanceof Percent) {
 			value = this.maxLeftSelf + this._measuredWidthSelf * x.value - this.pixelPaddingLeft - this.ex; // overflow is know only for measured items, so this is not always good
 		}
-	
+
 		return value;
 	}
 

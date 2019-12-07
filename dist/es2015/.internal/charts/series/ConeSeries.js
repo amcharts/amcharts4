@@ -82,10 +82,10 @@ var ConeSeries = /** @class */ (function (_super) {
         var column = this.columns.getIndex(0);
         if (column) {
             if (this.baseAxis == this.xAxis) {
-                dy = column.coneColumn.bottom.radiusY + 1;
+                dy = column.coneColumn.innerWidth / 2 + 1;
             }
             else {
-                dx = column.coneColumn.bottom.radiusY + 1;
+                dx = column.coneColumn.innerHeight / 2 + 1;
             }
             return $path.rectToPath({
                 x: -dx,

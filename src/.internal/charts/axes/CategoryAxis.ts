@@ -1103,6 +1103,12 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		let dataItem: this["_dataItem"] = this.dataItems.getIndex(this.positionToIndex(position));
 
 		if (dataItem) {
+			this.tooltipDataItem = dataItem;
+			this.tooltip.dataItem = dataItem;
+			if(this.tooltipText){
+				return this.tooltipText;
+			}
+
 			if (!this._adapterO) {
 				return dataItem.category;
 			}

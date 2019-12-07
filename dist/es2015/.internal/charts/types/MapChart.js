@@ -881,7 +881,7 @@ var MapChart = /** @class */ (function (_super) {
             if ($type.isNaN(zoomLevel)) {
                 zoomLevel = 5;
             }
-            return this.zoomToGeoPoint({ latitude: mapObject.latitude, longitude: mapObject.longitude }, zoomLevel, center, duration);
+            return this.zoomToGeoPoint({ latitude: mapObject.latitude, longitude: mapObject.longitude }, zoomLevel, center, duration, true);
         }
         var dataItem = mapObject.dataItem;
         if (dataItem && $type.isNumber(dataItem.zoomLevel)) {
@@ -929,7 +929,7 @@ var MapChart = /** @class */ (function (_super) {
             level = 1;
         }
         var zoomLevel = level * Math.min((this.south - this.north) / (south - north), (this.west - this.east) / (west - east));
-        return this.zoomToGeoPoint({ latitude: north + (south - north) / 2, longitude: west + (east - west) / 2 }, zoomLevel, center, duration);
+        return this.zoomToGeoPoint({ latitude: north + (south - north) / 2, longitude: west + (east - west) / 2 }, zoomLevel, center, duration, true);
     };
     /**
      * Zooms in the map, optionally centering on particular latitude/longitude
@@ -982,7 +982,7 @@ var MapChart = /** @class */ (function (_super) {
         var point = this.geoPointToSVG(this.zoomGeoPoint);
         point.x += this.pixelWidth * shift.x;
         point.y += this.pixelHeight * shift.y;
-        this.zoomToGeoPoint(this.svgPointToGeo(point), this.zoomLevel, true, duration);
+        this.zoomToGeoPoint(this.svgPointToGeo(point), this.zoomLevel, true, duration, true);
     };
     Object.defineProperty(MapChart.prototype, "zoomGeoPoint", {
         /**
@@ -1460,7 +1460,7 @@ var MapChart = /** @class */ (function (_super) {
             homeGeoPoint = this.centerGeoPoint;
         }
         if (homeGeoPoint) {
-            this.zoomToGeoPoint(homeGeoPoint, this.homeZoomLevel, true, duration);
+            this.zoomToGeoPoint(homeGeoPoint, this.homeZoomLevel, true, duration, true);
         }
     };
     /**

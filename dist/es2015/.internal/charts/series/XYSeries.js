@@ -1133,42 +1133,37 @@ var XYSeries = /** @class */ (function (_super) {
             this._smax.setKey(xAxisId, maxX);
             this._smin.setKey(yAxisId, minY);
             this._smax.setKey(yAxisId, maxY);
-            if (minX == Infinity || maxX == -Infinity || minY == Infinity || maxY == -Infinity) {
-                // void
-            }
-            else {
-                if (this.appeared || this.start != 0 || this.end != 1 || this.dataItems != this.mainDataSet) {
-                    /// new, helps to handle issues with change percent
-                    var changed = false;
-                    if (yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
-                        var tmin = this._tmin.getKey(yAxisId);
-                        if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minY < tmin)) {
-                            this._tmin.setKey(yAxisId, minY);
-                            changed = true;
-                        }
-                        var tmax = this._tmax.getKey(yAxisId);
-                        if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxY > tmax)) {
-                            this._tmax.setKey(yAxisId, maxY);
-                            changed = true;
-                        }
+            if (this.appeared || this.start != 0 || this.end != 1 || this.dataItems != this.mainDataSet) {
+                /// new, helps to handle issues with change percent
+                var changed = false;
+                if (yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
+                    var tmin = this._tmin.getKey(yAxisId);
+                    if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minY < tmin)) {
+                        this._tmin.setKey(yAxisId, minY);
+                        changed = true;
                     }
-                    if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis)) {
-                        var tmin = this._tmin.getKey(xAxisId);
-                        if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minX < tmin)) {
-                            this._tmin.setKey(xAxisId, minX);
-                            changed = true;
-                        }
-                        var tmax = this._tmax.getKey(xAxisId);
-                        if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxX > tmax)) {
-                            this._tmax.setKey(xAxisId, maxX);
-                            changed = true;
-                        }
+                    var tmax = this._tmax.getKey(yAxisId);
+                    if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxY > tmax)) {
+                        this._tmax.setKey(yAxisId, maxY);
+                        changed = true;
                     }
-                    if (changed) {
-                        this.dispatchImmediately("extremeschanged");
-                    }
-                    this.dispatchImmediately("selectionextremeschanged");
                 }
+                if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis)) {
+                    var tmin = this._tmin.getKey(xAxisId);
+                    if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minX < tmin)) {
+                        this._tmin.setKey(xAxisId, minX);
+                        changed = true;
+                    }
+                    var tmax = this._tmax.getKey(xAxisId);
+                    if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxX > tmax)) {
+                        this._tmax.setKey(xAxisId, maxX);
+                        changed = true;
+                    }
+                }
+                if (changed) {
+                    this.dispatchImmediately("extremeschanged");
+                }
+                this.dispatchImmediately("selectionextremeschanged");
             }
         }
         if (!working && this.stacked) {
@@ -1626,6 +1621,10 @@ var XYSeries = /** @class */ (function (_super) {
         var animation = _super.prototype.show.call(this, duration);
         if (anim && !anim.isFinished()) {
             animation = anim;
+        }
+        if (this.hidden) {
+            this.dispatchImmediately("selectionextremeschanged");
+            this.hidden = false;
         }
         return animation;
     };

@@ -607,6 +607,9 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
             if (!source.isActive) {
                 distance = 1;
             }
+            if (target.isHidden) {
+                return 0;
+            }
             return (distance * (source.circle.pixelRadius + target.circle.pixelRadius));
         }
         return distance;
@@ -622,6 +625,9 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         var link = source.linksWith.getKey(target.uid);
         if (link) {
             strength = link.strength;
+        }
+        if (target.isHidden) {
+            return 0;
         }
         return strength;
     };

@@ -729,10 +729,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		if (this.groupData && $type.hasValue(difference)) {
 			let mainBaseInterval = this.mainBaseInterval;
 			let groupInterval = this.chooseInterval(0, difference, this.groupCount, this.groupIntervals);
-			if ((groupInterval.timeUnit == mainBaseInterval.timeUnit && groupInterval.count < mainBaseInterval.count) || $time.getDuration(groupInterval.timeUnit, 1) < $time.getDuration(mainBaseInterval.timeUnit, 1)) {
+			if ($time.getDuration(groupInterval.timeUnit, groupInterval.count) < $time.getDuration(mainBaseInterval.timeUnit, mainBaseInterval.count)) {
 				groupInterval = { ...mainBaseInterval };
 			}
 			this._groupInterval = groupInterval;
+
 			this._currentDataSetId = groupInterval.timeUnit + groupInterval.count;
 
 			this.series.each((series) => {
@@ -2253,6 +2254,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			if ($type.hasValue(difference)) {
 				let mainBaseInterval = this.mainBaseInterval;
 				let groupInterval = this.chooseInterval(0, difference, this.groupCount, this.groupIntervals);
+
 				if ((groupInterval.timeUnit == mainBaseInterval.timeUnit && groupInterval.count < mainBaseInterval.count) || $time.getDuration(groupInterval.timeUnit, 1) < $time.getDuration(mainBaseInterval.timeUnit, 1)) {
 					groupInterval = { ...mainBaseInterval };
 				}
@@ -2546,11 +2548,16 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		if (dataItem && previous) {
 			if (!series.connect && $type.isNumber(series.autoGapCount)) {
 				if (series.baseAxis == this) {
-					let time = dataItem.dates["date" + this.axisLetter].getTime();
-					let prevTime = previous.dates["date" + this.axisLetter].getTime();
+					let date = dataItem.dates["date" + this.axisLetter];
+					let prevDate = previous.dates["date" + this.axisLetter];
 
-					if (time - prevTime > series.autoGapCount * this.baseDuration) {
-						return true;
+					if(date && prevDate){
+						let time = date.getTime();
+						let prevTime = prevDate.getTime();
+
+						if (time - prevTime > series.autoGapCount * this.baseDuration) {
+							return true;
+						}
 					}
 				}
 			}

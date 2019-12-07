@@ -860,6 +860,11 @@ var CategoryAxis = /** @class */ (function (_super) {
     CategoryAxis.prototype.getTooltipText = function (position) {
         var dataItem = this.dataItems.getIndex(this.positionToIndex(position));
         if (dataItem) {
+            this.tooltipDataItem = dataItem;
+            this.tooltip.dataItem = dataItem;
+            if (this.tooltipText) {
+                return this.tooltipText;
+            }
             if (!this._adapterO) {
                 return dataItem.category;
             }

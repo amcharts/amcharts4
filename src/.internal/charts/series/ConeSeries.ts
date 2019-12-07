@@ -152,16 +152,17 @@ export class ConeSeries extends ColumnSeries {
 	 *
 	 * @return SVG path
 	 */
-	protected getMaskPath(): string {
+	protected getMaskPath(): string {		
 		let dx = 0;
 		let dy = 0;
 		let column = this.columns.getIndex(0);
+
 		if(column){
 			if (this.baseAxis == this.xAxis) {
-				dy = column.coneColumn.bottom.radiusY + 1;
+				dy = column.coneColumn.innerWidth / 2 + 1
 			}
 			else {
-				dx = column.coneColumn.bottom.radiusY + 1;
+				dx = column.coneColumn.innerHeight / 2 + 1;
 			}
 
 			return $path.rectToPath({

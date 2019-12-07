@@ -96,6 +96,7 @@ var HeatLegend = /** @class */ (function (_super) {
      */
     HeatLegend.prototype.validate = function () {
         _super.prototype.validate.call(this);
+        this.valueAxis.renderer.inversed = this.reverseOrder;
         var series = this.series;
         var minColor = this.minColor;
         var maxColor = this.maxColor;
@@ -146,16 +147,28 @@ var HeatLegend = /** @class */ (function (_super) {
             }
             if (this.markerCount == 1) {
                 var gradient = new LinearGradient();
-                gradient.addColor(minColor, minOpacity);
-                gradient.addColor(maxColor, maxOpacity);
+                if (this.reverseOrder) {
+                    gradient.addColor(maxColor, maxOpacity);
+                    gradient.addColor(minColor, minOpacity);
+                }
+                else {
+                    gradient.addColor(minColor, minOpacity);
+                    gradient.addColor(maxColor, maxOpacity);
+                }
                 if (this.orientation == "vertical") {
                     gradient.rotation = -90;
                 }
                 marker.fill = gradient;
                 if ($type.hasValue(minStroke) && $type.hasValue(maxStroke)) {
                     var strokeGradient = new LinearGradient();
-                    strokeGradient.addColor(minStroke, minStrokeOpacity);
-                    strokeGradient.addColor(maxStroke, maxStrokeOpacity);
+                    if (this.reverseOrder) {
+                        strokeGradient.addColor(maxStroke, maxStrokeOpacity);
+                        strokeGradient.addColor(minStroke, minStrokeOpacity);
+                    }
+                    else {
+                        strokeGradient.addColor(minStroke, minStrokeOpacity);
+                        strokeGradient.addColor(maxStroke, maxStrokeOpacity);
+                    }
                     if (this.orientation == "vertical") {
                         strokeGradient.rotation = -90;
                     }
@@ -163,14 +176,18 @@ var HeatLegend = /** @class */ (function (_super) {
                 }
             }
             else {
-                var color = new Color($colors.interpolate(minColor.rgb, maxColor.rgb, i / this.markerCount));
+                var c = i;
+                if (this.reverseOrder) {
+                    c = this.markerCount - i - 1;
+                }
+                var color = new Color($colors.interpolate(minColor.rgb, maxColor.rgb, c / this.markerCount));
                 marker.fill = color;
-                var opacity = minOpacity + (maxOpacity - minOpacity) * i / this.markerCount;
+                var opacity = minOpacity + (maxOpacity - minOpacity) * c / this.markerCount;
                 marker.fillOpacity = opacity;
                 if ($type.hasValue(minStroke) && $type.hasValue(maxStroke)) {
-                    var color_1 = new Color($colors.interpolate(minStroke.rgb, maxStroke.rgb, i / this.markerCount));
+                    var color_1 = new Color($colors.interpolate(minStroke.rgb, maxStroke.rgb, c / this.markerCount));
                     marker.stroke = color_1;
-                    var opacity_1 = minStrokeOpacity + (maxStrokeOpacity - minStrokeOpacity) * i / this.markerCount;
+                    var opacity_1 = minStrokeOpacity + (maxStrokeOpacity - minStrokeOpacity) * c / this.markerCount;
                     marker.strokeOpacity = opacity_1;
                 }
             }

@@ -28,6 +28,7 @@ import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $utils from "../../core/utils/Utils";
 import * as $array from "../../core/utils/Array";
+import * as $number from "../../core/utils/Number";
 import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive";
 /**
  * ============================================================================
@@ -651,6 +652,15 @@ var XYChart = /** @class */ (function (_super) {
             _this.dataUsers.removeValue(axis);
         }));
         renderer.bulletsContainer.parent = this.axisBulletsContainer;
+        this._disposers.push(axis.events.on("positionchanged", function () {
+            var point = $utils.spritePointToSprite({ x: 0, y: 0 }, axis, _this.axisBulletsContainer);
+            if (axis.renderer instanceof AxisRendererY) {
+                renderer.bulletsContainer.y = point.y;
+            }
+            if (axis.renderer instanceof AxisRendererX) {
+                renderer.bulletsContainer.x = point.x;
+            }
+        }, undefined, false));
         this.plotContainer.events.on("maxsizechanged", function () {
             if (_this.inited) {
                 axis.invalidateDataItems();
@@ -949,24 +959,11 @@ var XYChart = /** @class */ (function (_super) {
             inversed = true;
         }
         if (inversed) {
-            seriesPoints.sort(function (a, b) {
-                if (a.point.y >= b.point.y) {
-                    return 1;
-                }
-                else if (a.point.y < b.point.y) {
-                    return -1;
-                }
-            });
+            seriesPoints.sort(function (a, b) { return $number.order(a.point.y, b.point.y); });
         }
         else {
-            seriesPoints.sort(function (a, b) {
-                if (a.point.y > b.point.y) {
-                    return 1;
-                }
-                else if (a.point.y <= b.point.y) {
-                    return -1;
-                }
-            });
+            seriesPoints.sort(function (a, b) { return $number.order(b.point.y, a.point.y); });
+            seriesPoints.reverse();
         }
         var averageY = sum / seriesPoints.length;
         var maxY = $utils.svgPointToDocument({ x: 0, y: 0 }, this.svgContainer.SVGContainer).y;

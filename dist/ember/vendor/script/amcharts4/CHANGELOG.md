@@ -5,6 +5,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.13] - 2019-12-07
+
+### Fixed
+- Since last release only - min and max were not updated when scrolling chart with CategoryAxis.
+- Map could zoom to incorrect rectangle when using chart.zoomToRectangle() method.
+- DateAxis with groupData = true could hide series when zoomed in (when using big count of baseInterval, a very rare scenario).
+- Tooltips of stacked series could show up in incorrect order in FireFox.
+- Horizontal cone series could cut off part of the cone.
+- If series were prehidden initially and shown later, the min/max was not adjusted.
+- Grid/fills of the axis set as above were in wrong positions on stacked axes charts.
+- ForceDirectedSeries now behaves better when nodes are hidden.
+- In some cases connect = false set on StepLineSeries resulted error.
+- If zoom-out button was initially disabled and enabled later, it was not shown.
+
+### Added
+- FunnelSeries ticks now will have horizontal part, consistent with PieSeries.
+- heatLegend now supports reversedOrder = true.
+- You can now set custom tooltipText on CategoryAxis.
+
+
+
 ## [4.7.12] - 2019-12-04
 
 ### Fixed

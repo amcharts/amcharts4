@@ -61,15 +61,21 @@ var FunnelTick = /** @class */ (function (_super) {
         if (point) {
             var label = this.label;
             var series = slice.dataItem.component;
+            var p0 = void 0;
+            var p1 = void 0;
+            var p2 = void 0;
             if (series.orientation == "vertical") {
                 var x1 = label.pixelX;
                 var y1 = label.pixelY;
                 if (!series.labelsOpposite) {
                     x1 += label.maxRight;
                 }
-                var p0 = $utils.spritePointToSprite(point, slice, this.parent);
-                var p1 = $utils.spritePointToSprite({ x: x1, y: y1 }, label.parent, this.parent);
-                this.path = $path.moveTo(p0) + $path.lineTo(p1);
+                p0 = $utils.spritePointToSprite(point, slice, this.parent);
+                p2 = $utils.spritePointToSprite({ x: x1, y: y1 }, label.parent, this.parent);
+                p1 = { x: label.parent.pixelX - this.length, y: p2.y };
+                if (!series.labelsOpposite) {
+                    p1.x = label.parent.measuredWidth + this.length;
+                }
             }
             else {
                 var x1 = label.pixelX;
@@ -77,10 +83,14 @@ var FunnelTick = /** @class */ (function (_super) {
                 if (!series.labelsOpposite) {
                     y1 += label.maxBottom;
                 }
-                var p0 = $utils.spritePointToSprite(point, slice, this.parent);
-                var p1 = $utils.spritePointToSprite({ x: x1, y: y1 }, label.parent, this.parent);
-                this.path = $path.moveTo(p0) + $path.lineTo(p1);
+                p0 = $utils.spritePointToSprite(point, slice, this.parent);
+                p2 = $utils.spritePointToSprite({ x: x1, y: y1 }, label.parent, this.parent);
+                p1 = { x: p2.x, y: label.parent.pixelY - this.length };
+                if (!series.labelsOpposite) {
+                    p1.y = label.parent.measuredHeight + this.length;
+                }
             }
+            this.path = $path.moveTo(p0) + $path.lineTo(p1) + $path.lineTo(p2);
         }
     };
     Object.defineProperty(FunnelTick.prototype, "slice", {

@@ -1521,7 +1521,7 @@ export class MapChart extends SerialChart {
 			if ($type.isNaN(zoomLevel)) {
 				zoomLevel = 5;
 			}
-			return this.zoomToGeoPoint({ latitude: mapObject.latitude, longitude: mapObject.longitude }, zoomLevel, center, duration);
+			return this.zoomToGeoPoint({ latitude: mapObject.latitude, longitude: mapObject.longitude }, zoomLevel, center, duration, true);
 		}
 
 		let dataItem = mapObject.dataItem;
@@ -1580,7 +1580,7 @@ export class MapChart extends SerialChart {
 		}
 		let zoomLevel = level * Math.min((this.south - this.north) / (south - north), (this.west - this.east) / (west - east));
 
-		return this.zoomToGeoPoint({ latitude: north + (south - north) / 2, longitude: west + (east - west) / 2 }, zoomLevel, center, duration);
+		return this.zoomToGeoPoint({ latitude: north + (south - north) / 2, longitude: west + (east - west) / 2 }, zoomLevel, center, duration, true);
 	}
 
 	/**
@@ -1634,7 +1634,7 @@ export class MapChart extends SerialChart {
 		let point = this.geoPointToSVG(this.zoomGeoPoint);
 		point.x += this.pixelWidth * shift.x;
 		point.y += this.pixelHeight * shift.y;
-		this.zoomToGeoPoint(this.svgPointToGeo(point), this.zoomLevel, true, duration);
+		this.zoomToGeoPoint(this.svgPointToGeo(point), this.zoomLevel, true, duration, true);
 	}
 
 	/**
@@ -2101,7 +2101,7 @@ export class MapChart extends SerialChart {
 			homeGeoPoint = this.centerGeoPoint;
 		}
 		if (homeGeoPoint) {
-			this.zoomToGeoPoint(homeGeoPoint, this.homeZoomLevel, true, duration);
+			this.zoomToGeoPoint(homeGeoPoint, this.homeZoomLevel, true, duration, true);
 		}
 	}
 

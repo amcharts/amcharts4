@@ -15,6 +15,7 @@ import { MutableValueDisposer, MultiDisposer } from "../../core/utils/Disposer";
 import { FunnelSeries } from "../series/FunnelSeries";
 import { registry } from "../../core/Registry";
 import * as $utils from "../../core/utils/Utils";
+import { IPoint } from "../../core/defs/IPoint";
 import * as $path from "../../core/rendering/Path";
 
 
@@ -118,6 +119,9 @@ export class FunnelTick extends Tick {
 			let label = this.label;
 
 			let series = <FunnelSeries>slice.dataItem.component;
+			let p0:IPoint;
+			let p1:IPoint;
+			let p2:IPoint;
 
 			if (series.orientation == "vertical") {
 
@@ -128,10 +132,13 @@ export class FunnelTick extends Tick {
 					x1 += label.maxRight;
 				}
 
-				let p0 = $utils.spritePointToSprite(point, slice, this.parent);
-				let p1 = $utils.spritePointToSprite({ x: x1, y: y1 }, label.parent, this.parent);
+				p0 = $utils.spritePointToSprite(point, slice, this.parent);				
+				p2 = $utils.spritePointToSprite({ x: x1, y: y1 }, label.parent, this.parent);
+				p1 = { x: label.parent.pixelX - this.length, y: p2.y };
 
-				this.path = $path.moveTo(p0) + $path.lineTo(p1);
+				if(!series.labelsOpposite){
+					p1.x = label.parent.measuredWidth + this.length; 
+				}				
 			}
 			else {
 				let x1 = label.pixelX;
@@ -141,11 +148,15 @@ export class FunnelTick extends Tick {
 					y1 += label.maxBottom;
 				}
 
-				let p0 = $utils.spritePointToSprite(point, slice, this.parent);
-				let p1 = $utils.spritePointToSprite({ x: x1, y: y1 }, label.parent, this.parent);
+				p0 = $utils.spritePointToSprite(point, slice, this.parent);
+				p2 = $utils.spritePointToSprite({ x: x1, y: y1 }, label.parent, this.parent);
+				p1 = { x: p2.x, y: label.parent.pixelY - this.length };
 
-				this.path = $path.moveTo(p0) + $path.lineTo(p1);
+				if(!series.labelsOpposite){
+					p1.y = label.parent.measuredHeight + this.length; 
+				}								
 			}
+			this.path = $path.moveTo(p0) + $path.lineTo(p1) + $path.lineTo(p2);
 		}
 	}
 

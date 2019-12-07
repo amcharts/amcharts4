@@ -503,7 +503,7 @@ var DateAxis = /** @class */ (function (_super) {
         if (this.groupData && $type.hasValue(difference)) {
             var mainBaseInterval = this.mainBaseInterval;
             var groupInterval = this.chooseInterval(0, difference, this.groupCount, this.groupIntervals);
-            if ((groupInterval.timeUnit == mainBaseInterval.timeUnit && groupInterval.count < mainBaseInterval.count) || $time.getDuration(groupInterval.timeUnit, 1) < $time.getDuration(mainBaseInterval.timeUnit, 1)) {
+            if ($time.getDuration(groupInterval.timeUnit, groupInterval.count) < $time.getDuration(mainBaseInterval.timeUnit, mainBaseInterval.count)) {
                 groupInterval = tslib_1.__assign({}, mainBaseInterval);
             }
             this._groupInterval = groupInterval;
@@ -2132,10 +2132,14 @@ var DateAxis = /** @class */ (function (_super) {
         if (dataItem && previous) {
             if (!series.connect && $type.isNumber(series.autoGapCount)) {
                 if (series.baseAxis == this) {
-                    var time = dataItem.dates["date" + this.axisLetter].getTime();
-                    var prevTime = previous.dates["date" + this.axisLetter].getTime();
-                    if (time - prevTime > series.autoGapCount * this.baseDuration) {
-                        return true;
+                    var date = dataItem.dates["date" + this.axisLetter];
+                    var prevDate = previous.dates["date" + this.axisLetter];
+                    if (date && prevDate) {
+                        var time = date.getTime();
+                        var prevTime = prevDate.getTime();
+                        if (time - prevTime > series.autoGapCount * this.baseDuration) {
+                            return true;
+                        }
                     }
                 }
             }

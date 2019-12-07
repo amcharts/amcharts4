@@ -394,7 +394,7 @@ export class Container extends Sprite {
 			// void
 		}
 
-		if (this.element && !child.disabled) {
+		if (this.element) {
 			let group = <Group>this.element;
 			group.add(child.group);
 		}
@@ -1554,6 +1554,7 @@ export class Container extends Sprite {
 	 */
 	public updateBackground(): void {
 		let background: Sprite = this._background; // accessing protected, as getter creates instance if it doesn't exist
+
 		if (background) {
 			background.x = this.maxLeft;
 			background.y = this.maxTop;

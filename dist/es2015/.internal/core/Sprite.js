@@ -2688,6 +2688,9 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 if (this instanceof Container) {
                     this.deepInvalidate();
+                    if (this._background) {
+                        this._background.invalidate();
+                    }
                 }
                 else {
                     this.invalidate();
@@ -6743,7 +6746,12 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 this._isPath = true;
             }
-            this.element.attr({ "d": value });
+            if ($type.hasValue(value)) {
+                this.element.attr({ "d": value });
+            }
+            else {
+                this.element.removeAttr("d");
+            }
             this.invalidatePosition();
             // otherwise is 0x0
             if (!this.inited) {
