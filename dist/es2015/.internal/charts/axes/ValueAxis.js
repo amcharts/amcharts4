@@ -552,11 +552,15 @@ var ValueAxis = /** @class */ (function (_super) {
          * @return base value
          */
         get: function () {
+            var baseValue = this._baseValue;
             if (this.logarithmic) {
-                return this.min;
+                baseValue = this.min;
+            }
+            if (!this._adapterO) {
+                return baseValue;
             }
             else {
-                return this._baseValue;
+                return this._adapterO.apply("baseValue", baseValue);
             }
         },
         /**

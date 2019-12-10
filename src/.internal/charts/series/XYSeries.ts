@@ -1569,6 +1569,14 @@ export class XYSeries extends Series {
 		let xAxisId: string = xAxis.uid;
 		let yAxisId: string = yAxis.uid;
 
+		if(this.xAxis instanceof ValueAxis && (minX == Infinity || maxX == -Infinity)){
+			return;
+		}
+
+		if(this.yAxis instanceof ValueAxis && (minY == Infinity || maxY == -Infinity)){
+			return;
+		}			
+
 		if (!working) {
 			if (this._tmin.getKey(xAxisId) != minX || this._tmax.getKey(xAxisId) != maxX || this._tmin.getKey(yAxisId) != minY || this._tmax.getKey(yAxisId) != maxY) {
 				this._tmin.setKey(xAxisId, minX);
@@ -1632,6 +1640,14 @@ export class XYSeries extends Series {
 					}
 				}
 			}
+		}
+
+		if(this.xAxis instanceof ValueAxis && (minX == Infinity || maxX == -Infinity)){
+			return;
+		}
+
+		if(this.yAxis instanceof ValueAxis && (minY == Infinity || maxY == -Infinity)){
+			return;
 		}
 
 		if (this._smin.getKey(xAxisId) != minX || this._smax.getKey(xAxisId) != maxX || this._smin.getKey(yAxisId) != minY || this._smax.getKey(yAxisId) != maxY) {

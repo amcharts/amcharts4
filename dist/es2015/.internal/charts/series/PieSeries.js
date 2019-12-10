@@ -106,8 +106,8 @@ var PieSeries = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.className = "PieSeries";
         _this.alignLabels = true;
-        _this.startAngle = -90;
-        _this.endAngle = 270;
+        //this.startAngle = -90;
+        //this.endAngle = 270;
         _this.layout = "none";
         _this.labels.template.radius = percent(5);
         _this.addDisposer(_this.labels.template.events.on("enabled", _this.invalidate, _this, false));
@@ -384,17 +384,20 @@ var PieSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(PieSeries.prototype, "startAngle", {
         /**
-         * @ignore Exclude from docs
          * @return Angle
          */
         get: function () {
-            return this.getPropertyValue("startAngle");
+            var startAngle = this.getPropertyValue("startAngle");
+            if ($type.isNumber(startAngle)) {
+                return startAngle;
+            }
+            else {
+                return this._startAngleInternal;
+            }
         },
         /**
          * Start angle for the series' slices in degrees. (0-360)
          *
-         * @ignore Exclude from docs
-         * @todo Redo so that users can set it
          * @param value  Angle
          */
         set: function (value) {
@@ -405,17 +408,20 @@ var PieSeries = /** @class */ (function (_super) {
     });
     Object.defineProperty(PieSeries.prototype, "endAngle", {
         /**
-         * @ignore Exclude from docs
          * @return Angle
          */
         get: function () {
-            return this.getPropertyValue("endAngle");
+            var endAngle = this.getPropertyValue("endAngle");
+            if ($type.isNumber(endAngle)) {
+                return endAngle;
+            }
+            else {
+                return this._endAngleInternal;
+            }
         },
         /**
          * End angle for the series' slices in degrees. (0-360)
          *
-         * @ignore Exclude from docs
-         * @todo Redo so that users can set it
          * @param value  Angle
          */
         set: function (value) {

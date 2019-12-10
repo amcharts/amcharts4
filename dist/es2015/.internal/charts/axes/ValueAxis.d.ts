@@ -106,6 +106,10 @@ export interface IValueAxisEvents extends IAxisEvents {
  * @see {@link Adapter}
  */
 export interface IValueAxisAdapters extends IAxisAdapters, IValueAxisProperties {
+    /**
+     * Applied to the base value of the axis
+     */
+    baseValue: number;
 }
 /**
  * ============================================================================

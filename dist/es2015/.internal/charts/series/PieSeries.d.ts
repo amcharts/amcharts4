@@ -211,6 +211,14 @@ export declare class PieSeries extends PercentSeries {
      */
     protected _pixelInnerRadius: number;
     /**
+     * @ignore
+     */
+    _startAngleInternal: number;
+    /**
+     * @ignore
+     */
+    _endAngleInternal: number;
+    /**
      * Constructor
      */
     constructor();
@@ -295,26 +303,20 @@ export declare class PieSeries extends PercentSeries {
      */
     innerRadius: number | Percent;
     /**
-     * @ignore Exclude from docs
      * @return Angle
      */
     /**
      * Start angle for the series' slices in degrees. (0-360)
      *
-     * @ignore Exclude from docs
-     * @todo Redo so that users can set it
      * @param value  Angle
      */
     startAngle: number;
     /**
-     * @ignore Exclude from docs
      * @return Angle
      */
     /**
      * End angle for the series' slices in degrees. (0-360)
      *
-     * @ignore Exclude from docs
-     * @todo Redo so that users can set it
      * @param value  Angle
      */
     endAngle: number;

@@ -294,6 +294,19 @@ export class MapLine extends MapObject {
 	public set imagesToConnect(images: MapImage[] | string[]) {
 		this.setPropertyValue("imagesToConnect", images, true);
 		this.handleImagesToConnect();
+
+		if (this.series) {
+			let chart = this.series.chart;
+			if (chart) {
+				chart.series.each((series) => {
+					if (series instanceof MapImageSeries) {
+						if(!series.isReady()){
+							this._disposers.push(series.events.on("ready", this.handleImagesToConnect, this, false));
+						}
+					}
+				})
+			}
+		}
 	}
 
 	/**

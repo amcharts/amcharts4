@@ -152,7 +152,12 @@ export interface IValueAxisEvents extends IAxisEvents {
  *
  * @see {@link Adapter}
  */
-export interface IValueAxisAdapters extends IAxisAdapters, IValueAxisProperties { }
+export interface IValueAxisAdapters extends IAxisAdapters, IValueAxisProperties {
+	/**
+	 * Applied to the base value of the axis
+	 */
+	 baseValue:number
+}
 
 
 /**
@@ -817,6 +822,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		let baseValue: number = this.baseValue;
 		let position: number = this.valueToPosition(baseValue);
 		let basePoint: IPoint = this.renderer.positionToPoint(position);
+
 		return basePoint;
 	}
 
@@ -841,12 +847,19 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @return base value
 	 */
 	public get baseValue(): number {
+
+		let baseValue = this._baseValue;
 		if (this.logarithmic) {
-			return this.min;
+			baseValue = this.min;
+		}		
+
+		if (!this._adapterO) {
+			return baseValue;
 		}
 		else {
-			return this._baseValue;
-		}
+			return this._adapterO.apply("baseValue", baseValue);
+		}	
+		
 	}
 
 	/**

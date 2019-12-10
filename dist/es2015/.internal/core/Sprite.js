@@ -48,7 +48,7 @@ import { Percent, percent } from "./utils/Percent";
 /**
  * Defines list ofvisual properties
  */
-export var visualProperties = ["fill", "fillOpacity", "stroke", "strokeOpacity", "strokeWidth", "strokeDasharray", "strokeDashoffset"]; // do not add opacity here, as it is used for showing/hiding
+export var visualProperties = ["fill", "fillOpacity", "stroke", "strokeOpacity", "strokeWidth", "strokeDasharray", "strokeDashoffset", "strokeLinecap", "strokeLinejoin"]; // do not add opacity here, as it is used for showing/hiding
 ;
 /**
  * ============================================================================

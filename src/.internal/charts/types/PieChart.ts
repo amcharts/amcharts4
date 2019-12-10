@@ -304,10 +304,10 @@ export class PieChart extends PercentChart {
 
 	protected updateSeriesAngles(){
 		this.series.each((series)=>{
-			series.startAngle = this.startAngle;
-			series.endAngle = this.endAngle;
-			series.defaultState.properties.startAngle = this.startAngle;
-			series.defaultState.properties.endAngle = this.endAngle;
+			series._startAngleInternal = this.startAngle;
+			series._endAngleInternal = this.endAngle;
+			//series.defaultState.properties.startAngle = this.startAngle;
+			//series.defaultState.properties.endAngle = this.endAngle;
 		})
 	}
 

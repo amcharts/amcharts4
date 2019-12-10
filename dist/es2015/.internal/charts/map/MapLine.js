@@ -186,8 +186,21 @@ var MapLine = /** @class */ (function (_super) {
          * @param images  Images
          */
         set: function (images) {
+            var _this = this;
             this.setPropertyValue("imagesToConnect", images, true);
             this.handleImagesToConnect();
+            if (this.series) {
+                var chart = this.series.chart;
+                if (chart) {
+                    chart.series.each(function (series) {
+                        if (series instanceof MapImageSeries) {
+                            if (!series.isReady()) {
+                                _this._disposers.push(series.events.on("ready", _this.handleImagesToConnect, _this, false));
+                            }
+                        }
+                    });
+                }
+            }
         },
         enumerable: true,
         configurable: true

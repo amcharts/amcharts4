@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.14] - 2019-12-10
+
+### Fixed
+- valueAxis could be shown zoomed-in if series were added later in some rare cases.
+- strokeLinecap and strokeLinejoin was not copied to Legend markers from Series.
+- Some charts were not displaying after css-element-queries dependency update, temporary downgraded css-element-queries.
+- Sometimes if using imagesToConnect with MapLine of MapLineSeries, the lines were not drawn if the imagesToConnect was set initially and not after the series initialized.
+
+### Added
+- A possibility to set individual startAngle and endAngle on Pie Series added.
+- You can now use baseValue adapter on ValueAxis.
+
 ## [4.7.13] - 2019-12-07
 
 ### Fixed
@@ -23,7 +35,6 @@ adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 - FunnelSeries ticks now will have horizontal part, consistent with PieSeries.
 - heatLegend now supports reversedOrder = true.
 - You can now set custom tooltipText on CategoryAxis.
-
 
 
 ## [4.7.12] - 2019-12-04

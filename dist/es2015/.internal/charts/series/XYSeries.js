@@ -1075,6 +1075,12 @@ var XYSeries = /** @class */ (function (_super) {
         yAxis.processSeriesDataItems();
         var xAxisId = xAxis.uid;
         var yAxisId = yAxis.uid;
+        if (this.xAxis instanceof ValueAxis && (minX == Infinity || maxX == -Infinity)) {
+            return;
+        }
+        if (this.yAxis instanceof ValueAxis && (minY == Infinity || maxY == -Infinity)) {
+            return;
+        }
         if (!working) {
             if (this._tmin.getKey(xAxisId) != minX || this._tmax.getKey(xAxisId) != maxX || this._tmin.getKey(yAxisId) != minY || this._tmax.getKey(yAxisId) != maxY) {
                 this._tmin.setKey(xAxisId, minX);
@@ -1127,6 +1133,12 @@ var XYSeries = /** @class */ (function (_super) {
                     }
                 }
             }
+        }
+        if (this.xAxis instanceof ValueAxis && (minX == Infinity || maxX == -Infinity)) {
+            return;
+        }
+        if (this.yAxis instanceof ValueAxis && (minY == Infinity || maxY == -Infinity)) {
+            return;
         }
         if (this._smin.getKey(xAxisId) != minX || this._smax.getKey(xAxisId) != maxX || this._smin.getKey(yAxisId) != minY || this._smax.getKey(yAxisId) != maxY) {
             this._smin.setKey(xAxisId, minX);

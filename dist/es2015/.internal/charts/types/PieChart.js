@@ -199,10 +199,10 @@ var PieChart = /** @class */ (function (_super) {
     PieChart.prototype.updateSeriesAngles = function () {
         var _this = this;
         this.series.each(function (series) {
-            series.startAngle = _this.startAngle;
-            series.endAngle = _this.endAngle;
-            series.defaultState.properties.startAngle = _this.startAngle;
-            series.defaultState.properties.endAngle = _this.endAngle;
+            series._startAngleInternal = _this.startAngle;
+            series._endAngleInternal = _this.endAngle;
+            //series.defaultState.properties.startAngle = this.startAngle;
+            //series.defaultState.properties.endAngle = this.endAngle;
         });
     };
     /**

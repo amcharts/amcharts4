@@ -199,7 +199,7 @@ export interface ISpriteAnimationOptions {
 /**
  * Defines list ofvisual properties
  */
-export const visualProperties: (keyof ISpriteProperties)[] = ["fill", "fillOpacity", "stroke", "strokeOpacity", "strokeWidth", "strokeDasharray", "strokeDashoffset"]; // do not add opacity here, as it is used for showing/hiding
+export const visualProperties: (keyof ISpriteProperties)[] = ["fill", "fillOpacity", "stroke", "strokeOpacity", "strokeWidth", "strokeDasharray", "strokeDashoffset", "strokeLinecap", "strokeLinejoin"]; // do not add opacity here, as it is used for showing/hiding
 
 /**
  * Represents a list of available adapters for [[Sprite]]

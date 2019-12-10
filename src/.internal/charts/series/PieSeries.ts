@@ -276,6 +276,17 @@ export class PieSeries extends PercentSeries {
 	 */
 	protected _pixelInnerRadius: number;
 
+
+	/**
+	 * @ignore
+	 */
+	public _startAngleInternal: number;
+
+	/**
+	 * @ignore
+	 */
+	public _endAngleInternal: number;
+
 	/**
 	 * Constructor
 	 */
@@ -285,8 +296,8 @@ export class PieSeries extends PercentSeries {
 		this.className = "PieSeries";
 
 		this.alignLabels = true;
-		this.startAngle = -90;
-		this.endAngle = 270;
+		//this.startAngle = -90;
+		//this.endAngle = 270;
 
 		this.layout = "none";
 
@@ -598,8 +609,6 @@ export class PieSeries extends PercentSeries {
 	/**
 	 * Start angle for the series' slices in degrees. (0-360)
 	 *
-	 * @ignore Exclude from docs
-	 * @todo Redo so that users can set it
 	 * @param value  Angle
 	 */
 	public set startAngle(value: number) {
@@ -607,18 +616,21 @@ export class PieSeries extends PercentSeries {
 	}
 
 	/**
-	 * @ignore Exclude from docs
 	 * @return Angle
 	 */
 	public get startAngle(): number {
-		return this.getPropertyValue("startAngle");
+		let startAngle = this.getPropertyValue("startAngle");
+		if ($type.isNumber(startAngle)) {
+			return startAngle;
+		}
+		else {
+			return this._startAngleInternal;
+		}
 	}
 
 	/**
 	 * End angle for the series' slices in degrees. (0-360)
 	 *
-	 * @ignore Exclude from docs
-	 * @todo Redo so that users can set it
 	 * @param value  Angle
 	 */
 	public set endAngle(value: number) {
@@ -626,11 +638,16 @@ export class PieSeries extends PercentSeries {
 	}
 
 	/**
-	 * @ignore Exclude from docs
 	 * @return Angle
 	 */
 	public get endAngle(): number {
-		return this.getPropertyValue("endAngle");
+		let endAngle = this.getPropertyValue("endAngle");
+		if ($type.isNumber(endAngle)) {
+			return endAngle;
+		}
+		else {
+			return this._endAngleInternal;
+		}
 	}
 
 
