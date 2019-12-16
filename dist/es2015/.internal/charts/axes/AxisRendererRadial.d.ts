@@ -287,7 +287,7 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * @param tick      Tick element
      * @param position  Position
      */
-    updateTickElement(tick: AxisTick, position: number): void;
+    updateTickElement(tick: AxisTick, position: number, endPosition: number): void;
     /**
      * Updates and positions axis bullet.
      *

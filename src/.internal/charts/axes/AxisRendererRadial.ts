@@ -601,8 +601,11 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * @param tick      Tick element
 	 * @param position  Position
 	 */
-	public updateTickElement(tick: AxisTick, position: number): void {
+	public updateTickElement(tick: AxisTick, position: number, endPosition: number): void {
+		position = position + (endPosition - position) * tick.location;
+		
 		let point: IPoint = this.positionToPoint(position);
+		
 		if (tick.element) {
 			let angle: number = $math.normalizeAngle(this.axisAngle + 90);
 			if (angle / 90 != Math.round(angle / 90)) {

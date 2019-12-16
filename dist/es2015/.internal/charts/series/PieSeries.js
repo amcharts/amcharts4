@@ -255,7 +255,7 @@ var PieSeries = /** @class */ (function (_super) {
                 slice.innerRadius = this.pixelInnerRadius;
             }
             slice.startAngle = this._currentStartAngle;
-            slice.arc = dataItem.values.value.percent * (this.endAngle - this.startAngle) / 100;
+            slice.arc = Math.abs(dataItem.values.value.percent) * (this.endAngle - this.startAngle) / 100;
             // LABEL
             if (!this.labels.template.disabled) {
                 var label = dataItem.label;
@@ -272,7 +272,7 @@ var PieSeries = /** @class */ (function (_super) {
                     label.verticalCenter = "middle";
                     var arcRect = this._arcRect;
                     // right half
-                    if (normalizedMiddleAngle >= 270 || normalizedMiddleAngle <= 90) { // 91 makes less chances for flickering
+                    if (normalizedMiddleAngle > 270 || normalizedMiddleAngle <= 90) {
                         x += (arcRect.width + arcRect.x) * this.pixelRadius;
                         label.horizontalCenter = "left";
                         this._rightItems.push(dataItem);

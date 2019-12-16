@@ -478,7 +478,7 @@ export class PieSeries extends PercentSeries {
 			}
 			slice.startAngle = this._currentStartAngle;
 
-			slice.arc = dataItem.values.value.percent * (this.endAngle - this.startAngle) / 100;
+			slice.arc = Math.abs(dataItem.values.value.percent) * (this.endAngle - this.startAngle) / 100;
 
 			// LABEL
 			if (!this.labels.template.disabled) {
@@ -500,7 +500,7 @@ export class PieSeries extends PercentSeries {
 					label.verticalCenter = "middle";
 					let arcRect = this._arcRect;
 					// right half
-					if (normalizedMiddleAngle >= 270 || normalizedMiddleAngle <= 90) { // 91 makes less chances for flickering
+					if (normalizedMiddleAngle > 270 || normalizedMiddleAngle <= 90) {
 						x += (arcRect.width + arcRect.x) * this.pixelRadius;
 						label.horizontalCenter = "left";
 						this._rightItems.push(dataItem);

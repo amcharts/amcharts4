@@ -156,7 +156,17 @@ export interface IValueAxisAdapters extends IAxisAdapters, IValueAxisProperties 
 	/**
 	 * Applied to the base value of the axis
 	 */
-	 baseValue:number
+	 baseValue:number,
+
+	 /**
+	  * Applied to the min value of the axis
+	  */
+	 min:number
+
+	 /**
+	  * Applied to the max value of the axis
+	  */
+	 max:number	 
 }
 
 
@@ -1162,6 +1172,14 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			max = this._maxDefined;
 		}
 
+		if(this._adapterO){
+			min = this._adapterO.apply("min", min);
+		}
+
+		if(this._adapterO){
+			max = this._adapterO.apply("max", max);
+		}		
+
 		if (!$type.isNumber(min) || !$type.isNumber(max)) {
 			return;
 		}
@@ -1248,6 +1266,14 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			min -= (max - min) * this.extraMin;
 			max += (max - min) * this.extraMax;
 		}
+
+		if(this._adapterO){
+			min = this._adapterO.apply("min", min);
+		}
+
+		if(this._adapterO){
+			max = this._adapterO.apply("max", max);
+		}		
 
 		// checking isNumber is good when all series are hidden
 		if ((this._minAdjusted != min || this._maxAdjusted != max) && $type.isNumber(min) && $type.isNumber(max)) {

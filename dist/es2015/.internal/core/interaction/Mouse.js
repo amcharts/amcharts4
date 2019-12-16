@@ -62,6 +62,14 @@ var MouseCursorStyle = /** @class */ (function () {
             "property": "cursor",
             "value": "ns-resize"
         }];
+    /**
+     * Styles for "no-allowed" cursor.
+     * @since 4.7.15
+     */
+    MouseCursorStyle.notAllowed = [{
+            "property": "cursor",
+            "value": "not-allowed"
+        }];
     return MouseCursorStyle;
 }());
 export { MouseCursorStyle };

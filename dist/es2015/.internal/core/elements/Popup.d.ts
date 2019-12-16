@@ -81,7 +81,9 @@ export interface IPopupAdapters {
     classNames: {
         wrapperClass: string;
         titleClass: string;
+        headerClass: string;
         contentClass: string;
+        insideClass: string;
         curtainClass: string;
         closeClass: string;
     };
@@ -133,6 +135,7 @@ export declare class Popup extends BaseObjectEvents {
     protected _elements: {
         wrapper?: HTMLElement;
         title?: HTMLElement;
+        header?: HTMLElement;
         content?: HTMLElement;
         close?: HTMLElement;
         curtain?: HTMLElement;
@@ -143,6 +146,7 @@ export declare class Popup extends BaseObjectEvents {
     protected _IOs: {
         wrapper?: InteractionObject;
         content?: InteractionObject;
+        header?: InteractionObject;
         close?: InteractionObject;
         curtain?: InteractionObject;
     };
@@ -300,7 +304,9 @@ export declare class Popup extends BaseObjectEvents {
     protected getClassNames(): {
         wrapperClass: string;
         titleClass: string;
+        headerClass: string;
         contentClass: string;
+        insideClass: string;
         curtainClass: string;
         closeClass: string;
     };

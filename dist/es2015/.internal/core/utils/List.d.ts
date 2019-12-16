@@ -384,7 +384,7 @@ export declare class List<T> {
      * `f` should have at least one parameter defined which will get a current
      * item, with optional second argument - index.
      */
-    each(f: (value: T) => void): void;
+    each(f: (value: T, index: number) => void): void;
     /**
      * Returns a specific range of list items, which can be iterated.
      *

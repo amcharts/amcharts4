@@ -23,6 +23,9 @@ export default function (prefix) {
             new StyleRule(`div:hover .${newPrefix}-menu, .${newPrefix}-menu.active`, {
                 "opacity": "0.9",
             }),*/
+            new StyleRule("." + newPrefix + "-menu *", {
+                "box-sizing": "border-box"
+            }),
             new StyleRule("." + newPrefix + "-menu-level-0", {
                 "position": "absolute",
                 "top": "5px",
@@ -132,8 +135,8 @@ export default function (prefix) {
                 "padding": "0.2em 0.4em",
                 "width": "1.2em",
                 "height": "1.2em",
-                "min-width": "20px",
-                "min-height": "20px",
+                "min-width": "32px",
+                "min-height": "32px",
                 "margin": "auto auto",
                 "border-radius": "3px",
             }),

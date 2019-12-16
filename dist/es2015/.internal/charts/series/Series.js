@@ -426,6 +426,7 @@ var Series = /** @class */ (function (_super) {
             var dataItems = this.dataItems;
             var count_1 = {};
             var sum_1 = {};
+            var absoluteSum_1 = {};
             var low_1 = {};
             var high_1 = {};
             var open_1 = {};
@@ -469,6 +470,11 @@ var Series = /** @class */ (function (_super) {
                             sum_1[key] = 0;
                         }
                         sum_1[key] += value;
+                        // absolute sum values
+                        if (!$type.isNumber(absoluteSum_1[key])) {
+                            absoluteSum_1[key] = 0;
+                        }
+                        absoluteSum_1[key] += Math.abs(value);
                         // open
                         if (!$type.isNumber(open_1[key])) {
                             open_1[key] = value;
@@ -526,7 +532,7 @@ var Series = /** @class */ (function (_super) {
                 var _loop_2 = function (i) {
                     var dataItem_3 = dataItems.getIndex(i);
                     $object.each(dataItem_3.values, function (key) {
-                        var ksum = sum_1[key];
+                        var ksum = absoluteSum_1[key];
                         var value = dataItem_3.getActualWorkingValue(key);
                         if ($type.isNumber(value)) {
                             if (ksum > 0) {
@@ -566,6 +572,7 @@ var Series = /** @class */ (function (_super) {
             var dataItem_4 = this.dataItem;
             $object.each(dataItem_4.values, function (key) {
                 dataItem_4.setCalculatedValue(key, sum_1[key], "sum");
+                dataItem_4.setCalculatedValue(key, absoluteSum_1[key], "absoluteSum");
                 dataItem_4.setCalculatedValue(key, sum_1[key] / count_1[key], "average");
                 dataItem_4.setCalculatedValue(key, open_1[key], "open");
                 dataItem_4.setCalculatedValue(key, close_1[key], "close");

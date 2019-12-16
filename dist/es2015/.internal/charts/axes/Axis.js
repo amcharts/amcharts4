@@ -950,6 +950,16 @@ var Axis = /** @class */ (function (_super) {
         return this.renderer.pointToPosition(point);
     };
     /**
+     * Converts relative position to coordinate.
+     *
+     * @since 4.7.15
+     * @param position (0-1)
+     * @return coordinate (px)
+     */
+    Axis.prototype.positionToCoordinate = function (position) {
+        return this.renderer.positionToCoordinate(position);
+    };
+    /**
      * [getAnyRangePath description]
      *
      * @ignore Exclude from docs

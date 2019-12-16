@@ -275,7 +275,7 @@ export class PyramidSeries extends FunnelSeries {
 	 */
 	protected decorateSlice(dataItem: this["_dataItem"]) {
 
-		let sum = this.dataItem.values.value.sum;
+		let sum = this.dataItem.values.value.absoluteSum;
 
 		if (sum == 0) {
 			return;
@@ -341,7 +341,6 @@ export class PyramidSeries extends FunnelSeries {
 				sliceBottomWidth = (2 * square - sliceHeight * sliceTopWidth) / sliceHeight;
 			}
 			else {
-				let sum = this.dataItem.values.value.sum;
 				sliceHeight = pyramidHeight * workingValue / sum;
 				sliceBottomWidth = sliceTopWidth - sliceHeight * c;
 			}
@@ -391,12 +390,12 @@ export class PyramidSeries extends FunnelSeries {
 
 			if (this.valueIs == "area") {
 				let totalSquare = (topWidth + bottomWidth) / 2 * pyramidWidth;
-				let square = totalSquare * workingValue / this.dataItem.values.value.sum;
+				let square = totalSquare * workingValue / sum;
 				sliceWidth = (sliceTopWidth - Math.sqrt(sliceTopWidth * sliceTopWidth - 2 * square * c)) / c;
 				sliceBottomWidth = (2 * square - sliceWidth * sliceTopWidth) / sliceWidth;
 			}
 			else {
-				sliceWidth = pyramidWidth * workingValue / this.dataItem.values.value.sum;
+				sliceWidth = pyramidWidth * workingValue / sum;
 				sliceBottomWidth = sliceTopWidth - sliceWidth * c;
 			}
 

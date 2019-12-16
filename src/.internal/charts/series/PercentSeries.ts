@@ -815,6 +815,11 @@ export class PercentSeries extends Series {
 			let label = dataItem.label;
 
 			if (label) {
+
+				if (label.invalid) {
+					label.validate();
+				}
+				
 				let lh = label.measuredHeight;
 				if (!label.visible) {
 					lh = 0;
@@ -825,10 +830,6 @@ export class PercentSeries extends Series {
 				}
 
 				let nextLabel = this.getNextLabel(i + 1, dataItems);
-
-				if (label.invalid) {
-					label.validate();
-				}
 
 				let bottom: number = label.pixelY + lh;
 

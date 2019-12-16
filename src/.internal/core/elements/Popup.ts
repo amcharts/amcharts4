@@ -113,7 +113,9 @@ export interface IPopupAdapters {
 	classNames: {
 		wrapperClass: string,
 		titleClass: string,
+		headerClass: string,
 		contentClass: string,
+		insideClass: string,
 		curtainClass: string,
 		closeClass: string
 	}
@@ -177,6 +179,7 @@ export class Popup extends BaseObjectEvents {
 	protected _elements: {
 		wrapper?: HTMLElement;
 		title?: HTMLElement;
+		header?: HTMLElement;
 		content?: HTMLElement;
 		close?: HTMLElement;
 		curtain?: HTMLElement;
@@ -188,6 +191,7 @@ export class Popup extends BaseObjectEvents {
 	protected _IOs: {
 		wrapper?: InteractionObject;
 		content?: InteractionObject;
+		header?: InteractionObject;
 		close?: InteractionObject;
 		curtain?: InteractionObject;
 	} = {};
@@ -472,15 +476,15 @@ export class Popup extends BaseObjectEvents {
 
 	protected setupDragging(): void {
 		if (this.draggable) {
-			if (!this._IOs.wrapper.events.has("drag")) {
-				this._IOs.wrapper.events.on("drag", (ev) => {
+			if (!this._IOs.header.events.has("drag")) {
+				this._IOs.header.events.on("drag", (ev) => {
 					this._tempShift.x = ev.shift.x;
 					this._tempShift.y = ev.shift.y;
 					this.positionElement(false);
 				});
 			}
-			if (!this._IOs.wrapper.events.has("dragstop")) {
-				this._IOs.wrapper.events.on("dragstop", (ev) => {
+			if (!this._IOs.header.events.has("dragstop")) {
+				this._IOs.header.events.on("dragstop", (ev) => {
 					this._shift.x += this._tempShift.x;
 					this._shift.y += this._tempShift.y;
 					this._tempShift.x = 0;
@@ -490,12 +494,13 @@ export class Popup extends BaseObjectEvents {
 			}
 		}
 		else {
-			if (this._IOs.wrapper) {
-				if (this._IOs.wrapper.events.has("drag")) {
-					this._IOs.wrapper.events.off("drag");
+			if (this._IOs.header) {
+				getInteraction().unprepElement(this._IOs.header);
+				if (this._IOs.header.events.has("drag")) {
+					this._IOs.header.events.off("drag");
 				}
-				if (this._IOs.wrapper.events.has("dragstop")) {
-					this._IOs.wrapper.events.off("dragstop");
+				if (this._IOs.header.events.has("dragstop")) {
+					this._IOs.header.events.off("dragstop");
 				}
 			}
 		}
@@ -567,8 +572,10 @@ export class Popup extends BaseObjectEvents {
 	protected getClassNames() {
 		return this.adapter.apply("classNames", {
 			wrapperClass: this.classPrefix + "",
+			headerClass: this.classPrefix + "-header",
 			titleClass: this.classPrefix + "-title",
 			contentClass: this.classPrefix + "-content",
+			insideClass: this.classPrefix + "-inside",
 			curtainClass: this.classPrefix + "-curtain",
 			closeClass: this.classPrefix + "-close"
 		});
@@ -596,6 +603,10 @@ export class Popup extends BaseObjectEvents {
 		let close = document.createElement("a");
 		close.className = classNames.closeClass;
 
+		// header title
+		const header = document.createElement("div");
+		header.className = classNames.headerClass;
+
 		// Content title
 		let title = document.createElement("div");
 		title.innerHTML = this.title;
@@ -606,10 +617,12 @@ export class Popup extends BaseObjectEvents {
 
 		// Content div
 		let content = document.createElement("div");
+		content.className = classNames.insideClass;
 		content.innerHTML = this.content;
 
 		// Set up events for content
 		this._IOs.wrapper = getInteraction().getInteraction(wrapper);
+		this._IOs.header = getInteraction().getInteraction(header);
 		this._disposers.push(this._IOs.wrapper);
 
 		// Set hover/out events
@@ -627,13 +640,15 @@ export class Popup extends BaseObjectEvents {
 		wrapper.setAttribute("role", "dialog");
 
 		// Add to wrapper
-		wrapper.appendChild(close);
-		wrapper.appendChild(title);
+		header.appendChild(close);
+		header.appendChild(title);
+		wrapper.appendChild(header);
 		wrapper.appendChild(content);
 		this.container.appendChild(wrapper);
 
 		// Save for later access
 		this._elements.wrapper = wrapper;
+		this._elements.header = header;
 		this._elements.content = content;
 		this._elements.title = title;
 		this._elements.close = close;

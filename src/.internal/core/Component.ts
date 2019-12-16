@@ -49,6 +49,7 @@ export type CalculatedValue =
 	"previousChangePercent" |
 	"previousChange" |
 	"sum" |
+	"absoluteSum" |
 	"average" |
 	"open" |
 	"close" |

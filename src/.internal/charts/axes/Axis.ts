@@ -1395,6 +1395,17 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	}
 
 	/**
+	 * Converts relative position to coordinate.
+	 *
+	 * @since 4.7.15
+	 * @param position (0-1)
+	 * @return coordinate (px)
+	 */
+	public positionToCoordinate(position: number): number {
+		return this.renderer.positionToCoordinate(position);
+	}
+
+	/**
 	 * [getAnyRangePath description]
 	 *
 	 * @ignore Exclude from docs

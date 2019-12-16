@@ -170,7 +170,7 @@ export declare class OrderedList<T> {
     /**
      * Calls `f` for each element in the list.
      */
-    each(f: (value: T) => void): void;
+    each(f: (value: T, index: number) => void): void;
 }
 /**
  * A list where all items are ordered according to specific ordering function,

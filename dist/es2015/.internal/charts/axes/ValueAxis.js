@@ -827,6 +827,12 @@ var ValueAxis = /** @class */ (function (_super) {
         if ($type.isNumber(this._maxDefined)) {
             max = this._maxDefined;
         }
+        if (this._adapterO) {
+            min = this._adapterO.apply("min", min);
+        }
+        if (this._adapterO) {
+            max = this._adapterO.apply("max", max);
+        }
         if (!$type.isNumber(min) || !$type.isNumber(max)) {
             return;
         }
@@ -892,6 +898,12 @@ var ValueAxis = /** @class */ (function (_super) {
             }
             min -= (max - min) * this.extraMin;
             max += (max - min) * this.extraMax;
+        }
+        if (this._adapterO) {
+            min = this._adapterO.apply("min", min);
+        }
+        if (this._adapterO) {
+            max = this._adapterO.apply("max", max);
         }
         // checking isNumber is good when all series are hidden
         if ((this._minAdjusted != min || this._maxAdjusted != max) && $type.isNumber(min) && $type.isNumber(max)) {

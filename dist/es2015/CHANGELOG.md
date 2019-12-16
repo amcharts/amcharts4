@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.15] - 2019-12-16
+
+### Added
+- `notAllowed` added to [`MouseCursorStyle`](https://www.amcharts.com/docs/v4/reference/mousecursorstyle/).
+- `PieSeries`, `FunnelSerries`, `PyramidSeries`, and `PictorialStackedSeries` will now use absolute values for their slices (good if you have negative values).
+- [`positionToCoordinate()`](https://www.amcharts.com/docs/v4/reference/axis/#positionToCoordinate_method) method added to `Axis`.
+- Added `index` as second parameter to [`List.each()`](https://www.amcharts.com/docs/v4/reference/list/#each_method) method.
+- `min` and `max` adapters added to `ValueAxis`.
+
+### Changed
+- Icons in `ExportMenu` now have `box-sizing: border-box` set in default CSS to make icons play nice(er) with external CSS.
+- Popup now has a tiny strip on top of it which can be used to drag it (much like regular windows in your OS), instead of the whole body of popup being draggable.
+- Popup will now use theme colors for backgrounds/text.
+
+### Fixed
+- The `List.each` method was missing an `index` argument for the callback.
+- Links and other interactive elements in popups are now clickable.
+- Labels in `PieSeries` could sometimes overlap if animated theme was not used.
+- `DateAxis` with `groupData = true` and `"average"` as group field was now shown properly if data had gaps.
+- `AxisRendererRadial` (`RadarChart` uses it) was not paying attention to `tick.location` property.
+
+
 ## [4.7.14] - 2019-12-10
 
 ### Fixed
@@ -49,7 +71,7 @@ adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
 ### Added
 - horizontalMouseWheelBehavior with options "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none" added to XYChart. Will work with both horizontal scrollers (if available) and two finger-horizontal swipe on the touchpad.
-- centerMapOnZoomOut added to MapChart, with default value true. 
+- centerMapOnZoomOut added to MapChart, with default value true.
 
 
 ## [4.7.11] - 2019-11-26

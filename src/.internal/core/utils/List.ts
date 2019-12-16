@@ -901,7 +901,7 @@ export class List<T> {
 	 * `f` should have at least one parameter defined which will get a current
 	 * item, with optional second argument - index.
 	 */
-	public each(f: (value: T) => void): void {
+	public each(f: (value: T, index: number) => void): void {
 		$array.each(this._values, f);
 	}
 

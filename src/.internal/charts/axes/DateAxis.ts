@@ -265,7 +265,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public _axisBreak: DateAxisBreak;
 
-	protected _gapBreaks:boolean = false;
+	protected _gapBreaks: boolean = false;
 
 	/**
 	 * A list of date/time intervals for Date axis.
@@ -947,7 +947,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 						let roundedDate = $time.round(new Date(time), interval.timeUnit, interval.count, this._df.firstDayOfWeek, this._df.utc);
 						let currentTime = roundedDate.getTime();
 						// changed period								
-						if (previousTime < roundedDate.getTime()) {
+						if (previousTime < currentTime) {
 							newDataItem = dataSet.create();
 							newDataItem.component = series;
 							// other Dates?
@@ -955,12 +955,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 							newDataItem._index = i;
 							i++;
 
-
 							$array.each(dataFields, (vkey) => {
 								//let groupFieldName = vkey + "Group";
 								let value = dataItem.values[vkey].value;
+								let values = newDataItem.values[vkey];
 								if ($type.isNumber(value)) {
-									let values = newDataItem.values[vkey];
 
 									values.value = value;
 									values.workingValue = value;
@@ -972,6 +971,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 									values.sum = value;
 									values.average = value;
 									values.count = 1;
+								}
+								else {
+									values.count = 0;
 								}
 							})
 
@@ -995,6 +997,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 									let groupFieldName = (<any>series.groupFields)[vkey];
 
 									let value = dataItem.values[vkey].value;
+
 									if ($type.isNumber(value)) {
 										let values = newDataItem.values[vkey];
 
@@ -1017,10 +1020,13 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 											values.sum = value;
 										}
 										values.count++;
+
 										values.average = values.sum / values.count;
 
-										values.value = values[groupFieldName];
-										values.workingValue = values.value;
+										if ($type.isNumber(values[groupFieldName])) {
+											values.value = values[groupFieldName];
+											values.workingValue = values.value;
+										}
 									}
 								})
 								$utils.copyProperties(dataItem.properties, newDataItem.properties);
@@ -1928,7 +1934,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			breakTemplate.breakSize = 0;
 		}
 		else {
-			if(this._gapBreaks){
+			if (this._gapBreaks) {
 				this.axisBreaks.clear();
 				this._gapBreaks = false;
 			}
@@ -2551,7 +2557,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					let date = dataItem.dates["date" + this.axisLetter];
 					let prevDate = previous.dates["date" + this.axisLetter];
 
-					if(date && prevDate){
+					if (date && prevDate) {
 						let time = date.getTime();
 						let prevTime = prevDate.getTime();
 

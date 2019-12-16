@@ -37,4 +37,9 @@ export declare class MouseCursorStyle {
      * Styles for vertical bi-directional mouse cursor.
      */
     static verticalResize: Array<IStyleProperty>;
+    /**
+     * Styles for "no-allowed" cursor.
+     * @since 4.7.15
+     */
+    static notAllowed: Array<IStyleProperty>;
 }

@@ -257,15 +257,15 @@ var Popup = /** @class */ (function (_super) {
     Popup.prototype.setupDragging = function () {
         var _this = this;
         if (this.draggable) {
-            if (!this._IOs.wrapper.events.has("drag")) {
-                this._IOs.wrapper.events.on("drag", function (ev) {
+            if (!this._IOs.header.events.has("drag")) {
+                this._IOs.header.events.on("drag", function (ev) {
                     _this._tempShift.x = ev.shift.x;
                     _this._tempShift.y = ev.shift.y;
                     _this.positionElement(false);
                 });
             }
-            if (!this._IOs.wrapper.events.has("dragstop")) {
-                this._IOs.wrapper.events.on("dragstop", function (ev) {
+            if (!this._IOs.header.events.has("dragstop")) {
+                this._IOs.header.events.on("dragstop", function (ev) {
                     _this._shift.x += _this._tempShift.x;
                     _this._shift.y += _this._tempShift.y;
                     _this._tempShift.x = 0;
@@ -275,12 +275,13 @@ var Popup = /** @class */ (function (_super) {
             }
         }
         else {
-            if (this._IOs.wrapper) {
-                if (this._IOs.wrapper.events.has("drag")) {
-                    this._IOs.wrapper.events.off("drag");
+            if (this._IOs.header) {
+                getInteraction().unprepElement(this._IOs.header);
+                if (this._IOs.header.events.has("drag")) {
+                    this._IOs.header.events.off("drag");
                 }
-                if (this._IOs.wrapper.events.has("dragstop")) {
-                    this._IOs.wrapper.events.off("dragstop");
+                if (this._IOs.header.events.has("dragstop")) {
+                    this._IOs.header.events.off("dragstop");
                 }
             }
         }
@@ -357,8 +358,10 @@ var Popup = /** @class */ (function (_super) {
     Popup.prototype.getClassNames = function () {
         return this.adapter.apply("classNames", {
             wrapperClass: this.classPrefix + "",
+            headerClass: this.classPrefix + "-header",
             titleClass: this.classPrefix + "-title",
             contentClass: this.classPrefix + "-content",
+            insideClass: this.classPrefix + "-inside",
             curtainClass: this.classPrefix + "-curtain",
             closeClass: this.classPrefix + "-close"
         });
@@ -380,6 +383,9 @@ var Popup = /** @class */ (function (_super) {
         // Create close button
         var close = document.createElement("a");
         close.className = classNames.closeClass;
+        // header title
+        var header = document.createElement("div");
+        header.className = classNames.headerClass;
         // Content title
         var title = document.createElement("div");
         title.innerHTML = this.title;
@@ -389,9 +395,11 @@ var Popup = /** @class */ (function (_super) {
         }
         // Content div
         var content = document.createElement("div");
+        content.className = classNames.insideClass;
         content.innerHTML = this.content;
         // Set up events for content
         this._IOs.wrapper = getInteraction().getInteraction(wrapper);
+        this._IOs.header = getInteraction().getInteraction(header);
         this._disposers.push(this._IOs.wrapper);
         // Set hover/out events
         this._IOs.wrapper.events.on("over", this.disablePointers, this);
@@ -404,12 +412,14 @@ var Popup = /** @class */ (function (_super) {
         // Add accessible stuff
         wrapper.setAttribute("role", "dialog");
         // Add to wrapper
-        wrapper.appendChild(close);
-        wrapper.appendChild(title);
+        header.appendChild(close);
+        header.appendChild(title);
+        wrapper.appendChild(header);
         wrapper.appendChild(content);
         this.container.appendChild(wrapper);
         // Save for later access
         this._elements.wrapper = wrapper;
+        this._elements.header = header;
         this._elements.content = content;
         this._elements.title = title;
         this._elements.close = close;

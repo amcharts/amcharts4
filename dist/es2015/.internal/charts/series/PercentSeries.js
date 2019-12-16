@@ -586,6 +586,9 @@ var PercentSeries = /** @class */ (function (_super) {
             var dataItem = dataItems[i];
             var label = dataItem.label;
             if (label) {
+                if (label.invalid) {
+                    label.validate();
+                }
                 var lh = label.measuredHeight;
                 if (!label.visible) {
                     lh = 0;
@@ -594,9 +597,6 @@ var PercentSeries = /** @class */ (function (_super) {
                     label.y = -this.maxHeight / 2 + lh / 2;
                 }
                 var nextLabel = this.getNextLabel(i + 1, dataItems);
-                if (label.invalid) {
-                    label.validate();
-                }
                 var bottom = label.pixelY + lh;
                 if (nextLabel) {
                     if (nextLabel.y < bottom) {

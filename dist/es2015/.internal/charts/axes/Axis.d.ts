@@ -717,6 +717,14 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     pointToPosition(point: IPoint): number;
     /**
+     * Converts relative position to coordinate.
+     *
+     * @since 4.7.15
+     * @param position (0-1)
+     * @return coordinate (px)
+     */
+    positionToCoordinate(position: number): number;
+    /**
      * [getAnyRangePath description]
      *
      * @ignore Exclude from docs

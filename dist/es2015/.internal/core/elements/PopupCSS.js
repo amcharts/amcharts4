@@ -1,6 +1,7 @@
 import { StyleRule } from "../utils/DOM";
 import { Dictionary } from "../utils/Dictionary";
 import { MultiDisposer, CounterDisposer } from "../utils/Disposer";
+import { InterfaceColorSet } from "../utils/InterfaceColorSet";
 var rules = new Dictionary();
 /**
  * Default CSS for Popup.
@@ -13,6 +14,12 @@ export default function (prefix) {
     if (!prefix) {
         prefix = "ampopup";
     }
+    var cs = new InterfaceColorSet();
+    var fg = cs.getFor("text");
+    var bg = cs.getFor("background");
+    bg.alpha = 0.8;
+    var abg = cs.getFor("alternativeBackground");
+    abg.alpha = 0.05;
     var counter = rules.insertKeyIfEmpty(prefix, function () {
         var disposer = new MultiDisposer([
             new StyleRule("." + prefix, {
@@ -31,20 +38,27 @@ export default function (prefix) {
                 "top": "0",
                 "left": "0",
                 "z-index": "2001",
-                "background": "#fff",
+                "background-color": bg.hex,
                 "opacity": "0.5"
+            }),
+            new StyleRule("." + prefix + "-header", {
+                "display": "block",
+                "width": "100%",
+                "min-height": "1.8em",
+                "background": abg.rgba
             }),
             new StyleRule("." + prefix + "-title", {
                 "font-weight": "bold",
-                "font-size": "120%"
+                "font-size": "110%",
+                "padding": "0.5em 1.2em 0.5em 1em"
             }),
             new StyleRule("." + prefix + "-content", {
                 /*"width": "100%",
                 "height": "100%",*/
-                "padding": "1em 2em",
-                "background": "rgb(255, 255, 255);",
-                "background-color": "rgba(255, 255, 255, 0.8)",
-                "color": "#000",
+                // "padding": "2em 1em 1em 1em",
+                "background": bg.hex,
+                "background-color": bg.rgba,
+                "color": fg.hex,
                 "display": "inline-block",
                 "position": "absolute",
                 "top": "0",
@@ -53,6 +67,9 @@ export default function (prefix) {
                 "max-height": "90%",
                 "overflow": "auto",
                 "z-index": "2002"
+            }),
+            new StyleRule("." + prefix + "-inside", {
+                "padding": "1em"
             }),
             new StyleRule("." + prefix + "-close", {
                 "display": "block",

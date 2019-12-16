@@ -110,6 +110,14 @@ export interface IValueAxisAdapters extends IAxisAdapters, IValueAxisProperties 
      * Applied to the base value of the axis
      */
     baseValue: number;
+    /**
+     * Applied to the min value of the axis
+     */
+    min: number;
+    /**
+     * Applied to the max value of the axis
+     */
+    max: number;
 }
 /**
  * ============================================================================

@@ -694,7 +694,7 @@ var DateAxis = /** @class */ (function (_super) {
                         var roundedDate = $time.round(new Date(time), interval.timeUnit, interval.count, _this._df.firstDayOfWeek, _this._df.utc);
                         var currentTime = roundedDate.getTime();
                         // changed period								
-                        if (previousTime < roundedDate.getTime()) {
+                        if (previousTime < currentTime) {
                             newDataItem = dataSet.create();
                             newDataItem.component = series;
                             // other Dates?
@@ -704,8 +704,8 @@ var DateAxis = /** @class */ (function (_super) {
                             $array.each(dataFields, function (vkey) {
                                 //let groupFieldName = vkey + "Group";
                                 var value = dataItem.values[vkey].value;
+                                var values = newDataItem.values[vkey];
                                 if ($type.isNumber(value)) {
-                                    var values = newDataItem.values[vkey];
                                     values.value = value;
                                     values.workingValue = value;
                                     values.open = value;
@@ -715,6 +715,9 @@ var DateAxis = /** @class */ (function (_super) {
                                     values.sum = value;
                                     values.average = value;
                                     values.count = 1;
+                                }
+                                else {
+                                    values.count = 0;
                                 }
                             });
                             _this.postProcessSeriesDataItem(newDataItem, interval);
@@ -754,8 +757,10 @@ var DateAxis = /** @class */ (function (_super) {
                                         }
                                         values.count++;
                                         values.average = values.sum / values.count;
-                                        values.value = values[groupFieldName];
-                                        values.workingValue = values.value;
+                                        if ($type.isNumber(values[groupFieldName])) {
+                                            values.value = values[groupFieldName];
+                                            values.workingValue = values.value;
+                                        }
                                     }
                                 });
                                 $utils.copyProperties(dataItem.properties, newDataItem.properties);

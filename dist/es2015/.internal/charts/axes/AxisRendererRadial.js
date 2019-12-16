@@ -487,7 +487,8 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      * @param tick      Tick element
      * @param position  Position
      */
-    AxisRendererRadial.prototype.updateTickElement = function (tick, position) {
+    AxisRendererRadial.prototype.updateTickElement = function (tick, position, endPosition) {
+        position = position + (endPosition - position) * tick.location;
         var point = this.positionToPoint(position);
         if (tick.element) {
             var angle = $math.normalizeAngle(this.axisAngle + 90);

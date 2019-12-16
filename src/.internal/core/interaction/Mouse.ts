@@ -76,4 +76,13 @@ export class MouseCursorStyle {
 		"value": "ns-resize"
 	}];
 
+	/**
+	 * Styles for "no-allowed" cursor.
+	 * @since 4.7.15
+	 */
+	static notAllowed: Array<IStyleProperty> = [{
+		"property": "cursor",
+		"value": "not-allowed"
+	}];
+
 }

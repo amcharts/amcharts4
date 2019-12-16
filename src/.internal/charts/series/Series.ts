@@ -695,6 +695,7 @@ export class Series extends Component {
 
 			let count: { [index: string]: number } = {};
 			let sum: { [index: string]: number } = {};
+			let absoluteSum: { [index: string]: number } = {};
 			let low: { [index: string]: number } = {};
 			let high: { [index: string]: number } = {};
 			let open: { [index: string]: number } = {};
@@ -751,6 +752,12 @@ export class Series extends Component {
 							sum[key] = 0;
 						}
 						sum[key] += value;
+
+						// absolute sum values
+						if (!$type.isNumber(absoluteSum[key])) {
+							absoluteSum[key] = 0;
+						}
+						absoluteSum[key] += Math.abs(value);
 
 						// open
 						if (!$type.isNumber(open[key])) {
@@ -819,7 +826,7 @@ export class Series extends Component {
 					let dataItem = dataItems.getIndex(i);
 
 					$object.each(dataItem.values, (key) => {
-						let ksum: number = sum[key];
+						let ksum: number = absoluteSum[key];
 
 						let value: number = dataItem.getActualWorkingValue(key);
 
@@ -864,6 +871,7 @@ export class Series extends Component {
 			let dataItem: DataItem = this.dataItem;
 			$object.each(dataItem.values, (key) => {
 				dataItem.setCalculatedValue(key, sum[key], "sum");
+				dataItem.setCalculatedValue(key, absoluteSum[key], "absoluteSum");
 				dataItem.setCalculatedValue(key, sum[key] / count[key], "average");
 				dataItem.setCalculatedValue(key, open[key], "open");
 				dataItem.setCalculatedValue(key, close[key], "close");

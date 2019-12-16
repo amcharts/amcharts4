@@ -339,7 +339,7 @@ export class OrderedList<T> {
 	/**
 	 * Calls `f` for each element in the list.
 	 */
-	public each(f: (value: T) => void): void {
+	public each(f: (value: T, index: number) => void): void {
 		$array.each(this._values, f);
 	}
 }

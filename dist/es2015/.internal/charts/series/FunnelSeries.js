@@ -210,7 +210,7 @@ var FunnelSeries = /** @class */ (function (_super) {
             if ($type.hasValue(dItem.value)) {
                 count++;
                 if (dItem.value > 0) {
-                    total += dItem.getWorkingValue("value") / dItem.value;
+                    total += Math.abs(dItem.getWorkingValue("value") / dItem.value);
                 }
                 else {
                     if (_this.ignoreZeroValues) {
