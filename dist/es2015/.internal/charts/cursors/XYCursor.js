@@ -501,9 +501,19 @@ var XYCursor = /** @class */ (function (_super) {
          * @param axis X axis
          */
         set: function (axis) {
+            var _this = this;
             if (this._xAxis.get() != axis) {
                 this._xAxis.set(axis, new MultiDisposer([
                     axis.tooltip.events.on("positionchanged", this.handleXTooltipPosition, this, false),
+                    axis.events.on("rangechangestarted", function (event) {
+                        _this.hide(0);
+                        _this.__disabled = true;
+                    }, undefined, false),
+                    axis.events.on("rangechangeended", function (event) {
+                        _this.__disabled = false;
+                        _this.hide(0);
+                        _this.dispatch("cursorpositionchanged");
+                    }, undefined, false)
                 ]));
             }
         },
@@ -531,9 +541,19 @@ var XYCursor = /** @class */ (function (_super) {
          * @param axis Y axis
          */
         set: function (axis) {
+            var _this = this;
             if (this._yAxis.get() != axis) {
                 this._yAxis.set(axis, new MultiDisposer([
                     axis.tooltip.events.on("positionchanged", this.handleYTooltipPosition, this, false),
+                    axis.events.on("rangechangestarted", function (event) {
+                        _this.hide(0);
+                        _this.__disabled = true;
+                    }, undefined, false),
+                    axis.events.on("rangechangeended", function (event) {
+                        _this.__disabled = false;
+                        _this.hide(0);
+                        _this.dispatch("cursorpositionchanged");
+                    }, undefined, false)
                 ]));
             }
         },

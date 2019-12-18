@@ -430,6 +430,14 @@ export interface IAxisProperties extends IComponentProperties {
      * @default true
      */
     toggleZoomOutButton?: boolean;
+    /**
+     * Indicates if axis' tooltip should be hidden while axis range is animating
+     * (zooming)
+     *
+     * @since 4.7.16
+     * @default true
+     */
+    hideTooltipWhileZooming?: boolean;
 }
 /**
  * Defines events for [[Axis]].
@@ -1204,4 +1212,16 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @param  value  Title label
      */
     title: Label;
+    /**
+     * @return Hide tooltip while zooming?
+     */
+    /**
+     * Indicates if axis' tooltip should be hidden while axis range is animating
+     * (zooming)
+     *
+     * @default true
+     * @since 4.7.16
+     * @param  value  Hide tooltip while zooming?
+     */
+    hideTooltipWhileZooming: boolean;
 }

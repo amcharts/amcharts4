@@ -631,7 +631,12 @@ var Series = /** @class */ (function (_super) {
      */
     Series.prototype.updateTooltipBounds = function () {
         if (this.topParent) {
-            this.tooltip.setBounds({ x: 0, y: 0, width: this.topParent.maxWidth, height: this.topParent.maxHeight });
+            var x = 0;
+            var y = 0;
+            var w = this.topParent.maxWidth;
+            var h = this.topParent.maxHeight;
+            var rect = { x: x, y: y, width: w, height: h };
+            this.tooltip.setBounds(rect);
         }
     };
     Series.prototype.shouldCreateBullet = function (dataItem, bulletTemplate) {

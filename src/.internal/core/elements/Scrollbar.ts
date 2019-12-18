@@ -304,6 +304,10 @@ export class Scrollbar extends Container {
 
 		this.orientation = "horizontal";
 
+		// Min/max values for accessibility
+		this.setSVGAttribute({ "aria-valuemin": "0" });
+		this.setSVGAttribute({ "aria-valuemax": "100" });
+
 		this.applyTheme();
 	}
 
@@ -328,6 +332,8 @@ export class Scrollbar extends Container {
 			if (!$type.hasValue(this.endGrip.readerDescription)) {
 				this.endGrip.readerDescription = this.language.translate("Use left and right arrows to move right selection");
 			}
+
+			this.readerOrientation = "horizontal";
 		}
 		else {
 			if (!$type.hasValue(this.readerTitle)) {
@@ -342,7 +348,11 @@ export class Scrollbar extends Container {
 			if (!$type.hasValue(this.endGrip.readerDescription)) {
 				this.endGrip.readerDescription = this.language.translate("Use up and down arrows to move lower selection");
 			}
+
+			this.readerOrientation = "vertical";
 		}
+
+		this.readerControls = this.baseSprite.uidAttr();
 	}
 
 	/**
@@ -513,6 +523,8 @@ export class Scrollbar extends Container {
 					position: start
 				}).value
 			);
+			startGrip.readerValueNow = "" + Math.round(start * 100);
+			startGrip.readerValueText = startGrip.readerTitle;
 
 			endGrip.readerTitle = this.language.translate(
 				"To %1",
@@ -522,6 +534,9 @@ export class Scrollbar extends Container {
 					position: end
 				}).value
 			);
+			endGrip.readerValueNow = "" + Math.round(end * 100);
+			endGrip.readerValueText = endGrip.readerTitle;
+
 		}
 		else {
 			let innerHeight: number = this.innerHeight;
@@ -541,6 +556,8 @@ export class Scrollbar extends Container {
 					position: (1 - start)
 				}).value
 			);
+			startGrip.readerValueNow = "" + Math.round(start * 100);
+			startGrip.readerValueText = startGrip.readerTitle;
 
 			endGrip.readerTitle = this.language.translate(
 				"From %1",
@@ -550,6 +567,8 @@ export class Scrollbar extends Container {
 					position: (1 - end)
 				}).value
 			);
+			endGrip.readerValueNow = "" + Math.round(end * 100);
+			endGrip.readerValueText = endGrip.readerTitle;
 		}
 
 		// Add accessibility
@@ -565,6 +584,12 @@ export class Scrollbar extends Container {
 				position: end
 			}).value
 		);
+
+		thumb.readerValueNow = "" + Math.round(start * 100);
+		thumb.readerValueText = thumb.readerTitle;
+
+		this.readerValueNow = "" + Math.round(start * 100);
+		this.readerValueText = thumb.readerTitle;
 
 		if (!this._skipRangeEvents && this.updateWhileMoving) {
 			this.dispatchRangeChange();

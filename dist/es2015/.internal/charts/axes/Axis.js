@@ -609,6 +609,7 @@ var Axis = /** @class */ (function (_super) {
         if (_this.constructor === Axis) {
             throw new Error("'Axis' cannot be instantiated directly. Please use a specific axis type.");
         }
+        _this.hideTooltipWhileZooming = true;
         _this.minWidth = 0.0001;
         _this.minHeight = 0.0001;
         _this.className = "Axis";
@@ -646,6 +647,30 @@ var Axis = /** @class */ (function (_super) {
         _this.tooltip = tooltip;
         // Accessibility
         _this.readerHidden = true;
+        _this.events.on("rangechangestarted", function () {
+            _this.series.each(function (series) {
+                if (series.hideTooltipWhileZooming) {
+                    series.tooltip.hide(0);
+                    series.tooltip.__disabled = true;
+                }
+            });
+            if (_this.hideTooltipWhileZooming) {
+                _this.tooltip.hide(0);
+                _this.tooltip.__disabled = true;
+            }
+        }, undefined, false);
+        _this.events.on("rangechangeended", function () {
+            _this.series.each(function (series) {
+                if (series.hideTooltipWhileZooming) {
+                    series.tooltip.hide(0);
+                    series.tooltip.__disabled = false;
+                }
+            });
+            if (_this.hideTooltipWhileZooming) {
+                _this.tooltip.hide(0);
+                _this.tooltip.__disabled = false;
+            }
+        }, undefined, false);
         _this.applyTheme();
         return _this;
     }
@@ -866,11 +891,7 @@ var Axis = /** @class */ (function (_super) {
             this.events.on("lengthchanged", series.invalidate, series, false),
             this.events.on("lengthchanged", series.createMask, series, false),
             this.events.on("startchanged", series.invalidate, series, false),
-            this.events.on("endchanged", series.invalidate, series, false)
-            // TODO should these be disposed of ?
-            //series.events.on("datavalidated", this.processSeriesDataItems, this),
-            //series.events.on("visibilitychanged", this.processSeriesDataItems, this),
-            //series.events.on("hidden", this.processSeriesDataItems, this)
+            this.events.on("endchanged", series.invalidate, series, false),
         ]);
     };
     Object.defineProperty(Axis.prototype, "renderer", {
@@ -1850,6 +1871,27 @@ var Axis = /** @class */ (function (_super) {
                 value.parent = this;
                 value.shouldClone = false;
             }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Axis.prototype, "hideTooltipWhileZooming", {
+        /**
+         * @return Hide tooltip while zooming?
+         */
+        get: function () {
+            return this.getPropertyValue("hideTooltipWhileZooming");
+        },
+        /**
+         * Indicates if axis' tooltip should be hidden while axis range is animating
+         * (zooming)
+         *
+         * @default true
+         * @since 4.7.16
+         * @param  value  Hide tooltip while zooming?
+         */
+        set: function (value) {
+            this.setPropertyValue("hideTooltipWhileZooming", value);
         },
         enumerable: true,
         configurable: true

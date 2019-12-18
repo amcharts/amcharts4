@@ -523,6 +523,7 @@ var Annotation = /** @class */ (function (_super) {
                 //this.group = this.target.svgContainer.container.dom.appendChild(document.createElement("g"));
                 this._group = this.target.paper.add("g").node;
                 this._group.style.pointerEvents = "none";
+                this._group.setAttribute("clip-path", this.target.dom.getAttribute("clip-path"));
                 this.target.svgContainer.container.dom.appendChild(this._group);
             }
             return this._group;

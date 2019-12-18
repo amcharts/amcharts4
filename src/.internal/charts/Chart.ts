@@ -202,7 +202,7 @@ export class Chart extends Component {
 		// mess up the whole focus event system - getting a focus on an inside
 		// object also trigger focus on parent
 		//this.focusable = true;
-		this.role = "widget";
+		this.role = "region";
 
 		this.defaultState.transitionDuration = 1;
 

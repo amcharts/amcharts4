@@ -44,6 +44,7 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
     function XYSeriesDataItem() {
         var _this = _super.call(this) || this;
         _this.className = "XYSeriesDataItem";
+        _this.values.customValue = {};
         _this.values.valueX = { stack: 0 };
         _this.values.valueY = { stack: 0 };
         _this.values.openValueX = {};
@@ -73,6 +74,24 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setValue("valueX", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(XYSeriesDataItem.prototype, "customValue", {
+        /**
+         * @return Value
+         */
+        get: function () {
+            return this.values.customValue.value;
+        },
+        /**
+         * Item's custom numeric value.
+         *
+         * @param value  Value
+         */
+        set: function (value) {
+            this.setValue("customValue", value);
         },
         enumerable: true,
         configurable: true
@@ -488,6 +507,7 @@ var XYSeries = /** @class */ (function (_super) {
         _this.isMeasured = false;
         _this.groupFields.valueX = "close";
         _this.groupFields.valueY = "close";
+        _this.groupFields.customValue = "close";
         _this.groupFields.openValueX = "open";
         _this.groupFields.openValueY = "open";
         _this.cursorTooltipEnabled = true;
@@ -498,6 +518,7 @@ var XYSeries = /** @class */ (function (_super) {
         _this.stacked = false;
         _this.snapTooltip = false;
         _this.tooltip.pointerOrientation = "horizontal";
+        _this.hideTooltipWhileZooming = true;
         _this.tooltip.events.on("hidden", function () {
             _this.returnBulletDefaultState();
         }, undefined, false);
@@ -2104,6 +2125,27 @@ var XYSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("excludeFromTotal", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(XYSeries.prototype, "hideTooltipWhileZooming", {
+        /**
+         * @return Hide tooltip while zooming?
+         */
+        get: function () {
+            return this.getPropertyValue("hideTooltipWhileZooming");
+        },
+        /**
+         * Indicates if series' tooltip should be hidden while series axis range is
+         * animating (zooming).
+         *
+         * @default true
+         * @since 4.7.16
+         * @param  value  Hide tooltip while zooming?
+         */
+        set: function (value) {
+            this.setPropertyValue("hideTooltipWhileZooming", value);
         },
         enumerable: true,
         configurable: true

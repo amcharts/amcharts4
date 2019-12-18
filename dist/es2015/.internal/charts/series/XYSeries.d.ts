@@ -88,6 +88,15 @@ export declare class XYSeriesDataItem extends SeriesDataItem {
      * @return Value
      */
     /**
+     * Item's custom numeric value.
+     *
+     * @param value  Value
+     */
+    customValue: number;
+    /**
+     * @return Value
+     */
+    /**
      * Item's numeric value on Y value axis.
      *
      * @param value  Value
@@ -293,6 +302,10 @@ export interface IXYSeriesDataFields extends ISeriesDataFields {
      * the item.
      */
     openValueYShow?: CalculatedValue;
+    /**
+     * Name of the field in data that holds numeric value for some custom data.
+     */
+    customValue?: string;
 }
 /**
  * Defines types of the aggregate value.
@@ -318,6 +331,12 @@ export interface IXYSeriesGroupFields {
      * @default "close"
      */
     valueY?: GroupField;
+    /**
+     * Indicates how to calculate aggregate value for `customValue` value data field.
+     *
+     * @default "close"
+     */
+    customValue?: GroupField;
     /**
      * Indicates how to calculate aggregate value for `openValueX` data field.
      *
@@ -367,6 +386,14 @@ export interface IXYSeriesProperties extends ISeriesProperties {
      * @default false
      */
     excludeFromTotal?: boolean;
+    /**
+     * Indicates if series' tooltip should be hidden while series axis range is
+     * animating (zooming)
+     *
+     * @since 4.7.16
+     * @default true
+     */
+    hideTooltipWhileZooming?: boolean;
 }
 /**
  * Defines events for [[XYSeries]].
@@ -1052,4 +1079,16 @@ export declare class XYSeries extends Series {
      * @param  value  Exclude from totals?
      */
     excludeFromTotal: boolean;
+    /**
+     * @return Hide tooltip while zooming?
+     */
+    /**
+     * Indicates if series' tooltip should be hidden while series axis range is
+     * animating (zooming).
+     *
+     * @default true
+     * @since 4.7.16
+     * @param  value  Hide tooltip while zooming?
+     */
+    hideTooltipWhileZooming: boolean;
 }

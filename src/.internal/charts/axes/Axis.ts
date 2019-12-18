@@ -817,6 +817,14 @@ export interface IAxisProperties extends IComponentProperties {
 	 */
 	toggleZoomOutButton?: boolean;
 
+	/**
+	 * Indicates if axis' tooltip should be hidden while axis range is animating
+	 * (zooming)
+	 *
+	 * @since 4.7.16
+	 * @default true
+	 */
+	hideTooltipWhileZooming?: boolean;
 }
 
 /**
@@ -1038,6 +1046,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			throw new Error("'Axis' cannot be instantiated directly. Please use a specific axis type.");
 		}
 
+		this.hideTooltipWhileZooming = true;
 		this.minWidth = 0.0001;
 		this.minHeight = 0.0001;
 		this.className = "Axis";
@@ -1083,6 +1092,33 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 
 		// Accessibility
 		this.readerHidden = true;
+
+		this.events.on("rangechangestarted", () => {
+
+			this.series.each((series) => {
+				if (series.hideTooltipWhileZooming) {
+					series.tooltip.hide(0);
+					series.tooltip.__disabled = true;
+				}
+			})
+			if (this.hideTooltipWhileZooming) {
+				this.tooltip.hide(0);
+				this.tooltip.__disabled = true;
+			}
+		}, undefined, false);
+
+		this.events.on("rangechangeended", () => {
+			this.series.each((series) => {
+				if (series.hideTooltipWhileZooming) {
+					series.tooltip.hide(0);
+					series.tooltip.__disabled = false;
+				}
+			})
+			if (this.hideTooltipWhileZooming) {
+				this.tooltip.hide(0);
+				this.tooltip.__disabled = false;
+			}
+		}, undefined, false);
 
 		this.applyTheme();
 	}
@@ -1305,7 +1341,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			this.events.on("lengthchanged", series.invalidate, series, false),
 			this.events.on("lengthchanged", series.createMask, series, false),
 			this.events.on("startchanged", series.invalidate, series, false),
-			this.events.on("endchanged", series.invalidate, series, false)
+			this.events.on("endchanged", series.invalidate, series, false),
+			//axis.events.on("validated", chart.handleCursorPositionChange, chart, false)			
 
 			// TODO should these be disposed of ?
 			//series.events.on("datavalidated", this.processSeriesDataItems, this),
@@ -2362,6 +2399,26 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 */
 	public get title(): Label {
 		return this._title;
+	}
+
+
+	/**
+	 * Indicates if axis' tooltip should be hidden while axis range is animating
+	 * (zooming)
+	 * 
+	 * @default true
+	 * @since 4.7.16
+	 * @param  value  Hide tooltip while zooming?
+	 */
+	public set hideTooltipWhileZooming(value: boolean) {
+		this.setPropertyValue("hideTooltipWhileZooming", value);
+	}
+
+	/**
+	 * @return Hide tooltip while zooming?
+	 */
+	public get hideTooltipWhileZooming(): boolean {
+		return this.getPropertyValue("hideTooltipWhileZooming");
 	}
 
 }

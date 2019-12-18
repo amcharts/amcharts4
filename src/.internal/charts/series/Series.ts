@@ -670,7 +670,7 @@ export class Series extends Component {
 			}
 		}
 		return null;
-	}	
+	}
 
 	/**
 	 * [rangeChangeUpdate description]
@@ -793,14 +793,14 @@ export class Series extends Component {
 
 						if (!$type.isNumber(absoluteFirst[key])) {
 							absoluteFirst[key] = this.getAbsoluteFirstValue(key);
-						}						
+						}
 
 						// change
 						dataItem.setCalculatedValue(key, value - first[key], "change");
 						// change from start percent
 						// will fail if first value is 0
 						dataItem.setCalculatedValue(key, (value - first[key]) / first[key] * 100, "changePercent");
-							
+
 						dataItem.setCalculatedValue(key, (value - absoluteFirst[key]), "startChange");
 
 						dataItem.setCalculatedValue(key, (value - absoluteFirst[key]) / absoluteFirst[key] * 100, "startChangePercent");
@@ -939,7 +939,13 @@ export class Series extends Component {
 	 */
 	public updateTooltipBounds() {
 		if (this.topParent) {
-			this.tooltip.setBounds({ x: 0, y: 0, width: this.topParent.maxWidth, height: this.topParent.maxHeight });
+			let x = 0;
+			let y = 0;
+			let w = this.topParent.maxWidth;
+			let h = this.topParent.maxHeight;
+			let rect = { x: x, y: y, width: w, height: h };
+
+			this.tooltip.setBounds(rect);
 		}
 	}
 

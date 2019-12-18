@@ -113,7 +113,7 @@ var Chart = /** @class */ (function (_super) {
         // mess up the whole focus event system - getting a focus on an inside
         // object also trigger focus on parent
         //this.focusable = true;
-        _this.role = "widget";
+        _this.role = "region";
         _this.defaultState.transitionDuration = 1;
         // Apply theme
         _this.applyTheme();

@@ -523,7 +523,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		this.snapTooltip = true;
 		this.tooltipPosition = "pointer";
 
-		this.groupData = false;
+		this.setPropertyValue("groupData", false);
 		this.groupCount = 200;
 
 		this.events.on("parentset", this.getDFFormatter, this, false);
@@ -882,8 +882,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					this.postProcessSeriesDataItem(dataItem);
 				});
 				series._baseInterval[this.uid] = this.mainBaseInterval;
-
-				this.groupSeriesData(series);
+				if (this.groupData) {
+					this.groupSeriesData(series);
+				}
 			}
 		});
 
@@ -940,6 +941,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					}
 				})
 
+
 				dataItems.each((dataItem) => {
 					let date = dataItem.getDate(key);
 					if (date) {
@@ -949,31 +951,35 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 						// changed period								
 						if (previousTime < currentTime) {
 							newDataItem = dataSet.create();
+							newDataItem.dataContext = {};
 							newDataItem.component = series;
 							// other Dates?
 							newDataItem.setDate(key, roundedDate);
-							newDataItem._index = i;
+							newDataItem._index = i;							
 							i++;
 
 							$array.each(dataFields, (vkey) => {
 								//let groupFieldName = vkey + "Group";
-								let value = dataItem.values[vkey].value;
-								let values = newDataItem.values[vkey];
-								if ($type.isNumber(value)) {
+								let dvalues = dataItem.values[vkey];
+								if (dvalues) {
+									let value = dvalues.value;
+									let values = newDataItem.values[vkey];
+									if ($type.isNumber(value)) {
 
-									values.value = value;
-									values.workingValue = value;
+										values.value = value;
+										values.workingValue = value;
 
-									values.open = value;
-									values.close = value;
-									values.low = value;
-									values.high = value;
-									values.sum = value;
-									values.average = value;
-									values.count = 1;
-								}
-								else {
-									values.count = 0;
+										values.open = value;
+										values.close = value;
+										values.low = value;
+										values.high = value;
+										values.sum = value;
+										values.average = value;
+										values.count = 1;
+									}
+									else {
+										values.count = 0;
+									}
 								}
 							})
 
@@ -995,37 +1001,39 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 							if (newDataItem) {
 								$array.each(dataFields, (vkey) => {
 									let groupFieldName = (<any>series.groupFields)[vkey];
+									let dvalues = dataItem.values[vkey];
+									if (dvalues) {
+										let value = dvalues.value;
 
-									let value = dataItem.values[vkey].value;
+										if ($type.isNumber(value)) {
+											let values = newDataItem.values[vkey];
 
-									if ($type.isNumber(value)) {
-										let values = newDataItem.values[vkey];
+											if (!$type.isNumber(values.open)) {
+												values.open = value;
+											}
 
-										if (!$type.isNumber(values.open)) {
-											values.open = value;
-										}
+											values.close = value;
 
-										values.close = value;
+											if (values.low > value || !$type.isNumber(values.low)) {
+												values.low = value;
+											}
+											if (values.high < value || !$type.isNumber(values.high)) {
+												values.high = value;
+											}
+											if ($type.isNumber(values.sum)) {
+												values.sum += value;
+											}
+											else {
+												values.sum = value;
+											}
+											values.count++;
 
-										if (values.low > value || !$type.isNumber(values.low)) {
-											values.low = value;
-										}
-										if (values.high < value || !$type.isNumber(values.high)) {
-											values.high = value;
-										}
-										if ($type.isNumber(values.sum)) {
-											values.sum += value;
-										}
-										else {
-											values.sum = value;
-										}
-										values.count++;
+											values.average = values.sum / values.count;
 
-										values.average = values.sum / values.count;
-
-										if ($type.isNumber(values[groupFieldName])) {
-											values.value = values[groupFieldName];
-											values.workingValue = values.value;
+											if ($type.isNumber(values[groupFieldName])) {
+												values.value = values[groupFieldName];
+												values.workingValue = values.value;
+											}
 										}
 									}
 								})
@@ -1043,6 +1051,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 								newDataItem.groupDataItems.push(dataItem);
 							}
 						}
+					}
+
+					if(newDataItem){
+						$utils.copyProperties(dataItem.dataContext, newDataItem.dataContext);
 					}
 				})
 			})
@@ -2507,7 +2519,16 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @param  value  Group data points?
 	 */
 	public set groupData(value: boolean) {
-		this.setPropertyValue("groupData", value);
+		if (this.setPropertyValue("groupData", value)) {
+			this.series.each((series) => {
+				series.setDataSet("");
+			})
+
+			this._currentDataSetId = ""
+			this._groupInterval = undefined;
+			this.invalidate();
+			this.invalidateSeries();
+		}
 	}
 
 	/**

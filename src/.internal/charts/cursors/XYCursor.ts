@@ -685,7 +685,16 @@ export class XYCursor extends Cursor {
 		if (this._xAxis.get() != axis) {
 			this._xAxis.set(axis, new MultiDisposer([
 				axis.tooltip.events.on("positionchanged", this.handleXTooltipPosition, this, false),
-				//axis.events.on("validated", chart.handleCursorPositionChange, chart, false)
+
+				axis.events.on("rangechangestarted", (event) => {
+					this.hide(0);
+					this.__disabled = true;
+				}, undefined, false),
+				axis.events.on("rangechangeended", (event) => {
+					this.__disabled = false;
+					this.hide(0);
+					this.dispatch("cursorpositionchanged");
+				}, undefined, false)
 			]));
 		}
 	}
@@ -714,7 +723,16 @@ export class XYCursor extends Cursor {
 		if (this._yAxis.get() != axis) {
 			this._yAxis.set(axis, new MultiDisposer([
 				axis.tooltip.events.on("positionchanged", this.handleYTooltipPosition, this, false),
-				//axis.events.on("validated", chart.handleCursorPositionChange, chart, false)
+
+				axis.events.on("rangechangestarted", (event) => {
+					this.hide(0);
+					this.__disabled = true;
+				}, undefined, false),
+				axis.events.on("rangechangeended", (event) => {
+					this.__disabled = false;
+					this.hide(0);
+					this.dispatch("cursorpositionchanged");
+				}, undefined, false)
 			]));
 		}
 	}

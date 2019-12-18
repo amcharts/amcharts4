@@ -121,6 +121,8 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         var scrollbarChart = this.scrollbarChart;
         scrollbarChart.zoomOutButton.disabled = true;
         this.chart = sourceSeries.chart;
+        // Ensure that scrollbar chart shares the same locale as parent chart
+        scrollbarChart.language.locale = this.chart.language.locale;
         var addXAxis = true;
         var addYAxis = true;
         // check if we haven't added clone of x or y axis before

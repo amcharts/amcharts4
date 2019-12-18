@@ -116,6 +116,9 @@ var Scrollbar = /** @class */ (function (_super) {
         }, undefined, false);
         _this.hideGrips = false;
         _this.orientation = "horizontal";
+        // Min/max values for accessibility
+        _this.setSVGAttribute({ "aria-valuemin": "0" });
+        _this.setSVGAttribute({ "aria-valuemax": "100" });
         _this.applyTheme();
         return _this;
     }
@@ -139,6 +142,7 @@ var Scrollbar = /** @class */ (function (_super) {
             if (!$type.hasValue(this.endGrip.readerDescription)) {
                 this.endGrip.readerDescription = this.language.translate("Use left and right arrows to move right selection");
             }
+            this.readerOrientation = "horizontal";
         }
         else {
             if (!$type.hasValue(this.readerTitle)) {
@@ -153,7 +157,9 @@ var Scrollbar = /** @class */ (function (_super) {
             if (!$type.hasValue(this.endGrip.readerDescription)) {
                 this.endGrip.readerDescription = this.language.translate("Use up and down arrows to move lower selection");
             }
+            this.readerOrientation = "vertical";
         }
+        this.readerControls = this.baseSprite.uidAttr();
     };
     /**
      * Validates the layout of the scrollbar's elements.
@@ -298,10 +304,14 @@ var Scrollbar = /** @class */ (function (_super) {
                 value: Math.round(start * 100) + "%",
                 position: start
             }).value);
+            startGrip.readerValueNow = "" + Math.round(start * 100);
+            startGrip.readerValueText = startGrip.readerTitle;
             endGrip.readerTitle = this.language.translate("To %1", undefined, this.adapter.apply("positionValue", {
                 value: Math.round(end * 100) + "%",
                 position: end
             }).value);
+            endGrip.readerValueNow = "" + Math.round(end * 100);
+            endGrip.readerValueText = endGrip.readerTitle;
         }
         else {
             var innerHeight_1 = this.innerHeight;
@@ -314,10 +324,14 @@ var Scrollbar = /** @class */ (function (_super) {
                 value: Math.round((1 - start) * 100) + "%",
                 position: (1 - start)
             }).value);
+            startGrip.readerValueNow = "" + Math.round(start * 100);
+            startGrip.readerValueText = startGrip.readerTitle;
             endGrip.readerTitle = this.language.translate("From %1", undefined, this.adapter.apply("positionValue", {
                 value: Math.round((1 - end) * 100) + "%",
                 position: (1 - end)
             }).value);
+            endGrip.readerValueNow = "" + Math.round(end * 100);
+            endGrip.readerValueText = endGrip.readerTitle;
         }
         // Add accessibility
         thumb.readerTitle = this.language.translate("From %1 to %2", undefined, this.adapter.apply("positionValue", {
@@ -327,6 +341,10 @@ var Scrollbar = /** @class */ (function (_super) {
             value: Math.round(end * 100) + "%",
             position: end
         }).value);
+        thumb.readerValueNow = "" + Math.round(start * 100);
+        thumb.readerValueText = thumb.readerTitle;
+        this.readerValueNow = "" + Math.round(start * 100);
+        this.readerValueText = thumb.readerTitle;
         if (!this._skipRangeEvents && this.updateWhileMoving) {
             this.dispatchRangeChange();
         }

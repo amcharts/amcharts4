@@ -1179,7 +1179,9 @@ export class XYChart extends SerialChart {
 			if (this._cursorYPosition != yPosition) {
 				this.showAxisTooltip(this.yAxes, yPosition, exceptAxis);
 			}
-			this.sortSeriesTooltips(this._seriesPoints);
+			if(this.arrangeTooltips){
+				this.sortSeriesTooltips(this._seriesPoints);
+			}
 		}
 	}
 
@@ -1251,7 +1253,7 @@ export class XYChart extends SerialChart {
 			else {
 				let point = series.showTooltipAtPosition(position.x, position.y);
 				if (point) {
-					series.tooltip.setBounds({ x: 0, y: 0, width: this.pixelWidth, height: this.pixelHeight });
+					series.tooltip.setBounds($utils.spriteRectToSvg({ x: 0, y: 0, width: this.pixelWidth, height: this.pixelHeight }, this));
 					seriesPoints.push({ series: series, point: point });
 				}
 			}

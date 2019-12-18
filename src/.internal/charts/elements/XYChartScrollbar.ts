@@ -195,6 +195,9 @@ export class XYChartScrollbar extends Scrollbar {
 
 		this.chart = sourceSeries.chart;
 
+		// Ensure that scrollbar chart shares the same locale as parent chart
+		scrollbarChart.language.locale = this.chart.language.locale;
+
 		let addXAxis: boolean = true;
 		let addYAxis: boolean = true;
 

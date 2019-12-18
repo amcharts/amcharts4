@@ -863,7 +863,9 @@ var XYChart = /** @class */ (function (_super) {
             if (this._cursorYPosition != yPosition_1) {
                 this.showAxisTooltip(this.yAxes, yPosition_1, exceptAxis);
             }
-            this.sortSeriesTooltips(this._seriesPoints);
+            if (this.arrangeTooltips) {
+                this.sortSeriesTooltips(this._seriesPoints);
+            }
         }
     };
     /**
@@ -927,7 +929,7 @@ var XYChart = /** @class */ (function (_super) {
             else {
                 var point = series.showTooltipAtPosition(position.x, position.y);
                 if (point) {
-                    series.tooltip.setBounds({ x: 0, y: 0, width: _this.pixelWidth, height: _this.pixelHeight });
+                    series.tooltip.setBounds($utils.spriteRectToSvg({ x: 0, y: 0, width: _this.pixelWidth, height: _this.pixelHeight }, _this));
                     seriesPoints.push({ series: series, point: point });
                 }
             }

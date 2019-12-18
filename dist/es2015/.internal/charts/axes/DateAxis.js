@@ -298,7 +298,7 @@ var DateAxis = /** @class */ (function (_super) {
         _this.setPropertyValue("markUnitChange", true);
         _this.snapTooltip = true;
         _this.tooltipPosition = "pointer";
-        _this.groupData = false;
+        _this.setPropertyValue("groupData", false);
         _this.groupCount = 200;
         _this.events.on("parentset", _this.getDFFormatter, _this, false);
         // Translatable defaults are applied in `applyInternalDefaults()`
@@ -640,7 +640,9 @@ var DateAxis = /** @class */ (function (_super) {
                     _this.postProcessSeriesDataItem(dataItem);
                 });
                 series._baseInterval[_this.uid] = _this.mainBaseInterval;
-                _this.groupSeriesData(series);
+                if (_this.groupData) {
+                    _this.groupSeriesData(series);
+                }
             }
         });
         this.addEmptyUnitsBreaks();
@@ -696,6 +698,7 @@ var DateAxis = /** @class */ (function (_super) {
                         // changed period								
                         if (previousTime < currentTime) {
                             newDataItem = dataSet.create();
+                            newDataItem.dataContext = {};
                             newDataItem.component = series;
                             // other Dates?
                             newDataItem.setDate(key, roundedDate);
@@ -703,21 +706,24 @@ var DateAxis = /** @class */ (function (_super) {
                             i++;
                             $array.each(dataFields, function (vkey) {
                                 //let groupFieldName = vkey + "Group";
-                                var value = dataItem.values[vkey].value;
-                                var values = newDataItem.values[vkey];
-                                if ($type.isNumber(value)) {
-                                    values.value = value;
-                                    values.workingValue = value;
-                                    values.open = value;
-                                    values.close = value;
-                                    values.low = value;
-                                    values.high = value;
-                                    values.sum = value;
-                                    values.average = value;
-                                    values.count = 1;
-                                }
-                                else {
-                                    values.count = 0;
+                                var dvalues = dataItem.values[vkey];
+                                if (dvalues) {
+                                    var value = dvalues.value;
+                                    var values = newDataItem.values[vkey];
+                                    if ($type.isNumber(value)) {
+                                        values.value = value;
+                                        values.workingValue = value;
+                                        values.open = value;
+                                        values.close = value;
+                                        values.low = value;
+                                        values.high = value;
+                                        values.sum = value;
+                                        values.average = value;
+                                        values.count = 1;
+                                    }
+                                    else {
+                                        values.count = 0;
+                                    }
                                 }
                             });
                             _this.postProcessSeriesDataItem(newDataItem, interval);
@@ -736,30 +742,33 @@ var DateAxis = /** @class */ (function (_super) {
                             if (newDataItem) {
                                 $array.each(dataFields, function (vkey) {
                                     var groupFieldName = series.groupFields[vkey];
-                                    var value = dataItem.values[vkey].value;
-                                    if ($type.isNumber(value)) {
-                                        var values = newDataItem.values[vkey];
-                                        if (!$type.isNumber(values.open)) {
-                                            values.open = value;
-                                        }
-                                        values.close = value;
-                                        if (values.low > value || !$type.isNumber(values.low)) {
-                                            values.low = value;
-                                        }
-                                        if (values.high < value || !$type.isNumber(values.high)) {
-                                            values.high = value;
-                                        }
-                                        if ($type.isNumber(values.sum)) {
-                                            values.sum += value;
-                                        }
-                                        else {
-                                            values.sum = value;
-                                        }
-                                        values.count++;
-                                        values.average = values.sum / values.count;
-                                        if ($type.isNumber(values[groupFieldName])) {
-                                            values.value = values[groupFieldName];
-                                            values.workingValue = values.value;
+                                    var dvalues = dataItem.values[vkey];
+                                    if (dvalues) {
+                                        var value = dvalues.value;
+                                        if ($type.isNumber(value)) {
+                                            var values = newDataItem.values[vkey];
+                                            if (!$type.isNumber(values.open)) {
+                                                values.open = value;
+                                            }
+                                            values.close = value;
+                                            if (values.low > value || !$type.isNumber(values.low)) {
+                                                values.low = value;
+                                            }
+                                            if (values.high < value || !$type.isNumber(values.high)) {
+                                                values.high = value;
+                                            }
+                                            if ($type.isNumber(values.sum)) {
+                                                values.sum += value;
+                                            }
+                                            else {
+                                                values.sum = value;
+                                            }
+                                            values.count++;
+                                            values.average = values.sum / values.count;
+                                            if ($type.isNumber(values[groupFieldName])) {
+                                                values.value = values[groupFieldName];
+                                                values.workingValue = values.value;
+                                            }
                                         }
                                     }
                                 });
@@ -775,6 +784,9 @@ var DateAxis = /** @class */ (function (_super) {
                                 newDataItem.groupDataItems.push(dataItem);
                             }
                         }
+                    }
+                    if (newDataItem) {
+                        $utils.copyProperties(dataItem.dataContext, newDataItem.dataContext);
                     }
                 });
             });
@@ -2091,7 +2103,15 @@ var DateAxis = /** @class */ (function (_super) {
          * @param  value  Group data points?
          */
         set: function (value) {
-            this.setPropertyValue("groupData", value);
+            if (this.setPropertyValue("groupData", value)) {
+                this.series.each(function (series) {
+                    series.setDataSet("");
+                });
+                this._currentDataSetId = "";
+                this._groupInterval = undefined;
+                this.invalidate();
+                this.invalidateSeries();
+            }
         },
         enumerable: true,
         configurable: true

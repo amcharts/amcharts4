@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.16] - 2019-12-18
+
+### Added
+- `hideTooltipWhileZooming` (default `true`) property added to `XYSeries` and `Axis`. It will hide respective tooltips while chart zoom animation is playing.
+- `customValue` data field added to `XYSeries`. Useful if you want to show (in a tooltip for example) some custom value when data is grouped and you need an aggregated numeric value that is not other than one of the Series' data fields.
+- All the custom fields from chart's raw data are copied into grouped data item's `dataContext`. This allows referencing to custom fields via text placeholders even in aggregate data items when data grouping is enabled.
+
+### Changed
+- Accessibility: Default `role` for chart changed to `region`.
+
+### Fixed
+- Accessibility: `Scrollbar` and its elements now set required attributes like `aria-orientation`, `aria-controls`, `aria-valuenow`, `aria-valuetext`, `aria-valuemin`, and `aria-valuemax`.
+- Annotation plugin: The elements that went outside of the chart area were not being properly clipped.
+- `XYChartScrollbar` was not inheriting locale from parent chart.
+- Sometimes grid lines (and some other lines) were blurry.
+- Tooltips of an `XYChart` with stacked axes could be positioned incorrectly.
+
+
 ## [4.7.15] - 2019-12-16
 
 ### Added

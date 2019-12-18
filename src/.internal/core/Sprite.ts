@@ -167,6 +167,9 @@ export interface ISpriteProperties {
 	readerHidden?: boolean;
 	readerDescription?: string;
 	readerTitle?: string;
+	readerOrientation?: string;
+	readerValueNow?: string;
+	readerValueText?: string;
 	nonScaling?: boolean;
 	nonScalingStroke?: boolean;
 	zIndex?: number;
@@ -2796,10 +2799,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		}
 		if (point) {
 			if ($type.isNumber(point.x)) {
-				this.setPropertyValue("x", point.x);
+				this.setPropertyValue("x", $math.round(point.x, this._positionPrecision, true));
 			}
 			if ($type.isNumber(point.y)) {
-				this.setPropertyValue("y", point.y);
+				this.setPropertyValue("y", $math.round(point.y, this._positionPrecision, true));
 			}
 		}
 
@@ -4403,7 +4406,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			hidden = this.readerHidden,
 			checked = this.readerChecked,
 			controls = this.readerControls,
-			live = this.readerLive;
+			live = this.readerLive,
+			orientation = this.readerOrientation,
+			valueNow = this.readerValueNow,
+			valueText = this.readerValueText;
 
 		// Init label/describe ids
 		let labelledByIds: string[] = [],
@@ -4542,6 +4548,27 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		} else {
 			this.removeSVGAttribute("aria-live");
 		}
+
+		// Apply aria-orientation
+		if (orientation) {
+			this.setSVGAttribute({ "aria-orientation": orientation });
+		} else {
+			this.removeSVGAttribute("aria-orientation");
+		}
+
+		// Apply aria-valuenow
+		if (valueNow) {
+			this.setSVGAttribute({ "aria-valuenow": valueNow });
+		} else {
+			this.removeSVGAttribute("aria-valuenow");
+		}
+
+		// Apply aria-valuetext
+		if (valueText) {
+			this.setSVGAttribute({ "aria-valuetext": valueText });
+		} else {
+			this.removeSVGAttribute("aria-valuetext");
+		}
 	}
 
 	/**
@@ -4596,6 +4623,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		value = <Roles>$type.toText(value);
 		if (this.setPropertyValue("role", value)) {
 			this.applyAccessibility();
+
+			if (value == "slider") {
+				this.setSVGAttribute({ "aria-valuemin": "0" });
+				this.setSVGAttribute({ "aria-valuemax": "100" });
+			}
 		}
 	}
 
@@ -4734,6 +4766,66 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public get readerDescribedBy(): string {
 		return this.getPropertyValue("readerDescribedBy");
+	}
+
+	/**
+	 * Orientation of the element.
+	 *
+	 * @since 4.7.16
+	 * @param value Orientation
+	 */
+	public set readerOrientation(value: string) {
+		value = $type.toText(value);
+		if(this.setPropertyValue("readerOrientation", value)) {
+			this.applyAccessibility();
+		}
+	}
+
+	/**
+	 * @return Orientation
+	 */
+	public get readerOrientation(): string {
+		return this.getPropertyValue("readerOrientation");
+	}
+
+	/**
+	 * Current value of the element.
+	 *
+	 * @since 4.7.16
+	 * @param value Current value
+	 */
+	public set readerValueNow(value: string) {
+		value = $type.toText(value);
+		if(this.setPropertyValue("readerValueNow", value)) {
+			this.applyAccessibility();
+		}
+	}
+
+	/**
+	 * @return Current value
+	 */
+	public get readerValueNow(): string {
+		return this.getPropertyValue("readerValueNow");
+	}
+
+	/**
+	 * Text representation of the current value of the element.
+	 *
+	 * @since 4.7.16
+	 * @param value Current value (text)
+	 */
+	public set readerValueText(value: string) {
+		value = $type.toText(value);
+		if(this.setPropertyValue("readerValueText", value)) {
+			this.applyAccessibility();
+		}
+	}
+
+	/**
+	 * @return Current value (text)
+	 */
+	public get readerValueText(): string {
+		return this.getPropertyValue("readerValueText");
 	}
 
 

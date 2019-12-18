@@ -100,6 +100,8 @@ export class XYSeriesDataItem extends SeriesDataItem {
 
 		this.className = "XYSeriesDataItem";
 
+		this.values.customValue = {};
+
 		this.values.valueX = { stack: 0 };
 		this.values.valueY = { stack: 0 };
 		this.values.openValueX = {};
@@ -133,6 +135,22 @@ export class XYSeriesDataItem extends SeriesDataItem {
 	 */
 	public get valueX(): number {
 		return this.values.valueX.value;
+	}
+
+	/**
+	 * Item's custom numeric value.
+	 *
+	 * @param value  Value
+	 */
+	public set customValue(value: number) {
+		this.setValue("customValue", value);
+	}
+
+	/**
+	 * @return Value
+	 */
+	public get customValue(): number {
+		return this.values.customValue.value;
 	}
 
 	/**
@@ -498,6 +516,11 @@ export interface IXYSeriesDataFields extends ISeriesDataFields {
 	 * the item.
 	 */
 	openValueYShow?: CalculatedValue;
+
+	/**
+	 * Name of the field in data that holds numeric value for some custom data.
+	 */
+	customValue?: string;
 }
 
 
@@ -528,6 +551,13 @@ export interface IXYSeriesGroupFields {
 	 * @default "close"
 	 */
 	valueY?: GroupField;
+
+	/**
+	 * Indicates how to calculate aggregate value for `customValue` value data field.
+	 * 
+	 * @default "close"
+	 */
+	customValue?: GroupField;
 
 	/**
 	 * Indicates how to calculate aggregate value for `openValueX` data field.
@@ -585,6 +615,16 @@ export interface IXYSeriesProperties extends ISeriesProperties {
 	 * @default false
 	 */
 	excludeFromTotal?: boolean;
+
+
+	/**
+	 * Indicates if series' tooltip should be hidden while series axis range is
+	 * animating (zooming)
+	 *
+	 * @since 4.7.16
+	 * @default true
+	 */
+	hideTooltipWhileZooming?: boolean;
 }
 
 /**
@@ -876,6 +916,7 @@ export class XYSeries extends Series {
 
 		this.groupFields.valueX = "close";
 		this.groupFields.valueY = "close";
+		this.groupFields.customValue = "close";
 
 		this.groupFields.openValueX = "open";
 		this.groupFields.openValueY = "open";
@@ -892,6 +933,8 @@ export class XYSeries extends Series {
 		this.snapTooltip = false;
 
 		this.tooltip.pointerOrientation = "horizontal";
+
+		this.hideTooltipWhileZooming = true;
 
 		this.tooltip.events.on("hidden", () => {
 			this.returnBulletDefaultState();
@@ -1569,13 +1612,13 @@ export class XYSeries extends Series {
 		let xAxisId: string = xAxis.uid;
 		let yAxisId: string = yAxis.uid;
 
-		if(this.xAxis instanceof ValueAxis && (minX == Infinity || maxX == -Infinity)){
+		if (this.xAxis instanceof ValueAxis && (minX == Infinity || maxX == -Infinity)) {
 			return;
 		}
 
-		if(this.yAxis instanceof ValueAxis && (minY == Infinity || maxY == -Infinity)){
+		if (this.yAxis instanceof ValueAxis && (minY == Infinity || maxY == -Infinity)) {
 			return;
-		}			
+		}
 
 		if (!working) {
 			if (this._tmin.getKey(xAxisId) != minX || this._tmax.getKey(xAxisId) != maxX || this._tmin.getKey(yAxisId) != minY || this._tmax.getKey(yAxisId) != maxY) {
@@ -1642,11 +1685,11 @@ export class XYSeries extends Series {
 			}
 		}
 
-		if(this.xAxis instanceof ValueAxis && (minX == Infinity || maxX == -Infinity)){
+		if (this.xAxis instanceof ValueAxis && (minX == Infinity || maxX == -Infinity)) {
 			return;
 		}
 
-		if(this.yAxis instanceof ValueAxis && (minY == Infinity || maxY == -Infinity)){
+		if (this.yAxis instanceof ValueAxis && (minY == Infinity || maxY == -Infinity)) {
 			return;
 		}
 
@@ -2726,6 +2769,25 @@ export class XYSeries extends Series {
 	 */
 	public get excludeFromTotal(): boolean {
 		return this.getPropertyValue("excludeFromTotal");
+	}
+
+	/**
+	 * Indicates if series' tooltip should be hidden while series axis range is
+	 * animating (zooming).
+	 * 
+	 * @default true
+	 * @since 4.7.16
+	 * @param  value  Hide tooltip while zooming?
+	 */
+	public set hideTooltipWhileZooming(value: boolean) {
+		this.setPropertyValue("hideTooltipWhileZooming", value);
+	}
+
+	/**
+	 * @return Hide tooltip while zooming?
+	 */
+	public get hideTooltipWhileZooming(): boolean {
+		return this.getPropertyValue("hideTooltipWhileZooming");
 	}
 }
 

@@ -138,6 +138,9 @@ export interface ISpriteProperties {
     readerHidden?: boolean;
     readerDescription?: string;
     readerTitle?: string;
+    readerOrientation?: string;
+    readerValueNow?: string;
+    readerValueText?: string;
     nonScaling?: boolean;
     nonScalingStroke?: boolean;
     zIndex?: number;
@@ -1970,6 +1973,36 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param value Target element
      */
     readerDescribedBy: string;
+    /**
+     * @return Orientation
+     */
+    /**
+     * Orientation of the element.
+     *
+     * @since 4.7.16
+     * @param value Orientation
+     */
+    readerOrientation: string;
+    /**
+     * @return Current value
+     */
+    /**
+     * Current value of the element.
+     *
+     * @since 4.7.16
+     * @param value Current value
+     */
+    readerValueNow: string;
+    /**
+     * @return Current value (text)
+     */
+    /**
+     * Text representation of the current value of the element.
+     *
+     * @since 4.7.16
+     * @param value Current value (text)
+     */
+    readerValueText: string;
     /**
      * ==========================================================================
      * USER INTERACTIONS
