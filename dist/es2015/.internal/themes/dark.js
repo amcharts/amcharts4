@@ -1,4 +1,4 @@
-import { is } from "../core/utils/Type";
+import { is } from "../core/Registry";
 import { color } from "../core/utils/Color";
 var theme = function (object) {
     if (is(object, "InterfaceColorSet")) {

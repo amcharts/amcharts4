@@ -1042,6 +1042,8 @@ export class XYChart extends SerialChart {
 			$utils.used(series.xAxis); // this is enough to get axis, handled in getter
 			$utils.used(series.yAxis); // this is enough to get axis, handled in getter
 
+			series.maskBullets = series.maskBullets;
+
 			if (series.fill == undefined) {
 				if (this.patterns) {
 					if (!$type.hasValue(series.stroke)) {
@@ -1859,13 +1861,12 @@ export class XYChart extends SerialChart {
 	 */
 	protected handleWheelReal(shift: number, mouseWheelBehavior: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none", plotPoint: IPoint) {
 		if (shift != 0) {
-
 			let plotContainer = this.plotContainer;
 
 			let rangeX: IRange = this.getCommonAxisRange(this.xAxes);
 			let rangeY: IRange = this.getCommonAxisRange(this.yAxes);
 
-			let shiftStep = 0.05;
+			let shiftStep = 0.1;
 
 			let maxPanOut = 0;
 
@@ -1873,8 +1874,8 @@ export class XYChart extends SerialChart {
 
 				let differenceX = rangeX.end - rangeX.start;
 
-				let newStartX = Math.max(-maxPanOut, rangeX.start + shiftStep * shift / 100);
-				let newEndX = Math.min(rangeX.end + shiftStep * shift / 100, 1 + maxPanOut);
+				let newStartX = Math.max(-maxPanOut, rangeX.start + shiftStep * shift / 100 * (rangeX.end - rangeX.start));
+				let newEndX = Math.min(rangeX.end + shiftStep * shift / 100 * (rangeX.end - rangeX.start), 1 + maxPanOut);
 
 				if (newStartX <= 0) {
 					newEndX = newStartX + differenceX;
@@ -1891,8 +1892,8 @@ export class XYChart extends SerialChart {
 				shift *= -1;
 				let differenceY = rangeY.end - rangeY.start;
 
-				let newStartY = Math.max(-maxPanOut, rangeY.start + shiftStep * shift / 100);
-				let newEndY = Math.min(rangeY.end + shiftStep * shift / 100, 1 + maxPanOut);
+				let newStartY = Math.max(-maxPanOut, rangeY.start + shiftStep * shift / 100 * (rangeY.end - rangeY.start));
+				let newEndY = Math.min(rangeY.end + shiftStep * shift / 100 * (rangeY.end - rangeY.start), 1 + maxPanOut);
 
 				if (newStartY <= 0) {
 					newEndY = newStartY + differenceY;
@@ -1908,11 +1909,13 @@ export class XYChart extends SerialChart {
 			if (mouseWheelBehavior == "zoomX" || mouseWheelBehavior == "zoomXY") {
 				let locationX = plotPoint.x / plotContainer.maxWidth;
 
-				let newStartX = Math.max(-maxPanOut, rangeX.start - shiftStep * shift / 100 * locationX);
-				newStartX = Math.min(newStartX, rangeX.start + (rangeX.end - rangeX.start) * locationX - shiftStep * 0.05);
+				let location2X = this.xAxes.getIndex(0).toAxisPosition(locationX);
 
-				let newEndX = Math.min(rangeX.end + shiftStep * shift / 100 * (1 - locationX), 1 + maxPanOut);
-				newEndX = Math.max(newEndX, rangeX.start + (rangeX.end - rangeX.start) * locationX + shiftStep * 0.05);
+				let newStartX = Math.max(-maxPanOut, rangeX.start - shiftStep * (rangeX.end - rangeX.start) * shift / 100 * locationX);
+				newStartX = Math.min(newStartX, location2X);
+
+				let newEndX = Math.min(rangeX.end + shiftStep * (rangeX.end - rangeX.start) * shift / 100 * (1 - locationX), 1 + maxPanOut);
+				newEndX = Math.max(newEndX, location2X);
 
 				this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX });
 			}
@@ -1920,11 +1923,13 @@ export class XYChart extends SerialChart {
 			if (mouseWheelBehavior == "zoomY" || mouseWheelBehavior == "zoomXY") {
 				let locationY = plotPoint.y / plotContainer.maxHeight;
 
-				let newStartY = Math.max(-maxPanOut, rangeY.start - shiftStep * shift / 100 * (1 - locationY));
-				newStartY = Math.min(newStartY, rangeY.start + (rangeY.end - rangeY.start) * locationY - shiftStep * 0.05);
+				let location2Y = this.yAxes.getIndex(0).toAxisPosition(locationY);
 
-				let newEndY = Math.min(rangeY.end + shiftStep * shift / 100 * locationY, 1 + maxPanOut);
-				newEndY = Math.max(newEndY, rangeY.start + (rangeY.end - rangeY.start) * locationY + shiftStep * 0.05);
+				let newStartY = Math.max(-maxPanOut, rangeY.start - shiftStep * (rangeY.end - rangeY.start) * shift / 100 * (1 - locationY));
+				newStartY = Math.min(newStartY, location2Y);
+
+				let newEndY = Math.min(rangeY.end + shiftStep * shift / 100 * locationY * (rangeY.end - rangeY.start), 1 + maxPanOut);
+				newEndY = Math.max(newEndY, location2Y);
 
 				this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY });
 			}

@@ -839,7 +839,7 @@ var MapChart = /** @class */ (function (_super) {
             }
             var x = mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio;
             var y = mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio;
-            if (!mapObject && zoomLevel < this.zoomLevel && this.centerMapOnZoomOut) {
+            if (!mapObject && zoomLevel < this.zoomLevel && this.centerMapOnZoomOut && zoomLevel < 1.5) {
                 x = this.innerWidth / 2 - (this.seriesMaxLeft + (this.seriesMaxRight - this.seriesMaxLeft) / 2) * zoomLevel * this.scaleRatio;
                 y = this.innerHeight / 2 - (this.seriesMaxTop + (this.seriesMaxBottom - this.seriesMaxTop) / 2) * zoomLevel * this.scaleRatio;
             }

@@ -266,6 +266,9 @@ var SankeyDiagram = /** @class */ (function (_super) {
      */
     SankeyDiagram.prototype.showReal = function (duration) {
         var _this = this;
+        if (this.preventShow) {
+            return;
+        }
         if (this.interpolationDuration > 0) {
             var container_1 = this.nodesContainer;
             var i_1 = 0;
@@ -276,11 +279,11 @@ var SankeyDiagram = /** @class */ (function (_super) {
                 var node = strNode[1];
                 var property;
                 if (_this.orientation == "horizontal") {
-                    node.dx = -(container_1.pixelWidth - node.pixelWidth) / _this._levelCount;
+                    node.dx = -(container_1.pixelWidth - node.pixelWidth) / Math.max(_this._levelCount, 1);
                     property = "dx";
                 }
                 else {
-                    node.dy = -(container_1.pixelHeight - node.pixelHeight) / _this._levelCount;
+                    node.dy = -(container_1.pixelHeight - node.pixelHeight) / Math.max(_this._levelCount, 1);
                     property = "dy";
                 }
                 var delay = 0;

@@ -196,18 +196,39 @@ var ColumnSeries = /** @class */ (function (_super) {
             var baseAxisSeries = this.chart.series;
             var clusterCount_1 = 0;
             var index_1 = 0;
+            var sortedByAxis_1 = [];
             $iter.each(baseAxisSeries.iterator(), function (series) {
                 if (series instanceof ColumnSeries) {
                     if (_this.baseAxis == series.baseAxis) {
-                        if ((!series.stacked && series.clustered) || clusterCount_1 === 0) {
-                            clusterCount_1++;
+                        var index_2;
+                        if (_this.baseAxis == _this.xAxis) {
+                            index_2 = _this.chart.yAxes.indexOf(series.yAxis);
                         }
-                        if (series == _this) {
-                            index_1 = clusterCount_1 - 1;
+                        else {
+                            index_2 = _this.chart.xAxes.indexOf(series.xAxis);
                         }
+                        sortedByAxis_1.push({ series: series, axis: index_2 });
                     }
                 }
             });
+            sortedByAxis_1.sort(function (a, b) { return a.axis - b.axis; });
+            var prevAxisIndex_1;
+            $array.each(sortedByAxis_1, function (sortedItem) {
+                var series = sortedItem.series;
+                if (series instanceof ColumnSeries) {
+                    if ((!series.stacked && series.clustered) || (prevAxisIndex_1 != sortedItem.axis && series.clustered)) {
+                        clusterCount_1++;
+                    }
+                    if (series == _this) {
+                        index_1 = clusterCount_1 - 1;
+                    }
+                }
+                prevAxisIndex_1 = sortedItem.axis;
+            });
+            if (!this.clustered) {
+                index_1 = 0;
+                clusterCount_1 = 1;
+            }
             var renderer = this.baseAxis.renderer;
             var cellStartLocation = renderer.cellStartLocation;
             var cellEndLocation = renderer.cellEndLocation;
@@ -529,7 +550,7 @@ var ColumnSeries = /** @class */ (function (_super) {
                     $object.copyProperties(axisRange.contents, rangeColumn, visualProperties); // need this because 3d columns are not in the same container
                     dataItem.addSprite(rangeColumn);
                     dataItem.rangesColumns.setKey(axisRange.uid, rangeColumn);
-                    rangeColumn.paper = _this.paper; // sometimes pattern is not drawn if is set with adapter without this.					
+                    rangeColumn.paper = _this.paper; // sometimes pattern is not drawn if is set with adapter without this.
                 }
                 rangeColumn.parent = axisRange.contents;
                 rangeColumn.width = w;

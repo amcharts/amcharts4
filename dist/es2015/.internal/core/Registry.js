@@ -316,4 +316,15 @@ export { Registry };
  * @ignore Exclude from docs
  */
 export var registry = new Registry();
+/**
+ * Returns `true` if object is an instance of the class. It's the same as `instanceof` except it doesn't need to import the class.
+ *
+ * @param object Object
+ * @param name Class name
+ * @return Is instance of class
+ */
+export function is(object, name) {
+    var x = registry.registeredClasses[name];
+    return x != null && object instanceof x;
+}
 //# sourceMappingURL=Registry.js.map

@@ -317,6 +317,12 @@ var Sprite = /** @class */ (function (_super) {
          *  @ignore
          */
         _this.measureFailed = false;
+        /**
+         * If this flag is set to true, calling show() will not reveal the sprite.
+         *
+         * @ignore
+         */
+        _this.preventShow = false;
         _this.className = "Sprite";
         _this._disposers.push(_this._eventDispatcher);
         // Generate a unique ID
@@ -7355,6 +7361,9 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.showReal = function (duration) {
         var _this = this;
+        if (this.preventShow) {
+            return;
+        }
         var transition;
         var properties = this.defaultState.properties;
         if (!this.disabled && (this.isHidden || !this.visible || this.isHiding || (properties.opacity != null && this.opacity < properties.opacity && !this.isShowing)) && !this.isDisposed()) {

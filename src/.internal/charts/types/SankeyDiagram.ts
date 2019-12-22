@@ -486,6 +486,10 @@ export class SankeyDiagram extends FlowDiagram {
 	 */
 	protected showReal(duration?: number): $type.Optional<Animation> {
 
+		if(this.preventShow){
+			return;
+		}		
+
 		if (this.interpolationDuration > 0) {
 			let container = this.nodesContainer;
 
@@ -502,11 +506,11 @@ export class SankeyDiagram extends FlowDiagram {
 				let property: "dx" | "dy";
 
 				if (this.orientation == "horizontal") {
-					node.dx = -(container.pixelWidth - node.pixelWidth) / this._levelCount;
+					node.dx = -(container.pixelWidth - node.pixelWidth) / Math.max(this._levelCount, 1);
 					property = "dx";
 				}
 				else {
-					node.dy = -(container.pixelHeight - node.pixelHeight) / this._levelCount;
+					node.dy = -(container.pixelHeight - node.pixelHeight) / Math.max(this._levelCount, 1);
 					property = "dy";
 				}
 

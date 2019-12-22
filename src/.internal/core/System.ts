@@ -4,7 +4,7 @@
  * ============================================================================
  * @hidden
  */
-import { registry } from "./Registry";
+import { registry, is } from "./Registry";
 import { Sprite } from "./Sprite";
 import { Container } from "./Container";
 import { Component } from "./Component";
@@ -54,7 +54,7 @@ export class System {
 	 *
 	 * @see {@link https://docs.npmjs.com/misc/semver}
 	 */
-	static VERSION: string = "4.7.16";
+	static VERSION: string = "4.7.17";
 
 	/**
 	 * @todo Description
@@ -422,7 +422,7 @@ export class System {
 				this.softInvalidate(child);
 			}
 			if (child.measureFailed) {
-				if ($type.is<Label>(child, "Label")) {
+				if (is<Label>(child, "Label")) {
 					child.hardInvalidate();
 				}
 				else {

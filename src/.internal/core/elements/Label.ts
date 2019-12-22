@@ -305,6 +305,8 @@ export class Label extends Container {
 
 		this.layout = "absolute";
 		this.baseLineRatio = -0.27;
+		//this.pixelPerfect = true;
+		this._positionPrecision = 1;
 
 		// Add events to watch for maxWidth/maxHeight changes so that we can
 		// invalidate this
@@ -963,8 +965,8 @@ export class Label extends Container {
 			}			
 
 			// Updated measured dims
-			this._measuredWidth = $math.max(this.bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);
-			this._measuredHeight = $math.max(this.bbox.height, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom);
+			this._measuredWidth = $math.round($math.max(this.bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight));
+			this._measuredHeight = $math.round($math.max(this.bbox.height, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom));
 
 			// Align the lines
 			this.alignSVGText();

@@ -519,6 +519,7 @@ var XYSeries = /** @class */ (function (_super) {
         _this.snapTooltip = false;
         _this.tooltip.pointerOrientation = "horizontal";
         _this.hideTooltipWhileZooming = true;
+        _this.maskBullets = true;
         _this.tooltip.events.on("hidden", function () {
             _this.returnBulletDefaultState();
         }, undefined, false);
@@ -1021,17 +1022,24 @@ var XYSeries = /** @class */ (function (_super) {
         if (changed) {
             this._dataSetChanged = true;
             var dataItems = this.dataItems;
+            this._tmax.clear();
+            this._tmin.clear();
+            this._smax.clear();
+            this._smin.clear();
             var xAxis = this.xAxis;
             var yAxis = this.yAxis;
+            this._prevStartIndex = undefined;
+            this._prevEndIndex = undefined;
+            //this.processValues(false); // this will slow down!
             if (xAxis instanceof DateAxis && xAxis == this.baseAxis) {
                 this._tmin.setKey(xAxis.uid, dataItems.getIndex(0).dateX.getTime());
                 this._tmax.setKey(xAxis.uid, dataItems.getIndex(dataItems.length - 1).dateX.getTime());
-                this.dispatchImmediately("extremeschanged");
+                this.dispatch("extremeschanged");
             }
             if (yAxis instanceof DateAxis && yAxis == this.baseAxis) {
                 this._tmin.setKey(yAxis.uid, dataItems.getIndex(0).dateY.getTime());
                 this._tmax.setKey(yAxis.uid, dataItems.getIndex(dataItems.length - 1).dateY.getTime());
-                this.dispatchImmediately("extremeschanged");
+                this.dispatch("extremeschanged");
             }
         }
         return changed;
@@ -1171,24 +1179,24 @@ var XYSeries = /** @class */ (function (_super) {
                 var changed = false;
                 if (yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
                     var tmin = this._tmin.getKey(yAxisId);
-                    if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minY < tmin)) {
+                    if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minY < tmin) || this.stackedSeries) {
                         this._tmin.setKey(yAxisId, minY);
                         changed = true;
                     }
                     var tmax = this._tmax.getKey(yAxisId);
-                    if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxY > tmax)) {
+                    if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxY > tmax) || this.stackedSeries) {
                         this._tmax.setKey(yAxisId, maxY);
                         changed = true;
                     }
                 }
                 if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis)) {
                     var tmin = this._tmin.getKey(xAxisId);
-                    if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minX < tmin)) {
+                    if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minX < tmin) || this.stackedSeries) {
                         this._tmin.setKey(xAxisId, minX);
                         changed = true;
                     }
                     var tmax = this._tmax.getKey(xAxisId);
-                    if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxX > tmax)) {
+                    if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxX > tmax) || this.stackedSeries) {
                         this._tmax.setKey(xAxisId, maxX);
                         changed = true;
                     }
@@ -1196,13 +1204,16 @@ var XYSeries = /** @class */ (function (_super) {
                 if (changed) {
                     this.dispatchImmediately("extremeschanged");
                 }
+                if (this.start == 0 && this.end == 1) {
+                    // yes, its ok. otherwise min/max won't be updated when zooming out
+                    this._dataSetChanged = false;
+                }
                 this.dispatchImmediately("selectionextremeschanged");
             }
         }
         if (!working && this.stacked) {
             this.processValues(true);
         }
-        this._dataSetChanged = false;
     };
     /**
      * Hides element's [[Tooltip]].
@@ -1737,7 +1748,7 @@ var XYSeries = /** @class */ (function (_super) {
         // to calculate stack values
         var axisSeries = this.baseAxis.series;
         $iter.each(axisSeries.iterator(), function (series) {
-            if (series.stacked) {
+            if (series.stacked || series.stackedSeries) {
                 series.invalidateProcessedData();
             }
         });
@@ -2146,6 +2157,35 @@ var XYSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("hideTooltipWhileZooming", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(XYSeries.prototype, "maskBullets", {
+        /**
+         * @return Mask bullets?
+         */
+        get: function () {
+            return this.getPropertyValue("maskBullets");
+        },
+        /**
+         * Indicates if series' bullets should be masked.
+         *
+         * @default true
+         * @since 4.7.17
+         * @param  value  Mask bullets?
+         */
+        set: function (value) {
+            this.setPropertyValue("maskBullets", value);
+            var chart = this.chart;
+            if (chart) {
+                if (value) {
+                    this.bulletsContainer.parent = chart.bulletsContainer;
+                }
+                else {
+                    this.bulletsContainer.parent = chart.axisBulletsContainer;
+                }
+            }
         },
         enumerable: true,
         configurable: true

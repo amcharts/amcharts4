@@ -13,7 +13,7 @@ export { DataItem } from "./.internal/core/DataItem";
 export { Sprite } from "./.internal/core/Sprite";
 export { SpriteEventDispatcher } from "./.internal/core/SpriteEvents";
 export { SpriteState } from "./.internal/core/SpriteState";
-export { registry, Registry } from "./.internal/core/Registry";
+export { registry, Registry, is } from "./.internal/core/Registry";
 export { options } from "./.internal/core/Options";
 /**
  * Elements: data

@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.17] - 2019-12-22
+
+### Added
+- `maskBullets` added to `XYSeries` for a possibility to set it on individual series rather on all chart.
+
+### Changed
+- Changed `am4core.type.is` to `am4core.is`. This fixes a circular dependency issue.
+- `centerMapOnZoomOut` of `MapChart` will kick in on `zoomLevel < 1.5` for a better UX.
+
+### Fixed
+- Mouse wheel behavior on `XYChart` improved.
+- Stacked series of a chart with multiple `ValueAxis` were not properly sorted.
+- Some issues with hiding tooltips while chart is zooming fixed.
+- Chart with rotated axis labels of Y axis could go into SO in some rare cases.
+- `SankeyDiagram` with a single level and animated theme was not displaying links.
+- Some min/max issues with grouped data on `DateAxis` fixed.
+
+
 ## [4.7.16] - 2019-12-18
 
 ### Added

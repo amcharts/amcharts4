@@ -338,24 +338,50 @@ export class ColumnSeries extends XYSeries {
 		//@todo Check if we can do better than use `instanceof`
 		// find start/end locations based on clustered/stacked settings
 		// go through chart series instead of base axis series, because axis series doesn't maintain order
-		if(this.chart && this.xAxis && this.yAxis){
+		if (this.chart && this.xAxis && this.yAxis) {
 			let baseAxisSeries = this.chart.series;
 			let clusterCount: number = 0;
 			let index: number = 0;
 
+			let sortedByAxis: { series: XYSeries, axis: number }[] = [];
 			$iter.each(baseAxisSeries.iterator(), (series) => {
 				if (series instanceof ColumnSeries) {
 					if (this.baseAxis == series.baseAxis) {
-						if ((!series.stacked && series.clustered) || clusterCount === 0) {
-							clusterCount++;
+						let index: number;
+						if (this.baseAxis == this.xAxis) {
+							index = this.chart.yAxes.indexOf(series.yAxis);
+						}
+						else {
+							index = this.chart.xAxes.indexOf(series.xAxis);
 						}
 
-						if (series == this) {
-							index = clusterCount - 1;
-						}
+						sortedByAxis.push({ series: series, axis: index })
 					}
 				}
+			})
+
+
+			sortedByAxis.sort((a, b) => a.axis - b.axis);
+			let prevAxisIndex:number;
+
+			$array.each(sortedByAxis, (sortedItem) => {
+				let series = sortedItem.series;
+				if (series instanceof ColumnSeries) {
+					if ((!series.stacked && series.clustered) || (prevAxisIndex != sortedItem.axis && series.clustered)) {
+						clusterCount++;
+					}
+
+					if (series == this) {
+						index = clusterCount - 1;
+					}
+				}
+				prevAxisIndex = sortedItem.axis;
 			});
+
+			if(!this.clustered){
+				index = 0;
+				clusterCount = 1;
+			}
 
 			let renderer = this.baseAxis.renderer;
 
@@ -387,7 +413,7 @@ export class ColumnSeries extends XYSeries {
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
 		// important oder here, first real, then super. we need this to know size
-		if(this.chart && this.xAxis && this.yAxis){
+		if (this.chart && this.xAxis && this.yAxis) {
 			this.validateDataElementReal(dataItem);
 			super.validateDataElement(dataItem);
 		}
@@ -416,15 +442,15 @@ export class ColumnSeries extends XYSeries {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	 /*
-	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void {
-		if (this.simplifiedProcessing) {
-			this.validateDataElement(dataItem);
-		}
-		else {
-			super.handleDataItemWorkingValueChange(dataItem, name);
-		}
-	}*/
+	/*
+   public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void {
+	   if (this.simplifiedProcessing) {
+		   this.validateDataElement(dataItem);
+	   }
+	   else {
+		   super.handleDataItemWorkingValueChange(dataItem, name);
+	   }
+   }*/
 
 	/**
 	 * Returns relative end location for the data item.
@@ -749,7 +775,7 @@ export class ColumnSeries extends XYSeries {
 
 					dataItem.addSprite(rangeColumn);
 					dataItem.rangesColumns.setKey(axisRange.uid, <Column>rangeColumn);
-					rangeColumn.paper = this.paper; // sometimes pattern is not drawn if is set with adapter without this.					
+					rangeColumn.paper = this.paper; // sometimes pattern is not drawn if is set with adapter without this.
 				}
 
 				rangeColumn.parent = axisRange.contents;

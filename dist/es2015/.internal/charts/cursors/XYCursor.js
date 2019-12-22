@@ -507,10 +507,10 @@ var XYCursor = /** @class */ (function (_super) {
                     axis.tooltip.events.on("positionchanged", this.handleXTooltipPosition, this, false),
                     axis.events.on("rangechangestarted", function (event) {
                         _this.hide(0);
-                        _this.__disabled = true;
+                        _this.preventShow = true;
                     }, undefined, false),
                     axis.events.on("rangechangeended", function (event) {
-                        _this.__disabled = false;
+                        _this.preventShow = false;
                         _this.hide(0);
                         _this.dispatch("cursorpositionchanged");
                     }, undefined, false)

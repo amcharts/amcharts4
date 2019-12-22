@@ -688,10 +688,10 @@ export class XYCursor extends Cursor {
 
 				axis.events.on("rangechangestarted", (event) => {
 					this.hide(0);
-					this.__disabled = true;
+					this.preventShow = true;
 				}, undefined, false),
 				axis.events.on("rangechangeended", (event) => {
-					this.__disabled = false;
+					this.preventShow = false;
 					this.hide(0);
 					this.dispatch("cursorpositionchanged");
 				}, undefined, false)

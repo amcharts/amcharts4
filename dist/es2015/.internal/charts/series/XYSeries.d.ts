@@ -394,6 +394,12 @@ export interface IXYSeriesProperties extends ISeriesProperties {
      * @default true
      */
     hideTooltipWhileZooming?: boolean;
+    /**
+     * Should series bullets be masked?
+     * @default true
+     * @since 4.7.17
+     */
+    maskBullets?: boolean;
 }
 /**
  * Defines events for [[XYSeries]].
@@ -1091,4 +1097,15 @@ export declare class XYSeries extends Series {
      * @param  value  Hide tooltip while zooming?
      */
     hideTooltipWhileZooming: boolean;
+    /**
+     * @return Mask bullets?
+     */
+    /**
+     * Indicates if series' bullets should be masked.
+     *
+     * @default true
+     * @since 4.7.17
+     * @param  value  Mask bullets?
+     */
+    maskBullets: boolean;
 }

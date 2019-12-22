@@ -1,4 +1,4 @@
-import { is } from "../core/utils/Type";
+import { is } from "../core/Registry";
 var theme = function (object) {
     if (is(object, "SpriteState")) {
         object.transitionDuration = 400;

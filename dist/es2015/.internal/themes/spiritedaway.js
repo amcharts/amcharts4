@@ -1,7 +1,7 @@
 /**
  * Color set from Spirited away movie borrowed from https://twitter.com/CINEMAPALETTES
  */
-import { is } from "../core/utils/Type";
+import { is } from "../core/Registry";
 import { color } from "../core/utils/Color";
 var theme = function (object) {
     if (is(object, "ColorSet")) {

@@ -650,25 +650,25 @@ var Axis = /** @class */ (function (_super) {
         _this.events.on("rangechangestarted", function () {
             _this.series.each(function (series) {
                 if (series.hideTooltipWhileZooming) {
-                    series.tooltip.hide(0);
-                    series.tooltip.__disabled = true;
+                    series.tooltip.hide();
+                    series.tooltip.preventShow = true;
                 }
             });
             if (_this.hideTooltipWhileZooming) {
-                _this.tooltip.hide(0);
-                _this.tooltip.__disabled = true;
+                _this.tooltip.hide();
+                _this.tooltip.preventShow = true;
             }
         }, undefined, false);
         _this.events.on("rangechangeended", function () {
             _this.series.each(function (series) {
                 if (series.hideTooltipWhileZooming) {
-                    series.tooltip.hide(0);
-                    series.tooltip.__disabled = false;
+                    series.tooltip.hide();
+                    series.tooltip.preventShow = false;
                 }
             });
             if (_this.hideTooltipWhileZooming) {
-                _this.tooltip.hide(0);
-                _this.tooltip.__disabled = false;
+                _this.tooltip.hide();
+                _this.tooltip.preventShow = false;
             }
         }, undefined, false);
         _this.applyTheme();

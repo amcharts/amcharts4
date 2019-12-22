@@ -742,6 +742,7 @@ var XYChart = /** @class */ (function (_super) {
             }
             $utils.used(series.xAxis); // this is enough to get axis, handled in getter
             $utils.used(series.yAxis); // this is enough to get axis, handled in getter
+            series.maskBullets = series.maskBullets;
             if (series.fill == undefined) {
                 if (this.patterns) {
                     if (!$type.hasValue(series.stroke)) {
@@ -1455,12 +1456,12 @@ var XYChart = /** @class */ (function (_super) {
             var plotContainer = this.plotContainer;
             var rangeX = this.getCommonAxisRange(this.xAxes);
             var rangeY = this.getCommonAxisRange(this.yAxes);
-            var shiftStep = 0.05;
+            var shiftStep = 0.1;
             var maxPanOut = 0;
             if (mouseWheelBehavior == "panX" || mouseWheelBehavior == "panXY") {
                 var differenceX = rangeX.end - rangeX.start;
-                var newStartX = Math.max(-maxPanOut, rangeX.start + shiftStep * shift / 100);
-                var newEndX = Math.min(rangeX.end + shiftStep * shift / 100, 1 + maxPanOut);
+                var newStartX = Math.max(-maxPanOut, rangeX.start + shiftStep * shift / 100 * (rangeX.end - rangeX.start));
+                var newEndX = Math.min(rangeX.end + shiftStep * shift / 100 * (rangeX.end - rangeX.start), 1 + maxPanOut);
                 if (newStartX <= 0) {
                     newEndX = newStartX + differenceX;
                 }
@@ -1472,8 +1473,8 @@ var XYChart = /** @class */ (function (_super) {
             if (mouseWheelBehavior == "panY" || mouseWheelBehavior == "panXY") {
                 shift *= -1;
                 var differenceY = rangeY.end - rangeY.start;
-                var newStartY = Math.max(-maxPanOut, rangeY.start + shiftStep * shift / 100);
-                var newEndY = Math.min(rangeY.end + shiftStep * shift / 100, 1 + maxPanOut);
+                var newStartY = Math.max(-maxPanOut, rangeY.start + shiftStep * shift / 100 * (rangeY.end - rangeY.start));
+                var newEndY = Math.min(rangeY.end + shiftStep * shift / 100 * (rangeY.end - rangeY.start), 1 + maxPanOut);
                 if (newStartY <= 0) {
                     newEndY = newStartY + differenceY;
                 }
@@ -1484,18 +1485,20 @@ var XYChart = /** @class */ (function (_super) {
             }
             if (mouseWheelBehavior == "zoomX" || mouseWheelBehavior == "zoomXY") {
                 var locationX = plotPoint.x / plotContainer.maxWidth;
-                var newStartX = Math.max(-maxPanOut, rangeX.start - shiftStep * shift / 100 * locationX);
-                newStartX = Math.min(newStartX, rangeX.start + (rangeX.end - rangeX.start) * locationX - shiftStep * 0.05);
-                var newEndX = Math.min(rangeX.end + shiftStep * shift / 100 * (1 - locationX), 1 + maxPanOut);
-                newEndX = Math.max(newEndX, rangeX.start + (rangeX.end - rangeX.start) * locationX + shiftStep * 0.05);
+                var location2X = this.xAxes.getIndex(0).toAxisPosition(locationX);
+                var newStartX = Math.max(-maxPanOut, rangeX.start - shiftStep * (rangeX.end - rangeX.start) * shift / 100 * locationX);
+                newStartX = Math.min(newStartX, location2X);
+                var newEndX = Math.min(rangeX.end + shiftStep * (rangeX.end - rangeX.start) * shift / 100 * (1 - locationX), 1 + maxPanOut);
+                newEndX = Math.max(newEndX, location2X);
                 this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX });
             }
             if (mouseWheelBehavior == "zoomY" || mouseWheelBehavior == "zoomXY") {
                 var locationY = plotPoint.y / plotContainer.maxHeight;
-                var newStartY = Math.max(-maxPanOut, rangeY.start - shiftStep * shift / 100 * (1 - locationY));
-                newStartY = Math.min(newStartY, rangeY.start + (rangeY.end - rangeY.start) * locationY - shiftStep * 0.05);
-                var newEndY = Math.min(rangeY.end + shiftStep * shift / 100 * locationY, 1 + maxPanOut);
-                newEndY = Math.max(newEndY, rangeY.start + (rangeY.end - rangeY.start) * locationY + shiftStep * 0.05);
+                var location2Y = this.yAxes.getIndex(0).toAxisPosition(locationY);
+                var newStartY = Math.max(-maxPanOut, rangeY.start - shiftStep * (rangeY.end - rangeY.start) * shift / 100 * (1 - locationY));
+                newStartY = Math.min(newStartY, location2Y);
+                var newEndY = Math.min(rangeY.end + shiftStep * shift / 100 * locationY * (rangeY.end - rangeY.start), 1 + maxPanOut);
+                newEndY = Math.max(newEndY, location2Y);
                 this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY });
             }
         }

@@ -4,13 +4,12 @@
  * ============================================================================
  * @hidden
  */
-import { registry } from "./Registry";
+import { registry, is } from "./Registry";
 import { Container } from "./Container";
 import { raf } from "./utils/AsyncPending";
 import { triggerIdle } from "./utils/AsyncPending";
 import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
-import * as $type from "./utils/Type";
 import * as $log from "./utils/Log";
 /**
  * ============================================================================
@@ -342,7 +341,7 @@ var System = /** @class */ (function () {
                 _this.softInvalidate(child);
             }
             if (child.measureFailed) {
-                if ($type.is(child, "Label")) {
+                if (is(child, "Label")) {
                     child.hardInvalidate();
                 }
                 else {
@@ -448,7 +447,7 @@ var System = /** @class */ (function () {
      *
      * @see {@link https://docs.npmjs.com/misc/semver}
      */
-    System.VERSION = "4.7.16";
+    System.VERSION = "4.7.17";
     return System;
 }());
 export { System };

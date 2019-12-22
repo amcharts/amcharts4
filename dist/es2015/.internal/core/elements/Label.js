@@ -86,6 +86,8 @@ var Label = /** @class */ (function (_super) {
         _this.textValign = "top";
         _this.layout = "absolute";
         _this.baseLineRatio = -0.27;
+        //this.pixelPerfect = true;
+        _this._positionPrecision = 1;
         // Add events to watch for maxWidth/maxHeight changes so that we can
         // invalidate this
         _this.events.on("maxsizechanged", function () {
@@ -598,8 +600,8 @@ var Label = /** @class */ (function (_super) {
                 this.measureFailed = true;
             }
             // Updated measured dims
-            this._measuredWidth = $math.max(this.bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);
-            this._measuredHeight = $math.max(this.bbox.height, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom);
+            this._measuredWidth = $math.round($math.max(this.bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight));
+            this._measuredHeight = $math.round($math.max(this.bbox.height, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom));
             // Align the lines
             this.alignSVGText();
             this.bbox.width = this._measuredWidth;

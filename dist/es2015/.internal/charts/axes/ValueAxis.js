@@ -1397,6 +1397,8 @@ var ValueAxis = /** @class */ (function (_super) {
         this._minZoomed = selectionMin;
         this._maxZoomed = selectionMax;
         this._step = minMaxStep.step;
+        // needed because of grouping
+        this._difference = this.adjustDifference(this.min, this.max);
         var start = this.valueToPosition(selectionMin);
         var end = this.valueToPosition(selectionMax);
         // in case all series are hidden or hiding, full zoomout

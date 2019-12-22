@@ -818,6 +818,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     measureFailed: boolean;
     /**
+     * If this flag is set to true, calling show() will not reveal the sprite.
+     *
+     * @ignore
+     */
+    preventShow: boolean;
+    /**
      * Constructor:
      * * Creates initial node
      * * Sets default properties

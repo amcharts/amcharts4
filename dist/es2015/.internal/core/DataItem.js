@@ -328,7 +328,7 @@ var DataItem = /** @class */ (function (_super) {
             }
         });
         this._visible = value;
-        if (this._eventDispatcher) {
+        if (this._eventDispatcher && !this.__disabled) {
             if (this.events.isEnabled("visibilitychanged")) {
                 var event_1 = {
                     type: "visibilitychanged",
@@ -537,7 +537,7 @@ var DataItem = /** @class */ (function (_super) {
         value = $type.toNumber(value);
         if (currentValue !== value) {
             this.values[name].value = value;
-            if (this._eventDispatcher) {
+            if (this._eventDispatcher && !this.__disabled) {
                 if (this.events.isEnabled("valuechanged")) {
                     var event_2 = {
                         type: "valuechanged",
@@ -557,7 +557,7 @@ var DataItem = /** @class */ (function (_super) {
         var currentValue = this.values[name][calculated];
         if (currentValue !== value && $type.isNumber(value)) {
             this.values[name][calculated] = value;
-            if (this._eventDispatcher) {
+            if (this._eventDispatcher && !this.__disabled) {
                 if (this.events.isEnabled("calculatedvaluechanged")) {
                     var event_3 = {
                         type: "calculatedvaluechanged",
@@ -612,7 +612,7 @@ var DataItem = /** @class */ (function (_super) {
                     valueAnimation.stop();
                 }
                 this.values[name].workingValue = value;
-                if (this._eventDispatcher) {
+                if (this._eventDispatcher && !this.__disabled) {
                     if (this.events.isEnabled("workingvaluechanged")) {
                         var event_4 = {
                             type: "workingvaluechanged",
@@ -644,7 +644,7 @@ var DataItem = /** @class */ (function (_super) {
         var currentLocation = this.locations[name];
         if (currentLocation !== value) {
             this.locations[name] = value;
-            if (this._eventDispatcher) {
+            if (this._eventDispatcher && !this.__disabled) {
                 if (this.events.isEnabled("locationchanged")) {
                     var event_5 = {
                         type: "locationchanged",
@@ -698,7 +698,7 @@ var DataItem = /** @class */ (function (_super) {
                 locationAnimation.stop();
             }
             this.workingLocations[name] = value;
-            if (this._eventDispatcher) {
+            if (this._eventDispatcher && !this.__disabled) {
                 if (this.events.isEnabled("workinglocationchanged")) {
                     var event_6 = {
                         type: "workinglocationchanged",
@@ -757,7 +757,7 @@ var DataItem = /** @class */ (function (_super) {
         if (this.properties[name] !== value) {
             this.hasProperties = true;
             this.properties[name] = value;
-            if (this._eventDispatcher) {
+            if (this._eventDispatcher && !this.__disabled) {
                 if (this.events.isEnabled("propertychanged")) {
                     var event_7 = {
                         type: "propertychanged",
@@ -857,7 +857,7 @@ var DataItem = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._ignoreMinMax = value;
-            if (this._eventDispatcher) {
+            if (this._eventDispatcher && !this.__disabled) {
                 if (this.events.isEnabled("propertychanged")) {
                     var event_8 = {
                         type: "propertychanged",
@@ -900,7 +900,7 @@ var DataItem = /** @class */ (function (_super) {
         // it's always only one options, no need cycle
         var animationOptions = animation.animationOptions[0];
         if (animationOptions) {
-            if (this._eventDispatcher) {
+            if (this._eventDispatcher && !this.__disabled) {
                 if (this.events.isEnabled("workingvaluechanged")) {
                     var event_9 = {
                         type: "workingvaluechanged",

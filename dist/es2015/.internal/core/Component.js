@@ -1078,6 +1078,10 @@ var Component = /** @class */ (function (_super) {
         var start = range.start;
         var end = range.end;
         var priority = range.priority;
+        if (range.start == range.end) {
+            range.start = range.start - 0.5 / this.maxZoomFactor;
+            range.end = range.end + 0.5 / this.maxZoomFactor;
+        }
         if (priority == "end" && end == 1 && start != 0) {
             if (start < this.start) {
                 priority = "start";
@@ -1147,6 +1151,7 @@ var Component = /** @class */ (function (_super) {
             this._finalEnd = end;
             this._finalStart = start;
             this.skipRangeEvent = skipRangeEvent;
+            this.dispatchImmediately("rangechangestarted");
             if (this.rangeChangeDuration > 0 && !instantly) {
                 // todo: maybe move this to Animation
                 var rangeChangeAnimation = this.rangeChangeAnimation;
@@ -1163,7 +1168,6 @@ var Component = /** @class */ (function (_super) {
                         }
                     }
                 }
-                this.dispatchImmediately("rangechangestarted");
                 if (this.rangeChangeAnimation) {
                     this.rangeChangeAnimation.kill();
                 }
@@ -1181,6 +1185,7 @@ var Component = /** @class */ (function (_super) {
             else {
                 this.start = start;
                 this.end = end;
+                this.dispatch("rangechangeended");
             }
         }
         return { start: start, end: end };

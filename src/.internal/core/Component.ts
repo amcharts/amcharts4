@@ -1529,6 +1529,11 @@ export class Component extends Container {
 		let end = range.end;
 		let priority = range.priority;
 
+		if(range.start == range.end){
+			range.start = range.start - 0.5 / this.maxZoomFactor;
+			range.end = range.end + 0.5 / this.maxZoomFactor;
+		}
+
 		if (priority == "end" && end == 1 && start != 0) {
 			if (start < this.start) {
 				priority = "start";
@@ -1616,6 +1621,8 @@ export class Component extends Container {
 
 			this.skipRangeEvent = skipRangeEvent;
 
+			this.dispatchImmediately("rangechangestarted");			
+
 			if (this.rangeChangeDuration > 0 && !instantly) {
 
 				// todo: maybe move this to Animation
@@ -1633,8 +1640,6 @@ export class Component extends Container {
 						}
 					}
 				}
-
-				this.dispatchImmediately("rangechangestarted");
 
 				if (this.rangeChangeAnimation) {
 					this.rangeChangeAnimation.kill();
@@ -1656,6 +1661,7 @@ export class Component extends Container {
 			else {
 				this.start = start;
 				this.end = end;
+				this.dispatch("rangechangeended");
 			}
 		}
 

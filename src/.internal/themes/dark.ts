@@ -1,5 +1,5 @@
 import { ITheme } from "./ITheme";
-import { is } from "../core/utils/Type";
+import { is } from "../core/Registry";
 import { color } from "../core/utils/Color";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
 import { BaseObject } from "../core/Base";

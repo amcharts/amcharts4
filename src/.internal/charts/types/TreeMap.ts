@@ -396,9 +396,18 @@ export class TreeMapDataItem extends XYChartDataItem {
 	 */
 	public hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): $type.Optional<Animation> {
 		this.setWorkingValue("value", 0);
+
 		if (this.children) {
 			this.children.each((child) => {
 				child.hide(duration, delay, toValue, fields);
+			})
+		}
+
+		let seriesDataItem = this.seriesDataItem;
+		if(seriesDataItem){
+			seriesDataItem.bullets.each((key, value)=>{
+				value.hide();
+				value.preventShow = true;
 			})
 		}
 
@@ -419,6 +428,14 @@ export class TreeMapDataItem extends XYChartDataItem {
 				child.show(duration, delay, fields);
 			})
 		}
+
+		let seriesDataItem = this.seriesDataItem;
+		if(seriesDataItem){
+			seriesDataItem.bullets.each((key, value)=>{
+				value.preventShow = false;
+			})
+		}
+
 		return super.show(duration, delay, fields);
 	}
 }

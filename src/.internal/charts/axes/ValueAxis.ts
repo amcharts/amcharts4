@@ -156,17 +156,17 @@ export interface IValueAxisAdapters extends IAxisAdapters, IValueAxisProperties 
 	/**
 	 * Applied to the base value of the axis
 	 */
-	 baseValue:number,
+	baseValue: number,
 
-	 /**
-	  * Applied to the min value of the axis
-	  */
-	 min:number
+	/**
+	 * Applied to the min value of the axis
+	 */
+	min: number
 
-	 /**
-	  * Applied to the max value of the axis
-	  */
-	 max:number	 
+	/**
+	 * Applied to the max value of the axis
+	 */
+	max: number
 }
 
 
@@ -861,15 +861,15 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		let baseValue = this._baseValue;
 		if (this.logarithmic) {
 			baseValue = this.min;
-		}		
+		}
 
 		if (!this._adapterO) {
 			return baseValue;
 		}
 		else {
 			return this._adapterO.apply("baseValue", baseValue);
-		}	
-		
+		}
+
 	}
 
 	/**
@@ -1172,13 +1172,13 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			max = this._maxDefined;
 		}
 
-		if(this._adapterO){
+		if (this._adapterO) {
 			min = this._adapterO.apply("min", min);
 		}
 
-		if(this._adapterO){
+		if (this._adapterO) {
 			max = this._adapterO.apply("max", max);
-		}		
+		}
 
 		if (!$type.isNumber(min) || !$type.isNumber(max)) {
 			return;
@@ -1267,13 +1267,13 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			max += (max - min) * this.extraMax;
 		}
 
-		if(this._adapterO){
+		if (this._adapterO) {
 			min = this._adapterO.apply("min", min);
 		}
 
-		if(this._adapterO){
+		if (this._adapterO) {
 			max = this._adapterO.apply("max", max);
-		}		
+		}
 
 		// checking isNumber is good when all series are hidden
 		if ((this._minAdjusted != min || this._maxAdjusted != max) && $type.isNumber(min) && $type.isNumber(max)) {
@@ -1816,6 +1816,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		this._minZoomed = selectionMin;
 		this._maxZoomed = selectionMax;
 		this._step = minMaxStep.step;
+
+		// needed because of grouping
+		this._difference = this.adjustDifference(this.min, this.max);
 
 		let start: number = this.valueToPosition(selectionMin);
 		let end: number = this.valueToPosition(selectionMax);

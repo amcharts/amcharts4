@@ -14,7 +14,7 @@ export { IValues, IDataItemEvents, IDataItemAdapters, DataItem } from "./.intern
 export { ISpriteProperties, ISpriteAnimationOptions, ISpriteAdapters, Sprite } from "./.internal/core/Sprite";
 export { SpriteEventDispatcher, SpritePointEvent, SpriteMouseTouchEvent, SpriteShiftEvent, ISpriteEvents } from "./.internal/core/SpriteEvents";
 export { SpriteState } from "./.internal/core/SpriteState";
-export { registry, Registry, IRegistryEvents } from "./.internal/core/Registry";
+export { registry, Registry, IRegistryEvents, is } from "./.internal/core/Registry";
 export { options, Options } from "./.internal/core/Options";
 
 /**

@@ -1097,26 +1097,26 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 
 			this.series.each((series) => {
 				if (series.hideTooltipWhileZooming) {
-					series.tooltip.hide(0);
-					series.tooltip.__disabled = true;
+					series.tooltip.hide();
+					series.tooltip.preventShow = true;
 				}
 			})
 			if (this.hideTooltipWhileZooming) {
-				this.tooltip.hide(0);
-				this.tooltip.__disabled = true;
+				this.tooltip.hide();
+				this.tooltip.preventShow = true;
 			}
 		}, undefined, false);
 
 		this.events.on("rangechangeended", () => {
 			this.series.each((series) => {
 				if (series.hideTooltipWhileZooming) {
-					series.tooltip.hide(0);
-					series.tooltip.__disabled = false;
+					series.tooltip.hide();
+					series.tooltip.preventShow = false;
 				}
 			})
 			if (this.hideTooltipWhileZooming) {
-				this.tooltip.hide(0);
-				this.tooltip.__disabled = false;
+				this.tooltip.hide();
+				this.tooltip.preventShow = false;
 			}
 		}, undefined, false);
 

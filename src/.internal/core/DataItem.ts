@@ -480,7 +480,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		});
 
 		this._visible = value;
-		if (this._eventDispatcher) {
+		if (this._eventDispatcher && !this.__disabled) {
 			if (this.events.isEnabled("visibilitychanged")) {
 				const event: AMEvent<this, IDataItemEvents>["visibilitychanged"] = {
 					type: "visibilitychanged",
@@ -729,7 +729,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		value = $type.toNumber(value);
 		if (currentValue !== value) {
 			this.values[name].value = value;
-			if (this._eventDispatcher) {
+			if (this._eventDispatcher && !this.__disabled) {
 				if (this.events.isEnabled("valuechanged")) {
 					const event: AMEvent<this, IDataItemEvents>["valuechanged"] = {
 						type: "valuechanged",
@@ -754,7 +754,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		if (currentValue !== value && $type.isNumber(value)) {
 			this.values[name][calculated] = value;
 
-			if (this._eventDispatcher) {
+			if (this._eventDispatcher && !this.__disabled) {
 				if (this.events.isEnabled("calculatedvaluechanged")) {
 					const event: AMEvent<this, IDataItemEvents>["calculatedvaluechanged"] = {
 						type: "calculatedvaluechanged",
@@ -817,7 +817,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 				}
 
 				this.values[name].workingValue = value;
-				if (this._eventDispatcher) {
+				if (this._eventDispatcher && !this.__disabled) {
 					if (this.events.isEnabled("workingvaluechanged")) {
 						const event: AMEvent<this, IDataItemEvents>["workingvaluechanged"] = {
 							type: "workingvaluechanged",
@@ -852,7 +852,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 
 		if (currentLocation !== value) {
 			this.locations[name] = value;
-			if (this._eventDispatcher) {
+			if (this._eventDispatcher && !this.__disabled) {
 				if (this.events.isEnabled("locationchanged")) {
 					const event: AMEvent<this, IDataItemEvents>["locationchanged"] = {
 						type: "locationchanged",
@@ -913,7 +913,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 
 			this.workingLocations[name] = value;
 
-			if (this._eventDispatcher) {
+			if (this._eventDispatcher && !this.__disabled) {
 				if (this.events.isEnabled("workinglocationchanged")) {
 					const event: AMEvent<this, IDataItemEvents>["workinglocationchanged"] = {
 						type: "workinglocationchanged",
@@ -978,7 +978,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		if (this.properties[name] !== value) {
 			this.hasProperties = true;
 			this.properties[name] = value;
-			if (this._eventDispatcher) {
+			if (this._eventDispatcher && !this.__disabled) {
 				if (this.events.isEnabled("propertychanged")) {
 					const event: AMEvent<this, IDataItemEvents>["propertychanged"] = {
 						type: "propertychanged",
@@ -1076,7 +1076,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 */
 	public set ignoreMinMax(value: boolean) {
 		this._ignoreMinMax = value;
-		if (this._eventDispatcher) {
+		if (this._eventDispatcher && !this.__disabled) {
 			if (this.events.isEnabled("propertychanged")) {
 				const event: AMEvent<this, IDataItemEvents>["propertychanged"] = {
 					type: "propertychanged",
@@ -1128,7 +1128,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		// it's always only one options, no need cycle
 		let animationOptions: IAnimationOptions = animation.animationOptions[0];
 		if (animationOptions) {
-			if (this._eventDispatcher) {
+			if (this._eventDispatcher && !this.__disabled) {
 				if (this.events.isEnabled("workingvaluechanged")) {
 					const event: AMEvent<this, IDataItemEvents>["workingvaluechanged"] = {
 						type: "workingvaluechanged",

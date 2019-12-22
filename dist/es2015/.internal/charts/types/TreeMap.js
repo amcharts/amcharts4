@@ -368,6 +368,13 @@ var TreeMapDataItem = /** @class */ (function (_super) {
                 child.hide(duration, delay, toValue, fields);
             });
         }
+        var seriesDataItem = this.seriesDataItem;
+        if (seriesDataItem) {
+            seriesDataItem.bullets.each(function (key, value) {
+                value.hide();
+                value.preventShow = true;
+            });
+        }
         return _super.prototype.hide.call(this, duration, delay, toValue, fields);
     };
     /**
@@ -382,6 +389,12 @@ var TreeMapDataItem = /** @class */ (function (_super) {
         if (this.children) {
             this.children.each(function (child) {
                 child.show(duration, delay, fields);
+            });
+        }
+        var seriesDataItem = this.seriesDataItem;
+        if (seriesDataItem) {
+            seriesDataItem.bullets.each(function (key, value) {
+                value.preventShow = false;
             });
         }
         return _super.prototype.show.call(this, duration, delay, fields);

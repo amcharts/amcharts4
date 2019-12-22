@@ -625,6 +625,13 @@ export interface IXYSeriesProperties extends ISeriesProperties {
 	 * @default true
 	 */
 	hideTooltipWhileZooming?: boolean;
+
+	/**
+	 * Should series bullets be masked?
+	 * @default true
+	 * @since 4.7.17
+	 */
+	maskBullets?: boolean;
 }
 
 /**
@@ -935,6 +942,7 @@ export class XYSeries extends Series {
 		this.tooltip.pointerOrientation = "horizontal";
 
 		this.hideTooltipWhileZooming = true;
+		this.maskBullets = true;
 
 		this.tooltip.events.on("hidden", () => {
 			this.returnBulletDefaultState();
@@ -1515,19 +1523,30 @@ export class XYSeries extends Series {
 			this._dataSetChanged = true;
 			let dataItems = this.dataItems;
 
+			this._tmax.clear();
+			this._tmin.clear();
+
+			this._smax.clear();
+			this._smin.clear();
+
 			let xAxis = this.xAxis;
 			let yAxis = this.yAxis;
+
+			this._prevStartIndex = undefined;
+			this._prevEndIndex = undefined;
+
+			//this.processValues(false); // this will slow down!
 
 			if (xAxis instanceof DateAxis && xAxis == this.baseAxis) {
 				this._tmin.setKey(xAxis.uid, dataItems.getIndex(0).dateX.getTime());
 				this._tmax.setKey(xAxis.uid, dataItems.getIndex(dataItems.length - 1).dateX.getTime());
-				this.dispatchImmediately("extremeschanged");
+				this.dispatch("extremeschanged");
 			}
 
 			if (yAxis instanceof DateAxis && yAxis == this.baseAxis) {
 				this._tmin.setKey(yAxis.uid, dataItems.getIndex(0).dateY.getTime());
 				this._tmax.setKey(yAxis.uid, dataItems.getIndex(dataItems.length - 1).dateY.getTime());
-				this.dispatchImmediately("extremeschanged");
+				this.dispatch("extremeschanged");
 			}
 		}
 
@@ -1604,6 +1623,7 @@ export class XYSeries extends Series {
 				}
 			}
 		}
+
 
 		// this is mainly for value axis to calculate total and perecent.total of each series category
 		xAxis.processSeriesDataItems();
@@ -1694,6 +1714,7 @@ export class XYSeries extends Series {
 		}
 
 		if (this._smin.getKey(xAxisId) != minX || this._smax.getKey(xAxisId) != maxX || this._smin.getKey(yAxisId) != minY || this._smax.getKey(yAxisId) != maxY) {
+
 			this._smin.setKey(xAxisId, minX);
 			this._smax.setKey(xAxisId, maxX);
 			this._smin.setKey(yAxisId, minY);
@@ -1707,12 +1728,12 @@ export class XYSeries extends Series {
 				if (yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
 					let tmin = this._tmin.getKey(yAxisId);
 
-					if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minY < tmin)) {
+					if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minY < tmin) || this.stackedSeries) {
 						this._tmin.setKey(yAxisId, minY);
 						changed = true;
 					}
 					let tmax = this._tmax.getKey(yAxisId);
-					if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxY > tmax)) {
+					if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxY > tmax) || this.stackedSeries) {
 						this._tmax.setKey(yAxisId, maxY);
 						changed = true;
 					}
@@ -1720,19 +1741,25 @@ export class XYSeries extends Series {
 
 				if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis)) {
 					let tmin = this._tmin.getKey(xAxisId);
-					if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minX < tmin)) {
+					if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minX < tmin) || this.stackedSeries) {
 						this._tmin.setKey(xAxisId, minX);
 						changed = true;
 					}
 					let tmax = this._tmax.getKey(xAxisId);
-					if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxX > tmax)) {
+					if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxX > tmax) || this.stackedSeries) {
 						this._tmax.setKey(xAxisId, maxX);
 						changed = true;
 					}
 				}
 
+
 				if (changed) {
 					this.dispatchImmediately("extremeschanged");
+				}
+
+				if (this.start == 0 && this.end == 1) {
+					// yes, its ok. otherwise min/max won't be updated when zooming out
+					this._dataSetChanged = false;
 				}
 
 				this.dispatchImmediately("selectionextremeschanged");
@@ -1742,8 +1769,6 @@ export class XYSeries extends Series {
 		if (!working && this.stacked) {
 			this.processValues(true);
 		}
-
-		this._dataSetChanged = false;
 	}
 
 	/**
@@ -2368,7 +2393,7 @@ export class XYSeries extends Series {
 		let axisSeries: List<XYSeries> = <List<XYSeries>>this.baseAxis.series;
 
 		$iter.each(axisSeries.iterator(), (series) => {
-			if (series.stacked) {
+			if (series.stacked || series.stackedSeries) {
 				series.invalidateProcessedData();
 			}
 		});
@@ -2788,6 +2813,34 @@ export class XYSeries extends Series {
 	 */
 	public get hideTooltipWhileZooming(): boolean {
 		return this.getPropertyValue("hideTooltipWhileZooming");
+	}
+
+
+	/**
+	 * Indicates if series' bullets should be masked.
+	 * 
+	 * @default true
+	 * @since 4.7.17
+	 * @param  value  Mask bullets?
+	 */
+	public set maskBullets(value: boolean) {
+		this.setPropertyValue("maskBullets", value)
+		let chart = this.chart;
+		if (chart) {
+			if (value) {
+				this.bulletsContainer.parent = chart.bulletsContainer;
+			}
+			else {
+				this.bulletsContainer.parent = chart.axisBulletsContainer;
+			}
+		}
+	}
+
+	/**
+	 * @return Mask bullets?
+	 */
+	public get maskBullets(): boolean {
+		return this.getPropertyValue("maskBullets");
 	}
 }
 

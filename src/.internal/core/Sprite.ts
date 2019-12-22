@@ -967,6 +967,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public measureFailed: boolean = false;
 
 	/**
+	 * If this flag is set to true, calling show() will not reveal the sprite.
+	 * 
+	 * @ignore
+	 */
+	public preventShow:boolean = false;
+
+	/**
 	 * Constructor:
 	 * * Creates initial node
 	 * * Sets default properties
@@ -8189,6 +8196,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Fade in duration (ms)
 	 */
 	protected showReal(duration?: number): $type.Optional<Animation> {
+		if(this.preventShow){
+			return;
+		}
 		let transition: $type.Optional<Animation>;
 
 		const properties = this.defaultState.properties;

@@ -293,6 +293,9 @@ export class TreeMapSeries extends ColumnSeries {
 	 * @return Animation
 	 */
 	public show(duration?: number): Animation {
+		if(this.preventShow){
+			return;
+		}
 
 		let interpolationDuration = this.defaultState.transitionDuration;
 		if ($type.isNumber(duration)) {

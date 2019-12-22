@@ -198,6 +198,9 @@ var TreeMapSeries = /** @class */ (function (_super) {
      * @return Animation
      */
     TreeMapSeries.prototype.show = function (duration) {
+        if (this.preventShow) {
+            return;
+        }
         var interpolationDuration = this.defaultState.transitionDuration;
         if ($type.isNumber(duration)) {
             interpolationDuration = duration;
