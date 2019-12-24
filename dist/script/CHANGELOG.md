@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.18] - 2019-12-24
+
+### Added
+- New property `maxTooltipDistance` added to `XYCursor`. Set it to a numeric value to limit display of tooltips from closest series only.
+
+### Fixed
+- Tooltips were not displayed on non-measured sprites.
+
+
 ## [4.7.17] - 2019-12-22
 
 ### Added

@@ -461,6 +461,27 @@ var XYCursor = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(XYCursor.prototype, "maxTooltipDistance", {
+        /**
+         * @return Distance
+         */
+        get: function () {
+            return this.getPropertyValue("maxTooltipDistance");
+        },
+        /**
+         * If set to a numeric value, cursor will display closest series' tooltips
+         * plus tooltips from series that are closer to than `maxTooltipDistance` to
+         * it.
+         *
+         * @since 4.7.18
+         * @param  value  Distance
+         */
+        set: function (value) {
+            this.setPropertyValue("maxTooltipDistance", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(XYCursor.prototype, "maxPanOut", {
         /**
          * @return Full width?

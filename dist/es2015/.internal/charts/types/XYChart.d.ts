@@ -716,9 +716,12 @@ export declare class XYChart extends SerialChart {
     /**
      * Specifies action for when mouse wheel is used when over the chart.
      *
-     * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"` (default).
+     * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`,`"panXY"`, `"none"` (default).
+     *
+     * You can control sensitivity of wheel zooming via `mouseOptions`.
      *
      * @default "none"
+     * @see {@link https://www.amcharts.com/docs/v4/reference/sprite/#mouseOptions_property} More information about `mouseOptions`
      * @param mouse wheel behavior
      */
     mouseWheelBehavior: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
@@ -731,6 +734,7 @@ export declare class XYChart extends SerialChart {
      * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"` (default).
      *
      * @default "none"
+     * @see {@link https://www.amcharts.com/docs/v4/reference/sprite/#mouseOptions_property} More information about `mouseOptions`
      * @param mouse wheel behavior
      */
     horizontalMouseWheelBehavior: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";

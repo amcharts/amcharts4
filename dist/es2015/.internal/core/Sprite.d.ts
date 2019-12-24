@@ -2022,7 +2022,30 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     readonly keyboardOptions: IKeyboardOptions;
     /**
-     * Returns elements mouse options.
+     * Mouse options.
+     *
+     * Enables controlling options related to the mouse, for example sensitivity
+     * of its mouse wheel.
+     *
+     * E.g. the below will reduce chart's wheel-zoom speed to half its default
+     * speed:
+     *
+     * ```TypeScript
+     * chart.plotContainer.mouseOptions.sensitivity = 0.5;
+     * ```
+     * ```JavaScript
+     * chart.plotContainer.mouseOptions.sensitivity = 0.5;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "plotContainer": {
+     *     "mouseOptions": {
+     *       "sensitivity": 0.5
+     *     }
+     *   }
+     * }
+     * ```
      *
      * @return Mouse options
      */

@@ -63,13 +63,21 @@ export interface IXYCursorProperties extends ICursorProperties {
      * of the axis is `DateAxis` or `CategoryAxis`. Won't work if both axes are
      * `ValueAxis`.
      */
-    snapToSeries: XYSeries;
+    snapToSeries?: XYSeries;
     /**
      * If set to `true` this will hide series tooltips when selecting with cursor.
      *
      * @since 4.5.15
      */
-    hideSeriesTooltipsOnSelection: boolean;
+    hideSeriesTooltipsOnSelection?: boolean;
+    /**
+     * If set to a numeric value, cursor will display closest series' tooltips
+     * plus tooltips from series that are closer to than `maxTooltipDistance` to
+     * it.
+     *
+     * @since 4.7.18
+     */
+    maxTooltipDistance?: number;
 }
 /**
  * Defines events for [[XYCursor]].
@@ -260,6 +268,18 @@ export declare class XYCursor extends Cursor {
      * @param  value  hide tooltips?
      */
     hideSeriesTooltipsOnSelection: boolean;
+    /**
+     * @return Distance
+     */
+    /**
+     * If set to a numeric value, cursor will display closest series' tooltips
+     * plus tooltips from series that are closer to than `maxTooltipDistance` to
+     * it.
+     *
+     * @since 4.7.18
+     * @param  value  Distance
+     */
+    maxTooltipDistance: number;
     /**
      * @return Full width?
      */

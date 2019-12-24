@@ -466,6 +466,7 @@ var MapChart = /** @class */ (function (_super) {
         /**
          * Specifies what should chart do if when mouse wheel is rotated.
          *
+         * @see {@link https://www.amcharts.com/docs/v4/reference/sprite/#mouseOptions_property} More information about `mouseOptions`
          * @param mouse wheel behavior
          * @default zoomX
          */

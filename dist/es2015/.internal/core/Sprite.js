@@ -224,6 +224,9 @@ var Sprite = /** @class */ (function (_super) {
          * @default false
          */
         _this.applyOnClones = false;
+        // unrotated unscaled
+        _this._measuredWidthSelf = 0;
+        _this._measuredHeightSelf = 0;
         // read only, sprite extreme coordinates
         /**
          * @ignore
@@ -3886,7 +3889,30 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "mouseOptions", {
         /**
-         * Returns elements mouse options.
+         * Mouse options.
+         *
+         * Enables controlling options related to the mouse, for example sensitivity
+         * of its mouse wheel.
+         *
+         * E.g. the below will reduce chart's wheel-zoom speed to half its default
+         * speed:
+         *
+         * ```TypeScript
+         * chart.plotContainer.mouseOptions.sensitivity = 0.5;
+         * ```
+         * ```JavaScript
+         * chart.plotContainer.mouseOptions.sensitivity = 0.5;
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "plotContainer": {
+         *     "mouseOptions": {
+         *       "sensitivity": 0.5
+         *     }
+         *   }
+         * }
+         * ```
          *
          * @return Mouse options
          */
@@ -8182,6 +8208,9 @@ var Sprite = /** @class */ (function (_super) {
         if (x instanceof Percent) {
             value = this.maxLeftSelf + this._measuredWidthSelf * x.value - this.pixelPaddingLeft - this.ex; // overflow is know only for measured items, so this is not always good
         }
+        if (!$type.isNumber(value)) {
+            value = 0;
+        }
         return value;
     };
     /**
@@ -8201,6 +8230,9 @@ var Sprite = /** @class */ (function (_super) {
         }
         if (y instanceof Percent) {
             value = this.maxTopSelf + this._measuredHeightSelf * y.value - this.pixelPaddingTop - this.ey; // overflow is know only for measured items, so this is not always good
+        }
+        if (!$type.isNumber(value)) {
+            value = 0;
         }
         return value;
     };

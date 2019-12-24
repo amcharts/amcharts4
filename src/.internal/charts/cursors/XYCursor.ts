@@ -81,14 +81,23 @@ export interface IXYCursorProperties extends ICursorProperties {
 	 * of the axis is `DateAxis` or `CategoryAxis`. Won't work if both axes are
 	 * `ValueAxis`.
 	 */
-	snapToSeries: XYSeries;
+	snapToSeries?: XYSeries;
 
 	/**
 	 * If set to `true` this will hide series tooltips when selecting with cursor.
 	 *
 	 * @since 4.5.15
 	 */
-	hideSeriesTooltipsOnSelection: boolean;
+	hideSeriesTooltipsOnSelection?: boolean;
+
+	/**
+	 * If set to a numeric value, cursor will display closest series' tooltips
+	 * plus tooltips from series that are closer to than `maxTooltipDistance` to
+	 * it.
+	 *
+	 * @since 4.7.18
+	 */
+	maxTooltipDistance?: number;
 }
 
 /**
@@ -633,7 +642,6 @@ export class XYCursor extends Cursor {
 		return this.getPropertyValue("fullWidthLineY");
 	}
 
-
 	/**
 	 * If set to `true` this will hide series tooltips when selecting with cursor.
 	 *
@@ -649,6 +657,25 @@ export class XYCursor extends Cursor {
 	 */
 	public get hideSeriesTooltipsOnSelection(): boolean {
 		return this.getPropertyValue("hideSeriesTooltipsOnSelection");
+	}
+
+	/**
+	 * If set to a numeric value, cursor will display closest series' tooltips
+	 * plus tooltips from series that are closer to than `maxTooltipDistance` to
+	 * it.
+	 *
+	 * @since 4.7.18
+	 * @param  value  Distance
+	 */
+	public set maxTooltipDistance(value: number) {
+		this.setPropertyValue("maxTooltipDistance", value);
+	}
+
+	/**
+	 * @return Distance
+	 */
+	public get maxTooltipDistance(): number {
+		return this.getPropertyValue("maxTooltipDistance");
 	}
 
 	/**

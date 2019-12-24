@@ -780,8 +780,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	protected _measuredHeight: number;
 
 	// unrotated unscaled
-	protected _measuredWidthSelf: number;
-	protected _measuredHeightSelf: number;
+	protected _measuredWidthSelf: number = 0;
+	protected _measuredHeightSelf: number = 0;
 
 	protected _prevMeasuredWidth: number;
 	protected _prevMeasuredHeight: number;
@@ -2494,7 +2494,6 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 			let x: number = $math.round(ex - elementX, this._positionPrecision, true);
 			let y: number = $math.round(ey - elementY, this._positionPrecision, true);
-
 
 			this.ex = x - pixelPaddingLeft;
 			this.ey = y - pixelPaddingTop;
@@ -4861,7 +4860,30 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	}
 
 	/**
-	 * Returns elements mouse options.
+	 * Mouse options.
+	 *
+	 * Enables controlling options related to the mouse, for example sensitivity
+	 * of its mouse wheel.
+	 *
+	 * E.g. the below will reduce chart's wheel-zoom speed to half its default
+	 * speed:
+	 *
+	 * ```TypeScript
+	 * chart.plotContainer.mouseOptions.sensitivity = 0.5;
+	 * ```
+	 * ```JavaScript
+	 * chart.plotContainer.mouseOptions.sensitivity = 0.5;
+	 * ```
+	 * ```JSON
+	 * {
+	 *   // ...
+	 *   "plotContainer": {
+	 *     "mouseOptions": {
+	 *       "sensitivity": 0.5
+	 *     }
+	 *   }
+	 * }
+	 * ```
 	 *
 	 * @return Mouse options
 	 */
@@ -9074,6 +9096,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			value = this.maxLeftSelf + this._measuredWidthSelf * x.value - this.pixelPaddingLeft - this.ex; // overflow is know only for measured items, so this is not always good
 		}
 
+		if(!$type.isNumber(value)){
+			value = 0;
+		}		
+
 		return value;
 	}
 
@@ -9094,8 +9120,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if ($type.isNumber(y)) {
 			value = y;
 		}
+
 		if (y instanceof Percent) {
 			value = this.maxTopSelf + this._measuredHeightSelf * y.value - this.pixelPaddingTop - this.ey;  // overflow is know only for measured items, so this is not always good
+		}
+
+		if(!$type.isNumber(value)){
+			value = 0;
 		}
 
 		return value;

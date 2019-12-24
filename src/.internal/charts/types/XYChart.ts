@@ -949,14 +949,14 @@ export class XYChart extends SerialChart {
 
 		renderer.bulletsContainer.parent = this.axisBulletsContainer;
 
-		this._disposers.push(axis.events.on("positionchanged", ()=>{
-			let point = $utils.spritePointToSprite({x:0, y:0}, axis, this.axisBulletsContainer);
-			if(axis.renderer instanceof AxisRendererY){
+		this._disposers.push(axis.events.on("positionchanged", () => {
+			let point = $utils.spritePointToSprite({ x: 0, y: 0 }, axis, this.axisBulletsContainer);
+			if (axis.renderer instanceof AxisRendererY) {
 				renderer.bulletsContainer.y = point.y;
 			}
-			if(axis.renderer instanceof AxisRendererX){
+			if (axis.renderer instanceof AxisRendererX) {
 				renderer.bulletsContainer.x = point.x;
-			}			
+			}
 		}, undefined, false));
 
 		this.plotContainer.events.on("maxsizechanged", () => {
@@ -1181,7 +1181,7 @@ export class XYChart extends SerialChart {
 			if (this._cursorYPosition != yPosition) {
 				this.showAxisTooltip(this.yAxes, yPosition, exceptAxis);
 			}
-			if(this.arrangeTooltips){
+			if (this.arrangeTooltips) {
 				this.sortSeriesTooltips(this._seriesPoints);
 			}
 		}
@@ -1273,6 +1273,45 @@ export class XYChart extends SerialChart {
 	 * @ignore
 	 */
 	public sortSeriesTooltips(seriesPoints: { point: IPoint, series: XYSeries }[]) {
+		let cursor = this.cursor;
+
+		if (cursor && $type.isNumber(cursor.maxTooltipDistance)) {
+
+			let cursorPoint = $utils.spritePointToSvg({ x: cursor.point.x, y: cursor.point.y }, cursor);
+
+			let nearestSeries: XYSeries;
+			let nearestPoint: IPoint;
+			let smallestDistance: number = Infinity;
+
+			$array.each(seriesPoints, (seriesPoint) => {
+				let series = seriesPoint.series;
+				let fixedPoint = seriesPoint.point;
+				if (fixedPoint) {
+					let point = { x: fixedPoint.x, y: fixedPoint.y };
+
+					let distance = Math.abs($math.getDistance(point, cursorPoint));
+					if (distance < smallestDistance) {
+						nearestPoint = point;
+						smallestDistance = distance;
+						nearestSeries = series;
+					}
+				}
+			})
+			let newSeriesPoints: { point: IPoint, series: XYSeries }[] = [];
+			if (nearestSeries) {
+				$array.each(seriesPoints, (seriesPoint) => {
+					if (Math.abs($math.getDistance(seriesPoint.point, nearestPoint)) <= cursor.maxTooltipDistance) {
+						newSeriesPoints.push({ series: seriesPoint.series, point: seriesPoint.point });
+					}
+					else {
+						seriesPoint.series.tooltip.hide(0);
+					}
+				})
+
+			}
+			seriesPoints = newSeriesPoints;
+		}
+
 
 		let topLeft = $utils.spritePointToSvg({ x: -0.5, y: -0.5 }, this.plotContainer);
 		let bottomRight = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth + 0.5, y: this.plotContainer.pixelHeight + 0.5 }, this.plotContainer);
@@ -1936,13 +1975,15 @@ export class XYChart extends SerialChart {
 		}
 	}
 
-
 	/**
 	 * Specifies action for when mouse wheel is used when over the chart.
 	 *
-	 * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"` (default).
+	 * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`,`"panXY"`, `"none"` (default).
+	 *
+	 * You can control sensitivity of wheel zooming via `mouseOptions`.
 	 *
 	 * @default "none"
+	 * @see {@link https://www.amcharts.com/docs/v4/reference/sprite/#mouseOptions_property} More information about `mouseOptions`
 	 * @param mouse wheel behavior
 	 */
 	public set mouseWheelBehavior(value: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none") {
@@ -1970,19 +2011,12 @@ export class XYChart extends SerialChart {
 	}
 
 	/**
-	 * @return Horizontal mouse wheel behavior
-	 */
-	public get horizontalMouseWheelBehavior(): "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none" {
-		return this.getPropertyValue("horizontalMouseWheelBehavior");
-	}
-
-
-	/**
 	 * Specifies action for when horizontal mouse wheel is used when over the chart.
 	 *
 	 * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"` (default).
 	 *
 	 * @default "none"
+	 * @see {@link https://www.amcharts.com/docs/v4/reference/sprite/#mouseOptions_property} More information about `mouseOptions`
 	 * @param mouse wheel behavior
 	 */
 	public set horizontalMouseWheelBehavior(value: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none") {
@@ -2002,8 +2036,12 @@ export class XYChart extends SerialChart {
 		}
 	}
 
-
-
+	/**
+	 * @return Horizontal mouse wheel behavior
+	 */
+	public get horizontalMouseWheelBehavior(): "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none" {
+		return this.getPropertyValue("horizontalMouseWheelBehavior");
+	}
 
 	/**
 	 * This function is called by the [[DataSource]]'s `dateFields` adapater

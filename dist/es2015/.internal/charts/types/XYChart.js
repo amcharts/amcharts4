@@ -944,6 +944,38 @@ var XYChart = /** @class */ (function (_super) {
      * @ignore
      */
     XYChart.prototype.sortSeriesTooltips = function (seriesPoints) {
+        var cursor = this.cursor;
+        if (cursor && $type.isNumber(cursor.maxTooltipDistance)) {
+            var cursorPoint_1 = $utils.spritePointToSvg({ x: cursor.point.x, y: cursor.point.y }, cursor);
+            var nearestSeries_1;
+            var nearestPoint_1;
+            var smallestDistance_1 = Infinity;
+            $array.each(seriesPoints, function (seriesPoint) {
+                var series = seriesPoint.series;
+                var fixedPoint = seriesPoint.point;
+                if (fixedPoint) {
+                    var point = { x: fixedPoint.x, y: fixedPoint.y };
+                    var distance = Math.abs($math.getDistance(point, cursorPoint_1));
+                    if (distance < smallestDistance_1) {
+                        nearestPoint_1 = point;
+                        smallestDistance_1 = distance;
+                        nearestSeries_1 = series;
+                    }
+                }
+            });
+            var newSeriesPoints_1 = [];
+            if (nearestSeries_1) {
+                $array.each(seriesPoints, function (seriesPoint) {
+                    if (Math.abs($math.getDistance(seriesPoint.point, nearestPoint_1)) <= cursor.maxTooltipDistance) {
+                        newSeriesPoints_1.push({ series: seriesPoint.series, point: seriesPoint.point });
+                    }
+                    else {
+                        seriesPoint.series.tooltip.hide(0);
+                    }
+                });
+            }
+            seriesPoints = newSeriesPoints_1;
+        }
         var topLeft = $utils.spritePointToSvg({ x: -0.5, y: -0.5 }, this.plotContainer);
         var bottomRight = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth + 0.5, y: this.plotContainer.pixelHeight + 0.5 }, this.plotContainer);
         var sum = 0;
@@ -1513,9 +1545,12 @@ var XYChart = /** @class */ (function (_super) {
         /**
          * Specifies action for when mouse wheel is used when over the chart.
          *
-         * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"` (default).
+         * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`,`"panXY"`, `"none"` (default).
+         *
+         * You can control sensitivity of wheel zooming via `mouseOptions`.
          *
          * @default "none"
+         * @see {@link https://www.amcharts.com/docs/v4/reference/sprite/#mouseOptions_property} More information about `mouseOptions`
          * @param mouse wheel behavior
          */
         set: function (value) {
@@ -1549,6 +1584,7 @@ var XYChart = /** @class */ (function (_super) {
          * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"` (default).
          *
          * @default "none"
+         * @see {@link https://www.amcharts.com/docs/v4/reference/sprite/#mouseOptions_property} More information about `mouseOptions`
          * @param mouse wheel behavior
          */
         set: function (value) {
