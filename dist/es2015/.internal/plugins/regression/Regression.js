@@ -125,6 +125,8 @@ var Regression = /** @class */ (function (_super) {
                 _this._skipValidatedEvent = false;
                 return;
             }
+            // Update data
+            _this.saveOriginalData();
             _this.calcData();
         }));
         if (this.target.chart) {
@@ -132,21 +134,38 @@ var Regression = /** @class */ (function (_super) {
                 _this.target.invalidateData();
             }));
         }
-        // Save original series data
-        if (this.target.data && this.target.data.length) {
-            this._originalData = this.target.data;
-        }
-        // Set up adpater for data
+        // Add data adapter
         this.target.adapter.add("data", function () {
             if (_this._data === undefined) {
                 _this.calcData();
             }
             return _this._data;
         });
+        // Save original series data
+        this.saveOriginalData();
     };
+    /**
+     * Saves series' original data and (re)adds data adapter.
+     */
+    Regression.prototype.saveOriginalData = function () {
+        // Temporarily disable the data adapter
+        this.target.adapter.disableKey("data");
+        // Save
+        if (this.target.data && this.target.data.length) {
+            this._originalData = this.target.data;
+        }
+        // Re-enabled the adapter
+        this.target.adapter.enableKey("data");
+    };
+    /**
+     * Invalidates data.
+     */
     Regression.prototype.invalidateData = function () {
         this._data = undefined;
     };
+    /**
+     * Calculates regression series data.
+     */
     Regression.prototype.calcData = function () {
         this._data = [];
         var series = this.target;

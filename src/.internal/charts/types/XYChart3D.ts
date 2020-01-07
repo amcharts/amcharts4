@@ -316,10 +316,9 @@ export class XYChart3D extends XYChart {
 						}
 						else {
 							column.zIndex = 1000 * i + s - series.depthIndex * 100;
-						}
-
-						i++;
+						}						
 					}
+					i++;
 				});
 				if (inversed) {
 					s--;

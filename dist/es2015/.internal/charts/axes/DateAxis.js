@@ -2103,9 +2103,13 @@ var DateAxis = /** @class */ (function (_super) {
          * @param  value  Group data points?
          */
         set: function (value) {
+            var _this = this;
             if (this.setPropertyValue("groupData", value)) {
                 this.series.each(function (series) {
                     series.setDataSet("");
+                    if (value && !series.dataGrouped && series.inited) {
+                        _this.groupSeriesData(series);
+                    }
                 });
                 this._currentDataSetId = "";
                 this._groupInterval = undefined;

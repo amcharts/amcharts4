@@ -1338,7 +1338,7 @@ export class DateFormatter extends BaseObject {
 	}
 
 	/**
-	 * Dirst day of the week:
+	 * First day of the week:
 	 *
 	 * * 0 - Sunday
 	 * * 1 - Monday

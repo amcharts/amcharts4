@@ -228,7 +228,11 @@ function getProgressPercent(progress: number, from: Percent, to: Percent): Perce
  * @return Color according to progress
  */
 function getProgressColor(progress: number, from: Color, to: Color): Color {
-	return new Color($colors.interpolate(from.rgb, to.rgb, progress));
+	const color = new Color($colors.interpolate(from.rgb, to.rgb, progress));
+	if (from.alpha != to.alpha) {
+		color.alpha = from.alpha + (to.alpha - from.alpha) * progress;
+	}
+	return color;
 }
 
 /**

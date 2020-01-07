@@ -503,6 +503,8 @@ var XYSeries = /** @class */ (function (_super) {
          * @ignore
          */
         _this._dataSetChanged = false;
+        _this._maxxX = 100000;
+        _this._maxxY = 100000;
         _this.className = "XYSeries";
         _this.isMeasured = false;
         _this.groupFields.valueX = "close";
@@ -819,6 +821,8 @@ var XYSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     XYSeries.prototype.validateDataItems = function () {
+        this._maxxX = $math.max(100000, this.chart.plotContainer.maxWidth * 2);
+        this._maxxY = $math.max(100000, this.chart.plotContainer.maxHeight * 2);
         // this helps date axis to check which baseInterval we should use
         var xAxis = this.xAxis;
         var yAxis = this.yAxis;
@@ -1030,6 +1034,8 @@ var XYSeries = /** @class */ (function (_super) {
             var yAxis = this.yAxis;
             this._prevStartIndex = undefined;
             this._prevEndIndex = undefined;
+            this._startIndex = undefined;
+            this._endIndex = undefined;
             //this.processValues(false); // this will slow down!
             if (xAxis instanceof DateAxis && xAxis == this.baseAxis) {
                 this._tmin.setKey(xAxis.uid, dataItems.getIndex(0).dateX.getTime());
@@ -1589,7 +1595,33 @@ var XYSeries = /** @class */ (function (_super) {
          * @param stacked  Can be stacked?
          */
         set: function (stacked) {
-            this.setPropertyValue("stacked", stacked, true);
+            var _this = this;
+            if (this.setPropertyValue("stacked", stacked, true)) {
+                if (this.chart) {
+                    this.chart.series.each(function (series) {
+                        if (series.baseAxis == _this.baseAxis) {
+                            series.stackedSeries = undefined;
+                            series.invalidateProcessedData();
+                        }
+                    });
+                }
+                if (!stacked) {
+                    var xAxis = this.xAxis;
+                    var yAxis = this.yAxis;
+                    var field_1;
+                    if (xAxis != this.baseAxis && xAxis instanceof ValueAxis) {
+                        field_1 = this.xField;
+                    }
+                    if (yAxis != this.baseAxis && yAxis instanceof ValueAxis) {
+                        field_1 = this.yField;
+                    }
+                    if (field_1) {
+                        this.dataItems.each(function (dataItem) {
+                            dataItem.setCalculatedValue(field_1, 0, "stack");
+                        });
+                    }
+                }
+            }
         },
         enumerable: true,
         configurable: true
@@ -1773,18 +1805,18 @@ var XYSeries = /** @class */ (function (_super) {
             // it might seem that it's better to go through base axis series, but we do not maintain the same order as in chart.series there.
             var chart = this.chart;
             var index = chart.series.indexOf(this);
-            var field_1;
+            var field_2;
             if (xAxis != this.baseAxis && xAxis instanceof ValueAxis) {
-                field_1 = this.xField;
+                field_2 = this.xField;
             }
             if (yAxis != this.baseAxis && yAxis instanceof ValueAxis) {
-                field_1 = this.yField;
+                field_2 = this.yField;
             }
-            if (!field_1) {
+            if (!field_2) {
                 return;
             }
             //this is good for removing series, otherwise stack values will remain the same and chart won't pay atention when adding/removing series			
-            dataItem.setCalculatedValue(field_1, 0, "stack");
+            dataItem.setCalculatedValue(field_2, 0, "stack");
             $iter.eachContinue(chart.series.range(0, index).backwards().iterator(), function (prevSeries) {
                 // stacking is only possible if both axes are the same
                 if (prevSeries.xAxis == xAxis && prevSeries.yAxis == yAxis) {
@@ -1792,18 +1824,18 @@ var XYSeries = /** @class */ (function (_super) {
                     prevSeries.stackedSeries = _this;
                     var prevDataItem = prevSeries.dataItems.getIndex(dataItem.index); // indexes should match
                     if (prevDataItem && prevDataItem.hasValue(_this._xValueFields) && prevDataItem.hasValue(_this._yValueFields)) {
-                        var value = dataItem.getValue(field_1);
+                        var value = dataItem.getValue(field_2);
                         var prevValue = void 0;
-                        var prevRealValue = prevDataItem.getValue(field_1) + prevDataItem.getValue(field_1, "stack");
+                        var prevRealValue = prevDataItem.getValue(field_2) + prevDataItem.getValue(field_2, "stack");
                         if (working) {
-                            prevValue = prevDataItem.getWorkingValue(field_1) + prevDataItem.getValue(field_1, "stack");
+                            prevValue = prevDataItem.getWorkingValue(field_2) + prevDataItem.getValue(field_2, "stack");
                         }
                         else {
-                            prevValue = prevDataItem.getValue(field_1) + prevDataItem.getValue(field_1, "stack");
+                            prevValue = prevDataItem.getValue(field_2) + prevDataItem.getValue(field_2, "stack");
                         }
                         if ((value >= 0 && prevRealValue >= 0) || (value < 0 && prevRealValue < 0)) {
                             //dataItem.events.disable();
-                            dataItem.setCalculatedValue(field_1, prevValue, "stack");
+                            dataItem.setCalculatedValue(field_2, prevValue, "stack");
                             //dataItem.events.enable();
                             return false;
                         }
@@ -2047,8 +2079,8 @@ var XYSeries = /** @class */ (function (_super) {
         if (this.xAxis && this.yAxis) {
             var x = this.xAxis.getX(dataItem, xKey, locationX);
             var y = this.yAxis.getY(dataItem, yKey, locationY);
-            x = $math.fitToRange(x, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
-            y = $math.fitToRange(y, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+            x = $math.fitToRange(x, -this._maxxX, this._maxxX); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+            y = $math.fitToRange(y, -this._maxxY, this._maxxY); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
             return { x: x, y: y };
         }
     };

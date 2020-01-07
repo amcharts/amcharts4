@@ -1613,6 +1613,7 @@ export declare class Export extends Validatable {
      * Data fields in `{ field: fieldName }` format. Those are used for
      * exporting in data formats to name the columns.
      *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/#Changing_order_and_names_of_columns} for examples and details
      * @param value Field names
      */
     dataFields: any;
@@ -1630,7 +1631,7 @@ export declare class Export extends Validatable {
      *
      * @param value DateFormatter instance
      */
-    dateFormatter: any;
+    dateFormatter: DateFormatter;
     /**
      * @return Date format
      */
@@ -1659,7 +1660,7 @@ export declare class Export extends Validatable {
      * @since 4.5.15
      * @param value NumberFormatter instance
      */
-    numberFormatter: any;
+    numberFormatter: NumberFormatter;
     /**
      * @return Number format
      */
@@ -1690,7 +1691,7 @@ export declare class Export extends Validatable {
      *
      * @param value  DurationFormatter instance
      */
-    durationFormatter: any;
+    durationFormatter: DurationFormatter;
     /**
      * @return Duration format
      */

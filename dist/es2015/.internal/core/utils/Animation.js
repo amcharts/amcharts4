@@ -83,7 +83,11 @@ function getProgressPercent(progress, from, to) {
  * @return Color according to progress
  */
 function getProgressColor(progress, from, to) {
-    return new Color($colors.interpolate(from.rgb, to.rgb, progress));
+    var color = new Color($colors.interpolate(from.rgb, to.rgb, progress));
+    if (from.alpha != to.alpha) {
+        color.alpha = from.alpha + (to.alpha - from.alpha) * progress;
+    }
+    return color;
 }
 /**
  * [getHybridProperty description]

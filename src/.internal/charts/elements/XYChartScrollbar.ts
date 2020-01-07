@@ -204,10 +204,10 @@ export class XYChartScrollbar extends Scrollbar {
 		// check if we haven't added clone of x or y axis before
 		$iter.each(this.series.iterator(), (series) => {
 			if (series != sourceSeries) {
-				if (series.xAxis == sourceSeries.xAxis) {
+				if (series.xAxis == sourceSeries.xAxis && this.scrollbarChart.xAxes.length > 0) {
 					addXAxis = false;
 				}
-				if (series.yAxis == sourceSeries.yAxis) {
+				if (series.yAxis == sourceSeries.yAxis && this.scrollbarChart.yAxes.length > 0) {
 					addYAxis = false;
 				}
 			}
@@ -437,7 +437,7 @@ export class XYChartScrollbar extends Scrollbar {
 		let scrollbarChart = this.scrollbarChart;
 
 		scrollbarChart.series.each((series) => {
-			if (series.clonedFrom == sourceSeries) {
+			if (series && series.clonedFrom == sourceSeries) {
 				scrollbarChart.series.removeValue(series);
 			}
 		})

@@ -473,7 +473,7 @@ var Component = /** @class */ (function (_super) {
      * @param count number of elements to remove
      */
     Component.prototype.removeData = function (count) {
-        if ($type.isNumber(count)) {
+        if ($type.isNumber(count) && count > 0) {
             while (count > 0) {
                 var dataItem = this.mainDataSet.getIndex(0);
                 if (dataItem) {
@@ -493,7 +493,8 @@ var Component = /** @class */ (function (_super) {
                 }
                 count--;
             }
-            this.invalidateData();
+            // changed from invalidateData since 4.7.19 to solve #51551
+            this.invalidateDataItems();
         }
     };
     /**
@@ -840,6 +841,10 @@ var Component = /** @class */ (function (_super) {
         this._data = value;
         if (value && value.length > 0) {
             this.invalidateData();
+        }
+        else {
+            this.dispatchImmediately("beforedatavalidated");
+            this.dispatch("datavalidated");
         }
         //}
     };

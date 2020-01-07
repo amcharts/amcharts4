@@ -175,8 +175,7 @@ export class GlobalAdapter {
 	 * @return {boolean}
 	 */
 	public isEnabled<T, Target, Key extends keyof T>(type: Target, key: Key): boolean {
-		// TODO check the type and key
-		return this._callbacks.length > 0;
+		return $array.any(this._callbacks.values, (x) => x.key === key && type instanceof x.type);
 	}
 
 	/**
@@ -298,6 +297,8 @@ export class Adapter<Target, T> {
 			$number.order(left.id, right.id));
 	});
 
+	protected _disabled: { [key in keyof T]?: number } = {};
+
 	/**
 	 * Holds an object reference this Adapter is for.
 	 */
@@ -410,6 +411,7 @@ export class Adapter<Target, T> {
 	public remove(key: string, priority?: number): void {
 		// It has to make a copy because it removes the elements while iterating
 		// TODO inefficient
+		// TODO should this re-enable the key ?
 		$array.each($iter.toArray(this._callbacks.iterator()), (item) => {
 			// TODO test this
 			if (item.key === key && (!$type.isNumber(priority) || priority === item.priority)) {
@@ -419,13 +421,57 @@ export class Adapter<Target, T> {
 	}
 
 	/**
-	 * Returns if there are any adapters set for the specific `key`.
+	 * Enable applying adapters for a certain key, if it was disabled before by
+	 * `disableKey()`.
+	 *
+	 * @param key Key
+	 */
+	public enableKey<Key extends keyof T>(key: Key): void {
+		delete this._disabled[key];
+	}
+
+	/**
+	 * Disable applying adapters for a certain key.
+	 *
+	 * Optionally, can set how many applies to skip before automatically
+	 * re-enabling the applying.
+	 *
+	 * @param key     Key
+	 * @param amount  Number of applies to skip
+	 */
+	public disableKey<Key extends keyof T>(key: Key, amount: number = Infinity): void {
+		this._disabled[key] = amount;
+	}
+
+	protected _hasListenersByType<Key extends keyof T>(key: Key): boolean {
+		return $array.any(this._callbacks.values, (x) => x.key === key);
+	}
+
+	/**
+	 * Returns if there are any enabled adapters set for the specific `key`.
 	 *
 	 * @returns Are there any adapters for the key?
 	 */
 	public isEnabled<Key extends keyof T>(key: Key): boolean {
-		// TODO check the key
-		return this._callbacks.length > 0 || globalAdapter.isEnabled<T, Target, Key>(this.object, key);
+		return this._disabled[key] == null && (this._hasListenersByType(key) || globalAdapter.isEnabled<T, Target, Key>(this.object, key));
+	}
+
+	protected _shouldDispatch<Key extends keyof T>(key: Key): boolean {
+		const count = this._disabled[key];
+
+		if (!$type.isNumber(count)) {
+			return true;
+
+		} else {
+			if (count <= 1) {
+				delete this._disabled[key];
+
+			} else {
+				--this._disabled[key];
+			}
+
+			return false;
+		}
 	}
 
 	/**
@@ -437,28 +483,33 @@ export class Adapter<Target, T> {
 	 * @return Output value
 	 */
 	public apply<Key extends keyof T>(key: Key, value: T[Key]): T[Key] {
-		// This is needed to improve the performance and reduce garbage collection
-		const callbacks = this._callbacks.values;
-		const length = callbacks.length;
+		if (this._shouldDispatch(key)) {
+			// This is needed to improve the performance and reduce garbage collection
+			const callbacks = this._callbacks.values;
+			const length = callbacks.length;
 
-		if (length > 0) {
-			for (let i = 0; i < length; ++i) {
-				const item = callbacks[i];
+			if (length > 0) {
+				for (let i = 0; i < length; ++i) {
+					const item = callbacks[i];
 
-				if (item.key === key) {
-					value = item.callback.call(item.scope, value, this.object, key);
+					if (item.key === key) {
+						value = item.callback.call(item.scope, value, this.object, key);
+					}
 				}
 			}
+
+			// Apply global adapters
+			value = globalAdapter.applyAll<T, Target, Key>(this.object, key, value);
+
+			return value;
+
+		} else {
+			return value;
 		}
-
-		// Apply global adapters
-		value = globalAdapter.applyAll<T, Target, Key>(this.object, key, value);
-
-		return value;
 	}
 
 	/**
-	 * Returns all adapter keys that are currently in effect.
+	 * Returns all adapter keys which are in this adapter.
 	 *
 	 * @return Adapter keys
 	 */
@@ -483,6 +534,7 @@ export class Adapter<Target, T> {
 	 * Clears all callbacks from this Adapter.
 	 */
 	public clear(): void {
+		// TODO should this also re-enable all the keys ?
 		this._callbacks.clear();
 	}
 

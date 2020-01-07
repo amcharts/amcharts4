@@ -169,6 +169,9 @@ export class Regression extends Plugin {
 				this._skipValidatedEvent = false;
 				return;
 			}
+
+			// Update data
+			this.saveOriginalData();
 			this.calcData();
 		}));
 
@@ -178,24 +181,46 @@ export class Regression extends Plugin {
 			}));
 		}
 
-		// Save original series data
-		if (this.target.data && this.target.data.length) {
-			this._originalData = this.target.data;
-		}
-
-		// Set up adpater for data
+		// Add data adapter
 		this.target.adapter.add("data", () => {
 			if (this._data === undefined) {
 				this.calcData();
 			}
 			return this._data;
 		});
+
+		// Save original series data
+		this.saveOriginalData();
 	}
 
+	/**
+	 * Saves series' original data and (re)adds data adapter.
+	 */
+	private saveOriginalData(): void {
+
+		// Temporarily disable the data adapter
+		this.target.adapter.disableKey("data");
+
+		// Save
+		if (this.target.data && this.target.data.length) {
+			this._originalData = this.target.data;
+		}
+
+		// Re-enabled the adapter
+		this.target.adapter.enableKey("data");
+
+	}
+
+	/**
+	 * Invalidates data.
+	 */
 	private invalidateData(): void {
 		this._data = undefined;
 	}
 
+	/**
+	 * Calculates regression series data.
+	 */
 	private calcData(): void {
 		this._data = [];
 		const series = this.target;

@@ -52,11 +52,11 @@ var Registry = /** @class */ (function () {
          */
         this._placeholders = {};
         /**
-     * A list of invalid(ated) [[Sprite]] objects that need to be re-validated
-     * during next cycle.
-     *
-     * @ignore Exclude from docs
-     */
+         * A list of invalid(ated) [[Sprite]] objects that need to be re-validated
+         * during next cycle.
+         *
+         * @ignore Exclude from docs
+         */
         this.invalidSprites = {};
         /**
          * Components are added to this list when their data provider changes to

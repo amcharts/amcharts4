@@ -126,6 +126,23 @@ export declare class Annotation extends Plugin {
      */
     icons: Array<string>;
     /**
+     * Logs orinal size of the chart so that annotations can be repositioned
+     * relatively when that changes.
+     * @type {number}
+     */
+    private _originalBbox;
+    /**
+     * If set to `true` plugin will try to reposition annotation relatively when
+     * size of the chart chanages.
+     *
+     * This feature is experimental. Use at your own risk.
+     *
+     * @default false
+     * @since 4.7.19
+     * @type {boolean}
+     */
+    autoSize: boolean;
+    /**
      * Constructor
      */
     constructor();
@@ -388,4 +405,8 @@ export declare class Annotation extends Plugin {
      * Loads data onto canvas.
      */
     private loadData();
+    /**
+     * Resizes annotation as per trget chart size.
+     */
+    private sizeAnnotations();
 }

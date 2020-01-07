@@ -1079,7 +1079,7 @@ var DateFormatter = /** @class */ (function (_super) {
             return this._firstDayOfWeek;
         },
         /**
-         * Dirst day of the week:
+         * First day of the week:
          *
          * * 0 - Sunday
          * * 1 - Monday

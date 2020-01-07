@@ -17,6 +17,7 @@ import { LineSeriesSegment } from "./LineSeriesSegment";
 import { Axis, AxisDataItem } from "../axes/Axis";
 import { ValueAxis } from "../axes/ValueAxis";
 import { DateAxis } from "../axes/DateAxis";
+import { DurationAxis } from "../axes/DurationAxis";
 import { CategoryAxis } from "../axes/CategoryAxis";
 import { registry } from "../../core/Registry";
 import { Line } from "../../core/elements/Line";
@@ -318,6 +319,13 @@ export class LineSeries extends XYSeries {
 						dataItem.setWorkingLocation("dateX", dataItem.locations.dateX - 1, 0); // instantly move it to previous
 						dataItem.setWorkingLocation("dateX", dataItem.locations.dateX); // animate to it's location
 					}
+					else if(xAxis instanceof DurationAxis){
+						if(previousDataItem){
+							let value = dataItem.valueX;
+							dataItem.setWorkingValue("valueX", previousDataItem.valueX, 0); // instantly move it to previous
+							dataItem.setWorkingValue("valueX", value); // animate to new value
+						}
+					}
 				}
 			}
 			if (this.baseAxis == yAxis) {
@@ -334,6 +342,13 @@ export class LineSeries extends XYSeries {
 						dataItem.setWorkingLocation("dateY", dataItem.locations.dateX - 1, 0); // instantly move it to previous
 						dataItem.setWorkingLocation("dateY", dataItem.locations.dateY); // animate to it's location
 					}
+					else if(yAxis instanceof DurationAxis){
+						if(previousDataItem){
+							let value = dataItem.valueY;
+							dataItem.setWorkingValue("valueY", previousDataItem.valueY, 0); // instantly move it to previous
+							dataItem.setWorkingValue("valueY", value); // animate to new value
+						}
+					}				
 				}
 			}
 		}

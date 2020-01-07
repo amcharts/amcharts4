@@ -114,6 +114,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
      * @param event Event
      */
     XYChartScrollbar.prototype.handleSeriesAdded = function (event) {
+        var _this = this;
         var sourceSeries = event.newValue;
         if (!sourceSeries.xAxis || !sourceSeries.yAxis) {
             return;
@@ -128,10 +129,10 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         // check if we haven't added clone of x or y axis before
         $iter.each(this.series.iterator(), function (series) {
             if (series != sourceSeries) {
-                if (series.xAxis == sourceSeries.xAxis) {
+                if (series.xAxis == sourceSeries.xAxis && _this.scrollbarChart.xAxes.length > 0) {
                     addXAxis = false;
                 }
-                if (series.yAxis == sourceSeries.yAxis) {
+                if (series.yAxis == sourceSeries.yAxis && _this.scrollbarChart.yAxes.length > 0) {
                     addYAxis = false;
                 }
             }
@@ -329,7 +330,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         var sourceSeries = event.oldValue;
         var scrollbarChart = this.scrollbarChart;
         scrollbarChart.series.each(function (series) {
-            if (series.clonedFrom == sourceSeries) {
+            if (series && series.clonedFrom == sourceSeries) {
                 scrollbarChart.series.removeValue(series);
             }
         });

@@ -816,6 +816,9 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.dispose = function () {
         if (!this.isDisposed()) {
+            if (this.showTooltipOn == "always" && this.tooltip) {
+                this.tooltip.hide();
+            }
             this.dispatchImmediately("beforedisposed");
             if (this.isBaseSprite) {
                 if (this.htmlContainer) {

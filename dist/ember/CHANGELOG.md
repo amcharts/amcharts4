@@ -5,6 +5,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.19] - 2020-01-07
+
+### Added
+- `Annotation` plugin: Added experimental setting `autoSize` (default: `false`). If set to `true`, it will try to relocated annotations relatively to chart size when it changes.
+
+### Fixed
+- Changing `fill`/`stroke` property with a `Color` with non-integer alpha was resulting in either fully opaque or fully transparent color.
+- Sometimes ordering of columns of `ColumnSeries3D` was off.
+- `XYSeries` on super-wide/tall charts (more than 100K pixels) were being distorted.
+- `Regression` plugin: Updating data directly for regression series was not being properly invalidating it.
+- Toggling `groupData` on `DateAxis` from initial `false` to `true` after the chart was inited was not working.
+- Toggling `groupData` on `DateAxis` from initial `false` to `true` was resulting in icorrect `ValueAxis` scale.
+- A tooltip used to remain visible after disposing sprite, if it had a tooltip shown because of `alwaysShowTooltip = true`.
+- Events `datavalidated` and `beforedatavalidated` were not being fired if data was being updated to an empty array.
+- Toggling `stacked` from `true` to `false` on `XYSeries` was not working properly.
+- `Component.removeData()` was causing all the data to be invalidated which caused some wrong behavior.
+- If some format changed (number formatter) you must now call `invalidateLabels()` in order for the new format to be applied.
+- `DurationAxis` now animates newly added data in the same way as `DateAxis` does.
+- Adding/removing multiple series at once to/from `XYChartScrollbar` could result error.
+
+
 ## [4.7.18] - 2019-12-24
 
 ### Added

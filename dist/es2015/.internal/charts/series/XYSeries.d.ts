@@ -648,6 +648,8 @@ export declare class XYSeries extends Series {
      * @ignore
      */
     protected _dataSetChanged: boolean;
+    protected _maxxX: number;
+    protected _maxxY: number;
     /**
      * Constructor
      */

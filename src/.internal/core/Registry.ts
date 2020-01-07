@@ -103,11 +103,11 @@ export class Registry {
 	protected _placeholders: { [index: string]: string } = {};
 
 	/**
- * A list of invalid(ated) [[Sprite]] objects that need to be re-validated
- * during next cycle.
- *
- * @ignore Exclude from docs
- */
+	 * A list of invalid(ated) [[Sprite]] objects that need to be re-validated
+	 * during next cycle.
+	 *
+	 * @ignore Exclude from docs
+	 */
 	public invalidSprites: { [index: string]: Array<Sprite> } = {};
 
 	/**
@@ -167,7 +167,7 @@ export class Registry {
 
 	public baseSpritesByUid: { [index: string]: Sprite } = {};
 
-	public queue:Array<Sprite> = [];
+	public queue: Array<Sprite> = [];
 
 	constructor() {
 		this.uid = this.getUniqueId();

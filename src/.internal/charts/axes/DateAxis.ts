@@ -876,6 +876,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @todo Description
 	 */
 	public postProcessSeriesDataItems(): void {
+
 		this.series.each((series) => {
 			if (JSON.stringify(series._baseInterval[this.uid]) != JSON.stringify(this.mainBaseInterval)) {
 				series.mainDataSet.each((dataItem) => {
@@ -2521,7 +2522,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	public set groupData(value: boolean) {
 		if (this.setPropertyValue("groupData", value)) {
 			this.series.each((series) => {
-				series.setDataSet("");
+				series.setDataSet("");				
+
+				if(value && !series.dataGrouped && series.inited){
+					this.groupSeriesData(series);
+				}
 			})
 
 			this._currentDataSetId = ""

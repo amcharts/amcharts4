@@ -118,6 +118,17 @@ var Annotation = /** @class */ (function (_super) {
          * List of icons to use in annotation
          */
         _this.icons = [];
+        /**
+         * If set to `true` plugin will try to reposition annotation relatively when
+         * size of the chart chanages.
+         *
+         * This feature is experimental. Use at your own risk.
+         *
+         * @default false
+         * @since 4.7.19
+         * @type {boolean}
+         */
+        _this.autoSize = false;
         // Set default colors
         _this._colors = [
             color("#000"),
@@ -168,6 +179,7 @@ var Annotation = /** @class */ (function (_super) {
         else {
             target.exporting.menu.invalidate();
         }
+        target.events.on("sizechanged", this.sizeAnnotations, this);
         // Create DEL key handler
         getInteraction().body.events.on("keyup", function (ev) {
             if (_this.active && keyboard.isKey(ev.event, "del")) {
@@ -1157,6 +1169,37 @@ var Annotation = /** @class */ (function (_super) {
             _this.updateSVG();
             _this._data = undefined;
         });
+    };
+    /**
+     * Resizes annotation as per trget chart size.
+     */
+    Annotation.prototype.sizeAnnotations = function () {
+        if (this.autoSize) {
+            if (!this._originalBbox) {
+                var bbox = this.group.getBBox();
+                this._originalBbox = {
+                    width: bbox.width,
+                    height: bbox.height
+                };
+            }
+            //console.log(bbox.width);
+            var w = this.target.pixelWidth;
+            var h = this.target.pixelHeight;
+            var dx = (w / this._originalBbox.width);
+            var dy = (h / this._originalBbox.height);
+            var data = this.data;
+            console.log(dx);
+            for (var i = 0; i < data.objects.length; i++) {
+                var item = data.objects[i];
+                item.left *= dx;
+                item.top *= dy;
+            }
+            this.data = data;
+            this._originalBbox = {
+                width: w,
+                height: h
+            };
+        }
     };
     return Annotation;
 }(Plugin));

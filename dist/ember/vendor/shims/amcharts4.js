@@ -5846,6 +5846,30 @@ define('@amcharts/amcharts4-geodata/worldLow', [], function () {
   }
   throw new Error("You must add 'geodata/worldLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/worldRussiaHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_worldRussiaHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/worldRussiaHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/worldRussiaLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_worldRussiaLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/worldRussiaLow' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/worldRussiaUltra', [], function () {
+  'use strict';
+  var output = self.am4geodata_worldRussiaUltra;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/worldRussiaUltra' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/worldUltra', [], function () {
   'use strict';
   var output = self.am4geodata_worldUltra;

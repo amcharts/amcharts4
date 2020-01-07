@@ -867,7 +867,7 @@ export class Component extends Container {
 	 * @param count number of elements to remove
 	 */
 	public removeData(count: $type.Optional<number>) {
-		if ($type.isNumber(count)) {
+		if ($type.isNumber(count) && count > 0) {
 			while (count > 0) {
 				let dataItem = this.mainDataSet.getIndex(0);
 				if (dataItem) {
@@ -875,7 +875,7 @@ export class Component extends Container {
 				}
 
 				this.dataUsers.each((dataUser) => {
-					if(!dataUser.data || dataUser.data.length == 0){
+					if (!dataUser.data || dataUser.data.length == 0) {
 						let dataItem = dataUser.dataItems.getIndex(0);
 						if (dataItem) {
 							dataUser.dataItems.remove(dataItem);
@@ -891,7 +891,8 @@ export class Component extends Container {
 
 				count--;
 			}
-			this.invalidateData();
+			// changed from invalidateData since 4.7.19 to solve #51551
+			this.invalidateDataItems();
 		}
 	}
 
@@ -1275,6 +1276,10 @@ export class Component extends Container {
 		if (value && value.length > 0) {
 			this.invalidateData();
 		}
+		else { 
+			this.dispatchImmediately("beforedatavalidated"); 
+			this.dispatch("datavalidated");
+		}
 		//}
 	}
 
@@ -1529,7 +1534,7 @@ export class Component extends Container {
 		let end = range.end;
 		let priority = range.priority;
 
-		if(range.start == range.end){
+		if (range.start == range.end) {
 			range.start = range.start - 0.5 / this.maxZoomFactor;
 			range.end = range.end + 0.5 / this.maxZoomFactor;
 		}
@@ -1621,7 +1626,7 @@ export class Component extends Container {
 
 			this.skipRangeEvent = skipRangeEvent;
 
-			this.dispatchImmediately("rangechangestarted");			
+			this.dispatchImmediately("rangechangestarted");
 
 			if (this.rangeChangeDuration > 0 && !instantly) {
 

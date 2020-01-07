@@ -123,6 +123,9 @@ export declare class Adapter<Target, T> {
      * @param $number.order(left.id,       right.id));	}  [description]
      */
     private _callbacks;
+    protected _disabled: {
+        [key in keyof T]?: number;
+    };
     /**
      * Holds an object reference this Adapter is for.
      */
@@ -212,11 +215,30 @@ export declare class Adapter<Target, T> {
      */
     remove(key: string, priority?: number): void;
     /**
-     * Returns if there are any adapters set for the specific `key`.
+     * Enable applying adapters for a certain key, if it was disabled before by
+     * `disableKey()`.
+     *
+     * @param key Key
+     */
+    enableKey<Key extends keyof T>(key: Key): void;
+    /**
+     * Disable applying adapters for a certain key.
+     *
+     * Optionally, can set how many applies to skip before automatically
+     * re-enabling the applying.
+     *
+     * @param key     Key
+     * @param amount  Number of applies to skip
+     */
+    disableKey<Key extends keyof T>(key: Key, amount?: number): void;
+    protected _hasListenersByType<Key extends keyof T>(key: Key): boolean;
+    /**
+     * Returns if there are any enabled adapters set for the specific `key`.
      *
      * @returns Are there any adapters for the key?
      */
     isEnabled<Key extends keyof T>(key: Key): boolean;
+    protected _shouldDispatch<Key extends keyof T>(key: Key): boolean;
     /**
      * Passes the input value through all the callbacks for the defined `key`.
      *
@@ -227,7 +249,7 @@ export declare class Adapter<Target, T> {
      */
     apply<Key extends keyof T>(key: Key, value: T[Key]): T[Key];
     /**
-     * Returns all adapter keys that are currently in effect.
+     * Returns all adapter keys which are in this adapter.
      *
      * @return Adapter keys
      */

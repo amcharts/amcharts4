@@ -3019,6 +3019,7 @@ var Export = /** @class */ (function (_super) {
          * Data fields in `{ field: fieldName }` format. Those are used for
          * exporting in data formats to name the columns.
          *
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/#Changing_order_and_names_of_columns} for examples and details
          * @param value Field names
          */
         set: function (value) {
@@ -3126,7 +3127,7 @@ var Export = /** @class */ (function (_super) {
          * @param value NumberFormatter instance
          */
         set: function (value) {
-            this._dateFormatter = value;
+            this._numberFormatter = value;
         },
         enumerable: true,
         configurable: true

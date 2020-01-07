@@ -912,6 +912,9 @@ export class XYSeries extends Series {
 	protected _dataSetChanged: boolean = false;
 
 
+	protected _maxxX:number = 100000;
+	protected _maxxY:number = 100000;
+
 	/**
 	 * Constructor
 	 */
@@ -1293,6 +1296,9 @@ export class XYSeries extends Series {
 	 */
 	public validateDataItems() {
 
+		this._maxxX = $math.max(100000, this.chart.plotContainer.maxWidth * 2);
+		this._maxxY = $math.max(100000, this.chart.plotContainer.maxHeight * 2);
+
 		// this helps date axis to check which baseInterval we should use
 		let xAxis = this.xAxis;
 		let yAxis = this.yAxis;
@@ -1519,7 +1525,9 @@ export class XYSeries extends Series {
 	 */
 	public setDataSet(id: string): boolean {
 		let changed = super.setDataSet(id);
+
 		if (changed) {
+
 			this._dataSetChanged = true;
 			let dataItems = this.dataItems;
 
@@ -1534,6 +1542,8 @@ export class XYSeries extends Series {
 
 			this._prevStartIndex = undefined;
 			this._prevEndIndex = undefined;
+			this._startIndex = undefined;
+			this._endIndex = undefined;
 
 			//this.processValues(false); // this will slow down!
 
@@ -2206,7 +2216,34 @@ export class XYSeries extends Series {
 	 * @param stacked  Can be stacked?
 	 */
 	public set stacked(stacked: boolean) {
-		this.setPropertyValue("stacked", stacked, true);
+		if(this.setPropertyValue("stacked", stacked, true)){			
+			if(this.chart){
+				this.chart.series.each((series)=>{
+					if(series.baseAxis == this.baseAxis){
+						series.stackedSeries = undefined;
+						series.invalidateProcessedData();
+					}
+				})
+			}
+
+			if(!stacked){
+				let xAxis = this.xAxis;
+				let yAxis = this.yAxis;
+				let field: string;
+
+				if (xAxis != this.baseAxis && xAxis instanceof ValueAxis) {
+					field = this.xField;
+				}
+				if (yAxis != this.baseAxis && yAxis instanceof ValueAxis) {
+					field = this.yField;
+				}
+				if(field){
+					this.dataItems.each((dataItem)=>{
+						dataItem.setCalculatedValue(field, 0, "stack");
+					})
+				}
+			}
+		}
 	}
 
 	/**
@@ -2704,8 +2741,8 @@ export class XYSeries extends Series {
 			let x: number = this.xAxis.getX(dataItem, xKey, locationX);
 			let y: number = this.yAxis.getY(dataItem, yKey, locationY);
 
-			x = $math.fitToRange(x, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
-			y = $math.fitToRange(y, -100000, 100000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+			x = $math.fitToRange(x, -this._maxxX, this._maxxX); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
+			y = $math.fitToRange(y, -this._maxxY, this._maxxY); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
 
 			return { x: x, y: y };
 		}

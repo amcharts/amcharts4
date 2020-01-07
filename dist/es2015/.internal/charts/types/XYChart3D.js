@@ -235,8 +235,8 @@ var XYChart3D = /** @class */ (function (_super) {
                         else {
                             column.zIndex = 1000 * i_1 + s - series.depthIndex * 100;
                         }
-                        i_1++;
                     }
+                    i_1++;
                 });
                 if (inversed_1) {
                     s--;

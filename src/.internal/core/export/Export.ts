@@ -4238,6 +4238,7 @@ export class Export extends Validatable {
 	 * Data fields in `{ field: fieldName }` format. Those are used for
 	 * exporting in data formats to name the columns.
 	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/#Changing_order_and_names_of_columns} for examples and details
 	 * @param value Field names
 	 */
 	public set dataFields(value: any) {
@@ -4273,14 +4274,14 @@ export class Export extends Validatable {
 	 *
 	 * @param value DateFormatter instance
 	 */
-	public set dateFormatter(value: any) {
+	public set dateFormatter(value: DateFormatter) {
 		this._dateFormatter = value;
 	}
 
 	/**
 	 * @return A DateFormatter instance
 	 */
-	public get dateFormatter(): any {
+	public get dateFormatter(): DateFormatter {
 		if (!this._dateFormatter) {
 			this._dateFormatter = new DateFormatter();
 			this._dateFormatter.language = this.language;
@@ -4336,14 +4337,14 @@ export class Export extends Validatable {
 	 * @since 4.5.15
 	 * @param value NumberFormatter instance
 	 */
-	public set numberFormatter(value: any) {
-		this._dateFormatter = value;
+	public set numberFormatter(value: NumberFormatter) {
+		this._numberFormatter = value;
 	}
 
 	/**
 	 * @return A NumberFormatter instance
 	 */
-	public get numberFormatter(): any {
+	public get numberFormatter(): NumberFormatter {
 		if (!this._numberFormatter) {
 			this._numberFormatter = new NumberFormatter();
 			this._numberFormatter.language = this.language;
@@ -4401,14 +4402,14 @@ export class Export extends Validatable {
 	 *
 	 * @param value  DurationFormatter instance
 	 */
-	public set durationFormatter(value: any) {
+	public set durationFormatter(value: DurationFormatter) {
 		this._durationFormatter = value;
 	}
 
 	/**
 	 * @return A DurationFormatter instance
 	 */
-	public get durationFormatter(): any {
+	public get durationFormatter(): DurationFormatter {
 		if (!this._durationFormatter) {
 			this._durationFormatter = new DurationFormatter();
 			this._durationFormatter.language = this.language;

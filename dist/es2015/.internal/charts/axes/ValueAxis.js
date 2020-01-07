@@ -670,6 +670,16 @@ var ValueAxis = /** @class */ (function (_super) {
         return 0;
     };
     /**
+     * When fontSize of fontFamily changes we need to hard-invalidate all Labels of this container to position them properly.
+     */
+    ValueAxis.prototype.invalidateLabels = function () {
+        _super.prototype.invalidateLabels.call(this);
+        this.dataItems.each(function (dataItem) {
+            dataItem.value = undefined;
+        });
+        this.invalidate();
+    };
+    /**
      * Converts an relative position to a corresponding value within
      * axis' scale.
      *

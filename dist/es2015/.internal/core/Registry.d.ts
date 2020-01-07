@@ -89,11 +89,11 @@ export declare class Registry {
         [index: string]: string;
     };
     /**
- * A list of invalid(ated) [[Sprite]] objects that need to be re-validated
- * during next cycle.
- *
- * @ignore Exclude from docs
- */
+     * A list of invalid(ated) [[Sprite]] objects that need to be re-validated
+     * during next cycle.
+     *
+     * @ignore Exclude from docs
+     */
     invalidSprites: {
         [index: string]: Array<Sprite>;
     };

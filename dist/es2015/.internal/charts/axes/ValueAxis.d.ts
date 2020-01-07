@@ -422,6 +422,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      */
     valueToPosition(value: number): number;
     /**
+     * When fontSize of fontFamily changes we need to hard-invalidate all Labels of this container to position them properly.
+     */
+    invalidateLabels(): void;
+    /**
      * Converts an relative position to a corresponding value within
      * axis' scale.
      *

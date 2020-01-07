@@ -257,7 +257,7 @@ export declare class DateFormatter extends BaseObject {
      * @return First day of week
      */
     /**
-     * Dirst day of the week:
+     * First day of the week:
      *
      * * 0 - Sunday
      * * 1 - Monday

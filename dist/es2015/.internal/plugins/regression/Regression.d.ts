@@ -121,7 +121,17 @@ export declare class Regression extends Plugin {
      * data.
      */
     private processSeries();
+    /**
+     * Saves series' original data and (re)adds data adapter.
+     */
+    private saveOriginalData();
+    /**
+     * Invalidates data.
+     */
     private invalidateData();
+    /**
+     * Calculates regression series data.
+     */
     private calcData();
     /**
      * @return Method

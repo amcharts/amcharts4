@@ -1525,6 +1525,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public dispose(): void {
 		if (!this.isDisposed()) {
 
+			if(this.showTooltipOn == "always" && this.tooltip){
+				this.tooltip.hide();
+			}
+
 			this.dispatchImmediately("beforedisposed");
 
 			if (this.isBaseSprite) {

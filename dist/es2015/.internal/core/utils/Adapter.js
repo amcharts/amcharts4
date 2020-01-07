@@ -123,8 +123,7 @@ var GlobalAdapter = /** @class */ (function () {
      * @return {boolean}
      */
     GlobalAdapter.prototype.isEnabled = function (type, key) {
-        // TODO check the type and key
-        return this._callbacks.length > 0;
+        return $array.any(this._callbacks.values, function (x) { return x.key === key && type instanceof x.type; });
     };
     /**
      * Applies global adapters for the object of the specific type.
@@ -240,6 +239,7 @@ var Adapter = /** @class */ (function () {
         this._callbacks = new SortedList(function (left, right) {
             return $order.or($number.order(left.priority, right.priority), $number.order(left.id, right.id));
         });
+        this._disabled = {};
         this.object = c;
         // TODO this exposes the internal events
         this.events = this._callbacks.events;
@@ -332,6 +332,7 @@ var Adapter = /** @class */ (function () {
         var _this = this;
         // It has to make a copy because it removes the elements while iterating
         // TODO inefficient
+        // TODO should this re-enable the key ?
         $array.each($iter.toArray(this._callbacks.iterator()), function (item) {
             // TODO test this
             if (item.key === key && (!$type.isNumber(priority) || priority === item.priority)) {
@@ -340,13 +341,52 @@ var Adapter = /** @class */ (function () {
         });
     };
     /**
-     * Returns if there are any adapters set for the specific `key`.
+     * Enable applying adapters for a certain key, if it was disabled before by
+     * `disableKey()`.
+     *
+     * @param key Key
+     */
+    Adapter.prototype.enableKey = function (key) {
+        delete this._disabled[key];
+    };
+    /**
+     * Disable applying adapters for a certain key.
+     *
+     * Optionally, can set how many applies to skip before automatically
+     * re-enabling the applying.
+     *
+     * @param key     Key
+     * @param amount  Number of applies to skip
+     */
+    Adapter.prototype.disableKey = function (key, amount) {
+        if (amount === void 0) { amount = Infinity; }
+        this._disabled[key] = amount;
+    };
+    Adapter.prototype._hasListenersByType = function (key) {
+        return $array.any(this._callbacks.values, function (x) { return x.key === key; });
+    };
+    /**
+     * Returns if there are any enabled adapters set for the specific `key`.
      *
      * @returns Are there any adapters for the key?
      */
     Adapter.prototype.isEnabled = function (key) {
-        // TODO check the key
-        return this._callbacks.length > 0 || globalAdapter.isEnabled(this.object, key);
+        return this._disabled[key] == null && (this._hasListenersByType(key) || globalAdapter.isEnabled(this.object, key));
+    };
+    Adapter.prototype._shouldDispatch = function (key) {
+        var count = this._disabled[key];
+        if (!$type.isNumber(count)) {
+            return true;
+        }
+        else {
+            if (count <= 1) {
+                delete this._disabled[key];
+            }
+            else {
+                --this._disabled[key];
+            }
+            return false;
+        }
     };
     /**
      * Passes the input value through all the callbacks for the defined `key`.
@@ -357,23 +397,28 @@ var Adapter = /** @class */ (function () {
      * @return Output value
      */
     Adapter.prototype.apply = function (key, value) {
-        // This is needed to improve the performance and reduce garbage collection
-        var callbacks = this._callbacks.values;
-        var length = callbacks.length;
-        if (length > 0) {
-            for (var i = 0; i < length; ++i) {
-                var item = callbacks[i];
-                if (item.key === key) {
-                    value = item.callback.call(item.scope, value, this.object, key);
+        if (this._shouldDispatch(key)) {
+            // This is needed to improve the performance and reduce garbage collection
+            var callbacks = this._callbacks.values;
+            var length_1 = callbacks.length;
+            if (length_1 > 0) {
+                for (var i = 0; i < length_1; ++i) {
+                    var item = callbacks[i];
+                    if (item.key === key) {
+                        value = item.callback.call(item.scope, value, this.object, key);
+                    }
                 }
             }
+            // Apply global adapters
+            value = globalAdapter.applyAll(this.object, key, value);
+            return value;
         }
-        // Apply global adapters
-        value = globalAdapter.applyAll(this.object, key, value);
-        return value;
+        else {
+            return value;
+        }
     };
     /**
-     * Returns all adapter keys that are currently in effect.
+     * Returns all adapter keys which are in this adapter.
      *
      * @return Adapter keys
      */
@@ -396,6 +441,7 @@ var Adapter = /** @class */ (function () {
      * Clears all callbacks from this Adapter.
      */
     Adapter.prototype.clear = function () {
+        // TODO should this also re-enable all the keys ?
         this._callbacks.clear();
     };
     return Adapter;

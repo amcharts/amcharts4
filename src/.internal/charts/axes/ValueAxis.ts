@@ -662,10 +662,11 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 					//this.processDataItem(dataItem);
 					this.appendDataItem(dataItem);
 					dataItem.axisBreak = undefined;
+
 					if (dataItem.value != value) {
 						dataItem.value = value;
-
 						dataItem.text = this.formatLabel(value);
+						
 						if (dataItem.label && dataItem.label.invalid) {
 							dataItem.label.validate();
 						}
@@ -978,6 +979,17 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		}
 
 		return 0;
+	}
+
+	/**
+	 * When fontSize of fontFamily changes we need to hard-invalidate all Labels of this container to position them properly.
+	 */
+	public invalidateLabels(){
+		super.invalidateLabels();
+		this.dataItems.each((dataItem)=>{
+			dataItem.value = undefined;
+		})
+		this.invalidate();
 	}
 
 	/**

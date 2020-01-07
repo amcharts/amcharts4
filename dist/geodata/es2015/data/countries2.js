@@ -1419,7 +1419,7 @@ export default {
         "country": "Uzbekistan",
         "continent_code": "AS",
         "continent": "Asia",
-        "maps": ["uzbekinstanLow", "uzbekinstanHigh"]
+        "maps": ["uzbekistanLow", "uzbekistanHigh"]
     },
     "VA": {
         "country": "Holy See (Vatican City State)",

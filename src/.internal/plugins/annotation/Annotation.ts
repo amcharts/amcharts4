@@ -154,6 +154,25 @@ export class Annotation extends Plugin {
 	public icons: Array<string> = [];
 
 	/**
+	 * Logs orinal size of the chart so that annotations can be repositioned
+	 * relatively when that changes.
+	 * @type {number}
+	 */
+	private _originalBbox: { width: number, height: number };
+
+	/**
+	 * If set to `true` plugin will try to reposition annotation relatively when
+	 * size of the chart chanages.
+	 *
+	 * This feature is experimental. Use at your own risk.
+	 *
+	 * @default false
+	 * @since 4.7.19
+	 * @type {boolean}
+	 */
+	public autoSize: boolean = false;
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -214,6 +233,8 @@ export class Annotation extends Plugin {
 		else {
 			target.exporting.menu.invalidate();
 		}
+
+		target.events.on("sizechanged", this.sizeAnnotations, this);
 
 		// Create DEL key handler
 		getInteraction().body.events.on("keyup", (ev) => {
@@ -1214,6 +1235,40 @@ export class Annotation extends Plugin {
 			this.updateSVG();
 			this._data = undefined;
 		});
+	}
+
+	/**
+	 * Resizes annotation as per trget chart size.
+	 */
+	private sizeAnnotations(): void {
+		if (this.autoSize) {
+			if (!this._originalBbox) {
+				const bbox = this.group.getBBox();
+				this._originalBbox = {
+					width: bbox.width,
+					height: bbox.height
+				}
+			}
+
+			//console.log(bbox.width);
+			const w = this.target.pixelWidth;
+			const h = this.target.pixelHeight;
+			const dx = (w / this._originalBbox.width);
+			const dy = (h / this._originalBbox.height);
+			const data = this.data;
+			console.log(dx);
+			for (let i = 0; i < data.objects.length; i++) {
+				const item = <any>data.objects[i];
+				item.left *= dx;
+				item.top *= dy;
+			}
+			
+			this.data = data;
+			this._originalBbox = {
+				width: w,
+				height: h
+			}
+		}
 	}
 
 }

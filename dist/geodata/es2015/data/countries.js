@@ -150,7 +150,7 @@ export default {
     "GB": ["ukLow", "ukHigh", "ukCountiesLow", "ukCountiesHigh"],
     "UA": ["ukraineLow", "ukraineHigh"],
     "US": ["usaLow", "usaHigh", "usaTerritoriesLow", "usaTerritoriesHigh", "usaTerritories2Low", "usaTerritories2High"],
-    "UZ": ["uzbekinstanLow", "uzbekinstanHigh"],
+    "UZ": ["uzbekistanLow", "uzbekistanHigh"],
     "VA": ["vaticanLow", "vaticanHigh"],
     "VE": ["venezuelaLow", "venezuelaHigh"],
     "VN": ["vietnamLow", "vietnamHigh"],
