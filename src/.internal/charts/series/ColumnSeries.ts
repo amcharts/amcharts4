@@ -362,7 +362,7 @@ export class ColumnSeries extends XYSeries {
 
 
 			sortedByAxis.sort((a, b) => a.axis - b.axis);
-			let prevAxisIndex:number;
+			let prevAxisIndex: number;
 
 			$array.each(sortedByAxis, (sortedItem) => {
 				let series = sortedItem.series;
@@ -378,7 +378,7 @@ export class ColumnSeries extends XYSeries {
 				prevAxisIndex = sortedItem.axis;
 			});
 
-			if(!this.clustered){
+			if (!this.clustered) {
 				index = 0;
 				clusterCount = 1;
 			}
@@ -403,6 +403,8 @@ export class ColumnSeries extends XYSeries {
 			let dataItem = this.dataItems.getIndex(i);
 			this.disableUnusedColumns(dataItem);
 		}
+
+		this._propertiesChanged = false;
 	}
 
 	/**
@@ -739,6 +741,13 @@ export class ColumnSeries extends XYSeries {
 			}
 			else {
 				column = dataItem.column;
+				if (this._propertiesChanged) {					
+					$object.copyProperties(this, column, visualProperties);
+					$object.copyProperties(this.columns.template, column, visualProperties);
+					$array.each(visualProperties, (property) => {
+						(<any>column)[property] = column[property];
+					})
+				}
 			}
 
 			column.width = w;

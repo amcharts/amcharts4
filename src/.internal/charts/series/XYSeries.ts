@@ -9,7 +9,7 @@
  * @hidden
  */
 import { Series, SeriesDataItem, ISeriesProperties, ISeriesDataFields, ISeriesAdapters, ISeriesEvents } from "./Series";
-import { Sprite } from "../../core/Sprite";
+import { Sprite, visualProperties } from "../../core/Sprite";
 import { Axis } from "../axes/Axis";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { ValueAxis } from "../axes/ValueAxis";
@@ -915,6 +915,8 @@ export class XYSeries extends Series {
 	protected _maxxX:number = 100000;
 	protected _maxxY:number = 100000;
 
+	protected _propertiesChanged:boolean = false;
+
 	/**
 	 * Constructor
 	 */
@@ -954,6 +956,19 @@ export class XYSeries extends Series {
 		this._disposers.push(this._xAxis);
 		this._disposers.push(this._yAxis);
 
+		this.observe(visualProperties, ()=>{
+			if(this.inited){
+				this._propertiesChanged = true;
+				if(this.legendDataItem){
+					this.legendDataItem.childrenCreated = false;
+				}
+				if(this.chart && this.chart.legend){
+					this.chart.legend.invalidateDataItems();
+				}
+				this.invalidate();
+			}
+		}, undefined, false);
+
 		this.applyTheme();
 	}
 
@@ -982,6 +997,9 @@ export class XYSeries extends Series {
 	 * @ignore
 	 */
 	public dataChangeUpdate() {
+		this.dataGrouped = false;
+		this._baseInterval = {};
+
 		this._tmin.clear();
 		this._tmax.clear();
 

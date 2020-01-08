@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.20] - 2020-01-08
+
+### Fixed
+- Changing data for a chart with `DateAxis` and `groupData = true` and custom `baseInterval` was resulting the grouping not to working.
+- Changing colors and some other visual properties of a series after the chart was inited was not affecting `LineSeries` and `ColumnSeries`, as well as their legend markers.
+- Sometimes the active tooltip of the chart was hidden even though it should remain visible (if some other sprite was hidden at the moment).
+
+
 ## [4.7.19] - 2020-01-07
 
 ### Added

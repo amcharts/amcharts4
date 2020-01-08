@@ -244,6 +244,7 @@ var ColumnSeries = /** @class */ (function (_super) {
             var dataItem = this.dataItems.getIndex(i);
             this.disableUnusedColumns(dataItem);
         }
+        this._propertiesChanged = false;
     };
     /**
      * Validates data item's element, effectively redrawing it.
@@ -525,6 +526,13 @@ var ColumnSeries = /** @class */ (function (_super) {
             }
             else {
                 column_1 = dataItem.column;
+                if (this._propertiesChanged) {
+                    $object.copyProperties(this, column_1, visualProperties);
+                    $object.copyProperties(this.columns.template, column_1, visualProperties);
+                    $array.each(visualProperties, function (property) {
+                        column_1[property] = column_1[property];
+                    });
+                }
             }
             column_1.width = w;
             column_1.height = h;

@@ -1188,7 +1188,6 @@ var Annotation = /** @class */ (function (_super) {
             var dx = (w / this._originalBbox.width);
             var dy = (h / this._originalBbox.height);
             var data = this.data;
-            console.log(dx);
             for (var i = 0; i < data.objects.length; i++) {
                 var item = data.objects[i];
                 item.left *= dx;

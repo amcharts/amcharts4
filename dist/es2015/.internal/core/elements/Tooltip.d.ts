@@ -170,6 +170,10 @@ export declare class Tooltip extends Container {
      */
     targetSprite: $type.Optional<Sprite>;
     /**
+     * reference to a sprite which now shows this tooltip instance.
+     */
+    currentSprite: Sprite;
+    /**
      * Constructor
      */
     constructor();

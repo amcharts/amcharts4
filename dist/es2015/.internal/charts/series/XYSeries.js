@@ -9,7 +9,7 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { Series, SeriesDataItem } from "./Series";
-import { Sprite } from "../../core/Sprite";
+import { Sprite, visualProperties } from "../../core/Sprite";
 import { ValueAxis } from "../axes/ValueAxis";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
@@ -505,6 +505,7 @@ var XYSeries = /** @class */ (function (_super) {
         _this._dataSetChanged = false;
         _this._maxxX = 100000;
         _this._maxxY = 100000;
+        _this._propertiesChanged = false;
         _this.className = "XYSeries";
         _this.isMeasured = false;
         _this.groupFields.valueX = "close";
@@ -527,6 +528,18 @@ var XYSeries = /** @class */ (function (_super) {
         }, undefined, false);
         _this._disposers.push(_this._xAxis);
         _this._disposers.push(_this._yAxis);
+        _this.observe(visualProperties, function () {
+            if (_this.inited) {
+                _this._propertiesChanged = true;
+                if (_this.legendDataItem) {
+                    _this.legendDataItem.childrenCreated = false;
+                }
+                if (_this.chart && _this.chart.legend) {
+                    _this.chart.legend.invalidateDataItems();
+                }
+                _this.invalidate();
+            }
+        }, undefined, false);
         _this.applyTheme();
         return _this;
     }
@@ -553,6 +566,8 @@ var XYSeries = /** @class */ (function (_super) {
      * @ignore
      */
     XYSeries.prototype.dataChangeUpdate = function () {
+        this.dataGrouped = false;
+        this._baseInterval = {};
         this._tmin.clear();
         this._tmax.clear();
         this._smin.clear();

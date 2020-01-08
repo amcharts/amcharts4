@@ -7476,7 +7476,10 @@ var Sprite = /** @class */ (function (_super) {
         var _this = this;
         var transition;
         if (!this.isHiding && this.visible && !this.isDisposed()) {
-            this.hideTooltip(0);
+            // added to solve 51375
+            if (this.tooltip && this.tooltip.currentSprite == this) {
+                this.hideTooltip(0);
+            }
             if (this._hideAnimation) {
                 this._hideAnimation.kill();
                 this._hideAnimation = undefined;
@@ -7853,6 +7856,7 @@ var Sprite = /** @class */ (function (_super) {
                             duration = 1;
                         }
                         tooltip.show(duration);
+                        tooltip.currentSprite = this;
                         return true;
                     }
                     else {

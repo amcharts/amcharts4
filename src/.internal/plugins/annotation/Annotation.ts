@@ -1256,7 +1256,7 @@ export class Annotation extends Plugin {
 			const dx = (w / this._originalBbox.width);
 			const dy = (h / this._originalBbox.height);
 			const data = this.data;
-			console.log(dx);
+
 			for (let i = 0; i < data.objects.length; i++) {
 				const item = <any>data.objects[i];
 				item.left *= dx;

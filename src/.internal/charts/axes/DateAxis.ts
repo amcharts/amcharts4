@@ -879,10 +879,13 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		this.series.each((series) => {
 			if (JSON.stringify(series._baseInterval[this.uid]) != JSON.stringify(this.mainBaseInterval)) {
+				
+				series._baseInterval[this.uid] = this.mainBaseInterval;
+
 				series.mainDataSet.each((dataItem) => {
 					this.postProcessSeriesDataItem(dataItem);
 				});
-				series._baseInterval[this.uid] = this.mainBaseInterval;
+				
 				if (this.groupData) {
 					this.groupSeriesData(series);
 				}
@@ -1751,7 +1754,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @param dataItem  Data item
 	 */
 	public processSeriesDataItem(dataItem: XYSeriesDataItem, axisLetter?: string): void {
-
 		let series = dataItem.component;
 		let time: number;
 
@@ -1791,12 +1793,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		if (series._baseInterval[this.uid]) {
 			this.postProcessSeriesDataItem(dataItem);
-		}
-		else {
-			if (this._baseInterval) {
-				series._baseInterval[this.uid] = this._baseInterval;
-				this.postProcessSeriesDataItem(dataItem);
-			}
 		}
 	}
 
@@ -2525,6 +2521,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				series.setDataSet("");				
 
 				if(value && !series.dataGrouped && series.inited){
+					series._baseInterval[this.uid] = this.mainBaseInterval;
 					this.groupSeriesData(series);
 				}
 			})

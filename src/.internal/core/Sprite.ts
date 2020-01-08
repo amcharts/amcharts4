@@ -8326,7 +8326,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		let transition: $type.Optional<Animation>;
 
 		if (!this.isHiding && this.visible && !this.isDisposed()) {
-			this.hideTooltip(0);
+			// added to solve 51375
+			if(this.tooltip && this.tooltip.currentSprite == this){
+				this.hideTooltip(0);
+			}
 
 			if (this._hideAnimation) {
 				this._hideAnimation.kill();
@@ -8743,6 +8746,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 						}
 
 						tooltip.show(duration);
+						tooltip.currentSprite = this;
 						return true;
 					}
 					else {

@@ -636,10 +636,10 @@ var DateAxis = /** @class */ (function (_super) {
         var _this = this;
         this.series.each(function (series) {
             if (JSON.stringify(series._baseInterval[_this.uid]) != JSON.stringify(_this.mainBaseInterval)) {
+                series._baseInterval[_this.uid] = _this.mainBaseInterval;
                 series.mainDataSet.each(function (dataItem) {
                     _this.postProcessSeriesDataItem(dataItem);
                 });
-                series._baseInterval[_this.uid] = _this.mainBaseInterval;
                 if (_this.groupData) {
                     _this.groupSeriesData(series);
                 }
@@ -1420,12 +1420,6 @@ var DateAxis = /** @class */ (function (_super) {
         if (series._baseInterval[this.uid]) {
             this.postProcessSeriesDataItem(dataItem);
         }
-        else {
-            if (this._baseInterval) {
-                series._baseInterval[this.uid] = this._baseInterval;
-                this.postProcessSeriesDataItem(dataItem);
-            }
-        }
     };
     /**
      * [updateAxisBySeries description]
@@ -2108,6 +2102,7 @@ var DateAxis = /** @class */ (function (_super) {
                 this.series.each(function (series) {
                     series.setDataSet("");
                     if (value && !series.dataGrouped && series.inited) {
+                        series._baseInterval[_this.uid] = _this.mainBaseInterval;
                         _this.groupSeriesData(series);
                     }
                 });
