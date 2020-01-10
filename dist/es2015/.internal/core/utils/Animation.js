@@ -268,7 +268,7 @@ var Animation = /** @class */ (function (_super) {
             if (options.from == options.to) { // || options.to == (<any>this.object)[options.property]){ this is not good, as dataItem.value is set to final at once, and we animate workingValue
                 $array.remove(this.animationOptions, options);
             }
-            else if (!$type.hasValue(options.from)) {
+            else if (!$type.hasValue(options.from) || (!(options.from instanceof Percent) && (options.to instanceof Percent)) || ((options.from instanceof Percent) && !(options.to instanceof Percent))) {
                 // Initial value is undefined, treat it as static
                 this.staticOptions.push(options);
                 $array.remove(this.animationOptions, options);

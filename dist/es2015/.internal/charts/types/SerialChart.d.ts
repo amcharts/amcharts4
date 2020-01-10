@@ -135,6 +135,7 @@ export declare class SerialChart extends Chart {
      * @return Chart's series
      */
     readonly series: ListTemplate<this["_seriesType"]>;
+    protected handleSeriesRemoved(event: IListEvents<Series>["removed"]): void;
     /**
      * Decorates a new [[Series]] object with required parameters when it is
      * added to the chart.

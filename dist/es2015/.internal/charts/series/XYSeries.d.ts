@@ -860,6 +860,13 @@ export declare class XYSeries extends Series {
      */
     protected returnBulletDefaultState(dataItem?: XYSeriesDataItem): void;
     protected shouldCreateBullet(dataItem: this["_dataItem"], bulletTemplate: Bullet): boolean;
+    /**
+     * @ignore
+     */
+    updateTooltip(): void;
+    /**
+     * @ignore
+     */
     positionBullet(bullet: Bullet): void;
     protected positionBulletReal(bullet: Sprite, positionX: number, positionY: number): void;
     /**
@@ -872,6 +879,10 @@ export declare class XYSeries extends Series {
     * @ignore
     */
     protected getBulletLocationY(bullet: Bullet, field: string): number;
+    /**
+     * @todo mm
+     */
+    updateStacking(): void;
     /**
      * @return Can be stacked?
      */

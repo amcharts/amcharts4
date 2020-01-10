@@ -89,7 +89,6 @@ export class SunburstDataItem extends PieChartDataItem {
 		if (!this.children || this.children.length == 0) {
 			value = this.values["value"].workingValue;
 		}
-
 		else {
 			$iter.each(this.children.iterator(), (child) => {
 				let childValue = child.value;
@@ -257,6 +256,10 @@ export interface ISunburstDataFields extends IPieChartDataFields {
 	 */
 	color?: string;
 
+	/**
+	 * Name of the field in data that holds boolean flag if item should be hidden.
+	 */
+	hidden?: string;
 }
 
 /**
@@ -488,6 +491,7 @@ export class Sunburst extends PieChart {
 			this.dataUsers.removeValue(series); // series do not use data directly, that's why we remove it
 			series.data = dataItem.children.values;
 			series.fill = dataItem.color;
+			series.dataFields.hidden = this.dataFields.hidden;
 
 			series.slices.template.adapter.add("fill", (fill, target) => {
 				let dataItem = <SunburstSeriesDataItem>target.dataItem;

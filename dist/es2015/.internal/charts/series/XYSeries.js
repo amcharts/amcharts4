@@ -604,6 +604,10 @@ var XYSeries = /** @class */ (function (_super) {
                 throw Error("Data fields for series \"" + (this.name ? this.name : this.uid) + "\" are not properly defined.");
             }
         }
+        // 4.7.21 solves 51540
+        if (this.inited && this.isHidden) {
+            this.hide(0);
+        }
         this.dataGrouped = false;
     };
     /**
@@ -894,6 +898,7 @@ var XYSeries = /** @class */ (function (_super) {
                 }
             }
         }
+        this.updateTooltip();
         _super.prototype.validate.call(this);
     };
     Object.defineProperty(XYSeries.prototype, "xAxis", {
@@ -1397,6 +1402,17 @@ var XYSeries = /** @class */ (function (_super) {
         }
         return true;
     };
+    /**
+     * @ignore
+     */
+    XYSeries.prototype.updateTooltip = function () {
+        if (!this.hideTooltipWhileZooming && this.tooltip && !this.tooltip.isHidden && !this.isHiding && !this.isHidden && this.tooltipDataItem) {
+            this.showTooltipAtDataItem(this.tooltipDataItem);
+        }
+    };
+    /**
+     * @ignore
+     */
     XYSeries.prototype.positionBullet = function (bullet) {
         _super.prototype.positionBullet.call(this, bullet);
         var dataItem = bullet.dataItem;
@@ -1592,6 +1608,22 @@ var XYSeries = /** @class */ (function (_super) {
         }
         return bulletLocation;
     };
+    /**
+     * @todo mm
+     */
+    XYSeries.prototype.updateStacking = function () {
+        var _this = this;
+        this.invalidateDataItems();
+        if (this.chart) {
+            this.chart.series.each(function (series) {
+                if (series.baseAxis == _this.baseAxis) {
+                    series.stackedSeries = undefined;
+                    series.invalidateDataItems();
+                    series.invalidateProcessedData();
+                }
+            });
+        }
+    };
     Object.defineProperty(XYSeries.prototype, "stacked", {
         /**
          * @return Can be stacked?
@@ -1610,19 +1642,11 @@ var XYSeries = /** @class */ (function (_super) {
          * @param stacked  Can be stacked?
          */
         set: function (stacked) {
-            var _this = this;
             if (this.setPropertyValue("stacked", stacked, true)) {
-                if (this.chart) {
-                    this.chart.series.each(function (series) {
-                        if (series.baseAxis == _this.baseAxis) {
-                            series.stackedSeries = undefined;
-                            series.invalidateProcessedData();
-                        }
-                    });
-                }
+                this.updateStacking();
+                var xAxis = this.xAxis;
+                var yAxis = this.yAxis;
                 if (!stacked) {
-                    var xAxis = this.xAxis;
-                    var yAxis = this.yAxis;
                     var field_1;
                     if (xAxis != this.baseAxis && xAxis instanceof ValueAxis) {
                         field_1 = this.xField;

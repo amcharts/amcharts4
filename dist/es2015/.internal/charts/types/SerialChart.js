@@ -119,23 +119,10 @@ var SerialChart = /** @class */ (function (_super) {
          * @return Chart's series
          */
         get: function () {
-            var _this = this;
             if (!this._series) {
                 this._series = new ListTemplate(this.createSeries());
-                this._series.events.on("inserted", function (event) {
-                    _this.handleSeriesAdded(event);
-                }, undefined, false);
-                this._series.events.on("removed", function (event) {
-                    var series = event.oldValue;
-                    _this.dataUsers.removeValue(series);
-                    _this.dataUsers.each(function (dataUser) {
-                        dataUser.invalidateDataItems();
-                    });
-                    if (series.autoDispose) {
-                        series.dispose();
-                    }
-                    _this.feedLegend();
-                }, undefined, false);
+                this._series.events.on("inserted", this.handleSeriesAdded, this, false);
+                this._series.events.on("removed", this.handleSeriesRemoved, this, false);
                 this._disposers.push(new ListDisposer(this._series));
                 this._disposers.push(this._series.template);
             }
@@ -144,6 +131,17 @@ var SerialChart = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    SerialChart.prototype.handleSeriesRemoved = function (event) {
+        var series = event.oldValue;
+        this.dataUsers.removeValue(series);
+        this.dataUsers.each(function (dataUser) {
+            dataUser.invalidateDataItems();
+        });
+        if (series.autoDispose) {
+            series.dispose();
+        }
+        this.feedLegend();
+    };
     /**
      * Decorates a new [[Series]] object with required parameters when it is
      * added to the chart.

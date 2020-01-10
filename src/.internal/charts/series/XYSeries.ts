@@ -912,10 +912,10 @@ export class XYSeries extends Series {
 	protected _dataSetChanged: boolean = false;
 
 
-	protected _maxxX:number = 100000;
-	protected _maxxY:number = 100000;
+	protected _maxxX: number = 100000;
+	protected _maxxY: number = 100000;
 
-	protected _propertiesChanged:boolean = false;
+	protected _propertiesChanged: boolean = false;
 
 	/**
 	 * Constructor
@@ -956,13 +956,13 @@ export class XYSeries extends Series {
 		this._disposers.push(this._xAxis);
 		this._disposers.push(this._yAxis);
 
-		this.observe(visualProperties, ()=>{
-			if(this.inited){
+		this.observe(visualProperties, () => {
+			if (this.inited) {
 				this._propertiesChanged = true;
-				if(this.legendDataItem){
+				if (this.legendDataItem) {
 					this.legendDataItem.childrenCreated = false;
 				}
-				if(this.chart && this.chart.legend){
+				if (this.chart && this.chart.legend) {
 					this.chart.legend.invalidateDataItems();
 				}
 				this.invalidate();
@@ -1043,6 +1043,11 @@ export class XYSeries extends Series {
 			if (!$type.hasValue(this.dataFields[<keyof this["_dataFields"]>this._xField]) || !$type.hasValue(this.dataFields[<keyof this["_dataFields"]>this._yField])) {
 				throw Error("Data fields for series \"" + (this.name ? this.name : this.uid) + "\" are not properly defined.");
 			}
+		}
+
+		// 4.7.21 solves 51540
+		if (this.inited && this.isHidden) {
+			this.hide(0);
 		}
 
 		this.dataGrouped = false;
@@ -1386,7 +1391,7 @@ export class XYSeries extends Series {
 				}
 			}
 		}
-
+		this.updateTooltip();
 		super.validate();
 	}
 
@@ -1972,7 +1977,19 @@ export class XYSeries extends Series {
 		return true;
 	}
 
+	/**
+	 * @ignore
+	 */
+	public updateTooltip() {
+		if (!this.hideTooltipWhileZooming && this.tooltip && !this.tooltip.isHidden && !this.isHiding && !this.isHidden && this.tooltipDataItem) {
+			this.showTooltipAtDataItem(<this["_dataItem"]>this.tooltipDataItem);
+		}
+	}
 
+
+	/**
+	 * @ignore
+	 */
 	public positionBullet(bullet: Bullet) {
 		super.positionBullet(bullet);
 
@@ -2224,6 +2241,22 @@ export class XYSeries extends Series {
 	}
 
 	/**
+	 * @todo mm
+	 */
+	public updateStacking() {
+		this.invalidateDataItems();
+		if (this.chart) {
+			this.chart.series.each((series) => {
+				if (series.baseAxis == this.baseAxis) {
+					series.stackedSeries = undefined;
+					series.invalidateDataItems();
+					series.invalidateProcessedData();
+				}
+			})
+		}
+	}
+
+	/**
 	 * Can items from this series be included into stacks?
 	 * 
 	 * Note: proper stacking is only possible if series have the same number
@@ -2234,19 +2267,13 @@ export class XYSeries extends Series {
 	 * @param stacked  Can be stacked?
 	 */
 	public set stacked(stacked: boolean) {
-		if(this.setPropertyValue("stacked", stacked, true)){			
-			if(this.chart){
-				this.chart.series.each((series)=>{
-					if(series.baseAxis == this.baseAxis){
-						series.stackedSeries = undefined;
-						series.invalidateProcessedData();
-					}
-				})
-			}
+		if (this.setPropertyValue("stacked", stacked, true)) {
+			this.updateStacking();
 
-			if(!stacked){
-				let xAxis = this.xAxis;
-				let yAxis = this.yAxis;
+			let xAxis = this.xAxis;
+			let yAxis = this.yAxis;
+
+			if (!stacked) {
 				let field: string;
 
 				if (xAxis != this.baseAxis && xAxis instanceof ValueAxis) {
@@ -2255,8 +2282,8 @@ export class XYSeries extends Series {
 				if (yAxis != this.baseAxis && yAxis instanceof ValueAxis) {
 					field = this.yField;
 				}
-				if(field){
-					this.dataItems.each((dataItem)=>{
+				if (field) {
+					this.dataItems.each((dataItem) => {
 						dataItem.setCalculatedValue(field, 0, "stack");
 					})
 				}
@@ -2367,7 +2394,6 @@ export class XYSeries extends Series {
 	 * @return Animation
 	 */
 	public hide(duration?: number): Animation {
-
 		let fields: string[];
 		let value: number;
 		let xAxis: Axis = this.xAxis;

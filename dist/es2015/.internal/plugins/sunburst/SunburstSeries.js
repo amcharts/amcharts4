@@ -183,6 +183,13 @@ var SunburstSeries = /** @class */ (function (_super) {
         if (activeState) {
             activeState.properties.shiftRadius = 0;
         }
+        _this.events.on("inited", function () {
+            _this.dataItems.each(function (dataItem) {
+                if (dataItem.hidden) {
+                    dataItem.hide(0);
+                }
+            });
+        }, undefined, false);
         _this.applyTheme();
         return _this;
     }

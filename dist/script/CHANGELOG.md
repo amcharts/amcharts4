@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.7.21] - 2020-01-10
+
+### Added
+- `updateStacking()` method added to `XYSeries`. Must be called if some stacking properties are changed by `stacked` stays at `true`.
+- `"hidden"` added to `SunburstChart`'s `dataFields` to enable pre-hiding certain slices.
+
+### Fixed
+- Disabled series' legend marker was being reset to default view if related series visual settings changed.
+- Changing data on chart with hidden stacked series was resulting in incorrect stacking.
+- `XYChart` was not updating value axis' `min`/`max` if series was removed.
+- If a cursor was moved via API using `"hard"` sticking option, the cursor could animate to some wrong position if clicked outside plot area.
+- Animating from `Percent` to number or vice versa was not working at all, e.g. when state was being applied. It will now just flip to the final value without animation.
+
+
 ## [4.7.20] - 2020-01-08
 
 ### Fixed

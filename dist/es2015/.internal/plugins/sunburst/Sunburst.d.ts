@@ -145,6 +145,10 @@ export interface ISunburstDataFields extends IPieChartDataFields {
      * defined by theme.
      */
     color?: string;
+    /**
+     * Name of the field in data that holds boolean flag if item should be hidden.
+     */
+    hidden?: string;
 }
 /**
  * Defines properties for [[Sunburst]].

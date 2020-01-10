@@ -200,7 +200,7 @@ export class LegendDataItem extends DataItem {
 			this._disposers.push(itemContainer);
 
 			// Add click/tap event to toggle item
-			if(itemContainer.togglable){
+			if (itemContainer.togglable) {
 				itemContainer.events.on("toggled", (ev) => {
 					component.toggleDataItem(<this>ev.target.dataItem);
 				}, undefined, false);
@@ -229,7 +229,7 @@ export class LegendDataItem extends DataItem {
 			}
 
 			let sprite = <any>this.dataContext;
-			if ((sprite instanceof DataItem || sprite instanceof Sprite) && !sprite.isDisposed())  {
+			if ((sprite instanceof DataItem || sprite instanceof Sprite) && !sprite.isDisposed()) {
 
 				itemContainer.addDisposer(
 					sprite.events.on("visibilitychanged", (ev) => {
@@ -649,9 +649,9 @@ export class Legend extends Component {
 
 		if (dataContext.updateLegendValue) {
 			dataContext.updateLegendValue(); // this solves issue with external legend, as legend is created after chart updates legend values
-		}		
+		}
 
-		if(dataContext.component && dataContext.component.updateLegendValue){
+		if (dataContext.component && dataContext.component.updateLegendValue) {
 			dataContext.component.updateLegendValue(dataContext);
 		}
 
@@ -680,6 +680,12 @@ export class Legend extends Component {
 
 		container.events.disableType("toggled");
 		container.isActive = !visible;
+		if (container.isActive) {
+			container.setState("active", 0);
+		}
+		else {
+			container.setState("default", 0);
+		}
 		container.events.enableType("toggled");
 	}
 

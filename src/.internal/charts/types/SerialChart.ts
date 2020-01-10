@@ -227,24 +227,24 @@ export class SerialChart extends Chart {
 	public get series(): ListTemplate<this["_seriesType"]> {
 		if (!this._series) {
 			this._series = new ListTemplate<this["_seriesType"]>(this.createSeries());
-			this._series.events.on("inserted", (event) => {
-				this.handleSeriesAdded(event);
-			}, undefined, false);
-			this._series.events.on("removed", (event) => {
-				let series = event.oldValue;
-				this.dataUsers.removeValue(series);
-				this.dataUsers.each((dataUser) => {
-					dataUser.invalidateDataItems();
-				})
-				if (series.autoDispose) {
-					series.dispose();
-				}
-				this.feedLegend();
-			}, undefined, false);
+			this._series.events.on("inserted", this.handleSeriesAdded, this, false);
+			this._series.events.on("removed", this.handleSeriesRemoved, this, false);
 			this._disposers.push(new ListDisposer(this._series));
 			this._disposers.push(this._series.template);
 		}
 		return this._series;
+	}
+
+	protected handleSeriesRemoved(event: IListEvents<Series>["removed"]) {
+		let series = event.oldValue;
+		this.dataUsers.removeValue(series);
+		this.dataUsers.each((dataUser) => {
+			dataUser.invalidateDataItems();
+		})
+		if (series.autoDispose) {
+			series.dispose();
+		}
+		this.feedLegend();
 	}
 
 	/**
@@ -276,7 +276,7 @@ export class SerialChart extends Chart {
 
 	protected handleSeriesAdded2(series: Series) {
 		if (!this.dataInvalid) {
-			if(!series.data || series.data.length == 0){
+			if (!series.data || series.data.length == 0) {
 				this.invalidateData();
 			}
 		}

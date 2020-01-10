@@ -455,6 +455,12 @@ var Legend = /** @class */ (function (_super) {
         dataItem.dataContext.visible = visible;
         container.events.disableType("toggled");
         container.isActive = !visible;
+        if (container.isActive) {
+            container.setState("active", 0);
+        }
+        else {
+            container.setState("default", 0);
+        }
         container.events.enableType("toggled");
     };
     Object.defineProperty(Legend.prototype, "position", {

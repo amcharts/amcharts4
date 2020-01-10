@@ -489,6 +489,7 @@ export declare class XYChart extends SerialChart {
      * mask changes.
      */
     protected updateSeriesMasks(): void;
+    protected handleSeriesRemoved(event: IListEvents<XYSeries>["removed"]): void;
     /**
      * A list of horizontal (X) axes.
      *

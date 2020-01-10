@@ -112,7 +112,7 @@ export class SunburstSeriesDataItem extends PieSeriesDataItem {
 
 		let value = 0;
 		let sbDataItem = this.sunburstDataItem;
-		if(sbDataItem){
+		if (sbDataItem) {
 			if (!sbDataItem.series) {
 				value = this.values["value"].value;
 			}
@@ -289,6 +289,14 @@ export class SunburstSeries extends PieSeries {
 		if (activeState) {
 			activeState.properties.shiftRadius = 0;
 		}
+
+		this.events.on("inited", ()=>{
+			this.dataItems.each((dataItem)=>{
+				if(dataItem.hidden){
+					dataItem.hide(0);
+				}
+			})
+		}, undefined, false)		
 
 		this.applyTheme();
 	}

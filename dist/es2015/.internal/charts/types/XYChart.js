@@ -681,6 +681,18 @@ var XYChart = /** @class */ (function (_super) {
             });
         }
     };
+    XYChart.prototype.handleSeriesRemoved = function (event) {
+        var series = event.oldValue;
+        if (series) {
+            if (series.xAxis) {
+                series.xAxis.invalidateProcessedData();
+            }
+            if (series.yAxis) {
+                series.yAxis.invalidateProcessedData();
+            }
+        }
+        _super.prototype.handleSeriesRemoved.call(this, event);
+    };
     Object.defineProperty(XYChart.prototype, "xAxes", {
         /**
          * A list of horizontal (X) axes.

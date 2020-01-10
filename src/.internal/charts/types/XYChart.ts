@@ -981,6 +981,19 @@ export class XYChart extends SerialChart {
 		}
 	}
 
+	protected handleSeriesRemoved(event: IListEvents<XYSeries>["removed"]) {
+		let series = event.oldValue;
+		if (series) {
+			if (series.xAxis) {
+				series.xAxis.invalidateProcessedData();
+			}
+			if (series.yAxis) {
+				series.yAxis.invalidateProcessedData();
+			}
+		}
+		super.handleSeriesRemoved(event);
+	}
+
 	/**
 	 * A list of horizontal (X) axes.
 	 *

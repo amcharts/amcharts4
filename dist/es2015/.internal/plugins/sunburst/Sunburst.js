@@ -328,6 +328,7 @@ var Sunburst = /** @class */ (function (_super) {
             this.dataUsers.removeValue(series_1); // series do not use data directly, that's why we remove it
             series_1.data = dataItem.children.values;
             series_1.fill = dataItem.color;
+            series_1.dataFields.hidden = this.dataFields.hidden;
             series_1.slices.template.adapter.add("fill", function (fill, target) {
                 var dataItem = target.dataItem;
                 if (dataItem) {

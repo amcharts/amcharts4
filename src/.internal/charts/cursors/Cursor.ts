@@ -457,6 +457,10 @@ export class Cursor extends Container {
 		// Get local point
 		let local: IPoint = $utils.documentPointToSprite(event.pointer.point, this);
 
+		if (this._stick == "hard" && this._stickPoint) {
+			local = this._stickPoint;
+		}		
+
 		this._downPointOrig = { x: local.x, y: local.y };
 
 		// We need to cancel the event to prevent gestures on touch devices
@@ -501,6 +505,11 @@ export class Cursor extends Container {
 			return;
 		}
 		let local: IPoint = $utils.documentPointToSprite(event.pointer.point, this);
+
+		if (this._stick == "hard" && this._stickPoint) {
+			local = this._stickPoint;
+		}
+
 		this._upPointOrig = { x: local.x, y: local.y };
 
 		this.triggerMove(local);
