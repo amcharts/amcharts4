@@ -89,7 +89,7 @@ export interface ILabelProperties extends IContainerProperties {
 	/**
 	 * If lines are truncated, this ellipsis will be added at the end.
 	 *
-	 * @default "..."
+	 * @default "…"
 	 */
 	ellipsis?: string;
 
@@ -299,7 +299,7 @@ export class Label extends Container {
 		this.wrap = false;
 		this.truncate = false;
 		this.fullWords = true;
-		this.ellipsis = "...";
+		this.ellipsis = "…";
 		this.textAlign = "start";
 		this.textValign = "top";
 

@@ -281,7 +281,7 @@ export function splitTextByCharCount(text: string, maxChars: number, fullWords?:
 
 		// Split by spacing
 		let currentIndex: number = -1;
-		let tmpText = text.replace(/([,;:!?\\\/\.\s]+)/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
+		let tmpText = text.replace(/([,;:!?\\\/\.]+[\s]+|[\s])/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
 		let words = tmpText.split($strings.PLACEHOLDER);
 
 		// Process each word

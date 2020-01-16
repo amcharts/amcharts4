@@ -240,7 +240,7 @@ export function splitTextByCharCount(text, maxChars, fullWords, rtl) {
         // Split by words first
         // Split by spacing
         var currentIndex = -1;
-        var tmpText = text.replace(/([,;:!?\\\/\.\s]+)/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
+        var tmpText = text.replace(/([,;:!?\\\/\.]+[\s]+|[\s])/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
         var words = tmpText.split($strings.PLACEHOLDER);
         // Process each word
         for (var i = 0; i < words.length; i++) {

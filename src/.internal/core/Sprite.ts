@@ -971,7 +971,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * 
 	 * @ignore
 	 */
-	public preventShow:boolean = false;
+	public preventShow: boolean = false;
 
 	/**
 	 * Constructor:
@@ -1525,7 +1525,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public dispose(): void {
 		if (!this.isDisposed()) {
 
-			if(this.showTooltipOn == "always" && this.tooltip){
+			if (this.showTooltipOn == "always" && this.tooltip) {
 				this.tooltip.hide();
 			}
 
@@ -3567,7 +3567,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 				if (this instanceof Container) {
 					this.deepInvalidate();
-					if(this._background){
+					if (this._background) {
 						this._background.invalidate();
 					}
 				}
@@ -4786,7 +4786,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public set readerOrientation(value: string) {
 		value = $type.toText(value);
-		if(this.setPropertyValue("readerOrientation", value)) {
+		if (this.setPropertyValue("readerOrientation", value)) {
 			this.applyAccessibility();
 		}
 	}
@@ -4806,7 +4806,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public set readerValueNow(value: string) {
 		value = $type.toText(value);
-		if(this.setPropertyValue("readerValueNow", value)) {
+		if (this.setPropertyValue("readerValueNow", value)) {
 			this.applyAccessibility();
 		}
 	}
@@ -4826,7 +4826,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public set readerValueText(value: string) {
 		value = $type.toText(value);
-		if(this.setPropertyValue("readerValueText", value)) {
+		if (this.setPropertyValue("readerValueText", value)) {
 			this.applyAccessibility();
 		}
 	}
@@ -4980,9 +4980,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				this.interactions.focusable = value;
 				if (value) {
 					this.setSVGAttribute({ "focusable": value });
+					if (!this._tabindex) {
+						this.tabindex = 0;
+					}
 				}
 				else {
 					this.removeSVGAttribute("focusable");
+					this.tabindex = undefined;
 				}
 				// Set focus events that would apply "focus" state
 				// setEventDisposer will also remove listeners if value == false
@@ -6840,7 +6844,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		if (!$type.isNumber(maxWidth)) {
 			if (this.parent) {
-				return this.parent.maxWidth;
+				let parentWidth = this.parent.maxWidth;
+				if (this.parent.layout != "absolute" && this.align != "none" && this.align != undefined) {
+					parentWidth = parentWidth - this.pixelMarginLeft - this.pixelMarginRight;
+				}
+				return parentWidth;
 			}
 		}
 		return maxWidth;
@@ -6884,7 +6892,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		let maxHeight = this.getPropertyValue("maxHeight");
 		if (!$type.isNumber(maxHeight)) {
 			if (this.parent) {
-				return this.parent.maxHeight;
+				let parentHeight = this.parent.maxHeight;
+				if (this.parent.layout != "absolute" && this.valign != "none" && this.valign != undefined) {
+					parentHeight = parentHeight - this.pixelMarginTop - this.pixelMarginBottom;
+				}
+				return parentHeight;
 			}
 		}
 		return maxHeight;
@@ -8222,7 +8234,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Fade in duration (ms)
 	 */
 	protected showReal(duration?: number): $type.Optional<Animation> {
-		if(this.preventShow){
+		if (this.preventShow) {
 			return;
 		}
 		let transition: $type.Optional<Animation>;
@@ -8327,7 +8339,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		if (!this.isHiding && this.visible && !this.isDisposed()) {
 			// added to solve 51375
-			if(this.tooltip && this.tooltip.currentSprite == this){
+			if (this.tooltip && this.tooltip.currentSprite == this) {
 				this.hideTooltip(0);
 			}
 
@@ -9104,9 +9116,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			value = this.maxLeftSelf + this._measuredWidthSelf * x.value - this.pixelPaddingLeft - this.ex; // overflow is know only for measured items, so this is not always good
 		}
 
-		if(!$type.isNumber(value)){
+		if (!$type.isNumber(value)) {
 			value = 0;
-		}		
+		}
 
 		return value;
 	}
@@ -9133,7 +9145,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			value = this.maxTopSelf + this._measuredHeightSelf * y.value - this.pixelPaddingTop - this.ey;  // overflow is know only for measured items, so this is not always good
 		}
 
-		if(!$type.isNumber(value)){
+		if (!$type.isNumber(value)) {
 			value = 0;
 		}
 

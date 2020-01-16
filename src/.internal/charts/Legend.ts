@@ -27,10 +27,13 @@ import { LinearGradient } from "../core/rendering/fills/LinearGradient";
 import { Pattern } from "../core/rendering/fills/Pattern";
 import * as $utils from "../core/utils/Utils";
 import * as $type from "../core/utils/Type";
-import { Sprite } from "../core/Sprite";
-import { Disposer } from "../core/utils/Disposer";
+import * as $math from "../core/utils/Math";
+import { Sprite, ISpriteEvents, AMEvent } from "../core/Sprite";
+import { Disposer, IDisposer } from "../core/utils/Disposer";
 import { MouseCursorStyle } from "../core/interaction/Mouse";
 import { defaultRules, ResponsiveBreakpoints } from "../core/utils/Responsive";
+import { Scrollbar } from "../core/elements/Scrollbar";
+
 
 
 /**
@@ -385,7 +388,16 @@ export interface ILegendProperties extends IComponentProperties {
 	 *
 	 * @default "bottom"
 	 */
-	position?: LegendPosition
+	position?: LegendPosition;
+
+	/**
+	 * If set to `true` the Legend will display a scrollbar if its contents do
+	 * not fit into its `maxHeight`.
+	 *
+	 * @default false
+	 * @since 4.8.0
+	 */
+	scrollable?: boolean;
 
 }
 
@@ -476,6 +488,11 @@ export class Legend extends Component {
 	 */
 	public focusedItem: Optional<this["_dataItem"]>;
 
+
+	public scrollbar: Scrollbar;
+
+	protected _mouseWheelDisposer: IDisposer;
+
 	/**
 	 * Constructor
 	 */
@@ -486,13 +503,14 @@ export class Legend extends Component {
 		// Set defaults
 		this.layout = "grid";
 		this.setPropertyValue("useDefaultMarker", false);
+		this.setPropertyValue("scrollable", false);
 		this.setPropertyValue("contentAlign", "center");
 
 		// Create a template container and list for legend items
 		let itemContainer: Container = new Container();
 		itemContainer.applyOnClones = true;
-		itemContainer.padding(10, 0, 10, 0);
-		itemContainer.margin(0, 10, 0, 0);
+		itemContainer.padding(8, 0, 8, 0);
+		itemContainer.margin(0, 10, 0, 10);
 		itemContainer.layout = "horizontal";
 		itemContainer.clickable = true;
 		itemContainer.focusable = true;
@@ -559,6 +577,8 @@ export class Legend extends Component {
 		this._disposers.push(new ListDisposer(this.labels));
 		this._disposers.push(this.labels.template);
 		label.interactionsEnabled = false;
+		label.truncate = true;
+		label.fullWords = false;
 
 		// Create a template container and list for item value labels
 		let valueLabel: Label = new Label();
@@ -583,6 +603,8 @@ export class Legend extends Component {
 
 		// Apply accessibility settings
 		this.role = "group";
+
+		this.events.on("layoutvalidated", this.handleScrollbar, this, false);
 
 		this.applyTheme();
 	}
@@ -634,6 +656,11 @@ export class Legend extends Component {
 		// Tell series its legend data item
 		dataItem.dataContext.legendDataItem = dataItem;
 
+		dataItem.label.width = undefined;
+		if (valueLabel.align == "right") {
+			valueLabel.width = undefined;
+		}
+
 		let legendSettings = dataItem.dataContext.legendSettings;
 
 		// If we are not using default markers, create a unique legend marker based
@@ -659,7 +686,7 @@ export class Legend extends Component {
 			valueLabel.validate();
 		}
 
-		if (valueLabel.currentText == "" || valueLabel.currentText == undefined) {
+		if (valueLabel.text == "" || valueLabel.text == undefined) {
 			valueLabel.__disabled = true;
 		}
 		else {
@@ -669,7 +696,6 @@ export class Legend extends Component {
 		if (legendSettings && (legendSettings.itemValueText != undefined || legendSettings.valueText != undefined)) {
 			valueLabel.__disabled = false;
 		}
-
 
 		let visible = dataItem.dataContext.visible;
 		if (visible === undefined) {
@@ -689,6 +715,89 @@ export class Legend extends Component {
 		container.events.enableType("toggled");
 	}
 
+
+	public afterDraw() {
+		let maxWidth = this.getPropertyValue("maxWidth");
+
+		let maxLabelWidth = 0;
+		this.labels.each((label) => {
+			if (label.invalid) {
+				label.validate();
+			}
+			if (label.measuredWidth + label.pixelMarginLeft + label.pixelMarginRight > maxLabelWidth) {
+				maxLabelWidth = label.measuredWidth + label.pixelMarginLeft + label.pixelMarginRight;
+			}
+
+		})
+
+		let maxValueLabelWidth = 0;
+		this.valueLabels.each((label) => {
+			if (label.invalid) {
+				label.validate();
+			}
+			if (label.measuredWidth + label.pixelMarginLeft + label.pixelMarginRight > maxValueLabelWidth) {
+				maxValueLabelWidth = label.measuredWidth + label.pixelMarginLeft + label.pixelMarginRight;
+			}
+		})
+
+		let maxMarkerWidth = 0;
+		this.markers.each((marker) => {
+			if (marker.invalid) {
+				marker.validate();
+			}
+			if (marker.measuredWidth + marker.pixelMarginLeft + marker.pixelMarginRight > maxMarkerWidth) {
+				maxMarkerWidth = marker.measuredWidth + marker.pixelMarginLeft + marker.pixelMarginRight;
+			}
+		})
+		let itemContainer = this.itemContainers.template;
+		let margin = itemContainer.pixelMarginRight + itemContainer.pixelMarginLeft;
+		let maxAdjustedLabelWidth: number;
+		let trueMaxWidth = maxLabelWidth + maxValueLabelWidth + maxMarkerWidth;
+		if (!$type.isNumber(maxWidth)) {
+			maxAdjustedLabelWidth = maxLabelWidth;
+		}
+		else {
+			maxWidth = maxWidth - margin;
+			if (maxWidth > trueMaxWidth) {
+				maxWidth = trueMaxWidth;
+			}
+			maxAdjustedLabelWidth = maxWidth - maxMarkerWidth - maxValueLabelWidth;
+		}
+
+		this.labels.each((label) => {
+			if (this.valueLabels.template.align == "right" || label.measuredWidth > maxAdjustedLabelWidth) {
+				label.width = maxAdjustedLabelWidth - label.pixelMarginLeft - label.pixelMarginRight;
+			}
+		})
+		if (this.valueLabels.template.align == "right") {
+			this.valueLabels.each((valueLabel) => {
+				valueLabel.width = maxValueLabelWidth;
+			})
+		}
+
+		super.afterDraw();
+	}
+
+
+	protected handleScrollbar() {
+		let scrollbar = this.scrollbar;
+		if (this.scrollable && scrollbar) {
+			scrollbar.height = this.measuredHeight;
+			scrollbar.x = this.measuredWidth - scrollbar.pixelWidth - scrollbar.pixelMarginLeft;
+
+			if (this.contentHeight > this.measuredHeight) {
+				scrollbar.visible = true;
+				scrollbar.thumb.height = scrollbar.height * this.measuredHeight / this.contentHeight;
+				this.paddingRight = scrollbar.pixelWidth + scrollbar.pixelMarginLeft + + scrollbar.pixelMarginRight;
+			}
+			else {
+				scrollbar.visible = false;
+			}
+
+			this.updateMasks();
+		}
+	}
+
 	/**
 	 * Position of the legend.
 	 *
@@ -706,19 +815,21 @@ export class Legend extends Component {
 	public set position(value: LegendPosition) {
 		if (this.setPropertyValue("position", value)) {
 			if (value == "left" || value == "right") {
-				this.margin(10, 20, 10, 20);
+				this.margin(10, 5, 10, 10);
 				this.valign = "middle";
-				this.itemContainers.template.width = percent(100);
-				this.valueLabels.template.width = percent(100);
-				this.labels.template.truncate = true;
-				this.labels.template.fullWords = false;
+				this.valueLabels.template.align = "right";
+
+				if (!$type.isNumber(this.maxColumns)) {
+					this.maxColumns = 1;
+				}
+
+				this.width = undefined;
+				this.maxWidth = 220;
 			}
 			else {
-				this.itemContainers.template.width = undefined;
-				this.itemContainers.template.maxWidth = undefined;
-				this.valueLabels.template.width = 50;
-				this.labels.template.truncate = false;
+				this.maxColumns = undefined;
 				this.width = percent(100);
+				this.valueLabels.template.align = "left";
 			}
 			this.invalidate();
 		}
@@ -753,6 +864,87 @@ export class Legend extends Component {
 	 */
 	public get useDefaultMarker(): boolean {
 		return this.getPropertyValue("useDefaultMarker");
+	}
+
+	/**
+	 * If set to `true` the Legend will display a scrollbar if its contents do
+	 * not fit into its `maxHeight`.
+	 *
+	 * Please note that `maxHeight` is automatically set for Legend when its
+	 * `position` is set to `"left"` or `"right"`.
+	 *
+	 * @default false
+	 * @since 4.8.0
+	 * @param  value  Legend Scrollable?
+	 */
+	public set scrollable(value: boolean) {
+		if (this.setPropertyValue("scrollable", value, true)) {
+			if (value) {
+				let scrollbar = this.createChild(Scrollbar);
+				this.scrollbar = scrollbar;
+				scrollbar.isMeasured = false;
+				scrollbar.orientation = "vertical";
+				scrollbar.endGrip.__disabled = true;
+				scrollbar.startGrip.__disabled = true;
+				scrollbar.visible = false;
+				scrollbar.marginLeft = 5;
+
+				this._mouseWheelDisposer = this.events.on("wheel", this.handleWheel, this, false);
+				this._disposers.push(this._mouseWheelDisposer);
+
+				this._disposers.push(scrollbar.events.on("rangechanged", this.updateMasks, this, false));
+			}
+			else {
+				if (this._mouseWheelDisposer) {
+					this._mouseWheelDisposer.dispose();
+					if (this.scrollbar) {
+						this.scrollbar.dispose();
+						this.scrollbar = undefined;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Handles mouse wheel scrolling of legend.
+	 * 
+	 * @param  event  Event
+	 */
+	protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]): void {
+		let shift = event.shift.y;
+		let scrollbar = this.scrollbar
+		if (scrollbar) {
+			let ds = (shift / 1000 * this.measuredHeight / this.contentHeight);
+			let delta = scrollbar.end - scrollbar.start;
+			if (shift > 0) {
+				scrollbar.start = $math.max(0, scrollbar.start - ds);
+				scrollbar.end = scrollbar.start + delta;
+			}
+			else {
+				scrollbar.end = $math.min(1, scrollbar.end - ds);
+				scrollbar.start = scrollbar.end - delta;
+			}
+		}
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected updateMasks(): void {
+		if (this.scrollbar) {
+			this.itemContainers.each((itemContainer) => {
+				itemContainer.dy = -this.scrollbar.thumb.pixelY * this.contentHeight / this.measuredHeight;
+				itemContainer.maskRectangle = { x: 0, y: -itemContainer.dy, width: this.measuredWidth, height: this.measuredHeight }
+			})
+		}
+	}
+
+	/**
+	 * @return Legend Scrollable?
+	 */
+	public get scrollable(): boolean {
+		return this.getPropertyValue("scrollable");
 	}
 
 	/**

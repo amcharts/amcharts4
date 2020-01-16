@@ -4016,9 +4016,13 @@ var Sprite = /** @class */ (function (_super) {
                     this.interactions.focusable = value;
                     if (value) {
                         this.setSVGAttribute({ "focusable": value });
+                        if (!this._tabindex) {
+                            this.tabindex = 0;
+                        }
                     }
                     else {
                         this.removeSVGAttribute("focusable");
+                        this.tabindex = undefined;
                     }
                     // Set focus events that would apply "focus" state
                     // setEventDisposer will also remove listeners if value == false
@@ -5875,7 +5879,11 @@ var Sprite = /** @class */ (function (_super) {
             var maxWidth = this.getPropertyValue("maxWidth");
             if (!$type.isNumber(maxWidth)) {
                 if (this.parent) {
-                    return this.parent.maxWidth;
+                    var parentWidth = this.parent.maxWidth;
+                    if (this.parent.layout != "absolute" && this.align != "none" && this.align != undefined) {
+                        parentWidth = parentWidth - this.pixelMarginLeft - this.pixelMarginRight;
+                    }
+                    return parentWidth;
                 }
             }
             return maxWidth;
@@ -5921,7 +5929,11 @@ var Sprite = /** @class */ (function (_super) {
             var maxHeight = this.getPropertyValue("maxHeight");
             if (!$type.isNumber(maxHeight)) {
                 if (this.parent) {
-                    return this.parent.maxHeight;
+                    var parentHeight = this.parent.maxHeight;
+                    if (this.parent.layout != "absolute" && this.valign != "none" && this.valign != undefined) {
+                        parentHeight = parentHeight - this.pixelMarginTop - this.pixelMarginBottom;
+                    }
+                    return parentHeight;
                 }
             }
             return maxHeight;

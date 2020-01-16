@@ -17,6 +17,7 @@ import { registry } from "../../core/Registry";
 import { Color, color } from "../../core/utils/Color";
 import { getInteraction } from "../../core/interaction/Interaction";
 import { keyboard } from "../../core/utils/Keyboard";
+import * as $math from "../../core/utils/Math";
 
 
 /**
@@ -132,6 +133,16 @@ export class Annotation extends Plugin {
 	private _fontWeights: Array<number> = [];
 
 	/**
+	 * Menu enabled?
+	 */
+	private _useMenu: boolean = true;
+
+	/**
+	 * Did plugin create own menu or reusing existing ExportMenu?
+	 */
+	private _ownMenu: boolean = true;
+
+	/**
 	 * A Fabric's Canvas element.
 	 *
 	 * @see {@link http://fabricjs.com/docs/fabric.Canvas.html}
@@ -145,6 +156,7 @@ export class Annotation extends Plugin {
 
 	private _pointerDown: boolean = false;
 	private _currentLine: any;
+	private _currentArrowhead: any;
 	private _data: any;
 	private _exportInited: boolean = false;
 
@@ -226,13 +238,20 @@ export class Annotation extends Plugin {
 		const target = this.target;
 
 		// Create an export menu if it does not yet exist
-		if (!target.exporting.menu) {
-			target.exporting.menu = new ExportMenu();
-			target.exporting.menu.items[0].menu = [];
+		if (this.useMenu) {
+			if (!target.exporting.menu) {
+				target.exporting.menu = new ExportMenu();
+				target.exporting.menu.items[0].menu = [];
+				this._ownMenu = true;
+			}
+			else {
+				target.exporting.menu.invalidate();
+				this._ownMenu = false;
+			}
 		}
-		else {
-			target.exporting.menu.invalidate();
-		}
+
+		// Update indicator when menu is created
+		target.exporting.events.once("menucreated", this.updateIndicator);
 
 		target.events.on("sizechanged", this.sizeAnnotations, this);
 
@@ -242,9 +261,6 @@ export class Annotation extends Plugin {
 				this.deleteSelected();
 			}
 		});
-
-		// Update indicator when menu is created
-		target.exporting.events.once("menucreated", this.updateIndicator);
 
 		// Update/show SVG annotation if currently in annotation mode and user
 		// triggers export.
@@ -266,206 +282,208 @@ export class Annotation extends Plugin {
 		// Generate a unique id for indicator
 		this._indicatorId = registry.getUniqueId();
 
-		// Add annotation menu
-		target.exporting.menu.items[0].menu.push({
-			label: target.language.translateAny("Annotate"),
-			type: "custom",
-			options: {
-				callback: this.handleClick,
-				callbackTarget: this
+		if (this.useMenu) {
+
+			// Add annotation menu
+			target.exporting.menu.items[0].menu.push({
+				label: target.language.translateAny("Annotate"),
+				type: "custom",
+				options: {
+					callback: this.handleClick,
+					callbackTarget: this
+				}
+			});
+
+			// Color list
+			let colors: Array<IExportMenuItem> = [];
+			for (let i = 0; i < this.colors.length; i++) {
+				colors.push({
+					type: "custom",
+					svg: AnnotationIcons.ok,
+					color: this.colors[i],
+					options: {
+						callback: () => {
+							this.setColor(this.colors[i])
+						}
+					}
+				});
 			}
-		});
 
-		// Color list
-		let colors: Array<IExportMenuItem> = [];
-		for (let i = 0; i < this.colors.length; i++) {
-			colors.push({
-				type: "custom",
-				svg: AnnotationIcons.ok,
-				color: this.colors[i],
-				options: {
-					callback: () => {
-						this.setColor(this.colors[i])
+			// Width list
+			let widths: Array<IExportMenuItem> = [];
+			for (let i = 0; i < this.widths.length; i++) {
+				widths.push({
+					type: "custom",
+					label: this.widths[i] + "px",
+					options: {
+						callback: () => {
+							this.setWidth(this.widths[i])
+						}
 					}
-				}
-			});
-		}
+				});
+			}
 
-		// Width list
-		let widths: Array<IExportMenuItem> = [];
-		for (let i = 0; i < this.widths.length; i++) {
-			widths.push({
-				type: "custom",
-				label: this.widths[i] + "px",
-				options: {
-					callback: () => {
-						this.setWidth(this.widths[i])
+			// Opacity list
+			let opacities: Array<IExportMenuItem> = [];
+			for (let i = 0; i < this.opacities.length; i++) {
+				opacities.push({
+					type: "custom",
+					label: "<span style=\"opacity: " + this.opacities[i] + "\">" + (this.opacities[i] * 100) + "%</span>",
+					options: {
+						callback: () => {
+							this.setOpacity(this.opacities[i])
+						}
 					}
-				}
-			});
-		}
+				});
+			}
 
-		// Opacity list
-		let opacities: Array<IExportMenuItem> = [];
-		for (let i = 0; i < this.opacities.length; i++) {
-			opacities.push({
-				type: "custom",
-				label: "<span style=\"opacity: " + this.opacities[i] + "\">" + (this.opacities[i] * 100) + "%</span>",
-				options: {
-					callback: () => {
-						this.setOpacity(this.opacities[i])
+			// Font sizes
+			let fontSizes: Array<IExportMenuItem> = [];
+			for (let i = 0; i < this.fontSizes.length; i++) {
+				fontSizes.push({
+					type: "custom",
+					label: "" + this.fontSizes[i],
+					options: {
+						callback: () => {
+							this.setFontSize(this.fontSizes[i])
+						}
 					}
-				}
-			});
-		}
+				});
+			}
 
-		// Font sizes
-		let fontSizes: Array<IExportMenuItem> = [];
-		for (let i = 0; i < this.fontSizes.length; i++) {
-			fontSizes.push({
-				type: "custom",
-				label: "" + this.fontSizes[i],
-				options: {
-					callback: () => {
-						this.setFontSize(this.fontSizes[i])
+			// Font weights
+			let fontWeights: Array<IExportMenuItem> = [];
+			for (let i = 0; i < this.fontWeights.length; i++) {
+				fontWeights.push({
+					type: "custom",
+					label: "" + this.fontWeights[i],
+					options: {
+						callback: () => {
+							this.setFontWeight(this.fontWeights[i])
+						}
 					}
-				}
-			});
-		}
+				});
+			}
 
-		// Font weights
-		let fontWeights: Array<IExportMenuItem> = [];
-		for (let i = 0; i < this.fontWeights.length; i++) {
-			fontWeights.push({
-				type: "custom",
-				label: "" + this.fontWeights[i],
-				options: {
-					callback: () => {
-						this.setFontWeight(this.fontWeights[i])
+			// Icons
+			let icons: Array<IExportMenuItem> = [];
+			for (let i = 0; i < this.icons.length; i++) {
+				icons.push({
+					type: "custom",
+					svg: this.icons[i],
+					options: {
+						callback: () => {
+							this.addIcon(this.icons[i])
+						}
 					}
-				}
-			});
-		}
+				});
+			}
 
-		// Icons
-		let icons: Array<IExportMenuItem> = [];
-		for (let i = 0; i < this.icons.length; i++) {
-			icons.push({
-				type: "custom",
-				svg: this.icons[i],
-				options: {
-					callback: () => {
-						this.addIcon(this.icons[i])
-					}
-				}
-			});
-		}
+			// Construct main menu item
+			const id = this._indicatorId;
+			//let mainitem = this.target.exporting.menu.createSvgElement(0, "custom", AnnotationIcons.select).outerHTML;
+			let mainitem = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1\" viewBox=\"0 0 24 24\"></svg>";
+			mainitem += "<span class=\"" + id + "_color\" style=\"display: block; background-color: " + this.currentColor.hex + "; width: 1.2em; height: 1.2em; margin: 0.2em auto 0.4em auto;\"></span>";
 
-		// Construct main menu item
-		const id = this._indicatorId;
-		//let mainitem = this.target.exporting.menu.createSvgElement(0, "custom", AnnotationIcons.select).outerHTML;
-		let mainitem = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1\" viewBox=\"0 0 24 24\"></svg>";
-		mainitem += "<span class=\"" + id + "_color\" style=\"display: block; background-color: " + this.currentColor.hex + "; width: 1.2em; height: 1.2em; margin: 0.2em auto 0.4em auto;\"></span>";
-
-		// Add annotation tools menu
-		this._menu = {
-			hidden: !this.active,
-			// icon: AnnotationIcons.select,
-			label: mainitem,
-			id: this._indicatorId,
-			menu: [{
-				type: "custom",
-				svg: AnnotationIcons.tools,
-				label: target.language.translateAny("Tools"),
+			// Add annotation tools menu
+			this._menu = {
+				hidden: !this.active,
+				// icon: AnnotationIcons.select,
+				label: mainitem,
+				id: this._indicatorId,
 				menu: [{
 					type: "custom",
-					svg: AnnotationIcons.select,
-					label: target.language.translateAny("Select"),
-					options: {
-						callback: this.select,
-						callbackTarget: this
-					}
-				}, {
-					type: "custom",
-					svg: AnnotationIcons.draw,
-					label: target.language.translateAny("Draw"),
-					options: {
-						callback: this.draw,
-						callbackTarget: this
-					}
-				}, {
-					type: "custom",
-					svg: AnnotationIcons.line,
-					label: target.language.translateAny("Line"),
-					options: {
-						callback: this.line,
-						callbackTarget: this
-					}
-				}/*, {
+					svg: AnnotationIcons.tools,
+					label: target.language.translateAny("Tools"),
+					menu: [{
+						type: "custom",
+						svg: AnnotationIcons.select,
+						label: target.language.translateAny("Select"),
+						options: {
+							callback: this.select,
+							callbackTarget: this
+						}
+					}, {
+						type: "custom",
+						svg: AnnotationIcons.draw,
+						label: target.language.translateAny("Draw"),
+						options: {
+							callback: this.draw,
+							callbackTarget: this
+						}
+					}, {
+						type: "custom",
+						svg: AnnotationIcons.line,
+						label: target.language.translateAny("Line"),
+						options: {
+							callback: this.line,
+							callbackTarget: this
+						}
+					}, {
 						type: "custom",
 						svg: AnnotationIcons.arrow,
 						label: target.language.translateAny("Arrow"),
 						options: {
-							callback: this.underConstruction,
+							callback: this.arrow,
 							callbackTarget: this
 						}
-					}*/, {
-					type: "custom",
-					svg: AnnotationIcons.width,
-					label: target.language.translateAny("Weight"),
-					menu: widths
+					}, {
+						type: "custom",
+						svg: AnnotationIcons.width,
+						label: target.language.translateAny("Weight"),
+						menu: widths
+					}, {
+						type: "custom",
+						svg: AnnotationIcons.delete,
+						label: target.language.translateAny("Delete"),
+						options: {
+							callback: this.delete,
+							callbackTarget: this
+						}
+					}]
 				}, {
 					type: "custom",
-					svg: AnnotationIcons.delete,
-					label: target.language.translateAny("Delete"),
-					options: {
-						callback: this.delete,
-						callbackTarget: this
-					}
-				}]
-			}, {
-				type: "custom",
-				svg: AnnotationIcons.text,
-				label: target.language.translateAny("Text"),
-				menu: [{
-					type: "custom",
-					svg: AnnotationIcons.textAdd,
-					label: target.language.translateAny("Add"),
-					options: {
-						callback: this.addText,
-						callbackTarget: this
-					}
+					svg: AnnotationIcons.text,
+					label: target.language.translateAny("Text"),
+					menu: [{
+						type: "custom",
+						svg: AnnotationIcons.textAdd,
+						label: target.language.translateAny("Add"),
+						options: {
+							callback: this.addText,
+							callbackTarget: this
+						}
+					}, {
+						type: "custom",
+						svg: AnnotationIcons.textWeight,
+						label: target.language.translateAny("Weight"),
+						menu: fontWeights
+					}, {
+						type: "custom",
+						svg: AnnotationIcons.textSize,
+						label: target.language.translateAny("Size"),
+						menu: fontSizes
+					}]
 				}, {
 					type: "custom",
-					svg: AnnotationIcons.textWeight,
-					label: target.language.translateAny("Weight"),
-					menu: fontWeights
+					svg: AnnotationIcons.colors,
+					label: target.language.translateAny("Color"),
+					menu: colors
 				}, {
 					type: "custom",
-					svg: AnnotationIcons.textSize,
-					label: target.language.translateAny("Size"),
-					menu: fontSizes
-				}]
-			}, {
-				type: "custom",
-				svg: AnnotationIcons.colors,
-				label: target.language.translateAny("Color"),
-				menu: colors
-			}, {
-				type: "custom",
-				svg: AnnotationIcons.opacity,
-				label: target.language.translateAny("Opacity"),
-				menu: opacities
-			}, {
-				type: "custom",
-				svg: AnnotationIcons.icon,
-				label: target.language.translateAny("Icon"),
-				menu: icons
-			}, {
-				type: "custom",
-				svg: AnnotationIcons.more,
-				label: target.language.translateAny("More"),
-				menu: [/*{
+					svg: AnnotationIcons.opacity,
+					label: target.language.translateAny("Opacity"),
+					menu: opacities
+				}, {
+					type: "custom",
+					svg: AnnotationIcons.icon,
+					label: target.language.translateAny("Icon"),
+					menu: icons
+				}, {
+					type: "custom",
+					svg: AnnotationIcons.more,
+					label: target.language.translateAny("More"),
+					menu: [/*{
 						type: "custom",
 						svg: AnnotationIcons.undo,
 						label: target.language.translateAny("Undo"),
@@ -482,25 +500,26 @@ export class Annotation extends Plugin {
 							callbackTarget: this
 						}
 					}, */{
-						type: "custom",
-						svg: AnnotationIcons.done,
-						label: target.language.translateAny("Done"),
-						options: {
-							callback: this.deactivate,
-							callbackTarget: this
-						}
-					}, {
-						type: "custom",
-						svg: AnnotationIcons.discard,
-						label: target.language.translateAny("Discard"),
-						options: {
-							callback: this.discard,
-							callbackTarget: this
-						}
-					}]
-			}]
-		};
-		target.exporting.menu.items.push(this._menu);
+							type: "custom",
+							svg: AnnotationIcons.done,
+							label: target.language.translateAny("Done"),
+							options: {
+								callback: this.deactivate,
+								callbackTarget: this
+							}
+						}, {
+							type: "custom",
+							svg: AnnotationIcons.discard,
+							label: target.language.translateAny("Discard"),
+							options: {
+								callback: this.discard,
+								callbackTarget: this
+							}
+						}]
+				}]
+			};
+			target.exporting.menu.items.push(this._menu);
+		}
 
 		this._exportInited = true;
 
@@ -549,11 +568,14 @@ export class Annotation extends Plugin {
 				}
 			});
 
-			// Set up events for drawing lines
+			// Set up events for drawing lines/arrows
 			this._fabric.on("mouse:down", (ev) => {
-				if (this.currentTool != "line") {
+
+				if (this.currentTool != "line" && this.currentTool != "arrow") {
 					return;
 				}
+
+				// Line
 				this._pointerDown = true;
 				let pointer = this._fabric.getPointer(ev.e);
 				let points = [pointer.x, pointer.y, pointer.x, pointer.y];
@@ -567,15 +589,50 @@ export class Annotation extends Plugin {
 					originY: "center"
 				});
 				this._fabric.add(this._currentLine);
+
+				// Arrowhead
+				if (this.currentTool == "arrow") {
+					this._currentArrowhead = new fabric.Triangle({
+						width: 10,
+						height: 10,
+						strokeWidth: this.currentWidth,
+						fill: this.currentColor.hex,
+						stroke: this.currentColor.hex,
+						opacity: this.currentOpacity,
+						left: pointer.x - 5,
+						top: pointer.y - 10,
+						originX: "center",
+						originY: "center",
+						angle: 0
+					});
+					this._fabric.add(this._currentArrowhead);
+				}
+
 			});
 
 			this._fabric.on("mouse:move", (ev) => {
-				if (!this._pointerDown || this.currentTool != "line") {
+				if (!this._pointerDown || (this.currentTool != "line" && this.currentTool != "arrow")) {
 					return;
 				}
+
 				let pointer = this._fabric.getPointer(ev.e);
 				this._currentLine.set({ x2: pointer.x, y2: pointer.y });
+
+				// Move and rotate arrowhead
+				if (this.currentTool == "arrow") {
+					const angle = $math.getAngle(
+						{ x: this._currentLine.x1, y: this._currentLine.y1 },
+						{ x: this._currentLine.x2, y: this._currentLine.y2 }
+					);
+					this._currentArrowhead.set({
+						left: pointer.x,
+						top: pointer.y,
+						angle: angle + 90
+					});
+				}
+
 				this._fabric.renderAll();
+
 			});
 
 			this._fabric.on("mouse:up", (ev) => {
@@ -657,11 +714,15 @@ export class Annotation extends Plugin {
 			this._active = value;
 			if (value) {
 				this.activate();
-				this.target.exporting.menu.showBranch(this._menu);
+				if (this.useMenu) {
+					this.target.exporting.menu.showBranch(this._menu);
+				}
 			}
 			else {
 				this.deactivate();
-				this.target.exporting.menu.hideBranch(this._menu);
+				if (this.useMenu) {
+					this.target.exporting.menu.hideBranch(this._menu);
+				}
 			}
 			this.updateIndicator();
 		}
@@ -952,9 +1013,13 @@ export class Annotation extends Plugin {
 		this.fabric.freeDrawingBrush.color = brushColor.rgba;
 
 		// Update selected objects
-		let selected = this.fabric.getActiveObjects();
+		let selected: any = this.fabric.getActiveObjects();
 		for (let i = 0; i < selected.length; i++) {
-			if ((<any>selected[i]).isType("textbox") || ((<any>selected[i]).isType("path") && selected[i].fill)) {
+			if (selected[i].isType("textbox") || (selected[i].isType("path") && selected[i].fill)) {
+				selected[i].set("fill", value.hex);
+			}
+			else if (selected[i].isType("triangle")) {
+				selected[i].set("stroke", value.hex);
 				selected[i].set("fill", value.hex);
 			}
 			else if ((<any>selected[i]).getSrc) {
@@ -1078,6 +1143,15 @@ export class Annotation extends Plugin {
 	 */
 	public line(): void {
 		this.currentTool = "line";
+		this.fabric.isDrawingMode = false;
+		this.fabric.selection = false;
+	}
+
+	/**
+	 * Puts annotator in arrow drawing mode.
+	 */
+	public arrow(): void {
+		this.currentTool = "arrow";
 		this.fabric.isDrawingMode = false;
 		this.fabric.selection = false;
 	}
@@ -1228,6 +1302,37 @@ export class Annotation extends Plugin {
 	}
 
 	/**
+	 * If set to `false` the plugin will not create own menu nor will add its
+	 * items to existing Export menu.
+	 *
+	 * In such case, annotation functionality will be available only via API.
+	 *
+	 * @since 4.8.0
+	 * @default true
+	 * @param  value  Use menu?
+	 */
+	public set useMenu(value: boolean) {
+		this._useMenu = value;
+		if (!value && this.target.exporting.menu) {
+			if (this._ownMenu) {
+				this.target.exporting.menu.items[0].menu = [];
+				this.target.exporting.menu.invalidate();
+			}
+			else {
+				this.target.exporting.menu.items[0].menu.pop();
+				this.target.exporting.menu.invalidate();
+			}
+		}
+	}
+
+	/**
+	 * @return Use menu?
+	 */
+	public get useMenu(): boolean {
+		return this._useMenu;
+	}
+
+	/**
 	 * Loads data onto canvas.
 	 */
 	private loadData(): void {
@@ -1262,7 +1367,7 @@ export class Annotation extends Plugin {
 				item.left *= dx;
 				item.top *= dy;
 			}
-			
+
 			this.data = data;
 			this._originalBbox = {
 				width: w,

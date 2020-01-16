@@ -246,33 +246,21 @@ export class Chart extends Component {
 			switch (legend.position) {
 				case "left":
 					chartAndLegendContainer.layout = "horizontal";
-					if (!$type.isNumber(legend.width)) {
-						legend.width = 200;
-					}
-					//legend.maxWidth = legend.width;
 					legend.toBack();
 					break;
 
 				case "right":
 					chartAndLegendContainer.layout = "horizontal";
-					if (!$type.isNumber(legend.width)) {
-						legend.width = 200;
-					}
-					//legend.maxWidth = legend.width;
 					legend.toFront();
 					break;
 
 				case "top":
 					chartAndLegendContainer.layout = "vertical";
-					legend.maxWidth = undefined;
-					legend.width = percent(100);
 					legend.toBack();
 					break;
 
 				case "bottom":
 					chartAndLegendContainer.layout = "vertical";
-					legend.maxWidth = undefined;
-					legend.width = percent(100);
 					legend.toFront();
 			}
 		}
@@ -353,11 +341,12 @@ export class Chart extends Component {
 	protected setLegend(legend: Legend) {
 		if (this._legend.get() !== legend) {
 			if (legend) {
+				legend.maxWidth = 200;
 				// Set legend options
 				legend.parent = this.chartAndLegendContainer;
 
 				this._legend.set(legend, legend.events.on("propertychanged", (event) => {
-					if (event.property == "position" || event.property == "width") {
+					if (event.property == "position") {
 						this.fixLayout();
 					}
 				}, undefined, false));

@@ -982,6 +982,13 @@ var XYChart = /** @class */ (function (_super) {
                         newSeriesPoints_1.push({ series: seriesPoint.series, point: seriesPoint.point });
                     }
                     else {
+                        var tooltipDataItem = seriesPoint.series.tooltipDataItem;
+                        if (tooltipDataItem) {
+                            $array.each(tooltipDataItem.sprites, function (sprite) {
+                                sprite.isHover = false;
+                                sprite.handleOutReal(); // to avoid flicker
+                            });
+                        }
                         seriesPoint.series.tooltip.hide(0);
                     }
                 });

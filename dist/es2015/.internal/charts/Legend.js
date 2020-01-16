@@ -21,10 +21,12 @@ import { percent } from "../core/utils/Percent";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
 import * as $utils from "../core/utils/Utils";
 import * as $type from "../core/utils/Type";
+import * as $math from "../core/utils/Math";
 import { Sprite } from "../core/Sprite";
 import { Disposer } from "../core/utils/Disposer";
 import { MouseCursorStyle } from "../core/interaction/Mouse";
 import { defaultRules, ResponsiveBreakpoints } from "../core/utils/Responsive";
+import { Scrollbar } from "../core/elements/Scrollbar";
 /**
  * ============================================================================
  * DATA ITEM
@@ -295,12 +297,13 @@ var Legend = /** @class */ (function (_super) {
         // Set defaults
         _this.layout = "grid";
         _this.setPropertyValue("useDefaultMarker", false);
+        _this.setPropertyValue("scrollable", false);
         _this.setPropertyValue("contentAlign", "center");
         // Create a template container and list for legend items
         var itemContainer = new Container();
         itemContainer.applyOnClones = true;
-        itemContainer.padding(10, 0, 10, 0);
-        itemContainer.margin(0, 10, 0, 0);
+        itemContainer.padding(8, 0, 8, 0);
+        itemContainer.margin(0, 10, 0, 10);
         itemContainer.layout = "horizontal";
         itemContainer.clickable = true;
         itemContainer.focusable = true;
@@ -358,6 +361,8 @@ var Legend = /** @class */ (function (_super) {
         _this._disposers.push(new ListDisposer(_this.labels));
         _this._disposers.push(_this.labels.template);
         label.interactionsEnabled = false;
+        label.truncate = true;
+        label.fullWords = false;
         // Create a template container and list for item value labels
         var valueLabel = new Label();
         valueLabel.margin(0, 5, 0, 0);
@@ -377,6 +382,7 @@ var Legend = /** @class */ (function (_super) {
         itemContainer.setStateOnChildren = true;
         // Apply accessibility settings
         _this.role = "group";
+        _this.events.on("layoutvalidated", _this.handleScrollbar, _this, false);
         _this.applyTheme();
         return _this;
     }
@@ -419,6 +425,10 @@ var Legend = /** @class */ (function (_super) {
         container.readerChecked = dataItem.dataContext.visible;
         // Tell series its legend data item
         dataItem.dataContext.legendDataItem = dataItem;
+        dataItem.label.width = undefined;
+        if (valueLabel.align == "right") {
+            valueLabel.width = undefined;
+        }
         var legendSettings = dataItem.dataContext.legendSettings;
         // If we are not using default markers, create a unique legend marker based
         // on the data item type
@@ -438,7 +448,7 @@ var Legend = /** @class */ (function (_super) {
         if (valueLabel.invalid) {
             valueLabel.validate();
         }
-        if (valueLabel.currentText == "" || valueLabel.currentText == undefined) {
+        if (valueLabel.text == "" || valueLabel.text == undefined) {
             valueLabel.__disabled = true;
         }
         else {
@@ -462,6 +472,78 @@ var Legend = /** @class */ (function (_super) {
             container.setState("default", 0);
         }
         container.events.enableType("toggled");
+    };
+    Legend.prototype.afterDraw = function () {
+        var _this = this;
+        var maxWidth = this.getPropertyValue("maxWidth");
+        var maxLabelWidth = 0;
+        this.labels.each(function (label) {
+            if (label.invalid) {
+                label.validate();
+            }
+            if (label.measuredWidth + label.pixelMarginLeft + label.pixelMarginRight > maxLabelWidth) {
+                maxLabelWidth = label.measuredWidth + label.pixelMarginLeft + label.pixelMarginRight;
+            }
+        });
+        var maxValueLabelWidth = 0;
+        this.valueLabels.each(function (label) {
+            if (label.invalid) {
+                label.validate();
+            }
+            if (label.measuredWidth + label.pixelMarginLeft + label.pixelMarginRight > maxValueLabelWidth) {
+                maxValueLabelWidth = label.measuredWidth + label.pixelMarginLeft + label.pixelMarginRight;
+            }
+        });
+        var maxMarkerWidth = 0;
+        this.markers.each(function (marker) {
+            if (marker.invalid) {
+                marker.validate();
+            }
+            if (marker.measuredWidth + marker.pixelMarginLeft + marker.pixelMarginRight > maxMarkerWidth) {
+                maxMarkerWidth = marker.measuredWidth + marker.pixelMarginLeft + marker.pixelMarginRight;
+            }
+        });
+        var itemContainer = this.itemContainers.template;
+        var margin = itemContainer.pixelMarginRight + itemContainer.pixelMarginLeft;
+        var maxAdjustedLabelWidth;
+        var trueMaxWidth = maxLabelWidth + maxValueLabelWidth + maxMarkerWidth;
+        if (!$type.isNumber(maxWidth)) {
+            maxAdjustedLabelWidth = maxLabelWidth;
+        }
+        else {
+            maxWidth = maxWidth - margin;
+            if (maxWidth > trueMaxWidth) {
+                maxWidth = trueMaxWidth;
+            }
+            maxAdjustedLabelWidth = maxWidth - maxMarkerWidth - maxValueLabelWidth;
+        }
+        this.labels.each(function (label) {
+            if (_this.valueLabels.template.align == "right" || label.measuredWidth > maxAdjustedLabelWidth) {
+                label.width = maxAdjustedLabelWidth - label.pixelMarginLeft - label.pixelMarginRight;
+            }
+        });
+        if (this.valueLabels.template.align == "right") {
+            this.valueLabels.each(function (valueLabel) {
+                valueLabel.width = maxValueLabelWidth;
+            });
+        }
+        _super.prototype.afterDraw.call(this);
+    };
+    Legend.prototype.handleScrollbar = function () {
+        var scrollbar = this.scrollbar;
+        if (this.scrollable && scrollbar) {
+            scrollbar.height = this.measuredHeight;
+            scrollbar.x = this.measuredWidth - scrollbar.pixelWidth - scrollbar.pixelMarginLeft;
+            if (this.contentHeight > this.measuredHeight) {
+                scrollbar.visible = true;
+                scrollbar.thumb.height = scrollbar.height * this.measuredHeight / this.contentHeight;
+                this.paddingRight = scrollbar.pixelWidth + scrollbar.pixelMarginLeft + +scrollbar.pixelMarginRight;
+            }
+            else {
+                scrollbar.visible = false;
+            }
+            this.updateMasks();
+        }
     };
     Object.defineProperty(Legend.prototype, "position", {
         /**
@@ -487,19 +569,19 @@ var Legend = /** @class */ (function (_super) {
         set: function (value) {
             if (this.setPropertyValue("position", value)) {
                 if (value == "left" || value == "right") {
-                    this.margin(10, 20, 10, 20);
+                    this.margin(10, 5, 10, 10);
                     this.valign = "middle";
-                    this.itemContainers.template.width = percent(100);
-                    this.valueLabels.template.width = percent(100);
-                    this.labels.template.truncate = true;
-                    this.labels.template.fullWords = false;
+                    this.valueLabels.template.align = "right";
+                    if (!$type.isNumber(this.maxColumns)) {
+                        this.maxColumns = 1;
+                    }
+                    this.width = undefined;
+                    this.maxWidth = 220;
                 }
                 else {
-                    this.itemContainers.template.width = undefined;
-                    this.itemContainers.template.maxWidth = undefined;
-                    this.valueLabels.template.width = 50;
-                    this.labels.template.truncate = false;
+                    this.maxColumns = undefined;
                     this.width = percent(100);
+                    this.valueLabels.template.align = "left";
                 }
                 this.invalidate();
             }
@@ -533,6 +615,86 @@ var Legend = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Legend.prototype, "scrollable", {
+        /**
+         * @return Legend Scrollable?
+         */
+        get: function () {
+            return this.getPropertyValue("scrollable");
+        },
+        /**
+         * If set to `true` the Legend will display a scrollbar if its contents do
+         * not fit into its `maxHeight`.
+         *
+         * Please note that `maxHeight` is automatically set for Legend when its
+         * `position` is set to `"left"` or `"right"`.
+         *
+         * @default false
+         * @since 4.8.0
+         * @param  value  Legend Scrollable?
+         */
+        set: function (value) {
+            if (this.setPropertyValue("scrollable", value, true)) {
+                if (value) {
+                    var scrollbar = this.createChild(Scrollbar);
+                    this.scrollbar = scrollbar;
+                    scrollbar.isMeasured = false;
+                    scrollbar.orientation = "vertical";
+                    scrollbar.endGrip.__disabled = true;
+                    scrollbar.startGrip.__disabled = true;
+                    scrollbar.visible = false;
+                    scrollbar.marginLeft = 5;
+                    this._mouseWheelDisposer = this.events.on("wheel", this.handleWheel, this, false);
+                    this._disposers.push(this._mouseWheelDisposer);
+                    this._disposers.push(scrollbar.events.on("rangechanged", this.updateMasks, this, false));
+                }
+                else {
+                    if (this._mouseWheelDisposer) {
+                        this._mouseWheelDisposer.dispose();
+                        if (this.scrollbar) {
+                            this.scrollbar.dispose();
+                            this.scrollbar = undefined;
+                        }
+                    }
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Handles mouse wheel scrolling of legend.
+     *
+     * @param  event  Event
+     */
+    Legend.prototype.handleWheel = function (event) {
+        var shift = event.shift.y;
+        var scrollbar = this.scrollbar;
+        if (scrollbar) {
+            var ds = (shift / 1000 * this.measuredHeight / this.contentHeight);
+            var delta = scrollbar.end - scrollbar.start;
+            if (shift > 0) {
+                scrollbar.start = $math.max(0, scrollbar.start - ds);
+                scrollbar.end = scrollbar.start + delta;
+            }
+            else {
+                scrollbar.end = $math.min(1, scrollbar.end - ds);
+                scrollbar.start = scrollbar.end - delta;
+            }
+        }
+    };
+    /**
+     * @ignore
+     */
+    Legend.prototype.updateMasks = function () {
+        var _this = this;
+        if (this.scrollbar) {
+            this.itemContainers.each(function (itemContainer) {
+                itemContainer.dy = -_this.scrollbar.thumb.pixelY * _this.contentHeight / _this.measuredHeight;
+                itemContainer.maskRectangle = { x: 0, y: -itemContainer.dy, width: _this.measuredWidth, height: _this.measuredHeight };
+            });
+        }
+    };
     /**
      * Toggles a legend item.
      *

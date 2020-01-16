@@ -870,17 +870,23 @@ export declare class XYSeries extends Series {
     positionBullet(bullet: Bullet): void;
     protected positionBulletReal(bullet: Sprite, positionX: number, positionY: number): void;
     /**
-    * returns bullet x location
-    * @ignore
-    */
+     * returns bullet x location
+     * @ignore
+     */
     protected getBulletLocationX(bullet: Bullet, field: string): number;
     /**
-    * returns bullet x location
-    * @ignore
-    */
+     * Returns bullet x location
+     * @ignore
+     */
     protected getBulletLocationY(bullet: Bullet, field: string): number;
     /**
-     * @todo mm
+     * This method must be called if you update Series' data fields that might
+     * affect stacking of the series.
+     *
+     * Since individual `dataField` changes are not being monitored, you need
+     * todo it manually for changes to take affect.
+     *
+     * @since 4.7.21
      */
     updateStacking(): void;
     /**

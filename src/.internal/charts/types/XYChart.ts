@@ -1317,6 +1317,14 @@ export class XYChart extends SerialChart {
 						newSeriesPoints.push({ series: seriesPoint.series, point: seriesPoint.point });
 					}
 					else {
+						let tooltipDataItem = seriesPoint.series.tooltipDataItem;
+						if(tooltipDataItem){
+							$array.each(tooltipDataItem.sprites, (sprite)=>{
+								sprite.isHover = false;
+								sprite.handleOutReal(); // to avoid flicker
+							})
+						}
+
 						seriesPoint.series.tooltip.hide(0);
 					}
 				})

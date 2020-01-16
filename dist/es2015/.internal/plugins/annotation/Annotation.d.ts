@@ -108,6 +108,14 @@ export declare class Annotation extends Plugin {
      */
     private _fontWeights;
     /**
+     * Menu enabled?
+     */
+    private _useMenu;
+    /**
+     * Did plugin create own menu or reusing existing ExportMenu?
+     */
+    private _ownMenu;
+    /**
      * A Fabric's Canvas element.
      *
      * @see {@link http://fabricjs.com/docs/fabric.Canvas.html}
@@ -119,6 +127,7 @@ export declare class Annotation extends Plugin {
     private _group;
     private _pointerDown;
     private _currentLine;
+    private _currentArrowhead;
     private _data;
     private _exportInited;
     /**
@@ -363,6 +372,10 @@ export declare class Annotation extends Plugin {
      */
     line(): void;
     /**
+     * Puts annotator in arrow drawing mode.
+     */
+    arrow(): void;
+    /**
      * Adds an editable text object to canvas.
      */
     addText(): void;
@@ -401,6 +414,20 @@ export declare class Annotation extends Plugin {
      * @param  value  Data
      */
     data: any;
+    /**
+     * @return Use menu?
+     */
+    /**
+     * If set to `false` the plugin will not create own menu nor will add its
+     * items to existing Export menu.
+     *
+     * In such case, annotation functionality will be available only via API.
+     *
+     * @since 4.8.0
+     * @default true
+     * @param  value  Use menu?
+     */
+    useMenu: boolean;
     /**
      * Loads data onto canvas.
      */

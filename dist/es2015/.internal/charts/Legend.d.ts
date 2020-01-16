@@ -19,6 +19,9 @@ import { RadialGradient } from "../core/rendering/fills/RadialGradient";
 import { LinearGradient } from "../core/rendering/fills/LinearGradient";
 import { Pattern } from "../core/rendering/fills/Pattern";
 import * as $type from "../core/utils/Type";
+import { Sprite, ISpriteEvents, AMEvent } from "../core/Sprite";
+import { IDisposer } from "../core/utils/Disposer";
+import { Scrollbar } from "../core/elements/Scrollbar";
 /**
  * ============================================================================
  * DATA ITEM
@@ -206,6 +209,14 @@ export interface ILegendProperties extends IComponentProperties {
      * @default "bottom"
      */
     position?: LegendPosition;
+    /**
+     * If set to `true` the Legend will display a scrollbar if its contents do
+     * not fit into its `maxHeight`.
+     *
+     * @default false
+     * @since 4.8.0
+     */
+    scrollable?: boolean;
 }
 /**
  * Defines events for [[Legend]].
@@ -281,6 +292,8 @@ export declare class Legend extends Component {
      * Currently focused legend item (for toggling via keyboard)
      */
     focusedItem: Optional<this["_dataItem"]>;
+    scrollbar: Scrollbar;
+    protected _mouseWheelDisposer: IDisposer;
     /**
      * Constructor
      */
@@ -307,6 +320,8 @@ export declare class Legend extends Component {
      * @todo Update legend marker appearance as apperance of related series changes
      */
     validateDataElement(dataItem: this["_dataItem"]): void;
+    afterDraw(): void;
+    protected handleScrollbar(): void;
     /**
      * @return Position
      */
@@ -342,6 +357,31 @@ export declare class Legend extends Component {
      * @param value Use default marker?
      */
     useDefaultMarker: boolean;
+    /**
+     * @return Legend Scrollable?
+     */
+    /**
+     * If set to `true` the Legend will display a scrollbar if its contents do
+     * not fit into its `maxHeight`.
+     *
+     * Please note that `maxHeight` is automatically set for Legend when its
+     * `position` is set to `"left"` or `"right"`.
+     *
+     * @default false
+     * @since 4.8.0
+     * @param  value  Legend Scrollable?
+     */
+    scrollable: boolean;
+    /**
+     * Handles mouse wheel scrolling of legend.
+     *
+     * @param  event  Event
+     */
+    protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]): void;
+    /**
+     * @ignore
+     */
+    protected updateMasks(): void;
     /**
      * Toggles a legend item.
      *

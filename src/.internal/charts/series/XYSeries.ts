@@ -2214,9 +2214,9 @@ export class XYSeries extends Series {
 	}
 
 	/**
-	* returns bullet x location
-	* @ignore
-	*/
+	 * returns bullet x location
+	 * @ignore
+	 */
 	protected getBulletLocationX(bullet: Bullet, field: string): number {
 		let bulletLocation: number = bullet.locationX;
 		let dataItem = bullet.dataItem;
@@ -2228,9 +2228,9 @@ export class XYSeries extends Series {
 
 
 	/**
-	* returns bullet x location
-	* @ignore
-	*/
+	 * Returns bullet x location
+	 * @ignore
+	 */
 	protected getBulletLocationY(bullet: Bullet, field: string): number {
 		let bulletLocation: number = bullet.locationY;
 		let dataItem = bullet.dataItem;
@@ -2241,9 +2241,15 @@ export class XYSeries extends Series {
 	}
 
 	/**
-	 * @todo mm
+	 * This method must be called if you update Series' data fields that might
+	 * affect stacking of the series.
+	 *
+	 * Since individual `dataField` changes are not being monitored, you need
+	 * todo it manually for changes to take affect.
+	 *
+	 * @since 4.7.21
 	 */
-	public updateStacking() {
+	public updateStacking(): void {
 		this.invalidateDataItems();
 		if (this.chart) {
 			this.chart.series.each((series) => {

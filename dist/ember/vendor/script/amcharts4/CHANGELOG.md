@@ -5,6 +5,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.8.0] - 2020-01-16
+
+### Added
+- `scrollable` (default: `false`) property added to `Legend`. If the legend is positioned left/right and items do not fit in the available height, the scrollbar will appear automatically. In case legend is positioned at the top/bottom, you must set `maxHeight` for the legend and if items do not fit in this height, the scrollbar will appear.
+- `Annotation` plugin: added new property `useMenu`. If set to `false`, plugin will not add any items to or create export menu. It means that annotation functionality will be available only via its API.
+- `Annotation` plugin: added arrow tool support.
+
+### Changed
+- Layout algorithm of `Legend`'s' item changed and made better. Labels are properly truncated if they do not fit. Alignment of value works fine.
+- When `Legend`'s position is `"left"` or `"right"` it no longer fixes its width at 200px width, but sets `maxWidth` to 220. This means that legend will take only as much width as it is necessary to accommodate its contents, which usually results in more space for chart itself. Set `maxWidth` to `undefined` if you want all the labels to be displayed and not to be truncated if they don't fit.
+- When `Legend`'s position is `"left"` or `"right"` it automatically sets `maxColumns` to `1` (one) so that legend items would be arranged in one column only. You can change this setting if you need more columns (you should do this after the position is set).
+- Setting `focusable = true` on an element will now automatically set `tabindex = 0`. This is required for some browsers (FF) for elements to be focusable. This means that a bunch of elements that are focusable by default (legend items, grips, buttons, etc.) will now have `tabindex` set automatically as well.
+- Default for `Label.ellipsis` (used when truncating texts) was changed from "..." (three dots) to "…" (
+Unicode Character 'HORIZONTAL ELLIPSIS'; U+2026).
+- `Label` wrapping will now try not to split strings on dots where there are no whitespace afterwards, e.g. "55.5%".
+
+### Fixed
+- Axis fills were not measured properly after chart was resized and this could result in a tooltip to be displayed in an incorrect position.
+- `valueLabels` of a `Legend` were not displayed if set directly on `valueLabels.template.text`. They were dispalyed only if set on `series.legendSettings.itemValueText`.
+
+
 ## [4.7.21] - 2020-01-10
 
 ### Added

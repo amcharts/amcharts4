@@ -16,6 +16,7 @@ import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { getInteraction } from "../../core/interaction/Interaction";
 import { keyboard } from "../../core/utils/Keyboard";
+import * as $math from "../../core/utils/Math";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -112,6 +113,14 @@ var Annotation = /** @class */ (function (_super) {
          * Available font weights.
          */
         _this._fontWeights = [];
+        /**
+         * Menu enabled?
+         */
+        _this._useMenu = true;
+        /**
+         * Did plugin create own menu or reusing existing ExportMenu?
+         */
+        _this._ownMenu = true;
         _this._pointerDown = false;
         _this._exportInited = false;
         /**
@@ -172,13 +181,19 @@ var Annotation = /** @class */ (function (_super) {
         var _this = this;
         var target = this.target;
         // Create an export menu if it does not yet exist
-        if (!target.exporting.menu) {
-            target.exporting.menu = new ExportMenu();
-            target.exporting.menu.items[0].menu = [];
+        if (this.useMenu) {
+            if (!target.exporting.menu) {
+                target.exporting.menu = new ExportMenu();
+                target.exporting.menu.items[0].menu = [];
+                this._ownMenu = true;
+            }
+            else {
+                target.exporting.menu.invalidate();
+                this._ownMenu = false;
+            }
         }
-        else {
-            target.exporting.menu.invalidate();
-        }
+        // Update indicator when menu is created
+        target.exporting.events.once("menucreated", this.updateIndicator);
         target.events.on("sizechanged", this.sizeAnnotations, this);
         // Create DEL key handler
         getInteraction().body.events.on("keyup", function (ev) {
@@ -186,8 +201,6 @@ var Annotation = /** @class */ (function (_super) {
                 _this.deleteSelected();
             }
         });
-        // Update indicator when menu is created
-        target.exporting.events.once("menucreated", this.updateIndicator);
         // Update/show SVG annotation if currently in annotation mode and user
         // triggers export.
         target.exporting.events.on("exportstarted", function (ev) {
@@ -205,244 +218,245 @@ var Annotation = /** @class */ (function (_super) {
         });
         // Generate a unique id for indicator
         this._indicatorId = registry.getUniqueId();
-        // Add annotation menu
-        target.exporting.menu.items[0].menu.push({
-            label: target.language.translateAny("Annotate"),
-            type: "custom",
-            options: {
-                callback: this.handleClick,
-                callbackTarget: this
-            }
-        });
-        // Color list
-        var colors = [];
-        var _loop_1 = function (i) {
-            colors.push({
+        if (this.useMenu) {
+            // Add annotation menu
+            target.exporting.menu.items[0].menu.push({
+                label: target.language.translateAny("Annotate"),
                 type: "custom",
-                svg: AnnotationIcons.ok,
-                color: this_1.colors[i],
                 options: {
-                    callback: function () {
-                        _this.setColor(_this.colors[i]);
-                    }
+                    callback: this.handleClick,
+                    callbackTarget: this
                 }
             });
-        };
-        var this_1 = this;
-        for (var i = 0; i < this.colors.length; i++) {
-            _loop_1(i);
-        }
-        // Width list
-        var widths = [];
-        var _loop_2 = function (i) {
-            widths.push({
-                type: "custom",
-                label: this_2.widths[i] + "px",
-                options: {
-                    callback: function () {
-                        _this.setWidth(_this.widths[i]);
-                    }
-                }
-            });
-        };
-        var this_2 = this;
-        for (var i = 0; i < this.widths.length; i++) {
-            _loop_2(i);
-        }
-        // Opacity list
-        var opacities = [];
-        var _loop_3 = function (i) {
-            opacities.push({
-                type: "custom",
-                label: "<span style=\"opacity: " + this_3.opacities[i] + "\">" + (this_3.opacities[i] * 100) + "%</span>",
-                options: {
-                    callback: function () {
-                        _this.setOpacity(_this.opacities[i]);
-                    }
-                }
-            });
-        };
-        var this_3 = this;
-        for (var i = 0; i < this.opacities.length; i++) {
-            _loop_3(i);
-        }
-        // Font sizes
-        var fontSizes = [];
-        var _loop_4 = function (i) {
-            fontSizes.push({
-                type: "custom",
-                label: "" + this_4.fontSizes[i],
-                options: {
-                    callback: function () {
-                        _this.setFontSize(_this.fontSizes[i]);
-                    }
-                }
-            });
-        };
-        var this_4 = this;
-        for (var i = 0; i < this.fontSizes.length; i++) {
-            _loop_4(i);
-        }
-        // Font weights
-        var fontWeights = [];
-        var _loop_5 = function (i) {
-            fontWeights.push({
-                type: "custom",
-                label: "" + this_5.fontWeights[i],
-                options: {
-                    callback: function () {
-                        _this.setFontWeight(_this.fontWeights[i]);
-                    }
-                }
-            });
-        };
-        var this_5 = this;
-        for (var i = 0; i < this.fontWeights.length; i++) {
-            _loop_5(i);
-        }
-        // Icons
-        var icons = [];
-        var _loop_6 = function (i) {
-            icons.push({
-                type: "custom",
-                svg: this_6.icons[i],
-                options: {
-                    callback: function () {
-                        _this.addIcon(_this.icons[i]);
-                    }
-                }
-            });
-        };
-        var this_6 = this;
-        for (var i = 0; i < this.icons.length; i++) {
-            _loop_6(i);
-        }
-        // Construct main menu item
-        var id = this._indicatorId;
-        //let mainitem = this.target.exporting.menu.createSvgElement(0, "custom", AnnotationIcons.select).outerHTML;
-        var mainitem = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1\" viewBox=\"0 0 24 24\"></svg>";
-        mainitem += "<span class=\"" + id + "_color\" style=\"display: block; background-color: " + this.currentColor.hex + "; width: 1.2em; height: 1.2em; margin: 0.2em auto 0.4em auto;\"></span>";
-        // Add annotation tools menu
-        this._menu = {
-            hidden: !this.active,
-            // icon: AnnotationIcons.select,
-            label: mainitem,
-            id: this._indicatorId,
-            menu: [{
+            // Color list
+            var colors = [];
+            var _loop_1 = function (i) {
+                colors.push({
                     type: "custom",
-                    svg: AnnotationIcons.tools,
-                    label: target.language.translateAny("Tools"),
-                    menu: [{
-                            type: "custom",
-                            svg: AnnotationIcons.select,
-                            label: target.language.translateAny("Select"),
-                            options: {
-                                callback: this.select,
-                                callbackTarget: this
-                            }
-                        }, {
-                            type: "custom",
-                            svg: AnnotationIcons.draw,
-                            label: target.language.translateAny("Draw"),
-                            options: {
-                                callback: this.draw,
-                                callbackTarget: this
-                            }
-                        }, {
-                            type: "custom",
-                            svg: AnnotationIcons.line,
-                            label: target.language.translateAny("Line"),
-                            options: {
-                                callback: this.line,
-                                callbackTarget: this
-                            }
-                        } /*, {
+                    svg: AnnotationIcons.ok,
+                    color: this_1.colors[i],
+                    options: {
+                        callback: function () {
+                            _this.setColor(_this.colors[i]);
+                        }
+                    }
+                });
+            };
+            var this_1 = this;
+            for (var i = 0; i < this.colors.length; i++) {
+                _loop_1(i);
+            }
+            // Width list
+            var widths = [];
+            var _loop_2 = function (i) {
+                widths.push({
+                    type: "custom",
+                    label: this_2.widths[i] + "px",
+                    options: {
+                        callback: function () {
+                            _this.setWidth(_this.widths[i]);
+                        }
+                    }
+                });
+            };
+            var this_2 = this;
+            for (var i = 0; i < this.widths.length; i++) {
+                _loop_2(i);
+            }
+            // Opacity list
+            var opacities = [];
+            var _loop_3 = function (i) {
+                opacities.push({
+                    type: "custom",
+                    label: "<span style=\"opacity: " + this_3.opacities[i] + "\">" + (this_3.opacities[i] * 100) + "%</span>",
+                    options: {
+                        callback: function () {
+                            _this.setOpacity(_this.opacities[i]);
+                        }
+                    }
+                });
+            };
+            var this_3 = this;
+            for (var i = 0; i < this.opacities.length; i++) {
+                _loop_3(i);
+            }
+            // Font sizes
+            var fontSizes = [];
+            var _loop_4 = function (i) {
+                fontSizes.push({
+                    type: "custom",
+                    label: "" + this_4.fontSizes[i],
+                    options: {
+                        callback: function () {
+                            _this.setFontSize(_this.fontSizes[i]);
+                        }
+                    }
+                });
+            };
+            var this_4 = this;
+            for (var i = 0; i < this.fontSizes.length; i++) {
+                _loop_4(i);
+            }
+            // Font weights
+            var fontWeights = [];
+            var _loop_5 = function (i) {
+                fontWeights.push({
+                    type: "custom",
+                    label: "" + this_5.fontWeights[i],
+                    options: {
+                        callback: function () {
+                            _this.setFontWeight(_this.fontWeights[i]);
+                        }
+                    }
+                });
+            };
+            var this_5 = this;
+            for (var i = 0; i < this.fontWeights.length; i++) {
+                _loop_5(i);
+            }
+            // Icons
+            var icons = [];
+            var _loop_6 = function (i) {
+                icons.push({
+                    type: "custom",
+                    svg: this_6.icons[i],
+                    options: {
+                        callback: function () {
+                            _this.addIcon(_this.icons[i]);
+                        }
+                    }
+                });
+            };
+            var this_6 = this;
+            for (var i = 0; i < this.icons.length; i++) {
+                _loop_6(i);
+            }
+            // Construct main menu item
+            var id = this._indicatorId;
+            //let mainitem = this.target.exporting.menu.createSvgElement(0, "custom", AnnotationIcons.select).outerHTML;
+            var mainitem = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1\" viewBox=\"0 0 24 24\"></svg>";
+            mainitem += "<span class=\"" + id + "_color\" style=\"display: block; background-color: " + this.currentColor.hex + "; width: 1.2em; height: 1.2em; margin: 0.2em auto 0.4em auto;\"></span>";
+            // Add annotation tools menu
+            this._menu = {
+                hidden: !this.active,
+                // icon: AnnotationIcons.select,
+                label: mainitem,
+                id: this._indicatorId,
+                menu: [{
+                        type: "custom",
+                        svg: AnnotationIcons.tools,
+                        label: target.language.translateAny("Tools"),
+                        menu: [{
+                                type: "custom",
+                                svg: AnnotationIcons.select,
+                                label: target.language.translateAny("Select"),
+                                options: {
+                                    callback: this.select,
+                                    callbackTarget: this
+                                }
+                            }, {
+                                type: "custom",
+                                svg: AnnotationIcons.draw,
+                                label: target.language.translateAny("Draw"),
+                                options: {
+                                    callback: this.draw,
+                                    callbackTarget: this
+                                }
+                            }, {
+                                type: "custom",
+                                svg: AnnotationIcons.line,
+                                label: target.language.translateAny("Line"),
+                                options: {
+                                    callback: this.line,
+                                    callbackTarget: this
+                                }
+                            }, {
                                 type: "custom",
                                 svg: AnnotationIcons.arrow,
                                 label: target.language.translateAny("Arrow"),
                                 options: {
-                                    callback: this.underConstruction,
+                                    callback: this.arrow,
                                     callbackTarget: this
                                 }
-                            }*/,
-                        {
-                            type: "custom",
-                            svg: AnnotationIcons.width,
-                            label: target.language.translateAny("Weight"),
-                            menu: widths
-                        }, {
-                            type: "custom",
-                            svg: AnnotationIcons.delete,
-                            label: target.language.translateAny("Delete"),
-                            options: {
-                                callback: this.delete,
-                                callbackTarget: this
+                            }, {
+                                type: "custom",
+                                svg: AnnotationIcons.width,
+                                label: target.language.translateAny("Weight"),
+                                menu: widths
+                            }, {
+                                type: "custom",
+                                svg: AnnotationIcons.delete,
+                                label: target.language.translateAny("Delete"),
+                                options: {
+                                    callback: this.delete,
+                                    callbackTarget: this
+                                }
+                            }]
+                    }, {
+                        type: "custom",
+                        svg: AnnotationIcons.text,
+                        label: target.language.translateAny("Text"),
+                        menu: [{
+                                type: "custom",
+                                svg: AnnotationIcons.textAdd,
+                                label: target.language.translateAny("Add"),
+                                options: {
+                                    callback: this.addText,
+                                    callbackTarget: this
+                                }
+                            }, {
+                                type: "custom",
+                                svg: AnnotationIcons.textWeight,
+                                label: target.language.translateAny("Weight"),
+                                menu: fontWeights
+                            }, {
+                                type: "custom",
+                                svg: AnnotationIcons.textSize,
+                                label: target.language.translateAny("Size"),
+                                menu: fontSizes
+                            }]
+                    }, {
+                        type: "custom",
+                        svg: AnnotationIcons.colors,
+                        label: target.language.translateAny("Color"),
+                        menu: colors
+                    }, {
+                        type: "custom",
+                        svg: AnnotationIcons.opacity,
+                        label: target.language.translateAny("Opacity"),
+                        menu: opacities
+                    }, {
+                        type: "custom",
+                        svg: AnnotationIcons.icon,
+                        label: target.language.translateAny("Icon"),
+                        menu: icons
+                    }, {
+                        type: "custom",
+                        svg: AnnotationIcons.more,
+                        label: target.language.translateAny("More"),
+                        menu: [
+                            {
+                                type: "custom",
+                                svg: AnnotationIcons.done,
+                                label: target.language.translateAny("Done"),
+                                options: {
+                                    callback: this.deactivate,
+                                    callbackTarget: this
+                                }
+                            }, {
+                                type: "custom",
+                                svg: AnnotationIcons.discard,
+                                label: target.language.translateAny("Discard"),
+                                options: {
+                                    callback: this.discard,
+                                    callbackTarget: this
+                                }
                             }
-                        }]
-                }, {
-                    type: "custom",
-                    svg: AnnotationIcons.text,
-                    label: target.language.translateAny("Text"),
-                    menu: [{
-                            type: "custom",
-                            svg: AnnotationIcons.textAdd,
-                            label: target.language.translateAny("Add"),
-                            options: {
-                                callback: this.addText,
-                                callbackTarget: this
-                            }
-                        }, {
-                            type: "custom",
-                            svg: AnnotationIcons.textWeight,
-                            label: target.language.translateAny("Weight"),
-                            menu: fontWeights
-                        }, {
-                            type: "custom",
-                            svg: AnnotationIcons.textSize,
-                            label: target.language.translateAny("Size"),
-                            menu: fontSizes
-                        }]
-                }, {
-                    type: "custom",
-                    svg: AnnotationIcons.colors,
-                    label: target.language.translateAny("Color"),
-                    menu: colors
-                }, {
-                    type: "custom",
-                    svg: AnnotationIcons.opacity,
-                    label: target.language.translateAny("Opacity"),
-                    menu: opacities
-                }, {
-                    type: "custom",
-                    svg: AnnotationIcons.icon,
-                    label: target.language.translateAny("Icon"),
-                    menu: icons
-                }, {
-                    type: "custom",
-                    svg: AnnotationIcons.more,
-                    label: target.language.translateAny("More"),
-                    menu: [
-                        {
-                            type: "custom",
-                            svg: AnnotationIcons.done,
-                            label: target.language.translateAny("Done"),
-                            options: {
-                                callback: this.deactivate,
-                                callbackTarget: this
-                            }
-                        }, {
-                            type: "custom",
-                            svg: AnnotationIcons.discard,
-                            label: target.language.translateAny("Discard"),
-                            options: {
-                                callback: this.discard,
-                                callbackTarget: this
-                            }
-                        }
-                    ]
-                }]
-        };
-        target.exporting.menu.items.push(this._menu);
+                        ]
+                    }]
+            };
+            target.exporting.menu.items.push(this._menu);
+        }
         this._exportInited = true;
     };
     /**
@@ -485,11 +499,12 @@ var Annotation = /** @class */ (function (_super) {
                         _this.deleteSelected();
                     }
                 });
-                // Set up events for drawing lines
+                // Set up events for drawing lines/arrows
                 this._fabric.on("mouse:down", function (ev) {
-                    if (_this.currentTool != "line") {
+                    if (_this.currentTool != "line" && _this.currentTool != "arrow") {
                         return;
                     }
+                    // Line
                     _this._pointerDown = true;
                     var pointer = _this._fabric.getPointer(ev.e);
                     var points = [pointer.x, pointer.y, pointer.x, pointer.y];
@@ -502,13 +517,39 @@ var Annotation = /** @class */ (function (_super) {
                         originY: "center"
                     });
                     _this._fabric.add(_this._currentLine);
+                    // Arrowhead
+                    if (_this.currentTool == "arrow") {
+                        _this._currentArrowhead = new fabric.Triangle({
+                            width: 10,
+                            height: 10,
+                            strokeWidth: _this.currentWidth,
+                            fill: _this.currentColor.hex,
+                            stroke: _this.currentColor.hex,
+                            opacity: _this.currentOpacity,
+                            left: pointer.x - 5,
+                            top: pointer.y - 10,
+                            originX: "center",
+                            originY: "center",
+                            angle: 0
+                        });
+                        _this._fabric.add(_this._currentArrowhead);
+                    }
                 });
                 this._fabric.on("mouse:move", function (ev) {
-                    if (!_this._pointerDown || _this.currentTool != "line") {
+                    if (!_this._pointerDown || (_this.currentTool != "line" && _this.currentTool != "arrow")) {
                         return;
                     }
                     var pointer = _this._fabric.getPointer(ev.e);
                     _this._currentLine.set({ x2: pointer.x, y2: pointer.y });
+                    // Move and rotate arrowhead
+                    if (_this.currentTool == "arrow") {
+                        var angle = $math.getAngle({ x: _this._currentLine.x1, y: _this._currentLine.y1 }, { x: _this._currentLine.x2, y: _this._currentLine.y2 });
+                        _this._currentArrowhead.set({
+                            left: pointer.x,
+                            top: pointer.y,
+                            angle: angle + 90
+                        });
+                    }
                     _this._fabric.renderAll();
                 });
                 this._fabric.on("mouse:up", function (ev) {
@@ -597,11 +638,15 @@ var Annotation = /** @class */ (function (_super) {
                 this._active = value;
                 if (value) {
                     this.activate();
-                    this.target.exporting.menu.showBranch(this._menu);
+                    if (this.useMenu) {
+                        this.target.exporting.menu.showBranch(this._menu);
+                    }
                 }
                 else {
                     this.deactivate();
-                    this.target.exporting.menu.hideBranch(this._menu);
+                    if (this.useMenu) {
+                        this.target.exporting.menu.hideBranch(this._menu);
+                    }
                 }
                 this.updateIndicator();
             }
@@ -911,6 +956,10 @@ var Annotation = /** @class */ (function (_super) {
             if (selected[i].isType("textbox") || (selected[i].isType("path") && selected[i].fill)) {
                 selected[i].set("fill", value.hex);
             }
+            else if (selected[i].isType("triangle")) {
+                selected[i].set("stroke", value.hex);
+                selected[i].set("fill", value.hex);
+            }
             else if (selected[i].getSrc) {
                 this.setIconFill(selected[i]);
             }
@@ -1018,6 +1067,14 @@ var Annotation = /** @class */ (function (_super) {
      */
     Annotation.prototype.line = function () {
         this.currentTool = "line";
+        this.fabric.isDrawingMode = false;
+        this.fabric.selection = false;
+    };
+    /**
+     * Puts annotator in arrow drawing mode.
+     */
+    Annotation.prototype.arrow = function () {
+        this.currentTool = "arrow";
         this.fabric.isDrawingMode = false;
         this.fabric.selection = false;
     };
@@ -1155,6 +1212,39 @@ var Annotation = /** @class */ (function (_super) {
             }
             else {
                 // Canvas is not yeat ready, just save data for later
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Annotation.prototype, "useMenu", {
+        /**
+         * @return Use menu?
+         */
+        get: function () {
+            return this._useMenu;
+        },
+        /**
+         * If set to `false` the plugin will not create own menu nor will add its
+         * items to existing Export menu.
+         *
+         * In such case, annotation functionality will be available only via API.
+         *
+         * @since 4.8.0
+         * @default true
+         * @param  value  Use menu?
+         */
+        set: function (value) {
+            this._useMenu = value;
+            if (!value && this.target.exporting.menu) {
+                if (this._ownMenu) {
+                    this.target.exporting.menu.items[0].menu = [];
+                    this.target.exporting.menu.invalidate();
+                }
+                else {
+                    this.target.exporting.menu.items[0].menu.pop();
+                    this.target.exporting.menu.invalidate();
+                }
             }
         },
         enumerable: true,

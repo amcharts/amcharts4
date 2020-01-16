@@ -70,7 +70,7 @@ export interface ILabelProperties extends IContainerProperties {
     /**
      * If lines are truncated, this ellipsis will be added at the end.
      *
-     * @default "..."
+     * @default "…"
      */
     ellipsis?: string;
     /**

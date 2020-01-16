@@ -1585,9 +1585,9 @@ var XYSeries = /** @class */ (function (_super) {
         bullet.y = this.yAxis.renderer.positionToPoint(positionY, positionX).y;
     };
     /**
-    * returns bullet x location
-    * @ignore
-    */
+     * returns bullet x location
+     * @ignore
+     */
     XYSeries.prototype.getBulletLocationX = function (bullet, field) {
         var bulletLocation = bullet.locationX;
         var dataItem = bullet.dataItem;
@@ -1597,9 +1597,9 @@ var XYSeries = /** @class */ (function (_super) {
         return bulletLocation;
     };
     /**
-    * returns bullet x location
-    * @ignore
-    */
+     * Returns bullet x location
+     * @ignore
+     */
     XYSeries.prototype.getBulletLocationY = function (bullet, field) {
         var bulletLocation = bullet.locationY;
         var dataItem = bullet.dataItem;
@@ -1609,7 +1609,13 @@ var XYSeries = /** @class */ (function (_super) {
         return bulletLocation;
     };
     /**
-     * @todo mm
+     * This method must be called if you update Series' data fields that might
+     * affect stacking of the series.
+     *
+     * Since individual `dataField` changes are not being monitored, you need
+     * todo it manually for changes to take affect.
+     *
+     * @since 4.7.21
      */
     XYSeries.prototype.updateStacking = function () {
         var _this = this;

@@ -69,6 +69,9 @@ var AxisFill = /** @class */ (function (_super) {
         if (this.axis && $type.isNumber(this.startPosition) && $type.isNumber(this.endPosition)) {
             this.fillPath = this.axis.getPositionRangePath(this.startPosition, this.endPosition);
             this.path = this.fillPath;
+            if (this.isMeasured) {
+                this.measure();
+            }
         }
     };
     Object.defineProperty(AxisFill.prototype, "startPosition", {

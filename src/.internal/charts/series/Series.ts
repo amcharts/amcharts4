@@ -1343,7 +1343,7 @@ export class Series extends Component {
 				if (valueLabel) {
 					if (legendSettings.itemValueText) {
 						valueLabel.text = legendSettings.itemValueText;
-					}
+					}					
 					valueLabel.dataItem = dataItem;
 				}
 				if (label) {
