@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // TAMIL
-export default {
+const lang: Lang = {
 	"AD": "அன்டோரா",
 	"AE": "ஐக்கிய அரபு கூட்டாட்சி",
 	"AF": "ஆப்கானிஸ்தான்",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "தென் ஆப்ரிக்கா",
 	"ZM": "சாம்பியா",
 	"ZW": "ஜிம்பாப்வே",
-}
+};
+
+export default lang;

@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // HEBREW
-export default {
+const lang: Lang = {
 	"AD": "אנדורה",
 	"AE": "איחוד האמירויות הערביות",
 	"AF": "אפגניסטן",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "דרום אפריקה",
 	"ZM": "זמביה",
 	"ZW": "זימבאבווה",
-}
+};
+
+export default lang;

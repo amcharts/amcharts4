@@ -970,6 +970,12 @@ export class Annotation extends Plugin {
 			case "delete":
 				this.delete();
 				break;
+			case "line":
+				this.line();
+				break;
+			case "arrow":
+				this.arrow();
+				break;
 		}
 	}
 

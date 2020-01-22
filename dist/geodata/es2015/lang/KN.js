@@ -1,5 +1,5 @@
 // KANNADA
-export default {
+var lang = {
     "AD": "ಅಂಡೋರಾ",
     "AE": "ಸಂಯುಕ್ತ ಅರಬ್ ಎಮಿರೇಟಸ್",
     "AF": "ಅಫಘಾನಿಸ್ಥಾನ್",
@@ -250,3 +250,4 @@ export default {
     "ZM": "ಝಾಂಬಿಯಾ",
     "ZW": "ಜಿಂಬಾಬ್ವೆ",
 };
+export default lang;

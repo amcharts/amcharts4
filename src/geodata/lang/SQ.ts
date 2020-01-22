@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // ALBANIAN
-export default {
+const lang: Lang = {
 	"AD": "Andorrë",
 	"AE": "Emiratet Arabe te Bashkuara",
 	"AF": "Afganistan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Afrika e Jugut",
 	"ZM": "Zambi",
 	"ZW": "Zimbabve",
-}
+};
+
+export default lang;

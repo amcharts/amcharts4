@@ -1,4 +1,4 @@
-export default { "type": "FeatureCollection", "features": [
+var map = { "type": "FeatureCollection", "features": [
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-69.8992, 12.4517], [-69.9421, 12.4385], [-70.0662, 12.5466], [-69.9733, 12.5677], [-69.8992, 12.4517]]] }, "properties": { "name": "Aruba", "id": "AW", "Continent": "Caribbean" }, "id": "AW" },
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-61.7162, 17.0369], [-61.8596, 17.0132], [-61.8172, 17.1692], [-61.7162, 17.0369]]] }, "properties": { "name": "Antigua and Barbuda", "id": "AG", "Continent": "Caribbean" }, "id": "AG" },
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-63.0011, 18.2221], [-63.16, 18.1712], [-63.1534, 18.2002], [-63.0259, 18.27], [-63.0011, 18.2221]]] }, "properties": { "name": "Anguilla", "id": "AI", "Continent": "Caribbean" }, "id": "AI" },
@@ -50,3 +50,4 @@ export default { "type": "FeatureCollection", "features": [
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-64.7657, 17.7946], [-64.6862, 17.7062], [-64.889, 17.7018], [-64.8848, 17.7721], [-64.7657, 17.7946]]] }, "properties": { "name": "US Virgin Islands", "id": "VI", "Continent": "Caribbean" }, "id": "VI" },
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-68.2058, 12.1445], [-68.2873, 12.1718], [-68.3712, 12.2574], [-68.3695, 12.3018], [-68.2196, 12.2311], [-68.2058, 12.1445]]] }, "properties": { "name": "Bonair, Saint Eustachius and Saba", "id": "BQ", "Continent": "Caribbean" }, "id": "BQ" }
     ] };
+export default map;

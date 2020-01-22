@@ -1,5 +1,5 @@
 // BURMESE
-export default {
+var lang = {
     "AD": "အင်ဒိုရာနိုင်ငံ",
     "AE": "ယူအေအီး",
     "AF": "အာဖဂန်နစ္စတန်",
@@ -250,3 +250,4 @@ export default {
     "ZM": "ဇမ်ဘီယာ",
     "ZW": "ဇင်ဘာဘွေ",
 };
+export default lang;

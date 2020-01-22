@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // HUNGARIAN
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Egyesült Arab Emirátus",
 	"AF": "Afganisztán",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Dél-Afrika",
 	"ZM": "Zambia",
 	"ZW": "Zimbabwe",
-}
+};
+
+export default lang;

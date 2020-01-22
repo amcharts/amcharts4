@@ -298,6 +298,10 @@ var TreeMapSeries = /** @class */ (function (_super) {
         legendDataItem.color = column.fill;
         legendDataItem.colorOrig = column.fill;
     };
+    TreeMapSeries.prototype.disableUnusedColumns = function (dataItem) {
+        _super.prototype.disableUnusedColumns.call(this, dataItem);
+        dataItem.column.__disabled = false;
+    };
     return TreeMapSeries;
 }(ColumnSeries));
 export { TreeMapSeries };

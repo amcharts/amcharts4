@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // PERSIAN
-export default {
+const lang: Lang = {
 	"AD": "آندورا",
 	"AE": "امارات متحدهٔ عربی",
 	"AF": "افغانستان",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "افریقای جنوبی",
 	"ZM": "زامبیا",
 	"ZW": "زیمبابوه",
-}
+};
+
+export default lang;

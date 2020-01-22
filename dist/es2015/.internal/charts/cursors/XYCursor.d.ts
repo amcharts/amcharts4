@@ -188,7 +188,19 @@ export declare class XYCursor extends Cursor {
      * (was pressed).
      */
     protected updatePoint(point: IPoint): void;
+    /**
+     * Handle action when cursor is released, which should perform an operation
+     * based on its `behavior`, like zoom.
+     *
+     * @param  point  Release point
+     */
     protected triggerUpReal(point: IPoint): void;
+    /**
+     * Calculates if the cursor has moved enough based on its `behavior`.
+     *
+     * @return Moved?
+     */
+    private hasMoved();
     /**
      * [getRanges description]
      *

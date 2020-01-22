@@ -1,4 +1,6 @@
-export default {
+import { Countries } from "../.internal/Data";
+
+const countries: Countries = {
 	"AL": [ "albaniaLow", "albaniaHigh" ],
 	"DZ": [ "algeriaLow", "algeriaHigh" ],
 	"AS": [ "americanSamoaLow", "americanSamoaHigh" ],
@@ -157,4 +159,6 @@ export default {
 	"YE": [ "yemenLow", "yemenHigh" ],
 	"ZM": [ "zambiaLow", "zambiaHigh" ],
 	"ZW": [ "zimbabweLow", "zimbabweHigh" ]
-}
+};
+
+export default countries;

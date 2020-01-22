@@ -1,5 +1,5 @@
 // ICELANDIC
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Sameinuðu arabísku furstadæmin",
     "AF": "Afganistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Sambía",
     "ZW": "Simbabve",
 };
+export default lang;

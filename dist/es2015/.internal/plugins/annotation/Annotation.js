@@ -911,6 +911,12 @@ var Annotation = /** @class */ (function (_super) {
             case "delete":
                 this.delete();
                 break;
+            case "line":
+                this.line();
+                break;
+            case "arrow":
+                this.arrow();
+                break;
         }
     };
     /**

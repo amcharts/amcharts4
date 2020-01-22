@@ -127,6 +127,7 @@ export interface IValueAxisProperties extends IAxisProperties {
 	extraMax?: number;
 	keepSelection?: boolean;
 	includeRangesInMinMax?: boolean;
+	syncWithAxis?: ValueAxis;
 }
 
 /**
@@ -453,6 +454,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @todo Description
 	 */
 	public dataChangeUpdate(): void {
+		this.clearCache();
 		if (!this.keepSelection) {
 			if (this._start != 0 || this._end != 1) {
 				this._start = 0;
@@ -587,31 +589,32 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 */
 	public calculateZoom(): void {
 		if ($type.isNumber(this.min) && $type.isNumber(this.max)) {
-			let min: number = this.positionToValue(this.start);
-			let max: number = this.positionToValue(this.end);
-
+			let min: number = $math.round(this.positionToValue(this.start), this._stepDecimalPlaces);
+			let max: number = $math.round(this.positionToValue(this.end), this._stepDecimalPlaces);
 			let differece: number = this.adjustDifference(min, max);
+
 			let minMaxStep: IMinMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);
+			let step = minMaxStep.step;
 
-			min = minMaxStep.min;
-			max = minMaxStep.max;
-
-			this._adjustedStart = $math.round((min - this.min) / (this.max - this.min), 5);
-			this._adjustedEnd = $math.round((max - this.min) / (this.max - this.min), 5);
-
-			this._step = minMaxStep.step;
-			this._stepDecimalPlaces = $utils.decimalPlaces(this._step);
-
-			if (this._minZoomed != min || this._maxZoomed != max) {
-				this._minZoomed = min;
-				this._maxZoomed = max;
-				this.dispatchImmediately("selectionextremeschanged");
+			if (this.syncWithAxis) {
+				let calculated = this.getCache(min + "-" + max);
+				if ($type.isNumber(calculated)) {
+					step = calculated;
+				}
+			}
+			else {
+				min = minMaxStep.min;
+				max = minMaxStep.max;
 			}
 
-		}
-		else {
-			this._adjustedStart = this.start;
-			this._adjustedEnd = this.end;
+			this._stepDecimalPlaces = $utils.decimalPlaces(step);
+
+			if (this._minZoomed != min || this._maxZoomed != max || this._step != step) {
+				this._minZoomed = min;
+				this._maxZoomed = max;
+				this._step = step;
+				this.dispatchImmediately("selectionextremeschanged");
+			}
 		}
 	}
 
@@ -666,7 +669,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 					if (dataItem.value != value) {
 						dataItem.value = value;
 						dataItem.text = this.formatLabel(value);
-						
+
 						if (dataItem.label && dataItem.label.invalid) {
 							dataItem.label.validate();
 						}
@@ -984,12 +987,14 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	/**
 	 * When fontSize of fontFamily changes we need to hard-invalidate all Labels of this container to position them properly.
 	 */
-	public invalidateLabels(){
+	public invalidateLabels() {
 		super.invalidateLabels();
-		this.dataItems.each((dataItem)=>{
-			dataItem.value = undefined;
-		})
-		this.invalidate();
+		if (this.dataItems) {
+			this.dataItems.each((dataItem) => {
+				dataItem.value = undefined;
+			})
+			this.invalidate();
+		}
 	}
 
 	/**
@@ -1208,6 +1213,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 		let dif: number = this.adjustDifference(min, max); // previously it was max-min, but not worked well
 
+
 		min = this.fixMin(min);
 		max = this.fixMax(max);
 
@@ -1287,6 +1293,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			max = this._adapterO.apply("max", max);
 		}
 
+		this._step = minMaxStep.step;
+
 		// checking isNumber is good when all series are hidden
 		if ((this._minAdjusted != min || this._maxAdjusted != max) && $type.isNumber(min) && $type.isNumber(max)) {
 
@@ -1331,7 +1339,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 					return;
 				}
 				else {
-
 					this._minAdjusted = min;
 					this._maxAdjusted = max;
 
@@ -1491,6 +1498,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		// the step should divide by  2, 5, and 10.
 		let stepDivisor: number = Math.ceil(step / stepPower); // number 0 - 10
 
+
 		if (stepDivisor > 5) {
 			stepDivisor = 10;
 		}
@@ -1537,7 +1545,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			if (max < initialMax) {
 				max = max + step;
 			}
-
 
 			if (min > initialMin) {
 				min = min - step;
@@ -1817,6 +1824,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		// do it for the second time !important
 		dif = this.adjustDifference(selectionMin, selectionMax);
 		minMaxStep = this.adjustMinMax(selectionMin, selectionMax, dif, this._gridCount, true);
+
 		selectionMin = minMaxStep.min;
 		selectionMax = minMaxStep.max;
 
@@ -1825,9 +1833,13 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			selectionMax = $math.min(selectionMax, this._maxDefined);
 		}
 
-		this._minZoomed = selectionMin;
-		this._maxZoomed = selectionMax;
-		this._step = minMaxStep.step;
+		if (this.syncWithAxis) {
+			minMaxStep = this.syncAxes(selectionMin, selectionMax, minMaxStep.step)
+			selectionMin = minMaxStep.min;
+			selectionMax = minMaxStep.max;
+			this.invalidate();
+		}
+		let step = minMaxStep.step;
 
 		// needed because of grouping
 		this._difference = this.adjustDifference(this.min, this.max);
@@ -1841,8 +1853,19 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			end = 1;
 		}
 
+		let declination = 0;
+		if (this.syncWithAxis) {
+			declination = 5;
+			this.setCache(selectionMin + "-" + selectionMax, step);
+		}
+		else {
+			this._step = step;
+			this._minZoomed = selectionMin;
+			this._maxZoomed = selectionMax;
+		}
+
 		if (!this.keepSelection) {
-			this.zoom({ start: start, end: end }, false, false, 0);
+			this.zoom({ start: start, end: end }, false, false, declination);
 		}
 	}
 
@@ -2193,7 +2216,12 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @return Min zoom value
 	 */
 	public get minZoomed(): number {
-		return $math.max(this.min, this._minZoomed);
+		if (!this.syncWithAxis) {
+			return $math.max(this.min, this._minZoomed);
+		}
+		else {
+			return this._minZoomed
+		}
 	}
 
 	/**
@@ -2201,7 +2229,12 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @return [description]
 	 */
 	public get maxZoomed(): number {
-		return $math.min(this.max, this._maxZoomed);
+		if (!this.syncWithAxis) {
+			return $math.min(this.max, this._maxZoomed);
+		}
+		else {
+			return this._maxZoomed;
+		}
 	}
 
 	/**
@@ -2272,6 +2305,130 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		this.max = source.max;
 		this.calculateTotals = source.calculateTotals;
 		this._baseValue = source.baseValue;
+	}
+
+	/**
+	 * Enables syncing of grid with another axis.
+	 *
+	 * To enable, set to a reference of the other `ValueAxis`. This axis will try
+	 * to maintain its scale in such way that its grid matches target axis grid.
+	 *
+	 * IMPORTANT #1: At this stage it's an experimental feature. Use it at your
+	 * own risk, as it may not work in 100% of the scenarios.
+	 *
+	 * IMPORTANT #2: `syncWithAxis` is not compatible with `strictMinMax` and
+	 * `sequencedInterpolation` settings.
+	 *
+	 * @since 4.8.1
+	 * @param  axis  Target axis
+	 */
+	public set syncWithAxis(axis: ValueAxis) {
+		if (this.setPropertyValue("syncWithAxis", axis, true)) {
+			if (axis) {
+				//this._disposers.push(axis.events.on("extremeschanged", this.handleSelectionExtremesChange, this, false));
+				this._disposers.push(axis.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this, false));
+				this.events.on("shown", this.handleSelectionExtremesChange, this, false);
+			}
+		}
+	}
+
+	/**
+	 * @return Target axis
+	 */
+	public get syncWithAxis(): ValueAxis {
+		return this.getPropertyValue("syncWithAxis");
+	}
+
+	/**
+	 * Syncs with a target axis.
+	 * 
+	 * @param  min  Min
+	 * @param  max  Max
+	 * @param  step Step
+	 */
+	protected syncAxes(min: number, max: number, step: number) {
+		let axis = this.syncWithAxis;
+		if (axis) {
+			let count: number = Math.round((axis.maxZoomed - axis.minZoomed) / axis.step);
+			let currentCount = Math.round((max - min) / step);
+
+			if ($type.isNumber(count) && $type.isNumber(currentCount)) {
+				let synced = false;
+				let c = 0
+				let diff = (max - min) * 0.01;
+				let omin = min;
+				let omax = max;
+				let ostep = step;
+
+				while (synced != true) {
+					synced = this.checkSync(omin, omax, ostep, count);
+					c++;
+					if (c > 1000) {
+						synced = true;
+					}
+					if (!synced) {
+						//omin = min - diff * c;
+						if (c / 3 == Math.round(c / 3)) {
+							omin = min - diff * c;
+						}
+						else {
+							omax = max + diff * c;
+						}
+
+						let minMaxStep = this.adjustMinMax(omin, omax, omax - omin, this._gridCount, true);
+						omin = minMaxStep.min;
+						omax = minMaxStep.max;
+						ostep = minMaxStep.step;
+					}
+					else {
+						min = omin;
+						max = omax;
+						step = ostep;
+					}
+				}
+			}
+		}
+		return { min: min, max: max, step: step };
+	}
+
+	/**
+	 * Returns `true` if axis needs to be resunced with some other axis.
+	 */
+	protected checkSync(min: number, max: number, step: number, count: number): boolean {
+		let currentCount = (max - min) / step;
+		for (let i = 1; i < count; i++) {
+			if ($math.round(currentCount / i, 1) == count || currentCount * i == count) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Processes JSON-based config before it is applied to the object.
+	 *
+	 * @ignore Exclude from docs
+	 * @param config  Config
+	 */
+	public processConfig(config?: { [index: string]: any }): void {
+
+		if (config) {
+
+			// Set up axes
+			if ($type.hasValue(config.syncWithAxis) && $type.isString(config.syncWithAxis)) {
+				if (this.map.hasKey(config.syncWithAxis)) {
+					config.syncWithAxis = this.map.getKey(config.syncWithAxis);
+				}
+				else {
+					this.processingErrors.push("[ValueAxis] No axis with id \"" + config.syncWithAxis + "\" found for `syncWithAxis`");
+					delete config.xAxis;
+				}
+			}
+
+		}
+
+		super.processConfig(config);
+
 	}
 }
 

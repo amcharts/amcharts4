@@ -1,5 +1,5 @@
 // CHINESE SIMPLIFIED
-export default {
+var lang = {
     "AD": "安道尔",
     "AE": "阿联酋",
     "AF": "阿富汗",
@@ -250,3 +250,4 @@ export default {
     "ZM": "赞比亚",
     "ZW": "津巴布韦",
 };
+export default lang;

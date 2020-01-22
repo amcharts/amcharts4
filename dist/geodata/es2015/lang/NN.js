@@ -1,5 +1,5 @@
 // NORWEGIAN NYNORSK
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Dei sameinte arabiske emirata",
     "AF": "Afghanistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambia",
     "ZW": "Zimbabwe",
 };
+export default lang;

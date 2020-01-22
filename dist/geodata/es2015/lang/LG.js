@@ -1,5 +1,5 @@
 // GANDA
-export default {
+var lang = {
     "AD": "Andora",
     "AE": "Emireeti",
     "AF": "Afaganisitani",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambya",
     "ZW": "Zimbabwe",
 };
+export default lang;

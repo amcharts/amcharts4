@@ -1,4 +1,4 @@
-export default { "type": "FeatureCollection", "features": [
+var map = { "type": "FeatureCollection", "features": [
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[179.2223, -8.5541], [179.2023, -8.4652], [179.2312, -8.5047], [179.2223, -8.5541]]] }, "properties": { "id": "TV", "NAME": "Tuvalu" }, "id": "TV" },
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[3.4624, -54.4471], [3.346, -54.4511], [3.3669, -54.3997], [3.4814, -54.4002], [3.4624, -54.4471]]] }, "properties": { "id": "BV", "NAME": "Bouvet Island" }, "id": "BV" },
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-5.3345, 36.1623], [-5.3383, 36.1122], [-5.3562, 36.1264], [-5.3551, 36.1455], [-5.3345, 36.1623]]] }, "properties": { "id": "GI", "NAME": "Gibraltar" }, "id": "GI" },
@@ -254,3 +254,4 @@ export default { "type": "FeatureCollection", "features": [
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-61.7161, 17.0368], [-61.8597, 17.0133], [-61.8173, 17.1691], [-61.7161, 17.0368]]] }, "properties": { "id": "AG", "NAME": "Antigua and Barbuda" }, "id": "AG" },
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-69.8992, 12.4518], [-69.9421, 12.4385], [-70.0662, 12.5468], [-69.9731, 12.5677], [-69.8992, 12.4518]]] }, "properties": { "id": "AW", "NAME": "Aruba" }, "id": "AW" }
     ] };
+export default map;

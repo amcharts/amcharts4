@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // BULGARIAN
-export default {
+const lang: Lang = {
 	"AD": "Андора",
 	"AE": "ОАЕ",
 	"AF": "Афганистан",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "РЮА",
 	"ZM": "Замбия",
 	"ZW": "Зимбабве",
-}
+};
+
+export default lang;

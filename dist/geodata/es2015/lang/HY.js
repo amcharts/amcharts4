@@ -1,5 +1,5 @@
 // ARMENIAN
-export default {
+var lang = {
     "AD": "Անդորա",
     "AE": "Միացյալ Արաբական Էմիրաթներ",
     "AF": "Աֆղանստան",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Զամբիա",
     "ZW": "Զիմբաբվե",
 };
+export default lang;

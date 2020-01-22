@@ -1,5 +1,5 @@
 // VIETNAMESE
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Các Tiểu Vương quốc A-rập Thống nhất",
     "AF": "Áp-ga-ni-xtan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Dăm-bi-a",
     "ZW": "Dim-ba-bu-ê",
 };
+export default lang;

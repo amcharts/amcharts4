@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // LATVIAN
-export default {
+const lang: Lang = {
 	"AD": "Andora",
 	"AE": "Apvienotie Arābu Emirāti",
 	"AF": "Afganistāna",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Dienvidāfrika",
 	"ZM": "Zambija",
 	"ZW": "Zimbabve",
-}
+};
+
+export default lang;

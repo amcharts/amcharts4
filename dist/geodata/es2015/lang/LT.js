@@ -1,5 +1,5 @@
 // LITHUANIAN
-export default {
+var lang = {
     "AD": "Andora",
     "AE": "Jungtiniai Arabų Emyratai",
     "AF": "Afganistanas",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambija",
     "ZW": "Zimbabvė",
 };
+export default lang;

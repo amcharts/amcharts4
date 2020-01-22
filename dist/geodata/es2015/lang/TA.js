@@ -1,5 +1,5 @@
 // TAMIL
-export default {
+var lang = {
     "AD": "அன்டோரா",
     "AE": "ஐக்கிய அரபு கூட்டாட்சி",
     "AF": "ஆப்கானிஸ்தான்",
@@ -250,3 +250,4 @@ export default {
     "ZM": "சாம்பியா",
     "ZW": "ஜிம்பாப்வே",
 };
+export default lang;

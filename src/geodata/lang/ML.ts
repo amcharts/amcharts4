@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // MALAYALAM
-export default {
+const lang: Lang = {
 	"AD": "അന്‍റോറ",
 	"AE": "സംയുക്ത അറബ് രാഷ്ട്രം",
 	"AF": "അഫ്ഗാനിസ്ഥാന്‍",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "ദക്ഷിണാഫ്രിക്ക",
 	"ZM": "സാംബിയ",
 	"ZW": "സിംബാബ്വേ",
-}
+};
+
+export default lang;

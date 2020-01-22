@@ -1,5 +1,5 @@
 // EWE
-export default {
+var lang = {
     "AD": "Andorradu",
     "AE": "United Arab Emiratesdu",
     "AF": "Afghanistadu",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambiadu",
     "ZW": "Zimbabwedu",
 };
+export default lang;

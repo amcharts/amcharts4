@@ -1,5 +1,5 @@
 // BENGALI
-export default {
+var lang = {
     "AD": "অ্যান্ডোরা",
     "AE": "সংযুক্ত আরব আমিরাত",
     "AF": "আফগানিস্তান",
@@ -250,3 +250,4 @@ export default {
     "ZM": "জাম্বিয়া",
     "ZW": "জিম্বাবুয়ে",
 };
+export default lang;

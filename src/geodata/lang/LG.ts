@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // GANDA
-export default {
+const lang: Lang = {
 	"AD": "Andora",
 	"AE": "Emireeti",
 	"AF": "Afaganisitani",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Sawusafirika",
 	"ZM": "Zambya",
 	"ZW": "Zimbabwe",
-}
+};
+
+export default lang;

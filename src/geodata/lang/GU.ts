@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // GUJARATI
-export default {
+const lang: Lang = {
 	"AD": "ઍંડોરા",
 	"AE": "યુનાઇટેડ અરબ એમિરેટ્સ",
 	"AF": "અફઘાનિસ્તાન",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "દક્ષિણ આફ્રિકા",
 	"ZM": "ઝામ્બિયા",
 	"ZW": "ઝિમ્બાબ્વે",
-}
+};
+
+export default lang;

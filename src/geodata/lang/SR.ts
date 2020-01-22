@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // SERBIAN
-export default {
+const lang: Lang = {
 	"AD": "Андора",
 	"AE": "Уједињени Арапски Емирати",
 	"AF": "Авганистан",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Јужноафричка Република",
 	"ZM": "Замбија",
 	"ZW": "Зимбабве",
-}
+};
+
+export default lang;

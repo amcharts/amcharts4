@@ -1,5 +1,5 @@
 // BELARUSIAN
-export default {
+var lang = {
     "AD": "Андора",
     "AE": "Аб'яднаныя Арабскія Эміраты",
     "AF": "Афганістан",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Замбія",
     "ZW": "Зімбабвэ",
 };
+export default lang;

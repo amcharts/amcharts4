@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // ARMENIAN
-export default {
+const lang: Lang = {
 	"AD": "Անդորա",
 	"AE": "Միացյալ Արաբական Էմիրաթներ",
 	"AF": "Աֆղանստան",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Հարավային Աֆրիկա",
 	"ZM": "Զամբիա",
 	"ZW": "Զիմբաբվե",
-}
+};
+
+export default lang;

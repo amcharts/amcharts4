@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // DUTCH
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Verenigde Arabische Emiraten",
 	"AF": "Afghanistan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Zuid-Afrika",
 	"ZM": "Zambia",
 	"ZW": "Zimbabwe",
-}
+};
+
+export default lang;

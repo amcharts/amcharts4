@@ -1,5 +1,5 @@
 // TIBETAN STANDARD
-export default {
+var lang = {
     "AD": "ཨེན་ཌོ་ར།",
     "AE": "ཨ་རབ། ཨི་མི་རཊ྄། ཆིག་སྒྲིལ་རྒྱལ་ཁབ།",
     "AF": "ཨཕ་ག་ནི་སྟཱན།",
@@ -250,3 +250,4 @@ export default {
     "ZM": "ཛམ་བི་ཡ།",
     "ZW": "ཛིམ་བྷཱ་བེ།",
 };
+export default lang;

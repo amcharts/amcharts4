@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // AZERBAIJANI
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Birləşmiş Ərəb Emiratları",
 	"AF": "Əfqənistan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Cənub Afrika",
 	"ZM": "Zambiya",
 	"ZW": "Zimbabve",
-}
+};
+
+export default lang;

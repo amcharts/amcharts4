@@ -1,4 +1,4 @@
-export default { "type": "FeatureCollection", "features": [
+var map = { "type": "FeatureCollection", "features": [
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-85.335, 41.006], [-85.644, 41.001], [-85.684, 41.002], [-85.685, 41.046], [-85.688, 41.179], [-85.652, 41.179], [-85.653, 41.295], [-85.538, 41.295], [-85.539, 41.266], [-85.309, 41.265], [-85.311, 41.179], [-85.34, 41.178], [-85.335, 41.006]]] }, "properties": { "name": "Whitley", "id": "18183", "STATE": "IN", "TYPE": "County", "CNTRY": "USA" }, "id": "18183" },
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-86.58, 40.912], [-86.582, 40.736], [-86.753, 40.738], [-86.756, 40.666], [-86.772, 40.666], [-86.772, 40.563], [-87.095, 40.564], [-87.099, 40.738], [-87.1, 40.84], [-86.987, 40.841], [-86.988, 40.913], [-86.929, 40.914], [-86.58, 40.912]]] }, "properties": { "name": "White", "id": "18181", "STATE": "IN", "TYPE": "County", "CNTRY": "USA" }, "id": "18181" },
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-85.445, 40.567], [-85.448, 40.654], [-85.334, 40.655], [-85.335, 40.917], [-85.074, 40.918], [-85.069, 40.569], [-85.201, 40.568], [-85.445, 40.567]]] }, "properties": { "name": "Wells", "id": "18179", "STATE": "IN", "TYPE": "County", "CNTRY": "USA" }, "id": "18179" },
@@ -92,3 +92,4 @@ export default { "type": "FeatureCollection", "features": [
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-84.805, 41.27], [-84.803, 40.922], [-85.074, 40.918], [-85.335, 40.917], [-85.335, 41.006], [-85.34, 41.178], [-85.311, 41.179], [-85.309, 41.265], [-85.193, 41.264], [-84.805, 41.27]]] }, "properties": { "name": "Allen", "id": "18003", "STATE": "IN", "TYPE": "County", "CNTRY": "USA" }, "id": "18003" },
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-85.069, 40.569], [-85.074, 40.918], [-84.803, 40.922], [-84.804, 40.572], [-85.069, 40.569]]] }, "properties": { "name": "Adams", "id": "18001", "STATE": "IN", "TYPE": "County", "CNTRY": "USA" }, "id": "18001" }
     ] };
+export default map;

@@ -1,4 +1,4 @@
-export default { "type": "FeatureCollection", "features": [
+var map = { "type": "FeatureCollection", "features": [
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-94.608, 39.044], [-94.804, 39.046], [-94.863, 39.056], [-94.908, 38.992], [-94.909, 39.128], [-94.9, 39.202], [-94.78, 39.2], [-94.749, 39.172], [-94.69, 39.182], [-94.608, 39.12], [-94.608, 39.044]]] }, "properties": { "name": "Wyandotte", "id": "20209", "STATE": "KS", "TYPE": "County", "CNTRY": "USA" }, "id": "20209" },
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-95.52, 38.038], [-95.519, 37.821], [-95.526, 37.733], [-95.96, 37.734], [-95.96, 38.041], [-95.52, 38.038]]] }, "properties": { "name": "Woodson", "id": "20207", "STATE": "KS", "TYPE": "County", "CNTRY": "USA" }, "id": "20207" },
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-95.526, 37.733], [-95.526, 37.384], [-95.963, 37.387], [-95.961, 37.603], [-95.96, 37.734], [-95.526, 37.733]]] }, "properties": { "name": "Wilson", "id": "20205", "STATE": "KS", "TYPE": "County", "CNTRY": "USA" }, "id": "20205" },
@@ -105,3 +105,4 @@ export default { "type": "FeatureCollection", "features": [
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-95.079, 38.038], [-95.52, 38.038], [-95.512, 38.25], [-95.5, 38.25], [-95.51, 38.39], [-95.066, 38.391], [-95.062, 38.255], [-95.072, 38.253], [-95.079, 38.038]]] }, "properties": { "name": "Anderson", "id": "20003", "STATE": "KS", "TYPE": "County", "CNTRY": "USA" }, "id": "20003" },
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-95.087, 37.733], [-95.526, 37.733], [-95.519, 37.821], [-95.52, 38.038], [-95.079, 38.038], [-95.077, 37.821], [-95.087, 37.733]]] }, "properties": { "name": "Allen", "id": "20001", "STATE": "KS", "TYPE": "County", "CNTRY": "USA" }, "id": "20001" }
     ] };
+export default map;

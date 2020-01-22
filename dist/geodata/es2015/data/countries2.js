@@ -1,4 +1,4 @@
-export default {
+var countries2 = {
     "AD": {
         "country": "Andorra",
         "continent_code": "EU",
@@ -1512,3 +1512,4 @@ export default {
         "maps": ["kosovoLow", "kosovoHigh"]
     }
 };
+export default countries2;

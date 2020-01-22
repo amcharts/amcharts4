@@ -1,4 +1,4 @@
-export default {
+var countries = {
     "AL": ["albaniaLow", "albaniaHigh"],
     "DZ": ["algeriaLow", "algeriaHigh"],
     "AS": ["americanSamoaLow", "americanSamoaHigh"],
@@ -158,3 +158,4 @@ export default {
     "ZM": ["zambiaLow", "zambiaHigh"],
     "ZW": ["zimbabweLow", "zimbabweHigh"]
 };
+export default countries;

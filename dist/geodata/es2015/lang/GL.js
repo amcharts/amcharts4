@@ -1,5 +1,5 @@
 // GALICIAN
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Emiratos Árabes Unidos",
     "AF": "Afganistán",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambia",
     "ZW": "Cimbabue",
 };
+export default lang;

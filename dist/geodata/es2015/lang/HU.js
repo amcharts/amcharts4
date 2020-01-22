@@ -1,5 +1,5 @@
 // HUNGARIAN
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Egyesült Arab Emirátus",
     "AF": "Afganisztán",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambia",
     "ZW": "Zimbabwe",
 };
+export default lang;

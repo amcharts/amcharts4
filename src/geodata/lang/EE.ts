@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // EWE
-export default {
+const lang: Lang = {
 	"AD": "Andorradu",
 	"AE": "United Arab Emiratesdu",
 	"AF": "Afghanistadu",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "South Afrikadu",
 	"ZM": "Zambiadu",
 	"ZW": "Zimbabwedu",
-}
+};
+
+export default lang;

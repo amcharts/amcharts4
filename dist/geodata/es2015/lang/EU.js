@@ -1,5 +1,5 @@
 // BASQUE
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Arabiar Emirrerri Batuak",
     "AF": "Afganistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambia",
     "ZW": "Zimbabwe",
 };
+export default lang;

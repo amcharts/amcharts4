@@ -1,5 +1,5 @@
 // GUJARATI
-export default {
+var lang = {
     "AD": "ઍંડોરા",
     "AE": "યુનાઇટેડ અરબ એમિરેટ્સ",
     "AF": "અફઘાનિસ્તાન",
@@ -250,3 +250,4 @@ export default {
     "ZM": "ઝામ્બિયા",
     "ZW": "ઝિમ્બાબ્વે",
 };
+export default lang;

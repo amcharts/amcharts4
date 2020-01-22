@@ -7,9 +7,9 @@ var data = [];
 var price = 1000;
 var quantity = 30000;
 for (var i = 0; i < 300; i++) {
-	price += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 100);
-	quantity += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 1000);
-	data.push({ date: new Date(2000, 1, i), price: price, quantity: quantity });
+  price += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 100);
+  quantity += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 1000);
+  data.push({ date: new Date(2000, 1, i), price: price, quantity: quantity });
 }
 
 chart.data = data;
@@ -27,12 +27,11 @@ series.dataFields.dateX = "date";
 series.dataFields.valueY = "price";
 series.tooltipText = "{valueY.value}";
 series.name = "Series 1";
-series.sequencedInterpolation = true;
 
 var valueAxis2 = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis2.tooltip.disabled = true;
 valueAxis2.renderer.opposite = true;
-valueAxis2.renderer.grid.template.disabled = true;
+valueAxis2.syncWithAxis = valueAxis;
 
 var series2 = chart.series.push(new am4charts.LineSeries());
 series2.dataFields.dateX = "date";
@@ -40,7 +39,6 @@ series2.dataFields.valueY = "quantity";
 series2.yAxis = valueAxis2;
 series2.tooltipText = "{valueY.value}";
 series2.name = "Series 2";
-series2.sequencedInterpolation = true;
 
 chart.cursor = new am4charts.XYCursor();
 chart.cursor.xAxis = dateAxis;

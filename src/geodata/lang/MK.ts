@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // MACEDONIAN
-export default {
+const lang: Lang = {
 	"AD": "Андора",
 	"AE": "Обединети Арапски Емирати",
 	"AF": "Авганистан",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Јужна Африка",
 	"ZM": "Замбија",
 	"ZW": "Зимбабве",
-}
+};
+
+export default lang;

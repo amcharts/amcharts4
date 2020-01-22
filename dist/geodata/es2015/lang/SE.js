@@ -1,5 +1,5 @@
 // NORTHERN SAMI
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Ovttastuvvan Arábaemiráhtat",
     "AF": "Afganistána",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambia",
     "ZW": "Zimbabwe",
 };
+export default lang;

@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // URDU
-export default {
+const lang: Lang = {
 	"AD": " انڈورہ",
 	"AE": "متحدہ عرب امارات",
 	"AF": "افغانستان",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "جنوبی افریقہ",
 	"ZM": "زیمبیا",
 	"ZW": "زمبابوے",
-}
+};
+
+export default lang;

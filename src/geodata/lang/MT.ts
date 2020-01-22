@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // MALTESE
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Emirati Għarab Maqgħuda",
 	"AF": "Afganistan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Afrika t’Isfel",
 	"ZM": "Żambja",
 	"ZW": "Żimbabwe",
-}
+};
+
+export default lang;

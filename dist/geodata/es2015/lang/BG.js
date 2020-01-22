@@ -1,5 +1,5 @@
 // BULGARIAN
-export default {
+var lang = {
     "AD": "Андора",
     "AE": "ОАЕ",
     "AF": "Афганистан",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Замбия",
     "ZW": "Зимбабве",
 };
+export default lang;

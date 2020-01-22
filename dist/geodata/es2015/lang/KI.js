@@ -1,5 +1,5 @@
 // KIKUYU
-export default {
+var lang = {
     "AD": "Andora",
     "AE": "Falme za Kiarabu",
     "AF": "Afuganistani",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambia",
     "ZW": "Zimbabwe",
 };
+export default lang;

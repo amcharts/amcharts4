@@ -54,7 +54,7 @@ export interface IPieChartProperties extends IPercentChartProperties {
     /**
      * Relative inner radius (0-1).
      */
-    innerRadius?: number;
+    innerRadius?: number | Percent;
     /**
      * An angle pie starts on. (degrees)
      *

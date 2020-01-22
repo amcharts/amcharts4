@@ -1,5 +1,5 @@
 // SLOVAK
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Spojené arabské emiráty",
     "AF": "Afganistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambia",
     "ZW": "Zimbabwe",
 };
+export default lang;

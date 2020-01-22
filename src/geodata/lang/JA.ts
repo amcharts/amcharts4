@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // JAPANESE
-export default {
+const lang: Lang = {
 	"AD": "アンドラ",
 	"AE": "アラブ首長国連邦",
 	"AF": "アフガニスタン",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "南アフリカ",
 	"ZM": "ザンビア",
 	"ZW": "ジンバブエ",
-}
+};
+
+export default lang;

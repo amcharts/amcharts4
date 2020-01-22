@@ -33,7 +33,8 @@ module.exports = function (info) {
             new $webpack.optimize.ModuleConcatenationPlugin(),
 
             new $webpack.optimize.CommonsChunkPlugin({
-                name: info.baseChunk,
+                names: info.baseChunk,
+                //chunks: Object.keys(info.entry).filter(function (x) { return x !== "maps"; }),
                 minChunks: 2,
             }),
 
@@ -86,7 +87,7 @@ module.exports = function (info) {
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
             rules: [{
                 test: /\.js$/,
-                include: /node_modules/,
+                include: /node_modules[\/\\]d3-force/,
                 use: {
                     loader: "babel-loader",
                     options: {

@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // LAO
-export default {
+const lang: Lang = {
 	"AD": "ອັນດໍລາ",
 	"AE": "ສະຫະລັດອາຫລັບເອມິເລດ",
 	"AF": "ອັຟການິດສະຖານ",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "ອາຟະລິກາໃຕ້",
 	"ZM": "ແຊມເບຍ",
 	"ZW": "ຊິມບັບເວ",
-}
+};
+
+export default lang;

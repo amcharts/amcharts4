@@ -1,5 +1,5 @@
 // HEBREW
-export default {
+var lang = {
     "AD": "אנדורה",
     "AE": "איחוד האמירויות הערביות",
     "AF": "אפגניסטן",
@@ -250,3 +250,4 @@ export default {
     "ZM": "זמביה",
     "ZW": "זימבאבווה",
 };
+export default lang;

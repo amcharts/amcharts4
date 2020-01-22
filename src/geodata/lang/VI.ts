@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // VIETNAMESE
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Các Tiểu Vương quốc A-rập Thống nhất",
 	"AF": "Áp-ga-ni-xtan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Nam Phi",
 	"ZM": "Dăm-bi-a",
 	"ZW": "Dim-ba-bu-ê",
-}
+};
+
+export default lang;

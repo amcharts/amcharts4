@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // TELUGU
-export default {
+const lang: Lang = {
 	"AD": "అన్డోరా",
 	"AE": "యునైటెడ్ ఆరబ్ ఎమిరేట్స్",
 	"AF": "ఆఫ్ఘానిస్తాన్",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "దక్షిణ ఆఫ్రికా రాజ్యం",
 	"ZM": "జాంబియా",
 	"ZW": "జింబాబ్వే",
-}
+};
+
+export default lang;

@@ -1,5 +1,5 @@
 // URDU
-export default {
+var lang = {
     "AD": " انڈورہ",
     "AE": "متحدہ عرب امارات",
     "AF": "افغانستان",
@@ -250,3 +250,4 @@ export default {
     "ZM": "زیمبیا",
     "ZW": "زمبابوے",
 };
+export default lang;

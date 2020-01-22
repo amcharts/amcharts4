@@ -1,4 +1,6 @@
-export default {
+import { Countries2 } from "../.internal/Data";
+
+const countries2: Countries2 = {
 	"AD": {
 		"country": "Andorra",
 		"continent_code": "EU",
@@ -1511,4 +1513,6 @@ export default {
 		"continent": "Europe",
 		"maps": [ "kosovoLow", "kosovoHigh" ]
 	}
-}
+};
+
+export default countries2;

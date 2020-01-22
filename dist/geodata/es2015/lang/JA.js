@@ -1,5 +1,5 @@
 // JAPANESE
-export default {
+var lang = {
     "AD": "アンドラ",
     "AE": "アラブ首長国連邦",
     "AF": "アフガニスタン",
@@ -250,3 +250,4 @@ export default {
     "ZM": "ザンビア",
     "ZW": "ジンバブエ",
 };
+export default lang;

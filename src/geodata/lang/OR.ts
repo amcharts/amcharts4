@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // ORIYA
-export default {
+const lang: Lang = {
 	"AD": "ଆଣ୍ଡୋରା",
 	"AE": "ସଂଯୁକ୍ତ ଆରବ ଏମିରେଟସ୍",
 	"AF": "ଆଫାଗାନିସ୍ତାନ୍",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "ଦକ୍ଷିଣ ଆଫ୍ରିକା",
 	"ZM": "ଜାମ୍ବିଆ",
 	"ZW": "ଜିମ୍ବାୱେ",
-}
+};
+
+export default lang;

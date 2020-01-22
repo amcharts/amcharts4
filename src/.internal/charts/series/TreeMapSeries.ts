@@ -419,6 +419,11 @@ export class TreeMapSeries extends ColumnSeries {
 		legendDataItem.color = column.fill;
 		legendDataItem.colorOrig = column.fill;
 	}
+
+	protected disableUnusedColumns(dataItem: ColumnSeriesDataItem) {
+		super.disableUnusedColumns(dataItem);
+		dataItem.column.__disabled = false;
+	}	
 }
 
 /**

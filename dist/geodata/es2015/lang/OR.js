@@ -1,5 +1,5 @@
 // ORIYA
-export default {
+var lang = {
     "AD": "ଆଣ୍ଡୋରା",
     "AE": "ସଂଯୁକ୍ତ ଆରବ ଏମିରେଟସ୍",
     "AF": "ଆଫାଗାନିସ୍ତାନ୍",
@@ -250,3 +250,4 @@ export default {
     "ZM": "ଜାମ୍ବିଆ",
     "ZW": "ଜିମ୍ବାୱେ",
 };
+export default lang;

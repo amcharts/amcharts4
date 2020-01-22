@@ -1,5 +1,5 @@
 // HINDI
-export default {
+var lang = {
     "AD": "अन्डोरा",
     "AE": "संयुक्त अरब अमीरात",
     "AF": "अफ़गानिस्तान",
@@ -250,3 +250,4 @@ export default {
     "ZM": "जाम्बिया",
     "ZW": "जिम्बाब्वे",
 };
+export default lang;

@@ -1,5 +1,5 @@
 // LATVIAN
-export default {
+var lang = {
     "AD": "Andora",
     "AE": "Apvienotie Arābu Emirāti",
     "AF": "Afganistāna",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambija",
     "ZW": "Zimbabve",
 };
+export default lang;

@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // KANNADA
-export default {
+const lang: Lang = {
 	"AD": "ಅಂಡೋರಾ",
 	"AE": "ಸಂಯುಕ್ತ ಅರಬ್ ಎಮಿರೇಟಸ್",
 	"AF": "ಅಫಘಾನಿಸ್ಥಾನ್",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "ದಕ್ಷಿಣ ಆಫ್ರಿಕಾ",
 	"ZM": "ಝಾಂಬಿಯಾ",
 	"ZW": "ಜಿಂಬಾಬ್ವೆ",
-}
+};
+
+export default lang;

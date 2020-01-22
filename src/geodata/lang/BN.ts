@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // BENGALI
-export default {
+const lang: Lang = {
 	"AD": "অ্যান্ডোরা",
 	"AE": "সংযুক্ত আরব আমিরাত",
 	"AF": "আফগানিস্তান",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "দক্ষিণ আফ্রিকা",
 	"ZM": "জাম্বিয়া",
 	"ZW": "জিম্বাবুয়ে",
-}
+};
+
+export default lang;

@@ -155,6 +155,28 @@ export declare function intersection(range1: IRange, range2: IRange): $type.Opti
  */
 export declare function getDistance(point1: IPoint, point2?: IPoint): number;
 /**
+ * Returns pixel "horizontal distance" between two points.
+ *
+ * If second point is not specified, distance from {x:0, y:0} point is
+ * calculated.
+ *
+ * @param point1  Point 1
+ * @param point2  Point 2
+ * @return Distance in relative pixels
+ */
+export declare function getHorizontalDistance(point1: IPoint, point2?: IPoint): number;
+/**
+ * Returns pixel "vertical distance" between two points.
+ *
+ * If second point is not specified, distance from {x:0, y:0} point is
+ * calculated.
+ *
+ * @param point1  Point 1
+ * @param point2  Point 2
+ * @return Distance in relative pixels
+ */
+export declare function getVerticalDistance(point1: IPoint, point2?: IPoint): number;
+/**
  * Returns approximate pixel "distance" between two points of cubic curve
  *
  * If second point is not specified, distance from {x:0, y:0} point is

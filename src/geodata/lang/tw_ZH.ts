@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // CHINESE TRADITIONAL
-export default {
+const lang: Lang = {
 	"AD": "安道爾",
 	"AE": "阿聯酋",
 	"AF": "阿富汗",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "南非",
 	"ZM": "贊比亞",
 	"ZW": "津巴布韋",
-}
+};
+
+export default lang;

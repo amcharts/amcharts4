@@ -1,5 +1,5 @@
 // ROMANSH
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Emirats Arabs Unids",
     "AF": "Afganistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Sambia",
     "ZW": "Simbabwe",
 };
+export default lang;

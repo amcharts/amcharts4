@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // KOREAN
-export default {
+const lang: Lang = {
 	"AD": "안도라",
 	"AE": "아랍에미리트",
 	"AF": "아프가니스탄",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "남아프리카",
 	"ZM": "잠비아",
 	"ZW": "짐바브웨",
-}
+};
+
+export default lang;

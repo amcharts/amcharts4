@@ -1,5 +1,5 @@
 // LAO
-export default {
+var lang = {
     "AD": "ອັນດໍລາ",
     "AE": "ສະຫະລັດອາຫລັບເອມິເລດ",
     "AF": "ອັຟການິດສະຖານ",
@@ -250,3 +250,4 @@ export default {
     "ZM": "ແຊມເບຍ",
     "ZW": "ຊິມບັບເວ",
 };
+export default lang;

@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // GREEK
-export default {
+const lang: Lang = {
 	"AD": "Ανδόρρα",
 	"AE": "Ηνωμένα Αραβικά Εμιράτα",
 	"AF": "Αφγανιστάν",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Νότια Αφρική",
 	"ZM": "Ζάμπια",
 	"ZW": "Ζιμπάμπουε",
-}
+};
+
+export default lang;

@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // UKRAINIAN
-export default {
+const lang: Lang = {
 	"AD": "Андорра",
 	"AE": "Обʼєднані Арабські Емірати",
 	"AF": "Афганістан",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "ПАР",
 	"ZM": "Замбія",
 	"ZW": "Зімбабве",
-}
+};
+
+export default lang;

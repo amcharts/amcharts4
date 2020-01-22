@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // AMHARIC
-export default {
+const lang: Lang = {
 	"AD": "አንዶራ",
 	"AE": "የተባበሩት አረብ ኤምሬትስ",
 	"AF": "አፍጋኒስታን",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "ደቡብ አፍሪካ",
 	"ZM": "ዛምቢያ",
 	"ZW": "ዚምቧቤ",
-}
+};
+
+export default lang;

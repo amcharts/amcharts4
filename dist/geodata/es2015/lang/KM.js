@@ -1,5 +1,5 @@
 // KHMER
-export default {
+var lang = {
     "AD": "អានដូរ៉ា",
     "AE": "អេមីរ៉ែទអារ៉ាប់រួម",
     "AF": "អាហ្វហ្គានីស្ថាន",
@@ -250,3 +250,4 @@ export default {
     "ZM": "ហ្សាំប៊ី",
     "ZW": "ហ្ស៊ីមបាបវ៉េ",
 };
+export default lang;

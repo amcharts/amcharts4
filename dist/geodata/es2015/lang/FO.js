@@ -1,5 +1,5 @@
 // FAROESE
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Sameindu Emirríkini",
     "AF": "Afganistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Sambia",
     "ZW": "Simbabvi",
 };
+export default lang;

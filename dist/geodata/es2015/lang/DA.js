@@ -1,5 +1,5 @@
 // DANISH
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Forenede Arabiske Emirater",
     "AF": "Afghanistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambia",
     "ZW": "Zimbabwe",
 };
+export default lang;

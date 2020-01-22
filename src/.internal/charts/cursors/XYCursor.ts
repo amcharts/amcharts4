@@ -443,9 +443,14 @@ export class XYCursor extends Cursor {
 		}
 	}
 
-
-	protected triggerUpReal(point: IPoint) {
-		if ($math.getDistance(this._upPointOrig, this._downPointOrig) > getInteraction().getHitOption(this.interactions, "hitTolerance")) {
+	/**
+	 * Handle action when cursor is released, which should perform an operation
+	 * based on its `behavior`, like zoom.
+	 * 
+	 * @param  point  Release point
+	 */
+	protected triggerUpReal(point: IPoint): void {
+		if (this.hasMoved()) {
 			if (this.downPoint) {
 				this.upPoint = point;
 
@@ -483,6 +488,24 @@ export class XYCursor extends Cursor {
 		this.dispatch("cursorpositionchanged");
 	}
 
+	/**
+	 * Calculates if the cursor has moved enough based on its `behavior`.
+	 * 
+	 * @return Moved?
+	 */
+	private hasMoved(): boolean {
+		let distance: number;
+		if (this.behavior == "zoomX" || this.behavior == "panX") {
+			distance = $math.getHorizontalDistance(this._upPointOrig, this._downPointOrig);
+		}
+		else if (this.behavior == "zoomY" || this.behavior == "panY") {
+			distance = $math.getVerticalDistance(this._upPointOrig, this._downPointOrig);
+		}
+		else {
+			distance = $math.getDistance(this._upPointOrig, this._downPointOrig);
+		}
+		return distance > getInteraction().getHitOption(this.interactions, "hitTolerance");
+	}
 
 	/**
 	 * [getRanges description]

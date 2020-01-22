@@ -1,5 +1,5 @@
 // SHONA
-export default {
+var lang = {
     "AD": "Andora",
     "AE": "United Arab Emirates",
     "AF": "Afuganistani",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambia",
     "ZW": "Zimbabwe",
 };
+export default lang;

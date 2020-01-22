@@ -1,5 +1,5 @@
 // IRISH
-export default {
+var lang = {
     "AD": "Andóra",
     "AE": "Aontas na nÉimíríochtaí Arabacha",
     "AF": "An Afganastáin",
@@ -250,3 +250,4 @@ export default {
     "ZM": "An tSaimbia",
     "ZW": "An tSiombáib",
 };
+export default lang;

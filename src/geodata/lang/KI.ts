@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // KIKUYU
-export default {
+const lang: Lang = {
 	"AD": "Andora",
 	"AE": "Falme za Kiarabu",
 	"AF": "Afuganistani",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Afrika Kusini",
 	"ZM": "Zambia",
 	"ZW": "Zimbabwe",
-}
+};
+
+export default lang;

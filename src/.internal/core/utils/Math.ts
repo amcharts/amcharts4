@@ -309,6 +309,48 @@ export function getDistance(point1: IPoint, point2?: IPoint): number {
 }
 
 /**
+ * Returns pixel "horizontal distance" between two points.
+ *
+ * If second point is not specified, distance from {x:0, y:0} point is
+ * calculated.
+ *
+ * @param point1  Point 1
+ * @param point2  Point 2
+ * @return Distance in relative pixels
+ */
+export function getHorizontalDistance(point1: IPoint, point2?: IPoint): number {
+	if (!point1) {
+		return 0;
+	}
+
+	if (!point2) {
+		point2 = { x: 0, y: 0 };
+	}
+	return Math.abs(point1.x - point2.x);
+}
+
+/**
+ * Returns pixel "vertical distance" between two points.
+ *
+ * If second point is not specified, distance from {x:0, y:0} point is
+ * calculated.
+ *
+ * @param point1  Point 1
+ * @param point2  Point 2
+ * @return Distance in relative pixels
+ */
+export function getVerticalDistance(point1: IPoint, point2?: IPoint): number {
+	if (!point1) {
+		return 0;
+	}
+
+	if (!point2) {
+		point2 = { x: 0, y: 0 };
+	}
+	return Math.abs(point1.y - point2.y);
+}
+
+/**
  * Returns approximate pixel "distance" between two points of cubic curve
  *
  * If second point is not specified, distance from {x:0, y:0} point is

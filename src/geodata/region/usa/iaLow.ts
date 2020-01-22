@@ -1,4 +1,6 @@
-export default {"type":"FeatureCollection", "features": [
+import { FeatureCollection } from "../../.internal/Geodata";
+
+const map: FeatureCollection = {"type":"FeatureCollection", "features": [
 {"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-93.5,42.557],[-93.972,42.557],[-93.971,42.643],[-93.971,42.907],[-93.499,42.907],[-93.5,42.557]]]},"properties":{"name":"Wright","id":"19197","STATE":"IA","TYPE":"County","CNTRY":"USA"},"id":"19197"},
 {"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-93.496,43.504],[-93.024,43.503],[-93.024,43.256],[-93.498,43.257],[-93.496,43.504]]]},"properties":{"name":"Worth","id":"19195","STATE":"IA","TYPE":"County","CNTRY":"USA"},"id":"19195"},
 {"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-95.859,42.561],[-95.74,42.561],[-95.74,42.475],[-95.67,42.474],[-95.67,42.21],[-95.906,42.211],[-96.358,42.215],[-96.322,42.232],[-96.331,42.259],[-96.367,42.29],[-96.371,42.314],[-96.419,42.352],[-96.415,42.409],[-96.383,42.438],[-96.386,42.479],[-96.419,42.492],[-96.475,42.496],[-96.477,42.533],[-96.498,42.562],[-95.859,42.561]]]},"properties":{"name":"Woodbury","id":"19193","STATE":"IA","TYPE":"County","CNTRY":"USA"},"id":"19193"},
@@ -98,4 +100,6 @@ export default {"type":"FeatureCollection", "features": [
 {"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-91.178,43.08],[-91.604,43.082],[-91.602,43.34],[-91.609,43.34],[-91.608,43.503],[-91.22,43.502],[-91.232,43.458],[-91.199,43.401],[-91.203,43.353],[-91.145,43.338],[-91.1,43.312],[-91.063,43.251],[-91.12,43.203],[-91.149,43.154],[-91.178,43.134],[-91.178,43.08]]]},"properties":{"name":"Allamakee","id":"19005","STATE":"IA","TYPE":"County","CNTRY":"USA"},"id":"19005"},
 {"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-94.929,41.158],[-94.702,41.157],[-94.473,41.157],[-94.472,40.899],[-94.931,40.901],[-94.929,41.158]]]},"properties":{"name":"Adams","id":"19003","STATE":"IA","TYPE":"County","CNTRY":"USA"},"id":"19003"},
 {"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-94.243,41.156],[-94.473,41.157],[-94.702,41.157],[-94.701,41.503],[-94.243,41.503],[-94.243,41.156]]]},"properties":{"name":"Adair","id":"19001","STATE":"IA","TYPE":"County","CNTRY":"USA"},"id":"19001"}
-]}
+]};
+
+export default map;

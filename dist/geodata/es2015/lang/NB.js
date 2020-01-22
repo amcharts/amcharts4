@@ -1,5 +1,5 @@
 // NORWEGIAN BOKMAL
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "De forente arabiske emirater",
     "AF": "Afghanistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambia",
     "ZW": "Zimbabwe",
 };
+export default lang;

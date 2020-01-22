@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // GEORGIAN
-export default {
+const lang: Lang = {
 	"AD": "ანდორა",
 	"AE": "არაბეთის გაერთიანებული ემირატები",
 	"AF": "ავღანეთი",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "სამხრეთ აფრიკა",
 	"ZM": "ზამბია",
 	"ZW": "ზიმბაბვე",
-}
+};
+
+export default lang;

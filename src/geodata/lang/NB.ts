@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // NORWEGIAN BOKMAL
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "De forente arabiske emirater",
 	"AF": "Afghanistan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Sør-Afrika",
 	"ZM": "Zambia",
 	"ZW": "Zimbabwe",
-}
+};
+
+export default lang;

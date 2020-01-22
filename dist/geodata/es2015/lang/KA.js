@@ -1,5 +1,5 @@
 // GEORGIAN
-export default {
+var lang = {
     "AD": "ანდორა",
     "AE": "არაბეთის გაერთიანებული ემირატები",
     "AF": "ავღანეთი",
@@ -250,3 +250,4 @@ export default {
     "ZM": "ზამბია",
     "ZW": "ზიმბაბვე",
 };
+export default lang;

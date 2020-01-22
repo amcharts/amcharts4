@@ -1,5 +1,5 @@
 // NEPALI
-export default {
+var lang = {
     "AD": "अन्डोर्रा",
     "AE": "संयुक्त अरब इमिराट्स",
     "AF": "अफ्गानिष्तान",
@@ -250,3 +250,4 @@ export default {
     "ZM": "जाम्बिया",
     "ZW": "जिम्बाबे",
 };
+export default lang;

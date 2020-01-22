@@ -222,6 +222,7 @@ var ValueAxis = /** @class */ (function (_super) {
      * @todo Description
      */
     ValueAxis.prototype.dataChangeUpdate = function () {
+        this.clearCache();
         if (!this.keepSelection) {
             if (this._start != 0 || this._end != 1) {
                 this._start = 0;
@@ -336,25 +337,28 @@ var ValueAxis = /** @class */ (function (_super) {
      */
     ValueAxis.prototype.calculateZoom = function () {
         if ($type.isNumber(this.min) && $type.isNumber(this.max)) {
-            var min = this.positionToValue(this.start);
-            var max = this.positionToValue(this.end);
+            var min = $math.round(this.positionToValue(this.start), this._stepDecimalPlaces);
+            var max = $math.round(this.positionToValue(this.end), this._stepDecimalPlaces);
             var differece = this.adjustDifference(min, max);
             var minMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);
-            min = minMaxStep.min;
-            max = minMaxStep.max;
-            this._adjustedStart = $math.round((min - this.min) / (this.max - this.min), 5);
-            this._adjustedEnd = $math.round((max - this.min) / (this.max - this.min), 5);
-            this._step = minMaxStep.step;
-            this._stepDecimalPlaces = $utils.decimalPlaces(this._step);
-            if (this._minZoomed != min || this._maxZoomed != max) {
+            var step = minMaxStep.step;
+            if (this.syncWithAxis) {
+                var calculated = this.getCache(min + "-" + max);
+                if ($type.isNumber(calculated)) {
+                    step = calculated;
+                }
+            }
+            else {
+                min = minMaxStep.min;
+                max = minMaxStep.max;
+            }
+            this._stepDecimalPlaces = $utils.decimalPlaces(step);
+            if (this._minZoomed != min || this._maxZoomed != max || this._step != step) {
                 this._minZoomed = min;
                 this._maxZoomed = max;
+                this._step = step;
                 this.dispatchImmediately("selectionextremeschanged");
             }
-        }
-        else {
-            this._adjustedStart = this.start;
-            this._adjustedEnd = this.end;
         }
     };
     /**
@@ -674,10 +678,12 @@ var ValueAxis = /** @class */ (function (_super) {
      */
     ValueAxis.prototype.invalidateLabels = function () {
         _super.prototype.invalidateLabels.call(this);
-        this.dataItems.each(function (dataItem) {
-            dataItem.value = undefined;
-        });
-        this.invalidate();
+        if (this.dataItems) {
+            this.dataItems.each(function (dataItem) {
+                dataItem.value = undefined;
+            });
+            this.invalidate();
+        }
     };
     /**
      * Converts an relative position to a corresponding value within
@@ -915,6 +921,7 @@ var ValueAxis = /** @class */ (function (_super) {
         if (this._adapterO) {
             max = this._adapterO.apply("max", max);
         }
+        this._step = minMaxStep.step;
         // checking isNumber is good when all series are hidden
         if ((this._minAdjusted != min || this._maxAdjusted != max) && $type.isNumber(min) && $type.isNumber(max)) {
             var animation = this._minMaxAnimation;
@@ -1404,9 +1411,13 @@ var ValueAxis = /** @class */ (function (_super) {
             selectionMin = $math.max(selectionMin, this._minDefined);
             selectionMax = $math.min(selectionMax, this._maxDefined);
         }
-        this._minZoomed = selectionMin;
-        this._maxZoomed = selectionMax;
-        this._step = minMaxStep.step;
+        if (this.syncWithAxis) {
+            minMaxStep = this.syncAxes(selectionMin, selectionMax, minMaxStep.step);
+            selectionMin = minMaxStep.min;
+            selectionMax = minMaxStep.max;
+            this.invalidate();
+        }
+        var step = minMaxStep.step;
         // needed because of grouping
         this._difference = this.adjustDifference(this.min, this.max);
         var start = this.valueToPosition(selectionMin);
@@ -1416,8 +1427,18 @@ var ValueAxis = /** @class */ (function (_super) {
             start = 0;
             end = 1;
         }
+        var declination = 0;
+        if (this.syncWithAxis) {
+            declination = 5;
+            this.setCache(selectionMin + "-" + selectionMax, step);
+        }
+        else {
+            this._step = step;
+            this._minZoomed = selectionMin;
+            this._maxZoomed = selectionMax;
+        }
         if (!this.keepSelection) {
-            this.zoom({ start: start, end: end }, false, false, 0);
+            this.zoom({ start: start, end: end }, false, false, declination);
         }
     };
     Object.defineProperty(ValueAxis.prototype, "strictMinMax", {
@@ -1752,7 +1773,12 @@ var ValueAxis = /** @class */ (function (_super) {
          * @return Min zoom value
          */
         get: function () {
-            return $math.max(this.min, this._minZoomed);
+            if (!this.syncWithAxis) {
+                return $math.max(this.min, this._minZoomed);
+            }
+            else {
+                return this._minZoomed;
+            }
         },
         enumerable: true,
         configurable: true
@@ -1763,7 +1789,12 @@ var ValueAxis = /** @class */ (function (_super) {
          * @return [description]
          */
         get: function () {
-            return $math.min(this.max, this._maxZoomed);
+            if (!this.syncWithAxis) {
+                return $math.min(this.max, this._maxZoomed);
+            }
+            else {
+                return this._maxZoomed;
+            }
         },
         enumerable: true,
         configurable: true
@@ -1829,6 +1860,121 @@ var ValueAxis = /** @class */ (function (_super) {
         this.max = source.max;
         this.calculateTotals = source.calculateTotals;
         this._baseValue = source.baseValue;
+    };
+    Object.defineProperty(ValueAxis.prototype, "syncWithAxis", {
+        /**
+         * @return Target axis
+         */
+        get: function () {
+            return this.getPropertyValue("syncWithAxis");
+        },
+        /**
+         * Enables syncing of grid with another axis.
+         *
+         * To enable, set to a reference of the other `ValueAxis`. This axis will try
+         * to maintain its scale in such way that its grid matches target axis grid.
+         *
+         * IMPORTANT #1: At this stage it's an experimental feature. Use it at your
+         * own risk, as it may not work in 100% of the scenarios.
+         *
+         * IMPORTANT #2: `syncWithAxis` is not compatible with `strictMinMax` and
+         * `sequencedInterpolation` settings.
+         *
+         * @since 4.8.1
+         * @param  axis  Target axis
+         */
+        set: function (axis) {
+            if (this.setPropertyValue("syncWithAxis", axis, true)) {
+                if (axis) {
+                    //this._disposers.push(axis.events.on("extremeschanged", this.handleSelectionExtremesChange, this, false));
+                    this._disposers.push(axis.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this, false));
+                    this.events.on("shown", this.handleSelectionExtremesChange, this, false);
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Syncs with a target axis.
+     *
+     * @param  min  Min
+     * @param  max  Max
+     * @param  step Step
+     */
+    ValueAxis.prototype.syncAxes = function (min, max, step) {
+        var axis = this.syncWithAxis;
+        if (axis) {
+            var count = Math.round((axis.maxZoomed - axis.minZoomed) / axis.step);
+            var currentCount = Math.round((max - min) / step);
+            if ($type.isNumber(count) && $type.isNumber(currentCount)) {
+                var synced = false;
+                var c = 0;
+                var diff = (max - min) * 0.01;
+                var omin = min;
+                var omax = max;
+                var ostep = step;
+                while (synced != true) {
+                    synced = this.checkSync(omin, omax, ostep, count);
+                    c++;
+                    if (c > 1000) {
+                        synced = true;
+                    }
+                    if (!synced) {
+                        //omin = min - diff * c;
+                        if (c / 3 == Math.round(c / 3)) {
+                            omin = min - diff * c;
+                        }
+                        else {
+                            omax = max + diff * c;
+                        }
+                        var minMaxStep = this.adjustMinMax(omin, omax, omax - omin, this._gridCount, true);
+                        omin = minMaxStep.min;
+                        omax = minMaxStep.max;
+                        ostep = minMaxStep.step;
+                    }
+                    else {
+                        min = omin;
+                        max = omax;
+                        step = ostep;
+                    }
+                }
+            }
+        }
+        return { min: min, max: max, step: step };
+    };
+    /**
+     * Returns `true` if axis needs to be resunced with some other axis.
+     */
+    ValueAxis.prototype.checkSync = function (min, max, step, count) {
+        var currentCount = (max - min) / step;
+        for (var i = 1; i < count; i++) {
+            if ($math.round(currentCount / i, 1) == count || currentCount * i == count) {
+                return true;
+            }
+        }
+        return false;
+    };
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param config  Config
+     */
+    ValueAxis.prototype.processConfig = function (config) {
+        if (config) {
+            // Set up axes
+            if ($type.hasValue(config.syncWithAxis) && $type.isString(config.syncWithAxis)) {
+                if (this.map.hasKey(config.syncWithAxis)) {
+                    config.syncWithAxis = this.map.getKey(config.syncWithAxis);
+                }
+                else {
+                    this.processingErrors.push("[ValueAxis] No axis with id \"" + config.syncWithAxis + "\" found for `syncWithAxis`");
+                    delete config.xAxis;
+                }
+            }
+        }
+        _super.prototype.processConfig.call(this, config);
     };
     return ValueAxis;
 }(Axis));

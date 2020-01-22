@@ -1,5 +1,5 @@
 // AMHARIC
-export default {
+var lang = {
     "AD": "አንዶራ",
     "AE": "የተባበሩት አረብ ኤምሬትስ",
     "AF": "አፍጋኒስታን",
@@ -250,3 +250,4 @@ export default {
     "ZM": "ዛምቢያ",
     "ZW": "ዚምቧቤ",
 };
+export default lang;

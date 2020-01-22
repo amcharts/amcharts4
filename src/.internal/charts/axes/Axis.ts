@@ -1172,9 +1172,13 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * Recalculates the number of grid items on the axis.
 	 */
-	protected updateGridCount() {
+	protected updateGridCount() {		
 		if (this.renderer) {
-			this._gridCount = this.axisLength / this.renderer.minGridDistance;
+			let gridCount = this.axisLength / this.renderer.minGridDistance; 
+			if(gridCount != this._gridCount){
+				this._gridCount = gridCount;
+				this.clearCache();
+			}
 		}
 	}
 

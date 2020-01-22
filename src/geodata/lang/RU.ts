@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // RUSSIAN
-export default {
+const lang: Lang = {
 	"AD": "Андорра",
 	"AE": "Объединенные Арабские Эмираты",
 	"AF": "Афганистан",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Южная Африка",
 	"ZM": "Замбия",
 	"ZW": "Зимбабве",
-}
+};
+
+export default lang;

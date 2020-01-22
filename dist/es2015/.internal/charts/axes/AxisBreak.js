@@ -204,7 +204,7 @@ var AxisBreak = /** @class */ (function (_super) {
         /**
          * A size of the break relative to the actual size of the scope break spans.
          *
-         * For example, if `breakSize = 0.1` and unbroken scope of balues it spans
+         * For example, if `breakSize = 0.1` and unbroken scope of values it spans
          * would be 100 pixels, the break would be 10 pixels wide.
          *
          * 0 means the break will completely collapse and hide the values.

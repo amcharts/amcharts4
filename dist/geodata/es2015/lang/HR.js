@@ -1,5 +1,5 @@
 // CROATIAN
-export default {
+var lang = {
     "AD": "Andora",
     "AE": "Ujedinjeni Arapski Emirati",
     "AF": "Afganistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambija",
     "ZW": "Zimbabve",
 };
+export default lang;

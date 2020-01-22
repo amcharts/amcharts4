@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // CZECH
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Spojené arabské emiráty",
 	"AF": "Afghánistán",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Jihoafrická republika",
 	"ZM": "Zambie",
 	"ZW": "Zimbabwe",
-}
+};
+
+export default lang;

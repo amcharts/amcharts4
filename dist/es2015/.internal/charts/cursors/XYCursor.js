@@ -260,8 +260,14 @@ var XYCursor = /** @class */ (function (_super) {
             point.y = this.lineY.pixelY;
         }
     };
+    /**
+     * Handle action when cursor is released, which should perform an operation
+     * based on its `behavior`, like zoom.
+     *
+     * @param  point  Release point
+     */
     XYCursor.prototype.triggerUpReal = function (point) {
-        if ($math.getDistance(this._upPointOrig, this._downPointOrig) > getInteraction().getHitOption(this.interactions, "hitTolerance")) {
+        if (this.hasMoved()) {
             if (this.downPoint) {
                 this.upPoint = point;
                 this.updatePoint(this.upPoint);
@@ -292,6 +298,24 @@ var XYCursor = /** @class */ (function (_super) {
         }
         this.downPoint = undefined;
         this.dispatch("cursorpositionchanged");
+    };
+    /**
+     * Calculates if the cursor has moved enough based on its `behavior`.
+     *
+     * @return Moved?
+     */
+    XYCursor.prototype.hasMoved = function () {
+        var distance;
+        if (this.behavior == "zoomX" || this.behavior == "panX") {
+            distance = $math.getHorizontalDistance(this._upPointOrig, this._downPointOrig);
+        }
+        else if (this.behavior == "zoomY" || this.behavior == "panY") {
+            distance = $math.getVerticalDistance(this._upPointOrig, this._downPointOrig);
+        }
+        else {
+            distance = $math.getDistance(this._upPointOrig, this._downPointOrig);
+        }
+        return distance > getInteraction().getHitOption(this.interactions, "hitTolerance");
     };
     /**
      * [getRanges description]

@@ -1,5 +1,5 @@
 // ESPERANTO
-export default {
+var lang = {
     "AD": "Andoro",
     "AE": "Unuiĝintaj Arabaj Emirlandoj",
     "AF": "Afganio",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambio",
     "ZW": "Zimbabvo",
 };
+export default lang;

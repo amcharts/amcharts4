@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // THAI
-export default {
+const lang: Lang = {
 	"AD": "อันดอร์รา",
 	"AE": "สหรัฐอาหรับเอมิเรตส์",
 	"AF": "อัฟกานิสถาน",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "แอฟริกาใต้",
 	"ZM": "แซมเบีย",
 	"ZW": "ซิมบับเว",
-}
+};
+
+export default lang;

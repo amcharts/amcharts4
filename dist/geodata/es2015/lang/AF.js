@@ -1,5 +1,5 @@
 // AFRIKAANS
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Verenigde Arabiese Emirate",
     "AF": "Afganistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambië",
     "ZW": "Zimbabwe",
 };
+export default lang;

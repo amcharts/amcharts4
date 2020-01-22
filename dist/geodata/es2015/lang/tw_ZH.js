@@ -1,5 +1,5 @@
 // CHINESE TRADITIONAL
-export default {
+var lang = {
     "AD": "安道爾",
     "AE": "阿聯酋",
     "AF": "阿富汗",
@@ -250,3 +250,4 @@ export default {
     "ZM": "贊比亞",
     "ZW": "津巴布韋",
 };
+export default lang;

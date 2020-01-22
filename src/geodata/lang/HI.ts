@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // HINDI
-export default {
+const lang: Lang = {
 	"AD": "अन्डोरा",
 	"AE": "संयुक्त अरब अमीरात",
 	"AF": "अफ़गानिस्तान",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "दक्षिण अफ्रीका",
 	"ZM": "जाम्बिया",
 	"ZW": "जिम्बाब्वे",
-}
+};
+
+export default lang;

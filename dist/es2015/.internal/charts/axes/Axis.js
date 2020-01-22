@@ -743,7 +743,11 @@ var Axis = /** @class */ (function (_super) {
      */
     Axis.prototype.updateGridCount = function () {
         if (this.renderer) {
-            this._gridCount = this.axisLength / this.renderer.minGridDistance;
+            var gridCount = this.axisLength / this.renderer.minGridDistance;
+            if (gridCount != this._gridCount) {
+                this._gridCount = gridCount;
+                this.clearCache();
+            }
         }
     };
     /**

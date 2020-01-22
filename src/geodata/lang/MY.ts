@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // BURMESE
-export default {
+const lang: Lang = {
 	"AD": "အင်ဒိုရာနိုင်ငံ",
 	"AE": "ယူအေအီး",
 	"AF": "အာဖဂန်နစ္စတန်",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "တောင်အာဖရိက",
 	"ZM": "ဇမ်ဘီယာ",
 	"ZW": "ဇင်ဘာဘွေ",
-}
+};
+
+export default lang;

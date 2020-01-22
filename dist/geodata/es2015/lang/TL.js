@@ -1,5 +1,5 @@
 // TAGALOG
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Nagkakaisang Kaemirang Arabo",
     "AF": "Apganistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambia",
     "ZW": "Zimbabwe",
 };
+export default lang;

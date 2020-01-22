@@ -1,5 +1,5 @@
 // RUSSIAN
-export default {
+var lang = {
     "AD": "Андорра",
     "AE": "Объединенные Арабские Эмираты",
     "AF": "Афганистан",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Замбия",
     "ZW": "Зимбабве",
 };
+export default lang;

@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // NEPALI
-export default {
+const lang: Lang = {
 	"AD": "अन्डोर्रा",
 	"AE": "संयुक्त अरब इमिराट्स",
 	"AF": "अफ्गानिष्तान",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "दक्षिण अफ्रिका",
 	"ZM": "जाम्बिया",
 	"ZW": "जिम्बाबे",
-}
+};
+
+export default lang;

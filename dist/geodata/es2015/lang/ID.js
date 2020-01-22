@@ -1,5 +1,5 @@
 // INDONESIAN
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Uni Emirat Arab",
     "AF": "Afganistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambia",
     "ZW": "Zimbabwe",
 };
+export default lang;

@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // NORTHERN SAMI
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Ovttastuvvan Arábaemiráhtat",
 	"AF": "Afganistána",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Mátta-Afrihká",
 	"ZM": "Zambia",
 	"ZW": "Zimbabwe",
-}
+};
+
+export default lang;

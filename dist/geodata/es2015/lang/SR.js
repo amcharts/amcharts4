@@ -1,5 +1,5 @@
 // SERBIAN
-export default {
+var lang = {
     "AD": "Андора",
     "AE": "Уједињени Арапски Емирати",
     "AF": "Авганистан",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Замбија",
     "ZW": "Зимбабве",
 };
+export default lang;

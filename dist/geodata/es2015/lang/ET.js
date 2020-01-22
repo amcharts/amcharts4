@@ -1,5 +1,5 @@
 // ESTONIAN
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Araabia Ühendemiraadid",
     "AF": "Afganistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Sambia",
     "ZW": "Zimbabwe",
 };
+export default lang;

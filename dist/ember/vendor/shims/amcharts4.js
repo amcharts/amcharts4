@@ -1,3 +1,27 @@
+define('@amcharts/amcharts4-geodata/.internal/Data', [], function () {
+  'use strict';
+  var output = self.am4geodata_.internal_Data;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/.internal/Data' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/.internal/Geodata', [], function () {
+  'use strict';
+  var output = self.am4geodata_.internal_Geodata;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/.internal/Geodata' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/.internal/Lang', [], function () {
+  'use strict';
+  var output = self.am4geodata_.internal_Lang;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/.internal/Lang' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/albaniaHigh', [], function () {
   'use strict';
   var output = self.am4geodata_albaniaHigh;

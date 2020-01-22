@@ -1,5 +1,5 @@
 // WELSH
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Emiraethau Arabaidd Unedig",
     "AF": "Affganistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Sambia",
     "ZW": "Simbabwe",
 };
+export default lang;

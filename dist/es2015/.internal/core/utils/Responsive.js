@@ -319,6 +319,7 @@ var Responsive = /** @class */ (function (_super) {
         // Check each rule
         var defaultStateApplied = false;
         if (this.enabled) {
+            var isApplied_1 = false;
             $iter.each(this.allRules.iterator(), function (rule) {
                 // Get relevant state
                 var state = _this.getState(rule, newTarget);
@@ -337,7 +338,6 @@ var Responsive = /** @class */ (function (_super) {
                         defaultStateApplied = true;
                     }
                     // Is this rule currently applied?
-                    $array.remove(_this._appliedTargets, newTarget.uid);
                     if (_this.isApplied($type.getValue(rule.id))) {
                         // Yes. Apply the responsive state
                         state.transitionDuration = 0;
@@ -345,10 +345,16 @@ var Responsive = /** @class */ (function (_super) {
                         _this.dispatchImmediately("ruleapplied", {
                             rule: rule
                         });
-                        $array.replace(_this._appliedTargets, newTarget.uid);
+                        isApplied_1 = true;
                     }
                 }
             });
+            if (isApplied_1) {
+                $array.replace(this._appliedTargets, newTarget.uid);
+            }
+            else {
+                $array.remove(this._appliedTargets, newTarget.uid);
+            }
         }
         // Apply rules to the children
         if (newTarget.children) {
@@ -357,32 +363,6 @@ var Responsive = /** @class */ (function (_super) {
             });
         }
     };
-    /**
-     * Applies specific oresponsive overrides to the element.
-     *
-     * @ignore Exclude from docs
-     * @param rule    Responsive rule
-     * @param target  Target element
-     * @deprecated
-     * @hidden
-     */
-    /*	public applyRule(rule: IResponsiveRule, target: any): void {
-
-            // Construct state id
-            //let stateId = "responsive-" + rule.id;
-
-            // Check if we need to create a state for the element
-            let state = this.getState(rule, target);
-
-            // Apply the state
-            if (state) {
-                //if (target.className == "Container" && target.parent.className == "ZoomControl") {
-                console.log("Applying state to " + target.className + " (" + target.uid + "): " + JSON.stringify(state.properties));
-                //}
-                target.setState(state);
-            }
-
-        }*/
     /**
      * Returns a relative state for the rule/target, or `undefined` if no state is
      * needed.

@@ -1,5 +1,5 @@
 // MALTESE
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Emirati Għarab Maqgħuda",
     "AF": "Afganistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Żambja",
     "ZW": "Żimbabwe",
 };
+export default lang;

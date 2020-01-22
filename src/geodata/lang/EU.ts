@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // BASQUE
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Arabiar Emirrerri Batuak",
 	"AF": "Afganistan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Hegoafrika",
 	"ZM": "Zambia",
 	"ZW": "Zimbabwe",
-}
+};
+
+export default lang;

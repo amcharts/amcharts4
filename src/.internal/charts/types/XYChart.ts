@@ -764,7 +764,7 @@ export class XYChart extends SerialChart {
 						}
 					}
 					else {
-						if ($math.round(axis.start, 3) != 0 || $math.round(axis.end, 3) != 1) {
+						if ($math.round(axis.start, 3) > 0 || $math.round(axis.end, 3) < 1) {
 							show = true;
 							return false;
 						}
@@ -782,7 +782,7 @@ export class XYChart extends SerialChart {
 						}
 					}
 					else {
-						if ($math.round(axis.start, 3) != 0 || $math.round(axis.end, 3) != 1) {
+						if ($math.round(axis.start, 3) > 0 || $math.round(axis.end, 3) < 1) {
 							show = true;
 							return false;
 						}
@@ -983,11 +983,14 @@ export class XYChart extends SerialChart {
 
 	protected handleSeriesRemoved(event: IListEvents<XYSeries>["removed"]) {
 		let series = event.oldValue;
+
 		if (series) {
 			if (series.xAxis) {
+				series.xAxis.series.removeValue(series);
 				series.xAxis.invalidateProcessedData();
 			}
 			if (series.yAxis) {
+				series.yAxis.series.removeValue(series);
 				series.yAxis.invalidateProcessedData();
 			}
 		}

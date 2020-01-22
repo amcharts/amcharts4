@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // WELSH
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Emiraethau Arabaidd Unedig",
 	"AF": "Affganistan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "De Affrica",
 	"ZM": "Sambia",
 	"ZW": "Simbabwe",
-}
+};
+
+export default lang;

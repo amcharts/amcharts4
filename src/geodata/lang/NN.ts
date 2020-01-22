@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // NORWEGIAN NYNORSK
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Dei sameinte arabiske emirata",
 	"AF": "Afghanistan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Sør-Afrika",
 	"ZM": "Zambia",
 	"ZW": "Zimbabwe",
-}
+};
+
+export default lang;

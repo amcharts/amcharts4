@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // ESPERANTO
-export default {
+const lang: Lang = {
 	"AD": "Andoro",
 	"AE": "Unuiĝintaj Arabaj Emirlandoj",
 	"AF": "Afganio",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Sudafriko",
 	"ZM": "Zambio",
 	"ZW": "Zimbabvo",
-}
+};
+
+export default lang;

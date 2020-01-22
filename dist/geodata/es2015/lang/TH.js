@@ -1,5 +1,5 @@
 // THAI
-export default {
+var lang = {
     "AD": "อันดอร์รา",
     "AE": "สหรัฐอาหรับเอมิเรตส์",
     "AF": "อัฟกานิสถาน",
@@ -250,3 +250,4 @@ export default {
     "ZM": "แซมเบีย",
     "ZW": "ซิมบับเว",
 };
+export default lang;

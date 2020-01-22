@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // TIBETAN STANDARD
-export default {
+const lang: Lang = {
 	"AD": "ཨེན་ཌོ་ར།",
 	"AE": "ཨ་རབ། ཨི་མི་རཊ྄། ཆིག་སྒྲིལ་རྒྱལ་ཁབ།",
 	"AF": "ཨཕ་ག་ནི་སྟཱན།",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "ལྷོ་ ཨཕྲི་ཀ།",
 	"ZM": "ཛམ་བི་ཡ།",
 	"ZW": "ཛིམ་བྷཱ་བེ།",
-}
+};
+
+export default lang;

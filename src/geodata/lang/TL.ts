@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // TAGALOG
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Nagkakaisang Kaemirang Arabo",
 	"AF": "Apganistan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Timog Afrika",
 	"ZM": "Zambia",
 	"ZW": "Zimbabwe",
-}
+};
+
+export default lang;

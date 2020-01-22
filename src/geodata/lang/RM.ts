@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // ROMANSH
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Emirats Arabs Unids",
 	"AF": "Afganistan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Africa dal Sid",
 	"ZM": "Sambia",
 	"ZW": "Simbabwe",
-}
+};
+
+export default lang;

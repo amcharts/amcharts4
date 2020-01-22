@@ -1,5 +1,5 @@
 // MARATHI
-export default {
+var lang = {
     "AD": "अँडोरा",
     "AE": "संयुक्त अरब अमीरात",
     "AF": "अफगाणिस्तान",
@@ -250,3 +250,4 @@ export default {
     "ZM": "झाम्बिया",
     "ZW": "झिम्बाब्वे",
 };
+export default lang;

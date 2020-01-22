@@ -36,7 +36,7 @@ export interface IAxisLabelCircularProperties extends IAxisLabelProperties {
 	/**
 	 * Distance of the label from circle line.
 	 */
-	radius?: number;
+	radius?: number | Percent;
 
 	/**
 	 * Specifies if label should be bent along the circle

@@ -1,5 +1,5 @@
 // INTERLINGUA
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Emiratos Arabe Unite",
     "AF": "Afghanistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambia",
     "ZW": "Zimbabwe",
 };
+export default lang;

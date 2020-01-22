@@ -85,6 +85,7 @@ export interface IValueAxisProperties extends IAxisProperties {
     extraMax?: number;
     keepSelection?: boolean;
     includeRangesInMinMax?: boolean;
+    syncWithAxis?: ValueAxis;
 }
 /**
  * Defines events for [[ValueAxis]].
@@ -843,4 +844,48 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @param source Source Axis
      */
     copyFrom(source: this): void;
+    /**
+     * @return Target axis
+     */
+    /**
+     * Enables syncing of grid with another axis.
+     *
+     * To enable, set to a reference of the other `ValueAxis`. This axis will try
+     * to maintain its scale in such way that its grid matches target axis grid.
+     *
+     * IMPORTANT #1: At this stage it's an experimental feature. Use it at your
+     * own risk, as it may not work in 100% of the scenarios.
+     *
+     * IMPORTANT #2: `syncWithAxis` is not compatible with `strictMinMax` and
+     * `sequencedInterpolation` settings.
+     *
+     * @since 4.8.1
+     * @param  axis  Target axis
+     */
+    syncWithAxis: ValueAxis;
+    /**
+     * Syncs with a target axis.
+     *
+     * @param  min  Min
+     * @param  max  Max
+     * @param  step Step
+     */
+    protected syncAxes(min: number, max: number, step: number): {
+        min: number;
+        max: number;
+        step: number;
+    };
+    /**
+     * Returns `true` if axis needs to be resunced with some other axis.
+     */
+    protected checkSync(min: number, max: number, step: number, count: number): boolean;
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param config  Config
+     */
+    processConfig(config?: {
+        [index: string]: any;
+    }): void;
 }

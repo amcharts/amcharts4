@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // TURKISH
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Birleşik Arap Emirlikleri",
 	"AF": "Afganistan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Güney Afrika",
 	"ZM": "Zambiya",
 	"ZW": "Zimbabve",
-}
+};
+
+export default lang;

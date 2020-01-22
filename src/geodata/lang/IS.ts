@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // ICELANDIC
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Sameinuðu arabísku furstadæmin",
 	"AF": "Afganistan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Suður-Afríka",
 	"ZM": "Sambía",
 	"ZW": "Simbabve",
-}
+};
+
+export default lang;

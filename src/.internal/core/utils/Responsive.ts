@@ -471,10 +471,10 @@ export class Responsive extends BaseObjectEvents {
 		const newTarget = ($type.hasValue(target)
 			? target
 			: $type.getValue(this.component));
-
 		// Check each rule
 		let defaultStateApplied = false;
 		if (this.enabled) {
+			let isApplied = false;
 			$iter.each(this.allRules.iterator(), (rule) => {
 
 				// Get relevant state
@@ -497,7 +497,6 @@ export class Responsive extends BaseObjectEvents {
 					}
 
 					// Is this rule currently applied?
-					$array.remove(this._appliedTargets, newTarget.uid);
 					if (this.isApplied($type.getValue(rule.id))) {
 						// Yes. Apply the responsive state
 						state.transitionDuration = 0;
@@ -505,11 +504,17 @@ export class Responsive extends BaseObjectEvents {
 						this.dispatchImmediately("ruleapplied", {
 							rule: rule
 						});
-						$array.replace(this._appliedTargets, newTarget.uid);
+						isApplied = true;
 					}
 
 				}
 			});
+			if (isApplied) {
+				$array.replace(this._appliedTargets, newTarget.uid);
+			}
+			else {
+				$array.remove(this._appliedTargets, newTarget.uid);
+			}
 		}
 
 		// Apply rules to the children
@@ -520,33 +525,6 @@ export class Responsive extends BaseObjectEvents {
 		}
 
 	}
-
-	/**
-	 * Applies specific oresponsive overrides to the element.
-	 *
-	 * @ignore Exclude from docs
-	 * @param rule    Responsive rule
-	 * @param target  Target element
-	 * @deprecated
-	 * @hidden
-	 */
-	/*	public applyRule(rule: IResponsiveRule, target: any): void {
-
-			// Construct state id
-			//let stateId = "responsive-" + rule.id;
-
-			// Check if we need to create a state for the element
-			let state = this.getState(rule, target);
-
-			// Apply the state
-			if (state) {
-				//if (target.className == "Container" && target.parent.className == "ZoomControl") {
-				console.log("Applying state to " + target.className + " (" + target.uid + "): " + JSON.stringify(state.properties));
-				//}
-				target.setState(state);
-			}
-
-		}*/
 
 	/**
 	 * Returns a relative state for the rule/target, or `undefined` if no state is
@@ -596,7 +574,7 @@ export class Responsive extends BaseObjectEvents {
 
 /**
  * [defaultRules description]
- * 
+ *
  * @todo description
  */
 export let defaultRules = new List<IResponsiveRule>();
@@ -605,7 +583,7 @@ defaultRules.events.on("inserted", (ev) => {
 });
 
 /**
- * 
+ *
  * @todo description
  */
 export class ResponsiveBreakpoints {

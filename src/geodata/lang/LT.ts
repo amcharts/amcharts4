@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // LITHUANIAN
-export default {
+const lang: Lang = {
 	"AD": "Andora",
 	"AE": "Jungtiniai Arabų Emyratai",
 	"AF": "Afganistanas",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Pietų Afrika",
 	"ZM": "Zambija",
 	"ZW": "Zimbabvė",
-}
+};
+
+export default lang;

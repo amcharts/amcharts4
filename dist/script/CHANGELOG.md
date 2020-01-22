@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.8.1] - 2020-01-22
+
+### Added
+- New setting `syncWithAxis` added to `ValueAxis`. Use it to sync grid between two or more axes. Set it to a reference of another `ValueAxis`, the one you need to sync grid with. [More info](https://www.amcharts.com/docs/v4/concepts/axes/value-axis/#Synchronizing_grid).
+
+### Changed
+- When default state is restored it will not set properties with `undefined` values as well. It used to ignore those.
+- `XYCursor` will now take its `behavior` logic into account when calculating if it has moved or not. For example, if `behavior == "zoomX"` it will only measure horizontal distance when determining if cursor has moved or not.
+
+### Fixed
+- `Annotation` plugin: setting `currentTool` property was not working for `"line"` and `"arrow"`.
+- Sometimes element properties were not being restored to their original values when responsive rules were applied.
+- Sometimes some bullets on a `TreeMap` were not being shown back on after drilling bacup to top level.
+- Setting `fontSize` on a `ValueAxis` was resulting in an error.
+
+
 ## [4.8.0] - 2020-01-16
 
 ### Added

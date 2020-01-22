@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // SHONA
-export default {
+const lang: Lang = {
 	"AD": "Andora",
 	"AE": "United Arab Emirates",
 	"AF": "Afuganistani",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "South Africa",
 	"ZM": "Zambia",
 	"ZW": "Zimbabwe",
-}
+};
+
+export default lang;

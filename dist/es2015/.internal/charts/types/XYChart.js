@@ -486,7 +486,7 @@ var XYChart = /** @class */ (function (_super) {
                         }
                     }
                     else {
-                        if ($math.round(axis.start, 3) != 0 || $math.round(axis.end, 3) != 1) {
+                        if ($math.round(axis.start, 3) > 0 || $math.round(axis.end, 3) < 1) {
                             show_1 = true;
                             return false;
                         }
@@ -504,7 +504,7 @@ var XYChart = /** @class */ (function (_super) {
                         }
                     }
                     else {
-                        if ($math.round(axis.start, 3) != 0 || $math.round(axis.end, 3) != 1) {
+                        if ($math.round(axis.start, 3) > 0 || $math.round(axis.end, 3) < 1) {
                             show_1 = true;
                             return false;
                         }
@@ -685,9 +685,11 @@ var XYChart = /** @class */ (function (_super) {
         var series = event.oldValue;
         if (series) {
             if (series.xAxis) {
+                series.xAxis.series.removeValue(series);
                 series.xAxis.invalidateProcessedData();
             }
             if (series.yAxis) {
+                series.yAxis.series.removeValue(series);
                 series.yAxis.invalidateProcessedData();
             }
         }

@@ -2425,10 +2425,10 @@ var Sprite = /** @class */ (function (_super) {
                 _this.defaultState.properties[propertyName] = currentValue;
             }
             //if (finalValue != currentValue && $type.hasValue(finalValue)) {
-            if ($type.hasValue(finalValue)) {
-                var option = { from: currentValue, to: finalValue, property: propertyName };
-                options.push(option);
-            }
+            //if ($type.hasValue(finalValue)) {
+            var option = { from: currentValue, to: finalValue, property: propertyName };
+            options.push(option);
+            //}
         });
         if (options.length > 0) {
             transition = this.animate(options, duration, easing);

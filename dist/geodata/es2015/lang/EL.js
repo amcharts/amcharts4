@@ -1,5 +1,5 @@
 // GREEK
-export default {
+var lang = {
     "AD": "Ανδόρρα",
     "AE": "Ηνωμένα Αραβικά Εμιράτα",
     "AF": "Αφγανιστάν",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Ζάμπια",
     "ZW": "Ζιμπάμπουε",
 };
+export default lang;

@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // INTERLINGUA
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Emiratos Arabe Unite",
 	"AF": "Afghanistan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Africa del Sud",
 	"ZM": "Zambia",
 	"ZW": "Zimbabwe",
-}
+};
+
+export default lang;

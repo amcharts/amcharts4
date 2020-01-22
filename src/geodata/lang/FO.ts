@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // FAROESE
-export default {
+const lang: Lang = {
 	"AD": "Andorra",
 	"AE": "Sameindu Emirríkini",
 	"AF": "Afganistan",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "Suðurafrika",
 	"ZM": "Sambia",
 	"ZW": "Simbabvi",
-}
+};
+
+export default lang;

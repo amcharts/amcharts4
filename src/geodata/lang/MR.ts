@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // MARATHI
-export default {
+const lang: Lang = {
 	"AD": "अँडोरा",
 	"AE": "संयुक्त अरब अमीरात",
 	"AF": "अफगाणिस्तान",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "दक्षिण अफ्रिका",
 	"ZM": "झाम्बिया",
 	"ZW": "झिम्बाब्वे",
-}
+};
+
+export default lang;

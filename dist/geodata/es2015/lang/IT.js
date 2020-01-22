@@ -1,5 +1,5 @@
 // ITALIAN
-export default {
+var lang = {
     "AD": "Andorra",
     "AE": "Emirati Arabi Uniti",
     "AF": "Afghanistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambia",
     "ZW": "Zimbabwe",
 };
+export default lang;

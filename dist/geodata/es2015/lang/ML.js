@@ -1,5 +1,5 @@
 // MALAYALAM
-export default {
+var lang = {
     "AD": "അന്‍റോറ",
     "AE": "സംയുക്ത അറബ് രാഷ്ട്രം",
     "AF": "അഫ്ഗാനിസ്ഥാന്‍",
@@ -250,3 +250,4 @@ export default {
     "ZM": "സാംബിയ",
     "ZW": "സിംബാബ്വേ",
 };
+export default lang;

@@ -1,5 +1,7 @@
+import { Lang } from "../.internal/Lang";
+
 // IRISH
-export default {
+const lang: Lang = {
 	"AD": "Andóra",
 	"AE": "Aontas na nÉimíríochtaí Arabacha",
 	"AF": "An Afganastáin",
@@ -249,4 +251,6 @@ export default {
 	"ZA": "An Afraic Theas",
 	"ZM": "An tSaimbia",
 	"ZW": "An tSiombáib",
-}
+};
+
+export default lang;

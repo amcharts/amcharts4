@@ -231,4 +231,5 @@ export declare class TreeMapSeries extends ColumnSeries {
      * @param marker  Legend item container
      */
     createLegendMarker(marker: Container): void;
+    protected disableUnusedColumns(dataItem: ColumnSeriesDataItem): void;
 }

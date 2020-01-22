@@ -1,5 +1,5 @@
 // PERSIAN
-export default {
+var lang = {
     "AD": "آندورا",
     "AE": "امارات متحدهٔ عربی",
     "AF": "افغانستان",
@@ -250,3 +250,4 @@ export default {
     "ZM": "زامبیا",
     "ZW": "زیمبابوه",
 };
+export default lang;

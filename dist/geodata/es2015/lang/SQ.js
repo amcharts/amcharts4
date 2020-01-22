@@ -1,5 +1,5 @@
 // ALBANIAN
-export default {
+var lang = {
     "AD": "Andorrë",
     "AE": "Emiratet Arabe te Bashkuara",
     "AF": "Afganistan",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Zambi",
     "ZW": "Zimbabve",
 };
+export default lang;

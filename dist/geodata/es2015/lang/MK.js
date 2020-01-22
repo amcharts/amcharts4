@@ -1,5 +1,5 @@
 // MACEDONIAN
-export default {
+var lang = {
     "AD": "Андора",
     "AE": "Обединети Арапски Емирати",
     "AF": "Авганистан",
@@ -250,3 +250,4 @@ export default {
     "ZM": "Замбија",
     "ZW": "Зимбабве",
 };
+export default lang;

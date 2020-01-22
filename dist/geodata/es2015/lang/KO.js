@@ -1,5 +1,5 @@
 // KOREAN
-export default {
+var lang = {
     "AD": "안도라",
     "AE": "아랍에미리트",
     "AF": "아프가니스탄",
@@ -250,3 +250,4 @@ export default {
     "ZM": "잠비아",
     "ZW": "짐바브웨",
 };
+export default lang;
