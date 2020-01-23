@@ -68,9 +68,6 @@ export declare class ColorizeFilter extends Filter {
      */
     applyFilter(): void;
     /**
-     * @return Color
-     */
-    /**
      * Target color to apply to the element.
      *
      * Depending on the `intensity`, all colors of the target element will steer
@@ -80,10 +77,11 @@ export declare class ColorizeFilter extends Filter {
      *
      * @param value  Color
      */
-    color: $type.Optional<Color>;
+    set color(value: $type.Optional<Color>);
     /**
-     * @return Intensity (0-1)
+     * @return Color
      */
+    get color(): $type.Optional<Color>;
     /**
      * Intensity of the color (0-1).
      *
@@ -95,5 +93,9 @@ export declare class ColorizeFilter extends Filter {
      * @default 1
      * @param value  Intensity (0-1)
      */
-    intensity: number;
+    set intensity(value: number);
+    /**
+     * @return Intensity (0-1)
+     */
+    get intensity(): number;
 }

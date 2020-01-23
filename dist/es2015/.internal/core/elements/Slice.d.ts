@@ -128,10 +128,7 @@ export declare class Slice extends Container {
      *
      * @ignore Exclude from docs
      */
-    readonly bbox: IRectangle;
-    /**
-     * @return Angle (0-360)
-     */
+    get bbox(): IRectangle;
     /**
      * The angle at which left edge of the slice is drawn. (0-360)
      *
@@ -139,29 +136,32 @@ export declare class Slice extends Container {
      *
      * @param value  Angle (0-360)
      */
-    startAngle: number;
+    set startAngle(value: number);
     /**
-     * @return [description]
+     * @return Angle (0-360)
      */
+    get startAngle(): number;
     /**
      * [arc description]
      *
      * @todo Description
      * @param value [description]
      */
-    arc: number;
+    set arc(value: number);
     /**
-     * @return Radius (px)
+     * @return [description]
      */
+    get arc(): number;
     /**
      * Radius of the slice in pixels.
      *
      * @param value  Radius (px)
      */
-    radius: number;
+    set radius(value: number);
     /**
-     * @return Vertical radius (0-1)
+     * @return Radius (px)
      */
+    get radius(): number;
     /**
      * Vertical radius for creating skewed slices.
      *
@@ -170,44 +170,48 @@ export declare class Slice extends Container {
      *
      * @param value Vertical radius (0-1)
      */
-    radiusY: number;
+    set radiusY(value: number);
     /**
-     * @return Radius (px or %)
+     * @return Vertical radius (0-1)
      */
+    get radiusY(): number;
     /**
      * Inner radius of the slice for creating cut out (donut) slices.
      *
      * @default 0
      * @param value  Radius (px or %)
      */
-    innerRadius: number | Percent;
+    set innerRadius(value: number | Percent);
+    /**
+     * @return Radius (px or %)
+     */
+    get innerRadius(): number | Percent;
     /**
      * @return Radius px
      */
-    readonly pixelInnerRadius: number;
-    /**
-     * @return Radius (px)
-     */
+    get pixelInnerRadius(): number;
     /**
      * Radius of slice's outer corners in pixels.
      *
      * @default 0
      * @param value  Radius (px)
      */
-    cornerRadius: number;
+    set cornerRadius(value: number);
     /**
      * @return Radius (px)
      */
+    get cornerRadius(): number;
     /**
      * Radius of slice's inner corners in pixels.
      *
      * @default 0
      * @param value  Radius (px)
      */
-    innerCornerRadius: number;
+    set innerCornerRadius(value: number);
     /**
-     * @return Radius shift
+     * @return Radius (px)
      */
+    get innerCornerRadius(): number;
     /**
      * Indicates how far (relatively to center) a slice should be moved.
      *
@@ -216,7 +220,11 @@ export declare class Slice extends Container {
      *
      * @param  value  Radius shift
      */
-    shiftRadius: number;
+    set shiftRadius(value: number);
+    /**
+     * @return Radius shift
+     */
+    get shiftRadius(): number;
     /**
      * [ix description]
      *
@@ -224,7 +232,7 @@ export declare class Slice extends Container {
      * @todo Description
      * @return [description]
      */
-    readonly ix: number;
+    get ix(): number;
     /**
      * [iy description]
      *
@@ -232,14 +240,14 @@ export declare class Slice extends Container {
      * @todo Description
      * @return [description]
      */
-    readonly iy: number;
+    get iy(): number;
     /**
      * An angle of the slice's middle.
      *
      * @ignore Exclude from docs
      * @return Angle
      */
-    readonly middleAngle: number;
+    get middleAngle(): number;
     /**
      * X coordinate for the slice tooltip.
      *

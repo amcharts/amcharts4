@@ -54,19 +54,20 @@ export declare class ColumnSeriesDataItem extends XYSeriesDataItem {
      */
     constructor();
     /**
-     * @return Column
-     */
-    /**
      * A column used to draw a column for this data item.
      *
      * @param column
      */
-    column: this["_column"];
+    set column(column: this["_column"]);
+    /**
+     * @return Column
+     */
+    get column(): this["_column"];
     protected setColumn(column: this["_column"]): void;
     /**
      * A dictionary storing axes ranges columns by axis uid
      */
-    readonly rangesColumns: Dictionary<string, this["_column"]>;
+    get rangesColumns(): Dictionary<string, this["_column"]>;
 }
 /**
  * ============================================================================
@@ -187,7 +188,7 @@ export declare class ColumnSeries extends XYSeries {
      *
      * @ignore Exclude from docs
      */
-    readonly columnsContainer: Container;
+    get columnsContainer(): Container;
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor.
@@ -255,16 +256,13 @@ export declare class ColumnSeries extends XYSeries {
      *
      * @return Columns
      */
-    readonly columns: ListTemplate<this["_column"]>;
+    get columns(): ListTemplate<this["_column"]>;
     /**
      * Creates and returns a column element to use as a template.
      *
      * @return Column template
      */
     protected createColumnTemplate(): this["_column"];
-    /**
-     * @return Clustered?
-     */
     /**
      * Cluster this series columns?
      *
@@ -273,10 +271,11 @@ export declare class ColumnSeries extends XYSeries {
      * @default true
      * @param value  Clustered?
      */
-    clustered: boolean;
+    set clustered(value: boolean);
     /**
-     * @return State
+     * @return Clustered?
      */
+    get clustered(): boolean;
     /**
      * A state to apply to a column when close value is lower than open value.
      *
@@ -287,10 +286,11 @@ export declare class ColumnSeries extends XYSeries {
      * @readonly You can modify state object, but can't overwrite it
      * @param  value  State
      */
-    dropFromOpenState: SpriteState<this["_properties"], this["_adapter"]>;
+    set dropFromOpenState(value: SpriteState<this["_properties"], this["_adapter"]>);
     /**
      * @return State
      */
+    get dropFromOpenState(): SpriteState<this["_properties"], this["_adapter"]>;
     /**
      * A state to apply to a column when its value is lower value of a previous
      * column.
@@ -300,10 +300,11 @@ export declare class ColumnSeries extends XYSeries {
      * @readonly You can modify state object, but can't overwrite it
      * @param  value  State
      */
-    dropFromPreviousState: SpriteState<this["_properties"], this["_adapter"]>;
+    set dropFromPreviousState(value: SpriteState<this["_properties"], this["_adapter"]>);
     /**
      * @return State
      */
+    get dropFromPreviousState(): SpriteState<this["_properties"], this["_adapter"]>;
     /**
      * A state to apply to a column when close value is same or higher than open
      * value.
@@ -315,10 +316,11 @@ export declare class ColumnSeries extends XYSeries {
      * @readonly You can modify state object, but can't overwrite it
      * @param  value  State
      */
-    riseFromOpenState: SpriteState<this["_properties"], this["_adapter"]>;
+    set riseFromOpenState(value: SpriteState<this["_properties"], this["_adapter"]>);
     /**
      * @return State
      */
+    get riseFromOpenState(): SpriteState<this["_properties"], this["_adapter"]>;
     /**
      * A state to apply to a column when its value is same or higher than value
      * of a previous column.
@@ -328,7 +330,11 @@ export declare class ColumnSeries extends XYSeries {
      * @readonly You can modify state object, but can't overwrite it
      * @param  value  State
      */
-    riseFromPreviousState: SpriteState<this["_properties"], this["_adapter"]>;
+    set riseFromPreviousState(value: SpriteState<this["_properties"], this["_adapter"]>);
+    /**
+     * @return State
+     */
+    get riseFromPreviousState(): SpriteState<this["_properties"], this["_adapter"]>;
     /**
      * Updates value of the related legend item.
      *

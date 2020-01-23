@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -20,7 +20,7 @@ import { AMElement } from "./AMElement";
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Element/g} About `<g>` element
  */
 var Group = /** @class */ (function (_super) {
-    tslib_1.__extends(Group, _super);
+    __extends(Group, _super);
     /**
      * Constructor.
      *

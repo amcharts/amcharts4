@@ -1,7 +1,7 @@
 /**
  * Bullet module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -69,7 +69,7 @@ import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
  * @see {@link IBulletAdapters} for a list of available Adapters
  */
 var PinBullet = /** @class */ (function (_super) {
-    tslib_1.__extends(PinBullet, _super);
+    __extends(PinBullet, _super);
     /**
      * Constructor
      */

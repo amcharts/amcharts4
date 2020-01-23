@@ -1,3 +1,6 @@
+/**
+ * A collection of color-related functions
+ */
 import * as $type from "./Type";
 /**
  * Tries to resolve a named color into a hex color representation.

@@ -1,7 +1,7 @@
 /**
  * Module for building 3D serial charts.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * Imports
@@ -32,7 +32,7 @@ import * as $utils from "../../core/utils/Utils";
  * @see {@link DataItem}
  */
 var XYChart3DDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(XYChart3DDataItem, _super);
+    __extends(XYChart3DDataItem, _super);
     function XYChart3DDataItem() {
         var _this = _super.call(this) || this;
         _this.className = "XYChart3DDataItem";
@@ -57,7 +57,7 @@ export { XYChart3DDataItem };
  * @important
  */
 var XYChart3D = /** @class */ (function (_super) {
-    tslib_1.__extends(XYChart3D, _super);
+    __extends(XYChart3D, _super);
     /**
      * Constructor
      */

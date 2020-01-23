@@ -1,7 +1,7 @@
 /**
  * Radar column series module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +30,7 @@ import * as $array from "../../core/utils/Array";
  * @see {@link DataItem}
  */
 var RadarColumnSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(RadarColumnSeriesDataItem, _super);
+    __extends(RadarColumnSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -58,7 +58,7 @@ export { RadarColumnSeriesDataItem };
  * @important
  */
 var RadarColumnSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(RadarColumnSeries, _super);
+    __extends(RadarColumnSeries, _super);
     /**
      * Constructor
      */

@@ -454,8 +454,8 @@ export function isNumber(value: any): value is number {
  * @param value  Input value
  * @return Is object?
  */
-export function isObject(value: any): value is number {
-	return typeof value === "object";
+export function isObject(value: any): value is object {
+	return typeof value === "object" && value != null;
 }
 
 /**

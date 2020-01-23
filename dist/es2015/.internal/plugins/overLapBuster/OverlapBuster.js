@@ -1,7 +1,7 @@
 /**
  * Plugin which enables automatically exploding overlapping elements.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -47,7 +47,7 @@ import { registry } from "../../core/Registry";
  * @see {@link https://www.amcharts.com/docs/v4/tutorials/plugin-overlap-buster/} for more information and usage instructions
  */
 var OverlapBuster = /** @class */ (function (_super) {
-    tslib_1.__extends(OverlapBuster, _super);
+    __extends(OverlapBuster, _super);
     /**
      * Constructor
      */

@@ -192,27 +192,26 @@ export declare class Responsive extends BaseObjectEvents {
      */
     constructor();
     /**
-     * @return Target object
-     */
-    /**
      * A target object that responsive rules will need to be applied to.
      *
      * @param value  Target object
      */
-    component: $type.Optional<Component>;
+    set component(value: $type.Optional<Component>);
     /**
-     * @return Apply responsive rules?
+     * @return Target object
      */
+    get component(): $type.Optional<Component>;
     /**
      * Should responsive rules be checked against and applied?
      *
      * @default false
      * @param value  Apply responsive rules?
      */
-    enabled: boolean;
+    set enabled(value: boolean);
     /**
-     * @return Use default rules?
+     * @return Apply responsive rules?
      */
+    get enabled(): boolean;
     /**
      * Should default responsive rules be applied in addition to user-defined
      * ones.
@@ -223,10 +222,11 @@ export declare class Responsive extends BaseObjectEvents {
      * @default true
      * @param value  Use default rules?
      */
-    useDefault: boolean;
+    set useDefault(value: boolean);
     /**
-     * @return User-defined rules
+     * @return Use default rules?
      */
+    get useDefault(): boolean;
     /**
      * User-defined responsive rules.
      *
@@ -238,14 +238,18 @@ export declare class Responsive extends BaseObjectEvents {
      *
      * @param value  User-defined rules
      */
-    rules: List<IResponsiveRule>;
+    set rules(value: List<IResponsiveRule>);
+    /**
+     * @return User-defined rules
+     */
+    get rules(): List<IResponsiveRule>;
     /**
      * Default responsive rules.
      *
      * @readonly
      * @return List of responsive rules
      */
-    readonly defaultRules: List<IResponsiveRule>;
+    get defaultRules(): List<IResponsiveRule>;
     /**
      * Returns all rules: default rules (if not disabled) combined with
      * user-defined ones.
@@ -253,7 +257,7 @@ export declare class Responsive extends BaseObjectEvents {
      * @readonly
      * @return List of all applicable rules
      */
-    readonly allRules: List<IResponsiveRule>;
+    get allRules(): List<IResponsiveRule>;
     /**
      * Checks if rule by the particular id currently applied.
      *

@@ -1,7 +1,7 @@
 /**
  * Functionality for drawing circles.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -25,7 +25,7 @@ import * as $math from "../utils/Math";
  * @see {@link ICircleAdapters} for a list of available Adapters
  */
 var Circle = /** @class */ (function (_super) {
-    tslib_1.__extends(Circle, _super);
+    __extends(Circle, _super);
     /**
      * Constructor
      */

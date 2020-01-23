@@ -147,9 +147,6 @@ export declare class FlagBullet extends Bullet {
      */
     updateBackground(): void;
     /**
-     * @return Label
-     */
-    /**
      * A [[Label]] element for displaying within flag.
      *
      * Use it's `text` property to set actual text, e.g.:
@@ -176,7 +173,11 @@ export declare class FlagBullet extends Bullet {
      * ```
      * @param  label  Label
      */
-    label: Label;
+    set label(label: Label);
+    /**
+     * @return Label
+     */
+    get label(): Label;
     /**
      * Copies all proprities and related stuff from another instance of
      * [[FlagBullet]].
@@ -192,13 +193,14 @@ export declare class FlagBullet extends Bullet {
      */
     createBackground(): this["_background"];
     /**
-     * @return Height (px)
-     */
-    /**
      * Flag pole height in pixels.
      *
      * @default 10
      * @param  value  Height (px)
      */
-    poleHeight: number;
+    set poleHeight(value: number);
+    /**
+     * @return Height (px)
+     */
+    get poleHeight(): number;
 }

@@ -165,9 +165,6 @@ export declare class DurationAxis<T extends AxisRenderer = AxisRenderer> extends
      */
     adjustMinMax(min: number, max: number, difference: number, gridCount: number, strictMode?: boolean): IMinMaxStep;
     /**
-     * @return Duration format for axis labels
-     */
-    /**
      * A special duration format to apply axis tooltips.
      *
      * Will use same format as for labels, if not set.
@@ -175,7 +172,11 @@ export declare class DurationAxis<T extends AxisRenderer = AxisRenderer> extends
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} for mor information.
      * @param value  Duration format for axis labels
      */
-    tooltipDurationFormat: string;
+    set tooltipDurationFormat(value: string);
+    /**
+     * @return Duration format for axis labels
+     */
+    get tooltipDurationFormat(): string;
     /**
      * Returns text to show in a axis tooltip, based on specific position within
      * axis.
@@ -189,9 +190,6 @@ export declare class DurationAxis<T extends AxisRenderer = AxisRenderer> extends
      */
     getTooltipText(position: number): string;
     /**
-     * @return Base unit
-     */
-    /**
      * A base unit (granularity) of data.
      *
      * Used to indicate what are the base units of your data.
@@ -202,7 +200,11 @@ export declare class DurationAxis<T extends AxisRenderer = AxisRenderer> extends
      * @default "second"
      * @param timeUnit
      */
-    baseUnit: TimeUnit;
+    set baseUnit(timeUnit: TimeUnit);
+    /**
+     * @return Base unit
+     */
+    get baseUnit(): TimeUnit;
     /**
      * Copies all properties and related data from a different instance of Axis.
      *

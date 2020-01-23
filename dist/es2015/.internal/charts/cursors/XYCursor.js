@@ -1,7 +1,7 @@
 /**
  * Cursor for XY chart
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -34,7 +34,7 @@ import * as $path from "../../core/rendering/Path";
  * @todo Add description, examples
  */
 var XYCursor = /** @class */ (function (_super) {
-    tslib_1.__extends(XYCursor, _super);
+    __extends(XYCursor, _super);
     /**
      * Constructor
      */

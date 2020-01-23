@@ -1,7 +1,7 @@
 /**
  * Functionality for drawing waved lines.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -25,7 +25,7 @@ import * as $path from "../rendering/Path";
  * @see {@link IWavedLineAdapters} for a list of available Adapters
  */
 var WavedLine = /** @class */ (function (_super) {
-    tslib_1.__extends(WavedLine, _super);
+    __extends(WavedLine, _super);
     /**
      * Constructor
      */

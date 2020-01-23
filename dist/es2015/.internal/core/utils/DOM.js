@@ -1,7 +1,7 @@
 /**
  * A collection of DOM-related functions.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -376,7 +376,7 @@ function makeStylesheet(selector) {
  * Can be used to dynamically add CSS to the document.
  */
 var StyleRule = /** @class */ (function (_super) {
-    tslib_1.__extends(StyleRule, _super);
+    __extends(StyleRule, _super);
     /**
      * Constructor.
      *
@@ -465,7 +465,7 @@ var styleId = 0;
  * @todo Description
  */
 var StyleClass = /** @class */ (function (_super) {
-    tslib_1.__extends(StyleClass, _super);
+    __extends(StyleClass, _super);
     /**
      * Constructor.
      *

@@ -1,7 +1,7 @@
 /**
  * Pie chart module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -28,7 +28,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link DataItem}
  */
 var PieChartDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(PieChartDataItem, _super);
+    __extends(PieChartDataItem, _super);
     /**
      * Constructor
      */
@@ -132,7 +132,7 @@ export { PieChartDataItem };
  * @important
  */
 var PieChart = /** @class */ (function (_super) {
-    tslib_1.__extends(PieChart, _super);
+    __extends(PieChart, _super);
     /**
      * Constructor
      */

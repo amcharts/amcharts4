@@ -33,19 +33,19 @@ export declare class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEven
      *
      * @todo Description
      */
-    private _dispatchSpriteEvent<Key>(ev);
+    private _dispatchSpriteEvent;
     /**
      * [_dispatchSpritePointEvent description]
      *
      * @todo Description
      */
-    private _dispatchSpritePointEvent<Key>(ev);
+    private _dispatchSpritePointEvent;
     /**
      * [_addInteractionObjectEvent description]
      *
      * @todo Description
      */
-    private _addInteractionObjectEvent<C, Key>(type, callback, context, shouldClone);
+    private _addInteractionObjectEvent;
     /**
      * [_on description]
      *

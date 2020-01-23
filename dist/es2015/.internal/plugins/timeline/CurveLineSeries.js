@@ -1,7 +1,7 @@
 /**
  * Curve line series module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -24,7 +24,7 @@ import * as $math from "../../core/utils/Math";
  * @see {@link DataItem}
  */
 var CurveLineSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(CurveLineSeriesDataItem, _super);
+    __extends(CurveLineSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -52,7 +52,7 @@ export { CurveLineSeriesDataItem };
  * @important
  */
 var CurveLineSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(CurveLineSeries, _super);
+    __extends(CurveLineSeries, _super);
     /**
      * Constructor
      */

@@ -93,9 +93,6 @@ export declare class MapLineObject extends Container {
      */
     validatePosition(): void;
     /**
-     * @return Position within the line
-     */
-    /**
      * Sets object's relative position (0-1) within the line.
      *
      * `0` will place the object at the beginning of the line. `1` - at the end.
@@ -105,10 +102,11 @@ export declare class MapLineObject extends Container {
      *
      * @param value  Position within the line (0-1)
      */
-    position: number;
+    set position(value: number);
     /**
-     * @return Auto-rotate
+     * @return Position within the line
      */
+    get position(): number;
     /**
      * If set to `true`, the object will be automatically rotated to face the
      * direction of the line at the specific position.
@@ -119,5 +117,9 @@ export declare class MapLineObject extends Container {
      * @default false
      * @param value  Auto-rotate
      */
-    adjustRotation: boolean;
+    set adjustRotation(value: boolean);
+    /**
+     * @return Auto-rotate
+     */
+    get adjustRotation(): boolean;
 }

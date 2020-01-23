@@ -4,7 +4,7 @@
  * Parts of the functionality used in this module are taken from D3.js library
  * (https://d3js.org/)
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -33,7 +33,7 @@ import * as $array from "../../core/utils/Array";
  * @see {@link DataItem}
  */
 var TreeMapDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(TreeMapDataItem, _super);
+    __extends(TreeMapDataItem, _super);
     /**
      * Constructor
      */
@@ -416,7 +416,7 @@ export { TreeMapDataItem };
  * @see {@link https://www.amcharts.com/docs/v4/chart-types/treemap/} for documentation
  */
 var TreeMap = /** @class */ (function (_super) {
-    tslib_1.__extends(TreeMap, _super);
+    __extends(TreeMap, _super);
     /**
      * Constructor
      */
@@ -786,13 +786,16 @@ var TreeMap = /** @class */ (function (_super) {
         this.zoomToChartDataItem(dataItem.treeMapDataItem);
     };
     /**
-     * Zooms to particular item.
+     * Zooms to particular item. If dataItem is not specified, the chart will zoom-out.
      *
      * @ignore Exclude from docs
      * @param dataItem  Data item
      */
     TreeMap.prototype.zoomToChartDataItem = function (dataItem) {
         var _this = this;
+        if (!dataItem) {
+            dataItem = this._homeDataItem;
+        }
         var zoomOutButton = this.zoomOutButton;
         // this is needed because if there is only one fist level, it wont' be shown
         if (zoomOutButton) {
@@ -1270,6 +1273,18 @@ var TreeMap = /** @class */ (function (_super) {
             return dataItem;
         }
     };
+    Object.defineProperty(TreeMap.prototype, "homeDataItem", {
+        /**
+         * A data item associated with top node.
+         *
+         * @since 4.8.2
+         */
+        get: function () {
+            return this._homeDataItem;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Setups the legend to use the chart's data.
      * @ignore

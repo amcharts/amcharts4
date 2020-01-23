@@ -33,7 +33,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * ```
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -47,7 +47,7 @@ import * as d3geo from "d3-geo";
  * Orthographic projection.
  */
 var AlbersUsa = /** @class */ (function (_super) {
-    tslib_1.__extends(AlbersUsa, _super);
+    __extends(AlbersUsa, _super);
     function AlbersUsa() {
         var _this = _super.call(this) || this;
         _this.d3Projection = d3geo.geoAlbersUsa();

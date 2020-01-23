@@ -76,122 +76,135 @@ export declare class XYSeriesDataItem extends SeriesDataItem {
      */
     constructor();
     /**
-     * @return Value
-     */
-    /**
      * Item's numeric value on X value axis.
      *
      * @param value  Value
      */
-    valueX: number;
+    set valueX(value: number);
     /**
      * @return Value
      */
+    get valueX(): number;
     /**
      * Item's custom numeric value.
      *
      * @param value  Value
      */
-    customValue: number;
+    set customValue(value: number);
     /**
      * @return Value
      */
+    get customValue(): number;
     /**
      * Item's numeric value on Y value axis.
      *
      * @param value  Value
      */
-    valueY: number;
+    set valueY(value: number);
     /**
-     * @return Date
+     * @return Value
      */
+    get valueY(): number;
     /**
      * Item's date value on X date-based axis.
      *
      * @param date  Date
      */
-    dateX: Date;
+    set dateX(date: Date);
     /**
      * @return Date
      */
+    get dateX(): Date;
     /**
      * Item's date value on Y date-based axis.
      *
      * @param date  Date
      */
-    dateY: Date;
+    set dateY(date: Date);
     /**
-     * @return Category
+     * @return Date
      */
+    get dateY(): Date;
     /**
      * Item's category on X category axis.
      *
      * @param category  Category
      */
-    categoryX: string;
+    set categoryX(category: string);
     /**
      * @return Category
      */
+    get categoryX(): string;
     /**
      * Item's category on Y category axis.
      *
      * @param category  Category
      */
-    categoryY: string;
+    set categoryY(category: string);
     /**
-     * @return Value
+     * @return Category
      */
+    get categoryY(): string;
     /**
      * Item's open numeric value on X value axis.
      *
      * @param value  Value
      */
-    openValueX: number;
+    set openValueX(value: number);
     /**
      * @return Value
      */
+    get openValueX(): number;
     /**
      * Item's open numeric value on Y value axis.
      *
      * @param value  Value
      */
-    openValueY: number;
+    set openValueY(value: number);
     /**
-     * @return Date
+     * @return Value
      */
+    get openValueY(): number;
     /**
      * Item's open date value on X date-based axis.
      *
      * @param date  Date
      */
-    openDateX: Date;
+    set openDateX(date: Date);
     /**
      * @return Date
      */
+    get openDateX(): Date;
     /**
      * Item's open date value on Y date-based axis.
      *
      * @param date  Date
      */
-    openDateY: Date;
+    set openDateY(date: Date);
     /**
-     * @return Category
+     * @return Date
      */
+    get openDateY(): Date;
     /**
      * Item's open category on X category axis.
      *
      * @param category  Category
      */
-    openCategoryX: string;
+    set openCategoryX(category: string);
     /**
      * @return Category
      */
+    get openCategoryX(): string;
     /**
      * Item's open category on Y category axis.
      *
      * @param category  Category
      */
-    openCategoryY: string;
+    set openCategoryY(category: string);
+    /**
+     * @return Category
+     */
+    get openCategoryY(): string;
     /**
      * Return smallest value out of all item's value fields.
      *
@@ -783,28 +796,27 @@ export declare class XYSeries extends Series {
      */
     validate(): void;
     /**
-     * @return Axis
-     */
-    /**
      * X axis the series is attached to.
      *
      * @param axis  Axis
      */
-    xAxis: Axis;
+    set xAxis(axis: Axis);
     protected setXAxis(axis: Axis): void;
     /**
      * @return Axis
      */
+    get xAxis(): Axis;
     /**
      * Y axis the series is attached to.
      *
      * @param axis  Axis
      */
-    yAxis: Axis;
+    set yAxis(axis: Axis);
     protected setYAxis(axis: Axis): void;
     /**
      * @return Axis
      */
+    get yAxis(): Axis;
     /**
      * The main (base) axis.
      *
@@ -813,7 +825,11 @@ export declare class XYSeries extends Series {
      *
      * @param value  Axis
      */
-    baseAxis: Axis;
+    set baseAxis(value: Axis);
+    /**
+     * @return Axis
+     */
+    get baseAxis(): Axis;
     /**
      * Makes the chart use particular data set.
      *
@@ -890,9 +906,6 @@ export declare class XYSeries extends Series {
      */
     updateStacking(): void;
     /**
-     * @return Can be stacked?
-     */
-    /**
      * Can items from this series be included into stacks?
      *
      * Note: proper stacking is only possible if series have the same number
@@ -902,10 +915,11 @@ export declare class XYSeries extends Series {
      * @default false
      * @param stacked  Can be stacked?
      */
-    stacked: boolean;
+    set stacked(stacked: boolean);
     /**
-     * @return Should snap?
+     * @return Can be stacked?
      */
+    get stacked(): boolean;
     /**
      * Should the nearest tooltip be shown if no data item is found on the
      * current cursor position? In order this to work, you should set snapTooltip = false on the series baseAxis.
@@ -913,7 +927,11 @@ export declare class XYSeries extends Series {
      * @default false
      * @param value  Should snap?
      */
-    snapTooltip: boolean;
+    set snapTooltip(value: boolean);
+    /**
+     * @return Should snap?
+     */
+    get snapTooltip(): boolean;
     /**
      * Shows hidden series.
      *
@@ -949,7 +967,7 @@ export declare class XYSeries extends Series {
      * @todo Description
      * @return [description]
      */
-    readonly xField: string;
+    get xField(): string;
     /**
      * [yField description]
      *
@@ -957,7 +975,7 @@ export declare class XYSeries extends Series {
      * @todo Description
      * @return [description]
      */
-    readonly yField: string;
+    get yField(): string;
     /**
      * [xOpenField description]
      *
@@ -965,7 +983,7 @@ export declare class XYSeries extends Series {
      * @todo Description
      * @return [description]
      */
-    readonly xOpenField: string;
+    get xOpenField(): string;
     /**
      * [yOpenField description]
      *
@@ -973,12 +991,7 @@ export declare class XYSeries extends Series {
      * @todo Description
      * @return [description]
      */
-    readonly yOpenField: string;
-    /**
-     * @ignore Exclude from docs
-     * @todo Description
-     * @return [description]
-     */
+    get yOpenField(): string;
     /**
      * [tooltipXField description]
      *
@@ -986,12 +999,13 @@ export declare class XYSeries extends Series {
      * @todo Description
      * @param value [description]
      */
-    tooltipXField: string;
+    set tooltipXField(value: string);
     /**
      * @ignore Exclude from docs
      * @todo Description
      * @return [description]
      */
+    get tooltipXField(): string;
     /**
      * [tooltipYField description]
      *
@@ -999,7 +1013,13 @@ export declare class XYSeries extends Series {
      * @todo Description
      * @param value [description]
      */
-    tooltipYField: string;
+    set tooltipYField(value: string);
+    /**
+     * @ignore Exclude from docs
+     * @todo Description
+     * @return [description]
+     */
+    get tooltipYField(): string;
     /**
      * Returns lowest value in the series for the specific axis.
      *
@@ -1061,9 +1081,6 @@ export declare class XYSeries extends Series {
      */
     protected updateItemReaderText(): void;
     /**
-     * @return Display tooltip?
-     */
-    /**
      * Indicates if series should display a tooltip for chart's cursor.
      *
      * If set to `true` (default), the tooltips set for all series item's
@@ -1077,10 +1094,11 @@ export declare class XYSeries extends Series {
      * @default true
      * @param value Display tooltip?
      */
-    cursorTooltipEnabled: boolean;
+    set cursorTooltipEnabled(value: boolean);
     /**
-     * @return Hover enabled?
+     * @return Display tooltip?
      */
+    get cursorTooltipEnabled(): boolean;
     /**
      * Indicates if series should apply hover state on bullets/columns/etc when
      * cursor is over the data item.
@@ -1093,10 +1111,11 @@ export declare class XYSeries extends Series {
      * @since 4.2.2
      * @param  value  Hover enabled?
      */
-    cursorHoverEnabled: boolean;
+    set cursorHoverEnabled(value: boolean);
     /**
-     * @return Exclude from totals?
+     * @return Hover enabled?
      */
+    get cursorHoverEnabled(): boolean;
     /**
      * Indicates if series' values should be excluded when calculating totals.
      *
@@ -1104,10 +1123,11 @@ export declare class XYSeries extends Series {
      * @since 4.4.9
      * @param  value  Exclude from totals?
      */
-    excludeFromTotal: boolean;
+    set excludeFromTotal(value: boolean);
     /**
-     * @return Hide tooltip while zooming?
+     * @return Exclude from totals?
      */
+    get excludeFromTotal(): boolean;
     /**
      * Indicates if series' tooltip should be hidden while series axis range is
      * animating (zooming).
@@ -1116,10 +1136,11 @@ export declare class XYSeries extends Series {
      * @since 4.7.16
      * @param  value  Hide tooltip while zooming?
      */
-    hideTooltipWhileZooming: boolean;
+    set hideTooltipWhileZooming(value: boolean);
     /**
-     * @return Mask bullets?
+     * @return Hide tooltip while zooming?
      */
+    get hideTooltipWhileZooming(): boolean;
     /**
      * Indicates if series' bullets should be masked.
      *
@@ -1127,5 +1148,9 @@ export declare class XYSeries extends Series {
      * @since 4.7.17
      * @param  value  Mask bullets?
      */
-    maskBullets: boolean;
+    set maskBullets(value: boolean);
+    /**
+     * @return Mask bullets?
+     */
+    get maskBullets(): boolean;
 }

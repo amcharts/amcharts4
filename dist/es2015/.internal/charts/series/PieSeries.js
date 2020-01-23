@@ -1,7 +1,7 @@
 /**
  * Defines Pie Chart Series.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +30,7 @@ import { Percent, percent } from "../../core/utils/Percent";
  * @see {@link DataItem}
  */
 var PieSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(PieSeriesDataItem, _super);
+    __extends(PieSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -98,7 +98,7 @@ export { PieSeriesDataItem };
  * @important
  */
 var PieSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(PieSeries, _super);
+    __extends(PieSeries, _super);
     /**
      * Constructor
      */

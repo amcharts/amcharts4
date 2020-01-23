@@ -78,7 +78,8 @@ export declare class Resize extends Container {
      * Constructor
      */
     constructor();
-    sprite: Optional<Sprite>;
+    set sprite(sprite: Optional<Sprite>);
+    get sprite(): Optional<Sprite>;
     updatePosition(): void;
     protected handleStartResize(): void;
     protected handleGrips(event: AMEvent<Sprite, ISpriteEvents>["drag"]): void;

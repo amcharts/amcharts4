@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -48,7 +48,7 @@ export { Disposer };
  * @ignore Exclude from docs
  */
 var MultiDisposer = /** @class */ (function (_super) {
-    tslib_1.__extends(MultiDisposer, _super);
+    __extends(MultiDisposer, _super);
     function MultiDisposer(disposers) {
         return _super.call(this, function () {
             $array.each(disposers, function (x) {
@@ -69,7 +69,7 @@ export { MultiDisposer };
  * @todo Description
  */
 var MutableValueDisposer = /** @class */ (function (_super) {
-    tslib_1.__extends(MutableValueDisposer, _super);
+    __extends(MutableValueDisposer, _super);
     /**
      * Constructor.
      */
@@ -117,7 +117,7 @@ export { MutableValueDisposer };
  * @todo Description
  */
 var CounterDisposer = /** @class */ (function (_super) {
-    tslib_1.__extends(CounterDisposer, _super);
+    __extends(CounterDisposer, _super);
     function CounterDisposer() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         /**

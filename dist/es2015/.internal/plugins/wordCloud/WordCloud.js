@@ -1,7 +1,7 @@
 /**
  * WordCloud chart module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -23,7 +23,7 @@ import { registry } from "../../core/Registry";
  * @see {@link DataItem}
  */
 var WordCloudDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(WordCloudDataItem, _super);
+    __extends(WordCloudDataItem, _super);
     /**
      * Constructor
      */
@@ -50,7 +50,7 @@ export { WordCloudDataItem };
  * @see {@link https://www.amcharts.com/docs/v4/chart-types/wordcloud/} for documentation
  */
 var WordCloud = /** @class */ (function (_super) {
-    tslib_1.__extends(WordCloud, _super);
+    __extends(WordCloud, _super);
     /**
      * Constructor
      */

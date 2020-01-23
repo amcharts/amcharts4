@@ -2,7 +2,7 @@
  * Line series segment module.
  * @todo Add description about what this is
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import * as $path from "../../core/rendering/Path";
  * @todo Example
  */
 var StepLineSeriesSegment = /** @class */ (function (_super) {
-    tslib_1.__extends(StepLineSeriesSegment, _super);
+    __extends(StepLineSeriesSegment, _super);
     /**
      * Constructor
      */

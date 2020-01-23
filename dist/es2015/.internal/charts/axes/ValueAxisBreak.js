@@ -1,7 +1,7 @@
 /**
  * A module which defines functionality related to Value Axis Break.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import { registry } from "../../core/Registry";
  * @important
  */
 var ValueAxisBreak = /** @class */ (function (_super) {
-    tslib_1.__extends(ValueAxisBreak, _super);
+    __extends(ValueAxisBreak, _super);
     /**
      * Constructor
      */

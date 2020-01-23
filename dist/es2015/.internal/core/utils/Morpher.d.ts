@@ -139,18 +139,19 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      */
     morphToRectangle(width?: number, height?: number, duration?: number, easing?: (value: number) => number): Animation;
     /**
-     * Returns the progress of morph transition.
-     *
-     * @return Progress (0-1)
-     */
-    /**
      * Progress of the morph transition.
      *
      * Setting this will also trigger actual transformation.
      *
      * @param value  Progress (0-1)
      */
-    morphProgress: $type.Optional<number>;
+    set morphProgress(value: $type.Optional<number>);
+    /**
+     * Returns the progress of morph transition.
+     *
+     * @return Progress (0-1)
+     */
+    get morphProgress(): $type.Optional<number>;
     /**
      * Restores the polygon to its original appearance.
      *
@@ -164,5 +165,5 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      *
      * @return List of animations
      */
-    readonly animations: Array<Animation>;
+    get animations(): Array<Animation>;
 }

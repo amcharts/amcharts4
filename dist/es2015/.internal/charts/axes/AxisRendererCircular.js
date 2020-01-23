@@ -1,7 +1,7 @@
 /**
  * Module, defining Axis Renderer for circular axes.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import { AxisBullet } from "./AxisBullet";
  * A renderer for circular axis.
  */
 var AxisRendererCircular = /** @class */ (function (_super) {
-    tslib_1.__extends(AxisRendererCircular, _super);
+    __extends(AxisRendererCircular, _super);
     /**
      * Constructor.
      *

@@ -1,3 +1,6 @@
+/**
+ * Functionality related simulating of dragging of elements using keyboard.
+ */
 import { InteractionObject } from "./InteractionObject";
 import { IAnimationObject } from "../utils/Animation";
 import { IDisposer } from "../utils/Disposer";

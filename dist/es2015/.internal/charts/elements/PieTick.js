@@ -1,7 +1,7 @@
 /**
  * Pie tick module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -24,7 +24,7 @@ import { registry } from "../../core/Registry";
  * @see {@link IPieTickAdapters} for a list of available Adapters
  */
 var PieTick = /** @class */ (function (_super) {
-    tslib_1.__extends(PieTick, _super);
+    __extends(PieTick, _super);
     /**
      * Constructor
      */

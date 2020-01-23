@@ -202,9 +202,6 @@ export declare class RadarChart extends XYChart {
      */
     protected createSeries(): this["_seriesType"];
     /**
-     * @return Start angle (degrees)
-     */
-    /**
      * Starting angle of the Radar face. (degrees)
      *
      * Normally, a circular radar face begins (the radial axis is drawn) at the
@@ -227,10 +224,11 @@ export declare class RadarChart extends XYChart {
      * @default -90
      * @param value  Start angle (degrees)
      */
-    startAngle: number;
+    set startAngle(value: number);
     /**
-     * @return End angle (degrees)
+     * @return Start angle (degrees)
      */
+    get startAngle(): number;
     /**
      * Starting angle of the Radar face. (degrees)
      *
@@ -254,10 +252,11 @@ export declare class RadarChart extends XYChart {
      * @default -90
      * @param value  End angle (degrees)
      */
-    endAngle: number;
+    set endAngle(value: number);
     /**
-     * @return Outer radius
+     * @return End angle (degrees)
      */
+    get endAngle(): number;
     /**
      * Outer radius of the Radar face.
      *
@@ -265,14 +264,15 @@ export declare class RadarChart extends XYChart {
      *
      * @param value  Outer radius
      */
-    radius: number | Percent;
+    set radius(value: number | Percent);
+    /**
+     * @return Outer radius
+     */
+    get radius(): number | Percent;
     /**
      * @return Inner radius in pixels
      */
-    readonly pixelInnerRadius: number;
-    /**
-     * @return Inner radius
-     */
+    get pixelInnerRadius(): number;
     /**
      * Inner radius of the radar face.
      *
@@ -282,7 +282,11 @@ export declare class RadarChart extends XYChart {
      *
      * @param value Inner radius
      */
-    innerRadius: number | Percent;
+    set innerRadius(value: number | Percent);
+    /**
+     * @return Inner radius
+     */
+    get innerRadius(): number | Percent;
     /**
      * Triggers (re)rendering of the horizontal (X) axis.
      *

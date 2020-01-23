@@ -1,7 +1,7 @@
 /**
  * Module for a multi-part arched line.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -25,7 +25,7 @@ import * as $path from "../../core/rendering/Path";
  * @see {@link IPolyarcAdapters} for a list of available Adapters
  */
 var Polyarc = /** @class */ (function (_super) {
-    tslib_1.__extends(Polyarc, _super);
+    __extends(Polyarc, _super);
     /**
      * Constructor
      */

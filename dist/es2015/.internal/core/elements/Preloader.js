@@ -3,7 +3,7 @@
  *
  * Preloader is a progress indicator.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import { percent } from "../../core/utils/Percent";
  * @see {@link IPreloaderAdapters} for a list of available Adapters
  */
 var Preloader = /** @class */ (function (_super) {
-    tslib_1.__extends(Preloader, _super);
+    __extends(Preloader, _super);
     /**
      * Constructor
      */

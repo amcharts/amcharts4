@@ -1074,12 +1074,16 @@ export class TreeMap extends XYChart {
 	}
 
 	/**
-	 * Zooms to particular item.
+	 * Zooms to particular item. If dataItem is not specified, the chart will zoom-out.
 	 *
 	 * @ignore Exclude from docs
 	 * @param dataItem  Data item
 	 */
-	public zoomToChartDataItem(dataItem: TreeMapDataItem): void {
+	public zoomToChartDataItem(dataItem?: TreeMapDataItem): void {
+		if(!dataItem){
+			dataItem = this._homeDataItem;
+		}
+
 		let zoomOutButton = this.zoomOutButton;
 		// this is needed because if there is only one fist level, it wont' be shown
 		if (zoomOutButton) {
@@ -1609,6 +1613,14 @@ export class TreeMap extends XYChart {
 		}
 	}
 
+	/**
+	 * A data item associated with top node.
+	 * 
+	 * @since 4.8.2
+	 */
+	public get homeDataItem():TreeMapDataItem {
+		return this._homeDataItem;
+	}
 
 	/**
 	 * Setups the legend to use the chart's data.

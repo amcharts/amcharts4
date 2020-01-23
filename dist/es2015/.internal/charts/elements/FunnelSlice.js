@@ -1,7 +1,7 @@
 /**
  * Module that defines everything related to building Funnel slices.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import * as $path from "../../core/rendering/Path";
  * @important
  */
 var FunnelSlice = /** @class */ (function (_super) {
-    tslib_1.__extends(FunnelSlice, _super);
+    __extends(FunnelSlice, _super);
     /**
      * Constructor
      */

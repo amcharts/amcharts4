@@ -334,27 +334,29 @@ export declare class Container extends Sprite {
      *
      * @return List of child elements (Sprites)
      */
-    readonly children: List<Sprite>;
-    /**
-     * @return Width (px)
-     */
+    get children(): List<Sprite>;
     /**
      * Minimum width (px) for the Container. A container will not
      * auto-shrink beyond this value, even if child elements are smaller.
      *
      * @param value  Width (px)
      */
-    minWidth: Optional<number>;
+    set minWidth(value: Optional<number>);
     /**
-     * @return Height (px)
+     * @return Width (px)
      */
+    get minWidth(): Optional<number>;
     /**
      * Minimum height (px) for the Container. A container will not
      * auto-shrink beyond this value, even if child elements are smaller.
      *
      * @param value  Height (px)
      */
-    minHeight: Optional<number>;
+    set minHeight(value: Optional<number>);
+    /**
+     * @return Height (px)
+     */
+    get minHeight(): Optional<number>;
     /**
      * Overrides the original `removeElement` so that Container's actual element
      * is not removed. We do not need to remove element of a Container.
@@ -409,14 +411,11 @@ export declare class Container extends Sprite {
      */
     disposeChildren(): void;
     /**
-     * @return Background element
-     */
-    /**
      * An element to use as container background.
      *
      * @param background  Background element
      */
-    background: this["_background"];
+    set background(background: this["_background"]);
     /**
      * Handles the situation where parent element is resized.
      *
@@ -430,6 +429,10 @@ export declare class Container extends Sprite {
      * @return Background Rectangle element
      */
     createBackground(): this["_background"];
+    /**
+     * @return Background element
+     */
+    get background(): this["_background"];
     /**
      * Decorates background element with required properties.
      *
@@ -475,9 +478,6 @@ export declare class Container extends Sprite {
      */
     getColumnWidth(children: Sprite[], columnCount: number, maxCellWidth: number): number[];
     /**
-     * @return Layout
-     */
-    /**
      * Container layout.
      *
      * Options: "absolute" (default), "vertical", "horizontal", "grid", "none". "none" is quite the same as "absolute" - the objects will
@@ -487,10 +487,11 @@ export declare class Container extends Sprite {
      * @default "absolute"
      * @param value Layout
      */
-    layout: ContainerLayout;
+    set layout(value: ContainerLayout);
     /**
-     * @return Vertical alignment
+     * @return Layout
      */
+    get layout(): ContainerLayout;
     /**
      * Vertical alignment of the elements for the vertical Container.
      *
@@ -498,10 +499,11 @@ export declare class Container extends Sprite {
      *
      * @param value vertical alignment
      */
-    contentValign: VerticalAlign;
+    set contentValign(value: VerticalAlign);
     /**
-     * @return Horizontal alignment
+     * @return Vertical alignment
      */
+    get contentValign(): VerticalAlign;
     /**
      * Horizontal alignment of the elements for the horizontal Container.
      *
@@ -509,10 +511,11 @@ export declare class Container extends Sprite {
      *
      * @param value  Horizontal alignment
      */
-    contentAlign: Align;
+    set contentAlign(value: Align);
     /**
-     * @return Should use fixed width grid?
+     * @return Horizontal alignment
      */
+    get contentAlign(): Align;
     /**
      * Controls if the grid of the Container should use fixed width. Fixed width
      * grid will divide available space to all its columns/rows equally, without
@@ -521,19 +524,21 @@ export declare class Container extends Sprite {
      * @default false
      * @param value  Should use fixed width grid?
      */
-    fixedWidthGrid: boolean;
+    set fixedWidthGrid(value: boolean);
     /**
      * @return Should use fixed width grid?
      */
+    get fixedWidthGrid(): boolean;
     /**
      * Maximum number of columns (when using `"grid"` layout).
      *
      * @param value  Should use fixed width grid?
      */
-    maxColumns: Optional<number>;
+    set maxColumns(value: Optional<number>);
     /**
-     * @return Reverse children?
+     * @return Should use fixed width grid?
      */
+    get maxColumns(): Optional<number>;
     /**
      * If set to `true`, the children of the container will be drawn in reverse
      * order.
@@ -541,10 +546,11 @@ export declare class Container extends Sprite {
      * @default false
      * @param value  Reverse children?
      */
-    reverseOrder: Optional<boolean>;
+    set reverseOrder(value: Optional<boolean>);
     /**
-     * @return Set state on children
+     * @return Reverse children?
      */
+    get reverseOrder(): Optional<boolean>;
     /**
      * Specifies if, when state is applied on this container, the same state
      * should be applied to container's children as well as `background`.
@@ -552,7 +558,11 @@ export declare class Container extends Sprite {
      * @default false
      * @param value  Set state on children
      */
-    setStateOnChildren: boolean;
+    set setStateOnChildren(value: boolean);
+    /**
+     * @return Set state on children
+     */
+    get setStateOnChildren(): boolean;
     /**
      * Checks if point is within bounds of a container.
      *
@@ -568,14 +578,15 @@ export declare class Container extends Sprite {
      */
     copyFrom(source: this): void;
     /**
-     * @return Preloader instance
-     */
-    /**
      * A [[Preloader]] instance to be used when Container is busy.
      *
      * @param preloader  Preloader instance
      */
-    preloader: $type.Optional<Preloader>;
+    set preloader(preloader: $type.Optional<Preloader>);
+    /**
+     * @return Preloader instance
+     */
+    get preloader(): $type.Optional<Preloader>;
     /**
      * Sets [[Paper]] instance to use to draw elements.
      * @ignore
@@ -603,19 +614,17 @@ export declare class Container extends Sprite {
      */
     measureElement(): void;
     /**
-     * @return Font family
-     */
-    /**
      * Font family to be used for the text.
      *
      * Parts of the text may override this setting using in-line formatting.
      *
      * @param value Font family value
      */
-    fontFamily: string;
+    set fontFamily(value: string);
     /**
-     * @return Font size
+     * @return Font family
      */
+    get fontFamily(): string;
     /**
      * Font size to be used for the text. The size can either be numeric, in
      * pixels, or other measurements.
@@ -624,14 +633,15 @@ export declare class Container extends Sprite {
      *
      * @param value Font size value
      */
-    fontSize: any;
+    set fontSize(value: any);
+    /**
+     * @return Font size
+     */
+    get fontSize(): any;
     /**
      * When fontSize of fontFamily changes we need to hard-invalidate all Labels of this container to position them properly.
      */
     invalidateLabels(): void;
-    /**
-     * @return Font weight
-     */
     /**
      * Font weight to use for text.
      *
@@ -639,10 +649,11 @@ export declare class Container extends Sprite {
      *
      * @param value Font weight
      */
-    fontWeight: FontWeight;
+    set fontWeight(value: FontWeight);
     /**
-     * @return Decoration
+     * @return Font weight
      */
+    get fontWeight(): FontWeight;
     /**
      * A text decoration to use for text.
      *
@@ -650,7 +661,11 @@ export declare class Container extends Sprite {
      *
      * @param value  Decoration
      */
-    textDecoration: TextDecoration;
+    set textDecoration(value: TextDecoration);
+    /**
+     * @return Decoration
+     */
+    get textDecoration(): TextDecoration;
     /**
      * Disposes (destroys) the element and all its children.
      */
@@ -695,9 +710,6 @@ export declare class Container extends Sprite {
      */
     _systemValidateLayouts(): void;
     /**
-     * @return Enable touch protection?
-     */
-    /**
      * If set to `true` the chart's regular touch functionality will be suspended
      * so that the whole page it is located in remains scrollable, even when
      * swiping over the chart's body.
@@ -714,7 +726,11 @@ export declare class Container extends Sprite {
      * @param  value  Enable touch protection?
      * @see {@link https://www.amcharts.com/docs/v4/concepts/touch/} For more information.
      */
-    tapToActivate: boolean;
+    set tapToActivate(value: boolean);
+    /**
+     * @return Enable touch protection?
+     */
+    get tapToActivate(): boolean;
     protected setTapToActivate(value: boolean): void;
     /**
      * @todo Ignore on non-touch events

@@ -224,9 +224,6 @@ export declare class PieChart extends PercentChart {
      */
     updateRadius(): void;
     /**
-     * @return Radius (px or relative)
-     */
-    /**
      * Sets radius of the pie chart.
      *
      * Setting to a number will mean a fixed pixel radius.
@@ -254,10 +251,11 @@ export declare class PieChart extends PercentChart {
      * @default 80%
      * @param value  Radius (px or relative)
      */
-    radius: number | Percent;
+    set radius(value: number | Percent);
     /**
-     * @return Relative inner radius (0-1)
+     * @return Radius (px or relative)
      */
+    get radius(): number | Percent;
     /**
      * Sets relative inner radius (to create a donut chart).
      *
@@ -289,16 +287,17 @@ export declare class PieChart extends PercentChart {
      * @param value  Relative inner radius (0-1)
      * @todo Setting things like `innerRadius` modifies `slice.radius` and it then looks like it is not the same value as in default state
      */
-    innerRadius: number | Percent;
+    set innerRadius(value: number | Percent);
+    /**
+     * @return Relative inner radius (0-1)
+     */
+    get innerRadius(): number | Percent;
     /**
      * Creates a new [[PieSeries]].
      *
      * @return New series
      */
     protected createSeries(): this["_seriesType"];
-    /**
-     * @return Start angle (degrees)
-     */
     /**
      * Starting angle of the Pie circle. (degrees)
      *
@@ -323,10 +322,11 @@ export declare class PieChart extends PercentChart {
      * @default -90
      * @param value  Start angle (degrees)
      */
-    startAngle: number;
+    set startAngle(value: number);
     /**
-     * @return End angle (degrees)
+     * @return Start angle (degrees)
      */
+    get startAngle(): number;
     /**
      * End angle of the Pie circle. (degrees)
      *
@@ -349,5 +349,9 @@ export declare class PieChart extends PercentChart {
      * @default 270
      * @param value  End angle (degrees)
      */
-    endAngle: number;
+    set endAngle(value: number);
+    /**
+     * @return End angle (degrees)
+     */
+    get endAngle(): number;
 }

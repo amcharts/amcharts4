@@ -1,7 +1,7 @@
 /**
  * Contains code and logic for generating linear gradients.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -25,7 +25,7 @@ import * as $type from "../../utils/Type";
  * Linear gradient class.
  */
 var LinearGradient = /** @class */ (function (_super) {
-    tslib_1.__extends(LinearGradient, _super);
+    __extends(LinearGradient, _super);
     /**
      * Constructor.
      */

@@ -1,7 +1,7 @@
 /**
  * Grip module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -28,7 +28,7 @@ import * as $path from "../rendering/Path";
  * @since 4.4.0
  */
 var Grip = /** @class */ (function (_super) {
-    tslib_1.__extends(Grip, _super);
+    __extends(Grip, _super);
     /**
      * Constructor
      */

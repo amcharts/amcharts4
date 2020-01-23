@@ -1,7 +1,7 @@
 /**
  * ChordNode module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -36,7 +36,7 @@ import { Bullet } from "../elements/Bullet";
  * @important
  */
 var ChordNode = /** @class */ (function (_super) {
-    tslib_1.__extends(ChordNode, _super);
+    __extends(ChordNode, _super);
     /**
      * Constructor
      */

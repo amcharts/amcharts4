@@ -49,12 +49,13 @@ export declare class CirclePattern extends Pattern {
      */
     protected draw(): void;
     /**
-     * @return Radius (px)
-     */
-    /**
      * Circle radius in pixels.
      *
      * @param value Radius (px)
      */
-    radius: number;
+    set radius(value: number);
+    /**
+     * @return Radius (px)
+     */
+    get radius(): number;
 }

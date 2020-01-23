@@ -1,7 +1,7 @@
 /**
  * Cursor module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -34,7 +34,7 @@ import { system } from "../../core/System";
  * @todo Should we allow changing `_generalBehavior`?
  */
 var Cursor = /** @class */ (function (_super) {
-    tslib_1.__extends(Cursor, _super);
+    __extends(Cursor, _super);
     /**
      * Constructor
      */

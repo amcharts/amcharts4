@@ -1,7 +1,7 @@
 /**
  * Defines Percent Chart Series.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -35,7 +35,7 @@ import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive
  * @see {@link DataItem}
  */
 var PercentSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(PercentSeriesDataItem, _super);
+    __extends(PercentSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -290,7 +290,7 @@ export { PercentSeriesDataItem };
  * @see {@link IPercentSeriesAdapters} for a list of available Adapters
  */
 var PercentSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(PercentSeries, _super);
+    __extends(PercentSeries, _super);
     /**
      * Constructor
      */

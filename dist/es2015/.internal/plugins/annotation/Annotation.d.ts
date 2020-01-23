@@ -173,13 +173,13 @@ export declare class Annotation extends Plugin {
      * Returns an instance of Fabric's `Canvas`.
      * @return Canvas
      */
-    readonly fabric: fabric.Canvas;
+    get fabric(): fabric.Canvas;
     /**
      * A `<g>` that holds SVG representation of the annotations in chart overlay.
      *
      * @return  Group element
      */
-    readonly group: SVGGElement;
+    get group(): SVGGElement;
     /**
      * Activates annotation mode.
      */
@@ -193,10 +193,7 @@ export declare class Annotation extends Plugin {
      *
      * @todo Set contents properly (not use innerHTML)
      */
-    private updateSVG();
-    /**
-     * @return Active?
-     */
+    private updateSVG;
     /**
      * Seting to `true` puts the chart in annotation mode.
      *
@@ -205,126 +202,141 @@ export declare class Annotation extends Plugin {
      * @default false
      * @param  value  Active?
      */
-    active: boolean;
+    set active(value: boolean);
     /**
-     * @return Color
+     * @return Active?
      */
+    get active(): boolean;
     /**
      * Currently selected color.
      *
      * @default #000
      * @param  value  Color
      */
-    currentColor: Color;
+    set currentColor(value: Color);
     /**
-     * @return Colors
+     * @return Color
      */
+    get currentColor(): Color;
     /**
      * List of colors to show in selection.
      *
      * @param  value  Colors
      */
-    colors: Array<Color>;
+    set colors(value: Array<Color>);
     /**
-     * @return Width
+     * @return Colors
      */
+    get colors(): Array<Color>;
     /**
      * Currently selected width.
      *
      * @default 1
      * @param  value  Width
      */
-    currentWidth: number;
+    set currentWidth(value: number);
     /**
-     * @return Widths
+     * @return Width
      */
+    get currentWidth(): number;
     /**
      * List of widths in pixels for line and free-draw tool.
      *
      * @param  value  Widths
      */
-    widths: Array<number>;
+    set widths(value: Array<number>);
     /**
-     * @return Opacity
+     * @return Widths
      */
+    get widths(): Array<number>;
     /**
      * Currently selected opacity.
      *
      * @default 1
      * @param  value  Opacity
      */
-    currentOpacity: number;
+    set currentOpacity(value: number);
     /**
-     * @return Opacities
+     * @return Opacity
      */
+    get currentOpacity(): number;
     /**
      * List of opacities available for selection.
      *
      * @param  value  Opacities
      */
-    opacities: Array<number>;
+    set opacities(value: Array<number>);
     /**
-     * @return Font size
+     * @return Opacities
      */
+    get opacities(): Array<number>;
     /**
      * Currently selected font size.
      *
      * @default 10
      * @param  value  Font size
      */
-    currentFontSize: number;
+    set currentFontSize(value: number);
     /**
-     * @return Font sizes
+     * @return Font size
      */
+    get currentFontSize(): number;
     /**
      * List of available font sizes.
      *
      * @param  value  Font sizes
      */
-    fontSizes: Array<number>;
+    set fontSizes(value: Array<number>);
     /**
-     * @return Font weight
+     * @return Font sizes
      */
+    get fontSizes(): Array<number>;
     /**
      * Currently selected font weight.
      *
      * @default 400
      * @param  value  Font weight
      */
-    currentFontWeight: number;
+    set currentFontWeight(value: number);
     /**
-     * @return Font weights
+     * @return Font weight
      */
+    get currentFontWeight(): number;
     /**
      * List of available font weights.
      *
      * @param  value  Font weights
      */
-    fontWeights: Array<number>;
+    set fontWeights(value: Array<number>);
     /**
-     * @return Tool
+     * @return Font weights
      */
+    get fontWeights(): Array<number>;
     /**
      * Currently selected tool.
      *
      * @default select
      * @param  value  Tool
      */
-    currentTool: string;
+    set currentTool(value: string);
+    /**
+     * @return Tool
+     */
+    get currentTool(): string;
     /**
      * Initiates tool.
      */
-    private updateTool();
+    private updateTool;
     /**
      * Updates currently selected tool/color indicator.
      */
-    private updateIndicator();
+    private updateIndicator;
     /**
      * Current tool/color indicator element.
      *
      * @return  Indicator
      */
-    readonly indicator: HTMLElement;
+    get indicator(): HTMLElement;
     /**
      * Sets color.
      *
@@ -405,18 +417,16 @@ export declare class Annotation extends Plugin {
      */
     deleteSelected(): void;
     /**
-     * @return Data
-     */
-    /**
      * Set or get annotation data.
      *
      * @since 4.5.6
      * @param  value  Data
      */
-    data: any;
+    set data(value: any);
     /**
-     * @return Use menu?
+     * @return Data
      */
+    get data(): any;
     /**
      * If set to `false` the plugin will not create own menu nor will add its
      * items to existing Export menu.
@@ -427,13 +437,17 @@ export declare class Annotation extends Plugin {
      * @default true
      * @param  value  Use menu?
      */
-    useMenu: boolean;
+    set useMenu(value: boolean);
+    /**
+     * @return Use menu?
+     */
+    get useMenu(): boolean;
     /**
      * Loads data onto canvas.
      */
-    private loadData();
+    private loadData;
     /**
      * Resizes annotation as per trget chart size.
      */
-    private sizeAnnotations();
+    private sizeAnnotations;
 }

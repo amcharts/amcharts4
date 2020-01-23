@@ -1,7 +1,7 @@
 /**
  * ChordLink module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { FlowDiagramLink } from "./FlowDiagramLink";
 import { registry } from "../../core/Registry";
 import { QuadraticCurve } from "../../core/elements/QuadraticCurve";
@@ -22,7 +22,7 @@ import * as $path from "../../core/rendering/Path";
  * @important
  */
 var ChordLink = /** @class */ (function (_super) {
-    tslib_1.__extends(ChordLink, _super);
+    __extends(ChordLink, _super);
     /**
      * Constructor
      */

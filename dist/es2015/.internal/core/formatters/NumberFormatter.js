@@ -1,7 +1,7 @@
 /**
  * Number formatting-related functionality.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Language } from "../utils/Language";
 import { BaseObject } from "../Base";
 import { getTextFormatter } from "../formatters/TextFormatter";
@@ -16,7 +16,7 @@ import * as $type from "../utils/Type";
  * @todo Apply translations to suffixes/prefixes
  */
 var NumberFormatter = /** @class */ (function (_super) {
-    tslib_1.__extends(NumberFormatter, _super);
+    __extends(NumberFormatter, _super);
     /**
      * Constructor
      */

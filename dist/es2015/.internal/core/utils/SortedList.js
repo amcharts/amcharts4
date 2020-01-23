@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends, __generator } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -274,7 +274,7 @@ var OrderedList = /** @class */ (function () {
      */
     OrderedList.prototype[Symbol.iterator] = function () {
         var length, i;
-        return tslib_1.__generator(this, function (_a) {
+        return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     length = this._values.length;
@@ -308,7 +308,7 @@ export { OrderedList };
  * [[SortedList]].
  */
 var SortedList = /** @class */ (function (_super) {
-    tslib_1.__extends(SortedList, _super);
+    __extends(SortedList, _super);
     /**
      * Constructor.
      *
@@ -382,7 +382,7 @@ export { SortedList };
  * other attributes), inserted into the list and returned.
  */
 var OrderedListTemplate = /** @class */ (function (_super) {
-    tslib_1.__extends(OrderedListTemplate, _super);
+    __extends(OrderedListTemplate, _super);
     /**
      * Constructor
      *
@@ -458,7 +458,7 @@ export { OrderedListTemplate };
  * other attributes), inserted into the list and returned.
  */
 var SortedListTemplate = /** @class */ (function (_super) {
-    tslib_1.__extends(SortedListTemplate, _super);
+    __extends(SortedListTemplate, _super);
     /**
      * Constructor
      *

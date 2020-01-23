@@ -96,50 +96,55 @@ export declare class DropShadowFilter extends Filter {
      */
     constructor();
     /**
-     * @return Color
-     */
-    /**
      * Shadow color.
      *
      * @param value  Color
      */
-    color: Color;
+    set color(value: Color);
     /**
-     * @return Opacity (0-1)
+     * @return Color
      */
+    get color(): Color;
     /**
      * Opacity of the shadow. (0-1)
      *
      * @param value  Opacity (0-1)
      */
-    opacity: number;
+    set opacity(value: number);
     /**
-     * @return Horizontal offset (px)
+     * @return Opacity (0-1)
      */
+    get opacity(): number;
     /**
      * Horizontal offset in pixels.
      *
      * @param value  Horizontal offset (px)
      */
-    dx: number;
+    set dx(value: number);
     /**
-     * @return Vertical offset (px)
+     * @return Horizontal offset (px)
      */
+    get dx(): number;
     /**
      * Vertical offset in pixels.
      *
      * @param value Vertical offset (px)
      */
-    dy: number;
+    set dy(value: number);
     /**
-     * @return Blur
+     * @return Vertical offset (px)
      */
+    get dy(): number;
     /**
      * Blur.
      *
      * @param value  Blur
      */
-    blur: number;
+    set blur(value: number);
+    /**
+     * @return Blur
+     */
+    get blur(): number;
     /**
      * [updateScale description]
      *

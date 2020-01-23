@@ -286,9 +286,6 @@ export declare class LineSeries extends XYSeries {
         [index: string]: any;
     }, segment: LineSeriesSegment, checkOnly?: boolean): boolean;
     /**
-     * @return Connect?
-     */
-    /**
      * Connect the lines over empty data points?
      *
      * If set to `true` the line will connect two adjacent data points by a
@@ -302,10 +299,11 @@ export declare class LineSeries extends XYSeries {
      * @default true
      * @param value  Connect?
      */
-    connect: boolean;
+    set connect(value: boolean);
     /**
-     * @return Horizontal tension (0-1)
+     * @return Connect?
      */
+    get connect(): boolean;
     /**
      * Horizontal tension setting of the line (0-1).
      *
@@ -327,10 +325,11 @@ export declare class LineSeries extends XYSeries {
      * @default 1
      * @param value  Horizontal tension (0-1)
      */
-    tensionX: number;
+    set tensionX(value: number);
     /**
-     * @return Vertical tension (0-1)
+     * @return Horizontal tension (0-1)
      */
+    get tensionX(): number;
     /**
      * Can be used to create smoothed lines. It works like this:
      *
@@ -352,7 +351,11 @@ export declare class LineSeries extends XYSeries {
      * @default 1
      * @param value  Vertical tension (0-1)
      */
-    tensionY: number;
+    set tensionY(value: number);
+    /**
+     * @return Vertical tension (0-1)
+     */
+    get tensionY(): number;
     /**
      * Creates elements in related legend container, that mimics the look of this
      * Series.
@@ -366,14 +369,15 @@ export declare class LineSeries extends XYSeries {
      */
     disposeData(): void;
     /**
-     * @return Gap count
-     */
-    /**
      * If `connect = false` and distance between two data points is bigger
      * than `baseInterval * autoGapCount`, a line will break automatically.
      *
      * @since 4.2.4
      * @param  value  Gap count
      */
-    autoGapCount: number;
+    set autoGapCount(value: number);
+    /**
+     * @return Gap count
+     */
+    get autoGapCount(): number;
 }

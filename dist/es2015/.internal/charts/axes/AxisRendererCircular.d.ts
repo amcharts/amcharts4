@@ -124,10 +124,7 @@ export declare class AxisRendererCircular extends AxisRenderer {
      *
      * @return Length (px)
      */
-    readonly axisLength: number;
-    /**
-     * @return Outer radius
-     */
+    get axisLength(): number;
     /**
      * Outer radius of the axis.
      *
@@ -135,16 +132,17 @@ export declare class AxisRendererCircular extends AxisRenderer {
      *
      * @param value  Outer radius
      */
-    radius: number | Percent;
+    set radius(value: number | Percent);
+    /**
+     * @return Outer radius
+     */
+    get radius(): number | Percent;
     /**
      * Outer radius in pixels.
      *
      * @return Outer radius (px)
      */
-    readonly pixelRadius: number;
-    /**
-     * @return Inner radius
-     */
+    get pixelRadius(): number;
     /**
      * Inner radius of the axis.
      *
@@ -152,10 +150,11 @@ export declare class AxisRendererCircular extends AxisRenderer {
      *
      * @param value  Inner radius
      */
-    innerRadius: number | Percent;
+    set innerRadius(value: number | Percent);
     /**
-     * @return Use chart angles
+     * @return Inner radius
      */
+    get innerRadius(): number | Percent;
     /**
      * Specifies if axis should use its own `startAngle` and `endAngle` or
      * inherit them from relative properties from chart.
@@ -163,13 +162,17 @@ export declare class AxisRendererCircular extends AxisRenderer {
      * @default false
      * @param value  Use chart's angles
      */
-    useChartAngles: boolean;
+    set useChartAngles(value: boolean);
+    /**
+     * @return Use chart angles
+     */
+    get useChartAngles(): boolean;
     /**
      * Inner radius in pixels.
      *
      * @return Inner radius (px)
      */
-    readonly pixelInnerRadius: number;
+    get pixelInnerRadius(): number;
     /**
      * Converts relative position on axis to point coordinates.
      *
@@ -236,23 +239,25 @@ export declare class AxisRendererCircular extends AxisRenderer {
      */
     fitsToBounds(point: IPoint): boolean;
     /**
-     * @return Start angle
-     */
-    /**
      * Start angle of the axis in degrees (0-360).
      *
      * @param value  Start angle
      */
-    startAngle: number;
+    set startAngle(value: number);
     /**
-     * @return End angle
+     * @return Start angle
      */
+    get startAngle(): number;
     /**
      * End angle of the axis in degrees (0-360).
      *
      * @param value  End angle
      */
-    endAngle: number;
+    set endAngle(value: number);
+    /**
+     * @return End angle
+     */
+    get endAngle(): number;
     /**
      * [getPositionRangePath description]
      *

@@ -1,7 +1,7 @@
 /**
  * Candlestick Series module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link DataItem}
  */
 var CandlestickSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(CandlestickSeriesDataItem, _super);
+    __extends(CandlestickSeriesDataItem, _super);
     /**
      * Defines a type of [[Component]] this data item is used for
      * @todo Disabled to work around TS bug (see if we can re-enable it again)
@@ -178,7 +178,7 @@ export { CandlestickSeriesDataItem };
  * @important
  */
 var CandlestickSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(CandlestickSeries, _super);
+    __extends(CandlestickSeries, _super);
     /**
      * Constructor
      */

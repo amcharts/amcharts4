@@ -2,7 +2,7 @@
  * Line series segment module.
  * @todo Add description about what this is
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -33,7 +33,7 @@ import * as $smoothing from "../../core/rendering/Smoothing";
  * @todo Example
  */
 var LineSeriesSegment = /** @class */ (function (_super) {
-    tslib_1.__extends(LineSeriesSegment, _super);
+    __extends(LineSeriesSegment, _super);
     /**
      * Constructor
      */

@@ -1,6 +1,6 @@
 /**
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -23,7 +23,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link IMapImageAdapters} for a list of available Adapters
  */
 var MapImage = /** @class */ (function (_super) {
-    tslib_1.__extends(MapImage, _super);
+    __extends(MapImage, _super);
     /**
      * Constructor
      */

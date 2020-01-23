@@ -1,7 +1,7 @@
 /**
  * Functionality for drawing Stars.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +30,7 @@ import { percent } from "../../core/utils/Percent";
  * @see {@link IStarAdapters} for a list of available Adapters
  */
 var Star = /** @class */ (function (_super) {
-    tslib_1.__extends(Star, _super);
+    __extends(Star, _super);
     /**
      * Constructor
      */

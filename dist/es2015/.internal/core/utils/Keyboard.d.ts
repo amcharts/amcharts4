@@ -1,4 +1,8 @@
 /**
+ * A collection of keyboard-related utilities accessible via `keyboard`
+ * instance.
+ */
+/**
  * Represents named (usually frequently used) keyboard keys for easy referece.
  */
 export declare type KeyboardKeys = "up" | "down" | "left" | "right" | "enter" | "esc" | "home" | "tab" | "end" | "ctrl" | "alt" | "shift" | "space" | "home" | "end" | "pgup" | "pgdn" | "ins" | "del" | "plus" | "minus" | "other";

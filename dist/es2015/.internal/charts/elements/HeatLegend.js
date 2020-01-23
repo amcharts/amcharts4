@@ -1,7 +1,7 @@
 /**
  * HeatLegend module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -36,7 +36,7 @@ import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
  * @important
  */
 var HeatLegend = /** @class */ (function (_super) {
-    tslib_1.__extends(HeatLegend, _super);
+    __extends(HeatLegend, _super);
     /**
      * Constructor
      */

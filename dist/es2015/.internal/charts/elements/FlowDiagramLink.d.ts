@@ -180,66 +180,71 @@ export declare class FlowDiagramLink extends Container {
     /**
      * Bullets container
      */
-    readonly bulletsContainer: Container;
+    get bulletsContainer(): Container;
     /**
      * Bullets mask sprite
      */
-    readonly bulletsMask: Sprite;
+    get bulletsMask(): Sprite;
     /**
      * Positions bullets at relative bullet.locationX position on the link.
      * @ignore
      */
     protected positionBullet(bullet: Bullet): void;
     /**
-     * @return Start angle
-     */
-    /**
      * [startAngle description]
      *
      * @todo Description
      * @param value  Start angle
      */
-    startAngle: number;
+    set startAngle(value: number);
     /**
-     * @return End angle
+     * @return Start angle
      */
+    get startAngle(): number;
     /**
      * [endAngle description]
      *
      * @todo Description
      * @param value  End angle
      */
-    endAngle: number;
+    set endAngle(value: number);
     /**
-     * Fill mode
+     * @return End angle
      */
+    get endAngle(): number;
     /**
      * Should link be filled with a solid color, color of from node, color of toNode or gradient between node colors.
      * Some of the links, like ChordLink does not support gradiens well.
      *
      * @param value  Fill mode
      */
-    colorMode: "solid" | "gradient" | "fromNode" | "toNode";
+    set colorMode(value: "solid" | "gradient" | "fromNode" | "toNode");
     /**
-     * @return mask bullets value
+     * Fill mode
      */
+    get colorMode(): "solid" | "gradient" | "fromNode" | "toNode";
     /**
      * Should link bullets be masked or not
      *
      * @param value
      * @default false
      */
-    maskBullets: boolean;
+    set maskBullets(value: boolean);
     /**
-     * Tooltip location value
+     * @return mask bullets value
      */
+    get maskBullets(): boolean;
     /**
      * Relative location of a tooltip.
      * @default 0.5
      *
      * @param value
      */
-    tooltipLocation: number;
+    set tooltipLocation(value: number);
+    /**
+     * Tooltip location value
+     */
+    get tooltipLocation(): number;
     /**
      * Adds color steps in the link gradient.
      *
@@ -257,7 +262,7 @@ export declare class FlowDiagramLink extends Container {
      *
      * @return [description]
      */
-    readonly bullets: ListTemplate<Bullet>;
+    get bullets(): ListTemplate<Bullet>;
     /**
      * Copies properties from another [[FlowDiagramLink]].
      *
@@ -278,5 +283,5 @@ export declare class FlowDiagramLink extends Container {
      * A gradiend instance that is used to provided colored gradient fills for
      * the Flow link.
      */
-    readonly gradient: LinearGradient;
+    get gradient(): LinearGradient;
 }

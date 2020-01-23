@@ -1,4 +1,7 @@
 /**
+ * A collection of low-level async operation stuff.
+ */
+/**
  * [Listener description]
  *
  * @ignore Exclude from docs

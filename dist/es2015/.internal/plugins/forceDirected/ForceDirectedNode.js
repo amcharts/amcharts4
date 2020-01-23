@@ -3,7 +3,7 @@
  *
  * It is a container which has ForceDirectedNode element which is a RoundedRectangle.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -32,7 +32,7 @@ import { Dictionary, DictionaryDisposer } from "../../core/utils/Dictionary";
  * @important
  */
 var ForceDirectedNode = /** @class */ (function (_super) {
-    tslib_1.__extends(ForceDirectedNode, _super);
+    __extends(ForceDirectedNode, _super);
     /**
      * Constructor
      */

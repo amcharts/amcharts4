@@ -1,7 +1,7 @@
 /**
  * Map arched line module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -24,7 +24,7 @@ import { registry } from "../../core/Registry";
  * @see {@link IMapArcAdapters} for a list of available Adapters
  */
 var MapArc = /** @class */ (function (_super) {
-    tslib_1.__extends(MapArc, _super);
+    __extends(MapArc, _super);
     /**
      * Constructor
      */

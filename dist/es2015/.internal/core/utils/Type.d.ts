@@ -245,7 +245,7 @@ export declare function isNumber(value: any): value is number;
  * @param value  Input value
  * @return Is object?
  */
-export declare function isObject(value: any): value is number;
+export declare function isObject(value: any): value is object;
 /**
  * Checks if parameter is `Array`.
  *

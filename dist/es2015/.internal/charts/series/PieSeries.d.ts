@@ -51,14 +51,15 @@ export declare class PieSeriesDataItem extends PercentSeriesDataItem {
      */
     constructor();
     /**
-     * @return Radius
-     */
-    /**
      * Slice's radius, if other than default.
      *
      * @param value  Radius
      */
-    radiusValue: number;
+    set radiusValue(value: number);
+    /**
+     * @return Radius
+     */
+    get radiusValue(): number;
     /**
      * Hide the data item (and corresponding visual elements).
      *
@@ -266,34 +267,33 @@ export declare class PieSeries extends PercentSeries {
      */
     validateDataElement(dataItem: this["_dataItem"]): void;
     /**
-     * @return Radius
-     */
-    /**
      * Outer radius for the series' slices in pixels or [[Percent]].
      *
      * @param value  Radius
      */
-    radius: number | Percent;
+    set radius(value: number | Percent);
+    /**
+     * @return Radius
+     */
+    get radius(): number | Percent;
     /**
      * @return Radius
      * @ignore
      */
+    get pixelRadius(): number;
     /**
      * @ignore
      */
-    pixelRadius: number;
+    set pixelRadius(value: number);
     /**
      * @return Pixel inner radius
      * @ignore
      */
+    get pixelInnerRadius(): number;
     /**
      * @ignore
      */
-    pixelInnerRadius: number;
-    /**
-     * @ignore Exclude from docs
-     * @return Radius
-     */
+    set pixelInnerRadius(value: number);
     /**
      * Inner radius for the series' slices in pixels.
      *
@@ -301,25 +301,32 @@ export declare class PieSeries extends PercentSeries {
      * @todo Redo so that users can set it
      * @param value  Radius
      */
-    innerRadius: number | Percent;
+    set innerRadius(value: number | Percent);
     /**
-     * @return Angle
+     * @ignore Exclude from docs
+     * @return Radius
      */
+    get innerRadius(): number | Percent;
     /**
      * Start angle for the series' slices in degrees. (0-360)
      *
      * @param value  Angle
      */
-    startAngle: number;
+    set startAngle(value: number);
     /**
      * @return Angle
      */
+    get startAngle(): number;
     /**
      * End angle for the series' slices in degrees. (0-360)
      *
      * @param value  Angle
      */
-    endAngle: number;
+    set endAngle(value: number);
+    /**
+     * @return Angle
+     */
+    get endAngle(): number;
     /**
      * Positions series bullet.
      *
@@ -339,5 +346,5 @@ export declare class PieSeries extends PercentSeries {
      *
      * @ignore Exclude from docs
      */
-    readonly bbox: IRectangle;
+    get bbox(): IRectangle;
 }

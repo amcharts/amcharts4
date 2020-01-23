@@ -112,14 +112,15 @@ export declare class System {
      */
     log(value: any): void;
     /**
-     * @return Is system on pause?
-     */
-    /**
      * Pauses all the processes of all the amCharts objects on the page
      *
      * @return is paused?
      */
-    isPaused: boolean;
+    set isPaused(value: boolean);
+    /**
+     * @return Is system on pause?
+     */
+    get isPaused(): boolean;
 }
 /**
  * A singleton global instance of [[System]].

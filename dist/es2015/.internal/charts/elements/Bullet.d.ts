@@ -91,46 +91,47 @@ export declare class Bullet extends Container {
      */
     constructor();
     /**
-     * @return Location (0-1)
-     */
-    /**
      * Relative horizontal location within cell. (0-1)
      *
      * @param value  Location (0-1)
      */
-    locationX: number;
+    set locationX(value: number);
     /**
      * @return Location (0-1)
      */
+    get locationX(): number;
     /**
      * Relative vertical location within cell. (0-1)
      *
      * @param value  Location (0-1)
      */
-    locationY: number;
+    set locationY(value: number);
     /**
-     * @return [description]
+     * @return Location (0-1)
      */
+    get locationY(): number;
     /**
      * [xField description]
      *
      * @todo Description
      * @param value  [description]
      */
-    xField: string;
+    set xField(value: string);
     /**
      * @return [description]
      */
+    get xField(): string;
     /**
      * [yField description]
      *
      * Description
      * @param value  [description]
      */
-    yField: string;
+    set yField(value: string);
     /**
-     * @return Redraw on data change?
+     * @return [description]
      */
+    get yField(): string;
     /**
      * Indicates if the bullet is "dynamic".
      *
@@ -146,15 +147,20 @@ export declare class Bullet extends Container {
      * @default false
      * @param value  Redraw on data change?
      */
-    isDynamic: boolean;
+    set isDynamic(value: boolean);
     /**
      * @return Redraw on data change?
      */
+    get isDynamic(): boolean;
     /**
      * Indicates if the bullet should be copied to legend marker
      *
      * @default false
      * @param value  Redraw on data change?
      */
-    copyToLegendMarker: boolean;
+    set copyToLegendMarker(value: boolean);
+    /**
+     * @return Redraw on data change?
+     */
+    get copyToLegendMarker(): boolean;
 }

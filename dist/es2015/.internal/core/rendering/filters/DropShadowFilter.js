@@ -1,7 +1,7 @@
 /**
  * Module for "Drop Shadow" filter.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -22,7 +22,7 @@ import { registry } from "../../Registry";
  * Creats a "Drop Shadow" filter.
  */
 var DropShadowFilter = /** @class */ (function (_super) {
-    tslib_1.__extends(DropShadowFilter, _super);
+    __extends(DropShadowFilter, _super);
     /**
      * Constructor
      */

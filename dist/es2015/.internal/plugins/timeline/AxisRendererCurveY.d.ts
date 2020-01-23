@@ -105,10 +105,7 @@ export declare class AxisRendererCurveY extends AxisRendererY {
      *
      * @return Length (px)
      */
-    readonly axisLength: number;
-    /**
-     * @return Outer radius
-     */
+    get axisLength(): number;
     /**
      * Outer radius of the vertical (Y) axis in pixels.
      *
@@ -119,10 +116,11 @@ export declare class AxisRendererCurveY extends AxisRendererY {
      * @see {@link https://www.amcharts.com/docs/v4/chart-types/timeline/#Axis_radii} for more info
      * @param value  Outer radius
      */
-    radius: number;
+    set radius(value: number);
     /**
-     * @return Inner radius
+     * @return Outer radius
      */
+    get radius(): number;
     /**
      * Inner radius of the vertical (Y) axis in pixels.
      *
@@ -133,18 +131,23 @@ export declare class AxisRendererCurveY extends AxisRendererY {
      * @see {@link https://www.amcharts.com/docs/v4/chart-types/timeline/#Axis_radii} for more info
      * @param value  Outer radius
      */
-    innerRadius: number;
+    set innerRadius(value: number);
     /**
-     * @ignore Exclude from docs
-     * @return Chart
+     * @return Inner radius
      */
+    get innerRadius(): number;
     /**
      * Chart, associated with the Axis.
      *
      * @ignore Exclude from docs
      * @param value Chart
      */
-    chart: CurveChart;
+    set chart(chart: CurveChart);
+    /**
+     * @ignore Exclude from docs
+     * @return Chart
+     */
+    get chart(): CurveChart;
     /**
      * Converts relative position on axis to point coordinates.
      *
@@ -256,9 +259,6 @@ export declare class AxisRendererCurveY extends AxisRendererY {
      */
     positionToCoordinate(position: number): number;
     /**
-     * @return Axis location
-     */
-    /**
      * Relative location of the Y axis along the length of the X axis.
      *
      * Values range from 0 (default) which means start of the X axis, to 1 meaning
@@ -267,7 +267,11 @@ export declare class AxisRendererCurveY extends AxisRendererY {
      * @default 0
      * @param  value  Axis location
      */
-    axisLocation: number;
+    set axisLocation(value: number);
+    /**
+     * @return Axis location
+     */
+    get axisLocation(): number;
     /**
      * Called when rendered is attached to an Axis, as well as a property of
      * Axis that might affect the appearance is updated.

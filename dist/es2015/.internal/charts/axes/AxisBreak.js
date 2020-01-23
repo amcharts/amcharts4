@@ -1,7 +1,7 @@
 /**
  * Axis break module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
  * @important
  */
 var AxisBreak = /** @class */ (function (_super) {
-    tslib_1.__extends(AxisBreak, _super);
+    __extends(AxisBreak, _super);
     /**
      * Constructor
      */

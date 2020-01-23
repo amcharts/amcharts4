@@ -200,7 +200,7 @@ export declare class XYCursor extends Cursor {
      *
      * @return Moved?
      */
-    private hasMoved();
+    private hasMoved;
     /**
      * [getRanges description]
      *
@@ -213,9 +213,6 @@ export declare class XYCursor extends Cursor {
      * @todo Description
      */
     protected getRanges(): void;
-    /**
-     * Behavior
-     */
     /**
      * Cursor's behavior when it's moved with pointer down:
      *
@@ -235,7 +232,11 @@ export declare class XYCursor extends Cursor {
      *
      * @param value Bheavior
      */
-    behavior: "zoomX" | "zoomY" | "zoomXY" | "selectX" | "selectY" | "selectXY" | "panX" | "panY" | "panXY" | "none";
+    set behavior(value: "zoomX" | "zoomY" | "zoomXY" | "selectX" | "selectY" | "selectXY" | "panX" | "panY" | "panXY" | "none");
+    /**
+     * Behavior
+     */
+    get behavior(): "zoomX" | "zoomY" | "zoomXY" | "selectX" | "selectY" | "selectXY" | "panX" | "panY" | "panXY" | "none";
     /**
      * Determines whether Cursor should prevent default action on move.
      *
@@ -245,9 +246,6 @@ export declare class XYCursor extends Cursor {
      */
     protected shouldPreventGestures(touch: boolean): boolean;
     /**
-     * @return Full width?
-     */
-    /**
      * Cursor's horizontal line is expanded to take full width of the related
      * Axis' cell/category.
      *
@@ -256,10 +254,11 @@ export declare class XYCursor extends Cursor {
      *
      * @param value Full width?
      */
-    fullWidthLineX: boolean;
+    set fullWidthLineX(value: boolean);
     /**
      * @return Full width?
      */
+    get fullWidthLineX(): boolean;
     /**
      * Cursor's vertical line is expanded to take full width of the related
      * Axis' cell/category.
@@ -269,20 +268,22 @@ export declare class XYCursor extends Cursor {
      *
      * @param value Full width?
      */
-    fullWidthLineY: boolean;
+    set fullWidthLineY(value: boolean);
     /**
-     * @return hide tooltip?
+     * @return Full width?
      */
+    get fullWidthLineY(): boolean;
     /**
      * If set to `true` this will hide series tooltips when selecting with cursor.
      *
      * @since 4.5.15
      * @param  value  hide tooltips?
      */
-    hideSeriesTooltipsOnSelection: boolean;
+    set hideSeriesTooltipsOnSelection(value: boolean);
     /**
-     * @return Distance
+     * @return hide tooltip?
      */
+    get hideSeriesTooltipsOnSelection(): boolean;
     /**
      * If set to a numeric value, cursor will display closest series' tooltips
      * plus tooltips from series that are closer to than `maxTooltipDistance` to
@@ -291,20 +292,22 @@ export declare class XYCursor extends Cursor {
      * @since 4.7.18
      * @param  value  Distance
      */
-    maxTooltipDistance: number;
+    set maxTooltipDistance(value: number);
     /**
-     * @return Full width?
+     * @return Distance
      */
+    get maxTooltipDistance(): number;
     /**
      * If cursor behavior is panX or panY, we allow to pan plot out of it's max bounds for a better user experience.
      * This setting specifies relative value by how much we can pan out the plot
      *
      * @param value
      */
-    maxPanOut: number;
+    set maxPanOut(value: number);
     /**
-     * @return X axis
+     * @return Full width?
      */
+    get maxPanOut(): number;
     /**
      * A reference to X [[Axis]].
      *
@@ -318,10 +321,11 @@ export declare class XYCursor extends Cursor {
      * @todo Description (review)
      * @param axis X axis
      */
-    xAxis: Axis;
+    set xAxis(axis: Axis);
     /**
-     * @return Y Axis
+     * @return X axis
      */
+    get xAxis(): Axis;
     /**
      * A reference to Y [[Axis]].
      *
@@ -335,7 +339,11 @@ export declare class XYCursor extends Cursor {
      * @todo Description (review)
      * @param axis Y axis
      */
-    yAxis: Axis;
+    set yAxis(axis: Axis);
+    /**
+     * @return Y Axis
+     */
+    get yAxis(): Axis;
     /**
      * Updates Cursor's position when axis tooltip changes position.
      *
@@ -351,32 +359,35 @@ export declare class XYCursor extends Cursor {
      */
     protected handleYTooltipPosition(event: ISpriteEvents["positionchanged"]): void;
     /**
-     * @return Line element
-     */
-    /**
      * A Line element to use for X axis.
      *
      * @param lineX Line
      */
-    lineX: Sprite;
+    set lineX(lineX: Sprite);
     /**
      * @return Line element
      */
+    get lineX(): Sprite;
     /**
      * A Line element to use Y axis.
      *
      * @param lineY Line
      */
-    lineY: Sprite;
+    set lineY(lineY: Sprite);
     /**
-     * @return Selection rectangle
+     * @return Line element
      */
+    get lineY(): Sprite;
     /**
      * A selection element ([[Sprite]]).
      *
      * @param selection Selection rectangle
      */
-    selection: Sprite;
+    set selection(selection: Sprite);
+    /**
+     * @return Selection rectangle
+     */
+    get selection(): Sprite;
     /**
      * Processes JSON-based config before it is applied to the object.
      *
@@ -390,15 +401,16 @@ export declare class XYCursor extends Cursor {
         [index: string]: any;
     }): void;
     /**
-     * @return {XYSeries}
-     */
-    /**
      * Specifies to which series cursor lines should be snapped. Works when one
      * of the axis is `DateAxis` or `CategoryAxis`.
      *
      * @param {XYSeries}
      */
-    snapToSeries: XYSeries;
+    set snapToSeries(series: XYSeries);
+    /**
+     * @return {XYSeries}
+     */
+    get snapToSeries(): XYSeries;
     /**
      * [handleSnap description]
      *

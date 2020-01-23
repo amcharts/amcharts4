@@ -1,7 +1,7 @@
 /**
  * Axis Bullet module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -62,7 +62,7 @@ import { registry } from "../../core/Registry";
  * @important
  */
 var AxisBullet = /** @class */ (function (_super) {
-    tslib_1.__extends(AxisBullet, _super);
+    __extends(AxisBullet, _super);
     function AxisBullet() {
         var _this = _super.call(this) || this;
         _this.className = "AxisBullet";

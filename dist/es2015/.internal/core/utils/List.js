@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends, __generator } from "tslib";
 import { Disposer, MultiDisposer } from "./Disposer";
 import { EventDispatcher } from "./EventDispatcher";
 import * as $array from "./Array";
@@ -92,7 +92,7 @@ export { IndexedIterable };
  * @ignore Exclude from docs
  */
 var ListGrouper = /** @class */ (function (_super) {
-    tslib_1.__extends(ListGrouper, _super);
+    __extends(ListGrouper, _super);
     /**
      * Constructor.
      */
@@ -201,7 +201,7 @@ export { ListGrouper };
  * on all its items.
  */
 var ListDisposer = /** @class */ (function (_super) {
-    tslib_1.__extends(ListDisposer, _super);
+    __extends(ListDisposer, _super);
     function ListDisposer(list) {
         var _this = this;
         var disposer = list.events.on("removed", function (x) {
@@ -694,7 +694,7 @@ var List = /** @class */ (function () {
      */
     List.prototype[Symbol.iterator] = function () {
         var length, i;
-        return tslib_1.__generator(this, function (_a) {
+        return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     length = this._values.length;
@@ -765,7 +765,7 @@ export { List };
  * other attributes), inserted into the list and returned.
  */
 var ListTemplate = /** @class */ (function (_super) {
-    tslib_1.__extends(ListTemplate, _super);
+    __extends(ListTemplate, _super);
     /**
      * Constructor
      *

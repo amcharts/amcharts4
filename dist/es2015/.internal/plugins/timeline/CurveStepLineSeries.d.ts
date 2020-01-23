@@ -140,23 +140,25 @@ export declare class CurveStepLineSeries extends CurveLineSeries {
      */
     protected addPoints(points: IPoint[], dataItem: this["_dataItem"], xField: string, yField: string, backwards?: boolean): void;
     /**
-     * @return Location (0-1)
-     */
-    /**
      * Relative location in cell where step should start.
      *
      * @default 0
      * @param value Location (0-1)
      */
-    startLocation: number;
+    set startLocation(value: number);
     /**
      * @return Location (0-1)
      */
+    get startLocation(): number;
     /**
      * Relative location in cell where step should end.
      *
      * @default 1
      * @param value Location (0-1)
      */
-    endLocation: number;
+    set endLocation(value: number);
+    /**
+     * @return Location (0-1)
+     */
+    get endLocation(): number;
 }

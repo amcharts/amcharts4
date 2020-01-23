@@ -1,7 +1,7 @@
 /**
  * Graticule (map grid line).
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -24,7 +24,7 @@ import { registry } from "../../core/Registry";
  * @see {@link IGraticuleAdapters} for a list of available Adapters
  */
 var Graticule = /** @class */ (function (_super) {
-    tslib_1.__extends(Graticule, _super);
+    __extends(Graticule, _super);
     /**
      * Constructor
      */

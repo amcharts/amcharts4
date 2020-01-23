@@ -168,16 +168,17 @@ export declare class RadarSeries extends LineSeries {
      */
     protected drawSegment(segment: LineSeriesSegment, points: IPoint[], closePoints: IPoint[]): void;
     /**
-     * @return Connect?
-     */
-    /**
      * Should the last and and first data points be connected, forming a complete
      * closed circle?
      *
      * @default true
      * @param value  Connect?
      */
-    connectEnds: boolean;
+    set connectEnds(value: boolean);
+    /**
+     * @return Connect?
+     */
+    get connectEnds(): boolean;
     protected positionBulletReal(bullet: Sprite, positionX: number, positionY: number): void;
     protected setXAxis(axis: Axis): void;
     protected setYAxis(axis: Axis): void;

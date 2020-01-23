@@ -1,7 +1,7 @@
 /**
  * Defines Funnel Chart Series.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -31,7 +31,7 @@ import { Disposer } from "../../core/utils/Disposer";
  * @see {@link DataItem}
  */
 var FunnelSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(FunnelSeriesDataItem, _super);
+    __extends(FunnelSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -92,7 +92,7 @@ export { FunnelSeriesDataItem };
  * @important
  */
 var FunnelSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(FunnelSeries, _super);
+    __extends(FunnelSeries, _super);
     /**
      * Constructor
      */

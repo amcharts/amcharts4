@@ -1,7 +1,7 @@
 /**
  * Polyspline (smoothed line) module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +26,7 @@ import * as $path from "../../core/rendering/Path";
  * @see {@link IPolysplineAdapters} for a list of available Adapters
  */
 var Polyspline = /** @class */ (function (_super) {
-    tslib_1.__extends(Polyspline, _super);
+    __extends(Polyspline, _super);
     /**
      * Constructor
      */

@@ -1,7 +1,7 @@
 /**
  * A module which defines functionality related to Category Axis Break.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -22,7 +22,7 @@ import { registry } from "../../core/Registry";
  * @see {@link ICategoryAxisBreakAdapters} for a list of available Adapters
  */
 var CategoryAxisBreak = /** @class */ (function (_super) {
-    tslib_1.__extends(CategoryAxisBreak, _super);
+    __extends(CategoryAxisBreak, _super);
     /**
      * Constructor
      */

@@ -78,21 +78,23 @@ export declare class PieTick extends Tick {
      */
     draw(): void;
     /**
-     * @return Slice
-     */
-    /**
      * Slice element tick is attached to.
      *
      * @param slice  Slice
      */
-    slice: Slice;
+    set slice(slice: Slice);
     /**
-     * @return Label
+     * @return Slice
      */
+    get slice(): Slice;
     /**
      * Label element tick is attached to.
      *
      * @param label  Label
      */
-    label: AxisLabelCircular;
+    set label(label: AxisLabelCircular);
+    /**
+     * @return Label
+     */
+    get label(): AxisLabelCircular;
 }

@@ -1,7 +1,7 @@
 /**
  * Sliced chart module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -23,7 +23,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link DataItem}
  */
 var SlicedChartDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(SlicedChartDataItem, _super);
+    __extends(SlicedChartDataItem, _super);
     /**
      * Constructor
      */
@@ -51,7 +51,7 @@ export { SlicedChartDataItem };
  * @important
  */
 var SlicedChart = /** @class */ (function (_super) {
-    tslib_1.__extends(SlicedChart, _super);
+    __extends(SlicedChart, _super);
     /**
      * Constructor
      */

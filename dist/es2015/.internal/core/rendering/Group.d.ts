@@ -58,16 +58,17 @@ export declare class Group extends AMElement {
      */
     hasChild(element: AMElement): boolean;
     /**
-     * @return SVG markup
-     */
-    /**
      * Content of the group element.
      *
      * Can be used to add a lot of proprietary SVG markup into group.
      *
      * @param value  SVG markup
      */
-    content: string;
+    set content(value: string);
+    /**
+     * @return SVG markup
+     */
+    get content(): string;
     /**
      * Removes all children from the group.
      */

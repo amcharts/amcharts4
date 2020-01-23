@@ -2,7 +2,7 @@
  * Morpher module contains functionality that allows morphing one polygon to
  * another.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -18,7 +18,7 @@ import * as $type from "../utils/Type";
  * Morpher can be used to morph one polygon to some other polygon.
  */
 var Morpher = /** @class */ (function (_super) {
-    tslib_1.__extends(Morpher, _super);
+    __extends(Morpher, _super);
     /**
      * Constructor.
      *

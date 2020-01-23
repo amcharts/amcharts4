@@ -1,7 +1,7 @@
 /**
  * Map object module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +26,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link IMapObjectAdapters} for a list of available Adapters
  */
 var MapObject = /** @class */ (function (_super) {
-    tslib_1.__extends(MapObject, _super);
+    __extends(MapObject, _super);
     /**
      * Constructor
      */

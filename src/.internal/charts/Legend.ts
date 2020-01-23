@@ -9,7 +9,7 @@
  * @hidden
  */
 import { Component, IComponentProperties, IComponentDataFields, IComponentAdapters, IComponentEvents } from "../core/Component";
-import { DataItem } from "../core/DataItem";
+import { DataItem, IDataItemEvents } from "../core/DataItem";
 import { ListTemplate, ListDisposer } from "../core/utils/List";
 import { RoundedRectangle } from "../core/elements/RoundedRectangle";
 import { Container } from "../core/Container";
@@ -233,15 +233,12 @@ export class LegendDataItem extends DataItem {
 
 			let sprite = <any>this.dataContext;
 			if ((sprite instanceof DataItem || sprite instanceof Sprite) && !sprite.isDisposed()) {
-
-				itemContainer.addDisposer(
-					sprite.events.on("visibilitychanged", (ev) => {
-						itemContainer.readerChecked = ev.visible;
-						itemContainer.events.disableType("toggled");
-						itemContainer.isActive = !ev.visible;
-						itemContainer.events.enableType("toggled");
-					}, undefined, false)
-				)
+				const visibilitychanged = function (ev: AMEvent<Sprite | DataItem, ISpriteEvents & IDataItemEvents>["visibilitychanged"]) {
+					itemContainer.readerChecked = ev.visible;
+					itemContainer.events.disableType("toggled");
+					itemContainer.isActive = !ev.visible;
+					itemContainer.events.enableType("toggled");
+				};
 
 				sprite.addDisposer(new Disposer(() => {
 					if (this.component) {
@@ -250,6 +247,10 @@ export class LegendDataItem extends DataItem {
 				}))
 
 				if (sprite instanceof Sprite) {
+					itemContainer.addDisposer(
+						sprite.events.on("visibilitychanged", visibilitychanged, undefined, false)
+					);
+
 					itemContainer.addDisposer(
 						sprite.events.on("hidden", (ev) => {
 							itemContainer.readerChecked = false;
@@ -266,6 +267,11 @@ export class LegendDataItem extends DataItem {
 							itemContainer.events.enableType("toggled");
 						}, undefined, false)
 					)
+
+				} else {
+					itemContainer.addDisposer(
+						sprite.events.on("visibilitychanged", visibilitychanged, undefined, false)
+					);
 				}
 			}
 		}
@@ -908,7 +914,7 @@ export class Legend extends Component {
 
 	/**
 	 * Handles mouse wheel scrolling of legend.
-	 * 
+	 *
 	 * @param  event  Event
 	 */
 	protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]): void {

@@ -51,7 +51,7 @@ export declare class InteractionObject extends BaseObjectEvents {
     /**
      * An [[EventDispatcher]] instance which holds events for this object
      */
-    readonly events: InteractionObjectEventDispatcher<AMEvent<this, this["_events"]>>;
+    get events(): InteractionObjectEventDispatcher<AMEvent<this, this["_events"]>>;
     /**
      * A related [[Sprite]] if any.
      */
@@ -189,79 +189,82 @@ export declare class InteractionObject extends BaseObjectEvents {
      */
     constructor(element: HTMLElement | SVGSVGElement);
     /**
+     * Indicates if this element is currently hovered.
+     *
+     * @param value Hovered?
+     */
+    set isHover(value: boolean);
+    /**
      * @return Hovered?
      */
+    get isHover(): boolean;
     /**
      * Indicates if this element is currently hovered.
      *
      * @param value Hovered?
      */
-    isHover: boolean;
+    set isHoverByTouch(value: boolean);
     /**
      * @return Hovered?
      */
-    /**
-     * Indicates if this element is currently hovered.
-     *
-     * @param value Hovered?
-     */
-    isHoverByTouch: boolean;
+    get isHoverByTouch(): boolean;
     /**
      * A list of pointers currently over the element.
      *
      * @see {@link Pointer}
      * @return List if pointers currently hovering the element
      */
-    readonly overPointers: List<IPointer>;
-    /**
-     * @return Has down pointers?
-     */
+    get overPointers(): List<IPointer>;
     /**
      * Indicates if this element has currently any pointers pressing on it.
      *
      * @param value Has down pointers?
      */
-    isDown: boolean;
+    set isDown(value: boolean);
+    /**
+     * @return Has down pointers?
+     */
+    get isDown(): boolean;
     /**
      * A list of pointers currently pressing down on this element.
      *
      * @see {@link Pointer}
      * @return List of down pointers
      */
-    readonly downPointers: List<IPointer>;
-    /**
-     * @return Focused?
-     */
+    get downPointers(): List<IPointer>;
     /**
      * Indicates if this element is currently focused.
      *
      * @param value Focused?
      */
-    isFocused: boolean;
+    set isFocused(value: boolean);
     /**
-     * @ignore
-     * @return Touch protected?
+     * @return Focused?
      */
+    get isFocused(): boolean;
     /**
      * Indicates if this element is currently being protected from touch actions.
      *
      * @ignore
      * @param value Touch protected?
      */
-    isTouchProtected: boolean;
+    set isTouchProtected(value: boolean);
     /**
-     * @return Clickable?
+     * @ignore
+     * @return Touch protected?
      */
+    get isTouchProtected(): boolean;
     /**
      * Is element clickable? Clickable elements will generate "hit" events when
      * clicked or tapped.
      *
      * @param value Clickable?
      */
-    clickable: boolean;
+    set clickable(value: boolean);
     /**
-     * @return Context menu disabled?
+     * @return Clickable?
      */
+    get clickable(): boolean;
     /**
      * Should element prevent context menu to be displayed, e.g. when
      * right-clicked?
@@ -269,177 +272,196 @@ export declare class InteractionObject extends BaseObjectEvents {
      * @default false
      * @param value Context menu disabled?
      */
-    contextMenuDisabled: boolean;
+    set contextMenuDisabled(value: boolean);
     /**
-     * @return Hoverable?
+     * @return Context menu disabled?
      */
+    get contextMenuDisabled(): boolean;
     /**
      * Indicates if element should generate hover events.
      *
      * @param value Hoverable?
      */
-    hoverable: boolean;
+    set hoverable(value: boolean);
     /**
-     * @return Track pointer?
+     * @return Hoverable?
      */
+    get hoverable(): boolean;
     /**
      * Indicates if pointer movement over element should be tracked.
      *
      * @param value Track pointer?
      */
-    trackable: boolean;
+    set trackable(value: boolean);
     /**
-     * @return Draggable?
+     * @return Track pointer?
      */
+    get trackable(): boolean;
     /**
      * Indicates if element can be dragged. (moved)
      *
      * @param value Draggable?
      */
-    draggable: boolean;
+    set draggable(value: boolean);
     /**
-     * @return Track swipe?
+     * @return Draggable?
      */
+    get draggable(): boolean;
     /**
      * Indicates whether element should react to swipe gesture.
      *
      * @param value Track swipe?
      */
-    swipeable: boolean;
+    set swipeable(value: boolean);
     /**
-     * @return Resizeble?
+     * @return Track swipe?
      */
+    get swipeable(): boolean;
     /**
      * Indicates if element can be resized.
      *
      * @param value Resizeable?
      */
-    resizable: boolean;
+    set resizable(value: boolean);
     /**
-     * @return Track wheel?
+     * @return Resizeble?
      */
+    get resizable(): boolean;
     /**
      * Indicates whether track moouse wheel rotation over element.
      *
      * @param value Track wheel?
      */
-    wheelable: boolean;
+    set wheelable(value: boolean);
     /**
-     * @return Inert?
+     * @return Track wheel?
      */
+    get wheelable(): boolean;
     /**
      * Indicates if element is inert, i.e. if it should carry movement momentum
      * after it is dragged and released.
      *
      * @param value Inert?
      */
-    inert: boolean;
+    set inert(value: boolean);
     /**
-     * @return Focusable?
+     * @return Inert?
      */
+    get inert(): boolean;
     /**
      * Indicates if element can gain focus.
      *
      * @param value Focusable?
      */
-    focusable: $type.Optional<boolean>;
+    set focusable(value: $type.Optional<boolean>);
     /**
-     * @return Tab index
+     * @return Focusable?
      */
+    get focusable(): $type.Optional<boolean>;
     /**
      * Element's tab index.
      *
      * @param value Tab index
      */
-    tabindex: number;
+    set tabindex(value: number);
     /**
-     * @return Element
+     * @return Tab index
      */
+    get tabindex(): number;
     /**
      * A DOM element associated with this element.
      *
      * @param element Element
      */
-    element: HTMLElement | SVGSVGElement;
+    set element(element: HTMLElement | SVGSVGElement);
     /**
-     * @ignore Exclude from docs
-     * @return Position.
+     * @return Element
      */
+    get element(): HTMLElement | SVGSVGElement;
     /**
      * Element's original position.
      *
      * @ignore Exclude from docs
      * @param value Position
      */
-    originalPosition: Optional<IPoint>;
+    set originalPosition(value: Optional<IPoint>);
     /**
-     * @return Scale
+     * @ignore Exclude from docs
+     * @return Position.
      */
+    get originalPosition(): Optional<IPoint>;
     /**
      * Element's original scale.
      *
      * @ignore Exclude from docs
      * @param value Scale
      */
-    originalScale: number;
+    set originalScale(value: number);
     /**
-     * @return Angle
+     * @return Scale
      */
+    get originalScale(): number;
     /**
      * Element's original angle.
      *
      * @ignore Exclude from docs
      * @param value Angle
      */
-    originalAngle: number;
+    set originalAngle(value: number);
     /**
-     * @return Options
+     * @return Angle
      */
+    get originalAngle(): number;
     /**
      * Inertia options.
      *
      * @param value  Options
      */
-    inertiaOptions: Dictionary<InertiaTypes, IInertiaOptions>;
+    set inertiaOptions(value: Dictionary<InertiaTypes, IInertiaOptions>);
     /**
      * @return Options
      */
+    get inertiaOptions(): Dictionary<InertiaTypes, IInertiaOptions>;
     /**
      * Hit options.
      *
      * @param value  Options
      */
-    hitOptions: IHitOptions;
+    set hitOptions(value: IHitOptions);
     /**
      * @return Options
      */
+    get hitOptions(): IHitOptions;
     /**
      * Hover options.
      *
      * @param value  Options
      */
-    hoverOptions: IHoverOptions;
+    set hoverOptions(value: IHoverOptions);
     /**
      * @return Options
      */
+    get hoverOptions(): IHoverOptions;
     /**
      * Swipe options.
      *
      * @param value  Options
      */
-    swipeOptions: ISwipeOptions;
+    set swipeOptions(value: ISwipeOptions);
     /**
      * @return Options
      */
+    get swipeOptions(): ISwipeOptions;
     /**
      * Keyboard options.
      *
      * @param value  Options
      */
-    keyboardOptions: IKeyboardOptions;
+    set keyboardOptions(value: IKeyboardOptions);
     /**
      * @return Options
      */
+    get keyboardOptions(): IKeyboardOptions;
     /**
      * Mouse options.
      *
@@ -469,16 +491,21 @@ export declare class InteractionObject extends BaseObjectEvents {
      * @since 4.5.14
      * @param value  Options
      */
-    mouseOptions: IMouseOptions;
+    set mouseOptions(value: IMouseOptions);
     /**
      * @return Options
      */
+    get mouseOptions(): IMouseOptions;
     /**
      * Cursor options.
      *
      * @param value  Options
      */
-    cursorOptions: ICursorOptions;
+    set cursorOptions(value: ICursorOptions);
+    /**
+     * @return Options
+     */
+    get cursorOptions(): ICursorOptions;
     /**
      * Copies all properties and related assets from another object of the same
      * type.

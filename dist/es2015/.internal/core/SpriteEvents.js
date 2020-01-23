@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Dictionary } from "./utils/Dictionary";
 import { TargetedEventDispatcher } from "./utils/EventDispatcher";
 import { MultiDisposer, CounterDisposer } from "./utils/Disposer";
@@ -10,7 +10,7 @@ import * as $object from "./utils/Object";
  * @important
  */
 var SpriteEventDispatcher = /** @class */ (function (_super) {
-    tslib_1.__extends(SpriteEventDispatcher, _super);
+    __extends(SpriteEventDispatcher, _super);
     function SpriteEventDispatcher() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         /**

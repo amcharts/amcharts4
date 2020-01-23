@@ -93,23 +93,25 @@ export declare class RadarCursor extends XYCursor {
      */
     fitsToBounds(point: IPoint): boolean;
     /**
-     * @return Start angle
-     */
-    /**
      * Starting angle of the cursor's radial line.
      *
      * @param value Start angle
      */
-    startAngle: number;
+    set startAngle(value: number);
     /**
-     * @return End angle
+     * @return Start angle
      */
+    get startAngle(): number;
     /**
      * End angle of the cursor's radial line.
      *
      * @param value End angle
      */
-    endAngle: number;
+    set endAngle(value: number);
+    /**
+     * @return End angle
+     */
+    get endAngle(): number;
     protected triggerMoveReal(point: IPoint): void;
     /**
      * (Re)draws the horizontal (circular) cursor's line.
@@ -173,22 +175,23 @@ export declare class RadarCursor extends XYCursor {
      */
     updateSize(): void;
     /**
-     * @return Outer radius
-     */
-    /**
      * Outer radius of the cursor's circular line.
      * Absolute (px) or relative ([[Percent]]).
      *
      * @param value  Outer radius
      */
-    radius: number | Percent;
+    set radius(value: number | Percent);
+    /**
+     * @return Outer radius
+     */
+    get radius(): number | Percent;
     /**
      * Outer radius of the circular line in pixels.
      *
      * @return Outer radius (px)
      * @readonly
      */
-    readonly pixelRadius: number;
+    get pixelRadius(): number;
     /**
      * [truePixelRadius description]
      *
@@ -196,24 +199,25 @@ export declare class RadarCursor extends XYCursor {
      * @return Outer radius (px)
      * @readonly
      */
-    readonly truePixelRadius: number;
-    /**
-     * @return Inner radius
-     */
+    get truePixelRadius(): number;
     /**
      * Inner radius of the cursor's circular line.
      * Absolute (px) or relative ([[Percent]]).
      *
      * @param value  Inner radius
      */
-    innerRadius: number | Percent;
+    set innerRadius(value: number | Percent);
+    /**
+     * @return Inner radius
+     */
+    get innerRadius(): number | Percent;
     /**
      * Inner radius of the circular line in pixels.
      *
      * @return Inner radius (px)
      * @readonly
      */
-    readonly pixelInnerRadius: number;
+    get pixelInnerRadius(): number;
     /**
      *
      * @ignore Exclude from docs

@@ -54,7 +54,7 @@ export declare class FunnelSeriesDataItem extends PercentSeriesDataItem {
      * @readonly
      * @return Slice element
      */
-    readonly sliceLink: this["_sliceLink"];
+    get sliceLink(): this["_sliceLink"];
     /**
      * Constructor
      */
@@ -270,18 +270,16 @@ export declare class FunnelSeries extends PercentSeries {
      */
     positionBullet(bullet: Bullet): void;
     /**
-     * @return Orientation
-     */
-    /**
      * Orientation of the funnel slices: "horizontal" or "vertical" (default).
      *
      * @default "vertical"
      * @param value Orientation
      */
-    orientation: Orientation;
+    set orientation(value: Orientation);
     /**
-     * @return {number}
+     * @return Orientation
      */
+    get orientation(): Orientation;
     /**
      * Indicates how slice's bottom will change in relation to slices top AND
      * next slices top.
@@ -308,7 +306,11 @@ export declare class FunnelSeries extends PercentSeries {
      * @default 0
      * @param {number}
      */
-    bottomRatio: number;
+    set bottomRatio(value: number);
+    /**
+     * @return {number}
+     */
+    get bottomRatio(): number;
     /**
      * A list of elements linking each actual slice.
      *
@@ -338,7 +340,7 @@ export declare class FunnelSeries extends PercentSeries {
      *
      * @return Funnel links
      */
-    readonly sliceLinks: ListTemplate<this["_slice"]>;
+    get sliceLinks(): ListTemplate<this["_slice"]>;
     /**
      * Shows hidden series.
      *
@@ -358,9 +360,6 @@ export declare class FunnelSeries extends PercentSeries {
      */
     protected setAlignLabels(value: boolean): void;
     /**
-     * @return Labels on opposite side?
-     */
-    /**
      * Put labels on the oppsite side of the series?
      *
      * This setting is only used if `alignLabels = true`.
@@ -375,5 +374,9 @@ export declare class FunnelSeries extends PercentSeries {
      * @since 4.1.13
      * @param  value  Labels on opposite side?
      */
-    labelsOpposite: boolean;
+    set labelsOpposite(value: boolean);
+    /**
+     * @return Labels on opposite side?
+     */
+    get labelsOpposite(): boolean;
 }

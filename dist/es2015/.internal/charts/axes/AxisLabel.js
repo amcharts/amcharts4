@@ -1,7 +1,7 @@
 /**
  * Axis Label module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -24,7 +24,7 @@ import { registry } from "../../core/Registry";
  * @important
  */
 var AxisLabel = /** @class */ (function (_super) {
-    tslib_1.__extends(AxisLabel, _super);
+    __extends(AxisLabel, _super);
     /**
      * Constructor
      */

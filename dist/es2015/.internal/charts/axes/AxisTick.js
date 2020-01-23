@@ -1,7 +1,7 @@
 /**
  * Axis Tick module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -22,7 +22,7 @@ import { registry } from "../../core/Registry";
  * @see {@link IAxisTickAdapters} for a list of available Adapters
  */
 var AxisTick = /** @class */ (function (_super) {
-    tslib_1.__extends(AxisTick, _super);
+    __extends(AxisTick, _super);
     function AxisTick() {
         var _this = _super.call(this) || this;
         _this.className = "AxisTick";

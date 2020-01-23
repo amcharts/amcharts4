@@ -165,9 +165,6 @@ export declare class PyramidSeries extends FunnelSeries {
      */
     protected decorateSlice(dataItem: this["_dataItem"]): void;
     /**
-     * @return {number | Percent}
-     */
-    /**
      * Width of the pyramid's tip in pixels or relative (`Percent`).
      *
      * `0%` (default) means the pyramid will be perfectly pointy.
@@ -180,10 +177,11 @@ export declare class PyramidSeries extends FunnelSeries {
      * @default 0%
      * @param {number | Percent}
      */
-    topWidth: number | Percent;
+    set topWidth(value: number | Percent);
     /**
      * @return {number | Percent}
      */
+    get topWidth(): number | Percent;
     /**
      * Height of pyramid
      *
@@ -191,10 +189,11 @@ export declare class PyramidSeries extends FunnelSeries {
      * @default 100%
      * @param {number | Percent}
      */
-    pyramidHeight: number | Percent;
+    set pyramidHeight(value: number | Percent);
     /**
      * @return {number | Percent}
      */
+    get pyramidHeight(): number | Percent;
     /**
      * Width of the pyramid's bottom (bsae) in pixels or relative (`Percent`).
      *
@@ -207,10 +206,11 @@ export declare class PyramidSeries extends FunnelSeries {
      *
      * @param {number | Percent}
      */
-    bottomWidth: number | Percent;
+    set bottomWidth(value: number | Percent);
     /**
-     * @return {"area" | "height"}
+     * @return {number | Percent}
      */
+    get bottomWidth(): number | Percent;
     /**
      * Indicates how slice's value will influence its size.
      *
@@ -234,5 +234,9 @@ export declare class PyramidSeries extends FunnelSeries {
      * @default "area"
      * @param {"area" | "height"}
      */
-    valueIs: "area" | "height";
+    set valueIs(value: "area" | "height");
+    /**
+     * @return {"area" | "height"}
+     */
+    get valueIs(): "area" | "height";
 }

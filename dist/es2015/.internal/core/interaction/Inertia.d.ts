@@ -54,23 +54,19 @@ export declare class Inertia extends BaseObject implements IAnimatable {
      */
     constructor(interaction: InteractionObject, type: InertiaTypes, point: IPoint, startPoint: IPoint);
     /**
-     * Returns current X coordinate.
-     *
-     * @return X
-     */
-    /**
      * Sets current X coordinate.
      *
      * Will trigger "drag" event for the target element.
      *
      * @param value X
      */
-    x: number;
+    set x(value: number);
     /**
-     * Returns current Y coordinate.
+     * Returns current X coordinate.
      *
-     * @return Y
+     * @return X
      */
+    get x(): number;
     /**
      * Sets current Y coordinate.
      *
@@ -78,7 +74,13 @@ export declare class Inertia extends BaseObject implements IAnimatable {
      *
      * @param value Y
      */
-    y: number;
+    set y(value: number);
+    /**
+     * Returns current Y coordinate.
+     *
+     * @return Y
+     */
+    get y(): number;
     /**
      * Simulates dragging of element.
      */

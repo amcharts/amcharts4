@@ -1,7 +1,7 @@
 /**
  * Radar chart module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -33,7 +33,7 @@ import * as $path from "../../core/rendering/Path";
  * @see {@link DataItem}
  */
 var RadarChartDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(RadarChartDataItem, _super);
+    __extends(RadarChartDataItem, _super);
     /**
      * Constructor
      */
@@ -61,7 +61,7 @@ export { RadarChartDataItem };
  * @important
  */
 var RadarChart = /** @class */ (function (_super) {
-    tslib_1.__extends(RadarChart, _super);
+    __extends(RadarChart, _super);
     /**
      * Constructor
      */

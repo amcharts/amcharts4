@@ -1,7 +1,7 @@
 /**
  * FlowDiagramLink module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -35,7 +35,7 @@ import * as $type from "../../core/utils/Type";
  * @important
  */
 var FlowDiagramLink = /** @class */ (function (_super) {
-    tslib_1.__extends(FlowDiagramLink, _super);
+    __extends(FlowDiagramLink, _super);
     /**
      * Constructor
      */

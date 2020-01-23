@@ -1,7 +1,7 @@
 /**
  * Functionality for drawing quadratic curves.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +26,7 @@ import * as $type from "../utils/Type";
  * @see {@link IQuadraticCurveAdapters} for a list of available Adapters
  */
 var QuadraticCurve = /** @class */ (function (_super) {
-    tslib_1.__extends(QuadraticCurve, _super);
+    __extends(QuadraticCurve, _super);
     /**
      * Constructor
      */

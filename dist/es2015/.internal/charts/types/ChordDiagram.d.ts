@@ -204,9 +204,6 @@ export declare class ChordDiagram extends FlowDiagram {
      */
     protected createDataItem(): this["_dataItem"];
     /**
-     * @return Start angle (degrees)
-     */
-    /**
      * Starting angle of the Radar face. (degrees)
      *
      * Normally, a circular radar face begins (the radial axis is drawn) at the
@@ -229,10 +226,11 @@ export declare class ChordDiagram extends FlowDiagram {
      * @default -90
      * @param value  Start angle (degrees)
      */
-    startAngle: number;
+    set startAngle(value: number);
     /**
-     * @return End angle (degrees)
+     * @return Start angle (degrees)
      */
+    get startAngle(): number;
     /**
      * Starting angle of the Radar face. (degrees)
      *
@@ -256,10 +254,11 @@ export declare class ChordDiagram extends FlowDiagram {
      * @default -90
      * @param value  End angle (degrees)
      */
-    endAngle: number;
+    set endAngle(value: number);
     /**
-     * @return Outer radius
+     * @return End angle (degrees)
      */
+    get endAngle(): number;
     /**
      * Outer radius of the Radar face.
      *
@@ -267,10 +266,11 @@ export declare class ChordDiagram extends FlowDiagram {
      *
      * @param value  Outer radius
      */
-    radius: number | Percent;
+    set radius(value: number | Percent);
     /**
-     * @return Inner radius
+     * @return Outer radius
      */
+    get radius(): number | Percent;
     /**
      * Inner radius of the Chord nodes.
      *
@@ -278,17 +278,22 @@ export declare class ChordDiagram extends FlowDiagram {
      *
      * @param value  Outer radius
      */
-    innerRadius: number | Percent;
+    set innerRadius(value: number | Percent);
     /**
-     * @return Non-ribbon
+     * @return Inner radius
      */
+    get innerRadius(): number | Percent;
     /**
      *
      * If you set this to true, all the lines will be of the same width. This is done by making middleLine of a ChordLink visible.
      *
      * @param value
      */
-    nonRibbon: boolean;
+    set nonRibbon(value: boolean);
+    /**
+     * @return Non-ribbon
+     */
+    get nonRibbon(): boolean;
     /**
      * @ignore
      */

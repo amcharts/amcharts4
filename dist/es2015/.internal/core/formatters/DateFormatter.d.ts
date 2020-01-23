@@ -122,14 +122,15 @@ export declare class DateFormatter extends BaseObject {
      */
     constructor();
     /**
-     * @return Language
-     */
-    /**
      * A reference to [[Language]] object.
      *
      * @param  value  Language
      */
-    language: $type.Optional<Language>;
+    set language(value: $type.Optional<Language>);
+    /**
+     * @return Language
+     */
+    get language(): $type.Optional<Language>;
     /**
      * Formats the date value according to specified format.
      *
@@ -197,9 +198,6 @@ export declare class DateFormatter extends BaseObject {
      */
     protected getStringList(list: Array<keyof ILocaleProperties>): Array<string>;
     /**
-     * @return Date format
-     */
-    /**
      * Date format to use.
      *
      * If format is not supplied in-line in the string, this setting will be
@@ -208,29 +206,32 @@ export declare class DateFormatter extends BaseObject {
      * @default "yyyy-MM-dd"
      * @param value Date format
      */
-    dateFormat: string | Intl.DateTimeFormatOptions;
+    set dateFormat(value: string | Intl.DateTimeFormatOptions);
     /**
      * @return Date format
      */
+    get dateFormat(): string | Intl.DateTimeFormatOptions;
     /**
      * Date format to use when parsing dates.
      *
      * @default "yyyy-MM-dd"
      * @param value Date format
      */
-    inputDateFormat: string;
+    set inputDateFormat(value: string);
     /**
      * @return Date format
      */
+    get inputDateFormat(): string;
     /**
      * Locales if you are using date formats in `Intl.DateTimeFormatOptions` syntax.
      *
      * @param value Locales
      */
-    intlLocales: string;
+    set intlLocales(value: string);
     /**
-     * @return Use UTC?
+     * @return Date format
      */
+    get intlLocales(): string;
     /**
      * Should formatter use UTC functions?
      *
@@ -239,10 +240,11 @@ export declare class DateFormatter extends BaseObject {
      *
      * @param value Use UTC?
      */
-    utc: boolean;
+    set utc(value: boolean);
     /**
-     * @return Offset (minutes)
+     * @return Use UTC?
      */
+    get utc(): boolean;
     /**
      * If set, will format date/time in specific time zone.
      *
@@ -252,10 +254,11 @@ export declare class DateFormatter extends BaseObject {
      *
      * @param  value  Offset (minutes)
      */
-    timezoneOffset: $type.Optional<number>;
+    set timezoneOffset(value: $type.Optional<number>);
     /**
-     * @return First day of week
+     * @return Offset (minutes)
      */
+    get timezoneOffset(): $type.Optional<number>;
     /**
      * First day of the week:
      *
@@ -267,16 +270,21 @@ export declare class DateFormatter extends BaseObject {
      *
      * @param value First day of week
      */
-    firstDayOfWeek: number;
+    set firstDayOfWeek(value: number);
     /**
-     * @ignore Exclude from docs
-     * @return Format
+     * @return First day of week
      */
+    get firstDayOfWeek(): number;
     /**
      * Output format for the formatted date.
      *
      * @ignore Exclude from docs
      * @param value  Format
      */
-    outputFormat: string;
+    set outputFormat(value: string);
+    /**
+     * @ignore Exclude from docs
+     * @return Format
+     */
+    get outputFormat(): string;
 }

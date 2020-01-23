@@ -1,7 +1,7 @@
 /**
  * Rectangular pattern module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -21,7 +21,7 @@ import { registry } from "../../Registry";
  * Rectangular pattern
  */
 var RectPattern = /** @class */ (function (_super) {
-    tslib_1.__extends(RectPattern, _super);
+    __extends(RectPattern, _super);
     /**
      * Constructor
      */

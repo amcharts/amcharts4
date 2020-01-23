@@ -1,7 +1,7 @@
 /**
  * Contains code and logic for generating radial gradients.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -25,7 +25,7 @@ import { Percent } from "../../utils/Percent";
  * Radial gradient class.
  */
 var RadialGradient = /** @class */ (function (_super) {
-    tslib_1.__extends(RadialGradient, _super);
+    __extends(RadialGradient, _super);
     /**
      * Constructor
      */

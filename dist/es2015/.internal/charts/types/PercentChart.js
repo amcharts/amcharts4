@@ -1,7 +1,7 @@
 /**
  * Percent chart module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -24,7 +24,7 @@ import * as $iter from "../../core/utils/Iterator";
  * @see {@link DataItem}
  */
 var PercentChartDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(PercentChartDataItem, _super);
+    __extends(PercentChartDataItem, _super);
     /**
      * Constructor
      */
@@ -52,7 +52,7 @@ export { PercentChartDataItem };
  * @see {@link https://www.amcharts.com/docs/v4/chart-types/sliced-chart/} for Sliced chart documentation
  */
 var PercentChart = /** @class */ (function (_super) {
-    tslib_1.__extends(PercentChart, _super);
+    __extends(PercentChart, _super);
     /**
      * Constructor
      */

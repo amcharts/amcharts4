@@ -1,3 +1,61 @@
+/**
+ * An Adapter can be used to apply chained synchronous transformations to any
+ * value at runtime.
+ *
+ * Each type class using Adapters must have `adapters` property and adapter
+ * interface defined.
+ *
+ * Adapters can be used to allow external code to apply transformations to any
+ * value at any time.
+ *
+ * For example we have a Weather class which has a method `now()` which returns
+ * current temperature.
+ *
+ * ```
+ * function now() {
+ *   // ... calculate temperature
+ *   let temp = "Temperature now is " + degrees + "F";
+ *   return temp;
+ * }
+ * ```
+ *
+ * Now, supposed we want to let other classes to modify the output of the
+ * `now()`? We just apply an adapter to the `temp` before it is returned:
+ *
+ * ```
+ * temp = this.adapters.apply("now", {
+ *   temp: temp,
+ *   degrees: degrees
+ * }).temp;
+ * ```
+ *
+ * Some other class might tap onto it by defining an Adapter that calculates
+ * the temperature in Celsius:
+ *
+ * weather.adapters.add("now", (arg) => {
+ *   arg.temp += "(" + farenheitToCelsius(arg.degrees) + "C)";
+ *   return arh;
+ * });
+ *
+ * Furthermore some time-related class could add time:
+ *
+ * weather.adapters.add("now", (arg) => {
+ *   arg.temp += "; the time now is " + (new Date().toLocaleString());
+ *   return arh;
+ * });
+ *
+ * So without adapters we would get output like this:
+ *
+ * ```
+ * Temperature now is 90F
+ * ```
+ *
+ * With adapters applied we now have:
+ *
+ * ```
+ * Temperature now is 90F (32C); the time now is 12/11/2012, 7:00:00 PM
+ * ```
+ */
 import { EventDispatcher } from "./EventDispatcher";
 /**
  * ============================================================================

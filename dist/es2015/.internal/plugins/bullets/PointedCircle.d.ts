@@ -81,25 +81,27 @@ export declare class PointedCircle extends PointedShape {
      */
     draw(): void;
     /**
-     * @return Radius (px)
-     */
-    /**
      * Radius of a circle in pixels.
      *
      * @default 18
      * @param  value  Radius (px)
      */
-    radius: number;
+    set radius(value: number);
     /**
-     * @return Angle of a pointer, in degrees.
+     * @return Radius (px)
      */
+    get radius(): number;
     /**
      * Angle of a pointer, in degrees.
      *
      * @default 90
      * @param  value Angle (degrees)
      */
-    pointerAngle: number;
+    set pointerAngle(value: number);
+    /**
+     * @return Angle of a pointer, in degrees.
+     */
+    get pointerAngle(): number;
     getTooltipY(): number;
     getTooltipX(): number;
 }

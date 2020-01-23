@@ -37,19 +37,20 @@ export declare class Projection {
     /**
      * d3 projection
      */
+    set d3Projection(projection: d3geo.GeoProjection);
     /**
      * d3 projection
      */
-    d3Projection: d3geo.GeoProjection;
+    get d3Projection(): d3geo.GeoProjection;
     /**
      * d3 path generator method
      * @ignore
      */
-    readonly d3Path: d3geo.GeoPath;
+    get d3Path(): d3geo.GeoPath;
     /**
      * @ignore
      */
-    readonly scale: number;
+    get scale(): number;
     /**
      * Converts a geographical point (lat/long) to a screen point (x/y)
      * @param geoPoint Geo point (lat/long)

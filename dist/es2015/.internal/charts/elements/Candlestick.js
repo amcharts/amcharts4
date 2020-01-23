@@ -1,7 +1,7 @@
 /**
  * Module that defines everything related to building Candlesticks.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +26,7 @@ import { registry } from "../../core/Registry";
  * @important
  */
 var Candlestick = /** @class */ (function (_super) {
-    tslib_1.__extends(Candlestick, _super);
+    __extends(Candlestick, _super);
     /**
      * Constructor
      */

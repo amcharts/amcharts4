@@ -1,7 +1,7 @@
 /**
  * ForceDirectedTree chart module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -25,7 +25,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link DataItem}
  */
 var ForceDirectedTreeDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(ForceDirectedTreeDataItem, _super);
+    __extends(ForceDirectedTreeDataItem, _super);
     function ForceDirectedTreeDataItem() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
@@ -48,7 +48,7 @@ export { ForceDirectedTreeDataItem };
  * @important
  */
 var ForceDirectedTree = /** @class */ (function (_super) {
-    tslib_1.__extends(ForceDirectedTree, _super);
+    __extends(ForceDirectedTree, _super);
     /**
      * Constructor
      */

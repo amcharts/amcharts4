@@ -1,7 +1,7 @@
 /**
  * A module with functionality for buildin a scrollbar with an XY graph in it.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -40,7 +40,7 @@ import { percent } from "../../core/utils/Percent";
  * @important
  */
 var XYChartScrollbar = /** @class */ (function (_super) {
-    tslib_1.__extends(XYChartScrollbar, _super);
+    __extends(XYChartScrollbar, _super);
     /**
      * Constructor
      */

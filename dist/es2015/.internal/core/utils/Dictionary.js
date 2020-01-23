@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends, __generator, __read } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -15,7 +15,7 @@ import * as $string from "./String";
  * method on all its items.
  */
 var DictionaryDisposer = /** @class */ (function (_super) {
-    tslib_1.__extends(DictionaryDisposer, _super);
+    __extends(DictionaryDisposer, _super);
     function DictionaryDisposer(dict) {
         var _this = this;
         var disposer = dict.events.on("removed", function (x) {
@@ -270,7 +270,7 @@ var Dictionary = /** @class */ (function () {
      */
     Dictionary.prototype[Symbol.iterator] = function () {
         var _a, _b, _i, key;
-        return tslib_1.__generator(this, function (_c) {
+        return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
                     _a = [];
@@ -298,7 +298,7 @@ var Dictionary = /** @class */ (function () {
      */
     Dictionary.prototype.each = function (f) {
         $iter.each(this.iterator(), function (_a) {
-            var _b = tslib_1.__read(_a, 2), key = _b[0], value = _b[1];
+            var _b = __read(_a, 2), key = _b[0], value = _b[1];
             return f(key, value);
         });
     };
@@ -326,7 +326,7 @@ export { Dictionary };
  * other attributes), inserted into the list and returned.
  */
 var DictionaryTemplate = /** @class */ (function (_super) {
-    tslib_1.__extends(DictionaryTemplate, _super);
+    __extends(DictionaryTemplate, _super);
     /**
      * Constructor
      *

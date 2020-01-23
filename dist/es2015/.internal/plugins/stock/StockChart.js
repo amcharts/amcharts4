@@ -1,7 +1,7 @@
 /**
  * Module for building 3D serial charts.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * Imports
@@ -28,7 +28,7 @@ import * as $path from "../../core/rendering/Path";
  * @see {@link DataItem}
  */
 var StockChartDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(StockChartDataItem, _super);
+    __extends(StockChartDataItem, _super);
     function StockChartDataItem() {
         var _this = _super.call(this) || this;
         _this.className = "StockChartDataItem";
@@ -53,7 +53,7 @@ export { StockChartDataItem };
  * @important
  */
 var StockChart = /** @class */ (function (_super) {
-    tslib_1.__extends(StockChart, _super);
+    __extends(StockChart, _super);
     /**
      * Constructor
      */

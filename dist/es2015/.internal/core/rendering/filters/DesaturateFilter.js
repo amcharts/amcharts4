@@ -1,7 +1,7 @@
 /**
  * Module for "Desaturate" filter.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -20,7 +20,7 @@ import { registry } from "../../Registry";
  * Creats a "Desaturate" filter
  */
 var DesaturateFilter = /** @class */ (function (_super) {
-    tslib_1.__extends(DesaturateFilter, _super);
+    __extends(DesaturateFilter, _super);
     /**
      * Constructor
      */

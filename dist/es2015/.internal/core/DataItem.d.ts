@@ -144,7 +144,7 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
     /**
      * Holds Adapter.
      */
-    readonly adapter: Adapter<DataItem, IDataItemAdapters>;
+    get adapter(): Adapter<DataItem, IDataItemAdapters>;
     /**
      * Defines a type of [[Component]] this Data Item is used for.
      */
@@ -322,54 +322,57 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @return Index
      */
-    readonly index: number;
+    get index(): number;
     /**
      * A list of [[Animations]] objects currently mutating Data Item's values.
      *
      * @return [description]
      */
-    readonly animations: Array<Animation>;
-    /**
-     * Returns `true` if this Data Item is currently visible.
-     *
-     * @return Visible?
-     */
+    get animations(): Array<Animation>;
     /**
      * Sets visibility of the Data Item.
      *
      * @param value Visible?
      */
-    visible: boolean;
-    /**
-     * Returns `true` if this Data Item is currently hidden.
-     *
-     * @return Hidden?
-     */
+    set visible(value: boolean);
     /**
      * Sets hidden flag for data item. Mostly used to initially hide data item.
      *
      * @param value Hidden?
      */
-    hidden: boolean;
+    set hidden(value: boolean);
     /**
-     * Is this Data Item currently disabled?
+     * Returns `true` if this Data Item is currently hidden.
      *
-     * @ignore Exclude from docs
-     * @param {boolean}
+     * @return Hidden?
      */
+    get hidden(): boolean;
     /**
      * Disables all Sprites associated with this Data Item.
      *
      * @ignore Exclude from docs
      * @param {boolean}
      */
-    __disabled: boolean;
+    set __disabled(value: boolean);
+    /**
+     * Is this Data Item currently disabled?
+     *
+     * @ignore Exclude from docs
+     * @param {boolean}
+     */
+    get __disabled(): boolean;
     /**
      * Sets visibility of the Data Item.
      *
      * @param value Data Item
      */
     setVisibility(value: boolean, noChangeValues?: boolean): void;
+    /**
+     * Returns `true` if this Data Item is currently visible.
+     *
+     * @return Visible?
+     */
+    get visible(): boolean;
     /**
      * Shows the Data Item and related visual elements.
      *
@@ -524,11 +527,7 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @param value Opacity (0-1)
      */
-    opacity: number;
-    /**
-     * Exclude from min/max calculations?
-     * @return Exclude from min/max calculations?
-     */
+    set opacity(value: number);
     /**
      * Sets whether this data point should not be included in the scale and
      * minimum/maximum calculations.
@@ -538,7 +537,12 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @param value  Exclude from min/max calculations?
      */
-    ignoreMinMax: boolean;
+    set ignoreMinMax(value: boolean);
+    /**
+     * Exclude from min/max calculations?
+     * @return Exclude from min/max calculations?
+     */
+    get ignoreMinMax(): boolean;
     /**
      * Creates and starts an [[Animation]] to interpolate (morph) Data Item's
      * properties and/or values.
@@ -575,19 +579,20 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @return Depth
      */
-    readonly depth: number;
+    get depth(): number;
     /**
      * Sets to a reference to an original object from Component's data.
      *
      * @return [description]
      */
+    get dataContext(): Object;
     /**
      * A reference to an original object in Component's data, that this Data Item
      * is derived from.
      *
      * @param value Original data object
      */
-    dataContext: Object;
+    set dataContext(value: Object);
     /**
      * adds a sprite to dataItem.sprites array
      * @ignore

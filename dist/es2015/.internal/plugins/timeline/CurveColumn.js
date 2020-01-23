@@ -2,7 +2,7 @@
  * Module that defines everything related to building CurveColumns.
  * It is a container which has CurveColumn element which is a Slice.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +26,7 @@ import { registry } from "../../core/Registry";
  * @important
  */
 var CurveColumn = /** @class */ (function (_super) {
-    tslib_1.__extends(CurveColumn, _super);
+    __extends(CurveColumn, _super);
     /**
      * Constructor
      */

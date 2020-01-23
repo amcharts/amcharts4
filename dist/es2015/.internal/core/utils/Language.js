@@ -4,7 +4,7 @@
  * * Translating functions
  * * Date format localizations
  */
-import * as tslib_1 from "tslib";
+import { __extends, __read, __spread } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -31,7 +31,7 @@ import { options } from "../Options";
  * @important
  */
 var Language = /** @class */ (function (_super) {
-    tslib_1.__extends(Language, _super);
+    __extends(Language, _super);
     /**
      * Constructor
      */
@@ -120,7 +120,7 @@ var Language = /** @class */ (function (_super) {
         }
         else if (locale !== this._defaultLocale) {
             // Try to look in default language
-            return this.translate.apply(this, tslib_1.__spread([prompt, this._defaultLocale], rest));
+            return this.translate.apply(this, __spread([prompt, this._defaultLocale], rest));
         }
         // Replace %1, %2, etc params
         if (rest.length) {
@@ -169,7 +169,7 @@ var Language = /** @class */ (function (_super) {
         for (var _i = 2; _i < arguments.length; _i++) {
             rest[_i - 2] = arguments[_i];
         }
-        var translation = this.translate.apply(this, tslib_1.__spread([prompt, locale], rest));
+        var translation = this.translate.apply(this, __spread([prompt, locale], rest));
         return translation == prompt ? "" : translation;
     };
     /**

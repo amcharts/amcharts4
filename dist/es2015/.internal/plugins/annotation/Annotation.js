@@ -1,7 +1,7 @@
 /**
  * Plugin which enables annotation functionality for charts.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -57,7 +57,7 @@ import * as $math from "../../core/utils/Math";
  * @todo make annotations hold on IE (when in not annotation mode)
  */
 var Annotation = /** @class */ (function (_super) {
-    tslib_1.__extends(Annotation, _super);
+    __extends(Annotation, _super);
     /**
      * Constructor
      */

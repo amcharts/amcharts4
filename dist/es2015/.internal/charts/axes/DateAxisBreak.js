@@ -4,7 +4,7 @@
  * A "break" can be used to "cut out" specific ranges of the axis scale, e.g.
  * weekends and holidays out of the Date-based axis.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +30,7 @@ import { registry } from "../../core/Registry";
  * @important
  */
 var DateAxisBreak = /** @class */ (function (_super) {
-    tslib_1.__extends(DateAxisBreak, _super);
+    __extends(DateAxisBreak, _super);
     /**
      * Constructor
      */

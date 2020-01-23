@@ -102,14 +102,15 @@ export declare class ZoomControl extends Container {
      */
     handleBackgroundClick(event: AMEvent<Sprite, ISpriteEvents>["hit"]): void;
     /**
-     * @return Map/chart
-     */
-    /**
      * A main chart/map that this zoom control is for.
      *
      * @param chart  Map/chart
      */
-    chart: MapChart;
+    set chart(chart: MapChart);
+    /**
+     * @return Map/chart
+     */
+    get chart(): MapChart;
     /**
      * Updates the slider's thumb size based on the available zoom space.
      *
@@ -135,7 +136,7 @@ export declare class ZoomControl extends Container {
      * @ignore Exclude from docs
      * @return Step count
      */
-    readonly stepCount: number;
+    get stepCount(): number;
     /**
      * Creates a background element for slider control.
      *

@@ -1,7 +1,7 @@
 /**
  * Functionality for drawing simple buttons.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -27,7 +27,7 @@ import { registry } from "../Registry";
  * @see {@link IButtonAdapters} for a list of available Adapters
  */
 var Button = /** @class */ (function (_super) {
-    tslib_1.__extends(Button, _super);
+    __extends(Button, _super);
     /**
      * Constructor
      */

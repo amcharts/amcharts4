@@ -53,9 +53,6 @@ export declare class DesaturateFilter extends Filter {
      */
     constructor();
     /**
-     * @return Saturation (0-1)
-     */
-    /**
      * Saturation.
      *
      * 0 - completely desaturated.
@@ -63,5 +60,9 @@ export declare class DesaturateFilter extends Filter {
      *
      * @param value  Saturation (0-1)
      */
-    saturation: number;
+    set saturation(value: number);
+    /**
+     * @return Saturation (0-1)
+     */
+    get saturation(): number;
 }

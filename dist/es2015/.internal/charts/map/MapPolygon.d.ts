@@ -110,17 +110,15 @@ export declare class MapPolygon extends MapObject {
         };
     };
     /**
-     * @return Polygon coordinates
-     */
-    /**
      * Set of coordinates for the polygon.
      *
      * @param multiGeoPolygon  Polygon coordinates
      */
-    multiGeoPolygon: Array<[Array<IGeoPoint>, Array<IGeoPoint>]>;
+    set multiGeoPolygon(multiGeoPolygon: Array<[Array<IGeoPoint>, Array<IGeoPoint>]>);
     /**
-     * @return Coordinates
+     * @return Polygon coordinates
      */
+    get multiGeoPolygon(): Array<[Array<IGeoPoint>, Array<IGeoPoint>]>;
     /**
      * A collection of X/Y coordinates for a multi-part polygon. E.g.:
      *
@@ -152,7 +150,11 @@ export declare class MapPolygon extends MapObject {
      *
      * @param multiPolygon  Coordinates
      */
-    multiPolygon: Array<Array<Array<[number, number]>>>;
+    set multiPolygon(multiPolygon: Array<Array<Array<[number, number]>>>);
+    /**
+     * @return Coordinates
+     */
+    get multiPolygon(): Array<Array<Array<[number, number]>>>;
     /**
      * (Re)validates the polygon, effectively redrawing it.
      *
@@ -169,17 +171,14 @@ export declare class MapPolygon extends MapObject {
      * @readonly
      * @return Center latitude
      */
-    readonly latitude: number;
+    get latitude(): number;
     /**
      * Longitude of the geometrical center of the polygon.
      *
      * @readonly
      * @return Center longitude
      */
-    readonly longitude: number;
-    /**
-     * @return  Latitude
-     */
+    get longitude(): number;
     /**
      * Latitude of the visual center of the polygon.
      *
@@ -188,10 +187,11 @@ export declare class MapPolygon extends MapObject {
      * @since 4.3.0
      * @param  value  Latitude
      */
-    visualLatitude: number;
+    set visualLatitude(value: number);
     /**
-     * @return  Longitude
+     * @return  Latitude
      */
+    get visualLatitude(): number;
     /**
      * Longitude of the visual center of the polygon.
      *
@@ -200,7 +200,11 @@ export declare class MapPolygon extends MapObject {
      * @since 4.3.0
      * @param  value  Longitude
      */
-    visualLongitude: number;
+    set visualLongitude(value: number);
+    /**
+     * @return  Longitude
+     */
+    get visualLongitude(): number;
     /**
      * Not 100% sure about this, as if we add something to MapPolygon this
      * won't be true, but otherwise we will get all 0 and the tooltip won't
@@ -213,14 +217,14 @@ export declare class MapPolygon extends MapObject {
      * @readonly
      * @return Width (px)
      */
-    readonly pixelWidth: number;
+    get pixelWidth(): number;
     /**
      * Element's height in pixels.
      *
      * @readonly
      * @return Width (px)
      */
-    readonly pixelHeight: number;
+    get pixelHeight(): number;
     /**
      * Copies all properties from another instance of [[MapPolygon]].
      *
@@ -235,7 +239,7 @@ export declare class MapPolygon extends MapObject {
      * @ignore
      * used to sorth polygons from big to small
      */
-    readonly boxArea: number;
+    get boxArea(): number;
     /**
      * X coordinate for the slice tooltip.
      *

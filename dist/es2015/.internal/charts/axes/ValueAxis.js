@@ -1,7 +1,7 @@
 /**
  * Value Axis module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +30,7 @@ import * as $utils from "../../core/utils/Utils";
  * @see {@link DataItem}
  */
 var ValueAxisDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(ValueAxisDataItem, _super);
+    __extends(ValueAxisDataItem, _super);
     /**
      * Constructor
      */
@@ -118,7 +118,7 @@ export { ValueAxisDataItem };
  * @important
  */
 var ValueAxis = /** @class */ (function (_super) {
-    tslib_1.__extends(ValueAxis, _super);
+    __extends(ValueAxis, _super);
     /**
      * Constructor
      */
@@ -337,12 +337,15 @@ var ValueAxis = /** @class */ (function (_super) {
      */
     ValueAxis.prototype.calculateZoom = function () {
         if ($type.isNumber(this.min) && $type.isNumber(this.max)) {
-            var min = $math.round(this.positionToValue(this.start), this._stepDecimalPlaces);
-            var max = $math.round(this.positionToValue(this.end), this._stepDecimalPlaces);
+            var min = this.positionToValue(this.start);
+            var max = this.positionToValue(this.end);
             var differece = this.adjustDifference(min, max);
             var minMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);
             var step = minMaxStep.step;
+            this._stepDecimalPlaces = $utils.decimalPlaces(step);
             if (this.syncWithAxis) {
+                min = $math.round(min, this._stepDecimalPlaces);
+                max = $math.round(max, this._stepDecimalPlaces);
                 var calculated = this.getCache(min + "-" + max);
                 if ($type.isNumber(calculated)) {
                     step = calculated;
@@ -352,7 +355,6 @@ var ValueAxis = /** @class */ (function (_super) {
                 min = minMaxStep.min;
                 max = minMaxStep.max;
             }
-            this._stepDecimalPlaces = $utils.decimalPlaces(step);
             if (this._minZoomed != min || this._maxZoomed != max || this._step != step) {
                 this._minZoomed = min;
                 this._maxZoomed = max;
@@ -1411,19 +1413,20 @@ var ValueAxis = /** @class */ (function (_super) {
             selectionMin = $math.max(selectionMin, this._minDefined);
             selectionMax = $math.min(selectionMax, this._maxDefined);
         }
+        var step = minMaxStep.step;
         if (this.syncWithAxis) {
-            minMaxStep = this.syncAxes(selectionMin, selectionMax, minMaxStep.step);
+            minMaxStep = this.syncAxes(selectionMin, selectionMax, step);
             selectionMin = minMaxStep.min;
             selectionMax = minMaxStep.max;
             this.invalidate();
         }
-        var step = minMaxStep.step;
+        step = minMaxStep.step;
         // needed because of grouping
         this._difference = this.adjustDifference(this.min, this.max);
         var start = this.valueToPosition(selectionMin);
         var end = this.valueToPosition(selectionMax);
         // in case all series are hidden or hiding, full zoomout
-        if (allHidden) {
+        if (allHidden && !this.syncWithAxis) {
             start = 0;
             end = 1;
         }
@@ -1886,9 +1889,10 @@ var ValueAxis = /** @class */ (function (_super) {
         set: function (axis) {
             if (this.setPropertyValue("syncWithAxis", axis, true)) {
                 if (axis) {
-                    //this._disposers.push(axis.events.on("extremeschanged", this.handleSelectionExtremesChange, this, false));
+                    this._disposers.push(axis.events.on("extremeschanged", this.handleSelectionExtremesChange, this, false));
                     this._disposers.push(axis.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this, false));
                     this.events.on("shown", this.handleSelectionExtremesChange, this, false);
+                    this.events.on("maxsizechanged", this.handleSelectionExtremesChange, this, false);
                 }
             }
         },
@@ -1905,6 +1909,15 @@ var ValueAxis = /** @class */ (function (_super) {
     ValueAxis.prototype.syncAxes = function (min, max, step) {
         var axis = this.syncWithAxis;
         if (axis) {
+            if (!$type.isNumber(min)) {
+                min = this.min;
+            }
+            if (!$type.isNumber(max)) {
+                max = this.max;
+            }
+            if (!$type.isNumber(step)) {
+                step = this._step;
+            }
             var count = Math.round((axis.maxZoomed - axis.minZoomed) / axis.step);
             var currentCount = Math.round((max - min) / step);
             if ($type.isNumber(count) && $type.isNumber(currentCount)) {

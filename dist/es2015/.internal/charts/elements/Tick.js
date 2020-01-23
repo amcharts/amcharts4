@@ -1,7 +1,7 @@
 /**
  * Tick module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -28,7 +28,7 @@ import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
  * @important
  */
 var Tick = /** @class */ (function (_super) {
-    tslib_1.__extends(Tick, _super);
+    __extends(Tick, _super);
     /**
      * Constructor
      */

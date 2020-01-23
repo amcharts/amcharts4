@@ -125,7 +125,7 @@ export declare class ColumnSeries3D extends ColumnSeries {
     /**
      * @ignore
      */
-    readonly columnsContainer: Container;
+    get columnsContainer(): Container;
     /**
      * Validates data item's elements.
      *
@@ -146,25 +146,27 @@ export declare class ColumnSeries3D extends ColumnSeries {
      */
     protected createColumnTemplate(): this["_column"];
     /**
-     * @ignore Exclude from docs
-     * @return Depth (px)
-     */
-    /**
      * Depth (height) of the slices in the series in pixels.
      *
      * @ignore Exclude from docs
      * @param value  Depth (px)
      */
-    depth: number;
+    set depth(value: number);
     /**
      * @ignore Exclude from docs
-     * @return Angle (0-360)
+     * @return Depth (px)
      */
+    get depth(): number;
     /**
      * Angle of view for the slices in series. (0-360)
      *
      * @ignore Exclude from docs
      * @param value  Angle (0-360)
      */
-    angle: number;
+    set angle(value: number);
+    /**
+     * @ignore Exclude from docs
+     * @return Angle (0-360)
+     */
+    get angle(): number;
 }

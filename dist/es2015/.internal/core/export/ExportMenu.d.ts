@@ -1,3 +1,6 @@
+/**
+ * ExportMenu provides functionality for building Export menu
+ */
 import { IExportOptions } from "./Export";
 import { Adapter } from "../utils/Adapter";
 import { List } from "../utils/List";
@@ -449,9 +452,6 @@ export declare class ExportMenu extends Validatable {
      */
     getReaderLabel(branch: IExportMenuItem, label: string): string;
     /**
-     * @return Container
-     */
-    /**
      * Getters and setters
      */
     /**
@@ -463,16 +463,21 @@ export declare class ExportMenu extends Validatable {
      * @param container Reference to container element
      * @todo Check if menu is already build. If it is, just move it to a new container
      */
-    container: $type.Optional<HTMLElement>;
+    set container(container: $type.Optional<HTMLElement>);
     /**
-     * @return Menu items
+     * @return Container
      */
+    get container(): $type.Optional<HTMLElement>;
     /**
      * A list of menu items. Can be nested.
      *
      * @param items  Menu items
      */
-    items: Array<IExportMenuItem>;
+    set items(items: Array<IExportMenuItem>);
+    /**
+     * @return Menu items
+     */
+    get items(): Array<IExportMenuItem>;
     /**
      * Sets main menu tag to place menu in.
      *
@@ -485,66 +490,66 @@ export declare class ExportMenu extends Validatable {
      * @default "ul"
      * @param tag Tag to use for menu
      */
-    tag: "ul" | "div";
+    set tag(tag: "ul" | "div");
     /**
      * Returns current menu tag.
      *
      * @ignore Exclude from docs
      * @return Menu tag (item that contains sub-items)
      */
-    readonly menuTag: string;
+    get menuTag(): string;
     /**
      * Returns tag to wrap items into.
      *
      * @ignore Exclude from docs
      * @return Item tag
      */
-    readonly itemTag: string;
+    get itemTag(): string;
     /**
      * Returns menu label tag.
      *
      * @ignore Exclude from docs
      * @return Label tag
      */
-    readonly labelTag: string;
+    get labelTag(): string;
     /**
      * Returns icon tag.
      *
      * @ignore Exclude from docs
      * @return Icon tag
      */
-    readonly iconTag: string;
-    /**
-     * @return Horizontal alignment
-     */
+    get iconTag(): string;
     /**
      * A horizontal alignment for the menu placement.
      *
      * @param value Horizontal alignment
      */
-    align: Align;
+    set align(value: Align);
     /**
-     * @return Vertical alignment
+     * @return Horizontal alignment
      */
+    get align(): Align;
     /**
      * A vertical alignment for the menu placement.
      *
      * @param value Vertical alignment
      */
-    verticalAlign: VerticalAlign;
+    set verticalAlign(value: VerticalAlign);
     /**
-     * @return Class name prefix
+     * @return Vertical alignment
      */
+    get verticalAlign(): VerticalAlign;
     /**
      * Class name prefix.
      *
      * @default "amexport"
      * @param value Class name prefix
      */
-    classPrefix: string;
+    set classPrefix(value: string);
     /**
-     * @return Should ExportMenu load its own CSS?
+     * @return Class name prefix
      */
+    get classPrefix(): string;
     /**
      * Indicates whether [[ExportMenu]] should load external CSS to style itself.
      *
@@ -554,16 +559,17 @@ export declare class ExportMenu extends Validatable {
      * @default true
      * @param Should ExportMenu load its own CSS?
      */
-    defaultStyles: boolean;
+    set defaultStyles(value: boolean);
+    /**
+     * @return Should ExportMenu load its own CSS?
+     */
+    get defaultStyles(): boolean;
     /**
      * Loads the default CSS.
      *
      * @ignore Exclude from docs
      */
     loadDefaultCSS(): void;
-    /**
-     * @return Tab index
-     */
     /**
      * A tab index for the menu.
      *
@@ -572,16 +578,21 @@ export declare class ExportMenu extends Validatable {
      *
      * @param value Tab index
      */
-    tabindex: number;
+    set tabindex(value: number);
     /**
-     * @return A [[Language]] instance to be used
+     * @return Tab index
      */
+    get tabindex(): number;
     /**
      * A [[Language]] instance.
      *
      * @param value An instance of [[Language]]
      */
-    language: Language;
+    set language(value: Language);
+    /**
+     * @return A [[Language]] instance to be used
+     */
+    get language(): Language;
     /**
      * Controlling the menu
      */

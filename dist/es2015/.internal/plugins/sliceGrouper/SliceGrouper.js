@@ -1,7 +1,7 @@
 /**
  * Plugin for automatically grouping small chart slices into single group.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -63,7 +63,7 @@ import * as $object from "../../core/utils/Object";
  * @since 4.3.11
  */
 var SliceGrouper = /** @class */ (function (_super) {
-    tslib_1.__extends(SliceGrouper, _super);
+    __extends(SliceGrouper, _super);
     /**
      * Constructor
      */

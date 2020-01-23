@@ -162,16 +162,17 @@ export declare class StyleRule extends Disposer {
      */
     private _rule;
     /**
-     * @return CSS selector
-     */
-    /**
      * A CSS selector text.
      *
      * E.g.: `.myClass p`
      *
      * @param selector  CSS selector
      */
-    selector: string;
+    set selector(selector: string);
+    /**
+     * @return CSS selector
+     */
+    get selector(): string;
     /**
      * Constructor.
      *
@@ -187,7 +188,7 @@ export declare class StyleRule extends Disposer {
      * @param name   Attribute name
      * @param value  Attribute value
      */
-    private _setVendorPrefixName(name, value);
+    private _setVendorPrefixName;
     /**
      * Sets a value for specific style attribute.
      *
@@ -215,14 +216,15 @@ export declare class StyleClass extends StyleRule {
         [name: string]: string;
     }, name?: string);
     /**
-     * @return Class name
-     */
-    /**
      * Class name.
      *
      * @param name  Class name
      */
-    className: string;
+    set className(name: string);
+    /**
+     * @return Class name
+     */
+    get className(): string;
     /**
      * Converts the whole class to
      * @ignore Exclude from docs

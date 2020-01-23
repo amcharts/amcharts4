@@ -45,21 +45,21 @@ export declare class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
      *
      * @return Parent name
      */
-    readonly parentName: string;
+    get parentName(): string;
     /**
      * Item's numeric value.
      *
      * @readonly
      * @return Value
      */
-    readonly value: number;
+    get value(): number;
     /**
      * A corresponding data item from the tree map.
      *
      * @readonly
      * @return Data item
      */
-    readonly treeMapDataItem: TreeMapDataItem;
+    get treeMapDataItem(): TreeMapDataItem;
     /**
      * Hides the Data Item and related visual elements.
      *

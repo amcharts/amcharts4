@@ -48,40 +48,43 @@ export declare class SunburstDataItem extends PieChartDataItem {
      */
     constructor();
     /**
-     * Numeric value of the slice.
-     *
-     * @return Value
-     */
-    /**
      * Numeric value of the item.
      *
      * @param value  Value
      */
-    value: number;
+    set value(value: number);
+    /**
+     * Numeric value of the slice.
+     *
+     * @return Value
+     */
+    get value(): number;
     /**
      * Percent of the slice.
      *
      * @return {number} Percent
      */
-    readonly percent: number;
-    /**
-     * @return Name
-     */
+    get percent(): number;
     /**
      * Item's name.
      *
      * @param name  Name
      */
-    name: string;
+    set name(name: string);
     /**
-     * @return Item's children
+     * @return Name
      */
+    get name(): string;
     /**
      * A list of item's sub-children.
      *
      * @param children  Item's children
      */
-    children: OrderedListTemplate<SunburstDataItem>;
+    set children(children: OrderedListTemplate<SunburstDataItem>);
+    /**
+     * @return Item's children
+     */
+    get children(): OrderedListTemplate<SunburstDataItem>;
     /**
      * Depth level in the Sunburst hierarchy.
      *
@@ -91,10 +94,7 @@ export declare class SunburstDataItem extends PieChartDataItem {
      * @readonly
      * @return Level
      */
-    readonly level: number;
-    /**
-     * @return Color
-     */
+    get level(): number;
     /**
      * Item's color.
      *
@@ -103,16 +103,21 @@ export declare class SunburstDataItem extends PieChartDataItem {
      *
      * @param value  Color
      */
-    color: Color;
+    set color(value: Color);
     /**
-     * @return Child series
+     * @return Color
      */
+    get color(): Color;
     /**
      * A series representing slice's children.
      *
      * @param  series Child series
      */
-    series: SunburstSeries;
+    set series(series: SunburstSeries);
+    /**
+     * @return Child series
+     */
+    get series(): SunburstSeries;
 }
 /**
  * ============================================================================

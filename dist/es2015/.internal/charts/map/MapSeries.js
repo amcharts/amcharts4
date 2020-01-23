@@ -1,7 +1,7 @@
 /**
  * Map series module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -25,7 +25,7 @@ import * as d3geo from "d3-geo";
  * @see {@link DataItem}
  */
 var MapSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(MapSeriesDataItem, _super);
+    __extends(MapSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -195,7 +195,7 @@ export { MapSeriesDataItem };
  * @important
  */
 var MapSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(MapSeries, _super);
+    __extends(MapSeries, _super);
     /**
      * Constructor
      */

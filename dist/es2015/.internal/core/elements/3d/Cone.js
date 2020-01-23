@@ -1,7 +1,7 @@
 /**
  * Cone module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -28,7 +28,7 @@ import * as $path from "../../rendering/Path";
  * @see {@link IConeAdapters} for a list of available Adapters
  */
 var Cone = /** @class */ (function (_super) {
-    tslib_1.__extends(Cone, _super);
+    __extends(Cone, _super);
     /**
      * Constructor
      */

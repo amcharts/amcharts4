@@ -121,71 +121,78 @@ export declare class SankeyLink extends FlowDiagramLink {
      */
     validate(): void;
     /**
-     * @return Start X
-     */
-    /**
      * [startX description]
      *
      * @todo Description
      * @param value  Start X
      */
-    startX: number;
+    set startX(value: number);
     /**
-     * @return End X
+     * @return Start X
      */
+    get startX(): number;
     /**
      * [endX description]
      *
      * @todo Description
      * @param value  End X
      */
-    endX: number;
+    set endX(value: number);
     /**
-     * @return Start Y
+     * @return End X
      */
+    get endX(): number;
     /**
      * [startY description]
      *
      * @todo Description
      * @param value  Start Y
      */
-    startY: number;
+    set startY(value: number);
     /**
-     * @return End Y
+     * @return Start Y
      */
+    get startY(): number;
     /**
      * [endY description]
      *
      * @todo Description
      * @param value End Y
      */
-    endY: number;
+    set endY(value: number);
     /**
-     * @return [description]
+     * @return End Y
      */
+    get endY(): number;
     /**
      * [linkWidth description]
      *
      * @todo Description
      * @param value [description]
      */
-    linkWidth: number;
+    set linkWidth(value: number);
     /**
-     * @return relative control point distance
+     * @return [description]
      */
+    get linkWidth(): number;
     /**
      * Distance of control point of a link, defines relative distance from a node at which linke should bend
      * @default 0.2
      * @param value
      */
-    controlPointDistance: number;
+    set controlPointDistance(value: number);
     /**
-     * @return tension value
+     * @return relative control point distance
      */
+    get controlPointDistance(): number;
     /**
      * Tension of a spline, 1 would make the link to have sharp edges
      * @default 0.8
      * @param value
      */
-    tension: number;
+    set tension(value: number);
+    /**
+     * @return tension value
+     */
+    get tension(): number;
 }

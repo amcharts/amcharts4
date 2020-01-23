@@ -170,59 +170,64 @@ export declare class FlowDiagramNode extends Container {
      * @readonly
      * @return Incoming items
      */
-    readonly incomingDataItems: List<this["_dataItem"]>;
+    get incomingDataItems(): List<this["_dataItem"]>;
     /**
      * List of outgoing items (links).
      *
      * @readonly
      * @return Outgoing items
      */
-    readonly outgoingDataItems: List<FlowDiagramDataItem>;
-    /**
-     * @return Name
-     */
+    get outgoingDataItems(): List<FlowDiagramDataItem>;
     /**
      * A name of the node.
      *
      * @param value  Name
      */
-    name: string;
+    set name(value: string);
     /**
-     * @return Value
+     * @return Name
      */
+    get name(): string;
     /**
      * Sum of all incoming+outgoing link values
      *
      * @param value  Value
      */
-    total: number;
+    set total(value: number);
     /**
      * @return Value
      */
+    get total(): number;
     /**
      * Sum of all incomming link values.
      *
      * @param value  Value
      */
-    totalIncoming: number;
+    set totalIncoming(value: number);
     /**
      * @return Value
      */
+    get totalIncoming(): number;
     /**
      * Sum of all outgoing link values.
      *
      * @param value  Value
      */
-    totalOutgoing: number;
+    set totalOutgoing(value: number);
     /**
-     * @return Color
+     * @return Value
      */
+    get totalOutgoing(): number;
     /**
      * Node's color.
      *
      * @param value  Color
      */
-    color: Color;
+    set color(value: Color);
+    /**
+     * @return Color
+     */
+    get color(): Color;
     /**
      * Creates elements in related legend container, that mimics the look of this
      * Series.
@@ -232,12 +237,13 @@ export declare class FlowDiagramNode extends Container {
      */
     createLegendMarker(marker: Container): void;
     /**
-     * @return Data item
-     */
-    /**
      * Legend data item that corresponds to this series.
      *
      * @param value  Data item
      */
-    legendDataItem: LegendDataItem;
+    set legendDataItem(value: LegendDataItem);
+    /**
+     * @return Data item
+     */
+    get legendDataItem(): LegendDataItem;
 }

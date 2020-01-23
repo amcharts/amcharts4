@@ -152,6 +152,12 @@ export declare class ColorSet extends BaseObject {
      */
     constructor();
     /**
+     * Sets a list of pre-defined colors to use for the iterator.
+     *
+     * @param value Color list
+     */
+    set list(value: Color[]);
+    /**
      * Returns current list of colors.
      *
      * If there are none, a new list of colors is generated, based on various
@@ -159,12 +165,7 @@ export declare class ColorSet extends BaseObject {
      *
      * @return Color list
      */
-    /**
-     * Sets a list of pre-defined colors to use for the iterator.
-     *
-     * @param value Color list
-     */
-    list: Color[];
+    get list(): Color[];
     /**
      * Gets reusable color.
      *
@@ -196,9 +197,6 @@ export declare class ColorSet extends BaseObject {
      */
     reset(): void;
     /**
-     * @return Step
-     */
-    /**
      * Sets current color iteration. You can use this property to skip some
      * colors from iteration. E.g. setting it to `10` will skip first ten
      * colors.
@@ -207,10 +205,11 @@ export declare class ColorSet extends BaseObject {
      *
      * @param value  Step
      */
-    currentStep: number;
+    set currentStep(value: number);
     /**
-     * @return Index
+     * @return Step
      */
+    get currentStep(): number;
     /**
      * If set to non-zero value, the ColorSet will start iterating colors from
      * that particular index, not the first color in the list.
@@ -219,7 +218,11 @@ export declare class ColorSet extends BaseObject {
      * @since 4.4.9
      * @param  value  Index
      */
-    startIndex: number;
+    set startIndex(value: number);
+    /**
+     * @return Index
+     */
+    get startIndex(): number;
     /**
      * Generates colors based on the various ColorSet settings.
      *
@@ -232,7 +235,7 @@ export declare class ColorSet extends BaseObject {
      *
      * @return Color
      */
-    protected readonly currentColor: Color;
+    protected get currentColor(): Color;
     /**
      * Generates modifiers for color, based on what step and pass.
      *

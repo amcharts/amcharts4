@@ -120,25 +120,27 @@ export declare class Rectangle3D extends Container {
      */
     draw(): void;
     /**
-     * @return Depth (px)
-     */
-    /**
      * Depth (Z dimension) of the 3D rectangle in pixels.
      *
      * @default 30
      * @param value  Depth (px)
      */
-    depth: number;
+    set depth(value: number);
     /**
-     * @return Angle
+     * @return Depth (px)
      */
+    get depth(): number;
     /**
      * Angle of the point of view to the 3D element. (0-360)
      *
      * @default 30
      * @param value  Angle
      */
-    angle: number;
+    set angle(value: number);
+    /**
+     * @return Angle
+     */
+    get angle(): number;
     /**
      * Sets actual `fill` property on the SVG element, including applicable color
      * modifiers.

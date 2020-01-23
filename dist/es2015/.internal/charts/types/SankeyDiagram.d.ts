@@ -240,23 +240,25 @@ export declare class SankeyDiagram extends FlowDiagram {
      */
     protected createDataItem(): this["_dataItem"];
     /**
-     * @returns Returns nodeAlign value
-     */
-    /**
      * How to align nodes. In case layout is vertical, top means left and bottom means right
      *
      * @param value  Node sorting
      */
-    nodeAlign: "top" | "middle" | "bottom";
+    set nodeAlign(value: "top" | "middle" | "bottom");
     /**
-     * @return Orientation
+     * @returns Returns nodeAlign value
      */
+    get nodeAlign(): "top" | "middle" | "bottom";
     /**
      * Orientation of the chart: "horizontal" or "vertical";
      *
      * @param value Orientation
      */
-    orientation: Orientation;
+    set orientation(value: Orientation);
+    /**
+     * @return Orientation
+     */
+    get orientation(): Orientation;
     /**
      * @ignore
      */
@@ -268,10 +270,11 @@ export declare class SankeyDiagram extends FlowDiagram {
     /**
      * @ignore
      */
+    get valueHeight(): number;
     /**
      * @ignore
      */
-    valueHeight: number;
+    set valueHeight(value: number);
     /**
      * @ignore
      */

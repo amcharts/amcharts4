@@ -1,7 +1,7 @@
 /**
  * FlowDiagramNode module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -39,7 +39,7 @@ import { LegendSettings } from "../Legend";
  * @important
  */
 var FlowDiagramNode = /** @class */ (function (_super) {
-    tslib_1.__extends(FlowDiagramNode, _super);
+    __extends(FlowDiagramNode, _super);
     /**
      * Constructor
      */

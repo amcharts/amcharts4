@@ -1,7 +1,7 @@
 /**
  * A module defining functionality for circular axis grid elements.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -24,7 +24,7 @@ import { registry } from "../../core/Registry";
  * @todo Review: container is better, as we'll be able to attach something to the GridCircular, also with 3d charts we might need some additional elements
  */
 var GridCircular = /** @class */ (function (_super) {
-    tslib_1.__extends(GridCircular, _super);
+    __extends(GridCircular, _super);
     /**
      * Constructor
      */

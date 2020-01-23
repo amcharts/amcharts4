@@ -1,4 +1,9 @@
 /**
+ * A collection of easing functions
+ *
+ * Parts of this collection are taken from D3.js library (https://d3js.org/)
+ */
+/**
  * The functions below are from D3.js library (https://d3js.org/)
  *
  * ----------------------------------------------------------------------------

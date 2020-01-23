@@ -1,3 +1,6 @@
+/**
+ * Popup class is used to display information over chart area.
+ */
 import { Adapter } from "../utils/Adapter";
 import { BaseObjectEvents } from "../Base";
 import { Sprite } from "../Sprite";
@@ -279,20 +282,18 @@ export declare class Popup extends BaseObjectEvents {
      *
      * @return Class name prefix
      */
+    get classPrefix(): string;
     /**
      * @param value Class name prefix
      */
-    classPrefix: string;
+    set classPrefix(value: string);
     /**
      * Returns raw prefix (without adapters applied).
      *
      * @ignore Exclude from docs
      * @return Class name prefix
      */
-    readonly classPrefixRaw: string;
-    /**
-     * @return Popup content
-     */
+    get classPrefixRaw(): string;
     /**
      * Popup content.
      *
@@ -300,7 +301,11 @@ export declare class Popup extends BaseObjectEvents {
      *
      * @param value Popup content
      */
-    content: string;
+    set content(value: string);
+    /**
+     * @return Popup content
+     */
+    get content(): string;
     protected getClassNames(): {
         wrapperClass: string;
         titleClass: string;
@@ -315,19 +320,17 @@ export declare class Popup extends BaseObjectEvents {
      */
     protected createContentElement(): void;
     /**
-     * @return Popup title
-     */
-    /**
      * Popup title.
      *
      * Popup title can be any valid HTML, including CSS.
      *
      * @param value  Popup title
      */
-    title: string;
+    set title(value: string);
     /**
-     * @return Popup content
+     * @return Popup title
      */
+    get title(): string;
     /**
      * A title for screen readers. It is very highly recommended to set that title
      * so that people using screen reader tools can get an immediate summary of
@@ -335,10 +338,11 @@ export declare class Popup extends BaseObjectEvents {
      *
      * @param value  Reader title
      */
-    readerTitle: string;
+    set readerTitle(value: string);
     /**
-     * @return Closable?
+     * @return Popup content
      */
+    get readerTitle(): string;
     /**
      * Is popup closable?
      *
@@ -349,12 +353,11 @@ export declare class Popup extends BaseObjectEvents {
      *
      * @param value Closable?
      */
-    closable: boolean;
+    set closable(value: boolean);
     /**
-     * @ignore
-     * @todo Implement
-     * @return Fit option
+     * @return Closable?
      */
+    get closable(): boolean;
     /**
      * If set to other than "none" will try to re-adjust the position of the
      * popop to fit within chart container or browser window.
@@ -364,10 +367,13 @@ export declare class Popup extends BaseObjectEvents {
      * @default "window"
      * @param value  Fit option
      */
-    fitTo: "none" | "container" | "window";
+    set fitTo(value: "none" | "container" | "window");
     /**
-     * @return Use default CSS?
+     * @ignore
+     * @todo Implement
+     * @return Fit option
      */
+    get fitTo(): "none" | "container" | "window";
     /**
      * Should popup use default CSS?
      *
@@ -377,34 +383,37 @@ export declare class Popup extends BaseObjectEvents {
      * @default true
      * @param Use default CSS?
      */
-    defaultStyles: boolean;
+    set defaultStyles(value: boolean);
     /**
-     * @return Show curtain?
+     * @return Use default CSS?
      */
+    get defaultStyles(): boolean;
     /**
      * Should popup use dim out all content behind it?
      *
      * @default false
      * @param Show curtain?
      */
-    showCurtain: boolean;
+    set showCurtain(value: boolean);
+    /**
+     * @return Show curtain?
+     */
+    get showCurtain(): boolean;
     /**
      * Creates curtain element.
      */
     protected createCurtainElement(): void;
-    /**
-     * @return Show curtain?
-     */
     /**
      * Can the popup be dragged with a pointer?
      *
      * @default false
      * @param Show curtain?
      */
-    draggable: boolean;
+    set draggable(value: boolean);
     /**
-     * @return Horizontal position
+     * @return Show curtain?
      */
+    get draggable(): boolean;
     /**
      * Horizontal positioning of the content window.
      *
@@ -413,10 +422,11 @@ export declare class Popup extends BaseObjectEvents {
      * @default "center"
      * @param Horizontal position
      */
-    align: Align;
+    set align(value: Align);
     /**
-     * @return Vertical position
+     * @return Horizontal position
      */
+    get align(): Align;
     /**
      * Vertical positioning of the content window.
      *
@@ -425,10 +435,11 @@ export declare class Popup extends BaseObjectEvents {
      * @default "middle"
      * @param Vertical position
      */
-    verticalAlign: VerticalAlign;
+    set verticalAlign(value: VerticalAlign);
     /**
-     * @return Left
+     * @return Vertical position
      */
+    get verticalAlign(): VerticalAlign;
     /**
      * "left" coordinate of a non-aligned (`align = "none"`) popup.
      *
@@ -440,10 +451,11 @@ export declare class Popup extends BaseObjectEvents {
      *
      * @param Left
      */
-    left: number | Percent;
+    set left(value: number | Percent);
     /**
-     * @return Right
+     * @return Left
      */
+    get left(): number | Percent;
     /**
      * "right" coordinate of a non-aligned (`align = "none"`) popup.
      *
@@ -455,10 +467,11 @@ export declare class Popup extends BaseObjectEvents {
      *
      * @param Right
      */
-    right: number | Percent;
+    set right(value: number | Percent);
     /**
-     * @return Top
+     * @return Right
      */
+    get right(): number | Percent;
     /**
      * "top" coordinate of a non-aligned (`verticalAlign = "none"`) popup.
      *
@@ -470,10 +483,11 @@ export declare class Popup extends BaseObjectEvents {
      *
      * @param Top
      */
-    top: number | Percent;
+    set top(value: number | Percent);
     /**
-     * @return Bottom
+     * @return Top
      */
+    get top(): number | Percent;
     /**
      * "bottom" coordinate of a non-aligned (`verticalAlign = "none"`) popup.
      *
@@ -485,7 +499,11 @@ export declare class Popup extends BaseObjectEvents {
      *
      * @param Bottom
      */
-    bottom: number | Percent;
+    set bottom(value: number | Percent);
+    /**
+     * @return Bottom
+     */
+    get bottom(): number | Percent;
     /**
      * Returns an object with references to various elements of the Popup.
      *
@@ -495,7 +513,7 @@ export declare class Popup extends BaseObjectEvents {
      * * `close`
      * * `curtain`
      */
-    readonly elements: {
+    get elements(): {
         wrapper?: HTMLElement;
         title?: HTMLElement;
         content?: HTMLElement;

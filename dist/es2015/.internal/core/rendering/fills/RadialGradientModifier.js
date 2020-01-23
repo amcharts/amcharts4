@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -50,7 +50,7 @@ import { registry } from "../../Registry";
  * ```
  */
 var RadialGradientModifier = /** @class */ (function (_super) {
-    tslib_1.__extends(RadialGradientModifier, _super);
+    __extends(RadialGradientModifier, _super);
     /**
      * Constructor.
      */

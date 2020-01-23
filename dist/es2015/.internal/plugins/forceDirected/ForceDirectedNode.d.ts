@@ -127,9 +127,6 @@ export declare class ForceDirectedNode extends Container {
      */
     protected updateSimulation(): void;
     /**
-     * @return Expand all?
-     */
-    /**
      * If set to `true` (default) toggling a node on will automatically expand
      * all nodes across the whole tree (all levels) of its descendants.
      *
@@ -139,7 +136,11 @@ export declare class ForceDirectedNode extends Container {
      * @since 4.4.8
      * @param  value  Expand all?
      */
-    expandAll: boolean;
+    set expandAll(value: boolean);
+    /**
+     * @return Expand all?
+     */
+    get expandAll(): boolean;
     /**
      * Creates a new link between two nodes.
      *
@@ -160,14 +161,15 @@ export declare class ForceDirectedNode extends Container {
      */
     unlinkWith(node: ForceDirectedNode): void;
     /**
-     * @return Padding radius
-     */
-    /**
      * Padding of the nodes, in pixels.
      *
      * @since 4.6.7
      * @default 0
      * @param  value  padding radius
      */
-    paddingRadius: number;
+    set paddingRadius(value: number);
+    /**
+     * @return Padding radius
+     */
+    get paddingRadius(): number;
 }

@@ -80,26 +80,25 @@ export declare class FunnelTick extends Tick {
      */
     draw(): void;
     /**
-     * @return FunnelSlice
-     */
-    /**
      * [[FunnelSlice]] element tick is attached to.
      *
      * @param slice  Slice
      */
-    slice: FunnelSlice;
+    set slice(slice: FunnelSlice);
     /**
-     * @return Label
+     * @return FunnelSlice
      */
+    get slice(): FunnelSlice;
     /**
      * [[Label]] element tick is attached to.
      *
      * @param label  Label
      */
-    label: Label;
+    set label(label: Label);
     /**
-     * @return Location (0-1)
+     * @return Label
      */
+    get label(): Label;
     /**
      * A relative horizontal position within target element a tick is pointing
      * to.
@@ -112,10 +111,11 @@ export declare class FunnelTick extends Tick {
      *
      * @param value  Location (0-1)
      */
-    locationX: number;
+    set locationX(value: number);
     /**
      * @return Location (0-1)
      */
+    get locationX(): number;
     /**
      * A relative vertical position within target element a tick is pointing
      * to.
@@ -128,5 +128,9 @@ export declare class FunnelTick extends Tick {
      *
      * @param value  Location (0-1)
      */
-    locationY: number;
+    set locationY(value: number);
+    /**
+     * @return Location (0-1)
+     */
+    get locationY(): number;
 }

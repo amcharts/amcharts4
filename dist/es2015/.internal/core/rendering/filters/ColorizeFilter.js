@@ -1,7 +1,7 @@
 /**
  * Module for "Colorize" filter.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -21,7 +21,7 @@ import { registry } from "../../Registry";
  * Creates a "Colorize" filter.
  */
 var ColorizeFilter = /** @class */ (function (_super) {
-    tslib_1.__extends(ColorizeFilter, _super);
+    __extends(ColorizeFilter, _super);
     /**
      * Constructor
      */

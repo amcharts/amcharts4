@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { XYCursor } from "../../charts/cursors/XYCursor";
 //import { Percent, percent } from "../../core/utils/Percent";
 import { registry } from "../../core/Registry";
@@ -17,7 +17,7 @@ import * as $utils from "../../core/utils/Utils";
  * @see {@link ICurveCursorAdapters} for a list of available Adapters
  */
 var CurveCursor = /** @class */ (function (_super) {
-    tslib_1.__extends(CurveCursor, _super);
+    __extends(CurveCursor, _super);
     /**
      * Constructor
      */

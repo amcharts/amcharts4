@@ -1,7 +1,7 @@
 /**
  * Map arc series module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -23,7 +23,7 @@ import { registry } from "../../core/Registry";
  * @see {@link DataItem}
  */
 var MapArcSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(MapArcSeriesDataItem, _super);
+    __extends(MapArcSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -50,7 +50,7 @@ export { MapArcSeriesDataItem };
  * @important
  */
 var MapArcSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(MapArcSeries, _super);
+    __extends(MapArcSeries, _super);
     /**
      * Constructor
      */

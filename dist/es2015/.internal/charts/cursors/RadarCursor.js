@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { XYCursor } from "./XYCursor";
 import { Percent, percent } from "../../core/utils/Percent";
 import { registry } from "../../core/Registry";
@@ -19,7 +19,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link IRadarCursorAdapters} for a list of available Adapters
  */
 var RadarCursor = /** @class */ (function (_super) {
-    tslib_1.__extends(RadarCursor, _super);
+    __extends(RadarCursor, _super);
     /**
      * Constructor
      */

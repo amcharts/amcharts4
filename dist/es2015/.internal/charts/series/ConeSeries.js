@@ -2,7 +2,7 @@
  * ConeSeries module
  * Not recommended using if you use scrollbars or your chart is zoomable in some other way.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -25,7 +25,7 @@ import * as $path from "../../core/rendering/Path";
  * @see {@link DataItem}
  */
 var ConeSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(ConeSeriesDataItem, _super);
+    __extends(ConeSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -53,7 +53,7 @@ export { ConeSeriesDataItem };
  * @important
  */
 var ConeSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(ConeSeries, _super);
+    __extends(ConeSeries, _super);
     /**
      * Constructor
      */

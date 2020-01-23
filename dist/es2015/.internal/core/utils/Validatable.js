@@ -2,7 +2,7 @@
  * This module defines a [[Validatable]] class which can be used by all
  * non-[[Sprite]] classes to use system beats to revalidate themselves.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -18,7 +18,7 @@ import { registry } from "../Registry";
  * @ignore Exclude from docs
  */
 var Validatable = /** @class */ (function (_super) {
-    tslib_1.__extends(Validatable, _super);
+    __extends(Validatable, _super);
     function Validatable() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         /**

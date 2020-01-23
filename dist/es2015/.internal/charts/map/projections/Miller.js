@@ -33,7 +33,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * ```
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -48,7 +48,7 @@ import * as d3geoprojection from "d3-geo-projection";
  * Miller projection.
  */
 var Miller = /** @class */ (function (_super) {
-    tslib_1.__extends(Miller, _super);
+    __extends(Miller, _super);
     function Miller() {
         var _this = _super.call(this) || this;
         _this.d3Projection = d3geoprojection.geoMiller();

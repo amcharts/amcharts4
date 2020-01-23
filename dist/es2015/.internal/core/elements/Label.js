@@ -1,7 +1,7 @@
 /**
  * Text class deals with all text placed on chart.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -59,7 +59,7 @@ import { defaultRules, ResponsiveBreakpoints } from "../utils/Responsive";
  * @important
  */
 var Label = /** @class */ (function (_super) {
-    tslib_1.__extends(Label, _super);
+    __extends(Label, _super);
     /**
      * Constructor
      */
@@ -438,7 +438,7 @@ var Label = /** @class */ (function (_super) {
                                         // Do this until we fit
                                         while ((lineInfo.bbox.width > maxWidth) && (excessChars <= lineText.length) && (excessChars > 0)) {
                                             // Calculate max available chars
-                                            var maxChars = $math.max(elementText.length - excessChars - this.ellipsis.length, 1);
+                                            var maxChars = $math.max(lineText.length - excessChars - this.ellipsis.length, 1);
                                             // Is there anything left?
                                             if (maxChars <= 1) {
                                                 // Nope, let's jump to the previous item

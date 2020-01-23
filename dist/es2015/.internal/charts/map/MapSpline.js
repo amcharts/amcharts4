@@ -1,7 +1,7 @@
 /**
  * Map spline module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -24,7 +24,7 @@ import { registry } from "../../core/Registry";
  * @see {@link IMapSplineAdapters} for a list of available Adapters
  */
 var MapSpline = /** @class */ (function (_super) {
-    tslib_1.__extends(MapSpline, _super);
+    __extends(MapSpline, _super);
     /**
      * Constructor
      */

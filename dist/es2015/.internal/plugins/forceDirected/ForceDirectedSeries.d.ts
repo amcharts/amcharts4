@@ -91,21 +91,22 @@ export declare class ForceDirectedSeriesDataItem extends SeriesDataItem {
      */
     hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): $type.Optional<Animation>;
     /**
-     * @return Value
-     */
-    /**
      * Numeric value of the item.
      *
      * @param value  Value
      */
-    value: number;
+    set value(value: number);
+    /**
+     * @return Value
+     */
+    get value(): number;
     /**
      * An element, related to this data item. (node)
      *
      * @readonly
      * @return node element
      */
-    readonly node: ForceDirectedNode;
+    get node(): ForceDirectedNode;
     /**
      * Depth level in the series hierarchy.
      *
@@ -115,10 +116,7 @@ export declare class ForceDirectedSeriesDataItem extends SeriesDataItem {
      * @readonly
      * @return Level
      */
-    readonly level: number;
-    /**
-     * @return Color
-     */
+    get level(): number;
     /**
      * Item's color.
      *
@@ -127,29 +125,32 @@ export declare class ForceDirectedSeriesDataItem extends SeriesDataItem {
      *
      * @param value  : Color | LinearGradient | RadialGradient | Pattern
      */
-    color: Color | LinearGradient | RadialGradient | Pattern;
+    set color(value: Color | LinearGradient | RadialGradient | Pattern);
     /**
-     * @return Link list
+     * @return Color
      */
+    get color(): Color | LinearGradient | RadialGradient | Pattern;
     /**
      * An array of id's of other nodes outside of the child/parent tree to link
      * with.
      *
      * @param  value  Link list
      */
-    linkWith: string[];
+    set linkWith(value: string[]);
     /**
-     * @return Hidden in legend?
+     * @return Link list
      */
+    get linkWith(): string[];
     /**
      * Should dataItem (node) be hidden in legend?
      *
      * @param value Visible in legend?
      */
-    hiddenInLegend: boolean;
+    set hiddenInLegend(value: boolean);
     /**
-     * @return Collapsed?
+     * @return Hidden in legend?
      */
+    get hiddenInLegend(): boolean;
     /**
      * Indicates whether node should start off as collapsed.
      *
@@ -160,26 +161,32 @@ export declare class ForceDirectedSeriesDataItem extends SeriesDataItem {
      *
      * @param  value  Collapsed?
      */
-    collapsed: boolean;
+    set collapsed(value: boolean);
     /**
-     * @return Fixed?
+     * @return Collapsed?
      */
+    get collapsed(): boolean;
     /**
      * Is this node fixed (immovable)?
      *
      * @since 4.6.2
      * @param  value  Fixed?
      */
-    fixed: boolean;
+    set fixed(value: boolean);
     /**
-     * @return Item's children
+     * @return Fixed?
      */
+    get fixed(): boolean;
     /**
      * A list of item's sub-children.
      *
      * @param children  Item's children
      */
-    children: OrderedListTemplate<ForceDirectedSeriesDataItem>;
+    set children(children: OrderedListTemplate<ForceDirectedSeriesDataItem>);
+    /**
+     * @return Item's children
+     */
+    get children(): OrderedListTemplate<ForceDirectedSeriesDataItem>;
     /**
      * Creates a marker used in the legend for this slice.
      *
@@ -188,14 +195,15 @@ export declare class ForceDirectedSeriesDataItem extends SeriesDataItem {
      */
     createLegendMarker(marker: Container): void;
     /**
-     * @return Legend data item
-     */
-    /**
      * A legend's data item, that corresponds to this data item.
      *
      * @param value  Legend data item
      */
-    legendDataItem: LegendDataItem;
+    set legendDataItem(value: LegendDataItem);
+    /**
+     * @return Legend data item
+     */
+    get legendDataItem(): LegendDataItem;
 }
 /**
  * ============================================================================
@@ -491,13 +499,13 @@ export declare class ForceDirectedSeries extends Series {
      *
      * @return  Node list
      */
-    readonly nodes: ListTemplate<this["_node"]>;
+    get nodes(): ListTemplate<this["_node"]>;
     /**
      * A list of links between nodes.
      *
      * @return  Link list
      */
-    readonly links: ListTemplate<this["_link"]>;
+    get links(): ListTemplate<this["_link"]>;
     /**
      * Creates a new node.
      */
@@ -507,9 +515,6 @@ export declare class ForceDirectedSeries extends Series {
      */
     protected createLink(): this["_link"];
     /**
-     * @return Minimum radius (px or percent)
-     */
-    /**
      * Smallest possible radius in pixels of the node circle.
      *
      * If set in percent, it radius will be calculated from average width and
@@ -518,10 +523,11 @@ export declare class ForceDirectedSeries extends Series {
      * @default Percent(1)
      * @param  value  Minimum radius (px or percent)
      */
-    minRadius: number | Percent;
+    set minRadius(value: number | Percent);
     /**
-     * @return Maximum radius (px or Percent)
+     * @return Minimum radius (px or percent)
      */
+    get minRadius(): number | Percent;
     /**
      * Biggest possible radius in pixels of the node circle.
      *
@@ -531,10 +537,11 @@ export declare class ForceDirectedSeries extends Series {
      * @default Percent(8)
      * @param  value  Maximum radius (px or Percent)
      */
-    maxRadius: number | Percent;
+    set maxRadius(value: number | Percent);
     /**
-     * @return Color set
+     * @return Maximum radius (px or Percent)
      */
+    get maxRadius(): number | Percent;
     /**
      * A color set to be used for nodes.
      *
@@ -552,19 +559,21 @@ export declare class ForceDirectedSeries extends Series {
      *
      * @param value  Color set
      */
-    colors: ColorSet;
+    set colors(value: ColorSet);
     /**
-     * @return Number of levels
+     * @return Color set
      */
+    get colors(): ColorSet;
     /**
      * Number of levels to be displayed initially.
      *
      * @param  value  Number of levels
      */
-    maxLevels: number;
+    set maxLevels(value: number);
     /**
-     * @return  Body push/attrack strength
+     * @return Number of levels
      */
+    get maxLevels(): number;
     /**
      * Relative strength each node pushes (or attracts) other nodes (it is
      * multiplied by `node.circle.radius` for big nodes to push stronger).
@@ -578,10 +587,11 @@ export declare class ForceDirectedSeries extends Series {
      * @default -15
      * @param  value  Body push/attrack strength
      */
-    manyBodyStrength: number;
+    set manyBodyStrength(value: number);
     /**
-     * @return  Stregth of attraction to center
+     * @return  Body push/attrack strength
      */
+    get manyBodyStrength(): number;
     /**
      * Relative strength each child node is pushes (or attracted) to the center
      * of the chart.
@@ -594,10 +604,11 @@ export declare class ForceDirectedSeries extends Series {
      * @default 0.8
      * @param  value  Stregth of attraction to center
      */
-    centerStrength: number;
+    set centerStrength(value: number);
     /**
-     * @return Strength
+     * @return  Stregth of attraction to center
      */
+    get centerStrength(): number;
     /**
      * Relative attraction strength between the nodes connected with `linkWith`.
      *
@@ -605,7 +616,11 @@ export declare class ForceDirectedSeries extends Series {
      * @param  value  Strength
      * @default undefined
      */
-    linkWithStrength: number;
+    set linkWithStrength(value: number);
+    /**
+     * @return Strength
+     */
+    get linkWithStrength(): number;
     /**
      * Binds related legend data item's visual settings to this series' visual
      * settings.

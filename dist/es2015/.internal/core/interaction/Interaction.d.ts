@@ -340,7 +340,7 @@ export declare class Interaction extends BaseObjectEvents {
      * @param io  Element
      * @param ev  Original event
      */
-    private handleFocusBlur(io, ev);
+    private handleFocusBlur;
     /**
      * Dispatches "blur" event when element loses focus.
      *
@@ -530,7 +530,7 @@ export declare class Interaction extends BaseObjectEvents {
      * Processes dalyed events, such as "out" event that was initiated for
      * elements by touch.
      */
-    private processDelayed();
+    private processDelayed;
     /**
      * Performs tasks on pointer down.
      *
@@ -564,7 +564,7 @@ export declare class Interaction extends BaseObjectEvents {
      * @param io  Object
      * @param ev  Event
      */
-    private maybePreventDefault(io, ev, pointer?);
+    private maybePreventDefault;
     /**
      * Handles pointer move.
      *
@@ -1060,8 +1060,8 @@ export declare class Interaction extends BaseObjectEvents {
      * Disposes this object and cleans up after itself.
      */
     dispose(): void;
-    private log(text, ev, io?);
-    private logTouch(text, type, ev);
+    private log;
+    private logTouch;
     /**
      * Indicates if passive mode options is supported by this browser.
      */
@@ -1069,7 +1069,7 @@ export declare class Interaction extends BaseObjectEvents {
     /**
      * Indicates if passive mode options is supported by this browser.
      */
-    static readonly passiveSupported: boolean;
+    static get passiveSupported(): boolean;
 }
 /**
  * Returns a single unified global instance of [[Interaction]].

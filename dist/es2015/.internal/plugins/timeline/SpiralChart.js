@@ -1,7 +1,7 @@
 /**
  * Radar chart module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -27,7 +27,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link DataItem}
  */
 var SpiralChartDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(SpiralChartDataItem, _super);
+    __extends(SpiralChartDataItem, _super);
     /**
      * Constructor
      */
@@ -55,7 +55,7 @@ export { SpiralChartDataItem };
  * @important
  */
 var SpiralChart = /** @class */ (function (_super) {
-    tslib_1.__extends(SpiralChart, _super);
+    __extends(SpiralChart, _super);
     /**
      * Constructor
      */

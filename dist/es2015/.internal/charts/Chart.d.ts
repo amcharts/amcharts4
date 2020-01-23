@@ -1,3 +1,6 @@
+/**
+ * [[Chart]] class provides base functionality for all chart types to inherit.
+ */
 import { Component, IComponentProperties, IComponentDataFields, IComponentEvents, IComponentAdapters } from "../core/Component";
 import { MutableValueDisposer } from "../core/utils/Disposer";
 import { ListTemplate, IListEvents } from "../core/utils/List";
@@ -145,15 +148,16 @@ export declare class Chart extends Component {
      */
     updateReaderTitleReferences(): void;
     /**
-     * @return Legend
-     */
-    /**
      * Holds the instance of chart's [[Leged]].
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/legend/} for more information about legends
      * @param Legend
      */
-    legend: Legend;
+    set legend(legend: Legend);
+    /**
+     * @return Legend
+     */
+    get legend(): Legend;
     /**
      * Prepares the legend instance for use in this chart.
      *
@@ -180,9 +184,6 @@ export declare class Chart extends Component {
      */
     copyFrom(source: this): void;
     /**
-     * @return Grip
-     */
-    /**
      * An instance of [[Grip]] which serves as a grip point which appears on
      * touch and allows scrolling whole page even if chart is occupying the
      * whole of the screen and would otherwise prevent scrolling.
@@ -191,6 +192,11 @@ export declare class Chart extends Component {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/touch/} For more information.
      * @param  value  Grip
      */
-    dragGrip: Grip;
-    focusable: boolean;
+    set dragGrip(value: Grip);
+    /**
+     * @return Grip
+     */
+    get dragGrip(): Grip;
+    set focusable(value: boolean);
+    get focusable(): boolean;
 }

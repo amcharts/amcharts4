@@ -2,7 +2,7 @@
  * Module that defines everything related to building 3D Columns.
  * It is a container which has column3D element which is a Rectangle3D.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -27,7 +27,7 @@ import { registry } from "../../core/Registry";
  * @important
  */
 var Column3D = /** @class */ (function (_super) {
-    tslib_1.__extends(Column3D, _super);
+    __extends(Column3D, _super);
     /**
      * Constructor
      */

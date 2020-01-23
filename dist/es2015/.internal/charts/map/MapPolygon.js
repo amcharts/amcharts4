@@ -1,7 +1,7 @@
 /**
  * Map polygon module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import * as d3geo from "d3-geo";
  * @see {@link IMapPolygonAdapters} for a list of available Adapters
  */
 var MapPolygon = /** @class */ (function (_super) {
-    tslib_1.__extends(MapPolygon, _super);
+    __extends(MapPolygon, _super);
     /**
      * Constructor
      */

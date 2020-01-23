@@ -136,9 +136,6 @@ export declare class StepLineSeries extends LineSeries {
      */
     protected createSegment(): this["_segment"];
     /**
-     * @return No risers
-     */
-    /**
      * Specifies if step line series should draw only horizontal (or only
      * vertical, depending on base axis) lines, instead of connecting them with
      * vertical (or horizontal) lines.
@@ -146,25 +143,31 @@ export declare class StepLineSeries extends LineSeries {
      * @default false
      * @param value  No risers
      */
-    noRisers: boolean;
+    set noRisers(value: boolean);
     /**
-     * @return Location (0-1)
+     * @return No risers
      */
+    get noRisers(): boolean;
     /**
      * start location of the step
      *
      * @param value Location (0-1)
      * @default 0
      */
-    startLocation: number;
+    set startLocation(value: number);
     /**
      * @return Location (0-1)
      */
+    get startLocation(): number;
     /**
      * Step end location.
      *
      * @param value Location (0-1)
      * #default 1
      */
-    endLocation: number;
+    set endLocation(value: number);
+    /**
+     * @return Location (0-1)
+     */
+    get endLocation(): number;
 }

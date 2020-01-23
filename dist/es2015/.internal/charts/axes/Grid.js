@@ -1,7 +1,7 @@
 /**
  * A module defining functionality for axis grid elements.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -28,7 +28,7 @@ import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive
  * @important
  */
 var Grid = /** @class */ (function (_super) {
-    tslib_1.__extends(Grid, _super);
+    __extends(Grid, _super);
     /**
      * Constructor
      */

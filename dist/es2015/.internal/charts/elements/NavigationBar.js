@@ -1,7 +1,7 @@
 /**
  * Functionality for drawing simple NavigationBar.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import * as $iter from "../../core/utils/Iterator";
  * @see {@link DataItem}
  */
 var NavigationBarDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(NavigationBarDataItem, _super);
+    __extends(NavigationBarDataItem, _super);
     /**
      * Constructor
      */
@@ -76,7 +76,7 @@ export { NavigationBarDataItem };
  * @important
  */
 var NavigationBar = /** @class */ (function (_super) {
-    tslib_1.__extends(NavigationBar, _super);
+    __extends(NavigationBar, _super);
     /**
      * Constructor
      */

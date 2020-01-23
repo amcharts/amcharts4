@@ -1,7 +1,7 @@
 /**
  * XY Chart module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -42,7 +42,7 @@ import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive
  * @see {@link DataItem}
  */
 var XYChartDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(XYChartDataItem, _super);
+    __extends(XYChartDataItem, _super);
     /**
      * Constructor
      */
@@ -187,7 +187,7 @@ export { XYChartDataItem };
  * @important
  */
 var XYChart = /** @class */ (function (_super) {
-    tslib_1.__extends(XYChart, _super);
+    __extends(XYChart, _super);
     /**
      * Constructor
      */

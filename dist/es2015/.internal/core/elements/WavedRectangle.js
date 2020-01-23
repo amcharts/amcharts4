@@ -1,7 +1,7 @@
 /**
  * Functionality for drawing rectangles with waved edges.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -24,7 +24,7 @@ import * as $path from "../rendering/Path";
  * @see {@link IWavedRectangleAdapters} for a list of available Adapters
  */
 var WavedRectangle = /** @class */ (function (_super) {
-    tslib_1.__extends(WavedRectangle, _super);
+    __extends(WavedRectangle, _super);
     /**
      * Constructor
      */

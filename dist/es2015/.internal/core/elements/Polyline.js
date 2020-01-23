@@ -1,7 +1,7 @@
 /**
  * Polyline module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +26,7 @@ import * as $math from "../utils/Math";
  * @see {@link IPolylineAdapters} for a list of available Adapters
  */
 var Polyline = /** @class */ (function (_super) {
-    tslib_1.__extends(Polyline, _super);
+    __extends(Polyline, _super);
     /**
      * Constructor
      */

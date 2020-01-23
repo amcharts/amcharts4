@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -39,7 +39,7 @@ import * as $type from "./utils/Type";
  * @important
  */
 var Component = /** @class */ (function (_super) {
-    tslib_1.__extends(Component, _super);
+    __extends(Component, _super);
     /**
      * Constructor
      */

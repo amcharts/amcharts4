@@ -129,4 +129,24 @@ declare const _default: {
     "Unable to load file: %1": string;
     "Invalid date": string;
 };
+/**
+ * amCharts 4 locale
+ *
+ * Locale: sv
+ * Language: Swedish
+ * Author: Bjorn Svensson
+ *
+ * Follow instructions in [on this page](https://www.amcharts.com/docs/v4/tutorials/creating-translations/) to make corrections or add new translations.
+ *
+ * ---
+ * Empty string means no translation, so default "International English"
+ * will be used.
+ *
+ * If you need the translation to literally be an empty string, use `null`
+ * instead.
+ *
+ * IMPORTANT:
+ * When translating make good effort to keep the translation length
+ * at least the same chartcount as the English, especially for short prompts.
+ */
 export default _default;

@@ -268,12 +268,13 @@ export declare class Cursor extends Container {
      */
     handleCursorUp(event: IInteractionEvents["up"]): void;
     /**
-     * @return Chart
-     */
-    /**
      * A reference to a [[Chart]] the cursor belongs to.
      *
      * @param value  Chart
      */
-    chart: this["_chart"];
+    set chart(value: this["_chart"]);
+    /**
+     * @return Chart
+     */
+    get chart(): this["_chart"];
 }

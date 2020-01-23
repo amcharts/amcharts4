@@ -1,7 +1,7 @@
 /**
  * Play button functionality.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -27,7 +27,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link IPlayButtonAdapters} for a list of available Adapters
  */
 var PlayButton = /** @class */ (function (_super) {
-    tslib_1.__extends(PlayButton, _super);
+    __extends(PlayButton, _super);
     /**
      * Constructor
      */

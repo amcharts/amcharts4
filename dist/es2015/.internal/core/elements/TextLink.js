@@ -1,7 +1,7 @@
 /**
  * A module that defines Text element used to indicate links.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -25,7 +25,7 @@ import { registry } from "../Registry";
  * @see {@link ITextLinkAdapters} for a list of available Adapters
  */
 var TextLink = /** @class */ (function (_super) {
-    tslib_1.__extends(TextLink, _super);
+    __extends(TextLink, _super);
     /**
      * Constructor
      */

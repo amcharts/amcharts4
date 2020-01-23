@@ -1,7 +1,7 @@
 /**
  * FlowDiagram module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -36,7 +36,7 @@ import { Disposer } from "../../core/utils/Disposer";
  * @see {@link DataItem}
  */
 var FlowDiagramDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(FlowDiagramDataItem, _super);
+    __extends(FlowDiagramDataItem, _super);
     /**
      * Constructor
      */
@@ -162,7 +162,7 @@ export { FlowDiagramDataItem };
  * @important
  */
 var FlowDiagram = /** @class */ (function (_super) {
-    tslib_1.__extends(FlowDiagram, _super);
+    __extends(FlowDiagram, _super);
     /**
      * Constructor
      */

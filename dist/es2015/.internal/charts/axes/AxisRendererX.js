@@ -1,7 +1,7 @@
 /**
  * Module, defining Axis Renderer for vertical axes.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -32,7 +32,7 @@ import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive
  * @see {@link IAxisRendererAdapters} for a list of available Adapters
  */
 var AxisRendererX = /** @class */ (function (_super) {
-    tslib_1.__extends(AxisRendererX, _super);
+    __extends(AxisRendererX, _super);
     /**
      * Constructor.
      *

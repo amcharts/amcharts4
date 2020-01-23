@@ -1,7 +1,7 @@
 /**
  * Bullet module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import { registry } from "../../core/Registry";
  * @important
  */
 var CircleBullet = /** @class */ (function (_super) {
-    tslib_1.__extends(CircleBullet, _super);
+    __extends(CircleBullet, _super);
     /**
      * Constructor
      */

@@ -266,9 +266,6 @@ export declare class Scrollbar extends Container {
      */
     protected updateSize(): void;
     /**
-     * @return Position (0-1)
-     */
-    /**
      * ==========================================================================
      * POSITIONS
      * ==========================================================================
@@ -279,43 +276,50 @@ export declare class Scrollbar extends Container {
      *
      * @param position  Position (0-1)
      */
-    start: number;
+    set start(position: number);
     /**
-     * @return [description]
+     * @return Position (0-1)
      */
+    get start(): number;
     /**
      * [__start description]
      *
      * @todo Description
      * @param position [description]
      */
-    protected __start: number;
+    protected set __start(position: number);
     /**
-     * @return Position (0-1)
+     * @return [description]
      */
+    protected get __start(): number;
     /**
      * Relative position (0-1) of the end grip.
      *
      * @param position  Position (0-1)
      */
-    end: number;
+    set end(position: number);
     /**
-     * @return [description]
+     * @return Position (0-1)
      */
+    get end(): number;
     /**
      * [__end description]
      *
      * @todo Description
      * @param position [description]
      */
-    protected __end: number;
+    protected set __end(position: number);
+    /**
+     * @return [description]
+     */
+    protected get __end(): number;
     /**
      * Current selection range.
      *
      * @readonly
      * @return Range
      */
-    readonly range: IRange;
+    get range(): IRange;
     /**
      * Disables range change events.
      *
@@ -339,9 +343,6 @@ export declare class Scrollbar extends Container {
      */
     protected getPosition(position: number): number;
     /**
-     * @return Orientation
-     */
-    /**
      * ==========================================================================
      * MISC
      * ==========================================================================
@@ -355,14 +356,15 @@ export declare class Scrollbar extends Container {
      * @default "horizontal"
      * @param value  Orientation
      */
-    orientation: Orientation;
+    set orientation(value: Orientation);
     /**
      * @ignore
      */
     protected updateByOrientation(): void;
     /**
-     * @return Grip element
+     * @return Orientation
      */
+    get orientation(): Orientation;
     /**
      * ==========================================================================
      * GRIPS
@@ -374,16 +376,21 @@ export declare class Scrollbar extends Container {
      *
      * @param button  Grip element
      */
-    startGrip: ResizeButton;
+    set startGrip(button: ResizeButton);
     /**
      * @return Grip element
      */
+    get startGrip(): ResizeButton;
     /**
      * End grip element. (button)
      *
      * @param button  Grip element
      */
-    endGrip: ResizeButton;
+    set endGrip(button: ResizeButton);
+    /**
+     * @return Grip element
+     */
+    get endGrip(): ResizeButton;
     /**
      * Decorates the grip button with properties and events.
      *
@@ -399,9 +406,6 @@ export declare class Scrollbar extends Container {
      */
     handleGripDrag(event: AMEvent<ResizeButton, ISpriteEvents>["drag"]): void;
     /**
-     * @return Thumb element
-     */
-    /**
      * A "thumb" element.
      *
      * It's a draggable square space between the grips, that can be used to
@@ -409,7 +413,11 @@ export declare class Scrollbar extends Container {
      *
      * @param thumb  Thumb element
      */
-    thumb: Button;
+    set thumb(thumb: Button);
+    /**
+     * @return Thumb element
+     */
+    get thumb(): Button;
     /**
      * Zooms-in and out the selection on double-click of the thumb.
      *
@@ -430,34 +438,37 @@ export declare class Scrollbar extends Container {
      */
     createBackground(): this["_background"];
     /**
-     * @return Show only on hover?
-     */
-    /**
      * Use this property to set whether grips should be always visible (`false`),
      * or they should just appear on scrollbar hover (`true`).
      *
      * @param value  Show only on hover?
      */
-    hideGrips: boolean;
+    set hideGrips(value: boolean);
     /**
-     * @return Orientation
+     * @return Show only on hover?
      */
+    get hideGrips(): boolean;
     /**
      * Duration in milliseconds of scrollbar animation (happens when user clicks on a background of a scrollbar)
      * @default 0
      * @param value number
      */
-    animationDuration: number;
+    set animationDuration(value: number);
     /**
-     * @return {Function}
+     * @return Orientation
      */
+    get animationDuration(): number;
     /**
      * Animation easing function.
      * @todo: review description and default
      * @default $ease.cubicOut
      * @param value (value: number) => number
      */
-    animationEasing: (value: number) => number;
+    set animationEasing(value: (value: number) => number);
+    /**
+     * @return {Function}
+     */
+    get animationEasing(): (value: number) => number;
     /**
      * Adds easing functions to "function" fields.
      *

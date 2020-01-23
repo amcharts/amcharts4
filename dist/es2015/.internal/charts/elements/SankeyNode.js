@@ -1,7 +1,7 @@
 /**
  * SankeyNode module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -34,7 +34,7 @@ import * as $utils from "../../core/utils/Utils";
  * @important
  */
 var SankeyNode = /** @class */ (function (_super) {
-    tslib_1.__extends(SankeyNode, _super);
+    __extends(SankeyNode, _super);
     /**
      * Constructor
      */

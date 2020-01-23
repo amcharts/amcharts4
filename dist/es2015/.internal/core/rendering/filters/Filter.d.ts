@@ -146,9 +146,6 @@ export declare class Filter extends BaseObject implements IAnimatable {
      */
     animate(animationOptions: IAnimationOptions[] | IAnimationOptions, duration: number, easing?: (value: number) => number): Animation;
     /**
-     * @return Width (%)
-     */
-    /**
      * Width of the filter element in percent.
      *
      * If the filter is designed to "bleed out" of the original target element,
@@ -158,10 +155,11 @@ export declare class Filter extends BaseObject implements IAnimatable {
      * @default 120
      * @param value Width (px)
      */
-    width: number;
+    set width(value: number);
     /**
-     * @return Height
+     * @return Width (%)
      */
+    get width(): number;
     /**
      * Height of the filter element in percent.
      *
@@ -172,7 +170,11 @@ export declare class Filter extends BaseObject implements IAnimatable {
      * @default 120
      * @param value Height (%)
      */
-    height: number;
+    set height(value: number);
+    /**
+     * @return Height
+     */
+    get height(): number;
     /**
      * Copies properties from another [[Filter]] object.
      *
@@ -180,31 +182,33 @@ export declare class Filter extends BaseObject implements IAnimatable {
      */
     copyFrom(filter: this): void;
     /**
-     * @return Paper
-     */
-    /**
      * Sets [[Paper]] instance to create filter's elements in.
      *
      * @ignore Exclude from docs
      * @param paper  Paper
      */
-    paper: Paper;
+    set paper(paper: Paper);
+    /**
+     * @return Paper
+     */
+    get paper(): Paper;
     /**
      * All animations currently in play.
      *
      * @ignore Exclude from docs
      * @return List of animations
      */
-    readonly animations: Array<Animation>;
-    /**
-     * @ignore Exclude from docs
-     */
+    get animations(): Array<Animation>;
     /**
      * [[Sprite]] uses this method to inform filter about it's scale.
      *
      * @ignore Exclude from docs
      */
-    scale: number;
+    set scale(value: number);
+    /**
+     * @ignore Exclude from docs
+     */
+    get scale(): number;
     /**
      * Updates filter properties which depend on scale.
      *
@@ -212,16 +216,17 @@ export declare class Filter extends BaseObject implements IAnimatable {
      */
     protected updateScale(): void;
     /**
-     * @return Non scaling?
-     */
-    /**
      * If a filter is non scaling, it will look the same even if the sprite is
      * scaled, otherwise filter will scale together with a [[Sprite]].
      *
      * @default false
      * @param value  Non scaling?
      */
-    nonScaling: boolean;
+    set nonScaling(value: boolean);
+    /**
+     * @return Non scaling?
+     */
+    get nonScaling(): boolean;
     /**
      * A target element this filter is currently attached to.
      *
@@ -232,7 +237,7 @@ export declare class Filter extends BaseObject implements IAnimatable {
      * @ignore Exclude from docs
      * @param value  Target element
      */
-    sprite: Sprite;
+    set sprite(value: Sprite);
     /**
      * Sets filter's target element.
      *

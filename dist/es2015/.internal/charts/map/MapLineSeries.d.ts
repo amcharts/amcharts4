@@ -64,10 +64,7 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      * @readonly
      * @return Element
      */
-    readonly mapLine: this["_mapLine"];
-    /**
-     * @return Coordinates
-     */
+    get mapLine(): this["_mapLine"];
     /**
      * A collection of X/Y coordinates for a single-segment line. E.g.:
      *
@@ -80,10 +77,11 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      *
      * @param line  Coordinates
      */
-    line: Array<[number, number]>;
+    set line(line: Array<[number, number]>);
     /**
      * @return Coordinates
      */
+    get line(): Array<[number, number]>;
     /**
      * A collection of X/Y coordinates for a multi-segment line. E.g.:
      *
@@ -105,10 +103,11 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      *
      * @param multiLine  Coordinates
      */
-    multiLine: Array<Array<[number, number]>>;
+    set multiLine(multiLine: Array<Array<[number, number]>>);
     /**
      * @return Coordinates
      */
+    get multiLine(): Array<Array<[number, number]>>;
     /**
      * A collection of lat/long coordinates for a single-segment line. E.g.:
      *
@@ -122,10 +121,11 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.4} GeoJSON LineString reference
      * @param geoLine  Coordinates
      */
-    geoLine: Array<IGeoPoint>;
+    set geoLine(geoLine: Array<IGeoPoint>);
     /**
      * @return Coordinates
      */
+    get geoLine(): Array<IGeoPoint>;
     /**
      * A collection of X/Y coordinates for a multi-segment line. E.g.:
      *
@@ -148,7 +148,11 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.5} GeoJSON MultiLineString reference
      * @param multiGeoLine  Coordinates
      */
-    multiGeoLine: Array<Array<IGeoPoint>>;
+    set multiGeoLine(multiGeoLine: Array<Array<IGeoPoint>>);
+    /**
+     * @return Coordinates
+     */
+    get multiGeoLine(): Array<Array<IGeoPoint>>;
 }
 /**
  * ============================================================================
@@ -263,7 +267,7 @@ export declare class MapLineSeries extends MapSeries {
      *
      * @return Lines
      */
-    readonly mapLines: ListTemplate<this["_mapLine"]>;
+    get mapLines(): ListTemplate<this["_mapLine"]>;
     /**
      * Returns a new line instance of suitable type.
      *

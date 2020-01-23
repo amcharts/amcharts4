@@ -1,7 +1,7 @@
 /**
  * Handles formatting of pseudo-markup in text.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -22,7 +22,7 @@ import * as $type from "../utils/Type";
  * @important
  */
 var TextFormatter = /** @class */ (function (_super) {
-    tslib_1.__extends(TextFormatter, _super);
+    __extends(TextFormatter, _super);
     /**
      * Constructor
      */

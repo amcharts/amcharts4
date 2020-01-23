@@ -1,7 +1,7 @@
 /**
  * Functionality for drawing paths.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import { Polyspline } from "../../core/elements/Polyspline";
  * @see {@link IFreeDrawAdapters} for a list of available Adapters
  */
 var FreeDraw = /** @class */ (function (_super) {
-    tslib_1.__extends(FreeDraw, _super);
+    __extends(FreeDraw, _super);
     /**
      * Constructor
      */

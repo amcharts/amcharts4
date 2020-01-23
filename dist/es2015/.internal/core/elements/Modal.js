@@ -1,7 +1,7 @@
 /**
  * Modal class is used to display information over chart area.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -16,7 +16,7 @@ import { Adapter } from "../utils/Adapter";
  * @see {@link https://www.amcharts.com/docs/v4/concepts/popups-and-modals/} For examples and docs on Popups and Modals.
  */
 var Modal = /** @class */ (function (_super) {
-    tslib_1.__extends(Modal, _super);
+    __extends(Modal, _super);
     /**
      * Constructor
      */

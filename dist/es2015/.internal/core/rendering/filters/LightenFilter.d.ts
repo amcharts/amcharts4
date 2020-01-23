@@ -53,9 +53,6 @@ export declare class LightenFilter extends Filter {
      */
     constructor();
     /**
-     * @return Lightness
-     */
-    /**
      * Lightness of the target colors.
      *
      * If `lightness` is a positive number, the filter will make all colors
@@ -65,5 +62,9 @@ export declare class LightenFilter extends Filter {
      *
      * @param value  Lightness
      */
-    lightness: number;
+    set lightness(value: number);
+    /**
+     * @return Lightness
+     */
+    get lightness(): number;
 }

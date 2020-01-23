@@ -73,7 +73,7 @@ export declare class SliceGrouper extends Plugin {
     /**
      * A reference to "Other" slice.
      */
-    groupSlice: Sprite | Slice | FunnelSlice;
+    groupSlice: Sprite;
     /**
      * A list of small slices that do not satisfy `threshold`.
      */
@@ -133,22 +133,19 @@ export declare class SliceGrouper extends Plugin {
      * Decorates series with required events and adapters used to hijack its
      * data.
      */
-    private processSeries();
+    private processSeries;
     /**
      * Initializes group slice.
      */
-    private initSlices();
+    private initSlices;
     /**
      * Toggles group on.
      */
-    private toggleGroupOn();
+    private toggleGroupOn;
     /**
      * Toggles group off.
      */
-    private toggleGroupOff();
-    /**
-     * @return Threshold
-     */
+    private toggleGroupOff;
     /**
      * Percent threshold which slices to group. If a slice is less than
      * `threshold` percent, it will be moved into "Other" group.
@@ -156,20 +153,22 @@ export declare class SliceGrouper extends Plugin {
      * @default 5
      * @param  value  Threshold
      */
-    threshold: number;
+    set threshold(value: number);
     /**
-     * @return Button
+     * @return Threshold
      */
+    get threshold(): number;
     /**
      * An instance of [[ZoomOutButton]] that is shown when "Other" slice is
      * broken down, to get back to grouped state.
      *
      * @param  value  Button
      */
-    zoomOutButton: ZoomOutButton;
+    set zoomOutButton(value: ZoomOutButton);
     /**
-     * @returns Click behavior
+     * @return Button
      */
+    get zoomOutButton(): ZoomOutButton;
     /**
      * What happens when "Other" slice is clicked/tapped:
      *
@@ -179,10 +178,14 @@ export declare class SliceGrouper extends Plugin {
      *
      * @param  value  Click behavior
      */
-    clickBehavior: "none" | "break" | "zoom";
+    set clickBehavior(value: "none" | "break" | "zoom");
+    /**
+     * @returns Click behavior
+     */
+    get clickBehavior(): "none" | "break" | "zoom";
     /**
      * Disposes the element
      */
     dispose(): void;
-    private disposeClickEvents();
+    private disposeClickEvents;
 }

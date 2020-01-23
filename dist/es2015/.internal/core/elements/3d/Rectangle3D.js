@@ -1,7 +1,7 @@
 /**
  * Creates a 3D rectangle.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import * as $type from "../../utils/Type";
  * @see {@link IRectangle3DAdapters} for a list of available Adapters
  */
 var Rectangle3D = /** @class */ (function (_super) {
-    tslib_1.__extends(Rectangle3D, _super);
+    __extends(Rectangle3D, _super);
     /**
      * Constructor
      */

@@ -1,7 +1,7 @@
 /**
  * Pointed shape module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -23,7 +23,7 @@ import * as $type from "../utils/Type";
  * @see {@link IPointedShapeAdapters} for a list of available Adapters
  */
 var PointedShape = /** @class */ (function (_super) {
-    tslib_1.__extends(PointedShape, _super);
+    __extends(PointedShape, _super);
     /**
      * Constructor
      */

@@ -68,14 +68,15 @@ export declare class Triangle extends Sprite {
      */
     draw(): void;
     /**
-     * Returns direction of a triangle
-     *
-     * @return value
-     */
-    /**
      * Sets direction of a triangle
      *
      * @param value
      */
-    direction: "left" | "right" | "top" | "bottom";
+    set direction(value: "left" | "right" | "top" | "bottom");
+    /**
+     * Returns direction of a triangle
+     *
+     * @return value
+     */
+    get direction(): "left" | "right" | "top" | "bottom";
 }

@@ -75,10 +75,7 @@ export declare class LegendDataItem extends DataItem {
      *
      * @return Label
      */
-    readonly label: Label;
-    /**
-     * @return Main color
-     */
+    get label(): Label;
     /**
      * Main color of legend data item.
      *
@@ -108,26 +105,30 @@ export declare class LegendDataItem extends DataItem {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/legend/#Legend_labels} For more information about configuring legend labels.
      * @param value  Main color
      */
-    color: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>;
+    set color(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>);
+    /**
+     * @return Main color
+     */
+    get color(): $type.Optional<Color | Pattern | LinearGradient | RadialGradient>;
     /**
      * A legend item's [[Label]] element for "value label".
      *
      * @return Label
      */
-    readonly valueLabel: Label;
+    get valueLabel(): Label;
     /**
      * A reference to the main [[Container]] that holds legend item's elements:
      * marker and labels.
      *
      * @return Item container
      */
-    readonly itemContainer: Container;
+    get itemContainer(): Container;
     /**
      * A [[Container]] that holds legend item's marker element.
      *
      * @return Marker
      */
-    readonly marker: Container;
+    get marker(): Container;
 }
 /**
  * ============================================================================
@@ -323,9 +324,6 @@ export declare class Legend extends Component {
     afterDraw(): void;
     protected handleScrollbar(): void;
     /**
-     * @return Position
-     */
-    /**
      * Position of the legend.
      *
      * Options: "left", "right", "top", "bottom" (default), or "absolute".
@@ -339,10 +337,11 @@ export declare class Legend extends Component {
      * @default "bottom"
      * @param value  Position
      */
-    position: LegendPosition;
+    set position(value: LegendPosition);
     /**
-     * @return Use default marker?
+     * @return Position
      */
+    get position(): LegendPosition;
     /**
      * Should legend try to mirror the look of the related item when building
      * the marker for legend item?
@@ -356,10 +355,11 @@ export declare class Legend extends Component {
      * @default false
      * @param value Use default marker?
      */
-    useDefaultMarker: boolean;
+    set useDefaultMarker(value: boolean);
     /**
-     * @return Legend Scrollable?
+     * @return Use default marker?
      */
+    get useDefaultMarker(): boolean;
     /**
      * If set to `true` the Legend will display a scrollbar if its contents do
      * not fit into its `maxHeight`.
@@ -371,7 +371,7 @@ export declare class Legend extends Component {
      * @since 4.8.0
      * @param  value  Legend Scrollable?
      */
-    scrollable: boolean;
+    set scrollable(value: boolean);
     /**
      * Handles mouse wheel scrolling of legend.
      *
@@ -382,6 +382,10 @@ export declare class Legend extends Component {
      * @ignore
      */
     protected updateMasks(): void;
+    /**
+     * @return Legend Scrollable?
+     */
+    get scrollable(): boolean;
     /**
      * Toggles a legend item.
      *
@@ -397,7 +401,7 @@ export declare class Legend extends Component {
      * @ignore Exclude from docs
      * @return Always `undefined`
      */
-    readonly preloader: Optional<Preloader>;
+    get preloader(): Optional<Preloader>;
     /**
      * [handleDataItemPropertyChange description]
      *

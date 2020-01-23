@@ -1,7 +1,7 @@
 /**
  * 3D Pie chart module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * Imports
@@ -24,7 +24,7 @@ import * as $math from "../../core/utils/Math";
  * @see {@link DataItem}
  */
 var PieChart3DDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(PieChart3DDataItem, _super);
+    __extends(PieChart3DDataItem, _super);
     /**
      * Constructor
      */
@@ -128,7 +128,7 @@ export { PieChart3DDataItem };
  * @important
  */
 var PieChart3D = /** @class */ (function (_super) {
-    tslib_1.__extends(PieChart3D, _super);
+    __extends(PieChart3D, _super);
     /**
      * Constructor
      */

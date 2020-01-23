@@ -1,7 +1,7 @@
 /**
  * Line drawing functionality.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -27,7 +27,7 @@ import * as $math from "../utils/Math";
  * @see {@link ILineAdapters} for a list of available Adapters
  */
 var Line = /** @class */ (function (_super) {
-    tslib_1.__extends(Line, _super);
+    __extends(Line, _super);
     /**
      * Constructor
      */

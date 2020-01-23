@@ -1,7 +1,7 @@
 /**
  * Defines Pyramid Series.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +26,7 @@ import { percent } from "../../core/utils/Percent";
  * @see {@link DataItem}
  */
 var PyramidSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(PyramidSeriesDataItem, _super);
+    __extends(PyramidSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -54,7 +54,7 @@ export { PyramidSeriesDataItem };
  * @important
  */
 var PyramidSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(PyramidSeries, _super);
+    __extends(PyramidSeries, _super);
     /**
      * Constructor
      */

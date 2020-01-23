@@ -1,7 +1,7 @@
 /**
  * This module contains PatternSet object definition
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -36,7 +36,7 @@ import { registry } from "../Registry";
  * @see {@link https://www.amcharts.com/docs/v4/concepts/colors/} for color-related info
  */
 var PatternSet = /** @class */ (function (_super) {
-    tslib_1.__extends(PatternSet, _super);
+    __extends(PatternSet, _super);
     /**
      * Constructor
      */

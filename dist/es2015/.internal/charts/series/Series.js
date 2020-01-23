@@ -2,7 +2,7 @@
  * Functionality for any series-based elements, like Line Series (graphs),
  * Pie slice lists, etc.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -41,7 +41,7 @@ import * as $colors from "../../core/utils/Colors";
  * @see {@link DataItem}
  */
 var SeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(SeriesDataItem, _super);
+    __extends(SeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -111,7 +111,7 @@ export { SeriesDataItem };
  * @todo Separate axis-related stuff to some other class so that MapSeries would not have unrelated stuff
  */
 var Series = /** @class */ (function (_super) {
-    tslib_1.__extends(Series, _super);
+    __extends(Series, _super);
     /**
      * Constructor
      */

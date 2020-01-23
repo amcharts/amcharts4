@@ -1,7 +1,7 @@
 /**
  * Interaction Object module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -33,7 +33,7 @@ export { InteractionObjectEventDispatcher };
  * `interaction.getInteraction(element: HTMLElement)`
  */
 var InteractionObject = /** @class */ (function (_super) {
-    tslib_1.__extends(InteractionObject, _super);
+    __extends(InteractionObject, _super);
     /**
      * Constructor
      */

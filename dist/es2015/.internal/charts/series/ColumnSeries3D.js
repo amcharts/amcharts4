@@ -1,7 +1,7 @@
 /**
  * 3D column series module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -18,7 +18,7 @@ import { registry } from "../../core/Registry";
  * @hidden
  */
 var ColumnSeries3DDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(ColumnSeries3DDataItem, _super);
+    __extends(ColumnSeries3DDataItem, _super);
     /**
      * Constructor
      */
@@ -46,7 +46,7 @@ export { ColumnSeries3DDataItem };
  * @important
  */
 var ColumnSeries3D = /** @class */ (function (_super) {
-    tslib_1.__extends(ColumnSeries3D, _super);
+    __extends(ColumnSeries3D, _super);
     /**
      * Constructor
      */

@@ -88,16 +88,17 @@ export declare class AxisRendererY3D extends AxisRendererY {
      */
     updateBaseGridElement(): void;
     /**
-     * @ignore Exclude from docs
-     * @return Chart
-     */
-    /**
      * Chart, associated with the Axis.
      *
      * @ignore Exclude from docs
      * @param value  Chart
      */
-    chart: XYChart3D;
+    set chart(chart: XYChart3D);
+    /**
+     * @ignore Exclude from docs
+     * @return Chart
+     */
+    get chart(): XYChart3D;
     /**
      * Invoked when 3D-related settings change, like depth or angle.
      *

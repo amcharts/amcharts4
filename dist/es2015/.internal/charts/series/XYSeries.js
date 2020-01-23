@@ -1,7 +1,7 @@
 /**
  * XY series module.
  */
-import * as tslib_1 from "tslib";
+import { __extends, __values } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -37,7 +37,7 @@ import * as $path from "../../core/rendering/Path";
  * @see {@link DataItem}
  */
 var XYSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(XYSeriesDataItem, _super);
+    __extends(XYSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -375,7 +375,7 @@ export { XYSeriesDataItem };
  * @important
  */
 var XYSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(XYSeries, _super);
+    __extends(XYSeries, _super);
     /**
      * Constructor
      */
@@ -1291,6 +1291,7 @@ var XYSeries = /** @class */ (function (_super) {
      * @param dataItem
      */
     XYSeries.prototype.showTooltipAtDataItem = function (dataItem) {
+        var e_1, _a;
         var cursor = this.chart.cursor;
         if (cursor && cursor.hideSeriesTooltipsOnSelection && cursor.selection.visible && cursor.downPoint) {
             this.hideTooltip();
@@ -1319,8 +1320,8 @@ var XYSeries = /** @class */ (function (_super) {
                         }
                         if (this.cursorHoverEnabled) {
                             try {
-                                for (var _a = tslib_1.__values(dataItem.sprites), _b = _a.next(); !_b.done; _b = _a.next()) {
-                                    var sprite = _b.value;
+                                for (var _b = __values(dataItem.sprites), _c = _b.next(); !_c.done; _c = _b.next()) {
+                                    var sprite = _c.value;
                                     if (!sprite.parent.visible || sprite.isHidden || sprite.__disabled || sprite.disabled || sprite.isHiding) {
                                     }
                                     else {
@@ -1331,7 +1332,7 @@ var XYSeries = /** @class */ (function (_super) {
                             catch (e_1_1) { e_1 = { error: e_1_1 }; }
                             finally {
                                 try {
-                                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                                 }
                                 finally { if (e_1) throw e_1.error; }
                             }
@@ -1347,7 +1348,6 @@ var XYSeries = /** @class */ (function (_super) {
         else {
             this.updateLegendValue(dataItem, true);
         }
-        var e_1, _c;
     };
     /**
      * returns default state to bullets when tooltip is shown at some other data item or hidden
@@ -1355,10 +1355,11 @@ var XYSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     XYSeries.prototype.returnBulletDefaultState = function (dataItem) {
+        var e_2, _a;
         if (this._prevTooltipDataItem && this._prevTooltipDataItem != dataItem) {
             try {
-                for (var _a = tslib_1.__values(this._prevTooltipDataItem.sprites), _b = _a.next(); !_b.done; _b = _a.next()) {
-                    var sprite = _b.value;
+                for (var _b = __values(this._prevTooltipDataItem.sprites), _c = _b.next(); !_c.done; _c = _b.next()) {
+                    var sprite = _c.value;
                     if (!sprite.isDisposed()) {
                         sprite.isHover = false;
                     }
@@ -1370,12 +1371,11 @@ var XYSeries = /** @class */ (function (_super) {
             catch (e_2_1) { e_2 = { error: e_2_1 }; }
             finally {
                 try {
-                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                 }
                 finally { if (e_2) throw e_2.error; }
             }
         }
-        var e_2, _c;
     };
     XYSeries.prototype.shouldCreateBullet = function (dataItem, bulletTemplate) {
         // use series xField/yField if bullet doesn't have fields set

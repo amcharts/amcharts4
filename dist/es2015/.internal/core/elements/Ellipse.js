@@ -1,7 +1,7 @@
 /**
  * Ellipse module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -22,7 +22,7 @@ import { registry } from "../Registry";
  * @see {@link IEllipseAdapters} for a list of available Adapters
  */
 var Ellipse = /** @class */ (function (_super) {
-    tslib_1.__extends(Ellipse, _super);
+    __extends(Ellipse, _super);
     /**
      * Constructor
      */

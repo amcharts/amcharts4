@@ -129,4 +129,12 @@ declare const _default: {
     "Unable to load file: %1": string;
     "Invalid date": string;
 };
+/**
+ * amCharts 4 locale
+ *
+ * Locale: pt_PT
+ * Language: Portuguese
+ *
+ * Follow instructions in [on this page](https://www.amcharts.com/docs/v4/tutorials/creating-translations/) to make corrections or add new translations.
+ */
 export default _default;

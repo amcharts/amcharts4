@@ -131,9 +131,6 @@ export declare class MapLine extends MapObject {
      */
     positionToPoint(position: number): IOrientationPoint;
     /**
-     * @return Coordinates
-     */
-    /**
      * A collection of X/Y coordinates for a multi-segment line. E.g.:
      *
      * ```JSON
@@ -155,10 +152,11 @@ export declare class MapLine extends MapObject {
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.5} GeoJSON MultiLineString reference
      * @param multiGeoLine  Coordinates
      */
-    multiGeoLine: Array<Array<IGeoPoint>>;
+    set multiGeoLine(multiGeoLine: Array<Array<IGeoPoint>>);
     /**
      * @return Coordinates
      */
+    get multiGeoLine(): Array<Array<IGeoPoint>>;
     /**
      * A collection of X/Y coordinates for a multi-segment line. E.g.:
      *
@@ -180,10 +178,11 @@ export declare class MapLine extends MapObject {
      *
      * @param multiLine  Coordinates
      */
-    multiLine: Array<Array<[number, number]>>;
+    set multiLine(multiLine: Array<Array<[number, number]>>);
     /**
-     * @return {MapImages[]}
+     * @return Coordinates
      */
+    get multiLine(): Array<Array<[number, number]>>;
     /**
      * Instead of setting longitudes/latitudes you can set an array of images
      * which will be connected by the line.
@@ -193,7 +192,11 @@ export declare class MapLine extends MapObject {
      *
      * @param images  Images
      */
-    imagesToConnect: MapImage[] | string[];
+    set imagesToConnect(images: MapImage[] | string[]);
+    /**
+     * @return {MapImages[]}
+     */
+    get imagesToConnect(): MapImage[] | string[];
     protected handleImagesToConnect(): void;
     /**
      * (Re)validates the line, effectively forcing it to redraw.
@@ -216,9 +219,6 @@ export declare class MapLine extends MapObject {
      */
     measureElement(): void;
     /**
-     * @return Real path?
-     */
-    /**
      * The line should take the shortest path over the globe.
      *
      * Enabling this will make the line look differently in different
@@ -228,23 +228,24 @@ export declare class MapLine extends MapObject {
      * @default false
      * @param value  Real path?
      */
-    shortestDistance: boolean;
+    set shortestDistance(value: boolean);
+    /**
+     * @return Real path?
+     */
+    get shortestDistance(): boolean;
     /**
      * List of separate line objects the line consists of.
      *
      * @readonly
      * @return List of line objects
      */
-    readonly lineObjects: ListTemplate<MapLineObject>;
+    get lineObjects(): ListTemplate<MapLineObject>;
     /**
      * Decorate a [[LineObject]] when it is added to the line.
      *
      * @param event  Event
      */
     protected handleLineObjectAdded(event: IListEvents<MapLineObject>["inserted"]): void;
-    /**
-     * @return Arrow element
-     */
     /**
      * A [[MapLineObject]] to use as an option arrowhead on the line.
      *
@@ -253,7 +254,11 @@ export declare class MapLine extends MapObject {
      *
      * @param arrow  Arrow element
      */
-    arrow: MapLineObject;
+    set arrow(arrow: MapLineObject);
+    /**
+     * @return Arrow element
+     */
+    get arrow(): MapLineObject;
     /**
      * Copies line properties and other attributes, like arrow, from another
      * instance of [[MapLine]].
@@ -267,14 +272,14 @@ export declare class MapLine extends MapObject {
      * @readonly
      * @return Latitude
      */
-    readonly latitude: number;
+    get latitude(): number;
     /**
      * Longitude of the line center.
      *
      * @readonly
      * @return Latitude
      */
-    readonly longitude: number;
+    get longitude(): number;
     /**
      * X coordinate for the slice tooltip.
      *

@@ -1,7 +1,7 @@
 /**
  * Functionality related to inertia
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -25,7 +25,7 @@ import * as $type from "../utils/Type";
  * decreasing speed.
  */
 var Inertia = /** @class */ (function (_super) {
-    tslib_1.__extends(Inertia, _super);
+    __extends(Inertia, _super);
     /**
      * Constructor
      */

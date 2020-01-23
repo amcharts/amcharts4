@@ -1,7 +1,7 @@
 /**
  * Column series module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -37,7 +37,7 @@ import { Disposer } from "../../core/utils/Disposer";
  * @see {@link DataItem}
  */
 var ColumnSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(ColumnSeriesDataItem, _super);
+    __extends(ColumnSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -121,7 +121,7 @@ export { ColumnSeriesDataItem };
  * @important
  */
 var ColumnSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(ColumnSeries, _super);
+    __extends(ColumnSeries, _super);
     /**
      * Constructor
      */

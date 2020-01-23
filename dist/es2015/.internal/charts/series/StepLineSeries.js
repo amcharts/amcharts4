@@ -1,7 +1,7 @@
 /**
  * Step line series module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -24,7 +24,7 @@ import * as $math from "../../core/utils/Math";
  * @see {@link DataItem}
  */
 var StepLineSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(StepLineSeriesDataItem, _super);
+    __extends(StepLineSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -52,7 +52,7 @@ export { StepLineSeriesDataItem };
  * @important
  */
 var StepLineSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(StepLineSeries, _super);
+    __extends(StepLineSeries, _super);
     /**
      * Constructor
      */

@@ -1,7 +1,7 @@
 /**
  * Pattern module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -28,7 +28,7 @@ import * as $type from "../../utils/Type";
  * Base class to define patterns.
  */
 var Pattern = /** @class */ (function (_super) {
-    tslib_1.__extends(Pattern, _super);
+    __extends(Pattern, _super);
     //public propertyValues = new Dictionary<PatternProperties, any>();
     /**
      * Constructor

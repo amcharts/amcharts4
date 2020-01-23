@@ -1,7 +1,7 @@
 /**
  * Graticule (map grid) series functionality.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -25,7 +25,7 @@ import * as $array from "../../core/utils/Array";
  * @see {@link DataItem}
  */
 var GraticuleSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(GraticuleSeriesDataItem, _super);
+    __extends(GraticuleSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -80,7 +80,7 @@ export { GraticuleSeriesDataItem };
  * @important
  */
 var GraticuleSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(GraticuleSeries, _super);
+    __extends(GraticuleSeries, _super);
     /**
      * Constructor
      */

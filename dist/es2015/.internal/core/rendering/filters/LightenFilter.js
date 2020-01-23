@@ -1,7 +1,7 @@
 /**
  * Module for "Lighten" filter.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -20,7 +20,7 @@ import { registry } from "../../Registry";
  * Creates a "Lighten" filter.
  */
 var LightenFilter = /** @class */ (function (_super) {
-    tslib_1.__extends(LightenFilter, _super);
+    __extends(LightenFilter, _super);
     /**
      * Constructor
      */

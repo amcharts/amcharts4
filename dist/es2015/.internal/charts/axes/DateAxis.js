@@ -1,7 +1,7 @@
 /**
  * DateAxis module
  */
-import * as tslib_1 from "tslib";
+import { __assign, __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -33,7 +33,7 @@ import { OrderedListTemplate } from "../../core/utils/SortedList";
  * @see {@link DataItem}
  */
 var DateAxisDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(DateAxisDataItem, _super);
+    __extends(DateAxisDataItem, _super);
     /**
      * Constructor
      */
@@ -124,7 +124,7 @@ export { DateAxisDataItem };
  * @important
  */
 var DateAxis = /** @class */ (function (_super) {
-    tslib_1.__extends(DateAxis, _super);
+    __extends(DateAxis, _super);
     /**
      * Constructor
      */
@@ -504,7 +504,7 @@ var DateAxis = /** @class */ (function (_super) {
             var mainBaseInterval = this.mainBaseInterval;
             var groupInterval = this.chooseInterval(0, difference, this.groupCount, this.groupIntervals);
             if ($time.getDuration(groupInterval.timeUnit, groupInterval.count) < $time.getDuration(mainBaseInterval.timeUnit, mainBaseInterval.count)) {
-                groupInterval = tslib_1.__assign({}, mainBaseInterval);
+                groupInterval = __assign({}, mainBaseInterval);
             }
             this._groupInterval = groupInterval;
             this._currentDataSetId = groupInterval.timeUnit + groupInterval.count;
@@ -518,7 +518,7 @@ var DateAxis = /** @class */ (function (_super) {
         }
         var gridInterval = this.chooseInterval(0, difference, this._gridCount);
         if ($time.getDuration(gridInterval.timeUnit, gridInterval.count) < this.baseDuration) {
-            gridInterval = tslib_1.__assign({}, this.baseInterval);
+            gridInterval = __assign({}, this.baseInterval);
         }
         this._gridInterval = gridInterval;
         this._nextGridUnit = $time.getNextUnit(gridInterval.timeUnit);
@@ -1199,21 +1199,21 @@ var DateAxis = /** @class */ (function (_super) {
         var intervalDuration = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
         var lastIndex = intervals.length - 1;
         if (index >= lastIndex) {
-            return tslib_1.__assign({}, intervals.getIndex(lastIndex));
+            return __assign({}, intervals.getIndex(lastIndex));
         }
         var count = Math.ceil(duration / intervalDuration);
         if (duration < intervalDuration && index > 0) {
-            return tslib_1.__assign({}, intervals.getIndex(index - 1));
+            return __assign({}, intervals.getIndex(index - 1));
         }
         if (count <= gridCount) {
-            return tslib_1.__assign({}, intervals.getIndex(index));
+            return __assign({}, intervals.getIndex(index));
         }
         else {
             if (index + 1 < intervals.length) {
                 return this.chooseInterval(index + 1, duration, gridCount, intervals);
             }
             else {
-                return tslib_1.__assign({}, intervals.getIndex(index));
+                return __assign({}, intervals.getIndex(index));
             }
         }
     };
@@ -1868,7 +1868,7 @@ var DateAxis = /** @class */ (function (_super) {
                 var mainBaseInterval = this.mainBaseInterval;
                 var groupInterval = this.chooseInterval(0, difference, this.groupCount, this.groupIntervals);
                 if ((groupInterval.timeUnit == mainBaseInterval.timeUnit && groupInterval.count < mainBaseInterval.count) || $time.getDuration(groupInterval.timeUnit, 1) < $time.getDuration(mainBaseInterval.timeUnit, 1)) {
-                    groupInterval = tslib_1.__assign({}, mainBaseInterval);
+                    groupInterval = __assign({}, mainBaseInterval);
                 }
                 var id = groupInterval.timeUnit + groupInterval.count;
                 var min_1 = this.groupMin[id];
@@ -1928,11 +1928,11 @@ var DateAxis = /** @class */ (function (_super) {
         this.periodChangeDateFormats = source.periodChangeDateFormats;
         this.groupIntervals.clear();
         source.groupIntervals.each(function (interval) {
-            _this.groupIntervals.push(tslib_1.__assign({}, interval));
+            _this.groupIntervals.push(__assign({}, interval));
         });
         this.gridIntervals.clear();
         source.gridIntervals.each(function (interval) {
-            _this.gridIntervals.push(tslib_1.__assign({}, interval));
+            _this.gridIntervals.push(__assign({}, interval));
         });
         if (source._baseInterval) {
             this.baseInterval = source._baseInterval;

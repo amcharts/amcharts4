@@ -1,7 +1,7 @@
 /**
  * SankeyLink module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { FlowDiagramLink } from "./FlowDiagramLink";
 import { registry } from "../../core/Registry";
 import { Polyspline } from "../../core/elements/Polyspline";
@@ -25,7 +25,7 @@ import * as $path from "../../core/rendering/Path";
  * @important
  */
 var SankeyLink = /** @class */ (function (_super) {
-    tslib_1.__extends(SankeyLink, _super);
+    __extends(SankeyLink, _super);
     /**
      * Constructor
      */

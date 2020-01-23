@@ -1,7 +1,7 @@
 /**
  * Legend-related functionality.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -39,7 +39,7 @@ import { Scrollbar } from "../core/elements/Scrollbar";
  * @see {@link DataItem}
  */
 var LegendDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(LegendDataItem, _super);
+    __extends(LegendDataItem, _super);
     /**
      * Constructor
      */
@@ -188,18 +188,19 @@ var LegendDataItem = /** @class */ (function (_super) {
                 }
                 var sprite = this.dataContext;
                 if ((sprite instanceof DataItem || sprite instanceof Sprite) && !sprite.isDisposed()) {
-                    itemContainer_1.addDisposer(sprite.events.on("visibilitychanged", function (ev) {
+                    var visibilitychanged = function (ev) {
                         itemContainer_1.readerChecked = ev.visible;
                         itemContainer_1.events.disableType("toggled");
                         itemContainer_1.isActive = !ev.visible;
                         itemContainer_1.events.enableType("toggled");
-                    }, undefined, false));
+                    };
                     sprite.addDisposer(new Disposer(function () {
                         if (_this.component) {
                             _this.component.dataItems.remove(_this);
                         }
                     }));
                     if (sprite instanceof Sprite) {
+                        itemContainer_1.addDisposer(sprite.events.on("visibilitychanged", visibilitychanged, undefined, false));
                         itemContainer_1.addDisposer(sprite.events.on("hidden", function (ev) {
                             itemContainer_1.readerChecked = false;
                             itemContainer_1.events.disableType("toggled");
@@ -212,6 +213,9 @@ var LegendDataItem = /** @class */ (function (_super) {
                             itemContainer_1.isActive = false;
                             itemContainer_1.events.enableType("toggled");
                         }, undefined, false));
+                    }
+                    else {
+                        itemContainer_1.addDisposer(sprite.events.on("visibilitychanged", visibilitychanged, undefined, false));
                     }
                 }
             }
@@ -287,7 +291,7 @@ export { LegendSettings };
  * @see {@link ILegendAdapters} for a list of available Adapters
  */
 var Legend = /** @class */ (function (_super) {
-    tslib_1.__extends(Legend, _super);
+    __extends(Legend, _super);
     /**
      * Constructor
      */

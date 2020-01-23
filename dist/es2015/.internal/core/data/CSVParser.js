@@ -1,7 +1,7 @@
 /**
  * CSV parser.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -21,7 +21,7 @@ var separators = [",", ";", "\t"];
  * @important
  */
 var CSVParser = /** @class */ (function (_super) {
-    tslib_1.__extends(CSVParser, _super);
+    __extends(CSVParser, _super);
     function CSVParser() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         /**

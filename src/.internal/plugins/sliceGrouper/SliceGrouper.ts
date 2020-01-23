@@ -19,6 +19,7 @@ import { Sprite } from "../../core/Sprite";
 import { Optional } from "../../core/utils/Type";
 import { registry } from "../../core/Registry";
 import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
+import { Component } from "../../core/Component";
 import * as $object from "../../core/utils/Object";
 
 
@@ -83,7 +84,7 @@ export class SliceGrouper extends Plugin {
 	/**
 	 * A reference to "Other" slice.
 	 */
-	public groupSlice: Sprite | Slice | FunnelSlice;
+	public groupSlice: Sprite;
 
 	/**
 	 * A list of small slices that do not satisfy `threshold`.
@@ -167,7 +168,7 @@ export class SliceGrouper extends Plugin {
 
 		const series = this.target;
 		const chart = <PercentChart>series.baseSprite;
-		const dataProvider = series.data && series.data.length ? series : chart;
+		const dataProvider: Component = series.data && series.data.length ? series : chart;
 
 		// Invalidate calculated data whenever data updates
 		this._disposers.push(dataProvider.events.on("datavalidated", (ev) => {
@@ -202,7 +203,7 @@ export class SliceGrouper extends Plugin {
 							item.hide();
 						}
 					});
-					
+
 					this.smallSlices.push(item.slice);
 				}
 				else {
@@ -387,7 +388,7 @@ export class SliceGrouper extends Plugin {
 	/**
 	 * An instance of [[ZoomOutButton]] that is shown when "Other" slice is
 	 * broken down, to get back to grouped state.
-	 * 
+	 *
 	 * @param  value  Button
 	 */
 	public set zoomOutButton(value: ZoomOutButton) {
@@ -425,7 +426,7 @@ export class SliceGrouper extends Plugin {
 	 * * "none": nothing (default)
 	 * * "break": the slice is broken down into actual slices it consists of
 	 * * "zoom": actual small slices are shown and the rest of the slices are hidden
-	 * 
+	 *
 	 * @param  value  Click behavior
 	 */
 	public set clickBehavior(value: "none" | "break" | "zoom") {

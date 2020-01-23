@@ -1,7 +1,7 @@
 /**
  * Functionality for drawing a trapezoid.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -27,7 +27,7 @@ import * as $path from "../rendering/Path";
  * @see {@link ITrapezoidAdapters} for a list of available Adapters
  */
 var Trapezoid = /** @class */ (function (_super) {
-    tslib_1.__extends(Trapezoid, _super);
+    __extends(Trapezoid, _super);
     /**
      * Constructor
      */

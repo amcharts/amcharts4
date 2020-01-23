@@ -80,5 +80,5 @@ export declare class Rectangle extends Sprite {
      *
      * @ignore Exclude from docs
      */
-    readonly bbox: IRectangle;
+    get bbox(): IRectangle;
 }

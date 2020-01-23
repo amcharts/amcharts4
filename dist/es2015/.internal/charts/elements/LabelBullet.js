@@ -1,7 +1,7 @@
 /**
  * Bullet module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -31,7 +31,7 @@ import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
  * @important
  */
 var LabelBullet = /** @class */ (function (_super) {
-    tslib_1.__extends(LabelBullet, _super);
+    __extends(LabelBullet, _super);
     /**
      * Constructor
      */

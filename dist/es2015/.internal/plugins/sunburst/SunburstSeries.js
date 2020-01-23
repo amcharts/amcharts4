@@ -4,7 +4,7 @@
  * ============================================================================
  * @hidden
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { PieSeries, PieSeriesDataItem } from "../../charts/series/PieSeries";
 import * as $type from "../../core/utils/Type";
 import { registry } from "../../core/Registry";
@@ -22,7 +22,7 @@ import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
  * @since 4.1.6
  */
 var SunburstSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(SunburstSeriesDataItem, _super);
+    __extends(SunburstSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -153,7 +153,7 @@ export { SunburstSeriesDataItem };
  * @important
  */
 var SunburstSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(SunburstSeries, _super);
+    __extends(SunburstSeries, _super);
     /**
      * Constructor
      */

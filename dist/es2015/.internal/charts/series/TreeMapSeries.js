@@ -1,7 +1,7 @@
 /**
  * TreeMap series module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -27,7 +27,7 @@ import * as $object from "../../core/utils/Object";
  * @see {@link DataItem}
  */
 var TreeMapSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(TreeMapSeriesDataItem, _super);
+    __extends(TreeMapSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -146,7 +146,7 @@ export { TreeMapSeriesDataItem };
  * @important
  */
 var TreeMapSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(TreeMapSeries, _super);
+    __extends(TreeMapSeries, _super);
     /**
      * Constructor
      */

@@ -4,7 +4,7 @@
  * ============================================================================
  * @hidden
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { PieSeries, PieSeriesDataItem } from "../series/PieSeries";
 import { Slice3D } from "../../core/elements/3d/Slice3D";
 import { registry } from "../../core/Registry";
@@ -21,7 +21,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link DataItem}
  */
 var PieSeries3DDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(PieSeries3DDataItem, _super);
+    __extends(PieSeries3DDataItem, _super);
     /**
      * Constructor
      */
@@ -68,7 +68,7 @@ export { PieSeries3DDataItem };
  * @important
  */
 var PieSeries3D = /** @class */ (function (_super) {
-    tslib_1.__extends(PieSeries3D, _super);
+    __extends(PieSeries3D, _super);
     /**
      * Constructor
      */

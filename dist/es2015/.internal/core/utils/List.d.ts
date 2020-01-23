@@ -137,13 +137,13 @@ export declare class ListGrouper<A> extends MultiDisposer {
      * @param key    Group name
      * @param index  Index
      */
-    private _insert(x, key, index?);
+    private _insert;
     /**
      * Removes an item from the list.
      *
      * @param x Item to remove
      */
-    private _remove(x);
+    private _remove;
     /**
      * Constructor.
      */
@@ -211,7 +211,7 @@ export declare class List<T> {
      * @readonly
      * @return List values
      */
-    readonly values: Array<T>;
+    get values(): Array<T>;
     /**
      * Checks if list contains specific item reference.
      *
@@ -238,7 +238,7 @@ export declare class List<T> {
      * @readonly
      * @return Number of items
      */
-    readonly length: number;
+    get length(): number;
     /**
      * Checks if there's a value at specific index.
      *
@@ -279,7 +279,7 @@ export declare class List<T> {
      * @param high   [description]
      * @param order  [description]
      */
-    private _sortQuicksort(low, high, order);
+    private _sortQuicksort;
     /**
      * [_sortPartition description]
      *
@@ -289,7 +289,7 @@ export declare class List<T> {
      * @param order  [description]
      * @return [description]
      */
-    private _sortPartition(low, high, order);
+    private _sortPartition;
     /**
      * Reorders list items according to specific ordering function.
      *
@@ -429,15 +429,16 @@ export declare class ListTemplate<T extends IClone<T> & {
      */
     constructor(t: T);
     /**
-     * @return Template object
-     */
-    /**
      * A "template" object to copy all properties from when creating new list
      * items.
      *
      * @param v  Template object
      */
-    template: T;
+    set template(v: T);
+    /**
+     * @return Template object
+     */
+    get template(): T;
     /**
      * Copies all elements from other list.
      *

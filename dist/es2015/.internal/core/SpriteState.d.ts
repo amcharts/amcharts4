@@ -116,7 +116,7 @@ export declare class SpriteState<P, A> extends BaseObject {
     /**
      * Holds Adapter.
      */
-    readonly adapter: Adapter<this, A>;
+    get adapter(): Adapter<this, A>;
     /**
      * Duration of the transition to this state. 0 means instantenous transition.
      * Any number means the [[Sprite]] will transit smoothly to this state,
@@ -202,7 +202,7 @@ export declare class SpriteState<P, A> extends BaseObject {
      * @todo Add adapter values
      * @todo proper type this["_properties"]
      */
-    readonly allValues: P;
+    get allValues(): P;
     /**
      * Resets the State to initial state - no values or Filters applied.
      */

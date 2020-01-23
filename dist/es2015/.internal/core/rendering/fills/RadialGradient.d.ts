@@ -72,47 +72,52 @@ export declare class RadialGradient extends BaseObject {
      */
     addColor(color: Color, opacity?: number, offset?: number): void;
     /**
-     * @ignore Exclude from docs
-     * @return Paper
-     */
-    /**
      * A [[Paper]] instace to use for the gradient.
      *
      * @ignore Exclude from docs
      * @param paper  Paper
      */
-    paper: Paper;
+    set paper(paper: Paper);
+    /**
+     * @ignore Exclude from docs
+     * @return Paper
+     */
+    get paper(): Paper;
     /**
      * Center x coordinate of the gradient, can be set as number or Percent
      *
      * @param point  Center point
      */
-    cx: $type.Optional<number | Percent>;
+    set cx(value: $type.Optional<number | Percent>);
+    get cx(): $type.Optional<number | Percent>;
     /**
      * Center y coordinate of the gradient, can be set as number or Percent
      *
      * @param point  Center point
      */
-    cy: $type.Optional<number | Percent>;
+    set cy(value: $type.Optional<number | Percent>);
+    get cy(): $type.Optional<number | Percent>;
     /**
      * y coordinate of the focal point of a gradient, can be set in pixels or as Percent
      *
      * @param point  Center point
      */
-    fx: $type.Optional<number | Percent>;
+    set fx(value: $type.Optional<number | Percent>);
+    get fx(): $type.Optional<number | Percent>;
     /**
      * y coordinate of the focal point of a gradient, can be set in pixels or as Percent
      *
      * @param point  Center point
      */
-    fy: $type.Optional<number | Percent>;
+    set fy(value: $type.Optional<number | Percent>);
+    get fy(): $type.Optional<number | Percent>;
     copyFrom(source: this): void;
     /**
      * A list of color stops in the gradient.
      *
      * @return Stops
      */
-    readonly stops: List<IGradientStop>;
+    get stops(): List<IGradientStop>;
     /**
      * Clears the gradient.
      *

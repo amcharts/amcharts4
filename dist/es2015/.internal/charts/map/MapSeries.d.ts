@@ -55,52 +55,55 @@ export declare class MapSeriesDataItem extends SeriesDataItem {
      */
     constructor();
     /**
-     * @return Value
-     */
-    /**
      * Numeric value of the data item.
      *
      * Value may be used in heat-map calculations.
      *
      * @param value  Value
      */
-    value: number;
+    set value(value: number);
     /**
-     * @return Zoom level
+     * @return Value
      */
+    get value(): number;
     /**
      * When `zoomToMapObject()` is called the map will either calculate suitable
      * zoom level itself or use object's `zoomLevel` if set.
      *
      * @param value  Zoom level
      */
-    zoomLevel: number;
+    set zoomLevel(value: number);
     /**
-     * @return Zoom geo point
+     * @return Zoom level
      */
+    get zoomLevel(): number;
     /**
      * When `zoomToMapObject()` is called the map will either calculate suitable
      * center position itself or use object's `zoomGeoPoint` if set.
      *
      * @param value  Zoom geo point
      */
-    zoomGeoPoint: IGeoPoint;
+    set zoomGeoPoint(value: IGeoPoint);
+    /**
+     * @return Zoom geo point
+     */
+    get zoomGeoPoint(): IGeoPoint;
     /**
      * Longitude of the East-most point of the element.
      */
-    readonly east: number;
+    get east(): number;
     /**
      * Longitude of the West-most point of the element.
      */
-    readonly west: number;
+    get west(): number;
     /**
      * Latitude of the South-most point of the element.
      */
-    readonly south: number;
+    get south(): number;
     /**
      * Latitude of the North-most point of the element.
      */
-    readonly north: number;
+    get north(): number;
     /**
      * Updates the item's bounding coordinates: coordinates of the East, West,
      * North, and South-most points.
@@ -268,9 +271,6 @@ export declare class MapSeries extends Series {
      */
     protected checkInclude(includes: string[], excludes: string[], id: string): boolean;
     /**
-     * @return Use GeoJSON data?
-     */
-    /**
      * Should the map extract all the data about element from the GeoJSON?
      *
      * This is especially relevant for [[MapPolygonSeries]]. If not set to `true`
@@ -284,10 +284,11 @@ export declare class MapSeries extends Series {
      * @default false
      * @param value  Use GeoJSON data?
      */
-    useGeodata: boolean;
+    set useGeodata(value: boolean);
     /**
-     * @return Included objects
+     * @return Use GeoJSON data?
      */
+    get useGeodata(): boolean;
     /**
      * A list of object ids that should be explictly included in the series.
      *
@@ -303,14 +304,15 @@ export declare class MapSeries extends Series {
      *
      * @param value  Included objects
      */
-    include: string[];
+    set include(value: string[]);
     /**
      * @ignore
      */
     protected processIncExc(): void;
     /**
-     * @return Ignore bounds?
+     * @return Included objects
      */
+    get include(): string[];
     /**
      * Should this series be included when calculating bounds of the map?
      *
@@ -322,10 +324,11 @@ export declare class MapSeries extends Series {
      * @since 4.3.0
      * @param  value  Ignore bounds?
      */
-    ignoreBounds: boolean;
+    set ignoreBounds(value: boolean);
     /**
-     * @return Excluded ids
+     * @return Ignore bounds?
      */
+    get ignoreBounds(): boolean;
     /**
      * A list of object ids that should be excluded from the series.
      *
@@ -336,16 +339,17 @@ export declare class MapSeries extends Series {
      *
      * @param value  Excluded ids
      */
-    exclude: string[];
+    set exclude(value: string[]);
+    /**
+     * @return Excluded ids
+     */
+    get exclude(): string[];
     /**
      * Decorates a newly added object.
      *
      * @param event [description]
      */
     protected handleObjectAdded(event: IListEvents<MapObject>["inserted"]): void;
-    /**
-     * @return GeoJSON data
-     */
     /**
      * Map data in GeoJSON format.
      *
@@ -355,18 +359,23 @@ export declare class MapSeries extends Series {
      * @see {@link http://geojson.org/} Official GeoJSON format specification
      * @param geoJSON GeoJSON data
      */
-    geodata: Object;
+    set geodata(geodata: Object);
     /**
-     * Returns a [[DataSource]] specifically for loading Component's data.
-     *
-     * @return Data source
+     * @return GeoJSON data
      */
+    get geodata(): Object;
     /**
      * Sets a [[DataSource]] to be used for loading Component's data.
      *
      * @param value Data source
      */
-    geodataSource: DataSource;
+    set geodataSource(value: DataSource);
+    /**
+     * Returns a [[DataSource]] specifically for loading Component's data.
+     *
+     * @return Data source
+     */
+    get geodataSource(): DataSource;
     /**
      * @ignore
      */
@@ -386,9 +395,6 @@ export declare class MapSeries extends Series {
      */
     updateExtremes(): void;
     /**
-     * @return Latitude
-     */
-    /**
      * North-most latitude of the series.
      *
      * By default, this holds auto-calculated latitude of the extremity.
@@ -397,10 +403,11 @@ export declare class MapSeries extends Series {
      *
      * @param  value  Latitude
      */
-    north: number;
+    set north(value: number);
     /**
      * @return Latitude
      */
+    get north(): number;
     /**
      * South-most latitude of the series.
      *
@@ -410,10 +417,11 @@ export declare class MapSeries extends Series {
      *
      * @param  value  Latitude
      */
-    south: number;
+    set south(value: number);
     /**
-     * @return Longitude
+     * @return Latitude
      */
+    get south(): number;
     /**
      * West-most longitude of the series.
      *
@@ -423,10 +431,11 @@ export declare class MapSeries extends Series {
      *
      * @param  value  Longitude
      */
-    west: number;
+    set west(value: number);
     /**
      * @return Longitude
      */
+    get west(): number;
     /**
      * East-most longitude of the series.
      *
@@ -436,7 +445,11 @@ export declare class MapSeries extends Series {
      *
      * @param  value  Longitude
      */
-    east: number;
+    set east(value: number);
+    /**
+     * @return Longitude
+     */
+    get east(): number;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

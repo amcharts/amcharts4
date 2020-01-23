@@ -104,28 +104,31 @@ export declare class Slice3D extends Slice {
      */
     draw(): void;
     /**
-     * @return Depth (px)
-     */
-    /**
      * Depth (height) of the 3D slice in pixels.
      *
      * @default 20
      * @param depth  Depth (px)
      */
-    depth: number;
+    set depth(depth: number);
     /**
-     * @return Angle
+     * @return Depth (px)
      */
+    get depth(): number;
     /**
      * Angle of the point of view to the 3D element. (0-360)
      *
      * @default 30
      * @param value  Angle
      */
-    angle: number;
+    set angle(value: number);
+    /**
+     * @return Angle
+     */
+    get angle(): number;
     /**
      * @return Vertical radius (0-1)
      */
+    get radiusY(): number;
     /**
      * Vertical radius for creating skewed slices.
      *
@@ -134,7 +137,7 @@ export declare class Slice3D extends Slice {
      *
      * @param value Vertical radius (0-1)
      */
-    radiusY: number;
+    set radiusY(value: number);
     /**
      * Copies all properties and related data from a different instance of Axis.
      *

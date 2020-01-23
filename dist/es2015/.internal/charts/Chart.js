@@ -1,7 +1,7 @@
 /**
  * [[Chart]] class provides base functionality for all chart types to inherit.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -32,7 +32,7 @@ import { defaultRules, ResponsiveBreakpoints } from "../core/utils/Responsive";
  * @see {@link DataItem}
  */
 var ChartDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(ChartDataItem, _super);
+    __extends(ChartDataItem, _super);
     /**
      * Constructor
      */
@@ -58,7 +58,7 @@ export { ChartDataItem };
  * @see {@link IChartAdapters} for a list of available Adapters
  */
 var Chart = /** @class */ (function (_super) {
-    tslib_1.__extends(Chart, _super);
+    __extends(Chart, _super);
     /**
      * Constructor
      */

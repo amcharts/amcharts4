@@ -1,7 +1,7 @@
 /**
  * Map image series module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import { Disposer } from "../../core/utils/Disposer";
  * @see {@link DataItem}
  */
 var MapImageSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(MapImageSeriesDataItem, _super);
+    __extends(MapImageSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -127,7 +127,7 @@ export { MapImageSeriesDataItem };
  * @important
  */
 var MapImageSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(MapImageSeries, _super);
+    __extends(MapImageSeries, _super);
     /**
      * Constructor
      */

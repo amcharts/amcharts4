@@ -1,7 +1,7 @@
 /**
  * Module that defines everything related to building bullets.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +26,7 @@ import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive
  * @important
  */
 var Bullet = /** @class */ (function (_super) {
-    tslib_1.__extends(Bullet, _super);
+    __extends(Bullet, _super);
     /**
      * Constructor
      */

@@ -3,7 +3,7 @@
  *
  * Not recommended using if you use scrollbars or your chart is zoomable in some other way.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -25,7 +25,7 @@ import { registry } from "../../core/Registry";
  * @see {@link DataItem}
  */
 var CurvedColumnSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(CurvedColumnSeriesDataItem, _super);
+    __extends(CurvedColumnSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -52,7 +52,7 @@ export { CurvedColumnSeriesDataItem };
  * @important
  */
 var CurvedColumnSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(CurvedColumnSeries, _super);
+    __extends(CurvedColumnSeries, _super);
     /**
      * Constructor
      */

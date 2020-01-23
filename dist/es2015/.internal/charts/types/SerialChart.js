@@ -1,7 +1,7 @@
 /**
  * Serial chart module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +30,7 @@ import { Disposer } from "../../core/utils/Disposer";
  * @see {@link DataItem}
  */
 var SerialChartDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(SerialChartDataItem, _super);
+    __extends(SerialChartDataItem, _super);
     /**
      * Constructor
      */
@@ -58,7 +58,7 @@ export { SerialChartDataItem };
  * @see {@link ISerialChartAdapters} for a list of available Adapters
  */
 var SerialChart = /** @class */ (function (_super) {
-    tslib_1.__extends(SerialChart, _super);
+    __extends(SerialChart, _super);
     /**
      * Constructor
      */

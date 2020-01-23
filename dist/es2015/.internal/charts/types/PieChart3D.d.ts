@@ -182,9 +182,6 @@ export declare class PieChart3D extends PieChart {
      */
     constructor();
     /**
-     * @return Depth (px)
-     */
-    /**
      * Depth of the 3D pie in pixels.
      *
      * This will determine "height" of the pie.
@@ -192,17 +189,22 @@ export declare class PieChart3D extends PieChart {
      * @default 20
      * @param value  Depth (px)
      */
-    depth: number;
+    set depth(value: number);
     /**
-     * @return Angle (degrees)
+     * @return Depth (px)
      */
+    get depth(): number;
     /**
      * An angle of a "point of view" in degrees. Possible range 0 - 90.
      *
      * @default 10
      * @param value  Angle (degrees)
      */
-    angle: number;
+    set angle(value: number);
+    /**
+     * @return Angle (degrees)
+     */
+    get angle(): number;
     /**
      * Creates and returns a new Series.
      *

@@ -183,4 +183,60 @@ declare const _default: {
     "Unable to load file: %1": string;
     "Invalid date": string;
 };
+/**
+ * amCharts 4 locale
+ *
+ * Locale: ja_JP
+ * Language: Japanese
+ * Author: Bjorn Svensson
+ *
+ * Follow instructions in [on this page](https://www.amcharts.com/docs/v4/tutorials/creating-translations/) to make corrections or add new translations.
+ *
+ * ---
+ * Edit but leave the header section above this line. You can remove any
+ * subsequent comment sections.
+ * ---
+ *
+ * Use this file as a template to create translations. Leave the key part in
+ * English intact. Fill the value with a translation.
+ *
+ * Empty string means no translation, so default "International English"
+ * will be used.
+ *
+ * If you need the translation to literally be an empty string, use `null`
+ * instead.
+ *
+ * IMPORTANT:
+ * When translating make good effort to keep the translation length
+ * at least the same chartcount as the English, especially for short prompts.
+ *
+ * Having significantly longer prompts may distort the actual charts.
+ *
+ * NOTE:
+ * Some prompts - like months or weekdays - come in two versions: full and
+ * shortened.
+ *
+ * If there's no official shortened version of these in your language, and it
+ * would not be possible to invent such short versions that don't seem weird
+ * to native speakers of that language, fill those with the same as full
+ * version.
+ *
+ * PLACEHOLDERS:
+ * Some prompts have placeholders like "%1". Those will be replaced by actual
+ * values during translation and should be retained in the translated prompts.
+ *
+ * Placeholder positions may be changed to better suit structure of the
+ * sentence.
+ *
+ * For example "From %1 to %2", when actually used will replace "%1" with an
+ * actual value representing range start, and "%2" will be replaced by end
+ * value.
+ *
+ * E.g. in a Scrollbar for Value axis "From %1 to %2" will become
+ * "From 100 to 200". You may translate "From" and "to", as well as re-arrange
+ * the order of the prompt itself, but make sure the "%1" and "%2" remain, in
+ * places where they will make sense.
+ *
+ * Save the file as language_LOCALE, i.e. `en_GB.ts`, `fr_FR.ts`, etc.
+ */
 export default _default;

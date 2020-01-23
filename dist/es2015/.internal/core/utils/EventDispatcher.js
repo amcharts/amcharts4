@@ -2,7 +2,7 @@
  * Event Dispatcher module is used for registering listeners and dispatching
  * events across amCharts system.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -476,7 +476,7 @@ export { EventDispatcher };
  * @important
  */
 var TargetedEventDispatcher = /** @class */ (function (_super) {
-    tslib_1.__extends(TargetedEventDispatcher, _super);
+    __extends(TargetedEventDispatcher, _super);
     /**
      * Constructor
      *

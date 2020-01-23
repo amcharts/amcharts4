@@ -1,7 +1,7 @@
 /**
  * Map module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -41,7 +41,7 @@ import { getInteraction } from "../../core/interaction/Interaction";
  * @see {@link DataItem}
  */
 var MapChartDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(MapChartDataItem, _super);
+    __extends(MapChartDataItem, _super);
     /**
      * Constructor
      */
@@ -68,7 +68,7 @@ export { MapChartDataItem };
  * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/} for documentation
  */
 var MapChart = /** @class */ (function (_super) {
-    tslib_1.__extends(MapChart, _super);
+    __extends(MapChart, _super);
     /**
      * Constructor
      */

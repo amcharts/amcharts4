@@ -108,5 +108,5 @@ export declare class Column extends Container {
      *
      * @ignore Exclude from docs
      */
-    readonly bbox: IRectangle;
+    get bbox(): IRectangle;
 }

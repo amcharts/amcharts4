@@ -1,7 +1,7 @@
 /**
  * Module, defining Axis Renderer for vertical 3D axes.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -24,7 +24,7 @@ import * as $path from "../../core/rendering/Path";
  * @see {@link IAxisRendererY3DAdapters} for a list of available Adapters
  */
 var AxisRendererY3D = /** @class */ (function (_super) {
-    tslib_1.__extends(AxisRendererY3D, _super);
+    __extends(AxisRendererY3D, _super);
     /**
      * Constructor.
      *

@@ -83,9 +83,6 @@ export declare class NumberFormatter extends BaseObject {
     constructor();
     dispose(): void;
     /**
-     * @return Language
-     */
-    /**
      * A reference to [[Language]] instance.
      *
      * Formatter will use language to translate various items, like number
@@ -93,7 +90,11 @@ export declare class NumberFormatter extends BaseObject {
      *
      * @param value  Language
      */
-    language: Language;
+    set language(value: Language);
+    /**
+     * @return Language
+     */
+    get language(): Language;
     /**
      * Formats the number according to specific format.
      *
@@ -132,29 +133,28 @@ export declare class NumberFormatter extends BaseObject {
      */
     protected invalidateSprite(): void;
     /**
-     * @return A format to use for number formatting
-     */
-    /**
      * Number format.
      *
      * @default "#,###.#####"
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
      * @param format  A format to use for number formatting
      */
-    numberFormat: string | Intl.NumberFormatOptions;
+    set numberFormat(format: string | Intl.NumberFormatOptions);
     /**
-     * @return Date format
+     * @return A format to use for number formatting
      */
+    get numberFormat(): string | Intl.NumberFormatOptions;
     /**
      * Locales if you are using date formats in `Intl.NumberFormatOptions` syntax.
      *
      * @see (@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat) about using Intl for number formatting
      * @param value Locales
      */
-    intlLocales: string;
+    set intlLocales(value: string);
     /**
-     * @return A format to use for number formatting
+     * @return Date format
      */
+    get intlLocales(): string;
     /**
      * Negative base for negative numbers.
      *
@@ -162,10 +162,11 @@ export declare class NumberFormatter extends BaseObject {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
      * @param format  A format to use for number formatting
      */
-    negativeBase: number;
+    set negativeBase(value: number);
     /**
-     * @return Prefixes for big numbers
+     * @return A format to use for number formatting
      */
+    get negativeBase(): number;
     /**
      * Prefixes for big numbers.
      *
@@ -201,10 +202,11 @@ export declare class NumberFormatter extends BaseObject {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
      * @param prefixes  Prefixes for big numbers
      */
-    bigNumberPrefixes: INumberSuffix[];
+    set bigNumberPrefixes(prefixes: INumberSuffix[]);
     /**
-     * @return Prefixes for small numbers
+     * @return Prefixes for big numbers
      */
+    get bigNumberPrefixes(): INumberSuffix[];
     /**
      * Prefixes for big numbers.
      *
@@ -243,10 +245,11 @@ export declare class NumberFormatter extends BaseObject {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
      * @param prefixes  Prefixes for small numbers
      */
-    smallNumberPrefixes: INumberSuffix[];
+    set smallNumberPrefixes(prefixes: INumberSuffix[]);
     /**
-     * @return Small number threshold
+     * @return Prefixes for small numbers
      */
+    get smallNumberPrefixes(): INumberSuffix[];
     /**
      * Any number smaller than this will be considered "small" number, which will
      * trigger special formatting if "a" format modifier is used.
@@ -254,10 +257,11 @@ export declare class NumberFormatter extends BaseObject {
      * @since 4.6.8
      * @param  value  Small number threshold
      */
-    smallNumberThreshold: number;
+    set smallNumberThreshold(value: number);
     /**
-     * @return Prefixes for byte-size formatting
+     * @return Small number threshold
      */
+    get smallNumberThreshold(): number;
     /**
      * Basically the same as `bigNumberPrefixes`, except base for calculation
      * is not thousand but byte (1024).
@@ -273,18 +277,23 @@ export declare class NumberFormatter extends BaseObject {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
      * @param prefixes  Prefixes for byte-size formatting
      */
-    bytePrefixes: INumberSuffix[];
+    set bytePrefixes(prefixes: INumberSuffix[]);
     /**
-     * @ignore Exclude from docs
-     * @return Output format
+     * @return Prefixes for byte-size formatting
      */
+    get bytePrefixes(): INumberSuffix[];
     /**
      * Ooutput format: "svg" or "html".
      *
      * @ignore Exclude from docs
      * @param value  Output format
      */
-    outputFormat: string;
+    set outputFormat(outputFormat: string);
+    /**
+     * @ignore Exclude from docs
+     * @return Output format
+     */
+    get outputFormat(): string;
     /**
      * Replaces brackets with temporary placeholders.
      *

@@ -1,4 +1,7 @@
 /**
+ * A collection of network-related functions
+ */
+/**
  * Defines an interface for objects that hold a net request result.
  */
 export interface INetLoadResult<A> {

@@ -67,10 +67,7 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      * @readonly
      * @return Element
      */
-    readonly mapPolygon: MapPolygon;
-    /**
-     * @return Coordinates
-     */
+    get mapPolygon(): MapPolygon;
     /**
      * A collection of X/Y coordinates for a single polygon. E.g.:
      *
@@ -88,10 +85,11 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      *
      * @param polygon  Coordinates
      */
-    polygon: Array<Array<[number, number]>>;
+    set polygon(polygon: Array<Array<[number, number]>>);
     /**
      * @return Coordinates
      */
+    get polygon(): Array<Array<[number, number]>>;
     /**
      * A collection of X/Y coordinates for a multi-part polygon. E.g.:
      *
@@ -123,10 +121,11 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      *
      * @param multiPolygon  Coordinates
      */
-    multiPolygon: Array<Array<Array<[number, number]>>>;
+    set multiPolygon(multiPolygon: Array<Array<Array<[number, number]>>>);
     /**
      * @return Coordinates
      */
+    get multiPolygon(): Array<Array<Array<[number, number]>>>;
     /**
      * A collection of lat/long coordinates for a single polygon. E.g.:
      *
@@ -144,10 +143,11 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.6} GeoJSON Polygon reference
      * @param geoPolygon  Coordinates
      */
-    geoPolygon: [Array<IGeoPoint>, Array<IGeoPoint>];
+    set geoPolygon(geoPolygon: [Array<IGeoPoint>, Array<IGeoPoint>]);
     /**
      * @return Coordinates
      */
+    get geoPolygon(): [Array<IGeoPoint>, Array<IGeoPoint>];
     /**
      * A collection of lat/long coordinates for a multi-part polygon. E.g.:
      *
@@ -177,7 +177,11 @@ export declare class MapPolygonSeriesDataItem extends MapSeriesDataItem {
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.7} GeoJSON MultiPolygon reference
      * @param multiGeoPolygon  Coordinates
      */
-    multiGeoPolygon: Array<[Array<IGeoPoint>, Array<IGeoPoint>]>;
+    set multiGeoPolygon(multiGeoPolygon: Array<[Array<IGeoPoint>, Array<IGeoPoint>]>);
+    /**
+     * @return Coordinates
+     */
+    get multiGeoPolygon(): Array<[Array<IGeoPoint>, Array<IGeoPoint>]>;
 }
 /**
  * ============================================================================
@@ -307,7 +311,7 @@ export declare class MapPolygonSeries extends MapSeries {
      *
      * @return Polygon list
      */
-    readonly mapPolygons: ListTemplate<MapPolygon>;
+    get mapPolygons(): ListTemplate<MapPolygon>;
     /**
      * returns MapPolygon by id in geoJSON file
      * @param polygon id

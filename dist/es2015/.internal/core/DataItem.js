@@ -9,7 +9,7 @@
  * legend. Since legend needs access to Line Series' value, a DataItem is
  * created for the series.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -43,7 +43,7 @@ import * as $type from "./utils/Type";
  * @important
  */
 var DataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(DataItem, _super);
+    __extends(DataItem, _super);
     /**
      * Constructor
      * @todo Adding events to disposers produces errors in some cases, which means that chart is using disposed Data Items which is not right

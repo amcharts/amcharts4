@@ -2,7 +2,7 @@
  * Module that defines everything related to building RadarColumns.
  * It is a container which has radarColumn element which is a Slice.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -28,7 +28,7 @@ import * as $type from "../../core/utils/Type";
  * @important
  */
 var RadarColumn = /** @class */ (function (_super) {
-    tslib_1.__extends(RadarColumn, _super);
+    __extends(RadarColumn, _super);
     /**
      * Constructor
      */

@@ -8,7 +8,7 @@
  * Interaction itself will not modify [[InteractionObject]] elements, it will be up to
  * those elements to handle interaction information received via event triggers.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -51,7 +51,7 @@ import * as $time from "../utils/Time";
 * @see {@link IInteractionEvents} for a list of available events
 */
 var Interaction = /** @class */ (function (_super) {
-    tslib_1.__extends(Interaction, _super);
+    __extends(Interaction, _super);
     /**
      * Constructor. Sets up universal document-wide move events to handle stuff
      * outside particular chart container.

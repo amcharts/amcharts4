@@ -1,7 +1,7 @@
 /**
  * Popup class is used to display information over chart area.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -23,7 +23,7 @@ import * as $object from "../utils/Object";
  * @todo Positioning over whole window
  */
 var Popup = /** @class */ (function (_super) {
-    tslib_1.__extends(Popup, _super);
+    __extends(Popup, _super);
     /**
      * Constructor
      */

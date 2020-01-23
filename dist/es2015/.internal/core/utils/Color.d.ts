@@ -66,53 +66,56 @@ export declare class Color {
      *
      * @return RGB object
      */
-    readonly rgb: $type.Optional<iRGB>;
+    get rgb(): $type.Optional<iRGB>;
     /**
      * Returns color hex value string, e.g. "#FF0000".
      *
      * @return Hex color code
      */
-    readonly hex: string;
+    get hex(): string;
     /**
      * Returns an `rgba()` representation of the color, e.g.:
      * `rgba(255, 0, 0, 0.5)`.
      *
      * @return rgba color string
      */
-    readonly rgba: string;
-    /**
-     * Returns current transparency.
-     *
-     * @return Alpha (0-1)
-     */
+    get rgba(): string;
     /**
      * Set alpha (transparency) of the color.
      *
      * @param value Alpha (0-1)
      */
-    alpha: number;
+    set alpha(value: number);
     /**
-     * Returns current light color setting.
+     * Returns current transparency.
      *
-     * @return Color
+     * @return Alpha (0-1)
      */
+    get alpha(): number;
     /**
      * Sets "light" color. Used when determining contrasting color.
      *
      * @param color Color
      */
-    lightColor: Color;
+    set lightColor(color: Color);
     /**
-     * Returns current dark color setting.
+     * Returns current light color setting.
      *
      * @return Color
      */
+    get lightColor(): Color;
     /**
      * Sets "dark" color. Used when determining contrasting color.
      *
      * @param color Color
      */
-    darkColor: Color;
+    set darkColor(color: Color);
+    /**
+     * Returns current dark color setting.
+     *
+     * @return Color
+     */
+    get darkColor(): Color;
     /**
      * Overrides `toString` method so that [[Color]] object can be used as
      * string.
@@ -164,7 +167,7 @@ export declare class Color {
      *
      * @return Contrasting color
      */
-    readonly alternative: Color;
+    get alternative(): Color;
 }
 /**
  * Resolves an input variable to a normal [[iRGB]] color and creates [[Color]]

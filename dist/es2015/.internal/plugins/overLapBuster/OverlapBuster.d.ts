@@ -130,38 +130,38 @@ export declare class OverlapBuster extends Plugin {
      *
      * @return List of target objects
      */
-    readonly targets: List<Sprite>;
+    get targets(): List<Sprite>;
     /**
      * Handles hover event on a target element.
      *
      * @param  ev  Event
      */
-    private handleHover(ev);
+    private handleHover;
     /**
      * Handles out event on a target element.
      *
      * @param  ev  Event
      */
-    private handleOut(ev);
+    private handleOut;
     /**
      * Stops object's animations.
      * @param  target  Target
      */
-    private stopAnimation(target);
+    private stopAnimation;
     /**
      * Collapses currently expanded cluster of objects.
      */
-    private collapseCurrent();
+    private collapseCurrent;
     /**
      * Cancels the collapse timeout.
      */
-    private cancelCollapse();
+    private cancelCollapse;
     /**
      * Registers new element.
      *
      * @param  ev  Event
      */
-    private register(ev);
+    private register;
     /**
      * Checks if the this element has any of its parts overlapping with another
      * element.

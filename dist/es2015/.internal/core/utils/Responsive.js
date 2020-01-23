@@ -1,7 +1,7 @@
 /**
  * Responsive functionality module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -50,7 +50,7 @@ import * as $type from "../utils/Type";
  * @important
  */
 var Responsive = /** @class */ (function (_super) {
-    tslib_1.__extends(Responsive, _super);
+    __extends(Responsive, _super);
     /**
      * Constructor
      */

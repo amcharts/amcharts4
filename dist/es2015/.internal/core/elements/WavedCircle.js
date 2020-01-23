@@ -1,7 +1,7 @@
 /**
  * Functionality for drawing waved circles.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -27,7 +27,7 @@ import * as $smoothing from "../../core/rendering/Smoothing";
  * @see {@link IWavedCircleAdapters} for a list of available Adapters
  */
 var WavedCircle = /** @class */ (function (_super) {
-    tslib_1.__extends(WavedCircle, _super);
+    __extends(WavedCircle, _super);
     /**
      * Constructor
      */

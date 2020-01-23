@@ -115,9 +115,6 @@ export declare class SankeyNode extends FlowDiagramNode {
      */
     protected positionBullet(bullet: LabelBullet): void;
     /**
-     * @return Level
-     */
-    /**
      * A level node is displayed at. (0 - ...)
      *
      * Levels are measured from left to right.
@@ -128,7 +125,11 @@ export declare class SankeyNode extends FlowDiagramNode {
      *
      * @param value  Level
      */
-    level: number;
+    set level(value: number);
+    /**
+     * @return Level
+     */
+    get level(): number;
     /**
      * Copies properties and labels from another [[SankeyNode]].
      *

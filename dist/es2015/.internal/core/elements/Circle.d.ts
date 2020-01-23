@@ -71,16 +71,17 @@ export declare class Circle extends Sprite {
      */
     protected draw(): void;
     /**
-     * @return Radius
-     */
-    /**
      * Radius of the circle.
      *
      * Can be either absolute (pixels) or relative ([Percent]).
      *
      * @param value  Radius
      */
-    radius: number | Percent;
+    set radius(value: number | Percent);
+    /**
+     * @return Radius
+     */
+    get radius(): number | Percent;
     /**
      * Radius of the circle in pixels.
      *
@@ -90,7 +91,7 @@ export declare class Circle extends Sprite {
      * @readonly
      * @return Radius (px)
      */
-    readonly pixelRadius: number;
+    get pixelRadius(): number;
     /**
      * Updates bounding box.
      *

@@ -194,28 +194,27 @@ export declare class GraticuleSeries extends MapLineSeries {
      */
     protected createLine(): this["_mapLine"];
     /**
-     * @return Step
-     */
-    /**
      * Draw a graticule (grid) every X degrees of latitude.
      *
      * @default 10
      * @param  value Step
      */
-    latitudeStep: number;
+    set latitudeStep(value: number);
     /**
      * @return Step
      */
+    get latitudeStep(): number;
     /**
      * Draw a graticule (grid) every X degrees of longitude.
      *
      * @default 10
      * @param  value  Step
      */
-    longitudeStep: number;
+    set longitudeStep(value: number);
     /**
-     * @return Fit?
+     * @return Step
      */
+    get longitudeStep(): number;
     /**
      * Draw a thicker (major) graticule every X degrees of latitude.
      *
@@ -250,10 +249,11 @@ export declare class GraticuleSeries extends MapLineSeries {
      * @default true
      * @param  value  Fit?
      */
-    fitExtent: boolean;
+    set fitExtent(value: boolean);
     /**
-     * @return Use single sprite?
+     * @return Fit?
      */
+    get fitExtent(): boolean;
     /**
      * Whether to draw all the grid as a single element or as separate lines.
      *
@@ -263,5 +263,9 @@ export declare class GraticuleSeries extends MapLineSeries {
      * @default true
      * @param  value  Use single sprite?
      */
-    singleSprite: boolean;
+    set singleSprite(value: boolean);
+    /**
+     * @return Use single sprite?
+     */
+    get singleSprite(): boolean;
 }

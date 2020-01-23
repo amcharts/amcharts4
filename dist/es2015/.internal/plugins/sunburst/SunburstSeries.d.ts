@@ -39,7 +39,7 @@ export declare class SunburstSeriesDataItem extends PieSeriesDataItem {
      * @readonly
      * @return Data item
      */
-    readonly sunburstDataItem: SunburstDataItem;
+    get sunburstDataItem(): SunburstDataItem;
     /**
      * Hide the data item (and corresponding visual elements).
      *
@@ -58,14 +58,15 @@ export declare class SunburstSeriesDataItem extends PieSeriesDataItem {
      */
     show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation>;
     /**
-     * @return Value
-     */
-    /**
      * Numeric value.
      *
      * @param value  Value
      */
-    value: number;
+    set value(value: number);
+    /**
+     * @return Value
+     */
+    get value(): number;
     /**
      *
      * @todo description

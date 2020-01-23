@@ -589,14 +589,20 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 */
 	public calculateZoom(): void {
 		if ($type.isNumber(this.min) && $type.isNumber(this.max)) {
-			let min: number = $math.round(this.positionToValue(this.start), this._stepDecimalPlaces);
-			let max: number = $math.round(this.positionToValue(this.end), this._stepDecimalPlaces);
+			let min: number = this.positionToValue(this.start);
+			let max: number = this.positionToValue(this.end);
+
 			let differece: number = this.adjustDifference(min, max);
 
-			let minMaxStep: IMinMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);
+			let minMaxStep: IMinMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);			
 			let step = minMaxStep.step;
+			
+			this._stepDecimalPlaces = $utils.decimalPlaces(step);
 
 			if (this.syncWithAxis) {
+				min = $math.round(min, this._stepDecimalPlaces);
+				max = $math.round(max, this._stepDecimalPlaces);
+
 				let calculated = this.getCache(min + "-" + max);
 				if ($type.isNumber(calculated)) {
 					step = calculated;
@@ -605,9 +611,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			else {
 				min = minMaxStep.min;
 				max = minMaxStep.max;
-			}
-
-			this._stepDecimalPlaces = $utils.decimalPlaces(step);
+			}			
 
 			if (this._minZoomed != min || this._maxZoomed != max || this._step != step) {
 				this._minZoomed = min;
@@ -1723,6 +1727,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * Perform tasks after Axis zoom.
 	 */
 	protected handleSelectionExtremesChange(): void {
+
 		let selectionMin: number;
 		let selectionMax: number;
 
@@ -1832,14 +1837,14 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			selectionMin = $math.max(selectionMin, this._minDefined);
 			selectionMax = $math.min(selectionMax, this._maxDefined);
 		}
-
+		let step = minMaxStep.step;
 		if (this.syncWithAxis) {
-			minMaxStep = this.syncAxes(selectionMin, selectionMax, minMaxStep.step)
+			minMaxStep = this.syncAxes(selectionMin, selectionMax, step)
 			selectionMin = minMaxStep.min;
 			selectionMax = minMaxStep.max;
 			this.invalidate();
 		}
-		let step = minMaxStep.step;
+		step = minMaxStep.step;
 
 		// needed because of grouping
 		this._difference = this.adjustDifference(this.min, this.max);
@@ -1848,7 +1853,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		let end: number = this.valueToPosition(selectionMax);
 
 		// in case all series are hidden or hiding, full zoomout
-		if (allHidden) {
+		if (allHidden && !this.syncWithAxis) {
 			start = 0;
 			end = 1;
 		}
@@ -1856,7 +1861,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		let declination = 0;
 		if (this.syncWithAxis) {
 			declination = 5;
-			this.setCache(selectionMin + "-" + selectionMax, step);
+			this.setCache(selectionMin + "-" + selectionMax, step);				
 		}
 		else {
 			this._step = step;
@@ -2325,9 +2330,10 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	public set syncWithAxis(axis: ValueAxis) {
 		if (this.setPropertyValue("syncWithAxis", axis, true)) {
 			if (axis) {
-				//this._disposers.push(axis.events.on("extremeschanged", this.handleSelectionExtremesChange, this, false));
+				this._disposers.push(axis.events.on("extremeschanged", this.handleSelectionExtremesChange, this, false));
 				this._disposers.push(axis.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this, false));
 				this.events.on("shown", this.handleSelectionExtremesChange, this, false);
+				this.events.on("maxsizechanged", this.handleSelectionExtremesChange, this, false);
 			}
 		}
 	}
@@ -2349,6 +2355,18 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	protected syncAxes(min: number, max: number, step: number) {
 		let axis = this.syncWithAxis;
 		if (axis) {
+
+			if(!$type.isNumber(min)){
+				min = this.min;
+			}
+			if(!$type.isNumber(max)){
+				max = this.max;
+			}
+
+			if(!$type.isNumber(step)){
+				step = this._step;
+			}
+
 			let count: number = Math.round((axis.maxZoomed - axis.minZoomed) / axis.step);
 			let currentCount = Math.round((max - min) / step);
 
@@ -2388,6 +2406,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				}
 			}
 		}
+
+
 		return { min: min, max: max, step: step };
 	}
 

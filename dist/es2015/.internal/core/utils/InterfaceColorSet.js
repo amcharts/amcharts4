@@ -2,7 +2,7 @@
  * This module contains a version of ColorSet that can (and should) be used for
  * coloring UI elements.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -31,7 +31,7 @@ import { color } from "./Color";
  * @see {@link https://www.amcharts.com/docs/v4/concepts/colors/} for color-related info
  */
 var InterfaceColorSet = /** @class */ (function (_super) {
-    tslib_1.__extends(InterfaceColorSet, _super);
+    __extends(InterfaceColorSet, _super);
     /**
      * Constructor
      */

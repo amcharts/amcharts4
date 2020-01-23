@@ -1,7 +1,7 @@
 /**
  * Defines Pictorial Stacked Series.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -27,7 +27,7 @@ import { percent } from "../../core/utils/Percent";
  * @see {@link DataItem}
  */
 var PictorialStackedSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(PictorialStackedSeriesDataItem, _super);
+    __extends(PictorialStackedSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -55,7 +55,7 @@ export { PictorialStackedSeriesDataItem };
  * @important
  */
 var PictorialStackedSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(PictorialStackedSeries, _super);
+    __extends(PictorialStackedSeries, _super);
     /**
      * Constructor
      */

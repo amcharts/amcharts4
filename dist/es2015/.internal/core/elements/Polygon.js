@@ -1,7 +1,7 @@
 /**
  * Polygon module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +26,7 @@ import * as $type from "../utils/Type";
  * @see {@link IPolygonAdapters} for a list of available Adapters
  */
 var Polygon = /** @class */ (function (_super) {
-    tslib_1.__extends(Polygon, _super);
+    __extends(Polygon, _super);
     /**
      * Constructor
      */

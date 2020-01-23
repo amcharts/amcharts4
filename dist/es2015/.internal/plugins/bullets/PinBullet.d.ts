@@ -132,17 +132,15 @@ export declare class PinBullet extends Bullet {
      */
     validate(): void;
     /**
-     * @return Image
-     */
-    /**
      * An element of type [[Image]] to show inside pin's circle.
      *
      * @param  image  Image
      */
-    image: Image;
+    set image(image: Image);
     /**
-     * @return Label
+     * @return Image
      */
+    get image(): Image;
     /**
      * A [[Label]] element for displaying within flag.
      *
@@ -170,7 +168,11 @@ export declare class PinBullet extends Bullet {
      * ```
      * @param  label  Label
      */
-    label: Label;
+    set label(label: Label);
+    /**
+     * @return Label
+     */
+    get label(): Label;
     /**
      * Copies all proprities and related stuff from another instance of
      * [[PinBullet]].

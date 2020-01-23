@@ -1,7 +1,7 @@
 /**
  * Curve chart module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -28,7 +28,7 @@ import { options } from "../../core/Options";
  * @see {@link DataItem}
  */
 var CurveChartDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(CurveChartDataItem, _super);
+    __extends(CurveChartDataItem, _super);
     /**
      * Constructor
      */
@@ -56,7 +56,7 @@ export { CurveChartDataItem };
  * @important
  */
 var CurveChart = /** @class */ (function (_super) {
-    tslib_1.__extends(CurveChart, _super);
+    __extends(CurveChart, _super);
     /**
      * Constructor
      */

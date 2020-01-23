@@ -184,15 +184,13 @@ export declare class Tooltip extends Container {
      * @return {boolean}
      * @default false
      */
+    get getStrokeFromObject(): boolean;
     /**
      * Specifies if tooltip background should get stroke color from the sprite it is pointing to.
      *
      * @param value boolean
      */
-    getStrokeFromObject: boolean;
-    /**
-     * @return {boolean}
-     */
+    set getStrokeFromObject(value: boolean);
     /**
      * Specifies if text color should be chosen automatically for a better
      * readability.
@@ -207,10 +205,11 @@ export declare class Tooltip extends Container {
      *
      * @param value boolean
      */
-    autoTextColor: boolean;
+    set autoTextColor(value: boolean);
     /**
-     * @return Keep target hovered?
+     * @return {boolean}
      */
+    get autoTextColor(): boolean;
     /**
      * If this tooltip is displayed on hover on some other object, keep that
      * element hovered if hovering on the tooltip.
@@ -219,10 +218,7 @@ export declare class Tooltip extends Container {
      * @since 4.1.13
      * @param  value  Keep target hovered?
      */
-    keepTargetHover: boolean;
-    /**
-     * @return Force showing tooltip?
-     */
+    set keepTargetHover(value: boolean);
     /**
      * Normally, a tooltip will hide itself if it is pointing to a coordinate
      * that is outside viewport.
@@ -234,17 +230,26 @@ export declare class Tooltip extends Container {
      * @since 4.5.7
      * @param  value  Force showing tooltip?
      */
-    showInViewport: boolean;
+    set showInViewport(value: boolean);
+    /**
+     * @return Force showing tooltip?
+     */
+    get showInViewport(): boolean;
+    /**
+     * @return Keep target hovered?
+     */
+    get keepTargetHover(): boolean;
     /**
      * Specifies if tooltip background should get fill color from the sprite it is pointing to.
      *
      * @return {boolean}
      * @default true
      */
+    get getFillFromObject(): boolean;
     /**
      * @param value boolean
      */
-    getFillFromObject: boolean;
+    set getFillFromObject(value: boolean);
     /**
      * Creates and returns a background element.
      *
@@ -252,9 +257,6 @@ export declare class Tooltip extends Container {
      * @return Background
      */
     createBackground(): this["_background"];
-    /**
-     * @return Orientation
-     */
     /**
      * Pointer orientation: `"horizontal"`, `"vertical"`, `"up"`, `"down"`,
      * `"right"`, or `"left"`.
@@ -274,10 +276,11 @@ export declare class Tooltip extends Container {
      * @default "vertical"
      * @param  value  Orientation
      */
-    pointerOrientation: PointerOrientation;
+    set pointerOrientation(value: PointerOrientation);
     /**
      * @return Orientation
      */
+    get pointerOrientation(): PointerOrientation;
     /**
      * Duration in milliseconds for the animation to take place when the tooltip
      * is moving from one place to another.
@@ -285,20 +288,22 @@ export declare class Tooltip extends Container {
      * @default 0
      * @param value  number
      */
-    animationDuration: number;
+    set animationDuration(value: number);
     /**
-     * @return {Function}
+     * @return Orientation
      */
+    get animationDuration(): number;
     /**
      * Tooltip animation (moving from one place to another) easing function.
      *
      * @default $ease.cubicOut
      * @param value (value: number) => number
      */
-    animationEasing: (value: number) => number;
+    set animationEasing(value: (value: number) => number);
     /**
-     * @return HTML content
+     * @return {Function}
      */
+    get animationEasing(): (value: number) => number;
     /**
      * HTML content for the Tooltip.
      *
@@ -307,10 +312,11 @@ export declare class Tooltip extends Container {
      *
      * @param value  HTML content
      */
-    html: string;
+    set html(value: string);
     /**
-     * @return SVG text
+     * @return HTML content
      */
+    get html(): string;
     /**
      * SVG text content for the Tooltip.
      *
@@ -319,7 +325,11 @@ export declare class Tooltip extends Container {
      *
      * @param value  SVG text
      */
-    text: string;
+    set text(value: string);
+    /**
+     * @return SVG text
+     */
+    get text(): string;
     /**
      * Creates the Tooltip.
      *
@@ -360,7 +370,7 @@ export declare class Tooltip extends Container {
      * @ignore Exclude from docs
      * @param container  Boundary container
      */
-    boundingContainer: Container;
+    set boundingContainer(container: Container);
     /**
      * Updates numeric boundaries for the Tooltip, based on the
      * `boundingCountrainer`.
@@ -373,12 +383,12 @@ export declare class Tooltip extends Container {
      * @ignore Exclude from docs
      * @return "up" | "down"
      */
-    readonly verticalOrientation: "up" | "down";
+    get verticalOrientation(): "up" | "down";
     /**
      * To avoid stackoverflow
      * @ignore
      */
-    readonly tooltip: Tooltip;
+    get tooltip(): Tooltip;
     /**
      * Copies properties and other attributes.
      *

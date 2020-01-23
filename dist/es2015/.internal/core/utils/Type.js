@@ -383,7 +383,7 @@ export function isNumber(value) {
  * @return Is object?
  */
 export function isObject(value) {
-    return typeof value === "object";
+    return typeof value === "object" && value != null;
 }
 /**
  * Checks if parameter is `Array`.

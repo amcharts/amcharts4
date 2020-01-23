@@ -1,7 +1,7 @@
 /**
  * Functionality for drawing simple ClockHands
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -33,7 +33,7 @@ import * as $type from "../../core/utils/Type";
  * @important
  */
 var ClockHand = /** @class */ (function (_super) {
-    tslib_1.__extends(ClockHand, _super);
+    __extends(ClockHand, _super);
     /**
      * Constructor
      */

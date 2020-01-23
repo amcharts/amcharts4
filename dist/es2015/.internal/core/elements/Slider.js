@@ -1,7 +1,7 @@
 /**
  * Slider is a scrollbar with just one selection grip.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -23,7 +23,7 @@ import { registry } from "../Registry";
  * @see {@link ISliderAdapters} for a list of available Adapters
  */
 var Slider = /** @class */ (function (_super) {
-    tslib_1.__extends(Slider, _super);
+    __extends(Slider, _super);
     /**
      * Constructor
      */

@@ -66,14 +66,15 @@ export declare class PatternSet extends BaseObject {
     getRectPattern(size: number, rotation: number, thickness: number, outline?: boolean): RectPattern;
     getCirclePattern(size: number, radius: number, outline: boolean): CirclePattern;
     /**
-     * @return Pattern list
-     */
-    /**
      * List of pre-defined patterns to be used in set.
      *
      * @param value Pattern list
      */
-    list: Pattern[];
+    set list(value: Pattern[]);
+    /**
+     * @return Pattern list
+     */
+    get list(): Pattern[];
     /**
      * Returns the next pattern in list.
      *
@@ -90,7 +91,7 @@ export declare class PatternSet extends BaseObject {
     /**
      * Generates a new set of patterns.
      */
-    private generatePatterns();
+    private generatePatterns;
     /**
      * Resets internal iterator.
      *
@@ -98,9 +99,6 @@ export declare class PatternSet extends BaseObject {
      * list, even if it was already returned before.
      */
     reset(): void;
-    /**
-     * @return Step
-     */
     /**
      * Sets current color iteration. You can use this property to skip some
      * colors from iteration. E.g. setting it to `10` will skip first ten
@@ -110,10 +108,11 @@ export declare class PatternSet extends BaseObject {
      *
      * @param value  Step
      */
-    currentStep: number;
+    set currentStep(value: number);
     /**
-     * @return Index
+     * @return Step
      */
+    get currentStep(): number;
     /**
      * If set to non-zero value, the ColorSet will start iterating colors from
      * that particular index, not the first color in the list.
@@ -121,7 +120,11 @@ export declare class PatternSet extends BaseObject {
      * @default 0
      * @param  value  Index
      */
-    startIndex: number;
+    set startIndex(value: number);
+    /**
+     * @return Index
+     */
+    get startIndex(): number;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

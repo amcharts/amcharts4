@@ -2,7 +2,7 @@
  * Module that defines everything related to building Cone Columns.
  * It is a container which has coneColumn element which is a Cone.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -27,7 +27,7 @@ import { registry } from "../../core/Registry";
  * @important
  */
 var ConeColumn = /** @class */ (function (_super) {
-    tslib_1.__extends(ConeColumn, _super);
+    __extends(ConeColumn, _super);
     /**
      * Constructor
      */

@@ -78,25 +78,27 @@ export declare class Polygon extends Sprite implements IMorphable {
      */
     constructor();
     /**
-     * @return Polygon points
-     */
-    /**
      * An array of X/Y coordinates for each elbow of the polygon.
      *
      * @todo Example
      * @param points  Polygon points
      */
-    points: Array<Array<Array<IPoint>>>;
+    set points(points: Array<Array<Array<IPoint>>>);
     /**
      * @return Polygon points
      */
+    get points(): Array<Array<Array<IPoint>>>;
     /**
      * Current points. Used when morphing the element, so that original `points`
      * are not overwritten.
      *
      * @param points  Polygon points
      */
-    currentPoints: Array<Array<Array<IPoint>>>;
+    set currentPoints(points: Array<Array<Array<IPoint>>>);
+    /**
+     * @return Polygon points
+     */
+    get currentPoints(): Array<Array<Array<IPoint>>>;
     /**
      * Draws the element.
      *
@@ -117,7 +119,7 @@ export declare class Polygon extends Sprite implements IMorphable {
      * @readonly
      * @return Center
      */
-    readonly centerPoint: IPoint;
+    get centerPoint(): IPoint;
     /**
      * A [[Morpher]] instance that is used to morph polygon into some other
      * shape.
@@ -125,5 +127,5 @@ export declare class Polygon extends Sprite implements IMorphable {
      * @readonly
      * @return Morpher instance
      */
-    readonly morpher: Morpher;
+    get morpher(): Morpher;
 }

@@ -106,12 +106,12 @@ export declare class ValueAxisBreak extends AxisBreak {
      * @return Position (px)
      * @readonly
      */
-    readonly startPosition: number;
+    get startPosition(): number;
     /**
      * Pixel position of the break's end.
      *
      * @return Position (px)
      * @readonly
      */
-    readonly endPosition: number;
+    get endPosition(): number;
 }

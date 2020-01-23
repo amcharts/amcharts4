@@ -1,7 +1,7 @@
 /**
  * Module, defining Axis Renderer for vertical axes.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -32,7 +32,7 @@ import { AxisBullet } from "./AxisBullet";
  * @see {@link IAxisRendererYAdapters} for a list of available Adapters
  */
 var AxisRendererY = /** @class */ (function (_super) {
-    tslib_1.__extends(AxisRendererY, _super);
+    __extends(AxisRendererY, _super);
     /**
      * Constructor.
      *

@@ -2,7 +2,7 @@
  * Module that defines everything related to building Curved Columns.
  * It is a container which has CurvedColumn element which is a Sprite.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +30,7 @@ import { percent } from "../../core/utils/Percent";
  * @important
  */
 var CurvedColumn = /** @class */ (function (_super) {
-    tslib_1.__extends(CurvedColumn, _super);
+    __extends(CurvedColumn, _super);
     /**
      * Constructor
      */

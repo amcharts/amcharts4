@@ -1,7 +1,7 @@
 /**
  * Functionality for adding images in SVG tree.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -25,7 +25,7 @@ import * as $type from "../utils/Type";
  * @see {@link IImageAdapters} for a list of available Adapters
  */
 var Image = /** @class */ (function (_super) {
-    tslib_1.__extends(Image, _super);
+    __extends(Image, _super);
     /**
      * Constructor
      */

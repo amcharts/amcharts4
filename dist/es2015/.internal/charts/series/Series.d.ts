@@ -75,7 +75,7 @@ export declare class SeriesDataItem extends DataItem {
     /**
      * A dictionary of data items bullets, where key is uid of a bullet template.
      */
-    readonly bullets: Dictionary<string, Sprite>;
+    get bullets(): Dictionary<string, Sprite>;
     /**
      * Constructor
      */
@@ -85,14 +85,15 @@ export declare class SeriesDataItem extends DataItem {
      */
     dispose(): void;
     /**
-     * @return Value
-     */
-    /**
      * data items's numeric value.
      *
      * @param value  Value
      */
-    value: number;
+    set value(value: number);
+    /**
+     * @return Value
+     */
+    get value(): number;
 }
 /**
  * ============================================================================
@@ -366,14 +367,15 @@ export declare class Series extends Component {
      */
     protected createDataItem(): this["_dataItem"];
     /**
-     * @return Chart
-     */
-    /**
      * Chart series is used on.
      *
      * @param value  Chart
      */
-    chart: this["_chart"];
+    set chart(value: this["_chart"]);
+    /**
+     * @return Chart
+     */
+    get chart(): this["_chart"];
     /**
      * Positions bullet.
      *
@@ -456,15 +458,16 @@ export declare class Series extends Component {
      */
     handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void;
     /**
-     * @return Exclude from calculations?
-     */
-    /**
      * Should this series excluded from the axis scale calculations?
      *
      * @default false
      * @param value  Exclude from calculations?
      */
-    ignoreMinMax: boolean;
+    set ignoreMinMax(value: boolean);
+    /**
+     * @return Exclude from calculations?
+     */
+    get ignoreMinMax(): boolean;
     /**
      * Create a mask for the series.
      *
@@ -495,9 +498,6 @@ export declare class Series extends Component {
      */
     showTooltipAtPosition(xPosition: number, yPosition: number): void;
     /**
-     * @return Distance (px)
-     */
-    /**
      * Minimal distance between data points in pixels.
      *
      * If distance gets smaller than this, bullets are turned off to avoid
@@ -513,7 +513,11 @@ export declare class Series extends Component {
      * @default 0
      * @param value  Distance (px)
      */
-    minBulletDistance: number;
+    set minBulletDistance(value: number);
+    /**
+     * @return Distance (px)
+     */
+    get minBulletDistance(): number;
     /**
      * A list of bullets that will be added to each and every items in the
      * series.
@@ -525,7 +529,7 @@ export declare class Series extends Component {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/bullets/} for more info about the concept of Bullets
      * @return List of bullets.
      */
-    readonly bullets: ListTemplate<Sprite>;
+    get bullets(): ListTemplate<Sprite>;
     /**
      * Binds related legend data item's visual settings to this series' visual
      * settings.
@@ -535,26 +539,25 @@ export declare class Series extends Component {
      */
     createLegendMarker(marker: Container): void;
     /**
-     * @return Hidden in legend?
-     */
-    /**
      * Should the series be hidden in legend?
      *
      * @param value Hidden in legend?
      */
-    hiddenInLegend: boolean;
+    set hiddenInLegend(value: boolean);
     /**
-     * @return Name
+     * @return Hidden in legend?
      */
+    get hiddenInLegend(): boolean;
     /**
      * Series' name.
      *
      * @param value  Name
      */
-    name: string;
+    set name(value: string);
     /**
-     * @return Screen reader text template
+     * @return Name
      */
+    get name(): string;
     /**
      * Screen reader text to be applied to each individual data item, such
      * as bullets, columns or slices.
@@ -566,7 +569,11 @@ export declare class Series extends Component {
      *
      * @param value Screen reader text template
      */
-    itemReaderText: string;
+    set itemReaderText(value: string);
+    /**
+     * @return Screen reader text template
+     */
+    get itemReaderText(): string;
     /**
      * Returns if number of data items in the series are beyond non-focusable
      * count and should not be available for TAB-through.
@@ -576,14 +583,15 @@ export declare class Series extends Component {
      */
     itemsFocusable(): boolean;
     /**
-     * @return Data item
-     */
-    /**
      * Legend data item that corresponds to this series.
      *
      * @param value  Data item
      */
-    legendDataItem: LegendDataItem;
+    set legendDataItem(value: LegendDataItem);
+    /**
+     * @return Data item
+     */
+    get legendDataItem(): LegendDataItem;
     /**
      * Updates corresponding legend data item with current values.
      *
@@ -656,7 +664,7 @@ export declare class Series extends Component {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/series/#Heat_maps} for more about heat rules
      * @return  Heat rules
      */
-    readonly heatRules: List<IHeatRule>;
+    get heatRules(): List<IHeatRule>;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

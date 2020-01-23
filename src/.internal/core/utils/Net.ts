@@ -193,7 +193,7 @@ export function load<A>(url: string, target?: A, options?: INetRequestOptions): 
 
 /**
  * Returns textual representation of a Blob object.
- * 
+ *
  * @param   blob  Target blob
  * @return        Text promise
  */
@@ -202,7 +202,7 @@ export function readBlob(blob: Blob): Promise<string> {
 		const reader = new FileReader()
 
 		reader.onload = event => {
-			success(reader.result);
+			success(<string>reader.result);
 		}
 
 		reader.onerror = (e) => {

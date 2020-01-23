@@ -1,7 +1,7 @@
 /**
  * Animation module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -124,7 +124,7 @@ export { AnimationDisposer };
  * @see {@link IAnimationEvents} for a list of available events
  */
 var Animation = /** @class */ (function (_super) {
-    tslib_1.__extends(Animation, _super);
+    __extends(Animation, _super);
     /**
      * Constructor
      *

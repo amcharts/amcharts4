@@ -106,9 +106,6 @@ export declare class CurvedColumn extends Column {
      */
     copyFrom(source: this): void;
     /**
-     * @return Tension (0-1)
-     */
-    /**
      * Horizontal tension of the curve.
      *
      * Tension defines how "lose" the line will be.
@@ -121,10 +118,11 @@ export declare class CurvedColumn extends Column {
      * @default 0.7
      * @param value tension (0-1)
      */
-    tension: number;
+    set tension(value: number);
     /**
-     * Orientation
+     * @return Tension (0-1)
      */
+    get tension(): number;
     /**
      * Orientation of the column.
      *
@@ -133,5 +131,9 @@ export declare class CurvedColumn extends Column {
      * @default "vertical"
      * @param value  Orientation
      */
-    orientation: Orientation;
+    set orientation(value: Orientation);
+    /**
+     * Orientation
+     */
+    get orientation(): Orientation;
 }

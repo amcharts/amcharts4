@@ -1,7 +1,7 @@
 /**
  * Module contains functionality related to [[Sprite]] states.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -98,7 +98,7 @@ import * as $type from "./utils/Type";
  * @important
  */
 var SpriteState = /** @class */ (function (_super) {
-    tslib_1.__extends(SpriteState, _super);
+    __extends(SpriteState, _super);
     /**
      * Constructor
      */
@@ -206,6 +206,9 @@ var SpriteState = /** @class */ (function (_super) {
             if ($type.hasValue(fieldName)) {
                 if (sprite.dataItem) {
                     propValue = sprite.dataItem.dataContext[fieldName];
+                }
+                if (propValue == undefined) {
+                    propValue = "__unset";
                 }
             }
             // Apply adapters

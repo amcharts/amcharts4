@@ -1,7 +1,7 @@
 /**
  * DurationAxis module
  */
-import * as tslib_1 from "tslib";
+import { __extends, __values } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -23,7 +23,7 @@ import * as $math from "../../core/utils/Math";
  * @see {@link DataItem}
  */
 var DurationAxisDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(DurationAxisDataItem, _super);
+    __extends(DurationAxisDataItem, _super);
     /**
      * Constructor
      */
@@ -74,7 +74,7 @@ export { DurationAxisDataItem };
  * @important
  */
 var DurationAxis = /** @class */ (function (_super) {
-    tslib_1.__extends(DurationAxis, _super);
+    __extends(DurationAxis, _super);
     /**
      * Constructor
      */
@@ -120,6 +120,7 @@ var DurationAxis = /** @class */ (function (_super) {
      * @return [description]
      */
     DurationAxis.prototype.adjustMinMax = function (min, max, difference, gridCount, strictMode) {
+        var e_1, _a;
         var minMaxStep;
         var timeUnit = this.baseUnit;
         // we don't allow to go to smaller units, setting so to avoid invalidation
@@ -143,7 +144,7 @@ var DurationAxis = /** @class */ (function (_super) {
                 divisors = [24, 12, 6, 4, 2, 1];
             }
             try {
-                for (var divisors_1 = tslib_1.__values(divisors), divisors_1_1 = divisors_1.next(); !divisors_1_1.done; divisors_1_1 = divisors_1.next()) {
+                for (var divisors_1 = __values(divisors), divisors_1_1 = divisors_1.next(); !divisors_1_1.done; divisors_1_1 = divisors_1.next()) {
                     var divisor = divisors_1_1.value;
                     if (difference / divisor > gridCount) {
                         realDivisor = divisor;
@@ -188,7 +189,6 @@ var DurationAxis = /** @class */ (function (_super) {
         // choose duration formatter based on step
         this.axisDurationFormat = this.durationFormatter.getFormat(minMaxStep.step, minMaxStep.max, this.baseUnit);
         return minMaxStep;
-        var e_1, _a;
     };
     Object.defineProperty(DurationAxis.prototype, "tooltipDurationFormat", {
         /**

@@ -232,15 +232,16 @@ export declare class DictionaryTemplate<Key extends string, T extends IClone<T> 
      */
     constructor(t: T);
     /**
-     * @return Template object
-     */
-    /**
      * A "template" object to copy all properties from when creating new list
      * items.
      *
      * @param v  Template object
      */
-    template: T;
+    set template(v: T);
+    /**
+     * @return Template object
+     */
+    get template(): T;
     /**
      * Copies all elements from other dictionary.
      *

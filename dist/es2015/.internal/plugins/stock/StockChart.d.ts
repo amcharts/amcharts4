@@ -96,7 +96,7 @@ export declare class StockChart extends XYChart {
      * Constructor
      */
     constructor();
-    readonly panels: List<StockPanel>;
+    get panels(): List<StockPanel>;
     protected updateMask(): void;
     handlePanelAdded(event: IListEvents<StockPanel>["inserted"]): void;
     handlePanelRemoved(event: IListEvents<StockPanel>["removed"]): void;

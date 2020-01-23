@@ -1,7 +1,7 @@
 /**
  * Map line module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -23,7 +23,7 @@ import { registry } from "../../core/Registry";
  * @see {@link IMapLineObjectAdapters} for a list of available Adapters
  */
 var MapLineObject = /** @class */ (function (_super) {
-    tslib_1.__extends(MapLineObject, _super);
+    __extends(MapLineObject, _super);
     /**
      * Constructor
      */

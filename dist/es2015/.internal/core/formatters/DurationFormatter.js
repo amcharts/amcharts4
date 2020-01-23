@@ -1,7 +1,7 @@
 /**
  * Duration formatting functionality.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Language } from "../utils/Language";
 import { BaseObject } from "../Base";
 import { getTextFormatter } from "../formatters/TextFormatter";
@@ -19,7 +19,7 @@ import * as $math from "../utils/Math";
  * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Tutorial on duration formatting
  */
 var DurationFormatter = /** @class */ (function (_super) {
-    tslib_1.__extends(DurationFormatter, _super);
+    __extends(DurationFormatter, _super);
     /**
      * Constructor
      */

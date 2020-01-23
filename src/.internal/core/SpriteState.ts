@@ -243,6 +243,9 @@ export class SpriteState<P, A> extends BaseObject {
 				if (sprite.dataItem) {
 					propValue = (<any>sprite.dataItem.dataContext)[fieldName];
 				}
+				if(propValue == undefined){
+					propValue = "__unset"
+				}
 			}
 
 			// Apply adapters

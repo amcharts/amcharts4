@@ -1,7 +1,7 @@
 /**
  * Functionality for drawing rectangles.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -24,7 +24,7 @@ import * as $math from "../utils/Math";
  * @see {@link IRectangleAdapters} for a list of available Adapters
  */
 var Rectangle = /** @class */ (function (_super) {
-    tslib_1.__extends(Rectangle, _super);
+    __extends(Rectangle, _super);
     /**
      * Constructor
      * * Creates a `<rect>` element

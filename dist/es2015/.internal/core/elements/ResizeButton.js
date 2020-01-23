@@ -1,7 +1,7 @@
 /**
  * Resize button module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +26,7 @@ import * as $path from "../rendering/Path";
  * @see {@link IResizeButtonAdapters} for a list of available Adapters
  */
 var ResizeButton = /** @class */ (function (_super) {
-    tslib_1.__extends(ResizeButton, _super);
+    __extends(ResizeButton, _super);
     /**
      * Constructor
      */

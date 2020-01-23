@@ -1,7 +1,7 @@
 /**
  * Functionality for drawing paths.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -28,7 +28,7 @@ import { getInteraction } from "../../core/interaction/Interaction";
  * @see {@link IResizeAdapters} for a list of available Adapters
  */
 var Resize = /** @class */ (function (_super) {
-    tslib_1.__extends(Resize, _super);
+    __extends(Resize, _super);
     /**
      * Constructor
      */

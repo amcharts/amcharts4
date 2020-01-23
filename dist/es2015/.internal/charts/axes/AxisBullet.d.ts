@@ -120,9 +120,6 @@ export declare class AxisBullet extends Container {
     axis: Axis;
     constructor();
     /**
-     * @return Location (0-1)
-     */
-    /**
      * Relative position within cell/range.
      *
      * Value range is from from `0` (beginning) to `1` (end).
@@ -180,7 +177,11 @@ export declare class AxisBullet extends Container {
      * @default 0.5
      * @param  value  Location (0-1)
      */
-    location: AxisItemLocation;
+    set location(value: AxisItemLocation);
+    /**
+     * @return Location (0-1)
+     */
+    get location(): AxisItemLocation;
     /**
      * @ignore
      */

@@ -4,7 +4,7 @@
  * ============================================================================
  * @hidden
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Series, SeriesDataItem } from "../../charts/series/Series";
 import { registry } from "../../core/Registry";
 import { ListTemplate, ListDisposer, List } from "../../core/utils/List";
@@ -33,7 +33,7 @@ import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
  * @since 4.3.8
  */
 var ForceDirectedSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(ForceDirectedSeriesDataItem, _super);
+    __extends(ForceDirectedSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -388,7 +388,7 @@ export { ForceDirectedSeriesDataItem };
  * @important
  */
 var ForceDirectedSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(ForceDirectedSeries, _super);
+    __extends(ForceDirectedSeries, _super);
     /**
      * Constructor
      */

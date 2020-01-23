@@ -86,9 +86,6 @@ export declare class BlurFilter extends Filter {
      */
     constructor();
     /**
-     * @return Blur
-     */
-    /**
      * Blur value.
      *
      * The bigger the value, the blurrier the target element will become.
@@ -96,5 +93,9 @@ export declare class BlurFilter extends Filter {
      * @default 1.5
      * @param value Blur
      */
-    blur: number;
+    set blur(value: number);
+    /**
+     * @return Blur
+     */
+    get blur(): number;
 }

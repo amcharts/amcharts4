@@ -1,7 +1,7 @@
 /**
  * Base class for all Axis
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -38,7 +38,7 @@ import { defaultRules, ResponsiveBreakpoints } from "../../core/utils/Responsive
  * @see {@link DataItem}
  */
 var AxisDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(AxisDataItem, _super);
+    __extends(AxisDataItem, _super);
     /**
      * Constructor
      */
@@ -579,7 +579,7 @@ export var AxisItemLocation;
  * @see {@link IAxisAdapters} for a list of available Adapters
  */
 var Axis = /** @class */ (function (_super) {
-    tslib_1.__extends(Axis, _super);
+    __extends(Axis, _super);
     /**
      * Constructor
      */

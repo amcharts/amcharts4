@@ -82,9 +82,6 @@ export declare class Grid extends Sprite {
      */
     constructor();
     /**
-     * @return Location (0-1)
-     */
-    /**
      * Location within axis cell to place grid line on.
      *
      * * 0 - start
@@ -93,10 +90,11 @@ export declare class Grid extends Sprite {
      *
      * @param value  Location (0-1)
      */
-    location: AxisItemLocation;
+    set location(value: AxisItemLocation);
     /**
-     * @return Draw above series?
+     * @return Location (0-1)
      */
+    get location(): AxisItemLocation;
     /**
      * Normally fill goes below series. Set this to `true` to go above.
      *
@@ -104,7 +102,11 @@ export declare class Grid extends Sprite {
      * @since 4.5.9
      * @param  value  Draw above series?
      */
-    above: boolean;
+    set above(value: boolean);
+    /**
+     * @return Draw above series?
+     */
+    get above(): boolean;
     /**
      * @ignore
      */

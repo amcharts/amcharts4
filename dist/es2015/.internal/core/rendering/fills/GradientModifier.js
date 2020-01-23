@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -51,7 +51,7 @@ import * as $type from "../../utils/Type";
  * ```
  */
 var GradientModifier = /** @class */ (function (_super) {
-    tslib_1.__extends(GradientModifier, _super);
+    __extends(GradientModifier, _super);
     /**
      * Constructor.
      */

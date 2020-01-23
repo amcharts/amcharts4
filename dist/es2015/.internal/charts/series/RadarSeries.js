@@ -1,7 +1,7 @@
 /**
  * Radar series module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +26,7 @@ import * as $path from "../../core/rendering/Path";
  * @see {@link DataItem}
  */
 var RadarSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(RadarSeriesDataItem, _super);
+    __extends(RadarSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -58,7 +58,7 @@ export { RadarSeriesDataItem };
  * @important
  */
 var RadarSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(RadarSeries, _super);
+    __extends(RadarSeries, _super);
     /**
      * Constructor
      */

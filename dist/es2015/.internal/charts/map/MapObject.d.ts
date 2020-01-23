@@ -115,19 +115,19 @@ export declare class MapObject extends Container {
     /**
      * Longitude of the East-most point of the element.
      */
-    readonly east: number;
+    get east(): number;
     /**
      * Longitude of the West-most point of the element.
      */
-    readonly west: number;
+    get west(): number;
     /**
      * Latitude of the South-most point of the element.
      */
-    readonly south: number;
+    get south(): number;
     /**
      * Latitude of the North-most point of the element.
      */
-    readonly north: number;
+    get north(): number;
     /**
      * Shows the element's [[Tooltip]].
      *

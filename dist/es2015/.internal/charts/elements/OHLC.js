@@ -1,7 +1,7 @@
 /**
  * Module that defines everything related to building OHLCs.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +26,7 @@ import { registry } from "../../core/Registry";
  * @important
  */
 var OHLC = /** @class */ (function (_super) {
-    tslib_1.__extends(OHLC, _super);
+    __extends(OHLC, _super);
     /**
      * Constructor
      */

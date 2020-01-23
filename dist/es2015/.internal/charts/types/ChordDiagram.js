@@ -1,7 +1,7 @@
 /**
  * Chord diagram module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -31,7 +31,7 @@ import * as $utils from "../../core/utils/Utils";
  * @see {@link DataItem}
  */
 var ChordDiagramDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(ChordDiagramDataItem, _super);
+    __extends(ChordDiagramDataItem, _super);
     /**
      * Constructor
      */
@@ -59,7 +59,7 @@ export { ChordDiagramDataItem };
  * @important
  */
 var ChordDiagram = /** @class */ (function (_super) {
-    tslib_1.__extends(ChordDiagram, _super);
+    __extends(ChordDiagram, _super);
     /**
      * Constructor
      */

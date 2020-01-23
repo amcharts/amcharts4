@@ -18,7 +18,7 @@
  * Copyright (c) Stuart Knightley
  * Dual licenced under the [MIT license or GPLv3](https://raw.githubusercontent.com/Stuk/jszip/master/LICENSE.markdown).
  */
-import * as tslib_1 from "tslib";
+import { __awaiter, __extends, __generator } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -61,9 +61,9 @@ var pdfmakePromise;
  * @async
  */
 function _pdfmake() {
-    return tslib_1.__awaiter(this, void 0, void 0, function () {
+    return __awaiter(this, void 0, void 0, function () {
         var a, pdfmake, vfs_fonts, global;
-        return tslib_1.__generator(this, function (_a) {
+        return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, Promise.all([
                         import(/* webpackChunkName: "pdfmake" */ "pdfmake/build/pdfmake.js"),
@@ -99,9 +99,9 @@ function blobToDataUri(blob) {
     });
 }
 function getCssRules(s) {
-    return tslib_1.__awaiter(this, void 0, void 0, function () {
+    return __awaiter(this, void 0, void 0, function () {
         var sheet, e_1;
-        return tslib_1.__generator(this, function (_a) {
+        return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     sheet = s.sheet;
@@ -133,9 +133,9 @@ function getCssRules(s) {
 // This loads a stylesheet by URL and then calls the function with it
 // TODO this should be moved into utils or something
 function loadStylesheet(doc, url, f) {
-    return tslib_1.__awaiter(this, void 0, void 0, function () {
+    return __awaiter(this, void 0, void 0, function () {
         var response, e_2, s, rules;
-        return tslib_1.__generator(this, function (_a) {
+        return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
@@ -173,9 +173,9 @@ function loadStylesheet(doc, url, f) {
 // If the CSSStyleSheet has any @import, then it will recursively call the function for those CSSRules too.
 // TODO this should be moved into utils or something
 function eachStylesheet(doc, topUrl, rules, f) {
-    return tslib_1.__awaiter(this, void 0, void 0, function () {
+    return __awaiter(this, void 0, void 0, function () {
         var promises, length, i, rule, url;
-        return tslib_1.__generator(this, function (_a) {
+        return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     promises = [];
@@ -207,9 +207,9 @@ function eachStylesheet(doc, topUrl, rules, f) {
 // If the CSSStyleSheet has any @import, then it will recursively call the function for those CSSRules too.
 // TODO this should be moved into utils or something
 function eachStylesheets(f) {
-    return tslib_1.__awaiter(this, void 0, void 0, function () {
+    return __awaiter(this, void 0, void 0, function () {
         var iframe, doc_1;
-        return tslib_1.__generator(this, function (_a) {
+        return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     iframe = document.createElement("iframe");
@@ -299,7 +299,7 @@ function eachStylesheets(f) {
  * @important
  */
 var Export = /** @class */ (function (_super) {
-    tslib_1.__extends(Export, _super);
+    __extends(Export, _super);
     /**
      * Constructor
      */
@@ -602,10 +602,10 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.export = function (type, options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var _this = this;
+        return __awaiter(this, void 0, void 0, function () {
             var event_1, func, data, event_2, event_3;
-            return tslib_1.__generator(this, function (_a) {
+            var _this = this;
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         // Check if it's a custom item, and do nothing or execute custom callback
@@ -722,8 +722,8 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.unsupported = function (type, options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            return tslib_1.__generator(this, function (_a) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
                 // TODO should this return `undefined`?
                 return [2 /*return*/, ""];
             });
@@ -751,8 +751,8 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.getPrint = function (type, options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            return tslib_1.__generator(this, function (_a) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
                 return [2 /*return*/, this.getImage("png", options)];
             });
         });
@@ -765,10 +765,10 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.getFontFamilies = function () {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var _this = this;
+        return __awaiter(this, void 0, void 0, function () {
             var DOMURL, blobs, promises, a;
-            return tslib_1.__generator(this, function (_a) {
+            var _this = this;
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         DOMURL = this.getDOMURL();
@@ -781,9 +781,9 @@ var Export = /** @class */ (function (_super) {
                                     var src = fontFamilySrcRegexp.exec(cssText_1);
                                     if (src !== null) {
                                         // TODO make this faster (don't create Promises for non-url stuff)
-                                        var urls = src[1].split(/ *, */).map(function (url) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                                        var urls = src[1].split(/ *, */).map(function (url) { return __awaiter(_this, void 0, void 0, function () {
                                             var a, after, fullUrl, response, url_1, e_3;
-                                            return tslib_1.__generator(this, function (_a) {
+                                            return __generator(this, function (_a) {
                                                 switch (_a.label) {
                                                     case 0:
                                                         a = /^url\(["']?([^"'\)]+)["']?\)([^,]*)$/.exec(url);
@@ -877,9 +877,9 @@ var Export = /** @class */ (function (_super) {
      * @return Promise
      */
     Export.prototype.getImage = function (type, options, includeExtras) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var prehidden, canvas, uri, e_4, data, data;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         prehidden = this._objectsAlreadyHidden;
@@ -947,10 +947,10 @@ var Export = /** @class */ (function (_super) {
      * @param  options  Options
      */
     Export.prototype.addExtras = function (canvas, options, advanced) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var _this = this;
+        return __awaiter(this, void 0, void 0, function () {
             var middleLeft_1, middleTop_1, middleWidth_1, middleHeight_1, extraRight_1, extraBottom_1, extras, newCanvas, ctx_1, background, left_1, top_1, right_1, bottom_1;
-            return tslib_1.__generator(this, function (_a) {
+            var _this = this;
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!this.extraSprites.length) return [3 /*break*/, 2];
@@ -960,9 +960,9 @@ var Export = /** @class */ (function (_super) {
                         middleHeight_1 = canvas.height;
                         extraRight_1 = 0;
                         extraBottom_1 = 0;
-                        return [4 /*yield*/, Promise.all($array.map(this.extraSprites, function (extraSprite) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                        return [4 /*yield*/, Promise.all($array.map(this.extraSprites, function (extraSprite) { return __awaiter(_this, void 0, void 0, function () {
                                 var extra, extraCanvas, extraWidth, extraHeight;
-                                return tslib_1.__generator(this, function (_a) {
+                                return __generator(this, function (_a) {
                                     switch (_a.label) {
                                         case 0:
                                             if (extraSprite instanceof Sprite) {
@@ -1068,9 +1068,9 @@ var Export = /** @class */ (function (_super) {
      * @return           Canvas
      */
     Export.prototype.getCanvas = function (options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var background, DOMURL, url, blobs, canvas, width, height, font, fontSize, pixelRatio, ctx, promises, a, data, svg, img;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         // Options are set?
@@ -1147,9 +1147,9 @@ var Export = /** @class */ (function (_super) {
      * @return           Canvas
      */
     Export.prototype.getCanvasAdvanced = function (options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var background, canvg, width, height, font, fontSize, data, canvas, pixelRatio, config;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         // Options are set?
@@ -1200,9 +1200,9 @@ var Export = /** @class */ (function (_super) {
      * @return Data uri
      */
     Export.prototype.getImageAdvanced = function (type, options, includeExtras) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var prehidden, canvas, uri;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         prehidden = this._objectsAlreadyHidden;
@@ -1274,9 +1274,9 @@ var Export = /** @class */ (function (_super) {
      * @return Promise
      */
     Export.prototype.imagesToDataURI = function (el, options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var images, promises, count, i, image, href;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         images = el.querySelectorAll("image");
@@ -1326,9 +1326,9 @@ var Export = /** @class */ (function (_super) {
      * @return Promise
      */
     Export.prototype.prepForeignObjects = function (el, options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var objects, count, i;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 objects = el.querySelectorAll("foreignObject");
                 if (objects.length) {
                     // There are foreign objects, process each of them
@@ -1352,9 +1352,9 @@ var Export = /** @class */ (function (_super) {
      * @param options  Options
      */
     Export.prototype.imageToDataURI = function (el, options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var img, canvas, uri, e_5;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
@@ -1417,9 +1417,9 @@ var Export = /** @class */ (function (_super) {
      * @param options   Options
      */
     Export.prototype.svgToDataURI = function (el, options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var href, data, charset, uri, e_6;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         href = el.getAttributeNS(Export.XLINK, "href");
@@ -1525,9 +1525,9 @@ var Export = /** @class */ (function (_super) {
      * @return `true` if simplified export can be used
      */
     Export.prototype.simplifiedImageExport = function () {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var cache, canvas, ctx, DOMURL, svg, url, img, e_7, e_8;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (this.useSimplifiedExport === false) {
@@ -1657,9 +1657,9 @@ var Export = /** @class */ (function (_super) {
      * @return Promise
      */
     Export.prototype.getSVG = function (type, options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var prehidden, width, height, font, fontSize, svg, charset, uri;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         prehidden = this._objectsAlreadyHidden;
@@ -1782,9 +1782,9 @@ var Export = /** @class */ (function (_super) {
      * @todo Account for header when calculating vertical fit
      */
     Export.prototype.getPDF = function (type, options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var image, pdfmake, defaultMargins, doc, title, _a, _b, _c;
-            return tslib_1.__generator(this, function (_d) {
+            return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0: return [4 /*yield*/, this.getImage(options.imageFormat || "png", options)];
                     case 1:
@@ -1866,10 +1866,10 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.getPDFData = function (type, options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var _this = this;
+        return __awaiter(this, void 0, void 0, function () {
             var content, dataFields, data, len, i;
-            return tslib_1.__generator(this, function (_a) {
+            var _this = this;
+            return __generator(this, function (_a) {
                 content = {
                     "body": []
                 };
@@ -2033,10 +2033,10 @@ var Export = /** @class */ (function (_super) {
      * @todo Support for multi-sheet
      */
     Export.prototype.getExcel = function (type, options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var _this = this;
+        return __awaiter(this, void 0, void 0, function () {
             var XLSX, wbOptions, sheetName, wb, data, dataFields, len, i, uri;
-            return tslib_1.__generator(this, function (_a) {
+            var _this = this;
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.xlsx];
                     case 1:
@@ -2146,10 +2146,10 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.getCSV = function (type, options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var _this = this;
+        return __awaiter(this, void 0, void 0, function () {
             var csv, dataFields, br, data, len, i, row, charset, uri;
-            return tslib_1.__generator(this, function (_a) {
+            var _this = this;
+            return __generator(this, function (_a) {
                 csv = "";
                 dataFields = this.adapter.apply("formatDataFields", {
                     dataFields: this.dataFields,
@@ -2257,10 +2257,10 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.getHTML = function (type, options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var _this = this;
+        return __awaiter(this, void 0, void 0, function () {
             var html, dataFields, data, len, i, charset, uri;
-            return tslib_1.__generator(this, function (_a) {
+            var _this = this;
+            return __generator(this, function (_a) {
                 html = "<table>";
                 if (options.tableClass) {
                     html = "<table class=\"" + options.tableClass + "\">";
@@ -2374,10 +2374,10 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.getJSON = function (type, options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var _this = this;
+        return __awaiter(this, void 0, void 0, function () {
             var data, dataFields, sourceData, _loop_1, len, i, json, charset, uri;
-            return tslib_1.__generator(this, function (_a) {
+            var _this = this;
+            return __generator(this, function (_a) {
                 dataFields = this.adapter.apply("formatDataFields", {
                     dataFields: this.dataFields,
                     format: "csv"
@@ -2486,9 +2486,9 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.download = function (uri, fileName) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var parts, contentType, decoded, blob_1, chars, i, charCode, blob, link_1, parts, contentType, decoded, blob_2, url_2, chars, i, charCode, blob, url_3, link, parts, contentType, iframe, idoc;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 if (this.msBlobDownloadSupport()) {
                     parts = uri.split(";");
                     contentType = parts.shift().replace(/data:/, "");
@@ -2694,8 +2694,8 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.print = function (data, options, title) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            return tslib_1.__generator(this, function (_a) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
                 if (options.printMethod == "css") {
                     return [2 /*return*/, this.printViaCSS(data, options, title)];
                 }
@@ -2707,9 +2707,9 @@ var Export = /** @class */ (function (_super) {
         });
     };
     Export.prototype.printViaCSS = function (data, options, title) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var scroll, rule, originalTitle, img, isIOS;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 scroll = document.documentElement.scrollTop || document.body.scrollTop;
                 rule = new StyleRule("body > *", {
                     "display": "none",
@@ -2766,9 +2766,9 @@ var Export = /** @class */ (function (_super) {
         });
     };
     Export.prototype.printViaIframe = function (data, options, title) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var iframe, img, isIOS;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 iframe = document.createElement("iframe");
                 iframe.style.visibility = "hidden";
                 document.body.appendChild(iframe);
@@ -3559,9 +3559,9 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype._canvg = function () {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var canvg;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, import(/* webpackChunkName: "canvg" */ "canvg")];
                     case 1:
@@ -3617,8 +3617,8 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype._xlsx = function () {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            return tslib_1.__generator(this, function (_a) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, import(/* webpackChunkName: "xlsx" */ "xlsx")];
                     case 1: return [2 /*return*/, _a.sent()];
@@ -3709,9 +3709,9 @@ var Export = /** @class */ (function (_super) {
      * @return Promise
      */
     Export.prototype.awaitValidSprites = function () {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var promises;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         promises = [];

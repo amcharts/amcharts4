@@ -1,7 +1,7 @@
 /**
  * Map spline series module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -22,7 +22,7 @@ import { registry } from "../../core/Registry";
  * @see {@link DataItem}
  */
 var MapSplineSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(MapSplineSeriesDataItem, _super);
+    __extends(MapSplineSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -49,7 +49,7 @@ export { MapSplineSeriesDataItem };
  * @important
  */
 var MapSplineSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(MapSplineSeries, _super);
+    __extends(MapSplineSeries, _super);
     /**
      * Constructor
      */

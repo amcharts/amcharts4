@@ -289,7 +289,7 @@ export declare class Label extends Container {
     /**
      * Hides element if it does not fit into available space
      */
-    private maybeHideOversized();
+    private maybeHideOversized;
     /**
      * Aligns the lines horizontally ant vertically, based on properties.
      *
@@ -333,9 +333,6 @@ export declare class Label extends Container {
      */
     protected hideUnused(index: number): void;
     /**
-     * @return SVG text
-     */
-    /**
      * An SVG text.
      *
      * Please note that setting `html` will override this setting if browser
@@ -344,10 +341,11 @@ export declare class Label extends Container {
      *
      * @param value  SVG Text
      */
-    text: string;
+    set text(value: string);
     /**
-     * @return Path
+     * @return SVG text
      */
+    get text(): string;
     /**
      * An SVG path string to position text along. If set, the text will follow
      * the curvature of the path.
@@ -360,10 +358,11 @@ export declare class Label extends Container {
      * @since 4.1.2
      * @param  value  Path
      */
-    path: string;
+    set path(value: string);
     /**
-     * @return Relatvie location on path
+     * @return Path
      */
+    get path(): string;
     /**
      * Relative label location on `path`. Value range is from 0 (beginning)
      * to 1 (end).
@@ -374,10 +373,11 @@ export declare class Label extends Container {
      * @default 0
      * @param  value  Relatvie location on path
      */
-    locationOnPath: number;
+    set locationOnPath(value: number);
     /**
-     * @return Base line ratio
+     * @return Relatvie location on path
      */
+    get locationOnPath(): number;
     /**
      * A ratio to calculate text baseline. Ralative distance from the bottom of
      * the label.
@@ -386,19 +386,21 @@ export declare class Label extends Container {
      * @default -0.27
      * @param  value  Base line ratio
      */
-    baseLineRatio: number;
+    set baseLineRatio(value: number);
     /**
-     * @return Auto-wrap enabled or not
+     * @return Base line ratio
      */
+    get baseLineRatio(): number;
     /**
      * Enables or disables autowrapping of text.
      *
      * @param value  Auto-wrapping enabled
      */
-    wrap: boolean;
+    set wrap(value: boolean);
     /**
-     * @return Truncate text?
+     * @return Auto-wrap enabled or not
      */
+    get wrap(): boolean;
     /**
      * Indicates if text lines need to be truncated if they do not fit, using
      * configurable `ellipsis` string.
@@ -411,10 +413,11 @@ export declare class Label extends Container {
      *
      * @param value  trincate text?
      */
-    truncate: boolean;
+    set truncate(value: boolean);
     /**
-     * @return Truncate on full words?
+     * @return Truncate text?
      */
+    get truncate(): boolean;
     /**
      * If `truncate` is enabled, should Label try to break only on full words
      * (`true`), or whenever needed, including middle of the word. (`false`)
@@ -422,20 +425,22 @@ export declare class Label extends Container {
      * @default true
      * @param value  Truncate on full words?
      */
-    fullWords: boolean;
+    set fullWords(value: boolean);
     /**
-     * @return Ellipsis string
+     * @return Truncate on full words?
      */
+    get fullWords(): boolean;
     /**
      * Ellipsis character to use if `truncate` is enabled.
      *
      * @param value Ellipsis string
      * @default "..."
      */
-    ellipsis: string;
+    set ellipsis(value: string);
     /**
-     * @return Text selectable?
+     * @return Ellipsis string
      */
+    get ellipsis(): string;
     /**
      * Forces the text to be selectable. This setting will be ignored if the
      * object has some kind of interaction attached to it, such as it is
@@ -444,10 +449,11 @@ export declare class Label extends Container {
      * @param value  Text selectable?
      * @default false
      */
-    selectable: boolean;
+    set selectable(value: boolean);
     /**
-     * @return Alignment
+     * @return Text selectable?
      */
+    get selectable(): boolean;
     /**
      * Horizontal text alignment.
      *
@@ -458,12 +464,11 @@ export declare class Label extends Container {
      *
      * @param value  Alignment
      */
-    textAlign: TextAlign;
+    set textAlign(value: TextAlign);
     /**
-     * @ignore Exclude from docs (not used)
      * @return Alignment
-     * @deprecated
      */
+    get textAlign(): TextAlign;
     /**
      * Vertical text alignment.
      *
@@ -471,10 +476,13 @@ export declare class Label extends Container {
      * @param value  Alignment
      * @deprecated
      */
-    textValign: TextValign;
+    set textValign(value: TextValign);
     /**
-     * @return HTML content
+     * @ignore Exclude from docs (not used)
+     * @return Alignment
+     * @deprecated
      */
+    get textValign(): TextValign;
     /**
      * Raw HTML to be used as text.
      *
@@ -488,20 +496,22 @@ export declare class Label extends Container {
      *
      * @param value HTML text
      */
-    html: string;
+    set html(value: string);
     /**
-     * @return Hide if text does not fit?
+     * @return HTML content
      */
+    get html(): string;
     /**
      * Indicates whether the whole text should be hidden if it does not fit into
      * its allotted space.
      *
      * @param value  Hide if text does not fit?
      */
-    hideOversized: boolean;
+    set hideOversized(value: boolean);
     /**
-     * @return Ignore formatting?
+     * @return Hide if text does not fit?
      */
+    get hideOversized(): boolean;
     /**
      * If set to `true` square-bracket formatting blocks will be treated as
      * regular text.
@@ -509,7 +519,11 @@ export declare class Label extends Container {
      * @default false
      * @param value  Ignore formatting?
      */
-    ignoreFormatting: boolean;
+    set ignoreFormatting(value: boolean);
+    /**
+     * @return Ignore formatting?
+     */
+    get ignoreFormatting(): boolean;
     /**
      * Override `mesaureElement` so it does not get measure again, because
      * internal `_bbox` is being updated by measuring routines in Text itself.
@@ -534,7 +548,7 @@ export declare class Label extends Container {
     /**
      * Checks if line cache is initialized and initializes it.
      */
-    private initLineCache();
+    private initLineCache;
     /**
      * Sets a [[DataItem]] to use for populating dynamic sections of the text.
      *
@@ -549,13 +563,13 @@ export declare class Label extends Container {
      * @ignore Exclude from docs
      * @return Available width (px)
      */
-    readonly availableWidth: number;
+    get availableWidth(): number;
     /**
      * Returns available vertical space.
      *
      * @return Available height (px)
      */
-    readonly availableHeight: number;
+    get availableHeight(): number;
     getSvgElement(text: string, style?: string): AMElement;
     /**
      * Invalidates the whole element, including layout AND all its child
@@ -563,12 +577,13 @@ export declare class Label extends Container {
      */
     deepInvalidate(): void;
     /**
-     * @return Title
-     */
-    /**
      * Screen reader title of the element.
      *
      * @param value Title
      */
-    readerTitle: string;
+    set readerTitle(value: string);
+    /**
+     * @return Title
+     */
+    get readerTitle(): string;
 }

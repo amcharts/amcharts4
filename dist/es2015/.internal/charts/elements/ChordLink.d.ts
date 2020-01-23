@@ -91,23 +91,25 @@ export declare class ChordLink extends FlowDiagramLink {
      */
     validate(): void;
     /**
-     * @return End Y
-     */
-    /**
      * [radius description]
      *
      * @todo Description
      * @param value End Y
      */
-    radius: number;
+    set radius(value: number);
     /**
-     * @return [description]
+     * @return End Y
      */
+    get radius(): number;
     /**
      * [arc description]
      *
      * @todo Description
      * @param value [description]
      */
-    arc: number;
+    set arc(value: number);
+    /**
+     * @return [description]
+     */
+    get arc(): number;
 }

@@ -86,33 +86,36 @@ export declare class Button extends Container {
      */
     constructor();
     /**
-     * @return Icon Sprite
-     */
-    /**
      * A [[Sprite]] to be used as an icon on button.
      *
      * @param icon Icon Sprite
      */
-    icon: Sprite;
+    set icon(icon: Sprite);
     /**
-     * @return Icon position
+     * @return Icon Sprite
      */
+    get icon(): Sprite;
     /**
      * Icon position: "left" or "right".
      *
      * @default "left"
      * @param position  Icon position
      */
-    iconPosition: "left" | "right";
+    set iconPosition(position: "left" | "right");
     /**
-     * @return Label element
+     * @return Icon position
      */
+    get iconPosition(): "left" | "right";
     /**
      * [[Label]] element to be used for text.
      *
      * @param label element
      */
-    label: $type.Optional<Label>;
+    set label(label: $type.Optional<Label>);
+    /**
+     * @return Label element
+     */
+    get label(): $type.Optional<Label>;
     /**
      * Creates a background element for the button.
      *

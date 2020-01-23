@@ -36,9 +36,6 @@ export declare class LinePattern extends Pattern {
      */
     protected draw(): void;
     /**
-     * @return gap
-     */
-    /**
      * Number of pixels between pattern lines.
      *
      * The pattern will automatically draw required number of lines to fill
@@ -49,5 +46,9 @@ export declare class LinePattern extends Pattern {
      * @default 0
      * @since 4.7.7
      */
-    gap: number;
+    set gap(value: number);
+    /**
+     * @return gap
+     */
+    get gap(): number;
 }

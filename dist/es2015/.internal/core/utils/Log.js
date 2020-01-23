@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __read, __spread } from "tslib";
 import { options } from "../Options";
 /**
  * Outputs string to console if `verbose` is `true`.
@@ -10,7 +10,7 @@ export function log() {
     }
     if (options.verbose) {
         if (console) {
-            console.log.apply(console, tslib_1.__spread(messages));
+            console.log.apply(console, __spread(messages));
         }
     }
 }
@@ -23,7 +23,7 @@ export function warn() {
         messages[_i] = arguments[_i];
     }
     if (console) {
-        console.warn.apply(console, tslib_1.__spread(messages));
+        console.warn.apply(console, __spread(messages));
     }
 }
 //# sourceMappingURL=Log.js.map

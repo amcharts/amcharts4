@@ -69,12 +69,13 @@ export declare class Tick extends Sprite {
      */
     constructor();
     /**
-     * @return Length (px)
-     */
-    /**
      * Length of the tick in pixels.
      *
      * @param value  Length (px)
      */
-    length: number;
+    set length(value: number);
+    /**
+     * @return Length (px)
+     */
+    get length(): number;
 }

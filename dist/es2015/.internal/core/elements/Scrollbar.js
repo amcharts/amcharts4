@@ -1,7 +1,7 @@
 /**
  * Provides functionality used to build scrollbars.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -37,7 +37,7 @@ import * as $utils from "../utils/Utils";
  * @see {@link IScrollbarAdapters} for a list of available Adapters
  */
 var Scrollbar = /** @class */ (function (_super) {
-    tslib_1.__extends(Scrollbar, _super);
+    __extends(Scrollbar, _super);
     /**
      * Construtor
      */

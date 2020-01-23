@@ -71,21 +71,23 @@ export declare class GridCircular extends Grid {
      */
     constructor();
     /**
-     * @return Inner radius
-     */
-    /**
      * Inner radius of the circular grid. (absolute or relative)
      *
      * @param value Inner radius
      */
-    innerRadius: number | Percent;
+    set innerRadius(value: number | Percent);
     /**
-     * @return Outer radius
+     * @return Inner radius
      */
+    get innerRadius(): number | Percent;
     /**
      * Outer radius of the circular grid. (absolute or relative)
      *
      * @param value Outer radius
      */
-    radius: number | Percent;
+    set radius(value: number | Percent);
+    /**
+     * @return Outer radius
+     */
+    get radius(): number | Percent;
 }

@@ -110,25 +110,27 @@ export declare class WavedRectangle extends Rectangle implements IWavedShape {
      */
     draw(): void;
     /**
-     * @return Wave length (px)
-     */
-    /**
      * Wave length in pixels.
      *
      * @default 16
      * @param value  Wave length (px)
      */
-    waveLength: number;
+    set waveLength(value: number);
     /**
-     * @return Wave height (px)
+     * @return Wave length (px)
      */
+    get waveLength(): number;
     /**
      * Wave height in pixels.
      *
      * @default 4
      * @param value  Wave height (px)
      */
-    waveHeight: number;
+    set waveHeight(value: number);
+    /**
+     * @return Wave height (px)
+     */
+    get waveHeight(): number;
     /**
      * Sets which side should be waved or not. If particular side is set to
      * `false`, a straight line will be drawn on that side.
@@ -140,53 +142,58 @@ export declare class WavedRectangle extends Rectangle implements IWavedShape {
      */
     setWavedSides(top: boolean, right: boolean, bottom: boolean, left: boolean): void;
     /**
-     * @return Tension
-     */
-    /**
      * Tension of the wave.
      *
      * @default 0.8
      * @param value  Tension
      */
-    tension: number;
+    set tension(value: number);
     /**
-     * @return Wave right side?
+     * @return Tension
      */
+    get tension(): number;
     /**
      * Specifies if right side should be waved.
      *
      * @default true
      * @param value Waved?
      */
-    wavedRight: boolean;
+    set wavedRight(value: boolean);
     /**
-     * @return Wave left side?
+     * @return Wave right side?
      */
+    get wavedRight(): boolean;
     /**
      * Specifies if left side should be waved.
      *
      * @default true
      * @param value Waved?
      */
-    wavedLeft: boolean;
+    set wavedLeft(value: boolean);
     /**
-     * @return Wave top side?
+     * @return Wave left side?
      */
+    get wavedLeft(): boolean;
     /**
      * Specifies if top side should be waved.
      *
      * @default true
      * @param value Waved?
      */
-    wavedTop: boolean;
+    set wavedTop(value: boolean);
     /**
-     * @return Wave bottom side?
+     * @return Wave top side?
      */
+    get wavedTop(): boolean;
     /**
      * Specifies if bottom side should be waved.
      *
      * @default true
      * @param value Waved?
      */
-    wavedBottom: boolean;
+    set wavedBottom(value: boolean);
+    /**
+     * @return Wave bottom side?
+     */
+    get wavedBottom(): boolean;
 }

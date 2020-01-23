@@ -1,7 +1,7 @@
 /**
  * Module, defining Axis Renderer for curved axes.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -28,7 +28,7 @@ import { wavedLine } from "../../core/rendering/Smoothing";
  * A renderer for "horizontal" curve axis.
  */
 var AxisRendererCurveX = /** @class */ (function (_super) {
-    tslib_1.__extends(AxisRendererCurveX, _super);
+    __extends(AxisRendererCurveX, _super);
     /**
      * Constructor.
      */

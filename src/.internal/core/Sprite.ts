@@ -3294,10 +3294,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			}
 
 			//if (finalValue != currentValue && $type.hasValue(finalValue)) {
-			//if ($type.hasValue(finalValue)) {
-			let option: ISpriteAnimationOptions = { from: currentValue, to: <any>finalValue, property: propertyName };
-			options.push(option);
-			//}
+			if (<any>finalValue != "__unset") {
+				let option: ISpriteAnimationOptions = { from: currentValue, to: <any>finalValue, property: propertyName };
+				options.push(option);
+			}
 		});
 
 		if (options.length > 0) {

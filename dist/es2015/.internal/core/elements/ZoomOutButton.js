@@ -1,7 +1,7 @@
 /**
  * Zoom out button functionality.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -27,7 +27,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link IZoomOutButtonAdapters} for a list of available Adapters
  */
 var ZoomOutButton = /** @class */ (function (_super) {
-    tslib_1.__extends(ZoomOutButton, _super);
+    __extends(ZoomOutButton, _super);
     /**
      * Constructor
      */

@@ -78,14 +78,15 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      */
     constructor();
     /**
-     * @return Legend data item
-     */
-    /**
      * A legend's data item, that corresponds to this data item.
      *
      * @param value  Legend data item
      */
-    legendDataItem: LegendDataItem;
+    set legendDataItem(value: LegendDataItem);
+    /**
+     * @return Legend data item
+     */
+    get legendDataItem(): LegendDataItem;
     /**
      * Returns a duration (ms) the Data Item should take to animate from one
      * value to another.
@@ -98,29 +99,16 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      */
     getDuration(): number;
     /**
-     * @return Value
-     */
-    /**
      * Numeric value of the item.
      *
      * @param value  Value
      */
-    value: number;
-    readonly percent: number;
+    set value(value: number);
     /**
-     * @return X
+     * @return Value
      */
-    /**
-     * Item's X position.
-     *
-     * @ignore Exclude from docs
-     * @todo Description (review)
-     * @param value  X
-     */
-    x0: number;
-    /**
-     * @return X
-     */
+    get value(): number;
+    get percent(): number;
     /**
      * Item's X position.
      *
@@ -128,10 +116,23 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      * @todo Description (review)
      * @param value  X
      */
-    x1: number;
+    set x0(value: number);
     /**
-     * @return Y
+     * @return X
      */
+    get x0(): number;
+    /**
+     * Item's X position.
+     *
+     * @ignore Exclude from docs
+     * @todo Description (review)
+     * @param value  X
+     */
+    set x1(value: number);
+    /**
+     * @return X
+     */
+    get x1(): number;
     /**
      * Item's Y position.
      *
@@ -139,10 +140,11 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      * @todo Description (review)
      * @param value  Y
      */
-    y0: number;
+    set y0(value: number);
     /**
      * @return Y
      */
+    get y0(): number;
     /**
      * Item's Y position.
      *
@@ -150,19 +152,21 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      * @todo Description (review)
      * @param value  Y
      */
-    y1: number;
+    set y1(value: number);
     /**
-     * @return Name
+     * @return Y
      */
+    get y1(): number;
     /**
      * Item's name.
      *
      * @param name  Name
      */
-    name: string;
+    set name(name: string);
     /**
-     * @return Item's children
+     * @return Name
      */
+    get name(): string;
     /**
      * A list of item's sub-children.
      *
@@ -174,7 +178,11 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      *
      * @param children  Item's children
      */
-    children: OrderedListTemplate<TreeMapDataItem>;
+    set children(children: OrderedListTemplate<TreeMapDataItem>);
+    /**
+     * @return Item's children
+     */
+    get children(): OrderedListTemplate<TreeMapDataItem>;
     /**
      * Depth level in the treemap hierarchy.
      *
@@ -184,10 +192,7 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      * @readonly
      * @return Level
      */
-    readonly level: number;
-    /**
-     * @return Color
-     */
+    get level(): number;
     /**
      * Item's color.
      *
@@ -196,17 +201,22 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      *
      * @param value  Color
      */
-    color: Color;
+    set color(value: Color);
     /**
      * @ignore
      * For the legend to work properly
      */
-    readonly fill: Color;
+    get fill(): Color;
+    /**
+     * @return Color
+     */
+    get color(): Color;
     /**
      * Series of children data items
      * @todo: proper descrition
      */
-    series: TreeMapSeries;
+    set series(series: TreeMapSeries);
+    get series(): TreeMapSeries;
     /**
      * Hides the Data Item and related visual elements.
      *
@@ -431,13 +441,14 @@ export declare class TreeMap extends XYChart {
      */
     constructor();
     /**
-     * Returns navigationBar if it is added to a chart
-     */
-    /**
      * A navigation bar used to show "breadcrumb" control, indicating current
      * drill-down path.
      */
-    navigationBar: NavigationBar;
+    set navigationBar(navigationBar: NavigationBar);
+    /**
+     * Returns navigationBar if it is added to a chart
+     */
+    get navigationBar(): NavigationBar;
     /**
      * (Re)validates chart's data.
      *
@@ -493,12 +504,12 @@ export declare class TreeMap extends XYChart {
      */
     zoomToSeriesDataItem(dataItem: TreeMapSeriesDataItem): void;
     /**
-     * Zooms to particular item.
+     * Zooms to particular item. If dataItem is not specified, the chart will zoom-out.
      *
      * @ignore Exclude from docs
      * @param dataItem  Data item
      */
-    zoomToChartDataItem(dataItem: TreeMapDataItem): void;
+    zoomToChartDataItem(dataItem?: TreeMapDataItem): void;
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor.
@@ -512,27 +523,26 @@ export declare class TreeMap extends XYChart {
      */
     protected createDataItem(): this["_dataItem"];
     /**
-     * @return Maximum drill-down level
-     */
-    /**
      * Maximum number of levels the chart will display initially.
      *
      * @default 2
      * @param value  Maximum drill-down level
      */
-    maxLevels: number;
+    set maxLevels(value: number);
     /**
-     * @return Current level
+     * @return Maximum drill-down level
      */
+    get maxLevels(): number;
     /**
      * Current drill-down level the chart is at.
      *
      * @param value  Current level
      */
-    currentLevel: number;
+    set currentLevel(value: number);
     /**
-     * @return Hide?
+     * @return Current level
      */
+    get currentLevel(): number;
     /**
      * If set to `true`, columns of parent nodes will be hidden when user
      * drills-down into deeper levels.
@@ -541,7 +551,11 @@ export declare class TreeMap extends XYChart {
      * @default false
      * @param  value  Hide?
      */
-    hideParentColumns: boolean;
+    set hideParentColumns(value: boolean);
+    /**
+     * @return Hide?
+     */
+    get hideParentColumns(): boolean;
     /**
      * Sorting direction of treemap items.
      *
@@ -550,7 +564,8 @@ export declare class TreeMap extends XYChart {
      * @default "descending"
      * @param value [description]
      */
-    sorting: "none" | "ascending" | "descending";
+    set sorting(value: "none" | "ascending" | "descending");
+    get sorting(): "none" | "ascending" | "descending";
     /**
      * Creates and returns a new series of the suitable type.
      *
@@ -558,15 +573,16 @@ export declare class TreeMap extends XYChart {
      */
     protected createSeries(): this["_seriesType"];
     /**
-     * @return Home text
-     */
-    /**
      * A text displayed on the "home" button which is used to go back to level 0
      * after drill into sub-items.
      *
      * @param value  Home text
      */
-    homeText: string;
+    set homeText(value: string);
+    /**
+     * @return Home text
+     */
+    get homeText(): string;
     /**
      * Processes JSON-based config before it is applied to the object.
      *
@@ -675,6 +691,12 @@ export declare class TreeMap extends XYChart {
     handleDataItemValueChange(dataItem?: this["_dataItem"], name?: string): void;
     handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void;
     protected getLegendLevel(dataItem: TreeMapDataItem): TreeMapDataItem;
+    /**
+     * A data item associated with top node.
+     *
+     * @since 4.8.2
+     */
+    get homeDataItem(): TreeMapDataItem;
     /**
      * Setups the legend to use the chart's data.
      * @ignore

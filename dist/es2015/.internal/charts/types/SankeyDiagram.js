@@ -1,7 +1,7 @@
 /**
  * Sankey diagram module.
  */
-import * as tslib_1 from "tslib";
+import { __extends, __read, __spread } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -31,7 +31,7 @@ import * as $object from "../../core/utils/Object";
  * @see {@link DataItem}
  */
 var SankeyDiagramDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(SankeyDiagramDataItem, _super);
+    __extends(SankeyDiagramDataItem, _super);
     /**
      * Constructor
      */
@@ -59,7 +59,7 @@ export { SankeyDiagramDataItem };
  * @important
  */
 var SankeyDiagram = /** @class */ (function (_super) {
-    tslib_1.__extends(SankeyDiagram, _super);
+    __extends(SankeyDiagram, _super);
     /**
      * Constructor
      */
@@ -116,7 +116,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
                 }
             }
         });
-        return Math.max.apply(Math, tslib_1.__spread(levels));
+        return Math.max.apply(Math, __spread(levels));
     };
     /**
      * Calculates relation between pixel height and total value.

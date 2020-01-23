@@ -2,7 +2,7 @@
  * Module that defines everything related to building Columns.
  * It is a container which has column element which is a RoundedRectangle.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import * as $math from "../../core/utils/Math";
  * @important
  */
 var Column = /** @class */ (function (_super) {
-    tslib_1.__extends(Column, _super);
+    __extends(Column, _super);
     /**
      * Constructor
      */

@@ -77,13 +77,13 @@ export declare class Percent {
      * @readonly
      * @return Relative value
      */
-    readonly value: number;
+    get value(): number;
     /**
      * Value in percent.
      *
      * @return Percent
      */
-    readonly percent: number;
+    get percent(): number;
     toString(): string;
 }
 /**

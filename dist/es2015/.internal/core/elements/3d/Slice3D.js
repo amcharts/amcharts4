@@ -1,7 +1,7 @@
 /**
  * 3D slice module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +30,7 @@ import { LightenFilter } from "../../rendering/filters/LightenFilter";
  * @see {@link ISlice3DAdapters} for a list of available Adapters
  */
 var Slice3D = /** @class */ (function (_super) {
-    tslib_1.__extends(Slice3D, _super);
+    __extends(Slice3D, _super);
     /**
      * Constructor
      */

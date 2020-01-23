@@ -2,7 +2,7 @@
  * Container module
  * @todo Needs description
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -40,7 +40,7 @@ import { options } from "./Options";
  * @important
  */
 var Container = /** @class */ (function (_super) {
-    tslib_1.__extends(Container, _super);
+    __extends(Container, _super);
     /**
      * Constructor
      */

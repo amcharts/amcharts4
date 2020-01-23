@@ -33,7 +33,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * ```
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -47,7 +47,7 @@ import * as d3geo from "d3-geo";
  * Orthographic projection.
  */
 var Orthographic = /** @class */ (function (_super) {
-    tslib_1.__extends(Orthographic, _super);
+    __extends(Orthographic, _super);
     function Orthographic() {
         var _this = _super.call(this) || this;
         _this.d3Projection = d3geo.geoOrthographic();

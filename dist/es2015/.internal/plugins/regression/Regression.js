@@ -4,7 +4,7 @@
  * Uses regression-js library by Tom Alexander
  * http://tom-alexander.github.io/regression-js/
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -72,7 +72,7 @@ import * as $type from "../../core/utils/Type";
  * @since 4.2.2
  */
 var Regression = /** @class */ (function (_super) {
-    tslib_1.__extends(Regression, _super);
+    __extends(Regression, _super);
     /**
      * Constructor
      */

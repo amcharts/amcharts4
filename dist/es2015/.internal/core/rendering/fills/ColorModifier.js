@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -19,7 +19,7 @@ import { registry } from "../../Registry";
  * @ignore Exclude from docs
  */
 var ColorModifier = /** @class */ (function (_super) {
-    tslib_1.__extends(ColorModifier, _super);
+    __extends(ColorModifier, _super);
     /**
      * Constructor
      */

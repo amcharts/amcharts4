@@ -9,7 +9,7 @@
  * For more information on how SVG filters work, refer to
  * [this MDN tutorial](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/SVG_Filters_Tutorial).
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -46,7 +46,7 @@ import * as $iter from "../../utils/Iterator";
  * @todo Example
  */
 var Filter = /** @class */ (function (_super) {
-    tslib_1.__extends(Filter, _super);
+    __extends(Filter, _super);
     /**
      * Constructor
      */

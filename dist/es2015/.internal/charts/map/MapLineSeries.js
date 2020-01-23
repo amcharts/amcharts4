@@ -1,7 +1,7 @@
 /**
  * Map line series module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -28,7 +28,7 @@ import { Disposer } from "../../core/utils/Disposer";
  * @see {@link DataItem}
  */
 var MapLineSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(MapLineSeriesDataItem, _super);
+    __extends(MapLineSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -211,7 +211,7 @@ export { MapLineSeriesDataItem };
  * @important
  */
 var MapLineSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(MapLineSeries, _super);
+    __extends(MapLineSeries, _super);
     /**
      * Constructor
      */

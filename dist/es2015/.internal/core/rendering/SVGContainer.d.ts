@@ -106,14 +106,15 @@ export declare class SVGContainer implements IDisposer {
      */
     measure(): void;
     /**
-     * @return Container
-     */
-    /**
      * A [[Container]] element which is placed into container.
      *
      * @param container  Container
      */
-    container: $type.Optional<Container>;
+    set container(container: $type.Optional<Container>);
+    /**
+     * @return Container
+     */
+    get container(): $type.Optional<Container>;
     /**
      * Returns if this object has been already been disposed.
      *
@@ -144,7 +145,7 @@ export declare class SVGContainer implements IDisposer {
      *
      * Other charts use default of `false`.
      */
-    hideOverflow: boolean;
+    set hideOverflow(value: boolean);
     /**
      * ==========================================================================
      * MODAL/POPUP RELATED STUFF
@@ -161,7 +162,7 @@ export declare class SVGContainer implements IDisposer {
      * @see {@link Modal} for more information about using Modal windows
      * @return Modal instance
      */
-    readonly modal: Modal;
+    get modal(): Modal;
     /**
      * Opens a modal window with specific content (`text` parameter) and,
      * optionally, `title`.
@@ -182,7 +183,7 @@ export declare class SVGContainer implements IDisposer {
      *
      * @return Popups
      */
-    readonly popups: ListTemplate<Popup>;
+    get popups(): ListTemplate<Popup>;
     /**
      * Creates, opens, and returns a new [[Popup]] window.
      *

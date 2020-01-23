@@ -156,19 +156,17 @@ export declare class CurveColumnSeries extends ColumnSeries {
      */
     protected getMaskPath(): string;
     /**
-     * @return Top offset
-     */
-    /**
      * A relative part of an series elements allowed outside of the outer edge of
      * the "plot area".
      *
      * @default 0.2
      * @param  value  Top offset
      */
-    topOffset: number;
+    set topOffset(value: number);
     /**
-     * @return Bottom offset
+     * @return Top offset
      */
+    get topOffset(): number;
     /**
      * A relative part of an series elements allowed outside of the inner edge of
      * the "plot area".
@@ -176,7 +174,11 @@ export declare class CurveColumnSeries extends ColumnSeries {
      * @default 0.2
      * @param  value  Bottom offset
      */
-    bottomOffset: number;
+    set bottomOffset(value: number);
+    /**
+     * @return Bottom offset
+     */
+    get bottomOffset(): number;
     /**
      * [positionBulletReal description]
      *

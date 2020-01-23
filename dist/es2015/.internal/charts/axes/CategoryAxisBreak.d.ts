@@ -78,48 +78,52 @@ export declare class CategoryAxisBreak extends AxisBreak {
      * @return Position (px)
      * @readonly
      */
-    readonly startPosition: number;
+    get startPosition(): number;
     /**
      * Pixel position of the break's end.
      *
      * @return Position (px)
      * @readonly
      */
-    readonly endPosition: number;
-    /**
-     * @return Start category
-     */
+    get endPosition(): number;
     /**
      * A category break starts on.
      *
      * @param value Start category
      */
-    startCategory: string;
+    set startCategory(value: string);
     /**
-     * @return End category
+     * @return Start category
      */
+    get startCategory(): string;
     /**
      * A category break ends on.
      *
      * @param value  End category
      */
-    endCategory: string;
+    set endCategory(value: string);
     /**
-     * @return Value
+     * @return End category
      */
+    get endCategory(): string;
     /**
      * An index of start category.
      *
      * @param value  Value
      */
-    startValue: number;
+    set startValue(value: number);
     /**
      * @return Value
      */
+    get startValue(): number;
     /**
      * An index of end category or a end value.
      *
      * @param value  Value
      */
-    endValue: number;
+    set endValue(value: number);
+    /**
+     * @return Value
+     */
+    get endValue(): number;
 }

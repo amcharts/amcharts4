@@ -65,7 +65,7 @@ export declare class OrderedList<T> {
      *
      * @return List values
      */
-    readonly values: Array<T>;
+    get values(): Array<T>;
     /**
      * Inserts a value into list item array.
      *
@@ -78,7 +78,7 @@ export declare class OrderedList<T> {
      * @readonly
      * @return Length
      */
-    readonly length: number;
+    get length(): number;
     /**
      * Returns the index of the specific `value`.
      *
@@ -107,13 +107,13 @@ export declare class OrderedList<T> {
      *
      * @return Item
      */
-    readonly first: T | undefined;
+    get first(): T | undefined;
     /**
      * Last item in the list.
      *
      * @return Item
      */
-    readonly last: T | undefined;
+    get last(): T | undefined;
     /**
      * Inserts a value into list.
      *
@@ -238,15 +238,16 @@ export declare class OrderedListTemplate<T extends IClone<T> & {
      */
     constructor(t: T);
     /**
-     * @return Template object
-     */
-    /**
      * A "template" object to copy all properties from when creating new list
      * items.
      *
      * @param v  Template object
      */
-    template: T;
+    set template(v: T);
+    /**
+     * @return Template object
+     */
+    get template(): T;
     /**
      * Copies all elements from other list.
      *
@@ -301,15 +302,16 @@ export declare class SortedListTemplate<T extends IClone<T> & {
      */
     constructor(t: T, sort: (left: T, right: T) => Ordering);
     /**
-     * @return Template object
-     */
-    /**
      * A "template" object to copy all properties from when creating new list
      * items.
      *
      * @param v  Template object
      */
-    template: T;
+    set template(v: T);
+    /**
+     * @return Template object
+     */
+    get template(): T;
     /**
      * Copies all elements from other list.
      *

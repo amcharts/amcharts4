@@ -1,3 +1,9 @@
+/**
+ * Regression plugin.
+ *
+ * Uses regression-js library by Tom Alexander
+ * http://tom-alexander.github.io/regression-js/
+ */
 import { Plugin } from "../../core/utils/Plugin";
 import { XYSeries } from "../../charts/series/XYSeries";
 import { Optional } from "../../core/utils/Type";
@@ -120,22 +126,19 @@ export declare class Regression extends Plugin {
      * Decorates series with required events and adapters used to hijack its
      * data.
      */
-    private processSeries();
+    private processSeries;
     /**
      * Saves series' original data and (re)adds data adapter.
      */
-    private saveOriginalData();
+    private saveOriginalData;
     /**
      * Invalidates data.
      */
-    private invalidateData();
+    private invalidateData;
     /**
      * Calculates regression series data.
      */
-    private calcData();
-    /**
-     * @return Method
-     */
+    private calcData;
     /**
      * Method to calculate regression.
      *
@@ -144,10 +147,11 @@ export declare class Regression extends Plugin {
      * @default linear
      * @param  value  Method
      */
-    method: "linear" | "polynomial";
+    set method(value: "linear" | "polynomial");
     /**
-     * @return Options
+     * @return Method
      */
+    get method(): "linear" | "polynomial";
     /**
      * Regression output options.
      *
@@ -163,12 +167,15 @@ export declare class Regression extends Plugin {
      * @see {@link https://github.com/Tom-Alexander/regression-js#configuration-options} About options
      * @param  value  Options
      */
-    options: {
+    set options(value: {
+        [index: string]: any;
+    });
+    /**
+     * @return Options
+     */
+    get options(): {
         [index: string]: any;
     };
-    /**
-     * @return Simplify?
-     */
     /**
      * Simplify regression line data? If set to `true` it will use only two
      * result data points: first and last.
@@ -179,10 +186,11 @@ export declare class Regression extends Plugin {
      * @since 4.2.3
      * @param  value  Simplify?
      */
-    simplify: boolean;
+    set simplify(value: boolean);
     /**
-     * @return Reorder data?
+     * @return Simplify?
      */
+    get simplify(): boolean;
     /**
      * Orders data points after calculation. This can make sense in scatter plot
      * scenarios where data points can come in non-linear fashion.
@@ -191,5 +199,9 @@ export declare class Regression extends Plugin {
      * @since 4.2.3
      * @param  value  Reorder data?
      */
-    reorder: boolean;
+    set reorder(value: boolean);
+    /**
+     * @return Reorder data?
+     */
+    get reorder(): boolean;
 }

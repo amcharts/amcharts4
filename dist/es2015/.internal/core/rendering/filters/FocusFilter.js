@@ -1,7 +1,7 @@
 /**
  * Module for "Focus" filter.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { Filter } from "./Filter";
 import { InterfaceColorSet } from "../../utils/InterfaceColorSet";
 /**
@@ -17,7 +17,7 @@ import { InterfaceColorSet } from "../../utils/InterfaceColorSet";
  * @see {@link https://www.amcharts.com/docs/v4/tutorials/changing-appearance-of-focused-items/} cusomizing focus appearance
  */
 var FocusFilter = /** @class */ (function (_super) {
-    tslib_1.__extends(FocusFilter, _super);
+    __extends(FocusFilter, _super);
     /**
      * Constructor
      */

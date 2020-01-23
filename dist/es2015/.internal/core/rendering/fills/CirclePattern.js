@@ -1,7 +1,7 @@
 /**
  * Rectangular pattern module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -21,7 +21,7 @@ import { registry } from "../../Registry";
  * Circular pattern
  */
 var CirclePattern = /** @class */ (function (_super) {
-    tslib_1.__extends(CirclePattern, _super);
+    __extends(CirclePattern, _super);
     /**
      * Constructor
      */

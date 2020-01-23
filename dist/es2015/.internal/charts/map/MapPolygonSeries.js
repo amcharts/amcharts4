@@ -1,7 +1,7 @@
 /**
  * Map polygon series module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -28,7 +28,7 @@ import { Disposer } from "../../core/utils/Disposer";
  * @see {@link DataItem}
  */
 var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(MapPolygonSeriesDataItem, _super);
+    __extends(MapPolygonSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -238,7 +238,7 @@ export { MapPolygonSeriesDataItem };
  * @important
  */
 var MapPolygonSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(MapPolygonSeries, _super);
+    __extends(MapPolygonSeries, _super);
     /**
      * Constructor
      */

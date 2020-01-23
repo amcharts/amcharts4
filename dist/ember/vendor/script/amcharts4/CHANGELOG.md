@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.8.2] - 2020-01-23
+
+### Added
+- `TreeMap.homeDataItem` getter added.
+
+### Fixed
+- Sometimes labels were not being truncated properly.
+- `ValueAxis` with values <1 might not display labels (since `4.8.1` only).
+- Axis syncing was not working on initial view if no animated theme was used.
+- Sometimes undefined variables were being restored with default state where they shouldn't. This was introduced in `4.8.1`.
+
+
 ## [4.8.1] - 2020-01-22
 
 ### Added

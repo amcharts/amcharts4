@@ -80,7 +80,7 @@ function dirpath(x) {
 __webpack_public_path__ = dirpath(getCurrentScript().src);
 `);
 
-				entries["core"] = ["core-js/shim", "./" + filename];
+				entries["core"] = ["core-js/stable", "./" + filename];
 
 			} else {
 				$fs.writeFileSync(filename,

@@ -1,7 +1,7 @@
 /**
  * A module for the mini-map control.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -34,7 +34,7 @@ import * as $type from "../../core/utils/Type";
  * @important
  */
 var SmallMap = /** @class */ (function (_super) {
-    tslib_1.__extends(SmallMap, _super);
+    __extends(SmallMap, _super);
     /**
      * Constructor
      */

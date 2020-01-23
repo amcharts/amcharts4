@@ -1,7 +1,7 @@
 /**
  * Zoom out button functionality.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -28,7 +28,7 @@ import { MouseCursorStyle } from "../../core/interaction/Mouse";
  * @see {@link ICloseButtonAdapters} for a list of available Adapters
  */
 var CloseButton = /** @class */ (function (_super) {
-    tslib_1.__extends(CloseButton, _super);
+    __extends(CloseButton, _super);
     /**
      * Constructor
      */

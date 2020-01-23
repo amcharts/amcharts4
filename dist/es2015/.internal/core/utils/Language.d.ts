@@ -383,14 +383,15 @@ export declare class Language extends BaseObjectEvents {
      */
     isDefault(): boolean;
     /**
-     * @return Locale definition
-     */
-    /**
      * Current locale.
      *
      * @param value  Locale definition (translations)
      */
-    locale: ILocale;
+    set locale(value: ILocale);
+    /**
+     * @return Locale definition
+     */
+    get locale(): ILocale;
     /**
      * Returns translations for a given locale.
      *

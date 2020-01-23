@@ -1,7 +1,7 @@
 /**
  * Category axis module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +30,7 @@ import { Adapter } from "../../core/utils/Adapter";
  * @see {@link DataItem}
  */
 var CategoryAxisDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(CategoryAxisDataItem, _super);
+    __extends(CategoryAxisDataItem, _super);
     /**
      * Constructor
      */
@@ -140,7 +140,7 @@ export { CategoryAxisDataItem };
  * @important
  */
 var CategoryAxis = /** @class */ (function (_super) {
-    tslib_1.__extends(CategoryAxis, _super);
+    __extends(CategoryAxis, _super);
     /**
      * Constructor
      */

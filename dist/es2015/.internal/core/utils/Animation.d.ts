@@ -218,7 +218,7 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      * @return Animation
      */
     delay(delay: number): Animation;
-    private _start();
+    private _start;
     /**
      * Starts animation.
      *
@@ -295,7 +295,7 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      * @readonly
      * @return [description]
      */
-    readonly delayed: boolean;
+    get delayed(): boolean;
     /**
      * Checks other animations currently running on the same object and removes
      * overlapping options from those other animations that are contained in
@@ -304,7 +304,7 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      * This is needed to ensure that no two confurent animations step on each
      * other's toes by trying to animate the same property.
      */
-    private stopSameAnimations();
+    private stopSameAnimations;
     /**
      * Adds easing functions to "function" fields.
      *

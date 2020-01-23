@@ -120,87 +120,93 @@ export declare class Pattern extends BaseObject implements IAnimatable {
      *
      * @return Pattern elements
      */
-    readonly elements: List<AMElement>;
-    /**
-     * @return Opacity (0-1)
-     */
+    get elements(): List<AMElement>;
     /**
      * Pattern fill opacity. (0-1)
      *
      * @param value  Opacity (0-1)
      */
-    fillOpacity: number;
+    set fillOpacity(value: number);
     /**
-     * @return Fill color
+     * @return Opacity (0-1)
      */
+    get fillOpacity(): number;
     /**
      * Fill color of the pattern.
      *
      * @param value  Fill color
      */
-    fill: Color;
+    set fill(value: Color);
     /**
-     * @return Background color
+     * @return Fill color
      */
+    get fill(): Color;
     /**
      * Pattern background fill color.
      *
      * @param value  Background color
      */
-    backgroundFill: Color;
+    set backgroundFill(value: Color);
     /**
-     * @return Background opacity (0-1)
+     * @return Background color
      */
+    get backgroundFill(): Color;
     /**
      * Pattern backgorund opacity. (0-1)
      *
      * @param value  Background opacity (0-1)
      */
-    backgroundOpacity: number;
+    set backgroundOpacity(value: number);
     /**
-     * @return Color
+     * @return Background opacity (0-1)
      */
+    get backgroundOpacity(): number;
     /**
      * Pattern stroke (border) color.
      *
      * @param value  Color
      */
-    stroke: Color;
+    set stroke(value: Color);
     /**
-     * @return Opacity (0-1)
+     * @return Color
      */
+    get stroke(): Color;
     /**
      * Pattern stroke opacity. (0-1)
      *
      * @param value  Opacity (0-1)
      */
-    strokeOpacity: number;
+    set strokeOpacity(value: number);
     /**
-     * @return Stroke thickness (px)
+     * @return Opacity (0-1)
      */
+    get strokeOpacity(): number;
     /**
      * Pattern stroke thickness in pixels.
      *
      * @param value  Stroke thickness (px)
      */
-    strokeWidth: number;
+    set strokeWidth(value: number);
+    /**
+     * @return Stroke thickness (px)
+     */
+    get strokeWidth(): number;
     /**
      * Shape rendering
      * @param value [description]
      */
-    shapeRendering: ShapeRendering;
-    /**
-     * @return Rotation
-     */
+    set shapeRendering(value: ShapeRendering);
+    get shapeRendering(): ShapeRendering;
     /**
      * Pattern rotation in degrees.
      *
      * @param value  Rotation
      */
-    rotation: number;
+    set rotation(value: number);
     /**
-     * @return Units
+     * @return Rotation
      */
+    get rotation(): number;
     /**
      * Pattern measuring units.
      *
@@ -208,54 +214,63 @@ export declare class Pattern extends BaseObject implements IAnimatable {
      *
      * @param value  Units
      */
-    patternUnits: "userSpaceOnUse" | "objectBoundingBox";
+    set patternUnits(value: "userSpaceOnUse" | "objectBoundingBox");
     /**
-     * @return Width (px)
+     * @return Units
      */
+    get patternUnits(): "userSpaceOnUse" | "objectBoundingBox";
     /**
      * Pattern width in pixels.
      *
      * @param value  Width (px)
      */
-    width: number;
+    set width(value: number);
     /**
-     * @return Height (px)
+     * @return Width (px)
      */
+    get width(): number;
     /**
      * Pattern height in pixels.
      *
      * @param value Height (px)
      */
-    height: number;
+    set height(value: number);
     /**
-     * @return X (px)
+     * @return Height (px)
      */
+    get height(): number;
     /**
      * X position. (pixels)
      *
      * @param value X (px)
      */
-    x: number;
+    set x(value: number);
     /**
-     * @return Y (px)
+     * @return X (px)
      */
+    get x(): number;
     /**
      * Y position (px).
      *
      * @param value Y (px)
      */
-    y: number;
+    set y(value: number);
     /**
-     * @ignore Exclude from docs
-     * @return Paper
+     * @return Y (px)
      */
+    get y(): number;
     /**
      * [[Paper]] instance to draw pattern in.
      *
      * @ignore Exclude from docs
      * @param paper  Paper
      */
-    paper: Paper;
+    set paper(paper: Paper);
+    /**
+     * @ignore Exclude from docs
+     * @return Paper
+     */
+    get paper(): Paper;
     /**
      * Copies properties from another Pattern instance.
      *
@@ -268,10 +283,7 @@ export declare class Pattern extends BaseObject implements IAnimatable {
      * @ignore Exclude from docs
      * @return Animation list
      */
-    readonly animations: Array<Animation>;
-    /**
-     * @return `stroke-dasharray`
-     */
+    get animations(): Array<Animation>;
     /**
      * A `stroke-dasharray` for the stroke (outline).
      *
@@ -280,7 +292,11 @@ export declare class Pattern extends BaseObject implements IAnimatable {
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray} for more info on `stroke-dasharray`
      * @param value  `stroke-dasharray`
      */
-    strokeDasharray: string;
+    set strokeDasharray(value: string);
+    /**
+     * @return `stroke-dasharray`
+     */
+    get strokeDasharray(): string;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

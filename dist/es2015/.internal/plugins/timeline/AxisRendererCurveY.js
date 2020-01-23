@@ -1,7 +1,7 @@
 /**
  * Module, defining Axis Renderer for curved axes.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +26,7 @@ import { AxisBullet } from "../../charts/axes/AxisBullet";
  * A renderer for radial axis.
  */
 var AxisRendererCurveY = /** @class */ (function (_super) {
-    tslib_1.__extends(AxisRendererCurveY, _super);
+    __extends(AxisRendererCurveY, _super);
     /**
      * Constructor.
      *

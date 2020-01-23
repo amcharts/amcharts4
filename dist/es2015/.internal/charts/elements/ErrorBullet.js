@@ -1,7 +1,7 @@
 /**
  * Bullet module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +30,7 @@ import * as $path from "../../core/rendering/Path";
  * @important
  */
 var ErrorBullet = /** @class */ (function (_super) {
-    tslib_1.__extends(ErrorBullet, _super);
+    __extends(ErrorBullet, _super);
     /**
      * Constructor
      */

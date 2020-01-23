@@ -1,7 +1,7 @@
 /**
  * Funnel tick module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +26,7 @@ import * as $path from "../../core/rendering/Path";
  * @see {@link IFunnelTickAdapters} for a list of available Adapters
  */
 var FunnelTick = /** @class */ (function (_super) {
-    tslib_1.__extends(FunnelTick, _super);
+    __extends(FunnelTick, _super);
     /**
      * Constructor
      */

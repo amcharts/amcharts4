@@ -109,23 +109,24 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      *
      * @return Unique ID
      */
-    readonly uid: string;
-    /**
-     * @return Id
-     */
+    get uid(): string;
     /**
      * Sets the user-defined id of the element.
      *
      * @param value Id
      */
-    id: $type.Optional<string>;
+    set id(value: $type.Optional<string>);
+    /**
+     * @return Id
+     */
+    get id(): $type.Optional<string>;
     /**
      * Returns a universal collection for mapping ids with objects.
      *
      * @ignore Exclude from docs
      * @return Map collection
      */
-    readonly map: Dictionary<string, any>;
+    get map(): Dictionary<string, any>;
     /**
      * Applies properties from all assigned themes.
      *
@@ -133,16 +134,17 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      */
     applyTheme(): void;
     /**
-     * @ignore Exclude from docs
-     * @return An array of themes
-     */
-    /**
      * A list of themes to be used for this element.
      *
      * @ignore Exclude from docs
      * @param value An array of themes
      */
-    themes: $type.Optional<ITheme[]>;
+    set themes(value: $type.Optional<ITheme[]>);
+    /**
+     * @ignore Exclude from docs
+     * @return An array of themes
+     */
+    get themes(): $type.Optional<ITheme[]>;
     /**
      * Returns a list of themes that should be applied to this element. It could
      * either be a list of themes set explicitly on this element, or system-wide.
@@ -187,7 +189,7 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      * @ignore Exclude from docs
      * @return Clones
      */
-    readonly clones: List<this>;
+    get clones(): List<this>;
     /**
      * Copies all properties and related data from different element.
      *
@@ -195,16 +197,17 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      */
     copyFrom(object: this): void;
     /**
-     * @ignore Exclude from docs
-     * @return Class name
-     */
-    /**
      * Element's class name. (a class that was used to instantiate the element)
      *
      * @ignore Exclude from docs
      * @param value  Class name
      */
-    className: $type.Optional<string>;
+    set className(value: $type.Optional<string>);
+    /**
+     * @ignore Exclude from docs
+     * @return Class name
+     */
+    get className(): $type.Optional<string>;
     /**
      * Caches value in object's cache.
      *
@@ -270,7 +273,7 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      *
      * @param json JSON config
      */
-    config: object;
+    set config(config: object);
     /**
      * Processes the JSON config.
      *
@@ -401,7 +404,7 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      *
      * @return Errors
      */
-    protected readonly processingErrors: string[];
+    protected get processingErrors(): string[];
 }
 /**
  * Defines events for [[BaseObjectEvents]].
@@ -427,7 +430,7 @@ export declare class BaseObjectEvents extends BaseObject {
     /**
      * An [[EventDispatcher]] instance
      */
-    readonly events: EventDispatcher<AMEvent<this, this["_events"]>>;
+    get events(): EventDispatcher<AMEvent<this, this["_events"]>>;
     /**
      * Dispatches an event using own event dispatcher. Will automatically
      * populate event data object with event type and target (this element).

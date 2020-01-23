@@ -1,7 +1,7 @@
 /**
  * Candlestick Series module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -27,7 +27,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link DataItem}
  */
 var OHLCSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(OHLCSeriesDataItem, _super);
+    __extends(OHLCSeriesDataItem, _super);
     /**
      * Defines a type of [[Component]] this data item is used for
      * @todo Disabled to work around TS bug (see if we can re-enable it again)
@@ -60,7 +60,7 @@ export { OHLCSeriesDataItem };
  * @important
  */
 var OHLCSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(OHLCSeries, _super);
+    __extends(OHLCSeries, _super);
     /**
      * Constructor
      */

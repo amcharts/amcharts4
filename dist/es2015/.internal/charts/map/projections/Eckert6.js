@@ -33,7 +33,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * ```
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -48,7 +48,7 @@ import * as d3geoprojection from "d3-geo-projection";
  * Eckert6 projection.
  */
 var Eckert6 = /** @class */ (function (_super) {
-    tslib_1.__extends(Eckert6, _super);
+    __extends(Eckert6, _super);
     function Eckert6() {
         var _this = _super.call(this) || this;
         _this.d3Projection = d3geoprojection.geoEckert6();

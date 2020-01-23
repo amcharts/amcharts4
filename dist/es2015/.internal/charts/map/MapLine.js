@@ -1,7 +1,7 @@
 /**
  * Map line module
  */
-import * as tslib_1 from "tslib";
+import { __extends, __values } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -36,7 +36,7 @@ import * as $mapUtils from "./MapUtils";
  * @see {@link IMapLineAdapters} for a list of available Adapters
  */
 var MapLine = /** @class */ (function (_super) {
-    tslib_1.__extends(MapLine, _super);
+    __extends(MapLine, _super);
     /**
      * Constructor
      */
@@ -206,6 +206,7 @@ var MapLine = /** @class */ (function (_super) {
         configurable: true
     });
     MapLine.prototype.handleImagesToConnect = function () {
+        var e_1, _a;
         var _this = this;
         if (this.imagesToConnect) {
             var segment = [];
@@ -240,21 +241,20 @@ var MapLine = /** @class */ (function (_super) {
             };
             var this_1 = this;
             try {
-                for (var _a = tslib_1.__values(this.imagesToConnect), _b = _a.next(); !_b.done; _b = _a.next()) {
-                    var image = _b.value;
+                for (var _b = __values(this.imagesToConnect), _c = _b.next(); !_c.done; _c = _b.next()) {
+                    var image = _c.value;
                     _loop_1(image);
                 }
             }
             catch (e_1_1) { e_1 = { error: e_1_1 }; }
             finally {
                 try {
-                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                 }
                 finally { if (e_1) throw e_1.error; }
             }
             this.multiGeoLine = multiGeoLine;
         }
-        var e_1, _c;
     };
     /**
      * (Re)validates the line, effectively forcing it to redraw.

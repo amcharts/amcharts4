@@ -1,7 +1,7 @@
 /**
  * Slice module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +30,7 @@ import { RadialGradient } from "../rendering/fills/RadialGradient";
  * @see {@link ISliceAdapters} for a list of available Adapters
  */
 var Slice = /** @class */ (function (_super) {
-    tslib_1.__extends(Slice, _super);
+    __extends(Slice, _super);
     /**
      * Constructor
      */

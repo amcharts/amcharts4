@@ -4,7 +4,7 @@
  * If it's an element that is to be displayed on the screen at some point, its
  * class must extend [[Sprite]] class.
  */
-import * as tslib_1 from "tslib";
+import { __extends, __values } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -76,7 +76,7 @@ export var visualProperties = ["fill", "fillOpacity", "stroke", "strokeOpacity",
  * @important
  */
 var Sprite = /** @class */ (function (_super) {
-    tslib_1.__extends(Sprite, _super);
+    __extends(Sprite, _super);
     /**
      * Constructor:
      * * Creates initial node
@@ -624,6 +624,7 @@ var Sprite = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Sprite.prototype.afterDraw = function () {
+        var e_1, _a;
         if (this.isMeasured || this.horizontalCenter !== "none" || this.verticalCenter !== "none") {
             this.measureElement();
         }
@@ -632,8 +633,8 @@ var Sprite = /** @class */ (function (_super) {
             if (this._adapterO) {
                 try {
                     // used to be applySVGAttrbutes here, this is more efficient
-                    for (var _a = tslib_1.__values(this._adapterO.keys()), _b = _a.next(); !_b.done; _b = _a.next()) {
-                        var key = _b.value;
+                    for (var _b = __values(this._adapterO.keys()), _c = _b.next(); !_c.done; _c = _b.next()) {
+                        var key = _c.value;
                         switch (key) {
                             case "mask":
                             case "fill":
@@ -662,7 +663,7 @@ var Sprite = /** @class */ (function (_super) {
                 catch (e_1_1) { e_1 = { error: e_1_1 }; }
                 finally {
                     try {
-                        if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                        if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                     }
                     finally { if (e_1) throw e_1.error; }
                 }
@@ -693,7 +694,6 @@ var Sprite = /** @class */ (function (_super) {
                 this.hideTooltip(0);
             }
         }
-        var e_1, _c;
     };
     /**
      * Dispatches `"ready"` event. Sprite dispatches it right after `"inited"` event.
@@ -2425,10 +2425,10 @@ var Sprite = /** @class */ (function (_super) {
                 _this.defaultState.properties[propertyName] = currentValue;
             }
             //if (finalValue != currentValue && $type.hasValue(finalValue)) {
-            //if ($type.hasValue(finalValue)) {
-            var option = { from: currentValue, to: finalValue, property: propertyName };
-            options.push(option);
-            //}
+            if (finalValue != "__unset") {
+                var option = { from: currentValue, to: finalValue, property: propertyName };
+                options.push(option);
+            }
         });
         if (options.length > 0) {
             transition = this.animate(options, duration, easing);

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -19,7 +19,7 @@ import * as $path from "../../rendering/Path";
  * Line pattern.
  */
 var LinePattern = /** @class */ (function (_super) {
-    tslib_1.__extends(LinePattern, _super);
+    __extends(LinePattern, _super);
     /**
      * Constructor
      */

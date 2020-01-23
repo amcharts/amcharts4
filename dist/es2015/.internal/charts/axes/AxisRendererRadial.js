@@ -1,7 +1,7 @@
 /**
  * Module, defining Axis Renderer for radial axes.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,7 +29,7 @@ import { AxisBullet } from "./AxisBullet";
  * A renderer for radial axis.
  */
 var AxisRendererRadial = /** @class */ (function (_super) {
-    tslib_1.__extends(AxisRendererRadial, _super);
+    __extends(AxisRendererRadial, _super);
     /**
      * Constructor.
      *

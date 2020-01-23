@@ -116,9 +116,6 @@ export declare class DurationFormatter extends BaseObject {
      */
     protected invalidateSprite(): void;
     /**
-     * @return Base unit
-     */
-    /**
      * Base unit the values are in.
      *
      * A base unit will be used to recalculate the numeric value to millisecond
@@ -138,20 +135,25 @@ export declare class DurationFormatter extends BaseObject {
      * @default "s"
      * @param baseUnit  A base unit
      */
-    baseUnit: TimeUnit;
+    set baseUnit(baseUnit: TimeUnit);
     /**
-     * Getter for output format.
-     *
-     * @ignore Exclude from docs
-     * @return Output format
+     * @return Base unit
      */
+    get baseUnit(): TimeUnit;
     /**
      * Setter for output format: "svg" or "html.
      *
      * @ignore Exclude from docs
      * @param value  Output format
      */
-    outputFormat: string;
+    set outputFormat(outputFormat: string);
+    /**
+     * Getter for output format.
+     *
+     * @ignore Exclude from docs
+     * @return Output format
+     */
+    get outputFormat(): string;
     /**
      * Returns appropriate default format for the value.
      *
@@ -190,23 +192,25 @@ export declare class DurationFormatter extends BaseObject {
      */
     getMilliseconds(value: number, baseUnit?: TimeUnit): number;
     /**
-     * @return Format
-     */
-    /**
      * If set, this format will be used instead of the one determined dynamically
      * based on the basedUnit and range of values.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Available fomatting codes
      * @param value  Format
      */
-    durationFormat: string;
+    set durationFormat(value: string);
     /**
-     * @return Formats
+     * @return Format
      */
+    get durationFormat(): Optional<string>;
     /**
      * Duration formats for various combination of base units.
      *
      * @param value  Formats
      */
-    durationFormats: Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>;
+    set durationFormats(value: Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>);
+    /**
+     * @return Formats
+     */
+    get durationFormats(): Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>;
 }

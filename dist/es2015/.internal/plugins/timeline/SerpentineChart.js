@@ -1,7 +1,7 @@
 /**
  * Serpentine chart module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -25,7 +25,7 @@ import * as $utils from "../../core/utils/Utils";
  * @see {@link DataItem}
  */
 var SerpentineChartDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(SerpentineChartDataItem, _super);
+    __extends(SerpentineChartDataItem, _super);
     /**
      * Constructor
      */
@@ -53,7 +53,7 @@ export { SerpentineChartDataItem };
  * @important
  */
 var SerpentineChart = /** @class */ (function (_super) {
-    tslib_1.__extends(SerpentineChart, _super);
+    __extends(SerpentineChart, _super);
     /**
      * Constructor
      */

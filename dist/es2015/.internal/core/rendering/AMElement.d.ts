@@ -377,7 +377,7 @@ export declare class AMElement implements IDisposer {
      * @ignore Exclude from docs
      * @return Transform attribute value
      */
-    readonly transformString: $type.Optional<string>;
+    get transformString(): $type.Optional<string>;
     /**
      * Appply position, rotation and scale properties via elemen's `transform`
      * property
@@ -402,69 +402,73 @@ export declare class AMElement implements IDisposer {
      */
     moveTo(point: IPoint): void;
     /**
-     * Returns element's contents as SVG markup.
-     *
-     * @return Contents
-     */
-    /**
      * Element's SVG contents.
      *
      * @param value Contents
      */
-    content: string;
+    set content(value: string);
     /**
-     * @return Text contents
+     * Returns element's contents as SVG markup.
+     *
+     * @return Contents
      */
+    get content(): string;
     /**
      * Text contents of the SVG element.
      *
      * @param value Text contents
      */
-    textContent: string;
+    set textContent(value: string);
     /**
-     * @return X coordinate (px)
+     * @return Text contents
      */
+    get textContent(): string;
     /**
      * Element's X position in pixels.
      *
      * @param value  X coordinate (px)
      */
-    x: number;
+    set x(value: number);
     /**
-     * @return Y coordinate (px)
+     * @return X coordinate (px)
      */
+    get x(): number;
     /**
      * Element's Y position in pixels.
      *
      * @param value Y coordinate (px)
      */
-    y: number;
+    set y(value: number);
     /**
-     * @return Rotation
+     * @return Y coordinate (px)
      */
+    get y(): number;
     /**
      * Element's rotation in degrees.
      *
      * @param value Rotation
      */
-    rotation: number;
+    set rotation(angle: number);
+    /**
+     * @return Rotation
+     */
+    get rotation(): number;
     /**
      * @ignore
      */
+    set rotationX(x: number);
     /**
      * @ignore
      */
-    rotationX: number;
+    get rotationX(): number;
     /**
      * @ignore
      */
+    set rotationY(y: number);
     /**
      * @ignore
      */
-    rotationY: number;
-    /**
-     * @return Scale
-     */
+    get rotationY(): number;
     /**
      * Element's scale where 1 is original size.
      *
@@ -473,7 +477,11 @@ export declare class AMElement implements IDisposer {
      *
      * @param value Scale
      */
-    scale: number;
+    set scale(value: number);
+    /**
+     * @return Scale
+     */
+    get scale(): number;
     /**
      * Removes an attribute from element.
      *

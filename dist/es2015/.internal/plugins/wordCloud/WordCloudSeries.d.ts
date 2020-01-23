@@ -69,21 +69,22 @@ export declare class WordCloudSeriesDataItem extends SeriesDataItem {
      */
     show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation>;
     /**
-     * @return Word
-     */
-    /**
      * The word.
      *
      * @param  value  Word
      */
-    word: string;
+    set word(value: string);
+    /**
+     * @return Word
+     */
+    get word(): string;
     /**
      * A [Label] element, related to this data item (word).
      *
      * @readonly
      * @return Label element
      */
-    readonly label: this["_label"];
+    get label(): this["_label"];
 }
 /**
  * ============================================================================
@@ -284,7 +285,7 @@ export declare class WordCloudSeries extends Series {
      *
      * @return  Label elements
      */
-    readonly labels: ListTemplate<this["_label"]>;
+    get labels(): ListTemplate<this["_label"]>;
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
@@ -292,9 +293,6 @@ export declare class WordCloudSeries extends Series {
      * @return Data Item
      */
     protected createDataItem(): this["_dataItem"];
-    /**
-     * @return Color set
-     */
     /**
      * A color set to be used for each new word.
      *
@@ -329,23 +327,25 @@ export declare class WordCloudSeries extends Series {
      *
      * @param  value  Color set
      */
-    colors: ColorSet;
+    set colors(value: ColorSet);
+    /**
+     * @return Color set
+     */
+    get colors(): ColorSet;
     /**
      * [updateData description]
      */
     protected updateData(): void;
     /**
-     * @return Source text
-     */
-    /**
      * A source text to build word cloud from.
      *
      * @param  value  Source text
      */
-    text: string;
+    set text(value: string);
     /**
-     * @return Maximum words to show
+     * @return Source text
      */
+    get text(): string;
     /**
      * Maximum number of words to show.
      *
@@ -357,10 +357,11 @@ export declare class WordCloudSeries extends Series {
      *
      * @param  value  Maximum words to show
      */
-    maxCount: number;
+    set maxCount(value: number);
     /**
-     * @return  Minimum occurences
+     * @return Maximum words to show
      */
+    get maxCount(): number;
     /**
      * Minimum occurances for a word to be included in the cloud.
      *
@@ -370,10 +371,11 @@ export declare class WordCloudSeries extends Series {
      * @default 1
      * @param  value  Minimum occurences
      */
-    minValue: number;
+    set minValue(value: number);
     /**
-     * @return Words to exclude from the cloud
+     * @return  Minimum occurences
      */
+    get minValue(): number;
     /**
      * An array of words to exclude from the cloud.
      *
@@ -398,10 +400,11 @@ export declare class WordCloudSeries extends Series {
      *
      * @param  value  Words to exclude from the cloud
      */
-    excludeWords: string[];
+    set excludeWords(value: string[]);
     /**
-     * @return {number} Font size
+     * @return Words to exclude from the cloud
      */
+    get excludeWords(): string[];
     /**
      * Font size for the biggest words.
      *
@@ -417,10 +420,11 @@ export declare class WordCloudSeries extends Series {
      * @default 20%
      * @param  value  Font size
      */
-    maxFontSize: number | Percent;
+    set maxFontSize(value: number | Percent);
     /**
-     * @return Font size
+     * @return {number} Font size
      */
+    get maxFontSize(): number | Percent;
     /**
      * Font size for the smallest words.
      *
@@ -433,10 +437,11 @@ export declare class WordCloudSeries extends Series {
      * @default 2%
      * @param  value  Font size
      */
-    minFontSize: number | Percent;
+    set minFontSize(value: number | Percent);
     /**
-     * @return Randomness
+     * @return Font size
      */
+    get minFontSize(): number | Percent;
     /**
      * Randomness of word placement.
      *
@@ -448,10 +453,11 @@ export declare class WordCloudSeries extends Series {
      * @default 0.2
      * @param value Randomness
      */
-    randomness: number;
+    set randomness(value: number);
     /**
-     * @return Step
+     * @return Randomness
      */
+    get randomness(): number;
     /**
      * Step by which label is moved if its space is already occupied.
      *
@@ -463,10 +469,11 @@ export declare class WordCloudSeries extends Series {
      * @default 15
      * @param  value Step
      */
-    step: number;
+    set step(value: number);
     /**
-     * @return Accuracy
+     * @return Step
      */
+    get step(): number;
     /**
      * Accuracy setting when checking for overlapping of words.
      *
@@ -478,10 +485,11 @@ export declare class WordCloudSeries extends Series {
      * @default 5
      * @param  value  Accuracy
      */
-    accuracy: number;
+    set accuracy(value: number);
     /**
-     * @return Minimum word length
+     * @return Accuracy
      */
+    get accuracy(): number;
     /**
      * Minimum number of characters for a word to be included in the cloud.
      *
@@ -491,10 +499,11 @@ export declare class WordCloudSeries extends Series {
      * @default 1
      * @param {number} value Minimum word length
      */
-    minWordLength: number;
+    set minWordLength(value: number);
     /**
-     * @return Threshold
+     * @return Minimum word length
      */
+    get minWordLength(): number;
     /**
      * Rotation threshold.
      *
@@ -509,10 +518,11 @@ export declare class WordCloudSeries extends Series {
      * @default 0.7
      * @param  value  Threshold
      */
-    rotationThreshold: number;
+    set rotationThreshold(value: number);
     /**
-     * @return Angles
+     * @return Threshold
      */
+    get rotationThreshold(): number;
     /**
      * An array of available word rotation angles.
      *
@@ -521,12 +531,16 @@ export declare class WordCloudSeries extends Series {
      * @default [0, 0, 90]
      * @param  value  Angles
      */
-    angles: number[];
+    set angles(value: number[]);
+    /**
+     * @return Angles
+     */
+    get angles(): number[];
     /**
      * @ignore
      * Not finished yet
      */
-    readonly maskSprite: Sprite;
+    get maskSprite(): Sprite;
     /**
      * Copies all properties from another instance of [[WordCloudSeries]].
      *

@@ -1,7 +1,7 @@
 /**
  * Pointed rectangle module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -23,7 +23,7 @@ import * as $math from "../utils/Math";
  * @see {@link IPointedRectangleAdapters} for a list of available Adapters
  */
 var PointedRectangle = /** @class */ (function (_super) {
-    tslib_1.__extends(PointedRectangle, _super);
+    __extends(PointedRectangle, _super);
     /**
      * Constructor
      */

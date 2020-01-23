@@ -199,7 +199,7 @@ export class GlobalAdapter {
 			const item = callbacks[i];
 
 			if (item.key === key && type instanceof item.type) {
-				value = item.callback.call(item.scope, value, type, key);
+				value = (<any>item).callback.call(item.scope, value, type, key);
 			}
 		}
 

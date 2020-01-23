@@ -124,17 +124,15 @@ export declare class ClockHand extends Container {
      */
     validate(): void;
     /**
-     * @return Pin element
-     */
-    /**
      * A circle element used as hand's base. (pin)
      *
      * @param pin  Pin element
      */
-    pin: Circle;
+    set pin(pin: Circle);
     /**
-     * @return Hand element
+     * @return Pin element
      */
+    get pin(): Circle;
     /**
      * A trapezoid shape used for hand itself.
      *
@@ -145,10 +143,11 @@ export declare class ClockHand extends Container {
      *
      * @param hand  Hand element
      */
-    hand: Trapezoid;
+    set hand(hand: Trapezoid);
     /**
-     * @return Radius
+     * @return Hand element
      */
+    get hand(): Trapezoid;
     /**
      * Radius of the hand's outer end. (tip)
      *
@@ -157,10 +156,11 @@ export declare class ClockHand extends Container {
      * @default Percent(0)
      * @param value  Radius
      */
-    radius: number | Percent;
+    set radius(value: number | Percent);
     /**
      * @return Radius
      */
+    get radius(): number | Percent;
     /**
      * Radius of the hand's inner end. (base)
      *
@@ -169,37 +169,44 @@ export declare class ClockHand extends Container {
      * @default Percent(0)
      * @param value  Radius
      */
-    innerRadius: number | Percent;
+    set innerRadius(value: number | Percent);
     /**
-     * @return Width (px)
+     * @return Radius
      */
+    get innerRadius(): number | Percent;
     /**
      * Width, in pixels, of the clock hand's inner end. (base)
      *
      * @default 5
      * @param value  Width (px)
      */
-    startWidth: number;
+    set startWidth(value: number);
     /**
      * @return Width (px)
      */
+    get startWidth(): number;
     /**
      * Width, in pixels, of the clock hand's outer end. (tip)
      *
      * @default 1
      * @param value  Width (px)
      */
-    endWidth: number;
+    set endWidth(value: number);
     /**
-     * @return rotationDirection
+     * @return Width (px)
      */
+    get endWidth(): number;
     /**
      * Rotation direction
      *
      * @default any
      * @param value
      */
-    rotationDirection: "any" | "clockWise" | "counterClockWise";
+    set rotationDirection(value: "any" | "clockWise" | "counterClockWise");
+    /**
+     * @return rotationDirection
+     */
+    get rotationDirection(): "any" | "clockWise" | "counterClockWise";
     /**
      * Moves clock hand to particular value.
      *
@@ -214,17 +221,15 @@ export declare class ClockHand extends Container {
      */
     showValue(value: any, duration?: number, easing?: (value: number) => number): void;
     /**
-     * @return Value
-     */
-    /**
      * A current value clock hand is pointing to.
      *
      * @param value  Value
      */
-    value: any;
+    set value(value: any);
     /**
-     * @return Axis
+     * @return Value
      */
+    get value(): any;
     /**
      * An Axis clock hand is associated with.
      *
@@ -232,7 +237,11 @@ export declare class ClockHand extends Container {
      *
      * @param axis  Axis
      */
-    axis: Axis;
+    set axis(axis: Axis);
+    /**
+     * @return Axis
+     */
+    get axis(): Axis;
     /**
      * Triggers `value` accessor, so that Hand animates to new position, in case
      * value has changed.

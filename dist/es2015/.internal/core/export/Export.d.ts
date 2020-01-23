@@ -962,9 +962,6 @@ export declare class Export extends Validatable {
      */
     constructor(container: HTMLElement);
     /**
-     * @return ExportMenu instance
-     */
-    /**
      * An instance of [[ExportMenu]].
      *
      * To add an export menu to a chart, set this to a new instance of
@@ -987,7 +984,11 @@ export declare class Export extends Validatable {
      *
      * @param menu  ExportMenu instance
      */
-    menu: $type.Optional<ExportMenu>;
+    set menu(menu: $type.Optional<ExportMenu>);
+    /**
+     * @return ExportMenu instance
+     */
+    get menu(): $type.Optional<ExportMenu>;
     /**
      * Checks if this specific menu item type is supported by current system.
      *
@@ -1000,13 +1001,13 @@ export declare class Export extends Validatable {
      *
      * @return Has data?
      */
-    private _hasData();
+    private _hasData;
     /**
      * Get function to handle export for particular format.
      *
      * @ignore Exclude from docs
      */
-    private _getFunction<Key>(type);
+    private _getFunction;
     /**
      * Initiates export procedure.
      *
@@ -1096,7 +1097,7 @@ export declare class Export extends Validatable {
      * @param  canvas   Original canvas
      * @param  options  Options
      */
-    private addExtras(canvas, options?, advanced?);
+    private addExtras;
     /**
      * Returns canvas representation of the [[Sprite]].
      *
@@ -1339,7 +1340,7 @@ export declare class Export extends Validatable {
      * @param name  Source name
      * @return Normalized name
      */
-    private normalizeExcelSheetName(name);
+    private normalizeExcelSheetName;
     /**
      * Rertuns an array of values to be used as Excel row.
      *
@@ -1500,27 +1501,26 @@ export declare class Export extends Validatable {
      */
     findBackgroundColor(element: Element): Color;
     /**
-     * @return Reference
-     */
-    /**
      * A reference to a container to be used to place [[ExportMenu]] in.
      *
      * @param value Reference
      */
-    container: HTMLElement;
+    set container(value: HTMLElement);
     /**
-     * @return Sprite
+     * @return Reference
      */
+    get container(): HTMLElement;
     /**
      * A reference to [[Sprite]] to export. Can be any Sprite, including some
      * internal elements.
      *
      * @param value Sprite
      */
-    sprite: Sprite;
+    set sprite(value: Sprite);
     /**
      * @return Sprite
      */
+    get sprite(): Sprite;
     /**
      * An array of extra [[Sprite]] elements to include in export.
      *
@@ -1538,10 +1538,11 @@ export declare class Export extends Validatable {
      * @since 4.2.0
      * @param value Sprite
      */
-    extraSprites: Array<Sprite | IExportCanvas>;
+    set extraSprites(value: Array<Sprite | IExportCanvas>);
     /**
      * @return Sprite
      */
+    get extraSprites(): Array<Sprite | IExportCanvas>;
     /**
      * An array of [[Sprite]] elements that need to be valid before export
      * commences.
@@ -1596,19 +1597,21 @@ export declare class Export extends Validatable {
      * @since 4.6.8
      * @param value Sprite
      */
-    validateSprites: Array<Sprite>;
+    set validateSprites(value: Array<Sprite>);
     /**
-     * @return Data
+     * @return Sprite
      */
+    get validateSprites(): Array<Sprite>;
     /**
      * Data to export.
      *
      * @param value Data
      */
-    data: any;
+    set data(value: any);
     /**
-     * @return Field names `{ field: fieldName }`
+     * @return Data
      */
+    get data(): any;
     /**
      * Data fields in `{ field: fieldName }` format. Those are used for
      * exporting in data formats to name the columns.
@@ -1616,7 +1619,11 @@ export declare class Export extends Validatable {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/#Changing_order_and_names_of_columns} for examples and details
      * @param value Field names
      */
-    dataFields: any;
+    set dataFields(value: any);
+    /**
+     * @return Field names `{ field: fieldName }`
+     */
+    get dataFields(): any;
     /**
      * Called after target chart's data updates.
      *
@@ -1624,46 +1631,47 @@ export declare class Export extends Validatable {
      */
     handleDataUpdated(): void;
     /**
-     * @return A DateFormatter instance
-     */
-    /**
      * A [[DateFormatter]] to use when formatting dates when exporting data.
      *
      * @param value DateFormatter instance
      */
-    dateFormatter: DateFormatter;
+    set dateFormatter(value: DateFormatter);
     /**
-     * @return Date format
+     * @return A DateFormatter instance
      */
+    get dateFormatter(): DateFormatter;
     /**
      * A date format to use for exporting dates. Will use [[DateFormatter]]
      * format if not set.
      *
      * @param value Date format
      */
-    dateFormat: $type.Optional<string | Intl.DateTimeFormatOptions>;
+    set dateFormat(value: $type.Optional<string | Intl.DateTimeFormatOptions>);
     /**
-     * @return Date field list
+     * @return Date format
      */
+    get dateFormat(): $type.Optional<string | Intl.DateTimeFormatOptions>;
     /**
      * A list of fields that hold date values.
      *
      * @param value Date field list
      */
-    dateFields: List<string>;
+    set dateFields(value: List<string>);
     /**
-     * @return A NumberFormatter instance
+     * @return Date field list
      */
+    get dateFields(): List<string>;
     /**
      * A [[NumberFormatter]] to use when formatting dates when exporting data.
      *
      * @since 4.5.15
      * @param value NumberFormatter instance
      */
-    numberFormatter: NumberFormatter;
+    set numberFormatter(value: NumberFormatter);
     /**
-     * @return Number format
+     * @return A NumberFormatter instance
      */
+    get numberFormatter(): NumberFormatter;
     /**
      * A number format to use for exporting dates. Will use [[NumberFormatter]]
      * format if not set.
@@ -1671,46 +1679,54 @@ export declare class Export extends Validatable {
      * @since 4.5.15
      * @param value Number format
      */
-    numberFormat: $type.Optional<string>;
+    set numberFormat(value: $type.Optional<string>);
     /**
-     * @return Number field list
+     * @return Number format
      */
+    get numberFormat(): $type.Optional<string>;
     /**
      * A list of fields that hold number values.
      *
      * @since 4.5.15
      * @param value Number field list
      */
-    numberFields: List<string>;
+    set numberFields(value: List<string>);
     /**
-     * @return A DurationFormatter instance
+     * @return Number field list
      */
+    get numberFields(): List<string>;
     /**
      * A [[DurationFormatter]] to use when formatting duration values when
      * exporting data.
      *
      * @param value  DurationFormatter instance
      */
-    durationFormatter: DurationFormatter;
+    set durationFormatter(value: DurationFormatter);
     /**
-     * @return Duration format
+     * @return A DurationFormatter instance
      */
+    get durationFormatter(): DurationFormatter;
     /**
      * A format to use when formatting values from `durationFields`.
      * Will use [[DurationFormatter]] format if not set.
      *
      * @param value Duration format
      */
-    durationFormat: $type.Optional<string>;
+    set durationFormat(value: $type.Optional<string>);
     /**
-     * @return Duration field list
+     * @return Duration format
      */
+    get durationFormat(): $type.Optional<string>;
     /**
      * A list of fields that hold duration values.
      *
      * @param value Duration field list
      */
-    durationFields: List<string>;
+    set durationFields(value: List<string>);
+    /**
+     * @return Duration field list
+     */
+    get durationFields(): List<string>;
     /**
      * Generates data fields out of the first row of data.
      *
@@ -1755,9 +1771,6 @@ export declare class Export extends Validatable {
      */
     getContentType<Key extends keyof IExportOptions>(type: Key): string;
     /**
-     * @return File prefix
-     */
-    /**
      * A file prefix to be used for all exported formats.
      *
      * Export will apply format-related extension to it. E.g. if this is set to
@@ -1765,26 +1778,32 @@ export declare class Export extends Validatable {
      *
      * @param value File prefix
      */
-    filePrefix: string;
+    set filePrefix(value: string);
     /**
-     * @return Background color
+     * @return File prefix
      */
+    get filePrefix(): string;
     /**
      * A background color to be used for exported images. If set, this will
      * override the automatically acquired background color.
      *
      * @param value Color
      */
-    backgroundColor: $type.Optional<Color>;
+    set backgroundColor(value: $type.Optional<Color>);
     /**
-     * @return Title
+     * @return Background color
      */
+    get backgroundColor(): $type.Optional<Color>;
     /**
      * A title to be used when printing.
      *
      * @param value Title
      */
-    title: $type.Optional<string>;
+    set title(value: $type.Optional<string>);
+    /**
+     * @return Title
+     */
+    get title(): $type.Optional<string>;
     /**
      * Displays a preloader/exporting indicator.
      *
@@ -1804,7 +1823,7 @@ export declare class Export extends Validatable {
      *
      * @return Preloader
      */
-    readonly preloader: Preloader;
+    get preloader(): Preloader;
     /**
      * Displays a modal saying export is taking longer than expected.
      *
@@ -1818,21 +1837,22 @@ export declare class Export extends Validatable {
      */
     hideTimeout(): void;
     /**
-     * @return A [[Language]] instance to be used
-     */
-    /**
      * A [[Language]] instance to be used for translations.
      *
      * @param value An instance of [[Language]]
      */
-    language: Language;
+    set language(value: Language);
+    /**
+     * @return A [[Language]] instance to be used
+     */
+    get language(): Language;
     /**
      * Returns (and creates) [[Modal]].
      *
      * @ignore Exclude from docs
      * @return Modal instance
      */
-    readonly modal: Modal;
+    get modal(): Modal;
     /**
      * Shows [[Modal]] with specific text.
      *
@@ -1856,21 +1876,21 @@ export declare class Export extends Validatable {
      * @return Instance of canvg
      * @async
      */
-    private _canvg();
+    private _canvg;
     /**
      * Returns canvg instance.
      *
      * @ignore Exclude from docs
      * @return Instance of canvg
      */
-    readonly canvg: Promise<any>;
+    get canvg(): Promise<any>;
     /**
      * Returns pdfmake instance.
      *
      * @ignore Exclude from docs
      * @return Instance of pdfmake
      */
-    readonly pdfmake: Promise<any>;
+    get pdfmake(): Promise<any>;
     /**
      * Loads xlsx dynamic module.
      *
@@ -1881,14 +1901,14 @@ export declare class Export extends Validatable {
      * @return Instance of pdfmake
      * @async
      */
-    private _xlsx();
+    private _xlsx;
     /**
      * Returns xlsx instance.
      *
      * @ignore Exclude from docs
      * @return Instance of pdfmake
      */
-    readonly xlsx: Promise<any>;
+    get xlsx(): Promise<any>;
     /**
      * Sets options for a format.
      */
@@ -1908,11 +1928,11 @@ export declare class Export extends Validatable {
     /**
      * Hides all elements that should not be included in the exported image.
      */
-    private hideNonExportableSprites();
+    private hideNonExportableSprites;
     /**
      * Respores elements that were hidden before export.
      */
-    private restoreNonExportableSprites();
+    private restoreNonExportableSprites;
     /**
      * Checks if there are elements that absolutely need to be validated before
      * export.
@@ -1921,7 +1941,7 @@ export declare class Export extends Validatable {
      *
      * @return Promise
      */
-    private awaitValidSprites();
+    private awaitValidSprites;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

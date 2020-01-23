@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -23,7 +23,7 @@ import * as $type from "../../core/utils/Type";
  * @todo Needs description
  */
 var AxisFillCircular = /** @class */ (function (_super) {
-    tslib_1.__extends(AxisFillCircular, _super);
+    __extends(AxisFillCircular, _super);
     /**
      * Constructor.
      *

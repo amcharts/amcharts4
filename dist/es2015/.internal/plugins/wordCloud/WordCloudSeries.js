@@ -1,7 +1,7 @@
 /**
  * Defines WordCloud series.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -34,7 +34,7 @@ import { Disposer } from "../../core/utils/Disposer";
  * @see {@link DataItem}
  */
 var WordCloudSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(WordCloudSeriesDataItem, _super);
+    __extends(WordCloudSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -156,7 +156,7 @@ export { WordCloudSeriesDataItem };
  * @see {@link IWordCloudSeriesAdapters} for a list of available Adapters
  */
 var WordCloudSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(WordCloudSeries, _super);
+    __extends(WordCloudSeries, _super);
     /**
      * Constructor
      */

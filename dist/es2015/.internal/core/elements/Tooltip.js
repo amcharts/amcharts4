@@ -1,7 +1,7 @@
 /**
  * Provides functionality used to creating and showing tooltips (balloons).
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -31,7 +31,7 @@ import * as $utils from "../utils/Utils";
  * @see {@link ITooltipAdapters} for a list of available Adapters
  */
 var Tooltip = /** @class */ (function (_super) {
-    tslib_1.__extends(Tooltip, _super);
+    __extends(Tooltip, _super);
     /**
      * Constructor
      */

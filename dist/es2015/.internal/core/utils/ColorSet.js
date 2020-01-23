@@ -1,7 +1,7 @@
 /**
  * This module contains ColorSet object definition
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -27,7 +27,7 @@ import * as $utils from "./Utils";
  * @see {@link https://www.amcharts.com/docs/v4/concepts/colors/} for color-related info
  */
 var ColorSet = /** @class */ (function (_super) {
-    tslib_1.__extends(ColorSet, _super);
+    __extends(ColorSet, _super);
     /**
      * Constructor
      */

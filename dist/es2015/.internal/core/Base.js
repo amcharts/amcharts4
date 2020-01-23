@@ -1,7 +1,7 @@
 /**
  * Base functionality
 */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 import { List, ListTemplate } from "./utils/List";
 import { OrderedListTemplate, SortedListTemplate } from "./utils/SortedList";
 import { Dictionary, DictionaryTemplate } from "./utils/Dictionary";
@@ -1026,7 +1026,7 @@ export { BaseObject };
  * [[BaseObject]] directly.
  */
 var BaseObjectEvents = /** @class */ (function (_super) {
-    tslib_1.__extends(BaseObjectEvents, _super);
+    __extends(BaseObjectEvents, _super);
     /**
      * Constructor
      */

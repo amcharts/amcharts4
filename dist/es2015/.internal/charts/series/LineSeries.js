@@ -1,7 +1,7 @@
 /**
  * Line series module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -38,7 +38,7 @@ import { Bullet } from "../elements/Bullet";
  * @see {@link DataItem}
  */
 var LineSeriesDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(LineSeriesDataItem, _super);
+    __extends(LineSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -65,7 +65,7 @@ export { LineSeriesDataItem };
  * @important
  */
 var LineSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(LineSeries, _super);
+    __extends(LineSeries, _super);
     /**
      * Constructor
      */

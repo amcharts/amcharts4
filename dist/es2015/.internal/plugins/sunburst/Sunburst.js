@@ -1,7 +1,7 @@
 /**
  * Sunburst chart module.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +30,7 @@ import { DictionaryTemplate, DictionaryDisposer } from "../../core/utils/Diction
  * @see {@link DataItem}
  */
 var SunburstDataItem = /** @class */ (function (_super) {
-    tslib_1.__extends(SunburstDataItem, _super);
+    __extends(SunburstDataItem, _super);
     /**
      * Constructor
      */
@@ -223,7 +223,7 @@ export { SunburstDataItem };
  * @important
  */
 var Sunburst = /** @class */ (function (_super) {
-    tslib_1.__extends(Sunburst, _super);
+    __extends(Sunburst, _super);
     /**
      * Constructor
      */

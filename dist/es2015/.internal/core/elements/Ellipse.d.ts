@@ -73,9 +73,6 @@ export declare class Ellipse extends Circle {
      */
     protected draw(): void;
     /**
-     * @return Vertical radius
-     */
-    /**
      * Vertical radius.
      *
      * It's a relative size to the `radius`.
@@ -85,14 +82,19 @@ export declare class Ellipse extends Circle {
      *
      * @param value  Vertical radius
      */
-    radiusY: number;
+    set radiusY(value: number);
     /**
-     * @return Horizontal radius
+     * @return Vertical radius
      */
+    get radiusY(): number;
     /**
      * Horizontal radius.
      *
      * @param value  Horizontal radius
      */
-    radius: number;
+    set radius(value: number);
+    /**
+     * @return Horizontal radius
+     */
+    get radius(): number;
 }

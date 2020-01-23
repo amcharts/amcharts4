@@ -1,7 +1,7 @@
 /**
  * Module that defines everything related to building StockPanels.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +30,7 @@ import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
  * @important
  */
 var StockPanel = /** @class */ (function (_super) {
-    tslib_1.__extends(StockPanel, _super);
+    __extends(StockPanel, _super);
     /**
      * Constructor
      */

@@ -104,48 +104,49 @@ export declare class Trapezoid extends Sprite {
      */
     draw(): void;
     /**
-     * @return Width
-     */
-    /**
      * Wdith of the top side. Absolute (px) or relative ([[Percent]]).
      *
      * @default Percent(100)
      * @param value  Width
      */
-    topSide: number | Percent;
+    set topSide(value: number | Percent);
     /**
      * @return Width
      */
+    get topSide(): number | Percent;
     /**
      * Wdith of the bottom side. Absolute (px) or relative ([[Percent]]).
      *
      * @default Percent(100)
      * @param value  Width
      */
-    bottomSide: number | Percent;
+    set bottomSide(value: number | Percent);
     /**
-     * @return Height
+     * @return Width
      */
+    get bottomSide(): number | Percent;
     /**
      * Height of the left side. Absolute (px) or relative ([[Percent]]).
      *
      * @default Percent(100)
      * @param value  Height
      */
-    leftSide: number | Percent;
+    set leftSide(value: number | Percent);
     /**
      * @return Height
      */
+    get leftSide(): number | Percent;
     /**
      * Height of the right side. Absolute (px) or relative ([[Percent]]).
      *
      * @default Percent(100)
      * @param value  Height
      */
-    rightSide: number | Percent;
+    set rightSide(value: number | Percent);
     /**
-     * @return Horizontal neck position
+     * @return Height
      */
+    get rightSide(): number | Percent;
     /**
      * A relative vertical position of the "neck". If the top and bottom sides
      * are of different width, and `horizontalNeck` is set, a choke point
@@ -153,10 +154,11 @@ export declare class Trapezoid extends Sprite {
      *
      * @param value  Horizontal neck position
      */
-    horizontalNeck: Percent;
+    set horizontalNeck(value: Percent);
     /**
-     * @return Vertical neck position
+     * @return Horizontal neck position
      */
+    get horizontalNeck(): Percent;
     /**
      * A relative horizontal position of the "neck". If the left and right sides
      * are of different height, and `verticalNeck` is set, a choke point
@@ -164,5 +166,9 @@ export declare class Trapezoid extends Sprite {
      *
      * @param value  Vertical neck position
      */
-    verticalNeck: Percent;
+    set verticalNeck(value: Percent);
+    /**
+     * @return Vertical neck position
+     */
+    get verticalNeck(): Percent;
 }

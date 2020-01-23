@@ -172,19 +172,17 @@ export declare class CurveLineSeries extends LineSeries {
      */
     protected drawSegment(segment: LineSeriesSegment, points: IPoint[], closePoints: IPoint[]): void;
     /**
-     * @return Connect?
-     */
-    /**
      * Should the last and and first data points be connected, forming a complete
      * closed circle?
      *
      * @default false
      * @param  value  Connect?
      */
-    connectEnds: boolean;
+    set connectEnds(value: boolean);
     /**
-     * @return Top offset
+     * @return Connect?
      */
+    get connectEnds(): boolean;
     /**
      * A relative part of an series elements allowed outside of the outer edge of
      * the "plot area".
@@ -192,10 +190,11 @@ export declare class CurveLineSeries extends LineSeries {
      * @default 0.2
      * @param  value  Top offset
      */
-    topOffset: number;
+    set topOffset(value: number);
     /**
-     * @return Bottom offset
+     * @return Top offset
      */
+    get topOffset(): number;
     /**
      * A relative part of an series elements allowed outside of the inner edge of
      * the "plot area".
@@ -203,7 +202,11 @@ export declare class CurveLineSeries extends LineSeries {
      * @default 0.2
      * @param  value  Bottom offset
      */
-    bottomOffset: number;
+    set bottomOffset(value: number);
+    /**
+     * @return Bottom offset
+     */
+    get bottomOffset(): number;
     /**
      * [positionBulletReal description]
      *

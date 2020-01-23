@@ -3,7 +3,7 @@
  *
  * AmChartsLogo shows amCharts logo for non-commercial users of a library.
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +30,7 @@ import { DesaturateFilter } from "../rendering/filters/DesaturateFilter";
  * @ignore Exclude from docs
  */
 var AmChartsLogo = /** @class */ (function (_super) {
-    tslib_1.__extends(AmChartsLogo, _super);
+    __extends(AmChartsLogo, _super);
     /**
      * Constructor
      */

@@ -1,7 +1,7 @@
 /**
  * Axis Label module
  */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -28,7 +28,7 @@ import { Percent } from "../../core/utils/Percent";
  * @see {@link IAxisLabelCircularAdapters} for a list of available Adapters
  */
 var AxisLabelCircular = /** @class */ (function (_super) {
-    tslib_1.__extends(AxisLabelCircular, _super);
+    __extends(AxisLabelCircular, _super);
     /**
      * Constructor
      */
