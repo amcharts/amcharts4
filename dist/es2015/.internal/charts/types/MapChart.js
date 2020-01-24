@@ -147,6 +147,12 @@ var MapChart = /** @class */ (function (_super) {
         //this.events.on("validated", this.updateExtremes, this);
         //this.events.on("datavalidated", this.handleAllValidated, this, false);
         //this.events.on("datavalidated", this.updateExtremes, this, false);
+        _this.events.on("maxsizechanged", function (event) {
+            if (event.previousWidth == 0 || event.previousHeight == 0) {
+                _this.updateExtremes();
+                _this.updateCenterGeoPoint();
+            }
+        }, undefined, false);
         // Set up main chart container, e.g. set backgrounds and events to monitor
         // size changes, etc.
         var chartContainer = _this.chartContainer;
@@ -891,6 +897,9 @@ var MapChart = /** @class */ (function (_super) {
         if (mapObject instanceof MapPolygon) {
             var dataItem_1 = mapObject.dataItem;
             var bbox = mapObject.polygon.bbox;
+            if (bbox.width == 0 || bbox.height == 0) {
+                bbox = mapObject.polygon.group.getBBox();
+            }
             if (!$type.isNumber(zoomLevel)) {
                 zoomLevel = Math.min(this.seriesWidth / bbox.width, this.seriesHeight / bbox.height);
             }

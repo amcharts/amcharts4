@@ -756,14 +756,14 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		// the following is needed to avoid grid flickering while scrolling
 		this._intervalDuration = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
-		this._gridDate = $time.round(new Date(this.minZoomed - $time.getDuration(gridInterval.timeUnit, gridInterval.count)), gridInterval.timeUnit, gridInterval.count, this._firstWeekDay, this._df.utc, new Date(this.min));
+		this._gridDate = $time.round(new Date(this.minZoomed - $time.getDuration(gridInterval.timeUnit, gridInterval.count)), gridInterval.timeUnit, gridInterval.count, this._firstWeekDay, this._df.utc, new Date(this.min), this._df.timezoneOffset);
 
 		// tell series start/end
 		$iter.each(this.series.iterator(), (series) => {
 			if (series.baseAxis == this) {
 				let field = <keyof XYSeriesDataItem>series.getAxisField(this);
 
-				let minZoomed = $time.round(new Date(this._minZoomed), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
+				let minZoomed = $time.round(new Date(this._minZoomed), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc, undefined, this._df.timezoneOffset).getTime();
 				let minZoomedStr = minZoomed.toString();
 				let startDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(minZoomedStr + series.currentDataSetId);
 
@@ -779,7 +779,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				}
 				// 1 millisecond is removed so that if only first item is selected, it would not count in the second.
 				let baseInterval = this.baseInterval;
-				let maxZoomed = $time.add($time.round(new Date(this._maxZoomed), baseInterval.timeUnit, baseInterval.count, this._firstWeekDay, this._df.utc), baseInterval.timeUnit, baseInterval.count, this._df.utc).getTime();
+				let maxZoomed = $time.add($time.round(new Date(this._maxZoomed), baseInterval.timeUnit, baseInterval.count, this._firstWeekDay, this._df.utc, undefined, this._df.timezoneOffset), baseInterval.timeUnit, baseInterval.count, this._df.utc, this._df.timezoneOffset).getTime();
 
 				let maxZoomedStr = maxZoomed.toString();
 				let endDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(maxZoomedStr + series.currentDataSetId);
@@ -950,7 +950,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					let date = dataItem.getDate(key);
 					if (date) {
 						let time = date.getTime();
-						let roundedDate = $time.round(new Date(time), interval.timeUnit, interval.count, this._df.firstDayOfWeek, this._df.utc);
+						let roundedDate = $time.round(new Date(time), interval.timeUnit, interval.count, this._df.firstDayOfWeek, this._df.utc, undefined, this._df.timezoneOffset);
 						let currentTime = roundedDate.getTime();
 						// changed period								
 						if (previousTime < currentTime) {
@@ -1098,9 +1098,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			let date: Date = dataItem.getDate(key);
 			let time = date.getTime();
 
-			let startDate: Date = $time.round(new Date(time), interval.timeUnit, interval.count, this._firstWeekDay, this._df.utc);
+			let startDate: Date = $time.round(new Date(time), interval.timeUnit, interval.count, this._firstWeekDay, this._df.utc, undefined, this._df.timezoneOffset);
 			let startTime = startDate.getTime();
-			let endDate: Date = $time.add(new Date(startTime), interval.timeUnit, interval.count, this._df.utc);
+			let endDate: Date = $time.add(new Date(startTime), interval.timeUnit, interval.count, this._df.utc, this._df.timezoneOffset);
 
 			dataItem.setCalculatedValue(key, startTime, "open");
 			dataItem.setCalculatedValue(key, endDate.getTime(), "close");
@@ -1130,11 +1130,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				this._axisBreaks.clear(); // TODO: what about breaks added by user?
 			}
 
-			let date: Date = $time.round(new Date(this.min), timeUnit, count, this._firstWeekDay, this._df.utc);
+			let date: Date = $time.round(new Date(this.min), timeUnit, count, this._firstWeekDay, this._df.utc, undefined, this._df.timezoneOffset);
 			let axisBreak: DateAxisBreak;
 
 			while (date.getTime() < this.max - this.baseDuration) {
-				$time.add(date, timeUnit, count, this._df.utc);
+				$time.add(date, timeUnit, count, this._df.utc, this._df.timezoneOffset);
 
 				let startTime: number = date.getTime();
 				let startTimeStr: string = startTime.toString();
@@ -1177,9 +1177,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				axisBreaks.each((axisBreak) => {
 					let breakGridCount: number = Math.ceil(this._gridCount * (Math.min(this.end, axisBreak.endPosition) - Math.max(this.start, axisBreak.startPosition)) / (this.end - this.start));
 					axisBreak.gridInterval = this.chooseInterval(0, axisBreak.adjustedEndValue - axisBreak.adjustedStartValue, breakGridCount);
-					let gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, this._firstWeekDay, this._df.utc);
+					let gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, this._firstWeekDay, this._df.utc, undefined, this._df.timezoneOffset);
 					if (gridDate.getTime() > axisBreak.startDate.getTime()) {
-						$time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, this._df.utc);
+						$time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, this._df.utc, this._df.timezoneOffset);
 					}
 
 					axisBreak.gridDate = gridDate;
@@ -1211,21 +1211,21 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		let timeUnit: TimeUnit = this._gridInterval.timeUnit;
 		let realIntervalCount: number = this._gridInterval.count;
 		// round date
-		$time.round(date, timeUnit, 1, this._firstWeekDay, this._df.utc);
+		$time.round(date, timeUnit, 1, this._firstWeekDay, this._df.utc, undefined, this._df.timezoneOffset);
 
 		let prevTimestamp: number = date.getTime();
 
 		let newDate: Date = $time.copy(date);
 		// modify date by adding intervalcount
-		let timestamp: number = $time.add(newDate, timeUnit, intervalCount, this._df.utc).getTime();
+		let timestamp: number = $time.add(newDate, timeUnit, intervalCount, this._df.utc, this._df.timezoneOffset).getTime();
 
 		// if it's axis break, get first rounded date which is not in a break
 		let axisBreak: DateAxisBreak = <DateAxisBreak>this.isInBreak(timestamp);
 		if (axisBreak && axisBreak.endDate) {
 			newDate = new Date(axisBreak.endDate.getTime());
-			$time.round(newDate, timeUnit, realIntervalCount, this._firstWeekDay, this._df.utc);
+			$time.round(newDate, timeUnit, realIntervalCount, this._firstWeekDay, this._df.utc, undefined, this._df.timezoneOffset);
 			if (newDate.getTime() < axisBreak.endDate.getTime()) {
-				$time.add(newDate, timeUnit, realIntervalCount, this._df.utc);
+				$time.add(newDate, timeUnit, realIntervalCount, this._df.utc, this._df.timezoneOffset);
 			}
 			timestamp = newDate.getTime();
 		}
@@ -1255,8 +1255,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public getBreaklessDate(axisBreak: DateAxisBreak, timeUnit: TimeUnit, count: number): Date {
 		let date = new Date(axisBreak.endValue);
-		$time.round(date, timeUnit, count, this._firstWeekDay, this._df.utc);
-		$time.add(date, timeUnit, count, this._df.utc);
+		$time.round(date, timeUnit, count, this._firstWeekDay, this._df.utc, undefined, this._df.timezoneOffset);
+		$time.add(date, timeUnit, count, this._df.utc, this._df.timezoneOffset);
 
 		let timestamp = date.getTime();
 
@@ -1292,7 +1292,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				timestamp = date.getTime();
 
 				let endDate = $time.copy(date); // you might think it's easier to add intervalduration to timestamp, however it won't work for months or years which are not of the same length
-				endDate = $time.add(endDate, timeUnit, intervalCount, this._df.utc);
+				endDate = $time.add(endDate, timeUnit, intervalCount, this._df.utc, this._df.timezoneOffset);
 
 				let format = this.dateFormats.getKey(timeUnit);
 
@@ -1340,11 +1340,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 							let count: number = 0;
 							while (timestamp <= axisBreak.adjustedMax) {
 								let date: Date = $time.copy(axisBreak.gridDate);
-								timestamp = $time.add(date, timeUnit, intervalCount * count, this._df.utc).getTime();
+								timestamp = $time.add(date, timeUnit, intervalCount * count, this._df.utc, this._df.timezoneOffset).getTime();
 								count++;
 								if (timestamp > axisBreak.adjustedStartValue && timestamp < axisBreak.adjustedEndValue) {
 									let endDate = $time.copy(date); // you might think it's easier to add intervalduration to timestamp, however it won't work for months or years which are not of the same length
-									endDate = $time.add(endDate, timeUnit, intervalCount, this._df.utc);
+									endDate = $time.add(endDate, timeUnit, intervalCount, this._df.utc, this._df.timezoneOffset);
 
 									let format = this.dateFormats.getKey(timeUnit);
 
@@ -1492,8 +1492,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		// like this because months are not equal
 		let interval = this.baseInterval;
 
-		let startTime = $time.round(new Date(value), interval.timeUnit, interval.count, this._firstWeekDay, this._df.utc).getTime();
-		let endTime = $time.add(new Date(startTime), interval.timeUnit, interval.count, this._df.utc).getTime();
+		let startTime = $time.round(new Date(value), interval.timeUnit, interval.count, this._firstWeekDay, this._df.utc, undefined, this._df.timezoneOffset).getTime();
+		let endTime = $time.add(new Date(startTime), interval.timeUnit, interval.count, this._df.utc, this._df.timezoneOffset).getTime();
 
 		return startTime + (endTime - startTime) * this.startLocation;
 	}
@@ -1508,8 +1508,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		// like this because months are not equal
 		let interval = this.baseInterval;
 
-		let startTime = $time.round(new Date(value), interval.timeUnit, interval.count, this._firstWeekDay, this._df.utc).getTime();
-		let endTime = $time.add(new Date(startTime), interval.timeUnit, interval.count, this._df.utc).getTime();
+		let startTime = $time.round(new Date(value), interval.timeUnit, interval.count, this._firstWeekDay, this._df.utc, undefined, this._df.timezoneOffset).getTime();
+		let endTime = $time.add(new Date(startTime), interval.timeUnit, interval.count, this._df.utc, this._df.timezoneOffset).getTime();
 
 		return startTime + (endTime - startTime) * this.endLocation;
 	}
@@ -2015,7 +2015,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	public getTooltipText(position: number): string {
 		let text: string;
 		let date = this.positionToDate(position);
-		date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc, new Date(this.min));
+		date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc, new Date(this.min), this._df.timezoneOffset);
 
 		if ($type.hasValue(this.tooltipDateFormat)) {
 			text = this._df.format(date, this.tooltipDateFormat);
@@ -2052,10 +2052,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		let date: Date = this.positionToDate(position);
 
-		$time.round(date, timeUnit, count, this._firstWeekDay, this._df.utc);
+		$time.round(date, timeUnit, count, this._firstWeekDay, this._df.utc, undefined, this._df.timezoneOffset);
 
 		if (location > 0) {
-			$time.add(date, timeUnit, location * count, this._df.utc);
+			$time.add(date, timeUnit, location * count, this._df.utc, this._df.timezoneOffset);
 		}
 
 		if (axisLocation > 0 && axisLocation < 1) {
@@ -2064,7 +2064,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		if (this.isInBreak(date.getTime())) {
 			while (date.getTime() < this.max) {
-				$time.add(date, timeUnit, count, this._df.utc);
+				$time.add(date, timeUnit, count, this._df.utc, this._df.timezoneOffset);
 				if (!this.isInBreak(date.getTime())) {
 					break;
 				}
@@ -2115,7 +2115,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	public getSeriesDataItem(series: XYSeries, position: number, findNearest?: boolean): XYSeriesDataItem {
 
 		let value: number = this.positionToValue(position);
-		let date: Date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc);
+		let date: Date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc, undefined, this._df.timezoneOffset);
 
 
 		let dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);

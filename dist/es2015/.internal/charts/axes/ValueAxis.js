@@ -171,6 +171,7 @@ var ValueAxis = /** @class */ (function (_super) {
         _this.setPropertyValue("extraMax", 0);
         _this.setPropertyValue("strictMinMax", false);
         _this.setPropertyValue("maxPrecision", Number.MAX_VALUE);
+        _this.setPropertyValue("extraTooltipPrecision", 0);
         _this.keepSelection = false;
         _this.includeRangesInMinMax = false;
         // Apply theme
@@ -341,11 +342,13 @@ var ValueAxis = /** @class */ (function (_super) {
             var max = this.positionToValue(this.end);
             var differece = this.adjustDifference(min, max);
             var minMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);
+            var stepDecimalPlaces = $utils.decimalPlaces(minMaxStep.step);
+            this._stepDecimalPlaces = stepDecimalPlaces;
+            min = $math.round(min, stepDecimalPlaces);
+            max = $math.round(max, stepDecimalPlaces);
+            minMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);
             var step = minMaxStep.step;
-            this._stepDecimalPlaces = $utils.decimalPlaces(step);
             if (this.syncWithAxis) {
-                min = $math.round(min, this._stepDecimalPlaces);
-                max = $math.round(max, this._stepDecimalPlaces);
                 var calculated = this.getCache(min + "-" + max);
                 if ($type.isNumber(calculated)) {
                     step = calculated;
@@ -1592,6 +1595,36 @@ var ValueAxis = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ValueAxis.prototype, "extraTooltipPrecision", {
+        /**
+         * @return Extra decimals
+         */
+        get: function () {
+            return this.getPropertyValue("extraTooltipPrecision");
+        },
+        /**
+         * This setting allows using bigger precision for numbers displayed in axis
+         * tooltip.
+         *
+         * Please note that this setting indicates additional decimal places to
+         * automatically-calculated axis number precision.
+         *
+         * So if your axis displays numbers like 0.1, 0.2, etc. (one decimal place),
+         * and you set `extraTooltipPrecision = 1`, tooltips will display numbers
+         * like 0.12, 0.25, etc. (two decimal places).
+         *
+         * @default 0
+         * @since 4.8.3
+         * @param  value  Extra decimals
+         */
+        set: function (value) {
+            if (this.setPropertyValue("extraTooltipPrecision", value)) {
+                this.invalidate();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Invalidates axis data items when series extremes change
      */
@@ -1747,7 +1780,7 @@ var ValueAxis = /** @class */ (function (_super) {
      * @return Label (numeric value)
      */
     ValueAxis.prototype.getTooltipText = function (position) {
-        var value = $math.round(this.positionToValue(position), this._stepDecimalPlaces);
+        var value = $math.round(this.positionToValue(position), this._stepDecimalPlaces + this.extraTooltipPrecision);
         var valueStr = this.tooltip.numberFormatter.format(value);
         if (!this._adapterO) {
             return valueStr;
@@ -1887,12 +1920,18 @@ var ValueAxis = /** @class */ (function (_super) {
          * @param  axis  Target axis
          */
         set: function (axis) {
+            var _this = this;
             if (this.setPropertyValue("syncWithAxis", axis, true)) {
                 if (axis) {
                     this._disposers.push(axis.events.on("extremeschanged", this.handleSelectionExtremesChange, this, false));
                     this._disposers.push(axis.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this, false));
                     this.events.on("shown", this.handleSelectionExtremesChange, this, false);
-                    this.events.on("maxsizechanged", this.handleSelectionExtremesChange, this, false);
+                    this.events.on("maxsizechanged", function () {
+                        _this.clearCache();
+                        _this._disposers.push(registry.events.once("exitframe", function () {
+                            _this.handleSelectionExtremesChange();
+                        }));
+                    }, this, false);
                 }
             }
         },

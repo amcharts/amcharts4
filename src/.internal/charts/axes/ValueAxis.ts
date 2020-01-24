@@ -123,6 +123,7 @@ export interface IValueAxisProperties extends IAxisProperties {
 	strictMinMax?: boolean;
 	logarithmic?: boolean;
 	maxPrecision?: number;
+	extraTooltipPrecision?: number;
 	extraMin?: number;
 	extraMax?: number;
 	keepSelection?: boolean;
@@ -419,6 +420,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		this.setPropertyValue("extraMax", 0);
 		this.setPropertyValue("strictMinMax", false);
 		this.setPropertyValue("maxPrecision", Number.MAX_VALUE);
+		this.setPropertyValue("extraTooltipPrecision", 0);
 		this.keepSelection = false;
 		this.includeRangesInMinMax = false;
 
@@ -593,17 +595,19 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			let max: number = this.positionToValue(this.end);
 
 			let differece: number = this.adjustDifference(min, max);
+			let minMaxStep: IMinMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);						
 
-			let minMaxStep: IMinMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);			
-			let step = minMaxStep.step;
-			
-			this._stepDecimalPlaces = $utils.decimalPlaces(step);
+			let stepDecimalPlaces = $utils.decimalPlaces(minMaxStep.step);
+			this._stepDecimalPlaces = stepDecimalPlaces;
+
+			min = $math.round(min, stepDecimalPlaces);
+			max = $math.round(max, stepDecimalPlaces);			
+
+			minMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);			
+			let step = minMaxStep.step;			
 
 			if (this.syncWithAxis) {
-				min = $math.round(min, this._stepDecimalPlaces);
-				max = $math.round(max, this._stepDecimalPlaces);
-
-				let calculated = this.getCache(min + "-" + max);
+				let calculated = this.getCache(min + "-" + max);				
 				if ($type.isNumber(calculated)) {
 					step = calculated;
 				}
@@ -2013,6 +2017,34 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	}
 
 	/**
+	 * This setting allows using bigger precision for numbers displayed in axis
+	 * tooltip.
+	 *
+	 * Please note that this setting indicates additional decimal places to
+	 * automatically-calculated axis number precision.
+	 *
+	 * So if your axis displays numbers like 0.1, 0.2, etc. (one decimal place),
+	 * and you set `extraTooltipPrecision = 1`, tooltips will display numbers
+	 * like 0.12, 0.25, etc. (two decimal places).
+	 *
+	 * @default 0
+	 * @since 4.8.3
+	 * @param  value  Extra decimals
+	 */
+	public set extraTooltipPrecision(value: number) {
+		if (this.setPropertyValue("extraTooltipPrecision", value)) {
+			this.invalidate();
+		}
+	}
+
+	/**
+	 * @return Extra decimals
+	 */
+	public get extraTooltipPrecision(): number {
+		return this.getPropertyValue("extraTooltipPrecision");
+	}
+
+	/**
 	 * Invalidates axis data items when series extremes change
 	 */
 	protected handleExtremesChange() {
@@ -2190,7 +2222,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @return Label (numeric value)
 	 */
 	public getTooltipText(position: number): string {
-		let value: number = $math.round(this.positionToValue(position), this._stepDecimalPlaces);
+		let value: number = $math.round(this.positionToValue(position), this._stepDecimalPlaces + this.extraTooltipPrecision);
 		let valueStr = this.tooltip.numberFormatter.format(value);
 		if (!this._adapterO) {
 			return valueStr;
@@ -2333,7 +2365,12 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				this._disposers.push(axis.events.on("extremeschanged", this.handleSelectionExtremesChange, this, false));
 				this._disposers.push(axis.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this, false));
 				this.events.on("shown", this.handleSelectionExtremesChange, this, false);
-				this.events.on("maxsizechanged", this.handleSelectionExtremesChange, this, false);
+				this.events.on("maxsizechanged", ()=>{
+					this.clearCache();
+					this._disposers.push(registry.events.once("exitframe", ()=>{						
+						this.handleSelectionExtremesChange();						
+					}))
+				}, this, false);
 			}
 		}
 	}

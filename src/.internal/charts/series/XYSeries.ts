@@ -2054,8 +2054,8 @@ export class XYSeries extends Series {
 					if (openValue == closeValue) {
 						let baseInterval = xAxis.baseInterval;
 						let dateFormatter = xAxis.dateFormatter;
-						openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc).getTime();
-						closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.utc).getTime();
+						openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc, undefined, dateFormatter.timezoneOffset).getTime();
+						closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.utc, dateFormatter.timezoneOffset).getTime();
 					}
 
 					let middleValue: number;
@@ -2140,8 +2140,8 @@ export class XYSeries extends Series {
 					if (openValue == closeValue) {
 						let baseInterval = yAxis.baseInterval;
 						let dateFormatter = yAxis.dateFormatter;
-						openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc).getTime();
-						closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.utc).getTime();
+						openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc, undefined, dateFormatter.timezoneOffset).getTime();
+						closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.utc, dateFormatter.timezoneOffset).getTime();
 					}
 
 					let middleValue: number;

@@ -83,6 +83,7 @@ export interface IValueAxisProperties extends IAxisProperties {
     strictMinMax?: boolean;
     logarithmic?: boolean;
     maxPrecision?: number;
+    extraTooltipPrecision?: number;
     extraMin?: number;
     extraMax?: number;
     keepSelection?: boolean;
@@ -719,6 +720,26 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @return max precision
      */
     get maxPrecision(): number;
+    /**
+     * This setting allows using bigger precision for numbers displayed in axis
+     * tooltip.
+     *
+     * Please note that this setting indicates additional decimal places to
+     * automatically-calculated axis number precision.
+     *
+     * So if your axis displays numbers like 0.1, 0.2, etc. (one decimal place),
+     * and you set `extraTooltipPrecision = 1`, tooltips will display numbers
+     * like 0.12, 0.25, etc. (two decimal places).
+     *
+     * @default 0
+     * @since 4.8.3
+     * @param  value  Extra decimals
+     */
+    set extraTooltipPrecision(value: number);
+    /**
+     * @return Extra decimals
+     */
+    get extraTooltipPrecision(): number;
     /**
      * Invalidates axis data items when series extremes change
      */

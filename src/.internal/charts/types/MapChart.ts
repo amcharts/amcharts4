@@ -678,6 +678,13 @@ export class MapChart extends SerialChart {
 		//this.events.on("datavalidated", this.handleAllValidated, this, false);
 		//this.events.on("datavalidated", this.updateExtremes, this, false);
 
+		this.events.on("maxsizechanged", (event)=>{
+			if(event.previousWidth == 0 || event.previousHeight == 0){
+				this.updateExtremes();
+				this.updateCenterGeoPoint();
+			}
+		}, undefined, false)
+
 		// Set up main chart container, e.g. set backgrounds and events to monitor
 		// size changes, etc.
 		let chartContainer = this.chartContainer;
@@ -897,6 +904,7 @@ export class MapChart extends SerialChart {
 		else {
 			this.series.each((series) => {
 				let bbox = series.group.node.getBBox();
+
 				if (maxLeft > bbox.x || !$type.isNumber(maxLeft)) {
 					maxLeft = bbox.x;
 				}
@@ -1535,6 +1543,9 @@ export class MapChart extends SerialChart {
 		if (mapObject instanceof MapPolygon) {
 			let dataItem = mapObject.dataItem;
 			let bbox = mapObject.polygon.bbox;
+			if(bbox.width == 0 || bbox.height == 0){
+				bbox = mapObject.polygon.group.getBBox();
+			}
 
 			if (!$type.isNumber(zoomLevel)) {
 				zoomLevel = Math.min(this.seriesWidth / bbox.width, this.seriesHeight / bbox.height);

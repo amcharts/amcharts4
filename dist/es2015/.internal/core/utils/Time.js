@@ -173,11 +173,13 @@ export function checkChange(dateOne, dateTwo, unit, utc) {
  * @param count  Number of units to add
  * @return Modified date
  */
-export function add(date, unit, count, utc) {
-    var timeZoneOffset = 0;
-    if (!utc && unit != "millisecond") {
+export function add(date, unit, count, utc, timeZoneOffset) {
+    if (!utc && unit != "millisecond" && !$type.isNumber(timeZoneOffset)) {
         timeZoneOffset = date.getTimezoneOffset();
         date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);
+    }
+    if (!$type.isNumber(timeZoneOffset)) {
+        timeZoneOffset = 0;
     }
     switch (unit) {
         case "day":
@@ -239,14 +241,17 @@ export function add(date, unit, count, utc) {
  * @param firstDateOfWeek  First day of week
  * @return New date
  */
-export function round(date, unit, count, firstDateOfWeek, utc, firstDate) {
+export function round(date, unit, count, firstDateOfWeek, utc, firstDate, timeZoneOffset) {
     if (!$type.isNumber(count)) {
         count = 1;
     }
-    var timeZoneOffset = 0;
-    if (!utc && unit != "millisecond") {
+    //let timeZoneOffset = 0;
+    if (!utc && unit != "millisecond" && !$type.isNumber(timeZoneOffset)) {
         timeZoneOffset = date.getTimezoneOffset();
         date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);
+    }
+    if (!$type.isNumber(timeZoneOffset)) {
+        timeZoneOffset = 0;
     }
     switch (unit) {
         case "day":

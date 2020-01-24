@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.8.3] - 2020-01-24
+
+### Added
+- New `ValueAxis` setting: `extraTooltipPrecision`. Set it to a number of extra decimal places to use for numbers in axis tooltip on top of current axis label precision. Default is `0`.
+
+### Fixed
+- Syncing of `ValueAxis` grid improved.
+- Using `timezoneOffset` was incorrectly affecting labels of `DateAxis`.
+- If `MapChart` was initialized in a hidden container, subsequent `zoomToMapObject()` calls were zooming incorrectly.
+
+
 ## [4.8.2] - 2020-01-23
 
 ### Added

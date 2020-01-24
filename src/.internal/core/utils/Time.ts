@@ -209,12 +209,13 @@ export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit, utc?: 
  * @param count  Number of units to add
  * @return Modified date
  */
-export function add(date: Date, unit: TimeUnit, count: number, utc?: boolean): Date {
-	let timeZoneOffset = 0;
-
-	if (!utc && unit != "millisecond") {
+export function add(date: Date, unit: TimeUnit, count: number, utc?: boolean, timeZoneOffset?:number): Date {
+	if (!utc && unit != "millisecond" && !$type.isNumber(timeZoneOffset)) {
 		timeZoneOffset = date.getTimezoneOffset();
 		date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);
+	}
+	if(!$type.isNumber(timeZoneOffset)){
+		timeZoneOffset = 0;
 	}
 
 	switch (unit) {
@@ -288,17 +289,21 @@ export function add(date: Date, unit: TimeUnit, count: number, utc?: boolean): D
  * @param firstDateOfWeek  First day of week
  * @return New date
  */
-export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek?: number, utc?: boolean, firstDate?: Date): Date {
+export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek?: number, utc?: boolean, firstDate?: Date, timeZoneOffset?:number): Date {
 
 	if (!$type.isNumber(count)) {
 		count = 1;
 	}
 
-	let timeZoneOffset = 0;
+	//let timeZoneOffset = 0;
 
-	if (!utc && unit != "millisecond") {
+	if (!utc && unit != "millisecond" && !$type.isNumber(timeZoneOffset)) {
 		timeZoneOffset = date.getTimezoneOffset();
 		date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);
+	}
+
+	if(!$type.isNumber(timeZoneOffset)){
+		timeZoneOffset = 0;
 	}
 
 	switch (unit) {
