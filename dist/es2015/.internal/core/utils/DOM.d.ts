@@ -168,11 +168,10 @@ export declare class StyleRule extends Disposer {
      *
      * @param selector  CSS selector
      */
-    set selector(selector: string);
     /**
-     * @return CSS selector
-     */
-    get selector(): string;
+    * @return CSS selector
+    */
+    selector: string;
     /**
      * Constructor.
      *
@@ -220,11 +219,10 @@ export declare class StyleClass extends StyleRule {
      *
      * @param name  Class name
      */
-    set className(name: string);
     /**
-     * @return Class name
-     */
-    get className(): string;
+    * @return Class name
+    */
+    className: string;
     /**
      * Converts the whole class to
      * @ignore Exclude from docs

@@ -81,23 +81,21 @@ export declare class AxisTick extends Tick {
      *
      * @param value  Location (0-1)
      */
-    set location(value: AxisItemLocation);
     /**
-     * @return Location (0-1)
-     */
-    get location(): AxisItemLocation;
+    * @return Location (0-1)
+    */
+    location: AxisItemLocation;
     /**
      * Sets if tick should be drawn inside axis.
      *
      * @param value  Inside?
      */
-    set inside(value: boolean);
     /**
-     * Returns if label is set to be drawn inside axis.
-     *
-     * @return Inside?
-     */
-    get inside(): boolean;
+    * Returns if label is set to be drawn inside axis.
+    *
+    * @return Inside?
+    */
+    inside: boolean;
     /**
      * Normally tick goes below series. Set this to `true` to go above.
      *
@@ -105,11 +103,10 @@ export declare class AxisTick extends Tick {
      * @since 4.5.9
      * @param  value  Draw above series?
      */
-    set above(value: boolean);
     /**
-     * @return Draw above series?
-     */
-    get above(): boolean;
+    * @return Draw above series?
+    */
+    above: boolean;
     /**
      * @ignore
      */

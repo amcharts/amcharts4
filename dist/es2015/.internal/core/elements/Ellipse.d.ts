@@ -82,19 +82,17 @@ export declare class Ellipse extends Circle {
      *
      * @param value  Vertical radius
      */
-    set radiusY(value: number);
     /**
-     * @return Vertical radius
-     */
-    get radiusY(): number;
+    * @return Vertical radius
+    */
+    radiusY: number;
     /**
      * Horizontal radius.
      *
      * @param value  Horizontal radius
      */
-    set radius(value: number);
     /**
-     * @return Horizontal radius
-     */
-    get radius(): number;
+    * @return Horizontal radius
+    */
+    radius: number;
 }

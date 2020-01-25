@@ -126,73 +126,66 @@ export declare class SankeyLink extends FlowDiagramLink {
      * @todo Description
      * @param value  Start X
      */
-    set startX(value: number);
     /**
-     * @return Start X
-     */
-    get startX(): number;
+    * @return Start X
+    */
+    startX: number;
     /**
      * [endX description]
      *
      * @todo Description
      * @param value  End X
      */
-    set endX(value: number);
     /**
-     * @return End X
-     */
-    get endX(): number;
+    * @return End X
+    */
+    endX: number;
     /**
      * [startY description]
      *
      * @todo Description
      * @param value  Start Y
      */
-    set startY(value: number);
     /**
-     * @return Start Y
-     */
-    get startY(): number;
+    * @return Start Y
+    */
+    startY: number;
     /**
      * [endY description]
      *
      * @todo Description
      * @param value End Y
      */
-    set endY(value: number);
     /**
-     * @return End Y
-     */
-    get endY(): number;
+    * @return End Y
+    */
+    endY: number;
     /**
      * [linkWidth description]
      *
      * @todo Description
      * @param value [description]
      */
-    set linkWidth(value: number);
     /**
-     * @return [description]
-     */
-    get linkWidth(): number;
+    * @return [description]
+    */
+    linkWidth: number;
     /**
      * Distance of control point of a link, defines relative distance from a node at which linke should bend
      * @default 0.2
      * @param value
      */
-    set controlPointDistance(value: number);
     /**
-     * @return relative control point distance
-     */
-    get controlPointDistance(): number;
+    * @return relative control point distance
+    */
+    controlPointDistance: number;
     /**
      * Tension of a spline, 1 would make the link to have sharp edges
      * @default 0.8
      * @param value
      */
-    set tension(value: number);
     /**
-     * @return tension value
-     */
-    get tension(): number;
+    * @return tension value
+    */
+    tension: number;
 }

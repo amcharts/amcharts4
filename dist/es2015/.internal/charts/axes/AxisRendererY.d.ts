@@ -107,7 +107,7 @@ export declare class AxisRendererY extends AxisRenderer {
      *
      * @return Length (px)
      */
-    get axisLength(): number;
+    readonly axisLength: number;
     /**
      * Converts relative position on axis to point coordinates.
      *

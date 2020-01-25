@@ -144,7 +144,7 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
     /**
      * Holds Adapter.
      */
-    get adapter(): Adapter<DataItem, IDataItemAdapters>;
+    readonly adapter: Adapter<DataItem, IDataItemAdapters>;
     /**
      * Defines a type of [[Component]] this Data Item is used for.
      */
@@ -322,57 +322,54 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @return Index
      */
-    get index(): number;
+    readonly index: number;
     /**
      * A list of [[Animations]] objects currently mutating Data Item's values.
      *
      * @return [description]
      */
-    get animations(): Array<Animation>;
+    readonly animations: Array<Animation>;
     /**
      * Sets visibility of the Data Item.
      *
      * @param value Visible?
      */
-    set visible(value: boolean);
+    /**
+    * Returns `true` if this Data Item is currently visible.
+    *
+    * @return Visible?
+    */
+    visible: boolean;
     /**
      * Sets hidden flag for data item. Mostly used to initially hide data item.
      *
      * @param value Hidden?
      */
-    set hidden(value: boolean);
     /**
-     * Returns `true` if this Data Item is currently hidden.
-     *
-     * @return Hidden?
-     */
-    get hidden(): boolean;
+    * Returns `true` if this Data Item is currently hidden.
+    *
+    * @return Hidden?
+    */
+    hidden: boolean;
     /**
      * Disables all Sprites associated with this Data Item.
      *
      * @ignore Exclude from docs
      * @param {boolean}
      */
-    set __disabled(value: boolean);
     /**
-     * Is this Data Item currently disabled?
-     *
-     * @ignore Exclude from docs
-     * @param {boolean}
-     */
-    get __disabled(): boolean;
+    * Is this Data Item currently disabled?
+    *
+    * @ignore Exclude from docs
+    * @param {boolean}
+    */
+    __disabled: boolean;
     /**
      * Sets visibility of the Data Item.
      *
      * @param value Data Item
      */
     setVisibility(value: boolean, noChangeValues?: boolean): void;
-    /**
-     * Returns `true` if this Data Item is currently visible.
-     *
-     * @return Visible?
-     */
-    get visible(): boolean;
     /**
      * Shows the Data Item and related visual elements.
      *
@@ -527,7 +524,7 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @param value Opacity (0-1)
      */
-    set opacity(value: number);
+    opacity: number;
     /**
      * Sets whether this data point should not be included in the scale and
      * minimum/maximum calculations.
@@ -537,12 +534,11 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @param value  Exclude from min/max calculations?
      */
-    set ignoreMinMax(value: boolean);
     /**
-     * Exclude from min/max calculations?
-     * @return Exclude from min/max calculations?
-     */
-    get ignoreMinMax(): boolean;
+    * Exclude from min/max calculations?
+    * @return Exclude from min/max calculations?
+    */
+    ignoreMinMax: boolean;
     /**
      * Creates and starts an [[Animation]] to interpolate (morph) Data Item's
      * properties and/or values.
@@ -579,20 +575,19 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @return Depth
      */
-    get depth(): number;
+    readonly depth: number;
     /**
      * Sets to a reference to an original object from Component's data.
      *
      * @return [description]
      */
-    get dataContext(): Object;
     /**
-     * A reference to an original object in Component's data, that this Data Item
-     * is derived from.
-     *
-     * @param value Original data object
-     */
-    set dataContext(value: Object);
+    * A reference to an original object in Component's data, that this Data Item
+    * is derived from.
+    *
+    * @param value Original data object
+    */
+    dataContext: Object;
     /**
      * adds a sprite to dataItem.sprites array
      * @ignore

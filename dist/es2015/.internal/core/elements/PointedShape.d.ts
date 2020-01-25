@@ -92,40 +92,36 @@ export declare class PointedShape extends Sprite {
      * @default 15
      * @param value  Width (px)
      */
-    set pointerBaseWidth(value: number);
+    /**
+    * @return Width (px)
+    */
+    pointerBaseWidth: number;
     /**
      * A length of the pinter (stem) in pixels.
      *
      * @default 10
      * @param value  Length (px)
      */
-    set pointerLength(value: number);
     /**
-     * @return Length (px)
-     */
-    get pointerLength(): number;
-    /**
-     * @return Width (px)
-     */
-    get pointerBaseWidth(): number;
+    * @return Length (px)
+    */
+    pointerLength: number;
     /**
      * X coordinate the shape is pointing to.
      *
      * @param value  X
      */
-    set pointerX(value: number);
     /**
-     * @return X
-     */
-    get pointerX(): number;
+    * @return X
+    */
+    pointerX: number;
     /**
      * Y coordinate the shape is pointing to.
      *
      * @param value  Y
      */
-    set pointerY(value: number);
     /**
-     * @return Y
-     */
-    get pointerY(): number;
+    * @return Y
+    */
+    pointerY: number;
 }

@@ -183,8 +183,7 @@ export declare class AxisRenderer extends Container {
      * @param axis Related axis
      */
     constructor();
-    set axis(axis: Axis);
-    get axis(): Axis;
+    axis: Axis;
     /**
     * @ignore
     */
@@ -214,7 +213,7 @@ export declare class AxisRenderer extends Container {
      *
      * @return Length (px)
      */
-    get axisLength(): number;
+    readonly axisLength: number;
     /**
      * Re-positions an element to new coordinates.
      *
@@ -352,23 +351,21 @@ export declare class AxisRenderer extends Container {
      *
      * @param value  Min distance (px)
      */
-    set minGridDistance(value: number);
     /**
-     * @return Min distance (px)
-     */
-    get minGridDistance(): number;
+    * @return Min distance (px)
+    */
+    minGridDistance: number;
     /**
      * A chart, associated with the Axis.
      *
      * @ignore Exclude from docs
      * @param value  Chart
      */
-    set chart(value: Chart);
     /**
-     * @ignore Exclude from docs
-     * @return Chart
-     */
-    get chart(): Chart;
+    * @ignore Exclude from docs
+    * @return Chart
+    */
+    chart: Chart;
     /**
      * Toggles visibility of an element, based on its current position and
      * min/max position settings.
@@ -421,7 +418,7 @@ export declare class AxisRenderer extends Container {
      * @see {@link https://www.amcharts.com/docs/v4/tutorials/alternated-axis-fills/} this tutorial for more info.
      * @return Fill elements
      */
-    get axisFills(): ListTemplate<this["_fillType"]>;
+    readonly axisFills: ListTemplate<this["_fillType"]>;
     /**
      * Returns a new fill element, suitable for this Axis Renderer type.
      *
@@ -433,7 +430,7 @@ export declare class AxisRenderer extends Container {
      *
      * @return Grid elements
      */
-    get grid(): ListTemplate<this["_gridType"]>;
+    readonly grid: ListTemplate<this["_gridType"]>;
     /**
      * Returns a new grid element, suitable for this Axis Renderer type.
      *
@@ -468,7 +465,7 @@ export declare class AxisRenderer extends Container {
      *
      * @return Tick elements
      */
-    get ticks(): ListTemplate<this["_tickType"]>;
+    readonly ticks: ListTemplate<this["_tickType"]>;
     /**
      * Returns a new tick element, suitable for this Axis Renderer type.
      *
@@ -480,7 +477,7 @@ export declare class AxisRenderer extends Container {
      *
      * @return Label elements
      */
-    get labels(): ListTemplate<this["_labelType"]>;
+    readonly labels: ListTemplate<this["_labelType"]>;
     /**
      * Returns a new label element, suitable for this Axis Renderer type.
      *
@@ -494,11 +491,10 @@ export declare class AxisRenderer extends Container {
      *
      * @param value  Labels inside?
      */
-    set inside(value: boolean);
     /**
-     * @return Labels inside?
-     */
-    get inside(): boolean;
+    * @return Labels inside?
+    */
+    inside: boolean;
     /**
      * Indicates whether Axis should be drawn on the opposite side of the plot
      * area than it would normally be drawn based on chart's settings.
@@ -508,11 +504,10 @@ export declare class AxisRenderer extends Container {
      *
      * @param value  Draw axis on opposite side?
      */
-    set opposite(value: boolean);
     /**
-     * @return Draw axis on opposite side?
-     */
-    get opposite(): boolean;
+    * @return Draw axis on opposite side?
+    */
+    opposite: boolean;
     /**
      * Indicates if Axis tooltip should take the whole width of the axis cell.
      * (between two grid lines)
@@ -521,11 +516,10 @@ export declare class AxisRenderer extends Container {
      *
      * @param value Full width tooltip?
      */
-    set fullWidthTooltip(value: boolean);
     /**
-     * @return Full width tooltip?
-     */
-    get fullWidthTooltip(): boolean;
+    * @return Full width tooltip?
+    */
+    fullWidthTooltip: boolean;
     /**
      * Location within axis cell to show tooltip on. (0-1)
      *
@@ -535,11 +529,10 @@ export declare class AxisRenderer extends Container {
      *
      * @param value Tooltip location
      */
-    set tooltipLocation(value: number);
     /**
-     * @return Tooltip location
-     */
-    get tooltipLocation(): number;
+    * @return Tooltip location
+    */
+    tooltipLocation: number;
     /**
      * Location within secondary axis cell to show tooltip on. (0-1)
      *
@@ -549,11 +542,10 @@ export declare class AxisRenderer extends Container {
      *
      * @param value Tooltip location
      */
-    set tooltipLocation2(value: number);
     /**
-     * @return Tooltip location
-     */
-    get tooltipLocation2(): number;
+    * @return Tooltip location
+    */
+    tooltipLocation2: number;
     /**
      * Location for the cell start.
      *
@@ -576,11 +568,10 @@ export declare class AxisRenderer extends Container {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
      * @param value Cell start (0-1)
      */
-    set cellStartLocation(value: number);
     /**
-     * @return Cell start (0-1)
-     */
-    get cellStartLocation(): number;
+    * @return Cell start (0-1)
+    */
+    cellStartLocation: number;
     /**
      * Location for the cell end.
      *
@@ -603,21 +594,19 @@ export declare class AxisRenderer extends Container {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
      * @param value Cell end (0-1)
      */
-    set cellEndLocation(value: number);
     /**
-     * @return Cell end (0-1)
-     */
-    get cellEndLocation(): number;
+    * @return Cell end (0-1)
+    */
+    cellEndLocation: number;
     /**
      * Indicates if the scale of the axis should be flipped.
      *
      * @param value Flip axis?
      */
-    set inversed(value: boolean);
     /**
-     * @return Flip axis?
-     */
-    get inversed(): boolean;
+    * @return Flip axis?
+    */
+    inversed: boolean;
     /**
      * Minimum position along the Axis, for labels.
      *
@@ -633,11 +622,10 @@ export declare class AxisRenderer extends Container {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
      * @param value  Min label position (0-1)
      */
-    set minLabelPosition(value: number);
     /**
-     * @return Min label position (0-1)
-     */
-    get minLabelPosition(): number;
+    * @return Min label position (0-1)
+    */
+    minLabelPosition: number;
     /**
      * Maximum position along the Axis, for labels.
      *
@@ -653,11 +641,10 @@ export declare class AxisRenderer extends Container {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
      * @param value  Max label position (0-1)
      */
-    set maxLabelPosition(value: number);
     /**
-     * @return Max label position (0-1)
-     */
-    get maxLabelPosition(): number;
+    * @return Max label position (0-1)
+    */
+    maxLabelPosition: number;
     /**
      * Copies all settings and related items from another object of the same
      * type.

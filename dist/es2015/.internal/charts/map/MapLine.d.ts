@@ -152,11 +152,10 @@ export declare class MapLine extends MapObject {
      * @see {@link https://tools.ietf.org/html/rfc7946#section-3.1.5} GeoJSON MultiLineString reference
      * @param multiGeoLine  Coordinates
      */
-    set multiGeoLine(multiGeoLine: Array<Array<IGeoPoint>>);
     /**
-     * @return Coordinates
-     */
-    get multiGeoLine(): Array<Array<IGeoPoint>>;
+    * @return Coordinates
+    */
+    multiGeoLine: Array<Array<IGeoPoint>>;
     /**
      * A collection of X/Y coordinates for a multi-segment line. E.g.:
      *
@@ -178,11 +177,10 @@ export declare class MapLine extends MapObject {
      *
      * @param multiLine  Coordinates
      */
-    set multiLine(multiLine: Array<Array<[number, number]>>);
     /**
-     * @return Coordinates
-     */
-    get multiLine(): Array<Array<[number, number]>>;
+    * @return Coordinates
+    */
+    multiLine: Array<Array<[number, number]>>;
     /**
      * Instead of setting longitudes/latitudes you can set an array of images
      * which will be connected by the line.
@@ -192,11 +190,10 @@ export declare class MapLine extends MapObject {
      *
      * @param images  Images
      */
-    set imagesToConnect(images: MapImage[] | string[]);
     /**
-     * @return {MapImages[]}
-     */
-    get imagesToConnect(): MapImage[] | string[];
+    * @return {MapImages[]}
+    */
+    imagesToConnect: MapImage[] | string[];
     protected handleImagesToConnect(): void;
     /**
      * (Re)validates the line, effectively forcing it to redraw.
@@ -228,18 +225,17 @@ export declare class MapLine extends MapObject {
      * @default false
      * @param value  Real path?
      */
-    set shortestDistance(value: boolean);
     /**
-     * @return Real path?
-     */
-    get shortestDistance(): boolean;
+    * @return Real path?
+    */
+    shortestDistance: boolean;
     /**
      * List of separate line objects the line consists of.
      *
      * @readonly
      * @return List of line objects
      */
-    get lineObjects(): ListTemplate<MapLineObject>;
+    readonly lineObjects: ListTemplate<MapLineObject>;
     /**
      * Decorate a [[LineObject]] when it is added to the line.
      *
@@ -254,11 +250,10 @@ export declare class MapLine extends MapObject {
      *
      * @param arrow  Arrow element
      */
-    set arrow(arrow: MapLineObject);
     /**
-     * @return Arrow element
-     */
-    get arrow(): MapLineObject;
+    * @return Arrow element
+    */
+    arrow: MapLineObject;
     /**
      * Copies line properties and other attributes, like arrow, from another
      * instance of [[MapLine]].
@@ -272,14 +267,14 @@ export declare class MapLine extends MapObject {
      * @readonly
      * @return Latitude
      */
-    get latitude(): number;
+    readonly latitude: number;
     /**
      * Longitude of the line center.
      *
      * @readonly
      * @return Latitude
      */
-    get longitude(): number;
+    readonly longitude: number;
     /**
      * X coordinate for the slice tooltip.
      *

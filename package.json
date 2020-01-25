@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@amcharts/amcharts4",
-  "version": "4.8.3",
+  "version": "4.8.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/amcharts/amcharts4.git"
@@ -48,7 +48,7 @@
     "source-map-loader": "^0.2.3",
     "ts-loader": "^3.0.0",
     "typedoc": "^0.16.8",
-    "typescript": "3.7.5",
+    "typescript": "3.6.5",
     "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^3.0.0",
     "webpack-hashed-chunk-id-plugin": "^1.0.3-beta",

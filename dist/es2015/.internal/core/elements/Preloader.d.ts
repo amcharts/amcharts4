@@ -121,11 +121,10 @@ export declare class Preloader extends Container {
      *
      * @param value Progress (0-1)
      */
-    set progress(value: number);
     /**
-     * @return Progress (0-1)
-     */
-    get progress(): number;
+    * @return Progress (0-1)
+    */
+    progress: number;
     /**
      * Delay display of preloader by X milliseconds.
      *
@@ -137,9 +136,8 @@ export declare class Preloader extends Container {
      * @default 1000
      * @param value  Delay (ms)
      */
-    set delay(value: number);
     /**
-     * @return Delay (ms)
-     */
-    get delay(): number;
+    * @return Delay (ms)
+    */
+    delay: number;
 }

@@ -53,41 +53,37 @@ export declare class FlowDiagramDataItem extends ChartDataItem {
      *
      * @param value  Name
      */
-    set fromName(value: string);
     /**
-     * @return name
-     */
-    get fromName(): string;
+    * @return name
+    */
+    fromName: string;
     /**
      * Destination node's name.
      *
      * @param value  Name
      */
-    set toName(value: string);
     /**
-     * @return name
-     */
-    get toName(): string;
+    * @return name
+    */
+    toName: string;
     /**
      * Node color
      *
      * @param value  Name
      */
-    set color(value: Color);
     /**
-     * @return color
-     */
-    get color(): Color;
+    * @return color
+    */
+    color: Color;
     /**
      * Link's value.
      *
      * @param value  Value
      */
-    set value(value: number);
     /**
-     * @return Value
-     */
-    get value(): number;
+    * @return Value
+    */
+    value: number;
     /**
      * A visual element, representing link between the source and target nodes.
      *
@@ -97,7 +93,7 @@ export declare class FlowDiagramDataItem extends ChartDataItem {
      * @readonly
      * @return Link element
      */
-    get link(): this["_link"];
+    readonly link: this["_link"];
 }
 /**
  * ============================================================================
@@ -284,38 +280,35 @@ export declare class FlowDiagram extends Chart {
      *
      * @param value Padding (px)
      */
-    set nodePadding(value: number);
     /**
-     * @return Padding (px)
-     */
-    get nodePadding(): number;
+    * @return Padding (px)
+    */
+    nodePadding: number;
     /**
      * Sort nodes by "name" or "value" or do not sort at all. If not sorted, nodes will appear in the same order as they are in the data.
      * @default "none"
      * @param value  Node sorting
      */
-    set sortBy(value: "none" | "name" | "value");
     /**
-     * @returns Node sorting
-     */
-    get sortBy(): "none" | "name" | "value";
+    * @returns Node sorting
+    */
+    sortBy: "none" | "name" | "value";
     /**
      * Sometimes nodes can get very small if their value is little. With this setting you
      * can set min size of a node (this is relative value from the total size of all nodes)
      * @default 0.02
      * @param value  Node sorting
      */
-    set minNodeSize(value: number);
     /**
-     * @returns min node size
-     */
-    get minNodeSize(): number;
+    * @returns min node size
+    */
+    minNodeSize: number;
     /**
      * A list of chart's nodes.
      *
      * @param {DictionaryTemplate<string, this["_node"]>}
      */
-    get nodes(): DictionaryTemplate<string, this["_node"]>;
+    readonly nodes: DictionaryTemplate<string, this["_node"]>;
     /**
      * @ignore
      */
@@ -325,7 +318,7 @@ export declare class FlowDiagram extends Chart {
      *
      * @param {ListTemplate<this["_link"]>}
      */
-    get links(): ListTemplate<this["_link"]>;
+    readonly links: ListTemplate<this["_link"]>;
     /**
      * @ignore
      */

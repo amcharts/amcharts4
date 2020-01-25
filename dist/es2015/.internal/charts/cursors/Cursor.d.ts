@@ -272,9 +272,8 @@ export declare class Cursor extends Container {
      *
      * @param value  Chart
      */
-    set chart(value: this["_chart"]);
     /**
-     * @return Chart
-     */
-    get chart(): this["_chart"];
+    * @return Chart
+    */
+    chart: this["_chart"];
 }

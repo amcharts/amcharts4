@@ -46,9 +46,8 @@ export declare class LinePattern extends Pattern {
      * @default 0
      * @since 4.7.7
      */
-    set gap(value: number);
     /**
-     * @return gap
-     */
-    get gap(): number;
+    * @return gap
+    */
+    gap: number;
 }

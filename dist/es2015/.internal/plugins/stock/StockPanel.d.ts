@@ -99,15 +99,11 @@ export declare class StockPanel extends Container {
      *
      * @return List of axes
      */
-    get yAxes(): List<Axis<this["_yAxisRendererType"]>>;
+    readonly yAxes: List<Axis<this["_yAxisRendererType"]>>;
     handleYAxisAdded(event: IListEvents<Axis>["inserted"]): void;
     handleYAxisRemoved(event: IListEvents<Axis>["removed"]): void;
-    set title(title: Label);
-    get title(): Label;
-    set closeEnabled(value: boolean);
-    get closeEnabled(): boolean;
-    set minimized(value: boolean);
-    get minimized(): boolean;
-    set minimizeEnabled(value: boolean);
-    get minimizeEnabled(): boolean;
+    title: Label;
+    closeEnabled: boolean;
+    minimized: boolean;
+    minimizeEnabled: boolean;
 }

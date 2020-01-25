@@ -52,39 +52,36 @@ export declare class SunburstDataItem extends PieChartDataItem {
      *
      * @param value  Value
      */
-    set value(value: number);
     /**
-     * Numeric value of the slice.
-     *
-     * @return Value
-     */
-    get value(): number;
+    * Numeric value of the slice.
+    *
+    * @return Value
+    */
+    value: number;
     /**
      * Percent of the slice.
      *
      * @return {number} Percent
      */
-    get percent(): number;
+    readonly percent: number;
     /**
      * Item's name.
      *
      * @param name  Name
      */
-    set name(name: string);
     /**
-     * @return Name
-     */
-    get name(): string;
+    * @return Name
+    */
+    name: string;
     /**
      * A list of item's sub-children.
      *
      * @param children  Item's children
      */
-    set children(children: OrderedListTemplate<SunburstDataItem>);
     /**
-     * @return Item's children
-     */
-    get children(): OrderedListTemplate<SunburstDataItem>;
+    * @return Item's children
+    */
+    children: OrderedListTemplate<SunburstDataItem>;
     /**
      * Depth level in the Sunburst hierarchy.
      *
@@ -94,7 +91,7 @@ export declare class SunburstDataItem extends PieChartDataItem {
      * @readonly
      * @return Level
      */
-    get level(): number;
+    readonly level: number;
     /**
      * Item's color.
      *
@@ -103,21 +100,19 @@ export declare class SunburstDataItem extends PieChartDataItem {
      *
      * @param value  Color
      */
-    set color(value: Color);
     /**
-     * @return Color
-     */
-    get color(): Color;
+    * @return Color
+    */
+    color: Color;
     /**
      * A series representing slice's children.
      *
      * @param  series Child series
      */
-    set series(series: SunburstSeries);
     /**
-     * @return Child series
-     */
-    get series(): SunburstSeries;
+    * @return Child series
+    */
+    series: SunburstSeries;
 }
 /**
  * ============================================================================

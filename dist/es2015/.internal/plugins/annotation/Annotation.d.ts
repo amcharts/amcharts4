@@ -173,13 +173,13 @@ export declare class Annotation extends Plugin {
      * Returns an instance of Fabric's `Canvas`.
      * @return Canvas
      */
-    get fabric(): fabric.Canvas;
+    readonly fabric: fabric.Canvas;
     /**
      * A `<g>` that holds SVG representation of the annotations in chart overlay.
      *
      * @return  Group element
      */
-    get group(): SVGGElement;
+    readonly group: SVGGElement;
     /**
      * Activates annotation mode.
      */
@@ -202,127 +202,115 @@ export declare class Annotation extends Plugin {
      * @default false
      * @param  value  Active?
      */
-    set active(value: boolean);
     /**
-     * @return Active?
-     */
-    get active(): boolean;
+    * @return Active?
+    */
+    active: boolean;
     /**
      * Currently selected color.
      *
      * @default #000
      * @param  value  Color
      */
-    set currentColor(value: Color);
     /**
-     * @return Color
-     */
-    get currentColor(): Color;
+    * @return Color
+    */
+    currentColor: Color;
     /**
      * List of colors to show in selection.
      *
      * @param  value  Colors
      */
-    set colors(value: Array<Color>);
     /**
-     * @return Colors
-     */
-    get colors(): Array<Color>;
+    * @return Colors
+    */
+    colors: Array<Color>;
     /**
      * Currently selected width.
      *
      * @default 1
      * @param  value  Width
      */
-    set currentWidth(value: number);
     /**
-     * @return Width
-     */
-    get currentWidth(): number;
+    * @return Width
+    */
+    currentWidth: number;
     /**
      * List of widths in pixels for line and free-draw tool.
      *
      * @param  value  Widths
      */
-    set widths(value: Array<number>);
     /**
-     * @return Widths
-     */
-    get widths(): Array<number>;
+    * @return Widths
+    */
+    widths: Array<number>;
     /**
      * Currently selected opacity.
      *
      * @default 1
      * @param  value  Opacity
      */
-    set currentOpacity(value: number);
     /**
-     * @return Opacity
-     */
-    get currentOpacity(): number;
+    * @return Opacity
+    */
+    currentOpacity: number;
     /**
      * List of opacities available for selection.
      *
      * @param  value  Opacities
      */
-    set opacities(value: Array<number>);
     /**
-     * @return Opacities
-     */
-    get opacities(): Array<number>;
+    * @return Opacities
+    */
+    opacities: Array<number>;
     /**
      * Currently selected font size.
      *
      * @default 10
      * @param  value  Font size
      */
-    set currentFontSize(value: number);
     /**
-     * @return Font size
-     */
-    get currentFontSize(): number;
+    * @return Font size
+    */
+    currentFontSize: number;
     /**
      * List of available font sizes.
      *
      * @param  value  Font sizes
      */
-    set fontSizes(value: Array<number>);
     /**
-     * @return Font sizes
-     */
-    get fontSizes(): Array<number>;
+    * @return Font sizes
+    */
+    fontSizes: Array<number>;
     /**
      * Currently selected font weight.
      *
      * @default 400
      * @param  value  Font weight
      */
-    set currentFontWeight(value: number);
     /**
-     * @return Font weight
-     */
-    get currentFontWeight(): number;
+    * @return Font weight
+    */
+    currentFontWeight: number;
     /**
      * List of available font weights.
      *
      * @param  value  Font weights
      */
-    set fontWeights(value: Array<number>);
     /**
-     * @return Font weights
-     */
-    get fontWeights(): Array<number>;
+    * @return Font weights
+    */
+    fontWeights: Array<number>;
     /**
      * Currently selected tool.
      *
      * @default select
      * @param  value  Tool
      */
-    set currentTool(value: string);
     /**
-     * @return Tool
-     */
-    get currentTool(): string;
+    * @return Tool
+    */
+    currentTool: string;
     /**
      * Initiates tool.
      */
@@ -336,7 +324,7 @@ export declare class Annotation extends Plugin {
      *
      * @return  Indicator
      */
-    get indicator(): HTMLElement;
+    readonly indicator: HTMLElement;
     /**
      * Sets color.
      *
@@ -422,11 +410,10 @@ export declare class Annotation extends Plugin {
      * @since 4.5.6
      * @param  value  Data
      */
-    set data(value: any);
     /**
-     * @return Data
-     */
-    get data(): any;
+    * @return Data
+    */
+    data: any;
     /**
      * If set to `false` the plugin will not create own menu nor will add its
      * items to existing Export menu.
@@ -437,11 +424,10 @@ export declare class Annotation extends Plugin {
      * @default true
      * @param  value  Use menu?
      */
-    set useMenu(value: boolean);
     /**
-     * @return Use menu?
-     */
-    get useMenu(): boolean;
+    * @return Use menu?
+    */
+    useMenu: boolean;
     /**
      * Loads data onto canvas.
      */

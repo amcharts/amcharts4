@@ -153,22 +153,20 @@ export declare class SliceGrouper extends Plugin {
      * @default 5
      * @param  value  Threshold
      */
-    set threshold(value: number);
     /**
-     * @return Threshold
-     */
-    get threshold(): number;
+    * @return Threshold
+    */
+    threshold: number;
     /**
      * An instance of [[ZoomOutButton]] that is shown when "Other" slice is
      * broken down, to get back to grouped state.
      *
      * @param  value  Button
      */
-    set zoomOutButton(value: ZoomOutButton);
     /**
-     * @return Button
-     */
-    get zoomOutButton(): ZoomOutButton;
+    * @return Button
+    */
+    zoomOutButton: ZoomOutButton;
     /**
      * What happens when "Other" slice is clicked/tapped:
      *
@@ -178,11 +176,10 @@ export declare class SliceGrouper extends Plugin {
      *
      * @param  value  Click behavior
      */
-    set clickBehavior(value: "none" | "break" | "zoom");
     /**
-     * @returns Click behavior
-     */
-    get clickBehavior(): "none" | "break" | "zoom";
+    * @returns Click behavior
+    */
+    clickBehavior: "none" | "break" | "zoom";
     /**
      * Disposes the element
      */

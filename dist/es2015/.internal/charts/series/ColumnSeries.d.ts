@@ -58,16 +58,15 @@ export declare class ColumnSeriesDataItem extends XYSeriesDataItem {
      *
      * @param column
      */
-    set column(column: this["_column"]);
     /**
-     * @return Column
-     */
-    get column(): this["_column"];
+    * @return Column
+    */
+    column: this["_column"];
     protected setColumn(column: this["_column"]): void;
     /**
      * A dictionary storing axes ranges columns by axis uid
      */
-    get rangesColumns(): Dictionary<string, this["_column"]>;
+    readonly rangesColumns: Dictionary<string, this["_column"]>;
 }
 /**
  * ============================================================================
@@ -188,7 +187,7 @@ export declare class ColumnSeries extends XYSeries {
      *
      * @ignore Exclude from docs
      */
-    get columnsContainer(): Container;
+    readonly columnsContainer: Container;
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor.
@@ -256,7 +255,7 @@ export declare class ColumnSeries extends XYSeries {
      *
      * @return Columns
      */
-    get columns(): ListTemplate<this["_column"]>;
+    readonly columns: ListTemplate<this["_column"]>;
     /**
      * Creates and returns a column element to use as a template.
      *
@@ -271,11 +270,10 @@ export declare class ColumnSeries extends XYSeries {
      * @default true
      * @param value  Clustered?
      */
-    set clustered(value: boolean);
     /**
-     * @return Clustered?
-     */
-    get clustered(): boolean;
+    * @return Clustered?
+    */
+    clustered: boolean;
     /**
      * A state to apply to a column when close value is lower than open value.
      *
@@ -286,11 +284,10 @@ export declare class ColumnSeries extends XYSeries {
      * @readonly You can modify state object, but can't overwrite it
      * @param  value  State
      */
-    set dropFromOpenState(value: SpriteState<this["_properties"], this["_adapter"]>);
     /**
-     * @return State
-     */
-    get dropFromOpenState(): SpriteState<this["_properties"], this["_adapter"]>;
+    * @return State
+    */
+    dropFromOpenState: SpriteState<this["_properties"], this["_adapter"]>;
     /**
      * A state to apply to a column when its value is lower value of a previous
      * column.
@@ -300,11 +297,10 @@ export declare class ColumnSeries extends XYSeries {
      * @readonly You can modify state object, but can't overwrite it
      * @param  value  State
      */
-    set dropFromPreviousState(value: SpriteState<this["_properties"], this["_adapter"]>);
     /**
-     * @return State
-     */
-    get dropFromPreviousState(): SpriteState<this["_properties"], this["_adapter"]>;
+    * @return State
+    */
+    dropFromPreviousState: SpriteState<this["_properties"], this["_adapter"]>;
     /**
      * A state to apply to a column when close value is same or higher than open
      * value.
@@ -316,11 +312,10 @@ export declare class ColumnSeries extends XYSeries {
      * @readonly You can modify state object, but can't overwrite it
      * @param  value  State
      */
-    set riseFromOpenState(value: SpriteState<this["_properties"], this["_adapter"]>);
     /**
-     * @return State
-     */
-    get riseFromOpenState(): SpriteState<this["_properties"], this["_adapter"]>;
+    * @return State
+    */
+    riseFromOpenState: SpriteState<this["_properties"], this["_adapter"]>;
     /**
      * A state to apply to a column when its value is same or higher than value
      * of a previous column.
@@ -330,11 +325,10 @@ export declare class ColumnSeries extends XYSeries {
      * @readonly You can modify state object, but can't overwrite it
      * @param  value  State
      */
-    set riseFromPreviousState(value: SpriteState<this["_properties"], this["_adapter"]>);
     /**
-     * @return State
-     */
-    get riseFromPreviousState(): SpriteState<this["_properties"], this["_adapter"]>;
+    * @return State
+    */
+    riseFromPreviousState: SpriteState<this["_properties"], this["_adapter"]>;
     /**
      * Updates value of the related legend item.
      *

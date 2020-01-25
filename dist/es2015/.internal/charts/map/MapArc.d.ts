@@ -82,6 +82,5 @@ export declare class MapArc extends MapLine {
      * @default false
      * @param value
      */
-    set shortestDistance(value: boolean);
-    get shortestDistance(): boolean;
+    shortestDistance: boolean;
 }

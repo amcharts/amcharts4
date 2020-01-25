@@ -118,11 +118,10 @@ export declare class CurvedColumn extends Column {
      * @default 0.7
      * @param value tension (0-1)
      */
-    set tension(value: number);
     /**
-     * @return Tension (0-1)
-     */
-    get tension(): number;
+    * @return Tension (0-1)
+    */
+    tension: number;
     /**
      * Orientation of the column.
      *
@@ -131,9 +130,8 @@ export declare class CurvedColumn extends Column {
      * @default "vertical"
      * @param value  Orientation
      */
-    set orientation(value: Orientation);
     /**
-     * Orientation
-     */
-    get orientation(): Orientation;
+    * Orientation
+    */
+    orientation: Orientation;
 }

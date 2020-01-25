@@ -100,19 +100,17 @@ export declare class DateAxisBreak extends ValueAxisBreak {
      *
      * @param value Start date
      */
-    set startDate(value: Date);
     /**
-     * @return Start date
-     */
-    get startDate(): Date;
+    * @return Start date
+    */
+    startDate: Date;
     /**
      * Ending date for the break.
      *
      * @param value End date
      */
-    set endDate(value: Date);
     /**
-     * @return End date
-     */
-    get endDate(): Date;
+    * @return End date
+    */
+    endDate: Date;
 }

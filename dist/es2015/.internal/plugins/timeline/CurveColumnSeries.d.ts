@@ -162,11 +162,10 @@ export declare class CurveColumnSeries extends ColumnSeries {
      * @default 0.2
      * @param  value  Top offset
      */
-    set topOffset(value: number);
     /**
-     * @return Top offset
-     */
-    get topOffset(): number;
+    * @return Top offset
+    */
+    topOffset: number;
     /**
      * A relative part of an series elements allowed outside of the inner edge of
      * the "plot area".
@@ -174,11 +173,10 @@ export declare class CurveColumnSeries extends ColumnSeries {
      * @default 0.2
      * @param  value  Bottom offset
      */
-    set bottomOffset(value: number);
     /**
-     * @return Bottom offset
-     */
-    get bottomOffset(): number;
+    * @return Bottom offset
+    */
+    bottomOffset: number;
     /**
      * [positionBulletReal description]
      *

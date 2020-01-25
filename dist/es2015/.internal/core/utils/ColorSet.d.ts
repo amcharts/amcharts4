@@ -156,16 +156,15 @@ export declare class ColorSet extends BaseObject {
      *
      * @param value Color list
      */
-    set list(value: Color[]);
     /**
-     * Returns current list of colors.
-     *
-     * If there are none, a new list of colors is generated, based on various
-     * ColorSet settings.
-     *
-     * @return Color list
-     */
-    get list(): Color[];
+    * Returns current list of colors.
+    *
+    * If there are none, a new list of colors is generated, based on various
+    * ColorSet settings.
+    *
+    * @return Color list
+    */
+    list: Color[];
     /**
      * Gets reusable color.
      *
@@ -205,11 +204,10 @@ export declare class ColorSet extends BaseObject {
      *
      * @param value  Step
      */
-    set currentStep(value: number);
     /**
-     * @return Step
-     */
-    get currentStep(): number;
+    * @return Step
+    */
+    currentStep: number;
     /**
      * If set to non-zero value, the ColorSet will start iterating colors from
      * that particular index, not the first color in the list.
@@ -218,11 +216,10 @@ export declare class ColorSet extends BaseObject {
      * @since 4.4.9
      * @param  value  Index
      */
-    set startIndex(value: number);
     /**
-     * @return Index
-     */
-    get startIndex(): number;
+    * @return Index
+    */
+    startIndex: number;
     /**
      * Generates colors based on the various ColorSet settings.
      *
@@ -235,7 +232,7 @@ export declare class ColorSet extends BaseObject {
      *
      * @return Color
      */
-    protected get currentColor(): Color;
+    protected readonly currentColor: Color;
     /**
      * Generates modifiers for color, based on what step and pass.
      *

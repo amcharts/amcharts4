@@ -88,41 +88,37 @@ export declare class Line extends Sprite {
      *
      * @param value X
      */
-    set x1(value: number);
     /**
-     * @return X
-     */
-    get x1(): number;
+    * @return X
+    */
+    x1: number;
     /**
      * X coordinate of second end.
      *
      * @param value X
      */
-    set x2(value: number);
     /**
-     * @return X
-     */
-    get x2(): number;
+    * @return X
+    */
+    x2: number;
     /**
      * Y coordinate of first end.
      *
      * @param value Y
      */
-    set y1(value: number);
     /**
-     * @return Y
-     */
-    get y1(): number;
+    * @return Y
+    */
+    y1: number;
     /**
      * Y coordinate of second end.
      *
      * @param value Y
      */
-    set y2(value: number);
     /**
-     * @return Y
-     */
-    get y2(): number;
+    * @return Y
+    */
+    y2: number;
     /**
      * Converts relative position along the line (0-1) into pixel coordinates.
      *

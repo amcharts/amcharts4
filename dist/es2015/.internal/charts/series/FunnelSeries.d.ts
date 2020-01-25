@@ -54,7 +54,7 @@ export declare class FunnelSeriesDataItem extends PercentSeriesDataItem {
      * @readonly
      * @return Slice element
      */
-    get sliceLink(): this["_sliceLink"];
+    readonly sliceLink: this["_sliceLink"];
     /**
      * Constructor
      */
@@ -275,11 +275,10 @@ export declare class FunnelSeries extends PercentSeries {
      * @default "vertical"
      * @param value Orientation
      */
-    set orientation(value: Orientation);
     /**
-     * @return Orientation
-     */
-    get orientation(): Orientation;
+    * @return Orientation
+    */
+    orientation: Orientation;
     /**
      * Indicates how slice's bottom will change in relation to slices top AND
      * next slices top.
@@ -306,11 +305,10 @@ export declare class FunnelSeries extends PercentSeries {
      * @default 0
      * @param {number}
      */
-    set bottomRatio(value: number);
     /**
-     * @return {number}
-     */
-    get bottomRatio(): number;
+    * @return {number}
+    */
+    bottomRatio: number;
     /**
      * A list of elements linking each actual slice.
      *
@@ -340,7 +338,7 @@ export declare class FunnelSeries extends PercentSeries {
      *
      * @return Funnel links
      */
-    get sliceLinks(): ListTemplate<this["_slice"]>;
+    readonly sliceLinks: ListTemplate<this["_slice"]>;
     /**
      * Shows hidden series.
      *
@@ -374,9 +372,8 @@ export declare class FunnelSeries extends PercentSeries {
      * @since 4.1.13
      * @param  value  Labels on opposite side?
      */
-    set labelsOpposite(value: boolean);
     /**
-     * @return Labels on opposite side?
-     */
-    get labelsOpposite(): boolean;
+    * @return Labels on opposite side?
+    */
+    labelsOpposite: boolean;
 }

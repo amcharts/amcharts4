@@ -84,11 +84,10 @@ export declare class Image extends Sprite {
      *
      * @param value  Image URI
      */
-    set href(value: string);
     /**
-     * @return Image URI
-     */
-    get href(): string;
+    * @return Image URI
+    */
+    href: string;
     /**
      * Sets image `width` relatively to its `height`.
      *
@@ -97,11 +96,10 @@ export declare class Image extends Sprite {
      *
      * @param value  Ratio
      */
-    set widthRatio(value: number);
     /**
-     * @return Ratio
-     */
-    get widthRatio(): number;
+    * @return Ratio
+    */
+    widthRatio: number;
     /**
      * Sets image `height` relatively to its `width`.
      *
@@ -110,15 +108,14 @@ export declare class Image extends Sprite {
      *
      * @param value  Ratio
      */
-    set heightRatio(value: number);
     /**
-     * @return Ratio
-     */
-    get heightRatio(): number;
+    * @return Ratio
+    */
+    heightRatio: number;
     /**
      * Returns bounding box (square) for this element.
      *
      * @ignore Exclude from docs
      */
-    get bbox(): IRectangle;
+    readonly bbox: IRectangle;
 }

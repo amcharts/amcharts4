@@ -1069,7 +1069,7 @@ export declare class Interaction extends BaseObjectEvents {
     /**
      * Indicates if passive mode options is supported by this browser.
      */
-    static get passiveSupported(): boolean;
+    static readonly passiveSupported: boolean;
 }
 /**
  * Returns a single unified global instance of [[Interaction]].

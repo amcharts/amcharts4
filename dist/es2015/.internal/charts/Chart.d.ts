@@ -153,11 +153,10 @@ export declare class Chart extends Component {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/legend/} for more information about legends
      * @param Legend
      */
-    set legend(legend: Legend);
     /**
-     * @return Legend
-     */
-    get legend(): Legend;
+    * @return Legend
+    */
+    legend: Legend;
     /**
      * Prepares the legend instance for use in this chart.
      *
@@ -192,11 +191,9 @@ export declare class Chart extends Component {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/touch/} For more information.
      * @param  value  Grip
      */
-    set dragGrip(value: Grip);
     /**
-     * @return Grip
-     */
-    get dragGrip(): Grip;
-    set focusable(value: boolean);
-    get focusable(): boolean;
+    * @return Grip
+    */
+    dragGrip: Grip;
+    focusable: boolean;
 }

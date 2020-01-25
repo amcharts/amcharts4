@@ -174,11 +174,10 @@ export declare class RadarSeries extends LineSeries {
      * @default true
      * @param value  Connect?
      */
-    set connectEnds(value: boolean);
     /**
-     * @return Connect?
-     */
-    get connectEnds(): boolean;
+    * @return Connect?
+    */
+    connectEnds: boolean;
     protected positionBulletReal(bullet: Sprite, positionX: number, positionY: number): void;
     protected setXAxis(axis: Axis): void;
     protected setYAxis(axis: Axis): void;

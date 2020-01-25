@@ -93,28 +93,26 @@ export declare class LinearGradient extends BaseObject {
      *
      * @return Stops
      */
-    get stops(): List<IGradientStop>;
+    readonly stops: List<IGradientStop>;
     /**
      * [[Paper]] instace to use for the gradient.
      *
      * @ignore Exclude from docs
      * @param paper  Paper
      */
-    set paper(paper: Paper);
     /**
-     * @ignore Exclude from docs
-     * @return Paper
-     */
-    get paper(): Paper;
+    * @ignore Exclude from docs
+    * @return Paper
+    */
+    paper: Paper;
     /**
      * Rotation (direction) of the gradient in degrees.
      *
      * @param value  Rotation
      */
-    set rotation(value: number);
     /**
-     * @return Rotation
-     */
-    get rotation(): number;
+    * @return Rotation
+    */
+    rotation: number;
     copyFrom(source: this): void;
 }

@@ -134,7 +134,7 @@ export declare class SerialChart extends Chart {
      *
      * @return Chart's series
      */
-    get series(): ListTemplate<this["_seriesType"]>;
+    readonly series: ListTemplate<this["_seriesType"]>;
     protected handleSeriesRemoved(event: IListEvents<Series>["removed"]): void;
     /**
      * Decorates a new [[Series]] object with required parameters when it is
@@ -170,22 +170,20 @@ export declare class SerialChart extends Chart {
      *
      * @param value Color list
      */
-    set colors(value: ColorSet);
     /**
-     * @return Color list
-     */
-    get colors(): ColorSet;
+    * @return Color list
+    */
+    colors: ColorSet;
     /**
      * A [[PatternSet]] to use when creating patterned fills for slices.
      *
      * @since 4.7.5
      * @param value  Pattern set
      */
-    set patterns(value: PatternSet);
     /**
-     * @return Pattern set
-     */
-    get patterns(): PatternSet;
+    * @return Pattern set
+    */
+    patterns: PatternSet;
     /**
      * Copies all parameters from another [[SerialChart]].
      *

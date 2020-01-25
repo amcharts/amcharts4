@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.8.4] - 2020-01-25
+
+### Fixed
+- Downgraded to TypeScript 3.6 to avoid the [breaking change](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#class-field-mitigations) in troduced in TS 3.7.
+
+
 ## [4.8.3] - 2020-01-24
 
 ### Added

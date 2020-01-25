@@ -75,7 +75,7 @@ export declare class SeriesDataItem extends DataItem {
     /**
      * A dictionary of data items bullets, where key is uid of a bullet template.
      */
-    get bullets(): Dictionary<string, Sprite>;
+    readonly bullets: Dictionary<string, Sprite>;
     /**
      * Constructor
      */
@@ -89,11 +89,10 @@ export declare class SeriesDataItem extends DataItem {
      *
      * @param value  Value
      */
-    set value(value: number);
     /**
-     * @return Value
-     */
-    get value(): number;
+    * @return Value
+    */
+    value: number;
 }
 /**
  * ============================================================================
@@ -371,11 +370,10 @@ export declare class Series extends Component {
      *
      * @param value  Chart
      */
-    set chart(value: this["_chart"]);
     /**
-     * @return Chart
-     */
-    get chart(): this["_chart"];
+    * @return Chart
+    */
+    chart: this["_chart"];
     /**
      * Positions bullet.
      *
@@ -463,11 +461,10 @@ export declare class Series extends Component {
      * @default false
      * @param value  Exclude from calculations?
      */
-    set ignoreMinMax(value: boolean);
     /**
-     * @return Exclude from calculations?
-     */
-    get ignoreMinMax(): boolean;
+    * @return Exclude from calculations?
+    */
+    ignoreMinMax: boolean;
     /**
      * Create a mask for the series.
      *
@@ -513,11 +510,10 @@ export declare class Series extends Component {
      * @default 0
      * @param value  Distance (px)
      */
-    set minBulletDistance(value: number);
     /**
-     * @return Distance (px)
-     */
-    get minBulletDistance(): number;
+    * @return Distance (px)
+    */
+    minBulletDistance: number;
     /**
      * A list of bullets that will be added to each and every items in the
      * series.
@@ -529,7 +525,7 @@ export declare class Series extends Component {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/bullets/} for more info about the concept of Bullets
      * @return List of bullets.
      */
-    get bullets(): ListTemplate<Sprite>;
+    readonly bullets: ListTemplate<Sprite>;
     /**
      * Binds related legend data item's visual settings to this series' visual
      * settings.
@@ -543,21 +539,19 @@ export declare class Series extends Component {
      *
      * @param value Hidden in legend?
      */
-    set hiddenInLegend(value: boolean);
     /**
-     * @return Hidden in legend?
-     */
-    get hiddenInLegend(): boolean;
+    * @return Hidden in legend?
+    */
+    hiddenInLegend: boolean;
     /**
      * Series' name.
      *
      * @param value  Name
      */
-    set name(value: string);
     /**
-     * @return Name
-     */
-    get name(): string;
+    * @return Name
+    */
+    name: string;
     /**
      * Screen reader text to be applied to each individual data item, such
      * as bullets, columns or slices.
@@ -569,11 +563,10 @@ export declare class Series extends Component {
      *
      * @param value Screen reader text template
      */
-    set itemReaderText(value: string);
     /**
-     * @return Screen reader text template
-     */
-    get itemReaderText(): string;
+    * @return Screen reader text template
+    */
+    itemReaderText: string;
     /**
      * Returns if number of data items in the series are beyond non-focusable
      * count and should not be available for TAB-through.
@@ -587,11 +580,10 @@ export declare class Series extends Component {
      *
      * @param value  Data item
      */
-    set legendDataItem(value: LegendDataItem);
     /**
-     * @return Data item
-     */
-    get legendDataItem(): LegendDataItem;
+    * @return Data item
+    */
+    legendDataItem: LegendDataItem;
     /**
      * Updates corresponding legend data item with current values.
      *
@@ -664,7 +656,7 @@ export declare class Series extends Component {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/series/#Heat_maps} for more about heat rules
      * @return  Heat rules
      */
-    get heatRules(): List<IHeatRule>;
+    readonly heatRules: List<IHeatRule>;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

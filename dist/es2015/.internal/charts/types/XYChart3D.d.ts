@@ -120,36 +120,34 @@ export declare class XYChart3D extends XYChart {
      *
      * @param value  Depth (px)
      */
-    set depth(value: number);
     /**
-     * @return Depth (px)
-     */
-    get depth(): number;
+    * @return Depth (px)
+    */
+    depth: number;
     /**
      * Angle the chart is viewed at.
      *
      * @todo Description (review)
      * @param value  Angle
      */
-    set angle(value: number);
     /**
-     * @return Angle
-     */
-    get angle(): number;
+    * @return Angle
+    */
+    angle: number;
     /**
      * A calculated horizontal 3D offset (px).
      *
      * @readonly
      * @return Offset (px)
      */
-    get dx3D(): number;
+    readonly dx3D: number;
     /**
      * A calculated vertical 3D offset (px).
      *
      * @readonly
      * @return Offset (px)
      */
-    get dy3D(): number;
+    readonly dy3D: number;
     /**
      * (Re)validates layout
      *

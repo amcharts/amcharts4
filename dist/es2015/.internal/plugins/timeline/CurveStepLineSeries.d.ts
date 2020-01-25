@@ -145,20 +145,18 @@ export declare class CurveStepLineSeries extends CurveLineSeries {
      * @default 0
      * @param value Location (0-1)
      */
-    set startLocation(value: number);
     /**
-     * @return Location (0-1)
-     */
-    get startLocation(): number;
+    * @return Location (0-1)
+    */
+    startLocation: number;
     /**
      * Relative location in cell where step should end.
      *
      * @default 1
      * @param value Location (0-1)
      */
-    set endLocation(value: number);
     /**
-     * @return Location (0-1)
-     */
-    get endLocation(): number;
+    * @return Location (0-1)
+    */
+    endLocation: number;
 }

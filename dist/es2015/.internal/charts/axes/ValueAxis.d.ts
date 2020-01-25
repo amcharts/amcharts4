@@ -42,21 +42,19 @@ export declare class ValueAxisDataItem extends AxisDataItem {
      *
      * @param value  Value
      */
-    set value(value: number);
     /**
-     * @return Value
-     */
-    get value(): number;
+    * @return Value
+    */
+    value: number;
     /**
      * Data point's numeric end value.
      *
      * @param value  End value
      */
-    set endValue(value: number);
     /**
-     * @return Value
-     */
-    get endValue(): number;
+    * @return Value
+    */
+    endValue: number;
 }
 /**
  * ============================================================================
@@ -379,7 +377,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @ignore Exclude from docs
      * @return Base point
      */
-    get basePoint(): IPoint;
+    readonly basePoint: IPoint;
     /**
      * A base value.
      *
@@ -391,11 +389,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @param value Base value
      */
-    set baseValue(value: number);
     /**
-     * @return base value
-     */
-    get baseValue(): number;
+    * @return base value
+    */
+    baseValue: number;
     /**
      * Converts a numeric value to relative position on axis
      *
@@ -521,25 +518,24 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @param value  Min value
      */
-    set min(value: number);
     /**
-     * @return Min value
-     */
-    get min(): number;
+    * @return Min value
+    */
+    min: number;
     /**
      * Min value as defined by user's code, not auto-calculated.
      *
      * @readonly
      * @return Min value
      */
-    get minDefined(): number;
+    readonly minDefined: number;
     /**
      * Max value as defined by user's code, not auto-calculated.
      *
      * @readonly
      * @return Man value
      */
-    get maxDefined(): number;
+    readonly maxDefined: number;
     /**
      * Allows relatively adjusting minimum value of the axis' scale.
      *
@@ -552,11 +548,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @param {number}
      */
-    set extraMin(value: number);
     /**
-     * @return {number}
-     */
-    get extraMin(): number;
+    * @return {number}
+    */
+    extraMin: number;
     /**
      * Allows relatively adjusting maximum value of the axis' scale.
      *
@@ -569,11 +564,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @param {number}
      */
-    set extraMax(value: number);
     /**
-     * @return Min multiplier
-     */
-    get extraMax(): number;
+    * @return Min multiplier
+    */
+    extraMax: number;
     /**
      * Current calculated delta in values between two adjacent grid lines (step).
      *
@@ -583,7 +577,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/#Setting_the_density_of_the_the_grid_labels} For more information about modifying density of labels
      * @return [description]
      */
-    get step(): number;
+    readonly step: number;
     /**
      * A maximum value for the axis scale.
      *
@@ -595,11 +589,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @param value  Max value
      */
-    set max(value: number);
     /**
-     * @return Max value
-     */
-    get max(): number;
+    * @return Max value
+    */
+    max: number;
     /**
      * Used for the Series to register itself as the user of this Axis.
      *
@@ -632,11 +625,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @default false
      * @param value Use exact values?
      */
-    set strictMinMax(value: boolean);
     /**
-     * @return Use exact values?
-     */
-    get strictMinMax(): boolean;
+    * @return Use exact values?
+    */
+    strictMinMax: boolean;
     /**
      * Indicates if this axis should use a logarithmic scale.
      *
@@ -648,11 +640,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @param value Logarithmic scale?
      */
-    set logarithmic(value: boolean);
     /**
-     * @return Logarithmic scale?
-     */
-    get logarithmic(): boolean;
+    * @return Logarithmic scale?
+    */
+    logarithmic: boolean;
     /**
      * Indicates if a current selection (zoom) should be kept across data updates.
      *
@@ -689,11 +680,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @default flase
      * @param  value  Preseve zoom after data update?
      */
-    set keepSelection(value: boolean);
     /**
-     * @return Preseve zoom after data update?
-     */
-    get keepSelection(): boolean;
+    * @return Preseve zoom after data update?
+    */
+    keepSelection: boolean;
     /**
      * If set to `true`, values of axis ranges will be included when calculating
      * range of values / scale of the [[ValueAxis]].
@@ -702,11 +692,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @since 4.4.9
      * @param  value  Include ranges?
      */
-    set includeRangesInMinMax(value: boolean);
     /**
-     * @return Include ranges?
-     */
-    get includeRangesInMinMax(): boolean;
+    * @return Include ranges?
+    */
+    includeRangesInMinMax: boolean;
     /**
      * Maximum number of decimals to allow when placing grid lines and labels
      * on axis.
@@ -715,11 +704,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @param {number}
      */
-    set maxPrecision(value: number);
     /**
-     * @return max precision
-     */
-    get maxPrecision(): number;
+    * @return max precision
+    */
+    maxPrecision: number;
     /**
      * This setting allows using bigger precision for numbers displayed in axis
      * tooltip.
@@ -735,11 +723,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @since 4.8.3
      * @param  value  Extra decimals
      */
-    set extraTooltipPrecision(value: number);
     /**
-     * @return Extra decimals
-     */
-    get extraTooltipPrecision(): number;
+    * @return Extra decimals
+    */
+    extraTooltipPrecision: number;
     /**
      * Invalidates axis data items when series extremes change
      */
@@ -840,12 +827,12 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @return Min zoom value
      */
-    get minZoomed(): number;
+    readonly minZoomed: number;
     /**
      * A biggest value in axis scale within current zoom.
      * @return [description]
      */
-    get maxZoomed(): number;
+    readonly maxZoomed: number;
     /**
      * Updates positioning of Axis breaks after something changes.
      *
@@ -892,11 +879,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @since 4.8.1
      * @param  axis  Target axis
      */
-    set syncWithAxis(axis: ValueAxis);
     /**
-     * @return Target axis
-     */
-    get syncWithAxis(): ValueAxis;
+    * @return Target axis
+    */
+    syncWithAxis: ValueAxis;
     /**
      * Syncs with a target axis.
      *

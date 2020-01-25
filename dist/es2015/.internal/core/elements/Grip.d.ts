@@ -78,20 +78,18 @@ export declare class Grip extends Button {
      *
      * @param  value  Position
      */
-    set position(value: Align | VerticalAlign);
     /**
-     * @return Position
-     */
-    get position(): Align | VerticalAlign;
+    * @return Position
+    */
+    position: Align | VerticalAlign;
     /**
      * Number of milliseconds to show grip until it is hidden automatically.
      *
      * @default 3000
      * @param  value  Delay
      */
-    set autoHideDelay(value: number);
     /**
-     * @return Delay
-     */
-    get autoHideDelay(): number;
+    * @return Delay
+    */
+    autoHideDelay: number;
 }

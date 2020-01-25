@@ -136,11 +136,10 @@ export declare class ForceDirectedNode extends Container {
      * @since 4.4.8
      * @param  value  Expand all?
      */
-    set expandAll(value: boolean);
     /**
-     * @return Expand all?
-     */
-    get expandAll(): boolean;
+    * @return Expand all?
+    */
+    expandAll: boolean;
     /**
      * Creates a new link between two nodes.
      *
@@ -167,9 +166,8 @@ export declare class ForceDirectedNode extends Container {
      * @default 0
      * @param  value  padding radius
      */
-    set paddingRadius(value: number);
     /**
-     * @return Padding radius
-     */
-    get paddingRadius(): number;
+    * @return Padding radius
+    */
+    paddingRadius: number;
 }

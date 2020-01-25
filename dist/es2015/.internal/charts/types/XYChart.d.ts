@@ -495,7 +495,7 @@ export declare class XYChart extends SerialChart {
      *
      * @return List of axes
      */
-    get xAxes(): List<Axis<this["_xAxisRendererType"]>>;
+    readonly xAxes: List<Axis<this["_xAxisRendererType"]>>;
     /**
      * @ignore
      */
@@ -505,7 +505,7 @@ export declare class XYChart extends SerialChart {
      *
      * @return List of axes
      */
-    get yAxes(): List<Axis<this["_yAxisRendererType"]>>;
+    readonly yAxes: List<Axis<this["_yAxisRendererType"]>>;
     /**
      * Decorates a new [[XYSeries]] object with required parameters when it is
      * added to the chart.
@@ -519,11 +519,10 @@ export declare class XYChart extends SerialChart {
      *
      * @param cursor  Cursor
      */
-    set cursor(cursor: this["_cursor"]);
     /**
-     * @return Cursor
-     */
-    get cursor(): this["_cursor"];
+    * @return Cursor
+    */
+    cursor: this["_cursor"];
     /**
      * Performs tasks when the cursor's position changes, e.g. shows proper
      * tooltips on axes and series.
@@ -629,21 +628,19 @@ export declare class XYChart extends SerialChart {
      *
      * @param scrollbar Scrollbar
      */
-    set scrollbarX(scrollbar: Scrollbar);
     /**
-     * @return Scrollbar
-     */
-    get scrollbarX(): Scrollbar;
+    * @return Scrollbar
+    */
+    scrollbarX: Scrollbar;
     /**
      * Vertical (Y) scrollbar.
      *
      * @param scrollbar Scrollbar
      */
-    set scrollbarY(scrollbar: Scrollbar);
     /**
-     * @return Scrollbar
-     */
-    get scrollbarY(): Scrollbar;
+    * @return Scrollbar
+    */
+    scrollbarY: Scrollbar;
     /**
      * Zooms axes affected by the horizontal (X) scrollbar when the selection
      * on it changes.
@@ -676,11 +673,10 @@ export declare class XYChart extends SerialChart {
      *
      * @param value Mask bullet container?
      */
-    set maskBullets(value: boolean);
     /**
-     * @return Mask bullet container?
-     */
-    get maskBullets(): boolean;
+    * @return Mask bullet container?
+    */
+    maskBullets: boolean;
     /**
      * Indicates if chart should arrange series tooltips so that they would not
      * overlap.
@@ -695,11 +691,10 @@ export declare class XYChart extends SerialChart {
      * @default true
      * @param value Arrange tooltips?
      */
-    set arrangeTooltips(value: boolean);
     /**
-     * @return Arrange tooltips?
-     */
-    get arrangeTooltips(): boolean;
+    * @return Arrange tooltips?
+    */
+    arrangeTooltips: boolean;
     /**
      * Handles mouse wheel event.
      *
@@ -727,11 +722,10 @@ export declare class XYChart extends SerialChart {
      * @see {@link https://www.amcharts.com/docs/v4/reference/sprite/#mouseOptions_property} More information about `mouseOptions`
      * @param mouse wheel behavior
      */
-    set mouseWheelBehavior(value: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none");
     /**
-     * @return Mouse wheel behavior
-     */
-    get mouseWheelBehavior(): "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
+    * @return Mouse wheel behavior
+    */
+    mouseWheelBehavior: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
     /**
      * Specifies action for when horizontal mouse wheel is used when over the chart.
      *
@@ -741,11 +735,10 @@ export declare class XYChart extends SerialChart {
      * @see {@link https://www.amcharts.com/docs/v4/reference/sprite/#mouseOptions_property} More information about `mouseOptions`
      * @param mouse wheel behavior
      */
-    set horizontalMouseWheelBehavior(value: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none");
     /**
-     * @return Horizontal mouse wheel behavior
-     */
-    get horizontalMouseWheelBehavior(): "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
+    * @return Horizontal mouse wheel behavior
+    */
+    horizontalMouseWheelBehavior: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
     /**
      * This function is called by the [[DataSource]]'s `dateFields` adapater
      * so that particular chart types can popuplate this setting with their
@@ -798,11 +791,10 @@ export declare class XYChart extends SerialChart {
      *
      * @param button  Zoom out button
      */
-    set zoomOutButton(button: Button);
     /**
-     * @return Zoom out button
-     */
-    get zoomOutButton(): Button;
+    * @return Zoom out button
+    */
+    zoomOutButton: Button;
     /**
      * Copies all parameters from another [[XYChart]].
      *

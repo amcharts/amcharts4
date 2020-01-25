@@ -39,7 +39,7 @@ export declare class SunburstSeriesDataItem extends PieSeriesDataItem {
      * @readonly
      * @return Data item
      */
-    get sunburstDataItem(): SunburstDataItem;
+    readonly sunburstDataItem: SunburstDataItem;
     /**
      * Hide the data item (and corresponding visual elements).
      *
@@ -62,11 +62,10 @@ export declare class SunburstSeriesDataItem extends PieSeriesDataItem {
      *
      * @param value  Value
      */
-    set value(value: number);
     /**
-     * @return Value
-     */
-    get value(): number;
+    * @return Value
+    */
+    value: number;
     /**
      *
      * @todo description

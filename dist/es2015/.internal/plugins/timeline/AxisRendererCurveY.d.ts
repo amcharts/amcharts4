@@ -105,7 +105,7 @@ export declare class AxisRendererCurveY extends AxisRendererY {
      *
      * @return Length (px)
      */
-    get axisLength(): number;
+    readonly axisLength: number;
     /**
      * Outer radius of the vertical (Y) axis in pixels.
      *
@@ -116,11 +116,10 @@ export declare class AxisRendererCurveY extends AxisRendererY {
      * @see {@link https://www.amcharts.com/docs/v4/chart-types/timeline/#Axis_radii} for more info
      * @param value  Outer radius
      */
-    set radius(value: number);
     /**
-     * @return Outer radius
-     */
-    get radius(): number;
+    * @return Outer radius
+    */
+    radius: number;
     /**
      * Inner radius of the vertical (Y) axis in pixels.
      *
@@ -131,23 +130,21 @@ export declare class AxisRendererCurveY extends AxisRendererY {
      * @see {@link https://www.amcharts.com/docs/v4/chart-types/timeline/#Axis_radii} for more info
      * @param value  Outer radius
      */
-    set innerRadius(value: number);
     /**
-     * @return Inner radius
-     */
-    get innerRadius(): number;
+    * @return Inner radius
+    */
+    innerRadius: number;
     /**
      * Chart, associated with the Axis.
      *
      * @ignore Exclude from docs
      * @param value Chart
      */
-    set chart(chart: CurveChart);
     /**
-     * @ignore Exclude from docs
-     * @return Chart
-     */
-    get chart(): CurveChart;
+    * @ignore Exclude from docs
+    * @return Chart
+    */
+    chart: CurveChart;
     /**
      * Converts relative position on axis to point coordinates.
      *
@@ -267,11 +264,10 @@ export declare class AxisRendererCurveY extends AxisRendererY {
      * @default 0
      * @param  value  Axis location
      */
-    set axisLocation(value: number);
     /**
-     * @return Axis location
-     */
-    get axisLocation(): number;
+    * @return Axis location
+    */
+    axisLocation: number;
     /**
      * Called when rendered is attached to an Axis, as well as a property of
      * Axis that might affect the appearance is updated.

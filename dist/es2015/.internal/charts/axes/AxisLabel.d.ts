@@ -83,23 +83,21 @@ export declare class AxisLabel extends Label {
      *
      * @param value  Location (0-1)
      */
-    set location(value: AxisItemLocation);
     /**
-     * @return Location (0-1)
-     */
-    get location(): AxisItemLocation;
+    * @return Location (0-1)
+    */
+    location: AxisItemLocation;
     /**
      * Sets if label should be drawn inside axis.
      *
      * @param value  Inside?
      */
-    set inside(value: boolean);
     /**
-     * Returns if label is set to be drawn inside axis.
-     *
-     * @return Inside?
-     */
-    get inside(): boolean;
+    * Returns if label is set to be drawn inside axis.
+    *
+    * @return Inside?
+    */
+    inside: boolean;
     /**
      * @ignore
      */

@@ -147,11 +147,10 @@ export declare class Regression extends Plugin {
      * @default linear
      * @param  value  Method
      */
-    set method(value: "linear" | "polynomial");
     /**
-     * @return Method
-     */
-    get method(): "linear" | "polynomial";
+    * @return Method
+    */
+    method: "linear" | "polynomial";
     /**
      * Regression output options.
      *
@@ -167,13 +166,10 @@ export declare class Regression extends Plugin {
      * @see {@link https://github.com/Tom-Alexander/regression-js#configuration-options} About options
      * @param  value  Options
      */
-    set options(value: {
-        [index: string]: any;
-    });
     /**
-     * @return Options
-     */
-    get options(): {
+    * @return Options
+    */
+    options: {
         [index: string]: any;
     };
     /**
@@ -186,11 +182,10 @@ export declare class Regression extends Plugin {
      * @since 4.2.3
      * @param  value  Simplify?
      */
-    set simplify(value: boolean);
     /**
-     * @return Simplify?
-     */
-    get simplify(): boolean;
+    * @return Simplify?
+    */
+    simplify: boolean;
     /**
      * Orders data points after calculation. This can make sense in scatter plot
      * scenarios where data points can come in non-linear fashion.
@@ -199,9 +194,8 @@ export declare class Regression extends Plugin {
      * @since 4.2.3
      * @param  value  Reorder data?
      */
-    set reorder(value: boolean);
     /**
-     * @return Reorder data?
-     */
-    get reorder(): boolean;
+    * @return Reorder data?
+    */
+    reorder: boolean;
 }

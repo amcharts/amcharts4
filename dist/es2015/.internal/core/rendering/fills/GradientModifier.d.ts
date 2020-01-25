@@ -81,31 +81,28 @@ export declare class GradientModifier extends ColorModifier {
      *
      * @param value  Lightness values
      */
-    set lightnesses(value: number[]);
     /**
-     * @return Lightness values
-     */
-    get lightnesses(): number[];
+    * @return Lightness values
+    */
+    lightnesses: number[];
     /**
      * An array of brightness values for each step.
      *
      * @param value  Brightness values
      */
-    set brightnesses(value: number[]);
     /**
-     * @return Brightness values
-     */
-    get brightnesses(): number[];
+    * @return Brightness values
+    */
+    brightnesses: number[];
     /**
      * An array of opacity values for each step.
      *
      * @param value  Opacity values
      */
-    set opacities(value: number[]);
     /**
-     * @return Opacity values
-     */
-    get opacities(): number[];
+    * @return Opacity values
+    */
+    opacities: number[];
     /**
      * An array of relative position (0-1) for each step.
      *
@@ -113,11 +110,10 @@ export declare class GradientModifier extends ColorModifier {
      *
      * @param value  Offsets
      */
-    set offsets(value: number[]);
     /**
-     * @return Offsets
-     */
-    get offsets(): number[];
+    * @return Offsets
+    */
+    offsets: number[];
     /**
      * Modifies the color based on step setting.
      *

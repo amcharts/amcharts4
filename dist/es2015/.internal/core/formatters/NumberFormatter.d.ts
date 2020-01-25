@@ -90,11 +90,10 @@ export declare class NumberFormatter extends BaseObject {
      *
      * @param value  Language
      */
-    set language(value: Language);
     /**
-     * @return Language
-     */
-    get language(): Language;
+    * @return Language
+    */
+    language: Language;
     /**
      * Formats the number according to specific format.
      *
@@ -139,22 +138,20 @@ export declare class NumberFormatter extends BaseObject {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
      * @param format  A format to use for number formatting
      */
-    set numberFormat(format: string | Intl.NumberFormatOptions);
     /**
-     * @return A format to use for number formatting
-     */
-    get numberFormat(): string | Intl.NumberFormatOptions;
+    * @return A format to use for number formatting
+    */
+    numberFormat: string | Intl.NumberFormatOptions;
     /**
      * Locales if you are using date formats in `Intl.NumberFormatOptions` syntax.
      *
      * @see (@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat) about using Intl for number formatting
      * @param value Locales
      */
-    set intlLocales(value: string);
     /**
-     * @return Date format
-     */
-    get intlLocales(): string;
+    * @return Date format
+    */
+    intlLocales: string;
     /**
      * Negative base for negative numbers.
      *
@@ -162,11 +159,10 @@ export declare class NumberFormatter extends BaseObject {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
      * @param format  A format to use for number formatting
      */
-    set negativeBase(value: number);
     /**
-     * @return A format to use for number formatting
-     */
-    get negativeBase(): number;
+    * @return A format to use for number formatting
+    */
+    negativeBase: number;
     /**
      * Prefixes for big numbers.
      *
@@ -202,11 +198,10 @@ export declare class NumberFormatter extends BaseObject {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
      * @param prefixes  Prefixes for big numbers
      */
-    set bigNumberPrefixes(prefixes: INumberSuffix[]);
     /**
-     * @return Prefixes for big numbers
-     */
-    get bigNumberPrefixes(): INumberSuffix[];
+    * @return Prefixes for big numbers
+    */
+    bigNumberPrefixes: INumberSuffix[];
     /**
      * Prefixes for big numbers.
      *
@@ -245,11 +240,10 @@ export declare class NumberFormatter extends BaseObject {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
      * @param prefixes  Prefixes for small numbers
      */
-    set smallNumberPrefixes(prefixes: INumberSuffix[]);
     /**
-     * @return Prefixes for small numbers
-     */
-    get smallNumberPrefixes(): INumberSuffix[];
+    * @return Prefixes for small numbers
+    */
+    smallNumberPrefixes: INumberSuffix[];
     /**
      * Any number smaller than this will be considered "small" number, which will
      * trigger special formatting if "a" format modifier is used.
@@ -257,11 +251,10 @@ export declare class NumberFormatter extends BaseObject {
      * @since 4.6.8
      * @param  value  Small number threshold
      */
-    set smallNumberThreshold(value: number);
     /**
-     * @return Small number threshold
-     */
-    get smallNumberThreshold(): number;
+    * @return Small number threshold
+    */
+    smallNumberThreshold: number;
     /**
      * Basically the same as `bigNumberPrefixes`, except base for calculation
      * is not thousand but byte (1024).
@@ -277,23 +270,21 @@ export declare class NumberFormatter extends BaseObject {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
      * @param prefixes  Prefixes for byte-size formatting
      */
-    set bytePrefixes(prefixes: INumberSuffix[]);
     /**
-     * @return Prefixes for byte-size formatting
-     */
-    get bytePrefixes(): INumberSuffix[];
+    * @return Prefixes for byte-size formatting
+    */
+    bytePrefixes: INumberSuffix[];
     /**
      * Ooutput format: "svg" or "html".
      *
      * @ignore Exclude from docs
      * @param value  Output format
      */
-    set outputFormat(outputFormat: string);
     /**
-     * @ignore Exclude from docs
-     * @return Output format
-     */
-    get outputFormat(): string;
+    * @ignore Exclude from docs
+    * @return Output format
+    */
+    outputFormat: string;
     /**
      * Replaces brackets with temporary placeholders.
      *

@@ -177,11 +177,10 @@ export declare class AxisBullet extends Container {
      * @default 0.5
      * @param  value  Location (0-1)
      */
-    set location(value: AxisItemLocation);
     /**
-     * @return Location (0-1)
-     */
-    get location(): AxisItemLocation;
+    * @return Location (0-1)
+    */
+    location: AxisItemLocation;
     /**
      * @ignore
      */

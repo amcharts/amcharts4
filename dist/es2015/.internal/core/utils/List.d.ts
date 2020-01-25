@@ -211,7 +211,7 @@ export declare class List<T> {
      * @readonly
      * @return List values
      */
-    get values(): Array<T>;
+    readonly values: Array<T>;
     /**
      * Checks if list contains specific item reference.
      *
@@ -238,7 +238,7 @@ export declare class List<T> {
      * @readonly
      * @return Number of items
      */
-    get length(): number;
+    readonly length: number;
     /**
      * Checks if there's a value at specific index.
      *
@@ -434,11 +434,10 @@ export declare class ListTemplate<T extends IClone<T> & {
      *
      * @param v  Template object
      */
-    set template(v: T);
     /**
-     * @return Template object
-     */
-    get template(): T;
+    * @return Template object
+    */
+    template: T;
     /**
      * Copies all elements from other list.
      *

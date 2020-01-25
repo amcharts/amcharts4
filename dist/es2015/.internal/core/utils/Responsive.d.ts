@@ -196,22 +196,20 @@ export declare class Responsive extends BaseObjectEvents {
      *
      * @param value  Target object
      */
-    set component(value: $type.Optional<Component>);
     /**
-     * @return Target object
-     */
-    get component(): $type.Optional<Component>;
+    * @return Target object
+    */
+    component: $type.Optional<Component>;
     /**
      * Should responsive rules be checked against and applied?
      *
      * @default false
      * @param value  Apply responsive rules?
      */
-    set enabled(value: boolean);
     /**
-     * @return Apply responsive rules?
-     */
-    get enabled(): boolean;
+    * @return Apply responsive rules?
+    */
+    enabled: boolean;
     /**
      * Should default responsive rules be applied in addition to user-defined
      * ones.
@@ -222,11 +220,10 @@ export declare class Responsive extends BaseObjectEvents {
      * @default true
      * @param value  Use default rules?
      */
-    set useDefault(value: boolean);
     /**
-     * @return Use default rules?
-     */
-    get useDefault(): boolean;
+    * @return Use default rules?
+    */
+    useDefault: boolean;
     /**
      * User-defined responsive rules.
      *
@@ -238,18 +235,17 @@ export declare class Responsive extends BaseObjectEvents {
      *
      * @param value  User-defined rules
      */
-    set rules(value: List<IResponsiveRule>);
     /**
-     * @return User-defined rules
-     */
-    get rules(): List<IResponsiveRule>;
+    * @return User-defined rules
+    */
+    rules: List<IResponsiveRule>;
     /**
      * Default responsive rules.
      *
      * @readonly
      * @return List of responsive rules
      */
-    get defaultRules(): List<IResponsiveRule>;
+    readonly defaultRules: List<IResponsiveRule>;
     /**
      * Returns all rules: default rules (if not disabled) combined with
      * user-defined ones.
@@ -257,7 +253,7 @@ export declare class Responsive extends BaseObjectEvents {
      * @readonly
      * @return List of all applicable rules
      */
-    get allRules(): List<IResponsiveRule>;
+    readonly allRules: List<IResponsiveRule>;
     /**
      * Checks if rule by the particular id currently applied.
      *

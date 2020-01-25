@@ -90,18 +90,17 @@ export declare class Polyline extends Sprite {
      * @todo Example
      * @param segments  Segments
      */
-    set segments(segments: $type.Optional<Array<Array<IPoint>>>);
     /**
-     * @return Segments
-     */
-    get segments(): $type.Optional<Array<Array<IPoint>>>;
+    * @return Segments
+    */
+    segments: $type.Optional<Array<Array<IPoint>>>;
     /**
      * [distance description]
      *
      * @todo Description
      * @return [description]
      */
-    get distance(): number;
+    readonly distance: number;
     /**
      * Converts relative position along the line (0-1) into pixel coordinates.
      *
@@ -112,5 +111,5 @@ export declare class Polyline extends Sprite {
     /**
      * @ignore
      */
-    get realSegments(): IPoint[][];
+    readonly realSegments: IPoint[][];
 }

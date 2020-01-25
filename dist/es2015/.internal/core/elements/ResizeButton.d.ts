@@ -74,5 +74,5 @@ export declare class ResizeButton extends Button {
      *
      * @param value Orientation
      */
-    set orientation(value: Orientation);
+    orientation: Orientation;
 }

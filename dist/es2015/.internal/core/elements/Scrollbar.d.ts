@@ -276,50 +276,46 @@ export declare class Scrollbar extends Container {
      *
      * @param position  Position (0-1)
      */
-    set start(position: number);
     /**
-     * @return Position (0-1)
-     */
-    get start(): number;
+    * @return Position (0-1)
+    */
+    start: number;
     /**
      * [__start description]
      *
      * @todo Description
      * @param position [description]
      */
-    protected set __start(position: number);
     /**
-     * @return [description]
-     */
-    protected get __start(): number;
+    * @return [description]
+    */
+    protected __start: number;
     /**
      * Relative position (0-1) of the end grip.
      *
      * @param position  Position (0-1)
      */
-    set end(position: number);
     /**
-     * @return Position (0-1)
-     */
-    get end(): number;
+    * @return Position (0-1)
+    */
+    end: number;
     /**
      * [__end description]
      *
      * @todo Description
      * @param position [description]
      */
-    protected set __end(position: number);
     /**
-     * @return [description]
-     */
-    protected get __end(): number;
+    * @return [description]
+    */
+    protected __end: number;
     /**
      * Current selection range.
      *
      * @readonly
      * @return Range
      */
-    get range(): IRange;
+    readonly range: IRange;
     /**
      * Disables range change events.
      *
@@ -356,15 +352,14 @@ export declare class Scrollbar extends Container {
      * @default "horizontal"
      * @param value  Orientation
      */
-    set orientation(value: Orientation);
+    /**
+    * @return Orientation
+    */
+    orientation: Orientation;
     /**
      * @ignore
      */
     protected updateByOrientation(): void;
-    /**
-     * @return Orientation
-     */
-    get orientation(): Orientation;
     /**
      * ==========================================================================
      * GRIPS
@@ -376,21 +371,19 @@ export declare class Scrollbar extends Container {
      *
      * @param button  Grip element
      */
-    set startGrip(button: ResizeButton);
     /**
-     * @return Grip element
-     */
-    get startGrip(): ResizeButton;
+    * @return Grip element
+    */
+    startGrip: ResizeButton;
     /**
      * End grip element. (button)
      *
      * @param button  Grip element
      */
-    set endGrip(button: ResizeButton);
     /**
-     * @return Grip element
-     */
-    get endGrip(): ResizeButton;
+    * @return Grip element
+    */
+    endGrip: ResizeButton;
     /**
      * Decorates the grip button with properties and events.
      *
@@ -413,11 +406,10 @@ export declare class Scrollbar extends Container {
      *
      * @param thumb  Thumb element
      */
-    set thumb(thumb: Button);
     /**
-     * @return Thumb element
-     */
-    get thumb(): Button;
+    * @return Thumb element
+    */
+    thumb: Button;
     /**
      * Zooms-in and out the selection on double-click of the thumb.
      *
@@ -443,32 +435,29 @@ export declare class Scrollbar extends Container {
      *
      * @param value  Show only on hover?
      */
-    set hideGrips(value: boolean);
     /**
-     * @return Show only on hover?
-     */
-    get hideGrips(): boolean;
+    * @return Show only on hover?
+    */
+    hideGrips: boolean;
     /**
      * Duration in milliseconds of scrollbar animation (happens when user clicks on a background of a scrollbar)
      * @default 0
      * @param value number
      */
-    set animationDuration(value: number);
     /**
-     * @return Orientation
-     */
-    get animationDuration(): number;
+    * @return Orientation
+    */
+    animationDuration: number;
     /**
      * Animation easing function.
      * @todo: review description and default
      * @default $ease.cubicOut
      * @param value (value: number) => number
      */
-    set animationEasing(value: (value: number) => number);
     /**
-     * @return {Function}
-     */
-    get animationEasing(): (value: number) => number;
+    * @return {Function}
+    */
+    animationEasing: (value: number) => number;
     /**
      * Adds easing functions to "function" fields.
      *

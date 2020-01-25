@@ -116,31 +116,28 @@ export declare class AxisFill extends Sprite {
      *
      * @param value  Starting position
      */
-    set startPosition(value: number);
     /**
-     * @return Start position
-     */
-    get startPosition(): number;
+    * @return Start position
+    */
+    startPosition: number;
     /**
      * An actual end position of the fill.
      *
      * @param value End position
      */
-    set endPosition(value: number);
     /**
-     * @return End position
-     */
-    get endPosition(): number;
+    * @return End position
+    */
+    endPosition: number;
     /**
      * Relative location of the fill. (0-1)
      *
      * @param value Location (0-1)
      */
-    set location(value: AxisItemLocation);
     /**
-     * @return Location (0-1)
-     */
-    get location(): AxisItemLocation;
+    * @return Location (0-1)
+    */
+    location: AxisItemLocation;
     /**
      * @ignore
      */
@@ -152,9 +149,8 @@ export declare class AxisFill extends Sprite {
      * @since 4.5.9
      * @param  value  Draw above series?
      */
-    set above(value: boolean);
     /**
-     * @return Draw above series?
-     */
-    get above(): boolean;
+    * @return Draw above series?
+    */
+    above: boolean;
 }

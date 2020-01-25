@@ -93,9 +93,8 @@ export declare class BlurFilter extends Filter {
      * @default 1.5
      * @param value Blur
      */
-    set blur(value: number);
     /**
-     * @return Blur
-     */
-    get blur(): number;
+    * @return Blur
+    */
+    blur: number;
 }

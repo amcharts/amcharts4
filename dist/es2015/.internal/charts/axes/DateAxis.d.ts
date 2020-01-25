@@ -47,21 +47,19 @@ export declare class DateAxisDataItem extends ValueAxisDataItem {
      *
      * @param date  Date
      */
-    set date(date: Date);
     /**
-     * @return Date
-     */
-    get date(): Date;
+    * @return Date
+    */
+    date: Date;
     /**
      * End date for data item.
      *
      * @param date End date
      */
-    set endDate(date: Date);
     /**
-     * @return End date
-     */
-    get endDate(): Date;
+    * @return End date
+    */
+    endDate: Date;
 }
 /**
  * ============================================================================
@@ -471,7 +469,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
     /**
      * @ignore
      */
-    get minDifference(): number;
+    readonly minDifference: number;
     /**
      * [dataChangeUpdate description]
      *
@@ -562,7 +560,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @return Duration (ms)
      */
-    get baseDuration(): number;
+    readonly baseDuration: number;
     /**
      * Adjusts min/max values.
      *
@@ -718,18 +716,17 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @param timeInterval base interval
      */
-    set baseInterval(timeInterval: ITimeInterval);
     /**
-     * @return Base interval
-     */
-    get baseInterval(): ITimeInterval;
+    * @return Base interval
+    */
+    baseInterval: ITimeInterval;
     /**
      * Indicates granularity of the data of source (unaggregated) data.
      *
      * @since 4.7.0
      * @return Granularity of the main data set
      */
-    get mainBaseInterval(): ITimeInterval;
+    readonly mainBaseInterval: ITimeInterval;
     /**
      * If enabled, axis will automatically collapse empty (without data points)
      * periods of time, i.e. weekends.
@@ -751,11 +748,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @default false
      * @param value  Remove empty stretches of time?
      */
-    set skipEmptyPeriods(value: boolean);
     /**
-     * @return Remove empty stretches of time?
-     */
-    get skipEmptyPeriods(): boolean;
+    * @return Remove empty stretches of time?
+    */
+    skipEmptyPeriods: boolean;
     /**
      * A special date format to apply axis tooltips.
      *
@@ -763,11 +759,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @param value  Date format
      */
-    set tooltipDateFormat(value: string | Intl.DateTimeFormatOptions);
     /**
-     * @return Date format
-     */
-    get tooltipDateFormat(): string | Intl.DateTimeFormatOptions;
+    * @return Date format
+    */
+    tooltipDateFormat: string | Intl.DateTimeFormatOptions;
     /**
      * Use `periodChangeDateFormats` to apply different formats to the first
      * label in bigger time unit.
@@ -775,11 +770,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @default true
      * @param value  Use different format for period beginning?
      */
-    set markUnitChange(value: boolean);
     /**
-     * @return Use different format for period beginning?
-     */
-    get markUnitChange(): boolean;
+    * @return Use different format for period beginning?
+    */
+    markUnitChange: boolean;
     /**
      * Returns text to show in a tooltip, based on specific relative position
      * within axis.
@@ -864,7 +858,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @ignore Exclude from docs
      * @return Base point
      */
-    get basePoint(): IPoint;
+    readonly basePoint: IPoint;
     /**
      * @ignore
      */
@@ -918,11 +912,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @default true
      * @param value  Should snap?
      */
-    set snapTooltip(value: boolean);
     /**
-     * @return Should snap?
-     */
-    get snapTooltip(): boolean;
+    * @return Should snap?
+    */
+    snapTooltip: boolean;
     /**
      * Indicates if data should be aggregated to composide data items if there
      * are more data items in selected range than `groupCount`.
@@ -988,11 +981,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @since 4.7.0
      * @param  value  Group data points?
      */
-    set groupData(value: boolean);
     /**
-     * @return Group data points?
-     */
-    get groupData(): boolean;
+    * @return Group data points?
+    */
+    groupData: boolean;
     /**
      * Indicates threshold of data items in selected range at which to start
      * aggregating data items if `groupData = true`.
@@ -1001,17 +993,16 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @since 4.7.0
      * @param  value  Number of data items
      */
-    set groupCount(value: number);
     /**
-     * @return Number of data items
-     */
-    get groupCount(): number;
+    * @return Number of data items
+    */
+    groupCount: number;
     /**
      * Current grid interval.
      *
      * @return Grid interval
      */
-    get gridInterval(): ITimeInterval;
+    readonly gridInterval: ITimeInterval;
     /**
      * @ignore
      */
@@ -1019,5 +1010,5 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
     /**
      * @return base value
      */
-    get baseValue(): number;
+    readonly baseValue: number;
 }

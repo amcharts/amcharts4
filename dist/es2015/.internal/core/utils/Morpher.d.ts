@@ -145,13 +145,12 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      *
      * @param value  Progress (0-1)
      */
-    set morphProgress(value: $type.Optional<number>);
     /**
-     * Returns the progress of morph transition.
-     *
-     * @return Progress (0-1)
-     */
-    get morphProgress(): $type.Optional<number>;
+    * Returns the progress of morph transition.
+    *
+    * @return Progress (0-1)
+    */
+    morphProgress: $type.Optional<number>;
     /**
      * Restores the polygon to its original appearance.
      *
@@ -165,5 +164,5 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      *
      * @return List of animations
      */
-    get animations(): Array<Animation>;
+    readonly animations: Array<Animation>;
 }

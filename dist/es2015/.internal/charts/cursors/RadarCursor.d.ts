@@ -97,21 +97,19 @@ export declare class RadarCursor extends XYCursor {
      *
      * @param value Start angle
      */
-    set startAngle(value: number);
     /**
-     * @return Start angle
-     */
-    get startAngle(): number;
+    * @return Start angle
+    */
+    startAngle: number;
     /**
      * End angle of the cursor's radial line.
      *
      * @param value End angle
      */
-    set endAngle(value: number);
     /**
-     * @return End angle
-     */
-    get endAngle(): number;
+    * @return End angle
+    */
+    endAngle: number;
     protected triggerMoveReal(point: IPoint): void;
     /**
      * (Re)draws the horizontal (circular) cursor's line.
@@ -180,18 +178,17 @@ export declare class RadarCursor extends XYCursor {
      *
      * @param value  Outer radius
      */
-    set radius(value: number | Percent);
     /**
-     * @return Outer radius
-     */
-    get radius(): number | Percent;
+    * @return Outer radius
+    */
+    radius: number | Percent;
     /**
      * Outer radius of the circular line in pixels.
      *
      * @return Outer radius (px)
      * @readonly
      */
-    get pixelRadius(): number;
+    readonly pixelRadius: number;
     /**
      * [truePixelRadius description]
      *
@@ -199,25 +196,24 @@ export declare class RadarCursor extends XYCursor {
      * @return Outer radius (px)
      * @readonly
      */
-    get truePixelRadius(): number;
+    readonly truePixelRadius: number;
     /**
      * Inner radius of the cursor's circular line.
      * Absolute (px) or relative ([[Percent]]).
      *
      * @param value  Inner radius
      */
-    set innerRadius(value: number | Percent);
     /**
-     * @return Inner radius
-     */
-    get innerRadius(): number | Percent;
+    * @return Inner radius
+    */
+    innerRadius: number | Percent;
     /**
      * Inner radius of the circular line in pixels.
      *
      * @return Inner radius (px)
      * @readonly
      */
-    get pixelInnerRadius(): number;
+    readonly pixelInnerRadius: number;
     /**
      *
      * @ignore Exclude from docs

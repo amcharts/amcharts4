@@ -39,11 +39,10 @@ export declare class NavigationBarDataItem extends DataItem {
      *
      * @param value  Name
      */
-    set name(value: string);
     /**
-     * @return Name
-     */
-    get name(): string;
+    * @return Name
+    */
+    name: string;
 }
 /**
  * ============================================================================

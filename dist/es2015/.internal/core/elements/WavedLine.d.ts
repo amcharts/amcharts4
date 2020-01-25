@@ -91,31 +91,28 @@ export declare class WavedLine extends Line implements IWavedShape {
      * @default 16
      * @param value  Wave length (px)
      */
-    set waveLength(value: number);
     /**
-     * @return Wave length (px)
-     */
-    get waveLength(): number;
+    * @return Wave length (px)
+    */
+    waveLength: number;
     /**
      * Wave height in pixels.
      *
      * @default 4
      * @param value  Wave height (px)
      */
-    set waveHeight(value: number);
     /**
-     * @return Wave height (px)
-     */
-    get waveHeight(): number;
+    * @return Wave height (px)
+    */
+    waveHeight: number;
     /**
      * Tension of the wave.
      *
      * @default 0.8
      * @param value  Tension
      */
-    set tension(value: number);
     /**
-     * @return Tension
-     */
-    get tension(): number;
+    * @return Tension
+    */
+    tension: number;
 }

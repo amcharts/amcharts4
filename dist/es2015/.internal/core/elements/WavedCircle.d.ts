@@ -103,49 +103,45 @@ export declare class WavedCircle extends Circle implements IWavedShape {
      *
      * @param value  Inner radius
      */
-    set innerRadius(value: number | Percent);
     /**
-     * @return Inner radius
-     */
-    get innerRadius(): number | Percent;
+    * @return Inner radius
+    */
+    innerRadius: number | Percent;
     /**
      * Calculated inner radius of the circle in pixels.
      *
      * @readonly
      * @return Inner radius (px)
      */
-    get pixelInnerRadius(): number;
+    readonly pixelInnerRadius: number;
     /**
      * Wave length in pixels.
      *
      * @default 16
      * @param value  Wave length (px)
      */
-    set waveLength(value: number);
     /**
-     * @return Wave length (px)
-     */
-    get waveLength(): number;
+    * @return Wave length (px)
+    */
+    waveLength: number;
     /**
      * Wave height in pixels.
      *
      * @default 4
      * @param value  Wave height (px)
      */
-    set waveHeight(value: number);
     /**
-     * @return Wave height (px)
-     */
-    get waveHeight(): number;
+    * @return Wave height (px)
+    */
+    waveHeight: number;
     /**
      * Tension of the wave.
      *
      * @default 0.8
      * @param value  Tension
      */
-    set tension(value: number);
     /**
-     * @return Tension
-     */
-    get tension(): number;
+    * @return Tension
+    */
+    tension: number;
 }

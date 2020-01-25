@@ -283,11 +283,10 @@ export declare class DataSource extends BaseObjectEvents {
      *
      * @param value  URL
      */
-    set url(value: string);
     /**
-     * @return URL
-     */
-    get url(): string;
+    * @return URL
+    */
+    url: string;
     /**
      * Custom options for HTTP(S) request.
      *
@@ -325,11 +324,10 @@ export declare class DataSource extends BaseObjectEvents {
      *
      * @param value  Options
      */
-    set requestOptions(value: INetRequestOptions);
     /**
-     * @return Options
-     */
-    get requestOptions(): INetRequestOptions;
+    * @return Options
+    */
+    requestOptions: INetRequestOptions;
     /**
      * A parser to be used to parse data.
      *
@@ -355,11 +353,10 @@ export declare class DataSource extends BaseObjectEvents {
      * @default JSONParser
      * @param value  Data parser
      */
-    set parser(value: DataParser);
     /**
-     * @return Data parser
-     */
-    get parser(): DataParser;
+    * @return Data parser
+    */
+    parser: DataParser;
     /**
      * Data source reload frequency.
      *
@@ -367,11 +364,10 @@ export declare class DataSource extends BaseObjectEvents {
      *
      * @param value Reload frequency (ms)
      */
-    set reloadFrequency(value: number);
     /**
-     * @return Reload frequency (ms)
-     */
-    get reloadFrequency(): number;
+    * @return Reload frequency (ms)
+    */
+    reloadFrequency: number;
     /**
      * Should subsequent reloads be treated as incremental?
      *
@@ -389,24 +385,20 @@ export declare class DataSource extends BaseObjectEvents {
      * @default false
      * @param Incremental load?
      */
-    set incremental(value: boolean);
     /**
-     * @return Incremental load?
-     */
-    get incremental(): boolean;
+    * @return Incremental load?
+    */
+    incremental: boolean;
     /**
      * An object consisting of key/value pairs to apply to an URL when data
      * source is making an incremental request.
      *
      * @param value  Incremental request parameters
      */
-    set incrementalParams(value: {
-        [index: string]: string;
-    });
     /**
-     * @return Incremental request parameters
-     */
-    get incrementalParams(): {
+    * @return Incremental request parameters
+    */
+    incrementalParams: {
         [index: string]: string;
     };
     /**
@@ -420,11 +412,10 @@ export declare class DataSource extends BaseObjectEvents {
      * @default false
      * @param Keep record count?
      */
-    set keepCount(value: boolean);
     /**
-     * @return keepCount load?
-     */
-    get keepCount(): boolean;
+    * @return keepCount load?
+    */
+    keepCount: boolean;
     /**
      * If set to `true`, each subsequent load will be treated as an update to
      * currently loaded data, meaning that it will try to update values on
@@ -444,11 +435,10 @@ export declare class DataSource extends BaseObjectEvents {
      * @since 2.5.5
      * @param Update current data?
      */
-    set updateCurrentData(value: boolean);
     /**
-     * @return Update current data?
-     */
-    get updateCurrentData(): boolean;
+    * @return Update current data?
+    */
+    updateCurrentData: boolean;
     /**
      * Language instance to use.
      *
@@ -456,11 +446,10 @@ export declare class DataSource extends BaseObjectEvents {
      *
      * @param value An instance of Language
      */
-    set language(value: Language);
     /**
-     * @return A [[Language]] instance to be used
-     */
-    get language(): Language;
+    * @return A [[Language]] instance to be used
+    */
+    language: Language;
     /**
      * A [[DateFormatter]] to use when parsing dates from string formats.
      *
@@ -468,11 +457,10 @@ export declare class DataSource extends BaseObjectEvents {
      *
      * @param value An instance of [[DateFormatter]]
      */
-    set dateFormatter(value: DateFormatter);
     /**
-     * @return A [[DateFormatter]] instance to be used
-     */
-    get dateFormatter(): DateFormatter;
+    * @return A [[DateFormatter]] instance to be used
+    */
+    dateFormatter: DateFormatter;
     /**
      * Adds current timestamp to the URL.
      *

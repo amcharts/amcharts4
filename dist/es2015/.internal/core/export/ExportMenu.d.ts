@@ -463,21 +463,19 @@ export declare class ExportMenu extends Validatable {
      * @param container Reference to container element
      * @todo Check if menu is already build. If it is, just move it to a new container
      */
-    set container(container: $type.Optional<HTMLElement>);
     /**
-     * @return Container
-     */
-    get container(): $type.Optional<HTMLElement>;
+    * @return Container
+    */
+    container: $type.Optional<HTMLElement>;
     /**
      * A list of menu items. Can be nested.
      *
      * @param items  Menu items
      */
-    set items(items: Array<IExportMenuItem>);
     /**
-     * @return Menu items
-     */
-    get items(): Array<IExportMenuItem>;
+    * @return Menu items
+    */
+    items: Array<IExportMenuItem>;
     /**
      * Sets main menu tag to place menu in.
      *
@@ -490,66 +488,63 @@ export declare class ExportMenu extends Validatable {
      * @default "ul"
      * @param tag Tag to use for menu
      */
-    set tag(tag: "ul" | "div");
+    tag: "ul" | "div";
     /**
      * Returns current menu tag.
      *
      * @ignore Exclude from docs
      * @return Menu tag (item that contains sub-items)
      */
-    get menuTag(): string;
+    readonly menuTag: string;
     /**
      * Returns tag to wrap items into.
      *
      * @ignore Exclude from docs
      * @return Item tag
      */
-    get itemTag(): string;
+    readonly itemTag: string;
     /**
      * Returns menu label tag.
      *
      * @ignore Exclude from docs
      * @return Label tag
      */
-    get labelTag(): string;
+    readonly labelTag: string;
     /**
      * Returns icon tag.
      *
      * @ignore Exclude from docs
      * @return Icon tag
      */
-    get iconTag(): string;
+    readonly iconTag: string;
     /**
      * A horizontal alignment for the menu placement.
      *
      * @param value Horizontal alignment
      */
-    set align(value: Align);
     /**
-     * @return Horizontal alignment
-     */
-    get align(): Align;
+    * @return Horizontal alignment
+    */
+    align: Align;
     /**
      * A vertical alignment for the menu placement.
      *
      * @param value Vertical alignment
      */
-    set verticalAlign(value: VerticalAlign);
     /**
-     * @return Vertical alignment
-     */
-    get verticalAlign(): VerticalAlign;
+    * @return Vertical alignment
+    */
+    verticalAlign: VerticalAlign;
     /**
      * Class name prefix.
      *
      * @default "amexport"
      * @param value Class name prefix
      */
-    set classPrefix(value: string);
     /**
-     * @return Class name prefix
-     */
-    get classPrefix(): string;
+    * @return Class name prefix
+    */
+    classPrefix: string;
     /**
      * Indicates whether [[ExportMenu]] should load external CSS to style itself.
      *
@@ -559,11 +554,10 @@ export declare class ExportMenu extends Validatable {
      * @default true
      * @param Should ExportMenu load its own CSS?
      */
-    set defaultStyles(value: boolean);
     /**
-     * @return Should ExportMenu load its own CSS?
-     */
-    get defaultStyles(): boolean;
+    * @return Should ExportMenu load its own CSS?
+    */
+    defaultStyles: boolean;
     /**
      * Loads the default CSS.
      *
@@ -578,21 +572,19 @@ export declare class ExportMenu extends Validatable {
      *
      * @param value Tab index
      */
-    set tabindex(value: number);
     /**
-     * @return Tab index
-     */
-    get tabindex(): number;
+    * @return Tab index
+    */
+    tabindex: number;
     /**
      * A [[Language]] instance.
      *
      * @param value An instance of [[Language]]
      */
-    set language(value: Language);
     /**
-     * @return A [[Language]] instance to be used
-     */
-    get language(): Language;
+    * @return A [[Language]] instance to be used
+    */
+    language: Language;
     /**
      * Controlling the menu
      */

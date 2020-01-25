@@ -295,7 +295,7 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      * @readonly
      * @return [description]
      */
-    get delayed(): boolean;
+    readonly delayed: boolean;
     /**
      * Checks other animations currently running on the same object and removes
      * overlapping options from those other animations that are contained in

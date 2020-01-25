@@ -237,11 +237,10 @@ export declare class DictionaryTemplate<Key extends string, T extends IClone<T> 
      *
      * @param v  Template object
      */
-    set template(v: T);
     /**
-     * @return Template object
-     */
-    get template(): T;
+    * @return Template object
+    */
+    template: T;
     /**
      * Copies all elements from other dictionary.
      *

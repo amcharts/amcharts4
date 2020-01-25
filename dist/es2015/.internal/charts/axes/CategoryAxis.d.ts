@@ -39,7 +39,7 @@ export declare class CategoryAxisDataItem extends AxisDataItem {
     /**
      * Holds Adapter.
      */
-    get adapter(): Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>;
+    readonly adapter: Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>;
     seriesDataItems: {
         [index: string]: XYSeriesDataItem[];
     };
@@ -52,11 +52,10 @@ export declare class CategoryAxisDataItem extends AxisDataItem {
      *
      * @param value  Category
      */
-    set category(value: string);
     /**
-     * @return Category
-     */
-    get category(): string;
+    * @return Category
+    */
+    category: string;
     /**
      * End category.
      *
@@ -64,11 +63,10 @@ export declare class CategoryAxisDataItem extends AxisDataItem {
      *
      * @param value  End category
      */
-    set endCategory(value: string);
     /**
-     * @return End category
-     */
-    get endCategory(): string;
+    * @return End category
+    */
+    endCategory: string;
 }
 /**
  * Defines adapters for [[DataItem]]
@@ -485,7 +483,7 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @ignore Exclude from docs
      * @return Base point
      */
-    get basePoint(): IPoint;
+    readonly basePoint: IPoint;
     /**
      * Initializes Axis' renderer.
      *
@@ -502,5 +500,5 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @since 4.2.0
      * @return Label frequency
      */
-    get frequency(): number;
+    readonly frequency: number;
 }

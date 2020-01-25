@@ -116,11 +116,10 @@ export declare class System {
      *
      * @return is paused?
      */
-    set isPaused(value: boolean);
     /**
-     * @return Is system on pause?
-     */
-    get isPaused(): boolean;
+    * @return Is system on pause?
+    */
+    isPaused: boolean;
 }
 /**
  * A singleton global instance of [[System]].

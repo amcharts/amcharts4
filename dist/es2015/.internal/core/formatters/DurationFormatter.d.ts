@@ -135,25 +135,23 @@ export declare class DurationFormatter extends BaseObject {
      * @default "s"
      * @param baseUnit  A base unit
      */
-    set baseUnit(baseUnit: TimeUnit);
     /**
-     * @return Base unit
-     */
-    get baseUnit(): TimeUnit;
+    * @return Base unit
+    */
+    baseUnit: TimeUnit;
     /**
      * Setter for output format: "svg" or "html.
      *
      * @ignore Exclude from docs
      * @param value  Output format
      */
-    set outputFormat(outputFormat: string);
     /**
-     * Getter for output format.
-     *
-     * @ignore Exclude from docs
-     * @return Output format
-     */
-    get outputFormat(): string;
+    * Getter for output format.
+    *
+    * @ignore Exclude from docs
+    * @return Output format
+    */
+    outputFormat: string;
     /**
      * Returns appropriate default format for the value.
      *
@@ -198,19 +196,17 @@ export declare class DurationFormatter extends BaseObject {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Available fomatting codes
      * @param value  Format
      */
-    set durationFormat(value: string);
     /**
-     * @return Format
-     */
-    get durationFormat(): Optional<string>;
+    * @return Format
+    */
+    durationFormat: string;
     /**
      * Duration formats for various combination of base units.
      *
      * @param value  Formats
      */
-    set durationFormats(value: Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>);
     /**
-     * @return Formats
-     */
-    get durationFormats(): Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>;
+    * @return Formats
+    */
+    durationFormats: Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>;
 }

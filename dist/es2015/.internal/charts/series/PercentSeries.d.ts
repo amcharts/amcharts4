@@ -100,11 +100,10 @@ export declare class PercentSeriesDataItem extends SeriesDataItem {
      *
      * @param value  Category
      */
-    set category(value: string);
     /**
-     * @return Category
-     */
-    get category(): string;
+    * @return Category
+    */
+    category: string;
     /**
      * Creates a marker used in the legend for this slice.
      *
@@ -117,42 +116,40 @@ export declare class PercentSeriesDataItem extends SeriesDataItem {
      *
      * @param value  Legend data item
      */
-    set legendDataItem(value: LegendDataItem);
     /**
-     * @return Legend data item
-     */
-    get legendDataItem(): LegendDataItem;
+    * @return Legend data item
+    */
+    legendDataItem: LegendDataItem;
     /**
      * A Tick element, related to this data item. (slice)
      *
      * @readonly
      * @return Tick element
      */
-    get tick(): this["_tick"];
+    readonly tick: this["_tick"];
     /**
      * A Label element, related to this data item. (slice)
      *
      * @readonly
      * @return Label element
      */
-    get label(): this["_label"];
+    readonly label: this["_label"];
     /**
      * An element, related to this data item. (slice)
      *
      * @readonly
      * @return Slice element
      */
-    get slice(): this["_slice"];
+    readonly slice: this["_slice"];
     /**
      * Should dataItem (slice) be hidden in legend?
      *
      * @param value Visible in legend?
      */
-    set hiddenInLegend(value: boolean);
     /**
-     * @return Disabled in legend?
-     */
-    get hiddenInLegend(): boolean;
+    * @return Disabled in legend?
+    */
+    hiddenInLegend: boolean;
 }
 /**
  * ============================================================================
@@ -344,7 +341,7 @@ export declare class PercentSeries extends Series {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/list-templates/} for more information about list templates
      * @return Slices
      */
-    get slices(): ListTemplate<this["_slice"]>;
+    readonly slices: ListTemplate<this["_slice"]>;
     /**
      * A list of tick elements for the series. Ticks connect slice to its label.
      *
@@ -371,7 +368,7 @@ export declare class PercentSeries extends Series {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/list-templates/} for more information about list templates
      * @return Slices
      */
-    get ticks(): ListTemplate<this["_tick"]>;
+    readonly ticks: ListTemplate<this["_tick"]>;
     /**
      * A list of slice label elements for the series.
      *
@@ -401,7 +398,7 @@ export declare class PercentSeries extends Series {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/list-templates/} for more information about list templates
      * @return Slices
      */
-    get labels(): ListTemplate<this["_label"]>;
+    readonly labels: ListTemplate<this["_label"]>;
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
@@ -461,22 +458,20 @@ export declare class PercentSeries extends Series {
      *
      * @param value  Color set
      */
-    set colors(value: ColorSet);
     /**
-     * @return Color set
-     */
-    get colors(): ColorSet;
+    * @return Color set
+    */
+    colors: ColorSet;
     /**
      * A [[PatternSet]] to use when creating patterned fills for slices.
      *
      * @since 4.7.5
      * @param value  Pattern set
      */
-    set patterns(value: PatternSet);
     /**
-     * @return Pattern set
-     */
-    get patterns(): PatternSet;
+    * @return Pattern set
+    */
+    patterns: PatternSet;
     /**
      * Binds related legend data item's visual settings to this series' visual
      * settings.
@@ -520,11 +515,10 @@ export declare class PercentSeries extends Series {
      * @default true
      * @param value  Align labels?
      */
-    set alignLabels(value: boolean);
     /**
-     * @return Align labels?
-     */
-    get alignLabels(): boolean;
+    * @return Align labels?
+    */
+    alignLabels: boolean;
     /**
      * @ignore
      */
@@ -536,11 +530,10 @@ export declare class PercentSeries extends Series {
      * @since 4.7.9
      * @param  value  Ignore zero values
      */
-    set ignoreZeroValues(value: boolean);
     /**
-     * @return Ignore zero values
-     */
-    get ignoreZeroValues(): boolean;
+    * @return Ignore zero values
+    */
+    ignoreZeroValues: boolean;
     /**
      * Updates corresponding legend data item with current values.
      *

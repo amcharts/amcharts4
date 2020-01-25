@@ -93,12 +93,11 @@ export declare class AxisRendererX3D extends AxisRendererX {
      * @ignore Exclude from docs
      * @param value Chart
      */
-    set chart(chart: XYChart3D);
     /**
-     * @ignore Exclude from docs
-     * @return Chart
-     */
-    get chart(): XYChart3D;
+    * @ignore Exclude from docs
+    * @return Chart
+    */
+    chart: XYChart3D;
     /**
      * Invoked when 3D-related settings change, like depth or angle.
      *

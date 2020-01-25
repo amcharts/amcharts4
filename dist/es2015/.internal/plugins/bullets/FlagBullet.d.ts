@@ -173,11 +173,10 @@ export declare class FlagBullet extends Bullet {
      * ```
      * @param  label  Label
      */
-    set label(label: Label);
     /**
-     * @return Label
-     */
-    get label(): Label;
+    * @return Label
+    */
+    label: Label;
     /**
      * Copies all proprities and related stuff from another instance of
      * [[FlagBullet]].
@@ -198,9 +197,8 @@ export declare class FlagBullet extends Bullet {
      * @default 10
      * @param  value  Height (px)
      */
-    set poleHeight(value: number);
     /**
-     * @return Height (px)
-     */
-    get poleHeight(): number;
+    * @return Height (px)
+    */
+    poleHeight: number;
 }

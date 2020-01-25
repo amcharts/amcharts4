@@ -189,22 +189,20 @@ export declare class PieChart3D extends PieChart {
      * @default 20
      * @param value  Depth (px)
      */
-    set depth(value: number);
     /**
-     * @return Depth (px)
-     */
-    get depth(): number;
+    * @return Depth (px)
+    */
+    depth: number;
     /**
      * An angle of a "point of view" in degrees. Possible range 0 - 90.
      *
      * @default 10
      * @param value  Angle (degrees)
      */
-    set angle(value: number);
     /**
-     * @return Angle (degrees)
-     */
-    get angle(): number;
+    * @return Angle (degrees)
+    */
+    angle: number;
     /**
      * Creates and returns a new Series.
      *

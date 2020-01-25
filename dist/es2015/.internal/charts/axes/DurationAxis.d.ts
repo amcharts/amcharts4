@@ -172,11 +172,10 @@ export declare class DurationAxis<T extends AxisRenderer = AxisRenderer> extends
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} for mor information.
      * @param value  Duration format for axis labels
      */
-    set tooltipDurationFormat(value: string);
     /**
-     * @return Duration format for axis labels
-     */
-    get tooltipDurationFormat(): string;
+    * @return Duration format for axis labels
+    */
+    tooltipDurationFormat: string;
     /**
      * Returns text to show in a axis tooltip, based on specific position within
      * axis.
@@ -200,11 +199,10 @@ export declare class DurationAxis<T extends AxisRenderer = AxisRenderer> extends
      * @default "second"
      * @param timeUnit
      */
-    set baseUnit(timeUnit: TimeUnit);
     /**
-     * @return Base unit
-     */
-    get baseUnit(): TimeUnit;
+    * @return Base unit
+    */
+    baseUnit: TimeUnit;
     /**
      * Copies all properties and related data from a different instance of Axis.
      *

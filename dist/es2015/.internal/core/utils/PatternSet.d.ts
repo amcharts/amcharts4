@@ -70,11 +70,10 @@ export declare class PatternSet extends BaseObject {
      *
      * @param value Pattern list
      */
-    set list(value: Pattern[]);
     /**
-     * @return Pattern list
-     */
-    get list(): Pattern[];
+    * @return Pattern list
+    */
+    list: Pattern[];
     /**
      * Returns the next pattern in list.
      *
@@ -108,11 +107,10 @@ export declare class PatternSet extends BaseObject {
      *
      * @param value  Step
      */
-    set currentStep(value: number);
     /**
-     * @return Step
-     */
-    get currentStep(): number;
+    * @return Step
+    */
+    currentStep: number;
     /**
      * If set to non-zero value, the ColorSet will start iterating colors from
      * that particular index, not the first color in the list.
@@ -120,11 +118,10 @@ export declare class PatternSet extends BaseObject {
      * @default 0
      * @param  value  Index
      */
-    set startIndex(value: number);
     /**
-     * @return Index
-     */
-    get startIndex(): number;
+    * @return Index
+    */
+    startIndex: number;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

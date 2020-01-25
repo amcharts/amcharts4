@@ -138,7 +138,7 @@ export declare class AxisRendererCurveX extends AxisRendererX {
      *
      * @return Length (px)
      */
-    get axisLength(): number;
+    readonly axisLength: number;
     /**
      * Updates and positions the axis line element.
      *
@@ -150,33 +150,30 @@ export declare class AxisRendererCurveX extends AxisRendererX {
      *
      * @param  value  Polyspline
      */
-    set polyspline(value: Polyspline);
     /**
-     * @return Polyspline
-     */
-    get polyspline(): Polyspline;
+    * @return Polyspline
+    */
+    polyspline: Polyspline;
     /**
      * Should the chart be scaled automatically, to fit into container?
      *
      * @default true
      * @param  value  Auto-scale?
      */
-    set autoScale(value: boolean);
     /**
-     * @return Auto-scale?
-     */
-    get autoScale(): boolean;
+    * @return Auto-scale?
+    */
+    autoScale: boolean;
     /**
      * Should chart be centered within chart area?
      *
      * @default true
      * @param  value  Auto-center?
      */
-    set autoCenter(value: boolean);
     /**
-     * @return {boolean} Auto-center?
-     */
-    get autoCenter(): boolean;
+    * @return {boolean} Auto-center?
+    */
+    autoCenter: boolean;
     /**
      * Precision setting to use when drawing chart objects. Basically, it's
      * number of pixels that a control point should be added at.
@@ -190,22 +187,20 @@ export declare class AxisRendererCurveX extends AxisRendererX {
      * @default 10
      * @param  value  Precision step
      */
-    set precisionStep(value: number);
     /**
-     * @return Precision step
-     */
-    get precisionStep(): number;
+    * @return Precision step
+    */
+    precisionStep: number;
     /**
      * An array of control points that define axis curve.
      *
      * @see {@link https://www.amcharts.com/docs/v4/chart-types/timeline/#Control_points} for more info
      * @param  value  Control points
      */
-    set points(value: IPoint[]);
     /**
-     * @return Control points
-     */
-    get points(): IPoint[];
+    * @return Control points
+    */
+    points: IPoint[];
     /**
     * @ignore
     */
@@ -321,9 +316,8 @@ export declare class AxisRendererCurveX extends AxisRendererX {
      * ignored.
      * @param  value  Flip axis?
      */
-    set inversed(value: boolean);
     /**
-     * @return Flip axis?
-     */
-    get inversed(): boolean;
+    * @return Flip axis?
+    */
+    inversed: boolean;
 }

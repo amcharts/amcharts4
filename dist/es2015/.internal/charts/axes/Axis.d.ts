@@ -193,11 +193,10 @@ export declare class AxisDataItem extends DataItem {
      *
      * @param grid  Grid element
      */
-    set grid(grid: Grid);
     /**
-     * @return Grid element
-     */
-    get grid(): Grid;
+    * @return Grid element
+    */
+    grid: Grid;
     /**
      * An [[AxisTick]] element associated with this data item.
      *
@@ -206,11 +205,10 @@ export declare class AxisDataItem extends DataItem {
      *
      * @param tick  Tick element
      */
-    set tick(tick: AxisTick);
     /**
-     * @return Tick element
-     */
-    get tick(): AxisTick;
+    * @return Tick element
+    */
+    tick: AxisTick;
     /**
      * An [[AxisLabel]] element associated with this data item.
      *
@@ -219,11 +217,10 @@ export declare class AxisDataItem extends DataItem {
      *
      * @param label Label element
      */
-    set label(label: AxisLabel);
     /**
-     * @return Label element
-     */
-    get label(): AxisLabel;
+    * @return Label element
+    */
+    label: AxisLabel;
     /**
      * An [[AxisFill]] associated element with this data item.
      *
@@ -232,27 +229,25 @@ export declare class AxisDataItem extends DataItem {
      *
      * @param label Label element
      */
-    set axisFill(axisFill: AxisFill);
     /**
-     * @return Label element
-     */
-    get axisFill(): AxisFill;
+    * @return Label element
+    */
+    axisFill: AxisFill;
     /**
      * Text to be used as data item's label.
      *
      * @param text Text label
      */
-    set text(text: string);
     /**
-     * @return Text label
-     */
-    get text(): string;
+    * @return Text label
+    */
+    text: string;
     /**
      * Data item's mask.
      *
      * @return Mask
      */
-    get mask(): AxisFill;
+    readonly mask: AxisFill;
     /**
      * Returns a [[Container]] to place all visual elements, related to data item
      * in.
@@ -261,17 +256,16 @@ export declare class AxisDataItem extends DataItem {
      *
      * @return Contents container
      */
-    get contents(): Container;
+    readonly contents: Container;
     /**
      * An [[AxisBreak]] this data item falls within.
      *
      * @param axisBreak Axis break
      */
-    set axisBreak(axisBreak: this["_axisBreak"]);
     /**
-     * @return Axis break
-     */
-    get axisBreak(): this["_axisBreak"];
+    * @return Axis break
+    */
+    axisBreak: this["_axisBreak"];
     /**
      * Re-draws the element.
      *
@@ -366,11 +360,10 @@ export declare class AxisDataItem extends DataItem {
      * @since 4.5.9
      * @param  value  Bullet
      */
-    set bullet(value: Sprite);
     /**
-     * @return Bullet
-     */
-    get bullet(): Sprite;
+    * @return Bullet
+    */
+    bullet: Sprite;
 }
 /**
  * Defines adapters for [[AxisDataItem]]
@@ -713,11 +706,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/} for more info
      * @param renderer  Renderer
      */
-    set renderer(renderer: this["_renderer"]);
     /**
-     * @return Renderer
-     */
-    get renderer(): this["_renderer"];
+    * @return Renderer
+    */
+    renderer: this["_renderer"];
     /**
      * Converts a relative position to angle. (for circular axes)
      *
@@ -781,13 +773,16 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @return Axis length (px)
      */
-    get axisLength(): number;
+    readonly axisLength: number;
     /**
      * Indicates if axis should display a tooltip for chart's cursor.
      *
      * @param value Display tooltip?
      */
-    set cursorTooltipEnabled(value: boolean);
+    /**
+    * @return Display tooltip?
+    */
+    cursorTooltipEnabled: boolean;
     /**
      * Normally, when axis is zoomed in, a zoom out button is shown by a chart,
      * and vice versa: when axis is zoomed out completely, zoom out button is
@@ -800,15 +795,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @since 4.6.2
      * @param  value  Toggle zoom out button?
      */
-    set toggleZoomOutButton(value: boolean);
     /**
-     * @return Toggle zoom out button?
-     */
-    get toggleZoomOutButton(): boolean;
-    /**
-     * @return Display tooltip?
-     */
-    get cursorTooltipEnabled(): boolean;
+    * @return Toggle zoom out button?
+    */
+    toggleZoomOutButton: boolean;
     /**
      * Hides element's [[Tooltip]].
      *
@@ -890,7 +880,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @return Axis ranges
      */
-    get axisRanges(): ListTemplate<this["_dataItem"]>;
+    readonly axisRanges: ListTemplate<this["_dataItem"]>;
     /**
      * Decorates an axis range after it has been added to the axis range list.
      *
@@ -902,7 +892,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @return Axis breaks.
      */
-    get axisBreaks(): SortedListTemplate<this["_axisBreak"]>;
+    readonly axisBreaks: SortedListTemplate<this["_axisBreak"]>;
     /**
      * Creates a new axis break.
      *
@@ -914,7 +904,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @return Series
      */
-    get series(): List<XYSeries>;
+    readonly series: List<XYSeries>;
     /**
      * Processes Series' data items.
      *
@@ -1053,7 +1043,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @ignore Exclude from docs
      * @return Base point coordinates
      */
-    get basePoint(): IPoint;
+    readonly basePoint: IPoint;
     /**
      * [dataChangeUpdate description]
      *
@@ -1113,12 +1103,11 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @todo Description
      * @param value [description]
      */
-    set startIndex(value: number);
     /**
-     * @ignore Exclude from docs
-     * @return [description]
-     */
-    get startIndex(): number;
+    * @ignore Exclude from docs
+    * @return [description]
+    */
+    startIndex: number;
     /**
      * [endIndex description]
      *
@@ -1126,12 +1115,11 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @todo Description
      * @param value [description]
      */
-    set endIndex(value: number);
     /**
-     * @ignore Exclude from docs
-     * @return [description]
-     */
-    get endIndex(): number;
+    * @ignore Exclude from docs
+    * @return [description]
+    */
+    endIndex: number;
     /**
      * Returns a formatted label based on position.
      *
@@ -1153,11 +1141,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @param value  Chart
      */
-    set chart(value: Chart);
     /**
-     * @return Chart
-     */
-    get chart(): Chart;
+    * @return Chart
+    */
+    chart: Chart;
     /**
      * Creates a data item for a Series range.
      *
@@ -1193,11 +1180,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @param value Location (0-1)
      */
-    set startLocation(value: number);
     /**
-     * @return Location (0-1)
-     */
-    get startLocation(): number;
+    * @return Location (0-1)
+    */
+    startLocation: number;
     /**
      * Axis end location. Works on Date/Category axis, doesn't work on Value axis.
      *
@@ -1207,11 +1193,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @param value Location (0-1)
      */
-    set endLocation(value: number);
     /**
-     * @return Location (0-1)
-     */
-    get endLocation(): number;
+    * @return Location (0-1)
+    */
+    endLocation: number;
     protected setDisabled(value: boolean): boolean;
     /**
      * A reference to a [[Label]] element which serves as a title to the axis.
@@ -1223,11 +1208,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @param  value  Title label
      */
-    set title(value: Label);
     /**
-     * @return Title label
-     */
-    get title(): Label;
+    * @return Title label
+    */
+    title: Label;
     /**
      * Indicates if axis' tooltip should be hidden while axis range is animating
      * (zooming)
@@ -1236,9 +1220,8 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @since 4.7.16
      * @param  value  Hide tooltip while zooming?
      */
-    set hideTooltipWhileZooming(value: boolean);
     /**
-     * @return Hide tooltip while zooming?
-     */
-    get hideTooltipWhileZooming(): boolean;
+    * @return Hide tooltip while zooming?
+    */
+    hideTooltipWhileZooming: boolean;
 }

@@ -73,18 +73,17 @@ export declare class WordCloudSeriesDataItem extends SeriesDataItem {
      *
      * @param  value  Word
      */
-    set word(value: string);
     /**
-     * @return Word
-     */
-    get word(): string;
+    * @return Word
+    */
+    word: string;
     /**
      * A [Label] element, related to this data item (word).
      *
      * @readonly
      * @return Label element
      */
-    get label(): this["_label"];
+    readonly label: this["_label"];
 }
 /**
  * ============================================================================
@@ -285,7 +284,7 @@ export declare class WordCloudSeries extends Series {
      *
      * @return  Label elements
      */
-    get labels(): ListTemplate<this["_label"]>;
+    readonly labels: ListTemplate<this["_label"]>;
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
@@ -327,11 +326,10 @@ export declare class WordCloudSeries extends Series {
      *
      * @param  value  Color set
      */
-    set colors(value: ColorSet);
     /**
-     * @return Color set
-     */
-    get colors(): ColorSet;
+    * @return Color set
+    */
+    colors: ColorSet;
     /**
      * [updateData description]
      */
@@ -341,11 +339,10 @@ export declare class WordCloudSeries extends Series {
      *
      * @param  value  Source text
      */
-    set text(value: string);
     /**
-     * @return Source text
-     */
-    get text(): string;
+    * @return Source text
+    */
+    text: string;
     /**
      * Maximum number of words to show.
      *
@@ -357,11 +354,10 @@ export declare class WordCloudSeries extends Series {
      *
      * @param  value  Maximum words to show
      */
-    set maxCount(value: number);
     /**
-     * @return Maximum words to show
-     */
-    get maxCount(): number;
+    * @return Maximum words to show
+    */
+    maxCount: number;
     /**
      * Minimum occurances for a word to be included in the cloud.
      *
@@ -371,11 +367,10 @@ export declare class WordCloudSeries extends Series {
      * @default 1
      * @param  value  Minimum occurences
      */
-    set minValue(value: number);
     /**
-     * @return  Minimum occurences
-     */
-    get minValue(): number;
+    * @return  Minimum occurences
+    */
+    minValue: number;
     /**
      * An array of words to exclude from the cloud.
      *
@@ -400,11 +395,10 @@ export declare class WordCloudSeries extends Series {
      *
      * @param  value  Words to exclude from the cloud
      */
-    set excludeWords(value: string[]);
     /**
-     * @return Words to exclude from the cloud
-     */
-    get excludeWords(): string[];
+    * @return Words to exclude from the cloud
+    */
+    excludeWords: string[];
     /**
      * Font size for the biggest words.
      *
@@ -420,11 +414,10 @@ export declare class WordCloudSeries extends Series {
      * @default 20%
      * @param  value  Font size
      */
-    set maxFontSize(value: number | Percent);
     /**
-     * @return {number} Font size
-     */
-    get maxFontSize(): number | Percent;
+    * @return {number} Font size
+    */
+    maxFontSize: number | Percent;
     /**
      * Font size for the smallest words.
      *
@@ -437,11 +430,10 @@ export declare class WordCloudSeries extends Series {
      * @default 2%
      * @param  value  Font size
      */
-    set minFontSize(value: number | Percent);
     /**
-     * @return Font size
-     */
-    get minFontSize(): number | Percent;
+    * @return Font size
+    */
+    minFontSize: number | Percent;
     /**
      * Randomness of word placement.
      *
@@ -453,11 +445,10 @@ export declare class WordCloudSeries extends Series {
      * @default 0.2
      * @param value Randomness
      */
-    set randomness(value: number);
     /**
-     * @return Randomness
-     */
-    get randomness(): number;
+    * @return Randomness
+    */
+    randomness: number;
     /**
      * Step by which label is moved if its space is already occupied.
      *
@@ -469,11 +460,10 @@ export declare class WordCloudSeries extends Series {
      * @default 15
      * @param  value Step
      */
-    set step(value: number);
     /**
-     * @return Step
-     */
-    get step(): number;
+    * @return Step
+    */
+    step: number;
     /**
      * Accuracy setting when checking for overlapping of words.
      *
@@ -485,11 +475,10 @@ export declare class WordCloudSeries extends Series {
      * @default 5
      * @param  value  Accuracy
      */
-    set accuracy(value: number);
     /**
-     * @return Accuracy
-     */
-    get accuracy(): number;
+    * @return Accuracy
+    */
+    accuracy: number;
     /**
      * Minimum number of characters for a word to be included in the cloud.
      *
@@ -499,11 +488,10 @@ export declare class WordCloudSeries extends Series {
      * @default 1
      * @param {number} value Minimum word length
      */
-    set minWordLength(value: number);
     /**
-     * @return Minimum word length
-     */
-    get minWordLength(): number;
+    * @return Minimum word length
+    */
+    minWordLength: number;
     /**
      * Rotation threshold.
      *
@@ -518,11 +506,10 @@ export declare class WordCloudSeries extends Series {
      * @default 0.7
      * @param  value  Threshold
      */
-    set rotationThreshold(value: number);
     /**
-     * @return Threshold
-     */
-    get rotationThreshold(): number;
+    * @return Threshold
+    */
+    rotationThreshold: number;
     /**
      * An array of available word rotation angles.
      *
@@ -531,16 +518,15 @@ export declare class WordCloudSeries extends Series {
      * @default [0, 0, 90]
      * @param  value  Angles
      */
-    set angles(value: number[]);
     /**
-     * @return Angles
-     */
-    get angles(): number[];
+    * @return Angles
+    */
+    angles: number[];
     /**
      * @ignore
      * Not finished yet
      */
-    get maskSprite(): Sprite;
+    readonly maskSprite: Sprite;
     /**
      * Copies all properties from another instance of [[WordCloudSeries]].
      *

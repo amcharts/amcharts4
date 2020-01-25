@@ -81,21 +81,19 @@ export declare class MapImage extends MapObject {
      *
      * @param value  Latitude
      */
-    set latitude(value: number);
     /**
-     * @return Latitude
-     */
-    get latitude(): number;
+    * @return Latitude
+    */
+    latitude: number;
     /**
      * Longitude image is placed on.
      *
      * @param value  Longitude
      */
-    set longitude(value: number);
     /**
-     * @return Longitude
-     */
-    get longitude(): number;
+    * @return Longitude
+    */
+    longitude: number;
     /**
      * Repositions the image to it's current position.
      *

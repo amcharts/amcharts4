@@ -94,7 +94,7 @@ export declare class SmallMap extends Container {
      * @readonly
      * @return Series
      */
-    get series(): List<MapSeries>;
+    readonly series: List<MapSeries>;
     /**
      * Decorates a new series when they are pushed into a `series` list.
      *
@@ -119,11 +119,10 @@ export declare class SmallMap extends Container {
      *
      * @param chart  Chart/map
      */
-    set chart(chart: MapChart);
     /**
-     * @return Chart/map
-     */
-    get chart(): MapChart;
+    * @return Chart/map
+    */
+    chart: MapChart;
     /**
      * Updates the viewport recangle as per current map zoom/pan position.
      *

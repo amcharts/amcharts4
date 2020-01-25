@@ -174,33 +174,30 @@ export declare class SpiralChart extends CurveChart {
      * @default 3
      * @param  value  Number of circles
      */
-    set levelCount(value: number);
     /**
-     * @return Number of circles
-     */
-    get levelCount(): number;
+    * @return Number of circles
+    */
+    levelCount: number;
     /**
      * An angle the spiral will start at.
      *
      * @default 0
      * @param  value  Start angle
      */
-    set startAngle(value: number);
     /**
-     * @return End angle
-     */
-    get startAngle(): number;
+    * @return End angle
+    */
+    startAngle: number;
     /**
      * An angle the spiral will end at.
      *
      * @default 0
      * @param  value  End angle
      */
-    set endAngle(value: number);
     /**
-     * @return End angle
-     */
-    get endAngle(): number;
+    * @return End angle
+    */
+    endAngle: number;
     /**
      * Number of pixels the spiral diameter will increase by each full rotation.
      *
@@ -211,11 +208,10 @@ export declare class SpiralChart extends CurveChart {
      *
      * @param {number} value  Radius step (px)
      */
-    set radiusStep(value: number);
     /**
-     * @return Radius step (px)
-     */
-    get radiusStep(): number;
+    * @return Radius step (px)
+    */
+    radiusStep: number;
     /**
      * Precision setting to use when automatically generating axis points for the
      * spiral.
@@ -229,11 +225,10 @@ export declare class SpiralChart extends CurveChart {
      * @default 5
      * @param  value  Precision
      */
-    set precisionStep(value: number);
     /**
-     * @return Precision
-     */
-    get precisionStep(): number;
+    * @return Precision
+    */
+    precisionStep: number;
     /**
      * Inner radius of the spiral.
      *
@@ -242,11 +237,10 @@ export declare class SpiralChart extends CurveChart {
      * @default 25%
      * @param  value  Inner radius
      */
-    set innerRadius(value: number | Percent);
     /**
-     * @return Inner radius
-     */
-    get innerRadius(): number | Percent;
+    * @return Inner radius
+    */
+    innerRadius: number | Percent;
     /**
      * Outer radius of the Y axis.
      *
@@ -259,11 +253,10 @@ export declare class SpiralChart extends CurveChart {
      * @default 35%
      * @param  value  Outer radius
      */
-    set yAxisRadius(value: number | Percent);
     /**
-     * @return Outer radius
-     */
-    get yAxisRadius(): number | Percent;
+    * @return Outer radius
+    */
+    yAxisRadius: number | Percent;
     /**
      * Inner radius of the Y axis.
      *
@@ -276,11 +269,10 @@ export declare class SpiralChart extends CurveChart {
      * @default -35%
      * @param  value  Inner radius
      */
-    set yAxisInnerRadius(value: number | Percent);
     /**
-     * @return Inner radius
-     */
-    get yAxisInnerRadius(): number | Percent;
+    * @return Inner radius
+    */
+    yAxisInnerRadius: number | Percent;
     /**
      * Normally the spiral will start at the center.
      *
@@ -289,11 +281,10 @@ export declare class SpiralChart extends CurveChart {
      * @default false
      * @param  value  Inversed?
      */
-    set inversed(value: boolean);
     /**
-     * @return Inversed?
-     */
-    get inversed(): boolean;
+    * @return Inversed?
+    */
+    inversed: boolean;
     /**
      * Validates the chart.
      *

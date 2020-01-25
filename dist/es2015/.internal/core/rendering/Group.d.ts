@@ -64,11 +64,10 @@ export declare class Group extends AMElement {
      *
      * @param value  SVG markup
      */
-    set content(value: string);
     /**
-     * @return SVG markup
-     */
-    get content(): string;
+    * @return SVG markup
+    */
+    content: string;
     /**
      * Removes all children from the group.
      */

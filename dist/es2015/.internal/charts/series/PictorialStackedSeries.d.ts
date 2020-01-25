@@ -167,7 +167,7 @@ export declare class PictorialStackedSeries extends PyramidSeries {
      *
      * @return Mask sprite
      */
-    get maskSprite(): Sprite;
+    readonly maskSprite: Sprite;
     /**
      * Inits FunnelSlice.
      *
@@ -218,11 +218,10 @@ export declare class PictorialStackedSeries extends PyramidSeries {
      * @since 4.1.13
      * @param  value  Start location
      */
-    set startLocation(value: number);
     /**
-     * @return  Start location
-     */
-    get startLocation(): number;
+    * @return  Start location
+    */
+    startLocation: number;
     /**
      * Relative location to end series at.
      *
@@ -267,9 +266,8 @@ export declare class PictorialStackedSeries extends PyramidSeries {
      * @since 4.1.13
      * @param  value  End location
      */
-    set endLocation(value: number);
     /**
-     * @return End location
-     */
-    get endLocation(): number;
+    * @return End location
+    */
+    endLocation: number;
 }

@@ -168,7 +168,7 @@ export declare class Registry {
      * @ignore Exclude from docs
      * @return Map collection
      */
-    get map(): Dictionary<string, any>;
+    readonly map: Dictionary<string, any>;
     /**
      * Caches value in object's cache.
      *

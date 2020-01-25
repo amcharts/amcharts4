@@ -131,31 +131,28 @@ export declare class AxisBreak extends Container {
      *
      * @param sprite  Element
      */
-    set startLine(sprite: IWavedShape);
     /**
-     * @return Element
-     */
-    get startLine(): IWavedShape;
+    * @return Element
+    */
+    startLine: IWavedShape;
     /**
      * An element used for the end line of the break.
      *
      * @param sprite Element
      */
-    set endLine(sprite: IWavedShape);
     /**
-     * @return Element
-     */
-    get endLine(): IWavedShape;
+    * @return Element
+    */
+    endLine: IWavedShape;
     /**
      * An element used for fill of the break.
      *
      * @param sprite Element
      */
-    set fillShape(sprite: IWavedShape);
     /**
-     * @return Element
-     */
-    get fillShape(): IWavedShape;
+    * @return Element
+    */
+    fillShape: IWavedShape;
     /**
      * Adds a break element (e.g. lines, fill) to the break, which is
      * [[Container]].
@@ -169,11 +166,10 @@ export declare class AxisBreak extends Container {
      *
      * @param axis  Axis
      */
-    set axis(axis: this["_axisType"]);
     /**
-     * @return Axis
-     */
-    get axis(): this["_axisType"];
+    * @return Axis
+    */
+    axis: this["_axisType"];
     /**
      * A size of the break relative to the actual size of the scope break spans.
      *
@@ -187,23 +183,22 @@ export declare class AxisBreak extends Container {
      * @default 0.01
      * @param value  Relative axis break
      */
-    set breakSize(value: number);
     /**
-     * @return Relative axis break
-     */
-    get breakSize(): number;
+    * @return Relative axis break
+    */
+    breakSize: number;
     /**
      * Returns pixel coordinates of axis break's start.
      *
      * @return Start point
      */
-    get startPoint(): IPoint;
+    readonly startPoint: IPoint;
     /**
      * Returns pixel coordinates of axis break's end.
      *
      * @return End point
      */
-    get endPoint(): IPoint;
+    readonly endPoint: IPoint;
     /**
      * Returns a relative position at which axis break starts.
      *
@@ -212,7 +207,7 @@ export declare class AxisBreak extends Container {
      *
      * @return Start position
      */
-    get startPosition(): number;
+    readonly startPosition: number;
     /**
      * Returns a relative position at which axis break ends.
      *
@@ -221,7 +216,7 @@ export declare class AxisBreak extends Container {
      *
      * @return End position
      */
-    get endPosition(): number;
+    readonly endPosition: number;
     /**
      * Draws the axis break.
      *
@@ -233,19 +228,17 @@ export declare class AxisBreak extends Container {
      *
      * @param value  Starting value
      */
-    set startValue(value: number);
     /**
-     * @return Starting value
-     */
-    get startValue(): number;
+    * @return Starting value
+    */
+    startValue: number;
     /**
      * An end value for the break.
      *
      * @param value  End value
      */
-    set endValue(value: number);
     /**
-     * @return End value
-     */
-    get endValue(): number;
+    * @return End value
+    */
+    endValue: number;
 }

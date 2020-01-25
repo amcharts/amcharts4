@@ -244,21 +244,19 @@ export declare class SankeyDiagram extends FlowDiagram {
      *
      * @param value  Node sorting
      */
-    set nodeAlign(value: "top" | "middle" | "bottom");
     /**
-     * @returns Returns nodeAlign value
-     */
-    get nodeAlign(): "top" | "middle" | "bottom";
+    * @returns Returns nodeAlign value
+    */
+    nodeAlign: "top" | "middle" | "bottom";
     /**
      * Orientation of the chart: "horizontal" or "vertical";
      *
      * @param value Orientation
      */
-    set orientation(value: Orientation);
     /**
-     * @return Orientation
-     */
-    get orientation(): Orientation;
+    * @return Orientation
+    */
+    orientation: Orientation;
     /**
      * @ignore
      */
@@ -270,11 +268,10 @@ export declare class SankeyDiagram extends FlowDiagram {
     /**
      * @ignore
      */
-    get valueHeight(): number;
     /**
-     * @ignore
-     */
-    set valueHeight(value: number);
+    * @ignore
+    */
+    valueHeight: number;
     /**
      * @ignore
      */

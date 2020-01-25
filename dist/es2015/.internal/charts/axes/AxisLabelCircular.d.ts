@@ -97,21 +97,19 @@ export declare class AxisLabelCircular extends AxisLabel {
      *
      * @param value Rotation angle
      */
-    set relativeRotation(value: number);
     /**
-     * @return Rotation angle
-     */
-    get relativeRotation(): number;
+    * @return Rotation angle
+    */
+    relativeRotation: number;
     /**
      * Distance from axis circle to label in pixels or percent.
      *
      * @param value Distance (px or percent)
      */
-    set radius(value: number | Percent);
     /**
-     * @return Distance (px)
-     */
-    get radius(): number | Percent;
+    * @return Distance (px)
+    */
+    radius: number | Percent;
     /**
      * Specifies if label should be bent along the circle.
      *
@@ -121,11 +119,10 @@ export declare class AxisLabelCircular extends AxisLabel {
      * @default false
      * @param  value  Bent?
      */
-    set bent(value: boolean);
     /**
-     * @return Bent?
-     */
-    get bent(): boolean;
+    * @return Bent?
+    */
+    bent: boolean;
     /**
      * Returns label radius in pixels.
      *

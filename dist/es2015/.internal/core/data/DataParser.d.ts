@@ -85,7 +85,7 @@ export declare class DataParser {
      *
      * @return Numeric fields?
      */
-    protected get parsableNumbers(): boolean;
+    protected readonly parsableNumbers: boolean;
     /**
      * Converts a value to 'number' if it is in `numberFields`.
      *
@@ -100,7 +100,7 @@ export declare class DataParser {
      *
      * @return Date fields?
      */
-    protected get parsableDates(): boolean;
+    protected readonly parsableDates: boolean;
     /**
      * Converts a value to `Date` if it is in `dateFields`.
      *
@@ -125,12 +125,12 @@ export declare class DataParser {
      * @return Date formatter
      * @see {@link DateFormatter}
      */
-    protected get dateFormatter(): DateFormatter;
+    protected readonly dateFormatter: DateFormatter;
     /**
      * A date format to use when parsing dates.
      *
      * @return Date format
      * @see {@link DateFormatter}
      */
-    protected get dateFormat(): string;
+    protected readonly dateFormat: string;
 }

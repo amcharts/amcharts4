@@ -90,11 +90,10 @@ export declare class Grid extends Sprite {
      *
      * @param value  Location (0-1)
      */
-    set location(value: AxisItemLocation);
     /**
-     * @return Location (0-1)
-     */
-    get location(): AxisItemLocation;
+    * @return Location (0-1)
+    */
+    location: AxisItemLocation;
     /**
      * Normally fill goes below series. Set this to `true` to go above.
      *
@@ -102,11 +101,10 @@ export declare class Grid extends Sprite {
      * @since 4.5.9
      * @param  value  Draw above series?
      */
-    set above(value: boolean);
     /**
-     * @return Draw above series?
-     */
-    get above(): boolean;
+    * @return Draw above series?
+    */
+    above: boolean;
     /**
      * @ignore
      */

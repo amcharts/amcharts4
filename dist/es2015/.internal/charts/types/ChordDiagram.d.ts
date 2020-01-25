@@ -226,11 +226,10 @@ export declare class ChordDiagram extends FlowDiagram {
      * @default -90
      * @param value  Start angle (degrees)
      */
-    set startAngle(value: number);
     /**
-     * @return Start angle (degrees)
-     */
-    get startAngle(): number;
+    * @return Start angle (degrees)
+    */
+    startAngle: number;
     /**
      * Starting angle of the Radar face. (degrees)
      *
@@ -254,11 +253,10 @@ export declare class ChordDiagram extends FlowDiagram {
      * @default -90
      * @param value  End angle (degrees)
      */
-    set endAngle(value: number);
     /**
-     * @return End angle (degrees)
-     */
-    get endAngle(): number;
+    * @return End angle (degrees)
+    */
+    endAngle: number;
     /**
      * Outer radius of the Radar face.
      *
@@ -266,11 +264,10 @@ export declare class ChordDiagram extends FlowDiagram {
      *
      * @param value  Outer radius
      */
-    set radius(value: number | Percent);
     /**
-     * @return Outer radius
-     */
-    get radius(): number | Percent;
+    * @return Outer radius
+    */
+    radius: number | Percent;
     /**
      * Inner radius of the Chord nodes.
      *
@@ -278,22 +275,20 @@ export declare class ChordDiagram extends FlowDiagram {
      *
      * @param value  Outer radius
      */
-    set innerRadius(value: number | Percent);
     /**
-     * @return Inner radius
-     */
-    get innerRadius(): number | Percent;
+    * @return Inner radius
+    */
+    innerRadius: number | Percent;
     /**
      *
      * If you set this to true, all the lines will be of the same width. This is done by making middleLine of a ChordLink visible.
      *
      * @param value
      */
-    set nonRibbon(value: boolean);
     /**
-     * @return Non-ribbon
-     */
-    get nonRibbon(): boolean;
+    * @return Non-ribbon
+    */
+    nonRibbon: boolean;
     /**
      * @ignore
      */

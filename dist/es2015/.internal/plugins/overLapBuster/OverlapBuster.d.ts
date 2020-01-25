@@ -130,7 +130,7 @@ export declare class OverlapBuster extends Plugin {
      *
      * @return List of target objects
      */
-    get targets(): List<Sprite>;
+    readonly targets: List<Sprite>;
     /**
      * Handles hover event on a target element.
      *

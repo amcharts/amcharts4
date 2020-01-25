@@ -106,11 +106,10 @@ export declare class ZoomControl extends Container {
      *
      * @param chart  Map/chart
      */
-    set chart(chart: MapChart);
     /**
-     * @return Map/chart
-     */
-    get chart(): MapChart;
+    * @return Map/chart
+    */
+    chart: MapChart;
     /**
      * Updates the slider's thumb size based on the available zoom space.
      *
@@ -136,7 +135,7 @@ export declare class ZoomControl extends Container {
      * @ignore Exclude from docs
      * @return Step count
      */
-    get stepCount(): number;
+    readonly stepCount: number;
     /**
      * Creates a background element for slider control.
      *

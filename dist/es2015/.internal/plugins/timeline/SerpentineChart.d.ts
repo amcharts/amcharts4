@@ -133,22 +133,20 @@ export declare class SerpentineChart extends CurveChart {
      * @default vertical
      * @param  value  Orientaiton
      */
-    set orientation(value: Orientation);
     /**
-     * @return Orientation
-     */
-    get orientation(): Orientation;
+    * @return Orientation
+    */
+    orientation: Orientation;
     /**
      * How many "turns" (levels) the chart will have.
      *
      * @default 3
      * @param  value  Level count
      */
-    set levelCount(value: number);
     /**
-     * @return Level count
-     */
-    get levelCount(): number;
+    * @return Level count
+    */
+    levelCount: number;
     /**
      * Outer radius of the Y axis.
      *
@@ -161,11 +159,10 @@ export declare class SerpentineChart extends CurveChart {
      * @default 25%
      * @param  value  Outer radius
      */
-    set yAxisRadius(value: number | Percent);
     /**
-     * @return {number} Outer radius
-     */
-    get yAxisRadius(): number | Percent;
+    * @return {number} Outer radius
+    */
+    yAxisRadius: number | Percent;
     /**
      * Inner radius of the Y axis.
      *
@@ -178,11 +175,10 @@ export declare class SerpentineChart extends CurveChart {
      * @default -25%
      * @param  value  Inner radius
      */
-    set yAxisInnerRadius(value: number | Percent);
     /**
-     * @return Inner radius
-     */
-    get yAxisInnerRadius(): number | Percent;
+    * @return Inner radius
+    */
+    yAxisInnerRadius: number | Percent;
     /**
      * Validates the chart.
      *

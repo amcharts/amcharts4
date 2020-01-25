@@ -125,7 +125,7 @@ export declare class ColumnSeries3D extends ColumnSeries {
     /**
      * @ignore
      */
-    get columnsContainer(): Container;
+    readonly columnsContainer: Container;
     /**
      * Validates data item's elements.
      *
@@ -151,22 +151,20 @@ export declare class ColumnSeries3D extends ColumnSeries {
      * @ignore Exclude from docs
      * @param value  Depth (px)
      */
-    set depth(value: number);
     /**
-     * @ignore Exclude from docs
-     * @return Depth (px)
-     */
-    get depth(): number;
+    * @ignore Exclude from docs
+    * @return Depth (px)
+    */
+    depth: number;
     /**
      * Angle of view for the slices in series. (0-360)
      *
      * @ignore Exclude from docs
      * @param value  Angle (0-360)
      */
-    set angle(value: number);
     /**
-     * @ignore Exclude from docs
-     * @return Angle (0-360)
-     */
-    get angle(): number;
+    * @ignore Exclude from docs
+    * @return Angle (0-360)
+    */
+    angle: number;
 }

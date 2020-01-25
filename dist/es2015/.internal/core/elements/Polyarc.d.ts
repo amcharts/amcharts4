@@ -86,11 +86,10 @@ export declare class Polyarc extends Polyline {
      * @default 0.5
      * @param value  Position (0-1)
      */
-    set controlPointPosition(value: number);
     /**
-     * @return Position (0-1)
-     */
-    get controlPointPosition(): number;
+    * @return Position (0-1)
+    */
+    controlPointPosition: number;
     /**
      * Relative distance of the control point. (0-1)
      *
@@ -99,9 +98,8 @@ export declare class Polyarc extends Polyline {
      * @default 0.5
      * @param value  Distance (0-1)
      */
-    set controlPointDistance(value: number);
     /**
-     * @return Distance (0-1)
-     */
-    get controlPointDistance(): number;
+    * @return Distance (0-1)
+    */
+    controlPointDistance: number;
 }

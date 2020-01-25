@@ -143,31 +143,28 @@ export declare class StepLineSeries extends LineSeries {
      * @default false
      * @param value  No risers
      */
-    set noRisers(value: boolean);
     /**
-     * @return No risers
-     */
-    get noRisers(): boolean;
+    * @return No risers
+    */
+    noRisers: boolean;
     /**
      * start location of the step
      *
      * @param value Location (0-1)
      * @default 0
      */
-    set startLocation(value: number);
     /**
-     * @return Location (0-1)
-     */
-    get startLocation(): number;
+    * @return Location (0-1)
+    */
+    startLocation: number;
     /**
      * Step end location.
      *
      * @param value Location (0-1)
      * #default 1
      */
-    set endLocation(value: number);
     /**
-     * @return Location (0-1)
-     */
-    get endLocation(): number;
+    * @return Location (0-1)
+    */
+    endLocation: number;
 }

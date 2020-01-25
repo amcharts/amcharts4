@@ -94,7 +94,7 @@ export declare class XYChartScrollbar extends Scrollbar {
      * @readonly
      * @return Series
      */
-    get series(): List<XYSeries>;
+    readonly series: List<XYSeries>;
     /**
      * Decorates a new series when they are pushed into a `series` list.
      *
@@ -122,17 +122,16 @@ export declare class XYChartScrollbar extends Scrollbar {
      * @readonly
      * @return Scrollbar's internal chart
      */
-    get scrollbarChart(): XYChart;
+    readonly scrollbarChart: XYChart;
     /**
      * A chart that Scrollbar belongs to.
      *
      * @param chart  Chart
      */
-    set chart(chart: XYChart);
     /**
-     * @return Chart
-     */
-    get chart(): XYChart;
+    * @return Chart
+    */
+    chart: XYChart;
     /**
      * A [[Sprite]] object representing overlay that is used to dim area of the
      * scrollbar that is currently not selected.
@@ -145,7 +144,7 @@ export declare class XYChartScrollbar extends Scrollbar {
      * @readonly
      * @return Unselected area curtain element
      */
-    get unselectedOverlay(): Sprite;
+    readonly unselectedOverlay: Sprite;
     /**
      * Updates Scrollbar's internal chart's data when the main chart's data
      * changes.

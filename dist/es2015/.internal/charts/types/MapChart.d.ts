@@ -576,11 +576,10 @@ export declare class MapChart extends SerialChart {
      * @param mouse wheel behavior
      * @default zoomX
      */
-    set mouseWheelBehavior(value: "zoom" | "none");
     /**
-     * @return mouse wheel behavior
-     */
-    get mouseWheelBehavior(): "zoom" | "none";
+    * @return mouse wheel behavior
+    */
+    mouseWheelBehavior: "zoom" | "none";
     /**
      * What "dragging" map does.
      *
@@ -594,21 +593,19 @@ export declare class MapChart extends SerialChart {
      * @since 4.3.0
      * @param  value  Behavior
      */
-    set panBehavior(value: "none" | "move" | "rotateLat" | "rotateLong" | "rotateLongLat");
+    /**
+    * @returns Behavior
+    */
+    panBehavior: "none" | "move" | "rotateLat" | "rotateLong" | "rotateLongLat";
     /**
      * @returns If the map should be centered when zooming out.
      */
-    get centerMapOnZoomOut(): boolean;
     /**
-     * Specifies if the map should be centered when zooming out
-     * @default true
-     * @since 4.7.12
-     */
-    set centerMapOnZoomOut(value: boolean);
-    /**
-     * @returns Behavior
-     */
-    get panBehavior(): "none" | "move" | "rotateLat" | "rotateLong" | "rotateLongLat";
+    * Specifies if the map should be centered when zooming out
+    * @default true
+    * @since 4.7.12
+    */
+    centerMapOnZoomOut: boolean;
     /**
      * Projection to use for the map.
      *
@@ -641,11 +638,10 @@ export declare class MapChart extends SerialChart {
      * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Setting_projection} More about projections
      * @param projection  Projection
      */
-    set projection(projection: Projection);
     /**
-     * @return Projection
-     */
-    get projection(): Projection;
+    * @return Projection
+    */
+    projection: Projection;
     /**
      * Validates (processes) data items.
      *
@@ -706,11 +702,10 @@ export declare class MapChart extends SerialChart {
      * @see {@link http://geojson.org/} Official GeoJSON format specification
      * @param geoJSON GeoJSON data
      */
-    set geodata(geodata: Object);
     /**
-     * @return GeoJSON data
-     */
-    get geodata(): Object;
+    * @return GeoJSON data
+    */
+    geodata: Object;
     /**
      * Zooms the map to particular zoom level and centers on a latitude/longitude
      * coordinate.
@@ -792,18 +787,17 @@ export declare class MapChart extends SerialChart {
      * @readonly
      * @return Coordinates
      */
-    get zoomGeoPoint(): IGeoPoint;
+    readonly zoomGeoPoint: IGeoPoint;
     /**
      * Current zoom level.
      *
      * @readonly
      * @return Zoom level
      */
-    set zoomLevel(value: number);
     /**
-     * @return Zoom level
-     */
-    get zoomLevel(): number;
+    * @return Zoom level
+    */
+    zoomLevel: number;
     /**
      * Dispatches events after some map transformation, like pan or zoom.
      *
@@ -834,11 +828,10 @@ export declare class MapChart extends SerialChart {
      *
      * @param smallMap  Small map
      */
-    set smallMap(smallMap: SmallMap);
     /**
-     * @return Small map
-     */
-    get smallMap(): SmallMap;
+    * @return Small map
+    */
+    smallMap: SmallMap;
     /**
      * A [[ZoomControl]] to be used on the map.
      *
@@ -863,11 +856,10 @@ export declare class MapChart extends SerialChart {
      *
      * @param zoomControl  Zoom control
      */
-    set zoomControl(zoomControl: ZoomControl);
     /**
-     * @return Zoom control
-     */
-    get zoomControl(): ZoomControl;
+    * @return Zoom control
+    */
+    zoomControl: ZoomControl;
     /**
      * Creates and returns a map series of appropriate type.
      *
@@ -883,11 +875,10 @@ export declare class MapChart extends SerialChart {
      * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/#Map_rotation} For more info on map rotation.
      * @param  value  Rotation
      */
-    set deltaLongitude(value: number);
     /**
-     * @return Rotation
-     */
-    get deltaLongitude(): number;
+    * @return Rotation
+    */
+    deltaLongitude: number;
     /**
      * Degrees to rotate the map around horizontal axis (X).
      *
@@ -898,11 +889,10 @@ export declare class MapChart extends SerialChart {
      * @since 4.3.0
      * @param  value  Rotation
      */
-    set deltaLatitude(value: number);
     /**
-     * @return Rotation
-     */
-    get deltaLatitude(): number;
+    * @return Rotation
+    */
+    deltaLatitude: number;
     /**
      * Degrees to rotate the map around "Z" axis. This is the axis that pierces
      * the globe directly from the viewer's point of view.
@@ -911,11 +901,10 @@ export declare class MapChart extends SerialChart {
      * @since 4.3.0
      * @param  value  Rotation
      */
-    set deltaGamma(value: number);
     /**
-     * @return Rotation
-     */
-    get deltaGamma(): number;
+    * @return Rotation
+    */
+    deltaGamma: number;
     /**
      * @ignore
      */
@@ -931,11 +920,10 @@ export declare class MapChart extends SerialChart {
      * @default 0.7
      * @param value  Max pan out
      */
-    set maxPanOut(value: number);
     /**
-     * @return Max pan out
-     */
-    get maxPanOut(): number;
+    * @return Max pan out
+    */
+    maxPanOut: number;
     /**
      * The geographical point to center map on when it is first loaded.
      *
@@ -944,11 +932,10 @@ export declare class MapChart extends SerialChart {
      *
      * @param value  Home geo point
      */
-    set homeGeoPoint(value: IGeoPoint);
     /**
-     * @return Home geo point
-     */
-    get homeGeoPoint(): IGeoPoint;
+    * @return Home geo point
+    */
+    homeGeoPoint: IGeoPoint;
     /**
      * The zoom level to put the map in when it is first loaded.
      *
@@ -957,11 +944,10 @@ export declare class MapChart extends SerialChart {
      *
      * @param value  Home zoom level
      */
-    set homeZoomLevel(value: number);
     /**
-     * @return Home zoom level
-     */
-    get homeZoomLevel(): number;
+    * @return Home zoom level
+    */
+    homeZoomLevel: number;
     /**
      * When user zooms in or out current zoom level is multiplied or divided
      * by value of this setting.
@@ -969,11 +955,10 @@ export declare class MapChart extends SerialChart {
      * @default 2
      * @param value  Zoom factor
      */
-    set zoomStep(value: number);
     /**
-     * @return Zoom factor
-     */
-    get zoomStep(): number;
+    * @return Zoom factor
+    */
+    zoomStep: number;
     /**
      * Invalidates projection, causing all series to be redrawn.
      *
@@ -985,13 +970,12 @@ export declare class MapChart extends SerialChart {
      *
      * @param value Data source
      */
-    set geodataSource(value: DataSource);
     /**
-     * Returns a [[DataSource]] specifically for loading Component's data.
-     *
-     * @return Data source
-     */
-    get geodataSource(): DataSource;
+    * Returns a [[DataSource]] specifically for loading Component's data.
+    *
+    * @return Data source
+    */
+    geodataSource: DataSource;
     /**
      * Processes JSON-based config before it is applied to the object.
      *
@@ -1032,7 +1016,7 @@ export declare class MapChart extends SerialChart {
      *
      * @readonly
      */
-    get centerGeoPoint(): IGeoPoint;
+    readonly centerGeoPoint: IGeoPoint;
     /**
      * Resets the map to its original position and zoom level.
      *
@@ -1082,7 +1066,7 @@ export declare class MapChart extends SerialChart {
      *
      * @since 4.3.0
      */
-    get backgroundSeries(): MapPolygonSeries;
+    readonly backgroundSeries: MapPolygonSeries;
     /**
      * Prepares the legend instance for use in this chart.
      *

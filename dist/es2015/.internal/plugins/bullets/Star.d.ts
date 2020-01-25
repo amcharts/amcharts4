@@ -129,11 +129,10 @@ export declare class Star extends Sprite {
      * @default -90
      * @param value  Angle (0-360)
      */
-    set startAngle(value: number);
     /**
-     * @return Angle (0-360)
-     */
-    get startAngle(): number;
+    * @return Angle (0-360)
+    */
+    startAngle: number;
     /**
      * How much of a complete circle the star will complete.
      *
@@ -143,22 +142,20 @@ export declare class Star extends Sprite {
      * @default 360
      * @param  value  Arc scope
      */
-    set arc(value: number);
     /**
-     * @return Arc scope
-     */
-    get arc(): number;
+    * @return Arc scope
+    */
+    arc: number;
     /**
      * Radius of the star in pixels.
      *
      * @default 100
      * @param value  Radius (px)
      */
-    set radius(value: number);
     /**
-     * @return Radius (px)
-     */
-    get radius(): number;
+    * @return Radius (px)
+    */
+    radius: number;
     /**
      * Vertical radius for creating skewed star shapes.
      *
@@ -167,11 +164,10 @@ export declare class Star extends Sprite {
      *
      * @param value Vertical radius (0-1)
      */
-    set radiusY(value: number);
     /**
-     * @return Vertical radius (0-1)
-     */
-    get radiusY(): number;
+    * @return Vertical radius (0-1)
+    */
+    radiusY: number;
     /**
      * Inner radius of the star (cutout).
      *
@@ -181,46 +177,42 @@ export declare class Star extends Sprite {
      * @default 0
      * @param value  Radius (px or %)
      */
-    set innerRadius(value: number | Percent);
     /**
-     * @return Radius (px or %)
-     */
-    get innerRadius(): number | Percent;
+    * @return Radius (px or %)
+    */
+    innerRadius: number | Percent;
     /**
      * @return Radius px
      */
-    get pixelInnerRadius(): number;
+    readonly pixelInnerRadius: number;
     /**
      * Radius of star's outer corners in pixels.
      *
      * @default 0
      * @param value  Radius (px)
      */
-    set cornerRadius(value: number);
     /**
-     * @return Radius (px)
-     */
-    get cornerRadius(): number;
+    * @return Radius (px)
+    */
+    cornerRadius: number;
     /**
      * Radius of star's inner corners in pixels.
      *
      * @default 0
      * @param value  Radius (px)
      */
-    set innerCornerRadius(value: number);
     /**
-     * @return Radius (px)
-     */
-    get innerCornerRadius(): number;
+    * @return Radius (px)
+    */
+    innerCornerRadius: number;
     /**
      * Number of start points
      *
      * @default 5
      * @param value
      */
-    set pointCount(value: number);
     /**
-     * @return Number of star points
-     */
-    get pointCount(): number;
+    * @return Number of star points
+    */
+    pointCount: number;
 }

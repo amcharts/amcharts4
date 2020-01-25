@@ -77,11 +77,10 @@ export declare class ColorizeFilter extends Filter {
      *
      * @param value  Color
      */
-    set color(value: $type.Optional<Color>);
     /**
-     * @return Color
-     */
-    get color(): $type.Optional<Color>;
+    * @return Color
+    */
+    color: $type.Optional<Color>;
     /**
      * Intensity of the color (0-1).
      *
@@ -93,9 +92,8 @@ export declare class ColorizeFilter extends Filter {
      * @default 1
      * @param value  Intensity (0-1)
      */
-    set intensity(value: number);
     /**
-     * @return Intensity (0-1)
-     */
-    get intensity(): number;
+    * @return Intensity (0-1)
+    */
+    intensity: number;
 }

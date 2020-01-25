@@ -60,13 +60,12 @@ export declare class Inertia extends BaseObject implements IAnimatable {
      *
      * @param value X
      */
-    set x(value: number);
     /**
-     * Returns current X coordinate.
-     *
-     * @return X
-     */
-    get x(): number;
+    * Returns current X coordinate.
+    *
+    * @return X
+    */
+    x: number;
     /**
      * Sets current Y coordinate.
      *
@@ -74,13 +73,12 @@ export declare class Inertia extends BaseObject implements IAnimatable {
      *
      * @param value Y
      */
-    set y(value: number);
     /**
-     * Returns current Y coordinate.
-     *
-     * @return Y
-     */
-    get y(): number;
+    * Returns current Y coordinate.
+    *
+    * @return Y
+    */
+    y: number;
     /**
      * Simulates dragging of element.
      */

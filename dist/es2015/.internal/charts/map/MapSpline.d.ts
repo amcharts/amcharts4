@@ -84,6 +84,5 @@ export declare class MapSpline extends MapLine {
      * @param value
      * @todo: review description
      */
-    get shortestDistance(): boolean;
-    set shortestDistance(value: boolean);
+    shortestDistance: boolean;
 }

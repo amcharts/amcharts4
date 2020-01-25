@@ -92,21 +92,19 @@ export declare class ForceDirectedLink extends Sprite {
      *
      * @param  value  Source node
      */
-    set source(value: ForceDirectedNode);
     /**
-     * @return Source node
-     */
-    get source(): ForceDirectedNode;
+    * @return Source node
+    */
+    source: ForceDirectedNode;
     /**
      * Target node - a node link ends at.
      *
      * @param  value  Target node
      */
-    set target(value: ForceDirectedNode);
     /**
-     * @return Target node
-     */
-    get target(): ForceDirectedNode;
+    * @return Target node
+    */
+    target: ForceDirectedNode;
     /**
      * Distance between centers of source and target nodes.
      *
@@ -117,11 +115,10 @@ export declare class ForceDirectedLink extends Sprite {
      * @default 1.5
      * @param  value  Distance
      */
-    set distance(value: number);
     /**
-     * @return Distance
-     */
-    get distance(): number;
+    * @return Distance
+    */
+    distance: number;
     /**
      * Relative "strength" of the traction between linked nodes.
      *
@@ -136,11 +133,10 @@ export declare class ForceDirectedLink extends Sprite {
      * @default 1
      * @param  value  Strength
      */
-    set strength(value: number);
     /**
-     * @return Strength
-     */
-    get strength(): number;
+    * @return Strength
+    */
+    strength: number;
     /**
      * X coordinate for the slice tooltip.
      *

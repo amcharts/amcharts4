@@ -60,28 +60,26 @@ export declare class MapImageSeriesDataItem extends MapSeriesDataItem {
      *
      * @return Element
      */
-    get mapImage(): MapImage;
+    readonly mapImage: MapImage;
     /**
      * [point description]
      *
      * @todo Description
      * @param point [description]
      */
-    set point(point: [number, number]);
     /**
-     * @return [description]
-     */
-    get point(): [number, number];
+    * @return [description]
+    */
+    point: [number, number];
     /**
      * Geographical coordinates (lat/long) image is placed at.
      *
      * @param geoPoint Image coordinates
      */
-    set geoPoint(geoPoint: IGeoPoint);
     /**
-     * @return Image coordinates
-     */
-    get geoPoint(): IGeoPoint;
+    * @return Image coordinates
+    */
+    geoPoint: IGeoPoint;
 }
 /**
  * ============================================================================
@@ -192,7 +190,7 @@ export declare class MapImageSeries extends MapSeries {
      *
      * @return Map images
      */
-    get mapImages(): ListTemplate<MapImage>;
+    readonly mapImages: ListTemplate<MapImage>;
     /**
      * (Re)validates data element, effectively triggering its redrawal.
      *

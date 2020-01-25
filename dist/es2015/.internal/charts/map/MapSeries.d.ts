@@ -61,49 +61,46 @@ export declare class MapSeriesDataItem extends SeriesDataItem {
      *
      * @param value  Value
      */
-    set value(value: number);
     /**
-     * @return Value
-     */
-    get value(): number;
+    * @return Value
+    */
+    value: number;
     /**
      * When `zoomToMapObject()` is called the map will either calculate suitable
      * zoom level itself or use object's `zoomLevel` if set.
      *
      * @param value  Zoom level
      */
-    set zoomLevel(value: number);
     /**
-     * @return Zoom level
-     */
-    get zoomLevel(): number;
+    * @return Zoom level
+    */
+    zoomLevel: number;
     /**
      * When `zoomToMapObject()` is called the map will either calculate suitable
      * center position itself or use object's `zoomGeoPoint` if set.
      *
      * @param value  Zoom geo point
      */
-    set zoomGeoPoint(value: IGeoPoint);
     /**
-     * @return Zoom geo point
-     */
-    get zoomGeoPoint(): IGeoPoint;
+    * @return Zoom geo point
+    */
+    zoomGeoPoint: IGeoPoint;
     /**
      * Longitude of the East-most point of the element.
      */
-    get east(): number;
+    readonly east: number;
     /**
      * Longitude of the West-most point of the element.
      */
-    get west(): number;
+    readonly west: number;
     /**
      * Latitude of the South-most point of the element.
      */
-    get south(): number;
+    readonly south: number;
     /**
      * Latitude of the North-most point of the element.
      */
-    get north(): number;
+    readonly north: number;
     /**
      * Updates the item's bounding coordinates: coordinates of the East, West,
      * North, and South-most points.
@@ -284,11 +281,10 @@ export declare class MapSeries extends Series {
      * @default false
      * @param value  Use GeoJSON data?
      */
-    set useGeodata(value: boolean);
     /**
-     * @return Use GeoJSON data?
-     */
-    get useGeodata(): boolean;
+    * @return Use GeoJSON data?
+    */
+    useGeodata: boolean;
     /**
      * A list of object ids that should be explictly included in the series.
      *
@@ -304,15 +300,14 @@ export declare class MapSeries extends Series {
      *
      * @param value  Included objects
      */
-    set include(value: string[]);
+    /**
+    * @return Included objects
+    */
+    include: string[];
     /**
      * @ignore
      */
     protected processIncExc(): void;
-    /**
-     * @return Included objects
-     */
-    get include(): string[];
     /**
      * Should this series be included when calculating bounds of the map?
      *
@@ -324,11 +319,10 @@ export declare class MapSeries extends Series {
      * @since 4.3.0
      * @param  value  Ignore bounds?
      */
-    set ignoreBounds(value: boolean);
     /**
-     * @return Ignore bounds?
-     */
-    get ignoreBounds(): boolean;
+    * @return Ignore bounds?
+    */
+    ignoreBounds: boolean;
     /**
      * A list of object ids that should be excluded from the series.
      *
@@ -339,11 +333,10 @@ export declare class MapSeries extends Series {
      *
      * @param value  Excluded ids
      */
-    set exclude(value: string[]);
     /**
-     * @return Excluded ids
-     */
-    get exclude(): string[];
+    * @return Excluded ids
+    */
+    exclude: string[];
     /**
      * Decorates a newly added object.
      *
@@ -359,23 +352,21 @@ export declare class MapSeries extends Series {
      * @see {@link http://geojson.org/} Official GeoJSON format specification
      * @param geoJSON GeoJSON data
      */
-    set geodata(geodata: Object);
     /**
-     * @return GeoJSON data
-     */
-    get geodata(): Object;
+    * @return GeoJSON data
+    */
+    geodata: Object;
     /**
      * Sets a [[DataSource]] to be used for loading Component's data.
      *
      * @param value Data source
      */
-    set geodataSource(value: DataSource);
     /**
-     * Returns a [[DataSource]] specifically for loading Component's data.
-     *
-     * @return Data source
-     */
-    get geodataSource(): DataSource;
+    * Returns a [[DataSource]] specifically for loading Component's data.
+    *
+    * @return Data source
+    */
+    geodataSource: DataSource;
     /**
      * @ignore
      */
@@ -403,11 +394,10 @@ export declare class MapSeries extends Series {
      *
      * @param  value  Latitude
      */
-    set north(value: number);
     /**
-     * @return Latitude
-     */
-    get north(): number;
+    * @return Latitude
+    */
+    north: number;
     /**
      * South-most latitude of the series.
      *
@@ -417,11 +407,10 @@ export declare class MapSeries extends Series {
      *
      * @param  value  Latitude
      */
-    set south(value: number);
     /**
-     * @return Latitude
-     */
-    get south(): number;
+    * @return Latitude
+    */
+    south: number;
     /**
      * West-most longitude of the series.
      *
@@ -431,11 +420,10 @@ export declare class MapSeries extends Series {
      *
      * @param  value  Longitude
      */
-    set west(value: number);
     /**
-     * @return Longitude
-     */
-    get west(): number;
+    * @return Longitude
+    */
+    west: number;
     /**
      * East-most longitude of the series.
      *
@@ -445,11 +433,10 @@ export declare class MapSeries extends Series {
      *
      * @param  value  Longitude
      */
-    set east(value: number);
     /**
-     * @return Longitude
-     */
-    get east(): number;
+    * @return Longitude
+    */
+    east: number;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

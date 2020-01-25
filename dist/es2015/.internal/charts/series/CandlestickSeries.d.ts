@@ -42,41 +42,37 @@ export declare class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
      *
      * @param value  Value
      */
-    set lowValueX(value: number);
     /**
-     * @return Value
-     */
-    get lowValueX(): number;
+    * @return Value
+    */
+    lowValueX: number;
     /**
      * Low value for vertical axis.
      *
      * @param value  Value
      */
-    set lowValueY(value: number);
     /**
-     * @return Value
-     */
-    get lowValueY(): number;
+    * @return Value
+    */
+    lowValueY: number;
     /**
      * High value for horizontal axis.
      *
      * @param value  Value
      */
-    set highValueX(value: number);
     /**
-     * @return Value
-     */
-    get highValueX(): number;
+    * @return Value
+    */
+    highValueX: number;
     /**
      * High value for vertical axis.
      *
      * @param value  Value
      */
-    set highValueY(value: number);
     /**
-     * @return Value
-     */
-    get highValueY(): number;
+    * @return Value
+    */
+    highValueY: number;
     /**
      * Close value for horizontal axis.
      *
@@ -84,11 +80,10 @@ export declare class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
      *
      * @param value  Value
      */
-    set closeValueX(value: number);
     /**
-     * @return Value
-     */
-    get closeValueX(): number;
+    * @return Value
+    */
+    closeValueX: number;
     /**
      * Close value for vertical axis.
      *
@@ -96,11 +91,10 @@ export declare class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
      *
      * @param value  Value
      */
-    set closeValueY(value: number);
     /**
-     * @return Value
-     */
-    get closeValueY(): number;
+    * @return Value
+    */
+    closeValueY: number;
 }
 /**
  * ============================================================================
@@ -305,28 +299,28 @@ export declare class CandlestickSeries extends ColumnSeries {
      * @ignore Exclude from docs
      * @return Field name
      */
-    get xLowField(): string;
+    readonly xLowField: string;
     /**
      * A data field to look for "low" value for vertical axis.
      *
      * @ignore Exclude from docs
      * @return Field name
      */
-    get yLowField(): string;
+    readonly yLowField: string;
     /**
      * A data field to look for "high" value for horizontal axis.
      *
      * @ignore Exclude from docs
      * @return Field name
      */
-    get xHighField(): string;
+    readonly xHighField: string;
     /**
      * A data field to look for "high" value for vertical axis.
      *
      * @ignore Exclude from docs
      * @return Field name
      */
-    get yHighField(): string;
+    readonly yHighField: string;
     /**
      * Sets up which data fields to use for data access.
      */

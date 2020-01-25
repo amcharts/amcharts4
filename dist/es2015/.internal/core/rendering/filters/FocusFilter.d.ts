@@ -99,31 +99,28 @@ export declare class FocusFilter extends Filter {
      *
      * @param value  Color
      */
-    set stroke(value: $type.Optional<Color>);
     /**
-     * @return Color
-     */
-    get stroke(): $type.Optional<Color>;
+    * @return Color
+    */
+    stroke: $type.Optional<Color>;
     /**
      * Stroke (outline) thickness in pixels.
      *
      * @param value  Outline thickness (px)
      */
-    set strokeWidth(value: $type.Optional<number>);
     /**
-     * @return Outline thickness (px)
-     */
-    get strokeWidth(): $type.Optional<number>;
+    * @return Outline thickness (px)
+    */
+    strokeWidth: $type.Optional<number>;
     /**
      * Opacity of the outline. (0-1)
      *
      * @param value  Outline opacity (0-1)
      */
-    set opacity(value: $type.Optional<number>);
     /**
-     * @return Outline opacity (0-1)
-     */
-    get opacity(): $type.Optional<number>;
+    * @return Outline opacity (0-1)
+    */
+    opacity: $type.Optional<number>;
     /**
      * Sets filter's target element.
      *

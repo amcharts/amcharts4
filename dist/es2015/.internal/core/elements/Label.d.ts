@@ -341,11 +341,10 @@ export declare class Label extends Container {
      *
      * @param value  SVG Text
      */
-    set text(value: string);
     /**
-     * @return SVG text
-     */
-    get text(): string;
+    * @return SVG text
+    */
+    text: string;
     /**
      * An SVG path string to position text along. If set, the text will follow
      * the curvature of the path.
@@ -358,11 +357,10 @@ export declare class Label extends Container {
      * @since 4.1.2
      * @param  value  Path
      */
-    set path(value: string);
     /**
-     * @return Path
-     */
-    get path(): string;
+    * @return Path
+    */
+    path: string;
     /**
      * Relative label location on `path`. Value range is from 0 (beginning)
      * to 1 (end).
@@ -373,11 +371,10 @@ export declare class Label extends Container {
      * @default 0
      * @param  value  Relatvie location on path
      */
-    set locationOnPath(value: number);
     /**
-     * @return Relatvie location on path
-     */
-    get locationOnPath(): number;
+    * @return Relatvie location on path
+    */
+    locationOnPath: number;
     /**
      * A ratio to calculate text baseline. Ralative distance from the bottom of
      * the label.
@@ -386,21 +383,19 @@ export declare class Label extends Container {
      * @default -0.27
      * @param  value  Base line ratio
      */
-    set baseLineRatio(value: number);
     /**
-     * @return Base line ratio
-     */
-    get baseLineRatio(): number;
+    * @return Base line ratio
+    */
+    baseLineRatio: number;
     /**
      * Enables or disables autowrapping of text.
      *
      * @param value  Auto-wrapping enabled
      */
-    set wrap(value: boolean);
     /**
-     * @return Auto-wrap enabled or not
-     */
-    get wrap(): boolean;
+    * @return Auto-wrap enabled or not
+    */
+    wrap: boolean;
     /**
      * Indicates if text lines need to be truncated if they do not fit, using
      * configurable `ellipsis` string.
@@ -413,11 +408,10 @@ export declare class Label extends Container {
      *
      * @param value  trincate text?
      */
-    set truncate(value: boolean);
     /**
-     * @return Truncate text?
-     */
-    get truncate(): boolean;
+    * @return Truncate text?
+    */
+    truncate: boolean;
     /**
      * If `truncate` is enabled, should Label try to break only on full words
      * (`true`), or whenever needed, including middle of the word. (`false`)
@@ -425,22 +419,20 @@ export declare class Label extends Container {
      * @default true
      * @param value  Truncate on full words?
      */
-    set fullWords(value: boolean);
     /**
-     * @return Truncate on full words?
-     */
-    get fullWords(): boolean;
+    * @return Truncate on full words?
+    */
+    fullWords: boolean;
     /**
      * Ellipsis character to use if `truncate` is enabled.
      *
      * @param value Ellipsis string
      * @default "..."
      */
-    set ellipsis(value: string);
     /**
-     * @return Ellipsis string
-     */
-    get ellipsis(): string;
+    * @return Ellipsis string
+    */
+    ellipsis: string;
     /**
      * Forces the text to be selectable. This setting will be ignored if the
      * object has some kind of interaction attached to it, such as it is
@@ -449,11 +441,10 @@ export declare class Label extends Container {
      * @param value  Text selectable?
      * @default false
      */
-    set selectable(value: boolean);
     /**
-     * @return Text selectable?
-     */
-    get selectable(): boolean;
+    * @return Text selectable?
+    */
+    selectable: boolean;
     /**
      * Horizontal text alignment.
      *
@@ -464,11 +455,10 @@ export declare class Label extends Container {
      *
      * @param value  Alignment
      */
-    set textAlign(value: TextAlign);
     /**
-     * @return Alignment
-     */
-    get textAlign(): TextAlign;
+    * @return Alignment
+    */
+    textAlign: TextAlign;
     /**
      * Vertical text alignment.
      *
@@ -476,13 +466,12 @@ export declare class Label extends Container {
      * @param value  Alignment
      * @deprecated
      */
-    set textValign(value: TextValign);
     /**
-     * @ignore Exclude from docs (not used)
-     * @return Alignment
-     * @deprecated
-     */
-    get textValign(): TextValign;
+    * @ignore Exclude from docs (not used)
+    * @return Alignment
+    * @deprecated
+    */
+    textValign: TextValign;
     /**
      * Raw HTML to be used as text.
      *
@@ -496,22 +485,20 @@ export declare class Label extends Container {
      *
      * @param value HTML text
      */
-    set html(value: string);
     /**
-     * @return HTML content
-     */
-    get html(): string;
+    * @return HTML content
+    */
+    html: string;
     /**
      * Indicates whether the whole text should be hidden if it does not fit into
      * its allotted space.
      *
      * @param value  Hide if text does not fit?
      */
-    set hideOversized(value: boolean);
     /**
-     * @return Hide if text does not fit?
-     */
-    get hideOversized(): boolean;
+    * @return Hide if text does not fit?
+    */
+    hideOversized: boolean;
     /**
      * If set to `true` square-bracket formatting blocks will be treated as
      * regular text.
@@ -519,11 +506,10 @@ export declare class Label extends Container {
      * @default false
      * @param value  Ignore formatting?
      */
-    set ignoreFormatting(value: boolean);
     /**
-     * @return Ignore formatting?
-     */
-    get ignoreFormatting(): boolean;
+    * @return Ignore formatting?
+    */
+    ignoreFormatting: boolean;
     /**
      * Override `mesaureElement` so it does not get measure again, because
      * internal `_bbox` is being updated by measuring routines in Text itself.
@@ -563,13 +549,13 @@ export declare class Label extends Container {
      * @ignore Exclude from docs
      * @return Available width (px)
      */
-    get availableWidth(): number;
+    readonly availableWidth: number;
     /**
      * Returns available vertical space.
      *
      * @return Available height (px)
      */
-    get availableHeight(): number;
+    readonly availableHeight: number;
     getSvgElement(text: string, style?: string): AMElement;
     /**
      * Invalidates the whole element, including layout AND all its child
@@ -581,9 +567,8 @@ export declare class Label extends Container {
      *
      * @param value Title
      */
-    set readerTitle(value: string);
     /**
-     * @return Title
-     */
-    get readerTitle(): string;
+    * @return Title
+    */
+    readerTitle: string;
 }

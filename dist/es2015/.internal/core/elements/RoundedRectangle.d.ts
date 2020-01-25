@@ -109,44 +109,40 @@ export declare class RoundedRectangle extends Sprite {
      * @default 3
      * @param value  Radius (px or Percent)
      */
-    set cornerRadiusTopLeft(value: number | Percent);
     /**
-     * @return Radius (px or Percent)
-     */
-    get cornerRadiusTopLeft(): number | Percent;
+    * @return Radius (px or Percent)
+    */
+    cornerRadiusTopLeft: number | Percent;
     /**
      * Radius of the top-right corner in pixels.
      *
      * @default 3
      * @param value  Radius (px or Percent)
      */
-    set cornerRadiusTopRight(value: number | Percent);
     /**
-     * @return Radius (px or Percent)
-     */
-    get cornerRadiusTopRight(): number | Percent;
+    * @return Radius (px or Percent)
+    */
+    cornerRadiusTopRight: number | Percent;
     /**
      * Radius of the bottom-right corner in pixels.
      *
      * @default 3
      * @param value  Radius (px or Percent)
      */
-    set cornerRadiusBottomRight(value: number | Percent);
     /**
-     * @return Radius (px or Percent)
-     */
-    get cornerRadiusBottomRight(): number | Percent;
+    * @return Radius (px or Percent)
+    */
+    cornerRadiusBottomRight: number | Percent;
     /**
      * Radius of the bottom-left corner in pixels.
      *
      * @default 3
      * @param value  Radius (px or Percent)
      */
-    set cornerRadiusBottomLeft(value: number | Percent);
     /**
-     * @return Radius (px or Percent)
-     */
-    get cornerRadiusBottomLeft(): number | Percent;
+    * @return Radius (px or Percent)
+    */
+    cornerRadiusBottomLeft: number | Percent;
     /**
      * Measures the element.
      *
@@ -158,5 +154,5 @@ export declare class RoundedRectangle extends Sprite {
      *
      * @ignore Exclude from docs
      */
-    get bbox(): IRectangle;
+    readonly bbox: IRectangle;
 }

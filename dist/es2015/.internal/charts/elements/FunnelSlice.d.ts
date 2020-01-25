@@ -109,11 +109,10 @@ export declare class FunnelSlice extends Container {
      *
      * @param value  Bottom width
      */
-    set bottomWidth(value: number | Percent);
     /**
-     * @return bottom width
-     */
-    get bottomWidth(): number | Percent;
+    * @return bottom width
+    */
+    bottomWidth: number | Percent;
     /**
      * Top width in pixels or percent.
      *
@@ -123,11 +122,10 @@ export declare class FunnelSlice extends Container {
      *
      * @param value  Top width
      */
-    set topWidth(value: number | Percent);
     /**
-     * @return Top width
-     */
-    get topWidth(): number | Percent;
+    * @return Top width
+    */
+    topWidth: number | Percent;
     /**
      * Orientation of the funnel slice: "horizontal" or "vertical".
      *
@@ -137,11 +135,10 @@ export declare class FunnelSlice extends Container {
      *
      * @param value  Orientation
      */
-    set orientation(value: Orientation);
     /**
-     * @return Orientation
-     */
-    get orientation(): Orientation;
+    * @return Orientation
+    */
+    orientation: Orientation;
     /**
      * A relative distance slice's sides should be bent to. It's relative to the
      * height of the slice.
@@ -155,11 +152,10 @@ export declare class FunnelSlice extends Container {
      * @default 0
      * @param {number}
      */
-    set expandDistance(value: number);
     /**
-     * @return expandDistance
-     */
-    get expandDistance(): number;
+    * @return expandDistance
+    */
+    expandDistance: number;
     /**
      * Copies all parameters from another [[Sprite]].
      *

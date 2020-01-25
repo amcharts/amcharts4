@@ -334,29 +334,27 @@ export declare class Container extends Sprite {
      *
      * @return List of child elements (Sprites)
      */
-    get children(): List<Sprite>;
+    readonly children: List<Sprite>;
     /**
      * Minimum width (px) for the Container. A container will not
      * auto-shrink beyond this value, even if child elements are smaller.
      *
      * @param value  Width (px)
      */
-    set minWidth(value: Optional<number>);
     /**
-     * @return Width (px)
-     */
-    get minWidth(): Optional<number>;
+    * @return Width (px)
+    */
+    minWidth: Optional<number>;
     /**
      * Minimum height (px) for the Container. A container will not
      * auto-shrink beyond this value, even if child elements are smaller.
      *
      * @param value  Height (px)
      */
-    set minHeight(value: Optional<number>);
     /**
-     * @return Height (px)
-     */
-    get minHeight(): Optional<number>;
+    * @return Height (px)
+    */
+    minHeight: Optional<number>;
     /**
      * Overrides the original `removeElement` so that Container's actual element
      * is not removed. We do not need to remove element of a Container.
@@ -415,7 +413,10 @@ export declare class Container extends Sprite {
      *
      * @param background  Background element
      */
-    set background(background: this["_background"]);
+    /**
+    * @return Background element
+    */
+    background: this["_background"];
     /**
      * Handles the situation where parent element is resized.
      *
@@ -429,10 +430,6 @@ export declare class Container extends Sprite {
      * @return Background Rectangle element
      */
     createBackground(): this["_background"];
-    /**
-     * @return Background element
-     */
-    get background(): this["_background"];
     /**
      * Decorates background element with required properties.
      *
@@ -487,11 +484,10 @@ export declare class Container extends Sprite {
      * @default "absolute"
      * @param value Layout
      */
-    set layout(value: ContainerLayout);
     /**
-     * @return Layout
-     */
-    get layout(): ContainerLayout;
+    * @return Layout
+    */
+    layout: ContainerLayout;
     /**
      * Vertical alignment of the elements for the vertical Container.
      *
@@ -499,11 +495,10 @@ export declare class Container extends Sprite {
      *
      * @param value vertical alignment
      */
-    set contentValign(value: VerticalAlign);
     /**
-     * @return Vertical alignment
-     */
-    get contentValign(): VerticalAlign;
+    * @return Vertical alignment
+    */
+    contentValign: VerticalAlign;
     /**
      * Horizontal alignment of the elements for the horizontal Container.
      *
@@ -511,11 +506,10 @@ export declare class Container extends Sprite {
      *
      * @param value  Horizontal alignment
      */
-    set contentAlign(value: Align);
     /**
-     * @return Horizontal alignment
-     */
-    get contentAlign(): Align;
+    * @return Horizontal alignment
+    */
+    contentAlign: Align;
     /**
      * Controls if the grid of the Container should use fixed width. Fixed width
      * grid will divide available space to all its columns/rows equally, without
@@ -524,21 +518,19 @@ export declare class Container extends Sprite {
      * @default false
      * @param value  Should use fixed width grid?
      */
-    set fixedWidthGrid(value: boolean);
     /**
-     * @return Should use fixed width grid?
-     */
-    get fixedWidthGrid(): boolean;
+    * @return Should use fixed width grid?
+    */
+    fixedWidthGrid: boolean;
     /**
      * Maximum number of columns (when using `"grid"` layout).
      *
      * @param value  Should use fixed width grid?
      */
-    set maxColumns(value: Optional<number>);
     /**
-     * @return Should use fixed width grid?
-     */
-    get maxColumns(): Optional<number>;
+    * @return Should use fixed width grid?
+    */
+    maxColumns: Optional<number>;
     /**
      * If set to `true`, the children of the container will be drawn in reverse
      * order.
@@ -546,11 +538,10 @@ export declare class Container extends Sprite {
      * @default false
      * @param value  Reverse children?
      */
-    set reverseOrder(value: Optional<boolean>);
     /**
-     * @return Reverse children?
-     */
-    get reverseOrder(): Optional<boolean>;
+    * @return Reverse children?
+    */
+    reverseOrder: Optional<boolean>;
     /**
      * Specifies if, when state is applied on this container, the same state
      * should be applied to container's children as well as `background`.
@@ -558,11 +549,10 @@ export declare class Container extends Sprite {
      * @default false
      * @param value  Set state on children
      */
-    set setStateOnChildren(value: boolean);
     /**
-     * @return Set state on children
-     */
-    get setStateOnChildren(): boolean;
+    * @return Set state on children
+    */
+    setStateOnChildren: boolean;
     /**
      * Checks if point is within bounds of a container.
      *
@@ -582,11 +572,10 @@ export declare class Container extends Sprite {
      *
      * @param preloader  Preloader instance
      */
-    set preloader(preloader: $type.Optional<Preloader>);
     /**
-     * @return Preloader instance
-     */
-    get preloader(): $type.Optional<Preloader>;
+    * @return Preloader instance
+    */
+    preloader: $type.Optional<Preloader>;
     /**
      * Sets [[Paper]] instance to use to draw elements.
      * @ignore
@@ -620,11 +609,10 @@ export declare class Container extends Sprite {
      *
      * @param value Font family value
      */
-    set fontFamily(value: string);
     /**
-     * @return Font family
-     */
-    get fontFamily(): string;
+    * @return Font family
+    */
+    fontFamily: string;
     /**
      * Font size to be used for the text. The size can either be numeric, in
      * pixels, or other measurements.
@@ -633,11 +621,10 @@ export declare class Container extends Sprite {
      *
      * @param value Font size value
      */
-    set fontSize(value: any);
     /**
-     * @return Font size
-     */
-    get fontSize(): any;
+    * @return Font size
+    */
+    fontSize: any;
     /**
      * When fontSize of fontFamily changes we need to hard-invalidate all Labels of this container to position them properly.
      */
@@ -649,11 +636,10 @@ export declare class Container extends Sprite {
      *
      * @param value Font weight
      */
-    set fontWeight(value: FontWeight);
     /**
-     * @return Font weight
-     */
-    get fontWeight(): FontWeight;
+    * @return Font weight
+    */
+    fontWeight: FontWeight;
     /**
      * A text decoration to use for text.
      *
@@ -661,11 +647,10 @@ export declare class Container extends Sprite {
      *
      * @param value  Decoration
      */
-    set textDecoration(value: TextDecoration);
     /**
-     * @return Decoration
-     */
-    get textDecoration(): TextDecoration;
+    * @return Decoration
+    */
+    textDecoration: TextDecoration;
     /**
      * Disposes (destroys) the element and all its children.
      */
@@ -726,11 +711,10 @@ export declare class Container extends Sprite {
      * @param  value  Enable touch protection?
      * @see {@link https://www.amcharts.com/docs/v4/concepts/touch/} For more information.
      */
-    set tapToActivate(value: boolean);
     /**
-     * @return Enable touch protection?
-     */
-    get tapToActivate(): boolean;
+    * @return Enable touch protection?
+    */
+    tapToActivate: boolean;
     protected setTapToActivate(value: boolean): void;
     /**
      * @todo Ignore on non-touch events

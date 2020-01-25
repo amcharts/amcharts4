@@ -125,11 +125,10 @@ export declare class SankeyNode extends FlowDiagramNode {
      *
      * @param value  Level
      */
-    set level(value: number);
     /**
-     * @return Level
-     */
-    get level(): number;
+    * @return Level
+    */
+    level: number;
     /**
      * Copies properties and labels from another [[SankeyNode]].
      *

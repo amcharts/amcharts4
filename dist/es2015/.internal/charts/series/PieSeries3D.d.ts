@@ -42,11 +42,10 @@ export declare class PieSeries3DDataItem extends PieSeriesDataItem {
      *
      * @param value  Depth
      */
-    set depthValue(value: number);
     /**
-     * @return Depth
-     */
-    get depthValue(): number;
+    * @return Depth
+    */
+    depthValue: number;
 }
 /**
  * ============================================================================
@@ -160,21 +159,19 @@ export declare class PieSeries3D extends PieSeries {
      *
      * @param value  Depth (px)
      */
-    set depth(value: number);
     /**
-     * @return Depth (px)
-     */
-    get depth(): number;
+    * @return Depth (px)
+    */
+    depth: number;
     /**
      * Angle of the view point of the 3D pie. (0-360)
      *
      * @param value  Angle
      */
-    set angle(value: number);
     /**
-     * @return Angle
-     */
-    get angle(): number;
+    * @return Angle
+    */
+    angle: number;
     /**
      * Positions series bullet.
      *

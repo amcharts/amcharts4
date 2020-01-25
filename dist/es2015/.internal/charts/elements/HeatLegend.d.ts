@@ -133,88 +133,80 @@ export declare class HeatLegend extends Container {
      *
      * @param {Color}
      */
-    set minColor(value: Color);
     /**
-     * Returns minColor value
-     * @return {Color}
-     */
-    get minColor(): Color;
+    * Returns minColor value
+    * @return {Color}
+    */
+    minColor: Color;
     /**
      * Max color of a heat legend. If a series is set for the legend, maxColor is taken from series.
      *
      * @param {Color}
      */
-    set maxColor(value: Color);
     /**
-     * Returns maxColor value
-     * @return {Color}
-     */
-    get maxColor(): Color;
+    * Returns maxColor value
+    * @return {Color}
+    */
+    maxColor: Color;
     /**
      * Number of color squares (markers) in the heat legend. If only 1 marker is used, it will be filled with gradient.
      *
      * @param {number}
      */
-    set markerCount(value: number);
     /**
-     * Returns number of color squares (markers).
-     * @return {number}
-     */
-    get markerCount(): number;
+    * Returns number of color squares (markers).
+    * @return {number}
+    */
+    markerCount: number;
     /**
      * Minimum value of heat legend's value axis. If a series is set for the legend, min is taken from series.
      *
      * @param {number}
      */
-    set minValue(value: number);
     /**
-     * Returns minimum value of heat legend.
-     * @return {number}
-     */
-    get minValue(): number;
+    * Returns minimum value of heat legend.
+    * @return {number}
+    */
+    minValue: number;
     /**
      * Maximum value of heat legend's value axis. If a series is set for the legend, max is taken from series.
      *
      * @param {number}
      */
-    set maxValue(value: number);
     /**
-     * Returns maximum value of heat legend.
-     * @return {number}
-     */
-    get maxValue(): number;
+    * Returns maximum value of heat legend.
+    * @return {number}
+    */
+    maxValue: number;
     /**
     * Heat legend orientation. Note, if you change orientation of a heat legend, you must set value axis renderer properties after that, as with orientation renderer changes.
     *
     * @param {"horizontal" | "vertical"}
     */
-    set orientation(value: "horizontal" | "vertical");
     /**
-     * Returns orientation value.
-     *
-     * @return {"horizontal" | "vertical"}
-     */
-    get orientation(): "horizontal" | "vertical";
+    * Returns orientation value.
+    *
+    * @return {"horizontal" | "vertical"}
+    */
+    orientation: "horizontal" | "vertical";
     /**
      * Sets a value axis of heat legend. Value axis for heat legend is created automatically.
      * @param {ValueAxis}
      */
-    set valueAxis(valueAxis: ValueAxis);
     /**
-     * Returns valueAxis value.
-     * @return {ValueAxis}
-     */
-    get valueAxis(): ValueAxis;
+    * Returns valueAxis value.
+    * @return {ValueAxis}
+    */
+    valueAxis: ValueAxis;
     /**
      * You can set series for heat legend. It will take min, max, minColor and maxColor values from this series.
      * @param series
      */
-    set series(series: Series);
     /**
-     * Returns series value.
-     * @return {Series}
-     */
-    get series(): Series;
+    * Returns series value.
+    * @return {Series}
+    */
+    series: Series;
     /**
      * Updates min/max of value axis.
      * @ignore

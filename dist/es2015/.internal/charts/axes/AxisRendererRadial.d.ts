@@ -116,7 +116,7 @@ export declare class AxisRendererRadial extends AxisRendererY {
      *
      * @return Length (px)
      */
-    get axisLength(): number;
+    readonly axisLength: number;
     /**
      * Outer radius of the axis.
      *
@@ -124,17 +124,16 @@ export declare class AxisRendererRadial extends AxisRendererY {
      *
      * @param value  Outer radius
      */
-    set radius(value: number | Percent);
     /**
-     * @return Outer radius
-     */
-    get radius(): number | Percent;
+    * @return Outer radius
+    */
+    radius: number | Percent;
     /**
      * Outer radius in pixels.
      *
      * @return Outer radius (px)
      */
-    get pixelRadius(): number;
+    readonly pixelRadius: number;
     /**
      * Inner radius of the axis.
      *
@@ -142,29 +141,27 @@ export declare class AxisRendererRadial extends AxisRendererY {
      *
      * @param value  Outer radius
      */
-    set innerRadius(value: number | Percent);
     /**
-     * @return Inner radius
-     */
-    get innerRadius(): number | Percent;
+    * @return Inner radius
+    */
+    innerRadius: number | Percent;
     /**
      * Inner radius in pixels.
      *
      * @return Inner radius (px)
      */
-    get pixelInnerRadius(): number;
+    readonly pixelInnerRadius: number;
     /**
      * Chart, associated with the Axis.
      *
      * @ignore Exclude from docs
      * @param value Chart
      */
-    set chart(chart: RadarChart);
     /**
-     * @ignore Exclude from docs
-     * @return Chart
-     */
-    get chart(): RadarChart;
+    * @ignore Exclude from docs
+    * @return Chart
+    */
+    chart: RadarChart;
     /**
      * Converts relative position on axis to point coordinates.
      *
@@ -216,31 +213,28 @@ export declare class AxisRendererRadial extends AxisRendererY {
      *
      * @param value  Start angle
      */
-    set startAngle(value: number);
     /**
-     * @return Start angle
-     */
-    get startAngle(): number;
+    * @return Start angle
+    */
+    startAngle: number;
     /**
      * End angle of the axis in degrees. (0-360)
      *
      * @param value  End angle
      */
-    set endAngle(value: number);
     /**
-     * @return End angle
-     */
-    get endAngle(): number;
+    * @return End angle
+    */
+    endAngle: number;
     /**
      * Angle of the radial axis in degrees. (0-360)
      *
      * @param value  Axis angle
      */
-    set axisAngle(value: number);
     /**
-     * @return Axis angle
-     */
-    get axisAngle(): number;
+    * @return Axis angle
+    */
+    axisAngle: number;
     /**
      * Grid type for radial axis.
      *
@@ -250,11 +244,10 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * @default "circles"
      * @param value  Grid type
      */
-    set gridType(value: "circles" | "polygons");
     /**
-     * Grid type
-     */
-    get gridType(): "circles" | "polygons";
+    * Grid type
+    */
+    gridType: "circles" | "polygons";
     /**
      * [getPositionRangePath description]
      *

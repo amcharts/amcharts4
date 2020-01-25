@@ -63,26 +63,23 @@ export declare class Slider extends Scrollbar {
     /**
      * @return [description]
      */
-    protected get __end(): number;
-    protected set __end(value: number);
+    protected __end: number;
     /**
      * @return [description]
      */
-    get end(): number;
     /**
-     * Relative position (0-1) of the end grip.
-     *
-     * @param position  Position (0-1)
-     */
-    set end(position: number);
+    * Relative position (0-1) of the end grip.
+    *
+    * @param position  Position (0-1)
+    */
+    end: number;
     /**
      * Relative position (0-1) of the start grip.
      *
      * @param position  Position (0-1)
      */
-    set start(position: number);
     /**
-     * @return Position (0-1)
-     */
-    get start(): number;
+    * @return Position (0-1)
+    */
+    start: number;
 }

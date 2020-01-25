@@ -62,9 +62,8 @@ export declare class LightenFilter extends Filter {
      *
      * @param value  Lightness
      */
-    set lightness(value: number);
     /**
-     * @return Lightness
-     */
-    get lightness(): number;
+    * @return Lightness
+    */
+    lightness: number;
 }

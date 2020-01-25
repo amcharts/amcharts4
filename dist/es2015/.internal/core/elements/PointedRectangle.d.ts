@@ -78,9 +78,8 @@ export declare class PointedRectangle extends PointedShape {
      * @default 0
      * @param value  Corner radius (px)
      */
-    set cornerRadius(value: number);
     /**
-     * @return Corner radius (px)
-     */
-    get cornerRadius(): number;
+    * @return Corner radius (px)
+    */
+    cornerRadius: number;
 }

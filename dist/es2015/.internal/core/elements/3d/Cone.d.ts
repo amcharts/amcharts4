@@ -127,11 +127,10 @@ export declare class Cone extends Container {
      * @default 30
      * @param value  Angle
      */
-    set angle(value: number);
     /**
-     * @return Angle
-     */
-    get angle(): number;
+    * @return Angle
+    */
+    angle: number;
     /**
      * A relative radius of the cone's bottom (base).
      *
@@ -140,11 +139,10 @@ export declare class Cone extends Container {
      * @default Percent(100)
      * @param value  Bottom radius
      */
-    set radius(value: Percent);
     /**
-     * @return Bottom radius
-     */
-    get radius(): Percent;
+    * @return Bottom radius
+    */
+    radius: Percent;
     /**
      * A relative radius of the cone's top (tip).
      *
@@ -153,20 +151,18 @@ export declare class Cone extends Container {
      * @default Percent(0)
      * @param value  Top radius
      */
-    set topRadius(value: Percent);
     /**
-     * @return Top radius
-     */
-    get topRadius(): Percent;
+    * @return Top radius
+    */
+    topRadius: Percent;
     /**
      * Orientation of the cone
      *
      * @default "vertical"
      * @param value  Orientation
      */
-    set orientation(value: Orientation);
     /**
-     * Orientation
-     */
-    get orientation(): Orientation;
+    * Orientation
+    */
+    orientation: Orientation;
 }

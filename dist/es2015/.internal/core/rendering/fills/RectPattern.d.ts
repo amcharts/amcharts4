@@ -54,19 +54,17 @@ export declare class RectPattern extends Pattern {
      *
      * @param value Width (px)
      */
-    set rectWidth(value: number);
     /**
-     * @return Width (px)
-     */
-    get rectWidth(): number;
+    * @return Width (px)
+    */
+    rectWidth: number;
     /**
      * Rectangle height in pixels.
      *
      * @param value Height (px)
      */
-    set rectHeight(value: number);
     /**
-     * @return Height (px)
-     */
-    get rectHeight(): number;
+    * @return Height (px)
+    */
+    rectHeight: number;
 }

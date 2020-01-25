@@ -80,21 +80,19 @@ export declare class QuadraticCurve extends Line {
      *
      * @param value X
      */
-    set cpx(value: number);
     /**
-     * @return X
-     */
-    get cpx(): number;
+    * @return X
+    */
+    cpx: number;
     /**
      * Y coordinate of control point.
      *
      * @param value Y
      */
-    set cpy(value: number);
     /**
-     * @return Y
-     */
-    get cpy(): number;
+    * @return Y
+    */
+    cpy: number;
     /**
      * Converts relative position along the line (0-1) into pixel coordinates.
      *

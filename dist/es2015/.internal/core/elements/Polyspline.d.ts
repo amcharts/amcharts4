@@ -106,11 +106,10 @@ export declare class Polyspline extends Polyline {
      * @default 0.5
      * @param value  Tension
      */
-    set tensionX(value: number);
     /**
-     * @return Tension
-     */
-    get tensionX(): number;
+    * @return Tension
+    */
+    tensionX: number;
     /**
      * Vertical tension for the spline.
      *
@@ -119,11 +118,10 @@ export declare class Polyspline extends Polyline {
      * @default 0.5
      * @param value  Tensions
      */
-    set tensionY(value: number);
     /**
-     * @return Tension
-     */
-    get tensionY(): number;
+    * @return Tension
+    */
+    tensionY: number;
     /**
      * Converts relative position along the line (0-1) into pixel coordinates.
      *

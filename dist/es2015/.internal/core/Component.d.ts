@@ -628,14 +628,13 @@ export declare class Component extends Container {
      *
      * @param value Data
      */
-    set data(value: any[]);
-    protected setData(value: any[]): void;
     /**
-     * Returns element's source (raw) data.
-     *
-     * @return Data
-     */
-    get data(): any[];
+    * Returns element's source (raw) data.
+    *
+    * @return Data
+    */
+    data: any[];
+    protected setData(value: any[]): void;
     /**
      * Returns (creates if necessary) a [[DataSource]] bound to any specific
      * property.
@@ -653,11 +652,10 @@ export declare class Component extends Container {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/loading-external-data/} for more on loading external data
      * @param value  Data source
      */
-    set dataSource(value: DataSource);
     /**
-     * @return Data source
-     */
-    get dataSource(): DataSource;
+    * @return Data source
+    */
+    dataSource: DataSource;
     /**
      * Initiates loading of the external data via [[DataSource]].
      *
@@ -711,11 +709,10 @@ export declare class Component extends Container {
      *
      * @param value  Responsive rules handler
      */
-    set responsive(value: Responsive);
     /**
-     * @return Responsive rules handler
-     */
-    get responsive(): Responsive;
+    * @return Responsive rules handler
+    */
+    responsive: Responsive;
     /**
      * Sets current zoom.
      *
@@ -755,7 +752,7 @@ export declare class Component extends Container {
      *
      * @return Zoom factor
      */
-    get zoomFactor(): number;
+    readonly zoomFactor: number;
     /**
      * Max available `zoomFactor`.
      *
@@ -775,11 +772,10 @@ export declare class Component extends Container {
      *
      * @param value  Maximum zoomFactor
      */
-    set maxZoomFactor(value: number);
     /**
-     * @return Maximum zoomFactor
-     */
-    get maxZoomFactor(): number;
+    * @return Maximum zoomFactor
+    */
+    maxZoomFactor: number;
     /**
      * Max zoom declination.
      *
@@ -787,19 +783,23 @@ export declare class Component extends Container {
      * @default 1
      * @param value  Maximum zoom declination
      */
-    set maxZoomDeclination(value: number);
     /**
-     * @ignore
-     * @return Maximum zoom declination
-     */
-    get maxZoomDeclination(): number;
+    * @ignore
+    * @return Maximum zoom declination
+    */
+    maxZoomDeclination: number;
     /**
      * Sets current starting index.
      *
      * @ignore Exclude from docs
      * @param value Start index
      */
-    set startIndex(value: number);
+    /**
+    * Current starting index.
+    *
+    * @return Start index
+    */
+    startIndex: number;
     /**
      * @ignore
      * @todo:review description
@@ -808,24 +808,17 @@ export declare class Component extends Container {
      */
     indexToPosition(index: number): number;
     /**
-     * Current starting index.
-     *
-     * @return Start index
-     */
-    get startIndex(): number;
-    /**
      * Sets current ending index.
      *
      * @ignore Exclude from docs
      * @param value End index
      */
-    set endIndex(value: number);
     /**
-     * Current ending index.
-     *
-     * @return End index
-     */
-    get endIndex(): number;
+    * Current ending index.
+    *
+    * @return End index
+    */
+    endIndex: number;
     /**
      * Start of the current data range (zoom).
      *
@@ -833,11 +826,10 @@ export declare class Component extends Container {
      *
      * @param value Start (0-1)
      */
-    set start(value: number);
     /**
-     * @return Start (0-1)
-     */
-    get start(): number;
+    * @return Start (0-1)
+    */
+    start: number;
     /**
      * End of the current data range (zoom).
      *
@@ -845,11 +837,10 @@ export declare class Component extends Container {
      *
      * @param value End (0-1)
      */
-    set end(value: number);
     /**
-     * @return End (0-1)
-     */
-    get end(): number;
+    * @return End (0-1)
+    */
+    end: number;
     /**
      * [removeFromInvalids description]
      *
@@ -862,7 +853,7 @@ export declare class Component extends Container {
      *
      * @return List of data items
      */
-    get dataItems(): OrderedListTemplate<this["_dataItem"]>;
+    readonly dataItems: OrderedListTemplate<this["_dataItem"]>;
     /**
      * Holds data items for data sets (usually aggregated data).
      *
@@ -870,7 +861,7 @@ export declare class Component extends Container {
      * @since 4.7.0
      * @return  Data sets
      */
-    get dataSets(): Dictionary<string, OrderedListTemplate<this["_dataItem"]>>;
+    readonly dataSets: Dictionary<string, OrderedListTemplate<this["_dataItem"]>>;
     /**
      * Makes the chart use particular data set.
      *
@@ -889,7 +880,7 @@ export declare class Component extends Container {
      * @since 4.7.0
      * @return Current data set id
      */
-    get currentDataSetId(): string;
+    readonly currentDataSetId: string;
     /**
      * Returns reference to "main" data set (unaggregated data as it was supplied
      * in `data`).
@@ -897,7 +888,7 @@ export declare class Component extends Container {
      * @since 4.7.0
      * @return Main data set
      */
-    get mainDataSet(): OrderedListTemplate<this["_dataItem"]>;
+    readonly mainDataSet: OrderedListTemplate<this["_dataItem"]>;
     /**
      * Updates the indexes for the dataItems
      *
@@ -953,7 +944,7 @@ export declare class Component extends Container {
      * @todo Description (review)
      * @return [description]
      */
-    get dataUsers(): List<Component>;
+    readonly dataUsers: List<Component>;
     /**
      * Returns a clone of this element.
      *
@@ -995,11 +986,10 @@ export declare class Component extends Container {
      * @default 1
      * @param value  Min zoom count
      */
-    set minZoomCount(value: number);
     /**
-     * @return Min zoom count
-     */
-    get minZoomCount(): number;
+    * @return Min zoom count
+    */
+    minZoomCount: number;
     /**
      * Use this for [[CategoryAxis]] or [[DateAxis]].
      *
@@ -1012,11 +1002,10 @@ export declare class Component extends Container {
      * @since 4.6.2
      * @param value  Max zoom count
      */
-    set maxZoomCount(value: number);
     /**
-     * @return Max zoom count
-     */
-    get maxZoomCount(): number;
+    * @return Max zoom count
+    */
+    maxZoomCount: number;
     /**
      * Called during the System.update method
      *
