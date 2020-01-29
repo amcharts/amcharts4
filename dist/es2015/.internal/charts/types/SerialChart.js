@@ -17,6 +17,7 @@ import { ColorSet } from "../../core/utils/ColorSet";
 import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
+import * as $array from "../../core/utils/Array";
 import { Disposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
@@ -132,6 +133,7 @@ var SerialChart = /** @class */ (function (_super) {
         configurable: true
     });
     SerialChart.prototype.handleSeriesRemoved = function (event) {
+        var _this = this;
         var series = event.oldValue;
         this.dataUsers.removeValue(series);
         this.dataUsers.each(function (dataUser) {
@@ -140,7 +142,17 @@ var SerialChart = /** @class */ (function (_super) {
         if (series.autoDispose) {
             series.dispose();
         }
-        this.feedLegend();
+        //this.feedLegend();
+        if (this.legend) {
+            this.legend.dataItems.each(function (dataItem) {
+                if (dataItem.dataContext == series) {
+                    _this.legend.dataItems.remove(dataItem);
+                }
+            });
+            $array.each(this.legend.data, function (item) {
+                $array.remove(_this.legend.data, item);
+            });
+        }
     };
     /**
      * Decorates a new [[Series]] object with required parameters when it is
@@ -163,13 +175,22 @@ var SerialChart = /** @class */ (function (_super) {
             _this.dataUsers.removeValue(series);
         }));
         this.handleSeriesAdded2(series);
-        this.feedLegend();
+        if (!series.hiddenInLegend) {
+            if (this.legend) {
+                this.legend.addData(series);
+            }
+        }
     };
     SerialChart.prototype.handleSeriesAdded2 = function (series) {
+        var _this = this;
         if (!this.dataInvalid) {
-            if (!series.data || series.data.length == 0) {
-                this.invalidateData();
-            }
+            this._disposers.push(
+            // on exit only as data is usually passed after push
+            registry.events.once("exitframe", function () {
+                if (!series.data || series.data.length == 0) {
+                    _this.invalidateData();
+                }
+            }));
         }
     };
     /**

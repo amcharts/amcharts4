@@ -680,7 +680,7 @@ export class ForceDirectedSeries extends Series {
 			this.updateLinksAndNodes();
 
 			this.dataItems.each((dataItem) => {
-				this.handleFixed(dataItem);
+				this.handleFixed(dataItem);				
 			})
 
 			let d3forceSimulation = this.d3forceSimulation;
@@ -775,8 +775,6 @@ export class ForceDirectedSeries extends Series {
 				node.y = this.innerHeight / 2 + radius * $math.sin(angle);
 			}
 
-			this.handleFixed(dataItem);
-
 			dataItem.node.fill = dataItem.color;
 			dataItem.node.stroke = dataItem.color;
 
@@ -823,6 +821,7 @@ export class ForceDirectedSeries extends Series {
 		}
 
 		if (dataItem.fixed) {
+
 			if (node.x instanceof Percent) {
 				(<any>node).fx = $utils.relativeToValue(node.x, this.innerWidth);
 			}
@@ -845,6 +844,12 @@ export class ForceDirectedSeries extends Series {
 			(<any>node).fx = undefined;
 			(<any>node).fy = undefined;
 			node.draggable = true;
+		}
+
+		if(dataItem && dataItem.children){
+			dataItem.children.each((di)=>{
+				this.handleFixed(di)
+			})
 		}
 	}
 
@@ -1054,6 +1059,8 @@ export class ForceDirectedSeries extends Series {
 		if (!node.isActive) {
 			node.hide(0);
 		}
+
+		this.handleFixed(dataItem);
 
 		if (dataItem.children) {
 			let index = 0;

@@ -76,7 +76,7 @@ export declare function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit
  * @param count  Number of units to add
  * @return Modified date
  */
-export declare function add(date: Date, unit: TimeUnit, count: number, utc?: boolean, timeZoneOffset?: number): Date;
+export declare function add(date: Date, unit: TimeUnit, count: number, utc?: boolean): Date;
 /**
  * "Rounds" the date to specific time unit.
  *
@@ -87,4 +87,4 @@ export declare function add(date: Date, unit: TimeUnit, count: number, utc?: boo
  * @param firstDateOfWeek  First day of week
  * @return New date
  */
-export declare function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek?: number, utc?: boolean, firstDate?: Date, timeZoneOffset?: number): Date;
+export declare function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek?: number, utc?: boolean, firstDate?: Date): Date;

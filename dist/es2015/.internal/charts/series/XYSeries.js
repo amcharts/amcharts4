@@ -1462,8 +1462,8 @@ var XYSeries = /** @class */ (function (_super) {
                     if (openValue == closeValue) {
                         var baseInterval = xAxis.baseInterval;
                         var dateFormatter = xAxis.dateFormatter;
-                        openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc, undefined, dateFormatter.timezoneOffset).getTime();
-                        closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.utc, dateFormatter.timezoneOffset).getTime();
+                        openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc).getTime();
+                        closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.utc).getTime();
                     }
                     var middleValue = void 0;
                     if (xAxis == this.baseAxis) {
@@ -1528,8 +1528,8 @@ var XYSeries = /** @class */ (function (_super) {
                     if (openValue == closeValue) {
                         var baseInterval = yAxis.baseInterval;
                         var dateFormatter = yAxis.dateFormatter;
-                        openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc, undefined, dateFormatter.timezoneOffset).getTime();
-                        closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.utc, dateFormatter.timezoneOffset).getTime();
+                        openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc).getTime();
+                        closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.utc).getTime();
                     }
                     var middleValue = void 0;
                     if (yAxis == this.baseAxis) {

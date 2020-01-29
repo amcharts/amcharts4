@@ -18,6 +18,7 @@ import { PatternSet } from "../../core/utils/PatternSet";
 import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
+import * as $array from "../../core/utils/Array";
 import { Disposer } from "../../core/utils/Disposer";
 
 /**
@@ -244,7 +245,18 @@ export class SerialChart extends Chart {
 		if (series.autoDispose) {
 			series.dispose();
 		}
-		this.feedLegend();
+		//this.feedLegend();
+		if(this.legend){
+			this.legend.dataItems.each((dataItem)=>{
+				if(dataItem.dataContext == series){
+					this.legend.dataItems.remove(dataItem);
+				}
+			})
+
+			$array.each(this.legend.data, (item)=>{
+				$array.remove(this.legend.data, item);
+			})
+		}
 	}
 
 	/**
@@ -270,15 +282,25 @@ export class SerialChart extends Chart {
 		}))
 
 		this.handleSeriesAdded2(series);
+		
+		if (!series.hiddenInLegend) {
+			if(this.legend){
+				this.legend.addData(series);
+			}
+		}
 
-		this.feedLegend();
 	}
 
 	protected handleSeriesAdded2(series: Series) {
 		if (!this.dataInvalid) {
-			if (!series.data || series.data.length == 0) {
-				this.invalidateData();
-			}
+			this._disposers.push(
+				// on exit only as data is usually passed after push
+				registry.events.once("exitframe", ()=>{
+					if (!series.data || series.data.length == 0) {
+						this.invalidateData();
+					}
+				})
+			)
 		}
 	}
 

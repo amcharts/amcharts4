@@ -487,7 +487,6 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
             else {
                 node.y = _this.innerHeight / 2 + radius * $math.sin(angle);
             }
-            _this.handleFixed(dataItem);
             dataItem.node.fill = dataItem.color;
             dataItem.node.stroke = dataItem.color;
             index++;
@@ -511,6 +510,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         _super.prototype.validateDataItems.call(this);
     };
     ForceDirectedSeries.prototype.handleFixed = function (dataItem) {
+        var _this = this;
         var node = dataItem.node;
         var xField = node.propertyFields.x;
         var yField = node.propertyFields.y;
@@ -540,6 +540,11 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
             node.fx = undefined;
             node.fy = undefined;
             node.draggable = true;
+        }
+        if (dataItem && dataItem.children) {
+            dataItem.children.each(function (di) {
+                _this.handleFixed(di);
+            });
         }
     };
     /**
@@ -717,6 +722,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         if (!node.isActive) {
             node.hide(0);
         }
+        this.handleFixed(dataItem);
         if (dataItem.children) {
             var index_1 = 0;
             dataItem.childrenInited = true;

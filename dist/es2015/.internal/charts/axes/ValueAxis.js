@@ -268,6 +268,7 @@ var ValueAxis = /** @class */ (function (_super) {
                 var _loop_1 = function (i) {
                     // This has to be `var` in order to avoid garbage collection
                     var total = {};
+                    var sum = {};
                     this_1.series.each(function (series) {
                         if (!series.excludeFromTotal) {
                             var dataItem_1 = series.dataItems.getIndex(i);
@@ -280,6 +281,12 @@ var ValueAxis = /** @class */ (function (_super) {
                                         }
                                         else {
                                             total[key] += Math.abs(value);
+                                        }
+                                        if (!$type.isNumber(sum[key])) {
+                                            sum[key] = value;
+                                        }
+                                        else {
+                                            sum[key] += value;
                                         }
                                     }
                                 });
@@ -295,6 +302,7 @@ var ValueAxis = /** @class */ (function (_super) {
                                     if ($type.isNumber(value)) {
                                         dataItem_2.setCalculatedValue(key, total[key], "total");
                                         dataItem_2.setCalculatedValue(key, 100 * value / total[key], "totalPercent");
+                                        dataItem_2.setCalculatedValue(key, sum[key], "sum");
                                     }
                                 });
                             }

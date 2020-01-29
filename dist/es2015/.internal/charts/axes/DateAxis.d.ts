@@ -124,6 +124,18 @@ export interface IDateAxisProperties extends IValueAxisProperties {
      * @since 4.7.0
      */
     groupCount?: number;
+    /**
+     *
+     * Indicates by how many minutes the timestamps in your data are offset from GMT.
+     * This is useful when you have timestamps as your data and you want all the users to see
+     * the same result and not the time which was at users's location at the given timestamp.
+     * Note, you do not need to set timezoneOffset both here and on DateFormatter, as this will
+     * distort the result.
+     *
+     * @default 0
+     * @since 4.8.5
+     */
+    timezoneOffset?: number;
 }
 /**
  * Defines events for [[DateAxis]].
@@ -997,6 +1009,22 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
     * @return Number of data items
     */
     groupCount: number;
+    /**
+     *
+     * Indicates by how many minutes the timestamps in your data are offset from GMT.
+     * This is useful when you have timestamps as your data and you want all the users to see
+     * the same result and not the time which was at users's location at the given timestamp.
+     * Note, you do not need to set timezoneOffset both here and on DateFormatter, as this will
+     * distort the result.
+     *
+     * @default 0
+     * @since 4.8.5
+     * @param  value Time zone offset in minutes
+     */
+    /**
+    * @todo Timezone offset in minutes
+    */
+    timezoneOffset: number;
     /**
      * Current grid interval.
      *

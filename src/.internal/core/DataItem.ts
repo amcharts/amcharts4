@@ -939,6 +939,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 * @param duration  Duration (ms) to animate to new value to
 	 */
 	public setDate(name: string, date: Date, duration?: number) {
+
 		if (!$type.isDate(date) && this.component) {
 			date = this.component.dateFormatter.parse(date);
 		}

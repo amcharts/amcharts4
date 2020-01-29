@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.8.5] - 2020-01-29
+
+### Fixed
+- Reverted old behavior of DateFormatter.timezoneOffset, because the fix introduced in 4.8.3 was not correct. Use dateAxis.timezoneOffset instead.
+- it was possible to make fixed only nodes of the first level of ForceDirectedSeries.
+- when series is added/removed to a Serial chart, it adds/removes items only the specific item to/from the legend (if available), previously it used to invalidate entire legend which was not good for performance.
+
+### Added
+- timezoneOffset property added to DateAxis. Us it instead of DateFormatter.timezoneOffset if your dates are timestamps in your data and you want the chart to display the same dates no matter at which timezone the chart viewer is.
+
+- If `ValueAxis` has its `calculateTotals = true` set, the axis will calculate not only `total` and `totalPercent` for related series' data items but also `sum` which is mathematical sum of source the values, rather than their absolute values.
+
 ## [4.8.4] - 2020-01-25
 
 ### Fixed

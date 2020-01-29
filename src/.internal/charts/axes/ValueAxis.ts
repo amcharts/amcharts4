@@ -509,6 +509,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				for (let i: number = startIndex; i < endIndex; ++i) {
 					// This has to be `var` in order to avoid garbage collection
 					const total: { [index: string]: number } = {};
+					const sum: { [index: string]: number } = {};
 
 					this.series.each((series) => {
 						if (!series.excludeFromTotal) {
@@ -523,6 +524,12 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 										}
 										else {
 											total[key] += Math.abs(value);
+										}
+										if (!$type.isNumber(sum[key])) {
+											sum[key] = value;
+										}
+										else {
+											sum[key] += value;
 										}
 									}
 								});
@@ -540,6 +547,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 									if ($type.isNumber(value)) {
 										dataItem.setCalculatedValue(key, total[key], "total");
 										dataItem.setCalculatedValue(key, 100 * value / total[key], "totalPercent");
+										dataItem.setCalculatedValue(key, sum[key], "sum");
 									}
 								});
 							}
