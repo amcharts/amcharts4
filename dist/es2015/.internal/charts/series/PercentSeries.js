@@ -771,6 +771,7 @@ var PercentSeries = /** @class */ (function (_super) {
         this.slices.template.copyFrom(source.slices.template);
         this.labels.template.copyFrom(source.labels.template);
         this.ticks.template.copyFrom(source.ticks.template);
+        this.colors = source.colors.clone();
     };
     Object.defineProperty(PercentSeries.prototype, "alignLabels", {
         /**

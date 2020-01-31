@@ -422,7 +422,9 @@ export class TreeMapSeries extends ColumnSeries {
 
 	protected disableUnusedColumns(dataItem: ColumnSeriesDataItem) {
 		super.disableUnusedColumns(dataItem);
-		dataItem.column.__disabled = false;
+		if(dataItem.column){
+			dataItem.column.__disabled = false;
+		}
 	}	
 }
 

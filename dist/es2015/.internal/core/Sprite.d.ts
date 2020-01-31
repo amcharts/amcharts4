@@ -824,6 +824,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     preventShow: boolean;
     /**
+     * When cloning a sprite, if the template has it's own tooltip assigned, this tooltip is also cloned by default.
+     * This is not good for cpu and sometimes you might only need one single tooltip for all clones. Set this to false in order not to clone tooltip.
+     */
+    cloneTooltip: boolean;
+    /**
      * Constructor:
      * * Creates initial node
      * * Sets default properties

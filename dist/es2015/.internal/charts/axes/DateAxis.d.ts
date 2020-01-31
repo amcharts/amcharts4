@@ -132,7 +132,7 @@ export interface IDateAxisProperties extends IValueAxisProperties {
      * Note, you do not need to set timezoneOffset both here and on DateFormatter, as this will
      * distort the result.
      *
-     * @default 0
+     * @default undefined
      * @since 4.8.5
      */
     timezoneOffset?: number;
@@ -1017,7 +1017,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * Note, you do not need to set timezoneOffset both here and on DateFormatter, as this will
      * distort the result.
      *
-     * @default 0
+     * @default undefined
      * @since 4.8.5
      * @param  value Time zone offset in minutes
      */

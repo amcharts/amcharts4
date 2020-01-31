@@ -8,28 +8,28 @@ var price2 = 2000;
 var price3 = 3000;
 var quantity = 1000;
 for (var i = 15; i < 3000; i++) {
-	price1 += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 100);
-	price2 += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 100);
-	price3 += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 100);
+  price1 += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 100);
+  price2 += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 100);
+  price3 += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 100);
 
-	if (price1 < 100) {
-		price1 = 100;
-	}
+  if (price1 < 100) {
+    price1 = 100;
+  }
 
-	if (price2 < 100) {
-		price2 = 100;
-	}
+  if (price2 < 100) {
+    price2 = 100;
+  }
 
-	if (price3 < 100) {
-		price3 = 100;
-	}		
+  if (price3 < 100) {
+    price3 = 100;
+  }    
 
-	quantity += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 500);
+  quantity += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 500);
 
-	if (quantity < 0) {
-		quantity *= -1;
-	}
-	data.push({ date: new Date(2000, 0, i), price1: price1, price2:price2, price3:price3, quantity: quantity });
+  if (quantity < 0) {
+    quantity *= -1;
+  }
+  data.push({ date: new Date(2000, 0, i), price1: price1, price2:price2, price3:price3, quantity: quantity });
 }
 
 
@@ -144,6 +144,8 @@ chart.cursor = new am4charts.XYCursor();
 var scrollbarX = new am4charts.XYChartScrollbar();
 scrollbarX.series.push(series1);
 scrollbarX.marginBottom = 20;
+var sbSeries = scrollbarX.scrollbarChart.series.getIndex(0);
+sbSeries.dataFields.valueYShow = undefined;
 chart.scrollbarX = scrollbarX;
 
 
@@ -155,89 +157,56 @@ chart.scrollbarX = scrollbarX;
 var inputFieldFormat = "yyyy-MM-dd";
 
 document.getElementById("b1m").addEventListener("click", function() {
-	resetButtonClass();
-	var max = dateAxis.groupMax["day1"];
-	var date = new Date(max);
-	date.setMonth(date.getMonth() - 1);
-
-	dateAxis.zoomToDates(
-		date,
-		new Date(max)
-	);
-	//this.className = "amcharts-input amcharts-input-selected";
+  var max = dateAxis.groupMax["day1"];
+  var date = new Date(max);
+  am4core.time.add(date, "month", -1);
+  zoomToDates(date);
 });
 
 document.getElementById("b3m").addEventListener("click", function() {
-	resetButtonClass();
-	var max = dateAxis.groupMax["day1"];
-	var date = new Date(max);
-	date.setMonth(date.getMonth() - 3);
-
-	dateAxis.zoomToDates(
-		date,
-		new Date(max)
-	);
-	//this.className = "amcharts-input amcharts-input-selected";
+  var max = dateAxis.groupMax["day1"];
+  var date = new Date(max);
+  am4core.time.add(date, "month", -3);
+  zoomToDates(date);
 });
 
 document.getElementById("b6m").addEventListener("click", function() {
-	resetButtonClass();
-	var max = dateAxis.groupMax["day1"];
-	var date = new Date(max);
-	date.setMonth(date.getMonth() - 6);
-
-	dateAxis.zoomToDates(
-		date,
-		new Date(max)
-	);
-	//this.className = "amcharts-input amcharts-input-selected";
+  var max = dateAxis.groupMax["day1"];
+  var date = new Date(max);
+  am4core.time.add(date, "month", -6);
+  zoomToDates(date);
 });
 
 document.getElementById("b1y").addEventListener("click", function() {
-	resetButtonClass();
-	var max = dateAxis.groupMax["week1"];
-	var date = new Date(max);
-	date.setFullYear(date.getFullYear() - 1);
-
-	dateAxis.zoomToDates(
-		date,
-		new Date(max)
-	);
-	//this.className = "amcharts-input amcharts-input-selected";
+  var max = dateAxis.groupMax["day1"];
+  var date = new Date(max);
+  am4core.time.add(date, "year", -1);
+  zoomToDates(date);
 });
 
 document.getElementById("bytd").addEventListener("click", function() {
-	resetButtonClass();
-	var date = new Date(dateAxis.max);
-	date.setMonth(0, 1);
-	date.setHours(0, 0, 0, 0);
-	dateAxis.zoomToDates(date, new Date(dateAxis.max));
-	//this.className = "amcharts-input amcharts-input-selected";
+  var max = dateAxis.groupMax["day1"];
+  var date = new Date(max);
+  am4core.time.round(date, "year", 1);
+  zoomToDates(date);
 });
 
 document.getElementById("bmax").addEventListener("click", function() {
-	resetButtonClass();
-	dateAxis.zoom({start:0, end:1});
-	//this.className = "amcharts-input amcharts-input-selected";
+  var min = dateAxis.groupMin["day1"];
+  var date = new Date(min);
+  zoomToDates(date);
 });
 
-function resetButtonClass() {
-	var selected = document.getElementsByClassName("amcharts-input-selected");
-	for(var i = 0; i < selected.length; i++) {
-		selected[i].className = "amcharts-input";
-	}
-}
-
 dateAxis.events.on("selectionextremeschanged", function() {
-	updateFields();
+  updateFields();
 });
 
 dateAxis.events.on("extremeschanged", updateFields);
 
 function updateFields() {
-	var minZoomed = dateAxis.minZoomed + am4core.time.getDuration(dateAxis.mainBaseInterval.timeUnit, dateAxis.mainBaseInterval.count) * 0.5;
-	document.getElementById("fromfield").value = chart.dateFormatter.format(minZoomed, inputFieldFormat);
-	document.getElementById("tofield").value = chart.dateFormatter.format(new Date(dateAxis.maxZoomed), inputFieldFormat);
+  var minZoomed = dateAxis.minZoomed + am4core.time.getDuration(dateAxis.mainBaseInterval.timeUnit, dateAxis.mainBaseInterval.count) * 0.5;
+  document.getElementById("fromfield").value = chart.dateFormatter.format(minZoomed, inputFieldFormat);
+  document.getElementById("tofield").value = chart.dateFormatter.format(new Date(dateAxis.maxZoomed), inputFieldFormat);
 }
 
 document.getElementById("fromfield").addEventListener("keyup", updateZoom);
@@ -245,21 +214,30 @@ document.getElementById("tofield").addEventListener("keyup", updateZoom);
 
 var zoomTimeout;
 function updateZoom() {
-	if (zoomTimeout) {
-		clearTimeout(zoomTimeout);
-	}
-	zoomTimeout = setTimeout(function() {
-		resetButtonClass();
-		var start = document.getElementById("fromfield").value;
-		var end = document.getElementById("tofield").value;
-		if ((start.length < inputFieldFormat.length) || (end.length < inputFieldFormat.length)) {
-			return;
-		}
-		var startDate = chart.dateFormatter.parse(start, inputFieldFormat);
-		var endDate = chart.dateFormatter.parse(end, inputFieldFormat);
+  if (zoomTimeout) {
+    clearTimeout(zoomTimeout);
+  }
+  zoomTimeout = setTimeout(function() {
+    var start = document.getElementById("fromfield").value;
+    var end = document.getElementById("tofield").value;
+    if ((start.length < inputFieldFormat.length) || (end.length < inputFieldFormat.length)) {
+      return;
+    }
+    var startDate = chart.dateFormatter.parse(start, inputFieldFormat);
+    var endDate = chart.dateFormatter.parse(end, inputFieldFormat);
 
-		if (startDate && endDate) {
-			dateAxis.zoomToDates(startDate, endDate);
-		}
-	}, 500);
+    if (startDate && endDate) {
+      dateAxis.zoomToDates(startDate, endDate);
+    }
+  }, 500);
+}
+
+function zoomToDates(date) {
+  var min = dateAxis.groupMin["day1"];
+  var max = dateAxis.groupMax["day1"];
+  dateAxis.keepSelection = true;
+  //dateAxis.start = (date.getTime() - min)/(max - min);
+  //dateAxis.end = 1;
+
+  dateAxis.zoom({start:(date.getTime() - min)/(max - min), end:1});
 }

@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.8.6] - 2020-01-31
+
+### Fixed
+- Tree map with data items with value = 0 resulted error
+- ZoomToDates of DateAxis with grouped data was not always working properly.
+- colors ColorSet of PercentSeries were not cloneed when clonging series so clonned series used single Colorset which resulted different colors.
+- dateAxis.timezoneOffset was not working properly with value 0. Default value changed from 0 to undefined.
+
+### Added
+cloneTooltip flag (default value true) added to Sprite. When cloning a sprite, if the template has it's own tooltip assigned, this tooltip is also cloned by default. This is not good
+for cpu and sometimes you might only need one single tooltip for all clones. Set cloneTooltip to false in order not to clone tooltip.
+
+
 ## [4.8.5] - 2020-01-29
 
 ### Fixed
@@ -16,6 +29,7 @@ adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 - timezoneOffset property added to DateAxis. Us it instead of DateFormatter.timezoneOffset if your dates are timestamps in your data and you want the chart to display the same dates no matter at which timezone the chart viewer is.
 
 - If `ValueAxis` has its `calculateTotals = true` set, the axis will calculate not only `total` and `totalPercent` for related series' data items but also `sum` which is mathematical sum of source the values, rather than their absolute values.
+
 
 ## [4.8.4] - 2020-01-25
 

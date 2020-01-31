@@ -326,6 +326,11 @@ var Sprite = /** @class */ (function (_super) {
          * @ignore
          */
         _this.preventShow = false;
+        /**
+         * When cloning a sprite, if the template has it's own tooltip assigned, this tooltip is also cloned by default.
+         * This is not good for cpu and sometimes you might only need one single tooltip for all clones. Set this to false in order not to clone tooltip.
+         */
+        _this.cloneTooltip = true;
         _this.className = "Sprite";
         _this._disposers.push(_this._eventDispatcher);
         // Generate a unique ID
@@ -795,7 +800,12 @@ var Sprite = /** @class */ (function (_super) {
                 this._tooltip.copyFrom(source.tooltip);
             }
             else {
-                this.tooltip = source.tooltip.clone();
+                if (source.cloneTooltip) {
+                    this.tooltip = source.tooltip.clone();
+                }
+                else {
+                    this._tooltip = source.tooltip;
+                }
             }
         }
         //if ((<any>source)["_tooltip"] && !this._tooltip) {

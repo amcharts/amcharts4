@@ -974,6 +974,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public preventShow: boolean = false;
 
 	/**
+	 * When cloning a sprite, if the template has it's own tooltip assigned, this tooltip is also cloned by default. 
+	 * This is not good for cpu and sometimes you might only need one single tooltip for all clones. Set this to false in order not to clone tooltip.
+	 */
+	public cloneTooltip: boolean = true;
+
+	/**
 	 * Constructor:
 	 * * Creates initial node
 	 * * Sets default properties
@@ -1497,7 +1503,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				this._tooltip.copyFrom(source.tooltip);
 			}
 			else {
-				this.tooltip = source.tooltip.clone();
+				if (source.cloneTooltip) {
+					this.tooltip = source.tooltip.clone();
+				}
+				else {
+					this._tooltip = source.tooltip;
+				}
 			}
 		}
 
@@ -4327,29 +4338,29 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		S extends { cloneId: string, events: EventDispatcher<{ propertychanged: { property: string } }> },
 		From extends (keyof S & keyof this),
 		To extends keyof this
-		>(
-			property: To,
-			source: S,
-			bindToProperty: From,
-			modifier?: (value: this[From]) => this[To]
-		): void;
+	>(
+		property: To,
+		source: S,
+		bindToProperty: From,
+		modifier?: (value: this[From]) => this[To]
+	): void;
 	public bind<
 		S extends { cloneId: string, events: EventDispatcher<{ propertychanged: { property: string } }> },
 		Key extends (keyof S & keyof this)
-		>(
-			property: Key,
-			source: S,
-			modifier?: (value: this[Key]) => this[Key]
-		): void;
+	>(
+		property: Key,
+		source: S,
+		modifier?: (value: this[Key]) => this[Key]
+	): void;
 	public bind<
 		S extends this & { cloneId: string, events: EventDispatcher<{ propertychanged: { property: string } }> },
 		Key extends (keyof S & keyof this)
-		>(
-			property: Key,
-			source: S,
-			bindToProperty: Key = property,
-			modifier?: (value: this[Key]) => this[Key]
-		): void {
+	>(
+		property: Key,
+		source: S,
+		bindToProperty: Key = property,
+		modifier?: (value: this[Key]) => this[Key]
+	): void {
 		if ($type.hasValue(this._bindings[<string>property])) {
 			this._bindings[<string>property].dispose();
 		}

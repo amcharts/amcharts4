@@ -188,7 +188,7 @@ export interface IDateAxisProperties extends IValueAxisProperties {
 	 * Note, you do not need to set timezoneOffset both here and on DateFormatter, as this will 
 	 * distort the result.
 	 *
-	 * @default 0
+	 * @default undefined
 	 * @since 4.8.5
 	 */
 	timezoneOffset?: number;
@@ -539,8 +539,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		this.groupCount = 200;
 
 		this.events.on("parentset", this.getDFFormatter, this, false);
-
-		this.setPropertyValue("timezoneOffset", 0);
 
 		// Translatable defaults are applied in `applyInternalDefaults()`
 		// ...
@@ -1773,7 +1771,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		let date: Date = (<any>dataItem)["date" + axisLetter];
 
-		if (this.timezoneOffset != 0) {
+		if ($type.isNumber(this.timezoneOffset)) {
 			date.setTime(date.getTime() + (date.getTimezoneOffset() - this.timezoneOffset) * 60000)
 			dataItem.setValue("date" + axisLetter, date.getTime(), 0);
 		}
@@ -2240,8 +2238,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		if (this.groupData) {
 			let id = this.baseInterval.timeUnit + this.baseInterval.count;
-			this.groupMin[id] = this.min;
-			this.groupMax[id] = this.max;
+			this.groupMin[id] = this._finalMin;
+			this.groupMax[id] = this._finalMax;
 		}
 	}
 
@@ -2304,10 +2302,40 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					this.series.each((series) => {
 						let seriesMin = series.min(this);
 						let seriesMax = series.max(this);
+
+						if (series._dataSets) {
+							let ds = series._dataSets.getKey(groupInterval.timeUnit + groupInterval.count);
+
+							if (ds) {
+								let mindi = ds.getIndex(0);
+								let maxdi = ds.getIndex(ds.length - 1);
+
+								if (mindi) {
+									if (series.xAxis == this) {
+										seriesMin = mindi.dateX.getTime();
+									}
+									else if (series.yAxis == this) {
+										seriesMin = mindi.dateY.getTime();
+									}
+								}
+
+								if (maxdi) {
+									if (series.xAxis == this) {
+										seriesMax = maxdi.dateX.getTime();
+									}
+									else if (series.yAxis == this) {
+										seriesMax = maxdi.dateY.getTime();
+									}
+								}
+							}
+						}
+
+						seriesMax = $time.round($time.add(new Date(seriesMax), groupInterval.timeUnit, 1, this._df.utc), groupInterval.timeUnit, 1, this._df.firstDayOfWeek, this._df.utc).getTime();
+
 						if (seriesMin < min) {
 							min = seriesMin;
 						}
-						if (seriesMax < max) {
+						if (seriesMax > max) {
 							max = seriesMax;
 						}
 					})
@@ -2588,7 +2616,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * Note, you do not need to set timezoneOffset both here and on DateFormatter, as this will 
 	 * distort the result.
 	 *
-	 * @default 0
+	 * @default undefined
 	 * @since 4.8.5
 	 * @param  value Time zone offset in minutes
 	 */

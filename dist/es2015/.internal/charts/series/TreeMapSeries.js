@@ -300,7 +300,9 @@ var TreeMapSeries = /** @class */ (function (_super) {
     };
     TreeMapSeries.prototype.disableUnusedColumns = function (dataItem) {
         _super.prototype.disableUnusedColumns.call(this, dataItem);
-        dataItem.column.__disabled = false;
+        if (dataItem.column) {
+            dataItem.column.__disabled = false;
+        }
     };
     return TreeMapSeries;
 }(ColumnSeries));

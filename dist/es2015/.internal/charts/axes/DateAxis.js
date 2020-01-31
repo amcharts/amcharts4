@@ -301,7 +301,6 @@ var DateAxis = /** @class */ (function (_super) {
         _this.setPropertyValue("groupData", false);
         _this.groupCount = 200;
         _this.events.on("parentset", _this.getDFFormatter, _this, false);
-        _this.setPropertyValue("timezoneOffset", 0);
         // Translatable defaults are applied in `applyInternalDefaults()`
         // ...
         // Define default intervals
@@ -1393,7 +1392,7 @@ var DateAxis = /** @class */ (function (_super) {
         var series = dataItem.component;
         var time;
         var date = dataItem["date" + axisLetter];
-        if (this.timezoneOffset != 0) {
+        if ($type.isNumber(this.timezoneOffset)) {
             date.setTime(date.getTime() + (date.getTimezoneOffset() - this.timezoneOffset) * 60000);
             dataItem.setValue("date" + axisLetter, date.getTime(), 0);
         }
@@ -1827,8 +1826,8 @@ var DateAxis = /** @class */ (function (_super) {
         _super.prototype.handleExtremesChange.call(this);
         if (this.groupData) {
             var id = this.baseInterval.timeUnit + this.baseInterval.count;
-            this.groupMin[id] = this.min;
-            this.groupMax[id] = this.max;
+            this.groupMin[id] = this._finalMin;
+            this.groupMax[id] = this._finalMax;
         }
     };
     /**
@@ -1871,11 +1870,11 @@ var DateAxis = /** @class */ (function (_super) {
             }
             if ($type.hasValue(difference)) {
                 var mainBaseInterval = this.mainBaseInterval;
-                var groupInterval = this.chooseInterval(0, difference, this.groupCount, this.groupIntervals);
-                if ((groupInterval.timeUnit == mainBaseInterval.timeUnit && groupInterval.count < mainBaseInterval.count) || $time.getDuration(groupInterval.timeUnit, 1) < $time.getDuration(mainBaseInterval.timeUnit, 1)) {
-                    groupInterval = __assign({}, mainBaseInterval);
+                var groupInterval_1 = this.chooseInterval(0, difference, this.groupCount, this.groupIntervals);
+                if ((groupInterval_1.timeUnit == mainBaseInterval.timeUnit && groupInterval_1.count < mainBaseInterval.count) || $time.getDuration(groupInterval_1.timeUnit, 1) < $time.getDuration(mainBaseInterval.timeUnit, 1)) {
+                    groupInterval_1 = __assign({}, mainBaseInterval);
                 }
-                var id = groupInterval.timeUnit + groupInterval.count;
+                var id = groupInterval_1.timeUnit + groupInterval_1.count;
                 var min_1 = this.groupMin[id];
                 var max_1 = this.groupMax[id];
                 if (!$type.isNumber(min_1) || !$type.isNumber(max_1)) {
@@ -1884,10 +1883,34 @@ var DateAxis = /** @class */ (function (_super) {
                     this.series.each(function (series) {
                         var seriesMin = series.min(_this);
                         var seriesMax = series.max(_this);
+                        if (series._dataSets) {
+                            var ds = series._dataSets.getKey(groupInterval_1.timeUnit + groupInterval_1.count);
+                            if (ds) {
+                                var mindi = ds.getIndex(0);
+                                var maxdi = ds.getIndex(ds.length - 1);
+                                if (mindi) {
+                                    if (series.xAxis == _this) {
+                                        seriesMin = mindi.dateX.getTime();
+                                    }
+                                    else if (series.yAxis == _this) {
+                                        seriesMin = mindi.dateY.getTime();
+                                    }
+                                }
+                                if (maxdi) {
+                                    if (series.xAxis == _this) {
+                                        seriesMax = maxdi.dateX.getTime();
+                                    }
+                                    else if (series.yAxis == _this) {
+                                        seriesMax = maxdi.dateY.getTime();
+                                    }
+                                }
+                            }
+                        }
+                        seriesMax = $time.round($time.add(new Date(seriesMax), groupInterval_1.timeUnit, 1, _this._df.utc), groupInterval_1.timeUnit, 1, _this._df.firstDayOfWeek, _this._df.utc).getTime();
                         if (seriesMin < min_1) {
                             min_1 = seriesMin;
                         }
-                        if (seriesMax < max_1) {
+                        if (seriesMax > max_1) {
                             max_1 = seriesMax;
                         }
                     });
@@ -2156,7 +2179,7 @@ var DateAxis = /** @class */ (function (_super) {
          * Note, you do not need to set timezoneOffset both here and on DateFormatter, as this will
          * distort the result.
          *
-         * @default 0
+         * @default undefined
          * @since 4.8.5
          * @param  value Time zone offset in minutes
          */
