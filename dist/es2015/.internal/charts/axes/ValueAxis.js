@@ -842,7 +842,7 @@ var ValueAxis = /** @class */ (function (_super) {
         }
         if (this.logarithmic) {
             if (min <= 0) {
-                throw Error("Logarithmic value axis can not have vales <= 0.");
+                throw Error("Logarithmic value axis can not have values <= 0.");
             }
         }
         if (min == 0 && max == 0) {
@@ -1074,7 +1074,7 @@ var ValueAxis = /** @class */ (function (_super) {
         }
         else {
             if (min <= 0) {
-                //throw Error("Logarithmic value axis can not have vales <= 0.");
+                //throw Error("Logarithmic value axis can not have values <= 0.");
                 min = this.baseValue;
             }
             // @todo: think of a better way or to restrict zooming when no series are selected

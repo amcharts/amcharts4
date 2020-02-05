@@ -390,6 +390,22 @@ export class ColumnSeries extends XYSeries {
 
 			this._startLocation = cellStartLocation + (index / clusterCount) * (cellEndLocation - cellStartLocation);
 			this._endLocation = cellStartLocation + (index + 1) / clusterCount * (cellEndLocation - cellStartLocation);
+
+			let xAxis = this.xAxis;
+			let yAxis = this.yAxis;
+
+			if (xAxis instanceof CategoryAxis && yAxis instanceof ValueAxis) {
+				if (xAxis.sortBySeries == this) {
+					this.sortCategoryAxis(xAxis, "valueY");
+				}
+			}
+
+			if (yAxis instanceof CategoryAxis && xAxis instanceof ValueAxis) {
+				if (yAxis.sortBySeries == this) {
+					this.sortCategoryAxis(yAxis, "valueX");
+				}
+			}
+
 		}
 
 		super.validate();
@@ -406,6 +422,43 @@ export class ColumnSeries extends XYSeries {
 
 		this._propertiesChanged = false;
 	}
+
+	protected sortCategoryAxis(axis: CategoryAxis, key: string) {
+		this.dataItems.values.sort((x, y) => {
+			return (<any>y).values[key].workingValue - (<any>x).values[key].workingValue;
+		})
+
+		axis.dataItems.each((dataItem) => {
+			let axis = dataItem.component;
+			let currentPosition = axis.categoryToPosition(dataItem.category) - dataItem.deltaPosition;
+
+			let seriesDataItem = axis.getSeriesDataItemByCategory(dataItem.category, this);
+
+			if (seriesDataItem) {
+				let index = this.dataItems.indexOf(<ColumnSeriesDataItem>seriesDataItem);
+
+				dataItem._index = index;
+
+				let deltaPosition = $math.round((index + 0.5) / this.dataItems.length - currentPosition, 3);
+
+				if (dataItem.deltaAnimation && !dataItem.deltaAnimation.isDisposed() && dataItem.deltaAnimation.animationOptions[0].to == deltaPosition) {
+					// void
+				}
+				else if (deltaPosition != $math.round(dataItem.deltaPosition, 3)) {					
+					if(dataItem.deltaAnimation){
+						dataItem.deltaAnimation.stop();
+					}
+					dataItem.deltaAnimation = dataItem.animate({ property: "deltaPosition", from: -deltaPosition, to: 0 }, axis.interpolationDuration, axis.interpolationEasing);
+					this._disposers.push(dataItem.deltaAnimation);
+				}
+			}
+		})
+
+		axis.dataItems.values.sort((x, y) => {
+			return x.index - y.index;
+		})
+	}
+
 
 	/**
 	 * Validates data item's element, effectively redrawing it.
@@ -741,7 +794,7 @@ export class ColumnSeries extends XYSeries {
 			}
 			else {
 				column = dataItem.column;
-				if (this._propertiesChanged) {					
+				if (this._propertiesChanged) {
 					$object.copyProperties(this, column, visualProperties);
 					$object.copyProperties(this.columns.template, column, visualProperties);
 					$array.each(visualProperties, (property) => {

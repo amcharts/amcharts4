@@ -41,6 +41,7 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
         _this.text = "{category}";
         _this.locations.category = 0;
         _this.locations.endCategory = 1;
+        _this.deltaPosition = 0;
         _this.applyTheme();
         return _this;
     }
@@ -96,6 +97,22 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setProperty("endCategory", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CategoryAxisDataItem.prototype, "deltaPosition", {
+        get: function () {
+            return this.properties.deltaCoordinate;
+        },
+        set: function (value) {
+            if (value != this.properties.deltaCoordinate) {
+                this.setProperty("deltaCoordinate", value);
+                if (this.component) {
+                    this.component.invalidateDataItems();
+                    this.component.invalidateSeries();
+                }
+            }
         },
         enumerable: true,
         configurable: true
@@ -521,7 +538,12 @@ var CategoryAxis = /** @class */ (function (_super) {
                 return true;
             });
         }
-        return $math.round((index + location - startLocation - startIndex) / difference, 5);
+        var deltaPosition = 0;
+        var dataItem = this.dataItems.getIndex(index);
+        if (dataItem) {
+            deltaPosition = dataItem.deltaPosition;
+        }
+        return $math.round(deltaPosition + (index + location - startLocation - startIndex) / difference, 5);
     };
     /**
      * Converts a string category name to relative position on axis.
@@ -668,6 +690,24 @@ var CategoryAxis = /** @class */ (function (_super) {
                 }
             }
         }
+    };
+    // todo: optimize
+    CategoryAxis.prototype.getSeriesDataItemByCategory = function (category, series) {
+        var _this = this;
+        var seriesDataItem;
+        series.dataItems.each(function (dataItem) {
+            if (series.xAxis == _this) {
+                if (dataItem.categoryX == category) {
+                    seriesDataItem = dataItem;
+                }
+            }
+            else if (series.yAxis == _this) {
+                if (dataItem.categoryY == category) {
+                    seriesDataItem = dataItem;
+                }
+            }
+        });
+        return seriesDataItem;
     };
     /**
      * Returns a data item from Series that corresponds to a specific absolute
@@ -1011,6 +1051,72 @@ var CategoryAxis = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(CategoryAxis.prototype, "sortBySeries", {
+        /**
+         * @return Sort categories?
+         */
+        get: function () {
+            return this.getPropertyValue("sortBySeries");
+        },
+        /**
+         * If set to a reference of [[ColumnSeries]] the categories will be sorted
+         * by actual values.
+         *
+         * The categories are ordered in descending order (from highest values to
+         * lowest). To reverse the order, use axis renderer's `inversed` setting.
+         * E.g.:
+         *
+         * ```TypeScript
+         * categoryAxis.sortBySeries = series;
+         * categoryAxis.renderer.inversed = true;
+         * ```
+         * ```JavaScript
+         * categoryAxis.sortBySeries = series;
+         * categoryAxis.renderer.inversed = true;
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "xAxes": [{
+         *     // ...
+         *     "sortBySeries": "s1",
+         *     "renderer": {
+         *       // ...
+         *       "inversed": true
+         *     }
+         *   }]
+         * }
+         * ```
+         *
+         * @since 4.8.7
+         * @param  value  Sort categories?
+         */
+        set: function (value) {
+            this.setPropertyValue("sortBySeries", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param config  Config
+     */
+    CategoryAxis.prototype.processConfig = function (config) {
+        if (config) {
+            if ($type.hasValue(config.sortBySeries) && $type.isString(config.sortBySeries)) {
+                if (this.map.hasKey(config.sortBySeries)) {
+                    config.sortBySeries = this.map.getKey(config.sortBySeries);
+                }
+                else {
+                    this.addDelayedMap("sortBySeries", config.sortBySeries);
+                    delete config.sortBySeries;
+                }
+            }
+        }
+        _super.prototype.processConfig.call(this, config);
+    };
     return CategoryAxis;
 }(Axis));
 export { CategoryAxis };

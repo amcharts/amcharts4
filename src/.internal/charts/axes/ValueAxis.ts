@@ -1187,7 +1187,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 		if (this.logarithmic) {
 			if (min <= 0) {
-				throw Error("Logarithmic value axis can not have vales <= 0.");
+				throw Error("Logarithmic value axis can not have values <= 0.");
 			}
 		}
 
@@ -1472,7 +1472,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		}
 		else {
 			if (min <= 0) {
-				//throw Error("Logarithmic value axis can not have vales <= 0.");
+				//throw Error("Logarithmic value axis can not have values <= 0.");
 				min = this.baseValue;
 			}
 

@@ -13,6 +13,7 @@ import { SpriteState } from "../../core/SpriteState";
 import { Container } from "../../core/Container";
 import { ListTemplate } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
+import { CategoryAxis } from "../axes/CategoryAxis";
 import { Bullet } from "../elements/Bullet";
 import { Column } from "../elements/Column";
 /**
@@ -206,6 +207,7 @@ export declare class ColumnSeries extends XYSeries {
      * @ignore Exclude from docs
      */
     validate(): void;
+    protected sortCategoryAxis(axis: CategoryAxis, key: string): void;
     /**
      * Validates data item's element, effectively redrawing it.
      *

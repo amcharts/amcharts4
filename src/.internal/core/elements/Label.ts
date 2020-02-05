@@ -586,6 +586,13 @@ export class Label extends Container {
 						currentHeight += offset;
 					}
 					group.removeElement(tempElement);
+
+					// Clear cache if necessary
+					let lineInfo = this.getLineInfo(i);
+					if (lineInfo) {
+						lineInfo.text = "";
+						lineInfo.element.textContent = "";
+					}
 					continue;
 
 				}
@@ -597,15 +604,17 @@ export class Label extends Container {
 				let skipTextChunks: boolean = false;
 
 				// Create line element or grab it from cache
-				let lineInfo: ITextLineInfo = this.getLineInfo(i);
+				let lineInfo = this.getLineInfo(i);
 
 				if (lineInfo) {
 					// Empty line
+					lineInfo.text = "";
 					lineInfo.element.textContent = "";
 				}
 				else {
 					// Init new line info
 					lineInfo = {
+						"text": "",
 						"element": this.getSVGLineElement("", 0),
 						"complex": false
 					};

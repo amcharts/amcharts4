@@ -9,10 +9,12 @@
  */
 import { Axis, AxisItemLocation, AxisDataItem, IAxisProperties, IAxisDataFields, IAxisAdapters, IAxisEvents, IAxisDataItemAdapters } from "./Axis";
 import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
+import { Animation } from "../../core/utils/Animation";
 import { AxisRenderer } from "./AxisRenderer";
 import { SerialChart } from "../types/SerialChart";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
+import { ColumnSeries } from "../series/ColumnSeries";
 import { CategoryAxisBreak } from "./CategoryAxisBreak";
 import { Adapter } from "../../core/utils/Adapter";
 import { IRange } from "../../core/defs/IRange";
@@ -43,6 +45,7 @@ export declare class CategoryAxisDataItem extends AxisDataItem {
     seriesDataItems: {
         [index: string]: XYSeriesDataItem[];
     };
+    deltaAnimation: Animation;
     /**
      * Constructor
      */
@@ -67,6 +70,7 @@ export declare class CategoryAxisDataItem extends AxisDataItem {
     * @return End category
     */
     endCategory: string;
+    deltaPosition: number;
 }
 /**
  * Defines adapters for [[DataItem]]
@@ -95,6 +99,7 @@ export interface ICategoryAxisDataFields extends IAxisDataFields {
  * Defines properties for [[CategoryAxis]].
  */
 export interface ICategoryAxisProperties extends IAxisProperties {
+    sortBySeries?: ColumnSeries;
 }
 /**
  * Defines events for [[CategoryAxis]].
@@ -347,6 +352,7 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @return XYSeriesDataItem data item
      */
     getLastSeriesDataItem(series: XYSeries, category: string): XYSeriesDataItem;
+    getSeriesDataItemByCategory(category: string, series: XYSeries): XYSeriesDataItem;
     /**
      * Returns a data item from Series that corresponds to a specific absolute
      * position on the Axis.
@@ -501,4 +507,50 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @return Label frequency
      */
     readonly frequency: number;
+    /**
+     * If set to a reference of [[ColumnSeries]] the categories will be sorted
+     * by actual values.
+     *
+     * The categories are ordered in descending order (from highest values to
+     * lowest). To reverse the order, use axis renderer's `inversed` setting.
+     * E.g.:
+     *
+     * ```TypeScript
+     * categoryAxis.sortBySeries = series;
+     * categoryAxis.renderer.inversed = true;
+     * ```
+     * ```JavaScript
+     * categoryAxis.sortBySeries = series;
+     * categoryAxis.renderer.inversed = true;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "xAxes": [{
+     *     // ...
+     *     "sortBySeries": "s1",
+     *     "renderer": {
+     *       // ...
+     *       "inversed": true
+     *     }
+     *   }]
+     * }
+     * ```
+     *
+     * @since 4.8.7
+     * @param  value  Sort categories?
+     */
+    /**
+    * @return Sort categories?
+    */
+    sortBySeries: ColumnSeries;
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param config  Config
+     */
+    processConfig(config?: {
+        [index: string]: any;
+    }): void;
 }

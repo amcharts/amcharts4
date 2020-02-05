@@ -234,6 +234,18 @@ var ColumnSeries = /** @class */ (function (_super) {
             var cellEndLocation = renderer.cellEndLocation;
             this._startLocation = cellStartLocation + (index_1 / clusterCount_1) * (cellEndLocation - cellStartLocation);
             this._endLocation = cellStartLocation + (index_1 + 1) / clusterCount_1 * (cellEndLocation - cellStartLocation);
+            var xAxis = this.xAxis;
+            var yAxis = this.yAxis;
+            if (xAxis instanceof CategoryAxis && yAxis instanceof ValueAxis) {
+                if (xAxis.sortBySeries == this) {
+                    this.sortCategoryAxis(xAxis, "valueY");
+                }
+            }
+            if (yAxis instanceof CategoryAxis && xAxis instanceof ValueAxis) {
+                if (yAxis.sortBySeries == this) {
+                    this.sortCategoryAxis(yAxis, "valueX");
+                }
+            }
         }
         _super.prototype.validate.call(this);
         for (var i = 0; i < this.startIndex; i++) {
@@ -245,6 +257,35 @@ var ColumnSeries = /** @class */ (function (_super) {
             this.disableUnusedColumns(dataItem);
         }
         this._propertiesChanged = false;
+    };
+    ColumnSeries.prototype.sortCategoryAxis = function (axis, key) {
+        var _this = this;
+        this.dataItems.values.sort(function (x, y) {
+            return y.values[key].workingValue - x.values[key].workingValue;
+        });
+        axis.dataItems.each(function (dataItem) {
+            var axis = dataItem.component;
+            var currentPosition = axis.categoryToPosition(dataItem.category) - dataItem.deltaPosition;
+            var seriesDataItem = axis.getSeriesDataItemByCategory(dataItem.category, _this);
+            if (seriesDataItem) {
+                var index = _this.dataItems.indexOf(seriesDataItem);
+                dataItem._index = index;
+                var deltaPosition = $math.round((index + 0.5) / _this.dataItems.length - currentPosition, 3);
+                if (dataItem.deltaAnimation && !dataItem.deltaAnimation.isDisposed() && dataItem.deltaAnimation.animationOptions[0].to == deltaPosition) {
+                    // void
+                }
+                else if (deltaPosition != $math.round(dataItem.deltaPosition, 3)) {
+                    if (dataItem.deltaAnimation) {
+                        dataItem.deltaAnimation.stop();
+                    }
+                    dataItem.deltaAnimation = dataItem.animate({ property: "deltaPosition", from: -deltaPosition, to: 0 }, axis.interpolationDuration, axis.interpolationEasing);
+                    _this._disposers.push(dataItem.deltaAnimation);
+                }
+            }
+        });
+        axis.dataItems.values.sort(function (x, y) {
+            return x.index - y.index;
+        });
     };
     /**
      * Validates data item's element, effectively redrawing it.

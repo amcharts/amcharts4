@@ -39,8 +39,6 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 	 * A unique ID for this object.
 	 *
 	 * Generated on first access by `uid()` getter.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	protected _uid: $type.Optional<string>;
 
@@ -49,37 +47,33 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 	 * destruction/disposal code should take this into account when deciding
 	 * wheter to run potentially costly disposal operations if they already have
 	 * been run.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	protected _disposed: boolean = false;
 
 	/**
 	 * List of IDisposer which will be disposed when the BaseObject is disposed.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	protected _disposers: Array<IDisposer> = [];
 
 	/**
 	 * User-defined id of the object.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	protected _id: $type.Optional<string>;
 
 	/**
 	 * Holds a universal mapping collection, so that elements and their children
 	 * can create and look up all kinds of relations between id and object.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	protected _map: $type.Optional<Dictionary<string, any>>;
 
 	/**
+	 * Holds mapping for objects referenced by id in JSON config that are not yet
+	 * available at processing time.
+	 */
+	protected _delayedMap: $type.Optional<Dictionary<string, any>>;
+
+	/**
 	 * The theme used by this object.
-	 *
-	 * @ignore Exclude from docs
 	 */
 	protected _themes: $type.Optional<ITheme[]>;
 
@@ -181,6 +175,56 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 			this._map = new Dictionary<string, any>();
 		}
 		return this._map;
+	}
+
+	/**
+	 * Returns mapping for objects referenced by id in JSON config that are not yet
+	 * available at processing time.
+	 *
+	 * @ignore Exclude from docs
+	 * @return Map collection
+	 */
+	public get delayedMap(): Dictionary<string, any> {
+		if (!this._delayedMap) {
+			this._delayedMap = new Dictionary<string, any>();
+		}
+		return this._delayedMap;
+	}
+
+	/**
+	 * [addDelayedMap description]
+	 * @todo mm
+	 * @ignore
+	 * @param  property  Property to set
+	 * @param  id        ID of the target element
+	 */
+	public addDelayedMap(property: string, id: string): void {
+		const map = this.delayedMap;
+		if (!map.hasKey(id)) {
+			map.setKey(id, []);
+		}
+		const list = map.getKey(id);
+		list.push({
+			property: property,
+			target: this
+		});
+	}
+
+	/**
+	 * Processes delayed JSON config items.
+	 * 
+	 * @ignore
+	 */
+	public processDelayedMap(): void {
+		this.delayedMap.each((id, list) => {
+			if (this.map.hasKey(id)) {
+				const target = this.map.getKey(id);
+				$array.each(list, (item: any) => {
+					item.target[item.property] = target;
+				});
+				this.delayedMap.removeKey(id);
+			}
+		});
 	}
 
 	/**

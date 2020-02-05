@@ -309,6 +309,12 @@ var Label = /** @class */ (function (_super) {
                         currentHeight += offset;
                     }
                     group.removeElement(tempElement);
+                    // Clear cache if necessary
+                    var lineInfo_1 = this.getLineInfo(i);
+                    if (lineInfo_1) {
+                        lineInfo_1.text = "";
+                        lineInfo_1.element.textContent = "";
+                    }
                     continue;
                 }
                 // Chunk up the line and process each chunk
@@ -320,11 +326,13 @@ var Label = /** @class */ (function (_super) {
                 var lineInfo = this.getLineInfo(i);
                 if (lineInfo) {
                     // Empty line
+                    lineInfo.text = "";
                     lineInfo.element.textContent = "";
                 }
                 else {
                     // Init new line info
                     lineInfo = {
+                        "text": "",
                         "element": this.getSVGLineElement("", 0),
                         "complex": false
                     };

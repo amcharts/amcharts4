@@ -32,14 +32,10 @@ var BaseObject = /** @class */ (function () {
          * destruction/disposal code should take this into account when deciding
          * wheter to run potentially costly disposal operations if they already have
          * been run.
-         *
-         * @ignore Exclude from docs
          */
         this._disposed = false;
         /**
          * List of IDisposer which will be disposed when the BaseObject is disposed.
-         *
-         * @ignore Exclude from docs
          */
         this._disposers = [];
         this.className = "BaseObject";
@@ -99,6 +95,58 @@ var BaseObject = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(BaseObject.prototype, "delayedMap", {
+        /**
+         * Returns mapping for objects referenced by id in JSON config that are not yet
+         * available at processing time.
+         *
+         * @ignore Exclude from docs
+         * @return Map collection
+         */
+        get: function () {
+            if (!this._delayedMap) {
+                this._delayedMap = new Dictionary();
+            }
+            return this._delayedMap;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * [addDelayedMap description]
+     * @todo mm
+     * @ignore
+     * @param  property  Property to set
+     * @param  id        ID of the target element
+     */
+    BaseObject.prototype.addDelayedMap = function (property, id) {
+        var map = this.delayedMap;
+        if (!map.hasKey(id)) {
+            map.setKey(id, []);
+        }
+        var list = map.getKey(id);
+        list.push({
+            property: property,
+            target: this
+        });
+    };
+    /**
+     * Processes delayed JSON config items.
+     *
+     * @ignore
+     */
+    BaseObject.prototype.processDelayedMap = function () {
+        var _this = this;
+        this.delayedMap.each(function (id, list) {
+            if (_this.map.hasKey(id)) {
+                var target_1 = _this.map.getKey(id);
+                $array.each(list, function (item) {
+                    item.target[item.property] = target_1;
+                });
+                _this.delayedMap.removeKey(id);
+            }
+        });
+    };
     /**
      * Applies properties from all assigned themes.
      *

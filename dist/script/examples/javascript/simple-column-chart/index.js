@@ -2,7 +2,6 @@ am4core.useTheme(am4themes_animated);
 
 var chart = am4core.create("chartdiv", am4charts.XYChart);
 
-
 chart.data = [{
 	"country": "USA",
 	"visits": 3025

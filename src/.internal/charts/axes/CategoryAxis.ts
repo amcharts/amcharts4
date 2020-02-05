@@ -10,6 +10,7 @@
  */
 import { Axis, AxisItemLocation, AxisDataItem, IAxisProperties, IAxisDataFields, IAxisAdapters, IAxisEvents, IAxisDataItemAdapters } from "./Axis";
 import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
+import { Animation } from "../../core/utils/Animation";
 import { AxisFill } from "./AxisFill";
 import { AxisRenderer } from "./AxisRenderer";
 import { AxisRendererX } from "./AxisRendererX";
@@ -21,6 +22,7 @@ import { AxisLabel } from "./AxisLabel";
 import { registry } from "../../core/Registry";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
+import { ColumnSeries } from "../series/ColumnSeries";
 import { CategoryAxisBreak } from "./CategoryAxisBreak";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
@@ -65,6 +67,8 @@ export class CategoryAxisDataItem extends AxisDataItem {
 
 	public seriesDataItems: { [index: string]: XYSeriesDataItem[] } = {};
 
+	public deltaAnimation: Animation;
+
 	/**
 	 * Constructor
 	 */
@@ -75,6 +79,8 @@ export class CategoryAxisDataItem extends AxisDataItem {
 
 		this.locations.category = 0;
 		this.locations.endCategory = 1;
+
+		this.deltaPosition = 0;
 
 		this.applyTheme();
 	}
@@ -117,6 +123,20 @@ export class CategoryAxisDataItem extends AxisDataItem {
 	public get endCategory(): string {
 		return this.properties.endCategory;
 	}
+
+	public set deltaPosition(value: number) {
+		if (value != this.properties.deltaCoordinate) {
+			this.setProperty("deltaCoordinate", value);
+			if (this.component) {
+				this.component.invalidateDataItems();
+				this.component.invalidateSeries();
+			}
+		}
+	}
+
+	public get deltaPosition(): number {
+		return this.properties.deltaCoordinate;
+	}
 }
 
 /**
@@ -151,7 +171,9 @@ export interface ICategoryAxisDataFields extends IAxisDataFields {
 /**
  * Defines properties for [[CategoryAxis]].
  */
-export interface ICategoryAxisProperties extends IAxisProperties { }
+export interface ICategoryAxisProperties extends IAxisProperties {
+	sortBySeries?: ColumnSeries;
+}
 
 /**
  * Defines events for [[CategoryAxis]].
@@ -520,7 +542,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		super.validateDataElement(dataItem);
 
 		dataItem.itemIndex = this._axisItemCount;
-		this._axisItemCount++;		
+		this._axisItemCount++;
 
 		//dataItem.__disabled = false;
 
@@ -716,7 +738,13 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 			});
 		}
 
-		return $math.round((index + location - startLocation - startIndex) / difference, 5);
+		let deltaPosition = 0;
+		let dataItem = this.dataItems.getIndex(index);
+		if (dataItem) {
+			deltaPosition = dataItem.deltaPosition;
+		}
+
+		return $math.round(deltaPosition + (index + location - startLocation - startIndex) / difference, 5);
 	}
 
 	/**
@@ -880,6 +908,24 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 
 	}
 
+	// todo: optimize
+	public getSeriesDataItemByCategory(category: string, series: XYSeries): XYSeriesDataItem {
+		let seriesDataItem: XYSeriesDataItem;
+		series.dataItems.each((dataItem) => {
+			if (series.xAxis == this) {
+				if (dataItem.categoryX == category) {
+					seriesDataItem = dataItem;
+				}
+			}
+			else if (series.yAxis == this) {
+				if (dataItem.categoryY == category) {
+					seriesDataItem = dataItem;
+				}
+			}
+		})
+		return seriesDataItem;
+	}
+
 
 	/**
 	 * Returns a data item from Series that corresponds to a specific absolute
@@ -966,7 +1012,6 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * @return X coordinate (px)
 	 */
 	public getX(dataItem: XYSeriesDataItem, key?: string, location?: number, stackKey?: string, range?: IRange): number {
-
 		let position = this.getPositionX(dataItem, key, location, stackKey, range);
 
 		if ($type.isNaN(position)) {
@@ -1105,7 +1150,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		if (dataItem) {
 			this.tooltipDataItem = dataItem;
 			this.tooltip.dataItem = dataItem;
-			if(this.tooltipText){
+			if (this.tooltipText) {
 				return this.tooltipText;
 			}
 
@@ -1267,6 +1312,76 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 */
 	public get frequency(): number {
 		return this._frequency;
+	}
+
+	/**
+	 * If set to a reference of [[ColumnSeries]] the categories will be sorted
+	 * by actual values.
+	 *
+	 * The categories are ordered in descending order (from highest values to
+	 * lowest). To reverse the order, use axis renderer's `inversed` setting.
+	 * E.g.:
+	 *
+	 * ```TypeScript
+	 * categoryAxis.sortBySeries = series;
+	 * categoryAxis.renderer.inversed = true;
+	 * ```
+	 * ```JavaScript
+	 * categoryAxis.sortBySeries = series;
+	 * categoryAxis.renderer.inversed = true;
+	 * ```
+	 * ```JSON
+	 * {
+	 *   // ...
+	 *   "xAxes": [{
+	 *     // ...
+	 *     "sortBySeries": "s1",
+	 *     "renderer": {
+	 *       // ...
+	 *       "inversed": true
+	 *     }
+	 *   }]
+	 * }
+	 * ```
+	 *
+	 * @since 4.8.7
+	 * @param  value  Sort categories?
+	 */
+	public set sortBySeries(value: ColumnSeries) {
+		this.setPropertyValue("sortBySeries", value, true);
+	}
+
+	/**
+	 * @return Sort categories?
+	 */
+	public get sortBySeries(): ColumnSeries {
+		return this.getPropertyValue("sortBySeries");
+	}
+
+	/**
+	 * Processes JSON-based config before it is applied to the object.
+	 *
+	 * @ignore Exclude from docs
+	 * @param config  Config
+	 */
+	public processConfig(config?: { [index: string]: any }): void {
+
+		if (config) {
+
+			if ($type.hasValue(config.sortBySeries) && $type.isString(config.sortBySeries)) {
+				if (this.map.hasKey(config.sortBySeries)) {
+					config.sortBySeries = this.map.getKey(config.sortBySeries);
+				}
+				else {
+					this.addDelayedMap("sortBySeries", config.sortBySeries);
+					delete config.sortBySeries;
+				}
+			}
+
+		}
+
+		super.processConfig(config);
+
 	}
 }
 

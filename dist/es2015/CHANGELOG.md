@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.8.7] - 2020-02-05
+
+### Added
+- `sortBySeries` property added to `CategoryAxis`. If you set it to an instance of a `ColumnSeries`, the axis will automatically sort its categories by actual series' values.
+
+### Fixed
+- Labels with extra line breaks at the end could sometimes inherit content from previous version of multi-text, e.g. in dynamically updated tooltips.
+
+
 ## [4.8.6] - 2020-01-31
 
 ### Fixed

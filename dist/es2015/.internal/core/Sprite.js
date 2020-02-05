@@ -1192,6 +1192,24 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Sprite.prototype, "delayedMap", {
+        /**
+         * @ignore
+         * @return Map collection
+         */
+        get: function () {
+            var top = this.topParent;
+            if (top) {
+                return top.delayedMap;
+            }
+            else if (!this._delayedMap) {
+                this._delayedMap = new Dictionary();
+            }
+            return this._delayedMap;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Sprite.prototype, "id", {
         /**
          * @return ID
@@ -8318,6 +8336,7 @@ var Sprite = /** @class */ (function (_super) {
             }
         }
         _super.prototype.processConfig.call(this, config);
+        this.processDelayedMap();
     };
     /**
      * Converts string name of the cursor into actual [[MouseCursorStyle]].

@@ -1941,6 +1941,22 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	}
 
 	/**
+	 * @ignore
+	 * @return Map collection
+	 */
+	public get delayedMap(): Dictionary<string, any> {
+		const top = this.topParent;
+
+		if (top) {
+			return top.delayedMap;
+		} else if (!this._delayedMap) {
+			this._delayedMap = new Dictionary<string, any>();
+		}
+
+		return this._delayedMap;
+	}
+
+	/**
 	 * Element's user-defined ID.
 	 *
 	 * Will throw an Error if there already is an object with the same ID.
@@ -9225,6 +9241,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		}
 
 		super.processConfig(config);
+
+		this.processDelayedMap();
 
 	}
 

@@ -1066,6 +1066,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     readonly map: Dictionary<string, any>;
     /**
+     * @ignore
+     * @return Map collection
+     */
+    readonly delayedMap: Dictionary<string, any>;
+    /**
      * Element's user-defined ID.
      *
      * Will throw an Error if there already is an object with the same ID.
