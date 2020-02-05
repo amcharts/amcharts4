@@ -54,39 +54,122 @@ series.columns.template.adapter.add("fill", (fill, target) => {
   return chart.colors.getIndex(target.dataItem.index);
 });
 
-let year = 2004;
+let year = 2003;
 label.text = year.toString();
 
 setInterval(() => {
-   year++
+  year++
 
-  if(year > 2018){
-    year = 2004;  
+  if (year > 2018) {
+    year = 2003;
   }
 
   let newData = allData[year];
-
+  let itemsWithNonZero = 0;
   for (let i = 0; i < chart.data.length; i++) {
     chart.data[i].MAU = newData[i].MAU;
+    if (chart.data[i].MAU > 0) {
+      itemsWithNonZero++;
+    }
   }
 
-  if(year == 2004){
-    series.interpolationDuration = 0;
-    valueAxis.rangeChangeDuration = 0;
+  if (year == 2003) {
+    series.interpolationDuration = 1000;
+    valueAxis.rangeChangeDuration = 1000;
   }
-  else{
+  else {
     series.interpolationDuration = 4000;
     valueAxis.rangeChangeDuration = 4000;
   }
 
   chart.invalidateRawData();
   label.text = year.toString();
+
+  categoryAxis.zoom({ start: 0, end: itemsWithNonZero / categoryAxis.dataItems.length });
 }, 4000)
 
 categoryAxis.sortBySeries = series;
 
 let allData = {
- 
+  "2003": [
+    {
+      "network": "Facebook",
+      "MAU": 0
+    },
+    {
+      "network": "Flickr",
+      "MAU": 0
+    },
+    {
+      "network": "Google Buzz",
+      "MAU": 0
+    },
+
+    {
+      "network": "Friendster",
+      "MAU": 4470000
+    },
+    {
+      "network": "Google+",
+      "MAU": 0
+    },
+    {
+      "network": "Hi5",
+      "MAU": 0
+    },
+    {
+      "network": "Instagram",
+      "MAU": 0
+    },
+    {
+      "network": "MySpace",
+      "MAU": 0
+    },
+    {
+      "network": "Orkut",
+      "MAU": 0
+    },
+    {
+      "network": "Pinterest",
+      "MAU": 0
+    },
+    {
+      "network": "Reddit",
+      "MAU": 0
+    },
+    {
+      "network": "Snapchat",
+      "MAU": 0
+    },
+    {
+      "network": "TikTok",
+      "MAU": 0
+    },
+    {
+      "network": "Tumblr",
+      "MAU": 0
+    },
+    {
+      "network": "Twitter",
+      "MAU": 0
+    },
+    {
+      "network": "WeChat",
+      "MAU": 0
+    },
+    {
+      "network": "Weibo",
+      "MAU": 0
+    },
+    {
+      "network": "Whatsapp",
+      "MAU": 0
+    },
+    {
+      "network": "YouTube",
+      "MAU": 0
+    }
+  ],
   "2004": [
     {
       "network": "Facebook",
@@ -1255,8 +1338,9 @@ let allData = {
     {
       "network": "YouTube",
       "MAU": 1900000000
-    }  
+    }
   ]
 }
 
 chart.data = JSON.parse(JSON.stringify(allData[year]));
+categoryAxis.zoom({ start: 0, end: 1 / chart.data.length });

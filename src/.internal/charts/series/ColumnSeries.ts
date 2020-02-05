@@ -427,6 +427,11 @@ export class ColumnSeries extends XYSeries {
 		this.dataItems.values.sort((x, y) => {
 			return (<any>y).values[key].workingValue - (<any>x).values[key].workingValue;
 		})
+		let i = 0;
+		this.dataItems.each((dataItem)=>{
+			dataItem._index = i;
+			i++;
+		})
 
 		axis.dataItems.each((dataItem) => {
 			let axis = dataItem.component;

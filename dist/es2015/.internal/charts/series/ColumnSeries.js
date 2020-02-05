@@ -263,6 +263,11 @@ var ColumnSeries = /** @class */ (function (_super) {
         this.dataItems.values.sort(function (x, y) {
             return y.values[key].workingValue - x.values[key].workingValue;
         });
+        var i = 0;
+        this.dataItems.each(function (dataItem) {
+            dataItem._index = i;
+            i++;
+        });
         axis.dataItems.each(function (dataItem) {
             var axis = dataItem.component;
             var currentPosition = axis.categoryToPosition(dataItem.category) - dataItem.deltaPosition;

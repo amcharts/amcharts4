@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.8.8] - 2020-02-05
+
+### Fixed
+- When zooming `CategoryAxis` with sorted columns, some columns were not being displayed.
+
+
 ## [4.8.7] - 2020-02-05
 
 ### Added
