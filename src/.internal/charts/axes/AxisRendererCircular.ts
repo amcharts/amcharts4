@@ -340,6 +340,28 @@ export class AxisRendererCircular extends AxisRenderer {
 	}
 
 	/**
+	 * Converts angle on axis to relative position(0-1).
+	 *
+	 * @param angle Angle in degrees
+	 * @return Position (0-1)
+	 */
+	public angleToPosition(angle: number): number {
+		let axis: Axis = this.axis;
+
+		let arc: number = (this.endAngle - this.startAngle) / (axis.end - axis.start);
+		let position:number
+
+		if (axis.renderer.inversed) {
+			  position = axis.end - (angle - this.startAngle) / arc;
+		}
+		else {
+			 position = (angle - this.startAngle) / arc + axis.start;
+		}
+
+		return $math.round(position, 5);
+	}	
+
+	/**
 	 * Updates and positions the axis line element.
 	 *
 	 * @ignore Exclude from docs

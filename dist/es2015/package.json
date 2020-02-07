@@ -1,6 +1,6 @@
 {
   "name": "@amcharts/amcharts4",
-  "version": "4.8.8",
+  "version": "4.8.9",
   "author": "amCharts <contact@amcharts.com> (https://www.amcharts.com/)",
   "description": "amCharts 4",
   "homepage": "https://www.amcharts.com/",
@@ -33,11 +33,11 @@
   "dependencies": {
     "@types/regression": "^2.0.0",
     "css-element-queries": "1.2.1",
-    "canvg": "^2.0.0",
+    "canvg": "^3.0.4",
     "d3-force": "^2.0.1",
     "pdfmake": "^0.1.36",
     "polylabel": "^1.0.2",
-    "xlsx": "^0.12.8",
+    "xlsx": "^0.15.4",
     "tslib": "^1.9.3",
     "regression": "^2.0.1",
     "d3-geo": "^1.11.3",

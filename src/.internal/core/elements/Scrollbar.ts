@@ -688,6 +688,15 @@ export class Scrollbar extends Container {
 		}
 	}
 
+	/**
+	 * Indicates if the Scrollbar is currently "busy" (animating and or
+	 * performing zoom by user interaction).
+	 * @return boolean
+	 */
+	public get isBusy():boolean{
+		return this._isBusy;
+	}
+
 
 	/**
 	 * ==========================================================================

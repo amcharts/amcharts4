@@ -386,6 +386,16 @@ export class ClockHand extends Container {
 	}
 
 	/**
+	 * Returns hand's relative position on axis
+	 */
+	public get currentPosition(): number {
+		if (this.axis) {
+			let renderer = <AxisRendererCircular>this.axis.renderer;
+			return renderer.angleToPosition(this.rotation);
+		}
+	}
+
+	/**
 	 * A current value clock hand is pointing to.
 	 *
 	 * @param value  Value

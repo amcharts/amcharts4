@@ -186,6 +186,13 @@ export declare class AxisRendererCircular extends AxisRenderer {
      */
     positionToAngle(position: number): number;
     /**
+     * Converts angle on axis to relative position(0-1).
+     *
+     * @param angle Angle in degrees
+     * @return Position (0-1)
+     */
+    angleToPosition(angle: number): number;
+    /**
      * Updates and positions the axis line element.
      *
      * @ignore Exclude from docs

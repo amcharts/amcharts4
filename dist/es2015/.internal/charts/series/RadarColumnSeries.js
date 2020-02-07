@@ -10,6 +10,7 @@ import { __extends } from "tslib";
  */
 import { ColumnSeries, ColumnSeriesDataItem } from "../series/ColumnSeries";
 import { visualProperties } from "../../core/Sprite";
+import { CategoryAxis } from "../axes/CategoryAxis";
 import { RadarColumn } from "../elements/RadarColumn";
 import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
@@ -142,7 +143,16 @@ var RadarColumnSeries = /** @class */ (function (_super) {
         var offset = $math.round((endLocation - startLocation) * (1 - percentWidth / 100) / 2, 5);
         startLocation += offset;
         endLocation -= offset;
-        if (this.baseAxis == this.xAxis) {
+        // two category axes
+        if ((this.xAxis instanceof CategoryAxis) && (this.yAxis instanceof CategoryAxis)) {
+            tRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yField, 0, "valueY"), y: this.yAxis.getY(dataItem, yField, 0, "valueY") });
+            bRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yOpenField, 1, "valueY"), y: this.yAxis.getY(dataItem, yOpenField, 1, "valueY") });
+            lAngle = this.xAxis.getAngle(dataItem, xOpenField, 0, "valueX");
+            rAngle = this.xAxis.getAngle(dataItem, xField, 1, "valueX");
+            startAngle = startAngle + startLocation * cellAngle;
+            endAngle = endAngle - (1 - endLocation) * cellAngle;
+        }
+        else if (this.baseAxis == this.xAxis) {
             tRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yField, dataItem.locations[yField], "valueY"), y: this.yAxis.getY(dataItem, yField, dataItem.locations[yField], "valueY") });
             bRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yOpenField, dataItem.locations[yOpenField], "valueY"), y: this.yAxis.getY(dataItem, yOpenField, dataItem.locations[yOpenField], "valueY") });
             lAngle = this.xAxis.getAngle(dataItem, xOpenField, startLocation, "valueX");

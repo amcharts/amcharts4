@@ -460,14 +460,14 @@ export class FunnelSeries extends PercentSeries {
 
 			this.decorateSlice(dataItem);
 
-			sliceLink.fill = slice.fill;
-
 			if (dataItem.index == this.dataItems.length - 1) {
 				sliceLink.disabled = true;
 			}
 
 			// do this at the end, otherwise bullets won't be positioned properly
 			super.validateDataElement(dataItem);
+
+			sliceLink.fill = slice.fill;			
 		}
 	}
 

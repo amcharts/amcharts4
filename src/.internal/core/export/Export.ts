@@ -2184,7 +2184,9 @@ export class Export extends Validatable {
 			config.scaleHeight = height * pixelRatio;
 		}
 
-		canvg(canvas, data, config);
+		const x = canvg.fromString(canvas.getContext("2d"), data, config);
+
+		await x.render();
 
 		return canvas;
 
@@ -4775,14 +4777,14 @@ export class Export extends Validatable {
 	 * @return Instance of canvg
 	 * @async
 	 */
-	private async _canvg(): Promise<any> {
+	private async _canvg(): Promise<(typeof import("canvg"))["default"]> {
 		const canvg = await import(/* webpackChunkName: "canvg" */ "canvg");
 
-		if ((<any>canvg).default != null) {
-			return (<any>canvg).default;
+		if (canvg.default != null) {
+			return canvg.default;
 
 		} else {
-			return canvg;
+			return canvg as any;
 		}
 	}
 
@@ -4792,7 +4794,7 @@ export class Export extends Validatable {
 	 * @ignore Exclude from docs
 	 * @return Instance of canvg
 	 */
-	public get canvg(): Promise<any> {
+	public get canvg(): Promise<(typeof import("canvg"))["default"]> {
 		return this._canvg();
 	}
 

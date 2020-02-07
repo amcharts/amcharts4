@@ -236,6 +236,24 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         return $math.round(angle, 3);
     };
     /**
+     * Converts angle on axis to relative position(0-1).
+     *
+     * @param angle Angle in degrees
+     * @return Position (0-1)
+     */
+    AxisRendererCircular.prototype.angleToPosition = function (angle) {
+        var axis = this.axis;
+        var arc = (this.endAngle - this.startAngle) / (axis.end - axis.start);
+        var position;
+        if (axis.renderer.inversed) {
+            position = axis.end - (angle - this.startAngle) / arc;
+        }
+        else {
+            position = (angle - this.startAngle) / arc + axis.start;
+        }
+        return $math.round(position, 5);
+    };
+    /**
      * Updates and positions the axis line element.
      *
      * @ignore Exclude from docs

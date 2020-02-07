@@ -214,6 +214,10 @@ export declare class ClockHand extends Container {
      */
     showValue(value: any, duration?: number, easing?: (value: number) => number): void;
     /**
+     * Returns hand's relative position on axis
+     */
+    readonly currentPosition: number;
+    /**
      * A current value clock hand is pointing to.
      *
      * @param value  Value

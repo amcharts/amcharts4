@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.8.9] - 2020-02-07
+
+### Added
+- Scrollbar.isBusy getter added, which is true when user interacts with Scrollbar.
+- RadarColumnSeries now support two category axes.
+- angleToPosition(angle) added to AxisRendererCircular.
+- currentPosition getter added to ClockHand.
+
+### Fixed
+- Export on IE (and other setups with `simplifiedExport = false`) was broken since upgrading canvg version.
+- When DateAxis had grouped set to true, in some cases the value axis was zoomed incorrectly after Data update.
+- In some specific cases XYScrollbar with series could produce JS error when adding data to the chart.
+- Funnel Series sliceLink could loose it's color after data update.
+
+
 ## [4.8.8] - 2020-02-05
 
 ### Fixed

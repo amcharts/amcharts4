@@ -999,6 +999,7 @@ export class XYSeries extends Series {
 	public dataChangeUpdate() {
 		this.dataGrouped = false;
 		this._baseInterval = {};
+		this._currentDataSetId = "";
 
 		this._tmin.clear();
 		this._tmax.clear();
@@ -1754,7 +1755,6 @@ export class XYSeries extends Series {
 			this._smax.setKey(yAxisId, maxY);
 
 			if (this.appeared || this.start != 0 || this.end != 1 || this.dataItems != this.mainDataSet) {
-
 				/// new, helps to handle issues with change percent
 				let changed = false;
 
@@ -1785,9 +1785,8 @@ export class XYSeries extends Series {
 					}
 				}
 
-
 				if (changed) {
-					this.dispatchImmediately("extremeschanged");
+					this.dispatchImmediately("extremeschanged");					
 				}
 
 				if (this.start == 0 && this.end == 1) {

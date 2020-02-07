@@ -97,6 +97,7 @@ var RadarChart = /** @class */ (function (_super) {
         _this.bulletsContainer.parent = radarContainer;
         _this.axisBulletsContainer = radarContainer;
         _this._cursorContainer = radarContainer;
+        _this.chartContainer.events.on("maxsizechanged", _this.invalidate, _this, false); // need this for the chart to change radius if legend is removed/disabled
         _this._bulletMask = radarContainer.createChild(Circle);
         _this._bulletMask.shouldClone = false;
         _this._bulletMask.element = _this.paper.add("path");

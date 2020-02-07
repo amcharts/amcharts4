@@ -278,6 +278,19 @@ var ClockHand = /** @class */ (function (_super) {
             }
         }
     };
+    Object.defineProperty(ClockHand.prototype, "currentPosition", {
+        /**
+         * Returns hand's relative position on axis
+         */
+        get: function () {
+            if (this.axis) {
+                var renderer = this.axis.renderer;
+                return renderer.angleToPosition(this.rotation);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ClockHand.prototype, "value", {
         /**
          * @return Value

@@ -568,6 +568,7 @@ var XYSeries = /** @class */ (function (_super) {
     XYSeries.prototype.dataChangeUpdate = function () {
         this.dataGrouped = false;
         this._baseInterval = {};
+        this._currentDataSetId = "";
         this._tmin.clear();
         this._tmax.clear();
         this._smin.clear();

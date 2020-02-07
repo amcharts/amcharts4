@@ -13,6 +13,7 @@ import { Sprite, visualProperties } from "../../core/Sprite";
 import { RadarChart } from "../types/RadarChart";
 import { AxisRendererRadial } from "../axes/AxisRendererRadial";
 import { Axis } from "../axes/Axis";
+import { CategoryAxis } from "../axes/CategoryAxis";
 import { AxisRendererCircular } from "../axes/AxisRendererCircular";
 import { RadarColumn } from "../elements/RadarColumn";
 import { registry } from "../../core/Registry";
@@ -237,8 +238,18 @@ export class RadarColumnSeries extends ColumnSeries {
 		let offset: number = $math.round((endLocation - startLocation) * (1 - percentWidth / 100) / 2, 5);
 		startLocation += offset;
 		endLocation -= offset;
+		// two category axes
+		if ((this.xAxis instanceof CategoryAxis) && (this.yAxis instanceof CategoryAxis)) {
+			tRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yField, 0, "valueY"), y: this.yAxis.getY(dataItem, yField, 0, "valueY") });
+			bRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yOpenField, 1, "valueY"), y: this.yAxis.getY(dataItem, yOpenField, 1, "valueY") });
 
-		if (this.baseAxis == this.xAxis) {
+			lAngle = this.xAxis.getAngle(dataItem, xOpenField, 0, "valueX");
+			rAngle = this.xAxis.getAngle(dataItem, xField, 1, "valueX");
+
+			startAngle = startAngle + startLocation * cellAngle;
+			endAngle = endAngle - (1 - endLocation) * cellAngle;
+		}
+		else if (this.baseAxis == this.xAxis) {
 			tRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yField, dataItem.locations[yField], "valueY"), y: this.yAxis.getY(dataItem, yField, dataItem.locations[yField], "valueY") });
 			bRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yOpenField, dataItem.locations[yOpenField], "valueY"), y: this.yAxis.getY(dataItem, yOpenField, dataItem.locations[yOpenField], "valueY") });
 

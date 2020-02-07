@@ -429,6 +429,18 @@ var Scrollbar = /** @class */ (function (_super) {
             }
         }
     };
+    Object.defineProperty(Scrollbar.prototype, "isBusy", {
+        /**
+         * Indicates if the Scrollbar is currently "busy" (animating and or
+         * performing zoom by user interaction).
+         * @return boolean
+         */
+        get: function () {
+            return this._isBusy;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Scrollbar.prototype, "start", {
         /**
          * @return Position (0-1)

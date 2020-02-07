@@ -266,6 +266,12 @@ export declare class Scrollbar extends Container {
      */
     protected updateSize(): void;
     /**
+     * Indicates if the Scrollbar is currently "busy" (animating and or
+     * performing zoom by user interaction).
+     * @return boolean
+     */
+    readonly isBusy: boolean;
+    /**
      * ==========================================================================
      * POSITIONS
      * ==========================================================================

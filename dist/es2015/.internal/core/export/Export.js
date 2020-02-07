@@ -1148,7 +1148,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getCanvasAdvanced = function (options) {
         return __awaiter(this, void 0, void 0, function () {
-            var background, canvg, width, height, font, fontSize, data, canvas, pixelRatio, config;
+            var background, canvg, width, height, font, fontSize, data, canvas, pixelRatio, config, x;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1182,7 +1182,10 @@ var Export = /** @class */ (function (_super) {
                             config.scaleWidth = width * pixelRatio;
                             config.scaleHeight = height * pixelRatio;
                         }
-                        canvg(canvas, data, config);
+                        x = canvg.fromString(canvas.getContext("2d"), data, config);
+                        return [4 /*yield*/, x.render()];
+                    case 3:
+                        _a.sent();
                         return [2 /*return*/, canvas];
                 }
             });

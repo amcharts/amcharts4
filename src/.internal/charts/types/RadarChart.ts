@@ -234,6 +234,8 @@ export class RadarChart extends XYChart {
 
 		this._cursorContainer = radarContainer;
 
+		this.chartContainer.events.on("maxsizechanged", this.invalidate, this, false); // need this for the chart to change radius if legend is removed/disabled
+
 		this._bulletMask = radarContainer.createChild(Circle);
 		this._bulletMask.shouldClone = false;
 		this._bulletMask.element = this.paper.add("path");

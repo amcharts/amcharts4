@@ -276,12 +276,12 @@ var FunnelSeries = /** @class */ (function (_super) {
             tick.slice = slice;
             tick.label = label;
             this.decorateSlice(dataItem);
-            sliceLink.fill = slice.fill;
             if (dataItem.index == this.dataItems.length - 1) {
                 sliceLink.disabled = true;
             }
             // do this at the end, otherwise bullets won't be positioned properly
             _super.prototype.validateDataElement.call(this, dataItem);
+            sliceLink.fill = slice.fill;
         }
     };
     /**
