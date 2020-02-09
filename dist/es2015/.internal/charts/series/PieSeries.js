@@ -71,7 +71,7 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
         return _super.prototype.hide.call(this, duration, delay, 0, ["value", "radiusValue"]);
     };
     /**
-     * Show hidden data item (and corresponding cisual elements).
+     * Show hidden data item (and corresponding visual elements).
      *
      * @param duration  Duration (ms)
      * @param delay     Delay hiding (ms)

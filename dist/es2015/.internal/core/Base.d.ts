@@ -128,8 +128,9 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      */
     readonly delayedMap: Dictionary<string, any>;
     /**
-     * [addDelayedMap description]
-     * @todo mm
+     * Logs an id and property of the target element that is not yet available
+     * for later assignment.
+     *
      * @ignore
      * @param  property  Property to set
      * @param  id        ID of the target element

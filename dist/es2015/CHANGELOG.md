@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.0] - 2020-02-09
+
+- New plugin: [Venn Diagram](https://www.amcharts.com/docs/v4/chart-types/venn/).
+- `ForceDirectedSeries.dragFixedNodes` property added (default `false`).
+- `ForceDirectedSeriesDataItem.percent` getter added.
+
+### Fixed
+- Mouse interactions were not working properly in very old (pre-59) FireFox.
+- Dynamically changing `ForceDirectedSeriesDataItem.fixed` was not working.
+- `CirclePattern` was not being globally exported.
+- Setting `expoirtable = false` on some elements that are invisible sometimes caused them to become visible after export.
+
+
 ## [4.8.9] - 2020-02-07
 
 ### Added

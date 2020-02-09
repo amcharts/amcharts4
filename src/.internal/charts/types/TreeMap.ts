@@ -193,6 +193,9 @@ export class TreeMapDataItem extends XYChartDataItem {
 		return value;*/
 	}
 
+	/**
+	 * Percent value of a node
+	 */
 	public get percent(): number {
 		if (this.parent) {
 			return this.value / this.parent.value * 100;

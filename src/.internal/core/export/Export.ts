@@ -2184,9 +2184,7 @@ export class Export extends Validatable {
 			config.scaleHeight = height * pixelRatio;
 		}
 
-		const x = canvg.fromString(canvas.getContext("2d"), data, config);
-
-		await x.render();
+		canvg(canvas, data, config);
 
 		return canvas;
 
@@ -4777,14 +4775,14 @@ export class Export extends Validatable {
 	 * @return Instance of canvg
 	 * @async
 	 */
-	private async _canvg(): Promise<(typeof import("canvg"))["default"]> {
-		const canvg = await import(/* webpackChunkName: "canvg" */ "canvg");
+	private async _canvg(): Promise<any> {
+		const canvg = (await import(/* webpackChunkName: "canvg" */ "canvg")) as any;
 
 		if (canvg.default != null) {
 			return canvg.default;
 
 		} else {
-			return canvg as any;
+			return canvg;
 		}
 	}
 
@@ -4794,7 +4792,7 @@ export class Export extends Validatable {
 	 * @ignore Exclude from docs
 	 * @return Instance of canvg
 	 */
-	public get canvg(): Promise<(typeof import("canvg"))["default"]> {
+	public get canvg(): Promise<any> {
 		return this._canvg();
 	}
 
@@ -4879,7 +4877,7 @@ export class Export extends Validatable {
 		const svgContainer = this.sprite.svgContainer;
 		if (svgContainer) {
 			$array.each(svgContainer.nonExportableSprites, (item) => {
-				if (!item.isHidden && !item.isHiding) {
+				if (!item.isHidden && !item.isHiding && item.visible) {
 					this._hiddenObjects.push(item);
 				}
 				item.hide(0);

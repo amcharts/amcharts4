@@ -17,7 +17,6 @@
         "rootDir": "src",
         "pretty": true,
         "lib": ["es6", "es2015", "dom"],
-        "typeRoots" : ["./typings"],
         "declarationDir": "./dist/es2015",
         "outDir": "./dist/es2015"
     },

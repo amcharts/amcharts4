@@ -1863,7 +1863,7 @@ export declare class Export extends Validatable {
      * @ignore Exclude from docs
      * @return Instance of canvg
      */
-    readonly canvg: Promise<(typeof import("canvg"))["default"]>;
+    readonly canvg: Promise<any>;
     /**
      * Returns pdfmake instance.
      *

@@ -202,6 +202,22 @@ var ForceDirectedSeriesDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ForceDirectedSeriesDataItem.prototype, "percent", {
+        /**
+         * Percent value of a node.
+         *
+         * @since 4.9.0
+         * @return Percent
+         */
+        get: function () {
+            if (this.parent) {
+                return this.value / this.parent.value * 100;
+            }
+            return 100;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ForceDirectedSeriesDataItem.prototype, "color", {
         /**
          * @return Color
@@ -310,6 +326,9 @@ var ForceDirectedSeriesDataItem = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setProperty("fixed", value);
+            if (this.component) {
+                this.component.handleFixed(this);
+            }
         },
         enumerable: true,
         configurable: true
@@ -406,6 +425,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         _this.height = percent(100);
         _this.manyBodyStrength = -15;
         _this.centerStrength = 0.8;
+        _this.setPropertyValue("dragFixedNodes", false);
         _this.events.on("maxsizechanged", function () {
             _this.updateRadiuses(_this.dataItems);
             _this.updateLinksAndNodes();
@@ -509,6 +529,9 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         this.chart.feedLegend();
         _super.prototype.validateDataItems.call(this);
     };
+    /**
+     * @ignore
+     */
     ForceDirectedSeries.prototype.handleFixed = function (dataItem) {
         var _this = this;
         var node = dataItem.node;
@@ -533,7 +556,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
             else {
                 node.fy = node.y;
             }
-            node.draggable = false;
+            node.draggable = this.dragFixedNodes;
             node.validate(); // for links to redraw
         }
         else {
@@ -1038,6 +1061,31 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         set: function (value) {
             if (this.setPropertyValue("linkWithStrength", value)) {
                 this.restartSimulation();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ForceDirectedSeries.prototype, "dragFixedNodes", {
+        /**
+         * @return Allow drag fixed nodes?
+         */
+        get: function () {
+            return this.getPropertyValue("dragFixedNodes");
+        },
+        /**
+         * Specifies if user can drag fixed nodes.
+         *
+         * @since 4.9.0
+         * @default false
+         * @param  value  Allow drag fixed nodes?
+         */
+        set: function (value) {
+            var _this = this;
+            if (this.setPropertyValue("dragFixedNodes", value)) {
+                this.dataItems.each(function (dataItem) {
+                    _this.handleFixed(dataItem);
+                });
             }
         },
         enumerable: true,

@@ -1148,7 +1148,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getCanvasAdvanced = function (options) {
         return __awaiter(this, void 0, void 0, function () {
-            var background, canvg, width, height, font, fontSize, data, canvas, pixelRatio, config, x;
+            var background, canvg, width, height, font, fontSize, data, canvas, pixelRatio, config;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1182,10 +1182,7 @@ var Export = /** @class */ (function (_super) {
                             config.scaleWidth = width * pixelRatio;
                             config.scaleHeight = height * pixelRatio;
                         }
-                        x = canvg.fromString(canvas.getContext("2d"), data, config);
-                        return [4 /*yield*/, x.render()];
-                    case 3:
-                        _a.sent();
+                        canvg(canvas, data, config);
                         return [2 /*return*/, canvas];
                 }
             });
@@ -3568,7 +3565,7 @@ var Export = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, import(/* webpackChunkName: "canvg" */ "canvg")];
                     case 1:
-                        canvg = _a.sent();
+                        canvg = (_a.sent());
                         if (canvg.default != null) {
                             return [2 /*return*/, canvg.default];
                         }
@@ -3682,7 +3679,7 @@ var Export = /** @class */ (function (_super) {
         var svgContainer = this.sprite.svgContainer;
         if (svgContainer) {
             $array.each(svgContainer.nonExportableSprites, function (item) {
-                if (!item.isHidden && !item.isHiding) {
+                if (!item.isHidden && !item.isHiding && item.visible) {
                     _this._hiddenObjects.push(item);
                 }
                 item.hide(0);

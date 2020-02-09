@@ -100,6 +100,7 @@ export { LinearGradient } from "./.internal/core/rendering/fills/LinearGradient"
 export { LinearGradientModifier } from "./.internal/core/rendering/fills/LinearGradientModifier";
 export { RadialGradientModifier } from "./.internal/core/rendering/fills/RadialGradientModifier";
 export { LinePattern } from "./.internal/core/rendering/fills/LinePattern";
+export { CirclePattern } from "./.internal/core/rendering/fills/CirclePattern";
 export { Pattern } from "./.internal/core/rendering/fills/Pattern";
 export { RadialGradient } from "./.internal/core/rendering/fills/RadialGradient";
 export { RectPattern } from "./.internal/core/rendering/fills/RectPattern";

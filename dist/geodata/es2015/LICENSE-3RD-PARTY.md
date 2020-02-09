@@ -21,3 +21,4 @@
 |-------|-------------|-------|
 |d3-force|Mike Bostock|[License](https://github.com/d3/d3-force/blob/master/LICENSE)|
 |regression-js|Tom Alexander|[License](https://github.com/Tom-Alexander/regression-js/blob/master/LICENSE)|
+|venn.js|Ben Frederickson|[License](https://github.com/benfred/venn.js/blob/master/LICENSE)

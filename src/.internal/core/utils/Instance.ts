@@ -109,7 +109,7 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 					loopTimer = null;
 
 				} else {
-					loopTimer = setTimeout(loop, 1000);
+					loopTimer = window.setTimeout(loop, 1000);
 				}
 
 			} else {

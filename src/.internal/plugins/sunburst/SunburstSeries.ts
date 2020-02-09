@@ -78,7 +78,7 @@ export class SunburstSeriesDataItem extends PieSeriesDataItem {
 
 
 	/**
-	 * Show hidden data item (and corresponding cisual elements).
+	 * Show hidden data item (and corresponding visual elements).
 	 *
 	 * @param duration  Duration (ms)
 	 * @param delay     Delay hiding (ms)

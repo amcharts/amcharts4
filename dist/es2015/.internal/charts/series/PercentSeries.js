@@ -84,7 +84,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
         _super.prototype.setVisibility.call(this, value, noChangeValues);
     };
     /**
-     * Show hidden data item (and corresponding cisual elements).
+     * Show hidden data item (and corresponding visual elements).
      *
      * @param duration  Duration (ms)
      * @param delay     Delay hiding (ms)
@@ -420,7 +420,7 @@ var PercentSeries = /** @class */ (function (_super) {
          * ```
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/list-templates/} for more information about list templates
-         * @return Slices
+         * @return Ticks
          */
         get: function () {
             if (!this._ticks) {
@@ -464,7 +464,7 @@ var PercentSeries = /** @class */ (function (_super) {
          * ```
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/list-templates/} for more information about list templates
-         * @return Slices
+         * @return Labels
          */
         get: function () {
             if (!this._labels) {

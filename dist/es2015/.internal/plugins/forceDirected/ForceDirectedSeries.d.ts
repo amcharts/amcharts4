@@ -117,6 +117,13 @@ export declare class ForceDirectedSeriesDataItem extends SeriesDataItem {
      */
     readonly level: number;
     /**
+     * Percent value of a node.
+     *
+     * @since 4.9.0
+     * @return Percent
+     */
+    readonly percent: number;
+    /**
      * Item's color.
      *
      * If not set, will use parent's color, or, if that is not set either,
@@ -294,6 +301,12 @@ export interface IForceDirectedSeriesProperties extends ISeriesProperties {
      * @since 4.4.8
      */
     linkWithStrength?: number;
+    /**
+     * Specifies if user can drag fixed nodes
+     *
+     * @since 4.9.0
+     */
+    dragFixedNodes?: boolean;
 }
 /**
  * Defines events for [[ForceDirectedSeries]].
@@ -413,7 +426,10 @@ export declare class ForceDirectedSeries extends Series {
      * @ignore Exclude from docs
      */
     validateDataItems(): void;
-    protected handleFixed(dataItem: this["_dataItem"]): void;
+    /**
+     * @ignore
+     */
+    handleFixed(dataItem: this["_dataItem"]): void;
     /**
      * @ignore
      * @todo description
@@ -606,6 +622,17 @@ export declare class ForceDirectedSeries extends Series {
     * @return Strength
     */
     linkWithStrength: number;
+    /**
+     * Specifies if user can drag fixed nodes.
+     *
+     * @since 4.9.0
+     * @default false
+     * @param  value  Allow drag fixed nodes?
+     */
+    /**
+    * @return Allow drag fixed nodes?
+    */
+    dragFixedNodes: boolean;
     /**
      * Binds related legend data item's visual settings to this series' visual
      * settings.

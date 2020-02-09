@@ -88,7 +88,7 @@ export declare class PercentSeriesDataItem extends SeriesDataItem {
      */
     setVisibility(value: boolean, noChangeValues?: boolean): void;
     /**
-     * Show hidden data item (and corresponding cisual elements).
+     * Show hidden data item (and corresponding visual elements).
      *
      * @param duration  Duration (ms)
      * @param delay     Delay hiding (ms)
@@ -366,7 +366,7 @@ export declare class PercentSeries extends Series {
      * ```
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/list-templates/} for more information about list templates
-     * @return Slices
+     * @return Ticks
      */
     readonly ticks: ListTemplate<this["_tick"]>;
     /**
@@ -396,7 +396,7 @@ export declare class PercentSeries extends Series {
      * ```
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/list-templates/} for more information about list templates
-     * @return Slices
+     * @return Labels
      */
     readonly labels: ListTemplate<this["_label"]>;
     /**

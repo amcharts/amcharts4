@@ -90,7 +90,7 @@ function createChild(htmlElement, classType) {
                     loopTimer_1 = null;
                 }
                 else {
-                    loopTimer_1 = setTimeout(loop_1, 1000);
+                    loopTimer_1 = window.setTimeout(loop_1, 1000);
                 }
             }
             else {

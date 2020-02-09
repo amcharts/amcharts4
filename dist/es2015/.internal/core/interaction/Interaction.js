@@ -214,6 +214,11 @@ var Interaction = /** @class */ (function (_super) {
             // Oh looky, an MSIE that does not support PointerEvent. Hi granpa IE9!
             _this._usePointerEventsOnly = true;
         }
+        else if (_this.fullFF()) {
+            // Old FF, let's use regular events.
+            // (Newer FFs would be detected by the PointerEvent availability check)
+            _this._usePointerEventsOnly = true;
+        }
         else {
             // Uses defaults for normal browsers
             // We also assume that this must be a touch device that does not have

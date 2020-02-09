@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@amcharts/amcharts4",
-  "version": "4.8.9",
+  "version": "4.9.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/amcharts/amcharts4.git"
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "css-element-queries": "1.2.1",
-    "canvg": "^3.0.4",
+    "canvg": "^2.0.0",
     "d3-force": "^2.0.1",
     "pdfmake": "^0.1.36",
     "polylabel": "^1.0.2",
@@ -34,7 +34,8 @@
     "regression": "^2.0.1",
     "xlsx": "^0.15.4",
     "d3-geo": "^1.11.3",
-    "d3-geo-projection": "^2.6.0"
+    "d3-geo-projection": "^2.6.0",
+    "venn.js": "^0.2.20"
   },
   "devDependencies": {
     "@types/d3-force": "^1.2.1",

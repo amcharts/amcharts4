@@ -30,6 +30,7 @@ var CirclePattern = /** @class */ (function (_super) {
         _this.properties["radius"] = 2;
         _this._circle = _this.paper.add("circle");
         _this.addElement(_this._circle);
+        _this.shapeRendering = "auto";
         return _this;
     }
     /**

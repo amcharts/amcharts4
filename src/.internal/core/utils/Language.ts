@@ -269,6 +269,9 @@ export interface ILocaleProperties {
 	// Common actions
 	"Close"?: string;
 	"Minimize"?: string;
+
+	"Venn Series"?: string;
+	"Venn Diagram"?: string;
 }
 
 /**

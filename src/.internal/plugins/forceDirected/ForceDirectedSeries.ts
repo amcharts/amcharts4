@@ -262,6 +262,19 @@ export class ForceDirectedSeriesDataItem extends SeriesDataItem {
 	}
 
 	/**
+	 * Percent value of a node.
+	 *
+	 * @since 4.9.0
+	 * @return Percent
+	 */
+	public get percent(): number {
+		if (this.parent) {
+			return this.value / this.parent.value * 100;
+		}
+		return 100;
+	}
+
+	/**
 	 * Item's color.
 	 *
 	 * If not set, will use parent's color, or, if that is not set either,
@@ -355,6 +368,9 @@ export class ForceDirectedSeriesDataItem extends SeriesDataItem {
 	 */
 	public set fixed(value: boolean) {
 		this.setProperty("fixed", value);
+		if (this.component) {
+			this.component.handleFixed(this);
+		}
 	}
 
 	/**
@@ -531,6 +547,13 @@ export interface IForceDirectedSeriesProperties extends ISeriesProperties {
 	 * @since 4.4.8
 	 */
 	linkWithStrength?: number;
+
+	/**
+	 * Specifies if user can drag fixed nodes
+	 *
+	 * @since 4.9.0
+	 */
+	dragFixedNodes?: boolean;
 }
 
 /**
@@ -675,12 +698,14 @@ export class ForceDirectedSeries extends Series {
 		this.manyBodyStrength = -15;
 		this.centerStrength = 0.8;
 
+		this.setPropertyValue("dragFixedNodes", false);
+
 		this.events.on("maxsizechanged", () => {
 			this.updateRadiuses(this.dataItems);
 			this.updateLinksAndNodes();
 
 			this.dataItems.each((dataItem) => {
-				this.handleFixed(dataItem);				
+				this.handleFixed(dataItem);
 			})
 
 			let d3forceSimulation = this.d3forceSimulation;
@@ -806,7 +831,10 @@ export class ForceDirectedSeries extends Series {
 		super.validateDataItems();
 	}
 
-	protected handleFixed(dataItem: this["_dataItem"]) {
+	/**
+	 * @ignore
+	 */
+	public handleFixed(dataItem: this["_dataItem"]) {
 		let node = dataItem.node;
 
 		let xField = node.propertyFields.x;
@@ -836,7 +864,7 @@ export class ForceDirectedSeries extends Series {
 				(<any>node).fy = node.y;
 			}
 
-			node.draggable = false;
+			node.draggable = this.dragFixedNodes;
 
 			node.validate(); // for links to redraw
 		}
@@ -846,8 +874,8 @@ export class ForceDirectedSeries extends Series {
 			node.draggable = true;
 		}
 
-		if(dataItem && dataItem.children){
-			dataItem.children.each((di)=>{
+		if (dataItem && dataItem.children) {
+			dataItem.children.each((di) => {
 				this.handleFixed(di)
 			})
 		}
@@ -929,7 +957,7 @@ export class ForceDirectedSeries extends Series {
 				distance = 1;
 			}
 
-			if(target.isHidden){
+			if (target.isHidden) {
 				return 0;
 			}
 
@@ -954,7 +982,7 @@ export class ForceDirectedSeries extends Series {
 			strength = link.strength;
 		}
 
-		if(target.isHidden){
+		if (target.isHidden) {
 			return 0;
 		}
 
@@ -1385,6 +1413,27 @@ export class ForceDirectedSeries extends Series {
 		return this.getPropertyValue("linkWithStrength");
 	}
 
+	/**
+	 * Specifies if user can drag fixed nodes.
+	 *
+	 * @since 4.9.0
+	 * @default false
+	 * @param  value  Allow drag fixed nodes?
+	 */
+	public set dragFixedNodes(value: boolean) {
+		if (this.setPropertyValue("dragFixedNodes", value)) {
+			this.dataItems.each((dataItem) => {
+				this.handleFixed(dataItem);
+			})
+		}
+	}
+
+	/**
+	 * @return Allow drag fixed nodes?
+	 */
+	public get dragFixedNodes(): boolean {
+		return this.getPropertyValue("dragFixedNodes");
+	}
 
 	/**
 	 * Binds related legend data item's visual settings to this series' visual

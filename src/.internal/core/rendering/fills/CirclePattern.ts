@@ -59,6 +59,7 @@ export class CirclePattern extends Pattern {
 		this.properties["radius"] = 2;
 		this._circle = this.paper.add("circle");
 		this.addElement(this._circle);
+		this.shapeRendering = "auto";
 	}
 
 	/**

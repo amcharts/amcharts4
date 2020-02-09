@@ -137,6 +137,9 @@ var TreeMapDataItem = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(TreeMapDataItem.prototype, "percent", {
+        /**
+         * Percent value of a node
+         */
         get: function () {
             if (this.parent) {
                 return this.value / this.parent.value * 100;

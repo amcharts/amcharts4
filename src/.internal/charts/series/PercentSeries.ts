@@ -114,6 +114,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 		if (!fields) {
 			fields = ["value"];
 		}
+
 		return super.hide(duration, delay, 0, fields);
 	}
 
@@ -136,7 +137,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 	}
 
 	/**
-	 * Show hidden data item (and corresponding cisual elements).
+	 * Show hidden data item (and corresponding visual elements).
 	 *
 	 * @param duration  Duration (ms)
 	 * @param delay     Delay hiding (ms)
@@ -635,7 +636,7 @@ export class PercentSeries extends Series {
 	 * ```
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/list-templates/} for more information about list templates
-	 * @return Slices
+	 * @return Ticks
 	 */
 	public get ticks(): ListTemplate<this["_tick"]> {
 		if (!this._ticks) {
@@ -677,7 +678,7 @@ export class PercentSeries extends Series {
 	 * ```
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/list-templates/} for more information about list templates
-	 * @return Slices
+	 * @return Labels
 	 */
 	public get labels(): ListTemplate<this["_label"]> {
 		if (!this._labels) {

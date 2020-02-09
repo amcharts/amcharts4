@@ -61,7 +61,7 @@ export declare class WordCloudSeriesDataItem extends SeriesDataItem {
      */
     setVisibility(value: boolean, noChangeValues?: boolean): void;
     /**
-     * Show hidden data item (and corresponding cisual elements).
+     * Show hidden data item (and corresponding visual elements).
      *
      * @param duration  Duration (ms)
      * @param delay     Delay hiding (ms)

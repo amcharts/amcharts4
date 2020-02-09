@@ -220,6 +220,8 @@ export interface ILocaleProperties {
     "Invalid date"?: string;
     "Close"?: string;
     "Minimize"?: string;
+    "Venn Series"?: string;
+    "Venn Diagram"?: string;
 }
 /**
  * Defines functions that exist for the locale.
