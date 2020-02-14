@@ -37,6 +37,24 @@ export interface IMapPolygonProperties extends IMapObjectProperties {
      * Longitude of the visual center of the polygon.
      */
     visualLongitude?: number;
+    /**
+     * When polygon's sides are plotted, they are bent according to the used
+     * projection, to depict the shortest distance how it would go on the actual
+     * land.
+     *
+     * `precision` introduces a setting which can control when such bending
+     * occurs.
+     *
+     * If the distance (in degrees) between two points of polygon's side is less
+     * than `precision`, no bending will take place and the line will be straight.
+     *
+     * Set to large number (e.g. 10000) for perfectly straight lines on all
+     * polygon's sides.
+     *
+     * @since 4.9.1
+     * @default 0.5
+     */
+    precision?: number;
 }
 /**
  * Defines events for [[MapPolygon]].
@@ -250,4 +268,22 @@ export declare class MapPolygon extends MapObject {
      * @return Y
      */
     getTooltipY(): number;
+    /**
+     * When polygon's sides are plotted, they are bent according to the used
+     * projection.
+     *
+     * `precision` introduces a setting which can control when such bending
+     * occurs.
+     *
+     * If the distance (in degrees) between two points of polygon's side is less
+     * than `precision`, no bending will take place and the line will be straight.
+     *
+     * Set to large number (e.g. 10000) for perfectly straight lines on all
+     * polygon's sides.
+     *
+     * @since 4.9.1
+     * @default 0.5
+     * @param  value  Precision
+     */
+    precision: number;
 }

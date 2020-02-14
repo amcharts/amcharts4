@@ -73,6 +73,13 @@ var InteractionObject = /** @class */ (function (_super) {
          */
         _this._isHover = false;
         /**
+         * Was this element hovered via pointer or is it just "pretenting" to be
+         * hovered.
+         *
+         * @ignore
+         */
+        _this.isRealHover = false;
+        /**
          * Is the element hovered by touch pointer?
          */
         _this._isHoverByTouch = false;
@@ -165,6 +172,7 @@ var InteractionObject = /** @class */ (function (_super) {
                     getInteraction().overObjects.moveValue(this);
                 }
                 else {
+                    this.isRealHover = false;
                     getInteraction().overObjects.removeValue(this);
                 }
             }

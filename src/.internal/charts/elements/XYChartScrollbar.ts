@@ -186,10 +186,10 @@ export class XYChartScrollbar extends Scrollbar {
 	 */
 	protected handleSeriesAdded(event: IListEvents<XYSeries>["inserted"]) {
 		let sourceSeries: XYSeries = event.newValue;
-		if(!sourceSeries.xAxis || !sourceSeries.yAxis){
+		if (!sourceSeries.xAxis || !sourceSeries.yAxis) {
 			return;
 		}
-		
+
 		let scrollbarChart: XYChart = this.scrollbarChart;
 		scrollbarChart.zoomOutButton.disabled = true;
 
@@ -263,12 +263,12 @@ export class XYChartScrollbar extends Scrollbar {
 			}
 			else if (xAxis instanceof ValueAxis) {
 				let vAxis = <ValueAxis>xAxis;
-				if(!$type.isNumber(vAxis.clonedFrom.minDefined)){
+				if (!$type.isNumber(vAxis.clonedFrom.minDefined)) {
 					vAxis.min = undefined;
 				}
-				if(!$type.isNumber(vAxis.clonedFrom.maxDefined)){
+				if (!$type.isNumber(vAxis.clonedFrom.maxDefined)) {
 					vAxis.max = undefined;
-				}				
+				}
 				this._disposers.push(vAxis.clonedFrom.events.on("extremeschanged", () => {
 					if ($type.isNumber(vAxis.clonedFrom.minDefined)) {
 						vAxis.min = vAxis.clonedFrom.min;
@@ -342,13 +342,13 @@ export class XYChartScrollbar extends Scrollbar {
 			else if (yAxis instanceof ValueAxis) {
 				let vAxis = <ValueAxis>yAxis;
 
-				if(!$type.isNumber(vAxis.clonedFrom.minDefined)){
+				if (!$type.isNumber(vAxis.clonedFrom.minDefined)) {
 					vAxis.min = undefined;
 				}
-				if(!$type.isNumber(vAxis.clonedFrom.maxDefined)){
+				if (!$type.isNumber(vAxis.clonedFrom.maxDefined)) {
 					vAxis.max = undefined;
 				}
-				
+
 				this._disposers.push(vAxis.clonedFrom.events.on("extremeschanged", () => {
 					if ($type.isNumber(vAxis.clonedFrom.minDefined)) {
 						vAxis.min = vAxis.clonedFrom.minDefined;
@@ -513,9 +513,13 @@ export class XYChartScrollbar extends Scrollbar {
 	 */
 	public handleDataChanged() {
 		if (this.chart.data != this.scrollbarChart.data) {
-			this.scrollbarChart.data = this.chart.data;			
+			this.scrollbarChart.data = this.chart.data;
 		}
-		this.scrollbarChart.invalidateData();
+		else {
+			// add data is handled in XYChart
+			// invalidating all data caused the problem: https://github.com/amcharts/amcharts4/issues/2096
+			this.scrollbarChart.invalidateRawData();
+		}
 	}
 
 	/**

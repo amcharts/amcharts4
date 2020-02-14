@@ -212,6 +212,7 @@ var DateAxis = /** @class */ (function (_super) {
          *   { timeUnit: "year", count: 1 }
          * ]
          * ```
+         * `groupData = true` does not work in combination with `skipEmptyPeriods = true`.
          *
          * @since 4.7.0
          * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/date-axis/#Dynamic_data_item_grouping} for more information about dynamic data item grouping.
@@ -1560,6 +1561,7 @@ var DateAxis = /** @class */ (function (_super) {
          * * If you set this property to `true`, you can not add your custom axis breaks to this axis anymore.
          * * Using this feature affects performance. Use only if you need it.
          * * Setting this to `true` will reset appearance of breaks. If you want to modify appearance, do it *after* you set `skipEmptyPeriods`.
+         * * Some axis label overlapping might happen.
          *
          * @default false
          * @param value  Remove empty stretches of time?

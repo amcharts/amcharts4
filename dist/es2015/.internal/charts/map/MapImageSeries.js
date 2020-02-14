@@ -318,7 +318,7 @@ var MapImageSeries = /** @class */ (function (_super) {
     MapImageSeries.prototype.getImageById = function (id) {
         return $iter.find(this.mapImages.iterator(), function (mapImage) {
             var dataContext = mapImage.dataItem.dataContext;
-            if (mapImage.id == id || dataContext.id == id) {
+            if (mapImage.id == id || (dataContext && dataContext.id == id)) {
                 return true;
             }
         });

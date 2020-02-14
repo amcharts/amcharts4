@@ -3402,6 +3402,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 					this.handleOver();
 				}
 				else {
+					this.interactions.isRealHover = false;
 					this.handleOut();
 				}
 			}
@@ -7749,6 +7750,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	protected setPath(value: string): boolean {
 		if (this.setPropertyValue("path", value)) {
+
+			if(this._adapterO){
+				value = this._adapterO.apply("path", value);
+			}			
 
 			if (!this._isPath) {
 				if (!this.element || (this.element.node && !(this.element.node instanceof SVGPathElement))) {

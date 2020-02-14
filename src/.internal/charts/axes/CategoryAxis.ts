@@ -710,7 +710,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				let breakStartIndex: number = axisBreak.adjustedStartValue;
 				let breakEndIndex: number = axisBreak.adjustedEndValue;
 
-				if (index < startIndex) {
+				if (index < startIndex || !$type.isNumber(breakStartIndex) || !$type.isNumber(breakEndIndex)) {
 					return false;
 				}
 

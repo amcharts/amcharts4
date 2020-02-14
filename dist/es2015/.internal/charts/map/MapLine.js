@@ -53,6 +53,7 @@ var MapLine = /** @class */ (function (_super) {
         _this.line.stroke = color();
         _this.line.parent = _this;
         _this.strokeOpacity = 1;
+        _this.setPropertyValue("precision", 0.1);
         var interfaceColors = new InterfaceColorSet();
         _this.stroke = interfaceColors.getFor("grid");
         _this.shortestDistance = true;
@@ -279,7 +280,7 @@ var MapLine = /** @class */ (function (_super) {
                 this.line.segments = convertedPoints;
             }
             else {
-                chart.projection.d3Projection.precision(0.1);
+                chart.projection.d3Projection.precision(this.precision);
                 this.line.path = chart.projection.d3Path(this.getFeature());
             }
             if (this._arrow) {
@@ -323,7 +324,7 @@ var MapLine = /** @class */ (function (_super) {
          * projections. Only `MapLine` supports this setting, `MapArc` and
          * `MapSplice` don't.
          *
-         * @default false
+         * @default true
          * @param value  Real path?
          */
         set: function (value) {
@@ -478,6 +479,37 @@ var MapLine = /** @class */ (function (_super) {
             return 0;
         }
     };
+    Object.defineProperty(MapLine.prototype, "precision", {
+        /**
+         * @return Precision
+         */
+        get: function () {
+            return this.getPropertyValue("precision");
+        },
+        /**
+         * When line is plotted, if its `shortestDistance` is set to `true` it is
+         * bent according to the used projection, to depict the shortest distance how
+         * it would go on the actual land.
+         *
+         * `precision` introduces a setting which can control when such bending
+         * occurs.
+         *
+         * If the distance (in degrees) between line start and end points
+         * is less than `precision`, no bending will take place and the line will be
+         * straight.
+         *
+         * Set to large number (e.g. 10000) for perfectly straight line.
+         *
+         * @since 4.9.1
+         * @default 0.1
+         * @param  value  Precision
+         */
+        set: function (value) {
+            this.setPropertyValue("precision", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return MapLine;
 }(MapObject));
 export { MapLine };

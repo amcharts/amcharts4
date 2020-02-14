@@ -1073,9 +1073,10 @@ var Interaction = /** @class */ (function (_super) {
         // Add pointer
         io.overPointers.moveValue(pointer);
         // Check if object is not yet hovered
-        if (!io.isHover) {
+        if (!io.isRealHover) {
             // Set element as hovered
             io.isHover = true;
+            io.isRealHover = true;
             this.overObjects.moveValue(io);
             // Generate body track event. This is needed so that if element loads
             // under unmoved mouse cursor, we still need all the actions that are

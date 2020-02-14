@@ -621,7 +621,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 						target[configKey] = parent;
 					}
 					else {
-						throw Error("Non-existing ID in config: \"" + configValue + "\".");
+						this.addDelayedMap("parent", configValue);
 					}
 
 				}

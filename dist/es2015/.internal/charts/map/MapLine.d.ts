@@ -43,6 +43,24 @@ export interface IMapLineProperties extends IMapObjectProperties {
      * Instead of setting longitudes/latitudes you can set an array of images which will be connected by the line
      */
     imagesToConnect?: MapImage[];
+    /**
+     * When line is plotted, if its `shortestDistance` is set to `true` it is
+     * bent according to the used projection, to depict the shortest distance how
+     * it would go on the actual land.
+     *
+     * `precision` introduces a setting which can control when such bending
+     * occurs.
+     *
+     * If the distance (in degrees) between line start and end points
+     * is less than `precision`, no bending will take place and the line will be
+     * straight.
+     *
+     * Set to large number (e.g. 10000) for perfectly straight line.
+     *
+     * @since 4.9.1
+     * @default 0.1
+     */
+    precision?: number;
 }
 /**
  * Defines events for [[MapLine]].
@@ -222,7 +240,7 @@ export declare class MapLine extends MapObject {
      * projections. Only `MapLine` supports this setting, `MapArc` and
      * `MapSplice` don't.
      *
-     * @default false
+     * @default true
      * @param value  Real path?
      */
     /**
@@ -289,4 +307,26 @@ export declare class MapLine extends MapObject {
      * @return Y
      */
     getTooltipY(): number;
+    /**
+     * When line is plotted, if its `shortestDistance` is set to `true` it is
+     * bent according to the used projection, to depict the shortest distance how
+     * it would go on the actual land.
+     *
+     * `precision` introduces a setting which can control when such bending
+     * occurs.
+     *
+     * If the distance (in degrees) between line start and end points
+     * is less than `precision`, no bending will take place and the line will be
+     * straight.
+     *
+     * Set to large number (e.g. 10000) for perfectly straight line.
+     *
+     * @since 4.9.1
+     * @default 0.1
+     * @param  value  Precision
+     */
+    /**
+    * @return Precision
+    */
+    precision: number;
 }

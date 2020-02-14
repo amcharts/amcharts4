@@ -445,7 +445,7 @@ export class MapImageSeries extends MapSeries {
 	public getImageById(id: string): MapImage {
 		return $iter.find(this.mapImages.iterator(), (mapImage) => {
 			let dataContext: any = mapImage.dataItem.dataContext;
-			if(mapImage.id == id || dataContext.id == id){
+			if(mapImage.id == id || (dataContext && dataContext.id == id)){
 				return true;
 			}
 		});

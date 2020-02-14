@@ -39,6 +39,7 @@ var MapPolygon = /** @class */ (function (_super) {
         _this.polygon = _this.createChild(Polygon);
         _this.polygon.shouldClone = false;
         _this.polygon.applyOnClones = true;
+        _this.setPropertyValue("precision", 0.5);
         var interfaceColors = new InterfaceColorSet();
         _this.fill = interfaceColors.getFor("secondaryButton");
         _this.stroke = interfaceColors.getFor("secondaryButtonStroke");
@@ -138,11 +139,11 @@ var MapPolygon = /** @class */ (function (_super) {
     MapPolygon.prototype.validate = function () {
         if (this.series) {
             var projection = this.series.chart.projection;
-            projection.d3Projection.precision(0.5);
             var pathGenerator = projection.d3Path;
             if (this.multiPolygon) {
                 if (this.series) {
                     var feature = { type: "MultiPolygon", coordinates: this.multiPolygon };
+                    projection.d3Projection.precision(this.precision);
                     this.polygon.path = pathGenerator(feature);
                 }
                 if (this.series.calculateVisualCenter) {
@@ -338,6 +339,33 @@ var MapPolygon = /** @class */ (function (_super) {
     MapPolygon.prototype.getTooltipY = function () {
         return this.series.chart.projection.convert({ longitude: this.visualLongitude, latitude: this.visualLatitude }).y;
     };
+    Object.defineProperty(MapPolygon.prototype, "precision", {
+        get: function () {
+            return this.getPropertyValue("precision");
+        },
+        /**
+         * When polygon's sides are plotted, they are bent according to the used
+         * projection.
+         *
+         * `precision` introduces a setting which can control when such bending
+         * occurs.
+         *
+         * If the distance (in degrees) between two points of polygon's side is less
+         * than `precision`, no bending will take place and the line will be straight.
+         *
+         * Set to large number (e.g. 10000) for perfectly straight lines on all
+         * polygon's sides.
+         *
+         * @since 4.9.1
+         * @default 0.5
+         * @param  value  Precision
+         */
+        set: function (value) {
+            this.setPropertyValue("precision", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return MapPolygon;
 }(MapObject));
 export { MapPolygon };

@@ -194,15 +194,21 @@ export class PercentChart extends SerialChart {
 			legend.valueLabels.template.text = "{value.percent.formatNumber('#.0')}%";
 
 			legend.itemContainers.template.events.on("over", (event) => {
-				let PercentSeriesDataItem: PercentSeriesDataItem = <PercentSeriesDataItem>event.target.dataItem.dataContext;
-				if (PercentSeriesDataItem.visible && !PercentSeriesDataItem.isHiding) {
-					PercentSeriesDataItem.slice.isHover = true;
+				let percentSeriesDataItem: PercentSeriesDataItem = <PercentSeriesDataItem>event.target.dataItem.dataContext;
+				if (percentSeriesDataItem.visible && !percentSeriesDataItem.isHiding) {
+					let slice = percentSeriesDataItem.slice;				
+					
+					slice.dispatchImmediately("over");					
+					slice.isHover = true;				
+					slice.interactions.isRealHover = true;
 				}
 			})
 
 			legend.itemContainers.template.events.on("out", (event) => {
-				let PercentSeriesDataItem: PercentSeriesDataItem = <PercentSeriesDataItem>event.target.dataItem.dataContext;
-				PercentSeriesDataItem.slice.isHover = false;
+				let percentSeriesDataItem: PercentSeriesDataItem = <PercentSeriesDataItem>event.target.dataItem.dataContext;
+				let slice = percentSeriesDataItem.slice;
+				slice.dispatchImmediately("out");
+				slice.isHover = false;				
 			})
 		}
 	}

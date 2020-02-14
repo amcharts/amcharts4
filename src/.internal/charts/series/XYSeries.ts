@@ -1786,7 +1786,7 @@ export class XYSeries extends Series {
 				}
 
 				if (changed) {
-					this.dispatchImmediately("extremeschanged");					
+					this.dispatchImmediately("extremeschanged");
 				}
 
 				if (this.start == 0 && this.end == 1) {
@@ -1910,6 +1910,10 @@ export class XYSeries extends Series {
 
 								}
 								else {
+									if (!sprite.interactions.isRealHover) {
+										sprite.dispatchImmediately("over");
+										sprite.interactions.isRealHover = true;
+									}
 									sprite.isHover = true;
 								}
 							}
@@ -1928,15 +1932,18 @@ export class XYSeries extends Series {
 		}
 	}
 	/**
-	 * returns default state to bullets when tooltip is shown at some other data item or hidden
-	 *
-	 * @ignore Exclude from docs
+	 * Returns default state to bullets when tooltip is shown at some other data
+	 * item or hidden
 	 */
 	protected returnBulletDefaultState(dataItem?: XYSeriesDataItem) {
 		if (this._prevTooltipDataItem && this._prevTooltipDataItem != dataItem) {
 			for (let sprite of this._prevTooltipDataItem.sprites) {
 				if (!sprite.isDisposed()) {
+					const fireEvent = sprite.interactions.isRealHover;
 					sprite.isHover = false;
+					if (fireEvent) {
+						sprite.dispatchImmediately("out");
+					}
 				}
 				else {
 					this._prevTooltipDataItem = undefined;
@@ -2927,6 +2934,16 @@ export class XYSeries extends Series {
 	 */
 	public get maskBullets(): boolean {
 		return this.getPropertyValue("maskBullets");
+	}
+
+	/**
+	 * Copies all properties from another instance of [[Series]].
+	 *
+	 * @param source  Source series
+	 */
+	public copyFrom(source: this) {
+		this.groupFields = $utils.copyProperties(source.groupFields, {});
+		super.copyFrom(source);
 	}
 }
 

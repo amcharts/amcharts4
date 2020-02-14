@@ -148,6 +148,7 @@ var ForceDirectedNode = /** @class */ (function (_super) {
                     component.updateNodeList();
                 }
                 if (value) {
+                    this.show();
                     if (children) {
                         children.each(function (child) {
                             child.node.show();

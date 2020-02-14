@@ -120,14 +120,19 @@ var PercentChart = /** @class */ (function (_super) {
             legend.labels.template.text = "{category}";
             legend.valueLabels.template.text = "{value.percent.formatNumber('#.0')}%";
             legend.itemContainers.template.events.on("over", function (event) {
-                var PercentSeriesDataItem = event.target.dataItem.dataContext;
-                if (PercentSeriesDataItem.visible && !PercentSeriesDataItem.isHiding) {
-                    PercentSeriesDataItem.slice.isHover = true;
+                var percentSeriesDataItem = event.target.dataItem.dataContext;
+                if (percentSeriesDataItem.visible && !percentSeriesDataItem.isHiding) {
+                    var slice = percentSeriesDataItem.slice;
+                    slice.dispatchImmediately("over");
+                    slice.isHover = true;
+                    slice.interactions.isRealHover = true;
                 }
             });
             legend.itemContainers.template.events.on("out", function (event) {
-                var PercentSeriesDataItem = event.target.dataItem.dataContext;
-                PercentSeriesDataItem.slice.isHover = false;
+                var percentSeriesDataItem = event.target.dataItem.dataContext;
+                var slice = percentSeriesDataItem.slice;
+                slice.dispatchImmediately("out");
+                slice.isHover = false;
             });
         }
     };

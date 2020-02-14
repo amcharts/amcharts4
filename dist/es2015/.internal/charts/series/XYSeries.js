@@ -1326,6 +1326,10 @@ var XYSeries = /** @class */ (function (_super) {
                                     if (!sprite.parent.visible || sprite.isHidden || sprite.__disabled || sprite.disabled || sprite.isHiding) {
                                     }
                                     else {
+                                        if (!sprite.interactions.isRealHover) {
+                                            sprite.dispatchImmediately("over");
+                                            sprite.interactions.isRealHover = true;
+                                        }
                                         sprite.isHover = true;
                                     }
                                 }
@@ -1351,9 +1355,8 @@ var XYSeries = /** @class */ (function (_super) {
         }
     };
     /**
-     * returns default state to bullets when tooltip is shown at some other data item or hidden
-     *
-     * @ignore Exclude from docs
+     * Returns default state to bullets when tooltip is shown at some other data
+     * item or hidden
      */
     XYSeries.prototype.returnBulletDefaultState = function (dataItem) {
         var e_2, _a;
@@ -1362,7 +1365,11 @@ var XYSeries = /** @class */ (function (_super) {
                 for (var _b = __values(this._prevTooltipDataItem.sprites), _c = _b.next(); !_c.done; _c = _b.next()) {
                     var sprite = _c.value;
                     if (!sprite.isDisposed()) {
+                        var fireEvent = sprite.interactions.isRealHover;
                         sprite.isHover = false;
+                        if (fireEvent) {
+                            sprite.dispatchImmediately("out");
+                        }
                     }
                     else {
                         this._prevTooltipDataItem = undefined;
@@ -2268,6 +2275,15 @@ var XYSeries = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Copies all properties from another instance of [[Series]].
+     *
+     * @param source  Source series
+     */
+    XYSeries.prototype.copyFrom = function (source) {
+        this.groupFields = $utils.copyProperties(source.groupFields, {});
+        _super.prototype.copyFrom.call(this, source);
+    };
     return XYSeries;
 }(Series));
 export { XYSeries };

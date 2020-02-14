@@ -64,6 +64,26 @@ export interface IMapLineProperties extends IMapObjectProperties {
 	 * Instead of setting longitudes/latitudes you can set an array of images which will be connected by the line
 	 */
 	imagesToConnect?: MapImage[];
+
+	/**
+	 * When line is plotted, if its `shortestDistance` is set to `true` it is
+	 * bent according to the used projection, to depict the shortest distance how
+	 * it would go on the actual land.
+	 *
+	 * `precision` introduces a setting which can control when such bending
+	 * occurs.
+	 *
+	 * If the distance (in degrees) between line start and end points
+	 * is less than `precision`, no bending will take place and the line will be
+	 * straight.
+	 *
+	 * Set to large number (e.g. 10000) for perfectly straight line.
+	 *
+	 * @since 4.9.1
+	 * @default 0.1
+	 */
+	precision?: number;
+
 }
 
 /**
@@ -158,6 +178,7 @@ export class MapLine extends MapObject {
 		this.line.stroke = color();
 		this.line.parent = this;
 		this.strokeOpacity = 1;
+		this.setPropertyValue("precision", 0.1);
 
 		let interfaceColors = new InterfaceColorSet();
 
@@ -300,7 +321,7 @@ export class MapLine extends MapObject {
 			if (chart) {
 				chart.series.each((series) => {
 					if (series instanceof MapImageSeries) {
-						if(!series.isReady()){
+						if (!series.isReady()) {
 							this._disposers.push(series.events.on("ready", this.handleImagesToConnect, this, false));
 						}
 					}
@@ -388,7 +409,7 @@ export class MapLine extends MapObject {
 				this.line.segments = convertedPoints;
 			}
 			else {
-				chart.projection.d3Projection.precision(0.1);
+				chart.projection.d3Projection.precision(this.precision);
 				this.line.path = chart.projection.d3Path(<any>this.getFeature());
 			}
 
@@ -433,7 +454,7 @@ export class MapLine extends MapObject {
 	 * projections. Only `MapLine` supports this setting, `MapArc` and
 	 * `MapSplice` don't.
 	 *
-	 * @default false
+	 * @default true
 	 * @param value  Real path?
 	 */
 	public set shortestDistance(value: boolean) {
@@ -586,6 +607,35 @@ export class MapLine extends MapObject {
 		else {
 			return 0;
 		}
+	}
+
+	/**
+	 * When line is plotted, if its `shortestDistance` is set to `true` it is
+	 * bent according to the used projection, to depict the shortest distance how
+	 * it would go on the actual land.
+	 *
+	 * `precision` introduces a setting which can control when such bending
+	 * occurs.
+	 *
+	 * If the distance (in degrees) between line start and end points
+	 * is less than `precision`, no bending will take place and the line will be
+	 * straight.
+	 *
+	 * Set to large number (e.g. 10000) for perfectly straight line.
+	 *
+	 * @since 4.9.1
+	 * @default 0.1
+	 * @param  value  Precision
+	 */
+	public set precision(value: number) {
+		this.setPropertyValue("precision", value, true);
+	}
+
+	/**
+	 * @return Precision
+	 */
+	public get precision(): number {
+		return this.getPropertyValue("precision");
 	}
 
 }

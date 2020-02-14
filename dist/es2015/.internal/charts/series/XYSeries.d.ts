@@ -854,9 +854,8 @@ export declare class XYSeries extends Series {
      */
     showTooltipAtDataItem(dataItem: this["_dataItem"]): IPoint;
     /**
-     * returns default state to bullets when tooltip is shown at some other data item or hidden
-     *
-     * @ignore Exclude from docs
+     * Returns default state to bullets when tooltip is shown at some other data
+     * item or hidden
      */
     protected returnBulletDefaultState(dataItem?: XYSeriesDataItem): void;
     protected shouldCreateBullet(dataItem: this["_dataItem"], bulletTemplate: Bullet): boolean;
@@ -1128,4 +1127,10 @@ export declare class XYSeries extends Series {
     * @return Mask bullets?
     */
     maskBullets: boolean;
+    /**
+     * Copies all properties from another instance of [[Series]].
+     *
+     * @param source  Source series
+     */
+    copyFrom(source: this): void;
 }

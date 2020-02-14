@@ -51,6 +51,25 @@ export interface IMapPolygonProperties extends IMapObjectProperties {
 	 * Longitude of the visual center of the polygon.
 	 */
 	visualLongitude?: number;
+
+	/**
+	 * When polygon's sides are plotted, they are bent according to the used
+	 * projection, to depict the shortest distance how it would go on the actual
+	 * land.
+	 *
+	 * `precision` introduces a setting which can control when such bending
+	 * occurs.
+	 *
+	 * If the distance (in degrees) between two points of polygon's side is less
+	 * than `precision`, no bending will take place and the line will be straight.
+	 *
+	 * Set to large number (e.g. 10000) for perfectly straight lines on all
+	 * polygon's sides.
+	 *
+	 * @since 4.9.1
+	 * @default 0.5
+	 */
+	precision?: number;
 }
 
 /**
@@ -132,6 +151,7 @@ export class MapPolygon extends MapObject {
 		this.polygon = this.createChild(Polygon);
 		this.polygon.shouldClone = false;
 		this.polygon.applyOnClones = true;
+		this.setPropertyValue("precision", 0.5);
 
 		let interfaceColors = new InterfaceColorSet();
 
@@ -235,13 +255,15 @@ export class MapPolygon extends MapObject {
 	public validate(): void {
 		if (this.series) {
 			let projection = this.series.chart.projection;
-			projection.d3Projection.precision(0.5);
+
 			let pathGenerator = projection.d3Path;
 
 			if (this.multiPolygon) {
 
 				if (this.series) {
 					let feature = { type: "MultiPolygon", coordinates: this.multiPolygon };
+
+					projection.d3Projection.precision(this.precision);
 					this.polygon.path = pathGenerator(<any>feature);
 				}
 
@@ -436,6 +458,31 @@ export class MapPolygon extends MapObject {
 	 */
 	public getTooltipY(): number {
 		return this.series.chart.projection.convert({ longitude: this.visualLongitude, latitude: this.visualLatitude }).y
+	}
+
+	/**
+	 * When polygon's sides are plotted, they are bent according to the used
+	 * projection.
+	 *
+	 * `precision` introduces a setting which can control when such bending
+	 * occurs.
+	 *
+	 * If the distance (in degrees) between two points of polygon's side is less
+	 * than `precision`, no bending will take place and the line will be straight.
+	 *
+	 * Set to large number (e.g. 10000) for perfectly straight lines on all
+	 * polygon's sides.
+	 *
+	 * @since 4.9.1
+	 * @default 0.5
+	 * @param  value  Precision
+	 */
+	public set precision(value: number) {
+		this.setPropertyValue("precision", value, true);
+	}
+
+	public get precision(): number {
+		return this.getPropertyValue("precision");
 	}
 }
 

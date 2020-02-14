@@ -5,8 +5,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.1] - 2020-02-14
+
+### Added
+- `precision` added to `MapLine` (default `0.1`). If line has `shortestDistance = true` set, it will be bent according to to projection. If `precision` is larger than the distance (degrees) between line's end points, no such bending will occur. Set it to large number for perfectly straight lines.
+- `precision` added to `MapPolygon` (default `0.5`). Polygon's side lines are bent according to to projection. If `precision` is larger than the distance (degrees) between side's end points, no such bending will occur. Set it to large number for perfectly straight lines.
+
+### Fixed
+- JSON config: referring to a `parent` by id is now not dependent on order of elements.
+- Series elements (e.g. columns) were not dispatching "over" event when `XYCursor` was being used.
+- When `Legend` was triggering hover over `PieSeries` slice (or other `PercentSeries`), the slice did not dispatch `"over"` event.
+- Hidden `ForceDirectedNode` (if hidden using API) was not showing if legend item was clicked to show it again.
+- `path` adapter was not working on `Sprite`.
+- Adding `data` to a `XYChart` with an `XYChartScrollbar` with a series was sometimes resulting JS error (if some data was missing).
+- Adding `AxisBreak` to `CategoryAxis` could result JS error.
+- `groupFields` were not copied to series in `XYChartScrollbar`, or any other cloned series.
+- If a bullet was already disabled when `disabled` property field was set, that bullet did not update correctly after data change.
+
+
 ## [4.9.0] - 2020-02-09
 
+### Added
 - New plugin: [Venn Diagram](https://www.amcharts.com/docs/v4/chart-types/venn/).
 - `ForceDirectedSeries.dragFixedNodes` property added (default `false`).
 - `ForceDirectedSeriesDataItem.percent` getter added.

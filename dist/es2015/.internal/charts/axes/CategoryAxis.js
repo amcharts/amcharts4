@@ -516,7 +516,7 @@ var CategoryAxis = /** @class */ (function (_super) {
             $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
                 var breakStartIndex = axisBreak.adjustedStartValue;
                 var breakEndIndex = axisBreak.adjustedEndValue;
-                if (index < startIndex) {
+                if (index < startIndex || !$type.isNumber(breakStartIndex) || !$type.isNumber(breakEndIndex)) {
                     return false;
                 }
                 if ($math.intersect({ start: breakStartIndex, end: breakEndIndex }, { start: startIndex, end: endIndex })) {

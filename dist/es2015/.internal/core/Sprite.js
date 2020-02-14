@@ -2539,6 +2539,7 @@ var Sprite = /** @class */ (function (_super) {
                         this.handleOver();
                     }
                     else {
+                        this.interactions.isRealHover = false;
                         this.handleOut();
                     }
                 }
@@ -6906,6 +6907,9 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.setPath = function (value) {
         if (this.setPropertyValue("path", value)) {
+            if (this._adapterO) {
+                value = this._adapterO.apply("path", value);
+            }
             if (!this._isPath) {
                 if (!this.element || (this.element.node && !(this.element.node instanceof SVGPathElement))) {
                     this.element = this.paper.add("path");

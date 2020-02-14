@@ -253,6 +253,7 @@ export class ForceDirectedNode extends Container {
 
 		if (dataItem) {
 
+
 			let children = dataItem.children;
 			let component = dataItem.component;
 			if (!component.dataItemsInvalid) {
@@ -262,6 +263,7 @@ export class ForceDirectedNode extends Container {
 				}
 
 				if (value) {
+					this.show();
 					if (children) {
 						children.each((child) => {
 							child.node.show();

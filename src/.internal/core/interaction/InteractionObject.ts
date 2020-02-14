@@ -133,6 +133,14 @@ export class InteractionObject extends BaseObjectEvents {
 	protected _isHover: boolean = false;
 
 	/**
+	 * Was this element hovered via pointer or is it just "pretenting" to be
+	 * hovered.
+	 * 
+	 * @ignore
+	 */
+	public isRealHover: boolean = false;
+
+	/**
 	 * Is the element hovered by touch pointer?
 	 */
 	protected _isHoverByTouch: boolean = false;
@@ -252,6 +260,7 @@ export class InteractionObject extends BaseObjectEvents {
 				getInteraction().overObjects.moveValue(this);
 			}
 			else {
+				this.isRealHover = false;
 				getInteraction().overObjects.removeValue(this);
 			}
 		}

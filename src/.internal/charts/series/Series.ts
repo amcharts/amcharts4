@@ -1048,6 +1048,11 @@ export class Series extends Component {
 
 					this.positionBullet(bullet);
 				}
+				else{
+					if(bullet){
+						bullet.__disabled = true;
+					}
+				}
 			});
 		}
 		else {

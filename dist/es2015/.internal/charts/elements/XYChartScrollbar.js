@@ -413,7 +413,11 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         if (this.chart.data != this.scrollbarChart.data) {
             this.scrollbarChart.data = this.chart.data;
         }
-        this.scrollbarChart.invalidateData();
+        else {
+            // add data is handled in XYChart
+            // invalidating all data caused the problem: https://github.com/amcharts/amcharts4/issues/2096
+            this.scrollbarChart.invalidateRawData();
+        }
     };
     /**
      * Zooms out all axes on the internal chart.

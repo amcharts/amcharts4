@@ -722,6 +722,11 @@ var Series = /** @class */ (function (_super) {
                     bullet.__disabled = false;
                     _this.positionBullet(bullet);
                 }
+                else {
+                    if (bullet) {
+                        bullet.__disabled = true;
+                    }
+                }
             });
         }
         else {

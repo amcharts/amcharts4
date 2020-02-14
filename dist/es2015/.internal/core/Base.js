@@ -502,7 +502,7 @@ var BaseObject = /** @class */ (function () {
                         target[configKey] = parent_1;
                     }
                     else {
-                        throw Error("Non-existing ID in config: \"" + configValue + "\".");
+                        _this.addDelayedMap("parent", configValue);
                     }
                 }
                 else if (_this.asIs(configKey)) {
