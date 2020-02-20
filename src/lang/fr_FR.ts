@@ -221,7 +221,7 @@ export default {
 	"April": "Avril",
 	"May": "Mai",
 	"June": "Juin",
-	"July": "Juilliet",
+	"July": "Juillet",
 	"August": "Août",
 	"September": "Septembre",
 	"October": "Octobre",
