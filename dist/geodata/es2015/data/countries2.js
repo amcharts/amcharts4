@@ -189,7 +189,7 @@ var countries2 = {
         "country": "Bahamas",
         "continent_code": "NA",
         "continent": "North America",
-        "maps": []
+        "maps": ["bahamasLow", "bahamasHigh"]
     },
     "BT": {
         "country": "Bhutan",
@@ -399,7 +399,7 @@ var countries2 = {
         "country": "Eritrea",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["eritreaLow", "eritreaHigh"]
     },
     "ES": {
         "country": "Spain",
@@ -411,7 +411,7 @@ var countries2 = {
         "country": "Ethiopia",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["ethiopiaLow", "ethiopiaHigh"]
     },
     "FI": {
         "country": "Finland",
@@ -459,7 +459,7 @@ var countries2 = {
         "country": "United Kingdom",
         "continent_code": "EU",
         "continent": "Europe",
-        "maps": ["ukLow", "ukHigh", "ukCountiesLow", "ukCountiesHigh"]
+        "maps": ["ukLow", "ukHigh", "ukCountiesLow", "ukCountiesHigh", "ukCountriesLow", "ukCountriesHigh"]
     },
     "GB-CHA": {
         "country": "Channel Islands",
@@ -495,7 +495,7 @@ var countries2 = {
         "country": "Ghana",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["ghanaLow", "ghanaHigh"]
     },
     "GI": {
         "country": "Gibraltar",
@@ -513,7 +513,7 @@ var countries2 = {
         "country": "Gambia",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["gambiaLow", "gambiaHigh"]
     },
     "GN": {
         "country": "Guinea",
@@ -561,13 +561,13 @@ var countries2 = {
         "country": "Guinea-Bissau",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["guineaBissauLow", "guineaBissauHigh"]
     },
     "GY": {
         "country": "Guyana",
         "continent_code": "SA",
         "continent": "South America",
-        "maps": []
+        "maps": ["guyanaLow", "guyanaHigh"]
     },
     "HK": {
         "country": "Hong Kong",
@@ -747,7 +747,7 @@ var countries2 = {
         "country": "Kuwait",
         "continent_code": "AS",
         "continent": "Asia",
-        "maps": []
+        "maps": ["kuwaitLow", "kuwaitHigh"]
     },
     "KY": {
         "country": "Cayman Islands",
@@ -765,7 +765,7 @@ var countries2 = {
         "country": "Lao People's Democratic Republic",
         "continent_code": "AS",
         "continent": "Asia",
-        "maps": []
+        "maps": ["laosLow", "laosHigh"]
     },
     "LB": {
         "country": "Lebanon",
@@ -813,7 +813,7 @@ var countries2 = {
         "country": "Luxembourg",
         "continent_code": "EU",
         "continent": "Europe",
-        "maps": []
+        "maps": ["luxembourgLow", "luxembourgHigh"]
     },
     "LV": {
         "country": "Latvia",
@@ -825,7 +825,7 @@ var countries2 = {
         "country": "Libya",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["libyaLow", "libyaHigh"]
     },
     "MA": {
         "country": "Morocco",
@@ -861,7 +861,7 @@ var countries2 = {
         "country": "Madagascar",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["madagascarProvinceLow", "madagascarProvinceHigh", "madagascarRegionLow", "madagascarRegionHigh"]
     },
     "MH": {
         "country": "Marshall Islands",
@@ -873,7 +873,7 @@ var countries2 = {
         "country": "North Macedonia",
         "continent_code": "EU",
         "continent": "Europe",
-        "maps": []
+        "maps": ["northMacedoniaLow", "northMacedoniaHigh"]
     },
     "ML": {
         "country": "Mali",
@@ -885,7 +885,7 @@ var countries2 = {
         "country": "Myanmar",
         "continent_code": "AS",
         "continent": "Asia",
-        "maps": []
+        "maps": ["myanmarLow", "myanmarHigh"]
     },
     "MN": {
         "country": "Mongolia",
@@ -963,7 +963,7 @@ var countries2 = {
         "country": "Mozambique",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["mozambiqueLow", "mozambiqueHigh"]
     },
     "NA": {
         "country": "Namibia",
@@ -981,7 +981,7 @@ var countries2 = {
         "country": "Niger",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["nigerLow", "nigerHigh"]
     },
     "NF": {
         "country": "Norfolk Island",
@@ -1161,7 +1161,7 @@ var countries2 = {
         "country": "Rwanda",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["rwandaLow", "rwandaHigh"]
     },
     "SA": {
         "country": "Saudi Arabia",
@@ -1227,7 +1227,7 @@ var countries2 = {
         "country": "Sierra Leone",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["sierraLeoneLow", "sierraLeoneHigh"]
     },
     "SM": {
         "country": "San Marino",
@@ -1251,7 +1251,7 @@ var countries2 = {
         "country": "Suriname",
         "continent_code": "SA",
         "continent": "South America",
-        "maps": []
+        "maps": ["surinameLow", "surinameHigh"]
     },
     "SS": {
         "country": "South Sudan",
@@ -1311,7 +1311,7 @@ var countries2 = {
         "country": "Togo",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["togoLow", "togoHigh"]
     },
     "TH": {
         "country": "Thailand",
@@ -1341,7 +1341,7 @@ var countries2 = {
         "country": "Turkmenistan",
         "continent_code": "AS",
         "continent": "Asia",
-        "maps": []
+        "maps": ["turkmenistanLow", "turkmenistanHigh"]
     },
     "TN": {
         "country": "Tunisia",

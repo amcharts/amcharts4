@@ -139,6 +139,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         });
         var interfaceColors = new InterfaceColorSet();
         var series = sourceSeries.clone();
+        sourceSeries.scrollbarSeries = series;
         if (addXAxis) {
             var xAxis = sourceSeries.xAxis.clone();
             scrollbarChart.xAxes.moveValue(xAxis);

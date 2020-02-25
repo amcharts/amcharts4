@@ -14,6 +14,8 @@ import { MutableValueDisposer, MultiDisposer, IDisposer } from "../../core/utils
 import { IPoint } from "../../core/defs/IPoint";
 import { IRange } from "../../core/defs/IRange";
 import { Axis } from "../axes/Axis";
+import { ValueAxis } from "../axes/ValueAxis";
+import { DateAxis } from "../axes/DateAxis";
 import { XYSeries } from "../series/XYSeries";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { Tooltip } from "../../core/elements/Tooltip";
@@ -26,6 +28,7 @@ import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
+import * as $array from "../../core/utils/Array";
 import * as $path from "../../core/rendering/Path";
 
 /**
@@ -77,11 +80,11 @@ export interface IXYCursorProperties extends ICursorProperties {
 	maxPanOut?: number;
 
 	/**
-	 * Specifies to which series cursor lines should be snapped. Works when one
-	 * of the axis is `DateAxis` or `CategoryAxis`. Won't work if both axes are
-	 * `ValueAxis`.
+	 * Specifies to which series cursor lines should be snapped.
+	 * 
+	 * Can be a single series instance or an array of series.
 	 */
-	snapToSeries?: XYSeries;
+	snapToSeries?: XYSeries | XYSeries[];
 
 	/**
 	 * If set to `true` this will hide series tooltips when selecting with cursor.
@@ -184,7 +187,7 @@ export class XYCursor extends Cursor {
 	 */
 	public _chart: XYChart;
 
-	protected _snapToDisposer: IDisposer;
+	protected _snapToDisposers: IDisposer[] = [];
 
 	/**
 	 * Constructor
@@ -358,9 +361,24 @@ export class XYCursor extends Cursor {
 	protected triggerMoveReal(point: IPoint): void {
 
 		super.triggerMoveReal(point);
-
-		if ((this.snapToSeries && !this.snapToSeries.isHidden)) {
-
+		let snapToSeries = this.snapToSeries;
+		if ((snapToSeries && !this.downPoint)) {
+			if (snapToSeries instanceof XYSeries) {
+				if (snapToSeries.isHidden) {
+					this.updateLinePositions(point);
+				}
+			}
+			else {
+				let allHidden = true;
+				$array.each(snapToSeries, (s) => {
+					if (!s.isHidden) {
+						allHidden = false;
+					}
+				})
+				if (allHidden) {
+					this.updateLinePositions(point);
+				}
+			}
 		}
 		else {
 			this.updateLinePositions(point);
@@ -973,27 +991,37 @@ export class XYCursor extends Cursor {
 	}
 
 	/**
-	 * Specifies to which series cursor lines should be snapped. Works when one
-	 * of the axis is `DateAxis` or `CategoryAxis`.
+	 * Specifies to which series cursor lines should be snapped.
+	 * 
+	 * Can be a single series instance or an array of series.
 	 *
-	 * @param {XYSeries}
+	 * @param {XYSeries | XYSeries[]}
 	 */
-	public set snapToSeries(series: XYSeries) {
+	public set snapToSeries(series: XYSeries | XYSeries[]) {
 		if (this.setPropertyValue("snapToSeries", series)) {
-			if (this._snapToDisposer) {
-				this._snapToDisposer.dispose();
+
+			if (series instanceof XYSeries) {
+				series = [series];
 			}
+			if (this._snapToDisposers) {
+				$array.each(this._snapToDisposers, (disposer) => {
+					disposer.dispose();
+				})
+			}
+			this._snapToDisposers = [];
 
 			if (series) {
-				this._snapToDisposer = series.events.on("tooltipshownat", this.handleSnap, this, false);
+				$array.each(series, (s) => {
+					this._snapToDisposers.push(s.events.on("tooltipshownat", () => { this.handleSnap(s) }, undefined, false));
+				})
 			}
 		}
 	}
 
 	/**
-	 * @return {XYSeries}
+	 * @return {XYSeries | XYSeries[]}
 	 */
-	public get snapToSeries(): XYSeries {
+	public get snapToSeries(): XYSeries | XYSeries[] {
 		return this.getPropertyValue("snapToSeries");
 	}
 
@@ -1003,52 +1031,62 @@ export class XYCursor extends Cursor {
 	 * @ignore
 	 * @todo Description
 	 */
-	public handleSnap() {
+	public handleSnap(series: XYSeries) {
+		if (!this.downPoint) {
+			let x = series.getTooltipX();
+			let y = series.getTooltipY();
 
-		let series = this.snapToSeries;
-		let x = series.getTooltipX();
-		let y = series.getTooltipY();
-
-		if (this.xAxis) {
-			if (this.xAxis.renderer.opposite) {
-				y -= this.pixelHeight;
+			if (this.xAxis) {
+				if (this.xAxis.renderer.opposite) {
+					y -= this.pixelHeight;
+				}
 			}
-		}
 
-		this.point = { x: x, y: y };
-		this.getPositions();
+			this.point = { x: x, y: y };
+			this.getPositions();
 
-		let xx = x;
-		let yy = y;
+			let xx = x;
+			let yy = y;
 
-		x -= this.pixelWidth;
+			x -= this.pixelWidth;
 
-		if (this.yAxis) {
-			if (this.yAxis.renderer.opposite) {
-				x += this.pixelWidth;
+			if (this.yAxis) {
+				if (this.yAxis.renderer.opposite) {
+					x += this.pixelWidth;
+				}
 			}
-		}
 
-		let tooltip = series.tooltip;
-		let duration = tooltip.animationDuration;
-		let easing = tooltip.animationEasing;
+			let tooltip = series.tooltip;
+			let duration = tooltip.animationDuration;
+			let easing = tooltip.animationEasing;
 
-		if (series.baseAxis == series.xAxis) {
-			series.yAxis.showTooltipAtPosition(this.yPosition);
-		}
 
-		if (series.baseAxis == series.yAxis) {
-			series.xAxis.showTooltipAtPosition(this.xPosition);
-		}
+			let xAxis = series.xAxis;
+			let yAxis = series.yAxis;
 
-		this.lineX.animate([{ property: "y", to: y }], duration, easing);
-		this.lineY.animate([{ property: "x", to: x }], duration, easing);
+			if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis) && yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
+				series.yAxis.showTooltipAtPosition(this.yPosition);
+				series.xAxis.showTooltipAtPosition(this.xPosition);
+			}
+			else {
+				if (series.baseAxis == series.xAxis) {
+					series.yAxis.showTooltipAtPosition(this.yPosition);
+				}
 
-		if (!this.xAxis) {
-			this.lineX.animate([{ property: "x", to: xx }], duration, easing);
-		}
-		if (!this.yAxis) {
-			this.lineY.animate([{ property: "y", to: yy }], duration, easing);
+				if (series.baseAxis == series.yAxis) {
+					series.xAxis.showTooltipAtPosition(this.xPosition);
+				}
+			}
+
+			this.lineX.animate([{ property: "y", to: y }], duration, easing);
+			this.lineY.animate([{ property: "x", to: x }], duration, easing);
+
+			if (!this.xAxis) {
+				this.lineX.animate([{ property: "x", to: xx }], duration, easing);
+			}
+			if (!this.yAxis) {
+				this.lineY.animate([{ property: "y", to: yy }], duration, easing);
+			}
 		}
 	}
 

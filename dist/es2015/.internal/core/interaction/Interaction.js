@@ -292,6 +292,11 @@ var Interaction = /** @class */ (function (_super) {
                 this._disposers.push(addEventListener(document, this._pointerEvents.pointermove, function (ev) { _this.handleGlobalPointerMove(ev); }));
                 this._disposers.push(addEventListener(document, this._pointerEvents.pointerup, function (ev) { _this.handleGlobalPointerUp(ev); }));
                 this._disposers.push(addEventListener(document, this._pointerEvents.pointercancel, function (ev) { _this.handleGlobalPointerUp(ev, true); }));
+                this._disposers.push(addEventListener(document, "mouseenter", function (ev) {
+                    if (!$type.hasValue(ev.relatedTarget) && (ev.buttons == 0 || ev.which == 0)) {
+                        _this.handleDocumentLeave(ev);
+                    }
+                }));
             }
             // No need to duplicate events for hubrid systems that support both
             // pointer events and touch events. Touch events are need only for
@@ -1268,6 +1273,21 @@ var Interaction = /** @class */ (function (_super) {
             if (io && io.downPointers.contains(pointer)) {
                 _this.handleUp(io, pointer, ev, cancelled);
             }
+        });
+    };
+    /**
+     * Simulates all pointers being up once mouse leaves document area.
+     *
+     * @ignore Exclude from docs
+     * @param ev       Original event
+     */
+    Interaction.prototype.handleDocumentLeave = function (ev) {
+        var _this = this;
+        // Process all down objects
+        $iter.each(this.downObjects.backwards().iterator(), function (io) {
+            io.downPointers.each(function (pointer) {
+                _this.handleUp(io, pointer, ev);
+            });
         });
     };
     /**

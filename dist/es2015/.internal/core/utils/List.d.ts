@@ -182,7 +182,7 @@ export declare type ListLike<A> = $iter.Iterable<A> & {
  * on all its items.
  */
 export declare class ListDisposer<A extends IDisposer> extends Disposer {
-    constructor(list: ListLike<A>);
+    constructor(list: ListLike<A>, disposeOnRemove?: boolean);
 }
 /**
  * A List class is used to hold a number of indexed items of the same type.

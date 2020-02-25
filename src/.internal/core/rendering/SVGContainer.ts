@@ -82,6 +82,12 @@ export class SVGContainer implements IDisposer {
 	public SVGContainer: HTMLDivElement;
 
 	/**
+	 * A `<div>` element which acts as a placeholder for accesibility reader
+	 * alert.
+	 */
+	private _readerAlertElement: HTMLDivElement;
+
+	/**
 	 * A reference to ResizeSensor object which monitors changes of div size.
 	 *
 	 * @ignore
@@ -381,6 +387,50 @@ export class SVGContainer implements IDisposer {
 		});
 	}
 
+
+	/**
+	 * ==========================================================================
+	 * ACCESSIBILITY STUFF
+	 * ==========================================================================
+	 * @hidden
+	 */
+	
+	/**
+	 * A `<div>` element used as as placeholder to trigger screen alerts.
+	 *
+	 * @sunce 4.9.2
+	 * @return Element
+	 */
+	public get readerAlertElement(): HTMLDivElement {
+		if (!$type.hasValue(this._readerAlertElement)) {
+			// Create element
+			const div = document.createElement("div");
+			div.setAttribute("role", "alert");
+			div.style.zIndex = "-100000";
+			div.style.opacity = "0";
+			this.SVGContainer.appendChild(div);
+			this._readerAlertElement = div;
+		}
+		return this._readerAlertElement;
+	}
+
+	/**
+	 * Triggers screen reader read out a message.
+	 *
+	 * @since 4.9.2
+	 * @param  text  Alert text
+	 */
+	public readerAlert(text: string): void {
+		this.readerAlertElement.innerHTML = text;
+	}
+
+
+	/**
+	 * ==========================================================================
+	 * OTHER STUFF
+	 * ==========================================================================
+	 * @hidden
+	 */
 
 	protected checkTransform(div: HTMLElement) {
 		if (window.getComputedStyle) {

@@ -596,6 +596,7 @@ var MapChart = /** @class */ (function (_super) {
                 if (this._backgroundSeries) {
                     this._backgroundSeries.invalidate();
                 }
+                this.updateExtremes();
                 this.series.each(function (series) {
                     series.events.once("validated", function () {
                         _this.updateCenterGeoPoint();
@@ -1037,6 +1038,7 @@ var MapChart = /** @class */ (function (_super) {
         if (this.zoomLevel != this._prevZoomLevel) {
             this.dispatch("zoomlevelchanged");
             this._prevZoomLevel = this.zoomLevel;
+            this.svgContainer.readerAlert(this.language.translate("Zoom level changed to %1", this.language.locale, $type.castString(this.zoomLevel)));
         }
         if (this.zoomGeoPoint && (this._prevZoomGeoPoint.latitude != this.zoomGeoPoint.latitude || this._prevZoomGeoPoint.longitude != this.zoomGeoPoint.longitude)) {
             this.dispatch("mappositionchanged");
@@ -1318,6 +1320,7 @@ var MapChart = /** @class */ (function (_super) {
      * Call this after changing projection or its settings.
      */
     MapChart.prototype.invalidateProjection = function () {
+        this.east = undefined;
         this.invalidateDataUsers();
         this.updateCenterGeoPoint();
     };

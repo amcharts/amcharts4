@@ -720,6 +720,7 @@ var Legend = /** @class */ (function (_super) {
             else {
                 dataContext.visible = true;
             }
+            this.svgContainer.readerAlert(this.language.translate("%1 shown", this.language.locale, item.label.readerTitle));
         }
         else {
             item.itemContainer.isActive = true;
@@ -729,6 +730,7 @@ var Legend = /** @class */ (function (_super) {
             else {
                 dataContext.visible = false;
             }
+            this.svgContainer.readerAlert(this.language.translate("%1 hidden", this.language.locale, item.label.readerTitle));
             item.color = new InterfaceColorSet().getFor("disabledBackground");
         }
     };

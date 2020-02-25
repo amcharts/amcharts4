@@ -3,9 +3,10 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 
-//am4core.useTheme(am4themes_animated);
 
-let container = am4core.create("chartdiv", am4core.Container);
+am4core.useTheme(am4themes_animated);
+
+var container = am4core.create("chartdiv", am4core.Container);
 container.width = am4core.percent(100);
 container.height = am4core.percent(100);
 container.layout = "vertical";
@@ -19,68 +20,66 @@ container.events.on("up", function(event) {
 });
 
 
-let chartCount = 3;
-let charts = [];
-let cursorShowDisposers = [];
+var charts = [];
+var cursorShowDisposers = [];
 
-// create chart instances
-for (let i = 0; i < chartCount; i++) {
-  makeChart();
-}
+makeChart(1);
+makeChart(10);
+makeChart(1000);
 
 initCursorListeners();
 
 // after the charts are made, add scrollbar to the first one
-let firstChart = charts[0];
+var firstChart = charts[0];
 firstChart.scrollbarX = new am4core.Scrollbar();
 firstChart.zoomOutButton.disabled = false;
 
 // enable date axis labels for the last one
-let lastChart = charts[charts.length - 1];
-let lastDateAxis = lastChart.xAxes.getIndex(0);
+var lastChart = charts[charts.length - 1];
+var lastDateAxis = lastChart.xAxes.getIndex(0);
 lastDateAxis.renderer.labels.template.disabled = false;
 lastDateAxis.cursorTooltipEnabled = true;
 
 
 // generate data (although it would be possible to use one data provider for all of the charts, we would need to use different field name for each value)
-function generateData() {
-  let data = [];
-  let value = 10;
-  for (let i = 1; i < 366; i++) {
+function generateData(c) {
+  var data = [];
+  var value = 10;
+  for (var i = 1; i < 366; i++) {
     value += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-    data.push({ date: new Date(2018, 0, i), name: "name" + i, value: value });
+    data.push({ date: new Date(2018, 0, i), name: "name" + i, value: value * c });
   }
   return data;
 }
 
 // create chart
-function makeChart() {
-  let chart = container.createChild(am4charts.XYChart);
+function makeChart(c) {
+  var chart = container.createChild(am4charts.XYChart);
   charts.push(chart);
 
-  chart.data = generateData();
+  chart.data = generateData(c);
   chart.zoomOutButton.disabled = true;
   chart.padding(10, 15, 10, 15);
 
-  let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+  var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
   dateAxis.renderer.grid.template.location = 0;
   dateAxis.renderer.labels.template.disabled = true;
   dateAxis.tooltip.animationDuration = 0;
   dateAxis.cursorTooltipEnabled = false;
 
-  let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
   valueAxis.tooltip.disabled = true;
   valueAxis.tooltip.disabled = true;
-  valueAxis.renderer.minWidth = 60;
+  
 
-  let series = chart.series.push(new am4charts.LineSeries());
+  var series = chart.series.push(new am4charts.LineSeries());
   series.dataFields.dateX = "date";
   series.dataFields.valueY = "value";
   series.interpolationDuration = 0;
 
   series.tooltipText = "{valueY.value}";
 
-  let cursor = new am4charts.XYCursor();
+  var cursor = new am4charts.XYCursor();
   cursor.lineY.disabled = true;
   cursor.xAxis = dateAxis;
   chart.cursor = cursor;
@@ -90,14 +89,24 @@ function makeChart() {
   dateAxis.events.on("selectionextremeschanged", (event) => {
     syncDateAxes(event.target);
   })
+
+  valueAxis.events.on("sizechanged", function(event){
+    var newWidth = event.target.measuredWidth;
+    for(var i = 0; i < charts.length; i++){
+      var renderer = charts[i].yAxes.getIndex(0).renderer;
+      if(renderer.measuredWidth < newWidth){
+        renderer.minWidth = newWidth;
+      }
+    }
+  })  
 }
 
 
 function initCursorListeners() {
   cursorShowDisposers = [];
-  for (let i = 0; i < charts.length; i++) {
-    let chart = charts[i];
-    let cursor = chart.cursor;
+  for (var i = 0; i < charts.length; i++) {
+    var chart = charts[i];
+    var cursor = chart.cursor;
     cursor.interactionsEnabled = true;
 
     cursorShowDisposers.push(cursor.events.on("shown", (event) => {
@@ -106,15 +115,15 @@ function initCursorListeners() {
   }
 }
 
-let shownCursorChangeDisposer;
-let shownCursorZoomStartedDisposer;
-let shownCursorZoomEndedDisposer;
+var shownCursorChangeDisposer
+var shownCursorZoomStartedDisposer
+var shownCursorZoomEndedDisposer
 
 function handleShowCursor(shownCursor) {
   // disable mouse for all other cursors
-  for (let i = 0; i < charts.length; i++) {
-    let chart = charts[i];
-    let cursor = chart.cursor;
+  for (var i = 0; i < charts.length; i++) {
+    var chart = charts[i];
+    var cursor = chart.cursor;
     if (cursor != shownCursor) {
       cursor.interactionsEnabled = false;
     }
@@ -130,22 +139,22 @@ function handleShowCursor(shownCursor) {
 
   shownCursorZoomStartedDisposer = shownCursor.events.on("zoomstarted", (event) => {
 
-    for (let i = 0; i < charts.length; i++) {
-      let chart = charts[i];
-      let cursor = chart.cursor;
+    for (var i = 0; i < charts.length; i++) {
+      var chart = charts[i];
+      var cursor = chart.cursor;
       if (cursor != event.target) {
-        let point = { x: event.target.point.x, y: 0 };
+        var point = { x: event.target.point.x, y: 0 };
         cursor.triggerDown(point);
       }
     }
   });
 
   shownCursorZoomEndedDisposer = shownCursor.events.on("zoomended", (event) => {
-    for (let i = 0; i < charts.length; i++) {
-      let chart = charts[i];
-      let cursor = chart.cursor;
+    for (var i = 0; i < charts.length; i++) {
+      var chart = charts[i];
+      var cursor = chart.cursor;
       if (cursor != event.target) {
-        let point = { x: event.target.point.x, y: 0 };
+        var point = { x: event.target.point.x, y: 0 };
         cursor.triggerUp(point);
       }
     }
@@ -157,9 +166,9 @@ function handleShowCursor(shownCursor) {
     shownCursorZoomStartedDisposer.dispose();
     shownCursorZoomEndedDisposer.dispose();
 
-    for (let i = 0; i < charts.length; i++) {
-      let chart = charts[i];
-      let cursor = chart.cursor;
+    for (var i = 0; i < charts.length; i++) {
+      var chart = charts[i];
+      var cursor = chart.cursor;
       cursor.hide(0);
 
       cursorShowDisposers[i].dispose();
@@ -170,11 +179,11 @@ function handleShowCursor(shownCursor) {
 }
 
 function syncCursors(syncWithCursor) {
-  for (let i = 0; i < charts.length; i++) {
-    let chart = charts[i];
-    let cursor = chart.cursor;
+  for (var i = 0; i < charts.length; i++) {
+    var chart = charts[i];
+    var cursor = chart.cursor;
 
-    let point = { x: syncWithCursor.point.x, y: 0 };
+    var point = { x: syncWithCursor.point.x, y: 0 };
 
     if (cursor != syncWithCursor) {
       cursor.triggerMove(point);
@@ -184,9 +193,9 @@ function syncCursors(syncWithCursor) {
 
 
 function syncDateAxes(syncWithAxis) {
-  for (let i = 0; i < charts.length; i++) {
-    let chart = charts[i];
-    let dateAxis = chart.xAxes.getIndex(0);
+  for (var i = 0; i < charts.length; i++) {
+    var chart = charts[i];
+    var dateAxis = chart.xAxes.getIndex(0);
     if (dateAxis != syncWithAxis) {
       dateAxis.events.disableType("selectionextremeschanged");
       dateAxis.start = syncWithAxis.start;

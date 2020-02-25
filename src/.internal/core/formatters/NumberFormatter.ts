@@ -17,6 +17,7 @@ import * as $strings from "../utils/Strings";
 import * as $object from "../utils/Object";
 import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
+import * as $math from "../utils/Math";
 
 /**
  * @ignore
@@ -443,15 +444,15 @@ export class NumberFormatter extends BaseObject {
 			}
 		}
 		else if (mods.indexOf("%") !== -1) {
-			let ol = value.toString().length;
+			let ol = $math.min(value.toString().length + 2, 21);
 			value *= 100;
-			value = parseFloat(value.toPrecision(ol + 2));
+			value = parseFloat(value.toPrecision(ol));
 			suffix = "%";
 		}
 		else if (mods.indexOf("‰") !== -1) {
-			let ol = value.toString().length;
+			let ol = $math.min(value.toString().length + 3, 21);
 			value *= 1000;
-			value = parseFloat(value.toPrecision(ol + 3));
+			value = parseFloat(value.toPrecision(ol));
 			suffix = "‰";
 		}
 
@@ -587,7 +588,7 @@ export class NumberFormatter extends BaseObject {
 		if (applied) {
 			newvalue = parseFloat(
 				newvalue.toPrecision(
-					k.toString().length + Math.floor(newvalue).toString().replace(/[^0-9]*/g, "").length
+					$math.min(k.toString().length + Math.floor(newvalue).toString().replace(/[^0-9]*/g, "").length, 21)
 				)
 			);
 		}

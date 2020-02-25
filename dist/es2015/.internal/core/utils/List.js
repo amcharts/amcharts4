@@ -202,18 +202,29 @@ export { ListGrouper };
  */
 var ListDisposer = /** @class */ (function (_super) {
     __extends(ListDisposer, _super);
-    function ListDisposer(list) {
+    function ListDisposer(list, disposeOnRemove) {
+        if (disposeOnRemove === void 0) { disposeOnRemove = true; }
         var _this = this;
-        var disposer = list.events.on("removed", function (x) {
-            x.oldValue.dispose();
-        }, undefined, false);
-        _this = _super.call(this, function () {
-            disposer.dispose();
-            // TODO clear the list ?
-            $iter.each(list.iterator(), function (x) {
-                x.dispose();
-            });
-        }) || this;
+        if (disposeOnRemove) {
+            var disposer_1 = list.events.on("removed", function (x) {
+                x.oldValue.dispose();
+            }, undefined, false);
+            _this = _super.call(this, function () {
+                disposer_1.dispose();
+                // TODO clear the list ?
+                $iter.each(list.iterator(), function (x) {
+                    x.dispose();
+                });
+            }) || this;
+        }
+        else {
+            _this = _super.call(this, function () {
+                // TODO clear the list ?
+                $iter.each(list.iterator(), function (x) {
+                    x.dispose();
+                });
+            }) || this;
+        }
         return _this;
     }
     return ListDisposer;

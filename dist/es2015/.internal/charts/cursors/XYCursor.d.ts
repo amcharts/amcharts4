@@ -59,11 +59,11 @@ export interface IXYCursorProperties extends ICursorProperties {
      */
     maxPanOut?: number;
     /**
-     * Specifies to which series cursor lines should be snapped. Works when one
-     * of the axis is `DateAxis` or `CategoryAxis`. Won't work if both axes are
-     * `ValueAxis`.
+     * Specifies to which series cursor lines should be snapped.
+     *
+     * Can be a single series instance or an array of series.
      */
-    snapToSeries?: XYSeries;
+    snapToSeries?: XYSeries | XYSeries[];
     /**
      * If set to `true` this will hide series tooltips when selecting with cursor.
      *
@@ -149,7 +149,7 @@ export declare class XYCursor extends Cursor {
      * A reference to chart cursor belongs to.
      */
     _chart: XYChart;
-    protected _snapToDisposer: IDisposer;
+    protected _snapToDisposers: IDisposer[];
     /**
      * Constructor
      */
@@ -390,22 +390,23 @@ export declare class XYCursor extends Cursor {
         [index: string]: any;
     }): void;
     /**
-     * Specifies to which series cursor lines should be snapped. Works when one
-     * of the axis is `DateAxis` or `CategoryAxis`.
+     * Specifies to which series cursor lines should be snapped.
      *
-     * @param {XYSeries}
+     * Can be a single series instance or an array of series.
+     *
+     * @param {XYSeries | XYSeries[]}
      */
     /**
-    * @return {XYSeries}
+    * @return {XYSeries | XYSeries[]}
     */
-    snapToSeries: XYSeries;
+    snapToSeries: XYSeries | XYSeries[];
     /**
      * [handleSnap description]
      *
      * @ignore
      * @todo Description
      */
-    handleSnap(): void;
+    handleSnap(series: XYSeries): void;
     /**
      * Destroys this object and all related data.
      */

@@ -216,6 +216,7 @@ export class XYChartScrollbar extends Scrollbar {
 		let interfaceColors = new InterfaceColorSet();
 
 		let series: XYSeries = <XYSeries>sourceSeries.clone();
+		sourceSeries.scrollbarSeries = series;
 
 		if (addXAxis) {
 

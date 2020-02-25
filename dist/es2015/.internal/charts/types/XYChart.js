@@ -10,7 +10,7 @@ import { __extends } from "tslib";
  */
 import { SerialChart, SerialChartDataItem } from "./SerialChart";
 import { Container } from "../../core/Container";
-import { List } from "../../core/utils/List";
+import { List, ListDisposer } from "../../core/utils/List";
 import { Color } from "../../core/utils/Color";
 import { ValueAxis } from "../axes/ValueAxis";
 import { DateAxis } from "../axes/DateAxis";
@@ -706,6 +706,7 @@ var XYChart = /** @class */ (function (_super) {
                 this._xAxes = new List();
                 this._xAxes.events.on("inserted", this.processXAxis, this, false);
                 this._xAxes.events.on("removed", this.handleAxisRemoval, this, false);
+                this._disposers.push(new ListDisposer(this._xAxes, false));
             }
             return this._xAxes;
         },
@@ -733,6 +734,7 @@ var XYChart = /** @class */ (function (_super) {
                 this._yAxes = new List();
                 this._yAxes.events.on("inserted", this.processYAxis, this, false);
                 this._yAxes.events.on("removed", this.handleAxisRemoval, this, false);
+                this._disposers.push(new ListDisposer(this._yAxes, false));
             }
             return this._yAxes;
         },
@@ -841,47 +843,84 @@ var XYChart = /** @class */ (function (_super) {
                 x: xPosition_1,
                 y: yPosition_1
             });
-            var exceptAxis = void 0;
+            var exceptAxes_1 = [];
             var snapToSeries = cursor.snapToSeries;
-            if (snapToSeries) {
-                if (snapToSeries.baseAxis == snapToSeries.xAxis) {
-                    exceptAxis = snapToSeries.yAxis;
+            if (snapToSeries && !cursor.downPoint) {
+                if (snapToSeries instanceof XYSeries) {
+                    snapToSeries = [snapToSeries];
                 }
-                if (snapToSeries.baseAxis == snapToSeries.yAxis) {
-                    exceptAxis = snapToSeries.xAxis;
-                }
-                var xAxis_1 = snapToSeries.xAxis;
-                var yAxis_1 = snapToSeries.yAxis;
-                if (xAxis_1 instanceof ValueAxis && !(xAxis_1 instanceof DateAxis) && yAxis_1 instanceof ValueAxis && !(yAxis_1 instanceof DateAxis)) {
-                    var closestDataItem_1;
-                    var minDistance_1 = Infinity;
-                    snapToSeries.dataItems.each(function (dataItem) {
-                        //let xxPosition = xAxis.toAxisPosition(xPosition);
-                        //let yyPosition = yAxis.toAxisPosition(xPosition);
-                        var dxPosition = xAxis_1.toGlobalPosition(xAxis_1.getPositionX(dataItem, "valueX")) * xAxis_1.axisFullLength;
-                        var dyPosition = yAxis_1.toGlobalPosition(yAxis_1.getPositionY(dataItem, "valueY")) * yAxis_1.axisFullLength;
-                        var distance = Math.sqrt(Math.pow(xPosition_1 * xAxis_1.axisFullLength - dxPosition, 2) + Math.pow(yPosition_1 * yAxis_1.axisFullLength - dyPosition, 2));
-                        if (distance < minDistance_1) {
-                            minDistance_1 = distance;
-                            closestDataItem_1 = dataItem;
+                var dataItems_1 = [];
+                $array.each(snapToSeries, function (snpSeries) {
+                    var xAxis = snpSeries.xAxis;
+                    var yAxis = snpSeries.yAxis;
+                    if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis) && yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
+                        snpSeries.dataItems.each(function (dataItem) {
+                            dataItems_1.push(dataItem);
+                        });
+                        $array.move(exceptAxes_1, snpSeries.yAxis);
+                        $array.move(exceptAxes_1, snpSeries.xAxis);
+                    }
+                    else {
+                        if (snpSeries.baseAxis == snpSeries.xAxis) {
+                            $array.move(exceptAxes_1, snpSeries.yAxis);
+                            dataItems_1.push(xAxis.getSeriesDataItem(snpSeries, xAxis.toAxisPosition(xPosition_1)));
+                        }
+                        if (snpSeries.baseAxis == snpSeries.yAxis) {
+                            $array.move(exceptAxes_1, snpSeries.xAxis);
+                            dataItems_1.push(yAxis.getSeriesDataItem(snpSeries, yAxis.toAxisPosition(yPosition_1)));
+                        }
+                    }
+                });
+                var closestDataItem_1 = this.getClosest(dataItems_1, xPosition_1, yPosition_1);
+                if (closestDataItem_1) {
+                    this.series.each(function (series) {
+                        var closestSeries = closestDataItem_1.component;
+                        if (series != closestSeries) {
+                            series.hideTooltip();
+                            if (series.xAxis != closestSeries.xAxis) {
+                                series.xAxis.hideTooltip();
+                            }
+                            if (series.yAxis != closestSeries.yAxis) {
+                                series.yAxis.hideTooltip();
+                            }
                         }
                     });
-                    if (closestDataItem_1) {
-                        snapToSeries.showTooltipAtDataItem(closestDataItem_1);
-                    }
+                    closestDataItem_1.component.showTooltipAtDataItem(closestDataItem_1);
+                    cursor.handleSnap(closestDataItem_1.component);
                 }
             }
+            //}
             this._seriesPoints = [];
             if (this._cursorXPosition != xPosition_1) {
-                this.showAxisTooltip(this.xAxes, xPosition_1, exceptAxis);
+                this.showAxisTooltip(this.xAxes, xPosition_1, exceptAxes_1);
             }
             if (this._cursorYPosition != yPosition_1) {
-                this.showAxisTooltip(this.yAxes, yPosition_1, exceptAxis);
+                this.showAxisTooltip(this.yAxes, yPosition_1, exceptAxes_1);
             }
             if (this.arrangeTooltips) {
                 this.sortSeriesTooltips(this._seriesPoints);
             }
         }
+    };
+    XYChart.prototype.getClosest = function (dataItems, xPosition, yPosition) {
+        var minDistance = Infinity;
+        var closestDataItem;
+        $array.each(dataItems, function (dataItem) {
+            if (dataItem) {
+                var xAxis = dataItem.component.xAxis;
+                var yAxis = dataItem.component.yAxis;
+                var xField = dataItem.component.xField;
+                var yField = dataItem.component.yField;
+                var dxPosition = xAxis.toGlobalPosition(xAxis.getPositionX(dataItem, xField, dataItem.locations[xField], "valueX"));
+                var dyPosition = yAxis.toGlobalPosition(yAxis.getPositionY(dataItem, yField, dataItem.locations[yField], "valueY"));
+                var distance = Math.sqrt(Math.pow(xPosition - dxPosition, 2) + Math.pow(yPosition - dyPosition, 2));
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestDataItem = dataItem;
+                }
+            }
+        });
+        return closestDataItem;
     };
     /**
      * Hides all cursor-related tooltips when the cursor itself is hidden.
@@ -1076,7 +1115,7 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.showAxisTooltip = function (axes, position, except) {
         var _this = this;
         $iter.each(axes.iterator(), function (axis) {
-            if (axis != except) {
+            if (!except || except.indexOf(axis) == -1) {
                 if (_this.dataItems.length > 0 || axis.dataItems.length > 0) {
                     axis.showTooltipAtPosition(position);
                 }

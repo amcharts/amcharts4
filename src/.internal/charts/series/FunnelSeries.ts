@@ -20,6 +20,7 @@ import { SlicedChart } from "../types/SlicedChart";
 import * as $math from "../../core/utils/Math";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
+import * as $array from "../../core/utils/Array";
 import { percent } from "../../core/utils/Percent";
 import { Disposer } from "../../core/utils/Disposer";
 import { Orientation } from "../../core/defs/Orientation";
@@ -444,7 +445,7 @@ export class FunnelSeries extends PercentSeries {
 	 * @param dataItem  Data item
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
-		if ($type.hasValue(dataItem.value)) {
+		//if ($type.hasValue(dataItem.value)) {
 			// FunnelSlice
 			let slice = dataItem.slice;
 			slice.orientation = this.orientation;
@@ -458,7 +459,17 @@ export class FunnelSeries extends PercentSeries {
 			tick.slice = slice;
 			tick.label = label;
 
-			this.decorateSlice(dataItem);
+			if ($type.hasValue(dataItem.value)) {
+				this.decorateSlice(dataItem);
+				$array.each(dataItem.sprites, (sprite)=>{
+					sprite.__disabled = false;
+				})				
+			}
+			else{
+				$array.each(dataItem.sprites, (sprite)=>{
+					sprite.__disabled = true;
+				})
+			}
 
 			if (dataItem.index == this.dataItems.length - 1) {
 				sliceLink.disabled = true;
@@ -468,7 +479,7 @@ export class FunnelSeries extends PercentSeries {
 			super.validateDataElement(dataItem);
 
 			sliceLink.fill = slice.fill;			
-		}
+		//}
 	}
 
 	/**

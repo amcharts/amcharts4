@@ -918,6 +918,11 @@ export class XYSeries extends Series {
 	protected _propertiesChanged: boolean = false;
 
 	/**
+	 * If this series was used to create a series for scrollbar, this is a reference to it.
+	 */
+	public scrollbarSeries: this;
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -1538,6 +1543,25 @@ export class XYSeries extends Series {
 	}
 
 	/**
+	 * Adds one or several (array) of data items to the existing data.
+	 *
+	 * @param rawDataItem One or many raw data item objects
+	 */
+	public addData(rawDataItem: Object | Object[], removeCount?: number): void {
+		super.addData(rawDataItem, removeCount);
+		if (this.scrollbarSeries) {
+			this.scrollbarSeries.addData(rawDataItem, removeCount);
+		}
+	}
+
+	protected setData(value: any[]) {
+		super.setData(value);
+		if (this.scrollbarSeries) {
+			this.scrollbarSeries.setData(value);
+		}		
+	}	
+
+	/**
 	 * Makes the chart use particular data set.
 	 *
 	 * If `id` is not provided or there is no such data set, main data will be
@@ -1809,9 +1833,9 @@ export class XYSeries extends Series {
 	 * @see {@link Tooltip}
 	 */
 	public hideTooltip() {
+		this._prevTooltipDataItem = undefined;
 		super.hideTooltip();
 		this.returnBulletDefaultState();
-		this._prevTooltipDataItem = undefined;
 	}
 
 
@@ -1890,7 +1914,6 @@ export class XYSeries extends Series {
 					let tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, this.getAdjustedXLocation(dataItem, tooltipXField), this.getAdjustedYLocation(dataItem, tooltipYField));
 
 					if (tooltipPoint) {
-
 						this.tooltipX = tooltipPoint.x;
 						this.tooltipY = tooltipPoint.y;
 
@@ -1951,7 +1974,6 @@ export class XYSeries extends Series {
 			}
 		}
 	}
-
 
 	protected shouldCreateBullet(dataItem: this["_dataItem"], bulletTemplate: Bullet): boolean {
 		// use series xField/yField if bullet doesn't have fields set

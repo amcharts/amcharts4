@@ -3,56 +3,9 @@
  *
  * Locale: ko_KR
  * Language: Korean
- * Author: Bjorn Svensson
+ * Author: Bjorn Svensson, Taek-In Jeong
  *
  * Follow instructions in [on this page](https://www.amcharts.com/docs/v4/tutorials/creating-translations/) to make corrections or add new translations.
- *
- * ---
- * Edit but leave the header section above this line. You can remove any
- * subsequent comment sections.
- * ---
- *
- * Use this file as a template to create translations. Leave the key part in
- * English intact. Fill the value with a translation.
- *
- * Empty string means no translation, so default "International English"
- * will be used.
- *
- * If you need the translation to literally be an empty string, use `null`
- * instead.
- *
- * IMPORTANT:
- * When translating make good effort to keep the translation length
- * at least the same chartcount as the English, especially for short prompts.
- *
- * Having significantly longer prompts may distort the actual charts.
- *
- * NOTE:
- * Some prompts - like months or weekdays - come in two versions: full and
- * shortened.
- *
- * If there's no official shortened version of these in your language, and it
- * would not be possible to invent such short versions that don't seem weird
- * to native speakers of that language, fill those with the same as full
- * version.
- *
- * PLACEHOLDERS:
- * Some prompts have placeholders like "%1". Those will be replaced by actual
- * values during translation and should be retained in the translated prompts.
- *
- * Placeholder positions may be changed to better suit structure of the
- * sentence.
- *
- * For example "From %1 to %2", when actually used will replace "%1" with an
- * actual value representing range start, and "%2" will be replaced by end
- * value.
- *
- * E.g. in a Scrollbar for Value axis "From %1 to %2" will become
- * "From 100 to 200". You may translate "From" and "to", as well as re-arrange
- * the order of the prompt itself, but make sure the "%1" and "%2" remain, in
- * places where they will make sense.
- *
- * Save the file as language_LOCALE, i.e. `en_GB.ts`, `fr_FR.ts`, etc.
  */
 export default {
     // Number formatting options.
@@ -100,6 +53,9 @@ export default {
     //
     // This will be used when formatting date/time for particular granularity,
     // e.g. "_date_hour" will be shown whenever we need to show time as hours.
+    // 
+    // "date" is used as in default date format when showing standalone dates.
+    "_date": "yyyy-MM-dd",
     "_date_millisecond": "mm:ss SSS",
     "_date_second": "HH:mm:ss",
     "_date_minute": "HH:mm",
@@ -249,17 +205,17 @@ export default {
     // day, like in default English translation, if we pass in 2, we will receive
     // "nd" back.
     "_dateOrd": function (day) {
-        var res = "th";
+        var res = "일";
         if ((day < 11) || (day > 13)) {
             switch (day % 10) {
                 case 1:
-                    res = "st";
+                    res = "일";
                     break;
                 case 2:
-                    res = "nd";
+                    res = "일";
                     break;
                 case 3:
-                    res = "rd";
+                    res = "일";
                     break;
             }
         }
@@ -267,14 +223,14 @@ export default {
     },
     // Various chart controls.
     // Shown as a tooltip on zoom out button.
-    "Zoom Out": "확대",
+    "Zoom Out": "축소",
     // Timeline buttons
-    "Play": "재생",
-    "Stop": "경유지",
+    "Play": "시작",
+    "Stop": "정지",
     // Chart's Legend screen reader title.
     "Legend": "범례",
     // Legend's item screen reader indicator.
-    "Click, tap or press ENTER to toggle": "",
+    "Click, tap or press ENTER to toggle": "켜고 끄려면 클릭, 탭 혹은 엔터를 눌러주세요.",
     // Shown when the chart is busy loading something.
     "Loading": "불러오는 중",
     // Shown as the first button in the breadcrumb navigation, e.g.:
@@ -283,35 +239,36 @@ export default {
     // Chart types.
     // Those are used as default screen reader titles for the main chart element
     // unless developer has set some more descriptive title.
-    "Chart": "",
-    "Serial chart": "",
-    "X/Y chart": "",
-    "Pie chart": "",
-    "Gauge chart": "",
-    "Radar chart": "",
-    "Sankey diagram": "",
-    "Flow diagram": "",
-    "Chord diagram": "",
-    "TreeMap chart": "",
-    "Sliced chart": "",
+    "Chart": "차트",
+    "Serial chart": "시리얼 차트",
+    "X/Y chart": "X/Y 차트",
+    "Pie chart": "파이 차트",
+    "Gauge chart": "게이지 차트",
+    "Radar chart": "레이더 차트",
+    "Sankey diagram": "생키 다이어그램",
+    "Flow diagram": "플로우 다이어그램",
+    "Chord diagram": "코드 다이어그램",
+    "TreeMap chart": "트리맵 차트",
+    "Force directed tree": "포스 디렉티드 트리",
+    "Sliced chart": "슬라이스 차트",
     // Series types.
     // Used to name series by type for screen readers if they do not have their
     // name set.
-    "Series": "",
-    "Candlestick Series": "",
-    "OHLC Series": "",
-    "Column Series": "",
-    "Line Series": "",
-    "Pie Slice Series": "",
-    "Funnel Series": "",
-    "Pyramid Series": "",
-    "X/Y Series": "",
+    "Series": "시리즈",
+    "Candlestick Series": "캔들스틱 시리즈",
+    "OHLC Series": "OHLC 시리즈",
+    "Column Series": "컬럼 시리즈",
+    "Line Series": "라인 시리즈",
+    "Pie Slice Series": "파이 슬라이스 시리즈",
+    "Funnel Series": "퍼널 시리즈",
+    "Pyramid Series": "피라미드 시리즈",
+    "X/Y Series": "X/Y 시리즈",
     // Map-related stuff.
-    "Map": "",
-    "Press ENTER to zoom in": "",
-    "Press ENTER to zoom out": "",
-    "Use arrow keys to zoom in and out": "",
-    "Use plus and minus keys on your keyboard to zoom in and out": "",
+    "Map": "맵",
+    "Press ENTER to zoom in": "확대하려면 엔터를 누르세요.",
+    "Press ENTER to zoom out": "축소하려면 엔터를 누르세요.",
+    "Use arrow keys to zoom in and out": "확대 혹은 축소하려면 방향키를 이용하세요.",
+    "Use plus and minus keys on your keyboard to zoom in and out": "확대 혹은 축소하려면 키보드의 +/- 키를 이용하세요.",
     // Export-related stuff.
     // These prompts are used in Export menu labels.
     //
@@ -322,19 +279,19 @@ export default {
     //
     // Leave actual format untranslated, unless you absolutely know that they
     // would convey more meaning in some other way.
-    "Export": "인쇄",
-    "Image": "Image(이미지)",
+    "Export": "내보내기",
+    "Image": "이미지",
     "Data": "데이터",
     "Print": "인쇄",
-    "Click, tap or press ENTER to open": "",
-    "Click, tap or press ENTER to print.": "",
-    "Click, tap or press ENTER to export as %1.": "",
-    'To save the image, right-click this link and choose "Save picture as..."': "",
-    'To save the image, right-click thumbnail on the left and choose "Save picture as..."': "",
-    "(Press ESC to close this message)": "",
-    "Image Export Complete": "",
-    "Export operation took longer than expected. Something might have gone wrong.": "",
-    "Saved from": "",
+    "Click, tap or press ENTER to open": "열려면, 클릭, 탭 또는 엔터를 누르세요.",
+    "Click, tap or press ENTER to print.": "출력하려면, 클릭, 탭 또는 엔터를 누르세요.",
+    "Click, tap or press ENTER to export as %1.": "%1(으)로 내보내려면 클릭, 탭 또는 엔터를 누르세요.",
+    'To save the image, right-click this link and choose "Save picture as..."': '이미지를 저장하려면, 이 링크를 마우스로 우클릭하여 "다른 이름으로 저장"을 선택하세요.',
+    'To save the image, right-click thumbnail on the left and choose "Save picture as..."': '이미지를 저장하려면, 좌측 썸네일을 마우스로 우클릭하여 "다른 이름으로 저장"을 선택하세요.',
+    "(Press ESC to close this message)": "(이 메시지를 끄려면 ESC를 누르세요.)",
+    "Image Export Complete": "이미지 내보내기 완료",
+    "Export operation took longer than expected. Something might have gone wrong.": "내보내기가 지연되고 있습니다. 문제가 없는지 확인이 필요합니다.",
+    "Saved from": "다음으로부터 저장됨: ",
     "PNG": "",
     "JPG": "",
     "GIF": "",
@@ -353,21 +310,21 @@ export default {
     // Prompts change in relation to whether Scrollbar is vertical or horizontal.
     //
     // The final section is used to indicate the current range of selection.
-    "Use TAB to select grip buttons or left and right arrows to change selection": "",
-    "Use left and right arrows to move selection": "",
-    "Use left and right arrows to move left selection": "",
-    "Use left and right arrows to move right selection": "",
-    "Use TAB select grip buttons or up and down arrows to change selection": "",
-    "Use up and down arrows to move selection": "",
-    "Use up and down arrows to move lower selection": "",
-    "Use up and down arrows to move upper selection": "",
-    "From %1 to %2": "시작 %1 종료 %2",
-    "From %1": "시작 %1",
-    "To %1": "종료 %1",
+    "Use TAB to select grip buttons or left and right arrows to change selection": "선택 범위를 변경하려면 선택 버튼이나 좌우 화살표를 이용하세요.",
+    "Use left and right arrows to move selection": "선택 범위를 움직이려면 좌우 화살표를 이용하세요.",
+    "Use left and right arrows to move left selection": "왼쪽 선택 범위를 움직이려면 좌우 화살표를 이용하세요.",
+    "Use left and right arrows to move right selection": "오른쪽 선택 범위를 움직이려면 좌우 화살표를 이용하세요.",
+    "Use TAB select grip buttons or up and down arrows to change selection": "선택 범위를 변경하려면 선택 버튼이나 상하 화살표를 이용하세요.",
+    "Use up and down arrows to move selection": "선택 범위를 움직이려면 상하 화살표를 이용하세요.",
+    "Use up and down arrows to move lower selection": "하단 선택 범위를 움직이려면 상하 화살표를 이용하세요.",
+    "Use up and down arrows to move upper selection": "상단 선택 범위를 움직이려면 상하 화살표를 이용하세요.",
+    "From %1 to %2": "%1 부터 %2 까지",
+    "From %1": "%1 부터",
+    "To %1": "%1 까지",
     // Data loader-related.
-    "No parser available for file: %1": "",
-    "Error parsing file: %1": "",
-    "Unable to load file: %1": "",
-    "Invalid date": "",
+    "No parser available for file: %1": "파일 파싱 불가능: %1",
+    "Error parsing file: %1": "파일 파싱 오류: %1",
+    "Unable to load file: %1": "파일 로드 불가능: %1",
+    "Invalid date": "날짜 올바르지 않음",
 };
 //# sourceMappingURL=ko_KR.js.map

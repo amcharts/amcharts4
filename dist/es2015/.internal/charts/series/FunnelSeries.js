@@ -16,6 +16,7 @@ import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
+import * as $array from "../../core/utils/Array";
 import { percent } from "../../core/utils/Percent";
 import { Disposer } from "../../core/utils/Disposer";
 /**
@@ -265,24 +266,34 @@ var FunnelSeries = /** @class */ (function (_super) {
      * @param dataItem  Data item
      */
     FunnelSeries.prototype.validateDataElement = function (dataItem) {
+        //if ($type.hasValue(dataItem.value)) {
+        // FunnelSlice
+        var slice = dataItem.slice;
+        slice.orientation = this.orientation;
+        var sliceLink = dataItem.sliceLink;
+        sliceLink.orientation = this.orientation;
+        var tick = dataItem.tick;
+        var label = dataItem.label;
+        tick.slice = slice;
+        tick.label = label;
         if ($type.hasValue(dataItem.value)) {
-            // FunnelSlice
-            var slice = dataItem.slice;
-            slice.orientation = this.orientation;
-            var sliceLink = dataItem.sliceLink;
-            sliceLink.orientation = this.orientation;
-            var tick = dataItem.tick;
-            var label = dataItem.label;
-            tick.slice = slice;
-            tick.label = label;
             this.decorateSlice(dataItem);
-            if (dataItem.index == this.dataItems.length - 1) {
-                sliceLink.disabled = true;
-            }
-            // do this at the end, otherwise bullets won't be positioned properly
-            _super.prototype.validateDataElement.call(this, dataItem);
-            sliceLink.fill = slice.fill;
+            $array.each(dataItem.sprites, function (sprite) {
+                sprite.__disabled = false;
+            });
         }
+        else {
+            $array.each(dataItem.sprites, function (sprite) {
+                sprite.__disabled = true;
+            });
+        }
+        if (dataItem.index == this.dataItems.length - 1) {
+            sliceLink.disabled = true;
+        }
+        // do this at the end, otherwise bullets won't be positioned properly
+        _super.prototype.validateDataElement.call(this, dataItem);
+        sliceLink.fill = slice.fill;
+        //}
     };
     /**
      * [decorateSlice description]

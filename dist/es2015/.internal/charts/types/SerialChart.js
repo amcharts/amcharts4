@@ -124,7 +124,7 @@ var SerialChart = /** @class */ (function (_super) {
                 this._series = new ListTemplate(this.createSeries());
                 this._series.events.on("inserted", this.handleSeriesAdded, this, false);
                 this._series.events.on("removed", this.handleSeriesRemoved, this, false);
-                this._disposers.push(new ListDisposer(this._series));
+                this._disposers.push(new ListDisposer(this._series, false));
                 this._disposers.push(this._series.template);
             }
             return this._series;
@@ -141,6 +141,10 @@ var SerialChart = /** @class */ (function (_super) {
         });
         if (series.autoDispose) {
             series.dispose();
+        }
+        else {
+            series.parent = undefined;
+            series.bulletsContainer.parent = undefined;
         }
         //this.feedLegend();
         if (this.legend) {

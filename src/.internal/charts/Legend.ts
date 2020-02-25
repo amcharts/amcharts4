@@ -979,6 +979,8 @@ export class Legend extends Component {
 				dataContext.visible = true;
 			}
 
+			this.svgContainer.readerAlert(this.language.translate("%1 shown", this.language.locale, item.label.readerTitle));
+
 		}
 		else {
 			item.itemContainer.isActive = true;
@@ -990,6 +992,7 @@ export class Legend extends Component {
 				dataContext.visible = false;
 			}
 
+			this.svgContainer.readerAlert(this.language.translate("%1 hidden", this.language.locale, item.label.readerTitle));
 			item.color = new InterfaceColorSet().getFor("disabledBackground");
 		}
 

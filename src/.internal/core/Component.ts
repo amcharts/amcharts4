@@ -159,17 +159,32 @@ export interface IComponentEvents extends IContainerEvents {
 	rangechangeended: {};
 
 	/**
-	 * Invoked when start position changes
+	 * Invoked when start position changes.
+	 *
+	 * Please note that `startchanged` event is dispatched immediately after
+	 * zoom occurs, so some related properties (e.g. `minZoomed` on [[ValueAxis]])
+	 * might not be yet updated.
+	 *
+	 * Use `startendchanged` event instead if you need to rely on updated
+	 * zoom-related values.
 	 */
 	startchanged: {};
 
 	/**
 	 * Invoked when end position changes
+	 *
+	 * Please note that `endhanged` event is dispatched immediately after
+	 * zoom occurs, so some related properties (e.g. `maxZoomed` on [[ValueAxis]])
+	 * might not be yet updated.
+	 *
+	 * Use `startendchanged` event instead if you need to rely on updated
+	 * zoom-related values.
 	 */
 	endchanged: {};
 
 	/**
-	 * Invoked when start or end position changes, unlike startchanged/endchanged this event is fired not immediately but at the end of a cycle.
+	 * Invoked when start or end position changes, unlike startchanged/endchanged
+	 * this event is fired not immediately but at the end of a cycle.
 	 */
 	startendchanged: {};
 }
@@ -1276,8 +1291,8 @@ export class Component extends Container {
 		if (value && value.length > 0) {
 			this.invalidateData();
 		}
-		else { 
-			this.dispatchImmediately("beforedatavalidated"); 
+		else {
+			this.dispatchImmediately("beforedatavalidated");
 			this.dispatch("datavalidated");
 		}
 		//}

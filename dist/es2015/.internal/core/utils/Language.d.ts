@@ -154,6 +154,8 @@ export interface ILocaleProperties {
     "Legend"?: string;
     "Click, tap or press ENTER to toggle"?: string;
     "Loading"?: string;
+    "%1 shown"?: string;
+    "%1 hidden"?: string;
     "Chart"?: string;
     "Serial chart"?: string;
     "X/Y chart"?: string;
@@ -182,6 +184,7 @@ export interface ILocaleProperties {
     "Use arrow keys to zoom in and out"?: string;
     "Use plus and minus keys on your keyboard to zoom in and out"?: string;
     "Home"?: string;
+    "Zoom level changed to %1"?: string;
     "Export"?: string;
     "Image"?: string;
     "Data"?: string;

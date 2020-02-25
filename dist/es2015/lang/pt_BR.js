@@ -124,7 +124,7 @@ export default {
     },
     // Various chart controls.
     // Shown as a tooltip on zoom out button.
-    "Zoom Out": "Aumentar Zoom",
+    "Zoom Out": "Reduzir Zoom",
     // Timeline buttons
     "Play": "Play",
     "Stop": "Parar",
@@ -214,9 +214,9 @@ export default {
     "Use up and down arrows to move selection": "Use as setas para cima ou para baixo para mover a seleção",
     "Use up and down arrows to move lower selection": "Use as setas para cima ou para baixo para mover a seleção de baixo",
     "Use up and down arrows to move upper selection": "Use as setas para cima ou para baixo para mover a seleção de cima",
-    "From %1 to %2": "De %1 para %2",
+    "From %1 to %2": "De %1 até %2",
     "From %1": "De %1",
-    "To %1": "Para %1",
+    "To %1": "Até %1",
     // Data loader-related.
     "No parser available for file: %1": "Não há um interpretador para este arquivo: %1",
     "Error parsing file: %1": "Erro analizando o arquivo: %1",

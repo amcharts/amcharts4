@@ -10,6 +10,7 @@ import * as $strings from "../utils/Strings";
 import * as $object from "../utils/Object";
 import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
+import * as $math from "../utils/Math";
 /**
  * NumberFormatter class. Formats numbers according to specified formats.
  *
@@ -345,15 +346,15 @@ var NumberFormatter = /** @class */ (function (_super) {
             }
         }
         else if (mods.indexOf("%") !== -1) {
-            var ol = value.toString().length;
+            var ol = $math.min(value.toString().length + 2, 21);
             value *= 100;
-            value = parseFloat(value.toPrecision(ol + 2));
+            value = parseFloat(value.toPrecision(ol));
             suffix = "%";
         }
         else if (mods.indexOf("‰") !== -1) {
-            var ol = value.toString().length;
+            var ol = $math.min(value.toString().length + 3, 21);
             value *= 1000;
-            value = parseFloat(value.toPrecision(ol + 3));
+            value = parseFloat(value.toPrecision(ol));
             suffix = "‰";
         }
         // Round to passive
@@ -469,7 +470,7 @@ var NumberFormatter = /** @class */ (function (_super) {
             applied = true;
         }
         if (applied) {
-            newvalue = parseFloat(newvalue.toPrecision(k.toString().length + Math.floor(newvalue).toString().replace(/[^0-9]*/g, "").length));
+            newvalue = parseFloat(newvalue.toPrecision($math.min(k.toString().length + Math.floor(newvalue).toString().replace(/[^0-9]*/g, "").length, 21)));
         }
         return [newvalue, prefix, suffix];
     };

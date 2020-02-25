@@ -549,6 +549,13 @@ export declare class Interaction extends BaseObjectEvents {
      */
     handleGlobalUp(pointer: IPointer, ev: MouseEvent | TouchEvent | undefined, cancelled?: boolean): void;
     /**
+     * Simulates all pointers being up once mouse leaves document area.
+     *
+     * @ignore Exclude from docs
+     * @param ev       Original event
+     */
+    handleDocumentLeave(ev: MouseEvent): void;
+    /**
      * Handles when [[InteractionObject]] is no longer hovered.
      *
      * @ignore Exclude from docs

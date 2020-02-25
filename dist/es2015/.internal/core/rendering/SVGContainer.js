@@ -294,6 +294,49 @@ var SVGContainer = /** @class */ (function () {
             popup.close();
         });
     };
+    Object.defineProperty(SVGContainer.prototype, "readerAlertElement", {
+        /**
+         * ==========================================================================
+         * ACCESSIBILITY STUFF
+         * ==========================================================================
+         * @hidden
+         */
+        /**
+         * A `<div>` element used as as placeholder to trigger screen alerts.
+         *
+         * @sunce 4.9.2
+         * @return Element
+         */
+        get: function () {
+            if (!$type.hasValue(this._readerAlertElement)) {
+                // Create element
+                var div = document.createElement("div");
+                div.setAttribute("role", "alert");
+                div.style.zIndex = "-100000";
+                div.style.opacity = "0";
+                this.SVGContainer.appendChild(div);
+                this._readerAlertElement = div;
+            }
+            return this._readerAlertElement;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Triggers screen reader read out a message.
+     *
+     * @since 4.9.2
+     * @param  text  Alert text
+     */
+    SVGContainer.prototype.readerAlert = function (text) {
+        this.readerAlertElement.innerHTML = text;
+    };
+    /**
+     * ==========================================================================
+     * OTHER STUFF
+     * ==========================================================================
+     * @hidden
+     */
     SVGContainer.prototype.checkTransform = function (div) {
         if (window.getComputedStyle) {
             if (div && div.style) {

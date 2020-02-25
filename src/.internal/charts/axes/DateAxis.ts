@@ -2460,20 +2460,25 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				closestDate = new Date(closestDate.getTime() + this.baseDuration * tooltipLocation);
 				position = this.dateToPosition(closestDate);
 
-				this.series.each((series) => {
+				if (this.chart.cursor && this.chart.cursor.snapToSeries) {
+					//void
+				}
+				else {
+					this.series.each((series) => {
 
-					let dataItem = series.dataItemsByAxis.getKey(this.uid).getKey(closestTime + series.currentDataSetId);
-					let point = series.showTooltipAtDataItem(dataItem);
-					if (point) {
-						this.chart._seriesPoints.push({ series: series, point: point });
-					}
-					else {
-						// check, otherwise column tooltip will be hidden
-						if (series.tooltipText || series.tooltipHTML) {
-							series.hideTooltip();
+						let dataItem = series.dataItemsByAxis.getKey(this.uid).getKey(closestTime + series.currentDataSetId);
+						let point = series.showTooltipAtDataItem(dataItem);
+						if (point) {
+							this.chart._seriesPoints.push({ series: series, point: point });
 						}
-					}
-				})
+						else {
+							// check, otherwise column tooltip will be hidden
+							if (series.tooltipText || series.tooltipHTML) {
+								series.hideTooltip();
+							}
+						}
+					})
+				}
 
 				//this.chart.sortSeriesTooltips(seriesPoints);
 			}

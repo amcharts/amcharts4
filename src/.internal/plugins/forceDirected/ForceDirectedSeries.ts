@@ -308,7 +308,7 @@ export class ForceDirectedSeriesDataItem extends SeriesDataItem {
 	/**
 	 * An array of id's of other nodes outside of the child/parent tree to link
 	 * with.
-	 * 
+	 *
 	 * @param  value  Link list
 	 */
 	public set linkWith(value: string[]) {
@@ -345,7 +345,7 @@ export class ForceDirectedSeriesDataItem extends SeriesDataItem {
 	 * via data.
 	 *
 	 * To toggle actual node, use its `isActive` property instead.
-	 * 
+	 *
 	 * @param  value  Collapsed?
 	 */
 	public set collapsed(value: boolean) {
@@ -506,14 +506,14 @@ export interface IForceDirectedSeriesProperties extends ISeriesProperties {
 
 	/**
 	 * Smallest possible radius in pixels of the node circle.
-	 * 
+	 *
 	 * @default 5
 	 */
 	minRadius?: number | Percent;
 
 	/**
 	 * Biggest possible radius in pixels of the node circle.
-	 * 
+	 *
 	 * @default 70
 	 */
 	maxRadius?: number | Percent;
@@ -554,6 +554,15 @@ export interface IForceDirectedSeriesProperties extends ISeriesProperties {
 	 * @since 4.9.0
 	 */
 	dragFixedNodes?: boolean;
+
+	/**
+	 * The bigger the number the more slowly the nodes will move. Think of it as
+	 * friction.
+	 * 
+	 * @default 0.4
+	 * @since 4.9.2
+	 */
+	velocityDecay?:number;
 }
 
 /**
@@ -674,6 +683,8 @@ export class ForceDirectedSeries extends Series {
 	 */
 	protected _collisionForce: d3force.ForceCollide<d3force.SimulationNodeDatum>;
 
+
+
 	/**
 	 * Constructor
 	 */
@@ -699,6 +710,7 @@ export class ForceDirectedSeries extends Series {
 		this.centerStrength = 0.8;
 
 		this.setPropertyValue("dragFixedNodes", false);
+		this.setPropertyValue("velocityDecay", 0.4);
 
 		this.events.on("maxsizechanged", () => {
 			this.updateRadiuses(this.dataItems);
@@ -728,7 +740,7 @@ export class ForceDirectedSeries extends Series {
 
 	/**
 	 * Returns maximum value from all supplied data items.
-	 * 
+	 *
 	 * @ignore
 	 * @param   dataItems  List of data items
 	 * @param   max        Default max
@@ -991,7 +1003,7 @@ export class ForceDirectedSeries extends Series {
 
 	/**
 	 * Handler for drag end event.
-	 * 
+	 *
 	 * @ignore
 	 */
 	public nodeDragEnded(): void {
@@ -999,7 +1011,7 @@ export class ForceDirectedSeries extends Series {
 	}
 	/**
 	 * Handler for drag start event.
-	 * 
+	 *
 	 * @ignore
 	 */
 	public nodeDragStarted(): void {
@@ -1009,7 +1021,7 @@ export class ForceDirectedSeries extends Series {
 
 	/**
 	 * Resets positions of whole tree.
-	 * 
+	 *
 	 * @ignore
 	 */
 	public restartSimulation(): void {
@@ -1057,7 +1069,7 @@ export class ForceDirectedSeries extends Series {
 
 	/**
 	 * Initializes node.
-	 * 
+	 *
 	 * @ignore
 	 */
 	public initNode(dataItem: ForceDirectedSeriesDataItem): void {
@@ -1211,7 +1223,7 @@ export class ForceDirectedSeries extends Series {
 
 	/**
 	 * A list of nodes in series.
-	 * 
+	 *
 	 * @return  Node list
 	 */
 	public get nodes(): ListTemplate<this["_node"]> {
@@ -1229,7 +1241,7 @@ export class ForceDirectedSeries extends Series {
 
 	/**
 	 * A list of links between nodes.
-	 * 
+	 *
 	 * @return  Link list
 	 */
 	public get links(): ListTemplate<this["_link"]> {
@@ -1260,10 +1272,10 @@ export class ForceDirectedSeries extends Series {
 
 	/**
 	 * Smallest possible radius in pixels of the node circle.
-	 * 
+	 *
 	 * If set in percent, it radius will be calculated from average width and
 	 * height of series.
-	 * 
+	 *
 	 * @default Percent(1)
 	 * @param  value  Minimum radius (px or percent)
 	 */
@@ -1280,7 +1292,7 @@ export class ForceDirectedSeries extends Series {
 
 	/**
 	 * Biggest possible radius in pixels of the node circle.
-	 * 
+	 *
 	 * If set in percent, it radius will be calculated from average width and
 	 * height of series.
 	 *
@@ -1302,7 +1314,7 @@ export class ForceDirectedSeries extends Series {
 	 * A color set to be used for nodes.
 	 *
 	 * iIt works like this:
-	 * 
+	 *
 	 * The first level with more than one node, assigns different colors to all
 	 * nodes in this list. Their child nodes inherit the color.
 	 *
@@ -1328,7 +1340,7 @@ export class ForceDirectedSeries extends Series {
 
 	/**
 	 * Number of levels to be displayed initially.
-	 * 
+	 *
 	 * @param  value  Number of levels
 	 */
 	public set maxLevels(value: number) {
@@ -1345,13 +1357,13 @@ export class ForceDirectedSeries extends Series {
 	/**
 	 * Relative strength each node pushes (or attracts) other nodes (it is
 	 * multiplied by `node.circle.radius` for big nodes to push stronger).
-	 * 
+	 *
 	 * Positive value will make nodes attract each other, while negative will
-	 * push away each other. The bigger the negative number is, the more 
+	 * push away each other. The bigger the negative number is, the more
 	 * scattered nodes will be.
 	 *
 	 * Available value range: `-XX` to `XX`.
-	 * 
+	 *
 	 * @default -15
 	 * @param  value  Body push/attrack strength
 	 */
@@ -1371,12 +1383,12 @@ export class ForceDirectedSeries extends Series {
 	/**
 	 * Relative strength each child node is pushes (or attracted) to the center
 	 * of the chart.
-	 * 
+	 *
 	 * Positive value will make nodes to be attracted to center, while negative
 	 * will push them away.
 	 *
 	 * Available value range: `-50` to `50`.
-	 * 
+	 *
 	 * @default 0.8
 	 * @param  value  Stregth of attraction to center
 	 */
@@ -1411,6 +1423,27 @@ export class ForceDirectedSeries extends Series {
 	 */
 	public get linkWithStrength(): number {
 		return this.getPropertyValue("linkWithStrength");
+	}
+
+	/**
+	 * The bigger the number the more slowly the nodes will move. Think of it as
+	 * friction.
+	 *
+	 * @since 4.9.2
+	 * @param  value  Velocity decay
+	 * @default 0.4
+	 */
+	public set velocityDecay(value: number) {
+		if (this.setPropertyValue("velocityDecay", value)) {
+			this.d3forceSimulation.velocityDecay(value);
+		}
+	}
+
+	/**
+	 * @return Velocity decay
+	 */
+	public get velocityDecay(): number {
+		return this.getPropertyValue("velocityDecay");
 	}
 
 	/**

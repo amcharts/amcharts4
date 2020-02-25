@@ -426,6 +426,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         _this.manyBodyStrength = -15;
         _this.centerStrength = 0.8;
         _this.setPropertyValue("dragFixedNodes", false);
+        _this.setPropertyValue("velocityDecay", 0.4);
         _this.events.on("maxsizechanged", function () {
             _this.updateRadiuses(_this.dataItems);
             _this.updateLinksAndNodes();
@@ -1061,6 +1062,29 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         set: function (value) {
             if (this.setPropertyValue("linkWithStrength", value)) {
                 this.restartSimulation();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ForceDirectedSeries.prototype, "velocityDecay", {
+        /**
+         * @return Velocity decay
+         */
+        get: function () {
+            return this.getPropertyValue("velocityDecay");
+        },
+        /**
+         * The bigger the number the more slowly the nodes will move. Think of it as
+         * friction.
+         *
+         * @since 4.9.2
+         * @param  value  Velocity decay
+         * @default 0.4
+         */
+        set: function (value) {
+            if (this.setPropertyValue("velocityDecay", value)) {
+                this.d3forceSimulation.velocityDecay(value);
             }
         },
         enumerable: true,

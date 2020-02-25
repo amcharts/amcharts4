@@ -1,4 +1,4 @@
-//am4core.useTheme(am4themes_animated);
+am4core.useTheme(am4themes_animated);
 
 var container = am4core.create("chartdiv", am4core.Container);
 container.width = am4core.percent(100);
@@ -14,14 +14,12 @@ container.events.on("up", function(event) {
 });
 
 
-var chartCount = 3;
 var charts = [];
 var cursorShowDisposers = [];
 
-// create chart instances
-for (var i = 0; i < chartCount; i++) {
-  makeChart();
-}
+makeChart(1);
+makeChart(10);
+makeChart(1000);
 
 initCursorListeners();
 
@@ -38,22 +36,22 @@ lastDateAxis.cursorTooltipEnabled = true;
 
 
 // generate data (although it would be possible to use one data provider for all of the charts, we would need to use different field name for each value)
-function generateData() {
+function generateData(c) {
   var data = [];
   var value = 10;
   for (var i = 1; i < 366; i++) {
     value += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-    data.push({ date: new Date(2018, 0, i), name: "name" + i, value: value });
+    data.push({ date: new Date(2018, 0, i), name: "name" + i, value: value * c });
   }
   return data;
 }
 
 // create chart
-function makeChart() {
+function makeChart(c) {
   var chart = container.createChild(am4charts.XYChart);
   charts.push(chart);
 
-  chart.data = generateData();
+  chart.data = generateData(c);
   chart.zoomOutButton.disabled = true;
   chart.padding(10, 15, 10, 15);
 
@@ -66,7 +64,7 @@ function makeChart() {
   var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
   valueAxis.tooltip.disabled = true;
   valueAxis.tooltip.disabled = true;
-  valueAxis.renderer.minWidth = 60;
+  
 
   var series = chart.series.push(new am4charts.LineSeries());
   series.dataFields.dateX = "date";
@@ -85,6 +83,16 @@ function makeChart() {
   dateAxis.events.on("selectionextremeschanged", function (event) {
     syncDateAxes(event.target);
   })
+
+  valueAxis.events.on("sizechanged", function(event){
+    var newWidth = event.target.measuredWidth;
+    for(var i = 0; i < charts.length; i++){
+      var renderer = charts[i].yAxes.getIndex(0).renderer;
+      if(renderer.measuredWidth < newWidth){
+        renderer.minWidth = newWidth;
+      }
+    }
+  })  
 }
 
 
@@ -101,9 +109,9 @@ function initCursorListeners() {
   }
 }
 
-var shownCursorChangeDisposer;
-var shownCursorZoomStartedDisposer;
-var shownCursorZoomEndedDisposer;
+var shownCursorChangeDisposer
+var shownCursorZoomStartedDisposer
+var shownCursorZoomEndedDisposer
 
 function handleShowCursor(shownCursor) {
   // disable mouse for all other cursors

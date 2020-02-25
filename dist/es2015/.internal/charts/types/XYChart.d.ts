@@ -15,7 +15,7 @@ import { Axis } from "../axes/Axis";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { AxisRendererX } from "../axes/AxisRendererX";
 import { AxisRendererY } from "../axes/AxisRendererY";
-import { XYSeries } from "../series/XYSeries";
+import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { Scrollbar, IScrollbarEvents } from "../../core/elements/Scrollbar";
 import { IRange } from "../../core/defs/IRange";
 import { XYCursor, IXYCursorEvents } from "../cursors/XYCursor";
@@ -530,6 +530,7 @@ export declare class XYChart extends SerialChart {
      * @ignore Exclude from docs
      */
     handleCursorPositionChange(): void;
+    protected getClosest(dataItems: XYSeriesDataItem[], xPosition: number, yPosition: number): XYSeriesDataItem;
     /**
      * Hides all cursor-related tooltips when the cursor itself is hidden.
      *
@@ -577,7 +578,7 @@ export declare class XYChart extends SerialChart {
      * @param axes      List of axes to show tooltip on
      * @param position  Position (px)
      */
-    showAxisTooltip(axes: List<Axis>, position: number, except?: Axis): void;
+    showAxisTooltip(axes: List<Axis>, position: number, except?: Axis[]): void;
     /**
      * Recalculates the value range for the axis taking into account zoom level & inversed.
      *

@@ -97,18 +97,18 @@ export interface IDelayedEvent {
  */
 
 
-﻿/**
- * Interaction manages all aspects of user interaction - mouse move,
- * click, hover, drag events, touch gestures.
- *
- * [[InteractionObject]] elements that want to use certain events, must attach event
- * listeners to Interaction instance.
- *
- * Interaction itself will not modify [[InteractionObject]] elements, it will be up to
- * those elements to handle interaction information received via event triggers.
- *
- * @see {@link IInteractionEvents} for a list of available events
- */
+/**
+* Interaction manages all aspects of user interaction - mouse move,
+* click, hover, drag events, touch gestures.
+*
+* [[InteractionObject]] elements that want to use certain events, must attach event
+* listeners to Interaction instance.
+*
+* Interaction itself will not modify [[InteractionObject]] elements, it will be up to
+* those elements to handle interaction information received via event triggers.
+*
+* @see {@link IInteractionEvents} for a list of available events
+*/
 export class Interaction extends BaseObjectEvents {
 
 	/**
@@ -422,6 +422,16 @@ export class Interaction extends BaseObjectEvents {
 					document,
 					this._pointerEvents.pointercancel,
 					(ev: MouseEvent) => { this.handleGlobalPointerUp(ev, true) }
+				));
+
+				this._disposers.push(addEventListener<MouseEvent | PointerEvent>(
+					document,
+					"mouseenter",
+					(ev: MouseEvent) => {
+						if (!$type.hasValue(ev.relatedTarget) && (ev.buttons == 0 || ev.which == 0)) {
+							this.handleDocumentLeave(ev);
+						}
+					}
 				));
 			}
 
@@ -1628,6 +1638,23 @@ export class Interaction extends BaseObjectEvents {
 				this.handleUp(io, pointer, ev, cancelled);
 			}
 
+		});
+
+	}
+
+	/**
+	 * Simulates all pointers being up once mouse leaves document area.
+	 *
+	 * @ignore Exclude from docs
+	 * @param ev       Original event
+	 */
+	public handleDocumentLeave(ev: MouseEvent): void {
+
+		// Process all down objects
+		$iter.each(this.downObjects.backwards().iterator(), (io) => {
+			io.downPointers.each((pointer) => {
+				this.handleUp(io, pointer, ev);
+			})
 		});
 
 	}
@@ -3223,7 +3250,7 @@ export class Interaction extends BaseObjectEvents {
 	/**
 	 * Indicates if passive mode options is supported by this browser.
 	 */
-	static get passiveSupported () {
+	static get passiveSupported() {
 
 		if (this._passiveSupported == null) {
 

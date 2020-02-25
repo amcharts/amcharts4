@@ -2016,19 +2016,24 @@ var DateAxis = /** @class */ (function (_super) {
                 }
                 closestDate_1 = new Date(closestDate_1.getTime() + this.baseDuration * tooltipLocation);
                 position = this.dateToPosition(closestDate_1);
-                this.series.each(function (series) {
-                    var dataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(closestTime_1 + series.currentDataSetId);
-                    var point = series.showTooltipAtDataItem(dataItem);
-                    if (point) {
-                        _this.chart._seriesPoints.push({ series: series, point: point });
-                    }
-                    else {
-                        // check, otherwise column tooltip will be hidden
-                        if (series.tooltipText || series.tooltipHTML) {
-                            series.hideTooltip();
+                if (this.chart.cursor && this.chart.cursor.snapToSeries) {
+                    //void
+                }
+                else {
+                    this.series.each(function (series) {
+                        var dataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(closestTime_1 + series.currentDataSetId);
+                        var point = series.showTooltipAtDataItem(dataItem);
+                        if (point) {
+                            _this.chart._seriesPoints.push({ series: series, point: point });
                         }
-                    }
-                });
+                        else {
+                            // check, otherwise column tooltip will be hidden
+                            if (series.tooltipText || series.tooltipHTML) {
+                                series.hideTooltip();
+                            }
+                        }
+                    });
+                }
                 //this.chart.sortSeriesTooltips(seriesPoints);
             }
         }

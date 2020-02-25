@@ -11,7 +11,7 @@
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "./SerialChart";
 import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { Container } from "../../core/Container";
-import { List, IListEvents } from "../../core/utils/List";
+import { List, IListEvents, ListDisposer } from "../../core/utils/List";
 import { Color } from "../../core/utils/Color";
 import { Axis } from "../axes/Axis";
 import { ValueAxis } from "../axes/ValueAxis";
@@ -1007,6 +1007,7 @@ export class XYChart extends SerialChart {
 			this._xAxes = new List<Axis<this["_xAxisRendererType"]>>();
 			this._xAxes.events.on("inserted", this.processXAxis, this, false);
 			this._xAxes.events.on("removed", this.handleAxisRemoval, this, false);
+			this._disposers.push(new ListDisposer(this._xAxes, false));
 		}
 
 		return this._xAxes;
@@ -1033,6 +1034,7 @@ export class XYChart extends SerialChart {
 			this._yAxes = new List<Axis<this["_yAxisRendererType"]>>();
 			this._yAxes.events.on("inserted", this.processYAxis, this, false);
 			this._yAxes.events.on("removed", this.handleAxisRemoval, this, false);
+			this._disposers.push(new ListDisposer(this._yAxes, false));
 		}
 
 		return this._yAxes;
@@ -1151,56 +1153,102 @@ export class XYChart extends SerialChart {
 				y: yPosition
 			});
 
-			let exceptAxis: Axis;
+			let exceptAxes: Axis[] = [];
 			let snapToSeries = cursor.snapToSeries;
-			if (snapToSeries) {
-				if (snapToSeries.baseAxis == snapToSeries.xAxis) {
-					exceptAxis = snapToSeries.yAxis;
+
+			if (snapToSeries && !cursor.downPoint) {
+				if (snapToSeries instanceof XYSeries) {
+					snapToSeries = [snapToSeries];
 				}
-				if (snapToSeries.baseAxis == snapToSeries.yAxis) {
-					exceptAxis = snapToSeries.xAxis;
-				}
+				let dataItems: XYSeriesDataItem[] = [];
 
-				let xAxis = snapToSeries.xAxis;
-				let yAxis = snapToSeries.yAxis;
+				$array.each(snapToSeries, (snpSeries) => {
 
-				if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis) && yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
-					let closestDataItem: XYSeriesDataItem;
-					let minDistance: number = Infinity;
+					let xAxis = snpSeries.xAxis;
+					let yAxis = snpSeries.yAxis;
 
-					snapToSeries.dataItems.each((dataItem) => {
+					if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis) && yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
 
-						//let xxPosition = xAxis.toAxisPosition(xPosition);
-						//let yyPosition = yAxis.toAxisPosition(xPosition);
+						snpSeries.dataItems.each((dataItem) => {
+							dataItems.push(dataItem);
+						})
 
-						let dxPosition = xAxis.toGlobalPosition(xAxis.getPositionX(dataItem, "valueX")) * xAxis.axisFullLength;
-						let dyPosition = yAxis.toGlobalPosition(yAxis.getPositionY(dataItem, "valueY")) * yAxis.axisFullLength;
+						$array.move(exceptAxes, snpSeries.yAxis);
+						$array.move(exceptAxes, snpSeries.xAxis);
+					}
+					else {
+						if (snpSeries.baseAxis == snpSeries.xAxis) {
+							$array.move(exceptAxes, snpSeries.yAxis);
+							dataItems.push(xAxis.getSeriesDataItem(snpSeries, xAxis.toAxisPosition(xPosition)));
+						}
+						if (snpSeries.baseAxis == snpSeries.yAxis) {
+							$array.move(exceptAxes, snpSeries.xAxis);
+							dataItems.push(yAxis.getSeriesDataItem(snpSeries, yAxis.toAxisPosition(yPosition)));
+						}
+					}
+				})
 
-						let distance = Math.sqrt(Math.pow(xPosition * xAxis.axisFullLength - dxPosition, 2) + Math.pow(yPosition * yAxis.axisFullLength - dyPosition, 2));
-
-						if (distance < minDistance) {
-							minDistance = distance;
-							closestDataItem = dataItem;
+				let closestDataItem = this.getClosest(dataItems, xPosition, yPosition);
+				if (closestDataItem) {
+					this.series.each((series) => {
+						let closestSeries = closestDataItem.component;
+						if (series != closestSeries) {
+							series.hideTooltip();
+							if (series.xAxis != closestSeries.xAxis) {
+								series.xAxis.hideTooltip();
+							}
+							if (series.yAxis != closestSeries.yAxis) {
+								series.yAxis.hideTooltip();
+							}
 						}
 					})
 
-					if (closestDataItem) {
-						snapToSeries.showTooltipAtDataItem(closestDataItem);
-					}
+					closestDataItem.component.showTooltipAtDataItem(closestDataItem);
+					cursor.handleSnap(closestDataItem.component);
 				}
 			}
+
+			//}
 			this._seriesPoints = [];
 
 			if (this._cursorXPosition != xPosition) {
-				this.showAxisTooltip(this.xAxes, xPosition, exceptAxis);
+				this.showAxisTooltip(this.xAxes, xPosition, exceptAxes);
 			}
 			if (this._cursorYPosition != yPosition) {
-				this.showAxisTooltip(this.yAxes, yPosition, exceptAxis);
+				this.showAxisTooltip(this.yAxes, yPosition, exceptAxes);
 			}
 			if (this.arrangeTooltips) {
 				this.sortSeriesTooltips(this._seriesPoints);
 			}
 		}
+	}
+
+
+	protected getClosest(dataItems: XYSeriesDataItem[], xPosition: number, yPosition: number): XYSeriesDataItem {
+		let minDistance = Infinity;
+		let closestDataItem: XYSeriesDataItem
+
+		$array.each(dataItems, (dataItem) => {
+			if (dataItem) {
+				let xAxis = dataItem.component.xAxis;
+				let yAxis = dataItem.component.yAxis;
+
+				let xField = dataItem.component.xField;
+				let yField = dataItem.component.yField;
+
+				let dxPosition = xAxis.toGlobalPosition(xAxis.getPositionX(dataItem, xField, dataItem.locations[xField], "valueX"));
+				let dyPosition = yAxis.toGlobalPosition(yAxis.getPositionY(dataItem, yField, dataItem.locations[yField], "valueY"));
+
+				let distance = Math.sqrt(Math.pow(xPosition - dxPosition, 2) + Math.pow(yPosition - dyPosition, 2));
+
+				if (distance < minDistance) {
+					minDistance = distance;
+					closestDataItem = dataItem;
+				}
+			}
+		})
+
+		return closestDataItem;
 	}
 
 	/**
@@ -1321,8 +1369,8 @@ export class XYChart extends SerialChart {
 					}
 					else {
 						let tooltipDataItem = seriesPoint.series.tooltipDataItem;
-						if(tooltipDataItem){
-							$array.each(tooltipDataItem.sprites, (sprite)=>{
+						if (tooltipDataItem) {
+							$array.each(tooltipDataItem.sprites, (sprite) => {
 								sprite.isHover = false;
 								sprite.handleOutReal(); // to avoid flicker
 							})
@@ -1433,9 +1481,9 @@ export class XYChart extends SerialChart {
 	 * @param axes      List of axes to show tooltip on
 	 * @param position  Position (px)
 	 */
-	public showAxisTooltip(axes: List<Axis>, position: number, except?: Axis): void {
+	public showAxisTooltip(axes: List<Axis>, position: number, except?: Axis[]): void {
 		$iter.each(axes.iterator(), (axis) => {
-			if (axis != except) {
+			if (!except || except.indexOf(axis) == -1) {
 				if (this.dataItems.length > 0 || axis.dataItems.length > 0) {
 					axis.showTooltipAtPosition(position);
 				}

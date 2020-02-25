@@ -11,6 +11,9 @@ import { __extends } from "tslib";
 import { Cursor } from "./Cursor";
 import { Sprite } from "../../core/Sprite";
 import { MutableValueDisposer, MultiDisposer } from "../../core/utils/Disposer";
+import { ValueAxis } from "../axes/ValueAxis";
+import { DateAxis } from "../axes/DateAxis";
+import { XYSeries } from "../series/XYSeries";
 import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
@@ -19,6 +22,7 @@ import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
+import * as $array from "../../core/utils/Array";
 import * as $path from "../../core/rendering/Path";
 /**
  * ============================================================================
@@ -58,6 +62,7 @@ var XYCursor = /** @class */ (function (_super) {
          * Vertical [[Axis]].
          */
         _this._yAxis = new MutableValueDisposer();
+        _this._snapToDisposers = [];
         _this.className = "XYCursor";
         // Defaults
         _this.behavior = "zoomX";
@@ -192,7 +197,24 @@ var XYCursor = /** @class */ (function (_super) {
      */
     XYCursor.prototype.triggerMoveReal = function (point) {
         _super.prototype.triggerMoveReal.call(this, point);
-        if ((this.snapToSeries && !this.snapToSeries.isHidden)) {
+        var snapToSeries = this.snapToSeries;
+        if ((snapToSeries && !this.downPoint)) {
+            if (snapToSeries instanceof XYSeries) {
+                if (snapToSeries.isHidden) {
+                    this.updateLinePositions(point);
+                }
+            }
+            else {
+                var allHidden_1 = true;
+                $array.each(snapToSeries, function (s) {
+                    if (!s.isHidden) {
+                        allHidden_1 = false;
+                    }
+                });
+                if (allHidden_1) {
+                    this.updateLinePositions(point);
+                }
+            }
         }
         else {
             this.updateLinePositions(point);
@@ -777,24 +799,34 @@ var XYCursor = /** @class */ (function (_super) {
     };
     Object.defineProperty(XYCursor.prototype, "snapToSeries", {
         /**
-         * @return {XYSeries}
+         * @return {XYSeries | XYSeries[]}
          */
         get: function () {
             return this.getPropertyValue("snapToSeries");
         },
         /**
-         * Specifies to which series cursor lines should be snapped. Works when one
-         * of the axis is `DateAxis` or `CategoryAxis`.
+         * Specifies to which series cursor lines should be snapped.
          *
-         * @param {XYSeries}
+         * Can be a single series instance or an array of series.
+         *
+         * @param {XYSeries | XYSeries[]}
          */
         set: function (series) {
+            var _this = this;
             if (this.setPropertyValue("snapToSeries", series)) {
-                if (this._snapToDisposer) {
-                    this._snapToDisposer.dispose();
+                if (series instanceof XYSeries) {
+                    series = [series];
                 }
+                if (this._snapToDisposers) {
+                    $array.each(this._snapToDisposers, function (disposer) {
+                        disposer.dispose();
+                    });
+                }
+                this._snapToDisposers = [];
                 if (series) {
-                    this._snapToDisposer = series.events.on("tooltipshownat", this.handleSnap, this, false);
+                    $array.each(series, function (s) {
+                        _this._snapToDisposers.push(s.events.on("tooltipshownat", function () { _this.handleSnap(s); }, undefined, false));
+                    });
                 }
             }
         },
@@ -807,41 +839,50 @@ var XYCursor = /** @class */ (function (_super) {
      * @ignore
      * @todo Description
      */
-    XYCursor.prototype.handleSnap = function () {
-        var series = this.snapToSeries;
-        var x = series.getTooltipX();
-        var y = series.getTooltipY();
-        if (this.xAxis) {
-            if (this.xAxis.renderer.opposite) {
-                y -= this.pixelHeight;
+    XYCursor.prototype.handleSnap = function (series) {
+        if (!this.downPoint) {
+            var x = series.getTooltipX();
+            var y = series.getTooltipY();
+            if (this.xAxis) {
+                if (this.xAxis.renderer.opposite) {
+                    y -= this.pixelHeight;
+                }
             }
-        }
-        this.point = { x: x, y: y };
-        this.getPositions();
-        var xx = x;
-        var yy = y;
-        x -= this.pixelWidth;
-        if (this.yAxis) {
-            if (this.yAxis.renderer.opposite) {
-                x += this.pixelWidth;
+            this.point = { x: x, y: y };
+            this.getPositions();
+            var xx = x;
+            var yy = y;
+            x -= this.pixelWidth;
+            if (this.yAxis) {
+                if (this.yAxis.renderer.opposite) {
+                    x += this.pixelWidth;
+                }
             }
-        }
-        var tooltip = series.tooltip;
-        var duration = tooltip.animationDuration;
-        var easing = tooltip.animationEasing;
-        if (series.baseAxis == series.xAxis) {
-            series.yAxis.showTooltipAtPosition(this.yPosition);
-        }
-        if (series.baseAxis == series.yAxis) {
-            series.xAxis.showTooltipAtPosition(this.xPosition);
-        }
-        this.lineX.animate([{ property: "y", to: y }], duration, easing);
-        this.lineY.animate([{ property: "x", to: x }], duration, easing);
-        if (!this.xAxis) {
-            this.lineX.animate([{ property: "x", to: xx }], duration, easing);
-        }
-        if (!this.yAxis) {
-            this.lineY.animate([{ property: "y", to: yy }], duration, easing);
+            var tooltip = series.tooltip;
+            var duration = tooltip.animationDuration;
+            var easing = tooltip.animationEasing;
+            var xAxis = series.xAxis;
+            var yAxis = series.yAxis;
+            if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis) && yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
+                series.yAxis.showTooltipAtPosition(this.yPosition);
+                series.xAxis.showTooltipAtPosition(this.xPosition);
+            }
+            else {
+                if (series.baseAxis == series.xAxis) {
+                    series.yAxis.showTooltipAtPosition(this.yPosition);
+                }
+                if (series.baseAxis == series.yAxis) {
+                    series.xAxis.showTooltipAtPosition(this.xPosition);
+                }
+            }
+            this.lineX.animate([{ property: "y", to: y }], duration, easing);
+            this.lineY.animate([{ property: "x", to: x }], duration, easing);
+            if (!this.xAxis) {
+                this.lineX.animate([{ property: "x", to: xx }], duration, easing);
+            }
+            if (!this.yAxis) {
+                this.lineY.animate([{ property: "y", to: yy }], duration, easing);
+            }
         }
     };
     /**

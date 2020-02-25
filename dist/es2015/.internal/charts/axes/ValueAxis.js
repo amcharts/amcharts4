@@ -1984,9 +1984,15 @@ var ValueAxis = /** @class */ (function (_super) {
                         //omin = min - diff * c;
                         if (c / 3 == Math.round(c / 3)) {
                             omin = min - diff * c;
+                            if (min >= 0 && omin < 0) {
+                                omin = 0;
+                            }
                         }
                         else {
                             omax = max + diff * c;
+                            if (omax <= 0 && omax > 0) {
+                                omax = 0;
+                            }
                         }
                         var minMaxStep = this.adjustMinMax(omin, omax, omax - omin, this._gridCount, true);
                         omin = minMaxStep.min;

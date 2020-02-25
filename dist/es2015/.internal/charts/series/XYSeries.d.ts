@@ -652,6 +652,10 @@ export declare class XYSeries extends Series {
     protected _maxxY: number;
     protected _propertiesChanged: boolean;
     /**
+     * If this series was used to create a series for scrollbar, this is a reference to it.
+     */
+    scrollbarSeries: this;
+    /**
      * Constructor
      */
     constructor();
@@ -814,6 +818,13 @@ export declare class XYSeries extends Series {
     * @return Axis
     */
     baseAxis: Axis;
+    /**
+     * Adds one or several (array) of data items to the existing data.
+     *
+     * @param rawDataItem One or many raw data item objects
+     */
+    addData(rawDataItem: Object | Object[], removeCount?: number): void;
+    protected setData(value: any[]): void;
     /**
      * Makes the chart use particular data set.
      *

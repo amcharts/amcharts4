@@ -307,6 +307,14 @@ export interface IForceDirectedSeriesProperties extends ISeriesProperties {
      * @since 4.9.0
      */
     dragFixedNodes?: boolean;
+    /**
+     * The bigger the number the more slowly the nodes will move. Think of it as
+     * friction.
+     *
+     * @default 0.4
+     * @since 4.9.2
+     */
+    velocityDecay?: number;
 }
 /**
  * Defines events for [[ForceDirectedSeries]].
@@ -622,6 +630,18 @@ export declare class ForceDirectedSeries extends Series {
     * @return Strength
     */
     linkWithStrength: number;
+    /**
+     * The bigger the number the more slowly the nodes will move. Think of it as
+     * friction.
+     *
+     * @since 4.9.2
+     * @param  value  Velocity decay
+     * @default 0.4
+     */
+    /**
+    * @return Velocity decay
+    */
+    velocityDecay: number;
     /**
      * Specifies if user can drag fixed nodes.
      *

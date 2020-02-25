@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.2] - 2020-02-25
+
+### Added
+- Accessibility: New method for chart's `svgContainer`: `readereAlert(text)`. When called, will force screen reader to read out certain text.
+- `velocityDecay` added to `ForceDirectedSeries`. Increase the number to slow down node dynamics.
+
+### Changed
+- Accessibility: If screen reader is enabled, it will notify user when a) legend item is triggered; b) `MapChart` zoom level changes.
+- `XYCursor.snapToSeries` now accepts an array of series and will snap to most close data point from any series present in the array.
+
+### Fixed
+- Now charts will properly disengage dragged elements when mouse cursor leaves iframe.
+- Fixed a typos in French, Portuguese translations.
+- Added more translated prompts to Korean translation.
+- When series which was being used in an `XYChartScrollbar` local data was being updated, the clone used in Scrollbar was not being updated.
+- `Series.autoDispose` setting was being ignored.
+- Fixed "The precision is out of range" errors on some browsers (Safari, IE) when very small numbers are used.
+- Accessibility: Setting of `tabindex` value was basically not working.
+- Funnel slice with `null` values showed small black rectangle at the top/left corner and legend item was not showing a marker.
+- Syncing between multiple `ValueAxis` improved.
+
+
 ## [4.9.1] - 2020-02-14
 
 ### Added

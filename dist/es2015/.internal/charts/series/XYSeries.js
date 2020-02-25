@@ -1033,6 +1033,23 @@ var XYSeries = /** @class */ (function (_super) {
         configurable: true
     });
     /**
+     * Adds one or several (array) of data items to the existing data.
+     *
+     * @param rawDataItem One or many raw data item objects
+     */
+    XYSeries.prototype.addData = function (rawDataItem, removeCount) {
+        _super.prototype.addData.call(this, rawDataItem, removeCount);
+        if (this.scrollbarSeries) {
+            this.scrollbarSeries.addData(rawDataItem, removeCount);
+        }
+    };
+    XYSeries.prototype.setData = function (value) {
+        _super.prototype.setData.call(this, value);
+        if (this.scrollbarSeries) {
+            this.scrollbarSeries.setData(value);
+        }
+    };
+    /**
      * Makes the chart use particular data set.
      *
      * If `id` is not provided or there is no such data set, main data will be
@@ -1248,9 +1265,9 @@ var XYSeries = /** @class */ (function (_super) {
      * @see {@link Tooltip}
      */
     XYSeries.prototype.hideTooltip = function () {
+        this._prevTooltipDataItem = undefined;
         _super.prototype.hideTooltip.call(this);
         this.returnBulletDefaultState();
-        this._prevTooltipDataItem = undefined;
     };
     /**
      * Shows series tooltip at specific position.

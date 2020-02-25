@@ -1172,15 +1172,17 @@ export class MapChart extends SerialChart {
 	public set projection(projection: Projection) {
 		if (this.setPropertyValue("projection", projection)) {
 			this.invalidateProjection();
-
+					
 			projection.chart = this;
 
 			if (this._backgroundSeries) {
 				this._backgroundSeries.invalidate();
 			}
 
+			this.updateExtremes();
+
 			this.series.each((series) => {
-				series.events.once("validated", () => {
+				series.events.once("validated", () => {					
 					this.updateCenterGeoPoint();
 					this.updateScaleRatio();
 					this.goHome(0);
@@ -1687,6 +1689,7 @@ export class MapChart extends SerialChart {
 		if (this.zoomLevel != this._prevZoomLevel) {
 			this.dispatch("zoomlevelchanged");
 			this._prevZoomLevel = this.zoomLevel;
+			this.svgContainer.readerAlert(this.language.translate("Zoom level changed to %1", this.language.locale, $type.castString(this.zoomLevel)));
 		}
 
 		if (this.zoomGeoPoint && (this._prevZoomGeoPoint.latitude != this.zoomGeoPoint.latitude || this._prevZoomGeoPoint.longitude != this.zoomGeoPoint.longitude)) {
@@ -1955,6 +1958,7 @@ export class MapChart extends SerialChart {
 	 * Call this after changing projection or its settings.
 	 */
 	public invalidateProjection() {
+		this.east = undefined;
 		this.invalidateDataUsers();
 		this.updateCenterGeoPoint();
 	}

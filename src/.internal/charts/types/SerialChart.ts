@@ -76,7 +76,7 @@ export interface ISerialChartProperties extends IChartProperties {
 
 	/**
 	 * A set of patterns to use for fills, like Series, Slices, etc.
-	 * 
+	 *
 	 * @since 4.7.5
 	 */
 	patterns?: PatternSet;
@@ -230,7 +230,7 @@ export class SerialChart extends Chart {
 			this._series = new ListTemplate<this["_seriesType"]>(this.createSeries());
 			this._series.events.on("inserted", this.handleSeriesAdded, this, false);
 			this._series.events.on("removed", this.handleSeriesRemoved, this, false);
-			this._disposers.push(new ListDisposer(this._series));
+			this._disposers.push(new ListDisposer(this._series, false));
 			this._disposers.push(this._series.template);
 		}
 		return this._series;
@@ -242,18 +242,23 @@ export class SerialChart extends Chart {
 		this.dataUsers.each((dataUser) => {
 			dataUser.invalidateDataItems();
 		})
+
 		if (series.autoDispose) {
 			series.dispose();
 		}
+		else {
+			series.parent = undefined;
+			series.bulletsContainer.parent = undefined;
+		}
 		//this.feedLegend();
-		if(this.legend){
-			this.legend.dataItems.each((dataItem)=>{
-				if(dataItem.dataContext == series){
+		if (this.legend) {
+			this.legend.dataItems.each((dataItem) => {
+				if (dataItem.dataContext == series) {
 					this.legend.dataItems.remove(dataItem);
 				}
 			})
 
-			$array.each(this.legend.data, (item)=>{
+			$array.each(this.legend.data, (item) => {
 				$array.remove(this.legend.data, item);
 			})
 		}
@@ -282,9 +287,9 @@ export class SerialChart extends Chart {
 		}))
 
 		this.handleSeriesAdded2(series);
-		
+
 		if (!series.hiddenInLegend) {
-			if(this.legend){
+			if (this.legend) {
 				this.legend.addData(series);
 			}
 		}
@@ -295,7 +300,7 @@ export class SerialChart extends Chart {
 		if (!this.dataInvalid) {
 			this._disposers.push(
 				// on exit only as data is usually passed after push
-				registry.events.once("exitframe", ()=>{
+				registry.events.once("exitframe", () => {
 					if (!series.data || series.data.length == 0) {
 						this.invalidateData();
 					}

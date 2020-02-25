@@ -759,6 +759,10 @@ export class LineSeries extends XYSeries {
 	 * such way that it never goes below or above connecting points. To enable
 	 * vertical bending as well, use `tensionY`.
 	 *
+	 * IMPORTANT: line smoothing works best when data items are placed at regular
+	 * intervals. For setups where data items are spaced erratically, enabling
+	 * smoothing might result in awkwardly looking lines.
+	 *
 	 * @default 1
 	 * @param value  Horizontal tension (0-1)
 	 */

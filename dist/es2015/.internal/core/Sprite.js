@@ -4239,6 +4239,7 @@ var Sprite = /** @class */ (function (_super) {
             if (this.setPropertyValue("tabindex", value) && $type.isNumber(value)) {
                 this.interactions.tabindex = value;
                 this.setSVGAttribute({ "tabindex": value });
+                this._tabindex = value;
                 if (value > -1) {
                     this.focusable = true;
                 }

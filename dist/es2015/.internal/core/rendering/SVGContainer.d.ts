@@ -64,6 +64,11 @@ export declare class SVGContainer implements IDisposer {
      */
     SVGContainer: HTMLDivElement;
     /**
+     * A `<div>` element which acts as a placeholder for accesibility reader
+     * alert.
+     */
+    private _readerAlertElement;
+    /**
      * A reference to ResizeSensor object which monitors changes of div size.
      *
      * @ignore
@@ -199,5 +204,31 @@ export declare class SVGContainer implements IDisposer {
      * Closes all currently open popup windows
      */
     closeAllPopups(): void;
+    /**
+     * ==========================================================================
+     * ACCESSIBILITY STUFF
+     * ==========================================================================
+     * @hidden
+     */
+    /**
+     * A `<div>` element used as as placeholder to trigger screen alerts.
+     *
+     * @sunce 4.9.2
+     * @return Element
+     */
+    readonly readerAlertElement: HTMLDivElement;
+    /**
+     * Triggers screen reader read out a message.
+     *
+     * @since 4.9.2
+     * @param  text  Alert text
+     */
+    readerAlert(text: string): void;
+    /**
+     * ==========================================================================
+     * OTHER STUFF
+     * ==========================================================================
+     * @hidden
+     */
     protected checkTransform(div: HTMLElement): void;
 }

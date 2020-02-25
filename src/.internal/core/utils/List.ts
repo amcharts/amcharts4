@@ -336,19 +336,29 @@ export type ListLike<A> = $iter.Iterable<A> & {
  * on all its items.
  */
 export class ListDisposer<A extends IDisposer> extends Disposer {
-	constructor(list: ListLike<A>) {
-		const disposer = list.events.on("removed", (x) => {
-			x.oldValue.dispose();
-		}, undefined, false);
+	constructor(list: ListLike<A>, disposeOnRemove: boolean = true) {
+		if (disposeOnRemove) {
+			const disposer = list.events.on("removed", (x) => {
+				x.oldValue.dispose();
+			}, undefined, false);
 
-		super(() => {
-			disposer.dispose();
+			super(() => {
+				disposer.dispose();
 
-			// TODO clear the list ?
-			$iter.each(list.iterator(), (x) => {
-				x.dispose();
+				// TODO clear the list ?
+				$iter.each(list.iterator(), (x) => {
+					x.dispose();
+				});
 			});
-		});
+
+		} else {
+			super(() => {
+				// TODO clear the list ?
+				$iter.each(list.iterator(), (x) => {
+					x.dispose();
+				});
+			});
+		}
 	}
 }
 
