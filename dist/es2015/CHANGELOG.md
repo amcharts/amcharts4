@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.3] - 2020-02-25
+
+### Changed
+- `MapChart` will not perform its pan behavior (e.g. drag) if some other interactive element is being currently dragged. Good if you have a Scrollbar on top of the map for example.
+
+### Fixed
+- Fixed issue with `snapToSeries`.
+
+
 ## [4.9.2] - 2020-02-25
 
 ### Added

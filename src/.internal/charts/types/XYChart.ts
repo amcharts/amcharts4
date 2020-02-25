@@ -1233,18 +1233,24 @@ export class XYChart extends SerialChart {
 				let xAxis = dataItem.component.xAxis;
 				let yAxis = dataItem.component.yAxis;
 
+				let xPos = xAxis.positionToCoordinate(xAxis.toGlobalPosition(xAxis.toAxisPosition(xPosition)));
+				let yPos = yAxis.positionToCoordinate(yAxis.toGlobalPosition(yAxis.toAxisPosition(yPosition)));
+
 				let xField = dataItem.component.xField;
 				let yField = dataItem.component.yField;
+				
+				if($type.isNumber(dataItem.getValue(xField)) && $type.isNumber(dataItem.getValue(yField))){
+					let dxPosition = xAxis.positionToCoordinate(xAxis.toGlobalPosition(xAxis.getPositionX(dataItem, xField, dataItem.locations[xField], "valueX")));
+					let dyPosition = yAxis.positionToCoordinate(yAxis.toGlobalPosition(yAxis.getPositionY(dataItem, yField, dataItem.locations[yField], "valueY")));
+				
+					let distance = Math.sqrt(Math.pow(xPos - dxPosition, 2) + Math.pow(yPos - dyPosition, 2));
 
-				let dxPosition = xAxis.toGlobalPosition(xAxis.getPositionX(dataItem, xField, dataItem.locations[xField], "valueX"));
-				let dyPosition = yAxis.toGlobalPosition(yAxis.getPositionY(dataItem, yField, dataItem.locations[yField], "valueY"));
-
-				let distance = Math.sqrt(Math.pow(xPosition - dxPosition, 2) + Math.pow(yPosition - dyPosition, 2));
-
-				if (distance < minDistance) {
-					minDistance = distance;
-					closestDataItem = dataItem;
+					if (distance < minDistance) {
+						minDistance = distance;
+						closestDataItem = dataItem;
+					}
 				}
+				
 			}
 		})
 

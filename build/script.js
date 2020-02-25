@@ -11,33 +11,35 @@ function makeSubPackage1(entries, name, fileDir, inputDir, outputDir, packageNam
 	$fs.readdirSync(inputDir).forEach((x) => {
 		const path = $path.parse(x);
 
-		if ($util.isDir($path.join(inputDir, x))) {
-			makeSubPackage1(entries, `${name}/${x}`, `../${fileDir}/${x}`, `${inputDir}/${x}`, `${outputDir}/${x}`, `${packageName}/${x}`, useDefault);
+		if (path.name[0] !== ".") {
+			if ($util.isDir($path.join(inputDir, x))) {
+				makeSubPackage1(entries, `${name}/${x}`, `../${fileDir}/${x}`, `${inputDir}/${x}`, `${outputDir}/${x}`, `${packageName}/${x}`, useDefault);
 
-		} else {
-			if (path.ext === ".js") {
-				const filename = path.name + ".js";
+			} else {
+				if (path.ext === ".js") {
+					const filename = path.name + ".js";
 
-				if (filename === "index.js") {
-					$fs.writeFileSync($path.join(name, name + ".js"),
+					if (filename === "index.js") {
+						$fs.writeFileSync($path.join(name, name + ".js"),
 `import * as m from "../${fileDir}/${path.name}";
 window.am4${mangledName} = m;`);
 
-					entries[`${outputDir}/${name}`] = `./${name}/${name}`;
+						entries[`${outputDir}/${name}`] = `./${name}/${name}`;
 
-				} else {
-					if (useDefault) {
-					$fs.writeFileSync($path.join(name, filename),
+					} else {
+						if (useDefault) {
+							$fs.writeFileSync($path.join(name, filename),
 `import m from "../${fileDir}/${path.name}";
 window.am4${mangledName}_${path.name} = m;`);
 
-					} else {
-					$fs.writeFileSync($path.join(name, filename),
+						} else {
+							$fs.writeFileSync($path.join(name, filename),
 `import * as m from "../${fileDir}/${path.name}";
 window.am4${mangledName}_${path.name} = m;`);
-					}
+						}
 
-					entries[`${outputDir}/${path.name}`] = `./${name}/${filename}`;
+						entries[`${outputDir}/${path.name}`] = `./${name}/${filename}`;
+					}
 				}
 			}
 		}

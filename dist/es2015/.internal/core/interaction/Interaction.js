@@ -2673,6 +2673,26 @@ var Interaction = /** @class */ (function (_super) {
             }
         }
     };
+    /**
+     * Checks whether there are currently any objects being transformed (dragged
+     * or resized).
+     *
+     * If `except` is set, that object will be ignored.
+     *
+     * @since 4.9.3
+     * @param   except  Ignore this object
+     * @return          Objects are being transformed
+     */
+    Interaction.prototype.areTransformed = function (except) {
+        var count = this.transformedObjects.length;
+        if (except && this.transformedObjects.contains(except)) {
+            count--;
+        }
+        return count > 0;
+    };
+    /**
+     * Log.
+     */
     Interaction.prototype.logTouch = function (text, type, ev) {
         console.log(text + "  " + type + "  " + "touch" + "  " + ev.identifier);
     };

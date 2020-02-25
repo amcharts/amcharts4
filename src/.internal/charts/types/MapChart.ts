@@ -309,7 +309,7 @@ export interface IMapChartProperties extends ISerialChartProperties {
 	 * Specifies if the map should be centered when zooming out
 	 * @default true
 	 * @since 4.7.12
-	 */	
+	 */
 	centerMapOnZoomOut?: boolean;
 }
 
@@ -678,8 +678,8 @@ export class MapChart extends SerialChart {
 		//this.events.on("datavalidated", this.handleAllValidated, this, false);
 		//this.events.on("datavalidated", this.updateExtremes, this, false);
 
-		this.events.on("maxsizechanged", (event)=>{
-			if(event.previousWidth == 0 || event.previousHeight == 0){
+		this.events.on("maxsizechanged", (event) => {
+			if (event.previousWidth == 0 || event.previousHeight == 0) {
 				this.updateExtremes();
 				this.updateCenterGeoPoint();
 			}
@@ -808,6 +808,10 @@ export class MapChart extends SerialChart {
 	protected handlePanMove(): void {
 
 		if (!this.seriesContainer.isResized) {
+
+			if (getInteraction().areTransformed(this.panSprite.interactions)) {
+				return;
+			}
 
 			let d3Projection = this.projection.d3Projection;
 
@@ -947,6 +951,7 @@ export class MapChart extends SerialChart {
 	 * @ignore
 	 */
 	protected handleDrag() {
+
 		let d = this.zoomLevel * this.scaleRatio;
 
 		let ww = this.seriesWidth * d;
@@ -1116,7 +1121,7 @@ export class MapChart extends SerialChart {
 
 	/**
 	 * @returns If the map should be centered when zooming out.
-	 */	
+	 */
 	public get centerMapOnZoomOut(): boolean {
 		return this.getPropertyValue("centerMapOnZoomOut");
 	}
@@ -1125,7 +1130,7 @@ export class MapChart extends SerialChart {
 	 * Specifies if the map should be centered when zooming out
 	 * @default true
 	 * @since 4.7.12
-	 */	
+	 */
 	public set centerMapOnZoomOut(value: boolean) {
 		this.setPropertyValue("centerMapOnZoomOut", value);
 	}
@@ -1135,7 +1140,7 @@ export class MapChart extends SerialChart {
 	 */
 	public get panBehavior(): "none" | "move" | "rotateLat" | "rotateLong" | "rotateLongLat" {
 		return this.getPropertyValue("panBehavior");
-	}	
+	}
 
 	/**
 	 * Projection to use for the map.
@@ -1172,7 +1177,7 @@ export class MapChart extends SerialChart {
 	public set projection(projection: Projection) {
 		if (this.setPropertyValue("projection", projection)) {
 			this.invalidateProjection();
-					
+
 			projection.chart = this;
 
 			if (this._backgroundSeries) {
@@ -1182,7 +1187,7 @@ export class MapChart extends SerialChart {
 			this.updateExtremes();
 
 			this.series.each((series) => {
-				series.events.once("validated", () => {					
+				series.events.once("validated", () => {
 					this.updateCenterGeoPoint();
 					this.updateScaleRatio();
 					this.goHome(0);
@@ -1446,7 +1451,7 @@ export class MapChart extends SerialChart {
 	 * @param duration   Duration for zoom animation (ms)
 	 * @return Zoom animation
 	 */
-	public zoomToGeoPoint(point: IGeoPoint, zoomLevel: number, center?: boolean, duration?: number, mapObject?:boolean): Animation {
+	public zoomToGeoPoint(point: IGeoPoint, zoomLevel: number, center?: boolean, duration?: number, mapObject?: boolean): Animation {
 		if (!point) {
 			point = this.zoomGeoPoint;
 		}
@@ -1526,7 +1531,7 @@ export class MapChart extends SerialChart {
 		const inertia = this.seriesContainer.interactions.inertias.getKey("move");
 		if (inertia) {
 			inertia.done();
-		}		
+		}
 
 		if (mapObject instanceof MapImage) {
 			if ($type.isNaN(zoomLevel)) {
@@ -1545,7 +1550,7 @@ export class MapChart extends SerialChart {
 		if (mapObject instanceof MapPolygon) {
 			let dataItem = mapObject.dataItem;
 			let bbox = mapObject.polygon.bbox;
-			if(bbox.width == 0 || bbox.height == 0){
+			if (bbox.width == 0 || bbox.height == 0) {
 				bbox = mapObject.polygon.group.getBBox();
 			}
 

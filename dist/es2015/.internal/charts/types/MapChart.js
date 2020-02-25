@@ -260,6 +260,9 @@ var MapChart = /** @class */ (function (_super) {
      */
     MapChart.prototype.handlePanMove = function () {
         if (!this.seriesContainer.isResized) {
+            if (getInteraction().areTransformed(this.panSprite.interactions)) {
+                return;
+            }
             var d3Projection = this.projection.d3Projection;
             var panBehavior = this.panBehavior;
             if (panBehavior != "move" && panBehavior != "none" && this._downPointOrig && d3Projection.rotate) {

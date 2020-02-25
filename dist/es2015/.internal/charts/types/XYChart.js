@@ -909,14 +909,18 @@ var XYChart = /** @class */ (function (_super) {
             if (dataItem) {
                 var xAxis = dataItem.component.xAxis;
                 var yAxis = dataItem.component.yAxis;
+                var xPos = xAxis.positionToCoordinate(xAxis.toGlobalPosition(xAxis.toAxisPosition(xPosition)));
+                var yPos = yAxis.positionToCoordinate(yAxis.toGlobalPosition(yAxis.toAxisPosition(yPosition)));
                 var xField = dataItem.component.xField;
                 var yField = dataItem.component.yField;
-                var dxPosition = xAxis.toGlobalPosition(xAxis.getPositionX(dataItem, xField, dataItem.locations[xField], "valueX"));
-                var dyPosition = yAxis.toGlobalPosition(yAxis.getPositionY(dataItem, yField, dataItem.locations[yField], "valueY"));
-                var distance = Math.sqrt(Math.pow(xPosition - dxPosition, 2) + Math.pow(yPosition - dyPosition, 2));
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    closestDataItem = dataItem;
+                if ($type.isNumber(dataItem.getValue(xField)) && $type.isNumber(dataItem.getValue(yField))) {
+                    var dxPosition = xAxis.positionToCoordinate(xAxis.toGlobalPosition(xAxis.getPositionX(dataItem, xField, dataItem.locations[xField], "valueX")));
+                    var dyPosition = yAxis.positionToCoordinate(yAxis.toGlobalPosition(yAxis.getPositionY(dataItem, yField, dataItem.locations[yField], "valueY")));
+                    var distance = Math.sqrt(Math.pow(xPos - dxPosition, 2) + Math.pow(yPos - dyPosition, 2));
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestDataItem = dataItem;
+                    }
                 }
             }
         });

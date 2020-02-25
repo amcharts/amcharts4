@@ -1068,6 +1068,20 @@ export declare class Interaction extends BaseObjectEvents {
      */
     dispose(): void;
     private log;
+    /**
+     * Checks whether there are currently any objects being transformed (dragged
+     * or resized).
+     *
+     * If `except` is set, that object will be ignored.
+     *
+     * @since 4.9.3
+     * @param   except  Ignore this object
+     * @return          Objects are being transformed
+     */
+    areTransformed(except?: InteractionObject): boolean;
+    /**
+     * Log.
+     */
     private logTouch;
     /**
      * Indicates if passive mode options is supported by this browser.

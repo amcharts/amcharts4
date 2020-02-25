@@ -841,8 +841,8 @@ var XYCursor = /** @class */ (function (_super) {
      */
     XYCursor.prototype.handleSnap = function (series) {
         if (!this.downPoint) {
-            var x = series.getTooltipX();
-            var y = series.getTooltipY();
+            var x = series.getTooltipX() + series.xAxis.pixelX;
+            var y = series.getTooltipY() + series.yAxis.pixelY;
             if (this.xAxis) {
                 if (this.xAxis.renderer.opposite) {
                     y -= this.pixelHeight;
