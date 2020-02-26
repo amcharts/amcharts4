@@ -171,6 +171,7 @@ function exists(path) {
 }
 
 function gitFetchSubmodule() {
+	run("git", ["reset", "--hard", "HEAD"]);
 	run("git", ["checkout", "master"]);
 	run("git", ["pull", "--rebase"]);
 	//run("git", ["submodule", "update", "--init", "--remote", "--rebase", "."]);

@@ -599,7 +599,9 @@ var MapChart = /** @class */ (function (_super) {
                 if (this._backgroundSeries) {
                     this._backgroundSeries.invalidate();
                 }
-                this.updateExtremes();
+                if (this.inited) {
+                    this.updateExtremes();
+                }
                 this.series.each(function (series) {
                     series.events.once("validated", function () {
                         _this.updateCenterGeoPoint();

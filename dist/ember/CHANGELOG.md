@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.4] - 2020-02-26
+
+### Fixed
+- `MapChart` was erroring out if `homeGeoPoint` was set.
+- Bullets hovered by `XYCursor` were not being reset back if cursor left plot area.
+
+
 ## [4.9.3] - 2020-02-25
 
 ### Changed

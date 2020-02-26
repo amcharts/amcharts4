@@ -12,6 +12,7 @@ container.width = am4core.percent(100);
 container.height = am4core.percent(100);
 
 var mapChart = container.createChild(am4maps.MapChart);
+mapChart.panBehavior = "rotateLongLat";
 
 var button = mapChart.createChild(am4core.Button);
 button.align = "right";

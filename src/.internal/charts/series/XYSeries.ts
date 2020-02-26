@@ -1833,9 +1833,9 @@ export class XYSeries extends Series {
 	 * @see {@link Tooltip}
 	 */
 	public hideTooltip() {
-		this._prevTooltipDataItem = undefined;
 		super.hideTooltip();
 		this.returnBulletDefaultState();
+		this._prevTooltipDataItem = undefined;		
 	}
 
 

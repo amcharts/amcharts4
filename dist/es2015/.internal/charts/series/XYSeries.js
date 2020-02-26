@@ -1265,9 +1265,9 @@ var XYSeries = /** @class */ (function (_super) {
      * @see {@link Tooltip}
      */
     XYSeries.prototype.hideTooltip = function () {
-        this._prevTooltipDataItem = undefined;
         _super.prototype.hideTooltip.call(this);
         this.returnBulletDefaultState();
+        this._prevTooltipDataItem = undefined;
     };
     /**
      * Shows series tooltip at specific position.

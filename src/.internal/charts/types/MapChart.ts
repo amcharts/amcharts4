@@ -1183,8 +1183,10 @@ export class MapChart extends SerialChart {
 			if (this._backgroundSeries) {
 				this._backgroundSeries.invalidate();
 			}
-
-			this.updateExtremes();
+			
+			if(this.inited){
+				this.updateExtremes();
+			}
 
 			this.series.each((series) => {
 				series.events.once("validated", () => {
