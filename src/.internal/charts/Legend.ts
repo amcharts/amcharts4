@@ -233,7 +233,7 @@ export class LegendDataItem extends DataItem {
 
 			let sprite = <any>this.dataContext;
 			if ((sprite instanceof DataItem || sprite instanceof Sprite) && !sprite.isDisposed()) {
-				const visibilitychanged = function (ev: AMEvent<Sprite | DataItem, ISpriteEvents & IDataItemEvents>["visibilitychanged"]) {
+				const visibilitychanged = function(ev: AMEvent<Sprite | DataItem, ISpriteEvents & IDataItemEvents>["visibilitychanged"]) {
 					itemContainer.readerChecked = ev.visible;
 					itemContainer.events.disableType("toggled");
 					itemContainer.isActive = !ev.visible;
@@ -724,7 +724,6 @@ export class Legend extends Component {
 
 	public afterDraw() {
 		let maxWidth = this.getPropertyValue("maxWidth");
-
 		let maxLabelWidth = 0;
 		this.labels.each((label) => {
 			if (label.invalid) {
@@ -777,7 +776,7 @@ export class Legend extends Component {
 		})
 		if (this.valueLabels.template.align == "right") {
 			this.valueLabels.each((valueLabel) => {
-				valueLabel.width = maxValueLabelWidth;
+				valueLabel.width = maxValueLabelWidth - valueLabel.pixelMarginRight - valueLabel.pixelMarginLeft;
 			})
 		}
 
@@ -823,6 +822,7 @@ export class Legend extends Component {
 			if (value == "left" || value == "right") {
 				this.margin(10, 5, 10, 10);
 				this.valign = "middle";
+				this.contentAlign = "none";
 				this.valueLabels.template.align = "right";
 
 				if (!$type.isNumber(this.maxColumns)) {

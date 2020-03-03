@@ -1220,6 +1220,10 @@ export class XYChart extends SerialChart {
 			if (this.arrangeTooltips) {
 				this.sortSeriesTooltips(this._seriesPoints);
 			}
+
+			if(this.legend){
+				this.legend.afterDraw();
+			}
 		}
 	}
 

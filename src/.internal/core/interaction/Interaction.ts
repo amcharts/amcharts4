@@ -205,6 +205,14 @@ export class Interaction extends BaseObjectEvents {
 	public pointers = new Dictionary<string, IPointer>();
 
 	/**
+	 * Last pointer that generate some kinf of action.
+	 * 
+	 * @since 4.9.5
+	 * @ignore
+	 */
+	public lastPointer: $type.Optional<IPointer>;
+
+	/**
 	 * Inertia options that need to be applied to after element drag, if it's
 	 * `inert = true`.
 	 *
@@ -2501,6 +2509,8 @@ export class Interaction extends BaseObjectEvents {
 		// Log last event
 		pointer.lastEvent = ev;
 
+		this.lastPointer = pointer;
+
 		return pointer;
 	}
 
@@ -3245,13 +3255,18 @@ export class Interaction extends BaseObjectEvents {
 	 * If `except` is set, that object will be ignored.
 	 *
 	 * @since 4.9.3
-	 * @param   except  Ignore this object
+	 * @param   except  Ignore this object(s)
 	 * @return          Objects are being transformed
 	 */
-	public areTransformed(except?: InteractionObject): boolean {
+	public areTransformed(except?: InteractionObject | InteractionObject[]): boolean {
 		let count = this.transformedObjects.length;
-		if (except && this.transformedObjects.contains(except)) {
-			count--;
+		if (except) {
+			const ex = $type.isArray(except) ? except : [except];
+			for(let i = 0; i < ex.length; i++) {
+				if (this.transformedObjects.contains(ex[i])) {
+					count--;
+				}
+			}
 		}
 		return count > 0;
 	}

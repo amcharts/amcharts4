@@ -213,6 +213,10 @@ export class XYChartScrollbar extends Scrollbar {
 			}
 		});
 
+		sourceSeries.events.on("beforedisposed", ()=>{
+			this.series.removeValue(sourceSeries)
+		})
+
 		let interfaceColors = new InterfaceColorSet();
 
 		let series: XYSeries = <XYSeries>sourceSeries.clone();

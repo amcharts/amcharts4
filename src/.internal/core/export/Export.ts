@@ -1308,6 +1308,8 @@ export class Export extends Validatable {
 	 */
 	private _spriteInteractionsEnabled: $type.Optional<boolean>;
 
+	private _exportRunning: boolean = false;
+
 	/**
 	 * Constructor
 	 */
@@ -1442,7 +1444,7 @@ export class Export extends Validatable {
 		});
 
 		this._menu.events.on("out", (ev) => {
-			this._releasePointers();
+			setTimeout(this._releasePointers, 10);
 		});
 
 		// Dispatch event
@@ -1548,6 +1550,9 @@ export class Export extends Validatable {
 			return true;
 		}
 
+		// Set export running flag
+		this._exportRunning = true;
+
 		// Dispatch event
 		if (this.events.isEnabled("exportstarted")) {
 			const event: AMEvent<this, IExportEvents>["exportstarted"] = {
@@ -1604,6 +1609,10 @@ export class Export extends Validatable {
 
 		// Get exported stuff
 		let data = await func.call(this, type, options);
+
+		// Release pointers
+		this._exportRunning = false;
+		this._releasePointers();
 
 		// Restore temporarily hidden elements
 		this.restoreNonExportableSprites();
@@ -4862,7 +4871,7 @@ export class Export extends Validatable {
 	 * Releases temporarily disabled pointers on parent chart.
 	 */
 	protected _releasePointers(): void {
-		if ($type.hasValue(this._spriteInteractionsEnabled)) {
+		if ($type.hasValue(this._spriteInteractionsEnabled) && !this._exportRunning) {
 			this.sprite.interactionsEnabled = this._spriteInteractionsEnabled;
 		}
 	}

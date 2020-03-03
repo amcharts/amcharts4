@@ -260,7 +260,7 @@ var MapChart = /** @class */ (function (_super) {
      */
     MapChart.prototype.handlePanMove = function () {
         if (!this.seriesContainer.isResized) {
-            if (getInteraction().areTransformed(this.panSprite.interactions)) {
+            if (getInteraction().areTransformed([this.panSprite.interactions, this.seriesContainer.interactions])) {
                 return;
             }
             var d3Projection = this.projection.d3Projection;

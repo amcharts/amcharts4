@@ -809,7 +809,7 @@ export class MapChart extends SerialChart {
 
 		if (!this.seriesContainer.isResized) {
 
-			if (getInteraction().areTransformed(this.panSprite.interactions)) {
+			if (getInteraction().areTransformed([this.panSprite.interactions, this.seriesContainer.interactions])) {
 				return;
 			}
 

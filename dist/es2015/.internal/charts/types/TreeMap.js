@@ -574,6 +574,7 @@ var TreeMap = /** @class */ (function (_super) {
         this.yAxis.getMinMax();
         this.layoutItems(homeDataItem);
         this.createTreeSeries(homeDataItem);
+        this.feedLegend();
     };
     /**
      * Layouts and sizes all items according to their value and

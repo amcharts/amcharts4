@@ -137,6 +137,9 @@ var XYChartScrollbar = /** @class */ (function (_super) {
                 }
             }
         });
+        sourceSeries.events.on("beforedisposed", function () {
+            _this.series.removeValue(sourceSeries);
+        });
         var interfaceColors = new InterfaceColorSet();
         var series = sourceSeries.clone();
         sourceSeries.scrollbarSeries = series;

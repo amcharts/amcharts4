@@ -300,10 +300,16 @@ export class Cursor extends Container {
 	 * `"hard"` - cursor will stay in place no matter what, until it is moved by
 	 * another `triggerMove()` call.
 	 *
+	 * The third parameter - `force` (since `4.9.5`) - if set to `true` will
+	 * make cursor execute all of the actions associated with cursor move,
+	 * including line redraws, tooltip updates, etc. Useful when underlying
+	 * chart data is dynamically being updated.
+	 *
 	 * @param point  Point to place cursor at
 	 * @param stick  Level of cursor stickiness to the place
+	 * @param force  Force cursor move
 	 */
-	public triggerMove(point: IPoint, stick?: "hard" | "soft" | "none"): void {
+	public triggerMove(point: IPoint, stick?: "hard" | "soft" | "none", force?:boolean): void {
 
 		point.x = $math.round(point.x, 1);
 		point.y = $math.round(point.y, 1);
@@ -316,7 +322,7 @@ export class Cursor extends Container {
 			this._stickPoint = point;
 		}
 
-		this.triggerMoveReal(point);
+		this.triggerMoveReal(point, force);
 	}
 
 	/**
@@ -324,8 +330,8 @@ export class Cursor extends Container {
 	 *
 	 * @param point Point to place cursor at
 	 */
-	protected triggerMoveReal(point: IPoint): void {
-		if (this.point.x != point.x || this.point.y != point.y) {
+	protected triggerMoveReal(point: IPoint, force?:boolean): void {
+		if (this.point.x != point.x || this.point.y != point.y || force) {
 			this.point = point;
 			this.invalidatePosition();
 			// hide cursor if it's out of bounds
@@ -341,7 +347,6 @@ export class Cursor extends Container {
 
 			if (this.visible) {
 				this.getPositions();
-
 				this.dispatch("cursorpositionchanged"); // not good to dispatch later (check step count example)
 			}
 		}

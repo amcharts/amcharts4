@@ -176,7 +176,7 @@ export declare class XYCursor extends Cursor {
      *
      * @param point Point to place cursor at
      */
-    protected triggerMoveReal(point: IPoint): void;
+    protected triggerMoveReal(point: IPoint, force?: boolean): void;
     /**
      *
      * @ignore Exclude from docs

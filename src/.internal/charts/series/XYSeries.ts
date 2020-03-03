@@ -2967,6 +2967,17 @@ export class XYSeries extends Series {
 		this.groupFields = $utils.copyProperties(source.groupFields, {});
 		super.copyFrom(source);
 	}
+
+
+	/**
+	 * Destroys this object and all related data.
+	 */
+	public dispose() {
+		if(this.scrollbarSeries){
+			this.scrollbarSeries.dispose();
+		}
+		super.dispose();
+	}	
 }
 
 /**

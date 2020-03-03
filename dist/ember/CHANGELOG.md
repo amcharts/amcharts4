@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.5] - 2020-03-03
+
+### Added
+- Third paramterer - `force` - added to `ChartCursor.triggerMove`. If set to `true` it will trigger all actions associated with the move even if the cursor is already at the same coordinates.
+
+### Fixed
+- Exporting from ExportMenu will now prevent cursor (and releated tooltips) from appearing just before export so they are not included in exported image.
+- Panning on a `MapChart` with `panBehavior = "rotateLongLat"` was not working properly since `4.9.3`.
+- Disposed series was not being properly removed from `XYChartScrollbar` if it was used there.
+- Sprites with `dx`/`dy` set and `rotation != 0` were not displaying fixed-position tooltip in correct position.
+- Changing `tooltipText` was causing the tooltip to hide if it was already visible and `tooltipPosition` was set to `"pointer"`.
+- `XYChart` with legend positioned to right/left was not positioning `valueLabels` properly (if aligned to right).
+- `TreeMap` legend was not functioning properly.
+
+
 ## [4.9.4] - 2020-02-26
 
 ### Fixed

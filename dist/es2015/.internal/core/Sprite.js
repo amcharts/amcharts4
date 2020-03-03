@@ -7786,6 +7786,9 @@ var Sprite = /** @class */ (function (_super) {
         if (this.showTooltipOn == "always" && !this._tooltip && this.tooltip) {
             this._tooltip = this.tooltip.clone();
         }
+        if (!point && this.tooltipPosition == "pointer" && this.isHover) {
+            point = $utils.documentPointToSvg(getInteraction().lastPointer.point, this.svgContainer.SVGContainer, this.svgContainer.cssScale);
+        }
         // do not show if hidden
         var sprite = this;
         while (sprite != undefined) {

@@ -900,6 +900,9 @@ var XYChart = /** @class */ (function (_super) {
             if (this.arrangeTooltips) {
                 this.sortSeriesTooltips(this._seriesPoints);
             }
+            if (this.legend) {
+                this.legend.afterDraw();
+            }
         }
     };
     XYChart.prototype.getClosest = function (dataItems, xPosition, yPosition) {

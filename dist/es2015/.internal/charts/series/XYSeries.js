@@ -2301,6 +2301,15 @@ var XYSeries = /** @class */ (function (_super) {
         this.groupFields = $utils.copyProperties(source.groupFields, {});
         _super.prototype.copyFrom.call(this, source);
     };
+    /**
+     * Destroys this object and all related data.
+     */
+    XYSeries.prototype.dispose = function () {
+        if (this.scrollbarSeries) {
+            this.scrollbarSeries.dispose();
+        }
+        _super.prototype.dispose.call(this);
+    };
     return XYSeries;
 }(Series));
 export { XYSeries };

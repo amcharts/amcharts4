@@ -231,7 +231,7 @@
 		"country": "Cocos (Keeling) Islands",
 		"continent_code": "AS",
 		"continent": "Asia",
-		"maps": []
+		"maps": [ "cocosKeelingLow", "cocosKeelingHigh" ]
 	},
 	"CD": {
 		"country": "Congo, the Democratic Republic of the",
@@ -639,7 +639,7 @@
 		"country": "British Indian Ocean Territory",
 		"continent_code": "AS",
 		"continent": "Asia",
-		"maps": []
+		"maps": [ "britishIndianOceanTerritoryLow", "britishIndianOceanTerritoryHigh" ]
 	},
 	"IQ": {
 		"country": "Iraq",
@@ -717,7 +717,7 @@
 		"country": "Comoros",
 		"continent_code": "AF",
 		"continent": "Africa",
-		"maps": []
+		"maps": [ "comorosLow", "comorosHigh" ]
 	},
 	"KN": {
 		"country": "Saint Kitts and Nevis",
@@ -753,7 +753,7 @@
 		"country": "Cayman Islands",
 		"continent_code": "NA",
 		"continent": "North America",
-		"maps": []
+		"maps": [ "caymanIslandsLow", "caymanIslandsHigh" ]
 	},
 	"KZ": {
 		"country": "Kazakhstan",

@@ -2014,6 +2014,7 @@ var Interaction = /** @class */ (function (_super) {
         }
         // Log last event
         pointer.lastEvent = ev;
+        this.lastPointer = pointer;
         return pointer;
     };
     /**
@@ -2680,13 +2681,18 @@ var Interaction = /** @class */ (function (_super) {
      * If `except` is set, that object will be ignored.
      *
      * @since 4.9.3
-     * @param   except  Ignore this object
+     * @param   except  Ignore this object(s)
      * @return          Objects are being transformed
      */
     Interaction.prototype.areTransformed = function (except) {
         var count = this.transformedObjects.length;
-        if (except && this.transformedObjects.contains(except)) {
-            count--;
+        if (except) {
+            var ex = $type.isArray(except) ? except : [except];
+            for (var i = 0; i < ex.length; i++) {
+                if (this.transformedObjects.contains(ex[i])) {
+                    count--;
+                }
+            }
         }
         return count > 0;
     };

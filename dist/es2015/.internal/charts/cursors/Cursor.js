@@ -128,10 +128,16 @@ var Cursor = /** @class */ (function (_super) {
      * `"hard"` - cursor will stay in place no matter what, until it is moved by
      * another `triggerMove()` call.
      *
+     * The third parameter - `force` (since `4.9.5`) - if set to `true` will
+     * make cursor execute all of the actions associated with cursor move,
+     * including line redraws, tooltip updates, etc. Useful when underlying
+     * chart data is dynamically being updated.
+     *
      * @param point  Point to place cursor at
      * @param stick  Level of cursor stickiness to the place
+     * @param force  Force cursor move
      */
-    Cursor.prototype.triggerMove = function (point, stick) {
+    Cursor.prototype.triggerMove = function (point, stick, force) {
         point.x = $math.round(point.x, 1);
         point.y = $math.round(point.y, 1);
         if (stick) {
@@ -140,15 +146,15 @@ var Cursor = /** @class */ (function (_super) {
         if (stick == "hard" || stick == "soft") {
             this._stickPoint = point;
         }
-        this.triggerMoveReal(point);
+        this.triggerMoveReal(point, force);
     };
     /**
      * Places the cursor at specific point.
      *
      * @param point Point to place cursor at
      */
-    Cursor.prototype.triggerMoveReal = function (point) {
-        if (this.point.x != point.x || this.point.y != point.y) {
+    Cursor.prototype.triggerMoveReal = function (point, force) {
+        if (this.point.x != point.x || this.point.y != point.y || force) {
             this.point = point;
             this.invalidatePosition();
             // hide cursor if it's out of bounds

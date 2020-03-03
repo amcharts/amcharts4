@@ -195,8 +195,8 @@ var XYCursor = /** @class */ (function (_super) {
      *
      * @param point Point to place cursor at
      */
-    XYCursor.prototype.triggerMoveReal = function (point) {
-        _super.prototype.triggerMoveReal.call(this, point);
+    XYCursor.prototype.triggerMoveReal = function (point, force) {
+        _super.prototype.triggerMoveReal.call(this, point, force);
         var snapToSeries = this.snapToSeries;
         if ((snapToSeries && !this.downPoint)) {
             if (snapToSeries instanceof XYSeries) {

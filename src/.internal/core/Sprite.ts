@@ -8652,6 +8652,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this._tooltip = this.tooltip.clone();
 		}
 
+		if(!point && this.tooltipPosition == "pointer" && this.isHover){
+			point = $utils.documentPointToSvg(getInteraction().lastPointer.point, this.svgContainer.SVGContainer, this.svgContainer.cssScale);
+		}
+
 		// do not show if hidden
 		let sprite: Sprite = this;
 		while (sprite != undefined) {
@@ -8821,7 +8825,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			});
 			if (point) {
 				return this.pointTooltipTo(point, true);
-			}
+			}	
 		}
 		else {
 			// Point to the X/Y of this Sprite
@@ -8829,7 +8833,6 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				"x": this.getTooltipX(),
 				"y": this.getTooltipY()
 			}, this);
-
 			return this.pointTooltipTo(globalPoint);
 		}
 	}
@@ -8929,7 +8932,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this.setPropertyValue("tooltipText", value)) {
 			if (this.tooltip) {
 				if (this.tooltip.visible) {
-					this.showTooltip();
+					this.showTooltip();					
 				}
 			}
 		}

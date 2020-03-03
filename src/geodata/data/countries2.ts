@@ -233,7 +233,7 @@ const countries2: Countries2 = {
 		"country": "Cocos (Keeling) Islands",
 		"continent_code": "AS",
 		"continent": "Asia",
-		"maps": []
+		"maps": [ "cocosKeelingLow", "cocosKeelingHigh" ]
 	},
 	"CD": {
 		"country": "Congo, the Democratic Republic of the",
@@ -641,7 +641,7 @@ const countries2: Countries2 = {
 		"country": "British Indian Ocean Territory",
 		"continent_code": "AS",
 		"continent": "Asia",
-		"maps": []
+		"maps": [ "britishIndianOceanTerritoryLow", "britishIndianOceanTerritoryHigh" ]
 	},
 	"IQ": {
 		"country": "Iraq",
@@ -719,7 +719,7 @@ const countries2: Countries2 = {
 		"country": "Comoros",
 		"continent_code": "AF",
 		"continent": "Africa",
-		"maps": []
+		"maps": [ "comorosLow", "comorosHigh" ]
 	},
 	"KN": {
 		"country": "Saint Kitts and Nevis",
@@ -755,7 +755,7 @@ const countries2: Countries2 = {
 		"country": "Cayman Islands",
 		"continent_code": "NA",
 		"continent": "North America",
-		"maps": []
+		"maps": [ "caymanIslandsLow", "caymanIslandsHigh" ]
 	},
 	"KZ": {
 		"country": "Kazakhstan",

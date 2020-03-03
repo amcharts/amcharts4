@@ -196,16 +196,22 @@ export declare class Cursor extends Container {
      * `"hard"` - cursor will stay in place no matter what, until it is moved by
      * another `triggerMove()` call.
      *
+     * The third parameter - `force` (since `4.9.5`) - if set to `true` will
+     * make cursor execute all of the actions associated with cursor move,
+     * including line redraws, tooltip updates, etc. Useful when underlying
+     * chart data is dynamically being updated.
+     *
      * @param point  Point to place cursor at
      * @param stick  Level of cursor stickiness to the place
+     * @param force  Force cursor move
      */
-    triggerMove(point: IPoint, stick?: "hard" | "soft" | "none"): void;
+    triggerMove(point: IPoint, stick?: "hard" | "soft" | "none", force?: boolean): void;
     /**
      * Places the cursor at specific point.
      *
      * @param point Point to place cursor at
      */
-    protected triggerMoveReal(point: IPoint): void;
+    protected triggerMoveReal(point: IPoint, force?: boolean): void;
     /**
      * Simulates pressing down (click/touch) action by a cursor.
      *

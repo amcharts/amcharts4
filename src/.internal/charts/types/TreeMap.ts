@@ -826,6 +826,8 @@ export class TreeMap extends XYChart {
 		this.layoutItems(homeDataItem);
 
 		this.createTreeSeries(homeDataItem);
+
+		this.feedLegend();
 	}
 
 	/**
@@ -1636,6 +1638,7 @@ export class TreeMap extends XYChart {
 			legend.dataFields.name = "name";
 
 			let legendParent = this.getLegendLevel(this._homeDataItem);
+
 			if (legendParent) {
 				let legendData: Array<this["_dataItem"]> = [];
 

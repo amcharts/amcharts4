@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - New UK map: `ukCountries*` (consists of England, Scotland, Wales, North Ireland, with Ireland for shape consistency).
-- New timezone-relted maps: `worldTimeZones*` (polygons for each time zone used in the world).
+- New timezone-related maps: `worldTimeZones*` (polygons for each time zone used in the world) and `worldTimeZoneAreas*` (land mass areas that use particular time zone).
+- New maps: British Indian Ocean Territory, Cayman Islands, Cocos (Keeling) Islands, Comoros.
+
+### Fixed
+- Typo in map file of Turkmenistan, as well as uppercase "NAME" property, changed to lowercase "name".
 
 
 ## [4.1.12] - 2020-02-17

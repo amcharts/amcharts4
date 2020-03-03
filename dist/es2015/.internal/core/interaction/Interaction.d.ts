@@ -167,6 +167,13 @@ export declare class Interaction extends BaseObjectEvents {
      */
     pointers: Dictionary<string, IPointer>;
     /**
+     * Last pointer that generate some kinf of action.
+     *
+     * @since 4.9.5
+     * @ignore
+     */
+    lastPointer: $type.Optional<IPointer>;
+    /**
      * Inertia options that need to be applied to after element drag, if it's
      * `inert = true`.
      *
@@ -1075,10 +1082,10 @@ export declare class Interaction extends BaseObjectEvents {
      * If `except` is set, that object will be ignored.
      *
      * @since 4.9.3
-     * @param   except  Ignore this object
+     * @param   except  Ignore this object(s)
      * @return          Objects are being transformed
      */
-    areTransformed(except?: InteractionObject): boolean;
+    areTransformed(except?: InteractionObject | InteractionObject[]): boolean;
     /**
      * Log.
      */

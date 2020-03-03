@@ -1144,4 +1144,8 @@ export declare class XYSeries extends Series {
      * @param source  Source series
      */
     copyFrom(source: this): void;
+    /**
+     * Destroys this object and all related data.
+     */
+    dispose(): void;
 }

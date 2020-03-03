@@ -528,7 +528,7 @@ var Legend = /** @class */ (function (_super) {
         });
         if (this.valueLabels.template.align == "right") {
             this.valueLabels.each(function (valueLabel) {
-                valueLabel.width = maxValueLabelWidth;
+                valueLabel.width = maxValueLabelWidth - valueLabel.pixelMarginRight - valueLabel.pixelMarginLeft;
             });
         }
         _super.prototype.afterDraw.call(this);
@@ -575,6 +575,7 @@ var Legend = /** @class */ (function (_super) {
                 if (value == "left" || value == "right") {
                     this.margin(10, 5, 10, 10);
                     this.valign = "middle";
+                    this.contentAlign = "none";
                     this.valueLabels.template.align = "right";
                     if (!$type.isNumber(this.maxColumns)) {
                         this.maxColumns = 1;

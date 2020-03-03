@@ -110,7 +110,7 @@ export declare class RadarCursor extends XYCursor {
     * @return End angle
     */
     endAngle: number;
-    protected triggerMoveReal(point: IPoint): void;
+    protected triggerMoveReal(point: IPoint, force?: boolean): void;
     /**
      * (Re)draws the horizontal (circular) cursor's line.
      *

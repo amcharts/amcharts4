@@ -828,12 +828,6 @@ export function spritePointToSvg(point, sprite) {
             var angle = sprite.rotation;
             x += sprite.pixelPaddingLeft + sprite.ex;
             y += sprite.pixelPaddingTop + sprite.ey;
-            if (sprite.dx) {
-                x += sprite.dx;
-            }
-            if (sprite.dy) {
-                y += sprite.dy;
-            }
             var scale = sprite.scale;
             // this handles nonscaling
             if (sprite.group) {
@@ -841,6 +835,12 @@ export function spritePointToSvg(point, sprite) {
             }
             var relativeX = sprite.pixelX + ((x * $math.cos(angle) - y * $math.sin(angle))) * scale;
             var relativeY = sprite.pixelY + ((x * $math.sin(angle) + y * $math.cos(angle))) * scale;
+            if (sprite.dx) {
+                relativeX += sprite.dx;
+            }
+            if (sprite.dy) {
+                relativeY += sprite.dy;
+            }
             x = relativeX;
             y = relativeY;
             sprite = sprite.parent;

@@ -952,13 +952,6 @@ export function spritePointToSvg(point: IPoint, sprite: Sprite): IPoint {
 			x += sprite.pixelPaddingLeft + sprite.ex;
 			y += sprite.pixelPaddingTop + sprite.ey;
 
-			if (sprite.dx) {
-				x += sprite.dx;
-			}
-			if (sprite.dy) {
-				y += sprite.dy;
-			}
-
 			let scale = sprite.scale;
 
 			// this handles nonscaling
@@ -968,6 +961,13 @@ export function spritePointToSvg(point: IPoint, sprite: Sprite): IPoint {
 
 			let relativeX = sprite.pixelX + ((x * $math.cos(angle) - y * $math.sin(angle))) * scale;
 			let relativeY = sprite.pixelY + ((x * $math.sin(angle) + y * $math.cos(angle))) * scale;
+
+			if (sprite.dx) {
+				relativeX += sprite.dx;
+			}
+			if (sprite.dy) {
+				relativeY += sprite.dy;
+			}
 
 			x = relativeX;
 			y = relativeY;

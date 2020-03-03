@@ -173,7 +173,7 @@ export class RadarCursor extends XYCursor {
 	}
 
 
-	protected triggerMoveReal(point:IPoint) {
+	protected triggerMoveReal(point:IPoint, force?:boolean) {
 
 		if (!this.xAxis || (this.xAxis && (!this.xAxis.cursorTooltipEnabled || this.xAxis.tooltip.disabled))) {
 			this.updateLineX(this.point);
@@ -183,7 +183,7 @@ export class RadarCursor extends XYCursor {
 		}
 
 		this.updateSelection();
-		super.triggerMoveReal(point);
+		super.triggerMoveReal(point, force);
 	}
 
 	/**

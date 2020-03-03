@@ -957,6 +957,7 @@ export declare class Export extends Validatable {
      * after temporarily disabling it.
      */
     private _spriteInteractionsEnabled;
+    private _exportRunning;
     /**
      * Constructor
      */

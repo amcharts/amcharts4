@@ -358,9 +358,9 @@ export class XYCursor extends Cursor {
 	 *
 	 * @param point Point to place cursor at
 	 */
-	protected triggerMoveReal(point: IPoint): void {
+	protected triggerMoveReal(point: IPoint, force?:boolean): void {
 
-		super.triggerMoveReal(point);
+		super.triggerMoveReal(point, force);
 		let snapToSeries = this.snapToSeries;
 		if ((snapToSeries && !this.downPoint)) {
 			if (snapToSeries instanceof XYSeries) {

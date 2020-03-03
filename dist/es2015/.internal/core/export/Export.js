@@ -399,6 +399,7 @@ var Export = /** @class */ (function (_super) {
          * show a modal saying export operation took longer than expected.
          */
         _this.timeoutDelay = 2000;
+        _this._exportRunning = false;
         _this._container = container;
         _this.className = "Export";
         // Set default options
@@ -514,7 +515,7 @@ var Export = /** @class */ (function (_super) {
                 _this._disablePointers();
             });
             this._menu.events.on("out", function (ev) {
-                _this._releasePointers();
+                setTimeout(_this._releasePointers, 10);
             });
             // Dispatch event
             this.dispatchImmediately("menucreated");
@@ -613,6 +614,8 @@ var Export = /** @class */ (function (_super) {
                             this.handleCustom(options);
                             return [2 /*return*/, true];
                         }
+                        // Set export running flag
+                        this._exportRunning = true;
                         // Dispatch event
                         if (this.events.isEnabled("exportstarted")) {
                             event_1 = {
@@ -659,6 +662,9 @@ var Export = /** @class */ (function (_super) {
                         return [4 /*yield*/, func.call(this, type, options)];
                     case 1:
                         data = _a.sent();
+                        // Release pointers
+                        this._exportRunning = false;
+                        this._releasePointers();
                         // Restore temporarily hidden elements
                         this.restoreNonExportableSprites();
                         if (data) {
@@ -3664,7 +3670,7 @@ var Export = /** @class */ (function (_super) {
      * Releases temporarily disabled pointers on parent chart.
      */
     Export.prototype._releasePointers = function () {
-        if ($type.hasValue(this._spriteInteractionsEnabled)) {
+        if ($type.hasValue(this._spriteInteractionsEnabled) && !this._exportRunning) {
             this.sprite.interactionsEnabled = this._spriteInteractionsEnabled;
         }
     };
