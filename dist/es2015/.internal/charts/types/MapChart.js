@@ -185,7 +185,6 @@ var MapChart = /** @class */ (function (_super) {
         chartContainer.events.on("down", _this.handleMapDown, _this, false);
         // Add description to background
         _this.background.fillOpacity = 0;
-        _this.background.readerTitle = _this.language.translate("Use plus and minus keys on your keyboard to zoom in and out");
         // Add keyboard events for panning
         _this._disposers.push(getInteraction().body.events.on("keyup", function (ev) {
             if (_this.topParent.hasFocused && (!_this._zoomControl || !_this._zoomControl.thumb.isFocused)) {
@@ -420,6 +419,9 @@ var MapChart = /** @class */ (function (_super) {
         // This will be overridden in screen reader if there are any `titles` set
         if (!$type.hasValue(this.readerTitle)) {
             this.readerTitle = this.language.translate("Map");
+        }
+        if (!$type.hasValue(this.background.readerTitle)) {
+            this.background.readerTitle = this.language.translate("Use plus and minus keys on your keyboard to zoom in and out");
         }
     };
     /**

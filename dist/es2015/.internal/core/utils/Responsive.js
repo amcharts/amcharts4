@@ -88,13 +88,17 @@ var Responsive = /** @class */ (function (_super) {
          */
         _this._enabled = false;
         /**
+         * Holds disposers for all events added by this class.
+         */
+        _this._responsiveDisposers = [];
+        /**
          * Collection of objects and state ids that do not have any properties set.
          */
         _this._noStates = [];
         _this.className = "Responsive";
         // Set up rules list events
-        _this.rules.events.on("inserted", _this.checkRules, true);
-        _this.rules.events.on("removed", _this.checkRules, true);
+        _this.rules.events.on("inserted", function () { _this.checkRules(); }, true);
+        _this.rules.events.on("removed", function () { _this.checkRules(); }, true);
         _this._disposers.push(_this.rules.events);
         // Apply theme
         _this.applyTheme();
@@ -113,19 +117,20 @@ var Responsive = /** @class */ (function (_super) {
          * @param value  Target object
          */
         set: function (value) {
+            var _this = this;
             // Check if it's the same
             if (value == this._component) {
                 return;
             }
             // Check if we already have a set up component and remove its events
-            if (this._sizeEventDisposer) {
-                this.removeDispose(this._sizeEventDisposer);
-            }
+            this.disposeResponsiveHandlers();
             // Set
             this._component = value;
             // Set up resize monitoring events
-            this._sizeEventDisposer = $type.getValue(this.component).events.on("sizechanged", this.checkRules, this);
-            this._disposers.push(this._sizeEventDisposer);
+            this._responsiveDisposers.push($type.getValue(this.component).events.on("sizechanged", function () { _this.checkRules(); }, this));
+            this._responsiveDisposers.push($type.getValue(this.component).events.on("datavalidated", function () {
+                _this.checkRules(true);
+            }, this));
             // Enable resoponsive
             this.enabled = true;
         },
@@ -261,8 +266,9 @@ var Responsive = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    Responsive.prototype.checkRules = function () {
+    Responsive.prototype.checkRules = function (force) {
         var _this = this;
+        if (force === void 0) { force = false; }
         // Check if there are any rules
         var rules = this.allRules;
         if (!rules || rules.length == 0) {
@@ -285,6 +291,9 @@ var Responsive = /** @class */ (function (_super) {
             }
             _this._appliedRules[rule.id] = apply;
         });
+        if (force) {
+            rulesChanged = true;
+        }
         // Check if we need to re-apply the rules
         if (rulesChanged) {
             if (!this.component.isReady()) {
@@ -404,6 +413,23 @@ var Responsive = /** @class */ (function (_super) {
             value = target[property];
         }
         return value;
+    };
+    /**
+     * Disposes the object.
+     */
+    Responsive.prototype.dispose = function () {
+        this.disposeResponsiveHandlers();
+        _super.prototype.dispose.call(this);
+    };
+    /**
+     * Disposes all event handlers.
+     */
+    Responsive.prototype.disposeResponsiveHandlers = function () {
+        var disposer = this._responsiveDisposers.pop();
+        while (disposer) {
+            disposer.dispose();
+            disposer = this._responsiveDisposers.pop();
+        }
     };
     return Responsive;
 }(BaseObjectEvents));

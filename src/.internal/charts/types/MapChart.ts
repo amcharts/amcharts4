@@ -723,7 +723,6 @@ export class MapChart extends SerialChart {
 
 		// Add description to background
 		this.background.fillOpacity = 0;
-		this.background.readerTitle = this.language.translate("Use plus and minus keys on your keyboard to zoom in and out");
 
 		// Add keyboard events for panning
 		this._disposers.push(getInteraction().body.events.on("keyup", (ev) => {
@@ -1007,6 +1006,10 @@ export class MapChart extends SerialChart {
 			this.readerTitle = this.language.translate("Map");
 		}
 
+		if (!$type.hasValue(this.background.readerTitle)) {
+			this.background.readerTitle = this.language.translate("Use plus and minus keys on your keyboard to zoom in and out");
+		}
+
 	}
 
 	/**
@@ -1183,8 +1186,8 @@ export class MapChart extends SerialChart {
 			if (this._backgroundSeries) {
 				this._backgroundSeries.invalidate();
 			}
-			
-			if(this.inited){
+
+			if (this.inited) {
 				this.updateExtremes();
 			}
 

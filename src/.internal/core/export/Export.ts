@@ -1444,7 +1444,7 @@ export class Export extends Validatable {
 		});
 
 		this._menu.events.on("out", (ev) => {
-			setTimeout(this._releasePointers, 10);
+			setTimeout(() => { this._releasePointers(); }, 10);
 		});
 
 		// Dispatch event

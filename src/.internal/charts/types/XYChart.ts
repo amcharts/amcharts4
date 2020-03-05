@@ -1221,7 +1221,7 @@ export class XYChart extends SerialChart {
 				this.sortSeriesTooltips(this._seriesPoints);
 			}
 
-			if(this.legend){
+			if (this.legend) {
 				this.legend.afterDraw();
 			}
 		}
@@ -1242,11 +1242,11 @@ export class XYChart extends SerialChart {
 
 				let xField = dataItem.component.xField;
 				let yField = dataItem.component.yField;
-				
-				if($type.isNumber(dataItem.getValue(xField)) && $type.isNumber(dataItem.getValue(yField))){
+
+				if ($type.isNumber(dataItem.getValue(xField)) && $type.isNumber(dataItem.getValue(yField))) {
 					let dxPosition = xAxis.positionToCoordinate(xAxis.toGlobalPosition(xAxis.getPositionX(dataItem, xField, dataItem.locations[xField], "valueX")));
 					let dyPosition = yAxis.positionToCoordinate(yAxis.toGlobalPosition(yAxis.getPositionY(dataItem, yField, dataItem.locations[yField], "valueY")));
-				
+
 					let distance = Math.sqrt(Math.pow(xPos - dxPosition, 2) + Math.pow(yPos - dyPosition, 2));
 
 					if (distance < minDistance) {
@@ -1254,7 +1254,7 @@ export class XYChart extends SerialChart {
 						closestDataItem = dataItem;
 					}
 				}
-				
+
 			}
 		})
 
@@ -1374,7 +1374,7 @@ export class XYChart extends SerialChart {
 			let newSeriesPoints: { point: IPoint, series: XYSeries }[] = [];
 			if (nearestSeries) {
 				$array.each(seriesPoints, (seriesPoint) => {
-					if (Math.abs($math.getDistance(seriesPoint.point, nearestPoint)) <= cursor.maxTooltipDistance) {
+					if (Math.abs($math.getDistance(seriesPoint.point, nearestPoint)) <= Math.abs(cursor.maxTooltipDistance)) {
 						newSeriesPoints.push({ series: seriesPoint.series, point: seriesPoint.point });
 					}
 					else {
@@ -1390,7 +1390,11 @@ export class XYChart extends SerialChart {
 					}
 				})
 
+				if (cursor.maxTooltipDistance < 0) {
+					newSeriesPoints = [{series:nearestSeries, point:nearestPoint}];					
+				}				
 			}
+
 			seriesPoints = newSeriesPoints;
 		}
 
@@ -1428,7 +1432,6 @@ export class XYChart extends SerialChart {
 		let maxY = $utils.svgPointToDocument({ x: 0, y: 0 }, this.svgContainer.SVGContainer).y;
 
 		if (seriesPoints.length > 0) {
-
 			let top = topLeft.y;
 			let bottom = bottomRight.y;
 

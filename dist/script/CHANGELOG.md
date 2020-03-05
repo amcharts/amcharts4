@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.6] - 2020-03-05
+
+### Changed
+- Setting `maxTooltipDistance` to `-1` on `XYCursor` will force only one tooltip to always be displayed, even if there are multiple data items in exact same spot.
+
+### Fixed
+- Responsive: changing data on a chart with active responsive rules was causing for those rules not to be re-applied when chart was updated.
+- If Legend item was clicked or tapped, subsequently pressing ENTER anywhere on the page was toggling it.
+- Series of `MapChart` and their children were inherinting main locale.
+- `ExportMenu` was freezing the whole chart is hovered (since `4.9.5`).
+
+
 ## [4.9.5] - 2020-03-03
 
 ### Added

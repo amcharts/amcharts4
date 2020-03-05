@@ -218,9 +218,9 @@ export class Responsive extends BaseObjectEvents {
 	protected _enabled = false;
 
 	/**
-	 * Holds a disposer for size events.
+	 * Holds disposers for all events added by this class.
 	 */
-	private _sizeEventDisposer: $type.Optional<IDisposer>;
+	protected _responsiveDisposers: Array<IDisposer> = [];
 
 	/**
 	 * Collection of objects and state ids that do not have any properties set.
@@ -237,8 +237,8 @@ export class Responsive extends BaseObjectEvents {
 		this.className = "Responsive";
 
 		// Set up rules list events
-		this.rules.events.on("inserted", this.checkRules, true);
-		this.rules.events.on("removed", this.checkRules, true);
+		this.rules.events.on("inserted", () => { this.checkRules(); }, true);
+		this.rules.events.on("removed", () => { this.checkRules(); }, true);
 		this._disposers.push(this.rules.events);
 
 		// Apply theme
@@ -259,16 +259,16 @@ export class Responsive extends BaseObjectEvents {
 		}
 
 		// Check if we already have a set up component and remove its events
-		if (this._sizeEventDisposer) {
-			this.removeDispose(this._sizeEventDisposer);
-		}
+		this.disposeResponsiveHandlers();
 
 		// Set
 		this._component = value;
 
 		// Set up resize monitoring events
-		this._sizeEventDisposer = $type.getValue(this.component).events.on("sizechanged", this.checkRules, this);
-		this._disposers.push(this._sizeEventDisposer);
+		this._responsiveDisposers.push($type.getValue(this.component).events.on("sizechanged", () => { this.checkRules(); }, this));
+		this._responsiveDisposers.push($type.getValue(this.component).events.on("datavalidated", () => {
+			this.checkRules(true);
+		}, this));
 
 		// Enable resoponsive
 		this.enabled = true;
@@ -406,14 +406,13 @@ export class Responsive extends BaseObjectEvents {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public checkRules(): void {
+	public checkRules(force: boolean = false): void {
 
 		// Check if there are any rules
 		let rules = this.allRules;
 		if (!rules || rules.length == 0) {
 			return;
 		}
-
 
 		// Init a list of rules to be applied
 		let rulesChanged: boolean = false;
@@ -437,6 +436,10 @@ export class Responsive extends BaseObjectEvents {
 			}
 			this._appliedRules[rule.id] = apply;
 		});
+
+		if (force) {
+			rulesChanged = true;
+		}
 
 		// Check if we need to re-apply the rules
 		if (rulesChanged) {
@@ -568,6 +571,25 @@ export class Responsive extends BaseObjectEvents {
 			value = target[property];
 		}
 		return value;
+	}
+
+	/**
+	 * Disposes the object.
+	 */
+	public dispose(): void {
+		this.disposeResponsiveHandlers();
+		super.dispose();
+	}
+
+	/**
+	 * Disposes all event handlers.
+	 */
+	protected disposeResponsiveHandlers(): void {
+		let disposer = this._responsiveDisposers.pop();
+		while (disposer) {
+			disposer.dispose();
+			disposer = this._responsiveDisposers.pop();
+		}
 	}
 
 }

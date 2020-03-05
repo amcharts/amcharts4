@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Typo in map file of Turkmenistan, as well as uppercase "NAME" property, changed to lowercase "name".
+- Some name typos fixed in US County maps.
 
 
 ## [4.1.12] - 2020-02-17

@@ -170,6 +170,11 @@ var LegendDataItem = /** @class */ (function (_super) {
                 // Add focus event so that we can track which object is currently in focus
                 // for keyboard toggling
                 if (itemContainer_1.focusable) {
+                    itemContainer_1.events.on("hit", function (ev) {
+                        // We need this here in order to reset focused item when it is clicked
+                        // normally so that it is not toggled by ENTER afterwards
+                        component_1.focusedItem = undefined;
+                    }, undefined, false);
                     itemContainer_1.events.on("focus", function (ev) {
                         component_1.focusedItem = ev.target.dataItem;
                     }, undefined, false);

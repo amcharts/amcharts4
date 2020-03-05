@@ -75,6 +75,9 @@ export interface IXYCursorProperties extends ICursorProperties {
      * plus tooltips from series that are closer to than `maxTooltipDistance` to
      * it.
      *
+     * Set it to `-1` to always force one tooltip, even if there are multiple
+     * data items in exactly same place.
+     *
      * @since 4.7.18
      */
     maxTooltipDistance?: number;
@@ -284,6 +287,9 @@ export declare class XYCursor extends Cursor {
      * If set to a numeric value, cursor will display closest series' tooltips
      * plus tooltips from series that are closer to than `maxTooltipDistance` to
      * it.
+     *
+     * Set it to `-1` to always force one tooltip, even if there are multiple
+     * data items in exactly same place.
      *
      * @since 4.7.18
      * @param  value  Distance

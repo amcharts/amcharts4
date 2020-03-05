@@ -1026,7 +1026,7 @@ var XYChart = /** @class */ (function (_super) {
             var newSeriesPoints_1 = [];
             if (nearestSeries_1) {
                 $array.each(seriesPoints, function (seriesPoint) {
-                    if (Math.abs($math.getDistance(seriesPoint.point, nearestPoint_1)) <= cursor.maxTooltipDistance) {
+                    if (Math.abs($math.getDistance(seriesPoint.point, nearestPoint_1)) <= Math.abs(cursor.maxTooltipDistance)) {
                         newSeriesPoints_1.push({ series: seriesPoint.series, point: seriesPoint.point });
                     }
                     else {
@@ -1040,6 +1040,9 @@ var XYChart = /** @class */ (function (_super) {
                         seriesPoint.series.tooltip.hide(0);
                     }
                 });
+                if (cursor.maxTooltipDistance < 0) {
+                    newSeriesPoints_1 = [{ series: nearestSeries_1, point: nearestPoint_1 }];
+                }
             }
             seriesPoints = newSeriesPoints_1;
         }

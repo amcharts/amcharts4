@@ -14,6 +14,7 @@ import { Container } from "../Container";
 import { Component } from "../Component";
 import { List } from "../utils/List";
 import { Adapter } from "../utils/Adapter";
+import { IDisposer } from "../utils/Disposer";
 import { Optional } from "../utils/Type";
 import * as $type from "../utils/Type";
 /**
@@ -180,9 +181,9 @@ export declare class Responsive extends BaseObjectEvents {
      */
     protected _enabled: boolean;
     /**
-     * Holds a disposer for size events.
+     * Holds disposers for all events added by this class.
      */
-    private _sizeEventDisposer;
+    protected _responsiveDisposers: Array<IDisposer>;
     /**
      * Collection of objects and state ids that do not have any properties set.
      */
@@ -267,7 +268,7 @@ export declare class Responsive extends BaseObjectEvents {
      *
      * @ignore Exclude from docs
      */
-    checkRules(): void;
+    checkRules(force?: boolean): void;
     /**
      * Applies current rules to the object.
      *
@@ -294,6 +295,14 @@ export declare class Responsive extends BaseObjectEvents {
      * @return Property value
      */
     getValue(target: any, property: string): any;
+    /**
+     * Disposes the object.
+     */
+    dispose(): void;
+    /**
+     * Disposes all event handlers.
+     */
+    protected disposeResponsiveHandlers(): void;
 }
 /**
  * [defaultRules description]

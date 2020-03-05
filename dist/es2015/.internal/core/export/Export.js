@@ -515,7 +515,7 @@ var Export = /** @class */ (function (_super) {
                 _this._disablePointers();
             });
             this._menu.events.on("out", function (ev) {
-                setTimeout(_this._releasePointers, 10);
+                setTimeout(function () { _this._releasePointers(); }, 10);
             });
             // Dispatch event
             this.dispatchImmediately("menucreated");

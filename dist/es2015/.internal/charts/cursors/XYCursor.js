@@ -519,6 +519,9 @@ var XYCursor = /** @class */ (function (_super) {
          * plus tooltips from series that are closer to than `maxTooltipDistance` to
          * it.
          *
+         * Set it to `-1` to always force one tooltip, even if there are multiple
+         * data items in exactly same place.
+         *
          * @since 4.7.18
          * @param  value  Distance
          */
