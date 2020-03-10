@@ -266,17 +266,17 @@ export default {
   // day, like in default English translation, if we pass in 2, we will receive
   // "nd" back.
   "_dateOrd": function(day: number): string {
-    let res = "th";
+    let res = "日";
     if ((day < 11) || (day > 13)) {
       switch (day % 10) {
         case 1:
-          res = "st";
+          res = "日";
           break;
         case 2:
-          res = "nd";
+          res = "日";
           break;
         case 3:
-          res = "rd"
+          res = "日"
           break;
       }
     }
