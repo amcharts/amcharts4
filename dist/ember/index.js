@@ -20,6 +20,8 @@ module.exports = {
       app.import('vendor/script/amcharts4/' + name + '.js');
     });
 
-    app.import('vendor/shims/amcharts4.js');
+    if (app.env !== 'production') {
+      app.import('vendor/shims/amcharts4.js');
+    }
   }
 };
