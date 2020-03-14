@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.8] - 2020-03-14
+
+### Fixed
+- Bullets on `RadarChart` were being masked incorrectly (since 4.9.7).
+- Background on `TimeLine` axis could be filled incorrectly in some cases (since 4.9.7).
+- `TimeLine` could error out in some cases (since 4.9.7).
+
+
 ## [4.9.7] - 2020-03-14
 
 ### Added

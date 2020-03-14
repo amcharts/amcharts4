@@ -2297,12 +2297,14 @@ var XYSeries = /** @class */ (function (_super) {
                     this.bulletsContainer.parent = chart.axisBulletsContainer;
                 }
             }
-            if (value && this.yAxis) {
-                this.bulletsContainer.mask = this.yAxis.renderer.gridContainer;
-            }
-            else {
-                this.bulletsContainer.mask = undefined;
-            }
+            /*
+                    if (value && this.yAxis) {
+                        this.bulletsContainer.mask = this.yAxis.renderer.gridContainer;
+                    }
+                    else {
+                        this.bulletsContainer.mask = undefined;
+                    }
+                    */
         },
         enumerable: true,
         configurable: true

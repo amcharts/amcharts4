@@ -2959,12 +2959,14 @@ export class XYSeries extends Series {
 			}
 		}
 
+/*
 		if (value && this.yAxis) {
 			this.bulletsContainer.mask = this.yAxis.renderer.gridContainer;
 		}
 		else {
 			this.bulletsContainer.mask = undefined;
 		}
+		*/
 	}
 
 	/**
