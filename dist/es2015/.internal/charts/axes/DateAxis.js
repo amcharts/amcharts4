@@ -270,6 +270,9 @@ var DateAxis = /** @class */ (function (_super) {
          */
         _this._baseIntervalReal = { timeUnit: "day", count: 1 };
         /**
+         */
+        _this._prevSeriesTime = {};
+        /**
          * [_minDifference description]
          *
          * @todo Description
@@ -633,21 +636,36 @@ var DateAxis = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @todo Description
      */
-    DateAxis.prototype.postProcessSeriesDataItems = function () {
+    DateAxis.prototype.postProcessSeriesDataItems = function (series) {
         var _this = this;
-        this.series.each(function (series) {
-            if (JSON.stringify(series._baseInterval[_this.uid]) != JSON.stringify(_this.mainBaseInterval)) {
-                series._baseInterval[_this.uid] = _this.mainBaseInterval;
-                series.mainDataSet.each(function (dataItem) {
-                    _this.postProcessSeriesDataItem(dataItem);
-                });
-                if (_this.groupData) {
-                    _this.groupSeriesData(series);
-                }
-            }
-        });
+        if (series) {
+            this.seriesGroupUpdate(series);
+        }
+        else {
+            this.series.each(function (series) {
+                _this.seriesGroupUpdate(series);
+            });
+        }
         this.addEmptyUnitsBreaks();
     };
+    DateAxis.prototype.seriesGroupUpdate = function (series) {
+        var _this = this;
+        if (JSON.stringify(series._baseInterval[this.uid]) != JSON.stringify(this.mainBaseInterval)) {
+            series._baseInterval[this.uid] = this.mainBaseInterval;
+            series.mainDataSet.each(function (dataItem) {
+                _this.postProcessSeriesDataItem(dataItem);
+            });
+            if (this.groupData) {
+                this.groupSeriesData(series);
+            }
+        }
+    };
+    /**
+     * Calculates series group data.
+     *
+     * @param  series  Series
+     * @ignore
+     */
     DateAxis.prototype.groupSeriesData = function (series) {
         var _this = this;
         if (series.baseAxis == this && series.dataItems.length > 0 && !series.dataGrouped) {
@@ -1404,7 +1422,7 @@ var DateAxis = /** @class */ (function (_super) {
             return;
         }
         var openDate = dataItem["openDate" + axisLetter];
-        var prevSeriesTime = this._prevSeriesTime;
+        var prevSeriesTime = this._prevSeriesTime[series.uid];
         var openTime;
         if (openDate) {
             openTime = openDate.getTime();
@@ -1421,7 +1439,7 @@ var DateAxis = /** @class */ (function (_super) {
                 this._minDifference[series.uid] = differece;
             }
         }
-        this._prevSeriesTime = time;
+        this._prevSeriesTime[series.uid] = time;
         if (series._baseInterval[this.uid]) {
             this.postProcessSeriesDataItem(dataItem);
         }
@@ -1646,6 +1664,7 @@ var DateAxis = /** @class */ (function (_super) {
         var text;
         var date = this.positionToDate(position);
         date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc, new Date(this.min));
+        this.tooltipDate = date;
         if ($type.hasValue(this.tooltipDateFormat)) {
             text = this._df.format(date, this.tooltipDateFormat);
         }

@@ -173,9 +173,6 @@ var PyramidSeries = /** @class */ (function (_super) {
         // TODO can this be removed ?
         this.getNextValue(dataItem);
         var workingValue = Math.abs(dataItem.getWorkingValue("value"));
-        if (workingValue == 0) {
-            workingValue = 0.000001;
-        }
         var pyramidWidth = this._pyramidWidth;
         var pyramidHeight = this._pyramidHeight;
         var maxWidth = this.slicesContainer.innerWidth;
@@ -207,7 +204,12 @@ var PyramidSeries = /** @class */ (function (_super) {
                 var square = totalSquare * workingValue / sum;
                 var s = Math.abs(sliceTopWidth * sliceTopWidth - 2 * square * c);
                 sliceHeight = (sliceTopWidth - Math.sqrt(s)) / c;
-                sliceBottomWidth = (2 * square - sliceHeight * sliceTopWidth) / sliceHeight;
+                if (sliceHeight > 0) {
+                    sliceBottomWidth = (2 * square - sliceHeight * sliceTopWidth) / sliceHeight;
+                }
+                else {
+                    sliceBottomWidth = sliceTopWidth;
+                }
             }
             else {
                 sliceHeight = pyramidHeight * workingValue / sum;

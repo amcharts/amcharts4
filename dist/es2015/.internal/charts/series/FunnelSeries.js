@@ -266,6 +266,7 @@ var FunnelSeries = /** @class */ (function (_super) {
      * @param dataItem  Data item
      */
     FunnelSeries.prototype.validateDataElement = function (dataItem) {
+        var _this = this;
         //if ($type.hasValue(dataItem.value)) {
         // FunnelSlice
         var slice = dataItem.slice;
@@ -279,7 +280,12 @@ var FunnelSeries = /** @class */ (function (_super) {
         if ($type.hasValue(dataItem.value)) {
             this.decorateSlice(dataItem);
             $array.each(dataItem.sprites, function (sprite) {
-                sprite.__disabled = false;
+                if (dataItem.value == 0 && _this.ignoreZeroValues) {
+                    sprite.__disabled = true;
+                }
+                else {
+                    sprite.__disabled = false;
+                }
             });
         }
         else {

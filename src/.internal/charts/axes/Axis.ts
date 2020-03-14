@@ -1858,7 +1858,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public postProcessSeriesDataItems(): void {
+	public postProcessSeriesDataItems(series?:XYSeries): void {
 
 	}
 

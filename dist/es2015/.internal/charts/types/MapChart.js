@@ -117,9 +117,9 @@ var MapChart = /** @class */ (function (_super) {
         _this.className = "MapChart";
         // Set default projection
         _this.projection = new Projection();
-        _this.deltaLongitude = 0;
-        _this.deltaLatitude = 0;
-        _this.deltaGamma = 0;
+        _this.setPropertyValue("deltaLatitude", 0);
+        _this.setPropertyValue("deltaLongitude", 0);
+        _this.setPropertyValue("deltaGamma", 0);
         _this.maxPanOut = 0.7;
         _this.homeZoomLevel = 1;
         _this.zoomStep = 2;
@@ -1166,6 +1166,7 @@ var MapChart = /** @class */ (function (_super) {
          * @param  value  Rotation
          */
         set: function (value) {
+            value = $math.round(value, 3);
             if (this.setPropertyValue("deltaLongitude", $geo.wrapAngleTo180(value))) {
                 this.rotateMap();
                 this.updateZoomGeoPoint();
@@ -1192,6 +1193,7 @@ var MapChart = /** @class */ (function (_super) {
          * @param  value  Rotation
          */
         set: function (value) {
+            value = $math.round(value, 3);
             if (this.setPropertyValue("deltaLatitude", value)) {
                 this.rotateMap();
                 this.updateZoomGeoPoint();
@@ -1216,6 +1218,7 @@ var MapChart = /** @class */ (function (_super) {
          * @param  value  Rotation
          */
         set: function (value) {
+            value = $math.round(value, 3);
             if (this.setPropertyValue("deltaGamma", value)) {
                 this.rotateMap();
                 this.updateZoomGeoPoint();
@@ -1383,7 +1386,7 @@ var MapChart = /** @class */ (function (_super) {
                 }
                 catch (e) {
                     // No go again. Error out.
-                    throw Error("MapChart error: Geodata `" + name_1 + "` is not loaded or is incorrect.");
+                    this.raiseCriticalError(Error("MapChart error: Geodata `" + name_1 + "` is not loaded or is incorrect."), true);
                 }
             }
         }

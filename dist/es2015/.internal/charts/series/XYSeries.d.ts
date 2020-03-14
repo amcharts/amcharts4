@@ -674,6 +674,10 @@ export declare class XYSeries extends Series {
     /**
      * @ignore
      */
+    resetExtremes(): void;
+    /**
+     * @ignore
+     */
     dataChangeUpdate(): void;
     /**
      * (Re)validates the series' data.

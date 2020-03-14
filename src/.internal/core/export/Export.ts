@@ -907,6 +907,11 @@ export interface IExportAdapters {
 		format: string
 	},
 
+	dataFieldsOrder: {
+		dataFieldsOrder: string[],
+		format: string
+	},
+
 	dateFormatter: {
 		dateFormatter: DateFormatter
 	},
@@ -1122,6 +1127,17 @@ export class Export extends Validatable {
 	 * exporting to data formats.
 	 */
 	protected _dataFields: any;
+
+	/**
+	 * Holds an array of data field names. If set, exported data fields will try
+	 * to maintain this order.
+	 *
+	 * If not set (default), the export will try to maintain the same order as
+	 * in source data, or as in `dataFields` (if set).
+	 *
+	 * @since 4.9.7
+	 */
+	public dataFieldsOrder: string[] = [];
 
 	/**
 	 * Indicates whether data fields were generated dynamically (`true`) or
@@ -2938,7 +2954,13 @@ export class Export extends Validatable {
 		// Vertical or horizontal (default) layout
 		if (options.pivot) {
 
-			$object.each(dataFields, (key, val) => {
+			// Data fields order
+			const dataFieldsOrder = this.adapter.apply("dataFieldsOrder", {
+				dataFieldsOrder: this.dataFieldsOrder,
+				format: "pdfdata"
+			}).dataFieldsOrder;
+
+			$object.eachOrdered(dataFields, (key, val) => {
 				let dataRow = [];
 				if (options.addColumnNames) {
 					dataRow.push(val);
@@ -2948,6 +2970,17 @@ export class Export extends Validatable {
 					dataRow.push(this.convertToSpecialFormat<"pdf">(key, dataValue, options, true));
 				}
 				content.body.push(this.getPDFDataRow(dataRow, options, undefined, true));
+			}, (a, b) => {
+				//console.log(a, b)
+				let ai = dataFieldsOrder.indexOf(a);
+				let bi = dataFieldsOrder.indexOf(b);
+				if (ai > bi) {
+					return 1;
+				}
+				else if (ai < bi) {
+					return -1
+				}
+				return 0;
 			});
 
 		}
@@ -2994,8 +3027,14 @@ export class Export extends Validatable {
 			dataFields = row;
 		}
 
+		// Data fields order
+		const dataFieldsOrder = this.adapter.apply("dataFieldsOrder", {
+			dataFieldsOrder: this.dataFieldsOrder,
+			format: "pdfdata"
+		}).dataFieldsOrder;
+
 		// Process each row item
-		$object.each(dataFields, (key, name) => {
+		$object.eachOrdered(dataFields, (key, name) => {
 
 			// Get value
 			let value = this.convertEmptyValue(key, row[key], options);
@@ -3006,6 +3045,17 @@ export class Export extends Validatable {
 
 			// Add to item
 			items.push(item);
+		}, (a, b) => {
+			//console.log(a, b)
+			let ai = dataFieldsOrder.indexOf(a);
+			let bi = dataFieldsOrder.indexOf(b);
+			if (ai > bi) {
+				return 1;
+			}
+			else if (ai < bi) {
+				return -1
+			}
+			return 0;
 		});
 
 		return items;
@@ -3144,7 +3194,13 @@ export class Export extends Validatable {
 		// Vertical or horizontal (default) layout
 		if (options.pivot) {
 
-			$object.each(dataFields, (key, val) => {
+			// Data fields order
+			const dataFieldsOrder = this.adapter.apply("dataFieldsOrder", {
+				dataFieldsOrder: this.dataFieldsOrder,
+				format: "xlsx"
+			}).dataFieldsOrder;
+
+			$object.eachOrdered(dataFields, (key, val) => {
 				let dataRow = [];
 				if (options.addColumnNames) {
 					dataRow.push(val);
@@ -3154,6 +3210,17 @@ export class Export extends Validatable {
 					dataRow.push(this.convertToSpecialFormat<"xlsx">(key, dataValue, options, true));
 				}
 				data.push(this.getExcelRow(dataRow, options, undefined, true));
+			}, (a, b) => {
+				//console.log(a, b)
+				let ai = dataFieldsOrder.indexOf(a);
+				let bi = dataFieldsOrder.indexOf(b);
+				if (ai > bi) {
+					return 1;
+				}
+				else if (ai < bi) {
+					return -1
+				}
+				return 0;
 			});
 
 		}
@@ -3213,8 +3280,14 @@ export class Export extends Validatable {
 			dataFields = row;
 		}
 
+		// Data fields order
+		const dataFieldsOrder = this.adapter.apply("dataFieldsOrder", {
+			dataFieldsOrder: this.dataFieldsOrder,
+			format: "xlsx"
+		}).dataFieldsOrder;
+
 		// Process each row item
-		$object.each(dataFields, (key, name) => {
+		$object.eachOrdered(dataFields, (key, name) => {
 
 			// Get value
 			let value = this.convertEmptyValue(key, row[key], options);
@@ -3223,6 +3296,17 @@ export class Export extends Validatable {
 			let item = asIs ? value : this.convertToSpecialFormat<"xlsx">(key, value, options, true);
 
 			items.push(item);
+		}, (a, b) => {
+			//console.log(a, b)
+			let ai = dataFieldsOrder.indexOf(a);
+			let bi = dataFieldsOrder.indexOf(b);
+			if (ai > bi) {
+				return 1;
+			}
+			else if (ai < bi) {
+				return -1
+			}
+			return 0;
 		});
 
 		return items;
@@ -3257,7 +3341,13 @@ export class Export extends Validatable {
 		// Vertical or horizontal (default) layout
 		if (options.pivot) {
 
-			$object.each(dataFields, (key, val) => {
+			// Data fields order
+			const dataFieldsOrder = this.adapter.apply("dataFieldsOrder", {
+				dataFieldsOrder: this.dataFieldsOrder,
+				format: "csv"
+			}).dataFieldsOrder;
+
+			$object.eachOrdered(dataFields, (key, val) => {
 				let dataRow = [];
 				if (options.addColumnNames) {
 					dataRow.push(val);
@@ -3268,6 +3358,16 @@ export class Export extends Validatable {
 				}
 				csv += br + this.getCSVRow(dataRow, options, undefined, true);
 				br = "\n";
+			}, (a, b) => {
+				let ai = dataFieldsOrder.indexOf(a);
+				let bi = dataFieldsOrder.indexOf(b);
+				if (ai > bi) {
+					return -1;
+				}
+				else if (ai < bi) {
+					return 1
+				}
+				return 0;
 			});
 
 		}
@@ -3327,8 +3427,14 @@ export class Export extends Validatable {
 			dataFields = row;
 		}
 
+		// Data fields order
+		const dataFieldsOrder = this.adapter.apply("dataFieldsOrder", {
+			dataFieldsOrder: this.dataFieldsOrder,
+			format: "csv"
+		}).dataFieldsOrder;
+
 		// Process each row item
-		$object.each(dataFields, (key, name) => {
+		$object.eachOrdered(dataFields, (key, name) => {
 
 			// Get value
 			let value = this.convertEmptyValue(key, row[key], options);
@@ -3353,6 +3459,17 @@ export class Export extends Validatable {
 
 			// Add to item
 			items.push(item);
+		}, (a, b) => {
+			//console.log(a, b)
+			let ai = dataFieldsOrder.indexOf(a);
+			let bi = dataFieldsOrder.indexOf(b);
+			if (ai > bi) {
+				return 1;
+			}
+			else if (ai < bi) {
+				return -1
+			}
+			return 0;
 		});
 
 		return items.join(separator);
@@ -3390,7 +3507,13 @@ export class Export extends Validatable {
 		// Vertical or horizontal (default) layout
 		if (options.pivot) {
 
-			$object.each(dataFields, (key, val) => {
+			// Data fields order
+			const dataFieldsOrder = this.adapter.apply("dataFieldsOrder", {
+				dataFieldsOrder: this.dataFieldsOrder,
+				format: "html"
+			}).dataFieldsOrder;
+
+			$object.eachOrdered(dataFields, (key, val) => {
 				let dataRow = [];
 				if (options.addColumnNames) {
 					dataRow.push(val);
@@ -3400,6 +3523,16 @@ export class Export extends Validatable {
 					dataRow.push(this.convertToSpecialFormat<"html">(key, dataValue, options, true));
 				}
 				html += "\n" + this.getHTMLRow(dataRow, options, undefined, true);
+			}, (a, b) => {
+				let ai = dataFieldsOrder.indexOf(a);
+				let bi = dataFieldsOrder.indexOf(b);
+				if (ai > bi) {
+					return -1;
+				}
+				else if (ai < bi) {
+					return 1
+				}
+				return 0;
 			});
 
 		}
@@ -3457,12 +3590,18 @@ export class Export extends Validatable {
 			dataFields = row;
 		}
 
+		// Data fields order
+		const dataFieldsOrder = this.adapter.apply("dataFieldsOrder", {
+			dataFieldsOrder: this.dataFieldsOrder,
+			format: "html"
+		}).dataFieldsOrder;
+
 		// th or dh?
 		const tag = headerRow ? "th" : "td";
 
 		// Process each row item
 		let first = true;
-		$object.each(dataFields, (key, name) => {
+		$object.eachOrdered(dataFields, (key, name) => {
 
 			// Get value
 			let value = this.convertEmptyValue(key, row[key], options);
@@ -3491,6 +3630,16 @@ export class Export extends Validatable {
 			}
 
 			first = false;
+		}, (a, b) => {
+			let ai = dataFieldsOrder.indexOf(a);
+			let bi = dataFieldsOrder.indexOf(b);
+			if (ai > bi) {
+				return 1;
+			}
+			else if (ai < bi) {
+				return -1
+			}
+			return 0;
 		});
 
 		html += "\n\t</tr>";
@@ -4028,10 +4177,10 @@ export class Export extends Validatable {
 		this.setTimeout(() => {
 			try {
 				if (!(<any>iframe).contentWindow.document.execCommand("print", false, null)) {
-					(<any>iframe).contentWindow.print()​​​​​​;
+					(<any>iframe).contentWindow.print();
 				}
 			} catch (e) {
-				(<any>iframe).contentWindow.print()​​​​​​;
+				(<any>iframe).contentWindow.print();
 			}
 		}, options.delay || 50);
 

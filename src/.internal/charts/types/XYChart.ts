@@ -991,8 +991,12 @@ export class XYChart extends SerialChart {
 			}
 			if (series.yAxis) {
 				series.yAxis.series.removeValue(series);
-				series.yAxis.invalidateProcessedData();
+				series.yAxis.invalidateProcessedData();				
 			}
+			// otherwise extremes won't change
+			this.series.each((series)=>{
+				series.resetExtremes();
+			})			
 		}
 		super.handleSeriesRemoved(event);
 	}

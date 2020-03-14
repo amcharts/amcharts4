@@ -5,6 +5,31 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.7] - 2020-03-14
+
+### Added
+- Export has now additional setting `dataFieldsOrder`. It's an array. Push field names into it and exported data will try to maintain field order like this.
+- A read-only property `tooltipDate` added to `DateAxis`. Will holde `Date` object of the last shown axis tooltip.
+
+### Fixed
+- In charts with series loading their own external data with responsive features enabled, they were starting as pre-hidden.
+- Axes in `XYChartScrollbar` (both value and date) were not reseting min/max if series of the chart changed. This could result scrollbar's series incorrectly displayed.
+- `PyramidSeries` and `FunnelSeries` with very small values were not animating properly on chart init.
+- `PyramidSeries` and `FunnelSeries` with data items with `value = 0` could show small rectangle at top/left corner.
+- `PyramidSeries` with data items with `value = 0` was not rendered properly.
+- Tooltip on a horizontal axis was "shaking" when cursor was very near plot area.
+- Performance improved of adding series to an already build `XYChart`.
+- Map was not drawn with certain initial `deltaLongitude` values (e.g. 30, 60, etc).
+- Removing series with a lot of data, `DateAxis` with grouping enabled, and zoomed-in chart could cause a stack overflow.
+- Removing series could cause error (if removed while initial animation was still playing out).
+- Sometimes, if a series was added after chart was inited and data grouping of `DateAxis` was enabled, the `ValueAxis` was not fully zoomed out.
+- A newly added series after the chart was inited was not showing initial animation.
+- Violating logarithmic axis scale no longer results in critical / chart-stopping error. The modal can be closed and chart recovered.
+- If chart had stacked axes and series with bullets, the bullets were not masked properly. Now you can set `series.maskBullets = true` to solve this.
+- Series tooltip is no longer shown if data item is outside plot area.
+- Perfectly straight line series in `XYChartScrollbar` were not displayed.
+
+
 ## [4.9.6] - 2020-03-05
 
 ### Changed

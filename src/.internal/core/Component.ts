@@ -891,9 +891,9 @@ export class Component extends Container {
 
 				this.dataUsers.each((dataUser) => {
 					if (!dataUser.data || dataUser.data.length == 0) {
-						let dataItem = dataUser.dataItems.getIndex(0);
+						let dataItem = dataUser.mainDataSet.getIndex(0);
 						if (dataItem) {
-							dataUser.dataItems.remove(dataItem);
+							dataUser.mainDataSet.remove(dataItem);
 						}
 					}
 				});

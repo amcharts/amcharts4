@@ -692,6 +692,10 @@ var XYChart = /** @class */ (function (_super) {
                 series.yAxis.series.removeValue(series);
                 series.yAxis.invalidateProcessedData();
             }
+            // otherwise extremes won't change
+            this.series.each(function (series) {
+                series.resetExtremes();
+            });
         }
         _super.prototype.handleSeriesRemoved.call(this, event);
     };

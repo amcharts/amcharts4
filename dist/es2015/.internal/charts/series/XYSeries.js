@@ -520,6 +520,7 @@ var XYSeries = /** @class */ (function (_super) {
         _this.mainContainer.mask.setElement(_this.paper.add("path"));
         _this.stacked = false;
         _this.snapTooltip = false;
+        _this._showBullets = false;
         _this.tooltip.pointerOrientation = "horizontal";
         _this.hideTooltipWhileZooming = true;
         _this.maskBullets = true;
@@ -565,14 +566,20 @@ var XYSeries = /** @class */ (function (_super) {
     /**
      * @ignore
      */
-    XYSeries.prototype.dataChangeUpdate = function () {
-        this.dataGrouped = false;
-        this._baseInterval = {};
-        this._currentDataSetId = "";
+    XYSeries.prototype.resetExtremes = function () {
         this._tmin.clear();
         this._tmax.clear();
         this._smin.clear();
         this._smax.clear();
+    };
+    /**
+     * @ignore
+     */
+    XYSeries.prototype.dataChangeUpdate = function () {
+        this.dataGrouped = false;
+        this._baseInterval = {};
+        this._currentDataSetId = "";
+        this.resetExtremes();
         if (this.xAxis) {
             this.xAxis.seriesDataChangeUpdate(this);
         }
@@ -841,8 +848,11 @@ var XYSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     XYSeries.prototype.validateDataItems = function () {
-        this._maxxX = $math.max(100000, this.chart.plotContainer.maxWidth * 2);
-        this._maxxY = $math.max(100000, this.chart.plotContainer.maxHeight * 2);
+        var chart = this.chart;
+        if (chart) {
+            this._maxxX = $math.max(100000, chart.plotContainer.maxWidth * 2);
+            this._maxxY = $math.max(100000, chart.plotContainer.maxHeight * 2);
+        }
         // this helps date axis to check which baseInterval we should use
         var xAxis = this.xAxis;
         var yAxis = this.yAxis;
@@ -852,8 +862,8 @@ var XYSeries = /** @class */ (function (_super) {
         }
         _super.prototype.validateDataItems.call(this);
         if (xAxis && yAxis) {
-            xAxis.postProcessSeriesDataItems();
-            yAxis.postProcessSeriesDataItems();
+            xAxis.postProcessSeriesDataItems(this);
+            yAxis.postProcessSeriesDataItems(this);
         }
     };
     /**
@@ -1064,17 +1074,16 @@ var XYSeries = /** @class */ (function (_super) {
         if (changed) {
             this._dataSetChanged = true;
             var dataItems = this.dataItems;
-            this._tmax.clear();
-            this._tmin.clear();
-            this._smax.clear();
-            this._smin.clear();
+            this.resetExtremes();
             var xAxis = this.xAxis;
             var yAxis = this.yAxis;
             this._prevStartIndex = undefined;
             this._prevEndIndex = undefined;
             this._startIndex = undefined;
             this._endIndex = undefined;
-            //this.processValues(false); // this will slow down!
+            if (!this.appeared) {
+                this.processValues(false); // this will slow down!
+            }
             if (xAxis instanceof DateAxis && xAxis == this.baseAxis) {
                 this._tmin.setKey(xAxis.uid, dataItems.getIndex(0).dateX.getTime());
                 this._tmax.setKey(xAxis.uid, dataItems.getIndex(dataItems.length - 1).dateX.getTime());
@@ -1325,7 +1334,7 @@ var XYSeries = /** @class */ (function (_super) {
                 var tooltipYField = this.tooltipYField;
                 if ($type.hasValue(dataItem[tooltipXField]) && $type.hasValue(dataItem[tooltipYField])) {
                     var tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, this.getAdjustedXLocation(dataItem, tooltipXField), this.getAdjustedYLocation(dataItem, tooltipYField));
-                    if (tooltipPoint) {
+                    if (tooltipPoint && tooltipPoint.y > -1 && tooltipPoint.y < this.yAxis.pixelHeight + 1 && tooltipPoint.x > -1 && tooltipPoint.x < this.xAxis.pixelWidth + 1) {
                         this.tooltipX = tooltipPoint.x;
                         this.tooltipY = tooltipPoint.y;
                         if (this._prevTooltipDataItem != dataItem) {
@@ -2287,6 +2296,12 @@ var XYSeries = /** @class */ (function (_super) {
                 else {
                     this.bulletsContainer.parent = chart.axisBulletsContainer;
                 }
+            }
+            if (value && this.yAxis) {
+                this.bulletsContainer.mask = this.yAxis.renderer.gridContainer;
+            }
+            else {
+                this.bulletsContainer.mask = undefined;
             }
         },
         enumerable: true,

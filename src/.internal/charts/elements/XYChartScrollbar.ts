@@ -124,6 +124,7 @@ export class XYChartScrollbar extends Scrollbar {
 		scrollbarChart.interactionsEnabled = false;
 
 		this._scrollbarChart = scrollbarChart;
+		scrollbarChart.plotContainer.filters.push(new DesaturateFilter());
 		this._disposers.push(this._scrollbarChart);
 
 		this.minHeight = 60;
@@ -256,7 +257,9 @@ export class XYChartScrollbar extends Scrollbar {
 			if (xAxis instanceof DateAxis) {
 				let vAxis = <DateAxis>xAxis;
 				let sourceAxis = <DateAxis>sourceSeries.xAxis;
-				xAxis.groupCount = sourceAxis.groupCount * 5;
+				vAxis.groupCount = sourceAxis.groupCount * 5;
+				vAxis.min = undefined;
+				vAxis.max = undefined;
 				this._disposers.push(vAxis.clonedFrom.events.on("extremeschanged", () => {
 					if ($type.isNumber(vAxis.clonedFrom.minDefined)) {
 						vAxis.min = vAxis.clonedFrom.minDefined;
@@ -268,6 +271,8 @@ export class XYChartScrollbar extends Scrollbar {
 			}
 			else if (xAxis instanceof ValueAxis) {
 				let vAxis = <ValueAxis>xAxis;
+				vAxis.min = undefined;
+				vAxis.max = undefined;				
 				if (!$type.isNumber(vAxis.clonedFrom.minDefined)) {
 					vAxis.min = undefined;
 				}
@@ -331,6 +336,8 @@ export class XYChartScrollbar extends Scrollbar {
 
 			if (yAxis instanceof DateAxis) {
 				let vAxis = <ValueAxis>yAxis;
+				vAxis.min = undefined;
+				vAxis.max = undefined;				
 				let sourceAxis = <DateAxis>sourceSeries.yAxis;
 				yAxis.groupCount = sourceAxis.groupCount * 5;
 
@@ -346,6 +353,8 @@ export class XYChartScrollbar extends Scrollbar {
 
 			else if (yAxis instanceof ValueAxis) {
 				let vAxis = <ValueAxis>yAxis;
+				vAxis.min = undefined;
+				vAxis.max = undefined;				
 
 				if (!$type.isNumber(vAxis.clonedFrom.minDefined)) {
 					vAxis.min = undefined;
@@ -388,7 +397,6 @@ export class XYChartScrollbar extends Scrollbar {
 		}, undefined, false));
 		series.defaultState.properties.visible = true;
 
-		series.filters.push(new DesaturateFilter());
 		scrollbarChart.series.push(series);
 
 		this.updateByOrientation();

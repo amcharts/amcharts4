@@ -384,7 +384,9 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
     protected _baseIntervalReal: ITimeInterval;
     /**
      */
-    protected _prevSeriesTime: number;
+    protected _prevSeriesTime: {
+        [index: string]: number;
+    };
     /**
      * [_minDifference description]
      *
@@ -431,6 +433,13 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
     groupMax: {
         [index: string]: number;
     };
+    /**
+     * Date of the last shown axis tooltip.
+     *
+     * @since 4.9.7
+     * @readonly
+     */
+    tooltipDate: Date;
     /**
      * Constructor
      */
@@ -497,7 +506,14 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @ignore Exclude from docs
      * @todo Description
      */
-    postProcessSeriesDataItems(): void;
+    postProcessSeriesDataItems(series?: XYSeries): void;
+    protected seriesGroupUpdate(series: XYSeries): void;
+    /**
+     * Calculates series group data.
+     *
+     * @param  series  Series
+     * @ignore
+     */
     groupSeriesData(series: XYSeries): void;
     /**
      * @ignore

@@ -133,7 +133,6 @@ var SerialChart = /** @class */ (function (_super) {
         configurable: true
     });
     SerialChart.prototype.handleSeriesRemoved = function (event) {
-        var _this = this;
         var series = event.oldValue;
         this.dataUsers.removeValue(series);
         this.dataUsers.each(function (dataUser) {
@@ -148,14 +147,14 @@ var SerialChart = /** @class */ (function (_super) {
         }
         //this.feedLegend();
         if (this.legend) {
-            this.legend.dataItems.each(function (dataItem) {
-                if (dataItem.dataContext == series) {
-                    _this.legend.dataItems.remove(dataItem);
+            var dataItems = this.legend.dataItems;
+            for (var i = dataItems.length - 1; i >= 0; i--) {
+                var dataItem = dataItems.getIndex(i);
+                if (dataItem && dataItem.dataContext == series) {
+                    $array.remove(this.legend.data, dataItem.dataContext);
+                    this.legend.dataItems.remove(dataItem);
                 }
-            });
-            $array.each(this.legend.data, function (item) {
-                $array.remove(_this.legend.data, item);
-            });
+            }
         }
     };
     /**
@@ -192,7 +191,15 @@ var SerialChart = /** @class */ (function (_super) {
             // on exit only as data is usually passed after push
             registry.events.once("exitframe", function () {
                 if (!series.data || series.data.length == 0) {
-                    _this.invalidateData();
+                    series.data = _this.data;
+                    if (series.showOnInit) {
+                        series.reinit();
+                        series.setPropertyValue("showOnInit", false);
+                        series.showOnInit = true;
+                    }
+                    series.events.on("datavalidated", function () {
+                        series._data = [];
+                    });
                 }
             }));
         }

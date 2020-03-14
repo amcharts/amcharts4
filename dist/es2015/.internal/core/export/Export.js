@@ -325,6 +325,16 @@ var Export = /** @class */ (function (_super) {
          */
         _this._validateSprites = [];
         /**
+         * Holds an array of data field names. If set, exported data fields will try
+         * to maintain this order.
+         *
+         * If not set (default), the export will try to maintain the same order as
+         * in source data, or as in `dataFields` (if set).
+         *
+         * @since 4.9.7
+         */
+        _this.dataFieldsOrder = [];
+        /**
          * Indicates whether data fields were generated dynamically (`true`) or
          * if they were pre-set by the user (`false`).
          */
@@ -1873,7 +1883,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getPDFData = function (type, options) {
         return __awaiter(this, void 0, void 0, function () {
-            var content, dataFields, data, len, i;
+            var content, dataFields, data, dataFieldsOrder_1, len, i;
             var _this = this;
             return __generator(this, function (_a) {
                 content = {
@@ -1886,7 +1896,11 @@ var Export = /** @class */ (function (_super) {
                 data = this.data;
                 // Vertical or horizontal (default) layout
                 if (options.pivot) {
-                    $object.each(dataFields, function (key, val) {
+                    dataFieldsOrder_1 = this.adapter.apply("dataFieldsOrder", {
+                        dataFieldsOrder: this.dataFieldsOrder,
+                        format: "pdfdata"
+                    }).dataFieldsOrder;
+                    $object.eachOrdered(dataFields, function (key, val) {
                         var dataRow = [];
                         if (options.addColumnNames) {
                             dataRow.push(val);
@@ -1896,6 +1910,17 @@ var Export = /** @class */ (function (_super) {
                             dataRow.push(_this.convertToSpecialFormat(key, dataValue, options, true));
                         }
                         content.body.push(_this.getPDFDataRow(dataRow, options, undefined, true));
+                    }, function (a, b) {
+                        //console.log(a, b)
+                        var ai = dataFieldsOrder_1.indexOf(a);
+                        var bi = dataFieldsOrder_1.indexOf(b);
+                        if (ai > bi) {
+                            return 1;
+                        }
+                        else if (ai < bi) {
+                            return -1;
+                        }
+                        return 0;
                     });
                 }
                 else {
@@ -1935,8 +1960,13 @@ var Export = /** @class */ (function (_super) {
         if (!dataFields) {
             dataFields = row;
         }
+        // Data fields order
+        var dataFieldsOrder = this.adapter.apply("dataFieldsOrder", {
+            dataFieldsOrder: this.dataFieldsOrder,
+            format: "pdfdata"
+        }).dataFieldsOrder;
         // Process each row item
-        $object.each(dataFields, function (key, name) {
+        $object.eachOrdered(dataFields, function (key, name) {
             // Get value
             var value = _this.convertEmptyValue(key, row[key], options);
             // Convert dates
@@ -1944,6 +1974,17 @@ var Export = /** @class */ (function (_super) {
             item = "" + item;
             // Add to item
             items.push(item);
+        }, function (a, b) {
+            //console.log(a, b)
+            var ai = dataFieldsOrder.indexOf(a);
+            var bi = dataFieldsOrder.indexOf(b);
+            if (ai > bi) {
+                return 1;
+            }
+            else if (ai < bi) {
+                return -1;
+            }
+            return 0;
         });
         return items;
     };
@@ -2040,7 +2081,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getExcel = function (type, options) {
         return __awaiter(this, void 0, void 0, function () {
-            var XLSX, wbOptions, sheetName, wb, data, dataFields, len, i, uri;
+            var XLSX, wbOptions, sheetName, wb, data, dataFields, dataFieldsOrder_2, len, i, uri;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -2068,7 +2109,11 @@ var Export = /** @class */ (function (_super) {
                         }).dataFields;
                         // Vertical or horizontal (default) layout
                         if (options.pivot) {
-                            $object.each(dataFields, function (key, val) {
+                            dataFieldsOrder_2 = this.adapter.apply("dataFieldsOrder", {
+                                dataFieldsOrder: this.dataFieldsOrder,
+                                format: "xlsx"
+                            }).dataFieldsOrder;
+                            $object.eachOrdered(dataFields, function (key, val) {
                                 var dataRow = [];
                                 if (options.addColumnNames) {
                                     dataRow.push(val);
@@ -2078,6 +2123,17 @@ var Export = /** @class */ (function (_super) {
                                     dataRow.push(_this.convertToSpecialFormat(key, dataValue, options, true));
                                 }
                                 data.push(_this.getExcelRow(dataRow, options, undefined, true));
+                            }, function (a, b) {
+                                //console.log(a, b)
+                                var ai = dataFieldsOrder_2.indexOf(a);
+                                var bi = dataFieldsOrder_2.indexOf(b);
+                                if (ai > bi) {
+                                    return 1;
+                                }
+                                else if (ai < bi) {
+                                    return -1;
+                                }
+                                return 0;
                             });
                         }
                         else {
@@ -2130,13 +2186,29 @@ var Export = /** @class */ (function (_super) {
         if (!dataFields) {
             dataFields = row;
         }
+        // Data fields order
+        var dataFieldsOrder = this.adapter.apply("dataFieldsOrder", {
+            dataFieldsOrder: this.dataFieldsOrder,
+            format: "xlsx"
+        }).dataFieldsOrder;
         // Process each row item
-        $object.each(dataFields, function (key, name) {
+        $object.eachOrdered(dataFields, function (key, name) {
             // Get value
             var value = _this.convertEmptyValue(key, row[key], options);
             // Convert dates
             var item = asIs ? value : _this.convertToSpecialFormat(key, value, options, true);
             items.push(item);
+        }, function (a, b) {
+            //console.log(a, b)
+            var ai = dataFieldsOrder.indexOf(a);
+            var bi = dataFieldsOrder.indexOf(b);
+            if (ai > bi) {
+                return 1;
+            }
+            else if (ai < bi) {
+                return -1;
+            }
+            return 0;
         });
         return items;
     };
@@ -2153,7 +2225,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getCSV = function (type, options) {
         return __awaiter(this, void 0, void 0, function () {
-            var csv, dataFields, br, data, len, i, row, charset, uri;
+            var csv, dataFields, br, data, dataFieldsOrder_3, len, i, row, charset, uri;
             var _this = this;
             return __generator(this, function (_a) {
                 csv = "";
@@ -2165,7 +2237,11 @@ var Export = /** @class */ (function (_super) {
                 data = this.data;
                 // Vertical or horizontal (default) layout
                 if (options.pivot) {
-                    $object.each(dataFields, function (key, val) {
+                    dataFieldsOrder_3 = this.adapter.apply("dataFieldsOrder", {
+                        dataFieldsOrder: this.dataFieldsOrder,
+                        format: "csv"
+                    }).dataFieldsOrder;
+                    $object.eachOrdered(dataFields, function (key, val) {
                         var dataRow = [];
                         if (options.addColumnNames) {
                             dataRow.push(val);
@@ -2176,6 +2252,16 @@ var Export = /** @class */ (function (_super) {
                         }
                         csv += br + _this.getCSVRow(dataRow, options, undefined, true);
                         br = "\n";
+                    }, function (a, b) {
+                        var ai = dataFieldsOrder_3.indexOf(a);
+                        var bi = dataFieldsOrder_3.indexOf(b);
+                        if (ai > bi) {
+                            return -1;
+                        }
+                        else if (ai < bi) {
+                            return 1;
+                        }
+                        return 0;
                     });
                 }
                 else {
@@ -2227,8 +2313,13 @@ var Export = /** @class */ (function (_super) {
         if (!dataFields) {
             dataFields = row;
         }
+        // Data fields order
+        var dataFieldsOrder = this.adapter.apply("dataFieldsOrder", {
+            dataFieldsOrder: this.dataFieldsOrder,
+            format: "csv"
+        }).dataFieldsOrder;
         // Process each row item
-        $object.each(dataFields, function (key, name) {
+        $object.eachOrdered(dataFields, function (key, name) {
             // Get value
             var value = _this.convertEmptyValue(key, row[key], options);
             // Check if we need to skip
@@ -2247,6 +2338,17 @@ var Export = /** @class */ (function (_super) {
             }
             // Add to item
             items.push(item);
+        }, function (a, b) {
+            //console.log(a, b)
+            var ai = dataFieldsOrder.indexOf(a);
+            var bi = dataFieldsOrder.indexOf(b);
+            if (ai > bi) {
+                return 1;
+            }
+            else if (ai < bi) {
+                return -1;
+            }
+            return 0;
         });
         return items.join(separator);
     };
@@ -2264,7 +2366,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getHTML = function (type, options) {
         return __awaiter(this, void 0, void 0, function () {
-            var html, dataFields, data, len, i, charset, uri;
+            var html, dataFields, data, dataFieldsOrder_4, len, i, charset, uri;
             var _this = this;
             return __generator(this, function (_a) {
                 html = "<table>";
@@ -2278,7 +2380,11 @@ var Export = /** @class */ (function (_super) {
                 data = this.data;
                 // Vertical or horizontal (default) layout
                 if (options.pivot) {
-                    $object.each(dataFields, function (key, val) {
+                    dataFieldsOrder_4 = this.adapter.apply("dataFieldsOrder", {
+                        dataFieldsOrder: this.dataFieldsOrder,
+                        format: "html"
+                    }).dataFieldsOrder;
+                    $object.eachOrdered(dataFields, function (key, val) {
                         var dataRow = [];
                         if (options.addColumnNames) {
                             dataRow.push(val);
@@ -2288,6 +2394,16 @@ var Export = /** @class */ (function (_super) {
                             dataRow.push(_this.convertToSpecialFormat(key, dataValue, options, true));
                         }
                         html += "\n" + _this.getHTMLRow(dataRow, options, undefined, true);
+                    }, function (a, b) {
+                        var ai = dataFieldsOrder_4.indexOf(a);
+                        var bi = dataFieldsOrder_4.indexOf(b);
+                        if (ai > bi) {
+                            return -1;
+                        }
+                        else if (ai < bi) {
+                            return 1;
+                        }
+                        return 0;
                     });
                 }
                 else {
@@ -2337,11 +2453,16 @@ var Export = /** @class */ (function (_super) {
         if (!dataFields) {
             dataFields = row;
         }
+        // Data fields order
+        var dataFieldsOrder = this.adapter.apply("dataFieldsOrder", {
+            dataFieldsOrder: this.dataFieldsOrder,
+            format: "html"
+        }).dataFieldsOrder;
         // th or dh?
         var tag = headerRow ? "th" : "td";
         // Process each row item
         var first = true;
-        $object.each(dataFields, function (key, name) {
+        $object.eachOrdered(dataFields, function (key, name) {
             // Get value
             var value = _this.convertEmptyValue(key, row[key], options);
             // Convert dates
@@ -2364,6 +2485,16 @@ var Export = /** @class */ (function (_super) {
                 html += "\n\t\t<" + useTag + ">" + item + "</" + useTag + ">";
             }
             first = false;
+        }, function (a, b) {
+            var ai = dataFieldsOrder.indexOf(a);
+            var bi = dataFieldsOrder.indexOf(b);
+            if (ai > bi) {
+                return 1;
+            }
+            else if (ai < bi) {
+                return -1;
+            }
+            return 0;
         });
         html += "\n\t</tr>";
         return html;

@@ -481,9 +481,9 @@ var Component = /** @class */ (function (_super) {
                 }
                 this.dataUsers.each(function (dataUser) {
                     if (!dataUser.data || dataUser.data.length == 0) {
-                        var dataItem_1 = dataUser.dataItems.getIndex(0);
+                        var dataItem_1 = dataUser.mainDataSet.getIndex(0);
                         if (dataItem_1) {
-                            dataUser.dataItems.remove(dataItem_1);
+                            dataUser.mainDataSet.remove(dataItem_1);
                         }
                     }
                 });

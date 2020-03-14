@@ -616,6 +616,10 @@ export interface IExportAdapters {
         dataFields: any;
         format: string;
     };
+    dataFieldsOrder: {
+        dataFieldsOrder: string[];
+        format: string;
+    };
     dateFormatter: {
         dateFormatter: DateFormatter;
     };
@@ -795,6 +799,16 @@ export declare class Export extends Validatable {
      * exporting to data formats.
      */
     protected _dataFields: any;
+    /**
+     * Holds an array of data field names. If set, exported data fields will try
+     * to maintain this order.
+     *
+     * If not set (default), the export will try to maintain the same order as
+     * in source data, or as in `dataFields` (if set).
+     *
+     * @since 4.9.7
+     */
+    dataFieldsOrder: string[];
     /**
      * Indicates whether data fields were generated dynamically (`true`) or
      * if they were pre-set by the user (`false`).

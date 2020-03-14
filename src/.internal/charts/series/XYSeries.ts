@@ -949,6 +949,8 @@ export class XYSeries extends Series {
 		this.stacked = false;
 		this.snapTooltip = false;
 
+		this._showBullets = false;
+
 		this.tooltip.pointerOrientation = "horizontal";
 
 		this.hideTooltipWhileZooming = true;
@@ -1001,16 +1003,23 @@ export class XYSeries extends Series {
 	/**
 	 * @ignore
 	 */
-	public dataChangeUpdate() {
-		this.dataGrouped = false;
-		this._baseInterval = {};
-		this._currentDataSetId = "";
-
+	public resetExtremes() {
 		this._tmin.clear();
 		this._tmax.clear();
 
 		this._smin.clear();
 		this._smax.clear();
+	}
+
+	/**
+	 * @ignore
+	 */
+	public dataChangeUpdate() {
+		this.dataGrouped = false;
+		this._baseInterval = {};
+		this._currentDataSetId = "";
+
+		this.resetExtremes();
 
 		if (this.xAxis) {
 			this.xAxis.seriesDataChangeUpdate(this);
@@ -1324,9 +1333,11 @@ export class XYSeries extends Series {
 	 * @ignore Exclude from docs
 	 */
 	public validateDataItems() {
-
-		this._maxxX = $math.max(100000, this.chart.plotContainer.maxWidth * 2);
-		this._maxxY = $math.max(100000, this.chart.plotContainer.maxHeight * 2);
+		let chart = this.chart;
+		if (chart) {
+			this._maxxX = $math.max(100000, chart.plotContainer.maxWidth * 2);
+			this._maxxY = $math.max(100000, chart.plotContainer.maxHeight * 2);
+		}
 
 		// this helps date axis to check which baseInterval we should use
 		let xAxis = this.xAxis;
@@ -1339,8 +1350,8 @@ export class XYSeries extends Series {
 		super.validateDataItems();
 
 		if (xAxis && yAxis) {
-			xAxis.postProcessSeriesDataItems();
-			yAxis.postProcessSeriesDataItems();
+			xAxis.postProcessSeriesDataItems(this);
+			yAxis.postProcessSeriesDataItems(this);
 		}
 	}
 
@@ -1398,6 +1409,7 @@ export class XYSeries extends Series {
 			}
 		}
 		this.updateTooltip();
+
 		super.validate();
 	}
 
@@ -1558,8 +1570,8 @@ export class XYSeries extends Series {
 		super.setData(value);
 		if (this.scrollbarSeries) {
 			this.scrollbarSeries.setData(value);
-		}		
-	}	
+		}
+	}
 
 	/**
 	 * Makes the chart use particular data set.
@@ -1579,11 +1591,7 @@ export class XYSeries extends Series {
 			this._dataSetChanged = true;
 			let dataItems = this.dataItems;
 
-			this._tmax.clear();
-			this._tmin.clear();
-
-			this._smax.clear();
-			this._smin.clear();
+			this.resetExtremes();
 
 			let xAxis = this.xAxis;
 			let yAxis = this.yAxis;
@@ -1593,7 +1601,9 @@ export class XYSeries extends Series {
 			this._startIndex = undefined;
 			this._endIndex = undefined;
 
-			//this.processValues(false); // this will slow down!
+			if (!this.appeared) {
+				this.processValues(false); // this will slow down!
+			}
 
 			if (xAxis instanceof DateAxis && xAxis == this.baseAxis) {
 				this._tmin.setKey(xAxis.uid, dataItems.getIndex(0).dateX.getTime());
@@ -1608,7 +1618,7 @@ export class XYSeries extends Series {
 			}
 		}
 
-		return changed
+		return changed;
 	}
 
 
@@ -1714,7 +1724,6 @@ export class XYSeries extends Series {
 						stackedSeries.processValues(false);
 					}
 				}
-
 				this.dispatchImmediately("extremeschanged");
 			}
 		}
@@ -1835,7 +1844,7 @@ export class XYSeries extends Series {
 	public hideTooltip() {
 		super.hideTooltip();
 		this.returnBulletDefaultState();
-		this._prevTooltipDataItem = undefined;		
+		this._prevTooltipDataItem = undefined;
 	}
 
 
@@ -1911,9 +1920,9 @@ export class XYSeries extends Series {
 
 				if ($type.hasValue((<any>dataItem)[tooltipXField]) && $type.hasValue((<any>dataItem)[tooltipYField])) {
 
-					let tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, this.getAdjustedXLocation(dataItem, tooltipXField), this.getAdjustedYLocation(dataItem, tooltipYField));					
+					let tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, this.getAdjustedXLocation(dataItem, tooltipXField), this.getAdjustedYLocation(dataItem, tooltipYField));
 
-					if (tooltipPoint) {
+					if (tooltipPoint && tooltipPoint.y > -1 && tooltipPoint.y < this.yAxis.pixelHeight + 1 && tooltipPoint.x > -1 && tooltipPoint.x < this.xAxis.pixelWidth + 1) {
 						this.tooltipX = tooltipPoint.x;
 						this.tooltipY = tooltipPoint.y;
 
@@ -2949,6 +2958,13 @@ export class XYSeries extends Series {
 				this.bulletsContainer.parent = chart.axisBulletsContainer;
 			}
 		}
+
+		if (value && this.yAxis) {
+			this.bulletsContainer.mask = this.yAxis.renderer.gridContainer;
+		}
+		else {
+			this.bulletsContainer.mask = undefined;
+		}
 	}
 
 	/**
@@ -2973,11 +2989,11 @@ export class XYSeries extends Series {
 	 * Destroys this object and all related data.
 	 */
 	public dispose() {
-		if(this.scrollbarSeries){
+		if (this.scrollbarSeries) {
 			this.scrollbarSeries.dispose();
 		}
 		super.dispose();
-	}	
+	}
 }
 
 /**

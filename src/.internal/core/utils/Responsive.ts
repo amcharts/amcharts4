@@ -267,7 +267,9 @@ export class Responsive extends BaseObjectEvents {
 		// Set up resize monitoring events
 		this._responsiveDisposers.push($type.getValue(this.component).events.on("sizechanged", () => { this.checkRules(); }, this));
 		this._responsiveDisposers.push($type.getValue(this.component).events.on("datavalidated", () => {
-			this.checkRules(true);
+			if (this._component.isReady()) {
+				this.checkRules(true);
+			}
 		}, this));
 
 		// Enable resoponsive

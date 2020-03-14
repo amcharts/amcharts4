@@ -5791,6 +5791,9 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Rotation of the element in degrees. (0-360)
          *
+         * Note: For convenience purposes, negative values (for counter-clockwise
+         * rotation) and values exceeding 360 can also be used.
+         *
          * @param value  Rotation (0-360)
          */
         set: function (value) {
@@ -8299,7 +8302,7 @@ var Sprite = /** @class */ (function (_super) {
      * @param e Error
      * @todo Implement from applying further actions to this item
      */
-    Sprite.prototype.raiseCriticalError = function (e) {
+    Sprite.prototype.raiseCriticalError = function (e, closable) {
         if (this.svgContainer) {
             if (!this._adapterO) {
                 this.modal.content = e.message;
@@ -8307,9 +8310,13 @@ var Sprite = /** @class */ (function (_super) {
             else {
                 this.modal.content = this._adapterO.apply("criticalError", e).message;
             }
-            this.modal.closable = false;
+            if (!closable) {
+                this.disabled = true;
+            }
+            else {
+                this.modal.closable = true;
+            }
             this.modal.open();
-            this.disabled = true;
         }
         if (options.verbose) {
             console.log(e);
@@ -8484,10 +8491,10 @@ var Sprite = /** @class */ (function (_super) {
         if (!this.hidden) {
             var animation = this.show();
             if (animation && !animation.isFinished()) {
-                animation.events.on("animationended", function () {
+                this.addDisposer(animation.events.on("animationended", function () {
                     _this.appeared = true;
                     _this.dispatch("appeared");
-                });
+                }));
             }
             else {
                 this.appeared = true;

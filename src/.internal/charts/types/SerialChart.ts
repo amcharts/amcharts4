@@ -252,15 +252,15 @@ export class SerialChart extends Chart {
 		}
 		//this.feedLegend();
 		if (this.legend) {
-			this.legend.dataItems.each((dataItem) => {
-				if (dataItem.dataContext == series) {
+			let dataItems = this.legend.dataItems;
+
+			for(let i = dataItems.length - 1; i >= 0; i--){
+				let dataItem = dataItems.getIndex(i);
+				if (dataItem && dataItem.dataContext == series) {
+					$array.remove(this.legend.data, dataItem.dataContext);					
 					this.legend.dataItems.remove(dataItem);
 				}
-			})
-
-			$array.each(this.legend.data, (item) => {
-				$array.remove(this.legend.data, item);
-			})
+			}
 		}
 	}
 
@@ -293,7 +293,6 @@ export class SerialChart extends Chart {
 				this.legend.addData(series);
 			}
 		}
-
 	}
 
 	protected handleSeriesAdded2(series: Series) {
@@ -302,7 +301,16 @@ export class SerialChart extends Chart {
 				// on exit only as data is usually passed after push
 				registry.events.once("exitframe", () => {
 					if (!series.data || series.data.length == 0) {
-						this.invalidateData();
+						series.data = this.data;
+						if(series.showOnInit){
+							series.reinit()
+							series.setPropertyValue("showOnInit", false);							
+							series.showOnInit = true;
+						}
+
+						series.events.on("datavalidated", ()=>{
+							(<any>series)._data = [];
+						})
 					}
 				})
 			)

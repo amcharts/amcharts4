@@ -22,6 +22,7 @@ import * as $math from "../utils/Math";
 import * as $ease from "../utils/Ease";
 import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
+import { IDisposer } from "../utils/Disposer";
 
 /**
  * ============================================================================
@@ -206,7 +207,9 @@ export class Tooltip extends Container {
 	/**
 	 * reference to a sprite which now shows this tooltip instance.
 	 */
-	public currentSprite:Sprite;
+	public currentSprite: Sprite;
+
+	protected _pointToDisposer:IDisposer;
 
 	/**
 	 * Constructor
@@ -690,25 +693,33 @@ export class Tooltip extends Container {
 			this._pointTo = point;
 			this.invalidate();
 
-			// this helps to avoid strange animation from nowhere on initial show or when balloon was hidden already
-			if (!this.visible || instantly) {
-				this.moveTo(this._pointTo);
-				if (this._animation) {
-					this._animation.kill();
-				}
+			if(this._pointToDisposer){
+				this._pointToDisposer.dispose();
 			}
-			else {
-				// helps to avoid flicker on top/left corner
-				if (this.pixelX == 0 && this.pixelY == 0) {
+
+			this._pointToDisposer = registry.events.once("exitframe", () => {
+				// this helps to avoid strange animation from nowhere on initial show or when balloon was hidden already
+				if (!this.visible || instantly) {
 					this.moveTo(this._pointTo);
-				}
-				else {
 					if (this._animation) {
 						this._animation.kill();
 					}
-					this._animation = new Animation(this, [{ property: "x", to: point.x, from: this.pixelX }, { property: "y", to: point.y, from: this.pixelY }], this.animationDuration, this.animationEasing).start();
 				}
-			}
+				else {
+					// helps to avoid flicker on top/left corner
+					if (this.pixelX == 0 && this.pixelY == 0) {
+						this.moveTo(this._pointTo);
+					}
+					else {
+						if (this._animation) {
+							this._animation.kill();
+						}
+						this._animation = new Animation(this, [{ property: "x", to: point.x, from: this.pixelX }, { property: "y", to: point.y, from: this.pixelY }], this.animationDuration, this.animationEasing).start();
+					}
+				}
+			})
+
+			this.addDisposer(this._pointToDisposer);
 		}
 	}
 

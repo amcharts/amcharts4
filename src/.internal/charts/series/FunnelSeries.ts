@@ -446,39 +446,44 @@ export class FunnelSeries extends PercentSeries {
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
 		//if ($type.hasValue(dataItem.value)) {
-			// FunnelSlice
-			let slice = dataItem.slice;
-			slice.orientation = this.orientation;
+		// FunnelSlice
+		let slice = dataItem.slice;
+		slice.orientation = this.orientation;
 
-			let sliceLink = dataItem.sliceLink;
-			sliceLink.orientation = this.orientation;
+		let sliceLink = dataItem.sliceLink;
+		sliceLink.orientation = this.orientation;
 
-			let tick = dataItem.tick;
-			let label = dataItem.label;
+		let tick = dataItem.tick;
+		let label = dataItem.label;
 
-			tick.slice = slice;
-			tick.label = label;
+		tick.slice = slice;
+		tick.label = label;
 
-			if ($type.hasValue(dataItem.value)) {
-				this.decorateSlice(dataItem);
-				$array.each(dataItem.sprites, (sprite)=>{
-					sprite.__disabled = false;
-				})				
-			}
-			else{
-				$array.each(dataItem.sprites, (sprite)=>{
+		if ($type.hasValue(dataItem.value)) {
+			this.decorateSlice(dataItem);
+			$array.each(dataItem.sprites, (sprite) => {
+				if (dataItem.value == 0 && this.ignoreZeroValues) {
 					sprite.__disabled = true;
-				})
-			}
+				}
+				else {
+					sprite.__disabled = false;
+				}
+			})
+		}
+		else {
+			$array.each(dataItem.sprites, (sprite) => {
+				sprite.__disabled = true;
+			})
+		}
 
-			if (dataItem.index == this.dataItems.length - 1) {
-				sliceLink.disabled = true;
-			}
+		if (dataItem.index == this.dataItems.length - 1) {
+			sliceLink.disabled = true;
+		}
 
-			// do this at the end, otherwise bullets won't be positioned properly
-			super.validateDataElement(dataItem);
+		// do this at the end, otherwise bullets won't be positioned properly
+		super.validateDataElement(dataItem);
 
-			sliceLink.fill = slice.fill;			
+		sliceLink.fill = slice.fill;
 		//}
 	}
 
@@ -582,7 +587,7 @@ export class FunnelSeries extends PercentSeries {
 		}
 	}
 
-	protected getLastLabel(index: number):Label {
+	protected getLastLabel(index: number): Label {
 		if (index > 0) {
 			let lastLabel = this.labels.getIndex(index);
 			if (lastLabel.__disabled || !lastLabel.visible) {

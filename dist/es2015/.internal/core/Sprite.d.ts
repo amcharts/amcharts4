@@ -2935,6 +2935,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Rotation of the element in degrees. (0-360)
      *
+     * Note: For convenience purposes, negative values (for counter-clockwise
+     * rotation) and values exceeding 360 can also be used.
+     *
      * @param value  Rotation (0-360)
      */
     /**
@@ -3962,7 +3965,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param e Error
      * @todo Implement from applying further actions to this item
      */
-    raiseCriticalError(e: Error): void;
+    raiseCriticalError(e: Error, closable?: boolean): void;
     /**
  * Processes JSON-based config before it is applied to the object.
  *

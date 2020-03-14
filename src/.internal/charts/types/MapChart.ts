@@ -640,9 +640,9 @@ export class MapChart extends SerialChart {
 		// Set default projection
 		this.projection = new Projection();
 
-		this.deltaLongitude = 0;
-		this.deltaLatitude = 0;
-		this.deltaGamma = 0;
+		this.setPropertyValue("deltaLatitude", 0);
+		this.setPropertyValue("deltaLongitude", 0);
+		this.setPropertyValue("deltaGamma", 0);
 		this.maxPanOut = 0.7;
 		this.homeZoomLevel = 1;
 		this.zoomStep = 2;
@@ -1813,9 +1813,10 @@ export class MapChart extends SerialChart {
 	 * @param  value  Rotation
 	 */
 	public set deltaLongitude(value: number) {
+		value = $math.round(value, 3);
 		if (this.setPropertyValue("deltaLongitude", $geo.wrapAngleTo180(value))) {
 			this.rotateMap();
-			this.updateZoomGeoPoint();
+			this.updateZoomGeoPoint(); 
 		}
 	}
 
@@ -1837,9 +1838,10 @@ export class MapChart extends SerialChart {
 	 * @param  value  Rotation
 	 */
 	public set deltaLatitude(value: number) {
+		value = $math.round(value, 3);
 		if (this.setPropertyValue("deltaLatitude", value)) {
-			this.rotateMap()
-			this.updateZoomGeoPoint();
+			this.rotateMap();
+			this.updateZoomGeoPoint(); 
 		}
 	}
 
@@ -1859,9 +1861,10 @@ export class MapChart extends SerialChart {
 	 * @param  value  Rotation
 	 */
 	public set deltaGamma(value: number) {
+		value = $math.round(value, 3);
 		if (this.setPropertyValue("deltaGamma", value)) {
-			this.rotateMap()
-			this.updateZoomGeoPoint();
+			this.rotateMap();
+			this.updateZoomGeoPoint(); 
 		}
 	}
 
@@ -2023,7 +2026,7 @@ export class MapChart extends SerialChart {
 				}
 				catch (e) {
 					// No go again. Error out.
-					throw Error("MapChart error: Geodata `" + name + "` is not loaded or is incorrect.");
+					this.raiseCriticalError(Error("MapChart error: Geodata `" + name + "` is not loaded or is incorrect."), true);
 				}
 			}
 		}

@@ -15,6 +15,7 @@ import { Label } from "../elements/Label";
 import { Animation } from "../utils/Animation";
 import { IRectangle } from "../defs/IRectangle";
 import * as $type from "../utils/Type";
+import { IDisposer } from "../utils/Disposer";
 /**
  * ============================================================================
  * REQUISITES
@@ -173,6 +174,7 @@ export declare class Tooltip extends Container {
      * reference to a sprite which now shows this tooltip instance.
      */
     currentSprite: Sprite;
+    protected _pointToDisposer: IDisposer;
     /**
      * Constructor
      */

@@ -1369,7 +1369,7 @@ var Axis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    Axis.prototype.postProcessSeriesDataItems = function () {
+    Axis.prototype.postProcessSeriesDataItems = function (series) {
     };
     /**
      * Post-processes Serie's single data item.

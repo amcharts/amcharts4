@@ -842,7 +842,7 @@ var ValueAxis = /** @class */ (function (_super) {
         }
         if (this.logarithmic) {
             if (min <= 0) {
-                throw Error("Logarithmic value axis can not have values <= 0.");
+                this.raiseCriticalError(new Error("Logarithmic value axis can not have values <= 0."), true);
             }
         }
         if (min == 0 && max == 0) {

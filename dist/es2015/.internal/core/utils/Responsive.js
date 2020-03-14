@@ -129,7 +129,9 @@ var Responsive = /** @class */ (function (_super) {
             // Set up resize monitoring events
             this._responsiveDisposers.push($type.getValue(this.component).events.on("sizechanged", function () { _this.checkRules(); }, this));
             this._responsiveDisposers.push($type.getValue(this.component).events.on("datavalidated", function () {
-                _this.checkRules(true);
+                if (_this._component.isReady()) {
+                    _this.checkRules(true);
+                }
             }, this));
             // Enable resoponsive
             this.enabled = true;

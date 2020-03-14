@@ -59,6 +59,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         scrollbarChart.padding(0, 0, 0, 0);
         scrollbarChart.interactionsEnabled = false;
         _this._scrollbarChart = scrollbarChart;
+        scrollbarChart.plotContainer.filters.push(new DesaturateFilter());
         _this._disposers.push(_this._scrollbarChart);
         _this.minHeight = 60;
         _this.minWidth = 60;
@@ -173,7 +174,9 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             if (xAxis instanceof DateAxis) {
                 var vAxis_1 = xAxis;
                 var sourceAxis = sourceSeries.xAxis;
-                xAxis.groupCount = sourceAxis.groupCount * 5;
+                vAxis_1.groupCount = sourceAxis.groupCount * 5;
+                vAxis_1.min = undefined;
+                vAxis_1.max = undefined;
                 this._disposers.push(vAxis_1.clonedFrom.events.on("extremeschanged", function () {
                     if ($type.isNumber(vAxis_1.clonedFrom.minDefined)) {
                         vAxis_1.min = vAxis_1.clonedFrom.minDefined;
@@ -185,6 +188,8 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             }
             else if (xAxis instanceof ValueAxis) {
                 var vAxis_2 = xAxis;
+                vAxis_2.min = undefined;
+                vAxis_2.max = undefined;
                 if (!$type.isNumber(vAxis_2.clonedFrom.minDefined)) {
                     vAxis_2.min = undefined;
                 }
@@ -239,6 +244,8 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             yAxis.minZoomCount = undefined;
             if (yAxis instanceof DateAxis) {
                 var vAxis_3 = yAxis;
+                vAxis_3.min = undefined;
+                vAxis_3.max = undefined;
                 var sourceAxis = sourceSeries.yAxis;
                 yAxis.groupCount = sourceAxis.groupCount * 5;
                 this._disposers.push(vAxis_3.clonedFrom.events.on("extremeschanged", function () {
@@ -252,6 +259,8 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             }
             else if (yAxis instanceof ValueAxis) {
                 var vAxis_4 = yAxis;
+                vAxis_4.min = undefined;
+                vAxis_4.max = undefined;
                 if (!$type.isNumber(vAxis_4.clonedFrom.minDefined)) {
                     vAxis_4.min = undefined;
                 }
@@ -287,7 +296,6 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             }
         }, undefined, false));
         series.defaultState.properties.visible = true;
-        series.filters.push(new DesaturateFilter());
         scrollbarChart.series.push(series);
         this.updateByOrientation();
     };

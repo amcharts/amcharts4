@@ -929,7 +929,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @ignore Exclude from docs
      */
-    postProcessSeriesDataItems(): void;
+    postProcessSeriesDataItems(series?: XYSeries): void;
     /**
      * Post-processes Serie's single data item.
      *

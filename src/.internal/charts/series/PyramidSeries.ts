@@ -291,10 +291,6 @@ export class PyramidSeries extends FunnelSeries {
 
 		let workingValue = Math.abs(dataItem.getWorkingValue("value"));
 
-		if (workingValue == 0) {
-			workingValue = 0.000001;
-		}
-
 		let pyramidWidth = this._pyramidWidth;
 		let pyramidHeight = this._pyramidHeight;
 
@@ -318,7 +314,6 @@ export class PyramidSeries extends FunnelSeries {
 				this._nextWidth = topWidth;
 			}
 
-
 			let bottomWidth = $utils.relativeToValue(this.bottomWidth, maxWidth);
 			let sliceTopWidth = this._nextWidth;
 
@@ -338,7 +333,12 @@ export class PyramidSeries extends FunnelSeries {
 				let s = Math.abs(sliceTopWidth * sliceTopWidth - 2 * square * c);
 
 				sliceHeight = (sliceTopWidth - Math.sqrt(s)) / c;
-				sliceBottomWidth = (2 * square - sliceHeight * sliceTopWidth) / sliceHeight;
+				if (sliceHeight > 0) {
+					sliceBottomWidth = (2 * square - sliceHeight * sliceTopWidth) / sliceHeight;
+				}
+				else {
+					sliceBottomWidth = sliceTopWidth;
+				}
 			}
 			else {
 				sliceHeight = pyramidHeight * workingValue / sum;

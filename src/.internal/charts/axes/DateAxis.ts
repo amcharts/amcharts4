@@ -463,7 +463,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 	/**
 	 */
-	protected _prevSeriesTime: number;
+	protected _prevSeriesTime: { [index: string]: number } = {};
 
 	/**
 	 * [_minDifference description]
@@ -522,6 +522,14 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @readonly
 	 */
 	public groupMax: { [index: string]: number } = {};
+
+	/**
+	 * Date of the last shown axis tooltip.
+	 *
+	 * @since 4.9.7
+	 * @readonly
+	 */
+	public tooltipDate: Date;
 
 	/**
 	 * Constructor
@@ -823,10 +831,13 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 	protected findFirst(dataItem: XYSeriesDataItem, time: number, key: string): XYSeriesDataItem {
 		let index = dataItem.index;
+
 		if (index > 0) {
 			let series = dataItem.component;
 			let previousDataItem = series.dataItems.getIndex(index - 1);
+
 			let previousDate = (<any>previousDataItem)[key];
+
 			if (!previousDate || previousDate.getTime() < time) {
 				return dataItem;
 			}
@@ -888,27 +899,41 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @ignore Exclude from docs
 	 * @todo Description
 	 */
-	public postProcessSeriesDataItems(): void {
-
-		this.series.each((series) => {
-			if (JSON.stringify(series._baseInterval[this.uid]) != JSON.stringify(this.mainBaseInterval)) {
-
-				series._baseInterval[this.uid] = this.mainBaseInterval;
-
-				series.mainDataSet.each((dataItem) => {
-					this.postProcessSeriesDataItem(dataItem);
-				});
-
-				if (this.groupData) {
-					this.groupSeriesData(series);
-				}
-			}
-		});
+	public postProcessSeriesDataItems(series?: XYSeries): void {
+		if (series) {
+			this.seriesGroupUpdate(series);
+		}
+		else {
+			this.series.each((series) => {
+				this.seriesGroupUpdate(series);
+			})
+		}
 
 		this.addEmptyUnitsBreaks();
 	}
 
-	public groupSeriesData(series: XYSeries) {
+	protected seriesGroupUpdate(series: XYSeries) {
+		if (JSON.stringify(series._baseInterval[this.uid]) != JSON.stringify(this.mainBaseInterval)) {
+
+			series._baseInterval[this.uid] = this.mainBaseInterval;
+
+			series.mainDataSet.each((dataItem) => {
+				this.postProcessSeriesDataItem(dataItem);
+			});
+
+			if (this.groupData) {
+				this.groupSeriesData(series);
+			}
+		}
+	}
+
+	/**
+	 * Calculates series group data.
+	 * 
+	 * @param  series  Series
+	 * @ignore
+	 */
+	public groupSeriesData(series: XYSeries): void {
 		if (series.baseAxis == this && series.dataItems.length > 0 && !series.dataGrouped) {
 			// make array of intervals which will be used;
 			let intervals: ITimeInterval[] = [];
@@ -1784,7 +1809,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			return;
 		}
 		let openDate: Date = (<any>dataItem)["openDate" + axisLetter];
-		let prevSeriesTime: number = this._prevSeriesTime;
+		let prevSeriesTime: number = this._prevSeriesTime[series.uid];
 
 
 		let openTime: number;
@@ -1808,7 +1833,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			}
 		}
 
-		this._prevSeriesTime = time;
+		this._prevSeriesTime[series.uid] = time;
 
 		if (series._baseInterval[this.uid]) {
 			this.postProcessSeriesDataItem(dataItem);
@@ -1823,6 +1848,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public updateAxisBySeries() {
 		super.updateAxisBySeries();
+
 		let baseInterval: ITimeInterval = this.chooseInterval(0, this.minDifference, 1);
 
 		// handle short months
@@ -2036,6 +2062,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		let text: string;
 		let date = this.positionToDate(position);
 		date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc, new Date(this.min));
+
+		this.tooltipDate = date;
 
 		if ($type.hasValue(this.tooltipDateFormat)) {
 			text = this._df.format(date, this.tooltipDateFormat);
@@ -2614,10 +2642,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		return this.getPropertyValue("groupCount");
 	}
 
-
 	/**
 	 * 
-     * Indicates by how many minutes the timestamps in your data are offset from GMT. 
+	 * Indicates by how many minutes the timestamps in your data are offset from GMT. 
 	 * This is useful when you have timestamps as your data and you want all the users to see 
 	 * the same result and not the time which was at users's location at the given timestamp.
 	 * Note, you do not need to set timezoneOffset both here and on DateFormatter, as this will 
@@ -2646,7 +2673,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	public get gridInterval(): ITimeInterval {
 		return this._gridInterval;
 	}
-
 
 	/**
 	 * @ignore

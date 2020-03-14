@@ -6722,6 +6722,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	/**
 	 * Rotation of the element in degrees. (0-360)
 	 *
+	 * Note: For convenience purposes, negative values (for counter-clockwise
+	 * rotation) and values exceeding 360 can also be used.
+	 *
 	 * @param value  Rotation (0-360)
 	 */
 	public set rotation(value: number) {
@@ -7752,9 +7755,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	protected setPath(value: string): boolean {
 		if (this.setPropertyValue("path", value)) {
 
-			if(this._adapterO){
+			if (this._adapterO) {
 				value = this._adapterO.apply("path", value);
-			}			
+			}
 
 			if (!this._isPath) {
 				if (!this.element || (this.element.node && !(this.element.node instanceof SVGPathElement))) {
@@ -8652,7 +8655,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this._tooltip = this.tooltip.clone();
 		}
 
-		if(!point && this.tooltipPosition == "pointer" && this.isHover){
+		if (!point && this.tooltipPosition == "pointer" && this.isHover) {
 			point = $utils.documentPointToSvg(getInteraction().lastPointer.point, this.svgContainer.SVGContainer, this.svgContainer.cssScale);
 		}
 
@@ -8825,7 +8828,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			});
 			if (point) {
 				return this.pointTooltipTo(point, true);
-			}	
+			}
 		}
 		else {
 			// Point to the X/Y of this Sprite
@@ -8932,7 +8935,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this.setPropertyValue("tooltipText", value)) {
 			if (this.tooltip) {
 				if (this.tooltip.visible) {
-					this.showTooltip();					
+					this.showTooltip();
 				}
 			}
 		}
@@ -9196,7 +9199,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @param e Error
 	 * @todo Implement from applying further actions to this item
 	 */
-	public raiseCriticalError(e: Error) {
+	public raiseCriticalError(e: Error, closable?: boolean) {
 
 		if (this.svgContainer) {
 			if (!this._adapterO) {
@@ -9206,9 +9209,15 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				this.modal.content = this._adapterO.apply("criticalError", e).message;
 			}
 
-			this.modal.closable = false;
+
+
+			if (!closable) {
+				this.disabled = true;
+			}
+			else {
+				this.modal.closable = true;
+			}
 			this.modal.open();
-			this.disabled = true;
 		}
 
 		if (options.verbose) {
@@ -9387,10 +9396,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			let animation = this.show();
 
 			if (animation && !animation.isFinished()) {
-				animation.events.on("animationended", () => {
+				this.addDisposer(animation.events.on("animationended", () => {
 					this.appeared = true;
 					this.dispatch("appeared");
-				})
+				}))
 			}
 			else {
 				this.appeared = true;
