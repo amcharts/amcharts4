@@ -394,7 +394,6 @@ export class AxisRendererCurveX extends AxisRendererX {
 		let axisRendererY = this.axisRendererY;
 
 		if ($type.isNumber(position2) && axisRendererY) {
-			position2 = axisRendererY.axis.toAxisPosition(position2);
 			let radius = axisRendererY.positionToPoint(position2).y;
 
 			point.x += radius * $math.cos(point.angle);

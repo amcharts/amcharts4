@@ -252,7 +252,6 @@ var AxisRendererCurveX = /** @class */ (function (_super) {
         point.angle += 90;
         var axisRendererY = this.axisRendererY;
         if ($type.isNumber(position2) && axisRendererY) {
-            position2 = axisRendererY.axis.toAxisPosition(position2);
             var radius = axisRendererY.positionToPoint(position2).y;
             point.x += radius * $math.cos(point.angle);
             point.y += radius * $math.sin(point.angle);

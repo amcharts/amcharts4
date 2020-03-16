@@ -523,7 +523,7 @@ var XYSeries = /** @class */ (function (_super) {
         _this._showBullets = false;
         _this.tooltip.pointerOrientation = "horizontal";
         _this.hideTooltipWhileZooming = true;
-        _this.maskBullets = true;
+        _this.setPropertyValue("maskBullets", true);
         _this.tooltip.events.on("hidden", function () {
             _this.returnBulletDefaultState();
         }, undefined, false);
@@ -911,6 +911,28 @@ var XYSeries = /** @class */ (function (_super) {
         }
         this.updateTooltip();
         _super.prototype.validate.call(this);
+        var chart = this.chart;
+        var maskBullets = this.maskBullets;
+        if (chart && maskBullets) {
+            if (chart.className == "XYChart") {
+                if (chart.leftAxesContainer.layout == "vertical" || chart.rightAxesContainer.layout == "vertical") {
+                    if (this.yAxis) {
+                        this.bulletsContainer.mask = this.yAxis.renderer.gridContainer;
+                    }
+                    else {
+                        this.bulletsContainer.mask = undefined;
+                    }
+                }
+                if (chart.topAxesContainer.layout == "horizontal" || chart.bottomAxesContainer.layout == "horizontal") {
+                    if (this.xAxis) {
+                        this.bulletsContainer.mask = this.xAxis.renderer.gridContainer;
+                    }
+                    else {
+                        this.bulletsContainer.mask = undefined;
+                    }
+                }
+            }
+        }
     };
     Object.defineProperty(XYSeries.prototype, "xAxis", {
         /**
@@ -1334,44 +1356,49 @@ var XYSeries = /** @class */ (function (_super) {
                 var tooltipYField = this.tooltipYField;
                 if ($type.hasValue(dataItem[tooltipXField]) && $type.hasValue(dataItem[tooltipYField])) {
                     var tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, this.getAdjustedXLocation(dataItem, tooltipXField), this.getAdjustedYLocation(dataItem, tooltipYField));
-                    if (tooltipPoint && tooltipPoint.y > -1 && tooltipPoint.y < this.yAxis.pixelHeight + 1 && tooltipPoint.x > -1 && tooltipPoint.x < this.xAxis.pixelWidth + 1) {
-                        this.tooltipX = tooltipPoint.x;
-                        this.tooltipY = tooltipPoint.y;
-                        if (this._prevTooltipDataItem != dataItem) {
-                            this.dispatchImmediately("tooltipshownat", {
-                                type: "tooltipshownat",
-                                target: this,
-                                dataItem: dataItem
-                            });
-                            this._prevTooltipDataItem = dataItem;
+                    if (tooltipPoint) {
+                        if (this.chart.className == "XYChart" && (tooltipPoint.y < -1 || tooltipPoint.y > this.yAxis.pixelHeight + 1 || tooltipPoint.x < -1 || tooltipPoint.x > this.xAxis.pixelWidth + 1)) {
+                            // void
                         }
-                        if (this.cursorHoverEnabled) {
-                            try {
-                                for (var _b = __values(dataItem.sprites), _c = _b.next(); !_c.done; _c = _b.next()) {
-                                    var sprite = _c.value;
-                                    if (!sprite.parent.visible || sprite.isHidden || sprite.__disabled || sprite.disabled || sprite.isHiding) {
-                                    }
-                                    else {
-                                        if (!sprite.interactions.isRealHover) {
-                                            sprite.dispatchImmediately("over");
-                                            sprite.interactions.isRealHover = true;
-                                        }
-                                        sprite.isHover = true;
-                                    }
-                                }
+                        else {
+                            this.tooltipX = tooltipPoint.x;
+                            this.tooltipY = tooltipPoint.y;
+                            if (this._prevTooltipDataItem != dataItem) {
+                                this.dispatchImmediately("tooltipshownat", {
+                                    type: "tooltipshownat",
+                                    target: this,
+                                    dataItem: dataItem
+                                });
+                                this._prevTooltipDataItem = dataItem;
                             }
-                            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                            finally {
+                            if (this.cursorHoverEnabled) {
                                 try {
-                                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                                    for (var _b = __values(dataItem.sprites), _c = _b.next(); !_c.done; _c = _b.next()) {
+                                        var sprite = _c.value;
+                                        if (!sprite.parent.visible || sprite.isHidden || sprite.__disabled || sprite.disabled || sprite.isHiding) {
+                                        }
+                                        else {
+                                            if (!sprite.interactions.isRealHover) {
+                                                sprite.dispatchImmediately("over");
+                                                sprite.interactions.isRealHover = true;
+                                            }
+                                            sprite.isHover = true;
+                                        }
+                                    }
                                 }
-                                finally { if (e_1) throw e_1.error; }
+                                catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                                finally {
+                                    try {
+                                        if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                                    }
+                                    finally { if (e_1) throw e_1.error; }
+                                }
                             }
+                            if (this.showTooltip()) {
+                                return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
+                            }
+                            return;
                         }
-                        if (this.showTooltip()) {
-                            return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
-                        }
-                        return;
                     }
                 }
             }
@@ -2297,14 +2324,6 @@ var XYSeries = /** @class */ (function (_super) {
                     this.bulletsContainer.parent = chart.axisBulletsContainer;
                 }
             }
-            /*
-                    if (value && this.yAxis) {
-                        this.bulletsContainer.mask = this.yAxis.renderer.gridContainer;
-                    }
-                    else {
-                        this.bulletsContainer.mask = undefined;
-                    }
-                    */
         },
         enumerable: true,
         configurable: true

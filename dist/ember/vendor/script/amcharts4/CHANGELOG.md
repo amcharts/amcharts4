@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.9] - 2020-03-16
+
+### Fixed
+- Fixed again: if chart had stacked axes and series with bullets, the bullets were not masked properly. Now you can set `series.maskBullets = true` to solve this.
+- `TimeLine` series bullets were not updating position when Y axis was zoomed.
+- Tooltips of `TimeLine`/`RadarChart` series were hidden on some parts of the chart (sice 4.9.7).
+
+
 ## [4.9.8] - 2020-03-14
 
 ### Fixed

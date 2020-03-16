@@ -954,7 +954,7 @@ export class XYSeries extends Series {
 		this.tooltip.pointerOrientation = "horizontal";
 
 		this.hideTooltipWhileZooming = true;
-		this.maskBullets = true;
+		this.setPropertyValue("maskBullets", true);
 
 		this.tooltip.events.on("hidden", () => {
 			this.returnBulletDefaultState();
@@ -1411,6 +1411,29 @@ export class XYSeries extends Series {
 		this.updateTooltip();
 
 		super.validate();
+
+		let chart = this.chart;
+		let maskBullets = this.maskBullets;
+		if (chart && maskBullets) {
+			if (chart.className == "XYChart") {
+				if (chart.leftAxesContainer.layout == "vertical" || chart.rightAxesContainer.layout == "vertical") {
+					if (this.yAxis) {
+						this.bulletsContainer.mask = this.yAxis.renderer.gridContainer;
+					}
+					else {
+						this.bulletsContainer.mask = undefined;
+					}
+				}
+				if (chart.topAxesContainer.layout == "horizontal" || chart.bottomAxesContainer.layout == "horizontal") {
+					if (this.xAxis) {
+						this.bulletsContainer.mask = this.xAxis.renderer.gridContainer;
+					}
+					else {
+						this.bulletsContainer.mask = undefined;
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -1922,39 +1945,45 @@ export class XYSeries extends Series {
 
 					let tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, this.getAdjustedXLocation(dataItem, tooltipXField), this.getAdjustedYLocation(dataItem, tooltipYField));
 
-					if (tooltipPoint && tooltipPoint.y > -1 && tooltipPoint.y < this.yAxis.pixelHeight + 1 && tooltipPoint.x > -1 && tooltipPoint.x < this.xAxis.pixelWidth + 1) {
-						this.tooltipX = tooltipPoint.x;
-						this.tooltipY = tooltipPoint.y;
+					if (tooltipPoint) {
 
-						if (this._prevTooltipDataItem != dataItem) {
-							this.dispatchImmediately("tooltipshownat", {
-								type: "tooltipshownat",
-								target: this,
-								dataItem: dataItem
-							});
-
-							this._prevTooltipDataItem = dataItem;
+						if (this.chart.className == "XYChart" && (tooltipPoint.y < -1 || tooltipPoint.y > this.yAxis.pixelHeight + 1 || tooltipPoint.x < -1 || tooltipPoint.x > this.xAxis.pixelWidth + 1)) {
+							// void
 						}
+						else {
+							this.tooltipX = tooltipPoint.x;
+							this.tooltipY = tooltipPoint.y;
 
-						if (this.cursorHoverEnabled) {
-							for (let sprite of dataItem.sprites) {
-								if (!sprite.parent.visible || sprite.isHidden || sprite.__disabled || sprite.disabled || sprite.isHiding) {
+							if (this._prevTooltipDataItem != dataItem) {
+								this.dispatchImmediately("tooltipshownat", {
+									type: "tooltipshownat",
+									target: this,
+									dataItem: dataItem
+								});
 
-								}
-								else {
-									if (!sprite.interactions.isRealHover) {
-										sprite.dispatchImmediately("over");
-										sprite.interactions.isRealHover = true;
+								this._prevTooltipDataItem = dataItem;
+							}
+
+							if (this.cursorHoverEnabled) {
+								for (let sprite of dataItem.sprites) {
+									if (!sprite.parent.visible || sprite.isHidden || sprite.__disabled || sprite.disabled || sprite.isHiding) {
+
 									}
-									sprite.isHover = true;
+									else {
+										if (!sprite.interactions.isRealHover) {
+											sprite.dispatchImmediately("over");
+											sprite.interactions.isRealHover = true;
+										}
+										sprite.isHover = true;
+									}
 								}
 							}
-						}
 
-						if (this.showTooltip()) {
-							return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
+							if (this.showTooltip()) {
+								return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
+							}
+							return;
 						}
-						return;
 					}
 				}
 			}
@@ -2958,15 +2987,6 @@ export class XYSeries extends Series {
 				this.bulletsContainer.parent = chart.axisBulletsContainer;
 			}
 		}
-
-/*
-		if (value && this.yAxis) {
-			this.bulletsContainer.mask = this.yAxis.renderer.gridContainer;
-		}
-		else {
-			this.bulletsContainer.mask = undefined;
-		}
-		*/
 	}
 
 	/**
