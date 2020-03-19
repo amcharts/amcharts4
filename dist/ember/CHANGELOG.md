@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.10] - 2020-03-19
+
+## Added
+- `SwitchButton` class added.
+- `width` field and adapter added to `ColumnSeriesDataItem`. Allows having variable column width via data binding.
+
+
 ## [4.9.9] - 2020-03-16
 
 ### Fixed

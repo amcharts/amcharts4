@@ -17,7 +17,6 @@ import { CategoryAxisBreak } from "./CategoryAxisBreak";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
-import { Adapter } from "../../core/utils/Adapter";
 /**
  * ============================================================================
  * DATA ITEM
@@ -45,19 +44,6 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
-    Object.defineProperty(CategoryAxisDataItem.prototype, "adapter", {
-        /**
-         * Holds Adapter.
-         */
-        get: function () {
-            if (!this._adapterO) {
-                this._adapterO = new Adapter(this);
-            }
-            return this._adapterO;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(CategoryAxisDataItem.prototype, "category", {
         /**
          * @return Category

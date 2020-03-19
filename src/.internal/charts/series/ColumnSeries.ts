@@ -20,7 +20,7 @@ import { registry } from "../../core/Registry";
 import { Bullet } from "../elements/Bullet";
 import { Column } from "../elements/Column";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
-import { percent } from "../../core/utils/Percent";
+import { percent, Percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 import * as $object from "../../core/utils/Object";
 import * as $iter from "../../core/utils/Iterator";
@@ -28,6 +28,17 @@ import * as $array from "../../core/utils/Array";
 import * as $type from "../../core/utils/Type";
 import { Disposer } from "../../core/utils/Disposer";
 import { LegendDataItem } from "../../charts/Legend";
+import { IDataItemAdapters } from "../../core/DataItem";
+
+/**
+ * Defines adapters for [[DataItem]]
+ * Includes both the [[Adapter]] definitions and properties
+ * @see {@link Adapter}
+ */
+export interface IColumnSeriesDataItemAdapters extends IDataItemAdapters {
+	width: number | Percent;
+}
+
 
 /**
  * ============================================================================
@@ -42,6 +53,11 @@ import { LegendDataItem } from "../../charts/Legend";
  * @see {@link DataItem}
  */
 export class ColumnSeriesDataItem extends XYSeriesDataItem {
+
+	/**
+	 * Defines available adapters.
+	 */
+	public _adapter!: IColumnSeriesDataItemAdapters;	
 
 	/**
 	 * A Column Element
@@ -125,6 +141,23 @@ export class ColumnSeriesDataItem extends XYSeriesDataItem {
 		}
 	}
 
+	public set width(value: number | Percent) {
+		if (this.properties.width != value) {
+			this.properties.width = value;
+			if (this.component) {
+				this.component.validateDataElement(this);
+			}
+		}
+	}
+
+	public get width(): number | Percent {
+		let width = this.properties.width;
+		if (this._adapterO) {
+			width = this._adapterO.apply("width", width);
+		}
+		return width;
+	}
+
 
 	/**
 	 * A dictionary storing axes ranges columns by axis uid
@@ -147,9 +180,11 @@ export class ColumnSeriesDataItem extends XYSeriesDataItem {
  */
 
 /**
- * Defines data fields for [[ColumnSeries]].
+ * Defines data fields for [[XYSeries]].
  */
-export interface IColumnSeriesDataFields extends IXYSeriesDataFields { }
+export interface IColumnSeriesDataFields extends IXYSeriesDataFields {
+	width?: string;
+}
 
 /**
  * Defines properties for [[ColumnSeries]].
@@ -428,7 +463,7 @@ export class ColumnSeries extends XYSeries {
 			return (<any>y).values[key].workingValue - (<any>x).values[key].workingValue;
 		})
 		let i = 0;
-		this.dataItems.each((dataItem)=>{
+		this.dataItems.each((dataItem) => {
 			dataItem._index = i;
 			i++;
 		})
@@ -449,8 +484,8 @@ export class ColumnSeries extends XYSeries {
 				if (dataItem.deltaAnimation && !dataItem.deltaAnimation.isDisposed() && dataItem.deltaAnimation.animationOptions[0].to == deltaPosition) {
 					// void
 				}
-				else if (deltaPosition != $math.round(dataItem.deltaPosition, 3)) {					
-					if(dataItem.deltaAnimation){
+				else if (deltaPosition != $math.round(dataItem.deltaPosition, 3)) {
+					if (dataItem.deltaAnimation) {
 						dataItem.deltaAnimation.stop();
 					}
 					dataItem.deltaAnimation = dataItem.animate({ property: "deltaPosition", from: -deltaPosition, to: 0 }, axis.interpolationDuration, axis.interpolationEasing);
@@ -568,6 +603,16 @@ export class ColumnSeries extends XYSeries {
 		let paddingBottom: number = template.pixelPaddingBottom;
 
 		let outOfBounds: boolean = false;
+
+		let diw = dataItem.width;
+		if ($type.hasValue(diw)) {
+			if ($type.isNumber(diw)) {
+				pixelWidth = diw;
+			}
+			if (diw instanceof Percent) {
+				percentWidth = diw.value * 100;
+			}
+		}
 
 		// two category axes
 		if ((this.xAxis instanceof CategoryAxis) && (this.yAxis instanceof CategoryAxis)) {
@@ -796,6 +841,8 @@ export class ColumnSeries extends XYSeries {
 						column.readerTitle = "";
 					}, undefined, false);
 				}
+				column.parent = this.columnsContainer;
+				column.virtualParent = this;				
 			}
 			else {
 				column = dataItem.column;
@@ -819,9 +866,6 @@ export class ColumnSeries extends XYSeries {
 
 			column.realWidth = r - l;
 			column.realHeight = b - t;
-
-			column.parent = this.columnsContainer;
-			column.virtualParent = this;
 
 			this.setColumnStates(column);
 

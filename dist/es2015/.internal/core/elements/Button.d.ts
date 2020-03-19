@@ -120,4 +120,10 @@ export declare class Button extends Container {
      * @return Background element
      */
     createBackground(): this["_background"];
+    /**
+     * Copies properties and other attributes.
+     *
+     * @param source  Source
+     */
+    copyFrom(source: this): void;
 }

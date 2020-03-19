@@ -27,7 +27,6 @@ import { CategoryAxisBreak } from "./CategoryAxisBreak";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
-import { Adapter } from "../../core/utils/Adapter";
 import { IRange } from "../../core/defs/IRange";
 
 /**
@@ -49,25 +48,14 @@ export class CategoryAxisDataItem extends AxisDataItem {
 	 */
 	public _component!: CategoryAxis;
 
-
-	/**
-	 * @ignore
-	 */
-	public _adapterO: Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>;
-
-	/**
-	 * Holds Adapter.
-	 */
-	public get adapter(): Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters> {
-		if (!this._adapterO) {
-			this._adapterO = new Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>(this);
-		}
-		return this._adapterO;
-	}
-
 	public seriesDataItems: { [index: string]: XYSeriesDataItem[] } = {};
 
 	public deltaAnimation: Animation;
+
+	/**
+	 * Defines available adapters.
+	 */
+	public _adapter!: ICategoryAxisDataItemAdapters;		
 
 	/**
 	 * Constructor

@@ -167,14 +167,14 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	/**
 	 * @ignore
 	 */
-	public _adapterO: Adapter<DataItem, IDataItemAdapters>;
+	public _adapterO: Adapter<this, this["_adapter"]>;
 
 	/**
 	 * Holds Adapter.
 	 */
-	public get adapter(): Adapter<DataItem, IDataItemAdapters> {
+	public get adapter(): Adapter<this, this["_adapter"]> {
 		if (!this._adapterO) {
-			this._adapterO = new Adapter<DataItem, IDataItemAdapters>(this);
+			this._adapterO = new Adapter<this, this["_adapter"]>(this);
 		}
 		return this._adapterO;
 	}

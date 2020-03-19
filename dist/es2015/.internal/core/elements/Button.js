@@ -43,6 +43,7 @@ var Button = /** @class */ (function (_super) {
         _this.contentAlign = "center";
         _this.contentValign = "middle";
         _this.padding(8, 16, 8, 16);
+        _this.setStateOnChildren = true;
         var interfaceColors = new InterfaceColorSet();
         // Create background
         var background = _this.background;
@@ -55,6 +56,7 @@ var Button = /** @class */ (function (_super) {
         _this.label = new Label();
         _this.label.fill = interfaceColors.getFor("secondaryButtonText");
         ;
+        _this.label.shouldClone = false;
         // Create default states
         var hoverState = background.states.create("hover");
         hoverState.properties.fillOpacity = 1;
@@ -76,7 +78,7 @@ var Button = /** @class */ (function (_super) {
          * @return Icon Sprite
          */
         get: function () {
-            return this.getPropertyValue("icon");
+            return this._icon;
         },
         /**
          * A [[Sprite]] to be used as an icon on button.
@@ -84,16 +86,17 @@ var Button = /** @class */ (function (_super) {
          * @param icon Icon Sprite
          */
         set: function (icon) {
-            var currentIcon = this.getPropertyValue("icon");
+            var currentIcon = this._icon;
             if (currentIcon) {
                 //this._icon.dispose();
                 //this.removeDispose(currentIcon);
                 currentIcon.parent = undefined;
             }
             if (icon) {
-                this.setPropertyValue("icon", icon);
+                this._icon = icon;
                 icon.parent = this;
                 icon.interactionsEnabled = false;
+                icon.shouldClone = false;
                 this.iconPosition = this.iconPosition;
                 this._disposers.push(icon);
             }
@@ -163,6 +166,20 @@ var Button = /** @class */ (function (_super) {
      */
     Button.prototype.createBackground = function () {
         return new RoundedRectangle();
+    };
+    /**
+     * Copies properties and other attributes.
+     *
+     * @param source  Source
+     */
+    Button.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        if (source.label) {
+            this.label.copyFrom(source.label);
+        }
+        if (source.icon) {
+            this.icon = source.icon.clone();
+        }
     };
     return Button;
 }(Container));

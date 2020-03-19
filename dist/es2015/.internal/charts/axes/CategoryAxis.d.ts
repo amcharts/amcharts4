@@ -16,7 +16,6 @@ import { Dictionary } from "../../core/utils/Dictionary";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { ColumnSeries } from "../series/ColumnSeries";
 import { CategoryAxisBreak } from "./CategoryAxisBreak";
-import { Adapter } from "../../core/utils/Adapter";
 import { IRange } from "../../core/defs/IRange";
 /**
  * ============================================================================
@@ -34,18 +33,14 @@ export declare class CategoryAxisDataItem extends AxisDataItem {
      * Defines a type of [[Component]] this data item is used for.
      */
     _component: CategoryAxis;
-    /**
-     * @ignore
-     */
-    _adapterO: Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>;
-    /**
-     * Holds Adapter.
-     */
-    readonly adapter: Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>;
     seriesDataItems: {
         [index: string]: XYSeriesDataItem[];
     };
     deltaAnimation: Animation;
+    /**
+     * Defines available adapters.
+     */
+    _adapter: ICategoryAxisDataItemAdapters;
     /**
      * Constructor
      */

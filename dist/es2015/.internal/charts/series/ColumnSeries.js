@@ -18,7 +18,7 @@ import { CategoryAxis } from "../axes/CategoryAxis";
 import { registry } from "../../core/Registry";
 import { Column } from "../elements/Column";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
-import { percent } from "../../core/utils/Percent";
+import { percent, Percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 import * as $object from "../../core/utils/Object";
 import * as $iter from "../../core/utils/Iterator";
@@ -90,6 +90,25 @@ var ColumnSeriesDataItem = /** @class */ (function (_super) {
             }));
         }
     };
+    Object.defineProperty(ColumnSeriesDataItem.prototype, "width", {
+        get: function () {
+            var width = this.properties.width;
+            if (this._adapterO) {
+                width = this._adapterO.apply("width", width);
+            }
+            return width;
+        },
+        set: function (value) {
+            if (this.properties.width != value) {
+                this.properties.width = value;
+                if (this.component) {
+                    this.component.validateDataElement(this);
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ColumnSeriesDataItem.prototype, "rangesColumns", {
         /**
          * A dictionary storing axes ranges columns by axis uid
@@ -382,6 +401,15 @@ var ColumnSeries = /** @class */ (function (_super) {
         var paddingTop = template.pixelPaddingTop;
         var paddingBottom = template.pixelPaddingBottom;
         var outOfBounds = false;
+        var diw = dataItem.width;
+        if ($type.hasValue(diw)) {
+            if ($type.isNumber(diw)) {
+                pixelWidth = diw;
+            }
+            if (diw instanceof Percent) {
+                percentWidth = diw.value * 100;
+            }
+        }
         // two category axes
         if ((this.xAxis instanceof CategoryAxis) && (this.yAxis instanceof CategoryAxis)) {
             if (!dataItem.hasValue(this._xValueFields) || !dataItem.hasValue(this._yValueFields)) {
@@ -569,6 +597,8 @@ var ColumnSeries = /** @class */ (function (_super) {
                         column_1.readerTitle = "";
                     }, undefined, false);
                 }
+                column_1.parent = this.columnsContainer;
+                column_1.virtualParent = this;
             }
             else {
                 column_1 = dataItem.column;
@@ -588,8 +618,6 @@ var ColumnSeries = /** @class */ (function (_super) {
             column_1.realY = t;
             column_1.realWidth = r - l;
             column_1.realHeight = b - t;
-            column_1.parent = this.columnsContainer;
-            column_1.virtualParent = this;
             this.setColumnStates(column_1);
             if (column_1.invalid) {
                 column_1.validate(); // validate as if it was used previously, it will flicker with previous dimensions

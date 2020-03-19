@@ -140,11 +140,11 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
     /**
      * @ignore
      */
-    _adapterO: Adapter<DataItem, IDataItemAdapters>;
+    _adapterO: Adapter<this, this["_adapter"]>;
     /**
      * Holds Adapter.
      */
-    readonly adapter: Adapter<DataItem, IDataItemAdapters>;
+    readonly adapter: Adapter<this, this["_adapter"]>;
     /**
      * Defines a type of [[Component]] this Data Item is used for.
      */

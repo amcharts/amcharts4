@@ -16,6 +16,16 @@ import { Dictionary } from "../../core/utils/Dictionary";
 import { CategoryAxis } from "../axes/CategoryAxis";
 import { Bullet } from "../elements/Bullet";
 import { Column } from "../elements/Column";
+import { Percent } from "../../core/utils/Percent";
+import { IDataItemAdapters } from "../../core/DataItem";
+/**
+ * Defines adapters for [[DataItem]]
+ * Includes both the [[Adapter]] definitions and properties
+ * @see {@link Adapter}
+ */
+export interface IColumnSeriesDataItemAdapters extends IDataItemAdapters {
+    width: number | Percent;
+}
 /**
  * ============================================================================
  * DATA ITEM
@@ -28,6 +38,10 @@ import { Column } from "../elements/Column";
  * @see {@link DataItem}
  */
 export declare class ColumnSeriesDataItem extends XYSeriesDataItem {
+    /**
+     * Defines available adapters.
+     */
+    _adapter: IColumnSeriesDataItemAdapters;
     /**
      * A Column Element
      */
@@ -64,6 +78,7 @@ export declare class ColumnSeriesDataItem extends XYSeriesDataItem {
     */
     column: this["_column"];
     protected setColumn(column: this["_column"]): void;
+    width: number | Percent;
     /**
      * A dictionary storing axes ranges columns by axis uid
      */
@@ -76,9 +91,10 @@ export declare class ColumnSeriesDataItem extends XYSeriesDataItem {
  * @hidden
  */
 /**
- * Defines data fields for [[ColumnSeries]].
+ * Defines data fields for [[XYSeries]].
  */
 export interface IColumnSeriesDataFields extends IXYSeriesDataFields {
+    width?: string;
 }
 /**
  * Defines properties for [[ColumnSeries]].

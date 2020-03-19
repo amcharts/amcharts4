@@ -65,6 +65,8 @@ export { IPolysplineProperties, IPolysplineEvents, IPolysplineAdapters, Polyspli
 export { IPreloaderProperties, IPreloaderEvents, IPreloaderAdapters, Preloader } from "./.internal/core/elements/Preloader";
 export { IRectangleProperties, IRectangleEvents, IRectangleAdapters, Rectangle } from "./.internal/core/elements/Rectangle";
 export { IResizeButtonProperties, IResizeButtonEvents, IResizeButtonAdapters, ResizeButton } from "./.internal/core/elements/ResizeButton";
+export { CloseButton, ICloseButtonAdapters, ICloseButtonEvents, ICloseButtonProperties } from "./.internal/core/elements/CloseButton";
+export { ISwitchButtonAdapters, ISwitchButtonEvents, ISwitchButtonProperties, SwitchButton } from "./.internal/core/elements/SwitchButton";
 export { IRoundedRectangleProperties, IRoundedRectangleEvents, IRoundedRectangleAdapters, RoundedRectangle } from "./.internal/core/elements/RoundedRectangle";
 export { IScrollbarProperties, IScrollbarEvents, IScrollbarAdapters, Scrollbar } from "./.internal/core/elements/Scrollbar";
 export { ISliderProperties, ISliderEvents, ISliderAdapters, Slider } from "./.internal/core/elements/Slider";

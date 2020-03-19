@@ -44,6 +44,8 @@ export { Polyspline } from "./.internal/core/elements/Polyspline";
 export { Preloader } from "./.internal/core/elements/Preloader";
 export { Rectangle } from "./.internal/core/elements/Rectangle";
 export { ResizeButton } from "./.internal/core/elements/ResizeButton";
+export { CloseButton } from "./.internal/core/elements/CloseButton";
+export { SwitchButton } from "./.internal/core/elements/SwitchButton";
 export { RoundedRectangle } from "./.internal/core/elements/RoundedRectangle";
 export { Scrollbar } from "./.internal/core/elements/Scrollbar";
 export { Slider } from "./.internal/core/elements/Slider";
