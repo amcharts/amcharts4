@@ -125,11 +125,23 @@ export interface IExportImageOptions {
      * @default false
      */
     keepTainted?: boolean;
+    /**
+     * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+     *
+     * @since 4.9.11
+     */
+    disabled?: boolean;
 }
 /**
  * Represents options for SVG export.
  */
 export interface IExportSVGOptions {
+    /**
+     * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+     *
+     * @since 4.9.11
+     */
+    disabled?: boolean;
 }
 /**
  * Available PDF page sizes.
@@ -228,6 +240,12 @@ export interface IExportPDFOptions extends IExportImageOptions {
      * @since 4.7.0
      */
     pivot?: boolean;
+    /**
+     * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+     *
+     * @since 4.9.11
+     */
+    disabled?: boolean;
 }
 /**
  * Represents options for CSV export.
@@ -292,6 +310,12 @@ export interface IExportCSVOptions {
      * @since 4.6.8
      */
     pivot?: boolean;
+    /**
+     * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+     *
+     * @since 4.9.11
+     */
+    disabled?: boolean;
 }
 /**
  * Represents options for JSON export
@@ -316,6 +340,12 @@ export interface IExportJSONOptions {
      * @default "  "
      */
     indent?: number;
+    /**
+     * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+     *
+     * @since 4.9.11
+     */
+    disabled?: boolean;
 }
 /**
  * Represents options for XLSX export.
@@ -358,6 +388,12 @@ export interface IExportExcelOptions {
      * @since 4.6.8
      */
     pivot?: boolean;
+    /**
+     * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+     *
+     * @since 4.9.11
+     */
+    disabled?: boolean;
 }
 /**
  * Represents options for HTML export.
@@ -416,6 +452,12 @@ export interface IExportHTMLOptions {
      * A class name to add to table cells.
      */
     cellClass?: string;
+    /**
+     * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+     *
+     * @since 4.9.11
+     */
+    disabled?: boolean;
 }
 /**
  * Represents options for print.
@@ -441,6 +483,12 @@ export interface IExportPrintOptions extends IExportImageOptions {
      * @default "iframe"
      */
     printMethod?: "css" | "iframe";
+    /**
+     * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+     *
+     * @since 4.9.11
+     */
+    disabled?: boolean;
 }
 /**
  * Represents options for custom menu items.
@@ -455,6 +503,12 @@ export interface IExportCustomOptions {
      * A target which will be `this` context for callback calls.
      */
     callbackTarget?: any;
+    /**
+     * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+     *
+     * @since 4.9.11
+     */
+    disabled?: boolean;
 }
 /**
  * Represents interface for a temporarily removed image.

@@ -548,7 +548,11 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.typeSupported = function (type) {
         var supported = true;
-        if (type === "pdf") {
+        var options = this.getFormatOptions(type);
+        if ($type.hasValue(options) && options.disabled) {
+            supported = false;
+        }
+        else if (type === "pdf") {
             //supported = this.downloadSupport();
         }
         else if (type === "xlsx") {

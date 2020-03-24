@@ -464,6 +464,7 @@ var ExportMenu = /** @class */ (function (_super) {
             level: level,
             type: type
         }).className;
+        element.setAttribute("role", "menuitem");
         return element;
     };
     /**

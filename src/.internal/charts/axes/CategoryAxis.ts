@@ -79,7 +79,13 @@ export class CategoryAxisDataItem extends AxisDataItem {
 	 * @param value  Category
 	 */
 	public set category(value: string) {
+		let oldCategory = this.properties.category;
 		this.setProperty("category", value);
+		if($type.hasValue(oldCategory) && oldCategory != value){
+			if(this.component){
+				this.component.validateDataElement(this);
+			}
+		}
 	}
 
 	/**

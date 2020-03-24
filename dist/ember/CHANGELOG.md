@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.11] - 2020-03-24
+
+### Added
+- Export: Added `disabled` property to all format options so you can disable each particular export format easily, e.g.: `chart.exporting.getFormatOptions("csv").disabled = true`.
+- New property on all `Sprite` elements: `userClassName`. If set, will also set element's `class` accordingly. Works directly, and via `propertyFields`.
+
+### Fixed
+- Fixed error with Angular Server Side Rendering (Angular Universal).
+- Accessibility: minor role issue fixed for items in `ExportMenu`.
+- It was impossible to change heat rule's min and max values after the rule was added.
+- Changing category of axisRange after it was alrady added to axis was not working.
+
+
 ## [4.9.10] - 2020-03-19
 
 ## Added

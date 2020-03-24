@@ -1455,6 +1455,9 @@ var Sprite = /** @class */ (function (_super) {
         if ($type.hasValue(this.id)) {
             this.group.addClass(classNamePrefix + this.id);
         }
+        if (this.userClassName) {
+            this.group.addClass(this.userClassName);
+        }
     };
     /**
      * Adds an `id` attribute the the element and returns the id.
@@ -7686,6 +7689,32 @@ var Sprite = /** @class */ (function (_super) {
             this.dispatch("zIndexChanged");
         }
     };
+    Object.defineProperty(Sprite.prototype, "userClassName", {
+        /**
+         * @return Class name
+         */
+        get: function () {
+            return this.getPropertyValue("userClassName");
+        },
+        /**
+         * A custom class name to set on the element.
+         *
+         * If set, the value will be added to element's `class` attribute.
+         *
+         * @since 4.9.11
+         * @param  value  Class name
+         */
+        set: function (value) {
+            if (this.setPropertyValue("userClassName", value)) {
+                if (!value && this.userClassName) {
+                    this.group.removeClass(this.userClassName);
+                }
+                this.setClassName();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Sprite.prototype, "tooltip", {
         /**
          * @return Tooltip

@@ -1140,8 +1140,6 @@ var Series = /** @class */ (function (_super) {
                         if (!$type.hasValue(dataField_1)) {
                             dataField_1 = "value";
                         }
-                        var min_1 = heatRule.min;
-                        var max_1 = heatRule.max;
                         var seriesDataItem_1 = _this.dataItem;
                         var property_1 = heatRule.property;
                         var minValue = $type.toNumber(heatRule.minValue);
@@ -1210,6 +1208,8 @@ var Series = /** @class */ (function (_super) {
                         target.adapter.add(property_1, function (value, ruleTarget, property) {
                             var minValue = $type.toNumber(heatRule.minValue);
                             var maxValue = $type.toNumber(heatRule.maxValue);
+                            var min = heatRule.min;
+                            var max = heatRule.max;
                             if (ruleTarget instanceof Sprite) {
                                 var anySprite = ruleTarget;
                                 var propertyField = anySprite.propertyFields[property];
@@ -1231,17 +1231,17 @@ var Series = /** @class */ (function (_super) {
                                 var fieldValues = dataItem.values[dataField_1];
                                 if (fieldValues) {
                                     var workingValue = dataItem.getActualWorkingValue(dataField_1);
-                                    if ($type.hasValue(min_1) && $type.hasValue(max_1) && $type.isNumber(minValue) && $type.isNumber(maxValue) && $type.isNumber(workingValue)) {
+                                    if ($type.hasValue(min) && $type.hasValue(max) && $type.isNumber(minValue) && $type.isNumber(maxValue) && $type.isNumber(workingValue)) {
                                         var percent = (workingValue - minValue) / (maxValue - minValue);
                                         if ($type.isNumber(workingValue) && !$type.isNumber(percent)) {
                                             percent = 0.5;
                                         }
                                         // fixes problems if all values are the same
-                                        if ($type.isNumber(min_1)) {
-                                            return min_1 + (max_1 - min_1) * percent;
+                                        if ($type.isNumber(min)) {
+                                            return min + (max - min) * percent;
                                         }
-                                        else if (min_1 instanceof Color) {
-                                            return new Color($colors.interpolate(min_1.rgb, max_1.rgb, percent));
+                                        else if (min instanceof Color) {
+                                            return new Color($colors.interpolate(min.rgb, max.rgb, percent));
                                         }
                                     }
                                 }

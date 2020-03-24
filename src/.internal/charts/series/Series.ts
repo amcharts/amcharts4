@@ -1048,8 +1048,8 @@ export class Series extends Component {
 
 					this.positionBullet(bullet);
 				}
-				else{
-					if(bullet){
+				else {
+					if (bullet) {
 						bullet.__disabled = true;
 					}
 				}
@@ -1348,7 +1348,7 @@ export class Series extends Component {
 				if (valueLabel) {
 					if (legendSettings.itemValueText) {
 						valueLabel.text = legendSettings.itemValueText;
-					}					
+					}
 					valueLabel.dataItem = dataItem;
 				}
 				if (label) {
@@ -1485,9 +1485,6 @@ export class Series extends Component {
 						dataField = "value";
 					}
 
-					let min = heatRule.min;
-					let max = heatRule.max;
-
 					let seriesDataItem = this.dataItem;
 					let property = heatRule.property;
 
@@ -1523,7 +1520,6 @@ export class Series extends Component {
 											}
 										});
 									}
-
 								})
 							}
 						});
@@ -1562,8 +1558,12 @@ export class Series extends Component {
 
 
 					target.adapter.add(<any>property, (value, ruleTarget, property) => {
-						let minValue = $type.toNumber(heatRule.minValue);
+
+  					let minValue = $type.toNumber(heatRule.minValue);
 						let maxValue = $type.toNumber(heatRule.maxValue);
+
+						let min = heatRule.min;
+						let max = heatRule.max;
 
 						if (ruleTarget instanceof Sprite) {
 							let anySprite = <any>ruleTarget;

@@ -188,6 +188,7 @@ export interface ISpriteProperties {
 	id?: string;
 	isActive?: boolean;
 	isHover?: boolean;
+	userClassName?: string;
 }
 
 /**
@@ -2196,6 +2197,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if ($type.hasValue(this.id)) {
 			this.group.addClass(classNamePrefix + this.id);
 		}
+
+		if (this.userClassName) {
+			this.group.addClass(this.userClassName);
+		}
+
 	}
 
 	/**
@@ -8549,6 +8555,30 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			parent.children.moveValue(this, 0);
 			this.dispatch("zIndexChanged");
 		}
+	}
+
+	/**
+	 * A custom class name to set on the element.
+	 *
+	 * If set, the value will be added to element's `class` attribute.
+	 *
+	 * @since 4.9.11
+	 * @param  value  Class name
+	 */
+	public set userClassName(value: string) {
+		if (this.setPropertyValue("userClassName", value)) {
+			if (!value && this.userClassName) {
+				this.group.removeClass(this.userClassName);
+			}
+			this.setClassName();
+		}
+	}
+
+	/**
+	 * @return Class name
+	 */
+	public get userClassName(): string {
+		return this.getPropertyValue("userClassName");
 	}
 
 

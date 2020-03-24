@@ -808,6 +808,7 @@ export class ExportMenu extends Validatable {
 			level: level,
 			type: type
 		}).className;
+		element.setAttribute("role", "menuitem");
 		return element;
 	}
 

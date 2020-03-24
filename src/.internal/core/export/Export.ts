@@ -317,12 +317,27 @@ export interface IExportImageOptions {
 	 */
 	keepTainted?: boolean;
 
+	/**
+	 * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+	 *
+	 * @since 4.9.11
+	 */
+	disabled?: boolean;
+
 }
 
 /**
  * Represents options for SVG export.
  */
 export interface IExportSVGOptions {
+
+	/**
+	 * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+	 *
+	 * @since 4.9.11
+	 */
+	disabled?: boolean;
+
 }
 
 /**
@@ -440,6 +455,14 @@ export interface IExportPDFOptions extends IExportImageOptions {
 	 * @since 4.7.0
 	 */
 	pivot?: boolean;
+
+	/**
+	 * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+	 *
+	 * @since 4.9.11
+	 */
+	disabled?: boolean;
+
 }
 
 /**
@@ -514,6 +537,13 @@ export interface IExportCSVOptions {
 	 */
 	pivot?: boolean;
 
+	/**
+	 * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+	 *
+	 * @since 4.9.11
+	 */
+	disabled?: boolean;
+
 }
 
 /**
@@ -542,6 +572,13 @@ export interface IExportJSONOptions {
 	 * @default "  "
 	 */
 	indent?: number;
+
+	/**
+	 * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+	 *
+	 * @since 4.9.11
+	 */
+	disabled?: boolean;
 
 }
 
@@ -591,6 +628,13 @@ export interface IExportExcelOptions {
 	 * @since 4.6.8
 	 */
 	pivot?: boolean;
+
+	/**
+	 * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+	 *
+	 * @since 4.9.11
+	 */
+	disabled?: boolean;
 
 }
 
@@ -661,6 +705,13 @@ export interface IExportHTMLOptions {
 	 */
 	cellClass?: string;
 
+	/**
+	 * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+	 *
+	 * @since 4.9.11
+	 */
+	disabled?: boolean;
+
 }
 
 /**
@@ -690,6 +741,13 @@ export interface IExportPrintOptions extends IExportImageOptions {
 	 */
 	printMethod?: "css" | "iframe";
 
+	/**
+	 * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+	 *
+	 * @since 4.9.11
+	 */
+	disabled?: boolean;
+
 }
 
 /**
@@ -707,6 +765,13 @@ export interface IExportCustomOptions {
 	 * A target which will be `this` context for callback calls.
 	 */
 	callbackTarget?: any;
+
+	/**
+	 * Set this option to `disabled` for a format to not show up in [[ExportMenu]].
+	 *
+	 * @since 4.9.11
+	 */
+	disabled?: boolean;
 
 }
 
@@ -1491,7 +1556,11 @@ export class Export extends Validatable {
 	 */
 	public typeSupported<Key extends keyof IExportOptions>(type: Key): boolean {
 		let supported = true;
-		if (type === "pdf") {
+		const options = this.getFormatOptions(type);
+		if ($type.hasValue(options) && options.disabled) {
+			supported = false;
+		}
+		else if (type === "pdf") {
 			//supported = this.downloadSupport();
 		}
 		else if (type === "xlsx") {

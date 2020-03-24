@@ -159,6 +159,7 @@ export interface ISpriteProperties {
     id?: string;
     isActive?: boolean;
     isHover?: boolean;
+    userClassName?: string;
 }
 /**
  * Defines animation options
@@ -3728,6 +3729,18 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * appears behind other elements.
      */
     toBack(): void;
+    /**
+     * A custom class name to set on the element.
+     *
+     * If set, the value will be added to element's `class` attribute.
+     *
+     * @since 4.9.11
+     * @param  value  Class name
+     */
+    /**
+    * @return Class name
+    */
+    userClassName: string;
     /**
      * ==========================================================================
      * TOOLTIP-RELATED PROPERTIES STUFF

@@ -62,7 +62,13 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
          * @param value  Category
          */
         set: function (value) {
+            var oldCategory = this.properties.category;
             this.setProperty("category", value);
+            if ($type.hasValue(oldCategory) && oldCategory != value) {
+                if (this.component) {
+                    this.component.validateDataElement(this);
+                }
+            }
         },
         enumerable: true,
         configurable: true
