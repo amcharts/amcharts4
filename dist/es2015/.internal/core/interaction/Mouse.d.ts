@@ -42,4 +42,9 @@ export declare class MouseCursorStyle {
      * @since 4.7.15
      */
     static notAllowed: Array<IStyleProperty>;
+    /**
+     * Styles for "text" cursor.
+     * @since 4.9.12
+     */
+    static text: Array<IStyleProperty>;
 }

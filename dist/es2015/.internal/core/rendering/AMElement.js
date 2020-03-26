@@ -387,6 +387,7 @@ var AMElement = /** @class */ (function () {
      */
     AMElement.prototype.removeStyle = function (attribute) {
         // @todo Review because it's a bit messy and maybe not needed (pratically not used)
+        this.node.style[attribute] = null;
         delete this.node.style[attribute];
     };
     /**

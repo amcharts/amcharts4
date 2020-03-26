@@ -761,13 +761,13 @@ var Label = /** @class */ (function (_super) {
                 var y = $type.toNumber(node.getAttribute("y"));
                 switch (this.textValign) {
                     case "middle":
-                        node.setAttribute("y", (y + (height - this.bbox.height) / 2).toString());
+                        node.setAttribute("y", ((y || 0) + (height - this.bbox.height) / 2).toString());
                         break;
                     case "bottom":
-                        node.setAttribute("y", (y + height - this.bbox.height).toString());
+                        node.setAttribute("y", ((y || 0) + height - this.bbox.height).toString());
                         break;
                     default:
-                        node.setAttribute("y", y.toString());
+                        node.setAttribute("y", (y || 0).toString());
                         break;
                 }
             }

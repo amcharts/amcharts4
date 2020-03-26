@@ -1507,6 +1507,8 @@ var Container = /** @class */ (function (_super) {
             // can't import Label because of Circular dependencies
             if (child["hardInvalidate"]) {
                 child["hardInvalidate"]();
+                // this fixes firefox and viewport issue
+                child.events.once("validated", child.handleValidate, child, false);
             }
             else if (child instanceof Container) {
                 child.invalidateLabels();

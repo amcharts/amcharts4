@@ -258,7 +258,7 @@ export function viewPortHandler(sprite: Sprite) {
 		if (sprite.vpDisposer) {
 			sprite.vpDisposer.dispose();
 		}
-
+		
 		addToQueue(sprite);
 	}
 }
@@ -276,6 +276,9 @@ export function queueHandler(sprite: Sprite) {
 
 	if (sprite.vpDisposer) {
 		sprite.vpDisposer.dispose();
+	}
+	if (sprite instanceof Container) {
+		sprite.invalidateLabels();
 	}
 
 	if (sprite instanceof Component) {

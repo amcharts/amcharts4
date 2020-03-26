@@ -724,6 +724,7 @@ export class AMElement implements IDisposer {
 	 */
 	public removeStyle(attribute: string): void {
 		// @todo Review because it's a bit messy and maybe not needed (pratically not used)
+		(<any>this.node.style)[attribute] = null;
 		delete (<any>this.node.style)[attribute];
 	}
 

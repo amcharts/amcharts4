@@ -842,7 +842,7 @@ var Popup = /** @class */ (function (_super) {
                     })
                 ];
                 disposers.push(this._IOs.curtain.events.on("hit", function (ev) {
-                    if (_this.showCurtain) {
+                    if (_this.showCurtain && _this.closable) {
                         _this.close();
                     }
                 }));

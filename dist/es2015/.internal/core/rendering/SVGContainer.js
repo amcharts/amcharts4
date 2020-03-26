@@ -232,7 +232,8 @@ var SVGContainer = /** @class */ (function () {
         // Create modal
         var modal = this.modal;
         modal.content = text;
-        modal.readerTitle = title;
+        modal.readerTitle = title || "";
+        modal.title = title || "";
         modal.open();
         return modal;
     };

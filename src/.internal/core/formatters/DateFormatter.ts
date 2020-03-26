@@ -901,7 +901,7 @@ export class DateFormatter extends BaseObject {
 					break;
 
 				case "i":
-					reg += "([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\.([0-9]{3})([Zz]?)";
+					reg += "([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\.([0-9]{3})[0-9]*([Zz]?)";
 					parsedIndexes.iso = index;
 					indexAdjust += 7;
 					break;

@@ -85,4 +85,13 @@ export class MouseCursorStyle {
 		"value": "not-allowed"
 	}];
 
+	/**
+	 * Styles for "text" cursor.
+	 * @since 4.9.12
+	 */
+	static text: Array<IStyleProperty> = [{
+		"property": "cursor",
+		"value": "text"
+	}];
+
 }

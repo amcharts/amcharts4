@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.12] - 2020-03-26
+
+### Added
+- New mouse cursor style added: `am4core.MouseCursorStyle.text`.
+- Export `formatOptions` now accessible via public property, e.g. `chart.exporting.formatOptions.getKey("csv").disabled = true`.
+
+### Changed
+- Using date format `"i"` to parse ISO dates now supports unlimited number of milliseconds. It was failing before if more than three digits were used for milliseconds.
+
+### Fixed
+- If `Label` had its interactions disabled then re-enabled, its `selectable` property was being ignored.
+- `Modal` with `closable = false` could still be closed via curtain click.
+- `openModal()` ignored title (second parameter).
+- Pushing child elements in `Label` which has `textValign` set was resulting in error.
+- `cursor.snapToSeries` was not working properly with `CategoryAxis`.
+- Firefox was not measuring labels properly if a chart was lazy-loaded using `onlyShowOnViewport`.
+
+
 ## [4.9.11] - 2020-03-24
 
 ### Added

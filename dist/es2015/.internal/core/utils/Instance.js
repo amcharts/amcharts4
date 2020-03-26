@@ -229,6 +229,9 @@ export function queueHandler(sprite) {
     if (sprite.vpDisposer) {
         sprite.vpDisposer.dispose();
     }
+    if (sprite instanceof Container) {
+        sprite.invalidateLabels();
+    }
     if (sprite instanceof Component) {
         sprite.invalidateData();
         sprite.reinit();

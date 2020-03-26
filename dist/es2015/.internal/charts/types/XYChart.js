@@ -912,7 +912,7 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.getClosest = function (dataItems, xPosition, yPosition) {
         var minDistance = Infinity;
         var closestDataItem;
-        $array.each(dataItems, function (dataItem) {
+        $array.eachContinue(dataItems, function (dataItem) {
             if (dataItem) {
                 var xAxis = dataItem.component.xAxis;
                 var yAxis = dataItem.component.yAxis;
@@ -920,15 +920,20 @@ var XYChart = /** @class */ (function (_super) {
                 var yPos = yAxis.positionToCoordinate(yAxis.toGlobalPosition(yAxis.toAxisPosition(yPosition)));
                 var xField = dataItem.component.xField;
                 var yField = dataItem.component.yField;
-                if ($type.isNumber(dataItem.getValue(xField)) && $type.isNumber(dataItem.getValue(yField))) {
-                    var dxPosition = xAxis.positionToCoordinate(xAxis.toGlobalPosition(xAxis.getPositionX(dataItem, xField, dataItem.locations[xField], "valueX")));
-                    var dyPosition = yAxis.positionToCoordinate(yAxis.toGlobalPosition(yAxis.getPositionY(dataItem, yField, dataItem.locations[yField], "valueY")));
-                    var distance = Math.sqrt(Math.pow(xPos - dxPosition, 2) + Math.pow(yPos - dyPosition, 2));
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        closestDataItem = dataItem;
-                    }
+                if (xAxis instanceof ValueAxis && !$type.isNumber(dataItem.getValue(xField))) {
+                    return true;
                 }
+                if (yAxis instanceof ValueAxis && !$type.isNumber(dataItem.getValue(yField))) {
+                    return true;
+                }
+                var dxPosition = xAxis.positionToCoordinate(xAxis.toGlobalPosition(xAxis.getPositionX(dataItem, xField, dataItem.locations[xField], "valueX")));
+                var dyPosition = yAxis.positionToCoordinate(yAxis.toGlobalPosition(yAxis.getPositionY(dataItem, yField, dataItem.locations[yField], "valueY")));
+                var distance = Math.sqrt(Math.pow(xPos - dxPosition, 2) + Math.pow(yPos - dyPosition, 2));
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestDataItem = dataItem;
+                }
+                return true;
             }
         });
         return closestDataItem;

@@ -3792,6 +3792,41 @@ var Export = /** @class */ (function (_super) {
     Export.prototype.getFormatOptions = function (type) {
         return this._formatOptions.getKey(type);
     };
+    Object.defineProperty(Export.prototype, "formatOptions", {
+        /**
+         * A [[Dictionary]] object containing format-specific options.
+         *
+         * May be used to change specific option for the format:
+         *
+         * ```TypeScript
+         * chart.exporting.formatOptions.getKey("csv").disabled = true;
+         * ```
+         * ```JavaScript
+         * chart.exporting.formatOptions.getKey("csv").disabled = true;
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "exporting": {
+         *     // ...
+         *     "formatOptions": {
+         *       "csv": {
+         *         "disabled": true
+         *       }
+         *     }
+         *   }
+         * }
+         * ```
+         *
+         * @since 4.9.12
+         * @return  Options
+         */
+        get: function () {
+            return this._formatOptions;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Disables interactivity on parent chart.
      */

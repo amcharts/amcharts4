@@ -1069,7 +1069,7 @@ export class Popup extends BaseObjectEvents {
 					})
 				];
 				disposers.push(this._IOs.curtain.events.on("hit", (ev) => {
-					if (this.showCurtain) {
+					if (this.showCurtain && this.closable) {
 						this.close();
 					}
 				}));

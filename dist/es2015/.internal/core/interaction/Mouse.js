@@ -70,6 +70,14 @@ var MouseCursorStyle = /** @class */ (function () {
             "property": "cursor",
             "value": "not-allowed"
         }];
+    /**
+     * Styles for "text" cursor.
+     * @since 4.9.12
+     */
+    MouseCursorStyle.text = [{
+            "property": "cursor",
+            "value": "text"
+        }];
     return MouseCursorStyle;
 }());
 export { MouseCursorStyle };

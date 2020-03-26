@@ -1918,6 +1918,8 @@ export class Container extends Sprite {
 			// can't import Label because of Circular dependencies
 			if ((<any>child)["hardInvalidate"]) {
 				(<any>child)["hardInvalidate"]();
+				// this fixes firefox and viewport issue
+				child.events.once("validated", (<any>child).handleValidate, child, false);
 			}
 			else if (child instanceof Container) {
 				child.invalidateLabels();

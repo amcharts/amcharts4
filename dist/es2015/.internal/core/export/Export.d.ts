@@ -30,6 +30,7 @@ import { Sprite } from "../Sprite";
 import { Preloader } from "../elements/Preloader";
 import { Modal } from "../elements/Modal";
 import { List } from "../utils/List";
+import { Dictionary } from "../utils/Dictionary";
 import { IDisposer } from "../utils/Disposer";
 import { DateFormatter } from "../formatters/DateFormatter";
 import { DurationFormatter } from "../formatters/DurationFormatter";
@@ -1966,6 +1967,35 @@ export declare class Export extends Validatable {
      * Returns current options for a format.
      */
     getFormatOptions<Key extends keyof IExportOptions>(type: Key): IExportOptions[Key];
+    /**
+     * A [[Dictionary]] object containing format-specific options.
+     *
+     * May be used to change specific option for the format:
+     *
+     * ```TypeScript
+     * chart.exporting.formatOptions.getKey("csv").disabled = true;
+     * ```
+     * ```JavaScript
+     * chart.exporting.formatOptions.getKey("csv").disabled = true;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "exporting": {
+     *     // ...
+     *     "formatOptions": {
+     *       "csv": {
+     *         "disabled": true
+     *       }
+     *     }
+     *   }
+     * }
+     * ```
+     *
+     * @since 4.9.12
+     * @return  Options
+     */
+    readonly formatOptions: Dictionary<string, ExportOptions>;
     /**
      * Disables interactivity on parent chart.
      */

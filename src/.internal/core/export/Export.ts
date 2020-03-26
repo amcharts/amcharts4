@@ -5076,6 +5076,38 @@ export class Export extends Validatable {
 	}
 
 	/**
+	 * A [[Dictionary]] object containing format-specific options.
+	 *
+	 * May be used to change specific option for the format:
+	 *
+	 * ```TypeScript
+	 * chart.exporting.formatOptions.getKey("csv").disabled = true;
+	 * ```
+	 * ```JavaScript
+	 * chart.exporting.formatOptions.getKey("csv").disabled = true;
+	 * ```
+	 * ```JSON
+	 * {
+	 *   // ...
+	 *   "exporting": {
+	 *     // ...
+	 *     "formatOptions": {
+	 *       "csv": {
+	 *         "disabled": true
+	 *       }
+	 *     }
+	 *   }
+	 * }
+	 * ```
+	 *
+	 * @since 4.9.12
+	 * @return  Options
+	 */
+	public get formatOptions(): Dictionary<string, ExportOptions> {
+		return this._formatOptions;
+	}
+
+	/**
 	 * Disables interactivity on parent chart.
 	 */
 	protected _disablePointers(): void {

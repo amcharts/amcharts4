@@ -991,12 +991,12 @@ export class XYChart extends SerialChart {
 			}
 			if (series.yAxis) {
 				series.yAxis.series.removeValue(series);
-				series.yAxis.invalidateProcessedData();				
+				series.yAxis.invalidateProcessedData();
 			}
 			// otherwise extremes won't change
-			this.series.each((series)=>{
+			this.series.each((series) => {
 				series.resetExtremes();
-			})			
+			})
 		}
 		super.handleSeriesRemoved(event);
 	}
@@ -1236,7 +1236,7 @@ export class XYChart extends SerialChart {
 		let minDistance = Infinity;
 		let closestDataItem: XYSeriesDataItem
 
-		$array.each(dataItems, (dataItem) => {
+		$array.eachContinue(dataItems, (dataItem) => {
 			if (dataItem) {
 				let xAxis = dataItem.component.xAxis;
 				let yAxis = dataItem.component.yAxis;
@@ -1247,18 +1247,23 @@ export class XYChart extends SerialChart {
 				let xField = dataItem.component.xField;
 				let yField = dataItem.component.yField;
 
-				if ($type.isNumber(dataItem.getValue(xField)) && $type.isNumber(dataItem.getValue(yField))) {
-					let dxPosition = xAxis.positionToCoordinate(xAxis.toGlobalPosition(xAxis.getPositionX(dataItem, xField, dataItem.locations[xField], "valueX")));
-					let dyPosition = yAxis.positionToCoordinate(yAxis.toGlobalPosition(yAxis.getPositionY(dataItem, yField, dataItem.locations[yField], "valueY")));
-
-					let distance = Math.sqrt(Math.pow(xPos - dxPosition, 2) + Math.pow(yPos - dyPosition, 2));
-
-					if (distance < minDistance) {
-						minDistance = distance;
-						closestDataItem = dataItem;
-					}
+				if (xAxis instanceof ValueAxis && !$type.isNumber(dataItem.getValue(xField))) {
+					return true;
+				}
+				if (yAxis instanceof ValueAxis && !$type.isNumber(dataItem.getValue(yField))) {
+					return true;
 				}
 
+				let dxPosition = xAxis.positionToCoordinate(xAxis.toGlobalPosition(xAxis.getPositionX(dataItem, xField, dataItem.locations[xField], "valueX")));
+				let dyPosition = yAxis.positionToCoordinate(yAxis.toGlobalPosition(yAxis.getPositionY(dataItem, yField, dataItem.locations[yField], "valueY")));
+
+				let distance = Math.sqrt(Math.pow(xPos - dxPosition, 2) + Math.pow(yPos - dyPosition, 2));
+
+				if (distance < minDistance) {
+					minDistance = distance;
+					closestDataItem = dataItem;
+				}
+				return true;
 			}
 		})
 
@@ -1395,8 +1400,8 @@ export class XYChart extends SerialChart {
 				})
 
 				if (cursor.maxTooltipDistance < 0) {
-					newSeriesPoints = [{series:nearestSeries, point:nearestPoint}];					
-				}				
+					newSeriesPoints = [{ series: nearestSeries, point: nearestPoint }];
+				}
 			}
 
 			seriesPoints = newSeriesPoints;

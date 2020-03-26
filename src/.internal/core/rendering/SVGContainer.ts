@@ -318,7 +318,8 @@ export class SVGContainer implements IDisposer {
 		// Create modal
 		let modal = this.modal;
 		modal.content = text;
-		modal.readerTitle = title;
+		modal.readerTitle = title || "";
+		modal.title = title || "";
 		modal.open();
 
 		return modal;
