@@ -3,6 +3,21 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [UNRELEASED] - ????-??-??
+
+### Added
+- New map `norway2020*` to reflect updated sub-division for Norway. The old version (`norway*`) is still there for backwards compatibility.
+
+### Fixed
+- Fixed minor issues in Virginia County map.
+
+
+## [4.1.14] - 2020-03-27
+
+### Changed
+- Potentially breaking change! Some maps had their area name property mistakenly set in uppercase. Some 80 map files affected. If you are currently using "NAME" data field, or `{NAME}` placeholder, make sure you change those to lowercase (`"name"` or `{name}`).
+
+
 ## [4.1.13] - 2020-03-26
 
 ### Added

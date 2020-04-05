@@ -2852,7 +2852,7 @@ var Export = /** @class */ (function (_super) {
             var scroll, rule, originalTitle, img, isIOS;
             return __generator(this, function (_a) {
                 scroll = document.documentElement.scrollTop || document.body.scrollTop;
-                rule = new StyleRule("body > *", {
+                rule = new StyleRule($dom.getShadowRoot(this.container), "body > *", {
                     "display": "none",
                     "position": "fixed",
                     "visibility": "hidden",

@@ -287,6 +287,22 @@ export declare class Responsive extends BaseObjectEvents {
      */
     protected getState(rule: IResponsiveRule, target: any): Optional<SpriteState<any, any>>;
     /**
+     * Creates and returns default responsive rule for the target.
+     *
+     * This rule will be used to "reset" to non-responsive values.
+     * @param   target  Target Sprite
+     * @return          State
+     */
+    protected getDefaultState(target: any): SpriteState<any, any>;
+    /**
+     * Sets state on the target element and updates default state with the
+     * overwritten values if needed.
+     *
+     * @param  target  Target
+     * @param  state   State
+     */
+    protected setTargetState(target: any, state: SpriteState<any, any>): void;
+    /**
      * Gets a value from an element.
      *
      * @ignore Exclude from docs

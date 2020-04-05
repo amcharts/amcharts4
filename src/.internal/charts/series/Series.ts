@@ -430,6 +430,22 @@ export class Series extends Component {
 	public calculatePercent: boolean = false;
 
 	/**
+	 * When `calculatePercent` is enabled and data item's percent value is
+	 * calculated, last item's real value is used instead of its working value.
+	 * 
+	 * This is done for the animations when last item in series (e.g. slice in
+	 * a `PieSeries`) is hidden or shown. (if we would use real value, the 
+	 * calculated percent would always be 100%).
+	 * 
+	 * Sometimes there is a need (e.g. for drill-down Sunburst) to disable this
+	 * hack by setting `usePercentHack` to `false`.
+	 *
+	 * @since 4.9.13
+	 * @default true
+	 */
+	public usePercentHack: boolean = true;
+
+	/**
 	 * Specifies if series should be automatically disposed when removing from
 	 * chart's `series` list.
 	 * 
@@ -832,11 +848,13 @@ export class Series extends Component {
 
 						if ($type.isNumber(value)) {
 							if (ksum > 0) {
-								// this hack is made in order to make it possible to animate single slice to 0
-								// if there is only one slice left, percent value is always 100%, so it won't animate
-								// so we use real value of a slice instead of current value
-								if (value == ksum) {
-									ksum = dataItem.values[key].value;
+								if (this.usePercentHack) {
+									// this hack is made in order to make it possible to animate single slice to 0
+									// if there is only one slice left, percent value is always 100%, so it won't animate
+									// so we use real value of a slice instead of current value
+									if (value == ksum) {
+										ksum = dataItem.values[key].value;
+									}
 								}
 
 								let percent = value / ksum * 100;
@@ -1385,6 +1403,7 @@ export class Series extends Component {
 		this.bullets.copyFrom(source.bullets);
 		this.bulletsContainer.copyFrom(source.bulletsContainer);
 		this.calculatePercent = source.calculatePercent;
+		this.usePercentHack = source.usePercentHack;
 		this.simplifiedProcessing = source.simplifiedProcessing;
 		super.copyFrom(source);
 	}
@@ -1399,7 +1418,9 @@ export class Series extends Component {
 		if (this._chart && this._chart.modal) {
 			this._chart.modal.content = this._chart.adapter.apply("criticalError", e).message;
 			this._chart.modal.closable = false;
-			this._chart.modal.open();
+			if (!options.suppressErrors) {
+				this._chart.modal.open();
+			}
 			this._chart.disabled = true;
 		}
 
@@ -1559,7 +1580,7 @@ export class Series extends Component {
 
 					target.adapter.add(<any>property, (value, ruleTarget, property) => {
 
-  					let minValue = $type.toNumber(heatRule.minValue);
+						let minValue = $type.toNumber(heatRule.minValue);
 						let maxValue = $type.toNumber(heatRule.maxValue);
 
 						let min = heatRule.min;

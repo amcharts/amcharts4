@@ -104,6 +104,16 @@ export interface Options {
      * @type {String[]}
      */
     licenses: String[];
+    /**
+     * Should error modals be suppressed from displaying.
+     *
+     * Errors might originate from setting validation code, or generic JS-thrown
+     * errors.
+     *
+     * @since 4.9.13
+     * @default false
+     */
+    suppressErrors: boolean;
 }
 /**
  * Global options.

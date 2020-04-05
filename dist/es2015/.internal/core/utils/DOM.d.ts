@@ -120,6 +120,13 @@ export declare function isElement(el: HTMLElement): boolean;
  */
 export declare function contains(a: HTMLElement | SVGSVGElement, b: HTMLElement | SVGSVGElement): boolean;
 /**
+ * Returns the shadow root of the element or null
+ *
+ * @param a  Node
+ * @return Root
+ */
+export declare function getShadowRoot(a: Node): ShadowRoot | null;
+/**
  * Returns the root of the element (either the Document or the ShadowRoot)
  *
  * @param a  Node
@@ -178,7 +185,7 @@ export declare class StyleRule extends Disposer {
      * @param selector  CSS selector
      * @param styles    An object of style attribute - value pairs
      */
-    constructor(selector: string, styles: {
+    constructor(element: ShadowRoot | null, selector: string, styles: {
         [name: string]: string;
     });
     /**
@@ -211,7 +218,7 @@ export declare class StyleClass extends StyleRule {
      * @param styles  An object of style attribute - value pairs
      * @param name    Class name
      */
-    constructor(styles: {
+    constructor(element: ShadowRoot | null, styles: {
         [name: string]: string;
     }, name?: string);
     /**

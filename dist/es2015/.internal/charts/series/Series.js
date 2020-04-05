@@ -192,6 +192,21 @@ var Series = /** @class */ (function (_super) {
          */
         _this.calculatePercent = false;
         /**
+         * When `calculatePercent` is enabled and data item's percent value is
+         * calculated, last item's real value is used instead of its working value.
+         *
+         * This is done for the animations when last item in series (e.g. slice in
+         * a `PieSeries`) is hidden or shown. (if we would use real value, the
+         * calculated percent would always be 100%).
+         *
+         * Sometimes there is a need (e.g. for drill-down Sunburst) to disable this
+         * hack by setting `usePercentHack` to `false`.
+         *
+         * @since 4.9.13
+         * @default true
+         */
+        _this.usePercentHack = true;
+        /**
          * Specifies if series should be automatically disposed when removing from
          * chart's `series` list.
          *
@@ -536,11 +551,13 @@ var Series = /** @class */ (function (_super) {
                         var value = dataItem_3.getActualWorkingValue(key);
                         if ($type.isNumber(value)) {
                             if (ksum > 0) {
-                                // this hack is made in order to make it possible to animate single slice to 0
-                                // if there is only one slice left, percent value is always 100%, so it won't animate
-                                // so we use real value of a slice instead of current value
-                                if (value == ksum) {
-                                    ksum = dataItem_3.values[key].value;
+                                if (_this.usePercentHack) {
+                                    // this hack is made in order to make it possible to animate single slice to 0
+                                    // if there is only one slice left, percent value is always 100%, so it won't animate
+                                    // so we use real value of a slice instead of current value
+                                    if (value == ksum) {
+                                        ksum = dataItem_3.values[key].value;
+                                    }
                                 }
                                 var percent = value / ksum * 100;
                                 dataItem_3.setCalculatedValue(key, percent, "percent");
@@ -1047,6 +1064,7 @@ var Series = /** @class */ (function (_super) {
         this.bullets.copyFrom(source.bullets);
         this.bulletsContainer.copyFrom(source.bulletsContainer);
         this.calculatePercent = source.calculatePercent;
+        this.usePercentHack = source.usePercentHack;
         this.simplifiedProcessing = source.simplifiedProcessing;
         _super.prototype.copyFrom.call(this, source);
     };
@@ -1060,7 +1078,9 @@ var Series = /** @class */ (function (_super) {
         if (this._chart && this._chart.modal) {
             this._chart.modal.content = this._chart.adapter.apply("criticalError", e).message;
             this._chart.modal.closable = false;
-            this._chart.modal.open();
+            if (!options.suppressErrors) {
+                this._chart.modal.open();
+            }
             this._chart.disabled = true;
         }
         if (options.verbose) {

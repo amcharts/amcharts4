@@ -47,6 +47,7 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         _this.className = "AxisLabelCircular";
         _this.padding(0, 0, 0, 0);
         _this.location = 0.5;
+        _this.locationOnPath = 0.5;
         _this.radius = 0;
         _this.isMeasured = false;
         _this.applyTheme();
@@ -120,7 +121,21 @@ var AxisLabelCircular = /** @class */ (function (_super) {
             this.setPropertyValue("horizontalCenter", "none");
             this.setPropertyValue("verticalCenter", "none");
             if (value) {
+                this.setPropertyValue("dx", 0);
+                this.setPropertyValue("dy", 0);
+                this.setPropertyValue("x", 0);
+                this.setPropertyValue("y", 0);
+                this.setPropertyValue("rotation", 0);
+                //this.setPropertyValue("relativeRotation", undefined);
+                this.fdx = 0;
+                this.fdy = 0;
                 this.textAlign = "middle";
+            }
+            else {
+                if (this.textPathElement) {
+                    this.textPathElement.dispose();
+                    this.textPathElement = undefined;
+                }
             }
         },
         enumerable: true,
@@ -193,9 +208,11 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         var relativeRotation = this.relativeRotation;
         var labelRadius = this.pixelRadius(axisRadius);
         if (this.bent) {
-            var point_1 = { x: axisRadius * $math.cos(angle + 180), y: axisRadiusY * $math.sin(angle + 180) };
+            var point_1 = { x: (axisRadius + labelRadius) * $math.cos(angle + 180), y: (axisRadiusY + labelRadius * axisRadiusY / axisRadius) * $math.sin(angle + 180) };
             this.path = $path.moveTo(point_1) + $path.arcTo(angle + 180, 360, axisRadius + labelRadius, axisRadiusY + labelRadius * axisRadiusY / axisRadius);
-            this.locationOnPath = 0.5;
+            if (this.textPathElement) {
+                this.textPathElement.attr({ "startOffset": (this.locationOnPath * 100) + "%" });
+            }
             return;
         }
         // WHEN ROTATED

@@ -89,6 +89,9 @@ var SwitchButton = /** @class */ (function (_super) {
         // A Button should be always focusable
         _this.role = "button";
         _this.focusable = true;
+        rightLabel.valign = "middle";
+        leftLabel.valign = "middle";
+        button.valign = "middle";
         // Apply theme
         _this.applyTheme();
         return _this;

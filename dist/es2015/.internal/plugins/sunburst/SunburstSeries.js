@@ -239,10 +239,6 @@ var SunburstSeries = /** @class */ (function (_super) {
             sunburstDataItem.series.invalidateProcessedData();
             sunburstDataItem = sunburstDataItem.parent;
         }
-        //dataItem.sunburstDataItem.parent.series.invalidateRawData();
-        //	console.log(dataItem.sunburstDataItem.uid, dataItem.sunburstDataItem.parent.uid)
-        //console.log(dataItem.sunburstDataItem.parent.series.uid, this.uid);
-        //console.log(name, dataItem.getWorkingValue(name), dataItem.sunburstDataItem.getWorkingValue(name), dataItem.sunburstDataItem.value)
     };
     return SunburstSeries;
 }(PieSeries));

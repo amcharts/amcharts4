@@ -718,6 +718,10 @@ var DateAxis = /** @class */ (function (_super) {
                         if (previousTime < currentTime) {
                             newDataItem = dataSet.create();
                             newDataItem.dataContext = {};
+                            newDataItem.setWorkingLocation("dateX", series.dataItems.template.locations.dateX, 0);
+                            newDataItem.setWorkingLocation("openDateX", series.dataItems.template.locations.openDateX, 0);
+                            newDataItem.setWorkingLocation("dateY", series.dataItems.template.locations.dateY, 0);
+                            newDataItem.setWorkingLocation("openDateY", series.dataItems.template.locations.openDateY, 0);
                             newDataItem.component = series;
                             // other Dates?
                             newDataItem.setDate(key, roundedDate);

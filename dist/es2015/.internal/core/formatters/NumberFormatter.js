@@ -107,11 +107,16 @@ var NumberFormatter = /** @class */ (function (_super) {
         var source = Number(value);
         // Is it a built-in format or Intl.NumberFormatOptions
         if (format instanceof Object) {
-            if (this.intlLocales) {
-                return new Intl.NumberFormat(this.intlLocales, format).format(source);
+            try {
+                if (this.intlLocales) {
+                    return new Intl.NumberFormat(this.intlLocales, format).format(source);
+                }
+                else {
+                    return new Intl.NumberFormat(undefined, format).format(source);
+                }
             }
-            else {
-                return new Intl.NumberFormat(undefined, format).format(source);
+            catch (e) {
+                return "Invalid";
             }
         }
         else {

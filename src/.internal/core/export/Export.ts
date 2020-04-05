@@ -4150,7 +4150,7 @@ export class Export extends Validatable {
 		}*/
 
 		// Hide all document nodes by applyin custom CSS
-		let rule = new StyleRule("body > *", {
+		let rule = new StyleRule($dom.getShadowRoot(this.container), "body > *", {
 			"display": "none",
 			"position": "fixed",
 			"visibility": "hidden",

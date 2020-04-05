@@ -14,6 +14,7 @@ import { BaseObjectEvents } from "../Base";
 import { getInteraction } from "../interaction/Interaction";
 import { keyboard } from "../utils/Keyboard";
 import { MultiDisposer } from "../utils/Disposer";
+import { getShadowRoot } from "../utils/DOM";
 import * as $type from "../utils/Type";
 import * as $object from "../utils/Object";
 /**
@@ -816,7 +817,7 @@ var Popup = /** @class */ (function (_super) {
      */
     Popup.prototype.loadDefaultCSS = function () {
         if (!this._cssLoaded) {
-            this._disposers.push(popupCSS(this.classPrefix));
+            this._disposers.push(popupCSS(getShadowRoot(this.container), this.classPrefix));
             $object.each(this._elements, function (key, el) {
                 el.style.display = "";
             });

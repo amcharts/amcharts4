@@ -271,6 +271,31 @@ export function contains(a: HTMLElement | SVGSVGElement, b: HTMLElement | SVGSVG
 }
 
 /**
+ * Returns the shadow root of the element or null
+ *
+ * @param a  Node
+ * @return Root
+ */
+export function getShadowRoot(a: Node): ShadowRoot | null {
+	let cursor: Node = a;
+
+	while (true) {
+		if (cursor.parentNode == null) {
+			// TODO better ShadowRoot detection
+			if ((<ShadowRoot>cursor).host != null) {
+				return <ShadowRoot>cursor;
+
+			} else {
+				return null;
+			}
+
+		} else {
+			cursor = cursor.parentNode;
+		}
+	}
+}
+
+/**
  * Returns the root of the element (either the Document or the ShadowRoot)
  *
  * @param a  Node
@@ -380,16 +405,25 @@ let rootStylesheet: $type.Optional<CSSStyleSheet>;
  * @todo Description
  * @return [description]
  */
-function getStylesheet(): CSSStyleSheet {
-	if (!$type.hasValue(rootStylesheet)) {
+function getStylesheet(element: ShadowRoot | null): CSSStyleSheet {
+	if (element == null) {
+		if (!$type.hasValue(rootStylesheet)) {
+			// TODO use createElementNS ?
+			const e = document.createElement("style");
+			e.type = "text/css";
+			document.head.appendChild(e);
+			rootStylesheet = e.sheet as CSSStyleSheet;
+		}
+
+		return rootStylesheet;
+
+	} else {
 		// TODO use createElementNS ?
 		const e = document.createElement("style");
 		e.type = "text/css";
-		document.head.appendChild(e);
-		rootStylesheet = e.sheet as CSSStyleSheet;
+		element.appendChild(e);
+		return e.sheet as CSSStyleSheet;
 	}
-
-	return rootStylesheet;
 }
 
 /**
@@ -400,9 +434,7 @@ function getStylesheet(): CSSStyleSheet {
  * @param selector  [description]
  * @return [description]
  */
-function makeStylesheet(selector: string): CSSStyleRule {
-	const root = getStylesheet();
-
+function appendStylesheet(root: CSSStyleSheet, selector: string): CSSStyleRule {
 	const index = root.cssRules.length;
 
 	root.insertRule(selector + "{}", index);
@@ -446,11 +478,11 @@ export class StyleRule extends Disposer {
 	 * @param selector  CSS selector
 	 * @param styles    An object of style attribute - value pairs
 	 */
-	constructor(selector: string, styles: { [name: string]: string }) {
+	constructor(element: ShadowRoot | null, selector: string, styles: { [name: string]: string }) {
+		const root = getStylesheet(element);
+
 		// TODO test this
 		super(() => {
-			const root = getStylesheet();
-
 			// TODO a bit hacky
 			const index = $array.indexOf(root.cssRules, this._rule);
 
@@ -458,11 +490,12 @@ export class StyleRule extends Disposer {
 				throw new Error("Could not dispose StyleRule");
 
 			} else {
+				// TODO if it's empty remove it from the DOM ?
 				root.deleteRule(index);
 			}
 		});
 
-		this._rule = makeStylesheet(selector);
+		this._rule = appendStylesheet(root, selector);
 
 		$object.each(styles, (key, value) => {
 			this.setStyle(key, value);
@@ -525,14 +558,14 @@ export class StyleClass extends StyleRule {
 	 * @param styles  An object of style attribute - value pairs
 	 * @param name    Class name
 	 */
-	constructor(styles: { [name: string]: string }, name?: string) {
+	constructor(element: ShadowRoot | null, styles: { [name: string]: string }, name?: string) {
 		const className =
 			(!$type.hasValue(name)
 				// TODO generate the classname randomly
 				? "__style_" + (++styleId) + "__"
 				: name);
 
-		super("." + className, styles);
+		super(element, "." + className, styles);
 
 		this._className = className;
 	}

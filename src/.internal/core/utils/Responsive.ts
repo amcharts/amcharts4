@@ -21,6 +21,7 @@ import { Optional } from "../utils/Type";
 import * as $iter from "../utils/Iterator";
 import * as $array from "../utils/Array";
 import * as $type from "../utils/Type";
+import * as $object from "../utils/Object";
 
 
 /**
@@ -496,7 +497,7 @@ export class Responsive extends BaseObjectEvents {
 						if ($array.indexOf(this._appliedTargets, newTarget.uid) !== -1) {
 							// But only if this element has any rules applied, otherwise no
 							// point in setting current state
-							newTarget.applyCurrentState(0);
+							newTarget.setState(this.getDefaultState(newTarget));
 						}
 						defaultStateApplied = true;
 					}
@@ -505,7 +506,7 @@ export class Responsive extends BaseObjectEvents {
 					if (this.isApplied($type.getValue(rule.id))) {
 						// Yes. Apply the responsive state
 						state.transitionDuration = 0;
-						newTarget.setState(state);
+						this.setTargetState(newTarget, state);
 						this.dispatchImmediately("ruleapplied", {
 							rule: rule
 						});
@@ -555,6 +556,38 @@ export class Responsive extends BaseObjectEvents {
 		else {
 			return target.states.getKey(stateId);
 		}
+	}
+
+	/**
+	 * Creates and returns default responsive rule for the target.
+	 * 
+	 * This rule will be used to "reset" to non-responsive values.
+	 * @param   target  Target Sprite
+	 * @return          State
+	 */
+	protected getDefaultState(target: any): SpriteState<any, any> {
+		if (target.states.hasKey("responsive-default")) {
+			return target.states.getKey("responsive-default");
+		}
+		return target.states.create("responsive-default");
+	}
+
+	/**
+	 * Sets state on the target element and updates default state with the
+	 * overwritten values if needed.
+	 * 
+	 * @param  target  Target
+	 * @param  state   State
+	 */
+	protected setTargetState(target: any, state: SpriteState<any, any>): void {
+		// Update default state
+		const defaultState = this.getDefaultState(target);
+		$object.each(state.properties, (key, val) => {
+			if (!$type.hasValue(defaultState.properties[key])) {
+				defaultState.properties[key] = this.getValue(target, key);
+			}
+		});
+		target.setState(state);
 	}
 
 	/**

@@ -319,6 +319,21 @@ export declare class Series extends Component {
      */
     calculatePercent: boolean;
     /**
+     * When `calculatePercent` is enabled and data item's percent value is
+     * calculated, last item's real value is used instead of its working value.
+     *
+     * This is done for the animations when last item in series (e.g. slice in
+     * a `PieSeries`) is hidden or shown. (if we would use real value, the
+     * calculated percent would always be 100%).
+     *
+     * Sometimes there is a need (e.g. for drill-down Sunburst) to disable this
+     * hack by setting `usePercentHack` to `false`.
+     *
+     * @since 4.9.13
+     * @default true
+     */
+    usePercentHack: boolean;
+    /**
      * Specifies if series should be automatically disposed when removing from
      * chart's `series` list.
      *

@@ -9,6 +9,7 @@ export var options = {
     minPolylineStep: 0.5,
     onlyShowOnViewport: false,
     queue: false,
-    licenses: []
+    licenses: [],
+    suppressErrors: false
 };
 //# sourceMappingURL=Options.js.map

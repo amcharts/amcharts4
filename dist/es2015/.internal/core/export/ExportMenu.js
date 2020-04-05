@@ -842,7 +842,7 @@ var ExportMenu = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     ExportMenu.prototype.loadDefaultCSS = function () {
-        this._disposers.push(exportCSS(this.classPrefix));
+        this._disposers.push(exportCSS($dom.getShadowRoot(this.container), this.classPrefix));
         if (this._element) {
             this._element.style.display = "";
         }

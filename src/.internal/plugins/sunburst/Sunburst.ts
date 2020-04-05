@@ -516,15 +516,15 @@ export class Sunburst extends PieChart {
 				return startAngle;
 			})
 
-			series.adapter.add("endAngle", (startAngle, target) => {
+			series.adapter.add("endAngle", (endAngle, target) => {
 				let parentDataItem = target.parentDataItem;
 				if (parentDataItem) {
 					let seriesDataItem = parentDataItem.seriesDataItem;
 					if (seriesDataItem) {
-						startAngle = seriesDataItem.slice.startAngle + seriesDataItem.slice.arc;
+						endAngle = seriesDataItem.slice.startAngle + seriesDataItem.slice.arc;
 					}
 				}
-				return startAngle;
+				return endAngle;
 			})
 
 			series.validateData();
@@ -550,6 +550,8 @@ export class Sunburst extends PieChart {
 
 		let chartRadius = this._chartPixelRadius;
 		let chartPixelInnerRadius = this._chartPixelInnerRadius;
+
+
 
 		let seriesRadius = (chartRadius - chartPixelInnerRadius) / this._levelCount;
 

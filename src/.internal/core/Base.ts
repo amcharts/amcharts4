@@ -607,8 +607,8 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 
 					// ... a locale specified as string, e.g. "fr_FR"
 					// ------------------------------------------------------------------
-					if ((<any>document)["am4lang_" + configValue]) {
-						target[configKey] = (<any>document)["am4lang_" + configValue];
+					if ((<any>window)["am4lang_" + configValue]) {
+						target[configKey] = (<any>window)["am4lang_" + configValue];
 					}
 
 				}

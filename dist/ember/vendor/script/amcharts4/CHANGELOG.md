@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.13] - 2020-04-05
+
+### Added
+- Global options setting added `am4core.options.suppressErrors` (default `false`). Set it to `true` to disable error-invoked modal display.
+
+### Fixed
+- Setting `locale` as string (e.g. `locale: "fr_FR"`) in JSON config was not working.
+- `ValueAxis.min` and `ValueAxis.max` now accept `undefined`.
+- `NumberFormatter` and `DateFormatter` will not longer critically fail if invalid `Intl` data is passed to them. Instead they will return `"Invalid"` string.
+- Responsive: Sometimes objects were being revealed after coming back from responsive mode when thet shouldn't.
+- `locations` setting of the `SeriesDataItem` were not being copied to grouped data items (when `DateAxis.groupData = true`).
+- Shadow DOM: Made some changes to eliminate errors in IE11.
+- Shadow DOM: `ExportMenu` and `Popup`/`Modal` CSS was not being properly applied causing those elements to lose styling and positioning.
+
+
 ## [4.9.12] - 2020-03-26
 
 ### Added

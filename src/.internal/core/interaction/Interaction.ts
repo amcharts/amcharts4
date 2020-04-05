@@ -2649,14 +2649,18 @@ export class Interaction extends BaseObjectEvents {
 	 * @return Belongs to SVG
 	 */
 	public isLocalElement(pointer: IPointer, svg: SVGSVGElement, id: string): boolean {
-		let cached = this.getCache("local_pointer_" + pointer.id);
+		const cached = this.getCache("local_pointer_" + pointer.id);
 		if ($type.hasValue(cached)) {
 			return cached;
 		}
-		let target = ($dom.getRoot(svg) || document).elementFromPoint(pointer.point.x, pointer.point.y);
-		let local = target && $dom.contains(svg, <HTMLElement>target);
-		this.setCache("local_pointer_" + pointer.id + "_" + id, local, 100);
-		return local;
+		const doc = ($dom.getRoot(svg) || document);
+		if (doc.elementFromPoint) {
+			const target = doc.elementFromPoint(pointer.point.x, pointer.point.y);
+			const local = target && $dom.contains(svg, <HTMLElement>target);
+			this.setCache("local_pointer_" + pointer.id + "_" + id, local, 100);
+			return local;
+		}
+		return false;
 	}
 
 	/**

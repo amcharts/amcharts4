@@ -2982,6 +2982,22 @@ define('@amcharts/amcharts4-geodata/northMacedoniaLow', [], function () {
   }
   throw new Error("You must add 'geodata/northMacedoniaLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/norway2020High', [], function () {
+  'use strict';
+  var output = self.am4geodata_norway2020High;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/norway2020High' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/norway2020Low', [], function () {
+  'use strict';
+  var output = self.am4geodata_norway2020Low;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/norway2020Low' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/norwayHigh', [], function () {
   'use strict';
   var output = self.am4geodata_norwayHigh;

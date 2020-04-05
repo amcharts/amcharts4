@@ -211,11 +211,16 @@ export class DateFormatter extends BaseObject {
 		// Is it a built-in format or Intl.DateTimeFormat
 		if (format instanceof Object) {
 
-			if (this.intlLocales) {
-				return new Intl.DateTimeFormat(this.intlLocales, <Intl.DateTimeFormatOptions>format).format(date);
+			try {
+				if (this.intlLocales) {
+					return new Intl.DateTimeFormat(this.intlLocales, <Intl.DateTimeFormatOptions>format).format(date);
+				}
+				else {
+					return new Intl.DateTimeFormat(undefined, <Intl.DateTimeFormatOptions>format).format(date);
+				}
 			}
-			else {
-				return new Intl.DateTimeFormat(undefined, <Intl.DateTimeFormatOptions>format).format(date);
+			catch (e) {
+				return "Invalid";
 			}
 
 		}

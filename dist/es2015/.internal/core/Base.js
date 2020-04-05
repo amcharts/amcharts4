@@ -490,8 +490,8 @@ var BaseObject = /** @class */ (function () {
                 else if (configKey == "locale" && $type.isString(configValue)) {
                     // ... a locale specified as string, e.g. "fr_FR"
                     // ------------------------------------------------------------------
-                    if (document["am4lang_" + configValue]) {
-                        target[configKey] = document["am4lang_" + configValue];
+                    if (window["am4lang_" + configValue]) {
+                        target[configKey] = window["am4lang_" + configValue];
                     }
                 }
                 else if (configKey == "parent" && $type.isString(configValue)) {

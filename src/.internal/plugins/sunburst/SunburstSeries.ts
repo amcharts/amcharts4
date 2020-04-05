@@ -269,7 +269,7 @@ export class SunburstSeries extends PieSeries {
 		this.strokeOpacity = 1;
 
 		this.alignLabels = false;
-		this.ticks.template.disabled = true;
+		this.ticks.template.disabled = true;		
 
 		this.slices.template.hiddenState.properties.visible = true;
 
@@ -351,12 +351,6 @@ export class SunburstSeries extends PieSeries {
 			sunburstDataItem.series.invalidateProcessedData();
 			sunburstDataItem = sunburstDataItem.parent;
 		}
-
-		//dataItem.sunburstDataItem.parent.series.invalidateRawData();
-		//	console.log(dataItem.sunburstDataItem.uid, dataItem.sunburstDataItem.parent.uid)
-
-		//console.log(dataItem.sunburstDataItem.parent.series.uid, this.uid);
-		//console.log(name, dataItem.getWorkingValue(name), dataItem.sunburstDataItem.getWorkingValue(name), dataItem.sunburstDataItem.value)
 	}
 }
 

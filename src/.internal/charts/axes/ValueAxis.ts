@@ -603,19 +603,19 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			let max: number = this.positionToValue(this.end);
 
 			let differece: number = this.adjustDifference(min, max);
-			let minMaxStep: IMinMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);						
+			let minMaxStep: IMinMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);
 
 			let stepDecimalPlaces = $utils.decimalPlaces(minMaxStep.step);
 			this._stepDecimalPlaces = stepDecimalPlaces;
 
 			min = $math.round(min, stepDecimalPlaces);
-			max = $math.round(max, stepDecimalPlaces);			
+			max = $math.round(max, stepDecimalPlaces);
 
-			minMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);			
-			let step = minMaxStep.step;			
+			minMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);
+			let step = minMaxStep.step;
 
 			if (this.syncWithAxis) {
-				let calculated = this.getCache(min + "-" + max);				
+				let calculated = this.getCache(min + "-" + max);
 				if ($type.isNumber(calculated)) {
 					step = calculated;
 				}
@@ -623,7 +623,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			else {
 				min = minMaxStep.min;
 				max = minMaxStep.max;
-			}			
+			}
 
 			if (this._minZoomed != min || this._maxZoomed != max || this._step != step) {
 				this._minZoomed = min;
@@ -1581,7 +1581,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 *
 	 * @param value  Min value
 	 */
-	public set min(value: number) {
+	public set min(value: number | undefined) {
 		if (this._minDefined != value) {
 			this._minDefined = value;
 			this.invalidate();
@@ -1591,7 +1591,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	/**
 	 * @return Min value
 	 */
-	public get min(): number {
+	public get min(): number | undefined {
 		let min = this._minAdjusted;
 		if (!$type.isNumber(min)) {
 			min = this._minDefined;
@@ -1694,7 +1694,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 *
 	 * @param value  Max value
 	 */
-	public set max(value: number) {
+	public set max(value: number | undefined) {
 		if (this._maxDefined != value) {
 			this._maxDefined = value;
 			this.invalidate();
@@ -1704,7 +1704,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	/**
 	 * @return Max value
 	 */
-	public get max(): number {
+	public get max(): number | undefined {
 		let max = this._maxAdjusted;
 		if (!$type.isNumber(max)) {
 			max = this._maxDefined;
@@ -1873,7 +1873,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		let declination = 0;
 		if (this.syncWithAxis) {
 			declination = 5;
-			this.setCache(selectionMin + "-" + selectionMax, step);				
+			this.setCache(selectionMin + "-" + selectionMax, step);
 		}
 		else {
 			this._step = step;
@@ -2375,8 +2375,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				this.events.on("shown", this.handleSelectionExtremesChange, this, false);
 				this.events.on("maxsizechanged", ()=>{
 					this.clearCache();
-					this._disposers.push(registry.events.once("exitframe", ()=>{						
-						this.handleSelectionExtremesChange();						
+					this._disposers.push(registry.events.once("exitframe", ()=>{
+						this.handleSelectionExtremesChange();
 					}))
 				}, this, false);
 			}
@@ -2392,7 +2392,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 	/**
 	 * Syncs with a target axis.
-	 * 
+	 *
 	 * @param  min  Min
 	 * @param  max  Max
 	 * @param  step Step

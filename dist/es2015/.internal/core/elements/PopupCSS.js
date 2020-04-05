@@ -10,7 +10,7 @@ var rules = new Dictionary();
  * @param prefix  Prefix for CSS classes
  * @return Disposer for the CSS definition
  */
-export default function (prefix) {
+export default function (element, prefix) {
     if (!prefix) {
         prefix = "ampopup";
     }
@@ -22,7 +22,7 @@ export default function (prefix) {
     abg.alpha = 0.05;
     var counter = rules.insertKeyIfEmpty(prefix, function () {
         var disposer = new MultiDisposer([
-            new StyleRule("." + prefix, {
+            new StyleRule(element, "." + prefix, {
                 //"width": "100%",
                 //"height": "100%",
                 "overflow": "visible",
@@ -31,7 +31,7 @@ export default function (prefix) {
                 "left": "0",
                 "z-index": "2000"
             }),
-            new StyleRule("." + prefix + "-curtain", {
+            new StyleRule(element, "." + prefix + "-curtain", {
                 "width": "100%",
                 "height": "100%",
                 "position": "absolute",
@@ -41,18 +41,18 @@ export default function (prefix) {
                 "background-color": bg.hex,
                 "opacity": "0.5"
             }),
-            new StyleRule("." + prefix + "-header", {
+            new StyleRule(element, "." + prefix + "-header", {
                 "display": "block",
                 "width": "100%",
                 "min-height": "1.8em",
                 "background": abg.rgba
             }),
-            new StyleRule("." + prefix + "-title", {
+            new StyleRule(element, "." + prefix + "-title", {
                 "font-weight": "bold",
                 "font-size": "110%",
                 "padding": "0.5em 1.2em 0.5em 1em"
             }),
-            new StyleRule("." + prefix + "-content", {
+            new StyleRule(element, "." + prefix + "-content", {
                 /*"width": "100%",
                 "height": "100%",*/
                 // "padding": "2em 1em 1em 1em",
@@ -68,10 +68,10 @@ export default function (prefix) {
                 "overflow": "auto",
                 "z-index": "2002"
             }),
-            new StyleRule("." + prefix + "-inside", {
+            new StyleRule(element, "." + prefix + "-inside", {
                 "padding": "1em"
             }),
-            new StyleRule("." + prefix + "-close", {
+            new StyleRule(element, "." + prefix + "-close", {
                 "display": "block",
                 "position": "absolute",
                 "top": "0.3em",

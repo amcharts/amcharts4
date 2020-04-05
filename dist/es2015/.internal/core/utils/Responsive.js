@@ -15,6 +15,7 @@ import { registry } from "../Registry";
 import * as $iter from "../utils/Iterator";
 import * as $array from "../utils/Array";
 import * as $type from "../utils/Type";
+import * as $object from "../utils/Object";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -344,7 +345,7 @@ var Responsive = /** @class */ (function (_super) {
                         if ($array.indexOf(_this._appliedTargets, newTarget.uid) !== -1) {
                             // But only if this element has any rules applied, otherwise no
                             // point in setting current state
-                            newTarget.applyCurrentState(0);
+                            newTarget.setState(_this.getDefaultState(newTarget));
                         }
                         defaultStateApplied = true;
                     }
@@ -352,7 +353,7 @@ var Responsive = /** @class */ (function (_super) {
                     if (_this.isApplied($type.getValue(rule.id))) {
                         // Yes. Apply the responsive state
                         state.transitionDuration = 0;
-                        newTarget.setState(state);
+                        _this.setTargetState(newTarget, state);
                         _this.dispatchImmediately("ruleapplied", {
                             rule: rule
                         });
@@ -398,6 +399,37 @@ var Responsive = /** @class */ (function (_super) {
         else {
             return target.states.getKey(stateId);
         }
+    };
+    /**
+     * Creates and returns default responsive rule for the target.
+     *
+     * This rule will be used to "reset" to non-responsive values.
+     * @param   target  Target Sprite
+     * @return          State
+     */
+    Responsive.prototype.getDefaultState = function (target) {
+        if (target.states.hasKey("responsive-default")) {
+            return target.states.getKey("responsive-default");
+        }
+        return target.states.create("responsive-default");
+    };
+    /**
+     * Sets state on the target element and updates default state with the
+     * overwritten values if needed.
+     *
+     * @param  target  Target
+     * @param  state   State
+     */
+    Responsive.prototype.setTargetState = function (target, state) {
+        var _this = this;
+        // Update default state
+        var defaultState = this.getDefaultState(target);
+        $object.each(state.properties, function (key, val) {
+            if (!$type.hasValue(defaultState.properties[key])) {
+                defaultState.properties[key] = _this.getValue(target, key);
+            }
+        });
+        target.setState(state);
     };
     /**
      * Gets a value from an element.

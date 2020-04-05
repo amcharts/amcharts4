@@ -281,6 +281,10 @@ export function queueHandler(sprite: Sprite) {
 		sprite.invalidateLabels();
 	}
 
+	if(sprite.tooltipContainer){
+		sprite.tooltipContainer.invalidateLayout();
+	}
+
 	if (sprite instanceof Component) {
 		sprite.invalidateData();
 		sprite.reinit();

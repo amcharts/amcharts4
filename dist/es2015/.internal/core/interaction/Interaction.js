@@ -2141,10 +2141,14 @@ var Interaction = /** @class */ (function (_super) {
         if ($type.hasValue(cached)) {
             return cached;
         }
-        var target = ($dom.getRoot(svg) || document).elementFromPoint(pointer.point.x, pointer.point.y);
-        var local = target && $dom.contains(svg, target);
-        this.setCache("local_pointer_" + pointer.id + "_" + id, local, 100);
-        return local;
+        var doc = ($dom.getRoot(svg) || document);
+        if (doc.elementFromPoint) {
+            var target = doc.elementFromPoint(pointer.point.x, pointer.point.y);
+            var local = target && $dom.contains(svg, target);
+            this.setCache("local_pointer_" + pointer.id + "_" + id, local, 100);
+            return local;
+        }
+        return false;
     };
     /**
      * A function that cancels mouse wheel scroll.

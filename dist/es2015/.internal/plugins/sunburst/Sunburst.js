@@ -350,15 +350,15 @@ var Sunburst = /** @class */ (function (_super) {
                 }
                 return startAngle;
             });
-            series_1.adapter.add("endAngle", function (startAngle, target) {
+            series_1.adapter.add("endAngle", function (endAngle, target) {
                 var parentDataItem = target.parentDataItem;
                 if (parentDataItem) {
                     var seriesDataItem = parentDataItem.seriesDataItem;
                     if (seriesDataItem) {
-                        startAngle = seriesDataItem.slice.startAngle + seriesDataItem.slice.arc;
+                        endAngle = seriesDataItem.slice.startAngle + seriesDataItem.slice.arc;
                     }
                 }
-                return startAngle;
+                return endAngle;
             });
             series_1.validateData();
             if (dataItem.seriesDataItem) {

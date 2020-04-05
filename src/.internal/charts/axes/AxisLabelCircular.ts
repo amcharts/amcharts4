@@ -114,6 +114,7 @@ export class AxisLabelCircular extends AxisLabel {
 		this.className = "AxisLabelCircular";
 		this.padding(0, 0, 0, 0);
 		this.location = 0.5;
+		this.locationOnPath = 0.5;
 		this.radius = 0;
 		this.isMeasured = false;
 		this.applyTheme();
@@ -176,8 +177,23 @@ export class AxisLabelCircular extends AxisLabel {
 		this.setPropertyValue("wrap", false);
 		this.setPropertyValue("horizontalCenter", "none");
 		this.setPropertyValue("verticalCenter", "none");
+
 		if (value) {
+			this.setPropertyValue("dx", 0);
+			this.setPropertyValue("dy", 0);
+			this.setPropertyValue("x", 0);
+			this.setPropertyValue("y", 0);
+			this.setPropertyValue("rotation", 0)
+			//this.setPropertyValue("relativeRotation", undefined);
+			this.fdx = 0;
+			this.fdy = 0;
 			this.textAlign = "middle";
+		}
+		else{
+			if(this.textPathElement){
+				this.textPathElement.dispose();
+				this.textPathElement = undefined;
+			}
 		}
 	}
 
@@ -268,9 +284,13 @@ export class AxisLabelCircular extends AxisLabel {
 		let labelRadius = this.pixelRadius(axisRadius);
 
 		if (this.bent) {
-			let point = { x: axisRadius * $math.cos(angle + 180), y: axisRadiusY * $math.sin(angle + 180) };
+			let point = { x: (axisRadius + labelRadius )* $math.cos(angle + 180), y: (axisRadiusY + labelRadius * axisRadiusY / axisRadius) * $math.sin(angle + 180) };
 			this.path = $path.moveTo(point) + $path.arcTo(angle + 180, 360, axisRadius + labelRadius, axisRadiusY + labelRadius * axisRadiusY / axisRadius);
-			this.locationOnPath = 0.5;
+			
+			if (this.textPathElement) {
+				this.textPathElement.attr({ "startOffset": (this.locationOnPath * 100) + "%" })
+			}
+
 			return;
 		}
 

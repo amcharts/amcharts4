@@ -1176,7 +1176,7 @@ export class ExportMenu extends Validatable {
 	 * @ignore Exclude from docs
 	 */
 	public loadDefaultCSS(): void {
-		this._disposers.push(exportCSS(this.classPrefix));
+		this._disposers.push(exportCSS($dom.getShadowRoot(this.container), this.classPrefix));
 
 		if (this._element) {
 			this._element.style.display = "";
@@ -1547,7 +1547,7 @@ export class ExportMenu extends Validatable {
 
 	/**
 	 * Hides the whole branch of menu.
-	 * 
+	 *
 	 * @param  branch  branch
 	 */
 	public hideBranch(branch: IExportMenuItem): void {
@@ -1556,7 +1556,7 @@ export class ExportMenu extends Validatable {
 
 	/**
 	 * Show the branch of menu.
-	 * 
+	 *
 	 * @param  branch  branch
 	 */
 	public showBranch(branch: IExportMenuItem): void {

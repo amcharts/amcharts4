@@ -21,6 +21,7 @@ import { Align } from "../defs/Align";
 import { VerticalAlign } from "../defs/VerticalAlign";
 import { IPoint } from "../defs/IPoint";
 import { Optional } from "../utils/Type";
+import { getShadowRoot } from "../utils/DOM";
 import * as $type from "../utils/Type";
 import * as $object from "../utils/Object";
 
@@ -1042,7 +1043,7 @@ export class Popup extends BaseObjectEvents {
 	 */
 	public loadDefaultCSS(): void {
 		if (!this._cssLoaded) {
-			this._disposers.push(popupCSS(this.classPrefix));
+			this._disposers.push(popupCSS(getShadowRoot(this.container), this.classPrefix));
 			$object.each(this._elements, (key, el) => {
 				el.style.display = "";
 			});

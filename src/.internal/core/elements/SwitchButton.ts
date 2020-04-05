@@ -160,6 +160,7 @@ export class SwitchButton extends Container {
 		// Create the label element
 		let rightLabel = new Label();
 		rightLabel.fillOpacity = 0.3;
+		
 		let rlas = rightLabel.states.create("active");
 		rlas.properties.fillOpacity = 1;
 		this.rightLabel = rightLabel;
@@ -168,6 +169,10 @@ export class SwitchButton extends Container {
 		// A Button should be always focusable
 		this.role = "button";
 		this.focusable = true;
+
+		rightLabel.valign = "middle";
+		leftLabel.valign = "middle";	
+		button.valign = "middle"	
 
 		// Apply theme
 		this.applyTheme();

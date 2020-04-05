@@ -139,11 +139,16 @@ var DateFormatter = /** @class */ (function (_super) {
         }
         // Is it a built-in format or Intl.DateTimeFormat
         if (format instanceof Object) {
-            if (this.intlLocales) {
-                return new Intl.DateTimeFormat(this.intlLocales, format).format(date);
+            try {
+                if (this.intlLocales) {
+                    return new Intl.DateTimeFormat(this.intlLocales, format).format(date);
+                }
+                else {
+                    return new Intl.DateTimeFormat(undefined, format).format(date);
+                }
             }
-            else {
-                return new Intl.DateTimeFormat(undefined, format).format(date);
+            catch (e) {
+                return "Invalid";
             }
         }
         else {

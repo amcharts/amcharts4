@@ -6,4 +6,4 @@ import { IDisposer } from "../utils/Disposer";
  * @param prefix  Prefix to addtach to class names
  * @return A MultiDisposer with style rules
  */
-export default function (prefix?: string): IDisposer;
+export default function (element: ShadowRoot | null, prefix?: string): IDisposer;

@@ -247,6 +247,29 @@ export function contains(a, b) {
     }
 }
 /**
+ * Returns the shadow root of the element or null
+ *
+ * @param a  Node
+ * @return Root
+ */
+export function getShadowRoot(a) {
+    var cursor = a;
+    while (true) {
+        if (cursor.parentNode == null) {
+            // TODO better ShadowRoot detection
+            if (cursor.host != null) {
+                return cursor;
+            }
+            else {
+                return null;
+            }
+        }
+        else {
+            cursor = cursor.parentNode;
+        }
+    }
+}
+/**
  * Returns the root of the element (either the Document or the ShadowRoot)
  *
  * @param a  Node
@@ -346,15 +369,24 @@ var rootStylesheet;
  * @todo Description
  * @return [description]
  */
-function getStylesheet() {
-    if (!$type.hasValue(rootStylesheet)) {
+function getStylesheet(element) {
+    if (element == null) {
+        if (!$type.hasValue(rootStylesheet)) {
+            // TODO use createElementNS ?
+            var e = document.createElement("style");
+            e.type = "text/css";
+            document.head.appendChild(e);
+            rootStylesheet = e.sheet;
+        }
+        return rootStylesheet;
+    }
+    else {
         // TODO use createElementNS ?
         var e = document.createElement("style");
         e.type = "text/css";
-        document.head.appendChild(e);
-        rootStylesheet = e.sheet;
+        element.appendChild(e);
+        return e.sheet;
     }
-    return rootStylesheet;
 }
 /**
  * [makeStylesheet description]
@@ -364,8 +396,7 @@ function getStylesheet() {
  * @param selector  [description]
  * @return [description]
  */
-function makeStylesheet(selector) {
-    var root = getStylesheet();
+function appendStylesheet(root, selector) {
     var index = root.cssRules.length;
     root.insertRule(selector + "{}", index);
     return root.cssRules[index];
@@ -383,21 +414,22 @@ var StyleRule = /** @class */ (function (_super) {
      * @param selector  CSS selector
      * @param styles    An object of style attribute - value pairs
      */
-    function StyleRule(selector, styles) {
-        var _this = 
+    function StyleRule(element, selector, styles) {
+        var _this = this;
+        var root = getStylesheet(element);
         // TODO test this
-        _super.call(this, function () {
-            var root = getStylesheet();
+        _this = _super.call(this, function () {
             // TODO a bit hacky
             var index = $array.indexOf(root.cssRules, _this._rule);
             if (index === -1) {
                 throw new Error("Could not dispose StyleRule");
             }
             else {
+                // TODO if it's empty remove it from the DOM ?
                 root.deleteRule(index);
             }
         }) || this;
-        _this._rule = makeStylesheet(selector);
+        _this._rule = appendStylesheet(root, selector);
         $object.each(styles, function (key, value) {
             _this.setStyle(key, value);
         });
@@ -472,13 +504,13 @@ var StyleClass = /** @class */ (function (_super) {
      * @param styles  An object of style attribute - value pairs
      * @param name    Class name
      */
-    function StyleClass(styles, name) {
+    function StyleClass(element, styles, name) {
         var _this = this;
         var className = (!$type.hasValue(name)
             // TODO generate the classname randomly
             ? "__style_" + (++styleId) + "__"
             : name);
-        _this = _super.call(this, "." + className, styles) || this;
+        _this = _super.call(this, element, "." + className, styles) || this;
         _this._className = className;
         return _this;
     }

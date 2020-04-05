@@ -13,7 +13,7 @@ const rules = new Dictionary<string, CounterDisposer>();
  * @param prefix  Prefix for CSS classes
  * @return Disposer for the CSS definition
  */
-export default function(prefix?: string): IDisposer {
+export default function(element: ShadowRoot | null, prefix?: string): IDisposer {
 	if (!prefix) {
 		prefix = "ampopup";
 	}
@@ -27,7 +27,7 @@ export default function(prefix?: string): IDisposer {
 
 	const counter = rules.insertKeyIfEmpty(prefix, () => {
 		const disposer = new MultiDisposer([
-			new StyleRule(`.${prefix}`, {
+			new StyleRule(element, `.${prefix}`, {
 				//"width": "100%",
 				//"height": "100%",
 				"overflow": "visible",
@@ -37,7 +37,7 @@ export default function(prefix?: string): IDisposer {
 				"z-index": "2000"
 			}),
 
-			new StyleRule(`.${prefix}-curtain`, {
+			new StyleRule(element, `.${prefix}-curtain`, {
 				"width": "100%",
 				"height": "100%",
 				"position": "absolute",
@@ -48,20 +48,20 @@ export default function(prefix?: string): IDisposer {
 				"opacity": "0.5"
 			}),
 
-			new StyleRule(`.${prefix}-header`, {
+			new StyleRule(element, `.${prefix}-header`, {
 				"display": "block",
 				"width": "100%",
 				"min-height": "1.8em",
 				"background": abg.rgba
 			}),
 
-			new StyleRule(`.${prefix}-title`, {
+			new StyleRule(element, `.${prefix}-title`, {
 				"font-weight": "bold",
 				"font-size": "110%",
 				"padding": "0.5em 1.2em 0.5em 1em"
 			}),
 
-			new StyleRule(`.${prefix}-content`, {
+			new StyleRule(element, `.${prefix}-content`, {
 				/*"width": "100%",
 				"height": "100%",*/
 				// "padding": "2em 1em 1em 1em",
@@ -78,11 +78,11 @@ export default function(prefix?: string): IDisposer {
 				"z-index": "2002"
 			}),
 
-			new StyleRule(`.${prefix}-inside`, {
+			new StyleRule(element, `.${prefix}-inside`, {
 				"padding": "1em"
 			}),
 
-			new StyleRule(`.${prefix}-close`, {
+			new StyleRule(element, `.${prefix}-close`, {
 				"display": "block",
 				"position": "absolute",
 				"top": "0.3em",

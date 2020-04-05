@@ -1374,7 +1374,7 @@ var countries2 = {
         "maps": []
     },
     "TW": {
-        "country": "Taiwan, Province of China",
+        "country": "Taiwan",
         "continent_code": "AS",
         "continent": "Asia",
         "maps": []

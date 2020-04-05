@@ -148,7 +148,7 @@ export class NumberFormatter extends BaseObject {
 	 * @param format  Format to apply
 	 * @return Formatted number
 	 */
-	public format(value: number | string, format?: string |  Intl.NumberFormatOptions): string {
+	public format(value: number | string, format?: string | Intl.NumberFormatOptions): string {
 
 		// no format passed in or "Number"
 		if (typeof format === "undefined" || ($type.isString(format) && format.toLowerCase() === "number")) {
@@ -164,12 +164,16 @@ export class NumberFormatter extends BaseObject {
 
 		// Is it a built-in format or Intl.NumberFormatOptions
 		if (format instanceof Object) {
-
-			if (this.intlLocales) {
-				return new Intl.NumberFormat(this.intlLocales, <Intl.NumberFormatOptions>format).format(source);
+			try {
+				if (this.intlLocales) {
+					return new Intl.NumberFormat(this.intlLocales, <Intl.NumberFormatOptions>format).format(source);
+				}
+				else {
+					return new Intl.NumberFormat(undefined, <Intl.NumberFormatOptions>format).format(source);
+				}
 			}
-			else {
-				return new Intl.NumberFormat(undefined, <Intl.NumberFormatOptions>format).format(source);
+			catch (e) {
+				return "Invalid";
 			}
 
 		}

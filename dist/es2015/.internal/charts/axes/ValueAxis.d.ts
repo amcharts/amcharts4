@@ -521,7 +521,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
     /**
     * @return Min value
     */
-    min: number;
+    min: number | undefined;
     /**
      * Min value as defined by user's code, not auto-calculated.
      *
@@ -592,7 +592,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
     /**
     * @return Max value
     */
-    max: number;
+    max: number | undefined;
     /**
      * Used for the Series to register itself as the user of this Axis.
      *

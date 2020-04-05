@@ -9239,15 +9239,16 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				this.modal.content = this._adapterO.apply("criticalError", e).message;
 			}
 
-
-
 			if (!closable) {
 				this.disabled = true;
 			}
 			else {
 				this.modal.closable = true;
 			}
-			this.modal.open();
+
+			if (!options.suppressErrors) {
+				this.modal.open();
+			}
 		}
 
 		if (options.verbose) {

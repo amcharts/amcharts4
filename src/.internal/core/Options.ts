@@ -115,6 +115,17 @@ export interface Options {
 	 */
 	licenses: String[];
 
+	/**
+	 * Should error modals be suppressed from displaying.
+	 *
+	 * Errors might originate from setting validation code, or generic JS-thrown
+	 * errors.
+	 *
+	 * @since 4.9.13
+	 * @default false
+	 */
+	suppressErrors: boolean;
+
 }
 
 /**
@@ -128,5 +139,6 @@ export const options: Options = {
 	minPolylineStep: 0.5,
 	onlyShowOnViewport: false,
 	queue: false,
-	licenses: []
+	licenses: [],
+	suppressErrors: false
 };

@@ -8345,7 +8345,9 @@ var Sprite = /** @class */ (function (_super) {
             else {
                 this.modal.closable = true;
             }
-            this.modal.open();
+            if (!options.suppressErrors) {
+                this.modal.open();
+            }
         }
         if (options.verbose) {
             console.log(e);
