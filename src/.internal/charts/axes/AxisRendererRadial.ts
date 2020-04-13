@@ -131,8 +131,8 @@ export class AxisRendererRadial extends AxisRendererY {
 
 	/**
 	 * @ignore
-	 */	
-	public _chartType:RadarChart;	
+	 */
+	public _chartType: RadarChart;
 
 	/**
 	 * Constructor.
@@ -229,9 +229,23 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * @return Inner radius
 	 */
 	public get innerRadius(): number | Percent {
+		let chart = this.chart;
 		let innerRadius = this.getPropertyValue("innerRadius");
-		if(!$type.hasValue(innerRadius)){
-			innerRadius = this.chart.innerRadius;
+		if (!$type.hasValue(innerRadius)) {
+			innerRadius = chart.innerRadius;
+
+			if (innerRadius instanceof Percent && chart) {
+				innerRadius = percent(innerRadius.value * chart.innerRadiusModifyer * 100)
+			}
+
+		}
+		else {
+			if (innerRadius instanceof Percent && chart) {
+				let mr = chart.mr;
+				let value = innerRadius.value;
+				value = Math.max(mr * value, mr - Math.min(chart.plotContainer.innerHeight, chart.plotContainer.innerWidth)) / mr;
+				innerRadius = percent(value * 100);
+			}
 		}
 		return innerRadius;
 	}
@@ -308,7 +322,7 @@ export class AxisRendererRadial extends AxisRendererY {
 
 			let series = chart.series.getIndex(0);
 
-			if(series){
+			if (series) {
 				count = series.dataItems.length;
 			}
 
@@ -491,8 +505,8 @@ export class AxisRendererRadial extends AxisRendererY {
 		let series = chart.series.getIndex(0);
 
 		let count = 0;
-		if(series){
-			count = series.dataItems.length;		
+		if (series) {
+			count = series.dataItems.length;
 		}
 
 		// polygons are only possible if x axis is present
@@ -595,9 +609,9 @@ export class AxisRendererRadial extends AxisRendererY {
 	 */
 	public updateTickElement(tick: AxisTick, position: number, endPosition: number): void {
 		position = position + (endPosition - position) * tick.location;
-		
+
 		let point: IPoint = this.positionToPoint(position);
-		
+
 		if (tick.element) {
 			let angle: number = $math.normalizeAngle(this.axisAngle + 90);
 			if (angle / 90 != Math.round(angle / 90)) {
@@ -635,7 +649,7 @@ export class AxisRendererRadial extends AxisRendererY {
 		position = position + (endPosition - position) * location;
 
 		let point: IPoint = this.positionToPoint(position);
-		
+
 		this.positionItem(bullet, point);
 
 		this.toggleVisibility(bullet, position, 0, 1);

@@ -195,6 +195,7 @@ var RadarChart = /** @class */ (function (_super) {
         if (innerRadius instanceof Percent) {
             var value = innerRadius.value;
             var mr = Math.min(wr, hr);
+            this.mr = mr;
             value = Math.max(mr * value, mr - Math.min(plotContainer.innerHeight, plotContainer.innerWidth)) / mr;
             innerRect = $math.getArcRect(this.startAngle, this.endAngle, value);
             this.innerRadiusModifyer = value / innerRadius.value;

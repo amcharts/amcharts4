@@ -12,7 +12,7 @@ import { AxisRendererY } from "./AxisRendererY";
 import { CategoryAxis } from "./CategoryAxis";
 import { WavedCircle } from "../../core/elements/WavedCircle";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
-import { percent } from "../../core/utils/Percent";
+import { Percent, percent } from "../../core/utils/Percent";
 import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
@@ -124,9 +124,21 @@ var AxisRendererRadial = /** @class */ (function (_super) {
          * @return Inner radius
          */
         get: function () {
+            var chart = this.chart;
             var innerRadius = this.getPropertyValue("innerRadius");
             if (!$type.hasValue(innerRadius)) {
-                innerRadius = this.chart.innerRadius;
+                innerRadius = chart.innerRadius;
+                if (innerRadius instanceof Percent && chart) {
+                    innerRadius = percent(innerRadius.value * chart.innerRadiusModifyer * 100);
+                }
+            }
+            else {
+                if (innerRadius instanceof Percent && chart) {
+                    var mr = chart.mr;
+                    var value = innerRadius.value;
+                    value = Math.max(mr * value, mr - Math.min(chart.plotContainer.innerHeight, chart.plotContainer.innerWidth)) / mr;
+                    innerRadius = percent(value * 100);
+                }
             }
             return innerRadius;
         },

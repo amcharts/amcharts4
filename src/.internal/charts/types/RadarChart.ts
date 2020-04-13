@@ -207,6 +207,11 @@ export class RadarChart extends XYChart {
 
 
 	/**
+	 * @ignore
+	 */
+	public mr: number;
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -353,12 +358,17 @@ export class RadarChart extends XYChart {
 		if (innerRadius instanceof Percent) {
 			let value = innerRadius.value;
 			let mr = Math.min(wr, hr);
+
+			this.mr = mr;
+
 			value = Math.max(mr * value, mr - Math.min(plotContainer.innerHeight, plotContainer.innerWidth)) / mr;
 			innerRect = $math.getArcRect(this.startAngle, this.endAngle, value);
 
 			this.innerRadiusModifyer = value / innerRadius.value;
+
 			innerRadius = percent(value * 100);
 		}
+
 		// @todo handle this when innerRadius set in pixels (do it for pie also)
 		rect = $math.getCommonRectangle([rect, innerRect]);
 
@@ -374,7 +384,7 @@ export class RadarChart extends XYChart {
 		this._bulletMask.path = $path.arc(startAngle, endAngle - startAngle, radius, this._pixelInnerRadius);
 
 		$iter.each(this.xAxes.iterator(), (axis) => {
-			if(axis.renderer.useChartAngles){
+			if (axis.renderer.useChartAngles) {
 				axis.renderer.startAngle = startAngle;
 				axis.renderer.endAngle = endAngle;
 			}
@@ -398,6 +408,8 @@ export class RadarChart extends XYChart {
 			axis.renderer.pixelRadiusReal = radius;
 			//axis.renderer.innerRadius = innerRadius;
 		});
+
+
 
 		let cursor = this.cursor;
 		if (cursor) {

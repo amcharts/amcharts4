@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.15] - 2020-04-13
+
+### Fixed
+- Straightening of `RadarChart` was not working properly after last update.
+
+
 ## [4.9.14] - 2020-04-13
 
 ### Added

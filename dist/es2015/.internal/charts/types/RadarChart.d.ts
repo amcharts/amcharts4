@@ -160,6 +160,10 @@ export declare class RadarChart extends XYChart {
      */
     innerRadiusModifyer: number;
     /**
+     * @ignore
+     */
+    mr: number;
+    /**
      * Constructor
      */
     constructor();

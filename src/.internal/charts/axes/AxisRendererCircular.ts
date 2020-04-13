@@ -128,7 +128,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	 */
 	public pixelRadiusReal: number = 0;
 
-	
+
 	/**
 	 * Y axis renderer
 	 */
@@ -136,8 +136,8 @@ export class AxisRendererCircular extends AxisRenderer {
 
 	/**
 	 * @ignore
-	 */	
-	public _chartType:RadarChart;
+	 */
+	public _chartType: RadarChart;
 
 	/**
 	 * Constructor.
@@ -270,10 +270,23 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * @return Inner radius
 	 */
 	public get innerRadius(): number | Percent {
-
+		let chart = this.chart;
 		let innerRadius = this.getPropertyValue("innerRadius");
-		if(!$type.hasValue(innerRadius)){
-			innerRadius = this.chart.innerRadius;
+		if (!$type.hasValue(innerRadius)) {
+			innerRadius = chart.innerRadius;
+
+			if (innerRadius instanceof Percent && chart) {
+				innerRadius = percent(innerRadius.value * chart.innerRadiusModifyer * 100)
+			}
+
+		}
+		else {
+			if (innerRadius instanceof Percent && chart) {
+				let mr = chart.mr;
+				let value = innerRadius.value;
+				value = Math.max(mr * value, mr - Math.min(chart.plotContainer.innerHeight, chart.plotContainer.innerWidth)) / mr;
+				innerRadius = percent(value * 100);
+			}
 		}
 		return innerRadius;
 	}

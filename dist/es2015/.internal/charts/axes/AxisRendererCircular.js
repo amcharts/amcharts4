@@ -13,7 +13,7 @@ import { AxisFillCircular } from "./AxisFillCircular";
 import { GridCircular } from "./GridCircular";
 import { AxisLabelCircular } from "./AxisLabelCircular";
 import { registry } from "../../core/Registry";
-import { percent } from "../../core/utils/Percent";
+import { percent, Percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
@@ -145,9 +145,21 @@ var AxisRendererCircular = /** @class */ (function (_super) {
          * @return Inner radius
          */
         get: function () {
+            var chart = this.chart;
             var innerRadius = this.getPropertyValue("innerRadius");
             if (!$type.hasValue(innerRadius)) {
-                innerRadius = this.chart.innerRadius;
+                innerRadius = chart.innerRadius;
+                if (innerRadius instanceof Percent && chart) {
+                    innerRadius = percent(innerRadius.value * chart.innerRadiusModifyer * 100);
+                }
+            }
+            else {
+                if (innerRadius instanceof Percent && chart) {
+                    var mr = chart.mr;
+                    var value = innerRadius.value;
+                    value = Math.max(mr * value, mr - Math.min(chart.plotContainer.innerHeight, chart.plotContainer.innerWidth)) / mr;
+                    innerRadius = percent(value * 100);
+                }
             }
             return innerRadius;
         },
