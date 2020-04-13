@@ -148,7 +148,7 @@ export class NumberFormatter extends BaseObject {
 	 * @param format  Format to apply
 	 * @return Formatted number
 	 */
-	public format(value: number | string, format?: string | Intl.NumberFormatOptions): string {
+	public format(value: number | string, format?: string | Intl.NumberFormatOptions, precision?: number): string {
 
 		// no format passed in or "Number"
 		if (typeof format === "undefined" || ($type.isString(format) && format.toLowerCase() === "number")) {
@@ -185,6 +185,7 @@ export class NumberFormatter extends BaseObject {
 			// Get format info (it will also deal with parser caching)
 			let info = this.parseFormat(format, this.language);
 
+
 			// format and replace the number
 			let details;
 			if (source > this._negativeBase) {
@@ -195,6 +196,12 @@ export class NumberFormatter extends BaseObject {
 			}
 			else {
 				details = info.zero;
+			}
+
+			// Adjust precision
+			if ($type.hasValue(precision) && !details.mod) {
+				details = $object.clone(details);
+				details.decimals.active = source == 0 ? 0: precision;
 			}
 
 			// Format

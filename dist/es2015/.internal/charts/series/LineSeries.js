@@ -310,6 +310,14 @@ var LineSeries = /** @class */ (function (_super) {
             params = this.openSegment(params.index, params.axisRange);
         } while (params);
     };
+    LineSeries.prototype.getSegment = function () {
+        var segment = this._segmentsIterator.getFirst();
+        if (segment.isDisposed()) {
+            this.segments.removeValue(segment);
+            return this.getSegment();
+        }
+        return segment;
+    };
     /**
      * [openSegment description]
      *
@@ -325,7 +333,7 @@ var LineSeries = /** @class */ (function (_super) {
         this._workingEndIndex = Math.min(this._workingEndIndex, this.dataItems.length);
         var closeIndex;
         var propertiesChanged = false;
-        var segment = this._segmentsIterator.getFirst();
+        var segment = this.getSegment();
         segment.__disabled = false;
         if (axisRange) {
             segment.parent = axisRange.contents;

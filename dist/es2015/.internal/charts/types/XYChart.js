@@ -1050,6 +1050,13 @@ var XYChart = /** @class */ (function (_super) {
                     }
                 });
                 if (cursor.maxTooltipDistance < 0) {
+                    if (newSeriesPoints_1.length > 0) {
+                        $array.each(newSeriesPoints_1, function (np) {
+                            if (nearestSeries_1 != np.series) {
+                                np.series.tooltip.hide(0);
+                            }
+                        });
+                    }
                     newSeriesPoints_1 = [{ series: nearestSeries_1, point: nearestPoint_1 }];
                 }
             }

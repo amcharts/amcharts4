@@ -43,6 +43,7 @@ import { Color, color } from "../utils/Color";
 import { registry } from "../Registry";
 import { options } from "../Options";
 import { StyleRule, getComputedStyle } from "../utils/DOM";
+import { Align } from "../defs/Align";
 import * as $browser from "../utils/Browser";
 import * as $object from "../utils/Object";
 import * as $net from "../utils/Net";
@@ -385,6 +386,16 @@ export interface IExportPDFOptions extends IExportImageOptions {
 	 * Page orientation.
 	 */
 	pageOrientation?: "landscape" | "portrait";
+
+	/**
+	 * Alignment of the chart image in PDF.
+	 *
+	 * Supported options: `"left"` (default), `"center"`, `"right"`.
+	 *
+	 * @since 4.9.14
+	 * @default left
+	 */
+	align?: Align;
 
 	/**
 	 * Page margins.
@@ -1415,6 +1426,7 @@ export class Export extends Validatable {
 		this._formatOptions.setKey("pdf", {
 			fontSize: 14,
 			imageFormat: "png",
+			align: "left",
 			addURL: true,
 			addColumnNames: true
 		});
@@ -2944,6 +2956,8 @@ export class Export extends Validatable {
 			options: options
 		}).title;
 
+		let extraMargin = 0;
+
 		if (title) {
 			doc.content.push({
 				text: title,
@@ -2951,6 +2965,9 @@ export class Export extends Validatable {
 				bold: true,
 				margin: [0, 0, 0, 15]
 			});
+
+			// Add some leftover margin for title
+			extraMargin += 50;
 		}
 
 		// Add page URL?
@@ -2960,13 +2977,17 @@ export class Export extends Validatable {
 				fontSize: options.fontSize,
 				margin: [0, 0, 0, 15]
 			});
+			
+			// Add some leftover margin for URL
+			extraMargin += 50;
 		}
 
 		// Add image
 		if (type != "pdfdata") {
 			doc.content.push({
 				image: image,
-				fit: this.getPageSizeFit(doc.pageSize, doc.pageMargins)
+				alignment: options.align || "left",
+				fit: this.getPageSizeFit(doc.pageSize, doc.pageMargins, extraMargin)
 			});
 		}
 
@@ -3137,7 +3158,7 @@ export class Export extends Validatable {
 	 * @param pageSize Page size
 	 * @return `[width, height]` in pixels
 	 */
-	public getPageSizeFit(pageSize: pageSizes, margins?: number | number[]): number[] {
+	public getPageSizeFit(pageSize: pageSizes, margins?: number | number[], extraMargin: number = 0): number[] {
 
 		// Check margins
 		let newMargins = [0, 0, 0, 0];
@@ -3208,7 +3229,7 @@ export class Export extends Validatable {
 		// Calculate size
 		let fitSize = sizes[pageSize]
 		fitSize[0] -= newMargins[0] + newMargins[2];
-		fitSize[1] -= newMargins[1] + newMargins[3];
+		fitSize[1] -= newMargins[1] + newMargins[3] + extraMargin;
 		return fitSize;
 	}
 

@@ -2256,6 +2256,10 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 		range.label = this.renderer.labels.template.clone();
 		range.label.disabled = true;
 
+		range.addDisposer(new Disposer(()=>{
+			series.axisRanges.removeValue(range);
+		}))
+
 		series.axisRanges.push(range);
 		return range;
 	}

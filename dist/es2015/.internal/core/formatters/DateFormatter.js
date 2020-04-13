@@ -49,21 +49,19 @@ var DateFormatter = /** @class */ (function (_super) {
         /**
          * A list of month names.
          */
-        _this._months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        _this.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         /**
          * A list of short month names.
-         *
-         * @param {Array<ShortMonthNames>}
          */
-        _this._monthsShort = ["Jan", "Feb", "Mar", "Apr", "May(short)", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        _this.monthsShort = ["Jan", "Feb", "Mar", "Apr", "May(short)", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         /**
          * A list of weekday names.
          */
-        _this._weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        _this.weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         /**
          * A list of short weekday names.
          */
-        _this._weekdaysShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        _this.weekdaysShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
         /**
          * Output format to produce. If the format calls for applying color to the
          * formatted value, this setting will determine what markup to use: SVG or
@@ -298,13 +296,13 @@ var DateFormatter = /** @class */ (function (_super) {
                     // @todo
                     break;
                 case "MMMMM":
-                    value = language.translate(this._months[month]).substr(0, 1);
+                    value = language.translate(this.months[month]).substr(0, 1);
                     break;
                 case "MMMM":
-                    value = language.translate(this._months[month]);
+                    value = language.translate(this.months[month]);
                     break;
                 case "MMM":
-                    value = language.translate(this._monthsShort[month]);
+                    value = language.translate(this.monthsShort[month]);
                     break;
                 case "MM":
                     value = $utils.padString(month + 1, 2, "0");
@@ -351,15 +349,15 @@ var DateFormatter = /** @class */ (function (_super) {
                     break;
                 case "EEE":
                 case "eee":
-                    value = language.translate(this._weekdaysShort[weekday]);
+                    value = language.translate(this.weekdaysShort[weekday]);
                     break;
                 case "EEEE":
                 case "eeee":
-                    value = language.translate(this._weekdays[weekday]);
+                    value = language.translate(this.weekdays[weekday]);
                     break;
                 case "EEEEE":
                 case "eeeee":
-                    value = language.translate(this._weekdays[weekday]).substr(0, 1);
+                    value = language.translate(this.weekdays[weekday]).substr(0, 1);
                     break;
                 case "e":
                 case "ee":
@@ -595,11 +593,11 @@ var DateFormatter = /** @class */ (function (_super) {
                     parsedIndexes.year1 = index;
                     break;
                 case "MMMM":
-                    reg += "(" + this.getStringList(this._months).join("|") + ")";
+                    reg += "(" + this.getStringList(this.months).join("|") + ")";
                     parsedIndexes.monthLong = index;
                     break;
                 case "MMM":
-                    reg += "(" + this.getStringList(this._monthsShort).join("|") + ")";
+                    reg += "(" + this.getStringList(this.monthsShort).join("|") + ")";
                     parsedIndexes.monthShort = index;
                     break;
                 case "MM":
@@ -624,11 +622,11 @@ var DateFormatter = /** @class */ (function (_super) {
                     parsedIndexes.yearDay = index;
                     break;
                 case "dddd":
-                    reg += "(" + this.getStringList(this._weekdays).join("|") + ")";
+                    reg += "(" + this.getStringList(this.weekdays).join("|") + ")";
                     parsedIndexes.weekdayLong = index;
                     break;
                 case "ddd":
-                    reg += "(" + this.getStringList(this._weekdaysShort).join("|") + ")";
+                    reg += "(" + this.getStringList(this.weekdaysShort).join("|") + ")";
                     parsedIndexes.weekdayShort = index;
                     break;
                 case "aaa":
@@ -897,13 +895,13 @@ var DateFormatter = /** @class */ (function (_super) {
      */
     DateFormatter.prototype.resolveMonth = function (value) {
         // Let's try English first
-        var month = this._months.indexOf(value);
+        var month = this.months.indexOf(value);
         if (month > -1) {
             return month;
         }
         // Try the translation
         if (this.language && !this.language.isDefault()) {
-            month = this.language.translateAll(this._months).indexOf(value);
+            month = this.language.translateAll(this.months).indexOf(value);
             if (month > -1) {
                 return month;
             }
@@ -918,13 +916,18 @@ var DateFormatter = /** @class */ (function (_super) {
      */
     DateFormatter.prototype.resolveShortMonth = function (value) {
         // Let's try English first
-        var month = this._monthsShort.indexOf(value);
+        var month = this.monthsShort.indexOf(value);
+        if (month > -1) {
+            return month;
+        }
+        // Maybe long month (workaround for May)
+        month = this.months.indexOf(value);
         if (month > -1) {
             return month;
         }
         // Try the translation
         if (this.language && !this.language.isDefault()) {
-            month = this.language.translateAll(this._monthsShort).indexOf(value);
+            month = this.language.translateAll(this.monthsShort).indexOf(value);
             if (month > -1) {
                 return month;
             }
@@ -959,10 +962,12 @@ var DateFormatter = /** @class */ (function (_super) {
     DateFormatter.prototype.getStringList = function (list) {
         var res = [];
         for (var i = 0; i < list.length; i++) {
-            res.push($utils.escapeForRgex(list[i]));
             // translate?
-            if (this.language && !this.language.isDefault()) {
+            if (this.language) {
                 res.push($utils.escapeForRgex(this.language.translate(list[i])));
+            }
+            else {
+                res.push($utils.escapeForRgex(list[i]));
             }
         }
         return res;

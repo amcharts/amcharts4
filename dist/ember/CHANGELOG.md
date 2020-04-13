@@ -5,6 +5,29 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.14] - 2020-04-13
+
+### Added
+- Global options setting added `am4core.options.animationsEnabled` (default `true`). Set it to `false` to **disable all animations on all charts**. Can be used to toggle animations on and off dynamically.
+- `SliceGrouper` plugin: new setting `limit` added. If set to a number, will ignore `threshold` but will show only first X slices and will group the rest.
+- New PDF format option for `Export`: `align`. Available options: `"left"` (default), `"center"`, and `"right"`.
+- New `ValueAxis` property: `adjustLabelPrecision` (default: `true`). `true` means that **all** labels on `ValueAxis` (except zero) will maintain the same number of decimals, e.g. `1.0`, `1.5`, `2.0` versus `1`, `1.5`, `2`. Enabling it will ignore number of active decimals set via `numberFormat`.
+- `DateFormatter` is now exposing list of various named time units: `months`, `monthsShort`, `weekdays`, and `weekdaysShort`. You can now resolve numeric value to an English name (e.g. `chart.dateFormatter.weekdaysShort[2]`) or to your active locale (`chart.dateFormatter.language.translate(chart.dateFormatter.weekdaysShort[1])`).
+
+### Changed
+- New property `adjustLabelPrecision` hsa a default of `true`, which means that all labels will now have same number of decimals on `ValueAxis`. Set `adjustLabelPrecision = false`, to disable and revert behavior to how it was before this update (`1`, `1.5`, `2`).
+- `am4core.options.viewportTarget` now accepts array of references if you have multiple scrollable containers holding charts and have `onlyShowOnViewport` enabled.
+- Default `DateAxis.periodChangeDateFormats` for `"hour"` changed from `"_date_hour"` to `"_date_day"` so that the format would differ for midnight (hour 00:00).
+
+### Fixed
+- Parsing short month names (`"MMM"`) from string-based dates was failing on May.
+- When exporting chart to PDF, on narrow charts, sometimes the whole chart would go to the next page.
+- Having `null` values in data was causing `maxTooltipDistance == -1` to show multiple tooltips instead of one.
+- It was impossible to have individual `innerRadius` for `AxisRendererRadial` and `AxisRendererCircular` - the `RadarChart`'s `innerRadius` was overriding them.
+- Removing axis ranges from an axis could result in a JS error.
+- In some cases, when `DateAxis` properties `startLocation` and `endLocation` were not defaults (0 and 1), the chart might flicker from one grouped data period to another continously. It was only happening with some particular `groupCount` values and data item counts, though.
+
+
 ## [4.9.13] - 2020-04-05
 
 ### Added

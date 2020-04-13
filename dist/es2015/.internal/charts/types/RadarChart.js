@@ -219,7 +219,7 @@ var RadarChart = /** @class */ (function (_super) {
             //axis.renderer.width = diameter;
             //axis.renderer.height = diameter;
             axis.renderer.pixelRadiusReal = radius;
-            axis.renderer.innerRadius = innerRadius;
+            //axis.renderer.innerRadius = innerRadius;
         });
         $iter.each(this.yAxes.iterator(), function (axis) {
             axis.renderer.startAngle = startAngle;
@@ -229,7 +229,7 @@ var RadarChart = /** @class */ (function (_super) {
             //axis.renderer.width = diameter;
             //axis.renderer.height = diameter;
             axis.renderer.pixelRadiusReal = radius;
-            axis.renderer.innerRadius = innerRadius;
+            //axis.renderer.innerRadius = innerRadius;
         });
         var cursor = this.cursor;
         if (cursor) {

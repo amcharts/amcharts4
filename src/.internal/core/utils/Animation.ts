@@ -21,6 +21,7 @@ import * as $math from "../utils/Math";
 import * as $array from "../utils/Array";
 import * as $type from "../utils/Type";
 import { system } from "../System";
+import { options } from "../Options";
 
 
 /**
@@ -361,6 +362,11 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 		// Init
 		super();
 		this.className = "Animation";
+
+		// Override duration if animations disabled system-wide
+		if (options.animationsEnabled === false) {
+			duration = 0;
+		}
 
 		// Set parameters
 		this.object = object;

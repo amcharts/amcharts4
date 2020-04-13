@@ -78,21 +78,19 @@ export declare class DateFormatter extends BaseObject {
     /**
      * A list of month names.
      */
-    protected _months: Array<MonthNames>;
+    months: Array<MonthNames>;
     /**
      * A list of short month names.
-     *
-     * @param {Array<ShortMonthNames>}
      */
-    protected _monthsShort: Array<ShortMonthNames>;
+    monthsShort: Array<ShortMonthNames>;
     /**
      * A list of weekday names.
      */
-    protected _weekdays: Array<Weekdays>;
+    weekdays: Array<Weekdays>;
     /**
      * A list of short weekday names.
      */
-    protected _weekdaysShort: Array<ShortWeekdays>;
+    weekdaysShort: Array<ShortWeekdays>;
     /**
      * Output format to produce. If the format calls for applying color to the
      * formatted value, this setting will determine what markup to use: SVG or

@@ -20,6 +20,7 @@ import * as $math from "../utils/Math";
 import * as $array from "../utils/Array";
 import * as $type from "../utils/Type";
 import { system } from "../System";
+import { options } from "../Options";
 /**
  * Calls a `callback` function for the `duration` of milliseconds.
  *
@@ -169,6 +170,10 @@ var Animation = /** @class */ (function (_super) {
         _this._time = 0;
         _this._isFinished = false;
         _this.className = "Animation";
+        // Override duration if animations disabled system-wide
+        if (options.animationsEnabled === false) {
+            duration = 0;
+        }
         // Set parameters
         _this.object = object;
         _this.animationOptions = $array.toArray(animationOptions);
@@ -250,84 +255,84 @@ var Animation = /** @class */ (function (_super) {
         this.staticOptions = [];
         // Process initial property values
         for (var i = this.animationOptions.length - 1; i >= 0; i--) {
-            var options = this.animationOptions[i];
-            if (!$type.hasValue(options.from)) {
-                if (options.childObject) {
-                    options.from = options.childObject[options.property];
+            var options_1 = this.animationOptions[i];
+            if (!$type.hasValue(options_1.from)) {
+                if (options_1.childObject) {
+                    options_1.from = options_1.childObject[options_1.property];
                 }
                 else {
-                    options.from = this.object[options.property];
-                    if (!$type.hasValue(options.from)) {
-                        options.from = SVGDefaults[options.property];
+                    options_1.from = this.object[options_1.property];
+                    if (!$type.hasValue(options_1.from)) {
+                        options_1.from = SVGDefaults[options_1.property];
                     }
                 }
                 /*if (!$type.hasValue(options.from)) {
                     throw Error("Could not get initial transition value.");
                 }*/
             }
-            if (options.from == options.to) { // || options.to == (<any>this.object)[options.property]){ this is not good, as dataItem.value is set to final at once, and we animate workingValue
-                $array.remove(this.animationOptions, options);
+            if (options_1.from == options_1.to) { // || options.to == (<any>this.object)[options.property]){ this is not good, as dataItem.value is set to final at once, and we animate workingValue
+                $array.remove(this.animationOptions, options_1);
             }
-            else if (!$type.hasValue(options.from) || (!(options.from instanceof Percent) && (options.to instanceof Percent)) || ((options.from instanceof Percent) && !(options.to instanceof Percent))) {
+            else if (!$type.hasValue(options_1.from) || (!(options_1.from instanceof Percent) && (options_1.to instanceof Percent)) || ((options_1.from instanceof Percent) && !(options_1.to instanceof Percent))) {
                 // Initial value is undefined, treat it as static
-                this.staticOptions.push(options);
-                $array.remove(this.animationOptions, options);
+                this.staticOptions.push(options_1);
+                $array.remove(this.animationOptions, options_1);
             }
             else {
                 // Use different update methods for different value types
-                if ($type.isNumber(options.to)) {
+                if ($type.isNumber(options_1.to)) {
                     // Numeric value
-                    options.updateMethod = getProgressNumber;
+                    options_1.updateMethod = getProgressNumber;
                     // Check if initial value is not Percent
-                    if (options.from instanceof Percent) {
+                    if (options_1.from instanceof Percent) {
                         // It is. Let's convert it to pixel value
                         // @todo Check if we can do this in a less hacky way
-                        var convertedFrom = this.object[getHybridProperty(options.property, "pixel")];
+                        var convertedFrom = this.object[getHybridProperty(options_1.property, "pixel")];
                         if (!isNaN(convertedFrom)) {
-                            options.from = convertedFrom;
+                            options_1.from = convertedFrom;
                         }
                         else {
-                            this.staticOptions.push(options);
-                            $array.remove(this.animationOptions, options);
+                            this.staticOptions.push(options_1);
+                            $array.remove(this.animationOptions, options_1);
                         }
                     }
-                    else if (isNaN(options.from)) {
+                    else if (isNaN(options_1.from)) {
                         // Static value
-                        this.staticOptions.push(options);
-                        $array.remove(this.animationOptions, options);
+                        this.staticOptions.push(options_1);
+                        $array.remove(this.animationOptions, options_1);
                     }
                 }
                 else {
                     // Check if maybe we have a color or percent value
-                    if (options.to instanceof Color) {
+                    if (options_1.to instanceof Color) {
                         // Yup - set resolved named color
                         //options.from = $colors.stringToColor(<string>options.from);
-                        if (options.from) {
-                            options.updateMethod = getProgressColor;
+                        if (options_1.from) {
+                            options_1.updateMethod = getProgressColor;
                         }
                         else {
                             // Static value
-                            this.staticOptions.push(options);
-                            $array.remove(this.animationOptions, options);
+                            this.staticOptions.push(options_1);
+                            $array.remove(this.animationOptions, options_1);
                         }
                     }
-                    else if (options.to instanceof Percent) {
+                    else if (options_1.to instanceof Percent) {
                         // Percent
-                        options.updateMethod = getProgressPercent;
+                        options_1.updateMethod = getProgressPercent;
                         // Check if the initial value is maybe in pixels
-                        if (!isNaN(options.from)) {
+                        if (!isNaN(options_1.from)) {
                             // It is. Let's convert it
                             // @todo Check if we can do this in a less hacky way
-                            var convertedFrom = this.object[getHybridProperty(options.property, "relative")];
+                            var convertedFrom = this.object[getHybridProperty(options_1.property, "relative")];
                             if (!isNaN(convertedFrom)) {
-                                options.from = percent(convertedFrom * 100);
+                                options_1.from = percent(convertedFrom * 100);
                             }
                         }
                     }
                     else {
                         // Static value
-                        this.staticOptions.push(options);
-                        $array.remove(this.animationOptions, options);
+                        this.staticOptions.push(options_1);
+                        $array.remove(this.animationOptions, options_1);
                     }
                 }
             }

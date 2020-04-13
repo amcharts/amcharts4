@@ -81,6 +81,7 @@ export interface IValueAxisProperties extends IAxisProperties {
     strictMinMax?: boolean;
     logarithmic?: boolean;
     maxPrecision?: number;
+    adjustLabelPrecision?: boolean;
     extraTooltipPrecision?: number;
     extraMin?: number;
     extraMax?: number;
@@ -246,6 +247,8 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @todo Description
      */
     protected _stepDecimalPlaces: number;
+    protected _prevStepDecimalPlaces: number;
+    protected _adjustLabelPrecision: boolean;
     /**
      * [_difference description]
      *
@@ -593,6 +596,24 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
     * @return Max value
     */
     max: number | undefined;
+    /**
+     * By default the axis will adjust precision of all numbers to match number
+     * of decimals in all its labels, e.g.: `1.0`, `1.5`, `2.0`.
+     *
+     * To disable set `adjustLabelPrecision` to `false`, to use whatever other
+     * precision or number format settings are set.
+     *
+     * IMPORTANT: This setting will be ignored if your number format uses
+     * modifiers, e.g. `"#a"`.
+     *
+     * @default true
+     * @since 4.9.14
+     * @param  value  Adjust precision
+     */
+    /**
+    * @return Adjust precision
+    */
+    adjustLabelPrecision: boolean;
     /**
      * Used for the Series to register itself as the user of this Axis.
      *

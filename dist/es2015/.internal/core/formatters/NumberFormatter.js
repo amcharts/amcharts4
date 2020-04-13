@@ -95,7 +95,7 @@ var NumberFormatter = /** @class */ (function (_super) {
      * @param format  Format to apply
      * @return Formatted number
      */
-    NumberFormatter.prototype.format = function (value, format) {
+    NumberFormatter.prototype.format = function (value, format, precision) {
         // no format passed in or "Number"
         if (typeof format === "undefined" || ($type.isString(format) && format.toLowerCase() === "number")) {
             format = this._numberFormat;
@@ -134,6 +134,11 @@ var NumberFormatter = /** @class */ (function (_super) {
             }
             else {
                 details = info.zero;
+            }
+            // Adjust precision
+            if ($type.hasValue(precision) && !details.mod) {
+                details = $object.clone(details);
+                details.decimals.active = source == 0 ? 0 : precision;
             }
             // Format
             formatted = details.template.split($strings.PLACEHOLDER).join(this.applyFormat(source, details));

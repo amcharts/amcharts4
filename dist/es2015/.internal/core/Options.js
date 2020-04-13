@@ -10,6 +10,7 @@ export var options = {
     onlyShowOnViewport: false,
     queue: false,
     licenses: [],
-    suppressErrors: false
+    suppressErrors: false,
+    animationsEnabled: true
 };
 //# sourceMappingURL=Options.js.map

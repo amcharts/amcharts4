@@ -132,6 +132,8 @@ var ValueAxis = /** @class */ (function (_super) {
          * @todo Description
          */
         _this._stepDecimalPlaces = 0;
+        _this._prevStepDecimalPlaces = 0;
+        _this._adjustLabelPrecision = true;
         /**
          * Base value for the axis.
          */
@@ -171,6 +173,7 @@ var ValueAxis = /** @class */ (function (_super) {
         _this.setPropertyValue("extraMax", 0);
         _this.setPropertyValue("strictMinMax", false);
         _this.setPropertyValue("maxPrecision", Number.MAX_VALUE);
+        _this.setPropertyValue("adjustLabelPrecision", true);
         _this.setPropertyValue("extraTooltipPrecision", 0);
         _this.keepSelection = false;
         _this.includeRangesInMinMax = false;
@@ -404,6 +407,8 @@ var ValueAxis = /** @class */ (function (_super) {
             this.resetIterators();
             var dataItemsIterator_1 = this._dataItemsIterator;
             var i = 0;
+            var precisionChanged = this._prevStepDecimalPlaces != this._stepDecimalPlaces;
+            this._prevStepDecimalPlaces = this._stepDecimalPlaces;
             while (value_1 <= maxZoomed) {
                 var axisBreak = this.isInBreak(value_1);
                 if (!axisBreak) {
@@ -414,7 +419,7 @@ var ValueAxis = /** @class */ (function (_super) {
                     //this.processDataItem(dataItem);
                     this.appendDataItem(dataItem);
                     dataItem.axisBreak = undefined;
-                    if (dataItem.value != value_1) {
+                    if (dataItem.value != value_1 || precisionChanged) {
                         dataItem.value = value_1;
                         dataItem.text = this.formatLabel(value_1);
                         if (dataItem.label && dataItem.label.invalid) {
@@ -546,7 +551,12 @@ var ValueAxis = /** @class */ (function (_super) {
      * @return Formatted value
      */
     ValueAxis.prototype.formatLabel = function (value) {
-        return this.numberFormatter.format(value);
+        if (this.adjustLabelPrecision && value != 0) {
+            return this.numberFormatter.format(value, undefined, this._stepDecimalPlaces);
+        }
+        else {
+            return this.numberFormatter.format(value);
+        }
     };
     Object.defineProperty(ValueAxis.prototype, "basePoint", {
         /**
@@ -1303,6 +1313,35 @@ var ValueAxis = /** @class */ (function (_super) {
         set: function (value) {
             if (this._maxDefined != value) {
                 this._maxDefined = value;
+                this.invalidate();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ValueAxis.prototype, "adjustLabelPrecision", {
+        /**
+         * @return Adjust precision
+         */
+        get: function () {
+            return this.getPropertyValue("adjustLabelPrecision");
+        },
+        /**
+         * By default the axis will adjust precision of all numbers to match number
+         * of decimals in all its labels, e.g.: `1.0`, `1.5`, `2.0`.
+         *
+         * To disable set `adjustLabelPrecision` to `false`, to use whatever other
+         * precision or number format settings are set.
+         *
+         * IMPORTANT: This setting will be ignored if your number format uses
+         * modifiers, e.g. `"#a"`.
+         *
+         * @default true
+         * @since 4.9.14
+         * @param  value  Adjust precision
+         */
+        set: function (value) {
+            if (this.setPropertyValue("adjustLabelPrecision", value)) {
                 this.invalidate();
             }
         },

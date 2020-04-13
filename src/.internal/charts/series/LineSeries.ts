@@ -491,6 +491,16 @@ export class LineSeries extends XYSeries {
 		} while (params)
 	}
 
+
+	protected getSegment():LineSeriesSegment{
+			let segment = this._segmentsIterator.getFirst();
+			if(segment.isDisposed()){
+				this.segments.removeValue(segment);
+				return this.getSegment();
+			}
+			return segment;
+	}
+
 	/**
 	 * [openSegment description]
 	 *
@@ -508,7 +518,8 @@ export class LineSeries extends XYSeries {
 		let closeIndex: number;
 		let propertiesChanged: boolean = false;
 
-		let segment: LineSeriesSegment = this._segmentsIterator.getFirst();
+		let segment: LineSeriesSegment = this.getSegment();
+
 		segment.__disabled = false;
 
 		if (axisRange) {

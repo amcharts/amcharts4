@@ -107,6 +107,10 @@ export declare class SliceGrouper extends Plugin {
      */
     protected _threshold: number;
     /**
+     * Maximum number of slices.
+     */
+    protected _limit: Optional<number>;
+    /**
      * Zoom out button. Shown when "Other" slice is broken down to zoom back
      * out to "Other".
      */
@@ -157,6 +161,20 @@ export declare class SliceGrouper extends Plugin {
     * @return Threshold
     */
     threshold: number;
+    /**
+     * Maximum number of ungrouped slices to show. Any slice beyond `limit` will
+     * go into the "Other" group.
+     *
+     * NOTE: if `limit` is set, `threshold` setting will be ignored.
+     *
+     * @default undefined
+     * @since 4.9.14
+     * @param  value  Limit
+     */
+    /**
+    * @return Limit
+    */
+    limit: number;
     /**
      * An instance of [[ZoomOutButton]] that is shown when "Other" slice is
      * broken down, to get back to grouped state.

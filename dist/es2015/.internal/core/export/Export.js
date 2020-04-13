@@ -422,6 +422,7 @@ var Export = /** @class */ (function (_super) {
         _this._formatOptions.setKey("pdf", {
             fontSize: 14,
             imageFormat: "png",
+            align: "left",
             addURL: true,
             addColumnNames: true
         });
@@ -1803,7 +1804,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getPDF = function (type, options) {
         return __awaiter(this, void 0, void 0, function () {
-            var image, pdfmake, defaultMargins, doc, title, _a, _b, _c;
+            var image, pdfmake, defaultMargins, doc, title, extraMargin, _a, _b, _c;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0: return [4 /*yield*/, this.getImage(options.imageFormat || "png", options)];
@@ -1824,6 +1825,7 @@ var Export = /** @class */ (function (_super) {
                             title: this.title,
                             options: options
                         }).title;
+                        extraMargin = 0;
                         if (title) {
                             doc.content.push({
                                 text: title,
@@ -1831,6 +1833,8 @@ var Export = /** @class */ (function (_super) {
                                 bold: true,
                                 margin: [0, 0, 0, 15]
                             });
+                            // Add some leftover margin for title
+                            extraMargin += 50;
                         }
                         // Add page URL?
                         if (options.addURL) {
@@ -1839,12 +1843,15 @@ var Export = /** @class */ (function (_super) {
                                 fontSize: options.fontSize,
                                 margin: [0, 0, 0, 15]
                             });
+                            // Add some leftover margin for URL
+                            extraMargin += 50;
                         }
                         // Add image
                         if (type != "pdfdata") {
                             doc.content.push({
                                 image: image,
-                                fit: this.getPageSizeFit(doc.pageSize, doc.pageMargins)
+                                alignment: options.align || "left",
+                                fit: this.getPageSizeFit(doc.pageSize, doc.pageMargins, extraMargin)
                             });
                         }
                         if (!(type == "pdfdata" || options.addData)) return [3 /*break*/, 4];
@@ -1999,7 +2006,8 @@ var Export = /** @class */ (function (_super) {
      * @param pageSize Page size
      * @return `[width, height]` in pixels
      */
-    Export.prototype.getPageSizeFit = function (pageSize, margins) {
+    Export.prototype.getPageSizeFit = function (pageSize, margins, extraMargin) {
+        if (extraMargin === void 0) { extraMargin = 0; }
         // Check margins
         var newMargins = [0, 0, 0, 0];
         if (typeof margins == "number") {
@@ -2067,7 +2075,7 @@ var Export = /** @class */ (function (_super) {
         // Calculate size
         var fitSize = sizes[pageSize];
         fitSize[0] -= newMargins[0] + newMargins[2];
-        fitSize[1] -= newMargins[1] + newMargins[3];
+        fitSize[1] -= newMargins[1] + newMargins[3] + extraMargin;
         return fitSize;
     };
     /**

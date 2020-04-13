@@ -100,6 +100,10 @@ export declare class AxisRendererRadial extends AxisRendererY {
      */
     pixelRadiusReal: number;
     /**
+     * @ignore
+     */
+    _chartType: RadarChart;
+    /**
      * Constructor.
      *
      * @param axis Related axis
@@ -151,17 +155,6 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * @return Inner radius (px)
      */
     readonly pixelInnerRadius: number;
-    /**
-     * Chart, associated with the Axis.
-     *
-     * @ignore Exclude from docs
-     * @param value Chart
-     */
-    /**
-    * @ignore Exclude from docs
-    * @return Chart
-    */
-    chart: RadarChart;
     /**
      * Converts relative position on axis to point coordinates.
      *

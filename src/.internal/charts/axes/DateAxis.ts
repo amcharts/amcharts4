@@ -663,7 +663,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			this.periodChangeDateFormats.setKey("minute", this.language.translate("_date_minute"));
 		}
 		if (!this.periodChangeDateFormats.hasKey("hour")) {
-			this.periodChangeDateFormats.setKey("hour", this.language.translate("_date_hour"));
+			this.periodChangeDateFormats.setKey("hour", this.language.translate("_date_day"));
 		}
 		if (!this.periodChangeDateFormats.hasKey("day")) {
 			this.periodChangeDateFormats.setKey("day", this.language.translate("_date_day"));
@@ -749,7 +749,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		// if data has to be grouped, choose interval and set dataset
 		if (this.groupData && $type.hasValue(difference)) {
 			let mainBaseInterval = this.mainBaseInterval;
-			let groupInterval = this.chooseInterval(0, difference, this.groupCount, this.groupIntervals);
+
+			let modifiedDifference = difference + this.startLocation + (1 - this.endLocation) * this.baseDuration;
+
+			let groupInterval = this.chooseInterval(0, modifiedDifference, this.groupCount, this.groupIntervals);
 			if ($time.getDuration(groupInterval.timeUnit, groupInterval.count) < $time.getDuration(mainBaseInterval.timeUnit, mainBaseInterval.count)) {
 				groupInterval = { ...mainBaseInterval };
 			}
@@ -1342,7 +1345,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				let format = this.dateFormats.getKey(timeUnit);
 
 				if (this.markUnitChange && prevGridDate) {
-					if ($time.checkChange(date, prevGridDate, this._nextGridUnit, this._df.utc)) {
+					if ($time.checkChange(date, prevGridDate, this._nextGridUnit, this._df.utc)) {						
 						if (timeUnit !== "year") {
 							format = this.periodChangeDateFormats.getKey(timeUnit);
 						}

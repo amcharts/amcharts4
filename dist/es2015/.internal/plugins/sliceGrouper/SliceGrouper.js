@@ -143,12 +143,12 @@ var SliceGrouper = /** @class */ (function (_super) {
             // Collect and prepare small slices
             var groupValue = 0;
             var groupSliceItem;
-            series.dataItems.each(function (item) {
+            series.dataItems.each(function (item, index) {
                 var value = item.values.value.percent;
                 if (item.dataContext.sliceGrouperOther) {
                     groupSliceItem = item.dataContext;
                 }
-                else if (value <= _this.threshold) {
+                else if ((_this.limit && (index >= _this.limit)) || (!_this.limit && (value <= _this.threshold))) {
                     groupValue += item.value;
                     item.hiddenInLegend = true;
                     item.hide();
@@ -312,6 +312,31 @@ var SliceGrouper = /** @class */ (function (_super) {
         set: function (value) {
             if (this._threshold != value) {
                 this._threshold = value;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SliceGrouper.prototype, "limit", {
+        /**
+         * @return Limit
+         */
+        get: function () {
+            return this._limit;
+        },
+        /**
+         * Maximum number of ungrouped slices to show. Any slice beyond `limit` will
+         * go into the "Other" group.
+         *
+         * NOTE: if `limit` is set, `threshold` setting will be ignored.
+         *
+         * @default undefined
+         * @since 4.9.14
+         * @param  value  Limit
+         */
+        set: function (value) {
+            if (this._limit != value) {
+                this._limit = value;
             }
         },
         enumerable: true,

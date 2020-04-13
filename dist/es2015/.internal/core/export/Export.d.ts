@@ -38,6 +38,7 @@ import { NumberFormatter } from "../formatters/NumberFormatter";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
 import { Color } from "../utils/Color";
+import { Align } from "../defs/Align";
 import * as $type from "../utils/Type";
 /**
  * ============================================================================
@@ -178,6 +179,15 @@ export interface IExportPDFOptions extends IExportImageOptions {
      * Page orientation.
      */
     pageOrientation?: "landscape" | "portrait";
+    /**
+     * Alignment of the chart image in PDF.
+     *
+     * Supported options: `"left"` (default), `"center"`, `"right"`.
+     *
+     * @since 4.9.14
+     * @default left
+     */
+    align?: Align;
     /**
      * Page margins.
      *
@@ -1388,7 +1398,7 @@ export declare class Export extends Validatable {
      * @param pageSize Page size
      * @return `[width, height]` in pixels
      */
-    getPageSizeFit(pageSize: pageSizes, margins?: number | number[]): number[];
+    getPageSizeFit(pageSize: pageSizes, margins?: number | number[], extraMargin?: number): number[];
     /**
      * Returns an Excel file of chart's data.
      *

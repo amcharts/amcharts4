@@ -156,8 +156,12 @@ function createChild(htmlElement, classType) {
                     $dom.addEventListener(window, "scroll", function () { viewPortHandler(sprite_1); })
                 ];
                 if (options.viewportTarget) {
-                    disposers.push($dom.addEventListener(options.viewportTarget, "resize", function () { viewPortHandler(sprite_1); }));
-                    disposers.push($dom.addEventListener(options.viewportTarget, "scroll", function () { viewPortHandler(sprite_1); }));
+                    var targets = $type.isArray(options.viewportTarget) ? options.viewportTarget : options.viewportTarget ? [options.viewportTarget] : [];
+                    for (var i = 0; i < targets.length; i++) {
+                        var target = targets[i];
+                        disposers.push($dom.addEventListener(target, "resize", function () { viewPortHandler(sprite_1); }));
+                        disposers.push($dom.addEventListener(target, "scroll", function () { viewPortHandler(sprite_1); }));
+                    }
                 }
                 var disposer = new MultiDisposer(disposers);
                 sprite_1.addDisposer(disposer);

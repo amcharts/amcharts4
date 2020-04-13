@@ -270,4 +270,4 @@ export declare function isHidden(element: HTMLElement): boolean;
  * @param   el Element
  * @return     Within viewport?
  */
-export declare function isElementInViewport(el: HTMLElement, viewportTarget?: HTMLElement): boolean;
+export declare function isElementInViewport(el: HTMLElement, viewportTarget?: HTMLElement | HTMLElement[]): boolean;

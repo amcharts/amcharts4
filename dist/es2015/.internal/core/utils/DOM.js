@@ -627,18 +627,26 @@ export function isHidden(element) {
 export function isElementInViewport(el, viewportTarget) {
     // Get position data of the element
     var rect = el.getBoundingClientRect();
+    // Convert to array
+    var targets = $type.isArray(viewportTarget) ? viewportTarget : viewportTarget ? [viewportTarget] : [];
     // Should we measure against specific viewport element?
-    if (viewportTarget) {
-        // Check if viewport itself is visible
-        if (!isElementInViewport(viewportTarget)) {
-            return false;
+    if (targets.length) {
+        for (var i = 0; i < targets.length; i++) {
+            var target = targets[i];
+            // Check if viewport itself is visible
+            if (!isElementInViewport(target)) {
+                return false;
+            }
+            // Check if element is visible within the viewport
+            var viewportRect = target.getBoundingClientRect();
+            if (rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.top <= (viewportRect.top + viewportRect.height) &&
+                rect.left <= (viewportRect.left + viewportRect.width)) {
+                return true;
+            }
         }
-        // Check if element is visible within the viewport
-        var viewportRect = viewportTarget.getBoundingClientRect();
-        return (rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.top <= (viewportRect.top + viewportRect.height) &&
-            rect.left <= (viewportRect.left + viewportRect.width));
+        return false;
     }
     return (rect.top >= 0 &&
         rect.left >= 0 &&

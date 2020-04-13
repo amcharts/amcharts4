@@ -96,24 +96,22 @@ export class DateFormatter extends BaseObject {
 	/**
 	 * A list of month names.
 	 */
-	protected _months: Array<MonthNames> = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	public months: Array<MonthNames> = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 	/**
 	 * A list of short month names.
-	 *
-	 * @param {Array<ShortMonthNames>}
 	 */
-	protected _monthsShort: Array<ShortMonthNames> = ["Jan", "Feb", "Mar", "Apr", "May(short)", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	public monthsShort: Array<ShortMonthNames> = ["Jan", "Feb", "Mar", "Apr", "May(short)", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 	/**
 	 * A list of weekday names.
 	 */
-	protected _weekdays: Array<Weekdays> = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+	public weekdays: Array<Weekdays> = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 	/**
 	 * A list of short weekday names.
 	 */
-	protected _weekdaysShort: Array<ShortWeekdays> = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+	public weekdaysShort: Array<ShortWeekdays> = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 	/**
 	 * Output format to produce. If the format calls for applying color to the
@@ -417,15 +415,15 @@ export class DateFormatter extends BaseObject {
 					break;
 
 				case "MMMMM":
-					value = language.translate(this._months[month]).substr(0, 1);
+					value = language.translate(this.months[month]).substr(0, 1);
 					break;
 
 				case "MMMM":
-					value = language.translate(this._months[month]);
+					value = language.translate(this.months[month]);
 					break;
 
 				case "MMM":
-					value = language.translate(this._monthsShort[month]);
+					value = language.translate(this.monthsShort[month]);
 					break;
 
 				case "MM":
@@ -487,17 +485,17 @@ export class DateFormatter extends BaseObject {
 
 				case "EEE":
 				case "eee":
-					value = language.translate(this._weekdaysShort[weekday]);
+					value = language.translate(this.weekdaysShort[weekday]);
 					break;
 
 				case "EEEE":
 				case "eeee":
-					value = language.translate(this._weekdays[weekday]);
+					value = language.translate(this.weekdays[weekday]);
 					break;
 
 				case "EEEEE":
 				case "eeeee":
-					value = language.translate(this._weekdays[weekday]).substr(0, 1);
+					value = language.translate(this.weekdays[weekday]).substr(0, 1);
 					break;
 
 				case "e":
@@ -786,12 +784,12 @@ export class DateFormatter extends BaseObject {
 					break;
 
 				case "MMMM":
-					reg += "(" + this.getStringList(this._months).join("|") + ")";
+					reg += "(" + this.getStringList(this.months).join("|") + ")";
 					parsedIndexes.monthLong = index;
 					break;
 
 				case "MMM":
-					reg += "(" + this.getStringList(this._monthsShort).join("|") + ")";
+					reg += "(" + this.getStringList(this.monthsShort).join("|") + ")";
 					parsedIndexes.monthShort = index;
 					break;
 
@@ -822,12 +820,12 @@ export class DateFormatter extends BaseObject {
 
 
 				case "dddd":
-					reg += "(" + this.getStringList(this._weekdays).join("|") + ")";
+					reg += "(" + this.getStringList(this.weekdays).join("|") + ")";
 					parsedIndexes.weekdayLong = index;
 					break;
 
 				case "ddd":
-					reg += "(" + this.getStringList(this._weekdaysShort).join("|") + ")";
+					reg += "(" + this.getStringList(this.weekdaysShort).join("|") + ")";
 					parsedIndexes.weekdayShort = index;
 					break;
 
@@ -1163,14 +1161,14 @@ export class DateFormatter extends BaseObject {
 	protected resolveMonth(value: MonthNames): number {
 
 		// Let's try English first
-		let month: number = this._months.indexOf(value);
+		let month: number = this.months.indexOf(value);
 		if (month > -1) {
 			return month;
 		}
 
 		// Try the translation
 		if (this.language && !this.language.isDefault()) {
-			month = this.language.translateAll(this._months).indexOf(value);
+			month = this.language.translateAll(this.months).indexOf(value);
 			if (month > -1) {
 				return month
 			}
@@ -1188,14 +1186,20 @@ export class DateFormatter extends BaseObject {
 	protected resolveShortMonth(value: ShortMonthNames): number {
 
 		// Let's try English first
-		let month: number = this._monthsShort.indexOf(value);
+		let month: number = this.monthsShort.indexOf(value);
+		if (month > -1) {
+			return month;
+		}
+
+		// Maybe long month (workaround for May)
+		month = this.months.indexOf(<any>value);
 		if (month > -1) {
 			return month;
 		}
 
 		// Try the translation
 		if (this.language && !this.language.isDefault()) {
-			month = this.language.translateAll(this._monthsShort).indexOf(value);
+			month = this.language.translateAll(this.monthsShort).indexOf(value);
 			if (month > -1) {
 				return month
 			}
@@ -1234,10 +1238,12 @@ export class DateFormatter extends BaseObject {
 	protected getStringList(list: Array<keyof ILocaleProperties>): Array<string> {
 		let res: string[] = [];
 		for (let i: number = 0; i < list.length; i++) {
-			res.push($utils.escapeForRgex(list[i]));
 			// translate?
-			if (this.language && !this.language.isDefault()) {
+			if (this.language) {
 				res.push($utils.escapeForRgex(this.language.translate(list[i])));
+			}
+			else {
+				res.push($utils.escapeForRgex(list[i]));
 			}
 		}
 		return res;

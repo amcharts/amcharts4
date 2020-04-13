@@ -189,8 +189,12 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 				];
 
 				if (options.viewportTarget) {
-					disposers.push($dom.addEventListener(options.viewportTarget, "resize", function() { viewPortHandler(sprite); }));
-					disposers.push($dom.addEventListener(options.viewportTarget, "scroll", function() { viewPortHandler(sprite); }));
+					const targets = $type.isArray(options.viewportTarget) ? options.viewportTarget : options.viewportTarget ? [options.viewportTarget] : [];
+					for (let i = 0; i < targets.length; i++) {
+						const target = targets[i];
+						disposers.push($dom.addEventListener(target, "resize", function() { viewPortHandler(sprite); }));
+						disposers.push($dom.addEventListener(target, "scroll", function() { viewPortHandler(sprite); }));
+					}
 				}
 
 				let disposer = new MultiDisposer(disposers);

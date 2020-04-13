@@ -10,6 +10,7 @@
  */
 import { AxisRenderer, IAxisRendererProperties, IAxisRendererAdapters, IAxisRendererEvents } from "./AxisRenderer";
 import { Axis } from "./Axis";
+import { RadarChart } from "../types/RadarChart";
 import { AxisFillCircular } from "./AxisFillCircular";
 import { AxisRendererRadial } from "./AxisRendererRadial";
 import { IPoint } from "../../core/defs/IPoint";
@@ -127,7 +128,16 @@ export class AxisRendererCircular extends AxisRenderer {
 	 */
 	public pixelRadiusReal: number = 0;
 
+	
+	/**
+	 * Y axis renderer
+	 */
 	public axisRendererY: AxisRendererRadial;
+
+	/**
+	 * @ignore
+	 */	
+	public _chartType:RadarChart;
 
 	/**
 	 * Constructor.
@@ -260,7 +270,12 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * @return Inner radius
 	 */
 	public get innerRadius(): number | Percent {
-		return this.getPropertyValue("innerRadius");
+
+		let innerRadius = this.getPropertyValue("innerRadius");
+		if(!$type.hasValue(innerRadius)){
+			innerRadius = this.chart.innerRadius;
+		}
+		return innerRadius;
 	}
 
 	/**
@@ -310,7 +325,8 @@ export class AxisRendererCircular extends AxisRenderer {
 
 		if (this.axisRendererY) {
 			let realRadius = $math.fitToRange(this.axisRendererY.positionToCoordinate(position2), 0, Infinity)
-			return { x: realRadius * $math.cos(angle), y: realRadius * $math.sin(angle) };
+			let point = { x: realRadius * $math.cos(angle), y: realRadius * $math.sin(angle) };
+			return point;
 		}
 
 		return { x: $math.cos(angle) * innerRadius + (radius - innerRadius) * $math.cos(angle) * position2, y: $math.sin(angle) * innerRadius + (radius - innerRadius) * $math.sin(angle) * position2 };
@@ -349,17 +365,17 @@ export class AxisRendererCircular extends AxisRenderer {
 		let axis: Axis = this.axis;
 
 		let arc: number = (this.endAngle - this.startAngle) / (axis.end - axis.start);
-		let position:number
+		let position: number
 
 		if (axis.renderer.inversed) {
-			  position = axis.end - (angle - this.startAngle) / arc;
+			position = axis.end - (angle - this.startAngle) / arc;
 		}
 		else {
-			 position = (angle - this.startAngle) / arc + axis.start;
+			position = (angle - this.startAngle) / arc + axis.start;
 		}
 
 		return $math.round(position, 5);
-	}	
+	}
 
 	/**
 	 * Updates and positions the axis line element.
@@ -387,6 +403,7 @@ export class AxisRendererCircular extends AxisRenderer {
 		position = position + (endPosition - position) * grid.location;
 
 		let point: IPoint = this.positionToPoint(position);
+
 		if ($type.isNumber(point.x) && $type.isNumber(point.y) && grid.element) {
 			let angle: number = $math.DEGREES * Math.atan2(point.y, point.x);
 			let radius: number = $utils.relativeRadiusToValue($type.hasValue(grid.radius) ? grid.radius : percent(100), this.pixelRadius);
@@ -394,7 +411,7 @@ export class AxisRendererCircular extends AxisRenderer {
 			let gridInnerRadius = $utils.relativeRadiusToValue(grid.innerRadius, this.pixelRadius);
 			grid.zIndex = 0;
 
-			let innerRadius: number = $utils.relativeRadiusToValue($type.isNumber(gridInnerRadius) ? gridInnerRadius : this.innerRadius, this.pixelRadius, true);
+			let innerRadius: number = $utils.relativeRadiusToValue($type.isNumber(gridInnerRadius) ? gridInnerRadius : this.innerRadius, this.pixelRadiusReal, true);
 
 			grid.path = $path.moveTo({ x: innerRadius * $math.cos(angle), y: innerRadius * $math.sin(angle) }) + $path.lineTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
 		}

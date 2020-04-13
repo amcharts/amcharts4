@@ -145,7 +145,11 @@ var AxisRendererCircular = /** @class */ (function (_super) {
          * @return Inner radius
          */
         get: function () {
-            return this.getPropertyValue("innerRadius");
+            var innerRadius = this.getPropertyValue("innerRadius");
+            if (!$type.hasValue(innerRadius)) {
+                innerRadius = this.chart.innerRadius;
+            }
+            return innerRadius;
         },
         /**
          * Inner radius of the axis.
@@ -213,7 +217,8 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         var innerRadius = this.pixelInnerRadius;
         if (this.axisRendererY) {
             var realRadius = $math.fitToRange(this.axisRendererY.positionToCoordinate(position2), 0, Infinity);
-            return { x: realRadius * $math.cos(angle), y: realRadius * $math.sin(angle) };
+            var point = { x: realRadius * $math.cos(angle), y: realRadius * $math.sin(angle) };
+            return point;
         }
         return { x: $math.cos(angle) * innerRadius + (radius - innerRadius) * $math.cos(angle) * position2, y: $math.sin(angle) * innerRadius + (radius - innerRadius) * $math.sin(angle) * position2 };
     };
@@ -281,7 +286,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
             var radius = $utils.relativeRadiusToValue($type.hasValue(grid.radius) ? grid.radius : percent(100), this.pixelRadius);
             var gridInnerRadius = $utils.relativeRadiusToValue(grid.innerRadius, this.pixelRadius);
             grid.zIndex = 0;
-            var innerRadius = $utils.relativeRadiusToValue($type.isNumber(gridInnerRadius) ? gridInnerRadius : this.innerRadius, this.pixelRadius, true);
+            var innerRadius = $utils.relativeRadiusToValue($type.isNumber(gridInnerRadius) ? gridInnerRadius : this.innerRadius, this.pixelRadiusReal, true);
             grid.path = $path.moveTo({ x: innerRadius * $math.cos(angle), y: innerRadius * $math.sin(angle) }) + $path.lineTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
         }
         this.toggleVisibility(grid, position, 0, 1);

@@ -101,7 +101,7 @@ export declare class NumberFormatter extends BaseObject {
      * @param format  Format to apply
      * @return Formatted number
      */
-    format(value: number | string, format?: string | Intl.NumberFormatOptions): string;
+    format(value: number | string, format?: string | Intl.NumberFormatOptions, precision?: number): string;
     /**
      * Parses supplied format into structured object which can be used to format
      * the number.

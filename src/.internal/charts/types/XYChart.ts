@@ -1382,6 +1382,7 @@ export class XYChart extends SerialChart {
 			})
 			let newSeriesPoints: { point: IPoint, series: XYSeries }[] = [];
 			if (nearestSeries) {
+
 				$array.each(seriesPoints, (seriesPoint) => {
 					if (Math.abs($math.getDistance(seriesPoint.point, nearestPoint)) <= Math.abs(cursor.maxTooltipDistance)) {
 						newSeriesPoints.push({ series: seriesPoint.series, point: seriesPoint.point });
@@ -1400,6 +1401,13 @@ export class XYChart extends SerialChart {
 				})
 
 				if (cursor.maxTooltipDistance < 0) {
+					if(newSeriesPoints.length > 0){
+						$array.each(newSeriesPoints, (np)=>{
+							if(nearestSeries != np.series){
+								np.series.tooltip.hide(0);
+							}
+						})
+					}
 					newSeriesPoints = [{ series: nearestSeries, point: nearestPoint }];
 				}
 			}

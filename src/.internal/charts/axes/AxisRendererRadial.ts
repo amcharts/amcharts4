@@ -130,6 +130,11 @@ export class AxisRendererRadial extends AxisRendererY {
 	public pixelRadiusReal: number = 0;
 
 	/**
+	 * @ignore
+	 */	
+	public _chartType:RadarChart;	
+
+	/**
 	 * Constructor.
 	 *
 	 * @param axis Related axis
@@ -224,7 +229,11 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * @return Inner radius
 	 */
 	public get innerRadius(): number | Percent {
-		return this.getPropertyValue("innerRadius");
+		let innerRadius = this.getPropertyValue("innerRadius");
+		if(!$type.hasValue(innerRadius)){
+			innerRadius = this.chart.innerRadius;
+		}
+		return innerRadius;
 	}
 
 	/**
@@ -236,23 +245,6 @@ export class AxisRendererRadial extends AxisRendererY {
 		return $utils.relativeRadiusToValue(this.innerRadius, this.pixelRadiusReal) || 0;
 	}
 
-	/**
-	 * Chart, associated with the Axis.
-	 *
-	 * @ignore Exclude from docs
-	 * @param value Chart
-	 */
-	public set chart(chart: RadarChart) {
-		this._chart.set(chart, null);
-	}
-
-	/**
-	 * @ignore Exclude from docs
-	 * @return Chart
-	 */
-	public get chart(): RadarChart {
-		return this._chart.get();
-	}
 
 	/**
 	 * Converts relative position on axis to point coordinates.

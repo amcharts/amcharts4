@@ -80,6 +80,9 @@ export interface Options {
 	 * on the document viewport.
 	 * 
 	 * This setting can be combined with `queue` for better performance.
+	 *
+	 * NOTE: if your charts are located in the scrollable container, make sure
+	 * you also set `viewportTarget` to a reference for that container.
 	 * 
 	 * @default false
 	 * @since 4.5.0
@@ -95,7 +98,7 @@ export interface Options {
 	 *
 	 * @since 4.7.4
 	 */
-	viewportTarget?: HTMLElement;
+	viewportTarget?: HTMLElement | HTMLElement[];
 
 	/**
 	 * Whether to queue all charts rendering. One chart will be rendered at a time. The next
@@ -126,6 +129,15 @@ export interface Options {
 	 */
 	suppressErrors: boolean;
 
+	/**
+	 * Set this to `false` to effectivly disable all animations on all charts
+	 * regardless of themes used or individual animation properties.
+	 *
+	 * @since 4.9.14
+	 * @default false
+	 */
+	animationsEnabled: boolean
+
 }
 
 /**
@@ -140,5 +152,6 @@ export const options: Options = {
 	onlyShowOnViewport: false,
 	queue: false,
 	licenses: [],
-	suppressErrors: false
+	suppressErrors: false,
+	animationsEnabled: true
 };

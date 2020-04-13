@@ -125,6 +125,11 @@ export class SliceGrouper extends Plugin {
 	protected _threshold: number = 5;
 
 	/**
+	 * Maximum number of slices.
+	 */
+	protected _limit: Optional<number>;
+
+	/**
 	 * Zoom out button. Shown when "Other" slice is broken down to zoom back
 	 * out to "Other".
 	 */
@@ -185,12 +190,12 @@ export class SliceGrouper extends Plugin {
 			// Collect and prepare small slices
 			let groupValue = 0;
 			let groupSliceItem;
-			series.dataItems.each((item) => {
+			series.dataItems.each((item, index) => {
 				let value = item.values.value.percent;
 				if ((<any>item.dataContext).sliceGrouperOther) {
 					groupSliceItem = item.dataContext;
 				}
-				else if (value <= this.threshold) {
+				else if ((this.limit && (index >= this.limit)) || (!this.limit && (value <= this.threshold))) {
 					groupValue += item.value;
 					item.hiddenInLegend = true;
 					item.hide();
@@ -383,6 +388,29 @@ export class SliceGrouper extends Plugin {
 	 */
 	public get threshold(): number {
 		return this._threshold;
+	}
+
+	/**
+	 * Maximum number of ungrouped slices to show. Any slice beyond `limit` will
+	 * go into the "Other" group.
+	 *
+	 * NOTE: if `limit` is set, `threshold` setting will be ignored.
+	 *
+	 * @default undefined
+	 * @since 4.9.14
+	 * @param  value  Limit
+	 */
+	public set limit(value: number) {
+		if (this._limit != value) {
+			this._limit = value;
+		}
+	}
+
+	/**
+	 * @return Limit
+	 */
+	public get limit(): number {
+		return this._limit;
 	}
 
 	/**

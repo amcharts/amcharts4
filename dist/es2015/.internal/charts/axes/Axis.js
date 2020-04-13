@@ -1734,6 +1734,9 @@ var Axis = /** @class */ (function (_super) {
         range.tick.disabled = true;
         range.label = this.renderer.labels.template.clone();
         range.label.disabled = true;
+        range.addDisposer(new Disposer(function () {
+            series.axisRanges.removeValue(range);
+        }));
         series.axisRanges.push(range);
         return range;
     };

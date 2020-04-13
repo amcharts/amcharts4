@@ -110,9 +110,17 @@ var AxisRenderer = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(AxisRenderer.prototype, "axis", {
+        /**
+         * Axis of a renderer
+         * @return axis Axis
+         */
         get: function () {
             return this._axis;
         },
+        /**
+         * Axis of a renderer
+         * @param axis Axis
+         */
         set: function (axis) {
             this.setAxis(axis);
         },
@@ -400,7 +408,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     Object.defineProperty(AxisRenderer.prototype, "chart", {
         /**
          * @ignore Exclude from docs
-         * @return Chart
+         * @return this["_chartType"]
          */
         get: function () {
             return this._chart.get();
@@ -409,7 +417,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          * A chart, associated with the Axis.
          *
          * @ignore Exclude from docs
-         * @param value  Chart
+         * @param value  this["_chartType"]
          */
         set: function (value) {
             this._chart.set(value, null);

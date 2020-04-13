@@ -1,6 +1,10 @@
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+
+
+
+
 var chartMin = -50;
 var chartMax = 100;
 
@@ -104,7 +108,6 @@ axis.renderer.labels.template.fontSize = "0.9em";
 var axis2 = chart.xAxes.push(new am4charts.ValueAxis());
 axis2.min = chartMin;
 axis2.max = chartMax;
-axis2.renderer.innerRadius = 10;
 axis2.strictMinMax = true;
 axis2.renderer.labels.template.disabled = true;
 axis2.renderer.ticks.template.disabled = true;
@@ -117,7 +120,7 @@ Ranges
 */
 
 for (let grading of data.gradingData) {
-  let range = axis2.axisRanges.create();
+  var range = axis2.axisRanges.create();
   range.axisFill.fill = am4core.color(grading.color);
   range.axisFill.fillOpacity = 0.8;
   range.axisFill.zIndex = -1;
@@ -131,7 +134,7 @@ for (let grading of data.gradingData) {
   range.label.inside = true;
   range.label.location = 0.5;
   range.label.inside = true;
-  range.label.radius = am4core.percent(5);
+  range.label.radius = am4core.percent(10);
   range.label.paddingBottom = -5; // ~half font size
   range.label.fontSize = "0.9em";
 }

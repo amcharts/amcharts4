@@ -91,6 +91,13 @@ export declare function copy<Object>(object: Object): Object;
  */
 export declare function merge<Object1, Object2>(object1: Object1, object2: Object2): Object1 & Object2;
 /**
+ * Returns object clone.
+ *
+ * @param object  Source object
+ * @returns       Clone
+ */
+export declare function clone<Object>(object: Object): Object;
+/**
  * Copies a list of properties from one object to another.
  *
  * Will not copy empty properties.

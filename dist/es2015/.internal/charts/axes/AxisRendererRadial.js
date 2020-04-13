@@ -124,7 +124,11 @@ var AxisRendererRadial = /** @class */ (function (_super) {
          * @return Inner radius
          */
         get: function () {
-            return this.getPropertyValue("innerRadius");
+            var innerRadius = this.getPropertyValue("innerRadius");
+            if (!$type.hasValue(innerRadius)) {
+                innerRadius = this.chart.innerRadius;
+            }
+            return innerRadius;
         },
         /**
          * Inner radius of the axis.
@@ -147,26 +151,6 @@ var AxisRendererRadial = /** @class */ (function (_super) {
          */
         get: function () {
             return $utils.relativeRadiusToValue(this.innerRadius, this.pixelRadiusReal) || 0;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AxisRendererRadial.prototype, "chart", {
-        /**
-         * @ignore Exclude from docs
-         * @return Chart
-         */
-        get: function () {
-            return this._chart.get();
-        },
-        /**
-         * Chart, associated with the Axis.
-         *
-         * @ignore Exclude from docs
-         * @param value Chart
-         */
-        set: function (chart) {
-            this._chart.set(chart, null);
         },
         enumerable: true,
         configurable: true

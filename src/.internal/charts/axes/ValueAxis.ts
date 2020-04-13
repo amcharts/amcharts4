@@ -123,6 +123,7 @@ export interface IValueAxisProperties extends IAxisProperties {
 	strictMinMax?: boolean;
 	logarithmic?: boolean;
 	maxPrecision?: number;
+	adjustLabelPrecision?: boolean;
 	extraTooltipPrecision?: number;
 	extraMin?: number;
 	extraMax?: number;
@@ -318,6 +319,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @todo Description
 	 */
 	protected _stepDecimalPlaces: number = 0;
+	protected _prevStepDecimalPlaces: number = 0;
+	protected _adjustLabelPrecision: boolean = true;
 
 	/**
 	 * [_difference description]
@@ -420,6 +423,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		this.setPropertyValue("extraMax", 0);
 		this.setPropertyValue("strictMinMax", false);
 		this.setPropertyValue("maxPrecision", Number.MAX_VALUE);
+		this.setPropertyValue("adjustLabelPrecision", true);
 		this.setPropertyValue("extraTooltipPrecision", 0);
 		this.keepSelection = false;
 		this.includeRangesInMinMax = false;
@@ -669,6 +673,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 			let i: number = 0;
 
+			const precisionChanged = this._prevStepDecimalPlaces != this._stepDecimalPlaces;
+			this._prevStepDecimalPlaces = this._stepDecimalPlaces;
+
 			while (value <= maxZoomed) {
 				let axisBreak: ValueAxisBreak = <ValueAxisBreak>this.isInBreak(value);
 
@@ -682,7 +689,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 					this.appendDataItem(dataItem);
 					dataItem.axisBreak = undefined;
 
-					if (dataItem.value != value) {
+					if (dataItem.value != value || precisionChanged) {
 						dataItem.value = value;
 						dataItem.text = this.formatLabel(value);
 
@@ -839,7 +846,12 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @return Formatted value
 	 */
 	public formatLabel(value: number): string {
-		return this.numberFormatter.format(value);
+		if (this.adjustLabelPrecision && value != 0) {
+			return this.numberFormatter.format(value, undefined, this._stepDecimalPlaces);
+		}
+		else {
+			return this.numberFormatter.format(value);
+		}
 	}
 
 	/**
@@ -1710,6 +1722,33 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			max = this._maxDefined;
 		}
 		return max;
+	}
+
+	/**
+	 * By default the axis will adjust precision of all numbers to match number
+	 * of decimals in all its labels, e.g.: `1.0`, `1.5`, `2.0`.
+	 *
+	 * To disable set `adjustLabelPrecision` to `false`, to use whatever other
+	 * precision or number format settings are set.
+	 *
+	 * IMPORTANT: This setting will be ignored if your number format uses
+	 * modifiers, e.g. `"#a"`.
+	 *
+	 * @default true
+	 * @since 4.9.14
+	 * @param  value  Adjust precision
+	 */
+	public set adjustLabelPrecision(value: boolean) {
+		if (this.setPropertyValue("adjustLabelPrecision", value)) {
+			this.invalidate();
+		}
+	}
+
+	/**
+	 * @return Adjust precision
+	 */
+	public get adjustLabelPrecision(): boolean {
+		return this.getPropertyValue("adjustLabelPrecision");
 	}
 
 	/**

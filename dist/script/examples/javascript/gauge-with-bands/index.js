@@ -101,7 +101,6 @@ axis.renderer.labels.template.fontSize = "0.9em";
 var axis2 = chart.xAxes.push(new am4charts.ValueAxis());
 axis2.min = chartMin;
 axis2.max = chartMax;
-axis2.renderer.innerRadius = 10;
 axis2.strictMinMax = true;
 axis2.renderer.labels.template.disabled = true;
 axis2.renderer.ticks.template.disabled = true;
@@ -128,7 +127,7 @@ for (let grading of data.gradingData) {
   range.label.inside = true;
   range.label.location = 0.5;
   range.label.inside = true;
-  range.label.radius = am4core.percent(5);
+  range.label.radius = am4core.percent(10);
   range.label.paddingBottom = -5; // ~half font size
   range.label.fontSize = "0.9em";
 }

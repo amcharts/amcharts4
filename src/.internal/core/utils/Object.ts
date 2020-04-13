@@ -159,6 +159,15 @@ export function merge<Object1, Object2>(object1: Object1, object2: Object2): Obj
 }
 
 /**
+ * Returns object clone.
+ *
+ * @param object  Source object
+ * @returns       Clone
+ */
+export function clone<Object>(object: Object): Object {
+	return JSON.parse(JSON.stringify(object));
+}
+/**
  * Copies a list of properties from one object to another.
  *
  * Will not copy empty properties.

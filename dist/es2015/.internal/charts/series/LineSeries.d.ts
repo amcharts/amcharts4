@@ -226,6 +226,7 @@ export declare class LineSeries extends XYSeries {
      * @param axisRange  Range
      */
     protected openSegmentWrapper(openIndex: number, axisRange?: AxisDataItem): void;
+    protected getSegment(): LineSeriesSegment;
     /**
      * [openSegment description]
      *
