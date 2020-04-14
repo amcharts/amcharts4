@@ -306,4 +306,15 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * @return Position (0-1)
      */
     pointToPosition(point: IPoint): number;
+    /**
+     * A chart, associated with the Axis.
+     *
+     * @ignore Exclude from docs
+     * @param value  Chart
+     */
+    /**
+    * @ignore Exclude from docs
+    * @return Chart
+    */
+    chart: RadarChart;
 }

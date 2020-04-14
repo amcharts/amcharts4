@@ -408,7 +408,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     Object.defineProperty(AxisRenderer.prototype, "chart", {
         /**
          * @ignore Exclude from docs
-         * @return this["_chartType"]
+         * @return Chart
          */
         get: function () {
             return this._chart.get();
@@ -417,7 +417,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          * A chart, associated with the Axis.
          *
          * @ignore Exclude from docs
-         * @param value  this["_chartType"]
+         * @param value  Chart
          */
         set: function (value) {
             this._chart.set(value, null);

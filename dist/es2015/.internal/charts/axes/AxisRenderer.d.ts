@@ -142,13 +142,9 @@ export declare class AxisRenderer extends Container {
      */
     breakContainer: Container;
     /**
-     * @ignore
-     */
-    _chartType: Chart;
-    /**
      * A related chart.
      */
-    protected _chart: MutableValueDisposer<this["_chartType"]>;
+    protected _chart: MutableValueDisposer<Chart>;
     /**
      * Defines type of the grid elements.
      */
@@ -371,13 +367,13 @@ export declare class AxisRenderer extends Container {
      * A chart, associated with the Axis.
      *
      * @ignore Exclude from docs
-     * @param value  this["_chartType"]
+     * @param value  Chart
      */
     /**
     * @ignore Exclude from docs
-    * @return this["_chartType"]
+    * @return Chart
     */
-    chart: this["_chartType"];
+    chart: Chart;
     /**
      * Toggles visibility of an element, based on its current position and
      * min/max position settings.

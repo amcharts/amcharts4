@@ -135,11 +135,6 @@ export class AxisRendererCircular extends AxisRenderer {
 	public axisRendererY: AxisRendererRadial;
 
 	/**
-	 * @ignore
-	 */
-	public _chartType: RadarChart;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param axis Related axis
@@ -270,7 +265,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * @return Inner radius
 	 */
 	public get innerRadius(): number | Percent {
-		let chart = this.chart;
+		let chart = <RadarChart>this.chart;
 		let innerRadius = this.getPropertyValue("innerRadius");
 		if (!$type.hasValue(innerRadius)) {
 			innerRadius = chart.innerRadius;

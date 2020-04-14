@@ -552,6 +552,26 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         var coordinate = ($math.getDistance(point) - this.pixelInnerRadius);
         return this.coordinateToPosition(coordinate);
     };
+    Object.defineProperty(AxisRendererRadial.prototype, "chart", {
+        /**
+         * @ignore Exclude from docs
+         * @return Chart
+         */
+        get: function () {
+            return this._chart.get();
+        },
+        /**
+         * A chart, associated with the Axis.
+         *
+         * @ignore Exclude from docs
+         * @param value  Chart
+         */
+        set: function (value) {
+            this._chart.set(value, null);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return AxisRendererRadial;
 }(AxisRendererY));
 export { AxisRendererRadial };

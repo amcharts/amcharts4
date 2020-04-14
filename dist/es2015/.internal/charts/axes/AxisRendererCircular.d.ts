@@ -9,7 +9,6 @@
  */
 import { AxisRenderer, IAxisRendererProperties, IAxisRendererAdapters, IAxisRendererEvents } from "./AxisRenderer";
 import { Axis } from "./Axis";
-import { RadarChart } from "../types/RadarChart";
 import { AxisFillCircular } from "./AxisFillCircular";
 import { AxisRendererRadial } from "./AxisRendererRadial";
 import { IPoint } from "../../core/defs/IPoint";
@@ -107,10 +106,6 @@ export declare class AxisRendererCircular extends AxisRenderer {
      * Y axis renderer
      */
     axisRendererY: AxisRendererRadial;
-    /**
-     * @ignore
-     */
-    _chartType: RadarChart;
     /**
      * Constructor.
      *

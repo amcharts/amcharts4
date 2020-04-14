@@ -175,16 +175,10 @@ export class AxisRenderer extends Container {
 	 */
 	public breakContainer: Container;
 
-
-	/**
-	 * @ignore
-	 */
-	public _chartType:Chart;
-
 	/**
 	 * A related chart.
 	 */
-	protected _chart = new MutableValueDisposer<this["_chartType"]>();
+	protected _chart = new MutableValueDisposer<Chart>();
 
 	/**
 	 * Defines type of the grid elements.
@@ -630,17 +624,17 @@ export class AxisRenderer extends Container {
 	 * A chart, associated with the Axis.
 	 *
 	 * @ignore Exclude from docs
-	 * @param value  this["_chartType"]
+	 * @param value  Chart
 	 */
-	public set chart(value: this["_chartType"]) {
+	public set chart(value: Chart) {
 		this._chart.set(value, null);
 	}
 
 	/**
 	 * @ignore Exclude from docs
-	 * @return this["_chartType"]
+	 * @return Chart
 	 */
-	public get chart(): this["_chartType"] {
+	public get chart(): Chart {
 		return this._chart.get();
 	}
 

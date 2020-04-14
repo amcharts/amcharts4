@@ -689,6 +689,25 @@ export class AxisRendererRadial extends AxisRendererY {
 		let coordinate = ($math.getDistance(point) - this.pixelInnerRadius);
 		return this.coordinateToPosition(coordinate);
 	}
+
+	/**
+	 * A chart, associated with the Axis.
+	 *
+	 * @ignore Exclude from docs
+	 * @param value  Chart
+	 */
+	public set chart(value: RadarChart) {
+		this._chart.set(value, null);
+	}
+
+	/**
+	 * @ignore Exclude from docs
+	 * @return Chart
+	 */
+	public get chart(): RadarChart {
+		return this._chart.get();
+	}	
+	
 }
 
 /**
