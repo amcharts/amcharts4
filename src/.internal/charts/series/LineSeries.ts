@@ -532,6 +532,8 @@ export class LineSeries extends XYSeries {
 			segment.parent = this.segmentsContainer;
 		}
 
+		this.group.node.removeAttribute("fill");
+
 		let connect: boolean = this.connect;
 		let valuesFound: boolean = false; // some flag to avoid multiple closes if no values found
 

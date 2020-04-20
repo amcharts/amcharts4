@@ -52,6 +52,7 @@ import * as $type from "../utils/Type";
 import * as $utils from "../utils/Utils";
 import * as $array from "../utils/Array";
 import * as $math from "../utils/Math";
+import * as $strings from "../utils/Strings";
 
 
 // This is used to cache the pdfmake loading
@@ -2796,6 +2797,7 @@ export class Export extends Validatable {
 			height = this.sprite.pixelHeight,
 			font = $dom.findFont(this.sprite.dom),
 			fontSize = $dom.findFontSize(this.sprite.dom);
+
 		// Get SVG
 		let svg = this.normalizeSVG(
 			this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom),
@@ -2859,6 +2861,17 @@ export class Export extends Validatable {
 		if (fontSize) {
 			styleParams += "font-size: " + fontSize + ";";
 		}
+
+		// Remove foreign objects temporarily
+		let fos: string[] = [];
+		let ms = svg.match(/<foreignObject[\s\S]*<\/foreignObject>/gi);
+		if (ms) {
+			for(let i = 0; i < ms.length; i++) {
+				svg = svg.replace(ms[i], $strings.PLACEHOLDER);
+				fos.push(ms[i]);
+			}
+		}
+
 		// Add missing <svg> enclosure
 		if (!svg.match(/<svg/)) {
 			svg = "<?xml version=\"1.0\" encoding=\"utf-8\"?><svg " + dimParams + " style=\"" + styleParams + "\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">" + svg + "</svg>";
@@ -2898,6 +2911,13 @@ export class Export extends Validatable {
 		// Remove base uri-related stuff
 		let reg = new RegExp("url\\(" + $utils.escapeForRgex($utils.getBaseURI()), "g");
 		svg = svg.replace(reg, "url(#");
+
+		// Put foreignObjects back in
+		if (fos.length) {
+			for(let i = 0; i < fos.length; i++) {
+				svg = svg.replace($strings.PLACEHOLDER, fos[i]);
+			}
+		}
 
 		svg = this.adapter.apply("normalizeSVG", {
 			data: svg,

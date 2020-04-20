@@ -27,6 +27,14 @@ export interface ICategoryAxisBreakProperties extends IAxisBreakProperties {
      * Category break ends on.
      */
     endCategory?: string;
+    /**
+     * Location where break starts within cell (0-1).
+     */
+    startLocation?: number;
+    /**
+     * Location where break ends within cell (0-1).
+     */
+    endLocation?: number;
 }
 /**
  * Defines events for [[CategoryAxisBreak]].
@@ -122,4 +130,36 @@ export declare class CategoryAxisBreak extends AxisBreak {
     * @return Value
     */
     endValue: number;
+    /**
+     * Indicates where within starting category break should begin.
+     *
+     * Values range from `0` (start) to `1` (end), with default being `0.5` (middle).
+     *
+     * E.g. if you want to a break to fully encompass start and end categories,
+     * you should set `startLocation = 0` and `endLocation = 1`.
+     *
+     * @since 4.9.17
+     * @default 0.5
+     * @param  value  Break start location
+     */
+    /**
+    * @return Break start location
+    */
+    startLocation: number;
+    /**
+     * Indicates where within ending category break should end.
+     *
+     * Values range from `0` (start) to `1` (end), with default being `0.5` (middle).
+     *
+     * E.g. if you want to a break to fully encompass start and end categories,
+     * you should set `startLocation = 0` and `endLocation = 1`.
+     *
+     * @since 4.9.17
+     * @default 0.5
+     * @param  value  Break end location
+     */
+    /**
+    * @return Break end location
+    */
+    endLocation: number;
 }

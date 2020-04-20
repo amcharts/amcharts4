@@ -537,8 +537,19 @@ export class Legend extends Component {
 
 		// Set up global keyboard events for toggling elements
 		this._disposers.push(getInteraction().body.events.on("keyup", (ev) => {
-			if (keyboard.isKey(ev.event, "enter") && this.focusedItem && this.focusedItem.itemContainer.clickable) {
-				this.toggleDataItem(this.focusedItem);
+			if (keyboard.isKey(ev.event, "enter") && this.focusedItem) {
+				const focusedItem = this.focusedItem;
+				const target = focusedItem.itemContainer;
+				if (target.togglable) {
+					this.toggleDataItem(focusedItem);
+				}
+				else if (target.clickable && target.events.isEnabled("hit")) {
+					target.dispatchImmediately("hit", { event: ev });
+
+					// We need this here because "hit" event resets `this.focusedItem`
+					// And we need it here
+					this.focusedItem = focusedItem;
+				}
 			}
 		}, this));
 

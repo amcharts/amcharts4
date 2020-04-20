@@ -45,6 +45,10 @@ export interface FilterProperties {
      * @default 120
      */
     height: number;
+    /**
+     * https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/filterUnits
+     */
+    filterUnits: "userSpaceOnUse" | "objectBoundingBox";
 }
 /**
  * ============================================================================
@@ -211,6 +215,19 @@ export declare class Filter extends BaseObject implements IAnimatable {
      * @ignore Exclude from docs
      */
     protected updateScale(): void;
+    /**
+     * Which units are used when drawing filter.
+     *
+     * Use `"userSpaceOnUse"` when applying filters on a perfectly straight line.
+     *
+     * @since 4.9.17
+     * @default objectBoundingBox
+     * @param value Filter units
+     */
+    /**
+    * @return Filter units
+    */
+    filterUnits: "objectBoundingBox" | "userSpaceOnUse";
     /**
      * If a filter is non scaling, it will look the same even if the sprite is
      * scaled, otherwise filter will scale together with a [[Sprite]].

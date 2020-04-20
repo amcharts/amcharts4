@@ -55,7 +55,7 @@ export class CategoryAxisDataItem extends AxisDataItem {
 	/**
 	 * Defines available adapters.
 	 */
-	public _adapter!: ICategoryAxisDataItemAdapters;		
+	public _adapter!: ICategoryAxisDataItemAdapters;
 
 	/**
 	 * Constructor
@@ -81,8 +81,8 @@ export class CategoryAxisDataItem extends AxisDataItem {
 	public set category(value: string) {
 		let oldCategory = this.properties.category;
 		this.setProperty("category", value);
-		if($type.hasValue(oldCategory) && oldCategory != value){
-			if(this.component){
+		if ($type.hasValue(oldCategory) && oldCategory != value) {
+			if (this.component) {
 				this.component.validateDataElement(this);
 			}
 		}
@@ -504,14 +504,22 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 
 				if ($math.intersect({ start: adjustedStartValue, end: adjustedEndValue }, { start: this._startIndex, end: this._endIndex })) {
 
+					for (let b = adjustedStartValue; b <= adjustedEndValue; b++) {
+						let dataItem = this.dataItems.getIndex(b);
+						dataItem.__disabled = true;
+					}
+
 					let frequency: number = $math.fitToRange(Math.ceil(this._frequency / axisBreak.breakSize), 1, adjustedEndValue - adjustedStartValue);
 					let itemIndex = 0;
-					// TODO use iterator instead
-					for (let b = adjustedStartValue; b <= adjustedEndValue; b = b + frequency) {
-						let dataItem: this["_dataItem"] = this.dataItems.getIndex(b);
-						this.appendDataItem(dataItem);
-						this.validateDataElement(dataItem, itemIndex);
-						itemIndex++;
+					if (axisBreak.breakSize > 0) {
+						// TODO use iterator instead
+						for (let b = adjustedStartValue; b <= adjustedEndValue; b = b + frequency) {
+							let dataItem: this["_dataItem"] = this.dataItems.getIndex(b);
+							dataItem.__disabled = false;
+							this.appendDataItem(dataItem);
+							this.validateDataElement(dataItem, itemIndex);
+							itemIndex++;
+						}
 					}
 				}
 			});

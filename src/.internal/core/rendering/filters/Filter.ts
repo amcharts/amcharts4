@@ -53,6 +53,11 @@ export interface FilterProperties {
 	 */
 	height: number;
 
+  /**
+   * https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/filterUnits
+   */
+	filterUnits: "userSpaceOnUse" | "objectBoundingBox";
+
 };
 
 
@@ -157,6 +162,7 @@ export class Filter extends BaseObject implements IAnimatable {
 
 		// Create a list to hold primitives (effect elements)
 		this.filterPrimitives = new List<any>();
+		this.properties.filterUnits = "objectBoundingBox";
 
 		// Automatically add added primitives to `_disposers` so they are discarded
 		// when Filter object is destroyed (disposed)
@@ -314,6 +320,26 @@ export class Filter extends BaseObject implements IAnimatable {
 	 */
 	protected updateScale() {
 		// Dummy method for extending classes to override.
+	}
+
+	/**
+	 * Which units are used when drawing filter.
+	 *
+	 * Use `"userSpaceOnUse"` when applying filters on a perfectly straight line.
+	 *
+	 * @since 4.9.17
+	 * @default objectBoundingBox
+	 * @param value Filter units
+	 */
+	public set filterUnits(value: "objectBoundingBox" | "userSpaceOnUse") {
+		this.properties.filterUnits = value;
+	}
+
+	/**
+	 * @return Filter units
+	 */
+	public get filterUnits(): "objectBoundingBox" | "userSpaceOnUse" {
+		return this.properties.filterUnits;
 	}
 
 	/**

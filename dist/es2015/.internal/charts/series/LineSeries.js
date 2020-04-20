@@ -344,6 +344,7 @@ var LineSeries = /** @class */ (function (_super) {
             segment.filters.clear();
             segment.parent = this.segmentsContainer;
         }
+        this.group.node.removeAttribute("fill");
         var connect = this.connect;
         var valuesFound = false; // some flag to avoid multiple closes if no values found
         for (var i = openIndex; i < endIndex; i++) {

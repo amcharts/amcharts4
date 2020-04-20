@@ -326,8 +326,18 @@ var Legend = /** @class */ (function (_super) {
         _this._disposers.push(_this.itemContainers.template);
         // Set up global keyboard events for toggling elements
         _this._disposers.push(getInteraction().body.events.on("keyup", function (ev) {
-            if (keyboard.isKey(ev.event, "enter") && _this.focusedItem && _this.focusedItem.itemContainer.clickable) {
-                _this.toggleDataItem(_this.focusedItem);
+            if (keyboard.isKey(ev.event, "enter") && _this.focusedItem) {
+                var focusedItem = _this.focusedItem;
+                var target = focusedItem.itemContainer;
+                if (target.togglable) {
+                    _this.toggleDataItem(focusedItem);
+                }
+                else if (target.clickable && target.events.isEnabled("hit")) {
+                    target.dispatchImmediately("hit", { event: ev });
+                    // We need this here because "hit" event resets `this.focusedItem`
+                    // And we need it here
+                    _this.focusedItem = focusedItem;
+                }
             }
         }, _this));
         var interfaceColors = new InterfaceColorSet();

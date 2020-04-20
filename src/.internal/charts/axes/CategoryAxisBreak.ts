@@ -36,6 +36,15 @@ export interface ICategoryAxisBreakProperties extends IAxisBreakProperties {
 	 */
 	endCategory?: string;
 
+	/**
+	 * Location where break starts within cell (0-1).
+	 */
+	startLocation?: number;
+
+	/**
+	 * Location where break ends within cell (0-1).
+	 */
+	endLocation?: number;
 }
 
 /**
@@ -91,6 +100,8 @@ export class CategoryAxisBreak extends AxisBreak {
 	constructor() {
 		super();
 		this.className = "CategoryAxisBreak";
+		this.properties.startLocation = 0.5;
+		this.properties.endLocation = 0.5;
 		this.applyTheme();
 	}
 
@@ -102,7 +113,7 @@ export class CategoryAxisBreak extends AxisBreak {
 	 */
 	public get startPosition(): number {
 		if (this.axis) {
-			return this.axis.indexToPosition(this.adjustedStartValue);
+			return this.axis.indexToPosition(this.adjustedStartValue, this.startLocation);
 		}
 	}
 
@@ -114,7 +125,7 @@ export class CategoryAxisBreak extends AxisBreak {
 	 */
 	public get endPosition(): number {
 		if (this.axis) {
-			return this.axis.indexToPosition(this.adjustedEndValue);
+			return this.axis.indexToPosition(this.adjustedEndValue, this.endLocation);
 		}
 	}
 
@@ -213,7 +224,62 @@ export class CategoryAxisBreak extends AxisBreak {
 		else {
 			return this.getPropertyValue("endValue");
 		}
+	}
 
+	/**
+	 * Indicates where within starting category break should begin.
+	 *
+	 * Values range from `0` (start) to `1` (end), with default being `0.5` (middle).
+	 *
+	 * E.g. if you want to a break to fully encompass start and end categories,
+	 * you should set `startLocation = 0` and `endLocation = 1`.
+	 *
+	 * @since 4.9.17
+	 * @default 0.5
+	 * @param  value  Break start location
+	 */
+	public set startLocation(value: number) {
+		if (this.setPropertyValue("startLocation", value)) {
+			if (this.axis) {
+				this.axis.invalidateDataItems();
+				this.axis.invalidateSeries();
+			}
+		}
+	}
+
+	/**
+	 * @return Break start location
+	 */
+	public get startLocation(): number {
+		return this.getPropertyValue("startLocation");
+	}
+
+	/**
+	 * Indicates where within ending category break should end.
+	 *
+	 * Values range from `0` (start) to `1` (end), with default being `0.5` (middle).
+	 *
+	 * E.g. if you want to a break to fully encompass start and end categories,
+	 * you should set `startLocation = 0` and `endLocation = 1`.
+	 *
+	 * @since 4.9.17
+	 * @default 0.5
+	 * @param  value  Break end location
+	 */
+	public set endLocation(value: number) {
+		if (this.setPropertyValue("endLocation", value)) {
+			if (this.axis) {
+				this.axis.invalidateDataItems();
+				this.axis.invalidateSeries();
+			}
+		}
+	}
+
+	/**
+	 * @return Break end location
+	 */
+	public get endLocation(): number {
+		return this.getPropertyValue("endLocation");
 	}
 
 }

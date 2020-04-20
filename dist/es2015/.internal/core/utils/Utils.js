@@ -610,8 +610,10 @@ export function anyToNumber(value) {
  */
 export function getYearDay(date, utc) {
     if (utc === void 0) { utc = false; }
-    var first = new Date(date.getFullYear(), 0, 1, 0, 0, 0, 0);
-    return Math.floor((date.getTime() - first.getTime()) / 86400000) + 1;
+    var start = new Date(date.getFullYear(), 0, 0);
+    var diff = (date.getTime() - start.getTime()) + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
+    var oneDay = 1000 * 60 * 60 * 24;
+    return Math.floor(diff / oneDay);
 }
 /**
  * Returns week number for a given date.

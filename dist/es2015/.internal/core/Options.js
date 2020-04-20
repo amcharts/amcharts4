@@ -11,6 +11,7 @@ export var options = {
     queue: false,
     licenses: [],
     suppressErrors: false,
-    animationsEnabled: true
+    animationsEnabled: true,
+    nonce: ""
 };
 //# sourceMappingURL=Options.js.map

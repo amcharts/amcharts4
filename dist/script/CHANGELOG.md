@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.17] - 2020-04-20
+
+### Added
+- Global option `am4core.options.nonce` added. If set, amCharts will use this as a nonce-parameter for all dynamically created stylesheets, so it can be addressed in `Content-Security-Policy` headers.
+- New `Popup` property: `dynamicResize`. If set to `true` (default) and contents contains unloaded images it will resize itself when those finish loading.
+- `gradientUnits` added to `LinearGradient`. If you're setting gradient on a perfectly straight line, set it to `userSpaceOnUse`.
+- `filterUnits` added to `Filter`. If you're setting gradient on a perfectly straight line, set it to `userSpaceOnUse`.
+- `startLocation` and `endLocation` added to `CategoryAxisBreak`. Can use to indicate where exactly within category break should start and end.
+
+### Changed
+- `Popup` now will size itself to accommodate images inside it as they are being loaded. To disable, set `Popup`'s `dynamicResize = false`. Also make sure you enable `maxWidth`/`maxHeight` in your CSS to avoid unreasonably large popups for unsized images.
+
+### Fixed
+- Week number in date format (`"ww"`) was not accounting for daylight saving.
+- Pressing ENTER on a focused Legend item will no longer toggle related series if legend's item containers are sett to be not togglable.
+- Exporting to SVG no longer breaks if chart contains `foreignObject` elements with SVG's in them.
+- Line smoothing (`tensionX` / `tensionY`) now drops out duplicate points to avoid weird loops on overlapping data items.
+- Chart was zooming incorrectly, when data was added directly to stacked series and one of the series was hidden.
+- Some performance issues with `XYCursor` and a lot of series fixed.
+- `LinearGradient` fill was not working on `LineSeries` under EDGE.
+
+
 ## [4.9.16] - 2020-04-14
 
 ### Fixed

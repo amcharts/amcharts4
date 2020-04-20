@@ -1546,6 +1546,7 @@ var Sprite = /** @class */ (function (_super) {
             $iter.each(this.filters.iterator(), function (filter) {
                 filter.sprite = _this;
                 filter.paper = _this.paper;
+                _this.filterElement.attr({ filterUnits: filter.filterUnits });
                 filter.appendPrimitives(_this.filterElement);
                 if (filter.width > width_1) {
                     width_1 = filter.width;

@@ -48,6 +48,10 @@ export interface IPopupAdapters {
      */
     closable: boolean;
     /**
+     * Applied to `dynamicResize` property before it is retrieved.
+     */
+    dynamicResize: boolean;
+    /**
      * Applied to `fitTo` property before it's retrieved.
      *
      * @ignore Feature not yet implemented
@@ -183,6 +187,10 @@ export declare class Popup extends BaseObjectEvents {
      */
     protected _align: Optional<Align>;
     /**
+     * Resize popup as images are being loaded.
+     */
+    protected _dynamicResize: boolean;
+    /**
      * Vertical position of the content window.
      */
     protected _verticalAlign: Optional<VerticalAlign>;
@@ -246,7 +254,7 @@ export declare class Popup extends BaseObjectEvents {
     isTemplate: boolean;
     /**
      * Indicates if the element was already sized and should not be measured for
-     * sized again, saving some precious resources.
+     * size again, saving some precious resources.
      */
     private _sized;
     /**
@@ -405,6 +413,17 @@ export declare class Popup extends BaseObjectEvents {
     * @return Show curtain?
     */
     draggable: boolean;
+    /**
+     * Resize popup as images are being loaded.
+     *
+     * @default true
+     * @since 4.9.17
+     * @param Resize dynamically?
+     */
+    /**
+    * @return Resize dynamically?
+    */
+    dynamicResize: boolean;
     /**
      * Horizontal positioning of the content window.
      *

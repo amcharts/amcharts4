@@ -170,6 +170,22 @@ var LinearGradient = /** @class */ (function (_super) {
         this.stops.copyFrom(source.stops);
         this._rotation = source.rotation;
     };
+    Object.defineProperty(LinearGradient.prototype, "gradientUnits", {
+        /**
+         * Which units are used when drawing gradient filter.
+         *
+         * Use `"userSpaceOnUse"` when applying gradient on a perfectly straight line.
+         *
+         * @since 4.9.17
+         * @default objectBoundingBox
+         * @param value Filter units
+         */
+        set: function (value) {
+            this.element.attr({ gradientUnits: value });
+        },
+        enumerable: true,
+        configurable: true
+    });
     return LinearGradient;
 }(BaseObject));
 export { LinearGradient };

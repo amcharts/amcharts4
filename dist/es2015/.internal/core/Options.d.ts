@@ -125,6 +125,14 @@ export interface Options {
      * @default false
      */
     animationsEnabled: boolean;
+    /**
+     * If set, amCharts will use this as a nonce-parameter for all dynamically
+     * created stylesheets, so it can be addressed in `Content-Security-Policy`
+     * headers.
+     *
+     * @since 4.9.17
+     */
+    nonce: string;
 }
 /**
  * Global options.

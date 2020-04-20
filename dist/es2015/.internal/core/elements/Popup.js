@@ -72,6 +72,10 @@ var Popup = /** @class */ (function (_super) {
          */
         _this._align = "center";
         /**
+         * Resize popup as images are being loaded.
+         */
+        _this._dynamicResize = true;
+        /**
          * Vertical position of the content window.
          */
         _this._verticalAlign = "middle";
@@ -120,7 +124,7 @@ var Popup = /** @class */ (function (_super) {
         _this.isTemplate = false;
         /**
          * Indicates if the element was already sized and should not be measured for
-         * sized again, saving some precious resources.
+         * size again, saving some precious resources.
          */
         _this._sized = false;
         _this.className = "Popup";
@@ -186,13 +190,28 @@ var Popup = /** @class */ (function (_super) {
                 _this._elements.wrapper.style.left = "0";
                 _this._elements.wrapper.style.top = "0";
                 _this._elements.wrapper.style.margin = "0 0 0 0";
-                // Size the element, but only for the first time
-                if (!_this._elements.wrapper.style.width) {
-                    var bbox = _this._elements.wrapper.getBoundingClientRect();
-                    _this._elements.wrapper.style.width = bbox.width + "px";
-                    _this._elements.wrapper.style.height = bbox.height + "px";
-                }
+                _this._elements.wrapper.style.width = "";
+                _this._elements.wrapper.style.height = "";
+                var bbox = _this._elements.wrapper.getBoundingClientRect();
+                _this._elements.wrapper.style.width = bbox.width + "px";
+                _this._elements.wrapper.style.height = bbox.height + "px";
                 _this._sized = true;
+            }
+            // Check for any images that are not yet loaded
+            if (_this.dynamicResize) {
+                var images = _this._elements.wrapper.getElementsByTagName("img");
+                for (var i = 0; i < images.length; i++) {
+                    var image = images[i];
+                    if (!image.complete) {
+                        // Resize popup once again when image is loaded
+                        image.addEventListener("load", function () {
+                            _this.positionElement(true);
+                        });
+                        // Do this for one image only as it will be checked again next time
+                        // anyway
+                        break;
+                    }
+                }
             }
             setTimeout(function () {
                 if (!_this._elements.wrapper) {
@@ -629,6 +648,29 @@ var Popup = /** @class */ (function (_super) {
             if (this._draggable != value) {
                 this._draggable = value;
                 this.setupDragging();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Popup.prototype, "dynamicResize", {
+        /**
+         * @return Resize dynamically?
+         */
+        get: function () {
+            return this.adapter.apply("dynamicResize", this._dynamicResize);
+        },
+        /**
+         * Resize popup as images are being loaded.
+         *
+         * @default true
+         * @since 4.9.17
+         * @param Resize dynamically?
+         */
+        set: function (value) {
+            if (this._dynamicResize != value) {
+                this._dynamicResize = value;
+                this.positionElement(true);
             }
         },
         enumerable: true,

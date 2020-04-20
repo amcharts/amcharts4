@@ -115,4 +115,14 @@ export declare class LinearGradient extends BaseObject {
     */
     rotation: number;
     copyFrom(source: this): void;
+    /**
+     * Which units are used when drawing gradient filter.
+     *
+     * Use `"userSpaceOnUse"` when applying gradient on a perfectly straight line.
+     *
+     * @since 4.9.17
+     * @default objectBoundingBox
+     * @param value Filter units
+     */
+    gradientUnits: "objectBoundingBox" | "userSpaceOnUse";
 }

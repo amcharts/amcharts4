@@ -1817,12 +1817,12 @@ export class XYSeries extends Series {
 				if (yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
 					let tmin = this._tmin.getKey(yAxisId);
 
-					if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minY < tmin) || this.stackedSeries) {
+					if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minY < tmin) || (this.stackedSeries && !this.isHidden)) {
 						this._tmin.setKey(yAxisId, minY);
 						changed = true;
 					}
 					let tmax = this._tmax.getKey(yAxisId);
-					if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxY > tmax) || this.stackedSeries) {
+					if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxY > tmax) || (this.stackedSeries && !this.isHidden)) {
 						this._tmax.setKey(yAxisId, maxY);
 						changed = true;
 					}
@@ -1830,18 +1830,18 @@ export class XYSeries extends Series {
 
 				if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis)) {
 					let tmin = this._tmin.getKey(xAxisId);
-					if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minX < tmin) || this.stackedSeries) {
+					if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minX < tmin) || (this.stackedSeries && !this.isHidden)) {
 						this._tmin.setKey(xAxisId, minX);
 						changed = true;
 					}
 					let tmax = this._tmax.getKey(xAxisId);
-					if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxX > tmax) || this.stackedSeries) {
+					if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxX > tmax) || (this.stackedSeries && !this.isHidden)) {
 						this._tmax.setKey(xAxisId, maxX);
 						changed = true;
 					}
 				}
 
-				if (changed) {
+				if (changed) {						
 					this.dispatchImmediately("extremeschanged");
 				}
 

@@ -201,6 +201,8 @@ import * as iter from "./.internal/core/utils/Iterator";
 export { iter };
 import * as type from "./.internal/core/utils/Type";
 export { type };
+import * as net from "./.internal/core/utils/Net";
+export { net };
 export { ITheme } from "./.internal/themes/ITheme";
 export { create, createFromConfig, disposeAllCharts } from "./.internal/core/utils/Instance";
 export { useTheme, unuseTheme, unuseAllThemes, addLicense } from "./.internal/core/utils/Instance";

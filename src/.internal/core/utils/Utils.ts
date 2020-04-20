@@ -716,8 +716,10 @@ export function anyToNumber(value: Date | number | string): $type.Optional<numbe
  * @todo Account for UTC
  */
 export function getYearDay(date: Date, utc: boolean = false): number {
-	let first = new Date(date.getFullYear(), 0, 1, 0, 0, 0, 0);
-	return Math.floor((date.getTime() - first.getTime()) / 86400000) + 1;
+	const start = new Date(date.getFullYear(), 0, 0);
+	const diff = (date.getTime() - start.getTime()) + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
+	const oneDay = 1000 * 60 * 60 * 24;
+	return Math.floor(diff / oneDay);
 }
 
 /**
@@ -729,7 +731,7 @@ export function getYearDay(date: Date, utc: boolean = false): number {
  * @todo Account for UTC
  */
 export function getWeek(date: Date, utc: boolean = false): number {
-	let day = getYearDay(date, utc) - 1;
+	const day = getYearDay(date, utc) - 1;
 	let week = Math.floor((day - (date.getDay() || 7) + 10) / 7);
 	if (week === 0) {
 		week = 53;
@@ -748,7 +750,7 @@ export function getWeek(date: Date, utc: boolean = false): number {
  * @return Week number in month
  */
 export function getMonthWeek(date: Date, utc: boolean = false): number {
-	let firstWeek = getWeek(new Date(date.getFullYear(), date.getMonth(), 1), utc);
+	const firstWeek = getWeek(new Date(date.getFullYear(), date.getMonth(), 1), utc);
 	let currentWeek = getWeek(date, utc);
 	if (currentWeek == 1) {
 		currentWeek = 53;

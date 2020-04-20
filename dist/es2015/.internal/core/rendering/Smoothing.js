@@ -33,6 +33,13 @@ var Tension = /** @class */ (function () {
      * @return [description]
      */
     Tension.prototype.smooth = function (points) {
+        for (var i = points.length - 1; i > 0; i--) {
+            var p0 = points[i];
+            var p1 = points[i - 1];
+            if (Math.abs(p0.x - p1.x) < 0.1 && Math.abs(p0.y - p1.y) < 0.1) {
+                points.splice(i, 1);
+            }
+        }
         var tensionX = this._tensionX;
         var tensionY = this._tensionY;
         if (points.length < 3 || (tensionX >= 1 && tensionY >= 1)) {

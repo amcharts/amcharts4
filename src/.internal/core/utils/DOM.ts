@@ -10,6 +10,7 @@
  */
 import { Disposer, IDisposer } from "./Disposer";
 import { readFrame, writeFrame } from "./AsyncPending";
+import { options } from "../Options";
 import * as $object from "./Object";
 import * as $array from "./Array";
 import * as $type from "./Type";
@@ -411,6 +412,9 @@ function getStylesheet(element: ShadowRoot | null): CSSStyleSheet {
 			// TODO use createElementNS ?
 			const e = document.createElement("style");
 			e.type = "text/css";
+			if (options.nonce != "") {
+				e.nonce = options.nonce;
+			}
 			document.head.appendChild(e);
 			rootStylesheet = e.sheet as CSSStyleSheet;
 		}
@@ -421,6 +425,9 @@ function getStylesheet(element: ShadowRoot | null): CSSStyleSheet {
 		// TODO use createElementNS ?
 		const e = document.createElement("style");
 		e.type = "text/css";
+		if (options.nonce != "") {
+			e.nonce = options.nonce;
+		}
 		element.appendChild(e);
 		return e.sheet as CSSStyleSheet;
 	}

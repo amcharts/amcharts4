@@ -1013,117 +1013,119 @@ var XYChart = /** @class */ (function (_super) {
      * @ignore
      */
     XYChart.prototype.sortSeriesTooltips = function (seriesPoints) {
-        var cursor = this.cursor;
-        if (cursor && $type.isNumber(cursor.maxTooltipDistance)) {
-            var cursorPoint_1 = $utils.spritePointToSvg({ x: cursor.point.x, y: cursor.point.y }, cursor);
-            var nearestSeries_1;
-            var nearestPoint_1;
-            var smallestDistance_1 = Infinity;
-            $array.each(seriesPoints, function (seriesPoint) {
-                var series = seriesPoint.series;
-                var fixedPoint = seriesPoint.point;
-                if (fixedPoint) {
-                    var point = { x: fixedPoint.x, y: fixedPoint.y };
-                    var distance = Math.abs($math.getDistance(point, cursorPoint_1));
-                    if (distance < smallestDistance_1) {
-                        nearestPoint_1 = point;
-                        smallestDistance_1 = distance;
-                        nearestSeries_1 = series;
-                    }
-                }
-            });
-            var newSeriesPoints_1 = [];
-            if (nearestSeries_1) {
+        if (seriesPoints.length > 0) {
+            var cursor_1 = this.cursor;
+            if (cursor_1 && $type.isNumber(cursor_1.maxTooltipDistance)) {
+                var cursorPoint_1 = $utils.spritePointToSvg({ x: cursor_1.point.x, y: cursor_1.point.y }, cursor_1);
+                var nearestSeries_1;
+                var nearestPoint_1;
+                var smallestDistance_1 = Infinity;
                 $array.each(seriesPoints, function (seriesPoint) {
-                    if (Math.abs($math.getDistance(seriesPoint.point, nearestPoint_1)) <= Math.abs(cursor.maxTooltipDistance)) {
-                        newSeriesPoints_1.push({ series: seriesPoint.series, point: seriesPoint.point });
-                    }
-                    else {
-                        var tooltipDataItem = seriesPoint.series.tooltipDataItem;
-                        if (tooltipDataItem) {
-                            $array.each(tooltipDataItem.sprites, function (sprite) {
-                                sprite.isHover = false;
-                                sprite.handleOutReal(); // to avoid flicker
-                            });
+                    var series = seriesPoint.series;
+                    var fixedPoint = seriesPoint.point;
+                    if (fixedPoint) {
+                        var point = { x: fixedPoint.x, y: fixedPoint.y };
+                        var distance = Math.abs($math.getDistance(point, cursorPoint_1));
+                        if (distance < smallestDistance_1) {
+                            nearestPoint_1 = point;
+                            smallestDistance_1 = distance;
+                            nearestSeries_1 = series;
                         }
-                        seriesPoint.series.tooltip.hide(0);
                     }
                 });
-                if (cursor.maxTooltipDistance < 0) {
-                    if (newSeriesPoints_1.length > 0) {
-                        $array.each(newSeriesPoints_1, function (np) {
-                            if (nearestSeries_1 != np.series) {
-                                np.series.tooltip.hide(0);
+                var newSeriesPoints_1 = [];
+                if (nearestSeries_1) {
+                    $array.each(seriesPoints, function (seriesPoint) {
+                        if (Math.abs($math.getDistance(seriesPoint.point, nearestPoint_1)) <= Math.abs(cursor_1.maxTooltipDistance)) {
+                            newSeriesPoints_1.push({ series: seriesPoint.series, point: seriesPoint.point });
+                        }
+                        else {
+                            var tooltipDataItem = seriesPoint.series.tooltipDataItem;
+                            if (tooltipDataItem) {
+                                $array.each(tooltipDataItem.sprites, function (sprite) {
+                                    sprite.isHover = false;
+                                    sprite.handleOutReal(); // to avoid flicker
+                                });
                             }
-                        });
-                    }
-                    newSeriesPoints_1 = [{ series: nearestSeries_1, point: nearestPoint_1 }];
-                }
-            }
-            seriesPoints = newSeriesPoints_1;
-        }
-        var topLeft = $utils.spritePointToSvg({ x: -0.5, y: -0.5 }, this.plotContainer);
-        var bottomRight = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth + 0.5, y: this.plotContainer.pixelHeight + 0.5 }, this.plotContainer);
-        var sum = 0;
-        var filteredSeriesPoints = [];
-        $array.each(seriesPoints, function (seriesPoint) {
-            var point = seriesPoint.point;
-            if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
-                filteredSeriesPoints.push({ point: point, series: seriesPoint.series });
-                sum += point.y;
-            }
-        });
-        seriesPoints = filteredSeriesPoints;
-        var firstSeries = this.series.getIndex(0);
-        var inversed = false;
-        if (firstSeries && firstSeries.yAxis && firstSeries.yAxis.renderer.inversed) {
-            inversed = true;
-        }
-        if (inversed) {
-            seriesPoints.sort(function (a, b) { return $number.order(a.point.y, b.point.y); });
-        }
-        else {
-            seriesPoints.sort(function (a, b) { return $number.order(b.point.y, a.point.y); });
-            seriesPoints.reverse();
-        }
-        var averageY = sum / seriesPoints.length;
-        var maxY = $utils.svgPointToDocument({ x: 0, y: 0 }, this.svgContainer.SVGContainer).y;
-        if (seriesPoints.length > 0) {
-            var top_1 = topLeft.y;
-            var bottom = bottomRight.y;
-            // TODO is this needed ?
-            $utils.spritePointToDocument({ x: 0, y: top_1 }, this);
-            var dropped = false;
-            if (averageY > top_1 + (bottom - top_1) / 2) {
-                var nextHeight = bottom;
-                for (var i = seriesPoints.length - 1; i >= 0; i--) {
-                    var series = seriesPoints[i].series;
-                    var tooltip = series.tooltip;
-                    var pointY = seriesPoints[i].point.y;
-                    tooltip.setBounds({ x: 0, y: -maxY, width: this.pixelWidth, height: nextHeight + maxY });
-                    if (tooltip.invalid) {
-                        tooltip.validate();
-                    }
-                    tooltip.toBack();
-                    nextHeight = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY - tooltip.pixelY + pointY - tooltip.pixelMarginTop }, tooltip).y;
-                    if (nextHeight < -maxY) {
-                        dropped = true;
-                        break;
+                            seriesPoint.series.tooltip.hide(0);
+                        }
+                    });
+                    if (cursor_1.maxTooltipDistance < 0) {
+                        if (newSeriesPoints_1.length > 0) {
+                            $array.each(newSeriesPoints_1, function (np) {
+                                if (nearestSeries_1 != np.series) {
+                                    np.series.tooltip.hide(0);
+                                }
+                            });
+                        }
+                        newSeriesPoints_1 = [{ series: nearestSeries_1, point: nearestPoint_1 }];
                     }
                 }
+                seriesPoints = newSeriesPoints_1;
             }
-            if (averageY <= top_1 + (bottom - top_1) / 2 || dropped) {
-                var nextY = top_1;
-                for (var i = 0, len = seriesPoints.length; i < len; i++) {
-                    var series = seriesPoints[i].series;
-                    var pointY = seriesPoints[i].point.y;
-                    var tooltip = series.tooltip;
-                    tooltip.setBounds({ x: 0, y: nextY, width: this.pixelWidth, height: bottom });
-                    if (tooltip.invalid) {
-                        tooltip.validate();
+            var topLeft_1 = $utils.spritePointToSvg({ x: -0.5, y: -0.5 }, this.plotContainer);
+            var bottomRight_1 = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth + 0.5, y: this.plotContainer.pixelHeight + 0.5 }, this.plotContainer);
+            var sum_1 = 0;
+            var filteredSeriesPoints_1 = [];
+            $array.each(seriesPoints, function (seriesPoint) {
+                var point = seriesPoint.point;
+                if (point && $math.isInRectangle(point, { x: topLeft_1.x, y: topLeft_1.y, width: bottomRight_1.x - topLeft_1.x, height: bottomRight_1.y - topLeft_1.y })) {
+                    filteredSeriesPoints_1.push({ point: point, series: seriesPoint.series });
+                    sum_1 += point.y;
+                }
+            });
+            seriesPoints = filteredSeriesPoints_1;
+            var firstSeries = this.series.getIndex(0);
+            var inversed = false;
+            if (firstSeries && firstSeries.yAxis && firstSeries.yAxis.renderer.inversed) {
+                inversed = true;
+            }
+            if (inversed) {
+                seriesPoints.sort(function (a, b) { return $number.order(a.point.y, b.point.y); });
+            }
+            else {
+                seriesPoints.sort(function (a, b) { return $number.order(b.point.y, a.point.y); });
+                seriesPoints.reverse();
+            }
+            var averageY = sum_1 / seriesPoints.length;
+            var maxY = $utils.svgPointToDocument({ x: 0, y: 0 }, this.svgContainer.SVGContainer).y;
+            if (seriesPoints.length > 0) {
+                var top_1 = topLeft_1.y;
+                var bottom = bottomRight_1.y;
+                // TODO is this needed ?
+                $utils.spritePointToDocument({ x: 0, y: top_1 }, this);
+                var dropped = false;
+                if (averageY > top_1 + (bottom - top_1) / 2) {
+                    var nextHeight = bottom;
+                    for (var i = seriesPoints.length - 1; i >= 0; i--) {
+                        var series = seriesPoints[i].series;
+                        var tooltip = series.tooltip;
+                        var pointY = seriesPoints[i].point.y;
+                        tooltip.setBounds({ x: 0, y: -maxY, width: this.pixelWidth, height: nextHeight + maxY });
+                        if (tooltip.invalid) {
+                            tooltip.validate();
+                        }
+                        tooltip.toBack();
+                        nextHeight = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY - tooltip.pixelY + pointY - tooltip.pixelMarginTop }, tooltip).y;
+                        if (nextHeight < -maxY) {
+                            dropped = true;
+                            break;
+                        }
                     }
-                    tooltip.toBack();
-                    nextY = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY + tooltip.label.measuredHeight - tooltip.pixelY + pointY + tooltip.pixelMarginBottom }, tooltip).y;
+                }
+                if (averageY <= top_1 + (bottom - top_1) / 2 || dropped) {
+                    var nextY = top_1;
+                    for (var i = 0, len = seriesPoints.length; i < len; i++) {
+                        var series = seriesPoints[i].series;
+                        var pointY = seriesPoints[i].point.y;
+                        var tooltip = series.tooltip;
+                        tooltip.setBounds({ x: 0, y: nextY, width: this.pixelWidth, height: bottom });
+                        if (tooltip.invalid) {
+                            tooltip.validate();
+                        }
+                        tooltip.toBack();
+                        nextY = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY + tooltip.label.measuredHeight - tooltip.pixelY + pointY + tooltip.pixelMarginBottom }, tooltip).y;
+                    }
                 }
             }
         }

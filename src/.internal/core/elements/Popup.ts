@@ -71,6 +71,11 @@ export interface IPopupAdapters {
 	closable: boolean,
 
 	/**
+	 * Applied to `dynamicResize` property before it is retrieved.
+	 */
+	dynamicResize: boolean,
+
+	/**
 	 * Applied to `fitTo` property before it's retrieved.
 	 *
 	 * @ignore Feature not yet implemented
@@ -234,6 +239,11 @@ export class Popup extends BaseObjectEvents {
 	protected _align: Optional<Align> = "center";
 
 	/**
+	 * Resize popup as images are being loaded.
+	 */
+	protected _dynamicResize: boolean = true;
+
+	/**
 	 * Vertical position of the content window.
 	 */
 	protected _verticalAlign: Optional<VerticalAlign> = "middle";
@@ -316,7 +326,7 @@ export class Popup extends BaseObjectEvents {
 
 	/**
 	 * Indicates if the element was already sized and should not be measured for
-	 * sized again, saving some precious resources.
+	 * size again, saving some precious resources.
 	 */
 	private _sized: boolean = false;
 
@@ -398,14 +408,32 @@ export class Popup extends BaseObjectEvents {
 				this._elements.wrapper.style.top = "0";
 				this._elements.wrapper.style.margin = "0 0 0 0";
 
-				// Size the element, but only for the first time
-				if (!this._elements.wrapper.style.width) {
-					let bbox = this._elements.wrapper.getBoundingClientRect();
-					this._elements.wrapper.style.width = bbox.width + "px";
-					this._elements.wrapper.style.height = bbox.height + "px";
-				}
+				this._elements.wrapper.style.width = "";
+				this._elements.wrapper.style.height = "";
+
+				let bbox = this._elements.wrapper.getBoundingClientRect();
+				this._elements.wrapper.style.width = bbox.width + "px";
+				this._elements.wrapper.style.height = bbox.height + "px";
 
 				this._sized = true;
+			}
+
+			// Check for any images that are not yet loaded
+			if (this.dynamicResize) {
+				const images = this._elements.wrapper.getElementsByTagName("img");
+				for (let i = 0; i < images.length; i++) {
+					const image = images[i];
+					if (!image.complete) {
+						// Resize popup once again when image is loaded
+						image.addEventListener("load", () => {
+							this.positionElement(true);
+						});
+
+						// Do this for one image only as it will be checked again next time
+						// anyway
+						break;
+					}
+				}
 			}
 
 			setTimeout(() => {
@@ -867,6 +895,27 @@ export class Popup extends BaseObjectEvents {
 	 */
 	public get draggable(): boolean {
 		return this.adapter.apply("draggable", this._draggable);
+	}
+
+	/**
+	 * Resize popup as images are being loaded.
+	 *
+	 * @default true
+	 * @since 4.9.17
+	 * @param Resize dynamically?
+	 */
+	public set dynamicResize(value: boolean) {
+		if (this._dynamicResize != value) {
+			this._dynamicResize = value;
+			this.positionElement(true);
+		}
+	}
+
+	/**
+	 * @return Resize dynamically?
+	 */
+	public get dynamicResize(): boolean {
+		return this.adapter.apply("dynamicResize", this._dynamicResize);
 	}
 
 	/**

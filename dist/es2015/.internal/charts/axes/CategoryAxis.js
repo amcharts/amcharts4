@@ -348,14 +348,21 @@ var CategoryAxis = /** @class */ (function (_super) {
                 var adjustedStartValue = axisBreak.adjustedStartValue;
                 var adjustedEndValue = axisBreak.adjustedEndValue;
                 if ($math.intersect({ start: adjustedStartValue, end: adjustedEndValue }, { start: _this._startIndex, end: _this._endIndex })) {
+                    for (var b = adjustedStartValue; b <= adjustedEndValue; b++) {
+                        var dataItem = _this.dataItems.getIndex(b);
+                        dataItem.__disabled = true;
+                    }
                     var frequency_1 = $math.fitToRange(Math.ceil(_this._frequency / axisBreak.breakSize), 1, adjustedEndValue - adjustedStartValue);
                     var itemIndex_1 = 0;
-                    // TODO use iterator instead
-                    for (var b = adjustedStartValue; b <= adjustedEndValue; b = b + frequency_1) {
-                        var dataItem = _this.dataItems.getIndex(b);
-                        _this.appendDataItem(dataItem);
-                        _this.validateDataElement(dataItem, itemIndex_1);
-                        itemIndex_1++;
+                    if (axisBreak.breakSize > 0) {
+                        // TODO use iterator instead
+                        for (var b = adjustedStartValue; b <= adjustedEndValue; b = b + frequency_1) {
+                            var dataItem = _this.dataItems.getIndex(b);
+                            dataItem.__disabled = false;
+                            _this.appendDataItem(dataItem);
+                            _this.validateDataElement(dataItem, itemIndex_1);
+                            itemIndex_1++;
+                        }
                     }
                 }
             });

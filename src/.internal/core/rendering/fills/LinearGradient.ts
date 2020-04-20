@@ -48,7 +48,6 @@ export interface IGradientStop {
 	 * Transparency of the color. 0 - completely transparent, 1 - fully opaque.
 	 */
 	opacity?: number;
-
 }
 
 
@@ -232,6 +231,18 @@ export class LinearGradient extends BaseObject {
 		this._rotation = source.rotation;
 	}
 
+	/**
+	 * Which units are used when drawing gradient filter.
+	 *
+	 * Use `"userSpaceOnUse"` when applying gradient on a perfectly straight line.
+	 *
+	 * @since 4.9.17
+	 * @default objectBoundingBox
+	 * @param value Filter units
+	 */
+	public set gradientUnits(value: "objectBoundingBox" | "userSpaceOnUse") {
+		this.element.attr({gradientUnits:value});
+	}
 }
 
 /**

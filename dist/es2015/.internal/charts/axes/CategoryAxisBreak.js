@@ -29,6 +29,8 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
     function CategoryAxisBreak() {
         var _this = _super.call(this) || this;
         _this.className = "CategoryAxisBreak";
+        _this.properties.startLocation = 0.5;
+        _this.properties.endLocation = 0.5;
         _this.applyTheme();
         return _this;
     }
@@ -41,7 +43,7 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
          */
         get: function () {
             if (this.axis) {
-                return this.axis.indexToPosition(this.adjustedStartValue);
+                return this.axis.indexToPosition(this.adjustedStartValue, this.startLocation);
             }
         },
         enumerable: true,
@@ -56,7 +58,7 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
          */
         get: function () {
             if (this.axis) {
-                return this.axis.indexToPosition(this.adjustedEndValue);
+                return this.axis.indexToPosition(this.adjustedEndValue, this.endLocation);
             }
         },
         enumerable: true,
@@ -157,6 +159,66 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("endValue", value)) {
+                if (this.axis) {
+                    this.axis.invalidateDataItems();
+                    this.axis.invalidateSeries();
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CategoryAxisBreak.prototype, "startLocation", {
+        /**
+         * @return Break start location
+         */
+        get: function () {
+            return this.getPropertyValue("startLocation");
+        },
+        /**
+         * Indicates where within starting category break should begin.
+         *
+         * Values range from `0` (start) to `1` (end), with default being `0.5` (middle).
+         *
+         * E.g. if you want to a break to fully encompass start and end categories,
+         * you should set `startLocation = 0` and `endLocation = 1`.
+         *
+         * @since 4.9.17
+         * @default 0.5
+         * @param  value  Break start location
+         */
+        set: function (value) {
+            if (this.setPropertyValue("startLocation", value)) {
+                if (this.axis) {
+                    this.axis.invalidateDataItems();
+                    this.axis.invalidateSeries();
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CategoryAxisBreak.prototype, "endLocation", {
+        /**
+         * @return Break end location
+         */
+        get: function () {
+            return this.getPropertyValue("endLocation");
+        },
+        /**
+         * Indicates where within ending category break should end.
+         *
+         * Values range from `0` (start) to `1` (end), with default being `0.5` (middle).
+         *
+         * E.g. if you want to a break to fully encompass start and end categories,
+         * you should set `startLocation = 0` and `endLocation = 1`.
+         *
+         * @since 4.9.17
+         * @default 0.5
+         * @param  value  Break end location
+         */
+        set: function (value) {
+            if (this.setPropertyValue("endLocation", value)) {
                 if (this.axis) {
                     this.axis.invalidateDataItems();
                     this.axis.invalidateSeries();

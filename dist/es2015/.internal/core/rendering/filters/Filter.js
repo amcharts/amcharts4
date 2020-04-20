@@ -81,6 +81,7 @@ var Filter = /** @class */ (function (_super) {
         _this.className = "Filter";
         // Create a list to hold primitives (effect elements)
         _this.filterPrimitives = new List();
+        _this.properties.filterUnits = "objectBoundingBox";
         // Automatically add added primitives to `_disposers` so they are discarded
         // when Filter object is destroyed (disposed)
         _this.filterPrimitives.events.on("inserted", function (ev) {
@@ -244,6 +245,28 @@ var Filter = /** @class */ (function (_super) {
     Filter.prototype.updateScale = function () {
         // Dummy method for extending classes to override.
     };
+    Object.defineProperty(Filter.prototype, "filterUnits", {
+        /**
+         * @return Filter units
+         */
+        get: function () {
+            return this.properties.filterUnits;
+        },
+        /**
+         * Which units are used when drawing filter.
+         *
+         * Use `"userSpaceOnUse"` when applying filters on a perfectly straight line.
+         *
+         * @since 4.9.17
+         * @default objectBoundingBox
+         * @param value Filter units
+         */
+        set: function (value) {
+            this.properties.filterUnits = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Filter.prototype, "nonScaling", {
         /**
          * @return Non scaling?

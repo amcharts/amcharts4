@@ -2291,7 +2291,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			let height = 100;
 
 			if (!this.filterElement) {
-				this.filterElement = this.paper.addGroup("filter");
+				this.filterElement = this.paper.addGroup("filter");				
 				this._disposers.push(this.filterElement);
 			}
 			else {
@@ -2306,6 +2306,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			$iter.each(this.filters.iterator(), (filter) => {
 				filter.sprite = this;
 				filter.paper = this.paper;
+
+				this.filterElement.attr({filterUnits:filter.filterUnits});
 
 				filter.appendPrimitives(this.filterElement);
 

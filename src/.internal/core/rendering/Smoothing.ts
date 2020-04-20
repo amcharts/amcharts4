@@ -67,6 +67,17 @@ export class Tension implements ISmoothing {
 	 * @return [description]
 	 */
 	public smooth(points: Array<IPoint>): string {
+
+		for (let i = points.length - 1; i > 0; i--) {
+			let p0 = points[i];
+			let p1 = points[i - 1];
+
+			if (Math.abs(p0.x - p1.x) < 0.1 && Math.abs(p0.y - p1.y) < 0.1) {
+				points.splice(i, 1);
+			}
+		}
+
+
 		let tensionX = this._tensionX;
 		let tensionY = this._tensionY;
 
@@ -110,6 +121,7 @@ export class Tension implements ISmoothing {
 					p3 = points[i + 1];
 				}
 			}
+
 
 			let controlPointA: IPoint = $math.getCubicControlPointA(p0, p1, p2, p3, tensionX, tensionY);
 			let controlPointB: IPoint = $math.getCubicControlPointB(p0, p1, p2, p3, tensionX, tensionY);
