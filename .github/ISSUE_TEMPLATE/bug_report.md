@@ -12,7 +12,7 @@ assignees: ''
 <!---
 A clear and concise description of what the bug is, as well as steps needed to reproduce it.
 
-Or better yet provide a working example. Providing a demo will make so much easier for the dev team to locate the bug and fix it faster.
+If you think posting a few lines of code would help do it. Otherwise, please consider going one step further by providing a working example. A live demo will make so much easier for the dev team to locate the bug and fix it faster.
 
 For vanilla JavaScript examples use:
 CodePen (https://codepen.io/)
