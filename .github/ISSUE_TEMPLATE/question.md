@@ -16,6 +16,8 @@ assignees: ''
  - Search amCharts 4 documentation website. It contains hundreds of step-by-step
     articles, detailed tutorials, and even very niche demos:
     https://www.amcharts.com/docs/v4/
+
+ - Realize that this is not a support forum. Unclear, too complicated questions, or those that require debugging custom code, may not be answered.
 -->
 
 **Question**
@@ -23,7 +25,7 @@ assignees: ''
 <!---
 Describe what you are trying to achieve, and what you are having trouble with.
 
-In order to save time for those who might consider helping you, provide just the needed details, and be as clear as possible.
+In order to save time for those who might consider helping you, provide just the needed details, and be as clear as possible. Too much detail is as bad as too few.
 
 One-question per issue, please. If you have multiple questions, please post multiple issues.
 
