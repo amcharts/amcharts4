@@ -34,6 +34,7 @@ import * as $array from "../../core/utils/Array";
 import * as $object from "../../core/utils/Object";
 import * as $path from "../../core/rendering/Path";
 import { ITimeInterval } from "../../core/defs/ITimeInterval";
+import { options } from "../../core/Options";
 
 /**
  * ============================================================================
@@ -2414,6 +2415,9 @@ export class XYSeries extends Series {
 		if ($type.isNumber(duration)) {
 			interpolationDuration = duration;
 		}
+		if(!options.animationsEnabled){
+			interpolationDuration = 0;
+		}
 
 		let anim: Animation;
 		$iter.each($iter.indexed(this.dataItems.iterator()), (a) => {
@@ -2501,6 +2505,10 @@ export class XYSeries extends Series {
 		if ($type.isNumber(duration)) {
 			interpolationDuration = duration;
 		}
+
+		if(!options.animationsEnabled){
+			interpolationDuration = 0;
+		}		
 
 		let delay: number = 0;
 		let anim: Animation;

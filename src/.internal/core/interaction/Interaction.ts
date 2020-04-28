@@ -1636,7 +1636,6 @@ export class Interaction extends BaseObjectEvents {
 	 * @param ev       Original event
 	 */
 	public handleGlobalUp(pointer: IPointer, ev: MouseEvent | TouchEvent | undefined, cancelled: boolean = false): void {
-
 		// Process all down objects
 		$iter.each(this.downObjects.backwards().iterator(), (io) => {
 
@@ -2382,13 +2381,13 @@ export class Interaction extends BaseObjectEvents {
 	 * @param io       Element
 	 * @param pointer  Pointer
 	 */
-	public dragStop(io: InteractionObject, pointer?: IPointer): void {
+	public dragStop(io: InteractionObject, pointer?: IPointer, cancelled?: boolean): void {
 		if (!pointer) {
 			pointer = this.getDragPointer(io);
 		}
 
-		if (pointer) {
-			this.handleGlobalUp(pointer, pointer.lastUpEvent);
+		if (pointer && !cancelled) {
+			this.handleGlobalUp(pointer, pointer.lastUpEvent, cancelled);
 		}
 	}
 

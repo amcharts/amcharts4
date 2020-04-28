@@ -399,6 +399,7 @@ export class LineSeries extends XYSeries {
 	public validate(): void {
 
 		super.validate();
+
 		if (this.xAxis && this.yAxis) {
 			this._segmentsIterator.reset();
 

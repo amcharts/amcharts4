@@ -398,7 +398,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         set: function (value) {
             if (this.setPropertyValue("minGridDistance", value)) {
                 if (this.axis) {
-                    this.axis.invalidateLayout();
+                    this.axis.invalidateDataItems();
                 }
             }
         },

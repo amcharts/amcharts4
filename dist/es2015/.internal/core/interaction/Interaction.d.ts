@@ -741,7 +741,7 @@ export declare class Interaction extends BaseObjectEvents {
      * @param io       Element
      * @param pointer  Pointer
      */
-    dragStop(io: InteractionObject, pointer?: IPointer): void;
+    dragStop(io: InteractionObject, pointer?: IPointer, cancelled?: boolean): void;
     /**
      * This method uses a fuzzy logic to find the pointer to be used for dragging.
      * Beware that this is not a rock-solid solution. If there are a few objects

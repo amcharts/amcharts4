@@ -250,7 +250,7 @@ var MapChart = /** @class */ (function (_super) {
      */
     MapChart.prototype.handlePanUp = function (event) {
         if (this._downPointOrig) {
-            this.panSprite.dragStop(event.pointer);
+            this.panSprite.dragStop(event.pointer, true);
         }
         this._downPointOrig = undefined;
     };

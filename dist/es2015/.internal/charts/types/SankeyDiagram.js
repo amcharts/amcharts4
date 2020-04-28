@@ -167,6 +167,9 @@ var SankeyDiagram = /** @class */ (function (_super) {
             var realValue = value;
             var levelNodeCount = _this._levelNodesCount[key];
             var valueHeight = (availableHeight - (levelNodeCount - 1) * _this.nodePadding) / realValue;
+            if (valueHeight == Infinity) {
+                valueHeight = 0;
+            }
             if (minHeight > valueHeight || !$type.isNumber(minHeight)) {
                 minHeight = valueHeight;
                 _this.maxSum = realValue;
@@ -176,6 +179,9 @@ var SankeyDiagram = /** @class */ (function (_super) {
         this._maxSumLevel = maxSumLevel;
         var maxSumLevelNodeCount = this._levelNodesCount[this._maxSumLevel];
         var valueHeight = (availableHeight - (maxSumLevelNodeCount - 1) * this.nodePadding) / this.maxSum;
+        if (valueHeight == Infinity) {
+            valueHeight = 0;
+        }
         if (!$type.isNumber(this.valueHeight)) {
             this.valueHeight = valueHeight;
         }

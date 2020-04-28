@@ -796,7 +796,7 @@ export class MapChart extends SerialChart {
 	 */
 	protected handlePanUp(event: IInteractionEvents["down"]): void {
 		if (this._downPointOrig) {
-			this.panSprite.dragStop(event.pointer);
+			this.panSprite.dragStop(event.pointer, true);
 		}
 		this._downPointOrig = undefined;
 	}

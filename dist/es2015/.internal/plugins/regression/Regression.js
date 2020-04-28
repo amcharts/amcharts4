@@ -103,6 +103,11 @@ var Regression = /** @class */ (function (_super) {
          */
         _this._reorder = false;
         /**
+         * Hash of the data original data. Used to check whether we need to
+         * recalculate, or the data did not change.
+         */
+        _this._originalDataHash = "";
+        /**
          * Should skip next "beforedatavalidated" event?
          */
         _this._skipValidatedEvent = false;
@@ -199,10 +204,14 @@ var Regression = /** @class */ (function (_super) {
         // Set results
         this.result = result;
         // Invoke event
-        this.events.dispatchImmediately("processed", {
-            type: "processed",
-            target: this
-        });
+        var hash = btoa(JSON.stringify(seriesData));
+        if (hash != this._originalDataHash) {
+            this.events.dispatchImmediately("processed", {
+                type: "processed",
+                target: this
+            });
+        }
+        this._originalDataHash = hash;
         // Order data points
         if (this.reorder) {
             result.points.sort(function (a, b) {

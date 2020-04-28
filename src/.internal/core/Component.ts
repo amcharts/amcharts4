@@ -1275,6 +1275,9 @@ export class Component extends Container {
 	 * Sets source (raw) data for the element. The "data" is always an `Array`
 	 * of objects.
 	 *
+	 * IMPORTANT: The order of data items in `data` array is important as it
+	 * might affect chart look and behavior. [More details](https://www.amcharts.com/docs/v4/concepts/data/#Order_of_data_items).
+	 *
 	 * @param value Data
 	 */
 	public set data(value: any[]) {

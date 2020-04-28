@@ -91,6 +91,27 @@ var MapImageSeriesDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(MapImageSeriesDataItem.prototype, "multiPoint", {
+        /**
+         * @return [description]
+         */
+        get: function () {
+            return [this._point];
+        },
+        /**
+         * [point description]
+         *
+         * @todo Description
+         * @param point [description]
+         */
+        set: function (multiPoint) {
+            this._point = multiPoint[0];
+            this._geoPoint = $mapUtils.pointToGeo(this._point);
+            this.updateExtremes();
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(MapImageSeriesDataItem.prototype, "geoPoint", {
         /**
          * @return Image coordinates

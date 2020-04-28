@@ -605,6 +605,9 @@ var Series = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Series.prototype.validate = function () {
+        if ($utils.isIE()) {
+            this.filters.clear();
+        }
         $iter.each(this.axisRanges.iterator(), function (axisRange) {
             //axisRange.contents.disposeChildren(); // not good for columns, as they are reused
             //			axisRange.appendChildren();
@@ -1252,7 +1255,13 @@ var Series = /** @class */ (function (_super) {
                                 if (fieldValues) {
                                     var workingValue = dataItem.getActualWorkingValue(dataField_1);
                                     if ($type.hasValue(min) && $type.hasValue(max) && $type.isNumber(minValue) && $type.isNumber(maxValue) && $type.isNumber(workingValue)) {
-                                        var percent = (workingValue - minValue) / (maxValue - minValue);
+                                        var percent = void 0;
+                                        if (heatRule.logarithmic) {
+                                            percent = (Math.log(workingValue) * Math.LOG10E - Math.log(minValue) * Math.LOG10E) / ((Math.log(maxValue) * Math.LOG10E - Math.log(minValue) * Math.LOG10E));
+                                        }
+                                        else {
+                                            percent = (workingValue - minValue) / (maxValue - minValue);
+                                        }
                                         if ($type.isNumber(workingValue) && !$type.isNumber(percent)) {
                                             percent = 0.5;
                                         }

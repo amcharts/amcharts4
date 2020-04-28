@@ -2256,7 +2256,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @ignore Exclude from docs
      * @param pointer Pointer to use as a reference
      */
-    dragStop(pointer?: IPointer): void;
+    dragStop(pointer?: IPointer, cancelled?: boolean): void;
     /**
      * Executes when {Sprite} is being dragged.
      *

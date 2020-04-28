@@ -43,6 +43,7 @@ export interface IHeatRule {
 	dataField?: string;
 	minValue?: number;
 	maxValue?: number;
+	logarithmic?: boolean;
 }
 
 
@@ -906,6 +907,11 @@ export class Series extends Component {
 	 * @ignore Exclude from docs
 	 */
 	public validate(): void {
+
+		if($utils.isIE()){
+			this.filters.clear();
+		}
+
 		$iter.each(this.axisRanges.iterator(), (axisRange) => {
 			//axisRange.contents.disposeChildren(); // not good for columns, as they are reused
 			//			axisRange.appendChildren();
@@ -1613,7 +1619,13 @@ export class Series extends Component {
 								let workingValue = dataItem.getActualWorkingValue(dataField);
 								if ($type.hasValue(min) && $type.hasValue(max) && $type.isNumber(minValue) && $type.isNumber(maxValue) && $type.isNumber(workingValue)) {
 
-									let percent = (workingValue - minValue) / (maxValue - minValue);
+									let percent:number;
+									if(heatRule.logarithmic){
+										percent = (Math.log(workingValue) * Math.LOG10E - Math.log(minValue) * Math.LOG10E) / ((Math.log(maxValue) * Math.LOG10E - Math.log(minValue) * Math.LOG10E));
+									}
+									else{
+										percent = (workingValue - minValue) / (maxValue - minValue);
+									}
 
 									if ($type.isNumber(workingValue) && !$type.isNumber(percent)) {
 										percent = 0.5;

@@ -19,6 +19,7 @@ import * as $type from "../../core/utils/Type";
 import * as $array from "../../core/utils/Array";
 import { percent } from "../../core/utils/Percent";
 import { Disposer } from "../../core/utils/Disposer";
+import { options } from "../../core/Options";
 /**
  * ============================================================================
  * DATA ITEM
@@ -609,6 +610,9 @@ var FunnelSeries = /** @class */ (function (_super) {
         if ($type.isNumber(duration)) {
             interpolationDuration = duration;
         }
+        if (!options.animationsEnabled) {
+            interpolationDuration = 0;
+        }
         var delay = 0;
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
             var i = a[0];
@@ -637,6 +641,9 @@ var FunnelSeries = /** @class */ (function (_super) {
         var interpolationDuration = this.hiddenState.transitionDuration;
         if ($type.isNumber(duration)) {
             interpolationDuration = duration;
+        }
+        if (!options.animationsEnabled) {
+            interpolationDuration = 0;
         }
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
             var i = a[0];

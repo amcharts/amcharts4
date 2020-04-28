@@ -38,7 +38,11 @@ var MapImage = /** @class */ (function (_super) {
          * @return Latitude
          */
         get: function () {
-            return this.getPropertyValue("latitude");
+            var latitude = this.getPropertyValue("latitude");
+            if (!$type.isNumber(latitude) && this.dataItem && this.dataItem.geoPoint) {
+                latitude = this.dataItem.geoPoint.latitude;
+            }
+            return latitude;
         },
         /**
          * Latitude image is placed at.
@@ -57,7 +61,11 @@ var MapImage = /** @class */ (function (_super) {
          * @return Longitude
          */
         get: function () {
-            return this.getPropertyValue("longitude");
+            var longitude = this.getPropertyValue("longitude");
+            if (!$type.isNumber(longitude) && this.dataItem && this.dataItem.geoPoint) {
+                longitude = this.dataItem.geoPoint.longitude;
+            }
+            return longitude;
         },
         /**
          * Longitude image is placed on.

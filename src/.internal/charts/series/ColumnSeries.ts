@@ -373,6 +373,9 @@ export class ColumnSeries extends XYSeries {
 		//@todo Check if we can do better than use `instanceof`
 		// find start/end locations based on clustered/stacked settings
 		// go through chart series instead of base axis series, because axis series doesn't maintain order
+
+		this.group.node.removeAttribute("fill");
+		
 		if (this.chart && this.xAxis && this.yAxis) {
 			let baseAxisSeries = this.chart.series;
 			let clusterCount: number = 0;

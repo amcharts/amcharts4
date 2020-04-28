@@ -175,6 +175,7 @@ export class Preloader extends Container {
 		label.fill = interfaceColors.getFor("text");
 		label.align = "center";
 		label.valign = "middle";
+		label.textAlign = "middle";
 		label.fillOpacity = 0.4;
 		this.label = label;
 

@@ -5354,10 +5354,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @ignore Exclude from docs
 	 * @param pointer Pointer to use as a reference
 	 */
-	public dragStop(pointer?: IPointer): void {
+	public dragStop(pointer?: IPointer, cancelled?: boolean): void {
 		//this.draggable = false;
 		this._isDragged = false;
-		getInteraction().dragStop(this.interactions, pointer);
+		getInteraction().dragStop(this.interactions, pointer, cancelled);
 		//this.handleDragStop();
 	}
 
@@ -5613,7 +5613,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this.applyCurrentState();
 		}
 		if (this.showTooltipOn == "hit") {
-			this.showTooltip();
+			this.updateTooltipPosition(ev.pointer.point);
+			this._disposers.push(registry.events.once("exitframe", ()=>{
+				this.showTooltip();	
+			}));
+			
 			this._disposers.push(getInteraction().body.events.once("down", (ev) => {
 				this.hideTooltip();
 			}));

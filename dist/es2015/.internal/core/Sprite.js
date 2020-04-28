@@ -4380,10 +4380,10 @@ var Sprite = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @param pointer Pointer to use as a reference
      */
-    Sprite.prototype.dragStop = function (pointer) {
+    Sprite.prototype.dragStop = function (pointer, cancelled) {
         //this.draggable = false;
         this._isDragged = false;
-        getInteraction().dragStop(this.interactions, pointer);
+        getInteraction().dragStop(this.interactions, pointer, cancelled);
         //this.handleDragStop();
     };
     /**
@@ -4638,7 +4638,10 @@ var Sprite = /** @class */ (function (_super) {
             this.applyCurrentState();
         }
         if (this.showTooltipOn == "hit") {
-            this.showTooltip();
+            this.updateTooltipPosition(ev.pointer.point);
+            this._disposers.push(registry.events.once("exitframe", function () {
+                _this.showTooltip();
+            }));
             this._disposers.push(getInteraction().body.events.once("down", function (ev) {
                 _this.hideTooltip();
             }));

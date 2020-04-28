@@ -114,6 +114,11 @@ export declare class Regression extends Plugin {
      */
     protected _originalData: Optional<any[]>;
     /**
+     * Hash of the data original data. Used to check whether we need to
+     * recalculate, or the data did not change.
+     */
+    protected _originalDataHash: string;
+    /**
      * Should skip next "beforedatavalidated" event?
      */
     protected _skipValidatedEvent: boolean;

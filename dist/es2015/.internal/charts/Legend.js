@@ -444,7 +444,11 @@ var Legend = /** @class */ (function (_super) {
         container.readerChecked = dataItem.dataContext.visible;
         // Tell series its legend data item
         dataItem.dataContext.legendDataItem = dataItem;
+        var tempMaxWidth = dataItem.label.maxWidth;
         dataItem.label.width = undefined;
+        if (tempMaxWidth > 0) {
+            dataItem.label.maxWidth = tempMaxWidth;
+        }
         if (valueLabel.align == "right") {
             valueLabel.width = undefined;
         }
@@ -538,7 +542,7 @@ var Legend = /** @class */ (function (_super) {
         }
         this.labels.each(function (label) {
             if (_this.valueLabels.template.align == "right" || label.measuredWidth > maxAdjustedLabelWidth) {
-                label.width = maxAdjustedLabelWidth - label.pixelMarginLeft - label.pixelMarginRight;
+                label.width = Math.min(label.maxWidth, maxAdjustedLabelWidth - label.pixelMarginLeft - label.pixelMarginRight);
             }
         });
         if (this.valueLabels.template.align == "right") {

@@ -21,7 +21,9 @@ import { DesaturateFilter } from "../../core/rendering/filters/DesaturateFilter"
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $path from "../../core/rendering/Path";
+import * as $utils from "../../core/utils/Utils";
 import { percent } from "../../core/utils/Percent";
+import { color } from "../../core/utils/Color";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -59,7 +61,11 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         scrollbarChart.padding(0, 0, 0, 0);
         scrollbarChart.interactionsEnabled = false;
         _this._scrollbarChart = scrollbarChart;
-        scrollbarChart.plotContainer.filters.push(new DesaturateFilter());
+        if (!$utils.isIE()) {
+            var filter = new DesaturateFilter();
+            filter.filterUnits = "userSpaceOnUse";
+            scrollbarChart.plotContainer.filters.push(filter);
+        }
         _this._disposers.push(_this._scrollbarChart);
         _this.minHeight = 60;
         _this.minWidth = 60;
@@ -143,6 +149,12 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         });
         var interfaceColors = new InterfaceColorSet();
         var series = sourceSeries.clone();
+        if ($utils.isIE()) {
+            series.stroke = color("#aaaaaa");
+            series.fill = series.stroke;
+            series.propertyFields.fill = undefined;
+            series.propertyFields.stroke = undefined;
+        }
         sourceSeries.scrollbarSeries = series;
         if (addXAxis) {
             var xAxis = sourceSeries.xAxis.clone();

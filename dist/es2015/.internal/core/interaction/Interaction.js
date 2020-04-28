@@ -1903,12 +1903,12 @@ var Interaction = /** @class */ (function (_super) {
      * @param io       Element
      * @param pointer  Pointer
      */
-    Interaction.prototype.dragStop = function (io, pointer) {
+    Interaction.prototype.dragStop = function (io, pointer, cancelled) {
         if (!pointer) {
             pointer = this.getDragPointer(io);
         }
-        if (pointer) {
-            this.handleGlobalUp(pointer, pointer.lastUpEvent);
+        if (pointer && !cancelled) {
+            this.handleGlobalUp(pointer, pointer.lastUpEvent, cancelled);
         }
     };
     /**

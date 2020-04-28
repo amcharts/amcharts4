@@ -26,7 +26,7 @@ import { Disposer } from "../../core/utils/Disposer";
 import { Orientation } from "../../core/defs/Orientation";
 import { Align } from "../../core/defs/Align";
 import { VerticalAlign } from "../../core/defs/VerticalAlign";
-
+import { options } from "../../core/Options";
 
 /**
  * ============================================================================
@@ -828,6 +828,10 @@ export class FunnelSeries extends PercentSeries {
 			interpolationDuration = duration;
 		}
 
+		if(!options.animationsEnabled){
+			interpolationDuration = 0;
+		}		
+
 		let delay: number = 0;
 		$iter.each($iter.indexed(this.dataItems.iterator()), (a) => {
 			let i = a[0];
@@ -862,6 +866,10 @@ export class FunnelSeries extends PercentSeries {
 		if ($type.isNumber(duration)) {
 			interpolationDuration = duration;
 		}
+
+		if(!options.animationsEnabled){
+			interpolationDuration = 0;
+		}				
 
 		$iter.each($iter.indexed(this.dataItems.iterator()), (a) => {
 			let i = a[0];

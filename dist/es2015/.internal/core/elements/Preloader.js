@@ -73,6 +73,7 @@ var Preloader = /** @class */ (function (_super) {
         label.fill = interfaceColors.getFor("text");
         label.align = "center";
         label.valign = "middle";
+        label.textAlign = "middle";
         label.fillOpacity = 0.4;
         _this.label = label;
         // Set defaults

@@ -5,6 +5,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.18] - 2020-04-28
+
+### Added
+- Heatmaps can now be logarithmic (set `logarithmic = true` in the heat rule config).
+
+### Fixed
+- Preloader label was misaligned when RTL was enabled.
+- Double "hit" event invocation on `MapPolygon` fixed.
+- Regression plugin: "processed" event was triggered twice on initial chart load.
+- SliceGrouper plugin: if slice templats had any "hit" events set, `clickBehavior = "break"` was not working.
+- IE was not displaying series in `XYChartScrollbar`. On IE now gray fill/stroke is used instead of desaturate filter.
+- IE was not displaying series with filters. Remnoved filters if IE.
+- Fixed issue with zero-value nodes drill-down `SankeyDiagram`.
+- When animations were disabled through options, showing `XYSeries` and `FunnelSeries` after it was hidden was not working.
+- It was not possible to add `MapImages` to `MapImageSeries` directly from the GeoJSON geodata.
+- `maxWidth` set on Legend's label was being ignored.
+- Layout was not being redrawn when `minGridDistance` was set after chart initialization.
+- If `sprite.showTooltipOn = "hit"` and no animated theme was used, tooltip used to flicker at old position before shown in the correct one.
+- EDGE was not showing `ColumnSeries` gradients if gradient was set on series, not on directly on column template.
+
+
 ## [4.9.17] - 2020-04-20
 
 ### Added

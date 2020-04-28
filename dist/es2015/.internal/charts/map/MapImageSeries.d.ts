@@ -72,6 +72,16 @@ export declare class MapImageSeriesDataItem extends MapSeriesDataItem {
     */
     point: [number, number];
     /**
+     * [point description]
+     *
+     * @todo Description
+     * @param point [description]
+     */
+    /**
+    * @return [description]
+    */
+    multiPoint: [[number, number]];
+    /**
      * Geographical coordinates (lat/long) image is placed at.
      *
      * @param geoPoint Image coordinates

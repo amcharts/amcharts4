@@ -23,7 +23,9 @@ import { DesaturateFilter } from "../../core/rendering/filters/DesaturateFilter"
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $path from "../../core/rendering/Path";
+import * as $utils from "../../core/utils/Utils";
 import { percent } from "../../core/utils/Percent";
+import { color } from "../../core/utils/Color";
 
 /**
  * ============================================================================
@@ -124,7 +126,11 @@ export class XYChartScrollbar extends Scrollbar {
 		scrollbarChart.interactionsEnabled = false;
 
 		this._scrollbarChart = scrollbarChart;
-		scrollbarChart.plotContainer.filters.push(new DesaturateFilter());
+		if (!$utils.isIE()) {
+			let filter = new DesaturateFilter();
+			filter.filterUnits = "userSpaceOnUse";
+			scrollbarChart.plotContainer.filters.push(filter);
+		}
 		this._disposers.push(this._scrollbarChart);
 
 		this.minHeight = 60;
@@ -214,13 +220,19 @@ export class XYChartScrollbar extends Scrollbar {
 			}
 		});
 
-		sourceSeries.events.on("beforedisposed", ()=>{
+		sourceSeries.events.on("beforedisposed", () => {
 			this.series.removeValue(sourceSeries)
 		})
 
 		let interfaceColors = new InterfaceColorSet();
 
 		let series: XYSeries = <XYSeries>sourceSeries.clone();
+		if($utils.isIE()){
+			series.stroke = color("#aaaaaa");
+			series.fill = series.stroke;
+			series.propertyFields.fill = undefined;
+			series.propertyFields.stroke = undefined;
+		}
 		sourceSeries.scrollbarSeries = series;
 
 		if (addXAxis) {
@@ -272,7 +284,7 @@ export class XYChartScrollbar extends Scrollbar {
 			else if (xAxis instanceof ValueAxis) {
 				let vAxis = <ValueAxis>xAxis;
 				vAxis.min = undefined;
-				vAxis.max = undefined;				
+				vAxis.max = undefined;
 				if (!$type.isNumber(vAxis.clonedFrom.minDefined)) {
 					vAxis.min = undefined;
 				}
@@ -337,7 +349,7 @@ export class XYChartScrollbar extends Scrollbar {
 			if (yAxis instanceof DateAxis) {
 				let vAxis = <ValueAxis>yAxis;
 				vAxis.min = undefined;
-				vAxis.max = undefined;				
+				vAxis.max = undefined;
 				let sourceAxis = <DateAxis>sourceSeries.yAxis;
 				yAxis.groupCount = sourceAxis.groupCount * 5;
 
@@ -354,7 +366,7 @@ export class XYChartScrollbar extends Scrollbar {
 			else if (yAxis instanceof ValueAxis) {
 				let vAxis = <ValueAxis>yAxis;
 				vAxis.min = undefined;
-				vAxis.max = undefined;				
+				vAxis.max = undefined;
 
 				if (!$type.isNumber(vAxis.clonedFrom.minDefined)) {
 					vAxis.min = undefined;

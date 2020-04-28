@@ -25,6 +25,7 @@ import * as $time from "../../core/utils/Time";
 import * as $array from "../../core/utils/Array";
 import * as $object from "../../core/utils/Object";
 import * as $path from "../../core/rendering/Path";
+import { options } from "../../core/Options";
 /**
  * ============================================================================
  * DATA ITEM
@@ -1774,6 +1775,9 @@ var XYSeries = /** @class */ (function (_super) {
         if ($type.isNumber(duration)) {
             interpolationDuration = duration;
         }
+        if (!options.animationsEnabled) {
+            interpolationDuration = 0;
+        }
         var anim;
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
             var i = a[0];
@@ -1848,6 +1852,9 @@ var XYSeries = /** @class */ (function (_super) {
         var interpolationDuration = this.hiddenState.transitionDuration;
         if ($type.isNumber(duration)) {
             interpolationDuration = duration;
+        }
+        if (!options.animationsEnabled) {
+            interpolationDuration = 0;
         }
         var delay = 0;
         var anim;

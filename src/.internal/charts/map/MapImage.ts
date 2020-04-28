@@ -114,7 +114,13 @@ export class MapImage extends MapObject {
 	 * @return Latitude
 	 */
 	public get latitude(): number {
-		return this.getPropertyValue("latitude");
+		let latitude = this.getPropertyValue("latitude");
+		
+		if(!$type.isNumber(latitude) && this.dataItem && this.dataItem.geoPoint){
+			latitude = this.dataItem.geoPoint.latitude;
+		}		
+		return latitude;	
+
 	}
 
 	/**
@@ -131,7 +137,11 @@ export class MapImage extends MapObject {
 	 * @return Longitude
 	 */
 	public get longitude(): number {
-		return this.getPropertyValue("longitude");
+		let longitude = this.getPropertyValue("longitude");
+		if(!$type.isNumber(longitude) && this.dataItem && this.dataItem.geoPoint){
+			longitude = this.dataItem.geoPoint.longitude;
+		}		
+		return longitude;
 	}
 
 	/**

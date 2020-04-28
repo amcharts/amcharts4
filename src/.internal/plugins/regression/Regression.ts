@@ -138,6 +138,12 @@ export class Regression extends Plugin {
 	protected _originalData: Optional<any[]>;
 
 	/**
+	 * Hash of the data original data. Used to check whether we need to
+	 * recalculate, or the data did not change.
+	 */
+	protected _originalDataHash: string = "";
+
+	/**
 	 * Should skip next "beforedatavalidated" event?
 	 */
 	protected _skipValidatedEvent: boolean = false;
@@ -259,10 +265,14 @@ export class Regression extends Plugin {
 		this.result = result;
 
 		// Invoke event
-		this.events.dispatchImmediately("processed", {
-			type: "processed",
-			target: this
-		});
+		const hash = btoa(JSON.stringify(seriesData));
+		if (hash != this._originalDataHash) {
+			this.events.dispatchImmediately("processed", {
+				type: "processed",
+				target: this
+			});
+		}
+		this._originalDataHash = hash;
 
 		// Order data points
 		if (this.reorder) {

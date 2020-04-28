@@ -608,7 +608,7 @@ export class AxisRenderer extends Container {
 	public set minGridDistance(value: number) {
 		if (this.setPropertyValue("minGridDistance", value)) {
 			if (this.axis) {
-				this.axis.invalidateLayout();
+				this.axis.invalidateDataItems();
 			}
 		}
 	}

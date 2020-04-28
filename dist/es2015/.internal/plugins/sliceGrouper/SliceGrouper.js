@@ -209,10 +209,8 @@ var SliceGrouper = /** @class */ (function (_super) {
         });
         // Set up click
         if (this.clickBehavior != "none") {
-            if (!this.groupSlice.events.has("hit")) {
-                this._clickDisposers.push(this.groupSlice.events.on("hit", function (ev) {
-                    _this.toggleGroupOn();
-                }));
+            if (!this.groupSlice.events.has("hit", this.toggleGroupOn, this)) {
+                this._clickDisposers.push(this.groupSlice.events.on("hit", this.toggleGroupOn, this));
             }
         }
     };

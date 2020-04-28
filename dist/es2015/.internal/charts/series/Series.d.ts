@@ -27,6 +27,7 @@ export interface IHeatRule {
     dataField?: string;
     minValue?: number;
     maxValue?: number;
+    logarithmic?: boolean;
 }
 /**
  * ============================================================================

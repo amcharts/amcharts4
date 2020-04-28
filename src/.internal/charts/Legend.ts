@@ -678,7 +678,11 @@ export class Legend extends Component {
 		// Tell series its legend data item
 		dataItem.dataContext.legendDataItem = dataItem;
 
+		let tempMaxWidth = dataItem.label.maxWidth;
 		dataItem.label.width = undefined;
+		if(tempMaxWidth > 0){
+			dataItem.label.maxWidth = tempMaxWidth;
+		}
 		if (valueLabel.align == "right") {
 			valueLabel.width = undefined;
 		}
@@ -787,7 +791,7 @@ export class Legend extends Component {
 
 		this.labels.each((label) => {
 			if (this.valueLabels.template.align == "right" || label.measuredWidth > maxAdjustedLabelWidth) {
-				label.width = maxAdjustedLabelWidth - label.pixelMarginLeft - label.pixelMarginRight;
+				label.width = Math.min(label.maxWidth, maxAdjustedLabelWidth - label.pixelMarginLeft - label.pixelMarginRight);
 			}
 		})
 		if (this.valueLabels.template.align == "right") {

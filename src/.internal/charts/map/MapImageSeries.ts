@@ -114,6 +114,25 @@ export class MapImageSeriesDataItem extends MapSeriesDataItem {
 	}
 
 	/**
+	 * [point description]
+	 *
+	 * @todo Description
+	 * @param point [description]
+	 */
+	public set multiPoint(multiPoint: [[number, number]]) {
+		this._point = multiPoint[0];
+		this._geoPoint = $mapUtils.pointToGeo(this._point);
+		this.updateExtremes();
+	}
+
+	/**
+	 * @return [description]
+	 */
+	public get multiPoint(): [[number, number]] {
+		return [this._point];
+	}	
+
+	/**
 	 * Geographical coordinates (lat/long) image is placed at.
 	 *
 	 * @param geoPoint Image coordinates
