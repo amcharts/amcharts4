@@ -111,6 +111,7 @@ var countries = {
     "MD": ["moldovaLow", "moldovaHigh"],
     "MN": ["mongoliaLow", "mongoliaHigh"],
     "MA": ["moroccoLow", "moroccoHigh"],
+    "ME": ["montenegroLow", "montenegroHigh"],
     "MZ": ["mozambiqueLow", "mozambiqueHigh"],
     "MK": ["northMacedoniaLow", "northMacedoniaHigh"],
     "MM": ["myanmarLow", "myanmarHigh"],

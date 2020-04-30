@@ -1,6 +1,6 @@
 {
   "name": "@amcharts/amcharts4",
-  "version": "4.9.18",
+  "version": "4.9.19",
   "author": "amCharts <contact@amcharts.com> (https://www.amcharts.com/)",
   "description": "amCharts 4",
   "homepage": "https://www.amcharts.com/",
@@ -32,7 +32,6 @@
   },
   "dependencies": {
     "@types/regression": "^2.0.0",
-    "css-element-queries": "1.2.1",
     "canvg": "^3.0.0",
     "d3-force": "^2.0.1",
     "pdfmake": "^0.1.36",

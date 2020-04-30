@@ -246,6 +246,13 @@ var TextFormatter = /** @class */ (function (_super) {
         if (cached) {
             return cached;
         }
+        // Pre-process quoted text
+        var q = style.match(/('[^']*')|("[^"]*")/gi);
+        if (q) {
+            for (var i = 0; i < q.length; i++) {
+                style = style.replace(q[i], q[i].replace(/['"]*/g, "").replace(/[ ]+/g, "+"));
+            }
+        }
         // Get style parts
         var b = style.match(/([\w\-]*:[\s]?[^;\s\]]*)|(\#[\w]{1,6})|([\w]+)|(\/)/gi);
         // Empty?
@@ -266,6 +273,9 @@ var TextFormatter = /** @class */ (function (_super) {
             else if (!b[i].match(/:/)) {
                 // Color
                 b[i] = "fill:" + b[i];
+            }
+            else {
+                b[i] = b[i].replace(/\+/g, " ");
             }
         }
         var res = b.join(';');

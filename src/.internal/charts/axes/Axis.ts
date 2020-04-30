@@ -1628,7 +1628,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 				tooltip.text = this.getTooltipText(position);
 
 				if (tooltip.text) {
-					tooltip.pointTo(globalPoint);
+					tooltip.delayedPointTo(globalPoint);
 					tooltip.show();
 				}
 			}

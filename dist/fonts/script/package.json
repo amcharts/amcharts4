@@ -1,0 +1,23 @@
+{
+  "name": "@amcharts/amcharts4-fonts",
+  "version": "4.0.0",
+  "author": "amCharts <contact@amcharts.com> (https://www.amcharts.com/)",
+  "description": "amCharts 4 Fonts",
+  "homepage": "https://www.amcharts.com/",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://www.amcharts.com/support/",
+    "email": "contact@amcharts.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amcharts/amcharts4-fonts.git"
+  },
+  "keywords": [
+    "amcharts",
+    "javascript",
+    "charts",
+    "typescript",
+    "fonts"
+  ]
+}

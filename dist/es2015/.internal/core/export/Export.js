@@ -63,21 +63,14 @@ var pdfmakePromise;
  */
 function _pdfmake() {
     return __awaiter(this, void 0, void 0, function () {
-        var a, pdfmake, vfs_fonts, global;
+        var pdfmake, global;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, Promise.all([
-                        import(/* webpackChunkName: "pdfmake" */ "pdfmake/build/pdfmake.js"),
-                        import(/* webpackChunkName: "pdfmake" */ "../../pdfmake/vfs_fonts")
-                    ])];
+                case 0: return [4 /*yield*/, import(/* webpackChunkName: "pdfmake" */ "pdfmake/build/pdfmake.js")];
                 case 1:
-                    a = _a.sent();
-                    pdfmake = a[0];
-                    vfs_fonts = a[1];
+                    pdfmake = _a.sent();
                     global = window;
                     global.pdfMake = global.pdfMake || {};
-                    global.pdfMake.vfs = vfs_fonts.default;
-                    pdfmake.vfs = vfs_fonts.default;
                     return [2 /*return*/, pdfmake];
             }
         });
@@ -1820,7 +1813,27 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getPDF = function (type, options) {
         return __awaiter(this, void 0, void 0, function () {
-            var image, pdfmake, defaultMargins, doc, title, extraMargin, _a, _b, _c;
+            function addFont(font) {
+                var paths = {};
+                if (font.normal) {
+                    paths.normal = font.normal.path;
+                    vfs[font.normal.path] = font.normal.bytes;
+                }
+                if (font.bold) {
+                    paths.bold = font.bold.path;
+                    vfs[font.bold.path] = font.bold.bytes;
+                }
+                if (font.italics) {
+                    paths.italics = font.italics.path;
+                    vfs[font.italics.path] = font.italics.bytes;
+                }
+                if (font.bolditalics) {
+                    paths.bolditalics = font.bolditalics.path;
+                    vfs[font.bolditalics.path] = font.bolditalics.bytes;
+                }
+                fonts[font.name] = paths;
+            }
+            var image, pdfmake, defaultMargins, doc, title, extraMargin, _a, _b, _c, fonts, vfs, vfs_fonts;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0: return [4 /*yield*/, this.getImage(options.imageFormat || "png", options)];
@@ -1834,6 +1847,9 @@ var Export = /** @class */ (function (_super) {
                             pageSize: options.pageSize || "A4",
                             pageOrientation: options.pageOrientation || "portrait",
                             pageMargins: options.pageMargins || defaultMargins,
+                            defaultStyle: {
+                                font: options.font ? options.font.name : undefined,
+                            },
                             //header: <any>[],
                             content: []
                         };
@@ -1884,12 +1900,27 @@ var Export = /** @class */ (function (_super) {
                             doc: doc,
                             options: options
                         }).doc;
-                        return [4 /*yield*/, new Promise(function (success, error) {
-                                pdfmake.createPdf(doc).getDataUrl(function (uri) {
-                                    success(uri);
-                                });
-                            })];
-                    case 5: 
+                        fonts = null;
+                        vfs = null;
+                        if (!options.font) return [3 /*break*/, 5];
+                        fonts = {};
+                        vfs = {};
+                        addFont(options.font);
+                        if (options.extraFonts) {
+                            $array.each(options.extraFonts, addFont);
+                        }
+                        return [3 /*break*/, 7];
+                    case 5: return [4 /*yield*/, import(/* webpackChunkName: "pdfmake" */ "../../pdfmake/vfs_fonts")];
+                    case 6:
+                        vfs_fonts = _d.sent();
+                        vfs = vfs_fonts.default;
+                        _d.label = 7;
+                    case 7: return [4 /*yield*/, new Promise(function (success, error) {
+                            pdfmake.createPdf(doc, null, fonts, vfs).getDataUrl(function (uri) {
+                                success(uri);
+                            });
+                        })];
+                    case 8: 
                     // Create PDF
                     return [2 /*return*/, _d.sent()];
                 }

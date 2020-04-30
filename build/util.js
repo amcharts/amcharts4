@@ -35,7 +35,7 @@ function run(name, args) {
 	const status = runStatus(name, args);
 
 	if (status !== 0) {
-		throw new Error("Command failed: " + status);
+		throw new Error("Command failed: " + status + " " + name + " " + args.join(" "));
 	}
 }
 
@@ -199,7 +199,7 @@ function releaseSubPackage(name, gitName) {
 		gitTag(json.version);
 
 		cwd($path.join("dist", "es2015"), () => {
-			run("yarn", ["publish", "--new-version", json.version]);
+			run("yarn", ["publish", "--access", "public", "--new-version", json.version]);
 		});
 	});
 

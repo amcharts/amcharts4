@@ -456,4 +456,17 @@ export function shuffle(array) {
         array[randomIndex] = temporaryValue;
     }
 }
+export function keepIf(array, keep) {
+    var length = array.length;
+    var i = 0;
+    while (i < length) {
+        if (keep(array[i])) {
+            ++i;
+        }
+        else {
+            array.splice(i, 1);
+            --length;
+        }
+    }
+}
 //# sourceMappingURL=Array.js.map

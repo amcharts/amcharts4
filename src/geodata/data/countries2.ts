@@ -851,7 +851,7 @@ const countries2: Countries2 = {
 		"country": "Montenegro",
 		"continent_code": "EU",
 		"continent": "Europe",
-		"maps": []
+		"maps": [ "montenegroLow", "montenegroHigh" ]
 	},
 	"MF": {
 		"country": "Saint Martin (French Part)",

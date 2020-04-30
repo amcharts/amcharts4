@@ -1153,7 +1153,7 @@ var Axis = /** @class */ (function (_super) {
                 var globalPoint = $utils.spritePointToSvg(point, this.renderer.line);
                 tooltip.text = this.getTooltipText(position);
                 if (tooltip.text) {
-                    tooltip.pointTo(globalPoint);
+                    tooltip.delayedPointTo(globalPoint);
                     tooltip.show();
                 }
             }

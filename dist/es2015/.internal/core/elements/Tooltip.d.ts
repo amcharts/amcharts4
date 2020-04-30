@@ -341,6 +341,10 @@ export declare class Tooltip extends Container {
      */
     drawBackground(): void;
     /**
+     *
+     */
+    delayedPointTo(point: IPoint, instantly?: boolean): void;
+    /**
      * Set nes tooltip's anchor point and moves whole tooltip.
      *
      * @param x  X coordinate

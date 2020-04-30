@@ -315,6 +315,14 @@ export class TextFormatter extends BaseObject {
 			return cached;
 		}
 
+		// Pre-process quoted text
+		const q = style.match(/('[^']*')|("[^"]*")/gi);
+		if (q) {
+			for (let i: number = 0; i < q.length; i++) {
+				style = style.replace(q[i], q[i].replace(/['"]*/g, "").replace(/[ ]+/g, "+"));
+			}
+		}
+
 		// Get style parts
 		let b: string[] | null = style.match(/([\w\-]*:[\s]?[^;\s\]]*)|(\#[\w]{1,6})|([\w]+)|(\/)/gi);
 
@@ -322,7 +330,6 @@ export class TextFormatter extends BaseObject {
 		if (!b) {
 			return style;
 		}
-
 
 		// Check each part
 		for (let i: number = 0; i < b.length; i++) {
@@ -339,6 +346,9 @@ export class TextFormatter extends BaseObject {
 			else if (!b[i].match(/:/)) {
 				// Color
 				b[i] = "fill:" + b[i];
+			}
+			else {
+				b[i] = b[i].replace(/\+/g, " ");
 			}
 
 		}

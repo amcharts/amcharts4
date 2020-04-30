@@ -1842,7 +1842,7 @@ export class XYSeries extends Series {
 					}
 				}
 
-				if (changed) {						
+				if (changed) {
 					this.dispatchImmediately("extremeschanged");
 				}
 
@@ -2415,19 +2415,25 @@ export class XYSeries extends Series {
 		if ($type.isNumber(duration)) {
 			interpolationDuration = duration;
 		}
-		if(!options.animationsEnabled){
+		if (!options.animationsEnabled) {
 			interpolationDuration = 0;
 		}
 
 		let anim: Animation;
+
 		$iter.each($iter.indexed(this.dataItems.iterator()), (a) => {
 			let i = a[0];
 			let dataItem = a[1];
+			let realDuration = interpolationDuration;
+			if (i < this.startIndex - 10 || i > this.endIndex + 10) {
+				realDuration = 0;
+				delay = 0;
+			}
 
-			if (this.sequencedInterpolation && interpolationDuration > 0) {
+			if (this.sequencedInterpolation && realDuration > 0) {
 				delay = this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
 			}
-			anim = dataItem.show(interpolationDuration, delay, fields);
+			anim = dataItem.show(realDuration, delay, fields);
 		});
 
 		// other data sets
@@ -2506,24 +2512,29 @@ export class XYSeries extends Series {
 			interpolationDuration = duration;
 		}
 
-		if(!options.animationsEnabled){
+		if (!options.animationsEnabled) {
 			interpolationDuration = 0;
-		}		
+		}
 
 		let delay: number = 0;
 		let anim: Animation;
 		$iter.each($iter.indexed(this.dataItems.iterator()), (a) => {
 			let i = a[0];
 			let dataItem = a[1];
+			let realDuration = interpolationDuration;
 
-			if (interpolationDuration == 0) {
+			if (i < this.startIndex - 10 || i > this.endIndex + 10) {
+				realDuration = 0;
+			}
+
+			if (realDuration == 0) {
 				dataItem.hide(0, 0, value, fields);
 			}
 			else {
-				if (this.sequencedInterpolation && interpolationDuration > 0) {
+				if (this.sequencedInterpolation && realDuration > 0) {
 					delay = this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
 				}
-				anim = dataItem.hide(interpolationDuration, delay, value, fields);
+				anim = dataItem.hide(realDuration, delay, value, fields);
 			}
 		});
 

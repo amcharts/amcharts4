@@ -14,7 +14,7 @@ import { Popup } from "../elements/Popup";
 import { Modal } from "../elements/Modal";
 import { ListTemplate } from "../utils/List";
 import * as $type from "../utils/Type";
-import ResizeSensor from "css-element-queries/src/ResizeSensor";
+import { ResizeSensor } from "../utils/ResizeSensor";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -71,6 +71,7 @@ export declare class SVGContainer implements IDisposer {
     /**
      * A reference to ResizeSensor object which monitors changes of div size.
      *
+     * @deprecated
      * @ignore
      */
     resizeSensor: ResizeSensor;

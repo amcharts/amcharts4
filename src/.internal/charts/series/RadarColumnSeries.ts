@@ -222,7 +222,8 @@ export class RadarColumnSeries extends ColumnSeries {
 		if (!radarColumn) {
 			radarColumn = this.columns.create();
 			dataItem.column = radarColumn;
-			$object.forceCopyProperties(this.columns.template, radarColumn, visualProperties);
+			$object.copyProperties(this, radarColumn, visualProperties); // need this 
+			$object.copyProperties(this.columns.template, radarColumn, visualProperties); // second time, no force, so that columns.template would override series properties			
 			dataItem.addSprite(radarColumn);
 			radarColumn.paper = this.paper; // sometimes pattern is not drawn if is set with adapter without this.
 			this.setColumnStates(radarColumn);

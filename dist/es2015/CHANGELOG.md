@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.19] - 2020-04-30
+
+### Added
+- Export: Two new PDF export options added: `font` and `extraFonts` which enable specifying non-default font to use when exporting PDF. [More info](https://www.amcharts.com/docs/v4/concepts/exporting/#PDF_and_non_Latin_languages).
+
+### Changed
+- Third party resize sensor replaced with a home-brewed, which is faster and more reliable.
+- `svgContainer.resizeSensor` replaced with a dummy object. Make sure you remove all references to it in your code. Calling it's `reset()` method will now generate a warning in console.
+
+### Fixed
+- Inline text formatting blocks now accept quote-enclosed values, e.g. `[font-family: 'Segoe UI']`.
+- Fills for columns in `RadarColumnSeries` were black (since last release).
+- With Chrome 81 disposing the chart in with DevTools open was very slow.
+- Performance optimizations when showing/hiding series with a lot of data.
+- Tooltip was flickering at 0,0 position if animated theme was not enabled.
+
+
 ## [4.9.18] - 2020-04-28
 
 ### Added

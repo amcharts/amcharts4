@@ -55,6 +55,20 @@ import * as $math from "../utils/Math";
 import * as $strings from "../utils/Strings";
 
 
+export interface IFile {
+	path: string;
+	bytes: string;
+}
+
+export interface IFont {
+	name: string;
+	normal?: IFile;
+	bold?: IFile;
+	italics?: IFile;
+	bolditalics?: IFile;
+}
+
+
 // This is used to cache the pdfmake loading
 let pdfmakePromise: Promise<any>;
 
@@ -69,16 +83,9 @@ let pdfmakePromise: Promise<any>;
  * @async
  */
 async function _pdfmake(): Promise<any> {
-	let a = await Promise.all([
-		import(/* webpackChunkName: "pdfmake" */ "pdfmake/build/pdfmake.js"),
-		import(/* webpackChunkName: "pdfmake" */ "../../pdfmake/vfs_fonts")
-	]);
-	let pdfmake = a[0];
-	let vfs_fonts = a[1];
+	let pdfmake = await import(/* webpackChunkName: "pdfmake" */ "pdfmake/build/pdfmake.js");
 	const global = <any>window;
 	global.pdfMake = global.pdfMake || {};
-	global.pdfMake.vfs = vfs_fonts.default;
-	pdfmake.vfs = vfs_fonts.default;
 	return pdfmake;
 }
 
@@ -474,6 +481,26 @@ export interface IExportPDFOptions extends IExportImageOptions {
 	 * @since 4.9.11
 	 */
 	disabled?: boolean;
+
+	/**
+	 * Font which should be used for the export.
+	 *
+	 * Default font used for PDF includes only Latin-based and Cyrilic
+	 * characters. If you are exporting text in other languages, you might need
+	 * to use some other export font.
+	 *
+	 * @since 4.9.19
+	 * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/#PDF_and_non_Latin_languages}
+	 */
+	font?: IFont;
+
+	/**
+	 * Additional optional fonts which can be used on individual elements.
+	 *
+	 * @since 4.9.19
+	 * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/#PDF_and_non_Latin_languages}
+	 */
+	extraFonts?: Array<IFont>;
 
 }
 
@@ -2966,6 +2993,9 @@ export class Export extends Validatable {
 			pageSize: options.pageSize || "A4",
 			pageOrientation: options.pageOrientation || "portrait",
 			pageMargins: options.pageMargins || defaultMargins,
+			defaultStyle: {
+				font: options.font ? options.font.name : undefined,
+			},
 			//header: <any>[],
 			content: <any>[]
 		};
@@ -2997,7 +3027,7 @@ export class Export extends Validatable {
 				fontSize: options.fontSize,
 				margin: [0, 0, 0, 15]
 			});
-			
+
 			// Add some leftover margin for URL
 			extraMargin += 50;
 		}
@@ -3024,9 +3054,52 @@ export class Export extends Validatable {
 			options: options
 		}).doc;
 
+		let fonts: { [name: string]: { [types: string]: string } } | null = null;
+		let vfs: { [path: string]: string } | null = null;
+
+		function addFont(font: IFont) {
+			const paths: { [path: string]: string } = {};
+
+			if (font.normal) {
+				paths.normal = font.normal.path;
+				vfs[font.normal.path] = font.normal.bytes;
+			}
+
+			if (font.bold) {
+				paths.bold = font.bold.path;
+				vfs[font.bold.path] = font.bold.bytes;
+			}
+
+			if (font.italics) {
+				paths.italics = font.italics.path;
+				vfs[font.italics.path] = font.italics.bytes;
+			}
+
+			if (font.bolditalics) {
+				paths.bolditalics = font.bolditalics.path;
+				vfs[font.bolditalics.path] = font.bolditalics.bytes;
+			}
+
+			fonts[font.name] = paths;
+		}
+
+		if (options.font) {
+			fonts = {};
+			vfs = {};
+			addFont(options.font);
+
+			if (options.extraFonts) {
+				$array.each(options.extraFonts, addFont);
+			}
+
+		} else {
+			const vfs_fonts = await import(/* webpackChunkName: "pdfmake" */ "../../pdfmake/vfs_fonts");
+			vfs = vfs_fonts.default;
+		}
+
 		// Create PDF
 		return await new Promise<string>((success, error) => {
-			pdfmake.createPdf(doc).getDataUrl((uri: string) => {
+			pdfmake.createPdf(doc, null, fonts, vfs).getDataUrl((uri: string) => {
 				success(uri);
 			});
 		});

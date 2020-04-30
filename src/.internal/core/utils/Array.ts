@@ -540,3 +540,19 @@ export function shuffle<A>(array: Array<A>) {
 		array[randomIndex] = temporaryValue;
 	}
 }
+
+
+export function keepIf<A>(array: Array<A>, keep: (value: A) => boolean): void {
+	let length = array.length;
+	let i = 0;
+
+	while (i < length) {
+		if (keep(array[i])) {
+			++i;
+
+		} else {
+			array.splice(i, 1);
+			--length;
+		}
+	}
+}

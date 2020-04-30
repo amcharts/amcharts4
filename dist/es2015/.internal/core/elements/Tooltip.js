@@ -496,41 +496,47 @@ var Tooltip = /** @class */ (function (_super) {
         background.validate();
     };
     /**
+     *
+     */
+    Tooltip.prototype.delayedPointTo = function (point, instantly) {
+        var _this = this;
+        if (this._pointToDisposer) {
+            this._pointToDisposer.dispose();
+        }
+        this._pointToDisposer = registry.events.once("exitframe", function () {
+            _this.pointTo(point, instantly);
+        });
+        this.addDisposer(this._pointToDisposer);
+    };
+    /**
      * Set nes tooltip's anchor point and moves whole tooltip.
      *
      * @param x  X coordinate
      * @param y  Y coordinate
      */
     Tooltip.prototype.pointTo = function (point, instantly) {
-        var _this = this;
         if (this._pointTo.x != point.x || this._pointTo.y != point.y) {
             this._pointTo = point;
             this.invalidate();
-            if (this._pointToDisposer) {
-                this._pointToDisposer.dispose();
+            // this helps to avoid strange animation from nowhere on initial show or when balloon was hidden already
+            if (!this.visible || instantly) {
+                this.moveTo(this._pointTo);
+                if (this._animation) {
+                    this._animation.kill();
+                }
             }
-            this._pointToDisposer = registry.events.once("exitframe", function () {
-                // this helps to avoid strange animation from nowhere on initial show or when balloon was hidden already
-                if (!_this.visible || instantly) {
-                    _this.moveTo(_this._pointTo);
-                    if (_this._animation) {
-                        _this._animation.kill();
-                    }
+            else {
+                // helps to avoid flicker on top/left corner
+                if (this.pixelX == 0 && this.pixelY == 0) {
+                    this.moveTo(this._pointTo);
                 }
                 else {
-                    // helps to avoid flicker on top/left corner
-                    if (_this.pixelX == 0 && _this.pixelY == 0) {
-                        _this.moveTo(_this._pointTo);
+                    if (this._animation) {
+                        this._animation.kill();
                     }
-                    else {
-                        if (_this._animation) {
-                            _this._animation.kill();
-                        }
-                        _this._animation = new Animation(_this, [{ property: "x", to: point.x, from: _this.pixelX }, { property: "y", to: point.y, from: _this.pixelY }], _this.animationDuration, _this.animationEasing).start();
-                    }
+                    this._animation = new Animation(this, [{ property: "x", to: point.x, from: this.pixelX }, { property: "y", to: point.y, from: this.pixelY }], this.animationDuration, this.animationEasing).start();
                 }
-            });
-            this.addDisposer(this._pointToDisposer);
+            }
         }
     };
     /**

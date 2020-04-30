@@ -40,6 +40,17 @@ import { Validatable } from "../utils/Validatable";
 import { Color } from "../utils/Color";
 import { Align } from "../defs/Align";
 import * as $type from "../utils/Type";
+export interface IFile {
+    path: string;
+    bytes: string;
+}
+export interface IFont {
+    name: string;
+    normal?: IFile;
+    bold?: IFile;
+    italics?: IFile;
+    bolditalics?: IFile;
+}
 /**
  * ============================================================================
  * REQUISITES
@@ -257,6 +268,24 @@ export interface IExportPDFOptions extends IExportImageOptions {
      * @since 4.9.11
      */
     disabled?: boolean;
+    /**
+     * Font which should be used for the export.
+     *
+     * Default font used for PDF includes only Latin-based and Cyrilic
+     * characters. If you are exporting text in other languages, you might need
+     * to use some other export font.
+     *
+     * @since 4.9.19
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/#PDF_and_non_Latin_languages}
+     */
+    font?: IFont;
+    /**
+     * Additional optional fonts which can be used on individual elements.
+     *
+     * @since 4.9.19
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/#PDF_and_non_Latin_languages}
+     */
+    extraFonts?: Array<IFont>;
 }
 /**
  * Represents options for CSV export.

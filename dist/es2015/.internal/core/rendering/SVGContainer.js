@@ -1,7 +1,6 @@
 /**
  * This functionality is related to the HTML wrapper that houses `<svg>` tag.
  */
-import { Disposer } from "../utils/Disposer";
 import { Popup } from "../elements/Popup";
 import { Modal } from "../elements/Modal";
 import { ListTemplate, ListDisposer } from "../utils/List";
@@ -9,7 +8,7 @@ import * as $utils from "../utils/Utils";
 import * as $dom from "../utils/DOM";
 import * as $array from "../utils/Array";
 import * as $type from "../utils/Type";
-import ResizeSensor from "css-element-queries/src/ResizeSensor";
+import { ResizeSensor } from "../utils/ResizeSensor";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -60,15 +59,13 @@ var SVGContainer = /** @class */ (function () {
         // Log parent HTML element
         this.htmlElement = htmlElement;
         if (!ghost) {
-            var callback_1 = function () {
+            var callback = function () {
                 if (_this.autoResize) {
                     _this.measure();
                 }
             };
-            this.resizeSensor = new ResizeSensor(htmlElement, callback_1);
-            this._disposers.push(new Disposer(function () {
-                _this.resizeSensor.detach(callback_1);
-            }));
+            this.resizeSensor = new ResizeSensor(htmlElement, callback);
+            this._disposers.push(this.resizeSensor);
         }
         // Adds to containers array
         svgContainers.push(this);

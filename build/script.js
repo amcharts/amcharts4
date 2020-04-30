@@ -3,8 +3,12 @@ const $path = require("path");
 const $fs = require("fs");
 
 
+function mangleName(name) {
+	return name.replace(/[\/\-]/g, "_");
+}
+
 function makeSubPackage1(entries, name, fileDir, inputDir, outputDir, packageName, useDefault) {
-	const mangledName = name.replace(/\//g, "_");
+	const mangledName = mangleName(name);
 
 	$fs.mkdirSync(name);
 
@@ -30,12 +34,12 @@ window.am4${mangledName} = m;`);
 						if (useDefault) {
 							$fs.writeFileSync($path.join(name, filename),
 `import m from "../${fileDir}/${path.name}";
-window.am4${mangledName}_${path.name} = m;`);
+window.am4${mangledName}_${mangleName(path.name)} = m;`);
 
 						} else {
 							$fs.writeFileSync($path.join(name, filename),
 `import * as m from "../${fileDir}/${path.name}";
-window.am4${mangledName}_${path.name} = m;`);
+window.am4${mangledName}_${mangleName(path.name)} = m;`);
 						}
 
 						entries[`${outputDir}/${path.name}`] = `./${name}/${filename}`;
@@ -85,9 +89,11 @@ __webpack_public_path__ = dirpath(getCurrentScript().src);
 				entries["core"] = ["core-js/stable", "./" + filename];
 
 			} else {
+				const mangledName = mangleName(path.name);
+
 				$fs.writeFileSync(filename,
 `import * as m from "../es2015/${path.name}";
-window.am4${path.name} = m;`);
+window.am4${mangledName} = m;`);
 
 				entries[path.name] = "./" + filename;
 			}

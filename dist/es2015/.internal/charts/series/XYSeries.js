@@ -1782,10 +1782,15 @@ var XYSeries = /** @class */ (function (_super) {
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
             var i = a[0];
             var dataItem = a[1];
-            if (_this.sequencedInterpolation && interpolationDuration > 0) {
+            var realDuration = interpolationDuration;
+            if (i < _this.startIndex - 10 || i > _this.endIndex + 10) {
+                realDuration = 0;
+                delay = 0;
+            }
+            if (_this.sequencedInterpolation && realDuration > 0) {
                 delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
             }
-            anim = dataItem.show(interpolationDuration, delay, fields);
+            anim = dataItem.show(realDuration, delay, fields);
         });
         // other data sets
         this.dataSets.each(function (key, dataSet) {
@@ -1861,14 +1866,18 @@ var XYSeries = /** @class */ (function (_super) {
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
             var i = a[0];
             var dataItem = a[1];
-            if (interpolationDuration == 0) {
+            var realDuration = interpolationDuration;
+            if (i < _this.startIndex - 10 || i > _this.endIndex + 10) {
+                realDuration = 0;
+            }
+            if (realDuration == 0) {
                 dataItem.hide(0, 0, value, fields);
             }
             else {
-                if (_this.sequencedInterpolation && interpolationDuration > 0) {
+                if (_this.sequencedInterpolation && realDuration > 0) {
                     delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
                 }
-                anim = dataItem.hide(interpolationDuration, delay, value, fields);
+                anim = dataItem.hide(realDuration, delay, value, fields);
             }
         });
         var animation = _super.prototype.hide.call(this, interpolationDuration);

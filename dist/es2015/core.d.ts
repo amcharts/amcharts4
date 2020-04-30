@@ -89,7 +89,7 @@ export { ISlice3DProperties, ISlice3DEvents, ISlice3DAdapters, Slice3D } from ".
 /**
  * Elements: export
  */
-export { ExportOperation, imageFormats, IExportImageOptions, IExportSVGOptions, pageSizes, IExportPDFOptions, IExportCSVOptions, IExportJSONOptions, IExportExcelOptions, IExportPrintOptions, IExportRemovedObject, IExportOptions, ExportOptions, IExportEvents, Keys, IExportAdapters, Export } from "./.internal/core/export/Export";
+export { ExportOperation, imageFormats, IExportImageOptions, IExportSVGOptions, pageSizes, IExportPDFOptions, IExportCSVOptions, IExportJSONOptions, IExportExcelOptions, IExportPrintOptions, IExportRemovedObject, IExportOptions, ExportOptions, IExportEvents, Keys, IExportAdapters, Export, IFont, IFile } from "./.internal/core/export/Export";
 export { IExportMenuItem, IExportMenuEvents, IExportMenuAdapters, ExportMenu } from "./.internal/core/export/ExportMenu";
 /**
  * Elements: formatters

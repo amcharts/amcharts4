@@ -209,7 +209,7 @@ export class Tooltip extends Container {
 	 */
 	public currentSprite: Sprite;
 
-	protected _pointToDisposer:IDisposer;
+	protected _pointToDisposer: IDisposer;
 
 	/**
 	 * Constructor
@@ -683,6 +683,21 @@ export class Tooltip extends Container {
 	}
 
 	/**
+	 *
+	 */
+	public delayedPointTo(point: IPoint, instantly?: boolean) {
+		if (this._pointToDisposer) {
+			this._pointToDisposer.dispose();
+		}
+		this._pointToDisposer = registry.events.once("exitframe", () => {
+			this.pointTo(point, instantly);
+		})
+
+		this.addDisposer(this._pointToDisposer);
+	}
+
+
+	/**
 	 * Set nes tooltip's anchor point and moves whole tooltip.
 	 *
 	 * @param x  X coordinate
@@ -693,33 +708,25 @@ export class Tooltip extends Container {
 			this._pointTo = point;
 			this.invalidate();
 
-			if(this._pointToDisposer){
-				this._pointToDisposer.dispose();
+			// this helps to avoid strange animation from nowhere on initial show or when balloon was hidden already
+			if (!this.visible || instantly) {
+				this.moveTo(this._pointTo);
+				if (this._animation) {
+					this._animation.kill();
+				}
 			}
-
-			this._pointToDisposer = registry.events.once("exitframe", () => {
-				// this helps to avoid strange animation from nowhere on initial show or when balloon was hidden already
-				if (!this.visible || instantly) {
+			else {
+				// helps to avoid flicker on top/left corner
+				if (this.pixelX == 0 && this.pixelY == 0) {
 					this.moveTo(this._pointTo);
+				}
+				else {
 					if (this._animation) {
 						this._animation.kill();
 					}
+					this._animation = new Animation(this, [{ property: "x", to: point.x, from: this.pixelX }, { property: "y", to: point.y, from: this.pixelY }], this.animationDuration, this.animationEasing).start();
 				}
-				else {
-					// helps to avoid flicker on top/left corner
-					if (this.pixelX == 0 && this.pixelY == 0) {
-						this.moveTo(this._pointTo);
-					}
-					else {
-						if (this._animation) {
-							this._animation.kill();
-						}
-						this._animation = new Animation(this, [{ property: "x", to: point.x, from: this.pixelX }, { property: "y", to: point.y, from: this.pixelY }], this.animationDuration, this.animationEasing).start();
-					}
-				}
-			})
-
-			this.addDisposer(this._pointToDisposer);
+			}
 		}
 	}
 

@@ -262,3 +262,4 @@ export declare function find<A>(array: ArrayLike<A>, matches: (value: A, index: 
  * @param fn     Callback function
  */
 export declare function shuffle<A>(array: Array<A>): void;
+export declare function keepIf<A>(array: Array<A>, keep: (value: A) => boolean): void;

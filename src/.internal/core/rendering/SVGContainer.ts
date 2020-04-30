@@ -10,7 +10,7 @@
  */
 import { Container } from "../Container";
 import { Sprite } from "../Sprite";
-import { IDisposer, Disposer } from "../utils/Disposer";
+import { IDisposer } from "../utils/Disposer";
 import { Popup } from "../elements/Popup";
 import { Modal } from "../elements/Modal";
 import { ListTemplate, ListDisposer } from "../utils/List";
@@ -18,7 +18,7 @@ import * as $utils from "../utils/Utils";
 import * as $dom from "../utils/DOM";
 import * as $array from "../utils/Array";
 import * as $type from "../utils/Type";
-import ResizeSensor from "css-element-queries/src/ResizeSensor";
+import { ResizeSensor } from "../utils/ResizeSensor";
 
 
 
@@ -90,6 +90,7 @@ export class SVGContainer implements IDisposer {
 	/**
 	 * A reference to ResizeSensor object which monitors changes of div size.
 	 *
+	 * @deprecated
 	 * @ignore
 	 */
 	public resizeSensor: ResizeSensor;
@@ -142,9 +143,7 @@ export class SVGContainer implements IDisposer {
 
 			this.resizeSensor = new ResizeSensor(htmlElement, callback);
 
-			this._disposers.push(new Disposer(() => {
-				this.resizeSensor.detach(callback);
-			}));
+			this._disposers.push(this.resizeSensor);
 		}
 
 		// Adds to containers array
@@ -395,7 +394,7 @@ export class SVGContainer implements IDisposer {
 	 * ==========================================================================
 	 * @hidden
 	 */
-	
+
 	/**
 	 * A `<div>` element used as as placeholder to trigger screen alerts.
 	 *
