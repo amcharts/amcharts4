@@ -44,6 +44,8 @@ var SwitchButton = /** @class */ (function (_super) {
         _this.contentAlign = "center";
         _this.contentValign = "middle";
         _this.padding(8, 16, 8, 16);
+        _this.setStateOnChildren = true;
+        _this.states.create("active");
         var interfaceColors = new InterfaceColorSet();
         // Create the label element
         var leftLabel = new Label();

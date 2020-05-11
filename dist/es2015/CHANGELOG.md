@@ -5,6 +5,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.20] - 2020-05-11
+
+### Changed
+- `hit` and `up` events on nested objects will now respect correct bubbling up order.
+- If `rtl` is not set directly on the `Label`, it will now take `rtl` value not from its parent but from `baseSprite` (performance enhancement).
+- `<desc>` element with amCharts attribution removed from generated SVG.
+
+### Fixed
+- Export: PDF export will now fallback to regular fonts if bold fonts don't exist.
+- Export: Advanced PDF exports with extra content were broken since last release.
+- Export: Image export was essentially broken in IEs.
+- `options.nonce` was not working properly on EDGE.
+- Event `selectedned` was not dispatched by `Cursor` if released outside the chart div and behavior was set to `select*`.
+- If all series were removed and then added quickly to the chart with a legend it could result a JS error.
+- Setting `data` directly on a series not right after it was created could result `series.data` array to be shown as empty.
+- It was impossible to set `SwitchButton` as active initially.
+- Fixed snapping cursor to series when data was missing: if series had gaps in data and `cursor.snapToSeries` was set, the snapping was not working properly.
+- When adding data to `XYSeries` which was `XYCharScrollbar`'s series, the raw data was incorrectly modified.
+
+
 ## [4.9.19] - 2020-04-30
 
 ### Added

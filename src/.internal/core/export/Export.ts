@@ -62,7 +62,7 @@ export interface IFile {
 
 export interface IFont {
 	name: string;
-	normal?: IFile;
+	normal: IFile;
 	bold?: IFile;
 	italics?: IFile;
 	bolditalics?: IFile;
@@ -83,9 +83,16 @@ let pdfmakePromise: Promise<any>;
  * @async
  */
 async function _pdfmake(): Promise<any> {
-	let pdfmake = await import(/* webpackChunkName: "pdfmake" */ "pdfmake/build/pdfmake.js");
+	let a = await Promise.all([
+		import(/* webpackChunkName: "pdfmake" */ "pdfmake/build/pdfmake.js"),
+		import(/* webpackChunkName: "pdfmake" */ "../../pdfmake/vfs_fonts")
+	]);
+	let pdfmake = a[0];
+	let vfs_fonts = a[1];
 	const global = <any>window;
 	global.pdfMake = global.pdfMake || {};
+	global.pdfMake.vfs = vfs_fonts.default;
+	pdfmake.vfs = vfs_fonts.default;
 	return pdfmake;
 }
 
@@ -490,7 +497,7 @@ export interface IExportPDFOptions extends IExportImageOptions {
 	 * to use some other export font.
 	 *
 	 * @since 4.9.19
-	 * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/#PDF_and_non_Latin_languages}
+	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/using-pdf-export-fonts/}
 	 */
 	font?: IFont;
 
@@ -498,7 +505,7 @@ export interface IExportPDFOptions extends IExportImageOptions {
 	 * Additional optional fonts which can be used on individual elements.
 	 *
 	 * @since 4.9.19
-	 * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/#PDF_and_non_Latin_languages}
+	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/using-pdf-export-fonts/}
 	 */
 	extraFonts?: Array<IFont>;
 
@@ -2318,7 +2325,7 @@ export class Export extends Validatable {
 			config.scaleHeight = height * pixelRatio;
 		}
 
-		canvg(canvas, data, config);
+		await canvg.fromString(canvas.getContext("2d"), data, config).render();
 
 		return canvas;
 
@@ -3060,24 +3067,31 @@ export class Export extends Validatable {
 		function addFont(font: IFont) {
 			const paths: { [path: string]: string } = {};
 
-			if (font.normal) {
-				paths.normal = font.normal.path;
-				vfs[font.normal.path] = font.normal.bytes;
-			}
+			paths.normal = font.normal.path;
+			vfs[font.normal.path] = font.normal.bytes;
 
 			if (font.bold) {
 				paths.bold = font.bold.path;
 				vfs[font.bold.path] = font.bold.bytes;
+
+			} else {
+				paths.bold = font.normal.path;
 			}
 
 			if (font.italics) {
 				paths.italics = font.italics.path;
 				vfs[font.italics.path] = font.italics.bytes;
+
+			} else {
+				paths.italics = font.normal.path;
 			}
 
 			if (font.bolditalics) {
 				paths.bolditalics = font.bolditalics.path;
 				vfs[font.bolditalics.path] = font.bolditalics.bytes;
+
+			} else {
+				paths.bolditalics = font.normal.path;
 			}
 
 			fonts[font.name] = paths;
@@ -3091,10 +3105,6 @@ export class Export extends Validatable {
 			if (options.extraFonts) {
 				$array.each(options.extraFonts, addFont);
 			}
-
-		} else {
-			const vfs_fonts = await import(/* webpackChunkName: "pdfmake" */ "../../pdfmake/vfs_fonts");
-			vfs = vfs_fonts.default;
 		}
 
 		// Create PDF
@@ -5116,7 +5126,7 @@ export class Export extends Validatable {
 	 * @return Instance of canvg
 	 * @async
 	 */
-	private async _canvg(): Promise<any> {
+	private async _canvg(): Promise<typeof import("canvg")["default"]> {
 		const canvg = (await import(/* webpackChunkName: "canvg" */ "canvg")) as any;
 
 		if (canvg.default != null) {
@@ -5133,7 +5143,7 @@ export class Export extends Validatable {
 	 * @ignore Exclude from docs
 	 * @return Instance of canvg
 	 */
-	public get canvg(): Promise<any> {
+	public get canvg(): Promise<typeof import("canvg")["default"]> {
 		return this._canvg();
 	}
 

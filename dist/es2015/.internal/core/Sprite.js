@@ -462,7 +462,7 @@ var Sprite = /** @class */ (function (_super) {
             return themes;
         }
         else {
-            var parent_1 = this.parent;
+            var parent_1 = this._parent;
             if (parent_1) {
                 return parent_1.getCurrentThemes();
             }
@@ -938,7 +938,7 @@ var Sprite = /** @class */ (function (_super) {
                     });
                 }
                 if (value) {
-                    this.parent = this.parent;
+                    this.parent = this._parent;
                     this.removeFromInvalids();
                 }
                 else {
@@ -958,8 +958,8 @@ var Sprite = /** @class */ (function (_super) {
                 if (this.virtualParent) {
                     return this.virtualParent.showSystemTooltip;
                 }
-                else if (this.parent) {
-                    return this.parent.showSystemTooltip;
+                else if (this._parent) {
+                    return this._parent.showSystemTooltip;
                 }
                 else {
                     return false;
@@ -1004,8 +1004,8 @@ var Sprite = /** @class */ (function (_super) {
                 return this._topParent;
             }
             else {
-                if (this.parent) {
-                    return this.parent.topParent;
+                if (this._parent) {
+                    return this._parent.topParent;
                 }
             }
         },
@@ -1276,8 +1276,9 @@ var Sprite = /** @class */ (function (_super) {
                 return this._paper;
             }
             else {
-                if (this.parent) {
-                    return this.parent.paper;
+                var parent_2 = this._parent;
+                if (parent_2) {
+                    return parent_2.paper;
                 }
             }
             return getGhostPaper();
@@ -1327,8 +1328,9 @@ var Sprite = /** @class */ (function (_super) {
                 return this._htmlContainer;
             }
             else {
-                if (this.parent) {
-                    return this.parent.htmlContainer;
+                var parent_3 = this._parent;
+                if (parent_3) {
+                    return parent_3.htmlContainer;
                 }
             }
         },
@@ -1649,8 +1651,8 @@ var Sprite = /** @class */ (function (_super) {
             if (this._svgContainer) {
                 return this._svgContainer;
             }
-            else if (this.parent) {
-                return this.parent.svgContainer;
+            else if (this._parent) {
+                return this._parent.svgContainer;
             }
         },
         /**
@@ -1849,7 +1851,7 @@ var Sprite = /** @class */ (function (_super) {
      * @return This element
      */
     Sprite.prototype.insertBefore = function (sprite) {
-        var parent = this.parent;
+        var parent = this._parent;
         if (parent) {
             var index = parent.children.indexOf(sprite);
             if (index !== -1) {
@@ -1866,7 +1868,7 @@ var Sprite = /** @class */ (function (_super) {
      * @return This element
      */
     Sprite.prototype.insertAfter = function (sprite) {
-        var parent = this.parent;
+        var parent = this._parent;
         if (parent) {
             var index = parent.children.indexOf(sprite);
             if (index !== -1) {
@@ -1904,8 +1906,8 @@ var Sprite = /** @class */ (function (_super) {
         if (value instanceof Percent) {
             return value.value;
         }
-        else if (this.parent) {
-            return value / this.parent.innerWidth;
+        else if (this._parent) {
+            return value / this._parent.innerWidth;
         }
         return 0;
     };
@@ -1922,8 +1924,8 @@ var Sprite = /** @class */ (function (_super) {
         if (value instanceof Percent) {
             return value.value;
         }
-        else if (this.parent) {
-            return value / this.parent.innerHeight;
+        else if (this._parent) {
+            return value / this._parent.innerHeight;
         }
         return 0;
     };
@@ -1947,8 +1949,8 @@ var Sprite = /** @class */ (function (_super) {
         }
         else if (value instanceof Percent) {
             var relative = value.value;
-            if (this.parent) {
-                pixel = $math.round(this.parent.innerWidth * relative, this._positionPrecision, true);
+            if (this._parent) {
+                pixel = $math.round(this._parent.innerWidth * relative, this._positionPrecision, true);
             }
         }
         return pixel;
@@ -1973,8 +1975,8 @@ var Sprite = /** @class */ (function (_super) {
         }
         else if (value instanceof Percent) {
             var relative = value.value;
-            if (this.parent) {
-                pixel = $math.round(this.parent.innerHeight * relative, this._positionPrecision, true);
+            if (this._parent) {
+                pixel = $math.round(this._parent.innerHeight * relative, this._positionPrecision, true);
             }
         }
         return pixel;
@@ -2690,8 +2692,8 @@ var Sprite = /** @class */ (function (_super) {
                 if (this.virtualParent) {
                     return this.virtualParent.disabled;
                 }
-                if (this.parent) {
-                    return this.parent.disabled;
+                if (this._parent) {
+                    return this._parent.disabled;
                 }
             }
             return false;
@@ -2719,14 +2721,14 @@ var Sprite = /** @class */ (function (_super) {
         if (current != value) {
             this.setPropertyValue("disabled", value, true);
             if (value) {
-                this.parent = this.parent;
+                this.parent = this._parent;
                 this.removeFromInvalids();
                 this.group.attr({ "display": "none" });
                 this.dispatch("disabled");
             }
             else {
-                if (this.parent) {
-                    var group = this.parent.element;
+                if (this._parent) {
+                    var group = this._parent.element;
                     if (!group.hasChild(this.group)) {
                         group.add(this.group);
                     }
@@ -2788,8 +2790,8 @@ var Sprite = /** @class */ (function (_super) {
             else if (this.virtualParent) {
                 return this.virtualParent.numberFormatter;
             }
-            else if (this.parent) {
-                return this.parent.numberFormatter;
+            else if (this._parent) {
+                return this._parent.numberFormatter;
             }
             this._numberFormatter = new NumberFormatter();
             this._numberFormatter.language = this.language;
@@ -2848,8 +2850,8 @@ var Sprite = /** @class */ (function (_super) {
             else if (this.virtualParent) {
                 return this.virtualParent.dateFormatter;
             }
-            else if (this.parent) {
-                return this.parent.dateFormatter;
+            else if (this._parent) {
+                return this._parent.dateFormatter;
             }
             this._dateFormatter = new DateFormatter();
             this._dateFormatter.language = this.language;
@@ -2901,8 +2903,8 @@ var Sprite = /** @class */ (function (_super) {
             else if (this.virtualParent) {
                 return this.virtualParent.durationFormatter;
             }
-            else if (this.parent) {
-                return this.parent.durationFormatter;
+            else if (this._parent) {
+                return this._parent.durationFormatter;
             }
             this._durationFormatter = new DurationFormatter();
             this._durationFormatter.language = this.language;
@@ -2940,8 +2942,8 @@ var Sprite = /** @class */ (function (_super) {
             else if (this.virtualParent) {
                 return this.virtualParent.language;
             }
-            else if (this.parent) {
-                return this.parent.language;
+            else if (this._parent) {
+                return this._parent.language;
             }
             language = new Language();
             this.language = language;
@@ -3135,8 +3137,8 @@ var Sprite = /** @class */ (function (_super) {
             value = this.getTagValueFromObject(parts, this.populateStringFrom || this);
         }
         // Finally, check the parent
-        if (!$type.hasValue(value) && this.parent) {
-            value = this.parent.getTagValue(tagName, format);
+        if (!$type.hasValue(value) && this._parent) {
+            value = this._parent.getTagValue(tagName, format);
         }
         return value;
     };
@@ -3260,8 +3262,8 @@ var Sprite = /** @class */ (function (_super) {
                 if (this.virtualParent) {
                     return this.virtualParent.dataItem;
                 }
-                if (this.parent) {
-                    return this.parent.dataItem;
+                if (this._parent) {
+                    return this._parent.dataItem;
                 }
             }
             return this._dataItem;
@@ -3914,8 +3916,8 @@ var Sprite = /** @class */ (function (_super) {
                 if (this.virtualParent) {
                     return this.virtualParent.keyboardOptions;
                 }
-                if (this.parent) {
-                    return this.parent.keyboardOptions;
+                if (this._parent) {
+                    return this._parent.keyboardOptions;
                 }
             }
             return this.interactions.keyboardOptions;
@@ -3957,8 +3959,8 @@ var Sprite = /** @class */ (function (_super) {
                 if (this.virtualParent) {
                     return this.virtualParent.mouseOptions;
                 }
-                if (this.parent) {
-                    return this.parent.mouseOptions;
+                if (this._parent) {
+                    return this._parent.mouseOptions;
                 }
             }
             return this.interactions.mouseOptions;
@@ -4164,8 +4166,8 @@ var Sprite = /** @class */ (function (_super) {
             if (this.virtualParent) {
                 return this.virtualParent.focusFilter;
             }
-            else if (this.parent) {
-                return this.parent.focusFilter;
+            else if (this._parent) {
+                return this._parent.focusFilter;
             }
             //this._focusFilter = new FocusFilter();
             //this._disposers.push(this._focusFilter);
@@ -4221,8 +4223,8 @@ var Sprite = /** @class */ (function (_super) {
             else if (this.virtualParent) {
                 return this.virtualParent.tabindex;
             }
-            else if (this.parent) {
-                return this.parent.tabindex;
+            else if (this._parent) {
+                return this._parent.tabindex;
             }
         },
         /**
@@ -4279,8 +4281,8 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this.interactions.inertiaOptions) {
-                if (this.parent) {
-                    return this.parent.inertiaOptions;
+                if (this._parent) {
+                    return this._parent.inertiaOptions;
                 }
             }
             return this.interactions.inertiaOptions;
@@ -4397,7 +4399,7 @@ var Sprite = /** @class */ (function (_super) {
         if (!this.interactions.isTouchProtected || !ev.touch) {
             var point = this.interactions.originalPosition;
             if (point && this._isDragged) {
-                var globalScale = this.parent.globalScale * this.svgContainer.cssScale;
+                var globalScale = this._parent.globalScale * this.svgContainer.cssScale;
                 this.moveTo({ x: point.x + ev.shift.x / globalScale, y: point.y + ev.shift.y / globalScale }, undefined, undefined, true);
             }
             this.dispatchImmediately("dragged", ev);
@@ -4452,8 +4454,8 @@ var Sprite = /** @class */ (function (_super) {
                 if (this.virtualParent) {
                     return this.virtualParent.hoverOptions;
                 }
-                if (this.parent) {
-                    return this.parent.hoverOptions;
+                if (this._parent) {
+                    return this._parent.hoverOptions;
                 }
             }
             return this.interactions.hoverOptions;
@@ -4592,8 +4594,8 @@ var Sprite = /** @class */ (function (_super) {
                 if (this.virtualParent) {
                     return this.virtualParent.hitOptions;
                 }
-                if (this.parent) {
-                    return this.parent.hitOptions;
+                if (this._parent) {
+                    return this._parent.hitOptions;
                 }
             }
             return this.interactions.hitOptions;
@@ -4811,8 +4813,8 @@ var Sprite = /** @class */ (function (_super) {
          * @return [description]
          */
         get: function () {
-            if (!this._baseId && this.parent) {
-                this.baseId = this.parent.baseId;
+            if (!this._baseId && this._parent) {
+                this.baseId = this._parent.baseId;
             }
             return this._baseId;
         },
@@ -4876,8 +4878,8 @@ var Sprite = /** @class */ (function (_super) {
             if (this.isBaseSprite) {
                 return this;
             }
-            else if (this.parent) {
-                return this.parent.baseSprite;
+            else if (this._parent) {
+                return this._parent.baseSprite;
             }
         },
         enumerable: true,
@@ -4945,8 +4947,8 @@ var Sprite = /** @class */ (function (_super) {
                 if (this.virtualParent) {
                     return this.virtualParent.swipeOptions;
                 }
-                if (this.parent) {
-                    return this.parent.swipeOptions;
+                if (this._parent) {
+                    return this._parent.swipeOptions;
                 }
             }
             return this.interactions.swipeOptions;
@@ -5141,15 +5143,15 @@ var Sprite = /** @class */ (function (_super) {
                 var svgPoint1 = $utils.documentPointToSvg(ev.point1, this.htmlContainer, this.svgContainer.cssScale);
                 var svgPoint2 = $utils.documentPointToSvg(ev.point2, this.htmlContainer, this.svgContainer.cssScale);
                 var svgMidPoint = $math.getMidPoint(svgPoint1, svgPoint2);
-                var parentPoint1 = $utils.documentPointToSprite(ev.startPoint1, this.parent);
-                var parentPoint2 = $utils.documentPointToSprite(ev.startPoint2, this.parent);
+                var parentPoint1 = $utils.documentPointToSprite(ev.startPoint1, this._parent);
+                var parentPoint2 = $utils.documentPointToSprite(ev.startPoint2, this._parent);
                 var originalPosition = this.interactions.originalPosition;
                 var originalScale = this.interactions.originalScale;
                 if (originalPosition) {
                     var spritePoint1 = { x: (parentPoint1.x - originalPosition.x) / originalScale, y: (parentPoint1.y - originalPosition.y) / originalScale };
                     var spritePoint2 = { x: (parentPoint2.x - originalPosition.x) / originalScale, y: (parentPoint2.y - originalPosition.y) / originalScale };
                     var spriteMidPoint = $math.getMidPoint(spritePoint1, spritePoint2);
-                    var parentPoint = $utils.svgPointToSprite(svgMidPoint, this.parent);
+                    var parentPoint = $utils.svgPointToSprite(svgMidPoint, this._parent);
                     this.moveTo({ x: parentPoint.x - spriteMidPoint.x * this.scale, y: parentPoint.y - spriteMidPoint.y * this.scale }, undefined, undefined, true);
                 }
             }
@@ -5179,8 +5181,8 @@ var Sprite = /** @class */ (function (_super) {
                 if (this.virtualParent) {
                     return this.virtualParent.cursorOptions;
                 }
-                if (this.parent) {
-                    return this.parent.cursorOptions;
+                if (this._parent) {
+                    return this._parent.cursorOptions;
                 }
             }
             return this.interactions.cursorOptions;
@@ -5289,8 +5291,8 @@ var Sprite = /** @class */ (function (_super) {
             if (this.virtualParent) {
                 return this.virtualParent.interactionsEnabled;
             }
-            if (this.parent) {
-                return this.parent.interactionsEnabled;
+            if (this._parent) {
+                return this._parent.interactionsEnabled;
             }
             return true;
         },
@@ -5361,7 +5363,7 @@ var Sprite = /** @class */ (function (_super) {
             return _export;
         }
         else {
-            if (this.isStandaloneInstance || !this.parent) {
+            if (this.isStandaloneInstance || !this._parent) {
                 _export = new Export(this.svgContainer.SVGContainer);
                 _export.sprite = this;
                 _export.language = this.language;
@@ -5371,7 +5373,7 @@ var Sprite = /** @class */ (function (_super) {
                 this._exporting.set(_export, _export);
             }
             else {
-                return this.parent.exporting;
+                return this._parent.exporting;
             }
         }
         return _export;
@@ -5830,8 +5832,8 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             value = $type.toText(value);
             if (this.setPropertyValue("align", value)) {
-                if (this.parent) {
-                    this.parent.invalidateLayout();
+                if (this._parent) {
+                    this._parent.invalidateLayout();
                 }
             }
         },
@@ -5855,8 +5857,8 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             value = $type.toText(value);
             if (this.setPropertyValue("valign", value)) {
-                if (this.parent) {
-                    this.parent.invalidateLayout();
+                if (this._parent) {
+                    this._parent.invalidateLayout();
                 }
             }
         },
@@ -5918,9 +5920,9 @@ var Sprite = /** @class */ (function (_super) {
         get: function () {
             var maxWidth = this.getPropertyValue("maxWidth");
             if (!$type.isNumber(maxWidth)) {
-                if (this.parent) {
-                    var parentWidth = this.parent.maxWidth;
-                    if (this.parent.layout != "absolute" && this.align != "none" && this.align != undefined) {
+                if (this._parent) {
+                    var parentWidth = this._parent.maxWidth;
+                    if (this._parent.layout != "absolute" && this.align != "none" && this.align != undefined) {
                         parentWidth = parentWidth - this.pixelMarginLeft - this.pixelMarginRight;
                     }
                     return parentWidth;
@@ -5968,9 +5970,9 @@ var Sprite = /** @class */ (function (_super) {
         get: function () {
             var maxHeight = this.getPropertyValue("maxHeight");
             if (!$type.isNumber(maxHeight)) {
-                if (this.parent) {
-                    var parentHeight = this.parent.maxHeight;
-                    if (this.parent.layout != "absolute" && this.valign != "none" && this.valign != undefined) {
+                if (this._parent) {
+                    var parentHeight = this._parent.maxHeight;
+                    if (this._parent.layout != "absolute" && this.valign != "none" && this.valign != undefined) {
                         parentHeight = parentHeight - this.pixelMarginTop - this.pixelMarginBottom;
                     }
                     return parentHeight;
@@ -6405,8 +6407,8 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             var scale = this.scale;
-            if (this.parent) {
-                scale = scale * this.parent.globalScale;
+            if (this._parent) {
+                scale = scale * this._parent.globalScale;
             }
             if (!this._adapterO) {
                 return scale;
@@ -7394,11 +7396,8 @@ var Sprite = /** @class */ (function (_super) {
             if ($type.hasValue(this._rtl)) {
                 return this._rtl;
             }
-            else if (this.virtualParent) {
-                return this.virtualParent.rtl;
-            }
-            else if (this.parent) {
-                return this.parent.rtl;
+            else if (this._topParent) {
+                return this._topParent.rtl;
             }
             //this.rtl = false;
             return false;
@@ -7408,10 +7407,17 @@ var Sprite = /** @class */ (function (_super) {
          *
          * RTL may affect alignment, text, and other visual properties.
          *
+         * If you set this on a top-level chart object, it will be used for all
+         * child elements, e.g. labels, unless they have their own `rtl` setting
+         * set directly on them.
+         *
          * @param value  `true` for to use RTL
          */
         set: function (value) {
             value = $type.toBoolean(value);
+            if (this.isBaseSprite) {
+                this.topParent.rtl = value;
+            }
             this._rtl = value;
         },
         enumerable: true,
@@ -7676,7 +7682,7 @@ var Sprite = /** @class */ (function (_super) {
      * in front of other elements.
      */
     Sprite.prototype.toFront = function () {
-        var parent = this.parent;
+        var parent = this._parent;
         if (parent && parent.children.indexOf(this) != parent.children.length - 1) {
             parent.children.moveValue(this, parent.children.length - 1);
             this.dispatch("zIndexChanged");
@@ -7687,7 +7693,7 @@ var Sprite = /** @class */ (function (_super) {
      * appears behind other elements.
      */
     Sprite.prototype.toBack = function () {
-        var parent = this.parent;
+        var parent = this._parent;
         if (parent && parent.children.indexOf(this) != 0) {
             parent.children.moveValue(this, 0);
             this.dispatch("zIndexChanged");
@@ -7730,8 +7736,8 @@ var Sprite = /** @class */ (function (_super) {
             else if (this.virtualParent) {
                 return this.virtualParent.tooltip;
             }
-            else if (this.parent) {
-                return this.parent.tooltip;
+            else if (this._parent) {
+                return this._parent.tooltip;
             }
         },
         /**
@@ -8094,8 +8100,8 @@ var Sprite = /** @class */ (function (_super) {
             if (this._tooltipContainer) {
                 return this._tooltipContainer;
             }
-            else if (this.parent) {
-                return this.parent.tooltipContainer;
+            else if (this._parent) {
+                return this._parent.tooltipContainer;
             }
         },
         /**

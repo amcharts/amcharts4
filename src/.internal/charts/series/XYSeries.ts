@@ -1583,10 +1583,11 @@ export class XYSeries extends Series {
 	 *
 	 * @param rawDataItem One or many raw data item objects
 	 */
-	public addData(rawDataItem: Object | Object[], removeCount?: number): void {
-		super.addData(rawDataItem, removeCount);
-		if (this.scrollbarSeries) {
-			this.scrollbarSeries.addData(rawDataItem, removeCount);
+	public addData(rawDataItem: Object | Object[], removeCount?: number, skipRaw?:boolean): void {
+		super.addData(rawDataItem, removeCount, skipRaw);
+		const scrollbarSeries = this.scrollbarSeries;
+		if (scrollbarSeries) {
+			this.scrollbarSeries.addData(rawDataItem, removeCount, true);
 		}
 	}
 

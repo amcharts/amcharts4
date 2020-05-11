@@ -114,6 +114,8 @@ export class SwitchButton extends Container {
 		this.contentAlign = "center";
 		this.contentValign = "middle";
 		this.padding(8, 16, 8, 16);
+		this.setStateOnChildren = true;
+		this.states.create("active");
 
 		let interfaceColors = new InterfaceColorSet();
 

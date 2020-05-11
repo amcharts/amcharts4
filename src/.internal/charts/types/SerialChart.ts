@@ -251,14 +251,20 @@ export class SerialChart extends Chart {
 			series.bulletsContainer.parent = undefined;
 		}
 		//this.feedLegend();
-		if (this.legend) {
+		let legend = this.legend;
+		if (legend) {
 			let dataItems = this.legend.dataItems;
-
-			for(let i = dataItems.length - 1; i >= 0; i--){
+			for (let i = dataItems.length - 1; i >= 0; i--) {
 				let dataItem = dataItems.getIndex(i);
 				if (dataItem && dataItem.dataContext == series) {
-					$array.remove(this.legend.data, dataItem.dataContext);					
-					this.legend.dataItems.remove(dataItem);
+					legend.dataItems.remove(dataItem);
+				}
+			}
+
+			for (let i = legend.data.length - 1; i >= 0; i--) {
+				let di = legend.data[i];
+				if (di && di == series) {
+					$array.remove(legend.data, di);
 				}
 			}
 		}
@@ -302,14 +308,16 @@ export class SerialChart extends Chart {
 				registry.events.once("exitframe", () => {
 					if (!series.data || series.data.length == 0) {
 						series.data = this.data;
-						if(series.showOnInit){
+						if (series.showOnInit) {
 							series.reinit()
-							series.setPropertyValue("showOnInit", false);							
+							series.setPropertyValue("showOnInit", false);
 							series.showOnInit = true;
 						}
 
-						series.events.on("datavalidated", ()=>{
-							(<any>series)._data = [];
+						series.events.once("datavalidated", () => {
+							if (series.data == this.data) {
+								(<any>series)._data = [];
+							}
 						})
 					}
 				})

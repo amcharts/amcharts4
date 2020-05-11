@@ -474,7 +474,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Elements's top-level [[Container]].
      *
-     * In most cases that will be a Chart.
      *
      * @return Top-level ascendant
      */
@@ -3617,6 +3616,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * An RTL (right-to-left) setting.
      *
      * RTL may affect alignment, text, and other visual properties.
+     *
+     * If you set this on a top-level chart object, it will be used for all
+     * child elements, e.g. labels, unless they have their own `rtl` setting
+     * set directly on them.
      *
      * @param value  `true` for to use RTL
      */

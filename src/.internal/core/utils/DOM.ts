@@ -413,7 +413,7 @@ function getStylesheet(element: ShadowRoot | null): CSSStyleSheet {
 			const e = document.createElement("style");
 			e.type = "text/css";
 			if (options.nonce != "") {
-				e.nonce = options.nonce;
+				e.setAttribute("nonce", options.nonce)
 			}
 			document.head.appendChild(e);
 			rootStylesheet = e.sheet as CSSStyleSheet;
@@ -426,7 +426,7 @@ function getStylesheet(element: ShadowRoot | null): CSSStyleSheet {
 		const e = document.createElement("style");
 		e.type = "text/css";
 		if (options.nonce != "") {
-			e.nonce = options.nonce;
+			e.setAttribute("nonce", options.nonce)
 		}
 		element.appendChild(e);
 		return e.sheet as CSSStyleSheet;

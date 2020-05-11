@@ -2044,7 +2044,7 @@ export class Container extends Sprite {
 					return false;
 				}
 				else {
-					return true;					
+					return true;
 				}
 			});
 

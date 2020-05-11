@@ -312,9 +312,9 @@ var Component = /** @class */ (function (_super) {
                         }).value;
                     }
                 }
-                if (dataItem.hasChildren[fieldName]) {
-                    if ($type.hasValue(value)) {
-                        hasSomeValues_1 = true;
+                if ($type.hasValue(value)) {
+                    hasSomeValues_1 = true;
+                    if (dataItem.hasChildren[fieldName]) {
                         var template = _this.createDataItem();
                         template.copyFrom(_this.mainDataSet.template);
                         var children = new OrderedListTemplate(template);
@@ -331,11 +331,8 @@ var Component = /** @class */ (function (_super) {
                         var anyDataItem = dataItem;
                         anyDataItem[fieldName] = children;
                     }
-                }
-                else {
-                    // data is converted to numbers/dates in each dataItem
-                    if ($type.hasValue(value)) {
-                        hasSomeValues_1 = true;
+                    else {
+                        // data is converted to numbers/dates in each dataItem
                         dataItem[fieldName] = value;
                     }
                 }
@@ -376,18 +373,16 @@ var Component = /** @class */ (function (_super) {
                         dataItem: dataItem
                     }).value;
                 }
-                if (dataItem.hasChildren[fieldName]) {
-                    if (value) {
+                if ($type.hasValue(value)) {
+                    if (dataItem.hasChildren[fieldName]) {
                         var anyDataItem = dataItem;
                         var children = (anyDataItem[fieldName]);
-                        $iter.each(children.iterator(), function (child) {
+                        children.each(function (child) {
                             _this.updateDataItem(child);
                         });
                     }
-                }
-                else {
-                    // data is converted to numbers/dates in each dataItem
-                    if ($type.hasValue(value)) {
+                    else {
+                        // data is converted to numbers/dates in each dataItem					
                         dataItem[fieldName] = value;
                     }
                 }
@@ -439,23 +434,25 @@ var Component = /** @class */ (function (_super) {
      *
      * @param rawDataItem One or many raw data item objects
      */
-    Component.prototype.addData = function (rawDataItem, removeCount) {
+    Component.prototype.addData = function (rawDataItem, removeCount, skipRaw) {
         var _this = this;
         // need to check if data is invalid, as addData might be called multiple times
         if (!this.dataInvalid && this.inited) {
             this._parseDataFrom = this.data.length; // save length of parsed data
         }
-        if (rawDataItem instanceof Array) {
-            // can't use concat because new array is returned
-            $array.each(rawDataItem, function (dataItem) {
-                _this.data.push(dataItem);
-            });
-        }
-        else {
-            this.data.push(rawDataItem); // add to raw data array
+        if (!skipRaw) {
+            if (rawDataItem instanceof Array) {
+                // can't use concat because new array is returned
+                $array.each(rawDataItem, function (dataItem) {
+                    _this.data.push(dataItem);
+                });
+            }
+            else {
+                this.data.push(rawDataItem); // add to raw data array
+            }
         }
         if (this.inited) {
-            this.removeData(removeCount);
+            this.removeData(removeCount, skipRaw);
         }
         else {
             if ($type.isNumber(removeCount)) {
@@ -472,7 +469,7 @@ var Component = /** @class */ (function (_super) {
      *
      * @param count number of elements to remove
      */
-    Component.prototype.removeData = function (count) {
+    Component.prototype.removeData = function (count, skipRaw) {
         if ($type.isNumber(count) && count > 0) {
             while (count > 0) {
                 var dataItem = this.mainDataSet.getIndex(0);
@@ -487,7 +484,9 @@ var Component = /** @class */ (function (_super) {
                         }
                     }
                 });
-                this.data.shift();
+                if (!skipRaw) {
+                    this.data.shift();
+                }
                 if (this._parseDataFrom > 0) {
                     this._parseDataFrom--;
                 }

@@ -377,7 +377,7 @@ function getStylesheet(element) {
             var e = document.createElement("style");
             e.type = "text/css";
             if (options.nonce != "") {
-                e.nonce = options.nonce;
+                e.setAttribute("nonce", options.nonce);
             }
             document.head.appendChild(e);
             rootStylesheet = e.sheet;
@@ -389,7 +389,7 @@ function getStylesheet(element) {
         var e = document.createElement("style");
         e.type = "text/css";
         if (options.nonce != "") {
-            e.nonce = options.nonce;
+            e.setAttribute("nonce", options.nonce);
         }
         element.appendChild(e);
         return e.sheet;

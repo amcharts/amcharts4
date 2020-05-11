@@ -393,19 +393,22 @@ var XYCursor = /** @class */ (function (_super) {
         /**
          * Cursor's behavior when it's moved with pointer down:
          *
-         * * "zoomX" - zooms horizontally;
-         * * "zoomY" - zooms vertically;
-         * * "zoomXY" - zooms both horizontally and vertically;
-         * * "selectX" - selects a range horizontally;
-         * * "selectY" - selects a range vertically;
-         * * "selectXY" - selects a range both horizontally and vertically;
-         * * "panX" - moves (pans) current selection horizontally;
-         * * "panY" - moves (pans) current selection vertically;
-         * * "panXY" - moves (pans) current selection both horizontally and vertically;
-         * * "none" - does nothing with pointer down.
+         * * `"zoomX"` - zooms horizontally.
+         * * `"zoomY"` - zooms vertically.
+         * * `"zoomXY"` - zooms both horizontally and vertically.
+         * * `"selectX"` - selects a range horizontally.
+         * * `"selectY"` - selects a range vertically.
+         * * `"selectXY"` - selects a range both horizontally and vertically.
+         * * `"panX"` - moves (pans) current selection horizontally.
+         * * `"panY"` - moves (pans) current selection vertically.
+         * * `"panXY"` - moves (pans) current selection both horizontally and vertically.
+         * * `"none"` - does nothing with pointer down.
          *
          * E.g. "zoomXY" will mean that pressing a mouse (or touching) over plot area
          * and dragging it will start zooming the chart.
+         *
+         * NOTE: `"zoomXY"` acts differently when used on a `DateAxis`.
+         * See [this note](https://www.amcharts.com/docs/v4/concepts/chart-cursor/#zoomXY_behavior_and_DateAxis).
          *
          * @param value Bheavior
          */

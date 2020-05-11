@@ -146,13 +146,19 @@ var SerialChart = /** @class */ (function (_super) {
             series.bulletsContainer.parent = undefined;
         }
         //this.feedLegend();
-        if (this.legend) {
+        var legend = this.legend;
+        if (legend) {
             var dataItems = this.legend.dataItems;
             for (var i = dataItems.length - 1; i >= 0; i--) {
                 var dataItem = dataItems.getIndex(i);
                 if (dataItem && dataItem.dataContext == series) {
-                    $array.remove(this.legend.data, dataItem.dataContext);
-                    this.legend.dataItems.remove(dataItem);
+                    legend.dataItems.remove(dataItem);
+                }
+            }
+            for (var i = legend.data.length - 1; i >= 0; i--) {
+                var di = legend.data[i];
+                if (di && di == series) {
+                    $array.remove(legend.data, di);
                 }
             }
         }
@@ -197,8 +203,10 @@ var SerialChart = /** @class */ (function (_super) {
                         series.setPropertyValue("showOnInit", false);
                         series.showOnInit = true;
                     }
-                    series.events.on("datavalidated", function () {
-                        series._data = [];
+                    series.events.once("datavalidated", function () {
+                        if (series.data == _this.data) {
+                            series._data = [];
+                        }
                     });
                 }
             }));

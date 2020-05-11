@@ -1585,6 +1585,7 @@ var DateAxis = /** @class */ (function (_super) {
          * * Using this feature affects performance. Use only if you need it.
          * * Setting this to `true` will reset appearance of breaks. If you want to modify appearance, do it *after* you set `skipEmptyPeriods`.
          * * Some axis label overlapping might happen.
+         * * This setting is not compatible with `groupData = true`.
          *
          * @default false
          * @param value  Remove empty stretches of time?

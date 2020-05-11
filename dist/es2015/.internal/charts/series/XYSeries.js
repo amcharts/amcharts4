@@ -1070,10 +1070,11 @@ var XYSeries = /** @class */ (function (_super) {
      *
      * @param rawDataItem One or many raw data item objects
      */
-    XYSeries.prototype.addData = function (rawDataItem, removeCount) {
-        _super.prototype.addData.call(this, rawDataItem, removeCount);
-        if (this.scrollbarSeries) {
-            this.scrollbarSeries.addData(rawDataItem, removeCount);
+    XYSeries.prototype.addData = function (rawDataItem, removeCount, skipRaw) {
+        _super.prototype.addData.call(this, rawDataItem, removeCount, skipRaw);
+        var scrollbarSeries = this.scrollbarSeries;
+        if (scrollbarSeries) {
+            this.scrollbarSeries.addData(rawDataItem, removeCount, true);
         }
     };
     XYSeries.prototype.setData = function (value) {

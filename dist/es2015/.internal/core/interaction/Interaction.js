@@ -28,6 +28,7 @@ import { keyboard } from "../utils/Keyboard";
 import { system } from "./../System";
 import * as $ease from "../utils/Ease";
 import * as $math from "../utils/Math";
+import * as $array from "../utils/Array";
 import * as $dom from "../utils/DOM";
 import * as $iter from "../utils/Iterator";
 import * as $type from "../utils/Type";
@@ -1266,8 +1267,26 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.handleGlobalUp = function (pointer, ev, cancelled) {
         var _this = this;
         if (cancelled === void 0) { cancelled = false; }
+        var sorted = this.downObjects.values.slice();
+        sorted.sort(function (x, y) {
+            if (x && y) {
+                var pos = x.element.compareDocumentPosition(y.element);
+                if (pos & Node.DOCUMENT_POSITION_CONTAINED_BY) {
+                    return 1;
+                }
+                else if (pos & Node.DOCUMENT_POSITION_CONTAINS) {
+                    return -1;
+                }
+                else {
+                    return 0;
+                }
+            }
+            else {
+                return 0;
+            }
+        });
         // Process all down objects
-        $iter.each(this.downObjects.backwards().iterator(), function (io) {
+        $array.each(sorted, function (io) {
             // Check if this particular pointer is pressing down
             // on object
             if (io && io.downPointers.contains(pointer)) {

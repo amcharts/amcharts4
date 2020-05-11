@@ -46,7 +46,7 @@ export interface IFile {
 }
 export interface IFont {
     name: string;
-    normal?: IFile;
+    normal: IFile;
     bold?: IFile;
     italics?: IFile;
     bolditalics?: IFile;
@@ -276,14 +276,14 @@ export interface IExportPDFOptions extends IExportImageOptions {
      * to use some other export font.
      *
      * @since 4.9.19
-     * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/#PDF_and_non_Latin_languages}
+     * @see {@link https://www.amcharts.com/docs/v4/tutorials/using-pdf-export-fonts/}
      */
     font?: IFont;
     /**
      * Additional optional fonts which can be used on individual elements.
      *
      * @since 4.9.19
-     * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/#PDF_and_non_Latin_languages}
+     * @see {@link https://www.amcharts.com/docs/v4/tutorials/using-pdf-export-fonts/}
      */
     extraFonts?: Array<IFont>;
 }
@@ -1972,7 +1972,7 @@ export declare class Export extends Validatable {
      * @ignore Exclude from docs
      * @return Instance of canvg
      */
-    readonly canvg: Promise<any>;
+    readonly canvg: Promise<typeof import("canvg")["default"]>;
     /**
      * Returns pdfmake instance.
      *

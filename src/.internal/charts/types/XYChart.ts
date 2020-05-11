@@ -1183,16 +1183,17 @@ export class XYChart extends SerialChart {
 					else {
 						if (snpSeries.baseAxis == snpSeries.xAxis) {
 							$array.move(exceptAxes, snpSeries.yAxis);
-							dataItems.push(xAxis.getSeriesDataItem(snpSeries, xAxis.toAxisPosition(xPosition)));
+							dataItems.push(xAxis.getSeriesDataItem(snpSeries, xAxis.toAxisPosition(xPosition), true));
 						}
 						if (snpSeries.baseAxis == snpSeries.yAxis) {
 							$array.move(exceptAxes, snpSeries.xAxis);
-							dataItems.push(yAxis.getSeriesDataItem(snpSeries, yAxis.toAxisPosition(yPosition)));
+							dataItems.push(yAxis.getSeriesDataItem(snpSeries, yAxis.toAxisPosition(yPosition), true));
 						}
 					}
 				})
 
 				let closestDataItem = this.getClosest(dataItems, xPosition, yPosition);
+
 				if (closestDataItem) {
 					this.series.each((series) => {
 						let closestSeries = closestDataItem.component;

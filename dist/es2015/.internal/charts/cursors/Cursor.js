@@ -309,7 +309,7 @@ var Cursor = /** @class */ (function (_super) {
         if (!this.interactionsEnabled) {
             return;
         }
-        if (((this._generalBehavior != "zoom" && this._generalBehavior != "pan") || !this.downPoint) && !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
+        if (!this.downPoint && !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
             return;
         }
         var local = $utils.documentPointToSprite(event.pointer.point, this);

@@ -1,67 +1,3 @@
-define('@amcharts/amcharts4-fonts/cairo-arabic', [], function () {
-  'use strict';
-  var output = self.am4fonts_cairo-arabic;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'fonts/cairo-arabic' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4-fonts/notosans-jp', [], function () {
-  'use strict';
-  var output = self.am4fonts_notosans-jp;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'fonts/notosans-jp' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4-fonts/notosans-kr', [], function () {
-  'use strict';
-  var output = self.am4fonts_notosans-kr;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'fonts/notosans-kr' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4-fonts/notosans-sc', [], function () {
-  'use strict';
-  var output = self.am4fonts_notosans-sc;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'fonts/notosans-sc' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4-fonts/notosans-tc', [], function () {
-  'use strict';
-  var output = self.am4fonts_notosans-tc;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'fonts/notosans-tc' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4-fonts/opensans-cyrillic', [], function () {
-  'use strict';
-  var output = self.am4fonts_opensans-cyrillic;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'fonts/opensans-cyrillic' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4-fonts/rubik-hebrew', [], function () {
-  'use strict';
-  var output = self.am4fonts_rubik-hebrew;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'fonts/rubik-hebrew' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4-fonts/sarabun-thai', [], function () {
-  'use strict';
-  var output = self.am4fonts_sarabun-thai;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'fonts/sarabun-thai' to the amcharts4.files array in your EmberApp.");
-});
 define('@amcharts/amcharts4-geodata/.internal/Data', [], function () {
   'use strict';
   var output = self.am4geodata_.internal_Data;
@@ -1725,6 +1661,22 @@ define('@amcharts/amcharts4-geodata/indonesiaLow', [], function () {
     return output;
   }
   throw new Error("You must add 'geodata/indonesiaLow' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/iranHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_iranHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/iranHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/iranLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_iranLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/iranLow' to the amcharts4.files array in your EmberApp.");
 });
 define('@amcharts/amcharts4-geodata/irelandHigh', [], function () {
   'use strict';
@@ -4718,6 +4670,22 @@ define('@amcharts/amcharts4-geodata/region/usa/congressional/nyLow', [], functio
   }
   throw new Error("You must add 'geodata/region/usa/congressional/nyLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/region/usa/congressional/ohHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_region_usa_congressional_ohHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/region/usa/congressional/ohHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/region/usa/congressional/ohLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_region_usa_congressional_ohLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/region/usa/congressional/ohLow' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/region/usa/congressional/okHigh', [], function () {
   'use strict';
   var output = self.am4geodata_region_usa_congressional_okHigh;
@@ -6365,6 +6333,38 @@ define('@amcharts/amcharts4-geodata/southKoreaLow', [], function () {
     return output;
   }
   throw new Error("You must add 'geodata/southKoreaLow' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/southSudan2015High', [], function () {
+  'use strict';
+  var output = self.am4geodata_southSudan2015High;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/southSudan2015High' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/southSudan2015Low', [], function () {
+  'use strict';
+  var output = self.am4geodata_southSudan2015Low;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/southSudan2015Low' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/southSudanHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_southSudanHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/southSudanHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/southSudanLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_southSudanLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/southSudanLow' to the amcharts4.files array in your EmberApp.");
 });
 define('@amcharts/amcharts4-geodata/spainHigh', [], function () {
   'use strict';

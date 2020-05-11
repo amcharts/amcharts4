@@ -563,7 +563,6 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	/**
 	 * Elements's top-level [[Container]].
 	 *
-	 * In most cases that will be a Chart.
 	 *
 	 * @return Top-level ascendant
 	 */
@@ -1119,7 +1118,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			return themes;
 
 		} else {
-			const parent = this.parent;
+			const parent = this._parent;
 
 			if (parent) {
 				return parent.getCurrentThemes();
@@ -1662,7 +1661,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			}
 
 			if (value) {
-				this.parent = this.parent;
+				this.parent = this._parent;
 				this.removeFromInvalids();
 			}
 			else {
@@ -1701,8 +1700,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (this.virtualParent) {
 				return this.virtualParent.showSystemTooltip;
 			}
-			else if (this.parent) {
-				return this.parent.showSystemTooltip;
+			else if (this._parent) {
+				return this._parent.showSystemTooltip;
 			}
 			else {
 				return false;
@@ -1733,8 +1732,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			return this._topParent;
 		}
 		else {
-			if (this.parent) {
-				return this.parent.topParent;
+			if (this._parent) {
+				return this._parent.topParent;
 			}
 		}
 	}
@@ -2056,8 +2055,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			return this._paper;
 		}
 		else {
-			if (this.parent) {
-				return this.parent.paper;
+			let parent = this._parent;
+			if (parent) {
+				return parent.paper;
 			}
 		}
 
@@ -2084,8 +2084,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			return this._htmlContainer;
 		}
 		else {
-			if (this.parent) {
-				return this.parent.htmlContainer;
+			let parent = this._parent;
+			if (parent) {
+				return parent.htmlContainer;
 			}
 		}
 	}
@@ -2423,8 +2424,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this._svgContainer) {
 			return this._svgContainer;
 		}
-		else if (this.parent) {
-			return this.parent.svgContainer;
+		else if (this._parent) {
+			return this._parent.svgContainer;
 		}
 	}
 
@@ -2445,6 +2446,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @ignore Exclude from docs
 	 */
 	protected measureElement() {
+		
 		if (this.element) {
 			if (this.definedBBox) {
 				this._bbox = this.definedBBox;
@@ -2590,6 +2592,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		this.maxBottomSelf = this.maxBottom;
 
 		// if a sprite is rotated or scaled, calculate measured size after transformations
+
 		if (this.rotation !== 0 || this.scale !== 1) {
 
 			// not good to handleGlobalScale here.
@@ -2673,7 +2676,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return This element
 	 */
 	public insertBefore(sprite: Sprite): Sprite {
-		let parent = this.parent;
+		let parent = this._parent;
 
 		if (parent) {
 			let index: number = parent.children.indexOf(sprite);
@@ -2693,7 +2696,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return This element
 	 */
 	public insertAfter(sprite: Sprite): Sprite {
-		let parent = this.parent;
+		let parent = this._parent;
 
 		if (parent) {
 			let index: number = parent.children.indexOf(sprite);
@@ -2735,8 +2738,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (value instanceof Percent) {
 			return value.value;
 		}
-		else if (this.parent) {
-			return value / this.parent.innerWidth;
+		else if (this._parent) {
+			return value / this._parent.innerWidth;
 		}
 		return 0;
 	}
@@ -2754,8 +2757,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (value instanceof Percent) {
 			return value.value;
 		}
-		else if (this.parent) {
-			return value / this.parent.innerHeight;
+		else if (this._parent) {
+			return value / this._parent.innerHeight;
 		}
 		return 0;
 	}
@@ -2783,8 +2786,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		else if (value instanceof Percent) {
 			let relative: number = value.value;
 
-			if (this.parent) {
-				pixel = $math.round(this.parent.innerWidth * relative, this._positionPrecision, true);
+			if (this._parent) {
+				pixel = $math.round(this._parent.innerWidth * relative, this._positionPrecision, true);
 			}
 		}
 		return pixel;
@@ -2813,8 +2816,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		else if (value instanceof Percent) {
 			let relative: number = value.value;
 
-			if (this.parent) {
-				pixel = $math.round(this.parent.innerHeight * relative, this._positionPrecision, true);
+			if (this._parent) {
+				pixel = $math.round(this._parent.innerHeight * relative, this._positionPrecision, true);
 			}
 		}
 
@@ -3574,8 +3577,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (this.virtualParent) {
 				return this.virtualParent.disabled;
 			}
-			if (this.parent) {
-				return this.parent.disabled;
+			if (this._parent) {
+				return this._parent.disabled;
 			}
 		}
 		return false;
@@ -3588,14 +3591,14 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (current != value) {
 			this.setPropertyValue("disabled", value, true);
 			if (value) {
-				this.parent = this.parent;
+				this.parent = this._parent;
 				this.removeFromInvalids();
 				this.group.attr({ "display": "none" });
 				this.dispatch("disabled");
 			}
 			else {
-				if (this.parent) {
-					let group = <Group>this.parent.element;
+				if (this._parent) {
+					let group = <Group>this._parent.element;
 					if (!group.hasChild(this.group)) {
 						group.add(this.group);
 					}
@@ -3699,8 +3702,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		else if (this.virtualParent) {
 			return this.virtualParent.numberFormatter;
 		}
-		else if (this.parent) {
-			return this.parent.numberFormatter;
+		else if (this._parent) {
+			return this._parent.numberFormatter;
 		}
 		this._numberFormatter = new NumberFormatter();
 		this._numberFormatter.language = this.language;
@@ -3750,8 +3753,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		else if (this.virtualParent) {
 			return this.virtualParent.dateFormatter;
 		}
-		else if (this.parent) {
-			return this.parent.dateFormatter;
+		else if (this._parent) {
+			return this._parent.dateFormatter;
 		}
 		this._dateFormatter = new DateFormatter();
 		this._dateFormatter.language = this.language;
@@ -3786,8 +3789,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		else if (this.virtualParent) {
 			return this.virtualParent.durationFormatter;
 		}
-		else if (this.parent) {
-			return this.parent.durationFormatter;
+		else if (this._parent) {
+			return this._parent.durationFormatter;
 		}
 		this._durationFormatter = new DurationFormatter();
 		this._durationFormatter.language = this.language;
@@ -3841,8 +3844,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		else if (this.virtualParent) {
 			return this.virtualParent.language;
 		}
-		else if (this.parent) {
-			return this.parent.language;
+		else if (this._parent) {
+			return this._parent.language;
 		}
 		language = new Language();
 		this.language = language;
@@ -4020,8 +4023,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		}
 
 		// Finally, check the parent
-		if (!$type.hasValue(value) && this.parent) {
-			value = this.parent.getTagValue(tagName, format);
+		if (!$type.hasValue(value) && this._parent) {
+			value = this._parent.getTagValue(tagName, format);
 		}
 
 		return value;
@@ -4182,8 +4185,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (this.virtualParent) {
 				return this.virtualParent.dataItem;
 			}
-			if (this.parent) {
-				return this.parent.dataItem;
+			if (this._parent) {
+				return this._parent.dataItem;
 			}
 		}
 		return this._dataItem;
@@ -4892,8 +4895,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (this.virtualParent) {
 				return this.virtualParent.keyboardOptions;
 			}
-			if (this.parent) {
-				return this.parent.keyboardOptions;
+			if (this._parent) {
+				return this._parent.keyboardOptions;
 			}
 		}
 		return this.interactions.keyboardOptions;
@@ -4932,8 +4935,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (this.virtualParent) {
 				return this.virtualParent.mouseOptions;
 			}
-			if (this.parent) {
-				return this.parent.mouseOptions;
+			if (this._parent) {
+				return this._parent.mouseOptions;
 			}
 		}
 		return this.interactions.mouseOptions;
@@ -5139,8 +5142,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this.virtualParent) {
 			return this.virtualParent.focusFilter;
 		}
-		else if (this.parent) {
-			return this.parent.focusFilter;
+		else if (this._parent) {
+			return this._parent.focusFilter;
 		}
 
 		//this._focusFilter = new FocusFilter();
@@ -5222,8 +5225,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		else if (this.virtualParent) {
 			return this.virtualParent.tabindex;
 		}
-		else if (this.parent) {
-			return this.parent.tabindex;
+		else if (this._parent) {
+			return this._parent.tabindex;
 		}
 	}
 
@@ -5252,8 +5255,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public get inertiaOptions(): Dictionary<InertiaTypes, IInertiaOptions> {
 		if (!this.interactions.inertiaOptions) {
-			if (this.parent) {
-				return this.parent.inertiaOptions;
+			if (this._parent) {
+				return this._parent.inertiaOptions;
 			}
 		}
 		return this.interactions.inertiaOptions;
@@ -5373,7 +5376,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			let point: Optional<IPoint> = this.interactions.originalPosition;
 
 			if (point && this._isDragged) {
-				let globalScale = this.parent.globalScale * this.svgContainer.cssScale;
+				let globalScale = this._parent.globalScale * this.svgContainer.cssScale;
 				this.moveTo({ x: point.x + ev.shift.x / globalScale, y: point.y + ev.shift.y / globalScale }, undefined, undefined, true);
 			}
 
@@ -5428,8 +5431,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (this.virtualParent) {
 				return this.virtualParent.hoverOptions;
 			}
-			if (this.parent) {
-				return this.parent.hoverOptions;
+			if (this._parent) {
+				return this._parent.hoverOptions;
 			}
 		}
 		return this.interactions.hoverOptions;
@@ -5569,8 +5572,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (this.virtualParent) {
 				return this.virtualParent.hitOptions;
 			}
-			if (this.parent) {
-				return this.parent.hitOptions;
+			if (this._parent) {
+				return this._parent.hitOptions;
 			}
 		}
 		return this.interactions.hitOptions;
@@ -5791,8 +5794,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return [description]
 	 */
 	public get baseId(): string {
-		if (!this._baseId && this.parent) {
-			this.baseId = this.parent.baseId;
+		if (!this._baseId && this._parent) {
+			this.baseId = this._parent.baseId;
 		}
 
 		return this._baseId;
@@ -5846,8 +5849,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this.isBaseSprite) {
 			return this;
 		}
-		else if (this.parent) {
-			return this.parent.baseSprite;
+		else if (this._parent) {
+			return this._parent.baseSprite;
 		}
 	}
 
@@ -5913,8 +5916,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (this.virtualParent) {
 				return this.virtualParent.swipeOptions;
 			}
-			if (this.parent) {
-				return this.parent.swipeOptions;
+			if (this._parent) {
+				return this._parent.swipeOptions;
 			}
 		}
 		return this.interactions.swipeOptions;
@@ -6106,8 +6109,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				let svgPoint2: IPoint = $utils.documentPointToSvg(ev.point2, this.htmlContainer, this.svgContainer.cssScale);
 				let svgMidPoint: IPoint = $math.getMidPoint(svgPoint1, svgPoint2);
 
-				let parentPoint1: IPoint = $utils.documentPointToSprite(ev.startPoint1, this.parent);
-				let parentPoint2: IPoint = $utils.documentPointToSprite(ev.startPoint2, this.parent);
+				let parentPoint1: IPoint = $utils.documentPointToSprite(ev.startPoint1, this._parent);
+				let parentPoint2: IPoint = $utils.documentPointToSprite(ev.startPoint2, this._parent);
 
 				let originalPosition: Optional<IPoint> = this.interactions.originalPosition;
 				let originalScale: number = this.interactions.originalScale;
@@ -6118,7 +6121,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 					let spriteMidPoint: IPoint = $math.getMidPoint(spritePoint1, spritePoint2);
 
-					let parentPoint: IPoint = $utils.svgPointToSprite(svgMidPoint, this.parent);
+					let parentPoint: IPoint = $utils.svgPointToSprite(svgMidPoint, this._parent);
 					this.moveTo({ x: parentPoint.x - spriteMidPoint.x * this.scale, y: parentPoint.y - spriteMidPoint.y * this.scale }, undefined, undefined, true);
 				}
 			}
@@ -6150,8 +6153,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (this.virtualParent) {
 				return this.virtualParent.cursorOptions;
 			}
-			if (this.parent) {
-				return this.parent.cursorOptions;
+			if (this._parent) {
+				return this._parent.cursorOptions;
 			}
 		}
 		return this.interactions.cursorOptions;
@@ -6276,8 +6279,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this.virtualParent) {
 			return this.virtualParent.interactionsEnabled;
 		}
-		if (this.parent) {
-			return this.parent.interactionsEnabled;
+		if (this._parent) {
+			return this._parent.interactionsEnabled;
 		}
 		return true;
 	}
@@ -6326,7 +6329,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			return _export;
 		}
 		else {
-			if (this.isStandaloneInstance || !this.parent) {
+			if (this.isStandaloneInstance || !this._parent) {
 				_export = new Export(this.svgContainer.SVGContainer);
 				_export.sprite = this;
 				_export.language = this.language;
@@ -6336,7 +6339,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				this._exporting.set(_export, _export);
 			}
 			else {
-				return this.parent.exporting;
+				return this._parent.exporting;
 			}
 		}
 		return _export;
@@ -6764,8 +6767,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public set align(value: Align) {
 		value = <Align>$type.toText(value);
 		if (this.setPropertyValue("align", value)) {
-			if (this.parent) {
-				this.parent.invalidateLayout();
+			if (this._parent) {
+				this._parent.invalidateLayout();
 			}
 		}
 	}
@@ -6787,8 +6790,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public set valign(value: VerticalAlign) {
 		value = <VerticalAlign>$type.toText(value);
 		if (this.setPropertyValue("valign", value)) {
-			if (this.parent) {
-				this.parent.invalidateLayout();
+			if (this._parent) {
+				this._parent.invalidateLayout();
 			}
 		}
 	}
@@ -6887,9 +6890,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		let maxWidth = this.getPropertyValue("maxWidth");
 
 		if (!$type.isNumber(maxWidth)) {
-			if (this.parent) {
-				let parentWidth = this.parent.maxWidth;
-				if (this.parent.layout != "absolute" && this.align != "none" && this.align != undefined) {
+			if (this._parent) {
+				let parentWidth = this._parent.maxWidth;
+				if (this._parent.layout != "absolute" && this.align != "none" && this.align != undefined) {
 					parentWidth = parentWidth - this.pixelMarginLeft - this.pixelMarginRight;
 				}
 				return parentWidth;
@@ -6935,9 +6938,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public get maxHeight(): number {
 		let maxHeight = this.getPropertyValue("maxHeight");
 		if (!$type.isNumber(maxHeight)) {
-			if (this.parent) {
-				let parentHeight = this.parent.maxHeight;
-				if (this.parent.layout != "absolute" && this.valign != "none" && this.valign != undefined) {
+			if (this._parent) {
+				let parentHeight = this._parent.maxHeight;
+				if (this._parent.layout != "absolute" && this.valign != "none" && this.valign != undefined) {
 					parentHeight = parentHeight - this.pixelMarginTop - this.pixelMarginBottom;
 				}
 				return parentHeight;
@@ -7325,8 +7328,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public get globalScale(): number {
 		let scale: number = this.scale;
-		if (this.parent) {
-			scale = scale * this.parent.globalScale;
+		if (this._parent) {
+			scale = scale * this._parent.globalScale;
 		}
 		if (!this._adapterO) {
 			return scale;
@@ -8228,10 +8231,17 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 *
 	 * RTL may affect alignment, text, and other visual properties.
 	 *
+	 * If you set this on a top-level chart object, it will be used for all
+	 * child elements, e.g. labels, unless they have their own `rtl` setting
+	 * set directly on them.
+	 * 
 	 * @param value  `true` for to use RTL
 	 */
 	public set rtl(value: boolean) {
 		value = $type.toBoolean(value);
+		if(this.isBaseSprite){
+			this.topParent.rtl = value;
+		}
 		this._rtl = value;
 	}
 
@@ -8242,11 +8252,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if ($type.hasValue(this._rtl)) {
 			return this._rtl;
 		}
-		else if (this.virtualParent) {
-			return this.virtualParent.rtl;
-		}
-		else if (this.parent) {
-			return this.parent.rtl;
+		else if(this._topParent){
+			return this._topParent.rtl;
 		}
 		//this.rtl = false;
 		return false;
@@ -8544,7 +8551,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * in front of other elements.
 	 */
 	public toFront(): void {
-		let parent = this.parent;
+		let parent = this._parent;
 		if (parent && parent.children.indexOf(this) != parent.children.length - 1) {
 			parent.children.moveValue(this, parent.children.length - 1);
 			this.dispatch("zIndexChanged");
@@ -8556,7 +8563,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * appears behind other elements.
 	 */
 	public toBack(): void {
-		let parent = this.parent;
+		let parent = this._parent;
 		if (parent && parent.children.indexOf(this) != 0) {
 			parent.children.moveValue(this, 0);
 			this.dispatch("zIndexChanged");
@@ -8624,8 +8631,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		else if (this.virtualParent) {
 			return this.virtualParent.tooltip;
 		}
-		else if (this.parent) {
-			return this.parent.tooltip;
+		else if (this._parent) {
+			return this._parent.tooltip;
 		}
 	}
 
@@ -9006,8 +9013,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this._tooltipContainer) {
 			return this._tooltipContainer;
 		}
-		else if (this.parent) {
-			return this.parent.tooltipContainer;
+		else if (this._parent) {
+			return this._parent.tooltipContainer;
 		}
 	}
 

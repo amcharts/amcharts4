@@ -545,13 +545,13 @@ export declare class Component extends Container {
      *
      * @param rawDataItem One or many raw data item objects
      */
-    addData(rawDataItem: Object | Object[], removeCount?: number): void;
+    addData(rawDataItem: Object | Object[], removeCount?: number, skipRaw?: boolean): void;
     /**
      * Removes elements from the beginning of data
      *
      * @param count number of elements to remove
      */
-    removeData(count: $type.Optional<number>): void;
+    removeData(count: $type.Optional<number>, skipRaw?: boolean): void;
     /**
      * Triggers a data (re)parsing.
      *

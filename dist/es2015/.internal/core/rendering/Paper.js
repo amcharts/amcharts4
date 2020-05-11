@@ -48,9 +48,9 @@ var Paper = /** @class */ (function () {
         svg.setAttribute("role", "group");
         this.container.appendChild(svg);
         // Add description
-        var desc = document.createElementNS($dom.SVGNS, "desc");
-        desc.appendChild(document.createTextNode("JavaScript chart by amCharts"));
-        svg.appendChild(desc);
+        //let desc: SVGElement = <SVGElement>document.createElementNS($dom.SVGNS, "desc");
+        //desc.appendChild(document.createTextNode("JavaScript chart by amCharts"));
+        //svg.appendChild(desc);
         // Add defs
         this.defs = document.createElementNS($dom.SVGNS, "defs");
         svg.appendChild(this.defs);

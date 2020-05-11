@@ -64,10 +64,11 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
      */
     SpriteEventDispatcher.prototype._addInteractionObjectEvent = function (type, callback, context, shouldClone) {
         var _this = this;
-        var counter = this._interactionEvents.insertKeyIfEmpty(type, function () {
+        var key = shouldClone + "-" + type;
+        var counter = this._interactionEvents.insertKeyIfEmpty(key, function () {
             var disposer = _this.target.interactions.events.on(type, callback, context, shouldClone);
             return new CounterDisposer(function () {
-                _this._interactionEvents.removeKey(type);
+                _this._interactionEvents.removeKey(key);
                 disposer.dispose();
             });
         });

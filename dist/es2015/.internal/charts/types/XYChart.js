@@ -867,11 +867,11 @@ var XYChart = /** @class */ (function (_super) {
                     else {
                         if (snpSeries.baseAxis == snpSeries.xAxis) {
                             $array.move(exceptAxes_1, snpSeries.yAxis);
-                            dataItems_1.push(xAxis.getSeriesDataItem(snpSeries, xAxis.toAxisPosition(xPosition_1)));
+                            dataItems_1.push(xAxis.getSeriesDataItem(snpSeries, xAxis.toAxisPosition(xPosition_1), true));
                         }
                         if (snpSeries.baseAxis == snpSeries.yAxis) {
                             $array.move(exceptAxes_1, snpSeries.xAxis);
-                            dataItems_1.push(yAxis.getSeriesDataItem(snpSeries, yAxis.toAxisPosition(yPosition_1)));
+                            dataItems_1.push(yAxis.getSeriesDataItem(snpSeries, yAxis.toAxisPosition(yPosition_1), true));
                         }
                     }
                 });

@@ -651,7 +651,7 @@ var countries2 = {
         "country": "Iran, Islamic Republic of",
         "continent_code": "AS",
         "continent": "Asia",
-        "maps": []
+        "maps": ["iranLow", "iranHigh"]
     },
     "IS": {
         "country": "Iceland",
@@ -1257,7 +1257,7 @@ var countries2 = {
         "country": "South Sudan",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["southSudanLow", "southSudanHigh", "southSudan2015Low", "southSudan2015High"]
     },
     "ST": {
         "country": "Sao Tome and Principe",

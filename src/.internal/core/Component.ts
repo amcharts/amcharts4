@@ -701,9 +701,10 @@ export class Component extends Container {
 					}
 				}
 
-				if (dataItem.hasChildren[fieldName]) {
-					if ($type.hasValue(value)) {
-						hasSomeValues = true;
+				if ($type.hasValue(value)) {
+					hasSomeValues = true;
+
+					if (dataItem.hasChildren[fieldName]) {
 						let template = this.createDataItem();
 						template.copyFrom(this.mainDataSet.template);
 						let children = new OrderedListTemplate<DataItem>(template);
@@ -720,11 +721,8 @@ export class Component extends Container {
 						let anyDataItem = <any>dataItem;
 						anyDataItem[fieldName] = <any>children;
 					}
-				}
-				else {
-					// data is converted to numbers/dates in each dataItem
-					if ($type.hasValue(value)) {
-						hasSomeValues = true;
+					else {
+						// data is converted to numbers/dates in each dataItem
 						(<any>dataItem)[fieldName] = value;
 					}
 				}
@@ -772,18 +770,16 @@ export class Component extends Container {
 					}).value;
 				}
 
-				if (dataItem.hasChildren[fieldName]) {
-					if (value) {
+				if ($type.hasValue(value)) {
+					if (dataItem.hasChildren[fieldName]) {
 						let anyDataItem = <any>dataItem;
 						let children = <OrderedListTemplate<this["_dataItem"]>><any>(anyDataItem[fieldName]);
-						$iter.each(children.iterator(), (child) => {
+						children.each((child) => {
 							this.updateDataItem(child);
 						})
 					}
-				}
-				else {
-					// data is converted to numbers/dates in each dataItem
-					if ($type.hasValue(value)) {
+					else {
+						// data is converted to numbers/dates in each dataItem					
 						(<any>dataItem)[fieldName] = value;
 					}
 				}
@@ -844,25 +840,27 @@ export class Component extends Container {
 	 *
 	 * @param rawDataItem One or many raw data item objects
 	 */
-	public addData(rawDataItem: Object | Object[], removeCount?: number): void {
+	public addData(rawDataItem: Object | Object[], removeCount?: number, skipRaw?:boolean): void {
 
 		// need to check if data is invalid, as addData might be called multiple times
 		if (!this.dataInvalid && this.inited) {
 			this._parseDataFrom = this.data.length; // save length of parsed data
 		}
 
-		if (rawDataItem instanceof Array) {
-			// can't use concat because new array is returned
-			$array.each(rawDataItem, (dataItem) => {
-				this.data.push(dataItem);
-			})
-		}
-		else {
-			this.data.push(rawDataItem); // add to raw data array
+		if(!skipRaw){
+			if (rawDataItem instanceof Array) {
+				// can't use concat because new array is returned
+				$array.each(rawDataItem, (dataItem) => {
+					this.data.push(dataItem);
+				})
+			}
+			else {
+				this.data.push(rawDataItem); // add to raw data array
+			}
 		}
 
 		if (this.inited) {
-			this.removeData(removeCount);
+			this.removeData(removeCount, skipRaw);
 		}
 		else {
 			if ($type.isNumber(removeCount)) {
@@ -881,7 +879,7 @@ export class Component extends Container {
 	 *
 	 * @param count number of elements to remove
 	 */
-	public removeData(count: $type.Optional<number>) {
+	public removeData(count: $type.Optional<number>, skipRaw?:boolean) {
 		if ($type.isNumber(count) && count > 0) {
 			while (count > 0) {
 				let dataItem = this.mainDataSet.getIndex(0);
@@ -897,8 +895,9 @@ export class Component extends Container {
 						}
 					}
 				});
-
-				this.data.shift();
+				if(!skipRaw){
+					this.data.shift();
+				}
 
 				if (this._parseDataFrom > 0) {
 					this._parseDataFrom--;

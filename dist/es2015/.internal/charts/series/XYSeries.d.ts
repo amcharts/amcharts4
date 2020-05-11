@@ -827,7 +827,7 @@ export declare class XYSeries extends Series {
      *
      * @param rawDataItem One or many raw data item objects
      */
-    addData(rawDataItem: Object | Object[], removeCount?: number): void;
+    addData(rawDataItem: Object | Object[], removeCount?: number, skipRaw?: boolean): void;
     protected setData(value: any[]): void;
     /**
      * Makes the chart use particular data set.

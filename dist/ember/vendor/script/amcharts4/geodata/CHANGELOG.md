@@ -5,12 +5,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [UNRELEASED] - ????-??-??
 
+### Fixed
+- Ohio congressional district map was missing.
+
+
+## [4.1.15] - 2020-05-08
+
 ### Added
 - New map `norway2020*` to reflect updated sub-division for Norway. The old version (`norway*`) is still there for backwards compatibility.
-- New maps: Montenegro.
+- New maps: Montenegro, Iran, South Sundan (two versions: official and unofficial from 2015).
 
 ### Fixed
 - Fixed minor issues in Virginia County map.
+- Fixed ID for Cotabato in map of Phillipines.
 
 
 ## [4.1.14] - 2020-03-27

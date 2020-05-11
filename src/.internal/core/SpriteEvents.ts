@@ -34,7 +34,7 @@ export class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> ext
 	 *
 	 * @todo Description
 	 */
-	private _interactionEvents = new Dictionary<keyof IInteractionObjectEvents, CounterDisposer>();
+	private _interactionEvents = new Dictionary<string, CounterDisposer>();
 
 	/**
 	 * [_dispatchSpriteEvent description]
@@ -81,11 +81,13 @@ export class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> ext
 	 * @todo Description
 	 */
 	private _addInteractionObjectEvent<C, Key extends keyof IInteractionObjectEvents>(type: Key, callback: (this: C, ev: AMEvent<InteractionObject, IInteractionObjectEvents>[Key]) => void, context: C, shouldClone: boolean): IDisposer {
-		const counter = this._interactionEvents.insertKeyIfEmpty(type, () => {
+		const key = shouldClone + "-" + type;
+
+		const counter = this._interactionEvents.insertKeyIfEmpty(key, () => {
 			const disposer = this.target.interactions.events.on(type, callback, context, shouldClone);
 
 			return new CounterDisposer(() => {
-				this._interactionEvents.removeKey(type);
+				this._interactionEvents.removeKey(key);
 				disposer.dispose();
 			});
 		});
@@ -504,7 +506,7 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
 
 	};
 
-	/** 
+	/**
 	 * Invoked when a sprite is added to a parent
 	 */
 	parentset: {};

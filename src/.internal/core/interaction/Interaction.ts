@@ -33,6 +33,7 @@ import { keyboard } from "../utils/Keyboard";
 import { system } from "./../System";
 import * as $ease from "../utils/Ease";
 import * as $math from "../utils/Math";
+import * as $array from "../utils/Array";
 import * as $dom from "../utils/DOM";
 import * as $iter from "../utils/Iterator";
 import * as $type from "../utils/Type";
@@ -206,7 +207,7 @@ export class Interaction extends BaseObjectEvents {
 
 	/**
 	 * Last pointer that generate some kinf of action.
-	 * 
+	 *
 	 * @since 4.9.5
 	 * @ignore
 	 */
@@ -1636,15 +1637,34 @@ export class Interaction extends BaseObjectEvents {
 	 * @param ev       Original event
 	 */
 	public handleGlobalUp(pointer: IPointer, ev: MouseEvent | TouchEvent | undefined, cancelled: boolean = false): void {
-		// Process all down objects
-		$iter.each(this.downObjects.backwards().iterator(), (io) => {
+		const sorted = this.downObjects.values.slice();
 
+		sorted.sort((x, y) => {
+			if (x && y) {
+				const pos = x.element.compareDocumentPosition(y.element);
+
+				if (pos & Node.DOCUMENT_POSITION_CONTAINED_BY) {
+					return 1;
+
+				} else if (pos & Node.DOCUMENT_POSITION_CONTAINS) {
+					return -1;
+
+				} else {
+					return 0;
+				}
+
+			} else {
+				return 0;
+			}
+		});
+
+		// Process all down objects
+		$array.each(sorted, (io) => {
 			// Check if this particular pointer is pressing down
 			// on object
 			if (io && io.downPointers.contains(pointer)) {
 				this.handleUp(io, pointer, ev, cancelled);
 			}
-
 		});
 
 	}

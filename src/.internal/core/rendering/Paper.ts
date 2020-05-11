@@ -91,9 +91,9 @@ export class Paper {
 		this.container.appendChild(svg);
 
 		// Add description
-		let desc: SVGElement = <SVGElement>document.createElementNS($dom.SVGNS, "desc");
-		desc.appendChild(document.createTextNode("JavaScript chart by amCharts"));
-		svg.appendChild(desc);
+		//let desc: SVGElement = <SVGElement>document.createElementNS($dom.SVGNS, "desc");
+		//desc.appendChild(document.createTextNode("JavaScript chart by amCharts"));
+		//svg.appendChild(desc);
 
 		// Add defs
 		this.defs = <SVGDefsElement>document.createElementNS($dom.SVGNS, "defs");

@@ -309,7 +309,7 @@ export class Cursor extends Container {
 	 * @param stick  Level of cursor stickiness to the place
 	 * @param force  Force cursor move
 	 */
-	public triggerMove(point: IPoint, stick?: "hard" | "soft" | "none", force?:boolean): void {
+	public triggerMove(point: IPoint, stick?: "hard" | "soft" | "none", force?: boolean): void {
 
 		point.x = $math.round(point.x, 1);
 		point.y = $math.round(point.y, 1);
@@ -330,7 +330,7 @@ export class Cursor extends Container {
 	 *
 	 * @param point Point to place cursor at
 	 */
-	protected triggerMoveReal(point: IPoint, force?:boolean): void {
+	protected triggerMoveReal(point: IPoint, force?: boolean): void {
 		if (this.point.x != point.x || this.point.y != point.y || force) {
 			this.point = point;
 			this.invalidatePosition();
@@ -411,7 +411,7 @@ export class Cursor extends Container {
 					break;
 
 				case "pan":
-					this.dispatch("panended");					
+					this.dispatch("panended");
 					interaction.setGlobalStyle(MouseCursorStyle.default);
 					break;
 			}
@@ -464,7 +464,7 @@ export class Cursor extends Container {
 
 		if (this._stick == "hard" && this._stickPoint) {
 			local = this._stickPoint;
-		}		
+		}
 
 		this._downPointOrig = { x: local.x, y: local.y };
 
@@ -506,7 +506,7 @@ export class Cursor extends Container {
 		if (!this.interactionsEnabled) {
 			return;
 		}
-		if (((this._generalBehavior != "zoom" && this._generalBehavior != "pan") || !this.downPoint) && !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
+		if (!this.downPoint && !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
 			return;
 		}
 		let local: IPoint = $utils.documentPointToSprite(event.pointer.point, this);
