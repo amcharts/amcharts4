@@ -637,6 +637,7 @@ var LineSeries = /** @class */ (function (_super) {
         $object.copyProperties(this, line, visualProperties);
         line.x2 = w;
         line.y = h / 2;
+        line.y2 = 0.00001;
         line.visible = true;
         if (this.fillOpacity > 0) {
             var fill = marker.createChild(Rectangle);

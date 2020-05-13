@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.21] - 2020-05-13
+
+### Fixed
+- Latest version of `canvg` was causing issues in some Angular setups. Downgraded to `3.0.0`.
+- The legend marker for `LineSeries` with circle bullet was not properly centered.
+
+
 ## [4.9.20] - 2020-05-11
 
 ### Changed
