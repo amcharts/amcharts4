@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.22] - 2020-05-14
+
+### Changed
+- Export: Now using forked version of `canvg` until underlying issues are fixed in source library.
+
+### Fixed
+- `queue` and `onlyShowOnViewport` were not working properly on regular `Container` instances.
+- Export: Garbled IE image exports fixed.
+- Some tooltips were reappearing on `MapChart` after their `showToolipOn` was reset back to `"hover"` from `"always"`.
+
+
 ## [4.9.21] - 2020-05-13
 
 ### Fixed

@@ -195,17 +195,17 @@ var CurveColumnSeries = /** @class */ (function (_super) {
             this.setColumnStates(column);
             column.paper = this.paper;
         }
-        var CurveColumn = column.CurveColumn;
+        var curveColumn = column.curveColumn;
         if (points.length > 0) {
             points.push(points[0]);
         }
-        CurveColumn.path = $path.pointsToPath(points);
+        curveColumn.path = $path.pointsToPath(points);
         column.__disabled = false;
         column.parent = this.columnsContainer;
         column.tooltipX = middlePoint.x;
         column.tooltipY = middlePoint.y;
-        column.CurveColumn.tooltipX = middlePoint.x;
-        column.CurveColumn.tooltipY = middlePoint.y;
+        column.curveColumn.tooltipX = middlePoint.x;
+        column.curveColumn.tooltipY = middlePoint.y;
         this.axisRanges.each(function (axisRange) {
             var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
             if (!rangeColumn) {
@@ -218,8 +218,8 @@ var CurveColumnSeries = /** @class */ (function (_super) {
                 _this.setColumnStates(rangeColumn);
                 dataItem.rangesColumns.setKey(axisRange.uid, rangeColumn);
             }
-            var rangeCurveColumn = rangeColumn.CurveColumn;
-            rangeCurveColumn.path = CurveColumn.path;
+            var rangeCurveColumn = rangeColumn.curveColumn;
+            rangeCurveColumn.path = curveColumn.path;
             rangeColumn.__disabled = false;
             rangeColumn.parent = axisRange.contents;
         });

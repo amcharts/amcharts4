@@ -175,12 +175,14 @@ var MapObject = /** @class */ (function (_super) {
     MapObject.prototype.showTooltip = function (point) {
         var res = _super.prototype.showTooltip.call(this, point);
         if (res && this.showTooltipOn == "always" && !this.series.chart.events.has("mappositionchanged", this.handleTooltipMove, this)) {
-            this.series.chart.events.on("mappositionchanged", this.handleTooltipMove, this);
+            this.addDisposer(this.series.chart.events.on("mappositionchanged", this.handleTooltipMove, this));
         }
         return res;
     };
     MapObject.prototype.handleTooltipMove = function (ev) {
-        this.showTooltip();
+        if (!this.tooltip.isHidden) {
+            this.showTooltip();
+        }
     };
     return MapObject;
 }(Container));

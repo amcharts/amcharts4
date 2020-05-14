@@ -325,11 +325,11 @@ export class CurveColumnSeries extends ColumnSeries {
 			column.paper = this.paper;
 		}
 
-		let CurveColumn = column.CurveColumn;
+		let curveColumn = column.curveColumn;
 		if (points.length > 0) {
 			points.push(points[0]);
 		}
-		CurveColumn.path = $path.pointsToPath(points);
+		curveColumn.path = $path.pointsToPath(points);
 
 		column.__disabled = false;
 		column.parent = this.columnsContainer;
@@ -337,8 +337,8 @@ export class CurveColumnSeries extends ColumnSeries {
 		column.tooltipX = middlePoint.x;
 		column.tooltipY = middlePoint.y;
 
-		column.CurveColumn.tooltipX = middlePoint.x;
-		column.CurveColumn.tooltipY = middlePoint.y;
+		column.curveColumn.tooltipX = middlePoint.x;
+		column.curveColumn.tooltipY = middlePoint.y;
 
 		this.axisRanges.each((axisRange) => {
 			let rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
@@ -355,8 +355,8 @@ export class CurveColumnSeries extends ColumnSeries {
 				dataItem.rangesColumns.setKey(axisRange.uid, rangeColumn);
 			}
 
-			let rangeCurveColumn = rangeColumn.CurveColumn;
-			rangeCurveColumn.path = CurveColumn.path;
+			let rangeCurveColumn = rangeColumn.curveColumn;
+			rangeCurveColumn.path = curveColumn.path;
 
 			rangeColumn.__disabled = false;
 			rangeColumn.parent = axisRange.contents;

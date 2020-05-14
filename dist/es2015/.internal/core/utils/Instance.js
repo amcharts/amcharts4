@@ -252,11 +252,12 @@ export function queueHandler(sprite) {
         });
     }
     else {
+        sprite.reinit();
+        sprite.events.once("inited", function () {
+            removeFromQueue(sprite);
+        });
         if (sprite.showOnInit) {
             sprite.appear();
-        }
-        else {
-            removeFromQueue(sprite);
         }
     }
 }

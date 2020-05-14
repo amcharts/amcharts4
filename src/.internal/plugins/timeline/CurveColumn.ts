@@ -73,6 +73,11 @@ export class CurveColumn extends Column {
 	/**
 	 * Radar column element
 	 */
+	public curveColumn: Sprite;
+
+	/**
+	 * @ignore
+	 */
 	public CurveColumn: Sprite;
 
 	/**
@@ -87,11 +92,12 @@ export class CurveColumn extends Column {
 	 * @ignore
 	 */
 	protected createAssets() {
-		this.CurveColumn = this.createChild(Sprite);
-		this.CurveColumn.shouldClone = false;
-		this.CurveColumn.strokeOpacity = undefined;
+		this.curveColumn = this.createChild(Sprite);
+		this.CurveColumn = this.curveColumn; // because of an inital mistake, leave ref
+		this.curveColumn.shouldClone = false;
+		this.curveColumn.strokeOpacity = undefined;
 		// some dirty hack so that if user access column, it won't get error
-		this.column = <any>this.CurveColumn;
+		this.column = <any>this.curveColumn;
 	}
 
 	/**
@@ -101,8 +107,8 @@ export class CurveColumn extends Column {
 	 */
 	public copyFrom(source: this) {
 		super.copyFrom(source)
-		if (this.CurveColumn) {
-			this.CurveColumn.copyFrom(source.CurveColumn)
+		if (this.curveColumn) {
+			this.curveColumn.copyFrom(source.curveColumn)
 		}
 	}
 }

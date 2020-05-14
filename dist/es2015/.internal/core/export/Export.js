@@ -3770,7 +3770,7 @@ var Export = /** @class */ (function (_super) {
             var canvg;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, import(/* webpackChunkName: "canvg" */ "canvg")];
+                    case 0: return [4 /*yield*/, import(/* webpackChunkName: "canvg" */ "../../canvg/index.js")];
                     case 1:
                         canvg = (_a.sent());
                         if (canvg.default != null) {

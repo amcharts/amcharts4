@@ -62,6 +62,10 @@ export declare class CurveColumn extends Column {
     /**
      * Radar column element
      */
+    curveColumn: Sprite;
+    /**
+     * @ignore
+     */
     CurveColumn: Sprite;
     /**
      * Constructor

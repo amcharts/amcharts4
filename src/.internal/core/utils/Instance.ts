@@ -288,7 +288,6 @@ export function queueHandler(sprite: Sprite) {
 	if(sprite.tooltipContainer){
 		sprite.tooltipContainer.invalidateLayout();
 	}
-
 	if (sprite instanceof Component) {
 		sprite.invalidateData();
 		sprite.reinit();
@@ -303,12 +302,13 @@ export function queueHandler(sprite: Sprite) {
 		})
 	}
 	else {
+		sprite.reinit();
+		sprite.events.once("inited", ()=>{
+			removeFromQueue(sprite);
+		})
 		if (sprite.showOnInit) {
 			sprite.appear();
-		}
-		else {
-			removeFromQueue(sprite);
-		}
+		}		
 	}
 }
 

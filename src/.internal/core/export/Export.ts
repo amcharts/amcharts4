@@ -5126,8 +5126,8 @@ export class Export extends Validatable {
 	 * @return Instance of canvg
 	 * @async
 	 */
-	private async _canvg(): Promise<typeof import("canvg")["default"]> {
-		const canvg = (await import(/* webpackChunkName: "canvg" */ "canvg")) as any;
+	private async _canvg(): Promise<typeof import("../../canvg/index.js")["default"]> {
+		const canvg = (await import(/* webpackChunkName: "canvg" */ "../../canvg/index.js")) as any;
 
 		if (canvg.default != null) {
 			return canvg.default;
@@ -5143,7 +5143,7 @@ export class Export extends Validatable {
 	 * @ignore Exclude from docs
 	 * @return Instance of canvg
 	 */
-	public get canvg(): Promise<typeof import("canvg")["default"]> {
+	public get canvg(): Promise<typeof import("../../canvg/index.js")["default"]> {
 		return this._canvg();
 	}
 

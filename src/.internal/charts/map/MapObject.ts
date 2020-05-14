@@ -267,13 +267,15 @@ export class MapObject extends Container {
 	public showTooltip(point?: IPoint): boolean {
 		const res = super.showTooltip(point);
 		if (res && this.showTooltipOn == "always" && !this.series.chart.events.has("mappositionchanged", this.handleTooltipMove, this)) {
-			this.series.chart.events.on("mappositionchanged", this.handleTooltipMove, this);
+			this.addDisposer(this.series.chart.events.on("mappositionchanged", this.handleTooltipMove, this));
 		}
 		return res;
 	}
 
 	protected handleTooltipMove(ev: any): void {
-		this.showTooltip();
+		if(!this.tooltip.isHidden){
+			this.showTooltip();
+		}
 	}
 }
 

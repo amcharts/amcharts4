@@ -39,11 +39,12 @@ var CurveColumn = /** @class */ (function (_super) {
      * @ignore
      */
     CurveColumn.prototype.createAssets = function () {
-        this.CurveColumn = this.createChild(Sprite);
-        this.CurveColumn.shouldClone = false;
-        this.CurveColumn.strokeOpacity = undefined;
+        this.curveColumn = this.createChild(Sprite);
+        this.CurveColumn = this.curveColumn; // because of an inital mistake, leave ref
+        this.curveColumn.shouldClone = false;
+        this.curveColumn.strokeOpacity = undefined;
         // some dirty hack so that if user access column, it won't get error
-        this.column = this.CurveColumn;
+        this.column = this.curveColumn;
     };
     /**
      * Copies all parameters from another [[CurveColumn]].
@@ -52,8 +53,8 @@ var CurveColumn = /** @class */ (function (_super) {
      */
     CurveColumn.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
-        if (this.CurveColumn) {
-            this.CurveColumn.copyFrom(source.CurveColumn);
+        if (this.curveColumn) {
+            this.curveColumn.copyFrom(source.curveColumn);
         }
     };
     return CurveColumn;
