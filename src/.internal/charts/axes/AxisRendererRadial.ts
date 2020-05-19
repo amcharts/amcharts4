@@ -231,20 +231,22 @@ export class AxisRendererRadial extends AxisRendererY {
 	public get innerRadius(): number | Percent {
 		let chart = this.chart;
 		let innerRadius = this.getPropertyValue("innerRadius");
-		if (!$type.hasValue(innerRadius)) {
-			innerRadius = chart.innerRadius;
+		if(chart){
+			if (!$type.hasValue(innerRadius)) {
+				innerRadius = chart.innerRadius;
 
-			if (innerRadius instanceof Percent && chart) {
-				innerRadius = percent(innerRadius.value * chart.innerRadiusModifyer * 100)
+				if (innerRadius instanceof Percent && chart) {
+					innerRadius = percent(innerRadius.value * chart.innerRadiusModifyer * 100)
+				}
+
 			}
-
-		}
-		else {
-			if (innerRadius instanceof Percent && chart) {
-				let mr = chart.mr;
-				let value = innerRadius.value;
-				value = Math.max(mr * value, mr - Math.min(chart.plotContainer.innerHeight, chart.plotContainer.innerWidth)) / mr;
-				innerRadius = percent(value * 100);
+			else {
+				if (innerRadius instanceof Percent && chart) {
+					let mr = chart.mr;
+					let value = innerRadius.value;
+					value = Math.max(mr * value, mr - Math.min(chart.plotContainer.innerHeight, chart.plotContainer.innerWidth)) / mr;
+					innerRadius = percent(value * 100);
+				}
 			}
 		}
 		return innerRadius;

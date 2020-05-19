@@ -82,6 +82,10 @@ var RadarChart = /** @class */ (function (_super) {
          * @ignore Exclude from docs
          */
         _this.innerRadiusModifyer = 1;
+        /**
+         * @ignore
+         */
+        _this.mr = 1;
         _this.className = "RadarChart";
         _this.startAngle = -90;
         _this.endAngle = 270;

@@ -234,7 +234,10 @@ export function addToQueue(sprite: Sprite) {
 		sprite.events.disableType("appeared");
 
 		if (registry.queue.length == 0) {
-			queueHandler(sprite);
+			registry.events.once("exitframe", ()=>{
+				queueHandler(sprite);				
+			})
+			system.requestFrame();
 		}
 
 		sprite.addDisposer(new Disposer(() => {
@@ -271,6 +274,7 @@ export function queueHandler(sprite: Sprite) {
 	sprite.__disabled = false;
 	sprite.tooltipContainer.__disabled = false;
 	sprite.events.enableType("appeared");
+	sprite.dispatch("removedfromqueue");
 
 	if (sprite.showOnInit) {
 		sprite.events.on("appeared", () => {

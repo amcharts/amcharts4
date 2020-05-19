@@ -393,7 +393,7 @@ var XYSeries = /** @class */ (function (_super) {
          * `lowValueX`, `lowValueY`, `highValueX`, and `highValueY`.
          *
          * Available options:
-         * `"open"`, `"close"`, `"low"`, `"high"`, "average", `"sum"`.
+         * `"open"`, `"close"`, `"low"`, `"high"`, `"average"`, `"sum"`.
          *
          * Defaults are as follows:
          * * `valueX`: `"close"`

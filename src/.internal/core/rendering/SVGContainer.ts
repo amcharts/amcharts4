@@ -135,8 +135,11 @@ export class SVGContainer implements IDisposer {
 		this.htmlElement = htmlElement;
 
 		if (!ghost) {
+			// This is needed so that it won't resize while printing, so that way printing works correctly
+			let printing = false;
+
 			const callback = () => {
-				if (this.autoResize) {
+				if (this.autoResize && !printing) {
 					this.measure();
 				}
 			};
@@ -144,6 +147,14 @@ export class SVGContainer implements IDisposer {
 			this.resizeSensor = new ResizeSensor(htmlElement, callback);
 
 			this._disposers.push(this.resizeSensor);
+
+			this._disposers.push($dom.addEventListener(window, "beforeprint", () => {
+				printing = true;
+			}));
+
+			this._disposers.push($dom.addEventListener(window, "afterprint", () => {
+				printing = false;
+			}));
 		}
 
 		// Adds to containers array

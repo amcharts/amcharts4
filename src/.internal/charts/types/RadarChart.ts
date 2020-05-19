@@ -209,7 +209,7 @@ export class RadarChart extends XYChart {
 	/**
 	 * @ignore
 	 */
-	public mr: number;
+	public mr: number = 1;
 
 	/**
 	 * Constructor

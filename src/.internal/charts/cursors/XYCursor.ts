@@ -983,13 +983,25 @@ export class XYCursor extends Cursor {
 				}
 			}
 
-			if ($type.hasValue(config.snapToSeries) && $type.isString(config.snapToSeries)) {
-				if (this.map.hasKey(config.snapToSeries)) {
-					config.snapToSeries = this.map.getKey(config.snapToSeries);
+			if ($type.hasValue(config.snapToSeries)) {
+				let snapTo = $type.isArray(config.snapToSeries) ? config.snapToSeries : [config.snapToSeries];
+				let snapError = false;
+				$array.each(snapTo, (snap, index) => {
+					if ($type.isString(snap)) {
+						if (this.map.hasKey(snap)) {
+							snapTo[index] = this.map.getKey(snap);
+						}
+						else {
+							this.processingErrors.push("[XYCursor] No series with id \"" + snap + "\" found for `series`");
+							snapError = true;
+						}
+					}
+				});
+				if (snapError) {
+					delete config.snapToSeries;
 				}
 				else {
-					this.processingErrors.push("[XYCursor] No series with id \"" + config.snapToSeries + "\" found for `series`");
-					delete config.snapToSeries;
+					config.snapToSeries = snapTo;
 				}
 			}
 

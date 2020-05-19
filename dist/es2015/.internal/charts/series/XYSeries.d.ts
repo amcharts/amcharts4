@@ -449,7 +449,7 @@ export declare class XYSeries extends Series {
      * `lowValueX`, `lowValueY`, `highValueX`, and `highValueY`.
      *
      * Available options:
-     * `"open"`, `"close"`, `"low"`, `"high"`, "average", `"sum"`.
+     * `"open"`, `"close"`, `"low"`, `"high"`, `"average"`, `"sum"`.
      *
      * Defaults are as follows:
      * * `valueX`: `"close"`

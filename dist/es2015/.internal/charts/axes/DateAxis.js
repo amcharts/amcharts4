@@ -512,7 +512,11 @@ var DateAxis = /** @class */ (function (_super) {
                 groupInterval = __assign({}, mainBaseInterval);
             }
             this._groupInterval = groupInterval;
-            this._currentDataSetId = groupInterval.timeUnit + groupInterval.count;
+            var newId = groupInterval.timeUnit + groupInterval.count;
+            if (this._currentDataSetId != newId) {
+                this._currentDataSetId = newId;
+                this.dispatch("groupperiodchanged");
+            }
             this.series.each(function (series) {
                 if (series.baseAxis == _this) {
                     if (series.setDataSet(_this._currentDataSetId)) {

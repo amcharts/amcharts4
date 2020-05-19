@@ -771,6 +771,7 @@ var XYCursor = /** @class */ (function (_super) {
      * @param config  Config
      */
     XYCursor.prototype.processConfig = function (config) {
+        var _this = this;
         if (config) {
             // Set up axes
             if ($type.hasValue(config.xAxis) && $type.isString(config.xAxis)) {
@@ -791,13 +792,25 @@ var XYCursor = /** @class */ (function (_super) {
                     delete config.yAxis;
                 }
             }
-            if ($type.hasValue(config.snapToSeries) && $type.isString(config.snapToSeries)) {
-                if (this.map.hasKey(config.snapToSeries)) {
-                    config.snapToSeries = this.map.getKey(config.snapToSeries);
+            if ($type.hasValue(config.snapToSeries)) {
+                var snapTo_1 = $type.isArray(config.snapToSeries) ? config.snapToSeries : [config.snapToSeries];
+                var snapError_1 = false;
+                $array.each(snapTo_1, function (snap, index) {
+                    if ($type.isString(snap)) {
+                        if (_this.map.hasKey(snap)) {
+                            snapTo_1[index] = _this.map.getKey(snap);
+                        }
+                        else {
+                            _this.processingErrors.push("[XYCursor] No series with id \"" + snap + "\" found for `series`");
+                            snapError_1 = true;
+                        }
+                    }
+                });
+                if (snapError_1) {
+                    delete config.snapToSeries;
                 }
                 else {
-                    this.processingErrors.push("[XYCursor] No series with id \"" + config.snapToSeries + "\" found for `series`");
-                    delete config.snapToSeries;
+                    config.snapToSeries = snapTo_1;
                 }
             }
         }

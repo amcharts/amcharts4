@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Ohio congressional district map was missing.
+- Fixed spelling of Kyiv (city and district) in Ukrainian maps.
 
 
 ## [4.1.15] - 2020-05-08

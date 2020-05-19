@@ -147,21 +147,23 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         get: function () {
             var chart = this.chart;
             var innerRadius = this.getPropertyValue("innerRadius");
-            if (!$type.hasValue(innerRadius)) {
-                innerRadius = chart.innerRadius;
-                if (innerRadius instanceof Percent && chart) {
-                    innerRadius = percent(innerRadius.value * chart.innerRadiusModifyer * 100);
+            if (chart) {
+                if (!$type.hasValue(innerRadius)) {
+                    innerRadius = chart.innerRadius;
+                    if (innerRadius instanceof Percent && chart) {
+                        innerRadius = percent(innerRadius.value * chart.innerRadiusModifyer * 100);
+                    }
                 }
-            }
-            else {
-                if (innerRadius instanceof Percent && chart) {
-                    var mr = chart.mr;
-                    var value = innerRadius.value;
-                    value = Math.max(mr * value, mr - Math.min(chart.plotContainer.innerHeight, chart.plotContainer.innerWidth)) / mr;
-                    innerRadius = percent(value * 100);
+                else {
+                    if (innerRadius instanceof Percent && chart) {
+                        var mr = chart.mr;
+                        var value = innerRadius.value;
+                        value = Math.max(mr * value, mr - Math.min(chart.plotContainer.innerHeight, chart.plotContainer.innerWidth)) / mr;
+                        innerRadius = percent(value * 100);
+                    }
                 }
+                return innerRadius;
             }
-            return innerRadius;
         },
         /**
          * Inner radius of the axis.

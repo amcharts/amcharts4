@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.23] - 2020-05-19
+
+### Added
+- `removedfromqueue` event added to `Sprite`. It is invoked when `am4core.options.queue = true` or `am4core.options.onlyShowOnViewport = true` and the Sprite (chart) is removed from queue (appears on the screen).
+- `groupperiodchanged` event added to `DateAxis`. It is invoked when data grouping is on and grouping period is changed.
+
+### Fixed
+- JSON: Array value in `snapToSeries` on `XYCursor` was resulting in error.
+- `RadarChart` was resulting in an error if used as a column or bullet template in some other chart.
+- `AxisRendererRadial.innerRadius` was ignored if set in percent and `RadarChart.innerRadius` was not set.
+- Wide charts were being cut off in the middle when printing.
+
+
 ## [4.9.22] - 2020-05-14
 
 ### Changed

@@ -141,6 +141,10 @@ export interface IDateAxisProperties extends IValueAxisProperties {
  * Defines events for [[DateAxis]].
  */
 export interface IDateAxisEvents extends IValueAxisEvents {
+    /**
+     * Invoked when data grouping is on and grouping period is changed. You can find our the period via dateAxis.currentDataSetId property.
+     */
+    groupperiodchanged: IDateAxisEvents;
 }
 /**
  * Defines adapters for [[DateAxis]].

@@ -319,9 +319,15 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
 	inited: {};
 
 	/**
-	 * Invoked when [[Sprite]] appears. Sprite appears when sprite.appear() method is called and show animation is finished.
+	 * Invoked when [[Sprite]] appears. Sprite appears when `sprite.appear()` method
+	 * is called and show animation is finished.
 	 */
 	appeared: {};
+
+	/**
+	 * Invoked when chart is shown if `am4core.options.queue = true` or/and `am4core.options.onlyShowOnViewport = true`.
+	 */
+	removedfromqueue: {};
 
 	/**
 	 * Invoked when [[Sprite]] is becomes ready, that is it has finished all

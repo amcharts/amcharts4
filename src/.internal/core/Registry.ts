@@ -176,6 +176,21 @@ export class Registry {
 		this.invalidDatas.noBase = [];
 		this.invalidLayouts.noBase = [];
 		this.invalidPositions.noBase = [];
+
+		// This is needed to prevent charts from being cut off when printing
+		addEventListener("beforeprint", () => {
+			$array.each(this.baseSprites, (sprite) => {
+				const svg = sprite.paper.svg;
+				svg.setAttribute("viewBox", "0 0 " + svg.clientWidth + " " + svg.clientHeight);
+			});
+		});
+
+		addEventListener("afterprint", () => {
+			$array.each(this.baseSprites, (sprite) => {
+				const svg = sprite.paper.svg;
+				svg.removeAttribute("viewBox");
+			});
+		});
 	}
 
 	/**

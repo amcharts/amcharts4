@@ -59,13 +59,21 @@ var SVGContainer = /** @class */ (function () {
         // Log parent HTML element
         this.htmlElement = htmlElement;
         if (!ghost) {
+            // This is needed so that it won't resize while printing, so that way printing works correctly
+            var printing_1 = false;
             var callback = function () {
-                if (_this.autoResize) {
+                if (_this.autoResize && !printing_1) {
                     _this.measure();
                 }
             };
             this.resizeSensor = new ResizeSensor(htmlElement, callback);
             this._disposers.push(this.resizeSensor);
+            this._disposers.push($dom.addEventListener(window, "beforeprint", function () {
+                printing_1 = true;
+            }));
+            this._disposers.push($dom.addEventListener(window, "afterprint", function () {
+                printing_1 = false;
+            }));
         }
         // Adds to containers array
         svgContainers.push(this);

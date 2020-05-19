@@ -197,7 +197,12 @@ export interface IDateAxisProperties extends IValueAxisProperties {
 /**
  * Defines events for [[DateAxis]].
  */
-export interface IDateAxisEvents extends IValueAxisEvents { }
+export interface IDateAxisEvents extends IValueAxisEvents {
+	/**
+	 * Invoked when data grouping is on and grouping period is changed. You can find our the period via dateAxis.currentDataSetId property.
+	 */
+	groupperiodchanged: IDateAxisEvents;
+}
 
 /**
  * Defines adapters for [[DateAxis]].
@@ -756,9 +761,13 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			if ($time.getDuration(groupInterval.timeUnit, groupInterval.count) < $time.getDuration(mainBaseInterval.timeUnit, mainBaseInterval.count)) {
 				groupInterval = { ...mainBaseInterval };
 			}
-			this._groupInterval = groupInterval;
 
-			this._currentDataSetId = groupInterval.timeUnit + groupInterval.count;
+			this._groupInterval = groupInterval;
+			let newId = groupInterval.timeUnit + groupInterval.count;
+			if (this._currentDataSetId != newId) {
+				this._currentDataSetId = newId;
+				this.dispatch("groupperiodchanged");
+			}
 
 			this.series.each((series) => {
 				if (series.baseAxis == this) {
@@ -1002,7 +1011,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 							newDataItem.setWorkingLocation("dateX", series.dataItems.template.locations.dateX, 0);
 							newDataItem.setWorkingLocation("openDateX", series.dataItems.template.locations.openDateX, 0);
 							newDataItem.setWorkingLocation("dateY", series.dataItems.template.locations.dateY, 0);
-							newDataItem.setWorkingLocation("openDateY", series.dataItems.template.locations.openDateY, 0);														
+							newDataItem.setWorkingLocation("openDateY", series.dataItems.template.locations.openDateY, 0);
 
 							newDataItem.component = series;
 							// other Dates?
@@ -1345,7 +1354,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				let format = this.dateFormats.getKey(timeUnit);
 
 				if (this.markUnitChange && prevGridDate) {
-					if ($time.checkChange(date, prevGridDate, this._nextGridUnit, this._df.utc)) {						
+					if ($time.checkChange(date, prevGridDate, this._nextGridUnit, this._df.utc)) {
 						if (timeUnit !== "year") {
 							format = this.periodChangeDateFormats.getKey(timeUnit);
 						}

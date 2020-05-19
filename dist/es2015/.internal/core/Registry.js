@@ -18,6 +18,7 @@ import * as $array from "./utils/Array";
  */
 var Registry = /** @class */ (function () {
     function Registry() {
+        var _this = this;
         /**
          * Event dispacther.
          */
@@ -113,6 +114,19 @@ var Registry = /** @class */ (function () {
         this.invalidDatas.noBase = [];
         this.invalidLayouts.noBase = [];
         this.invalidPositions.noBase = [];
+        // This is needed to prevent charts from being cut off when printing
+        addEventListener("beforeprint", function () {
+            $array.each(_this.baseSprites, function (sprite) {
+                var svg = sprite.paper.svg;
+                svg.setAttribute("viewBox", "0 0 " + svg.clientWidth + " " + svg.clientHeight);
+            });
+        });
+        addEventListener("afterprint", function () {
+            $array.each(_this.baseSprites, function (sprite) {
+                var svg = sprite.paper.svg;
+                svg.removeAttribute("viewBox");
+            });
+        });
     }
     /**
      * Generates a unique chart system-wide ID.
