@@ -126,6 +126,38 @@ export interface IExportImageOptions {
      */
     scale?: number;
     /**
+     * Minimum width in pixels of the exported image. If source chart is smaller
+     * thank this, it will be scaled up.
+     *
+     * @since 4.9.24
+     */
+    minWidth?: number;
+    /**
+     * Minimum height in pixels of the exported image. If source chart is smaller
+     * thank this, it will be scaled up.
+     *
+     * @since 4.9.24
+     */
+    minHeight?: number;
+    /**
+     * Maximum width in pixels of the exported image. If source chart is bigger
+     * thank this, it will be scaled down.
+     *
+     * NOTE: this setting might be overidden by `minWidth`.
+     *
+     * @since 4.9.24
+     */
+    maxWidth?: number;
+    /**
+     * Maximum height in pixels of the exported image. If source chart is bigger
+     * thank this, it will be scaled down.
+     *
+     * NOTE: this setting might be overidden by `minHeight`.
+     *
+     * @since 4.9.24
+     */
+    maxHeight?: number;
+    /**
      * Normally, Export removes "tainted" images (images that are loaded from
      * other host than the chart itself) before export.
      *
@@ -1251,6 +1283,17 @@ export declare class Export extends Validatable {
      */
     protected getPixelRatio(options?: IExportImageOptions): number;
     /**
+     * Calculates adjusted scale if image does not fit or is larger than min/max
+     * settings.
+     *
+     * @param   width    Width of the source image
+     * @param   height   Height of the source image
+     * @param   scale    Current scale
+     * @param   options  Options
+     * @return           Adjusted scale
+     */
+    protected getAdjustedScale(width: number, height: number, scale: number, options?: IExportImageOptions): number;
+    /**
      * Converts all `<image>` tags in SVG to use data uris instead of external
      * URLs
      *
@@ -1373,7 +1416,7 @@ export declare class Export extends Validatable {
      * @return Output SVG
      * @todo Add style params to existing <svg>
      */
-    normalizeSVG(svg: string, options?: IExportSVGOptions, width?: number, height?: number, font?: string, fontSize?: string, background?: Color): string;
+    normalizeSVG(svg: string, options?: IExportSVGOptions, width?: number, height?: number, scale?: number, font?: string, fontSize?: string, background?: Color): string;
     /**
      * Serializes an element and returns its contents.
      *

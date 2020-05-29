@@ -320,6 +320,42 @@ export interface IExportImageOptions {
 	scale?: number;
 
 	/**
+	 * Minimum width in pixels of the exported image. If source chart is smaller
+	 * thank this, it will be scaled up.
+	 *
+	 * @since 4.9.24
+	 */
+	minWidth?: number;
+
+	/**
+	 * Minimum height in pixels of the exported image. If source chart is smaller
+	 * thank this, it will be scaled up.
+	 *
+	 * @since 4.9.24
+	 */
+	minHeight?: number;
+
+	/**
+	 * Maximum width in pixels of the exported image. If source chart is bigger
+	 * thank this, it will be scaled down.
+	 *
+	 * NOTE: this setting might be overidden by `minWidth`.
+	 *
+	 * @since 4.9.24
+	 */
+	maxWidth?: number;
+
+	/**
+	 * Maximum height in pixels of the exported image. If source chart is bigger
+	 * thank this, it will be scaled down.
+	 *
+	 * NOTE: this setting might be overidden by `minHeight`.
+	 *
+	 * @since 4.9.24
+	 */
+	maxHeight?: number;
+
+	/**
 	 * Normally, Export removes "tainted" images (images that are loaded from
 	 * other host than the chart itself) before export.
 	 *
@@ -2186,20 +2222,24 @@ export class Export extends Validatable {
 			 */
 
 			// Get dimensions
-			let width = this.sprite.pixelWidth,
-				height = this.sprite.pixelHeight,
-				font = $dom.findFont(this.sprite.dom),
-				fontSize = $dom.findFontSize(this.sprite.dom);
+			let width = this.sprite.pixelWidth;
+			let height = this.sprite.pixelHeight;
+			let font = $dom.findFont(this.sprite.dom);
+			let fontSize = $dom.findFontSize(this.sprite.dom);
+			let scale = options.scale || 1;
+			let pixelRatio = this.getPixelRatio(options);
+
+			// Check if scale needs to be updated as per min/max dimensions
+			scale = this.getAdjustedScale(width * pixelRatio, height * pixelRatio, scale, options);
 
 			// Create canvas and its 2D context
 			canvas = this.getDisposableCanvas();
 
 			// Set canvas width/height
-			let pixelRatio = this.getPixelRatio(options);
-			canvas.style.width = width + 'px';
-			canvas.style.height = height + 'px';
-			canvas.width = width * pixelRatio;
-			canvas.height = height * pixelRatio;
+			canvas.style.width = width * scale + 'px';
+			canvas.style.height = height * scale + 'px';
+			canvas.width = width * pixelRatio * scale;
+			canvas.height = height * pixelRatio * scale;
 
 			let ctx = canvas.getContext("2d");
 
@@ -2235,6 +2275,7 @@ export class Export extends Validatable {
 				options,
 				width,
 				height,
+				scale,
 				font,
 				fontSize
 			);
@@ -2242,8 +2283,7 @@ export class Export extends Validatable {
 			// Get Blob representation of SVG and create object URL
 			let svg = new Blob([data], { type: "image/svg+xml" });
 			url = DOMURL.createObjectURL(svg);
-
-			let img = await this.loadNewImage(url, width, height, "anonymous");
+			let img = await this.loadNewImage(url, width * scale, height * scale, "anonymous");
 
 			// Draw image on canvas
 			ctx.drawImage(img, 0, 0);
@@ -2288,10 +2328,15 @@ export class Export extends Validatable {
 		let canvg = await this.canvg;
 
 		// Get dimensions
-		let width = this.sprite.pixelWidth,
-			height = this.sprite.pixelHeight,
-			font = $dom.findFont(this.sprite.dom),
-			fontSize = $dom.findFontSize(this.sprite.dom);
+		let width = this.sprite.pixelWidth;
+		let height = this.sprite.pixelHeight;
+		let font = $dom.findFont(this.sprite.dom);
+		let fontSize = $dom.findFontSize(this.sprite.dom);
+		let scale = options.scale || 1;
+		let pixelRatio = this.getPixelRatio(options);
+
+		// Check if scale needs to be updated as per min/max dimensions
+		scale = this.getAdjustedScale(width * pixelRatio, height * pixelRatio, scale, options);
 
 		// Get SVG representation of the Sprite
 		let data = this.normalizeSVG(
@@ -2299,6 +2344,7 @@ export class Export extends Validatable {
 			options,
 			width,
 			height,
+			scale,
 			font,
 			fontSize,
 			background
@@ -2308,11 +2354,10 @@ export class Export extends Validatable {
 		let canvas = this.getDisposableCanvas();
 
 		// Set canvas width/height
-		let pixelRatio = this.getPixelRatio(options);
-		canvas.style.width = (width * pixelRatio) + 'px';
-		canvas.style.height = (height * pixelRatio) + 'px';
-		canvas.width = width * pixelRatio;
-		canvas.height = height * pixelRatio;
+		canvas.style.width = (width * pixelRatio * scale) + 'px';
+		canvas.style.height = (height * pixelRatio * scale) + 'px';
+		canvas.width = width * pixelRatio * scale;
+		canvas.height = height * pixelRatio * scale;
 
 		let config: any = {
 			//ignoreDimensions: true,
@@ -2321,8 +2366,8 @@ export class Export extends Validatable {
 
 		if (pixelRatio != 1) {
 			config.ignoreDimensions = true;
-			config.scaleWidth = width * pixelRatio;
-			config.scaleHeight = height * pixelRatio;
+			config.scaleWidth = width * pixelRatio * scale;
+			config.scaleHeight = height * pixelRatio * scale;
 		}
 
 		await canvg.fromString(canvas.getContext("2d"), data, config).render();
@@ -2401,8 +2446,55 @@ export class Export extends Validatable {
 	 * @return Pixel ratio
 	 */
 	protected getPixelRatio(options?: IExportImageOptions): number {
-		const scale = options && options.scale ? options.scale : 1;
-		return (this.useRetina ? $utils.getPixelRatio() : 1) * scale;
+		// const scale = options && options.scale ? options.scale : 1;
+		// return (this.useRetina ? $utils.getPixelRatio() : 1) * scale;
+		return this.useRetina ? $utils.getPixelRatio() : 1;
+	}
+
+	/**
+	 * Calculates adjusted scale if image does not fit or is larger than min/max
+	 * settings.
+	 * 
+	 * @param   width    Width of the source image
+	 * @param   height   Height of the source image
+	 * @param   scale    Current scale
+	 * @param   options  Options
+	 * @return           Adjusted scale
+	 */
+	protected getAdjustedScale(width: number, height: number, scale: number, options?: IExportImageOptions): number {
+
+		if (!options) {
+			return scale;
+		}
+
+		let adjWidth = width * scale;
+		let adjHeight = width * scale;
+
+		// Check max restrictions
+		let widthScale;
+		let heightScale;
+		if (options.maxWidth && (adjWidth > options.maxWidth)) {
+			widthScale = options.maxWidth / width;
+		}
+		if (options.maxHeight && (adjHeight > options.maxHeight)) {
+			heightScale = options.maxHeight / height;
+		}
+		if (widthScale || heightScale) {
+			return $math.min(widthScale, heightScale)
+		}
+
+		// Check min restrictions
+		if (options.minWidth && (adjWidth < options.minWidth)) {
+			widthScale = options.minWidth / width;
+		}
+		if (options.minHeight && (adjHeight < options.minHeight)) {
+			heightScale = options.minHeight / height;
+		}
+		if (widthScale || heightScale) {
+			return $math.max(widthScale, heightScale)
+		}
+
+		return scale;
 	}
 
 	/**
@@ -2838,6 +2930,7 @@ export class Export extends Validatable {
 			options,
 			width,
 			height,
+			1,
 			font,
 			fontSize
 		);
@@ -2876,15 +2969,15 @@ export class Export extends Validatable {
 	 * @return Output SVG
 	 * @todo Add style params to existing <svg>
 	 */
-	public normalizeSVG(svg: string, options?: IExportSVGOptions, width?: number, height?: number, font?: string, fontSize?: string, background?: Color): string {
+	public normalizeSVG(svg: string, options?: IExportSVGOptions, width?: number, height?: number, scale?: number, font?: string, fontSize?: string, background?: Color): string {
 
 		// Construct width/height params
 		let dimParams = "";
 		if (width) {
-			dimParams += "width=\"" + width + "px\" ";
+			dimParams += "width=\"" + width * scale + "px\" ";
 		}
 		if (height) {
-			dimParams += "height=\"" + height + "px\" ";
+			dimParams += "height=\"" + height * scale + "px\" ";
 		}
 
 		// Apply font settings
@@ -2896,11 +2989,16 @@ export class Export extends Validatable {
 			styleParams += "font-size: " + fontSize + ";";
 		}
 
+		// Scale
+		if (scale) {
+			dimParams += "viewBox=\"0 0 " + (width) + " " + (height) + "\" ";
+		}
+
 		// Remove foreign objects temporarily
 		let fos: string[] = [];
 		let ms = svg.match(/<foreignObject[\s\S]*<\/foreignObject>/gi);
 		if (ms) {
-			for(let i = 0; i < ms.length; i++) {
+			for (let i = 0; i < ms.length; i++) {
 				svg = svg.replace(ms[i], $strings.PLACEHOLDER);
 				fos.push(ms[i]);
 			}
@@ -2946,9 +3044,12 @@ export class Export extends Validatable {
 		let reg = new RegExp("url\\(" + $utils.escapeForRgex($utils.getBaseURI()), "g");
 		svg = svg.replace(reg, "url(#");
 
+		// Remove escaped quotes in url() parameters
+		svg = svg.replace(/url\(&quot;([^)]*)&quot;\)/gm, "url($1)"); 
+
 		// Put foreignObjects back in
 		if (fos.length) {
-			for(let i = 0; i < fos.length; i++) {
+			for (let i = 0; i < fos.length; i++) {
 				svg = svg.replace($strings.PLACEHOLDER, fos[i]);
 			}
 		}

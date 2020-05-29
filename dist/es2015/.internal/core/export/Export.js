@@ -1091,7 +1091,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getCanvas = function (options) {
         return __awaiter(this, void 0, void 0, function () {
-            var background, DOMURL, url, blobs, canvas, width, height, font, fontSize, pixelRatio, ctx, promises, a, data, svg, img;
+            var background, DOMURL, url, blobs, canvas, width, height, font, fontSize, scale, pixelRatio, ctx, promises, a, data, svg, img;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1106,14 +1106,21 @@ var Export = /** @class */ (function (_super) {
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, , 4, 5]);
-                        width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = $dom.findFont(this.sprite.dom), fontSize = $dom.findFontSize(this.sprite.dom);
+                        width = this.sprite.pixelWidth;
+                        height = this.sprite.pixelHeight;
+                        font = $dom.findFont(this.sprite.dom);
+                        fontSize = $dom.findFontSize(this.sprite.dom);
+                        scale = options.scale || 1;
+                        pixelRatio = this.getPixelRatio(options);
+                        // Check if scale needs to be updated as per min/max dimensions
+                        scale = this.getAdjustedScale(width * pixelRatio, height * pixelRatio, scale, options);
                         // Create canvas and its 2D context
                         canvas = this.getDisposableCanvas();
-                        pixelRatio = this.getPixelRatio(options);
-                        canvas.style.width = width + 'px';
-                        canvas.style.height = height + 'px';
-                        canvas.width = width * pixelRatio;
-                        canvas.height = height * pixelRatio;
+                        // Set canvas width/height
+                        canvas.style.width = width * scale + 'px';
+                        canvas.style.height = height * scale + 'px';
+                        canvas.width = width * pixelRatio * scale;
+                        canvas.height = height * pixelRatio * scale;
                         ctx = canvas.getContext("2d");
                         if (pixelRatio != 1) {
                             ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -1136,10 +1143,10 @@ var Export = /** @class */ (function (_super) {
                         return [4 /*yield*/, Promise.all(promises)];
                     case 2:
                         a = _a.sent();
-                        data = this.normalizeSVG("<style>" + a[0] + "</style>" + this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize);
+                        data = this.normalizeSVG("<style>" + a[0] + "</style>" + this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, scale, font, fontSize);
                         svg = new Blob([data], { type: "image/svg+xml" });
                         url = DOMURL.createObjectURL(svg);
-                        return [4 /*yield*/, this.loadNewImage(url, width, height, "anonymous")];
+                        return [4 /*yield*/, this.loadNewImage(url, width * scale, height * scale, "anonymous")];
                     case 3:
                         img = _a.sent();
                         // Draw image on canvas
@@ -1170,7 +1177,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getCanvasAdvanced = function (options) {
         return __awaiter(this, void 0, void 0, function () {
-            var background, canvg, width, height, font, fontSize, data, canvas, pixelRatio, config;
+            var background, canvg, width, height, font, fontSize, scale, pixelRatio, data, canvas, config;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1187,22 +1194,29 @@ var Export = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.canvg];
                     case 2:
                         canvg = _a.sent();
-                        width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = $dom.findFont(this.sprite.dom), fontSize = $dom.findFontSize(this.sprite.dom);
-                        data = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize, background);
-                        canvas = this.getDisposableCanvas();
+                        width = this.sprite.pixelWidth;
+                        height = this.sprite.pixelHeight;
+                        font = $dom.findFont(this.sprite.dom);
+                        fontSize = $dom.findFontSize(this.sprite.dom);
+                        scale = options.scale || 1;
                         pixelRatio = this.getPixelRatio(options);
-                        canvas.style.width = (width * pixelRatio) + 'px';
-                        canvas.style.height = (height * pixelRatio) + 'px';
-                        canvas.width = width * pixelRatio;
-                        canvas.height = height * pixelRatio;
+                        // Check if scale needs to be updated as per min/max dimensions
+                        scale = this.getAdjustedScale(width * pixelRatio, height * pixelRatio, scale, options);
+                        data = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, scale, font, fontSize, background);
+                        canvas = this.getDisposableCanvas();
+                        // Set canvas width/height
+                        canvas.style.width = (width * pixelRatio * scale) + 'px';
+                        canvas.style.height = (height * pixelRatio * scale) + 'px';
+                        canvas.width = width * pixelRatio * scale;
+                        canvas.height = height * pixelRatio * scale;
                         config = {
                             //ignoreDimensions: true,
                             useCORS: true
                         };
                         if (pixelRatio != 1) {
                             config.ignoreDimensions = true;
-                            config.scaleWidth = width * pixelRatio;
-                            config.scaleHeight = height * pixelRatio;
+                            config.scaleWidth = width * pixelRatio * scale;
+                            config.scaleHeight = height * pixelRatio * scale;
                         }
                         return [4 /*yield*/, canvg.fromString(canvas.getContext("2d"), data, config).render()];
                     case 3:
@@ -1282,8 +1296,49 @@ var Export = /** @class */ (function (_super) {
      * @return Pixel ratio
      */
     Export.prototype.getPixelRatio = function (options) {
-        var scale = options && options.scale ? options.scale : 1;
-        return (this.useRetina ? $utils.getPixelRatio() : 1) * scale;
+        // const scale = options && options.scale ? options.scale : 1;
+        // return (this.useRetina ? $utils.getPixelRatio() : 1) * scale;
+        return this.useRetina ? $utils.getPixelRatio() : 1;
+    };
+    /**
+     * Calculates adjusted scale if image does not fit or is larger than min/max
+     * settings.
+     *
+     * @param   width    Width of the source image
+     * @param   height   Height of the source image
+     * @param   scale    Current scale
+     * @param   options  Options
+     * @return           Adjusted scale
+     */
+    Export.prototype.getAdjustedScale = function (width, height, scale, options) {
+        if (!options) {
+            return scale;
+        }
+        var adjWidth = width * scale;
+        var adjHeight = width * scale;
+        // Check max restrictions
+        var widthScale;
+        var heightScale;
+        if (options.maxWidth && (adjWidth > options.maxWidth)) {
+            widthScale = options.maxWidth / width;
+        }
+        if (options.maxHeight && (adjHeight > options.maxHeight)) {
+            heightScale = options.maxHeight / height;
+        }
+        if (widthScale || heightScale) {
+            return $math.min(widthScale, heightScale);
+        }
+        // Check min restrictions
+        if (options.minWidth && (adjWidth < options.minWidth)) {
+            widthScale = options.minWidth / width;
+        }
+        if (options.minHeight && (adjHeight < options.minHeight)) {
+            heightScale = options.minHeight / height;
+        }
+        if (widthScale || heightScale) {
+            return $math.max(widthScale, heightScale);
+        }
+        return scale;
     };
     /**
      * Converts all `<image>` tags in SVG to use data uris instead of external
@@ -1696,7 +1751,7 @@ var Export = /** @class */ (function (_super) {
                         // Wait for required elements to be ready before proceeding
                         _a.sent();
                         width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = $dom.findFont(this.sprite.dom), fontSize = $dom.findFontSize(this.sprite.dom);
-                        svg = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize);
+                        svg = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, 1, font, fontSize);
                         charset = this.adapter.apply("charset", {
                             charset: "charset=utf-8",
                             type: "svg",
@@ -1728,14 +1783,14 @@ var Export = /** @class */ (function (_super) {
      * @return Output SVG
      * @todo Add style params to existing <svg>
      */
-    Export.prototype.normalizeSVG = function (svg, options, width, height, font, fontSize, background) {
+    Export.prototype.normalizeSVG = function (svg, options, width, height, scale, font, fontSize, background) {
         // Construct width/height params
         var dimParams = "";
         if (width) {
-            dimParams += "width=\"" + width + "px\" ";
+            dimParams += "width=\"" + width * scale + "px\" ";
         }
         if (height) {
-            dimParams += "height=\"" + height + "px\" ";
+            dimParams += "height=\"" + height * scale + "px\" ";
         }
         // Apply font settings
         var styleParams = "";
@@ -1744,6 +1799,10 @@ var Export = /** @class */ (function (_super) {
         }
         if (fontSize) {
             styleParams += "font-size: " + fontSize + ";";
+        }
+        // Scale
+        if (scale) {
+            dimParams += "viewBox=\"0 0 " + (width) + " " + (height) + "\" ";
         }
         // Remove foreign objects temporarily
         var fos = [];
@@ -1786,6 +1845,8 @@ var Export = /** @class */ (function (_super) {
         // Remove base uri-related stuff
         var reg = new RegExp("url\\(" + $utils.escapeForRgex($utils.getBaseURI()), "g");
         svg = svg.replace(reg, "url(#");
+        // Remove escaped quotes in url() parameters
+        svg = svg.replace(/url\(&quot;([^)]*)&quot;\)/gm, "url($1)");
         // Put foreignObjects back in
         if (fos.length) {
             for (var i = 0; i < fos.length; i++) {

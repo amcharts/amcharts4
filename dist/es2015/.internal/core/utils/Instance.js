@@ -38,6 +38,17 @@ import * as $log from "./Log";
  */
 function createChild(htmlElement, classType) {
     var htmlContainer = $dom.getElement(htmlElement);
+    // If there's no container available yet, we create a fake one
+    var tmpContainer = false;
+    if (!htmlContainer) {
+        htmlContainer = document.createElement("div");
+        htmlContainer.style.width = "200px";
+        htmlContainer.style.height = "200px";
+        htmlContainer.style.visibility = "hidden";
+        htmlContainer.style.position = "absolute";
+        document.body.appendChild(htmlContainer);
+        tmpContainer = true;
+    }
     if (htmlContainer) {
         htmlContainer.innerHTML = "";
         //htmlContainer.style.overflow = "hidden";
@@ -54,6 +65,12 @@ function createChild(htmlElement, classType) {
         container_1.background.fillOpacity = 0;
         container_1.paper = paper;
         paper.append(container_1.group);
+        // Set up moving to proper element container if it's not yet ready at call time
+        if (tmpContainer) {
+            $dom.ready(function () {
+                container_1.moveHtmlContainer(htmlElement);
+            });
+        }
         // this is set from parent container, but this one doesn't have, so do it manually.
         container_1.relativeWidth = 1;
         container_1.relativeHeight = 1;
@@ -71,14 +88,14 @@ function createChild(htmlElement, classType) {
         sprite_1.focusFilter = new FocusFilter();
         registry.baseSprites.push(sprite_1);
         registry.baseSpritesByUid[uid] = sprite_1;
-        sprite_1.maskRectangle = { x: 0, y: 0, width: Math.max(svgDiv_1.width, 0), height: Math.max(svgDiv_1.height, 0) };
+        sprite_1.maskRectangle = { x: 0, y: 0, width: Math.max(svgDiv_1.width || 0, 0), height: Math.max(svgDiv_1.height || 0, 0) };
         // this solves issues with display:none, as all children are measured as 0x0
         container_1.events.on("maxsizechanged", function (event) {
             if (event.previousWidth == 0 || event.previousHeight == 0) {
                 container_1.deepInvalidate();
             }
             if (sprite_1.maskRectangle) {
-                sprite_1.maskRectangle = { x: 0, y: 0, width: Math.max(svgDiv_1.width, 0), height: Math.max(svgDiv_1.height, 0) };
+                sprite_1.maskRectangle = { x: 0, y: 0, width: Math.max(svgDiv_1.width || 0, 0), height: Math.max(svgDiv_1.height || 0, 0) };
             }
         });
         var loopTimer_1 = null;

@@ -3365,7 +3365,9 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.setPercentProperty = function (property, value, invalidate, transform, precision, floor) {
         value = $type.toNumberOrPercent(value);
         if ($type.isNumber(value)) {
-            value = $math.round(value, precision, floor);
+            if ($type.isNumber(precision)) {
+                value = $math.round(value, precision, floor);
+            }
             return this.setPropertyValue(property, value, invalidate, transform);
         }
         else {
@@ -7033,7 +7035,7 @@ var Sprite = /** @class */ (function (_super) {
      * @param value  Fill
      */
     Sprite.prototype.setFill = function (value) {
-        if (!$type.isObject(value)) {
+        if (!$type.isObject(value) || "r" in value) {
             value = toColor(value);
         }
         if (this.setColorProperty("fill", value) || this.fillModifier) {
@@ -7117,7 +7119,7 @@ var Sprite = /** @class */ (function (_super) {
      * @param value Stroke setting
      */
     Sprite.prototype.setStroke = function (value) {
-        if (!$type.isObject(value)) {
+        if (!$type.isObject(value) || "r" in value) {
             value = toColor(value);
         }
         if (this.setColorProperty("stroke", value) || this.strokeModifier) {

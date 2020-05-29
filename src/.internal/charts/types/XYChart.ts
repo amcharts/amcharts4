@@ -860,20 +860,25 @@ export class XYChart extends SerialChart {
 		let start: Optional<number>;
 		let end: Optional<number>;
 
-		$iter.each(axes.iterator(), (axis) => {
-			let axisStart = axis.start;
-			let axisEnd = axis.end;
+		axes.each((axis) => {
+			if (axis instanceof ValueAxis && axis.syncWithAxis) {
 
-			if (axis.renderer.inversed) {
-				axisStart = 1 - axis.end;
-				axisEnd = 1 - axis.start;
 			}
+			else {
+				let axisStart = axis.start;
+				let axisEnd = axis.end;
 
-			if (!$type.isNumber(start) || (axisStart < start)) {
-				start = axisStart;
-			}
-			if (!$type.isNumber(end) || (axisEnd > end)) {
-				end = axisEnd;
+				if (axis.renderer.inversed) {
+					axisStart = 1 - axis.end;
+					axisEnd = 1 - axis.start;
+				}
+
+				if (!$type.isNumber(start) || (axisStart < start)) {
+					start = axisStart;
+				}
+				if (!$type.isNumber(end) || (axisEnd > end)) {
+					end = axisEnd;
+				}
 			}
 		});
 

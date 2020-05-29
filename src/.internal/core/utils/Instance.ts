@@ -43,6 +43,18 @@ import * as $log from "./Log";
 function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement | string>, classType: { new(): T; }): T {
 	let htmlContainer = $dom.getElement(htmlElement);
 
+	// If there's no container available yet, we create a fake one
+	let tmpContainer = false;
+	if (!htmlContainer) {
+		htmlContainer = document.createElement("div");
+		htmlContainer.style.width = "200px";
+		htmlContainer.style.height = "200px";
+		htmlContainer.style.visibility = "hidden";
+		htmlContainer.style.position = "absolute";
+		document.body.appendChild(htmlContainer);
+		tmpContainer = true;
+	}
+
 	if (htmlContainer) {
 
 		htmlContainer.innerHTML = "";
@@ -63,6 +75,13 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 		container.background.fillOpacity = 0;
 		container.paper = paper;
 		paper.append(container.group);
+
+		// Set up moving to proper element container if it's not yet ready at call time
+		if (tmpContainer) {
+			$dom.ready(() => {
+				container.moveHtmlContainer(htmlElement);
+			});
+		}
 
 		// this is set from parent container, but this one doesn't have, so do it manually.
 		container.relativeWidth = 1;
@@ -87,7 +106,7 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 		registry.baseSprites.push(sprite);
 		registry.baseSpritesByUid[uid] = sprite;
 
-		sprite.maskRectangle = { x: 0, y: 0, width: Math.max(svgDiv.width, 0), height: Math.max(svgDiv.height, 0) };
+		sprite.maskRectangle = { x: 0, y: 0, width: Math.max(svgDiv.width || 0, 0), height: Math.max(svgDiv.height || 0, 0) };
 
 		// this solves issues with display:none, as all children are measured as 0x0
 		container.events.on("maxsizechanged", (event) => {
@@ -95,7 +114,7 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 				container.deepInvalidate();
 			}
 			if (sprite.maskRectangle) {
-				sprite.maskRectangle = { x: 0, y: 0, width: Math.max(svgDiv.width, 0), height: Math.max(svgDiv.height, 0) };
+				sprite.maskRectangle = { x: 0, y: 0, width: Math.max(svgDiv.width || 0, 0), height: Math.max(svgDiv.height || 0, 0) };
 			}
 		});
 
@@ -234,8 +253,8 @@ export function addToQueue(sprite: Sprite) {
 		sprite.events.disableType("appeared");
 
 		if (registry.queue.length == 0) {
-			registry.events.once("exitframe", ()=>{
-				queueHandler(sprite);				
+			registry.events.once("exitframe", () => {
+				queueHandler(sprite);
 			})
 			system.requestFrame();
 		}
@@ -265,7 +284,7 @@ export function viewPortHandler(sprite: Sprite) {
 		if (sprite.vpDisposer) {
 			sprite.vpDisposer.dispose();
 		}
-		
+
 		addToQueue(sprite);
 	}
 }
@@ -289,7 +308,7 @@ export function queueHandler(sprite: Sprite) {
 		sprite.invalidateLabels();
 	}
 
-	if(sprite.tooltipContainer){
+	if (sprite.tooltipContainer) {
 		sprite.tooltipContainer.invalidateLayout();
 	}
 	if (sprite instanceof Component) {
@@ -307,12 +326,12 @@ export function queueHandler(sprite: Sprite) {
 	}
 	else {
 		sprite.reinit();
-		sprite.events.once("inited", ()=>{
+		sprite.events.once("inited", () => {
 			removeFromQueue(sprite);
 		})
 		if (sprite.showOnInit) {
 			sprite.appear();
-		}		
+		}
 	}
 }
 

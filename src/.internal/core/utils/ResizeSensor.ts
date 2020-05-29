@@ -125,6 +125,10 @@ export class ResizeSensor {
 		}
 	}
 
+	public get sensor(): Sensor {
+		return this._sensor;
+	}
+
 	/**
 	 * Deprecated: do not use.
 	 *

@@ -1,3 +1,7 @@
+interface Sensor {
+    addTarget(target: Element, callback: () => void): void;
+    removeTarget(target: Element): void;
+}
 export declare class ResizeSensor {
     private _sensor;
     private _element;
@@ -5,6 +9,7 @@ export declare class ResizeSensor {
     constructor(element: Element, callback: () => void);
     isDisposed(): boolean;
     dispose(): void;
+    readonly sensor: Sensor;
     /**
      * Deprecated: do not use.
      *
@@ -12,3 +17,4 @@ export declare class ResizeSensor {
      */
     reset(): void;
 }
+export {};

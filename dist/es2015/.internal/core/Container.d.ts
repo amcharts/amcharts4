@@ -723,6 +723,16 @@ export declare class Container extends Sprite {
     protected handleTapToActivateDeactivation(): void;
     protected initTapTimeout(): void;
     /**
+     * Moves the whole chart to other HTML container.
+     *
+     * `htmlElement` can either be a reference to a DOM element, or an id of
+     * such element.
+     *
+     * @since 4.9.24
+     * @param  htmlElement  Target element
+     */
+    moveHtmlContainer(htmlElement: string | HTMLElement): void;
+    /**
      * @ignore
      * @return Has license?
      */

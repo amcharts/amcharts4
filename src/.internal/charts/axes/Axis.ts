@@ -1601,7 +1601,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			let endPosition: number = this.getCellEndPosition(position);
 
 			if (this.tooltipPosition == "fixed") {
-				position = $math.ceil(startPosition + (endPosition - startPosition) * tooltipLocation, 4);
+				position = startPosition + (endPosition - startPosition) * tooltipLocation;
 			}
 
 			position = $math.fitToRange(position, this.start, this.end);

@@ -23,6 +23,7 @@ import * as $iter from "./utils/Iterator";
 import * as $array from "./utils/Array";
 import * as $math from "./utils/Math";
 import * as $type from "./utils/Type";
+import * as $dom from "./utils/DOM";
 import { system } from "./System";
 import { options } from "./Options";
 ;
@@ -1765,6 +1766,29 @@ var Container = /** @class */ (function (_super) {
             this._tapToActivateTimeout = this.setTimeout(function () {
                 _this.handleTapToActivateDeactivation();
             }, this.tapTimeout);
+        }
+    };
+    /**
+     * Moves the whole chart to other HTML container.
+     *
+     * `htmlElement` can either be a reference to a DOM element, or an id of
+     * such element.
+     *
+     * @since 4.9.24
+     * @param  htmlElement  Target element
+     */
+    Container.prototype.moveHtmlContainer = function (htmlElement) {
+        var newContainer = $dom.getElement(htmlElement);
+        if (newContainer) {
+            var svgDiv = this.svgContainer;
+            svgDiv.htmlElement = newContainer;
+            svgDiv.htmlElement.appendChild(svgDiv.SVGContainer);
+            svgDiv.initSensor();
+            svgDiv.measure();
+        }
+        else if ($type.isString(htmlElement) && htmlElement != "") {
+            system.log("html container '" + htmlElement + "' not found");
+            //throw new Error("html container not found");
         }
     };
     /**

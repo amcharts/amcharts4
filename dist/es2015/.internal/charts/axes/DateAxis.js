@@ -507,9 +507,15 @@ var DateAxis = /** @class */ (function (_super) {
         if (this.groupData && $type.hasValue(difference)) {
             var mainBaseInterval = this.mainBaseInterval;
             var modifiedDifference = difference + this.startLocation + (1 - this.endLocation) * this.baseDuration;
-            var groupInterval = this.chooseInterval(0, modifiedDifference, this.groupCount, this.groupIntervals);
-            if ($time.getDuration(groupInterval.timeUnit, groupInterval.count) < $time.getDuration(mainBaseInterval.timeUnit, mainBaseInterval.count)) {
-                groupInterval = __assign({}, mainBaseInterval);
+            var groupInterval = void 0;
+            if (this.groupInterval) {
+                groupInterval = __assign({}, this.groupInterval);
+            }
+            else {
+                groupInterval = this.chooseInterval(0, modifiedDifference, this.groupCount, this.groupIntervals);
+                if ($time.getDuration(groupInterval.timeUnit, groupInterval.count) < $time.getDuration(mainBaseInterval.timeUnit, mainBaseInterval.count)) {
+                    groupInterval = __assign({}, mainBaseInterval);
+                }
             }
             this._groupInterval = groupInterval;
             var newId = groupInterval.timeUnit + groupInterval.count;
@@ -2172,6 +2178,29 @@ var DateAxis = /** @class */ (function (_super) {
                 });
                 this._currentDataSetId = "";
                 this._groupInterval = undefined;
+                this.invalidate();
+                this.invalidateSeries();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DateAxis.prototype, "groupInterval", {
+        /**
+         * @return Interval
+         */
+        get: function () {
+            return this.getPropertyValue("groupInterval");
+        },
+        /**
+         * Disables automatic selection of data grouping intervals and always uses
+         * `groupInterval` if set. Works only if `groupData = true`.
+         *
+         * @since 4.9.24
+         * @param  value  Interval
+         */
+        set: function (value) {
+            if (this.setPropertyValue("groupInterval", value)) {
                 this.invalidate();
                 this.invalidateSeries();
             }

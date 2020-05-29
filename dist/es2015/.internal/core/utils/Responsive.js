@@ -345,7 +345,7 @@ var Responsive = /** @class */ (function (_super) {
                         if ($array.indexOf(_this._appliedTargets, newTarget.uid) !== -1) {
                             // But only if this element has any rules applied, otherwise no
                             // point in setting current state
-                            newTarget.setState(_this.getDefaultState(newTarget));
+                            newTarget.setState(_this.getDefaultState(newTarget), 0);
                         }
                         defaultStateApplied = true;
                     }

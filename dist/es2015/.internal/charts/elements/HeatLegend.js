@@ -242,7 +242,7 @@ var HeatLegend = /** @class */ (function (_super) {
          * @param {Color}
          */
         set: function (value) {
-            if (!$type.isObject(value)) {
+            if (!(value instanceof Color)) {
                 value = toColor(value);
             }
             this.setColorProperty("maxColor", value, true);

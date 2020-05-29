@@ -99,12 +99,17 @@ export declare class SVGContainer implements IDisposer {
      */
     protected _disposers: Array<IDisposer>;
     cssScale: number;
+    protected _printing: boolean;
     /**
      * Constructor
      *
      * * Creates an HTML wrapper for SVG
      */
     constructor(htmlElement: HTMLElement, ghost?: boolean);
+    /**
+     * (Re)Initializes a resize sensor.
+     */
+    initSensor(): void;
     /**
      * Measures size of parent HTML element.
      *

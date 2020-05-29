@@ -153,7 +153,7 @@ var Rectangle3D = /** @class */ (function (_super) {
      */
     Rectangle3D.prototype.setFill = function (value) {
         _super.prototype.setFill.call(this, value);
-        if ($type.isString(value)) {
+        if (!$type.isObject(value) || "r" in value) {
             value = toColor(value);
         }
         var colorStr;

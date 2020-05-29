@@ -269,7 +269,7 @@ export class Rectangle3D extends Container {
 	protected setFill(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>): void {
 		super.setFill(value);
 
-		if ($type.isString(value)) {
+		if (!$type.isObject(value) || "r" in value) {
 			value = toColor(value);
 		}
 

@@ -124,6 +124,9 @@ export class SVGContainer implements IDisposer {
 
 	public cssScale: number = 1;
 
+	// This is needed so that it won't resize while printing, so that way printing works correctly.
+	protected _printing: boolean = false;
+
 	/**
 	 * Constructor
 	 *
@@ -135,25 +138,16 @@ export class SVGContainer implements IDisposer {
 		this.htmlElement = htmlElement;
 
 		if (!ghost) {
-			// This is needed so that it won't resize while printing, so that way printing works correctly
-			let printing = false;
+			this._printing = false;
 
-			const callback = () => {
-				if (this.autoResize && !printing) {
-					this.measure();
-				}
-			};
-
-			this.resizeSensor = new ResizeSensor(htmlElement, callback);
-
-			this._disposers.push(this.resizeSensor);
+			this.initSensor();
 
 			this._disposers.push($dom.addEventListener(window, "beforeprint", () => {
-				printing = true;
+				this._printing = true;
 			}));
 
 			this._disposers.push($dom.addEventListener(window, "afterprint", () => {
-				printing = false;
+				this._printing = false;
 			}));
 		}
 
@@ -173,6 +167,22 @@ export class SVGContainer implements IDisposer {
 		htmlElement.appendChild(svgContainer);
 
 		this.SVGContainer = svgContainer;
+	}
+
+	/**
+	 * (Re)Initializes a resize sensor.
+	 */
+	public initSensor(): void {
+		if (this.resizeSensor) {
+			this.resizeSensor.dispose();
+		}
+		const callback = () => {
+			if (this.autoResize && !this._printing) {
+				this.measure();
+			}
+		};
+		this.resizeSensor = new ResizeSensor(this.htmlElement, callback);
+		this._disposers.push(this.resizeSensor);
 	}
 
 	/**

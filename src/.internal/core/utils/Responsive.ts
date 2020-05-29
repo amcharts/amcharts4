@@ -497,7 +497,7 @@ export class Responsive extends BaseObjectEvents {
 						if ($array.indexOf(this._appliedTargets, newTarget.uid) !== -1) {
 							// But only if this element has any rules applied, otherwise no
 							// point in setting current state
-							newTarget.setState(this.getDefaultState(newTarget));
+							newTarget.setState(this.getDefaultState(newTarget), 0);
 						}
 						defaultStateApplied = true;
 					}

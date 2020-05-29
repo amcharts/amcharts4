@@ -385,7 +385,7 @@ export class HeatLegend extends Container {
 	 */
 	public set maxColor(value: Color) {
 
-		if (!$type.isObject(value)) {
+		if (!(value instanceof Color)) {
 			value = toColor(value);
 		}
 

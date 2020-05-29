@@ -1134,7 +1134,7 @@ var Axis = /** @class */ (function (_super) {
             var startPosition = this.getCellStartPosition(position);
             var endPosition = this.getCellEndPosition(position);
             if (this.tooltipPosition == "fixed") {
-                position = $math.ceil(startPosition + (endPosition - startPosition) * tooltipLocation, 4);
+                position = startPosition + (endPosition - startPosition) * tooltipLocation;
             }
             position = $math.fitToRange(position, this.start, this.end);
             if (this._tooltipPosition != position) {

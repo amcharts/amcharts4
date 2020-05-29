@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.24] - 2020-05-29
+
+### Added
+- Export: New image export options: `minWidth`, `minHeight`, `maxWidth`, and `maxHeight`. Control minimum and maximum dimensions of the target image.
+- Chart can now be initialized without target container (`am4core.create(undefined, ...)`) then, when needed placed into container using `chart.moveHtmlContainer(target)` (where `target` can either be id or a reference of DOM element).
+- `groupInterval` property added to `DateAxis`. You can use it to force certain grouping internal when `groupData = true` instead of one chosen dynamically.
+
+### Changed
+- `stroke`/`fill` settings will now accept values as RGB objects (e.g.: `{ r: 255, g: 0, b: 0 }`).
+- Export: `scale` now scales source SVG before converting to image, instead of resampling target image.
+- Chart will no longer error out if target container by supplied id is not available at the moment of chart's instantiation. It will still error if such container is not available when DOM is ready. This allows placing chart code before actual chart target markup.
+- If Axis has `syncWithAxis = true` set, it is excluded from common zoom range for better syncing.
+
+### Fixed
+- Sometimes responsive rules were not being applied on chart load in Angular apps.
+- `XYCursor` setting `snapToSeries` now uses better precision in placing cursor lines/axis tooltips.
+
+
 ## [4.9.23] - 2020-05-19
 
 ### Added

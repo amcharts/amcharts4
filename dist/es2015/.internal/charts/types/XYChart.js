@@ -574,18 +574,22 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.getCommonAxisRange = function (axes) {
         var start;
         var end;
-        $iter.each(axes.iterator(), function (axis) {
-            var axisStart = axis.start;
-            var axisEnd = axis.end;
-            if (axis.renderer.inversed) {
-                axisStart = 1 - axis.end;
-                axisEnd = 1 - axis.start;
+        axes.each(function (axis) {
+            if (axis instanceof ValueAxis && axis.syncWithAxis) {
             }
-            if (!$type.isNumber(start) || (axisStart < start)) {
-                start = axisStart;
-            }
-            if (!$type.isNumber(end) || (axisEnd > end)) {
-                end = axisEnd;
+            else {
+                var axisStart = axis.start;
+                var axisEnd = axis.end;
+                if (axis.renderer.inversed) {
+                    axisStart = 1 - axis.end;
+                    axisEnd = 1 - axis.start;
+                }
+                if (!$type.isNumber(start) || (axisStart < start)) {
+                    start = axisStart;
+                }
+                if (!$type.isNumber(end) || (axisEnd > end)) {
+                    end = axisEnd;
+                }
             }
         });
         return { start: start, end: end };

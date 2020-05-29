@@ -56,23 +56,18 @@ var SVGContainer = /** @class */ (function () {
          */
         this._disposers = [];
         this.cssScale = 1;
+        // This is needed so that it won't resize while printing, so that way printing works correctly.
+        this._printing = false;
         // Log parent HTML element
         this.htmlElement = htmlElement;
         if (!ghost) {
-            // This is needed so that it won't resize while printing, so that way printing works correctly
-            var printing_1 = false;
-            var callback = function () {
-                if (_this.autoResize && !printing_1) {
-                    _this.measure();
-                }
-            };
-            this.resizeSensor = new ResizeSensor(htmlElement, callback);
-            this._disposers.push(this.resizeSensor);
+            this._printing = false;
+            this.initSensor();
             this._disposers.push($dom.addEventListener(window, "beforeprint", function () {
-                printing_1 = true;
+                _this._printing = true;
             }));
             this._disposers.push($dom.addEventListener(window, "afterprint", function () {
-                printing_1 = false;
+                _this._printing = false;
             }));
         }
         // Adds to containers array
@@ -90,6 +85,22 @@ var SVGContainer = /** @class */ (function () {
         htmlElement.appendChild(svgContainer);
         this.SVGContainer = svgContainer;
     }
+    /**
+     * (Re)Initializes a resize sensor.
+     */
+    SVGContainer.prototype.initSensor = function () {
+        var _this = this;
+        if (this.resizeSensor) {
+            this.resizeSensor.dispose();
+        }
+        var callback = function () {
+            if (_this.autoResize && !_this._printing) {
+                _this.measure();
+            }
+        };
+        this.resizeSensor = new ResizeSensor(this.htmlElement, callback);
+        this._disposers.push(this.resizeSensor);
+    };
     /**
      * Measures size of parent HTML element.
      *

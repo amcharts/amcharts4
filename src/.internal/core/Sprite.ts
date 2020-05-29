@@ -4289,8 +4289,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		value = $type.toNumberOrPercent(value);
 
 		if ($type.isNumber(value)) {
-
-			value = $math.round(value, precision, floor);
+			if($type.isNumber(precision)){
+				value = $math.round(value, precision, floor);
+			}
 
 			return this.setPropertyValue(property, value, invalidate, transform);
 		}
@@ -7877,7 +7878,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @param value  Fill
 	 */
 	protected setFill(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>): void {
-		if (!$type.isObject(value)) {
+		if (!$type.isObject(value) || "r" in value) {
 			value = toColor(value);
 		}
 
@@ -7961,7 +7962,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @param value Stroke setting
 	 */
 	protected setStroke(value: Color | Pattern | LinearGradient | RadialGradient) {
-		if (!$type.isObject(value)) {
+		if (!$type.isObject(value) || "r" in value) {
 			value = toColor(value);
 		}
 

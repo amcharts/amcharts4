@@ -125,6 +125,13 @@ export interface IDateAxisProperties extends IValueAxisProperties {
      */
     groupCount?: number;
     /**
+     * Disables automatic selection of data grouping intervals and always uses
+     * `groupInterval` if set. Works only if `groupData = true`.
+     *
+     * @since 4.9.24
+     */
+    groupInterval?: ITimeInterval;
+    /**
      *
      * Indicates by how many minutes the timestamps in your data are offset from GMT.
      * This is useful when you have timestamps as your data and you want all the users to see
@@ -1020,6 +1027,17 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
     * @return Group data points?
     */
     groupData: boolean;
+    /**
+     * Disables automatic selection of data grouping intervals and always uses
+     * `groupInterval` if set. Works only if `groupData = true`.
+     *
+     * @since 4.9.24
+     * @param  value  Interval
+     */
+    /**
+    * @return Interval
+    */
+    groupInterval: ITimeInterval;
     /**
      * Indicates threshold of data items in selected range at which to start
      * aggregating data items if `groupData = true`.

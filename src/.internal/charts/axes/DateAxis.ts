@@ -181,8 +181,16 @@ export interface IDateAxisProperties extends IValueAxisProperties {
 	groupCount?: number;
 
 	/**
+	 * Disables automatic selection of data grouping intervals and always uses
+	 * `groupInterval` if set. Works only if `groupData = true`.
 	 * 
-     * Indicates by how many minutes the timestamps in your data are offset from GMT. 
+	 * @since 4.9.24
+	 */
+	groupInterval?: ITimeInterval;
+
+	/**
+	 * 
+	 * Indicates by how many minutes the timestamps in your data are offset from GMT. 
 	 * This is useful when you have timestamps as your data and you want all the users to see 
 	 * the same result and not the time which was at users's location at the given timestamp.
 	 * Note, you do not need to set timezoneOffset both here and on DateFormatter, as this will 
@@ -192,6 +200,7 @@ export interface IDateAxisProperties extends IValueAxisProperties {
 	 * @since 4.8.5
 	 */
 	timezoneOffset?: number;
+
 }
 
 /**
@@ -756,11 +765,17 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			let mainBaseInterval = this.mainBaseInterval;
 
 			let modifiedDifference = difference + this.startLocation + (1 - this.endLocation) * this.baseDuration;
-
-			let groupInterval = this.chooseInterval(0, modifiedDifference, this.groupCount, this.groupIntervals);
-			if ($time.getDuration(groupInterval.timeUnit, groupInterval.count) < $time.getDuration(mainBaseInterval.timeUnit, mainBaseInterval.count)) {
-				groupInterval = { ...mainBaseInterval };
+			let groupInterval: ITimeInterval;
+			if (this.groupInterval) {
+				groupInterval = { ...this.groupInterval }
 			}
+			else {
+				groupInterval = this.chooseInterval(0, modifiedDifference, this.groupCount, this.groupIntervals);
+				if ($time.getDuration(groupInterval.timeUnit, groupInterval.count) < $time.getDuration(mainBaseInterval.timeUnit, mainBaseInterval.count)) {
+					groupInterval = { ...mainBaseInterval };
+				}
+			}
+
 
 			this._groupInterval = groupInterval;
 			let newId = groupInterval.timeUnit + groupInterval.count;
@@ -2641,6 +2656,27 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public get groupData(): boolean {
 		return this.getPropertyValue("groupData");
+	}
+
+	/**
+	 * Disables automatic selection of data grouping intervals and always uses
+	 * `groupInterval` if set. Works only if `groupData = true`.
+	 * 
+	 * @since 4.9.24
+	 * @param  value  Interval
+	 */
+	public set groupInterval(value: ITimeInterval) {
+		if (this.setPropertyValue("groupInterval", value)) {
+			this.invalidate();
+			this.invalidateSeries();
+		}
+	}
+
+	/**
+	 * @return Interval
+	 */
+	public get groupInterval(): ITimeInterval {
+		return this.getPropertyValue("groupInterval");
 	}
 
 	/**

@@ -91,6 +91,13 @@ var ResizeSensor = /** @class */ (function () {
             this._sensor.removeTarget(this._element);
         }
     };
+    Object.defineProperty(ResizeSensor.prototype, "sensor", {
+        get: function () {
+            return this._sensor;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Deprecated: do not use.
      *
