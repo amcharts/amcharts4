@@ -10,7 +10,7 @@ import { __extends } from "tslib";
  */
 import { registry } from "../core/Registry";
 import { Component } from "../core/Component";
-import { MutableValueDisposer } from "../core/utils/Disposer";
+import { MutableValueDisposer, Disposer } from "../core/utils/Disposer";
 import { ListTemplate, ListDisposer } from "../core/utils/List";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
@@ -248,6 +248,9 @@ var Chart = /** @class */ (function (_super) {
                         _this.fixLayout();
                     }
                 }, undefined, false));
+                legend.addDisposer(new Disposer(function () {
+                    _this.legend = undefined;
+                }));
             }
             else {
                 this._legend.reset();

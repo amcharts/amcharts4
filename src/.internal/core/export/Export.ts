@@ -1474,6 +1474,13 @@ export class Export extends Validatable {
 	private _exportRunning: boolean = false;
 
 	/**
+	 * Indicator used by [[Component]].
+	 *
+	 * @ignore
+	 */
+	private _prevHasData: boolean = false;
+
+	/**
 	 * Constructor
 	 */
 	constructor(container: HTMLElement) {
@@ -2250,7 +2257,7 @@ export class Export extends Validatable {
 			// Add background if necessary
 			if (background) {
 				ctx.fillStyle = background.toString();
-				ctx.fillRect(0, 0, width, height);
+				ctx.fillRect(0, 0, width * pixelRatio * scale, height * pixelRatio * scale);
 			}
 
 			let promises: Promise<any>[] = [];
@@ -2974,10 +2981,10 @@ export class Export extends Validatable {
 		// Construct width/height params
 		let dimParams = "";
 		if (width) {
-			dimParams += "width=\"" + width * scale + "px\" ";
+			dimParams += "width=\"" + Math.round(width * scale) + "px\" ";
 		}
 		if (height) {
-			dimParams += "height=\"" + height * scale + "px\" ";
+			dimParams += "height=\"" + Math.round(height * scale) + "px\" ";
 		}
 
 		// Apply font settings
@@ -3045,7 +3052,7 @@ export class Export extends Validatable {
 		svg = svg.replace(reg, "url(#");
 
 		// Remove escaped quotes in url() parameters
-		svg = svg.replace(/url\(&quot;([^)]*)&quot;\)/gm, "url($1)"); 
+		svg = svg.replace(/url\(&quot;([^)]*)&quot;\)/gm, "url($1)");
 
 		// Put foreignObjects back in
 		if (fos.length) {
@@ -4718,6 +4725,13 @@ export class Export extends Validatable {
 	public handleDataUpdated(): void {
 		if (this._dynamicDataFields) {
 			this._dataFields = undefined;
+		}
+		const hasData = this.data.length > 0;
+		if (this._prevHasData != hasData) {
+			this._prevHasData = hasData;
+			if (this.menu) {
+				this.menu.invalidate();
+			}
 		}
 	}
 

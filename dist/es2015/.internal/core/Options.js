@@ -9,6 +9,7 @@ export var options = {
     minPolylineStep: 0.5,
     onlyShowOnViewport: false,
     queue: false,
+    autoDispose: false,
     licenses: [],
     suppressErrors: false,
     animationsEnabled: true,

@@ -480,7 +480,7 @@ var Legend = /** @class */ (function (_super) {
         if (legendSettings && (legendSettings.itemValueText != undefined || legendSettings.valueText != undefined)) {
             valueLabel.__disabled = false;
         }
-        var visible = dataItem.dataContext.visible;
+        var visible = !dataItem.dataContext.isHidden;
         if (visible === undefined) {
             visible = true;
         }
@@ -624,11 +624,14 @@ var Legend = /** @class */ (function (_super) {
          * Should legend try to mirror the look of the related item when building
          * the marker for legend item?
          *
-         * If set to `true` it will try to make the marker look like its related
+         * If set to `false` it will try to make the marker look like its related
          * item.
          *
          * E.g. if an item is for a Line Series, it will display a line of the
          * same thickness, color, and will use the same bullets if series have them.
+         *
+         * If set to `true`, all markers will be shown as squares, regardless of te
+         * series type.
          *
          * @default false
          * @param value Use default marker?

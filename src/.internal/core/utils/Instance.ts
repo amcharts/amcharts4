@@ -124,7 +124,15 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 		const loop = () => {
 			if (!sprite.isDisposed()) {
 				if ($dom.getRoot(sprite.dom) == null) {
-					$log.warn("Chart was not disposed", sprite.uid);
+					if (options.autoDispose) {
+						container.htmlContainer = undefined;
+						svgDiv.htmlElement = undefined;
+						sprite.dispose();
+
+					} else {
+						$log.warn("Chart was not disposed", sprite.uid);
+					}
+
 					loopTimer = null;
 
 				} else {

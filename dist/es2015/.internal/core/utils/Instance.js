@@ -103,7 +103,14 @@ function createChild(htmlElement, classType) {
         var loop_1 = function () {
             if (!sprite_1.isDisposed()) {
                 if ($dom.getRoot(sprite_1.dom) == null) {
-                    $log.warn("Chart was not disposed", sprite_1.uid);
+                    if (options.autoDispose) {
+                        container_1.htmlContainer = undefined;
+                        svgDiv_1.htmlElement = undefined;
+                        sprite_1.dispose();
+                    }
+                    else {
+                        $log.warn("Chart was not disposed", sprite_1.uid);
+                    }
                     loopTimer_1 = null;
                 }
                 else {

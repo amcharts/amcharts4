@@ -968,13 +968,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 	/**
 	 * If this flag is set to true, calling show() will not reveal the sprite.
-	 * 
+	 *
 	 * @ignore
 	 */
 	public preventShow: boolean = false;
 
 	/**
-	 * When cloning a sprite, if the template has it's own tooltip assigned, this tooltip is also cloned by default. 
+	 * When cloning a sprite, if the template has it's own tooltip assigned, this tooltip is also cloned by default.
 	 * This is not good for cpu and sometimes you might only need one single tooltip for all clones. Set this to false in order not to clone tooltip.
 	 */
 	public cloneTooltip: boolean = true;
@@ -2292,7 +2292,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			let height = 100;
 
 			if (!this.filterElement) {
-				this.filterElement = this.paper.addGroup("filter");				
+				this.filterElement = this.paper.addGroup("filter");
 				this._disposers.push(this.filterElement);
 			}
 			else {
@@ -2446,7 +2446,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @ignore Exclude from docs
 	 */
 	protected measureElement() {
-		
+
 		if (this.element) {
 			if (this.definedBBox) {
 				this._bbox = this.definedBBox;
@@ -5619,9 +5619,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this.showTooltipOn == "hit") {
 			this.updateTooltipPosition(ev.pointer.point);
 			this._disposers.push(registry.events.once("exitframe", ()=>{
-				this.showTooltip();	
+				this.showTooltip();
 			}));
-			
+
 			this._disposers.push(getInteraction().body.events.once("down", (ev) => {
 				this.hideTooltip();
 			}));
@@ -8235,7 +8235,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * If you set this on a top-level chart object, it will be used for all
 	 * child elements, e.g. labels, unless they have their own `rtl` setting
 	 * set directly on them.
-	 * 
+	 *
 	 * @param value  `true` for to use RTL
 	 */
 	public set rtl(value: boolean) {
@@ -9040,7 +9040,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	/**
 	 * DEPRECATION NOTICE: This setting is deprecated in favor of a more flexible
 	 * setting: `showTooltipOn`. Please use `showTooltipOn = "always"` instead.
-	 * 
+	 *
 	 * Indicates if this element should display a tooltip permanently.
 	 *
 	 * Useful, if you want to show permanent tooltips on some items.

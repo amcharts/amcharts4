@@ -9,9 +9,15 @@
  * ============================================================================
  * @hidden
  */
-import { BaseObjectEvents } from "../Base";
+import { BaseObjectEvents, IBaseObjectEvents } from "../Base";
 import { IDisposer } from "../utils/Disposer";
 import { registry } from "../Registry";
+
+/**
+ * Events.
+ */
+export interface IValidatableEvents extends IBaseObjectEvents { }
+
 
 /**
  * This module defines a [[Validatable]] class which can be used by all

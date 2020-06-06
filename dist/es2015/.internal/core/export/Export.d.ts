@@ -1099,6 +1099,12 @@ export declare class Export extends Validatable {
     private _spriteInteractionsEnabled;
     private _exportRunning;
     /**
+     * Indicator used by [[Component]].
+     *
+     * @ignore
+     */
+    private _prevHasData;
+    /**
      * Constructor
      */
     constructor(container: HTMLElement);

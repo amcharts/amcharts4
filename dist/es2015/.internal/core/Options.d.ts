@@ -102,6 +102,13 @@ export interface Options {
      */
     queue: boolean;
     /**
+     * Whether to automatically dispose the charts when they're removed from the DOM.
+     *
+     * @default false
+     * @since 4.9.25
+     */
+    autoDispose: boolean;
+    /**
      * List of applied licenses.
      *
      * @type {String[]}

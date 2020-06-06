@@ -1330,10 +1330,10 @@ var XYSeries = /** @class */ (function (_super) {
         }
         this.hideTooltip();
     };
-    XYSeries.prototype.getAdjustedXLocation = function (dataItem, field) {
+    XYSeries.prototype.getAdjustedXLocation = function (dataItem, field, bulletLocationX) {
         return dataItem.locations[field];
     };
-    XYSeries.prototype.getAdjustedYLocation = function (dataItem, field) {
+    XYSeries.prototype.getAdjustedYLocation = function (dataItem, field, bulletLocationY) {
         return dataItem.locations[field];
     };
     /**
@@ -1556,8 +1556,8 @@ var XYSeries = /** @class */ (function (_super) {
                     positionX = xAxis.valueToPosition(middleValue);
                 }
                 else if (xAxis instanceof CategoryAxis) {
-                    var rightLocation = this.getAdjustedXLocation(dataItem, xField);
-                    var leftLocation = this.getAdjustedXLocation(dataItem, xOpenField);
+                    var rightLocation = this.getAdjustedXLocation(dataItem, xField, bullet.locationX);
+                    var leftLocation = this.getAdjustedXLocation(dataItem, xOpenField, bullet.locationX);
                     positionX = xAxis.categoryToPosition(dataItem[xField], rightLocation);
                     var openPositionX = void 0;
                     if (xOpenField) {
@@ -1623,8 +1623,8 @@ var XYSeries = /** @class */ (function (_super) {
                 }
                 else if (yAxis instanceof CategoryAxis) {
                     positionY = yAxis.categoryToPosition(dataItem[yField], bulletLocationY);
-                    var topLocation = this.getAdjustedYLocation(dataItem, yField);
-                    var bottomLocation = this.getAdjustedYLocation(dataItem, yOpenField);
+                    var topLocation = this.getAdjustedYLocation(dataItem, yField, bullet.locationY);
+                    var bottomLocation = this.getAdjustedYLocation(dataItem, yOpenField, bullet.locationY);
                     positionY = yAxis.categoryToPosition(dataItem[yField], topLocation);
                     var openPositionY = void 0;
                     if (yOpenField) {

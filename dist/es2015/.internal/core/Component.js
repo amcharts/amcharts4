@@ -1689,9 +1689,6 @@ var Component = /** @class */ (function (_super) {
         if (!_export.adapter.has("data", this._exportData, -1, this)) {
             _export.adapter.add("data", this._exportData, -1, this);
             this.events.on("datavalidated", function (ev) {
-                if (_export.menu) {
-                    _export.menu.invalidate();
-                }
                 _export.handleDataUpdated();
             });
         }

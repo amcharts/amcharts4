@@ -473,7 +473,7 @@ export class Language extends BaseObjectEvents {
 	 * @return          Translation
 	 */
 	public translateAny(prompt: string, locale?: ILocale, ...rest: Array<string>): string {
-		return this.translate(<any>prompt, locale);
+		return this.translate(<any>prompt, locale, ...rest);
 	}
 
 	/**

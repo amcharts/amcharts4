@@ -10,7 +10,7 @@
  */
 import { registry } from "../core/Registry";
 import { Component, IComponentProperties, IComponentDataFields, IComponentEvents, IComponentAdapters } from "../core/Component";
-import { MutableValueDisposer } from "../core/utils/Disposer";
+import { MutableValueDisposer, Disposer } from "../core/utils/Disposer";
 import { ListTemplate, IListEvents, ListDisposer } from "../core/utils/List";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
@@ -351,6 +351,10 @@ export class Chart extends Component {
 					}
 				}, undefined, false));
 
+				legend.addDisposer(new Disposer(() => {
+					this.legend = undefined;
+				}))
+
 			} else {
 				this._legend.reset();
 			}
@@ -363,9 +367,9 @@ export class Chart extends Component {
 	/**
 	 * Destroys this object and all related data.
 	 */
-	public dispose(){
+	public dispose() {
 		// otherwise there might be some errors when disposing chart which was just inited
-		if(this.legend){
+		if (this.legend) {
 			this.legend.dispose();
 		}
 		super.dispose();

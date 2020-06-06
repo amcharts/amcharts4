@@ -57,7 +57,7 @@ export class ColumnSeriesDataItem extends XYSeriesDataItem {
 	/**
 	 * Defines available adapters.
 	 */
-	public _adapter!: IColumnSeriesDataItemAdapters;	
+	public _adapter!: IColumnSeriesDataItemAdapters;
 
 	/**
 	 * A Column Element
@@ -375,7 +375,7 @@ export class ColumnSeries extends XYSeries {
 		// go through chart series instead of base axis series, because axis series doesn't maintain order
 
 		this.group.node.removeAttribute("fill");
-		
+
 		if (this.chart && this.xAxis && this.yAxis) {
 			let baseAxisSeries = this.chart.series;
 			let clusterCount: number = 0;
@@ -845,7 +845,7 @@ export class ColumnSeries extends XYSeries {
 					}, undefined, false);
 				}
 				column.parent = this.columnsContainer;
-				column.virtualParent = this;				
+				column.virtualParent = this;
 			}
 			else {
 				column = dataItem.column;
@@ -1261,36 +1261,38 @@ export class ColumnSeries extends XYSeries {
 		}
 	}
 
-	protected getAdjustedXLocation(dataItem: this["_dataItem"], field: string) {
-		if (this.baseAxis == this.xAxis) {
-			let bulletLocationX = 0.5;
-			if (dataItem) {
-				bulletLocationX = dataItem.locations[field];
-			}
+	protected getAdjustedXLocation(dataItem: this["_dataItem"], field: string, bulletLocationX?: number) {
+		//if (this.baseAxis == this.xAxis) {
 			if (!$type.isNumber(bulletLocationX)) {
-				bulletLocationX = 0.5;
+				if (dataItem) {
+					bulletLocationX = dataItem.locations[field];
+				}
+				else {
+					bulletLocationX = 0.5;
+				}
 			}
-			return this._endLocation - (this._endLocation - this._startLocation) * bulletLocationX;
-		}
-		else {
-			return super.getAdjustedXLocation(dataItem, field);
-		}
+			return this._endLocation - (this._endLocation - this._startLocation) * (1 - bulletLocationX);
+		//}
+		//else {
+		//	return super.getAdjustedXLocation(dataItem, field);
+		//}
 	}
 
-	protected getAdjustedYLocation(dataItem: this["_dataItem"], field: string) {
-		if (this.baseAxis == this.yAxis) {
-			let bulletLocationY = 0.5;
-			if (dataItem) {
-				bulletLocationY = dataItem.locations[field];
-			}
+	protected getAdjustedYLocation(dataItem: this["_dataItem"], field: string, bulletLocationY?: number) {
+		//if (this.baseAxis == this.yAxis) {
 			if (!$type.isNumber(bulletLocationY)) {
-				bulletLocationY = 0.5;
+				if (dataItem) {
+					bulletLocationY = dataItem.locations[field];
+				}
+				else {
+					bulletLocationY = 0.5;
+				}
 			}
 			return this._endLocation - (this._endLocation - this._startLocation) * bulletLocationY;
-		}
-		else {
-			return super.getAdjustedXLocation(dataItem, field);
-		}
+		//}
+		//else {
+		//	return super.getAdjustedYLocation(dataItem, field);
+		//}
 	}
 
 

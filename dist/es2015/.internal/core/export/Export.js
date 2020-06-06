@@ -411,6 +411,12 @@ var Export = /** @class */ (function (_super) {
          */
         _this.timeoutDelay = 2000;
         _this._exportRunning = false;
+        /**
+         * Indicator used by [[Component]].
+         *
+         * @ignore
+         */
+        _this._prevHasData = false;
         _this._container = container;
         _this.className = "Export";
         // Set default options
@@ -1128,7 +1134,7 @@ var Export = /** @class */ (function (_super) {
                         // Add background if necessary
                         if (background) {
                             ctx.fillStyle = background.toString();
-                            ctx.fillRect(0, 0, width, height);
+                            ctx.fillRect(0, 0, width * pixelRatio * scale, height * pixelRatio * scale);
                         }
                         promises = [];
                         if (this.useWebFonts) {
@@ -1787,10 +1793,10 @@ var Export = /** @class */ (function (_super) {
         // Construct width/height params
         var dimParams = "";
         if (width) {
-            dimParams += "width=\"" + width * scale + "px\" ";
+            dimParams += "width=\"" + Math.round(width * scale) + "px\" ";
         }
         if (height) {
-            dimParams += "height=\"" + height * scale + "px\" ";
+            dimParams += "height=\"" + Math.round(height * scale) + "px\" ";
         }
         // Apply font settings
         var styleParams = "";
@@ -3305,6 +3311,13 @@ var Export = /** @class */ (function (_super) {
     Export.prototype.handleDataUpdated = function () {
         if (this._dynamicDataFields) {
             this._dataFields = undefined;
+        }
+        var hasData = this.data.length > 0;
+        if (this._prevHasData != hasData) {
+            this._prevHasData = hasData;
+            if (this.menu) {
+                this.menu.invalidate();
+            }
         }
     };
     Object.defineProperty(Export.prototype, "dateFormatter", {

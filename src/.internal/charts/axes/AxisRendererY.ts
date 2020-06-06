@@ -539,7 +539,7 @@ export class AxisRendererY extends AxisRenderer {
 			coordinate = (position - axis.start) * axisFullLength;
 		}
 
-		return $math.round(coordinate, 1);
+		return coordinate
 	}
 
 

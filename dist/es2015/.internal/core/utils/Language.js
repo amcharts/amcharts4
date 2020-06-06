@@ -151,7 +151,7 @@ var Language = /** @class */ (function (_super) {
         for (var _i = 2; _i < arguments.length; _i++) {
             rest[_i - 2] = arguments[_i];
         }
-        return this.translate(prompt, locale);
+        return this.translate.apply(this, __spread([prompt, locale], rest));
     };
     /**
      * Translates prompt.

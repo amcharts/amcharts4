@@ -1910,11 +1910,11 @@ export class XYSeries extends Series {
 		this.hideTooltip();
 	}
 
-	protected getAdjustedXLocation(dataItem: this["_dataItem"], field: string) {
+	protected getAdjustedXLocation(dataItem: this["_dataItem"], field: string, bulletLocationX?:number) {
 		return dataItem.locations[field];
 	}
 
-	protected getAdjustedYLocation(dataItem: this["_dataItem"], field: string) {
+	protected getAdjustedYLocation(dataItem: this["_dataItem"], field: string, bulletLocationY?:number) {
 		return dataItem.locations[field];
 	}
 
@@ -2162,8 +2162,8 @@ export class XYSeries extends Series {
 				}
 				else if (xAxis instanceof CategoryAxis) {
 
-					let rightLocation = this.getAdjustedXLocation(dataItem, xField);
-					let leftLocation = this.getAdjustedXLocation(dataItem, xOpenField);
+					let rightLocation = this.getAdjustedXLocation(dataItem, xField, bullet.locationX);
+					let leftLocation = this.getAdjustedXLocation(dataItem, xOpenField, bullet.locationX);
 
 					positionX = xAxis.categoryToPosition((<any>dataItem)[xField], rightLocation);
 					let openPositionX: number;
@@ -2250,8 +2250,8 @@ export class XYSeries extends Series {
 				else if (yAxis instanceof CategoryAxis) {
 					positionY = yAxis.categoryToPosition((<any>dataItem)[yField], bulletLocationY);
 
-					let topLocation = this.getAdjustedYLocation(dataItem, yField);
-					let bottomLocation = this.getAdjustedYLocation(dataItem, yOpenField);
+					let topLocation = this.getAdjustedYLocation(dataItem, yField, bullet.locationY);
+					let bottomLocation = this.getAdjustedYLocation(dataItem, yOpenField, bullet.locationY);
 
 					positionY = yAxis.categoryToPosition((<any>dataItem)[yField], topLocation);
 					let openPositionY: number;

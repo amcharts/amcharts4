@@ -1136,7 +1136,7 @@ export class DateFormatter extends BaseObject {
 					resValues.month,
 					resValues.day,
 					resValues.hour,
-					resValues.minute,
+					resValues.minute + resValues.offset,
 					resValues.second,
 					resValues.millisecond
 				);

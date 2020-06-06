@@ -8,7 +8,12 @@
  * ============================================================================
  * @hidden
  */
-import { BaseObjectEvents } from "../Base";
+import { BaseObjectEvents, IBaseObjectEvents } from "../Base";
+/**
+ * Events.
+ */
+export interface IValidatableEvents extends IBaseObjectEvents {
+}
 /**
  * This module defines a [[Validatable]] class which can be used by all
  * non-[[Sprite]] classes to use system update cycle to revalidate themselves.

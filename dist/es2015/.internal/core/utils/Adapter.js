@@ -68,6 +68,7 @@ import * as $order from "./Order";
 import * as $iter from "../utils/Iterator";
 import * as $array from "../utils/Array";
 import * as $type from "../utils/Type";
+import * as $object from "../utils/Object";
 /**
  * ============================================================================
  * GLOBAL ADAPTER
@@ -435,6 +436,9 @@ var Adapter = /** @class */ (function () {
         var _this = this;
         $iter.each(source._callbacks.iterator(), function (x) {
             _this.add(x.key, x.callback, x.priority, x.scope);
+        });
+        $object.each(source._disabled, function (key, val) {
+            _this._disabled[key] = val;
         });
     };
     /**

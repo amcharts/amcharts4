@@ -69,7 +69,7 @@ export interface Options {
 	 * The bigger this value, the more simplified lines will come out.
 	 *
 	 * This setting will effect [[LineSeries]] and derivative classes.
-	 * 
+	 *
 	 * @default 0.5
 	 * @since 4.2.5
 	 */
@@ -78,12 +78,12 @@ export interface Options {
 	/**
 	 * Whether the chart should only display when its container is visible
 	 * on the document viewport.
-	 * 
+	 *
 	 * This setting can be combined with `queue` for better performance.
 	 *
 	 * NOTE: if your charts are located in the scrollable container, make sure
 	 * you also set `viewportTarget` to a reference for that container.
-	 * 
+	 *
 	 * @default false
 	 * @since 4.5.0
 	 */
@@ -103,17 +103,25 @@ export interface Options {
 	/**
 	 * Whether to queue all charts rendering. One chart will be rendered at a time. The next
 	 * chart starts to render after the previous chart's ready event.
-	 * 
+	 *
 	 * This setting can be combined with `onlyShowOnViewport` for better performance.
-	 * 
+	 *
 	 * @default false
 	 * @since 4.5.0
 	 */
 	queue: boolean;
 
 	/**
+	 * Whether to automatically dispose the charts when they're removed from the DOM.
+	 *
+	 * @default false
+	 * @since 4.9.25
+	 */
+	autoDispose: boolean;
+
+	/**
 	 * List of applied licenses.
-	 * 
+	 *
 	 * @type {String[]}
 	 */
 	licenses: String[];
@@ -160,6 +168,7 @@ export const options: Options = {
 	minPolylineStep: 0.5,
 	onlyShowOnViewport: false,
 	queue: false,
+	autoDispose: false,
 	licenses: [],
 	suppressErrors: false,
 	animationsEnabled: true,

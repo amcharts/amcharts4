@@ -982,35 +982,37 @@ var ColumnSeries = /** @class */ (function (_super) {
             return _super.prototype.getBulletLocationY.call(this, bullet, field);
         }
     };
-    ColumnSeries.prototype.getAdjustedXLocation = function (dataItem, field) {
-        if (this.baseAxis == this.xAxis) {
-            var bulletLocationX = 0.5;
+    ColumnSeries.prototype.getAdjustedXLocation = function (dataItem, field, bulletLocationX) {
+        //if (this.baseAxis == this.xAxis) {
+        if (!$type.isNumber(bulletLocationX)) {
             if (dataItem) {
                 bulletLocationX = dataItem.locations[field];
             }
-            if (!$type.isNumber(bulletLocationX)) {
+            else {
                 bulletLocationX = 0.5;
             }
-            return this._endLocation - (this._endLocation - this._startLocation) * bulletLocationX;
         }
-        else {
-            return _super.prototype.getAdjustedXLocation.call(this, dataItem, field);
-        }
+        return this._endLocation - (this._endLocation - this._startLocation) * (1 - bulletLocationX);
+        //}
+        //else {
+        //	return super.getAdjustedXLocation(dataItem, field);
+        //}
     };
-    ColumnSeries.prototype.getAdjustedYLocation = function (dataItem, field) {
-        if (this.baseAxis == this.yAxis) {
-            var bulletLocationY = 0.5;
+    ColumnSeries.prototype.getAdjustedYLocation = function (dataItem, field, bulletLocationY) {
+        //if (this.baseAxis == this.yAxis) {
+        if (!$type.isNumber(bulletLocationY)) {
             if (dataItem) {
                 bulletLocationY = dataItem.locations[field];
             }
-            if (!$type.isNumber(bulletLocationY)) {
+            else {
                 bulletLocationY = 0.5;
             }
-            return this._endLocation - (this._endLocation - this._startLocation) * bulletLocationY;
         }
-        else {
-            return _super.prototype.getAdjustedXLocation.call(this, dataItem, field);
-        }
+        return this._endLocation - (this._endLocation - this._startLocation) * bulletLocationY;
+        //}
+        //else {
+        //	return super.getAdjustedYLocation(dataItem, field);
+        //}
     };
     /**
      * @ignore Exclude from docs

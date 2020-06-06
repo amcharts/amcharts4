@@ -378,8 +378,8 @@ export declare class ColumnSeries extends XYSeries {
     * @ignore
     */
     protected getBulletLocationY(bullet: Bullet, field: string): number;
-    protected getAdjustedXLocation(dataItem: this["_dataItem"], field: string): number;
-    protected getAdjustedYLocation(dataItem: this["_dataItem"], field: string): number;
+    protected getAdjustedXLocation(dataItem: this["_dataItem"], field: string, bulletLocationX?: number): number;
+    protected getAdjustedYLocation(dataItem: this["_dataItem"], field: string, bulletLocationY?: number): number;
     /**
      * @ignore Exclude from docs
      */

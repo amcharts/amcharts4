@@ -7514,6 +7514,14 @@ define('@amcharts/amcharts4/plugins/overlapBuster', [], function () {
   }
   throw new Error("You must add 'plugins/overlapBuster' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4/plugins/rangeSelector', [], function () {
+  'use strict';
+  var output = self.am4plugins_rangeSelector;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'plugins/rangeSelector' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4/plugins/regression', [], function () {
   'use strict';
   var output = self.am4plugins_regression;

@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.25] - 2020-06-06
+
+### Added
+- Global option `am4core.options.autoDispose` added (default `false`). If set to `true`, when chart is being created in a container that has already existing chart, instead of "Chart was not disposed" warning in console, the chart being overwritten will be disposed.
+- New plugin: [Range Selector](https://www.amcharts.com/docs/v4/tutorials/plugin-range-selector/). Collection of controls for adding alternative zoom controls for axes.
+
+### Changed
+- Disabled callbacks will now carry over to a clone when cloning an Adapter.
+
+### Fixed
+- Export: Sometimes background was improperly clipped when upscaling exported image.
+- Export: If chart's `data` was updated open `ExportMenu` was forcibly being closed.
+- `"Z"` and `"ZZ"` indicators in `inputDateFormat` were being ignored.
+- If series had `sequencedInterpolation = true` set and it was hidden via legend, its legend item lost disabled color when chart was resized.
+- `bullet.locationX` and `bullet.locationY` was being ignored on a `ColumnSeries` with `CategoryAxis`.
+- If a chart's Legend was disposed, it could result in JS errors if chart had an `XYCursor` enabled.
+
+
 ## [4.9.24] - 2020-05-29
 
 ### Added

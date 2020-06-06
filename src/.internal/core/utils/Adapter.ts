@@ -70,6 +70,7 @@ import * as $order from "./Order";
 import * as $iter from "../utils/Iterator";
 import * as $array from "../utils/Array";
 import * as $type from "../utils/Type";
+import * as $object from "../utils/Object";
 
 
 /**
@@ -527,6 +528,9 @@ export class Adapter<Target, T> {
 	public copyFrom(source: this): void {
 		$iter.each(source._callbacks.iterator(), (x) => {
 			this.add(x.key, x.callback, x.priority, x.scope);
+		});
+		$object.each(source._disabled, (key, val) => {
+			this._disabled[key] = val;
 		});
 	}
 
