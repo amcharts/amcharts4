@@ -7553,18 +7553,21 @@ var Sprite = /** @class */ (function (_super) {
                 this.removeDispose(this._showHideDisposer);
             }
             // Get state
-            var hiddenState = this.hiddenState;
+            var hiddenState_1 = this.hiddenState;
             // Transition to "hidden" state, provided Sprite has one set
-            if (hiddenState) {
+            if (hiddenState_1) {
                 // Yes, we have a "hidden" state
                 // `setState` will return an `Animation` object which we can set
                 // events on
-                transition = this.setState(hiddenState, duration, undefined);
+                transition = this.setState(hiddenState_1, duration, undefined);
                 if (transition && !transition.isFinished()) {
                     this._hideAnimation = transition;
                     this._showHideDisposer = transition.events.on("animationended", function () {
                         _this.isHiding = false;
                         _this._isHidden = true;
+                        if (hiddenState_1.properties.visible == false) {
+                            _this.visible = false;
+                        }
                     }, this);
                     this._disposers.push(this._showHideDisposer);
                     // Thrown everything into `_disposers` just in case Sprite gets

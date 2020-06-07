@@ -723,7 +723,8 @@ export class Legend extends Component {
 			valueLabel.__disabled = false;
 		}
 
-		let visible = !dataItem.dataContext.isHidden;
+		let visible = dataItem.dataContext.visible;
+
 		if (visible === undefined) {
 			visible = true;
 		}

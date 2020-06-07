@@ -480,7 +480,7 @@ var Legend = /** @class */ (function (_super) {
         if (legendSettings && (legendSettings.itemValueText != undefined || legendSettings.valueText != undefined)) {
             valueLabel.__disabled = false;
         }
-        var visible = !dataItem.dataContext.isHidden;
+        var visible = dataItem.dataContext.visible;
         if (visible === undefined) {
             visible = true;
         }

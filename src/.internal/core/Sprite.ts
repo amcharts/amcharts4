@@ -8426,6 +8426,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 					this._showHideDisposer = transition.events.on("animationended", () => {
 						this.isHiding = false;
 						this._isHidden = true;
+						if(hiddenState.properties.visible == false){
+							this.visible = false;
+						}
 					}, this);
 
 					this._disposers.push(this._showHideDisposer);
