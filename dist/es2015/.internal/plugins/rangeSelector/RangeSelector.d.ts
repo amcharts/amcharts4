@@ -20,7 +20,7 @@ import * as $type from "../../core/utils/Type";
  * @hidden
  */
 /**
- * Defines events for [[StockChart]].
+ * Defines events for [[RangeSelector]].
  */
 export interface IRangeSelectorEvents extends IValidatableEvents {
     /**
@@ -66,7 +66,7 @@ export declare class RangeSelector extends Validatable {
      */
     protected _classPrefix: string;
     /**
-     * If set to `true` [[StockDataSetSelector]] will load it's own external CSS when
+     * If set to `true` [[RangeSelector]] will load it's own external CSS when
      * instantiated.
      */
     protected _defaultStyles: boolean;

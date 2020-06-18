@@ -90,6 +90,7 @@ const countries: Countries = {
 	"IE": [ "irelandLow", "irelandHigh" ],
 	"IL": [ "israelLow", "israelHigh", "israelPalestineLow", "israelPalestineHigh" ],
 	"IT": [ "italyLow", "italyHigh" ],
+	"IQ": [ "iraqLow", "iraqHigh" ],
 	"IR": [ "iranLow", "iranHigh" ],
 	"JP": [ "japanLow", "japanHigh" ],
 	"KZ": [ "kazakhstanLow", "kazakhstanHigh" ],

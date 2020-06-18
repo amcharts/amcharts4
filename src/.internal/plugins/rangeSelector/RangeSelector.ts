@@ -27,7 +27,7 @@ import * as $type from "../../core/utils/Type";
  */
 
 /**
- * Defines events for [[StockChart]].
+ * Defines events for [[RangeSelector]].
  */
 export interface IRangeSelectorEvents extends IValidatableEvents {
 
@@ -85,7 +85,7 @@ export class RangeSelector extends Validatable {
 	protected _classPrefix: string = "amcharts-range-selector";
 
 	/**
-	 * If set to `true` [[StockDataSetSelector]] will load it's own external CSS when
+	 * If set to `true` [[RangeSelector]] will load it's own external CSS when
 	 * instantiated.
 	 */
 	protected _defaultStyles: boolean = true;

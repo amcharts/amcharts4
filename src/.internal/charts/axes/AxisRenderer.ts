@@ -603,6 +603,9 @@ export class AxisRenderer extends Container {
 	/**
 	 * Minimum distance in pixels between grid elements.
 	 *
+	 * Use it to control density of the grid/labels on the axis.element.
+	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/#Setting_the_density_of_the_the_grid_labels} for more info
 	 * @param value  Min distance (px)
 	 */
 	public set minGridDistance(value: number) {

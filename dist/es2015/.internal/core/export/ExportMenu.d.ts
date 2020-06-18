@@ -32,6 +32,12 @@ export interface IExportMenuItem {
      */
     label?: string;
     /**
+     * Alternative title to be displayed on hover.
+     *
+     * @since 4.9.27
+     */
+    title?: string;
+    /**
      * A `href` of the image to show instead of a label.
      */
     icon?: string;

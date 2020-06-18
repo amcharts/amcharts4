@@ -33,7 +33,7 @@ var RangeSelector = /** @class */ (function (_super) {
          */
         _this._classPrefix = "amcharts-range-selector";
         /**
-         * If set to `true` [[StockDataSetSelector]] will load it's own external CSS when
+         * If set to `true` [[RangeSelector]] will load it's own external CSS when
          * instantiated.
          */
         _this._defaultStyles = true;

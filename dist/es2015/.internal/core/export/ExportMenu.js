@@ -261,19 +261,22 @@ var ExportMenu = /** @class */ (function (_super) {
         if (branch.icon) {
             label = this.createIconElement(level, type);
             label.src = branch.icon;
-            if (branch.label) {
-                label.title = branch.label;
+            if (branch.label || branch.title) {
+                label.title = branch.title || branch.label;
             }
         }
         else if (branch.svg) {
             label = this.createSvgElement(level, type, branch.svg);
-            if (branch.label) {
-                label.title = branch.label;
+            if (branch.label || branch.title) {
+                label.title = branch.title || branch.label;
             }
         }
         else {
             label = this.createLabelElement(level, type);
             label.innerHTML = (branch.label ? this.language.translate(branch.label) : "");
+            if (branch.title) {
+                label.title = branch.title;
+            }
         }
         // Apply reader text to label
         var readerLabel = this.getReaderLabel(branch, label.innerHTML);

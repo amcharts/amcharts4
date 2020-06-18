@@ -811,7 +811,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			if (series.baseAxis == this) {
 				let field = <keyof XYSeriesDataItem>series.getAxisField(this);
 
-				let minZoomed = $time.round(new Date(this._minZoomed), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc).getTime();
+				let minZoomed = $time.round(new Date(this._minZoomed + this.baseDuration * 0.05), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc).getTime();
 				let minZoomedStr = minZoomed.toString();
 				let startDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(minZoomedStr + series.currentDataSetId);
 

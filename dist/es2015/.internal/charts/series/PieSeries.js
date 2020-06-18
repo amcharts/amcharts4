@@ -211,8 +211,11 @@ var PieSeries = /** @class */ (function (_super) {
                 if (aAngle < bAngle) {
                     return -1;
                 }
-                else {
+                else if (aAngle > bAngle) {
                     return 1;
+                }
+                else {
+                    return 0;
                 }
             });
             this._leftItems.sort(function (a, b) {
@@ -221,8 +224,11 @@ var PieSeries = /** @class */ (function (_super) {
                 if (aAngle < bAngle) {
                     return 1;
                 }
-                else {
+                else if (aAngle > bAngle) {
                     return -1;
+                }
+                else {
+                    return 0;
                 }
             });
             this.arrangeLabels(this._rightItems);

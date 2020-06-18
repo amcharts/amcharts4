@@ -389,9 +389,9 @@ var Series = /** @class */ (function (_super) {
 
             return null;
         });*/
-        if (startIndex > 0 && startIndex < this.dataItems.length - 1) {
-            startIndex++;
-        }
+        //if (startIndex > 0 && startIndex < this.dataItems.length - 1) {
+        //startIndex++;
+        //}
         for (var i = startIndex; i >= 0; i--) {
             var dataItem = this.dataItems.getIndex(i);
             var value = dataItem.getActualWorkingValue(key);
@@ -450,9 +450,9 @@ var Series = /** @class */ (function (_super) {
             var first_1 = {};
             var absoluteFirst_1 = {};
             //let duration: number = 0; // todo: check if series uses selection.change or selection.change.percent and set duration to interpolationduration
-            var startIndex_1 = $math.max(0, this._workingStartIndex);
+            var startIndex_1 = $math.max(0, this.startIndex);
             startIndex_1 = $math.min(startIndex_1, this.dataItems.length);
-            var endIndex = $math.min(this._workingEndIndex, this.dataItems.length);
+            var endIndex = $math.min(this.endIndex, this.dataItems.length);
             if (!$type.isNumber(startIndex_1)) {
                 startIndex_1 = 0;
             }

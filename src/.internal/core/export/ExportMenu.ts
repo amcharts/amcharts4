@@ -51,6 +51,13 @@ export interface IExportMenuItem {
 	label?: string;
 
 	/**
+	 * Alternative title to be displayed on hover.
+	 *
+	 * @since 4.9.27
+	 */
+	title?: string;
+
+	/**
 	 * A `href` of the image to show instead of a label.
 	 */
 	icon?: string;
@@ -578,19 +585,22 @@ export class ExportMenu extends Validatable {
 		if (branch.icon) {
 			label = this.createIconElement(level, type);
 			(<HTMLImageElement>label).src = branch.icon;
-			if (branch.label) {
-				(<HTMLImageElement>label).title = branch.label;
+			if (branch.label || branch.title) {
+				(<HTMLImageElement>label).title = branch.title || branch.label;
 			}
 		}
 		else if (branch.svg) {
 			label = this.createSvgElement(level, type, branch.svg);
-			if (branch.label) {
-				(<HTMLElement>label).title = branch.label;
+			if (branch.label || branch.title) {
+				(<HTMLElement>label).title = branch.title || branch.label;
 			}
 		}
 		else {
 			label = this.createLabelElement(level, type);
 			label.innerHTML = (branch.label ? this.language.translate(<keyof ILocaleProperties>branch.label) : "");
+			if (branch.title) {
+				(<HTMLElement>label).title = branch.title;
+			}
 		}
 
 		// Apply reader text to label

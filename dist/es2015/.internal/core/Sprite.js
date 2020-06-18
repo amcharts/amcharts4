@@ -6065,6 +6065,12 @@ var Sprite = /** @class */ (function (_super) {
          * Relative width will be calculated using closest measured ancestor
          * [[Container]].
          *
+         * NOTE: `width` is an accessor, which allows setting width in pixels or
+         * percent. It is a sort of a "shortcut" for the users. Actual renderer does
+         * not ever use it. It uses either `pixelWidth` or `percentWidth`, so if
+         * you need to add an adapter for width add it for either of the two
+         * properties - whichever suits your requirements.
+         *
          * @param value  Width (numeric in pixels or relative)
          */
         set: function (value) {
@@ -6105,6 +6111,12 @@ var Sprite = /** @class */ (function (_super) {
          *
          * Relative height will be calculated using closest measured ancestor
          * [[Container]].
+         *
+         * NOTE: `height` is an accessor, which allows setting height in pixels or
+         * percent. It is a sort of a "shortcut" for the users. Actual renderer does
+         * not ever use it. It uses either `pixelHeight` or `percentHeight`, so if
+         * you need to add an adapter for height add it for either of the two
+         * properties - whichever suits your requirements.
          *
          * @param value  Height (numeric in pixels or relative)
          */

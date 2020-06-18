@@ -31,6 +31,14 @@ export declare function rgb(color: string, alpha?: number): iRGB;
  */
 export declare function hexToRgb(hex: string): $type.Optional<iRGB>;
 /**
+ * Converts a hex color code with alpha (i.e. "#FF5500128") to an [[iRGB]] object.
+ *
+ * @ignore Exclude from docs
+ * @param hex  Hex color code
+ * @return RGB
+ */
+export declare function hexToRgbWithAlpha(hex: string): $type.Optional<iRGB>;
+/**
  * Converts color strings in format like `rgb()` and `rgba()` to [[iRGB]].
  *
  * @ignore Exclude from docs

@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.27] - 2020-06-18
+
+### Added
+- `ExportMenu` item definition can now have `title` property. If set, it will be added to item's `title` property, which should show a system tooltip on hover.
+
+### Changed
+- Hex color parser now supports RGBA format which includes alpha value, e.g. `"#FF000080"` will produce a 50% transparent red.
+
+### Fixed
+- Fixed performance issue with a logarithmic `ValueAxis` with `strictMinMax` set to `true`.
+- Calculated value of `sum` in the selection of an `XYChart` could include one extra data item, not visible in the selection.
+- Pie slices with 0 values were sorted incorrectly in FF.
+
+
 ## [4.9.26] - 2020-06-07
 
 ### Fixed

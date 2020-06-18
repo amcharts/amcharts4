@@ -544,7 +544,7 @@ var DateAxis = /** @class */ (function (_super) {
         $iter.each(this.series.iterator(), function (series) {
             if (series.baseAxis == _this) {
                 var field_1 = series.getAxisField(_this);
-                var minZoomed = $time.round(new Date(_this._minZoomed), _this.baseInterval.timeUnit, _this.baseInterval.count, _this._firstWeekDay, _this._df.utc).getTime();
+                var minZoomed = $time.round(new Date(_this._minZoomed + _this.baseDuration * 0.05), _this.baseInterval.timeUnit, _this.baseInterval.count, _this._firstWeekDay, _this._df.utc).getTime();
                 var minZoomedStr = minZoomed.toString();
                 var startDataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(minZoomedStr + series.currentDataSetId);
                 var startIndex = 0;

@@ -647,7 +647,7 @@ const countries2: Countries2 = {
 		"country": "Iraq",
 		"continent_code": "AS",
 		"continent": "Asia",
-		"maps": []
+		"maps": [ "iraqLow", "iraqHigh" ]
 	},
 	"IR": {
 		"country": "Iran, Islamic Republic of",

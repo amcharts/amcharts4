@@ -657,9 +657,9 @@ export class Series extends Component {
 			return null;
 		});*/
 
-		if (startIndex > 0 && startIndex < this.dataItems.length - 1) {
-			startIndex++;
-		}
+		//if (startIndex > 0 && startIndex < this.dataItems.length - 1) {
+			//startIndex++;
+		//}
 		for (let i = startIndex; i >= 0; i--) {
 			let dataItem = this.dataItems.getIndex(i);
 			let value: number = dataItem.getActualWorkingValue(key);
@@ -723,10 +723,10 @@ export class Series extends Component {
 
 			//let duration: number = 0; // todo: check if series uses selection.change or selection.change.percent and set duration to interpolationduration
 
-			let startIndex: number = $math.max(0, this._workingStartIndex);
+			let startIndex: number = $math.max(0, this.startIndex);
 			startIndex = $math.min(startIndex, this.dataItems.length);
 
-			let endIndex: number = $math.min(this._workingEndIndex, this.dataItems.length);
+			let endIndex: number = $math.min(this.endIndex, this.dataItems.length);
 
 			if (!$type.isNumber(startIndex)) {
 				startIndex = 0;

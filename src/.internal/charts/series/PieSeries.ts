@@ -425,8 +425,11 @@ export class PieSeries extends PercentSeries {
 				if (aAngle < bAngle) {
 					return -1;
 				}
-				else {
+				else if (aAngle > bAngle) {
 					return 1;
+				}
+				else {
+					return 0;
 				}
 			})
 
@@ -438,8 +441,11 @@ export class PieSeries extends PercentSeries {
 				if (aAngle < bAngle) {
 					return 1;
 				}
-				else {
+				else if (aAngle > bAngle) {
 					return -1;
+				}
+				else {
+					return 0;
 				}
 			})
 

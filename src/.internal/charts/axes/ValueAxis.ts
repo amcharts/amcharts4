@@ -1499,6 +1499,15 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 			min = Math.pow(10, Math.floor(Math.log(Math.abs(min)) * Math.LOG10E));
 			max = Math.pow(10, Math.ceil(Math.log(Math.abs(max)) * Math.LOG10E));
+
+			if(this.strictMinMax){
+				if(this._minDefined > 0){
+					min = this._minDefined;
+				}
+				if(this._maxDefined > 0){
+					max = this._maxDefined;
+				}				
+			}
 		}
 		// repeat diff, exponent and power again with rounded values
 		//difference = this.adjustDifference(min, max);
