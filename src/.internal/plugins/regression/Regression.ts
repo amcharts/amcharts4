@@ -241,11 +241,12 @@ export class Regression extends Plugin {
 		let matrix: any = [];
 		let map: any = {};
 		let xx = 0;
+		const pivot = series.dataFields.valueX ? true : false;
 		for (let i = 0; i < seriesData.length; i++) {
 			let x = series.dataFields.valueX ? seriesData[i][series.dataFields.valueX] : i;
 			let y = series.dataFields.valueY ? seriesData[i][series.dataFields.valueY] : i;
 			if ($type.hasValue(x) && $type.hasValue(y)) {
-				matrix.push([x, y]);
+				matrix.push(pivot ? [y, x] : [x, y]);
 				map[xx] = i;
 				xx++;
 			}
@@ -298,10 +299,7 @@ export class Regression extends Plugin {
 			let item: any = {};
 			const xx = map[i];
 			$object.each(this.target.dataFields, (key, val) => {
-				if (key == "valueX") {
-					item[val] = result.points[i][0];
-				}
-				else if (key == "valueY") {
+				if (key == "valueY" || key == "valueX") {
 					item[val] = result.points[i][1];
 				}
 				else {

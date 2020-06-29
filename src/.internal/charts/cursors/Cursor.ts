@@ -465,6 +465,11 @@ export class Cursor extends Container {
 		if (this._stick == "hard" && this._stickPoint) {
 			local = this._stickPoint;
 		}
+		
+		if (!this.fitsToBounds(local)) {
+			return;
+		}	
+
 
 		this._downPointOrig = { x: local.x, y: local.y };
 
@@ -510,6 +515,10 @@ export class Cursor extends Container {
 			return;
 		}
 		let local: IPoint = $utils.documentPointToSprite(event.pointer.point, this);
+
+		if(!this.downPoint || !this.fitsToBounds(this.downPoint)){
+			return;
+		}
 
 		if (this._stick == "hard" && this._stickPoint) {
 			local = this._stickPoint;

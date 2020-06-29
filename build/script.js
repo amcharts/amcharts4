@@ -63,8 +63,13 @@ function makeSrc(entries, path) {
 			const filename = path.name + ".js";
 
 			if (path.name === "core") {
+				$fs.writeFileSync("polyfill.js",
+`export const Promise = window.Promise;`);
+
 				$fs.writeFileSync(filename,
-`import * as m from "../es2015/core";
+`import { Promise } from "./polyfill";
+import "core-js/stable";
+import * as m from "../es2015/core";
 window.am4core = m;
 
 // TODO move all of this code into a different module and then import it
@@ -84,9 +89,13 @@ function dirpath(x) {
 }
 
 __webpack_public_path__ = dirpath(getCurrentScript().src);
+
+if (Promise) {
+	window.Promise = Promise;
+}
 `);
 
-				entries["core"] = ["core-js/stable", "./" + filename];
+				entries["core"] = "./" + filename;
 
 			} else {
 				const mangledName = mangleName(path.name);

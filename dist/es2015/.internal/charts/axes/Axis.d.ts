@@ -438,6 +438,7 @@ export interface IAxisProperties extends IComponentProperties {
      * @default true
      */
     hideTooltipWhileZooming?: boolean;
+    zoomable?: boolean;
 }
 /**
  * Defines events for [[Axis]].
@@ -1224,4 +1225,18 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     * @return Hide tooltip while zooming?
     */
     hideTooltipWhileZooming: boolean;
+    /**
+     * @todo mm
+     */
+    /**
+     * Should the axis be zoomed with scrollbar/cursor?
+     *
+     * @default true
+     * @since 4.9.28
+     * @param  value  Zoomable?
+     */
+    /**
+    * @return Zoomable?
+    */
+    zoomable: boolean;
 }

@@ -2593,7 +2593,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		// if a sprite is rotated or scaled, calculate measured size after transformations
 
-		if (this.rotation !== 0 || this.scale !== 1) {
+		if (this.rotation !== 0 || this.scale !== 1 || this.nonScaling) {
 
 			// not good to handleGlobalScale here.
 			if (this.nonScalingStroke) {
@@ -2605,11 +2605,17 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			let matrix: SVGMatrix = svg.createSVGMatrix();
 			let rotation: number = this.rotation;
 
-			matrix.a = $math.cos(rotation) * this.scale;
-			matrix.c = - $math.sin(rotation) * this.scale;
+			let scale = this.scale;
+
+			if(this.nonScaling){
+				scale = this.scale / this.globalScale;
+			}
+
+			matrix.a = $math.cos(rotation) * scale;
+			matrix.c = - $math.sin(rotation) * scale;
 			matrix.e = 0;
-			matrix.b = $math.sin(rotation) * this.scale;
-			matrix.d = $math.cos(rotation) * this.scale;
+			matrix.b = $math.sin(rotation) * scale;
+			matrix.d = $math.cos(rotation) * scale;
 			matrix.f = 0;
 
 			let p1: SVGPoint = svg.createSVGPoint();
@@ -3010,15 +3016,15 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			sprite.validate();
 		}
 
-		let ax1 = this.pixelX;
-		let ay1 = this.pixelY;
-		let ax2 = ax1 + this.measuredWidth;
-		let ay2 = ay1 + this.measuredHeight;
-
-		let bx1 = sprite.pixelX;
-		let by1 = sprite.pixelY;
-		let bx2 = bx1 + sprite.measuredWidth;
-		let by2 = by1 + sprite.measuredHeight;
+		let ax1 = this.pixelX + this.maxLeft;
+		let ay1 = this.pixelY + this.maxTop;
+		let ax2 = ax1 + this.maxRight;
+		let ay2 = ay1 + this.maxBottom;
+		
+		let bx1 = sprite.pixelX + sprite.maxLeft;
+		let by1 = sprite.pixelY + sprite.maxTop;
+		let bx2 = bx1 + sprite.maxRight;
+		let by2 = by1 + sprite.maxBottom;
 
 		return !(bx1 > ax2 || bx2 < ax1 || by1 > ay2 || by2 < ay1);
 	}

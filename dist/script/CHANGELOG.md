@@ -5,6 +5,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.28] - 2020-06-29
+
+### Added
+- New adapter `xlsxWorkbook` in `Export`. Will allow decorating a Workbook object before it is exported.
+- `chart.exporting` text-based API functions (`getSVG()`, `getCSV()`, `getJSON()`, `getHTML()`) now have third parameter (boolean). If set to `false` they will return a raw output, rather than data:uri.
+- `zoomable` property added to all axes (default: `true`). Setting it to `false` will make axis not react to zoom events from scrollbar/cursor.
+
+### Changed
+- Removed `focusable` from map chart background series.
+- Polyfills in `.js` file will now only load on-demand, making it with some frameworks that override default objects.
+
+### Fixed
+- Regression plugin: the regression line was not being drawn correctly on a chart with horizontal `ValueAxis`.
+- Export: images exported on zoomed-out pages sometimes were showing visual artifacts.
+- If a chart cursor was visible (because of soft or hard `triggerMove()` calls) but the real mouse was out of the plot area, the cursor used to react to clicks even though it shouldn't have.
+- `ForceDirectedNode`'s `fill` and `stroke` adapters were not working properly if nodes were initially collapsed.
+- `Sprite.hitTest()` method was not working properly with `nonScaling = true`.
+- If a `MapChart` had geodata loaded via `geodataSource.url`, the map used to disappear after div size changed.
+- If a legend of a `MapChart` was disposed, a JS error might happen in some cases.
+
+
 ## [4.9.27] - 2020-06-18
 
 ### Added

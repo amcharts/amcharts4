@@ -1788,7 +1788,7 @@ var Sprite = /** @class */ (function (_super) {
         this.maxTopSelf = this.maxTop;
         this.maxBottomSelf = this.maxBottom;
         // if a sprite is rotated or scaled, calculate measured size after transformations
-        if (this.rotation !== 0 || this.scale !== 1) {
+        if (this.rotation !== 0 || this.scale !== 1 || this.nonScaling) {
             // not good to handleGlobalScale here.
             if (this.nonScalingStroke) {
                 this.strokeWidth = this.strokeWidth;
@@ -1796,11 +1796,15 @@ var Sprite = /** @class */ (function (_super) {
             var svg = this.paper.svg;
             var matrix = svg.createSVGMatrix();
             var rotation = this.rotation;
-            matrix.a = $math.cos(rotation) * this.scale;
-            matrix.c = -$math.sin(rotation) * this.scale;
+            var scale = this.scale;
+            if (this.nonScaling) {
+                scale = this.scale / this.globalScale;
+            }
+            matrix.a = $math.cos(rotation) * scale;
+            matrix.c = -$math.sin(rotation) * scale;
             matrix.e = 0;
-            matrix.b = $math.sin(rotation) * this.scale;
-            matrix.d = $math.cos(rotation) * this.scale;
+            matrix.b = $math.sin(rotation) * scale;
+            matrix.d = $math.cos(rotation) * scale;
             matrix.f = 0;
             var p1 = svg.createSVGPoint();
             p1.x = left;
@@ -2161,14 +2165,14 @@ var Sprite = /** @class */ (function (_super) {
         if (sprite.invalid) {
             sprite.validate();
         }
-        var ax1 = this.pixelX;
-        var ay1 = this.pixelY;
-        var ax2 = ax1 + this.measuredWidth;
-        var ay2 = ay1 + this.measuredHeight;
-        var bx1 = sprite.pixelX;
-        var by1 = sprite.pixelY;
-        var bx2 = bx1 + sprite.measuredWidth;
-        var by2 = by1 + sprite.measuredHeight;
+        var ax1 = this.pixelX + this.maxLeft;
+        var ay1 = this.pixelY + this.maxTop;
+        var ax2 = ax1 + this.maxRight;
+        var ay2 = ay1 + this.maxBottom;
+        var bx1 = sprite.pixelX + sprite.maxLeft;
+        var by1 = sprite.pixelY + sprite.maxTop;
+        var bx2 = bx1 + sprite.maxRight;
+        var by2 = by1 + sprite.maxBottom;
         return !(bx1 > ax2 || bx2 < ax1 || by1 > ay2 || by2 < ay1);
     };
     Object.defineProperty(Sprite.prototype, "inited", {

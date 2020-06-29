@@ -183,11 +183,12 @@ var Regression = /** @class */ (function (_super) {
         var matrix = [];
         var map = {};
         var xx = 0;
+        var pivot = series.dataFields.valueX ? true : false;
         for (var i = 0; i < seriesData.length; i++) {
             var x = series.dataFields.valueX ? seriesData[i][series.dataFields.valueX] : i;
             var y = series.dataFields.valueY ? seriesData[i][series.dataFields.valueY] : i;
             if ($type.hasValue(x) && $type.hasValue(y)) {
-                matrix.push([x, y]);
+                matrix.push(pivot ? [y, x] : [x, y]);
                 map[xx] = i;
                 xx++;
             }
@@ -235,10 +236,7 @@ var Regression = /** @class */ (function (_super) {
             var item = {};
             var xx_1 = map[i];
             $object.each(this_1.target.dataFields, function (key, val) {
-                if (key == "valueX") {
-                    item[val] = result.points[i][0];
-                }
-                else if (key == "valueY") {
+                if (key == "valueY" || key == "valueX") {
                     item[val] = result.points[i][1];
                 }
                 else {

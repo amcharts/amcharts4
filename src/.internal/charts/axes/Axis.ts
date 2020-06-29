@@ -825,6 +825,9 @@ export interface IAxisProperties extends IComponentProperties {
 	 * @default true
 	 */
 	hideTooltipWhileZooming?: boolean;
+
+
+	zoomable?: boolean;
 }
 
 /**
@@ -1053,6 +1056,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 		this.shouldClone = false;
 		this.setPropertyValue("cursorTooltipEnabled", true);
 		this.toggleZoomOutButton = true;
+		this.zoomable = true;
 
 		let interfaceColors = new InterfaceColorSet();
 
@@ -1172,10 +1176,10 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * Recalculates the number of grid items on the axis.
 	 */
-	protected updateGridCount() {		
+	protected updateGridCount() {
 		if (this.renderer) {
-			let gridCount = this.axisLength / this.renderer.minGridDistance; 
-			if(gridCount != this._gridCount){
+			let gridCount = this.axisLength / this.renderer.minGridDistance;
+			if (gridCount != this._gridCount) {
 				this._gridCount = gridCount;
 				this.clearCache();
 			}
@@ -1858,7 +1862,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public postProcessSeriesDataItems(series?:XYSeries): void {
+	public postProcessSeriesDataItems(series?: XYSeries): void {
 
 	}
 
@@ -2256,7 +2260,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 		range.label = this.renderer.labels.template.clone();
 		range.label.disabled = true;
 
-		range.addDisposer(new Disposer(()=>{
+		range.addDisposer(new Disposer(() => {
 			series.axisRanges.removeValue(range);
 		}))
 
@@ -2427,6 +2431,27 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 */
 	public get hideTooltipWhileZooming(): boolean {
 		return this.getPropertyValue("hideTooltipWhileZooming");
+	}
+
+	/**
+	 * @todo mm
+	 */
+	/**
+	 * Should the axis be zoomed with scrollbar/cursor?
+	 *
+	 * @default true
+	 * @since 4.9.28
+	 * @param  value  Zoomable?
+	 */
+	public set zoomable(value: boolean) {
+		this.setPropertyValue("zoomable", value);
+	}
+
+	/**
+	 * @return Zoomable?
+	 */
+	public get zoomable(): boolean {
+		return this.getPropertyValue("zoomable");
 	}
 
 }

@@ -456,7 +456,7 @@ export class Chart extends Component {
 	}
 
 	public set focusable(value: boolean) {
-		this.parent.focusable = true;
+		this.parent.focusable = value;
 	}
 
 	public get focusable(): boolean {

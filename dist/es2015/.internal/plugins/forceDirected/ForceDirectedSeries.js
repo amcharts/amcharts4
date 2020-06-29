@@ -790,6 +790,8 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
                 child.node.fill = color;
                 child.node.stroke = color;
                 child.parentLink.stroke = color;
+                child.node.fill = child.node.fill;
+                child.node.stroke = child.node.stroke;
                 _this.initNode(child);
                 index_1++;
             });

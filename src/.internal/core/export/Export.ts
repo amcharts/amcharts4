@@ -1138,7 +1138,15 @@ export interface IExportAdapters {
 
 	xlsxSheetName: {
 		name: string
-	}
+	},
+
+	/**
+	 * @since 4.9.28
+	 */
+	xlsxWorkbook: {
+		workbook: any,
+		options?: IExportOptions[Keys]
+	},
 
 
 }
@@ -2245,19 +2253,19 @@ export class Export extends Validatable {
 			// Set canvas width/height
 			canvas.style.width = width * scale + 'px';
 			canvas.style.height = height * scale + 'px';
-			canvas.width = width * pixelRatio * scale;
-			canvas.height = height * pixelRatio * scale;
+			canvas.width = width * scale;
+			canvas.height = height * scale;
 
 			let ctx = canvas.getContext("2d");
 
-			if (pixelRatio != 1) {
-				ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-			}
+			// if (pixelRatio != 1) {
+			// 	ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+			// }
 
 			// Add background if necessary
 			if (background) {
 				ctx.fillStyle = background.toString();
-				ctx.fillRect(0, 0, width * pixelRatio * scale, height * pixelRatio * scale);
+				ctx.fillRect(0, 0, width * scale, height * scale);
 			}
 
 			let promises: Promise<any>[] = [];
@@ -2290,7 +2298,7 @@ export class Export extends Validatable {
 			// Get Blob representation of SVG and create object URL
 			let svg = new Blob([data], { type: "image/svg+xml" });
 			url = DOMURL.createObjectURL(svg);
-			let img = await this.loadNewImage(url, width * scale, height * scale, "anonymous");
+			let img = await this.loadNewImage(url, width * scale * pixelRatio, height * scale * pixelRatio, "anonymous");
 
 			// Draw image on canvas
 			ctx.drawImage(img, 0, 0);
@@ -2911,11 +2919,12 @@ export class Export extends Validatable {
 	 * This is an asynchronous function. Check the description of `getImage()`
 	 * for description and example usage.
 	 *
-	 * @param type     Type of the export
-	 * @param options  Options
+	 * @param type       Type of the export
+	 * @param options    Options
+	 * @param encodeURI  If true, will return result will be data URI
 	 * @return Promise
 	 */
-	public async getSVG(type: "svg", options?: IExportSVGOptions): Promise<string> {
+	public async getSVG(type: "svg", options?: IExportSVGOptions, encodeURI: boolean = true): Promise<string> {
 
 		let prehidden = this._objectsAlreadyHidden;
 		if (!prehidden) {
@@ -2950,7 +2959,7 @@ export class Export extends Validatable {
 		}).charset;
 
 		let uri = this.adapter.apply("getSVG", {
-			data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(svg),
+			data: encodeURI ? "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(svg) : svg,
 			options: options
 		}).data;
 
@@ -3541,6 +3550,12 @@ export class Export extends Validatable {
 		// Create sheet and add data
 		wb.Sheets[sheetName] = XLSX.utils.aoa_to_sheet(data);
 
+		// Apply adapters
+		wb = this.adapter.apply("xlsxWorkbook", {
+			workbook: wb,
+			options: options
+		}).workbook;
+
 		// Generate data uri
 		let uri = this.adapter.apply("getExcel", {
 			data: "data:" + this.getContentType(type) + ";base64," + XLSX.write(wb, wbOptions),
@@ -3619,12 +3634,13 @@ export class Export extends Validatable {
 	 * This is an asynchronous function. Check the description of `getImage()`
 	 * for description and example usage.
 	 *
-	 * @param type     Type of the export
-	 * @param options  Options
+	 * @param type       Type of the export
+	 * @param options    Options
+	 * @param encodeURI  If true, will return result will be data URI
 	 * @return Promise
 	 * @async
 	 */
-	public async getCSV(type: "csv", options?: IExportCSVOptions): Promise<string> {
+	public async getCSV(type: "csv", options?: IExportCSVOptions, encodeURI: boolean = true): Promise<string> {
 
 		// Init output
 		let csv = "";
@@ -3699,7 +3715,7 @@ export class Export extends Validatable {
 		}).charset;
 
 		let uri = this.adapter.apply("getCSV", {
-			data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(csv),
+			data: encodeURI ? "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(csv): csv,
 			options: options
 		}).data;
 
@@ -3783,12 +3799,13 @@ export class Export extends Validatable {
 	 * for description and example usage.
 	 *
 	 * @since 4.7.0
-	 * @param type     Type of the export
-	 * @param options  Options
+	 * @param type       Type of the export
+	 * @param options    Options
+	 * @param encodeURI  If true, will return result will be data URI
 	 * @return Promise
 	 * @async
 	 */
-	public async getHTML(type: "html", options?: IExportHTMLOptions): Promise<string> {
+	public async getHTML(type: "html", options?: IExportHTMLOptions, encodeURI: boolean = true): Promise<string> {
 
 		// Init output
 		let html = "<table>";
@@ -3859,7 +3876,7 @@ export class Export extends Validatable {
 		}).charset;
 
 		let uri = this.adapter.apply("getHTML", {
-			data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(html),
+			data: encodeURI ? "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(html) : html,
 			options: options
 		}).data;
 
@@ -3954,12 +3971,13 @@ export class Export extends Validatable {
 	 * This is an asynchronous function. Check the description of `getImage()`
 	 * for description and example usage.
 	 *
-	 * @param type     Type of the export
-	 * @param options  Options
+	 * @param type       Type of the export
+	 * @param options    Options
+	 * @param encodeURI  If true, will return result will be data URI
 	 * @return Promise
 	 * @async
 	 */
-	public async getJSON(type: "json", options?: IExportJSONOptions): Promise<string> {
+	public async getJSON(type: "json", options?: IExportJSONOptions, encodeURI: boolean = true): Promise<string> {
 
 		// Check if we need to regenerate data based on `dataFields`
 		let data: any[];
@@ -4005,7 +4023,7 @@ export class Export extends Validatable {
 		}).charset;
 
 		let uri = this.adapter.apply("getJSON", {
-			data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(json),
+			data: encodeURI ? "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(json) : json,
 			options: options
 		}).data;
 

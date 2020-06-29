@@ -533,7 +533,7 @@ export declare class MapChart extends SerialChart {
     /**
      * @ignore
      */
-    protected updateZoomGeoPoint(): void;
+    updateZoomGeoPoint(): void;
     /**
      * @ignore
      */
@@ -976,6 +976,12 @@ export declare class MapChart extends SerialChart {
     * @return Data source
     */
     geodataSource: DataSource;
+    /**
+     * Sets events on a [[DataSource]].
+     *
+     * @ignore Exclude from docs
+     */
+    protected setDataSourceEvents(ds: DataSource, property?: string): void;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

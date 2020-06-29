@@ -808,6 +808,13 @@ export interface IExportAdapters {
     xlsxSheetName: {
         name: string;
     };
+    /**
+     * @since 4.9.28
+     */
+    xlsxWorkbook: {
+        workbook: any;
+        options?: IExportOptions[Keys];
+    };
 }
 /**
  * ============================================================================
@@ -1403,11 +1410,12 @@ export declare class Export extends Validatable {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param type     Type of the export
-     * @param options  Options
+     * @param type       Type of the export
+     * @param options    Options
+     * @param encodeURI  If true, will return result will be data URI
      * @return Promise
      */
-    getSVG(type: "svg", options?: IExportSVGOptions): Promise<string>;
+    getSVG(type: "svg", options?: IExportSVGOptions, encodeURI?: boolean): Promise<string>;
     /**
      * Checks if SVG is fully formatted. Encloses in `<svg>...</svg>` if
      * necessary.
@@ -1515,12 +1523,13 @@ export declare class Export extends Validatable {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param type     Type of the export
-     * @param options  Options
+     * @param type       Type of the export
+     * @param options    Options
+     * @param encodeURI  If true, will return result will be data URI
      * @return Promise
      * @async
      */
-    getCSV(type: "csv", options?: IExportCSVOptions): Promise<string>;
+    getCSV(type: "csv", options?: IExportCSVOptions, encodeURI?: boolean): Promise<string>;
     /**
      * Formats a row of CSV data.
      *
@@ -1539,12 +1548,13 @@ export declare class Export extends Validatable {
      * for description and example usage.
      *
      * @since 4.7.0
-     * @param type     Type of the export
-     * @param options  Options
+     * @param type       Type of the export
+     * @param options    Options
+     * @param encodeURI  If true, will return result will be data URI
      * @return Promise
      * @async
      */
-    getHTML(type: "html", options?: IExportHTMLOptions): Promise<string>;
+    getHTML(type: "html", options?: IExportHTMLOptions, encodeURI?: boolean): Promise<string>;
     /**
      * Formats a row of HTML data.
      *
@@ -1563,12 +1573,13 @@ export declare class Export extends Validatable {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param type     Type of the export
-     * @param options  Options
+     * @param type       Type of the export
+     * @param options    Options
+     * @param encodeURI  If true, will return result will be data URI
      * @return Promise
      * @async
      */
-    getJSON(type: "json", options?: IExportJSONOptions): Promise<string>;
+    getJSON(type: "json", options?: IExportJSONOptions, encodeURI?: boolean): Promise<string>;
     /**
      * Converts the value to proper date format.
      *

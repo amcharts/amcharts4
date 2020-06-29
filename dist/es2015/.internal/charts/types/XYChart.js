@@ -575,7 +575,7 @@ var XYChart = /** @class */ (function (_super) {
         var start;
         var end;
         axes.each(function (axis) {
-            if (axis instanceof ValueAxis && axis.syncWithAxis) {
+            if (!axis.zoomable || (axis instanceof ValueAxis && axis.syncWithAxis)) {
             }
             else {
                 var axisStart = axis.start;
@@ -1468,27 +1468,29 @@ var XYChart = /** @class */ (function (_super) {
         this.showSeriesTooltip(); // hides
         if (!this.dataInvalid) {
             $iter.each(axes.iterator(), function (axis) {
-                if (axis.renderer.inversed) {
-                    range = $math.invertRange(range);
-                }
-                axis.hideTooltip(0);
-                if (round) {
-                    //let diff = range.end - range.start;
-                    if (axis instanceof CategoryAxis) {
-                        var cellWidth = axis.getCellEndPosition(0) - axis.getCellStartPosition(0);
-                        range.start = axis.roundPosition(range.start + cellWidth / 2 - (axis.startLocation) * cellWidth, axis.startLocation);
-                        range.end = axis.roundPosition(range.end - cellWidth / 2 + (1 - axis.endLocation) * cellWidth, axis.endLocation);
+                if (axis.zoomable) {
+                    if (axis.renderer.inversed) {
+                        range = $math.invertRange(range);
                     }
-                    else {
-                        range.start = axis.roundPosition(range.start + 0.0001, 0, axis.startLocation);
-                        range.end = axis.roundPosition(range.end + 0.0001, 0, axis.endLocation);
+                    axis.hideTooltip(0);
+                    if (round) {
+                        //let diff = range.end - range.start;
+                        if (axis instanceof CategoryAxis) {
+                            var cellWidth = axis.getCellEndPosition(0) - axis.getCellStartPosition(0);
+                            range.start = axis.roundPosition(range.start + cellWidth / 2 - (axis.startLocation) * cellWidth, axis.startLocation);
+                            range.end = axis.roundPosition(range.end - cellWidth / 2 + (1 - axis.endLocation) * cellWidth, axis.endLocation);
+                        }
+                        else {
+                            range.start = axis.roundPosition(range.start + 0.0001, 0, axis.startLocation);
+                            range.end = axis.roundPosition(range.end + 0.0001, 0, axis.endLocation);
+                        }
                     }
+                    var axisRange = axis.zoom(range, instantly, instantly, declination);
+                    if (axis.renderer.inversed) {
+                        axisRange = $math.invertRange(axisRange);
+                    }
+                    realRange = axisRange;
                 }
-                var axisRange = axis.zoom(range, instantly, instantly, declination);
-                if (axis.renderer.inversed) {
-                    axisRange = $math.invertRange(axisRange);
-                }
-                realRange = axisRange;
             });
         }
         return realRange;

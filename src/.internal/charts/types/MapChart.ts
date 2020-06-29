@@ -878,7 +878,7 @@ export class MapChart extends SerialChart {
 	/**
 	 * @ignore
 	 */
-	protected updateZoomGeoPoint() {
+	public updateZoomGeoPoint() {
 		let seriesPoint = $utils.svgPointToSprite({ x: this.innerWidth / 2 + this.pixelPaddingLeft, y: this.innerHeight / 2 + this.pixelPaddingTop }, this.series.getIndex(0));
 		let geoPoint = this.projection.invert(seriesPoint);
 		this._zoomGeoPointReal = geoPoint;
@@ -1816,7 +1816,7 @@ export class MapChart extends SerialChart {
 		value = $math.round(value, 3);
 		if (this.setPropertyValue("deltaLongitude", $geo.wrapAngleTo180(value))) {
 			this.rotateMap();
-			this.updateZoomGeoPoint(); 
+			this.updateZoomGeoPoint();
 		}
 	}
 
@@ -1841,7 +1841,7 @@ export class MapChart extends SerialChart {
 		value = $math.round(value, 3);
 		if (this.setPropertyValue("deltaLatitude", value)) {
 			this.rotateMap();
-			this.updateZoomGeoPoint(); 
+			this.updateZoomGeoPoint();
 		}
 	}
 
@@ -1864,7 +1864,7 @@ export class MapChart extends SerialChart {
 		value = $math.round(value, 3);
 		if (this.setPropertyValue("deltaGamma", value)) {
 			this.rotateMap();
-			this.updateZoomGeoPoint(); 
+			this.updateZoomGeoPoint();
 		}
 	}
 
@@ -2003,6 +2003,26 @@ export class MapChart extends SerialChart {
 			this.getDataSource("geodata");
 		}
 		return this._dataSources["geodata"];
+	}
+
+	/**
+	 * Sets events on a [[DataSource]].
+	 *
+	 * @ignore Exclude from docs
+	 */
+	protected setDataSourceEvents(ds: DataSource, property?: string): void {
+		super.setDataSourceEvents(ds, property);
+		if (property == "geodata") {
+			ds.events.on("done", (ev) => {
+				this.series.each((series) => {
+					series.events.once("dataitemsvalidated", () => {
+						this._zoomGeoPointReal = undefined;
+						this.updateCenterGeoPoint();						
+						this.goHome(0);
+					})
+				})
+			})
+		}
 	}
 
 	/**
@@ -2188,6 +2208,7 @@ export class MapChart extends SerialChart {
 			backgroundSeries.chart = this;
 
 			backgroundSeries.hiddenInLegend = true;
+			backgroundSeries.mapPolygons.template.focusable = false;
 			backgroundSeries.addDisposer(new Disposer(() => {
 				this._backgroundSeries = undefined;
 			}))
@@ -2201,6 +2222,7 @@ export class MapChart extends SerialChart {
 			polygonTemplate.fill = color;
 			polygonTemplate.fillOpacity = 0;
 			polygonTemplate.strokeOpacity = 0;
+			//polygonTemplate.focusable = false;
 
 			backgroundSeries.mapPolygons.create();
 
@@ -2217,7 +2239,9 @@ export class MapChart extends SerialChart {
 	 */
 	protected setLegend(legend: Legend) {
 		super.setLegend(legend);
-		legend.parent = this;
+		if(legend){
+			legend.parent = this;
+		}
 	}
 
 	/**

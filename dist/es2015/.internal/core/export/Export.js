@@ -1125,16 +1125,16 @@ var Export = /** @class */ (function (_super) {
                         // Set canvas width/height
                         canvas.style.width = width * scale + 'px';
                         canvas.style.height = height * scale + 'px';
-                        canvas.width = width * pixelRatio * scale;
-                        canvas.height = height * pixelRatio * scale;
+                        canvas.width = width * scale;
+                        canvas.height = height * scale;
                         ctx = canvas.getContext("2d");
-                        if (pixelRatio != 1) {
-                            ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-                        }
+                        // if (pixelRatio != 1) {
+                        // 	ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+                        // }
                         // Add background if necessary
                         if (background) {
                             ctx.fillStyle = background.toString();
-                            ctx.fillRect(0, 0, width * pixelRatio * scale, height * pixelRatio * scale);
+                            ctx.fillRect(0, 0, width * scale, height * scale);
                         }
                         promises = [];
                         if (this.useWebFonts) {
@@ -1152,7 +1152,7 @@ var Export = /** @class */ (function (_super) {
                         data = this.normalizeSVG("<style>" + a[0] + "</style>" + this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, scale, font, fontSize);
                         svg = new Blob([data], { type: "image/svg+xml" });
                         url = DOMURL.createObjectURL(svg);
-                        return [4 /*yield*/, this.loadNewImage(url, width * scale, height * scale, "anonymous")];
+                        return [4 /*yield*/, this.loadNewImage(url, width * scale * pixelRatio, height * scale * pixelRatio, "anonymous")];
                     case 3:
                         img = _a.sent();
                         // Draw image on canvas
@@ -1737,11 +1737,13 @@ var Export = /** @class */ (function (_super) {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param type     Type of the export
-     * @param options  Options
+     * @param type       Type of the export
+     * @param options    Options
+     * @param encodeURI  If true, will return result will be data URI
      * @return Promise
      */
-    Export.prototype.getSVG = function (type, options) {
+    Export.prototype.getSVG = function (type, options, encodeURI) {
+        if (encodeURI === void 0) { encodeURI = true; }
         return __awaiter(this, void 0, void 0, function () {
             var prehidden, width, height, font, fontSize, svg, charset, uri;
             return __generator(this, function (_a) {
@@ -1764,7 +1766,7 @@ var Export = /** @class */ (function (_super) {
                             options: options
                         }).charset;
                         uri = this.adapter.apply("getSVG", {
-                            data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(svg),
+                            data: encodeURI ? "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(svg) : svg,
                             options: options
                         }).data;
                         if (!prehidden) {
@@ -2285,6 +2287,11 @@ var Export = /** @class */ (function (_super) {
                         }
                         // Create sheet and add data
                         wb.Sheets[sheetName] = XLSX.utils.aoa_to_sheet(data);
+                        // Apply adapters
+                        wb = this.adapter.apply("xlsxWorkbook", {
+                            workbook: wb,
+                            options: options
+                        }).workbook;
                         uri = this.adapter.apply("getExcel", {
                             data: "data:" + this.getContentType(type) + ";base64," + XLSX.write(wb, wbOptions),
                             options: options
@@ -2355,12 +2362,14 @@ var Export = /** @class */ (function (_super) {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param type     Type of the export
-     * @param options  Options
+     * @param type       Type of the export
+     * @param options    Options
+     * @param encodeURI  If true, will return result will be data URI
      * @return Promise
      * @async
      */
-    Export.prototype.getCSV = function (type, options) {
+    Export.prototype.getCSV = function (type, options, encodeURI) {
+        if (encodeURI === void 0) { encodeURI = true; }
         return __awaiter(this, void 0, void 0, function () {
             var csv, dataFields, br, data, dataFieldsOrder_3, len, i, row, charset, uri;
             var _this = this;
@@ -2423,7 +2432,7 @@ var Export = /** @class */ (function (_super) {
                     options: options
                 }).charset;
                 uri = this.adapter.apply("getCSV", {
-                    data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(csv),
+                    data: encodeURI ? "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(csv) : csv,
                     options: options
                 }).data;
                 return [2 /*return*/, uri];
@@ -2496,12 +2505,14 @@ var Export = /** @class */ (function (_super) {
      * for description and example usage.
      *
      * @since 4.7.0
-     * @param type     Type of the export
-     * @param options  Options
+     * @param type       Type of the export
+     * @param options    Options
+     * @param encodeURI  If true, will return result will be data URI
      * @return Promise
      * @async
      */
-    Export.prototype.getHTML = function (type, options) {
+    Export.prototype.getHTML = function (type, options, encodeURI) {
+        if (encodeURI === void 0) { encodeURI = true; }
         return __awaiter(this, void 0, void 0, function () {
             var html, dataFields, data, dataFieldsOrder_4, len, i, charset, uri;
             var _this = this;
@@ -2559,7 +2570,7 @@ var Export = /** @class */ (function (_super) {
                     options: options
                 }).charset;
                 uri = this.adapter.apply("getHTML", {
-                    data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(html),
+                    data: encodeURI ? "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(html) : html,
                     options: options
                 }).data;
                 return [2 /*return*/, uri];
@@ -2642,12 +2653,14 @@ var Export = /** @class */ (function (_super) {
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
-     * @param type     Type of the export
-     * @param options  Options
+     * @param type       Type of the export
+     * @param options    Options
+     * @param encodeURI  If true, will return result will be data URI
      * @return Promise
      * @async
      */
-    Export.prototype.getJSON = function (type, options) {
+    Export.prototype.getJSON = function (type, options, encodeURI) {
+        if (encodeURI === void 0) { encodeURI = true; }
         return __awaiter(this, void 0, void 0, function () {
             var data, dataFields, sourceData, _loop_1, len, i, json, charset, uri;
             var _this = this;
@@ -2692,7 +2705,7 @@ var Export = /** @class */ (function (_super) {
                     options: options
                 }).charset;
                 uri = this.adapter.apply("getJSON", {
-                    data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(json),
+                    data: encodeURI ? "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(json) : json,
                     options: options
                 }).data;
                 return [2 /*return*/, uri];

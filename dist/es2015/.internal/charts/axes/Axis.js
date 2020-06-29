@@ -616,6 +616,7 @@ var Axis = /** @class */ (function (_super) {
         _this.shouldClone = false;
         _this.setPropertyValue("cursorTooltipEnabled", true);
         _this.toggleZoomOutButton = true;
+        _this.zoomable = true;
         var interfaceColors = new InterfaceColorSet();
         // Create title
         _this.title = new Label();
@@ -1899,6 +1900,29 @@ var Axis = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("hideTooltipWhileZooming", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Axis.prototype, "zoomable", {
+        /**
+         * @return Zoomable?
+         */
+        get: function () {
+            return this.getPropertyValue("zoomable");
+        },
+        /**
+         * @todo mm
+         */
+        /**
+         * Should the axis be zoomed with scrollbar/cursor?
+         *
+         * @default true
+         * @since 4.9.28
+         * @param  value  Zoomable?
+         */
+        set: function (value) {
+            this.setPropertyValue("zoomable", value);
         },
         enumerable: true,
         configurable: true

@@ -1155,6 +1155,9 @@ export class ForceDirectedSeries extends Series {
 				child.node.stroke = color;
 				child.parentLink.stroke = color;
 
+				child.node.fill = child.node.fill;
+				child.node.stroke = child.node.stroke;
+
 				this.initNode(child);
 
 				index++;

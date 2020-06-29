@@ -274,6 +274,9 @@ var Cursor = /** @class */ (function (_super) {
         if (this._stick == "hard" && this._stickPoint) {
             local = this._stickPoint;
         }
+        if (!this.fitsToBounds(local)) {
+            return;
+        }
         this._downPointOrig = { x: local.x, y: local.y };
         // We need to cancel the event to prevent gestures on touch devices
         if (event.event.cancelable && this.shouldPreventGestures(event.touch) && this.fitsToBounds(local)) {
@@ -313,6 +316,9 @@ var Cursor = /** @class */ (function (_super) {
             return;
         }
         var local = $utils.documentPointToSprite(event.pointer.point, this);
+        if (!this.downPoint || !this.fitsToBounds(this.downPoint)) {
+            return;
+        }
         if (this._stick == "hard" && this._stickPoint) {
             local = this._stickPoint;
         }

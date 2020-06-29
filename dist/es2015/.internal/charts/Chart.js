@@ -345,7 +345,7 @@ var Chart = /** @class */ (function (_super) {
             return this.parent.focusable;
         },
         set: function (value) {
-            this.parent.focusable = true;
+            this.parent.focusable = value;
         },
         enumerable: true,
         configurable: true

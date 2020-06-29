@@ -1367,6 +1367,26 @@ var MapChart = /** @class */ (function (_super) {
         configurable: true
     });
     /**
+     * Sets events on a [[DataSource]].
+     *
+     * @ignore Exclude from docs
+     */
+    MapChart.prototype.setDataSourceEvents = function (ds, property) {
+        var _this = this;
+        _super.prototype.setDataSourceEvents.call(this, ds, property);
+        if (property == "geodata") {
+            ds.events.on("done", function (ev) {
+                _this.series.each(function (series) {
+                    series.events.once("dataitemsvalidated", function () {
+                        _this._zoomGeoPointReal = undefined;
+                        _this.updateCenterGeoPoint();
+                        _this.goHome(0);
+                    });
+                });
+            });
+        }
+    };
+    /**
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs
@@ -1539,6 +1559,7 @@ var MapChart = /** @class */ (function (_super) {
                 backgroundSeries.parent = this.seriesContainer;
                 backgroundSeries.chart = this;
                 backgroundSeries.hiddenInLegend = true;
+                backgroundSeries.mapPolygons.template.focusable = false;
                 backgroundSeries.addDisposer(new Disposer(function () {
                     _this._backgroundSeries = undefined;
                 }));
@@ -1550,6 +1571,7 @@ var MapChart = /** @class */ (function (_super) {
                 polygonTemplate.fill = color;
                 polygonTemplate.fillOpacity = 0;
                 polygonTemplate.strokeOpacity = 0;
+                //polygonTemplate.focusable = false;
                 backgroundSeries.mapPolygons.create();
                 this._backgroundSeries = backgroundSeries;
             }
@@ -1565,7 +1587,9 @@ var MapChart = /** @class */ (function (_super) {
      */
     MapChart.prototype.setLegend = function (legend) {
         _super.prototype.setLegend.call(this, legend);
-        legend.parent = this;
+        if (legend) {
+            legend.parent = this;
+        }
     };
     /**
      * @param  value  Tap to activate?
