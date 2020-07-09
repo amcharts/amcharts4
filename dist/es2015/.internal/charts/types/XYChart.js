@@ -913,6 +913,15 @@ var XYChart = /** @class */ (function (_super) {
             }
         }
     };
+    /**
+     * Finds closest data item to position out of the array of items.
+     *
+     * @since 4.9.29
+     * @param   dataItems  Array of items
+     * @param              xPosition X position
+     * @param              yPosition Y position
+     * @return             Data item
+     */
     XYChart.prototype.getClosest = function (dataItems, xPosition, yPosition) {
         var minDistance = Infinity;
         var closestDataItem;
@@ -1953,10 +1962,14 @@ var XYChart = /** @class */ (function (_super) {
             scrollbarY.scrollbarChart.disposeData();
         }
         this.xAxes.each(function (axis) {
-            axis.disposeData();
+            if (axis instanceof CategoryAxis) {
+                axis.disposeData();
+            }
         });
         this.yAxes.each(function (axis) {
-            axis.disposeData();
+            if (axis instanceof CategoryAxis) {
+                axis.disposeData();
+            }
         });
     };
     /**

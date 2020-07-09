@@ -64,10 +64,26 @@ function makeSrc(entries, path) {
 
 			if (path.name === "core") {
 				$fs.writeFileSync("polyfill.js",
-`export const Promise = window.Promise;`);
+`const Promise = window.Promise;
+const startsWith = String.prototype.startsWith;
+const endsWith = String.prototype.endsWith;
+
+export default function () {
+	if (Promise) {
+		window.Promise = Promise;
+	}
+
+	if (startsWith) {
+		String.prototype.startsWith = startsWith;
+	}
+
+	if (endsWith) {
+		String.prototype.endsWith = endsWith;
+	}
+};`);
 
 				$fs.writeFileSync(filename,
-`import { Promise } from "./polyfill";
+`import fixPolyfills from "./polyfill";
 import "core-js/stable";
 import * as m from "../es2015/core";
 window.am4core = m;
@@ -90,9 +106,7 @@ function dirpath(x) {
 
 __webpack_public_path__ = dirpath(getCurrentScript().src);
 
-if (Promise) {
-	window.Promise = Promise;
-}
+fixPolyfills();
 `);
 
 				entries["core"] = "./" + filename;

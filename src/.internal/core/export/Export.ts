@@ -3831,6 +3831,8 @@ export class Export extends Validatable {
 				format: "html"
 			}).dataFieldsOrder;
 
+			html += "\n<tbody>";
+
 			$object.eachOrdered(dataFields, (key, val) => {
 				let dataRow = [];
 				if (options.addColumnNames) {
@@ -3852,21 +3854,27 @@ export class Export extends Validatable {
 				}
 				return 0;
 			});
+			
+			html += "\n</tbody>";
 
 		}
 
 		else {
 			// Add column names?
 			if (options.addColumnNames) {
-				html += "\n" + this.getHTMLRow(dataFields, options, undefined, true, true);
+				html += "\n<thead>\n" + this.getHTMLRow(dataFields, options, undefined, true, true) + "\n</thead>";
 			}
+
+			html += "\n<tbody>";
 
 			for (let len = data.length, i = 0; i < len; i++) {
 				html += "\n" + this.getHTMLRow(data[i], options, dataFields);
 			}
+
+			html += "\n</tbody>";
 		}
 
-		html += "</table>";
+		html += "\n</table>";
 
 		// Add content type
 		let charset = this.adapter.apply("charset", {

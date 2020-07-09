@@ -1912,9 +1912,6 @@ var Axis = /** @class */ (function (_super) {
             return this.getPropertyValue("zoomable");
         },
         /**
-         * @todo mm
-         */
-        /**
          * Should the axis be zoomed with scrollbar/cursor?
          *
          * @default true

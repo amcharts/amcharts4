@@ -143,6 +143,9 @@ var MapChart = /** @class */ (function (_super) {
         seriesContainer.zIndex = 0;
         seriesContainer.dragWhileResize = true;
         //seriesContainer.background.fillOpacity = 0;
+        seriesContainer.adapter.add("scale", function (scale, target) {
+            return $math.fitToRange(scale, _this.minZoomLevel, _this.maxZoomLevel);
+        });
         // Set up events
         //this.events.on("validated", this.updateExtremes, this);
         //this.events.on("datavalidated", this.handleAllValidated, this, false);
@@ -187,20 +190,26 @@ var MapChart = /** @class */ (function (_super) {
         _this.background.fillOpacity = 0;
         // Add keyboard events for panning
         _this._disposers.push(getInteraction().body.events.on("keyup", function (ev) {
-            if (_this.topParent.hasFocused && (!_this._zoomControl || !_this._zoomControl.thumb.isFocused)) {
-                switch (keyboard.getEventKey(ev.event)) {
-                    case "up":
-                        _this.pan({ x: 0, y: 0.1 });
-                        break;
-                    case "down":
-                        _this.pan({ x: 0, y: -0.1 });
-                        break;
-                    case "left":
-                        _this.pan({ x: 0.1, y: 0 });
-                        break;
-                    case "right":
-                        _this.pan({ x: -0.1, y: 0 });
-                        break;
+            if (_this.topParent.hasFocused) {
+                var key = keyboard.getEventKey(ev.event);
+                if (key == "enter" && _this.topParent.focusedElement && _this.topParent.focusedElement.events.has("hit")) {
+                    _this.topParent.focusedElement.dispatchImmediately("hit");
+                }
+                else if (!_this._zoomControl || !_this._zoomControl.thumb.isFocused) {
+                    switch (key) {
+                        case "up":
+                            _this.pan({ x: 0, y: 0.1 });
+                            break;
+                        case "down":
+                            _this.pan({ x: 0, y: -0.1 });
+                            break;
+                        case "left":
+                            _this.pan({ x: 0.1, y: 0 });
+                            break;
+                        case "right":
+                            _this.pan({ x: -0.1, y: 0 });
+                            break;
+                    }
                 }
             }
         }, _this));

@@ -530,7 +530,16 @@ export declare class XYChart extends SerialChart {
      * @ignore Exclude from docs
      */
     handleCursorPositionChange(): void;
-    protected getClosest(dataItems: XYSeriesDataItem[], xPosition: number, yPosition: number): XYSeriesDataItem;
+    /**
+     * Finds closest data item to position out of the array of items.
+     *
+     * @since 4.9.29
+     * @param   dataItems  Array of items
+     * @param              xPosition X position
+     * @param              yPosition Y position
+     * @return             Data item
+     */
+    getClosest(dataItems: XYSeriesDataItem[], xPosition: number, yPosition: number): XYSeriesDataItem;
     /**
      * Hides all cursor-related tooltips when the cursor itself is hidden.
      *

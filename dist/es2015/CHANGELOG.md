@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.29] - 2020-07-09
+
+### Changed
+- Export: data exported as HTML will now have `<thead>` and `<tbody>` tags.
+- `XYChart.getClosest()` method is now public.
+- Accessibility: Now pressing ENTER while there's a `MapChart` element focused (using TAB key) will invoke its `hit` event, if set.
+
+### Fixed
+- JSON: heat rules referring to series' bullets were not working, e.g. `target: "bullet[0].circle"`.
+- IE: More fixes to polyfill overriding.
+- `ColorSet` method `next()` would fail if `currentStep` was bigger than `minColors`, affecting `SliceGrouper` plugin setups with a lot of slices in particular.
+- On `MapChart` settings `minZoomLevel` and `maxZoomLevel` were being ignored when pinch-zooming.
+- Syncing of axes improved, especially when series of one axis were hidden/shown.
+- If a `MapSeries` had its geodata loaded via `geodataSource`, the map used to disappear after div size changed.
+- Legend had a `maxWidth` set to `200` and this could result labels to be truncated even if there was enough space for them to fit in.
+- Ticks/grid could disappear if `ValueAxis` had `min`/`max` set and data of a chart changed.
+
+
 ## [4.9.28] - 2020-06-29
 
 ### Added

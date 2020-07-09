@@ -1335,7 +1335,18 @@ var Series = /** @class */ (function (_super) {
                                 }
                             }
                             else {
-                                target = target[parts[x]];
+                                var maybeIndex = parts[x].match(/^(.*)\[([0-9]+)\]/);
+                                if (maybeIndex) {
+                                    if (target[maybeIndex[1]] instanceof List) {
+                                        target = target[maybeIndex[1]].getIndex($type.toNumber(maybeIndex[2]));
+                                    }
+                                    else {
+                                        target = target[maybeIndex[1]][$type.toNumber(maybeIndex[2])];
+                                    }
+                                }
+                                else {
+                                    target = target[parts[x]];
+                                }
                             }
                         }
                     }

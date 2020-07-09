@@ -477,7 +477,7 @@ export declare class MapChart extends SerialChart {
     /**
      * @ignore
      */
-    protected _zoomGeoPointReal: IGeoPoint;
+    _zoomGeoPointReal: IGeoPoint;
     /**
      * @ignore
      */
@@ -537,7 +537,7 @@ export declare class MapChart extends SerialChart {
     /**
      * @ignore
      */
-    protected updateCenterGeoPoint(): void;
+    updateCenterGeoPoint(): void;
     /**
      * Prevents map to be dragged out of the container area
      * @ignore

@@ -14,6 +14,7 @@ import { registry } from "../Registry";
 import * as $colors from "./Colors";
 import * as $type from "./Type";
 import * as $utils from "./Utils";
+import * as $math from "./Math";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -204,7 +205,7 @@ var ColorSet = /** @class */ (function (_super) {
                 color = this.getReusableColor(this._currentStep);
             }
             else {
-                this.generate(this.minColors);
+                this.generate($math.max(this.minColors, this._currentStep + 1));
                 color = this.list[this._currentStep];
             }
         }

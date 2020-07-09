@@ -635,7 +635,7 @@ const countries2: Countries2 = {
 		"country": "India",
 		"continent_code": "AS",
 		"continent": "Asia",
-		"maps": [ "india2019Low", "india2019High", "indiaLow", "indiaHigh" ]
+		"maps": [ "india2020Low", "india2020High",  "india2019Low", "india2019High", "indiaLow", "indiaHigh" ]
 	},
 	"IO": {
 		"country": "British Indian Ocean Territory",

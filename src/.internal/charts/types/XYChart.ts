@@ -1237,8 +1237,16 @@ export class XYChart extends SerialChart {
 		}
 	}
 
-
-	protected getClosest(dataItems: XYSeriesDataItem[], xPosition: number, yPosition: number): XYSeriesDataItem {
+	/**
+	 * Finds closest data item to position out of the array of items.
+	 *
+	 * @since 4.9.29
+	 * @param   dataItems  Array of items
+	 * @param              xPosition X position
+	 * @param              yPosition Y position
+	 * @return             Data item
+	 */
+	public getClosest(dataItems: XYSeriesDataItem[], xPosition: number, yPosition: number): XYSeriesDataItem {
 		let minDistance = Infinity;
 		let closestDataItem: XYSeriesDataItem
 
@@ -2447,11 +2455,15 @@ export class XYChart extends SerialChart {
 		}
 
 		this.xAxes.each((axis) => {
-			axis.disposeData();
+			if(axis instanceof CategoryAxis){
+				axis.disposeData();
+			}
 		})
 
 		this.yAxes.each((axis) => {
-			axis.disposeData();
+			if(axis instanceof CategoryAxis){
+				axis.disposeData();
+			}
 		})
 	}
 

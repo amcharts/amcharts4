@@ -369,6 +369,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 	protected _deltaMinMax: number = 1;
 
+	protected _dsc:boolean = false;
+
 	/**
 	 * Holds reference to a function that accepts a DataItem as parameter.
 	 *
@@ -629,7 +631,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				max = minMaxStep.max;
 			}
 
-			if (this._minZoomed != min || this._maxZoomed != max || this._step != step) {
+			if (this._minZoomed != min || this._maxZoomed != max || this._step != step || this._dsc) {
+				this._dsc = false;
 				this._minZoomed = min;
 				this._maxZoomed = max;
 				this._step = step;
@@ -1924,6 +1927,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			this.setCache(selectionMin + "-" + selectionMax, step);
 		}
 		else {
+			if(this._step != step || this._minZoomed != selectionMin || this._maxZoomed != selectionMax){
+				this._dsc = true;
+			}
 			this._step = step;
 			this._minZoomed = selectionMin;
 			this._maxZoomed = selectionMax;
@@ -2420,6 +2426,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			if (axis) {
 				this._disposers.push(axis.events.on("extremeschanged", this.handleSelectionExtremesChange, this, false));
 				this._disposers.push(axis.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this, false));
+				this._disposers.push(axis.events.on("startendchanged", this.handleSelectionExtremesChange, this, false));
 				this.events.on("shown", this.handleSelectionExtremesChange, this, false);
 				this.events.on("maxsizechanged", ()=>{
 					this.clearCache();

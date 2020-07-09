@@ -2434,9 +2434,6 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	}
 
 	/**
-	 * @todo mm
-	 */
-	/**
 	 * Should the axis be zoomed with scrollbar/cursor?
 	 *
 	 * @default true

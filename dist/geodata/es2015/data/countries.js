@@ -83,7 +83,7 @@ var countries = {
     "HK": ["hongKongLow", "hongKongHigh"],
     "HU": ["hungaryLow", "hungaryHigh"],
     "IS": ["icelandLow", "icelandHigh"],
-    "IN": ["india2019Low", "india2019High", "indiaLow", "indiaHigh"],
+    "IN": ["india2020Low", "india2020High", "india2019Low", "india2019High", "indiaLow", "indiaHigh"],
     "ID": ["indonesiaLow", "indonesiaHigh"],
     "IE": ["irelandLow", "irelandHigh"],
     "IL": ["israelLow", "israelHigh", "israelPalestineLow", "israelPalestineHigh"],

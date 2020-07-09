@@ -446,6 +446,24 @@ var MapSeries = /** @class */ (function (_super) {
         configurable: true
     });
     /**
+     * Sets events on a [[DataSource]].
+     *
+     * @ignore Exclude from docs
+     */
+    MapSeries.prototype.setDataSourceEvents = function (ds, property) {
+        var _this = this;
+        _super.prototype.setDataSourceEvents.call(this, ds, property);
+        if (property == "geodata") {
+            ds.events.on("done", function (ev) {
+                _this.events.once("dataitemsvalidated", function () {
+                    _this.chart._zoomGeoPointReal = undefined;
+                    _this.chart.updateCenterGeoPoint();
+                    _this.chart.goHome(0);
+                });
+            });
+        }
+    };
+    /**
      * @ignore
      */
     MapSeries.prototype.getFeatures = function () {

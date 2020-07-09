@@ -4087,6 +4087,7 @@ var Sprite = /** @class */ (function (_super) {
         if (this.focusable) {
             if (this.topParent) {
                 this.topParent.hasFocused = true;
+                this.topParent.focusedElement = this;
             }
             if (this.focusFilter) {
                 // Any `filters` manipulation will trigger `applyFilters()` so we don't
@@ -4110,6 +4111,7 @@ var Sprite = /** @class */ (function (_super) {
         if (this.focusable) {
             if (this.topParent) {
                 this.topParent.hasFocused = false;
+                this.topParent.focusedElement = undefined;
             }
             if (this.focusFilter) {
                 // Any `filters` manipulation will trigger `applyFilters()` so we don't

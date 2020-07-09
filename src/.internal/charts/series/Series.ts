@@ -422,7 +422,7 @@ export class Series extends Component {
 	 *
 	 * If you need percents to be calculated, e.g. for showing them in tooltips,
 	 * or creating 100% stacks, this setting needs to be set to `true`.
-	 * 
+	 *
 	 * NOTE: `PieChart`, which relies on slice percentages, has this
 	 * automatically set to `true`.
 	 *
@@ -433,11 +433,11 @@ export class Series extends Component {
 	/**
 	 * When `calculatePercent` is enabled and data item's percent value is
 	 * calculated, last item's real value is used instead of its working value.
-	 * 
+	 *
 	 * This is done for the animations when last item in series (e.g. slice in
-	 * a `PieSeries`) is hidden or shown. (if we would use real value, the 
+	 * a `PieSeries`) is hidden or shown. (if we would use real value, the
 	 * calculated percent would always be 100%).
-	 * 
+	 *
 	 * Sometimes there is a need (e.g. for drill-down Sunburst) to disable this
 	 * hack by setting `usePercentHack` to `false`.
 	 *
@@ -449,7 +449,7 @@ export class Series extends Component {
 	/**
 	 * Specifies if series should be automatically disposed when removing from
 	 * chart's `series` list.
-	 * 
+	 *
 	 * @default true
 	 */
 	public autoDispose: boolean = true;
@@ -658,7 +658,7 @@ export class Series extends Component {
 		});*/
 
 		//if (startIndex > 0 && startIndex < this.dataItems.length - 1) {
-			//startIndex++;
+		//startIndex++;
 		//}
 		for (let i = startIndex; i >= 0; i--) {
 			let dataItem = this.dataItems.getIndex(i);
@@ -908,7 +908,7 @@ export class Series extends Component {
 	 */
 	public validate(): void {
 
-		if($utils.isIE()){
+		if ($utils.isIE()) {
 			this.filters.clear();
 		}
 
@@ -1619,11 +1619,11 @@ export class Series extends Component {
 								let workingValue = dataItem.getActualWorkingValue(dataField);
 								if ($type.hasValue(min) && $type.hasValue(max) && $type.isNumber(minValue) && $type.isNumber(maxValue) && $type.isNumber(workingValue)) {
 
-									let percent:number;
-									if(heatRule.logarithmic){
+									let percent: number;
+									if (heatRule.logarithmic) {
 										percent = (Math.log(workingValue) * Math.LOG10E - Math.log(minValue) * Math.LOG10E) / ((Math.log(maxValue) * Math.LOG10E - Math.log(minValue) * Math.LOG10E));
 									}
-									else{
+									else {
 										percent = (workingValue - minValue) / (maxValue - minValue);
 									}
 
@@ -1708,7 +1708,18 @@ export class Series extends Component {
 								}
 							}
 							else {
-								target = target[parts[x]];
+								const maybeIndex = parts[x].match(/^(.*)\[([0-9]+)\]/);
+								if (maybeIndex) {
+									if (target[maybeIndex[1]] instanceof List) {
+										target = target[maybeIndex[1]].getIndex($type.toNumber(maybeIndex[2]));
+									}
+									else {
+										target = target[maybeIndex[1]][$type.toNumber(maybeIndex[2])];
+									}
+								}
+								else {
+									target = target[parts[x]];
+								}
 							}
 						}
 					}

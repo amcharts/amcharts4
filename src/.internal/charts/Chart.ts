@@ -341,7 +341,6 @@ export class Chart extends Component {
 	protected setLegend(legend: Legend) {
 		if (this._legend.get() !== legend) {
 			if (legend) {
-				legend.maxWidth = 200;
 				// Set legend options
 				legend.parent = this.chartAndLegendContainer;
 

@@ -584,7 +584,7 @@ export class MapChart extends SerialChart {
 	/**
 	 * @ignore
 	 */
-	protected _zoomGeoPointReal: IGeoPoint;
+	public _zoomGeoPointReal: IGeoPoint;
 
 	/**
 	 * @ignore
@@ -673,6 +673,10 @@ export class MapChart extends SerialChart {
 		seriesContainer.dragWhileResize = true;
 		//seriesContainer.background.fillOpacity = 0;
 
+		seriesContainer.adapter.add("scale", (scale, target) => {
+			return $math.fitToRange(scale, this.minZoomLevel, this.maxZoomLevel);
+		});
+
 		// Set up events
 		//this.events.on("validated", this.updateExtremes, this);
 		//this.events.on("datavalidated", this.handleAllValidated, this, false);
@@ -726,20 +730,26 @@ export class MapChart extends SerialChart {
 
 		// Add keyboard events for panning
 		this._disposers.push(getInteraction().body.events.on("keyup", (ev) => {
-			if (this.topParent.hasFocused && (!this._zoomControl || !this._zoomControl.thumb.isFocused)) {
-				switch (keyboard.getEventKey(ev.event)) {
-					case "up":
-						this.pan({ x: 0, y: 0.1 });
-						break;
-					case "down":
-						this.pan({ x: 0, y: -0.1 });
-						break;
-					case "left":
-						this.pan({ x: 0.1, y: 0 });
-						break;
-					case "right":
-						this.pan({ x: -0.1, y: 0 });
-						break;
+			if (this.topParent.hasFocused) {
+				const key = keyboard.getEventKey(ev.event);
+				if (key == "enter" && this.topParent.focusedElement && this.topParent.focusedElement.events.has("hit")) {
+					this.topParent.focusedElement.dispatchImmediately("hit");
+				}
+				else if (!this._zoomControl || !this._zoomControl.thumb.isFocused) {
+					switch (key) {
+						case "up":
+							this.pan({ x: 0, y: 0.1 });
+							break;
+						case "down":
+							this.pan({ x: 0, y: -0.1 });
+							break;
+						case "left":
+							this.pan({ x: 0.1, y: 0 });
+							break;
+						case "right":
+							this.pan({ x: -0.1, y: 0 });
+							break;
+					}
 				}
 			}
 		}, this));
@@ -887,7 +897,7 @@ export class MapChart extends SerialChart {
 	/**
 	 * @ignore
 	 */
-	protected updateCenterGeoPoint() {
+	public updateCenterGeoPoint() {
 		let maxLeft: number;
 		let maxRight: number;
 		let maxTop: number;
@@ -2017,7 +2027,7 @@ export class MapChart extends SerialChart {
 				this.series.each((series) => {
 					series.events.once("dataitemsvalidated", () => {
 						this._zoomGeoPointReal = undefined;
-						this.updateCenterGeoPoint();						
+						this.updateCenterGeoPoint();
 						this.goHome(0);
 					})
 				})
@@ -2239,7 +2249,7 @@ export class MapChart extends SerialChart {
 	 */
 	protected setLegend(legend: Legend) {
 		super.setLegend(legend);
-		if(legend){
+		if (legend) {
 			legend.parent = this;
 		}
 	}

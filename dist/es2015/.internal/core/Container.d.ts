@@ -223,6 +223,12 @@ export declare class Container extends Sprite {
      */
     hasFocused: boolean;
     /**
+     * A reference to a currently focused item.
+     *
+     * @since 4.9.29
+     */
+    focusedElement: $type.Optional<Sprite>;
+    /**
      * An array of references to elements the state should be set, when it is set
      * on this element.
      */

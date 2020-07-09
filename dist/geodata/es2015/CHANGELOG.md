@@ -5,6 +5,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [UNRELEASED] - ????-??-??
 
+### Fixed
+- Fixed some name typos in Malaysian maps.
+- Fixed IDs and some names in maps of Russia: ID for Tatarstan; ID and name for Altay (Republic); added "Kray" to Altay Kray to distinguish from the name-sake republic.
+- Fixed Polish translation for Myanmar (`lang/PL`).
+
+
+## [4.1.16] - 2020-07-03
+
 ### Added
 - New maps: Iraq.
 - New India map: `india2020*` which reflects unified territories Dadra, Nagar, Haveli, Daman, and Diu. Please note that there's no official ISO classification for the newly created territory, so we're using "IN-DNDD" for now.

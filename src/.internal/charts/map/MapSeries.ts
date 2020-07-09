@@ -400,7 +400,7 @@ export class MapSeries extends Series {
 
 		this.ignoreBounds = false;
 
-		if(this.tooltip){
+		if (this.tooltip) {
 			this.tooltip.showInViewport = true;
 		}
 
@@ -616,6 +616,24 @@ export class MapSeries extends Series {
 			this.loadData("geodata")
 		}, undefined, false);
 		this.setDataSourceEvents(value, "geodata");
+	}
+
+	/**
+	 * Sets events on a [[DataSource]].
+	 *
+	 * @ignore Exclude from docs
+	 */
+	protected setDataSourceEvents(ds: DataSource, property?: string): void {
+		super.setDataSourceEvents(ds, property);
+		if (property == "geodata") {
+			ds.events.on("done", (ev) => {
+				this.events.once("dataitemsvalidated", () => {
+					this.chart._zoomGeoPointReal = undefined;
+					this.chart.updateCenterGeoPoint();
+					this.chart.goHome(0);
+				})
+			})
+		}
 	}
 
 	/**

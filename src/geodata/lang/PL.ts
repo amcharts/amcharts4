@@ -147,7 +147,7 @@ const lang: Lang = {
 	"MH": "Wyspy Marshalla",
 	"MK": "Macedonia",
 	"ML": "Mali",
-	"MM": "Birma",
+	"MM": "Mjanma",
 	"MN": "Mongolia",
 	"MO": "Makau, Specjalny Region Administracyjny Chin",
 	"MP": "Mariany Północne",

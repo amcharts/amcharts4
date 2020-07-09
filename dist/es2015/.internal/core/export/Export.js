@@ -2532,6 +2532,7 @@ var Export = /** @class */ (function (_super) {
                         dataFieldsOrder: this.dataFieldsOrder,
                         format: "html"
                     }).dataFieldsOrder;
+                    html += "\n<tbody>";
                     $object.eachOrdered(dataFields, function (key, val) {
                         var dataRow = [];
                         if (options.addColumnNames) {
@@ -2553,17 +2554,20 @@ var Export = /** @class */ (function (_super) {
                         }
                         return 0;
                     });
+                    html += "\n</tbody>";
                 }
                 else {
                     // Add column names?
                     if (options.addColumnNames) {
-                        html += "\n" + this.getHTMLRow(dataFields, options, undefined, true, true);
+                        html += "\n<thead>\n" + this.getHTMLRow(dataFields, options, undefined, true, true) + "\n</thead>";
                     }
+                    html += "\n<tbody>";
                     for (len = data.length, i = 0; i < len; i++) {
                         html += "\n" + this.getHTMLRow(data[i], options, dataFields);
                     }
+                    html += "\n</tbody>";
                 }
-                html += "</table>";
+                html += "\n</table>";
                 charset = this.adapter.apply("charset", {
                     charset: "charset=utf-8",
                     type: type,

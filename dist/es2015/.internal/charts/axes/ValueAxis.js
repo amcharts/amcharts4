@@ -152,6 +152,7 @@ var ValueAxis = /** @class */ (function (_super) {
         _this._adjustedEnd = 1;
         _this._extremesChanged = false;
         _this._deltaMinMax = 1;
+        _this._dsc = false;
         /**
          * As calculating totals is expensive operation and not often needed, we
          * don't do it by default.
@@ -369,7 +370,8 @@ var ValueAxis = /** @class */ (function (_super) {
                 min = minMaxStep.min;
                 max = minMaxStep.max;
             }
-            if (this._minZoomed != min || this._maxZoomed != max || this._step != step) {
+            if (this._minZoomed != min || this._maxZoomed != max || this._step != step || this._dsc) {
+                this._dsc = false;
                 this._minZoomed = min;
                 this._maxZoomed = max;
                 this._step = step;
@@ -1494,6 +1496,9 @@ var ValueAxis = /** @class */ (function (_super) {
             this.setCache(selectionMin + "-" + selectionMax, step);
         }
         else {
+            if (this._step != step || this._minZoomed != selectionMin || this._maxZoomed != selectionMax) {
+                this._dsc = true;
+            }
             this._step = step;
             this._minZoomed = selectionMin;
             this._maxZoomed = selectionMax;
@@ -1980,6 +1985,7 @@ var ValueAxis = /** @class */ (function (_super) {
                 if (axis) {
                     this._disposers.push(axis.events.on("extremeschanged", this.handleSelectionExtremesChange, this, false));
                     this._disposers.push(axis.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this, false));
+                    this._disposers.push(axis.events.on("startendchanged", this.handleSelectionExtremesChange, this, false));
                     this.events.on("shown", this.handleSelectionExtremesChange, this, false);
                     this.events.on("maxsizechanged", function () {
                         _this.clearCache();

@@ -771,14 +771,16 @@ export class AxisRenderer extends Container {
 	/**
 	 * A list of Axis' Tick elements.
 	 *
-	 * Please note that these are disabled by default. To enable them, set
-	 * template to true.
+	 * Please note that these are disabled by default. To enable ticks, you'll
+	 * need to set `disabled` and `strokeOpacity` properties of the tick template.
 	 *
 	 * ```TypeScript
 	 * categoryAxis.renderer.ticks.template.disabled = false;
+	 * categoryAxis.renderer.ticks.template.strokeOpacty = 0.5;
 	 * ```
 	 * ```JavaScript
 	 * categoryAxis.renderer.ticks.template.disabled = false;
+	 * categoryAxis.renderer.ticks.template.strokeOpacty = 0.5;
 	 * ```
 	 * ```JSON
 	 * {
@@ -787,7 +789,8 @@ export class AxisRenderer extends Container {
 	 *     // ...
 	 *     "renderer": {
 	 *       "ticks": {
-	 *         "disabled": false
+	 *         "disabled": false,
+	 *         "strokeOpacty": 0.5
 	 *       }
 	 *     }
 	 *   }]

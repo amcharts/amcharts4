@@ -1226,9 +1226,6 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     */
     hideTooltipWhileZooming: boolean;
     /**
-     * @todo mm
-     */
-    /**
      * Should the axis be zoomed with scrollbar/cursor?
      *
      * @default true

@@ -240,7 +240,6 @@ var Chart = /** @class */ (function (_super) {
         var _this = this;
         if (this._legend.get() !== legend) {
             if (legend) {
-                legend.maxWidth = 200;
                 // Set legend options
                 legend.parent = this.chartAndLegendContainer;
                 this._legend.set(legend, legend.events.on("propertychanged", function (event) {

@@ -167,7 +167,7 @@ export declare class Interaction extends BaseObjectEvents {
      */
     pointers: Dictionary<string, IPointer>;
     /**
-     * Last pointer that generate some kinf of action.
+     * Last pointer that generate some kind of action.
      *
      * @since 4.9.5
      * @ignore
