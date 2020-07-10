@@ -49,6 +49,7 @@ import * as $object from "../utils/Object";
 import * as $net from "../utils/Net";
 import * as $dom from "../utils/DOM";
 import * as $type from "../utils/Type";
+import * as $log from "../utils/Log";
 import * as $utils from "../utils/Utils";
 import * as $array from "../utils/Array";
 import * as $math from "../utils/Math";
@@ -2051,7 +2052,7 @@ export class Export extends Validatable {
 			}
 			catch (e) {
 				console.error(e.message + "\n" + e.stack);
-				console.warn("Simple export failed, falling back to advanced export");
+				$log.warn("Simple export failed, falling back to advanced export");
 
 				// An error occurred, let's try advanced method
 				const data = await this.getImageAdvanced(type, options, includeExtras);
@@ -2469,7 +2470,7 @@ export class Export extends Validatable {
 	/**
 	 * Calculates adjusted scale if image does not fit or is larger than min/max
 	 * settings.
-	 * 
+	 *
 	 * @param   width    Width of the source image
 	 * @param   height   Height of the source image
 	 * @param   scale    Current scale
@@ -3854,7 +3855,7 @@ export class Export extends Validatable {
 				}
 				return 0;
 			});
-			
+
 			html += "\n</tbody>";
 
 		}

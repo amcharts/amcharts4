@@ -138,6 +138,14 @@ export interface Options {
 	suppressErrors: boolean;
 
 	/**
+	 * Should warnings be suppressed from displaying.
+	 *
+	 * @since 4.9.29
+	 * @default false
+	 */
+	suppressWarnings: boolean;
+
+	/**
 	 * Set this to `false` to effectivly disable all animations on all charts
 	 * regardless of themes used or individual animation properties.
 	 *
@@ -171,6 +179,7 @@ export const options: Options = {
 	autoDispose: false,
 	licenses: [],
 	suppressErrors: false,
+	suppressWarnings: false,
 	animationsEnabled: true,
 	nonce: ""
 };

@@ -15,7 +15,9 @@ export function log(...messages: Array<any>): void {
  * Outputs a warning to the console.
  */
 export function warn(...messages: Array<any>): void {
-	if (console) {
-		console.warn(...messages);
+	if (!options.suppressWarnings) {
+		if (console) {
+			console.warn(...messages);
+		}
 	}
 }

@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.30] - 2020-07-10
+
+### Added
+- `am4core.options.suppressWarnings` global option added (default: `false`). If set to `true`, the charts won't output any warnings into console (e.g. "Chart was not disposed").
+
+### Fixed
+- Drill-down map with `geodataSource` problem fixed (since last release only).
+- Issues with cursor/tooltip and other element positioning fixed, when chart was being initialized outside of DOM (no container on init).
+
+
 ## [4.9.29] - 2020-07-09
 
 ### Changed

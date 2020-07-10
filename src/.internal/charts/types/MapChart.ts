@@ -1467,8 +1467,20 @@ export class MapChart extends SerialChart {
 	 * @return Zoom animation
 	 */
 	public zoomToGeoPoint(point: IGeoPoint, zoomLevel: number, center?: boolean, duration?: number, mapObject?: boolean): Animation {
+
 		if (!point) {
-			point = this.zoomGeoPoint;
+			let hasData = false;
+			this.series.each((series) => {
+				if (series.dataItems.length > 0) {
+					hasData = true;
+				}
+			})
+			if (hasData) {
+				point = this.zoomGeoPoint;
+			}
+			else {
+				return;
+			}
 		}
 
 		if (!point || !$type.isNumber(point.longitude) || !$type.isNumber(point.latitude)) {
@@ -2013,26 +2025,6 @@ export class MapChart extends SerialChart {
 			this.getDataSource("geodata");
 		}
 		return this._dataSources["geodata"];
-	}
-
-	/**
-	 * Sets events on a [[DataSource]].
-	 *
-	 * @ignore Exclude from docs
-	 */
-	protected setDataSourceEvents(ds: DataSource, property?: string): void {
-		super.setDataSourceEvents(ds, property);
-		if (property == "geodata") {
-			ds.events.on("done", (ev) => {
-				this.series.each((series) => {
-					series.events.once("dataitemsvalidated", () => {
-						this._zoomGeoPointReal = undefined;
-						this.updateCenterGeoPoint();
-						this.goHome(0);
-					})
-				})
-			})
-		}
 	}
 
 	/**

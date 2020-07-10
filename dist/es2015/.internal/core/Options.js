@@ -12,6 +12,7 @@ export var options = {
     autoDispose: false,
     licenses: [],
     suppressErrors: false,
+    suppressWarnings: false,
     animationsEnabled: true,
     nonce: ""
 };

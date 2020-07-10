@@ -1780,6 +1780,7 @@ var Container = /** @class */ (function (_super) {
     Container.prototype.moveHtmlContainer = function (htmlElement) {
         var newContainer = $dom.getElement(htmlElement);
         if (newContainer) {
+            this.htmlContainer = newContainer;
             var svgDiv = this.svgContainer;
             svgDiv.htmlElement = newContainer;
             svgDiv.htmlElement.appendChild(svgDiv.SVGContainer);

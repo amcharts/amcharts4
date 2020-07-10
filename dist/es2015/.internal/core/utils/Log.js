@@ -22,8 +22,10 @@ export function warn() {
     for (var _i = 0; _i < arguments.length; _i++) {
         messages[_i] = arguments[_i];
     }
-    if (console) {
-        console.warn.apply(console, __spread(messages));
+    if (!options.suppressWarnings) {
+        if (console) {
+            console.warn.apply(console, __spread(messages));
+        }
     }
 }
 //# sourceMappingURL=Log.js.map

@@ -1,4 +1,5 @@
 import * as $array from "./Array";
+import * as $log from "./Log";
 
 
 interface Sensor {
@@ -135,6 +136,6 @@ export class ResizeSensor {
 	 * @ignore Exclude from docs
 	 */
 	public reset() {
-		console.warn("resizeSensor.reset() is no longer needed and can be removed");
+		$log.warn("resizeSensor.reset() is no longer needed and can be removed");
 	}
 }

@@ -1,4 +1,5 @@
 import * as $array from "./Array";
+import * as $log from "./Log";
 var Native = /** @class */ (function () {
     function Native() {
         var _this = this;
@@ -104,7 +105,7 @@ var ResizeSensor = /** @class */ (function () {
      * @ignore Exclude from docs
      */
     ResizeSensor.prototype.reset = function () {
-        console.warn("resizeSensor.reset() is no longer needed and can be removed");
+        $log.warn("resizeSensor.reset() is no longer needed and can be removed");
     };
     return ResizeSensor;
 }());

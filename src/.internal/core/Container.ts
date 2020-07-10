@@ -2214,6 +2214,7 @@ export class Container extends Sprite {
 	public moveHtmlContainer(htmlElement: string | HTMLElement): void {
 		let newContainer = $dom.getElement(htmlElement);
 		if (newContainer) {
+			this.htmlContainer = newContainer;
 			const svgDiv = this.svgContainer;
 			svgDiv.htmlElement = newContainer;
 			svgDiv.htmlElement.appendChild(svgDiv.SVGContainer);

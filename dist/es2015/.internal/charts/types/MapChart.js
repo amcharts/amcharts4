@@ -841,7 +841,18 @@ var MapChart = /** @class */ (function (_super) {
     MapChart.prototype.zoomToGeoPoint = function (point, zoomLevel, center, duration, mapObject) {
         var _this = this;
         if (!point) {
-            point = this.zoomGeoPoint;
+            var hasData_1 = false;
+            this.series.each(function (series) {
+                if (series.dataItems.length > 0) {
+                    hasData_1 = true;
+                }
+            });
+            if (hasData_1) {
+                point = this.zoomGeoPoint;
+            }
+            else {
+                return;
+            }
         }
         if (!point || !$type.isNumber(point.longitude) || !$type.isNumber(point.latitude)) {
             return;
@@ -1375,26 +1386,6 @@ var MapChart = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Sets events on a [[DataSource]].
-     *
-     * @ignore Exclude from docs
-     */
-    MapChart.prototype.setDataSourceEvents = function (ds, property) {
-        var _this = this;
-        _super.prototype.setDataSourceEvents.call(this, ds, property);
-        if (property == "geodata") {
-            ds.events.on("done", function (ev) {
-                _this.series.each(function (series) {
-                    series.events.once("dataitemsvalidated", function () {
-                        _this._zoomGeoPointReal = undefined;
-                        _this.updateCenterGeoPoint();
-                        _this.goHome(0);
-                    });
-                });
-            });
-        }
-    };
     /**
      * Processes JSON-based config before it is applied to the object.
      *

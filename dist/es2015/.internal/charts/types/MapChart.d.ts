@@ -977,12 +977,6 @@ export declare class MapChart extends SerialChart {
     */
     geodataSource: DataSource;
     /**
-     * Sets events on a [[DataSource]].
-     *
-     * @ignore Exclude from docs
-     */
-    protected setDataSourceEvents(ds: DataSource, property?: string): void;
-    /**
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs

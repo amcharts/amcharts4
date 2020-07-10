@@ -45,6 +45,7 @@ import * as $object from "../utils/Object";
 import * as $net from "../utils/Net";
 import * as $dom from "../utils/DOM";
 import * as $type from "../utils/Type";
+import * as $log from "../utils/Log";
 import * as $utils from "../utils/Utils";
 import * as $array from "../utils/Array";
 import * as $math from "../utils/Math";
@@ -947,7 +948,7 @@ var Export = /** @class */ (function (_super) {
                     case 7:
                         e_4 = _a.sent();
                         console.error(e_4.message + "\n" + e_4.stack);
-                        console.warn("Simple export failed, falling back to advanced export");
+                        $log.warn("Simple export failed, falling back to advanced export");
                         return [4 /*yield*/, this.getImageAdvanced(type, options, includeExtras)];
                     case 8:
                         data = _a.sent();
