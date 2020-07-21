@@ -9,7 +9,7 @@
  * @hidden
  */
 import { ColumnSeries, IColumnSeriesProperties, IColumnSeriesDataFields, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "../../charts/series/ColumnSeries";
-import { Sprite } from "../../core/Sprite";
+import { Sprite, visualProperties } from "../../core/Sprite";
 import { CurveChart } from "./CurveChart";
 import { AxisRendererCurveX } from "./AxisRendererCurveX";
 import { AxisRendererCurveY } from "./AxisRendererCurveY";
@@ -24,7 +24,7 @@ import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $path from "../../core/rendering/Path";
 import * as $array from "../../core/utils/Array";
-
+import * as $object from "../../core/utils/Object";
 
 
 /**
@@ -319,6 +319,8 @@ export class CurveColumnSeries extends ColumnSeries {
 
 		if (!column) {
 			column = this.columns.create();
+			$object.copyProperties(this, column, visualProperties); // need this because 3d columns are not in the same container
+			$object.copyProperties(this.columns.template, column, visualProperties); // second time, no force, so that columns.template would override series properties			
 			dataItem.column = column;
 			dataItem.addSprite(column);
 			this.setColumnStates(column);

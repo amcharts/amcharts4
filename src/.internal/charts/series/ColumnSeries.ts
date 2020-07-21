@@ -962,16 +962,16 @@ export class ColumnSeries extends XYSeries {
 				if (this.baseAxis == this.yAxis) {
 					if (this.xOpenField && this.xField && this.xAxis instanceof ValueAxis) {
 						open = dataItem.getValue(this.xOpenField);
-						value = dataItem.getValue(this.xField);
-						change = dataItem.getValue(this.xAxis.axisFieldName + "X", "previousChange");
+						value = dataItem.getValue(this.xField);						
 					}
+					change = dataItem.getValue(this.xAxis.axisFieldName + "X", "previousChange");
 				}
 				else {
 					if (this.yOpenField && this.yField && this.yAxis instanceof ValueAxis) {
 						open = dataItem.getValue(this.yOpenField);
-						value = dataItem.getValue(this.yField);
-						change = dataItem.getValue(this.yAxis.axisFieldName + "Y", "previousChange");
+						value = dataItem.getValue(this.yField);						
 					}
+					change = dataItem.getValue(this.yAxis.axisFieldName + "Y", "previousChange");
 				}
 
 				if (value < open) {

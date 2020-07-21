@@ -615,11 +615,15 @@ var Component = /** @class */ (function (_super) {
         }
         for (var i = 0; i < this.startIndex; i++) {
             var dataItem = this.dataItems.getIndex(i);
-            dataItem.__disabled = true;
+            if (dataItem) {
+                dataItem.__disabled = true;
+            }
         }
         for (var i = this.endIndex; i < this.dataItems.length; i++) {
             var dataItem = this.dataItems.getIndex(i);
-            dataItem.__disabled = true;
+            if (dataItem) {
+                dataItem.__disabled = true;
+            }
         }
     };
     /**

@@ -1337,7 +1337,7 @@ const countries2: Countries2 = {
 		"country": "Timor-Leste",
 		"continent_code": "AS",
 		"continent": "Asia",
-		"maps": []
+		"maps": [ "timorLesteLow", "timorLesteHigh" ]
 	},
 	"TM": {
 		"country": "Turkmenistan",

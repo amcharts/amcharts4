@@ -183,10 +183,10 @@ var Regression = /** @class */ (function (_super) {
         var matrix = [];
         var map = {};
         var xx = 0;
-        var pivot = series.dataFields.valueX ? true : false;
+        var pivot = series.dataFields.valueX && !series.dataFields.valueY ? true : false;
         for (var i = 0; i < seriesData.length; i++) {
-            var x = series.dataFields.valueX ? seriesData[i][series.dataFields.valueX] : i;
-            var y = series.dataFields.valueY ? seriesData[i][series.dataFields.valueY] : i;
+            var x = series.dataFields.valueX && pivot ? seriesData[i][series.dataFields.valueX] : i;
+            var y = series.dataFields.valueY && !pivot ? seriesData[i][series.dataFields.valueY] : i;
             if ($type.hasValue(x) && $type.hasValue(y)) {
                 matrix.push(pivot ? [y, x] : [x, y]);
                 map[xx] = i;
@@ -217,10 +217,10 @@ var Regression = /** @class */ (function (_super) {
         if (this.reorder) {
             result.points.sort(function (a, b) {
                 if (a[0] > b[0]) {
-                    return -1;
+                    return 1;
                 }
                 else if (a[0] < b[0]) {
-                    return 1;
+                    return -1;
                 }
                 else {
                     return 0;
@@ -236,7 +236,7 @@ var Regression = /** @class */ (function (_super) {
             var item = {};
             var xx_1 = map[i];
             $object.each(this_1.target.dataFields, function (key, val) {
-                if (key == "valueY" || key == "valueX") {
+                if ((key == "valueY" && !pivot) || (key == "valueX" && pivot)) {
                     item[val] = result.points[i][1];
                 }
                 else {

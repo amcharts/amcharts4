@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.31] - 2020-07-21
+
+### Changed
+- Global adapters are being deprecated due to performance reasons. They will still work on some properties, but may be turned off at some future version. If you are using `am4core.globalAdapter`, please consider refactoring your code in some other way.
+- If `groupInterval` is manually set, `DateAxis` now prepares all intervals. Normally, the chart does not prepare data sets for time intervals longer than the span of dates in the data. This causes problem in case user sets these intervals manually using `groupInterval`. Note, the groupInterval must be set initially, before data parsing in order data to be grouped into all groupIntervals.
+
+### Fixed
+- "Year of week" (`YYYY`) was not being calculated correctly by `DateFormatter`.
+- Regression plugin was not working correctly in an all-`ValueAxis` scenarios.
+- `ColumnSeries` were not working with `dropFromPreviousState`.
+- If data was changed on a chart which was zoomed and there were less data items in the new data than there was before, a JS error was triggered.
+- Sometimes a chart with `XYChartScrollbar` with series in it could produce a JS error if series has its `fillOpacity > 0`.
+- Series in an `XYChartScrollbar` was not being shown if `options.onlyShowOnViewport = true`.
+- `zoomToRectangle()` call was resulting in an error if called after the `MapChart` was rotated.
+- `CurvedColumnSeries` columns were not being filled with proper color (black was being used instead).
+- A chart with multiple series starting/ending not at the same position could result in wrong zoom on `ValueAxis`.
+- `DateAxis` with millisecond `baseInterval` sometimes could show one millisecond less than actual data point in its tooltip.
+
+
 ## [4.9.30] - 2020-07-10
 
 ### Added

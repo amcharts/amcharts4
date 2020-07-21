@@ -718,7 +718,6 @@ var ValueAxis = /** @class */ (function (_super) {
      * @return Value
      */
     ValueAxis.prototype.positionToValue = function (position) {
-        position = $math.round(position, 10);
         var min = this.min;
         var max = this.max;
         if ($type.isNumber(min) && $type.isNumber(max)) {
@@ -1975,6 +1974,11 @@ var ValueAxis = /** @class */ (function (_super) {
          *
          * IMPORTANT #2: `syncWithAxis` is not compatible with `strictMinMax` and
          * `sequencedInterpolation` settings.
+         *
+         * IMPORTANT #3: `syncWithAxis` is not compatible with scrollbars. Make sure
+         * you do not add a scrollbar in the same direction as synced axes. For
+         * example, if you have vertical synced axes, do not add `scrollbarY` on
+         * your chart. It will create anomalies when used.
          *
          * @since 4.8.1
          * @param  axis  Target axis

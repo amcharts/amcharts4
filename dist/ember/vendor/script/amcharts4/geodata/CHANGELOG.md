@@ -5,6 +5,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [UNRELEASED] - ????-??-??
 
+### Added
+- New map: Timor-Leste.
+
 ### Fixed
 - Fixed some name typos in Malaysian maps.
 - Fixed IDs and some names in maps of Russia: ID for Tatarstan; ID and name for Altay (Republic); added "Kray" to Altay Kray to distinguish from the name-sake republic.

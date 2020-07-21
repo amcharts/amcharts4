@@ -1182,9 +1182,13 @@ var XYSeries = /** @class */ (function (_super) {
         var xAxisId = xAxis.uid;
         var yAxisId = yAxis.uid;
         if (this.xAxis instanceof ValueAxis && (minX == Infinity || maxX == -Infinity)) {
+            this._smin.setKey(xAxisId, undefined);
+            this._smax.setKey(xAxisId, undefined);
             return;
         }
         if (this.yAxis instanceof ValueAxis && (minY == Infinity || maxY == -Infinity)) {
+            this._smin.setKey(yAxisId, undefined);
+            this._smax.setKey(yAxisId, undefined);
             return;
         }
         if (!working) {
@@ -1241,9 +1245,13 @@ var XYSeries = /** @class */ (function (_super) {
             }
         }
         if (this.xAxis instanceof ValueAxis && (minX == Infinity || maxX == -Infinity)) {
+            this._smin.setKey(xAxisId, undefined);
+            this._smax.setKey(xAxisId, undefined);
             return;
         }
         if (this.yAxis instanceof ValueAxis && (minY == Infinity || maxY == -Infinity)) {
+            this._smin.setKey(yAxisId, undefined);
+            this._smax.setKey(yAxisId, undefined);
             return;
         }
         if (this._smin.getKey(xAxisId) != minX || this._smax.getKey(xAxisId) != maxX || this._smin.getKey(yAxisId) != minY || this._smax.getKey(yAxisId) != maxY) {
@@ -2107,9 +2115,10 @@ var XYSeries = /** @class */ (function (_super) {
      */
     XYSeries.prototype.selectionMin = function (axis) {
         var value = this._smin.getKey(axis.uid);
-        if (!$type.isNumber(value)) {
-            value = this.min(axis);
-        }
+        // not good, because bad if there are no items with values in selection
+        //if (!$type.isNumber(value)) {
+        //value = this.min(axis);
+        //}		
         return value;
     };
     /**
@@ -2122,9 +2131,10 @@ var XYSeries = /** @class */ (function (_super) {
      */
     XYSeries.prototype.selectionMax = function (axis) {
         var value = this._smax.getKey(axis.uid);
-        if (!$type.isNumber(value)) {
-            value = this.max(axis);
-        }
+        // not good, because bad if there are no items with values in selection
+        //if (!$type.isNumber(value)) {
+        //value = this.max(axis);
+        //}
         return value;
     };
     /**

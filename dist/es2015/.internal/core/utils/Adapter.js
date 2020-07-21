@@ -173,7 +173,7 @@ export { GlobalAdapter };
  * });
  * ```
  *
- * @todo Description (improve)
+ * @ignore
  */
 export var globalAdapter = new GlobalAdapter();
 /**

@@ -65,12 +65,34 @@ function makeSrc(entries, path) {
 			if (path.name === "core") {
 				$fs.writeFileSync("polyfill.js",
 `const Promise = window.Promise;
+const promiseThen = Promise && Promise.prototype.then;
+const promiseCatch = Promise && Promise.prototype.catch;
+const promiseFinally = Promise && Promise.prototype.finally;
+const promiseReject = Promise && Promise.reject;
+const promiseResolve = Promise && Promise.resolve;
+const promiseAllSettled = Promise && Promise.allSettled;
+const promiseAll = Promise && Promise.all;
+const promiseRace = Promise && Promise.race;
+const fetch = window.fetch;
 const startsWith = String.prototype.startsWith;
 const endsWith = String.prototype.endsWith;
 
 export default function () {
 	if (Promise) {
 		window.Promise = Promise;
+
+		if (promiseThen) { Promise.prototype.then = promiseThen; }
+		if (promiseCatch) { Promise.prototype.catch = promiseCatch; }
+		if (promiseFinally) { Promise.prototype.finally = promiseFinally; }
+		if (promiseReject) { Promise.reject = promiseReject; }
+		if (promiseResolve) { Promise.resolve = promiseResolve; }
+		if (promiseAllSettled) { Promise.allSettled = promiseAllSettled; }
+		if (promiseAll) { Promise.all = promiseAll; }
+		if (promiseRace) { Promise.race = promiseRace; }
+	}
+
+	if (fetch) {
+		window.fetch = fetch;
 	}
 
 	if (startsWith) {

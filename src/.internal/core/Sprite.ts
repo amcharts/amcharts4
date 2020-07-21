@@ -17,7 +17,7 @@ import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "./SpriteEvents";
 export { ISpriteEvents, SpriteEventDispatcher, AMEvent };
 
 import { BaseObjectEvents } from "./Base";
-import { Adapter } from "./utils/Adapter";
+import { Adapter, globalAdapter } from "./utils/Adapter";
 import { ITheme } from "../themes/ITheme";
 import { Dictionary, IDictionaryEvents, DictionaryTemplate, DictionaryDisposer } from "./utils/Dictionary";
 import { ListTemplate, ListDisposer, List } from "./utils/List";
@@ -4274,6 +4274,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (this._adapterO) {
 				propValue = this._adapterO.apply(propertyName, <any>propValue);
 			}
+
+			propValue = globalAdapter.applyAll(this, propertyName, propValue);
 		}
 
 		return propValue;

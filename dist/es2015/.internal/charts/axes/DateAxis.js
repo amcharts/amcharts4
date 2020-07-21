@@ -570,9 +570,10 @@ var DateAxis = /** @class */ (function (_super) {
                     else {
                         maxZoomed -= 1;
                         endIndex = series.dataItems.findClosestIndex(maxZoomed, function (x) { return x[field_1]; }, "right");
-                        if (endIndex < series.dataItems.length) {
-                            endIndex++;
-                        }
+                        // not good - if end is in the gap, indexes go like 5,4,3,4,2,1
+                        //if (endIndex < series.dataItems.length) {
+                        //	endIndex++;
+                        //}
                     }
                 }
                 series.startIndex = startIndex;
@@ -686,7 +687,7 @@ var DateAxis = /** @class */ (function (_super) {
             var mainIntervalDuration_1 = $time.getDuration(mainBaseInterval.timeUnit, mainBaseInterval.count);
             this.groupIntervals.each(function (interval) {
                 var intervalDuration = $time.getDuration(interval.timeUnit, interval.count);
-                if (intervalDuration > mainIntervalDuration_1 && intervalDuration < (_this.max - _this.min)) {
+                if ((intervalDuration > mainIntervalDuration_1 && intervalDuration < (_this.max - _this.min)) || _this.groupInterval) {
                     intervals_1.push(interval);
                 }
             });

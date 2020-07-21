@@ -1036,7 +1036,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @return Value
 	 */
 	public positionToValue(position: number): number {
-		position = $math.round(position, 10);
 
 		let min: number = this.min;
 		let max: number = this.max;
@@ -2417,6 +2416,11 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 *
 	 * IMPORTANT #2: `syncWithAxis` is not compatible with `strictMinMax` and
 	 * `sequencedInterpolation` settings.
+	 * 
+	 * IMPORTANT #3: `syncWithAxis` is not compatible with scrollbars. Make sure
+	 * you do not add a scrollbar in the same direction as synced axes. For
+	 * example, if you have vertical synced axes, do not add `scrollbarY` on
+	 * your chart. It will create anomalies when used.
 	 *
 	 * @since 4.8.1
 	 * @param  axis  Target axis

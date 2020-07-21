@@ -1255,6 +1255,7 @@ var MapChart = /** @class */ (function (_super) {
             if (this.projection.d3Projection.rotate) {
                 this.projection.d3Projection.rotate([this.deltaLongitude, this.deltaLatitude, this.deltaGamma]);
                 this.invalidateProjection();
+                this.updateExtremes();
             }
         }
     };

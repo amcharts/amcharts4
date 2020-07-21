@@ -15,7 +15,7 @@ import { SpriteState } from "./SpriteState";
 import { SpriteEventDispatcher } from "./SpriteEvents";
 export { SpriteEventDispatcher };
 import { BaseObjectEvents } from "./Base";
-import { Adapter } from "./utils/Adapter";
+import { Adapter, globalAdapter } from "./utils/Adapter";
 import { Dictionary, DictionaryTemplate, DictionaryDisposer } from "./utils/Dictionary";
 import { ListDisposer, List } from "./utils/List";
 import { MultiDisposer, Disposer, MutableValueDisposer } from "./utils/Disposer";
@@ -3354,6 +3354,7 @@ var Sprite = /** @class */ (function (_super) {
             if (this._adapterO) {
                 propValue = this._adapterO.apply(propertyName, propValue);
             }
+            propValue = globalAdapter.applyAll(this, propertyName, propValue);
         }
         return propValue;
     };

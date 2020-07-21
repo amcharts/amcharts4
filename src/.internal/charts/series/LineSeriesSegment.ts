@@ -15,6 +15,7 @@ import { IPoint } from "../../core/defs/IPoint";
 import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
 import * as $object from "../../core/utils/Object";
+import * as $type from "../../core/utils/Type";
 import { color } from "../../core/utils/Color";
 import * as $smoothing from "../../core/rendering/Smoothing";
 
@@ -144,11 +145,13 @@ export class LineSeriesSegment extends Container {
 				}
 
 				if (this.fillOpacity > 0 || this.fillSprite.fillOpacity > 0) { // helps to avoid drawing fill object if fill is not visible
-					path += $path.lineTo(closePoints[0]) + new $smoothing.Tension(smoothnessX, smoothnessY).smooth(closePoints);
-					path += $path.lineTo(points[0]);
-					path += $path.closePath();
+					if ($type.isNumber(closePoints[0].x) && $type.isNumber(closePoints[0].y)) {
+						path += $path.lineTo(closePoints[0]) + new $smoothing.Tension(smoothnessX, smoothnessY).smooth(closePoints);
+						path += $path.lineTo(points[0]);
+						path += $path.closePath();
 
-					this.fillSprite.path = path;
+						this.fillSprite.path = path;
+					}
 				}
 			}
 			else {

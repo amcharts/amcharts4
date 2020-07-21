@@ -169,6 +169,7 @@ var countries = {
     "CH": ["switzerlandLow", "switzerlandHigh"],
     "SY": ["syriaLow", "syriaHigh"],
     "TJ": ["tajikistanLow", "tajikistanHigh"],
+    "TL": ["timorLesteLow", "timorLesteHigh"],
     "TZ": ["tanzaniaLow", "tanzaniaHigh"],
     "TH": ["thailandLow", "thailandHigh"],
     "TG": ["togoLow", "togoHigh"],

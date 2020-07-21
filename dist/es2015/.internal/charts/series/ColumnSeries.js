@@ -693,15 +693,15 @@ var ColumnSeries = /** @class */ (function (_super) {
                     if (this.xOpenField && this.xField && this.xAxis instanceof ValueAxis) {
                         open_1 = dataItem.getValue(this.xOpenField);
                         value = dataItem.getValue(this.xField);
-                        change = dataItem.getValue(this.xAxis.axisFieldName + "X", "previousChange");
                     }
+                    change = dataItem.getValue(this.xAxis.axisFieldName + "X", "previousChange");
                 }
                 else {
                     if (this.yOpenField && this.yField && this.yAxis instanceof ValueAxis) {
                         open_1 = dataItem.getValue(this.yOpenField);
                         value = dataItem.getValue(this.yField);
-                        change = dataItem.getValue(this.yAxis.axisFieldName + "Y", "previousChange");
                     }
+                    change = dataItem.getValue(this.yAxis.axisFieldName + "Y", "previousChange");
                 }
                 if (value < open_1) {
                     dataItem.droppedFromOpen = true;

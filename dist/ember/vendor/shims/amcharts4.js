@@ -6622,6 +6622,22 @@ define('@amcharts/amcharts4-geodata/thailandLow', [], function () {
   }
   throw new Error("You must add 'geodata/thailandLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/timorLesteHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_timorLesteHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/timorLesteHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/timorLesteLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_timorLesteLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/timorLesteLow' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/togoHigh', [], function () {
   'use strict';
   var output = self.am4geodata_togoHigh;

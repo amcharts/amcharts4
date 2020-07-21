@@ -1045,12 +1045,16 @@ export class Component extends Container {
 
 		for (let i = 0; i < this.startIndex; i++) {
 			let dataItem = this.dataItems.getIndex(i);
-			dataItem.__disabled = true;
+			if(dataItem){
+				dataItem.__disabled = true;
+			}
 		}
 
 		for (let i = this.endIndex; i < this.dataItems.length; i++) {
 			let dataItem = this.dataItems.getIndex(i);
-			dataItem.__disabled = true;
+			if(dataItem){
+				dataItem.__disabled = true;
+			}
 		}
 	}
 

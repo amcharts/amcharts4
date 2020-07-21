@@ -122,7 +122,7 @@ export declare class GlobalAdapter {
  * });
  * ```
  *
- * @todo Description (improve)
+ * @ignore
  */
 export declare let globalAdapter: GlobalAdapter;
 /**

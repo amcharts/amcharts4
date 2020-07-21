@@ -241,10 +241,10 @@ export class Regression extends Plugin {
 		let matrix: any = [];
 		let map: any = {};
 		let xx = 0;
-		const pivot = series.dataFields.valueX ? true : false;
+		const pivot = series.dataFields.valueX && !series.dataFields.valueY ? true : false;
 		for (let i = 0; i < seriesData.length; i++) {
-			let x = series.dataFields.valueX ? seriesData[i][series.dataFields.valueX] : i;
-			let y = series.dataFields.valueY ? seriesData[i][series.dataFields.valueY] : i;
+			let x = series.dataFields.valueX && pivot ? seriesData[i][series.dataFields.valueX] : i;
+			let y = series.dataFields.valueY && !pivot ? seriesData[i][series.dataFields.valueY] : i;
 			if ($type.hasValue(x) && $type.hasValue(y)) {
 				matrix.push(pivot ? [y, x] : [x, y]);
 				map[xx] = i;
@@ -275,14 +275,15 @@ export class Regression extends Plugin {
 		}
 		this._originalDataHash = hash;
 
+
 		// Order data points
 		if (this.reorder) {
 			result.points.sort(function(a: any, b: any) {
 				if (a[0] > b[0]) {
-					return -1;
+					return 1;
 				}
 				else if (a[0] < b[0]) {
-					return 1;
+					return -1;
 				}
 				else {
 					return 0;
@@ -299,7 +300,7 @@ export class Regression extends Plugin {
 			let item: any = {};
 			const xx = map[i];
 			$object.each(this.target.dataFields, (key, val) => {
-				if (key == "valueY" || key == "valueX") {
+				if ((key == "valueY" && !pivot) || (key == "valueX" && pivot)) {
 					item[val] = result.points[i][1];
 				}
 				else {
@@ -308,6 +309,7 @@ export class Regression extends Plugin {
 			});
 			this._data.push(item);
 		}
+
 
 	}
 

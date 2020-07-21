@@ -26,7 +26,7 @@ import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
 import { percent } from "../../core/utils/Percent";
 import { color } from "../../core/utils/Color";
-
+import { options } from "../../core/Options";
 /**
  * ============================================================================
  * REQUISITES
@@ -227,6 +227,13 @@ export class XYChartScrollbar extends Scrollbar {
 		let interfaceColors = new InterfaceColorSet();
 
 		let series: XYSeries = <XYSeries>sourceSeries.clone();
+
+		if(options.onlyShowOnViewport){
+			this.addDisposer(this.chart.events.on("removedfromqueue", function(){
+				scrollbarChart.invalidateData();
+			}))
+		}
+
 		if($utils.isIE()){
 			series.stroke = color("#aaaaaa");
 			series.fill = series.stroke;
