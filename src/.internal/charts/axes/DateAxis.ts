@@ -839,10 +839,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					else {
 						maxZoomed -= 1;
 						endIndex = series.dataItems.findClosestIndex(maxZoomed, (x) => <number>x[field], "right");
-
 						// not good - if end is in the gap, indexes go like 5,4,3,4,2,1
 						//if (endIndex < series.dataItems.length) {
-						//	endIndex++;
+							endIndex++;
 						//}
 					}
 				}

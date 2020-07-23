@@ -1184,11 +1184,13 @@ var XYSeries = /** @class */ (function (_super) {
         if (this.xAxis instanceof ValueAxis && (minX == Infinity || maxX == -Infinity)) {
             this._smin.setKey(xAxisId, undefined);
             this._smax.setKey(xAxisId, undefined);
+            this.dispatchImmediately("selectionextremeschanged");
             return;
         }
         if (this.yAxis instanceof ValueAxis && (minY == Infinity || maxY == -Infinity)) {
             this._smin.setKey(yAxisId, undefined);
             this._smax.setKey(yAxisId, undefined);
+            this.dispatchImmediately("selectionextremeschanged");
             return;
         }
         if (!working) {
@@ -1247,11 +1249,13 @@ var XYSeries = /** @class */ (function (_super) {
         if (this.xAxis instanceof ValueAxis && (minX == Infinity || maxX == -Infinity)) {
             this._smin.setKey(xAxisId, undefined);
             this._smax.setKey(xAxisId, undefined);
+            this.dispatchImmediately("selectionextremeschanged");
             return;
         }
         if (this.yAxis instanceof ValueAxis && (minY == Infinity || maxY == -Infinity)) {
             this._smin.setKey(yAxisId, undefined);
             this._smax.setKey(yAxisId, undefined);
+            this.dispatchImmediately("selectionextremeschanged");
             return;
         }
         if (this._smin.getKey(xAxisId) != minX || this._smax.getKey(xAxisId) != maxX || this._smin.getKey(yAxisId) != minY || this._smax.getKey(yAxisId) != maxY) {

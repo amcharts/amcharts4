@@ -292,6 +292,10 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		// Apply theme
 		this.applyTheme();
 
+		let dataItemsByCategory = this.dataItemsByCategory;
+		this.addDisposer(this.mainDataSet.events.on("removed", function(event){
+			dataItemsByCategory.removeKey(event.oldValue.category);
+		}))
 	}
 
 	/**

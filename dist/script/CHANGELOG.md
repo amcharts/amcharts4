@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.32] - 2020-07-23
+
+### Fixed
+- If an item from a chart with `CategoryAxis` was removed and then a new item with the same category name was added, chart was not rendering the new item.
+- A chart with multiple series starting/ending not at the same position could result in wrong zoom on `ValueAxis`
+- Last bullet/column from `XYSeries` could disappear if end date was not exact as last data items date.
+- `LineSeries` could skip a point in case distance between data points was very small, resulting in incorrect line series.
+
+
 ## [4.9.31] - 2020-07-21
 
 ### Changed

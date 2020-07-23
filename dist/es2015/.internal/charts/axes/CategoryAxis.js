@@ -169,6 +169,10 @@ var CategoryAxis = /** @class */ (function (_super) {
         _this._disposers.push(_this._lastDataItem);
         // Apply theme
         _this.applyTheme();
+        var dataItemsByCategory = _this.dataItemsByCategory;
+        _this.addDisposer(_this.mainDataSet.events.on("removed", function (event) {
+            dataItemsByCategory.removeKey(event.oldValue.category);
+        }));
         return _this;
     }
     /**

@@ -572,7 +572,7 @@ var DateAxis = /** @class */ (function (_super) {
                         endIndex = series.dataItems.findClosestIndex(maxZoomed, function (x) { return x[field_1]; }, "right");
                         // not good - if end is in the gap, indexes go like 5,4,3,4,2,1
                         //if (endIndex < series.dataItems.length) {
-                        //	endIndex++;
+                        endIndex++;
                         //}
                     }
                 }

@@ -150,7 +150,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         });
         var interfaceColors = new InterfaceColorSet();
         var series = sourceSeries.clone();
-        if (options.onlyShowOnViewport) {
+        if (options.onlyShowOnViewport || options.queue) {
             this.addDisposer(this.chart.events.on("removedfromqueue", function () {
                 scrollbarChart.invalidateData();
             }));

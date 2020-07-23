@@ -1728,12 +1728,14 @@ export class XYSeries extends Series {
 		if (this.xAxis instanceof ValueAxis && (minX == Infinity || maxX == -Infinity)) {
 			this._smin.setKey(xAxisId, undefined);
 			this._smax.setKey(xAxisId, undefined);
+			this.dispatchImmediately("selectionextremeschanged");
 			return;
 		}
 
 		if (this.yAxis instanceof ValueAxis && (minY == Infinity || maxY == -Infinity)) {
 			this._smin.setKey(yAxisId, undefined);
 			this._smax.setKey(yAxisId, undefined);
+			this.dispatchImmediately("selectionextremeschanged");
 			return;
 		}
 
@@ -1804,12 +1806,14 @@ export class XYSeries extends Series {
 		if (this.xAxis instanceof ValueAxis && (minX == Infinity || maxX == -Infinity)) {
 			this._smin.setKey(xAxisId, undefined);
 			this._smax.setKey(xAxisId, undefined);
+			this.dispatchImmediately("selectionextremeschanged");
 			return;
 		}
 
 		if (this.yAxis instanceof ValueAxis && (minY == Infinity || maxY == -Infinity)) {
 			this._smin.setKey(yAxisId, undefined);
 			this._smax.setKey(yAxisId, undefined);
+			this.dispatchImmediately("selectionextremeschanged");
 			return;
 		}
 

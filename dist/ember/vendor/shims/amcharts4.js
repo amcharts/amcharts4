@@ -6654,6 +6654,22 @@ define('@amcharts/amcharts4-geodata/togoLow', [], function () {
   }
   throw new Error("You must add 'geodata/togoLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/trinidadTobagoHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_trinidadTobagoHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/trinidadTobagoHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/trinidadTobagoLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_trinidadTobagoLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/trinidadTobagoLow' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/tunisiaHigh', [], function () {
   'use strict';
   var output = self.am4geodata_tunisiaHigh;
