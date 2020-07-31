@@ -88,6 +88,7 @@ export interface IValueAxisProperties extends IAxisProperties {
     keepSelection?: boolean;
     includeRangesInMinMax?: boolean;
     syncWithAxis?: ValueAxis;
+    treatZeroAs?: number;
 }
 /**
  * Defines events for [[ValueAxis]].
@@ -910,6 +911,19 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
     * @return Target axis
     */
     syncWithAxis: ValueAxis;
+    /**
+     * If set, zero values will be treated as this value.
+     *
+     * It is useful if you need to use data with zero-values on a logarithmic
+     * axis scale.
+     *
+     * @since 4.9.34
+     * @param  value  Zero replacement value
+     */
+    /**
+    * @return Zero replacement value
+    */
+    treatZeroAs: number;
     /**
      * Syncs with a target axis.
      *

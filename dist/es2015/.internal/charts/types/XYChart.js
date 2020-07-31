@@ -859,23 +859,25 @@ var XYChart = /** @class */ (function (_super) {
                 }
                 var dataItems_1 = [];
                 $array.each(snapToSeries, function (snpSeries) {
-                    var xAxis = snpSeries.xAxis;
-                    var yAxis = snpSeries.yAxis;
-                    if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis) && yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
-                        snpSeries.dataItems.each(function (dataItem) {
-                            dataItems_1.push(dataItem);
-                        });
-                        $array.move(exceptAxes_1, snpSeries.yAxis);
-                        $array.move(exceptAxes_1, snpSeries.xAxis);
-                    }
-                    else {
-                        if (snpSeries.baseAxis == snpSeries.xAxis) {
+                    if (!snpSeries.isHidden && !snpSeries.isHiding) {
+                        var xAxis = snpSeries.xAxis;
+                        var yAxis = snpSeries.yAxis;
+                        if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis) && yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
+                            snpSeries.dataItems.each(function (dataItem) {
+                                dataItems_1.push(dataItem);
+                            });
                             $array.move(exceptAxes_1, snpSeries.yAxis);
-                            dataItems_1.push(xAxis.getSeriesDataItem(snpSeries, xAxis.toAxisPosition(xPosition_1), true));
-                        }
-                        if (snpSeries.baseAxis == snpSeries.yAxis) {
                             $array.move(exceptAxes_1, snpSeries.xAxis);
-                            dataItems_1.push(yAxis.getSeriesDataItem(snpSeries, yAxis.toAxisPosition(yPosition_1), true));
+                        }
+                        else {
+                            if (snpSeries.baseAxis == snpSeries.xAxis) {
+                                $array.move(exceptAxes_1, snpSeries.yAxis);
+                                dataItems_1.push(xAxis.getSeriesDataItem(snpSeries, xAxis.toAxisPosition(xPosition_1), true));
+                            }
+                            if (snpSeries.baseAxis == snpSeries.yAxis) {
+                                $array.move(exceptAxes_1, snpSeries.xAxis);
+                                dataItems_1.push(yAxis.getSeriesDataItem(snpSeries, yAxis.toAxisPosition(yPosition_1), true));
+                            }
                         }
                     }
                 });

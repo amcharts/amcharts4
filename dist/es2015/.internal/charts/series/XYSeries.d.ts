@@ -400,6 +400,13 @@ export interface IXYSeriesProperties extends ISeriesProperties {
      * @since 4.7.17
      */
     maskBullets?: boolean;
+    /**
+     * [boolean description]
+     *
+     * @since 4.9.34
+     * @default true
+     */
+    stackToNegative?: boolean;
 }
 /**
  * Defines events for [[XYSeries]].
@@ -956,6 +963,22 @@ export declare class XYSeries extends Series {
      * @param dataItem  Data item
      */
     getStackValue(dataItem: this["_dataItem"], working?: boolean): void;
+    /**
+     * This setting indicates how negative values are treated in stacked stacked
+     * series.
+     *
+     * If set to `true` (default), negative values will stack on the base line.
+     *
+     * If set to `false`, negative value will stack in relation to the previous
+     * value in the stack.
+     *
+     * @since 4.9.34
+     * @param  value  Stack to base line
+     */
+    /**
+    * @return Stack to base line
+    */
+    stackToNegative: boolean;
     /**
      * [xField description]
      *

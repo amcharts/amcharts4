@@ -212,6 +212,11 @@ export class Tooltip extends Container {
 	protected _pointToDisposer: IDisposer;
 
 	/**
+	 * @ignore
+	 */
+	public fixDoc:boolean = true;
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -558,7 +563,7 @@ export class Tooltip extends Container {
 		let textY: number;
 
 		// try to handle if text is wider than br
-		if (textW > boundingRect.width) {
+		if (this.fixDoc && textW > boundingRect.width) {
 			// TODO maybe this isn't needed ?
 			$utils.spritePointToDocument({ x: boundingRect.x, y: boundingRect.y }, this.parent);
 			let p1 = $utils.spritePointToDocument({ x: boundingRect.x + boundingRect.width, y: boundingRect.y + boundingRect.height }, this.parent);

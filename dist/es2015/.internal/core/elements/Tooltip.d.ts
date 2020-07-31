@@ -176,6 +176,10 @@ export declare class Tooltip extends Container {
     currentSprite: Sprite;
     protected _pointToDisposer: IDisposer;
     /**
+     * @ignore
+     */
+    fixDoc: boolean;
+    /**
      * Constructor
      */
     constructor();

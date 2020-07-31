@@ -690,6 +690,12 @@ var ValueAxis = /** @class */ (function (_super) {
                     position = (value - min_1) / difference;
                 }
                 else {
+                    var treatZeroAs = this.treatZeroAs;
+                    if ($type.isNumber(treatZeroAs)) {
+                        if (value <= treatZeroAs) {
+                            value = treatZeroAs;
+                        }
+                    }
                     position = (Math.log(value) * Math.LOG10E - Math.log(this.min) * Math.LOG10E) / ((Math.log(this.max) * Math.LOG10E - Math.log(this.min) * Math.LOG10E));
                 }
                 //position = $math.round(position, 10);
@@ -852,6 +858,12 @@ var ValueAxis = /** @class */ (function (_super) {
             }
         }
         if (this.logarithmic) {
+            var treatZeroAs = this.treatZeroAs;
+            if ($type.isNumber(treatZeroAs)) {
+                if (min <= 0) {
+                    min = treatZeroAs;
+                }
+            }
             if (min <= 0) {
                 this.raiseCriticalError(new Error("Logarithmic value axis can not have values <= 0."), true);
             }
@@ -1999,6 +2011,28 @@ var ValueAxis = /** @class */ (function (_super) {
                     }, this, false);
                 }
             }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ValueAxis.prototype, "treatZeroAs", {
+        /**
+         * @return Zero replacement value
+         */
+        get: function () {
+            return this.getPropertyValue("treatZeroAs");
+        },
+        /**
+         * If set, zero values will be treated as this value.
+         *
+         * It is useful if you need to use data with zero-values on a logarithmic
+         * axis scale.
+         *
+         * @since 4.9.34
+         * @param  value  Zero replacement value
+         */
+        set: function (value) {
+            this.setPropertyValue("treatZeroAs", value, true);
         },
         enumerable: true,
         configurable: true

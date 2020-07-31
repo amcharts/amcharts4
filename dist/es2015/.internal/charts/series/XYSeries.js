@@ -523,6 +523,7 @@ var XYSeries = /** @class */ (function (_super) {
         _this.snapTooltip = false;
         _this._showBullets = false;
         _this.tooltip.pointerOrientation = "horizontal";
+        _this.properties.stackToNegative = true;
         _this.hideTooltipWhileZooming = true;
         _this.setPropertyValue("maskBullets", true);
         _this.tooltip.events.on("hidden", function () {
@@ -1968,10 +1969,14 @@ var XYSeries = /** @class */ (function (_super) {
                         else {
                             prevValue = prevDataItem.getValue(field_2) + prevDataItem.getValue(field_2, "stack");
                         }
-                        if ((value >= 0 && prevRealValue >= 0) || (value < 0 && prevRealValue < 0)) {
-                            //dataItem.events.disable();
+                        if (_this.stackToNegative) {
+                            if ((value >= 0 && prevRealValue >= 0) || (value < 0 && prevRealValue < 0)) {
+                                dataItem.setCalculatedValue(field_2, prevValue, "stack");
+                                return false;
+                            }
+                        }
+                        else {
                             dataItem.setCalculatedValue(field_2, prevValue, "stack");
-                            //dataItem.events.enable();
                             return false;
                         }
                     }
@@ -1983,6 +1988,31 @@ var XYSeries = /** @class */ (function (_super) {
             });
         }
     };
+    Object.defineProperty(XYSeries.prototype, "stackToNegative", {
+        /**
+         * @return Stack to base line
+         */
+        get: function () {
+            return this.getPropertyValue("stackToNegative");
+        },
+        /**
+         * This setting indicates how negative values are treated in stacked stacked
+         * series.
+         *
+         * If set to `true` (default), negative values will stack on the base line.
+         *
+         * If set to `false`, negative value will stack in relation to the previous
+         * value in the stack.
+         *
+         * @since 4.9.34
+         * @param  value  Stack to base line
+         */
+        set: function (value) {
+            this.setPropertyValue("stackToNegative", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(XYSeries.prototype, "xField", {
         /**
          * [xField description]

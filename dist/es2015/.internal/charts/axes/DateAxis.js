@@ -1769,7 +1769,21 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.getSeriesDataItem = function (series, position, findNearest) {
         var value = this.positionToValue(position);
+        var location = 0.5;
+        if (this.axisLetter == "Y") {
+            location = series.dataItems.template.locations.dateY;
+        }
+        else {
+            location = series.dataItems.template.locations.dateX;
+        }
+        var deltaValue = value - location * this.baseDuration;
         var date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc);
+        var nextDate = $time.round(new Date(value + this.baseDuration), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc);
+        if (nextDate.getTime() > date.getTime()) {
+            if (Math.abs(nextDate.getTime() - deltaValue) < Math.abs(deltaValue - date.getTime())) {
+                date = nextDate;
+            }
+        }
         var dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);
         var dataItem = dataItemsByAxis.getKey(date.getTime().toString());
         // todo:  alternatively we can find closiest here

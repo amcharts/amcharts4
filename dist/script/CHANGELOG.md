@@ -5,13 +5,37 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
-## [4.9.32] - 2020-07-23
+## [4.9.34] - 2020-07-31
+
+### Added
+- New bullet `ShapeBullet` in `Bullets` plugin. Please refer to [this documentation article](https://www.amcharts.com/docs/v4/tutorials/plugin-bullets/) for more info.
+- `treatZeroAs` added to `ValueAxis`. Use it to work around zero-value restriction on a logarithmic scale.
+- `stackToNegative` (default: `true`) added to `XYSeries`. Determines whether negative values in a stack will stack in relation to base (zero) line (`true`; default) or in relation to the previous value in the stack (`false`).
+
+### Changed
+- [xlsx](https://www.npmjs.com/package/xlsx) dependency was updated from `0.15.4` to `0.16.4`.
+- Tooltip snapping on `DateAxis` now takes Series' location into account.
+
+### Fixed
+- Regression plugin: `reorder` option was not working properly.
+- `snapToSeries` was not working properly if there was a hidden Series with exactly the same value as the other visible Series.
+- `TreeMap` and `ForceDirectedTree` with a single data item and no children were not working properly with chart legend.
+- Horizontal (X) Axis tooltip in a very small document was sometimes positioned with an offset.
+- `zoomToRectangle()` method of `MapChart` with `deltaLongitude` was not working properly if a rectangle crossed the 180 meridian.
+
+
+## [4.9.33] - 2020-07-23
 
 ### Fixed
 - If an item from a chart with `CategoryAxis` was removed and then a new item with the same category name was added, chart was not rendering the new item.
 - A chart with multiple series starting/ending not at the same position could result in wrong zoom on `ValueAxis`
 - Last bullet/column from `XYSeries` could disappear if end date was not exact as last data items date.
 - `LineSeries` could skip a point in case distance between data points was very small, resulting in incorrect line series.
+
+
+## [4.9.32] - 2020-07-23
+
+- Nothing here. Version number snafu.
 
 
 ## [4.9.31] - 2020-07-21

@@ -94,7 +94,7 @@ var ForceDirectedTree = /** @class */ (function (_super) {
                     var dataItems = series.dataItems;
                     if (dataItems.length == 1) {
                         var children = series.dataItems.getIndex(0).children;
-                        if (children.length > 0) {
+                        if (children && children.length > 0) {
                             dataItems = children;
                         }
                     }

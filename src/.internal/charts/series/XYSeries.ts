@@ -633,6 +633,14 @@ export interface IXYSeriesProperties extends ISeriesProperties {
 	 * @since 4.7.17
 	 */
 	maskBullets?: boolean;
+
+	/**
+	 * [boolean description]
+	 *
+	 * @since 4.9.34
+	 * @default true
+	 */
+	stackToNegative?: boolean;
 }
 
 /**
@@ -953,6 +961,8 @@ export class XYSeries extends Series {
 		this._showBullets = false;
 
 		this.tooltip.pointerOrientation = "horizontal";
+
+		this.properties.stackToNegative = true;
 
 		this.hideTooltipWhileZooming = true;
 		this.setPropertyValue("maskBullets", true);
@@ -2642,11 +2652,14 @@ export class XYSeries extends Series {
 						else {
 							prevValue = prevDataItem.getValue(field) + prevDataItem.getValue(field, "stack");
 						}
-
-						if ((value >= 0 && prevRealValue >= 0) || (value < 0 && prevRealValue < 0)) {
-							//dataItem.events.disable();
+						if (this.stackToNegative) {
+							if ((value >= 0 && prevRealValue >= 0) || (value < 0 && prevRealValue < 0)) {
+								dataItem.setCalculatedValue(field, prevValue, "stack");
+								return false;
+							}
+						}
+						else {
 							dataItem.setCalculatedValue(field, prevValue, "stack");
-							//dataItem.events.enable();
 							return false;
 						}
 					}
@@ -2659,6 +2672,30 @@ export class XYSeries extends Series {
 			});
 		}
 	}
+
+	/**
+	 * This setting indicates how negative values are treated in stacked stacked
+	 * series.
+	 *
+	 * If set to `true` (default), negative values will stack on the base line.
+	 *
+	 * If set to `false`, negative value will stack in relation to the previous
+	 * value in the stack.
+	 *
+	 * @since 4.9.34
+	 * @param  value  Stack to base line
+	 */
+	public set stackToNegative(value: boolean) {
+		this.setPropertyValue("stackToNegative", value, true);
+	}
+
+	/**
+	 * @return Stack to base line
+	 */
+	public get stackToNegative(): boolean {
+		return this.getPropertyValue("stackToNegative");
+	}
+
 
 	/**
 	 * [xField description]

@@ -966,8 +966,22 @@ var MapChart = /** @class */ (function (_super) {
         if ($type.isNaN(level)) {
             level = 1;
         }
-        var zoomLevel = level * Math.min((this.south - this.north) / (south - north), (this.west - this.east) / (west - east));
-        return this.zoomToGeoPoint({ latitude: north + (south - north) / 2, longitude: west + (east - west) / 2 }, zoomLevel, center, duration, true);
+        var w = $math.min(west, east);
+        var e = $math.max(west, east);
+        west = w;
+        east = e;
+        var splitLongitude = $math.normalizeAngle(180 - this.deltaLongitude);
+        if (splitLongitude > 180) {
+            splitLongitude -= 360;
+        }
+        var newLong = west + (east - west) / 2;
+        var d = (west - east);
+        if (west < splitLongitude && east > splitLongitude) {
+            newLong += 180;
+            d = $math.normalizeAngle(east - west - 360);
+        }
+        var zoomLevel = level * Math.min((this.south - this.north) / (south - north), Math.abs((this.west - this.east) / d));
+        return this.zoomToGeoPoint({ latitude: north + (south - north) / 2, longitude: newLong }, zoomLevel, center, duration, true);
     };
     /**
      * Zooms in the map, optionally centering on particular latitude/longitude

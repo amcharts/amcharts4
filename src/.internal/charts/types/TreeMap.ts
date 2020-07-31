@@ -407,8 +407,8 @@ export class TreeMapDataItem extends XYChartDataItem {
 		}
 
 		let seriesDataItem = this.seriesDataItem;
-		if(seriesDataItem){
-			seriesDataItem.bullets.each((key, value)=>{
+		if (seriesDataItem) {
+			seriesDataItem.bullets.each((key, value) => {
 				value.hide();
 				value.preventShow = true;
 			})
@@ -433,8 +433,8 @@ export class TreeMapDataItem extends XYChartDataItem {
 		}
 
 		let seriesDataItem = this.seriesDataItem;
-		if(seriesDataItem){
-			seriesDataItem.bullets.each((key, value)=>{
+		if (seriesDataItem) {
+			seriesDataItem.bullets.each((key, value) => {
 				value.preventShow = false;
 			})
 		}
@@ -1085,7 +1085,7 @@ export class TreeMap extends XYChart {
 	 * @param dataItem  Data item
 	 */
 	public zoomToChartDataItem(dataItem?: TreeMapDataItem): void {
-		if(!dataItem){
+		if (!dataItem) {
 			dataItem = this._homeDataItem;
 		}
 
@@ -1611,7 +1611,13 @@ export class TreeMap extends XYChart {
 			return dataItem;
 		}
 		else if (dataItem.children.length == 1) {
-			return this.getLegendLevel(dataItem.children.getIndex(0));
+			let child = dataItem.children.getIndex(0);
+			if (child.children) {
+				return this.getLegendLevel(child);
+			}
+			else {
+				return dataItem;
+			}
 		}
 		else {
 			return dataItem;
@@ -1623,7 +1629,7 @@ export class TreeMap extends XYChart {
 	 * 
 	 * @since 4.8.2
 	 */
-	public get homeDataItem():TreeMapDataItem {
+	public get homeDataItem(): TreeMapDataItem {
 		return this._homeDataItem;
 	}
 

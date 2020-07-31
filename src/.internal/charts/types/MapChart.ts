@@ -1624,9 +1624,29 @@ export class MapChart extends SerialChart {
 		if ($type.isNaN(level)) {
 			level = 1;
 		}
-		let zoomLevel = level * Math.min((this.south - this.north) / (south - north), (this.west - this.east) / (west - east));
 
-		return this.zoomToGeoPoint({ latitude: north + (south - north) / 2, longitude: west + (east - west) / 2 }, zoomLevel, center, duration, true);
+		let w = $math.min(west, east);
+		let e = $math.max(west, east);
+
+		west = w;
+		east = e;
+
+		let splitLongitude = $math.normalizeAngle(180 - this.deltaLongitude);
+		if (splitLongitude > 180) {
+			splitLongitude -= 360;
+		}
+
+		let newLong = west + (east - west) / 2;
+		let d = (west - east);
+
+		if (west < splitLongitude && east > splitLongitude) {
+			newLong += 180;
+			d = $math.normalizeAngle(east - west - 360);
+		}
+
+		let zoomLevel = level * Math.min((this.south - this.north) / (south - north), Math.abs((this.west - this.east) / d));
+
+		return this.zoomToGeoPoint({ latitude: north + (south - north) / 2, longitude: newLong }, zoomLevel, center, duration, true);
 	}
 
 	/**

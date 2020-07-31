@@ -1223,6 +1223,7 @@ var Axis = /** @class */ (function (_super) {
     Axis.prototype.updateTooltip = function (pointerOrientation, boundingRectangle) {
         var tooltip = this._tooltip;
         if (tooltip) {
+            tooltip.fixDoc = false;
             tooltip.pointerOrientation = pointerOrientation;
             tooltip.setBounds($utils.spriteRectToSvg(boundingRectangle, this.renderer.line));
         }

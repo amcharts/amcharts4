@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [UNRELEASED] - ????-??-??
 
 ### Added
-- New maps: Timor-Leste, Trinidad and Tobago.
+- New maps: Timor-Leste, Trinidad and Tobago, Falkland Islands, Guam, Northern Mariana, Montserrat, Grenada, Martinique, Saint Barthélemy, U.S. Virgin Islands, British Virgin Islands, Guadeloupe.
 
 ### Fixed
 - Fixed some name typos in Malaysian maps.

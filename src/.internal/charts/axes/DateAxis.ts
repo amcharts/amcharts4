@@ -2198,8 +2198,25 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	public getSeriesDataItem(series: XYSeries, position: number, findNearest?: boolean): XYSeriesDataItem {
 
 		let value: number = this.positionToValue(position);
-		let date: Date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc);
 
+		let location = 0.5;
+		if (this.axisLetter == "Y") {
+			location = series.dataItems.template.locations.dateY;
+		}
+		else {
+			location = series.dataItems.template.locations.dateX;
+		}
+
+		let deltaValue = value - location * this.baseDuration;
+
+		let date: Date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc);
+		let nextDate: Date = $time.round(new Date(value + this.baseDuration), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc);
+
+		if(nextDate.getTime() > date.getTime()){
+			if(Math.abs(nextDate.getTime() - deltaValue) < Math.abs(deltaValue - date.getTime())){
+				date = nextDate;
+			}
+		}
 
 		let dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);
 

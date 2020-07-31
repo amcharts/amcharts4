@@ -168,7 +168,7 @@ export class ForceDirectedTree extends SerialChart {
 					let dataItems = series.dataItems;
 					if (dataItems.length == 1) {
 						let children = series.dataItems.getIndex(0).children;
-						if (children.length > 0) {
+						if (children && children.length > 0) {
 							dataItems = children;
 						}
 					}

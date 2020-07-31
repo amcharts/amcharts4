@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@amcharts/amcharts4",
-  "version": "4.9.33",
+  "version": "4.9.34",
   "repository": {
     "type": "git",
     "url": "https://github.com/amcharts/amcharts4.git"
@@ -36,7 +36,7 @@
     "polylabel": "^1.0.2",
     "tslib": "^1.9.3",
     "regression": "^2.0.1",
-    "xlsx": "^0.15.4",
+    "xlsx": "^0.16.4",
     "d3-geo": "^1.11.3",
     "d3-geo-projection": "^2.6.0",
     "venn.js": "^0.2.20"

@@ -2523,9 +2523,6 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "isHover", {
         /**
-         * Returns indicator if this element has a mouse pointer currently hovering
-         * over it, or if it has any touch pointers pressed on it.
-         *
          * @return Is hovered?
          */
         get: function () {
@@ -2537,6 +2534,9 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Indicates if this element has a mouse pointer currently hovering
          * over it, or if it has any touch pointers pressed on it.
+         *
+         * You can force element to be "hovered" manually, by setting this property
+         * to `true`.
          *
          * @param value Is hovered?
          */
@@ -4220,8 +4220,6 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "tabindex", {
         /**
-         * Returns current TAB index for focusable item.
-         *
          * @return TAB index
          */
         get: function () {
@@ -4237,7 +4235,7 @@ var Sprite = /** @class */ (function (_super) {
             }
         },
         /**
-         * Sets TAB index.
+         * Sets or returns TAB index.
          *
          * Tab index maintains the order in which focusable elements gain focus when
          * TAB key is pressed.
@@ -7617,15 +7615,13 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "visible", {
         /**
-         * Returns current visibility of the element.
-         *
          * @return Visible?
          */
         get: function () {
             return this.getVisibility();
         },
         /**
-         * Sets visibility of the element.
+         * Indicates if element is current visible (`true`) or hidden (`false`).
          *
          * @param value Visible?
          */

@@ -1711,6 +1711,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	public updateTooltip(pointerOrientation: PointerOrientation, boundingRectangle: IRectangle): void {
 		let tooltip: Tooltip = this._tooltip;
 		if (tooltip) {
+			tooltip.fixDoc = false;
 			tooltip.pointerOrientation = pointerOrientation;
 			tooltip.setBounds($utils.spriteRectToSvg(boundingRectangle, this.renderer.line));
 		}

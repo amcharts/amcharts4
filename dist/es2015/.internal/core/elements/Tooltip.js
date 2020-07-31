@@ -60,6 +60,10 @@ var Tooltip = /** @class */ (function (_super) {
          * We need to know this when solving overlapping.
          */
         _this._verticalOrientation = "up";
+        /**
+         * @ignore
+         */
+        _this.fixDoc = true;
         _this.className = "Tooltip";
         _this.isMeasured = false;
         _this.getFillFromObject = true;
@@ -392,7 +396,7 @@ var Tooltip = /** @class */ (function (_super) {
         var textX;
         var textY;
         // try to handle if text is wider than br
-        if (textW > boundingRect.width) {
+        if (this.fixDoc && textW > boundingRect.width) {
             // TODO maybe this isn't needed ?
             $utils.spritePointToDocument({ x: boundingRect.x, y: boundingRect.y }, this.parent);
             var p1 = $utils.spritePointToDocument({ x: boundingRect.x + boundingRect.width, y: boundingRect.y + boundingRect.height }, this.parent);

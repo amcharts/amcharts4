@@ -179,19 +179,47 @@ var Regression = /** @class */ (function (_super) {
         if (!seriesData || seriesData.length == 0) {
             seriesData = this.target.baseSprite.data;
         }
+        // Determine if this line is pivoted (horizontal value axis)
+        // If both axes are value, we consider the line to be horizontal.
+        var pivot = series.dataFields.valueX && !series.dataFields.valueY ? true : false;
+        var valueField = pivot ? series.dataFields.valueX : series.dataFields.valueY;
+        var positionField = pivot ? series.dataFields.valueY : series.dataFields.valueX;
+        // Assemble series' own data
+        var newData = [];
+        var _loop_1 = function (i) {
+            var item = {};
+            $object.each(this_1.target.dataFields, function (key, val) {
+                item[val] = seriesData[i][val];
+            });
+            if ($type.hasValue(item[valueField])) {
+                newData.push(item);
+            }
+        };
+        var this_1 = this;
+        for (var i = 0; i < seriesData.length; i++) {
+            _loop_1(i);
+        }
+        // Order data points
+        if (this.reorder) {
+            newData.sort(function (a, b) {
+                if (a[positionField] > b[positionField]) {
+                    return 1;
+                }
+                else if (a[positionField] < b[positionField]) {
+                    return -1;
+                }
+                else {
+                    return 0;
+                }
+            });
+        }
         // Build matrix for the regression function
         var matrix = [];
-        var map = {};
-        var xx = 0;
-        var pivot = series.dataFields.valueX && !series.dataFields.valueY ? true : false;
-        for (var i = 0; i < seriesData.length; i++) {
-            var x = series.dataFields.valueX && pivot ? seriesData[i][series.dataFields.valueX] : i;
-            var y = series.dataFields.valueY && !pivot ? seriesData[i][series.dataFields.valueY] : i;
-            if ($type.hasValue(x) && $type.hasValue(y)) {
-                matrix.push(pivot ? [y, x] : [x, y]);
-                map[xx] = i;
-                xx++;
-            }
+        //const pivot = series.dataFields.valueX && !series.dataFields.valueY ? true : false;
+        for (var i = 0; i < newData.length; i++) {
+            var x = series.dataFields.valueX && pivot ? newData[i][series.dataFields.valueX] : i;
+            var y = series.dataFields.valueY && !pivot ? newData[i][series.dataFields.valueY] : i;
+            matrix.push(pivot ? [y, x] : [x, y]);
         }
         // Calculate regression values
         var result = [];
@@ -205,7 +233,7 @@ var Regression = /** @class */ (function (_super) {
         // Set results
         this.result = result;
         // Invoke event
-        var hash = btoa(JSON.stringify(seriesData));
+        var hash = btoa(JSON.stringify(newData));
         if (hash != this._originalDataHash) {
             this.events.dispatchImmediately("processed", {
                 type: "processed",
@@ -213,42 +241,27 @@ var Regression = /** @class */ (function (_super) {
             });
         }
         this._originalDataHash = hash;
-        // Order data points
-        if (this.reorder) {
-            result.points.sort(function (a, b) {
-                if (a[0] > b[0]) {
-                    return 1;
-                }
-                else if (a[0] < b[0]) {
-                    return -1;
-                }
-                else {
-                    return 0;
-                }
-            });
-        }
         // Build data
         this._data = [];
-        var _loop_1 = function (i) {
-            if (this_1.simplify && i) {
+        var _loop_2 = function (i) {
+            if (this_2.simplify && i) {
                 i = result.points.length - 1;
             }
             var item = {};
-            var xx_1 = map[i];
-            $object.each(this_1.target.dataFields, function (key, val) {
+            $object.each(this_2.target.dataFields, function (key, val) {
                 if ((key == "valueY" && !pivot) || (key == "valueX" && pivot)) {
                     item[val] = result.points[i][1];
                 }
                 else {
-                    item[val] = seriesData[xx_1][val];
+                    item[val] = newData[i][val];
                 }
             });
-            this_1._data.push(item);
+            this_2._data.push(item);
             out_i_1 = i;
         };
-        var this_1 = this, out_i_1;
+        var this_2 = this, out_i_1;
         for (var i = 0; i < result.points.length; i++) {
-            _loop_1(i);
+            _loop_2(i);
             i = out_i_1;
         }
     };

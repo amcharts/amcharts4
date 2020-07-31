@@ -1547,12 +1547,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Indicates if this element has a mouse pointer currently hovering
      * over it, or if it has any touch pointers pressed on it.
      *
+     * You can force element to be "hovered" manually, by setting this property
+     * to `true`.
+     *
      * @param value Is hovered?
      */
     /**
-    * Returns indicator if this element has a mouse pointer currently hovering
-    * over it, or if it has any touch pointers pressed on it.
-    *
     * @return Is hovered?
     */
     isHover: boolean;
@@ -2173,7 +2173,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     */
     hoverOnFocus: boolean;
     /**
-     * Sets TAB index.
+     * Sets or returns TAB index.
      *
      * Tab index maintains the order in which focusable elements gain focus when
      * TAB key is pressed.
@@ -2186,8 +2186,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param value TAB index
      */
     /**
-    * Returns current TAB index for focusable item.
-    *
     * @return TAB index
     */
     tabindex: number;
@@ -3695,13 +3693,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected hideReal(duration?: number): $type.Optional<Animation>;
     /**
-     * Sets visibility of the element.
+     * Indicates if element is current visible (`true`) or hidden (`false`).
      *
      * @param value Visible?
      */
     /**
-    * Returns current visibility of the element.
-    *
     * @return Visible?
     */
     visible: boolean;

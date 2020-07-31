@@ -130,6 +130,7 @@ export interface IValueAxisProperties extends IAxisProperties {
 	keepSelection?: boolean;
 	includeRangesInMinMax?: boolean;
 	syncWithAxis?: ValueAxis;
+	treatZeroAs?: number;
 }
 
 /**
@@ -369,7 +370,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 	protected _deltaMinMax: number = 1;
 
-	protected _dsc:boolean = false;
+	protected _dsc: boolean = false;
 
 	/**
 	 * Holds reference to a function that accepts a DataItem as parameter.
@@ -1003,6 +1004,13 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 					position = (value - min) / difference;
 				}
 				else {
+					let treatZeroAs = this.treatZeroAs;
+					if ($type.isNumber(treatZeroAs)) {
+						if (value <= treatZeroAs) {
+							value = treatZeroAs;
+						}
+					}
+
 					position = (Math.log(value) * Math.LOG10E - Math.log(this.min) * Math.LOG10E) / ((Math.log(this.max) * Math.LOG10E - Math.log(this.min) * Math.LOG10E));
 				}
 
@@ -1200,6 +1208,13 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		}
 
 		if (this.logarithmic) {
+			let treatZeroAs = this.treatZeroAs;
+			if ($type.isNumber(treatZeroAs)) {
+				if (min <= 0) {
+					min = treatZeroAs;
+				}
+			}
+
 			if (min <= 0) {
 				this.raiseCriticalError(new Error("Logarithmic value axis can not have values <= 0."), true);
 			}
@@ -1502,13 +1517,13 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			min = Math.pow(10, Math.floor(Math.log(Math.abs(min)) * Math.LOG10E));
 			max = Math.pow(10, Math.ceil(Math.log(Math.abs(max)) * Math.LOG10E));
 
-			if(this.strictMinMax){
-				if(this._minDefined > 0){
+			if (this.strictMinMax) {
+				if (this._minDefined > 0) {
 					min = this._minDefined;
 				}
-				if(this._maxDefined > 0){
+				if (this._maxDefined > 0) {
 					max = this._maxDefined;
-				}				
+				}
 			}
 		}
 		// repeat diff, exponent and power again with rounded values
@@ -1926,7 +1941,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			this.setCache(selectionMin + "-" + selectionMax, step);
 		}
 		else {
-			if(this._step != step || this._minZoomed != selectionMin || this._maxZoomed != selectionMax){
+			if (this._step != step || this._minZoomed != selectionMin || this._maxZoomed != selectionMax) {
 				this._dsc = true;
 			}
 			this._step = step;
@@ -2218,6 +2233,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			}
 		}
 
+
 		let position = this.valueToPosition(value + stack);
 		if (range) {
 			position = $math.fitToRange(position, range.start, range.end);
@@ -2432,9 +2448,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				this._disposers.push(axis.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this, false));
 				this._disposers.push(axis.events.on("startendchanged", this.handleSelectionExtremesChange, this, false));
 				this.events.on("shown", this.handleSelectionExtremesChange, this, false);
-				this.events.on("maxsizechanged", ()=>{
+				this.events.on("maxsizechanged", () => {
 					this.clearCache();
-					this._disposers.push(registry.events.once("exitframe", ()=>{
+					this._disposers.push(registry.events.once("exitframe", () => {
 						this.handleSelectionExtremesChange();
 					}))
 				}, this, false);
@@ -2450,6 +2466,26 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	}
 
 	/**
+	 * If set, zero values will be treated as this value.
+	 *
+	 * It is useful if you need to use data with zero-values on a logarithmic
+	 * axis scale.
+	 *
+	 * @since 4.9.34
+	 * @param  value  Zero replacement value
+	 */
+	public set treatZeroAs(value: number) {
+		this.setPropertyValue("treatZeroAs", value, true);
+	}
+
+	/**
+	 * @return Zero replacement value
+	 */
+	public get treatZeroAs(): number {
+		return this.getPropertyValue("treatZeroAs");
+	}
+
+	/**
 	 * Syncs with a target axis.
 	 *
 	 * @param  min  Min
@@ -2460,14 +2496,14 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		let axis = this.syncWithAxis;
 		if (axis) {
 
-			if(!$type.isNumber(min)){
+			if (!$type.isNumber(min)) {
 				min = this.min;
 			}
-			if(!$type.isNumber(max)){
+			if (!$type.isNumber(max)) {
 				max = this.max;
 			}
 
-			if(!$type.isNumber(step)){
+			if (!$type.isNumber(step)) {
 				step = this._step;
 			}
 
@@ -2493,13 +2529,13 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 						if (c / 3 == Math.round(c / 3)) {
 							omin = min - diff * c;
-							if(min >= 0 && omin < 0){
+							if (min >= 0 && omin < 0) {
 								omin = 0;
 							}
 						}
 						else {
 							omax = max + diff * c;
-							if(omax <= 0 && omax > 0){
+							if (omax <= 0 && omax > 0) {
 								omax = 0;
 							}
 						}

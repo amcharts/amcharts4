@@ -237,19 +237,47 @@ export class Regression extends Plugin {
 			seriesData = (<any>this.target.baseSprite).data;
 		}
 
+		// Determine if this line is pivoted (horizontal value axis)
+		// If both axes are value, we consider the line to be horizontal.
+		const pivot = series.dataFields.valueX && !series.dataFields.valueY ? true : false;
+		const valueField = pivot ? series.dataFields.valueX : series.dataFields.valueY;
+		const positionField = pivot ? series.dataFields.valueY : series.dataFields.valueX;
+
+		// Assemble series' own data
+		let newData: any[] = [];
+
+		for (let i = 0; i < seriesData.length; i++) {
+			const item: any = {};
+			$object.each(this.target.dataFields, (key, val) => {
+				item[val] = seriesData[i][val];
+			});
+			if ($type.hasValue(item[valueField])) {
+				newData.push(item);
+			}
+		}
+
+		// Order data points
+		if (this.reorder) {
+			newData.sort(function(a: any, b: any) {
+				if (a[positionField] > b[positionField]) {
+					return 1;
+				}
+				else if (a[positionField] < b[positionField]) {
+					return -1;
+				}
+				else {
+					return 0;
+				}
+			});
+		}
+
 		// Build matrix for the regression function
 		let matrix: any = [];
-		let map: any = {};
-		let xx = 0;
-		const pivot = series.dataFields.valueX && !series.dataFields.valueY ? true : false;
-		for (let i = 0; i < seriesData.length; i++) {
-			let x = series.dataFields.valueX && pivot ? seriesData[i][series.dataFields.valueX] : i;
-			let y = series.dataFields.valueY && !pivot ? seriesData[i][series.dataFields.valueY] : i;
-			if ($type.hasValue(x) && $type.hasValue(y)) {
+		//const pivot = series.dataFields.valueX && !series.dataFields.valueY ? true : false;
+		for (let i = 0; i < newData.length; i++) {
+			let x = series.dataFields.valueX && pivot ? newData[i][series.dataFields.valueX] : i;
+			let y = series.dataFields.valueY && !pivot ? newData[i][series.dataFields.valueY] : i;
 				matrix.push(pivot ? [y, x] : [x, y]);
-				map[xx] = i;
-				xx++;
-			}
 		}
 
 		// Calculate regression values
@@ -266,7 +294,7 @@ export class Regression extends Plugin {
 		this.result = result;
 
 		// Invoke event
-		const hash = btoa(JSON.stringify(seriesData));
+		const hash = btoa(JSON.stringify(newData));
 		if (hash != this._originalDataHash) {
 			this.events.dispatchImmediately("processed", {
 				type: "processed",
@@ -276,21 +304,6 @@ export class Regression extends Plugin {
 		this._originalDataHash = hash;
 
 
-		// Order data points
-		if (this.reorder) {
-			result.points.sort(function(a: any, b: any) {
-				if (a[0] > b[0]) {
-					return 1;
-				}
-				else if (a[0] < b[0]) {
-					return -1;
-				}
-				else {
-					return 0;
-				}
-			});
-		}
-
 		// Build data
 		this._data = [];
 		for (let i = 0; i < result.points.length; i++) {
@@ -298,13 +311,12 @@ export class Regression extends Plugin {
 				i = result.points.length - 1;
 			}
 			let item: any = {};
-			const xx = map[i];
 			$object.each(this.target.dataFields, (key, val) => {
 				if ((key == "valueY" && !pivot) || (key == "valueX" && pivot)) {
 					item[val] = result.points[i][1];
 				}
 				else {
-					item[val] = seriesData[xx][val];
+					item[val] = newData[i][val];
 				}
 			});
 			this._data.push(item);

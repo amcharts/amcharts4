@@ -1172,27 +1172,29 @@ export class XYChart extends SerialChart {
 				let dataItems: XYSeriesDataItem[] = [];
 
 				$array.each(snapToSeries, (snpSeries) => {
+					if(!snpSeries.isHidden && !snpSeries.isHiding){
 
-					let xAxis = snpSeries.xAxis;
-					let yAxis = snpSeries.yAxis;
+						let xAxis = snpSeries.xAxis;
+						let yAxis = snpSeries.yAxis;
 
-					if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis) && yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
+						if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis) && yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
 
-						snpSeries.dataItems.each((dataItem) => {
-							dataItems.push(dataItem);
-						})
+							snpSeries.dataItems.each((dataItem) => {
+								dataItems.push(dataItem);
+							})
 
-						$array.move(exceptAxes, snpSeries.yAxis);
-						$array.move(exceptAxes, snpSeries.xAxis);
-					}
-					else {
-						if (snpSeries.baseAxis == snpSeries.xAxis) {
 							$array.move(exceptAxes, snpSeries.yAxis);
-							dataItems.push(xAxis.getSeriesDataItem(snpSeries, xAxis.toAxisPosition(xPosition), true));
-						}
-						if (snpSeries.baseAxis == snpSeries.yAxis) {
 							$array.move(exceptAxes, snpSeries.xAxis);
-							dataItems.push(yAxis.getSeriesDataItem(snpSeries, yAxis.toAxisPosition(yPosition), true));
+						}
+						else {
+							if (snpSeries.baseAxis == snpSeries.xAxis) {
+								$array.move(exceptAxes, snpSeries.yAxis);
+								dataItems.push(xAxis.getSeriesDataItem(snpSeries, xAxis.toAxisPosition(xPosition), true));
+							}
+							if (snpSeries.baseAxis == snpSeries.yAxis) {
+								$array.move(exceptAxes, snpSeries.xAxis);
+								dataItems.push(yAxis.getSeriesDataItem(snpSeries, yAxis.toAxisPosition(yPosition), true));
+							}
 						}
 					}
 				})

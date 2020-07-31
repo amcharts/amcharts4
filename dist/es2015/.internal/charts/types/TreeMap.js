@@ -1271,7 +1271,13 @@ var TreeMap = /** @class */ (function (_super) {
             return dataItem;
         }
         else if (dataItem.children.length == 1) {
-            return this.getLegendLevel(dataItem.children.getIndex(0));
+            var child = dataItem.children.getIndex(0);
+            if (child.children) {
+                return this.getLegendLevel(child);
+            }
+            else {
+                return dataItem;
+            }
         }
         else {
             return dataItem;
