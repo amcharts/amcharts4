@@ -684,6 +684,13 @@ var Interaction = /** @class */ (function (_super) {
                 disposer.dispose();
                 this.focusedObject.eventDisposers.removeKey(disposerKey);
             }
+            // Does focused object have "hit" event?
+            if (keyboard.isKey(ev, "enter")
+                && this.focusedObject.sprite
+                && this.focusedObject.sprite.events.isEnabled("hit")
+                && !this.focusedObject.sprite.events.isEnabled("toggled")) {
+                this.focusedObject.dispatchImmediately("hit");
+            }
         }
     };
     /**

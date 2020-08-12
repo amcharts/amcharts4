@@ -16,6 +16,7 @@ import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
+import * as $dom from "../../core/utils/DOM";
 import { system } from "../../core/System";
 /**
  * ============================================================================
@@ -96,6 +97,9 @@ var Cursor = /** @class */ (function (_super) {
             if (!this.fitsToBounds(local)) {
                 local = this._stickPoint;
             }
+        }
+        if (this._adapterO) {
+            this._adapterO.apply("cursorPoint", local);
         }
         this.triggerMove(local);
         return local;
@@ -269,10 +273,15 @@ var Cursor = /** @class */ (function (_super) {
         if (!this.interactionsEnabled || (this.interactions.isTouchProtected && event.touch) || !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
             return;
         }
+        // Initiate blur so that whatever focused element on the page is unselected
+        $dom.blur();
         // Get local point
         var local = $utils.documentPointToSprite(event.pointer.point, this);
         if (this._stick == "hard" && this._stickPoint) {
             local = this._stickPoint;
+        }
+        if (this._adapterO) {
+            this._adapterO.apply("cursorPoint", local);
         }
         if (!this.fitsToBounds(local)) {
             return;
@@ -316,6 +325,9 @@ var Cursor = /** @class */ (function (_super) {
             return;
         }
         var local = $utils.documentPointToSprite(event.pointer.point, this);
+        if (this._adapterO) {
+            this._adapterO.apply("cursorPoint", local);
+        }
         if (!this.downPoint || !this.fitsToBounds(this.downPoint)) {
             return;
         }

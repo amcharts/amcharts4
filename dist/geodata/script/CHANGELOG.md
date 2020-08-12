@@ -5,8 +5,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [UNRELEASED] - ????-??-??
 
+### Changed
+- Geodata script evrsion does not include `.map` files anymore.
+
+
+## [4.1.17] - 2020-08-04
+
 ### Added
-- New maps: Timor-Leste, Trinidad and Tobago, Falkland Islands, Guam, Northern Mariana, Montserrat, Grenada, Martinique, Saint Barthélemy, U.S. Virgin Islands, British Virgin Islands, Guadeloupe.
+- New maps: Timor-Leste, Trinidad and Tobago, Falkland Islands, Guam, Northern Mariana, Montserrat, Grenada, Martinique, Saint Barthélemy, U.S. Virgin Islands, British Virgin Islands, Guadeloupe, Turks and Caicos Islands, Haiti.
 
 ### Fixed
 - Fixed some name typos in Malaysian maps.

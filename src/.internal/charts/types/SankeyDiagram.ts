@@ -426,6 +426,14 @@ export class SankeyDiagram extends FlowDiagram {
 
 		let total = this.dataItem.values.value.sum;
 
+		let availableHeight: number;
+		if (this.orientation == "horizontal") {
+			availableHeight = this.chartContainer.maxHeight - 1;
+		}
+		else {
+			availableHeight = this.chartContainer.maxWidth - 1;
+		}		
+
 		$iter.each(this._sorted, (strNode) => {
 			let node = strNode[1];
 			let level = node.level;
@@ -440,6 +448,17 @@ export class SankeyDiagram extends FlowDiagram {
 				case "middle":
 					levelCoordinate = (this.maxSum - this._levelSum[level]) * this.valueHeight / 2 - (nodeCount - maxSumLevelNodeCount) * this.nodePadding / 2;
 					break;
+			}
+
+			if(this.maxSum == 0){
+				switch (this.nodeAlign) {
+					case "bottom":
+						levelCoordinate = availableHeight - nodeCount * (this.minNodeSize * availableHeight + this.nodePadding);
+						break;
+					case "middle":
+						levelCoordinate = availableHeight / 2 - nodeCount / 2 * (this.minNodeSize * availableHeight + this.nodePadding);
+						break;
+				}
 			}
 
 			node.parent = container;
@@ -462,6 +481,10 @@ export class SankeyDiagram extends FlowDiagram {
 
 				let h = value * this.valueHeight;
 
+				if(total == 0 && h == 0){
+					h = this.minNodeSize * availableHeight;
+				}
+
 				node.height = h;
 				node.minX = x;
 				node.maxX = x;
@@ -474,6 +497,10 @@ export class SankeyDiagram extends FlowDiagram {
 				y = delta * node.level;
 
 				let w = value * this.valueHeight;
+
+				if(total == 0 && w == 0){
+					w = this.minNodeSize * availableHeight;
+				}				
 
 				node.width = w;
 				node.minY = y;

@@ -19,6 +19,7 @@ import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
+import * as $dom from "../../core/utils/DOM";
 import { system } from "../../core/System";
 import { Animation } from "../../core/utils/Animation";
 
@@ -93,7 +94,16 @@ export interface ICursorEvents extends IContainerEvents {
  *
  * @see {@link Adapter}
  */
-export interface ICursorAdapters extends IContainerAdapters, ICursorProperties { }
+export interface ICursorAdapters extends IContainerAdapters, ICursorProperties {
+
+	/**
+	 * Can be used to modify cursor position point dynamically using custom code.
+	 *
+	 * @since 4.9.35
+	 */
+	cursorPoint: IPoint;
+
+}
 
 
 /**
@@ -266,9 +276,15 @@ export class Cursor extends Container {
 			}
 		}
 
+		if (this._adapterO) {
+			this._adapterO.apply("cursorPoint", local);
+		}
+
 		this.triggerMove(local);
 		return local;
 	}
+
+
 
 	/**
 	 * Hides actual SVG elements and handles hiding animations.
@@ -459,16 +475,23 @@ export class Cursor extends Container {
 			return;
 		}
 
+		// Initiate blur so that whatever focused element on the page is unselected
+		$dom.blur();
+
 		// Get local point
 		let local: IPoint = $utils.documentPointToSprite(event.pointer.point, this);
 
 		if (this._stick == "hard" && this._stickPoint) {
 			local = this._stickPoint;
 		}
-		
+
+		if (this._adapterO) {
+			this._adapterO.apply("cursorPoint", local);
+		}
+
 		if (!this.fitsToBounds(local)) {
 			return;
-		}	
+		}
 
 
 		this._downPointOrig = { x: local.x, y: local.y };
@@ -516,7 +539,11 @@ export class Cursor extends Container {
 		}
 		let local: IPoint = $utils.documentPointToSprite(event.pointer.point, this);
 
-		if(!this.downPoint || !this.fitsToBounds(this.downPoint)){
+		if (this._adapterO) {
+			this._adapterO.apply("cursorPoint", local);
+		}
+
+		if (!this.downPoint || !this.fitsToBounds(this.downPoint)) {
 			return;
 		}
 

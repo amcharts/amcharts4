@@ -7,7 +7,7 @@ module.exports = function (info) {
     return {
         entry: info.entry,
 
-        devtool: "source-map",
+        devtool: false,
 
         output: {
             path: $path.resolve(info.baseDir),
@@ -65,6 +65,11 @@ module.exports = function (info) {
  * @hidden
  */
  `
+            }),
+
+            new $webpack.SourceMapDevToolPlugin({
+                filename: "[file].map[query]",
+                exclude: info.excludeSourceMap,
             }),
         ].concat(
             (info.minify ? [

@@ -87,14 +87,7 @@ export class DateAxisRangeSelector extends RangeSelector {
 	/**
 	 * List of pre-defined period buttons.
 	 */
-	protected _periods: IDateAxisRangeSelectorPeriod[] = [
-		{ name: this.language.translateAny("%1M", undefined, "1"), interval: { timeUnit: "month", count: 1 } },
-		{ name: this.language.translateAny("%1M", undefined, "3"), interval: { timeUnit: "month", count: 3 } },
-		{ name: this.language.translateAny("%1M", undefined, "6"), interval: { timeUnit: "month", count: 6 } },
-		{ name: this.language.translateAny("%1Y", undefined, "1"), interval: { timeUnit: "year", count: 1 } },
-		{ name: this.language.translateAny("YTD"), interval: "ytd" },
-		{ name: this.language.translateAny("MAX"), interval: "max" },
-	];
+	protected _periods: IDateAxisRangeSelectorPeriod[];
 
 	/**
 	 * Date format to use for input fields.
@@ -367,6 +360,16 @@ export class DateAxisRangeSelector extends RangeSelector {
 	 * @return Periods
 	 */
 	public get periods(): IDateAxisRangeSelectorPeriod[] {
+		if (!this._periods) {
+			this._periods = [
+				{ name: this.language.translateAny("%1M", undefined, "1"), interval: { timeUnit: "month", count: 1 } },
+				{ name: this.language.translateAny("%1M", undefined, "3"), interval: { timeUnit: "month", count: 3 } },
+				{ name: this.language.translateAny("%1M", undefined, "6"), interval: { timeUnit: "month", count: 6 } },
+				{ name: this.language.translateAny("%1Y", undefined, "1"), interval: { timeUnit: "year", count: 1 } },
+				{ name: this.language.translateAny("YTD"), interval: "ytd" },
+				{ name: this.language.translateAny("MAX"), interval: "max" },
+			]
+		}
 		return this._periods;
 	}
 

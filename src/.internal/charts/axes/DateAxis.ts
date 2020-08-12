@@ -841,7 +841,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 						endIndex = series.dataItems.findClosestIndex(maxZoomed, (x) => <number>x[field], "right");
 						// not good - if end is in the gap, indexes go like 5,4,3,4,2,1
 						//if (endIndex < series.dataItems.length) {
-							endIndex++;
+						endIndex++;
 						//}
 					}
 				}
@@ -962,6 +962,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public groupSeriesData(series: XYSeries): void {
 		if (series.baseAxis == this && series.dataItems.length > 0 && !series.dataGrouped) {
+
+			series.bulletsContainer.disposeChildren();
+
 			// make array of intervals which will be used;
 			let intervals: ITimeInterval[] = [];
 			let mainBaseInterval = this.mainBaseInterval;
@@ -1039,6 +1042,17 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 								let dvalues = dataItem.values[vkey];
 								if (dvalues) {
 									let value = dvalues.value;
+
+									if (series._adapterO) {
+										value = series._adapterO.apply("groupValue", {
+											dataItem: dataItem,
+											interval: interval,
+											dataField: <any>vkey,
+											date: roundedDate,
+											value: value
+										}).value;
+									}
+
 									let values = newDataItem.values[vkey];
 									if ($type.isNumber(value)) {
 
@@ -1080,6 +1094,16 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 									let dvalues = dataItem.values[vkey];
 									if (dvalues) {
 										let value = dvalues.value;
+
+										if (series._adapterO) {
+											value = series._adapterO.apply("groupValue", {
+												dataItem: dataItem,
+												interval: interval,
+												dataField: <any>vkey,
+												date: roundedDate,
+												value: value
+											}).value;
+										}
 
 										if ($type.isNumber(value)) {
 											let values = newDataItem.values[vkey];
@@ -2212,8 +2236,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		let date: Date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc);
 		let nextDate: Date = $time.round(new Date(value + this.baseDuration), this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc);
 
-		if(nextDate.getTime() > date.getTime()){
-			if(Math.abs(nextDate.getTime() - deltaValue) < Math.abs(deltaValue - date.getTime())){
+		if (nextDate.getTime() > date.getTime()) {
+			if (Math.abs(nextDate.getTime() - deltaValue) < Math.abs(deltaValue - date.getTime())) {
 				date = nextDate;
 			}
 		}

@@ -830,7 +830,7 @@ export function getTimeZone(date: Date, long: boolean = false, savings: boolean 
  * @return Random number
  */
 export function random(from: number, to: number): number {
-	return Math.floor(Math.random() * to) + from;
+	return Math.floor(Math.random() * (to - from)) + from;
 }
 
 /**

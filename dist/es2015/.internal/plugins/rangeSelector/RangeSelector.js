@@ -289,6 +289,7 @@ var RangeSelector = /** @class */ (function (_super) {
             if (this._axis != value) {
                 this._axis = value;
                 this.prepAxis();
+                this.language = value.language;
                 this.invalidate();
             }
         },

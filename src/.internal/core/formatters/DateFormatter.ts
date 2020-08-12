@@ -1079,6 +1079,15 @@ export class DateFormatter extends BaseObject {
 			// Timestamp
 			if (parsedIndexes.timestamp > -1) {
 				resValues.timestamp = parseInt(matches[parsedIndexes.timestamp]);
+
+				const ts = new Date(resValues.timestamp);
+				resValues.year = ts.getUTCFullYear();
+				resValues.month = ts.getUTCMonth();
+				resValues.day = ts.getUTCDate();
+				resValues.hour = ts.getUTCHours();
+				resValues.minute = ts.getUTCMinutes();
+				resValues.second = ts.getUTCSeconds();
+				resValues.millisecond = ts.getUTCMilliseconds();
 			}
 
 			// Adjust time zone

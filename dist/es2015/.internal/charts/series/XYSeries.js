@@ -1337,7 +1337,7 @@ var XYSeries = /** @class */ (function (_super) {
                 return point;
             }
             // so that if tooltip is shown on columns or bullets for it not to be hidden
-            if (!this.tooltipText) {
+            if (!this.tooltipText && !this.tooltipHTML) {
                 return;
             }
         }
@@ -1955,7 +1955,7 @@ var XYSeries = /** @class */ (function (_super) {
             dataItem.setCalculatedValue(field_2, 0, "stack");
             $iter.eachContinue(chart.series.range(0, index).backwards().iterator(), function (prevSeries) {
                 // stacking is only possible if both axes are the same
-                if (prevSeries.xAxis == xAxis && prevSeries.yAxis == yAxis) {
+                if (prevSeries.xAxis == xAxis && prevSeries.yAxis == yAxis && prevSeries.className == _this.className) {
                     // saving value
                     prevSeries.stackedSeries = _this;
                     var prevDataItem = prevSeries.dataItems.getIndex(dataItem.index); // indexes should match

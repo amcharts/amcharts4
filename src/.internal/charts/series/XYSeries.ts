@@ -658,7 +658,24 @@ export interface IXYSeriesEvents extends ISeriesEvents {
  *
  * @see {@link Adapter}
  */
-export interface IXYSeriesAdapters extends ISeriesAdapters, IXYSeriesProperties { }
+export interface IXYSeriesAdapters extends ISeriesAdapters, IXYSeriesProperties {
+
+	/**
+	 * Applied to a calculated aggregate value on each grouped data item. Only
+	 * if `groupData = true` is set on the related `DateAxis`.
+	 *
+	 * @since 4.9.35
+	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/using-custom-functions-for-data-item-grouping/} for more information
+	 */
+	groupValue: {
+		dataItem: XYSeriesDataItem,
+		interval: ITimeInterval,
+		dataField: IXYSeriesDataFields,
+		date: Date,
+		value: number
+	}
+
+}
 
 
 /**
@@ -1924,7 +1941,7 @@ export class XYSeries extends Series {
 			}
 
 			// so that if tooltip is shown on columns or bullets for it not to be hidden
-			if (!this.tooltipText) {
+			if (!this.tooltipText && !this.tooltipHTML) {
 				return;
 			}
 		}
@@ -2634,7 +2651,7 @@ export class XYSeries extends Series {
 
 			$iter.eachContinue(chart.series.range(0, index).backwards().iterator(), (prevSeries) => {
 				// stacking is only possible if both axes are the same
-				if (prevSeries.xAxis == xAxis && prevSeries.yAxis == yAxis) {
+				if (prevSeries.xAxis == xAxis && prevSeries.yAxis == yAxis && prevSeries.className == this.className) {
 					// saving value
 					prevSeries.stackedSeries = this;
 

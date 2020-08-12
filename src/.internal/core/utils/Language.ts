@@ -477,6 +477,19 @@ export class Language extends BaseObjectEvents {
 	}
 
 	/**
+	 * Sets a prompt translation.
+	 *
+	 * @since 4.9.35
+	 * @param  prompt       Prompt in English
+	 * @param  translation  Translation
+	 * @param  locale       Locale
+	 */
+	public setTranslationAny(prompt: string, translation: string, locale?: ILocale): void {
+		const localeTarget = locale || this.locale;
+		(<any>localeTarget)[prompt] = translation;
+	}
+
+	/**
 	 * Translates prompt.
 	 *
 	 * If translation is empty, it will return empty string, which is a different

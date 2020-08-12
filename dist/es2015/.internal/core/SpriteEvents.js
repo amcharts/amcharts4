@@ -51,7 +51,7 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
         if (this.target.events.isEnabled(ev.type)) {
             var imev = $object.merge(ev, {
                 target: this.target,
-                spritePoint: $utils.documentPointToSprite(ev.point, this.target),
+                spritePoint: ev.point ? $utils.documentPointToSprite(ev.point, this.target) : undefined,
                 svgPoint: this.target.getSvgPoint(ev.point)
             });
             this.target.events.dispatchImmediately(imev.type, imev);

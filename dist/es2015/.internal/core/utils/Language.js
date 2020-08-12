@@ -154,6 +154,18 @@ var Language = /** @class */ (function (_super) {
         return this.translate.apply(this, __spread([prompt, locale], rest));
     };
     /**
+     * Sets a prompt translation.
+     *
+     * @since 4.9.35
+     * @param  prompt       Prompt in English
+     * @param  translation  Translation
+     * @param  locale       Locale
+     */
+    Language.prototype.setTranslationAny = function (prompt, translation, locale) {
+        var localeTarget = locale || this.locale;
+        localeTarget[prompt] = translation;
+    };
+    /**
      * Translates prompt.
      *
      * If translation is empty, it will return empty string, which is a different

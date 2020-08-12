@@ -928,7 +928,6 @@ export class Series extends Component {
 		if (this.bulletsContainer.children.length > 0) {
 			if (this._showBullets) {
 
-
 				for (let i = 0; i < this.startIndex; i++) {
 					let dataItem = this.dataItems.getIndex(i);
 					if (dataItem) {

@@ -350,6 +350,15 @@ export declare class Language extends BaseObjectEvents {
      */
     translateAny(prompt: string, locale?: ILocale, ...rest: Array<string>): string;
     /**
+     * Sets a prompt translation.
+     *
+     * @since 4.9.35
+     * @param  prompt       Prompt in English
+     * @param  translation  Translation
+     * @param  locale       Locale
+     */
+    setTranslationAny(prompt: string, translation: string, locale?: ILocale): void;
+    /**
      * Translates prompt.
      *
      * If translation is empty, it will return empty string, which is a different

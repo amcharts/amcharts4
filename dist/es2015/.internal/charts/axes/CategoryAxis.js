@@ -295,7 +295,7 @@ var CategoryAxis = /** @class */ (function (_super) {
             this.renderer.validate();
         }
         // find frequency at which we'll show items
-        var maxCount = this.renderer.axisLength / this.renderer.minGridDistance;
+        var maxCount = this.renderer.axisLength / Math.max(this.renderer.minGridDistance, 1 / Number.MAX_SAFE_INTEGER);
         var frequency = Math.min(this.dataItems.length, Math.ceil((endIndex - startIndex) / maxCount));
         this._startIndex = Math.floor(startIndex / frequency) * frequency;
         this._endIndex = Math.ceil(this.end * dataCount);

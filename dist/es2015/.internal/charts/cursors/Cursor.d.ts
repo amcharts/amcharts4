@@ -74,6 +74,12 @@ export interface ICursorEvents extends IContainerEvents {
  * @see {@link Adapter}
  */
 export interface ICursorAdapters extends IContainerAdapters, ICursorProperties {
+    /**
+     * Can be used to modify cursor position point dynamically using custom code.
+     *
+     * @since 4.9.35
+     */
+    cursorPoint: IPoint;
 }
 /**
  * ============================================================================

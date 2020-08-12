@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.35] - 2020-08-12
+
+### Added
+- New adapter on `XYSeries`: `groupValue`. It's now possible to apply custom aggregate value calculation functions for grouped data items. [More info](https://www.amcharts.com/docs/v4/tutorials/using-custom-functions-for-data-item-grouping/).
+- New adapter on `Cursor`: `cursorPoint`. Use it to custom-position chart cursor using your own logic.
+
+### Changed
+- Accessibility: Now if ENTER is pressed when object with an enabled `"hit"` event is focused, that event will be triggered automatically.
+- Clicking anywhere on the plot area with `XYCursor` will now trigger blur on any focused element on the page (consistent to clicking anywhere else on the document).
+
+### Fixed
+- RangeSelector plugin was not properly inheriting chart's locale.
+- `"x"` (timestamp) in `inputDateFormat` was not working properly.
+- If all values of `SankeyDiagram` were `0` (zero), nodes were not being arranged and their rectangles were not being displayed.
+- First `CategoryAxis` label was not visible if `minGridDistance` was set to `0` (zero).
+- Old series bullets of an `XYSeries` remained visible when data was updated and data grouping was enabled on related `DateAxis`.
+- `Utils.random()` function was not returning value in proper from/to range.
+- Stacking now works only between series of the same type. Previously a `LineSeries` between two stacked `ColumnSeries` could mess up stacking for the latter.
+- Zooming in on a part of `LineSeries` which had `strokeDashArray` enabled via `propertyFields` was making the whole line dashed.
+- On a chart with `XYCursor` hovering on category with a null value for some series, used to display a tooltip for a different category in some cases.
+
+
 ## [4.9.34] - 2020-07-31
 
 ### Added

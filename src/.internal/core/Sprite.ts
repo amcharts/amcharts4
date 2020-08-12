@@ -28,7 +28,7 @@ import { Optional } from "./utils/Type";
 import { Group } from "./rendering/Group";
 import { Paper, getGhostPaper } from "./rendering/Paper";
 import { DataItem } from "./DataItem";
-import { Container } from "./Container";
+import { Container } from "./Container"; 
 import { Pattern } from "./rendering/fills/Pattern";
 import { LinearGradient } from "./rendering/fills/LinearGradient";
 import { RadialGradient } from "./rendering/fills/RadialGradient";

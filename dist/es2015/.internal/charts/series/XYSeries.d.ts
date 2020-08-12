@@ -423,6 +423,20 @@ export interface IXYSeriesEvents extends ISeriesEvents {
  * @see {@link Adapter}
  */
 export interface IXYSeriesAdapters extends ISeriesAdapters, IXYSeriesProperties {
+    /**
+     * Applied to a calculated aggregate value on each grouped data item. Only
+     * if `groupData = true` is set on the related `DateAxis`.
+     *
+     * @since 4.9.35
+     * @see {@link https://www.amcharts.com/docs/v4/tutorials/using-custom-functions-for-data-item-grouping/} for more information
+     */
+    groupValue: {
+        dataItem: XYSeriesDataItem;
+        interval: ITimeInterval;
+        dataField: IXYSeriesDataFields;
+        date: Date;
+        value: number;
+    };
 }
 /**
  * ============================================================================

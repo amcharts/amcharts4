@@ -53,17 +53,6 @@ var DateAxisRangeSelector = /** @class */ (function (_super) {
             periodButtons: []
         };
         /**
-         * List of pre-defined period buttons.
-         */
-        _this._periods = [
-            { name: _this.language.translateAny("%1M", undefined, "1"), interval: { timeUnit: "month", count: 1 } },
-            { name: _this.language.translateAny("%1M", undefined, "3"), interval: { timeUnit: "month", count: 3 } },
-            { name: _this.language.translateAny("%1M", undefined, "6"), interval: { timeUnit: "month", count: 6 } },
-            { name: _this.language.translateAny("%1Y", undefined, "1"), interval: { timeUnit: "year", count: 1 } },
-            { name: _this.language.translateAny("YTD"), interval: "ytd" },
-            { name: _this.language.translateAny("MAX"), interval: "max" },
-        ];
-        /**
          * Date format to use for input fields.
          */
         _this._inputDateFormat = "yyyy-MM-dd";
@@ -273,6 +262,16 @@ var DateAxisRangeSelector = /** @class */ (function (_super) {
          * @return Periods
          */
         get: function () {
+            if (!this._periods) {
+                this._periods = [
+                    { name: this.language.translateAny("%1M", undefined, "1"), interval: { timeUnit: "month", count: 1 } },
+                    { name: this.language.translateAny("%1M", undefined, "3"), interval: { timeUnit: "month", count: 3 } },
+                    { name: this.language.translateAny("%1M", undefined, "6"), interval: { timeUnit: "month", count: 6 } },
+                    { name: this.language.translateAny("%1Y", undefined, "1"), interval: { timeUnit: "year", count: 1 } },
+                    { name: this.language.translateAny("YTD"), interval: "ytd" },
+                    { name: this.language.translateAny("MAX"), interval: "max" },
+                ];
+            }
             return this._periods;
         },
         /**

@@ -681,6 +681,7 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.groupSeriesData = function (series) {
         var _this = this;
         if (series.baseAxis == this && series.dataItems.length > 0 && !series.dataGrouped) {
+            series.bulletsContainer.disposeChildren();
             // make array of intervals which will be used;
             var intervals_1 = [];
             var mainBaseInterval = this.mainBaseInterval;
@@ -724,8 +725,8 @@ var DateAxis = /** @class */ (function (_super) {
                     var date = dataItem.getDate(key);
                     if (date) {
                         var time = date.getTime();
-                        var roundedDate = $time.round(new Date(time), interval.timeUnit, interval.count, _this._df.firstDayOfWeek, _this._df.utc);
-                        var currentTime = roundedDate.getTime();
+                        var roundedDate_1 = $time.round(new Date(time), interval.timeUnit, interval.count, _this._df.firstDayOfWeek, _this._df.utc);
+                        var currentTime = roundedDate_1.getTime();
                         // changed period								
                         if (previousTime < currentTime) {
                             newDataItem = dataSet.create();
@@ -736,7 +737,7 @@ var DateAxis = /** @class */ (function (_super) {
                             newDataItem.setWorkingLocation("openDateY", series.dataItems.template.locations.openDateY, 0);
                             newDataItem.component = series;
                             // other Dates?
-                            newDataItem.setDate(key, roundedDate);
+                            newDataItem.setDate(key, roundedDate_1);
                             newDataItem._index = i;
                             i++;
                             $array.each(dataFields, function (vkey) {
@@ -744,6 +745,15 @@ var DateAxis = /** @class */ (function (_super) {
                                 var dvalues = dataItem.values[vkey];
                                 if (dvalues) {
                                     var value = dvalues.value;
+                                    if (series._adapterO) {
+                                        value = series._adapterO.apply("groupValue", {
+                                            dataItem: dataItem,
+                                            interval: interval,
+                                            dataField: vkey,
+                                            date: roundedDate_1,
+                                            value: value
+                                        }).value;
+                                    }
                                     var values = newDataItem.values[vkey];
                                     if ($type.isNumber(value)) {
                                         values.value = value;
@@ -780,6 +790,15 @@ var DateAxis = /** @class */ (function (_super) {
                                     var dvalues = dataItem.values[vkey];
                                     if (dvalues) {
                                         var value = dvalues.value;
+                                        if (series._adapterO) {
+                                            value = series._adapterO.apply("groupValue", {
+                                                dataItem: dataItem,
+                                                interval: interval,
+                                                dataField: vkey,
+                                                date: roundedDate_1,
+                                                value: value
+                                            }).value;
+                                        }
                                         if ($type.isNumber(value)) {
                                             var values = newDataItem.values[vkey];
                                             if (!$type.isNumber(values.open)) {

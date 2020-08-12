@@ -723,7 +723,7 @@ export function getTimeZone(date, long, savings, utc) {
  * @return Random number
  */
 export function random(from, to) {
-    return Math.floor(Math.random() * to) + from;
+    return Math.floor(Math.random() * (to - from)) + from;
 }
 /**
  * Fits the number into specific `min` and `max` bounds.

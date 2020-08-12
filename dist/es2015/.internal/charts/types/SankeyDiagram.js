@@ -218,6 +218,13 @@ var SankeyDiagram = /** @class */ (function (_super) {
         var nextCoordinate = {};
         var maxSumLevelNodeCount = this._levelNodesCount[this._maxSumLevel];
         var total = this.dataItem.values.value.sum;
+        var availableHeight;
+        if (this.orientation == "horizontal") {
+            availableHeight = this.chartContainer.maxHeight - 1;
+        }
+        else {
+            availableHeight = this.chartContainer.maxWidth - 1;
+        }
         $iter.each(this._sorted, function (strNode) {
             var node = strNode[1];
             var level = node.level;
@@ -230,6 +237,16 @@ var SankeyDiagram = /** @class */ (function (_super) {
                 case "middle":
                     levelCoordinate = (_this.maxSum - _this._levelSum[level]) * _this.valueHeight / 2 - (nodeCount - maxSumLevelNodeCount) * _this.nodePadding / 2;
                     break;
+            }
+            if (_this.maxSum == 0) {
+                switch (_this.nodeAlign) {
+                    case "bottom":
+                        levelCoordinate = availableHeight - nodeCount * (_this.minNodeSize * availableHeight + _this.nodePadding);
+                        break;
+                    case "middle":
+                        levelCoordinate = availableHeight / 2 - nodeCount / 2 * (_this.minNodeSize * availableHeight + _this.nodePadding);
+                        break;
+                }
             }
             node.parent = container;
             var delta;
@@ -244,6 +261,9 @@ var SankeyDiagram = /** @class */ (function (_super) {
                 x = delta * node.level;
                 y = nextCoordinate[level] || levelCoordinate;
                 var h = value * _this.valueHeight;
+                if (total == 0 && h == 0) {
+                    h = _this.minNodeSize * availableHeight;
+                }
                 node.height = h;
                 node.minX = x;
                 node.maxX = x;
@@ -254,6 +274,9 @@ var SankeyDiagram = /** @class */ (function (_super) {
                 x = nextCoordinate[level] || levelCoordinate;
                 y = delta * node.level;
                 var w = value * _this.valueHeight;
+                if (total == 0 && w == 0) {
+                    w = _this.minNodeSize * availableHeight;
+                }
                 node.width = w;
                 node.minY = y;
                 node.maxY = y;

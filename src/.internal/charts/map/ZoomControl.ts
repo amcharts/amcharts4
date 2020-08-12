@@ -291,15 +291,8 @@ export class ZoomControl extends Container {
 
 			getInteraction().body.events.on("keyup", (ev) => {
 				if (this.topParent.hasFocused) {
-					if (keyboard.isKey(ev.event, "enter")) {
-						if (this.minusButton.isFocused) {
-							chart.zoomOut()
-						}
-						else if (this.plusButton.isFocused) {
-							chart.zoomIn()
-						}
-					}
-					else if (keyboard.isKey(ev.event, "plus")) {
+					// ENTER is now handled globally
+					if (keyboard.isKey(ev.event, "plus")) {
 						chart.zoomIn();
 					}
 					else if (keyboard.isKey(ev.event, "minus")) {

@@ -520,7 +520,7 @@ export class LineSeries extends XYSeries {
 		let propertiesChanged: boolean = false;
 
 		let segment: LineSeriesSegment = this.getSegment();
-
+    segment.strokeDasharray = undefined;
 		segment.__disabled = false;
 
 		if (axisRange) {

@@ -334,6 +334,7 @@ var LineSeries = /** @class */ (function (_super) {
         var closeIndex;
         var propertiesChanged = false;
         var segment = this.getSegment();
+        segment.strokeDasharray = undefined;
         segment.__disabled = false;
         if (axisRange) {
             segment.parent = axisRange.contents;

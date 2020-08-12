@@ -293,7 +293,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		this.applyTheme();
 
 		let dataItemsByCategory = this.dataItemsByCategory;
-		this.addDisposer(this.mainDataSet.events.on("removed", function(event){
+		this.addDisposer(this.mainDataSet.events.on("removed", function(event) {
 			dataItemsByCategory.removeKey(event.oldValue.category);
 		}))
 	}
@@ -433,7 +433,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		}
 
 		// find frequency at which we'll show items
-		let maxCount: number = this.renderer.axisLength / this.renderer.minGridDistance;
+		let maxCount: number = this.renderer.axisLength / Math.max(this.renderer.minGridDistance, 1 / Number.MAX_SAFE_INTEGER);
 		let frequency: number = Math.min(this.dataItems.length, Math.ceil((endIndex - startIndex) / maxCount));
 
 		this._startIndex = Math.floor(startIndex / frequency) * frequency;

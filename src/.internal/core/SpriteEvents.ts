@@ -68,7 +68,7 @@ export class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> ext
 
 			let imev: AMEvent<Sprite, ISpriteEvents>[Key] = <any>$object.merge(ev, {
 				target: this.target,
-				spritePoint: $utils.documentPointToSprite(ev.point, this.target),
+				spritePoint: ev.point ? $utils.documentPointToSprite(ev.point, this.target) : undefined,
 				svgPoint: this.target.getSvgPoint(ev.point)
 			});
 			this.target.events.dispatchImmediately(imev.type, imev);

@@ -182,15 +182,8 @@ var ZoomControl = /** @class */ (function (_super) {
                 this.minusButton.events.on("hit", function () { chart.zoomOut(chart.zoomGeoPoint); }, chart, false),
                 getInteraction().body.events.on("keyup", function (ev) {
                     if (_this.topParent.hasFocused) {
-                        if (keyboard.isKey(ev.event, "enter")) {
-                            if (_this.minusButton.isFocused) {
-                                chart.zoomOut();
-                            }
-                            else if (_this.plusButton.isFocused) {
-                                chart.zoomIn();
-                            }
-                        }
-                        else if (keyboard.isKey(ev.event, "plus")) {
+                        // ENTER is now handled globally
+                        if (keyboard.isKey(ev.event, "plus")) {
                             chart.zoomIn();
                         }
                         else if (keyboard.isKey(ev.event, "minus")) {

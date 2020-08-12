@@ -192,10 +192,7 @@ var MapChart = /** @class */ (function (_super) {
         _this._disposers.push(getInteraction().body.events.on("keyup", function (ev) {
             if (_this.topParent.hasFocused) {
                 var key = keyboard.getEventKey(ev.event);
-                if (key == "enter" && _this.topParent.focusedElement && _this.topParent.focusedElement.events.has("hit")) {
-                    _this.topParent.focusedElement.dispatchImmediately("hit");
-                }
-                else if (!_this._zoomControl || !_this._zoomControl.thumb.isFocused) {
+                if (!_this._zoomControl || !_this._zoomControl.thumb.isFocused) {
                     switch (key) {
                         case "up":
                             _this.pan({ x: 0, y: 0.1 });

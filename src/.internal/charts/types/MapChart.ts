@@ -732,10 +732,7 @@ export class MapChart extends SerialChart {
 		this._disposers.push(getInteraction().body.events.on("keyup", (ev) => {
 			if (this.topParent.hasFocused) {
 				const key = keyboard.getEventKey(ev.event);
-				if (key == "enter" && this.topParent.focusedElement && this.topParent.focusedElement.events.has("hit")) {
-					this.topParent.focusedElement.dispatchImmediately("hit");
-				}
-				else if (!this._zoomControl || !this._zoomControl.thumb.isFocused) {
+				if (!this._zoomControl || !this._zoomControl.thumb.isFocused) {
 					switch (key) {
 						case "up":
 							this.pan({ x: 0, y: 0.1 });
