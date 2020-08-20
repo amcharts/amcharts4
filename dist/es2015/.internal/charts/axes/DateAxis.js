@@ -721,14 +721,26 @@ var DateAxis = /** @class */ (function (_super) {
                         dataFields.push(dfk);
                     }
                 });
+                var roundedDate;
                 dataItems.each(function (dataItem) {
                     var date = dataItem.getDate(key);
                     if (date) {
                         var time = date.getTime();
-                        var roundedDate_1 = $time.round(new Date(time), interval.timeUnit, interval.count, _this._df.firstDayOfWeek, _this._df.utc);
-                        var currentTime = roundedDate_1.getTime();
+                        roundedDate = $time.round(new Date(time), interval.timeUnit, interval.count, _this._df.firstDayOfWeek, _this._df.utc);
+                        var currentTime = roundedDate.getTime();
                         // changed period								
                         if (previousTime < currentTime) {
+                            if (newDataItem && series._adapterO) {
+                                $array.each(dataFields, function (vkey) {
+                                    newDataItem.values[vkey].value = series._adapterO.apply("groupDataItem", {
+                                        dataItem: newDataItem,
+                                        interval: interval,
+                                        dataField: vkey,
+                                        date: roundedDate,
+                                        value: newDataItem.values[vkey].value
+                                    }).value;
+                                });
+                            }
                             newDataItem = dataSet.create();
                             newDataItem.dataContext = {};
                             newDataItem.setWorkingLocation("dateX", series.dataItems.template.locations.dateX, 0);
@@ -737,7 +749,7 @@ var DateAxis = /** @class */ (function (_super) {
                             newDataItem.setWorkingLocation("openDateY", series.dataItems.template.locations.openDateY, 0);
                             newDataItem.component = series;
                             // other Dates?
-                            newDataItem.setDate(key, roundedDate_1);
+                            newDataItem.setDate(key, roundedDate);
                             newDataItem._index = i;
                             i++;
                             $array.each(dataFields, function (vkey) {
@@ -750,7 +762,7 @@ var DateAxis = /** @class */ (function (_super) {
                                             dataItem: dataItem,
                                             interval: interval,
                                             dataField: vkey,
-                                            date: roundedDate_1,
+                                            date: roundedDate,
                                             value: value
                                         }).value;
                                     }
@@ -795,7 +807,7 @@ var DateAxis = /** @class */ (function (_super) {
                                                 dataItem: dataItem,
                                                 interval: interval,
                                                 dataField: vkey,
-                                                date: roundedDate_1,
+                                                date: roundedDate,
                                                 value: value
                                             }).value;
                                         }
@@ -843,6 +855,17 @@ var DateAxis = /** @class */ (function (_super) {
                         $utils.copyProperties(dataItem.dataContext, newDataItem.dataContext);
                     }
                 });
+                if (newDataItem && series._adapterO) {
+                    $array.each(dataFields, function (vkey) {
+                        newDataItem.values[vkey].value = series._adapterO.apply("groupDataItem", {
+                            dataItem: newDataItem,
+                            interval: interval,
+                            dataField: vkey,
+                            date: roundedDate,
+                            value: newDataItem.values[vkey].value
+                        }).value;
+                    });
+                }
             });
             this.calculateZoom();
         }

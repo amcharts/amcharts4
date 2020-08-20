@@ -207,7 +207,7 @@ export class DateFormatter extends BaseObject {
 		}
 
 		// Is it a built-in format or Intl.DateTimeFormat
-		if (format instanceof Object) {
+		if ($type.isObject(format)) {
 
 			try {
 				if (this.intlLocales) {

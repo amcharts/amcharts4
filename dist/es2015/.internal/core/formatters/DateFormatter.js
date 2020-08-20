@@ -136,7 +136,7 @@ var DateFormatter = /** @class */ (function (_super) {
             date = $utils.anyToDate(source);
         }
         // Is it a built-in format or Intl.DateTimeFormat
-        if (format instanceof Object) {
+        if ($type.isObject(format)) {
             try {
                 if (this.intlLocales) {
                     return new Intl.DateTimeFormat(this.intlLocales, format).format(date);

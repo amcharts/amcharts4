@@ -1310,8 +1310,8 @@ var XYSeries = /** @class */ (function (_super) {
      *
      * @see {@link Tooltip}
      */
-    XYSeries.prototype.hideTooltip = function () {
-        _super.prototype.hideTooltip.call(this);
+    XYSeries.prototype.hideTooltip = function (duration) {
+        _super.prototype.hideTooltip.call(this, duration);
         this.returnBulletDefaultState();
         this._prevTooltipDataItem = undefined;
     };
@@ -1894,6 +1894,23 @@ var XYSeries = /** @class */ (function (_super) {
                 anim = dataItem.hide(realDuration, delay, value, fields);
             }
         });
+        // other data sets
+        this.dataSets.each(function (key, dataSet) {
+            if (dataSet != _this.dataItems) {
+                dataSet.each(function (dataItem) {
+                    dataItem.events.disable();
+                    dataItem.hide(0, 0, value, fields);
+                    dataItem.events.enable();
+                });
+            }
+        });
+        if (this.mainDataSet != this.dataItems) {
+            this.mainDataSet.each(function (dataItem) {
+                dataItem.events.disable();
+                dataItem.hide(0, 0, value, fields);
+                dataItem.events.enable();
+            });
+        }
         var animation = _super.prototype.hide.call(this, interpolationDuration);
         if (animation && !animation.isFinished()) {
             animation.delay(delay);

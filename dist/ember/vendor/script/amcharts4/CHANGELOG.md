@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.9.36] - 2020-08-20
+
+### Added
+- New adapter on `XYSeries`: `groupDataitem`. When data grouping occurs, each aggregate data item will be passed through this adapter, where you can modify its aggregate value. [More info](https://www.amcharts.com/docs/v4/tutorials/using-custom-functions-for-data-item-grouping/).
+- Two new `MapPolygonSeries` properties: `sortPolygonsBy` ( `"area"` (default), `"name"`, `"longitude"`, `"latitude"`, `"id"`, and `"none"`) and `sortPolygonsReversed` (default `false`).
+
+### Fixed
+- Export: `fontSize` option was being ignored when exporting data in PDF.
+- Better format object type checks in `DateFormatter` and `NumberFormatter`.
+- Older (non-Chromium) EDGE browser was not showing patterns in the legend markers.
+- If a stacked series was hidden with data item grouping enabled and then axis zoomed in or zoomed out so that group perdiod changes, series were stacked on the wrong position.
+- `CircularAxis` line was flickering while start/end angle was animating.
+
+
 ## [4.9.35] - 2020-08-12
 
 ### Added

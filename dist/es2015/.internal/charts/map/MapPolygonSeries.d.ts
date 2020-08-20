@@ -210,6 +210,22 @@ export interface IMapPolygonSeriesDataFields extends IMapSeriesDataFields {
  * Defines properties for [[MapPolygonSeries]].
  */
 export interface IMapPolygonSeriesProperties extends IMapSeriesProperties {
+    /**
+     * How to order polygons in actual SVG document. Affects selection order
+     * using TAB key.
+     *
+     * @since 4.9.36
+     */
+    sortPolygonsBy: "area" | "name" | "longitude" | "latitude" | "id" | "none";
+    /**
+     * If `sortPolygonsBy` is set to something other than `"none"`, polygons
+     * will be sorted by the given parameter, using natural sort direction.
+     *
+     * Setting `sortPolygonsReversed = true` will reverse this direction.
+     *
+     * @since 4.9.36
+     */
+    sortPolygonsReversed: boolean;
 }
 /**
  * Defines events for [[MapPolygonSeries]].
@@ -330,4 +346,33 @@ export declare class MapPolygonSeries extends MapSeries {
             coordinates: Array<Array<Array<[number, number]>>>;
         };
     }[];
+    /**
+     * How to order polygons in actual SVG document. Affects selection order
+     * using TAB key.
+     *
+     * Available options: `"area"` (default), `"name"`, `"longitude"`,
+     * `"latitude"`, `"id"`, and `"none"`.
+     *
+     * @default area
+     * @since 4.9.36
+     * @param value  How to sort map polygons
+     */
+    /**
+    * @return How to sort map polygons
+    */
+    sortPolygonsBy: "area" | "name" | "longitude" | "latitude" | "id" | "none";
+    /**
+     * If `sortPolygonsBy` is set to something other than `"none"`, polygons
+     * will be sorted by the given parameter, using natural sort direction.
+     *
+     * Setting `sortPolygonsReversed = true` will reverse this direction.
+     *
+     * @default false
+     * @since 4.9.36
+     * @param value  Reverse polygon sort direction
+     */
+    /**
+    * @return Reverse polygon sort direction
+    */
+    sortPolygonsReversed: boolean;
 }

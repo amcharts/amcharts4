@@ -106,7 +106,7 @@ var NumberFormatter = /** @class */ (function (_super) {
         // TODO: maybe use better casting
         var source = Number(value);
         // Is it a built-in format or Intl.NumberFormatOptions
-        if (format instanceof Object) {
+        if ($type.isObject(format)) {
             try {
                 if (this.intlLocales) {
                     return new Intl.NumberFormat(this.intlLocales, format).format(source);

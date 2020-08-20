@@ -281,7 +281,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         var radius = this.pixelRadius;
         var startAngle = this.startAngle;
         var endAngle = this.endAngle;
-        var arc = endAngle - startAngle;
+        var arc = $math.min(360, endAngle - startAngle);
         this.line.path = $path.moveTo({ x: radius * $math.cos(startAngle), y: radius * $math.sin(startAngle) }) + $path.arcTo(startAngle, arc, radius, radius);
     };
     /**

@@ -397,7 +397,7 @@ export class AxisRendererCircular extends AxisRenderer {
 		let startAngle: number = this.startAngle;
 		let endAngle: number = this.endAngle;
 
-		let arc: number = endAngle - startAngle;
+		let arc: number = $math.min(360, endAngle - startAngle);		
 		this.line.path = $path.moveTo({ x: radius * $math.cos(startAngle), y: radius * $math.sin(startAngle) }) + $path.arcTo(startAngle, arc, radius, radius);
 	}
 

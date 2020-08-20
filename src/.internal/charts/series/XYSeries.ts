@@ -661,13 +661,35 @@ export interface IXYSeriesEvents extends ISeriesEvents {
 export interface IXYSeriesAdapters extends ISeriesAdapters, IXYSeriesProperties {
 
 	/**
-	 * Applied to a calculated aggregate value on each grouped data item. Only
-	 * if `groupData = true` is set on the related `DateAxis`.
+	 * Applied to a source value that is being used to calculate aggregate values
+	 * for a grouped data item.
+	 * 
+	 * applied only if `groupData = true` is set on the related `DateAxis`.
 	 *
 	 * @since 4.9.35
 	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/using-custom-functions-for-data-item-grouping/} for more information
 	 */
 	groupValue: {
+		dataItem: XYSeriesDataItem,
+		interval: ITimeInterval,
+		dataField: IXYSeriesDataFields,
+		date: Date,
+		value: number
+	}
+
+	/**
+	 * Applied to a calculated aggregate data item and its values, so that
+	 * specific logic can be applied to calculation of derivative values.
+	 *
+	 * User's code needs to modify specific value in `values` object, most
+	 * probably `close` as it's the default grouping field.
+	 * 
+	 * Applied only * if `groupData = true` is set on the related `DateAxis`.
+	 *
+	 * @since 4.9.36
+	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/using-custom-functions-for-data-item-grouping/} for more information
+	 */
+	groupDataItem: {
 		dataItem: XYSeriesDataItem,
 		interval: ITimeInterval,
 		dataField: IXYSeriesDataFields,
@@ -1905,8 +1927,8 @@ export class XYSeries extends Series {
 	 *
 	 * @see {@link Tooltip}
 	 */
-	public hideTooltip() {
-		super.hideTooltip();
+	public hideTooltip(duration?:number) {
+		super.hideTooltip(duration);
 		this.returnBulletDefaultState();
 		this._prevTooltipDataItem = undefined;
 	}
@@ -1996,6 +2018,7 @@ export class XYSeries extends Series {
 							this.tooltipY = tooltipPoint.y;
 
 							if (this._prevTooltipDataItem != dataItem) {
+
 								this.dispatchImmediately("tooltipshownat", {
 									type: "tooltipshownat",
 									target: this,
@@ -2577,6 +2600,26 @@ export class XYSeries extends Series {
 				anim = dataItem.hide(realDuration, delay, value, fields);
 			}
 		});
+
+
+		// other data sets
+		this.dataSets.each((key, dataSet) => {
+			if (dataSet != this.dataItems) {
+				dataSet.each((dataItem) => {
+					dataItem.events.disable();
+					dataItem.hide(0, 0, value, fields);
+					dataItem.events.enable();
+				})
+			}
+		})
+
+		if (this.mainDataSet != this.dataItems) {
+			this.mainDataSet.each((dataItem) => {
+				dataItem.events.disable();
+				dataItem.hide(0, 0, value, fields);
+				dataItem.events.enable();
+			})
+		}		
 
 		let animation = super.hide(interpolationDuration);
 		if (animation && !animation.isFinished()) {

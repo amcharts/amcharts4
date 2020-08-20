@@ -1413,7 +1413,7 @@ export class XYChart extends SerialChart {
 								})
 							}
 
-							seriesPoint.series.tooltip.hide(0);
+							seriesPoint.series.hideTooltip(0);
 						}
 					})
 
@@ -1421,7 +1421,7 @@ export class XYChart extends SerialChart {
 						if (newSeriesPoints.length > 0) {
 							$array.each(newSeriesPoints, (np) => {
 								if (nearestSeries != np.series) {
-									np.series.tooltip.hide(0);
+									np.series.hideTooltip(0);
 								}
 							})
 						}

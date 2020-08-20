@@ -163,7 +163,7 @@ export class NumberFormatter extends BaseObject {
 		let source: number = Number(value);
 
 		// Is it a built-in format or Intl.NumberFormatOptions
-		if (format instanceof Object) {
+		if ($type.isObject(format)) {
 			try {
 				if (this.intlLocales) {
 					return new Intl.NumberFormat(this.intlLocales, <Intl.NumberFormatOptions>format).format(source);

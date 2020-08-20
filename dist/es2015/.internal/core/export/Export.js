@@ -1934,7 +1934,7 @@ var Export = /** @class */ (function (_super) {
                             pageOrientation: options.pageOrientation || "portrait",
                             pageMargins: options.pageMargins || defaultMargins,
                             defaultStyle: {
-                                font: options.font ? options.font.name : undefined,
+                                font: options.font ? options.font.name : undefined
                             },
                             //header: <any>[],
                             content: []
@@ -1947,7 +1947,7 @@ var Export = /** @class */ (function (_super) {
                         if (title) {
                             doc.content.push({
                                 text: title,
-                                fontSize: options.fontSize,
+                                fontSize: options.fontSize || 14,
                                 bold: true,
                                 margin: [0, 0, 0, 15]
                             });
@@ -1978,6 +1978,7 @@ var Export = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.getPDFData("pdf", options)];
                     case 3:
                         _b.apply(_a, [(_c.table = _d.sent(),
+                                _c.fontSize = options.fontSize || 14,
                                 _c)]);
                         _d.label = 4;
                     case 4:

@@ -1013,15 +1013,28 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					}
 				})
 
-
+				let roundedDate: Date;
 				dataItems.each((dataItem) => {
 					let date = dataItem.getDate(key);
 					if (date) {
 						let time = date.getTime();
-						let roundedDate = $time.round(new Date(time), interval.timeUnit, interval.count, this._df.firstDayOfWeek, this._df.utc);
+						roundedDate = $time.round(new Date(time), interval.timeUnit, interval.count, this._df.firstDayOfWeek, this._df.utc);
 						let currentTime = roundedDate.getTime();
 						// changed period								
 						if (previousTime < currentTime) {
+
+							if (newDataItem && series._adapterO) {
+								$array.each(dataFields, (vkey) => {
+									newDataItem.values[vkey].value = series._adapterO.apply("groupDataItem", {
+										dataItem: newDataItem,
+										interval: interval,
+										dataField: <any>vkey,
+										date: roundedDate,
+										value: newDataItem.values[vkey].value
+									}).value;
+								});
+							}
+
 							newDataItem = dataSet.create();
 
 							newDataItem.dataContext = {};
@@ -1157,6 +1170,19 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 						$utils.copyProperties(dataItem.dataContext, newDataItem.dataContext);
 					}
 				})
+
+				if (newDataItem && series._adapterO) {
+					$array.each(dataFields, (vkey) => {
+						newDataItem.values[vkey].value = series._adapterO.apply("groupDataItem", {
+							dataItem: newDataItem,
+							interval: interval,
+							dataField: <any>vkey,
+							date: roundedDate,
+							value: newDataItem.values[vkey].value
+						}).value;
+					});
+				}
+
 			})
 
 			this.calculateZoom();

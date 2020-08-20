@@ -261,6 +261,8 @@ var MapPolygonSeries = /** @class */ (function (_super) {
         _this.dataFields.polygon = "polygon";
         _this.dataFields.geoPolygon = "geoPolygon";
         _this.dataFields.multiGeoPolygon = "multiGeoPolygon";
+        _this.setPropertyValue("sortPolygonsBy", "area");
+        _this.setPropertyValue("sortPolygonsReversed", false);
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -369,13 +371,62 @@ var MapPolygonSeries = /** @class */ (function (_super) {
         this.dataItems.each(function (dataItem) {
             $utils.used(dataItem.mapPolygon);
         });
-        this.mapPolygons.each(function (mapPolygon) {
-            mapPolygon.validate();
-            // makes small go first to avoid hover problems with IE
-            if (!mapPolygon.zIndex && !mapPolygon.propertyFields.zIndex) {
-                mapPolygon.zIndex = 1000000 - mapPolygon.boxArea;
-            }
-        });
+        if (this.sortPolygonsBy != "none") {
+            var sortBy_1 = this.sortPolygonsBy;
+            var reversed_1 = this.sortPolygonsReversed;
+            this.mapPolygons.sort(function (a, b) {
+                var valA = "";
+                var valB = "";
+                var dirA = -1;
+                var dirB = 1;
+                switch (sortBy_1) {
+                    case "area":
+                        valA = a.boxArea;
+                        valB = b.boxArea;
+                        dirA = -1;
+                        dirB = 1;
+                        break;
+                    case "name":
+                        valA = a.dataItem.dataContext.name || "";
+                        valB = b.dataItem.dataContext.name || "";
+                        dirA = 1;
+                        dirB = -1;
+                        break;
+                    case "id":
+                        valA = a.dataItem.dataContext.id || "";
+                        valB = b.dataItem.dataContext.id || "";
+                        dirA = 1;
+                        dirB = -1;
+                        break;
+                    case "latitude":
+                        valA = reversed_1 ? a.south : a.north;
+                        valB = reversed_1 ? b.south : b.north;
+                        dirA = -1;
+                        dirB = 1;
+                        break;
+                    case "longitude":
+                        valA = reversed_1 ? a.east : a.west;
+                        valB = reversed_1 ? b.east : b.west;
+                        dirA = 1;
+                        dirB = -1;
+                        break;
+                }
+                if (valA < valB) {
+                    return reversed_1 ? dirB : dirA;
+                }
+                if (valA > valB) {
+                    return reversed_1 ? dirA : dirB;
+                }
+                return 0;
+            });
+            this.mapPolygons.each(function (mapPolygon, index) {
+                mapPolygon.validate();
+                // makes small go first to avoid hover problems with IE
+                if (!mapPolygon.zIndex && !mapPolygon.propertyFields.zIndex) {
+                    mapPolygon.zIndex = 1000000 - index;
+                }
+            });
+        }
     };
     Object.defineProperty(MapPolygonSeries.prototype, "mapPolygons", {
         /**
@@ -441,6 +492,57 @@ var MapPolygonSeries = /** @class */ (function (_super) {
         });
         return features;
     };
+    Object.defineProperty(MapPolygonSeries.prototype, "sortPolygonsBy", {
+        /**
+         * @return How to sort map polygons
+         */
+        get: function () {
+            return this.getPropertyValue("sortPolygonsBy");
+        },
+        /**
+         * How to order polygons in actual SVG document. Affects selection order
+         * using TAB key.
+         *
+         * Available options: `"area"` (default), `"name"`, `"longitude"`,
+         * `"latitude"`, `"id"`, and `"none"`.
+         *
+         * @default area
+         * @since 4.9.36
+         * @param value  How to sort map polygons
+         */
+        set: function (value) {
+            if (this.setPropertyValue("sortPolygonsBy", value)) {
+                this.invalidateData();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapPolygonSeries.prototype, "sortPolygonsReversed", {
+        /**
+         * @return Reverse polygon sort direction
+         */
+        get: function () {
+            return this.getPropertyValue("sortPolygonsReversed");
+        },
+        /**
+         * If `sortPolygonsBy` is set to something other than `"none"`, polygons
+         * will be sorted by the given parameter, using natural sort direction.
+         *
+         * Setting `sortPolygonsReversed = true` will reverse this direction.
+         *
+         * @default false
+         * @since 4.9.36
+         * @param value  Reverse polygon sort direction
+         */
+        set: function (value) {
+            if (this.setPropertyValue("sortPolygonsReversed", value)) {
+                this.invalidateData();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return MapPolygonSeries;
 }(MapSeries));
 export { MapPolygonSeries };

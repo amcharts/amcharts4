@@ -1062,14 +1062,14 @@ var XYChart = /** @class */ (function (_super) {
                                     sprite.handleOutReal(); // to avoid flicker
                                 });
                             }
-                            seriesPoint.series.tooltip.hide(0);
+                            seriesPoint.series.hideTooltip(0);
                         }
                     });
                     if (cursor_1.maxTooltipDistance < 0) {
                         if (newSeriesPoints_1.length > 0) {
                             $array.each(newSeriesPoints_1, function (np) {
                                 if (nearestSeries_1 != np.series) {
-                                    np.series.tooltip.hide(0);
+                                    np.series.hideTooltip(0);
                                 }
                             });
                         }

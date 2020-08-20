@@ -3119,7 +3119,7 @@ export class Export extends Validatable {
 			pageOrientation: options.pageOrientation || "portrait",
 			pageMargins: options.pageMargins || defaultMargins,
 			defaultStyle: {
-				font: options.font ? options.font.name : undefined,
+				font: options.font ? options.font.name : undefined
 			},
 			//header: <any>[],
 			content: <any>[]
@@ -3136,7 +3136,7 @@ export class Export extends Validatable {
 		if (title) {
 			doc.content.push({
 				text: title,
-				fontSize: options.fontSize,
+				fontSize: options.fontSize || 14,
 				bold: true,
 				margin: [0, 0, 0, 15]
 			});
@@ -3169,7 +3169,8 @@ export class Export extends Validatable {
 		// Add data
 		if (type == "pdfdata" || options.addData) {
 			doc.content.push({
-				table: await this.getPDFData("pdf", options)
+				table: await this.getPDFData("pdf", options),
+				fontSize: options.fontSize || 14
 			});
 		}
 
