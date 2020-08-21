@@ -367,7 +367,7 @@ var Legend = /** @class */ (function (_super) {
         rectangle.width = percent(100);
         rectangle.height = percent(100);
         rectangle.applyOnClones = true;
-        //rectangle.propertyFields.fill = "fill"; //othrwise old edge doesn't like as the same pattern is set both on parent and child https://codepen.io/team/amcharts/pen/72d7a98f3fb811d3118795220ff63182
+        rectangle.propertyFields.fill = "fill"; //othrwise old edge doesn't like as the same pattern is set both on parent and child https://codepen.io/team/amcharts/pen/72d7a98f3fb811d3118795220ff63182
         rectangle.strokeOpacity = 0;
         // Create a template container and list for item labels
         var label = new Label();
@@ -461,6 +461,9 @@ var Legend = /** @class */ (function (_super) {
                 dataContext.createLegendMarker(marker);
                 dataItem.childrenCreated = true;
             }
+        }
+        else {
+            this.markers.template.propertyFields.fill = undefined;
         }
         if (dataContext.updateLegendValue) {
             dataContext.updateLegendValue(); // this solves issue with external legend, as legend is created after chart updates legend values

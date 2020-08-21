@@ -585,7 +585,7 @@ export class Legend extends Component {
 		rectangle.width = percent(100);
 		rectangle.height = percent(100);
 		rectangle.applyOnClones = true;
-		//rectangle.propertyFields.fill = "fill"; //othrwise old edge doesn't like as the same pattern is set both on parent and child https://codepen.io/team/amcharts/pen/72d7a98f3fb811d3118795220ff63182
+		rectangle.propertyFields.fill = "fill"; //othrwise old edge doesn't like as the same pattern is set both on parent and child https://codepen.io/team/amcharts/pen/72d7a98f3fb811d3118795220ff63182
 		rectangle.strokeOpacity = 0;
 
 		// Create a template container and list for item labels
@@ -663,7 +663,6 @@ export class Legend extends Component {
 	 */
 	public validateDataElement(dataItem: this["_dataItem"]): void {
 		super.validateDataElement(dataItem);
-
 		// Get data item (legend item's) container
 		let container = dataItem.itemContainer;
 
@@ -680,7 +679,7 @@ export class Legend extends Component {
 
 		let tempMaxWidth = dataItem.label.maxWidth;
 		dataItem.label.width = undefined;
-		if(tempMaxWidth > 0){
+		if (tempMaxWidth > 0) {
 			dataItem.label.maxWidth = tempMaxWidth;
 		}
 		if (valueLabel.align == "right") {
@@ -698,6 +697,9 @@ export class Legend extends Component {
 				dataContext.createLegendMarker(marker);
 				dataItem.childrenCreated = true;
 			}
+		}
+		else {
+			this.markers.template.propertyFields.fill = undefined;
 		}
 
 		if (dataContext.updateLegendValue) {
