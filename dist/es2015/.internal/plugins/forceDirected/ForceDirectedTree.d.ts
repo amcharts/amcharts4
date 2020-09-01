@@ -8,8 +8,12 @@
  * @hidden
  */
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "../../charts/types/SerialChart";
-import { ForceDirectedSeries } from "./ForceDirectedSeries";
+import { ForceDirectedSeries, ForceDirectedSeriesDataItem } from "./ForceDirectedSeries";
 import { Export } from "../../core/export/Export";
+import { IPoint } from "../../core/defs/IPoint";
+import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
+import { IDisposer } from "../../core/utils/Disposer";
+import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
 /**
  * ============================================================================
  * DATA ITEM
@@ -43,6 +47,28 @@ export interface IForceDirectedTreeDataFields extends ISerialChartDataFields {
  * @since 4.3.8
  */
 export interface IForceDirectedTreeProperties extends ISerialChartProperties {
+    /**
+     * Indicates whether chart can be zoomed/panned (via mouse, touch, or API).
+     *
+     * @since 4.10.0
+     * @default false
+     */
+    zoomable?: boolean;
+    /**
+     * Specifies what should chart do if when mouse wheel is rotated.
+     *
+     * @since 4.10.0
+     * @default none
+     */
+    mouseWheelBehavior?: "zoom" | "none";
+    /**
+     * When user zooms in or out current zoom level is multiplied or divided
+     * by value of this setting.
+     *
+     * @since 4.10.0
+     * @default 2
+     */
+    zoomStep?: number;
 }
 /**
  * Defines events for [[ForceDirectedTree]].
@@ -100,6 +126,44 @@ export declare class ForceDirectedTree extends SerialChart {
      */
     _seriesType: ForceDirectedSeries;
     /**
+     * @ignore
+     */
+    protected _mouseWheelDisposer: IDisposer;
+    /**
+     * @ignore
+     */
+    protected _backgroundZoomoutDisposer: IDisposer;
+    /**
+     * Default duration of zoom animations (ms).
+     */
+    zoomDuration: number;
+    /**
+     * Default zooming animation easing function.
+     */
+    zoomEasing: (value: number) => number;
+    /**
+     * Smallest available zoom level. The chart will not allow to zoom out past
+     * this setting.
+     *
+     * NOTE: Should be power of 2.
+     *
+     * @default 1
+     */
+    minZoomLevel: number;
+    /**
+     * Biggest available zoom level. The chart will not allow to zoom in past
+     * this setting.
+     *
+     * NOTE: Should be power of 2.
+     *
+     * @default 32
+     */
+    maxZoomLevel: number;
+    /**
+     * A button which is used to zoom out the chart.
+     */
+    protected _zoomOutButton: ZoomOutButton;
+    /**
      * Constructor
      */
     constructor();
@@ -134,4 +198,83 @@ export declare class ForceDirectedTree extends SerialChart {
      * @return Export
      */
     protected getExporting(): Export;
+    /**
+     * Handles mouse wheel event, e.g. user rotates mouse wheel while over the
+     * map: zooms in or out depending on the direction of the wheel turn.
+     *
+     * @param event  Original event
+     */
+    protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]): void;
+    /**
+     * Zooms the chart to particular point.
+     *
+     * @from 4.10.0
+     * @param  point      A point to zoom to
+     * @param  zoomLevel  Zoom level
+     * @param  center     Should the chart center on the target point?
+     */
+    zoomToPoint(point: IPoint, zoomLevel: number, center?: boolean): void;
+    /**
+     * Zooms the chart to particular data item (node).
+     *
+     * @from 4.10.0
+     * @param  dataItem   A data item to zoom to
+     * @param  zoomLevel  Zoom level
+     * @param  center     Should the chart center on the target point?
+     */
+    zoomToDataItem(dataItem: ForceDirectedSeriesDataItem, zoomLevel?: number, center?: boolean): void;
+    /**
+     * Zooms out the chart to initial full view.
+     *
+     * @from 4.10.0
+     */
+    zoomOut(): void;
+    /**
+     * When user zooms in or out current zoom level is multiplied or divided
+     * by value of this setting.
+     *
+     * @default false
+     * @since 4.10.0
+     * @see {@link https://www.amcharts.com/docs/v4/chart-types/force-directed/#Zooming} for more information about zooming ForceDirectedTree
+     * @param value  Zoomable
+     */
+    /**
+    * @return Zoomable
+    */
+    zoomable: boolean;
+    /**
+     * Specifies what should chart do if when mouse wheel is rotated.
+     *
+     * @param Mouse wheel behavior
+     * @since 4.10.0
+     * @default none
+     */
+    /**
+    * @return Mouse wheel behavior
+    */
+    mouseWheelBehavior: "zoom" | "none";
+    /**
+     * When user zooms in or out current zoom level is multiplied or divided
+     * by value of this setting.
+     *
+     * @since 4.10.0
+     * @default 2
+     * @param value  Zoom factor
+     */
+    /**
+    * @return Zoom factor
+    */
+    zoomStep: number;
+    /**
+     * A [[Button]] element that is used for zooming out the chart.
+     *
+     * This button appears only when chart is zoomed in, and disappears
+     * autoamatically when it is zoome dout.
+     *
+     * @param button  Zoom out button
+     */
+    /**
+    * @return Zoom out button
+    */
+    zoomOutButton: ZoomOutButton;
 }

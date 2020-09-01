@@ -1747,6 +1747,9 @@ export class Label extends Container {
 				)
 			);
 		}
+		else if (this.dataItem) {
+			title = this.populateString(title);
+		}
 		return title;
 	}
 }

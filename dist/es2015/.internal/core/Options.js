@@ -14,6 +14,7 @@ export var options = {
     suppressErrors: false,
     suppressWarnings: false,
     animationsEnabled: true,
-    nonce: ""
+    nonce: "",
+    deferredDelay: 100
 };
 //# sourceMappingURL=Options.js.map

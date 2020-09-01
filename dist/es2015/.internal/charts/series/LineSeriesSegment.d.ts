@@ -11,6 +11,7 @@
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
 import { Sprite } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
+import { LineSeries } from "./LineSeries";
 /**
  * ============================================================================
  * REQUISITES
@@ -71,6 +72,7 @@ export declare class LineSeriesSegment extends Container {
      * Segment's fill element.
      */
     fillSprite: Sprite;
+    series: LineSeries;
     /**
      * Constructor
      */

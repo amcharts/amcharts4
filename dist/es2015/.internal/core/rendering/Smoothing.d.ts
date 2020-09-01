@@ -58,6 +58,25 @@ export declare class Tension implements ISmoothing {
  * @return SVG path
  */
 export declare function wavedLine(point1: IPoint, point2: IPoint, waveLength: number, waveHeight: number, tension: number, adjustWaveLength?: boolean): string;
+export declare class Monotone implements ISmoothing {
+    private _reversed;
+    private _closed;
+    constructor(reversed: boolean, info: {
+        closed: boolean;
+    });
+    private _curve;
+    smooth(points: Array<IPoint>): string;
+}
+export declare class MonotoneX extends Monotone {
+    constructor(info: {
+        closed: boolean;
+    });
+}
+export declare class MonotoneY extends Monotone {
+    constructor(info: {
+        closed: boolean;
+    });
+}
 /**
  * @ignore Exclude from docs
  * @todo Description

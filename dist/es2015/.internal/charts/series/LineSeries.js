@@ -94,6 +94,7 @@ var LineSeries = /** @class */ (function (_super) {
         _this.tensionX = 1;
         _this.tensionY = 1;
         _this.autoGapCount = 1.1;
+        _this.smoothing = "bezier";
         _this.segmentsContainer = _this.mainContainer.createChild(Container);
         _this.segmentsContainer.isMeasured = false;
         // line series might have multiple segments and it has a separate sprite for fill and stroke for each segment. So we need to observe all the changes on series and set them on the segments
@@ -312,6 +313,7 @@ var LineSeries = /** @class */ (function (_super) {
     };
     LineSeries.prototype.getSegment = function () {
         var segment = this._segmentsIterator.getFirst();
+        segment.series = this;
         if (segment.isDisposed()) {
             this.segments.removeValue(segment);
             return this.getSegment();
@@ -715,6 +717,32 @@ var LineSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("autoGapCount", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(LineSeries.prototype, "smoothing", {
+        /**
+         * @return Smoothing algorithm
+         */
+        get: function () {
+            return this.getPropertyValue("smoothing");
+        },
+        /**
+         * Smoothing algorithm to be used for lines.
+         *
+         * Available options: `"bezier"` (default), `"monotoneX"`, and `"monotoneY"`.
+         *
+         * Monotone options are best suited for data with irregular intervals. Use `"monotoneX"` for
+         * horizontal lines, and `"monotoneY"` vertical ones.
+         *
+         * NOTE: Both "monotone" algorithms will ignore `tensionX` and `tensionY` settings.
+         *
+         * @since 4.10.0
+         * @param  value  Smoothing algorithm
+         */
+        set: function (value) {
+            this.setPropertyValue("smoothing", value, true);
         },
         enumerable: true,
         configurable: true

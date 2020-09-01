@@ -231,5 +231,5 @@ import * as net from "./.internal/core/utils/Net";
 export { net }
 
 export { ITheme } from "./.internal/themes/ITheme";
-export { create, createFromConfig, disposeAllCharts } from "./.internal/core/utils/Instance";
+export { create, createFromConfig, createDeferred, disposeAllCharts } from "./.internal/core/utils/Instance";
 export { useTheme, unuseTheme, unuseAllThemes, addLicense } from "./.internal/core/utils/Instance";

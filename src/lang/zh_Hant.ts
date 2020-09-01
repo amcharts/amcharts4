@@ -270,13 +270,13 @@ export default {
     if ((day < 11) || (day > 13)) {
       switch (day % 10) {
         case 1:
-          res = "st";
+          res = "日";
           break;
         case 2:
-          res = "nd";
+          res = "日";
           break;
         case 3:
-          res = "rd"
+          res = "日"
           break;
       }
     }

@@ -60,6 +60,7 @@ var ForceDirectedNode = /** @class */ (function (_super) {
         var outerCircle = _this.createChild(Circle);
         outerCircle.shouldClone = false;
         outerCircle.strokeWidth = 2;
+        outerCircle.nonScalingStroke = true;
         var bgColor = new InterfaceColorSet().getFor("background");
         outerCircle.fill = bgColor;
         _this.outerCircle = outerCircle;
@@ -90,6 +91,7 @@ var ForceDirectedNode = /** @class */ (function (_super) {
         label.interactionsEnabled = false;
         label.textAlign = "middle";
         label.textValign = "middle";
+        label.nonScaling = true;
         _this.label = label;
         _this.adapter.add("tooltipY", function (y, target) {
             return -target.circle.pixelRadius;

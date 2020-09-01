@@ -153,6 +153,7 @@ export class ForceDirectedNode extends Container {
 		let outerCircle = this.createChild(Circle);
 		outerCircle.shouldClone = false;
 		outerCircle.strokeWidth = 2;
+		outerCircle.nonScalingStroke = true;
 
 		let bgColor = new InterfaceColorSet().getFor("background");
 		outerCircle.fill = bgColor;
@@ -195,6 +196,7 @@ export class ForceDirectedNode extends Container {
 		label.interactionsEnabled = false;
 		label.textAlign = "middle";
 		label.textValign = "middle";
+		label.nonScaling = true;
 		this.label = label;
 
 		this.adapter.add("tooltipY", (y, target) => {

@@ -186,6 +186,13 @@ var MapChart = /** @class */ (function (_super) {
         chartContainerBg.events.on("doublehit", _this.handleDoubleHit, _this);
         chartContainerBg.focusable = true;
         chartContainer.events.on("down", _this.handleMapDown, _this, false);
+        _this.addDisposer(seriesContainer.events.on("down", function () {
+            // Cancel any move inertia if there is one
+            var inertia = _this.seriesContainer.interactions.inertias.getKey("move");
+            if (inertia) {
+                inertia.done();
+            }
+        }));
         // Add description to background
         _this.background.fillOpacity = 0;
         // Add keyboard events for panning

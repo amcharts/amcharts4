@@ -208,6 +208,146 @@ export function wavedLine(point1: IPoint, point2: IPoint, waveLength: number, wa
 }
 
 
+export class Monotone implements ISmoothing {
+	private _reversed: boolean;
+	private _closed: boolean;
+
+	constructor(reversed: boolean, info: { closed: boolean }) {
+		this._reversed = reversed;
+		this._closed = info.closed;
+	}
+
+	// According to https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Representations
+	// "you can express cubic Hermite interpolation in terms of cubic Bézier curves
+	// with respect to the four values p0, p0 + m0 / 3, p1 - m1 / 3, p1".
+	private _curve(x0: number, x1: number, y0: number, y1: number, t0: number, t1: number): string {
+		const dx = (x1 - x0) / 3;
+
+		if (this._reversed) {
+			return $path.cubicCurveTo(
+				{ x: y1, y: x1 },
+				{ x: y0 + dx * t0, y: x0 + dx },
+				{ x: y1 - dx * t1, y: x1 - dx }
+			);
+
+		} else {
+			return $path.cubicCurveTo(
+				{ x: x1, y: y1 },
+				{ x: x0 + dx, y: y0 + dx * t0 },
+				{ x: x1 - dx, y: y1 - dx * t1 }
+			);
+		}
+	}
+
+	public smooth(points: Array<IPoint>): string {
+		let x0: number = NaN;
+		let x1: number = NaN;
+		let y0: number = NaN;
+		let y1: number = NaN;
+		let t0: number = NaN;
+		let point: number = 0;
+
+		let output = "";
+
+		$array.each(points, ({ x, y }) => {
+			if (this._reversed) {
+				let temp = x;
+				x = y;
+				y = temp;
+			}
+
+			let t1 = NaN;
+
+			if (!(x === x1 && y === y1)) {
+				switch (point) {
+				case 0:
+					point = 1;
+
+					if (this._reversed) {
+						output += $path.lineTo({ x: y, y: x });
+
+					} else {
+						output += $path.lineTo({ x, y });
+					}
+					break;
+				case 1:
+					point = 2;
+					break;
+				case 2:
+					point = 3;
+					output += this._curve(x0, x1, y0, y1, slope2(x0, x1, y0, y1, t1 = slope3(x0, x1, y0, y1, x, y)), t1);
+					break;
+				default:
+					output += this._curve(x0, x1, y0, y1, t0, t1 = slope3(x0, x1, y0, y1, x, y));
+					break;
+				}
+
+				x0 = x1;
+				x1 = x;
+				y0 = y1;
+				y1 = y;
+				t0 = t1;
+			}
+		});
+
+		switch (point) {
+		case 2:
+			if (this._reversed) {
+				output += $path.lineTo({ x: y1, y: x1 });
+
+			} else {
+				output += $path.lineTo({ x: x1, y: y1 });
+			}
+			break;
+		case 3:
+			output += this._curve(x0, x1, y0, y1, t0, slope2(x0, x1, y0, y1, t0));
+			break;
+		}
+
+		if (this._closed) {
+			output += $path.closePath();
+		}
+
+		return output;
+	}
+}
+
+
+// TODO move this someplace else
+function sign(x: number): -1 | 1 {
+	return x < 0 ? -1 : 1;
+}
+
+
+function slope2(x0: number, x1: number, y0: number, y1: number, t: number): number {
+	const h = x1 - x0;
+	return h ? (3 * (y1 - y0) / h - t) / 2 : t;
+}
+
+
+function slope3(x0: number, x1: number, y0: number, y1: number, x2: number, y2: number): number {
+	const h0 = x1 - x0;
+	const h1 = x2 - x1;
+	const s0 = (y1 - y0) / (h0 || h1 < 0 && -0);
+	const s1 = (y2 - y1) / (h1 || h0 < 0 && -0);
+	const p = (s0 * h1 + s1 * h0) / (h0 + h1);
+	return (sign(s0) + sign(s1)) * Math.min(Math.abs(s0), Math.abs(s1), 0.5 * Math.abs(p)) || 0;
+}
+
+
+export class MonotoneX extends Monotone {
+	constructor(info: { closed: boolean }) {
+		super(false, info);
+	}
+}
+
+export class MonotoneY extends Monotone {
+	constructor(info: { closed: boolean }) {
+		super(true, info);
+	}
+}
+
+
 /**
  * @ignore Exclude from docs
  * @todo Description

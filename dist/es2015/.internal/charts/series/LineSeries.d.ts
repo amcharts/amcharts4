@@ -87,6 +87,7 @@ export interface ILineSeriesProperties extends IXYSeriesProperties {
      * @default 1.1
      */
     autoGapCount?: number;
+    smoothing: "bezier" | "monotoneX" | "monotoneY";
 }
 /**
  * Defines events for [[LineSeries]].
@@ -381,4 +382,21 @@ export declare class LineSeries extends XYSeries {
     * @return Gap count
     */
     autoGapCount: number;
+    /**
+     * Smoothing algorithm to be used for lines.
+     *
+     * Available options: `"bezier"` (default), `"monotoneX"`, and `"monotoneY"`.
+     *
+     * Monotone options are best suited for data with irregular intervals. Use `"monotoneX"` for
+     * horizontal lines, and `"monotoneY"` vertical ones.
+     *
+     * NOTE: Both "monotone" algorithms will ignore `tensionX` and `tensionY` settings.
+     *
+     * @since 4.10.0
+     * @param  value  Smoothing algorithm
+     */
+    /**
+    * @return Smoothing algorithm
+    */
+    smoothing: "bezier" | "monotoneX" | "monotoneY";
 }

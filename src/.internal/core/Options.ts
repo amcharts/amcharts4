@@ -163,6 +163,15 @@ export interface Options {
 	 */
 	nonce: string
 
+	/**
+	 * When charts are created using `am4core.createDeferred()`, this parameter
+	 * determines number of milliseconds to wait between creation of each chart.
+	 *
+	 * @default 100
+	 * @since 4.10.0
+	 */
+	deferredDelay: number;
+
 }
 
 /**
@@ -181,5 +190,6 @@ export const options: Options = {
 	suppressErrors: false,
 	suppressWarnings: false,
 	animationsEnabled: true,
-	nonce: ""
+	nonce: "",
+	deferredDelay: 100
 };

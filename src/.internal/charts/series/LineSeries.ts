@@ -121,6 +121,9 @@ export interface ILineSeriesProperties extends IXYSeriesProperties {
 	 * @default 1.1
 	 */
 	autoGapCount?: number;
+
+	//@todo mm
+	smoothing: "bezier" | "monotoneX" | "monotoneY";
 }
 
 /**
@@ -245,6 +248,9 @@ export class LineSeries extends XYSeries {
 
 		this.autoGapCount = 1.1;
 
+		this.smoothing = "bezier";
+
+
 		this.segmentsContainer = this.mainContainer.createChild(Container);
 		this.segmentsContainer.isMeasured = false;
 
@@ -319,8 +325,8 @@ export class LineSeries extends XYSeries {
 						dataItem.setWorkingLocation("dateX", dataItem.locations.dateX - 1, 0); // instantly move it to previous
 						dataItem.setWorkingLocation("dateX", dataItem.locations.dateX); // animate to it's location
 					}
-					else if(xAxis instanceof DurationAxis){
-						if(previousDataItem){
+					else if (xAxis instanceof DurationAxis) {
+						if (previousDataItem) {
 							let value = dataItem.valueX;
 							dataItem.setWorkingValue("valueX", previousDataItem.valueX, 0); // instantly move it to previous
 							dataItem.setWorkingValue("valueX", value); // animate to new value
@@ -342,13 +348,13 @@ export class LineSeries extends XYSeries {
 						dataItem.setWorkingLocation("dateY", dataItem.locations.dateX - 1, 0); // instantly move it to previous
 						dataItem.setWorkingLocation("dateY", dataItem.locations.dateY); // animate to it's location
 					}
-					else if(yAxis instanceof DurationAxis){
-						if(previousDataItem){
+					else if (yAxis instanceof DurationAxis) {
+						if (previousDataItem) {
 							let value = dataItem.valueY;
 							dataItem.setWorkingValue("valueY", previousDataItem.valueY, 0); // instantly move it to previous
 							dataItem.setWorkingValue("valueY", value); // animate to new value
 						}
-					}				
+					}
 				}
 			}
 		}
@@ -493,13 +499,14 @@ export class LineSeries extends XYSeries {
 	}
 
 
-	protected getSegment():LineSeriesSegment{
-			let segment = this._segmentsIterator.getFirst();
-			if(segment.isDisposed()){
-				this.segments.removeValue(segment);
-				return this.getSegment();
-			}
-			return segment;
+	protected getSegment(): LineSeriesSegment {
+		let segment = this._segmentsIterator.getFirst();
+		segment.series = this;
+		if (segment.isDisposed()) {
+			this.segments.removeValue(segment);
+			return this.getSegment();
+		}
+		return segment;
 	}
 
 	/**
@@ -520,7 +527,7 @@ export class LineSeries extends XYSeries {
 		let propertiesChanged: boolean = false;
 
 		let segment: LineSeriesSegment = this.getSegment();
-    segment.strokeDasharray = undefined;
+		segment.strokeDasharray = undefined;
 		segment.__disabled = false;
 
 		if (axisRange) {
@@ -935,6 +942,30 @@ export class LineSeries extends XYSeries {
 	 */
 	public get autoGapCount(): number {
 		return this.getPropertyValue("autoGapCount");
+	}
+
+	/**
+	 * Smoothing algorithm to be used for lines.
+	 *
+	 * Available options: `"bezier"` (default), `"monotoneX"`, and `"monotoneY"`.
+	 *
+	 * Monotone options are best suited for data with irregular intervals. Use `"monotoneX"` for
+	 * horizontal lines, and `"monotoneY"` vertical ones.
+	 *
+	 * NOTE: Both "monotone" algorithms will ignore `tensionX` and `tensionY` settings.
+	 *
+	 * @since 4.10.0
+	 * @param  value  Smoothing algorithm
+	 */
+	public set smoothing(value: "bezier" | "monotoneX" | "monotoneY") {
+		this.setPropertyValue("smoothing", value, true);
+	}
+
+	/**
+	 * @return Smoothing algorithm
+	 */
+	public get smoothing(): "bezier" | "monotoneX" | "monotoneY" {
+		return this.getPropertyValue("smoothing");
 	}
 
 }

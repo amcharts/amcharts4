@@ -111,6 +111,66 @@ export declare function createFromConfig(config: {
     new (): Sprite;
 } | string): Sprite;
 /**
+ * Useful in creating real queues form mult-chart creation.
+ *
+ * Accepts a reference to a function which crates and returns actual chart
+ * object.
+ *
+ * It returns a `Promise` which you can use to catch chart instance once it's
+ * created.
+ *
+ * ```TypeScript
+ * am4core.createDeferred(function(div) {
+ *   // Create first chart
+ *   let chart = am4core.create(div, am4charts.XYChart);
+ *   // ...
+ *   return chart;
+ * }, "chartdiv1").then(chart) {
+ *   // `chart` variable holds an instance of the chart
+ *   console.log("Chart ready", chart);
+ * }
+ *
+ * am4core.createDeferred(function(div) {
+ *   // Create second chart
+ *   let chart = am4core.create(div, am4charts.PieChart);
+ *   // ...
+ *   return chart;
+ * }, "chartdiv2").then(chart) {
+ *   // `chart` variable holds an instance of the chart
+ *   console.log("Chart ready", chart);
+ * }
+ * ```
+ * ```JavaScript
+ * am4core.createDeferred(function(div) {
+ *   // Create first chart
+ *   var chart = am4core.create(div, am4charts.XYChart);
+ *   // ...
+ *   return chart;
+ * }, "chartdiv1").then(chart) {
+ *   // `chart` variable holds an instance of the chart
+ *   console.log("Chart ready", chart);
+ * }
+ *
+ * am4core.createDeferred(function(div) {
+ *   // Create second chart
+ *   var chart = am4core.create(div, am4charts.PieChart);
+ *   // ...
+ *   return chart;
+ * }, "chartdiv2").then(chart) {
+ *   // `chart` variable holds an instance of the chart
+ *   console.log("Chart ready", chart);
+ * }
+ * ```
+ *
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/performance/#Deferred_daisy_chained_instantiation} for more information
+ * @since 4.10.0
+ * @param  callback  Callback function that creates chart
+ * @param  scope     Scope to call callback in
+ * @param  ...rest   Parameters to pass into callback
+ * @return           Promise with chart instance
+ */
+export declare function createDeferred(callback: (...args: any) => Sprite, scope?: any, ...rest: Array<any>): Promise<Sprite>;
+/**
  * Applies a theme to System, and subsequently all chart instances created
  * from that point forward.
  *

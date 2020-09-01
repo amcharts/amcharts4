@@ -151,10 +151,30 @@ export declare class Registry {
      * this array, and will be removed when the chart is disposed.
      */
     baseSprites: Array<Sprite>;
+    /**
+     * An UID-based map of base sprites (top-level charts).
+     */
     baseSpritesByUid: {
         [index: string]: Sprite;
     };
+    /**
+     * Queued charts (waiting for their turn) to initialize.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/performance/#Daisy_chaining_multiple_charts} for more information
+     */
     queue: Array<Sprite>;
+    /**
+     * An array of deferred charts that haven't been created yet.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/performance/#Deferred_daisy_chained_instantiation} for more information
+     * @since 4.10.0
+     */
+    deferred: Array<{
+        callback: (...args: any) => Sprite;
+        scope?: any;
+        args?: Array<any>;
+        resolve: any;
+    }>;
     constructor();
     /**
      * Generates a unique chart system-wide ID.

@@ -725,6 +725,14 @@ export class MapChart extends SerialChart {
 
 		chartContainer.events.on("down", this.handleMapDown, this, false);
 
+		this.addDisposer(seriesContainer.events.on("down", () => {
+			// Cancel any move inertia if there is one
+			const inertia = this.seriesContainer.interactions.inertias.getKey("move");
+			if (inertia) {
+				inertia.done();
+			}
+		}))		
+
 		// Add description to background
 		this.background.fillOpacity = 0;
 

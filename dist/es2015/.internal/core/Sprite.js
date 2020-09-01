@@ -3656,6 +3656,10 @@ var Sprite = /** @class */ (function (_super) {
          * @return Description
          */
         get: function () {
+            var description = this.getPropertyValue("readerDescription");
+            if ($type.hasValue(description) && this.dataItem) {
+                return this.populateString(description);
+            }
             return this.getPropertyValue("readerDescription");
         },
         /**

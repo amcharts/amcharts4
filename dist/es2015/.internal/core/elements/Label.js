@@ -1335,6 +1335,9 @@ var Label = /** @class */ (function (_super) {
                     ? this.html
                     : this.text));
             }
+            else if (this.dataItem) {
+                title = this.populateString(title);
+            }
             return title;
         },
         /**

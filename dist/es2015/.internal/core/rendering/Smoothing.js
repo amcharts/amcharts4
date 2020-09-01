@@ -1,3 +1,4 @@
+import { __extends } from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -117,17 +118,17 @@ export function wavedLine(point1, point2, waveLength, waveHeight, tension, adjus
             else {
                 var halfWaveCount = Math.round(2 * distance / waveLength);
                 var points = [];
-                var sign = 1;
+                var sign_1 = 1;
                 if (x2 < x1) {
-                    sign *= -1;
+                    sign_1 *= -1;
                 }
                 if (y2 < y1) {
-                    sign *= -1;
+                    sign_1 *= -1;
                 }
                 for (var i = 0; i <= halfWaveCount; i++) {
-                    sign *= -1;
-                    var x = x1 + i * waveLengthX / 2 + sign * waveHeight / 2 * sin;
-                    var y = y1 + i * waveLengthY / 2 - sign * waveHeight / 2 * cos;
+                    sign_1 *= -1;
+                    var x = x1 + i * waveLengthX / 2 + sign_1 * waveHeight / 2 * sin;
+                    var y = y1 + i * waveLengthY / 2 - sign_1 * waveHeight / 2 * cos;
                     points.push({ x: x, y: y });
                 }
                 d = new Tension(tension, tension).smooth(points);
@@ -140,6 +141,122 @@ export function wavedLine(point1, point2, waveLength, waveHeight, tension, adjus
     }
     return d;
 }
+var Monotone = /** @class */ (function () {
+    function Monotone(reversed, info) {
+        this._reversed = reversed;
+        this._closed = info.closed;
+    }
+    // According to https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Representations
+    // "you can express cubic Hermite interpolation in terms of cubic Bézier curves
+    // with respect to the four values p0, p0 + m0 / 3, p1 - m1 / 3, p1".
+    Monotone.prototype._curve = function (x0, x1, y0, y1, t0, t1) {
+        var dx = (x1 - x0) / 3;
+        if (this._reversed) {
+            return $path.cubicCurveTo({ x: y1, y: x1 }, { x: y0 + dx * t0, y: x0 + dx }, { x: y1 - dx * t1, y: x1 - dx });
+        }
+        else {
+            return $path.cubicCurveTo({ x: x1, y: y1 }, { x: x0 + dx, y: y0 + dx * t0 }, { x: x1 - dx, y: y1 - dx * t1 });
+        }
+    };
+    Monotone.prototype.smooth = function (points) {
+        var _this = this;
+        var x0 = NaN;
+        var x1 = NaN;
+        var y0 = NaN;
+        var y1 = NaN;
+        var t0 = NaN;
+        var point = 0;
+        var output = "";
+        $array.each(points, function (_a) {
+            var x = _a.x, y = _a.y;
+            if (_this._reversed) {
+                var temp = x;
+                x = y;
+                y = temp;
+            }
+            var t1 = NaN;
+            if (!(x === x1 && y === y1)) {
+                switch (point) {
+                    case 0:
+                        point = 1;
+                        if (_this._reversed) {
+                            output += $path.lineTo({ x: y, y: x });
+                        }
+                        else {
+                            output += $path.lineTo({ x: x, y: y });
+                        }
+                        break;
+                    case 1:
+                        point = 2;
+                        break;
+                    case 2:
+                        point = 3;
+                        output += _this._curve(x0, x1, y0, y1, slope2(x0, x1, y0, y1, t1 = slope3(x0, x1, y0, y1, x, y)), t1);
+                        break;
+                    default:
+                        output += _this._curve(x0, x1, y0, y1, t0, t1 = slope3(x0, x1, y0, y1, x, y));
+                        break;
+                }
+                x0 = x1;
+                x1 = x;
+                y0 = y1;
+                y1 = y;
+                t0 = t1;
+            }
+        });
+        switch (point) {
+            case 2:
+                if (this._reversed) {
+                    output += $path.lineTo({ x: y1, y: x1 });
+                }
+                else {
+                    output += $path.lineTo({ x: x1, y: y1 });
+                }
+                break;
+            case 3:
+                output += this._curve(x0, x1, y0, y1, t0, slope2(x0, x1, y0, y1, t0));
+                break;
+        }
+        if (this._closed) {
+            output += $path.closePath();
+        }
+        return output;
+    };
+    return Monotone;
+}());
+export { Monotone };
+// TODO move this someplace else
+function sign(x) {
+    return x < 0 ? -1 : 1;
+}
+function slope2(x0, x1, y0, y1, t) {
+    var h = x1 - x0;
+    return h ? (3 * (y1 - y0) / h - t) / 2 : t;
+}
+function slope3(x0, x1, y0, y1, x2, y2) {
+    var h0 = x1 - x0;
+    var h1 = x2 - x1;
+    var s0 = (y1 - y0) / (h0 || h1 < 0 && -0);
+    var s1 = (y2 - y1) / (h1 || h0 < 0 && -0);
+    var p = (s0 * h1 + s1 * h0) / (h0 + h1);
+    return (sign(s0) + sign(s1)) * Math.min(Math.abs(s0), Math.abs(s1), 0.5 * Math.abs(p)) || 0;
+}
+var MonotoneX = /** @class */ (function (_super) {
+    __extends(MonotoneX, _super);
+    function MonotoneX(info) {
+        return _super.call(this, false, info) || this;
+    }
+    return MonotoneX;
+}(Monotone));
+export { MonotoneX };
+var MonotoneY = /** @class */ (function (_super) {
+    __extends(MonotoneY, _super);
+    function MonotoneY(info) {
+        return _super.call(this, true, info) || this;
+    }
+    return MonotoneY;
+}(Monotone));
+export { MonotoneY };
 /**
  * @ignore Exclude from docs
  * @todo Description

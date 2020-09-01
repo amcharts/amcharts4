@@ -5,6 +5,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.0] - 2020-09-01
+
+### Added
+- New `LineSeries` property: `smoothing` (`"bezier"` (default), `"monotoneX"`, and `"monotoneY"`) - indicates algorithm to use for smoothing the lines. Monotone algos are better suited for irregularly-spaced data.
+- `ForcedDirectedTree`: new property `zoomable` (default: `false`). If set to `true`, the chart will be zoomable/draggable using mouse, touch, or API. [More information](https://www.amcharts.com/docs/v4/chart-types/force-directed/#Zooming).
+- `ForcedDirectedTree`: zoom related properties added. `mouseWheelBehavior` (`"zoom"`, `"none"`) - controls what happens when mouse wheel is used over chart; `zoomStep` (default: `2`) - step to increase zoom level my each zoom in; `zoomOutButton` - an instance of button which is shown when chart is zoomed in.
+- `ForcedDirectedTree`: new zoom-related methods: `zoomToPoint(point, level, center)` and `zoomToDataItem(dataItem, level, center)`;
+- New global function: `am4core.createDeferred(callback, scope, ...parameters)`. Can be used to create multiple charts in a truly safe daisy-chain (next chart starts to be instantiated only when previous triggers a `ready` event). Returns a `Promise` with chart instance. [More information](https://www.amcharts.com/docs/v4/concepts/performance/#Deferred_daisy_chained_instantiation);
+- New global option: `am4core.options.deferredDelay` (default `100`). Specifies time-gap in milliseconds between deferred chart instantiations.
+
+### Changed
+- Added date ordinal translations for Chinese locales.
+
+### Fixed
+- Accessibility: `readerTitle` was not being properly populated with data on `Label`.
+- Accessibility: `readerDescription` was not being populated with data.
+- Now works with Angular Universal SSR. Please refer to our [Angular doc](https://www.amcharts.com/docs/v4/getting-started/integrations/using-angular2/) for instructions on how to structure your app for SSR to work properly.
+- When `MapChart` was panned with inertia and a polygon with `zoomToObject()` hit event was clicked when the map was still moving, the map was zooming into a wrong position.
+
+
 ## [4.9.37] - 2020-08-21
 
 ### Fixed

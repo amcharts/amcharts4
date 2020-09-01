@@ -4668,6 +4668,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @return Description
 	 */
 	public get readerDescription(): string {
+		const description = this.getPropertyValue("readerDescription");
+		if ($type.hasValue(description) && this.dataItem) {
+			return this.populateString(description);
+		}
 		return this.getPropertyValue("readerDescription");
 	}
 

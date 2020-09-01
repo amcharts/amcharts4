@@ -107,26 +107,44 @@ var Registry = /** @class */ (function () {
          * this array, and will be removed when the chart is disposed.
          */
         this.baseSprites = [];
+        /**
+         * An UID-based map of base sprites (top-level charts).
+         */
         this.baseSpritesByUid = {};
+        /**
+         * Queued charts (waiting for their turn) to initialize.
+         *
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/performance/#Daisy_chaining_multiple_charts} for more information
+         */
         this.queue = [];
+        /**
+         * An array of deferred charts that haven't been created yet.
+         *
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/performance/#Deferred_daisy_chained_instantiation} for more information
+         * @since 4.10.0
+         */
+        this.deferred = [];
         this.uid = this.getUniqueId();
         this.invalidSprites.noBase = [];
         this.invalidDatas.noBase = [];
         this.invalidLayouts.noBase = [];
         this.invalidPositions.noBase = [];
-        // This is needed to prevent charts from being cut off when printing
-        addEventListener("beforeprint", function () {
-            $array.each(_this.baseSprites, function (sprite) {
-                var svg = sprite.paper.svg;
-                svg.setAttribute("viewBox", "0 0 " + svg.clientWidth + " " + svg.clientHeight);
+        // This is needed for Angular Universal SSR
+        if (typeof addEventListener !== "undefined") {
+            // This is needed to prevent charts from being cut off when printing
+            addEventListener("beforeprint", function () {
+                $array.each(_this.baseSprites, function (sprite) {
+                    var svg = sprite.paper.svg;
+                    svg.setAttribute("viewBox", "0 0 " + svg.clientWidth + " " + svg.clientHeight);
+                });
             });
-        });
-        addEventListener("afterprint", function () {
-            $array.each(_this.baseSprites, function (sprite) {
-                var svg = sprite.paper.svg;
-                svg.removeAttribute("viewBox");
+            addEventListener("afterprint", function () {
+                $array.each(_this.baseSprites, function (sprite) {
+                    var svg = sprite.paper.svg;
+                    svg.removeAttribute("viewBox");
+                });
             });
-        });
+        }
     }
     /**
      * Generates a unique chart system-wide ID.
