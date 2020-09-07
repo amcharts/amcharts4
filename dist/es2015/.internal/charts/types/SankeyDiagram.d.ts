@@ -43,6 +43,11 @@ export declare class SankeyDiagramDataItem extends FlowDiagramDataItem {
      */
     toNode: SankeyNode;
     /**
+     * List of UIDs of this node's ancestors.
+     * @ignore
+     */
+    ancestorUids: Array<string>;
+    /**
      * Constructor
      */
     constructor();

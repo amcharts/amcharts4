@@ -1930,10 +1930,14 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.copyFrom = function (source) {
         var _this = this;
         source.xAxes.each(function (axis) {
-            _this.xAxes.push(axis.clone());
+            var a = _this.xAxes.push(axis.clone());
+            a.chart = _this;
+            a.renderer.chart = _this;
         });
         source.yAxes.each(function (axis) {
-            _this.yAxes.push(axis.clone());
+            var a = _this.yAxes.push(axis.clone());
+            a.renderer.chart = _this;
+            a.chart = _this;
         });
         //this.xAxes.copyFrom(source.xAxes);
         //this.yAxes.copyFrom(source.yAxes);

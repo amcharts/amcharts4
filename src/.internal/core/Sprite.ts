@@ -1791,6 +1791,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 				this.handleAlwaysShowTooltip();
 
+				this.applyAccessibility();
 				this.dispatchImmediately("parentset");
 			}
 			else {
@@ -1855,6 +1856,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public set virtualParent(value: Sprite) {
 		this._virtualParent = value;
+		this.applyAccessibility();
 	}
 
 	/**

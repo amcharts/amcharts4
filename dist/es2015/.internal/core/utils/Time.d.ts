@@ -88,3 +88,13 @@ export declare function add(date: Date, unit: TimeUnit, count: number, utc?: boo
  * @return New date
  */
 export declare function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek?: number, utc?: boolean, firstDate?: Date): Date;
+/**
+ * Returns a new `Date` object which corresponds to the source date in a
+ * specific timezone.
+ *
+ * @since 4.10.1
+ * @param   date      Source date
+ * @param   timezone  Timezone identifier
+ * @return            Recalculated new Date
+ */
+export declare function setTimezone(date: Date, timezone: string): Date;

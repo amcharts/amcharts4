@@ -31,6 +31,7 @@ import { IPoint } from "../defs/IPoint";
 import { IStyleProperty } from "../defs/IStyleProperty";
 import { keyboard } from "../utils/Keyboard";
 import { system } from "./../System";
+import { options } from "./../Options";
 import * as $ease from "../utils/Ease";
 import * as $math from "../utils/Math";
 import * as $array from "../utils/Array";
@@ -1417,6 +1418,12 @@ export class Interaction extends BaseObjectEvents {
 			return;
 		}
 
+		let hoversPaused = false;
+		if (this.shouldCancelHovers(pointer) && this.areTransformed() && this.moved(pointer, this.getHitOption(io, "hitTolerance"))) {
+			hoversPaused = true;
+			this.cancelAllHovers(ev);
+		}
+
 		// Remove any delayed outs
 		this.processDelayed();
 
@@ -1427,9 +1434,11 @@ export class Interaction extends BaseObjectEvents {
 		if (!io.isRealHover) {
 
 			// Set element as hovered
-			io.isHover = true;
-			io.isRealHover = true;
-			this.overObjects.moveValue(io);
+			if (!hoversPaused) {
+				io.isHover = true;
+				io.isRealHover = true;
+				this.overObjects.moveValue(io);
+			}
 
 			// Generate body track event. This is needed so that if element loads
 			// under unmoved mouse cursor, we still need all the actions that are
@@ -1437,7 +1446,7 @@ export class Interaction extends BaseObjectEvents {
 			this.handleTrack(this.body, pointer, ev, true);
 
 			// Event
-			if (io.events.isEnabled("over") && !system.isPaused) {
+			if (io.events.isEnabled("over") && !system.isPaused && !hoversPaused) {
 				let imev: AMEvent<InteractionObject, IInteractionObjectEvents>["over"] = {
 					type: "over",
 					target: io,
@@ -1796,6 +1805,31 @@ export class Interaction extends BaseObjectEvents {
 	}
 
 	/**
+	 * Cancels all hovers on all currently hovered objects.
+	 *
+	 * @param  pointer  Pointer
+	 * @param  ev       Event
+	 */
+	private cancelAllHovers(ev?: MouseEvent | TouchEvent): void {
+		//this.overObjects.each((io) => {
+		$iter.each(this.overObjects.backwards().iterator(), (io) => {
+			if (io) {
+				const pointer = io.overPointers.getIndex(0);
+				this.handleOut(io, pointer, ev, true, true);
+			}
+		})
+	}
+
+	/**
+	 * Checks if hovers should be cancelled on transform as per global options.
+	 * @param   pointer  Pointer
+	 * @return           Cancel?
+	 */
+	private shouldCancelHovers(pointer: IPointer): boolean {
+		return options.disableHoverOnTransform == "always" || (options.disableHoverOnTransform == "touch" && pointer.touch);
+	}
+
+	/**
 	 * Handles pointer move.
 	 *
 	 * @ignore Exclude from docs
@@ -2108,7 +2142,6 @@ export class Interaction extends BaseObjectEvents {
 	 */
 	public handleTransform(io: InteractionObject, ev: MouseEvent | TouchEvent): void {
 
-
 		// Get primary pointer and its respective points
 		let pointer1: $type.Optional<IPointer> = io.downPointers.getIndex(0);
 		let point1: IPoint = null;
@@ -2172,11 +2205,23 @@ export class Interaction extends BaseObjectEvents {
 			// There's nothing else to be done - just move it
 			this.handleTransformMove(io, point1, startPoint1, ev, pointer1Moved, pointer1.touch);
 
+			if (this.shouldCancelHovers(pointer1) && this.moved(pointer1, this.getHitOption(io, "hitTolerance"))) {
+				this.cancelAllHovers(ev);
+			}
+
 		}
 		else {
 
 			// Check if second touch point moved
 			let pointer2Moved = pointer2 && this.moved(pointer2, 0);
+
+			if (
+				(this.shouldCancelHovers(pointer1) && this.moved(pointer1, this.getHitOption(io, "hitTolerance")))
+				||
+				(this.shouldCancelHovers(pointer2) && this.moved(pointer2, this.getHitOption(io, "hitTolerance")))
+			) {
+				this.cancelAllHovers(ev);
+			}
 
 			if (io.draggable && io.resizable) {
 				//this.handleTransformAll(io, point1, startPoint1, point2, startPoint2, ev, pointer1Moved && pointer2Moved);
@@ -2274,6 +2319,10 @@ export class Interaction extends BaseObjectEvents {
 
 		// Add to draggedObjects
 		this.transformedObjects.moveValue(io);
+
+		if (this.shouldCancelHovers(pointer)) {
+			this.cancelAllHovers(ev);
+		}
 
 		// Report "dragstart"
 		let imev: AMEvent<InteractionObject, IInteractionObjectEvents>["dragstart"] = {

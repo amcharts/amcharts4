@@ -122,7 +122,11 @@ export interface ILineSeriesProperties extends IXYSeriesProperties {
 	 */
 	autoGapCount?: number;
 
-	//@todo mm
+	/**
+	 * Smoothing algorythm to use for the line.
+	 *
+	 * @since 4.10.0
+	 */
 	smoothing: "bezier" | "monotoneX" | "monotoneY";
 }
 

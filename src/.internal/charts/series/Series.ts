@@ -1626,7 +1626,7 @@ export class Series extends Component {
 										percent = (workingValue - minValue) / (maxValue - minValue);
 									}
 
-									if ($type.isNumber(workingValue) && !$type.isNumber(percent)) {
+									if ($type.isNumber(workingValue) && (!$type.isNumber(percent) || Math.abs(percent) == Infinity)) {
 										percent = 0.5;
 									}
 									// fixes problems if all values are the same

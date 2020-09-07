@@ -67,6 +67,10 @@ export declare class DateFormatter extends BaseObject {
      */
     protected _timezoneOffset: $type.Optional<number>;
     /**
+     * Timezone.
+     */
+    protected _timezone: $type.Optional<string>;
+    /**
      * First day of week.
      *
      * 0 - Sunday
@@ -239,7 +243,8 @@ export declare class DateFormatter extends BaseObject {
     */
     utc: boolean;
     /**
-     * If set, will format date/time in specific time zone.
+     * If set, will apply specific offset in minutes before formatting the date
+     * text.
      *
      * The value is a number of minutes from target time zone to UTC.
      *
@@ -251,6 +256,19 @@ export declare class DateFormatter extends BaseObject {
     * @return Offset (minutes)
     */
     timezoneOffset: $type.Optional<number>;
+    /**
+     * If set, will format date/time in specific time zone.
+     *
+     * The value should be named time zone, e.g.:
+     * `"America/Vancouver"`, `"Australia/Sydney"`, `"UTC"`.
+     *
+     * @since 4.10.1
+     * @param  value  Timezone
+     */
+    /**
+    * @return Timezone
+    */
+    timezone: $type.Optional<string>;
     /**
      * First day of the week:
      *

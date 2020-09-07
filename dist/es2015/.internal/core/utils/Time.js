@@ -343,4 +343,17 @@ export function round(date, unit, count, firstDateOfWeek, utc, firstDate) {
     }
     return date;
 }
+/**
+ * Returns a new `Date` object which corresponds to the source date in a
+ * specific timezone.
+ *
+ * @since 4.10.1
+ * @param   date      Source date
+ * @param   timezone  Timezone identifier
+ * @return            Recalculated new Date
+ */
+export function setTimezone(date, timezone) {
+    var d = new Date(date.toLocaleString("en-US", { timeZone: timezone }));
+    return d;
+}
 //# sourceMappingURL=Time.js.map

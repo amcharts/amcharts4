@@ -681,7 +681,7 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.groupSeriesData = function (series) {
         var _this = this;
         if (series.baseAxis == this && series.dataItems.length > 0 && !series.dataGrouped) {
-            series.bulletsContainer.disposeChildren();
+            series.bulletsContainer.removeChildren();
             // make array of intervals which will be used;
             var intervals_1 = [];
             var mainBaseInterval = this.mainBaseInterval;
@@ -1472,6 +1472,11 @@ var DateAxis = /** @class */ (function (_super) {
         if ($type.isNumber(this.timezoneOffset)) {
             date.setTime(date.getTime() + (date.getTimezoneOffset() - this.timezoneOffset) * 60000);
             dataItem.setValue("date" + axisLetter, date.getTime(), 0);
+        }
+        else if ($type.hasValue(this.timezone)) {
+            date = $time.setTimezone(date, this.timezone);
+            dataItem.setValue("date" + axisLetter, date.getTime(), 0);
+            dataItem["date" + axisLetter] = date;
         }
         if (date) {
             time = date.getTime();
@@ -2294,19 +2299,40 @@ var DateAxis = /** @class */ (function (_super) {
             return this.getPropertyValue("timezoneOffset");
         },
         /**
+         * If set will recalculate all timestamps in data by applying specific offset
+         * in minutes.
          *
-         * Indicates by how many minutes the timestamps in your data are offset from GMT.
-         * This is useful when you have timestamps as your data and you want all the users to see
-         * the same result and not the time which was at users's location at the given timestamp.
-         * Note, you do not need to set timezoneOffset both here and on DateFormatter, as this will
-         * distort the result.
+         * IMPORTANT: do not set `timezoneOffset` on both `DateAxis` and `dateFormatter`. It
+         * will skew your results by applying offset twice.
          *
-         * @default undefined
          * @since 4.8.5
          * @param  value Time zone offset in minutes
          */
         set: function (value) {
             this.setPropertyValue("timezoneOffset", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DateAxis.prototype, "timezone", {
+        /**
+         * @return Timezone
+         */
+        get: function () {
+            return this.getPropertyValue("timezone");
+        },
+        /**
+         * If set will recalculate all timestamps in data to specific named timezone,
+         * e.g. `"America/Vancouver"`, `"Australia/Sydney"`, `"UTC"`, etc.
+         *
+         * IMPORTANT: do not set `timezone` on both `DateAxis` and `dateFormatter`. It
+         * will skew your results by applying timezone twice.
+         *
+         * @since 4.10.1
+         * @param  value Time zone
+         */
+        set: function (value) {
+            this.setPropertyValue("timezone", value);
         },
         enumerable: true,
         configurable: true

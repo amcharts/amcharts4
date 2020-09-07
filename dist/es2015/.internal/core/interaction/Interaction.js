@@ -26,6 +26,7 @@ import { Inertia } from "./Inertia";
 import { addEventListener } from "../utils/DOM";
 import { keyboard } from "../utils/Keyboard";
 import { system } from "./../System";
+import { options } from "./../Options";
 import * as $ease from "../utils/Ease";
 import * as $math from "../utils/Math";
 import * as $array from "../utils/Array";
@@ -1081,6 +1082,11 @@ var Interaction = /** @class */ (function (_super) {
         if (!io.hoverable) {
             return;
         }
+        var hoversPaused = false;
+        if (this.shouldCancelHovers(pointer) && this.areTransformed() && this.moved(pointer, this.getHitOption(io, "hitTolerance"))) {
+            hoversPaused = true;
+            this.cancelAllHovers(ev);
+        }
         // Remove any delayed outs
         this.processDelayed();
         // Add pointer
@@ -1088,15 +1094,17 @@ var Interaction = /** @class */ (function (_super) {
         // Check if object is not yet hovered
         if (!io.isRealHover) {
             // Set element as hovered
-            io.isHover = true;
-            io.isRealHover = true;
-            this.overObjects.moveValue(io);
+            if (!hoversPaused) {
+                io.isHover = true;
+                io.isRealHover = true;
+                this.overObjects.moveValue(io);
+            }
             // Generate body track event. This is needed so that if element loads
             // under unmoved mouse cursor, we still need all the actions that are
             // required to happen to kick in.
             this.handleTrack(this.body, pointer, ev, true);
             // Event
-            if (io.events.isEnabled("over") && !system.isPaused) {
+            if (io.events.isEnabled("over") && !system.isPaused && !hoversPaused) {
                 var imev = {
                     type: "over",
                     target: io,
@@ -1398,6 +1406,30 @@ var Interaction = /** @class */ (function (_super) {
             && (!io.isTouchProtected || !pointer || !pointer.touch)) {
             ev.preventDefault();
         }
+    };
+    /**
+     * Cancels all hovers on all currently hovered objects.
+     *
+     * @param  pointer  Pointer
+     * @param  ev       Event
+     */
+    Interaction.prototype.cancelAllHovers = function (ev) {
+        var _this = this;
+        //this.overObjects.each((io) => {
+        $iter.each(this.overObjects.backwards().iterator(), function (io) {
+            if (io) {
+                var pointer = io.overPointers.getIndex(0);
+                _this.handleOut(io, pointer, ev, true, true);
+            }
+        });
+    };
+    /**
+     * Checks if hovers should be cancelled on transform as per global options.
+     * @param   pointer  Pointer
+     * @return           Cancel?
+     */
+    Interaction.prototype.shouldCancelHovers = function (pointer) {
+        return options.disableHoverOnTransform == "always" || (options.disableHoverOnTransform == "touch" && pointer.touch);
     };
     /**
      * Handles pointer move.
@@ -1726,10 +1758,18 @@ var Interaction = /** @class */ (function (_super) {
             // We have only one pointer and the Sprite is draggable
             // There's nothing else to be done - just move it
             this.handleTransformMove(io, point1, startPoint1, ev, pointer1Moved, pointer1.touch);
+            if (this.shouldCancelHovers(pointer1) && this.moved(pointer1, this.getHitOption(io, "hitTolerance"))) {
+                this.cancelAllHovers(ev);
+            }
         }
         else {
             // Check if second touch point moved
             var pointer2Moved = pointer2 && this.moved(pointer2, 0);
+            if ((this.shouldCancelHovers(pointer1) && this.moved(pointer1, this.getHitOption(io, "hitTolerance")))
+                ||
+                    (this.shouldCancelHovers(pointer2) && this.moved(pointer2, this.getHitOption(io, "hitTolerance")))) {
+                this.cancelAllHovers(ev);
+            }
             if (io.draggable && io.resizable) {
                 //this.handleTransformAll(io, point1, startPoint1, point2, startPoint2, ev, pointer1Moved && pointer2Moved);
                 this.handleTransformMove(io, point1, startPoint1, ev, pointer1Moved && pointer2Moved, pointer1.touch);
@@ -1813,6 +1853,9 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.processDragStart = function (io, pointer, ev) {
         // Add to draggedObjects
         this.transformedObjects.moveValue(io);
+        if (this.shouldCancelHovers(pointer)) {
+            this.cancelAllHovers(ev);
+        }
         // Report "dragstart"
         var imev = {
             type: "dragstart",
@@ -2741,13 +2784,13 @@ var Interaction = /** @class */ (function (_super) {
             if (this._passiveSupported == null) {
                 // Check for passive mode support
                 try {
-                    var options = Object.defineProperty({}, "passive", {
+                    var options_1 = Object.defineProperty({}, "passive", {
                         get: function () {
                             _this._passiveSupported = true;
                         }
                     });
-                    window.addEventListener("test", options, options);
-                    window.removeEventListener("test", options, options);
+                    window.addEventListener("test", options_1, options_1);
+                    window.removeEventListener("test", options_1, options_1);
                 }
                 catch (err) {
                     this._passiveSupported = false;

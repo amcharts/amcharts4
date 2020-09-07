@@ -58,6 +58,12 @@ export class SankeyDiagramDataItem extends FlowDiagramDataItem {
 	public toNode: SankeyNode;
 
 	/**
+	 * List of UIDs of this node's ancestors.
+	 * @ignore
+	 */
+	public ancestorUids: Array<string> = [];
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -284,10 +290,11 @@ export class SankeyDiagram extends FlowDiagram {
 		let levels: number[] = [level];
 		$iter.each(node.incomingDataItems.iterator(), (link) => {
 			if (link.fromNode) {
+				link.toNode.dataItem.ancestorUids.push(link.fromNode.uid);
 				if ($type.isNumber(link.fromNode.level)) {
 					levels.push(link.fromNode.level + 1);
 				}
-				else {
+				else if(link.toNode.dataItem.ancestorUids.indexOf(link.fromNode.uid) == -1) {
 					levels.push(this.getNodeLevel(link.fromNode, level + 1));
 				}
 			}

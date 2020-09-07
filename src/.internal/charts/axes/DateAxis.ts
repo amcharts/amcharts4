@@ -189,17 +189,26 @@ export interface IDateAxisProperties extends IValueAxisProperties {
 	groupInterval?: ITimeInterval;
 
 	/**
-	 * 
-	 * Indicates by how many minutes the timestamps in your data are offset from GMT. 
-	 * This is useful when you have timestamps as your data and you want all the users to see 
-	 * the same result and not the time which was at users's location at the given timestamp.
-	 * Note, you do not need to set timezoneOffset both here and on DateFormatter, as this will 
-	 * distort the result.
+	 * If set will recalculate all timestamps in data by applying specific offset
+	 * in minutes.
 	 *
-	 * @default undefined
+	 * IMPORTANT: do not set `timezoneOffset` on both `DateAxis` and `dateFormatter`. It
+	 * will skew your results by applying offset twice.
+	 *
 	 * @since 4.8.5
 	 */
 	timezoneOffset?: number;
+
+	/**
+	 * If set will recalculate all timestamps in data to specific named timezone,
+	 * e.g. `"America/Vancouver"`, `"Australia/Sydney"`, `"UTC"`, etc.
+	 *
+	 * IMPORTANT: do not set `timezone` on both `DateAxis` and `dateFormatter`. It
+	 * will skew your results by applying timezone twice.
+	 * 
+	 * @since 4.10.1
+	 */
+	timezone?: string;
 
 }
 
@@ -963,7 +972,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	public groupSeriesData(series: XYSeries): void {
 		if (series.baseAxis == this && series.dataItems.length > 0 && !series.dataGrouped) {
 
-			series.bulletsContainer.disposeChildren();
+			series.bulletsContainer.removeChildren();
 
 			// make array of intervals which will be used;
 			let intervals: ITimeInterval[] = [];
@@ -1885,6 +1894,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			date.setTime(date.getTime() + (date.getTimezoneOffset() - this.timezoneOffset) * 60000)
 			dataItem.setValue("date" + axisLetter, date.getTime(), 0);
 		}
+		else if ($type.hasValue(this.timezone)) {
+			date = $time.setTimezone(date, this.timezone);
+			dataItem.setValue("date" + axisLetter, date.getTime(), 0);
+			(<any>dataItem)["date" + axisLetter] = date;
+		}
 
 		if (date) {
 			time = date.getTime();
@@ -1892,6 +1906,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		else {
 			return;
 		}
+
 		let openDate: Date = (<any>dataItem)["openDate" + axisLetter];
 		let prevSeriesTime: number = this._prevSeriesTime[series.uid];
 
@@ -2766,14 +2781,12 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	}
 
 	/**
-	 * 
-	 * Indicates by how many minutes the timestamps in your data are offset from GMT. 
-	 * This is useful when you have timestamps as your data and you want all the users to see 
-	 * the same result and not the time which was at users's location at the given timestamp.
-	 * Note, you do not need to set timezoneOffset both here and on DateFormatter, as this will 
-	 * distort the result.
+	 * If set will recalculate all timestamps in data by applying specific offset
+	 * in minutes.
 	 *
-	 * @default undefined
+	 * IMPORTANT: do not set `timezoneOffset` on both `DateAxis` and `dateFormatter`. It
+	 * will skew your results by applying offset twice.
+	 * 
 	 * @since 4.8.5
 	 * @param  value Time zone offset in minutes
 	 */
@@ -2786,6 +2799,27 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public get timezoneOffset(): number {
 		return this.getPropertyValue("timezoneOffset");
+	}
+
+	/**
+	 * If set will recalculate all timestamps in data to specific named timezone,
+	 * e.g. `"America/Vancouver"`, `"Australia/Sydney"`, `"UTC"`, etc.
+	 *
+	 * IMPORTANT: do not set `timezone` on both `DateAxis` and `dateFormatter`. It
+	 * will skew your results by applying timezone twice.
+	 * 
+	 * @since 4.10.1
+	 * @param  value Time zone
+	 */
+	public set timezone(value: string) {
+		this.setPropertyValue("timezone", value);
+	}
+
+	/**
+	 * @return Timezone
+	 */
+	public get timezone(): string {
+		return this.getPropertyValue("timezone");
 	}
 
 	/**

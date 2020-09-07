@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { SankeyDiagramDataItem } from "../types/SankeyDiagram";
+import { SankeyDiagramDataItem, SankeyDiagram } from "../types/SankeyDiagram";
 import { FlowDiagramLink, IFlowDiagramLinkAdapters, IFlowDiagramLinkEvents, IFlowDiagramLinkProperties } from "./FlowDiagramLink";
 import { Polyspline } from "../../core/elements/Polyspline";
 /**
@@ -110,10 +110,12 @@ export declare class SankeyLink extends FlowDiagramLink {
      * Spline which goes through the middle of a link, used to calculate bullet and tooltip positions, invisible by default
      */
     middleLine: Polyspline;
+    chart: SankeyDiagram;
     /**
      * Constructor
      */
     constructor();
+    protected makeBackwards(): void;
     /**
      * (Re)validates (redraws) the link.
      *

@@ -37,6 +37,11 @@ var SankeyDiagramDataItem = /** @class */ (function (_super) {
      */
     function SankeyDiagramDataItem() {
         var _this = _super.call(this) || this;
+        /**
+         * List of UIDs of this node's ancestors.
+         * @ignore
+         */
+        _this.ancestorUids = [];
         _this.className = "SankeyDiagramDataItem";
         _this.applyTheme();
         return _this;
@@ -108,10 +113,11 @@ var SankeyDiagram = /** @class */ (function (_super) {
         var levels = [level];
         $iter.each(node.incomingDataItems.iterator(), function (link) {
             if (link.fromNode) {
+                link.toNode.dataItem.ancestorUids.push(link.fromNode.uid);
                 if ($type.isNumber(link.fromNode.level)) {
                     levels.push(link.fromNode.level + 1);
                 }
-                else {
+                else if (link.toNode.dataItem.ancestorUids.indexOf(link.fromNode.uid) == -1) {
                     levels.push(_this.getNodeLevel(link.fromNode, level + 1));
                 }
             }

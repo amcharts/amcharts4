@@ -5,10 +5,31 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.1] - 2020-09-07
+
+### Added
+- New `DateAxis` property: `timezone`. Allows setting timezone to recalculate data in, e.g. `"Australia/Sydney"`. Make sure not to set this on both axis and date formatter.
+- New `DateFormatter` property: `timezone`. Allows setting timezone to recalculate date objects to before applying the format, e.g. `"Australia/Sydney"`.
+- New global option: `am4core.options.disableHoverOnTransform` (`"never"` (default), `"touch"`, `always`)). Allows disabling all hover activity when some element is being dragged or resized. [More info](https://www.amcharts.com/docs/v4/concepts/touch/#Hover_functionality).
+
+### Changed
+- Now `SankeyLink` that points "backwards" will be applied `"backwards"` state (if created) so you can style it differently than regular links.
+
+### Fixed
+- Accessibility: data placeholder population was not working on bullets if Animated theme was not enabled.
+- Tapping on a chart with `Cursor` was triggering an on-screen keyboard on some mobiles devices.
+- Some TypeScript warnings were fixed.
+- A chart with `DateAxis` and `groupData = true` could result a JS error if a series had bullets and a lots of data points.
+- In a chart with `DateAxis` and `groupData = true`, if a series was hidden when zoomed-in, then zoomed-out, and then unhidden, the related  `ValueAxis` was not updating it's min/max to available value range.
+- In some cases a heat rule could result in infinity value which would lead to drawing errors.
+- Errors when cloning a `RadarChart` from a template fixed.
+- `SankeyDiagram` used to produce stack owerflow error if data contained backward links. Now it will correctly draw a link.
+
+
 ## [4.10.0] - 2020-09-01
 
 ### Added
-- New `LineSeries` property: `smoothing` (`"bezier"` (default), `"monotoneX"`, and `"monotoneY"`) - indicates algorithm to use for smoothing the lines. Monotone algos are better suited for irregularly-spaced data.
+- New `LineSeries` property: `smoothing` (`"bezier"` (default), `"monotoneX"`, and `"monotoneY"`) - indicates algorithm to use for smoothing the lines. Monotone algos are better suited for irregularly-spaced data. [More info](https://www.amcharts.com/docs/v4/chart-types/xy-chart/#Alternate_smoothing_algorithm).
 - `ForcedDirectedTree`: new property `zoomable` (default: `false`). If set to `true`, the chart will be zoomable/draggable using mouse, touch, or API. [More information](https://www.amcharts.com/docs/v4/chart-types/force-directed/#Zooming).
 - `ForcedDirectedTree`: zoom related properties added. `mouseWheelBehavior` (`"zoom"`, `"none"`) - controls what happens when mouse wheel is used over chart; `zoomStep` (default: `2`) - step to increase zoom level my each zoom in; `zoomOutButton` - an instance of button which is shown when chart is zoomed in.
 - `ForcedDirectedTree`: new zoom-related methods: `zoomToPoint(point, level, center)` and `zoomToDataItem(dataItem, level, center)`;

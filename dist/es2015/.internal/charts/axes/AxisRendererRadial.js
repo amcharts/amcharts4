@@ -220,8 +220,8 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         var radius = $math.getDistance(point);
         var startAngle = this.startAngle;
         var endAngle = this.endAngle;
-        if ($type.isNumber(radius) && grid.element) {
-            var chart = this.chart;
+        var chart = this.chart;
+        if ($type.isNumber(radius) && grid.element && chart) {
             var xAxis = chart.xAxes.getIndex(0);
             var count = 0;
             var series = chart.series.getIndex(0);

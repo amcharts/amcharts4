@@ -567,7 +567,7 @@ export function createFromConfig(config: { [index: string]: any }, htmlElement?:
  * @param  ...rest   Parameters to pass into callback
  * @return           Promise with chart instance
  */
-export function createDeferred(callback: (...args: any) => Sprite, scope?: any, ...rest: Array<any>): Promise<Sprite> {
+export function createDeferred(callback: (...args: Array<any>) => Sprite, scope?: any, ...rest: Array<any>): Promise<Sprite> {
 	return new Promise<Sprite>((resolve, reject) => {
 		registry.deferred.push({
 			scope: scope,
@@ -580,6 +580,7 @@ export function createDeferred(callback: (...args: any) => Sprite, scope?: any, 
 		}
 	});
 }
+
 function processNextDeferred(): void {
 	let next = registry.deferred[0];
 	if (next) {

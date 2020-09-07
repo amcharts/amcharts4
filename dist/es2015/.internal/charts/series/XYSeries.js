@@ -1269,24 +1269,24 @@ var XYSeries = /** @class */ (function (_super) {
                 var changed = false;
                 if (yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
                     var tmin = this._tmin.getKey(yAxisId);
-                    if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minY < tmin) || (this.stackedSeries && !this.isHidden)) {
+                    if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged || (xAxis instanceof DateAxis && xAxis.groupData && this.isShowing)) && minY < tmin) || (this.stackedSeries && !this.isHidden)) {
                         this._tmin.setKey(yAxisId, minY);
                         changed = true;
                     }
                     var tmax = this._tmax.getKey(yAxisId);
-                    if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxY > tmax) || (this.stackedSeries && !this.isHidden)) {
+                    if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged || (xAxis instanceof DateAxis && xAxis.groupData && this.isShowing)) && maxY > tmax) || (this.stackedSeries && !this.isHidden)) {
                         this._tmax.setKey(yAxisId, maxY);
                         changed = true;
                     }
                 }
                 if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis)) {
                     var tmin = this._tmin.getKey(xAxisId);
-                    if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged) && minX < tmin) || (this.stackedSeries && !this.isHidden)) {
+                    if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged || (yAxis instanceof DateAxis && yAxis.groupData && this.isShowing)) && minX < tmin) || (this.stackedSeries && !this.isHidden)) {
                         this._tmin.setKey(xAxisId, minX);
                         changed = true;
                     }
                     var tmax = this._tmax.getKey(xAxisId);
-                    if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged) && maxX > tmax) || (this.stackedSeries && !this.isHidden)) {
+                    if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged || (yAxis instanceof DateAxis && yAxis.groupData && this.isShowing)) && maxX > tmax) || (this.stackedSeries && !this.isHidden)) {
                         this._tmax.setKey(xAxisId, maxX);
                         changed = true;
                     }

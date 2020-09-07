@@ -316,9 +316,10 @@ export class AxisRendererRadial extends AxisRendererY {
 		let radius: number = $math.getDistance(point);
 		let startAngle: number = this.startAngle;
 		let endAngle: number = this.endAngle;
+		let chart = this.chart;
 
-		if ($type.isNumber(radius) && grid.element) {
-			let chart = this.chart;
+		if ($type.isNumber(radius) && grid.element && chart) {
+			
 			let xAxis = chart.xAxes.getIndex(0);
 			let count = 0;
 

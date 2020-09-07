@@ -16,6 +16,7 @@ import { registry } from "../Registry";
 import * as $strings from "../utils/Strings";
 import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
+import * as $time from "../utils/Time";
 
 /**
  * Interface describing parsed date format definition.
@@ -82,6 +83,11 @@ export class DateFormatter extends BaseObject {
 	 * Timezone offset.
 	 */
 	protected _timezoneOffset: $type.Optional<number>;
+
+	/**
+	 * Timezone.
+	 */
+	protected _timezone: $type.Optional<string>;
 
 	/**
 	 * First day of week.
@@ -233,6 +239,9 @@ export class DateFormatter extends BaseObject {
 			// Should we apply custom time zone?
 			if ($type.hasValue(this.timezoneOffset)) {
 				date.setMinutes(date.getMinutes() + date.getTimezoneOffset() - this.timezoneOffset);
+			}
+			else if ($type.hasValue(this.timezone)) {
+				date = $time.setTimezone(date, this.timezone);
 			}
 
 			// Check if it's a valid date
@@ -1335,7 +1344,8 @@ export class DateFormatter extends BaseObject {
 	}
 
 	/**
-	 * If set, will format date/time in specific time zone.
+	 * If set, will apply specific offset in minutes before formatting the date
+	 * text.
 	 *
 	 * The value is a number of minutes from target time zone to UTC.
 	 *
@@ -1355,6 +1365,29 @@ export class DateFormatter extends BaseObject {
 	 */
 	public get timezoneOffset(): $type.Optional<number> {
 		return this._timezoneOffset;
+	}
+
+	/**
+	 * If set, will format date/time in specific time zone.
+	 *
+	 * The value should be named time zone, e.g.:
+	 * `"America/Vancouver"`, `"Australia/Sydney"`, `"UTC"`.
+	 *
+	 * @since 4.10.1
+	 * @param  value  Timezone
+	 */
+	public set timezone(value: $type.Optional<string>) {
+		if (this._timezone != value) {
+			this._timezone = value;
+			this.invalidateSprite();
+		}
+	}
+
+	/**
+	 * @return Timezone
+	 */
+	public get timezone(): $type.Optional<string> {
+		return this._timezone;
 	}
 
 	/**

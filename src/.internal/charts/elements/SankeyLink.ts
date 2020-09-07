@@ -8,7 +8,7 @@
  * ============================================================================
  * @hidden
  */
-import { SankeyDiagramDataItem } from "../types/SankeyDiagram";
+import { SankeyDiagramDataItem, SankeyDiagram } from "../types/SankeyDiagram";
 import { FlowDiagramLink, IFlowDiagramLinkAdapters, IFlowDiagramLinkEvents, IFlowDiagramLinkProperties } from "./FlowDiagramLink";
 import { registry } from "../../core/Registry";
 import { Polyspline } from "../../core/elements/Polyspline";
@@ -136,6 +136,8 @@ export class SankeyLink extends FlowDiagramLink {
 	 */
 	public middleLine: Polyspline;
 
+	public chart: SankeyDiagram;
+
 	/**
 	 * Constructor
 	 */
@@ -167,6 +169,12 @@ export class SankeyLink extends FlowDiagramLink {
 		this.applyTheme();
 	}
 
+	protected makeBackwards() {
+		if (this.states.getKey("backwards") != undefined) {
+			this.setState("backwards");
+		}
+	}
+
 	/**
 	 * (Re)validates (redraws) the link.
 	 *
@@ -181,6 +189,28 @@ export class SankeyLink extends FlowDiagramLink {
 			let y0 = this.startY;
 			let x1 = this.endX;
 			let y1 = this.endY;
+
+
+			if (this.dataItem) {
+				let chart = this.dataItem.component;
+
+				if (chart) {
+					if (chart.orientation == "horizontal") {
+						if (x1 < x0) {
+							[x0, x1] = [x1, x0];
+							[y0, y1] = [y1, y0];
+							this.makeBackwards();
+						}
+					}
+					else {
+						if (y1 < y0) {
+							[y0, y1] = [y1, y0];
+							[x0, x1] = [x1, x0];
+							this.makeBackwards();
+						}
+					}
+				}
+			}
 
 			if (!$type.isNumber(x1)) {
 				x1 = x0;

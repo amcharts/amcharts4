@@ -15,6 +15,7 @@ export var options = {
     suppressWarnings: false,
     animationsEnabled: true,
     nonce: "",
-    deferredDelay: 100
+    deferredDelay: 100,
+    disableHoverOnTransform: "never"
 };
 //# sourceMappingURL=Options.js.map

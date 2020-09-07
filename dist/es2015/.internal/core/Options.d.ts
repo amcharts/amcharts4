@@ -155,6 +155,19 @@ export interface Options {
      * @since 4.10.0
      */
     deferredDelay: number;
+    /**
+     * Should hovering of objects be disabled when some other element is being
+     * transfored, e.g. dragged or resized.
+     *
+     * Available options:
+     * * `"never"` (default) - hovers are never disabled.
+     * * `"touch"` - hovers are disabled only if transforming via touch screen.
+     * *`"always"` - hovers are disabled on all transforming actions.
+     *
+     * @default "never"
+     * @since 4.10.1
+     */
+    disableHoverOnTransform: "never" | "touch" | "always";
 }
 /**
  * Global options.

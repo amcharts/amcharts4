@@ -1058,6 +1058,7 @@ var Sprite = /** @class */ (function (_super) {
                         this.dataItem = parent.dataItem;
                     }
                     this.handleAlwaysShowTooltip();
+                    this.applyAccessibility();
                     this.dispatchImmediately("parentset");
                 }
                 else {
@@ -1119,6 +1120,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._virtualParent = value;
+            this.applyAccessibility();
         },
         enumerable: true,
         configurable: true

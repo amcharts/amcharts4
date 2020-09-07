@@ -9,6 +9,7 @@ import { registry } from "../Registry";
 import * as $strings from "../utils/Strings";
 import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
+import * as $time from "../utils/Time";
 /**
  * Handles date and time formatting.
  *
@@ -157,6 +158,9 @@ var DateFormatter = /** @class */ (function (_super) {
             // Should we apply custom time zone?
             if ($type.hasValue(this.timezoneOffset)) {
                 date.setMinutes(date.getMinutes() + date.getTimezoneOffset() - this.timezoneOffset);
+            }
+            else if ($type.hasValue(this.timezone)) {
+                date = $time.setTimezone(date, this.timezone);
             }
             // Check if it's a valid date
             if (!$type.isNumber(date.getTime())) {
@@ -1072,7 +1076,8 @@ var DateFormatter = /** @class */ (function (_super) {
             return this._timezoneOffset;
         },
         /**
-         * If set, will format date/time in specific time zone.
+         * If set, will apply specific offset in minutes before formatting the date
+         * text.
          *
          * The value is a number of minutes from target time zone to UTC.
          *
@@ -1083,6 +1088,31 @@ var DateFormatter = /** @class */ (function (_super) {
         set: function (value) {
             if (this._timezoneOffset != value) {
                 this._timezoneOffset = value;
+                this.invalidateSprite();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DateFormatter.prototype, "timezone", {
+        /**
+         * @return Timezone
+         */
+        get: function () {
+            return this._timezone;
+        },
+        /**
+         * If set, will format date/time in specific time zone.
+         *
+         * The value should be named time zone, e.g.:
+         * `"America/Vancouver"`, `"Australia/Sydney"`, `"UTC"`.
+         *
+         * @since 4.10.1
+         * @param  value  Timezone
+         */
+        set: function (value) {
+            if (this._timezone != value) {
+                this._timezone = value;
                 this.invalidateSprite();
             }
         },

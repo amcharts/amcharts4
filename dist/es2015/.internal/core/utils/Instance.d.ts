@@ -169,7 +169,7 @@ export declare function createFromConfig(config: {
  * @param  ...rest   Parameters to pass into callback
  * @return           Promise with chart instance
  */
-export declare function createDeferred(callback: (...args: any) => Sprite, scope?: any, ...rest: Array<any>): Promise<Sprite>;
+export declare function createDeferred(callback: (...args: Array<any>) => Sprite, scope?: any, ...rest: Array<any>): Promise<Sprite>;
 /**
  * Applies a theme to System, and subsequently all chart instances created
  * from that point forward.

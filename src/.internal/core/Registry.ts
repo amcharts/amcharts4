@@ -184,7 +184,7 @@ export class Registry {
 	 * @since 4.10.0
 	 */
 	public deferred: Array<{
-		callback: (...args: any) => Sprite,
+		callback: (...args: Array<any>) => Sprite,
 		scope?: any,
 		args?: Array<any>,
 		resolve: any

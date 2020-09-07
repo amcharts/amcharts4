@@ -301,6 +301,9 @@ var AxisRendererCircular = /** @class */ (function (_super) {
             var gridInnerRadius = $utils.relativeRadiusToValue(grid.innerRadius, this.pixelRadius);
             grid.zIndex = 0;
             var innerRadius = $utils.relativeRadiusToValue($type.isNumber(gridInnerRadius) ? gridInnerRadius : this.innerRadius, this.pixelRadiusReal, true);
+            if (!$type.isNumber(innerRadius)) {
+                innerRadius = 0;
+            }
             grid.path = $path.moveTo({ x: innerRadius * $math.cos(angle), y: innerRadius * $math.sin(angle) }) + $path.lineTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
         }
         this.toggleVisibility(grid, position, 0, 1);

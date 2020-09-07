@@ -2412,11 +2412,15 @@ export class XYChart extends SerialChart {
 	public copyFrom(source: this) {
 
 		source.xAxes.each((axis) => {
-			this.xAxes.push(axis.clone());
+			let a = this.xAxes.push(axis.clone());
+			a.chart = this;
+			a.renderer.chart = this;
 		})
 
 		source.yAxes.each((axis) => {
-			this.yAxes.push(axis.clone());
+			let a = this.yAxes.push(axis.clone());
+			a.renderer.chart = this;
+			a.chart = this;
 		})
 
 		//this.xAxes.copyFrom(source.xAxes);

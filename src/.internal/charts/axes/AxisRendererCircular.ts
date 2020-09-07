@@ -423,6 +423,10 @@ export class AxisRendererCircular extends AxisRenderer {
 
 			let innerRadius: number = $utils.relativeRadiusToValue($type.isNumber(gridInnerRadius) ? gridInnerRadius : this.innerRadius, this.pixelRadiusReal, true);
 
+			if(!$type.isNumber(innerRadius)){
+				innerRadius = 0;
+			}
+
 			grid.path = $path.moveTo({ x: innerRadius * $math.cos(angle), y: innerRadius * $math.sin(angle) }) + $path.lineTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
 		}
 		this.toggleVisibility(grid, position, 0, 1);

@@ -580,6 +580,19 @@ export declare class Interaction extends BaseObjectEvents {
      */
     private maybePreventDefault;
     /**
+     * Cancels all hovers on all currently hovered objects.
+     *
+     * @param  pointer  Pointer
+     * @param  ev       Event
+     */
+    private cancelAllHovers;
+    /**
+     * Checks if hovers should be cancelled on transform as per global options.
+     * @param   pointer  Pointer
+     * @return           Cancel?
+     */
+    private shouldCancelHovers;
+    /**
      * Handles pointer move.
      *
      * @ignore Exclude from docs

@@ -1,7 +1,7 @@
 /**
  * SankeyLink module
  */
-import { __extends } from "tslib";
+import { __extends, __read } from "tslib";
 import { FlowDiagramLink } from "./FlowDiagramLink";
 import { registry } from "../../core/Registry";
 import { Polyspline } from "../../core/elements/Polyspline";
@@ -49,18 +49,43 @@ var SankeyLink = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    SankeyLink.prototype.makeBackwards = function () {
+        if (this.states.getKey("backwards") != undefined) {
+            this.setState("backwards");
+        }
+    };
     /**
      * (Re)validates (redraws) the link.
      *
      * @ignore Exclude from docs
      */
     SankeyLink.prototype.validate = function () {
+        var _a, _b, _c, _d;
         _super.prototype.validate.call(this);
         if (!this.isTemplate) {
             var x0 = this.startX;
             var y0 = this.startY;
             var x1 = this.endX;
             var y1 = this.endY;
+            if (this.dataItem) {
+                var chart = this.dataItem.component;
+                if (chart) {
+                    if (chart.orientation == "horizontal") {
+                        if (x1 < x0) {
+                            _a = __read([x1, x0], 2), x0 = _a[0], x1 = _a[1];
+                            _b = __read([y1, y0], 2), y0 = _b[0], y1 = _b[1];
+                            this.makeBackwards();
+                        }
+                    }
+                    else {
+                        if (y1 < y0) {
+                            _c = __read([y1, y0], 2), y0 = _c[0], y1 = _c[1];
+                            _d = __read([x1, x0], 2), x0 = _d[0], x1 = _d[1];
+                            this.makeBackwards();
+                        }
+                    }
+                }
+            }
             if (!$type.isNumber(x1)) {
                 x1 = x0;
             }

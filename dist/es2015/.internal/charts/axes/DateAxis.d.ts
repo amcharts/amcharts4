@@ -132,17 +132,25 @@ export interface IDateAxisProperties extends IValueAxisProperties {
      */
     groupInterval?: ITimeInterval;
     /**
+     * If set will recalculate all timestamps in data by applying specific offset
+     * in minutes.
      *
-     * Indicates by how many minutes the timestamps in your data are offset from GMT.
-     * This is useful when you have timestamps as your data and you want all the users to see
-     * the same result and not the time which was at users's location at the given timestamp.
-     * Note, you do not need to set timezoneOffset both here and on DateFormatter, as this will
-     * distort the result.
+     * IMPORTANT: do not set `timezoneOffset` on both `DateAxis` and `dateFormatter`. It
+     * will skew your results by applying offset twice.
      *
-     * @default undefined
      * @since 4.8.5
      */
     timezoneOffset?: number;
+    /**
+     * If set will recalculate all timestamps in data to specific named timezone,
+     * e.g. `"America/Vancouver"`, `"Australia/Sydney"`, `"UTC"`, etc.
+     *
+     * IMPORTANT: do not set `timezone` on both `DateAxis` and `dateFormatter`. It
+     * will skew your results by applying timezone twice.
+     *
+     * @since 4.10.1
+     */
+    timezone?: string;
 }
 /**
  * Defines events for [[DateAxis]].
@@ -1051,14 +1059,12 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
     */
     groupCount: number;
     /**
+     * If set will recalculate all timestamps in data by applying specific offset
+     * in minutes.
      *
-     * Indicates by how many minutes the timestamps in your data are offset from GMT.
-     * This is useful when you have timestamps as your data and you want all the users to see
-     * the same result and not the time which was at users's location at the given timestamp.
-     * Note, you do not need to set timezoneOffset both here and on DateFormatter, as this will
-     * distort the result.
+     * IMPORTANT: do not set `timezoneOffset` on both `DateAxis` and `dateFormatter`. It
+     * will skew your results by applying offset twice.
      *
-     * @default undefined
      * @since 4.8.5
      * @param  value Time zone offset in minutes
      */
@@ -1066,6 +1072,20 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
     * @todo Timezone offset in minutes
     */
     timezoneOffset: number;
+    /**
+     * If set will recalculate all timestamps in data to specific named timezone,
+     * e.g. `"America/Vancouver"`, `"Australia/Sydney"`, `"UTC"`, etc.
+     *
+     * IMPORTANT: do not set `timezone` on both `DateAxis` and `dateFormatter`. It
+     * will skew your results by applying timezone twice.
+     *
+     * @since 4.10.1
+     * @param  value Time zone
+     */
+    /**
+    * @return Timezone
+    */
+    timezone: string;
     /**
      * Current grid interval.
      *
