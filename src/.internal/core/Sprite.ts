@@ -28,7 +28,7 @@ import { Optional } from "./utils/Type";
 import { Group } from "./rendering/Group";
 import { Paper, getGhostPaper } from "./rendering/Paper";
 import { DataItem } from "./DataItem";
-import { Container } from "./Container"; 
+import { Container } from "./Container";
 import { Pattern } from "./rendering/fills/Pattern";
 import { LinearGradient } from "./rendering/fills/LinearGradient";
 import { RadialGradient } from "./rendering/fills/RadialGradient";
@@ -1791,7 +1791,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 				this.handleAlwaysShowTooltip();
 
-				this.applyAccessibility();
+				if (this.dataItem) {
+					// No need to apply accessibility if there's no data item
+					// The whole reason of applying it here is to populate data
+					// placesholders, and if tehre's no data item, it won't work anyway
+					this.applyAccessibility();
+				}
+
 				this.dispatchImmediately("parentset");
 			}
 			else {
@@ -1856,7 +1862,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public set virtualParent(value: Sprite) {
 		this._virtualParent = value;
-		this.applyAccessibility();
+		if (this.dataItem) {
+			// No need to apply accessibility if there's no data item
+			// The whole reason of applying it here is to populate data
+			// placesholders, and if tehre's no data item, it won't work anyway
+			this.applyAccessibility();
+		}
 	}
 
 	/**
@@ -2310,7 +2321,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				filter.sprite = this;
 				filter.paper = this.paper;
 
-				this.filterElement.attr({filterUnits:filter.filterUnits});
+				this.filterElement.attr({ filterUnits: filter.filterUnits });
 
 				filter.appendPrimitives(this.filterElement);
 
@@ -2609,7 +2620,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 			let scale = this.scale;
 
-			if(this.nonScaling){
+			if (this.nonScaling) {
 				scale = this.scale / this.globalScale;
 			}
 
@@ -3022,7 +3033,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		let ay1 = this.pixelY + this.maxTop;
 		let ax2 = ax1 + this.maxRight;
 		let ay2 = ay1 + this.maxBottom;
-		
+
 		let bx1 = sprite.pixelX + sprite.maxLeft;
 		let by1 = sprite.pixelY + sprite.maxTop;
 		let bx2 = bx1 + sprite.maxRight;
@@ -4299,7 +4310,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		value = $type.toNumberOrPercent(value);
 
 		if ($type.isNumber(value)) {
-			if($type.isNumber(precision)){
+			if ($type.isNumber(precision)) {
 				value = $math.round(value, precision, floor);
 			}
 
@@ -5632,7 +5643,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		}
 		if (this.showTooltipOn == "hit") {
 			this.updateTooltipPosition(ev.pointer.point);
-			this._disposers.push(registry.events.once("exitframe", ()=>{
+			this._disposers.push(registry.events.once("exitframe", () => {
 				this.showTooltip();
 			}));
 
@@ -8266,7 +8277,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public set rtl(value: boolean) {
 		value = $type.toBoolean(value);
-		if(this.isBaseSprite){
+		if (this.isBaseSprite) {
 			this.topParent.rtl = value;
 		}
 		this._rtl = value;
@@ -8279,7 +8290,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if ($type.hasValue(this._rtl)) {
 			return this._rtl;
 		}
-		else if(this._topParent){
+		else if (this._topParent) {
 			return this._topParent.rtl;
 		}
 		//this.rtl = false;
@@ -8452,7 +8463,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 					this._showHideDisposer = transition.events.on("animationended", () => {
 						this.isHiding = false;
 						this._isHidden = true;
-						if(hiddenState.properties.visible == false){
+						if (hiddenState.properties.visible == false) {
 							this.visible = false;
 						}
 					}, this);

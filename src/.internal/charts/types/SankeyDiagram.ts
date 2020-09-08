@@ -58,12 +58,6 @@ export class SankeyDiagramDataItem extends FlowDiagramDataItem {
 	public toNode: SankeyNode;
 
 	/**
-	 * List of UIDs of this node's ancestors.
-	 * @ignore
-	 */
-	public ancestorUids: Array<string> = [];
-
-	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -236,6 +230,8 @@ export class SankeyDiagram extends FlowDiagram {
 
 	protected _level: number;
 
+	protected _counter: number;
+
 
 	/**
 	 * Constructor
@@ -286,21 +282,40 @@ export class SankeyDiagram extends FlowDiagram {
 	 * @return New level
 	 */
 	protected getNodeLevel(node: this["_node"], level: number): number {
-		//@todo solve circular so
 		let levels: number[] = [level];
 		$iter.each(node.incomingDataItems.iterator(), (link) => {
 			if (link.fromNode) {
-				link.toNode.dataItem.ancestorUids.push(link.fromNode.uid);
 				if ($type.isNumber(link.fromNode.level)) {
 					levels.push(link.fromNode.level + 1);
 				}
-				else if(link.toNode.dataItem.ancestorUids.indexOf(link.fromNode.uid) == -1) {
-					levels.push(this.getNodeLevel(link.fromNode, level + 1));
+				else {
+					this._counter = 0;
+					this.checkLoop(link.fromNode);
+					if (this._counter < this.dataItems.length) {
+						levels.push(this.getNodeLevel(link.fromNode, level + 1));
+					}
 				}
 			}
 		})
 
 		return Math.max(...levels);
+	}
+
+	/**
+	 * Checks if there's no loop in the ancestor chain.
+	 * 
+	 * @param  node  Node
+	 */
+	protected checkLoop(node: this["_node"]): void {
+		this._counter++;
+
+		if (this._counter > this.dataItems.length) {
+			return;
+		}
+		$iter.each(node.incomingDataItems.iterator(), (link) => {
+			this.checkLoop(link.fromNode);
+		})
+
 	}
 
 
@@ -439,7 +454,7 @@ export class SankeyDiagram extends FlowDiagram {
 		}
 		else {
 			availableHeight = this.chartContainer.maxWidth - 1;
-		}		
+		}
 
 		$iter.each(this._sorted, (strNode) => {
 			let node = strNode[1];
@@ -457,7 +472,7 @@ export class SankeyDiagram extends FlowDiagram {
 					break;
 			}
 
-			if(this.maxSum == 0){
+			if (this.maxSum == 0) {
 				switch (this.nodeAlign) {
 					case "bottom":
 						levelCoordinate = availableHeight - nodeCount * (this.minNodeSize * availableHeight + this.nodePadding);
@@ -488,7 +503,7 @@ export class SankeyDiagram extends FlowDiagram {
 
 				let h = value * this.valueHeight;
 
-				if(total == 0 && h == 0){
+				if (total == 0 && h == 0) {
 					h = this.minNodeSize * availableHeight;
 				}
 
@@ -505,9 +520,9 @@ export class SankeyDiagram extends FlowDiagram {
 
 				let w = value * this.valueHeight;
 
-				if(total == 0 && w == 0){
+				if (total == 0 && w == 0) {
 					w = this.minNodeSize * availableHeight;
-				}				
+				}
 
 				node.width = w;
 				node.minY = y;

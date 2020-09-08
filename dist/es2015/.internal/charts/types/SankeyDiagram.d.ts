@@ -43,11 +43,6 @@ export declare class SankeyDiagramDataItem extends FlowDiagramDataItem {
      */
     toNode: SankeyNode;
     /**
-     * List of UIDs of this node's ancestors.
-     * @ignore
-     */
-    ancestorUids: Array<string>;
-    /**
      * Constructor
      */
     constructor();
@@ -188,6 +183,7 @@ export declare class SankeyDiagram extends FlowDiagram {
     protected _sorted: $iter.Iterator<[string, this["_node"]]>;
     protected _heightAnimation: Animation;
     protected _level: number;
+    protected _counter: number;
     /**
      * Constructor
      */
@@ -206,6 +202,12 @@ export declare class SankeyDiagram extends FlowDiagram {
      * @return New level
      */
     protected getNodeLevel(node: this["_node"], level: number): number;
+    /**
+     * Checks if there's no loop in the ancestor chain.
+     *
+     * @param  node  Node
+     */
+    protected checkLoop(node: this["_node"]): void;
     /**
      * Calculates relation between pixel height and total value.
      *

@@ -67,6 +67,9 @@ var SankeyLink = /** @class */ (function (_super) {
             var y0 = this.startY;
             var x1 = this.endX;
             var y1 = this.endY;
+            if (this.states.getKey("backwards")) {
+                this.setState("default");
+            }
             if (this.dataItem) {
                 var chart = this.dataItem.component;
                 if (chart) {

@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.2] - 2020-09-08
+
+### Fixed
+- Some `SankeyDiagram` charts were broken after last release.
+- `4.10.0` caused some bullet adapters to kick in earlier which in turn was resulting in critical errors if those adapters relied on `dataItem` to be present without checking.
+
+
 ## [4.10.1] - 2020-09-07
 
 ### Added

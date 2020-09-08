@@ -37,11 +37,6 @@ var SankeyDiagramDataItem = /** @class */ (function (_super) {
      */
     function SankeyDiagramDataItem() {
         var _this = _super.call(this) || this;
-        /**
-         * List of UIDs of this node's ancestors.
-         * @ignore
-         */
-        _this.ancestorUids = [];
         _this.className = "SankeyDiagramDataItem";
         _this.applyTheme();
         return _this;
@@ -109,20 +104,37 @@ var SankeyDiagram = /** @class */ (function (_super) {
      */
     SankeyDiagram.prototype.getNodeLevel = function (node, level) {
         var _this = this;
-        //@todo solve circular so
         var levels = [level];
         $iter.each(node.incomingDataItems.iterator(), function (link) {
             if (link.fromNode) {
-                link.toNode.dataItem.ancestorUids.push(link.fromNode.uid);
                 if ($type.isNumber(link.fromNode.level)) {
                     levels.push(link.fromNode.level + 1);
                 }
-                else if (link.toNode.dataItem.ancestorUids.indexOf(link.fromNode.uid) == -1) {
-                    levels.push(_this.getNodeLevel(link.fromNode, level + 1));
+                else {
+                    _this._counter = 0;
+                    _this.checkLoop(link.fromNode);
+                    if (_this._counter < _this.dataItems.length) {
+                        levels.push(_this.getNodeLevel(link.fromNode, level + 1));
+                    }
                 }
             }
         });
         return Math.max.apply(Math, __spread(levels));
+    };
+    /**
+     * Checks if there's no loop in the ancestor chain.
+     *
+     * @param  node  Node
+     */
+    SankeyDiagram.prototype.checkLoop = function (node) {
+        var _this = this;
+        this._counter++;
+        if (this._counter > this.dataItems.length) {
+            return;
+        }
+        $iter.each(node.incomingDataItems.iterator(), function (link) {
+            _this.checkLoop(link.fromNode);
+        });
     };
     /**
      * Calculates relation between pixel height and total value.

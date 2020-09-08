@@ -1058,7 +1058,12 @@ var Sprite = /** @class */ (function (_super) {
                         this.dataItem = parent.dataItem;
                     }
                     this.handleAlwaysShowTooltip();
-                    this.applyAccessibility();
+                    if (this.dataItem) {
+                        // No need to apply accessibility if there's no data item
+                        // The whole reason of applying it here is to populate data
+                        // placesholders, and if tehre's no data item, it won't work anyway
+                        this.applyAccessibility();
+                    }
                     this.dispatchImmediately("parentset");
                 }
                 else {
@@ -1120,7 +1125,12 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._virtualParent = value;
-            this.applyAccessibility();
+            if (this.dataItem) {
+                // No need to apply accessibility if there's no data item
+                // The whole reason of applying it here is to populate data
+                // placesholders, and if tehre's no data item, it won't work anyway
+                this.applyAccessibility();
+            }
         },
         enumerable: true,
         configurable: true

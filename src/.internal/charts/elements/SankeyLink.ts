@@ -190,6 +190,9 @@ export class SankeyLink extends FlowDiagramLink {
 			let x1 = this.endX;
 			let y1 = this.endY;
 
+			if (this.states.getKey("backwards")) {
+				this.setState("default");
+			}
 
 			if (this.dataItem) {
 				let chart = this.dataItem.component;
