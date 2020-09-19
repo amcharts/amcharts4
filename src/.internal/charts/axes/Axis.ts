@@ -598,34 +598,6 @@ export class AxisDataItem extends DataItem {
 	}
 
 	/**
-	 * Ordering function used in JSON setup.
-	 *
-	 * @param a  Item A
-	 * @param b  Item B
-	 * @return Order
-	 */
-	protected configOrder(a: string, b: string): Ordering {
-		if (a == b) {
-			return 0;
-		}
-		else if (a == "language") {
-			return -1;
-		}
-		else if (b == "language") {
-			return 1;
-		}
-		else if (a == "component") {
-			return -1;
-		}
-		else if (b == "component") {
-			return 1;
-		}
-		else {
-			return 0;
-		}
-	}
-
-	/**
 	 * Checks if data item has particular property set.
 	 *
 	 * @param prop  Property name
@@ -2336,6 +2308,37 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 		super.processConfig(config);
 	}
 
+	/**
+	 * Ordering function used in JSON setup.
+	 *
+	 * @param a  Item A
+	 * @param b  Item B
+	 * @return Order
+	 */
+	protected configOrder(a: string, b: string): Ordering {
+		if (a == b) {
+			return 0;
+		}
+
+		// last
+		else if (a == "title") {
+			return 1;
+		}
+		else if (b == "title") {
+			return -1;
+		}
+
+		// first
+		else if (a == "component") {
+			return -1;
+		}
+		else if (b == "component") {
+			return 1;
+		}
+		else {
+			return super.configOrder(a, b);
+		}
+	}
 
 	/**
 	 * Axis start location. Works on Date/Category axis, doesn't work on Value axis.

@@ -413,33 +413,6 @@ var AxisDataItem = /** @class */ (function (_super) {
         }
     };
     /**
-     * Ordering function used in JSON setup.
-     *
-     * @param a  Item A
-     * @param b  Item B
-     * @return Order
-     */
-    AxisDataItem.prototype.configOrder = function (a, b) {
-        if (a == b) {
-            return 0;
-        }
-        else if (a == "language") {
-            return -1;
-        }
-        else if (b == "language") {
-            return 1;
-        }
-        else if (a == "component") {
-            return -1;
-        }
-        else if (b == "component") {
-            return 1;
-        }
-        else {
-            return 0;
-        }
-    };
-    /**
      * Checks if data item has particular property set.
      *
      * @param prop  Property name
@@ -1802,6 +1775,35 @@ var Axis = /** @class */ (function (_super) {
             }
         }
         _super.prototype.processConfig.call(this, config);
+    };
+    /**
+     * Ordering function used in JSON setup.
+     *
+     * @param a  Item A
+     * @param b  Item B
+     * @return Order
+     */
+    Axis.prototype.configOrder = function (a, b) {
+        if (a == b) {
+            return 0;
+        }
+        // last
+        else if (a == "title") {
+            return 1;
+        }
+        else if (b == "title") {
+            return -1;
+        }
+        // first
+        else if (a == "component") {
+            return -1;
+        }
+        else if (b == "component") {
+            return 1;
+        }
+        else {
+            return _super.prototype.configOrder.call(this, a, b);
+        }
     };
     Object.defineProperty(Axis.prototype, "startLocation", {
         /**

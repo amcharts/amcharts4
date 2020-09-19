@@ -21,6 +21,7 @@ import { registry } from "../../core/Registry";
 import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
 import { Component } from "../../core/Component";
 import * as $object from "../../core/utils/Object";
+import { options } from "../../core/Options";
 
 
 
@@ -176,7 +177,8 @@ export class SliceGrouper extends Plugin {
 		const dataProvider: Component = series.data && series.data.length ? series : chart;
 
 		// Invalidate calculated data whenever data updates
-		this._disposers.push(dataProvider.events.on("datavalidated", (ev) => {
+		const event = options.queue || options.onlyShowOnViewport ? "inited" : "datavalidated";
+		this._disposers.push(dataProvider.events.on(event, (ev) => {
 
 			if (this._ignoreDataUpdate) {
 				this._ignoreDataUpdate = false;

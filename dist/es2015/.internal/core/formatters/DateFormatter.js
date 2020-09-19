@@ -202,7 +202,7 @@ var DateFormatter = /** @class */ (function (_super) {
                     chunk.text = this._dateFormat;
                 }
                 // Find all possible parts
-                var matches = chunk.text.match(/G|yyyy|yyy|yy|y|YYYY|YYY|YY|Y|u|MMMMM|MMMM|MMM|MM|M|ww|w|W|dd|d|DDD|DD|D|F|g|EEEEE|EEEE|EEE|EE|E|eeeee|eeee|eee|ee|e|aaa|aa|a|hh|h|HH|H|KK|K|kk|k|mm|m|ss|s|SSS|SS|S|A|zzzz|zzz|zz|z|ZZ|Z|t|x|nnn|nn|n|i|I/g);
+                var matches = chunk.text.match(/G|yyyy|yyy|yy|y|YYYY|YYY|YY|Y|u|q|MMMMM|MMMM|MMM|MM|M|ww|w|W|dd|d|DDD|DD|D|F|g|EEEEE|EEEE|EEE|EE|E|eeeee|eeee|eee|ee|e|aaa|aa|a|hh|h|HH|H|KK|K|kk|k|mm|m|ss|s|SSS|SS|S|A|zzzz|zzz|zz|z|ZZ|Z|t|x|nnn|nn|n|i|I/g);
                 // Found?
                 if (matches) {
                     // Populate template
@@ -298,6 +298,9 @@ var DateFormatter = /** @class */ (function (_super) {
                     break;
                 case "u":
                     // @todo
+                    break;
+                case "q":
+                    value = "" + Math.ceil((date.getMonth() + 1) / 3);
                     break;
                 case "MMMMM":
                     value = language.translate(this.months[month]).substr(0, 1);

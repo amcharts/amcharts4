@@ -311,6 +311,13 @@ export declare class Legend extends Component {
      */
     protected createDataItem(): this["_dataItem"];
     /**
+     * [validateDataElements description]
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     */
+    protected validateDataElements(): void;
+    /**
      * [validateDataElement description]
      *
      * @ignore Exclude from docs

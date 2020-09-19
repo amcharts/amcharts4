@@ -157,7 +157,8 @@ export class CurvedColumn extends Column {
 		}
 		else {
 			tensionY = this.tension;
-			points = [{ x: x, y: 0 }, { x: x + w, y: h / 2 }, { x: x, y: h }];
+			h = Math.abs(h);
+			points = [{ x: x, y: h }, { x: x + w, y: h / 2 }, { x: x, y: 0 }];
 		}
 
 		let path = $path.moveTo(points[0]) + new $smoothing.Tension(tensionX, tensionY).smooth(points);

@@ -240,6 +240,10 @@ var DateAxisRangeSelector = /** @class */ (function (_super) {
         if (date) {
             this.zoomToDates(date);
         }
+        this.dispatchImmediately("periodselected", {
+            interval: interval,
+            startDate: date
+        });
     };
     DateAxisRangeSelector.prototype.getGroupInterval = function (interval) {
         return interval.timeUnit + interval.count;

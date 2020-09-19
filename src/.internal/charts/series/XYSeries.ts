@@ -1460,6 +1460,10 @@ export class XYSeries extends Series {
 		}
 		this.updateTooltip();
 
+		if ((xAxis instanceof DateAxis && xAxis.groupData && !this.dataGrouped) || (yAxis instanceof DateAxis && yAxis.groupData && !this.dataGrouped)) {
+			return;
+		}
+
 		super.validate();
 
 		let chart = this.chart;
@@ -1872,7 +1876,6 @@ export class XYSeries extends Series {
 			this._smin.setKey(yAxisId, minY);
 			this._smax.setKey(yAxisId, maxY);
 
-
 			if (this.appeared || this.start != 0 || this.end != 1 || this.dataItems != this.mainDataSet) {
 				/// new, helps to handle issues with change percent
 				let changed = false;
@@ -1927,7 +1930,7 @@ export class XYSeries extends Series {
 	 *
 	 * @see {@link Tooltip}
 	 */
-	public hideTooltip(duration?:number) {
+	public hideTooltip(duration?: number) {
 		super.hideTooltip(duration);
 		this.returnBulletDefaultState();
 		this._prevTooltipDataItem = undefined;
@@ -2461,6 +2464,13 @@ export class XYSeries extends Series {
 	 */
 	public show(duration?: number): Animation {
 
+		if (this.appeared && this.xAxis instanceof DateAxis && this.xAxis.groupData) {
+			this.resetExtremes();
+		}
+		if (this.appeared && this.yAxis instanceof DateAxis && this.yAxis.groupData) {
+			this.resetExtremes();
+		}		
+
 		let fields: string[];
 		if (this.xAxis instanceof ValueAxis && this.xAxis != this.baseAxis) {
 			fields = this._xValueFields;
@@ -2619,7 +2629,7 @@ export class XYSeries extends Series {
 				dataItem.hide(0, 0, value, fields);
 				dataItem.events.enable();
 			})
-		}		
+		}
 
 		let animation = super.hide(interpolationDuration);
 		if (animation && !animation.isFinished()) {

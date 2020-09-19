@@ -13,6 +13,7 @@ import { List } from "../../core/utils/List";
 import { registry } from "../../core/Registry";
 import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
 import * as $object from "../../core/utils/Object";
+import { options } from "../../core/Options";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -132,7 +133,8 @@ var SliceGrouper = /** @class */ (function (_super) {
         var chart = series.baseSprite;
         var dataProvider = series.data && series.data.length ? series : chart;
         // Invalidate calculated data whenever data updates
-        this._disposers.push(dataProvider.events.on("datavalidated", function (ev) {
+        var event = options.queue || options.onlyShowOnViewport ? "inited" : "datavalidated";
+        this._disposers.push(dataProvider.events.on(event, function (ev) {
             if (_this._ignoreDataUpdate) {
                 _this._ignoreDataUpdate = false;
                 return;

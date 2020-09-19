@@ -1377,7 +1377,9 @@ export class TreeMap extends XYChart {
 			sums[i + 1] = sum += nodes.getIndex(i).value;
 		}
 
-		partition(0, n, parent.value, parent.x0, parent.y0, parent.x1, parent.y1);
+		if(n > 0){
+			partition(0, n, parent.value, parent.x0, parent.y0, parent.x1, parent.y1);
+		}
 
 		function partition(i: number, j: number, value: number, x0: number, y0: number, x1: number, y1: number) {
 			if (i >= j - 1) {

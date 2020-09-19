@@ -425,6 +425,19 @@ var Legend = /** @class */ (function (_super) {
         return new LegendDataItem();
     };
     /**
+     * [validateDataElements description]
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     */
+    Legend.prototype.validateDataElements = function () {
+        if (this.scrollbar) {
+            this.scrollbar.start = 0;
+            this.scrollbar.end = 1;
+        }
+        _super.prototype.validateDataElements.call(this);
+    };
+    /**
      * [validateDataElement description]
      *
      * @ignore Exclude from docs

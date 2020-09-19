@@ -1069,7 +1069,9 @@ var TreeMap = /** @class */ (function (_super) {
         for (sums[0] = sum = i = 0; i < n; ++i) {
             sums[i + 1] = sum += nodes.getIndex(i).value;
         }
-        partition(0, n, parent.value, parent.x0, parent.y0, parent.x1, parent.y1);
+        if (n > 0) {
+            partition(0, n, parent.value, parent.x0, parent.y0, parent.x1, parent.y1);
+        }
         function partition(i, j, value, x0, y0, x1, y1) {
             if (i >= j - 1) {
                 var node = nodes.getIndex(i);

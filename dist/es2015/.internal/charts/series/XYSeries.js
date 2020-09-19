@@ -912,6 +912,9 @@ var XYSeries = /** @class */ (function (_super) {
             }
         }
         this.updateTooltip();
+        if ((xAxis instanceof DateAxis && xAxis.groupData && !this.dataGrouped) || (yAxis instanceof DateAxis && yAxis.groupData && !this.dataGrouped)) {
+            return;
+        }
         _super.prototype.validate.call(this);
         var chart = this.chart;
         var maskBullets = this.maskBullets;
@@ -1775,6 +1778,12 @@ var XYSeries = /** @class */ (function (_super) {
      */
     XYSeries.prototype.show = function (duration) {
         var _this = this;
+        if (this.appeared && this.xAxis instanceof DateAxis && this.xAxis.groupData) {
+            this.resetExtremes();
+        }
+        if (this.appeared && this.yAxis instanceof DateAxis && this.yAxis.groupData) {
+            this.resetExtremes();
+        }
         var fields;
         if (this.xAxis instanceof ValueAxis && this.xAxis != this.baseAxis) {
             fields = this._xValueFields;

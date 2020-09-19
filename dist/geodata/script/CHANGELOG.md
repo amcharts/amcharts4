@@ -5,8 +5,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [UNRELEASED] - ????-??-??
 
+### Added
+- New maps: Jordan.
+
 ### Changed
 - Geodata script evrsion does not include `.map` files anymore.
+
+### Fixed
+- Fixed faulty maps: Curaçao.
+- Fixed IDs for Jiangxi and Jiangsu provinces in maps of China.
 
 
 ## [4.1.17] - 2020-08-04

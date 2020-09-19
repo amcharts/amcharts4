@@ -267,14 +267,14 @@ export default {
     },
     // Various chart controls.
     // Shown as a tooltip on zoom out button.
-    "Zoom Out": "Zoom",
+    "Zoom Out": "Perkecil",
     // Timeline buttons
     "Play": "Putar",
     "Stop": "Hentikan",
     // Chart's Legend screen reader title.
     "Legend": "Legenda",
     // Legend's item screen reader indicator.
-    "Click, tap or press ENTER to toggle": "",
+    "Click, tap or press ENTER to toggle": "Klik, ketuk atau tekan ENTER untuk beralih",
     // Shown when the chart is busy loading something.
     "Loading": "Memuat",
     // Shown as the first button in the breadcrumb navigation, e.g.:
@@ -307,11 +307,11 @@ export default {
     "Pyramid Series": "",
     "X/Y Series": "",
     // Map-related stuff.
-    "Map": "",
-    "Press ENTER to zoom in": "",
-    "Press ENTER to zoom out": "",
-    "Use arrow keys to zoom in and out": "",
-    "Use plus and minus keys on your keyboard to zoom in and out": "",
+    "Map": "Peta",
+    "Press ENTER to zoom in": "Tekan ENTER untuk memperbesar",
+    "Press ENTER to zoom out": "Tekan ENTER untuk memperkecil",
+    "Use arrow keys to zoom in and out": "Gunakan tombol panah untuk memperbesar dan memperkecil",
+    "Use plus and minus keys on your keyboard to zoom in and out": "Gunakan tombol plus dan minus pada keyboard Anda untuk memperbesar dan memperkecil",
     // Export-related stuff.
     // These prompts are used in Export menu labels.
     //
@@ -326,13 +326,13 @@ export default {
     "Image": "Gambar",
     "Data": "Data",
     "Print": "Cetak",
-    "Click, tap or press ENTER to open": "",
-    "Click, tap or press ENTER to print.": "",
-    "Click, tap or press ENTER to export as %1.": "",
-    'To save the image, right-click this link and choose "Save picture as..."': "",
+    "Click, tap or press ENTER to open": "Klik, ketuk atau tekan ENTER untuk membuka",
+    "Click, tap or press ENTER to print.": "Klik, ketuk atau tekan ENTER untuk mencetak",
+    "Click, tap or press ENTER to export as %1.": "Klik, ketuk atau tekan ENTER untuk mengekspor sebagai %1",
+    'To save the image, right-click this link and choose "Save picture as..."': 'Untuk menyimpan gambar, klik kanan tautan ini dan pilih "Simpan gambar sebagai"',
     'To save the image, right-click thumbnail on the left and choose "Save picture as..."': "",
-    "(Press ESC to close this message)": "",
-    "Image Export Complete": "",
+    "(Press ESC to close this message)": "Tekan ESC untuk menutup pesan ini",
+    "Image Export Complete": "Ekspor gambar selesai",
     "Export operation took longer than expected. Something might have gone wrong.": "",
     "Saved from": "",
     "PNG": "",

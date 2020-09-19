@@ -279,14 +279,6 @@ export declare class AxisDataItem extends DataItem {
      */
     appendChildren(): void;
     /**
-     * Ordering function used in JSON setup.
-     *
-     * @param a  Item A
-     * @param b  Item B
-     * @return Order
-     */
-    protected configOrder(a: string, b: string): Ordering;
-    /**
      * Checks if data item has particular property set.
      *
      * @param prop  Property name
@@ -1172,6 +1164,14 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     processConfig(config?: {
         [index: string]: any;
     }): void;
+    /**
+     * Ordering function used in JSON setup.
+     *
+     * @param a  Item A
+     * @param b  Item B
+     * @return Order
+     */
+    protected configOrder(a: string, b: string): Ordering;
     /**
      * Axis start location. Works on Date/Category axis, doesn't work on Value axis.
      *

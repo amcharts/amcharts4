@@ -8,7 +8,7 @@
  * ============================================================================
  * @hidden
  */
-import { RangeSelector } from "./RangeSelector";
+import { RangeSelector, IRangeSelectorEvents } from "./RangeSelector";
 import { registry } from "../../core/Registry";
 import { DateAxis } from "../../charts/axes/DateAxis";
 import { AxisRenderer } from "../../charts/axes/AxisRenderer";
@@ -29,6 +29,23 @@ import * as $array from "../../core/utils/Array";
 export interface IDateAxisRangeSelectorPeriod {
 	name: string;
 	interval: ITimeInterval | "ytd" | "max";
+}
+
+/**
+ * Defines events for [[RangeSelector]].
+ */
+export interface IDateAxisRangeSelectorEvents extends IRangeSelectorEvents {
+
+	/**
+	 * Invoked when pre-defined period is selected (button clicked).
+	 * 
+	 * @since 4.10.3
+	 */
+	periodselected: {
+		interval: ITimeInterval;
+		startDate: Date;
+	}
+
 }
 
 
@@ -59,6 +76,11 @@ export interface IDateAxisRangeSelectorPeriod {
  * @todo JSON example
  */
 export class DateAxisRangeSelector extends RangeSelector {
+
+	/**
+	 * Defines available events.
+	 */
+	public _events!: IDateAxisRangeSelectorEvents;
 
 	/**
 	 * Reference to target axis.
@@ -322,6 +344,11 @@ export class DateAxisRangeSelector extends RangeSelector {
 		if (date) {
 			this.zoomToDates(date);
 		}
+
+		this.dispatchImmediately("periodselected", {
+			interval: interval,
+			startDate: date
+		});
 	}
 
 	private getGroupInterval(interval: ITimeInterval): string {

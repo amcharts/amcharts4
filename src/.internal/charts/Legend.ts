@@ -653,6 +653,20 @@ export class Legend extends Component {
 	}
 
 	/**
+	 * [validateDataElements description]
+	 *
+	 * @ignore Exclude from docs
+	 * @todo Description
+	 */
+	protected validateDataElements() {
+		if (this.scrollbar) {
+			this.scrollbar.start = 0;
+			this.scrollbar.end = 1;
+		}
+		super.validateDataElements();
+	}
+
+	/**
 	 * [validateDataElement description]
 	 *
 	 * @ignore Exclude from docs
@@ -803,6 +817,7 @@ export class Legend extends Component {
 				valueLabel.width = maxValueLabelWidth - valueLabel.pixelMarginRight - valueLabel.pixelMarginLeft;
 			})
 		}
+
 
 		super.afterDraw();
 	}

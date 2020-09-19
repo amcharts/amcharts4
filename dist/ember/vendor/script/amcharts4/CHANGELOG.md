@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.3] - 2020-09-19
+
+### Added
+- RangeSelector plugin: a new event `periodselected` added to `DateAxisRangeSelector`.
+- `DateFormatter` now supports quarter format (code: `"q"`).
+
+### Changed
+- More prompt translations to Indonesian locale (`id_ID`).
+
+### Fixed
+- JSON config: Some axis' `title` property was being overwritten if it wasn't last option in the properties list.
+- SliceGrouper plugin was sometimes not functioning properly when used with `options.queue = true`.
+- Scrollable legend was not resetting back to top if its height changed.
+- `TreeMap` with `binaryTree` algorithm was producing a JS error if no initial data was set on chart.
+- If data grouping on `DateAxis` was enabled and there were more than one series in the chart, the second and other series were rendered with data ungrouped in the background before rendering them correctly and thiswas causing performance issues.
+- Vertical `CurvedColumnSeries` with non-inversed `CategoryAxi`s were not positioned properly.
+
+
 ## [4.10.2] - 2020-09-08
 
 ### Fixed
