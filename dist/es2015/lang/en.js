@@ -330,6 +330,7 @@ export default {
     "Image": "",
     "Data": "",
     "Print": "",
+    "Press ENTER or use arrow keys to navigate": "",
     "Click, tap or press ENTER to open": "",
     "Click, tap or press ENTER to print.": "",
     "Click, tap or press ENTER to export as %1.": "",

@@ -278,13 +278,21 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 
 			// Apply accessibility
 			if (component.itemsFocusable()) {
-				this.component.role = "menu";
-				slice.role = "menuitem";
+				if (!$type.hasValue(this.component.role)) {
+					this.component.role = "menu";
+				}
+				if (!$type.hasValue(slice.role)) {
+					slice.role = "menuitem";
+				}
 				slice.focusable = true;
 			}
 			else {
-				this.component.role = "list";
-				slice.role = "listitem";
+				if (!$type.hasValue(this.component.role)) {
+					this.component.role = "list";
+				}
+				if (!$type.hasValue(slice.role)) {
+					slice.role = "listitem";
+				}
 				slice.focusable = false;
 			}
 

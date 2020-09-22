@@ -3498,7 +3498,8 @@ var Sprite = /** @class */ (function (_super) {
         // Check if we need to add label and description
         var title = this.readerTitle, description = this.readerDescription, role = this.role, hidden = this.readerHidden, checked = this.readerChecked, controls = this.readerControls, live = this.readerLive, orientation = this.readerOrientation, valueNow = this.readerValueNow, valueText = this.readerValueText;
         // Init label/describe ids
-        var labelledByIds = [], describedByIds = [];
+        var labelledByIds = [];
+        var describedByIds = [];
         var labelledBy = this.readerLabelledBy;
         if (labelledBy) {
             labelledByIds.push(labelledBy);
@@ -3507,37 +3508,12 @@ var Sprite = /** @class */ (function (_super) {
         if (describedBy) {
             describedByIds.push(describedBy);
         }
-        // Consolidate title and description if system tooltip is disabled
-        if (!this.showSystemTooltip && title) {
-            if (description) {
-                description = title + " -- " + description;
-            }
-            else {
-                description = title;
-            }
-            title = undefined;
-        }
-        // If we have only label, we use `aria-label` attribute.
-        // If there are both label and description, we'll go with separate tags and
-        // use `aria-labelledby`
-        if (title && !description && !this.showSystemTooltip) {
-            // Only label is set, use attribute
-            this.setSVGAttribute({
-                "aria-label": title
-            });
-            // Remove previous elements
-            this.removeSVGAttribute("aria-description");
-            if (this._titleElement) {
-                this.group.removeElement(this._titleElement);
-                this._titleElement = undefined;
-            }
-            if (this._descriptionElement) {
-                this.group.removeElement(this._descriptionElement);
-                this._descriptionElement = undefined;
-            }
-        }
-        else {
-            if (title) {
+        // Add arial-label attribute if present
+        // If not readerTitle and labelledBy is set we will use <title> element
+        // instead of aria-label
+        // TODO: should we check agains this.showSystemTooltip?
+        if (title) {
+            if (labelledByIds.length) {
                 var titleElement = this.titleElement;
                 var titleId = this.uid + "-title";
                 if (titleElement.node.textContent != title) {
@@ -3546,24 +3522,36 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 labelledByIds.push(titleId);
             }
-            else if (this._titleElement) {
+            else {
+                if (this._titleElement) {
+                    this.group.removeElement(this._titleElement);
+                    this._titleElement = undefined;
+                }
+                this.setSVGAttribute({
+                    "aria-label": title
+                });
+            }
+        }
+        else {
+            this.removeSVGAttribute("aria-label");
+            if (this._titleElement) {
                 this.group.removeElement(this._titleElement);
                 this._titleElement = undefined;
             }
+        }
+        // Add description
+        if (description) {
+            var descriptionElement = this.descriptionElement;
             var descriptionId = this.uid + "-description";
-            if (description) {
-                var descriptionElement = this.descriptionElement;
-                if (descriptionElement.node.textContent != description) {
-                    descriptionElement.node.textContent = description;
-                    descriptionElement.attr({ id: descriptionId });
-                }
-                describedByIds.push(descriptionId);
+            if (descriptionElement.node.textContent != description) {
+                descriptionElement.node.textContent = description;
+                descriptionElement.attr({ id: descriptionId });
             }
-            else if (this._descriptionElement) {
-                this.group.removeElement(this._descriptionElement);
-                this._descriptionElement = undefined;
-                $array.remove(describedByIds, descriptionId);
-            }
+            describedByIds.push(descriptionId);
+        }
+        else if (this._descriptionElement) {
+            this.group.removeElement(this._descriptionElement);
+            this._descriptionElement = undefined;
         }
         // Add label and described properties
         if (labelledByIds.length) {

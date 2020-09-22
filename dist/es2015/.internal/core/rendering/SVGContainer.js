@@ -331,6 +331,8 @@ var SVGContainer = /** @class */ (function () {
                 div.setAttribute("role", "alert");
                 div.style.zIndex = "-100000";
                 div.style.opacity = "0";
+                div.style.position = "absolute";
+                div.style.top = "0";
                 this.SVGContainer.appendChild(div);
                 this._readerAlertElement = div;
             }

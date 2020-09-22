@@ -701,6 +701,7 @@ var DateAxis = /** @class */ (function (_super) {
                 });
                 series._dataSets.clear();
             }
+            series.dataGrouped = true;
             $array.each(intervals_1, function (interval) {
                 //let mainBaseInterval = this._mainBaseInterval;
                 var key = "date" + _this.axisLetter;
@@ -709,7 +710,6 @@ var DateAxis = /** @class */ (function (_super) {
                 // todo: check where this clone goes
                 var dataSet = new OrderedListTemplate(series.mainDataSet.template.clone());
                 series.dataSets.setKey(dataSetId, dataSet);
-                series.dataGrouped = true;
                 var dataItems = series.mainDataSet;
                 var previousTime = Number.NEGATIVE_INFINITY;
                 var i = 0;

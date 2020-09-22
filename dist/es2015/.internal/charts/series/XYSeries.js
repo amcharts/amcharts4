@@ -1779,10 +1779,12 @@ var XYSeries = /** @class */ (function (_super) {
     XYSeries.prototype.show = function (duration) {
         var _this = this;
         if (this.appeared && this.xAxis instanceof DateAxis && this.xAxis.groupData) {
-            this.resetExtremes();
+            this._tmin.setKey(this.yAxis.uid, undefined);
+            this._tmax.setKey(this.yAxis.uid, undefined);
         }
         if (this.appeared && this.yAxis instanceof DateAxis && this.yAxis.groupData) {
-            this.resetExtremes();
+            this._tmin.setKey(this.xAxis.uid, undefined);
+            this._tmax.setKey(this.xAxis.uid, undefined);
         }
         var fields;
         if (this.xAxis instanceof ValueAxis && this.xAxis != this.baseAxis) {

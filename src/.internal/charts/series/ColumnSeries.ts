@@ -818,13 +818,21 @@ export class ColumnSeries extends XYSeries {
 
 				// accessibility
 				if (this.itemsFocusable()) {
-					this.role = "menu";
-					column.role = "menuitem";
+					if (!$type.hasValue(this.role)) {
+						this.role = "menu";
+					}
+					if (!$type.hasValue(column.role)) {
+						column.role = "menuitem";
+					}
 					column.focusable = true;
 				}
 				else {
-					this.role = "list";
-					column.role = "listitem";
+					if (!$type.hasValue(this.role)) {
+						this.role = "list";
+					}
+					if (!$type.hasValue(column.role)) {
+						column.role = "listitem";
+					}
 					column.focusable = false;
 				}
 

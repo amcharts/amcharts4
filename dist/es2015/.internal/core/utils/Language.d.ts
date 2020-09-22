@@ -189,6 +189,7 @@ export interface ILocaleProperties {
     "Image"?: string;
     "Data"?: string;
     "Print"?: string;
+    "Press ENTER or use arrow keys to navigate"?: string;
     "Click, tap or press ENTER to open"?: string;
     "Click, tap or press ENTER to print."?: string;
     "Click, tap or press ENTER to export as %1."?: string;

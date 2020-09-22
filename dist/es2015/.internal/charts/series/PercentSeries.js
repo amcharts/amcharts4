@@ -223,13 +223,21 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
                 slice_1.visible = this.visible;
                 // Apply accessibility
                 if (component_1.itemsFocusable()) {
-                    this.component.role = "menu";
-                    slice_1.role = "menuitem";
+                    if (!$type.hasValue(this.component.role)) {
+                        this.component.role = "menu";
+                    }
+                    if (!$type.hasValue(slice_1.role)) {
+                        slice_1.role = "menuitem";
+                    }
                     slice_1.focusable = true;
                 }
                 else {
-                    this.component.role = "list";
-                    slice_1.role = "listitem";
+                    if (!$type.hasValue(this.component.role)) {
+                        this.component.role = "list";
+                    }
+                    if (!$type.hasValue(slice_1.role)) {
+                        slice_1.role = "listitem";
+                    }
                     slice_1.focusable = false;
                 }
                 // Apply screen reader label

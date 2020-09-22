@@ -996,6 +996,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				series._dataSets.clear();
 			}
 
+			series.dataGrouped = true;
+
 			$array.each(intervals, (interval) => {
 				//let mainBaseInterval = this._mainBaseInterval;
 				let key = "date" + this.axisLetter;
@@ -1006,7 +1008,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				let dataSet = new OrderedListTemplate(series.mainDataSet.template.clone());
 
 				series.dataSets.setKey(dataSetId, dataSet);
-				series.dataGrouped = true;
 
 				let dataItems = series.mainDataSet;
 				let previousTime: number = Number.NEGATIVE_INFINITY;

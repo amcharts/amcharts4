@@ -4483,8 +4483,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			valueText = this.readerValueText;
 
 		// Init label/describe ids
-		let labelledByIds: string[] = [],
-			describedByIds: string[] = [];
+		let labelledByIds: string[] = [];
+		let describedByIds: string[] = [];
 
 		let labelledBy: string = this.readerLabelledBy;
 		if (labelledBy) {
@@ -4496,73 +4496,62 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			describedByIds.push(describedBy);
 		}
 
-		// Consolidate title and description if system tooltip is disabled
-		if (!this.showSystemTooltip && title) {
-			if (description) {
-				description = title + " -- " + description;
-			}
-			else {
-				description = title;
-			}
-			title = undefined;
-		}
+		// Add arial-label attribute if present
+		// If not readerTitle and labelledBy is set we will use <title> element
+		// instead of aria-label
+		// TODO: should we check agains this.showSystemTooltip?
+		if (title) {
 
-		// If we have only label, we use `aria-label` attribute.
-		// If there are both label and description, we'll go with separate tags and
-		// use `aria-labelledby`
-		if (title && !description && !this.showSystemTooltip) {
+			if (labelledByIds.length) {
 
-
-			// Only label is set, use attribute
-			this.setSVGAttribute({
-				"aria-label": title
-			});
-
-			// Remove previous elements
-			this.removeSVGAttribute("aria-description");
-			if (this._titleElement) {
-				this.group.removeElement(this._titleElement);
-				this._titleElement = undefined;
-			}
-			if (this._descriptionElement) {
-				this.group.removeElement(this._descriptionElement);
-				this._descriptionElement = undefined;
-			}
-
-		}
-		else {
-
-			if (title) {
-				let titleElement = this.titleElement;
-				let titleId = this.uid + "-title";
+				const titleElement = this.titleElement;
+				const titleId = this.uid + "-title";
 				if (titleElement.node.textContent != title) {
 					titleElement.node.textContent = title;
 					titleElement.attr({ id: titleId });
 				}
 				labelledByIds.push(titleId);
-			}
-			else if (this._titleElement) {
-				this.group.removeElement(this._titleElement);
-				this._titleElement = undefined;
-			}
 
-			let descriptionId = this.uid + "-description";
-			if (description) {
-				let descriptionElement = this.descriptionElement;
+			}
+			else {
 
-				if (descriptionElement.node.textContent != description) {
-					descriptionElement.node.textContent = description;
-					descriptionElement.attr({ id: descriptionId });
+				if (this._titleElement) {
+					this.group.removeElement(this._titleElement);
+					this._titleElement = undefined;
 				}
-				describedByIds.push(descriptionId);
-			}
-			else if (this._descriptionElement) {
-				this.group.removeElement(this._descriptionElement);
-				this._descriptionElement = undefined;
-				$array.remove(describedByIds, descriptionId);
+
+				this.setSVGAttribute({
+					"aria-label": title
+				});
 			}
 
 		}
+		else {
+			this.removeSVGAttribute("aria-label");
+			if (this._titleElement) {
+				this.group.removeElement(this._titleElement);
+				this._titleElement = undefined;
+			}
+		}
+
+
+		// Add description
+		if (description) {
+
+			const descriptionElement = this.descriptionElement;
+			const descriptionId = this.uid + "-description";
+			if (descriptionElement.node.textContent != description) {
+				descriptionElement.node.textContent = description;
+				descriptionElement.attr({ id: descriptionId });
+			}
+			describedByIds.push(descriptionId);
+
+		}
+		else if (this._descriptionElement) {
+			this.group.removeElement(this._descriptionElement);
+			this._descriptionElement = undefined;
+		}
+
 
 		// Add label and described properties
 		if (labelledByIds.length) {

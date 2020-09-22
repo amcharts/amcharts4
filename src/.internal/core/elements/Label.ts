@@ -1220,6 +1220,32 @@ export class Label extends Container {
 	}
 
 	/**
+	 * An RTL (right-to-left) setting.
+	 *
+	 * RTL may affect alignment, text, and other visual properties.
+	 *
+	 * If you set this on a top-level chart object, it will be used for all
+	 * child elements, e.g. labels, unless they have their own `rtl` setting
+	 * set directly on them.
+	 *
+	 * @param value  `true` for to use RTL
+	 */
+	public set rtl(value: boolean) {
+		value = $type.toBoolean(value);
+		if (this.element) {
+			if (value) {
+				this.element.attr({
+					"direction": "rtl"
+				});
+			}
+			else {
+				this.element.removeAttr("direction");
+			}
+		}
+		this._rtl = value;
+	}
+
+	/**
 	 * Resets cached BBox.
 	 *
 	 * @ignore Exclude from docs

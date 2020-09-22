@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.4] - 2020-09-22
+
+### Changed
+- Accessibility: `ExportMenu` top item has now role `menubar` rather than `menu`.
+- Accessibility: `ExportMenu` will now set `aria-expanded` attributes for selected menu items/branches.
+
+### Fixed
+- Enabling `groupData` was causing some series not to appear in some cases (since 4.10.3).
+- Toggling a legend item was adding a hidden element outside chart container area, which was sometimes causing scrollbars to appear on the web page.
+- Toggling `rtl` value on an existing `Label` was not working properly.
+- Accessibility: setting `rederTitle` or `itemReaderTitle` was not setting `aria-label` but rather adding `<desc>` tag and `aria-describedby` attirubute. It now will use `aria-label` for `readerTitle` and `<desc>` for `readerDescription`.
+- Accessibility: there was no way to override hard-coded `role` of the slices or columns in series.
+- Accessibility: navigating `ExportMenu` with arrow keys will not scroll web page anymore.
+
+
 ## [4.10.3] - 2020-09-19
 
 ### Added

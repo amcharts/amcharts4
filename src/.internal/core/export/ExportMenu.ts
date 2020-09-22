@@ -520,7 +520,7 @@ export class ExportMenu extends Validatable {
 		}));
 
 		// Set up global event on ESC press to close the menu
-		this._disposers.push(getInteraction().body.events.on("keyup", (ev) => {
+		this._disposers.push(getInteraction().body.events.on("keydown", (ev) => {
 			let key = keyboard.getEventKey(ev.event);
 			switch (key) {
 				case "esc":
@@ -530,6 +530,9 @@ export class ExportMenu extends Validatable {
 				case "down":
 				case "left":
 				case "right":
+					if(this._currentSelection) {
+						ev.event.preventDefault();
+					}
 					this.moveSelection(key);
 					break;
 			}
@@ -774,6 +777,9 @@ export class ExportMenu extends Validatable {
 
 		// Accessibility
 		if (level === 0) {
+			element.setAttribute("role", "menubar");
+		}
+		else {
 			element.setAttribute("role", "menu");
 		}
 		return element;
@@ -970,7 +976,11 @@ export class ExportMenu extends Validatable {
 		label = $utils.stripTags(label);
 
 		// Add textual note if the branch is clickable
-		if (this.hasSubMenu(branch)) {
+		if (branch.ascendants.length == 0) {
+			label = label == "..." ? this.language.translate("Export") : label;
+			label += " [" + this.language.translate("Press ENTER or use arrow keys to navigate") + "]";
+		}
+		else if (this.hasSubMenu(branch)) {
 			label += " [" + this.language.translate("Click, tap or press ENTER to open") + "]";
 		}
 		else if (branch.type == "print") {
@@ -1308,6 +1318,9 @@ export class ExportMenu extends Validatable {
 		// Add active class
 		$dom.addClass(branch.interactions.element.parentElement, "active");
 
+		// Set expanded
+		branch.interactions.element.parentElement.setAttribute("aria-expanded", "true");
+
 		// Remove current selection
 		if (this._currentSelection && this._currentSelection !== branch && this._currentSelection.ascendants) {
 			$iter.each($iter.concat($iter.fromArray([this._currentSelection]), this._currentSelection.ascendants.iterator()), (ascendant) => {
@@ -1351,6 +1364,9 @@ export class ExportMenu extends Validatable {
 
 		// Remove active class
 		$dom.removeClass(branch.interactions.element.parentElement, "active");
+
+		// Set expanded
+		branch.interactions.element.parentElement.removeAttribute("aria-expanded");
 
 		// Remove current selection
 		if (this._currentSelection == branch) {

@@ -141,7 +141,7 @@ export class MapObject extends Container {
 	 * @ignore Exclude from docs
 	 */
 	public validate(): void {
-		if (this.series) {
+		if (this.series && this.series.itemReaderText) {
 			this.readerTitle = this.series.itemReaderText;
 		}
 		super.validate();
