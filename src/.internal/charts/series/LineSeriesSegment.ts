@@ -90,7 +90,7 @@ export class LineSeriesSegment extends Container {
 	 */
 	public fillSprite: Sprite;
 
-	public series:LineSeries;
+	public series: LineSeries;
 
 	/**
 	 * Constructor
@@ -136,21 +136,21 @@ export class LineSeriesSegment extends Container {
 	 */
 	public drawSegment(points: IPoint[], closePoints: IPoint[], smoothnessX: number, smoothnessY: number): void {
 		if (!this.disabled) {
-			if (points.length > 0 && closePoints.length > 0) {
+			if (points.length > 0 && closePoints.length > 0 && $type.isNumber(points[0].x) && $type.isNumber(points[0].y)) {
 				// first moveTo helps to avoid Chrome straight line in the mask bug.
 				let path: string = $path.moveTo({ x: points[0].x - 0.2, y: points[0].y - 0.2 }) + $path.moveTo(points[0])
 
 				let series = this.series;
 
-				if(series.smoothing == "bezier"){
+				if (series.smoothing == "bezier") {
 					path += new $smoothing.Tension(smoothnessX, smoothnessY).smooth(points);
 				}
-				else if(series.smoothing == "monotoneX"){
-					path += new $smoothing.MonotoneX({closed:false}).smooth(points);
+				else if (series.smoothing == "monotoneX") {
+					path += new $smoothing.MonotoneX({ closed: false }).smooth(points);
 				}
-				else if(series.smoothing == "monotoneY"){
-					path += new $smoothing.MonotoneY({closed:false}).smooth(points);
-				}				
+				else if (series.smoothing == "monotoneY") {
+					path += new $smoothing.MonotoneY({ closed: false }).smooth(points);
+				}
 
 				if (this.strokeOpacity == 0 || this.strokeSprite.strokeOpacity == 0) {
 					// like this and not if != 0, otherwise ranges stroke won't be drawn.
@@ -163,16 +163,16 @@ export class LineSeriesSegment extends Container {
 					if ($type.isNumber(closePoints[0].x) && $type.isNumber(closePoints[0].y)) {
 						path += $path.lineTo(closePoints[0]);
 
-						if(series.smoothing == "bezier"){
+						if (series.smoothing == "bezier") {
 							path += new $smoothing.Tension(smoothnessX, smoothnessY).smooth(closePoints);
 						}
-						else if(series.smoothing == "monotoneX"){
-							path += new $smoothing.MonotoneX({closed:false}).smooth(closePoints);
+						else if (series.smoothing == "monotoneX") {
+							path += new $smoothing.MonotoneX({ closed: false }).smooth(closePoints);
 						}
-						else if(series.smoothing == "monotoneY"){
-							path += new $smoothing.MonotoneY({closed:false}).smooth(closePoints);
-						}		
-						
+						else if (series.smoothing == "monotoneY") {
+							path += new $smoothing.MonotoneY({ closed: false }).smooth(closePoints);
+						}
+
 						path += $path.lineTo(points[0]);
 						path += $path.closePath();
 

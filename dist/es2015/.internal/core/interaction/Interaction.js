@@ -135,7 +135,6 @@ var Interaction = /** @class */ (function (_super) {
          * [[InteractionObject]].
          */
         _this.hitOptions = {
-            //"holdTime": 1000,
             "doubleHitTime": 300,
             //"delayFirstHit": false,
             "hitTolerance": 10,

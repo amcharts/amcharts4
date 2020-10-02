@@ -317,6 +317,9 @@ export declare class Label extends Container {
      *
      * @param value  `true` for to use RTL
      */
+    /**
+    * @return RTL?
+    */
     rtl: boolean;
     /**
      * Resets cached BBox.

@@ -558,7 +558,7 @@ export declare class XYChart extends SerialChart {
      * @ignore Exclude from docs
      * @param sprites  A list of sprites to hide tooltip for
      */
-    hideObjectTooltip(sprites: List<Sprite>): void;
+    hideObjectTooltip(sprites: List<Axis | XYSeries>): void;
     /**
      * Shows a tooltip for all chart's series, using specific coordinates as a
      * reference point.

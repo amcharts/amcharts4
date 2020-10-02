@@ -1832,7 +1832,7 @@ var DateAxis = /** @class */ (function (_super) {
             }
         }
         var dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);
-        var dataItem = dataItemsByAxis.getKey(date.getTime().toString());
+        var dataItem = dataItemsByAxis.getKey(date.getTime() + series.currentDataSetId);
         // todo:  alternatively we can find closiest here
         if (!dataItem && findNearest) {
             var key_1;

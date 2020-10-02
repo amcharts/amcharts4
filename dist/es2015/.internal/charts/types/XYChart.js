@@ -984,7 +984,9 @@ var XYChart = /** @class */ (function (_super) {
      */
     XYChart.prototype.hideObjectTooltip = function (sprites) {
         $iter.each(sprites.iterator(), function (sprite) {
-            sprite.hideTooltip(0);
+            if (sprite.cursorTooltipEnabled) {
+                sprite.hideTooltip(0);
+            }
         });
     };
     /**

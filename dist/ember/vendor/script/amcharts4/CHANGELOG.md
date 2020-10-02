@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.5] - 2020-10-02
+
+### Changed
+- Inline curly-bracket data placeholders now support dot-separated data context names as literal strings, e.g. `"my.custom.property"`.
+- A bunch of dependencies were updated to latest versions.
+
+### Fixed
+- Toggling `rtl` value on an existing `Label` was (still) not working properly.
+- `showSystemTooltip` was being ignored since last version (4.10.4).
+- `chart.cursor.snapToSeries` was not causing cursor to snap in wrong place if `groupData` was enabled.
+- Bullet tooltip was being hidden even if it had to stay when cursor moved out of the plot area.
+
+
 ## [4.10.4] - 2020-09-22
 
 ### Changed

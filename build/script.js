@@ -107,6 +107,7 @@ export default function () {
 				$fs.writeFileSync(filename,
 `import fixPolyfills from "./polyfill";
 import "core-js/stable";
+import "regenerator-runtime/runtime";
 import * as m from "../es2015/core";
 window.am4core = m;
 

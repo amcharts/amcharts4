@@ -3138,6 +3138,12 @@ var Sprite = /** @class */ (function (_super) {
             var dataContext = dataItem.dataContext;
             if (!$type.hasValue(value) && dataContext) {
                 value = this.getTagValueFromObject(parts, dataItem.dataContext);
+                // Maybe it's a literal dot-separated name of the key in dataContext?
+                if (!$type.hasValue(value)) {
+                    value = this.getTagValueFromObject([{
+                            prop: tagName
+                        }], dataContext);
+                }
                 // scond data context level sometimes exist (tree map)
                 if (!$type.hasValue(value) && dataContext.dataContext) {
                     value = this.getTagValueFromObject(parts, dataContext.dataContext);
@@ -3513,7 +3519,7 @@ var Sprite = /** @class */ (function (_super) {
         // instead of aria-label
         // TODO: should we check agains this.showSystemTooltip?
         if (title) {
-            if (labelledByIds.length) {
+            if (labelledByIds.length || this.showSystemTooltip) {
                 var titleElement = this.titleElement;
                 var titleId = this.uid + "-title";
                 if (titleElement.node.textContent != title) {

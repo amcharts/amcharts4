@@ -6,7 +6,7 @@ module.exports = {
   devtool: "source-map",
 
   entry: {
-    index: ["core-js/stable", "./index.js"]
+    index: ["core-js/stable", "regenerator-runtime/runtime", "./index.js"]
   },
 
   output: {

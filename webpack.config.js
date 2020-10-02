@@ -92,7 +92,7 @@ module.exports = function (info) {
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
             rules: [{
                 test: /\.js$/,
-                include: /node_modules[\/\\]d3-force/,
+                include: /node_modules[\/\\](?:d3-|tinyqueue)/,
                 use: {
                     loader: "babel-loader",
                     options: {

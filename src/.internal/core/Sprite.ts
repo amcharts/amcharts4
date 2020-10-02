@@ -4024,6 +4024,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			if (!$type.hasValue(value) && dataContext) {
 				value = this.getTagValueFromObject(parts, dataItem.dataContext);
 
+				// Maybe it's a literal dot-separated name of the key in dataContext?
+				if (!$type.hasValue(value)) {
+					value = this.getTagValueFromObject([{
+						prop: tagName
+					}], dataContext);
+				}
+
 				// scond data context level sometimes exist (tree map)
 				if (!$type.hasValue(value) && dataContext.dataContext) {
 					value = this.getTagValueFromObject(parts, dataContext.dataContext);
@@ -4502,7 +4509,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		// TODO: should we check agains this.showSystemTooltip?
 		if (title) {
 
-			if (labelledByIds.length) {
+			if (labelledByIds.length || this.showSystemTooltip) {
 
 				const titleElement = this.titleElement;
 				const titleId = this.uid + "-title";

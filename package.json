@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@amcharts/amcharts4",
-  "version": "4.10.4",
+  "version": "4.10.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/amcharts/amcharts4.git"
@@ -27,38 +27,38 @@
   "dependencies": {
     "@babel/runtime": "^7.6.3",
     "core-js": "^3.0.0",
-    "raf": "^3.4.1",
-    "rgbcolor": "^1.0.1",
-    "stackblur-canvas": "^2.0.0",
-
     "d3-force": "^2.0.1",
+    "d3-geo": "^2.0.1",
+    "d3-geo-projection": "^3.0.0",
     "pdfmake": "^0.1.36",
     "polylabel": "^1.0.2",
-    "tslib": "^1.9.3",
+    "raf": "^3.4.1",
     "regression": "^2.0.1",
-    "xlsx": "^0.16.4",
-    "d3-geo": "^1.11.3",
-    "d3-geo-projection": "^2.6.0",
-    "venn.js": "^0.2.20"
+    "rgbcolor": "^1.0.1",
+    "stackblur-canvas": "^2.0.0",
+    "tslib": "^2.0.1",
+    "venn.js": "^0.2.20",
+    "xlsx": "^0.16.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.4.4",
     "@types/d3-force": "^1.2.1",
+    "@types/d3-geo": "^1.11.1",
     "@types/geojson": "^7946.0.6",
     "@types/polylabel": "^1.0.5",
-    "@types/d3-geo": "^1.11.1",
     "@types/regression": "^2.0.0",
-    "cross-env": "^6.0.3",
+    "babel-loader": "^8.0.5",
+    "cross-env": "^7.0.2",
+    "regenerator-runtime": "^0.13.7",
     "rimraf": "^3.0.0",
     "source-map-loader": "^0.2.3",
     "ts-loader": "^3.0.0",
-    "typedoc": "^0.16.8",
+    "typedoc": "^0.19.2",
     "typescript": "3.6.5",
     "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^3.0.0",
-    "webpack-hashed-chunk-id-plugin": "^1.0.3-beta",
-    "babel-loader": "^8.0.5",
-    "@babel/core": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0"
+    "webpack-hashed-chunk-id-plugin": "^1.0.3-beta"
   }
 }

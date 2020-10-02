@@ -1119,6 +1119,15 @@ export class Label extends Container {
 		$utils.used(this.pixelPaddingTop);
 		$utils.used(this.pixelPaddingBottom);
 
+		if (this.rtl) {
+			group.attr({
+				"direction": "rtl"
+			});
+		}
+		else {
+			group.removeAttr("direction");
+		}
+
 		// Process each line
 		//$iter.each(group.children.backwards().iterator(), (element) => {
 		for (let i = children.length - 1; i >= 0; i--) {
@@ -1209,12 +1218,13 @@ export class Label extends Container {
 		}
 
 		// Add RTL?
-		if (this.rtl) {
-			element.attr({
-				"direction": "rtl",
-				//"unicode-bidi": "bidi-override"
-			});
-		}
+		// This has now been moved to this.alignSVGText()
+		// if (this.rtl) {
+		// 	element.attr({
+		// 		"direction": "rtl",
+		// 		//"unicode-bidi": "bidi-override"
+		// 	});
+		// }
 
 		return element;
 	}
@@ -1232,17 +1242,23 @@ export class Label extends Container {
 	 */
 	public set rtl(value: boolean) {
 		value = $type.toBoolean(value);
-		if (this.element) {
-			if (value) {
-				this.element.attr({
-					"direction": "rtl"
-				});
-			}
-			else {
-				this.element.removeAttr("direction");
-			}
-		}
 		this._rtl = value;
+		if (this.element) {
+			this.alignSVGText();
+		}
+	}
+
+	/**
+	 * @return RTL?
+	 */
+	public get rtl(): boolean {
+		if ($type.hasValue(this._rtl)) {
+			return this._rtl;
+		}
+		else if (this._topParent) {
+			return this._topParent.rtl;
+		}
+		return false;
 	}
 
 	/**

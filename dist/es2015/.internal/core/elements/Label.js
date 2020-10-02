@@ -725,6 +725,14 @@ var Label = /** @class */ (function (_super) {
         $utils.used(this.pixelPaddingRight);
         $utils.used(this.pixelPaddingTop);
         $utils.used(this.pixelPaddingBottom);
+        if (this.rtl) {
+            group.attr({
+                "direction": "rtl"
+            });
+        }
+        else {
+            group.removeAttr("direction");
+        }
         // Process each line
         //$iter.each(group.children.backwards().iterator(), (element) => {
         for (var i = children.length - 1; i >= 0; i--) {
@@ -804,14 +812,28 @@ var Label = /** @class */ (function (_super) {
             element.attr({ "overflow": "hidden" });
         }
         // Add RTL?
-        if (this.rtl) {
-            element.attr({
-                "direction": "rtl",
-            });
-        }
+        // This has now been moved to this.alignSVGText()
+        // if (this.rtl) {
+        // 	element.attr({
+        // 		"direction": "rtl",
+        // 		//"unicode-bidi": "bidi-override"
+        // 	});
+        // }
         return element;
     };
     Object.defineProperty(Label.prototype, "rtl", {
+        /**
+         * @return RTL?
+         */
+        get: function () {
+            if ($type.hasValue(this._rtl)) {
+                return this._rtl;
+            }
+            else if (this._topParent) {
+                return this._topParent.rtl;
+            }
+            return false;
+        },
         /**
          * An RTL (right-to-left) setting.
          *
@@ -825,17 +847,10 @@ var Label = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toBoolean(value);
-            if (this.element) {
-                if (value) {
-                    this.element.attr({
-                        "direction": "rtl"
-                    });
-                }
-                else {
-                    this.element.removeAttr("direction");
-                }
-            }
             this._rtl = value;
+            if (this.element) {
+                this.alignSVGText();
+            }
         },
         enumerable: true,
         configurable: true

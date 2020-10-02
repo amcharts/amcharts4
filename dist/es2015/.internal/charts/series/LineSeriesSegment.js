@@ -75,7 +75,7 @@ var LineSeriesSegment = /** @class */ (function (_super) {
      */
     LineSeriesSegment.prototype.drawSegment = function (points, closePoints, smoothnessX, smoothnessY) {
         if (!this.disabled) {
-            if (points.length > 0 && closePoints.length > 0) {
+            if (points.length > 0 && closePoints.length > 0 && $type.isNumber(points[0].x) && $type.isNumber(points[0].y)) {
                 // first moveTo helps to avoid Chrome straight line in the mask bug.
                 var path = $path.moveTo({ x: points[0].x - 0.2, y: points[0].y - 0.2 }) + $path.moveTo(points[0]);
                 var series = this.series;

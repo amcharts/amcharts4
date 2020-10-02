@@ -228,7 +228,6 @@ export class Interaction extends BaseObjectEvents {
 	 * [[InteractionObject]].
 	 */
 	public hitOptions: IHitOptions = {
-		//"holdTime": 1000,
 		"doubleHitTime": 300,
 		//"delayFirstHit": false,
 		"hitTolerance": 10,

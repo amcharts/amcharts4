@@ -1236,7 +1236,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 			dataItem.setCalculatedValue(key, startTime, "open");
 			dataItem.setCalculatedValue(key, endDate.getTime(), "close");
-
 			dataItemsByAxis.setKey(startTime + intervalID, dataItem);
 		});
 	}
@@ -2286,7 +2285,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		let dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);
 
-		let dataItem = dataItemsByAxis.getKey(date.getTime().toString());
+		let dataItem = dataItemsByAxis.getKey(date.getTime() + series.currentDataSetId);
 
 		// todo:  alternatively we can find closiest here
 		if (!dataItem && findNearest) {

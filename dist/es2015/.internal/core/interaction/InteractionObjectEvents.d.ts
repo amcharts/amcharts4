@@ -119,6 +119,8 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     rightclick: MouseTouchEvent;
     /**
      * Invoked when mouse or touch pointer is held down over object for some time.
+     * @ignore
+     * @deprecated
      */
     hold: PointerTypeEvent & PointerEvent & MouseTouchEvent;
     /**

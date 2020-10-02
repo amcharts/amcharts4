@@ -1318,9 +1318,11 @@ export class XYChart extends SerialChart {
 	 * @ignore Exclude from docs
 	 * @param sprites  A list of sprites to hide tooltip for
 	 */
-	public hideObjectTooltip(sprites: List<Sprite>): void {
+	public hideObjectTooltip(sprites: List<Axis | XYSeries>): void {
 		$iter.each(sprites.iterator(), (sprite) => {
-			sprite.hideTooltip(0);
+			if (sprite.cursorTooltipEnabled) {
+				sprite.hideTooltip(0);
+			}
 		});
 	}
 
