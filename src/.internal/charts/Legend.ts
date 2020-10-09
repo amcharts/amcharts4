@@ -198,6 +198,7 @@ export class LegendDataItem extends DataItem {
 
 			let itemContainer = component.itemContainers.create();
 			itemContainer.parent = component;
+			
 			this._itemContainer = itemContainer;
 			this.addSprite(itemContainer);
 			this._disposers.push(itemContainer);

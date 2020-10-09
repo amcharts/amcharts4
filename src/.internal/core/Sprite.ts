@@ -4264,6 +4264,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				}
 			}
 
+			this.applyAccessibility();
 			this.invalidate();
 		}
 	}

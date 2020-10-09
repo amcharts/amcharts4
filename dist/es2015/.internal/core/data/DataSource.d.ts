@@ -344,7 +344,9 @@ export declare class DataSource extends BaseObjectEvents {
      *   // ...
      *   "dataSource": {
      *     "url": "http://www.myweb.com/data.json",
-     *     "parser": "JSONParser"
+     *     "parser": {
+     *       "type": "JSONParser"
+     *     }
      *   },
      *   // ...
      * }

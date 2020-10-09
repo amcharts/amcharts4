@@ -292,7 +292,9 @@ var DataSource = /** @class */ (function (_super) {
          *   // ...
          *   "dataSource": {
          *     "url": "http://www.myweb.com/data.json",
-         *     "parser": "JSONParser"
+         *     "parser": {
+         *       "type": "JSONParser"
+         *     }
          *   },
          *   // ...
          * }

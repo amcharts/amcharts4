@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.6] - 2020-10-09
+
+### Added
+- SVG export options now support `scale`, `minWidth`, `minHeight`, `maxWidth`, and `maxHeight`.
+- New `ExportMenu` property: `element` (a reference to menu's top element).
+
+### Fixed
+- `readerTitle` and `readerDescription` were not being properly populated with data on Map objects.
+- Setting `includeRangesInMinMax = true` on `ValueAxis` in some cases was messing up the chart.
+- Export: Printing via iframe in IE11 was distorting the chart aspect ratio.
+- Export: Exporting in IE11 was leaving behind a stray `<canvas>` element afterwards.
+- Auto-zoom on `ValueAxis` was not working properly with multiple series with incomplete data.
+
+
 ## [4.10.5] - 2020-10-02
 
 ### Changed

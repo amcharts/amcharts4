@@ -855,8 +855,20 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					}
 				}
 
-				series.startIndex = startIndex;
-				series.endIndex = endIndex;
+				if(series.max(this) < minZoomed){
+					series.startIndex = series.dataItems.length;
+					series.endIndex = series.dataItems.length;					
+				}
+				else if(series.min(this) > maxZoomed){
+					series.startIndex = 0;
+					series.endIndex = 0;										
+				}
+				else{
+					series.startIndex = startIndex;
+					series.endIndex = endIndex;
+				}
+
+			//	console.log(series.name, startIndex, endIndex);
 
 				if (!dataSetChanged && series.dataRangeInvalid) {
 					series.validateDataRange();

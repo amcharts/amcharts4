@@ -391,6 +391,54 @@ export interface IExportSVGOptions {
 	 */
 	disabled?: boolean;
 
+	/**
+	 * Rescale image.
+	 *
+	 * Number less than 1 will shrink the image.
+	 *
+	 * Number bigger than 1 will scale up the image.
+	 *
+	 * @default 1
+	 * @since 4.10.06
+	 */
+	scale?: number;
+
+	/**
+	 * Minimum width in pixels of the exported image. If source chart is smaller
+	 * thank this, it will be scaled up.
+	 *
+	 * @since 4.10.06
+	 */
+	minWidth?: number;
+
+	/**
+	 * Minimum height in pixels of the exported image. If source chart is smaller
+	 * thank this, it will be scaled up.
+	 *
+	 * @since 4.10.06
+	 */
+	minHeight?: number;
+
+	/**
+	 * Maximum width in pixels of the exported image. If source chart is bigger
+	 * thank this, it will be scaled down.
+	 *
+	 * NOTE: this setting might be overidden by `minWidth`.
+	 *
+	 * @since 4.10.06
+	 */
+	maxWidth?: number;
+
+	/**
+	 * Maximum height in pixels of the exported image. If source chart is bigger
+	 * thank this, it will be scaled down.
+	 *
+	 * NOTE: this setting might be overidden by `minHeight`.
+	 *
+	 * @since 4.10.06
+	 */
+	maxHeight?: number;
+
 }
 
 /**
@@ -2030,8 +2078,9 @@ export class Export extends Validatable {
 		// Are we using simplified export option?
 		if (await this.simplifiedImageExport()) {
 
+			let canvas;
 			try {
-				let canvas = await this.getCanvas(options);
+				canvas = await this.getCanvas(options);
 
 				// Add extra sprites
 				if (includeExtras !== false) {
@@ -2053,6 +2102,10 @@ export class Export extends Validatable {
 			catch (e) {
 				console.error(e.message + "\n" + e.stack);
 				$log.warn("Simple export failed, falling back to advanced export");
+
+				if (canvas) {
+					this.disposeCanvas(canvas);
+				}
 
 				// An error occurred, let's try advanced method
 				const data = await this.getImageAdvanced(type, options, includeExtras);
@@ -2936,10 +2989,15 @@ export class Export extends Validatable {
 		await this.awaitValidSprites();
 
 		// Get dimensions
-		let width = this.sprite.pixelWidth,
-			height = this.sprite.pixelHeight,
-			font = $dom.findFont(this.sprite.dom),
-			fontSize = $dom.findFontSize(this.sprite.dom);
+		let width = this.sprite.pixelWidth;
+		let height = this.sprite.pixelHeight;
+		let font = $dom.findFont(this.sprite.dom);
+		let fontSize = $dom.findFontSize(this.sprite.dom);
+		let scale = options.scale || 1;
+		let pixelRatio = this.getPixelRatio(options);
+
+		// Check if scale needs to be updated as per min/max dimensions
+		scale = this.getAdjustedScale(width * pixelRatio, height * pixelRatio, scale, options);
 
 		// Get SVG
 		let svg = this.normalizeSVG(
@@ -2947,7 +3005,7 @@ export class Export extends Validatable {
 			options,
 			width,
 			height,
-			1,
+			scale,
 			font,
 			fontSize
 		);
@@ -3717,7 +3775,7 @@ export class Export extends Validatable {
 		}).charset;
 
 		let uri = this.adapter.apply("getCSV", {
-			data: encodeURI ? "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(csv): csv,
+			data: encodeURI ? "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(csv) : csv,
 			options: options
 		}).data;
 
@@ -4493,6 +4551,7 @@ export class Export extends Validatable {
 		let img = new Image();
 		img.src = data;
 		img.style.maxWidth = "100%";
+		img.style.height = "auto";
 		if (title) {
 			iframe.contentWindow.document.title = title;
 		}

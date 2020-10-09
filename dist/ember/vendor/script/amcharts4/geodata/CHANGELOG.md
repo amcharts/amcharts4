@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [UNRELEASED] - ????-??-??
 
 ### Added
-- New maps: Jordan.
+- New country map: Jordan.
+- New world region map: Asia (India version).
 
 ### Changed
 - Geodata script evrsion does not include `.map` files anymore.

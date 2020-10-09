@@ -926,6 +926,7 @@ var Export = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.simplifiedImageExport()];
                     case 2:
                         if (!_a.sent()) return [3 /*break*/, 10];
+                        canvas = void 0;
                         _a.label = 3;
                     case 3:
                         _a.trys.push([3, 7, , 9]);
@@ -949,6 +950,9 @@ var Export = /** @class */ (function (_super) {
                         e_4 = _a.sent();
                         console.error(e_4.message + "\n" + e_4.stack);
                         $log.warn("Simple export failed, falling back to advanced export");
+                        if (canvas) {
+                            this.disposeCanvas(canvas);
+                        }
                         return [4 /*yield*/, this.getImageAdvanced(type, options, includeExtras)];
                     case 8:
                         data = _a.sent();
@@ -1746,7 +1750,7 @@ var Export = /** @class */ (function (_super) {
     Export.prototype.getSVG = function (type, options, encodeURI) {
         if (encodeURI === void 0) { encodeURI = true; }
         return __awaiter(this, void 0, void 0, function () {
-            var prehidden, width, height, font, fontSize, svg, charset, uri;
+            var prehidden, width, height, font, fontSize, scale, pixelRatio, svg, charset, uri;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1759,8 +1763,15 @@ var Export = /** @class */ (function (_super) {
                     case 1:
                         // Wait for required elements to be ready before proceeding
                         _a.sent();
-                        width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = $dom.findFont(this.sprite.dom), fontSize = $dom.findFontSize(this.sprite.dom);
-                        svg = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, 1, font, fontSize);
+                        width = this.sprite.pixelWidth;
+                        height = this.sprite.pixelHeight;
+                        font = $dom.findFont(this.sprite.dom);
+                        fontSize = $dom.findFontSize(this.sprite.dom);
+                        scale = options.scale || 1;
+                        pixelRatio = this.getPixelRatio(options);
+                        // Check if scale needs to be updated as per min/max dimensions
+                        scale = this.getAdjustedScale(width * pixelRatio, height * pixelRatio, scale, options);
+                        svg = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, scale, font, fontSize);
                         charset = this.adapter.apply("charset", {
                             charset: "charset=utf-8",
                             type: "svg",
@@ -3071,6 +3082,7 @@ var Export = /** @class */ (function (_super) {
                 img = new Image();
                 img.src = data;
                 img.style.maxWidth = "100%";
+                img.style.height = "auto";
                 if (title) {
                     iframe.contentWindow.document.title = title;
                 }

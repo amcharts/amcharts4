@@ -310,12 +310,7 @@ var Slice = /** @class */ (function (_super) {
          * @return [description]
          */
         get: function () {
-            if (this.radius > 0) {
-                return $math.sin(this.middleAngle);
-            }
-            else {
-                return $math.sin(this.middleAngle);
-            }
+            return $math.sin(this.middleAngle);
         },
         enumerable: true,
         configurable: true

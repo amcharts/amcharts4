@@ -1196,6 +1196,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 						let minValue = $math.min(range.value, range.endValue);
 						let maxValue = $math.max(range.value, range.endValue);
 
+
 						if (minValue < min || !$type.isNumber(min)) {
 							min = minValue;
 						}
@@ -1841,7 +1842,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 					let maxValue = $math.max(range.value, range.endValue);
 
 					if (minValue < selectionMax) {
-						selectionMax = minValue;
+						selectionMin = minValue;
 					}
 					if (maxValue > selectionMax) {
 						selectionMax = maxValue;

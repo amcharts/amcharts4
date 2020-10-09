@@ -576,8 +576,19 @@ var DateAxis = /** @class */ (function (_super) {
                         //}
                     }
                 }
-                series.startIndex = startIndex;
-                series.endIndex = endIndex;
+                if (series.max(_this) < minZoomed) {
+                    series.startIndex = series.dataItems.length;
+                    series.endIndex = series.dataItems.length;
+                }
+                else if (series.min(_this) > maxZoomed) {
+                    series.startIndex = 0;
+                    series.endIndex = 0;
+                }
+                else {
+                    series.startIndex = startIndex;
+                    series.endIndex = endIndex;
+                }
+                //	console.log(series.name, startIndex, endIndex);
                 if (!dataSetChanged && series.dataRangeInvalid) {
                     series.validateDataRange();
                 }

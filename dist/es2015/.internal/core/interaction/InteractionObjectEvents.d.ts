@@ -253,11 +253,17 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
     };
     /**
      * Invoked when mouse cursor moves over `hoverable` object or it is touched.
+     *
+     * NOTE: this event might not always contains `pointer` parameter as
+     * event might be triggered by API?
      */
     over: PointerTypeEvent & MouseTouchEvent & PointerEvent;
     /**
      * Invoked when mouse cursor moves out of `hoverable` object or it is no
      * longer touched.
+     *
+     * NOTE: this event might not always contains `pointer` parameter as
+     * event might be triggered by API?
      */
     out: PointerTypeEvent & MouseTouchEvent & PointerEvent;
     /**

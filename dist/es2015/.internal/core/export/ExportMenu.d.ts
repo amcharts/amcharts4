@@ -697,4 +697,11 @@ export declare class ExportMenu extends Validatable {
      * @param  branch  branch
      */
     showBranch(branch: IExportMenuItem): void;
+    /**
+     * The main element o fthe menu - usually `<ul>`.
+     *
+     * @since 4.10.6
+     * @return Menu element
+     */
+    readonly element: $type.Optional<HTMLElement>;
 }

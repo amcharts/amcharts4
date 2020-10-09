@@ -1214,6 +1214,19 @@ var ExportMenu = /** @class */ (function (_super) {
     ExportMenu.prototype.showBranch = function (branch) {
         branch.element.style.display = "";
     };
+    Object.defineProperty(ExportMenu.prototype, "element", {
+        /**
+         * The main element o fthe menu - usually `<ul>`.
+         *
+         * @since 4.10.6
+         * @return Menu element
+         */
+        get: function () {
+            return this._element;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return ExportMenu;
 }(Validatable));
 export { ExportMenu };

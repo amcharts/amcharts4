@@ -187,6 +187,49 @@ export interface IExportSVGOptions {
      * @since 4.9.11
      */
     disabled?: boolean;
+    /**
+     * Rescale image.
+     *
+     * Number less than 1 will shrink the image.
+     *
+     * Number bigger than 1 will scale up the image.
+     *
+     * @default 1
+     * @since 4.10.06
+     */
+    scale?: number;
+    /**
+     * Minimum width in pixels of the exported image. If source chart is smaller
+     * thank this, it will be scaled up.
+     *
+     * @since 4.10.06
+     */
+    minWidth?: number;
+    /**
+     * Minimum height in pixels of the exported image. If source chart is smaller
+     * thank this, it will be scaled up.
+     *
+     * @since 4.10.06
+     */
+    minHeight?: number;
+    /**
+     * Maximum width in pixels of the exported image. If source chart is bigger
+     * thank this, it will be scaled down.
+     *
+     * NOTE: this setting might be overidden by `minWidth`.
+     *
+     * @since 4.10.06
+     */
+    maxWidth?: number;
+    /**
+     * Maximum height in pixels of the exported image. If source chart is bigger
+     * thank this, it will be scaled down.
+     *
+     * NOTE: this setting might be overidden by `minHeight`.
+     *
+     * @since 4.10.06
+     */
+    maxHeight?: number;
 }
 /**
  * Available PDF page sizes.

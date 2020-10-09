@@ -1424,7 +1424,7 @@ var ValueAxis = /** @class */ (function (_super) {
                     var minValue = $math.min(range.value, range.endValue);
                     var maxValue = $math.max(range.value, range.endValue);
                     if (minValue < selectionMax) {
-                        selectionMax = minValue;
+                        selectionMin = minValue;
                     }
                     if (maxValue > selectionMax) {
                         selectionMax = maxValue;

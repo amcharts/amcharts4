@@ -1589,4 +1589,14 @@ export class ExportMenu extends Validatable {
 		branch.element.style.display = "";
 	}
 
+	/**
+	 * The main element o fthe menu - usually `<ul>`.
+	 *
+	 * @since 4.10.6
+	 * @return Menu element
+	 */
+	public get element(): $type.Optional<HTMLElement> {
+		return this._element;
+	}
+
 }

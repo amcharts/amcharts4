@@ -401,12 +401,7 @@ export class Slice extends Container {
 	 * @return [description]
 	 */
 	public get iy(): number {
-		if (this.radius > 0) {
-			return $math.sin(this.middleAngle);
-		}
-		else {
-			return $math.sin(this.middleAngle);
-		}
+		return $math.sin(this.middleAngle);
 	}
 
 	/**
