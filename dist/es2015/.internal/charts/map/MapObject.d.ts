@@ -140,4 +140,9 @@ export declare class MapObject extends Container {
      */
     showTooltip(point?: IPoint): boolean;
     protected handleTooltipMove(ev: any): void;
+    /**
+     * Sets a [[DataItem]].
+     * @param dataItem DataItem
+     */
+    protected setDataItem(dataItem: MapSeriesDataItem): void;
 }

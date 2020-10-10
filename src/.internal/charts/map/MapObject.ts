@@ -277,6 +277,15 @@ export class MapObject extends Container {
 			this.showTooltip();
 		}
 	}
+
+	/**
+	 * Sets a [[DataItem]].
+	 * @param dataItem DataItem
+	 */
+	protected setDataItem(dataItem: MapSeriesDataItem) {
+		super.setDataItem(dataItem);
+		this.applyAccessibility();
+	}
 }
 
 /**

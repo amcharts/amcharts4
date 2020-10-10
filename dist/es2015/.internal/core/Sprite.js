@@ -3346,7 +3346,6 @@ var Sprite = /** @class */ (function (_super) {
                     });
                 }
             }
-            this.applyAccessibility();
             this.invalidate();
         }
     };

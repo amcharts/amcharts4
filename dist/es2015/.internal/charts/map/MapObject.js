@@ -184,6 +184,14 @@ var MapObject = /** @class */ (function (_super) {
             this.showTooltip();
         }
     };
+    /**
+     * Sets a [[DataItem]].
+     * @param dataItem DataItem
+     */
+    MapObject.prototype.setDataItem = function (dataItem) {
+        _super.prototype.setDataItem.call(this, dataItem);
+        this.applyAccessibility();
+    };
     return MapObject;
 }(Container));
 export { MapObject };
