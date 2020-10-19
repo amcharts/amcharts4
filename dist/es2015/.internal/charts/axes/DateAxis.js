@@ -750,6 +750,7 @@ var DateAxis = /** @class */ (function (_super) {
                                         date: roundedDate,
                                         value: newDataItem.values[vkey].value
                                     }).value;
+                                    newDataItem.values[vkey].workingValue = newDataItem.values[vkey].value;
                                 });
                             }
                             newDataItem = dataSet.create();
@@ -875,6 +876,7 @@ var DateAxis = /** @class */ (function (_super) {
                             date: roundedDate,
                             value: newDataItem.values[vkey].value
                         }).value;
+                        newDataItem.values[vkey].workingValue = newDataItem.values[vkey].value;
                     });
                 }
             });

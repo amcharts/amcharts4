@@ -1758,6 +1758,9 @@ var Export = /** @class */ (function (_super) {
                         if (!prehidden) {
                             this.hideNonExportableSprites();
                         }
+                        if (!$type.hasValue(options)) {
+                            options = this.getFormatOptions(type);
+                        }
                         // Wait for required elements to be ready before proceeding
                         return [4 /*yield*/, this.awaitValidSprites()];
                     case 1:

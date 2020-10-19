@@ -395,8 +395,11 @@ var Tooltip = /** @class */ (function (_super) {
         var pointerLength = this.background.pointerLength;
         var textX;
         var textY;
+        if (this.ignoreBounds) {
+            boundingRect = undefined;
+        }
         // try to handle if text is wider than br
-        if (this.fixDoc && textW > boundingRect.width) {
+        if (boundingRect && this.fixDoc && textW > boundingRect.width) {
             // TODO maybe this isn't needed ?
             $utils.spritePointToDocument({ x: boundingRect.x, y: boundingRect.y }, this.parent);
             var p1 = $utils.spritePointToDocument({ x: boundingRect.x + boundingRect.width, y: boundingRect.y + boundingRect.height }, this.parent);
@@ -415,7 +418,7 @@ var Tooltip = /** @class */ (function (_super) {
         if (pointerOrientation == "horizontal" || pointerOrientation == "left" || pointerOrientation == "right") {
             textY = -textH / 2;
             if (pointerOrientation == "horizontal") {
-                if (x > boundingRect.x + boundingRect.width / 2) {
+                if (boundingRect && x > boundingRect.x + boundingRect.width / 2) {
                     textX = -textW / 2 - pointerLength;
                 }
                 else {
@@ -431,9 +434,11 @@ var Tooltip = /** @class */ (function (_super) {
         }
         // vertical pointer
         else {
-            textX = $math.fitToRange(0, boundingRect.x - x + textW / 2, boundingRect.x - x + boundingRect.width - textW / 2);
+            if (boundingRect) {
+                textX = $math.fitToRange(0, boundingRect.x - x + textW / 2, boundingRect.x - x + boundingRect.width - textW / 2);
+            }
             if (pointerOrientation == "vertical") {
-                if (y > boundingRect.y + textH + pointerLength) {
+                if (boundingRect && y > boundingRect.y + textH + pointerLength) {
                     textY = -textH - pointerLength;
                     this._verticalOrientation = "up";
                 }
@@ -451,7 +456,9 @@ var Tooltip = /** @class */ (function (_super) {
                 this._verticalOrientation = "down";
             }
         }
-        textY = $math.fitToRange(textY, boundingRect.y - y, boundingRect.y + boundingRect.height - textH - y);
+        if (boundingRect) {
+            textY = $math.fitToRange(textY, boundingRect.y - y, boundingRect.y + boundingRect.height - textH - y);
+        }
         label.x = textX;
         label.y = textY;
         this.drawBackground();
@@ -589,6 +596,30 @@ var Tooltip = /** @class */ (function (_super) {
         }, boundingContainer);
         this.setBounds(rect);
     };
+    Object.defineProperty(Tooltip.prototype, "ignoreBounds", {
+        /**
+         * @return Ignore chart bounds?
+         */
+        get: function () {
+            return this.getPropertyValue("ignoreBounds");
+        },
+        /**
+         * Normally, a tooltip's position will be adjusted so it always fits into
+         * chart's coundaries.
+         *
+         * Setting this to `false` will disable such checks and will allow tooltip
+         * to "bleed over" the edge of the chart.
+         *
+         * @default false
+         * @since 4.10.8
+         * @param  value  Ignore chart bounds?
+         */
+        set: function (value) {
+            this.setPropertyValue("ignoreBounds", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Tooltip.prototype, "verticalOrientation", {
         /**
          * If tooltipOrientation is vertical, it can be drawn below or above point.

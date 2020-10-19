@@ -86,6 +86,17 @@ export interface ITooltipProperties extends IContainerProperties {
      * @since 4.5.7
      */
     showInViewport?: boolean;
+    /**
+     * Normally, a tooltip's position will be adjusted so it always fits into
+     * chart's coundaries.
+     *
+     * Setting this to `false` will disable such checks and will allow tooltip
+     * to "bleed over" the edge of the chart.
+     *
+     * @default false
+     * @since 4.10.8
+     */
+    ignoreBounds?: boolean;
 }
 /**
  * Defines events for [[Tooltip]].
@@ -376,6 +387,21 @@ export declare class Tooltip extends Container {
      * `boundingCountrainer`.
      */
     protected updateBounds(): void;
+    /**
+     * Normally, a tooltip's position will be adjusted so it always fits into
+     * chart's coundaries.
+     *
+     * Setting this to `false` will disable such checks and will allow tooltip
+     * to "bleed over" the edge of the chart.
+     *
+     * @default false
+     * @since 4.10.8
+     * @param  value  Ignore chart bounds?
+     */
+    /**
+    * @return Ignore chart bounds?
+    */
+    ignoreBounds: boolean;
     /**
      * If tooltipOrientation is vertical, it can be drawn below or above point.
      * We need to know this when solving overlapping.

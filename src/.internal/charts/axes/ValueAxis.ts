@@ -642,6 +642,14 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		}
 	}
 
+	protected fixSmallStep(step: number): number {
+		if (1 + step == 1) {
+			step *= 2;
+			return this.fixSmallStep(step);
+		}
+		return step;
+	}
+
 	/**
 	 * Validates Axis elements.
 	 *
@@ -674,6 +682,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			this.resetIterators();
 
 			let dataItemsIterator = this._dataItemsIterator;
+
+			this._step = this.fixSmallStep(this._step);
 
 			let i: number = 0;
 
@@ -2438,6 +2448,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * you do not add a scrollbar in the same direction as synced axes. For
 	 * example, if you have vertical synced axes, do not add `scrollbarY` on
 	 * your chart. It will create anomalies when used.
+	 *
+	 * IMPORTANT #4: `syncWithAxis` is not compatible with `XYCursor` if it has
+	 * its `behavior` set to either `zoomY` or `zoomXY`.
 	 *
 	 * @since 4.8.1
 	 * @param  axis  Target axis

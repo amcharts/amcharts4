@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.8] - 2020-10-19
+
+### Added
+- New `Tooltip` property `ignoreBounds` (default `false`). If set to `true`, will not try to contain tooltips within the boundaries of the chart.
+
+### Fixed
+- Export: Invoking export's `getSVG()` method without passing in options as a second parameter was resulting in error.
+- Series' actual value was not being properly updated in all cases when used with `gropuDataItem` adapter.
+- Series with with extremely small value range could result in an SO.
+- Resetting data to an empty data set on an `XYSeries` witth bullets and a data grouping enabled, could result in bullets being left on the screen.
+
+
 ## [4.10.7] - 2020-10-10
 
 ### Fixed

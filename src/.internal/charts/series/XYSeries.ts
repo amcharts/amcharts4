@@ -1671,28 +1671,31 @@ export class XYSeries extends Series {
 
 			this.resetExtremes();
 
-			let xAxis = this.xAxis;
-			let yAxis = this.yAxis;
+			if (dataItems && dataItems.length > 0) {
 
-			this._prevStartIndex = undefined;
-			this._prevEndIndex = undefined;
-			this._startIndex = undefined;
-			this._endIndex = undefined;
+				let xAxis = this.xAxis;
+				let yAxis = this.yAxis;
 
-			if (!this.appeared) {
-				this.processValues(false); // this will slow down!
-			}
+				this._prevStartIndex = undefined;
+				this._prevEndIndex = undefined;
+				this._startIndex = undefined;
+				this._endIndex = undefined;
 
-			if (xAxis instanceof DateAxis && xAxis == this.baseAxis) {
-				this._tmin.setKey(xAxis.uid, dataItems.getIndex(0).dateX.getTime());
-				this._tmax.setKey(xAxis.uid, dataItems.getIndex(dataItems.length - 1).dateX.getTime());
-				this.dispatch("extremeschanged");
-			}
+				if (!this.appeared) {
+					this.processValues(false); // this will slow down!
+				}
 
-			if (yAxis instanceof DateAxis && yAxis == this.baseAxis) {
-				this._tmin.setKey(yAxis.uid, dataItems.getIndex(0).dateY.getTime());
-				this._tmax.setKey(yAxis.uid, dataItems.getIndex(dataItems.length - 1).dateY.getTime());
-				this.dispatch("extremeschanged");
+				if (xAxis instanceof DateAxis && xAxis == this.baseAxis) {
+					this._tmin.setKey(xAxis.uid, dataItems.getIndex(0).dateX.getTime());
+					this._tmax.setKey(xAxis.uid, dataItems.getIndex(dataItems.length - 1).dateX.getTime());
+					this.dispatch("extremeschanged");
+				}
+
+				if (yAxis instanceof DateAxis && yAxis == this.baseAxis) {
+					this._tmin.setKey(yAxis.uid, dataItems.getIndex(0).dateY.getTime());
+					this._tmax.setKey(yAxis.uid, dataItems.getIndex(dataItems.length - 1).dateY.getTime());
+					this.dispatch("extremeschanged");
+				}
 			}
 		}
 

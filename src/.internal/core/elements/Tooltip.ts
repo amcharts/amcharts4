@@ -104,6 +104,18 @@ export interface ITooltipProperties extends IContainerProperties {
 	 * @since 4.5.7
 	 */
 	showInViewport?: boolean
+
+	/**
+	 * Normally, a tooltip's position will be adjusted so it always fits into
+	 * chart's coundaries.
+	 *
+	 * Setting this to `false` will disable such checks and will allow tooltip
+	 * to "bleed over" the edge of the chart.
+	 *
+	 * @default false
+	 * @since 4.10.8
+	 */
+	ignoreBounds?: boolean;
 }
 
 /**
@@ -214,7 +226,7 @@ export class Tooltip extends Container {
 	/**
 	 * @ignore
 	 */
-	public fixDoc:boolean = true;
+	public fixDoc: boolean = true;
 
 	/**
 	 * Constructor
@@ -562,8 +574,12 @@ export class Tooltip extends Container {
 		let textX: number;
 		let textY: number;
 
+		if (this.ignoreBounds) {
+			boundingRect = undefined;
+		}
+
 		// try to handle if text is wider than br
-		if (this.fixDoc && textW > boundingRect.width) {
+		if (boundingRect && this.fixDoc && textW > boundingRect.width) {
 			// TODO maybe this isn't needed ?
 			$utils.spritePointToDocument({ x: boundingRect.x, y: boundingRect.y }, this.parent);
 			let p1 = $utils.spritePointToDocument({ x: boundingRect.x + boundingRect.width, y: boundingRect.y + boundingRect.height }, this.parent);
@@ -586,7 +602,7 @@ export class Tooltip extends Container {
 		if (pointerOrientation == "horizontal" || pointerOrientation == "left" || pointerOrientation == "right") {
 			textY = - textH / 2;
 			if (pointerOrientation == "horizontal") {
-				if (x > boundingRect.x + boundingRect.width / 2) {
+				if (boundingRect && x > boundingRect.x + boundingRect.width / 2) {
 					textX = - textW / 2 - pointerLength;
 				}
 				else {
@@ -602,10 +618,12 @@ export class Tooltip extends Container {
 		}
 		// vertical pointer
 		else {
-			textX = $math.fitToRange(0, boundingRect.x - x + textW / 2, boundingRect.x - x + boundingRect.width - textW / 2);
+			if (boundingRect) {
+				textX = $math.fitToRange(0, boundingRect.x - x + textW / 2, boundingRect.x - x + boundingRect.width - textW / 2);
+			}
 
 			if (pointerOrientation == "vertical") {
-				if (y > boundingRect.y + textH + pointerLength) {
+				if (boundingRect && y > boundingRect.y + textH + pointerLength) {
 					textY = - textH - pointerLength;
 					this._verticalOrientation = "up";
 				}
@@ -623,8 +641,9 @@ export class Tooltip extends Container {
 				this._verticalOrientation = "down";
 			}
 		}
-
-		textY = $math.fitToRange(textY, boundingRect.y - y, boundingRect.y + boundingRect.height - textH - y);
+		if (boundingRect) {
+			textY = $math.fitToRange(textY, boundingRect.y - y, boundingRect.y + boundingRect.height - textH - y);
+		}
 
 		label.x = textX;
 		label.y = textY;
@@ -778,6 +797,28 @@ export class Tooltip extends Container {
 			height: boundingContainer.maxHeight
 		}, boundingContainer);
 		this.setBounds(rect);
+	}
+
+	/**
+	 * Normally, a tooltip's position will be adjusted so it always fits into
+	 * chart's coundaries.
+	 *
+	 * Setting this to `false` will disable such checks and will allow tooltip
+	 * to "bleed over" the edge of the chart.
+	 *
+	 * @default false
+	 * @since 4.10.8
+	 * @param  value  Ignore chart bounds?
+	 */
+	public set ignoreBounds(value: boolean) {
+		this.setPropertyValue("ignoreBounds", value);
+	}
+
+	/**
+	 * @return Ignore chart bounds?
+	 */
+	public get ignoreBounds(): boolean {
+		return this.getPropertyValue("ignoreBounds");
 	}
 
 	/**

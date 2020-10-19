@@ -354,6 +354,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @ignore Exclude from docs
      */
     calculateZoom(): void;
+    protected fixSmallStep(step: number): number;
     /**
      * Validates Axis elements.
      *
@@ -903,6 +904,9 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * you do not add a scrollbar in the same direction as synced axes. For
      * example, if you have vertical synced axes, do not add `scrollbarY` on
      * your chart. It will create anomalies when used.
+     *
+     * IMPORTANT #4: `syncWithAxis` is not compatible with `XYCursor` if it has
+     * its `behavior` set to either `zoomY` or `zoomXY`.
      *
      * @since 4.8.1
      * @param  axis  Target axis

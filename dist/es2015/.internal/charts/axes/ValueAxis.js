@@ -379,6 +379,13 @@ var ValueAxis = /** @class */ (function (_super) {
             }
         }
     };
+    ValueAxis.prototype.fixSmallStep = function (step) {
+        if (1 + step == 1) {
+            step *= 2;
+            return this.fixSmallStep(step);
+        }
+        return step;
+    };
     /**
      * Validates Axis elements.
      *
@@ -408,6 +415,7 @@ var ValueAxis = /** @class */ (function (_super) {
             var maxZoomed = this._maxZoomed + this._step;
             this.resetIterators();
             var dataItemsIterator_1 = this._dataItemsIterator;
+            this._step = this.fixSmallStep(this._step);
             var i = 0;
             var precisionChanged = this._prevStepDecimalPlaces != this._stepDecimalPlaces;
             this._prevStepDecimalPlaces = this._stepDecimalPlaces;
@@ -1991,6 +1999,9 @@ var ValueAxis = /** @class */ (function (_super) {
          * you do not add a scrollbar in the same direction as synced axes. For
          * example, if you have vertical synced axes, do not add `scrollbarY` on
          * your chart. It will create anomalies when used.
+         *
+         * IMPORTANT #4: `syncWithAxis` is not compatible with `XYCursor` if it has
+         * its `behavior` set to either `zoomY` or `zoomXY`.
          *
          * @since 4.8.1
          * @param  axis  Target axis

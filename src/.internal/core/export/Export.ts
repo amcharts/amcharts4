@@ -2985,6 +2985,10 @@ export class Export extends Validatable {
 			this.hideNonExportableSprites();
 		}
 
+		if (!$type.hasValue(options)) {
+			options = this.getFormatOptions(type);
+		}
+
 		// Wait for required elements to be ready before proceeding
 		await this.awaitValidSprites();
 

@@ -855,20 +855,20 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					}
 				}
 
-				if(series.max(this) < minZoomed){
+				if (series.max(this) < minZoomed) {
 					series.startIndex = series.dataItems.length;
-					series.endIndex = series.dataItems.length;					
+					series.endIndex = series.dataItems.length;
 				}
-				else if(series.min(this) > maxZoomed){
+				else if (series.min(this) > maxZoomed) {
 					series.startIndex = 0;
-					series.endIndex = 0;										
+					series.endIndex = 0;
 				}
-				else{
+				else {
 					series.startIndex = startIndex;
 					series.endIndex = endIndex;
 				}
 
-			//	console.log(series.name, startIndex, endIndex);
+				//	console.log(series.name, startIndex, endIndex);
 
 				if (!dataSetChanged && series.dataRangeInvalid) {
 					series.validateDataRange();
@@ -1011,6 +1011,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			series.dataGrouped = true;
 
 			$array.each(intervals, (interval) => {
+
 				//let mainBaseInterval = this._mainBaseInterval;
 				let key = "date" + this.axisLetter;
 
@@ -1054,6 +1055,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 										date: roundedDate,
 										value: newDataItem.values[vkey].value
 									}).value;
+
+									newDataItem.values[vkey].workingValue = newDataItem.values[vkey].value
 								});
 							}
 
@@ -1192,8 +1195,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 						$utils.copyProperties(dataItem.dataContext, newDataItem.dataContext);
 					}
 				})
-
 				if (newDataItem && series._adapterO) {
+
 					$array.each(dataFields, (vkey) => {
 						newDataItem.values[vkey].value = series._adapterO.apply("groupDataItem", {
 							dataItem: newDataItem,
@@ -1202,6 +1205,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 							date: roundedDate,
 							value: newDataItem.values[vkey].value
 						}).value;
+
+						newDataItem.values[vkey].workingValue = newDataItem.values[vkey].value;
 					});
 				}
 

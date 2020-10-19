@@ -1103,24 +1103,26 @@ var XYSeries = /** @class */ (function (_super) {
             this._dataSetChanged = true;
             var dataItems = this.dataItems;
             this.resetExtremes();
-            var xAxis = this.xAxis;
-            var yAxis = this.yAxis;
-            this._prevStartIndex = undefined;
-            this._prevEndIndex = undefined;
-            this._startIndex = undefined;
-            this._endIndex = undefined;
-            if (!this.appeared) {
-                this.processValues(false); // this will slow down!
-            }
-            if (xAxis instanceof DateAxis && xAxis == this.baseAxis) {
-                this._tmin.setKey(xAxis.uid, dataItems.getIndex(0).dateX.getTime());
-                this._tmax.setKey(xAxis.uid, dataItems.getIndex(dataItems.length - 1).dateX.getTime());
-                this.dispatch("extremeschanged");
-            }
-            if (yAxis instanceof DateAxis && yAxis == this.baseAxis) {
-                this._tmin.setKey(yAxis.uid, dataItems.getIndex(0).dateY.getTime());
-                this._tmax.setKey(yAxis.uid, dataItems.getIndex(dataItems.length - 1).dateY.getTime());
-                this.dispatch("extremeschanged");
+            if (dataItems && dataItems.length > 0) {
+                var xAxis = this.xAxis;
+                var yAxis = this.yAxis;
+                this._prevStartIndex = undefined;
+                this._prevEndIndex = undefined;
+                this._startIndex = undefined;
+                this._endIndex = undefined;
+                if (!this.appeared) {
+                    this.processValues(false); // this will slow down!
+                }
+                if (xAxis instanceof DateAxis && xAxis == this.baseAxis) {
+                    this._tmin.setKey(xAxis.uid, dataItems.getIndex(0).dateX.getTime());
+                    this._tmax.setKey(xAxis.uid, dataItems.getIndex(dataItems.length - 1).dateX.getTime());
+                    this.dispatch("extremeschanged");
+                }
+                if (yAxis instanceof DateAxis && yAxis == this.baseAxis) {
+                    this._tmin.setKey(yAxis.uid, dataItems.getIndex(0).dateY.getTime());
+                    this._tmax.setKey(yAxis.uid, dataItems.getIndex(dataItems.length - 1).dateY.getTime());
+                    this.dispatch("extremeschanged");
+                }
             }
         }
         return changed;
