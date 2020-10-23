@@ -971,6 +971,11 @@ export class XYSeries extends Series {
 	public scrollbarSeries: this;
 
 	/**
+	 * @ignore
+	 */
+	public outOfRange: boolean = false;
+
+	/**
 	 * Constructor
 	 */
 	constructor() {

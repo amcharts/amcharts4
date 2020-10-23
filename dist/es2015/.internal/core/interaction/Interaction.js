@@ -1187,7 +1187,7 @@ var Interaction = /** @class */ (function (_super) {
             io.isHover = false;
             this.overObjects.removeValue(io);
             // Invoke event
-            if (io.events.isEnabled("out") && !system.isPaused) {
+            if (io.events.isEnabled("out") && !system.isPaused && !io.isDisposed()) {
                 var imev = {
                     type: "out",
                     target: io,

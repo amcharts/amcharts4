@@ -492,7 +492,7 @@ var Sprite = /** @class */ (function (_super) {
      * not take otherwise.
      */
     Sprite.prototype.invalidate = function () {
-        if (this.disabled || this._isTemplate) {
+        if (this.disabled || this._isTemplate || this.__disabled) {
             return;
         }
         // We no longer reset this on each invalidate, so that they are applied
@@ -2790,6 +2790,9 @@ var Sprite = /** @class */ (function (_super) {
                 this._internalDisabled = value;
                 this._updateDisabled = true;
                 this.invalidatePosition(); // better use this instead of invalidate()
+                if (!value) {
+                    this.invalidate();
+                }
             }
         },
         enumerable: true,

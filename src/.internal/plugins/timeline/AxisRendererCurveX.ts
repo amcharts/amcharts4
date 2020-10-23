@@ -188,6 +188,8 @@ export class AxisRendererCurveX extends AxisRendererX {
 
 		this.precisionStep = 10;
 
+		this.line.isMeasured = false;
+
 		this.points = [{ x: -300, y: 0 }, { x: 300, y: 0 }];
 
 		this._tempSprite = this.createChild(Sprite);

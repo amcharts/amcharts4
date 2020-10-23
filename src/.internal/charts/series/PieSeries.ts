@@ -372,6 +372,14 @@ export class PieSeries extends PercentSeries {
 
 		slice.events.on("toggled", (event) => {
 			event.target.hideTooltip();
+
+			// The following takes care of removing hover on subsequent click of
+			// a slice
+			if (event.target.interactions.lastHitPointer
+				&& event.target.interactions.lastHitPointer.touch
+				&& !event.target.isActive) {
+				event.target.isHover = false;
+			}
 		});
 
 		let activeState = slice.states.create("active");

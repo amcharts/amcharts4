@@ -579,12 +579,15 @@ var DateAxis = /** @class */ (function (_super) {
                 if (series.max(_this) < minZoomed) {
                     series.startIndex = series.dataItems.length;
                     series.endIndex = series.dataItems.length;
+                    series.outOfRange = true;
                 }
                 else if (series.min(_this) > maxZoomed) {
                     series.startIndex = 0;
                     series.endIndex = 0;
+                    series.outOfRange = true;
                 }
                 else {
+                    series.outOfRange = false;
                     series.startIndex = startIndex;
                     series.endIndex = endIndex;
                 }

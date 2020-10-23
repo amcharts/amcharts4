@@ -1152,7 +1152,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * not take otherwise.
 	 */
 	public invalidate(): void {
-		if (this.disabled || this._isTemplate) {
+		if (this.disabled || this._isTemplate || this.__disabled) {
 			return;
 		}
 		// We no longer reset this on each invalidate, so that they are applied
@@ -3658,6 +3658,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this._internalDisabled = value;
 			this._updateDisabled = true;
 			this.invalidatePosition(); // better use this instead of invalidate()
+
+			if(!value){
+				this.invalidate();
+			}			
 		}
 	}
 

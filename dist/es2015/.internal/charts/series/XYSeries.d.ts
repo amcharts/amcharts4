@@ -698,6 +698,10 @@ export declare class XYSeries extends Series {
      */
     scrollbarSeries: this;
     /**
+     * @ignore
+     */
+    outOfRange: boolean;
+    /**
      * Constructor
      */
     constructor();

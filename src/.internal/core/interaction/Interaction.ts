@@ -1539,7 +1539,7 @@ export class Interaction extends BaseObjectEvents {
 			this.overObjects.removeValue(io);
 
 			// Invoke event
-			if (io.events.isEnabled("out") && !system.isPaused) {
+			if (io.events.isEnabled("out") && !system.isPaused && !io.isDisposed()) {
 				let imev: AMEvent<InteractionObject, IInteractionObjectEvents>["out"] = {
 					type: "out",
 					target: io,

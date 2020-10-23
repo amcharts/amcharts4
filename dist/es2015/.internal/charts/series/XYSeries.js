@@ -507,6 +507,10 @@ var XYSeries = /** @class */ (function (_super) {
         _this._maxxX = 100000;
         _this._maxxY = 100000;
         _this._propertiesChanged = false;
+        /**
+         * @ignore
+         */
+        _this.outOfRange = false;
         _this.className = "XYSeries";
         _this.isMeasured = false;
         _this.groupFields.valueX = "close";

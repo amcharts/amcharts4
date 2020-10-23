@@ -1822,7 +1822,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		let allHidden: boolean = true;
 
 		$iter.each(this.series.iterator(), (series) => {
-			if (!series.ignoreMinMax && !series.isHidden) {
+			if (!series.ignoreMinMax && !series.isHidden && !series.outOfRange) {
 
 				if (series.visible && !series.isHiding) {
 					allHidden = false;

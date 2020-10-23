@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.9] - 2020-10-23
+
+### Changed
+- Export: API functions like `getCSV`, `getSVG`, `getJSON`, `getExcel` will not error out if no opeionts or format identifier is passed in.
+
+### Fixed
+- Better invalidation of charts with `am4core.options.queue = true` enabled.
+- A slice in `PieSeries` remained enlarged (as hovered) after subsequent taps on it on a touch device.
+- In some rare cases, on mobile devices a JS error could be invoked when disposing series/axes.
+- Vertical `ValueAxis` was not auto-zooming in some cases.
+
+
 ## [4.10.8] - 2020-10-19
 
 ### Added

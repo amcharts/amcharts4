@@ -1759,7 +1759,7 @@ var Export = /** @class */ (function (_super) {
                             this.hideNonExportableSprites();
                         }
                         if (!$type.hasValue(options)) {
-                            options = this.getFormatOptions(type);
+                            options = this.getFormatOptions("svg");
                         }
                         // Wait for required elements to be ready before proceeding
                         return [4 /*yield*/, this.awaitValidSprites()];
@@ -2240,7 +2240,11 @@ var Export = /** @class */ (function (_super) {
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.xlsx];
+                    case 0:
+                        if (!$type.hasValue(options)) {
+                            options = this.getFormatOptions("xlsx");
+                        }
+                        return [4 /*yield*/, this.xlsx];
                     case 1:
                         XLSX = _a.sent();
                         wbOptions = this.adapter.apply("xlsxWorkbookOptions", {
@@ -2390,6 +2394,9 @@ var Export = /** @class */ (function (_super) {
             var csv, dataFields, br, data, dataFieldsOrder_3, len, i, row, charset, uri;
             var _this = this;
             return __generator(this, function (_a) {
+                if (!$type.hasValue(options)) {
+                    options = this.getFormatOptions("csv");
+                }
                 csv = "";
                 dataFields = this.adapter.apply("formatDataFields", {
                     dataFields: this.dataFields,
@@ -2533,6 +2540,9 @@ var Export = /** @class */ (function (_super) {
             var html, dataFields, data, dataFieldsOrder_4, len, i, charset, uri;
             var _this = this;
             return __generator(this, function (_a) {
+                if (!$type.hasValue(options)) {
+                    options = this.getFormatOptions("html");
+                }
                 html = "<table>";
                 if (options.tableClass) {
                     html = "<table class=\"" + options.tableClass + "\">";
@@ -2685,6 +2695,9 @@ var Export = /** @class */ (function (_super) {
             var data, dataFields, sourceData, _loop_1, len, i, json, charset, uri;
             var _this = this;
             return __generator(this, function (_a) {
+                if (!$type.hasValue(options)) {
+                    options = this.getFormatOptions("json");
+                }
                 dataFields = this.adapter.apply("formatDataFields", {
                     dataFields: this.dataFields,
                     format: "csv"

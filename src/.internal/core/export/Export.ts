@@ -2986,7 +2986,7 @@ export class Export extends Validatable {
 		}
 
 		if (!$type.hasValue(options)) {
-			options = this.getFormatOptions(type);
+			options = this.getFormatOptions("svg");
 		}
 
 		// Wait for required elements to be ready before proceeding
@@ -3532,6 +3532,10 @@ export class Export extends Validatable {
 	 */
 	public async getExcel(type: "xlsx", options?: IExportExcelOptions): Promise<string> {
 
+		if (!$type.hasValue(options)) {
+			options = this.getFormatOptions("xlsx");
+		}
+
 		// Load xlsx
 		let XLSX = await this.xlsx;
 
@@ -3706,6 +3710,10 @@ export class Export extends Validatable {
 	 */
 	public async getCSV(type: "csv", options?: IExportCSVOptions, encodeURI: boolean = true): Promise<string> {
 
+		if (!$type.hasValue(options)) {
+			options = this.getFormatOptions("csv");
+		}
+
 		// Init output
 		let csv = "";
 
@@ -3870,6 +3878,10 @@ export class Export extends Validatable {
 	 * @async
 	 */
 	public async getHTML(type: "html", options?: IExportHTMLOptions, encodeURI: boolean = true): Promise<string> {
+
+		if (!$type.hasValue(options)) {
+			options = this.getFormatOptions("html");
+		}
 
 		// Init output
 		let html = "<table>";
@@ -4050,6 +4062,10 @@ export class Export extends Validatable {
 	 * @async
 	 */
 	public async getJSON(type: "json", options?: IExportJSONOptions, encodeURI: boolean = true): Promise<string> {
+
+		if (!$type.hasValue(options)) {
+			options = this.getFormatOptions("json");
+		}
 
 		// Check if we need to regenerate data based on `dataFields`
 		let data: any[];

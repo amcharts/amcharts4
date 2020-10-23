@@ -169,6 +169,13 @@ var PieSeries = /** @class */ (function (_super) {
         slice.togglable = true;
         slice.events.on("toggled", function (event) {
             event.target.hideTooltip();
+            // The following takes care of removing hover on subsequent click of
+            // a slice
+            if (event.target.interactions.lastHitPointer
+                && event.target.interactions.lastHitPointer.touch
+                && !event.target.isActive) {
+                event.target.isHover = false;
+            }
         });
         var activeState = slice.states.create("active");
         activeState.properties.shiftRadius = 0.10;

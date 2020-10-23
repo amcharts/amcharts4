@@ -54,6 +54,7 @@ var AxisRendererCurveX = /** @class */ (function (_super) {
         _this.className = "AxisRendererCurveX";
         _this.line.strokeOpacity = 1;
         _this.precisionStep = 10;
+        _this.line.isMeasured = false;
         _this.points = [{ x: -300, y: 0 }, { x: 300, y: 0 }];
         _this._tempSprite = _this.createChild(Sprite);
         _this._tempSprite.visible = false;
