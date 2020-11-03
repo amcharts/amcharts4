@@ -4019,7 +4019,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			value = this.getTagValueFromObject(parts, dataItem.values);
 
 			// Check properties
-			if (!$type.hasValue(value) || $type.isObject(value)) { // isObject helps to solve problem with date axis, as for example dateX will get dateX from values object and wont't get to the dateX date.
+			if (!$type.hasValue(value) || $type.isObject(value)) { // isObject helps to solve problem with date axis, as for example dateX will get dateX from values object and won't get to the dateX date.
 				value = this.getTagValueFromObject(parts, dataItem);
 			}
 

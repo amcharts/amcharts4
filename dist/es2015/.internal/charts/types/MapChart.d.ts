@@ -1086,4 +1086,9 @@ export declare class MapChart extends SerialChart {
      * @return Assign as function?
      */
     protected asFunction(field: string): boolean;
+    /**
+     * @ignore
+     * @return Has license?
+     */
+    hasLicense(): boolean;
 }

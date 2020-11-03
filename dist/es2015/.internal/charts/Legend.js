@@ -518,6 +518,7 @@ var Legend = /** @class */ (function (_super) {
         var maxLabelWidth = 0;
         this.labels.each(function (label) {
             if (label.invalid) {
+                label.maxWidth = undefined;
                 label.validate();
             }
             if (label.measuredWidth + label.pixelMarginLeft + label.pixelMarginRight > maxLabelWidth) {

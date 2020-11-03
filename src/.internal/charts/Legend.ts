@@ -766,6 +766,7 @@ export class Legend extends Component {
 		let maxLabelWidth = 0;
 		this.labels.each((label) => {
 			if (label.invalid) {
+				label.maxWidth = undefined;
 				label.validate();
 			}
 			if (label.measuredWidth + label.pixelMarginLeft + label.pixelMarginRight > maxLabelWidth) {
@@ -776,7 +777,7 @@ export class Legend extends Component {
 
 		let maxValueLabelWidth = 0;
 		this.valueLabels.each((label) => {
-			if (label.invalid) {
+			if (label.invalid) {				
 				label.validate();
 			}
 			if (label.measuredWidth + label.pixelMarginLeft + label.pixelMarginRight > maxValueLabelWidth) {

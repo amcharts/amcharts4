@@ -479,7 +479,7 @@ export function stripTags(text) {
  * @return Converted string
  */
 export function plainText(text) {
-    return text ? stripTags(text.replace(/[\n\r]+/g, ". ")) : text;
+    return text ? stripTags(("" + text).replace(/[\n\r]+/g, ". ")) : text;
 }
 /**
  * ============================================================================

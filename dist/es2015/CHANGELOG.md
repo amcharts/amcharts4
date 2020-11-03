@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.10] - 2020-11-03
+
+### Changed
+- License check for `MapChart` was not working. If you are using commercial `MapChart`, make sure you use `addLicense()` for both Charts and Maps products.
+
+### Fixed
+- Better dispose check for delayed `"out"` event.
+- Applying accessibility to some labels with only numeric information was resulting in error.
+- Chart could result in an SO in some rare cases.
+- Using `strictMinMax` with `includeRangesInMinMax` sometimes could caulse wrong zooms.
+- In some cases Legend's item labels were being truncated when cahrt container was shrinking, but were not being restored to their full width once it was enlarged back.
+
+
 ## [4.10.9] - 2020-10-23
 
 ### Changed

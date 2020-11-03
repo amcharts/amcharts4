@@ -560,7 +560,7 @@ export function stripTags(text: string): string {
  * @return Converted string
  */
 export function plainText(text: string): string {
-	return text ? stripTags(text.replace(/[\n\r]+/g, ". ")) : text;
+	return text ? stripTags(("" + text).replace(/[\n\r]+/g, ". ")) : text;
 }
 
 

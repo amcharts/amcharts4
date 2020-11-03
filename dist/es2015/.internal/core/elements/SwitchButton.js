@@ -154,7 +154,8 @@ var SwitchButton = /** @class */ (function (_super) {
     });
     Object.defineProperty(SwitchButton.prototype, "switch", {
         /**
-         * @return Left label element
+         * @ignore
+         * @deprecated Use `switchButton` instead
          */
         get: function () {
             return this._switchButton;
@@ -164,9 +165,15 @@ var SwitchButton = /** @class */ (function (_super) {
     });
     Object.defineProperty(SwitchButton.prototype, "switchButton", {
         /**
-         * [[Label]] element to be used for left text.
+         * @return Button
+         */
+        get: function () {
+            return this._switchButton;
+        },
+        /**
+         * A [[Button]] element for switch.
          *
-         * @param rigth label element
+         * @param Button
          */
         set: function (button) {
             if (this._switchButton) {

@@ -415,6 +415,9 @@ var ValueAxis = /** @class */ (function (_super) {
             var maxZoomed = this._maxZoomed + this._step;
             this.resetIterators();
             var dataItemsIterator_1 = this._dataItemsIterator;
+            if (this._step == 0) {
+                return;
+            }
             this._step = this.fixSmallStep(this._step);
             var i = 0;
             var precisionChanged = this._prevStepDecimalPlaces != this._stepDecimalPlaces;
@@ -1431,7 +1434,7 @@ var ValueAxis = /** @class */ (function (_super) {
                 if (!range.ignoreMinMax) {
                     var minValue = $math.min(range.value, range.endValue);
                     var maxValue = $math.max(range.value, range.endValue);
-                    if (minValue < selectionMax) {
+                    if (minValue < selectionMin) {
                         selectionMin = minValue;
                     }
                     if (maxValue > selectionMax) {

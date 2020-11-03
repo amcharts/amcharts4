@@ -29,6 +29,7 @@ import * as $mapUtils from "../map/MapUtils";
 import { Animation } from "../../core/utils/Animation";
 import { keyboard } from "../../core/utils/Keyboard";
 import { registry } from "../../core/Registry";
+import { options } from "../../core/Options";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $ease from "../../core/utils/Ease";
@@ -2302,6 +2303,25 @@ export class MapChart extends SerialChart {
 	 */
 	protected asFunction(field: string): boolean {
 		return field == "zoomEasing" || super.asIs(field);
+	}
+
+	/**
+	 * @ignore
+	 * @return Has license?
+	 */
+	public hasLicense(): boolean {
+		if (options.commercialLicense) {
+			return true;
+		}
+		if (!super.hasLicense()) {
+			return false;
+		}
+		for (let i = 0; i < options.licenses.length; i++) {
+			if (options.licenses[i].match(/^MP.{5,}/i)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

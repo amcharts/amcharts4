@@ -102,14 +102,18 @@ export declare class SwitchButton extends Container {
     */
     rightLabel: $type.Optional<Label>;
     /**
-     * @return Left label element
+     * @ignore
+     * @deprecated Use `switchButton` instead
      */
     readonly switch: $type.Optional<Button>;
     /**
-     * [[Label]] element to be used for left text.
+     * A [[Button]] element for switch.
      *
-     * @param rigth label element
+     * @param Button
      */
+    /**
+    * @return Button
+    */
     switchButton: $type.Optional<Button>;
     /**
      * Copies properties and other attributes.

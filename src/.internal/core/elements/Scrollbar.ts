@@ -293,7 +293,7 @@ export class Scrollbar extends Container {
 		this.startGrip.role = "slider";
 		this.endGrip.role = "slider";
 
-		// otherwise range changed wont' be registered
+		// otherwise range changed won't be registered
 		this.events.once("inited", () => {
 			this._previousStart = undefined;
 			this.dispatchRangeChange();

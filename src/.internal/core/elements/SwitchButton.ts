@@ -162,7 +162,7 @@ export class SwitchButton extends Container {
 		// Create the label element
 		let rightLabel = new Label();
 		rightLabel.fillOpacity = 0.3;
-		
+
 		let rlas = rightLabel.states.create("active");
 		rlas.properties.fillOpacity = 1;
 		this.rightLabel = rightLabel;
@@ -173,8 +173,8 @@ export class SwitchButton extends Container {
 		this.focusable = true;
 
 		rightLabel.valign = "middle";
-		leftLabel.valign = "middle";	
-		button.valign = "middle"	
+		leftLabel.valign = "middle";
+		button.valign = "middle"
 
 		// Apply theme
 		this.applyTheme();
@@ -231,16 +231,17 @@ export class SwitchButton extends Container {
 	}
 
 	/**
-	 * @return Left label element
+	 * @ignore
+	 * @deprecated Use `switchButton` instead
 	 */
 	public get switch(): $type.Optional<Button> {
 		return this._switchButton;
 	}
 
 	/**
-	 * [[Label]] element to be used for left text.
+	 * A [[Button]] element for switch.
 	 *
-	 * @param rigth label element
+	 * @param Button
 	 */
 	public set switchButton(button: $type.Optional<Button>) {
 		if (this._switchButton) {
@@ -252,6 +253,13 @@ export class SwitchButton extends Container {
 			button.shouldClone = false;
 			this._disposers.push(this._switchButton);
 		}
+	}
+
+	/**
+	 * @return Button
+	 */
+	public get switchButton(): $type.Optional<Button> {
+		return this._switchButton;
 	}
 
 	/**

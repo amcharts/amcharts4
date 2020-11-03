@@ -419,7 +419,7 @@ var CategoryAxis = /** @class */ (function (_super) {
         }
         var label = dataItem.label;
         if (label && !label.disabled) {
-            // theorethically this might result problems if category text changes, the range text won't change. But otherwise range.label.text = "custom text" wont' work, which is not intuitive.
+            // theorethically this might result problems if category text changes, the range text won't change. But otherwise range.label.text = "custom text" won't work, which is not intuitive.
             if (!dataItem.isRange || label.text == undefined) {
                 dataItem.text = dataItem.text;
             }

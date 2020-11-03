@@ -801,7 +801,7 @@ var TreeMap = /** @class */ (function (_super) {
             dataItem = this._homeDataItem;
         }
         var zoomOutButton = this.zoomOutButton;
-        // this is needed because if there is only one fist level, it wont' be shown
+        // this is needed because if there is only one fist level, it won't be shown
         if (zoomOutButton) {
             if (dataItem != this._homeDataItem) {
                 zoomOutButton.show();

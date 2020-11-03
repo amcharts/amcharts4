@@ -683,6 +683,10 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 			let dataItemsIterator = this._dataItemsIterator;
 
+			if(this._step == 0){
+				return;
+			}
+
 			this._step = this.fixSmallStep(this._step);
 
 			let i: number = 0;
@@ -1850,8 +1854,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				if (!range.ignoreMinMax) {
 					let minValue = $math.min(range.value, range.endValue);
 					let maxValue = $math.max(range.value, range.endValue);
-
-					if (minValue < selectionMax) {
+					
+					if (minValue < selectionMin) {
 						selectionMin = minValue;
 					}
 					if (maxValue > selectionMax) {

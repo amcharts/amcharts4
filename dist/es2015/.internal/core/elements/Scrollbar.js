@@ -109,7 +109,7 @@ var Scrollbar = /** @class */ (function (_super) {
         _this.thumb.readerLive = "polite";
         _this.startGrip.role = "slider";
         _this.endGrip.role = "slider";
-        // otherwise range changed wont' be registered
+        // otherwise range changed won't be registered
         _this.events.once("inited", function () {
             _this._previousStart = undefined;
             _this.dispatchRangeChange();
