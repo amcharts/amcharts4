@@ -2558,7 +2558,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this.maxTop = top + y - pixelPaddingTop;
 			this.maxBottom = bottom + y - pixelPaddingTop;
 
-			if (this.pixelPerfect) {
+			if (this.pixelPerfect && options.pixelPerfectPrecision == 0) {
 				x -= 0.5;
 				y -= 0.5;
 			}
@@ -5642,7 +5642,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this.applyCurrentState();
 		}
 		if (this.showTooltipOn == "hit") {
-			this.updateTooltipPosition(ev.pointer.point);
+			this.updateTooltipPosition(ev.pointer ? ev.pointer.point : undefined);
 			this._disposers.push(registry.events.once("exitframe", () => {
 				this.showTooltip();
 			}));
@@ -8248,7 +8248,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public set pixelPerfect(value: boolean) {
 		value = $type.toBoolean(value);
 		if (value) {
-			this._positionPrecision = 0;
+			this._positionPrecision = options.pixelPerfectPrecision;
 		}
 		else {
 			this._positionPrecision = 3;

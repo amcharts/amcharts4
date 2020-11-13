@@ -168,6 +168,18 @@ export interface IMapSeriesProperties extends ISeriesProperties {
      * `MapLineSeries` are not (`false`).
      */
     ignoreBounds?: boolean;
+    /**
+     * Indicates whether GeoJSON geodata supplied to the chart uses
+     * ESRI (clockwise) or non-ESRI (counter-clockwise) order of the polygon
+     * coordinates.
+     *
+     * `MapChart` supports only ESRI standard, so if your custom maps appears
+     * garbled, try setting `reverseGeodata = true`.
+     *
+     * @default false
+     * @since 4.10.11
+     */
+    reverseGeodata?: boolean;
 }
 /**
  * Defines events for [[MapSeries]].
@@ -356,6 +368,22 @@ export declare class MapSeries extends Series {
     * @return GeoJSON data
     */
     geodata: Object;
+    /**
+     * Indicates whether GeoJSON geodata supplied to the chart uses
+     * ESRI (clockwise) or non-ESRI (counter-clockwise) order of the polygon
+     * coordinates.
+     *
+     * `MapChart` supports only ESRI standard, so if your custom maps appears
+     * garbled, try setting `reverseGeodata = true`.
+     *
+     * @default false
+     * @since 4.10.11
+     * @param  value  Reverse the order of geodata coordinates?
+     */
+    /**
+    * @returns Reverse the order of geodata coordinates?
+    */
+    reverseGeodata: boolean;
     /**
      * Sets a [[DataSource]] to be used for loading Component's data.
      *

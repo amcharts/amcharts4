@@ -281,6 +281,19 @@ export interface IMapSeriesProperties extends ISeriesProperties {
 	 * `MapLineSeries` are not (`false`).
 	 */
 	ignoreBounds?: boolean;
+
+	/**
+	 * Indicates whether GeoJSON geodata supplied to the chart uses
+	 * ESRI (clockwise) or non-ESRI (counter-clockwise) order of the polygon
+	 * coordinates.
+	 *
+	 * `MapChart` supports only ESRI standard, so if your custom maps appears
+	 * garbled, try setting `reverseGeodata = true`.
+	 * 
+	 * @default false
+	 * @since 4.10.11
+	 */
+	reverseGeodata?: boolean;
 }
 
 /**
@@ -584,6 +597,9 @@ export class MapSeries extends Series {
 	public set geodata(geodata: Object) {
 		if (geodata != this._geodata) {
 			this._geodata = geodata;
+			if (this.reverseGeodata) {
+				this.chart.processReverseGeodata(this._geodata);
+			}
 			for (let i = this.data.length - 1; i >= 0; i--) {
 				if (this.data[i].madeFromGeoData == true) {
 					this.data.splice(i, 1);
@@ -599,6 +615,31 @@ export class MapSeries extends Series {
 	 */
 	public get geodata(): Object {
 		return this._geodata;
+	}
+
+	/**
+	 * Indicates whether GeoJSON geodata supplied to the chart uses
+	 * ESRI (clockwise) or non-ESRI (counter-clockwise) order of the polygon
+	 * coordinates.
+	 *
+	 * `MapChart` supports only ESRI standard, so if your custom maps appears
+	 * garbled, try setting `reverseGeodata = true`.
+	 * 
+	 * @default false
+	 * @since 4.10.11
+	 * @param  value  Reverse the order of geodata coordinates?
+	 */
+	public set reverseGeodata(value: boolean) {
+		if (this.setPropertyValue("reverseGeodata", value) && this._geodata) {
+			this.chart.processReverseGeodata(this._geodata);
+		}
+	}
+
+	/**
+	 * @returns Reverse the order of geodata coordinates?
+	 */
+	public get reverseGeodata(): boolean {
+		return this.getPropertyValue("reverseGeodata");
 	}
 
 	/**

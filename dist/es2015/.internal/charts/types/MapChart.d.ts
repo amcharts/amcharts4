@@ -245,6 +245,18 @@ export interface IMapChartProperties extends ISerialChartProperties {
      * @since 4.7.12
      */
     centerMapOnZoomOut?: boolean;
+    /**
+     * Indicates whether GeoJSON geodata supplied to the chart uses
+     * ESRI (clockwise) or non-ESRI (counter-clockwise) order of the polygon
+     * coordinates.
+     *
+     * `MapChart` supports only ESRI standard, so if your custom maps appears
+     * garbled, try setting `reverseGeodata = true`.
+     *
+     * @default false
+     * @since 4.10.11
+     */
+    reverseGeodata?: boolean;
 }
 /**
  * Defines events for [[MapChart]].
@@ -706,6 +718,29 @@ export declare class MapChart extends SerialChart {
     * @return GeoJSON data
     */
     geodata: Object;
+    /**
+     * Indicates whether GeoJSON geodata supplied to the chart uses
+     * ESRI (clockwise) or non-ESRI (counter-clockwise) order of the polygon
+     * coordinates.
+     *
+     * `MapChart` supports only ESRI standard, so if your custom maps appears
+     * garbled, try setting `reverseGeodata = true`.
+     *
+     * @default false
+     * @since 4.10.11
+     * @param  value  Reverse the order of geodata coordinates?
+     */
+    /**
+    * @returns Reverse the order of geodata coordinates?
+    */
+    reverseGeodata: boolean;
+    /**
+     * Reverses the order of polygons on a GeoJSON data.
+     *
+     * @since 4.10.11
+     * @param  geodata  Source geodata
+     */
+    processReverseGeodata(geodata: any): void;
     /**
      * Zooms the map to particular zoom level and centers on a latitude/longitude
      * coordinate.

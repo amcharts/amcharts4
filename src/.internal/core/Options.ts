@@ -186,6 +186,15 @@ export interface Options {
 	 */
 	disableHoverOnTransform: "never" | "touch" | "always";
 
+	/**
+	 * A precision (number of decimals) to be used for paths/lines/points
+	 * when `pixelPerfect = true`.
+	 *
+	 * @default 0
+	 * @since 4.10.11
+	 */
+	pixelPerfectPrecision: number;
+
 }
 
 /**
@@ -206,5 +215,6 @@ export const options: Options = {
 	animationsEnabled: true,
 	nonce: "",
 	deferredDelay: 100,
-	disableHoverOnTransform: "never"
+	disableHoverOnTransform: "never",
+	pixelPerfectPrecision:0
 };

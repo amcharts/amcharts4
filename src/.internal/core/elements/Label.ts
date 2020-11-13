@@ -674,6 +674,7 @@ export class Label extends Container {
 						lineInfo.text = chunk.text;
 						lineInfo.style = getTextFormatter().translateStyleShortcuts(currentFormat);
 
+
 						let tspan = this.getSvgElement(lineInfo.text, lineInfo.style);
 
 						if (this.textPathElement) {
@@ -874,7 +875,8 @@ export class Label extends Container {
 
 										// Increase excess characters count, just in case it still
 										// doesn't fit and we have to go at it again
-										excessChars = Math.ceil(excessChars * 1.1);
+										//excessChars = Math.ceil(excessChars * 1.05);
+										excessChars++;
 
 									}
 

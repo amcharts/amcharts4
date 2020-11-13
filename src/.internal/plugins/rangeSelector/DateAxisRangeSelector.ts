@@ -160,6 +160,7 @@ export class DateAxisRangeSelector extends RangeSelector {
 	 * Adds events to the axis.
 	 */
 	protected prepAxis(): void {
+		super.prepAxis();
 		this._disposers.push(this.axis.events.on("selectionextremeschanged", (ev) => {
 			this.updateRangeInputs();
 		}));

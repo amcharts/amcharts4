@@ -168,6 +168,14 @@ export interface Options {
      * @since 4.10.1
      */
     disableHoverOnTransform: "never" | "touch" | "always";
+    /**
+     * A precision (number of decimals) to be used for paths/lines/points
+     * when `pixelPerfect = true`.
+     *
+     * @default 0
+     * @since 4.10.11
+     */
+    pixelPerfectPrecision: number;
 }
 /**
  * Global options.

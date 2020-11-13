@@ -83,6 +83,7 @@ var DateAxisRangeSelector = /** @class */ (function (_super) {
      */
     DateAxisRangeSelector.prototype.prepAxis = function () {
         var _this = this;
+        _super.prototype.prepAxis.call(this);
         this._disposers.push(this.axis.events.on("selectionextremeschanged", function (ev) {
             _this.updateRangeInputs();
         }));

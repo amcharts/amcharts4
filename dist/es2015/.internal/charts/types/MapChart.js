@@ -818,6 +818,9 @@ var MapChart = /** @class */ (function (_super) {
         set: function (geodata) {
             if (geodata != this._geodata) {
                 this._geodata = geodata;
+                if (this.reverseGeodata) {
+                    this.processReverseGeodata(this._geodata);
+                }
                 this.invalidateData();
                 this.dataUsers.each(function (dataUser) {
                     for (var i = dataUser.data.length - 1; i >= 0; i--) {
@@ -833,6 +836,54 @@ var MapChart = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(MapChart.prototype, "reverseGeodata", {
+        /**
+         * @returns Reverse the order of geodata coordinates?
+         */
+        get: function () {
+            return this.getPropertyValue("reverseGeodata");
+        },
+        /**
+         * Indicates whether GeoJSON geodata supplied to the chart uses
+         * ESRI (clockwise) or non-ESRI (counter-clockwise) order of the polygon
+         * coordinates.
+         *
+         * `MapChart` supports only ESRI standard, so if your custom maps appears
+         * garbled, try setting `reverseGeodata = true`.
+         *
+         * @default false
+         * @since 4.10.11
+         * @param  value  Reverse the order of geodata coordinates?
+         */
+        set: function (value) {
+            if (this.setPropertyValue("reverseGeodata", value) && this._geodata) {
+                this.processReverseGeodata(this._geodata);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Reverses the order of polygons on a GeoJSON data.
+     *
+     * @since 4.10.11
+     * @param  geodata  Source geodata
+     */
+    MapChart.prototype.processReverseGeodata = function (geodata) {
+        for (var i = 0; i < geodata.features.length; i++) {
+            var feature = geodata.features[i];
+            for (var x = 0; x < feature.geometry.coordinates.length; x++) {
+                if (feature.geometry.type == "MultiPolygon") {
+                    for (var y = 0; y < feature.geometry.coordinates[x].length; y++) {
+                        feature.geometry.coordinates[x][y].reverse();
+                    }
+                }
+                else {
+                    feature.geometry.coordinates[x].reverse();
+                }
+            }
+        }
+    };
     /**
      * Zooms the map to particular zoom level and centers on a latitude/longitude
      * coordinate.

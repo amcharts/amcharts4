@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.11] - 2020-11-13
+
+### Added
+- New setting `reverseGeodata` (default: `false`) on `MapChart` and `MapSeries`. amCharts requires polygon coordinates to be in clockwise order. Some map data have them in counter-clockwise. If your custom map appears garbled, try setting this to `true`.
+- New global option: `am4core.options.pixelPerfectPrecision` (default: `0`). Precision (number of decimal points) to be used when rounding point x/y for elements that have `pixelPerfect = true` set.
+
+### Fixed
+- `XYChartScrollbar` was not inheriting `inputDateFormat` from the chart properly.
+- Clicking on a chart on mobile devices could sometimes make them document scroll a bit.
+- Accessibility: pressing ENTER while there is a focused element with `showTooltipOn = "hit"` will not display its tooltip.
+- RangeSelector (plugin) was not properly removing its elements after `dispose()` it will now auto-dispose when related axis is disposed.
+- In some cases a console error could be displayed when using `XYCursor` over chart when data was being updated.
+- Very long labels with `wrap = true` may have been wrapping incorrectly in some cases.
+- JSON config: `rgb(...)` and `rgba(...)` syntax was not recongnised in `ColorSet`'s `baseColor`.
+
+
 ## [4.10.10] - 2020-11-03
 
 ### Changed

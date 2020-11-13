@@ -526,7 +526,8 @@ var Label = /** @class */ (function (_super) {
                                         lineInfo.bbox.width = Math.floor(lineInfo.bbox.width);
                                         // Increase excess characters count, just in case it still
                                         // doesn't fit and we have to go at it again
-                                        excessChars = Math.ceil(excessChars * 1.1);
+                                        //excessChars = Math.ceil(excessChars * 1.05);
+                                        excessChars++;
                                     }
                                     // Construct the rest of the line
                                     if (splitLines.length > 0) {

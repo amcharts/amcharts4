@@ -506,7 +506,7 @@ var DateAxis = /** @class */ (function (_super) {
         // if data has to be grouped, choose interval and set dataset
         if (this.groupData && $type.hasValue(difference)) {
             var mainBaseInterval = this.mainBaseInterval;
-            var modifiedDifference = difference + this.startLocation + (1 - this.endLocation) * this.baseDuration;
+            var modifiedDifference = difference + (this.startLocation + (1 - this.endLocation)) * this.baseDuration;
             var groupInterval = void 0;
             if (this.groupInterval) {
                 groupInterval = __assign({}, this.groupInterval);

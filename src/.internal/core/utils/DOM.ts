@@ -167,14 +167,21 @@ export function getComputedStyle(element: Element, property: string): string | n
  * @ignore Exclude from docs
  */
 export function blur(): void {
-	let input = document.createElement("button");
-	input.style.position = "fixed";
-	input.style.top = "0px";
-	input.style.left = "-10000px";
-	document.body.appendChild(input);
-	input.focus();
-	input.blur();
-	document.body.removeChild(input);
+	if (document.activeElement && document.activeElement != document.body) {
+		if ((<any>document.activeElement).blur) {
+			(<any>document.activeElement).blur();
+		}
+		else {
+			let input = document.createElement("button");
+			input.style.position = "fixed";
+			input.style.top = "0px";
+			input.style.left = "-10000px";
+			document.body.appendChild(input);
+			input.focus();
+			input.blur();
+			document.body.removeChild(input);
+		}
+	}
 }
 
 /**

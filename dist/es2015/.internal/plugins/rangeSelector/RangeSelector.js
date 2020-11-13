@@ -89,6 +89,9 @@ var RangeSelector = /** @class */ (function (_super) {
             if (this._element && this._element.parentNode) {
                 this._element.parentNode.removeChild(this._element);
             }
+            if (this._elements.wrapper && this._elements.wrapper.parentNode) {
+                this._elements.wrapper.parentNode.removeChild(this._elements.wrapper);
+            }
         }
     };
     Object.defineProperty(RangeSelector.prototype, "container", {
@@ -297,7 +300,12 @@ var RangeSelector = /** @class */ (function (_super) {
         configurable: true
     });
     RangeSelector.prototype.prepAxis = function () {
-        // Do nothing. Extending classes should override.
+        var _this = this;
+        if (this._axis) {
+            this._disposers.push(this._axis.events.on("beforedisposed", function (ev) {
+                _this.dispose();
+            }));
+        }
     };
     return RangeSelector;
 }(Validatable));

@@ -1027,7 +1027,7 @@ var Series = /** @class */ (function (_super) {
             var label = legendDataItem.label;
             var valueLabel = legendDataItem.valueLabel;
             // update legend
-            if (dataItem || notRange) {
+            if ((dataItem && !dataItem.isDisposed()) || notRange) {
                 if (valueLabel) {
                     if (legendSettings.itemValueText) {
                         valueLabel.text = legendSettings.itemValueText;

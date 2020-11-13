@@ -165,6 +165,10 @@ export class RangeSelector extends Validatable {
 			if (this._element && this._element.parentNode) {
 				this._element.parentNode.removeChild(this._element);
 			}
+
+			if (this._elements.wrapper && this._elements.wrapper.parentNode) {
+				this._elements.wrapper.parentNode.removeChild(this._elements.wrapper);
+			}
 		}
 	}
 
@@ -358,7 +362,11 @@ export class RangeSelector extends Validatable {
 	}
 
 	protected prepAxis(): void {
-		// Do nothing. Extending classes should override.
+		if (this._axis) {
+			this._disposers.push(this._axis.events.on("beforedisposed", (ev) => {
+				this.dispose();
+			}));
+		}
 	}
 
 	/**

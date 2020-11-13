@@ -305,13 +305,26 @@ export interface IMapChartProperties extends ISerialChartProperties {
 	 */
 	panBehavior?: "move" | "rotateLat" | "rotateLong" | "rotateLongLat";
 
-
 	/**
 	 * Specifies if the map should be centered when zooming out
 	 * @default true
 	 * @since 4.7.12
 	 */
 	centerMapOnZoomOut?: boolean;
+
+	/**
+	 * Indicates whether GeoJSON geodata supplied to the chart uses
+	 * ESRI (clockwise) or non-ESRI (counter-clockwise) order of the polygon
+	 * coordinates.
+	 *
+	 * `MapChart` supports only ESRI standard, so if your custom maps appears
+	 * garbled, try setting `reverseGeodata = true`.
+	 * 
+	 * @default false
+	 * @since 4.10.11
+	 */
+	reverseGeodata?: boolean;
+
 }
 
 /**
@@ -732,7 +745,7 @@ export class MapChart extends SerialChart {
 			if (inertia) {
 				inertia.done();
 			}
-		}))		
+		}))
 
 		// Add description to background
 		this.background.fillOpacity = 0;
@@ -1441,6 +1454,10 @@ export class MapChart extends SerialChart {
 	public set geodata(geodata: Object) {
 		if (geodata != this._geodata) {
 			this._geodata = geodata;
+
+			if (this.reverseGeodata) {
+				this.processReverseGeodata(this._geodata);
+			}
 			this.invalidateData();
 
 			this.dataUsers.each((dataUser) => {
@@ -1460,6 +1477,53 @@ export class MapChart extends SerialChart {
 	 */
 	public get geodata(): Object {
 		return this._geodata;
+	}
+
+	/**
+	 * Indicates whether GeoJSON geodata supplied to the chart uses
+	 * ESRI (clockwise) or non-ESRI (counter-clockwise) order of the polygon
+	 * coordinates.
+	 *
+	 * `MapChart` supports only ESRI standard, so if your custom maps appears
+	 * garbled, try setting `reverseGeodata = true`.
+	 * 
+	 * @default false
+	 * @since 4.10.11
+	 * @param  value  Reverse the order of geodata coordinates?
+	 */
+	public set reverseGeodata(value: boolean) {
+		if (this.setPropertyValue("reverseGeodata", value) && this._geodata) {
+			this.processReverseGeodata(this._geodata);
+		}
+	}
+
+	/**
+	 * @returns Reverse the order of geodata coordinates?
+	 */
+	public get reverseGeodata(): boolean {
+		return this.getPropertyValue("reverseGeodata");
+	}
+
+	/**
+	 * Reverses the order of polygons on a GeoJSON data.
+	 *
+	 * @since 4.10.11
+	 * @param  geodata  Source geodata
+	 */
+	public processReverseGeodata(geodata: any): void {
+		for (let i = 0; i < geodata.features.length; i++) {
+			let feature = geodata.features[i];
+			for (let x = 0; x < feature.geometry.coordinates.length; x++) {
+				if (feature.geometry.type == "MultiPolygon") {
+					for (let y = 0; y < feature.geometry.coordinates[x].length; y++) {
+						feature.geometry.coordinates[x][y].reverse()
+					}
+				}
+				else {
+					feature.geometry.coordinates[x].reverse()
+				}
+			}
+		}
 	}
 
 	/**

@@ -1367,7 +1367,7 @@ export class Series extends Component {
 			let valueLabel: Label = legendDataItem.valueLabel;
 
 			// update legend
-			if (dataItem || notRange) {
+			if ((dataItem && !dataItem.isDisposed())|| notRange) {
 				if (valueLabel) {
 					if (legendSettings.itemValueText) {
 						valueLabel.text = legendSettings.itemValueText;

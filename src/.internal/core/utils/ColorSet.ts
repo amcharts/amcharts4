@@ -482,7 +482,7 @@ export class ColorSet extends BaseObject {
 
 		if (config) {
 
-			// Set up axis ranges
+			// Cast colors
 			if ($type.hasValue(config.list) && $type.isArray(config.list)) {
 				for (let i = 0, len = config.list.length; i < len; i++) {
 					if (!(config.list[i] instanceof Color)) {
@@ -490,6 +490,11 @@ export class ColorSet extends BaseObject {
 					}
 				}
 			}
+
+			if ($type.hasValue(config.baseColor) && !(config.baseColor instanceof Color)) {
+				config.baseColor = color(config.baseColor);
+			}
+
 		}
 		super.processConfig(config);
 	}

@@ -1764,7 +1764,7 @@ var Sprite = /** @class */ (function (_super) {
             this.maxRight = right + x - pixelPaddingLeft;
             this.maxTop = top_1 + y - pixelPaddingTop;
             this.maxBottom = bottom + y - pixelPaddingTop;
-            if (this.pixelPerfect) {
+            if (this.pixelPerfect && options.pixelPerfectPrecision == 0) {
                 x -= 0.5;
                 y -= 0.5;
             }
@@ -4660,7 +4660,7 @@ var Sprite = /** @class */ (function (_super) {
             this.applyCurrentState();
         }
         if (this.showTooltipOn == "hit") {
-            this.updateTooltipPosition(ev.pointer.point);
+            this.updateTooltipPosition(ev.pointer ? ev.pointer.point : undefined);
             this._disposers.push(registry.events.once("exitframe", function () {
                 _this.showTooltip();
             }));
@@ -7410,7 +7410,7 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             value = $type.toBoolean(value);
             if (value) {
-                this._positionPrecision = 0;
+                this._positionPrecision = options.pixelPerfectPrecision;
             }
             else {
                 this._positionPrecision = 3;

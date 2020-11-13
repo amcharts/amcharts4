@@ -424,13 +424,16 @@ var ColorSet = /** @class */ (function (_super) {
      */
     ColorSet.prototype.processConfig = function (config) {
         if (config) {
-            // Set up axis ranges
+            // Cast colors
             if ($type.hasValue(config.list) && $type.isArray(config.list)) {
                 for (var i = 0, len = config.list.length; i < len; i++) {
                     if (!(config.list[i] instanceof Color)) {
                         config.list[i] = color(config.list[i]);
                     }
                 }
+            }
+            if ($type.hasValue(config.baseColor) && !(config.baseColor instanceof Color)) {
+                config.baseColor = color(config.baseColor);
             }
         }
         _super.prototype.processConfig.call(this, config);

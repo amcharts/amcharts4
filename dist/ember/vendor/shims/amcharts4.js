@@ -22,6 +22,22 @@ define('@amcharts/amcharts4-geodata/.internal/Lang', [], function () {
   }
   throw new Error("You must add 'geodata/.internal/Lang' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/afghanistanHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_afghanistanHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/afghanistanHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/afghanistanLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_afghanistanLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/afghanistanLow' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/albaniaHigh', [], function () {
   'use strict';
   var output = self.am4geodata_albaniaHigh;
@@ -5925,6 +5941,30 @@ define('@amcharts/amcharts4-geodata/region/world/asiaHigh', [], function () {
     return output;
   }
   throw new Error("You must add 'geodata/region/world/asiaHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/region/world/asiaIndiaHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_region_world_asiaIndiaHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/region/world/asiaIndiaHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/region/world/asiaIndiaLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_region_world_asiaIndiaLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/region/world/asiaIndiaLow' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/region/world/asiaIndiaUltra', [], function () {
+  'use strict';
+  var output = self.am4geodata_region_world_asiaIndiaUltra;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/region/world/asiaIndiaUltra' to the amcharts4.files array in your EmberApp.");
 });
 define('@amcharts/amcharts4-geodata/region/world/asiaLow', [], function () {
   'use strict';

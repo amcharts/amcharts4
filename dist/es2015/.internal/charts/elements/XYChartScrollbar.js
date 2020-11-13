@@ -130,6 +130,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         var scrollbarChart = this.scrollbarChart;
         scrollbarChart.zoomOutButton.disabled = true;
         this.chart = sourceSeries.chart;
+        scrollbarChart.dateFormatter.inputDateFormat = this.chart.dateFormatter.inputDateFormat;
         // Ensure that scrollbar chart shares the same locale as parent chart
         scrollbarChart.language.locale = this.chart.language.locale;
         var addXAxis = true;

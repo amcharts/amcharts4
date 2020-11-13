@@ -401,6 +401,9 @@ var MapSeries = /** @class */ (function (_super) {
         set: function (geodata) {
             if (geodata != this._geodata) {
                 this._geodata = geodata;
+                if (this.reverseGeodata) {
+                    this.chart.processReverseGeodata(this._geodata);
+                }
                 for (var i = this.data.length - 1; i >= 0; i--) {
                     if (this.data[i].madeFromGeoData == true) {
                         this.data.splice(i, 1);
@@ -408,6 +411,33 @@ var MapSeries = /** @class */ (function (_super) {
                 }
                 this.disposeData();
                 this.invalidateData();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapSeries.prototype, "reverseGeodata", {
+        /**
+         * @returns Reverse the order of geodata coordinates?
+         */
+        get: function () {
+            return this.getPropertyValue("reverseGeodata");
+        },
+        /**
+         * Indicates whether GeoJSON geodata supplied to the chart uses
+         * ESRI (clockwise) or non-ESRI (counter-clockwise) order of the polygon
+         * coordinates.
+         *
+         * `MapChart` supports only ESRI standard, so if your custom maps appears
+         * garbled, try setting `reverseGeodata = true`.
+         *
+         * @default false
+         * @since 4.10.11
+         * @param  value  Reverse the order of geodata coordinates?
+         */
+        set: function (value) {
+            if (this.setPropertyValue("reverseGeodata", value) && this._geodata) {
+                this.chart.processReverseGeodata(this._geodata);
             }
         },
         enumerable: true,

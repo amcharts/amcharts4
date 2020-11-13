@@ -16,6 +16,7 @@ export var options = {
     animationsEnabled: true,
     nonce: "",
     deferredDelay: 100,
-    disableHoverOnTransform: "never"
+    disableHoverOnTransform: "never",
+    pixelPerfectPrecision: 0
 };
 //# sourceMappingURL=Options.js.map

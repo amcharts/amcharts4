@@ -773,7 +773,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		if (this.groupData && $type.hasValue(difference)) {
 			let mainBaseInterval = this.mainBaseInterval;
 
-			let modifiedDifference = difference + this.startLocation + (1 - this.endLocation) * this.baseDuration;
+			let modifiedDifference = difference + (this.startLocation + (1 - this.endLocation)) * this.baseDuration;
 			let groupInterval: ITimeInterval;
 			if (this.groupInterval) {
 				groupInterval = { ...this.groupInterval }
@@ -1212,7 +1212,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 						newDataItem.values[vkey].workingValue = newDataItem.values[vkey].value;
 					});
 				}
-
 			})
 
 			this.calculateZoom();
