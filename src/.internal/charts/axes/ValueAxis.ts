@@ -2398,6 +2398,24 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	}
 
 	/**
+	 * Returns a Series data item that corresponds to the specific pixel position
+	 * of the Axis. The method will try to locate nearest available data item if 
+	 * none is found directly under `position`.
+	 *
+	 * @param series       Series
+	 * @param position     Position (px)
+	 * @return Data item
+	 */
+	public getSeriesDataItem(series: XYSeries, position: number): XYSeriesDataItem {
+		const key: string = this.axisFieldName + this.axisLetter;
+		const value: number = this.positionToValue(position);
+		const dataItem = series.dataItems.getIndex(series.dataItems.findClosestIndex(date.getTime(), (x) => {
+			return <number>x[key];
+		}, "any"));
+		return dataItem;
+	}
+
+	/**
 	 * Returns value based on position.
 	 *
 	 * Please note that `position` represents position within axis which may be
