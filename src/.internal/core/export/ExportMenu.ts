@@ -117,6 +117,13 @@ export interface IExportMenuItem {
 	element?: HTMLElement;
 
 	/**
+	 * An element that holds the sub-menu.
+	 *
+	 * @since 4.10.12
+	 */
+	submenuElement?: HTMLElement;
+
+	/**
 	 * Holds list of parent menu items to this item.
 	 */
 	ascendants?: List<IExportMenuItem>;
@@ -615,7 +622,7 @@ export class ExportMenu extends Validatable {
 
 		// Create interaction object
 		// TODO clean this up when it's disposed
-		branch.interactions = getInteraction().getInteraction(label);
+		branch.interactions = getInteraction().getInteraction(element);
 		branch.element = element;
 
 		// Create interaction manager we can set event listeners to
@@ -725,6 +732,7 @@ export class ExportMenu extends Validatable {
 		// Has sub-menu?
 		if (branch.menu) {
 			let submenu = this.createMenuElement(local_level);
+			branch.submenuElement = submenu;
 			for (let len = branch.menu.length, i = 0; i < len; i++) {
 				let ascendants = new List<IExportMenuItem>();
 				branch.menu[i].ascendants = ascendants;
@@ -825,6 +833,7 @@ export class ExportMenu extends Validatable {
 			type: type
 		}).className;
 		element.setAttribute("role", "menuitem");
+		element.setAttribute("tabindex", this.tabindex.toString());
 		return element;
 	}
 
@@ -852,8 +861,8 @@ export class ExportMenu extends Validatable {
 		}).className;
 
 		// Accessible navigation
-		element.setAttribute("tabindex", this.tabindex.toString());
-		element.setAttribute("role", "menuitem");
+		//element.setAttribute("tabindex", this.tabindex.toString());
+		//element.setAttribute("role", "menuitem");
 		return element;
 	}
 
@@ -1316,10 +1325,12 @@ export class ExportMenu extends Validatable {
 		}
 
 		// Add active class
-		$dom.addClass(branch.interactions.element.parentElement, "active");
+		$dom.addClass(branch.element, "active");
 
 		// Set expanded
-		branch.interactions.element.parentElement.setAttribute("aria-expanded", "true");
+		if (branch.submenuElement) {
+			branch.submenuElement.setAttribute("aria-expanded", "true");
+		}
 
 		// Remove current selection
 		if (this._currentSelection && this._currentSelection !== branch && this._currentSelection.ascendants) {
@@ -1336,7 +1347,7 @@ export class ExportMenu extends Validatable {
 				this.removeDispose(ascendant.closeTimeout);
 				ascendant.closeTimeout = undefined;
 			}
-			$dom.addClass(ascendant.interactions.element.parentElement, "active");
+			$dom.addClass(ascendant.element, "active");
 		});
 
 		// Log current selection
@@ -1363,10 +1374,12 @@ export class ExportMenu extends Validatable {
 	public unselectBranch(branch: IExportMenuItem, simple?: boolean): void {
 
 		// Remove active class
-		$dom.removeClass(branch.interactions.element.parentElement, "active");
+		$dom.removeClass(branch.element, "active");
 
 		// Set expanded
-		branch.interactions.element.parentElement.removeAttribute("aria-expanded");
+		if (branch.submenuElement) {
+			branch.submenuElement.removeAttribute("aria-expanded");
+		}
 
 		// Remove current selection
 		if (this._currentSelection == branch) {

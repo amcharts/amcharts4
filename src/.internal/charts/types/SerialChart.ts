@@ -293,7 +293,10 @@ export class SerialChart extends Chart {
 		}))
 
 		this.handleSeriesAdded2(series);
+		this.handleLegendSeriesAdded(series);
+	}
 
+	protected handleLegendSeriesAdded(series:Series){
 		if (!series.hiddenInLegend) {
 			if (this.legend) {
 				this.legend.addData(series);

@@ -7,6 +7,14 @@ import * as $type from "./Type";
 export declare function disposeAllCharts(): void;
 export declare function addToQueue(sprite: Sprite): void;
 export declare function removeFromQueue(sprite: Sprite): void;
+/**
+ * Checks whether the chart was not initialized fully due to setting
+ * of `onlyShowOnViewport`. If it hasn't and is now in the viewport
+ * the chart will be initialized.
+ *
+ * @since 4.9.12
+ * @param  sprite  Top-level chart object
+ */
 export declare function viewPortHandler(sprite: Sprite): void;
 export declare function queueHandler(sprite: Sprite): void;
 /**

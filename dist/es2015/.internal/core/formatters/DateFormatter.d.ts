@@ -71,6 +71,13 @@ export declare class DateFormatter extends BaseObject {
      */
     protected _timezone: $type.Optional<string>;
     /**
+     * If `timezone` is set, this will hold minute fraction of the timezone.
+     *
+     * @readonly
+     * @ignore
+     */
+    timezoneMinutes: number;
+    /**
      * First day of week.
      *
      * 0 - Sunday

@@ -39,6 +39,13 @@ var DateFormatter = /** @class */ (function (_super) {
          */
         _this._utc = false;
         /**
+         * If `timezone` is set, this will hold minute fraction of the timezone.
+         *
+         * @readonly
+         * @ignore
+         */
+        _this.timezoneMinutes = 0;
+        /**
          * First day of week.
          *
          * 0 - Sunday
@@ -1116,6 +1123,7 @@ var DateFormatter = /** @class */ (function (_super) {
         set: function (value) {
             if (this._timezone != value) {
                 this._timezone = value;
+                this.timezoneMinutes = $time.getTimezoneMinutes(value);
                 this.invalidateSprite();
             }
         },

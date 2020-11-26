@@ -76,14 +76,19 @@ function makeChart() {
   chart.cursor = cursor;
 
   chart.cursor.adapter.add("cursorPoint", function(point, target) {
-    if (!chart.cursor.fitsToBounds(point)) {
-      point.y = 0;
-      chart.cursor.lineY.visible = false;
-      chart.yAxes.getIndex(0).cursorTooltipEnabled = false;
+    if (firstChart.scrollbarX.isBusy) {
+      point.y = -1000;
     }
     else {
-      chart.cursor.lineY.visible = true;
-      chart.yAxes.getIndex(0).cursorTooltipEnabled = true;
+      if (!chart.cursor.fitsToBounds(point)) {
+        point.y = 0;
+        chart.cursor.lineY.visible = false;
+        chart.yAxes.getIndex(0).cursorTooltipEnabled = false;
+      }
+      else {
+        chart.cursor.lineY.visible = true;
+        chart.yAxes.getIndex(0).cursorTooltipEnabled = true;
+      }
     }
     return point;
   });

@@ -701,6 +701,7 @@ var Scrollbar = /** @class */ (function (_super) {
         button.events.on("drag", this.handleGripDrag, this, false);
         button.events.on("dragstop", this.makeUnbusy, this, false);
         button.events.on("down", this.makeBusy, this, false);
+        button.events.on("up", this.makeUnbusy, this, false);
         this._disposers.push(button);
     };
     /**

@@ -1547,7 +1547,7 @@ var XYSeries = /** @class */ (function (_super) {
                     if (openValue == closeValue) {
                         var baseInterval = xAxis.baseInterval;
                         var dateFormatter = xAxis.dateFormatter;
-                        openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc).getTime();
+                        openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc, undefined, dateFormatter.timezoneMinutes).getTime();
                         closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.utc).getTime();
                     }
                     var middleValue = void 0;
@@ -1613,7 +1613,7 @@ var XYSeries = /** @class */ (function (_super) {
                     if (openValue == closeValue) {
                         var baseInterval = yAxis.baseInterval;
                         var dateFormatter = yAxis.dateFormatter;
-                        openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc).getTime();
+                        openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc, undefined, dateFormatter.timezoneMinutes).getTime();
                         closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.utc).getTime();
                     }
                     var middleValue = void 0;

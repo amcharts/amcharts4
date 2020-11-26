@@ -1636,14 +1636,22 @@ export class XYChart extends SerialChart {
 
 		if (this._panEndXRange && (behavior == "panX" || behavior == "panXY")) {
 			let panEndRange = this._panEndXRange;
+			let panStartRange = this._panStartXRange;
 			let delta = 0;
 
 			if (panEndRange.start < 0) {
 				delta = panEndRange.start;
 			}
-			if (panEndRange.end > 1) {
+
+			if(panStartRange.end > 1){
+				if(panEndRange.end > panStartRange.end){
+					delta = panEndRange.end - panStartRange.end;
+				}
+			}
+			else if (panEndRange.end > 1) {
 				delta = panEndRange.end - 1;
 			}
+
 			this.zoomAxes(this.xAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta }, false, true);
 			this._panEndXRange = undefined;
 			this._panStartXRange = undefined;

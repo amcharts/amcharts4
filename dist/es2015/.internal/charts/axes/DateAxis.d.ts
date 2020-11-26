@@ -1076,9 +1076,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * If set will recalculate all timestamps in data to specific named timezone,
      * e.g. `"America/Vancouver"`, `"Australia/Sydney"`, `"UTC"`, etc.
      *
-     * IMPORTANT: do not set `timezone` on both `DateAxis` and `dateFormatter`. It
-     * will skew your results by applying timezone twice.
+     * IMPORTANT: it is no longer recommended to use this setting. Please
+     * set`timezone` on `dateFormatter`.
      *
+     * @deprecated
      * @since 4.10.1
      * @param  value Time zone
      */

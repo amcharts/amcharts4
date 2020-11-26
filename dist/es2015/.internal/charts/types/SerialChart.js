@@ -184,6 +184,9 @@ var SerialChart = /** @class */ (function (_super) {
             _this.dataUsers.removeValue(series);
         }));
         this.handleSeriesAdded2(series);
+        this.handleLegendSeriesAdded(series);
+    };
+    SerialChart.prototype.handleLegendSeriesAdded = function (series) {
         if (!series.hiddenInLegend) {
             if (this.legend) {
                 this.legend.addData(series);

@@ -1626,6 +1626,10 @@ export class TreeMap extends XYChart {
 		}
 	}
 
+	protected handleLegendSeriesAdded(series:TreeMapSeries){
+		// void
+	}	
+
 	/**
 	 * A data item associated with top node.
 	 * 

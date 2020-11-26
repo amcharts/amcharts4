@@ -994,7 +994,7 @@ var ValueAxis = /** @class */ (function (_super) {
                     }
                     else {
                         this.series.each(function (series) {
-                            series.validate();
+                            series.invalidate();
                         });
                     }
                     this.validateDataItems();

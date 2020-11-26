@@ -144,6 +144,7 @@ export declare class SerialChart extends Chart {
      * @param event  Event
      */
     handleSeriesAdded(event: IListEvents<Series>["inserted"]): void;
+    protected handleLegendSeriesAdded(series: Series): void;
     protected handleSeriesAdded2(series: Series): void;
     /**
      * Setups the legend to use the chart's data.

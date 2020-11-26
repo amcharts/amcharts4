@@ -1248,11 +1248,17 @@ var XYChart = /** @class */ (function (_super) {
         var behavior = cursor.behavior;
         if (this._panEndXRange && (behavior == "panX" || behavior == "panXY")) {
             var panEndRange = this._panEndXRange;
+            var panStartRange = this._panStartXRange;
             var delta = 0;
             if (panEndRange.start < 0) {
                 delta = panEndRange.start;
             }
-            if (panEndRange.end > 1) {
+            if (panStartRange.end > 1) {
+                if (panEndRange.end > panStartRange.end) {
+                    delta = panEndRange.end - panStartRange.end;
+                }
+            }
+            else if (panEndRange.end > 1) {
                 delta = panEndRange.end - 1;
             }
             this.zoomAxes(this.xAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta }, false, true);

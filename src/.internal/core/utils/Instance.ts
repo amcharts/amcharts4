@@ -286,6 +286,14 @@ export function removeFromQueue(sprite: Sprite) {
 	}
 }
 
+/**
+ * Checks whether the chart was not initialized fully due to setting
+ * of `onlyShowOnViewport`. If it hasn't and is now in the viewport
+ * the chart will be initialized.
+ *
+ * @since 4.9.12
+ * @param  sprite  Top-level chart object
+ */
 export function viewPortHandler(sprite: Sprite) {
 	if (sprite.__disabled && $dom.isElementInViewport(sprite.htmlContainer, options.viewportTarget)) {
 

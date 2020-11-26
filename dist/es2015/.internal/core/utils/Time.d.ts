@@ -87,7 +87,7 @@ export declare function add(date: Date, unit: TimeUnit, count: number, utc?: boo
  * @param firstDateOfWeek  First day of week
  * @return New date
  */
-export declare function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek?: number, utc?: boolean, firstDate?: Date): Date;
+export declare function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek?: number, utc?: boolean, firstDate?: Date, roundMinutes?: number): Date;
 /**
  * Returns a new `Date` object which corresponds to the source date in a
  * specific timezone.
@@ -98,3 +98,11 @@ export declare function round(date: Date, unit: TimeUnit, count: number, firstDa
  * @return            Recalculated new Date
  */
 export declare function setTimezone(date: Date, timezone: string): Date;
+/**
+ * Returns minute fraction of the set timezone.
+ *
+ * @since 4.10.12
+ * @param  timezone  Timezone identifier
+ * @return           Minutes
+ */
+export declare function getTimezoneMinutes(timezone: string): number;

@@ -19,7 +19,7 @@ import { Preloader } from "../core/elements/Preloader";
 import { keyboard } from "../core/utils/Keyboard";
 import { registry } from "../core/Registry";
 import { getInteraction } from "../core/interaction/Interaction";
-import { percent } from "../core/utils/Percent";
+import { percent, Percent } from "../core/utils/Percent";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
 import { Color } from "../core/utils/Color";
 import { RadialGradient } from "../core/rendering/fills/RadialGradient";
@@ -693,7 +693,10 @@ export class Legend extends Component {
 		dataItem.dataContext.legendDataItem = dataItem;
 
 		let tempMaxWidth = dataItem.label.maxWidth;
-		dataItem.label.width = undefined;
+		if(!(dataItem.label.width instanceof Percent)){
+			dataItem.label.width = undefined;	
+		}
+		
 		if (tempMaxWidth > 0) {
 			dataItem.label.maxWidth = tempMaxWidth;
 		}
@@ -811,7 +814,9 @@ export class Legend extends Component {
 
 		this.labels.each((label) => {
 			if (this.valueLabels.template.align == "right" || label.measuredWidth > maxAdjustedLabelWidth) {
-				label.width = Math.min(label.maxWidth, maxAdjustedLabelWidth - label.pixelMarginLeft - label.pixelMarginRight);
+				if(!(label.width instanceof Percent)){
+					label.width = Math.min(label.maxWidth, maxAdjustedLabelWidth - label.pixelMarginLeft - label.pixelMarginRight);
+				}
 			}
 		})
 		if (this.valueLabels.template.align == "right") {
@@ -819,7 +824,6 @@ export class Legend extends Component {
 				valueLabel.width = maxValueLabelWidth - valueLabel.pixelMarginRight - valueLabel.pixelMarginLeft;
 			})
 		}
-
 
 		super.afterDraw();
 	}

@@ -90,6 +90,14 @@ export class DateFormatter extends BaseObject {
 	protected _timezone: $type.Optional<string>;
 
 	/**
+	 * If `timezone` is set, this will hold minute fraction of the timezone.
+	 * 
+	 * @readonly
+	 * @ignore
+	 */
+	public timezoneMinutes: number = 0;
+
+	/**
 	 * First day of week.
 	 *
 	 * 0 - Sunday
@@ -1383,6 +1391,7 @@ export class DateFormatter extends BaseObject {
 	public set timezone(value: $type.Optional<string>) {
 		if (this._timezone != value) {
 			this._timezone = value;
+			this.timezoneMinutes = $time.getTimezoneMinutes(value);
 			this.invalidateSprite();
 		}
 	}

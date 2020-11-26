@@ -678,6 +678,7 @@ export declare class TreeMap extends XYChart {
     handleDataItemValueChange(dataItem?: this["_dataItem"], name?: string): void;
     handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void;
     protected getLegendLevel(dataItem: TreeMapDataItem): TreeMapDataItem;
+    protected handleLegendSeriesAdded(series: TreeMapSeries): void;
     /**
      * A data item associated with top node.
      *

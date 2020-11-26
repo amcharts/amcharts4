@@ -17,7 +17,7 @@ import { Label } from "../core/elements/Label";
 import { keyboard } from "../core/utils/Keyboard";
 import { registry } from "../core/Registry";
 import { getInteraction } from "../core/interaction/Interaction";
-import { percent } from "../core/utils/Percent";
+import { percent, Percent } from "../core/utils/Percent";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
 import * as $utils from "../core/utils/Utils";
 import * as $type from "../core/utils/Type";
@@ -458,7 +458,9 @@ var Legend = /** @class */ (function (_super) {
         // Tell series its legend data item
         dataItem.dataContext.legendDataItem = dataItem;
         var tempMaxWidth = dataItem.label.maxWidth;
-        dataItem.label.width = undefined;
+        if (!(dataItem.label.width instanceof Percent)) {
+            dataItem.label.width = undefined;
+        }
         if (tempMaxWidth > 0) {
             dataItem.label.maxWidth = tempMaxWidth;
         }
@@ -559,7 +561,9 @@ var Legend = /** @class */ (function (_super) {
         }
         this.labels.each(function (label) {
             if (_this.valueLabels.template.align == "right" || label.measuredWidth > maxAdjustedLabelWidth) {
-                label.width = Math.min(label.maxWidth, maxAdjustedLabelWidth - label.pixelMarginLeft - label.pixelMarginRight);
+                if (!(label.width instanceof Percent)) {
+                    label.width = Math.min(label.maxWidth, maxAdjustedLabelWidth - label.pixelMarginLeft - label.pixelMarginRight);
+                }
             }
         });
         if (this.valueLabels.template.align == "right") {

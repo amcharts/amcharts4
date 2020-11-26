@@ -1285,6 +1285,9 @@ var TreeMap = /** @class */ (function (_super) {
             return dataItem;
         }
     };
+    TreeMap.prototype.handleLegendSeriesAdded = function (series) {
+        // void
+    };
     Object.defineProperty(TreeMap.prototype, "homeDataItem", {
         /**
          * A data item associated with top node.

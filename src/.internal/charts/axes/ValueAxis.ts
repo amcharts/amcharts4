@@ -1385,7 +1385,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 					}
 					else {
 						this.series.each((series) => {
-							series.validate();
+							series.invalidate();
 						})
 					}
 

@@ -88,6 +88,12 @@ export interface IExportMenuItem {
      */
     element?: HTMLElement;
     /**
+     * An element that holds the sub-menu.
+     *
+     * @since 4.10.12
+     */
+    submenuElement?: HTMLElement;
+    /**
      * Holds list of parent menu items to this item.
      */
     ascendants?: List<IExportMenuItem>;
